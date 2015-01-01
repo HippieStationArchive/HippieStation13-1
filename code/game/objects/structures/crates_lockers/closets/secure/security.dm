@@ -139,7 +139,7 @@
 	new /obj/item/weapon/grenade/flashbang(src)
 	new /obj/item/weapon/storage/belt/security(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/security(src)
+	new /obj/item/weapon/gun/energy/gun/advtaser(src)
 	return
 
 
