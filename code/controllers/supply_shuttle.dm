@@ -124,7 +124,17 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	var/points_per_slip = 2
 	var/points_per_crate = 5
 	var/points_per_intel = 100
-	var/plasma_per_point = 0.2 //5 points per plasma sheet due to increased rarity
+	var/points_per_iron = 10 //1 point per 15 iron sheets, NT sells high and buys low
+	var/points_per_glass = 10 //1 point per 15 iron sheets, NT sells high and buys low
+	var/points_per_silver = 5 //1 point per 5 sheets
+	var/points_per_plasteel = 1 //1-to-1 ratio
+	var/points_per_plasma = 0.25 //4 points per sheet, NT loves that plasma
+	var/points_per_gold = 0.25 //4 points per sheet
+	var/points_per_diamond = 0.2 //5 points per sheet
+	var/points_per_uranium = 0.1 //10 points per sheet, for NUKES
+	var/points_per_clown = 0.05 //20 points per sheet, fuck the clown
+	var/points_per_adamantine = 0.01 //100 points per sheet!!!
+
 	var/centcom_message = "" // Remarks from Centcom on how well you checked the last order.
 	// Unique typepaths for unusual things we've already sent CentComm, associated with their potencies
 	var/list/discoveredPlants = list()
@@ -230,7 +240,17 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	var/area/shuttle = locate(shuttle_at)
 	if(!shuttle)	return
 
+	var/iron_count = 0
+	var/glass_count = 0
+	var/silver_count = 0
+	var/gold_count = 0
 	var/plasma_count = 0
+	var/diamond_count = 0
+	var/plasteel_count = 0
+	var/uranium_count = 0
+	var/clown_count = 0
+	var/adamantine_count = 0
+
 	var/intel_count = 0
 	var/crate_count = 0
 
@@ -289,10 +309,37 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 						find_slip = 0
 					continue
 
-				// Sell plasma
+				// Sell minerals
+				if(istype(A, /obj/item/stack/sheet/metal))
+					var/obj/item/stack/sheet/metal/M = A
+					iron_count += M.amount
+				if(istype(A, /obj/item/stack/sheet/glass))
+					var/obj/item/stack/sheet/glass/G = A
+					glass_count += G.amount
+				if(istype(A, /obj/item/stack/sheet/plasteel))
+					var/obj/item/stack/sheet/plasteel/PS = A
+					plasteel_count += PS.amount
 				if(istype(A, /obj/item/stack/sheet/mineral/plasma))
 					var/obj/item/stack/sheet/mineral/plasma/P = A
 					plasma_count += P.amount
+				if(istype(A, /obj/item/stack/sheet/mineral/silver))
+					var/obj/item/stack/sheet/mineral/plasma/S = A
+					silver_count += S.amount
+				if(istype(A, /obj/item/stack/sheet/mineral/gold))
+					var/obj/item/stack/sheet/mineral/gold/G = A
+					gold_count += G.amount
+				if(istype(A, /obj/item/stack/sheet/mineral/uranium))
+					var/obj/item/stack/sheet/mineral/uranium/U = A
+					uranium_count += U.amount
+				if(istype(A, /obj/item/stack/sheet/mineral/diamond))
+					var/obj/item/stack/sheet/mineral/diamond/D = A
+					diamond_count += D.amount
+				if(istype(A, /obj/item/stack/sheet/mineral/bananium))
+					var/obj/item/stack/sheet/mineral/bananium/C = A
+					clown_count += C.amount
+				if(istype(A, /obj/item/stack/sheet/mineral/adamantine))
+					var/obj/item/stack/sheet/mineral/adamantine/AD = A
+					adamantine_count += AD.amount
 
 				// Sell syndicate intel
 				if(istype(A, /obj/item/documents/syndicate))
@@ -317,9 +364,36 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 		qdel(MA)
 		sold_atoms += "."
 
+	if(iron_count)
+		centcom_message += "<font color=green>+[round(iron_count/points_per_iron)]</font>: Received [iron_count] unit(s) of metal sheets.<BR>"
+		points += round(iron_count / points_per_iron)
+	if(glass_count)
+		centcom_message += "<font color=green>+[round(glass_count/points_per_glass)]</font>: Received [glass_count] unit(s) of glass sheets.<BR>"
+		points += round(glass_count / points_per_glass)
+	if(plasteel_count)
+		centcom_message += "<font color=green>+[round(plasteel_count/points_per_plasteel)]</font>: Received [plasteel_count] unit(s) of plasteel sheets.<BR>"
+		points += round(plasteel_count / points_per_plasteel)
 	if(plasma_count)
-		centcom_message += "<font color=green>+[round(plasma_count/plasma_per_point)]</font>: Received [plasma_count] unit(s) of exotic material.<BR>"
-		points += round(plasma_count / plasma_per_point)
+		centcom_message += "<font color=green>+[round(plasma_count/points_per_plasma)]</font>: Received [plasma_count] unit(s) of plasma.<BR>"
+		points += round(plasma_count / points_per_plasma)
+	if(gold_count)
+		centcom_message += "<font color=green>+[round(gold_count/points_per_gold)]</font>: Received [gold_count] unit(s) of gold.<BR>"
+		points += round(gold_count / points_per_gold)
+	if(silver_count)
+		centcom_message += "<font color=green>+[round(silver_count/points_per_silver)]</font>: Received [silver_count] unit(s) of silver.<BR>"
+		points += round(silver_count / points_per_silver)
+	if(uranium_count)
+		centcom_message += "<font color=green>+[round(uranium_count/points_per_uranium)]</font>: Received [uranium_count] unit(s) of uranium.<BR>"
+		points += round(uranium_count / points_per_uranium)
+	if(diamond_count)
+		centcom_message += "<font color=green>+[round(diamond_count/points_per_diamond)]</font>: Received [diamond_count] unit(s) of diamond(s).<BR>"
+		points += round(diamond_count / points_per_diamond)
+	if(clown_count)
+		centcom_message += "<font color=green>+[round(clown_count/points_per_clown)]</font>: Received [clown_count] unit(s) of Bananium.<BR>"
+		points += round(clown_count / points_per_clown)
+	if(adamantine_count)
+		centcom_message += "<font color=green>+[round(adamantine_count/points_per_adamantine)]</font>: Received [adamantine_count] unit(s) of Adamantine!<BR>"
+		points += round(adamantine_count / points_per_adamantine)
 
 	if(intel_count)
 		centcom_message += "<font color=green>+[round(intel_count*points_per_intel)]</font>: Received [intel_count] article(s) of enemy intelligence.<BR>"
