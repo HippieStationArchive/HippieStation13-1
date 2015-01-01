@@ -4,7 +4,7 @@
 HEALTH_THRESHOLD_CRIT 0
 
 # level of health at which a mob becomes dead
-HEALTH_THRESHOLD_DEAD -100
+HEALTH_THRESHOLD_DEAD -120
 
 
 ### REVIVAL ###
@@ -21,7 +21,7 @@ REVIVAL_BRAIN_LIFE -1
 ### RENAMING ###
 
 #Uncomment to allow cyborgs to rename themselves at roundstart.  Has no effect on roboticists renaming cyborgs the normal way.
-#RENAME_CYBORG
+RENAME_CYBORG
 
 ### OOC DURING ROUND ###
 #Comment this out if you want OOC to be automatically disabled during the round, it will be enabled during the lobby and after the round end results.
@@ -41,16 +41,16 @@ EMOJIS
 ## To speed things up make the number negative, to slow things down, make the number positive.
 
 ## These modify the run/walk speed of all mobs before the mob-specific modifiers are applied. 
-RUN_DELAY 1
-WALK_DELAY 4
+RUN_DELAY -1
+WALK_DELAY 2
 
 ## The variables below affect the movement of specific mob types.
-HUMAN_DELAY 0
-ROBOT_DELAY 0
-MONKEY_DELAY 0
-ALIEN_DELAY 0
-SLIME_DELAY 0
-ANIMAL_DELAY 0
+HUMAN_DELAY 1.3
+ROBOT_DELAY 4
+MONKEY_DELAY 1.3
+ALIEN_DELAY 1.3
+SLIME_DELAY 6
+ANIMAL_DELAY 1.3
 
 
 ### NAMES ###
@@ -66,9 +66,17 @@ ALERT_GREEN All threats to the station have passed. Security may not have weapon
 ALERT_BLUE_UPTO The station has received reliable information about possible hostile activity on the station. Security staff may have weapons visible, random searches are permitted.
 ALERT_BLUE_DOWNTO The immediate threat has passed. Security may no longer have weapons drawn at all times, but may continue to have them visible. Random searches are still allowed.
 ALERT_RED_UPTO There is an immediate serious threat to the station. Security may have weapons unholstered at all times. Random searches are allowed and advised.
-ALERT_RED_DOWNTO The self-destruct mechanism has been deactivated, there is still however an immediate serious threat to the station. Security may have weapons unholstered at all times, random searches are allowed and advised.
-ALERT_DELTA The station's self-destruct mechanism has been engaged. All crew are instructed to obey all instructions given by heads of staff. Any violations of these orders can be punished by death. This is not a drill.
+ALERT_RED_DOWNTO Martial law is no longer in effect, there is still however an immediate serious threat to the station. Security may have weapons unholstered at all times, random searches are allowed and advised.
+ALERT_DELTA Martial law is now in effect. All crew are instructed to obey all orders given by the heads of staff. Any violation of these orders is punishable by death. This is not a drill.
 
+
+### EXPLOSIONS ###
+
+## Unhash this to use recursive explosions, keep it hashed to use normal style explosions.
+## Recursive explosions react to walls, airlocks and blast doors, making them look a lot cooler
+## than the boring old circular explosions. They require more CPU and are (as of March 2013) experimental.
+## The default map is generally designed for the old style explosions in terms of security.
+USE_RECURSIVE_EXPLOSIONS
 
 
 ### GAME MODES ###
@@ -77,20 +85,20 @@ ALERT_DELTA The station's self-destruct mechanism has been engaged. All crew are
 ## Default probablity is 1, increase to make that mode more likely to be picked.
 ## Set to 0 to disable that mode.
 
-PROBABILITY TRAITOR 5
-PROBABILITY TRAITORCHAN 4
-PROBABILITY DOUBLE_AGENTS 3
-PROBABILITY NUCLEAR 2
+PROBABILITY TRAITOR 6
+PROBABILITY TRAITORCHAN 2
+PROBABILITY DOUBLE_AGENTS 7
+PROBABILITY NUCLEAR 3
 PROBABILITY REVOLUTION 2
-PROBABILITY GANG 0
-PROBABILITY CULT 2
+PROBABILITY CULT 0
 PROBABILITY CHANGELING 2
-PROBABILITY WIZARD 4
-PROBABILITY MALFUNCTION 1
-PROBABILITY BLOB 2
-PROBABILITY MONKEY 1
+PROBABILITY WIZARD 3
+PROBABILITY MALFUNCTION 3
+PROBABILITY BLOB 3
+PROBABILITY MONKEY 0
 PROBABILITY METEOR 0
 PROBABILITY EXTENDED 0
+PROBABILITY RAGINMAGES 1
 
 ## You probably want to keep sandbox off by default for secret and random.
 PROBABILITY SANDBOX 0
@@ -103,13 +111,13 @@ PROBABILITY SANDBOX 0
 #CONTINUOUS_ROUND_MALF
 
 ## The amount of time it takes for the emergency shuttle to be called, from round start.
-SHUTTLE_REFUEL_DELAY 12000
+SHUTTLE_REFUEL_DELAY 18000
 
 ## Variables calculate how number of antagonists will scale to population.
 ## Used as (Antagonists = Population / Coeff)
 ## Set to 0 to disable scaling and use default numbers instead.
-TRAITOR_SCALING_COEFF 6
-CHANGELING_SCALING_COEFF 6
+TRAITOR_SCALING_COEFF 0
+CHANGELING_SCALING_COEFF 0
 
 ## Variables calculate how number of open security officer positions will scale to population.
 ## Used as (Officers = Population / Coeff)
@@ -122,13 +130,10 @@ TRAITOR_OBJECTIVES_AMOUNT 2
 
 ## Uncomment to prohibit jobs that start with loyalty
 ## implants from being most antagonists.
-#PROTECT_ROLES_FROM_ANTAGONIST
+PROTECT_ROLES_FROM_ANTAGONIST
 
-## Uncomment to prohibit assistants from becoming most antagonists.
-#PROTECT_ASSISTANT_FROM_ANTAGONIST
-
-## If non-human species are barred from joining as a head of staff
-#ENFORCE_HUMAN_AUTHORITY
+## If non-human species are barred from joining as a head/security
+ENFORCE_HUMAN_AUTHORITY
 
 ## If late-joining players have a chance to become a traitor/changeling
 ALLOW_LATEJOIN_ANTAGONISTS
@@ -153,7 +158,7 @@ ALLOW_AI
 
 ## How long the delay is before the Away Mission gate opens. Default is half an hour.
 ## 600 is one minute.
-GATEWAY_DELAY 18000
+GATEWAY_DELAY 8000
 
 
 ### ACCESS ###
@@ -164,7 +169,7 @@ GATEWAY_DELAY 18000
 #JOBS_HAVE_MINIMAL_ACCESS
 
 ## Uncomment to give assistants maint access.
-#ASSISTANTS_HAVE_MAINT_ACCESS
+ASSISTANTS_HAVE_MAINT_ACCESS
 
 ## Uncoment to give security maint access. Note that if you comment JOBS_HAVE_MINIMAL_ACCESS security already gets maint from that.
 #SECURITY_HAS_MAINT_ACCESS
@@ -178,7 +183,7 @@ SEC_START_BRIG
 
 ### GHOST INTERACTION ###
 ## Uncomment to let ghosts spin chairs. You may be wondering why this is a config option. Don't ask.
-#GHOST_INTERACTION
+GHOST_INTERACTION
 
 ### NON-VOCAL SILICONS ###
 ## Uncomment to stop the AI, or cyborgs, from having vocal communication.
@@ -199,14 +204,9 @@ SEC_START_BRIG
 ## Set to 2 for "random", silicons will start with a random lawset picked from (at the time of writing): P.A.L.A.D.I.N., Corporate, Asimov. More can be added by changing the law datum paths in ai_laws.dm.
 DEFAULT_LAWS 1
 
-### SILICON LAW MAX AMOUNT ###
-## The maximum number of laws a silicon can have
-## Attempting to upload laws past this point will fail unless the AI is reset
-SILICON_MAX_LAW_AMOUNT 12
-
 ## Uncoment to give players the choice of their species before they join the game
-#JOIN_WITH_MUTANT_RACE
+JOIN_WITH_MUTANT_RACE
 
 ## Uncomment to allow certain species to have custom colors
 
-#MUTANT_COLORS
+MUTANT_COLORS

@@ -1,11 +1,11 @@
 ## Server name: This appears at the top of the screen in-game. Remove the # infront of SERVERNAME and replace 'tgstation' with the name of your choice
-# SERVERNAME tgstation
+SERVERNAME Hippie Station 13
 
 ## Station name: The name of the station as it is referred to in-game. If commented out, the game will generate a random name instead.
-STATIONNAME Space Station 13
+#STATIONNAME Space Station 13
 
 # Lobby time: This is the amount of time between rounds that players have to setup their characters and be ready.
-LOBBY_COUNTDOWN 120
+LOBBY_COUNTDOWN 190
 
 ## Add a # infront of this if you want to use the SQL based admin system, the legacy system uses admins.txt. You need to set up your database to use the SQL based system.
 ADMIN_LEGACY_SYSTEM
@@ -59,6 +59,9 @@ LOG_LAW
 ## log all Topic() calls (for use by coders in tracking down Topic issues)
 # LOG_HREFS
 
+## log admin warning messages
+##LOG_ADMINWARN  ## Also duplicates a bunch of other messages.
+
 ## disconnect players who did nothing during 10 minutes
 # KICK_INACTIVE
 
@@ -69,7 +72,7 @@ ALLOW_ADMIN_OOCCOLOR
 ALLOW_METADATA
 
 ## allow players to initiate a restart vote
-#ALLOW_VOTE_RESTART
+ALLOW_VOTE_RESTART
 
 ## allow players to initate a mode-change start
 #ALLOW_VOTE_MODE
@@ -93,7 +96,7 @@ NORESPAWN
 # DONT_DEL_NEWMOB
 
 ## set a hosted by name for unix platforms
-HOSTEDBY Yournamehere
+HOSTEDBY Admiral Hippie
 
 ## Set to jobban "Guest-" accounts from Captain, HoS, HoP, CE, RD, CMO, Warden, Security, Detective, and AI positions.
 ## Set to 1 to jobban them from those positions, set to 0 to allow them.
@@ -108,26 +111,22 @@ GUEST_BAN
 
 ## set a server location for world reboot. Don't include the byond://, just give the address and port.
 # Don't set this to the same server, BYOND will automatically restart players to the server when it has restarted.
-# SERVER ss13.example.com:2506
+SERVER 
 
 ## forum address
-# FORUMURL http://tgstation13.org/phpBB/index.php
+FORUMURL http://hippie-station-13.com/forums/index.php
 
 ## Wiki address
-# WIKIURL http://www.tgstation13.org/wiki
+WIKIURL http://www.tgstation13.org/wiki
 
 ##Rules address
-# RULESURL http://www.tgstation13.org/wiki/Rules
+RULESURL http://hippie-station-13.com/misc/darules.shtml
 
 ##Github address
-# GITHUBURL https://www.github.com/tgstation/-tg-station
+GITHUBURL https://github.com/Lawligagger/-tg-station
 
 ## Ban appeals URL - usually for a forum or wherever people should go to contact your admins.
-# BANAPPEALS http://justanotherday.example.com
-
-## In-game features
-##Toggle for having jobs load up from the .txt
-# LOAD_JOBS_FROM_TXT
+BANAPPEALS http://hippie-station-13.com/forums/viewforum.php?f=8
 
 ##Remove the # mark infront of this to forbid admins from possessing the singularity.
 #FORBID_SINGULO_POSSESSION
@@ -142,17 +141,19 @@ ALLOW_HOLIDAYS
 ##Remove the # mark if you are going to use the SVN irc bot to relay adminhelps
 #USEIRCBOT
 
-##Defines the ticklag for the world.  0.9 is the normal one, 0.5 is smoother.
-TICKLAG 0.9
-
+##Defines the ticklag for the world.  0.9 is the normal one, 0.6 is smoother.
+TICKLAG 0.6
+## DO NOT CHANGE THE TICKLAG, 0.3 WAS WAY too low. Ticks do more than just movement, they control a TON of stuff in the game. ffs leave it at 0.6 you fuckin' shitfucker.
 ## Defines if Tick Compensation is used.  It results in a minor slowdown of movement of all mobs, but attempts to result in a level movement speed across all ticks.  Recommended if tickrate is lowered.
 TICKCOMP 0
 
 ## Comment this out to disable automuting
-#AUTOMUTE_ON
+AUTOMUTE_ON
 
 ## Communication key for receiving data through world/Topic(), you don't want to give this out
 #COMMS_KEY default_pwd
 
-## Uncomment this to let players see their own notes (they can still be set by admins only)
-#SEE_OWN_NOTES
+## Location of byond achievement hub
+ACHIEVEMENT_HUB Foos.FPStationMedals
+## Password for byond 
+ACHIEVEMENT_PASSWORD Nikita1
