@@ -231,10 +231,6 @@
 		return 0
 
 /obj/structure/table/MouseDrop_T(atom/movable/O, mob/user)
-	if(ismob(O) && user == O && ishuman(user))
-		if(user.canmove)
-			climb_table(user)
-			return
 	if ((!( istype(O, /obj/item/weapon) ) || user.get_active_hand() != O))
 		return
 	if(isrobot(user))
@@ -356,30 +352,6 @@
 			qdel(src)
 			return
 
-/*
- * TABLE CLIMBING
- */
-
-
-/obj/structure/table/proc/climb_table(mob/user)
-	src.add_fingerprint(user)
-	user.visible_message("<span class='warning'>[user] starts climbing onto [src].</span>", \
-								"<span class='notice'>You start climbing onto [src].</span>")
-	var/climb_time = 20
-	if(user.restrained()) //Table climbing takes twice as long when restrained.
-		climb_time *= 2
-	if(do_mob(user, user, climb_time))
-		if(src.loc) //Checking if table has been destroyed
-			user.pass_flags += PASSTABLE
-			step(user,get_dir(user,src.loc))
-			user.pass_flags -= PASSTABLE
-			user.visible_message("<span class='warning'>[user] climbs onto [src].</span>", \
-									"<span class='notice'>You climb onto [src].</span>")
-			add_logs(user, src, "climbed onto")
-			user.Stun(2)
-			return 1
-	return 0
-
 
 /*
  * Glass tables
@@ -398,15 +370,6 @@
 		new /obj/item/weapon/shard(src.loc)
 		qdel(src)
 
-
-/obj/structure/table/glass/climb_table(mob/user)
-	if(..())
-		visible_message("<span class='warning'>[src] breaks!</span>")
-		playsound(src.loc, "shatter", 50, 1)
-		new frame(src.loc)
-		new /obj/item/weapon/shard(src.loc)
-		qdel(src)
-		user.Weaken(5)
 
 /*
  * Wooden tables
