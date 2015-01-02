@@ -34,7 +34,11 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	anchored = 1
 	var/z_original = 0
 	var/destination
-
+/obj/effect/immovablerod/butt
+	name = "gigantic ass"
+	desc = "godDAMN that ass is well rounded"
+	icon = 'icons/misc/newbutt.dmi'
+	icon_state = "butt"
 /obj/effect/immovablerod/New(atom/start, atom/end)
 	loc = start
 	z_original = z

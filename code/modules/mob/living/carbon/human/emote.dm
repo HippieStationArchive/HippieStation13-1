@@ -273,6 +273,101 @@
 					src.gib()
 					spawn(10)
 						del(L)
+		if("superfart") //how to remove ass
+			if (ticker.current_state == 3)//safety1
+				if(world.time < fartholdin)//safety2
+					src << "Your ass is not ready to blast."
+					return
+				else
+					if(cansuperfart)
+						var/obj/item/clothing/head/butt/B = null
+						B = locate() in src.internal_organs
+						if(!B)
+							src << "\red You don't have a butt!"
+							return
+						else if(B)
+							src.internal_organs -= B
+						//src.butt = null
+						src.nutrition -= 500
+						playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+						spawn(1)
+							playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+							spawn(1)
+								playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+								spawn(1)
+									playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+									spawn(1)
+										playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+										spawn(1)
+											playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+											spawn(1)
+												playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+												spawn(1)
+													playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+													spawn(1)
+														playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+														spawn(1)
+															playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+															spawn(5)
+																playsound(src.loc, 'sound/misc/fartmassive.ogg', 75, 1, 5)
+																new /obj/item/clothing/head/butt(src.loc)
+																new /obj/effect/decal/cleanable/blood(src.loc)
+																if(prob(76))
+																	for(var/mob/living/M in range(0))
+																		if(M != src)
+																			visible_message("\red <b>[src]</b>'s ass blasts <b>[M]</b> in the face!", "\red You ass blast <b>[M]</b>!")
+																			M.apply_damage(75,"brute","head")
+																		else
+																			continue
+																	visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
+																else if(prob(12))
+																	var/startx = 0
+																	var/starty = 0
+																	var/endy = 0
+																	var/endx = 0
+																	var/startside = pick(cardinal)
+
+																	switch(startside)
+																		if(NORTH)
+																			starty = src.loc
+																			startx = src.loc
+																			endy = 38
+																			endx = rand(41, 199)
+																		if(EAST)
+																			starty = src.loc
+																			startx = src.loc
+																			endy = rand(38, 187)
+																			endx = 41
+																		if(SOUTH)
+																			starty = src.loc
+																			startx = src.loc
+																			endy = 187
+																			endx = rand(41, 199)
+																		else
+																			starty = src.loc
+																			startx = src.loc
+																			endy = rand(38, 187)
+																			endx = 199
+
+																	//ASS BLAST USA
+																	visible_message("\red <b>[src]</b> blows their ass off with such force, they explode!", "\red Holy shit, your butt flies off into the galaxy!")
+																	usr.gib() //can you belive I forgot to put this here?? yeah you need to see the message BEFORE you gib
+																	new /obj/effect/immovablerod/butt(locate(startx, starty, 1), locate(endx, endy, 1))
+																	priority_announce("What the fuck was that?!", "General Alert")
+																else if(prob(12))
+																	visible_message("\red <b>[src]</b> rips their ass apart in a massive explosion!", "\red Holy shit, your butt goes supernova!")
+																	explosion(src.loc,0,1,3,adminlog = 0,flame_range = 3)
+																	usr.gib()
+																for(var/obj/item/weapon/storage/book/bible/CUL8 in range(0))
+																	var/obj/effect/lightning/L = new /obj/effect/lightning()
+																	L.loc = get_turf(src.loc)
+																	L.layer = src.layer+1
+																	L.icon_state = "lightning"
+																	playsound(CUL8,'sound/effects/thunder.ogg',90,1)
+																	spawn(10)
+																		src.gib()
+																		spawn(10)
+																		del(L)
 
 		if ("mumble")
 			message = "<B>[src]</B> mumbles!"
@@ -361,7 +456,8 @@
 				m_type = 2
 
 		if ("help") //This can stay at the bottom.
-			src << "Help for human emotes. You can use these emotes with say \"*emote\":\n\naflap, airguitar, blink, blink_r, blush, bow-(none)/mob, burp, choke, chuckle, clap, collapse, cough, cry, custom, dance, dap, deathgasp, drool, eyebrow, faint, flap, frown, gasp, giggle, glare-(none)/mob, grin, groan, grumble, handshake, hug-(none)/mob, johnny, jump, laugh, look-(none)/mob, me, moan, mumble, nod, pale, point-(atom), raise, salute, scream, shake, shiver, shrug, sigh, signal-#1-10, sit, smile, sneeze, sniff, snore, stare-(none)/mob, sulk, sway, tremble, twitch, twitch_s, wave, whimper, wink, yawn"
+			src << "Help for emotes. You can use these emotes with say \"*emote\":\n\naflap, airguitar, blink, blink_r, blush, bow-(none)/mob, burp, choke, chuckle, clap, collapse, cough, dance, deathgasp, drool, fart, flap, frown, gasp, giggle, glare-(none)/mob, grin, jump, laugh, look, me, nod, point-atom, scream, shake, sigh, sit, smile, sneeze, sniff, snore, stare-(none)/mob, sulk, sway, tremble, twitch, twitch_s, wave, whimper, wink, yawn"
+
 
 		else
 			..(act)
