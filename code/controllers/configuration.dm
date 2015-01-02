@@ -257,6 +257,10 @@
 					config.rulesurl = value
 				if("githuburl")
 					config.githuburl = value
+				if("achievement_hub")
+					achievement_hub = value
+				if("achievement_password")
+					achievement_password = value
 				if("guest_jobban")
 					config.guest_jobban = 1
 				if("guest_ban")

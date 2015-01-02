@@ -44,6 +44,7 @@
 	operating = 1
 	flick("opening", src)
 	icon_state = "open"
+	playsound(src.loc, 'sound/machines/blast_door.ogg', 100, 1)
 	SetOpacity(0)
 	sleep(5)
 	density = 0
@@ -75,6 +76,7 @@
 	air_update_turf(1)
 	update_freelook_sight()
 	sleep(5)
+	playsound(src.loc, 'sound/machines/blast_door.ogg', 100, 1)
 	crush()
 	density = 1
 	sleep(5)
