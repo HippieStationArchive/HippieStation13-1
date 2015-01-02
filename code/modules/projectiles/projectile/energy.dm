@@ -16,7 +16,7 @@
 	stutter = 5
 	jitter = 20
 	hitsound = "sparks"
-	range = 7
+	range = 21
 
 /obj/item/projectile/energy/electrode/on_hit(var/atom/target, var/blocked = 0)
 	if(!proj_hit)
@@ -59,7 +59,7 @@
 	nodamage = 0
 	weaken = 5
 	stutter = 5
-	range = 10
+	range = 30
 
 /obj/item/projectile/energy/bolt/large
 	name = "largebolt"

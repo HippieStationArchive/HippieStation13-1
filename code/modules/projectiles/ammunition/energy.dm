@@ -14,8 +14,8 @@
 
 /obj/item/ammo_casing/energy/lasergun
 	projectile_type = /obj/item/projectile/beam
-	e_cost = 83
-	select_name = "kill"
+	e_cost = 62.5
+	select_name = "beam"
 
 /obj/item/ammo_casing/energy/laser/practice
 	projectile_type = /obj/item/projectile/practice
@@ -23,13 +23,13 @@
 
 /obj/item/ammo_casing/energy/laser/scatter
 	projectile_type = /obj/item/projectile/beam/scatter
-	pellets = 5
+	pellets = 6
 	variance = 0.8
-	select_name = "scatter"
+	select_name = "spread"
 
 /obj/item/ammo_casing/energy/laser/heavy
 	projectile_type = /obj/item/projectile/beam/heavylaser
-	select_name = "anti-vehicle"
+	select_name = "high-power beam"
 	fire_sound = 'sound/weapons/lasercannonfire.ogg'
 
 /obj/item/ammo_casing/energy/laser/pulse
