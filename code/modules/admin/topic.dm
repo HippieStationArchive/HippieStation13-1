@@ -1020,6 +1020,36 @@
 
 		log_admin("[key_name(usr)] has sent [key_name(M)] to Prison!")
 		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] Prison!")
+	else if(href_list["goodcurity"])
+		if(!check_rights(R_ADMIN))	return
+
+		var/mob/M = locate(href_list["goodcurity"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
+
+		log_admin("[key_name(usr)] has granted [key_name(M)] Goodcurity access")
+		message_admins("\blue [key_name_admin(usr)] has granted [key_name_admin(M)] Goodcurity access", 1)
+		M.unlock_achievement("Goodcurity")
+		M << "\blue You have been given the Goodcurity achievement.  This allows you to set code delta from a comms computer when you are the Captain, HoP, HoS, or Warden. Please see the rules for more information on code Delta.  If this is abused it will be removed."
+		if(M.client)
+			M.client.goodcurity = 1
+
+	else if(href_list["removegoodcurity"])
+		if(!check_rights(R_ADMIN))	return
+
+		var/mob/living/carbon/human/M = locate(href_list["removegoodcurity"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
+
+		log_admin("[key_name(usr)] has removed Goodcurity access from [key_name(M)]")
+		message_admins("\blue [key_name_admin(usr)] has removed Goodcurity access from [key_name_admin(M)]", 1)
+		world.ClearMedal("Goodcurity", M.key, config.achievement_hub, config.achievement_password)
+		M << "\blue Your Goodcurity achievement has been removed."
+		if(M.client)
+			M.client.goodcurity = 0
+
 	else if(href_list["tdome1"])
 		if(!check_rights(R_FUN))	return
 

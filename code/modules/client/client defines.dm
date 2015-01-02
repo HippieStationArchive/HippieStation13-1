@@ -16,6 +16,7 @@
 	var/moving			= null
 	var/adminobs		= null
 	var/area			= null
+	var/goodcurity = 0
 
 		///////////////
 		//SOUND STUFF//

@@ -173,7 +173,8 @@ Security Officer
 
 /datum/job/officer/equip_items(var/mob/living/carbon/human/H)
 	assign_sec_to_department(H)
-
+	if(H.client.goodcurity)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/suit_jacket/navy(H), slot_w_uniform)
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(H), slot_shoes)
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/vest(H), slot_wear_suit)
 	H.equip_to_slot_or_del(new /obj/item/clothing/head/beret/sec(H), slot_head)
@@ -210,6 +211,10 @@ var/list/sec_departments = list("engineering", "supply", "medical", "science")
 		sec_departments -= department
 		var/destination = null
 		var/obj/item/clothing/under/U = new /obj/item/clothing/under/rank/security(H)
+
+		if(H.client.goodcurity)
+			U = new /obj/item/clothing/under/suit_jacket/navy(H)
+
 		switch(department)
 			if("supply")
 				default_headset = /obj/item/device/radio/headset/headset_sec/alt/department/supply
@@ -231,6 +236,7 @@ var/list/sec_departments = list("engineering", "supply", "medical", "science")
 				dep_access = list(access_research)
 				destination = /area/security/checkpoint/science
 				U.attachTie(new /obj/item/clothing/tie/armband/science())
+
 		H.equip_to_slot_or_del(U, slot_w_uniform)
 		var/teleport = 0
 		if(!config.sec_start_brig)

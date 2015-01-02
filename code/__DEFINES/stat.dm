@@ -13,3 +13,5 @@
 #define POWEROFF	4		// tbd
 #define MAINT		8			// under maintaince
 #define EMPED		16		// temporary broken by EMP pulse
+
+#define GOODCURITY 1

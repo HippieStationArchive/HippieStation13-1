@@ -51,6 +51,10 @@
 	var/jobs_have_maint_access = 0 		//Who gets maint access?  See defines above
 	var/sec_start_brig = 0				//makes sec start in brig or dept sec posts
 
+	var/achievement_hub = null//both defined via config
+	var/achievement_password = null
+
+
 	var/server
 	var/banappeals
 	var/wikiurl = "http://www.tgstation13.org/wiki" // Default wiki link.
