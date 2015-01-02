@@ -1000,26 +1000,6 @@
 		speech = sanitize(speech) // Nah, we don't trust them
 		log_admin("[key_name(usr)] forced [key_name(M)] to say: [speech]")
 		message_admins("<span class='adminnotice'>[key_name_admin(usr)] forced [key_name_admin(M)] to say: [speech]</span>")
-
-	else if(href_list["sendtoprison"])
-		if(!check_rights(R_ADMIN))	return
-
-		var/mob/M = locate(href_list["sendtoprison"])
-		if(!ismob(M))
-			usr << "This can only be used on instances of type /mob"
-			return
-		if(istype(M, /mob/living/silicon/ai))
-			usr << "This cannot be used on instances of type /mob/living/silicon/ai"
-			return
-
-		if(alert(usr, "Send [key_name(M)] to Prison?", "Message", "Yes", "No") != "Yes")
-			return
-
-		M.loc = pick(prisonwarp)
-		M << "<span class='adminnotice'>You have been sent to Prison!</span>"
-
-		log_admin("[key_name(usr)] has sent [key_name(M)] to Prison!")
-		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] Prison!")
 	else if(href_list["goodcurity"])
 		if(!check_rights(R_ADMIN))	return
 
@@ -1050,6 +1030,27 @@
 		if(M.client)
 			M.client.goodcurity = 0
 
+
+
+	else if(href_list["sendtoprison"])
+		if(!check_rights(R_ADMIN))	return
+
+		var/mob/M = locate(href_list["sendtoprison"])
+		if(!ismob(M))
+			usr << "This can only be used on instances of type /mob"
+			return
+		if(istype(M, /mob/living/silicon/ai))
+			usr << "This cannot be used on instances of type /mob/living/silicon/ai"
+			return
+
+		if(alert(usr, "Send [key_name(M)] to Prison?", "Message", "Yes", "No") != "Yes")
+			return
+
+		M.loc = pick(prisonwarp)
+		M << "<span class='adminnotice'>You have been sent to Prison!</span>"
+
+		log_admin("[key_name(usr)] has sent [key_name(M)] to Prison!")
+		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] Prison!")
 	else if(href_list["tdome1"])
 		if(!check_rights(R_FUN))	return
 
