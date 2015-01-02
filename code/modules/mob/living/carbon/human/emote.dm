@@ -228,6 +228,51 @@
 			else
 				message = "<B>[src]</B> moans!"
 				m_type = 2
+		if ("fart")
+			var/obj/item/clothing/head/butt/B = null
+			B = locate() in src.internal_organs
+			if(!B)
+				src << "\red You don't have a butt!"
+				return
+			for(var/mob/M in range(0))
+				if(M != src)
+					visible_message("\red <b>[src]</b> farts in <b>[M]</b>'s face!")
+				else
+					continue
+			message = "<B>[src]</B> [pick(
+			"rears up and lets loose a fart of tremendous magnitude!",
+			"farts!",
+			"toots.",
+			"harvests methane from uranus at mach 3!",
+			"assists global warming!",
+			"farts and waves their hand dismissively.",
+			"farts and pretends nothing happened.",
+			"is a <b>farting</b> motherfucker!",
+			"<B><font color='red'>f</font><font color='blue'>a</font><font color='red'>r</font><font color='blue'>t</font><font color='red'>s</font></B>")]"
+			playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
+			src.nutrition -= 25
+			if(prob(12))
+				B = locate() in src.internal_organs
+				if(B)
+					src.internal_organs -= B
+					new /obj/item/clothing/head/butt(src.loc)
+					new /obj/effect/decal/cleanable/blood(src.loc)
+				for(var/mob/living/M in range(0))
+					if(M != src)
+						visible_message("\red <b>[src]</b>'s ass hits <b>[M]</b> in the face!", "\red Your ass smacks <b>[M]</b> in the face!")
+						M.apply_damage(15,"brute","head")
+				visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
+
+			for(var/obj/item/weapon/storage/book/bible/CUL8 in range(0))
+				var/obj/effect/lightning/L = new /obj/effect/lightning()
+				L.loc = get_turf(src.loc)
+				L.layer = src.layer+1
+				L.icon_state = "lightning"
+				playsound(CUL8,'sound/effects/thunder.ogg',90,1)
+				spawn(10)
+					src.gib()
+					spawn(10)
+						del(L)
 
 		if ("mumble")
 			message = "<B>[src]</B> mumbles!"

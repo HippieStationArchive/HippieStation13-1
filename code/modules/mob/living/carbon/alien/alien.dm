@@ -36,6 +36,7 @@
 	verbs += /mob/living/proc/mob_sleep
 	verbs += /mob/living/proc/lay_down
 	internal_organs += new /obj/item/organ/brain/alien
+	internal_organs += new /obj/item/clothing/head/butt
 
 	..()
 
