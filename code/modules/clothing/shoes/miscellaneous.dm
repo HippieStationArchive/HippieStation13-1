@@ -74,13 +74,19 @@
 	slowdown = SHOES_SLOWDOWN+1
 	item_color = "clown"
 	var/footstep = 1	//used for squeeks whilst walking
+	var/hacked = 0
+
+/obj/item/clothing/shoes/clown_shoes/emag_act(user as mob)
+	if(!hacked)
+		user << "<span class='notice'>You hear a strange HONK.</span>"
+		hacked = 1
+		if(prob(50))
+			slowdown=-4
+		else
+			flags = NOSLIP
 
 /obj/item/clothing/shoes/clown_shoes/step_action()
-	if(footstep > 1)
-		playsound(src, "clownstep", 50, 1)
-		footstep = 0
-	else
-		footstep++
+	playsound(src, "clownstep", 50, 1)
 
 /obj/item/clothing/shoes/jackboots
 	name = "jackboots"
