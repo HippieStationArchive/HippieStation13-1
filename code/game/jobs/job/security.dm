@@ -39,13 +39,13 @@ Head of Security
 	H.equip_to_slot_or_del(new /obj/item/clothing/gloves/color/black/hos(H), slot_gloves)
 	H.equip_to_slot_or_del(new /obj/item/clothing/head/HoS/beret(H), slot_head)
 	H.equip_to_slot_or_del(new /obj/item/clothing/glasses/hud/security/sunglasses(H), slot_glasses)
-	H.equip_to_slot_or_del(new /obj/item/weapon/gun/energy/gun(H), slot_s_store)
+	H.equip_to_slot_or_del(new /obj/item/weapon/gun/energy/gun/pistol(H), slot_s_store)
 
 	if(H.backbag == 1)
 		H.equip_to_slot_or_del(new /obj/item/weapon/restraints/handcuffs(H), slot_l_store)
 	else
 		H.equip_to_slot_or_del(new /obj/item/weapon/restraints/handcuffs(H), slot_in_backpack)
-		H.equip_to_slot_or_del(new /obj/item/weapon/melee/telebaton(H), slot_in_backpack)
+		H.equip_to_slot_or_del(new /obj/item/weapon/melee/truncheon/telebaton(H), slot_in_backpack)
 
 	var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
 	L.imp_in = H

@@ -110,7 +110,7 @@
 "cf" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/wall,/area/derelict/bridge/access)
 "cg" = (/obj/machinery/door/airlock/engineering{name = "Starboard Solar Access"; req_access_txt = "10"},/turf/simulated/floor/plasteel,/area/derelict/bridge/access)
 "ch" = (/turf/simulated/floor/plasteel,/area/derelict/bridge/access)
-"ci" = (/obj/structure/rack,/obj/item/weapon/melee/classic_baton,/turf/simulated/floor/plasteel,/area/derelict/bridge/access)
+"ci" = (/obj/structure/rack,/obj/item/weapon/melee/truncheon/classic_baton,/turf/simulated/floor/plasteel,/area/derelict/bridge/access)
 "cj" = (/obj/structure/rack,/obj/machinery/light/small{dir = 1},/turf/simulated/floor/plasteel,/area/derelict/bridge/access)
 "ck" = (/obj/structure/rack,/obj/item/clothing/head/helmet/swat,/turf/simulated/floor/plasteel,/area/derelict/bridge/access)
 "cl" = (/obj/structure/rack,/turf/simulated/floor/plasteel,/area/derelict/bridge/access)

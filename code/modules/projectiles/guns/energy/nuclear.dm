@@ -12,6 +12,21 @@
 	select_fire(user)
 	update_icon()
 
+/obj/item/weapon/gun/energy/gun/pistol
+	name = "energy pistol"
+	desc = "A basic hybrid energy pistol with two settings: Disable and kill. It's small and doesn't hold much charge, but it can save your life!"
+	icon_state = "epistol"
+	item_state = null	//so the human update icon uses the icon_state instead.
+	ammo_type = list(/obj/item/ammo_casing/energy/disabler, /obj/item/ammo_casing/energy/laser)
+	origin_tech = "combat=3;magnets=1"
+	w_class = 2
+	modifystate = 2
+	cell_type = /obj/item/weapon/stock_parts/cell/gun/pistol
+
+/obj/item/weapon/gun/energy/gun/pistol/attack_self(mob/living/user as mob)
+	select_fire(user)
+	update_icon()
+
 /obj/item/weapon/gun/energy/gun/nuclear
 	name = "advanced energy gun"
 	desc = "An energy gun with an experimental miniaturized nuclear reactor that automatically charges the internal power cell."

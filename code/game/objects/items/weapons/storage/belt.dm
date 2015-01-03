@@ -109,7 +109,8 @@
 	max_w_class = 3 //Because the baton wouldn't fit otherwise. - Neerti
 	can_hold = list(
 		/obj/item/weapon/melee/baton,
-		/obj/item/weapon/melee/classic_baton,
+		/obj/item/weapon/melee/truncheon/classic_baton,
+		/obj/item/weapon/melee/truncheon/telebaton,
 		/obj/item/weapon/grenade/flashbang,
 		/obj/item/weapon/grenade/chem_grenade/teargas,
 		/obj/item/weapon/reagent_containers/spray/pepper,
@@ -121,7 +122,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/donut/normal,
 		/obj/item/weapon/reagent_containers/food/snacks/donut/jelly,
 		/obj/item/device/flashlight/seclite,
-		/obj/item/weapon/melee/telebaton
+		/obj/item/weapon/melee/truncheon/telebaton
 		)
 
 /obj/item/weapon/storage/belt/security/New()

@@ -25,7 +25,8 @@
 	new /obj/item/clothing/gloves/color/captain(src)
 	new /obj/item/clothing/suit/toggle/wintercoat/captain(src)
 	new /obj/item/clothing/head/santa(src)
-	new /obj/item/weapon/gun/energy/gun(src)
+	new /obj/item/weapon/gun/energy/gun/pistol(src)
+	new /obj/item/weapon/gun/energy/gun/pistol(src)
 	return
 
 /obj/structure/closet/secure_closet/hop
@@ -48,7 +49,7 @@
 	new /obj/item/weapon/storage/box/ids(src)
 	new /obj/item/weapon/storage/box/ids(src)
 	new /obj/item/clothing/suit/armor/vest/alt(src)
-	new /obj/item/weapon/gun/energy/gun(src)
+	new /obj/item/weapon/gun/energy/gun/pistol(src)
 	new /obj/item/device/flash/handheld(src)
 	new /obj/item/clothing/glasses/sunglasses(src)
 	new /obj/item/weapon/mining_voucher(src)
@@ -83,6 +84,7 @@
 	new /obj/item/weapon/shield/riot/tele(src)
 	new /obj/item/weapon/melee/baton/loaded(src)
 	new /obj/item/weapon/gun/energy/gun/advtaser(src)
+	new /obj/item/weapon/gun/energy/gun/pistol(src)
 	new /obj/item/weapon/storage/belt/security(src)
 	new /obj/item/clothing/suit/toggle/wintercoat/security(src)
 	return

@@ -113,3 +113,15 @@
 	m_amt = 0
 	g_amt = 0
 	rating = 3
+
+/obj/item/weapon/stock_parts/cell/gun/pistol
+	name = "\improper Nanotrasen brand rechargable AA battery"
+	desc = "this is for pistol type guns, a 6shot"
+	origin_tech = "powerstorage=0"
+	maxcharge = 600 //6 shots, like a energy revolver
+	g_amt = 40
+	rating = 2
+
+/obj/item/weapon/stock_parts/cell/gun/pistol/empty/New()
+	..()
+	charge = 0
