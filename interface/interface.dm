@@ -51,12 +51,9 @@
 	set name = "Report issue"
 	set desc = "Report an issue"
 	set hidden = 1
-	if(config.githuburl)
-		if(alert("This will open the Github issue reporter in your browser. Are you sure?",,"Yes","No")=="No")
-			return
-		src << link("[config.githuburl]/issues/new")
-	else
-		src << "<span class='danger'>The Github URL is not set in the server configuration.</span>"
+	if(alert("This will open the GitLab issue reporter in your browser. Are you sure?",,"Yes","No")=="No")
+		return
+	src << link("http://www.hippie-station-13.com/forums/viewtopic.php?f=4&t=501")
 	return
 
 /client/verb/hotkeys_help()
