@@ -139,7 +139,7 @@ BANAPPEALS http://hippie-station-13.com/forums/viewforum.php?f=8
 ALLOW_HOLIDAYS
 
 ##Remove the # mark if you are going to use the SVN irc bot to relay adminhelps
-#USEIRCBOT
+USEIRCBOT
 
 ##Defines the ticklag for the world.  0.9 is the normal one, 0.6 is smoother.
 TICKLAG 0.6
