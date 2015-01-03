@@ -1919,7 +1919,7 @@ window "rpane"
 		is-checked = false
 		group = "rpanemode"
 		button-type = pushbutton
-	elem "githubb"
+	elem "teamspeakb"
 		type = BUTTON
 		pos = 408,0
 		size = 67x16
@@ -1939,9 +1939,9 @@ window "rpane"
 		right-click = false
 		saved-params = "is-checked"
 		on-size = ""
-		text = "Github"
+		text = "Teamspeak"
 		image = ""
-		command = "github"
+		command = "teamspeak"
 		is-flat = false
 		stretch = false
 		is-checked = false

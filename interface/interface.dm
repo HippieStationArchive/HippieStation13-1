@@ -35,16 +35,13 @@
 		src << "<span class='danger'>The rules URL is not set in the server configuration.</span>"
 	return
 
-/client/verb/github()
-	set name = "Github"
-	set desc = "Visit Github"
+/client/verb/teamspeak()
+	set name = "Teamspeak"
+	set desc = "Join Teamspeak"
 	set hidden = 1
-	if(config.githuburl)
-		if(alert("This will open the Github repository in your browser. Are you sure?",,"Yes","No")=="No")
-			return
-		src << link(config.githuburl)
-	else
-		src << "<span class='danger'>The Github URL is not set in the server configuration.</span>"
+	if(alert("This will attempt to join the teamspeak server. If it doesn't work you can join with details from the forums. Are you sure you wish to join?",,"Yes","No")=="No")
+		return
+	src << link("http://stark.jamiehankins.co.uk/hippie.html")
 	return
 
 /client/verb/reportissue()
