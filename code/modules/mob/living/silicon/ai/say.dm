@@ -141,7 +141,8 @@ var/const/VOX_DELAY = 600
 		return
 
 	announcing_vox = world.time + VOX_DELAY
-
+	
+	message_admins("[key_name(src)] made a vocal announcement with the following message: [message].")
 	log_game("[key_name(src)] made a vocal announcement with the following message: [message].")
 
 	for(var/word in words)
