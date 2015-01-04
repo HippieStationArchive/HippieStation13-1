@@ -159,6 +159,13 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/melee/energy/sword/saber
 	cost = 8
 
+/datum/uplink_item/dangerous/combatknife
+	name = "Combat Knife"
+	desc = "The combat knife is a military blade created for those situations when you need to finish someone off. Favored by nuclear operatives, this knife is also effective in throwing. \
+	It's not as powerful as an energy sword but it can be stuffed in your pocket. Please note that if you're caught with this knife you'll definitely be found out."
+	item = /obj/item/weapon/melee/combatknife
+	cost = 6
+
 /datum/uplink_item/dangerous/emp
 	name = "EMP Kit"
 	desc = "A box that contains two EMP grenades, an EMP implant and a short ranged recharging device disguised as a flashlight. Useful to disrupt communication and silicon lifeforms."
@@ -542,6 +549,13 @@ var/list/uplink_items = list()
 	name = "Adrenal Implant"
 	desc = "An implant injected into the body, and later activated using a bodily gesture to inject a chemical cocktail, which has a mild healing effect along with removing all stuns and increasing his speed."
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_adrenal
+	cost = 8
+
+/datum/uplink_item/implants/explosive
+	name = "Explosive Implant"
+	desc = "An implant injected into the body, and later activated using a bodily gesture to activate a bomb inside your cavity. \
+	It's only effective if you want to go out with a boom. The explosion may or may not knock down the targets right next to you."
+	item = /obj/item/weapon/storage/box/syndie_kit/imp_explosive
 	cost = 8
 
 // POINTLESS BADASSERY
