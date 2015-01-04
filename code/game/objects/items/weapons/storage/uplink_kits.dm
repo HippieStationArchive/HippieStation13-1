@@ -107,17 +107,17 @@
 	new /obj/item/weapon/implanter/compressed(src)
 	..()
 	return
-
-/obj/item/weapon/storage/syndie_kit/imp_explosive
+*/
+/obj/item/weapon/storage/box/syndie_kit/imp_explosive
 	name = "Explosive Implant (with injector)"
 
-/obj/item/weapon/storage/syndie_kit/imp_explosive/New()
+/obj/item/weapon/storage/box/syndie_kit/imp_explosive/New()
 	var/obj/item/weapon/implanter/O = new /obj/item/weapon/implanter(src)
 	O.imp = new /obj/item/weapon/implant/explosive(O)
 	O.name = "(BIO-HAZARD) BIO-detpack"
 	O.update_icon()
 	..()
-	return*/
+	return
 
 /obj/item/weapon/storage/box/syndie_kit/imp_uplink
 	name = "boxed uplink implant (with injector)"
@@ -139,7 +139,6 @@
 	O.imp = new /obj/item/weapon/implant/adrenalin(O)
 	O.update_icon()
 	return
-
 
 /obj/item/weapon/storage/box/syndie_kit/space
 	name = "boxed space suit and helmet"

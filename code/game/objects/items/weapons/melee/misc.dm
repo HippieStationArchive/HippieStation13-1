@@ -31,6 +31,7 @@
 	attack_verb = list("beaten")
 	var/extendable = 0
 	var/on = 0
+	var/nodamage = 0
 
 /obj/item/weapon/melee/truncheon/attack(mob/M, mob/living/user)
 	add_fingerprint(user)
@@ -54,6 +55,10 @@
 
 	var/mob/living/L = M
 	if(user.a_intent == "harm" || (extendable && !on))
+		if(nodamage)
+			M.visible_message("<span class='notice'>[M] has been poked with [src] by [user]!</span>", \
+								"<span class='notice'>[M] has been poked with [src] by [user]!</span>")
+			return
 		..()
 		// playsound(loc, pick('sound/weapons/genhit1.ogg', 'sound/weapons/genhit2.ogg'), 50, 1, -1)
 	else
@@ -93,6 +98,7 @@
 	slot_flags = SLOT_BELT
 	w_class = 2
 	force = 3
+	nodamage = 1
 	extendable = 1
 
 /obj/item/weapon/melee/truncheon/telebaton/attack_self(mob/user as mob)

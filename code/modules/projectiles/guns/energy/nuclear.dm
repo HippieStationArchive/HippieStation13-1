@@ -1,9 +1,9 @@
 /obj/item/weapon/gun/energy/gun
 	name = "energy gun"
-	desc = "A basic hybrid energy gun with two settings: Disable and kill."
+	desc = "A basic hybrid energy gun with two settings: stun and kill."
 	icon_state = "energy"
 	item_state = null	//so the human update icon uses the icon_state instead.
-	ammo_type = list(/obj/item/ammo_casing/energy/disabler, /obj/item/ammo_casing/energy/laser)
+	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)
 	origin_tech = "combat=3;magnets=2"
 	modifystate = 2
 
@@ -14,10 +14,10 @@
 
 /obj/item/weapon/gun/energy/gun/pistol
 	name = "energy pistol"
-	desc = "A basic hybrid energy pistol with two settings: Disable and kill. It's small and doesn't hold much charge, but it can save your life!"
+	desc = "A basic hybrid energy pistol with two settings: stun and kill. It's small and doesn't hold much charge, but it can save your life!"
 	icon_state = "epistol"
 	item_state = null	//so the human update icon uses the icon_state instead.
-	ammo_type = list(/obj/item/ammo_casing/energy/disabler, /obj/item/ammo_casing/energy/laser)
+	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)
 	origin_tech = "combat=3;magnets=1"
 	w_class = 2
 	modifystate = 2
