@@ -40,7 +40,7 @@
 			m_type = 1
 
 		if ("burp")
-			playsound(src.loc, 'sound/misc/burp.ogg', 50, 1, 5)
+			playsound(src.loc, 'sound/misc/burp.ogg', 50, 0, 5)
 			message = "<B>[src]</B> burps."
 			m_type = 2
 
@@ -58,6 +58,8 @@
 			m_type = 2
 
 		if ("cough")
+			var/sound = pick('sound/misc/cough1.ogg', 'sound/misc/cough2.ogg', 'sound/misc/cough3.ogg', 'sound/misc/cough4.ogg')
+			playsound(src.loc, sound, 50, 1, 5)
 			message = "<B>[src]</B> coughs!"
 			m_type = 2
 
@@ -172,8 +174,9 @@
 			m_type = 1
 
 		if ("scream")
-			playsound(src.loc, 'sound/misc/scream_m.ogg', 50, 1, 5)
+			playsound(src.loc, pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg'), 50, 1, 10, 1.2)
 			message = "<B>[src]</B> screams!"
+			src.adjustOxyLoss(5)
 			m_type = 2
 
 		if ("shake")
