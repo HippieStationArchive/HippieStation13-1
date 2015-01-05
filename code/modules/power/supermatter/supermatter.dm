@@ -41,7 +41,7 @@
 
 	var/emergency_issued = 0
 
-	var/explosion_power = 8
+	var/explosion_power = 9
 
 	var/lastwarning = 0				// Time in 1/10th of seconds since the last sent warning
 	var/power = 0
@@ -76,7 +76,11 @@
 
 /obj/machinery/power/supermatter_shard/proc/explode()
 	investigate_log("has exploded.", "supermatter")
-	explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 3, explosion_power * 4, 1)
+	if (src.anchored)
+		explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 6, explosion_power * 12, 1, 1)
+	else
+		explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 3, explosion_power * 4, 1)
+
 	qdel(src)
 	return
 
@@ -240,6 +244,7 @@
 /obj/machinery/power/supermatter_shard/attackby(obj/item/W as obj, mob/living/user as mob)
 	if(!istype(W) || (W.flags & ABSTRACT) || !istype(user))
 		return
+
 	if(user.drop_item(W))
 		Consume(W)
 		user.visible_message("<span class=\"warning\">As [user] touches \the [src] with \a [W], silence fills the room...</span>",\
@@ -271,14 +276,14 @@
 	if(istype(AM, /mob/living))
 		var/mob/living/user = AM
 		user.dust()
-		power += 200
+		power += 50
 		message_admins("[src] has consumed [key_name(user)]<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A> <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>(JMP)</a>.")
 	else if(isobj(AM) && !istype(AM, /obj/effect))
 		qdel(AM)
 
 	investigate_log("has consumed [AM].", "supermatter")
 
-	power += 200
+	power += 25
 
 	//Some poor sod got eaten, go ahead and irradiate people nearby.
 	for(var/mob/living/L in range(10))
