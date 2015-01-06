@@ -2,7 +2,7 @@
 //Please do not bother them with bugs from this port, however, as it has been modified quite a bit.
 //Modifications include removing the world-ending full supermatter variation, and leaving only the shard.
 
-#define NITROGEN_RETARDATION_FACTOR 2        //Higher == N2 slows reaction more
+#define NITROGEN_RETARDATION_FACTOR 8        //Higher == N2 slows reaction more
 #define THERMAL_RELEASE_MODIFIER 5                //Higher == less heat released during reaction
 #define PLASMA_RELEASE_MODIFIER 750                //Higher == less plasma released by reaction
 #define OXYGEN_RELEASE_MODIFIER 325        //Higher == less oxygen released at high temperature/power
@@ -14,7 +14,7 @@
 #define DETONATION_HALLUCINATION 600
 
 
-#define WARNING_DELAY 15 		//seconds between warnings.
+#define WARNING_DELAY 10 		//seconds between warnings.
 
 /obj/machinery/power/supermatter_shard
 	name = "supermatter shard"
@@ -33,11 +33,11 @@
 	var/damage = 0
 	var/damage_archived = 0
 	var/safe_alert = "Crystalline hyperstructure returning to safe operating levels."
-	var/warning_point = 50
+	var/warning_point = 150
 	var/warning_alert = "Danger! Crystal hyperstructure instability!"
-	var/emergency_point = 500
+	var/emergency_point = 1400
 	var/emergency_alert = "CRYSTAL DELAMINATION IMMINENT."
-	var/explosion_point = 900
+	var/explosion_point = 1700
 
 	var/emergency_issued = 0
 
@@ -276,14 +276,14 @@
 	if(istype(AM, /mob/living))
 		var/mob/living/user = AM
 		user.dust()
-		power += 50
+		power += 200
 		message_admins("[src] has consumed [key_name(user)]<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A> <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>(JMP)</a>.")
 	else if(isobj(AM) && !istype(AM, /obj/effect))
 		qdel(AM)
 
 	investigate_log("has consumed [AM].", "supermatter")
 
-	power += 25
+	power += 100
 
 	//Some poor sod got eaten, go ahead and irradiate people nearby.
 	for(var/mob/living/L in range(10))
