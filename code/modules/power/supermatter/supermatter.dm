@@ -14,7 +14,7 @@
 #define DETONATION_HALLUCINATION 600
 
 
-#define WARNING_DELAY 10 		//seconds between warnings.
+#define WARNING_DELAY 15 		//seconds between warnings.
 
 /obj/machinery/power/supermatter_shard
 	name = "supermatter shard"
@@ -35,9 +35,9 @@
 	var/safe_alert = "Crystalline hyperstructure returning to safe operating levels."
 	var/warning_point = 150
 	var/warning_alert = "Danger! Crystal hyperstructure instability!"
-	var/emergency_point = 1400
+	var/emergency_point = 1800
 	var/emergency_alert = "CRYSTAL DELAMINATION IMMINENT."
-	var/explosion_point = 1700
+	var/explosion_point = 2400
 
 	var/emergency_issued = 0
 
