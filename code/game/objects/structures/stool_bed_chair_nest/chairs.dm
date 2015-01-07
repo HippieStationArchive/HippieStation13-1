@@ -84,6 +84,16 @@
 	name = "wooden chair"
 	desc = "Old is never too old to not be in fashion."
 
+/obj/structure/stool/bed/chair/escapepods
+	icon_state = "sblackchair"
+	name = "Pod Chair"
+	desc = "Always confy, and efficient at leaving your worries behind."
+
+/obj/structure/stool/bed/chair/escape
+	icon_state = "sbluechair"
+	name = "Shuttle Chair"
+	desc = "Always confy, and efficient at leaving your worries behind."
+
 /obj/structure/stool/bed/chair/wood/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(istype(W, /obj/item/weapon/wrench))
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
