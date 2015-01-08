@@ -18,6 +18,7 @@
 	var/fulltile = 0
 	var/obj/item/stack/rods/storedrods
 	var/obj/item/weapon/shard/storedshard
+	var/temp_resistance = 0
 //	var/silicate = 0 // number of units of silicate
 //	var/icon/silicateIcon = null // the silicated icon
 
@@ -424,7 +425,7 @@
 		return
 
 /obj/structure/window/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	if(exposed_temperature > T0C + 800)
+	if(exposed_temperature > T0C + 800 + temp_resistance)
 		hit(round(exposed_volume / 100), 0)
 	..()
 
@@ -469,3 +470,14 @@
 	maxhealth = 100
 	shuttlew = 1
 	fulltile = 1
+
+/obj/structure/window/crystalwindow
+	name = "crystal window"
+	icon_state = "rwindow"
+	reinf = 1
+	dir = 5
+	maxhealth = 200
+	fulltile = 1
+	pressure_resistance = 32*ONE_ATMOSPHERE
+	temp_resistance = 6000
+	color = "#aa20aa"
