@@ -1596,7 +1596,7 @@
 "aEJ" = (/obj/machinery/driver_button{id = "chapelgun"; name = "Chapel Mass Driver"; pixel_x = 25},/obj/machinery/atmospherics/pipe/simple/supply/hidden,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/chapel/main)
 "aEK" = (/obj/structure/stool/bed/chair/escapepods,/turf/simulated/shuttle/floor,/area/shuttle/arrival/station)
 "aEL" = (/turf/simulated/shuttle/wall{icon_state = "swall1"; dir = 2},/area/shuttle/arrival/station)
-"aEM" = (/obj/structure/stool/bed/chair/escapepods{tag = "icon-sblackchair (WEST)"; icon_state = "sblackchair"; dir = 8},/turf/simulated/shuttle/floor,/area/shuttle/arrival/station)
+"aEM" = (/obj/structure/stool/bed/chair/escapepods{tag = "icon-sblackchair (WEST)"; icon_state = "sblackchair"; dir = 8},/obj/effect/landmark{name = "JoinLate"},/turf/simulated/shuttle/floor,/area/shuttle/arrival/station)
 "aEN" = (/obj/structure/shuttle/engine/propulsion{icon_state = "propulsion"; dir = 8},/turf/space,/area/shuttle/arrival/station)
 "aEO" = (/turf/simulated/floor/plasteel{dir = 4; icon_state = "arrival"},/area/hallway/secondary/entry)
 "aEP" = (/obj/machinery/camera{c_tag = "Security Checkpoint"; dir = 1},/obj/machinery/alarm{dir = 4; icon_state = "alarm0"; pixel_x = -22},/obj/machinery/light_switch{pixel_x = 6; pixel_y = -25},/turf/simulated/floor/plasteel{icon_state = "red"; dir = 10},/area/security/checkpoint2)
