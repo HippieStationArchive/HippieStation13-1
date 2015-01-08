@@ -17,6 +17,7 @@
 	var/is_cyborg = 0 // It's 1 if module is used by a cyborg, and uses its storage
 	var/datum/robot_energy_storage/source
 	var/cost = 1 // How much energy from storage it costs
+	var/noAction = 0
 
 /obj/item/stack/New(var/loc, var/amount=null)
 	..()
@@ -201,7 +202,7 @@
 			break
 
 /obj/item/stack/attack_hand(mob/user as mob)
-	if (user.get_inactive_hand() == src)
+	if (user.get_inactive_hand() == src && noAction != 1)
 		var/obj/item/stack/F = new src.type( user, 1)
 		F.copy_evidences(src)
 		user.put_in_hands(F)

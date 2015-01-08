@@ -1,8 +1,8 @@
-/datum/round_event_control/brand_intelligence
+/datum/round_event_control/brand_intelligence //WHOEVER CREATED THIS EVENT SUCKS MAJOR BIG BLACK MONKEY BALLS.
 	name = "Brand Intelligence"
 	typepath = /datum/round_event/brand_intelligence
 	weight = 5
-	max_occurrences = 1
+	max_occurrences = 0//1
 
 /datum/round_event/brand_intelligence
 	announceWhen	= 21
