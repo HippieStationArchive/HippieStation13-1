@@ -448,7 +448,7 @@
 "iF" = (/obj/structure/closet/crate,/obj/item/weapon/spacecash/c10,/turf/simulated/floor/plasteel,/area/awaymission/BMPship/Aft)
 "iG" = (/obj/structure/sink{dir = 2},/turf/simulated/floor/plasteel{icon_state = "cafeteria"; dir = 2},/area/awaymission/BMPship/Aft)
 "iH" = (/turf/simulated/floor/plasteel{icon_state = "cafeteria"; dir = 2},/turf/simulated/shuttle/wall{tag = "icon-swall_f6"; icon_state = "swall_f6"; dir = 2},/area/awaymission/BMPship/Aft)
-"iI" = (/obj/item/clothing/gloves/fyellow,/turf/simulated/floor/plating/asteroid/airless,/area/awaymission)
+"iI" = (/obj/item/clothing/gloves/color/fyellow,/turf/simulated/floor/plating/asteroid/airless,/area/awaymission)
 "iJ" = (/turf/simulated/shuttle/wall{tag = "icon-swall4"; icon_state = "swall4"},/area/awaymission)
 "iK" = (/turf/simulated/shuttle/wall{tag = "icon-swall12"; icon_state = "swall12"},/area/awaymission)
 "iL" = (/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 1},/obj/structure/grille,/turf/simulated/floor/engine,/area/awaymission/BMPship/Fore)
