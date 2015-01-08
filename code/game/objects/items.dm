@@ -45,6 +45,8 @@
 	var/suittoggled = 0
 	var/hooded = 0
 
+	var/insulated = 0 //For electrified grilles and all that
+
 /obj/item/device
 	icon = 'icons/obj/device.dmi'
 

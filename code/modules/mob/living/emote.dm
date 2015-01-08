@@ -4,7 +4,8 @@
 
 /mob/living/emote(var/act, var/m_type=1, var/message = null)
 	var/param = null
-
+	if(src.spam_flag == 1)
+		return
 	if (findtext(act, "-", 1, null))
 		var/t1 = findtext(act, "-", 1, null)
 		param = copytext(act, t1 + 1, length(act) + 1)
@@ -259,12 +260,11 @@
 		else
 			src << "<span class='notice'>Unusable emote '[act]'. Say *help for a list.</span>"
 
-
-
-
-
 	if (message)
 		log_emote("[name]/[key] : [message]")
+		src.spam_flag = 1
+		spawn(5)
+			src.spam_flag = 0
 
  //Hearing gasp and such every five seconds is not good emotes were not global for a reason.
  // Maybe some people are okay with that.

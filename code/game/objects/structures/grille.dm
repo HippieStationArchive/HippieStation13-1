@@ -187,7 +187,7 @@
 			return
 //window placing end
 
-	else if(istype(W, /obj/item/weapon/shard))
+	else if(W.insulated)
 		playsound(loc, 'sound/effects/grillehit.ogg', 80, 1)
 		health -= W.force * 0.1
 	else if(!shock(user, 70))
