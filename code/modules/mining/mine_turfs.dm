@@ -3,7 +3,7 @@
 /turf/simulated/mineral //wall piece
 	name = "rock"
 	icon = 'icons/turf/walls.dmi'
-	icon_state = "rock_nochance"
+	icon_state = "rock"
 	oxygen = 0
 	nitrogen = 0
 	opacity = 1
@@ -11,7 +11,7 @@
 	blocks_air = 1
 	temperature = TCMB
 	var/mineralName = ""
-	var/mineralAmt = 3
+	var/mineralAmt = 0
 	var/spread = 0 //will the seam spread?
 	var/spreadChance = 0 //the percentual chance of an ore spreading to the neighbouring tiles
 	var/last_act = 0
@@ -51,7 +51,9 @@
 			T = get_step(src, WEST)
 			if (T)
 				T.overlays += image('icons/turf/walls.dmi', "rock_side_e", layer=6)
-
+	
+	mineralAmt = rand(3,7) //terrible
+	
 	if (mineralName && mineralAmt && spread && spreadChance)
 		for(var/dir in cardinal)
 			if(prob(spreadChance))
