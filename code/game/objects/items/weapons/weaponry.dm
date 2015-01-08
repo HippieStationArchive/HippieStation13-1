@@ -130,3 +130,29 @@ obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
 		user << "<span class='notice'>You fasten the wirecutters to the top of the rod with the cable, prongs outward.</span>"
 		qdel(I)
 		qdel(src)
+
+/obj/item/weapon/shank
+	name = "shank"
+	desc = "A nasty looking shard of glass. There's duct tape over one of the ends."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "shank"
+	w_class = 2.0
+	force = 10.0
+	throwforce = 10.0
+	item_state = "shard-glass"
+	g_amt = MINERAL_MATERIAL_AMOUNT
+	attack_verb = list("stabbed", "shanked", "sliced", "cut")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	insulated = 1 //For electrified grilles
+
+/obj/item/weapon/shank/suicide_act(mob/user)
+	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the shank! It looks like \he's trying to commit suicide.</span>", \
+						"<span class='suicide'>[user] is slitting \his throat with the shank! It looks like \he's trying to commit suicide.</span>"))
+	return (BRUTELOSS)
+
+/obj/item/weapon/shank/attack_self(mob/user)
+	playsound(user, 'sound/New_Sound/items/ducttape2.ogg', 50, 1)
+	var/obj/item/weapon/shard/new_item = new(user.loc)
+	user << "<span class='notice'>You take the duct tape off the [src].</span>"
+	qdel(src)
+	user.put_in_hands(new_item)
