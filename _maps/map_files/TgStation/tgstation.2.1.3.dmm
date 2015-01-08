@@ -6186,7 +6186,7 @@
 "coX" = (/turf/simulated/shuttle/wall{tag = "icon-nss1,0"; icon_state = "nss1,0"; dir = 2},/area/shuttle/escape_pod4/station)
 "coY" = (/turf/simulated/shuttle/wall{tag = "icon-nss2,0"; icon_state = "nss2,0"; dir = 2},/area/shuttle/escape_pod4/station)
 "coZ" = (/turf/simulated/shuttle/wall{tag = "icon-nss3,0"; icon_state = "nss3,0"; dir = 2},/area/shuttle/escape_pod4/station)
-"cpa" = (/obj/machinery/atmospherics/unary/outlet_injector{dir = 1; frequency = 1641; id = "indigo_out"},/turf/simulated/floor/plating/airless,/area/maintenance/incinerator)
+"cpa" = (/obj/machinery/atmospherics/unary/outlet_injector{dir = 1; frequency = 0; id = "0"; on = 1; volume_rate = 200},/turf/simulated/floor/plating/airless,/area/maintenance/incinerator)
 "cpb" = (/obj/structure/lattice,/turf/space,/area/maintenance/incinerator)
 "cpc" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/space,/area/maintenance/incinerator)
 "cpd" = (/obj/structure/lattice,/obj/structure/lattice,/turf/space,/area/space)
