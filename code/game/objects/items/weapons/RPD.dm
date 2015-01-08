@@ -487,7 +487,7 @@ var/global/list/RPD_recipes=list(
 				return 0
 			user << "<span class='notice'>Building Pipes ...</span>"
 			playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
-			if(do_after(user, 20))
+			if(do_after(user, 10))
 				activate()
 				var/obj/item/pipe/P = new (A, pipe_type=p_type, dir=p_dir)
 				P.update()
@@ -501,7 +501,7 @@ var/global/list/RPD_recipes=list(
 				return 0
 			user << "<span class='notice'>Building Meter...</span>"
 			playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
-			if(do_after(user, 20))
+			if(do_after(user, 10))
 				activate()
 				new /obj/item/pipe_meter(A)
 				return 1
@@ -513,7 +513,7 @@ var/global/list/RPD_recipes=list(
 				return 0
 			user << "<span class='notice'>Building Pipes...</span>"
 			playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
-			if(do_after(user, 20))
+			if(do_after(user, 10))
 				activate()
 				var/obj/structure/disposalconstruct/C = new (A)
 				// This may still produce runtimes, but I checked and /obj/structure/disposalconstruct
