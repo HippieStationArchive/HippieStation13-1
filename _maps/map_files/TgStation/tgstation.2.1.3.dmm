@@ -6071,7 +6071,7 @@
 "cmM" = (/obj/machinery/air_sensor{frequency = 1641; id_tag = "indigo_sensor"; output = 63},/obj/machinery/atmospherics/pipe/manifold/general/visible{dir = 1},/turf/simulated/floor/engine,/area/maintenance/incinerator)
 "cmN" = (/obj/machinery/atmospherics/pipe/manifold/general/visible{dir = 4; initialize_directions = 11},/turf/simulated/floor/engine,/area/maintenance/incinerator)
 "cmO" = (/obj/machinery/door/airlock/glass_engineering{autoclose = 0; frequency = 1649; icon_state = "door_locked"; id_tag = "indigo_vent_exterior"; locked = 1; name = "Project I.N.D.I.G.O Airlock"; req_access = "10"},/turf/simulated/floor/engine,/area/maintenance/incinerator)
-"cmP" = (/obj/machinery/atmospherics/binary/dp_vent_pump/high_volume{dir = 2; frequency = 1449; id = "tox_airlock_pump"},/turf/simulated/floor/engine,/area/maintenance/incinerator)
+"cmP" = (/obj/machinery/atmospherics/binary/dp_vent_pump/high_volume{dir = 2; frequency = 1449; id = "indigo_vent_pump"},/turf/simulated/floor/engine,/area/maintenance/incinerator)
 "cmQ" = (/obj/structure/rack{dir = 1},/obj/effect/spawner/lootdrop/maintenance,/turf/simulated/floor/plating,/area/maintenance/asmaint2)
 "cmR" = (/obj/machinery/space_heater,/turf/simulated/floor/plating,/area/maintenance/asmaint2)
 "cmS" = (/obj/structure/lattice,/obj/structure/grille,/obj/structure/lattice,/turf/space,/area/space)
