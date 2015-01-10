@@ -32,9 +32,47 @@
 	var/extendable = 0
 	var/on = 0
 	var/nodamage = 0
+	var/cooldown = 0
 
-/obj/item/weapon/melee/truncheon/attack(mob/M, mob/living/user)
-	add_fingerprint(user)
+/obj/item/weapon/melee/truncheon/attack(mob/target as mob, mob/living/user as mob)
+	if(on)
+		add_fingerprint(user)
+		if((CLUMSY in user.mutations) && prob(50))
+			user << "<span class ='danger'>You club yourself over the head.</span>"
+			user.Weaken(3 * force)
+			if(ishuman(user))
+				var/mob/living/carbon/human/H = user
+				H.apply_damage(2*force, BRUTE, "head")
+			else
+				user.take_organ_damage(2*force)
+			return
+		if(isrobot(target))
+			..()
+			return
+		if(!isliving(target))
+			return
+		if (user.a_intent == "harm" || (extendable && !on))
+			if(!..()) return
+			if(!isrobot(target)) return
+		else
+			if(cooldown <= 0)
+				playsound(get_turf(src), 'sound/new_sound/weapons/baton1.ogg', 50, 1, -1)
+				target.Weaken(3)
+				add_logs(user, target, "stunned", object="telescopic baton")
+				src.add_fingerprint(user)
+				target.visible_message("<span class ='danger'>[user] has knocked down [target] with \the [src]!</span>", \
+					"<span class ='userdanger'>[user] has knocked down [target] with \the [src]!</span>")
+				if(!iscarbon(user))
+					target.LAssailant = null
+				else
+					target.LAssailant = user
+				cooldown = 1
+				spawn(40)
+					cooldown = 0
+		return
+	else
+		return ..()
+/*	add_fingerprint(user)
 	if((CLUMSY in user.mutations) && prob(50))
 		user << "<span class='warning'>You club yourself over the head!</span>"
 		user.Weaken(7)
@@ -69,7 +107,7 @@
 
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		H.forcesay(hit_appends)
+		H.forcesay(hit_appends)*/
 
 /obj/item/weapon/melee/truncheon/classic_baton
 	name = "police baton"
@@ -121,46 +159,6 @@
 
 	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
 	add_fingerprint(user)
-
-/*/obj/item/weapon/melee/truncheon/telebaton/attack(mob/target as mob, mob/living/user as mob)
-	if(on)
-		add_fingerprint(user)
-		if((CLUMSY in user.mutations) && prob(50))
-			user << "<span class ='danger'>You club yourself over the head.</span>"
-			user.Weaken(3 * force)
-			if(ishuman(user))
-				var/mob/living/carbon/human/H = user
-				H.apply_damage(2*force, BRUTE, "head")
-			else
-				user.take_organ_damage(2*force)
-			return
-		if(isrobot(target))
-			..()
-			return
-		if(!isliving(target))
-			return
-		if (user.a_intent == "harm")
-			if(!..()) return
-			if(!isrobot(target)) return
-		else
-			if(cooldown <= 0)
-				playsound(get_turf(src), 'sound/effects/woodhit.ogg', 75, 1, -1)
-				target.Weaken(3)
-				add_logs(user, target, "stunned", object="telescopic baton")
-				src.add_fingerprint(user)
-				target.visible_message("<span class ='danger'>[user] has knocked down [target] with \the [src]!</span>", \
-					"<span class ='userdanger'>[user] has knocked down [target] with \the [src]!</span>")
-				if(!iscarbon(user))
-					target.LAssailant = null
-				else
-					target.LAssailant = user
-				cooldown = 1
-				spawn(40)
-					cooldown = 0
-		return
-	else
-		return ..()
-*/
 
 /obj/item/weapon/melee/combatknife
 	name = "combat knife"
