@@ -203,13 +203,15 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		client.eye = target
 
 		spawn(0)
-			while(target && target == following && client && client.eye == target)
+			var/turf/pos = get_turf(src)
+			while(target && target == following && loc == pos && client && client.eye == target)
 				var/turf/T = get_turf(target)
 				if(!T)
 					break
 				// To stop the ghost flickering.
 				if(loc != T)
 					loc = T
+				pos = loc
 				sleep(15)
 			if (target == following && client) // Don't reset these variables if we're already following something else
 				following = null
