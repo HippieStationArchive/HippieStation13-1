@@ -66,6 +66,7 @@
 		if(user && convert)
 			terrible_conversion_proc(M, user)
 			M.Stun(1)
+			M.Weaken(5)
 		user.visible_message("<span class='disarm'>[user] blinds [M] with the flash!</span>")
 		return 1
 	else
