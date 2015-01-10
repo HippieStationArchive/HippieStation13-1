@@ -205,9 +205,13 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 				// To stop the ghost flickering.
 				if(loc != T)
 					loc = T
+				if(client.eye != target)
+					client.eye = target
 				pos = loc
 				sleep(15)
-			if (target == following) following = null
+			if (target == following)
+				following = null
+				client.eye = client.mob
 
 
 /mob/dead/observer/verb/jumptomob() //Moves the ghost instead of just changing the ghosts's eye -Nodrak
