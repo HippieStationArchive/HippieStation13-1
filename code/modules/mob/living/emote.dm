@@ -4,6 +4,7 @@
 
 /mob/living/emote(var/act, var/m_type=1, var/message = null)
 	var/param = null
+	var/delay = 5
 	if(src.spam_flag == 1)
 		return
 	if (findtext(act, "-", 1, null))
@@ -59,7 +60,7 @@
 			m_type = 2
 
 		if ("cough")
-			var/sound = pick('sound/misc/cough1.ogg', 'sound/misc/cough2.ogg', 'sound/misc/cough3.ogg', 'sound/misc/cough4.ogg')
+			var/sound = pick('sound/misc/cough1.ogg', 'sound/misc/cough2.ogg')//, 'sound/misc/cough3.ogg', 'sound/misc/cough4.ogg')
 			playsound(src.loc, sound, 50, 1, 5)
 			message = "<B>[src]</B> coughs!"
 			m_type = 2
@@ -175,11 +176,18 @@
 			m_type = 1
 
 		if ("scream")
-			playsound(src.loc, pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg'), 50, 1, 10, 1.2)
+			var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
+			if(gender == FEMALE)
+				sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
+			if(isalien(src))
+				sound = pick('sound/voice/hiss6.ogg')
+			// if(issilicon(src))
+			// 	sound = pick('sound/voice/screamsilicon.ogg')
+			playsound(src.loc, sound, 50, 1, 10, 1.2)
 			message = "<B>[src]</B> screams!"
 			src.adjustOxyLoss(5)
 			m_type = 2
-
+			delay = 15
 		if ("shake")
 			message = "<B>[src]</B> shakes its head."
 			m_type = 1
@@ -263,7 +271,7 @@
 	if (message)
 		log_emote("[name]/[key] : [message]")
 		src.spam_flag = 1
-		spawn(5)
+		spawn(delay)
 			src.spam_flag = 0
 
  //Hearing gasp and such every five seconds is not good emotes were not global for a reason.
