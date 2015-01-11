@@ -156,6 +156,16 @@
 
 /atom/movable/proc/throw_at(atom/target, range, speed)
 	if(!target || !src || (flags & NODROP))	return 0
+
+	var/mob/living/carbon/M = src
+
+	if(istype(M))
+		M.spin(2, 2)
+	else if(!has_gravity(src))
+		src.SpinAnimation(2, 7)
+	else
+		src.SpinAnimation(2, 2)
+
 	//use a modified version of Bresenham's algorithm to get from the atom's current position to that of the target
 
 	src.throwing = 1
