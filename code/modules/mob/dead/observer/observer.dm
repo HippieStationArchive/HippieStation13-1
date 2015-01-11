@@ -92,6 +92,9 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 
 /mob/dead/observer/Move(NewLoc, direct)
+	if(following && client && client.eye != client.mob)
+		client.eye = client.mob
+
 	if(NewLoc)
 		loc = NewLoc
 		for(var/obj/effect/step_trigger/S in NewLoc)
@@ -196,9 +199,12 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			return
 		following = target
 		src << "<span class='notice'>Now following [target]</span>"
+
+		client.eye = target
+
 		spawn(0)
 			var/turf/pos = get_turf(src)
-			while(loc == pos && target && following == target && client)
+			while(target && target == following && loc == pos && client && client.eye == target)
 				var/turf/T = get_turf(target)
 				if(!T)
 					break
@@ -207,7 +213,9 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 					loc = T
 				pos = loc
 				sleep(15)
-			if (target == following) following = null
+			if (target == following && client) // Don't reset these variables if we're already following something else
+				following = null
+				client.eye = client.mob
 
 
 /mob/dead/observer/verb/jumptomob() //Moves the ghost instead of just changing the ghosts's eye -Nodrak

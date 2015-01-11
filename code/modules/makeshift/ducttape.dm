@@ -33,6 +33,7 @@
 		return ..()
 	var/mob/living/carbon/human/H = user
 	if(H.wear_mask == src)
+		H.drop_item()
 		qdel(src)
 		user << "<span class='danger'>Your tape was forcefully removed from your mouth. It's not pleasant.</span>"
 		playsound(user, 'sound/New_Sound/items/ducttape2.ogg', 50, 1)
