@@ -1,5 +1,8 @@
 /mob/living/silicon/emote(var/act,var/m_type=1,var/message = null)
 	var/param = null
+	var/delay = 5
+	if(src.spam_flag == 1)
+		return
 	if (findtext(act, "-", 1, null))
 		var/t1 = findtext(act, "-", 1, null)
 		param = copytext(act, t1 + 1, length(act) + 1)
@@ -194,6 +197,11 @@
 			message = "<B>[src]</B> twitches."
 			m_type = 1
 
+		if ("scream")
+			playsound(src.loc, pick('sound/voice/screamsilicon.ogg'), 50, 0, 10, 1.2)
+			message = "<B>[src]</B> screams!"
+			m_type = 2
+			delay = 20
 		if ("help")
 			src << "Help for cyborg emotes. You can use these emotes with say \"*emote\":\n\naflap, beep-(none)/mob, bow-(none)/mob, buzz-(none)/mob, clap, custom, deathgasp, flap, glare-(none)/mob, look-(none)/mob, me, nod, ping-(none)/mob, \nsalute-(none)/mob, twitch, twitch_s,"
 
@@ -206,4 +214,7 @@
 			visible_message(message)
 		else
 			src.loc.audible_message(message)
+		src.spam_flag = 1
+		spawn(delay)
+			src.spam_flag = 0
 	return

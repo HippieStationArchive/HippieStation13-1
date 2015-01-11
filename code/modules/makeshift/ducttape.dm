@@ -33,11 +33,13 @@
 		return ..()
 	var/mob/living/carbon/human/H = user
 	if(H.wear_mask == src)
-		H.drop_item()
+		H.unEquip(src, 1)
 		qdel(src)
 		user << "<span class='danger'>Your tape was forcefully removed from your mouth. It's not pleasant.</span>"
 		playsound(user, 'sound/New_Sound/items/ducttape2.ogg', 50, 1)
 		H.apply_damage(2, BRUTE, "head")
+		return
+	..()
 
 /obj/item/stack/ducttape
 	desc = "It's duct tape. You can use it to tape something... or someone."
@@ -71,6 +73,7 @@
 		if(replace)
 			user.put_in_hands(new_item)
 		playsound(user, 'sound/New_Sound/items/ducttape1.ogg', 50, 1)
+
 	if(istype(W, /obj/item/stack/sheet/metal))
 		var/obj/item/weapon/tapedmetal/new_item = new(user.loc)
 		user << "<span class='notice'>You strap [src] to the [W].</span>"
@@ -84,6 +87,19 @@
 		if(replace)
 			user.put_in_hands(new_item)
 		playsound(user, 'sound/New_Sound/items/ducttape1.ogg', 50, 1)
+
+	if(istype(W, /obj/item/weapon/storage/bag/tray))
+		var/obj/item/weapon/shield/riot/trayshield/new_item = new(user.loc)
+		user << "<span class='notice'>You strap [src] to the [W].</span>"
+		var/replace = (user.get_inactive_hand()==W)
+		qdel(W)
+		if(src.use(3) == 0)
+			user.drop_item()
+			qdel(src)
+		if(replace)
+			user.put_in_hands(new_item)
+		playsound(user, 'sound/New_Sound/items/ducttape1.ogg', 50, 1)
+
 	if(ishuman(W) && (user.zone_sel.selecting == "mouth" || user.zone_sel.selecting == "head"))
 		var/mob/living/carbon/human/H = W
 		if( \

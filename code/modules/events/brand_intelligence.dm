@@ -1,8 +1,8 @@
-/datum/round_event_control/brand_intelligence //WHOEVER CREATED THIS EVENT SUCKS MAJOR BIG BLACK MONKEY BALLS.
+/datum/round_event_control/brand_intelligence //WHOEVER CREATED THIS EVENT SUCKS MAJOR BIG BLACK MONKEY BALLS. ALSO I'M STILL SALTY ABOUT IT.
 	name = "Brand Intelligence"
 	typepath = /datum/round_event/brand_intelligence
 	weight = 5
-	max_occurrences = 0//1
+	max_occurrences = 1
 
 /datum/round_event/brand_intelligence
 	announceWhen	= 21
@@ -57,7 +57,7 @@
 				M.speak = rampant_speeches.Copy()
 				M.speak_chance = 15
 			else
-				explosion(upriser.loc, -1, 1, 2, 4, 0)
+				explosion(upriser.loc, -1, 0, 2, 4, 0)
 				qdel(upriser)
 
 		kill()
