@@ -146,19 +146,6 @@
 	icon = 'icons/new/makeshift.dmi'
 	icon_state = "tapedmetal"
 
-/obj/item/clothing/suit/hazardvest/attackby(obj/item/W as obj, mob/user as mob)
-	..()
-	if(istype(W, /obj/item/weapon/tapedmetal))
-		var/obj/item/clothing/suit/armor/makeshift/new_item = new(user.loc)
-		user << "<span class='notice'>You use [W] to turn [src] into [new_item].</span>"
-		var/replace = (user.get_inactive_hand()==src)
-		qdel(W)
-		qdel(src)
-		if(replace)
-			user.put_in_hands(new_item)
-		playsound(user, 'sound/New_Sound/items/ducttape1.ogg', 50, 1)
-		return
-
 /obj/item/weapon/tapedmetal/attack_self(mob/user)
 	playsound(user, 'sound/New_Sound/items/ducttape2.ogg', 50, 1)
 	var/obj/item/stack/sheet/metal/new_item = new(user.loc)
