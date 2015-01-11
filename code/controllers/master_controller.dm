@@ -126,101 +126,94 @@ var/global/pipe_processing_killed = 0
 				var/start_time = world.timeofday
 				controller_iteration++
 
-				vote.process()
+				spawn(0)
+					vote.process()
 
 				//AIR
-				if(!air_processing_killed)
-					timer = world.timeofday
-					last_thing_processed = air_master.type
-					air_master.process()
-					air_cost = (world.timeofday - timer) / 10
-					global_activeturfs = air_master.active_turfs.len
-
-				sleep(breather_ticks)
+				spawn(0)
+					if(!air_processing_killed)
+						timer = world.timeofday
+						last_thing_processed = air_master.type
+						air_master.process()
+						air_cost = (world.timeofday - timer) / 10
+						global_activeturfs = air_master.active_turfs.len
 
 				//SUN
-				timer = world.timeofday
-				last_thing_processed = sun.type
-				sun.calc_position()
-				sun_cost = (world.timeofday - timer) / 10
-
-				sleep(breather_ticks)
+				spawn(0)
+					timer = world.timeofday
+					last_thing_processed = sun.type
+					sun.calc_position()
+					sun_cost = (world.timeofday - timer) / 10
 
 				//MOBS
-				timer = world.timeofday
-				process_mobs()
-				mobs_cost = (world.timeofday - timer) / 10
-
-				sleep(breather_ticks)
+				spawn(0)
+					timer = world.timeofday
+					process_mobs()
+					mobs_cost = (world.timeofday - timer) / 10
 
 				//DISEASES
-				timer = world.timeofday
-				process_diseases()
-				diseases_cost = (world.timeofday - timer) / 10
-
-				sleep(breather_ticks)
+				spawn(0)
+					timer = world.timeofday
+					process_diseases()
+					diseases_cost = (world.timeofday - timer) / 10
 
 				//MACHINES
-				timer = world.timeofday
-				process_machines()
-				machines_cost = (world.timeofday - timer) / 10
-
-				sleep(breather_ticks)
+				spawn(0)
+					timer = world.timeofday
+					process_machines()
+					machines_cost = (world.timeofday - timer) / 10
 
 				//BOTS
-				timer = world.timeofday
-				process_bots()
-				aibots_cost = (world.timeofday - timer) / 10
-
-				sleep(breather_ticks)
+				spawn(0)
+					timer = world.timeofday
+					process_bots()
+					aibots_cost = (world.timeofday - timer) / 10
 
 				//OBJECTS
-				timer = world.timeofday
-				process_objects()
-				objects_cost = (world.timeofday - timer) / 10
-
-				sleep(breather_ticks)
+				spawn(0)
+					timer = world.timeofday
+					process_objects()
+					objects_cost = (world.timeofday - timer) / 10
 
 				//PIPENETS
-				if(!pipe_processing_killed)
-					timer = world.timeofday
-					process_pipenets()
-					networks_cost = (world.timeofday - timer) / 10
-
-				sleep(breather_ticks)
+				spawn(0)
+					if(!pipe_processing_killed)
+						timer = world.timeofday
+						process_pipenets()
+						networks_cost = (world.timeofday - timer) / 10
 
 				//POWERNETS
-				timer = world.timeofday
-				process_powernets()
-				powernets_cost = (world.timeofday - timer) / 10
-
-				sleep(breather_ticks)
+				spawn(0)
+					timer = world.timeofday
+					process_powernets()
+					powernets_cost = (world.timeofday - timer) / 10
 
 				//NANO UIS
-				timer = world.timeofday
-				process_nano()
-				nano_cost = (world.timeofday - timer) / 10
+				spawn(0)
+					timer = world.timeofday
+					process_nano()
+					nano_cost = (world.timeofday - timer) / 10
 
 				//EVENTS
-				timer = world.timeofday
-				last_thing_processed = /datum/round_event
-				events.process()
-				events_cost = (world.timeofday - timer) / 10
+				spawn(0)
+					timer = world.timeofday
+					last_thing_processed = /datum/round_event
+					events.process()
+					events_cost = (world.timeofday - timer) / 10
 
 				//TICKER
-				timer = world.timeofday
-				last_thing_processed = ticker.type
-				ticker.process()
-				ticker_cost = (world.timeofday - timer) / 10
+				spawn(0)
+					timer = world.timeofday
+					last_thing_processed = ticker.type
+					ticker.process()
+					ticker_cost = (world.timeofday - timer) / 10
 
 				// GC
-				timer = world.timeofday
-				last_thing_processed = garbage.type
-				garbage.process()
-				gc_cost = (world.timeofday - timer) / 10
-
-				//TIMING
-				total_cost = air_cost + sun_cost + mobs_cost + diseases_cost + machines_cost + aibots_cost + objects_cost + networks_cost + powernets_cost + nano_cost + events_cost + ticker_cost + gc_cost
+				spawn(0)
+					timer = world.timeofday
+					last_thing_processed = garbage.type
+					garbage.process()
+					gc_cost = (world.timeofday - timer) / 10
 
 				var/end_time = world.timeofday
 				if(end_time < start_time)
