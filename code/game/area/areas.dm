@@ -15,6 +15,7 @@
 
 // ===
 /area
+	var/fire_alerting = 0
 	var/global/global_uid = 0
 	var/uid
 	var/list/ambientsounds = list('sound/ambience/ambigen1.ogg','sound/ambience/ambigen3.ogg',\
@@ -106,6 +107,11 @@
 	if(always_unpowered == 1) //no fire alarms in space/asteroid
 		return
 
+	if(src.fire_alerting)
+		return
+
+	src.fire_alerting = 1
+
 	var/list/cameras = list()
 
 	for(var/area/RA in related)
@@ -132,6 +138,8 @@
 	return
 
 /area/proc/firereset(var/obj/source as obj)
+	src.fire_alerting = 0
+
 	for(var/area/RA in related)
 		if (RA.fire)
 			RA.fire = 0
