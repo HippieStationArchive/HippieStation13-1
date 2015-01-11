@@ -423,7 +423,7 @@ What a mess.*/
 				if (!( istype(active2, /datum/data/record) ))
 					return
 				var/a2 = active2
-				var/t1 = copytext(sanitize(input("Add Comment:", "Secure. records", null, null)  as message),1,MAX_MESSAGE_LEN)
+				var/t1 = stripped_input(usr, "Please input name:", "Secure. records", active1.fields["name"], null)
 				if ((!( t1 ) || !( authenticated ) || usr.stat || usr.restrained() || (!in_range(src, usr) && (!istype(usr, /mob/living/silicon))) || active2 != a2))
 					return
 				var/counter = 1

@@ -59,7 +59,7 @@
 
 /obj/structure/bodycontainer/attackby(P as obj, mob/user as mob)
 	if (istype(P, /obj/item/weapon/pen))
-		var/t = input(user, "What would you like the label to be?", text("[]", name), null)  as text
+		var/t = stripped_input(user, "What would you like the label to be?", text("[]", name), null)
 		if (user.get_active_hand() != P)
 			return
 		if ((!in_range(src, usr) && src.loc != user))
