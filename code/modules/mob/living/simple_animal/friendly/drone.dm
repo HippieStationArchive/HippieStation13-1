@@ -420,9 +420,12 @@
 		var/r_state = r_hand.item_state
 		if(!r_state)
 			r_state = r_hand.icon_state
-
-		hands_overlays += image("icon"='icons/mob/items_righthand.dmi', "icon_state"="[r_state]", "layer"=-HANDS_LAYER)
-
+		
+		if(!(r_state in icon_states("icons/mob/items_righthand.dmi"))) //TODO should probably populate this list at start?
+			hands_overlays = image("icon" = 'icons/mob/items_righthand1.dmi', "icon_state" = r_state, "layer"=-HANDS_LAYER)
+		else
+			hands_overlays = image("icon" = 'icons/mob/items_righthand.dmi', "icon_state" = r_state, "layer"=-HANDS_LAYER)
+		
 		if(client && hud_used)
 			r_hand.layer = 20
 			r_hand.screen_loc = ui_rhand
@@ -432,9 +435,12 @@
 		var/l_state = l_hand.item_state
 		if(!l_state)
 			l_state = l_hand.icon_state
-
-		hands_overlays += image("icon"='icons/mob/items_lefthand.dmi', "icon_state"="[l_state]", "layer"=-HANDS_LAYER)
-
+		
+		if(!(l_state in icon_states("icons/mob/items_lefthand.dmi"))) //TODO should probably populate this list at start?
+			hands_overlays = image("icon" = 'icons/mob/items_lefthand1.dmi', "icon_state" = l_state, "layer"=-HANDS_LAYER)
+		else
+			hands_overlays = image("icon" = 'icons/mob/items_lefthand.dmi', "icon_state" = l_state, "layer"=-HANDS_LAYER)
+		
 		if(client && hud_used)
 			l_hand.layer = 20
 			l_hand.screen_loc = ui_lhand

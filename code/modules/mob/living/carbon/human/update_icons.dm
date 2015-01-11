@@ -563,8 +563,11 @@ Please contact me on #coderbus IRC. ~Carnie x
 		var/t_state = r_hand.item_state
 		if(!t_state)	t_state = r_hand.icon_state
 
-		overlays_standing[R_HAND_LAYER] = image("icon"='icons/mob/items_righthand.dmi', "icon_state"="[t_state]", "layer"=-R_HAND_LAYER)
-
+		if(!(t_state in icon_states("icons/mob/items_righthand.dmi"))) //TODO should probably populate this list at start?
+			overlays_standing[R_HAND_LAYER] = image("icon" = 'icons/mob/items_righthand1.dmi', "icon_state" = t_state, "layer"=-L_HAND_LAYER)
+		else
+			overlays_standing[R_HAND_LAYER] = image("icon" = 'icons/mob/items_righthand.dmi', "icon_state" = t_state, "layer"=-L_HAND_LAYER)
+			
 	apply_overlay(R_HAND_LAYER)
 
 
@@ -582,7 +585,10 @@ Please contact me on #coderbus IRC. ~Carnie x
 		var/t_state = l_hand.item_state
 		if(!t_state)	t_state = l_hand.icon_state
 
-		overlays_standing[L_HAND_LAYER] = image("icon"='icons/mob/items_lefthand.dmi', "icon_state"="[t_state]", "layer"=-L_HAND_LAYER)
+		if(!(t_state in icon_states("icons/mob/items_lefthand.dmi"))) //TODO should probably populate this list at start?
+			overlays_standing[L_HAND_LAYER] = image("icon" = 'icons/mob/items_lefthand1.dmi', "icon_state" = t_state, "layer"=-L_HAND_LAYER)
+		else
+			overlays_standing[L_HAND_LAYER] = image("icon" = 'icons/mob/items_lefthand.dmi', "icon_state" = t_state, "layer"=-L_HAND_LAYER)
 
 	apply_overlay(L_HAND_LAYER)
 

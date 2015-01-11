@@ -78,7 +78,12 @@
 		if(!t_state)
 			t_state = r_hand.icon_state
 		r_hand.screen_loc = ui_rhand
-		overlays_standing[X_R_HAND_LAYER]	= image("icon" = 'icons/mob/items_righthand.dmi', "icon_state" = t_state)
+		
+		if(!(t_state in icon_states("icons/mob/items_righthand.dmi"))) //TODO should probably populate this list at start?
+			overlays_standing[X_R_HAND_LAYER] = image("icon" = 'icons/mob/items_righthand1.dmi', "icon_state" = t_state)
+		else
+			overlays_standing[X_R_HAND_LAYER] = image("icon" = 'icons/mob/items_righthand.dmi', "icon_state" = t_state)
+
 	else
 		overlays_standing[X_R_HAND_LAYER]	= null
 	if(update_icons)
@@ -90,7 +95,12 @@
 		if(!t_state)
 			t_state = l_hand.icon_state
 		l_hand.screen_loc = ui_lhand
-		overlays_standing[X_L_HAND_LAYER]	= image("icon" = 'icons/mob/items_lefthand.dmi', "icon_state" = t_state)
+
+		if(!(t_state in icon_states("icons/mob/items_lefthand.dmi"))) //TODO should probably populate this list at start?
+			overlays_standing[X_L_HAND_LAYER] = image("icon" = 'icons/mob/items_lefthand1.dmi', "icon_state" = t_state)
+		else
+			overlays_standing[X_L_HAND_LAYER] = image("icon" = 'icons/mob/items_lefthand.dmi', "icon_state" = t_state)
+			
 	else
 		overlays_standing[X_L_HAND_LAYER]	= null
 	if(update_icons)
