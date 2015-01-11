@@ -87,15 +87,15 @@
 		if(pressure_checks&1)
 			pressure_delta = min(pressure_delta, (environment_pressure - external_pressure_bound))
 		if(pressure_checks&4)
-			pressure_delta = min(pressure_delta, (output_pressure_max - air2.return_pressure()))
+			pressure_delta = min(pressure_delta, (output_pressure_max - air1.return_pressure()))
 
 		if(pressure_delta > 0)
 			if(environment.temperature > 0)
-				var/transfer_moles = pressure_delta*air2.volume/(environment.temperature * R_IDEAL_GAS_EQUATION)
+				var/transfer_moles = pressure_delta*air1.volume/(environment.temperature * R_IDEAL_GAS_EQUATION)
 
 				var/datum/gas_mixture/removed = loc.remove_air(transfer_moles)
 
-				air2.merge(removed)
+				air1.merge(removed)
 				air_update_turf()
 
 				parent2.update = 1
