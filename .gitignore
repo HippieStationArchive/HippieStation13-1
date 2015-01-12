@@ -6,6 +6,7 @@ data/**/*
 #Ignore admin directories
 cfg/admin.txt
 config/admins.txt
+config/dbconfig.txt
 
 #Ignore compiled files and other files generated during compilation.
 *.dmb
