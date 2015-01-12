@@ -12,7 +12,7 @@
 	melee_damage_upper = 2
 	attacktext = "pokes"
 	attack_sound = 'sound/weapons/bite.ogg'
-	faction = "funeral"
+	faction = list("funeral")
 	min_oxy = 0
 	max_oxy = 0
 	min_tox = 0
