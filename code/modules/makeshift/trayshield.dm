@@ -24,6 +24,4 @@
 		return 1
 
 /obj/item/weapon/storage/bag/tray/attackby(obj/item/W, mob/user)
-	if(istype(W, /obj/item/stack/ducttape))
-		return
 	..()

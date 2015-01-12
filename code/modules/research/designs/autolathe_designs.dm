@@ -98,14 +98,6 @@
 	build_path = /obj/item/clothing/head/welding
 	category = list("initial","Tools")
 
-/datum/design/ducttape
-	name = "Duct tape"
-	id = "ducttape"
-	build_type = AUTOLATHE
-	materials = list("$metal" = 30)
-	build_path = /obj/item/stack/ducttape
-	category = list("initial","Tools")
-
 /datum/design/console_screen
 	name = "Console screen"
 	id = "console_screen"
