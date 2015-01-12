@@ -264,6 +264,9 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	if (findtext(key, "Guest-", 1, 7) != 1 && findtext(key, "Guest-W", 1, 8) != 1) //was findtextEx -- 10/10 would guest check again!
 		return 0
 
+	if(findtext(key, "Guest-W", 1, 8) == 1)
+		return 1
+
 	var/i, ch, len = length(key)
 
 	for (i = 7, i <= len, ++i)
