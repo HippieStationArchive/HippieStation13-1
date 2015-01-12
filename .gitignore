@@ -3,6 +3,9 @@
 #Ignore everything in datafolder and subdirectories
 /data/**/*
 
+/cfg/admin.txt
+/config/admins.txt
+
 #Ignore compiled files and other files generated during compilation.
 *.dmb
 *.rsc
