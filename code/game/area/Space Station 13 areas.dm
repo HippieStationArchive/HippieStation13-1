@@ -783,6 +783,13 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Law Office"
 	icon_state = "law"
 
+/area/clown
+	name = "\improper Clown Office"
+	icon_state = "clown"
+
+/area/mime
+	name = "\improper Mime Office"
+	icon_state = "mime"
 
 
 
@@ -1109,6 +1116,10 @@ proc/process_ghost_teleport_locs()
 
 /area/security/checkpoint/science
 	name = "Security Post - Science"
+	icon_state = "checkpoint1"
+
+/area/security/checkpoint/central
+	name = "Security Post - Central"
 	icon_state = "checkpoint1"
 
 /area/security/vacantoffice

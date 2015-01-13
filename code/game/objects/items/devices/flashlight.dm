@@ -138,6 +138,12 @@
 	item_state = "lampgreen"
 
 
+/obj/item/device/flashlight/lamp/mimelamp
+	desc = "A small, nearly invisible lamp"
+	icon_state = "mimelamp"
+	item_state = "mimelamp"
+
+
 
 /obj/item/device/flashlight/lamp/verb/toggle_light()
 	set name = "Toggle light"

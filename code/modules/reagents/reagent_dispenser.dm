@@ -160,6 +160,42 @@
 		return
 	else
 		..()
+
+/obj/structure/reagent_dispensers/honk_cooler
+	name = "Honk-Cooler"
+	desc = "A machine filled with the clown's thick juice! NICE!"
+	amount_per_transfer_from_this = 5
+	icon = 'icons/obj/vending.dmi'
+	icon_state = "honk_cooler"
+	possible_transfer_amounts = null
+	anchored = 1
+	var/cups = 50
+	New()
+		..()
+		reagents.add_reagent("banana",100)
+
+/obj/structure/reagent_dispensers/honk_cooler/attack_hand(var/mob/living/carbon/human/user)
+	if((!istype(user)) || (user.stat))
+		return
+	if(cups <= 0)
+		user << "<span class='danger'>What? No cups?"
+		return
+	cups--
+	user.put_in_hands(new /obj/item/weapon/reagent_containers/food/drinks/sillycup)
+	user.visible_message("<span class='notice'>[user] gets a cup from [src].","<span class='notice'>You get a cup from [src].")
+
+/obj/structure/reagent_dispensers/honk_cooler/attackby(var/obj/item/I, var/mob/user)
+	if(istype(I, /obj/item/weapon/paper))
+		user.drop_item()
+		qdel(I)
+		cups++
+		return
+	else
+		..()
+
+
+
+
 /obj/structure/reagent_dispensers/beerkeg
 	name = "beer keg"
 	desc = "A beer keg"
