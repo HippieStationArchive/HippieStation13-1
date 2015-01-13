@@ -49,6 +49,15 @@
 	anchored = 1
 	unacidable = 1//temporary until I decide whether the borg can be removed. -veyveyr
 
+/obj/structure/mimestatue
+	name = "Mime Statue"
+	icon = 'icons/obj/stationobjs.dmi'
+	icon_state = "mimestatue"
+	desc = "A creepy, silent statue, or an excellent mime."
+	density = 1
+	anchored = 0
+
+
 /obj/structure/showcase/fakeid
 	name = "\improper Centcom identification console"
 	desc = "You can use this to change ID's."
