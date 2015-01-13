@@ -62,6 +62,8 @@
 	var/has_been_powered = 0
 	var/has_reached_emergency = 0
 
+	pressure_resistance = 128*ONE_ATMOSPHERE
+
 /obj/machinery/power/supermatter_shard/New()
 	. = ..()
 	radio = new(src)
