@@ -32,8 +32,8 @@
 		if(path != root)
 			choices.Insert(1,"/")
 
-		choices = bubblesort(choices)
-		
+		bubblesort(choices)
+
 		var/choice = input(src,"Choose a file to access:","Download",null) as null|anything in choices
 		switch(choice)
 			if(null)
