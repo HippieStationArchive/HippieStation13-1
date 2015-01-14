@@ -26,7 +26,6 @@
 	new /obj/item/clothing/suit/toggle/wintercoat/captain(src)
 	new /obj/item/clothing/head/santa(src)
 	new /obj/item/weapon/gun/energy/gun/pistol(src)
-	new /obj/item/weapon/gun/energy/gun/pistol(src)
 	return
 
 /obj/structure/closet/secure_closet/hop
@@ -52,7 +51,6 @@
 	new /obj/item/weapon/gun/energy/gun/pistol(src)
 	new /obj/item/device/flash/handheld(src)
 	new /obj/item/clothing/glasses/sunglasses(src)
-	new /obj/item/weapon/mining_voucher(src)
 	new /obj/item/clothing/suit/toggle/wintercoat/cargo(src)
 	new /obj/item/clothing/head/hardhat/reindeer()
 	return

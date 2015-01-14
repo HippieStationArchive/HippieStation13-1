@@ -1,7 +1,7 @@
 /**********************Mineral ores**************************/
 
 /obj/item/weapon/ore
-	name = "rock"
+	name = "Rock"
 	icon = 'icons/obj/mining.dmi'
 	icon_state = "ore"
 	var/points = 0 //How many points this ore gets you from the ore redemption machine
@@ -18,42 +18,38 @@
 	..()
 
 /obj/item/weapon/ore/uranium
-	name = "uranium ore"
+	name = "Uranium ore"
 	icon_state = "Uranium ore"
 	origin_tech = "materials=5"
 	points = 18
 	refined_type = /obj/item/stack/sheet/mineral/uranium
 
 /obj/item/weapon/ore/iron
-	name = "iron ore"
+	name = "Iron ore"
 	icon_state = "Iron ore"
 	origin_tech = "materials=1"
 	points = 1
 	refined_type = /obj/item/stack/sheet/metal
 
 /obj/item/weapon/ore/glass
-	name = "sand pile"
+	name = "Sand"
 	icon_state = "Glass ore"
 	origin_tech = "materials=1"
 	points = 1
 	refined_type = /obj/item/stack/sheet/glass
 
-/obj/item/weapon/ore/glass/attack_self(mob/living/user as mob) //It's magic I ain't gonna explain how instant conversion with no tool works. -- Urist
-	user << "<span class='notice'>You use the sand to make sandstone.</span>"
-	for(var/i = 0,i < 1,i++)
-		var/obj/item/stack/sheet/mineral/sandstone/S = new (user.loc)
-		for (var/obj/item/weapon/ore/glass/G in user.loc)
-			if(S.amount < S.max_amount)
-				S.amount++
-				qdel(G)
-			else
-				i--
-				break
-	qdel(src)
-	return
+	attack_self(mob/living/user as mob) //It's magic I ain't gonna explain how instant conversion with no tool works. -- Urist
+		var/location = get_turf(user)
+		var/sandAmt = 1 // The sand we're holding
+		for(var/obj/item/weapon/ore/glass/sandToConvert in location) // The sand on the floor
+			sandAmt += 1
+			qdel(sandToConvert)
+		var/obj/item/stack/sheet/mineral/newSandstone = new /obj/item/stack/sheet/mineral/sandstone(location)
+		newSandstone.amount = sandAmt
+		qdel(src)
 
 /obj/item/weapon/ore/plasma
-	name = "plasma ore"
+	name = "Plasma ore"
 	icon_state = "Plasma ore"
 	origin_tech = "materials=2"
 	points = 36
@@ -69,40 +65,54 @@
 
 
 /obj/item/weapon/ore/silver
-	name = "silver ore"
+	name = "Silver ore"
 	icon_state = "Silver ore"
 	origin_tech = "materials=3"
 	points = 18
 	refined_type = /obj/item/stack/sheet/mineral/silver
 
 /obj/item/weapon/ore/gold
-	name = "gold ore"
+	name = "Gold ore"
 	icon_state = "Gold ore"
 	origin_tech = "materials=4"
 	points = 18
 	refined_type = /obj/item/stack/sheet/mineral/gold
 
 /obj/item/weapon/ore/diamond
-	name = "diamond ore"
+	name = "Diamond ore"
 	icon_state = "Diamond ore"
 	origin_tech = "materials=6"
 	points = 36
 	refined_type = /obj/item/stack/sheet/mineral/diamond
 
-/obj/item/weapon/ore/bananium
-	name = "bananium ore"
+/obj/item/weapon/ore/clown
+	name = "Bananium ore"
 	icon_state = "Clown ore"
 	origin_tech = "materials=4"
-	points = 27
-	refined_type = /obj/item/stack/sheet/mineral/bananium
+	points = 50
+	refined_type = /obj/item/stack/sheet/mineral/clown
+
+/obj/item/weapon/ore/mime
+	name = "Mimesteinium ore"
+	icon_state = "Mime ore"
+	origin_tech = "materials=4"
+	points = 50
+	refined_type = /obj/item/stack/sheet/mineral/mime
+
+/obj/item/weapon/ore/adamantine
+	name = "Adamantine ore"
+	icon_state = "Adamantine ore"
+	origin_tech = "materials=9"
+	points = 100
+	refined_type = /obj/item/stack/sheet/mineral/adamantine
 
 /obj/item/weapon/ore/slag
-	name = "slag"
+	name = "Slag"
 	desc = "Completely useless"
 	icon_state = "slag"
 
 /obj/item/weapon/twohanded/required/gibtonite
-	name = "gibtonite ore"
+	name = "Gibtonite ore"
 	desc = "Extremely explosive if struck with mining equipment, Gibtonite is often used by miners to speed up their work by using it as a mining charge. This material is illegal to possess by unauthorized personnel under space law."
 	icon = 'icons/obj/mining.dmi'
 	icon_state = "Gibtonite ore"
@@ -118,7 +128,7 @@
 	if(istype(I, /obj/item/weapon/pickaxe) || istype(I, /obj/item/weapon/resonator))
 		GibtoniteReaction(user)
 		return
-	if(istype(I, /obj/item/device/mining_scanner) || istype(I, /obj/item/device/t_scanner/adv_mining_scanner) && primed)
+	if(istype(I, /obj/item/device/mining_scanner) && primed)
 		primed = 0
 		user.visible_message("<span class='notice'>The chain reaction was stopped! ...The ore's quality went down.</span>")
 		icon_state = "Gibtonite ore"
@@ -152,7 +162,7 @@
 		if(triggered_by_explosive)
 			log_game("An explosion has primed a [name] for detonation at [A.name]([bombturf.x],[bombturf.y],[bombturf.z])")
 		else
-			user.visible_message("<span class='warning'>[user] strikes \the [src], causing a chain reaction!</span>")
+			user.visible_message("<span class='warning'>[user] strikes the [src], causing a chain reaction!</span>")
 			log_game("[key_name(usr)] has primed a [name] for detonation at [A.name]([bombturf.x],[bombturf.y],[bombturf.z])")
 		spawn(det_time)
 		if(primed)
@@ -176,7 +186,7 @@
 /obj/item/weapon/coin
 	icon = 'icons/obj/economy.dmi'
 	name = "coin"
-	icon_state = "coin__heads"
+	icon_state = "coin"
 	flags = CONDUCT
 	force = 1
 	throwforce = 2
@@ -197,52 +207,46 @@
 
 /obj/item/weapon/coin/gold
 	cmineral = "gold"
-	icon_state = "coin_gold_heads"
 	value = 160
 
 /obj/item/weapon/coin/silver
 	cmineral = "silver"
-	icon_state = "coin_silver_heads"
 	value = 40
 
 /obj/item/weapon/coin/diamond
 	cmineral = "diamond"
-	icon_state = "coin_diamond_heads"
 	value = 120
 
 /obj/item/weapon/coin/iron
 	cmineral = "iron"
-	icon_state = "coin_iron_heads"
 	value = 20
 
 /obj/item/weapon/coin/plasma
 	cmineral = "plasma"
-	icon_state = "coin_plasma_heads"
 	value = 80
 
 /obj/item/weapon/coin/uranium
 	cmineral = "uranium"
-	icon_state = "coin_uranium_heads"
 	value = 160
 
 /obj/item/weapon/coin/clown
 	cmineral = "bananium"
-	icon_state = "coin_bananium_heads"
 	value = 600 //makes the clown cri
+
+/obj/item/weapon/coin/mime
+	cmineral = "mimesteinium"
+	value = 300 //filthy peasant mime
 
 /obj/item/weapon/coin/adamantine
 	cmineral = "adamantine"
-	icon_state = "coin_adamantine_heads"
 	value = 400
 
 /obj/item/weapon/coin/mythril
 	cmineral = "mythril"
-	icon_state = "coin_mythril_heads"
 	value = 400
 
 /obj/item/weapon/coin/twoheaded
 	cmineral = "iron"
-	icon_state = "coin_iron_heads"
 	desc = "Hey, this coin's the same on both sides!"
 	sideslist = list("heads")
 	value = 20

@@ -29,14 +29,14 @@
 	if(bananium > 0)
 		var/sheet_amount = round(bananium / 2000)
 		if(sheet_amount > 0)
-			var/obj/item/stack/sheet/mineral/bananium/M = new/obj/item/stack/sheet/mineral/bananium(get_turf(loc))
+			var/obj/item/stack/sheet/mineral/clown/M = new/obj/item/stack/sheet/mineral/clown(get_turf(loc))
 			M.amount = sheet_amount
 			bananium -= sheet_amount * 2000
 			user << "<span class='notice'>You retrieve [sheet_amount] sheets of bananium.</span>"
 
 /obj/item/clothing/shoes/clown_shoes/banana_shoes/attackby(obj/item/O, mob/user)
-	if(istype(O,/obj/item/stack/sheet/mineral/bananium))
-		var/obj/item/stack/sheet/mineral/bananium/M = O
+	if(istype(O,/obj/item/stack/sheet/mineral/clown))
+		var/obj/item/stack/sheet/mineral/clown/M = O
 		bananium += 2000 * M.amount
 		user << "<span class='notice'>You insert [M.amount] bananium sheets into the prototype shoes.</span>"
 		M.use(M.amount)
