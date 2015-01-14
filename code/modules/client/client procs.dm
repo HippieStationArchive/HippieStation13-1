@@ -195,13 +195,15 @@ var/next_external_rsc = 0
 	query_ip.Execute()
 	related_accounts_ip = ""
 	while(query_ip.NextRow())
-		related_accounts_ip += "[query_ip.item[1]], "
+		message_admins("User [src.key] has related account [query_ip.item[1]]")
+		related_accounts_ip += "[query_ip.item[1]],"
 
 	var/DBQuery/query_cid = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid = '[computer_id]' AND ckey != '[sql_ckey]'")
 	query_cid.Execute()
 	related_accounts_cid = ""
 	while (query_cid.NextRow())
-		related_accounts_cid += "[query_cid.item[1]], "
+		message_admins("User [src.key] has related account [query_cid.item[1]]")
+		related_accounts_cid += "[query_cid.item[1]],"
 
 
 	var/admin_rank = "Player"

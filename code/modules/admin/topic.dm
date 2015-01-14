@@ -86,11 +86,13 @@
 			log_admin("[key_name(usr)] has triggered an event. ([E.name])")
 		return
 
-	else if(href_list["dbsearchckey"] || href_list["dbsearchadmin"])
+	else if(href_list["dbsearchckey"] || href_list["dbsearchadmin"] || href_list["dbsearchcip"] || href_list["dbsearchcid"] || href_list["banpanelnoargs"])
 		var/adminckey = href_list["dbsearchadmin"]
 		var/playerckey = href_list["dbsearchckey"]
+		var/playerip = href_list["dbsearchcip"]
+		var/playerid = href_list["dbsearchcid"]
 
-		DB_ban_panel(playerckey, adminckey)
+		DB_ban_panel(playerckey, adminckey, playerip, playerid)
 		return
 
 	else if(href_list["dbbanedit"])
@@ -827,6 +829,11 @@
 		if(!ismob(M)) return
 
 		if(M.client && M.client.holder)	return	//admins cannot be banned. Even if they could, the ban doesn't affect them anyway
+
+		if(M.client.related_accounts_cid)
+			usr << "User [M.client.ckey] has related account(s) [M.client.related_accounts_cid]"
+		if(M.client.related_accounts_ip)
+			usr << "User [M.client.ckey] has related account(s) [M.client.related_accounts_ip]"
 
 		switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))
 			if("Yes")

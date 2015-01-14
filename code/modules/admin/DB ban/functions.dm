@@ -323,7 +323,7 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 	holder.DB_ban_panel()
 
 
-/datum/admins/proc/DB_ban_panel(var/playerckey = null, var/adminckey = null)
+/datum/admins/proc/DB_ban_panel(var/playerckey = null, var/adminckey = null, var/playerip = null, var/playerid = null)
 	if(!usr.client)
 		return
 
@@ -380,11 +380,16 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 	output += "<input type='hidden' name='src' value='\ref[src]'>"
 	output += "<b>Ckey:</b> <input type='text' name='dbsearchckey' value='[playerckey]'>"
 	output += "<b>Admin ckey:</b> <input type='text' name='dbsearchadmin' value='[adminckey]'>"
+	output += "<b>Cid:</b> <input type='text' name='dbsearchcid' value='[playerid]'>"
+	output += "<b>Cip:</b> <input type='text' name='dbsearchcip' value='[playerip]'>"
+	
+	output += "<input style='visibility: hidden; width: 0; height: 0;' type='text' name='banpanelnoargs' value='banpanel'>"
+
 	output += "<input type='submit' value='search'>"
 	output += "</form>"
 	output += "Please note that all jobban bans or unbans are in-effect the following round."
 
-	if(adminckey || playerckey)
+	if(adminckey || playerckey || playerip || playerid)
 		var/blcolor = "#ffeeee" //banned light
 		var/bdcolor = "#ffdddd" //banned dark
 		var/ulcolor = "#eeffee" //unbanned light
@@ -403,14 +408,25 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 
 		adminckey = ckey(adminckey)
 		playerckey = ckey(playerckey)
+		playerip = sanitizeSQL(playerip)
+		playerid = sanitizeSQL(playerid)
+
 		var/adminsearch = ""
 		var/playersearch = ""
+		var/cipsearch = ""
+		var/cidsearch = ""
+
 		if(adminckey)
 			adminsearch = "AND a_ckey = '[adminckey]' "
 		if(playerckey)
 			playersearch = "AND ckey = '[playerckey]' "
+		if(playerip)
+			cipsearch = "AND ip = '[playerip]' "
+		if(playerid)
+			cidsearch = "AND computerid = '[playerid]' "
 
-		var/DBQuery/select_query = dbcon.NewQuery("SELECT id, bantime, bantype, reason, job, duration, expiration_time, ckey, a_ckey, unbanned, unbanned_ckey, unbanned_datetime, edits, ip, computerid FROM [format_table_name("ban")] WHERE 1 [playersearch] [adminsearch] ORDER BY bantime DESC")
+
+		var/DBQuery/select_query = dbcon.NewQuery("SELECT id, bantime, bantype, reason, job, duration, expiration_time, ckey, a_ckey, unbanned, unbanned_ckey, unbanned_datetime, edits, ip, computerid FROM [format_table_name("ban")] WHERE 1 [playersearch] [adminsearch] [cidsearch] [cipsearch] ORDER BY bantime DESC")
 		select_query.Execute()
 
 		while(select_query.NextRow())
@@ -570,4 +586,4 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 
 		output += "</table></div>"
 
-	usr << browse(output,"window=lookupbans;size=900x500")
+	usr << browse(output,"window=lookupbans;size=1200x700")
