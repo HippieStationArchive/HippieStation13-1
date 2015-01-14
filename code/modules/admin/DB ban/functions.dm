@@ -385,7 +385,6 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 	output += "Please note that all jobban bans or unbans are in-effect the following round."
 
 	if(adminckey || playerckey)
-
 		var/blcolor = "#ffeeee" //banned light
 		var/bdcolor = "#ffdddd" //banned dark
 		var/ulcolor = "#eeffee" //unbanned light
@@ -393,11 +392,13 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 
 		output += "<table width='90%' bgcolor='#e3e3e3' cellpadding='5' cellspacing='0' align='center'>"
 		output += "<tr>"
-		output += "<th width='25%'><b>TYPE</b></th>"
-		output += "<th width='20%'><b>CKEY</b></th>"
-		output += "<th width='20%'><b>TIME APPLIED</b></th>"
-		output += "<th width='20%'><b>ADMIN</b></th>"
-		output += "<th width='15%'><b>OPTIONS</b></th>"
+		output += "<th width='20%'><b>TYPE</b></th>"
+		output += "<th width='14%'><b>CKEY</b></th>"
+		output += "<th width='14%'><b>CID</b></th>"
+		output += "<th width='14%'><b>IP</b></th>"
+		output += "<th width='14%'><b>TIME APPLIED</b></th>"
+		output += "<th width='14%'><b>ADMIN</b></th>"
+		output += "<th width='10%'><b>OPTIONS</b></th>"
 		output += "</tr>"
 
 		adminckey = ckey(adminckey)
@@ -409,7 +410,7 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 		if(playerckey)
 			playersearch = "AND ckey = '[playerckey]' "
 
-		var/DBQuery/select_query = dbcon.NewQuery("SELECT id, bantime, bantype, reason, job, duration, expiration_time, ckey, a_ckey, unbanned, unbanned_ckey, unbanned_datetime, edits FROM [format_table_name("ban")] WHERE 1 [playersearch] [adminsearch] ORDER BY bantime DESC")
+		var/DBQuery/select_query = dbcon.NewQuery("SELECT id, bantime, bantype, reason, job, duration, expiration_time, ckey, a_ckey, unbanned, unbanned_ckey, unbanned_datetime, edits, ip, computerid FROM [format_table_name("ban")] WHERE 1 [playersearch] [adminsearch] ORDER BY bantime DESC")
 		select_query.Execute()
 
 		while(select_query.NextRow())
@@ -426,6 +427,8 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 			var/unbanckey = select_query.item[11]
 			var/unbantime = select_query.item[12]
 			var/edits = select_query.item[13]
+			var/ip = select_query.item[14]
+			var/cid = select_query.item[15]
 
 			var/lcolor = blcolor
 			var/dcolor = bdcolor
@@ -453,26 +456,116 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 			output += "<tr bgcolor='[dcolor]'>"
 			output += "<td align='center'>[typedesc]</td>"
 			output += "<td align='center'><b>[ckey]</b></td>"
+			output += "<td align='center'>[cid]</td>"
+			output += "<td align='center'>[ip]</td>"
 			output += "<td align='center'>[bantime]</td>"
 			output += "<td align='center'><b>[ackey]</b></td>"
 			output += "<td align='center'>[(unbanned) ? "" : "<b><a href=\"byond://?src=\ref[src];dbbanedit=unban;dbbanid=[banid]\">Unban</a></b>"]</td>"
 			output += "</tr>"
 			output += "<tr bgcolor='[lcolor]'>"
-			output += "<td align='center' colspan='5'><b>Reason: [(unbanned) ? "" : "(<a href=\"byond://?src=\ref[src];dbbanedit=reason;dbbanid=[banid]\">Edit</a>)"]</b> <cite>\"[reason]\"</cite></td>"
+			output += "<td align='center' colspan='7'><b>Reason: [(unbanned) ? "" : "(<a href=\"byond://?src=\ref[src];dbbanedit=reason;dbbanid=[banid]\">Edit</a>)"]</b> <cite>\"[reason]\"</cite></td>"
 			output += "</tr>"
 			if(edits)
 				output += "<tr bgcolor='[dcolor]'>"
-				output += "<td align='center' colspan='5'><b>EDITS</b></td>"
+				output += "<td align='center' colspan='7'><b>EDITS</b></td>"
 				output += "</tr>"
 				output += "<tr bgcolor='[lcolor]'>"
-				output += "<td align='center' colspan='5'><font size='2'>[edits]</font></td>"
+				output += "<td align='center' colspan='7'><font size='2'>[edits]</font></td>"
 				output += "</tr>"
 			if(unbanned)
 				output += "<tr bgcolor='[dcolor]'>"
-				output += "<td align='center' colspan='5' bgcolor=''><b>UNBANNED by admin [unbanckey] on [unbantime]</b></td>"
+				output += "<td align='center' colspan='7' bgcolor=''><b>UNBANNED by admin [unbanckey] on [unbantime]</b></td>"
 				output += "</tr>"
 			output += "<tr>"
-			output += "<td colspan='5' bgcolor='white'>&nbsp</td>"
+			output += "<td colspan='7' bgcolor='white'>&nbsp</td>"
+			output += "</tr>"
+
+		output += "</table></div>"
+	else
+		var/blcolor = "#ffeeee" //banned light
+		var/bdcolor = "#ffdddd" //banned dark
+		var/ulcolor = "#eeffee" //unbanned light
+		var/udcolor = "#ddffdd" //unbanned dark
+
+		output += "<table width='90%' bgcolor='#e3e3e3' cellpadding='5' cellspacing='0' align='center'>"
+		output += "<tr>"
+		output += "<th width='20%'><b>TYPE</b></th>"
+		output += "<th width='14%'><b>CKEY</b></th>"
+		output += "<th width='14%'><b>CID</b></th>"
+		output += "<th width='14%'><b>IP</b></th>"
+		output += "<th width='14%'><b>TIME APPLIED</b></th>"
+		output += "<th width='14%'><b>ADMIN</b></th>"
+		output += "<th width='10%'><b>OPTIONS</b></th>"
+		output += "</tr>"
+
+		var/DBQuery/select_query = dbcon.NewQuery("SELECT id, bantime, bantype, reason, job, duration, expiration_time, ckey, a_ckey, unbanned, unbanned_ckey, unbanned_datetime, edits, ip, computerid FROM [format_table_name("ban")] ORDER BY bantime DESC LIMIT 10")
+		select_query.Execute()
+
+		while(select_query.NextRow())
+			var/banid = select_query.item[1]
+			var/bantime = select_query.item[2]
+			var/bantype  = select_query.item[3]
+			var/reason = select_query.item[4]
+			var/job = select_query.item[5]
+			var/duration = select_query.item[6]
+			var/expiration = select_query.item[7]
+			var/ckey = select_query.item[8]
+			var/ackey = select_query.item[9]
+			var/unbanned = select_query.item[10]
+			var/unbanckey = select_query.item[11]
+			var/unbantime = select_query.item[12]
+			var/edits = select_query.item[13]
+			var/ip = select_query.item[14]
+			var/cid = select_query.item[15]
+
+			var/lcolor = blcolor
+			var/dcolor = bdcolor
+			if(unbanned)
+				lcolor = ulcolor
+				dcolor = udcolor
+
+			var/typedesc =""
+			switch(bantype)
+				if("PERMABAN")
+					typedesc = "<font color='red'><b>PERMABAN</b></font>"
+				if("TEMPBAN")
+					typedesc = "<b>TEMPBAN</b><br><font size='2'>([duration] minutes [(unbanned) ? "" : "(<a href=\"byond://?src=\ref[src];dbbanedit=duration;dbbanid=[banid]\">Edit</a>))"]<br>Expires [expiration]</font>"
+				if("JOB_PERMABAN")
+					typedesc = "<b>JOBBAN</b><br><font size='2'>([job])"
+				if("JOB_TEMPBAN")
+					typedesc = "<b>TEMP JOBBAN</b><br><font size='2'>([job])<br>([duration] minutes<br>Expires [expiration]"
+				if("APPEARANCE_PERMABAN")
+					typedesc = "<b>IDENTITY PERMABAN</b>"
+				if("ADMIN_PERMABAN")
+					typedesc = "<b>ADMIN PERMABAN</b>"
+				if("ADMIN_TEMPBAN")
+					typedesc = "<b>ADMIN TEMPBAN</b><br><font size='2'>([duration] minutes [(unbanned) ? "" : "(<a href=\"byond://?src=\ref[src];dbbanedit=duration;dbbanid=[banid]\">Edit</a>))"]<br>Expires [expiration]</font>"
+
+			output += "<tr bgcolor='[dcolor]'>"
+			output += "<td align='center'>[typedesc]</td>"
+			output += "<td align='center'><b>[ckey]</b></td>"
+			output += "<td align='center'>[cid]</td>"
+			output += "<td align='center'>[ip]</td>"
+			output += "<td align='center'>[bantime]</td>"
+			output += "<td align='center'><b>[ackey]</b></td>"
+			output += "<td align='center'>[(unbanned) ? "" : "<b><a href=\"byond://?src=\ref[src];dbbanedit=unban;dbbanid=[banid]\">Unban</a></b>"]</td>"
+			output += "</tr>"
+			output += "<tr bgcolor='[lcolor]'>"
+			output += "<td align='center' colspan='7'><b>Reason: [(unbanned) ? "" : "(<a href=\"byond://?src=\ref[src];dbbanedit=reason;dbbanid=[banid]\">Edit</a>)"]</b> <cite>\"[reason]\"</cite></td>"
+			output += "</tr>"
+			if(edits)
+				output += "<tr bgcolor='[dcolor]'>"
+				output += "<td align='center' colspan='7'><b>EDITS</b></td>"
+				output += "</tr>"
+				output += "<tr bgcolor='[lcolor]'>"
+				output += "<td align='center' colspan='7'><font size='2'>[edits]</font></td>"
+				output += "</tr>"
+			if(unbanned)
+				output += "<tr bgcolor='[dcolor]'>"
+				output += "<td align='center' colspan='7' bgcolor=''><b>UNBANNED by admin [unbanckey] on [unbantime]</b></td>"
+				output += "</tr>"
+			output += "<tr>"
+			output += "<td colspan='7' bgcolor='white'>&nbsp</td>"
 			output += "</tr>"
 
 		output += "</table></div>"
