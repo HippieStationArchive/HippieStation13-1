@@ -1,6 +1,6 @@
 /**********************Ore Redemption Unit**************************/
 //Turns all the various mining machines into a single unit to speed up mining and establish a point system
-/*
+
 /obj/machinery/mineral/ore_redemption
 	name = "ore redemption machine"
 	desc = "A machine that accepts ore and instantly transforms it into workable material sheets. Points for ore are generated based on type and can be redeemed at a mining equipment vendor."
@@ -396,7 +396,7 @@
 
 /obj/item/weapon/card/mining_point_card/examine(mob/user)
 	..()
-	user << "There's [points] point\s on the card." */
+	user << "There's [points] point\s on the card."
 
 /**********************Jaunter**********************/
 
@@ -593,7 +593,7 @@
 	projectilesound = 'sound/weapons/Gunshot4.ogg'
 	wanted_objects = list(/obj/item/weapon/ore/diamond, /obj/item/weapon/ore/gold, /obj/item/weapon/ore/silver,
 						  /obj/item/weapon/ore/plasma,  /obj/item/weapon/ore/uranium,    /obj/item/weapon/ore/iron,
-						  /obj/item/weapon/ore/clown, /obj/item/weapon/ore/mime, /obj/item/weapon/ore/adamantine)
+						  /obj/item/weapon/ore/bananium, /obj/item/weapon/ore/mime, /obj/item/weapon/ore/adamantine)
 
 /mob/living/simple_animal/hostile/mining_drone/attackby(obj/item/I as obj, mob/user as mob)
 	if(istype(I, /obj/item/weapon/weldingtool))

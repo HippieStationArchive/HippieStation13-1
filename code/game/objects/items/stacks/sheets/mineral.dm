@@ -176,7 +176,7 @@ var/global/list/datum/stack_recipe/silver_recipes = list ( \
 /*
  * Clown
  */
-/obj/item/stack/sheet/mineral/clown
+/obj/item/stack/sheet/mineral/bananium
 	name = "bananium"
 	icon_state = "sheet-clown"
 	singular_name = "bananium sheet"
@@ -186,13 +186,13 @@ var/global/list/datum/stack_recipe/silver_recipes = list ( \
 	throw_speed = 1
 	throw_range = 3
 	origin_tech = "materials=4"
-	sheettype = "clown"
+	sheettype = "bananium"
 
-var/global/list/datum/stack_recipe/clown_recipes = list ( \
+var/global/list/datum/stack_recipe/bananium_recipes = list ( \
 	new/datum/stack_recipe("bananium tile", /obj/item/stack/tile/mineral/bananium, 1, 4, 20), \
 	)
 
-/obj/item/stack/sheet/mineral/clown/New(var/loc, var/amount=null)
+/obj/item/stack/sheet/mineral/bananium/New(var/loc, var/amount=null)
 	pixel_x = rand(0,4)-4
 	pixel_y = rand(0,4)-4
 	..()

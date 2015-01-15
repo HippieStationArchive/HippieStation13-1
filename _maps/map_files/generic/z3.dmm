@@ -101,7 +101,7 @@
 "bW" = (/obj/machinery/light/small{dir = 1},/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/turf/simulated/floor/plating/airless,/area/tcommsat/chamber)
 "bX" = (/obj/item/weapon/stock_parts/cell,/turf/simulated/floor/plating/airless,/area/tcommsat/chamber)
 "bY" = (/obj/machinery/portable_atmospherics/canister/air,/turf/simulated/floor/plating/airless,/area/tcommsat/chamber)
-"bZ" = (/obj/item/weapon/coin/clown,/turf/simulated/floor/engine,/area/tcommsat/chamber)
+"bZ" = (/obj/item/weapon/coin/bananium,/turf/simulated/floor/engine,/area/tcommsat/chamber)
 "ca" = (/obj/structure/stool/bed,/turf/simulated/floor/plasteel/airless,/area/tcommsat/chamber)
 "cb" = (/obj/machinery/light/small{dir = 1},/turf/simulated/floor/plasteel/airless,/area/tcommsat/chamber)
 "cc" = (/turf/simulated/floor/plasteel/airless{icon_state = "damaged2"},/area/tcommsat/chamber)

@@ -130,7 +130,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	var/points_per_gold = 0.25 //4 points per sheet
 	var/points_per_diamond = 0.2 //5 points per sheet
 	var/points_per_uranium = 0.1 //10 points per sheet, for NUKES
-	var/points_per_clown = 0.05 //20 points per sheet, fuck the clown
+	var/points_per_bananium = 0.05 //20 points per sheet, fuck the clown
 	var/points_per_mime = 0.05 //20 points per sheet, the mime can't do shit with it anyway
 	var/points_per_adamantine = 0.01 //100 points per sheet!!!
 
@@ -245,7 +245,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	var/diamond_count = 0
 	var/plasteel_count = 0
 	var/uranium_count = 0
-	var/clown_count = 0
+	var/bananium_count = 0
 	var/mime_count = 0
 	var/adamantine_count = 0
 
@@ -269,7 +269,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 				if(find_slip && istype(A,/obj/item/weapon/paper/manifest))
 					var/obj/item/weapon/paper/manifest/slip = A
 					// TODO: Check for a signature, too.
-					if(slip.stamped && slip.stamped.len) //yes, the clown stamp will work. clown is the highest authority on the station, it makes sense
+					if(slip.stamped && slip.stamped.len) //yes, the bananium stamp will work. bananium is the highest authority on the station, it makes sense
 						// Did they mark it as erroneous?
 						var/denied = 0
 						for(var/i=1,i<=slip.stamped.len,i++)
@@ -329,9 +329,9 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 				if(istype(A, /obj/item/stack/sheet/mineral/diamond))
 					var/obj/item/stack/sheet/mineral/diamond/D = A
 					diamond_count += D.amount
-				if(istype(A, /obj/item/stack/sheet/mineral/clown))
-					var/obj/item/stack/sheet/mineral/clown/C = A
-					clown_count += C.amount
+				if(istype(A, /obj/item/stack/sheet/mineral/bananium))
+					var/obj/item/stack/sheet/mineral/bananium/C = A
+					bananium_count += C.amount
 				if(istype(A, /obj/item/stack/sheet/mineral/mime))
 					var/obj/item/stack/sheet/mineral/mime/M = A
 					mime_count += M.amount
@@ -386,9 +386,9 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	if(diamond_count)
 		centcom_message += "<font color=green>+[round(diamond_count/points_per_diamond)]</font>: Received [diamond_count] unit(s) of diamond(s).<BR>"
 		points += round(diamond_count / points_per_diamond)
-	if(clown_count)
-		centcom_message += "<font color=green>+[round(clown_count/points_per_clown)]</font>: Received [clown_count] unit(s) of Bananium.<BR>"
-		points += round(clown_count / points_per_clown)
+	if(bananium_count)
+		centcom_message += "<font color=green>+[round(bananium_count/points_per_bananium)]</font>: Received [bananium_count] unit(s) of Bananium.<BR>"
+		points += round(bananium_count / points_per_bananium)
 	if(mime_count)
 		centcom_message += "<font color=green>+[round(mime_count/points_per_mime)]</font>: Received [mime_count] unit(s) of Mimesteinium.<BR>"
 		points += round(mime_count / points_per_mime)

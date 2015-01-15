@@ -22,7 +22,7 @@
 
 	var/dat = "<b>Smelter control console</b><br><br>"
 	//iron
-	if(machine.ore_iron || machine.ore_glass || machine.ore_plasma || machine.ore_uranium || machine.ore_gold || machine.ore_silver || machine.ore_diamond || machine.ore_clown || machine.ore_mime || machine.ore_adamantine)
+	if(machine.ore_iron || machine.ore_glass || machine.ore_plasma || machine.ore_uranium || machine.ore_gold || machine.ore_silver || machine.ore_diamond || machine.ore_bananium || machine.ore_mime || machine.ore_adamantine)
 		if(machine.ore_iron)
 			if (machine.selected_iron==1)
 				dat += text("<A href='?src=\ref[src];sel_iron=no'><font color='green'>Smelting</font></A> ")
@@ -93,14 +93,14 @@
 			machine.selected_diamond = 0
 
 		//bananium
-		if(machine.ore_clown)
-			if (machine.selected_clown==1)
-				dat += text("<A href='?src=\ref[src];sel_clown=no'><font color='green'>Smelting</font></A> ")
+		if(machine.ore_bananium)
+			if (machine.selected_bananium==1)
+				dat += text("<A href='?src=\ref[src];sel_bananium=no'><font color='green'>Smelting</font></A> ")
 			else
-				dat += text("<A href='?src=\ref[src];sel_clown=yes'><font color='red'>Not smelting</font></A> ")
-			dat += text("Bananium: [machine.ore_clown]<br>")
+				dat += text("<A href='?src=\ref[src];sel_bananium=yes'><font color='red'>Not smelting</font></A> ")
+			dat += text("Bananium: [machine.ore_bananium]<br>")
 		else
-			machine.selected_clown = 0
+			machine.selected_bananium = 0
 
 		//bananium
 		if(machine.ore_mime)
@@ -177,11 +177,11 @@
 			machine.selected_diamond = 1
 		else
 			machine.selected_diamond = 0
-	if(href_list["sel_clown"])
-		if (href_list["sel_clown"] == "yes")
-			machine.selected_clown = 1
+	if(href_list["sel_bananium"])
+		if (href_list["sel_bananium"] == "yes")
+			machine.selected_bananium = 1
 		else
-			machine.selected_clown = 0
+			machine.selected_bananium = 0
 	if(href_list["sel_mime"])
 		if (href_list["sel_mime"] == "yes")
 			machine.selected_mime = 1
@@ -217,7 +217,7 @@
 	var/ore_plasma = 0;
 	var/ore_uranium = 0;
 	var/ore_iron = 0;
-	var/ore_clown = 0;
+	var/ore_bananium = 0;
 	var/ore_mime = 0;
 	var/ore_adamantine = 0;
 	var/selected_gold = 0
@@ -227,7 +227,7 @@
 	var/selected_plasma = 0
 	var/selected_uranium = 0
 	var/selected_iron = 0
-	var/selected_clown = 0
+	var/selected_bananium = 0
 	var/selected_mime = 0
 	var/selected_adamantine = 0
 	var/on = 0 //0 = off, 1 =... oh you know!
@@ -236,14 +236,14 @@
 	var/i
 	for (i = 0; i < 10; i++)
 		if (on)
-			if (selected_glass == 1 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 0)
+			if (selected_glass == 1 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 0)
 				if (ore_glass > 0)
 					ore_glass--;
 					generate_mineral(/obj/item/stack/sheet/glass)
 				else
 					on = 0
 				continue
-			if (selected_glass == 1 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 1 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 0)
+			if (selected_glass == 1 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 1 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 0)
 				if (ore_glass > 0 && ore_iron > 0)
 					ore_glass--;
 					ore_iron--;
@@ -251,49 +251,49 @@
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 1 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 0)
+			if (selected_glass == 0 && selected_gold == 1 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 0)
 				if (ore_gold > 0)
 					ore_gold--;
 					generate_mineral(/obj/item/stack/sheet/mineral/gold)
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 1 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 0)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 1 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 0)
 				if (ore_silver > 0)
 					ore_silver--;
 					generate_mineral(/obj/item/stack/sheet/mineral/silver)
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 1 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 0)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 1 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 0)
 				if (ore_diamond > 0)
 					ore_diamond--;
 					generate_mineral(/obj/item/stack/sheet/mineral/diamond)
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 1 && selected_uranium == 0 && selected_iron == 0 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 0)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 1 && selected_uranium == 0 && selected_iron == 0 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 0)
 				if (ore_plasma > 0)
 					ore_plasma--;
 					generate_mineral(/obj/item/stack/sheet/mineral/plasma)
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 1 && selected_iron == 0 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 0)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 1 && selected_iron == 0 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 0)
 				if (ore_uranium > 0)
 					ore_uranium--;
 					generate_mineral(/obj/item/stack/sheet/mineral/uranium)
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 1 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 0)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 1 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 0)
 				if (ore_iron > 0)
 					ore_iron--;
 					generate_mineral(/obj/item/stack/sheet/metal)
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 1 && selected_uranium == 0 && selected_iron == 1 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 0)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 1 && selected_uranium == 0 && selected_iron == 1 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 0)
 				if (ore_iron > 0 && ore_plasma > 0)
 					ore_iron--;
 					ore_plasma--;
@@ -301,21 +301,21 @@
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_clown == 1 && selected_mime == 0 && selected_adamantine == 0)
-				if (ore_clown > 0)
-					ore_clown--;
-					generate_mineral(/obj/item/stack/sheet/mineral/clown)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_bananium == 1 && selected_mime == 0 && selected_adamantine == 0)
+				if (ore_bananium > 0)
+					ore_bananium--;
+					generate_mineral(/obj/item/stack/sheet/mineral/bananium)
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_clown == 0 && selected_mime == 1 && selected_adamantine == 0)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_bananium == 0 && selected_mime == 1 && selected_adamantine == 0)
 				if (ore_mime > 0)
 					ore_mime--;
 					generate_mineral(/obj/item/stack/sheet/mineral/mime)
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_clown == 0 && selected_mime == 0 && selected_adamantine == 1)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 0 && selected_plasma == 0 && selected_uranium == 0 && selected_iron == 0 && selected_bananium == 0 && selected_mime == 0 && selected_adamantine == 1)
 				if (ore_adamantine > 0)
 					ore_adamantine--;
 					generate_mineral(/obj/item/stack/sheet/mineral/adamantine)
@@ -324,7 +324,7 @@
 				continue
 			//THESE TWO ARE CODED FOR URIST TO USE WHEN HE GETS AROUND TO IT.
 			//They were coded on 18 Feb 2012. If you're reading this in 2015, then firstly congratulations on the world not ending on 21 Dec 2012 and secondly, Urist is apparently VERY lazy. ~Errorage
-			/*if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 1 && selected_plasma == 0 && selected_uranium == 1 && selected_iron == 0 && selected_clown == 0)
+			/*if (selected_glass == 0 && selected_gold == 0 && selected_silver == 0 && selected_diamond == 1 && selected_plasma == 0 && selected_uranium == 1 && selected_iron == 0 && selected_bananium == 0)
 				if (ore_uranium >= 2 && ore_diamond >= 1)
 					ore_uranium -= 2
 					ore_diamond -= 1
@@ -332,7 +332,7 @@
 				else
 					on = 0
 				continue
-			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 1 && selected_diamond == 0 && selected_plasma == 1 && selected_uranium == 0 && selected_iron == 0 && selected_clown == 0)
+			if (selected_glass == 0 && selected_gold == 0 && selected_silver == 1 && selected_diamond == 0 && selected_plasma == 1 && selected_uranium == 0 && selected_iron == 0 && selected_bananium == 0)
 				if (ore_silver >= 1 && ore_plasma >= 3)
 					ore_silver -= 1
 					ore_plasma -= 3
@@ -346,7 +346,7 @@
 
 			var/b = 1 //this part checks if all required ores are available
 
-			if (!(selected_gold || selected_silver ||selected_diamond || selected_uranium | selected_plasma || selected_iron || selected_clown || selected_mime || selected_adamantine))
+			if (!(selected_gold || selected_silver ||selected_diamond || selected_uranium | selected_plasma || selected_iron || selected_bananium || selected_mime || selected_adamantine))
 				b = 0
 
 			if (selected_gold == 1)
@@ -370,8 +370,8 @@
 			if (selected_glass == 1)
 				if (ore_glass <= 0)
 					b = 0
-			if (selected_clown == 1)
-				if (ore_clown <= 0)
+			if (selected_bananium == 1)
+				if (ore_bananium <= 0)
 					b = 0
 			if (selected_mime == 1)
 				if (ore_mime <= 0)
@@ -393,8 +393,8 @@
 					ore_plasma--
 				if (selected_iron == 1)
 					ore_iron--
-				if (selected_clown == 1)
-					ore_clown--
+				if (selected_bananium == 1)
+					ore_bananium--
 				if (selected_mime == 1)
 					ore_mime--
 				if (selected_adamantine == 1)
@@ -442,8 +442,8 @@
 				ore_uranium++
 				O.loc = null
 				continue
-			if (istype(O,/obj/item/weapon/ore/clown))
-				ore_clown++
+			if (istype(O,/obj/item/weapon/ore/bananium))
+				ore_bananium++
 				O.loc = null
 				continue
 			if (istype(O,/obj/item/weapon/ore/mime))

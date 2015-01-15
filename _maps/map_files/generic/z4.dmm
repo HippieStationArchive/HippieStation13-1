@@ -613,7 +613,7 @@
 "lO" = (/obj/machinery/power/apc{dir = 0; name = "Worn-out APC"; pixel_y = -24},/turf/simulated/floor/plasteel/airless,/area/derelict/teleporter)
 "lP" = (/turf/simulated/mineral/random,/area/space)
 "lQ" = (/turf/simulated/floor/plating/asteroid/airless,/area/space)
-"lR" = (/turf/simulated/wall/mineral/clown,/area/space)
+"lR" = (/turf/simulated/wall/mineral/bananium,/area/space)
 "lS" = (/obj/machinery/door/airlock/clown,/turf/simulated/floor/mineral/bananium/airless,/area/space)
 "lT" = (/obj/effect/landmark/corpse/clown,/turf/simulated/floor/mineral/bananium/airless,/area/space)
 "lU" = (/turf/simulated/floor/mineral/bananium/airless,/area/space)

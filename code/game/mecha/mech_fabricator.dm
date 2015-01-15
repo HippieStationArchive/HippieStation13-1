@@ -465,8 +465,8 @@
 			type = /obj/item/stack/sheet/mineral/plasma
 		if("$uranium")
 			type = /obj/item/stack/sheet/mineral/uranium
-		if("$clown")
-			type = /obj/item/stack/sheet/mineral/clown
+		if("$bananium")
+			type = /obj/item/stack/sheet/mineral/bananium
 		if("$mime")
 			type = /obj/item/stack/sheet/mineral/mime
 		if("$adamantine")
@@ -522,8 +522,8 @@
 				material = "$metal"
 			if(/obj/item/stack/sheet/glass)
 				material = "$glass"
-			if(/obj/item/stack/sheet/mineral/clown)
-				material = "$clown"
+			if(/obj/item/stack/sheet/mineral/bananium)
+				material = "$bananium"
 			if(/obj/item/stack/sheet/mineral/uranium)
 				material = "$uranium"
 			if(/obj/item/stack/sheet/mineral/mime)

@@ -85,12 +85,12 @@
 	points = 36
 	refined_type = /obj/item/stack/sheet/mineral/diamond
 
-/obj/item/weapon/ore/clown
+/obj/item/weapon/ore/bananium
 	name = "Bananium ore"
 	icon_state = "Clown ore"
 	origin_tech = "materials=4"
 	points = 50
-	refined_type = /obj/item/stack/sheet/mineral/clown
+	refined_type = /obj/item/stack/sheet/mineral/bananium
 
 /obj/item/weapon/ore/mime
 	name = "Mimesteinium ore"
@@ -229,7 +229,7 @@
 	cmineral = "uranium"
 	value = 160
 
-/obj/item/weapon/coin/clown
+/obj/item/weapon/coin/bananium
 	cmineral = "bananium"
 	value = 600 //makes the clown cri
 

@@ -511,7 +511,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				type = /obj/item/stack/sheet/mineral/diamond
 				res_amount = "diamond_amount"
 			if("clown")
-				type = /obj/item/stack/sheet/mineral/clown
+				type = /obj/item/stack/sheet/mineral/bananium
 				res_amount = "clown_amount"
 			if("mime")
 				type = /obj/item/stack/sheet/mineral/mime

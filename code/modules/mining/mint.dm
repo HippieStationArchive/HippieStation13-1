@@ -43,7 +43,7 @@
 			if (istype(O, /obj/item/stack/sheet/metal))
 				amt_iron += 100 * O.amount
 				O.loc = null
-			if (istype(O, /obj/item/stack/sheet/mineral/clown))
+			if (istype(O, /obj/item/stack/sheet/mineral/bananium))
 				amt_clown += 100 * O.amount
 				O.loc = null
 			if (istype(O, /obj/item/stack/sheet/mineral/adamantine))
@@ -178,7 +178,7 @@
 					sleep(5)
 			if("clown")
 				while(amt_clown > 0 && coinsToProduce > 0)
-					create_coins(/obj/item/weapon/coin/clown)
+					create_coins(/obj/item/weapon/coin/bananium)
 					amt_clown -= 20
 					coinsToProduce--
 					newCoins++

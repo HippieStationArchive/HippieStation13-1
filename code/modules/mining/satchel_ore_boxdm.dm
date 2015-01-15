@@ -47,7 +47,7 @@
 			amt_gold++;
 		if (istype(C,/obj/item/weapon/ore/uranium))
 			amt_uranium++;
-		if (istype(C,/obj/item/weapon/ore/clown))
+		if (istype(C,/obj/item/weapon/ore/bananium))
 			amt_clown++;
 		if (istype(C,/obj/item/weapon/ore/mime))
 			amt_mime++;
