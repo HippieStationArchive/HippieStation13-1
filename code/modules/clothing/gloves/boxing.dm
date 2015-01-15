@@ -5,6 +5,7 @@
 	item_state = "boxing"
 	put_on_delay = 60
 	species_exception = list(/datum/species/golem, /datum/species/golem/adamantine) // now you too can be a golem boxing champion
+	staminaDamage = 1
 
 /obj/item/clothing/gloves/boxing/green
 	icon_state = "boxinggreen"

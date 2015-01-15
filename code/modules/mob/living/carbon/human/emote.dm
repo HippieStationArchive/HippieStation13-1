@@ -56,6 +56,8 @@
 			else
 				if (!muzzled)
 					var/sound = pick('sound/misc/cough1.ogg', 'sound/misc/cough2.ogg', 'sound/misc/cough3.ogg', 'sound/misc/cough4.ogg')
+					if(gender == FEMALE)
+						sound = pick('sound/misc/cough_f1.ogg', 'sound/misc/cough_f2.ogg', 'sound/misc/cough_f3.ogg')
 					playsound(src.loc, sound, 50, 1, 5)
 					if(nearcrit)
 						message = "<B>[src]</B> coughs painfuly!"

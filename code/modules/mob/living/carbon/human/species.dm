@@ -781,20 +781,31 @@
 
 			var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
 			var/armor_block = H.run_armor_check(affecting, "melee")
-
+			var/sfx = "punch"
+			var/obj/item/clothing/gloves/G = M.gloves
+			var/fx = null
+			if(G.staminaDamage)
+				sfx = "boxgloves"
+				fx = pick("whammed", "knocked", "uppercut", "Hulk Hogan'd", "brought the smackdown on")
 			if(HULK in M.mutations)
 				damage += 5
 
-			if(M.dna)
+			if(M.dna && !G.staminaDamage)
 				playsound(H.loc, M.dna.species.attack_sound, 25, 1, -1)
 			else
-				playsound(H.loc, 'sound/weapons/punch1.ogg', 25, 1, -1)
+				playsound(H.loc, sfx, 25, 1, -1)
 
+			if(fx)
+				H.visible_message("<span class='danger'>[M] has [fx] [H]!</span>", \
+								"<span class='userdanger'>[M] has [fx] [H]!</span>")
+			else
+				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
+								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
-			H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
-							"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
-
-			H.apply_damage(damage, BRUTE, affecting, armor_block)
+			if(G.staminaDamage)
+				H.apply_damage(damage, STAMINA, affecting, armor_block)
+			else
+				H.apply_damage(damage, BRUTE, affecting, armor_block)
 			if((H.stat != DEAD) && damage >= 9)
 				H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
 								"<span class='userdanger'>[M] has weakened [H]!</span>")

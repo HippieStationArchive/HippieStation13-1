@@ -60,6 +60,7 @@ BLIND     // can't see anything
 	slot_flags = SLOT_GLOVES
 	attack_verb = list("challenged")
 	var/transfer_prints = FALSE
+	var/staminaDamage = 0
 	strip_delay = 20
 	put_on_delay = 40
 
