@@ -146,7 +146,7 @@ obj/machinery/computer/general_air_control/proc/return_text()
 				else
 					sensor_part += "   <B>Pressure:</B> No pressure detected<BR>"
 				if(data["temperature"])
-					sensor_part += "   <B>Temperature:</B> [data["temperature"]] K<BR>"
+					sensor_part += "   <B>Temperature:</B> [data["temperature"]] K ([round(data["temperature"]-T0C,0.01)]&deg;C)<BR>"
 				if(data["oxygen"]||data["toxins"]||data["nitrogen"]||data["carbon_dioxide"])
 					sensor_part += "   <B>Gas Composition : </B>"
 					if(data["oxygen"])
