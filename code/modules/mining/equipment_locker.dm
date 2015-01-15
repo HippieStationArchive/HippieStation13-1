@@ -593,7 +593,7 @@
 	projectilesound = 'sound/weapons/Gunshot4.ogg'
 	wanted_objects = list(/obj/item/weapon/ore/diamond, /obj/item/weapon/ore/gold, /obj/item/weapon/ore/silver,
 						  /obj/item/weapon/ore/plasma,  /obj/item/weapon/ore/uranium,    /obj/item/weapon/ore/iron,
-						  /obj/item/weapon/ore/bananium)
+						  /obj/item/weapon/ore/bananium, /obj/item/weapon/ore/mime, /obj/item/weapon/ore/adamantine)
 
 /mob/living/simple_animal/hostile/mining_drone/attackby(obj/item/I as obj, mob/user as mob)
 	if(istype(I, /obj/item/weapon/weldingtool))
@@ -825,7 +825,7 @@
 								C.images -= I
 
 /**********************Xeno Warning Sign**********************/
-/obj/structure/sign/xeno_warning_mining
+/obj/structure/sign/xeno_warning
 	name = "DANGEROUS ALIEN LIFE"
 	desc = "A sign that warns would be travellers of hostile alien life in the vicinity."
 	icon = 'icons/obj/mining.dmi'

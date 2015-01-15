@@ -32,7 +32,7 @@
 			amt_gold++;
 		if (istype(C,/obj/item/weapon/coin/uranium))
 			amt_uranium++;
-		if (istype(C,/obj/item/weapon/coin/clown))
+		if (istype(C,/obj/item/weapon/coin/bananium))
 			amt_clown++;
 		if (istype(C,/obj/item/weapon/coin/adamantine))
 			amt_adamantine++;
@@ -91,7 +91,7 @@
 			if("uranium")
 				COIN = locate(/obj/item/weapon/coin/uranium,src.contents)
 			if("clown")
-				COIN = locate(/obj/item/weapon/coin/clown,src.contents)
+				COIN = locate(/obj/item/weapon/coin/bananium,src.contents)
 			if("adamantine")
 				COIN = locate(/obj/item/weapon/coin/adamantine,src.contents)
 		if(!COIN)

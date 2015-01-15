@@ -513,6 +513,12 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 			if("clown")
 				type = /obj/item/stack/sheet/mineral/bananium
 				res_amount = "clown_amount"
+			if("mime")
+				type = /obj/item/stack/sheet/mineral/mime
+				res_amount = "mime_amount"
+			if("adamantine")
+				type = /obj/item/stack/sheet/mineral/adamantine
+				res_amount = "adamantine_amount"
 		if(ispath(type) && hasvar(linked_lathe, res_amount))
 			var/obj/item/stack/sheet/sheet = new type(linked_lathe.loc)
 			var/available_num_sheets = round(linked_lathe.vars[res_amount]/sheet.perunit)

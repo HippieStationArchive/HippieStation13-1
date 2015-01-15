@@ -38,7 +38,7 @@
 /turf/simulated/wall/mineral/diamond/thermitemelt(mob/user as mob)
 	return
 
-/turf/simulated/wall/mineral/clown
+/turf/simulated/wall/mineral/bananium
 	name = "bananium wall"
 	desc = "A wall with bananium plating. Honk!"
 	icon_state = "bananium0"

@@ -467,6 +467,10 @@
 			type = /obj/item/stack/sheet/mineral/uranium
 		if("$bananium")
 			type = /obj/item/stack/sheet/mineral/bananium
+		if("$mime")
+			type = /obj/item/stack/sheet/mineral/mime
+		if("$adamantine")
+			type = /obj/item/stack/sheet/mineral/adamantine
 		else
 			return 0
 	var/result = 0
@@ -522,6 +526,10 @@
 				material = "$bananium"
 			if(/obj/item/stack/sheet/mineral/uranium)
 				material = "$uranium"
+			if(/obj/item/stack/sheet/mineral/mime)
+				material = "$mime"
+			if(/obj/item/stack/sheet/mineral/adamantine)
+				material = "$adamantine"
 			else
 				return ..()
 

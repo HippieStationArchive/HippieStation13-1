@@ -178,7 +178,7 @@
 					sleep(5)
 			if("clown")
 				while(amt_clown > 0 && coinsToProduce > 0)
-					create_coins(/obj/item/weapon/coin/clown)
+					create_coins(/obj/item/weapon/coin/bananium)
 					amt_clown -= 20
 					coinsToProduce--
 					newCoins++
