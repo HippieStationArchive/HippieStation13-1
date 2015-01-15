@@ -194,15 +194,17 @@ var/next_external_rsc = 0
 	var/DBQuery/query_ip = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE ip = '[address]' AND ckey != '[sql_ckey]'")
 	query_ip.Execute()
 	related_accounts_ip = ""
-	while(query_ip.NextRow())
-		message_admins("User [src.key] has related account found via IP address: [query_ip.item[1]]")
+	while(query_ip.NextRow())		
+		log_access("Notice: [src.key] has the same IP address as: [query_ip.item[1].")
+		message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] is related to the follow accounts via IP address: [query_ip.item[1]]</font>")
 		related_accounts_ip += "[query_ip.item[1]],"
 
 	var/DBQuery/query_cid = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid = '[computer_id]' AND ckey != '[sql_ckey]'")
 	query_cid.Execute()
 	related_accounts_cid = ""
 	while (query_cid.NextRow())
-		message_admins("User [src.key] has related account found via computer ID: [query_cid.item[1]]")
+		log_access("Notice: [src.key] is related to the follow accounts via computer ID as: [query_cid.item[1].")
+		message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer ID: [query_cid.item[1]]</font>")
 		related_accounts_cid += "[query_cid.item[1]],"
 
 
