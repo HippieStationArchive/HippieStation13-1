@@ -93,6 +93,11 @@ var/list/department_radio_keys = list(
 		return
 
 	var/message_mode = get_message_mode(message)
+	if(nearcrit && stat == CONSCIOUS)
+		whisper(message)
+		adjustOxyLoss(1)
+		// radio_return = NOPASS
+		return
 
 	if(message_mode == MODE_HEADSET || message_mode == MODE_ROBOT)
 		message = copytext(message, 2)
@@ -228,7 +233,10 @@ var/list/department_radio_keys = list(
 
 /mob/living/proc/get_message_mode(message)
 	if(copytext(message, 1, 2) == ";")
-		return MODE_HEADSET
+		if(!can_radio)
+			src << "<span class='notice'>You are unable to reach your headset!"
+		else
+			return MODE_HEADSET
 	else if(length(message) > 2)
 		return department_radio_keys[copytext(message, 1, 3)]
 
@@ -304,4 +312,6 @@ var/list/department_radio_keys = list(
 		return "stammers, \"[text]\""
 	if (getBrainLoss() >= 60)
 		return "gibbers, \"[text]\""
+	if (getOxyLoss() > 20)
+		return "gasps, \"[text]\""
 	return ..()

@@ -203,7 +203,6 @@ proc/isorgan(A)
 		p++
 	return sanitize(t)
 
-
 /proc/stutter(n)
 	var/te = html_decode(n)
 	var/t = ""//placed before the message. Not really sure what it's for.
@@ -244,6 +243,14 @@ proc/isorgan(A)
 		message = stutter(message)
 	return message
 
+//implement this whenever
+/proc/drunkspeech(message, stuttering)
+	message = replacetext(message, "f", "ff")
+	message = replacetext(message, "k", "g")
+	message = replacetext(message, "s", "sh")
+	if(!stuttering && prob(30))
+		message = stutter(message)
+	return message
 
 proc/Gibberish(t, p)//t is the inputted message, and any value higher than 70 for p will cause letters to be replaced instead of added
 	/* Turn text into complete gibberish! */

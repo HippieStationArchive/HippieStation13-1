@@ -60,8 +60,6 @@
 			m_type = 2
 
 		if ("cough")
-			var/sound = pick('sound/misc/cough1.ogg', 'sound/misc/cough2.ogg')//, 'sound/misc/cough3.ogg', 'sound/misc/cough4.ogg')
-			playsound(src.loc, sound, 50, 1, 5)
 			message = "<B>[src]</B> coughs!"
 			m_type = 2
 

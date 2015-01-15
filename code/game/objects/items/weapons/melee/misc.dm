@@ -52,7 +52,6 @@
 	// if(!isliving(target))
 	// 	return
 	if (user.a_intent == "harm" || (extendable && !on))
-		user << "<span class ='danger'>FUCK.</span>"
 		if(!..()) return
 		if(!isrobot(target)) return
 	else

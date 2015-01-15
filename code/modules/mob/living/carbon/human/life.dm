@@ -447,9 +447,23 @@
 			silent = 0
 			return 1
 
+		if(config.health_threshold_crit >= health) //Newcrit!
+			nearcrit = 1
+			if(stat == CONSCIOUS)
+				adjustOxyLoss(1)
+				Weaken(3)
+				if(prob(15))
+					spawn(0)
+						emote(pick("moan", "cough", "groan"))
+				// stuttering += 3
+			// 	can_radio = 0
+			// else
+			// 	can_radio = 1
+		else
+			nearcrit = 0
 
 		//UNCONSCIOUS. NO-ONE IS HOME
-		if( (getOxyLoss() > 50) || (config.health_threshold_crit >= health) )
+		if((getOxyLoss() > 50) || ((config.health_threshold_crit - 50) >= health) )
 			Paralyse(3)
 
 			/* Done by handle_breath()

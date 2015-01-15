@@ -55,7 +55,12 @@
 				message = "<B>[src]</B> appears to cough!"
 			else
 				if (!muzzled)
-					message = "<B>[src]</B> coughs!"
+					var/sound = pick('sound/misc/cough1.ogg', 'sound/misc/cough2.ogg', 'sound/misc/cough3.ogg', 'sound/misc/cough4.ogg')
+					playsound(src.loc, sound, 50, 1, 5)
+					if(nearcrit)
+						message = "<B>[src]</B> coughs painfuly!"
+					else
+						message = "<B>[src]</B> coughs!"
 					m_type = 2
 				else
 					message = "<B>[src]</B> makes a strong noise."
@@ -138,7 +143,10 @@
 				message = "<B>[src]</B> appears to groan!"
 			else
 				if (!muzzled)
-					message = "<B>[src]</B> groans!"
+					if(nearcrit)
+						message = "<B>[src]</B> groans in pain!"
+					else
+						message = "<B>[src]</B> groans!"
 					m_type = 2
 				else
 					message = "<B>[src]</B> makes a loud noise."

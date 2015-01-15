@@ -41,6 +41,9 @@
 		message = copytext(message, 1, health_diff) + "[message_len > health_diff ? "-.." : "..."]"
 		message = Ellipsis(message, 10, 1)
 		whispers = "whispers in their final breath"
+	if(nearcrit) //If whispering while in "nearcrit" state (difference between nearcrit and crit is consciousness)
+		message = Ellipsis(message, 40, 1)
+		whispers = "mutters"
 
 	message = treat_message(message)
 
@@ -64,7 +67,7 @@
 		M.show_message(rendered, 2)
 
 	rendered = "<span class='game say'><span class='name'>[GetVoice()]</span>[alt_name] [whispers], <span class='message'>\"<i>[message]</i>\"</span></span>"
-
+	var/displayuser = "<span class='game say'>You whisper in your final breath, <span class='message'>\"<i>[message]</i>\"</span></span>"
 	for(var/mob/M in listening)
 		M.Hear(rendered, src, languages, message)
 
@@ -75,3 +78,4 @@
 
 	if(critical) //Dying words.
 		succumb(1)
+		usr.show_message(displayuser, 2)
