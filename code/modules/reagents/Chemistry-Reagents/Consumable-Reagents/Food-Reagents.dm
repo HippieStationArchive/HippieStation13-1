@@ -53,12 +53,10 @@ datum/reagent/consumable/sugar
 	description = "The organic compound commonly known as table sugar and sometimes called saccharose. This white, odorless, crystalline powder has a pleasing, sweet taste."
 	reagent_state = SOLID
 	color = "#FFFFFF" // rgb: 255, 255, 255
-	nutriment_factor = 10 * REAGENTS_METABOLISM
+	nutriment_factor = 12 * REAGENTS_METABOLISM
 	metabolization_rate = 2 * REAGENTS_METABOLISM
 
 datum/reagent/consumable/sugar/on_mob_life(var/mob/living/M as mob)
-	if(M.satiety > -200)
-		M.satiety -= 20 //eating sugar makes you more hungry over time by making your hunger drop faster.
 	M.nutrition += max(((NUTRITION_LEVEL_FED + 50) - M.nutrition )/100, 0) * nutriment_factor // sugar doesn't help your hunger if your stomach is nearly full
 	holder.remove_reagent(src.id, metabolization_rate)
 

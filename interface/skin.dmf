@@ -179,6 +179,10 @@ macro "borghotkeymode"
 		name = "F1"
 		command = "adminhelp"
 		is-disabled = false
+	elem
+		name = "F3"
+		command = "asay"
+		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
 		command = ".options"
@@ -348,6 +352,10 @@ macro "macro"
 	elem 
 		name = "F1"
 		command = "adminhelp"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -588,6 +596,10 @@ macro "hotkeymode"
 		command = "adminhelp"
 		is-disabled = false
 	elem 
+		name = "F3"
+		command = "asay"
+		is-disabled = false
+	elem 
 		name = "CTRL+SHIFT+F1+REP"
 		command = ".options"
 		is-disabled = false
@@ -740,6 +752,10 @@ macro "borgmacro"
 	elem 
 		name = "F1"
 		command = "adminhelp"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
