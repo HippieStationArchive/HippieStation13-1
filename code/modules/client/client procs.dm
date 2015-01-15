@@ -202,11 +202,11 @@ var/next_external_rsc = 0
 	var/DBQuery/query_cid = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid = '[computer_id]' AND ckey != '[sql_ckey]'")
 	query_cid.Execute()
 	related_accounts_cid = ""
+	
 	while (query_cid.NextRow())
 		log_access("Notice: [src.key] is related to the follow accounts via computer ID as: [query_cid.item[1].")
 		message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer ID: [query_cid.item[1]]</font>")
 		related_accounts_cid += "[query_cid.item[1]],"
-
 
 	var/admin_rank = "Player"
 	if (src.holder && src.holder.rank)
