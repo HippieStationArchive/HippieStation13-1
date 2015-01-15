@@ -684,8 +684,8 @@
 			hasjetpack = 1
 	var/grav = has_gravity(H)
 
-	if(!grav && !hasjetpack)
-		mspeed += 1 //Slower space without jetpack
+	if(!grav && !hasjetpack && !istype(get_turf(H), /turf/space))
+		mspeed += 0.1 //Slower space without jetpack
 
 	var/health_deficiency = (100 - H.health + H.staminaloss)
 	if(health_deficiency >= 40)

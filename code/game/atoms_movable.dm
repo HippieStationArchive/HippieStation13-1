@@ -53,7 +53,7 @@
 	src.move_speed = world.timeofday - src.l_move_time
 	src.l_move_time = world.timeofday
 
-	spawn(5)	// Causes space drifting. /tg/station has no concept of speed, we just use 5
+	spawn(3)	// Causes space drifting. /tg/station has no concept of speed, we just use 5
 		if(loc && direct && last_move == direct)
 			if(loc == newloc) //Remove this check and people can accelerate. Not opening that can of worms just yet.
 				newtonian_move(last_move)
