@@ -54,10 +54,6 @@
 			fullness += C.nutriment_factor * C.volume / C.metabolization_rate
 
 		if(M == user)								//If you're eating it yourself.
-			if(src.reagents.has_reagent("sugar") && M.satiety < -150 && M.nutrition > NUTRITION_LEVEL_STARVING + 50 )
-				M << "<span class='notice'>You don't feel like eating any more sugary food at the moment.</span>"
-				return 0
-
 			if(wrapped)
 				M << "<span class='notice'>You can't eat wrapped food!</span>"
 				return 0
