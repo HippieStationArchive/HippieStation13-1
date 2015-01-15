@@ -31,6 +31,7 @@ Head of Security
 /datum/job/hos/equip_items(var/mob/living/carbon/human/H)
 	if(H.client.goodcurity)
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/head_of_security/navyblue(H), slot_w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/clothing/head/beret/sec/navyhos(H), slot_head)
 	else
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/head_of_security(H), slot_w_uniform)
 
@@ -78,6 +79,7 @@ Warden
 /datum/job/warden/equip_items(var/mob/living/carbon/human/H)
 	if(H.client.goodcurity)
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/warden/navyblue(H), slot_w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/clothing/head/beret/sec/navywarden(H), slot_head)
 	else
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/warden(H), slot_w_uniform)
 
@@ -176,6 +178,7 @@ Security Officer
 	assign_sec_to_department(H)
 	if(H.client.goodcurity)
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/security/navyblue(H), slot_w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/clothing/head/beret/sec/navyofficer(H), slot_head)
 
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(H), slot_shoes)
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/vest(H), slot_wear_suit)
