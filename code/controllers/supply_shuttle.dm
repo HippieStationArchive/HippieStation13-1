@@ -31,8 +31,8 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	anchored = 1
 	layer = 4
 
-/obj/structure/plasticflaps/CanPass(atom/movable/A, turf/T)
-	if(istype(A) && A.checkpass(PASSGLASS))
+/obj/structure/plasticflaps/CanPass(atom/A, turf/T)
+	if(istype(A))
 		return prob(60)
 
 	var/obj/structure/stool/bed/B = A
@@ -45,8 +45,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 			return 0
 	return ..()
 
-/obj/structure/plasticflaps/ex_act(severity, target)
-	..()
+/obj/structure/plasticflaps/ex_act(severity)
 	switch(severity)
 		if (1)
 			qdel(src)
@@ -76,7 +75,6 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 
 /obj/machinery/computer/supplycomp
 	name = "supply shuttle console"
-	desc = "Used to order supplies."
 	icon = 'icons/obj/computer.dmi'
 	icon_state = "supply"
 	req_access = list(access_cargo)
@@ -90,7 +88,6 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 
 /obj/machinery/computer/ordercomp
 	name = "supply ordering console"
-	desc = "Used to order supplies from cargo staff."
 	icon = 'icons/obj/computer.dmi'
 	icon_state = "request"
 	circuit = /obj/item/weapon/circuitboard/ordercomp
@@ -124,6 +121,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	var/points_per_slip = 2
 	var/points_per_crate = 5
 	var/points_per_intel = 100
+
 	var/points_per_iron = 10 //1 point per 15 iron sheets, NT sells high and buys low
 	var/points_per_glass = 10 //1 point per 15 iron sheets, NT sells high and buys low
 	var/points_per_silver = 5 //1 point per 5 sheets
@@ -133,6 +131,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	var/points_per_diamond = 0.2 //5 points per sheet
 	var/points_per_uranium = 0.1 //10 points per sheet, for NUKES
 	var/points_per_clown = 0.05 //20 points per sheet, fuck the clown
+	var/points_per_mime = 0.05 //20 points per sheet, the mime can't do shit with it anyway
 	var/points_per_adamantine = 0.01 //100 points per sheet!!!
 
 	var/centcom_message = "" // Remarks from Centcom on how well you checked the last order.
@@ -151,8 +150,6 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	var/eta
 	//shuttle loan
 	var/datum/round_event/shuttle_loan/shuttle_loan
-	//for logging
-	var/sold_atoms = ""
 
 /datum/controller/supply_shuttle/New()
 	ordernum = rand(1,9000)
@@ -206,7 +203,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	var/area/shuttle = locate(/area/supply/station)
 	if(!shuttle) return 0
 
-	if(forbidden_atoms_check(shuttle) && at_station)
+	if(forbidden_atoms_check(shuttle))
 		return 0
 
 	return 1
@@ -249,6 +246,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	var/plasteel_count = 0
 	var/uranium_count = 0
 	var/clown_count = 0
+	var/mime_count = 0
 	var/adamantine_count = 0
 
 	var/intel_count = 0
@@ -257,20 +255,17 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	centcom_message = ""
 
 	for(var/atom/movable/MA in shuttle)
-		sold_atoms += " [MA.name]"
 		if(MA.anchored)	continue
 
 
 		// Must be in a crate (or a critter crate)!
 		if(istype(MA,/obj/structure/closet/crate) || istype(MA,/obj/structure/closet/critter))
-			sold_atoms += ":"
 			crate_count++
 			var/find_slip = 1
 
 			for(var/atom in MA)
 				// Sell manifests
 				var/atom/A = atom
-				sold_atoms += " [A.name]"
 				if(find_slip && istype(A,/obj/item/weapon/paper/manifest))
 					var/obj/item/weapon/paper/manifest/slip = A
 					// TODO: Check for a signature, too.
@@ -334,9 +329,12 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 				if(istype(A, /obj/item/stack/sheet/mineral/diamond))
 					var/obj/item/stack/sheet/mineral/diamond/D = A
 					diamond_count += D.amount
-				if(istype(A, /obj/item/stack/sheet/mineral/bananium))
-					var/obj/item/stack/sheet/mineral/bananium/C = A
+				if(istype(A, /obj/item/stack/sheet/mineral/clown))
+					var/obj/item/stack/sheet/mineral/clown/C = A
 					clown_count += C.amount
+				if(istype(A, /obj/item/stack/sheet/mineral/mime))
+					var/obj/item/stack/sheet/mineral/mime/M = A
+					mime_count += M.amount
 				if(istype(A, /obj/item/stack/sheet/mineral/adamantine))
 					var/obj/item/stack/sheet/mineral/adamantine/AD = A
 					adamantine_count += AD.amount
@@ -362,7 +360,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 						centcom_message += "<font color=green>+[S.rarity]</font>: New species discovered: \"[capitalize(S.species)]\".  Excellent work.<BR>"
 						points += S.rarity // That's right, no bonus for potency.  Send a crappy sample first to "show improvement" later
 		qdel(MA)
-		sold_atoms += "."
+
 
 	if(iron_count)
 		centcom_message += "<font color=green>+[round(iron_count/points_per_iron)]</font>: Received [iron_count] unit(s) of metal sheets.<BR>"
@@ -391,9 +389,14 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	if(clown_count)
 		centcom_message += "<font color=green>+[round(clown_count/points_per_clown)]</font>: Received [clown_count] unit(s) of Bananium.<BR>"
 		points += round(clown_count / points_per_clown)
+	if(mime_count)
+		centcom_message += "<font color=green>+[round(mime_count/points_per_mime)]</font>: Received [mime_count] unit(s) of Mimesteinium.<BR>"
+		points += round(mime_count / points_per_mime)
 	if(adamantine_count)
 		centcom_message += "<font color=green>+[round(adamantine_count/points_per_adamantine)]</font>: Received [adamantine_count] unit(s) of Adamantine!<BR>"
 		points += round(adamantine_count / points_per_adamantine)
+
+
 
 	if(intel_count)
 		centcom_message += "<font color=green>+[round(intel_count*points_per_intel)]</font>: Received [intel_count] article(s) of enemy intelligence.<BR>"
@@ -500,8 +503,8 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	if(temp)
 		dat = temp
 	else
-		dat += {"<div class='statusDisplay'>Shuttle Location: [supply_shuttle.moving ? "Moving to station ([supply_shuttle.eta] Mins.)":supply_shuttle.at_station ? "Station":"Dock"]<BR>
-		<HR>Supply Points: [supply_shuttle.points]<BR></div>
+		dat += {"Shuttle Location: [supply_shuttle.moving ? "Moving to station ([supply_shuttle.eta] Mins.)":supply_shuttle.at_station ? "Station":"Dock"]<BR>
+		<HR>Supply Points: [supply_shuttle.points]<BR>
 
 		<BR>\n<A href='?src=\ref[src];order=categories'>Request items</A><BR><BR>
 		<A href='?src=\ref[src];vieworders=1'>View approved orders</A><BR><BR>
@@ -531,33 +534,34 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 			//all_supply_groups
 			//Request what?
 			last_viewed_group = "categories"
-			temp = "<div class='statusDisplay'><b>Supply points: [supply_shuttle.points]</b><BR>"
-			temp += "<A href='?src=\ref[src];mainmenu=1'>Main Menu</A><BR></div><BR>"
+			temp = "<b>Supply points: [supply_shuttle.points]</b><BR>"
+			temp += "<A href='?src=\ref[src];mainmenu=1'>Main Menu</A><HR><BR><BR>"
 			temp += "<b>Select a category</b><BR><BR>"
 			for(var/cat in all_supply_groups )
 				temp += "<A href='?src=\ref[src];order=[cat]'>[get_supply_group_name(cat)]</A><BR>"
 		else
 			last_viewed_group = href_list["order"]
 			var/cat = text2num(last_viewed_group)
-			temp = "<div class='statusDisplay'><b>Supply points: [supply_shuttle.points]</b><BR>"
-			temp += "<A href='?src=\ref[src];order=categories'>Back to all categories</A><BR></div><BR>"
+			temp = "<b>Supply points: [supply_shuttle.points]</b><BR>"
+			temp += "<A href='?src=\ref[src];order=categories'>Back to all categories</A><HR><BR><BR>"
 			temp += "<b>Request from: [get_supply_group_name(cat)]</b><BR><BR>"
 			for(var/supply_name in supply_shuttle.supply_packs )
 				var/datum/supply_packs/N = supply_shuttle.supply_packs[supply_name]
 				if(N.hidden || N.contraband || N.group != cat) continue												//Have to send the type instead of a reference to
 				temp += "<A href='?src=\ref[src];doorder=[supply_name]'>[supply_name]</A> Cost: [N.cost]<BR>"		//the obj because it would get caught by the garbage
+
 	else if (href_list["doorder"])
 		if(world.time < reqtime)
-			say("[world.time - reqtime] seconds remaining until another requisition form may be printed.")
+			for(var/mob/V in hearers(src))
+				V.show_message("<b>[src]</b>'s monitor flashes, \"[world.time - reqtime] seconds remaining until another requisition form may be printed.\"")
 			return
 
 		//Find the correct supply_pack datum
 		var/datum/supply_packs/P = supply_shuttle.supply_packs[href_list["doorder"]]
-		if(!istype(P) || P.hidden  || P.contraband) //href protection
-			return
+		if(!istype(P))	return
 
 		var/timeout = world.time + 600
-		var/reason = stripped_input(usr,"Reason:","Why do you require this item?","")
+		var/reason = copytext(sanitize(input(usr,"Reason:","Why do you require this item?","") as null|text),1,MAX_MESSAGE_LEN)
 		if(world.time > timeout)	return
 		if(!reason)	return
 
@@ -606,7 +610,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 		temp += "<BR><A href='?src=\ref[src];mainmenu=1'>Main Menu</A>"
 
 	else if (href_list["viewrequests"])
-		temp = "Current requests: <BR><BR>"
+		temp = "<A href='?src=\ref[src];mainmenu=1'>Main Menu</A><BR><BR>Current requests: <BR><BR>"
 		for(var/S in supply_shuttle.requestlist)
 			var/datum/supply_order/SO = S
 			temp += "#[SO.ordernum] - [SO.object.name] requested by [SO.orderedby]<BR>"
@@ -619,13 +623,9 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	updateUsrDialog()
 	return
 
-/obj/machinery/computer/ordercomp/say_quote(text)
-	return "flashes, \"[text]\""
-
-
 /obj/machinery/computer/supplycomp/attack_hand(var/mob/user as mob)
 	if(!allowed(user))
-		user << "<span class='warning'>Access Denied.</span>"
+		user << "<span class='warning'> Access Denied.</span>"
 		return
 
 	if(..())
@@ -636,26 +636,29 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	if (temp)
 		dat = temp
 	else
-		dat += {"<div class='statusDisplay'><B>Supply shuttle</B><HR>
+		dat += {"<BR><B>Supply shuttle</B><HR>
 		\nLocation: [supply_shuttle.moving ? "Moving to station ([supply_shuttle.eta] Mins.)":supply_shuttle.at_station ? "Station":"Away"]<BR>
-		<HR>\nSupply Points: [supply_shuttle.points]<BR>\n</div><BR>
+		<HR>\nSupply Points: [supply_shuttle.points]<BR>\n<BR>
 		[supply_shuttle.moving ? "\n*Must be away to order items*<BR>\n<BR>":supply_shuttle.at_station ? "\n*Must be away to order items*<BR>\n<BR>":"\n<A href='?src=\ref[src];order=categories'>Order items</A><BR>\n<BR>"]
 		[supply_shuttle.moving ? "\n*Shuttle already called*<BR>\n<BR>":supply_shuttle.at_station ? "\n<A href='?src=\ref[src];send=1'>Send away</A><BR>\n<BR>":"\n<A href='?src=\ref[src];send=1'>Send to station</A><BR>\n<BR>"]
 		[supply_shuttle.shuttle_loan ? (supply_shuttle.shuttle_loan.dispatched ? "\n*Shuttle loaned to Centcom*<BR>\n<BR>" : "\n<A href='?src=\ref[src];send=1;loan=1'>Loan shuttle to Centcom (5 mins duration)</A><BR>\n<BR>") : "\n*No pending external shuttle requests*<BR>\n<BR>"]
 		\n<A href='?src=\ref[src];viewrequests=1'>View requests</A><BR>\n<BR>
 		\n<A href='?src=\ref[src];vieworders=1'>View orders</A><BR>\n<BR>
 		\n<A href='?src=\ref[user];mach_close=computer'>Close</A><BR>
-		<HR>\n<B>Central Command messages:</B><BR> [supply_shuttle.centcom_message ? supply_shuttle.centcom_message : "Remember to stamp and send back the supply manifests."]"}
+		<HR>\n<B>Central Command messages</B><BR> [supply_shuttle.centcom_message ? supply_shuttle.centcom_message : "Remember to stamp and send back the supply manifests."]"}
 
-	var/datum/browser/popup = new(user, "computer", "Supply Shuttle Console", 700, 455)
-	popup.set_content(dat)
-	popup.open()
+	user << browse(dat, "window=computer;size=700x450")
+	onclose(user, "computer")
 	return
 
-/obj/machinery/computer/supplycomp/emag_act(user as mob)
-	if(!hacked)
-		user << "<span class='notice'>Special supplies unlocked.</span>"
+/obj/machinery/computer/supplycomp/attackby(I as obj, user as mob)
+	if(istype(I,/obj/item/weapon/card/emag) && !hacked)
+		user << "<span class='notice'> Special supplies unlocked.</span>"
 		hacked = 1
+		return
+	else
+		..()
+	return
 
 /obj/machinery/computer/supplycomp/Topic(href, href_list)
 	if(!supply_shuttle)
@@ -690,7 +693,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 				supply_shuttle.moving = -1
 				supply_shuttle.sell()
 				supply_shuttle.send()
-				investigate_log("[usr.key] has sent the supply shuttle away. Remaining points: [supply_shuttle.points]. Shuttle contents:[supply_shuttle.sold_atoms].", "cargo")
+
 		else
 			if(href_list["loan"] && supply_shuttle.shuttle_loan)
 				if(!supply_shuttle.shuttle_loan.dispatched)
@@ -712,22 +715,21 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 			//all_supply_groups
 			//Request what?
 			last_viewed_group = "categories"
-			temp = "<div class='statusDisplay'><b>Supply points: [supply_shuttle.points]</b><BR>"
-			temp += "<A href='?src=\ref[src];mainmenu=1'>Main Menu</A><BR></div><BR>"
+			temp = "<b>Supply points: [supply_shuttle.points]</b><BR>"
+			temp += "<A href='?src=\ref[src];mainmenu=1'>Main Menu</A><HR><BR><BR>"
 			temp += "<b>Select a category</b><BR><BR>"
 			for(var/cat in all_supply_groups )
 				temp += "<A href='?src=\ref[src];order=[cat]'>[get_supply_group_name(cat)]</A><BR>"
 		else
 			last_viewed_group = href_list["order"]
 			var/cat = text2num(last_viewed_group)
-			temp = "<div class='statusDisplay'><b>Supply points: [supply_shuttle.points]</b><BR>"
-			temp += "<A href='?src=\ref[src];order=categories'>Back to all categories</A><BR></div><BR>"
+			temp = "<b>Supply points: [supply_shuttle.points]</b><BR>"
+			temp += "<A href='?src=\ref[src];order=categories'>Back to all categories</A><HR><BR><BR>"
 			temp += "<b>Request from: [get_supply_group_name(cat)]</b><BR><BR>"
 			for(var/supply_name in supply_shuttle.supply_packs )
 				var/datum/supply_packs/N = supply_shuttle.supply_packs[supply_name]
-				if((N.hidden && !hacked) || (N.contraband && !can_order_contraband) || N.group != cat)	//Have to send the type instead of a reference to
-					continue																			//the obj because it would get caught by the garbage
-				temp += "<A href='?src=\ref[src];doorder=[supply_name]'>[supply_name]</A> Cost: [N.cost]<BR>"
+				if((N.hidden && !hacked) || (N.contraband && !can_order_contraband) || N.group != cat) continue		//Have to send the type instead of a reference to
+				temp += "<A href='?src=\ref[src];doorder=[supply_name]'>[supply_name]</A> Cost: [N.cost]<BR>"		//the obj because it would get caught by the garbage
 
 		/*temp = "Supply points: [supply_shuttle.points]<BR><HR><BR>Request what?<BR><BR>"
 
@@ -740,16 +742,16 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 
 	else if (href_list["doorder"])
 		if(world.time < reqtime)
-			say("[world.time - reqtime] seconds remaining until another requisition form may be printed.")
+			for(var/mob/V in hearers(src))
+				V.show_message("<b>[src]</b>'s monitor flashes, \"[world.time - reqtime] seconds remaining until another requisition form may be printed.\"")
 			return
 
 		//Find the correct supply_pack datum
 		var/datum/supply_packs/P = supply_shuttle.supply_packs[href_list["doorder"]]
-		if(!istype(P) || (P.hidden && !hacked) || (P.contraband && !can_order_contraband)) //href exploit protection
-			return
+		if(!istype(P))	return
 
 		var/timeout = world.time + 600
-		var/reason = stripped_input(usr,"Reason:","Why do you require this item?","")
+		var/reason = copytext(sanitize(input(usr,"Reason:","Why do you require this item?","") as null|text),1,MAX_MESSAGE_LEN)
 		if(world.time > timeout)	return
 //		if(!reason)	return
 
@@ -805,12 +807,12 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 					supply_shuttle.requestlist.Cut(i,i+1)
 					supply_shuttle.points -= P.cost
 					supply_shuttle.shoppinglist += O
-					temp = "Thanks for your order."
-					investigate_log("[usr.key] has authorized an order for [P.name]. Remaining points: [supply_shuttle.points].", "cargo")
+					temp = "Thanks for your order.<BR>"
+					temp += "<BR><A href='?src=\ref[src];viewrequests=1'>Back</A> <A href='?src=\ref[src];mainmenu=1'>Main Menu</A>"
 				else
-					temp = "Not enough supply points."
+					temp = "Not enough supply points.<BR>"
+					temp += "<BR><A href='?src=\ref[src];viewrequests=1'>Back</A> <A href='?src=\ref[src];mainmenu=1'>Main Menu</A>"
 				break
-		temp += "<BR><BR><A href='?src=\ref[src];viewrequests=1'>Back</A> <A href='?src=\ref[src];mainmenu=1'>Main Menu</A>"
 
 	else if (href_list["vieworders"])
 		temp = "<A href='?src=\ref[src];mainmenu=1'>Main Menu</A><BR><BR>Current approved orders: <BR><BR>"
@@ -831,7 +833,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 		temp += "<BR><A href='?src=\ref[src];mainmenu=1'>Main Menu</A>"
 */
 	else if (href_list["viewrequests"])
-		temp = "Current requests: <BR><BR>"
+		temp = "<A href='?src=\ref[src];mainmenu=1'>Main Menu</A><BR><BR>Current requests: <BR><BR>"
 		for(var/S in supply_shuttle.requestlist)
 			var/datum/supply_order/SO = S
 			temp += "#[SO.ordernum] - [SO.object.name] requested by [SO.orderedby]  [supply_shuttle.moving ? "":supply_shuttle.at_station ? "":"<A href='?src=\ref[src];confirmorder=[SO.ordernum]'>Approve</A> <A href='?src=\ref[src];rreq=[SO.ordernum]'>Remove</A>"]<BR>"
@@ -876,7 +878,5 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	frequency.post_signal(src, status_signal)
 
 
-/obj/machinery/computer/supplycomp/say_quote(text)
-	return "flashes, \"[text]\""
 
 

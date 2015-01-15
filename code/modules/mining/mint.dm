@@ -43,7 +43,7 @@
 			if (istype(O, /obj/item/stack/sheet/metal))
 				amt_iron += 100 * O.amount
 				O.loc = null
-			if (istype(O, /obj/item/stack/sheet/mineral/bananium))
+			if (istype(O, /obj/item/stack/sheet/mineral/clown))
 				amt_clown += 100 * O.amount
 				O.loc = null
 			if (istype(O, /obj/item/stack/sheet/mineral/adamantine))

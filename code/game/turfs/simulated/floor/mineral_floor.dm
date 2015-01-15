@@ -42,7 +42,7 @@
 	floor_tile = /obj/item/stack/tile/mineral/silver
 	icons = list("silver","silver_dam")
 
-/turf/simulated/floor/mineral/bananium
+/turf/simulated/floor/mineral/clown
 	name = "bananium floor"
 	icon_state = "bananium"
 	floor_tile = /obj/item/stack/tile/mineral/bananium
