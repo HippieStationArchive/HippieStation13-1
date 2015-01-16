@@ -830,9 +830,11 @@
 
 		if(M.client && M.client.holder)	return	//admins cannot be banned. Even if they could, the ban doesn't affect them anyway
 
-		if(M.client.related_accounts_cid)
+		if(!M.client)
+			usr << "Unable to check for related accounts because the player has left"
+		if(M.client && M.client.related_accounts_cid)
 			usr << "User [M.client.ckey] has related account(s) found via computer ID: [M.client.related_accounts_cid]"
-		if(M.client.related_accounts_ip)
+		if(M.client && M.client.related_accounts_ip)
 			usr << "User [M.client.ckey] has related account(s) found via IP address: [M.client.related_accounts_ip]"
 
 		switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))

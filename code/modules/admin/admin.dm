@@ -637,7 +637,7 @@ var/global/floorIsLava = 0
 /datum/admins/proc/delay()
 	set category = "Server"
 	set desc="Delay the game start"
-	set name="Delay"
+	set name="Delay game start"
 	if (!ticker || ticker.current_state != GAME_STATE_PREGAME)
 		return alert("Too late... The game has already started!", null, null, null, null, null)
 	going = !( going )
