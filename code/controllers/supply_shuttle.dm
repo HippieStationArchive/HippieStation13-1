@@ -31,8 +31,8 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	anchored = 1
 	layer = 4
 
-/obj/structure/plasticflaps/CanPass(atom/A, turf/T)
-	if(istype(A))
+/obj/structure/plasticflaps/CanPass(atom/movable/A, turf/T)
+	if(istype(A) && A.checkpass(PASSGLASS))
 		return prob(60)
 
 	var/obj/structure/stool/bed/B = A
