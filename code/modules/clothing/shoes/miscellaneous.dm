@@ -98,7 +98,7 @@
 	put_on_delay = 50
 
 /obj/item/clothing/shoes/winterboots
-	name = "winter boots"
+	name = "fur boots"
 	desc = "Boots lined with 'synthetic' animal fur."
 	icon_state = "winterboots"
 	item_state = "winterboots"

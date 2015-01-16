@@ -233,10 +233,10 @@
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|HANDS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 
-// WINTER COATS
+// non-WINTER COATS
 
 /obj/item/clothing/suit/toggle/wintercoat
-	name = "winter coat"
+	name = "coat"
 	desc = "A heavy jacket made from 'synthetic' animal furs."
 	icon_state = "coatwinter"
 	item_state = "labcoat"
@@ -250,50 +250,50 @@
 	togglename = "hood"
 
 /obj/item/clothing/suit/toggle/wintercoat/captain
-	name = "captain's winter coat"
+	name = "captain's coat"
 	icon_state = "coatcaptain"
 	armor = list(melee = 50, bullet = 30, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
 	allowed = list(/obj/item/weapon/gun/energy,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/device/flashlight/seclite,/obj/item/weapon/melee/truncheon/telebaton)
 
 /obj/item/clothing/suit/toggle/wintercoat/security
-	name = "security winter coat"
+	name = "security coat"
 	icon_state = "coatsecurity"
 	armor = list(melee = 50, bullet = 15, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
 	allowed = list(/obj/item/weapon/gun/energy,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/device/flashlight/seclite,/obj/item/weapon/melee/truncheon/telebaton)
 
 /obj/item/clothing/suit/toggle/wintercoat/medical
-	name = "medical winter coat"
+	name = "medical coat"
 	icon_state = "coatmedical"
 	allowed = list(/obj/item/device/analyzer,/obj/item/stack/medical,/obj/item/weapon/dnainjector,/obj/item/weapon/reagent_containers/dropper,/obj/item/weapon/reagent_containers/syringe,/obj/item/weapon/reagent_containers/hypospray,/obj/item/device/healthanalyzer,/obj/item/device/flashlight/pen,/obj/item/weapon/reagent_containers/glass/bottle,/obj/item/weapon/reagent_containers/glass/beaker,/obj/item/weapon/reagent_containers/pill,/obj/item/weapon/storage/pill_bottle,/obj/item/weapon/paper,/obj/item/weapon/melee/truncheon/telebaton)
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 50, rad = 0)
 
 /obj/item/clothing/suit/toggle/wintercoat/science
-	name = "science winter coat"
+	name = "science coat"
 	icon_state = "coatscience"
 	allowed = list(/obj/item/device/analyzer,/obj/item/stack/medical,/obj/item/weapon/dnainjector,/obj/item/weapon/reagent_containers/dropper,/obj/item/weapon/reagent_containers/syringe,/obj/item/weapon/reagent_containers/hypospray,/obj/item/device/healthanalyzer,/obj/item/device/flashlight/pen,/obj/item/weapon/reagent_containers/glass/bottle,/obj/item/weapon/reagent_containers/glass/beaker,/obj/item/weapon/reagent_containers/pill,/obj/item/weapon/storage/pill_bottle,/obj/item/weapon/paper,/obj/item/weapon/melee/truncheon/telebaton)
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 10, bio = 0, rad = 0)
 
 /obj/item/clothing/suit/toggle/wintercoat/engineering
-	name = "engineering winter coat"
+	name = "engineering coat"
 	icon_state = "coatengineer"
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 20)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/device/t_scanner, /obj/item/weapon/rcd)
 
 /obj/item/clothing/suit/toggle/wintercoat/engineering/atmos
-	name = "atmospherics winter coat"
+	name = "atmospherics coat"
 	icon_state = "coatatmos"
 
 /obj/item/clothing/suit/toggle/wintercoat/hydro
-	name = "hydroponics winter coat"
+	name = "hydroponics coat"
 	icon_state = "coathydro"
 	allowed = list(/obj/item/weapon/reagent_containers/spray/plantbgone,/obj/item/device/analyzer/plant_analyzer,/obj/item/seeds,/obj/item/weapon/reagent_containers/glass/bottle,/obj/item/weapon/minihoe,/obj/item/weapon/reagent_containers/spray/pestspray,/obj/item/weapon/hatchet,/obj/item/weapon/storage/bag/plants)
 
 /obj/item/clothing/suit/toggle/wintercoat/cargo
-	name = "cargo winter coat"
+	name = "cargo coat"
 	icon_state = "coatcargo"
 
 /obj/item/clothing/suit/toggle/wintercoat/miner
-	name = "mining winter coat"
+	name = "mining coat"
 	icon_state = "coatminer"
 	allowed = list(/obj/item/weapon/pickaxe,/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/toy,/obj/item/weapon/storage/fancy/cigarettes,/obj/item/weapon/lighter)
 	armor = list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
