@@ -784,13 +784,15 @@
 			var/sfx = "punch"
 			var/obj/item/clothing/gloves/G = M.gloves
 			var/fx = null
-			if(G.staminaDamage)
+			var/stamina = 0
+			if(G && G.staminaDamage)
+				stamina = 1
 				sfx = "boxgloves"
 				fx = pick("whammed", "knocked", "uppercut", "Hulk Hogan'd", "brought the smackdown on")
 			if(HULK in M.mutations)
 				damage += 5
 
-			if(M.dna && !G.staminaDamage)
+			if(M.dna && !stamina)
 				playsound(H.loc, M.dna.species.attack_sound, 25, 1, -1)
 			else
 				playsound(H.loc, sfx, 25, 1, -1)
@@ -802,7 +804,7 @@
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
-			if(G.staminaDamage)
+			if(stamina)
 				H.apply_damage(damage, STAMINA, affecting, armor_block)
 			else
 				H.apply_damage(damage, BRUTE, affecting, armor_block)
