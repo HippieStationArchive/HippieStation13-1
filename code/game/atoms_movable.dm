@@ -157,14 +157,18 @@
 /atom/movable/proc/throw_at(atom/target, range, speed)
 	if(!target || !src || (flags & NODROP))	return 0
 
-	if(!has_gravity(src))
-		src.SpinAnimation(2, 7)
-	else
-		src.SpinAnimation(2, 2)
-
 	//use a modified version of Bresenham's algorithm to get from the atom's current position to that of the target
 
 	src.throwing = 1
+
+	spawn(0)
+		var/length = 3
+
+		while(src && src.throwing)
+			src.SpinAnimation(length, 0)
+
+			sleep(length)
+			length = min(length + 0.1, 6) // Slow the spin down over time to a minimum of 1 spin per 6 deciseconds
 
 	var/dist_x = abs(target.x - src.x)
 	var/dist_y = abs(target.y - src.y)
