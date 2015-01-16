@@ -41,7 +41,7 @@
 		message = copytext(message, 1, health_diff) + "[message_len > health_diff ? "-.." : "..."]"
 		message = Ellipsis(message, 10, 1)
 		whispers = "whispers in their final breath"
-	if(nearcrit) //If whispering while in "nearcrit" state (difference between nearcrit and crit is consciousness)
+	else if(nearcrit) //If whispering while in "nearcrit" state (difference between nearcrit and crit is consciousness)
 		message = Ellipsis(message, 40, 1)
 		whispers = "mutters"
 

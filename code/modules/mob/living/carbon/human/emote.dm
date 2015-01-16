@@ -298,7 +298,7 @@
 						else if(B)
 							src.internal_organs -= B
 						//src.butt = null
-						src.nutrition -= 500
+						src.nutrition -= 500 //vv THIS CODE IS MELTING MY EYES HELP vv
 						playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
 						spawn(1)
 							playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)

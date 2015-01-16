@@ -325,7 +325,7 @@
 				playsound(get_turf(src), 'sound/machines/defib_charge.ogg', 50, 0)
 				var/mob/dead/observer/ghost = H.get_ghost()
 				var/tplus = world.time - H.timeofdeath
-				var/tlimit = 3000 //past this much time the patient is unrecoverable (in deciseconds)
+				var/tlimit = 3600 //past this much time the patient is unrecoverable (in deciseconds)
 				var/tloss = 900 //brain damage starts setting in on the patient after some time left rotting
 				var/total_burn	= 0
 				var/total_brute	= 0
@@ -345,7 +345,7 @@
 						for(var/obj/item/organ/limb/O in H.organs)
 							total_brute	+= O.brute_dam
 							total_burn	+= O.burn_dam
-						if(H.health <= config.health_threshold_dead && total_burn <= 180 && total_brute <= 180 && !H.suiciding && !ghost && tplus < tlimit && !(NOCLONE in H.mutations))
+						if(H.health <= (config.health_threshold_dead - 50) && total_burn <= 180 && total_brute <= 180 && !H.suiciding && !ghost && tplus < tlimit && !(NOCLONE in H.mutations) && prob(60))
 							tobehealed = health + threshold
 							tobehealed -= 5 //They get 5 of each type of damage healed so excessive combined damage will not immediately kill them after they get revived
 							H.adjustOxyLoss(tobehealed)
@@ -367,6 +367,8 @@
 								user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Heart tissue damage beyond point of no return for defibrillation.</span>")
 							else if(total_burn >= 180 || total_brute >= 180)
 								user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Severe tissue damage detected.</span>")
+							else if(H.health <= (config.health_threshold_dead - 50))
+								user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Severe overall damage detected.</span>")
 							else
 								user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed.</span>")
 								if(ghost)

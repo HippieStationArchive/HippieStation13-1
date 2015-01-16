@@ -106,6 +106,7 @@
 	var/alert_desc_delta = "The station's self-destruct mechanism has been engaged. All crew are instructed to obey all instructions given by heads of staff. Any violations of these orders can be punished by death. This is not a drill."
 
 	var/health_threshold_crit = 0
+	var/health_threshold_critfaint = -70
 	var/health_threshold_dead = -100
 
 	var/revival_pod_plants = 1

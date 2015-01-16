@@ -71,6 +71,7 @@
 	new /obj/item/device/radio/headset/headset_med(src)
 	new /obj/item/clothing/gloves/color/latex(src)
 	new /obj/item/weapon/defibrillator/loaded(src)
+	new /obj/item/device/sensor_device(src)
 	new /obj/item/weapon/storage/belt/medical(src)
 	new /obj/item/clothing/glasses/hud/health(src)
 	new /obj/item/clothing/suit/toggle/wintercoat/medical(src)

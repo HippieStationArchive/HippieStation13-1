@@ -785,10 +785,13 @@
 			var/obj/item/clothing/gloves/G = M.gloves
 			var/fx = null
 			var/stamina = 0
-			if(G && G.staminaDamage)
-				stamina = 1
-				sfx = "boxgloves"
-				fx = pick("whammed", "knocked", "uppercut", "Hulk Hogan'd", "brought the smackdown on")
+			if(G)
+				if(G.staminaDamage)
+					stamina = 1
+				if(G.hitsound)
+					sfx = pick(G.hitsound)
+				if(G.atk_verb)
+					fx = pick(G.atk_verb)
 			if(HULK in M.mutations)
 				damage += 5
 
@@ -805,7 +808,7 @@
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
 			if(stamina)
-				H.apply_damage(damage, STAMINA, affecting, armor_block)
+				H.apply_damage(damage*2, STAMINA, affecting, armor_block)
 			else
 				H.apply_damage(damage, BRUTE, affecting, armor_block)
 			if((H.stat != DEAD) && damage >= 9)

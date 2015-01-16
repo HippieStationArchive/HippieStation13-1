@@ -110,7 +110,7 @@
 	else
 		var/is_hijacker = prob(10)
 		var/objective_count = is_hijacker 			//Hijacking counts towards number of objectives
-		if(!exchange_blue && traitors.len >= 5) 	//Set up an exchange if there are enough traitors
+		if(!exchange_blue && traitors.len >= 4) 	//Set up an exchange if there are enough traitors
 			if(!exchange_red)
 				exchange_red = traitor
 			else
@@ -131,11 +131,16 @@
 					maroon_objective.owner = traitor
 					maroon_objective.find_target()
 					traitor.objectives += maroon_objective
-				else
+				else if(prob(30))
 					var/datum/objective/assassinate/kill_objective = new
 					kill_objective.owner = traitor
 					kill_objective.find_target()
 					traitor.objectives += kill_objective
+				else
+					var/datum/objective/protect/protect_objective = new
+					protect_objective.owner = traitor
+					protect_objective.find_target()
+					traitor.objectives += protect_objective
 			else
 				var/datum/objective/steal/steal_objective = new
 				steal_objective.owner = traitor

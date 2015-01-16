@@ -454,7 +454,7 @@
 				Weaken(3)
 				if(prob(15))
 					spawn(0)
-						emote(pick("moan", "cough", "groan"))
+						emote(pick("moan", "cough", "groan", "whimper"))
 				// stuttering += 3
 			// 	can_radio = 0
 			// else
@@ -463,7 +463,7 @@
 			nearcrit = 0
 
 		//UNCONSCIOUS. NO-ONE IS HOME
-		if((getOxyLoss() > 50) || ((config.health_threshold_crit - 50) >= health) )
+		if((getOxyLoss() > 50) || (config.health_threshold_critfaint >= (health + getOxyLoss())) ) //To make sure that it doesn't count oxyloss for threshold check.
 			Paralyse(3)
 
 			/* Done by handle_breath()

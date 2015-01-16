@@ -61,6 +61,7 @@ BLIND     // can't see anything
 	attack_verb = list("challenged")
 	var/transfer_prints = FALSE
 	var/staminaDamage = 0
+	var/atk_verb = null
 	strip_delay = 20
 	put_on_delay = 40
 
@@ -339,7 +340,7 @@ atom/proc/generate_female_clothing(index,t_color,icon)
 			H.update_inv_w_uniform(0)
 
 /obj/item/clothing/under/New()
-	sensor_mode = pick(0,1,2,3)
+	sensor_mode = pick(1,2,3)
 	adjusted = 0
 	suit_color = item_color
 	..()

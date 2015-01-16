@@ -6,6 +6,8 @@
 	put_on_delay = 60
 	species_exception = list(/datum/species/golem, /datum/species/golem/adamantine) // now you too can be a golem boxing champion
 	staminaDamage = 1
+	atk_verb = list("whammed", "knocked", "uppercut", "Hulk Hogan'd", "brought the smackdown on")
+	hitsound = list("boxgloves")
 
 /obj/item/clothing/gloves/boxing/green
 	icon_state = "boxinggreen"
