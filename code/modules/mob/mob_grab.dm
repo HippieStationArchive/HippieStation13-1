@@ -4,7 +4,7 @@
 /obj/item/weapon/grab
 	name = "grab"
 	flags = NOBLUDGEON | ABSTRACT
-	var/obj/screen/grab/hud = null
+	icon = 'icons/mob/screen_gen.dmi'
 	var/mob/affecting = null
 	var/mob/assailant = null
 	var/state = GRAB_PASSIVE
@@ -26,11 +26,8 @@
 	if(affecting.anchored || !user.Adjacent(victim) || issilicon(victim))
 		qdel(src)
 		return
-
-	hud = new /obj/screen/grab(src)
-	hud.icon_state = "reinforce"
-	hud.name = "reinforce grab"
-	hud.master = src
+	icon_state = "reinforce"
+	name = "reinforce grab"
 
 	affecting.grabbed_by += src
 
@@ -40,10 +37,8 @@
 		affecting.grabbed_by -= src
 		affecting = null
 	if(assailant)
-		if(assailant.client)
-			assailant.client.screen -= hud
+		assailant.pulling = null
 		assailant = null
-	qdel(hud)
 	..()
 
 //Used by throw code to hand over the mob, instead of throwing the grab. The grab is then deleted by the throw code.
@@ -55,23 +50,9 @@
 			return affecting
 	return null
 
-
-//This makes sure that the grab screen object is displayed in the correct hand.
-/obj/item/weapon/grab/proc/synch()
-	if(affecting)
-		if(assailant.r_hand == src)
-			hud.screen_loc = ui_rhand
-		else
-			hud.screen_loc = ui_lhand
-
-
 /obj/item/weapon/grab/process()
 	if(!confirm())
 		return 0
-
-	if(assailant.client)
-		assailant.client.screen -= hud
-		assailant.client.screen += hud
 
 	if(assailant.pulling == affecting)
 		assailant.stop_pulling()
@@ -98,9 +79,9 @@
 				if(G.state == GRAB_AGGRESSIVE)
 					allow_upgrade = 0
 		if(allow_upgrade)
-			hud.icon_state = "reinforce"
+			icon_state = "reinforce"
 		else
-			hud.icon_state = "!reinforce"
+			icon_state = "!reinforce"
 	else
 		if(!affecting.buckled)
 			affecting.loc = assailant.loc
@@ -115,8 +96,16 @@
 		affecting.Weaken(5)	//Should keep you down unless you get help.
 		affecting.losebreath = min(affecting.losebreath + 2, 3)
 
+/obj/item/weapon/grab/attack_self()
+	do_grab()
 
-/obj/item/weapon/grab/proc/s_click(obj/screen/S)
+/obj/item/weapon/grab/attackby(var/atom/A, var/mob/living/user)
+	do_grab()
+
+/obj/item/weapon/grab/attack_hand()
+	do_grab()
+
+/obj/item/weapon/grab/proc/do_grab()
 	if(!affecting)
 		return
 	if(state == GRAB_UPGRADING)
@@ -136,7 +125,6 @@
 			return
 		assailant.visible_message("<span class='warning'>[assailant] has grabbed [affecting] aggressively (now hands)!</span>")
 		state = GRAB_AGGRESSIVE
-		icon_state = "grabbed1"
 	else
 		if(state < GRAB_NECK)
 			if(isslime(affecting))
@@ -145,16 +133,15 @@
 
 			assailant.visible_message("<span class='warning'>[assailant] has reinforced \his grip on [affecting] (now neck)!</span>")
 			state = GRAB_NECK
-			icon_state = "grabbed+1"
 			if(!affecting.buckled)
 				affecting.loc = assailant.loc
 			add_logs(assailant, affecting, "neck-grabbed")
-			hud.icon_state = "disarm/kill"
-			hud.name = "disarm/kill"
+			icon_state = "disarm/kill"
+			name = "disarm/kill"
 		else
 			if(state < GRAB_UPGRADING)
 				assailant.visible_message("<span class='danger'>[assailant] starts to tighten \his grip on [affecting]'s neck!</span>")
-				hud.icon_state = "disarm/kill1"
+				icon_state = "disarm/kill1"
 				state = GRAB_UPGRADING
 				if(do_after(assailant, UPGRADE_KILL_TIMER))
 					if(state == GRAB_KILL)
@@ -174,7 +161,7 @@
 				else
 					if(assailant)
 						assailant.visible_message("<span class='warning'>[assailant] was unable to tighten \his grip on [affecting]'s neck!</span>")
-						hud.icon_state = "disarm/kill"
+						icon_state = "disarm/kill"
 						state = GRAB_NECK
 
 
@@ -196,10 +183,6 @@
 	if(!affecting)
 		return
 
-	if(M == affecting)
-		s_click(hud)
-		return
-
 	if(M == assailant && state >= GRAB_AGGRESSIVE)
 		if( (ishuman(user) && (FAT in user.mutations) && ismonkey(affecting) ) || ( isalien(user) && iscarbon(affecting) ) )
 			var/mob/living/carbon/attacker = user
@@ -212,6 +195,7 @@
 			affecting.loc = user
 			attacker.stomach_contents.Add(affecting)
 			qdel(src)
+
 
 
 /obj/item/weapon/grab/dropped()
