@@ -20,6 +20,9 @@ em						{font-style: normal;	font-weight: bold;}
 .adminobserver			{color: #996600;	font-weight: bold;}
 .admin					{color: #386aff;	font-weight: bold;}
 
+.mentoradmin			{color: #66CDAA;	font-weight: bold;}
+.mentor					{color: #8A2BE2;	font-weight: bold;}
+
 .name					{					font-weight: bold;}
 
 .say					{}
@@ -54,7 +57,8 @@ h1.alert, h2.alert		{color: #000000;}
 .info					{color: #0000CC;}
 .notice					{color: #000099;}
 .boldnotice				{color: #000099;	font-weight: bold;}
-.adminnotice			{color: #0000ff;}
+.adminnotice			{color: #0000CC;}
+.mentornotice			{color: #0000ff;}
 .unconscious			{color: #0000ff;	font-weight: bold;}
 .suicide				{color: #ff5050;	font-style: italic;}
 

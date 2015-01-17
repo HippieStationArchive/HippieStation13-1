@@ -77,3 +77,13 @@
 				msg += "\t[C] is a [C.holder.rank]\n"
 
 	src << msg
+
+/client/verb/mentorwho()
+	set category = "Mentor"
+	set name = "Mentorwho"
+
+	var/msg = "<b>Current Mentors:</b>\n"
+	for(var/client/C in mentors)
+		msg += "\t[C]\n"
+
+	src << msg

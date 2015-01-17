@@ -24,6 +24,9 @@
 	if (config.log_admin)
 		diary << "\[[time_stamp()]]ADMIN: [text]"
 
+/proc/log_mentor(text)
+	diary << "\[[time_stamp()]]MENTOR: [text]"
+
 /proc/log_game(text)
 	if (config.log_game)
 		diary << "\[[time_stamp()]]GAME: [text]"
