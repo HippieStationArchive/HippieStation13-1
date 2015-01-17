@@ -52,3 +52,6 @@
 	for(var/client/X in mentors)
 		if(X.key!=key && X.key!=C.key)	//check client/X is an Mentor and isn't the sender or recipient
 			X << "<B><font color='green'>Mentor PM To: [key_name_mentor(src, X, 0)]-&gt;[key_name_mentor(C, X, 0)]:</B> \blue [msg]</font>" //inform X
+	for(var/client/A in admins)
+		if(A.key!=key && A.key!=C.key)	//check client/A is an Mentor and isn't the sender or recipient
+			A << "<B><font color='green'>Mentor PM To: [key_name_mentor(src, A, 0)]-&gt;[key_name_mentor(C, A, 0)]:</B> \blue [msg]</font>" //inform A

@@ -11,6 +11,9 @@
 	if(check_rights(R_ADMIN,0))
 		msg = "<span class='mentoradmin'><span class='prefix'>MENTOR:</span> <EM>[src.ckey]</EM> : <span class='message'>[msg]</span></span>"
 		mentors << msg
+		admins << msg
+
 	else
 		msg = "<span class='mentor'><span class='prefix'>MENTOR:</span> <EM>[src.ckey]</EM> : <span class='message'>[msg]</span></span>"
 		mentors << msg
+		admins << msg

@@ -27,7 +27,7 @@ var/list/mentor_datums = list()
 /proc/check_mentor()
 	if(usr && usr.client)
 		var/mentor = mentor_datums[usr.client.ckey]
-		if(mentor)
+		if(mentor || check_rights(R_ADMIN,0))
 			return 1
 
 	return 0
