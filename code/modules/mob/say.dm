@@ -38,8 +38,10 @@
 		name = real_name
 	if(name != real_name)
 		alt_name = " (died as [real_name])"
+	if(message == "*fart" || message == "*scream")
+		src << "<span class='danger'>Please don't do emotes in the chat. ([message])</span>"
+		return
 
-	var/oldmsg = message
 	message = src.say_quote(message)
 
 	var/rendered = "<span class='game deadsay'><span class='prefix'>DEAD:</span> <span class='name'>[name]</span>[alt_name] <span class='message'>[message]</span></span>"
@@ -52,10 +54,6 @@
 		else if(M.stat == DEAD)
 			//M.show_message(rendered, 2) //Takes into account blindness and such. //preserved so you can look at it and cry at the stupidity of oldcoders. whoever coded this should be punched into the sun
 			M << rendered
-
-	if(oldmsg == "*fart" || oldmsg == "*scream")
-		src << "<span class='danger'>KICKED BECAUSE WHY YOU " + oldmsg + "</span>"
-		del(src.client)
 
 /mob/proc/emote(var/act)
 	return

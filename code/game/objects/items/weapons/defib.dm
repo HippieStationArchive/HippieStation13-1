@@ -306,8 +306,10 @@
 			H.visible_message("<span class='danger'>[user] has touched [H.name] with [src]!</span>", \
 					"<span class='userdanger'>[user] has touched [H.name] with [src]!</span>")
 			H.adjustFireLoss(30)
-			H.adjustOxyLoss(10)
-			H.Paralyse(5)
+			H.Stun(5)
+			H.Weaken(5)
+			H.Paralyse(3)
+			H.apply_effect(STUTTER, 5)
 			// H.Weaken(5)
 			H.updatehealth() //forces health update before next life tick
 			playsound(get_turf(src), 'sound/machines/defib_zap.ogg', 50, 1, -1)
@@ -342,6 +344,7 @@
 							return
 					if(H.stat == 2)
 						var/health = H.health
+						var/random = prob(80) //Chance of success. Stored in a variable to display failure message.
 						// user.visible_message("<span class='warning'>[health] HP. [config.health_threshold_dead] threshold for ded.") //Debug text
 						M.visible_message("<span class='warning'>[M]'s body convulses a bit.")
 						playsound(get_turf(src), "bodyfall", 50, 1)
@@ -349,7 +352,7 @@
 						for(var/obj/item/organ/limb/O in H.organs)
 							total_brute	+= O.brute_dam
 							total_burn	+= O.burn_dam
-						if(H.health < (config.health_threshold_dead - 50) && total_burn <= 180 && total_brute <= 180 && !H.suiciding && !ghost && tplus < tlimit && !(NOCLONE in H.mutations))
+						if(H.health < (config.health_threshold_dead - 50) && total_burn <= 180 && total_brute <= 180 && !H.suiciding && !ghost && tplus < tlimit && !(NOCLONE in H.mutations) && random)
 							tobehealed = health + threshold
 							tobehealed -= 5 //They get 5 of each type of damage healed so excessive combined damage will not immediately kill them after they get revived
 							H.adjustOxyLoss(tobehealed)
@@ -373,6 +376,8 @@
 								user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Severe tissue damage detected.</span>")
 							else if(H.health < (config.health_threshold_dead - 50))
 								user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Critical organical damage detected.</span>")
+							else if(!random)
+								user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Please try again.</span>")
 							else
 								user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed.</span>")
 								if(ghost)
