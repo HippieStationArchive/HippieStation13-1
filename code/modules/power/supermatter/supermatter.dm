@@ -41,7 +41,7 @@
 
 	var/emergency_issued = 0
 
-	var/explosion_power = 9
+	var/explosion_power = 3
 
 	var/lastwarning = 0				// Time in 1/10th of seconds since the last sent warning
 	var/power = 0
@@ -78,10 +78,8 @@
 
 /obj/machinery/power/supermatter_shard/proc/explode()
 	investigate_log("has exploded.", "supermatter")
-	if (src.anchored)
-		explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 6, explosion_power * 12, 1, 1)
-	else
-		explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 3, explosion_power * 4, 1)
+	
+	explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 4, explosion_power * 6, 1, 1)
 
 	qdel(src)
 	return
