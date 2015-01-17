@@ -266,6 +266,8 @@ var/list/department_radio_keys = list(
 	if(getBrainLoss() >= 60)
 		message = derpspeech(message, stuttering)
 
+	message = drunkspeech(message, stuttering, src.reagents)
+
 	if(stuttering)
 		message = stutter(message)
 
