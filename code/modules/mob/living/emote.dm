@@ -204,6 +204,10 @@
 
 		if ("sneeze")
 			message = "<B>[src]</B> sneezes."
+			var/sound = pick('sound/misc/malesneeze1.ogg', 'sound/misc/malesneeze2.ogg', 'sound/misc/malesneeze3.ogg')
+			if(gender == FEMALE)
+				sound = pick('sound/misc/femsneeze1.ogg', 'sound/misc/femsneeze2.ogg')
+			playsound(src.loc, sound, 50, 1, 5)
 			m_type = 2
 
 		if ("sniff")
