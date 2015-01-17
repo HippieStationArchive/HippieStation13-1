@@ -1472,21 +1472,25 @@ proc/process_ghost_teleport_locs()
 
 
 
-/area/wreck/ai
-	name = "\improper AI Chamber"
+/area/wreck/living
+	name = "\improper Prototype living area"
 	icon_state = "ai"
 
 /area/wreck/main
-	name = "\improper Wreck"
+	name = "\improper Prototype Main Hall"
 	icon_state = "storage"
 
 /area/wreck/engineering
-	name = "\improper Power Room"
+	name = "\improper Prototype Power Room"
 	icon_state = "engine"
 
 /area/wreck/bridge
-	name = "\improper Bridge"
+	name = "\improper Prototype Bridge"
 	icon_state = "bridge"
+
+/area/wreck/botany
+	name = "\improper Prototype Botany"
+	icon_state = "hydro"
 
 /area/generic
 	name = "Unknown"
