@@ -13,7 +13,7 @@
 	if(!msg)	return
 	if(!mob)	return						//this doesn't happen
 
-	msg = "<span class='mentornotice'><b><font color=red>MENTOR: </font>[key_name_mentor(src, 1)] :</b> [msg]</span>"
+	msg = "<span class='mentornotice'><b>[key_name_mentor(src, 1)] :</b> [msg]</span>"
 
 
 	for(var/client/X in mentors)

@@ -43,8 +43,8 @@
 
 	msg = emoji_parse(msg)
 
-	C << "<font color='red'>Mentor PM: -<b>[key_name_mentor(src, C, 1)]</b>: [msg]</font>"
-	src << "<font color='blue'>Mentor PM: -<b>[key_name_mentor(C, src, 1)]</b>: [msg]</font>"
+	C << "<font color='red'>Mentor PM: <b>[key_name_mentor(src, C, 1)]</b>: [msg]</font>"
+	src << "<font color='blue'>Mentor PM: <b>[key_name_mentor(C, src, 1)]</b>: [msg]</font>"
 
 	//we don't use message_Mentors here because the sender/receiver might get it too
 	for(var/client/X in mentors)
