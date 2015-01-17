@@ -221,7 +221,10 @@
 
 /atom/movable/CtrlClick(var/mob/user)
 	if(Adjacent(user))
-		user.start_pulling(src)
+		if(user.pulling == src)
+			user.stop_pulling(src)
+		else
+			user.start_pulling(src)
 
 /*
 	Alt click
