@@ -54,9 +54,17 @@
 	idle_power_usage = 20
 	active_power_usage = 500
 	var/stage = 0
+
 /obj/machinery/telepad_cargo/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	if(istype(W, /obj/item/weapon/rcs))
+		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+		s.set_up(5, 1, src)
+		s.start()
+		user << "<span class = 'caution'> You calibrate the rapid-crate-sender.</span>"
+		var/obj/item/weapon/rcs/R = W
+		R.pad = src
+
 	if(istype(W, /obj/item/weapon/wrench))
-		anchored = 0
 		playsound(src, 'sound/items/Ratchet.ogg', 50, 1)
 		if(anchored)
 			anchored = 0
@@ -108,14 +116,14 @@
 	throwforce = 10.0
 	throw_speed = 2
 	throw_range = 5
-	var/rcharges = 10
+	var/rcharges = 2
 	var/obj/machinery/pad = null
 	var/last_charge = 30
-	var/mode = 0
-	var/rand_x = 0
-	var/rand_y = 0
-	var/emagged = 0
-	var/teleporting = 0
+	//var/mode = 0
+	//var/rand_x = 0
+	//var/rand_y = 0
+	//var/emagged = 0
+	//var/teleporting = 0
 
 /obj/item/weapon/rcs/New()
 	..()
@@ -129,29 +137,29 @@
 	processing_objects.Remove(src)
 	..()
 /obj/item/weapon/rcs/process()
-	if(rcharges > 10)
-		rcharges = 10
+	if(rcharges > 2)
+		rcharges = 2
 	if(last_charge == 0)
 		rcharges++
 		last_charge = 30
 	else
 		last_charge--
 
-/obj/item/weapon/rcs/attack_self(mob/user)
-	if(emagged)
-		if(mode == 0)
-			mode = 1
-			playsound(src.loc, 'sound/effects/pop.ogg', 50, 0)
-			user << "<span class = 'caution'> The telepad locator has become uncalibrated.</span>"
-		else
-			mode = 0
-			playsound(src.loc, 'sound/effects/pop.ogg', 50, 0)
-			user << "<span class = 'caution'> You calibrate the telepad locator.</span>"
+///obj/item/weapon/rcs/attack_self(mob/user)
+//	if(emagged)
+//		if(mode == 0)
+//			mode = 1
+//			playsound(src.loc, 'sound/effects/pop.ogg', 50, 0)
+//			user << "<span class = 'caution'> The telepad locator has become uncalibrated.</span>"
+//		else
+//			mode = 0
+//			playsound(src.loc, 'sound/effects/pop.ogg', 50, 0)
+//			user << "<span class = 'caution'> You calibrate the telepad locator.</span>"
 
-/obj/item/weapon/rcs/emag_act(mob/user as mob)
-	if(!emagged)
-		emagged = 1
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-		s.set_up(5, 1, src)
-		s.start()
-		user << "<span class = 'caution'> You emag the RCS. Click on it to toggle between modes.</span>"
+///obj/item/weapon/rcs/emag_act(mob/user as mob)
+//	if(!emagged)
+//		emagged = 1
+//		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+//		s.set_up(5, 1, src)
+//		s.start()
+//		user << "<span class = 'caution'> You emag the RCS. Click on it to toggle between modes.</span>"

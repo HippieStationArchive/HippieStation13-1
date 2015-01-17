@@ -9,18 +9,40 @@
 	var/obj/machinery/mineral/processing_unit/machine = null
 	var/machinedir = EAST
 
+	var/obj/item/weapon/card/id/inserted_id
+	var/points = 0
+	var/list/ore_values = list(("sand" = 1), ("iron" = 1), ("gold" = 20), ("silver" = 20), ("uranium" = 20), ("bananium" = 30), ("diamond" = 40), ("plasma" = 40))
+
 /obj/machinery/mineral/processing_unit_console/New()
 	..()
 	spawn(7)
 		src.machine = locate(/obj/machinery/mineral/processing_unit, get_step(src, machinedir))
 		if (machine)
-			machine.CONSOLE = src
+			machine.console = src
 		else
 			qdel(src)
 
-/obj/machinery/mineral/processing_unit_console/attack_hand(user as mob)
+/obj/machinery/mineral/processing_unit_console/attackby(var/obj/item/weapon/W, var/mob/user)
+	if(istype(W,/obj/item/weapon/card/id))
+		var/obj/item/weapon/card/id/I = usr.get_active_hand()
+		if(istype(I) && !istype(inserted_id))
+			usr.drop_item()
+			I.loc = src
+			inserted_id = I
+			attack_hand(user)
+		return
+	..()
 
+/obj/machinery/mineral/processing_unit_console/attack_hand(user as mob)
 	var/dat = "<b>Smelter control console</b><br><br>"
+	dat += text("Current unclaimed points: [points]<br>")
+
+	if(istype(inserted_id))
+		dat += text("You have [inserted_id.mining_points] mining points collected. <A href='?src=\ref[src];choice=eject'>Eject ID.</A><br>")
+		dat += text("<A href='?src=\ref[src];choice=claim'>Claim points.</A><br><br><br>")
+	else
+		dat += text("No ID inserted.  <A href='?src=\ref[src];choice=insert'>Insert ID.</A><br><br><br>")
+
 	//iron
 	if(machine.ore_iron || machine.ore_glass || machine.ore_plasma || machine.ore_uranium || machine.ore_gold || machine.ore_silver || machine.ore_diamond || machine.ore_bananium || machine.ore_mime || machine.ore_adamantine)
 		if(machine.ore_iron)
@@ -142,6 +164,25 @@
 		return
 	usr.set_machine(src)
 	src.add_fingerprint(usr)
+	if(href_list["choice"])
+		if(istype(inserted_id))
+			if(href_list["choice"] == "eject")
+				inserted_id.loc = loc
+				inserted_id.verb_pickup()
+				inserted_id = null
+			if(href_list["choice"] == "claim")
+				if(access_mining_station in inserted_id.access)
+					inserted_id.mining_points += points
+					points = 0
+				else
+					usr << "<span class='warning'>Required access not found.</span>"
+		else if(href_list["choice"] == "insert")
+			var/obj/item/weapon/card/id/I = usr.get_active_hand()
+			if(istype(I))
+				usr.drop_item()
+				I.loc = src
+				inserted_id = I
+			else usr << "<span class='warning'>No valid ID.</span>"
 	if(href_list["sel_iron"])
 		if (href_list["sel_iron"] == "yes")
 			machine.selected_iron = 1
@@ -209,7 +250,7 @@
 	icon_state = "furnace"
 	density = 1
 	anchored = 1
-	var/obj/machinery/mineral/CONSOLE = null
+	var/obj/machinery/mineral/processing_unit_console/console
 	var/ore_gold = 0;
 	var/ore_silver = 0;
 	var/ore_diamond = 0;
@@ -458,5 +499,32 @@
 
 
 /obj/machinery/mineral/processing_unit/proc/generate_mineral(var/P)
+
 	var/O = new P(src)
+
+	if(istype(O, /obj/item/stack/sheet/glass))
+		if(console)
+			console.points += 1
+	else if(istype(O, /obj/item/stack/sheet/metal))
+		if(console)
+			console.points += 1
+	else if(istype(O, /obj/item/stack/sheet/mineral/gold))
+		if(console)
+			console.points += 20
+	else if(istype(O, /obj/item/stack/sheet/mineral/silver))
+		if(console)
+			console.points += 20
+	else if(istype(O, /obj/item/stack/sheet/mineral/uranium))
+		if(console)
+			console.points += 20
+	else if(istype(O, /obj/item/stack/sheet/mineral/bananium))
+		if(console)
+			console.points += 30
+	else if(istype(O, /obj/item/stack/sheet/mineral/diamond))
+		if(console)
+			console.points += 40
+	else if(istype(O, /obj/item/stack/sheet/mineral/plasma))
+		if(console)
+			console.points += 40
+
 	unload_mineral(O)

@@ -33,6 +33,15 @@
 	icon_opened = "trashcartopen"
 	icon_closed = "trashcart"
 
+/obj/structure/closet/crate/mining
+	desc = "A mining crate."
+	name = "mining crate"
+	icon = 'icons/obj/storage.dmi'
+	icon_state = "miningcrate"
+	density = 1
+	icon_opened = "miningcrateopen"
+	icon_closed = "miningcrate"
+
 /*these aren't needed anymore
 /obj/structure/closet/crate/hat
 	desc = "A crate filled with Valuable Collector's Hats!."
@@ -396,3 +405,27 @@
 			src.req_access += pick(get_all_accesses())
 	..()
 
+/obj/structure/closet/crate/mining/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	if(!opened)
+		if(istype(W, /obj/item/weapon/rcs))
+			var/obj/item/weapon/rcs/E = W
+			if(E.rcharges == 0)
+				user  << "<span class='notice'>The RCS is out of power, please wait for it to recharge.</span>"
+				return
+			else if(E.pad)
+				E.rcharges = E.rcharges - 1
+				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				s.set_up(5, 1, src)
+				s.start()
+				playsound(src.loc, 'sound/machines/defib_zap.ogg', 75, 1)
+
+				src.loc = E.pad.loc
+				playsound(E.pad, 'sound/machines/defib_zap.ogg', 75, 1)
+				var/datum/effect/effect/system/spark_spread/s1 = new /datum/effect/effect/system/spark_spread
+				s1.set_up(5, 1, E.pad)
+				s1.start()
+				return
+			else
+				user  << "<span class='notice'>The RCS has not been calibrated, please calibrate it against a cargo teleport pad.</span>"
+				return
+	..()

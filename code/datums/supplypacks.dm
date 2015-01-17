@@ -1068,6 +1068,17 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	cost = 20
 	containername = "high-traction floor tiles"
 
+/datum/supply_packs/misc/miningteleport
+	name = "Mining Teleportation Gear"
+	contains = list(/obj/item/device/telepad_beacon,
+		/obj/item/device/telepad_beacon,
+		/obj/item/device/telepad_beacon,
+		/obj/item/weapon/rcs,
+		/obj/item/weapon/rcs,
+		/obj/item/weapon/rcs,
+		/obj/item/weapon/rcs)
+	cost = 20
+	containername = "mining teleport gear"
 
 ///////////// Costumes
 
