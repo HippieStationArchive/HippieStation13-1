@@ -252,10 +252,12 @@ proc/isorgan(A)
 
 	for(var/datum/reagent/consumable/ethanol/R in S.reagent_list)
 		if(istype(R))
-			probability += R.volume / R.boozepwr
+			probability += R.volume / R.boozepwr * 3
 
 	if(probability == 0)
 		return message
+
+	probability = min(probability, 8)
 
 	var/list/buffer[length(message)]
 
@@ -264,6 +266,20 @@ proc/isorgan(A)
 		buffer[i] = copytext(message, i, i + 1)
 
 	for(var/i = 1, i <= buffer.len, i++)
+		// Replace specific chars
+		if(prob(probability * 2))
+			var/c = lowertext(buffer[i])
+
+			if(c == "o")
+				buffer[i] = "u"
+			if(c == "s")
+				buffer[i] = "c"
+				buffer.Insert(i + 1, "h")
+			if(c == "a")
+				buffer.Insert(i + 1, "h")
+			if(c == "c")
+				buffer[i] = "k"
+
 		// Add random char
 		if(prob(probability))
 			var/list/add = list("q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m")
