@@ -1038,8 +1038,47 @@
 		M << "\blue Your Goodcurity achievement has been removed."
 		if(M.client)
 			M.client.goodcurity = 0
+	else if(href_list["mentor"])
+		if(!check_rights(R_ADMIN))	return
 
+		var/mob/M = locate(href_list["mentor"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
 
+		if(!M.client)
+			usr << "no client"
+			return
+
+		log_admin("[key_name(usr)] has granted [key_name(M)] mentor access")
+		message_admins("\blue [key_name_admin(usr)] has granted [key_name_admin(M)] mentor access", 1)
+
+		var/DBQuery/query = dbcon.NewQuery("INSERT INTO [format_table_name("mentor")] (ckey) VALUES ('[M.client.ckey]')")
+		if(!query.Execute())
+			var/err = query.ErrorMsg()
+			log_game("SQL ERROR during adding new mentor. Error : \[[err]\]\n")
+		load_mentors()
+		M.verbs += /client/proc/cmd_mentor_say
+		M << "\blue You've been granted mentor access! Help people who send mentor-pms"
+
+	else if(href_list["removementor"])
+		if(!check_rights(R_ADMIN))	return
+
+		var/mob/living/carbon/human/M = locate(href_list["removementor"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
+
+		log_admin("[key_name(usr)] has removed mentor access from [key_name(M)]")
+		message_admins("\blue [key_name_admin(usr)] has removed mentor access from [key_name_admin(M)]", 1)
+
+		var/DBQuery/query = dbcon.NewQuery("DELETE FROM [format_table_name("mentor")] WHERE ckey = '[M.client.ckey]'")
+		if(!query.Execute())
+			var/err = query.ErrorMsg()
+			log_game("SQL ERROR during removing mentor. Error : \[[err]\]\n")
+		load_mentors()
+		M << "\blue Your mentor access has been removed"
+		M.verbs -= /client/proc/cmd_mentor_say
 
 	else if(href_list["sendtoprison"])
 		if(!check_rights(R_ADMIN))	return
