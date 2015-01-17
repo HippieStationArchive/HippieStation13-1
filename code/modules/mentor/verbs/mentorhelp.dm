@@ -13,11 +13,11 @@
 	if(!msg)	return
 	if(!mob)	return						//this doesn't happen
 
-	msg = "<span class='mentornotice'><b>[key_name_mentor(src, 1)] :</b> [msg]</span>"
+	msg = "<span class='mentornotice'><font color='purple'>New Mentor PM From: <b>[key_name_mentor(src, 1)] :</b> [msg]</font></span>"
 
 
 	for(var/client/X in mentors)
-		X << 'sound/misc/no.ogg'
+		X << 'sound/New_Sound/Items/Bikehorn2.ogg'
 		X << msg
 
 	//show it to the person adminhelping too
