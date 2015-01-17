@@ -20,6 +20,10 @@
 		X << 'sound/New_Sound/Items/Bikehorn2.ogg'
 		X << msg
 
+	for(var/client/A in admins)
+		A << 'sound/New_Sound/Items/Bikehorn2.ogg'
+		A << msg
+		
 	//show it to the person adminhelping too
 	src << "<span class='mentornotice'>PM to-<b>Mentors</b>: [msg]</span>"
 	return
