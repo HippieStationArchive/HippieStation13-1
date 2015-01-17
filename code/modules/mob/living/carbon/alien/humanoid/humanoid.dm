@@ -116,7 +116,7 @@
 				if (!lying)
 					if (prob(5))
 						Paralyse(2)
-						playsound(loc, "push", 50, 1, -1)
+						playsound(loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 						add_logs(M, src, "pushed", admin=0)
 						visible_message("<span class='danger'>[M] has pushed down [src]!</span>", \
 							"<span class='userdanger'>[M] has pushed down [src]!</span>")

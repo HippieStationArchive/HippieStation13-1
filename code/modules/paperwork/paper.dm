@@ -26,7 +26,6 @@
 	var/list/stamped
 	var/rigged = 0
 	var/spam_flag = 0
-	var/isNote = 0 //Apply duct tape on paper and attack wall with paper to attach a note to it.
 
 	var/const/deffont = "Verdana"
 	var/const/signfont = "Times New Roman"

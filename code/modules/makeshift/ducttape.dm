@@ -68,8 +68,6 @@
  * Crafting recipes below
  */
 
-
-
 /obj/item/stack/ducttape/afterattack(W, mob/user as mob)
 	if(istype(W, /obj/item/weapon/shard))
 		var/obj/item/weapon/shank/new_item = new(user.loc)
@@ -107,12 +105,6 @@
 			user.put_in_hands(new_item)
 		playsound(user, 'sound/New_Sound/items/ducttape1.ogg', 50, 1)
 
-	// var/obj/item/weapon/paper/P = W
-	// if(istype(P, /obj/item/weapon/paper) && W.isNote)
-	// 	user << "<span class='notice'>You strap [src] to the [W].</span>"
-	// 	src.use(1)
-	// 	playsound(user, 'sound/New_Sound/items/ducttape1.ogg', 50, 1)
-
 	if(ishuman(W) && (user.zone_sel.selecting == "mouth" || user.zone_sel.selecting == "head"))
 		var/mob/living/carbon/human/H = W
 		if( \
@@ -134,11 +126,7 @@
 		else
 			user << "<span class='warning'>You fail to tape [H]'s mouth.</span>"
 
-// /obj/structure/sign/note
 
-// /obj/item/weapon/paper/afterattack(atom/A, mob/user as mob)
-// 	..()
-// 	if(isturf(A) && A.density >= 1)
 
 /*/obj/item/weapon/shard/attackby(obj/item/stack/W, mob/user as mob)
 	..()
