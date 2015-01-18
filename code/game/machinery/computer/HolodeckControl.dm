@@ -311,15 +311,8 @@
 
 
 /obj/structure/table/holotable/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if (istype(W, /obj/item/weapon/grab) && get_dist(src,user)<2)
-		var/obj/item/weapon/grab/G = W
-		if(G.state < GRAB_AGGRESSIVE)
-			user << "<span class='danger'> You need a better grip to do that!</span>"
-			return
-		G.affecting.loc = src.loc
-		G.affecting.Weaken(5)
-		visible_message("<span class='danger'> [G.assailant] puts [G.affecting] on the table.</span>")
-		qdel(W)
+	if (istype(W, /obj/item/weapon/grab))
+		tablepush(I, user)
 		return
 
 	if (istype(W, /obj/item/weapon/wrench))
