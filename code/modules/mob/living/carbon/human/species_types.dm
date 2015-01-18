@@ -43,6 +43,28 @@
 	return message
 
 /*
+ MACHINEPEOPLE
+*/
+
+///datum/species/machine
+//	name = "Machine"
+//	id = "machine"
+//	say_mod = "beeps"
+//	default_color = "000000"
+//	roundstart = 1
+//	specflags = list(NOBREATH,HEATRES,COLDRES,MUTCOLORS,EYECOLOR,LIPS)
+//	attack_verb = "slash"
+//	attack_sound = 'sound/weapons/wave.ogg'
+//	miss_sound = 'sound/weapons/slashmiss.ogg'
+//	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/syntiflesh
+//
+///datum/species/machine/handle_speech(message)
+//	//if(copytext(message, 1, 2) != "*")
+//	//	message = replacetext(message, "s", stutter("ss"))
+//
+//	return message
+
+/*
  PLANTPEOPLE
 */
 

@@ -28,7 +28,7 @@
 	src << "<span class='mentornotice'>PM to-<b>Mentors</b>: [msg]</span>"
 	return
 
-/proc/key_name_mentor(var/whom, var/include_link = null, var/include_name = 1)
+/proc/key_name_mentor(var/whom, var/include_link = null, var/include_name = 0)
 	var/mob/M
 	var/client/C
 	var/key
@@ -63,7 +63,7 @@
 		if(include_link)
 			. += "<a href='?mentor_msg=[ckey]'>"
 
-		if(C && C.holder && C.holder.fakekey && !include_name)
+		if(C && C.holder && C.holder.fakekey)
 			. += "Administrator"
 		else
 			. += key
@@ -74,11 +74,5 @@
 			. += "</a>"
 	else
 		. += "*no key*"
-
-	if(include_name && M)
-		if(M.real_name)
-			. += "/([M.real_name])"
-		else if(M.name)
-			. += "/([M.name])"
 
 	return .
