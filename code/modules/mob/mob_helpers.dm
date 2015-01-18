@@ -259,6 +259,7 @@ proc/isorgan(A)
 
 	probability = min(probability, 8)
 
+	message = html_decode(message)
 	var/list/buffer[length(message)]
 
 	// Fill list with message's chars
@@ -307,7 +308,7 @@ proc/isorgan(A)
 	for(var/i = 1, i <= buffer.len, i++)
 		message = message + buffer[i]
 
-	return message
+	return sanitize(message)
 
 proc/Gibberish(t, p)//t is the inputted message, and any value higher than 70 for p will cause letters to be replaced instead of added
 	/* Turn text into complete gibberish! */
