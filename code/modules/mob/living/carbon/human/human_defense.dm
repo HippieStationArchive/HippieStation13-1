@@ -361,7 +361,8 @@ emp_act
 		inventory_items_to_kill += l_hand
 
 	for(var/obj/item/I in inventory_items_to_kill)
-		I.acid_act(acidpwr)
+		if(prob(2*acidpwr))
+			I.acid_act(acidpwr)
 
 /mob/living/carbon/human/grabbedby(mob/living/user)
 	if(w_uniform)

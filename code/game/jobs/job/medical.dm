@@ -33,6 +33,7 @@ Chief Medical Officer
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/toggle/labcoat/cmo(H), slot_wear_suit)
 	H.equip_to_slot_or_del(new /obj/item/weapon/storage/firstaid/regular(H), slot_l_hand)
 	H.equip_to_slot_or_del(new /obj/item/device/flashlight/pen(H), slot_s_store)
+	H.equip_to_slot_or_del(new /obj/item/device/sensor_device(H), slot_r_store)
 
 	//Equip telebaton
 	if(H.backbag == 2 || H.backbag == 3)
@@ -66,6 +67,7 @@ Medical Doctor
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/toggle/labcoat(H), slot_wear_suit)
 	H.equip_to_slot_or_del(new /obj/item/weapon/storage/firstaid/regular(H), slot_l_hand)
 	H.equip_to_slot_or_del(new /obj/item/device/flashlight/pen(H), slot_s_store)
+	H.equip_to_slot_or_del(new /obj/item/device/sensor_device(H), slot_r_store)
 
 /*
 Chemist

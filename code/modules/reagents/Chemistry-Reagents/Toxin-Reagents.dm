@@ -348,7 +348,7 @@ datum/reagent/toxin/acid/reaction_mob(var/mob/living/carbon/C, var/method=TOUCH,
 		return
 	if(method != TOUCH)
 		if(!C.unacidable)
-			C.take_organ_damage(min(6*toxpwr, volume * toxpwr))
+			C.take_organ_damage(min(4*toxpwr, volume * toxpwr))
 			return
 
 	C.acid_act(acidpwr, toxpwr, volume)
