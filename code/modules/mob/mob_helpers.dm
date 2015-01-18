@@ -244,12 +244,69 @@ proc/isorgan(A)
 	return message
 
 //implement this whenever
-/proc/drunkspeech(message, stuttering)
-	message = replacetext(message, "f", "ff")
-	message = replacetext(message, "k", "g")
-	message = replacetext(message, "s", "sh")
-	if(!stuttering && prob(30))
-		message = stutter(message)
+/proc/drunkspeech(message, stuttering, var/datum/reagents/S)
+	if(!istype(S))
+		return message
+
+	var/probability = 0
+
+	for(var/datum/reagent/consumable/ethanol/R in S.reagent_list)
+		if(istype(R))
+			probability += R.volume / R.boozepwr * 3
+
+	if(probability == 0)
+		return message
+
+	probability = min(probability, 8)
+
+	var/list/buffer[length(message)]
+
+	// Fill list with message's chars
+	for(var/i = 1, i <= length(message), i++)
+		buffer[i] = copytext(message, i, i + 1)
+
+	for(var/i = 1, i <= buffer.len, i++)
+		// Replace specific chars
+		if(prob(probability * 2))
+			var/c = lowertext(buffer[i])
+
+			if(c == "o")
+				buffer[i] = "u"
+			if(c == "s")
+				buffer[i] = "c"
+				buffer.Insert(i + 1, "h")
+			if(c == "a")
+				buffer.Insert(i + 1, "h")
+			if(c == "c")
+				buffer[i] = "k"
+
+		// Add random char
+		if(prob(probability))
+			var/list/add = list("q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m")
+			var/add_index = rand(1, add.len)
+			var/msg_index = rand(1, buffer.len)
+
+			buffer.Insert(msg_index, add[add_index])
+
+		// Mix chars
+		if(prob(probability))
+			var/char1_index = rand(2, buffer.len - 1)
+			var/char2_index = rand(0, 1)
+
+			if(char2_index == 0)
+				char2_index = -1
+
+			char2_index += char1_index
+
+			buffer.Swap(char1_index, char2_index)
+
+	// Empty original string
+	message = ""
+
+	// Recreate string from list
+	for(var/i = 1, i <= buffer.len, i++)
+		message = message + buffer[i]
+
 	return message
 
 proc/Gibberish(t, p)//t is the inputted message, and any value higher than 70 for p will cause letters to be replaced instead of added
