@@ -312,7 +312,7 @@
 
 /obj/structure/table/holotable/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if (istype(W, /obj/item/weapon/grab))
-		tablepush(I, user)
+		tablepush(W, user)
 		return
 
 	if (istype(W, /obj/item/weapon/wrench))

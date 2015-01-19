@@ -253,7 +253,7 @@
 		if(!G.confirm())
 			return 0
 		G.affecting.loc = src.loc
-		if(G.affecting.state == CONSCIOUS)
+		if(G.affecting.stat == CONSCIOUS)
 			G.affecting.Weaken(5)
 		G.affecting.visible_message("<span class='danger'>[G.assailant] pushes [G.affecting] onto [src].</span>", \
 									"<span class='userdanger'>[G.assailant] pushes [G.affecting] onto [src].</span>")
