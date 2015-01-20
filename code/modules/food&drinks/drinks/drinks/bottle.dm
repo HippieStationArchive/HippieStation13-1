@@ -152,6 +152,16 @@
 	..()
 	reagents.add_reagent("vodka", 100)
 
+/obj/item/weapon/reagent_containers/food/drinks/bottle/magicvodka
+	name = "The first bottle of vodka."
+	desc = "The prime source of vodka in the universe. Seems to be infinite."
+	volume = 2000
+	icon_state = "patronbottle"
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/magicvodka/New()
+	..()
+	reagents.add_reagent("vodka", 2000)
+
 /obj/item/weapon/reagent_containers/food/drinks/bottle/tequilla
 	name = "Caccavo Guaranteed Quality Tequilla"
 	desc = "Made from premium petroleum distillates, pure thalidomide and other fine quality ingredients!"

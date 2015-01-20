@@ -1470,7 +1470,10 @@ proc/process_ghost_teleport_locs()
 
 //Misc
 
-
+/area/wreck
+	name = "\improper Spacewreck"
+	icon_state = "centcom"
+	has_gravity = 1
 
 /area/wreck/living
 	name = "\improper Prototype living area"
@@ -1491,6 +1494,17 @@ proc/process_ghost_teleport_locs()
 /area/wreck/botany
 	name = "\improper Prototype Botany"
 	icon_state = "hydro"
+
+/area/wreck/solars
+	name = "\improper Prototype Solars"
+	icon_state = "engine"
+
+/area/wrecked/russian
+	name = "\improper Russianstation"
+	icon_state = "engine"
+	requires_power = 0
+	has_gravity = 1
+
 
 /area/generic
 	name = "Unknown"
