@@ -46,6 +46,7 @@
 	var/hooded = 0
 
 	var/insulated = 0 //For electrified grilles and all that
+	var/forcehitsound = 0//Force hitsound even if force is <= 0
 
 /obj/item/device
 	icon = 'icons/obj/device.dmi'

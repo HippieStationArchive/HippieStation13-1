@@ -422,3 +422,29 @@
 	body_parts_covered = CHEST|GROIN
 	fitted = 0
 	can_adjust = 0
+
+/obj/item/clothing/under/cosby
+	name = "sweater"
+	desc = "Zip zap zoobity bap"
+	icon_state = "cosby"
+	item_state = "r_suit" //bleh
+	item_color = "cosby"
+	can_adjust = 0
+	forcehitsound = 1
+	hitsound = list('sound/voice/cosby1.ogg','sound/voice/cosby2.ogg','sound/voice/cosby3.ogg','sound/voice/cosby4.ogg','sound/voice/cosby5.ogg')
+
+/obj/item/clothing/under/reporter
+	name = "reporter suit"
+	desc = "Photograph everything!"
+	icon_state = "reporter"
+	item_state = "bl_suit" //BLEH
+	item_color = "reporter"
+	can_adjust = 0
+
+/obj/item/clothing/under/drive
+	name = "drive uniform"
+	desc = "A satin jacket and jean combo. It'd probably be more comfortable in a car."
+	icon_state = "drive_suit"
+	item_state = "drive_suit"
+	item_color = "drive_suit"
+	can_adjust = 0

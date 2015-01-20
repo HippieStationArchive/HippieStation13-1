@@ -127,7 +127,8 @@ proc/process_ghost_teleport_locs()
 	power_light = 0
 	power_equip = 0
 	power_environ = 0
-	ambientsounds = list('sound/ambience/ambispace.ogg','sound/ambience/title2.ogg',)
+	ambientsounds = list('sound/ambience/ambispace.ogg','sound/ambience/johncena.ogg',)
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 
 
@@ -337,6 +338,8 @@ proc/process_ghost_teleport_locs()
 	icon_state = "syndie-ship"
 	requires_power = 0
 	has_gravity = 1
+	ambloop = 'sound/ambience/loop/windwinterinside.ogg'
+	ambientsounds = list('sound/ambience/ambicreek1.ogg', 'sound/ambience/ambicreek2.ogg', 'sound/ambience/johncena.ogg')
 
 /area/syndicate_mothership/control
 	name = "\improper Syndicate Control Room"
@@ -415,11 +418,13 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Syndicate Station"
 	icon_state = "yellow"
 	requires_power = 0
+	ambloop = 'sound/ambience/loop/cargohum.ogg'
 
 /area/syndicate_station/start
 	name = "\improper Syndicate Forward Operating Base"
 	icon_state = "yellow"
 	has_gravity = 1
+	// ambloop = 'sound/ambience/loop/windwinterinside.ogg'
 
 /area/syndicate_station/southwest
 	name = "\improper south-west of SS13"
@@ -877,6 +882,7 @@ proc/process_ghost_teleport_locs()
 	requires_power = 0
 	luminosity = 1
 	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 	auxport
 		name = "\improper Fore Port Solar Array"
@@ -955,6 +961,7 @@ proc/process_ghost_teleport_locs()
 	icon_state = "teleporter"
 	music = "signal"
 	ambientsounds = list('sound/ambience/ambimalf.ogg')
+	ambloop = 'sound/ambience/loop/quiethum.ogg'
 
 //MedBay
 
@@ -1191,6 +1198,7 @@ proc/process_ghost_teleport_locs()
 /area/toxins/test_area
 	name = "\improper Toxins Test Area"
 	icon_state = "toxtest"
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 /area/toxins/mixing
 	name = "\improper Toxins Mixing Room"
@@ -1266,12 +1274,27 @@ proc/process_ghost_teleport_locs()
 	name = "\improper DJ Station Solars"
 	icon_state = "DJ"
 	has_gravity = 1
+	requires_power = 0
+	luminosity = 1
+	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 //DERELICT
 
 /area/derelict
 	name = "\improper Derelict Station"
 	icon_state = "storage"
+	ambloop = 'sound/ambience/loop/quiethum.ogg'
+	ambientsounds = list('sound/ambience/ambigen3.ogg',\
+									'sound/ambience/ambigen4.ogg','sound/ambience/ambigen5.ogg',\
+									'sound/ambience/ambigen6.ogg','sound/ambience/ambigen7.ogg',\
+									'sound/ambience/ambigen8.ogg','sound/ambience/ambigen9.ogg',\
+									'sound/ambience/ambigen10.ogg','sound/ambience/ambigen11.ogg',\
+									'sound/ambience/ambigen12.ogg','sound/hallucinations/turn_around1.ogg',\
+									'sound/hallucinations/turn_around2.ogg','sound/hallucinations/veryfar_noise.ogg',\
+									'sound/hallucinations/behind_you1.ogg','sound/hallucinations/behind_you2.ogg',\
+									'sound/hallucinations/over_here1.ogg','sound/hallucinations/over_here2.ogg',\
+									'sound/hallucinations/over_here3.ogg')
 
 /area/derelict/hallway/primary
 	name = "\improper Derelict Primary Hallway"
@@ -1380,6 +1403,10 @@ proc/process_ghost_teleport_locs()
 /area/construction/solars
 	name = "\improper Solar Panels"
 	icon_state = "yellow"
+	requires_power = 0
+	luminosity = 1
+	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 /area/construction/solarscontrol
 	name = "\improper Solar Panel Control"
@@ -1413,6 +1440,7 @@ proc/process_ghost_teleport_locs()
 
 /area/turret_protected/
 	ambientsounds = list('sound/ambience/ambimalf.ogg')
+	ambloop = 'sound/ambience/loop/softhum.ogg'
 
 /area/turret_protected/ai_upload
 	name = "\improper AI Upload Chamber"
@@ -1443,24 +1471,28 @@ proc/process_ghost_teleport_locs()
 	icon_state = "storage"
 	luminosity = 1
 	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 /area/turret_protected/AIsatextFS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
 	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 /area/turret_protected/AIsatextAS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
 	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 /area/turret_protected/AIsatextAP
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
 	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 /area/turret_protected/NewAIMain
 	name = "\improper AI Main New"
@@ -1474,6 +1506,8 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Spacewreck"
 	icon_state = "centcom"
 	has_gravity = 1
+	ambientsounds = list('sound/ambience/ambieng1.ogg', 'sound/ambience/ambimine.ogg')
+	// ambloop = 'sound/ambience/loop/softhum.ogg'
 
 /area/wreck/living
 	name = "\improper Prototype living area"
@@ -1498,12 +1532,18 @@ proc/process_ghost_teleport_locs()
 /area/wreck/solars
 	name = "\improper Prototype Solars"
 	icon_state = "engine"
+	requires_power = 0
+	luminosity = 1
+	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 /area/wrecked/russian
 	name = "\improper Russianstation"
 	icon_state = "engine"
 	requires_power = 0
 	has_gravity = 1
+	ambloop = 'sound/ambience/loop/opressivehum.ogg'
+	ambientsounds = list('sound/ambience/johncena.ogg')
 
 
 /area/generic

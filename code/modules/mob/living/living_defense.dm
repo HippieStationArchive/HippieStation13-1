@@ -102,6 +102,7 @@ proc/vol_by_throwforce_and_or_w_class(var/obj/item/I)
 	if(fire_stacks > 0 && !on_fire)
 		on_fire = 1
 		src.AddLuminosity(3)
+		playsound(src, 'sound/New_Sound/Effects/combust.ogg', 40, 1, -1)
 		update_fire()
 
 /mob/living/proc/ExtinguishMob()

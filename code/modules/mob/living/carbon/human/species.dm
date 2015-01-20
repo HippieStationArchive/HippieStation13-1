@@ -1344,6 +1344,7 @@
 		H.on_fire = 1
 		H.AddLuminosity(3)
 		H.update_fire()
+		playsound(H.loc, 'sound/New_Sound/Effects/combust.ogg', 40, 1, -1)
 
 /datum/species/proc/ExtinguishMob(var/mob/living/carbon/human/H)
 	if(H.on_fire)

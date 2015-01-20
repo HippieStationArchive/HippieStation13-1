@@ -1,6 +1,9 @@
 /mob/living/carbon/human/emote(var/act,var/m_type=1,var/message = null)
 	var/param = null
-
+	var/delay = 5
+	var/exception = null
+	if(src.spam_flag == 1)
+		return
 	if (findtext(act, "-", 1, null))
 		var/t1 = findtext(act, "-", 1, null)
 		param = copytext(act, t1 + 1, length(act) + 1)
@@ -239,6 +242,7 @@
 				message = "<B>[src]</B> moans!"
 				m_type = 2
 		if ("fart")
+			exception = 1
 			var/obj/item/clothing/head/butt/B = null
 			B = locate() in src.internal_organs
 			if(!B)
@@ -284,6 +288,7 @@
 					spawn(10)
 						del(L)
 		if("superfart") //how to remove ass
+			exception = 1
 			if (ticker.current_state == 3)//safety1
 				if(world.time < fartholdin)//safety2
 					src << "Your ass is not ready to blast."
@@ -442,7 +447,15 @@
 			if (miming)
 				message = "<B>[src]</B> sneezes."
 			else
-				..(act)
+				if (muzzled)
+					message = "<B>[src]</B> makes a strange noise."
+				else
+					var/sound = pick('sound/misc/malesneeze01.ogg', 'sound/misc/malesneeze02.ogg', 'sound/misc/malesneeze03.ogg')
+					if(gender == FEMALE)
+						sound = pick('sound/misc/femsneeze01.ogg', 'sound/misc/femsneeze02.ogg')
+					playsound(src.loc, sound, 50, 1, 5)
+					message = "<B>[src]</B> sneezes."
+				m_type = 2
 
 		if ("sniff")
 			message = "<B>[src]</B> sniffs."
@@ -479,7 +492,10 @@
 
 	if (message)
 		log_emote("[name]/[key] : [message]")
-
+		if(!exception)
+			src.spam_flag = 1
+			spawn(delay)
+				src.spam_flag = 0
  //Hearing gasp and such every five seconds is not good emotes were not global for a reason.
  // Maybe some people are okay with that.
 

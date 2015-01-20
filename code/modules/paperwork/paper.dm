@@ -26,6 +26,7 @@
 	var/list/stamped
 	var/rigged = 0
 	var/spam_flag = 0
+	var/lit = 0
 
 	var/const/deffont = "Verdana"
 	var/const/signfont = "Times New Roman"
@@ -263,7 +264,7 @@
 			update_icon()
 
 
-/obj/item/weapon/paper/attackby(obj/item/weapon/P, mob/user)
+/obj/item/weapon/paper/attackby(obj/item/P, mob/user)
 	..()
 
 	if(is_blind(user))
@@ -304,10 +305,48 @@
 		overlays += stampoverlay
 
 		user << "<span class='notice'>You stamp the paper with your rubber stamp.</span>"
-
+	else
+		if(istype(P, /obj/item/weapon/weldingtool))
+			var/obj/item/weapon/weldingtool/WT = P
+			if(WT.isOn()) //Badasses dont get blinded by lighting their candle with a welding tool
+				light("<span class='danger'>[user] casually lights the [name] with [P], what a badass.</span>")
+		else if(istype(P, /obj/item/weapon/lighter))
+			var/obj/item/weapon/lighter/L = P
+			if(L.lit)
+				light("<span class='danger'>[user] lights the [name] on fire!</span>")
+		else if(istype(P, /obj/item/weapon/match))
+			var/obj/item/weapon/match/M = P
+			if(M.lit)
+				light("<span class='danger'>[user] lights the [name] on fire!</span>")
+		else if(istype(P, /obj/item/candle))
+			var/obj/item/candle/C = P
+			if(C.lit)
+				light("<span class='danger'>[user] lights the [name] on fire!</span>")
+		else if(istype(P, /obj/item/clothing/mask/cigarette))
+			var/obj/item/clothing/mask/cigarette/M = P
+			if(M.lit)
+				light("<span class='danger'>[user] lights the [name] on fire!</span>")
 	add_fingerprint(user)
 
+/obj/item/weapon/paper/proc/light(var/flavor_text = null)
+	if(!src.lit)
+		src.lit = 1
+		//src.damtype = "fire"
+		for(var/mob/O in viewers(usr, null))
+			O.show_message(flavor_text, 1)
+		AddLuminosity(1)
+		processing_objects.Add(src)
+		icon_state = "paper_burn"
+		var/turf/T = get_turf(loc)
+		if(T)
+			T.hotspot_expose(700,125)
+		spawn(20)
+			// usr.drop_item(src)
+			new /obj/effect/decal/cleanable/ash(loc)
+			qdel(src)
 
+/obj/item/weapon/paper/fire_act()
+	light()
 /*
  * Premade paper
  */

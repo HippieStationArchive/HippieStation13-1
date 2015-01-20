@@ -52,7 +52,7 @@
 	SUIT_TYPE = /obj/item/clothing/suit/space/hardsuit/elite
 	HELMET_TYPE = /obj/item/clothing/head/helmet/space/hardsuit/elite
 	MASK_TYPE = /obj/item/clothing/mask/breath
-	STORAGE_TYPE= /obj/item/clothing/shoes/magboots/advance
+	STORAGE_TYPE = /obj/item/clothing/shoes/magboots/advance
 
 /obj/machinery/suit_storage_unit/security
 	SUIT_TYPE = /obj/item/clothing/suit/space/hardsuit/security
@@ -80,6 +80,12 @@
 	HELMET_TYPE = /obj/item/clothing/head/helmet/space/hardsuit/syndi
 	MASK_TYPE = /obj/item/clothing/mask/gas/syndicate
 	STORAGE_TYPE = /obj/item/weapon/tank/jetpack/oxygen/harness
+
+/obj/machinery/suit_storage_unit/emergency_response
+	SUIT_TYPE = /obj/item/clothing/suit/space/emerg
+	HELMET_TYPE = /obj/item/clothing/head/helmet/space/emerg
+	MASK_TYPE = /obj/item/clothing/mask/breath
+	STORAGE_TYPE = /obj/item/clothing/shoes/magboots/advance
 
 /obj/machinery/suit_storage_unit/New()
 	src.update_icon()

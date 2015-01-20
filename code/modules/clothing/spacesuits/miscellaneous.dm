@@ -115,3 +115,20 @@
 	armor = list(melee = 60, bullet = 50, laser = 30,energy = 15, bomb = 30, bio = 30, rad = 30)
 	strip_delay = 40
 	put_on_delay = 20
+
+/obj/item/clothing/head/helmet/space/emerg
+	name = "Emergency Suit Helmet"
+	desc = "ERP Team is here!"
+	icon_state = "emerg"
+	item_state = "emerg"
+	slowdown = 1
+	armor = list(melee = 60, bullet = 15, laser = 15, energy = 15, bomb = 20, bio = 100, rad = 100)
+
+/obj/item/clothing/suit/space/emerg
+	name = "Emergency Suit"
+	desc = "ERP Team is here!"
+	icon_state = "emerg"
+	item_state = "emerg"
+	slowdown = 1
+	armor = list(melee = 60, bullet = 15, laser = 15, energy = 15, bomb = 20, bio = 100, rad = 100)
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/device/multitool)

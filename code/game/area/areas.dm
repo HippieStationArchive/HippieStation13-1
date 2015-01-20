@@ -24,7 +24,9 @@
 									'sound/ambience/ambigen8.ogg','sound/ambience/ambigen9.ogg',\
 									'sound/ambience/ambigen10.ogg','sound/ambience/ambigen11.ogg',\
 									'sound/ambience/ambigen12.ogg','sound/ambience/ambigen13.ogg',\
-									'sound/ambience/ambigen14.ogg')
+									'sound/ambience/ambigen14.ogg', 'sound/ambience/ambicreek1.ogg',\
+									'sound/ambience/ambicreek2.ogg', 'sound/ambience/ambiencegenlawnmower.ogg')
+	var/ambloop = 'sound/ambience/loop/shipambience.ogg'
 
 /area/New()
 	icon_state = ""
@@ -327,6 +329,7 @@
 
 
 /area/Entered(A)
+	// world << "<span class='notice'>Entered</span>"
 	if(!istype(A,/mob/living))	return
 
 	var/mob/living/L = A
@@ -341,9 +344,10 @@
 	// Ambience goes down here -- make sure to list each area seperately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	if(!(L && L.client && (L.client.prefs.toggles & SOUND_AMBIENCE)))	return
 
-	if(!L.client.ambience_playing)
-		L.client.ambience_playing = 1
-		L << sound('sound/ambience/shipambience.ogg', repeat = 1, wait = 0, volume = 35, channel = 2)
+	if(!L.client.ambience_playing || L.client.ambience_playing != ambloop)
+		L.client.ambience_playing = ambloop
+		L << sound(null)
+		L << sound(ambloop, repeat = 1, wait = 0, volume = 35, channel = 2)
 
 	if(prob(35))
 		var/sound = pick(ambientsounds)

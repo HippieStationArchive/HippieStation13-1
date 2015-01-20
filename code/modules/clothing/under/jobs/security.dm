@@ -46,6 +46,13 @@
 	item_state = "greydet"
 	item_color = "greydet"
 
+/obj/item/clothing/under/rank/det/vice
+	name = "vice detective suit"
+	desc = "An alternate look to your modern day space detective."
+	icon_state = "detectivevice"
+	item_state = "greydet" //BLEHHHH
+	item_color = "detectivevice"
+
 /*
  * Head of Security
  */

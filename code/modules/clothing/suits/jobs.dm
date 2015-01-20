@@ -66,23 +66,31 @@
 	body_parts_covered = CHEST|GROIN
 
 //Detective
-/obj/item/clothing/suit/det_suit
+/obj/item/clothing/suit/toggle/det_suit
 	name = "trenchcoat"
 	desc = "An 18th-century multi-purpose trenchcoat. Someone who wears this means serious business."
 	icon_state = "detective"
 	item_state = "det_suit"
+	action_button_name = "Toggle Coat Buttons"
+	togglename = "buttons"
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/weapon/tank/emergency_oxygen,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/device/flashlight,/obj/item/weapon/gun/energy,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/storage/fancy/cigarettes,/obj/item/weapon/lighter,/obj/item/device/detective_scanner,/obj/item/device/taperecorder)
-	armor = list(melee = 50, bullet = 10, laser = 25, energy = 10, bomb = 0, bio = 0, rad = 0)
+	armor = list(melee = 50, bullet = 30, laser = 25, energy = 10, bomb = 0, bio = 0, rad = 0)
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
 
-/obj/item/clothing/suit/det_suit/grey
+/obj/item/clothing/suit/toggle/det_suit/grey
 	name = "noir trenchcoat"
 	desc = "A hard-boiled private investigator's grey trenchcoat."
 	icon_state = "greydet"
-	item_state = "greydet"
+	item_state = "greydet_suit"
+
+/obj/item/clothing/suit/toggle/det_suit/white
+	name = "white trenchcoat"
+	desc = "This coat bears the scent of a coal mine, and a name seems to have been removed from the patch. C.P."
+	icon_state = "detectivewhite"
+	item_state = "whitedet_suit"
 
 //Engineering
 /obj/item/clothing/suit/hazardvest

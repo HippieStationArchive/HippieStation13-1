@@ -297,3 +297,17 @@
 	icon_state = "coatminer"
 	allowed = list(/obj/item/weapon/pickaxe,/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/toy,/obj/item/weapon/storage/fancy/cigarettes,/obj/item/weapon/lighter)
 	armor = list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
+
+//FPSS13 PORTS!
+
+/obj/item/clothing/suit/reporterjacket
+	name = "Reporter Jacket"
+	desc = "With my handy dandy notebook!"
+	icon_state = "reporterjacket"
+	item_state = "reporterjacket"
+
+/obj/item/clothing/suit/welder
+	name = "Welder's Apron"
+	desc = "It's got a disgusting brown color. Kinda reminds you of dried blood..."
+	icon_state = "apronwelder2"
+	item_state = "apronwelder2"
