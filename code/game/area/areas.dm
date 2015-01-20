@@ -346,7 +346,7 @@
 
 	if(!L.client.ambience_playing || L.client.ambience_playing != ambloop)
 		L.client.ambience_playing = ambloop
-		L << sound(null)
+		// L << sound(null) //nah, breaks admin sounds
 		L << sound(ambloop, repeat = 1, wait = 0, volume = 35, channel = 2)
 
 	if(prob(35))

@@ -66,6 +66,7 @@
 
 	//simple_animal access
 	var/obj/item/weapon/card/id/access_card = null	//innate access uses an internal ID card
+	var/damage_resistance = 0
 
 
 /mob/living/simple_animal/New()
@@ -413,7 +414,8 @@
 			adjustBruteLoss(30)
 
 /mob/living/simple_animal/adjustBruteLoss(damage)
-	health = Clamp(health - damage, 0, maxHealth)
+	var/damresist = Clamp(damage_resistance, 0, maxHealth)
+	health = Clamp(health - (damage - damresist), 0, maxHealth)
 	if(health < 1 && stat != DEAD)
 		Die()
 
