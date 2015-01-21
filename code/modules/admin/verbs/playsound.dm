@@ -1,4 +1,4 @@
-#define SOUND_CHANNEL_ADMIN 777
+// #define SOUND_CHANNEL_ADMIN 777
 var/sound/admin_sound
 
 /client/proc/play_sound(S as sound)
@@ -6,7 +6,7 @@ var/sound/admin_sound
 	set name = "Play Global Sound"
 	if(!check_rights(R_SOUNDS))	return
 
-	admin_sound = sound(S, repeat = 0, wait = 1, channel = SOUND_CHANNEL_ADMIN)
+	admin_sound = sound(S, repeat = 0, wait = 1, channel = 7)
 	admin_sound.priority = 250
 	admin_sound.status = SOUND_UPDATE|SOUND_STREAM
 
@@ -48,4 +48,4 @@ var/sound/admin_sound
 			M << sound(null)
 	feedback_add_details("admin_verb","SS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
-#undef SOUND_CHANNEL_ADMIN
+// #undef SOUND_CHANNEL_ADMIN

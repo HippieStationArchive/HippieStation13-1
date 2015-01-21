@@ -371,10 +371,12 @@ proc/process_ghost_teleport_locs()
 	lighting_use_dynamic = 1
 	InitializeLighting()
 
-/area/planet/clown
+/area/clownplanet
 	name = "\improper Clown Planet"
 	icon_state = "honk"
 	requires_power = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
+	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
 
 /area/telesciareas
 	name = "\improper Cosmic Anomaly"
@@ -1285,16 +1287,10 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Derelict Station"
 	icon_state = "storage"
 	ambloop = 'sound/ambience/loop/quiethum.ogg'
-	ambientsounds = list('sound/ambience/ambigen3.ogg',\
-									'sound/ambience/ambigen4.ogg','sound/ambience/ambigen5.ogg',\
-									'sound/ambience/ambigen6.ogg','sound/ambience/ambigen7.ogg',\
-									'sound/ambience/ambigen8.ogg','sound/ambience/ambigen9.ogg',\
-									'sound/ambience/ambigen10.ogg','sound/ambience/ambigen11.ogg',\
-									'sound/ambience/ambigen12.ogg','sound/hallucinations/turn_around1.ogg',\
-									'sound/hallucinations/turn_around2.ogg','sound/hallucinations/veryfar_noise.ogg',\
-									'sound/hallucinations/behind_you1.ogg','sound/hallucinations/behind_you2.ogg',\
-									'sound/hallucinations/over_here1.ogg','sound/hallucinations/over_here2.ogg',\
-									'sound/hallucinations/over_here3.ogg')
+	ambientsounds = list('sound/ambience/ambmaint.ogg','sound/ambience/ambicreek1.ogg',\
+							'sound/ambience/ambicreek2.ogg','sound/ambience/ambigen5.ogg',\
+							'sound/ambience/ambigen7.ogg','sound/ambience/ambigen8.ogg',\
+							'sound/ambience/ambieng1.ogg')
 
 /area/derelict/hallway/primary
 	name = "\improper Derelict Primary Hallway"

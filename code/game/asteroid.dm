@@ -131,7 +131,7 @@ proc/make_mining_asteroid_secret()
 			theme = "poly"
 			x_size = 5
 			y_size = 5
-			walltypes = list(/turf/simulated/wall/mineral/clown)
+			walltypes = list(/turf/simulated/wall/mineral/bananium)
 			floortypes= list(/turf/simulated/floor/engine)
 			treasureitems = list(/obj/item/weapon/spellbook=1,/obj/mecha/combat/marauder=1,/obj/machinery/wish_granter=1)
 			fluffitems = list(/obj/item/weapon/melee/energy/axe)*/

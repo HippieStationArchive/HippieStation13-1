@@ -96,7 +96,7 @@
 				if("Adamantine")
 					M = new/turf/simulated/mineral/adamantine(src)
 				if("Clown")
-					M = new/turf/simulated/mineral/clown(src)
+					M = new/turf/simulated/mineral/bananium(src)
 				if("Mime")
 					M = new/turf/simulated/mineral/mime(src)
 			if(M)
@@ -121,6 +121,11 @@
 /turf/simulated/mineral/random/low_chance/New()
 	icon_state = "rock"
 	..()
+
+/turf/simulated/mineral/random/rock_clownchance
+	icon_state = "rock_highchance"
+	mineralChance = 20
+	mineralSpawnChanceList = list("Clown" = 10)
 
 /turf/simulated/mineral/uranium
 	name = "Uranium deposit"
@@ -177,7 +182,7 @@
 	spread = 1
 
 
-/turf/simulated/mineral/clown
+/turf/simulated/mineral/bananium
 	name = "Bananium deposit"
 	icon_state = "rock_Clown"
 	mineralName = "Clown"
