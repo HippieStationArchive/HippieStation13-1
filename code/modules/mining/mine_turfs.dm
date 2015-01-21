@@ -124,8 +124,12 @@
 
 /turf/simulated/mineral/random/rock_clownchance
 	icon_state = "rock_highchance"
-	mineralChance = 20
+	mineralChance = 5
 	mineralSpawnChanceList = list("Clown" = 10)
+
+/turf/simulated/mineral/random/rock_clownchance/New()
+	icon_state = "rock"
+	..()
 
 /turf/simulated/mineral/uranium
 	name = "Uranium deposit"
