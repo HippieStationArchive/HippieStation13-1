@@ -638,7 +638,7 @@
 "mn" = (/obj/structure/closet/crate/mining{tag = "icon-miningcrateopen"; icon_state = "miningcrateopen"},/turf/simulated/floor/plasteel{icon_state = "bot"; dir = 1},/area/mine/production)
 "mo" = (/obj/machinery/atmospherics/unary/vent_pump{dir = 2; on = 1},/turf/simulated/floor/plasteel,/area/mine/production)
 "mp" = (/obj/machinery/camera{c_tag = "Processing Area Room"; dir = 8; network = list("MINE")},/obj/item/device/radio/intercom{dir = 8; name = "Station Intercom (General)"; pixel_x = 28},/turf/simulated/floor/plasteel{dir = 4; icon_state = "warning"},/area/mine/production)
-"mq" = (/obj/machinery/mineral/unloading_machine{dir = 1; icon_state = "unloader-corner"; input_dir = 4; output_dir = 8},/turf/simulated/floor/plating{icon_state = "warnplate"; dir = 9},/area/mine/production)
+"mq" = (/obj/machinery/mineral/unloading_machine{dir = 1; icon_state = "unloader-corner"; input_dir = 1; output_dir = 2},/turf/simulated/floor/plating{icon_state = "warnplate"; dir = 9},/area/mine/production)
 "mr" = (/obj/machinery/door/airlock/external{name = "Mining Shuttle Airlock"; req_access_txt = "0"},/turf/simulated/floor/plasteel{icon_state = "delivery"; name = "floor"},/area/mine/production)
 "ms" = (/turf/simulated/floor/plasteel,/area/mine/production)
 "mt" = (/obj/structure/disposalpipe/segment{dir = 1; icon_state = "pipe-c"},/turf/simulated/floor/plasteel,/area/mine/production)

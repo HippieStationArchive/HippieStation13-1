@@ -153,7 +153,7 @@
 	reagents.add_reagent("vodka", 100)
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/magicvodka
-	name = "The first bottle of vodka."
+	name = "The first bottle of vodka"
 	desc = "The prime source of vodka in the universe. Seems to be infinite."
 	volume = 2000
 	icon_state = "patronbottle"
