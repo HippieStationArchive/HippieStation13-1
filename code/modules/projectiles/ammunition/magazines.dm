@@ -187,7 +187,7 @@ obj/item/ammo_box/magazine/tommygunm45
 	name = "shotgun magazine (12g taser slugs)"
 	icon_state = "m12gs"
 	origin_tech = "combat=3;syndicate=1"
-	ammo_type = /obj/item/ammo_casing/shotgun/stunslug
+	ammo_type = /obj/item/ammo_casing/shotgun/stunslug //SYNDICATE SHOTGUN. USES STUNSLUGS BY DEFAULT. WHAT.
 	caliber = "shotgun"
 	max_ammo = 8
 
@@ -200,7 +200,6 @@ obj/item/ammo_box/magazine/tommygunm45
 	name = "shotgun magazine (12g buckshot)"
 	icon_state = "m12gb"
 	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
-
 
 /obj/item/ammo_box/magazine/m12g/dragon
 	name = "shotgun magazine (12g dragon's breath)"
