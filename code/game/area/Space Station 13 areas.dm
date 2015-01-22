@@ -1498,6 +1498,10 @@ proc/process_ghost_teleport_locs()
 
 //Misc
 
+/area/space/debris
+	name = "\improper Space debris"
+	icon_state = "spacedebris"
+
 /area/wreck
 	name = "\improper Spacewreck"
 	icon_state = "centcom"
@@ -1541,6 +1545,15 @@ proc/process_ghost_teleport_locs()
 	ambloop = 'sound/ambience/loop/opressivehum.ogg'
 	ambientsounds = list('sound/ambience/johncena.ogg')
 
+/area/abandonedship
+	name = "\improper Abandoned Spaceship"
+	icon_state = "centcom"
+	has_gravity = 1
+	requires_power = 0
+	ambientsounds = list('sound/ambience/ambiatm1.ogg', 'sound/ambience/ambmaint.ogg',\
+						'sound/ambience/ambicreek1.ogg', 'sound/ambience/ambicreek2.ogg',\
+						'sound/ambience/ambicha2.ogg', 'sound/ambience/ambicha3.ogg')
+	ambloop = 'sound/ambience/loop/softhum.ogg'
 
 /area/generic
 	name = "Unknown"
@@ -1592,8 +1605,6 @@ proc/process_ghost_teleport_locs()
 /area/tcommsat/lounge
 	name = "\improper Telecommunications Satellite Lounge"
 	icon_state = "tcomsatlounge"
-
-
 
 // Away Missions
 /area/awaymission

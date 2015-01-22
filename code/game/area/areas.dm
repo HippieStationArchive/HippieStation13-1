@@ -344,7 +344,7 @@
 	// Ambience goes down here -- make sure to list each area seperately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
 	if(!(L && L.client && (L.client.prefs.toggles & SOUND_AMBIENCE)))	return
 
-	if(istype(get_turf(newarea), /turf/space) && L.client.ambience_playing != 'sound/ambience/loop/hallow.ogg')
+	if(istype(get_turf(L.loc), /turf/space) && L.client.ambience_playing != 'sound/ambience/loop/hallow.ogg')
 		L.client.ambience_playing = 'sound/ambience/loop/hallow.ogg'
 		L << sound(ambloop, repeat = 1, wait = 0, volume = 35, channel = 2)
 	else if(!L.client.ambience_playing || L.client.ambience_playing != ambloop)
