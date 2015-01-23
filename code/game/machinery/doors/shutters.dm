@@ -27,17 +27,18 @@
 	..()
 	layer = 3.1
 
-/obj/machinery/door/poddoor/shutters/rubber
+/obj/machinery/door/poddoor/shutters_rubber
 	gender = PLURAL
 	name = "rubber shutters"
 	desc = "Soft rubber shutters to prevent accidents."
 	icon_state = "rubber_closed"
+	preposition = "rubber_"
 
-/obj/machinery/door/poddoor/shutters/rubber/preopen
+/obj/machinery/door/poddoor/shutters_rubber/preopen
 	icon_state = "rubber_open"
 	density = 0
 	opacity = 0
 
-/obj/machinery/door/poddoor/shutters/rubber/crush()
+/obj/machinery/door/poddoor/shutters_rubber/crush()
 	for(var/mob/living/carbon/L in get_turf(src)) //Weaken instead of damage.
 		L.Weaken(4)

@@ -3,6 +3,7 @@
 	desc = "A heavy duty blast door that opens mechanically."
 	icon = 'icons/obj/doors/blastdoor.dmi'
 	icon_state = "closed"
+	var/preposition = ""
 	var/id = 1
 	var/auto_close = 0 // Time in seconds to automatically close when opened, 0 if it doesn't.
 
@@ -42,8 +43,8 @@
 		return
 
 	operating = 1
-	flick("opening", src)
-	icon_state = "open"
+	flick("[preposition]opening", src)
+	icon_state = "[preposition]open"
 	playsound(src.loc, 'sound/machines/blast_door.ogg', 100, 1)
 	SetOpacity(0)
 	sleep(5)
@@ -70,8 +71,8 @@
 		return
 
 	operating = 1
-	flick("closing", src)
-	icon_state = "closed"
+	flick("[preposition]closing", src)
+	icon_state = "[preposition]closed"
 	SetOpacity(1)
 	air_update_turf(1)
 	update_freelook_sight()
