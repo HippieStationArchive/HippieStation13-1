@@ -32,6 +32,7 @@
 	gender = PLURAL
 	name = "rubber shutters"
 	desc = "Soft rubber shutters to prevent accidents."
+	icon = 'icons/obj/doors/shutters.dmi'
 	icon_state = "rubber_closed"
 
 /obj/machinery/door/poddoor/shutters_rubber/preopen

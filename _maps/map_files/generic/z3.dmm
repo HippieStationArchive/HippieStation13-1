@@ -252,7 +252,7 @@
 "eR" = (/obj/machinery/biogenerator,/turf/simulated/floor/plasteel{icon_state = "green"; dir = 4},/area/wreck/botany)
 "eS" = (/turf/simulated/shuttle/wall{icon_state = "swall3"; dir = 2},/area/wreck/living)
 "eT" = (/obj/structure/closet/cabinet,/obj/item/weapon/reagent_containers/food/drinks/bottle/vodka,/obj/item/weapon/gun/energy/taser,/turf/simulated/floor/fancy/carpet,/area/wreck/living)
-"eU" = (/obj/structure/safe,/obj/item/weapon/gun/projectile/automatic/pistol/deagle/gold,/turf/simulated/floor/fancy/carpet,/area/wreck/living)
+"eU" = (/obj/structure/safe,/obj/item/weapon/gun/projectile/automatic/pistol/deagle/gold,/obj/item/clothing/under/rank/centcom_commander,/obj/item/clothing/head/centhat,/obj/item/clothing/shoes/laceup,/turf/simulated/floor/fancy/carpet,/area/wreck/living)
 "eV" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/captain,/turf/simulated/floor/fancy/carpet,/area/wreck/living)
 "eW" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/yellow,/turf/simulated/floor/fancy/carpet,/area/wreck/living)
 "eX" = (/obj/structure/table/wood,/obj/item/device/flashlight/lamp,/turf/simulated/floor/fancy/carpet,/area/wreck/living)

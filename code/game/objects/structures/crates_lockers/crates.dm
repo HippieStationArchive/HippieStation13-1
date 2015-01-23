@@ -178,7 +178,7 @@
 	var/emag = "securecrateemag"
 	broken = 0
 	locked = 1
-	health = 1000
+	health = 200
 
 /obj/structure/closet/crate/hydroponics
 	name = "hydroponics crate"
