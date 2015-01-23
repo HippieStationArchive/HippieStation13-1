@@ -1,7 +1,7 @@
 /obj/machinery/door/poddoor/shutters
 	gender = PLURAL
 	name = "shutters"
-	desc = "Heavy duty metal shutters that opens mechanically."
+	desc = "Heavy duty metal shutters that open mechanically."
 	icon = 'icons/obj/doors/shutters.dmi'
 	layer = 3.1
 
@@ -26,3 +26,18 @@
 /obj/machinery/door/poddoor/shutters/close(ignorepower = 0)
 	..()
 	layer = 3.1
+
+/obj/machinery/door/poddoor/shutters/rubber
+	gender = PLURAL
+	name = "rubber shutters"
+	desc = "Soft rubber shutters to prevent accidents."
+	icon_state = "rubber_closed"
+
+/obj/machinery/door/poddoor/shutters/rubber/preopen
+	icon_state = "rubber_open"
+	density = 0
+	opacity = 0
+
+/obj/machinery/door/poddoor/shutters/rubber/crush()
+	for(var/mob/living/carbon/L in get_turf(src)) //Weaken instead of damage.
+		L.Weaken(4)

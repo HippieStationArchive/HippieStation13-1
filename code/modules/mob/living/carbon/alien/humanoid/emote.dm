@@ -64,6 +64,11 @@
 			message = "<span class='name'>[src]</span> waves its tail."
 			m_type = 1
 
+		if ("scream")
+			// playsound(src.loc, sound, 50, 1, 10, 1.2)
+			message = "<B>[src]</B> screams!"
+			m_type = 2
+
 		if ("help") //This is an exception
 			src << "Help for xenomorph emotes. You can use these emotes with say \"*emote\":\n\naflap, airguitar, blink, blink_r, blush, bow, burp, choke, chucke, clap, collapse, cough, dance, deathgasp, drool, flap, frown, gasp, giggle, glare-(none)/mob, gnarl, hiss, jump, laugh, look-atom, me, moan, nod, point-atom, roar, roll, scream, scratch, scretch, shake, shiver, sign-#, sit, smile, sneeze, sniff, snore, stare-(none)/mob, sulk, sway, tail, tremble, twitch, twitch_s, wave, whimper, wink, yawn"
 
@@ -75,8 +80,8 @@
 		if (act == "roar")
 			playsound(src.loc, 'sound/voice/hiss5.ogg', 40, 1, 1)
 
-		if (act == "deathgasp")
-			playsound(src.loc, 'sound/voice/hiss6.ogg', 80, 1, 1)
+		if (act == "deathgasp" || act == "scream")
+			playsound(src.loc, 'sound/voice/hiss6.ogg', 60, 1, 1)
 
 		if (m_type & 1)
 			visible_message(message)
