@@ -2,7 +2,7 @@
 
 /turf/simulated/mineral //wall piece
 	name = "Rock"
-	icon = 'icons/turf/walls.dmi'
+	icon = 'icons/turf/mining.dmi'
 	icon_state = "rock"
 	oxygen = 0
 	nitrogen = 0
@@ -15,8 +15,10 @@
 	var/spread = 0 //will the seam spread?
 	var/spreadChance = 0 //the percentual chance of an ore spreading to the neighbouring tiles
 	var/last_act = 0
-	var/scan_state = null //Holder for the image we display when we're pinged by a mining scanner
+	var/scan_state = null //Holder for the image we display when we're pinged by a mining scanner - Obsolete.
 	var/hidden = 1
+	var/ore_overlay = null //For ores
+	var/rock_color = null //This exists to work with random ore turfs. Set it to icon state you want rock to be on spawn. Useful in varedit.
 
 /turf/simulated/mineral/ex_act(severity)
 	switch(severity)
@@ -31,25 +33,29 @@
 	return
 
 /turf/simulated/mineral/New()
-
+	if(rock_color)
+		icon_state = rock_color
+	if(ore_overlay)
+		src.overlays += image('icons/turf/mining.dmi', ore_overlay)
+	
 	spawn(1)
 		var/turf/T
 		if((istype(get_step(src, NORTH), /turf/simulated/floor)) || (istype(get_step(src, NORTH), /turf/space)) || (istype(get_step(src, NORTH), /turf/simulated/shuttle/floor)))
 			T = get_step(src, NORTH)
 			if (T)
-				T.overlays += image('icons/turf/walls.dmi', "rock_side_s")
+				T.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_s")
 		if((istype(get_step(src, SOUTH), /turf/simulated/floor)) || (istype(get_step(src, SOUTH), /turf/space)) || (istype(get_step(src, SOUTH), /turf/simulated/shuttle/floor)))
 			T = get_step(src, SOUTH)
 			if (T)
-				T.overlays += image('icons/turf/walls.dmi', "rock_side_n", layer=6)
+				T.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_n", layer=6)
 		if((istype(get_step(src, EAST), /turf/simulated/floor)) || (istype(get_step(src, EAST), /turf/space)) || (istype(get_step(src, EAST), /turf/simulated/shuttle/floor)))
 			T = get_step(src, EAST)
 			if (T)
-				T.overlays += image('icons/turf/walls.dmi', "rock_side_w", layer=6)
+				T.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_w", layer=6)
 		if((istype(get_step(src, WEST), /turf/simulated/floor)) || (istype(get_step(src, WEST), /turf/space)) || (istype(get_step(src, WEST), /turf/simulated/shuttle/floor)))
 			T = get_step(src, WEST)
 			if (T)
-				T.overlays += image('icons/turf/walls.dmi', "rock_side_e", layer=6)
+				T.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_e", layer=6)
 
 	mineralAmt = rand(3,7) //terrible
 
@@ -133,7 +139,7 @@
 
 /turf/simulated/mineral/uranium
 	name = "Uranium deposit"
-	icon_state = "rock_Uranium"
+	ore_overlay = "rock_Uranium"
 	mineralName = "Uranium"
 	mineralAmt = 5
 	spreadChance = 10
@@ -143,7 +149,7 @@
 
 /turf/simulated/mineral/iron
 	name = "Iron deposit"
-	icon_state = "rock_Iron"
+	ore_overlay = "rock_Iron"
 	mineralName = "Iron"
 	mineralAmt = 5
 	spreadChance = 25
@@ -152,7 +158,7 @@
 
 /turf/simulated/mineral/diamond
 	name = "Diamond deposit"
-	icon_state = "rock_Diamond"
+	ore_overlay = "rock_Diamond"
 	mineralName = "Diamond"
 	mineralAmt = 5
 	spreadChance = 10
@@ -161,7 +167,7 @@
 
 /turf/simulated/mineral/gold
 	name = "Gold deposit"
-	icon_state = "rock_Gold"
+	ore_overlay = "rock_Gold"
 	mineralName = "Gold"
 	mineralAmt = 5
 	spreadChance = 10
@@ -170,7 +176,7 @@
 
 /turf/simulated/mineral/silver
 	name = "Silver deposit"
-	icon_state = "rock_Silver"
+	ore_overlay = "rock_Silver"
 	mineralName = "Silver"
 	mineralAmt = 5
 	spreadChance = 10
@@ -179,7 +185,7 @@
 
 /turf/simulated/mineral/plasma
 	name = "Plasma deposit"
-	icon_state = "rock_Plasma"
+	ore_overlay = "rock_Plasma"
 	mineralName = "Plasma"
 	mineralAmt = 5
 	spreadChance = 25
@@ -188,7 +194,7 @@
 
 /turf/simulated/mineral/bananium
 	name = "Bananium deposit"
-	icon_state = "rock_Clown"
+	ore_overlay = "rock_Bananium"
 	mineralName = "Clown"
 	mineralAmt = 3
 	spreadChance = 0
@@ -196,7 +202,7 @@
 
 /turf/simulated/mineral/mime
 	name = "Mimesteinium deposit"
-	icon_state = "rock_Mime"
+	ore_overlay = "rock_Mime"
 	mineralName = "Mime"
 	mineralAmt = 3
 	spreadChance = 0
@@ -204,7 +210,7 @@
 
 /turf/simulated/mineral/adamantine
 	name = "Adamantine deposit"
-	icon_state = "rock_Adamantine"
+	ore_overlay = "rock_Adamantine"
 	mineralName = "Adamantine"
 	mineralAmt = 3
 	spreadChance = 0
@@ -214,7 +220,7 @@
 ////////////////////////////////Gibtonite
 /turf/simulated/mineral/gibtonite
 	name = "this will be renamed on map gen" //honk
-	icon_state = "rock_Gibtonite"
+	ore_overlay = "rock_Gibtonite"
 	mineralName = "Gibtonite"
 	mineralAmt = 1
 	spreadChance = 0
@@ -225,21 +231,21 @@
 	var/activated_name = null
 
 /turf/simulated/mineral/gibtonite/New()
-	icon_state = pick("rock_Diamond","rock_Clown","rock_Mime","rock_Adamantine") //goddamn I am an evil bastard -Reds
-	if(icon_state == "rock_Diamond")
+	ore_overlay = pick("rock_Diamond","rock_Clown","rock_Mime","rock_Adamantine") //goddamn I am an evil bastard -Reds
+	if(ore_overlay == "rock_Diamond")
 		name = "Diamond deposit"
-	if(icon_state == "rock_Clown")
+	if(ore_overlay == "rock_Bananium")
 		name = "Bananium deposit"
-	if(icon_state == "rock_Mime")
+	if(ore_overlay == "rock_Mime")
 		name = "Mimesteinium deposit"
-	if(icon_state == "rock_Adamantine")
+	if(ore_overlay == "rock_Adamantine")
 		name = "Adamantine deposit"
 	det_time = rand(8,12) //So you don't know exactly when the hot potato will explode
 	..()
 
 /turf/simulated/mineral/gibtonite/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/device/analyzer) && stage == 1)
-		user.visible_message("<span class='notice'>You use the analyzer to locate where to cut off the chain reaction and attempt to stop it...</span>")
+	if(istype(I, /obj/item/device/mining_scanner) && stage == 1)
+		user.visible_message("<span class='notice'>You use the mining scanner to locate where to cut off the chain reaction and attempt to stop it...</span>")
 		defuse()
 	if(istype(I, /obj/item/weapon/pickaxe))
 		src.activated_ckey = "[user.ckey]"
@@ -248,7 +254,8 @@
 
 /turf/simulated/mineral/gibtonite/proc/explosive_reaction()
 	if(stage == 0)
-		icon_state = "rock_Gibtonite_active"
+		src.overlays.Cut()
+		src.overlays += image('icons/turf/mining.dmi', "rock_Gibtonite_active")
 		name = "Gibtonite deposit"
 		desc = "An active gibtonite reserve. Run!"
 		stage = 1
@@ -273,7 +280,8 @@
 
 /turf/simulated/mineral/gibtonite/proc/defuse()
 	if(stage == 1)
-		icon_state = "rock_Gibtonite"
+		src.overlays.Cut()
+		src.overlays += image('icons/turf/mining.dmi', "rock_Gibtonite")
 		desc = "An inactive gibtonite reserve. The ore can be extracted."
 		stage = 2
 		if(det_time < 0)
@@ -588,13 +596,13 @@
 	src.overlays.Cut()
 
 	if(istype(get_step(src, NORTH), /turf/simulated/mineral))
-		src.overlays += image('icons/turf/walls.dmi', "rock_side_n")
+		src.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_n")
 	if(istype(get_step(src, SOUTH), /turf/simulated/mineral))
-		src.overlays += image('icons/turf/walls.dmi', "rock_side_s", layer=6)
+		src.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_s", layer=6)
 	if(istype(get_step(src, EAST), /turf/simulated/mineral))
-		src.overlays += image('icons/turf/walls.dmi', "rock_side_e", layer=6)
+		src.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_e", layer=6)
 	if(istype(get_step(src, WEST), /turf/simulated/mineral))
-		src.overlays += image('icons/turf/walls.dmi', "rock_side_w", layer=6)
+		src.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_w", layer=6)
 
 /turf/simulated/mineral/updateMineralOverlays()
 	return
