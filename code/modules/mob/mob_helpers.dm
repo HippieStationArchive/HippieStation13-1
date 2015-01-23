@@ -359,7 +359,7 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 
 /proc/shake_camera(mob/M, duration, strength=1)
 	spawn(0)
-		if(!M || !M.client || M.shakecamera)
+		if(!M || !M.client || M.shakecamera || M.client.eye != M)
 			return
 		var/oldeye=M.client.eye
 		var/x
