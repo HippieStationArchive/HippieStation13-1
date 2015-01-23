@@ -40,18 +40,18 @@
 
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 	if(!msg)	return
-	
+
 	log_mentor("PM: [key_name(src)]->[key_name(C)]: [msg]")
 
 	msg = emoji_parse(msg)
 	C << 'sound/New_Sound/Items/Bikehorn2.ogg'
-	C << "<font color='purple'>Mentor PM From: <b>[key_name_mentor(src, C, 1)]</b>: [msg]</font>"
-	src << "<font color='green'>Mentor PM To: <b>[key_name_mentor(C, src, 1)]</b>: [msg]</font>"
+	C << "<font color='purple'>Mentor PM From <b>[key_name_mentor(src, C, 1, check_mentor(C))]</b>: [msg]</font>"
+	src << "<font color='green'>Mentor PM To <b>[key_name_mentor(C, src, 1, check_mentor(src))]</b>: [msg]</font>"
 
 	//we don't use message_Mentors here because the sender/receiver might get it too
 	for(var/client/X in mentors)
 		if(X.key!=key && X.key!=C.key)	//check client/X is an Mentor and isn't the sender or recipient
-			X << "<B><font color='green'>Mentor PM To: [key_name_mentor(src, X, 0)]-&gt;[key_name_mentor(C, X, 0)]:</B> \blue [msg]</font>" //inform X
+			X << "<B><font color='green'>Mentor PM To [key_name_mentor(src, X, 0, !check_mentor(src))]-&gt;[key_name_mentor(C, X, 0, !check_mentor(C))]:</B> \blue [msg]</font>" //inform X
 	for(var/client/A in admins)
 		if(A.key!=key && A.key!=C.key)	//check client/A is an Mentor and isn't the sender or recipient
-			A << "<B><font color='green'>Mentor PM To: [key_name_mentor(src, A, 0)]-&gt;[key_name_mentor(C, A, 0)]:</B> \blue [msg]</font>" //inform A
+			A << "<B><font color='green'>Mentor PM To [key_name_mentor(src, A, 0, !check_mentor(src))]-&gt;[key_name_mentor(C, A, 0, !check_mentor(C))]:</B> \blue [msg]</font>" //inform A
