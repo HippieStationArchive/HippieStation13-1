@@ -596,13 +596,13 @@
 	src.overlays.Cut()
 
 	if(istype(get_step(src, NORTH), /turf/simulated/mineral))
-		src.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_n")
+		src.overlays += image('icons/turf/mining.dmi', "[src.icon_state]_side_n")
 	if(istype(get_step(src, SOUTH), /turf/simulated/mineral))
-		src.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_s", layer=6)
+		src.overlays += image('icons/turf/mining.dmi', "[src.icon_state]_side_s", layer=6)
 	if(istype(get_step(src, EAST), /turf/simulated/mineral))
-		src.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_e", layer=6)
+		src.overlays += image('icons/turf/mining.dmi', "[src.icon_state]_side_e", layer=6)
 	if(istype(get_step(src, WEST), /turf/simulated/mineral))
-		src.overlays += image('icons/turf/mining.dmi', "[icon_state]_side_w", layer=6)
+		src.overlays += image('icons/turf/mining.dmi', "[src.icon_state]_side_w", layer=6)
 
 /turf/simulated/mineral/updateMineralOverlays()
 	return
