@@ -121,7 +121,7 @@
 
 		t += "<BR><A href='?src=\ref[src];send=1'>Send</A>"
 		t += " <A href='?src=\ref[src];receive=1'>Receive</A>"
-		t += "<BR><A href='?src=\ref[src];recal=1'>Recalibrate Crystals</A> <A href='?src=\ref[src];eject=1'>Eject Crystals</A>"
+		t += "<BR><BR><BR><BR><BR><BR><A href='?src=\ref[src];recal=1'>Recalibrate Crystals</A> <A href='?src=\ref[src];eject=1'>Eject Crystals</A>"
 
 		// Information about the last teleport
 		t += "<BR><div class='statusDisplay'>"
