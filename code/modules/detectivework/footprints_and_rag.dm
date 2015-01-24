@@ -36,14 +36,15 @@
 	icon_state = "rag"
 	amount_per_transfer_from_this = 5
 	possible_transfer_amounts = list(5)
-	volume = 5
+	volume = 30
 	can_be_placed_into = null
 
 /obj/item/weapon/reagent_containers/glass/rag/attack(atom/target as obj|turf|area, mob/user as mob , flag)
 	if(ismob(target) && target.reagents && reagents.total_volume)
 		user.visible_message("<span class='danger'>[user] has smothered \the [target] with \the [src]!</span>", "<span class='danger'>You smother \the [target] with \the [src]!</span>", "You hear some struggling and muffled cries of surprise")
-		src.reagents.reaction(target, TOUCH)
-		src.reagents.clear_reagents()
+		if(src.reagents.total_volume)
+			src.reagents.reaction(target, INGEST)
+		// src.reagents.clear_reagents()
 		return
 	else
 		..()

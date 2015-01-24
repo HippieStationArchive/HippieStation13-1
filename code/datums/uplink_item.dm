@@ -3,10 +3,8 @@ var/list/uplink_items = list()
 /proc/get_uplink_items()
 	// If not already initialized..
 	if(!uplink_items.len)
-
 		// Fill in the list	and order it like this:
 		// A keyed list, acting as categories, which are lists to the datum.
-
 		var/list/last = list()
 		for(var/item in typesof(/datum/uplink_item))
 
@@ -48,6 +46,8 @@ var/list/uplink_items = list()
 	var/list/gamemodes = list() // Empty list means it is in all the gamemodes. Otherwise place the gamemode name here.
 	var/list/excludefrom = list() //Empty list does nothing. Place the name of gamemode you don't want this item to be available in here. This is so you dont have to list EVERY mode to exclude something.
 	var/surplus = 100 //Chance of being included in the surplus crate (when pick() selects it)
+	var/list/jobs = list() // For job-specific traitor items. Leave empty for all jobs to be allowed to buy it.
+	var/list/jobs_exclude = list() //Not sure why would you want to exclude uplink items from some jobs, but okay.
 
 /datum/uplink_item/proc/spawn_item(var/turf/loc, var/obj/item/device/uplink/U)
 	if(item)
@@ -93,6 +93,28 @@ var/list/uplink_items = list()
 //	UPLINK ITEMS
 //
 */
+
+// JOB-SPECIFIC ITEMS
+
+/datum/uplink_item/job_specific
+	category = "Job-specific Contraband"
+
+// debug job-specific items.
+// /datum/uplink_item/job_specific/testa
+// 	name = "ASSISTANT-ONLY TEST"
+// 	desc = "A job-specific test."
+// 	item = /obj/item/weapon/soap/syndie
+// 	cost = 1
+// 	surplus = 0
+// 	jobs = list("Assistant")
+
+// /datum/uplink_item/job_specific/testb
+// 	name = "NO ASSISTANT TEST ITEM"
+// 	desc = "Assistant excluded from purchase, nerd."
+// 	item = /obj/item/weapon/soap/syndie
+// 	cost = 1
+// 	surplus = 0
+// 	jobs_exclude = list("Assistant")
 
 // DANGEROUS WEAPONS
 

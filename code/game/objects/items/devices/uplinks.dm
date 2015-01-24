@@ -28,7 +28,7 @@ var/list/world_uplinks = list()
 	..()
 
 //Let's build a menu!
-/obj/item/device/uplink/proc/generate_menu()
+/obj/item/device/uplink/proc/generate_menu(var/mob/user)
 
 	var/dat = "<B>[src.welcome]</B><BR>"
 	dat += "Tele-Crystals left: [src.uses]<BR>"
@@ -46,12 +46,19 @@ var/list/world_uplinks = list()
 		dat += "<b>[category]</b><br>"
 
 		var/i = 0
-
 		// Loop through items in category
-		for(var/datum/uplink_item/item in buyable_items[category])
+		for(var/datum/uplink_item/I in buyable_items[category])
 			i++
+			var/datum/uplink_item/item = I
 			var/desc = "[item.desc]"
 			var/cost_text = ""
+			world << "[I] is uplink_item"
+			if(I.jobs.len && !(user.mind.assigned_role in I.jobs))
+				world << "User doesn't fit the job requirement."
+				continue
+			if(I.jobs_exclude.len && (user.mind.assigned_role in I.jobs_exclude))
+				world << "User's job is excluded."
+				continue
 			if(item.cost > 0)
 				cost_text = "([item.cost])"
 			if(item.cost <= uses)
@@ -76,7 +83,7 @@ var/list/world_uplinks = list()
 /obj/item/device/uplink/interact(mob/user as mob)
 
 	var/dat = "<body link='yellow' alink='white' bgcolor='#601414'><font color='white'>"
-	dat += src.generate_menu()
+	dat += src.generate_menu(user)
 	dat += "<A href='byond://?src=\ref[src];lock=1'>Lock</a>"
 	dat += "</font></body>"
 	user << browse(dat, "window=hidden")
@@ -101,7 +108,7 @@ var/list/world_uplinks = list()
 			var/number = text2num(split[2])
 
 			var/list/buyable_items = get_uplink_items()
-
+			world << "Called Topic for uplink device. [buyable_items]"
 			var/list/uplink = buyable_items[category]
 			if(uplink && uplink.len >= number)
 				var/datum/uplink_item/I = uplink[number]
