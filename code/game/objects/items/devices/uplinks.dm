@@ -52,12 +52,12 @@ var/list/world_uplinks = list()
 			var/datum/uplink_item/item = I
 			var/desc = "[item.desc]"
 			var/cost_text = ""
-			world << "[I] is uplink_item"
+			// world << "[I] is uplink_item"
 			if(I.jobs.len && !(user.mind.assigned_role in I.jobs))
-				world << "User doesn't fit the job requirement."
+				// world << "User doesn't fit the job requirement."
 				continue
 			if(I.jobs_exclude.len && (user.mind.assigned_role in I.jobs_exclude))
-				world << "User's job is excluded."
+				// world << "User's job is excluded."
 				continue
 			if(item.cost > 0)
 				cost_text = "([item.cost])"
