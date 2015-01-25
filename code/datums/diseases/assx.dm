@@ -10,10 +10,11 @@
 	desc = "Report to Medical Bay for Ass Inspection"
 	severity = "It will eventually pass out of your system, with your ass as well."
 	viable_mobtypes = list(/mob/living/carbon/human)
-	disease_flags = CAN_CARRY //|CAN_RESIST
+	disease_flags = CAN_CARRY|CAN_RESIST
 	spread_flags = SPECIAL
 	visibility_flags = HIDDEN_PANDEMIC
 	permeability_mod = 1
+	stage_prob = 2 //slightly decreased stage probability
 
 /datum/disease/assinspection/New()
 	..()
@@ -68,7 +69,7 @@
 	desc = "Report to Medical Bay for Ass Inspection"
 	severity = "It will eventually pass out of your system, with your ass as well."
 	viable_mobtypes = list(/mob/living/carbon/human)
-	disease_flags = CAN_CARRY
+	disease_flags = CAN_CARRY|CAN_RESIST
 	spread_flags = SPECIAL
 	visibility_flags = HIDDEN_PANDEMIC
 	permeability_mod = 1

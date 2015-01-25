@@ -99,13 +99,13 @@ var/list/uplink_items = list()
 /datum/uplink_item/job_specific //No job-specific support for surplus yet.
 	category = "Job-specific Contraband"
 
-// /datum/uplink_item/job_specific/assX
-// 	name = "Ass-X pill"
-// 	desc = "A hilarious pill that will force your target to superfart while dealing lots of damage to their stomach. It can be surprisingly effective."
-// 	item = /obj/item/weapon/reagent_containers/pill/assX
-// 	cost = 4
-// 	surplus = 0
-// 	jobs = list("Chemist")
+/datum/uplink_item/job_specific/assX
+	name = "Ass-X pill"
+	desc = "A hilarious pill that will force your target to superfart while dealing lots of damage to their stomach. It can be surprisingly effective."
+	item = /obj/item/weapon/reagent_containers/pill/assX
+	cost = 4
+	surplus = 0
+	jobs = list("Chemist")
 
 /datum/uplink_item/job_specific/soulstone
 	name = "Soulstone"
