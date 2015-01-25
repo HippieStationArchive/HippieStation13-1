@@ -95,7 +95,7 @@
 		if(L.client)
 			L.client.perspective = EYE_PERSPECTIVE
 			L.client.eye = src
-	else if(!istype(AM, /obj/item) && !istype(AM, /obj/effect/dummy/chameleon))
+	else if(!istype(AM, /obj/item) && !istype(AM, /obj/effect/dummy/chameleon)) //&& !AM.closet_exception)
 		return 0
 	else if(AM.density || AM.anchored)
 		return 0

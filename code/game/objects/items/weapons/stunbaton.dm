@@ -162,7 +162,7 @@
 			bcell.reliability -= 10 / severity
 	..()
 
-//Makeshift stun baton. Replacement for stun gloves.
+//Makeshift stun baton. Replacement for stun gloves. (stun gloves are assistant traitor-only item now)
 /obj/item/weapon/melee/baton/cattleprod
 	name = "stunprod"
 	desc = "An improvised stun baton."

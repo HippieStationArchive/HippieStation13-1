@@ -61,6 +61,11 @@ BLIND     // can't see anything
 	attack_verb = list("challenged")
 	var/transfer_prints = FALSE
 	var/staminaDamage = 0
+	var/stunOnTouch = 0 //for stun gloves and stuff
+	var/stunforce = 0 //Ditto
+	var/energyCost = 0 //if you are planning on having rechargeable stun gloves
+	var/cell_type //If your gloves actually HAVE a cell. Leave this blank for no cell.
+	var/obj/item/weapon/stock_parts/cell/power_supply //What cell type your gloves might use
 	var/atk_verb = null
 	strip_delay = 20
 	put_on_delay = 40

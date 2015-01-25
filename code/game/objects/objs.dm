@@ -9,6 +9,7 @@
 
 	var/damtype = "brute"
 	var/force = 0
+	var/closet_exception = 0 //So you can put the movables like remains in closets/coffins.
 
 /obj/proc/process()
 	processing_objects.Remove(src)

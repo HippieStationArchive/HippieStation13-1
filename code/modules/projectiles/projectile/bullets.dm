@@ -23,7 +23,7 @@
 
 /obj/item/projectile/bullet/pellet
 	name = "pellet"
-	damage = 15
+	damage = 9 //15 //Nerfed because 5 pellets * 15 means a whopping 75 damage point-blank. Double-barreled shotgun has 2 rounds, so... yeah.
 
 /obj/item/projectile/bullet/pellet/weak
 	damage = 3

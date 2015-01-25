@@ -81,6 +81,18 @@
 		if(!O.lastarea)
 			O.lastarea = get_area(O.loc)
 		O.update_gravity(O.mob_has_gravity())
+		var/mob/living/L = O
+		if(L.ckey)
+			if((L && L.client && (L.client.prefs.toggles & SOUND_AMBIENCE))) //This makes space ambience always play regardless of area. Rest of it is located in code/game/area/areas.dm
+				// world << "WHOA. AMBIENCE CHECKS. IS CLIENT."
+				var/area/F = get_area(L.loc)
+				if(M.isinspace())
+					if(L.client.ambience_playing != 'sound/ambience/loop/hallow.ogg')
+						L.client.ambience_playing = 'sound/ambience/loop/hallow.ogg'
+						L << sound('sound/ambience/loop/hallow.ogg', repeat = 1, wait = 0, volume = 35, channel = 2)
+				else if(L.client.ambience_playing != F.ambloop)
+					L.client.ambience_playing = F.ambloop
+					L << sound(F.ambloop, repeat = 1, wait = 0, volume = 35, channel = 2)
 
 	var/loopsanity = 100
 	for(var/atom/A in range(1))

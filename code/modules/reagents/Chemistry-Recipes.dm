@@ -464,6 +464,13 @@ silicate
 	required_reagents = list("capsaicin" = 1, "ethanol" = 5)
 	result_amount = 5
 
+/datum/chemical_reaction/inspectionitisplacebo //Only allow fake Ass-X to be mixed
+	name = "Ass-X"
+	id = "inspectionitisplacebo"
+	result = "inspectionitisplacebo"
+	required_reagents = list("blood" = 1, "nutriment" = 1, "sulfur" = 1) //sulfur because IT SMELLS LIKE FARTS. HA!
+	result_amount = 1
+
 /datum/chemical_reaction/virus_food
 	name = "Virus Food"
 	id = "virusfood"

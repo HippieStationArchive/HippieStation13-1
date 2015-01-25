@@ -115,6 +115,22 @@ var/list/uplink_items = list()
 	surplus = 0
 	jobs = list("Chaplain")
 
+/datum/uplink_item/job_specific/buckshot
+	name = "12g Buckshot Shell"
+	desc = "Buckshot shells fire 5 pellets that will spread in the direction you are shooting. They can be loaded into your double-barreled shotgun. Absolutely devastating point-blank."
+	item = /obj/item/ammo_casing/shotgun/buckshot
+	cost = 5
+	surplus = 0
+	jobs = list("Bartender")
+
+/datum/uplink_item/job_specific/stungloves
+	name = "Stun Gloves"
+	desc = "Classic among cunning assistant assasins, these gloves stun your target on touch. Be careful when you wear them, though."
+	item = /obj/item/clothing/gloves/stungloves
+	cost = 4
+	surplus = 0
+	jobs = list("Assistant")
+
 // debug job-specific items.
 // /datum/uplink_item/job_specific/testa
 // 	name = "ASSISTANT-ONLY TEST"
