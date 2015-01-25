@@ -4565,7 +4565,7 @@
 "bJO" = (/obj/structure/disposalpipe/segment,/obj/structure/grille,/obj/structure/window/fulltile,/turf/simulated/floor/plating,/area/maintenance/asmaint)
 "bJP" = (/obj/item/weapon/reagent_containers/food/snacks/sliceable/store/braincake,/turf/simulated/floor/plating,/area/maintenance/asmaint)
 "bJQ" = (/obj/structure/table/glass,/obj/item/stack/medical/ointment,/obj/item/stack/medical/bruise_pack,/turf/simulated/floor/plating,/area/maintenance/asmaint)
-"bJR" = (/obj/machinery/sleeper{tag = "icon-sleeper-open (EAST)"; icon_state = "sleeper-open"; dir = 4},/obj/structure/window/reinforced{dir = 8},/turf/simulated/floor/plasteel{dir = 8; icon_state = "whiteblue"},/area/medical/medbay)
+"bJR" = (/obj/machinery/sleeper{dir = 4},/obj/structure/window/reinforced{dir = 8},/turf/simulated/floor/plasteel{dir = 8; icon_state = "whiteblue"},/area/medical/medbay)
 "bJS" = (/obj/machinery/camera{c_tag = "Medbay Sleeper"; dir = 1},/turf/simulated/floor/plasteel{icon_state = "white"},/area/medical/medbay)
 "bJT" = (/obj/machinery/firealarm{dir = 1; pixel_y = -24},/turf/simulated/floor/plasteel{icon_state = "white"},/area/medical/medbay)
 "bJU" = (/obj/machinery/light,/turf/simulated/floor/plasteel{icon_state = "white"},/area/medical/medbay)
