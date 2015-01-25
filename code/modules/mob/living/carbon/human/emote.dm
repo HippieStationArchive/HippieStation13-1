@@ -248,7 +248,10 @@
 			if(!B)
 				src << "\red You don't have a butt!"
 				return
-			for(var/mob/M in range(0))
+			if(src.HasDisease(/datum/disease/assinspection))
+				src << "<span class='danger'>Your ass hurts too much.</span>"
+				return
+			for(var/mob/living/M in range(0)) //Bye ghost farts, you will be missed :'(
 				if(M != src)
 					visible_message("\red <b>[src]</b> farts in <b>[M]</b>'s face!")
 				else
@@ -277,7 +280,7 @@
 						M.apply_damage(15,"brute","head")
 				visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
 
-			for(var/obj/item/weapon/storage/book/bible/CUL8 in range(0))
+			for(var/obj/item/weapon/storage/book/bible/CUL8 in range(0)) //gibs you as many times as there are bibles. fix pls.
 				var/obj/effect/lightning/L = new /obj/effect/lightning()
 				L.loc = get_turf(src.loc)
 				L.layer = src.layer+1
@@ -303,7 +306,7 @@
 						else if(B)
 							src.internal_organs -= B
 						//src.butt = null
-						src.nutrition -= 500 //vv THIS CODE IS MELTING MY EYES HELP vv
+						src.nutrition -= 500 //vv THIS CODE IS MELTING MY EYES AND I'M NOT ALLOWED TO FIX IT HELP vv
 						playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
 						spawn(1)
 							playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
@@ -327,6 +330,9 @@
 																playsound(src.loc, 'sound/misc/fartmassive.ogg', 75, 1, 5)
 																new /obj/item/clothing/head/butt(src.loc)
 																new /obj/effect/decal/cleanable/blood(src.loc)
+																if(src.HasDisease(/datum/disease/assinspection))
+																	src << "<span class='danger'>It hurts so much!</span>"
+																	apply_damage(50, BRUTE, "chest")
 																if(prob(76))
 																	for(var/mob/living/M in range(0))
 																		if(M != src)
@@ -373,7 +379,7 @@
 																	visible_message("\red <b>[src]</b> rips their ass apart in a massive explosion!", "\red Holy shit, your butt goes supernova!")
 																	explosion(src.loc,0,1,3,adminlog = 0,flame_range = 3)
 																	usr.gib()
-																for(var/obj/item/weapon/storage/book/bible/CUL8 in range(0))
+																for(var/obj/item/weapon/storage/book/bible/CUL8 in range(0)) //This spawns a lot of smites when there's many bibles. It even blows you up if you have a bible in your BACKPACK. gotta fix.
 																	var/obj/effect/lightning/L = new /obj/effect/lightning()
 																	L.loc = get_turf(src.loc)
 																	L.layer = src.layer+1

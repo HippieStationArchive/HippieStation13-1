@@ -96,8 +96,24 @@ var/list/uplink_items = list()
 
 // JOB-SPECIFIC ITEMS
 
-/datum/uplink_item/job_specific
+/datum/uplink_item/job_specific //No job-specific support for surplus yet.
 	category = "Job-specific Contraband"
+
+// /datum/uplink_item/job_specific/assX
+// 	name = "Ass-X pill"
+// 	desc = "A hilarious pill that will force your target to superfart while dealing lots of damage to their stomach. It can be surprisingly effective."
+// 	item = /obj/item/weapon/reagent_containers/pill/assX
+// 	cost = 4
+// 	surplus = 0
+// 	jobs = list("Chemist")
+
+/datum/uplink_item/job_specific/soulstone
+	name = "Soulstone"
+	desc = "This stone will be able to capture your victim's soul and bind them to your will."
+	item = /obj/item/device/soulstone
+	cost = 7
+	surplus = 0
+	jobs = list("Chaplain")
 
 // debug job-specific items.
 // /datum/uplink_item/job_specific/testa

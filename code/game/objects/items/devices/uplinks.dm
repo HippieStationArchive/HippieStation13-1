@@ -108,7 +108,7 @@ var/list/world_uplinks = list()
 			var/number = text2num(split[2])
 
 			var/list/buyable_items = get_uplink_items()
-			world << "Called Topic for uplink device. [buyable_items]"
+			// world << "Called Topic for uplink device. [buyable_items]"
 			var/list/uplink = buyable_items[category]
 			if(uplink && uplink.len >= number)
 				var/datum/uplink_item/I = uplink[number]
