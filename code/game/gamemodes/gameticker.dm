@@ -124,7 +124,7 @@ var/global/fartholdin = 0
 	supply_shuttle.process() 		//Start the supply shuttle regenerating points
 	master_controller.process()		//Start master_controller.process()
 	lighting_controller.process()	//Start processing DynamicAreaLighting updates
-	
+
 	fartholdin = world.time + 100
 
 	sleep(10)
@@ -157,7 +157,7 @@ var/global/fartholdin = 0
 		spawn(3000)
 			statistic_cycle() // Polls population totals regularly and stores them in an SQL DB
 	return 1
-
+var/global/buttmode = 0
 /datum/controller/gameticker
 	//station_explosion used to be a variable for every mob's hud. Which was a waste!
 	//Now we have a general cinematic centrally held within the gameticker....far more efficient!
@@ -189,7 +189,14 @@ var/global/fartholdin = 0
 			if(M.stat != DEAD)
 				var/turf/T = get_turf(M)
 				if(T && T.z==1)
-					M.death(0) //no mercy
+					if(buttmode)
+						M.say("*superfart")
+						spawn(1)
+							M.gib()
+							M.death(0)
+					else
+						M.say("*scream")
+						M.death(0) //no mercy
 
 	//Now animate the cinematic
 	switch(station_missed)
