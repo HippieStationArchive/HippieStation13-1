@@ -39,5 +39,18 @@
 		if(!lying)
 			if(loc == NewLoc)
 				var/obj/item/clothing/shoes/S = shoes
+
 				S.step_action()
 
+	if(stunned)
+		if(istype(loc, /turf/space))
+			if(screamcount <= 0)
+				return
+			else
+				src.say("*megascream")
+				screamcount--
+
+
+/mob/living/carbon/human/
+	var/screamcount = 2
+	var/screamcounting = 0
