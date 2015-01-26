@@ -56,6 +56,7 @@
 	desc = "A creepy, silent statue, or an excellent mime."
 	density = 1
 	anchored = 0
+	closet_exception = 1
 
 
 /obj/structure/showcase/fakeid
