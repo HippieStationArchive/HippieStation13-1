@@ -13,8 +13,10 @@
 
 /obj/machinery/light_switch/New()
 	..()
-	spawn(5)
-		src.area = src.loc.loc
+	spawn(10)
+		src.area = get_area(src)
+
+		ASSERT(src.area)
 
 		if(otherarea)
 			src.area = locate(text2path("/area/[otherarea]"))
