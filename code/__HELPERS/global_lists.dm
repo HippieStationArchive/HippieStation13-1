@@ -1,7 +1,8 @@
 //////////////////////////
 /////Initial Building/////
 //////////////////////////
-
+var/global/list/rewardlist[0]
+var/global/list/datum/species/rewardlistbase = list(/datum/species/fly, /datum/species/plant,/datum/species/lizard, /datum/species/shadow, /datum/species/zombie)
 /proc/make_datum_references_lists()
 	//hair
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/hair, hair_styles_list, hair_styles_male_list, hair_styles_female_list)
@@ -20,6 +21,12 @@
 		if(S.roundstart)
 			roundstart_species[S.name] = S.type
 		species_list[S.id] = S.type
+
+	for(var/spath in rewardlistbase)
+		if(spath == /datum/species)
+			continue
+		var/datum/species/S = new spath()
+		rewardlist[S.id] = S.type
 
 	//Surgeries
 	for(var/path in typesof(/datum/surgery))

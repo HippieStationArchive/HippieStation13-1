@@ -1212,6 +1212,85 @@
 		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Observer.)")
 		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Observer.)")
 
+
+	else if(href_list["snowflakes"])
+		if(!check_rights(R_ADMIN))	return
+		var/dat = "<html><body>"
+		var/mob/M = locate(href_list["snowflakes"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
+		dat += "<b><h2>Snowflakes and Unlockables</b></h2>"
+		dat += "<p>Key: [M.key]</br>"
+		var/list/datum/species/specieslist = list()
+		var/lizard
+		var/zombie
+		var/fly
+		var/plant
+		var/shadow
+		for(var/datum/species/X in M.client.prefs.specialsnowflakes)
+			specieslist.Add()
+			world << "[X.name]"
+			if(X.id == "zombie")
+				zombie = X
+			if(X.id == "lizard")
+				lizard = X
+			if(X.id == "shadow")
+				shadow = X
+			if(X.id == "plant")
+				plant = X
+			if(X.id == "fly")
+				fly = X
+		dat += "<b>Lizardmen:</b> [lizard ? "Unlocked" : "Locked"]<br>"
+		dat += "<b>Zombie</b>: [zombie ? "Unlocked" : "Locked"]<br>"
+		dat += "<b>Shadow:</b> [shadow ? "Unlocked" : "Locked"]<br>"
+		dat += "<b>Plant</b>: [plant ? "Unlocked" : "Locked"]<br>"
+		dat += "<b>Fly:</b> [fly ? "Unlocked" : "Locked"]<br>"
+
+		if(M.client.goodcurity)
+			dat += "<p><p>Goodcurity: \green unlocked."
+		else
+			dat += "<p><p>Goodcurity: \red locked."
+
+		dat += "<p><p>"
+		dat += "<A href='?_src_=holder;sfaward=\ref[M]'>Add Snowflake</A> |"
+		dat += "<A href='?_src_=holder;sfremove=\ref[M]'>Remove</A> |"
+		dat += "</body></html>"
+		usr << browse(dat,"window=snowflakes;size=250x200")
+		log_admin("[key_name(usr)] is viewing [key_name(M)]'s unlocked snowflakes")
+		message_admins("\blue [key_name(usr)] is viewing [key_name(M)]'s unlocked snowflakes", 1)
+//
+
+	else if(href_list["sfaward"])
+		if(!check_rights(R_ADMIN))	return
+		var/snowflake = input(usr, "Choose what snowflake you want to give:", "Snowflakes and Rewards")  as null|anything in rewardlist
+		var/mob/M = locate(href_list["sfaward"])
+
+		if(snowflake)
+			var/list/X = list()
+			X.Add(snowflake)
+			for(var/spath in X)
+				if(spath == /datum/species)
+					continue
+				var/datum/species/S = new spath()
+				M.client.prefs.specialsnowflakes[S] = S.type
+			M.client.prefs.save_character()
+			message_admins("[usr] gave [M.key] a snowflake: [snowflake]")
+			usr << "You have been granted the ability to use the [snowflake] snowflake in character setup!"
+	else if(href_list["sfremove"])
+		if(!check_rights(R_ADMIN))	return
+		var/mob/M = locate(href_list["sfremove"])
+		var/datum/species/snowflake = input(usr, "Choose what snowflake you want to remove:", "Griefers")  as null|anything in M.client.prefs.specialsnowflakes
+
+
+		if(snowflake)
+			usr << "\red You remove [M.key]'s ability to use the [snowflake.id] snowflake"
+			message_admins("[usr] removed one of [M.key]'s snowflakes: [snowflake.id]")
+			M << "\red You feel some knowledge drifting away..."
+			M.client.prefs.specialsnowflakes.Remove(snowflake)
+
+
+
 	else if(href_list["revive"])
 		if(!check_rights(R_REJUVINATE))	return
 
