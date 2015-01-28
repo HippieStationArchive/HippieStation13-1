@@ -9,7 +9,7 @@
 	proc/start()
 		icon_state = "lightning" //i'm sure there's a more elegant way to do this.
 		spawn(20)
-		del(src)
+			del(src)
 
 /client/proc/cmd_smite(var/mob/living/M in world)
 	set category = "Fun"
