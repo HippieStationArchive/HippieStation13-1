@@ -1,7 +1,6 @@
 var/global/datum/controller/gameticker/ticker
 var/round_start_time = 0
 
-var/global/cansuperfart = 0
 var/global/fartholdin = 0
 
 #define GAME_STATE_PREGAME		1
@@ -125,8 +124,6 @@ var/global/fartholdin = 0
 	master_controller.process()		//Start master_controller.process()
 	lighting_controller.process()	//Start processing DynamicAreaLighting updates
 
-	fartholdin = world.time + 100
-
 	sleep(10)
 
 	create_characters() //Create player characters and transfer them
@@ -134,7 +131,7 @@ var/global/fartholdin = 0
 	equip_characters()
 	data_core.manifest()
 	current_state = GAME_STATE_PLAYING
-	cansuperfart = 1
+	fartholdin = world.time + 50
 	spawn(0)//Forking here so we dont have to wait for this to finish
 		mode.post_setup()
 		//Cleanup some stuff
