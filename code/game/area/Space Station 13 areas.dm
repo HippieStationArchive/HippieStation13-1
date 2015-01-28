@@ -637,6 +637,11 @@ proc/process_ghost_teleport_locs()
 	name = "Electrical Maintenance"
 	icon_state = "yellow"
 
+/area/maintenance/bar
+	name = "Speakeasy"
+	icon_state = "yellow"
+
+
 //Hallway
 
 /area/hallway/primary/fore
