@@ -243,153 +243,10 @@
 				m_type = 2
 		if ("fart")
 			exception = 1
-			var/obj/item/clothing/head/butt/B = null
-			B = locate() in src.internal_organs
-			if(!B)
-				src << "\red You don't have a butt!"
-				return
-			if(src.HasDisease(/datum/disease/assinspection))
-				src << "<span class='danger'>Your ass hurts too much.</span>"
-				return
-			for(var/mob/living/M in range(0)) //Bye ghost farts, you will be missed :'(
-				if(M != src)
-					visible_message("\red <b>[src]</b> farts in <b>[M]</b>'s face!")
-				else
-					continue
-			message = "<B>[src]</B> [pick(
-			"rears up and lets loose a fart of tremendous magnitude!",
-			"farts!",
-			"toots.",
-			"harvests methane from uranus at mach 3!",
-			"assists global warming!",
-			"farts and waves their hand dismissively.",
-			"farts and pretends nothing happened.",
-			"is a <b>farting</b> motherfucker!",
-			"<B><font color='red'>f</font><font color='blue'>a</font><font color='red'>r</font><font color='blue'>t</font><font color='red'>s</font></B>")]"
-			playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-			src.nutrition -= 25
-			if(prob(12))
-				B = locate() in src.internal_organs
-				if(B)
-					src.internal_organs -= B
-					new /obj/item/clothing/head/butt(src.loc)
-					new /obj/effect/decal/cleanable/blood(src.loc)
-				for(var/mob/living/M in range(0))
-					if(M != src)
-						visible_message("\red <b>[src]</b>'s ass hits <b>[M]</b> in the face!", "\red Your ass smacks <b>[M]</b> in the face!")
-						M.apply_damage(15,"brute","head")
-				visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
-
-			for(var/obj/item/weapon/storage/book/bible/CUL8 in range(0)) //gibs you as many times as there are bibles. fix pls.
-				var/obj/effect/lightning/L = new /obj/effect/lightning()
-				L.loc = get_turf(src.loc)
-				L.layer = src.layer+1
-				L.icon_state = "lightning"
-				playsound(CUL8,'sound/effects/thunder.ogg',90,1)
-				spawn(10)
-					src.gib()
-					spawn(10)
-						del(L)
+			message = fart()
 		if("superfart") //how to remove ass
 			exception = 1
-			if (ticker.current_state == 3)//safety1
-				if(world.time < fartholdin)//safety2
-					src << "Your ass is not ready to blast."
-					return
-				else
-					if(cansuperfart)
-						var/obj/item/clothing/head/butt/B = null
-						B = locate() in src.internal_organs
-						if(!B)
-							src << "\red You don't have a butt!"
-							return
-						else if(B)
-							src.internal_organs -= B
-						//src.butt = null
-						src.nutrition -= 500 //vv THIS CODE IS MELTING MY EYES AND I'M NOT ALLOWED TO FIX IT HELP vv
-						playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-						spawn(1)
-							playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-							spawn(1)
-								playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-								spawn(1)
-									playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-									spawn(1)
-										playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-										spawn(1)
-											playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-											spawn(1)
-												playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-												spawn(1)
-													playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-													spawn(1)
-														playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-														spawn(1)
-															playsound(src.loc, 'sound/misc/fart.ogg', 50, 1, 5)
-															spawn(5)
-																playsound(src.loc, 'sound/misc/fartmassive.ogg', 75, 1, 5)
-																new /obj/item/clothing/head/butt(src.loc)
-																new /obj/effect/decal/cleanable/blood(src.loc)
-																if(src.HasDisease(/datum/disease/assinspection))
-																	src << "<span class='danger'>It hurts so much!</span>"
-																	apply_damage(50, BRUTE, "chest")
-																if(prob(76))
-																	for(var/mob/living/M in range(0))
-																		if(M != src)
-																			visible_message("\red <b>[src]</b>'s ass blasts <b>[M]</b> in the face!", "\red You ass blast <b>[M]</b>!")
-																			M.apply_damage(75,"brute","head")
-																		else
-																			continue
-																	visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
-																else if(prob(12))
-																	var/startx = 0
-																	var/starty = 0
-																	var/endy = 0
-																	var/endx = 0
-																	var/startside = pick(cardinal)
-
-																	switch(startside)
-																		if(NORTH)
-																			starty = src.loc
-																			startx = src.loc
-																			endy = 38
-																			endx = rand(41, 199)
-																		if(EAST)
-																			starty = src.loc
-																			startx = src.loc
-																			endy = rand(38, 187)
-																			endx = 41
-																		if(SOUTH)
-																			starty = src.loc
-																			startx = src.loc
-																			endy = 187
-																			endx = rand(41, 199)
-																		else
-																			starty = src.loc
-																			startx = src.loc
-																			endy = rand(38, 187)
-																			endx = 199
-
-																	//ASS BLAST USA
-																	visible_message("\red <b>[src]</b> blows their ass off with such force, they explode!", "\red Holy shit, your butt flies off into the galaxy!")
-																	usr.gib() //can you belive I forgot to put this here?? yeah you need to see the message BEFORE you gib
-																	new /obj/effect/immovablerod/butt(locate(startx, starty, 1), locate(endx, endy, 1))
-																	priority_announce("What the fuck was that?!", "General Alert")
-																else if(prob(12))
-																	visible_message("\red <b>[src]</b> rips their ass apart in a massive explosion!", "\red Holy shit, your butt goes supernova!")
-																	explosion(src.loc,0,1,3,adminlog = 0,flame_range = 3)
-																	usr.gib()
-																for(var/obj/item/weapon/storage/book/bible/CUL8 in range(0)) //This spawns a lot of smites when there's many bibles. It even blows you up if you have a bible in your BACKPACK. gotta fix.
-																	var/obj/effect/lightning/L = new /obj/effect/lightning()
-																	L.loc = get_turf(src.loc)
-																	L.layer = src.layer+1
-																	L.icon_state = "lightning"
-																	playsound(CUL8,'sound/effects/thunder.ogg',90,1)
-																	spawn(10)
-																		src.gib()
-																		spawn(10)
-																		del(L)
-
+			message = fart(1)
 		if ("mumble")
 			message = "<B>[src]</B> mumbles!"
 			m_type = 2
@@ -517,3 +374,152 @@
 		else if (m_type & 2)
 			src.loc.audible_message(message)
 
+#define FART_GENERIC	1
+#define FART_ASSBLAST	2
+#define FART_SUPERNOVA	3
+#define FART_FLY		4
+
+
+
+/mob/living/carbon/proc/fart(var/super = 0)
+	if(ticker.current_state < GAME_STATE_PLAYING || world.time < fartholdin)
+		src << "Your ass is not ready to blast."
+		return
+
+	var/obj/item/clothing/head/butt/B = locate() in src.internal_organs
+	if(!B)
+		src << "\red You don't have a butt!"
+		return
+
+	if(!super && src.HasDisease(/datum/disease/assinspection))
+		src << "<span class='danger'>Your ass hurts too much.</span>"
+		return
+
+	var/count = rand(1, 2)
+	var/lose_butt = prob(12)
+	var/fart_type = FART_GENERIC
+	var/message = null
+
+	if(super)
+		count = 10
+
+		if(prob(76)) // 76%
+			fart_type = FART_ASSBLAST
+		else if(prob(12)) // 3%
+			fart_type = FART_SUPERNOVA
+		else if(prob(12)) // 0.4%
+			fart_type = FART_FLY
+
+	if(fart_type != FART_GENERIC)
+		lose_butt = 1
+	else
+		message = "<B>[src]</B> [pick(
+				  "rears up and lets loose a fart of tremendous magnitude!",
+				  "farts!",
+				  "toots.",
+				  "harvests methane from uranus at mach 3!",
+				  "assists global warming!",
+				  "farts and waves their hand dismissively.",
+				  "farts and pretends nothing happened.",
+				  "is a <b>farting</b> motherfucker!",
+				  "<B><font color='red'>f</font><font color='blue'>a</font><font color='red'>r</font><font color='blue'>t</font><font color='red'>s</font></B>")]"
+
+	spawn(0)
+		spawn(count)
+			for(var/obj/item/weapon/storage/book/bible/CUL8 in range(0))
+				var/obj/effect/lightning/L = new /obj/effect/lightning(get_turf(src.loc))
+				L.layer = src.layer + 1
+				L.start()
+				playsound(CUL8,'sound/effects/thunder.ogg', 90, 1)
+
+				spawn(10)
+					src.gib()
+
+		for(var/i = 1, i <= count, i++)
+			playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
+			sleep(1)
+
+		if(super)
+			sleep(4)
+			playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5)
+
+		if(lose_butt)
+			src.internal_organs -= B
+			new /obj/item/clothing/head/butt(src.loc)
+			new /obj/effect/decal/cleanable/blood(src.loc)
+
+			if(super && src.HasDisease(/datum/disease/assinspection))
+				src << "<span class='danger'>It hurts so much!</span>"
+				apply_damage(50, BRUTE, "chest")
+
+			src.nutrition -= 500
+		else
+			src.nutrition -= rand(5, 25)
+
+		switch(fart_type)
+			if(FART_GENERIC)
+				for(var/mob/living/M in range(0))
+					if(M != src)
+						if(lose_butt)
+							visible_message("\red <b>[src]</b>'s ass hits <b>[M]</b> in the face!", "\red Your ass smacks <b>[M]</b> in the face!")
+							M.apply_damage(15,"brute","head")
+						else
+							visible_message("\red <b>[src]</b> farts in <b>[M]</b>'s face!")
+
+				if(lose_butt)
+					visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
+
+			if(FART_ASSBLAST)
+				for(var/mob/living/M in range(0))
+					if(M != src)
+						visible_message("\red <b>[src]</b>'s ass blasts <b>[M]</b> in the face!", "\red You ass blast <b>[M]</b>!")
+						M.apply_damage(75,"brute","head")
+
+				visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
+
+			if(FART_SUPERNOVA)
+				visible_message("\red <b>[src]</b> rips their ass apart in a massive explosion!", "\red Holy shit, your butt goes supernova!")
+				explosion(src.loc, 0, 1, 3, adminlog = 0, flame_range = 3)
+				src.gib()
+
+			if(FART_FLY)
+				var/startx = 0
+				var/starty = 0
+				var/endy = 0
+				var/endx = 0
+				var/startside = pick(cardinal)
+
+				switch(startside)
+					if(NORTH)
+						starty = src.loc
+						startx = src.loc
+						endy = 38
+						endx = rand(41, 199)
+					if(EAST)
+						starty = src.loc
+						startx = src.loc
+						endy = rand(38, 187)
+						endx = 41
+					if(SOUTH)
+						starty = src.loc
+						startx = src.loc
+						endy = 187
+						endx = rand(41, 199)
+					else
+						starty = src.loc
+						startx = src.loc
+						endy = rand(38, 187)
+						endx = 199
+
+				//ASS BLAST USA
+				visible_message("\red <b>[src]</b> blows their ass off with such force, they explode!", "\red Holy shit, your butt flies off into the galaxy!")
+				src.gib() //can you belive I forgot to put this here?? yeah you need to see the message BEFORE you gib
+				new /obj/effect/immovablerod/butt(locate(startx, starty, 1), locate(endx, endy, 1))
+				priority_announce("What the fuck was that?!", "General Alert")
+
+	return message
+
+#undef FART_GENERIC
+#undef FART_ASSBLAST
+#undef FART_SUPERNOVA
+#undef FART_FLY
