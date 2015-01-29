@@ -77,10 +77,12 @@
 
 
 /obj/item/weapon/reagent_containers/spray/attack_self(var/mob/user)
+	toggle_nozzle(user)
 
-	amount_per_transfer_from_this = (amount_per_transfer_from_this == 10 ? 5 : 10)
+/obj/item/weapon/reagent_containers/spray/proc/toggle_nozzle(var/mob/user, var/default = 5, var/improved = 10)
+	amount_per_transfer_from_this = (amount_per_transfer_from_this == improved ? default : improved)
 	spray_currentrange = (spray_currentrange == 1 ? spray_maxrange : 1)
-	user << "<span class='notice'>You [amount_per_transfer_from_this == 10 ? "remove" : "fix"] the nozzle. You'll now use [amount_per_transfer_from_this] units per spray.</span>"
+	user << "<span class='notice'>You [amount_per_transfer_from_this == improved ? "remove" : "fix"] the nozzle. You'll now use [amount_per_transfer_from_this] units per spray.</span>"
 
 /obj/item/weapon/reagent_containers/spray/verb/empty()
 
@@ -131,13 +133,18 @@
 	item_state = "sunflower"
 	amount_per_transfer_from_this = 1
 	volume = 10
+	action_button_name = "Spray Water Flower"
+	action_button_is_hands_free = 1
 
 /obj/item/weapon/reagent_containers/spray/waterflower/New()
 	..()
 	reagents.add_reagent("water", 10)
 
-/obj/item/weapon/reagent_containers/spray/waterflower/attack_self(var/mob/user) //Don't allow changing how much the flower sprays
-	return
+/obj/item/weapon/reagent_containers/spray/waterflower/attack_self(var/mob/user)
+	toggle_nozzle(user, 1, 10)
+
+/obj/item/weapon/reagent_containers/spray/waterflower/ui_action_click()
+	afterattack(get_step(usr, usr.dir), usr)
 
 //chemsprayer
 /obj/item/weapon/reagent_containers/spray/chemsprayer
