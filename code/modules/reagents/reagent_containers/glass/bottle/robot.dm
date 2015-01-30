@@ -4,6 +4,7 @@
 	possible_transfer_amounts = list(5,10,15,25,30,50,100)
 	flags = OPENCONTAINER
 	volume = 60
+	can_examine_reagents = 1
 	var/reagent = ""
 
 

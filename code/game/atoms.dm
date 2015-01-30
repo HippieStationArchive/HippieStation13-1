@@ -21,6 +21,8 @@
 	// replaced by OPENCONTAINER flags and atom/proc/is_open_container()
 	///Chemistry.
 
+	var/can_examine_reagents = 0 //For examining reagents
+
 /atom/proc/throw_impact(atom/hit_atom)
 	if(istype(hit_atom,/mob/living))
 		var/mob/living/M = hit_atom
@@ -221,13 +223,13 @@ its easier to just keep the beam vertical.
 	// *****RM
 	//user << "[name]: Dn:[density] dir:[dir] cont:[contents] icon:[icon] is:[icon_state] loc:[loc]"
 
-	if(reagents && is_open_container()) //is_open_container() isn't really the right proc for this, but w/e
-		user << "It contains:"
+	if(reagents && can_examine_reagents)
+		user << "\blue It contains:"
 		if(reagents.reagent_list.len)
 			for(var/datum/reagent/R in reagents.reagent_list)
-				user << "[R.volume] units of [R.name]"
+				user << "\blue [R.volume] units of [R.name]"
 		else
-			user << "Nothing."
+			user << "\blue Nothing."
 
 /atom/proc/relaymove()
 	return

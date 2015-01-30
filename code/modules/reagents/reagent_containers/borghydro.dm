@@ -15,6 +15,7 @@ Borg Hypospray
 	item_state = "hypo"
 	icon_state = "borghypo"
 	amount_per_transfer_from_this = 5
+	can_examine_reagents = 1
 	volume = 30
 	possible_transfer_amounts = null
 	var/mode = 1

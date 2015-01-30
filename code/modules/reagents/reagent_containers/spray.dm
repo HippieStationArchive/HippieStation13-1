@@ -12,6 +12,7 @@
 	throw_range = 7
 	var/spray_maxrange = 3 //what the sprayer will set spray_currentrange to in the attack_self.
 	var/spray_currentrange = 3 //the range of tiles the sprayer will reach when in fixed mode.
+	can_examine_reagents = 1
 	amount_per_transfer_from_this = 5
 	volume = 250
 	possible_transfer_amounts = null

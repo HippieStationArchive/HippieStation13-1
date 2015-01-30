@@ -16,6 +16,7 @@
 	var/mode = SYRINGE_DRAW
 	g_amt = 20
 	m_amt = 10
+	can_examine_reagents = 1
 
 /obj/item/weapon/reagent_containers/syringe/on_reagent_change()
 	update_icon()

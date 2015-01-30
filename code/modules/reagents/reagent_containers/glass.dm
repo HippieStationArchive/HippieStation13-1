@@ -11,6 +11,7 @@
 	possible_transfer_amounts = list(5, 10, 15, 25, 30, 50)
 	volume = 50
 	flags = OPENCONTAINER
+	can_examine_reagents = 1
 
 	var/list/can_be_placed_into = list(
 		/obj/machinery/chem_master/,
@@ -32,7 +33,15 @@
 		/mob/living/simple_animal/hostile/retaliate/goat
 	)
 
-
+// /obj/item/weapon/reagent_containers/glass/examine()
+// 		..()
+// 		if (!(usr in view(2)) && usr!=src.loc) return
+// 		usr << "\blue It contains:"
+// 		if(reagents && reagents.reagent_list.len)
+// 			for(var/datum/reagent/R in reagents.reagent_list)
+// 				usr << "\blue [R.volume] units of [R.name]"
+// 		else
+// 			usr << "\blue Nothing."
 
 /obj/item/weapon/reagent_containers/glass/afterattack(obj/target, mob/user, proximity)
 	if(!proximity) return // not adjacent

@@ -18,6 +18,20 @@
 /obj/item/weapon/reagent_containers/food/drinks/attack_self(mob/user as mob)
 	return
 
+/obj/item/weapon/reagent_containers/food/drinks/examine()
+	..()
+	if (!(usr in range(0)) && usr!=src.loc) return
+	if(!reagents || reagents.total_volume==0)
+		usr << "\blue \The [src] is empty!"
+	else if (reagents.total_volume<=src.volume/4)
+		usr << "\blue \The [src] is almost empty!"
+	else if (reagents.total_volume<=src.volume*0.66)
+		usr << "\blue \The [src] is half full!"
+	else if (reagents.total_volume<=src.volume*0.90)
+		usr << "\blue \The [src] is almost full!"
+	else
+		usr << "\blue \The [src] is full!"
+
 /obj/item/weapon/reagent_containers/food/drinks/attack(mob/M as mob, mob/user as mob, def_zone)
 
 	if(!reagents || !reagents.total_volume)

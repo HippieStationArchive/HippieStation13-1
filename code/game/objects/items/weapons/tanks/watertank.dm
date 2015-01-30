@@ -9,10 +9,12 @@
 	slot_flags = SLOT_BACK
 	slowdown = 1
 	action_button_name = "Toggle Mister"
-
+	can_examine_reagents = 1
+	
 	var/obj/item/weapon/noz
 	var/on = 0
 	var/volume = 500
+
 
 /obj/item/weapon/watertank/New()
 	..()

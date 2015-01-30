@@ -544,7 +544,7 @@ datum/objective/destroy/find_target()
 
 datum/objective/destroy/check_completion()
 	if(target && target.current)
-		if(target.current.stat == DEAD || target.current.z > 6 || !target.current.ckey) //Borgs/brains/AIs count as dead for traitor objectives. --NeoFite
+		if(target.current.stat == DEAD || target.current.z > 6 || !target.current.ckey)
 			return 1
 		return 0
 	return 1
