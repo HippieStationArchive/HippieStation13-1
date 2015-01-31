@@ -394,6 +394,14 @@
 		usr.unset_machine()
 		usr << browse(null, "window=arcade")
 	else if (href_list["continue"]) //Continue your travels
+		if(!playing || event)
+			var/mob/living/M = usr
+
+			if(istype(M))
+				M.electrocute_act(10, src)
+				M.adjustBrainLoss(10)
+
+			return
 		if(turns >= 9)
 			win()
 		else if(turns == 2)
