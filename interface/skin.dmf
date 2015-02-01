@@ -139,7 +139,7 @@ macro "borghotkeymode"
 		name = "CTRL+S+REP"
 		command = ".south"
 		is-disabled = false
-	elem "input_say"
+	elem 
 		name = "T"
 		command = "say"
 		is-disabled = false
@@ -555,7 +555,7 @@ macro "hotkeymode"
 		name = "CTRL+S+REP"
 		command = ".south"
 		is-disabled = false
-	elem "input_say"
+	elem 
 		name = "T"
 		command = "say"
 		is-disabled = false
