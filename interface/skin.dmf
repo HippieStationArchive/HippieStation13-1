@@ -2177,7 +2177,7 @@ window "say_window"
 	elem "say_window"
 		type = MAIN
 		pos = 1313,470
-		size = 350x57
+		size = 350x48
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -2216,11 +2216,11 @@ window "say_window"
 	elem "say_input"
 		type = INPUT
 		pos = 8,16
-		size = 330x26
+		size = 330x20
 		anchor1 = none
 		anchor2 = none
-		font-family = "Courier ui"
-		font-size = 12
+		font-family = ""
+		font-size = 0
 		font-style = ""
 		text-color = #000000
 		background-color = #ffffff
