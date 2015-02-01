@@ -107,13 +107,14 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/icon_off = "cigoff"
 	var/type_butt = /obj/item/weapon/cigbutt
 	var/lastHolder = null
-	var/smoketime = 300
+	var/smoketime = 150 //300 = 10 minutes because process happens every 20 deciseconds.
 	var/chem_volume = 15
 
 /obj/item/clothing/mask/cigarette/New()
 	..()
 	flags |= NOREACT // so it doesn't react until you light it
 	create_reagents(chem_volume) // making the cigarette a chemical holder with a maximum volume of 15
+	// reagents.add_reagent("nicotine", 5) //Cigs always have nicotine in 'em. //Handled in weapons/storage/fancy.dm for cig packets.
 
 /obj/item/clothing/mask/cigarette/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	..()
@@ -196,9 +197,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		if (src == C.wear_mask) // if it's in the human/monkey mouth, transfer reagents to the mob
 			if(prob(15)) // so it's not an instarape in case of acid
 				reagents.reaction(C, INGEST)
-			reagents.trans_to(C, REAGENTS_METABOLISM)
+			reagents.trans_to(C, 0.2) //REAGENTS_METABOLISM was too fast for cigs, chemicals burned out way too quickly.
 			return
-	reagents.remove_any(REAGENTS_METABOLISM)
+	reagents.remove_any(0.2)
 
 
 /obj/item/clothing/mask/cigarette/process()

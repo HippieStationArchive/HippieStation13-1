@@ -62,7 +62,6 @@
 	var/sound/miss_sound = 'sound/weapons/punchmiss.ogg'
 
 	var/mob/living/list/ignored_by = list()	// list of mobs that will ignore this species
-
 	///////////
 	// PROCS //
 	///////////
@@ -379,12 +378,21 @@
 /datum/species/proc/handle_speech(var/message, var/mob/living/carbon/human/H)
 	return message
 
-////////
+	////////
 	//LIFE//
 	////////
 
 /datum/species/proc/handle_chemicals_in_body(var/mob/living/carbon/human/H)
 	if(H.reagents) H.reagents.metabolize(H)
+
+	//ADDICTIONS
+	if(H.addicted_to)
+		// world << "addicted_to is a thing!" //debug
+		for(var/A in H.addicted_to.reagent_list)
+			var/datum/reagent/R = A
+			if(R)
+				// world << "[R] exists!" //debug
+				R.on_mob_addicted(H)
 
 	//The fucking FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
 	if(FAT in H.mutations)
