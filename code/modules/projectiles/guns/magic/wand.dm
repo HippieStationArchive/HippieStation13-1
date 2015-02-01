@@ -52,26 +52,6 @@
 	playsound(user, fire_sound, 50, 1)
 	user.attack_log += "\[[time_stamp()]\] <b>[user]/[user.ckey]</b> zapped \himself with a <b>[src]</b>"
 
-
-/////////////////////////////////////
-//WAND OF DEATH
-/////////////////////////////////////
-
-/obj/item/weapon/gun/magic/wand/death
-	name = "wand of death"
-	desc = "This deadly wand overwhelms the victim's body with pure energy, slaying them without fail."
-	ammo_type = /obj/item/ammo_casing/magic/death
-	icon_state = "deathwand"
-	max_charges = 3 //3, 2, 2, 1
-
-/obj/item/weapon/gun/magic/wand/death/zap_self(mob/living/user as mob)
-	var/message ="<span class='warning'>You irradiate yourself with pure energy! "
-	message += pick("Do not pass go. Do not collect 200 zorkmids.</span>","You feel more confident in your spell casting skills.</span>","You Die...</span>","Do you want your possessions identified?</span>")
-	user << message
-	user.adjustOxyLoss(500)
-	charges--
-	..()
-
 /////////////////////////////////////
 //WAND OF HEALING
 /////////////////////////////////////

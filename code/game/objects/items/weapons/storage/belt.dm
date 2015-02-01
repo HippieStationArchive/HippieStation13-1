@@ -178,7 +178,6 @@
 
 /obj/item/weapon/storage/belt/wands/full/New()
 	..()
-	new /obj/item/weapon/gun/magic/wand/death(src)
 	new /obj/item/weapon/gun/magic/wand/resurrection(src)
 	new /obj/item/weapon/gun/magic/wand/polymorph(src)
 	new /obj/item/weapon/gun/magic/wand/teleport(src)

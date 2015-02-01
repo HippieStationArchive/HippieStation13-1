@@ -93,8 +93,6 @@
 					new /obj/item/weapon/spellbook/oneuse/charge(get_turf(H))
 				if("wandnothing")
 					new /obj/item/weapon/gun/magic/wand(get_turf(H))
-				if("wanddeath")
-					new /obj/item/weapon/gun/magic/wand/death(get_turf(H))
 				if("wandresurrection")
 					new /obj/item/weapon/gun/magic/wand/resurrection(get_turf(H))
 				if("wandpolymorph")
