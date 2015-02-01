@@ -859,7 +859,9 @@ obj/machinery/computer/pandemic/proc/replicator_cooldown(var/waittime)
 
 				//All types that you can put into the grinder to transfer the reagents to the beaker. !Put all recipes above this.!
 				/obj/item/weapon/reagent_containers/pill = list(),
-				/obj/item/weapon/reagent_containers/food = list()
+				/obj/item/weapon/reagent_containers/food = list(),
+
+				/obj/item/clothing/mask/cigarette = list() //Contains reagents.
 		)
 
 		var/list/juice_items = list (

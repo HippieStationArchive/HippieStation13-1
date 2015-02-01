@@ -15,6 +15,12 @@
 
 /mob/living/carbon/human/New()
 	create_reagents(1000)
+	//ADDICTIONS
+	if(addicted_to)
+		addicted_to.delete()
+	addicted_to = new/datum/reagents(1000) //Max volume might be nerfed to prevent hyper addiction to everything.
+	addicted_to.my_atom = src
+	
 	verbs += /mob/living/proc/mob_sleep
 	verbs += /mob/living/proc/lay_down
 	//initialise organs

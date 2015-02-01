@@ -154,9 +154,10 @@
 /obj/item/weapon/storage/fancy/cigarettes/New()
 	..()
 	flags |= NOREACT
+	create_reagents(15 * storage_slots)//so people can inject cigarettes without opening a packet, now with being able to inject the whole one
 	for(var/i = 1 to storage_slots)
 		new /obj/item/clothing/mask/cigarette(src)
-	create_reagents(15 * storage_slots)//so people can inject cigarettes without opening a packet, now with being able to inject the whole one
+		reagents.add_reagent("nicotine", 5) //Cigs always have nicotine in 'em.
 
 /obj/item/weapon/storage/fancy/cigarettes/update_icon()
 	icon_state = "[initial(icon_state)][contents.len]"
@@ -189,17 +190,34 @@
 	icon_state = "Dpacket"
 	item_state = "Dpacket"
 
+/obj/item/weapon/storage/fancy/cigarettes/dromedaryco/New()
+	..()
+	for(var/i = 1 to storage_slots)
+		reagents.add_reagent("nicotine", 5) //DromedaryCo put 10 nicotine in their cigs.
+
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift
 	name = "\improper Uplift Smooth packet"
 	desc = "Your favorite brand, now menthol flavored."
 	icon_state = "upliftpacket"
 	item_state = "upliftpacket"
 
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift/New()
+	..()
+	for(var/i = 1 to storage_slots)
+		//Simulated menthol effects.
+		reagents.add_reagent("dexalin", 2)
+		reagents.remove_reagent("nicotine", 2) //Less nicotine, less chance for addiction.
+
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robust
 	name = "\improper Robust packet"
 	desc = "Smoked by the robust."
 	icon_state = "robustpacket"
 	item_state = "robustpacket"
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift/New()
+	..()
+	for(var/i = 1 to storage_slots)
+		reagents.add_reagent(pick("tricordrazine", "hyperzine", "synaptizine", "hyronalin"), 2) //Tricord = heals, hyperzine = fast, synaptizine = stun reduction, hyronalin = anti-radiation.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robustgold
 	name = "\improper Robust Gold packet"
@@ -210,13 +228,19 @@
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robustgold/New()
 	..()
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent("gold",1)
+		reagents.add_reagent(pick("tricordrazine", "hyperzine", "synaptizine", "hyronalin"), 3) //1 more unit! WOOT!
+		reagents.add_reagent("gold", 1)
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_carp
 	name = "\improper Carp Classic packet"
 	desc = "Since 2313."
 	icon_state = "carppacket"
 	item_state = "carppacket"
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_carp/New()
+	..()
+	for(var/i = 1 to storage_slots)
+		reagents.add_reagent("carpotoxin", 3) //Low amount since it's possible to grind cigs (I THINK.)
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_syndicate
 	name = "cigarette packet"
@@ -227,6 +251,7 @@
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_syndicate/New()
 	..()
 	for(var/i = 1 to storage_slots)
+		reagents.remove_reagent("nicotine", 5) //Make room for Doctor's Delight
 		reagents.add_reagent("doctorsdelight",15)
 
 
@@ -235,6 +260,12 @@
 	desc = "You can't understand the runes, but the packet smells funny."
 	icon_state = "midoripacket"
 	item_state = "midoripacket"
+
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_midori/New()
+	..()
+	for(var/i = 1 to storage_slots)
+		reagents.add_reagent("toxin",1) //baaad brand
+		reagents.add_reagent(pick("space_drugs", "serotrotium"), 2) //Serotrotium only makes you twitch and stuff.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims
 	name ="\improper Shady Jim's Super Slims"
@@ -245,10 +276,19 @@
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims/New()
 	..()
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent("lipozine",4)
-		reagents.add_reagent("ammonia",2)
-		reagents.add_reagent("plantbgone",1)
-		reagents.add_reagent("toxin",1.5)
+		reagents.add_reagent("lipozine", 4)
+		reagents.add_reagent("toxin", 2) //TERRIBLE BRAND
+
+/obj/item/weapon/storage/fancy/cigarettes/chempacket
+	name = "\improper ChemBrand packet"
+	desc = "A brand of cigarettes specifically aimed at chemists. The cigs contain no chemicals, so chemists can dip their cigs in their favorite reagents and have a delightful nicotine-free smoke!"
+	icon_state = "chempacket"
+	item_state = "chempacket"
+
+/obj/item/weapon/storage/fancy/cigarettes/chempacket/New()
+	..()
+	for(var/i = 1 to storage_slots)
+		reagents.remove_reagent("nicotine", 5) //Makes all cigs completely empty!
 
 /obj/item/weapon/storage/fancy/rollingpapers
 	name = "rolling paper pack"

@@ -15,3 +15,4 @@
 	var/obj/item/weapon/tank/internal = null
 
 	var/datum/dna/dna = null//Carbon
+	var/datum/reagents/addicted_to = null //Addictions

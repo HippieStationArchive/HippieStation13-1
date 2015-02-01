@@ -23,6 +23,8 @@ datum/reagent
 	//var/list/viruses = list()
 	var/color = "#000000" // rgb: 0, 0, 0 (does not support alpha channels - yet!)
 	var/metabolization_rate = REAGENTS_METABOLISM
+	//Addictions
+	var/addiction_rate = 0.2 //Amount of reagents removed per tick similar to metabolization.
 
 datum/reagent/proc/reaction_mob(var/mob/M, var/method=TOUCH, var/volume) //By default we have a chance to transfer some
 	if(!istype(M, /mob/living))
@@ -72,6 +74,17 @@ datum/reagent/proc/on_mob_life(var/mob/living/M as mob)
 		return //Noticed runtime errors from pacid trying to damage ghosts, this should fix. --NEO
 	holder.remove_reagent(src.id, metabolization_rate * M.metabolism_efficiency) //By default it slowly disappears.
 	return
+
+//ADDICTION\\
+
+datum/reagent/proc/on_mob_addicted(var/mob/living/M as mob)
+	// world << "on_mob_addicted called for [src]" //debug
+	if(!istype(M, /mob/living))
+		return
+	holder.remove_reagent(src.id, addiction_rate) //By default addiction slowly goes away.
+	return
+	//This proc is handled very similar to on_mob_life().
+//ADDICTION END\\
 
 datum/reagent/proc/on_move(var/mob/M)
 	return
