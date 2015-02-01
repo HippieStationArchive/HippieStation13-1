@@ -43,8 +43,8 @@
 		return
 
 	operating = 1
-	flick("[preposition]opening", src)
-	icon_state = "[preposition]open"
+	flick("opening", src)
+	icon_state = "open"
 	playsound(src.loc, 'sound/machines/blast_door.ogg', 100, 1)
 	SetOpacity(0)
 	sleep(5)
@@ -71,8 +71,8 @@
 		return
 
 	operating = 1
-	flick("[preposition]closing", src)
-	icon_state = "[preposition]closed"
+	flick("closing", src)
+	icon_state = "closed"
 	SetOpacity(1)
 	air_update_turf(1)
 	update_freelook_sight()
