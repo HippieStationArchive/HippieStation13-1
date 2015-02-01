@@ -103,7 +103,7 @@
 			if (ears)
 				ears.talk_into(src, message, message_mode)
 			return ITALICS | REDUCE_RANGE
-	
+
 	if(message_mode in radiochannels)
 		if(ears)
 			ears.talk_into(src, message, message_mode)
@@ -118,30 +118,38 @@
 /mob/living/carbon/human/proc/forcesay(list/append) //this proc is at the bottom of the file because quote fuckery makes notepad++ cri
 	if(stat == CONSCIOUS)
 		if(client)
-			var/virgin = 1	//has the text been modified yet?
-			var/temp = winget(client, "input", "text")
-			if(findtextEx(temp, "Say \"", 1, 7) && length(temp) > 5)	//"case sensitive means
 
-				temp = replacetext(temp, ";", "")	//general radio
+			var/msg = null
 
-				if(findtext(trim_left(temp), ":", 6, 7))	//dept radio
-					temp = copytext(trim_left(temp), 8)
-					virgin = 0
+			var/cmd_text = winget(client, "input", "text")
 
-				if(virgin)
-					temp = copytext(trim_left(temp), 6)	//normal speech
-					virgin = 0
+			if(lowertext(copytext(cmd_text, 1, 4)) == "say")
+				msg = copytext(cmd_text, 5)
+			else if(winget(client, "say_window", "is-visible"))
+				msg = winget(client, "say_window.say_input", "text")
 
-				while(findtext(trim_left(temp), ":", 1, 2))	//dept radio again (necessary)
-					temp = copytext(trim_left(temp), 3)
+			if(!msg || length(msg) < 1)
+				return
 
-				if(findtext(temp, "*", 1, 2))	//emotes
-					return
+			while(1)
+				var/first_char = copytext(msg, 1, 2)
 
-				var/trimmed = trim_left(temp)
-				if(length(trimmed))
-					if(append)
-						temp += pick(append)
+				if(first_char == " " || first_char == "\"" || first_char == ";")
+					msg = copytext(msg, 2)
+				else if(first_char == ":")
+					msg = copytext(msg, 3)
+				else
+					break
 
-					say(temp)
-				winset(client, "input", "text=[null]")
+			if(length(msg) < 1)
+				return
+
+			msg = copytext(msg, 1, min(max(7, round(length(msg) * 0.4)), 20)) // Value of msg length * 0.4 restricted between 7 and 20
+
+			if(append)
+				msg += pick(append)
+
+			say(msg)
+
+			winset(client, "input", "text=[null]")
+			winset(client, "say_window.say_input", "text=[null]")
