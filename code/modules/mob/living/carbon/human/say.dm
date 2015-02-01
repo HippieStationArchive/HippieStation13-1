@@ -103,7 +103,7 @@
 			if (ears)
 				ears.talk_into(src, message, message_mode)
 			return ITALICS | REDUCE_RANGE
-	
+
 	if(message_mode in radiochannels)
 		if(ears)
 			ears.talk_into(src, message, message_mode)
@@ -115,11 +115,11 @@
 	if(name != GetVoice())
 		return " (as [get_id_name("Unknown")])"
 
-/mob/living/carbon/human/proc/forcesay(list/append) //this proc is at the bottom of the file because quote fuckery makes notepad++ cri
+/mob/living/carbon/human/proc/forcesay(list/append) //this proc is at the bottom of the file because quote fuckery makes notepad++ cri (protip: get sublime text 2)
 	if(stat == CONSCIOUS)
 		if(client)
 			var/virgin = 1	//has the text been modified yet?
-			var/temp = winget(client, "input", "text")
+			var/temp = winget(client, "input", "text") //This only works with non-hotkey users. Please fix.
 			if(findtextEx(temp, "Say \"", 1, 7) && length(temp) > 5)	//"case sensitive means
 
 				temp = replacetext(temp, ";", "")	//general radio
@@ -145,3 +145,30 @@
 
 					say(temp)
 				winset(client, "input", "text=[null]")
+				return
+			// This doesn't work. "temp" var is empty no matter what.
+			temp = winget(client, "input_say", "text")
+			if(length(temp) > 1)
+				temp = replacetext(temp, ";", "")	//general radio
+
+				if(findtext(trim_left(temp), ":", 1, 3))	//dept radio
+					temp = copytext(trim_left(temp), 2)
+					virgin = 0
+
+				if(virgin)
+					// temp = copytext(trim_left(temp), 1)	//normal speech
+					virgin = 0
+
+				while(findtext(trim_left(temp), ":", 1, 2))	//dept radio again (necessary)
+					temp = copytext(trim_left(temp), 3)
+
+				if(findtext(temp, "*", 1, 2))	//emotes
+					return
+
+				var/trimmed = trim_left(temp)
+				if(length(trimmed))
+					if(append)
+						temp += pick(append)
+
+					say(temp)
+				winset(client, "input_say", "text=[null]")
