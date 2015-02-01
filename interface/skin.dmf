@@ -141,7 +141,7 @@ macro "borghotkeymode"
 		is-disabled = false
 	elem 
 		name = "T"
-		command = ".winset\"say_window.is-visible=true;mapwindow.map.focus=false;say_window.say_input.focus=true;say_window.say_input.text=\"\"\""
+		command = "say"
 		is-disabled = false
 	elem "w_key"
 		name = "W+REP"
@@ -557,7 +557,7 @@ macro "hotkeymode"
 		is-disabled = false
 	elem
 		name = "T"
-		command = ".winset\"say_window.is-visible=true;mapwindow.map.focus=false;say_window.say_input.focus=true;say_window.say_input.text=\"\"\""
+		command = "say"
 		is-disabled = false
 	elem "w_key"
 		name = "W+REP"
