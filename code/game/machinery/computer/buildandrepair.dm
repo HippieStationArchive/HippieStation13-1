@@ -4,7 +4,7 @@
 	density = 1
 	anchored = 0
 	name = "computer-frame"
-	icon = 'icons/obj/status_display.dmi'
+	icon = 'icons/obj/stock_parts.dmi'
 	icon_state = "pc0"
 	var/state = 0
 	var/obj/item/weapon/circuitboard/circuit = null
