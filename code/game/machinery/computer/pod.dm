@@ -121,6 +121,8 @@
 
 /obj/machinery/computer/pod/old
 	icon_state = "old"
+	icon_state_nopower = "old0"
+	icon_state_broken = "oldb"
 	name = "\improper DoorMex control console"
 	title = "Door Controls"
 

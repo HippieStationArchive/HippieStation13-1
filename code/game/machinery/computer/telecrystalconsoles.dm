@@ -7,6 +7,8 @@ var/list/possible_uplinker_IDs = list("Alfa","Bravo","Charlie","Delta","Echo","F
 	name = "\improper Telecrystal assignment station"
 	desc = "A device used to manage telecrystals during group operations. You shouldn't be looking at this particular one..."
 	icon_state = "tcstation"
+	icon_state_nopower = "tcstation0"
+	icon_state_broken = "tcstationb"
 
 /////////////////////////////////////////////
 /obj/machinery/computer/telecrystals/uplinker
@@ -127,6 +129,8 @@ var/list/possible_uplinker_IDs = list("Alfa","Bravo","Charlie","Delta","Echo","F
 	Once the consoles are linked up, you can assign any telecrystals amongst your operatives; be they donated by your agents or rationed to the squad \
 	based on the danger rating of the mission."
 	icon_state = "tcboss"
+	icon_state_nopower = "nopower"
+	icon_state_broken = "broken1"
 	var/virgin = 1
 	var/scanrange = 10
 	var/storedcrystals = 0

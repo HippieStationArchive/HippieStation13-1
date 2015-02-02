@@ -1,7 +1,7 @@
 /obj/machinery/computer/prisoner
 	name = "prisoner management console"
 	desc = "Used to manage tracking implants placed inside criminals."
-	icon = 'icons/obj/computer.dmi'
+	// icon = 'icons/obj/computer.dmi'
 	icon_state = "explosive"
 	req_access = list(access_brig)
 	circuit = "/obj/item/weapon/circuitboard/prisoner"

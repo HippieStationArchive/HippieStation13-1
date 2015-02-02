@@ -1,6 +1,9 @@
 /obj/machinery/computer
 	name = "computer"
 	icon = 'icons/obj/computer.dmi'
+	icon_state = "computer_generic"
+	var/icon_state_nopower = "nopower"
+	var/icon_state_broken = "broken"
 	density = 1
 	anchored = 1.0
 	use_power = 1
@@ -57,6 +60,7 @@
 	if(prob(Proj.damage))
 		if((Proj.damage_type == BRUTE || Proj.damage_type == BURN))
 			set_broken()
+	playsound(src.loc, 'sound/effects/Glasshit.ogg', 70, 1, -1)
 	..()
 
 
@@ -65,18 +69,18 @@
 		verbs.Cut()
 		set_broken()
 		density = 0
+		playsound(src.loc, 'sound/effects/Glasshit.ogg', 70, 1, -1)
 
 /obj/machinery/computer/update_icon()
 	..()
 	icon_state = initial(icon_state)
 	// Broken
 	if(stat & BROKEN)
-		icon_state += "b"
+		icon_state = icon_state_broken
 
 	// Powered
 	else if(stat & NOPOWER)
-		icon_state = initial(icon_state)
-		icon_state += "0"
+		icon_state = icon_state_nopower
 
 
 
@@ -106,11 +110,11 @@
 				user << "<span class='notice'> The broken glass falls out.</span>"
 				new /obj/item/weapon/shard( src.loc )
 				A.state = 3
-				A.icon_state = "3"
+				A.icon_state = "pc3"
 			else
 				user << "<span class='notice'> You disconnect the monitor.</span>"
 				A.state = 4
-				A.icon_state = "4"
+				A.icon_state = "pc4"
 			qdel(src)
 	return
 

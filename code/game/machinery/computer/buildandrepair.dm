@@ -4,8 +4,8 @@
 	density = 1
 	anchored = 0
 	name = "computer-frame"
-	icon = 'icons/obj/stock_parts.dmi'
-	icon_state = "0"
+	icon = 'icons/obj/status_display.dmi'
+	icon_state = "pc0"
 	var/state = 0
 	var/obj/item/weapon/circuitboard/circuit = null
 //	weight = 1.0E8
@@ -319,7 +319,7 @@
 				if(B.board_type == "computer")
 					playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 					user << "<span class='notice'>You place the circuit board inside the frame.</span>"
-					icon_state = "1"
+					icon_state = "pc1"
 					circuit = P
 					user.drop_item()
 					circuit.add_fingerprint(user)
@@ -330,12 +330,12 @@
 				playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 				user << "<span class='notice'>You screw the circuit board into place.</span>"
 				state = 2
-				icon_state = "2"
+				icon_state = "pc2"
 			if(istype(P, /obj/item/weapon/crowbar) && circuit)
 				playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
 				user << "<span class='notice'>You remove the circuit board.</span>"
 				state = 1
-				icon_state = "0"
+				icon_state = "pc0"
 				circuit.loc = src.loc
 				circuit.add_fingerprint(user)
 				circuit = null
@@ -344,7 +344,7 @@
 				playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 				user << "<span class='notice'>You unfasten the circuit board.</span>"
 				state = 1
-				icon_state = "1"
+				icon_state = "pc1"
 			if(istype(P, /obj/item/stack/cable_coil))
 				var/obj/item/stack/cable_coil/C = P
 				if(C.get_amount() >= 5)
@@ -355,7 +355,7 @@
 							C.use(5)
 							user << "<span class='notice'>You've added cables to the frame.</span>"
 							state = 3
-							icon_state = "3"
+							icon_state = "pc3"
 				else
 					user << "<span class='warning'>You need five lengths of cable to wire the frame.</span>"
 		if(3)
@@ -363,7 +363,7 @@
 				playsound(src.loc, 'sound/items/Wirecutter.ogg', 50, 1)
 				user << "<span class='notice'>You remove the cables.</span>"
 				state = 2
-				icon_state = "2"
+				icon_state = "pc2"
 				var/obj/item/stack/cable_coil/A = new (loc)
 				A.amount = 5
 				A.add_fingerprint(user)
@@ -381,13 +381,13 @@
 							G.use(2)
 							user << "<span class='notice'>You've put in the glass panel.</span>"
 							state = 4
-							src.icon_state = "4"
+							src.icon_state = "pc4"
 		if(4)
 			if(istype(P, /obj/item/weapon/crowbar))
 				playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
 				user << "<span class='notice'>You remove the glass panel.</span>"
 				state = 3
-				icon_state = "3"
+				icon_state = "pc3"
 				var/obj/item/stack/sheet/glass/G = new (loc, 2)
 				G.add_fingerprint(user)
 			if(istype(P, /obj/item/weapon/screwdriver))

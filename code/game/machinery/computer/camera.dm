@@ -87,22 +87,24 @@
 	name = "\improper Telescreen"
 	desc = "Used for watching an empty arena."
 	icon = 'icons/obj/stationobjs.dmi'
-	icon_state = "telescreen"
+	// icon_state = "telescreen" //Nonexistant icon
 	network = list("thunder")
 	density = 0
 	circuit = null
 
-/obj/machinery/computer/security/telescreen/update_icon()
-	icon_state = initial(icon_state)
-	if(stat & BROKEN)
-		icon_state += "b"
-	return
+// /obj/machinery/computer/security/telescreen/update_icon()
+// 	icon_state = initial(icon_state)
+// 	if(stat & BROKEN)
+// 		icon_state = "broken1"
+// 	return
 
 /obj/machinery/computer/security/telescreen/entertainment
 	name = "entertainment monitor"
 	desc = "Damn, they better have the /tg/ channel on these things."
 	icon = 'icons/obj/status_display.dmi'
 	icon_state = "entertainment"
+	icon_state_nopower = "ai_off"
+	icon_state_broken = "ai_off"
 	network = list("thunder")
 	density = 0
 	circuit = null
@@ -112,6 +114,8 @@
 	name = "security camera monitor"
 	desc = "An old TV hooked into the stations camera network."
 	icon_state = "security_det"
+	icon_state_nopower = "security_det0"
+	icon_state_broken = "security_detb"
 
 
 /obj/machinery/computer/security/mining

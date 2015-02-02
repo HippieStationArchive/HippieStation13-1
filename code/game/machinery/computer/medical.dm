@@ -550,3 +550,5 @@
 	name = "medical laptop"
 	desc = "A cheap Nanotrasen medical laptop, it functions as a medical records computer. It's bolted to the table."
 	icon_state = "medlaptop"
+	icon_state_broken = "medlaptopb"
+	icon_state_nopower = "medlaptop0"

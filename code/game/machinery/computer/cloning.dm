@@ -398,14 +398,14 @@
 	src.records += R
 	scantemp = "Subject successfully scanned."
 
-/obj/machinery/computer/cloning/update_icon()
+// /obj/machinery/computer/cloning/update_icon()
 
-	if(stat & BROKEN)
-		icon_state = "commb"
-	else
-		if(stat & NOPOWER)
-			src.icon_state = "c_unpowered"
-			stat |= NOPOWER
-		else
-			icon_state = initial(icon_state)
-			stat &= ~NOPOWER
+// 	if(stat & BROKEN)
+// 		icon_state = "commb"
+// 	else
+// 		if(stat & NOPOWER)
+// 			src.icon_state = "c_unpowered"
+// 			stat |= NOPOWER
+// 		else
+// 			icon_state = initial(icon_state)
+// 			stat &= ~NOPOWER
