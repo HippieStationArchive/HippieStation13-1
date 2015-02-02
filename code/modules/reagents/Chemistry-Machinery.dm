@@ -1226,7 +1226,9 @@ obj/machinery/computer/pandemic/proc/replicator_cooldown(var/waittime)
 						remove_object(O)
 
 		//Everything else - Transfers reagents from it into beaker
-		for (var/obj/item/weapon/reagent_containers/O in holdingitems)
+		for (var/obj/item/O in holdingitems)
+				if(!O.reagents)
+						continue
 				if (beaker.reagents.total_volume >= beaker.reagents.maximum_volume)
 						break
 				var/amount = O.reagents.total_volume

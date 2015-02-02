@@ -30,17 +30,18 @@ datum/reagent/nicotine
 	name = "Nicotine"
 	id = "nicotine"
 	description = "The reason why you can't get enough of these cigs."
-	color = "#556B2F" // rgb: 85, 107, 47
-	addiction_rate = 0.05 //Smoke once, get addicted for a loong time.
+	color = "#CD853F" // rgb: 205,133,63
+	addiction_rate = 0.05 //5 units of nicotine go away in 100 ticks, which is 200 seconds.
 
 datum/reagent/nicotine/on_mob_life(var/mob/living/M as mob)
 	var/mob/living/carbon/human/H = M
 	H.addicted_to.add_reagent("nicotine", 0.2) //Slowly add addiction
+	var/datum/reagent/R = H.addicted_to.has_reagent("nicotine")
+	if(R)
+		R.data-- //Slowly reduce addiction stage to prevent toxins as soon as you stop smoking when addicted.
 	if(prob(5))
 		var/msg = pick("You feel relaxed.", "You feel a warm smoke in your lungs.")
 		M << "<span class='notice'>[msg]</span>"
-	// if(prob(1)) //Happens too frequently, huh.
-	// 	M.emote("cough") //Smoke ain't so good on your lungs man.
 	..()
 	return
 
@@ -56,20 +57,20 @@ datum/reagent/nicotine/on_mob_addicted(var/mob/living/M as mob)
 		if(1 to 15)
 			if(prob(2))
 				M.emote("cough")
-		if(15 to 25)
+		if(15 to 30)
 			if(prob(4))
 				M.emote("cough")
 			if(prob(7))
 				var/msg = pick("You feel pretty bad.", "You have an urge to smoke.", "You have a headache.")
 				M << "<span class='notice'>[msg]</span>"
-		if(25 to 50)
-			if(prob(5))
+		if(30 to 60)
+			if(prob(8))
 				M.emote("cough")
 				M.adjustToxLoss(1) //Not feeling so well now are you?
 			if(prob(7))
 				var/msg = pick("You feel pretty bad.", "You REALLY need a smoke right now.", "You have a headache.", "You feel nauseous.")
 				M << "<span class='notice'>[msg]</span>"
-		if(50 to INFINITY)
+		if(60 to INFINITY)
 			if(prob(10))
 				M.emote("cough") //massive coughing feats
 				M.adjustToxLoss(2) //Toxins intensify

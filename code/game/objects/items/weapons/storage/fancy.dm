@@ -193,7 +193,7 @@
 /obj/item/weapon/storage/fancy/cigarettes/dromedaryco/New()
 	..()
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent("nicotine", 5) //DromedaryCo put 10 nicotine in their cigs.
+		reagents.add_reagent("tricordrazine", 2) //DromedaryCo put 2 tricord in their cigs.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift
 	name = "\improper Uplift Smooth packet"
@@ -203,10 +203,12 @@
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift/New()
 	..()
+	var/choice = pick("dexalin", "dexalinplus") //The reason why "choice" is outside the for loop is so cigs don't just have all these chems at once with randomised amounts.
 	for(var/i = 1 to storage_slots)
 		//Simulated menthol effects.
-		reagents.add_reagent("dexalin", 2)
-		reagents.remove_reagent("nicotine", 2) //Less nicotine, less chance for addiction.
+		reagents.add_reagent(choice, 2)
+		reagents.add_reagent("dexalin", 1)
+		reagents.add_reagent("nicotine", 2) //More nicotine because lol
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robust
 	name = "\improper Robust packet"
@@ -214,10 +216,11 @@
 	icon_state = "robustpacket"
 	item_state = "robustpacket"
 
-/obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift/New()
+/obj/item/weapon/storage/fancy/cigarettes/cigpack_robust/New()
 	..()
+	var/choice = pick("tricordrazine", "hyperzine", "synaptizine", "hyronalin") //Tricord = heals, hyperzine = fast, synaptizine = stun reduction, hyronalin = anti-radiation.
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent(pick("tricordrazine", "hyperzine", "synaptizine", "hyronalin"), 2) //Tricord = heals, hyperzine = fast, synaptizine = stun reduction, hyronalin = anti-radiation.
+		reagents.add_reagent(choice, 2)
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robustgold
 	name = "\improper Robust Gold packet"
@@ -227,20 +230,21 @@
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robustgold/New()
 	..()
+	var/choice = pick("tricordrazine", "hyperzine", "synaptizine", "hyronalin", "alkysine", "leporazine") //5 units! AND MORE CHEMICALS! WOOT!
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent(pick("tricordrazine", "hyperzine", "synaptizine", "hyronalin"), 3) //1 more unit! WOOT!
+		reagents.add_reagent(choice, 5)
 		reagents.add_reagent("gold", 1)
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_carp
 	name = "\improper Carp Classic packet"
-	desc = "Since 2313."
+	desc = "Since 2313. (Not reccomended for smoking)"
 	icon_state = "carppacket"
 	item_state = "carppacket"
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_carp/New()
 	..()
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent("carpotoxin", 3) //Low amount since it's possible to grind cigs (I THINK.)
+		reagents.add_reagent("carpotoxin", 3) //Low amount since it's possible to grind cigs.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_syndicate
 	name = "cigarette packet"
@@ -263,9 +267,10 @@
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_midori/New()
 	..()
+	var/choice = pick("space_drugs", "serotrotium") //Serotrotium only makes you twitch and stuff.
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent("toxin",1) //baaad brand
-		reagents.add_reagent(pick("space_drugs", "serotrotium"), 2) //Serotrotium only makes you twitch and stuff.
+		// reagents.add_reagent("toxin", 1) //Toxins removed
+		reagents.add_reagent(choice, 2)
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims
 	name ="\improper Shady Jim's Super Slims"
@@ -275,9 +280,10 @@
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims/New()
 	..()
+	var/choice = pick("mindbreaker", "sodium", "alkysine")
 	for(var/i = 1 to storage_slots)
 		reagents.add_reagent("lipozine", 4)
-		reagents.add_reagent("toxin", 2) //TERRIBLE BRAND
+		reagents.add_reagent(choice, rand(1, 3))
 
 /obj/item/weapon/storage/fancy/cigarettes/chempacket
 	name = "\improper ChemBrand packet"
