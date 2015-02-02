@@ -51,6 +51,8 @@
 
 	return 1
 
+/datum/game_mode/gang/can_start()
+	return 0
 
 /datum/game_mode/gang/post_setup()
 	spawn(rand(10,100))
