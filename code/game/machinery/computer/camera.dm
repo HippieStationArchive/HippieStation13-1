@@ -87,7 +87,7 @@
 	name = "\improper Telescreen"
 	desc = "Used for watching an empty arena."
 	icon = 'icons/obj/stationobjs.dmi'
-	// icon_state = "telescreen" //Nonexistant icon
+	icon_state = "telescreen"
 	network = list("thunder")
 	density = 0
 	circuit = null

@@ -100,10 +100,10 @@
 
 /obj/machinery/computer/station_alert/update_icon()
 	if(stat & BROKEN)
-		icon_state = "alert:b"
+		icon_state = "broken1"
 		return
 	else if (stat & NOPOWER)
-		icon_state = "alert:O"
+		icon_state = "nopower"
 		return
 	var/active_alarms = 0
 	for (var/cat in src.alarms)

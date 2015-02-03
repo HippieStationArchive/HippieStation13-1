@@ -39,5 +39,5 @@
 		if(!lying)
 			if(loc == NewLoc)
 				var/obj/item/clothing/shoes/S = shoes
-				S.step_action()
+				S.step_action(src)
 

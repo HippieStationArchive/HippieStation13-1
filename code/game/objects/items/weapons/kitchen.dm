@@ -103,11 +103,11 @@
 	icon_state = "knife"
 	desc = "A general purpose Chef's Knife made by SpaceCook Incorporated. Guaranteed to stay sharp for years to come."
 	flags = CONDUCT
-	force = 10.0
-	w_class = 3.0
-	throwforce = 10.0
+	force = 10
+	w_class = 3
+	throwforce = 10
 	throw_speed = 3
-	throw_range = 6
+	throw_range = 7
 	m_amt = 12000
 	origin_tech = "materials=1"
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
@@ -124,7 +124,8 @@
 	desc = "The unearthly energies that once powered this blade are now dormant."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "render"
-
+	force = 15
+	throw_range = 5
 /*
  * Bucher's cleaver
  */
@@ -136,9 +137,9 @@
 	flags = CONDUCT
 	force = 15.0
 	w_class = 2.0
-	throwforce = 8.0
+	throwforce = 10.0
 	throw_speed = 3
-	throw_range = 6
+	throw_range = 5
 	m_amt = 12000
 	origin_tech = "materials=1"
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -153,7 +154,7 @@
 	desc = "Used to knock out the Bartender."
 	icon_state = "rolling_pin"
 	force = 8.0
-	throwforce = 5.0
+	throwforce = 6.0
 	throw_speed = 3
 	throw_range = 7
 	w_class = 3.0

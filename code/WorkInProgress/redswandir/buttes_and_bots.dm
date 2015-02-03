@@ -1,7 +1,7 @@
 /obj/machinery/bot/buttbot
 	name = "buttbot"
 	desc = "It's a robotic butt. Are you dense or something??"
-	icon_state = "buttbot" // get me an icon omg
+	icon_state = "buttbot"
 	layer = 5.0
 	density = 0
 	anchored = 0

@@ -35,12 +35,19 @@ datum/reagent/nicotine
 
 datum/reagent/nicotine/on_mob_life(var/mob/living/M as mob)
 	var/mob/living/carbon/human/H = M
+	var/obj/item/clothing/mask/cigarette/cig = H.wear_mask
 	H.addicted_to.add_reagent("nicotine", 0.2) //Slowly add addiction
 	var/datum/reagent/R = H.addicted_to.has_reagent("nicotine")
 	if(R)
-		R.data-- //Slowly reduce addiction stage to prevent toxins as soon as you stop smoking when addicted.
+		R.data = R.data-- //Slowly reduce addiction stage to prevent toxins as soon as you stop smoking when addicted.
+		if(R.data < 0)
+			R.data = 0
 	if(prob(5))
-		var/msg = pick("You feel relaxed.", "You feel a warm smoke in your lungs.")
+		var/msg = ""
+		if(cig)
+			msg = pick("You feel relaxed.", "You feel a warm smoke in your lungs.")
+		else
+			msg = pick("You feel relaxed.", "It feels as if you smoked recently.")
 		M << "<span class='notice'>[msg]</span>"
 	..()
 	return
@@ -49,6 +56,7 @@ datum/reagent/nicotine/on_mob_addicted(var/mob/living/M as mob)
 	var/mob/living/carbon/human/H = M
 	var/obj/item/clothing/mask/cigarette/cig = H.wear_mask
 	if(H.reagents.has_reagent("nicotine") || (cig && cig.lit)) //Addiction slowly builds up. We don't call ..() because we don't want to remove it yet.
+		..() //We call parent to remove reagents from bloodstream so medical use cigs are possible.
 		return //Notice how we don't decrease data in here - that's because seasoned smokers have worse side effects. Stop smoking before it's required to live, dog.
 
 	//No nicotine in blood stream? Good. Continue with the data.
@@ -68,15 +76,22 @@ datum/reagent/nicotine/on_mob_addicted(var/mob/living/M as mob)
 				M.emote("cough")
 				M.adjustToxLoss(1) //Not feeling so well now are you?
 			if(prob(7))
-				var/msg = pick("You feel pretty bad.", "You REALLY need a smoke right now.", "You have a headache.", "You feel nauseous.")
+				var/msg = pick("You feel pretty bad.", "You REALLY need a smoke right now.", "You're dying for a smoke.", "You have a headache.", "You feel nauseous.")
 				M << "<span class='notice'>[msg]</span>"
 		if(60 to INFINITY)
 			if(prob(10))
 				M.emote("cough") //massive coughing feats
 				M.adjustToxLoss(2) //Toxins intensify
 			if(prob(7))
-				var/msg = pick("You feel nauseous.", "You feel disgusting.", "You REALLY need a smoke right now.")
-				M << "<span class='notice'>[msg]</span>"
+				var/msg = pick("You feel nauseous.", "You feel intoxicated.", "Goddamn, you feel terrible!", "You feel like you smoked too much to give up now.")
+				M << "<span class='warning'>[msg]</span>"
+			if(prob(2))
+				M.visible_message("<span class='danger'>[src] clutches his chest!</span>")
+				M.Stun(rand(2,5))
+				M.apply_damage(rand(2,4), BRUTE, "chest")
+				if(prob(5))
+					M.emote("scream")
+
 	data++
 	..()
 	return

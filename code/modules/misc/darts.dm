@@ -18,6 +18,12 @@
 			var/C = S*2
 			return C
 		return S
+/obj/structure/darts/attackby(obj/item/weapon/G, mob/user)
+	if(istype(G, /obj/item/weapon/wrench))
+		anchored = !anchored
+		user << "<span class='notice'>You [anchored ? "attached" : "detached"] [src].</span>"
+		playsound(loc, 'sound/items/Ratchet.ogg', 75, 1)
+
 /obj/structure/darts/Bumped(AM as mob|obj)
 	..()
 	if(istype(AM,/obj/item/darts))
@@ -101,4 +107,5 @@
 	icon_state = "dart"
 	force = 4
 	throwforce = 10
+	w_class = 2
 

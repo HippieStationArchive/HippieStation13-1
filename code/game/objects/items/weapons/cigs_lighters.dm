@@ -95,7 +95,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 //////////////////
 /obj/item/clothing/mask/cigarette
 	name = "cigarette"
-	desc = "A roll of tobacco and nicotine."
+	desc = "Expected to contain tobacco and nicotine. Different brands put different chems in it."
 	icon_state = "cigoff"
 	throw_speed = 0.5
 	item_state = "cigoff"

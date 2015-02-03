@@ -203,12 +203,12 @@
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_uplift/New()
 	..()
-	var/choice = pick("dexalin", "dexalinplus") //The reason why "choice" is outside the for loop is so cigs don't just have all these chems at once with randomised amounts.
+	var/choice = pick("dexalin", "dexalinp", "leporazine") //The reason why "choice" is outside the for loop is so cigs don't just have all these chems at once with randomised amounts.
 	for(var/i = 1 to storage_slots)
 		//Simulated menthol effects.
-		reagents.add_reagent(choice, 2)
-		reagents.add_reagent("dexalin", 1)
-		reagents.add_reagent("nicotine", 2) //More nicotine because lol
+		reagents.add_reagent(choice, 1) //1u of bonus chem to prevent OPness. Leporazine stabilises temperature so uplift smooth can be ideal for space travel if you're lucky.
+		reagents.add_reagent("dexalin", 2) //Always contains dexalin so it's the main reason to smoke uplifts.
+		reagents.add_reagent("nicotine", 2) //More nicotine because gotta have some downside.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robust
 	name = "\improper Robust packet"
@@ -271,6 +271,7 @@
 	for(var/i = 1 to storage_slots)
 		// reagents.add_reagent("toxin", 1) //Toxins removed
 		reagents.add_reagent(choice, 2)
+		reagents.add_reagent("ethylredoxrazine", 3) //Smoke Midori packets if you're utterly drunk. Tradeoff? Possibility of space drugs.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims
 	name ="\improper Shady Jim's Super Slims"
@@ -282,12 +283,12 @@
 	..()
 	var/choice = pick("mindbreaker", "sodium", "alkysine")
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent("lipozine", 4)
-		reagents.add_reagent(choice, rand(1, 3))
+		reagents.add_reagent("lipozine", 4) //Burns off your fat, as advertised.
+		reagents.add_reagent(choice, rand(1, 3)) //Sodium does nothing, mindbreaker = worse than space drugs and alks heals brain damage. It's a shot in the dark with these cigs.
 
 /obj/item/weapon/storage/fancy/cigarettes/chempacket
 	name = "\improper ChemBrand packet"
-	desc = "A brand of cigarettes specifically aimed at chemists. The cigs contain no chemicals, so chemists can dip their cigs in their favorite reagents and have a delightful nicotine-free smoke!"
+	desc = "A brand of cigarettes commonly used as medicine. The cigs contain no harmful chemicals, so chemists can dip their cigs in their favorite reagents and have a delightful, nicotine-free smoke!"
 	icon_state = "chempacket"
 	item_state = "chempacket"
 

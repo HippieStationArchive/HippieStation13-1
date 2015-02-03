@@ -13,6 +13,7 @@
  *		Toy nuke
  *		Fake meteor
  *		Carp plushie
+ *		Magic 8-ball
  */
 
 
@@ -21,7 +22,7 @@
 	throw_speed = 3
 	throw_range = 7
 	force = 0
-
+	var/cooldown = 0 //lots of toys use this var, so why not let all toys have it?
 
 /*
  * Balloons
@@ -488,9 +489,11 @@
 		else if(graffiti.Find(drawtype))
 			temp = "graffiti"
 		user << "You start drawing a [temp] on the [target.name]."
+		playsound(src.loc, 'sound/items/chalk_start.ogg', 30, 1)
 		if(instant || do_after(user, 50))
 			new /obj/effect/decal/cleanable/crayon(target,colour,drawtype,temp)
 			user << "You finish drawing [temp]."
+			playsound(src.loc, 'sound/items/chalk.ogg', 40, 1)
 			if(uses)
 				uses--
 				if(!uses)
@@ -551,7 +554,7 @@
 /obj/item/toy/prize
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "ripleytoy"
-	var/cooldown = 0
+	w_class = 2
 	var/quiet = 0
 
 //all credit to skasi for toy mech fun ideas
@@ -645,7 +648,6 @@
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "AI"
 	w_class = 2.0
-	var/cooldown = 0
 
 /obj/item/toy/AI/attack_self(mob/user)
 	if(!cooldown) //for the sanity of everyone
@@ -668,6 +670,7 @@
 
 
 obj/item/toy/cards
+	icon = 'icons/obj/playing_cards.dmi'
 	var/parentdeck = null
 	var/deckstyle = "nanotrasen"
 	var/card_hitsound = null
@@ -687,11 +690,10 @@ obj/item/toy/cards/proc/apply_card_vars(obj/item/toy/cards/newobj, obj/item/toy/
 obj/item/toy/cards/deck
 	name = "deck of cards"
 	desc = "A deck of space-grade playing cards."
-	icon = 'icons/obj/toy.dmi'
+	icon = 'icons/obj/playing_cards.dmi'
 	deckstyle = "nanotrasen"
 	icon_state = "deck_nanotrasen_full"
 	w_class = 2.0
-	var/cooldown = 0
 	var/list/cards = list()
 
 obj/item/toy/cards/deck/New()
@@ -813,7 +815,7 @@ obj/item/toy/cards/deck/attackby(obj/item/toy/cards/cardhand/C, mob/living/user)
 obj/item/toy/cards/cardhand
 	name = "hand of cards"
 	desc = "A number of cards not in a deck, customarily held in ones hand."
-	icon = 'icons/obj/toy.dmi'
+	icon = 'icons/obj/playing_cards.dmi'
 	icon_state = "nanotrasen_hand2"
 	w_class = 1.0
 	var/list/currenthand = list()
@@ -906,7 +908,7 @@ obj/item/toy/cards/cardhand/apply_card_vars(obj/item/toy/cards/newobj,obj/item/t
 obj/item/toy/cards/singlecard
 	name = "card"
 	desc = "a card"
-	icon = 'icons/obj/toy.dmi'
+	icon = 'icons/obj/playing_cards.dmi'
 	icon_state = "singlecard_nanotrasen_down"
 	w_class = 1.0
 	var/cardname = null
@@ -1028,7 +1030,6 @@ obj/item/toy/cards/deck/syndicate
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "nuketoyidle"
 	w_class = 2.0
-	var/cooldown = 0
 
 /obj/item/toy/nuke/attack_self(mob/user)
 	if (cooldown < world.time)
@@ -1074,3 +1075,42 @@ obj/item/toy/cards/deck/syndicate
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "carpplushie"
 	w_class = 2.0
+
+/obj/item/toy/carpplushie/attack_self(mob/user)
+	if (cooldown < world.time)
+		cooldown = world.time + 15 //1.5 seconds
+		user.visible_message("<span class='warning'>[user] squeezes the [src]!</span>", "<span class='notice'>You squeeze the [src]...</span>", "<span class='notice'>You hear a squeak.</span>")
+		playsound(src, pick('sound/items/squeak1.ogg', 'sound/items/squeak2.ogg'), 40, 1)
+
+/*
+ * Magic 8-ball -- WIP
+ */
+
+/obj/item/toy/magic8ball
+	name = "magic 8-ball"
+	desc = "Made by Nanite Crafts Company. Has 20 possible answers! Guaranteed to predict future!"
+	icon = 'icons/obj/toy.dmi'
+	icon_state = "magic8ball"
+	w_class = 2.0
+	var/answers = list(	"<font color=#007D00>It is certain</font color>", "<font color=#007D00>It is decidedly so</font color>",\
+						"<font color=#007D00>Without a doubt</font color>", "<font color=#007D00>Yes definitely</font color>",\
+						"<font color=#007D00>You may rely on it</font color>", "<font color=#007D00>As I see it, yes</font color>",\
+						"<font color=#007D00>Most likely</font color>", "<font color=#007D00>Outlook good</font color>",\
+						"<font color=#007D00>Yes</font color>", "<font color=#007D00>Signs point to yes</font color>",\
+						"\blue Reply hazy try again", "\blue Ask again later",\
+						"\blue Better not tell you now", "\blue Cannot predict now",\
+						"\blue Concentrate and ask again", "\blue Don't count on it",\
+						"\red My reply is no", "\red My sources say no",\
+						"\red Outlook not so good", "\red Very doubtful")
+
+/obj/item/toy/magic8ball/attack_self(mob/user)
+	if (cooldown < world.time)
+		cooldown = world.time + 60 //6 seconds
+		user.visible_message("<span class='warning'>[user] shakes the [src]...</span>", "<span class='notice'>You shake the [src]...</span>", "<span class='notice'>You hear shaking.</span>")
+		playsound(src, 'sound/items/water_shake.ogg', 50, 1)
+		flick("magic8ball_shake", src)
+		icon_state = "magic8ball_answer"
+		spawn(30)
+			user.visible_message("<span class='notice'>The [src] says, [pick(answers)]</span>")
+		sleep(cooldown - world.time)
+		icon_state = "magic8ball"
