@@ -27,3 +27,16 @@
 			D << "\red Your body can't take anymore!"
 			D.gib()
 
+
+/proc/dolphin()
+	ticker.cinematic = new(src)
+	ticker.cinematic.icon = 'icons/effects/station_explosion.dmi'
+	ticker.cinematic.icon_state = "dolphin"
+	ticker.cinematic.layer = 20
+	ticker.cinematic.mouse_opacity = 0
+	ticker.cinematic.screen_loc = "1,0"
+	for(var/mob/living/M in world)
+		M.client.screen += 	ticker.cinematic
+
+	sleep(100)
+	qdel(ticker.cinematic)

@@ -1,7 +1,6 @@
 var/global/datum/fun/thunderstorm
 
 /proc/callthunder()
-	world << "Thanderstorm"
 	thunderstorm = new/datum/fun/thunderstorm
 
 /proc/syndicateshell()
@@ -51,18 +50,16 @@ var/global/datum/fun/thunderstorm
 	for(var/mob/C in world)
 		playsound(C,'sound/effects/shelling.ogg',50,1)
 	while(turns <= maxturns)
-		world << "BOOM"
 		var/turf/temploc = pick(landlist)
 		turns++
 		for(var/mob/living/C in temploc)
 			C.adjustFireLoss(10)
-		world << "[temploc.loc]"
 		explosion(temploc,-1,-1,rand(2,4),4)
 		sleep(5)
 
 /obj/machinery/computer/syndicate/bomber
 	name = "Short-Ranged Subspace Artillery"
-	desc = "By a bombing device with telecrystals to activate"
+	desc = "Buy a bombing device with telecrystals to activate"
 	icon = 'icons/obj/computer.dmi'
 	icon_state = "syndishuttle"
 
@@ -70,11 +67,11 @@ var/global/datum/fun/thunderstorm
 		if(z != 1)
 			usr << "\red Your shuttle is too far away to fire!"
 		else
-			usr << "\red You insert the disk and the computer begins to fire the missles!"
+			usr << "\red You insert the disk and the computer begins to fire the missles! Whatever they hit, who knows!"
 			usr.drop_item(src)
 			syndicateshell()
 			del(src)
 
 /obj/item/weapon/disk/bombing
-	name = "Bombing disk"
-	desc = "Insert into a S-RSA computer to carpet bomb a target"
+	name = "S-RSA Activation Disk"
+	desc = "Insert into a Short-Ranged Subspace Artillery computer to carpet bomb a target"

@@ -526,6 +526,13 @@ var/list/uplink_items = list()
 	cost = 5
 	gamemodes = list(/datum/game_mode/nuclear)
 
+/datum/uplink_item/device_tools/bombingdisk
+	name = "S-RSA Activation Disk"
+	desc = "Insert into a Short-Ranged Subspace Artillery computer to carpet bomb a target. Who knows what it will hit!"
+	item = /obj/item/weapon/disk/bombing
+	cost = 10
+	gamemodes = list(/datum/game_mode/nuclear)
+
 /datum/uplink_item/device_tools/c4
 	name = "Composition C-4"
 	desc = "C-4 is plastic explosive of the common variety Composition C. You can use it to breach walls or connect a signaler to its wiring to make it remotely detonable. \

@@ -192,7 +192,8 @@ var/global/buttmode = 0
 							M.gib()
 							M.death(0)
 					else
-						M.say("*scream")
+						spawn(rand(1,3))
+							M.say("*scream")
 						M.death(0) //no mercy
 
 	//Now animate the cinematic
