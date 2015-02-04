@@ -42,6 +42,7 @@
 #define FILE_DIR "sound/ambience"
 #define FILE_DIR "sound/ambience/loop"
 #define FILE_DIR "sound/effects"
+#define FILE_DIR "sound/effects/footsteps"
 #define FILE_DIR "sound/endround"
 #define FILE_DIR "sound/hallucinations"
 #define FILE_DIR "sound/items"
