@@ -103,6 +103,16 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 			else 								dist = 0
 
 
+			for(var/mob/living/C in view(epicenter))
+				var/turf/M_turf = get_turf(C)
+				var/dist2 = get_dist(M_turf, epicenter)
+				if(dist2 <= round(max_range + world.view - 2, 1))
+					if(dist2 <= 3)
+						continue
+					var/atom/throw_target = get_edge_target_turf(C, get_dir(epicenter, get_step_away(C, epicenter)))
+					C.throw_at(throw_target, 20, 4)
+					C << "\red The explosions force throws you back!"
+
 			//------- TURF FIRES -------
 
 			if(T)
