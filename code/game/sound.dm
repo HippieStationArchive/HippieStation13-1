@@ -96,10 +96,21 @@
 			if ("bodyfall") soundin = pick('sound/effects/bodyfall1.ogg','sound/effects/bodyfall2.ogg','sound/effects/bodyfall3.ogg','sound/effects/bodyfall4.ogg')
 			if ("punch") soundin = pick('sound/weapons/punch1.ogg','sound/weapons/punch2.ogg','sound/weapons/punch3.ogg','sound/weapons/punch4.ogg')
 			if ("clownstep") soundin = pick('sound/effects/clownstep1.ogg','sound/effects/clownstep2.ogg')
-			if ("step") soundin = pick('sound/effects/footsteps/walk_tile_01.ogg','sound/effects/footsteps/walk_tile_02.ogg','sound/effects/footsteps/walk_tile_03.ogg','sound/effects/footsteps/walk_tile_04.ogg','sound/effects/footsteps/walk_tile_05.ogg')
 			if ("swing_hit") soundin = pick('sound/weapons/genhit1.ogg', 'sound/weapons/genhit2.ogg', 'sound/weapons/genhit3.ogg')
 			if ("hiss") soundin = pick('sound/voice/hiss1.ogg','sound/voice/hiss2.ogg','sound/voice/hiss3.ogg','sound/voice/hiss4.ogg')
 			if ("pageturn") soundin = pick('sound/effects/pageturn1.ogg', 'sound/effects/pageturn2.ogg','sound/effects/pageturn3.ogg')
 			if ("gunshot") soundin = pick('sound/weapons/Gunshot.ogg', 'sound/weapons/Gunshot2.ogg','sound/weapons/Gunshot3.ogg','sound/weapons/Gunshot4.ogg')
 			if ("boxgloves") soundin = pick('sound/new_sound/weapons/boxing1.ogg','sound/new_sound/weapons/boxing2.ogg','sound/new_sound/weapons/boxing3.ogg','sound/new_sound/weapons/boxing4.ogg')
+			//Footstep materials
+			if ("tile") soundin = pick(	'sound/effects/footsteps/walk_tile_01.ogg','sound/effects/footsteps/walk_tile_02.ogg','sound/effects/footsteps/walk_tile_03.ogg',\
+										'sound/effects/footsteps/walk_tile_04.ogg','sound/effects/footsteps/walk_tile_05.ogg')
+
+			if ("metal") soundin = pick('sound/effects/footsteps/walk_solidmetal_01.ogg','sound/effects/footsteps/walk_solidmetal_02.ogg','sound/effects/footsteps/walk_solidmetal_03.ogg',\
+										'sound/effects/footsteps/walk_solidmetal_04.ogg','sound/effects/footsteps/walk_solidmetal_05.ogg')
+
+			if ("wood") soundin = pick(	'sound/effects/footsteps/walk_wood_01.ogg','sound/effects/footsteps/walk_wood_02.ogg','sound/effects/footsteps/walk_wood_03.ogg',\
+										'sound/effects/footsteps/walk_wood_04.ogg','sound/effects/footsteps/walk_wood_05.ogg')
+
+			if ("concrete") soundin = pick(	'sound/effects/footsteps/walk_concrete_01.ogg','sound/effects/footsteps/walk_concrete_02.ogg','sound/effects/footsteps/walk_concrete_03.ogg',\
+											'sound/effects/footsteps/walk_concrete_04.ogg','sound/effects/footsteps/walk_concrete_05.ogg','sound/effects/footsteps/walk_concrete_06.ogg')
 	return soundin

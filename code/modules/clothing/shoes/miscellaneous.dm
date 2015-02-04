@@ -1,10 +1,11 @@
 /obj/item/clothing/shoes/proc/step_action(mob/user as mob) //this was made to rewrite clown shoes squeaking
-	if(user.isinspace())
+	var/turf/T = get_turf(user)
+	if(istype(T, /turf/space) || !T.stepsound) //Space should never have step sounds
 		return
 	if(user.m_intent == "run") //&& prob(50) //to add to stealth
 		if (user.footstep < world.time)
 			user.footstep = world.time + 5 //Half a second
-			playsound(src, "step", 15, 1)
+			playsound(src, pick(T.stepsound), 15, 1)
 
 /obj/item/clothing/shoes/syndigaloshes
 	desc = "A pair of brown shoes. They seem to have extra grip."
@@ -92,7 +93,8 @@
 			flags = NOSLIP
 
 /obj/item/clothing/shoes/clown_shoes/step_action(mob/user as mob)
-	if(user.isinspace())
+	var/turf/T = get_turf(user)
+	if(istype(T, /turf/space) || !T.stepsound) //Space should never have step sounds
 		return
 	playsound(src, "clownstep", 30, 1)
 

@@ -302,11 +302,13 @@ datum/reagent/toxin/chloralhydrate/on_mob_life(var/mob/living/M as mob)
 		if(1 to 10)
 			M.confused += 2
 			M.drowsyness += 2
-		if(10 to 50)
+		if(10 to 75)
 			M.sleeping += 1
-		if(51 to INFINITY)
+		if(76 to INFINITY)
 			M.sleeping += 1
-			M.adjustToxLoss((data - 50)*REM)
+			M.adjustToxLoss(max((data - 75)*0.2, 20)) //Nerfed as fuck. 200 toxloss from 15 units is a little overboard.
+			//Chloral shouldn't be the most powerful poison in the game when it's so easy to make.
+			M << "[(data - 75)*0.2] [REM]"
 	..()
 	return
 

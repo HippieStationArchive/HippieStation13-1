@@ -8,6 +8,7 @@
 	icon_state = "wood"
 	floor_tile = /obj/item/stack/tile/wood
 	broken_states = list("wood-broken", "wood-broken2", "wood-broken3", "wood-broken4", "wood-broken5", "wood-broken6", "wood-broken7")
+	stepsound = "wood"
 
 /turf/simulated/floor/wood/attackby(obj/item/C as obj, mob/user as mob)
 	if(..())
@@ -41,6 +42,7 @@
 	icon_state = "grass1"
 	floor_tile = /obj/item/stack/tile/grass
 	broken_states = list("sand1", "sand2", "sand3")
+	stepsound = "concrete" //No grass footsteps in yet
 
 /turf/simulated/floor/fancy/grass/New()
 	..()
@@ -74,6 +76,7 @@
 	icon_state = "carpet"
 	floor_tile = /obj/item/stack/tile/carpet
 	broken_states = list("carpet-broken")
+	// stepsound = "concrete" //No carpet stepsounds in yet
 
 /turf/simulated/floor/fancy/carpet/New()
 	..()

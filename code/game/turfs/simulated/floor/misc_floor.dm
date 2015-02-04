@@ -70,6 +70,7 @@
 /turf/simulated/floor/beach/sand
 	name = "Sand"
 	icon_state = "sand"
+	stepsound = "concrete" //No sand stepsounds yet
 
 /turf/simulated/floor/beach/coastline
 	name = "Coastline"

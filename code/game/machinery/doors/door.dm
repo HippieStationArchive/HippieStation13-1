@@ -252,19 +252,19 @@
 		if(isalien(L))  //For xenos
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE * 1.5) //Xenos go into crit after aproximately the same amount of crushes as humans.
 			L.emote("scream")
-			playsound(L.loc, 'sound/misc/crack.ogg', 40, 1)
+			playsound(L.loc, 'sound/misc/crack.ogg', 70, 1)
 		else if(ishuman(L)) //For humans
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
 			L.emote("scream")
 			L.Weaken(5)
-			playsound(L.loc, 'sound/misc/crack.ogg', 40, 1)
+			playsound(L.loc, 'sound/misc/crunch.ogg', 70, 1)
 		else if(ismonkey(L)) //For monkeys
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
 			L.Weaken(5)
-			playsound(L.loc, 'sound/misc/crack.ogg', 40, 1)
+			playsound(L.loc, 'sound/misc/crunch.ogg', 70, 1)
 		else //for simple_animals & borgs
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
-			playsound(L.loc, 'sound/effects/bang.ogg', 40, 1)
+			playsound(L.loc, 'sound/effects/bang.ogg', 60, 1)
 		var/turf/location = src.loc
 		if(istype(location, /turf/simulated)) //add_blood doesn't work for borgs/xenos, but add_blood_floor does.
 			location.add_blood_floor(L)

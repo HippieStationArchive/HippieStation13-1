@@ -3635,7 +3635,7 @@
 "brU" = (/obj/machinery/autolathe,/obj/machinery/light_switch{pixel_x = -27},/turf/simulated/floor/plasteel,/area/quartermaster/office)
 "brV" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 5},/turf/simulated/floor/plasteel,/area/quartermaster/office)
 "brW" = (/obj/structure/disposalpipe/segment,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 10},/turf/simulated/floor/plasteel,/area/quartermaster/office)
-"brX" = (/obj/machinery/computer/supplycomp{dir = 1},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/turf/simulated/floor/plasteel,/area/quartermaster/office)
+"brX" = (/obj/machinery/computer/supplycomp{dir = 2},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/turf/simulated/floor/plasteel,/area/quartermaster/office)
 "brY" = (/turf/simulated/floor/plasteel{icon_state = "bot"},/area/quartermaster/office)
 "brZ" = (/obj/machinery/hologram/holopad,/turf/simulated/floor/plasteel,/area/quartermaster/office)
 "bsa" = (/obj/machinery/door/firedoor,/turf/simulated/floor/plasteel,/area/quartermaster/office)

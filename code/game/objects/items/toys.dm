@@ -489,7 +489,7 @@
 		else if(graffiti.Find(drawtype))
 			temp = "graffiti"
 		user << "You start drawing a [temp] on the [target.name]."
-		playsound(src.loc, 'sound/items/chalk_start.ogg', 30, 1)
+		playsound(src.loc, 'sound/items/chalk_start.ogg', 40, 1)
 		if(instant || do_after(user, 50))
 			new /obj/effect/decal/cleanable/crayon(target,colour,drawtype,temp)
 			user << "You finish drawing [temp]."

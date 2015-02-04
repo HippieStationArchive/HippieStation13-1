@@ -20,6 +20,8 @@
 	var/blocks_air = 0
 
 	var/PathNode/PNode = null //associated PathNode in the A* algorithm
+	//FOOTSTEPS! WOO!
+	var/stepsound = "tile"
 
 	flags = 0
 

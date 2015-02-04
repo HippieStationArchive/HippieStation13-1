@@ -125,6 +125,7 @@ var/const/SAFETY_COOLDOWN = 100
 		playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
 	else
 		playsound(src.loc, 'sound/effects/splat.ogg', 50, 1)
+		playsound(src.loc, 'sound/misc/splort.ogg', 50, 1)
 
 	var/gib = 1
 	// By default, the emagged recycler will gib all non-carbons. (human simple animal mobs don't count)

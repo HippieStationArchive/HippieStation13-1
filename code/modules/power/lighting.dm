@@ -206,6 +206,7 @@
 								// this is used to calc the probability the light burns out
 
 	var/rigged = 0				// true if rigged to explode
+	var/bad = 0 //There's a random chance for a light to be flickery from the start.
 
 // the smaller bulb light fixture
 
@@ -242,12 +243,20 @@
 				brightness = 8
 				if(prob(2))
 					broken(1)
+				if(prob(4))
+					bad = 1
 			if("bulb")
 				brightness = 4
 				if(prob(5))
 					broken(1)
+				if(prob(7))
+					bad = 1
 		spawn(1)
 			update(0)
+
+/obj/machinery/light/process()
+	if(bad && prob(6))
+		flicker()
 
 /obj/machinery/light/Destroy()
 	var/area/A = get_area(src)
@@ -336,6 +345,7 @@
 		if(isliving(user))
 			var/mob/living/U = user
 			LR.ReplaceLight(src, U)
+			bad = 0
 			return
 
 	// attempt to insert light
@@ -353,6 +363,7 @@
 				rigged = L.rigged
 				brightness = L.brightness
 				on = has_power()
+				bad = 0
 				update()
 
 				user.drop_item()	//drop the item to update overlays and such
@@ -370,6 +381,11 @@
 	else if(status != LIGHT_BROKEN && status != LIGHT_EMPTY)
 
 		user.do_attack_animation(src)
+		if(W.force > 1)
+			if(prob(15))
+				flicker(rand(2, 5))
+			if(prob(10))
+				bad = 1
 		if(prob(1+W.force * 5))
 
 			user.visible_message("<span class='danger'>[user.name] smashed the light!</span>", \
@@ -382,6 +398,7 @@
 			broken()
 
 		else
+			playsound(src.loc, 'sound/effects/Glasshit.ogg', 25, 1)
 			user.visible_message("<span class='danger'>[user.name] hits the light.</span>")
 
 	// attempt to stick weapon into light socket
@@ -432,7 +449,8 @@
 				if(status != LIGHT_OK) break
 				on = !on
 				update(0)
-				sleep(rand(5, 15))
+				playsound(src.loc, pick('sound/machines/flicker1.ogg', 'sound/machines/flicker2.ogg', 'sound/machines/flicker3.ogg'), 30, 1)
+				sleep(rand(4, 10))
 			on = (status == LIGHT_OK)
 			update(0)
 		flickering = 0
@@ -553,7 +571,7 @@
 
 	if(!skip_sound_and_sparks)
 		if(status == LIGHT_OK || status == LIGHT_BURNED)
-			playsound(src.loc, 'sound/effects/Glasshit.ogg', 75, 1)
+			playsound(src.loc, 'sound/machines/light_break.ogg', 60, 1)
 		if(on)
 			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 			s.set_up(3, 1, src)
