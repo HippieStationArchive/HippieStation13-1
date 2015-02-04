@@ -170,7 +170,7 @@ var/bomb_set
 	src.safety = 1
 	src.icon_state = "nuclearbomb3"
 	for(var/mob/M in player_list)
-		M << 'sound/machines/Alarm.ogg'
+		M << 'sound/new_sound/nukewin.ogg'
 	if (ticker && ticker.mode)
 		ticker.mode.explosion_in_progress = 1
 	sleep(100)
