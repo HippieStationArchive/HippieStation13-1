@@ -450,7 +450,7 @@
 				on = !on
 				update(0)
 				playsound(src.loc, pick('sound/machines/flicker1.ogg', 'sound/machines/flicker2.ogg', 'sound/machines/flicker3.ogg'), 30, 1)
-				sleep(rand(4, 10))
+				sleep(rand(5, 10)) //anything less than 5 causes lighting issues
 			on = (status == LIGHT_OK)
 			update(0)
 		flickering = 0
