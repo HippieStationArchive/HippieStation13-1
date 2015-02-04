@@ -25,7 +25,7 @@ would spawn and follow the beaker, even if it is carried or thrown.
 	icon = 'icons/effects/water.dmi'
 	icon_state = "smoke"
 	opacity = 1
-	anchored = 0.0
+	anchored = 1
 	mouse_opacity = 0
 	var/amount = 8.0
 

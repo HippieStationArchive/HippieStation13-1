@@ -1,4 +1,4 @@
-/mob/living/carbon/human/emote(var/act,var/m_type=1,var/message = null)
+/mob/living/carbon/human/emote(var/act,var/m_type=1,var/message = null, var/special = 0)
 	var/param = null
 	var/delay = 5
 	var/exception = null
@@ -340,6 +340,41 @@
 			if (!muzzled)
 				message = "<B>[src]</B> yawns."
 				m_type = 2
+
+		if("megascream") //how to remove ass
+			if (ticker.current_state == 3)//safety1
+				if(world.time < fartholdin)//safety2
+					src << "Your ass is not ready to blast."
+					return
+				else
+					if(special)
+						usr << "\red You strain your voicebox!"
+					else
+						usr << "\red Your voice box explodes!"
+						silent += 50
+					var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
+					if(gender == FEMALE)
+						sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
+					playsound(src.loc, sound, 50, 1, 5)
+					spawn(1)
+						playsound(src.loc, sound, 50, 1, 5)
+						spawn(1)
+							playsound(src.loc, sound, 50, 1, 5)
+							spawn(1)
+								playsound(src.loc, sound, 50, 1, 5)
+								spawn(1)
+									playsound(src.loc, sound, 50, 1, 5)
+									spawn(1)
+										playsound(src.loc, sound, 50, 1, 5)
+										spawn(1)
+											playsound(src.loc, sound, 50, 1, 5)
+											spawn(1)
+												playsound(src.loc, sound, 50, 1, 5)
+												spawn(1)
+													playsound(src.loc, sound, 50, 1, 5)
+													spawn(1)
+														playsound(src.loc, sound, 50, 1, 5)
+
 
 		if ("help") //This can stay at the bottom.
 			src << "Help for emotes. You can use these emotes with say \"*emote\":\n\naflap, airguitar, blink, blink_r, blush, bow-(none)/mob, burp, choke, chuckle, clap, collapse, cough, dance, deathgasp, drool, fart, flap, frown, gasp, giggle, glare-(none)/mob, grin, jump, laugh, look, me, nod, point-atom, scream, shake, sigh, sit, smile, sneeze, sniff, snore, stare-(none)/mob, sulk, sway, tremble, twitch, twitch_s, wave, whimper, wink, yawn"

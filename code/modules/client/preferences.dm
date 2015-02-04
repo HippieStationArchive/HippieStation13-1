@@ -21,6 +21,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 )
 
 
+
 datum/preferences
 	//doohickeys for savefiles
 	var/path
@@ -58,7 +59,7 @@ datum/preferences
 	var/eye_color = "000"				//Eye color
 	var/datum/species/pref_species = new /datum/species/human()	//Mutant race
 	var/mutant_color = "FFF"			//Mutant race skin color
-
+	var/list/datum/species/specialsnowflakes = list()
 		//Mob preview
 	var/icon/preview_icon_front = null
 	var/icon/preview_icon_side = null
@@ -676,10 +677,9 @@ datum/preferences
 
 					if("species")
 
-						var/result = input(user, "Select a species", "Species Selection") as null|anything in roundstart_species
-
+						var/result = input(user, "Select a species", "Species Selection") as null|anything in specialsnowflakes
 						if(result)
-							var/newtype = roundstart_species[result]
+							var/newtype = specialsnowflakes[result]
 							pref_species = new newtype()
 							if(!config.mutant_colors || mutant_color == "#000")
 								mutant_color = pref_species.default_color

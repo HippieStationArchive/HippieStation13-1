@@ -1,3 +1,5 @@
+
+var/global/list/achievements = list("Goodcurity")
 /datum/admins/Topic(href, href_list)
 	..()
 
@@ -1016,14 +1018,17 @@
 		if(!ismob(M))
 			usr << "this can be only used on instances of type /mob"
 			return
-
-		log_admin("[key_name(usr)] has granted [key_name(M)] Goodcurity access")
-		message_admins("\blue [key_name_admin(usr)] has granted [key_name_admin(M)] Goodcurity access", 1)
-		M.unlock_achievement("Goodcurity")
-		M << "\blue You have been given the Goodcurity achievement.  This allows you to set code delta from a comms computer when you are the Captain, HoP, HoS, or Warden. Please see the rules for more information on code Delta.  If this is abused it will be removed."
-		if(M.client)
-			M.client.goodcurity = 1
-
+		var/achv = input(usr, "Choose what achievement you want to give:", "Achievements")  as null|anything in achievements
+		log_admin("[key_name(usr)] has granted [key_name(M)] the [achv] achievement.")
+		if(achv == "Goodcurity")
+			message_admins("\blue [key_name_admin(usr)] has granted [key_name_admin(M)] Goodcurity access", 1)
+			M.unlock_achievement("Goodcurity")
+			M << "\blue You have been given the Goodcurity achievement.  This allows you to set code delta from a comms computer when you are the Captain, HoP, HoS, or Warden. Please see the rules for more information on code Delta.  If this is abused it will be removed."
+			if(M.client)
+				M.client.goodcurity = 1
+		else
+			message_admins("\blue [key_name_admin(usr)] has granted [key_name_admin(M)] the [achv] achievement", 1)
+			M.unlock_achievement(achv)
 	else if(href_list["removegoodcurity"])
 		if(!check_rights(R_ADMIN))	return
 
@@ -1031,12 +1036,13 @@
 		if(!ismob(M))
 			usr << "this can be only used on instances of type /mob"
 			return
+		var/achv = input(usr, "Choose what achievement you want to remove:", "Achievements")  as null|anything in achievements
+		log_admin("[key_name(usr)] has removed the [achv] achievement from [key_name(M)]")
+		message_admins("\blue [key_name_admin(usr)] has removed the [achv] achievement from [key_name_admin(M)]", 1)
+		world.ClearMedal(achv, M.key, config.achievement_hub, config.achievement_password)
+		M << "\blue Your [achv] achievement has been removed."
 
-		log_admin("[key_name(usr)] has removed Goodcurity access from [key_name(M)]")
-		message_admins("\blue [key_name_admin(usr)] has removed Goodcurity access from [key_name_admin(M)]", 1)
-		world.ClearMedal("Goodcurity", M.key, config.achievement_hub, config.achievement_password)
-		M << "\blue Your Goodcurity achievement has been removed."
-		if(M.client)
+		if(M.client && achv == "Goodcurity")
 			M.client.goodcurity = 0
 	else if(href_list["mentor"])
 		if(!check_rights(R_ADMIN))	return
@@ -1211,6 +1217,108 @@
 			M << "<span class='adminnotice'> You have been sent to the Thunderdome.</span>"
 		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Observer.)")
 		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Observer.)")
+
+
+	else if(href_list["snowflakes"])
+		if(!check_rights(R_ADMIN))	return
+		var/dat = "<html><body>"
+		var/mob/M = locate(href_list["snowflakes"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
+		dat += "<b><h2>Snowflakes and Unlockables</b></h2>"
+		dat += "<p>Key: [M.key]</br>"
+		var/list/datum/species/specieslist = list()
+		var/lizard
+		var/zombie
+		var/fly
+		var/plant
+		var/shadow
+		var/pod
+		var/slime
+		var/adamantine
+		var/golem
+		var/skeleton
+		var/jelly//U?
+		var/human
+		for(var/datum/species/X in M.client.prefs.specialsnowflakes)
+			specieslist.Add()
+			world << "[X.name]"
+			if(X.id == "zombie")
+				zombie = X
+			if(X.id == "lizard")
+				lizard = X
+			if(X.id == "shadow")
+				shadow = X
+			if(X.id == "plant")
+				plant = X
+			if(X.id == "fly")
+				fly = X
+			if(X.id == "pod")
+				pod = X
+			if(X.id == "slime")
+				slime = X
+			if(X.id == "jelly")
+				jelly = X
+			if(X.id == "adamantine")
+				adamantine = X
+			if(X.id == "golem")
+				golem = X
+			if(X.id == "skeleton")
+				skeleton = X
+			if(X.id == "human")
+				human = X
+		dat += "<b>Lizardmen:</b> [lizard ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Human</b> [human ? "Unlocked" : "Locked"]<br>"
+		dat += "<b>Zombie</b>: [zombie ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Pod</b> [pod ? "Unlocked" : "Locked"]<br>"
+		dat += "<b>Shadow:</b> [shadow ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Slime</b> [slime ? "Unlocked" : "Locked"]<br>"
+		dat += "<b>Plant</b>: [plant ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Jelly</b> [jelly ? "Unlocked" : "Locked"]<br>"
+		dat += "<b>Fly:</b> [fly ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Adamantine</b> [adamantine ? "Unlocked" : "Locked"]<br>"
+		dat += "<b>Golem:</b> [golem ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Skeleton</b> [skeleton ? "Unlocked" : "Locked"]<br>"
+		if(M.client.goodcurity)
+			dat += "<p><p>Goodcurity: \green unlocked."
+		else
+			dat += "<p><p>Goodcurity: \red locked."
+
+		dat += "<p><p>"
+		dat += "<A href='?_src_=holder;sfaward=\ref[M]'>Add Snowflake</A> |"
+		dat += "<A href='?_src_=holder;sfremove=\ref[M]'>Remove Snowflake</A> |<br>"
+		dat += "<A href='?_src_=holder;goodcurity=\ref[M]'>Add Achievement</A> |"
+		dat += "<A href='?_src_=holder;removegoodcurity=\ref[M]'>Remove Achievement</A> |"
+		dat += "</body></html>"
+		usr << browse(dat,"window=snowflakes;size=350x500")
+		log_admin("[key_name(usr)] is viewing [key_name(M)]'s unlocked snowflakes")
+		message_admins("\blue [key_name(usr)] is viewing [key_name(M)]'s unlocked snowflakes", 1)
+//
+
+	else if(href_list["sfaward"])
+		if(!check_rights(R_ADMIN))	return
+		var/snowflake = input(usr, "Choose what snowflake you want to give:", "Snowflakes and Rewards")  as null|anything in species_list
+		var/mob/M = locate(href_list["sfaward"])
+
+		if(snowflake)
+			var/list/X = list()
+			X.Add(snowflake)
+			for(var/spath in X)
+				if(spath == /datum/species)
+					continue
+				var/datum/species/S = new spath()
+				M.client.prefs.specialsnowflakes[S] = S.type
+			M.client.prefs.save_character()
+			message_admins("[usr] gave [M.key] a snowflake: [snowflake]")
+			usr << "You have been granted the ability to use the [snowflake] snowflake in character setup!"
+	else if(href_list["sfremove"])
+		if(!check_rights(R_ADMIN))	return
+		var/mob/M = locate(href_list["sfremove"])
+		var/datum/species/snowflake = input(usr, "Choose what snowflake you want to remove:", "Griefers")  as null|anything in M.client.prefs.specialsnowflakes
+
+
+		if(snowflake)
+			usr << "\red You remove [M.key]'s ability to use the [snowflake.id] snowflake"
+			message_admins("[usr] removed one of [M.key]'s snowflakes: [snowflake.id]")
+			M << "\red You feel some knowledge drifting away..."
+			M.client.prefs.specialsnowflakes.Remove(snowflake)
+
+
 
 	else if(href_list["revive"])
 		if(!check_rights(R_REJUVINATE))	return

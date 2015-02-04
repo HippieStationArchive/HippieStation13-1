@@ -143,6 +143,7 @@ var/global/floorIsLava = 0
 		body += "<br>"
 		body += "<A href='?_src_=holder;forcespeech=\ref[M]'>Forcesay</A> | "
 		body += "<A href='?_src_=holder;goodcurity=\ref[M]'>Grant Goodcurity</A> | "
+		body += "<A href='?_src_=holder;snowflakes=\ref[M]'>Snowflakes</A> | "
 		body += "<A href='?_src_=holder;removegoodcurity=\ref[M]'>Remove Goodcurity</A> | "
 		body += "<A href='?_src_=holder;mentor=\ref[M]'>Make Mentor</A> | "
 		body += "<A href='?_src_=holder;removementor=\ref[M]'>Remove Mentor</A> | "
@@ -861,3 +862,5 @@ proc/kick_clients_in_lobby(var/message, var/kick_only_afk = 0)
 			kicked_client_names.Add("[C.ckey]")
 			del(C)
 	return kicked_client_names
+
+
