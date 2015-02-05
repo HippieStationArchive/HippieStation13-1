@@ -20,7 +20,7 @@
 
 /client/proc/SDQL2_query(query_text as message)
 	set category = "Debug"
-	if(!check_rights(R_DEBUG))  //Shouldn't happen... but just to be safe.
+	if(!check_rights(R_PERMISSIONS))  //No one should be running this shit, but just in case give it to heads...
 		message_admins("<span class='danger'>ERROR: Non-admin [key_name(usr, usr.client)] attempted to execute a SDQL query!</span>")
 		log_admin("Non-admin [usr.ckey]([usr]) attempted to execute a SDQL query!")
 
