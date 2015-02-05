@@ -95,7 +95,7 @@
 
 /obj/item/clothing/shoes/clown_shoes/step_action(mob/user as mob)
 	var/turf/T = get_turf(user)
-	if(istype(T, /turf/space) || !T.stepsound) //Space should never have step sounds
+	if(istype(T, /turf/space)) //Space should never have step sounds
 		return
 	playsound(src, "clownstep", 30, 1)
 
