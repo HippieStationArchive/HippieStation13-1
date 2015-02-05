@@ -214,7 +214,11 @@ var/next_external_rsc = 0
 	related_accounts_ip = ""
 
 	while(query_ip.NextRow())
-		message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] is related to the follow accounts via IP address: [query_ip.item[1]]</font>")
+		var/DBQuery/query = dbcon.NewQuery("SELECT ckey, a_ckey, reason FROM [format_table_name("ban")] WHERE (ip = '[address]') AND (bantype = 'PERMABAN'  OR (bantype = 'TEMPBAN' AND expiration_time > Now())) AND isnull(unbanned)")
+		query.Execute()
+		while(query.NextRow())
+			message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer IP which is <bold>CURRENTLY</bold> banned: [query.item[1]] they were banned for <bold>[query.item[3]]</bold></font>")
+
 		related_accounts_ip += "[query_ip.item[1]],"
 
 	var/DBQuery/query_cid = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid = '[computer_id]' AND ckey != '[sql_ckey]'")
@@ -222,7 +226,11 @@ var/next_external_rsc = 0
 	related_accounts_cid = ""
 
 	while (query_cid.NextRow())
-		message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer ID: [query_cid.item[1]]</font>")
+		var/DBQuery/query = dbcon.NewQuery("SELECT a_ckey, reason FROM [format_table_name("ban")] WHERE (ckey = '[query_cid.item[1]]') AND (bantype = 'PERMABAN'  OR (bantype = 'TEMPBAN' AND expiration_time > Now())) AND isnull(unbanned)")
+		query.Execute()
+		while(query.NextRow())
+			message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer ID which is <bold>CURRENTLY</bold> banned: [query_cid.item[1]] they were banned for <bold>[query.item[1]]</bold></font>")
+
 		related_accounts_cid += "[query_cid.item[1]],"
 
 	var/admin_rank = "Player"

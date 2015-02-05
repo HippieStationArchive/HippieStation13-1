@@ -835,9 +835,9 @@ var/global/list/achievements = list("Goodcurity")
 		if(!M.client)
 			usr << "Unable to check for related accounts because the player has left"
 		if(M.client && M.client.related_accounts_cid)
-			usr << "User [M.client.ckey] has related account(s) found via computer ID: [M.client.related_accounts_cid]"
+			usr << "<font color='red'><B>Notice: </B><font color='blue'>User [M.client.ckey] has related account found via computer ID: [M.client.related_accounts_cid]</font>"
 		if(M.client && M.client.related_accounts_ip)
-			usr << "User [M.client.ckey] has related account(s) found via IP address: [M.client.related_accounts_ip]"
+			usr << "<font color='red'><B>Notice: </B><font color='blue'>User [M.client.ckey] has related account found via IP address: [M.client.related_accounts_ip]</font>"
 
 		switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))
 			if("Yes")
