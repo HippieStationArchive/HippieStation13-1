@@ -1243,7 +1243,6 @@ var/global/list/achievements = list("Goodcurity")
 		var/human
 		for(var/datum/species/X in M.client.prefs.specialsnowflakes)
 			specieslist.Add()
-			world << "[X.name]"
 			if(X.id == "zombie")
 				zombie = X
 			if(X.id == "lizard")

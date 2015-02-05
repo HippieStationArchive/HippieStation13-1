@@ -120,6 +120,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/save_preferences()
 	if(!path)				return 0
 	var/savefile/S = new /savefile(path)
+
+	specialsnowflakes = list()
+	var/list/datum/species/specialsnowflake = specialsnowflakes
+	var/list/X = list()
+	X.Add(/datum/species/human)
+	X.Add(/datum/species/lizard)
+
+
+	for(var/spath in X)
+		if(spath == /datum/species)
+			continue
+		var/datum/species/F = new spath()
+		specialsnowflake[F] = F.type
+
 	if(!S)					return 0
 	S.cd = "/"
 
