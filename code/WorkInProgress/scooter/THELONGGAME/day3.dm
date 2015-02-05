@@ -13,8 +13,9 @@ var/global/datum/fun/thunderstorm
 	var/maxturns = 50
 	var/turns = 0
 	var/shell
+
 /datum/fun/thunderstorm/New()
-	maxturns = rand(15,30)
+	maxturns = rand(4,12)
 	for(var/turf/simulated/floor/C in world)
 		landlist.Add(C)
 	sleep(20)
@@ -26,6 +27,7 @@ var/global/datum/fun/thunderstorm
 		landlist.Add(C)
 	sleep(20)
 	syndicate()
+
 /datum/fun/thunderstorm/proc/begin()
 	while(turns <= maxturns)
 		var/turf/temploc = pick(landlist)
@@ -40,15 +42,14 @@ var/global/datum/fun/thunderstorm
 		explosion(L.loc,-1,-1,rand(2,4),4)
 		spawn(10)
 			qdel(L)
-		turns--
+		turns++
 		sleep(10)
-
-
 
 /datum/fun/thunderstorm/proc/syndicate()
 	maxturns = 10
 	for(var/mob/C in world)
 		playsound(C,'sound/effects/shelling.ogg',50,1)
+	
 	while(turns <= maxturns)
 		var/turf/temploc = pick(landlist)
 		turns++
