@@ -103,7 +103,7 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 			else 								dist = 0
 
 
-			for(var/mob/living/C in view(epicenter))
+			for(var/mob/living/C in range(light_impact_range, epicenter))
 				var/turf/M_turf = get_turf(C)
 				var/dist2 = get_dist(M_turf, epicenter)
 				if(dist2 <= round(max_range + world.view - 2, 1))

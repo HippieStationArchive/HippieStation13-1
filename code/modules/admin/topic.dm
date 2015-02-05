@@ -1291,8 +1291,9 @@ var/global/list/achievements = list("Goodcurity")
 
 	else if(href_list["sfaward"])
 		if(!check_rights(R_ADMIN))	return
-		var/snowflake = input(usr, "Choose what snowflake you want to give:", "Snowflakes and Rewards")  as null|anything in species_list
 		var/mob/M = locate(href_list["sfaward"])
+		var/snowflake = input(usr, "Choose what snowflake you want to give:", "Snowflakes and Rewards")  as null|anything in species_list
+
 
 		if(snowflake)
 			var/list/X = list()
