@@ -5,7 +5,8 @@
 	if(user.m_intent == "run") //&& prob(50) //to add to stealth
 		if (user.footstep < world.time)
 			user.footstep = world.time + 5 //Half a second
-			playsound(src, pick(T.stepsound), 15, 1)
+			playsound(src, "step", 15, 1)
+			//playsound(src, pick(T.stepsound), 15, 1)
 
 /obj/item/clothing/shoes/syndigaloshes
 	desc = "A pair of brown shoes. They seem to have extra grip."
