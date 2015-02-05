@@ -21,7 +21,7 @@ var/global/datum/fun/thunderstorm
 	begin()
 
 /datum/fun/thunderstorm/shell/New()
-	maxturns = rand(15,30)
+	maxturns = rand(4,12)
 	for(var/turf/simulated/floor/C in world)
 		landlist.Add(C)
 	sleep(20)
