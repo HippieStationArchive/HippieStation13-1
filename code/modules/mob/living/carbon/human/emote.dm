@@ -426,11 +426,11 @@
 		src << "\red You don't have a butt!"
 		return
 
-	if(!super && src.HasDisease(/datum/disease/assinspection))
+	if(HasDisease(/datum/disease/assinspection))
 		src << "<span class='danger'>Your ass hurts too much.</span>"
 		return
 
-	var/count = rand(1, 2)
+	var/count = 1 //rand(1, 2) //Double farts sounded weird
 	var/lose_butt = prob(12)
 	var/fart_type = FART_GENERIC
 	var/message = null

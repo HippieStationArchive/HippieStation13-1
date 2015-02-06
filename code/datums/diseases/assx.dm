@@ -14,7 +14,7 @@
 	spread_flags = SPECIAL
 	visibility_flags = HIDDEN_PANDEMIC
 	permeability_mod = 1
-	stage_prob = 2 //slightly decreased stage probability
+	stage_prob = 5 //slightly increased stage probability to make it more effective
 
 /datum/disease/assinspection/New()
 	..()
@@ -43,20 +43,21 @@
 			if(prob(10))
 				affected_mob << "<span class='danger'>You feel a lot of pressure behind you.</span>"
 				affected_mob.apply_damage(5, BRUTE)
-			if(prob(10))
-				affected_mob.say(pick("WOOP!", "ASS INSPECTION!", "SON OF A CLOWN IT HURTS!", "WOOP WOOP!", "SON OF A COMDOM!", "BRING ME TO THE MEDICAL BAY!", "I NEED AN ASS INSPECTION!" ))
-			else if(prob(10))
-				affected_mob.say(pick(";WOOP!", ";ASS INSPECTION!", ";SON OF A CLOWN IT HURTS!", ";WOOP WOOP!", ";SON OF A COMDOM!", ";BRING ME TO THE MEDICAL BAY!", ";I NEED AN ASS INSPECTION!" ))
-			else if(prob(8))
+			else if(prob(5))
 				affected_mob << "<span class='danger'>Oh the pain! The cruel, yet ironic, pain!</span>"
+
+			if(prob(5))
+				affected_mob.say(pick("WOOP!", "ASS INSPECTION!", "SON OF A CLOWN IT HURTS!", "WOOP WOOP!", "SON OF A COMDOM!", "BRING ME TO THE MEDICAL BAY!", "I NEED AN ASS INSPECTION!" ))
+			else if(prob(5))
+				affected_mob.say(pick(";WOOP!", ";ASS INSPECTION!", ";SON OF A CLOWN IT HURTS!", ";WOOP WOOP!", ";SON OF A COMDOM!", ";BRING ME TO THE MEDICAL BAY!", ";I NEED AN ASS INSPECTION!" ))
 		if(3)
-			affected_mob.apply_damage(40, BRUTE, "chest")
 			affected_mob.say(";MY ASS! IT'S GOING TO BLOW!!")
 			affected_mob.emote("scream")
-			affected_mob.spam_flag = 0 //So you can scream AND superfart with no delay!
-			affected_mob.emote("superfart")
+			affected_mob << "<span class='danger'>You feel extreme pressure behind you!</span>"
+			affected_mob.apply_damage(40, BRUTE, "chest")
 			cure()
-
+			affected_mob.spam_flag = 0 //So you can scream AND superfart with no delay!
+			affected_mob.emote("superfart") //Superfart AFTER disease is cured.
 
 
 /datum/disease/assinspectionplacebo
@@ -99,14 +100,15 @@
 				affected_mob << "<span class='danger'>Your ass itches.</span>"
 		if(2)
 			if(prob(10))
-				affected_mob << "<span class='danger'>You feel a lot of pressure behind you.</span>"
+				affected_mob << "<span class='danger'>You feel some pressure behind you.</span>"
 				// affected_mob.apply_damage(5, BRUTE)
-			else if(prob(10))
+			else if(prob(5))
+				affected_mob << "<span class='danger'>Oh the pain! The cruel, yet ironic, pain!</span>"
+
+			if(prob(5))
 				affected_mob.say(pick("WOOP!", "ASS INSPECTION!", "SON OF A CLOWN IT DOESN'T HURT!", "WOOP WOOP!", "SON OF A COMDOM!", "BRING ME TO THE MEDICAL BAY!", "I NEED AN ASS INSPECTION!" ))
-			else if(prob(10))
+			else if(prob(5))
 				affected_mob.say(pick(";WOOP!", ";ASS INSPECTION!", ";SON OF A CLOWN IT DOESN'T HURT", ";WOOP WOOP!", ";SON OF A COMDOM!", ";BRING ME TO THE MEDICAL BAY!", ";I NEED AN ASS INSPECTION!" ))
-			else if(prob(8))
-				affected_mob << "<span class='danger'>Oh the pain! The cruel, yet ironic, pain!.</span>"
 		if(3)
 			affected_mob <<"<span class='danger'>You feel you should get an Ass Inspection in Medical Bay.</span>"
 			affected_mob.say(pick("WHY DO I STILL HAVE AN ASS!?!", "FUCK ITS FAKE!" ))
