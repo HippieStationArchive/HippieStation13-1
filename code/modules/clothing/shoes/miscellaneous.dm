@@ -1,6 +1,6 @@
 /obj/item/clothing/shoes/proc/step_action(mob/user as mob) //this was made to rewrite clown shoes squeaking
 	var/turf/T = get_turf(user)
-	if(istype(T, /turf/space) || !T.stepsound) //Space should never have step sounds
+	if(istype(T, /turf/space)) //Space should never have step sounds
 		return
 	if(user.m_intent == "run") //&& prob(50) //to add to stealth
 		if (user.footstep < world.time)
