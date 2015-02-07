@@ -400,9 +400,10 @@
 		if(!playing || event)
 			var/mob/living/M = usr
 
-			if(istype(M))
-				M.electrocute_act(10, src)
-				M.adjustBrainLoss(10)
+			// Don't fucking do this.
+			// if(istype(M))
+			// 	M.electrocute_act(10, src)
+			// 	M.adjustBrainLoss(10)
 
 			return
 		if(turns >= 9)

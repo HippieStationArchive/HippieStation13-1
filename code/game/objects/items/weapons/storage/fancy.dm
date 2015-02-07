@@ -206,8 +206,8 @@
 	var/choice = pick("dexalin", "dexalinp", "leporazine") //The reason why "choice" is outside the for loop is so cigs don't just have all these chems at once with randomised amounts.
 	for(var/i = 1 to storage_slots)
 		//Simulated menthol effects.
-		reagents.add_reagent(choice, 1) //1u of bonus chem to prevent OPness. Leporazine stabilises temperature so uplift smooth can be ideal for space travel if you're lucky.
-		reagents.add_reagent("dexalin", 2) //Always contains dexalin so it's the main reason to smoke uplifts.
+		reagents.add_reagent(choice, 2) //Leporazine stabilises temperature so uplift smooth can be ideal for space travel if you're lucky.
+		reagents.add_reagent("dexalin", 3) //Always contains dexalin so it's the main reason to smoke uplifts.
 		reagents.add_reagent("nicotine", 2) //More nicotine because gotta have some downside.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robust
@@ -220,7 +220,7 @@
 	..()
 	var/choice = pick("tricordrazine", "hyperzine", "synaptizine", "hyronalin") //Tricord = heals, hyperzine = fast, synaptizine = stun reduction, hyronalin = anti-radiation.
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent(choice, 2)
+		reagents.add_reagent(choice, 5)
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robustgold
 	name = "\improper Robust Gold packet"
@@ -230,9 +230,9 @@
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_robustgold/New()
 	..()
-	var/choice = pick("tricordrazine", "hyperzine", "synaptizine", "hyronalin", "alkysine", "leporazine") //5 units! AND MORE CHEMICALS! WOOT!
+	var/choice = pick("tricordrazine", "hyperzine", "synaptizine", "hyronalin", "alkysine", "leporazine") //7 units! AND MORE CHEMICALS! WOOT!
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent(choice, 5)
+		reagents.add_reagent(choice, 7)
 		reagents.add_reagent("gold", 1)
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_carp
@@ -244,7 +244,7 @@
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_carp/New()
 	..()
 	for(var/i = 1 to storage_slots)
-		reagents.add_reagent("carpotoxin", 3) //Low amount since it's possible to grind cigs.
+		reagents.add_reagent("carpotoxin", 2) //Low amount since it's possible to grind cigs.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_syndicate
 	name = "cigarette packet"
@@ -270,7 +270,7 @@
 	var/choice = pick("space_drugs", "serotrotium") //Serotrotium only makes you twitch and stuff.
 	for(var/i = 1 to storage_slots)
 		// reagents.add_reagent("toxin", 1) //Toxins removed
-		reagents.add_reagent(choice, 2)
+		reagents.add_reagent(choice, 5)
 		reagents.add_reagent("ethylredoxrazine", 3) //Smoke Midori packets if you're utterly drunk. Tradeoff? Possibility of space drugs.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims
@@ -284,7 +284,7 @@
 	var/choice = pick("mindbreaker", "sodium", "alkysine")
 	for(var/i = 1 to storage_slots)
 		reagents.add_reagent("lipozine", 4) //Burns off your fat, as advertised.
-		reagents.add_reagent(choice, rand(1, 3)) //Sodium does nothing, mindbreaker = worse than space drugs and alks heals brain damage. It's a shot in the dark with these cigs.
+		reagents.add_reagent(choice, rand(2, 5)) //Sodium does nothing, mindbreaker = worse than space drugs and alks heals brain damage. It's a shot in the dark with these cigs.
 
 /obj/item/weapon/storage/fancy/cigarettes/chempacket
 	name = "\improper ChemBrand packet"
