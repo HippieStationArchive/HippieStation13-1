@@ -348,18 +348,16 @@
 	// else if(L.client.ambience_playing != ambloop)
 	// 	L.client.ambience_playing = ambloop
 	// 	L << sound(ambloop, repeat = 1, wait = 0, volume = 35, channel = 2)
+
 	// Actually handled in turf now, all for the sake of space turf always having space ambience.
 	// /code/game/turfs/turf.dm, line 85
 
 	if(prob(35))
 		var/sound = pick(ambientsounds)
 
-		if(!L.client.played)
+		if(L.client.played < world.time)
 			L << sound(sound, repeat = 0, wait = 0, volume = 25, channel = 1)
-			L.client.played = 1
-			spawn(600)			//ewww - this is very very bad
-				if(L.&& L.client)
-					L.client.played = 0
+			L.client.played = world.time + 900 //1.5 minutes
 
 /area/proc/mob_activate(var/mob/living/L)
 	return
