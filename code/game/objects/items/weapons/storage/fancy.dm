@@ -271,7 +271,7 @@
 	for(var/i = 1 to storage_slots)
 		// reagents.add_reagent("toxin", 1) //Toxins removed
 		reagents.add_reagent(choice, 5)
-		reagents.add_reagent("ethylredoxrazine", 3) //Smoke Midori packets if you're utterly drunk. Tradeoff? Possibility of space drugs.
+		reagents.add_reagent("ethylredoxrazine", 5) //Smoke Midori packets if you're utterly drunk. Tradeoff? Possibility of space drugs.
 
 /obj/item/weapon/storage/fancy/cigarettes/cigpack_shadyjims
 	name ="\improper Shady Jim's Super Slims"
@@ -284,7 +284,7 @@
 	var/choice = pick("mindbreaker", "sodium", "alkysine")
 	for(var/i = 1 to storage_slots)
 		reagents.add_reagent("lipozine", 4) //Burns off your fat, as advertised.
-		reagents.add_reagent(choice, rand(2, 5)) //Sodium does nothing, mindbreaker = worse than space drugs and alks heals brain damage. It's a shot in the dark with these cigs.
+		reagents.add_reagent(choice, rand(2, 6)) //Sodium does nothing, mindbreaker = worse than space drugs and alks heals brain damage. It's a shot in the dark with these cigs.
 
 /obj/item/weapon/storage/fancy/cigarettes/chempacket
 	name = "\improper ChemBrand packet"

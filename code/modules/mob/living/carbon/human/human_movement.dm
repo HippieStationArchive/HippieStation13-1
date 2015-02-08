@@ -40,7 +40,7 @@
 			if(loc == NewLoc)
 				var/obj/item/clothing/shoes/S = shoes
 
-				S.step_action()
+				S.step_action(src)
 
 	if(stunned)
 		if(istype(loc, /turf/space))

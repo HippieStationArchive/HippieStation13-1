@@ -431,7 +431,7 @@
 		return
 
 	var/count = 1 //rand(1, 2) //Double farts sounded weird
-	var/lose_butt = prob(12)
+	var/lose_butt = prob(6)
 	var/fart_type = FART_GENERIC
 	var/message = null
 
