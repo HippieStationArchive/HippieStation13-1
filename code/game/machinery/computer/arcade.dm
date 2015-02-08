@@ -398,7 +398,7 @@
 		usr << browse(null, "window=arcade")
 	else if (href_list["continue"]) //Continue your travels
 		if(!playing || event)
-			var/mob/living/M = usr
+			//var/mob/living/M = usr
 
 			// Don't fucking do this.
 			// if(istype(M))

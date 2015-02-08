@@ -22,6 +22,7 @@
 	///Chemistry.
 
 	var/can_examine_reagents = 0 //For examining reagents
+	var/prepo = null //for managing extra name flair like "deep-fried".
 
 /atom/proc/throw_impact(atom/hit_atom)
 	if(istype(hit_atom,/mob/living))
@@ -208,7 +209,7 @@ its easier to just keep the beam vertical.
 
 /atom/proc/examine(mob/user)
 	//This reformat names to get a/an properly working on item descriptions when they are bloody
-	var/f_name = "\a [src]."
+	var/f_name = "\a [prepo][src]."
 	if(src.blood_DNA && !istype(src, /obj/effect/decal))
 		if(gender == PLURAL)
 			f_name = "some "
