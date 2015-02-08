@@ -17,6 +17,7 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 	idle_power_usage = 5
 	var/on = FALSE	//Is it making food already?
 	var/list/food_choices = list()
+	var/pickcolor = 0 //Does it let you pick color?
 /obj/machinery/cooking/New()
 	..()
 	updatefood()
@@ -36,6 +37,9 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 			anchored = 0
 			user << "You unwrench [src]."
 			return
+	if(!anchored)
+		user << "The machine must be anchored to be usable!"
+		return
 	if(!istype(I,/obj/item/weapon/reagent_containers/food/snacks/))
 		user << "That isn't food."
 		return
@@ -45,11 +49,17 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 
 	var/obj/item/weapon/reagent_containers/food/snacks/F = I
 	var/obj/item/weapon/reagent_containers/food/C
+	var/colorpick
 	user.drop_item()
 	F.loc = src
 	C = input("Select food to make.", "Cooking", C) in food_choices
 	if(!C)
 		return
+	if(pickcolor)
+		var/temp = input(user, "Please select color.", "Candy color") as color
+		if (user.restrained() || user.stat)
+			return
+		colorpick = temp
 	user << "You put [F] into [src] for [production_meth]."
 	user.drop_item()
 	F.loc = src
@@ -60,9 +70,12 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 	icon_state = "[orig]_off"
 	var/obj/item/weapon/reagent_containers/food/foodtype = new C.type(src.loc)
 	foodtype.loc = get_turf(src)
+	if(colorpick)
+		F.filling_color = colorpick
 	foodtype.attackby(F,user)
+	// user << "[colorpick] color"
 	playsound(loc, 'sound/machines/ding.ogg', 50, 1)
-	return
+	// return
 
 /obj/machinery/cooking/proc/updatefood()
 	return
@@ -71,6 +84,7 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 	name = "oven"
 	desc = "Cookies are ready, dear."
 	icon_state = "oven_off"
+	pickcolor = 1
 
 /obj/machinery/cooking/oven/New()
 	var/list/foodtemp = oven_choices
@@ -92,6 +106,7 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 	icon_state = "mixer_off"
 	orig = "mixer"
 	production_meth = "candizing"
+	pickcolor = 1
 
 /obj/machinery/cooking/candy/New()
 	var/list/foodtemp = candy_choices
@@ -108,6 +123,7 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 	return
 
 
+//Currently broken. attackby checks for snacks when this uses drinks.
 /obj/machinery/cooking/still
 	name = "still"
 	desc = "Alright, so, t'make some moonshine, fust yo' gotta combine some of this hyar egg wif th' deep fried sausage."
@@ -115,6 +131,7 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 	orig = "still"
 	grown_only = 1
 	production_meth = "brewing"
+	pickcolor = 1
 
 /obj/machinery/cooking/still/New()
 	var/list/foodtemp = still_choices

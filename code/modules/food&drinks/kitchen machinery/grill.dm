@@ -36,6 +36,20 @@
 	if(on)
 		user << "<span class='notice'>[src] is already processing, please wait.</span>"
 		return
+	if(istype(I,/obj/item/weapon/wrench))
+		if(!anchored)
+			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
+			anchored = 1
+			user << "You wrench [src] in place."
+			return
+		else if(anchored)
+			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
+			anchored = 0
+			user << "You unwrench [src]."
+			return
+	if(!anchored)
+		user << "The machine must be anchored to be usable!"
+		return
 	if(istype(I, /obj/item/weapon/grab)||istype(I, /obj/item/tk_grab))
 		user << "<span class='warning'>That isn't going to fit.</span>"
 		return

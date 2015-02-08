@@ -26,6 +26,20 @@ var/list/deepfry_icons = list()
 	if(on)
 		user << "<span class='notice'>[src] is still active!</span>"
 		return
+	if(istype(I,/obj/item/weapon/wrench))
+		if(!anchored)
+			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
+			anchored = 1
+			user << "You wrench [src] in place."
+			return
+		else if(anchored)
+			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
+			anchored = 0
+			user << "You unwrench [src]."
+			return
+	if(!anchored)
+		user << "The machine must be anchored to be usable!"
+		return
 	if(istype(I, /obj/item/weapon/grab) || istype(I, /obj/item/tk_grab))
 		user << "<span class='warning'>That isn't going to fit.</span>"
 		return
@@ -63,14 +77,19 @@ var/list/deepfry_icons = list()
 		var/index = frying.blood_splatter_index()
 		var/icon/deepfry_icon = deepfry_icons[index]
 		if(!deepfry_icon)
+			world << "WOW"
 			deepfry_icon = icon(initial(frying.icon), initial(frying.icon_state), , 1)		//we only want to apply deepfry to the initial icon_state for each object
+			for(var/i = 1, i <= frying.overlays.len, i++)
+				// world << "[i], [I.overlays.len] len, \icon[I.overlays[i]] overlay"
+				var/image/overlay = frying.overlays[i]
+				deepfry_icon.Blend(icon(overlay.icon, overlay.icon_state), ICON_OVERLAY)
 			deepfry_icon.Blend("#fff", ICON_ADD) 			//fills the icon_state with white (except where it's transparent)
 			deepfry_icon.Blend(icon('icons/effects/overlays.dmi', "itemfry"), ICON_MULTIPLY) //adds deepfry and the remaining white areas become transparant
 			deepfry_icon = fcopy_rsc(deepfry_icon)
-			deepfry_icon -= rgb(0,0,0,224) //reduce alpha
+			deepfry_icon += rgb(0,0,0,128) //add alpha
 			deepfry_icons[index] = deepfry_icon
 		else
-			deepfry_icon += rgb(0,0,0,32) //make deepfry overlay more visible
+			deepfry_icon -= rgb(0,0,0,32) //make deepfry overlay more visible
 
 		S.icon = frying.icon
 		S.icon_state = frying.icon_state

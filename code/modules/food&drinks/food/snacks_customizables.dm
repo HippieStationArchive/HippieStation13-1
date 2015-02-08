@@ -334,7 +334,7 @@
 			var/image/I = new(src.icon, "[baseicon]_filling")
 			if(istype(O, /obj/item/weapon/reagent_containers/food/snacks))
 				var/obj/item/weapon/reagent_containers/food/snacks/food = O
-				if(!food.filling_color == "#FFFFFF")
+				if(food.filling_color != "#FFFFFF")
 					I.color = food.filling_color
 				else
 					I.color = pick("#FF0000","#0000FF","#008000","#FFFF00")
@@ -485,7 +485,7 @@
 			var/image/I = new(src.icon, "[baseicon]_filling")
 			if(istype(O, /obj/item/weapon/reagent_containers/food/snacks))
 				var/obj/item/weapon/reagent_containers/food/snacks/food = O
-				if(!food.filling_color == "#FFFFFF")
+				if(food.filling_color != "#FFFFFF")
 					I.color = food.filling_color
 				else
 					I.color = pick("#FF0000","#0000FF","#008000","#FFFF00")

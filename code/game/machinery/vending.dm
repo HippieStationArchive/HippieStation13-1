@@ -617,6 +617,13 @@
 	refill_canister = /obj/item/weapon/vending_refill/boozeomat
 
 
+/obj/machinery/vending/boozeomat/custom
+	name = "\improper Booze-O-Mat Custom+"
+	desc = "A version of Booze-O-Mat that spawns customizable alchol bottles. Use those in the still!"
+	products = list(/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/wine = 5, /obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/whiskey = 5,\
+					/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/vermouth = 5, /obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/vodka = 5,\
+					/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/ale = 5)
+
 /obj/machinery/vending/boozeomat/New()
 	..()
 	component_parts = list()
