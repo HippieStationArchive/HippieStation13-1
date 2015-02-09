@@ -77,7 +77,7 @@ var/list/deepfry_icons = list()
 		var/index = frying.blood_splatter_index()
 		var/icon/deepfry_icon = deepfry_icons[index]
 		if(!deepfry_icon)
-			world << "WOW"
+			// world << "WOW"
 			deepfry_icon = icon(initial(frying.icon), initial(frying.icon_state), , 1)		//we only want to apply deepfry to the initial icon_state for each object
 			for(var/i = 1, i <= frying.overlays.len, i++)
 				// world << "[i], [I.overlays.len] len, \icon[I.overlays[i]] overlay"
