@@ -1,7 +1,7 @@
 /datum/round_event_control/anomaly/anomaly_electricstorm
 	name = "Anomaly: Electric Storm"
 	typepath = /datum/round_event/anomaly/anomaly_electric
-	max_occurrences = 3
+	max_occurrences = 1
 	weight = 20
 
 /datum/round_event/anomaly/anomaly_electric

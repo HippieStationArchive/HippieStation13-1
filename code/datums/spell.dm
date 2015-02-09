@@ -54,7 +54,14 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 	if(((!user.mind) || !(src in user.mind.spell_list)) && !(src in user.mob_spell_list))
 		user << "<span class='warning'>You shouldn't have this spell! Something's wrong.</span>"
 		return 0
-
+	if(ticker.mode.name == "Ragin' Mages")
+		if(istype(src,/obj/effect/proc_holder/spell/targeted/area_teleport))
+			return
+		else
+			var/area/A = get_area(user)
+			if(istype(A, /area/wizard_station))
+				usr << "\red You feel it unwise to cast spells around your fellow wizards! Use your scoll to teleport instead!"
+				return 0
 	if(user.z == 2 && !centcom_cancast) //Certain spells are not allowed on the centcom zlevel
 		return 0
 

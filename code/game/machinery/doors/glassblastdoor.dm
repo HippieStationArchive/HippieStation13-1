@@ -108,15 +108,16 @@
 				else
 					user << "<span class='notice'>[src] is already in good condition.</span>"
 
-		if(stat & BROKEN)//No hitting it after it breaks
+		else if(stat & BROKEN)//No hitting it after it breaks
 			return 0
-		if(..())//Could crowbar it or such so stop here
+		else if(..())//Could crowbar it or such so stop here
 			return 1
 
 //		damaged_by(W, user) Currently here as obj level attackby is commented out
 		// if(istype(W, /obj/item/weapon/grab) || istype(W, /obj/item/weapon/plastique) || istype(W, /obj/item/weapon/reagent_containers/spray) || istype(W, /obj/item/weapon/packageWrap) | istype(W, /obj/item/device/detective_scanner))
 		// 	return
-		damaged_by(W, user)
+		else
+			damaged_by(W, user)
 //		visible_message("\red <B>[src] has been hit by [user] with [W]</B>", 1)
 		return 1
 

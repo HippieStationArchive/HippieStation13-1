@@ -342,16 +342,14 @@
 				m_type = 2
 
 		if("megascream") //how to remove ass
+			if(miming)
+				usr << "\red You try to scream but nothing comes out!"
+				return
 			if (ticker.current_state == 3)//safety1
 				if(world.time < fartholdin)//safety2
-					src << "Your ass is not ready to blast."
+					usr << "Your ass is not ready to blast."
 					return
 				else
-					if(special)
-						usr << "\red You strain your voicebox!"
-					else
-						usr << "\red Your voice box explodes!"
-						silent += 50
 					var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
 					if(gender == FEMALE)
 						sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
@@ -366,14 +364,8 @@
 									playsound(src.loc, sound, 50, 1, 5)
 									spawn(1)
 										playsound(src.loc, sound, 50, 1, 5)
-										spawn(1)
-											playsound(src.loc, sound, 50, 1, 5)
-											spawn(1)
-												playsound(src.loc, sound, 50, 1, 5)
-												spawn(1)
-													playsound(src.loc, sound, 50, 1, 5)
-													spawn(1)
-														playsound(src.loc, sound, 50, 1, 5)
+										if(prob(50))
+											miming = 1
 
 
 		if ("help") //This can stay at the bottom.
