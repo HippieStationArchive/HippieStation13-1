@@ -18,5 +18,5 @@
 		qdel(src)
 		if(replace)
 			user.put_in_hands(new_item)
-		playsound(user, 'sound/New_Sound/items/ducttape1.ogg', 50, 1)
+		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
 		return

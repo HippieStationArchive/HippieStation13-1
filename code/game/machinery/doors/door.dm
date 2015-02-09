@@ -17,6 +17,7 @@
 	var/normalspeed = 1
 	var/heat_proof = 0 // For glass airlocks/opacity firedoors
 	var/emergency = 0 // Emergency access override
+	var/cooldown = 0 // Cooldown for "attackby" beeps and sprite.
 
 /obj/machinery/door/New()
 	..()
@@ -65,6 +66,7 @@
 				open()
 			else
 				flick("door_deny", src)
+				playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
 		return
 	return
 
@@ -97,6 +99,7 @@
 			open()
 		else
 			flick("door_deny", src)
+			playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
 	return
 
 
@@ -133,8 +136,10 @@
 		else
 			close()
 		return
-	if(src.density)
+	if(src.density && cooldown < world.time)
+		cooldown = world.time + 10 //1 second
 		flick("door_deny", src)
+		playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
 	return
 
 /obj/machinery/door/emag_act(mob/user as mob)

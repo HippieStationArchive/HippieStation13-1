@@ -44,7 +44,7 @@
 	log_mentor("PM: [key_name(src)]->[key_name(C)]: [msg]")
 
 	msg = emoji_parse(msg)
-	C << 'sound/New_Sound/Items/Bikehorn2.ogg'
+	C << 'sound/Items/Bikehorn2.ogg'
 	C << "<font color='purple'>Mentor PM From <b>[key_name_mentor(src, C, 1, check_mentor(C) && !check_mentor(src))]</b>: [msg]</font>"
 	src << "<font color='green'>Mentor PM To <b>[key_name_mentor(C, src, 1, check_mentor(src) && !check_mentor(C))]</b>: [msg]</font>"
 

@@ -138,7 +138,7 @@
 			location.ReplaceWithSpace()
 			return 0*/
 	if(prob(15))
-		playsound(src.loc, 'sound/New_Sound/Effects/fire.ogg', 30, 1, -1) //play it at low volume so the stacking isn't too bad.
+		playsound(src.loc, 'sound/effects/fire.ogg', 30, 1, -1) //play it at low volume so the stacking isn't too bad.
 	return 1
 
 // Garbage collect itself by nulling reference to it

@@ -197,7 +197,7 @@
 		AI_mind.current.verbs -= /datum/game_mode/malfunction/proc/ai_win
 	ticker.mode:explosion_in_progress = 1
 	for(var/mob/M in player_list)
-		M << 'sound/new_sound/malfwin.ogg'
+		M << 'sound/malfwin.ogg'
 	world << "Self-destructing in 10"
 	for (var/i=9 to 1 step -1)
 		sleep(10)

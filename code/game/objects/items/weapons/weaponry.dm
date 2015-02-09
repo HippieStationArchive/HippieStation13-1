@@ -151,7 +151,7 @@ obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
 	return (BRUTELOSS)
 
 /obj/item/weapon/shank/attack_self(mob/user)
-	playsound(user, 'sound/New_Sound/items/ducttape2.ogg', 50, 1)
+	playsound(user, 'sound/items/ducttape2.ogg', 50, 1)
 	var/obj/item/weapon/shard/new_item = new(user.loc)
 	user << "<span class='notice'>You take the duct tape off the [src].</span>"
 	qdel(src)

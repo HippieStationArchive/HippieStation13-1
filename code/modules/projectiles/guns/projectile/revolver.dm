@@ -2,6 +2,7 @@
 	name = "revolver"
 	desc = "A suspicious revolver. Uses .357 ammo." //usually used by syndicates
 	icon_state = "revolver"
+	fire_sound = 'sound/weapons/revolver_shoot.ogg'
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder
 
 /obj/item/weapon/gun/projectile/revolver/chamber_round()
@@ -19,6 +20,10 @@
 	if(num_loaded)
 		user << "<span class='notice'>You load [num_loaded] shell\s into \the [src].</span>"
 		A.update_icon()
+		if(istype(A, /obj/item/ammo_casing))
+			playsound(user.loc, pick('sound/weapons/effects/bullet_insert.ogg', 'sound/weapons/effects/bullet_insert2.ogg'), 30, 1, -2)
+		else
+			playsound(user.loc, 'sound/weapons/effects/reload1.ogg', 30, 1, -2)
 		update_icon()
 		chamber_round()
 
@@ -31,6 +36,7 @@
 		CB.loc = get_turf(src.loc)
 		CB.SpinAnimation(10, 1)
 		CB.update_icon()
+		playsound(CB.loc, pick('sound/weapons/effects/ShellCasing1.ogg', 'sound/weapons/effects/ShellCasing2.ogg', 'sound/weapons/effects/ShellCasing3.ogg'), 15, 1, -1)
 		num_unloaded++
 	if (num_unloaded)
 		user << "<span class = 'notice'>You unload [num_unloaded] shell\s from [src].</span>"
@@ -134,7 +140,7 @@
 
 
 /obj/item/weapon/gun/projectile/revolver/mateba
-	name = "autorevolver"
+	name = "mateba"
 	desc = "A retro high-powered mateba autorevolver typically used by officers of the New Russia military. Uses .357 ammo."
 	icon_state = "mateba"
 	origin_tech = "combat=2;materials=2"

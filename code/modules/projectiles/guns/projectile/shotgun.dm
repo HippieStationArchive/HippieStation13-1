@@ -9,6 +9,7 @@
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=4;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot
+	fire_sound = 'sound/weapons/shotgun.ogg'
 	var/recentpump = 0 // to prevent spammage
 	var/pumped = 0
 
@@ -17,6 +18,7 @@
 	if(num_loaded)
 		user << "<span class='notice'>You load [num_loaded] shell\s into \the [src]!</span>"
 		A.update_icon()
+		playsound(user.loc, 'sound/weapons/effects/insertShotgun.ogg', 30, 1, -2)
 		update_icon()
 
 /obj/item/weapon/gun/projectile/shotgun/process_chamber()
@@ -93,6 +95,7 @@
 	origin_tech = "combat=3;materials=1"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/dualshot
 	sawn_desc = "Omar's coming!"
+	fire_sound = 'sound/weapons/shotgun.ogg'
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/attackby(var/obj/item/A as obj, mob/user as mob)
 	..()
@@ -207,7 +210,7 @@
 	w_class = 3.0
 	origin_tech = "combat=5;materials=4;syndicate=6"
 	mag_type = /obj/item/ammo_box/magazine/m12g/buckshot //this was stunslug by default. why the fuck.
-	fire_sound = 'sound/weapons/Gunshot.ogg'
+	fire_sound = 'sound/weapons/shotgun_shoot.ogg'
 	can_suppress = 0
 	burst_size = 2
 	fire_delay = 1

@@ -42,7 +42,7 @@
 			m_type = 1
 
 		if ("burp")
-			playsound(src.loc, 'sound/misc/burp.ogg', 50, 0, 5)
+			playsound(src.loc, 'sound/misc/burp.ogg', 50, 1, -1)
 			message = "<B>[src]</B> burps."
 			m_type = 2
 

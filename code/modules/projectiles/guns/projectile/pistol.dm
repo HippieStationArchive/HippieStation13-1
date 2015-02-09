@@ -27,6 +27,7 @@
 	icon_state = "deagle"
 	force = 14
 	mag_type = /obj/item/ammo_box/magazine/m50
+	fire_sound = 'sound/weapons/deagle.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/pistol/deagle/update_icon()
 	..()
