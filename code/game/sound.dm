@@ -100,7 +100,7 @@
 			if ("hiss") soundin = pick('sound/voice/hiss1.ogg','sound/voice/hiss2.ogg','sound/voice/hiss3.ogg','sound/voice/hiss4.ogg')
 			if ("pageturn") soundin = pick('sound/effects/pageturn1.ogg', 'sound/effects/pageturn2.ogg','sound/effects/pageturn3.ogg')
 			if ("gunshot") soundin = pick('sound/weapons/Gunshot.ogg', 'sound/weapons/Gunshot2.ogg','sound/weapons/Gunshot3.ogg','sound/weapons/Gunshot4.ogg')
-			if ("boxgloves") soundin = pick('sound/new_sound/weapons/boxing1.ogg','sound/new_sound/weapons/boxing2.ogg','sound/new_sound/weapons/boxing3.ogg','sound/new_sound/weapons/boxing4.ogg')
+			if ("boxgloves") soundin = pick('sound/weapons/boxing1.ogg','sound/weapons/boxing2.ogg','sound/weapons/boxing3.ogg','sound/weapons/boxing4.ogg')
 			//Footstep materials
 			if ("tile") soundin = pick(	'sound/effects/footsteps/walk_tile_01.ogg','sound/effects/footsteps/walk_tile_02.ogg','sound/effects/footsteps/walk_tile_03.ogg',\
 										'sound/effects/footsteps/walk_tile_04.ogg','sound/effects/footsteps/walk_tile_05.ogg')

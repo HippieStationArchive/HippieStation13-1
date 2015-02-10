@@ -88,6 +88,17 @@
 	popup.open()
 
 /obj/machinery/icecream_vat/attackby(var/obj/item/O as obj, var/mob/user as mob)
+	if(istype(O,/obj/item/weapon/wrench))
+		if(!anchored)
+			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
+			anchored = 1
+			user << "You wrench [src] in place."
+			return
+		else if(anchored)
+			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
+			anchored = 0
+			user << "You unwrench [src]."
+			return
 	if(istype(O, /obj/item/weapon/reagent_containers/food/snacks/icecream))
 		var/obj/item/weapon/reagent_containers/food/snacks/icecream/I = O
 		if(!I.ice_creamed)

@@ -21,8 +21,9 @@
 
 /obj/structure/closet/secure_closet/close()
 	..()
-	if(broken)
-		icon_state = src.icon_off
+	update_icon() //For more custom closet support
+	// if(broken)
+	// 	icon_state = src.icon_off
 	return 1
 
 /obj/structure/closet/secure_closet/emp_act(severity)
@@ -47,10 +48,11 @@
 		for(var/mob/O in viewers(user, 3))
 			if((O.client && !( O.blinded )))
 				O << "<span class='notice'>[user] has [locked ? null : "un"]locked the locker.</span>"
-		if(src.locked)
-			src.icon_state = src.icon_locked
-		else
-			src.icon_state = src.icon_closed
+		update_icon() //For more custom closet support
+		// if(src.locked)
+		// 	src.icon_state = src.icon_locked
+		// else
+		// 	src.icon_state = src.icon_closed
 	else
 		user << "<span class='notice'>Access Denied</span>"
 
@@ -61,7 +63,6 @@
 	return 0
 
 /obj/structure/closet/secure_closet/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
 	if(!src.opened && src.broken)
 		user << "<span class='notice'>The locker appears to be broken.</span>"
 		return
@@ -69,8 +70,9 @@
 		broken = 1
 		locked = 0
 		desc = "It appears to be broken."
-		icon_state = icon_off
+		// icon_state = icon_off
 		flick(icon_broken, src)
+		update_icon()
 		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
 		spark_system.set_up(5, 0, src.loc)
 		spark_system.start()
@@ -85,8 +87,9 @@
 		broken = 1
 		locked = 0
 		desc = "It appears to be broken."
-		icon_state = icon_off
+		// icon_state = icon_off
 		flick(icon_broken, src)
+		update_icon()
 		for(var/mob/O in viewers(user, 3))
 			O.show_message("<span class='warning'>The locker has been broken by [user] with an electromagnetic card!</span>", 1, "You hear a faint electrical spark.", 2)
 
@@ -102,6 +105,8 @@
 			lastbang = world.time
 			for(var/mob/M in get_hearers_in_view(src, null))
 				M.show_message("<FONT size=[max(0, 5 - get_dist(src, M))]>BANG, bang!</FONT>", 2)
+				M.playsound_local(src.loc, 'sound/effects/shieldbash.ogg', min(max(0, get_dist(src, M), 60), 1))
+				world << get_dist(src, M)
 	return
 
 /obj/structure/closet/secure_closet/attack_hand(mob/user as mob)
@@ -136,7 +141,9 @@
 /obj/structure/closet/secure_closet/update_icon()//Putting the welded stuff in updateicon() so it's easy to overwrite for special cases (Fridges, cabinets, and whatnot)
 	overlays.Cut()
 	if(!opened)
-		if(locked)
+		if(broken)
+			icon_state = icon_broken
+		else if(locked)
 			icon_state = icon_locked
 		else
 			icon_state = icon_closed

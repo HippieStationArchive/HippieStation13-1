@@ -131,13 +131,13 @@ var/list/uplink_items = list()
 	surplus = 0
 	jobs = list("Assistant")
 
-/datum/uplink_item/job_specific/ducttape
-	name = "Duct tape"
-	desc = "An incredibly useful item, especially if you're permabrigged. You can use it to shut someone up (aim at head) and craft some nasty makeshift items."
-	item = /obj/item/stack/ducttape
-	cost = 4
-	surplus = 0
-	jobs = list("Assistant")
+// /datum/uplink_item/job_specific/ducttape
+// 	name = "Duct tape"
+// 	desc = "An incredibly useful item, especially if you're permabrigged. You can use it to shut someone up (aim at head) and craft some nasty makeshift items."
+// 	item = /obj/item/stack/ducttape
+// 	cost = 1
+// 	surplus = 0
+// 	jobs = list("Assistant")
 
 // debug job-specific items.
 // /datum/uplink_item/job_specific/testa

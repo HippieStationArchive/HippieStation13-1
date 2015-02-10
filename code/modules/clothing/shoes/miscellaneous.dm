@@ -2,10 +2,10 @@
 	var/turf/T = get_turf(user)
 	if(istype(T, /turf/space)) //Space should never have step sounds
 		return
-	if(user.m_intent == "run") //&& prob(50) //to add to stealth
-		if (user.footstep < world.time)
-			user.footstep = world.time + 5 //Half a second
-			playsound(src, "step", 15, 1)
+	// if(user.m_intent == "run") //&& prob(50) //to add to stealth
+	// 	if (user.footstep < world.time)
+	// 		user.footstep = world.time + 5 //Half a second
+	// 		playsound(src, "step", 15, 1)
 			//playsound(src, pick(T.stepsound), 15, 1)
 
 /obj/item/clothing/shoes/syndigaloshes

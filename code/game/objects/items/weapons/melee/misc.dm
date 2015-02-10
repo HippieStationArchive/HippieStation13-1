@@ -10,7 +10,7 @@
 	w_class = 3
 	origin_tech = "combat=4"
 	attack_verb = list("flogged", "whipped", "lashed", "disciplined")
-	hitsound = 'sound/new_sound/weapons/chainofcommand.ogg'
+	hitsound = 'sound/weapons/chainofcommand.ogg'
 
 /obj/item/weapon/melee/chainofcommand/suicide_act(mob/user)
 		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -56,7 +56,7 @@
 		if(!isrobot(target)) return
 	else
 		if(cooldown <= 0)
-			playsound(user, 'sound/new_sound/weapons/baton1.ogg', 50, 1, -1)
+			playsound(user, 'sound/weapons/baton1.ogg', 50, 1, -1)
 			if(stamina)
 				var/mob/living/carbon/human/H = target
 				H.apply_damage(3.5 * force, STAMINA)
@@ -146,7 +146,7 @@
 	throw_speed = 3
 	throw_range = 8
 	attack_verb = list("stabbed", "torn", "cut", "sliced")
-	hitsound = 'sound/New_Sound/weapons/knife.ogg'
+	hitsound = 'sound/weapons/knife.ogg'
 
 /obj/item/weapon/melee/concealable
 	var/active = 0
@@ -175,11 +175,11 @@
 	if (active)
 		force = active_force
 		throwforce = 14
-		hitsound = 'sound/New_Sound/weapons/knife.ogg'
+		hitsound = 'sound/weapons/knife.ogg'
 		attack_verb = list("stabbed", "torn", "cut", "sliced")
 		icon_state = "pocketknife_open"
 		w_class = 3
-		playsound(user, 'sound/New_Sound/weapons/wielding/raise.ogg', 20, 1)
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now open.</span>"
 	else
 		force = deactive_force
@@ -188,7 +188,7 @@
 		attack_verb = null
 		icon_state = "pocketknife"
 		w_class = 1
-		playsound(user, 'sound/New_Sound/weapons/wielding/raise.ogg', 20, 1)
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now closed.</span>"
 	add_fingerprint(user)
 	return

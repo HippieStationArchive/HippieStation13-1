@@ -255,8 +255,8 @@
 			update(0)
 
 /obj/machinery/light/process()
-	if(bad && prob(6))
-		flicker()
+	if(bad && prob(5))
+		flicker(rand(1, 4))
 
 /obj/machinery/light/Destroy()
 	var/area/A = get_area(src)
@@ -449,10 +449,11 @@
 				if(status != LIGHT_OK) break
 				on = !on
 				update(0)
-				playsound(src.loc, pick('sound/machines/flicker1.ogg', 'sound/machines/flicker2.ogg', 'sound/machines/flicker3.ogg'), 30, 1)
-				sleep(rand(5, 10)) //anything less than 5 causes lighting issues
+				playsound(src.loc, pick('sound/machines/flicker1.ogg', 'sound/machines/flicker2.ogg', 'sound/machines/flicker3.ogg'), 20, 1)
+				sleep(rand(6, 10)) //anything less than 6 causes lighting issues
 			on = (status == LIGHT_OK)
 			update(0)
+		sleep(5) //Attempts to prevent lighting issues
 		flickering = 0
 
 // ai attack - make lights flicker, because why not

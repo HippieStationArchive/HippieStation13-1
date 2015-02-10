@@ -16,11 +16,11 @@
 	var/mentor_msg = "<span class='mentornotice'><font color='purple'>New Mentor PM From <b>[key_name_mentor(src, 1, 0, 1)]</b>: [msg]</font></span>"
 
 	for(var/client/X in mentors)
-		X << 'sound/New_Sound/Items/Bikehorn2.ogg'
+		X << 'sound/Items/Bikehorn2.ogg'
 		X << mentor_msg
 
 	for(var/client/A in admins)
-		A << 'sound/New_Sound/Items/Bikehorn2.ogg'
+		A << 'sound/Items/Bikehorn2.ogg'
 		A << mentor_msg
 
 	src << "<span class='mentornotice'><font color='purple'>Mentor PM Sent: [msg]</font></span>"

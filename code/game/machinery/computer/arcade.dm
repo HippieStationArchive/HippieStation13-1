@@ -400,6 +400,8 @@
 		if(!playing || event)
 			var/mob/living/M = usr
 
+			//Why are you electrocuting people for pressing "continue" when they're not playing or their screen didn't update for "event"?
+			//Can cause accidents.
 			if(istype(M))
 				M.electrocute_act(10, src)
 				M.adjustBrainLoss(10)

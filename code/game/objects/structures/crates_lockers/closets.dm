@@ -253,7 +253,7 @@
 /obj/structure/closet/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 
-/obj/structure/closet/attack_hand(mob/user as mob)
+/obj/structure/closet/attack_hand(mob/user as mob, toggle)
 	src.add_fingerprint(user)
 
 	if(!src.toggle())
@@ -275,7 +275,7 @@
 		return
 
 	if(ishuman(usr))
-		src.attack_hand(usr)
+		src.attack_hand(usr, 1) //"toggle" var to make the verb actually detectable code-wise for coding exceptions
 	else
 		usr << "<span class='warning'>This mob type can't use this verb.</span>"
 

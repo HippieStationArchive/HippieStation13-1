@@ -617,6 +617,13 @@
 	refill_canister = /obj/item/weapon/vending_refill/boozeomat
 
 
+/obj/machinery/vending/boozeomat/custom
+	name = "\improper Booze-O-Mat Custom+"
+	desc = "A version of Booze-O-Mat that spawns customizable alchol bottles. Use those in the still!"
+	products = list(/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/wine = 5, /obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/whiskey = 5,\
+					/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/vermouth = 5, /obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/vodka = 5,\
+					/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/ale = 5)
+
 /obj/machinery/vending/boozeomat/New()
 	..()
 	component_parts = list()
@@ -899,7 +906,10 @@
 	desc = "A kitchen and restaurant equipment vendor"
 	product_ads = "Mm, food stuffs!;Food and food accessories.;Get your plates!;You like forks?;I like forks.;Woo, utensils.;You don't really need these..."
 	icon_state = "dinnerware"
-	products = list(/obj/item/weapon/storage/bag/tray = 8,/obj/item/weapon/kitchen/utensil/fork = 6,/obj/item/weapon/kitchenknife = 3,/obj/item/weapon/reagent_containers/food/drinks/drinkingglass = 8,/obj/item/clothing/suit/chef/classic = 2,/obj/item/weapon/reagent_containers/food/condiment/pack/ketchup = 5,/obj/item/weapon/reagent_containers/food/condiment/pack/hotsauce = 5)
+	products = list(/obj/item/weapon/storage/bag/tray = 8,/obj/item/weapon/kitchen/utensil/fork = 6,\
+					/obj/item/weapon/kitchenknife = 3,/obj/item/weapon/reagent_containers/food/drinks/drinkingglass = 8,\
+					/obj/item/clothing/suit/chef/classic = 2,/obj/item/weapon/reagent_containers/food/condiment/pack/ketchup = 5,\
+					/obj/item/weapon/reagent_containers/food/condiment/pack/hotsauce = 5, /obj/item/trash/plate = 10, /obj/item/trash/bowl = 10,)
 	contraband = list(/obj/item/weapon/kitchen/rollingpin = 2, /obj/item/weapon/butch = 2)
 
 /obj/machinery/vending/sovietsoda

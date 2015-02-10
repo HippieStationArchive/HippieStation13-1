@@ -858,7 +858,7 @@
 			var/randn = rand(1, 100)
 			if(randn <= 25)
 				H.apply_effect(2, WEAKEN, H.run_armor_check(affecting, "melee"))
-				playsound(H, 'sound/weapons/push_hard.ogg', 50, 1, -1)
+				playsound(H, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 				H.visible_message("<span class='danger'>[M] has pushed [H]!</span>",
 								"<span class='userdanger'>[M] has pushed [H]!</span>")
 				H.forcesay(hit_appends)
@@ -1373,7 +1373,7 @@
 		H.on_fire = 1
 		H.AddLuminosity(3)
 		H.update_fire()
-		playsound(H.loc, 'sound/New_Sound/Effects/combust.ogg', 40, 1, -1)
+		playsound(H.loc, 'sound/Effects/combust.ogg', 40, 1, -1)
 
 /datum/species/proc/ExtinguishMob(var/mob/living/carbon/human/H)
 	if(H.on_fire)
