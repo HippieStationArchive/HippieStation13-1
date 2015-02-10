@@ -142,7 +142,7 @@
 			Paralyse(10)
 			Jitter(1000)
 	var/obj/item/clothing/mask/cigarette/cig = wear_mask
-	if(!reagents.has_reagent("nicotine") && !(cig && cig.lit)) //Makes it so you won't cough or stutter with a cig in your mouth or with nicotine in your bloodstream.
+	if(istype(cig) && !reagents.has_reagent("nicotine") && !(cig && cig.lit)) //Makes it so you won't cough or stutter with a cig in your mouth or with nicotine in your bloodstream.
 		if (disabilities & COUGHING)
 			if ((prob(5) && paralysis <= 1))
 				drop_item()
