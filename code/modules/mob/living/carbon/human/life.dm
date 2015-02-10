@@ -142,7 +142,7 @@
 			Paralyse(10)
 			Jitter(1000)
 	var/obj/item/clothing/mask/cigarette/cig = wear_mask
-	if(istype(cig) && !reagents.has_reagent("nicotine") && !(cig && cig.lit)) //Makes it so you won't cough or stutter with a cig in your mouth or with nicotine in your bloodstream.
+	if(istype(cig) && !reagents.has_reagent("nicotine") && !(cig && cig.lit)) //"You have noctine in you? You must have been smoking! You now have cough immunity!" - WAT
 		if (disabilities & COUGHING)
 			if ((prob(5) && paralysis <= 1))
 				drop_item()
@@ -613,53 +613,24 @@
 	if(damageoverlay.overlays)
 		damageoverlay.overlays = list()
 
-	if(stat == UNCONSCIOUS)
-		//Critical damage passage overlay
-		if(health <= config.health_threshold_crit)
-			var/image/I = image("icon" = 'icons/mob/screen_full.dmi', "icon_state" = "passage0")
-			I.blend_mode = BLEND_OVERLAY //damageoverlay is BLEND_MULTIPLY
-			switch(health)
-				if(-20 to -10)
-					I.icon_state = "passage1"
-				if(-30 to -20)
-					I.icon_state = "passage2"
-				if(-40 to -30)
-					I.icon_state = "passage3"
-				if(-50 to -40)
-					I.icon_state = "passage4"
-				if(-60 to -50)
-					I.icon_state = "passage5"
-				if(-70 to -60)
-					I.icon_state = "passage6"
-				if(-80 to -70)
-					I.icon_state = "passage7"
-				if(-90 to -80)
-					I.icon_state = "passage8"
-				if(-95 to -90)
-					I.icon_state = "passage9"
-				if(-INFINITY to -95)
-					I.icon_state = "passage10"
-			damageoverlay.overlays += I
-	else
-		//Oxygen damage overlay
-		if(oxyloss)
-			var/image/I = image("icon" = 'icons/mob/screen_full.dmi', "icon_state" = "oxydamageoverlay0")
-			switch(oxyloss)
-				if(10 to 20)
-					I.icon_state = "oxydamageoverlay1"
-				if(20 to 25)
-					I.icon_state = "oxydamageoverlay2"
-				if(25 to 30)
-					I.icon_state = "oxydamageoverlay3"
-				if(30 to 35)
-					I.icon_state = "oxydamageoverlay4"
-				if(35 to 40)
-					I.icon_state = "oxydamageoverlay5"
-				if(40 to 45)
-					I.icon_state = "oxydamageoverlay6"
-				if(45 to INFINITY)
-					I.icon_state = "oxydamageoverlay7"
-			damageoverlay.overlays += I
+	if(stat == UNCONSCIOUS) //Critical damage passage overlay if(health <=
+	config.health_threshold_crit) var/image/I = image("icon" =
+	'icons/mob/screen_full.dmi', "icon_state" = "passage0") I.blend_mode =
+	BLEND_OVERLAY //damageoverlay is BLEND_MULTIPLY switch(health) if(-20 to
+	-10) I.icon_state = "passage1" if(-30 to -20) I.icon_state = "passage2"
+	if(-40 to -30) I.icon_state = "passage3" if(-50 to -40) I.icon_state =
+	"passage4" if(-60 to -50) I.icon_state = "passage5" if(-70 to -60)
+	I.icon_state = "passage6" if(-80 to -70) I.icon_state = "passage7" if(-90
+	to -80) I.icon_state = "passage8" if(-95 to -90) I.icon_state = "passage9"
+	if(-INFINITY to -95) I.icon_state = "passage10" damageoverlay.overlays +=
+	I else //Oxygen damage overlay if(oxyloss) var/image/I = image("icon" =
+	'icons/mob/screen_full.dmi', "icon_state" = "oxydamageoverlay0")
+	switch(oxyloss) if(10 to 20) I.icon_state = "oxydamageoverlay1" if(20 to
+	25) I.icon_state = "oxydamageoverlay2" if(25 to 30) I.icon_state =
+	"oxydamageoverlay3" if(30 to 35) I.icon_state = "oxydamageoverlay4" if(35
+	to 40) I.icon_state = "oxydamageoverlay5" if(40 to 45) I.icon_state =
+	"oxydamageoverlay6" if(45 to INFINITY) I.icon_state = "oxydamageoverlay7"
+	damageoverlay.overlays += I
 
 		//Fire and Brute damage overlay (BSSR)
 		var/hurtdamage = src.getBruteLoss() + src.getFireLoss() + damageoverlaytemp
