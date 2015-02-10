@@ -98,7 +98,7 @@
 	age = rand(AGE_MIN,AGE_MAX)
 	ready_dna(src,random_blood_type())
 	//job handling
-	var/list/jobs = SSjob.occupations
+	var/list/jobs = job_master.occupations
 	for(var/datum/job/J in jobs)
 		if(J.title == "Cyborg" || J.title == "AI" || J.title == "Chaplain" || J.title == "Mime")
 			jobs -= J
@@ -197,7 +197,7 @@
 	if(TRAITS & TRAIT_THIEVING)
 		slyness = 75
 
-	SSbp.insertBot(src)
+	npcpool.insertBot(src)
 
 /mob/living/carbon/human/interactive/attack_hand(mob/living/carbon/human/M as mob)
 	..()

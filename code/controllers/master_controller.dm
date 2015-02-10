@@ -32,6 +32,7 @@ var/global/pipe_processing_killed = 0
 	var/powernets_cost	= 0
 	var/nano_cost		= 0
 	var/events_cost		= 0
+	var/npcpool_cost	= 0
 	var/ticker_cost		= 0
 	var/gc_cost			= 0
 	var/total_cost		= 0
@@ -64,6 +65,7 @@ var/global/pipe_processing_killed = 0
 	if(!ticker)						ticker = new /datum/controller/gameticker()
 	if(!emergency_shuttle)			emergency_shuttle = new /datum/shuttle_controller/emergency_shuttle()
 	if(!supply_shuttle)				supply_shuttle = new /datum/controller/supply_shuttle()
+	if(!npcpool)					npcpool = new /datum/controller/npcpool()
 
 /datum/controller/game_controller/proc/setup()
 	world.tick_lag = config.Ticklag
@@ -207,7 +209,10 @@ var/global/pipe_processing_killed = 0
 					last_thing_processed = ticker.type
 					ticker.process()
 					ticker_cost = (world.timeofday - timer) / 10
-
+				spawn(0)
+					timer = world.timeofday
+					npcpool.process()
+					npcpool_cost = (world.timeofday - timer) / 10
 				// GC
 				spawn(0)
 					timer = world.timeofday

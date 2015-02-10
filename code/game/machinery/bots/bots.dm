@@ -98,7 +98,7 @@
 /obj/machinery/bot/New()
 	..()
 	aibots += src //Global bot list
-	SSbp.insertBot(src)
+	npcpool.insertBot(src)
 	botcard = new /obj/item/weapon/card/id(src)
 	set_custom_texts()
 	Radio = new /obj/item/device/radio(src)
