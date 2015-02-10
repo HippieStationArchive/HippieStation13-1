@@ -518,6 +518,12 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/aiModule/syndicate
 	cost = 14
 
+/datum/uplink_item/device_tools/advpinpointer
+	name = "Advanced Pinpointer"
+	desc = "This pinpointer lets you track objectives, people by DNA and the disk. It's very powerful yo!"
+	item = /obj/item/weapon/pinpointer/advpinpointer
+	cost = 4
+
 /datum/uplink_item/device_tools/magboots
 	name = "Blood-Red Magboots"
 	desc = "A pair of magnetic boots with a Syndicate paintjob that assist with freer movement in space or on-station during gravitational generator failures. \
