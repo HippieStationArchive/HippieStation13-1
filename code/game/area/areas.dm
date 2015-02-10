@@ -355,7 +355,7 @@
 	if(prob(35))
 		var/sound = pick(ambientsounds)
 
-		if(L.client.played < world.time)
+		if(L.client && L.client.played < world.time)
 			L << sound(sound, repeat = 0, wait = 0, volume = 25, channel = 1)
 			L.client.played = world.time + 900 //1.5 minutes
 

@@ -55,7 +55,7 @@ datum/reagent/nicotine/on_mob_life(var/mob/living/M as mob)
 datum/reagent/nicotine/on_mob_addicted(var/mob/living/M as mob)
 	var/mob/living/carbon/human/H = M
 	var/obj/item/clothing/mask/cigarette/cig = H.wear_mask
-	if(H.reagents.has_reagent("nicotine") || (cig && cig.lit)) //Addiction slowly builds up. We don't call ..() because we don't want to remove it yet.
+	if(istype(H) && (H.reagents.has_reagent("nicotine") || (cig && cig.lit))) //Addiction slowly builds up. We don't call ..() because we don't want to remove it yet.
 		..() //We call parent to remove reagents from bloodstream so medical use cigs are possible.
 		return //Notice how we don't decrease data in here - that's because seasoned smokers have worse side effects. Stop smoking before it's required to live, dog.
 
