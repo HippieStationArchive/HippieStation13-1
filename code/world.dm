@@ -92,7 +92,8 @@
 	spawn(-1)
 		master_controller.setup()
 		lighting_controller.initializeLighting()
-
+		npcpool.process()
+		
 	src.update_status()
 
 	process_teleport_locs()			//Sets up the wizard teleport locations
