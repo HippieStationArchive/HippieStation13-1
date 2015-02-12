@@ -67,6 +67,8 @@
 			clothes_s.Blend(new /icon('icons/mob/back.dmi', "backpack"), ICON_OVERLAY)
 		else if(backbag == 3)
 			clothes_s.Blend(new /icon('icons/mob/back.dmi', "satchel-norm"), ICON_OVERLAY)
+		// else if(backbag == 4) //Dufflebag
+		// 	clothes_s.Blend(new /icon('icons/mob/back.dmi', "dufflebag"), ICON_OVERLAY)
 
 	else if(job_civilian_high)//I hate how this looks, but there's no reason to go through this switch if it's empty
 		switch(job_civilian_high)

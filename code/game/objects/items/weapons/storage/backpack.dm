@@ -3,6 +3,10 @@
  *		Backpack
  *		Backpack Types
  *		Satchel Types
+ *		Dufflebag
+ *		Dufflebag Types
+ *		Mountain Backpack
+ *		Mountain Backpack Types
  */
 
 /*
@@ -12,6 +16,7 @@
 /obj/item/weapon/storage/backpack
 	name = "backpack"
 	desc = "You wear this on your back and put items into it."
+	icon = 'icons/obj/bags.dmi'
 	icon_state = "backpack"
 	item_state = "backpack"
 	w_class = 4
@@ -215,3 +220,103 @@
 	..()
 	new /obj/item/stack/tile/plasteel(src)
 	new /obj/item/weapon/crowbar(src)
+
+/*
+ * Dufflebag Types
+ */
+
+/obj/item/weapon/storage/backpack/dufflebag
+	name = "duffle bag"
+	desc = "It is often used to carry luggage or sports equipment by people who travel in the outdoors. I guess space counts as outdoors."
+	icon_state = "dufflebag"
+	item_state = "dufflebag"
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie_med
+	name = "field medic bag"
+	desc = "It's a syndicate medic duffle bag."
+	icon_state = "dufflebag-syndiemed"
+	item_state = "dufflebag-syndiemed"
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie_med/New()
+	..()
+	new /obj/item/weapon/storage/firstaid/regular(src)
+	new /obj/item/weapon/storage/firstaid/regular(src)
+	new /obj/item/weapon/storage/firstaid/fire(src)
+	new /obj/item/weapon/storage/firstaid/fire(src)
+	new /obj/item/weapon/storage/firstaid/toxin(src)
+	new /obj/item/weapon/storage/pill_bottle/stimulant(src)
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie_ammo
+	name = "ammo bag"
+	desc = "It's a syndicate ammo duffle bag."
+	icon_state = "dufflebag-syndieammo"
+	item_state = "dufflebag-syndieammo"
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie_ammo/New()
+	..()
+	new /obj/item/ammo_box/a357(src)
+	new /obj/item/ammo_box/c10mm(src)
+	new /obj/item/ammo_box/magazine/smgm45(src)
+	new /obj/item/ammo_box/magazine/smgm45(src)
+	new /obj/item/ammo_box/magazine/m12g/buckshot(src)
+	new /obj/item/ammo_box/magazine/m12g(src)
+
+/obj/item/weapon/storage/backpack/dufflebag_captain
+	name = "captain's duffle bag"
+	desc = "Captain's very own duffle bag."
+	icon_state = "dufflebag-captain"
+	item_state = "dufflebag-captain"
+
+/obj/item/weapon/storage/backpack/dufflebag_security
+	name = "security duffle bag"
+	desc = "Ultra robust duffle bag for hipster security officers."
+	icon_state = "dufflebag-security"
+	item_state = "dufflebag-security"
+
+/obj/item/weapon/storage/backpack/dufflebag_virology
+	name = "virologist duffle bag"
+	desc = "A sterile duffle bag with convenient bottle pockets."
+	icon_state = "dufflebag-virology"
+	item_state = "dufflebag-virology"
+
+/obj/item/weapon/storage/backpack/dufflebag_toxins
+	name = "scientist duffle bag"
+	desc = "Neat duffle bag that is designed to hold research materials."
+	icon_state = "dufflebag-toxins"
+	item_state = "dufflebag-toxins"
+
+/obj/item/weapon/storage/backpack/dufflebag_genetics
+	name = "geneticist duffle bag"
+	desc = "Geneticist's duffle bag with convenient disk pockets."
+	icon_state = "dufflebag-genetics"
+	item_state = "dufflebag-genetics"
+
+/obj/item/weapon/storage/backpack/dufflebag_chemistry
+	name = "chemist duffle bag"
+	desc = "It's a duffle bag designed to hold various reagents."
+	icon_state = "dufflebag-chemistry"
+	item_state = "dufflebag-chemistry"
+
+/obj/item/weapon/storage/backpack/dufflebag_medical
+	name = "medical duffle bag"
+	desc = "An extremely convenient sterile duffle bag."
+	icon_state = "dufflebag-medical"
+	item_state = "dufflebag-medical"
+
+/obj/item/weapon/storage/backpack/dufflebag_engineer
+	name = "engineering duffle bag"
+	desc = "Designed to fit various construction materials."
+	icon_state = "dufflebag-engineering"
+	item_state = "dufflebag-engineering"
+
+/obj/item/weapon/storage/backpack/dufflebag_hydroponics
+	name = "hydroponics duffle bag"
+	desc = "Convenient duffle bag for plant-related work."
+	icon_state = "dufflebag-engineering"
+	item_state = "dufflebag-engineering"
+
+/obj/item/weapon/storage/backpack/dufflebag_clown
+	name = "fanny bag"
+	desc = "It's a funny-looking duffle bag."
+	icon_state = "dufflebag-clown"
+	item_state = "dufflebag-clown"

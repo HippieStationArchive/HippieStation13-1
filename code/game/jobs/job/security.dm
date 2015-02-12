@@ -25,6 +25,8 @@ Head of Security
 	default_headset = /obj/item/device/radio/headset/heads/hos/alt
 	default_backpack = /obj/item/weapon/storage/backpack/security
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_sec
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_security
+
 /datum/job/hos/get_access()
 	return get_all_accesses()
 
@@ -72,6 +74,7 @@ Warden
 	default_headset = /obj/item/device/radio/headset/headset_sec/alt
 	default_backpack = /obj/item/weapon/storage/backpack/security
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_sec
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_security
 
 	access = list(access_security, access_sec_doors, access_brig, access_armory, access_court, access_maint_tunnels, access_morgue, access_weapons)
 	minimal_access = list(access_security, access_sec_doors, access_brig, access_armory, access_court, access_weapons) //See /datum/job/warden/get_access()
@@ -170,6 +173,7 @@ Security Officer
 	default_headset = /obj/item/device/radio/headset/headset_sec/alt
 	default_backpack = /obj/item/weapon/storage/backpack/security
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_sec
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_security
 
 	access = list(access_security, access_sec_doors, access_brig, access_court, access_maint_tunnels, access_morgue, access_weapons)
 	minimal_access = list(access_security, access_sec_doors, access_brig, access_court, access_weapons) //But see /datum/job/warden/get_access()

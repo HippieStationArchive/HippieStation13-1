@@ -19,6 +19,7 @@ Chief Medical Officer
 	default_headset = /obj/item/device/radio/headset/heads/cmo
 	default_backpack = /obj/item/weapon/storage/backpack/medic
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_med
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_medical
 
 	access = list(access_medical, access_morgue, access_genetics, access_heads, access_mineral_storeroom,
 			access_chemistry, access_virology, access_cmo, access_surgery, access_RC_announce,
@@ -36,7 +37,7 @@ Chief Medical Officer
 	H.equip_to_slot_or_del(new /obj/item/device/sensor_device(H), slot_r_store)
 
 	//Equip telebaton
-	if(H.backbag == 2 || H.backbag == 3)
+	if(H.backbag != 1)
 		H.equip_to_slot_or_del(new /obj/item/weapon/melee/truncheon/telebaton(H), slot_in_backpack)
 
 /*
@@ -57,6 +58,7 @@ Medical Doctor
 	default_headset = /obj/item/device/radio/headset/headset_med
 	default_backpack = /obj/item/weapon/storage/backpack/medic
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_med
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_medical
 
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics)
 	minimal_access = list(access_medical, access_morgue, access_surgery)
@@ -85,6 +87,8 @@ Chemist
 
 	default_pda = /obj/item/device/pda/chemist
 	default_headset = /obj/item/device/radio/headset/headset_med
+	default_satchel = /obj/item/weapon/storage/backpack/satchel_chem
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_chemistry
 
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics, access_mineral_storeroom)
 	minimal_access = list(access_medical, access_chemistry, access_mineral_storeroom)
@@ -110,6 +114,8 @@ Geneticist
 
 	default_pda = /obj/item/device/pda/geneticist
 	default_headset = /obj/item/device/radio/headset/headset_medsci
+	default_satchel = /obj/item/weapon/storage/backpack/satchel_gen
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_genetics
 
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics, access_research)
 	minimal_access = list(access_medical, access_morgue, access_genetics, access_research)
@@ -137,7 +143,8 @@ Virologist
 	default_pda = /obj/item/device/pda/viro
 	default_headset = /obj/item/device/radio/headset/headset_med
 	default_backpack = /obj/item/weapon/storage/backpack/medic
-	default_satchel = /obj/item/weapon/storage/backpack/satchel_med
+	default_satchel = /obj/item/weapon/storage/backpack/satchel_vir
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_virology
 
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics, access_mineral_storeroom)
 	minimal_access = list(access_medical, access_virology, access_mineral_storeroom)

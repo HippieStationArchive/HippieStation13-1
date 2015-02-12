@@ -1,3 +1,6 @@
+//Warning: something here may or may not cause client crashes. I suspect it was the overly long names deepfryer caused.
+//"Tuples" system brought back. See if it crashes anymore.
+
 //Extra vars
 /obj/item
 	var/fry_amt = 0 //Amount of times this object was fried
@@ -77,10 +80,8 @@ var/list/deepfry_icons = list()
 		var/index = frying.blood_splatter_index()
 		var/icon/deepfry_icon = deepfry_icons[index]
 		if(!deepfry_icon)
-			// world << "WOW"
 			deepfry_icon = icon(initial(frying.icon), initial(frying.icon_state), , 1)		//we only want to apply deepfry to the initial icon_state for each object
 			for(var/i = 1, i <= frying.overlays.len, i++)
-				// world << "[i], [I.overlays.len] len, \icon[I.overlays[i]] overlay"
 				var/image/overlay = frying.overlays[i]
 				deepfry_icon.Blend(icon(overlay.icon, overlay.icon_state), ICON_OVERLAY)
 			deepfry_icon.Blend("#fff", ICON_ADD) 			//fills the icon_state with white (except where it's transparent)
@@ -88,17 +89,18 @@ var/list/deepfry_icons = list()
 			deepfry_icon = fcopy_rsc(deepfry_icon)
 			deepfry_icon += rgb(0,0,0,128) //add alpha
 			deepfry_icons[index] = deepfry_icon
-		else
-			deepfry_icon -= rgb(0,0,0,32) //make deepfry overlay more visible
+		// else
+		// 	deepfry_icon -= rgb(0,0,0,32) //make deepfry overlay more visible --BROKEN, suspected to cause client crashes, too
 
 		S.icon = frying.icon
 		S.icon_state = frying.icon_state
 		S.overlays += frying.overlays
 		S.overlays += deepfry_icon
 		S.color = frying.color //keeps the grill
-		S.name = "deep fried [frying.name]"
+		if(length(S.name) < 400) //S.name = "[pick("extra", "super", "hyper", "mega", "ultra")] deep fried [initial(frying.name)]"
+			S.name = "deep fried [frying.name]" //Perhaps this will prevent crashes
 		S.fry_amt = frying.fry_amt + 1
-		// var/tuple = tuple(S.fry_amt) //quadruple grilled nuke disk, woo
+		// var/tuple = tuple(S.fry_amt) //quadruple grilled nuke disk, woo --Causes lots of problems. Doesn't work correctly with cereals and other custom foods.
 		// if(tuple)
 		// 	tuple = "[tuple] "
 		// if(findtext(frying.prepo, "grilled"))

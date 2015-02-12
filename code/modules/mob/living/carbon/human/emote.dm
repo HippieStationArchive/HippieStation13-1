@@ -437,7 +437,7 @@
 
 	if(super)
 		count = 10
-
+		fart_type = FART_ASSBLAST //Put this outside probability check just in case. There were cases where superfart did a normal fart.
 		if(prob(76)) // 76%
 			fart_type = FART_ASSBLAST
 		else if(prob(12)) // 3%
@@ -469,15 +469,24 @@
 
 				spawn(10)
 					src.gib()
+				break //This is to prevent multi-gibbening
 
 		for(var/i = 1, i <= count, i++)
+			B = locate() in src.internal_organs
+			if(!B) break
 			playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
 			sleep(1)
-
+		B = locate() in src.internal_organs
+		if(!B) //Neccesary checks to prevent hyper duplicating buttblasts
+			src << "\red You don't have a butt!"
+			return
 		if(super)
 			sleep(4)
 			playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5)
-
+		B = locate() in src.internal_organs
+		if(!B) //Same here, sorry for the copypasta but it's neccesary with "sleep"
+			src << "\red You don't have a butt!"
+			return
 		if(lose_butt)
 			src.internal_organs -= B
 			new /obj/item/clothing/head/butt(src.loc)

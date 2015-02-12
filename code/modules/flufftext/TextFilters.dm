@@ -82,3 +82,28 @@ proc/Ellipsis(original_msg, chance = 50, keep_words)
 	new_msg = list2text(new_words," ")
 
 	return new_msg
+
+//turns num into tuple - "single" not included.
+/proc/tuple(num)
+	var/result
+	var/list/tuple = list("", "double", "triple", "quadruple", "quintuple", "sextuple", "septuple", "octuple", "nonuple", "decuple", "undecuple", "duodecuple", "tredecuple", "extra", "super", "hyper", "mega") //tuples from 1 to 13 + extra
+	num = text2num(min(num, tuple.len))
+	for(var/i = 1, i <= tuple.len, i++)
+		if(i == num)
+			result = tuple[i]
+			break
+	return result
+
+/proc/buttificate(phrase)
+	var/params = replacetext(phrase, " ", "&")
+	var/list/buttphrase = params2list(params)
+	var/finalphrase = ""
+	for(var/p in buttphrase)
+		if(prob(20))
+			p="butt"
+		finalphrase = finalphrase+p+" "
+	finalphrase = replacetext(finalphrase, " #39 ","'")
+	finalphrase = replacetext(finalphrase, " s "," ") //this is really dumb and hacky, gets rid of trailing 's' character on the off chance that '#39' gets swapped
+	if(findtext(finalphrase,"butt"))
+		return finalphrase
+	return

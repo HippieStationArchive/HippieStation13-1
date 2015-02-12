@@ -91,6 +91,8 @@ Botanist
 
 	default_pda = /obj/item/device/pda/botanist
 	default_headset = /obj/item/device/radio/headset/headset_srv
+	default_satchel = /obj/item/weapon/storage/backpack/satchel_hyd
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_hydroponics
 
 	access = list(access_hydroponics, access_bar, access_kitchen, access_morgue) // Removed tox and chem access because STOP PISSING OFF THE CHEMIST GUYS // //Removed medical access because WHAT THE FUCK YOU AREN'T A DOCTOR YOU GROW WHEAT //Given Morgue access because they have a viable means of cloning.
 	minimal_access = list(access_hydroponics, access_morgue) // Removed tox and chem access because STOP PISSING OFF THE CHEMIST GUYS // //Removed medical access because WHAT THE FUCK YOU AREN'T A DOCTOR YOU GROW WHEAT //Given Morgue access because they have a viable means of cloning.
@@ -170,6 +172,7 @@ Shaft Miner
 	default_headset = /obj/item/device/radio/headset/headset_cargo
 	default_backpack = /obj/item/weapon/storage/backpack/industrial
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_eng
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_engineer
 	default_storagebox = /obj/item/weapon/storage/box/engineer
 
 	access = list(access_maint_tunnels, access_mailsorting, access_cargo, access_cargo_bot, access_qm, access_mint, access_mining, access_mining_station, access_mineral_storeroom)
@@ -206,6 +209,7 @@ Clown
 
 	default_pda = /obj/item/device/pda/clown
 	default_backpack = /obj/item/weapon/storage/backpack/clown
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_clown
 
 	access = list(access_theatre, access_maint_tunnels)
 	minimal_access = list(access_theatre)
@@ -248,6 +252,7 @@ Mime
 
 	default_pda = /obj/item/device/pda/mime
 	default_backpack = /obj/item/weapon/storage/backpack/mime
+	//default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_mime //to-do
 
 	access = list(access_theatre, access_maint_tunnels)
 	minimal_access = list(access_theatre)
