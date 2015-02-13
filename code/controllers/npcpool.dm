@@ -2,7 +2,7 @@ var/global/datum/controller/npcpool/npcpool
 
 /datum/controller/npcpool // This thing pretty much just keeps poking the master controller
 	var/processing = 0
-	var/processing_interval = 5	//do shit err half second
+	var/processing_interval = 20	//do shit err half second
 
 	var/list/canBeUsed = list()
 	var/list/canBeUsed_non = list()
