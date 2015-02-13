@@ -55,7 +55,7 @@
 
 	timezoneOffset = text2num(time2text(0,"hh")) * 36000
 
-	npcpool = new /datum/controller/npcpool()
+	//npcpool = new /datum/controller/npcpool()
 	sun = new /datum/sun()
 	radio_controller = new /datum/controller/radio()
 	data_core = new /obj/effect/datacore()
@@ -92,8 +92,8 @@
 	spawn(-1)
 		master_controller.setup()
 		lighting_controller.initializeLighting()
-		npcpool.process()
-		
+		//npcpool.process()
+
 	src.update_status()
 
 	process_teleport_locs()			//Sets up the wizard teleport locations
