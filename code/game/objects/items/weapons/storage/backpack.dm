@@ -3,9 +3,7 @@
  *		Backpack
  *		Backpack Types
  *		Satchel Types
- *		Dufflebag
  *		Dufflebag Types
- *		Mountain Backpack
  *		Mountain Backpack Types
  */
 
@@ -312,11 +310,33 @@
 /obj/item/weapon/storage/backpack/dufflebag_hydroponics
 	name = "hydroponics duffle bag"
 	desc = "Convenient duffle bag for plant-related work."
-	icon_state = "dufflebag-engineering"
-	item_state = "dufflebag-engineering"
+	icon_state = "dufflebag-hydroponics"
+	item_state = "dufflebag-hydroponics"
 
 /obj/item/weapon/storage/backpack/dufflebag_clown
 	name = "fanny bag"
 	desc = "It's a funny-looking duffle bag."
 	icon_state = "dufflebag-clown"
 	item_state = "dufflebag-clown"
+
+/*
+ * Mountain Backpack Types
+ */
+
+/obj/item/weapon/storage/backpack/mountainbag
+	name = "mountain backpack"
+	desc = "Usually used by mountaineers, it's quite bulky."
+	icon_state = "mountainbag"
+	item_state = "mountainbag"
+
+/obj/item/weapon/storage/backpack/mountainbag-chem
+	name = "chemistry backpack"
+	desc = "Usually used by explorer chemists. Has a nice orange color to it."
+	icon_state = "mountainbag-chem"
+	item_state = "mountainbag-chem"
+
+/obj/item/weapon/storage/backpack/mountainbag-gen
+	name = "geneticist backpack"
+	desc = "Usually used by explorer chemists. Has a nice orange color to it."
+	icon_state = "mountainbag-gen"
+	item_state = "mountainbag-gen"
