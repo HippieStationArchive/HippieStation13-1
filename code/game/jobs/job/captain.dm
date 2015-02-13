@@ -19,6 +19,7 @@ Captain
 	default_headset = /obj/item/device/radio/headset/heads/captain
 	default_backpack = /obj/item/weapon/storage/backpack/captain
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_cap
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_captain
 
 	access = list() 			//See get_access()
 	minimal_access = list() 	//See get_access()

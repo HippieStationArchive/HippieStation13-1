@@ -17,6 +17,8 @@ Research Director
 	default_id = /obj/item/weapon/card/id/silver
 	default_pda = /obj/item/device/pda/heads/rd
 	default_headset = /obj/item/device/radio/headset/heads/rd
+	default_satchel = /obj/item/weapon/storage/backpack/satchel_tox
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_toxins
 
 	access = list(access_rd, access_heads, access_tox, access_genetics, access_morgue,
 			            access_tox_storage, access_teleporter, access_sec_doors,
@@ -37,7 +39,7 @@ Research Director
 	H.equip_to_slot_or_del(new /obj/item/device/laser_pointer(H), slot_l_store)
 
 	//Equip telebaton
-	if(H.backbag == 2 || H.backbag == 3)
+	if(H.backbag != 1)
 		H.equip_to_slot_or_del(new /obj/item/weapon/melee/truncheon/telebaton(H), slot_in_backpack)
 
 /*
@@ -56,6 +58,8 @@ Scientist
 
 	default_pda = /obj/item/device/pda/toxins
 	default_headset = /obj/item/device/radio/headset/headset_sci
+	default_satchel = /obj/item/weapon/storage/backpack/satchel_tox
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_toxins
 
 	access = list(access_robotics, access_tox, access_tox_storage, access_research, access_xenobiology, access_mineral_storeroom)
 	minimal_access = list(access_tox, access_tox_storage, access_research, access_xenobiology, access_mineral_storeroom)
@@ -81,6 +85,8 @@ Roboticist
 
 	default_pda = /obj/item/device/pda/roboticist
 	default_headset = /obj/item/device/radio/headset/headset_sci
+	default_satchel = /obj/item/weapon/storage/backpack/satchel_tox
+	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_toxins
 
 	access = list(access_robotics, access_tox, access_tox_storage, access_tech_storage, access_morgue, access_research, access_mineral_storeroom)
 	minimal_access = list(access_robotics, access_tech_storage, access_morgue, access_research, access_mineral_storeroom)

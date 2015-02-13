@@ -571,7 +571,7 @@ datum/preferences
 					if("s_tone")
 						skin_tone = random_skin_tone()
 					if("bag")
-						backbag = rand(1,3)
+						backbag = rand(1,4)
 					if("all")
 						random_character()
 
@@ -833,7 +833,7 @@ datum/preferences
 		character.underwear = underwear
 		character.undershirt = undershirt
 
-		if(backbag > 3 || backbag < 1)
+		if(backbag > backbaglist.len || backbag < 1)
 			backbag = 1 //Same as above
 		character.backbag = backbag
 

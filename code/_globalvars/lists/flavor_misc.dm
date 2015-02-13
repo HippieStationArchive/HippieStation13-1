@@ -15,12 +15,12 @@ var/global/list/undershirt_list = list() 	//stores /datum/sprite_accessory/under
 var/global/list/undershirt_m = list()	 //stores only undershirt name
 var/global/list/undershirt_f = list()	 //stores only undershirt name
 	//Backpacks
-var/global/list/backbaglist = list("Nothing", "Backpack", "Satchel")
+var/global/list/backbaglist = list("Nothing", "Backpack", "Satchel", "Dufflebag")
 	//Female Uniforms
 var/global/list/female_clothing_icons = list()
 
 	//radical shit
-var/list/hit_appends = list("-OOF", "-ACK", "-UGH", "-HRNK", "-HURGH", "-GLORF")
+var/list/hit_appends = list("-OOF", "-ACK", "-UGH", "-HRNK", "-HURGH", "-GLORF", "-FFAAGH", "-BLERGH", "-BLORGH", "-BLUH")
 
 var/list/scarySounds = list('sound/weapons/thudswoosh.ogg','sound/weapons/Taser.ogg','sound/weapons/armbomb.ogg','sound/voice/hiss1.ogg','sound/voice/hiss2.ogg','sound/voice/hiss3.ogg','sound/voice/hiss4.ogg','sound/voice/hiss5.ogg','sound/voice/hiss6.ogg','sound/effects/Glassbr1.ogg','sound/effects/Glassbr2.ogg','sound/effects/Glassbr3.ogg','sound/items/Welder.ogg','sound/items/Welder2.ogg','sound/machines/airlock.ogg','sound/effects/clownstep1.ogg','sound/effects/clownstep2.ogg')
 

@@ -46,6 +46,7 @@
 	var/default_headset		= /obj/item/device/radio/headset
 	var/default_backpack	= /obj/item/weapon/storage/backpack
 	var/default_satchel		= /obj/item/weapon/storage/backpack/satchel_norm
+	var/default_dufflebag	= /obj/item/weapon/storage/backpack/dufflebag
 	var/default_storagebox= /obj/item/weapon/storage/box/survival
 
 //Only override this proc
@@ -62,6 +63,10 @@
 			H.equip_to_slot_or_del(BPK, slot_back,1)
 		if(3) //Satchel
 			var/obj/item/weapon/storage/backpack/BPK = new default_satchel(H)
+			new default_storagebox(BPK)
+			H.equip_to_slot_or_del(BPK, slot_back,1)
+		if(4) //Dufflebag
+			var/obj/item/weapon/storage/backpack/BPK = new default_dufflebag(H)
 			new default_storagebox(BPK)
 			H.equip_to_slot_or_del(BPK, slot_back,1)
 

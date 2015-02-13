@@ -65,7 +65,7 @@
 		// for(var/obj/item/I in contents)
 		// 	user << I
 		var/obj/item/I = input("Select item you want to take.", "Closet") in src
-		if(I)
+		if(I && user in range(1))
 			I.loc = src.loc
 			user.put_in_hands(I)
 			user << "<span class='notice'>You take [I] out of [src].</span>"

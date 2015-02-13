@@ -5,40 +5,39 @@
 	layer = 5.0
 	density = 0
 	anchored = 0
-	var/lastbutt = 0
-
+	flags = HEAR
+	var/cooldown = 0
+	var/list/speech_buffer = list()
+	var/list/speech_list = list("butt.", "butts.", "ass.", "fart.", "assblast usa", "woop get an ass inspection", "woop") //Hilarious.
 
 /obj/machinery/bot/buttbot/New()
 	..()
-	src.update_icon()
+	// src.update_icon() //Is this neccesary?
 
-/obj/machinery/bot/buttbot/process()
-	if(lastbutt)	lastbutt--
-	if(prob(1) && lastbutt == 0)
-		for(var/mob/M in hearers(7, src))
-			M << "<b>\icon[icon][src]</b> beeps, \"butts.\""
-			lastbutt = 60
-	..()
-
-//don't hate me deadsnipe but i had to write a more robust butt replacing proc
-//-C
-
-/obj/machinery/bot/buttbot/proc/buttsay(phrase)
-	var/params = replacetext(phrase, " ", "&")
-	var/list/buttphrase = params2list(params)
-	var/finalphrase = ""
-	for(var/p in buttphrase)
-		if(prob(20))
-			p="butt"
-		finalphrase = finalphrase+p+" "
-	finalphrase = replacetext(finalphrase, " #39 ","'")
-	finalphrase = replacetext(finalphrase, " s "," ") //this is really dumb and hacky, gets rid of trailing 's' character on the off chance that '#39' gets swapped
-	if(findtext(finalphrase,"butt"))
-		for(var/mob/M in hearers(src))
-			spawn(5)
-				M << "\icon[icon]<b>[src]</b> beeps, \"[finalphrase]\""
-	else
+/obj/machinery/bot/buttbot/bot_process()
+	if (!..())
 		return
+
+	if(isturf(src.loc))
+		var/anydir = pick(cardinal)
+		if(Process_Spacemove(anydir))
+			Move(get_step(src, anydir), anydir)
+
+	if(prob(5) && cooldown < world.time)
+		cooldown = world.time + 100 //10 seconds
+		if(prob(70) && speech_buffer.len)
+			speak(buttificate(pick(speech_buffer)))
+			if(prob(5))
+				speech_buffer.Remove(pick(speech_buffer)) //so they're not magic wizard guru buttbots that hold arcane information collected during an entire round.
+		else
+			speak(pick(speech_list))
+
+/obj/machinery/bot/buttbot/Hear(message, atom/movable/speaker, message_langs, raw_message, radio_freq)
+	if(speaker != src && prob(40)) //Dont imitate ourselves
+		if(speech_buffer.len >= 20)
+			speech_buffer -= pick(speech_buffer)
+		speech_buffer |= html_decode(raw_message)
+	..()
 
 /obj/item/clothing/head/butt
 	name = "butt"
@@ -66,8 +65,7 @@
 		qdel(src)
 
 
-
-
+//What the hell is this?
 /datum/recipe/butt
 	make(var/obj/container as obj)
 		var/human_name //these should work for ANYTHING

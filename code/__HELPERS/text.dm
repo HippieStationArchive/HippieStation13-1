@@ -383,14 +383,3 @@ var/list/binary = list("0","1")
 		temp = findtextEx(haystack, ascii2text(text2ascii(needles,i)), start, end)	//Note: ascii2text(text2ascii) is faster than copytext()
 		if(temp)	end = temp
 	return end
-
-//turns num into tuple - "single" not included.
-/proc/tuple(num)
-	var/result
-	var/list/tuple = list("", "double", "triple", "quadruple", "quintuple", "sextuple", "septuple", "octuple", "nonuple", "decuple", "undecuple", "duodecuple", "tredecuple", "extra", "super", "hyper", "mega") //tuples from 1 to 13 + extra
-	num = text2num(min(num, tuple.len))
-	for(var/i = 1, i <= tuple.len, i++)
-		if(i == num)
-			result = tuple[i]
-			break
-	return result
