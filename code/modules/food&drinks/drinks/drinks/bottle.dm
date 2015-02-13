@@ -153,14 +153,18 @@
 	reagents.add_reagent("vodka", 100)
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/magicvodka
+	amount_per_transfer_from_this = 10
 	name = "The first bottle of vodka"
-	desc = "The prime source of vodka in the universe. Seems to be infinite."
-	volume = 2000
+	desc = "The prime source of vodka in the universe. Drinking even a sip will kill most russians, let alone all men."
+	volume = 1000
 	icon_state = "patronbottle"
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/magicvodka/New()
 	..()
-	reagents.add_reagent("vodka", 2000)
+	reagents.add_reagent("vodka", 850)
+	reagents.add_reagent("moonshine", 50)
+	reagents.add_reagent("mushroomhallucinogen", 50)
+	reagents.add_reagent("impedrezene", 50)
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/tequilla
 	name = "Caccavo Guaranteed Quality Tequilla"

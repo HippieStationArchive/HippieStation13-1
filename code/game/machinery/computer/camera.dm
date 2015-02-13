@@ -124,3 +124,11 @@
 	icon_state = "miningcameras"
 	network = list("MINE")
 	circuit = "/obj/item/weapon/circuitboard/mining"
+
+/obj/machinery/computer/security/wooden_tv_prison
+	name = "security camera monitor"
+	desc = "An old TV hooked into some random cameras."
+	icon_state = "security_det"
+	icon_state_nopower = "security_det0"
+	icon_state_broken = "security_detb"
+	network = list("BORING")
