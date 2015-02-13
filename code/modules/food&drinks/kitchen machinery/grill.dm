@@ -91,10 +91,10 @@
 		food.reagents.trans_to(grilling, food.reagents.total_volume)
 	grilling.loc = get_turf(src)
 	grilling.color = "#A34719"
-	// grilling.name = "grilled [I.name]"
+	// grilling.name = I.name
 	I.grill_amt++
-	if(length(grilling.name) < 400) //grilling.name = "[pick("extra", "super", "hyper", "mega", "ultra")] grilled [initial(grilling.name)]"
-		grilling.name = "grilled [grilling.name]" //Perhaps this will prevent crashes
+	if(length(grilling.name) < 500) //grilling.name = "[pick("extra", "super", "hyper", "mega", "ultra")] grilled [initial(grilling.name)]"
+		grilling.name = "grilled [grilling.name]"
 	// var/tuple = tuple(I.grill_amt) //quadruple grilled nuke disk, woo
 	// if(tuple)
 	// 	tuple = "[tuple] "
