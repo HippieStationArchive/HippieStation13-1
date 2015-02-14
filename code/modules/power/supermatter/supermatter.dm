@@ -271,6 +271,13 @@
 
 	Consume(AM)
 
+/obj/machinery/power/supermatter_shard/CanPass(obj/mover as obj, turf/target, height=0)
+	if(istype(mover, /obj/mecha))
+		mover.visible_message("<span class=\"warning\">\The [mover] smacks into \the [src] and suffers major damage!</span>",\
+		"<span class=\"warning\">You hear a loud crack as you are washed with a wave of heat.</span>")
+		playsound(get_turf(src), 'sound/effects/supermatter.ogg', 50, 1)
+		mechDamage(mover)
+	return ..()
 
 /obj/machinery/power/supermatter_shard/proc/Consume(atom/movable/AM)
 	if(istype(AM, /mob/living))
@@ -286,6 +293,25 @@
 	power += 100
 
 	//Some poor sod got eaten, go ahead and irradiate people nearby.
+	for(var/mob/living/L in range(10))
+		var/rads = 500 * sqrt( 1 / (get_dist(L, src) + 1) )
+		L.apply_effect(rads, IRRADIATE)
+		investigate_log("has irradiated [L] after consuming [AM].", "supermatter")
+		if(L in view())
+			L.show_message("<span class=\"warning\">As \the [src] slowly stops resonating, you find your skin covered in new radiation burns.</span>", 1,\
+				"<span class=\"warning\">The unearthly ringing subsides and you notice you have new radiation burns.</span>", 2)
+		else
+			L.show_message("<span class=\"warning\">You hear an uneartly ringing and notice your skin is covered in fresh radiation burns.</span>", 2)
+
+/obj/machinery/power/supermatter_shard/proc/mechDamage(obj/mover/M as obj)
+	if(!istype(M, /obj/mecha))
+		return
+	M.take_damage(100)
+	explosion(get_turf(M), 0, 0, 1, 3)
+	investigate_log("has damaged [M].", "supermatter")
+	power += 100
+
+	//Some retard tried to push supermatter with a mech, irradiate people nearby
 	for(var/mob/living/L in range(10))
 		var/rads = 500 * sqrt( 1 / (get_dist(L, src) + 1) )
 		L.apply_effect(rads, IRRADIATE)

@@ -37,9 +37,9 @@
 	return 0
 
 
-/obj/machinery/field/containment/Crossed(mob/mover as mob)
+/obj/machinery/field/containment/Crossed(mob/mover as mob) //Does this actually work?
 	if(isliving(mover))
-		shock(mover)
+		shock(mover, 1)
 
 /obj/machinery/field/containment/Crossed(obj/mover as obj)
 	if(istype(mover, /obj/machinery) || istype(mover, /obj/structure) || istype(mover, /obj/mecha))
@@ -68,9 +68,12 @@
 	var/hasShocked = 0 //Used to add a delay between shocks. In some cases this used to crash servers by spawning hundreds of sparks every second.
 
 /obj/machinery/field/CanPass(mob/mover as mob, turf/target, height=0)
-	if(isliving(mover)) // Don't let mobs through
-		shock(mover)
-		return 0
+	if(isliving(mover))
+		if(!mover.lying) //Don't let mobs through if the mobs are not lying down. Makes feeding bodies to singulo ACTUALLY POSSIBLE.
+			shock(mover)
+			return 0
+		else
+			shock(mover, 1)
 	return ..()
 
 /obj/machinery/field/CanPass(obj/mover as obj, turf/target, height=0)
@@ -81,7 +84,7 @@
 		return 0
 	return ..()
 
-/obj/machinery/field/proc/shock(mob/living/user as mob)
+/obj/machinery/field/proc/shock(mob/living/user as mob, nobump)
 	if(hasShocked)
 		return 0
 	if(isliving(user))
@@ -106,7 +109,8 @@
 			"<span class='danger'>You hear an electrical crack.</span>")
 
 		user.updatehealth()
-		bump(user)
+		if(!nobump)
+			bump(user)
 
 		spawn(5)
 			hasShocked = 0

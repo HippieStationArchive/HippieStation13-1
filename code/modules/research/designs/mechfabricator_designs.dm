@@ -677,7 +677,7 @@
 	name = "Drone Shell"
 	desc = "A shell of a maintenance drone, an expendable robot built to perform station repairs."
 	id = "drone_shell"
-	req_tech = list("programming" = 2, "biotech" = 4)
+	// req_tech = list("programming" = 2, "biotech" = 4) //Drones should be buildable from the start.
 	build_type = MECHFAB
 	materials = list("$metal" = 800, "$glass" = 350)
 	construction_time=150
