@@ -25,7 +25,7 @@ datum/reagent/pure_rainbow
 	id = "pure_rainbow"
 	result = "pure_rainbow"
 	required_reagents = list("unholywater" = 1, "foaming_agent" = 1)
-	result_amount = 5
+	result_amount = 2
 
 datum/reagent/pure_rainbow/reaction_mob(var/mob/living/M, var/volume)
 	if(M && isliving(M))
