@@ -615,6 +615,16 @@
 							if(Adjacent(TARGET))
 								M.attack_hand(src)
 								sleep(1)
+							else
+								var/list/obj/structure/window/windowlist = list()
+								for(var/obj/structure/window/C in range(1,3))
+									windowlist.Add(C)
+								if(windowlist)
+									var/obj/item/weapon/W = main_hand
+									var/obj/structure/window/X = pick(windowlist)
+									walk2derpless(X)
+									W.attack(X,src)
+									world << "YES"
 				timeout++
 			else if(timeout >= 10 || M.health <= 1 || !(M in range(14,src)))
 				doing = doing & ~FIGHTING

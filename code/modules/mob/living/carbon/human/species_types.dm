@@ -5,7 +5,7 @@
 /datum/species/human
 	name = "Human"
 	id = "human"
-	roundstart = 1
+	roundstart = 0
 	specflags = list(EYECOLOR,HAIR,FACEHAIR,LIPS)
 	use_skintones = 1
 
@@ -28,7 +28,7 @@
 	id = "lizard"
 	say_mod = "hisses"
 	default_color = "00FF00"
-	roundstart = 1
+	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
 	attack_verb = "slash"
 	attack_sound = 'sound/weapons/slash.ogg'
@@ -41,6 +41,53 @@
 		message = replacetext(message, "s", stutter("ss"))
 
 	return message
+
+
+
+
+/datum/species/bird
+	// flappy bird
+	name = "Avian"
+	id = "avian"
+	say_mod = "squawks"
+	default_color = "00FF00"
+	roundstart = 0
+	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
+	attack_verb = "slash"
+	attack_sound = 'sound/weapons/slash.ogg'
+	miss_sound = 'sound/weapons/slashmiss.ogg'
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/lizard
+
+
+/datum/species/cat
+	// catban
+	name = "Tarajan"
+	id = "tarajan"
+	say_mod = "meows"
+	default_color = "00FF00"
+	roundstart = 0
+	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
+	attack_verb = "slash"
+	attack_sound = 'sound/weapons/slash.ogg'
+	miss_sound = 'sound/weapons/slashmiss.ogg'
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/lizard
+
+
+/datum/species/bot
+	// Why bother have borgs
+	name = "IPC"
+	id = "IPC"
+	say_mod = "beeps"
+	default_color = "00FF00"
+	roundstart = 0
+	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
+	attack_verb = "slash"
+	attack_sound = 'sound/weapons/slash.ogg'
+	sexes = 0
+	miss_sound = 'sound/weapons/slashmiss.ogg'
+	meat = null
+
+
 
 /*
  MACHINEPEOPLE

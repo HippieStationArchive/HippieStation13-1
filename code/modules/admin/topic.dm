@@ -1229,50 +1229,55 @@ var/global/list/achievements = list("Goodcurity")
 		dat += "<b><h2>Snowflakes and Unlockables</b></h2>"
 		dat += "<p>Key: [M.key]</br>"
 		var/list/datum/species/specieslist = list()
+/*
 		var/lizard
-		var/zombie
-		var/fly
+		var/cat
+		var/tarajan
 		var/plant
 		var/shadow
 		var/pod
 		var/slime
-		var/adamantine
-		var/golem
+		var/bot
+		var/bird
 		var/skeleton
 		var/jelly//U?
-		var/human
-		for(var/datum/species/X in M.client.prefs.specialsnowflakes)
-			specieslist.Add()
-			if(X.id == "zombie")
-				zombie = X
+		var/human*/
+		for(var/X in M.client.prefs.specialsnowflakes)
+			specieslist.Add(X)
+			/*
+			if(X.id == "tarajan")
+				cat = X
 			if(X.id == "lizard")
 				lizard = X
 			if(X.id == "shadow")
 				shadow = X
 			if(X.id == "plant")
 				plant = X
-			if(X.id == "fly")
-				fly = X
+			if(X.id == "tarajan")
+				tarajan = X
 			if(X.id == "pod")
 				pod = X
 			if(X.id == "slime")
 				slime = X
 			if(X.id == "jelly")
 				jelly = X
-			if(X.id == "adamantine")
-				adamantine = X
-			if(X.id == "golem")
-				golem = X
+			if(X.id == "IPC")
+				bot = X
+			if(X.id == "bird")
+				bird = X
 			if(X.id == "skeleton")
 				skeleton = X
 			if(X.id == "human")
-				human = X
-		dat += "<b>Lizardmen:</b> [lizard ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Human</b> [human ? "Unlocked" : "Locked"]<br>"
-		dat += "<b>Zombie</b>: [zombie ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Pod</b> [pod ? "Unlocked" : "Locked"]<br>"
-		dat += "<b>Shadow:</b> [shadow ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Slime</b> [slime ? "Unlocked" : "Locked"]<br>"
-		dat += "<b>Plant</b>: [plant ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Jelly</b> [jelly ? "Unlocked" : "Locked"]<br>"
-		dat += "<b>Fly:</b> [fly ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Adamantine</b> [adamantine ? "Unlocked" : "Locked"]<br>"
-		dat += "<b>Golem:</b> [golem ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Skeleton</b> [skeleton ? "Unlocked" : "Locked"]<br>"
+				human = X*/
+
+		for(var/B in specieslist)
+			dat += "Has unlocked: [B]<br>"
+//		dat += "<b>Lizardmen:</b> [lizard ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Human</b> [human ? "Unlocked" : "Locked"]<br>"
+//		dat += "<b>Tarajan</b>: [cat ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Pod</b> [pod ? "Unlocked" : "Locked"]<br>"
+//		dat += "<b>Shadow:</b> [shadow ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Slime</b> [slime ? "Unlocked" : "Locked"]<br>"
+//		dat += "<b>Plant</b>: [plant ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Jelly</b> [jelly ? "Unlocked" : "Locked"]<br>"
+//		dat += "<b>Tarajan:</b> [tarajan ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>IPC</b> [bot ? "Unlocked" : "Locked"]<br>"
+//		dat += "<b>Bird:</b> [bird ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Skeleton</b> [skeleton ? "Unlocked" : "Locked"]<br>"
 		if(M.client.goodcurity)
 			dat += "<p><p>Goodcurity: \green unlocked."
 		else
@@ -1292,20 +1297,16 @@ var/global/list/achievements = list("Goodcurity")
 	else if(href_list["sfaward"])
 		if(!check_rights(R_ADMIN))	return
 		var/mob/M = locate(href_list["sfaward"])
-		var/snowflake = input(usr, "Choose what snowflake you want to give:", "Snowflakes and Rewards")  as null|anything in species_list
-
-
+		var/list/rewardlisttemp = list()
+		for(var/Q in rewardlistbase)
+			if(Q in M.client.prefs.specialsnowflakes)
+				continue
+			rewardlisttemp.Add(Q)
+		var/snowflake = input(usr, "Choose what snowflake you want to give:", "Snowflakes and Rewards")  as null|anything in rewardlisttemp
 		if(snowflake)
-			var/list/X = list()
-			X.Add(snowflake)
-			for(var/spath in X)
-				if(spath == /datum/species)
-					continue
-				var/datum/species/S = new spath()
-				M.client.prefs.specialsnowflakes[S] = S.type
+			M.client.prefs.specialsnowflakes += snowflake
 			M.client.prefs.save_character()
 			message_admins("[usr] gave [M.key] a snowflake: [snowflake]")
-			usr << "You have been granted the ability to use the [snowflake] snowflake in character setup!"
 	else if(href_list["sfremove"])
 		if(!check_rights(R_ADMIN))	return
 		var/mob/M = locate(href_list["sfremove"])
@@ -1315,7 +1316,6 @@ var/global/list/achievements = list("Goodcurity")
 		if(snowflake)
 			usr << "\red You remove [M.key]'s ability to use the [snowflake.id] snowflake"
 			message_admins("[usr] removed one of [M.key]'s snowflakes: [snowflake.id]")
-			M << "\red You feel some knowledge drifting away..."
 			M.client.prefs.specialsnowflakes.Remove(snowflake)
 
 

@@ -1,8 +1,8 @@
 //This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
-#define SAVEFILE_VERSION_MIN	8
+#define SAVEFILE_VERSION_MIN	11
 
 //This is the current version, anything below this will attempt to update (if it's not obsolete)
-#define SAVEFILE_VERSION_MAX	10
+#define SAVEFILE_VERSION_MAX	13
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
 	This proc checks if the current directory of the savefile S needs updating
@@ -120,20 +120,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/save_preferences()
 	if(!path)				return 0
 	var/savefile/S = new /savefile(path)
-
-	specialsnowflakes = list()
-	var/list/datum/species/specialsnowflake = specialsnowflakes
-	var/list/X = list()
-	X.Add(/datum/species/human)
-	X.Add(/datum/species/lizard)
-
-
-	for(var/spath in X)
-		if(spath == /datum/species)
-			continue
-		var/datum/species/F = new spath()
-		specialsnowflake[F] = F.type
-
 	if(!S)					return 0
 	S.cd = "/"
 
@@ -168,13 +154,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		return 0
 
 	//Species
-	var/species_name
-	S["species"]			>> species_name
-	if(config.mutant_races && species_name && (species_name in roundstart_species))
-		var/newtype = roundstart_species[species_name]
-		pref_species = new newtype()
-	else
-		pref_species = new /datum/species/human()
+
+	S["species"]			>> pref_species
+//	if(config.mutant_races && species_name && (species_name in specialsnowflakes))
+//		var/newtype = specialsnowflakes[species_name]
+//		pref_species = new newtype()
+//	else
+//		pref_species = new /datum/species/human()
 
 	if(!S["mutant_color"] || S["mutant_color"] == "#000")
 		S["mutant_color"]	<< "#FFF"
@@ -278,7 +264,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["underwear"]			<< underwear
 	S["undershirt"]			<< undershirt
 	S["backbag"]			<< backbag
-	S["species"]			<< pref_species.name
+	S["species"]			<< pref_species
 	S["mutant_color"]		<< mutant_color
 	S["specialsnowflakes"] << specialsnowflakes
 	//Jobs
