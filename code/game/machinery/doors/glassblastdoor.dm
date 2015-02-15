@@ -12,14 +12,14 @@
 	var/health = 200
 	var/maxhealth = 200
 	var/damage_resistance = 0
-	var/cooldown = 0 //So you can't spam welder to repair it instantly
+	var/weldcooldown = 0 //So you can't spam welder to repair it instantly
 
 	opacity = 0
 
 	examine()
 		..()
 		var/damage = "terrible"
-		if(health >= maxHealth)
+		if(health >= maxhealth)
 			damage = "pristine"
 		else if(health > maxhealth*0.7)
 			damage = "good"
@@ -103,8 +103,8 @@
 				if(health < maxhealth)
 					if(health <= 0)
 						user << "<span class='notice'>You need reinforced glass to fix this door!</span>"
-					else if(WT.remove_fuel(0,user) && cooldown < world.time)
-						cooldown = world.time + 5 //half a second cooldown
+					else if(WT.remove_fuel(0,user) && weldcooldown < world.time)
+						weldcooldown = world.time + 5 //half a second cooldown
 						user << "<span class='notice'>You weld some of the [src]'s cracks and dents.</span>"
 						health += 20
 						if(health > maxhealth)
@@ -113,7 +113,7 @@
 						playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
 				else
 					user << "<span class='notice'>[src] is already in good condition.</span>"
-		else if(istype(W,/obj/item/stack/sheet/rglass)))
+		else if(istype(W,/obj/item/stack/sheet/rglass))
 			var/obj/item/stack/sheet/rglass/GL = W
 			if(health <= 0)
 				if(GL.use(2))

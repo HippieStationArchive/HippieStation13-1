@@ -79,7 +79,7 @@
 				/obj/item/device/t_scanner = 6,
 				/obj/item/stack/cable_coil = 4,
 				/obj/item/stack/cable_coil{amount = 5} = 6,
-				/obj/item/stack/medical/bruise_pack = 1,
+				/obj/item/weapon/reagent_containers/medical/bruise_pack = 1,
 				/obj/item/stack/rods{amount = 10} = 9,
 				/obj/item/stack/rods{amount = 23} = 1,
 				/obj/item/stack/rods{amount = 50} = 1,

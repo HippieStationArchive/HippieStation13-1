@@ -325,27 +325,31 @@
 	if(O.flags & NOBLUDGEON)
 		return
 
-	if(istype(O, /obj/item/stack/medical))
-		if(stat != DEAD)
-			var/obj/item/stack/medical/MED = O
-			if(health < maxHealth)
-				if(MED.amount >= 1)
-					if(MED.heal_brute >= 1)
-						adjustBruteLoss(-MED.heal_brute)
-						MED.amount -= 1
-						if(MED.amount <= 0)
-							qdel(MED)
-						visible_message("<span class='notice'> [user] applies [MED] on [src].</span>")
-						return
-					else
-						user << "<span class='notice'> [MED] won't help at all.</span>"
-						return
-			else
-				user << "<span class='notice'> [src] is at full health.</span>"
-				return
-		else
-			user << "<span class='notice'> [src] is dead, medical items won't bring it back to life.</span>"
-			return
+	if(istype(O, /obj/item/weapon/reagent_containers/medical))
+		..()
+		return
+		//I'm pretty sure what's below is unneccesary with new meds. Please yell at Crystalwarrior if you can't heal animals anymore.
+
+		// if(stat != DEAD)
+		// 	var/obj/item/weapon/reagent_containers/medical/MED = O
+		// 	if(health < maxHealth)
+		// 		if(MED.amount >= 1)
+		// 			if(MED.heal_brute >= 1)
+		// 				adjustBruteLoss(-MED.heal_brute)
+		// 				MED.amount -= 1
+		// 				if(MED.amount <= 0)
+		// 					qdel(MED)
+		// 				visible_message("<span class='notice'> [user] applies [MED] on [src].</span>")
+		// 				return
+		// 			else
+		// 				user << "<span class='notice'> [MED] won't help at all.</span>"
+		// 				return
+		// 	else
+		// 		user << "<span class='notice'> [src] is at full health.</span>"
+		// 		return
+		// else
+		// 	user << "<span class='notice'> [src] is dead, medical items won't bring it back to life.</span>"
+		// 	return
 	if(meat_type && (stat == DEAD))	//if the animal has a meat, and if it is dead.
 		if(istype(O, /obj/item/weapon/kitchenknife) || istype(O, /obj/item/weapon/butch))
 			harvest()

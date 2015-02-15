@@ -53,9 +53,9 @@
 		else
 			GetMad()
 			get
-	if(istype(O, /obj/item/stack/medical))
+	if(istype(O, /obj/item/weapon/reagent_containers/medical))
 		if(stat != DEAD)
-			var/obj/item/stack/medical/MED = O
+			var/obj/item/weapon/reagent_containers/medical/MED = O
 			if(health < maxHealth)
 				if(MED.amount >= 1)
 					health = min(maxHealth, health + MED.heal_brute)

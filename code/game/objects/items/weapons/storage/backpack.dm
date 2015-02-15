@@ -329,14 +329,38 @@
 	icon_state = "mountainbag"
 	item_state = "mountainbag"
 
-/obj/item/weapon/storage/backpack/mountainbag-chem
+/obj/item/weapon/storage/backpack/mountainbag_chem
 	name = "chemistry backpack"
 	desc = "Usually used by explorer chemists. Has a nice orange color to it."
 	icon_state = "mountainbag-chem"
 	item_state = "mountainbag-chem"
 
-/obj/item/weapon/storage/backpack/mountainbag-gen
+/obj/item/weapon/storage/backpack/mountainbag_gen
 	name = "geneticist backpack"
-	desc = "Usually used by explorer chemists. Has a nice orange color to it."
+	desc = "Usually used by explorer geneticists. Has a nice blue color to it."
 	icon_state = "mountainbag-gen"
 	item_state = "mountainbag-gen"
+
+/obj/item/weapon/storage/backpack/mountainbag_tox
+	name = "scientist backpack"
+	desc = "Usually used by explorer scientists. Has a nice purple color to it."
+	icon_state = "mountainbag-tox"
+	item_state = "mountainbag-tox"
+
+/obj/item/weapon/storage/backpack/mountainbag_vir
+	name = "virologist backpack"
+	desc = "Usually used by explorer virologists. Has a nice dark green color to it."
+	icon_state = "mountainbag-vir"
+	item_state = "mountainbag-vir"
+
+/obj/item/weapon/storage/backpack/mountainbag_hyd
+	name = "botanist backpack"
+	desc = "Usually used by explorer botanists. Has a nice purple color to it."
+	icon_state = "mountainbag-hyd"
+	item_state = "mountainbag-hyd"
+
+/obj/item/weapon/storage/backpack/mountainbag_med
+	name = "medical backpack"
+	desc = "Usually used by explorer medics. Has a nice white color to it."
+	icon_state = "mountainbag-med"
+	item_state = "mountainbag-med"

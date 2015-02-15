@@ -26,7 +26,7 @@ datum/reagent
 	//Addictions
 	var/addiction_rate = 0.2 //Amount of reagents removed per tick similar to metabolization.
 
-datum/reagent/proc/reaction_mob(var/mob/M, var/method=TOUCH, var/volume) //By default we have a chance to transfer some
+datum/reagent/proc/reaction_mob(var/mob/M, var/method=TOUCH, var/volume, var/zone) //"zone" for chems like ointment and brutanol to check affected limb
 	if(!istype(M, /mob/living))
 		return 0
 	var/datum/reagent/self = src
