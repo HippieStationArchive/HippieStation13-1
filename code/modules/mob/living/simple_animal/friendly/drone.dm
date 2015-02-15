@@ -447,7 +447,7 @@
 			client.screen |= l_hand
 
 
-	if(hands_overlays.len)
+	if(hands_overlays && hands_overlays.len)
 		drone_overlays[HANDS_LAYER] = hands_overlays
 	apply_overlay(HANDS_LAYER)
 
