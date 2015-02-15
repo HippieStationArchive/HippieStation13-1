@@ -102,6 +102,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	w_class = 1
 	body_parts_covered = null
 	attack_verb = null
+	flags = INJECTABLE
 	var/lit = 0
 	var/icon_on = "cigon"  //Note - these are in masks.dmi not in cigarette.dmi
 	var/icon_off = "cigoff"

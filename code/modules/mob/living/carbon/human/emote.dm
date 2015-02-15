@@ -418,7 +418,7 @@
 		src << "\red You don't have a butt!"
 		return
 
-	if(HasDisease(/datum/disease/assinspection))
+	if(HasDisease(/datum/disease/assinspection)) //CAUSES RUNTIME ERRORS.
 		src << "<span class='danger'>Your ass hurts too much.</span>"
 		return
 

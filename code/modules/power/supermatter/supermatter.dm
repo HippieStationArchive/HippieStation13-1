@@ -78,7 +78,7 @@
 
 /obj/machinery/power/supermatter_shard/proc/explode()
 	investigate_log("has exploded.", "supermatter")
-	
+
 	explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 4, explosion_power * 6, 1, 1)
 
 	qdel(src)
@@ -303,19 +303,20 @@
 		else
 			L.show_message("<span class=\"warning\">You hear an uneartly ringing and notice your skin is covered in fresh radiation burns.</span>", 2)
 
-/obj/machinery/power/supermatter_shard/proc/mechDamage(obj/mover/M as obj)
+/obj/machinery/power/supermatter_shard/proc/mechDamage(obj/M as obj)
 	if(!istype(M, /obj/mecha))
 		return
-	M.take_damage(100)
-	explosion(get_turf(M), 0, 0, 1, 3)
-	investigate_log("has damaged [M].", "supermatter")
+	var/obj/mecha/O = M
+	O.take_damage(100)
+	explosion(get_turf(O), 0, 0, 1, 3)
+	investigate_log("has damaged [O].", "supermatter")
 	power += 100
 
 	//Some retard tried to push supermatter with a mech, irradiate people nearby
 	for(var/mob/living/L in range(10))
 		var/rads = 500 * sqrt( 1 / (get_dist(L, src) + 1) )
 		L.apply_effect(rads, IRRADIATE)
-		investigate_log("has irradiated [L] after consuming [AM].", "supermatter")
+		investigate_log("has irradiated [L] after consuming [O].", "supermatter")
 		if(L in view())
 			L.show_message("<span class=\"warning\">As \the [src] slowly stops resonating, you find your skin covered in new radiation burns.</span>", 1,\
 				"<span class=\"warning\">The unearthly ringing subsides and you notice you have new radiation burns.</span>", 2)

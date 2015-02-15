@@ -394,6 +394,67 @@ datum/reagent/medicine/spaceacillin
 	color = "#C8A5DC" // rgb: 200, 165, 220
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 
+datum/reagent/medicine/ointment //Need better reagent names
+	name = "Ointment"
+	id = "ointment"
+	description = "A chemical usually contained in burn medicine."
+	color = "#8CA014" // rgb: 140, 160, 20
+	metabolization_rate = 1
+
+datum/reagent/medicine/ointment/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone)
+	if(!..())
+		M << "Something fucked up"
+		return
+	// if(!istype(M, /mob/living)) //Must be handled in ..()
+	// 	return
+	if(method == TOUCH)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			var/obj/item/organ/limb/affecting = H.get_organ(check_zone(zone))
+
+			if(affecting.status == ORGAN_ORGANIC) //Limb must be organic to be healed
+				if (affecting.heal_damage(0, volume * 4, 0)) //if volume is 10, heal 40 damage.
+					H.update_damage_overlays(0)
+				M.updatehealth()
+				M << "<span class='notice'>You feel your [parse_zone(zone)] sting as its burns seem to disappear.</span>"
+		else
+			M.heal_organ_damage(0, volume * 2) //Heal less damage for mobs (20 damage for 10u)
+	else
+		M << "<span class='notice'>Ewww, it tastes like oil.</span>" //Why would you heal from ingesting it?
+
+	src = null
+	return
+
+datum/reagent/medicine/brutanol //DEFINITELY need better reagent names
+	name = "brutanol"
+	id = "brutanol"
+	description = "A chemical usually contained in brute medicine."
+	color = "#82280A" // rgb: 130, 40, 10
+	metabolization_rate = 1
+
+datum/reagent/medicine/brutanol/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone)
+	if(!..())
+		return
+	// if(!istype(M, /mob/living)) //Must be handled in ..()
+	// 	return
+	if(method == TOUCH)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			var/obj/item/organ/limb/affecting = H.get_organ(check_zone(zone))
+
+			if(affecting.status == ORGAN_ORGANIC) //Limb must be organic to be healed
+				if (affecting.heal_damage(volume * 4, 0, 0)) //if volume is 10, heal 40 damage.
+					H.update_damage_overlays(0)
+				M.updatehealth()
+				M << "<span class='notice'>You feel your [parse_zone(zone)] sting as its wounds seem to disappear.</span>"
+		else
+			M.heal_organ_damage(volume * 2, 0) //Heal less damage for mobs (20 damage for 10u)
+	else
+		M << "<span class='notice'>Ewww, it tastes like wax.</span>" //Why would you heal from ingesting it?
+
+	src = null
+	return
+
 
 // Undefine the alias for REAGENTS_EFFECT_MULTIPLER
 #undef REM

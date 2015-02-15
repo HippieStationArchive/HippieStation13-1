@@ -514,6 +514,7 @@ mob/living/carbon/slime/var/temperature_resistance = T0C+75
 	throw_speed = 3
 	throw_range = 6
 	origin_tech = "biotech=4"
+	flags = INJECTABLE //For syringes
 	var/Uses = 1 // uses before it goes inert
 	var/enhanced = 0 //has it been enhanced before?
 

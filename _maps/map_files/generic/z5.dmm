@@ -186,7 +186,7 @@
 "dD" = (/obj/machinery/door/airlock/external{name = "Mining North Outpost Airlock"; req_access_txt = "54"},/turf/simulated/floor/plasteel/airless{icon_state = "asteroidfloor"},/area/mine/north_outpost)
 "dE" = (/obj/structure/disposalpipe/segment,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced,/turf/simulated/floor/plating,/area/mine/explored)
 "dF" = (/obj/structure/table,/obj/item/weapon/storage/firstaid/o2{pixel_x = 2; pixel_y = 2},/turf/simulated/floor/plasteel{icon_state = "white"; temperature = 273.15},/area/mine/laborcamp)
-"dG" = (/obj/structure/table,/obj/item/device/healthanalyzer,/obj/item/stack/medical/bruise_pack,/turf/simulated/floor/plasteel{icon_state = "white"; temperature = 273.15},/area/mine/laborcamp)
+"dG" = (/obj/structure/table,/obj/item/device/healthanalyzer,/obj/item/weapon/reagent_containers/medical/bruise_pack,/turf/simulated/floor/plasteel{icon_state = "white"; temperature = 273.15},/area/mine/laborcamp)
 "dH" = (/obj/structure/sign/bluecross_2{pixel_y = 32},/obj/structure/stool/bed/chair,/turf/simulated/floor/plasteel{icon_state = "white"; temperature = 273.15},/area/mine/laborcamp)
 "dI" = (/obj/machinery/camera{c_tag = "Labor Camp Medical"; dir = 8; network = list("Labor")},/obj/structure/stool/bed,/obj/item/weapon/bedsheet/medical,/turf/simulated/floor/plasteel{icon_state = "white"; temperature = 273.15},/area/mine/laborcamp)
 "dJ" = (/turf/simulated/wall,/area/mine/laborcamp)

@@ -47,7 +47,6 @@
 	var/status = ORGAN_ORGANIC
 
 
-
 /obj/item/organ/limb/chest
 	name = "chest"
 	desc = "why is it detached..."
@@ -58,7 +57,7 @@
 
 /obj/item/organ/limb/head
 	name = "head"
-	desc = "what a way to get a head in life..."
+	desc = "what a way to get a head in life..." //TODO: make more pun descriptions. hue.
 	icon_state = "head"
 	max_damage = 200
 	body_part = HEAD
