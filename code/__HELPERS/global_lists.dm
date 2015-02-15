@@ -2,7 +2,7 @@
 /////Initial Building/////
 //////////////////////////
 var/global/list/rewardlist[0]
-var/global/list/datum/species/rewardlistbase = list(/datum/species/fly, /datum/species/plant,/datum/species/lizard, /datum/species/shadow, /datum/species/zombie)
+var/global/list/datum/species/rewardlistbase = list(/datum/species/human, /datum/species/lizard,/datum/species/cat, /datum/species/bird, /datum/species/bot)
 /proc/make_datum_references_lists()
 	//hair
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/hair, hair_styles_list, hair_styles_male_list, hair_styles_female_list)
@@ -23,8 +23,6 @@ var/global/list/datum/species/rewardlistbase = list(/datum/species/fly, /datum/s
 		species_list[S.id] = S.type
 
 	for(var/spath in rewardlistbase)
-		if(spath == /datum/species)
-			continue
 		var/datum/species/S = new spath()
 		rewardlist[S.id] = S.type
 

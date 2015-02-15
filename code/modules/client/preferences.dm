@@ -103,6 +103,9 @@ datum/preferences
 			return
 	//we couldn't load character data so just randomize the character appearance + name
 	random_character()		//let's create a random character then - rather than a fat, bald and naked man.
+	var/list/datum/species/specialsnowflake = specialsnowflakes
+	specialsnowflake += /datum/species/human
+	specialsnowflake += /datum/species/lizard
 	real_name = random_name(gender)
 	if(!loaded_preferences_successfully)
 		save_preferences()
@@ -676,10 +679,19 @@ datum/preferences
 							eye_color = sanitize_hexcolor(new_eyes)
 
 					if("species")
+						var/list/datum/species/X = list()
+						for(var/Y in specialsnowflakes)
+							X.Add(Y)
+						var/list/datum/species/specialsnowflake = list()
+						for(var/spath in X)
+							if(spath == /datum/species)
+								continue
+							var/datum/species/S = new spath()
+							specialsnowflake[S] = S.type
 
-						var/result = input(user, "Select a species", "Species Selection") as null|anything in specialsnowflakes
+						var/result = input(user, "Select a species", "Species Selection") as null|anything in specialsnowflake
 						if(result)
-							var/newtype = specialsnowflakes[result]
+							var/newtype = specialsnowflake[result]
 							pref_species = new newtype()
 							if(!config.mutant_colors || mutant_color == "#000")
 								mutant_color = pref_species.default_color
