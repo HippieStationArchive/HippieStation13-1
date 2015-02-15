@@ -1436,8 +1436,6 @@
 #include "code\modules\telesci\gps.dm"
 #include "code\modules\telesci\telepad.dm"
 #include "code\modules\telesci\telesci_computer.dm"
-#include "code\modules\vehicles\janicar.dm"
-#include "code\modules\vehicles\lawnmower.dm"
 #include "code\WorkInProgress\redswandir\buttes_and_bots.dm"
 #include "code\WorkInProgress\scooter\THELONGGAME\day1.dm"
 #include "code\WorkInProgress\scooter\THELONGGAME\day3.dm"

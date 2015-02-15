@@ -74,9 +74,9 @@ var/list/deepfry_icons = list()
 		if(istype(frying, /obj/item/weapon/reagent_containers/))
 			var/obj/item/weapon/reagent_containers/food = frying
 			food.reagents.trans_to(S, food.reagents.total_volume)
+		// S.color = "#FFAD33"
 
 		//Shamelessly copy-pasted from blood overlay code
-		world << deepfry_icons.len
 		var/index = frying.blood_splatter_index()
 		var/icon/deepfry_icon = deepfry_icons[index]
 		if(!deepfry_icon)
@@ -89,21 +89,16 @@ var/list/deepfry_icons = list()
 			deepfry_icon = fcopy_rsc(deepfry_icon)
 			deepfry_icon += rgb(0,0,0,128) //add alpha
 			deepfry_icons[index] = deepfry_icon
-			// world << "Creating deepfry icon for [frying]"
-		else
-			// world << "Deepfry for [frying] already exists."
-			frying.overlays.Remove(deepfry_icon) //To prevent client crashes caused by stacking deepfry overlays
-			//Based on varedit data it still lets like two deepfry overlays at once /SOMETIMES/. Needs testing.
+		// else
+		// 	deepfry_icon -= rgb(0,0,0,32) //make deepfry overlay more visible --BROKEN, suspected to cause client crashes, too
 
 		S.icon = frying.icon
 		S.icon_state = frying.icon_state
 		S.overlays += frying.overlays
 		S.overlays += deepfry_icon
 		S.color = frying.color //keeps the grill
-
-		S.name = frying.name //In case the if check for length fails so we don't name it "Deep Fried Food Holder Obj"
-		if(length(S.name) < 500) //S.name = "[pick("extra", "super", "hyper", "mega", "ultra")] deep fried [initial(frying.name)]"
-			S.name = "deep fried [frying.name]"
+		if(length(S.name) < 400) //S.name = "[pick("extra", "super", "hyper", "mega", "ultra")] deep fried [initial(frying.name)]"
+			S.name = "deep fried [frying.name]" //Perhaps this will prevent crashes
 		S.fry_amt = frying.fry_amt + 1
 		// var/tuple = tuple(S.fry_amt) //quadruple grilled nuke disk, woo --Causes lots of problems. Doesn't work correctly with cereals and other custom foods.
 		// if(tuple)

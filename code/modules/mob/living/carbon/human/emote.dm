@@ -484,13 +484,11 @@
 			new /obj/item/clothing/head/butt(src.loc)
 			new /obj/effect/decal/cleanable/blood(src.loc)
 
-			if(super)
-				if(src.HasDisease(/datum/disease/assinspection))
-					src << "<span class='danger'>It hurts so much!</span>"
-					apply_damage(50, BRUTE, "chest")
-				src.nutrition -= 500
-			else
-				src.nutrition -= rand(15, 30)
+			if(super && src.HasDisease(/datum/disease/assinspection))
+				src << "<span class='danger'>It hurts so much!</span>"
+				apply_damage(50, BRUTE, "chest")
+
+			src.nutrition -= 500
 		else
 			src.nutrition -= rand(5, 25)
 
