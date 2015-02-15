@@ -418,7 +418,6 @@
 		src << "\red You don't have a butt!"
 		return
 
-<<<<<<< HEAD
 	if(src.HasDisease(/datum/disease/assinspection))
 		src << "<span class='danger'>Your ass hurts too much.</span>"
 		return
