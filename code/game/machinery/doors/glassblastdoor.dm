@@ -2,8 +2,8 @@
 
 //A breakable glass version, used in brig cells.
 /obj/machinery/door/poddoor/glass
-	name = "Cell Door"
-	desc = "A large heavy metal blast door. Now with windows! Can be repaired with a welder."
+	name = "cell door"
+	desc = "A large heavy metal blast door. Now with windows! Can be repaired with a welder or reinforced glass (when it's completely broken)"
 	icon_state = "pdoor_glass_closed"
 	glass = 1
 	//damage_sound = 'sound/effects/Glasshit.ogg'
@@ -12,13 +12,16 @@
 	var/health = 200
 	var/maxhealth = 200
 	var/damage_resistance = 0
+	var/cooldown = 0 //So you can't spam welder to repair it instantly
 
 	opacity = 0
 
 	examine()
 		..()
-		var/damage = "very bad"
-		if(health > maxhealth*0.7)
+		var/damage = "terrible"
+		if(health >= maxHealth)
+			damage = "pristine"
+		else if(health > maxhealth*0.7)
 			damage = "good"
 		else if(health > maxhealth*0.3)
 			damage = "bad"
@@ -98,16 +101,28 @@
 			var/obj/item/weapon/weldingtool/WT = W
 			if(user.a_intent == "help") //so you can still break windows with welding tools
 				if(health < maxhealth)
-					if(WT.remove_fuel(0,user))
-						user << "<span class='notice'>You begin repairing [src].</span>"
-						playsound(loc, 'sound/items/Welder.ogg', 40, 1)
-						if(do_after(user, 5))
+					if(health <= 0)
+						user << "<span class='notice'>You need reinforced glass to fix this door!</span>"
+					else if(WT.remove_fuel(0,user) && cooldown < world.time)
+						cooldown = world.time + 5 //half a second cooldown
+						user << "<span class='notice'>You weld some of the [src]'s cracks and dents.</span>"
+						health += 20
+						if(health > maxhealth)
 							health = maxhealth
-							update_health()
-							playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
+						update_health()
+						playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
 				else
 					user << "<span class='notice'>[src] is already in good condition.</span>"
-
+		else if(istype(W,/obj/item/stack/sheet/rglass)))
+			var/obj/item/stack/sheet/rglass/GL = W
+			if(health <= 0)
+				if(GL.use(2))
+					user << "<span class='notice'>You repair [src].</span>"
+					health = 20
+					update_health()
+					playsound(loc, 'sound/items/Deconstruct.ogg', 40, 1)
+				else
+					user << "<span class='notice'>You need more glass.</span>"
 		else if(stat & BROKEN)//No hitting it after it breaks
 			return 0
 		else if(..())//Could crowbar it or such so stop here
