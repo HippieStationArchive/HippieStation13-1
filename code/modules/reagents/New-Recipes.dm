@@ -18,13 +18,13 @@ datum/reagent/pure_rainbow
 	description = "A solution of rainbows."
 	reagent_state = LIQUID
 	color = "#C8A5DC" // rgb: 200, 165, 220
-	var/list/potential_colors = list("#FF0000","#0000FF","#008000","#FFFF00")
+	var/list/potential_colors = list("#FF0000","#FF7F00","#FFFF00","#00FF00","#0000FF","#4B0082","#8B00FF")
 
 /datum/chemical_reaction/pure_rainbow
 	name = "pure_rainbow"
 	id = "pure_rainbow"
 	result = "pure_rainbow"
-	required_reagents = list("unholywater" = 1, "foaming_agent" = 1)
+	required_reagents = list("sodiumchloride" = 1, "space_cleaner" = 1)
 	result_amount = 2
 
 datum/reagent/pure_rainbow/reaction_mob(var/mob/living/M, var/volume)
