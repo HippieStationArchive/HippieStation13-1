@@ -80,7 +80,7 @@
 
 /obj/item/weapon/reagent_containers/medical/bruise_pack
 	name = "bruise pack"
-	desc = "A gauze containing reagents to treat blunt-force trauma. On the label it says: \"10u of brutanol heals 40 damage. Do the math for rest.\""
+	desc = "A bruise pack containing reagents to treat blunt-force trauma. On the label it says: \"10u of brutanol heals 40 damage. Do the math for rest.\""
 	icon_state = "brutepack"
 	// heal_brute = 60
 	origin_tech = "biotech=1"

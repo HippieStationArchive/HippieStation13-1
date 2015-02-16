@@ -202,6 +202,13 @@
 		else
 			msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
 
+	temp = getBloodLoss()
+	if(temp)
+		if(temp < 0.5)
+			msg += "[t_He] [t_is] bleeding slightly.\n"
+		else
+			msg += "<B>[t_He] [t_is] bleeding profusely!</B>\n"
+
 	temp = getFireLoss()
 	if(temp)
 		if(temp < 30)

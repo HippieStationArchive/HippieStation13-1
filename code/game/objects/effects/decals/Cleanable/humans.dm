@@ -94,3 +94,23 @@
 
 			if (step_to(src, get_step(src, direction), 0))
 				break
+
+/obj/effect/decal/cleanable/drip //it's seperate so it can stack drips
+	name = "blood drip"
+	desc = "Someone must've been bleeding."
+	icon = 'icons/effects/drip.dmi'
+	icon_state = "1"
+	random_icon_states = list("1", "2", "3")
+	gender = NEUTER
+
+/obj/effect/decal/cleanable/drip/New()
+	..()
+	pixel_x = rand(-6, 6)	//Randomizes postion
+	pixel_y = rand(-6, 6)
+	remove_ex_blood()
+
+/obj/effect/decal/cleanable/drip/proc/remove_ex_blood() //removes existant blood on the turf
+	if(src.loc && isturf(src.loc))
+		for(var/obj/effect/decal/cleanable/blood/B in src.loc)
+			if(B != src && prob(30)) //So there's still some stacking
+				qdel(B)

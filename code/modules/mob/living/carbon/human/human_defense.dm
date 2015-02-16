@@ -153,66 +153,72 @@ emp_act
 		apply_damage(I.force, I.damtype, affecting, armor , I)
 
 		var/bloody = 0
-		if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2))))
-			if(affecting.status == ORGAN_ORGANIC)
-				I.add_blood(src)	//Make the weapon bloody, not the person.
-				if(prob(I.force * 2))	//blood spatter!
-					bloody = 1
-					var/turf/location = loc
-					if(istype(location, /turf/simulated))
-						location.add_blood(src)
-					if(ishuman(user))
-						var/mob/living/carbon/human/H = user
-						if(get_dist(H, src) <= 1)	//people with TK won't get smeared with blood
-							if(H.wear_suit)
-								H.wear_suit.add_blood(src)
-								H.update_inv_wear_suit(0)	//updates mob overlays to show the new blood (no refresh)
-							else if(H.w_uniform)
-								H.w_uniform.add_blood(src)
-								H.update_inv_w_uniform(0)	//updates mob overlays to show the new blood (no refresh)
-							if (H.gloves)
-								var/obj/item/clothing/gloves/G = H.gloves
-								G.add_blood(H)
-							else
-								H.add_blood(H)
-								H.update_inv_gloves()	//updates on-mob overlays for bloody hands and/or bloody gloves
+		if((I.damtype == BRUTE) && I.force)
+			if(affecting.brute_dam >= 40 && prob(30))
+				if(affecting.bloodloss <= 0)
+					src << "<span class='userdanger'>Your [hit_area] starts bleeding!</span>"
+				adjustBloodLoss(0.1, affecting)
 
-			switch(hit_area)
-				if("head")	//Harder to score a stun but if you do it lasts a bit longer
-					if(stat == CONSCIOUS && prob(I.force))
-						visible_message("<span class='danger'>[src] has been knocked unconscious!</span>", \
-										"<span class='userdanger'>[src] has been knocked unconscious!</span>")
-						apply_effect(20, PARALYZE, armor)
-						if(src != user && I.damtype == BRUTE)
-							ticker.mode.remove_revolutionary(mind)
-							ticker.mode.remove_gangster(mind)
-					if(bloody)	//Apply blood
-						if(wear_mask)
-							wear_mask.add_blood(src)
-							update_inv_wear_mask(0)
-						if(head)
-							head.add_blood(src)
-							update_inv_head(0)
-						if(glasses && prob(33))
-							glasses.add_blood(src)
-							update_inv_glasses(0)
+			if(prob(25 + (I.force * 2)))
+				if(affecting.status == ORGAN_ORGANIC)
+					I.add_blood(src)	//Make the weapon bloody, not the person.
+					if(prob(I.force * 2))	//blood spatter!
+						bloody = 1
+						var/turf/location = loc
+						if(istype(location, /turf/simulated))
+							location.add_blood(src)
+						if(ishuman(user))
+							var/mob/living/carbon/human/H = user
+							if(get_dist(H, src) <= 1)	//people with TK won't get smeared with blood
+								if(H.wear_suit)
+									H.wear_suit.add_blood(src)
+									H.update_inv_wear_suit(0)	//updates mob overlays to show the new blood (no refresh)
+								else if(H.w_uniform)
+									H.w_uniform.add_blood(src)
+									H.update_inv_w_uniform(0)	//updates mob overlays to show the new blood (no refresh)
+								if (H.gloves)
+									var/obj/item/clothing/gloves/G = H.gloves
+									G.add_blood(H)
+								else
+									H.add_blood(H)
+									H.update_inv_gloves()	//updates on-mob overlays for bloody hands and/or bloody gloves
 
-				if("chest")	//Easier to score a stun but lasts less time
-					if(stat == CONSCIOUS && I.force && prob(I.force + 10))
-						visible_message("<span class='danger'>[src] has been knocked down!</span>", \
-										"<span class='userdanger'>[src] has been knocked down!</span>")
-						apply_effect(5, WEAKEN, armor)
+				switch(hit_area)
+					if("head")	//Harder to score a stun but if you do it lasts a bit longer
+						if(stat == CONSCIOUS && prob(I.force))
+							visible_message("<span class='danger'>[src] has been knocked unconscious!</span>", \
+											"<span class='userdanger'>[src] has been knocked unconscious!</span>")
+							apply_effect(20, PARALYZE, armor)
+							if(src != user && I.damtype == BRUTE)
+								ticker.mode.remove_revolutionary(mind)
+								ticker.mode.remove_gangster(mind)
+						if(bloody)	//Apply blood
+							if(wear_mask)
+								wear_mask.add_blood(src)
+								update_inv_wear_mask(0)
+							if(head)
+								head.add_blood(src)
+								update_inv_head(0)
+							if(glasses && prob(33))
+								glasses.add_blood(src)
+								update_inv_glasses(0)
 
-					if(bloody)
-						if(wear_suit)
-							wear_suit.add_blood(src)
-							update_inv_wear_suit(0)
-						if(w_uniform)
-							w_uniform.add_blood(src)
-							update_inv_w_uniform(0)
+					if("chest")	//Easier to score a stun but lasts less time
+						if(stat == CONSCIOUS && I.force && prob(I.force + 10))
+							visible_message("<span class='danger'>[src] has been knocked down!</span>", \
+											"<span class='userdanger'>[src] has been knocked down!</span>")
+							apply_effect(5, WEAKEN, armor)
 
-			if(Iforce > 10 || Iforce >= 5 && prob(33))
-				forcesay(hit_appends)	//forcesay checks stat already
+						if(bloody)
+							if(wear_suit)
+								wear_suit.add_blood(src)
+								update_inv_wear_suit(0)
+							if(w_uniform)
+								w_uniform.add_blood(src)
+								update_inv_w_uniform(0)
+
+				if(Iforce > 10 || Iforce >= 5 && prob(33))
+					forcesay(hit_appends)	//forcesay checks stat already
 
 /mob/living/carbon/human/emp_act(severity)
 	var/informed = 0

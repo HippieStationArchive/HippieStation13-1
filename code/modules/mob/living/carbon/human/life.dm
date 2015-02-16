@@ -515,6 +515,20 @@
 		else
 			stat = CONSCIOUS
 
+		//Bleeding
+		var/pass = 1
+		for (var/datum/reagent/R in reagents.reagent_list) //Check if any reagents inside mob's body have anti-blood loss chemicals.
+			if(R.prevent_bloodloss)
+				pass = 0
+
+		if(pass)
+			var/list/limbs = get_damageable_organs()
+			if(limbs.len)
+				for(var/obj/item/organ/limb/L in limbs)
+					if(L.bloodloss)
+						L.take_damage(L.bloodloss, 0)
+						if(prob(20)) loc.add_blood_drip(src) //Create a fancy drip.
+
 		//Eyes
 		if(sdisabilities & BLIND)	//disabled-blind, doesn't get better on its own
 			blinded = 1

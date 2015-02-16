@@ -1269,6 +1269,7 @@
 #include "code\modules\nano\nanomanager.dm"
 #include "code\modules\nano\nanoui.dm"
 #include "code\modules\newmed\medicine.dm"
+#include "code\modules\newmed\stacks.dm"
 #include "code\modules\paperwork\clipboard.dm"
 #include "code\modules\paperwork\filingcabinet.dm"
 #include "code\modules\paperwork\folders.dm"

@@ -44,6 +44,7 @@
 	var/brute_dam = 0
 	var/burn_dam = 0
 	var/max_damage = 0
+	var/bloodloss = 0	//Amount of brute dealt to limb per tick.
 	var/status = ORGAN_ORGANIC
 
 
