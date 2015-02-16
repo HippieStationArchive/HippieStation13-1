@@ -53,8 +53,8 @@
 	default_color = "00FF00"
 	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
-	attack_verb = "slash"
-	attack_sound = 'sound/weapons/slash.ogg'
+	attack_verb = "claws"
+	attack_sound = 'sound/effects/claw.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/lizard
 
@@ -68,7 +68,7 @@
 	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
 	attack_verb = "slash"
-	attack_sound = 'sound/weapons/slash.ogg'
+	attack_sound = 'sound/effects/claw.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/lizard
 
@@ -81,9 +81,8 @@
 	default_color = "00FF00"
 	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
-	attack_verb = "slash"
+	attack_verb = "punch"
 	attack_sound = 'sound/weapons/slash.ogg'
-	sexes = 0
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = null
 
