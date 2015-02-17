@@ -102,15 +102,16 @@
 	icon_state = "1"
 	random_icon_states = list("1", "2", "3")
 	gender = NEUTER
+	layer = 2
 
 /obj/effect/decal/cleanable/drip/New()
 	..()
 	pixel_x = rand(-6, 6)	//Randomizes postion
 	pixel_y = rand(-6, 6)
-	//remove_ex_blood() //TO DO: Remove drips on tile when there's more than 4 of them
+	remove_ex_blood()
 
-///obj/effect/decal/cleanable/drip/proc/remove_ex_blood() //removes existant blood on the turf -- BROKEN
-//	if(src.loc && isturf(src.loc))
-	//	var/obj/effect/decal/cleanable/blood/drip/B = locate() in src.loc.contents
-	//	if(istype(B) && B != src && prob(50)) //So there's still some stacking
-	//		qdel(B)
+/obj/effect/decal/cleanable/drip/proc/remove_ex_blood() //removes existant blood drip on the turf --TODO: Make it only remove the drip if there are more than 4 of them on turf
+	if(src.loc && isturf(src.loc))
+		for(var/obj/effect/decal/cleanable/drip/B in src.loc)
+			if(B != src)
+				qdel(B)

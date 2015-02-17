@@ -82,6 +82,7 @@
 				/obj/item/weapon/reagent_containers/medical/bruise_pack = 1,
 				/obj/item/stack/gauze{amount = 1} = 3,
 				/obj/item/stack/gauze = 1,
+				/obj/item/weapon/reagent_containers/chempatch = 1,
 				/obj/item/stack/rods{amount = 10} = 9,
 				/obj/item/stack/rods{amount = 23} = 1,
 				/obj/item/stack/rods{amount = 50} = 1,

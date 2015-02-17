@@ -1420,6 +1420,7 @@
 #include "code\modules\shuttle\shuttle.dm"
 #include "code\modules\surgery\appendectomy.dm"
 #include "code\modules\surgery\brain_removal.dm"
+#include "code\modules\surgery\bullet_removal.dm"
 #include "code\modules\surgery\cavity_implant.dm"
 #include "code\modules\surgery\core_removal.dm"
 #include "code\modules\surgery\eye_surgery.dm"

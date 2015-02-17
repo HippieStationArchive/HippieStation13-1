@@ -259,6 +259,8 @@
 		if(digitalcamo)
 			msg += "[t_He] [t_is] moving [t_his] body in an unnatural and blatantly inhuman manner.\n"
 
+	if(surgeries.len)
+		msg += "It looks like [t_He] [t_has] ongoing surgeries.\n"
 
 	if(istype(user, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user

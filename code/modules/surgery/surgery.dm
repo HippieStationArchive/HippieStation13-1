@@ -10,6 +10,9 @@
 	var/requires_organic_chest = 0								//Prevents you from performing an operation on Robotic chests***
 	var/has_multi_loc = 0 										//Multiple locations - RR
 
+	// v This is broken atm. It only works for INITIATING surgery, doesn't actually work for PERFORMING it. v
+	// var/must_be_lying = 1										//Checks if the human/monkey must be lying down to perform surgery.
+
 
 /datum/surgery/proc/next_step(mob/user, mob/living/carbon/target)
 	if(step_in_progress)	return

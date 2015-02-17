@@ -5,3 +5,8 @@
 	desc = "Seems to be a spent bullet."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "bullet"
+
+/obj/item/bullet/New()
+	..()
+	pixel_x = rand(-4, 4)	//Randomizes postion
+	pixel_y = rand(-4, 4)

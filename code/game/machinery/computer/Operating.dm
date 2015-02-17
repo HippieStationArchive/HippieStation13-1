@@ -63,6 +63,6 @@
 	if(patient.surgeries.len)
 		dat += "<BR><B>Initiated Procedures</B><div class='statusDisplay'>"
 		for(var/datum/surgery/procedure in patient.surgeries)
-			dat += "[capitalize(procedure.name)]<BR>"
+			dat += "[capitalize(procedure.name)], current step: [procedure.status]<BR>"
 		dat += "</div>"
 	return dat

@@ -135,11 +135,12 @@ MASS SPECTROMETER
 		user.show_message("<span class='notice'>Localized Damage, <font color='#FF8000'>Burn</font>/<font color='red'>Brute</font>:</span>",1)
 		if(length(damaged)>0)
 			for(var/obj/item/organ/limb/org in damaged)
-				user.show_message(text("<span class='notice'>\t []: []-[]-[]",\
+				user.show_message(text("<span class='notice'>\t []: []-[]-[]   []",\
 										capitalize(org.getDisplayName()),\
 										(org.burn_dam > 0) ? "<font color='#FF8000'>[org.burn_dam]</font>" : 0,\
 										(org.brute_dam > 0) ? "<font color='red'>[org.brute_dam]</font>" : 0,\
-										(org.bloodloss > 0) ? "<font color='#FF6464'>[org.bloodloss]</font></span>" : 0), 1)
+										(org.bloodloss > 0) ? "<font color='#FF6464'>[org.bloodloss]</font>" : 0,\
+										(org.foreign_objects.len > 0) ? "<font color='red'>Foreign objects detected!</font></span>" : "No foreign objects detected</span>"), 1)
 		else
 			user.show_message("<span class='notice'>\t Limbs are OK.</span>",1)
 

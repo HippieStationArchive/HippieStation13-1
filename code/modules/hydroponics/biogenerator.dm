@@ -148,7 +148,7 @@
 			dat += "<h3>Leather:</h3>"
 			dat += "<div class='statusDisplay'>"
 			dat += "Chemical patch: <A href='?src=\ref[src];create=chempatch;amount=1'>Make</A> ([50/efficiency])<BR>"
-			dat += "Gauze: <A href='?src=\ref[src];create=chempatch;amount=1'>Make</A> ([50/efficiency])<BR>"
+			dat += "Gauze: <A href='?src=\ref[src];create=gauze;amount=1'>Make</A> ([50/efficiency])<BR>"
 			dat += "Wallet: <A href='?src=\ref[src];create=wallet;amount=1'>Make</A> ([100/efficiency])<BR>"
 			dat += "Book bag: <A href='?src=\ref[src];create=bkbag;amount=1'>Make</A> ([200/efficiency])<BR>"
 			dat += "Plant bag: <A href='?src=\ref[src];create=ptbag;amount=1'>Make</A> ([200/efficiency])<BR>"
