@@ -225,6 +225,8 @@
 		// var/obj/item/organ/limb/L = get_organ(check_zone(def_zone))
 		if(L.status == ORGAN_ORGANIC) //Limb must be organic
 			L.bloodloss = min(max(L.bloodloss + amount, 0),(maxHealth/100)) //1 bloodloss should be maximum always
+			return 1
+	return 0
 
 // /mob/living/proc/setBloodLoss(var/amount)
 // 	if(status_flags & GODMODE)	return 0

@@ -5,7 +5,7 @@
 	damage_type = BRUTE
 	nodamage = 0
 	flag = "bullet"
-
+	var/mob_stuck_chance = 40 //For lodging bullets into limbs for extraction.
 
 /obj/item/projectile/bullet/weakbullet
 	damage = 5
@@ -50,6 +50,7 @@
 	damage = 5
 	stun = 5
 	weaken = 5
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/incendiary/on_hit(var/atom/target, var/blocked = 0)
 	..()
@@ -82,6 +83,7 @@
 	weaken = 8
 	stun = 8
 	hitsound = 'sound/effects/meteorimpact.ogg'
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/meteorshot/on_hit(var/atom/target, var/blocked = 0)
 	..()
@@ -108,6 +110,7 @@
 	name = "dart"
 	icon_state = "cbbolt"
 	damage = 6
+	mob_stuck_chance = 0
 
 	New()
 		..()
@@ -146,6 +149,7 @@
 	damage = 5
 	damage_type = TOX
 	weaken = 5
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/neurotoxin/on_hit(var/atom/target, var/blocked = 0)
 	if(isalien(target))

@@ -527,7 +527,9 @@
 				for(var/obj/item/organ/limb/L in limbs)
 					if(L.bloodloss)
 						L.take_damage(L.bloodloss, 0)
-						if(prob(20)) loc.add_blood_drip(src) //Create a fancy drip.
+						if(prob(20)) src.loc.add_blood_drip(src) //Create a fancy drip.
+					if(L.foreign_objects.len && L.bloodloss < 0.5)
+						adjustBloodLoss(0.005*L.foreign_objects.len, L) //+0.005 bloodloss for every foreign object in limb. (0.02 is too quick)
 
 		//Eyes
 		if(sdisabilities & BLIND)	//disabled-blind, doesn't get better on its own

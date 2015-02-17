@@ -359,6 +359,7 @@ var/list/blood_splatter_icons = list()
 			if(!B)	B = new(src)
 
 /atom/proc/add_blood_drip(mob/living/carbon/M as mob)
+	if(!istype(M)) return
 	if(istype(src, /turf/simulated))
 		if(check_dna_integrity(M))	//mobs with dna = (monkeys + humans at time of writing)
 			var/obj/effect/decal/cleanable/drip/B = new /obj/effect/decal/cleanable/drip(src)

@@ -1435,6 +1435,7 @@
 #include "code\modules\surgery\tools.dm"
 #include "code\modules\surgery\xenomorph_removal.dm"
 #include "code\modules\surgery\organs\augments.dm"
+#include "code\modules\surgery\organs\foreign_objects.dm"
 #include "code\modules\surgery\organs\helpers.dm"
 #include "code\modules\surgery\organs\organ.dm"
 #include "code\modules\telesci\bscrystal.dm"

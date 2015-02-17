@@ -47,9 +47,9 @@
 	if (empty) return
 	new /obj/item/weapon/reagent_containers/medical/bruise_pack(src)
 	new /obj/item/weapon/reagent_containers/medical/bruise_pack(src)
-	new /obj/item/weapon/reagent_containers/medical/bruise_pack(src)
 	new /obj/item/weapon/reagent_containers/medical/ointment(src)
 	new /obj/item/weapon/reagent_containers/medical/ointment(src)
+	new /obj/item/stack/gauze(src)
 	new /obj/item/device/healthanalyzer(src)
 	new /obj/item/weapon/reagent_containers/hypospray/medipen( src )
 	return

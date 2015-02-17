@@ -65,6 +65,11 @@ emp_act
 	if(check_shields(P.damage, "the [P.name]"))
 		P.on_hit(src, 100, def_zone)
 		return 2
+	var/obj/item/projectile/bullet/B = P
+	if(istype(B) && prob(B.mob_stuck_chance))
+		var/obj/item/organ/limb/O = get_organ(check_zone(def_zone))
+		if(O.name != "head" && adjustBloodLoss(0.1, O)) //Check if the affected limb is not your head and if blood loss can be adjusted
+			O.foreign_objects += new /obj/item/bullet(O) //Lodge the bullet into the limb
 	return (..(P , def_zone))
 
 /mob/living/carbon/human/proc/check_reflect(var/def_zone) //Reflection checks for anything in your l_hand, r_hand, or wear_suit based on reflect_chance var of the object
