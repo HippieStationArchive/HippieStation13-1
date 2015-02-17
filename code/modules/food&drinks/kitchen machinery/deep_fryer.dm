@@ -75,30 +75,35 @@ var/list/deepfry_icons = list()
 			var/obj/item/weapon/reagent_containers/food = frying
 			food.reagents.trans_to(S, food.reagents.total_volume)
 
-		//Shamelessly copy-pasted from blood overlay code
-		world << deepfry_icons.len
-		var/index = frying.blood_splatter_index()
-		var/icon/deepfry_icon = deepfry_icons[index]
-		if(!deepfry_icon)
-			deepfry_icon = icon(initial(frying.icon), initial(frying.icon_state), , 1)		//we only want to apply deepfry to the initial icon_state for each object
-			for(var/i = 1, i <= frying.overlays.len, i++)
-				var/image/overlay = frying.overlays[i]
-				deepfry_icon.Blend(icon(overlay.icon, overlay.icon_state), ICON_OVERLAY)
-			deepfry_icon.Blend("#fff", ICON_ADD) 			//fills the icon_state with white (except where it's transparent)
-			deepfry_icon.Blend(icon('icons/effects/overlays.dmi', "itemfry"), ICON_MULTIPLY) //adds deepfry and the remaining white areas become transparant
-			deepfry_icon = fcopy_rsc(deepfry_icon)
-			deepfry_icon += rgb(0,0,0,128) //add alpha
-			deepfry_icons[index] = deepfry_icon
-			// world << "Creating deepfry icon for [frying]"
-		else
-			// world << "Deepfry for [frying] already exists."
-			frying.overlays.Remove(deepfry_icon) //To prevent client crashes caused by stacking deepfry overlays
-			//Based on varedit data it still lets like two deepfry overlays at once /SOMETIMES/. Needs testing.
+		// DEEPFRY OVERLAYS.
+
+		// Horribly broken: causes crashes on clients due to the fact that it stacks deepfry overlays.
+		// Also, uses initial icon_state instead of current one so the overlay itself can be weird for some items.
+
+		// world << deepfry_icons.len
+		// var/index = frying.blood_splatter_index()
+		// var/icon/deepfry_icon = deepfry_icons[index]
+		// if(!deepfry_icon)
+		// 	deepfry_icon = icon(initial(frying.icon), initial(frying.icon_state), , 1)		//we only want to apply deepfry to the initial icon_state for each object
+		// 	for(var/i = 1, i <= frying.overlays.len, i++)
+		// 		var/image/overlay = frying.overlays[i]
+		// 		deepfry_icon.Blend(icon(overlay.icon, overlay.icon_state), ICON_OVERLAY)
+		// 	deepfry_icon.Blend("#fff", ICON_ADD) 			//fills the icon_state with white (except where it's transparent)
+		// 	deepfry_icon.Blend(icon('icons/effects/overlays.dmi', "itemfry"), ICON_MULTIPLY) //adds deepfry and the remaining white areas become transparant
+		// 	deepfry_icon = fcopy_rsc(deepfry_icon)
+		// 	deepfry_icon += rgb(0,0,0,128) //add alpha
+		// 	deepfry_icons[index] = deepfry_icon
+		// 	// world << "Creating deepfry icon for [frying]"
+		// else
+		// 	// world << "Deepfry for [frying] already exists."
+		// 	frying.overlays.Remove(deepfry_icon) //To prevent client crashes caused by stacking deepfry overlays
+		// 	//Based on varedit data it still lets like two deepfry overlays at once /SOMETIMES/. Needs testing.
 
 		S.icon = frying.icon
 		S.icon_state = frying.icon_state
+		S.color = "#FFAD33"
 		S.overlays += frying.overlays
-		S.overlays += deepfry_icon
+		// S.overlays += deepfry_icon
 		S.color = frying.color //keeps the grill
 
 		S.name = frying.name //In case the if check for length fails so we don't name it "Deep Fried Food Holder Obj"
