@@ -208,12 +208,10 @@
 	bruteloss = min(max(bruteloss + amount, 0),(maxHealth*2))
 
 /mob/living/carbon/human/proc/getBloodLoss()
-	var/list/limbs = get_damageable_organs()
 	var/temp = 0
-	if(limbs.len)
-		for(var/obj/item/organ/limb/L in limbs)
-			if(L.bloodloss)
-				temp += L.bloodloss
+	for(var/obj/item/organ/limb/L in organs)
+		if(L.bloodloss)
+			temp += L.bloodloss
 	return temp
 
 /mob/living/carbon/human/proc/adjustBloodLoss(var/amount, var/obj/item/organ/limb/L)
