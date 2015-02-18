@@ -32,7 +32,7 @@
 
 		if ("aid")
 			new /obj/item/weapon/tank/emergency_oxygen(src)
-			new /obj/item/weapon/storage/firstaid/o2(src)
+			new /obj/item/weapon/storage/firstaid/emergency(src)
 
 		if ("tank")
 			new /obj/item/weapon/tank/air(src)

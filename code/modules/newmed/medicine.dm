@@ -80,7 +80,7 @@
 
 /obj/item/weapon/reagent_containers/medical/bruise_pack
 	name = "bruise pack"
-	desc = "A gauze containing reagents to treat blunt-force trauma. On the label it says: \"10u of brutanol heals 40 damage. Do the math for rest.\""
+	desc = "A bruise pack containing reagents to treat blunt-force trauma. On the label it says: \"10u of brutanol heals 40 damage. Do the math for rest.\""
 	icon_state = "brutepack"
 	// heal_brute = 60
 	origin_tech = "biotech=1"
@@ -140,10 +140,16 @@
 
 	if (user)
 		if (M != user)
-			user.visible_message( \
-				"<span class='notice'>[user] has applied [src] on [M].</span>", \
-				"<span class='notice'>You apply \the [src] to [M].</span>" \
-			)
+			user.visible_message("<span class='danger'>[user] is trying to apply a [src] on [M]!</span>", \
+							"<span class='userdanger'>[user] is trying to apply a [src] on [M]!</span>")
+			if(do_mob(user, M, 15))
+				user.visible_message( \
+					"<span class='danger'>[user] has applied [src] on [M]!</span>", \
+					"<span class='userdanger'>You apply \the [src] to [M].</span>" \
+				)
+			else
+				user << "<span class='danger'>You fail to apply \the [src] to [M]!</span>"
+				return
 		else
 			var/t_himself = "itself"
 			if (user.gender == MALE)
@@ -155,6 +161,7 @@
 				"<span class='notice'>[M] applied [src] on [t_himself].</span>", \
 				"<span class='notice'>You apply \the [src] on yourself.</span>" \
 			)
+
 
 	if (istype(M, /mob/living/carbon/human))
 

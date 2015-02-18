@@ -139,10 +139,12 @@
 	icon = 'icons/obj/Knives.dmi'
 	icon_state = "buckknife"
 	flags = CONDUCT
-	force = 18.0
+	force = 17.0 //Reduced force to put bigger emphasis on bleeding
+	bleedcap = 0 //Can cause bleeding even on first stab
+	bleedchance = 30 //Higher chance to cause bleeding - same as kitchen knife
 	w_class = 1.0
 	slot_flags = SLOT_BELT
-	throwforce = 22.0
+	throwforce = 20.0 //Robust as fuck when thrown
 	throw_speed = 3
 	throw_range = 8
 	attack_verb = list("stabbed", "torn", "cut", "sliced")
@@ -179,6 +181,7 @@
 		attack_verb = list("stabbed", "torn", "cut", "sliced")
 		icon_state = "pocketknife_open"
 		w_class = 3
+		bleedcap = 20 //Reduce bleedcap
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now open.</span>"
 	else
@@ -188,6 +191,7 @@
 		attack_verb = null
 		icon_state = "pocketknife"
 		w_class = 1
+		bleedcap = 40 //restore bleedcap
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now closed.</span>"
 	add_fingerprint(user)

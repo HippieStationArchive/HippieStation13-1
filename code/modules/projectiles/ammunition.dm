@@ -13,11 +13,12 @@
 	var/obj/item/projectile/BB = null 			//The loaded bullet
 	var/pellets = 0								//Pellets for spreadshot
 	var/variance = 0							//Variance for inaccuracy fundamental to the casing
+	var/empty = 0								//If you want to spawn empty ammo casings
 
 
 /obj/item/ammo_casing/New()
 	..()
-	if(projectile_type)
+	if(projectile_type && !empty)
 		BB = new projectile_type(src)
 	pixel_x = rand(-10.0, 10)
 	pixel_y = rand(-10.0, 10)

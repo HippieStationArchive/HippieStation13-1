@@ -150,6 +150,14 @@
 	..()
 	reagents.add_reagent("inaprovaline", 30)
 
+/obj/item/weapon/reagent_containers/pill/leporazine
+	name = "leporazine pill"
+	desc = "Used to stabilize patients' temperature."
+	icon_state = "pill20"
+
+/obj/item/weapon/reagent_containers/pill/leporazine/New()
+	..()
+	reagents.add_reagent("leporazine", 30)
 
 /obj/item/weapon/reagent_containers/pill/dexalin
 	name = "dexalin pill"

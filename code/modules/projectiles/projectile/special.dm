@@ -17,6 +17,7 @@
 	icon_state= "bolter"
 	damage = 50
 	flag = "bullet"
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/gyro/on_hit(atom/target, blocked = 0)
 	explosion(target, -1, 0, 2)
@@ -29,6 +30,7 @@
 	damage = 60
 	flag = "bullet"
 	range = 7
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/a40mm/on_hit(atom/target, blocked = 0)
 	explosion(target, -1, 0, 2, 1, 0, flame_range = 3)
@@ -179,3 +181,4 @@ obj/item/projectile/kinetic/New()
 	name ="explosive slug"
 	damage = 25
 	weaken = 5
+	mob_stuck_chance = 0

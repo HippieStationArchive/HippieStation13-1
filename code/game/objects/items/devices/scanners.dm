@@ -105,6 +105,7 @@ MASS SPECTROMETER
 	var/tox_loss = M.getToxLoss()
 	var/fire_loss = M.getFireLoss()
 	var/brute_loss = M.getBruteLoss()
+	var/blood_loss = 0 //Proper definition in ishuman check
 	var/mob_status = (M.stat > 1 ? "<font color='red'>Deceased</font>" : "[M.health]% healthy")
 
 	if(M.status_flags & FAKEDEATH)
@@ -114,12 +115,13 @@ MASS SPECTROMETER
 	user.show_message(text("<span class='notice'>Analyzing Results for []:\n\t Overall Status: []</span>", M, mob_status), 1)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
+		blood_loss = H.getBloodLoss()
 		if(H.dna)// Show target's species, if they have one
 			user.show_message("<span class='notice'>Species: <b>[H.dna.species.name]</b></span>", 1)
 		else // Otherwise we can assume that they are a regular human
 			user.show_message("<span class='notice'>Species: <b>Human</b></span>", 1)
-	user.show_message("<span class='notice'>\t Damage Specifics: <font color='blue'>[oxy_loss]</font>-<font color='green'>[tox_loss]</font>-<font color='#FF8000'>[fire_loss]</font>-<font color='red'>[brute_loss]</font></span>", 1)
-	user.show_message("<span class='notice'>Key: <font color='blue'>Suffocation</font>/<font color='green'>Toxin</font>/<font color='#FF8000'>Burn</font>/<font color='red'>Brute</font></span>", 1)
+	user.show_message("<span class='notice'>\t Damage Specifics: <font color='blue'>[oxy_loss]</font>-<font color='green'>[tox_loss]</font>-<font color='#FF8000'>[fire_loss]</font>-<font color='red'>[brute_loss]</font>-<font color='#FF6464'>[blood_loss]</font></span>", 1)
+	user.show_message("<span class='notice'>Key: <font color='blue'>Suffocation</font>/<font color='green'>Toxin</font>/<font color='#FF8000'>Burn</font>/<font color='red'>Brute</font>/<font color='#FF6464'>Blood loss</font></span>", 1)
 	user.show_message("<span class='notice'>Body Temperature: [M.bodytemperature-T0C]&deg;C ([M.bodytemperature*1.8-459.67]&deg;F)</span>", 1)
 
 	// Time of death
@@ -129,17 +131,29 @@ MASS SPECTROMETER
 	// Organ damage report
 	if(istype(M, /mob/living/carbon/human) && mode == 1)
 		var/mob/living/carbon/human/H = M
-		var/list/damaged = H.get_damaged_organs(1,1)
+		var/list/damaged = H.get_damaged_organs(1,1,1)
 		user.show_message("<span class='notice'>Localized Damage, <font color='#FF8000'>Burn</font>/<font color='red'>Brute</font>:</span>",1)
 		if(length(damaged)>0)
 			for(var/obj/item/organ/limb/org in damaged)
-				user.show_message(text("<span class='notice'>\t []: []-[]", capitalize(org.getDisplayName()), (org.burn_dam > 0) ? "<font color='#FF8000'>[org.burn_dam]</font>" : 0, (org.brute_dam > 0) ? "<font color='red'>[org.brute_dam]</font></span>" : 0), 1)
+				user.show_message(text("<span class='notice'>\t []: []-[]-[]   []",\
+										capitalize(org.getDisplayName()),\
+										(org.burn_dam > 0) ? "<font color='#FF8000'>[org.burn_dam]</font>" : 0,\
+										(org.brute_dam > 0) ? "<font color='red'>[org.brute_dam]</font>" : 0,\
+										(org.bloodloss > 0) ? "<font color='#FF6464'>[org.bloodloss]</font>" : 0,\
+										(org.foreign_objects.len > 0) ? "<font color='red'>Foreign objects detected!</font></span>" : "No foreign objects detected</span>"), 1)
 		else
 			user.show_message("<span class='notice'>\t Limbs are OK.</span>",1)
 
 	// Damage descriptions
 
-	user.show_message(text("<span class='notice'>[] | [] | [] | []</span>", oxy_loss > 50 ? "<span class='warning'> Severe oxygen deprivation detected</span>" : "<span class='info'>Subject bloodstream oxygen level normal</span>", tox_loss > 50 ? "<span class='warning'> Dangerous amount of toxins detected</span>" : "<span class='info'>Subject bloodstream toxin level minimal</span>", fire_loss > 50 ? "<span class='warning'> Severe burn damage detected</span>" : "<span class='info'>Subject burn injury status O.K</span>", brute_loss > 50 ? "<span class='warning'> Severe anatomical damage detected</span>" : "<span class='info'>Subject brute-force injury status O.K</span>"), 1)
+	user.show_message(text("<span class='notice'>[] | [] | [] | []</span>",\
+							oxy_loss > 50 ? "<span class='warning'> Severe oxygen deprivation detected</span>" : "<span class='info'>Subject bloodstream oxygen level normal</span>",\
+							tox_loss > 50 ? "<span class='warning'> Dangerous amount of toxins detected</span>" : "<span class='info'>Subject bloodstream toxin level minimal</span>",\
+							fire_loss > 50 ? "<span class='warning'> Severe burn damage detected</span>" : "<span class='info'>Subject burn injury status O.K</span>",\
+							brute_loss > 50 ? "<span class='warning'> Severe anatomical damage detected</span>" : "<span class='info'>Subject brute-force injury status O.K</span>"), 1)
+
+	if(blood_loss)
+		user.show_message("<span class='warning'>Subject appears to have [blood_loss > 0.5 ? "severe" : "minor"] blood loss.</span>")
 
 	if(M.getStaminaLoss())
 		user.show_message("<span class='info'>Subject appears to be suffering from fatigue.</span>", 1)

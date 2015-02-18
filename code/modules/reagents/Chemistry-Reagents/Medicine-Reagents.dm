@@ -78,11 +78,31 @@ datum/reagent/medicine/inaprovaline
 	description = "Inaprovaline is a synaptic stimulant and cardiostimulant. Commonly used to stabilize patients."
 	color = "#C8A5DC" // rgb: 200, 165, 220
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	prevent_bloodloss = 1 //Temporarily halts blood loss for all limbs
 
 datum/reagent/medicine/inaprovaline/on_mob_life(var/mob/living/M as mob)
 	if(M.losebreath >= 10)
 		M.losebreath = max(10, M.losebreath-5)
 	..()
+	return
+
+datum/reagent/medicine/inaprovaline/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
+	if(!..())
+		return
+	// if(!istype(M, /mob/living)) //Must be handled in ..()
+	// 	return
+	if(method == TOUCH)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			var/obj/item/organ/limb/affecting = H.get_organ(check_zone(zone))
+
+			if(affecting.status == ORGAN_ORGANIC && affecting.bloodloss) //Limb must be organic to be healed
+				M << "<span class='notice'>Your [parse_zone(zone)] stops bleeding!</span>"
+				affecting.bloodloss = 0
+		// else
+		// 	M.heal_organ_damage(0, volume * 2) //Heal less damage for mobs (20 damage for 10u)
+
+	src = null
 	return
 
 datum/reagent/medicine/ryetalyn
@@ -401,9 +421,8 @@ datum/reagent/medicine/ointment //Need better reagent names
 	color = "#8CA014" // rgb: 140, 160, 20
 	metabolization_rate = 1
 
-datum/reagent/medicine/ointment/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone)
+datum/reagent/medicine/ointment/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
 	if(!..())
-		M << "Something fucked up"
 		return
 	// if(!istype(M, /mob/living)) //Must be handled in ..()
 	// 	return
@@ -426,13 +445,13 @@ datum/reagent/medicine/ointment/reaction_mob(var/mob/living/carbon/M, var/method
 	return
 
 datum/reagent/medicine/brutanol //DEFINITELY need better reagent names
-	name = "brutanol"
+	name = "Brutanol"
 	id = "brutanol"
 	description = "A chemical usually contained in brute medicine."
 	color = "#82280A" // rgb: 130, 40, 10
 	metabolization_rate = 1
 
-datum/reagent/medicine/brutanol/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone)
+datum/reagent/medicine/brutanol/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
 	if(!..())
 		return
 	// if(!istype(M, /mob/living)) //Must be handled in ..()
@@ -447,6 +466,9 @@ datum/reagent/medicine/brutanol/reaction_mob(var/mob/living/carbon/M, var/method
 					H.update_damage_overlays(0)
 				M.updatehealth()
 				M << "<span class='notice'>You feel your [parse_zone(zone)] sting as its wounds seem to disappear.</span>"
+				if(prob(10)) //Random chance to stop bleeding
+					affecting.bloodloss = 0
+					M << "<span class='notice'>Your [parse_zone(zone)] stops bleeding.</span>"
 		else
 			M.heal_organ_damage(volume * 2, 0) //Heal less damage for mobs (20 damage for 10u)
 	else

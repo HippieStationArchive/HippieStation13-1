@@ -44,7 +44,10 @@
 	var/brute_dam = 0
 	var/burn_dam = 0
 	var/max_damage = 0
+	var/bloodloss = 0	//Amount of brute dealt to limb per tick.
 	var/status = ORGAN_ORGANIC
+	var/list/foreign_objects = list() //Typically used for bullets lodged into limbs.
+	// var/bulletcountdown = 0 //for bullet bleeding 
 
 
 /obj/item/organ/limb/chest

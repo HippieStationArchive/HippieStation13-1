@@ -5,25 +5,29 @@
 	damage_type = BRUTE
 	nodamage = 0
 	flag = "bullet"
-
+	var/mob_stuck_chance = 40 //For lodging bullets into limbs for extraction.
 
 /obj/item/projectile/bullet/weakbullet
 	damage = 5
 	stun = 5
 	weaken = 5
+	mob_stuck_chance = 0
 
 
 /obj/item/projectile/bullet/weakbullet2
 	damage = 15
 	stun = 7
 	weaken = 7
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/weakbullet3
 	damage = 20
+	//Syndicate pistol uses this, hence why there's no mob_stuck_chance
 
 /obj/item/projectile/bullet/pellet
 	name = "pellet"
 	damage = 9 //15 //Nerfed because 5 pellets * 15 means a whopping 75 damage point-blank. Double-barreled shotgun has 2 rounds, so... yeah.
+	mob_stuck_chance = 0 //Pellets don't get stuck in your limbs for balancing reasons
 
 /obj/item/projectile/bullet/pellet/weak
 	damage = 3
@@ -50,6 +54,7 @@
 	damage = 5
 	stun = 5
 	weaken = 5
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/incendiary/on_hit(var/atom/target, var/blocked = 0)
 	..()
@@ -82,6 +87,7 @@
 	weaken = 8
 	stun = 8
 	hitsound = 'sound/effects/meteorimpact.ogg'
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/meteorshot/on_hit(var/atom/target, var/blocked = 0)
 	..()
@@ -108,6 +114,7 @@
 	name = "dart"
 	icon_state = "cbbolt"
 	damage = 6
+	mob_stuck_chance = 0
 
 	New()
 		..()
@@ -146,6 +153,7 @@
 	damage = 5
 	damage_type = TOX
 	weaken = 5
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/neurotoxin/on_hit(var/atom/target, var/blocked = 0)
 	if(isalien(target))

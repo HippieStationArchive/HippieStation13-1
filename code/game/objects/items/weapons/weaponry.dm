@@ -137,13 +137,15 @@ obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "shank"
 	w_class = 2.0
-	force = 10.0
+	force = 10.0 //Average force
 	throwforce = 10.0
 	item_state = "shard-glass"
 	g_amt = MINERAL_MATERIAL_AMOUNT
 	attack_verb = list("stabbed", "shanked", "sliced", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	insulated = 1 //For electrified grilles
+	bleedcap = 20 //Lower bleedcap - the actual fucking reason to use shanks.
+	bleedchance = 25 //Robust bleedchance - it's a shank, do you expect anything less?
 
 /obj/item/weapon/shank/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the shank! It looks like \he's trying to commit suicide.</span>", \

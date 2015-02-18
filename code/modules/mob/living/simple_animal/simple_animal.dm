@@ -328,7 +328,8 @@
 	if(istype(O, /obj/item/weapon/reagent_containers/medical))
 		..()
 		return
-		//I'm pretty sure what's below is unneccesary with new meds. Please yell at Crystalwarrior if you can't heal animals anymore.
+		//welp, cannot heal animals with new meds, commit seppuku
+		//It will be implemented. Eventually.
 
 		// if(stat != DEAD)
 		// 	var/obj/item/weapon/reagent_containers/medical/MED = O

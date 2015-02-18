@@ -42,6 +42,7 @@
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "drill"
 	hitsound = 'sound/weapons/circsawhit.ogg'
+	bleedchance = 20 //Only bleed chance increased, bleedcap still 40
 	m_amt = 10000
 	g_amt = 6000
 	flags = CONDUCT
@@ -57,6 +58,8 @@
 	icon_state = "scalpel"
 	flags = CONDUCT
 	force = 10.0
+	bleedchance = 20 //Pretty robust
+	bleedcap = 20 //Standard edged weapon bleedcap
 	w_class = 1.0
 	throwforce = 5.0
 	throw_speed = 3
@@ -82,7 +85,9 @@
 	hitsound = 'sound/weapons/circsawhit.ogg'
 	throwhitsound =  'sound/weapons/pierce.ogg'
 	flags = CONDUCT
-	force = 15.0
+	force = 15.0 //Nice force
+	bleedchance = 20 //Pretty robust
+	bleedcap = 20 //Standard edged weapon bleedcap
 	w_class = 3.0
 	throwforce = 9.0
 	throw_speed = 2

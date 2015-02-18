@@ -48,6 +48,10 @@
 	var/insulated = 0 //For electrified grilles and all that
 	var/forcehitsound = 0//Force hitsound even if force is <= 0
 
+	//Placeholders till "stab" damagetype is implemented
+	var/bleedchance = 10 //Chance to bleed when bleedcap was met
+	var/bleedcap = 40 //Amount of damage the limb must have to initiate bleeding
+
 /obj/item/device
 	icon = 'icons/obj/device.dmi'
 

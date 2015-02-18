@@ -69,10 +69,10 @@ mob/living/carbon/human/proc/hat_fall_prob()
 ////////////////////////////////////////////
 
 //Returns a list of damaged organs
-/mob/living/carbon/human/proc/get_damaged_organs(var/brute, var/burn)
+/mob/living/carbon/human/proc/get_damaged_organs(var/brute, var/burn, var/bloodloss)
 	var/list/obj/item/organ/limb/parts = list()
 	for(var/obj/item/organ/limb/O in organs)
-		if((brute && O.brute_dam) || (burn && O.burn_dam))
+		if((brute && O.brute_dam) || (burn && O.burn_dam) || (bloodloss && O.bloodloss))
 			parts += O
 	return parts
 

@@ -144,6 +144,7 @@
 				var/status = ""
 				var/brutedamage = org.brute_dam
 				var/burndamage = org.burn_dam
+				var/bloodloss = org.bloodloss
 				if(hallucination)
 					if(prob(30))
 						brutedamage += rand(30,40)
@@ -153,9 +154,13 @@
 				if(brutedamage > 0)
 					status = "bruised"
 				if(brutedamage > 20)
-					status = "bleeding"
+					status = "wounded"
 				if(brutedamage > 40)
 					status = "mangled"
+				if(bloodloss > 0 && brutedamage > 0)
+					status += " and "
+				if(bloodloss > 0)
+					status += "bleeding"
 				if(brutedamage > 0 && burndamage > 0)
 					status += " and "
 				if(burndamage > 40)
