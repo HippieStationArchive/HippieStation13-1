@@ -314,6 +314,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 						dat += "<ul>"
 						dat += "<li><a href='byond://?src=\ref[src];choice=44'><img src=pda_medical.png> Medical Records</a></li>"
 						dat += "<li><a href='byond://?src=\ref[src];choice=Medical Scan'><img src=pda_scanner.png> [scanmode == 1 ? "Disable" : "Enable"] Medical Scanner</a></li>"
+						// dat += "<li><a href='byond://?src=\ref[src];choice=60'><img src=pda_medical.png> Surgery Info</a></li>" //How do I even???
 					if(istype(cartridge.radio, /obj/item/radio/integrated/medbot))
 						dat += "<li><a href='byond://?src=\ref[src];choice=52'><img src=pda_medbot.png> Medibot Access</a></li>"
 						dat += "</ul>"
