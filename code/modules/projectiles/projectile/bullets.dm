@@ -11,19 +11,23 @@
 	damage = 5
 	stun = 5
 	weaken = 5
+	mob_stuck_chance = 0
 
 
 /obj/item/projectile/bullet/weakbullet2
 	damage = 15
 	stun = 7
 	weaken = 7
+	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/weakbullet3
 	damage = 20
+	//Syndicate pistol uses this, hence why there's no mob_stuck_chance
 
 /obj/item/projectile/bullet/pellet
 	name = "pellet"
 	damage = 9 //15 //Nerfed because 5 pellets * 15 means a whopping 75 damage point-blank. Double-barreled shotgun has 2 rounds, so... yeah.
+	mob_stuck_chance = 0 //Pellets don't get stuck in your limbs for balancing reasons
 
 /obj/item/projectile/bullet/pellet/weak
 	damage = 3

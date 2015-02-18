@@ -66,10 +66,16 @@ emp_act
 		P.on_hit(src, 100, def_zone)
 		return 2
 	var/obj/item/projectile/bullet/B = P
-	if(istype(B) && prob(B.mob_stuck_chance))
-		var/obj/item/organ/limb/O = get_organ(check_zone(def_zone))
-		if(O.name != "head" && adjustBloodLoss(0.1, O)) //Check if the affected limb is not your head and if blood loss can be adjusted
-			O.foreign_objects += new /obj/item/bullet(O) //Lodge the bullet into the limb
+	var/obj/item/organ/limb/O = get_organ(check_zone(def_zone))
+	var/armor = run_armor_check(O, "projectile")
+	if(armor < 100)
+		if(istype(B) && prob(max(0, B.mob_stuck_chance - (armor/2)))) //Bulletproof armor should be able to prevent bullets getting stuck in ya
+			if(O.name != "head") //Check if the affected limb is not your head
+				O.foreign_objects += new /obj/item/bullet(O) //Lodge the bullet into the limb
+				src << "<span class='userdanger'>You feel a sharp pain in your [O.getDisplayName()]!</span>"
+				if(prob(5)) emote("scream")
+			adjustBloodLoss(0.01, O) //Give the dude some bloodloss. Low amount since automatic weapons would be OP as fuck
+
 	return (..(P , def_zone))
 
 /mob/living/carbon/human/proc/check_reflect(var/def_zone) //Reflection checks for anything in your l_hand, r_hand, or wear_suit based on reflect_chance var of the object

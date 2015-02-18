@@ -44,7 +44,7 @@
 	minimum_distance = 5
 	projectiletype = /obj/item/projectile/bullet
 	projectilesound = 'sound/weapons/Gunshot.ogg'
-	casingtype = /obj/item/ammo_casing/a357
+	casingtype = /obj/item/ammo_casing/a357{empty = 1} //Spawns it as empty
 
 
 /mob/living/simple_animal/hostile/russian/Die()

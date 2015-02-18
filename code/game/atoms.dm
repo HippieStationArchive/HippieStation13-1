@@ -362,8 +362,7 @@ var/list/blood_splatter_icons = list()
 	if(!istype(M)) return
 	if(istype(src, /turf/simulated))
 		if(check_dna_integrity(M))	//mobs with dna = (monkeys + humans at time of writing)
-			var/obj/effect/decal/cleanable/drip/B = locate() in contents
-			if(!B)	B = new(src)
+			var/obj/effect/decal/cleanable/drip/B = new /obj/effect/decal/cleanable/drip(src)
 			B.blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
 		// else if(istype(M, /mob/living/carbon/alien))
 		// else if(istype(M, /mob/living/silicon/robot))

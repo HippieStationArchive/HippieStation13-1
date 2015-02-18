@@ -9,7 +9,7 @@
 	// must_be_lying = 0 //Can perform bullet extraction even if you're standing up. No need to fuck with the probability since location checks already do a check for table/bed/etc.
 
 /datum/surgery_step/remove_bullet
-	implements = list(/obj/item/weapon/hemostat = 100, /obj/item/weapon/wirecutters = 60, /obj/item/weapon/crowbar = 30)
+	implements = list(/obj/item/weapon/hemostat = 100, /obj/item/weapon/screwdriver = 70, /obj/item/weapon/wirecutters = 50, /obj/item/weapon/crowbar = 30)
 	time = 20 //Low time for bullet extraction in case there are multiple lodged in.
 	var/obj/item/organ/limb/L = null // L because "limb"
 	allowed_organs = list("r_arm","l_arm","r_leg","l_leg","chest","head") //Although bullets cannot be lodged into heads, I still allow bullet extraction in case there are other things lodged in.
@@ -25,12 +25,18 @@
 	if(L)
 		if(ishuman(target))
 			if(L.foreign_objects.len)
-				user.visible_message("<span class='notice'>[user] successfully extracts the foreign object from [target]'s [parse_zone(target_zone)]!</span>")
 				var/obj/item/B = pick(L.foreign_objects) //Foreign objects should ALWAYS be items.
+				var/msg = "[user] successfully extracts the foreign object from [target]'s [parse_zone(target_zone)]!"
 				B.loc = get_turf(target)
+				B.add_blood(target) //make it all bloody and shit
 				L.foreign_objects -= B
 				if(L.foreign_objects.len)
 					surgery.status = 1 //If there are still foreign objects left, don't complete the surgery yet. Instead, go to first step and repeat.
+					msg += " There's something else left..."
+				else
+					msg += " Seems like that was the last one."
+
+				user.visible_message("<span class='notice'>[msg]</span>")
 			else
 				user.visible_message("<span class='notice'>[user] cannot find any foreign objects in [target]'s [parse_zone(target_zone)]. Time to close up the wound!</span>")
 	else

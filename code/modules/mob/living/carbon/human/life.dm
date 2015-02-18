@@ -527,7 +527,8 @@
 				for(var/obj/item/organ/limb/L in limbs)
 					if(L.bloodloss)
 						L.take_damage(L.bloodloss, 0)
-						if(prob(20)) src.loc.add_blood_drip(src) //Create a fancy drip.
+						if(prob(max(0, min(L.bloodloss*150, 80)))) //80% chance is max
+							src.loc.add_blood_drip(src) //Create a fancy drip.
 					if(L.foreign_objects.len && L.bloodloss < 0.5)
 						adjustBloodLoss(0.005*L.foreign_objects.len, L) //+0.005 bloodloss for every foreign object in limb. (0.02 is too quick)
 

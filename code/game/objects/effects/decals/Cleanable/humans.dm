@@ -103,6 +103,7 @@
 	random_icon_states = list("1", "2", "3")
 	gender = NEUTER
 	layer = 2
+	blood_DNA = list() //wow figured out how to fix runtimes, yay
 
 /obj/effect/decal/cleanable/drip/New()
 	..()
@@ -110,8 +111,11 @@
 	pixel_y = rand(-6, 6)
 	remove_ex_blood()
 
-/obj/effect/decal/cleanable/drip/proc/remove_ex_blood() //removes existant blood drip on the turf --TODO: Make it only remove the drip if there are more than 4 of them on turf
+/obj/effect/decal/cleanable/drip/proc/remove_ex_blood() //removes excessive blood drips on the turf
 	if(src.loc && isturf(src.loc))
+		var/list/blood = list()
+		//var/turf/T = src.loc
 		for(var/obj/effect/decal/cleanable/drip/B in src.loc)
-			if(B != src)
-				qdel(B)
+			blood += B
+		if(blood.len > 4) //fuk ye this works
+			qdel(pick(blood))

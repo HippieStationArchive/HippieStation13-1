@@ -86,7 +86,7 @@ datum/reagent/medicine/inaprovaline/on_mob_life(var/mob/living/M as mob)
 	..()
 	return
 
-datum/reagent/medicine/inaprovaline/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone)
+datum/reagent/medicine/inaprovaline/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
 	if(!..())
 		return
 	// if(!istype(M, /mob/living)) //Must be handled in ..()
@@ -421,7 +421,7 @@ datum/reagent/medicine/ointment //Need better reagent names
 	color = "#8CA014" // rgb: 140, 160, 20
 	metabolization_rate = 1
 
-datum/reagent/medicine/ointment/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone)
+datum/reagent/medicine/ointment/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
 	if(!..())
 		return
 	// if(!istype(M, /mob/living)) //Must be handled in ..()
@@ -445,13 +445,13 @@ datum/reagent/medicine/ointment/reaction_mob(var/mob/living/carbon/M, var/method
 	return
 
 datum/reagent/medicine/brutanol //DEFINITELY need better reagent names
-	name = "brutanol"
+	name = "Brutanol"
 	id = "brutanol"
 	description = "A chemical usually contained in brute medicine."
 	color = "#82280A" // rgb: 130, 40, 10
 	metabolization_rate = 1
 
-datum/reagent/medicine/brutanol/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone)
+datum/reagent/medicine/brutanol/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
 	if(!..())
 		return
 	// if(!istype(M, /mob/living)) //Must be handled in ..()

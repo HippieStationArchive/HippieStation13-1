@@ -927,7 +927,7 @@
 
 	var/bloody = 0
 	if((I.damtype == BRUTE) && I.force)
-		if(affecting.brute_dam >= 40 && prob(30))
+		if(affecting.brute_dam >= I.bleedcap && prob(I.bleedchance)) //Bleedcap by default is 40, bleedchance is 30
 			if(affecting.bloodloss <= 0)
 				H << "<span class='userdanger'>Your [hit_area] starts bleeding!</span>"
 			H.adjustBloodLoss(0.1, affecting)

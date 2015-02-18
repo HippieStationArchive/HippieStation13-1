@@ -27,7 +27,7 @@ datum/reagent
 	var/addiction_rate = 0.2 //Amount of reagents removed per tick similar to metabolization.
 	var/prevent_bloodloss = 0 //Variable for reagents that stop blood loss for all limbs when in bloodstream.
 
-datum/reagent/proc/reaction_mob(var/mob/M, var/method=TOUCH, var/volume, var/zone) //"zone" for chems like ointment and brutanol to check affected limb
+datum/reagent/proc/reaction_mob(var/mob/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20)) //"zone" for chems like ointment and brutanol to check affected limb
 	if(!istype(M, /mob/living))
 		return 0
 	var/datum/reagent/self = src

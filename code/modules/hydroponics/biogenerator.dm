@@ -130,7 +130,7 @@
 			if("nobeakerspace")
 				dat += "<div class='statusDisplay'>Not enough space left in container. Unable to create product.</div>"
 				menustat = "menu"
-		if(beaker)
+		if(beaker) //TODO: rewrite this to use lists
 			dat += "<div class='statusDisplay'>Biomass: [points] units.</div><BR>"
 			dat += "<A href='?src=\ref[src];activate=1'>Activate</A><A href='?src=\ref[src];detach=1'>Detach Container</A>"
 			dat += "<h3>Food:</h3>"
@@ -147,8 +147,8 @@
 			dat += "</div>"
 			dat += "<h3>Leather:</h3>"
 			dat += "<div class='statusDisplay'>"
-			dat += "Chemical patch: <A href='?src=\ref[src];create=chempatch;amount=1'>Make</A> ([50/efficiency])<BR>"
 			dat += "Gauze: <A href='?src=\ref[src];create=gauze;amount=1'>Make</A> ([50/efficiency])<BR>"
+			dat += "Chemical patch: <A href='?src=\ref[src];create=chempatch;amount=1'>Make</A> ([100/efficiency])<BR>"
 			dat += "Wallet: <A href='?src=\ref[src];create=wallet;amount=1'>Make</A> ([100/efficiency])<BR>"
 			dat += "Book bag: <A href='?src=\ref[src];create=bkbag;amount=1'>Make</A> ([200/efficiency])<BR>"
 			dat += "Plant bag: <A href='?src=\ref[src];create=ptbag;amount=1'>Make</A> ([200/efficiency])<BR>"
@@ -235,12 +235,12 @@
 		if("rh")
 			if (check_cost(25/efficiency)) return 0
 			else new/obj/item/weapon/reagent_containers/glass/bottle/nutrient/rh(src.loc)
-		if("chempatch")
-			if (check_cost(50/efficiency)) return 0
-			else new/obj/item/weapon/reagent_containers/chempatch(src.loc)
 		if("gauze")
 			if (check_cost(50/efficiency)) return 0
 			else new/obj/item/stack/gauze(src.loc)
+		if("chempatch")
+			if (check_cost(100/efficiency)) return 0
+			else new/obj/item/weapon/reagent_containers/chempatch(src.loc)
 		if("wallet")
 			if (check_cost(100/efficiency)) return 0
 			else new/obj/item/weapon/storage/wallet(src.loc)
