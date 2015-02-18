@@ -45,7 +45,7 @@
 	if(lying)
 		if(istype(loc, /turf/space))
 			if(screamcount <= 0)
-				return
+				return 0
 			else
 				var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
 				if(gender == FEMALE)

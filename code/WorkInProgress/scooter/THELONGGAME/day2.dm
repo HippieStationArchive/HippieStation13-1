@@ -54,7 +54,7 @@ var/global/datum/goonmod/goonmod
 						C.color = pick("red","blue", "purple", "green")
 						C << "\red You feel colorful."
 					if(4)
-						C.say("*megascream")
+					//	C.say("*megascream")
 					if(5)
 						C.loc = pick(playerlist2)
 						C << "\red You feel like you are inside someone"

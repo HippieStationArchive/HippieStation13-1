@@ -363,33 +363,6 @@
 				message = "<B>[src]</B> yawns."
 				m_type = 2
 
-		if("megascream") //how to remove ass
-			if(miming)
-				usr << "\red You try to scream but nothing comes out!"
-				return
-			if (ticker.current_state == 3)//safety1
-				if(world.time < fartholdin)//safety2
-					usr << "Your ass is not ready to blast."
-					return
-				else
-					var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
-					if(gender == FEMALE)
-						sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
-					playsound(src.loc, sound, 50, 1, 5)
-					spawn(1)
-						playsound(src.loc, sound, 50, 1, 5)
-						spawn(1)
-							playsound(src.loc, sound, 50, 1, 5)
-							spawn(1)
-								playsound(src.loc, sound, 50, 1, 5)
-								spawn(1)
-									playsound(src.loc, sound, 50, 1, 5)
-									spawn(1)
-										playsound(src.loc, sound, 50, 1, 5)
-										if(prob(50))
-											miming = 1
-
-
 		if ("help") //This can stay at the bottom.
 			src << "Help for emotes. You can use these emotes with say \"*emote\":\n\naflap, airguitar, blink, blink_r, blush, bow-(none)/mob, burp, choke, chuckle, clap, collapse, cough, dance, deathgasp, drool, fart, flap, frown, gasp, giggle, glare-(none)/mob, grin, jump, laugh, look, me, nod, point-atom, scream, shake, sigh, sit, smile, sneeze, sniff, snore, stare-(none)/mob, sulk, sway, tremble, twitch, twitch_s, wave, whimper, wink, yawn"
 

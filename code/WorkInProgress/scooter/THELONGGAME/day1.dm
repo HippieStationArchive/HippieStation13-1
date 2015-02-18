@@ -7,7 +7,7 @@
 	set category = "Super"
 
 	usr.say("AAAAAAGGGGHHHHHHHHHHH!")
-	usr.say("*megascream")
+//	usr.say("*megascream")
 	usr << "You scream like a badass!"
 	for(var/obj/structure/window/C in view(src, 5))
 		spawn(rand(1,3))
