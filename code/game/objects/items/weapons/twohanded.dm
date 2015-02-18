@@ -155,6 +155,8 @@ obj/item/weapon/twohanded/
 	slot_flags = SLOT_BACK
 	force_unwielded = 5
 	force_wielded = 24 // Was 18, Buffed - RobRichards/RR
+	bleedcap = 20
+	bleedchance = 12 //Don't make this too high, already has robust force
 	attack_verb = list("attacked", "chopped", "cleaved", "torn", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	wieldsound = 'sound/weapons/raise.ogg'
@@ -298,6 +300,8 @@ obj/item/weapon/twohanded/
 	attack_verb = list("attacked", "poked", "jabbed", "torn", "gored")
 	wieldsound = 'sound/weapons/raise.ogg'
 	unwieldsound = 'sound/weapons/raise.ogg'
+	bleedcap = 30 //It's makeshift, so only reduce the bleedcap slightly
+	bleedchance = 12 //Same goes for bleedchance
 
 /obj/item/weapon/twohanded/spear/update_icon()
 	icon_state = "spearglass[wielded]"

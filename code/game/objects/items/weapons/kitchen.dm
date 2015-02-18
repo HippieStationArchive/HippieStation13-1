@@ -79,6 +79,8 @@
 	icon_state = "knife"
 	force = 10.0
 	throwforce = 10.0
+	bleedcap = 20 //lower bleedcap so stabbing someone with a knife is more likely to get them bleeding
+	bleedchance = 20 //Higher bleed chance
 
 /obj/item/weapon/kitchen/utensil/knife/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the [src.name]! It looks like \he's trying to commit suicide.</span>", \
@@ -104,6 +106,8 @@
 	desc = "A general purpose Chef's Knife made by SpaceCook Incorporated. Guaranteed to stay sharp for years to come."
 	flags = CONDUCT
 	force = 10
+	bleedcap = 20
+	bleedchance = 30 //Higher chance to cause bleeding - default is 10
 	w_class = 3
 	throwforce = 10
 	throw_speed = 3
@@ -138,6 +142,8 @@
 	force = 15.0
 	w_class = 2.0
 	throwforce = 10.0
+	bleedcap = 16 //Bleedcap lower than kitchen knife
+	bleedchance = 40 //Higher chance to cause bleeding
 	throw_speed = 3
 	throw_range = 5
 	m_amt = 12000
