@@ -82,6 +82,12 @@
 	item_color = "janitor"
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 10, rad = 0)
 
+/obj/item/clothing/under/rank/janitor/alt
+	desc = "It's the alternative uniform of the station's janitor. It has minor protection from biohazards. Usually worn by total scrublords."
+	name = "janitor's jumpsuit"
+	icon_state = "janiform"
+	item_state = "janiform"
+	item_color = "janiform"
 
 /obj/item/clothing/under/lawyer
 	desc = "Slick threads."

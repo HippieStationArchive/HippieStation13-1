@@ -92,11 +92,13 @@
 		/obj/item/weapon/lighter/zippo,
 		/obj/item/weapon/storage/fancy/cigarettes,
 		/obj/item/weapon/storage/pill_bottle,
-		/obj/item/weapon/reagent_containers/medical,
 		/obj/item/device/flashlight/pen,
 		/obj/item/weapon/extinguisher/mini,
 		/obj/item/weapon/reagent_containers/hypospray,
 		/obj/item/device/rad_laser,
+		/obj/item/weapon/reagent_containers/medical,
+		/obj/item/weapon/reagent_containers/chempatch,
+		/obj/item/stack/gauze,
 		/obj/item/device/sensor_device
 		)
 

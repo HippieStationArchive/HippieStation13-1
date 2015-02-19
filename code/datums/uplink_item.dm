@@ -464,12 +464,18 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/toolbox/syndicate
 	cost = 1
 
+/datum/uplink_item/device_tools/medkitnorm
+	name = "Syndicate Medical Supply Kit" //Unlike tacticool medkit it's not gamemode-restricted.
+	desc = "The syndicate medkit is a suspicious black and red. Included is 6 syndicate chempatches (brutanol and ointment), 3 gauzes, a health anaylzer and a medipen with inaprovaline."
+	item = /obj/item/weapon/storage/firstaid/syndicate
+	cost = 4 //Hefty price for robust meds
+
 /datum/uplink_item/device_tools/medkit
-	name = "Syndicate Medical Supply Kit"
+	name = "Syndicate Tacticool Medkit"
 	desc = "The syndicate medkit is a suspicious black and red. Included is a combat stimulant injector for rapid healing, a medical hud for quick identification of injured comrades, \
 	and other medical supplies helpful for a medical field operative."
 	item = /obj/item/weapon/storage/firstaid/tactical
-	cost = 9
+	cost = 6 //Nerfed from 9 so there's a reason to actually use it. It's pretty shit overall anyway.
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/badass/syndiecigs
