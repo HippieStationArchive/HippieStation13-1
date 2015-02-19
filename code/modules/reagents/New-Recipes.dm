@@ -24,8 +24,8 @@ datum/reagent/pure_rainbow
 	name = "pure_rainbow"
 	id = "pure_rainbow"
 	result = "pure_rainbow"
-	required_reagents = list("sodiumchloride" = 1, "space_cleaner" = 1)
-	result_amount = 2
+	required_reagents = list("redcrayonpowder" = 1, "orangecrayonpowder" = 1, "yellowcrayonpowder" = 1, "greencrayonpowder" = 1, "bluecrayonpowder" = 1, "purplecrayonpowder" = 1)
+	result_amount = 6
 
 datum/reagent/pure_rainbow/reaction_mob(var/mob/living/M, var/volume)
 	if(M && isliving(M))
