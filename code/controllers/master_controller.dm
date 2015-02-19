@@ -77,6 +77,7 @@ var/global/pipe_processing_killed = 0
 			ticker.pregame()
 
 /datum/controller/game_controller/proc/setup_objects()
+	set background=1
 	world << "<span class='userdanger'>Initializing objects...</span>"
 	sleep(-1)
 	for(var/atom/movable/object in world)

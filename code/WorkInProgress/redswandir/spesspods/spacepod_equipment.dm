@@ -16,8 +16,6 @@
 	icon_state = "sp_equip"
 	force = 5
 	origin_tech = "materials=2"
-	construction_time = 100
-	construction_cost = list("metal"=10000)
 	var/equip_cooldown = 0
 	var/equip_ready = 1
 	var/energy_drain = 0
@@ -182,6 +180,7 @@
 					firstloc = get_turf(src)
 					secondloc = get_step(firstloc,NORTH)
 		olddir = dir
+
 		var/obj/item/projectile/projone = new projectile_type(firstloc)
 		var/obj/item/projectile/projtwo = new projectile_type(secondloc)
 		projone.starting = get_turf(src)
@@ -192,8 +191,8 @@
 		projtwo.def_zone = "chest"
 		spawn()
 			playsound(src, fire_sound, 50, 1)
-			projone.dumbfire(dir)
-			projtwo.dumbfire(dir)
+			projone.fire(firstloc)
+			projtwo.fire(secondloc)
 		sleep(1)
 	my_atom.next_firetime = world.time + fire_delay
 
@@ -341,7 +340,6 @@
 	desc = "Miner's law: the number of ores in a miner's pod doubles approximately every two drills."
 	icon_state = "sp_diamond_drill"
 	origin_tech = "materials=4;engineering=3"
-	construction_cost = list("metal"=10000,"diamond"=6500)
 	equip_cooldown = 20
 	force = 0
 
@@ -496,26 +494,26 @@
 	log_message("Deactivated")
 
 /obj/item/mecha_parts/spod_equipment/engine/basic/proc/dyndomove(direction)
-	if(!action_checks())
-		return chassis.dyndomove(direction)
+	//if(!chassis.can_move)
+		//return 0
+	//if(!Process_Spacemove(direction))
+		//return 0
+	//if(!has_charge(step_energy_drain))
+	//	return 0
 	var/move_result = 0
 	if(chassis.hasInternalDamage(MECHA_INT_CONTROL_LOST))
-		move_result = step_rand(chassis)
-	else if(chassis.dir!=direction)
-		chassis.dir = direction
-		move_result = 1
+		move_result = chassis.mechsteprand()
+	else if(src.dir!=direction)
+		move_result = chassis.mechturn(direction)
 	else
-		move_result	= step(chassis,direction)
-	if(move_result)
-		wait = 1
-		chassis.use_power(energy_drain)
-		if(!chassis.pr_inertial_movement.active())
-			chassis.pr_inertial_movement.start(list(chassis,direction))
-		else
-			chassis.pr_inertial_movement.set_process_args(list(chassis,direction))
-		do_after_cooldown()
-		return 1
-	return 0
+		move_result = chassis.mechstep(direction)
+	//if(move_result)
+		//chassis.can_move = 0
+		//if(do_after(chassis.step_in))
+			//chassis.can_move = 1
+		//return 1
+	//return 0
+	return 1
 
 /obj/item/mecha_parts/spod_equipment/engine/basic/action_checks()
 	if(equip_ready || wait)
@@ -524,8 +522,8 @@
 		return 0
 	if(crit_fail)
 		return 0
-	if(chassis.check_for_support())
-		return 0
+	//if(chassis.check_for_support())
+	//	return 0
 	return 1
 
 /obj/item/mecha_parts/spod_equipment/engine/basic/get_equip_info()

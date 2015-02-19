@@ -57,6 +57,7 @@
 
 
 /datum/station_state/proc/count()
+	set background=1
 	for(var/turf/T in world)
 		if(T.z != 1)
 			continue

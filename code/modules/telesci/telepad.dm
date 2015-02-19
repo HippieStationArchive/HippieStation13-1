@@ -24,7 +24,7 @@
 /obj/machinery/telepad/RefreshParts()
 	var/E
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
-		E += C.rating
+		E += C.rating * 2
 	efficiency = E
 
 /obj/machinery/telepad/attackby(obj/item/I, mob/user)

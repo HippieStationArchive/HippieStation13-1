@@ -363,3 +363,15 @@ datum/design/mech_generator_nuclear
 	materials = list("$metal"=10000,"$glass"=1000,"$silver"=500)
 	construction_time = 100
 	category = list("Exosuit Equipment")
+
+//Pods
+datum/design/pod_diamond_drill
+	name = "Diamond Drill"
+	desc = "Drill?"
+	id = "pod_diamond_drill"
+	req_tech = list("materials" = 4, "engineering" = 3)
+	build_type = MECHFAB
+	materials = list("$metal" = 10000, "$diamond" = 6500)
+	construction_time = 100
+	build_path = /obj/item/mecha_parts/spod_equipment/tool/drill/diamonddrill
+	category = list("Pods")

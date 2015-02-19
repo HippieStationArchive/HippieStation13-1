@@ -102,6 +102,7 @@ datum/controller/air_system
 				air_master.add_to_active(S)
 
 /datum/controller/air_system/proc/setup_allturfs()
+	set background=1
 	for(var/turf/simulated/T in world)
 		T.CalculateAdjacentTurfs()
 		if(!T.blocks_air)

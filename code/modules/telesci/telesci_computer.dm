@@ -22,7 +22,7 @@
 
 	// Based on the power used
 	var/teleport_cooldown = 0 // every index requires a bluespace crystal
-	var/list/power_options = list(5, 10, 20, 25, 30, 40, 50, 80, 100)
+	var/list/power_options = list(5, 10, 20, 25, 30, 40, 50, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280)
 	var/teleporting = 0
 	var/starting_crystals = 3
 	var/max_crystals = 4
@@ -107,7 +107,7 @@
 		t += "<div class='statusDisplay'>"
 
 		for(var/i = 1; i <= power_options.len; i++)
-			if(crystals.len + telepad.efficiency  < i)
+			if((crystals.len * 2) + telepad.efficiency  < i)
 				t += "<span class='linkOff'>[power_options[i]]</span>"
 				continue
 			if(power == power_options[i])
@@ -280,9 +280,9 @@
 		telefail()
 		temp_msg = "ERROR!<BR>Elevation is less than 1 or greater than 90."
 		return
-	if(z_co == 2 || z_co < 1 || z_co > 6)
+	if(z_co == 2 || z_co < 1 || z_co > 7)
 		telefail()
-		temp_msg = "ERROR! Sector is less than 1, <BR>greater than 6, or equal to 2."
+		temp_msg = "ERROR! Sector is less than 1, <BR>greater than 7, or equal to 2."
 		return
 	if(teles_left > 0)
 		doteleport(user)
