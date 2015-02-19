@@ -112,8 +112,9 @@
 	return
 
 /obj/item/weapon/storage/firstaid/tactical
-	name = "first-aid kit"
-	icon_state = "bezerk"
+	name = "tactical first-aid kit"
+	icon_state = "syndfirstaid"
+	item_state = "firstaid-synd"
 	desc = "I hope you've got insurance."
 	max_w_class = 3
 
@@ -129,6 +130,28 @@
 	new /obj/item/clothing/glasses/hud/health/night( src )
 	return
 
+/obj/item/weapon/storage/firstaid/syndicate
+	icon_state = "syndfirstaid"
+	item_state = "firstaid-synd"
+	desc = "Suspicious."
+	storage_slots = 11
+	max_w_class = 1 //So you can't put anything else in it but the supplies.
+
+/obj/item/weapon/storage/firstaid/syndicate/New()
+	..()
+	if (empty) return
+	new /obj/item/weapon/reagent_containers/chempatch/syndbrutanol(src)
+	new /obj/item/weapon/reagent_containers/chempatch/syndbrutanol(src)
+	new /obj/item/weapon/reagent_containers/chempatch/syndbrutanol(src)
+	new /obj/item/weapon/reagent_containers/chempatch/syndointment(src)
+	new /obj/item/weapon/reagent_containers/chempatch/syndointment(src)
+	new /obj/item/weapon/reagent_containers/chempatch/syndointment(src)
+	new /obj/item/stack/gauze(src)
+	new /obj/item/stack/gauze(src)
+	new /obj/item/stack/gauze(src)
+	new /obj/item/device/healthanalyzer(src)
+	new /obj/item/weapon/reagent_containers/hypospray/medipen( src )
+	return
 
 /*
  * Pill Bottles

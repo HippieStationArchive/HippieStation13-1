@@ -67,9 +67,11 @@
 /obj/structure/closet/jcloset/New()
 	..()
 	new /obj/item/clothing/under/rank/janitor(src)
+	new /obj/item/clothing/under/rank/janitor/alt(src) //Fancy alt items woo
 	new /obj/item/weapon/cartridge/janitor(src)
 	new /obj/item/clothing/gloves/color/black(src)
 	new /obj/item/clothing/head/soft/purple(src)
+	new /obj/item/clothing/head/soft/red(src)  //Fancy alt items woo
 	new /obj/item/device/flashlight(src)
 	new /obj/item/weapon/caution(src)
 	new /obj/item/weapon/caution(src)
@@ -80,6 +82,7 @@
 	new /obj/item/clothing/shoes/galoshes(src)
 	new /obj/item/weapon/watertank/janitor(src)
 	new /obj/item/weapon/storage/belt/janitor(src)
+	new /obj/item/pornmag(src) //LEWD
 
 /*
  * Lawyer

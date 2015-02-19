@@ -229,17 +229,18 @@
 
 /obj/item/weapon/reagent_containers/chempatch/syndbrutanol
 	name = "brutanol patch"
-	desc = "Syndicate-brand brutanol patch designed to heal those nasty wounds. Extremely robust."
+	desc = "Syndicate-brand brutanol patch designed to heal those nasty wounds. Also stops bleeding. Extremely robust."
 	icon_state = "patch_synd"
 
 /obj/item/weapon/reagent_containers/chempatch/syndbrutanol/New()
 	..()
-	reagents.add_reagent("brutanol", 20)
+	reagents.add_reagent("brutanol", 15)
+	reagents.add_reagent("inaprovaline", 5)
 
 /obj/item/weapon/reagent_containers/chempatch/syndointment
 	name = "ointment patch"
 	desc = "Syndicate-brand ointment patch designed to heal those nasty burns. Extremely robust."
-	icon_state = "patch_med"
+	icon_state = "patch_synd"
 
 /obj/item/weapon/reagent_containers/chempatch/syndointment/New()
 	..()
