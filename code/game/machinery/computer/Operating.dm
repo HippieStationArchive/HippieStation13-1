@@ -48,6 +48,8 @@
 	popup.open()
 
 /obj/machinery/computer/operating/proc/get_patient_info()
+	//Reason why bloodloss is multiplied by that number is to convert to % is because there are 5 limbs that can be damaged, bloodloss of 1 being the max bloodloss for each. Do the math.
+	var/blood_loss = max(min(round(patient.getBloodLoss()*16.6666), 100), 0) //value from 0 to 100, 16.6666 is 100 divided by 6 (the amount of limbs)
 	var/dat = {"
 				<div class='statusLabel'>Patient:</div> [patient.stat ? "<span class='bad'>Non-Responsive</span>" : "<span class='good'>Stable</span>"]<BR>
 				<div class='statusLabel'>Blood Type:</div> [patient.blood_type]
@@ -58,9 +60,9 @@
 				<div class='line'><div class='statusLabel'>\> Resp. Damage:</div><div class='progressBar'><div style='width: [max(patient.getOxyLoss(), 0)]%;' class='progressFill bad'></div></div><div class='statusValue'>[patient.getOxyLoss()]%</div></div>
 				<div class='line'><div class='statusLabel'>\> Toxin Content:</div><div class='progressBar'><div style='width: [max(patient.getToxLoss(), 0)]%;' class='progressFill bad'></div></div><div class='statusValue'>[patient.getToxLoss()]%</div></div>
 				<div class='line'><div class='statusLabel'>\> Burn Severity:</div><div class='progressBar'><div style='width: [max(patient.getFireLoss(), 0)]%;' class='progressFill bad'></div></div><div class='statusValue'>[patient.getFireLoss()]%</div></div>
-				<div class='line'><div class='statusLabel'>\> Bloodloss Severity:</div><div class='progressBar'><div style='width: [max(patient.getBloodLoss()*20, 0)]%;' class='progressFill bad'></div></div><div class='statusValue'>[patient.getBloodLoss()*20]%</div></div>
+				<div class='line'><div class='statusLabel'>\> Bloodloss Severity:</div><div class='progressBar'><div style='width: [blood_loss]%;' class='progressFill bad'></div></div><div class='statusValue'>[blood_loss]%</div></div>
 
-				"}	//Reason why bloodloss is multiplied by 20 to convert to % is because there are 5 limbs that can be damaged, bloodloss of 1 being the max bloodloss for each. Do the math.
+				"}
 	if(patient.surgeries.len)
 		dat += "<BR><B>Initiated Procedures</B><div class='statusDisplay'>"
 		for(var/datum/surgery/procedure in patient.surgeries)

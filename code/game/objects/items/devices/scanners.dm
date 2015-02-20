@@ -115,7 +115,7 @@ MASS SPECTROMETER
 	user.show_message(text("<span class='notice'>Analyzing Results for []:\n\t Overall Status: []</span>", M, mob_status), 1)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		blood_loss = H.getBloodLoss()
+		blood_loss = H.getBloodLoss()*100 //To make it a percentage instead of value from 0 to 1
 		if(H.dna)// Show target's species, if they have one
 			user.show_message("<span class='notice'>Species: <b>[H.dna.species.name]</b></span>", 1)
 		else // Otherwise we can assume that they are a regular human
@@ -139,7 +139,7 @@ MASS SPECTROMETER
 										capitalize(org.getDisplayName()),\
 										(org.burn_dam > 0) ? "<font color='#FF8000'>[org.burn_dam]</font>" : 0,\
 										(org.brute_dam > 0) ? "<font color='red'>[org.brute_dam]</font>" : 0,\
-										(org.bloodloss > 0) ? "<font color='#FF6464'>[org.bloodloss]</font>" : 0,\
+										(org.bloodloss > 0) ? "<font color='#FF6464'>[org.bloodloss*100]</font>" : 0,\
 										(org.foreign_objects.len > 0) ? "<font color='red'>Foreign objects detected!</font></span>" : "No foreign objects detected</span>"), 1)
 		else
 			user.show_message("<span class='notice'>\t Limbs are OK.</span>",1)

@@ -76,6 +76,13 @@ mob/living/carbon/human/proc/hat_fall_prob()
 			parts += O
 	return parts
 
+//Returns a list of limbs
+// /mob/living/carbon/human/proc/get_limbs()
+// 	var/list/obj/item/organ/limb/parts = list()
+// 	for(var/obj/item/organ/limb/O in organs)
+// 		parts += O
+// 	return parts
+
 //Returns a list of damageable organs
 /mob/living/carbon/human/proc/get_damageable_organs()
 	var/list/obj/item/organ/limb/parts = list()

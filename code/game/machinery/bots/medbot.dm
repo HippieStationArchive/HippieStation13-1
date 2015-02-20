@@ -72,9 +72,9 @@
 		icon_state = "medibot0"
 		return
 	if(mode == BOT_HEALING)
-		icon_state = "medibots[stationary_mode]"
+		icon_state = "medibot2"
 		return
-	else if(stationary_mode) //Bot has yellow light to indicate stationary mode.
+	else if(stationary_mode) //Bot has yellow light to indicate stationary mode. This is actually a lie.
 		icon_state = "medibot2"
 	else
 		icon_state = "medibot1"
