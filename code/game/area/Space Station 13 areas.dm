@@ -1507,11 +1507,6 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Space debris"
 	icon_state = "spacedebris"
 
-/area/assistantbar
-	name = "\improper Assistant Bar"
-	icon_state = "spacedebris"
-	ambientsounds = list('sound/ambience/ambieng1.ogg', 'sound/ambience/ambimine.ogg')
-
 /area/wreck
 	name = "\improper Spacewreck"
 	icon_state = "centcom"
