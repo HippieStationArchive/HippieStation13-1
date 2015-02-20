@@ -39,9 +39,8 @@
 			playsound(loc, "hiss", 15, 1, 1)
 
 /obj/machinery/bot/buttbot/Hear(message, atom/movable/speaker, message_langs, raw_message, radio_freq)
-	//Character limit to prevent ultra WGW spam (It's funnier for them to copy individual WGW sentences).
 	//Also dont imitate ourselves. Imitate other buttbots though heheh
-	if(speaker != src && prob(40) && length(raw_message) <= 250)
+	if(speaker != src && prob(40))
 		if(speech_buffer.len >= 20)
 			speech_buffer -= pick(speech_buffer)
 		speech_buffer |= html_decode(raw_message)
