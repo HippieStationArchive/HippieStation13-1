@@ -44,7 +44,7 @@
 		user << "<span class='notice'>\The [src] is empty!</span>"
 		return
 
-	spray(A)
+	spray(A, user)
 
 	playsound(src.loc, 'sound/effects/spray2.ogg', 50, 1, -6)
 	user.changeNext_move(CLICK_CD_RANGE*2)
@@ -62,7 +62,7 @@
 	return
 
 
-/obj/item/weapon/reagent_containers/spray/proc/spray(var/atom/A)
+/obj/item/weapon/reagent_containers/spray/proc/spray(var/atom/A, var/mob/user)
 	var/obj/effect/decal/chempuff/D = new /obj/effect/decal/chempuff(get_turf(src))
 	D.create_reagents(amount_per_transfer_from_this)
 	reagents.trans_to(D, amount_per_transfer_from_this, 1/spray_currentrange)
@@ -70,6 +70,7 @@
 	spawn(0)
 		if(A in range(1)) //This exists to solve the issue where you can't clean up walls and stuff
 			D.layer = 5 //So it overlays the mob or whatever
+			D.dir = user.dir
 			if(isturf(A))
 				D.loc = A
 			else
