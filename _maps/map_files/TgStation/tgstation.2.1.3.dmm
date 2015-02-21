@@ -6730,7 +6730,7 @@
 "czv" = (/turf/simulated/floor/plasteel{icon_state = "vault"; dir = 4},/area/engine/gravity_generator)
 "czw" = (/obj/machinery/light{icon_state = "tube1"; dir = 8},/obj/structure/closet/crate/radiation,/turf/simulated/floor/plating,/area/engine/gravity_generator{name = "Supermatter Shard Room"})
 "czx" = (/obj/machinery/atmospherics/unary/vent_pump{dir = 1; external_pressure_bound = 0; frequency = 1641; id_tag = "sm_out"; internal_pressure_bound = 4000; layer = 2.4; on = 1; pump_direction = 0; showpipe = 0},/turf/simulated/floor/engine,/area/engine/sm_area)
-"czy" = (/obj/machinery/mass_driver{id = "engigun"},/obj/machinery/power/supermatter,/turf/simulated/floor/plating{tag = "icon-gcircuit"; icon_state = "gcircuit"},/area/engine/sm_area)
+"czy" = (/obj/machinery/mass_driver{id = "engigun"},/obj/machinery/power/supermatter{anchored = 1},/turf/simulated/floor/plating{tag = "icon-gcircuit"; icon_state = "gcircuit"},/area/engine/sm_area)
 "czz" = (/obj/machinery/atmospherics/unary/outlet_injector{dir = 1; frequency = 1641; id = "sm_in"; on = 1; volume_rate = 700},/turf/simulated/floor/engine,/area/engine/sm_area)
 "czA" = (/obj/machinery/light{dir = 4; icon_state = "tube1"},/turf/simulated/floor/plating,/area/engine/gravity_generator{name = "Supermatter Shard Room"})
 "czB" = (/obj/structure/transit_tube{tag = "icon-D-NE"; icon_state = "D-NE"},/obj/structure/lattice,/turf/space,/area/space)

@@ -20,6 +20,8 @@
 	var/O_limit
 	var/atom/target = get_edge_target_turf(src, dir)
 	for(var/atom/movable/O in loc)
+		if(O.anchored && istype(O, /obj/machinery/power/supermatter))
+			O.anchored = 0
 		if(!O.anchored || istype(O, /obj/mecha))	//Mechs need their launch platforms.
 			O_limit++
 			if(O_limit >= 20)
