@@ -13,7 +13,7 @@
 */
 
 //Controls how much power is produced by each collector in range - this is the main parameter for tweaking SM balance, as it basically controls how the power variable relates to the rest of the game.
-#define POWER_FACTOR 1.0
+#define POWER_FACTOR 3.0
 #define DECAY_FACTOR 700			//Affects how fast the supermatter power decays
 #define CRITICAL_TEMPERATURE 800	//K
 #define CHARGING_FACTOR 0.05
@@ -82,6 +82,7 @@
 	var/obj/item/device/radio/radio
 
 	var/debug = 0
+	var/has_been_powered = 0
 
 /obj/machinery/power/supermatter/New()
 	. = ..()
@@ -158,8 +159,9 @@
 				announce_warning()
 			explode()
 	else if(damage > warning_point) // while the core is still damaged and it's still worth noting its status
-		//shift_light(5, warning_color)
-		//if(damage > emergency_point)
+		color = warning_color
+		if(damage > emergency_point)
+			color = emergency_color
 			//shift_light(7, emergency_color)
 		if(!istype(L, /turf/space) && (world.timeofday - lastwarning) >= WARNING_DELAY * 10)
 			announce_warning()
@@ -218,6 +220,13 @@
 
 	removed.oxygen += max((device_energy + removed.temperature - T0C) / OXYGEN_RELEASE_MODIFIER, 0)
 
+	if (debug)
+		visible_message("[src]: Releasing [round(removed.temperature)] temp.")
+		visible_message("[src]: Releasing [round(removed.toxins)] toxins.")
+		visible_message("[src]: Releasing [round(removed.oxygen)] oxygen.")
+
+		//visible_message("[src]: Releasing additional [round((heat_capacity_new - heat_capacity)*removed.temperature)] W with exhaust gasses.")
+
 	env.merge(removed)
 
 	for(var/mob/living/carbon/human/l in view(src, min(7, round(power ** 0.25)))) // If they can see it without mesons on.  Bad on them.
@@ -242,6 +251,10 @@
 
 	if(istype(Proj, /obj/item/projectile/beam))
 		power += Proj.damage * config_bullet_energy	* CHARGING_FACTOR / POWER_FACTOR
+		if(!has_been_powered)
+			investigate_log("has been powered for the first time.", "supermatter")
+			message_admins("[src] has been powered for the first time <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>(JMP)</a>.")
+			has_been_powered = 1
 	else
 		damage += Proj.damage * config_bullet_energy
 	return 0
@@ -326,7 +339,8 @@
 	for(var/atom/X in orange(pull_radius,src))
 		// Movable atoms only
 		if(istype(X, /atom/movable))
-			//if(is_type_in_list(X, uneatable))	continue
+			if(is_type_in_list(X, /obj/structure/cable))	continue
+			if(is_type_in_list(X, /obj/machinery/atmospherics/pipe))	continue
 			if(((X) && (!istype(X,/mob/living/carbon/human))))
 				step_towards(X,src)
 				if(istype(X, /obj)) //unanchored objects pulled twice as fast
