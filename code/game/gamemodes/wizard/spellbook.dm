@@ -299,14 +299,14 @@
 							temp = "You have learned flesh to stone."
 						if("summonguns")
 							feedback_add_details("wizard_spell_learned","SG") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
-							rightandwrong(0, H, 0)
+							rightandwrong(0, H, 30)
 							uses++
 							max_uses++
 							active_challenges += "summon guns"
 							temp = "You have cast summon guns and gained an extra charge for your spellbook."
 						if("summonmagic")
 							feedback_add_details("wizard_spell_learned","SU") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
-							rightandwrong(1, H, 0)
+							rightandwrong(1, H, 30)
 							uses++
 							max_uses++
 							active_challenges += "summon magic"

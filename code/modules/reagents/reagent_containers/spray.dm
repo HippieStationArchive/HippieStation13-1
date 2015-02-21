@@ -68,12 +68,24 @@
 	reagents.trans_to(D, amount_per_transfer_from_this, 1/spray_currentrange)
 	D.color = mix_color_from_reagents(D.reagents.reagent_list)
 	spawn(0)
-		for(var/i=0, i<spray_currentrange, i++)
-			step_towards(D,A)
+		if(A in range(1)) //This exists to solve the issue where you can't clean up walls and stuff
+			D.layer = 5 //So it overlays the mob or whatever
+			if(isturf(A))
+				D.loc = A
+			else
+				D.loc = A.loc
+			D.reagents.reaction(A)
 			D.reagents.reaction(get_turf(D))
 			for(var/atom/T in get_turf(D))
 				D.reagents.reaction(T)
-			sleep(3)
+			sleep(6)
+		else
+			for(var/i=0, i<spray_currentrange, i++)
+				step_towards(D,A)
+				D.reagents.reaction(get_turf(D))
+				for(var/atom/T in get_turf(D))
+					D.reagents.reaction(T)
+				sleep(3)
 		qdel(D)
 
 
