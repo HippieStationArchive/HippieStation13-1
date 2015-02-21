@@ -1,7 +1,7 @@
-#define NITROGEN_RETARDATION_FACTOR 0.15	//Higher == N2 slows reaction more
-#define THERMAL_RELEASE_MODIFIER 750		//Higher == more heat released during reaction
-#define PLASMA_RELEASE_MODIFIER 1500		//Higher == less phoron released by reaction
-#define OXYGEN_RELEASE_MODIFIER 1500		//Higher == less oxygen released at high temperature/power
+#define NITROGEN_RETARDATION_FACTOR 8	//Higher == N2 slows reaction more
+#define THERMAL_RELEASE_MODIFIER 2500		//Higher == more heat released during reaction
+#define PLASMA_RELEASE_MODIFIER 750		//Higher == less phoron released by reaction
+#define OXYGEN_RELEASE_MODIFIER 325		//Higher == less oxygen released at high temperature/power
 #define REACTION_POWER_MODIFIER 1.1			//Higher == more overall power
 
 /*
@@ -13,7 +13,7 @@
 */
 
 //Controls how much power is produced by each collector in range - this is the main parameter for tweaking SM balance, as it basically controls how the power variable relates to the rest of the game.
-#define POWER_FACTOR 3.0
+#define POWER_FACTOR 2
 #define DECAY_FACTOR 700			//Affects how fast the supermatter power decays
 #define CRITICAL_TEMPERATURE 800	//K
 #define CHARGING_FACTOR 0.05
@@ -58,7 +58,7 @@
 	var/pull_radius = 14
 	// Time in ticks between delamination ('exploding') and exploding (as in the actual boom)
 	var/pull_time = 100
-	var/explosion_power = 8
+	var/explosion_power = 9
 
 	var/emergency_issued = 0
 
@@ -108,7 +108,7 @@
 			var/rads = DETONATION_RADS * sqrt( 1 / (get_dist(mob, src) + 1) )
 			mob.apply_effect(rads, IRRADIATE)
 	spawn(pull_time)
-		explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 3, explosion_power * 4, 1)
+		explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 4, explosion_power * 6, 1, 1)
 		del src
 		return
 
@@ -139,7 +139,7 @@
 	else
 		alert_msg = null
 	if(alert_msg)
-		radio.talk_into(src, alert_msg)
+		radio.talk_into(src, alert_msg)	
 
 /obj/machinery/power/supermatter/process()
 	var/turf/L = loc
@@ -182,7 +182,7 @@
 		return 1
 
 	damage_archived = damage
-	damage = max( damage + ( (removed.temperature - 800) / 150 ) , 0 )
+	damage = max( damage + ( (removed.temperature - 800) / 150 ) , 0 ) // damage = 0 or (removed temp - 800) / 150
 	//Ok, 100% oxygen atmosphere = best reaction
 	//Maxes out at 100% oxygen pressure
 	oxygen = max(min((removed.oxygen - (removed.nitrogen * NITROGEN_RETARDATION_FACTOR)) / MOLES_CELLSTANDARD, 1), 0)
@@ -339,9 +339,7 @@
 	for(var/atom/X in orange(pull_radius,src))
 		// Movable atoms only
 		if(istype(X, /atom/movable))
-			if(is_type_in_list(X, /obj/structure/cable))	continue
-			if(is_type_in_list(X, /obj/machinery/atmospherics/pipe))	continue
-			if(((X) && (!istype(X,/mob/living/carbon/human))))
+			if(X && (!istype(X,/mob/living/carbon/human) && !istype(X, /obj/machinery/atmospherics/pipe) && !istype(X, /obj/structure/cable)))
 				step_towards(X,src)
 				if(istype(X, /obj)) //unanchored objects pulled twice as fast
 					var/obj/O = X
