@@ -500,13 +500,13 @@
 		//return 0
 	//if(!has_charge(step_energy_drain))
 	//	return 0
-	var/move_result = 0
-	if(chassis.hasInternalDamage(MECHA_INT_CONTROL_LOST))
-		move_result = chassis.mechsteprand()
-	else if(src.dir!=direction)
-		move_result = chassis.mechturn(direction)
-	else
-		move_result = chassis.mechstep(direction)
+	//var/move_result = 0
+	//if(chassis.hasInternalDamage(MECHA_INT_CONTROL_LOST))
+	//	move_result = chassis.mechsteprand()
+	//else if(src.dir!=direction)
+	//	move_result = chassis.mechturn(direction)
+	//else
+	//	move_result = chassis.mechstep(direction)
 	//if(move_result)
 		//chassis.can_move = 0
 		//if(do_after(chassis.step_in))
