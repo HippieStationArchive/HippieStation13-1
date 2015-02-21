@@ -1,8 +1,8 @@
 #define NITROGEN_RETARDATION_FACTOR 64	//Higher == N2 slows reaction more
-#define THERMAL_RELEASE_MODIFIER 10000		//Higher == more heat released during reaction
-#define PLASMA_RELEASE_MODIFIER 325		//Higher == less phoron released by reaction
-#define OXYGEN_RELEASE_MODIFIER 650		//Higher == less oxygen released at high temperature/power
-#define REACTION_POWER_MODIFIER 1.1			//Higher == more overall power
+#define THERMAL_RELEASE_MODIFIER 6000		//Higher == more heat released during reaction
+#define PLASMA_RELEASE_MODIFIER 125		//Higher == less phoron released by reaction
+#define OXYGEN_RELEASE_MODIFIER 250		//Higher == less oxygen released at high temperature/power
+#define REACTION_POWER_MODIFIER 2			//Higher == more overall power
 
 /*
 	How to tweak the SM
@@ -13,11 +13,11 @@
 */
 
 //Controls how much power is produced by each collector in range - this is the main parameter for tweaking SM balance, as it basically controls how the power variable relates to the rest of the game.
-#define POWER_FACTOR 2
+#define POWER_FACTOR 1.5
 #define DECAY_FACTOR 700			//Affects how fast the supermatter power decays
 #define CRITICAL_TEMPERATURE 800	//K
-#define CHARGING_FACTOR 0.05
-#define DAMAGE_RATE_LIMIT 3			//damage rate cap at power = 300, scales linearly with power
+#define CHARGING_FACTOR 0.25
+#define DAMAGE_RATE_LIMIT 6			//damage rate cap at power = 300, scales linearly with power
 
 
 //These would be what you would get at point blank, decreases with distance
@@ -182,7 +182,7 @@
 		return 1
 
 	damage_archived = damage
-	damage = max( damage + ( (removed.temperature - 150) / 75 ) , 0 ) // damage = 0 or (removed temp - 800) / 150
+	damage = max( damage + ( (removed.temperature - 600) / 75 ) , 0 ) // damage = 0 or (removed temp - 800) / 150
 	//Ok, 100% oxygen atmosphere = best reaction
 	//Maxes out at 100% oxygen pressure
 	oxygen = max(min((removed.oxygen - (removed.nitrogen * NITROGEN_RETARDATION_FACTOR)) / MOLES_CELLSTANDARD, 1), 0)
