@@ -49,7 +49,7 @@
 /datum/surgery/butt_removal
 	name = "butt removal"
 	steps = list(/datum/surgery_step/incise, /datum/surgery_step/clamp_bleeders, /datum/surgery_step/retract_skin, /datum/surgery_step/incise, /datum/surgery_step/handle_butt, /datum/surgery_step/close)
-	species = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
+	species = list(/mob/living/carbon/human, /mob/living/carbon/monkey, /mob/living/carbon/alien/humanoid) //Extract dem alium butts
 	location = "groin"
 	requires_organic_chest = 1
 

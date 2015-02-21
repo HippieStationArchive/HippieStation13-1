@@ -121,8 +121,8 @@
 /mob/living/carbon/human/SpeciesCanConsume()
 	return 1 // Humans can eat, drink, and be forced to do so
 
-/mob/living/carbon/human/InCritical()
-	return (health <= config.health_threshold_crit && stat == UNCONSCIOUS)
+/mob/living/carbon/human/InCritical() //Do consciousness checks alongside this
+	return health <= config.health_threshold_crit
 
 /mob/living/carbon/human/reagent_check(datum/reagent/R)
 	if(dna)

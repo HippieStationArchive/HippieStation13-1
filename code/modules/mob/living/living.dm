@@ -420,6 +420,12 @@
 	if(iscarbon(src))
 		var/mob/living/carbon/C = src
 		C.handcuffed = initial(C.handcuffed)
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = C
+			var/list/limbs = H.get_damaged_organs(0,0,1) //Check if any organs are bleeding
+			if(limbs.len)
+				for(var/obj/item/organ/limb/L in limbs)
+					L.bloodloss = 0 //Set bleeding to 0
 		if(C.reagents)
 			for(var/datum/reagent/R in C.reagents.reagent_list)
 				C.reagents.clear_reagents()

@@ -11,7 +11,7 @@ datum/proc/check_special_completion() //for objectives with special checks (is t
 	return 1
 
 datum/objective_item/steal/pornmag //THE ULTIMATE STEAL OBJECTIVE
-	name = "a porno magazine"
+	name = "janitor's porno magazine"
 	targetitem = /obj/item/pornmag
 	difficulty = 3
 

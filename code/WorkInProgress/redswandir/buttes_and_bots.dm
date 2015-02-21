@@ -6,6 +6,7 @@
 	density = 0
 	anchored = 0
 	flags = HEAR
+	// bubble_type = "h"
 	var/xeno = 0 //Do we hiss when buttspeech?
 	var/cooldown = 0
 	var/list/speech_buffer = list()
@@ -15,6 +16,7 @@
 	..()
 	if(xeno)
 		icon_state = "buttbot_xeno"
+		bubble_type = "A" //make alien speech bubbles
 		speech_list = list("hissing butts", "hiss hiss motherfucker", "nice trophy nerd", "butt", "woop get an alien inspection")
 
 
@@ -29,14 +31,14 @@
 
 	if(prob(5) && cooldown < world.time)
 		cooldown = world.time + 200 //20 seconds
+		if(xeno) //Hiss like a motherfucker
+			playsound(loc, "hiss", 15, 1, 1)
 		if(prob(70) && speech_buffer.len)
 			speak(buttificate(pick(speech_buffer)))
 			if(prob(5))
 				speech_buffer.Remove(pick(speech_buffer)) //so they're not magic wizard guru buttbots that hold arcane information collected during an entire round.
 		else
 			speak(pick(speech_list))
-		if(xeno) //Hiss like a motherfucker
-			playsound(loc, "hiss", 15, 1, 1)
 
 /obj/machinery/bot/buttbot/Hear(message, atom/movable/speaker, message_langs, raw_message, radio_freq)
 	//Also dont imitate ourselves. Imitate other buttbots though heheh
@@ -80,6 +82,7 @@
 		if(istype(src, /obj/item/organ/butt/xeno))
 			B.xeno = 1
 			B.icon_state = "buttbot_xeno"
+			B.bubble_type = "A" //make alien speech bubbles
 			B.speech_list = list("hissing butts", "hiss hiss motherfucker", "nice trophy nerd", "butt", "woop get an alien inspection")
 		user << "<span class='notice'>You add the robot arm to the butt and... What?</span>"
 		user.drop_item(src)

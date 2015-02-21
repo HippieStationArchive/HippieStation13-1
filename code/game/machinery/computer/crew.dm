@@ -79,8 +79,9 @@ proc/crewmonitor(mob/user,var/atom/source)
 				if(H.wear_id)
 					I = H.wear_id.GetID()
 
-				var/life_status = "[H.stat > 1 ? "<span class='bad'>Deceased</span>" : (H.stat == 1 ? "<font color='#0000ff'>Unconscious</span>" : "<span class='good'>Conscious</span>")]"
-
+				var/life_status = "[H.stat > 1 ? "<span class='bad'>Deceased</span>" : (H.stat == 1 ? "<font color='#6464FF'>Unconscious</font>" : "<span class='good'>Conscious</span>")]"
+				if(H.InCritical() && H.stat <= 1)
+					life_status = "<font color='#FF6400'>CRITICAL</font>"
 				if(I)
 					var/style = null
 					var/ijob = jobs[I.assignment]
