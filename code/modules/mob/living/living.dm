@@ -207,11 +207,14 @@
 	if(status_flags & GODMODE)	return 0
 	bruteloss = min(max(bruteloss + amount, 0),(maxHealth*2))
 
-/mob/living/carbon/human/proc/getBloodLoss()
+/mob/living/carbon/human/proc/getBloodLoss(var/percentage)
 	var/temp = 0
+	var/len = 0
 	for(var/obj/item/organ/limb/L in organs)
+		len++
 		if(L.bloodloss)
 			temp += L.bloodloss
+	if(percentage) temp = temp * (100/len) //Doesn't round it, do it in your code
 	return temp
 
 /mob/living/carbon/human/proc/adjustBloodLoss(var/amount, var/obj/item/organ/limb/L)

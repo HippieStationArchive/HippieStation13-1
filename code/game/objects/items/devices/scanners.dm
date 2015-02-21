@@ -115,7 +115,7 @@ MASS SPECTROMETER
 	user.show_message(text("<span class='notice'>Analyzing Results for []:\n\t Overall Status: []</span>", M, mob_status), 1)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		blood_loss = H.getBloodLoss()*100 //To make it a percentage instead of value from 0 to 1
+		blood_loss = round(H.getBloodLoss(1))
 		if(H.dna)// Show target's species, if they have one
 			user.show_message("<span class='notice'>Species: <b>[H.dna.species.name]</b></span>", 1)
 		else // Otherwise we can assume that they are a regular human
@@ -139,7 +139,7 @@ MASS SPECTROMETER
 										capitalize(org.getDisplayName()),\
 										(org.burn_dam > 0) ? "<font color='#FF8000'>[org.burn_dam]</font>" : 0,\
 										(org.brute_dam > 0) ? "<font color='red'>[org.brute_dam]</font>" : 0,\
-										(org.bloodloss > 0) ? "<font color='#FF6464'>[org.bloodloss*100]</font>" : 0,\
+										(org.bloodloss > 0) ? "<font color='#FF6464'>[round(org.bloodloss*100)]</font>" : 0,\
 										(org.foreign_objects.len > 0) ? "<font color='red'>Foreign objects detected!</font></span>" : "No foreign objects detected</span>"), 1)
 		else
 			user.show_message("<span class='notice'>\t Limbs are OK.</span>",1)
@@ -153,7 +153,7 @@ MASS SPECTROMETER
 							brute_loss > 50 ? "<span class='warning'> Severe anatomical damage detected</span>" : "<span class='info'>Subject brute-force injury status O.K</span>"), 1)
 
 	if(blood_loss)
-		user.show_message("<span class='warning'>Subject appears to have [blood_loss > 0.5 ? "severe" : "minor"] blood loss.</span>")
+		user.show_message("<span class='warning'>Subject appears to have [blood_loss > 50 ? "severe" : "minor"] blood loss.</span>")
 
 	if(M.getStaminaLoss())
 		user.show_message("<span class='info'>Subject appears to be suffering from fatigue.</span>", 1)
