@@ -338,10 +338,10 @@
 	if(sound_played == 0)
 		switch(rand(1,2))
 			if(1)
-				playsound(src.loc, 'sound/misc/smboom1.ogg', 50, 1)
+				playsound(src.loc, 'sound/misc/smboom2.ogg', 100, 0, 16)
 			if(2)
-				playsound(src.loc, 'sound/misc/smboom2.ogg', 50, 1)
-		
+				playsound(src.loc, 'sound/misc/smboom1.ogg', 100, 0, 16)
+
 	sound_played = 1
 	for(var/atom/X in orange(pull_radius,src))
 		var/dist = get_dist(X, src)
@@ -350,10 +350,13 @@
 			X.singularity_pull(S, STAGE_FIVE)
 		else if(dist <= 4) //consume_range
 			if(istype(src, /obj/machinery/power/supermatter)) continue
-			explosion(X.loc,2,4,5)
+			var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
+			smoke.set_up(4, 0, src.loc, 2 == 1 ? 15 : 0) // if more than one smoke, spread it around
+			smoke.start()
+			explosion(X.loc,1,2,3)
 			qdel(X)
 	return
-	
+
 /obj/machinery/power/supermatter/shard //Small subtype, less efficient and more sensitive, but less boom.
 	name = "Supermatter Shard"
 	desc = "A strangely translucent and iridescent crystal that looks like it used to be part of a larger structure. \red You get headaches just from looking at it."
