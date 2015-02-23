@@ -1,5 +1,5 @@
 #define NITROGEN_RETARDATION_FACTOR 0.15	//Higher == N2 slows reaction more
-#define THERMAL_RELEASE_MODIFIER 1		//Higher == more heat released during reaction
+#define THERMAL_RELEASE_MODIFIER 1.5		//Higher == more heat released during reaction
 #define PLASMA_RELEASE_MODIFIER 250		//Higher == less plasma released by reaction
 #define OXYGEN_RELEASE_MODIFIER 500		//Higher == less oxygen released at high temperature/power
 #define REACTION_POWER_MODIFIER 1.1			//Higher == more overall power
@@ -350,9 +350,10 @@
 		if(dist > 4) //consume_range
 			X.singularity_pull(S, STAGE_FIVE)
 		else if(dist <= 4) //consume_range
-			var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
-			smoke.set_up(1, 0, X.loc, 1) // if more than one smoke, spread it around
-			smoke.start()
+			if((rand(1,8) == 2) //12.5%
+				var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
+				smoke.set_up(1, 0, X.loc, 1) // if more than one smoke, spread it around
+				smoke.start()
 			if(istype(src, /obj/machinery/power/supermatter)) continue
 			explosion(X.loc,1,2,3)
 			qdel(X)
