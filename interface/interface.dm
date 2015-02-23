@@ -41,7 +41,7 @@
 	set hidden = 1
 	if(alert("This will attempt to join the teamspeak server. If it doesn't work you can join with details from the forums. Are you sure you wish to join?",,"Yes","No")=="No")
 		return
-	src << link("http://stark.jamiehankins.co.uk/hippie.html")
+	src << link("http://hawkeye.jamiehankins.co.uk/hippie.html")
 	return
 
 /client/verb/reportissue()
