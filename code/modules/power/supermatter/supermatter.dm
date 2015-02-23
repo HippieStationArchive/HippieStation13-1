@@ -1,5 +1,5 @@
 #define NITROGEN_RETARDATION_FACTOR 0.15	//Higher == N2 slows reaction more
-#define THERMAL_RELEASE_MODIFIER 1.5		//Higher == more heat released during reaction
+#define THERMAL_RELEASE_MODIFIER 4		//Higher == more heat released during reaction
 #define PLASMA_RELEASE_MODIFIER 250		//Higher == less plasma released by reaction
 #define OXYGEN_RELEASE_MODIFIER 500		//Higher == less oxygen released at high temperature/power
 #define REACTION_POWER_MODIFIER 1.1			//Higher == more overall power
@@ -153,6 +153,9 @@
 		return  //Yeah just stop.
 
 	if(istype(L, /turf/space))	// Stop processing this stuff if we've been ejected.
+		return
+
+	if(!has_been_powered) //Not been powered
 		return
 
 	if(damage > explosion_point)
