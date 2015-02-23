@@ -351,7 +351,7 @@
 			X.singularity_pull(S, STAGE_FIVE)
 		else if(dist <= 4) //consume_range
 			var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
-			smoke.set_up(4, 0, src.loc, 2) // if more than one smoke, spread it around
+			smoke.set_up(1, 0, X.loc, 1) // if more than one smoke, spread it around
 			smoke.start()
 			if(istype(src, /obj/machinery/power/supermatter)) continue
 			explosion(X.loc,1,2,3)
