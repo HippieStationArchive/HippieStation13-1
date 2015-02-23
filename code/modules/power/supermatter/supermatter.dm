@@ -353,7 +353,7 @@
 		if(dist > 4) //consume_range
 			X.singularity_pull(S, STAGE_FIVE)
 		else if(dist <= 4) //consume_range
-			if(rand(1,8) == 2) //12.5%
+			if(rand(1,10) == 5) //10%
 				var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
 				smoke.set_up(1, 0, X.loc, 1) // if more than one smoke, spread it around
 				smoke.start()
