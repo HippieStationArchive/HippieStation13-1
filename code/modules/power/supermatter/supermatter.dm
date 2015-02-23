@@ -1,5 +1,5 @@
 #define NITROGEN_RETARDATION_FACTOR 0.15	//Higher == N2 slows reaction more
-#define THERMAL_RELEASE_MODIFIER 4		//Higher == more heat released during reaction
+#define THERMAL_RELEASE_MODIFIER 1		//Higher == more heat released during reaction
 #define PLASMA_RELEASE_MODIFIER 250		//Higher == less plasma released by reaction
 #define OXYGEN_RELEASE_MODIFIER 500		//Higher == less oxygen released at high temperature/power
 #define REACTION_POWER_MODIFIER 1.1			//Higher == more overall power
@@ -15,7 +15,7 @@
 */
 
 //Controls how much power is produced by each collector in range - this is the main parameter for tweaking SM balance, as it basically controls how the power variable relates to the rest of the game.
-#define POWER_FACTOR 1.0
+#define POWER_FACTOR 0.4
 #define DECAY_FACTOR 700			//Affects how fast the supermatter power decays
 #define CRITICAL_TEMPERATURE 800	//K
 #define CHARGING_FACTOR 0.05
