@@ -1,23 +1,25 @@
-#define NITROGEN_RETARDATION_FACTOR 64	//Higher == N2 slows reaction more
-#define THERMAL_RELEASE_MODIFIER 6000		//Higher == more heat released during reaction
-#define PLASMA_RELEASE_MODIFIER 125		//Higher == less phoron released by reaction
-#define OXYGEN_RELEASE_MODIFIER 250		//Higher == less oxygen released at high temperature/power
-#define REACTION_POWER_MODIFIER 2			//Higher == more overall power
+#define NITROGEN_RETARDATION_FACTOR 0.15	//Higher == N2 slows reaction more
+#define THERMAL_RELEASE_MODIFIER 750		//Higher == more heat released during reaction
+#define PLASMA_RELEASE_MODIFIER 1500		//Higher == less plasma released by reaction
+#define OXYGEN_RELEASE_MODIFIER 1500		//Higher == less oxygen released at high temperature/power
+#define REACTION_POWER_MODIFIER 1.1			//Higher == more overall power
 
 /*
 	How to tweak the SM
+
 	POWER_FACTOR		directly controls how much power the SM puts out at a given level of excitation (power var). Making this lower means you have to work the SM harder to get the same amount of power.
 	CRITICAL_TEMPERATURE	The temperature at which the SM starts taking damage.
+
 	CHARGING_FACTOR		Controls how much emitter shots excite the SM.
 	DAMAGE_RATE_LIMIT	Controls the maximum rate at which the SM will take damage due to high temperatures.
 */
 
 //Controls how much power is produced by each collector in range - this is the main parameter for tweaking SM balance, as it basically controls how the power variable relates to the rest of the game.
-#define POWER_FACTOR 1.5
+#define POWER_FACTOR 1.0
 #define DECAY_FACTOR 700			//Affects how fast the supermatter power decays
 #define CRITICAL_TEMPERATURE 800	//K
-#define CHARGING_FACTOR 0.25
-#define DAMAGE_RATE_LIMIT 6			//damage rate cap at power = 300, scales linearly with power
+#define CHARGING_FACTOR 0.05
+#define DAMAGE_RATE_LIMIT 3			//damage rate cap at power = 300, scales linearly with power
 
 
 //These would be what you would get at point blank, decreases with distance
@@ -25,7 +27,7 @@
 #define DETONATION_HALLUCINATION 600
 
 
-#define WARNING_DELAY 20			//seconds between warnings.
+#define WARNING_DELAY 30			//seconds between warnings.
 
 /obj/machinery/power/supermatter
 	name = "Supermatter"
