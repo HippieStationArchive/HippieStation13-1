@@ -72,7 +72,7 @@
 
 	var/power = 0
 	var/oxygen = 0
-
+	var/sound_played = 0
 	//Temporary values so that we can optimize this
 	//How much the bullets damage should be multiplied by when it is added to the internal variables
 	var/config_bullet_energy = 2
@@ -334,6 +334,14 @@
 
 
 /obj/machinery/power/supermatter/proc/supermatter_pull()
+	if(sound_played == 0)
+		switch(rand(1,2))
+			if(1)
+				playsound(src.loc, 'sound/misc/smboom1.ogg', 50, 1)
+			if(2)
+				playsound(src.loc, 'sound/misc/smboom2.ogg', 50, 1)
+		
+	sound_played = 1
 	set background = BACKGROUND_ENABLED
 	for(var/atom/X in orange(pull_radius,src))
 		var/dist = get_dist(X, src)
@@ -341,8 +349,9 @@
 		if(dist > 4) //consume_range
 			X.singularity_pull(S, STAGE_FIVE)
 		else if(dist <= 4) //consume_range
+			if(istype(src, /obj/machinery/power/supermatter)) continue
 			explosion(X.loc,2,4,5)
-			qdel(X)	
+			qdel(X)
 	return
 	
 /obj/machinery/power/supermatter/shard //Small subtype, less efficient and more sensitive, but less boom.
