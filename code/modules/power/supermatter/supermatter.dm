@@ -141,7 +141,7 @@
 	else
 		alert_msg = null
 	if(alert_msg)
-		radio.talk_into(src, alert_msg)	
+		radio.talk_into(src, alert_msg)
 
 /obj/machinery/power/supermatter/process()
 	var/turf/L = loc
@@ -334,38 +334,17 @@
 
 
 /obj/machinery/power/supermatter/proc/supermatter_pull()
-	//following is adapted from singulo code
-	//if(defer_powernet_rebuild != 2)
-		//defer_powernet_rebuild = 1
-	// Let's just make this one loop.
+	set background = BACKGROUND_ENABLED
 	for(var/atom/X in orange(pull_radius,src))
-		// Movable atoms only
-		if(istype(X, /atom/movable))
-			if(X && (!istype(X,/mob/living/carbon/human) && !istype(X, /obj/machinery/atmospherics/pipe) && !istype(X, /obj/structure/cable)))
-				step_towards(X,src)
-				if(istype(X, /obj)) //unanchored objects pulled twice as fast
-					var/obj/O = X
-					if(!O.anchored)
-						step_towards(X,src)
-				else
-					step_towards(X,src)
-				if(istype(X, /obj/structure/window)) //shatter windows
-					var/obj/structure/window/W = X
-					W.ex_act(2.0)
-			else if(istype(X,/mob/living/carbon/human))
-				var/mob/living/carbon/human/H = X
-				if(istype(H.shoes,/obj/item/clothing/shoes/magboots))
-					var/obj/item/clothing/shoes/magboots/M = H.shoes
-					if(M.magpulse)
-						step_towards(H,src) //step just once with magboots
-						continue
-				step_towards(H,src) //step twice
-				step_towards(H,src)
-
-	//if(defer_powernet_rebuild != 2)
-		//defer_powernet_rebuild = 0
+		var/dist = get_dist(X, src)
+		var/obj/machinery/power/supermatter/S = src
+		if(dist > 4) //consume_range
+			X.singularity_pull(S, STAGE_FIVE)
+		else if(dist <= 4) //consume_range
+			explosion(X.loc,2,4,5)
+			qdel(X)	
 	return
-
+	
 /obj/machinery/power/supermatter/shard //Small subtype, less efficient and more sensitive, but less boom.
 	name = "Supermatter Shard"
 	desc = "A strangely translucent and iridescent crystal that looks like it used to be part of a larger structure. \red You get headaches just from looking at it."

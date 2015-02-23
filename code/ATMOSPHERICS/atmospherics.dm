@@ -138,4 +138,6 @@ Pipelines + Other Objects -> Pipe network
 
 /obj/machinery/atmospherics/singularity_pull(S, current_size)
 	if(current_size >= STAGE_FIVE)
-		Deconstruct()
+		alpha = 0 // lel - lets fix all the lag
+		return
+	return
