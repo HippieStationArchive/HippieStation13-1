@@ -346,14 +346,13 @@
 	for(var/atom/X in orange(pull_radius,src))
 		var/dist = get_dist(X, src)
 		var/obj/machinery/power/supermatter/S = src
-
-		var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
-		smoke.set_up(4, 0, src.loc, 2) // if more than one smoke, spread it around
-		smoke.start()
 		
 		if(dist > 4) //consume_range
 			X.singularity_pull(S, STAGE_FIVE)
 		else if(dist <= 4) //consume_range
+			var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
+			smoke.set_up(4, 0, src.loc, 2) // if more than one smoke, spread it around
+			smoke.start()
 			if(istype(src, /obj/machinery/power/supermatter)) continue
 			explosion(X.loc,1,2,3)
 			qdel(X)
