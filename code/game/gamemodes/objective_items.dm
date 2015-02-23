@@ -10,6 +10,10 @@ datum/objective_item
 datum/proc/check_special_completion() //for objectives with special checks (is that slime extract unused? does that intellicard have an ai in it? etcetc)
 	return 1
 
+datum/objective_item/steal/pornmag //THE ULTIMATE STEAL OBJECTIVE
+	name = "janitor's porno magazine"
+	targetitem = /obj/item/pornmag
+	difficulty = 3
 
 datum/objective_item/steal/caplaser
 	name = "the captain's antique laser gun"
@@ -184,7 +188,7 @@ datum/objective_item/special/laserpointer
 datum/objective_item/stack
 	name = "5 cardboards"
 	targetitem = /obj/item/stack/sheet/cardboard
-	difficulty = 9001
+	difficulty = 9001 //u srs
 
 datum/objective_item/stack/check_special_completion(var/obj/item/stack/S)
 	var/target_amount = text2num(name)

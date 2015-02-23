@@ -656,10 +656,12 @@ datum/reagent/space_cleaner/reaction_obj(var/obj/O, var/volume)
 	else
 		if(O)
 			O.clean_blood()
+			O.color = initial(O.color)
 
 datum/reagent/space_cleaner/reaction_turf(var/turf/T, var/volume)
 	if(volume >= 1)
 		T.clean_blood()
+		T.color = initial(T.color)
 		for(var/obj/effect/decal/cleanable/C in T)
 			qdel(C)
 
@@ -691,6 +693,7 @@ datum/reagent/space_cleaner/reaction_mob(var/mob/M, var/method=TOUCH, var/volume
 				if(H.shoes.clean_blood())
 					H.update_inv_shoes(0)
 		M.clean_blood()
+		M.color = initial(M.color)
 
 datum/reagent/cryptobiolin
 	name = "Cryptobiolin"

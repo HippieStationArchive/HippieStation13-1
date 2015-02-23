@@ -20,7 +20,7 @@
 	..()
 	if(ishuman(affected_mob))
 		var/mob/living/carbon/human/H = affected_mob
-		var/obj/item/clothing/head/butt/B = null
+		var/obj/item/organ/butt/B = null
 		B = locate() in H.internal_organs
 		if(!B)
 			cure()
@@ -30,7 +30,7 @@
 	..()
 	if(ishuman(affected_mob))
 		var/mob/living/carbon/human/H = affected_mob
-		var/obj/item/clothing/head/butt/B = null
+		var/obj/item/organ/butt/B = null
 		B = locate() in H.internal_organs
 		if(!B)
 			cure()
@@ -79,7 +79,7 @@
 	..()
 	if(ishuman(affected_mob))
 		var/mob/living/carbon/human/H = affected_mob
-		var/obj/item/clothing/head/butt/B = null
+		var/obj/item/organ/butt/B = null
 		B = locate() in H.internal_organs
 		if(!B)
 			cure()
@@ -89,7 +89,7 @@
 	..()
 	if(ishuman(affected_mob))
 		var/mob/living/carbon/human/H = affected_mob
-		var/obj/item/clothing/head/butt/B = null
+		var/obj/item/organ/butt/B = null
 		B = locate() in H.internal_organs
 		if(!B)
 			cure()

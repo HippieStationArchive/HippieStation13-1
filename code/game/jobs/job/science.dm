@@ -19,6 +19,7 @@ Research Director
 	default_headset = /obj/item/device/radio/headset/heads/rd
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_tox
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_toxins
+	default_mountainbag = /obj/item/weapon/storage/backpack/mountainbag_tox
 
 	access = list(access_rd, access_heads, access_tox, access_genetics, access_morgue,
 			            access_tox_storage, access_teleporter, access_sec_doors,
@@ -60,6 +61,7 @@ Scientist
 	default_headset = /obj/item/device/radio/headset/headset_sci
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_tox
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_toxins
+	default_mountainbag = /obj/item/weapon/storage/backpack/mountainbag_tox
 
 	access = list(access_robotics, access_tox, access_tox_storage, access_research, access_xenobiology, access_mineral_storeroom)
 	minimal_access = list(access_tox, access_tox_storage, access_research, access_xenobiology, access_mineral_storeroom)
@@ -87,6 +89,7 @@ Roboticist
 	default_headset = /obj/item/device/radio/headset/headset_sci
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_tox
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_toxins
+	default_mountainbag = /obj/item/weapon/storage/backpack/mountainbag_tox
 
 	access = list(access_robotics, access_tox, access_tox_storage, access_tech_storage, access_morgue, access_research, access_mineral_storeroom)
 	minimal_access = list(access_robotics, access_tech_storage, access_morgue, access_research, access_mineral_storeroom)

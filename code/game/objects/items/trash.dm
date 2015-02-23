@@ -68,7 +68,7 @@
 /obj/item/trash/attack(mob/M, mob/living/user)
 	return
 
-/obj/item/pornmag //Janitor's favorite passtime. Ironic how this is located in trash.dm, hah
+/obj/item/pornmag //Janitor's favorite passtime. Ironic how this is located in trash.dm, hah. THIS IS ACTUALLY A TRAITOR OBJECTIVE NOW HOLY SHIT
 	icon = 'icons/obj/library.dmi'
 	icon_state = "pornmag"
 	name = "porn mag"

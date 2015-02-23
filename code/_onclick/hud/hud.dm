@@ -231,6 +231,7 @@ datum/hud/New(mob/owner)
 			mymob.client.screen += mymob.healthdoll
 			mymob.client.screen += mymob.internals
 			mymob.client.screen += mymob.nutrition_icon
+			mymob.client.screen += mymob.stamina_icon
 			mymob.client.screen += mymob.oxygen
 			mymob.client.screen += mymob.pressure
 			mymob.client.screen += mymob.toxin
@@ -284,6 +285,7 @@ datum/hud/New(mob/owner)
 			mymob.client.screen -= mymob.healthdoll
 			mymob.client.screen -= mymob.internals
 			mymob.client.screen -= mymob.nutrition_icon
+			mymob.client.screen -= mymob.stamina_icon
 			mymob.client.screen -= mymob.oxygen
 			mymob.client.screen -= mymob.pressure
 			mymob.client.screen -= mymob.toxin

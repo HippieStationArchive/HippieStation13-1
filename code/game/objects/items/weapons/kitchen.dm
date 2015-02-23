@@ -140,7 +140,7 @@
 	desc = "A huge thing used for chopping and chopping up meat. This includes clowns and clown-by-products."
 	flags = CONDUCT
 	force = 15.0
-	w_class = 2.0
+	w_class = 3 //Why the hell would this be SMALLER than a kitchen knife???
 	throwforce = 10.0
 	bleedcap = 16 //Bleedcap lower than kitchen knife
 	bleedchance = 40 //Higher chance to cause bleeding
