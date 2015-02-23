@@ -334,6 +334,7 @@
 
 
 /obj/machinery/power/supermatter/proc/supermatter_pull()
+	set background = BACKGROUND_ENABLED
 	if(sound_played == 0)
 		switch(rand(1,2))
 			if(1)
@@ -342,7 +343,6 @@
 				playsound(src.loc, 'sound/misc/smboom2.ogg', 50, 1)
 		
 	sound_played = 1
-	set background = BACKGROUND_ENABLED
 	for(var/atom/X in orange(pull_radius,src))
 		var/dist = get_dist(X, src)
 		var/obj/machinery/power/supermatter/S = src
