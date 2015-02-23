@@ -20,6 +20,7 @@ Chief Medical Officer
 	default_backpack = /obj/item/weapon/storage/backpack/medic
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_med
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_medical
+	default_mountainbag = /obj/item/weapon/storage/backpack/mountainbag_med
 
 	access = list(access_medical, access_morgue, access_genetics, access_heads, access_mineral_storeroom,
 			access_chemistry, access_virology, access_cmo, access_surgery, access_RC_announce,
@@ -59,6 +60,7 @@ Medical Doctor
 	default_backpack = /obj/item/weapon/storage/backpack/medic
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_med
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_medical
+	default_mountainbag = /obj/item/weapon/storage/backpack/mountainbag_med
 
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics)
 	minimal_access = list(access_medical, access_morgue, access_surgery)
@@ -89,6 +91,7 @@ Chemist
 	default_headset = /obj/item/device/radio/headset/headset_med
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_chem
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_chemistry
+	default_mountainbag = /obj/item/weapon/storage/backpack/mountainbag_chem
 
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics, access_mineral_storeroom)
 	minimal_access = list(access_medical, access_chemistry, access_mineral_storeroom)
@@ -116,6 +119,7 @@ Geneticist
 	default_headset = /obj/item/device/radio/headset/headset_medsci
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_gen
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_genetics
+	default_mountainbag = /obj/item/weapon/storage/backpack/mountainbag_gen
 
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics, access_research)
 	minimal_access = list(access_medical, access_morgue, access_genetics, access_research)
@@ -145,6 +149,7 @@ Virologist
 	default_backpack = /obj/item/weapon/storage/backpack/medic
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_vir
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_virology
+	default_mountainbag = /obj/item/weapon/storage/backpack/mountainbag_vir
 
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics, access_mineral_storeroom)
 	minimal_access = list(access_medical, access_virology, access_mineral_storeroom)

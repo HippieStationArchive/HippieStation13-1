@@ -207,11 +207,14 @@
 	if(status_flags & GODMODE)	return 0
 	bruteloss = min(max(bruteloss + amount, 0),(maxHealth*2))
 
-/mob/living/carbon/human/proc/getBloodLoss()
+/mob/living/carbon/human/proc/getBloodLoss(var/percentage)
 	var/temp = 0
+	var/len = 0
 	for(var/obj/item/organ/limb/L in organs)
+		len++
 		if(L.bloodloss)
 			temp += L.bloodloss
+	if(percentage) temp = temp * (100/len) //Doesn't round it, do it in your code
 	return temp
 
 /mob/living/carbon/human/proc/adjustBloodLoss(var/amount, var/obj/item/organ/limb/L)
@@ -417,6 +420,12 @@
 	if(iscarbon(src))
 		var/mob/living/carbon/C = src
 		C.handcuffed = initial(C.handcuffed)
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = C
+			var/list/limbs = H.get_damaged_organs(0,0,1) //Check if any organs are bleeding
+			if(limbs.len)
+				for(var/obj/item/organ/limb/L in limbs)
+					L.bloodloss = 0 //Set bleeding to 0
 		if(C.reagents)
 			for(var/datum/reagent/R in C.reagents.reagent_list)
 				C.reagents.clear_reagents()

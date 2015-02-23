@@ -50,7 +50,8 @@
 			log_game("[key_name(usr)] has primed a [name] for detonation at [A.name] ([bombturf.x],[bombturf.y],[bombturf.z]).")
 			if(iscarbon(user))
 				var/mob/living/carbon/C = user
-				C.throw_mode_on()
+				if(user.client && user.client.prefs.toggles & INTENT_AUTOTHROW) //Check if client has autothrow on
+					C.throw_mode_on()
 			spawn(det_time)
 				prime()
 

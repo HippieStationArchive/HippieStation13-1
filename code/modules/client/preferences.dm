@@ -574,7 +574,7 @@ datum/preferences
 					if("s_tone")
 						skin_tone = random_skin_tone()
 					if("bag")
-						backbag = rand(1,4)
+						backbag = rand(1,backbaglist.len)
 					if("all")
 						random_character()
 

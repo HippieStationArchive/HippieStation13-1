@@ -345,7 +345,7 @@ atom/proc/generate_female_clothing(index,t_color,icon)
 			H.update_inv_w_uniform(0)
 
 /obj/item/clothing/under/New()
-	sensor_mode = pick(1,2,3)
+	sensor_mode = 3 //Suit sensors are now always on on roundstart. Players will have to remember to turn them off if they want.
 	adjusted = 0
 	suit_color = item_color
 	..()

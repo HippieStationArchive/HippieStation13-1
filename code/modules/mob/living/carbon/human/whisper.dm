@@ -34,14 +34,14 @@
 		return
 
 	// If whispering your last words, limit the whisper based on how close you are to death.
-	if(critical)
+	if(stat == UNCONSCIOUS && critical)
 		var/health_diff = round(-config.health_threshold_dead + health)
 		// If we cut our message short, abruptly end it with a-..
 		var/message_len = length(message)
 		message = copytext(message, 1, health_diff) + "[message_len > health_diff ? "-.." : "..."]"
 		message = Ellipsis(message, 10, 1)
 		whispers = "whispers in their final breath"
-	else if(nearcrit) //If whispering while in "nearcrit" state (difference between nearcrit and crit is consciousness)
+	else if(critical) //If whispering while in critical state but conscious
 		message = Ellipsis(message, 40, 1)
 		whispers = "mutters"
 

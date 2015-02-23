@@ -40,7 +40,8 @@
 			icon_state = initial(icon_state) + "_active"
 			if(iscarbon(user))
 				var/mob/living/carbon/C = user
-				C.throw_mode_on()
+				if(user.client && user.client.prefs.toggles & INTENT_AUTOTHROW) //Check if client has autothrow on
+					C.throw_mode_on()
 
 			spawn(det_time)
 				prime()

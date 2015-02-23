@@ -174,3 +174,12 @@ var/list/ghost_forms = list("ghost","ghostking","ghostian2","ghost_red","ghost_b
 	src << "[(prefs.toggles & INTENT_STYLE) ? "Clicking directly on intents selects them." : "Clicking on intents rotates selection clockwise."]"
 	prefs.save_preferences()
 	feedback_add_details("admin_verb","ITENTS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/client/verb/toggle_autothrow() //For grenades
+	set name = "Enable/disable autothrow"
+	set category = "Preferences"
+	set desc = "Toggles whether or not your intent will be set to throw when you arm grenades"
+	prefs.toggles ^= INTENT_AUTOTHROW
+	prefs.save_preferences()
+	src << "You will [(prefs.toggles & INTENT_AUTOTHROW) ? "now" : "no longer"] have your intent set to throw when you arm grenades/etc."
+	feedback_add_details("admin_verb","TAutoThrow") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!

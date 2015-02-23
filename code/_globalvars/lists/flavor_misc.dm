@@ -15,7 +15,7 @@ var/global/list/undershirt_list = list() 	//stores /datum/sprite_accessory/under
 var/global/list/undershirt_m = list()	 //stores only undershirt name
 var/global/list/undershirt_f = list()	 //stores only undershirt name
 	//Backpacks
-var/global/list/backbaglist = list("Nothing", "Backpack", "Satchel", "Dufflebag")
+var/global/list/backbaglist = list("Nothing", "Backpack", "Satchel", "Dufflebag", "Mountain backpack")
 	//Female Uniforms
 var/global/list/female_clothing_icons = list()
 

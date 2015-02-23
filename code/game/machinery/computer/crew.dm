@@ -79,8 +79,9 @@ proc/crewmonitor(mob/user,var/atom/source)
 				if(H.wear_id)
 					I = H.wear_id.GetID()
 
-				var/life_status = "[H.stat > 1 ? "<span class='bad'>Deceased</span>" : "<span class='good'>Living</span>"]"
-
+				var/life_status = "[H.stat > 1 ? "<span class='bad'>Deceased</span>" : (H.stat == 1 ? "<font color='#6464FF'>Unconscious</font>" : "<span class='good'>Conscious</span>")]"
+				if(H.InCritical() && H.stat <= 1)
+					life_status = "<font color='#FF6400'>CRITICAL</font>"
 				if(I)
 					var/style = null
 					var/ijob = jobs[I.assignment]
@@ -106,7 +107,8 @@ proc/crewmonitor(mob/user,var/atom/source)
 					var/dam2 = round(H.getToxLoss(),1)
 					var/dam3 = round(H.getFireLoss(),1)
 					var/dam4 = round(H.getBruteLoss(),1)
-					damage_report = "(<font color='#3498db'>[dam1]</font>/<font color='#2ecc71'>[dam2]</font>/<font color='#e67e22'>[dam3]</font>/<font color='#e74c3c'>[dam4]</font>)"
+					var/dam5 = round(H.getBloodLoss(1),1)
+					damage_report = "(<font color='#3498db'>[dam1]</font>/<font color='#2ecc71'>[dam2]</font>/<font color='#e67e22'>[dam3]</font>/<font color='#e74c3c'>[dam4]</font>/<font color='#E75050'>[dam5]</font>)"
 
 				switch(U.sensor_mode)
 					if(1)

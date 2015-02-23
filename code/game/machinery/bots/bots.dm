@@ -50,6 +50,9 @@
 
 	var/bot_filter 				// The radio filter the bot uses to identify itself on the network.
 
+	var/message_range = 7 		//Self-explainatory
+	var/bubble_type = "R"		//So buttbots can have their speech bubbles robotic or something
+
 	var/bot_type = 0 //The type of bot it is, for radio control.
 	#define SEC_BOT				1	// Secutritrons (Beepsky) and ED-209s
 	#define MULE_BOT			2	// MULEbots
@@ -364,6 +367,26 @@
 	else
 		say(message)
 	return
+
+/obj/machinery/bot/say(message)
+	if(!can_speak())
+		return
+	if(message == "" || !message)
+		return
+	send_speech(message, message_range)
+
+/obj/machinery/bot/send_speech(message, message_range=7)
+	var/list/speech_bubble_recipients = list()
+	var/rendered = compose_message(src, languages, message)
+	var/list/listening = get_hearers_in_view(message_range, src)
+	for(var/atom/movable/AM in listening)
+		AM.Hear(rendered, src, languages, message)
+		//speech bubble
+		if(ismob(AM))
+			var/mob/M = AM
+			if(M.client)
+				speech_bubble_recipients.Add(M.client)
+	flick_overlay(image('icons/mob/talk.dmi', src, "h[bubble_type][say_test(message)]", MOB_LAYER+1), speech_bubble_recipients, 30)
 
 	//Generalized behavior code, override where needed!
 

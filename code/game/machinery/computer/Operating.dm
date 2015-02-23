@@ -58,9 +58,9 @@
 				<div class='line'><div class='statusLabel'>\> Resp. Damage:</div><div class='progressBar'><div style='width: [max(patient.getOxyLoss(), 0)]%;' class='progressFill bad'></div></div><div class='statusValue'>[patient.getOxyLoss()]%</div></div>
 				<div class='line'><div class='statusLabel'>\> Toxin Content:</div><div class='progressBar'><div style='width: [max(patient.getToxLoss(), 0)]%;' class='progressFill bad'></div></div><div class='statusValue'>[patient.getToxLoss()]%</div></div>
 				<div class='line'><div class='statusLabel'>\> Burn Severity:</div><div class='progressBar'><div style='width: [max(patient.getFireLoss(), 0)]%;' class='progressFill bad'></div></div><div class='statusValue'>[patient.getFireLoss()]%</div></div>
-				<div class='line'><div class='statusLabel'>\> Bloodloss Severity:</div><div class='progressBar'><div style='width: [max(patient.getBloodLoss()*20, 0)]%;' class='progressFill bad'></div></div><div class='statusValue'>[patient.getBloodLoss()*20]%</div></div>
+				<div class='line'><div class='statusLabel'>\> Bloodloss Severity:</div><div class='progressBar'><div style='width: [max(round(patient.getBloodLoss(1)), 0)]%;' class='progressFill bad'></div></div><div class='statusValue'>[round(patient.getBloodLoss(1))]%</div></div>
 
-				"}	//Reason why bloodloss is multiplied by 20 to convert to % is because there are 5 limbs that can be damaged, bloodloss of 1 being the max bloodloss for each. Do the math.
+				"}
 	if(patient.surgeries.len)
 		dat += "<BR><B>Initiated Procedures</B><div class='statusDisplay'>"
 		for(var/datum/surgery/procedure in patient.surgeries)

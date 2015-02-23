@@ -408,12 +408,12 @@
 		src << "Your ass is not ready to blast."
 		return
 
-	var/obj/item/clothing/head/butt/B = locate() in src.internal_organs
+	var/obj/item/organ/butt/B = locate() in src.internal_organs
 	if(!B)
 		src << "\red You don't have a butt!"
 		return
 
-	if(src.HasDisease(/datum/disease/assinspection))
+	if(HasDisease(/datum/disease/assinspection))
 		src << "<span class='danger'>Your ass hurts too much.</span>"
 		return
 
@@ -476,11 +476,11 @@
 			return
 		if(lose_butt)
 			src.internal_organs -= B
-			new /obj/item/clothing/head/butt(src.loc)
+			new /obj/item/organ/butt(src.loc)
 			new /obj/effect/decal/cleanable/blood(src.loc)
 
 			if(super)
-				if(src.HasDisease(/datum/disease/assinspection))
+				if(HasDisease(/datum/disease/assinspection))
 					src << "<span class='danger'>It hurts so much!</span>"
 					apply_damage(50, BRUTE, "chest")
 				src.nutrition -= 500
