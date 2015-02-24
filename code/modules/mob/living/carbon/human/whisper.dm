@@ -76,6 +76,6 @@
 	for(var/mob/M in eavesdropping)
 		M.Hear(rendered, src, languages, message)
 
-	if(critical) //Dying words.
+	if(stat == UNCONSCIOUS && critical) //Dying words.
 		succumb(1)
 		usr.show_message(displayuser, 2)
