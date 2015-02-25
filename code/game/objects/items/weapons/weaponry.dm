@@ -158,3 +158,25 @@ obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
 	user << "<span class='notice'>You take the duct tape off the [src].</span>"
 	qdel(src)
 	user.put_in_hands(new_item)
+
+/obj/item/weapon/broken_bottle //Moved it here from food&drinks
+	name = "Broken Bottle"
+	desc = "A bottle with a sharp broken bottom."
+	icon = 'icons/obj/drinks.dmi'
+	icon_state = "broken_bottle"
+	force = 10.0
+	throwforce = 5.0
+	throw_speed = 3
+	throw_range = 5
+	item_state = "beer"
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	attack_verb = list("stabbed", "slashed", "attacked")
+	insulated = 1
+	bleedcap = 20 //same as shanks
+	bleedchance = 25 //same as shanks
+	var/icon/broken_outline = icon('icons/obj/drinks.dmi', "broken")
+
+/obj/item/weapon/broken_bottle/suicide_act(mob/user)
+	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the [src]! It looks like \he's trying to commit suicide.</span>", \
+						"<span class='suicide'>[user] is slitting \his throat with the [src]! It looks like \he's trying to commit suicide.</span>"))
+	return (BRUTELOSS)

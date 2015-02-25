@@ -145,6 +145,7 @@ proc/process_ghost_teleport_locs()
 
 /area/shuttle/arrival
 	name = "\improper Arrival Shuttle"
+	has_gravity = 1
 
 /area/shuttle/arrival/pre_game
 	icon_state = "shuttle2"
