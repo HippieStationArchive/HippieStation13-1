@@ -109,22 +109,6 @@
 
 	return
 
-//Keeping this here for now, I'll ask if I should keep it here.
-/obj/item/weapon/broken_bottle
-
-	name = "Broken Bottle"
-	desc = "A bottle with a sharp broken bottom."
-	icon = 'icons/obj/drinks.dmi'
-	icon_state = "broken_bottle"
-	force = 9.0
-	throwforce = 5.0
-	throw_speed = 3
-	throw_range = 5
-	item_state = "beer"
-	hitsound = 'sound/weapons/bladeslice.ogg'
-	attack_verb = list("stabbed", "slashed", "attacked")
-	var/icon/broken_outline = icon('icons/obj/drinks.dmi', "broken")
-
 /obj/item/weapon/reagent_containers/food/drinks/bottle/gin
 	name = "Griffeater Gin"
 	desc = "A bottle of high quality gin, produced in the New London Space Station."

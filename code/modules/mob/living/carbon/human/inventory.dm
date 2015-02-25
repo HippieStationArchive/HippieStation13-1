@@ -44,10 +44,10 @@
 			if(slot_belt)
 				if(belt)
 					return 0
-				if(!w_uniform)
-					if(!disable_warning)
-						src << "<span class='danger'>You need a jumpsuit before you can attach this [I.name].</span>"
-					return 0
+				// if(!w_uniform)
+				// 	if(!disable_warning)
+				// 		src << "<span class='danger'>You need a jumpsuit before you can attach this [I.name].</span>"
+				// 	return 0
 				if( !(I.slot_flags & SLOT_BELT) )
 					return
 				return 1
