@@ -1,5 +1,5 @@
 #define NITROGEN_RETARDATION_FACTOR 0.15	//Higher == N2 slows reaction more
-#define THERMAL_RELEASE_MODIFIER 1		//Higher == more heat released during reaction
+#define THERMAL_RELEASE_MODIFIER 1.25		//Higher == more heat released during reaction
 #define PLASMA_RELEASE_MODIFIER 250		//Higher == less plasma released by reaction
 #define OXYGEN_RELEASE_MODIFIER 500		//Higher == less oxygen released at high temperature/power
 #define REACTION_POWER_MODIFIER 1.1			//Higher == more overall power
@@ -15,7 +15,7 @@
 */
 
 //Controls how much power is produced by each collector in range - this is the main parameter for tweaking SM balance, as it basically controls how the power variable relates to the rest of the game.
-#define POWER_FACTOR 0.4
+#define POWER_FACTOR 0.5
 #define DECAY_FACTOR 700			//Affects how fast the supermatter power decays
 #define CRITICAL_TEMPERATURE 800	//K
 #define CHARGING_FACTOR 0.05
@@ -59,7 +59,8 @@
 	var/grav_pulling = 0
 	var/pull_radius = 14
 	// Time in ticks between delamination ('exploding') and exploding (as in the actual boom)
-	var/pull_time = 100
+	var/pull_time = 400
+	var/pull_ticks = 4
 	var/explosion_power = 9
 
 	var/emergency_issued = 0
@@ -106,7 +107,7 @@
 			if(istype(mob, /mob/living/carbon/human))
 				//Hilariously enough, running into a closet should make you get hit the hardest.
 				var/mob/living/carbon/human/H = mob
-				H.hallucination += max(50, min(300, DETONATION_HALLUCINATION * sqrt(1 / (get_dist(mob, src) + 1)) ) )
+				H.hallucination += max(0, min(300, DETONATION_HALLUCINATION * sqrt(1 / (get_dist(mob, src) + 1)) ) )
 			var/rads = DETONATION_RADS * sqrt( 1 / (get_dist(mob, src) + 1) )
 			mob.apply_effect(rads, IRRADIATE)
 	spawn(pull_time)
@@ -238,8 +239,8 @@
 		if(!istype(l.glasses, /obj/item/clothing/glasses/meson))
 			l.hallucination = max(0, min(200, l.hallucination + power * config_hallucination_power * sqrt( 1 / max(1, get_dist(l, src)) ) ) )
 
-	for(var/mob/living/l in range(src, round((power / 100) ** 0.25)))
-		var/rads = (power / 10) * sqrt( 1 / min(get_dist(l, src),1) )
+	for(var/mob/living/l in range(src, round((power / 100) ** 0.5)))
+		var/rads = (power / 5) * sqrt( 1 / min(get_dist(l, src),1) )
 		l.apply_effect(rads, IRRADIATE)
 
 	power -= (power/500)**3
@@ -351,20 +352,23 @@
 				playsound(src.loc, 'sound/misc/smboom1.ogg', 100, 0, 16)
 
 	sound_played = 1
-	for(var/atom/X in orange(pull_radius,src))
-		var/dist = get_dist(X, src)
-		var/obj/machinery/power/supermatter/S = src
-		
-		if(dist > 4) //consume_range
-			X.singularity_pull(S, STAGE_FIVE)
-		else if(dist <= 4) //consume_range
-			if(rand(1,8) == 2) //12.5%
-				var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
-				smoke.set_up(1, 0, X.loc, 1) // if more than one smoke, spread it around
-				smoke.start()
-			if(istype(src, /obj/machinery/power/supermatter)) continue
-			explosion(X.loc,1,2,3)
-			qdel(X)
+	if(pull_ticks != 0)
+		spawn((pull_time / pull_ticks) - 15)
+			for(var/atom/X in orange(pull_radius,src))
+				var/dist = get_dist(X, src)
+				var/obj/machinery/power/supermatter/S = src
+				
+				if(dist > 4) //consume_range
+					X.singularity_pull(S, STAGE_FIVE)
+				else if(dist <= 4) //consume_range
+					if(rand(1,8) == 2) //12.5%
+						var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
+						smoke.set_up(1, 0, X.loc, 1) // if more than one smoke, spread it around
+						smoke.start()
+					if(istype(src, /obj/machinery/power/supermatter)) continue // don't delete us yo
+					explosion(X.loc,1,2,3)
+					qdel(X)
+		pull_ticks = pull_ticks - 1
 	return
 
 /obj/machinery/power/supermatter/shard //Small subtype, less efficient and more sensitive, but less boom.
