@@ -346,7 +346,7 @@
 					if(H.stat == 2)
 						var/health = H.health + H.getOxyLoss() //Gotta use L because this proc is mob/living.
 						// var/random = prob(80) //Chance of success. Stored in a variable to display failure message. Currently removed from the if check.
-						user.visible_message("<span class='warning'>[health] HP ([H.getOxyLoss()] oxyloss notwithstanding). [threshold] threshold.") //Debug text
+						// user.visible_message("<span class='warning'>[health] HP ([H.getOxyLoss()] oxyloss notwithstanding). [threshold] threshold.") //Debug text
 						M.visible_message("<span class='warning'>[M]'s body convulses a bit.")
 						playsound(get_turf(src), "bodyfall", 50, 1)
 						playsound(get_turf(src), 'sound/machines/defib_zap.ogg', 50, 1, -1)
@@ -355,7 +355,9 @@
 							total_burn	+= O.burn_dam
 						if(health > (config.health_threshold_dead - 50) && total_burn <= 180 && total_brute <= 180 && !H.suiciding && !ghost && tplus < tlimit && !(NOCLONE in H.mutations))
 							tobehealed = (health + threshold) + 65 //Threshold is positive, health is negative.
-							user.visible_message("<span class='warning'>+[tobehealed] HP heals for toxloss, fireloss, bruteloss.") //Debug text
+							//Current problem: defib can pull you out of crit completely, AND there are sometimes cases where you'll die instantly after getting defibbed.
+
+							// user.visible_message("<span class='warning'>+[tobehealed] HP heals for toxloss, fireloss, bruteloss.") //Debug text
 							H.adjustOxyLoss(-H.getOxyLoss() + 60) //Basically sets person's oxyloss to 60.
 							H.adjustToxLoss(-tobehealed)
 							H.adjustFireLoss(-tobehealed)
@@ -380,10 +382,12 @@
 							// else if(!random)
 							// 	user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Please try again.</span>")
 							else
-								user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed.</span>")
 								if(ghost)
 									ghost << "<span class='ghostalert'>Your heart is being defibrillated. Return to your body if you want to be revived!</span> (Verbs -> Ghost -> Re-enter corpse)"
 									ghost << sound('sound/effects/genetics.ogg')
+									user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Mental interface failure.</span>")
+								else
+									user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed.</span>")
 							playsound(get_turf(src), 'sound/machines/defib_failed.ogg', 50, 0)
 							defib.deductcharge(revivecost)
 						update_icon()
