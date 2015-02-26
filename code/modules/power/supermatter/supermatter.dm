@@ -253,13 +253,18 @@
 		return 0	// This stops people from being able to really power up the supermatter
 				// Then bring it inside to explode instantly upon landing on a valid turf.
 
+	if(!has_been_powered)
+		var A = Proj.firer
+		if(ismob(A))
+			var/mob/M = A
+			investigate_log("Projectile was fired by [M.ckey]", "supermatter")
+
+		investigate_log("has been powered for the first time.", "supermatter")
+		message_admins("[src] has been powered for the first time <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>(JMP)</a>.")
+		has_been_powered = 1
 
 	if(istype(Proj, /obj/item/projectile/beam))
 		power += Proj.damage * config_bullet_energy	* CHARGING_FACTOR / POWER_FACTOR
-		if(!has_been_powered)
-			investigate_log("has been powered for the first time.", "supermatter")
-			message_admins("[src] has been powered for the first time <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>(JMP)</a>.")
-			has_been_powered = 1
 	else
 		damage += Proj.damage * config_bullet_energy
 	return 0
