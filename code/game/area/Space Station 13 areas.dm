@@ -1504,6 +1504,18 @@ proc/process_ghost_teleport_locs()
 	name = "\improper AI Main New"
 	icon_state = "storage"
 
+/area/turret_protected/IPCup
+	requires_power = 0
+	luminosity = 1
+	name = "\improper IPC ship turret 1"
+	icon_state = "spacecontent1"
+
+/area/turret_protected/ICPdown
+	requires_power = 0
+	luminosity = 1
+	name = "\improper IPC ship turret 2"
+	icon_state = "spacecontent2"
+
 
 
 //Misc
@@ -1647,28 +1659,41 @@ proc/process_ghost_teleport_locs()
 /area/spacecontent
 	name = "space"
 
-/area/spacecontent/a1
+/area/spacecontent/SpaceBar
+	name = "\improper Space Bar"
 	icon_state = "spacecontent1"
 
-/area/spacecontent/a2
+/area/spacecontent/IPC
+	name = "space"
+	has_gravity = 1
+
+/area/spacecontent/IPC/IPCResearch
+	name = "\improper IPC ship Research"
 	icon_state = "spacecontent2"
 
-/area/spacecontent/a3
+/area/spacecontent/IPC/IPCDining
+	name = "\improper IPC ship Dining"
 	icon_state = "spacecontent3"
 
-/area/spacecontent/a4
+/area/spacecontent/IPC/IPCDorms
+	name = "\improper IPC ship Dorms"
 	icon_state = "spacecontent4"
 
-/area/spacecontent/a5
+/area/spacecontent/IPC/IPCRobotics
+	name = "\improper IPC ship Robotics"
 	icon_state = "spacecontent5"
 
-/area/spacecontent/a6
+/area/spacecontent/IPC/IPCEngine
+	name = "\improper IPC ship Engine"
 	icon_state = "spacecontent6"
 
-/area/spacecontent/a7
+/area/spacecontent/IPC/IPCBridge
+	name = "\improper IPC ship Bridge"
 	icon_state = "spacecontent7"
 
-/area/spacecontent/a8
+/area/spacecontent/Blobship
+	name = "\improper Blobship"
+	has_gravity = 1
 	icon_state = "spacecontent8"
 
 /area/spacecontent/a9

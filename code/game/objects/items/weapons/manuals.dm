@@ -789,7 +789,7 @@
 	title = "Hacking"
 	page_link = "Hacking"
 
-/obj/item/weapon/book/Story
+/obj/item/weapon/book/ProtoStory
 	icon = 'icons/obj/library.dmi'
 	name = "Prototype Station diary"
 	due_date = 0 // Game time in 1/10th seconds
@@ -814,54 +814,92 @@
 
 
 				<strong><li>Preparations - Day 0.</li></strong>
-				I cannot believe I have been chosen for this project. Not only have I gotten the honor of building the maintenance system for this new station, I also get to board it and be the first, along with two others, on the secret projet of Space station 13! I have had very little time to prepare, Nanostrasen only gave me 24 hours. No time to fly back and tell my mom where I am going, and a small phone call to my girlfriend is all I had time to do besides pack and do the final check-ups. Il be meeting my two partners barely an hour before launch. I can't sleep. And to say much people sleeping with me in the dorms would kill in order to take my place.<br>
-<br>
-I bet il get major credit for all this and that my name will be plastered ALL over the place.
+				I can't believe I've been chosen for this project. Not only have I been selected the honor of building the maintenance system for this new station; but I also get to board it and be among the first to set foot on the secret project, Space station 13! I've had little preparation time as Nanostrasen only gave me twenty-four hours. As a result I've had no time to fly back and tell my mom where I'm going. Just a short phone call to my girlfriend was all I could manage before having to pack and do the final check-ups. I'll be meeting with the two others who are joining me on this expedition tomorrow. I can't sleep, Just knowing that the others in my dorm would kill to take my place is keeping me up at night.<br>
+
+</br> I can't wait to get back home after all this is over with, I'm gonna be famous!
 <ol></ol>
 
 <strong><li>Launch - Day 1.</li></strong>
-				I can barely write this after a long day like this. Launch was early, and the verifications took hours. The station went in orbit around the asteroid with abosulutely no problem. A few of the solars had minimal damage, but otherwise this situation was perfect. Getting to know my crewmates was the real gamechanger of the day.<br>
+				I can barely write after a day like this. Launch was early and the verifications took hours. The station was in orbit around the asteroid as planned. A few of the solars had minimal damage, but otherwise this station was perfect. Getting to know my crewmates was the real highlight of the day.<br>
 <br>
-Captain Sonador is the son of one of centcom top's commander. Harsh, mission-focussed and clearly an unloved child. He seems to be a fair leader that expect no weakness from anyone. He knows about everything there is to know, and is actually a lead engineer on plasma energy. There is also Shirley Greene. Expert botanist, nutritionist and part-time chemist. She's clearly terrified of the mission. I don't understand her, she should be exited.<br><br>
+Captain Sonador is the son of one of centcomm's top officers. He's harsh, focused, and clearly an unloved child. He seems to be a fair leader so long as you know your shit and pull your weight. He knows about everything there is to know about plasma energy and seems to know a lot beyond that as well. There's also Shirley Greene; expert botanist, nutritionist, and part-time chemist. She's clearly terrified of the mission, I don't understand her. She should be exited!<br><br>
 
-Our first day has been full of busywork, including activating the gravity generator, testing each vent, ect. Busywork. Tomorrow we will go on the asteroid.
+Our first day has been full of busy work like activating the gravity generator, testing each vent, and other forms of monotony. Tomorrow we're scheduled to set foot on the asteroid for the first time.
 <ol></ol>
 
-<strong><li>Work work - Day 2.</li></strong>
-There has not been a single moment of the day where we din't do something. Shirley grew her plants all day long, the Captain was busy setting up the transmitters and the special Centcom Computer - He actually kept me out of the bridge, so I can't guess what he's doing. From what I get from the screen, it must have been setting up our position.<br><br>
-
-In the afternoon, after eating some delicious tomatoes and potatoes, the captain and I went to mine. The asteroid proved to be more than a challenge. Our picks din't work very well, the rocks was hard as ever, and the lack of magboots kept us off balance. Even the captain din't have that type of patience and we ended our trip shortly. The few plasma chunk we found were stored. We then spent the rest of the day inside the station. I had to repair the solars, anyway. Sleep never felt better.
-<ol></ol>
 
 <strong><li>The boring day - Day 3.</li></strong>
-We mostly stayed put and did nothing interesting besides look at Shirley play with plasma. She managed to let some leak into the air but the situation was fixed quickly. The captain and me were waiting on our new picks. At Central Command's request, we went back to the asteroid to confirm the existence of the Goliath, a terrible creature. We managed to find one but kept ourselves away. The mission lasted one hour at most.<br><br>
 
-We came home to a delicious new breed of tomato, but Shirley seemed really unhappy. She din't awnser when I asked her what was wrong. Womens...
+We mostly stayed put and did nothing other than watch Shirley play around with plasma. She accidentally let some leak from the test tubes while it was still gasseous but that was resolved quickly. The Captain and I stayed put for a while and waited on our mining mechs to be delivered. At the behest of Central Command we were sent out into the asteroid to find a specimen from the Goliath species. Terrifying beasts the Goliaths were and try as we might to fail our mission we managed to find one of the damned things. It turned out to be a surprisingly near-sighted species as it didn't spot us, allowing us the time to observe and research it as ordered.<br><br>
+
+We came home to a delicious new tomato breed. Shirley, for whatever reason, didn't seem happy and in fact refused to talk for much of the remaining day. When I asked her what was wrong she just ignored me, women are so strange sometimes.
 <ol></ol>
 
-<strong><li>Murder and stress - Day 4.</li></strong>
-Early in the morning, me and the captain went back to the asteroid. With his trusty laser pistol, he started to shoot on the Goliath we had found yesterday. Unfortunately for me, the Goliath had a poor vision, and send one of it's many tentacles towards me. Having almost no armor, I felt my leg pulled from my body and heard a crunch il never forget. I fainted while the captain unloaded the rest of the lasers in the bastard's hide.<br><br>
+<strong><li>Pain and stress - Day 4.</li></strong>
+Early in the morning the Captain and I went back to the Goliath's nest. With his trusty laser pistol in hand he started to unload on the beast we'd been content with observing yesterday. Unfortunately the Goliath's poor sight played against me this time and it launched a flurry of it's tentacles right at me instead of the Captain. I had no armor, just a standard issue space suit, and as such the Goliath's tentacles nearly ripped my leg from it's socket. Evidently the captain had placed a bolt between it's eyes as I woke some time later in the recovery room in our meagre excuse for a medbay.<br><br>
 
-I awoke some time later in our engine room. I had been packed with NT's best bruisepack and my leg was almost repaired from that alone. Funny how that nanogel works. However, all was not well. When the captain retired to the bridge, I moved back to my dorm to get some sleep, but Shirley was already there. She seemed stunned and shocked. She barely noticed I was back. She blurted about how dangerous space was, cried a little. I tried talking vegetables with her in order to comfort her. It seems it worked, but I can still see the fear in her face. Space is not for everyone.<ol></ol>
+That nanogel stuff is really amazing, I mean, really! I recall hearing the most sickening sound before blacking out and there I was sitting with a fully intact leg! After a short drink with the Captain I retired to my dorm, passing by Shirley on the way there. She barely noticed I was back. She blurted about how dangerous space was and I swear I saw a tear forming in here eyes, the poor girl was not enjoying this one bit. I tried talking vegetables with her in order to comfort her, which seemed to work, but I can still see the fear in her face. Space is not for everyone I guess.<ol></ol>
 
-<strong><li>Change - Day 5.</li></strong>
-Bleh. This day could't have been worse. First, the automated supply shuttle brought us a ton of stuff, and per instructions, we had to take and replace EVERY SINGLE handheld item back. This was so that we had ''Full stock'' each supply cycle, but it also meant moving back and forth in the station for HOURS. Nanostrasen really needs to work on it's policies.<br><br>
 
-Shirley picked herself up and made as much food as possible. She found out these special space-tomatoes that have a intrinsic quantum field inside them. I had no idea botany would bring about such changes. This might make a teleporter possible in the future!<br><br>
 
-At night, the captain woke me up for a drink with him in his cabin. He told me a bit about his current worries. He had heard that a new group called the ''Syndicates'' had been trying to infiltrate Nanostrasen before our launch. He received a report this morning that they had killed 3 employees of the Nanostrasen Shuttlecorps, the same division that arranged our supply shuttle yesterday. Reports are unsure - the syndicate used high explosives, emps and high-caliber guns to destroy most of the cameras. They are organised! They might or might not have whereabouts about the projet. At least, they can't reach us. I understand why the captain was so worried! I need to stop writing this journal, takes all my time before sleep!<ol></ol>
+<strong><li>Recovery - Day 5.</li></strong>
+This day could not have been worse if god both existed and conspired against us. First, the automated supply shuttle brought us a ton of stuff; which, per instructions, we were required to unpack and process individually before sending the crates back to the shuttle. This was so that we had ''Full stock'' each supply cycle, but it also meant moving back and forth in the station for hours on end. Nanostrasen really needs to work on it's policies.<br><br>
 
-<strong><li>The last day - Day 6.</li></strong>
-I will die on this station. Nothing had us prepared. <br><br>
-It was early morning, and I was just about to get coffee when the captain nearly jumped me. He ordered me to duck. I wish I had. I heard the explosion comming from the bridge, splintering the windows open. The explosion threw me off balance. I heard the door being forced open. A man in a red and black space suit pointed a gun at me and yelled. I din't know what was asked of me. The captain, however, did not want to cooperate. With one swift jump from the ground, he attempted the get his gun. Alas, another man in a space suit was there. He took the opportunity to shoot the captain in the back with his gun. I don't think the Captain even survived the first bullet.<br><br>
+Shirley picked herself up and has made as much food as possible. She found out those special tomatoes she came up with have a intrinsic quantum field inside them. I had no idea botany could bring about such changes. This might make a teleporter possible in the future! Albeit it fruit powered one. Are tomatoes fruits or vegetables?<br><br>
 
-I cried out for mercy but all I got was a bullet to the shoulder and a knee in my chest. The bastard was sitting on me and pulled out a knife. I regained my hearing just to hear some shots in botany as well as the scream of Shirley. I felt terrified, but at least I knew death would come for me in a moment. The man sitting on top of me sliced my chest once, twice, and then got stopped by a third man. That one was dressed in pure black. He told the other to finish the job properly. While still sitting on me, they managed to argue while I whritted in pain and sorrow. I did not hear much of their conversation, as I was too focused on trying to live. The man in red and black finnaly raised me off the ground, punched me in the face, and then threw me in the little isolation ward we had. He then pressed the button to close the door, locking me inside.<br><br>
+At night the captain woke me up to have a drink in his cabin. He told me a bit about his current worries and what's worse, they weren't irrational fears. He had heard that a new group called the ''Syndicate'' had been trying to infiltrate Nanostrasen since before our launch. He received a report this morning that they had killed 3 employees of the Nanostrasen Shuttlecorps; the same division that arranged our supply shuttle yesterday and every day preceding. Reports are unsure but we do know the Syndicate used high explosives, emp technology, and high caliber guns to destroy most of the evidence. They are organised and they may or may not have the whereabouts about the project. At least they can't reach us all the way out here in space. I understand why the captain was so worried now. I need to stop writing this journal, it takes a lot of my pre-sleep time and I seem to get less and less of that with every growing day.<ol></ol>
 
-I sat there for some hours, slowly bleeding out. Maybe it was luck, or just prolonging my suffering- but I did not die. I watched them sabotage the mission, breaking some wires, heard some explosions. I knew we were no longer in orbit around the asteroid. My brain was in a haze. After they had cut the power, the lights were flickering. I heard them argue again. The man that had nearly killed me approched me again. He explained how his captain needed me to tell Nanostrasen what happened, so that they may be feared. He opened the door, beat me up again, stripped me down to my underwear, and gave me this pen and this book. They are all I have left.<br><br>
 
-The glass won't break. The pen is too small for suicide. I will die a lone death, surrounded by none. The syndicates truly are monsters. I would write longer, but the lights are giving up. I don't even have hope of a rescue team finding me. Maybe they'll come, but they won't find us for weeks.<br><br>
+<strong><li>6</li></strong>
+I'm going to die. I'm going to try to be strong and write this with a steady hand. <br><br>
 
-There is no point for a testament, but maybe a confession. I never really loved anyone, but myself. Always worked myself to the bone to try and get a good position. However... at the end, I realised I should have spent more time with my son. Larry, forgive me. I hope you get a better job than a CentCom janitor! Make me proud. I know you will.
+It was early morning and I was just about to get some coffee when the captain nearly jumped on top of me. He ordered me to duck, and boy I wish I had. I heard the explosion comming from the bridge, splintering the windows open. The explosion threw me off balance and I heard the door being forced open. A man in a red and black hardsuit pointed a gun at me and yelled for me to get down. The captain, however, was not in a cooperative mood. I watched as the bravest man I'd ever known leaped from the ground and grabbed his trusty laser pistol; he managed to fire off an expertly placed shot that nailed the intruder right between the eyes, killing him instantly. To my horror, the downed invader began to shudder violently before exploding violently. These people are truly monsters. After the shock of seeing this wore off I looked over towards the Captain, expecting to see him. Instead of seeing him alive and well I saw the last signs of life fading from him as another red and black clad man slit his throat with a wicked looking knife.  <br><br>
+
+I cried out for mercy but all I got was a bullet to the shoulder and a knee in my chest. The bastard that murdered my Captain and friend was sitting on me now, knife and all. I regained my focus just to hear some shots in botany as well as Shirley screaming. I felt terrified, but at least I knew death would come for me in a moment. The man sitting on top of me raised his knife to impale my heart but got stopped by a third man; this one was dressed in pure black. He told the other to finish the job properly. The man on top of me finally raised me off the ground. He punched me square in the jaw and then threw me into the minibrig. He then pressed the button to close the door. I heard tools being fumbled with and before I knew it I saw the bolts locking me inside of that small room.<br><br>
+
+I sat there for some hours, slowly bleeding out. Maybe it was luck or just god prolonging my suffering, but I did not die. After what seemed like a century of waiting and suffering the door bolts lifted and I saw the same man who nearly killed me walk in. He explained how his commander wanted me to tell Nanostrasen what happened so that they may be feared. He pricked me with a small autoinjector and told me that I would be stable for another few hours, and that I had best get to writing.<br><br>
+
+The glass won't break. The pen is too small for suicide. I will die a lonely death. The Syndicate truly are the monsters they want people to believe they are. I would write longer, but the lights are giving up. I don't even have hope of a rescue team finding me. Maybe they'll come, but they won't find our corpses for weeks.<br><br>
+
+There is no point for a testament, but maybe a confession is appropriate. I've never really loved anyone but myself. I've always worked myself to the bone to try and get a good position and stabbed as many backs as I could to do it. In this bitter end I find myself wishing I'd spent more time with my friends and family. Maybe by the time they find my body my brain will be in a shape that's capable of being cloned, I can only find solace in this. If that isn't the case then I say this now to whomever may happen upon this journal. Beware the Syndicate and their cruelty. And show the bastards no mercy if you have enough men to fight them off.
+
+				</body>
+				</html>
+				"}
+
+
+/obj/item/weapon/book/IPCstory
+	icon = 'icons/obj/library.dmi'
+	name = "Prototype Station diary"
+	due_date = 0 // Game time in 1/10th seconds
+	unique = 1   // 0 - Normal book, 1 - Should not be treated as normal book, unable to be copied, unable to be modified
+	author = "Larry Senior"
+	title = "Prototype station 13"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+
+				ul {list-style: none; margin: 10px; padding: 0px;}
+				ol {margin: 25px; padding: 2px 15px;}
+				</style>
+				</head>
+				<body>
+				<h3>IPC Research Station 8</h3>
+				<span style="color:#80BFFF"><ol>By K.O.A,R</ol></span style">
+				<ol></ol>
+
+
+
+				<<strong><li>IPC spacedate : 20/958/91.</li></strong>
+				This unit has been provided with deceit all week long. Our benefactor, Nanostrasen, will not be happy when they find out our research has weilded nothing so far but a single docility potion and one new creature. This unit expected an all-IPC crew to make a fine research team. However, it turns out they are as lazy as any human or Lizard.
+<ol></ol>
+This unit feels the only talent of his team is eating food and deep frying everything. Not only did unit K.E.E.P break the teleporter while trying to get it working - but unit I.I.D.8 thought it would be funny to hide all the artificial crystals all around the station. I am pretty sure he broke one while hiding them, too, since he was teleported in the bridge. Meanwhile, unit C.N.E.R was revealed as an addict, I keep finding him openening the APCs and draining the power. This unit things he should Jetison himself along with his own suit to avoid shame.
+<ol></ol>
+Or maybe this unit could unleash the new monster. That way no one will have to know it was an accident!
+<ol></ol>
+- Captain K.O.A.K
 
 				</body>
 				</html>

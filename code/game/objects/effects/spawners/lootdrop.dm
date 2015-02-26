@@ -32,6 +32,7 @@
 /obj/effect/spawner/lootdrop/maintenance
 	name = "maintenance loot spawner"
 
+
 	//How to balance this table
 	//-------------------------
 	//The total added weight of all the entries should be (roughly) equal to the total number of lootdrops
@@ -122,4 +123,37 @@
 				/obj/item/weapon/wirecutters = 1,
 				/obj/item/weapon/wrench = 4,
 				"" = 11
+				)
+
+/obj/effect/spawner/lootdrop/botany
+	name = "botany loot spawner"
+	lootcount = 5
+
+	//How to balance this table
+	//-------------------------
+	//The total added weight of all the entries should be (roughly) equal to the total number of lootdrops
+	//(take in account those that spawn more than one object!)
+	//
+	//While this is random, probabilities tells us that item distribution will have a tendency to look like
+	//the content of the weighted table that created them.
+	//The less lootdrops, the less even the distribution.
+	//
+	//If you want to give items a weight <1 you can multiply all the weights by 10
+	//
+	//the "" entry will spawn nothing, if you increase this value,
+	//ensure that you balance it with more spawn points
+
+
+	loot = list(
+				/obj/item/weapon/reagent_containers/food/snacks/grown/carrot = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/tomato = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/chili = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/whitebeet = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/chili = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/chanterelle = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/tobacco = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/tea/astra = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/corn = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/cherries = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/grown/potato = 1,
 				)
