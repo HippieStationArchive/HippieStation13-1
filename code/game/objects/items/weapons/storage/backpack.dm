@@ -256,7 +256,7 @@
 	new /obj/item/ammo_box/c10mm(src)
 	new /obj/item/ammo_box/magazine/smgm45(src)
 	new /obj/item/ammo_box/magazine/smgm45(src)
-	new /obj/item/ammo_box/magazine/m12g/buckshot(src)
+	new /obj/item/ammo_box/magazine/m12g(src)
 	new /obj/item/ammo_box/magazine/m12g(src)
 
 /obj/item/weapon/storage/backpack/dufflebag_captain

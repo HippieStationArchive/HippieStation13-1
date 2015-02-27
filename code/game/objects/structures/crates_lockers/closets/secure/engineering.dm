@@ -31,6 +31,7 @@
 	new /obj/item/device/multitool(src)
 	new /obj/item/device/flash/handheld(src)
 	new /obj/item/clothing/suit/toggle/wintercoat/engineering(src)
+	new /obj/item/weapon/pipe_dispenser(src)
 	return
 
 /obj/structure/closet/secure_closet/engineering_electrical

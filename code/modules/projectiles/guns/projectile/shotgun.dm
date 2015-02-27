@@ -209,7 +209,7 @@
 	item_state = "bulldog"
 	w_class = 3.0
 	origin_tech = "combat=5;materials=4;syndicate=6"
-	mag_type = /obj/item/ammo_box/magazine/m12g/buckshot //this was stunslug by default. why the fuck.
+	mag_type = /obj/item/ammo_box/magazine/m12g //this was stunslug by default. why the fuck.
 	fire_sound = 'sound/weapons/shotgun_shoot.ogg'
 	can_suppress = 0
 	burst_size = 2

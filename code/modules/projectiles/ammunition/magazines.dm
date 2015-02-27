@@ -184,10 +184,10 @@ obj/item/ammo_box/magazine/tommygunm45
 	icon_state = "[initial(icon_state)]-[round(ammo_count(),10)]"
 
 /obj/item/ammo_box/magazine/m12g
-	name = "shotgun magazine (12g taser slugs)"
+	name = "shotgun magazine (12g buckshot)"
 	icon_state = "m12gs"
 	origin_tech = "combat=3;syndicate=1"
-	ammo_type = /obj/item/ammo_casing/shotgun/stunslug //SYNDICATE SHOTGUN. USES STUNSLUGS BY DEFAULT. WHAT.
+	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
 	caliber = "shotgun"
 	max_ammo = 8
 
@@ -195,13 +195,12 @@ obj/item/ammo_box/magazine/tommygunm45
 	..()
 	icon_state = "[initial(icon_state)]-[Ceiling(ammo_count(0)/8)*8]"
 
-
-/obj/item/ammo_box/magazine/m12g/buckshot
-	name = "shotgun magazine (12g buckshot)"
-	icon_state = "m12gb"
-	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
-
 /obj/item/ammo_box/magazine/m12g/dragon
 	name = "shotgun magazine (12g dragon's breath)"
 	icon_state = "m12gf"
 	ammo_type = /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath
+
+/obj/item/ammo_box/magazine/m12g/stun
+	name = "shotgun magazine (12g taser slugs)"
+	icon_state = "m12gs"
+	ammo_type = /obj/item/ammo_casing/shotgun/stunslug
