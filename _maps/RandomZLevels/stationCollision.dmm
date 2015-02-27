@@ -392,7 +392,7 @@
 "hB" = (/obj/item/ammo_casing/c10mm{pixel_x = 2; pixel_y = 5},/obj/item/ammo_casing/c10mm{pixel_x = -4; pixel_y = -5},/obj/item/ammo_casing/c10mm,/turf/simulated/floor/plasteel/airless,/area/awaymission/midblock)
 "hC" = (/obj/machinery/light{dir = 4; icon_state = "tube1"},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; tag = ""},/turf/simulated/floor/plasteel/airless,/area/awaymission/midblock)
 "hD" = (/obj/structure/sink/kitchen{pixel_y = 32},/turf/simulated/floor/plasteel,/area/awaymission/midblock)
-"hE" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/condiment/enzyme,/obj/item/weapon/reagent_containers/food/condiment/peppermill,/obj/item/weapon/reagent_containers/food/condiment/saltshaker{pixel_x = 4; pixel_y = 4},/turf/simulated/floor/plasteel,/area/awaymission/midblock)
+"hE" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/condiment/enzyme,/obj/item/weapon/reagent_containers/food/condiment/shaker/peppermill,/obj/item/weapon/reagent_containers/food/condiment/shaker/saltshaker{pixel_x = 4; pixel_y = 4},/turf/simulated/floor/plasteel,/area/awaymission/midblock)
 "hF" = (/obj/structure/table,/obj/machinery/reagentgrinder,/turf/simulated/floor/plasteel,/area/awaymission/midblock)
 "hG" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; tag = ""},/turf/simulated/floor/plasteel,/area/awaymission/midblock)
 "hH" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 4},/turf/simulated/shuttle/plating,/area/awaymission/arrivalblock)

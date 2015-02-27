@@ -135,19 +135,55 @@
 	..()
 	reagents.add_reagent("sugar", 50)
 
-/obj/item/weapon/reagent_containers/food/condiment/saltshaker		//Seperate from above since it's a small shaker rather then
-	name = "salt shaker"											//	a large one.
+/obj/item/weapon/reagent_containers/food/condiment/shaker/attack(mob/M as mob, mob/user as mob, def_zone)
+	var/datum/reagents/R = src.reagents
+
+	if(!R || !R.total_volume)
+		user << "<span class='warning'>None of [src] left, oh no!</span>"
+		return 0
+
+	if(!canconsume(M, user))
+		return 0
+
+	// if(M == user)
+	// 	M << "<span class='notice'>You swallow some of contents of \the [src].</span>"
+	// 	if(reagents.total_volume)
+	// 		reagents.reaction(M, INGEST)
+	// 		spawn(5)
+	// 			reagents.trans_to(M, 10)
+	// 	playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
+	// 	return 1
+
+	// else
+	// user.visible_message("<span class='warning'>[user] attempts to feed [M] from [src].</span>")
+	// if(!do_mob(user, M)) return
+	user.visible_message("<span class='warning'>[user] shakes [src] on [M]!</span>")
+
+	add_logs(user, M, "fed", object="[reagentlist(src)]")
+
+	if(reagents.total_volume)
+		for(var/datum/reagent/E in reagents.reagent_list)
+			E.reaction_mob(M, TOUCH, 2, user.zone_sel.selecting)
+		spawn(5)
+			reagents.trans_to(M, 2)
+
+	// playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
+	return 1
+	// return 0
+
+/obj/item/weapon/reagent_containers/food/condiment/shaker/saltshaker
+	name = "salt shaker"
 	desc = "Salt. From space oceans, presumably."
 	icon_state = "saltshakersmall"
 	possible_transfer_amounts = list(1,20) //for clown turning the lid off
 	amount_per_transfer_from_this = 1
 	volume = 20
 
-/obj/item/weapon/reagent_containers/food/condiment/saltshaker/New()
+/obj/item/weapon/reagent_containers/food/condiment/shaker/saltshaker/New()
 	..()
 	reagents.add_reagent("sodiumchloride", 20)
 
-/obj/item/weapon/reagent_containers/food/condiment/peppermill
+/obj/item/weapon/reagent_containers/food/condiment/shaker/peppermill
 	name = "pepper mill"
 	desc = "Often used to flavor food or make people sneeze."
 	icon_state = "peppermillsmall"
@@ -155,7 +191,7 @@
 	amount_per_transfer_from_this = 1
 	volume = 20
 
-/obj/item/weapon/reagent_containers/food/condiment/peppermill/New()
+/obj/item/weapon/reagent_containers/food/condiment/shaker/peppermill/New()
 	..()
 	reagents.add_reagent("blackpepper", 20)
 

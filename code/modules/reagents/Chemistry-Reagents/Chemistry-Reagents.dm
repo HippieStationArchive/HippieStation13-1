@@ -644,6 +644,12 @@ datum/reagent/fuel/on_mob_life(var/mob/living/M as mob)
 	..()
 	return
 
+datum/reagent/fuel/reaction_turf(var/turf/T, var/volume)
+	src = null
+	if(volume > 5)
+		if(!istype(T, /turf/space))
+			new /obj/effect/decal/cleanable/oil(T)
+
 datum/reagent/space_cleaner
 	name = "Space cleaner"
 	id = "cleaner"

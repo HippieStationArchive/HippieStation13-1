@@ -135,7 +135,7 @@
 	..()
 	reagents.add_reagent("sugar", 50)
 
-/obj/item/weapon/reagent_containers/food/condiment/saltshaker		//Seperate from above since it's a small shaker rather then
+/obj/item/weapon/reagent_containers/food/condiment/shaker/saltshaker		//Seperate from above since it's a small shaker rather then
 	name = "salt shaker"											//	a large one.
 	desc = "Salt. From space oceans, presumably."
 	icon_state = "saltshakersmall"
@@ -143,11 +143,11 @@
 	amount_per_transfer_from_this = 1
 	volume = 20
 
-/obj/item/weapon/reagent_containers/food/condiment/saltshaker/New()
+/obj/item/weapon/reagent_containers/food/condiment/shaker/saltshaker/New()
 	..()
 	reagents.add_reagent("sodiumchloride", 20)
 
-/obj/item/weapon/reagent_containers/food/condiment/peppermill
+/obj/item/weapon/reagent_containers/food/condiment/shaker/peppermill
 	name = "pepper mill"
 	desc = "Often used to flavor food or make people sneeze."
 	icon_state = "peppermillsmall"
@@ -155,7 +155,7 @@
 	amount_per_transfer_from_this = 1
 	volume = 20
 
-/obj/item/weapon/reagent_containers/food/condiment/peppermill/New()
+/obj/item/weapon/reagent_containers/food/condiment/shaker/peppermill/New()
 	..()
 	reagents.add_reagent("blackpepper", 20)
 

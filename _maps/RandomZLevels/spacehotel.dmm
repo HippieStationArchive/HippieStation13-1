@@ -163,7 +163,7 @@
 "dg" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/red,/obj/effect/decal/cleanable/blood/gibs/old,/turf/simulated/floor/fancy/carpet,/area/awaymission)
 "dh" = (/obj/machinery/vending/boozeomat,/turf/simulated/floor/plasteel,/area/awaymission)
 "di" = (/obj/structure/table,/obj/item/weapon/reagent_containers/glass/beaker{pixel_x = 5},/turf/simulated/floor/plasteel,/area/awaymission)
-"dj" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/condiment/saltshaker{pixel_x = -3; pixel_y = 0},/obj/item/weapon/reagent_containers/food/condiment/peppermill{pixel_x = 3},/turf/simulated/floor/plasteel,/area/awaymission)
+"dj" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/condiment/shaker/saltshaker{pixel_x = -3; pixel_y = 0},/obj/item/weapon/reagent_containers/food/condiment/shaker/peppermill{pixel_x = 3},/turf/simulated/floor/plasteel,/area/awaymission)
 "dk" = (/obj/structure/table,/obj/item/weapon/kitchen/rollingpin,/turf/simulated/floor/plasteel,/area/awaymission)
 "dl" = (/obj/machinery/atmospherics/pipe/simple{pipe_color = "blue"; icon_state = "intact-b-f"; level = 1; name = "pipe"},/obj/structure/table,/obj/item/weapon/book/manual/chef_recipes,/turf/simulated/floor/plasteel,/area/awaymission)
 "dm" = (/obj/structure/window,/obj/structure/alien/weeds/node,/turf/simulated/floor/fancy/carpet,/area/awaymission)

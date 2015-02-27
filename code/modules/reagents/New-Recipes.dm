@@ -42,3 +42,10 @@ datum/reagent/pure_rainbow/reaction_turf(var/turf/T, var/volume)
 		T.color = pick(potential_colors)
 	..()
 	return
+
+/datum/chemical_reaction/tirizene //Causes staminaloss
+	name = "Tirizene"
+	id = "tirizene"
+	result = "tirizene"
+	required_reagents = list("ethanol" = 1, "tea" = 1, "chlorine" = 1) //We need more instances of food&drinks reagents used to mix chems
+	result_amount = 2
