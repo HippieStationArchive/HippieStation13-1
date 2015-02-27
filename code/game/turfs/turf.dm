@@ -23,6 +23,9 @@
 	//FOOTSTEPS! WOO!
 	var/stepsound = "tile"
 
+	// Flick animation shit
+	var/atom/movable/overlay/c_animation = null
+
 	flags = 0
 
 /turf/New()
