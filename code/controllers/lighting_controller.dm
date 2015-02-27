@@ -1,4 +1,4 @@
-var/datum/controller/lighting/lighting_controller = new ()
+var/datum/controller/lighting/lighting_controller = new
 
 /datum/controller/lighting
 	var/processing = 0

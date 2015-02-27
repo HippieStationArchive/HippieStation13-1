@@ -1,5 +1,7 @@
 #define SOLAR_UPDATE_TIME 600 //duration between two updates of the whole sun/solars positions
 
+var/global/datum/sun/sun
+
 /datum/sun
 	var/angle
 	var/dx

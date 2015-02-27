@@ -120,9 +120,13 @@ var/global/fartholdin = 0
 
 	round_start_time = world.time
 
+	/*
 	supply_shuttle.process() 		//Start the supply shuttle regenerating points
 	master_controller.process()		//Start master_controller.process()
 	lighting_controller.process()	//Start processing DynamicAreaLighting updates
+	*/
+
+	processScheduler.start()
 
 	sleep(10)
 
@@ -302,7 +306,7 @@ var/global/buttmode = 0
 
 	mode.process()
 
-	emergency_shuttle.process()
+	//emergency_shuttle.process()
 
 	if(!mode.explosion_in_progress && mode.check_finished())
 		current_state = GAME_STATE_FINISHED

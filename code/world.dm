@@ -88,8 +88,12 @@
 
 	makepowernets()
 
+	processScheduler = new
 	master_controller = new /datum/controller/game_controller()
 	spawn(-1)
+		processScheduler.deferSetupFor(/datum/controller/process/ticker)
+		processScheduler.setup()
+
 		master_controller.setup()
 		lighting_controller.initializeLighting()
 		//npcpool.process()
@@ -106,9 +110,9 @@
 	map_name = "Unknown"
 	#endif
 
-	spawn(3000)		//so we aren't adding to the round-start lag
-		if(config.kick_inactive)
-			KickInactiveClients()
+	//spawn(3000)		//so we aren't adding to the round-start lag
+	//	if(config.kick_inactive)
+	//		KickInactiveClients()
 	return
 
 #undef RECOMMENDED_VERSION
@@ -195,6 +199,8 @@
 	spawn(0)
 		world << sound(pick('sound/AI/newroundsexy.ogg','sound/misc/apcdestroyed.ogg','sound/misc/bangindonk.ogg')) // random end sounds!! - LastyBatsy
 
+	processScheduler.stop()
+
 	for(var/client/C in clients)
 		if(config.server)	//if you set a server location in config.txt, it sends you there instead of trying to reconnect to the same world address. -- NeoFite
 			C << link("byond://[config.server]")
@@ -202,21 +208,6 @@
 	// Note: all clients automatically connect to the world after it restarts
 
 	..(reason)
-
-
-#define INACTIVITY_KICK	6000	//10 minutes in ticks (approx.)
-/world/proc/KickInactiveClients()
-	spawn(-1)
-		set background = BACKGROUND_ENABLED
-		while(1)
-			sleep(INACTIVITY_KICK)
-			for(var/client/C in clients)
-				if(C.is_afk(INACTIVITY_KICK))
-					if(!istype(C.mob, /mob/dead))
-						log_access("AFK: [key_name(C)]")
-						C << "<span class='danger'>You have been inactive for more than 10 minutes and have been disconnected.</span>"
-						del(C)
-#undef INACTIVITY_KICK
 
 
 /world/proc/load_mode()
