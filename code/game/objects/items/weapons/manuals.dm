@@ -873,8 +873,8 @@ There is no point for a testament, but maybe a confession is appropriate. I've n
 	name = "Prototype Station diary"
 	due_date = 0 // Game time in 1/10th seconds
 	unique = 1   // 0 - Normal book, 1 - Should not be treated as normal book, unable to be copied, unable to be modified
-	author = "Larry Senior"
-	title = "Prototype station 13"
+	author = "K.O,A.K"
+	title = "IPC station 13"
 	dat = {"<html>
 				<head>
 				<style>
@@ -893,11 +893,12 @@ There is no point for a testament, but maybe a confession is appropriate. I've n
 
 
 				<<strong><li>IPC spacedate : 20/958/91.</li></strong>
-				This unit has been provided with deceit all week long. Our benefactor, Nanostrasen, will not be happy when they find out our research has weilded nothing so far but a single docility potion and one new creature. This unit expected an all-IPC crew to make a fine research team. However, it turns out they are as lazy as any human or Lizard.
+				This unit has been provided with deceit all week long. Our benefactor, Nanostrasen, will not be happy when they find out our research has yielded nothing but a single docility potion and one new specimen. This unit expected a crew of IPCs to make a fine research team, after all it is known that we are the most efficient sentient beings in the galaxy. However, it turns out that the units assigned to my command are all faulty, or incompetent!
 <ol></ol>
-This unit feels the only talent of his team is eating food and deep frying everything. Not only did unit K.E.E.P break the teleporter while trying to get it working - but unit I.I.D.8 thought it would be funny to hide all the artificial crystals all around the station. I am pretty sure he broke one while hiding them, too, since he was teleported in the bridge. Meanwhile, unit C.N.E.R was revealed as an addict, I keep finding him openening the APCs and draining the power. This unit things he should Jetison himself along with his own suit to avoid shame.
+
+This unit feels the only talent of it's team is both eating and deep-frying everything in sight. Not only did unit K.E.E.P break the teleporter while trying to get it working; but unit I.I.D.8 thought it would be 'funny' to hide all the artificial crystals on the station somewhere. This unit is confident that unit I.I.D.8 broke one while hiding them, too, since it was teleported onto the bridge. Meanwhile, unit C.N.E.R was revealed as a power addict, this unit keeps finding it opening the APCs and draining the power to suppliment it's cravings. This unit thinks it should jetison itself from an airlock to avoid the shame of reporting back to Nanotrasen.
 <ol></ol>
-Or maybe this unit could unleash the new monster. That way no one will have to know it was an accident!
+Perhaps this unit does not have to report back OR jeti itself. This unit could just release the new specimen, that way it seems like a freak accident!
 <ol></ol>
 - Captain K.O.A.K
 
