@@ -227,12 +227,63 @@ datum/reagent/consumable/sodiumchloride
 	reagent_state = SOLID
 	color = "#FFFFFF" // rgb: 255,255,255
 
+datum/reagent/consumable/sodiumchloride/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
+	if(!..())
+		return
+	// if(!istype(M, /mob/living)) //Must be handled in ..()
+	// 	return
+	if(method == TOUCH)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			var/obj/item/organ/limb/affecting = H.get_organ(check_zone(zone))
+
+			if(affecting.status == ORGAN_ORGANIC && (affecting.brute_dam > 0 || affecting.burn_dam > 0)) //Limb must be organic to be salted
+				if (affecting.take_damage(0, rand(1, 2))) //Don't put salt on your wounds!
+					H.update_damage_overlays(0)
+				M.updatehealth()
+				M << "<span class='notice'>Your [parse_zone(zone)] stings from the salt!</span>"
+
+	src = null
+	return
+
 datum/reagent/consumable/blackpepper
 	name = "Black Pepper"
 	id = "blackpepper"
 	description = "A powder ground from peppercorns. *AAAACHOOO*"
 	reagent_state = SOLID
 	// no color (ie, black)
+
+datum/reagent/consumable/blackpepper/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
+	if(!..())
+		return
+	// if(!istype(M, /mob/living)) //Must be handled in ..()
+	// 	return
+	if(method == TOUCH)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			// var/obj/item/organ/limb/affecting = H.get_organ(check_zone(zone))
+
+			// if(affecting.name == "head")
+			var/mouth_covered = 0
+			if (H.wear_mask)
+				if (H.wear_mask.flags & MASKCOVERSMOUTH)
+					mouth_covered = 1
+			if(!mouth_covered)
+				if(prob(50))
+					M.emote("sneeze")
+					M << "<span class='userdanger'>You sneeze and drop your held item!</span>"
+					var/obj/item/I = M.get_active_hand()
+					if(I && I.w_class <= 2)
+						M.drop_item()
+				else
+					M.emote("sniff")
+					M << "<span class='danger'>You feel like you almost sneezed there!</span>"
+
+		else
+			M.heal_organ_damage(0, volume * 2) //Heal less damage for mobs (20 damage for 10u)
+
+	src = null
+	return
 
 datum/reagent/consumable/coco
 	name = "Coco Powder"

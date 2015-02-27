@@ -339,7 +339,7 @@
 		icon_state = "paper_burn"
 		var/turf/T = get_turf(loc)
 		if(T)
-			T.hotspot_expose(700,125)
+			T.hotspot_expose(700,5)
 		spawn(20)
 			// usr.drop_item(src)
 			new /obj/effect/decal/cleanable/ash(loc)

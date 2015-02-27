@@ -601,7 +601,7 @@
 "lC" = (/obj/machinery/door/airlock/maintenance{req_access_txt = "12"},/turf/simulated/floor/plating,/area/space)
 "lD" = (/obj/structure/table,/obj/item/weapon/book/manual/hydroponics_pod_people,/obj/item/weapon/paper/hydroponics,/obj/item/weapon/reagent_containers/glass/bucket,/turf/simulated/floor/wood,/area/space)
 "lE" = (/obj/machinery/smartfridge,/turf/simulated/wall,/area/space)
-"lF" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/condiment/peppermill{pixel_x = 3},/turf/simulated/floor/plasteel{icon_state = "cafeteria"},/area/space)
+"lF" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/condiment/shaker/peppermill{pixel_x = 3},/turf/simulated/floor/plasteel{icon_state = "cafeteria"},/area/space)
 "lG" = (/obj/machinery/door/airlock/clown,/turf/simulated/floor/plasteel,/area/space)
 "lH" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/drinks/drinkingglass,/obj/item/device/flashlight/lamp/bananalamp{pixel_y = 8},/turf/simulated/floor/plasteel{tag = "icon-redgreenfull"; icon_state = "redgreenfull"},/area/space)
 "lI" = (/obj/structure/window/reinforced{dir = 1},/obj/structure/window/reinforced{dir = 4},/turf/space,/area/space)

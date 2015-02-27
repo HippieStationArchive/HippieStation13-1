@@ -198,6 +198,29 @@ datum/reagent/medicine/tricordrazine/on_mob_life(var/mob/living/M as mob)
 	..()
 	return
 
+datum/reagent/medicine/tricordrazine/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
+	if(!..())
+		return
+	// if(!istype(M, /mob/living)) //Must be handled in ..()
+	// 	return
+	if(method == TOUCH)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			var/obj/item/organ/limb/affecting = H.get_organ(check_zone(zone))
+
+			if(affecting.status == ORGAN_ORGANIC) //Limb must be organic to be healed
+				var/update = 0
+				if (affecting.heal_damage(0, volume * 2, 0))	update = 1
+				if (affecting.heal_damage(volume * 2, 0, 0))	update = 1
+				if (update)	H.update_damage_overlays(0)
+				M.updatehealth()
+				M << "<span class='notice'>You feel your [parse_zone(zone)] sting as all of it's damage is healed.</span>"
+		else
+			M.heal_organ_damage(0, volume * 2) //Heal less damage for mobs (20 damage for 10u)
+
+	src = null
+	return
+
 datum/reagent/medicine/anti_toxin
 	name = "Anti-Toxin (Dylovene)"
 	id = "anti_toxin"
@@ -308,6 +331,27 @@ datum/reagent/medicine/alkysine/on_mob_life(var/mob/living/M as mob)
 	if(M != DEAD)
 		M.adjustBrainLoss(-3*REM)
 	..()
+	return
+
+datum/reagent/medicine/alkysine/reaction_mob(var/mob/living/carbon/M, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
+	if(!..())
+		return
+	// if(!istype(M, /mob/living)) //Must be handled in ..()
+	// 	return
+	if(method == TOUCH)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			var/obj/item/organ/limb/affecting = H.get_organ(check_zone(zone))
+
+			if(affecting.name == "head")
+				M.adjustBrainLoss(-50) //Much more instant
+				M << "<span class='notice'>You feel less dumb.</span>"
+		else
+			M.heal_organ_damage(0, volume * 2) //Heal less damage for mobs (20 damage for 10u)
+	// else
+	// 	M << "<span class='notice'>Ewww, it tastes terrible.</span>"
+
+	src = null
 	return
 
 datum/reagent/medicine/imidazoline
