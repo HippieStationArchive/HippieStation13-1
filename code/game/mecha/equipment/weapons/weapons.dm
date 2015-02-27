@@ -273,23 +273,15 @@
 	var/deviation = 0.3
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg/action(atom/target)
-	if(!action_checks(target)) return
-	var/turf/targloc = get_turf(target)
-	var/target_x = targloc.x
-	var/target_y = targloc.y
-	var/target_z = targloc.z
-	targloc = null
+	if(!action_checks(target)) return 0
+	set_ready_state(0)
+	var/turf/curloc = chassis.loc
+	var/atom/targloc = get_turf(target)
+	if (!targloc || !istype(targloc, /turf) || !curloc)
+		return
+	if (targloc == curloc)
+		return
 	spawn	for(var/i=1 to min(projectiles, projectiles_per_shot))
-		if(!chassis) break
-		var/turf/curloc = get_turf(chassis)
-		var/dx = round(gaussian(0,deviation),1)
-		var/dy = round(gaussian(0,deviation),1)
-		targloc = locate(target_x+dx, target_y+dy, target_z)
-		if (!targloc || !curloc)
-			continue
-		if (targloc == curloc)
-			continue
-
 		playsound(chassis, fire_sound, 50, 1)
 		var/obj/item/projectile/A = new projectile(curloc)
 		src.projectiles--
@@ -298,12 +290,10 @@
 		A.current = curloc
 		A.yo = targloc.y - curloc.y
 		A.xo = targloc.x - curloc.x
-		A.process()
-		sleep(2)
-	set_ready_state(0)
-	log_message("Fired from [src.name], targeting [target].")
+		A.fire()
+	chassis.log_message("Fired from [src.name], targeting [target].")
 	do_after_cooldown()
-	return
+	return 1
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack
 	name = "\improper SRM-8 missile rack"
