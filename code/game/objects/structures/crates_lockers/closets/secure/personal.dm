@@ -58,21 +58,24 @@
 	if(istype(W))
 		var/obj/item/weapon/card/id/I = W.GetID()
 		if(istype(I))
-			if(src.broken)
-				user << "<span class='danger'>It appears to be broken.</span>"
-				return
-			if(!I || !I.registered_name)	return
-			if(src.allowed(user) || !src.registered_name || (istype(I) && (src.registered_name == I.registered_name)))
-				//they can open all lockers, or nobody owns this, or they own this locker
-				src.locked = !( src.locked )
-				if(src.locked)	src.icon_state = src.icon_locked
-				else	src.icon_state = src.icon_closed
-
-				if(!src.registered_name)
-					src.registered_name = I.registered_name
-					src.desc = "Owned by [I.registered_name]."
+			if(!src.opened)
+				if(src.broken)
+					user << "<span class='danger'>It appears to be broken.</span>"
+					return
+				if(!I || !I.registered_name)	return
+				if(src.allowed(user) || !src.registered_name || (istype(I) && (src.registered_name == I.registered_name)))
+					//they can open all lockers, or nobody owns this, or they own this locker
+					src.locked = !( src.locked )
+					if(src.locked)	src.icon_state = src.icon_locked
+					else	src.icon_state = src.icon_closed
+	
+					if(!src.registered_name)
+						src.registered_name = I.registered_name
+						src.desc = "Owned by [I.registered_name]."
+				else
+					user << "<span class='danger'>Access Denied.</span>"
 			else
-				user << "<span class='danger'>Access Denied.</span>"
+				..()
 		else
 			..()
 	else
