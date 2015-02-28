@@ -71,7 +71,6 @@
 							I.loc = src.loc
 
 					else
-
 						// If the machine wasn't made during runtime, probably doesn't have components:
 						// manually find the components and drop them!
 						var/newpath = text2path(circuitboard)
@@ -88,8 +87,8 @@
 											A.amount = 1
 											A.update_icon()
 
-						// Drop a circuit board too
-						C.loc = src.loc
+							// Drop a circuit board too
+							C.loc = src.loc
 
 					// Create a machine frame and delete the current machine
 					var/obj/machinery/constructable_frame/machine_frame/F = new
