@@ -1478,6 +1478,7 @@
 #include "code\modules\telesci\telesci_computer.dm"
 #include "code\modules\vehicles\janicar.dm"
 #include "code\modules\vehicles\lawnmower.dm"
+#include "code\WorkInProgress\atlantique\screambot.dm"
 #include "code\WorkInProgress\redswandir\buttes_and_bots.dm"
 #include "code\WorkInProgress\redswandir\spesspods\filler.dm"
 #include "code\WorkInProgress\redswandir\spesspods\spacepod_equipment.dm"
