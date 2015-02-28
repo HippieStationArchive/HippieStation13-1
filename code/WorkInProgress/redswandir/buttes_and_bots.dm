@@ -21,6 +21,23 @@
 		bubble_type = "A" //make alien speech bubbles
 		speech_list = list("hissing butts", "hiss hiss motherfucker", "nice trophy nerd", "butt", "woop get an alien inspection")
 
+/obj/machinery/bot/buttbot/explode()
+	visible_message("<span class='userdanger'>[src] blows apart!</span>")
+	var/turf/T = get_turf(src)
+
+	if(prob(50))
+		new /obj/item/robot_parts/l_arm(T)
+	if(xeno)
+		new /obj/item/organ/butt/xeno(T)
+	else
+		new /obj/item/organ/butt(T)
+
+	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	s.set_up(3, 1, src)
+	s.start()
+
+	// new /obj/effect/decal/cleanable/oil(loc)
+	qdel(src)
 
 /obj/machinery/bot/buttbot/bot_process()
 	if (!..())
