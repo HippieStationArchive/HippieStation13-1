@@ -28,9 +28,9 @@
 	if(prob(50))
 		new /obj/item/robot_parts/l_arm(T)
 	if(xeno)
-		new /obj/item/clothing/head/butt/xeno(T)
+		new /obj/item/organ/butt/xeno(T)
 	else
-		new /obj/item/clothing/head/butt(T)
+		new /obj/item/organ/butt(T)
 
 	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 	s.set_up(3, 1, src)
