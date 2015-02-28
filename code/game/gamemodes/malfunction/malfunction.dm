@@ -99,7 +99,7 @@
 
 /datum/game_mode/malfunction/process()
 	if ((apcs > 0) && malf_mode_declared)
-		AI_win_timeleft -= apcs * last_tick_duration	//Victory timer de-increments based on how many APCs are hacked
+		AI_win_timeleft -= apcs * tickerProcess.getLastTickerTimeDuration()	//Victory timer de-increments based on how many APCs are hacked
 	..()
 	if (AI_win_timeleft<=0)
 		check_win()
