@@ -103,7 +103,12 @@ var/const/VOX_DELAY = 600
 	popup.open()
 
 
-/mob/living/silicon/ai/proc/announcement()
+/mob/living/silicon/ai/verb/announcement()
+
+	set name = "Announcement"
+	set desc = "Announe to the crew."
+	set category = "AI Commands"
+
 	if(announcing_vox > world.time)
 		src << "<span class='notice'>Please wait [round((announcing_vox - world.time) / 10)] seconds.</span>"
 		return
@@ -141,20 +146,19 @@ var/const/VOX_DELAY = 600
 		return
 
 	announcing_vox = world.time + VOX_DELAY
-	
+
 	message_admins("[key_name(src)] made a vocal announcement with the following message: [message].")
 	log_game("[key_name(src)] made a vocal announcement with the following message: [message].")
 
 	for(var/word in words)
 		play_vox_word(word, src.z, null)
-/*
+
 	for(var/mob/M in player_list)
-		if(M.client)
+		if(M.client && !(M.client.prefs.toggles & SOUND_VOX))
 			var/turf/T = get_turf(M)
 			var/turf/our_turf = get_turf(src)
 			if(T.z == our_turf.z)
 				M << "<b><font size = 3><font color = red>AI announcement:</font color> [message]</font size></b>"
-*/
 
 
 /proc/play_vox_word(var/word, var/z_level, var/mob/only_listener)
@@ -171,7 +175,7 @@ var/const/VOX_DELAY = 600
 		if(!only_listener)
 			// Play voice for all mobs in the z level
 			for(var/mob/M in player_list)
-				if(M.client)
+				if(M.client && M.client.prefs.toggles & SOUND_VOX)
 					var/turf/T = get_turf(M)
 					if(T.z == z_level)
 						M << voice
