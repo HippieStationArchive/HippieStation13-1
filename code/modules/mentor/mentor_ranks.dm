@@ -1,4 +1,6 @@
 /proc/load_mentors()
+	if(config.admin_legacy_system)
+		return
 	//clear the datums references
 	mentor_datums.Cut()
 	mentors.Cut()
