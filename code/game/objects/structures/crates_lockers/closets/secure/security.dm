@@ -77,6 +77,7 @@
 	new /obj/item/clothing/suit/armor/hos(src)
 	new /obj/item/clothing/head/HoS(src)
 	new /obj/item/clothing/head/HoS/beret(src)
+	new /obj/item/clothing/head/HoS/dermal(src)
 	new /obj/item/clothing/glasses/hud/security/eyepatch(src)
 	new /obj/item/weapon/storage/lockbox/loyalty(src)
 	new /obj/item/weapon/storage/box/flashbangs(src)
