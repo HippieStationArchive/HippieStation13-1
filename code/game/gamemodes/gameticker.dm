@@ -107,7 +107,7 @@ var/global/fartholdin = 0
 			return 0
 	else
 		world << "<span class='notice'>DEBUG: Bypassing prestart checks..."
-
+	
 	if(hide_mode)
 		var/list/modes = new
 		for (var/datum/game_mode/M in runnable_modes)
@@ -126,15 +126,16 @@ var/global/fartholdin = 0
 	lighting_controller.process()	//Start processing DynamicAreaLighting updates
 	*/
 
-	processScheduler.start()
-
-	sleep(10)
+	//sleep(15)
 
 	create_characters() //Create player characters and transfer them
 	collect_minds()
 	equip_characters()
 	data_core.manifest()
 	current_state = GAME_STATE_PLAYING
+
+	processScheduler.start()
+
 	fartholdin = world.time + 50
 	spawn(0)//Forking here so we dont have to wait for this to finish
 		mode.post_setup()
