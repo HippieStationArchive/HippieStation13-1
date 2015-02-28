@@ -44,6 +44,8 @@ Name : Dragonheart
 REQUIREMENTS : Sacrifice yourself for the station repeatedly.
 DESCRIPTION : A great honor for those who have bravely and willingly stepped forward to perform the greatest sacrifice for the good of all, time and time again.
 
+ignore me jamie made me do it
+
 Name : Starburst for Extreme Heroism
 REQUIREMENTS : Become a Legend.
 DESCRIPTION : The highest honor that can be achieved by an individual, one who is worthy enough to have their name spoken in the same breath as the greatest men in history, a name that is held in awe by friend and foe alike.
