@@ -28,6 +28,8 @@
 	// layer = 5.0
 	density = 0
 	anchored = 0
+	health = 25
+	maxhealth = 25
 	var/cooldown = 0
 	var/list/frights = list("told a pants-wettingly scary story", "told a story so scary you want to cover your ears",\
 							"told a story so incredibly scary that your teeth won't stop chattering", "told a bloodcurdling story",\

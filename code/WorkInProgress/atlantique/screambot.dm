@@ -36,6 +36,8 @@
 	layer = 5.0
 	density = 0
 	anchored = 0
+	health = 25
+	maxhealth = 25
 	var/cooldown = 0
 
 /obj/machinery/bot/screambot/explode()

@@ -6,6 +6,8 @@
 	density = 0
 	anchored = 0
 	flags = HEAR
+	health = 25
+	maxhealth = 25
 	// bubble_type = "h"
 	var/xeno = 0 //Do we hiss when buttspeech?
 	var/cooldown = 0
