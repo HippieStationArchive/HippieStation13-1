@@ -304,6 +304,29 @@
 				delay = 15
 
 
+// IPC BUZZES AND PINGS
+
+
+		if ("ping")
+			var/DNA = src.dna.species.id
+			switch(DNA)
+				if("IPC")
+
+					playsound(src.loc, 'sound/machines/ping.ogg', 50, 0)
+					message = "<B>[src]</B> pings!"
+
+		if ("buzz")
+			var/DNA = src.dna.species.id
+			var/sound
+			switch(DNA)
+				if("IPC")
+					sound = pick('sound/machines/buzz-sigh.ogg','sound/machines/buzz-two.ogg')
+					playsound(src.loc, sound, 50, 0)
+					message = "<B>[src]</B> buzzes."
+
+
+
+
 		if ("shiver")
 			message = "<B>[src]</B> shivers."
 			m_type = 1
