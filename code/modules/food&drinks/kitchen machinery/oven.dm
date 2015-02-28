@@ -88,12 +88,11 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 
 /obj/machinery/cooking/oven/New()
 	var/list/foodtemp = oven_choices
-	// oven_choices = list()
+	oven_choices = list()
 	if(foodtemp.len)
 		for(var/F in foodtemp)
-			if(istype(F))
-				var/obj/item/weapon/reagent_containers/food/snacks/customizable/cook/V = new F
-				oven_choices.Add(V)
+			var/obj/item/weapon/reagent_containers/food/snacks/customizable/cook/V = new F
+			oven_choices.Add(V)
 	..()
 
 /obj/machinery/cooking/oven/updatefood()
@@ -112,12 +111,11 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 
 /obj/machinery/cooking/candy/New()
 	var/list/foodtemp = candy_choices
-	// candy_choices = list()
+	candy_choices = list()
 	if(foodtemp.len)
 		for(var/F in foodtemp)
-			if(istype(F))
-				var/obj/item/weapon/reagent_containers/food/snacks/customizable/candy/V = new F
-				candy_choices.Add(V)
+			var/obj/item/weapon/reagent_containers/food/snacks/customizable/candy/V = new F
+			candy_choices.Add(V)
 	..()
 
 /obj/machinery/cooking/candy/updatefood()
@@ -139,12 +137,11 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 
 /obj/machinery/cooking/still/New()
 	var/list/foodtemp = still_choices
-	// still_choices = list()
+	still_choices = list()
 	if(foodtemp.len)
 		for(var/F in foodtemp)
-			if(istype(F))
-				var/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/V = new F
-				still_choices.Add(V)
+			var/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/V = new F
+			still_choices.Add(V)
 	..()
 
 /obj/machinery/cooking/still/updatefood()
