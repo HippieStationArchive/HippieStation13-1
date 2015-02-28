@@ -169,7 +169,7 @@
 	//=================
 
 	else if(prob(33))
-		var/list/nearby = oview(10, src)
+		var/list/nearby = oview(7, src)
 		if(nearby.len)
 			var/target_atom = pick(nearby)
 			walk_to(src, target_atom)

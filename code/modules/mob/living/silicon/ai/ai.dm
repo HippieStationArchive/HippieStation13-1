@@ -240,10 +240,10 @@ var/list/ai_list = list()
 	if(src.stat == 2)
 		src << "You can't call the shuttle because you are dead!"
 		return
-	if(istype(usr,/mob/living/silicon/ai))
+	if(istype(src,/mob/living/silicon/ai))
 		var/mob/living/silicon/ai/AI = src
 		if(AI.control_disabled)
-			usr << "Wireless control is disabled!"
+			src << "Wireless control is disabled!"
 			return
 
 	var/reason = input(src, "What is the nature of your emergency? ([CALL_SHUTTLE_REASON_LENGTH] characters required.)", "Confirm Shuttle Call") as text

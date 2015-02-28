@@ -393,6 +393,7 @@
 			if(istype(P, /obj/item/weapon/screwdriver))
 				playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 				user << "<span class='notice'>You connect the monitor.</span>"
-				var/obj/B = new src.circuit.build_path (src.loc, circuit)
-				transfer_fingerprints_to(B)
+				if(istype(src.circuit))
+					var/obj/B = new src.circuit.build_path (src.loc, circuit)
+					transfer_fingerprints_to(B)
 				qdel(src)

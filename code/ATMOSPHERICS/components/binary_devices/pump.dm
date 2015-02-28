@@ -63,10 +63,10 @@ Thus, the two variables affect pump operation are set in New():
 		var/datum/gas_mixture/removed = air1.remove(transfer_moles)
 		air2.merge(removed)
 
-		parent1.update = 1
-
-
-		parent2.update = 1
+		if(parent1)
+			parent1.update = 1
+		if(parent2)
+			parent2.update = 1
 
 	return 1
 

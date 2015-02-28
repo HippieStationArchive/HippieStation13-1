@@ -45,7 +45,7 @@
 				playsound(src.loc, 'sound/items/Wirecutter.ogg', 50, 1)
 				user << "<span class='notice'>You remove the cables.</span>"
 				construct_op ++
-				var/obj/item/stack/cable_coil/A = new /obj/item/stack/cable_coil( user.loc )
+				var/obj/item/stack/cable_coil/A = new /obj/item/stack/cable_coil(user.loc)
 				A.amount = 5
 				stat |= BROKEN // the machine's been borked!
 		if(3)
@@ -75,16 +75,18 @@
 						// If the machine wasn't made during runtime, probably doesn't have components:
 						// manually find the components and drop them!
 						var/newpath = text2path(circuitboard)
-						var/obj/item/weapon/circuitboard/C = new newpath
-						for(var/I in C.req_components)
-							for(var/i = 1, i <= C.req_components[I], i++)
-								newpath = text2path(I)
-								var/obj/item/s = new newpath
-								s.loc = src.loc
-								if(istype(s, /obj/item/stack/cable_coil))
-									var/obj/item/stack/cable_coil/A = s
-									A.amount = 1
-									A.update_icon()
+						if(newpath)
+							var/obj/item/weapon/circuitboard/C = new newpath
+							for(var/I in C.req_components)
+								for(var/i = 1, i <= C.req_components[I], i++)
+									newpath = text2path(I)
+									if(newpath)
+										var/obj/item/s = new newpath
+										s.loc = src.loc
+										if(istype(s, /obj/item/stack/cable_coil))
+											var/obj/item/stack/cable_coil/A = s
+											A.amount = 1
+											A.update_icon()
 
 						// Drop a circuit board too
 						C.loc = src.loc

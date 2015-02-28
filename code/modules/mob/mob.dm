@@ -677,7 +677,7 @@ var/list/slot_equipment_priority = list( \
 			stat(null,"Instances:\t[world.contents.len]")
 
 
-		if(processScheduler.getIsRunning())
+		if(istype(processScheduler) && processScheduler.getIsRunning())
 			var/datum/controller/process/process
 
 			process = processScheduler.getProcess("vote")
