@@ -154,7 +154,7 @@ var/const/VOX_DELAY = 600
 		play_vox_word(word, src.z, null)
 
 	for(var/mob/M in player_list)
-		if(M.client && !(M.client.prefs.toggles & SOUND_VOX))
+		if(M.client && M.client.prefs.toggles & SOUND_VOX)
 			var/turf/T = get_turf(M)
 			var/turf/our_turf = get_turf(src)
 			if(T.z == our_turf.z)
@@ -175,7 +175,7 @@ var/const/VOX_DELAY = 600
 		if(!only_listener)
 			// Play voice for all mobs in the z level
 			for(var/mob/M in player_list)
-				if(M.client && M.client.prefs.toggles & SOUND_VOX)
+				if(M.client && !(M.client.prefs.toggles & SOUND_VOX))
 					var/turf/T = get_turf(M)
 					if(T.z == z_level)
 						M << voice

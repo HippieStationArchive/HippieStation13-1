@@ -190,5 +190,5 @@ var/list/ghost_forms = list("ghost","ghostking","ghostian2","ghost_red","ghost_b
 	set desc = "Toggles whether or not you will hear Vox messages."
 	prefs.toggles ^= SOUND_VOX
 	prefs.save_preferences()
-	src << "You will [(prefs.toggles & SOUND_VOX) ? "now" : "no longer"] hear Vox."
+	src << "You will [(prefs.toggles & SOUND_VOX) ? "no longer" : "now"] hear Vox."
 	feedback_add_details("admin_verb","TVox") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
