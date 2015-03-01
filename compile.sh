@@ -63,6 +63,7 @@ if c=$'\x1E' && p="${c}${authcred} ${c}" && [[  "${AUTH[@]/#/${c}} ${c}" =~ $p ]
 		git pull
 	elif [ $REMOTE = $BASE ]; then
 		echo "Need to push"
+		exit
 	else
 		echo "Diverged"
 	fi
