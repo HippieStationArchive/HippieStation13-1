@@ -125,6 +125,13 @@
 	//var/emagged = 0
 	//var/teleporting = 0
 
+//Nexendia put this here
+/obj/item/weapon/rcs/attack_self(mob/user as mob)
+	var/list/pad = list(
+		"Cargo" = (/obj/machinery/telepad_cargo),
+		"Science" = (/obj/machinery/telepad_cargo),
+		)
+
 /obj/item/weapon/rcs/New()
 	..()
 	processing_objects.Add(src)
