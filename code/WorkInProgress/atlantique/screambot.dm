@@ -40,6 +40,7 @@
 	maxhealth = 25
 	var/cooldown = 0
 	var/speedup = 1
+	var/probability = 30
 	var/list/sounds = list('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg', 'sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg', 'sound/voice/screamsilicon.ogg', 'sound/misc/cat.ogg', 'sound/misc/caw.ogg', 'sound/misc/lizard.ogg')
 
 /obj/machinery/bot/screambot/explode()
@@ -76,7 +77,7 @@
 		if(Process_Spacemove(anydir))
 			Move(get_step(src, anydir), anydir)
 
-	if(cooldown < world.time && prob(30)) //Probability so it's not TOO annoying
+	if(cooldown < world.time && prob(probability)) //Probability so it's not TOO annoying (-atlantique except when its emagged lmao)
 		cooldown = world.time + 100 / speedup
 		if(sounds.len)
 			playsound(loc, pick(sounds), 50, 1, 7, 1.2)
@@ -87,6 +88,7 @@
 	if(!emagged)
 		emagged = 1
 		speedup = 10
+		probability = 100
 		user << "<span class='warning'>Nice. The screambot is going to be really, REALLY annoying now.</span>"
 
 //MENU
