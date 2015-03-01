@@ -870,10 +870,10 @@ There is no point for a testament, but maybe a confession is appropriate. I've n
 
 /obj/item/weapon/book/IPCstory
 	icon = 'icons/obj/library.dmi'
-	name = "Prototype Station diary"
+	name = "K.O.A.K\'s diary"
 	due_date = 0 // Game time in 1/10th seconds
 	unique = 1   // 0 - Normal book, 1 - Should not be treated as normal book, unable to be copied, unable to be modified
-	author = "K.O,A.K"
+	author = "K.O.A.K"
 	title = "IPC station 13"
 	dat = {"<html>
 				<head>

@@ -177,7 +177,8 @@
 
 /obj/item/weapon/tank/process()
 	//Allow for reactions
-	air_contents.react()
+	if(istype(air_contents))
+		air_contents.react()
 	check_status()
 
 

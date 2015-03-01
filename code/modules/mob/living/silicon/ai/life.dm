@@ -51,7 +51,7 @@
 
 		if (!blindness)
 			//stage = 4.5
-			if (src.blind.layer != 0)
+			if (src.blind && src.blind.layer != 0)
 				src.blind.layer = 0
 			src.sight |= SEE_TURFS
 			src.sight |= SEE_MOBS

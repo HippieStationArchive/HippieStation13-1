@@ -415,7 +415,7 @@
 
 /mob/living/simple_animal/drone/proc/update_inv_hands()
 	remove_overlay(HANDS_LAYER)
-	var/list/hands_overlays = list()
+	var/image/hands_overlays = null
 	if(r_hand)
 		var/r_state = r_hand.item_state
 		if(!r_state)
@@ -447,7 +447,7 @@
 			client.screen |= l_hand
 
 
-	if(istype(hands_overlays) && hands_overlays.len)
+	if(istype(hands_overlays))
 		drone_overlays[HANDS_LAYER] = hands_overlays
 	apply_overlay(HANDS_LAYER)
 

@@ -37,7 +37,7 @@
 	var/turf/T = get_turf(target)
 	var/turf/L = get_turf(src)
 
-	if(T.z != L.z)
+	if((!T || !L) || T.z != L.z)
 		icon_state = "pinonnull"
 	else
 		dir = get_dir(L, T)

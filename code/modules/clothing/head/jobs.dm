@@ -65,6 +65,13 @@
 	name = "head of security beret"
 	desc = "A robust beret for the Head of Security, for looking stylish while not sacrificing protection."
 	icon_state = "hosberetblack"
+	
+/obj/item/clothing/head/HoS/dermal
+    name = "Dermal Armor Patch"
+    desc = "An armored implant that automatically integrates just below the scalp for robust protection without sacrificing style."
+    icon_state = "dermal"
+    item_state = "dermal"
+    flags_inv = 0
 
 /obj/item/clothing/head/warden
 	name = "warden's police hat"
