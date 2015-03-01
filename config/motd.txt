@@ -1,5 +1,3 @@
-<!-- Most valid html will work in here, excluding images. -->
-
 <h1>Welcome to Hippie Station 13!</h1>
-
+<p>Use mhelp to ask questions, ahelp to speak to an admin</p>
 <i>This server is running on a modified /tg/station 13 Git build.</i>

@@ -8,10 +8,10 @@ SERVERNAME Hippie Station 13
 LOBBY_COUNTDOWN 190
 
 ## Add a # infront of this if you want to use the SQL based admin system, the legacy system uses admins.txt. You need to set up your database to use the SQL based system.
-ADMIN_LEGACY_SYSTEM
+#ADMIN_LEGACY_SYSTEM
 
 ## Add a # infront of this if you want to use the SQL based banning system. The legacy systems use the files in the data folder. You need to set up your database to use the SQL based system.
-BAN_LEGACY_SYSTEM
+#BAN_LEGACY_SYSTEM
 
 ## Unhash this entry to have certain jobs require your account to be at least a certain number of days old to select. You can configure the exact age requirement for different jobs by editing
 ## the minimal_player_age variable in the files in folder /code/game/jobs/job/.. for the job you want to edit. Set minimal_player_age to 0 to disable age requirement for that job.
@@ -117,7 +117,7 @@ SERVER
 FORUMURL http://hippie-station-13.com/forums/index.php
 
 ## Wiki address
-WIKIURL http://www.tgstation13.org/wiki
+WIKIURL http://wiki.hippie-station-13.com/index.php?title=Main_Page
 
 ##Rules address
 RULESURL http://hippie-station-13.com/misc/darules.shtml
@@ -139,7 +139,7 @@ BANAPPEALS http://hippie-station-13.com/forums/viewforum.php?f=8
 ALLOW_HOLIDAYS
 
 ##Remove the # mark if you are going to use the SVN irc bot to relay adminhelps
-USEIRCBOT
+#USEIRCBOT
 
 ##Defines the ticklag for the world.  0.9 is the normal one, 0.6 is smoother.
 TICKLAG 0.6

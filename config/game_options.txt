@@ -4,7 +4,7 @@
 HEALTH_THRESHOLD_CRIT 0
 
 # level of health at which a mob becomes dead
-HEALTH_THRESHOLD_DEAD -120
+HEALTH_THRESHOLD_DEAD -100
 
 
 ### REVIVAL ###
@@ -46,7 +46,7 @@ WALK_DELAY 2
 
 ## The variables below affect the movement of specific mob types.
 HUMAN_DELAY 1.3
-ROBOT_DELAY 4
+ROBOT_DELAY 2
 MONKEY_DELAY 1.3
 ALIEN_DELAY 1.3
 SLIME_DELAY 6
@@ -85,16 +85,16 @@ USE_RECURSIVE_EXPLOSIONS
 ## Default probablity is 1, increase to make that mode more likely to be picked.
 ## Set to 0 to disable that mode.
 
-PROBABILITY TRAITOR 6
-PROBABILITY TRAITORCHAN 2
-PROBABILITY DOUBLE_AGENTS 7
-PROBABILITY NUCLEAR 3
+PROBABILITY TRAITOR 7
+PROBABILITY TRAITORCHAN 3
+PROBABILITY DOUBLE_AGENTS 6
+PROBABILITY NUCLEAR 4
 PROBABILITY REVOLUTION 2
-PROBABILITY CULT 0
-PROBABILITY CHANGELING 2
-PROBABILITY WIZARD 3
-PROBABILITY MALFUNCTION 3
-PROBABILITY BLOB 3
+PROBABILITY CULT 2
+PROBABILITY CHANGELING 3
+PROBABILITY WIZARD 4
+PROBABILITY MALFUNCTION 2
+PROBABILITY BLOB 1
 PROBABILITY MONKEY 0
 PROBABILITY METEOR 0
 PROBABILITY EXTENDED 0
@@ -116,8 +116,8 @@ SHUTTLE_REFUEL_DELAY 18000
 ## Variables calculate how number of antagonists will scale to population.
 ## Used as (Antagonists = Population / Coeff)
 ## Set to 0 to disable scaling and use default numbers instead.
-TRAITOR_SCALING_COEFF 0
-CHANGELING_SCALING_COEFF 0
+TRAITOR_SCALING_COEFF 8
+CHANGELING_SCALING_COEFF 13 
 
 ## Variables calculate how number of open security officer positions will scale to population.
 ## Used as (Officers = Population / Coeff)
@@ -126,7 +126,7 @@ SECURITY_SCALING_COEFF 8
 
 # The number of objectives traitors get.
 # Not including escaping/hijacking.
-TRAITOR_OBJECTIVES_AMOUNT 2
+TRAITOR_OBJECTIVES_AMOUNT 3
 
 ## Uncomment to prohibit jobs that start with loyalty
 ## implants from being most antagonists.
@@ -202,7 +202,7 @@ GHOST_INTERACTION
 ## Set to 0/commented for "off", silicons will just start with Asimov.
 ## Set to 1 for "custom", silicons will start with the custom laws defined in silicon_laws.txt. (If silicon_laws.txt is empty, the AI will spawn with asimov and Custom boards will auto-delete.)
 ## Set to 2 for "random", silicons will start with a random lawset picked from (at the time of writing): P.A.L.A.D.I.N., Corporate, Asimov. More can be added by changing the law datum paths in ai_laws.dm.
-DEFAULT_LAWS 1
+DEFAULT_LAWS 2
 
 ## Uncoment to give players the choice of their species before they join the game
 JOIN_WITH_MUTANT_RACE
