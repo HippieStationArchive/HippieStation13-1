@@ -39,6 +39,8 @@
 	health = 25
 	maxhealth = 25
 	var/cooldown = 0
+	var/speedup = 1
+	var/list/sounds = list('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg', 'sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg', 'sound/voice/screamsilicon.ogg', 'sound/misc/cat.ogg', 'sound/misc/caw.ogg', 'sound/misc/lizard.ogg')
 
 /obj/machinery/bot/screambot/explode()
 	visible_message("<span class='userdanger'>[src] blows apart!</span>")
@@ -75,7 +77,69 @@
 			Move(get_step(src, anydir), anydir)
 
 	if(cooldown < world.time && prob(30)) //Probability so it's not TOO annoying
-		cooldown = world.time + 100
-		playsound(loc, pick('sound/voice/screamsilicon.ogg', 'sound/misc/cat.ogg', 'sound/misc/lizard.ogg', 'sound/misc/caw.ogg'), 50, 1, 7, 1.2)
+		cooldown = world.time + 100 / speedup
+		if(sounds.len)
+			playsound(loc, pick(sounds), 50, 1, 7, 1.2)
 		flick("screambot_scream", src)
 		visible_message("<span class='danger'><b>[src]</b> screams!</span>")
+
+/obj/machinery/bot/screambot/emag_act(mob/user as mob)
+	if(!emagged)
+		emagged = 1
+		speedup = 10
+		user << "<span class='warning'>Nice. The screambot is going to be really, REALLY annoying now.</span>"
+
+//MENU
+
+/obj/machinery/bot/screambot/attack_hand(mob/user as mob)
+	var/dat = "<div class='statusDisplay'>"
+	dat += "Human scream: <A href='?src=\ref[src];action=toggle;scream=human'>[('sound/misc/scream_f1.ogg' in sounds) ? "On" : "Off"]</A><BR>"
+	dat += "Synthesized scream: <A href='?src=\ref[src];action=toggle;scream=silicon'>[('sound/voice/screamsilicon.ogg' in sounds) ? "On" : "Off"]</A><BR>"
+	dat += "Cat scream: <A href='?src=\ref[src];action=toggle;scream=cat'>[('sound/misc/cat.ogg' in sounds) ? "On" : "Off"]</A><BR>"
+	dat += "Lizard scream: <A href='?src=\ref[src];action=toggle;scream=lizard'>[('sound/misc/lizard.ogg' in sounds) ? "On" : "Off"]</A><BR>"
+	dat += "Bird scream: <A href='?src=\ref[src];action=toggle;scream=caw'>[('sound/misc/caw.ogg' in sounds) ? "On" : "Off"]</A><BR>"
+	var/datum/browser/popup = new(user, "screambot", name, 300, 300)
+	popup.set_content(dat)
+	popup.open()
+	return
+
+/obj/machinery/bot/screambot/Topic(href, href_list)
+	if(..() || panel_open)
+		return
+
+	if(href_list["action"] == "toggle")
+		switch(href_list["scream"])
+			if("human")
+				if('sound/misc/scream_f1.ogg' in sounds)
+					sounds -= 'sound/misc/scream_f1.ogg'
+					sounds -= 'sound/misc/scream_f2.ogg'
+					sounds -= 'sound/misc/scream_m1.ogg'
+					sounds -= 'sound/misc/scream_m2.ogg'
+				else
+					sounds += 'sound/misc/scream_f1.ogg'
+					sounds += 'sound/misc/scream_f2.ogg'
+					sounds += 'sound/misc/scream_m1.ogg'
+					sounds += 'sound/misc/scream_m2.ogg'
+			if("silicon")
+				if('sound/voice/screamsilicon.ogg' in sounds)
+					sounds -= 'sound/voice/screamsilicon.ogg'
+				else
+					sounds += 'sound/voice/screamsilicon.ogg'
+			if("cat")
+				if('sound/misc/cat.ogg' in sounds)
+					sounds -= 'sound/misc/cat.ogg'
+				else
+					sounds += 'sound/misc/cat.ogg'
+			if("lizard")
+				if('sound/misc/lizard.ogg' in sounds)
+					sounds -= 'sound/misc/lizard.ogg'
+				else
+					sounds += 'sound/misc/lizard.ogg'
+			if("caw")
+				if('sound/misc/caw.ogg' in sounds)
+					sounds -= 'sound/misc/caw.ogg'
+				else
+					sounds += 'sound/misc/caw.ogg'
+
+	updateUsrDialog()
+	return
