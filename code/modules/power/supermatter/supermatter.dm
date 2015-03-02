@@ -38,7 +38,7 @@
 	anchored = 0
 	luminosity = 4
 
-	var/gasefficency = 4
+	var/gasefficency = 3
 
 	var/base_icon_state = "darkmatter"
 
