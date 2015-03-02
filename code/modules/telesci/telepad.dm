@@ -56,7 +56,7 @@
 	active_power_usage = 500
 	var/stage = 0
 
-/obj/machinery/telepad_cargo/new()
+/obj/machinery/telepad_cargo/New()
 	cargo_telepads += src
 
 /obj/machinery/telepad_cargo/attackby(obj/item/weapon/W as obj, mob/user as mob)
