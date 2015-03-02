@@ -17,5 +17,3 @@ config/dbconfig.txt
 
 hippie.sublime-project
 hippie.sublime-workspace
-tools/Runtime**/*
-tools/Runtime**/*
