@@ -329,3 +329,28 @@
 		open()
 	else
 		user << "<span class='warning'>You fail to break out of [src]!</span>"
+		
+/obj/structure/closet/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	if(!opened)
+		if(istype(W, /obj/item/weapon/rcs))
+			var/obj/item/weapon/rcs/E = W
+			if(E.rcharges == 0)
+				user  << "<span class='notice'>The RCS is out of power, please wait for it to recharge.</span>"
+				return
+			else if(E.pad)
+				E.rcharges = E.rcharges - 1
+				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				s.set_up(5, 1, src)
+				s.start()
+				playsound(src.loc, 'sound/machines/defib_zap.ogg', 75, 1)
+
+				src.loc = E.pad.loc
+				playsound(E.pad, 'sound/machines/defib_zap.ogg', 75, 1)
+				var/datum/effect/effect/system/spark_spread/s1 = new /datum/effect/effect/system/spark_spread
+				s1.set_up(5, 1, E.pad)
+				s1.start()
+				return
+			else
+				user  << "<span class='notice'>The RCS has not been calibrated, please calibrate it against a cargo teleport pad.</span>"
+				return
+	..()
