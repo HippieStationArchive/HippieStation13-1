@@ -563,7 +563,7 @@ var/list/slot_equipment_priority = list( \
 			creatures[name] = O
 
 
-	for(var/mob/M in sortNames(mob_list))
+	for(var/mob/M in getmobs()) //holy shit runtimes were caused here, now fixed
 		var/name = M.name
 		if (names.Find(name))
 			namecounts[name]++
@@ -669,76 +669,75 @@ var/list/slot_equipment_priority = list( \
 /mob/Stat()
 	..()
 
-	if(client && client.holder)
+	if(client && client.holder && client.inactivity < (1200))
 
 		if(statpanel("Status"))	//not looking at that panel
 			stat(null,"Location:\t([x], [y], [z])")
 			stat(null,"CPU:\t[world.cpu]")
 			stat(null,"Instances:\t[world.contents.len]")
 
+			if(processScheduler && istype(processScheduler) && processScheduler.getIsRunning())
+				var/datum/controller/process/process
 
-		if(istype(processScheduler) && processScheduler.getIsRunning())
-			var/datum/controller/process/process
+				process = processScheduler.getProcess("vote")
+				stat(null, "VOT\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("vote")
-			stat(null, "VOT\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("air")
+				stat(null, "AIR\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("air")
-			stat(null, "AIR\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("sun")
+				stat(null, "SUN\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("sun")
-			stat(null, "SUN\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("ticker")
+				stat(null, "TIC\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("ticker")
-			stat(null, "TIC\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("garbage")
+				stat(null, "GAR\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("garbage")
-			stat(null, "GAR\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("lighting")
+				stat(null, "LIG\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("lighting")
-			stat(null, "LIG\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("supply shuttle")
+				stat(null, "SUP\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("supply shuttle")
-			stat(null, "SUP\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("emergency shuttle")
+				stat(null, "EME\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("emergency shuttle")
-			stat(null, "EME\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("inactivity")
+				stat(null, "IAC\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("inactivity")
-			stat(null, "IAC\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("mob")
+				stat(null, "MOB([mob_list.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("mob")
-			stat(null, "MOB([mob_list.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("disease")
+				stat(null, "DIS([active_diseases.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("disease")
-			stat(null, "DIS([active_diseases.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("machinery")
+				stat(null, "M([machines.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("machinery")
-			stat(null, "M([machines.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				//process = processScheduler.getProcess("pow_machine")
+				//stat(null, "POM([power_machines.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			//process = processScheduler.getProcess("pow_machine")
-			//stat(null, "POM([power_machines.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("obj")
+				stat(null, "OBJ([processing_objects.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("obj")
-			stat(null, "OBJ([processing_objects.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("pipenet")
+				stat(null, "PIP([pipe_networks.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("pipenet")
-			stat(null, "PIP([pipe_networks.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("powernet")
+				stat(null, "POW([powernets.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("powernet")
-			stat(null, "POW([powernets.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("nanoui")
+				stat(null, "NAN([nanomanager.processing_uis.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("nanoui")
-			stat(null, "NAN([nanomanager.processing_uis.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				process = processScheduler.getProcess("event")
+				stat(null, "EVE\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
 
-			process = processScheduler.getProcess("event")
-			stat(null, "EVE\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+				//stat(null, "EVE([events.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
+			else
+				stat(null, "processScheduler is not running.")
 
-			//stat(null, "EVE([events.len])\t - #[process.getTicks()]\t - [process.getLastRunTime()]")
-		else
-			stat(null, "processScheduler is not running.")
-
-	if(listed_turf && client)
+	if(listed_turf && client && client.inactivity < (1200))
 		if(!TurfAdjacent(listed_turf))
 			listed_turf = null
 		else
