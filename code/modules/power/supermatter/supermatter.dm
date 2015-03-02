@@ -1,5 +1,5 @@
 #define NITROGEN_RETARDATION_FACTOR 0.15	//Higher == N2 slows reaction more
-#define THERMAL_RELEASE_MODIFIER 1.25		//Higher == more heat released during reaction
+#define THERMAL_RELEASE_MODIFIER 100		//Higher == more heat released during reaction
 #define PLASMA_RELEASE_MODIFIER 250		//Higher == less plasma released by reaction
 #define OXYGEN_RELEASE_MODIFIER 500		//Higher == less oxygen released at high temperature/power
 #define REACTION_POWER_MODIFIER 1.1			//Higher == more overall power
@@ -38,7 +38,7 @@
 	anchored = 0
 	luminosity = 4
 
-	var/gasefficency = 0.25
+	var/gasefficency = 4
 
 	var/base_icon_state = "darkmatter"
 
