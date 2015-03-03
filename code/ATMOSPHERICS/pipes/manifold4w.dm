@@ -191,3 +191,14 @@
 
 /obj/machinery/atmospherics/pipe/manifold4w/green/hidden
 	level = 1
+
+/obj/machinery/atmospherics/pipe/manifold4w/redraw()
+	..()
+	if(node1)
+		node1.update_icon()
+	if(node2)
+		node2.update_icon()
+	if(node3)
+		node3.update_icon()
+	if(node4)
+		node4.update_icon()
