@@ -51,3 +51,7 @@
 			meter.transfer_fingerprints_to(PM)
 			qdel(meter)
 	..()
+
+/obj/machinery/atmospherics/pipe/proc/redraw()
+	//used for rapid pipe thing
+	return

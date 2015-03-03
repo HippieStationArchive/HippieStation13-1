@@ -140,13 +140,13 @@ var/global/list/RPD_recipes=list(
 	var/p_class = ATMOS_MODE
 	var/p_disposal = 0
 	var/list/paint_colors = list(
-		"grey"   = "#cccccc",
-		"red"    = "#800000",
-		"blue"   = "#000080",
-		"cyan"   = "#1C94C4",
-		"green"  = "#00CC00",
-		"yellow" = "#FFCC00",
-		"purple" = "#822BFF"
+		"grey"		= rgb(255,255,255),
+		"red"		= rgb(255,0,0),
+		"blue"		= rgb(0,0,255),
+		"cyan"		= rgb(0,256,249),
+		"green"		= rgb(30,255,0),
+		"yellow"	= rgb(255,198,0),
+		"purple"	= rgb(130,43,255)
 	)
 	var/paint_color="grey"
 
@@ -463,9 +463,13 @@ var/global/list/RPD_recipes=list(
 				return 0
 			var/obj/machinery/atmospherics/pipe/P = A
 			playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
+
+			P.color = paint_color
 			P.pipe_color = paint_color
+			P.stored.color = paint_color
+			
 			user.visible_message("<span class='notice'>[user] paints \the [P] [paint_color].</span>","<span class='notice'>You paint \the [P] [paint_color].</span>")
-			P.update_icon()
+			P.redraw()
 			return 1
 		if(EATING_MODE) // Eating pipes
 			// Must click on an actual pipe or meter.

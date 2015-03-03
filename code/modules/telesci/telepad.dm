@@ -42,6 +42,7 @@
 
 	default_deconstruction_crowbar(I)
 
+/var/cargo_telepads = list()
 
 //CARGO TELEPAD//
 /obj/machinery/telepad_cargo
@@ -54,6 +55,9 @@
 	idle_power_usage = 20
 	active_power_usage = 500
 	var/stage = 0
+
+/obj/machinery/telepad_cargo/New()
+	cargo_telepads += src
 
 /obj/machinery/telepad_cargo/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(istype(W, /obj/item/weapon/rcs))
@@ -68,9 +72,11 @@
 		playsound(src, 'sound/items/Ratchet.ogg', 50, 1)
 		if(anchored)
 			anchored = 0
+			cargo_telepads -= src
 			user << "<span class = 'caution'> \The [src] can now be moved.</span>"
 		else if(!anchored)
 			anchored = 1
+			cargo_telepads += src
 			user << "<span class = 'caution'> \The [src] is now secured.</span>"
 	if(istype(W, /obj/item/weapon/screwdriver))
 		if(stage == 0)
@@ -86,6 +92,7 @@
 		user << "<span class = 'caution'> You disassemble the telepad.</span>"
 		new /obj/item/stack/sheet/metal(get_turf(src))
 		new /obj/item/stack/sheet/glass(get_turf(src))
+		cargo_telepads -= src
 		qdel(src)
 
 ///TELEPAD CALLER///
@@ -124,6 +131,12 @@
 	//var/rand_y = 0
 	//var/emagged = 0
 	//var/teleporting = 0
+
+/obj/item/weapon/rcs/attack_self(mob/user as mob)
+	var/list/pad = list(
+		"Cargo" = (/obj/machinery/telepad_cargo),
+		"Science" = (/obj/machinery/telepad_cargo),
+		)
 
 /obj/item/weapon/rcs/New()
 	..()

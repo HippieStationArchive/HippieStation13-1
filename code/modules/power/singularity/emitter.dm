@@ -21,7 +21,6 @@
 	var/state = 0
 	var/locked = 0
 
-
 /obj/machinery/power/emitter/verb/rotate()
 	set name = "Rotate"
 	set category = "Object"
@@ -67,12 +66,16 @@
 				message_admins("Emitter turned off by [key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
 				log_game("Emitter turned off by [user.ckey]([user]) in ([x],[y],[z])")
 				investigate_log("turned <font color='red'>off</font> by [user.key]","singulo")
+				investigate_log("turned <font color='green'>on</font> by [user.key]","supermatter")
 			else
 				src.active = 1
 				user << "You turn on \the [src]."
 				src.shot_number = 0
 				src.fire_delay = 100
+				message_admins("Emitter turned on by [key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
+				log_game("Emitter turned on by [user.ckey]([user]) in ([x],[y],[z])")
 				investigate_log("turned <font color='green'>on</font> by [user.key]","singulo")
+				investigate_log("turned <font color='green'>on</font> by [user.key]","supermatter")
 			update_icon()
 		else
 			user << "<span class='danger'>The controls are locked!</span>"

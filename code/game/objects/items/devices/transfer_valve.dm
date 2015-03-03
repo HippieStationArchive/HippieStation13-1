@@ -87,7 +87,7 @@
 			tank_one = null
 			update_icon()
 			if((!tank_two || tank_two.w_class < 4) && (w_class > 3))
-				w_class = 3
+				w_class = 2 //implantable
 		else if(tank_two && href_list["tanktwo"])
 			split_gases()
 			valve_open = 0
@@ -95,7 +95,7 @@
 			tank_two = null
 			update_icon()
 			if((!tank_one || tank_one.w_class < 4) && (w_class > 3))
-				w_class = 3
+				w_class = 2 //implantable
 		else if(href_list["open"])
 			toggle_valve()
 		else if(attached_device)
