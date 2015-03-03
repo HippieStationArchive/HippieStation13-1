@@ -23,7 +23,7 @@
 /proc/ToRban_update()
 	spawn(0)
 		diary << "Downloading updated ToR data..."
-		var/http[] = world.Export("http://check.torproject.org/exit-addresses")
+		var/http[] = world.Export("https://check.torproject.org/exit-addresses")
 
 		var/list/rawlist = file2list(http["CONTENT"])
 		if(rawlist.len)
