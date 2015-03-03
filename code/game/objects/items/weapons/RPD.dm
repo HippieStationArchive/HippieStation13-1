@@ -463,7 +463,7 @@ var/global/list/RPD_recipes=list(
 				return 0
 			var/obj/machinery/atmospherics/pipe/P = A
 			playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
-			P.color = paint_color
+			//P.color = paint_color
 			P.pipe_color = paint_color
 			user.visible_message("<span class='notice'>[user] paints \the [P] [paint_color].</span>","<span class='notice'>You paint \the [P] [paint_color].</span>")
 			P.redraw()

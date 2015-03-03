@@ -52,6 +52,6 @@
 			qdel(meter)
 	..()
 
-/obj/machinery/atmospherics/pipe/redraw()
+/obj/machinery/atmospherics/pipe/proc/redraw()
 	//used for rapid pipe thing
 	return
