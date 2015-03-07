@@ -1005,3 +1005,20 @@
 	component_parts += new /obj/item/weapon/vending_refill/clothing(0)
 	component_parts += new /obj/item/weapon/vending_refill/clothing(0)
 	component_parts += new /obj/item/weapon/vending_refill/clothing(0)
+
+
+/obj/machinery/vending/art
+	name = "ArtVend"
+	desc = "A vending machine for Art Supplies."
+	icon_state = "art"
+	vend_delay = 15
+	vend_reply = "Thank you for using the ArtMate!"
+	products = list(/obj/item/weapon/paint/red=2,/obj/item/weapon/paint/green=2,/obj/item/weapon/paint/blue=2,
+					/obj/item/weapon/paint/yellow=2,/obj/item/weapon/paint/violet=2,/obj/item/weapon/paint/black=2,
+					/obj/item/weapon/paint/white=2,/obj/item/toy/crayon/red=6,/obj/item/toy/crayon/orange=6,
+					/obj/item/toy/crayon/yellow=6,/obj/item/toy/crayon/green=6,/obj/item/toy/crayon/blue=6,
+					/obj/item/toy/crayon/purple=6,/obj/item/stack/cable_coil=3,/obj/item/stack/cable_coil/yellow=3,
+					/obj/item/stack/cable_coil/blue=3,/obj/item/stack/cable_coil/green=3,/obj/item/stack/cable_coil/orange=3)
+	contraband = list(/obj/item/weapon/paint/anycolor=2,/obj/item/stack/cable_coil/random=10)
+	premium = list(/obj/item/weapon/storage/fancy/crayons=3,/obj/item/stack/cable_coil/pink=2,/obj/item/stack/cable_coil/cyan=2,
+					/obj/item/stack/cable_coil/white=2)
