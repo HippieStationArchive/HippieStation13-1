@@ -177,11 +177,7 @@ macro "borghotkeymode"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "adminhelp"
-		is-disabled = false
-	elem 
-		name = "F3"
-		command = "asay"
+		command = "Msay"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -194,6 +190,10 @@ macro "borghotkeymode"
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -314,10 +314,6 @@ macro "macro"
 		command = "say *fart"
 		is-disabled = false
 	elem 
-		name = "CTRL+S"
-		command = "say *scream"
-		is-disabled = false
-	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
 		is-disabled = false
@@ -328,6 +324,10 @@ macro "macro"
 	elem 
 		name = "CTRL+R"
 		command = ".southwest"
+		is-disabled = false
+	elem 
+		name = "CTRL+S"
+		command = "say *scream"
 		is-disabled = false
 	elem 
 		name = "CTRL+S+REP"
@@ -351,11 +351,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "adminhelp"
-		is-disabled = false
-	elem 
-		name = "F3"
-		command = "asay"
+		command = "Msay"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -368,6 +364,10 @@ macro "macro"
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -520,10 +520,6 @@ macro "hotkeymode"
 		command = "say *fart"
 		is-disabled = false
 	elem 
-		name = "CTRL+S"
-		command = "say *scream"
-		is-disabled = false
-	elem 
 		name = "G"
 		command = "a-intent right"
 		is-disabled = false
@@ -547,6 +543,10 @@ macro "hotkeymode"
 		name = "CTRL+R"
 		command = ".southwest"
 		is-disabled = false
+	elem 
+		name = "CTRL+S"
+		command = "say *scream"
+		is-disabled = false
 	elem "s_key"
 		name = "S+REP"
 		command = ".south"
@@ -555,7 +555,7 @@ macro "hotkeymode"
 		name = "CTRL+S+REP"
 		command = ".south"
 		is-disabled = false
-	elem
+	elem 
 		name = "T"
 		command = "say"
 		is-disabled = false
@@ -593,11 +593,7 @@ macro "hotkeymode"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "adminhelp"
-		is-disabled = false
-	elem 
-		name = "F3"
-		command = "asay"
+		command = "Msay"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -610,6 +606,10 @@ macro "hotkeymode"
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -751,11 +751,7 @@ macro "borgmacro"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "adminhelp"
-		is-disabled = false
-	elem 
-		name = "F3"
-		command = "asay"
+		command = "Msay"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -768,6 +764,10 @@ macro "borgmacro"
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -2237,8 +2237,6 @@ window "say_window"
 		multi-line = false
 		is-password = false
 		no-command = false
-
-		on-change = ".winset\"say_window.say_input == \"\" ? say_window.is-visible=false say_window.say_input.focus=false mapwindow.map.focus=true\""
 
 window "infowindow"
 	elem "infowindow"
