@@ -128,12 +128,11 @@ var/const/SAFETY_COOLDOWN = 100
 		playsound(src.loc, 'sound/misc/splort.ogg', 50, 1)
 
 	var/gib = 1
-	// By default, the emagged recycler will gib all non-carbons. (human simple animal mobs don't count)
 	if(iscarbon(L))
-		gib = 0
+		// gib = 0
 		if(L.stat == CONSCIOUS)
-			L.say("ARRRRRRRRRRRGH!!!")
-		add_blood(L)
+			L.emote("scream")
+		// add_blood(L)
 
 	if(!blood && !issilicon(L))
 		blood = 1
@@ -145,7 +144,7 @@ var/const/SAFETY_COOLDOWN = 100
 			recycle(I, 0)
 
 	// Instantly lie down, also go unconscious from the pain, before you die.
-	L.Paralyse(5)
+	// L.Paralyse(5)
 
 	// For admin fun, var edit emagged to 2.
 	if(gib || emagged == 2)

@@ -10,6 +10,9 @@ datum/objective_item
 datum/proc/check_special_completion() //for objectives with special checks (is that slime extract unused? does that intellicard have an ai in it? etcetc)
 	return 1
 
+datum/objective_item/proc/find_target()
+	return 1
+
 datum/objective_item/steal/pornmag //THE ULTIMATE STEAL OBJECTIVE
 	name = "janitor's porno magazine"
 	targetitem = /obj/item/pornmag
@@ -103,20 +106,29 @@ datum/objective_item/plasma/check_special_completion(var/obj/item/weapon/tank/T)
 	found_amount += T.air_contents.toxins
 	return found_amount>=target_amount
 
-
 datum/objective_item/steal/functionalai
 	name = "a functional AI"
 	targetitem = /obj/item/device/aicard
 	difficulty = 20 //beyond the impossible
+	var/exists = 0
 
-datum/objective_item/functionalai/check_special_completion(var/obj/item/device/aicard/C)
-	for(var/mob/living/silicon/ai/A in C)
-		if(istype(A, /mob/living/silicon/ai) && A.stat != 2) //See if any AI's are alive inside that card.
-			return 1
-	return 0
+datum/objective_item/steal/functionalai/check_special_completion(var/obj/item/device/aicard/C)
+	if(exists)
+		for(var/mob/living/silicon/ai/A in C)
+			if(istype(A, /mob/living/silicon/ai) && A.stat != 2) //See if any AI's are alive inside that card.
+				return 1
+		return 0
+	return 1
+
+datum/objective_item/steal/functionalai/find_target()
+	var/list/possible_targets = active_ais(1)
+	if(possible_targets.len)
+		exists = 1
+		return
+	name = "an intelicard"
 
 datum/objective_item/steal/blueprints
-	name = "the station blueprints"
+	name = "the station blueprints or a photo of them"
 	targetitem = /obj/item/areaeditor/blueprints
 	difficulty = 10
 	excludefromjob = list("Chief Engineer")

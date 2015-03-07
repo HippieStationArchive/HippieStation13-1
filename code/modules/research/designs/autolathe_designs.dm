@@ -1,6 +1,7 @@
 ///////////////////////////////////
 //////////Autolathe Designs ///////
 ///////////////////////////////////
+//TODO: SPLIT THIS FILE INTO GODDAMN CATEGORIES JESUS FUCK
 
 /datum/design/bucket
 	name = "Bucket"
@@ -96,14 +97,6 @@
 	build_type = AUTOLATHE
 	materials = list("$metal" = 1750, "$glass" = 400)
 	build_path = /obj/item/clothing/head/welding
-	category = list("initial","Tools")
-
-/datum/design/ducttape
-	name = "Duct tape"
-	id = "ducttape"
-	build_type = AUTOLATHE
-	materials = list("$metal" = 100)
-	build_path = /obj/item/stack/ducttape
 	category = list("initial","Tools")
 
 /datum/design/console_screen
@@ -506,3 +499,20 @@
 	materials = list("$metal" = 30000)
 	build_path = /obj/item/ammo_box/c9mm
 	category = list("hacked", "Security")
+
+//NEW DESIGNS
+/datum/design/baseballbat
+	name = "Metal Baseball Bat"
+	id = "baseballbat"
+	build_type = AUTOLATHE
+	materials = list("$metal" = 5000)
+	build_path = /obj/item/weapon/baseballbat/metal
+	category = list("hacked", "Misc")
+
+/datum/design/ducttape
+	name = "Duct tape"
+	id = "ducttape"
+	build_type = AUTOLATHE
+	materials = list("$metal" = 100)
+	build_path = /obj/item/stack/ducttape
+	category = list("initial","Tools")

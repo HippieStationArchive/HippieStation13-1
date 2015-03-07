@@ -170,9 +170,9 @@
 	w_class = 1 //note to self: weight class
 
 /obj/item/weapon/melee/concealable/pocketknife/attack_self(mob/living/user)
-	if ((CLUMSY in user.mutations) && prob(50))
+	if ((CLUMSY in user.mutations) && prob(30))
 		user << "<span class='warning'>You accidentally cut yourself with [src], like a doofus!</span>"
-		user.take_organ_damage(5,5)
+		user.take_organ_damage(5,0)
 	active = !active
 	if (active)
 		force = active_force

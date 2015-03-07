@@ -282,12 +282,26 @@
 
 	//actually throw it!
 	if(item)
+		var/range = item.throw_range
+		var/throw_speed = item.throw_speed
+		var/did = "thrown"
+		var/obj/item/I = src.get_inactive_hand()
+		var/obj/item/E = item
+		if(istype(I) && I.special_throw && istype(E) && I.specthrow_maxwclass >= E.w_class) //For special items that multiply something's throw range when in inactive hand (example: baseball bat)
+			range = round(range * I.throwrange_mult)
+			if(I.specthrowmsg)
+				did = I.specthrowmsg
+			if(I.specthrowsound)
+				playsound(loc, I.specthrowsound, 50, 1, -1)
+			if(I.throwforce_mult)
+				I.throwforce = round(I.throwforce * I.throwforce_mult)
+				I.mult = 1 //Tell the code we have modified this item's throwforce and would like for it to be set back to normal after it hits something.
 		item.layer = initial(item.layer)
-		src.visible_message("<span class='danger'>[src] has thrown [item].</span>")
+		src.visible_message("<span class='danger'>[src] has [did] [item].</span>")
 
 		newtonian_move(get_dir(target, src))
 
-		item.throw_at(target, item.throw_range, item.throw_speed)
+		item.throw_at(target, range, throw_speed)
 
 /mob/living/carbon/can_use_hands()
 	if(handcuffed)
