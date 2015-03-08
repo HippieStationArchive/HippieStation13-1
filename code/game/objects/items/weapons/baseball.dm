@@ -3,6 +3,10 @@
 *	Baseball ball
 */
 
+//TODO: Make wooden baseball bat require you to create a stick from wood then sharpen it with a knife.
+
+//The best thing about the bat? You can deflect items when you have throw intent with bat in active hand.
+//The worst thing? You can accidentaly throw the bat itself, just like in real life!
 /obj/item/weapon/baseballbat
 	name = "baseball bat"
 	desc = "A smooth wooden club used in baseball to hit the ball. Or to purify your adversaries."
@@ -21,7 +25,7 @@
 	deflectItem = 1
 	specthrowsound = 'sound/weapons/basebat.ogg'
 	throwrange_mult = 1.5 //Increases throw range by 1.5
-	throwforce_mult = 1.5 //Multiply the throwforce of thrown object meagerly
+	throwforce_mult = 1.2 //Multiply the throwforce of thrown object meagerly - don't make this too high
 	specthrow_maxwclass = 2 //Max weight class that you can throw
 	specthrowmsg = "batted"
 
@@ -37,9 +41,8 @@
 	item_state = "bbat_metal"
 	force = 15 //as strong as a null rod, supergood
 	throwforce = 12
-	specthrow_maxwclass = 3 //You can bat normal items with metal bat
+	specthrow_maxwclass = 3 //You can bat normal sized items with metal bat
 
-//TODO: Add knockout chance to baseball
 /obj/item/baseball
 	name = "baseball"
 	desc = "Pitch it to the batter."
@@ -52,14 +55,16 @@
 
 /mob/living/carbon/human/hitby(atom/movable/AM, zone)
 	..()
+	if(!istype(AM, /obj/item/baseball))
+		return
 	if(!zone)
 		zone = ran_zone("chest", 65)
-	var/armor = run_armor_check(get_organ(check_zone(zone)), "melee", "<span class='warning'>Your armor has protected your [parse_zone(zone)].</span>", "<span class='warning'>Your armor has softened a hit to your [parse_zone(zone)].</span>")
+	var/armor = getarmor(get_organ(check_zone(zone), "melee"))
 	if(armor >= 100) return
 	if(zone == "head") //Pure RNG to score a stun
-		if(stat == CONSCIOUS && prob(60) && armor < 50) //High chance to make up for the already-RNG zone picking
+		if(stat == CONSCIOUS && prob(50) && armor < 40) //High chance to make up for the already-RNG zone picking
 			visible_message("<span class='danger'>[src] has been knocked unconscious!</span>", \
 							"<span class='userdanger'>[src] has been knocked unconscious!</span>")
-			apply_effect(20, PARALYZE, armor)
+			apply_effect(10, PARALYZE, armor) //Since it's ranged, we don't want to make KO too OP
 			ticker.mode.remove_revolutionary(mind)
 			ticker.mode.remove_gangster(mind)

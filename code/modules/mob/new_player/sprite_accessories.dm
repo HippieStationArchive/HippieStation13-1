@@ -948,3 +948,8 @@
 	name = "White Striped Polo Shirt"
 	icon_state = "whitepolostriped"
 	gender = NEUTER
+
+/datum/sprite_accessory/undershirt/batter
+	name = "The Batter Shirt"
+	icon_state = "batter"
+	gender = NEUTER

@@ -418,7 +418,6 @@
 
 /obj/item/throw_impact(atom/hit_atom)
 	..()
-	spawn(0)
-		if(mult)
-			throwforce = initial(throwforce)
-			mult = 0
+	if(mult)
+		throwforce = initial(throwforce)
+		mult = 0

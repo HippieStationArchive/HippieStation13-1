@@ -505,7 +505,7 @@
 	name = "Metal Baseball Bat"
 	id = "baseballbat"
 	build_type = AUTOLATHE
-	materials = list("$metal" = 5000)
+	materials = list("$metal" = 30000) //Rather costly, since it's a pretty great weapon.
 	build_path = /obj/item/weapon/baseballbat/metal
 	category = list("hacked", "Misc")
 
@@ -516,3 +516,12 @@
 	materials = list("$metal" = 100)
 	build_path = /obj/item/stack/ducttape
 	category = list("initial","Tools")
+
+//Let botany produce baseballs, makes more sense
+// /datum/design/baseball
+// 	name = "Baseball Ball"
+// 	id = "baseball"
+// 	build_type = AUTOLATHE
+// 	materials = list("$metal" = 100) //Relatively cheap
+// 	build_path = /obj/item/baseball
+// 	category = list("initial", "Misc")

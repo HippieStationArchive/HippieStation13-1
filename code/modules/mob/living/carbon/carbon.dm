@@ -294,8 +294,8 @@
 			if(I.specthrowsound)
 				playsound(loc, I.specthrowsound, 50, 1, -1)
 			if(I.throwforce_mult)
-				I.throwforce = round(I.throwforce * I.throwforce_mult)
-				I.mult = 1 //Tell the code we have modified this item's throwforce and would like for it to be set back to normal after it hits something.
+				E.throwforce = round(E.throwforce * I.throwforce_mult)
+				E.mult = 1 //Tell the code we have modified this item's throwforce and would like for it to be set back to normal after it hits something.
 		item.layer = initial(item.layer)
 		src.visible_message("<span class='danger'>[src] has [did] [item].</span>")
 

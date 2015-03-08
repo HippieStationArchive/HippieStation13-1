@@ -6,13 +6,13 @@
 					var/obj/item/I = AM
 					if(isturf(I.loc))
 						var/obj/item/B = get_active_hand()
-						if(istype(B) && B.deflectItem)
+						if(istype(B) && B.deflectItem && B.specthrow_maxwclass >= I.w_class)
+							throw_mode_off()
 							visible_message("<span class='warning'>[src] has [B.specthrowmsg] [I]!</span>")
 							var/atom/throw_target = get_edge_target_turf(src, src.dir)
 							I.throw_at(throw_target, I.throw_range, I.throw_speed)
 							if(B.specthrowsound)
 								playsound(loc, B.specthrowsound, 50, 1, -1)
-							throw_mode_off()
 						else if(!istype(B)) //empty hand
 							put_in_active_hand(I)
 							visible_message("<span class='warning'>[src] catches [I]!</span>")
