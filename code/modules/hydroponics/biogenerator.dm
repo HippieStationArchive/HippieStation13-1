@@ -109,6 +109,8 @@
 	update_icon()
 	return
 
+
+//TODO: Automate this a bit
 /obj/machinery/biogenerator/interact(mob/user as mob)
 	if(stat & BROKEN || panel_open)
 		return
@@ -150,6 +152,7 @@
 			dat += "Gauze: <A href='?src=\ref[src];create=gauze;amount=1'>Make</A> ([50/efficiency])<BR>"
 			dat += "Chemical patch: <A href='?src=\ref[src];create=chempatch;amount=1'>Make</A> ([100/efficiency])<BR>"
 			dat += "Wallet: <A href='?src=\ref[src];create=wallet;amount=1'>Make</A> ([100/efficiency])<BR>"
+			dat += "Baseball: <A href='?src=\ref[src];create=baseball;amount=1'>Make</A> ([100/efficiency])<BR>"
 			dat += "Book bag: <A href='?src=\ref[src];create=bkbag;amount=1'>Make</A> ([200/efficiency])<BR>"
 			dat += "Plant bag: <A href='?src=\ref[src];create=ptbag;amount=1'>Make</A> ([200/efficiency])<BR>"
 			dat += "Mining satchel: <A href='?src=\ref[src];create=mnbag;amount=1'>Make</A> ([200/efficiency])<BR>"
@@ -244,6 +247,9 @@
 		if("wallet")
 			if (check_cost(100/efficiency)) return 0
 			else new/obj/item/weapon/storage/wallet(src.loc)
+		if("baseball")
+			if (check_cost(100/efficiency)) return 0
+			else new/obj/item/baseball(src.loc)
 		if("bkbag")
 			if (check_cost(200/efficiency)) return 0
 			else new/obj/item/weapon/storage/bag/books(src.loc)

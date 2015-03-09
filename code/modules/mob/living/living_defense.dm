@@ -35,10 +35,11 @@ proc/vol_by_throwforce_and_or_w_class(var/obj/item/I)
 		else
 				return 0
 
-/mob/living/hitby(atom/movable/AM)//Standardization and logging -Sieve
+/mob/living/hitby(atom/movable/AM, zone)//Standardization and logging -Sieve
 	if(istype(AM, /obj/item))
+		if(!zone)
+			zone = ran_zone("chest", 65)
 		var/obj/item/I = AM
-		var/zone = ran_zone("chest", 65)//Hits a random part of the body, geared towards the chest
 		var/dtype = BRUTE
 		var/volume = vol_by_throwforce_and_or_w_class(I)
 		if(istype(I,/obj/item/weapon)) //If the item is a weapon...
@@ -62,12 +63,12 @@ proc/vol_by_throwforce_and_or_w_class(var/obj/item/I)
 						"<span class='userdanger'>[src] has been hit by [I].</span>")
 		var/armor = run_armor_check(zone, "melee", "Your armor has protected your [parse_zone(zone)].", "Your armor has softened hit to your [parse_zone(zone)].")
 		apply_damage(I.throwforce, dtype, zone, armor, I)
-		if(!I.fingerprintslast)
-			return
-		var/client/assailant = directory[ckey(I.fingerprintslast)]
-		if(assailant && assailant.mob && istype(assailant.mob,/mob))
-			var/mob/M = assailant.mob
-			add_logs(M, src, "hit", object="[I]")
+
+		if(I.fingerprintslast)
+			var/client/assailant = directory[ckey(I.fingerprintslast)]
+			if(assailant && assailant.mob && istype(assailant.mob,/mob))
+				var/mob/M = assailant.mob
+				add_logs(M, src, "hit", object="[I]")
 
 /mob/living/mech_melee_attack(obj/mecha/M)
 	if(M.occupant.a_intent == "harm")

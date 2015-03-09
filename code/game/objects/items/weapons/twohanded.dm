@@ -204,8 +204,6 @@ obj/item/weapon/twohanded/
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	var/hacked = 0
 	reflect_chance = 0
-	wieldsound = 'sound/weapons/raise.ogg'
-	unwieldsound = 'sound/weapons/raise.ogg'
 
 /obj/item/weapon/twohanded/dualsaber/New()
 	item_color = pick("red", "blue", "green", "purple")
