@@ -942,4 +942,14 @@
 /datum/sprite_accessory/undershirt/tankstripe
 	name = "Striped Tank Top"
 	icon_state = "tank_stripes"
-	gender = FEMALE
+	gender = NEUTER
+
+/datum/sprite_accessory/undershirt/whitepolostripe
+	name = "White Striped Polo Shirt"
+	icon_state = "whitepolostriped"
+	gender = NEUTER
+
+/datum/sprite_accessory/undershirt/batter
+	name = "The Batter Shirt"
+	icon_state = "batter"
+	gender = NEUTER

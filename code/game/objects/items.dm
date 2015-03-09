@@ -52,6 +52,16 @@
 	var/bleedchance = 10 //Chance to bleed when bleedcap was met
 	var/bleedcap = 40 //Amount of damage the limb must have to initiate bleeding
 
+	//Vars for things like baseball bats that do unique things with thrown items below
+	var/special_throw = 0 
+	var/specthrowsound = null //Special throw sound for above functionality
+	var/specthrowmsg = null
+	var/throwrange_mult = 1 //Multiply the range of thrown item?
+	var/throwforce_mult = 1 //Multiply the force of thrown item?
+	var/specthrow_maxwclass = 2 //Max weight class of the thrown item
+	var/deflectItem = 0 //For deflecting items thrown at you when you have throw intent on
+	var/mult = 0 //For code to reset throwforce back to normal after it hits something
+
 /obj/item/device
 	icon = 'icons/obj/device.dmi'
 
@@ -405,3 +415,9 @@
 			armor[armour_value] = max(armor[armour_value]-acidpwr,0)
 		if(!findtext(desc, "it looks slightly melted...")) //it looks slightly melted... it looks slightly melted... it looks slightly melted... etc.
 			desc += " it looks slightly melted..." //needs a space at the start, formatting
+
+/obj/item/throw_impact(atom/hit_atom)
+	..()
+	if(mult)
+		throwforce = initial(throwforce)
+		mult = 0

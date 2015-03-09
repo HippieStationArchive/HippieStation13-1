@@ -522,7 +522,7 @@
 							var/trail_type = M.getTrail()
 							for(var/obj/effect/decal/cleanable/trail_holder/C in M.loc) //checks for blood splatter already on the floor
 								blood_exists = 1
-							if (istype(M.loc, /turf/simulated) && trail_type != null)
+							if (istype(M.loc, /turf/simulated) && trail_type != null && !M.buckled) //Added buckled check so you actually have a use for rollerbeds other than self surgery
 								var/newdir = get_dir(T, M.loc)
 								if(newdir != M.dir)
 									newdir = newdir | M.dir
