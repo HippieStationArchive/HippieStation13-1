@@ -901,8 +901,17 @@ menu "menu"
 		is-disabled = false
 		saved-params = "is-checked"
 	elem 
-		name = "&Admin help\tF1"
+		name = "&Admin help"
 		command = "adminhelp"
+		category = "&Help"
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
+	elem 
+		name = "&Mentor help"
+		command = "mentorhelp"
 		category = "&Help"
 		is-checked = false
 		can-check = false
@@ -2311,4 +2320,3 @@ window "infowindow"
 		on-tab = ""
 		prefix-color = none
 		suffix-color = none
-

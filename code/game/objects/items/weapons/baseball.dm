@@ -9,13 +9,13 @@
 //The worst thing? You can accidentaly throw the bat itself, just like in real life!
 /obj/item/weapon/baseballbat
 	name = "baseball bat"
-	desc = "A smooth wooden club used in baseball to hit the ball. Or to purify your adversaries."
+	desc = "A smooth wooden club used in baseball to hit the ball. Or to purify your adversaries." //Reference nobody is going to get, woo. (Google "OFF by Mortis Ghost")
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "bbat"
 	item_state = "bbat"
 	slot_flags = SLOT_BELT //Including the belt sprite to look cool
-	force = 12 //moderate force
-	throwforce = 10
+	force = 10 //moderate force
+	throwforce = 8
 	throw_speed = 3
 	throw_range = 4
 
@@ -39,8 +39,8 @@
 	desc = "A smooth metal club used in baseball to hit the ball. Or to purify your adversaries."
 	icon_state = "bbat_metal"
 	item_state = "bbat_metal"
-	force = 15 //as strong as a null rod, supergood
-	throwforce = 12
+	force = 13 //Nerfed, shouldn't be the best thing on the station since it can be mass-produced, still good though.
+	throwforce = 10
 	specthrow_maxwclass = 3 //You can bat normal sized items with metal bat
 
 /obj/item/baseball
