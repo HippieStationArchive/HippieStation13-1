@@ -271,6 +271,35 @@ datum/reagent/water/holywater
 datum/reagent/water/holywater/on_mob_life(var/mob/living/M as mob)
 	if(!data) data = 1
 	data++
+	if(data >= 10)
+		if(iscultist(M) && prob(5))
+			M.say(pick("Av'te Nar'sie","Pa'lid Mors","INO INO ORA ANA","SAT ANA!","Daim'niodeis Arc'iai Le'eones","Egkau'haom'nai en Chaous","Ho Diak'nos tou Ap'iron","R'ge Na'sie","Diabo us Vo'iscum","Si gn'um Co'nu"))
+	if(data >= 30)		// 12 units, 54 seconds @ metabolism 0.4 units & tick rate 1.8 sec //This comment is useless now that effects are removed...
+		if(iscultist(M))
+			ticker.mode.remove_cultist(M.mind)
+	return
+
+datum/reagent/water/holywater/reaction_turf(var/turf/simulated/T, var/volume)
+	..()
+	if(!istype(T)) return
+	if(volume>=10)
+		for(var/obj/effect/rune/R in T)
+			qdel(R)
+	T.Bless()
+	
+/*
+
+Leaving this here just incase no one likes Titty removing the effects..
+
+datum/reagent/water/holywater
+	name = "Holy Water"
+	id = "holywater"
+	description = "Water blessed by some deity."
+	color = "#E0E8EF" // rgb: 224, 232, 239
+
+datum/reagent/water/holywater/on_mob_life(var/mob/living/M as mob)
+	if(!data) data = 1
+	data++
 	M.jitteriness = max(M.jitteriness-5,0)
 	if(data >= 10)
 		if(iscultist(M) && prob(5))
@@ -298,6 +327,7 @@ datum/reagent/water/holywater/reaction_turf(var/turf/simulated/T, var/volume)
 		for(var/obj/effect/rune/R in T)
 			qdel(R)
 	T.Bless()
+*/
 
 datum/reagent/fuel/unholywater		//if you somehow managed to extract this from someone, dont splash it on yourself and have a smoke
 	name = "Unholy Water"
@@ -879,4 +909,3 @@ datum/reagent/plantnutriment/robustharvestnutriment
 
 // Undefine the alias for REAGENTS_EFFECT_MULTIPLER
 #undef REM
-
