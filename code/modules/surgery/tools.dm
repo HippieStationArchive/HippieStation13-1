@@ -50,6 +50,14 @@
 	w_class = 3.0
 	origin_tech = "materials=1;biotech=1"
 	attack_verb = list("drilled")
+	
+/obj/item/weapon/surgicaldrill/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
+	if(!istype(M))	return ..()
+	if(user.zone_sel.selecting != "eyes" && user.zone_sel.selecting != "head")
+		return ..()
+	if((CLUMSY in user.mutations) && prob(50))
+		M = user
+	return eyestab(M,user)
 
 /obj/item/weapon/scalpel
 	name = "scalpel"
