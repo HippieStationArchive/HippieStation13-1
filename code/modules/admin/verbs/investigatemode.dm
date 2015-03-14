@@ -43,7 +43,7 @@
 
 /obj/effect/imode/buildhelp
 	icon = 'icons/misc/buildmode.dmi'
-	icon_state = "buildhelp"
+	icon_state = "invmode1"
 	screen_loc = "NORTH,WEST+1"
 
 /obj/effect/imode/buildhelp/Click(location, control, params)
@@ -53,16 +53,14 @@
 		switch(master.cl.invmode)
 			if(1)
 				master.cl.invmode = 2
-				src.icon_state = "buildmode2"
+				src.icon_state = "invmode2"
 			if(2)
 				master.cl.invmode = 3
-				src.icon_state = "buildmode3"
+				src.icon_state = "invmode3"
 			if(3)
-				master.cl.invmode = 4
-				src.icon_state = "buildmode4"
-			if(4)
 				master.cl.invmode = 1
-				src.icon_state = "buildmode1"
+				src.icon_state = "invmode1"
+
 	return 1
 
 
@@ -98,16 +96,16 @@
 		switch(master.cl.invmode)
 			if(1)
 				master.cl.invmode = 2
-				usr << "\red View mode"
+				usr << "\red View mode: Click to find every mob in your view, seeable or not."
 				src.icon_state = "buildmode2"
 			if(2)
 				master.cl.invmode = 3
-				usr << "\red Valve Mode"
+				usr << "\red Valve Mode: Click canister to check its open/closed log. Click anything else to locate them all."
 				src.icon_state = "buildmode3"
 			if(3)
 				master.cl.invmode = 1
 				src.icon_state = "buildmode4"
-				usr << "\red Print Mode"
+				usr << "\red Print Mode: Click to check for fingerprints on objects."
 	return 1
 
 
