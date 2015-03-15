@@ -328,9 +328,25 @@ datum/preferences
 			if((job_civilian_low & ASSISTANT) && (rank != "Assistant") && !jobban_isbanned(user, "Assistant"))
 				HTML += "<font color=orange>[rank]</font></td><td></td></tr>"
 				continue
-			if(config.enforce_human_authority && (rank in command_positions) && user.client.prefs.pref_species.id != "human")
+			if(config.enforce_human_authority && (rank in command_positions) && user.client.prefs.pref_species.id != "human" && user.client.prefs.pref_species.id != "tarajan")
 				HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[NON-HUMAN\]</b></font></td></tr>"
 				continue
+			if((rank in security_positions) && user.client.prefs.pref_species.id == "tarajan")
+				HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[Nope\]</b></font></td></tr>"
+				continue
+			if((rank in engineering_positions) && user.client.prefs.pref_species.id == "tarajan")
+				HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[No\]</b></font></td></tr>"
+				continue
+			if((rank in medical_positions) && user.client.prefs.pref_species.id == "tarajan")
+				HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[Nein\]</b></font></td></tr>"
+				continue
+			if((rank in science_positions) && user.client.prefs.pref_species.id == "tarajan")
+				HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[Noperoni\]</b></font></td></tr>"
+				continue
+			if((rank in command_positions) && user.client.prefs.pref_species.id == "tarajan")
+				HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[Cat\]</b></font></td></tr>"
+				continue
+
 			if((rank in command_positions) || (rank == "AI"))//Bold head jobs
 				HTML += "<b><span class='dark'>[rank]</span></b>"
 			else
