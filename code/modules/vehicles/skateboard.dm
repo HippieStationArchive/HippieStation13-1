@@ -5,9 +5,13 @@
 	var/emagged = 1
 	var/canmove = 0
 	var/ultimate = 0
+	var/points = 0
 	Bump(atom/A as mob|obj|turf|area)
 		if(buckled_mob)
-
+			if(ultimate)
+				ultimate = 0
+				unbuckle()
+				explosion(src.loc, 0, 1, 3, adminlog = 1, flame_range = 1)
 			buckled_mob.Stun(2)
 			buckled_mob.Weaken(1)
 			buckled_mob.stop_pulling()
@@ -21,8 +25,7 @@
 	Move()
 		if(canmove)
 			return
-		var/gibbed = 0
-		if(emagged)
+		else
 			for(var/mob/living/carbon/human/X in src.loc)
 				if(buckled_mob == X)
 					continue
@@ -39,10 +42,7 @@
 							trick3()
 						if(4)
 							trick()
-		if(gibbed)
-			return
-		else
-			playsound(src.loc, 'sound/misc/cruise.ogg', 75, 1)
+		playsound(src.loc, 'sound/misc/cruise.ogg', 75, 1)
 		..()
 
 
@@ -80,6 +80,12 @@
 				buckled_mob.pixel_x = 0
 				buckled_mob.pixel_y = 4
 
+/obj/structure/stool/bed/chair/janicart/skateboard/unbuckle()
+	if(ultimate)
+		usr << "You try to get off the skateboard but a super natural force compels you to stay on!"
+	else
+		..()
+
 /obj/structure/stool/bed/chair/janicart/skateboard/proc/trick1()//The Yakkity Sax
 	animate(buckled_mob,pixel_y=30,time=10)
 	buckled_mob.SpinAnimation(7, 1)
@@ -108,3 +114,9 @@
 /obj/structure/stool/bed/chair/janicart/skateboard/proc/trick4(var/mob/living/C)
 	SpinAnimation(7, 1)
 	animate(buckled_mob,pixel_y=20,time=10)
+	var/obj/effect/lightning/L = new /obj/effect/lightning()
+	L.loc = get_turf(loc)
+	L.layer = layer+1 //i want it to display over clothing
+	L.start()
+	spawn(20)
+		del(L)

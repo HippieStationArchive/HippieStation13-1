@@ -142,6 +142,10 @@
 		dat += "<I>A particular staff that can mold solid metal into ornate wooden doors. Useful for getting around in the absence of other transportation. Does not work on glass.</I><BR>"
 		dat += "<HR>"
 
+		dat += "<A href='byond://?src=\ref[src];spell_choice=staffregrowth'>Staff of Regrowth</A><BR>"
+		dat += "<I>A staff that lets you create a small area of heavy vines. However, they don't expand! Useful as a distraction and escape.</I><BR>"
+		dat += "<HR>"
+
 		dat += "<A href='byond://?src=\ref[src];spell_choice=staffchaos'>Staff of Chaos</A><BR>"
 		dat += "<I>A caprious tool that can fire all sorts of magic without any rhyme or reason. Using it on people you care about is not recommended.</I><BR>"
 		dat += "<HR>"
@@ -349,6 +353,11 @@
 							feedback_add_details("wizard_spell_learned","SD") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
 							new /obj/item/weapon/gun/magic/staff/door(get_turf(H))
 							temp = "You have purchased a staff of door creation."
+							max_uses--
+						if("staffregrowth")
+							feedback_add_details("wizard_spell_learned","SR") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
+							new /obj/item/weapon/staffofregrowth(get_turf(H))
+							temp = "You have purchased a staff of regrowth."
 							max_uses--
 						if("wands")
 							feedback_add_details("wizard_spell_learned","WA") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
