@@ -491,6 +491,14 @@ var/list/admin_verbs_hideable = list(
 		togglebuildmode(src.mob)
 	feedback_add_details("admin_verb","TBMS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+/client/proc/toggleinvmodeself()
+	set name = "Toggle Investigate Mode Self"
+	set category = "Special Verbs"
+	if(src.mob)
+		toggleinvmode(src.mob)
+	feedback_add_details("admin_verb","TBMS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+
 /client/proc/kill_air()
 	set category = "Debug"
 	set name = "Kill Air"
