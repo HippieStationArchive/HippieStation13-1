@@ -195,10 +195,10 @@ macro "borghotkeymode"
 		name = "F3"
 		command = "asay"
 		is-disabled = false
-	elem
-	    name = "F4"
-	    command = "msay"
-	    is-disabled = false
+	elem 
+		name = "F4"
+		command = "Msay"
+		is-disabled = false
 	elem 
 		name = "F5"
 		command = "Aghost"
@@ -373,10 +373,10 @@ macro "macro"
 		name = "F3"
 		command = "asay"
 		is-disabled = false
-	elem
-	    name = "F3"
-	    command = "msay"
-	    is-disabled = false
+	elem 
+		name = "F4"
+		command = "Msay"
+		is-disabled = false
 	elem 
 		name = "F5"
 		command = "Aghost"
@@ -619,10 +619,10 @@ macro "hotkeymode"
 		name = "F3"
 		command = "asay"
 		is-disabled = false
-	elem
-	    name = "F4"
-	    command = "Msay"
-	    is-disabled = false
+	elem 
+		name = "F4"
+		command = "Msay"
+		is-disabled = false
 	elem 
 		name = "F5"
 		command = "Aghost"
@@ -781,10 +781,10 @@ macro "borgmacro"
 		name = "F3"
 		command = "asay"
 		is-disabled = false
-	elem
-	    name = "F4"
-	    command = "Msay"
-	    is-disabled = false
+	elem 
+		name = "F4"
+		command = "Msay"
+		is-disabled = false
 	elem 
 		name = "F5"
 		command = "Aghost"
@@ -2336,3 +2336,4 @@ window "infowindow"
 		on-tab = ""
 		prefix-color = none
 		suffix-color = none
+
