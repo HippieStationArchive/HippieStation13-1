@@ -11,14 +11,14 @@
 			if(ultimate)
 				ultimate = 0
 				unbuckle()
-				explosion(src.loc, 0, 1, 3, adminlog = 1, flame_range = 1)
+				explosion(src.loc, 0, 0, 0, adminlog = 1, flame_range = 1)
 			buckled_mob.Stun(2)
 			buckled_mob.Weaken(1)
 			buckled_mob.stop_pulling()
 			buckled_mob.adjustBruteLoss(2)
 
 			buckled_mob.visible_message(\
-				"<span class='notice'>[buckled_mob] steps falls of his skateboard. What a tool!.</span>",\
+				"<span class='notice'>[buckled_mob] steps falls of his skateboard. What a tool!</span>",\
 				"<span class='notice'>You collide with the [A.name] and fall off your skateboard. Idiot.</span>")
 			unbuckle()
 			playsound(src.loc, 'sound/misc/collide.ogg', 75, 1)

@@ -8,7 +8,6 @@
 	var/making_mage = 0
 	var/mages_made = 1
 	var/time_checked = 0
-	var/list/client/prevmages = list()
 /datum/game_mode/wizard/announce()
 	world << "<B>The current game mode is - Ragin' Mages!</B>"
 	world << "<B>The <span class='warning'>Space Wizard Federation</span> is pissed, help defeat all the space wizards!</B>"
@@ -95,20 +94,6 @@
 
 			sleep(300)
 		if(!candidates.len)
-			message_admins("No applicable ghosts for the next ragin' mage, asking previous mages instead.")
-			var/time_passed = world.time
-			for(var/client/G in prevmages)
-				if(!jobban_isbanned(G, "wizard") && !jobban_isbanned(G, "Syndicate"))
-					spawn(0)
-						switch(alert(G, "Do you wish to be considered for the position of Space Wizard Foundation 'diplomat'?","Please answer in 30 seconds!","Yes","No"))
-							if("Yes")
-								if((world.time-time_passed)>300)//If more than 30 game seconds passed.
-									continue
-								candidates += G.mob
-							if("No")
-								continue
-			sleep(300)
-		if(!candidates.len)
 			message_admins("This is awkward, sleeping until another mage check...")
 			making_mage = 0
 			mages_made--
@@ -122,7 +107,6 @@
 				break
 
 		if(theghost)
-			prevmages.Add(theghost.client)
 			var/mob/living/carbon/human/new_character= makeBody(theghost)
 			new_character.mind.make_Wizard()
 			making_mage = 0

@@ -192,3 +192,8 @@
 	reagents = list("cherryjelly" = 5, "flour" = 5)
 	items = list()
 	result = /obj/item/weapon/reagent_containers/food/snacks/burger/jelly/cherry
+
+/datum/recipe/burger/butt
+	reagents = list("flour" = 5)
+	items = list(/obj/item/organ/butt)
+	result = /obj/item/weapon/reagent_containers/food/snacks/burger/butt
