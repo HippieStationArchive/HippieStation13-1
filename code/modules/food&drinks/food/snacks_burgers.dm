@@ -197,3 +197,13 @@
 	..()
 	reagents.add_reagent("nutriment", 40)
 	bitesize = 10
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/butt
+	name = "butt burger"
+	desc = "What were you expecting?"
+	icon_state = "buttburger"
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/butt/New()
+	..()
+	reagents.add_reagent("nutriment", 8)
+	bitesize = 2

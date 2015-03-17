@@ -74,3 +74,9 @@
 		/obj/item/weapon/reagent_containers/food/snacks/egg,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/sliceable/pumpkinpie
+
+
+/datum/recipe/pie/asspie
+	reagents = list("flour" = 10)
+	items = list(/obj/item/organ/butt)
+	result = /obj/item/weapon/reagent_containers/food/snacks/pie/asspie
