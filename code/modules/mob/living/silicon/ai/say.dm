@@ -76,7 +76,7 @@
 
 var/announcing_vox = 0 // Stores the time of the last announcement
 var/const/VOX_CHANNEL = 200
-var/const/VOX_DELAY = 0 // We can mute this shit now Whoop!
+var/const/VOX_DELAY = 600
 
 /mob/living/silicon/ai/verb/announcement_help()
 

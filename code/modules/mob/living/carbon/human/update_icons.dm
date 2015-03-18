@@ -175,9 +175,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 	if(standing.len)
 		overlays_standing[MUTATIONS_LAYER]	= standing
 
-	if(dna.species.id == "tarajan")
-		mutations.Add(CLUMSY)
-
 	apply_overlay(MUTATIONS_LAYER)
 
 /mob/living/carbon/human/proc/update_mutcolor()
@@ -570,7 +567,7 @@ Please contact me on #coderbus IRC. ~Carnie x
 			overlays_standing[R_HAND_LAYER] = image("icon" = 'icons/mob/items_righthand1.dmi', "icon_state" = t_state, "layer"=-L_HAND_LAYER)
 		else
 			overlays_standing[R_HAND_LAYER] = image("icon" = 'icons/mob/items_righthand.dmi', "icon_state" = t_state, "layer"=-L_HAND_LAYER)
-
+			
 	apply_overlay(R_HAND_LAYER)
 
 

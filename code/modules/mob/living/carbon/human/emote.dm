@@ -481,11 +481,6 @@
 					src.gib()
 				break //This is to prevent multi-gibbening
 
-		spawn(count)
-			for(var/obj/structure/stool/bed/chair/janicart/skateboard/CUL8 in range(0))
-				if(CUL8.buckled_mob)
-					CUL8.ultimate = 1
-					usr << "\red You think that was a bad idea...."
 		for(var/i = 1, i <= count, i++)
 			B = locate() in src.internal_organs
 			if(!B) break

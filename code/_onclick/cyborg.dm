@@ -14,9 +14,6 @@
 	if(client.buildmode) // comes after object.Click to allow buildmode gui objects to be clicked
 		build_click(src, client.buildmode, params, A)
 		return
-	if(client.invmode)
-		inv_click(src, client.invmode, params, A)
-		return
 
 	if(stat || lockcharge || weakened || stunned || paralysis)
 		return

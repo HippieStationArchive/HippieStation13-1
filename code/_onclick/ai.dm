@@ -14,10 +14,6 @@
 		build_click(src, client.buildmode, params, A)
 		return
 
-	if(client.invmode) // comes after object.Click to allow buildmode gui objects to be clicked
-		inv_click(src, client.invmode, params, A)
-		return
-
 	if(control_disabled || stat) return
 
 	if(ismob(A))
@@ -35,8 +31,6 @@
 		build_click(src, client.buildmode, params, A)
 		return
 
-	if(client.invmode)
-		build_click(src,client.invmode,params,A)
 	if(control_disabled || stat)
 		return
 

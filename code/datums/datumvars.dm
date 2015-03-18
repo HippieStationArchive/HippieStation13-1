@@ -249,7 +249,6 @@
 		body += "<option value='?_src_=vars;ninja=\ref[D]'>Make Space Ninja</option>"
 		body += "<option value='?_src_=vars;godmode=\ref[D]'>Toggle Godmode</option>"
 		body += "<option value='?_src_=vars;build_mode=\ref[D]'>Toggle Build Mode</option>"
-		body += "<option value='?_src_=vars;inv_mode=\ref[D]'>Toggle Investigate Mode</option>"
 		body += "<option value='?_src_=vars;direct_control=\ref[D]'>Assume Direct Control</option>"
 		body += "<option value='?_src_=vars;drop_everything=\ref[D]'>Drop Everything</option>"
 		body += "<option value='?_src_=vars;regenerateicons=\ref[D]'>Regenerate Icons</option>"
@@ -559,17 +558,6 @@ body
 
 			togglebuildmode(M)
 			href_list["datumrefresh"] = href_list["build_mode"]
-
-		else if(href_list["inv_mode"])
-			if(!check_rights(R_ADMIN))	return
-
-			var/mob/M = locate(href_list["inv_mode"])
-			if(!istype(M))
-				usr << "This can only be used on instances of type /mob"
-				return
-
-			toggleinvmode(M)
-			href_list["datumrefresh"] = href_list["inv_mode"]
 
 		else if(href_list["drop_everything"])
 			if(!check_rights(0))	return

@@ -1310,23 +1310,14 @@ var/global/list/achievements = list("Goodcurity")
 	else if(href_list["sfremove"])
 		if(!check_rights(R_ADMIN))	return
 		var/mob/M = locate(href_list["sfremove"])
-		var/snowflake = input(usr, "Choose what snowflake you want to remove. Remove the last one to species lock:", "Griefers")  as null|anything in M.client.prefs.specialsnowflakes
+		var/datum/species/snowflake = input(usr, "Choose what snowflake you want to remove:", "Griefers")  as null|anything in M.client.prefs.specialsnowflakes
+
 
 		if(snowflake)
+			usr << "\red You remove [M.key]'s ability to use the [snowflake.id] snowflake"
+			message_admins("[usr] removed one of [M.key]'s snowflakes: [snowflake.id]")
+			M.client.prefs.specialsnowflakes.Remove(snowflake)
 
-			var/C = 0
-			for(var/Y in M.client.prefs.specialsnowflakes)
-				C++
-			if(C <= 1)
-
-				M.client.prefs.pref_species = new snowflake()
-				usr << "\red You lock [M.client] to a species"
-				message_admins("[usr] has species locked [M.key] to: [snowflake]")
-			else
-				M.client.prefs.specialsnowflakes -= snowflake
-				usr << "\red You remove [M.key]'s ability to use the [snowflake] snowflake"
-				message_admins("[usr] removed one of [M.key]'s snowflakes: [snowflake]")
-			M.client.prefs.save_character()
 
 
 	else if(href_list["revive"])

@@ -97,8 +97,8 @@
 /obj/structure/reagent_dispensers/fueltank/bullet_act(var/obj/item/projectile/Proj)
 	..()
 	if(istype(Proj ,/obj/item/projectile/beam)||istype(Proj,/obj/item/projectile/bullet))
-		message_admins("[key_name_admin(Proj.firer)] triggered a fueltank explosion. ([src.x],[src.y],[src.z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>JMP</a>)")
-		log_game("[key_name(Proj.firer)] triggered a fueltank explosion at [x], [y], [z].")
+		message_admins("[key_name_admin(Proj.firer)] triggered a fueltank explosion.")
+		log_game("[key_name(Proj.firer)] triggered a fueltank explosion.")
 		explosion(src.loc,-1,0,2, flame_range = 2)
 
 
