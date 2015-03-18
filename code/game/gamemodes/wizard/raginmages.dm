@@ -1,5 +1,3 @@
-
-
 /datum/game_mode/wizard/raginmages
 	name = "Ragin' Mages"
 	config_tag = "raginmages"
@@ -8,6 +6,7 @@
 	var/making_mage = 0
 	var/mages_made = 1
 	var/time_checked = 0
+
 /datum/game_mode/wizard/announce()
 	world << "<B>The current game mode is - Ragin' Mages!</B>"
 	world << "<B>The <span class='warning'>Space Wizard Federation</span> is pissed, help defeat all the space wizards!</B>"
@@ -79,7 +78,7 @@
 				if(!jobban_isbanned(G, "wizard") && !jobban_isbanned(G, "Syndicate"))
 					candidates += G
 		if(!candidates.len)
-			message_admins("No applicable observers for the next ragin' mage, asking ghosts instead.")
+			message_admins("No applicable ghosts for the next ragin' mage, asking ghosts instead.")
 			var/time_passed = world.time
 			for(var/mob/dead/observer/G in player_list)
 				if(!jobban_isbanned(G, "wizard") && !jobban_isbanned(G, "Syndicate"))

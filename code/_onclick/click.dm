@@ -40,9 +40,6 @@
 	if(client.buildmode)
 		build_click(src, client.buildmode, params, A)
 		return
-	if(client.invmode)
-		inv_click(src, client.invmode, params, A)
-		return
 
 	var/list/modifiers = params2list(params)
 	if(modifiers["shift"] && modifiers["ctrl"])

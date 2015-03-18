@@ -136,15 +136,3 @@
 	icon_state = "pumpkinpieslice"
 	trash = /obj/item/trash/plate
 	bitesize = 2
-
-
-/obj/item/weapon/reagent_containers/food/snacks/asspie
-	name = "ass pie"
-	desc = "What were you expecting?"
-	icon_state = "asspie"
-
-/obj/item/weapon/reagent_containers/food/snacks/asspie/New()
-	..()
-	reagents.add_reagent("nutriment", 12)
-	bitesize = 3
-

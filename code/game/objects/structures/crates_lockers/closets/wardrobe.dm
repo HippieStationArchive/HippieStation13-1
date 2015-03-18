@@ -34,9 +34,9 @@
 	new /obj/item/clothing/head/soft/sec(src)
 	new /obj/item/clothing/head/soft/sec(src)
 	new /obj/item/clothing/head/soft/sec(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/security(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/security(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/security(src)
+	new /obj/item/clothing/head/santa(src)
+	new /obj/item/clothing/head/santa(src)
+	new /obj/item/clothing/head/santa(src)
 	return
 
 /obj/structure/closet/wardrobe/pink
