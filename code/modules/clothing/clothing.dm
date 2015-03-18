@@ -301,26 +301,47 @@ atom/proc/generate_female_clothing(index,t_color,icon)
 				usr << "Your suit will now report your exact vital lifesigns as well as your coordinate position."
 	..()
 
-/obj/item/clothing/under/verb/rolldown()
+
+/obj/item/clothing/under/AltClick()
+	..()
+	rolldown()
+
+
+/obj/item/clothing/under/verb/jumpsuit_adjust()
 	set name = "Adjust Jumpsuit Style"
-	set category = "Object"
+	set category = null
 	set src in usr
+	rolldown()
+
+
+/obj/item/clothing/under/proc/rolldown()
 	if(!can_use(usr))
 		return
 	if(!can_adjust)
 		usr << "You cannot wear this suit any differently."
 		return
 	if(src.adjusted == 1)
+		src.fitted = initial(fitted)
 		src.item_color = initial(item_color)
 		src.item_color = src.suit_color //colored jumpsuits are shit and break without this
 		usr << "You adjust the suit back to normal."
 		src.adjusted = 0
 	else
+		src.fitted = NO_FEMALE_UNIFORM
 		src.item_color += "_d"
 		usr << "You adjust the suit to wear it more casually."
 		src.adjusted = 1
 	usr.update_inv_w_uniform()
 	..()
+
+
+/obj/item/clothing/under/examine(mob/user)
+	..()
+	if(src.adjusted)
+		user << "Alt-click on [src] to wear it normally."
+	else
+		user << "Alt-click on [src] to wear it casually."
+
 
 /obj/item/clothing/under/verb/removetie()
 	set name = "Remove Accessory"
