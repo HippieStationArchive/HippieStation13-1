@@ -1,3 +1,5 @@
+//legacyfile
+
 /obj/structure/janitorialcart
 	name = "janitorial cart"
 	desc = "This is the alpha and omega of sanitation."
