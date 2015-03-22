@@ -293,8 +293,10 @@
 	// 2spooky
 	name = "Spooky Scary Skeleton"
 	id = "skeleton"
+	say_mod = "rattles"
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/skeleton
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE)
 /*
  ZOMBIES
 */
