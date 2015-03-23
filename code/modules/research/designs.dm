@@ -352,12 +352,14 @@ datum/design/proc/CalcReliability(var/list/temp_techs)
 	build_path = /obj/item/weapon/holosign_creator
 	category = list("Equipement")
 
-/datum/design/buffer
-	name = "Floor Buffer Upgrade"
-	desc = "A floor buffer that can be attached to vehicular janicarts."
-	id = "buffer"
-	req_tech = list("materials" = 5, "engineering" = 3)
-	build_type = PROTOLATHE
-	materials = list("$metal" = 3000, "$glass" = 200)
-	build_path = /obj/item/janiupgrade
-	category = list("Equipement")
+
+//Janiupgrade item doesn't even exist, mitch pls.
+// /datum/design/buffer
+// 	name = "Floor Buffer Upgrade"
+// 	desc = "A floor buffer that can be attached to vehicular janicarts."
+// 	id = "buffer"
+// 	req_tech = list("materials" = 5, "engineering" = 3)
+// 	build_type = PROTOLATHE
+// 	materials = list("$metal" = 3000, "$glass" = 200)
+// 	build_path = /obj/item/janiupgrade
+// 	category = list("Equipement")

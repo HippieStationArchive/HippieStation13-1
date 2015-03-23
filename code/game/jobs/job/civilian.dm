@@ -309,7 +309,7 @@ Janitor
 	if(H.backbag != 1)
 		switch(janitors)
 			if(1)
-				H.equip_to_slot_or_del(new /obj/item/key/janitor(H), slot_in_backpack)
+				H.equip_to_slot_or_del(new /obj/item/key(H), slot_in_backpack)
 			else
 				H.equip_to_slot_or_del(new /obj/item/weapon/soap/deluxe(H), slot_in_backpack)
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/janitor(H), slot_w_uniform)
