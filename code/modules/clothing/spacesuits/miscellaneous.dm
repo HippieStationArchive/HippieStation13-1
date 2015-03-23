@@ -132,3 +132,20 @@
 	slowdown = 1
 	armor = list(melee = 60, bullet = 15, laser = 15, energy = 15, bomb = 20, bio = 100, rad = 100)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/device/multitool)
+
+/obj/item/clothing/suit/space/eva
+	name = "EVA suit"
+	icon_state = "space"
+	item_state = "s_suit"
+	desc = "A lightweight space suit with the basic ability to protect the wearer from the vacuum of space during emergencies."
+	slowdown = 1
+	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 100, rad = 20)
+
+/obj/item/clothing/head/helmet/space/eva
+	name = "EVA helmet"
+	icon_state = "space"
+	item_state = "space"
+	desc = "A lightweight space helmet with the basic ability to protect the wearer from the vacuum of space during emergencies."
+	flash_protect = 0
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
+	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 100, rad = 20)

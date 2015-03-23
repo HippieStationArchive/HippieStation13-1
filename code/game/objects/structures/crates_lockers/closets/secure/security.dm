@@ -23,7 +23,7 @@
 	new /obj/item/clothing/shoes/sneakers/brown(src)
 	new /obj/item/device/radio/headset/heads/captain/alt(src)
 	new /obj/item/clothing/gloves/color/captain(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/captain(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/captain(src)
 	new /obj/item/weapon/gun/energy/gun/pistol(src)
 	new /obj/item/weapon/gun/energy/gun/pistol(src)
 	return
@@ -51,7 +51,7 @@
 	new /obj/item/weapon/gun/energy/gun/pistol(src)
 	new /obj/item/device/flash/handheld(src)
 	new /obj/item/clothing/glasses/sunglasses(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/cargo(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/cargo(src)
 	new /obj/item/clothing/head/hardhat/reindeer()
 	new /obj/item/weapon/mining_voucher(src)
 	return
@@ -87,7 +87,7 @@
 	new /obj/item/weapon/gun/energy/gun/advtaser(src)
 	new /obj/item/weapon/gun/energy/gun/pistol(src)
 	new /obj/item/weapon/storage/belt/security(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/security(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/security(src)
 	return
 
 
@@ -117,7 +117,7 @@
 	new /obj/item/weapon/melee/baton/loaded(src)
 	new /obj/item/weapon/gun/energy/gun/advtaser(src)
 	new /obj/item/weapon/storage/belt/security(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/security(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/security(src)
 	return
 
 
@@ -213,7 +213,7 @@
 	new /obj/item/device/radio/headset/headset_sec/alt(src)
 	new /obj/item/device/detective_scanner(src)
 	new /obj/item/clothing/suit/armor/vest/det_suit(src)
-	new /obj/item/clothing/suit/toggle/wintercoat(src)
+	new /obj/item/clothing/suit/hooded/wintercoat(src)
 	new /obj/item/ammo_box/c38(src)
 	new /obj/item/ammo_box/c38(src)
 	new /obj/item/weapon/gun/projectile/revolver/detective(src)

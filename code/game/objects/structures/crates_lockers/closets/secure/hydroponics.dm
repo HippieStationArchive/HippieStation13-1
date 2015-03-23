@@ -23,5 +23,5 @@
 		new /obj/item/clothing/head/greenbandana(src)
 		new /obj/item/weapon/minihoe(src)
 		new /obj/item/weapon/hatchet(src)
-		new /obj/item/clothing/suit/toggle/wintercoat/hydro(src)
+		new /obj/item/clothing/suit/hooded/wintercoat/hydro(src)
 		return
