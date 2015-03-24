@@ -1,4 +1,3 @@
-
 	//The mob should have a gender you want before running this proc. Will run fine without H
 /datum/preferences/proc/random_character(gender_override)
 	if(gender_override)
@@ -319,7 +318,7 @@
 					clothes_s.Blend(new /icon('icons/mob/back.dmi', "satchel-eng"), ICON_OVERLAY)
 			if(ENGINEER)
 				clothes_s = new /icon('icons/mob/uniform.dmi', "engine_s")
-				clothes_s.Blend(new /icon('icons/mob/feet.dmi', "orange"), ICON_UNDERLAY)
+				clothes_s.Blend(new /icon('icons/mob/feet.dmi', "workboots"), ICON_UNDERLAY)
 				clothes_s.Blend(new /icon('icons/mob/belt.dmi', "utility"), ICON_OVERLAY)
 				clothes_s.Blend(new /icon('icons/mob/head.dmi', "hardhat0_yellow"), ICON_OVERLAY)
 				if(backbag == 2)
