@@ -233,6 +233,23 @@
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|HANDS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 
+/obj/item/clothing/suit/toggle/owlwings
+	name = "owl cloak"
+	desc = "A soft brown cloak made of synthetic feathers. Soft to the touch, stylish, and a 2 meter wing span that will drive the ladies mad."
+	icon_state = "owl_wings"
+	item_state = "owl_wings"
+	togglename = "wings"
+	body_parts_covered = ARMS|CHEST
+	allowed = list(/obj/item/weapon/gun/energy,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/device/flashlight/seclite)
+	action_button_name = "Toggle Owl Wings"
+
+/obj/item/clothing/suit/toggle/owlwings/griffinwings
+	name = "griffon cloak"
+	desc = "A plush white cloak made of synthetic feathers. Soft to the touch, stylish, and a 2 meter wing span that will drive your captives mad."
+	icon_state = "griffin_wings"
+	item_state = "griffin_wings"
+
+
 // non-WINTER COATS
 
 /obj/item/clothing/suit/hooded/wintercoat
