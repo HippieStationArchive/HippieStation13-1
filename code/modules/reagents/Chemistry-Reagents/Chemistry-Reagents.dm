@@ -286,7 +286,7 @@ datum/reagent/water/holywater/reaction_turf(var/turf/simulated/T, var/volume)
 		for(var/obj/effect/rune/R in T)
 			qdel(R)
 	T.Bless()
-	
+
 /*
 
 Leaving this here just incase no one likes Titty removing the effects..
