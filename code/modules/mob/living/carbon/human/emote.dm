@@ -303,29 +303,61 @@
 				m_type = 2
 				delay = 15
 
-
-// IPC BUZZES AND PINGS
-
+	////////////////
+	// IPC EMOTES //
+	////////////////
 
 		if ("ping")
 			var/DNA = src.dna.species.id
 			switch(DNA)
 				if("IPC")
-
 					playsound(src.loc, 'sound/machines/ping.ogg', 50, 0)
 					message = "<B>[src]</B> pings!"
-
 		if ("buzz")
 			var/DNA = src.dna.species.id
-			var/sound
 			switch(DNA)
 				if("IPC")
-					sound = pick('sound/machines/buzz-sigh.ogg','sound/machines/buzz-two.ogg')
-					playsound(src.loc, sound, 50, 0)
+					playsound(src.loc, 'sound/machines/buzz-sigh.ogg', 50, 0)
 					message = "<B>[src]</B> buzzes."
+		if ("buzz2")
+			var/DNA = src.dna.species.id
+			switch(DNA)
+				if("IPC")
+					playsound(src.loc, 'sound/machines/buzz-two.ogg', 50, 0)
+					message = "<B>[src]</B> buzzes twice."
+		if ("chime")
+			var/DNA = src.dna.species.id
+			switch(DNA)
+				if("IPC")
+					playsound(src.loc, 'sound/machines/chime.ogg', 50, 0)
+					message = "<B>[src]></B> chimes."
+		if ("honk")
+			var/DNA = src.dna.species.id
+			switch(DNA)
+				if("IPC")
+					playsound(src.loc, 'sound/items/bikehorn.ogg', 50, 0)
+					message = "<B>[src]</B> honks!"
+		if ("sad")
+			var/DNA = src.dna.species.id
+			switch(DNA)
+				if("IPC")
+					playsound(src.loc, 'sound/misc/sadtrombone.ogg', 50, 0)
+					message = "<B>[src]</B> plays a sad trombone."
+		if ("warn")
+			var/DNA = src.dna.species.id
+			switch(DNA)
+				if("IPC")
+					playsound(src.loc, 'sound/machines/warning-buzzer.ogg', 50, 0)
 
+		if ("help")
+			var/DNA = src.dna.species.id
+			switch(DNA)
+				if("IPC")
+					src << "Help for IPC emotes. You can use all Human emotes along with these emotes with say \"*emote\":\n\naflap, beep-(none)/mob, bow-(none)/mob, buzz-(none)/mob,buzz2,chime, clap, custom, deathgasp, flap, glare-(none)/mob, honk, look-(none)/mob, me, nod, ping-(none)/mob, sad, \nsalute-(none)/mob, twitch, twitch_s, warn,"
 
-
+	////////////////////
+	// END IPC EMOTES //
+	////////////////////
 
 		if ("shiver")
 			message = "<B>[src]</B> shivers."
