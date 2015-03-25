@@ -348,7 +348,7 @@
 			switch(DNA)
 				if("IPC")
 					playsound(src.loc, 'sound/machines/warning-buzzer.ogg', 50, 0)
-
+					message = "<B>[src]</B> blares an alarm!"
 		if ("help")
 			var/DNA = src.dna.species.id
 			switch(DNA)
