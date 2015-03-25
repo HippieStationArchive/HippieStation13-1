@@ -73,9 +73,6 @@
 /obj/item/clothing/suit/space/hardsuit/New()
 	MakeHelmet()
 	..()
-//	if(!jetpack)  //Jetpack Code
-//		verbs -= /obj/item/clothing/suit/space/hardsuit/verb/Jetpack
-//		verbs -= /obj/item/clothing/suit/space/hardsuit/verb/Jetpack_Rockets
 
 /obj/item/clothing/suit/space/hardsuit/proc/MakeHelmet()
 	if(!helmettype)

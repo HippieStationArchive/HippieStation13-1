@@ -47,21 +47,7 @@
 	var/obj/item/clothing/head/helmet/space/hardsuit/helmet
 	action_button_name = "Toggle Helmet"
 	var/helmettype = /obj/item/clothing/head/helmet/space/hardsuit
-	var/obj/item/weapon/tank/jetpack/suit/jetpack = null
 
-	//Mitch this is also for Harsuit Jetpack code...
-
-/*
-/obj/item/clothing/suit/space/hardsuit/verb/Jetpack()
-	set name = "Toggle Inbuilt Jetpack"
-	set category = "Object"
-	jetpack.toggle()
-
-/obj/item/clothing/suit/space/hardsuit/verb/Jetpack_Rockets()
-	set name = "Toggle Inbuilt Jetpack Stabilization"
-	set category = "Object"
-	jetpack.toggle_rockets()
-*/
 	//Engineering
 /obj/item/clothing/head/helmet/space/hardsuit/engine
 	name = "engineering hardsuit helmet"
@@ -78,15 +64,6 @@
 	item_state = "eng_hardsuit"
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 75)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/engine
-
-	//Jetpack code
-
-/*
-/obj/item/clothing/suit/space/hardsuit/engine/New()
-	jetpack = new /obj/item/weapon/tank/jetpack/suit(src)
-	..()
-
-*/
 
 	//Atmospherics
 /obj/item/clothing/head/helmet/space/hardsuit/engine/atmos
@@ -204,12 +181,6 @@
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword/saber,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/emergency_oxygen,/obj/item/weapon/tank/oxygen)
 	flags = HEADCOVERSEYES | BLOCKHAIR | HEADCOVERSMOUTH | STOPSPRESSUREDMAGE | THICKMATERIAL
 
-	//God this Jetpack code.. Mitch loookie here
-/*
-/obj/item/clothing/suit/space/hardsuit/syndi/New()
-	jetpack = new /obj/item/weapon/tank/jetpack/suit(src)
-	..()
-*/
 /obj/item/clothing/suit/space/hardsuit/syndi/update_icon()
 	icon_state = "hardsuit[on]-[item_color]"
 	helmettype = null
