@@ -181,7 +181,8 @@
 		attack_verb = list("stabbed", "torn", "cut", "sliced")
 		icon_state = "pocketknife_open"
 		w_class = 3
-		bleedcap = 20 //Reduce bleedcap
+		bleedchance = 20 //Increase bleedchance
+		bleedcap = 0 //Reduce bleedcap
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now open.</span>"
 	else
@@ -191,6 +192,7 @@
 		attack_verb = null
 		icon_state = "pocketknife"
 		w_class = 1
+		bleedchance = 10 //Reduce bleedchance
 		bleedcap = 40 //restore bleedcap
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now closed.</span>"

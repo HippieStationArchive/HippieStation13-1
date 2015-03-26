@@ -79,7 +79,7 @@
 	icon_state = "knife"
 	force = 10.0
 	throwforce = 10.0
-	bleedcap = 20 //lower bleedcap so stabbing someone with a knife is more likely to get them bleeding
+	bleedcap = 0 //lower bleedcap so stabbing someone with a knife is more likely to get them bleeding
 	bleedchance = 20 //Higher bleed chance
 
 /obj/item/weapon/kitchen/utensil/knife/suicide_act(mob/user)
@@ -106,7 +106,7 @@
 	desc = "A general purpose Chef's Knife made by SpaceCook Incorporated. Guaranteed to stay sharp for years to come."
 	flags = CONDUCT
 	force = 10
-	bleedcap = 20
+	bleedcap = 0 //No bleedcap. Stab someone once and they already have the chance to bleed like a motherfucker
 	bleedchance = 30 //Higher chance to cause bleeding - default is 10
 	w_class = 3
 	throwforce = 10

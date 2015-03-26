@@ -144,7 +144,7 @@ obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
 	attack_verb = list("stabbed", "shanked", "sliced", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	insulated = 1 //For electrified grilles
-	bleedcap = 20 //Lower bleedcap - the actual fucking reason to use shanks.
+	bleedcap = 5 //Lower bleedcap - the actual fucking reason to use shanks.
 	bleedchance = 25 //Robust bleedchance - it's a shank, do you expect anything less?
 
 /obj/item/weapon/shank/suicide_act(mob/user)
@@ -172,8 +172,8 @@ obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("stabbed", "slashed", "attacked")
 	insulated = 1
-	bleedcap = 20 //same as shanks
-	bleedchance = 25 //same as shanks
+	bleedcap = 10 //Bleedchance on second hit
+	bleedchance = 20 //Slightly worse than shanks
 	var/icon/broken_outline = icon('icons/obj/drinks.dmi', "broken")
 
 /obj/item/weapon/broken_bottle/suicide_act(mob/user)

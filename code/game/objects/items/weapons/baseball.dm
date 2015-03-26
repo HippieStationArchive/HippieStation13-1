@@ -14,8 +14,8 @@
 	icon_state = "bbat"
 	item_state = "bbat"
 	slot_flags = SLOT_BELT //Including the belt sprite to look cool
-	force = 10 //moderate force
-	throwforce = 8
+	force = 13 //10 force is just sad
+	throwforce = 10
 	throw_speed = 3
 	throw_range = 4
 
@@ -39,8 +39,8 @@
 	desc = "A smooth metal club used in baseball to hit the ball. Or to purify your adversaries."
 	icon_state = "bbat_metal"
 	item_state = "bbat_metal"
-	force = 13 //Nerfed, shouldn't be the best thing on the station since it can be mass-produced, still good though.
-	throwforce = 10
+	force = 15 //Buffed again. It's kind of expensive to mass produce it since every 50 metal you can only get 3 bats.
+	throwforce = 13
 	specthrow_maxwclass = 3 //You can bat normal sized items with metal bat
 
 /obj/item/baseball
@@ -58,10 +58,10 @@
 	if(!istype(AM, /obj/item/baseball))
 		return
 	if(!zone)
-		zone = ran_zone("chest", 65)
+		zone = ran_zone("chest", 50)
 	var/armor = getarmor(get_organ(check_zone(zone), "melee"))
 	if(armor >= 100) return
-	if(zone == "head") //Pure RNG to score a stun
+	if(zone == "head" && throwforce >= 6) //This is kind of a terrible way to check if the baseball was batted but whatever
 		if(stat == CONSCIOUS && prob(50) && armor < 40) //High chance to make up for the already-RNG zone picking
 			visible_message("<span class='danger'>[src] has been knocked unconscious!</span>", \
 							"<span class='userdanger'>[src] has been knocked unconscious!</span>")

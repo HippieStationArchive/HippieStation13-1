@@ -50,7 +50,7 @@
 
 	//Placeholders till "stab" damagetype is implemented
 	var/bleedchance = 10 //Chance to bleed when bleedcap was met
-	var/bleedcap = 40 //Amount of damage the limb must have to initiate bleeding
+	var/bleedcap = 20 //Amount of damage the limb must have to initiate bleeding - nerfed the cap to increase importance of bleeding
 
 	//Vars for things like baseball bats that do unique things with thrown items below
 	var/special_throw = 0 

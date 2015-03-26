@@ -296,6 +296,7 @@
 			if(I.throwforce_mult)
 				E.throwforce = round(E.throwforce * I.throwforce_mult)
 				E.mult = 1 //Tell the code we have modified this item's throwforce and would like for it to be set back to normal after it hits something.
+		item.throwzone = check_zone(src.zone_sel.selecting) //So targeting when throwing items isn't completely useless
 		item.layer = initial(item.layer)
 		src.visible_message("<span class='danger'>[src] has [did] [item].</span>")
 

@@ -155,8 +155,8 @@ obj/item/weapon/twohanded/
 	slot_flags = SLOT_BACK
 	force_unwielded = 5
 	force_wielded = 24 // Was 18, Buffed - RobRichards/RR
-	bleedcap = 20
-	bleedchance = 12 //Don't make this too high, already has robust force
+	bleedcap = 20 //Bleeding can happen on second hit.
+	bleedchance = 15 //Don't make this too high, already has robust force
 	attack_verb = list("attacked", "chopped", "cleaved", "torn", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	wieldsound = 'sound/weapons/raise.ogg'

@@ -12,7 +12,7 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	var/cooldown = 0
 	insulated = 1 //For electrified grilles
-	bleedcap = 20 //Same as shanks
+	bleedcap = 10 //Can only bleed on second hit, at least
 	bleedchance = 20 //Lower than shanks
 
 /obj/item/weapon/shard/suicide_act(mob/user)
