@@ -142,6 +142,7 @@
 	force = 17.0 //Reduced force to put bigger emphasis on bleeding
 	bleedcap = 0 //Can cause bleeding even on first stab
 	bleedchance = 30 //Higher chance to cause bleeding - same as kitchen knife
+	embedchance = 50 //Makes it an amazing throwing weapon.
 	w_class = 1.0
 	slot_flags = SLOT_BELT
 	throwforce = 20.0 //Robust as fuck when thrown
@@ -183,6 +184,7 @@
 		w_class = 3
 		bleedchance = 20 //Increase bleedchance
 		bleedcap = 0 //Reduce bleedcap
+		embedchance = 30 //Increase embed chance
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now open.</span>"
 	else
@@ -194,6 +196,7 @@
 		w_class = 1
 		bleedchance = 10 //Reduce bleedchance
 		bleedcap = 40 //restore bleedcap
+		embedchance = 0 //Reduce embed chance
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now closed.</span>"
 	add_fingerprint(user)

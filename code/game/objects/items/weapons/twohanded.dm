@@ -157,6 +157,7 @@ obj/item/weapon/twohanded/
 	force_wielded = 24 // Was 18, Buffed - RobRichards/RR
 	bleedcap = 20 //Bleeding can happen on second hit.
 	bleedchance = 15 //Don't make this too high, already has robust force
+	embedchance = 20 //Low chance to get stuck, but holy crap is it going to hurt taking this out.
 	attack_verb = list("attacked", "chopped", "cleaved", "torn", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	wieldsound = 'sound/weapons/raise.ogg'

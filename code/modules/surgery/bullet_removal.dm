@@ -5,8 +5,6 @@
 	location = "anywhere" //Check attempt_initate_surgery() (in code/modules/surgery/helpers) to see what this does if you can't tell
 	has_multi_loc = 1 //Multi location stuff, See multiple_location_example.dm
 
-	// v This is broken atm. It only works for INITIATING surgery, doesn't actually work for PERFORMING it. v
-	// must_be_lying = 0 //Can perform bullet extraction even if you're standing up. No need to fuck with the probability since location checks already do a check for table/bed/etc.
 
 /datum/surgery_step/remove_bullet
 	implements = list(/obj/item/weapon/hemostat = 100, /obj/item/weapon/screwdriver = 70, /obj/item/weapon/wirecutters = 50, /obj/item/weapon/crowbar = 30)

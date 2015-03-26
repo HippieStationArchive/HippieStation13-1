@@ -168,7 +168,9 @@
 	var/has_breathable_mask = istype(wear_mask, /obj/item/clothing/mask)
 	var/list/obscured = check_obscured_slots()
 
-	var/dat = {"<table>
+	var/dat = {"<A href='?src=\ref[user];mach_close=mob\ref[src]'>Close</A>
+	<tr><td>&nbsp;</td></tr>
+	<table>
 	<tr><td><B>Left Hand:</B></td><td><A href='?src=\ref[src];item=[slot_l_hand]'>[(l_hand && !(l_hand.flags&ABSTRACT)) ? l_hand : "<font color=grey>Empty</font>"]</A></td></tr>
 	<tr><td><B>Right Hand:</B></td><td><A href='?src=\ref[src];item=[slot_r_hand]'>[(r_hand && !(r_hand.flags&ABSTRACT)) ? r_hand : "<font color=grey>Empty</font>"]</A></td></tr>
 	<tr><td>&nbsp;</td></tr>"}
@@ -240,9 +242,10 @@
 	if(legcuffed)
 		dat += "<tr><td><A href='?src=\ref[src];item=[slot_legcuffed]'>Legcuffed</A></td></tr>"
 
-	dat += {"</table>
-	<A href='?src=\ref[user];mach_close=mob\ref[src]'>Close</A>
-	"}
+	for(var/obj/item/organ/limb/O in src.organs)
+		for(var/obj/item/I in O.embedded)
+			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I]</a>"
+	dat += "</table>"
 
 	var/datum/browser/popup = new(user, "mob\ref[src]", "[src]", 440, 510)
 	popup.set_content(dat)
@@ -266,6 +269,26 @@
 
 /mob/living/carbon/human/Topic(href, href_list)
 	if(usr.canUseTopic(src, BE_CLOSE, NO_DEXTERY))
+		if(href_list["embedded_object"])
+			var/obj/item/I = locate(href_list["embedded_object"])
+			var/obj/item/organ/limb/L = locate(href_list["embedded_limb"])
+			if(!I || !L || I.loc != src) //no item, no limb, or item is not in limb (the person atleast) anymore
+				return
+			var/time_taken = 30*I.w_class
+			usr.visible_message("<span class='notice'>[usr] attempts to remove [I] from [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!</span>",\
+								"<span class='notice'>You attempt to remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()], it will take [time_taken/10] seconds.</span>")
+			if(do_after(usr, time_taken, needhand = 1))
+				L.embedded -= I
+				update_damage_overlays()
+				L.take_damage(10*I.w_class)//It hurts to rip it out, get surgery you dingus.
+				I.loc = get_turf(src)
+				usr.put_in_hands(I)
+				src.emote("scream")
+				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
+				usr.visible_message("<span class='danger'>[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!</span>",\
+									"<span class='userdanger'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()]!</span>")
+			return
+
 		if(href_list["item"])
 			var/slot = text2num(href_list["item"])
 			if(slot in check_obscured_slots())
@@ -571,3 +594,70 @@
 	if(mob_negates_gravity())
 		return
 	..()
+
+/mob/living/carbon/human/help_shake_act(mob/living/carbon/human/M)
+	if(!istype(M))
+		return
+
+	var/mob/living/carbon/human/H = src
+
+	if(health >= 0)
+		if(src == M)
+			visible_message( \
+				"<span class='notice'>[src] examines \himself.", \
+				"<span class='notice'>You check yourself for injuries.</span>")
+
+			var/isOK = 1
+			for(var/obj/item/organ/limb/O in H.organs)
+				var/status = ""
+				var/brutedamage = O.brute_dam
+				var/burndamage = O.burn_dam
+				if(hallucination)
+					if(prob(30))
+						brutedamage += rand(30,40)
+					if(prob(30))
+						burndamage += rand(30,40)
+
+				if(brutedamage > 0)
+					status = "bruised"
+				if(brutedamage > 20)
+					status = "wounded"
+				if(brutedamage > 40)
+					status = "mangled"
+				if(brutedamage > 0 && burndamage > 0)
+					status += " and "
+				if(burndamage > 40)
+					status += "peeling away"
+				else if(burndamage > 10)
+					status += "blistered"
+				else if(burndamage > 0)
+					status += "numb"
+
+				if(status != "") //Don't display organs if they're OK
+					src << "\t \red My [O.getDisplayName()] is [status]."
+					if(O.bloodloss)
+						src << "\t \red <b>My [O.getDisplayName()] is bleeding!</b>"
+					isOK = 0
+
+				for(var/obj/item/I in O.embedded)
+					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a [I] embedded in your [O.getDisplayName()]!</a>"
+					isOK = 0
+			
+			if(isOK)
+				src << "\t \blue You are not injured!"
+
+			if(staminaloss)
+				if(staminaloss > 30)
+					src << "<span class='info'>You're completely exhausted.</span>"
+				else
+					src << "<span class='info'>You feel fatigued.</span>"
+
+			if(dna && dna.species.id && dna.species.id == "skeleton" && !H.w_uniform && !H.wear_suit)
+				H.play_xylophone()
+		else
+			if(H.wear_suit)
+				H.wear_suit.add_fingerprint(M)
+			else if(H.w_uniform)
+				H.w_uniform.add_fingerprint(M)
+
+			..()

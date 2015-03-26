@@ -55,13 +55,14 @@
 
 /mob/living/carbon/human/hitby(atom/movable/AM, zone)
 	..()
-	if(!istype(AM, /obj/item/baseball))
+	var/obj/item/baseball/I = AM
+	if(!istype(I))
 		return
 	if(!zone)
 		zone = ran_zone("chest", 50)
 	var/armor = getarmor(get_organ(check_zone(zone), "melee"))
 	if(armor >= 100) return
-	if(zone == "head" && throwforce >= 6) //This is kind of a terrible way to check if the baseball was batted but whatever
+	if(zone == "head" && I.throwforce >= 6) //This is kind of a terrible way to check if the baseball was batted but whatever
 		if(stat == CONSCIOUS && prob(50) && armor < 40) //High chance to make up for the already-RNG zone picking
 			visible_message("<span class='danger'>[src] has been knocked unconscious!</span>", \
 							"<span class='userdanger'>[src] has been knocked unconscious!</span>")
