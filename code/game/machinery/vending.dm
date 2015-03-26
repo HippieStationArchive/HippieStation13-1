@@ -1015,6 +1015,4 @@
 	vend_reply = "Thank you for using the ArtMate!"
 	products = list(/obj/item/weapon/paint/red=2,/obj/item/weapon/paint/green=2,/obj/item/weapon/paint/blue=2,
 					/obj/item/weapon/paint/yellow=2,/obj/item/weapon/paint/violet=2,/obj/item/weapon/paint/black=2,
-					/obj/item/weapon/paint/white=2,/obj/item/stack/cable_coil/random=10)
-	contraband = list(/obj/item/weapon/paint/anycolor=2)
-	premium = list(/obj/item/weapon/storage/fancy/crayons=3)
+					/obj/item/weapon/paint/white=2,/obj/item/stack/cable_coil/random=10)
