@@ -2,6 +2,7 @@
 	var/active = 0
 	var/force_on = 30 //force when active
 	var/throwforce_on = 20
+	var/embedchance_on = 0
 	var/icon_state_on = "axe1"
 	var/attack_verb_on = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	w_class = 2
@@ -23,6 +24,7 @@
 	force_on = 150
 	throwforce = 25
 	throwforce_on = 30
+	embedchance_on = 30
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	throw_speed = 3
 	throw_range = 5
@@ -43,6 +45,7 @@
 	icon_state = "sword0"
 	force = 3.0
 	throwforce = 5.0
+	embedchance_on = 30
 	hitsound = "swing_hit" //it starts deactivated
 	throw_speed = 3
 	throw_range = 5
@@ -68,6 +71,7 @@
 	if (active)
 		force = force_on
 		throwforce = throwforce_on
+		embedchance = embedchance_on
 		hitsound = 'sound/weapons/blade1.ogg'
 		if(attack_verb_on)
 			attack_verb = attack_verb_on
@@ -81,6 +85,7 @@
 	else
 		force = initial(force)
 		throwforce = initial(throwforce)
+		embedchance = initial(embedchance)
 		hitsound = initial(hitsound)
 		attack_verb = initial(attack_verb)
 		icon_state = initial(icon_state)

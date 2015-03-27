@@ -18,7 +18,7 @@
 
 /obj/item/weapon/melee/truncheon
 	name = "prototype baton"
-	desc = "A baton prototype. You shouldn't be able to find this."
+	desc = "A baton prototype. Despite how powerful it is it's relatively obscure."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "nightstickfiber"
 	item_state = "classic_baton"

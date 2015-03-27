@@ -301,6 +301,7 @@ obj/item/weapon/twohanded/
 	unwieldsound = 'sound/weapons/raise.ogg'
 	bleedcap = 30 //It's makeshift, so only reduce the bleedcap slightly
 	bleedchance = 12 //Same goes for bleedchance
+	embedchance = 30 //Moderate embed chance
 
 /obj/item/weapon/twohanded/spear/update_icon()
 	icon_state = "spearglass[wielded]"

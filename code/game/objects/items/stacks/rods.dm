@@ -19,6 +19,7 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	max_amount = 60
 	attack_verb = list("hit", "bludgeoned", "whacked")
 	hitsound = 'sound/weapons/grenadelaunch.ogg'
+	embedchance = 20 //relatively low chance to embed itself in you
 
 /obj/item/stack/rods/New(var/loc, var/amount=null)
 	recipes = rod_recipes

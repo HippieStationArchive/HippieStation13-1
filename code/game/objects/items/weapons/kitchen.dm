@@ -48,7 +48,7 @@
 	name = "fork"
 	desc = "Pointy."
 	icon_state = "fork"
-	// embedchance = 5 //Extremely low embed chance -- That's just silly lol
+	embedchance = 15 //Extremely low embed chance -- That's just silly lol
 
 /obj/item/weapon/kitchen/utensil/fork/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
 	if(!istype(M))
