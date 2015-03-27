@@ -78,7 +78,7 @@ emp_act
 
 	return (..(P , def_zone))
 
-/mob/living/carbon/human/hitby(atom/movable/AM, skip, zone)
+/mob/living/carbon/human/hitby(atom/movable/AM, zone, skip)
 	..()
 	var/obj/item/organ/limb/O = get_organ(check_zone(zone))
 	var/armor = run_armor_check(O, "melee")
@@ -142,7 +142,7 @@ emp_act
 			var/turf/picked = pick(turfs)
 			if(!isturf(picked)) return
 			if(buckled)
-				buckled.unbuckle()
+				buckled.unbuckle_mob()
 			src.loc = picked
 			return 1
 	return 0

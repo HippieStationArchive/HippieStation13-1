@@ -242,18 +242,20 @@
 	if(legcuffed)
 		dat += "<tr><td><A href='?src=\ref[src];item=[slot_legcuffed]'>Legcuffed</A></td></tr>"
 
+	dat += "</table>"
 	for(var/obj/item/organ/limb/O in src.organs)
 		for(var/obj/item/I in O.embedded)
 			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I]</a>"
-	dat += "</table>"
 
 	var/datum/browser/popup = new(user, "mob\ref[src]", "[src]", 440, 510)
 	popup.set_content(dat)
 	popup.open()
 
 // called when something steps onto a human
-// this could be made more general, but for now just handle mulebot
+// handles mulebot and fire spreading right now
 /mob/living/carbon/human/Crossed(var/atom/movable/AM)
+	spreadFire(AM)
+
 	var/obj/machinery/bot/mulebot/MB = AM
 	if(istype(MB))
 		MB.RunOver(src)

@@ -1,4 +1,4 @@
-/mob/living/carbon/hitby(atom/movable/AM, skip)
+/mob/living/carbon/hitby(atom/movable/AM, zone, skip)
 	if(!skip)	//ugly, but easy
 		if(in_throw_mode)	//we're in throw mode
 			if(canmove && !restrained())

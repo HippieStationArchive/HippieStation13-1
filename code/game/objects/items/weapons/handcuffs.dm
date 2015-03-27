@@ -60,6 +60,14 @@
 	breakouttime = 300 //Deciseconds = 30s
 	cuffsound = 'sound/weapons/cablecuff.ogg'
 
+/obj/item/weapon/restraints/handcuffs/cable/attack_self(mob/user as mob)
+	..()
+	if(ishuman(user) && !user.stat && !user.restrained())
+		new /obj/item/stack/cable_coil(user.loc, 15, item_color)
+		user << "You unwrap the cable restraints."
+
+//Isn't defining new subtypes a little redundant if you only change icon state of base type when creating cablecuffs?
+
 /obj/item/weapon/restraints/handcuffs/cable/red
 	icon_state = "cuff_red"
 

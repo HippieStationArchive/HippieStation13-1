@@ -59,7 +59,7 @@
 
 obj/structure/stool/bed/chair/janicart/lawnmower/relaymove(mob/user, direction)
 	if(user.stat || user.stunned || user.weakened || user.paralysis)
-		unbuckle()
+		unbuckle_mob()
 	else
 		step(src, direction)
 		update_mob()
@@ -102,7 +102,7 @@ obj/structure/stool/bed/chair/janicart/lawnmower/relaymove(mob/user, direction)
 // 				for(var/atom/C in range(src,0))
 // 					if(istype(C, /obj/item/weapon/grown/bananapeel))
 // 						buckled_mob << "\red You fly off your Lawnmower!"
-// 						unbuckle()
+// 						unbuckle_mob()
 // 						var/atom/throw_target = get_edge_target_turf(buckled_mob, get_dir(src, get_step_away(C, src)))
 // 						buckled_mob.throw_at(throw_target, 8, 10)
 // 					if(istype(C, /obj/item/weapon/soap/syndie))
