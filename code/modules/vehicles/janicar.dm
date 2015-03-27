@@ -52,7 +52,7 @@
 /obj/structure/stool/bed/chair/janicart/relaymove(mob/user, direction)
 	if(user.stat || user.stunned || user.weakened || user.paralysis)
 		unbuckle()
-	if(istype(user.l_hand, /obj/item/key) || istype(user.r_hand, /obj/item/key))
+	if(istype(user.l_hand, /obj/item/key/janitor) || istype(user.r_hand, /obj/item/key/janitor))
 		if(!Process_Spacemove(direction))
 			return
 		step(src, direction)
@@ -151,7 +151,7 @@
 	icon_state = "secway"
 	callme = "secway"
 
-/obj/structure/stool/bed/chair/janicart/relaymove(mob/user, direction)
+/obj/structure/stool/bed/chair/janicart/secway/relaymove(mob/user, direction)
 	if(user.stat || user.stunned || user.weakened || user.paralysis)
 		unbuckle()
 	if(istype(user.l_hand, /obj/item/key/security) || istype(user.r_hand, /obj/item/key/security))
