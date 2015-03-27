@@ -17,7 +17,7 @@
 							put_in_active_hand(I)
 							visible_message("<span class='warning'>[src] catches [I]!</span>")
 							throw_mode_off()
-						return
+						return 0
 	..()
 
 

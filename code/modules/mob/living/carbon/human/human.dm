@@ -284,8 +284,8 @@
 				update_damage_overlays()
 				L.take_damage(10*I.w_class)//It hurts to rip it out, get surgery you dingus.
 				L.adjustBloodLoss(0.05) //oof. You'll bleed to death.
-				I.loc = get_turf(src)
-				usr.put_in_hands(I)
+				I.loc = src.loc
+				// usr.put_in_hands(I) //sorry but nope, causes bugs
 				src.emote("scream")
 				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
 				usr.visible_message("<span class='danger'>[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!</span>",\
