@@ -30,8 +30,9 @@
 	new /obj/item/clothing/mask/gas(src)
 	new /obj/item/device/multitool(src)
 	new /obj/item/device/flash/handheld(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/engineering(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/engineering(src)
 	new /obj/item/weapon/pipe_dispenser(src)
+	new /obj/item/clothing/glasses/meson/engine(src)
 	return
 
 /obj/structure/closet/secure_closet/engineering_electrical
@@ -58,6 +59,8 @@
 	new /obj/item/device/multitool(src)
 	new /obj/item/device/multitool(src)
 	new /obj/item/device/multitool(src)
+	new /obj/item/clothing/glasses/meson/engine
+	new /obj/item/clothing/glasses/meson/engine
 	return
 
 
@@ -103,14 +106,14 @@
 	else
 		new /obj/item/weapon/storage/backpack/satchel_eng(src)
 	new /obj/item/clothing/under/rank/engineer(src)
-	new /obj/item/clothing/shoes/sneakers/orange(src)
+	new /obj/item/clothing/shoes/workboots(src)
 	new /obj/item/weapon/storage/toolbox/mechanical(src)
 //	new /obj/item/weapon/cartridge/engineering(src)
 	new /obj/item/device/radio/headset/headset_eng(src)
 	new /obj/item/clothing/suit/hazardvest(src)
 	new /obj/item/clothing/mask/gas(src)
-	new /obj/item/clothing/glasses/meson(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/engineering(src)
+	new /obj/item/clothing/glasses/meson/engine(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/engineering(src)
 	return
 
 /obj/structure/closet/secure_closet/atmospherics
@@ -134,5 +137,5 @@
 	new /obj/item/weapon/watertank/atmos(src)
 	new /obj/item/clothing/suit/fire/atmos(src)
 	new /obj/item/clothing/head/hardhat/atmos(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/engineering/atmos(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/engineering/atmos(src)
 	return

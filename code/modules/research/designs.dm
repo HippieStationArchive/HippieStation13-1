@@ -308,6 +308,16 @@ datum/design/proc/CalcReliability(var/list/temp_techs)
 	build_path = /obj/item/clothing/glasses/meson
 	category = list("Equipement")
 
+/datum/design/engine_goggles
+	name = "Engineering Scanner Goggles"
+	desc = "Goggles used by engineers. The Meson Scanner mode lets you see basic structural and terrain layouts through walls, regardless of lighting condition. The T-ray Scanner mode lets you see underfloor objects such as cables and pipes."
+	id = "engine_goggles"
+	req_tech = list("materials" = 4, "magnets" = 3, "engineering" = 4)
+	build_type = PROTOLATHE
+	materials = list("$metal" = 200, "$glass" = 300, "$plasma" = 100)
+	build_path = /obj/item/clothing/glasses/meson/engine
+	category = list("Equipement")
+
 /datum/design/night_vision_goggles
 	name = "Night Vision Goggles"
 	desc = "Goggles that let you see through darkness unhindered."
@@ -351,3 +361,15 @@ datum/design/proc/CalcReliability(var/list/temp_techs)
 	materials = list("$metal" = 2000, "$glass" = 1000)
 	build_path = /obj/item/weapon/holosign_creator
 	category = list("Equipement")
+
+
+//Janiupgrade item doesn't even exist, mitch pls.
+// /datum/design/buffer
+// 	name = "Floor Buffer Upgrade"
+// 	desc = "A floor buffer that can be attached to vehicular janicarts."
+// 	id = "buffer"
+// 	req_tech = list("materials" = 5, "engineering" = 3)
+// 	build_type = PROTOLATHE
+// 	materials = list("$metal" = 3000, "$glass" = 200)
+// 	build_path = /obj/item/janiupgrade
+// 	category = list("Equipement")

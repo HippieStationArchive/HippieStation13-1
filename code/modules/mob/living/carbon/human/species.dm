@@ -700,6 +700,7 @@
 		var/obj/item/weapon/tank/jetpack/J = H.back
 		if(J.allow_thrust(0.01, H))
 			hasjetpack = 1
+
 	var/grav = has_gravity(H)
 
 	if(!grav && !hasjetpack && !istype(get_turf(H), /turf/space))

@@ -416,7 +416,7 @@
 	attack_verb = list("attacked", "coloured")
 	var/colour = "#FF0000" //RGB
 	var/drawtype = "rune"
-	var/list/graffiti = list("amyjon","face","matt","revolution","engie","guy","end","dwarf","uboa")
+	var/list/graffiti = list("amyjon","face","matt","revolution","engie","guy","end","dwarf","uboa","saturn","ghost","mystery")
 	var/list/letters = list("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z")
 	var/uses = 30 //0 for unlimited uses
 	var/instant = 0
@@ -511,7 +511,19 @@
 				user << "<span class='danger'>You ate your crayon!</span>"
 				qdel(src)
 	else
-		..()
+		if(istype(M, /mob/living/carbon/human) && M.lying && isturf(M.loc))
+			user << "You start drawing an outline of the [M]."
+			playsound(src.loc, 'sound/items/chalk_start.ogg', 40, 1)
+			if(instant || do_after(user, 50))
+				new /obj/effect/decal/cleanable/crayon(M.loc,colour,"body","body")
+				user << "You finish drawing an outline."
+				playsound(src.loc, 'sound/items/chalk.ogg', 40, 1)
+				if(uses)
+					uses--
+					if(!uses)
+						user << "<span class='danger'>You used up your crayon!</span>"
+						qdel(src)
+
 
 /*
  * Snap pops
@@ -1052,7 +1064,7 @@ obj/item/toy/cards/deck/syndicate
 
 /obj/item/toy/minimeteor
 	name = "\improper Mini-Meteor"
-	desc = "Relive the excitement of a meteor shower! SweetMeat-eor. Co is not responsible for any injuries, headaches or hearing loss caused by Mini-Meteor™"
+	desc = "Relive the excitement of a meteor shower! SweetMeat-eor. Co is not responsible for any injuries, headaches or hearing loss caused by Mini-Meteor?"
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "minimeteor"
 	w_class = 2.0

@@ -23,7 +23,7 @@
 	allowed = list(/obj/item/weapon/disk, /obj/item/weapon/stamp, /obj/item/weapon/reagent_containers/food/drinks/flask, /obj/item/weapon/melee, /obj/item/weapon/storage/lockbox/medal, /obj/item/device/flash/handheld, /obj/item/weapon/storage/box/matches, /obj/item/weapon/lighter, /obj/item/clothing/mask/cigarette, /obj/item/weapon/storage/fancy/cigarettes, /obj/item/weapon/tank/emergency_oxygen)
 
 //Chaplain
-/obj/item/clothing/suit/toggle/chaplain_hoodie
+/obj/item/clothing/suit/hooded/chaplain_hoodie
 	name = "chaplain hoodie"
 	desc = "This suit says to you 'hush'!"
 	icon_state = "chaplain_hoodie"
@@ -31,9 +31,15 @@
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/weapon/storage/book/bible, /obj/item/weapon/nullrod, /obj/item/weapon/reagent_containers/food/drinks/bottle/holywater, /obj/item/weapon/storage/fancy/candle_box, /obj/item/candle, /obj/item/weapon/tank/emergency_oxygen)
 	hooded = 1
-	suittoggled = 0
-	action_button_name = "Toggle Hoodie"
-	togglename = "hood"
+	action_button_name = "Toggle Chaplain Hoodie"
+	hoodtype = /obj/item/clothing/head/chaplain_hood
+
+/obj/item/clothing/head/chaplain_hood
+	name = "chaplain hood"
+	desc = "For protecting your identity when immolating demons."
+	icon_state = "chaplain_hood"
+	body_parts_covered = HEAD
+	flags = NODROP
 
 //Chaplain
 /obj/item/clothing/suit/nun
@@ -109,7 +115,6 @@
 	item_state = "suitjacket_blue"
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|ARMS
-	action_button_name = "Toggle Suit Buttons"
 	togglename = "buttons"
 
 /obj/item/clothing/suit/toggle/lawyer/purple
@@ -124,6 +129,9 @@
 	icon_state = "suitjacket_black"
 	item_state = "ro_suit"
 
+//Just incase we need this someday
+
+/*
 //Toggle exosuits for different aesthetic styles (hoodies, suit jacket buttons, etc)
 
 /obj/item/clothing/suit/toggle/attack_self()
@@ -140,7 +148,7 @@
 		src.icon_state = "[initial(icon_state)]_t"
 		src.suittoggled = 1
 	usr.update_inv_wear_suit()
-
+*/
 
 //Mime
 /obj/item/clothing/suit/suspenders

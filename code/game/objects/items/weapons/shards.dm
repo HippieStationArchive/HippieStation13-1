@@ -12,8 +12,9 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	var/cooldown = 0
 	insulated = 1 //For electrified grilles
-	bleedcap = 20 //Same as shanks
+	bleedcap = 10 //Can only bleed on second hit, at least
 	bleedchance = 20 //Lower than shanks
+	embedchance = 30 //Pretty high chance to embed itself in you
 
 /obj/item/weapon/shard/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the shard of glass! It looks like \he's trying to commit suicide.</span>", \

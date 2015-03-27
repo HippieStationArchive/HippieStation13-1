@@ -137,7 +137,8 @@ Please contact me on #coderbus IRC. ~Carnie x
 			standing.overlays	+= "[O.icon_state]_[O.brutestate]0"	//we're adding icon_states of the base image as overlays
 		if(O.burnstate)
 			standing.overlays	+= "[O.icon_state]_0[O.burnstate]"
-
+		if(O.embedded.len)
+			standing.overlays	+= "[O.icon_state]_obj"
 	apply_overlay(DAMAGE_LAYER)
 
 

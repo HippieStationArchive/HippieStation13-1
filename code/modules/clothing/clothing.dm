@@ -6,6 +6,8 @@
 	var/visor_flags = 0			// flags that are added/removed when an item is adjusted up/down
 	var/visor_flags_inv = 0		// same as visor_flags, but for flags_inv
 
+	var/alt_desc = null
+
 //Ears: currently only used for headsets and earmuffs
 /obj/item/clothing/ears
 	name = "ears"
@@ -155,10 +157,10 @@ BLIND     // can't see anything
 //      Meaning the the suit is defined directly after the corrisponding helmet. Just like below!
 /obj/item/clothing/head/helmet/space
 	name = "space helmet"
-	icon_state = "space"
-	desc = "A special helmet designed for work in a hazardous, low-pressure environment."
+	icon_state = "spaceold"
+	desc = "A special helmet with solar UV shielding to protect your eyes from harmful rays."
 	flags = HEADCOVERSEYES | BLOCKHAIR | HEADCOVERSMOUTH | STOPSPRESSUREDMAGE | THICKMATERIAL
-	item_state = "space"
+	item_state = "spaceold"
 	permeability_coefficient = 0.01
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 100, rad = 50)
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
@@ -173,7 +175,7 @@ BLIND     // can't see anything
 /obj/item/clothing/suit/space
 	name = "space suit"
 	desc = "A suit that protects against low pressure environments. Has a big 13 on the back."
-	icon_state = "space"
+	icon_state = "spaceold"
 	item_state = "s_suit"
 	w_class = 4//bulky item
 	gas_transfer_coefficient = 0.01
@@ -301,26 +303,47 @@ atom/proc/generate_female_clothing(index,t_color,icon)
 				usr << "Your suit will now report your exact vital lifesigns as well as your coordinate position."
 	..()
 
-/obj/item/clothing/under/verb/rolldown()
+
+/obj/item/clothing/under/AltClick()
+	..()
+	rolldown()
+
+
+/obj/item/clothing/under/verb/jumpsuit_adjust()
 	set name = "Adjust Jumpsuit Style"
-	set category = "Object"
+	set category = null
 	set src in usr
+	rolldown()
+
+
+/obj/item/clothing/under/proc/rolldown()
 	if(!can_use(usr))
 		return
 	if(!can_adjust)
 		usr << "You cannot wear this suit any differently."
 		return
 	if(src.adjusted == 1)
+		src.fitted = initial(fitted)
 		src.item_color = initial(item_color)
 		src.item_color = src.suit_color //colored jumpsuits are shit and break without this
 		usr << "You adjust the suit back to normal."
 		src.adjusted = 0
 	else
+		src.fitted = NO_FEMALE_UNIFORM
 		src.item_color += "_d"
 		usr << "You adjust the suit to wear it more casually."
 		src.adjusted = 1
 	usr.update_inv_w_uniform()
 	..()
+
+
+/obj/item/clothing/under/examine(mob/user)
+	..()
+	if(src.adjusted)
+		user << "Alt-click on [src] to wear it normally."
+	else
+		user << "Alt-click on [src] to wear it casually."
+
 
 /obj/item/clothing/under/verb/removetie()
 	set name = "Remove Accessory"

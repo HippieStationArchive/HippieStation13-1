@@ -35,6 +35,13 @@
 	colourName = "mime"
 	uses = 0
 
+/obj/item/toy/crayon/white
+	icon_state = "crayonwhite"
+	desc = "Usually used by forensics experts to draw outlines of bodies and little mr. saturns next to them."
+	colour = "#FFFFFF"
+	colourName = "white"
+	uses = 0
+
 /obj/item/toy/crayon/mime/attack_self(mob/living/user as mob)
 	update_window(user)
 
@@ -58,6 +65,7 @@
 	icon_state = "crayonrainbow"
 	colour = "#FFF000"
 	colourName = "rainbow"
+	desc = "Eat this and you will puke rainbows!" //TODO: Actually implement rainbow-puking chance when eaten
 	uses = 0
 
 /obj/item/toy/crayon/rainbow/attack_self(mob/living/user as mob)

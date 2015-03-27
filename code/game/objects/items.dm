@@ -48,9 +48,9 @@
 	var/insulated = 0 //For electrified grilles and all that
 	var/forcehitsound = 0//Force hitsound even if force is <= 0
 
-	//Placeholders till "stab" damagetype is implemented
 	var/bleedchance = 10 //Chance to bleed when bleedcap was met
-	var/bleedcap = 40 //Amount of damage the limb must have to initiate bleeding
+	var/bleedcap = 20 //Amount of damage the limb must have to initiate bleeding - nerfed the cap to increase importance of bleeding
+	var/embedchance = 0 //For items that can embed themselves into you when thrown.
 
 	//Vars for things like baseball bats that do unique things with thrown items below
 	var/special_throw = 0 
@@ -416,8 +416,12 @@
 		if(!findtext(desc, "it looks slightly melted...")) //it looks slightly melted... it looks slightly melted... it looks slightly melted... etc.
 			desc += " it looks slightly melted..." //needs a space at the start, formatting
 
-/obj/item/throw_impact(atom/hit_atom)
+/obj/item/throw_impact(A)
 	..()
 	if(mult)
 		throwforce = initial(throwforce)
 		mult = 0
+	//This is handled in carbon's hitby proc for convenience.
+	// if(istype(A, /mob/living/carbon/human) && prob(embedchance))
+	// 	var/mob/living/carbon/human/H = A
+	// 	add_blood(H)

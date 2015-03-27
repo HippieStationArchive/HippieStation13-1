@@ -121,15 +121,49 @@
 
 /obj/structure/stool/bed/chair/janicart/bullet_act(var/obj/item/projectile/Proj)
 	if(buckled_mob)
-		if(prob(85))
-			return buckled_mob.bullet_act(Proj)
-	visible_message("<span class='warning'>[Proj] ricochets off the [callme]!</span>")
-
+		buckled_mob.bullet_act(Proj)
 
 /obj/item/key
 	name = "key"
-	desc = "A keyring with a small steel key, and a pink fob reading \"Pussy Wagon\"."
+	desc = "A small grey key."
 	icon = 'icons/obj/vehicles.dmi'
-	icon_state = "keys"
+	icon_state = "key"
 	w_class = 1
-	
+
+/obj/item/key/janitor
+	desc = "A keyring with a small steel key, and a pink fob reading \"Pussy Wagon\"."
+	icon_state = "keyjanitor"
+
+/obj/item/key/security
+	desc = "A keyring with a small steel key, and a rubber stun baton accessory."
+	icon_state = "keysec"
+
+/obj/item/janiupgrade
+	name = "floor buffer upgrade"
+	desc = "An upgrade for mobile janicarts."
+	icon = 'icons/obj/vehicles.dmi'
+	icon_state = "upgrade"
+
+/obj/structure/stool/bed/chair/janicart/secway
+	name = "secway"
+	desc = "A brave security cyborg gave its life to help you look like a complete tool."
+	icon = 'icons/obj/vehicles.dmi'
+	icon_state = "secway"
+	callme = "secway"
+
+/obj/structure/stool/bed/chair/janicart/relaymove(mob/user, direction)
+	if(user.stat || user.stunned || user.weakened || user.paralysis)
+		unbuckle()
+	if(istype(user.l_hand, /obj/item/key/security) || istype(user.r_hand, /obj/item/key/security))
+		if(!Process_Spacemove(direction))
+			return
+		step(src, direction)
+		update_mob()
+		handle_rotation()
+	else
+		user << "<span class='notice'>You'll need the keys in one of your hands to drive this [callme].</span>"
+
+/obj/structure/stool/bed/chair/janicart/secway/update_mob()
+	if(buckled_mob)
+		buckled_mob.dir = dir
+		buckled_mob.pixel_y = 4
