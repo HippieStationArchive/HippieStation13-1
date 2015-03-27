@@ -245,7 +245,7 @@
 	dat += "</table>"
 	for(var/obj/item/organ/limb/O in src.organs)
 		for(var/obj/item/I in O.embedded)
-			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I]</a>"
+			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I]</a><br>"
 
 	var/datum/browser/popup = new(user, "mob\ref[src]", "[src]", 440, 510)
 	popup.set_content(dat)
@@ -283,6 +283,7 @@
 				L.embedded -= I
 				update_damage_overlays()
 				L.take_damage(10*I.w_class)//It hurts to rip it out, get surgery you dingus.
+				L.adjustBloodLoss(0.05) //oof. You'll bleed to death.
 				I.loc = get_turf(src)
 				usr.put_in_hands(I)
 				src.emote("scream")

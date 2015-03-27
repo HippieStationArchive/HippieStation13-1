@@ -81,6 +81,9 @@
 		//Random events (vomiting etc)
 		handle_random_events()
 
+		//Embedded objects hurt. Bleeding checks happen in regular_status_updates though
+		handle_internal_objects()
+
 	//Handle temperature/pressure differences between body and environment
 	handle_environment(environment)
 
@@ -114,6 +117,7 @@
 			screamcount += 1
 	else
 		screamcounting += 1
+
 /mob/living/carbon/human/calculate_affecting_pressure(var/pressure)
 	..()
 	var/pressure_difference = abs( pressure - ONE_ATMOSPHERE )
@@ -515,26 +519,6 @@
 		else
 			stat = CONSCIOUS
 
-		//Bleeding
-		var/pass = 1
-		for (var/datum/reagent/R in reagents.reagent_list) //Check if any reagents inside mob's body have anti-blood loss chemicals.
-			if(R.prevent_bloodloss)
-				pass = 0
-
-		if(pass)
-			var/list/limbs = get_damageable_organs()
-			if(limbs.len)
-				for(var/obj/item/organ/limb/L in limbs)
-					if(L.bloodloss)
-						L.take_damage(L.bloodloss, 0)
-						update_damage_overlays()
-						if(prob(max(0, min(L.bloodloss*150, 80)))) //80% chance is max
-							src.loc.add_blood_drip(src) //Create a fancy drip.
-					if(L.foreign_objects.len && L.bloodloss < 0.5)
-						adjustBloodLoss(0.005*L.foreign_objects.len, L) //+0.005 bloodloss for every foreign object in limb. (0.02 is too quick)
-					if(L.embedded.len && L.bloodloss < 0.5) //Same formula as the above, except for embedded objects
-						adjustBloodLoss(0.005*L.embedded.len, L) 
-
 		//Eyes
 		if(sdisabilities & BLIND)	//disabled-blind, doesn't get better on its own
 			blinded = 1
@@ -758,6 +742,35 @@
 /mob/living/carbon/human/proc/handle_changeling()
 	if(mind && mind.changeling)
 		mind.changeling.regenerate()
+
+/mob/living/carbon/human/proc/handle_internal_objects()
+	//Bleeding
+	var/pass = 1
+	for (var/datum/reagent/R in reagents.reagent_list) //Check if any reagents inside mob's body have anti-blood loss chemicals.
+		if(R.prevent_bloodloss)
+			pass = 0
+
+	if(pass)
+		var/list/limbs = get_damageable_organs()
+		if(limbs.len)
+			for(var/obj/item/organ/limb/L in limbs)
+				if(L.bloodloss)
+					L.take_damage(L.bloodloss, 0)
+					update_damage_overlays()
+					if(prob(max(0, min(L.bloodloss*150, 80)))) //80% chance is max
+						src.loc.add_blood_drip(src) //Create a fancy drip.
+
+				if(L.foreign_objects.len && L.bloodloss < 0.5)
+					adjustBloodLoss(0.005*L.foreign_objects.len, L) //+0.005 bloodloss for every foreign object in limb. (0.02 is too quick)
+
+				if(L.embedded.len) //Same formula as the above, except for embedded objects
+					if(L.bloodloss < 0.5)
+						adjustBloodLoss(0.01*L.embedded.len, L)
+
+					if(prob(max(0, min(L.embedded.len * 5, 40))))
+						var/obj/item/I = pick(L.embedded)
+						L.take_damage(I.w_class*5)
+						src << "<span class='userdanger'>\The [I] embedded in your [L.getDisplayName()] hurts!</span>"
 
 #undef HUMAN_MAX_OXYLOSS
 #undef HUMAN_CRIT_MAX_OXYLOSS
