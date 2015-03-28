@@ -20,7 +20,7 @@
 		addicted_to.delete()
 	addicted_to = new/datum/reagents(1000) //Max volume might be nerfed to prevent hyper addiction to everything.
 	addicted_to.my_atom = src
-	
+
 	verbs += /mob/living/proc/mob_sleep
 	verbs += /mob/living/proc/lay_down
 	//initialise organs
@@ -283,7 +283,7 @@
 				L.embedded -= I
 				update_damage_overlays()
 				L.take_damage(10*I.w_class)//It hurts to rip it out, get surgery you dingus.
-				L.adjustBloodLoss(0.05) //oof. You'll bleed to death.
+//				L.adjustBloodLoss(0.05) //oof. You'll bleed to death.  THIS DOES NOT WORK FOR SOME REASON.... CRYSTAL FIX IT SO WE CAN HAVE BLOODLOSS!   ~Nexendia
 				I.loc = src.loc
 				// usr.put_in_hands(I) //sorry but nope, causes bugs
 				src.emote("scream")
@@ -645,7 +645,7 @@
 				for(var/obj/item/I in O.embedded)
 					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a [I] embedded in your [O.getDisplayName()]!</a>"
 					isOK = 0
-			
+
 			if(isOK)
 				src << "\t \blue You are not injured!"
 
