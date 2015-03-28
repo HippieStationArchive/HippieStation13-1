@@ -1109,6 +1109,7 @@
 #include "code\modules\mining\laborcamp\laborshuttle.dm"
 #include "code\modules\mining\laborcamp\laborstacker.dm"
 #include "code\modules\misc\darts.dm"
+#include "code\modules\misc\staples.dm"
 #include "code\modules\mob\death.dm"
 #include "code\modules\mob\inventory.dm"
 #include "code\modules\mob\login.dm"

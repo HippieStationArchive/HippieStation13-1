@@ -762,15 +762,19 @@
 
 				if(L.foreign_objects.len && L.bloodloss < 0.5)
 					adjustBloodLoss(0.005*L.foreign_objects.len, L) //+0.005 bloodloss for every foreign object in limb. (0.02 is too quick)
+				var/mult = 0 //Combined weight class
+				for(var/obj/item/T in L.embedded)
+					mult += T.w_class //If you only have w_class 1 items you'll bleed slowly. If you have a bunch of fireaxce though you'll die horribly.
 
 				if(L.embedded.len) //Same formula as the above, except for embedded objects
-					if(L.bloodloss < 0.5)
-						adjustBloodLoss(0.01*L.embedded.len, L)
+					if(L.bloodloss < min(0.1 * mult, 0.5)) ///A cap so you don't get instantly murderfucked by a bunch of staples
+						adjustBloodLoss(0.002*mult, L)
 
 					if(prob(max(0, min(L.embedded.len * 5, 40))))
 						var/obj/item/I = pick(L.embedded)
-						L.take_damage(I.w_class*5)
-						src << "<span class='userdanger'>\The [I] embedded in your [L.getDisplayName()] hurts!</span>"
+						if(istype(I))
+							L.take_damage(I.embedforce ? I.embedforce : I.w_class*5)
+							src << "<span class='userdanger'>\The [I] embedded in your [L.getDisplayName()] hurts!</span>"
 
 #undef HUMAN_MAX_OXYLOSS
 #undef HUMAN_CRIT_MAX_OXYLOSS

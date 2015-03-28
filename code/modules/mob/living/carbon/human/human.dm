@@ -283,7 +283,7 @@
 				L.embedded -= I
 				update_damage_overlays()
 				L.take_damage(10*I.w_class)//It hurts to rip it out, get surgery you dingus.
-				L.adjustBloodLoss(0.05) //oof. You'll bleed to death.
+				adjustBloodLoss(0.05, L) //oof. You'll bleed to death.
 				I.loc = src.loc
 				// usr.put_in_hands(I) //sorry but nope, causes bugs
 				src.emote("scream")
