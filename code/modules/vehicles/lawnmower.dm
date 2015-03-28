@@ -9,7 +9,7 @@
 			if(istype(A, /mob/living/))
 				var/mob/living/C = A
 				var/atom/throw_target = get_edge_target_turf(C, get_dir(src, get_step_away(C, src)))
-				C.throw_at(throw_target, 25, 4)
+				C.throw_at(throw_target, 4, 1)
 				return
 
 	Move()

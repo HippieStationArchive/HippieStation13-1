@@ -423,7 +423,7 @@ obj/machinery/bot/mulebot/bot_reset()
 
 	C.loc = loc
 	sleep(2)
-	if(C.loc != loc) //To prevent you from going onto more thano ne bot.
+	if(C.loc != loc) //To prevent you from going onto more than one bot.
 		return
 	C.loc = src
 	load = C
@@ -433,7 +433,7 @@ obj/machinery/bot/mulebot/bot_reset()
 		C.layer = layer + 0.1
 	overlays += C
 
-	if(ismob(C))
+	if(ismob(C)) //TODO: instead of overlaying the mob's icon put the actual mob object on top of the mulebot, similar to how janicarts/office chairs work
 		var/mob/M = C
 		if(M.client)
 			M.client.perspective = EYE_PERSPECTIVE
