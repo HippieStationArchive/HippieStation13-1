@@ -643,7 +643,7 @@
 					isOK = 0
 
 				for(var/obj/item/I in O.embedded)
-					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a [I] embedded in your [O.getDisplayName()]!</a>"
+					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a \icon[I] [I] embedded in your [O.getDisplayName()]!</a>"
 					isOK = 0
 			
 			if(isOK)

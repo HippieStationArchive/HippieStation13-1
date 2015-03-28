@@ -148,6 +148,7 @@
 			var/obj/item/stack/new_item = O
 			new_item.amount = R.res_amount*multiplier
 			new_item.add_to_stacks(usr) //try to merge with existing stacks on current tile
+			new_item.update_icon() //Update the item's icon if it's special
 
 			if(new_item.amount <= 0)//if the stack is empty, i.e it has been merged with an existing stack and has been garbage collected
 				return
@@ -202,7 +203,7 @@
 		usr << "You add new [item.singular_name] to the stack. It now contains [item.amount] [item.singular_name]\s."
 		if(oldsrc.amount <= 0)
 			break
-	update_icon()
+	// update_icon() //This causes runtimes, fix pls
 
 /obj/item/stack/attack_hand(mob/user as mob)
 	if (user.get_inactive_hand() == src && noAction != 1)

@@ -10,14 +10,14 @@
 	throw_range = 7
 	throwforce = 10
 	embedchance = 30
+	embedforce = 2
 	w_class = 1
 	m_amt = 100
 	max_amount = 10
-	embedforce = 2
 
 /obj/item/stack/staples/New(var/loc, var/amount=null)
 	update_icon()
-	..()
+	return ..()
 
 /obj/item/stack/staples/update_icon()
 	if(get_amount() <= 1)
@@ -29,7 +29,7 @@
 
 /obj/item/weapon/staplegun
 	name = "Staple gun"
-	desc = "CAUTION: Don't use on people."
+	desc = "Insert paper you want to staple and then use the gun on a wall/floor. CAUTION: Don't use on people."
 	icon = 'icons/obj/staples.dmi'
 	icon_state = "staplegun"
 	force = 0
@@ -39,6 +39,7 @@
 	w_class = 2
 	var/ammo = 5
 	var/max_ammo = 10
+	var/obj/item/weapon/paper/P = null //TODO: Make papers attachable to people
 
 /obj/item/weapon/staplegun/New()
 	..()
@@ -47,6 +48,8 @@
 /obj/item/weapon/staplegun/examine()
 	..()
 	usr << "It contains [ammo]/[max_ammo] staples."
+	if(istype(P))
+		usr << "There's [P] loaded in it."
 
 /obj/item/weapon/staplegun/update_icon()
 	var/amt = max(0, min(round(ammo/1.5), 6))
@@ -79,7 +82,35 @@
 	ammo -= 1
 	update_icon()
 
-/obj/item/weapon/staplegun/attackby(obj/item/stack/I, mob/user as mob)
+/obj/item/weapon/staplegun/afterattack(atom/target, mob/user, proximity)
+	if(!proximity)
+		return
+
+	if(ammo <= 0)
+		playsound(user, 'sound/weapons/empty.ogg', 100, 1)
+		return
+
+	if(istype(P))
+		if(isturf(target))
+			var/turf/T = target
+			playsound(T, 'sound/weapons/staplegun.ogg', 50, 1)
+			visible_message("<span class='danger'>[user] has stapled [P] into the [target]!</span>")
+			P.loc = T
+			P.attached = T
+			P.flags |= NODROP //Make the paper appear stapled
+			P.anchored = 1 //like why would you want to pull this around
+			P.update_icon() //Since it has attached var set it'll add a staple overlay to it
+			P = null
+			ammo -= 1
+			update_icon()
+
+/obj/item/weapon/staplegun/attack_self(mob/user) //TODO: Take out staples in a stack if there's no paper
+	if(istype(P))
+		user << "<span class='notice'>You take out \the [P] out of \the [src]."
+		P.loc = user.loc
+		P = null
+
+/obj/item/weapon/staplegun/attackby(obj/item/I, mob/user as mob)
 	..()
 	if(istype(I, /obj/item/stack/staples))
 		if(ammo < max_ammo)
@@ -96,3 +127,12 @@
 			user << "<span class='notice'>You insert [amt] staples in \the [src]. Now it contains [ammo] staples."
 		else
 			user << "<span class='notice'>\The [src] is already full!</span>"
+
+	if(istype(I, /obj/item/weapon/paper))
+		if(!istype(P))
+			user.drop_item()
+			I.loc = src
+			P = I
+			user << "<span class='notice'>You put \the [P] in \the [src]."
+		else
+			user << "<span class='notice'>There is already a paper in \the [src]!"

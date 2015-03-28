@@ -909,7 +909,7 @@
 "ary" = (/obj/machinery/firealarm{dir = 8; pixel_x = -24},/obj/structure/filingcabinet,/turf/simulated/floor/plasteel{icon_state = "grimy"},/area/security/detectives_office)
 "arz" = (/turf/simulated/floor/fancy/carpet,/area/security/detectives_office)
 "arA" = (/obj/structure/table/wood,/obj/item/weapon/storage/fancy/cigarettes,/obj/item/clothing/glasses/sunglasses,/turf/simulated/floor/fancy/carpet,/area/security/detectives_office)
-"arB" = (/obj/structure/table/wood,/obj/item/weapon/paper_bin{pixel_x = -3; pixel_y = 7},/obj/item/weapon/pen,/turf/simulated/floor/fancy/carpet,/area/security/detectives_office)
+"arB" = (/obj/structure/table/wood,/obj/item/weapon/paper_bin{pixel_x = -3; pixel_y = 7},/obj/item/weapon/pen,/obj/item/weapon/staplegun,/turf/simulated/floor/fancy/carpet,/area/security/detectives_office)
 "arC" = (/obj/structure/table/wood,/obj/item/device/flashlight/lamp/green{on = 0; pixel_x = -3; pixel_y = 8},/obj/item/weapon/book/manual/wiki/security_space_law,/obj/item/weapon/restraints/handcuffs,/turf/simulated/floor/plasteel{icon_state = "grimy"},/area/security/detectives_office)
 "arD" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/turf/simulated/floor/plating,/area/maintenance/fpmaint)
 "arE" = (/obj/machinery/light{icon_state = "tube1"; dir = 8},/obj/machinery/requests_console{department = "Law office"; pixel_x = -32; pixel_y = 0},/obj/structure/closet/lawcloset,/turf/simulated/floor/wood,/area/lawoffice)
@@ -1086,7 +1086,7 @@
 "auT" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/turf/simulated/wall,/area/security/detectives_office)
 "auU" = (/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{tag = "icon-manifold-r-f (EAST)"; dir = 4},/turf/simulated/floor/plating,/area/maintenance/fpmaint)
 "auV" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/turf/simulated/wall,/area/lawoffice)
-"auW" = (/obj/structure/table/wood,/obj/item/device/taperecorder{pixel_y = 0},/obj/item/weapon/cartridge/lawyer,/turf/simulated/floor/wood,/area/lawoffice)
+"auW" = (/obj/structure/table/wood,/obj/item/device/taperecorder{pixel_y = 0},/obj/item/weapon/cartridge/lawyer,/obj/item/weapon/staplegun,/turf/simulated/floor/wood,/area/lawoffice)
 "auX" = (/obj/structure/table/wood,/obj/machinery/camera{c_tag = "Law Office"; dir = 1; network = list("SS13")},/obj/item/weapon/paper_bin{pixel_x = -3; pixel_y = 7},/obj/item/weapon/pen,/obj/machinery/computer/security/telescreen{desc = "Used for watching Prison Wing holding areas."; dir = 1; name = "Prison Monitor"; network = list("Prison"); pixel_x = 0; pixel_y = -27},/turf/simulated/floor/wood,/area/lawoffice)
 "auY" = (/obj/machinery/photocopier,/obj/machinery/door_control{id = "lawyer_blast"; name = "Privacy Shutters"; pixel_x = 25; pixel_y = 8},/turf/simulated/floor/wood,/area/lawoffice)
 "auZ" = (/obj/machinery/power/apc{dir = 8; name = "Fore Primary Hallway APC"; pixel_x = -24},/obj/structure/cable{icon_state = "0-2"; d2 = 2},/obj/machinery/camera{c_tag = "Fore Primary Hallway"; dir = 4; network = list("SS13")},/turf/simulated/floor/plasteel{icon_state = "redcorner"; dir = 1},/area/hallway/primary/fore)
@@ -2247,7 +2247,7 @@
 "aRk" = (/obj/machinery/librarypubliccomp,/obj/structure/table/wood,/turf/simulated/floor/wood,/area/library)
 "aRl" = (/obj/structure/bookcase{name = "Forbidden Knowledge"},/obj/item/stack/ducttape,/obj/item/device/taperecorder,/turf/simulated/floor/plasteel{icon_state = "cult"; dir = 2},/area/library)
 "aRm" = (/obj/structure/table/wood,/obj/item/device/radio/intercom{pixel_y = 25},/obj/item/stack/ducttape,/obj/item/device/camera,/turf/simulated/floor/plasteel{icon_state = "cult"; dir = 2},/area/library)
-"aRn" = (/obj/structure/table/wood,/obj/item/weapon/paper_bin{pixel_x = -3; pixel_y = 7},/obj/item/weapon/pen/invisible,/turf/simulated/floor/plasteel{icon_state = "cult"; dir = 2},/area/library)
+"aRn" = (/obj/structure/table/wood,/obj/item/weapon/paper_bin{pixel_x = -3; pixel_y = 7},/obj/item/weapon/pen/invisible,/obj/item/weapon/staplegun,/turf/simulated/floor/plasteel{icon_state = "cult"; dir = 2},/area/library)
 "aRo" = (/obj/machinery/light_switch{pixel_y = 28},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/chapel/main)
 "aRp" = (/turf/simulated/floor/plasteel{dir = 1; icon_state = "chapel"},/area/chapel/main)
 "aRq" = (/turf/simulated/floor/plasteel{dir = 4; icon_state = "chapel"},/area/chapel/main)
@@ -4273,7 +4273,7 @@
 "bEi" = (/obj/structure/rack,/obj/effect/spawner/lootdrop/maintenance{lootcount = 3; name = "3maintenance loot spawner"},/turf/simulated/floor/plating,/area/maintenance/asmaint2)
 "bEj" = (/obj/machinery/computer/security/mining{dir = 4},/obj/machinery/camera{c_tag = "Quartermaster's Office"; dir = 4},/obj/item/device/radio/intercom{name = "Station Intercom (General)"; pixel_y = -35},/obj/machinery/status_display{density = 0; pixel_x = -32; pixel_y = 0; supply_display = 1},/turf/simulated/floor/plasteel{dir = 10; icon_state = "brown"},/area/quartermaster/qm)
 "bEk" = (/turf/simulated/floor/plasteel{dir = 2; icon_state = "brown"},/area/quartermaster/qm)
-"bEl" = (/obj/structure/table,/obj/item/weapon/paper_bin{pixel_x = -3; pixel_y = 7},/turf/simulated/floor/plasteel{dir = 2; icon_state = "brown"},/area/quartermaster/qm)
+"bEl" = (/obj/structure/table,/obj/item/weapon/paper_bin{pixel_x = -3; pixel_y = 7},/obj/item/weapon/staplegun,/turf/simulated/floor/plasteel{dir = 2; icon_state = "brown"},/area/quartermaster/qm)
 "bEm" = (/obj/structure/table,/obj/item/weapon/folder/yellow,/obj/item/weapon/pen{pixel_x = 4; pixel_y = 4},/obj/item/weapon/pen/red,/turf/simulated/floor/plasteel{dir = 2; icon_state = "brown"},/area/quartermaster/qm)
 "bEn" = (/obj/structure/table,/obj/item/weapon/clipboard,/obj/item/weapon/stamp/qm{pixel_x = 0; pixel_y = 0},/turf/simulated/floor/plasteel{dir = 2; icon_state = "brown"},/area/quartermaster/qm)
 "bEo" = (/obj/structure/filingcabinet,/obj/machinery/light_switch{pixel_y = -25},/turf/simulated/floor/plasteel{dir = 6; icon_state = "brown"},/area/quartermaster/qm)
@@ -7307,3 +7307,4 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 "}
+
