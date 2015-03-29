@@ -93,8 +93,8 @@ F
 	speak_emote = list("lovingly says","wheezes")
 	emote_hear = list("flutters around")
 	emote_see = list("floats around")
-	speak_chance = 3
-	turns_per_move = 5
+	speak_chance = 3  //This should slow down the emotes though I am not 100% sure   ~Nexendia
+	turns_per_move = 3  //Same as above.. not 100% sure  ~Nexendia
 	see_in_dark = 8
 	meat_type = /obj/item/weapon/reagent_containers/food/snacks/candy
 	meat_amount = 8
