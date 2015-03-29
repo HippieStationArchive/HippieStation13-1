@@ -690,6 +690,7 @@ obj/item/toy/cards
 	var/card_throwforce = 0
 	var/card_throw_speed = 3
 	var/card_throw_range = 7
+	var/card_embedchance = 0 //this is reserved for MEGA SYNDICATE THROWING STARS DISGUISED AS CARDS
 	var/list/card_attack_verb = list("attacked")
 
 obj/item/toy/cards/New()
@@ -1015,6 +1016,8 @@ obj/item/toy/cards/singlecard/apply_card_vars(obj/item/toy/cards/singlecard/newo
 	newobj.throw_range = newobj.card_throw_range
 	newobj.card_attack_verb = sourceobj.card_attack_verb
 	newobj.attack_verb = newobj.card_attack_verb
+	newobj.card_embedchance = sourceobj.card_embedchance
+	newobj.embedchance = newobj.card_embedchance
 
 
 /*
@@ -1030,6 +1033,7 @@ obj/item/toy/cards/deck/syndicate
 	card_throwforce = 10
 	card_throw_speed = 3
 	card_throw_range = 7
+	card_embedchance = 80 //freaking throwing stars
 	card_attack_verb = list("attacked", "sliced", "diced", "slashed", "cut")
 
 /*

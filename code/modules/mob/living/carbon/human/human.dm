@@ -242,18 +242,20 @@
 	if(legcuffed)
 		dat += "<tr><td><A href='?src=\ref[src];item=[slot_legcuffed]'>Legcuffed</A></td></tr>"
 
+	dat += "</table>"
 	for(var/obj/item/organ/limb/O in src.organs)
 		for(var/obj/item/I in O.embedded)
-			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I]</a>"
-	dat += "</table>"
+			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I]</a><br>"
 
 	var/datum/browser/popup = new(user, "mob\ref[src]", "[src]", 440, 510)
 	popup.set_content(dat)
 	popup.open()
 
 // called when something steps onto a human
-// this could be made more general, but for now just handle mulebot
+// handles mulebot and fire spreading right now
 /mob/living/carbon/human/Crossed(var/atom/movable/AM)
+	spreadFire(AM)
+
 	var/obj/machinery/bot/mulebot/MB = AM
 	if(istype(MB))
 		MB.RunOver(src)
@@ -281,8 +283,9 @@
 				L.embedded -= I
 				update_damage_overlays()
 				L.take_damage(10*I.w_class)//It hurts to rip it out, get surgery you dingus.
-				I.loc = get_turf(src)
-				usr.put_in_hands(I)
+				adjustBloodLoss(0.05, L) //oof. You'll bleed to death.
+				I.loc = src.loc
+				// usr.put_in_hands(I) //sorry but nope, causes bugs
 				src.emote("scream")
 				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
 				usr.visible_message("<span class='danger'>[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!</span>",\
@@ -640,7 +643,7 @@
 					isOK = 0
 
 				for(var/obj/item/I in O.embedded)
-					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a [I] embedded in your [O.getDisplayName()]!</a>"
+					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a \icon[I] [I] embedded in your [O.getDisplayName()]!</a>"
 					isOK = 0
 			
 			if(isOK)

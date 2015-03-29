@@ -50,7 +50,7 @@
 	set hidden = 1
 	if(alert("This will open the GitLab issue reporter in your browser. Are you sure?",,"Yes","No")=="No")
 		return
-	src << link("http://www.hippie-station-13.com/forums/viewtopic.php?f=4&t=501")
+	src << link("https://github.com/HippieStationCode/HippieStation13Code/issues")
 	return
 
 /client/verb/hotkeys_help()

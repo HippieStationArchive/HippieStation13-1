@@ -1361,6 +1361,10 @@ var/global/list/common_tools = list(
 		istype(W, /obj/item/weapon/shard)                         || \
 		istype(W, /obj/item/weapon/broken_bottle)				  || \
 		istype(W, /obj/item/weapon/reagent_containers/syringe)    || \
+		istype(W, /obj/item/clothing/glasses/sunglasses/garb)	  || \
+		istype(W, /obj/item/clothing/glasses/sunglasses/gar)	  || \
+		istype(W, /obj/item/clothing/glasses/hud/security/sunglasses/gars)	|| \
+		istype(W, /obj/item/clothing/glasses/meson/gar)			  || \
 		istype(W, /obj/item/weapon/kitchen/utensil/fork) && W.icon_state != "forkloaded" || \
 		istype(W, /obj/item/weapon/twohanded/fireaxe) \
 	)

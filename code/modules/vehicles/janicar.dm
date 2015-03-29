@@ -3,7 +3,7 @@
 	name = "janicart"
 	icon = 'icons/obj/vehicles.dmi'
 	icon_state = "pussywagon"
-	anchored = 0
+	anchored = 1 //They're too heavy
 	density = 1
 	flags = OPENCONTAINER
 	//copypaste sorry
@@ -16,6 +16,12 @@
 	handle_rotation()
 	create_reagents(100)
 
+/obj/structure/stool/bed/chair/janicart/MouseDrop_T(mob/living/target, mob/living/user)
+	if(user.stat || user.lying || !iscarbon(target))
+		return
+
+	target.loc = src.loc //A bit of a hack, buckle_mob() checks if the target's location is the same as the src's
+	user_buckle_mob(target, user)
 
 /obj/structure/stool/bed/chair/janicart/examine(mob/user)
 	..()
@@ -31,7 +37,7 @@
 			playsound(loc, 'sound/effects/slosh.ogg', 25, 1)
 		else
 			user << "<span class='notice'>This [callme] is out of water!</span>"
-	else if(istype(I, /obj/item/key))
+	else if(istype(I, /obj/item/key/janitor))
 		user << "Hold [I] in one of your hands while you drive this [callme]."
 	else if(istype(I, /obj/item/weapon/storage/bag/trash))
 		user << "<span class='notice'>You hook the trashbag onto the [callme].</span>"
@@ -49,10 +55,10 @@
 		..()
 
 
-/obj/structure/stool/bed/chair/janicart/relaymove(mob/user, direction)
+/obj/structure/stool/bed/chair/janicart/relaymove(mob/user as mob, direction)
 	if(user.stat || user.stunned || user.weakened || user.paralysis)
-		unbuckle()
-	if(istype(user.l_hand, /obj/item/key) || istype(user.r_hand, /obj/item/key))
+		unbuckle_mob()
+	if(istype(user.l_hand, /obj/item/key/janitor) || istype(user.r_hand, /obj/item/key/janitor))
 		if(!Process_Spacemove(direction))
 			return
 		step(src, direction)
@@ -62,29 +68,17 @@
 		user << "<span class='notice'>You'll need the keys in one of your hands to drive this [callme].</span>"
 
 
-/obj/structure/stool/bed/chair/janicart/buckle_mob(mob/M, mob/user)
-	if(M != user || !ismob(M) || get_dist(src, user) > 1 || user.restrained() || user.lying || user.stat || M.buckled || istype(user, /mob/living/silicon))
-		return
-
-	unbuckle()
-
-	M.visible_message(\
-		"<span class='notice'>[M] climbs onto the [callme]!</span>",\
-		"<span class='notice'>You climb onto the [callme]!</span>")
-	M.buckled = src
-	M.loc = loc
-	M.dir = dir
-	M.update_canmove()
-	buckled_mob = M
+/obj/structure/stool/bed/chair/janicart/post_buckle_mob(mob/living/M)
 	update_mob()
-	add_fingerprint(user)
+	return ..()
 
 
-/obj/structure/stool/bed/chair/janicart/unbuckle()
-	if(buckled_mob)
-		buckled_mob.pixel_x = 0
-		buckled_mob.pixel_y = 0
-	..()
+/obj/structure/stool/bed/chair/janicart/unbuckle_mob()
+	var/mob/living/M = ..()
+	if(M)
+		M.pixel_x = 0
+		M.pixel_y = 0
+	return M
 
 
 /obj/structure/stool/bed/chair/janicart/handle_rotation()
@@ -121,49 +115,6 @@
 
 /obj/structure/stool/bed/chair/janicart/bullet_act(var/obj/item/projectile/Proj)
 	if(buckled_mob)
-		buckled_mob.bullet_act(Proj)
-
-/obj/item/key
-	name = "key"
-	desc = "A small grey key."
-	icon = 'icons/obj/vehicles.dmi'
-	icon_state = "key"
-	w_class = 1
-
-/obj/item/key/janitor
-	desc = "A keyring with a small steel key, and a pink fob reading \"Pussy Wagon\"."
-	icon_state = "keyjanitor"
-
-/obj/item/key/security
-	desc = "A keyring with a small steel key, and a rubber stun baton accessory."
-	icon_state = "keysec"
-
-/obj/item/janiupgrade
-	name = "floor buffer upgrade"
-	desc = "An upgrade for mobile janicarts."
-	icon = 'icons/obj/vehicles.dmi'
-	icon_state = "upgrade"
-
-/obj/structure/stool/bed/chair/janicart/secway
-	name = "secway"
-	desc = "A brave security cyborg gave its life to help you look like a complete tool."
-	icon = 'icons/obj/vehicles.dmi'
-	icon_state = "secway"
-	callme = "secway"
-
-/obj/structure/stool/bed/chair/janicart/relaymove(mob/user, direction)
-	if(user.stat || user.stunned || user.weakened || user.paralysis)
-		unbuckle()
-	if(istype(user.l_hand, /obj/item/key/security) || istype(user.r_hand, /obj/item/key/security))
-		if(!Process_Spacemove(direction))
-			return
-		step(src, direction)
-		update_mob()
-		handle_rotation()
-	else
-		user << "<span class='notice'>You'll need the keys in one of your hands to drive this [callme].</span>"
-
-/obj/structure/stool/bed/chair/janicart/secway/update_mob()
-	if(buckled_mob)
-		buckled_mob.dir = dir
-		buckled_mob.pixel_y = 4
+		if(prob(85))
+			return buckled_mob.bullet_act(Proj)
+	visible_message("<span class='warning'>[Proj] ricochets off the [callme]!</span>")

@@ -79,6 +79,7 @@
 	throwhitsound = 'sound/misc/fart.ogg' //woo
 	body_parts_covered = HEAD
 	slot_flags = SLOT_HEAD
+	embedchance = 5 //This is a joke
 	//These are not used
 	// var/subjectname = ""
 	// var/subjectjob = null

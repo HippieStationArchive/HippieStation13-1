@@ -83,6 +83,7 @@
 	new /obj/item/weapon/storage/lockbox/loyalty(src)
 	new /obj/item/weapon/storage/box/flashbangs(src)
 	new /obj/item/device/megaphone/command(src)
+	new /obj/item/tapeproj/security(src)
 	new /obj/item/clothing/mask/gas/sechailer/swat(src)
 	new /obj/item/weapon/shield/riot/tele(src)
 	new /obj/item/weapon/melee/baton/loaded(src)
@@ -113,6 +114,7 @@
 	new /obj/item/clothing/head/warden(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
 	new /obj/item/clothing/mask/gas/sechailer(src)
+	new /obj/item/tapeproj/security(src)
 	new /obj/item/weapon/storage/box/flashbangs(src)
 	new /obj/item/weapon/storage/box/zipties(src)
 	new /obj/item/weapon/reagent_containers/spray/pepper(src)
@@ -220,6 +222,7 @@
 	new /obj/item/ammo_box/c38(src)
 	new /obj/item/weapon/gun/projectile/revolver/detective(src)
 	new /obj/item/toy/crayon/white(src)
+	new /obj/item/tapeproj/security(src)
 	return
 
 /obj/structure/closet/secure_closet/detective/update_icon()

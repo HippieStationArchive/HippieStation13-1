@@ -27,6 +27,7 @@
 	var/rigged = 0
 	var/spam_flag = 0
 	var/lit = 0
+	var/atom/attached = null //For stapling
 
 	var/const/deffont = "Verdana"
 	var/const/signfont = "Times New Roman"
@@ -41,13 +42,41 @@
 		update_icon()
 		updateinfolinks()
 
-
 /obj/item/weapon/paper/update_icon()
 	if(info)
 		icon_state = "paper_words"
-		return
-	icon_state = "paper"
+	else
+		icon_state = "paper"
 
+	overlays.Cut()
+	if(attached)
+		overlays += "stapled"
+
+	for(var/obj/item/weapon/stamp/P in stamped) //Stamp overlays will jump around everytime update_icon is called, but w/e.
+		var/image/stampoverlay = image('icons/obj/bureaucracy.dmi')
+		stampoverlay.pixel_x = rand(-2, 2)
+		stampoverlay.pixel_y = rand(-3, 2)
+		stampoverlay.icon_state = "paper_[P.icon_state]"
+
+/obj/item/weapon/paper/attack_hand(mob/user as mob)
+	if(attached)
+		var/temp_loc = user.loc
+		switch(alert("Do you want to take \the [src] off \the [attached]?","[src]","Yes","No"))
+			if("Yes")
+				if(user.loc != temp_loc || !attached)
+					return
+				attached = null
+				flags &= ~NODROP //You can now pick it up
+				anchored = 0 //and now you can pull it around, too!
+				update_icon()
+				src.loc = user.loc
+				if(prob(30)) new /obj/item/stack/staples(user.loc, 1)
+				user.put_in_hands(src)
+				add_fingerprint(user)
+			if("No")
+				return
+	else
+		..()
 
 /obj/item/weapon/paper/examine(mob/user)
 	..()
@@ -60,6 +89,9 @@
 			onclose(user, "[name]")
 	else
 		user << "<span class='notice'>It is too far away.</span>"
+
+	if(attached)
+		user << "<span class='notice'>It is attached to \the [attached].</span>"
 
 
 /obj/item/weapon/paper/verb/rename()
