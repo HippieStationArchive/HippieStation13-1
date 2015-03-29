@@ -10,7 +10,7 @@
 /obj/item/weapon/storage/belt/update_icon()
 	overlays.Cut()
 	for(var/obj/item/I in contents)
-		overlays += "[I.name]"
+		overlays += "[I.name]_o"
 	..()
 
 /obj/item/weapon/storage/belt/utility

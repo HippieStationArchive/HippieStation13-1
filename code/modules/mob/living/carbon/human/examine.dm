@@ -225,7 +225,7 @@
 
 	for(var/obj/item/organ/limb/L in organs)
 		for(var/obj/item/I in L.embedded)
-			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L.getDisplayName()]!</B>\n"
+			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L.getDisplayName()]!</B> [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[src];read_embedded=\ref[I]'>Read</a>)" : ""]\n"
 
 	if(fire_stacks > 0)
 		msg += "[t_He] [t_is] covered in something flammable.\n"

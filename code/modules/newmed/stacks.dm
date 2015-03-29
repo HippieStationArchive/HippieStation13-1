@@ -10,6 +10,7 @@
 	w_class = 1
 	throw_speed = 3
 	throw_range = 7
+	var/reduce = 1 //How much bloodloss do we remove?
 
 /obj/item/stack/gauze/attack(mob/living/carbon/M as mob, mob/user as mob)
 
@@ -34,7 +35,7 @@
 	var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
 
 	if(affecting.status == ORGAN_ORGANIC) //Limb must be organic to be healed - RR
-		affecting.bloodloss = 0
+		affecting.bloodloss = max(0, min(affecting.bloodloss - reduce, 1))
 	else
 		user << "<span class='notice'>Medicine won't work on a robotic limb!</span>"
 		return
@@ -58,3 +59,16 @@
 			)
 
 	use(1)
+
+/obj/item/stack/gauze/piece
+	name = "makeshift gauze"
+	singular_name = "gauze"
+	icon = 'icons/obj/medicine.dmi'
+	desc = "A torn up cloth used to stop bleeding."
+	icon_state = "gauzepiece"
+	// origin_tech = "biotech=1"
+	amount = 2
+	max_amount = 2
+	w_class = 1
+	throw_range = 4 //It's just a piece
+	reduce = 0.5 //Going above 0.5 bloodloss takes some effort lol

@@ -109,6 +109,7 @@
 
 	else
 		var/is_hijacker = prob(10)
+		var/martyr_chance = prob(20)
 		var/objective_count = is_hijacker 			//Hijacking counts towards number of objectives
 		if(!exchange_blue && traitors.len >= 4) 	//Set up an exchange if there are enough traitors
 			if(!exchange_red)
@@ -119,6 +120,7 @@
 				assign_exchange_role(exchange_blue)
 			objective_count += 1					//Exchange counts towards number of objectives
 		var/list/active_ais = active_ais()
+		var/has_to_kill = null
 		for(var/i = objective_count, i < config.traitor_objectives_amount, i++)
 			if(prob(50))
 				if(active_ais.len && prob(100/joined_player_list.len))
@@ -136,11 +138,15 @@
 					kill_objective.owner = traitor
 					kill_objective.find_target()
 					traitor.objectives += kill_objective
+					has_to_kill = kill_objective.target
 				else
 					var/datum/objective/protect/protect_objective = new
 					protect_objective.owner = traitor
 					protect_objective.find_target()
-					traitor.objectives += protect_objective
+					if(protect_objective.target != has_to_kill) //Check if he has the same dude as a kill objective
+						traitor.objectives += protect_objective
+					else
+						qdel(protect_objective)
 			else
 				var/datum/objective/steal/steal_objective = new
 				steal_objective.owner = traitor
@@ -152,13 +158,24 @@
 				var/datum/objective/hijack/hijack_objective = new
 				hijack_objective.owner = traitor
 				traitor.objectives += hijack_objective
+
+		var/martyr_compatibility = 1 //You can't succeed in stealing if you're dead.
+		for(var/datum/objective/O in traitor.objectives)
+			if(!O.martyr_compatible)
+				martyr_compatibility = 0
+				break
+
+		if(martyr_compatibility && martyr_chance)
+			var/datum/objective/martyr/martyr_objective = new
+			martyr_objective.owner = traitor
+			traitor.objectives += martyr_objective
+			return
 		else
-			if (!(locate(/datum/objective/escape) in traitor.objectives))
+			if(!(locate(/datum/objective/escape) in traitor.objectives))
 				var/datum/objective/escape/escape_objective = new
 				escape_objective.owner = traitor
 				traitor.objectives += escape_objective
-
-	return
+				return
 
 
 /datum/game_mode/proc/greet_traitor(var/datum/mind/traitor)

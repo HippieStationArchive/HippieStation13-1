@@ -129,17 +129,26 @@
 		if(status)
 			baton_stun(L, user)
 
+/obj/item/weapon/melee/baton/throw_impact(atom/A)
+	..()
+	if(iscarbon(A) && src.loc != A) //This checks if the stun baton's location isn't in the dude's hands or inside him
+		var/mob/living/carbon/H = A
+		if(prob(50) && status)
+			baton_stun(H) //No user, woop
 
 /obj/item/weapon/melee/baton/proc/baton_stun(mob/living/L, mob/user)
-	user.lastattacked = L
-	L.lastattacker = user
+	if(user)
+		user.lastattacked = L
+		L.lastattacker = user
+		L.visible_message("<span class='danger'>[user] has stunned [L] with [src]!</span>", \
+								"<span class='userdanger'>[user] has stunned you with [src]!</span>")
+		add_logs(user, L, "stunned")
+
+	add_logs(src, L, "stunned", addition="(Thrown/etc.)")
 
 	L.Stun(stunforce)
 	L.Weaken(stunforce)
 	L.apply_effect(STUTTER, stunforce)
-
-	L.visible_message("<span class='danger'>[user] has stunned [L] with [src]!</span>", \
-							"<span class='userdanger'>[user] has stunned you with [src]!</span>")
 	playsound(loc, 'sound/weapons/Egloves.ogg', 50, 1, -1)
 
 	if(isrobot(loc))
@@ -152,8 +161,6 @@
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		H.forcesay(hit_appends)
-
-	add_logs(user, L, "stunned")
 
 /obj/item/weapon/melee/baton/emp_act(severity)
 	if(bcell)

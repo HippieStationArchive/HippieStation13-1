@@ -66,8 +66,16 @@
 		var/obj/item/organ/limb/O = H.get_organ(ran_zone(check_zone(user.zone_sel.selecting), 65))
 		var/armor = H.run_armor_check(O, "melee")
 		if(armor <= 40)
-			O.embedded += new /obj/item/stack/staples(H, 1)
+			if(istype(P)) //If the staplegun contains paper...
+				P.loc = H
+				P.attached = H
+				P.update_icon()
+				O.embedded += P //The rest of the functionality is handled in examine text
+				P = null
+			else
+				O.embedded += new /obj/item/stack/staples(H, 1)
 			H.apply_damage(2, BRUTE, O, armor)
+			H.update_damage_overlays()
 			visible_message("<span class='danger'>[user] has stapled [target] in the [O.getDisplayName()]!</span>",
 							"<span class='userdanger'>[user] has stapled [target] in the [O.getDisplayName()]!</span>")
 		else

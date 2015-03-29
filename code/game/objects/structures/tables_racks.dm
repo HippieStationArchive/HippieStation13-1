@@ -258,8 +258,9 @@
 		G.affecting.visible_message("<span class='danger'>[G.assailant] pushes [G.affecting] onto [src].</span>", \
 									"<span class='userdanger'>[G.assailant] pushes [G.affecting] onto [src].</span>")
 		add_logs(G.assailant, G.affecting, "pushed")
+		var/mob/M = G.affecting
 		qdel(I)
-		return 1
+		return M
 	qdel(I)
 
 /obj/structure/table/attackby(obj/item/I, mob/user)
@@ -364,11 +365,26 @@
 	buildstack = /obj/item/stack/sheet/glass
 
 /obj/structure/table/glass/tablepush(obj/item/I, mob/user)
-	if(..())
+	. = ..()
+	if(.)
 		visible_message("<span class='warning'>[src] breaks!</span>")
 		playsound(src.loc, "shatter", 50, 1)
 		new frame(src.loc)
-		new /obj/item/weapon/shard(src.loc)
+		var/obj/item/weapon/shard/S = new(src.loc)
+		if(ishuman(.))
+			var/mob/living/carbon/human/H = .
+			H.adjustBruteLoss(5)
+			if(prob(50))
+				var/obj/item/organ/limb/O = H.get_organ(ran_zone())
+				if(istype(O))
+					S.add_blood(H)
+					S.loc = H
+					O.embedded += S //Lodge the object into the limb
+					H.update_damage_overlays() //Update the fancy embeds
+					visible_message("<span class='warning'>The [S] has embedded into [H]'s [O.getDisplayName()]!</span>",
+									"<span class='userdanger'>You feel [S] lodge into your [O.getDisplayName()]!</span>")
+					H.emote("scream")
+					H.adjustBloodLoss(0.01, O)
 		qdel(src)
 
 

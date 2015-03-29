@@ -92,7 +92,7 @@ emp_act
 				update_damage_overlays() //Update the fancy embeds
 				visible_message("<span class='warning'>The [I] has embedded into [src]'s [O.getDisplayName()]!</span>",
 								"<span class='userdanger'>You feel [I] lodge into your [O.getDisplayName()]!</span>")
-				if(prob(5)) emote("scream")
+				if(prob(15)) emote("scream")
 				adjustBloodLoss(0.01, O) //Give the dude some bloodloss.
 				// adjustBruteLoss(I.w_class * 3) //Throwforce is already dealt, let's adjust brute loss when attempting to take it out without surgery
 

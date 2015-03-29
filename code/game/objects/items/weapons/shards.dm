@@ -76,10 +76,17 @@
 		playsound(loc, 'sound/effects/glass_step.ogg', 50, 1)
 		if(ishuman(AM))
 			var/mob/living/carbon/human/H = AM
-			if(!H.shoes)
-				H.apply_damage(5,BRUTE,(pick("l_leg", "r_leg")))
+			if(!H.shoes && !H.lying)
+				H.apply_damage(5, BRUTE, pick("l_leg", "r_leg"))
 				H.Weaken(3)
-				if(cooldown < world.time - 10) //cooldown to avoid message spam.
+				if(cooldown < world.time - 10) //cooldown to avoid message spam. Too bad this cooldown is only for the shard itself.
 					H.visible_message("<span class='danger'>[H] steps in the broken glass!</span>", \
 							"<span class='userdanger'>You step in the broken glass!</span>")
+					cooldown = world.time
+			else if(H.lying && !H.w_uniform)
+				H.apply_damage(5, BRUTE, ran_zone())
+				// H.Weaken(3) //No weaken because already lying down
+				if(cooldown < world.time - 10) //cooldown to avoid message spam. Too bad this cooldown is only for the shard itself.
+					H.visible_message("<span class='danger'>[H] gets pulled over the broken glass!</span>", \
+							"<span class='userdanger'>You get pulled over the broken glass!</span>")
 					cooldown = world.time

@@ -277,8 +277,11 @@ atom/proc/generate_female_clothing(index,t_color,icon)
 
 /obj/item/clothing/under/AltClick()
 	..()
-	rolldown() //Apparently rolling down your suit is more important than changing suit sensors, ok.
-	// toggleSensors()
+	rolldown()
+
+/obj/item/clothing/under/CtrlClick(var/mob/user)
+	..()
+	toggleSensors()
 
 /obj/item/clothing/under/verb/jumpsuit_adjust()
 	set name = "Adjust Jumpsuit Style"

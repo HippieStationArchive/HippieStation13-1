@@ -37,18 +37,17 @@
 
 	pick_sign()
 
+
 /obj/structure/sign/barsign/emp_act(severity)
     var/prev_icon = icon_state
     icon_state = "empbarsign"
     sleep(300*severity) //measured in deci-seconds
     icon_state = prev_icon
 
-
 /obj/structure/sign/barsign/proc/pick_sign()
 	var/picked_name = input("Available Signage", "Bar Sign") as null|anything in barsigns
 	if(!picked_name)
 		return
-
 	set_sign(picked_name)
 
 
@@ -58,6 +57,7 @@
 	var/name = "Name"
 	var/icon = "Icon"
 	var/desc = "desc"
+	var/hidden = 0
 
 //Anything below this is where all the specific signs are. If people want to add more signs, add them below.
 
@@ -120,3 +120,48 @@
 	name = "Honked 'n' Loaded"
 	icon = "honkednloaded"
 	desc = "Honk."
+
+/datum/barsign/thenest
+	name = "The Nest"
+	icon = "thenest"
+	desc = "A good place to retire for a drink after a long night of crime fighting."
+
+/datum/barsign/oldcockinn
+	name = "The Old Cock Inn"
+	icon = "oldcockinn"
+	desc = "Something about this sign fills you with despair."
+
+/datum/barsign/thewretchedhive
+	name = "The Wretched Hive"
+	icon = "thewretchedhive"
+	desc = "Legally obligated to instruct you to check your drinks for acid before consumption."
+
+/datum/barsign/robustacafe
+	name = "The Robusta Cafe"
+	icon = "robustacafe"
+	desc = "Holder of the 'Most Lethal Barfights' record 5 years uncontested."
+
+/datum/barsign/emergencyrumparty
+	name = "The Emergency Rum Party"
+	icon = "emergencyrumparty"
+	desc = "Still serving drinks that were banned years ago."
+
+/datum/barsign/combocafe
+	name = "The Combo Cafe"
+	icon = "combocafe"
+	desc = "Renowned system-wide for their utterly uncreative drink combinations."
+
+/datum/barsign/vladssaladbar
+	name = "Vlad's Salad Bar"
+	icon = "vladssaladbar"
+	desc = "Under new management. Vlad was always a bit too trigger happy with that shotgun."
+
+/datum/barsign/theshaken
+	name = "The Shaken"
+	icon = "theshaken"
+	desc = "This establishment does not serve stirred drinks."
+
+/datum/barsign/thealenath
+	name = "The Ale' Nath"
+	icon = "thealenath"
+	desc = "All right, buddy. I think you've had EI NATH. Time to get a cab."

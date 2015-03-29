@@ -51,6 +51,10 @@
 			for(var/obj/item/I in L.embedded)
 				L.embedded -= I
 				I.loc = get_turf(src)
+				if(istype(I, /obj/item/weapon/paper))
+					var/obj/item/weapon/paper/P = I
+					P.attached = null
+					I.update_icon()
 				var/atom/target = get_edge_target_turf(I, get_dir(I, get_step_away(I, I)))
 				I.throw_at(target, rand(1, 3), 1)
 	if(l_hand)
