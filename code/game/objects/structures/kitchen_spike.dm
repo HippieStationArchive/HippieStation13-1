@@ -71,7 +71,7 @@
 			if(src.skin >= 1)
 				src.skin--
 				new /obj/item/stack/sheet/animalhide/monkey(src.loc)
-				user << "You rmeove the hide from the monkey!"
+				user << "You remove the hide from the monkey!"
 			else if(src.meat > 1)
 				src.meat--
 				new /obj/item/weapon/reagent_containers/food/snacks/meat/monkey(src.loc )

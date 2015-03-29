@@ -432,7 +432,7 @@
  */
 
 /obj/item/weapon/crowbar
-	name = "pocket crowbar"
+	name = "crowbar"
 	desc = "A small crowbar. This handy tool is useful for lots of things, such as prying floor tiles or opening unpowered doors."
 	icon = 'icons/obj/items.dmi'
 	icon_state = "crowbar"

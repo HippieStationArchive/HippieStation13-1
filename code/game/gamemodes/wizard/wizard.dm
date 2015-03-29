@@ -51,6 +51,7 @@
 	var/is_hijacker = prob(10)
 	var/objective_count = is_hijacker 			//Hijacking counts towards number of objectives
 	var/list/active_ais = active_ais()
+	var/has_to_kill = null
 	for(var/i = objective_count, i < config.wizard_objectives_amount, i++)
 		if(prob(50))
 			if(active_ais.len && prob(100/joined_player_list.len))
@@ -74,10 +75,13 @@
 				protect_objective.find_target()
 				wizard.objectives += protect_objective
 			else
-				var/datum/objective/steal/steal_objective = new
-				steal_objective.owner = wizard
-				steal_objective.find_target()
-				wizard.objectives += steal_objective
+				var/datum/objective/protect/protect_objective = new
+				protect_objective.owner = traitor
+				protect_objective.find_target()
+				if(protect_objective.target != has_to_kill) //Check if he has the same dude as a kill objective
+					traitor.objectives += protect_objective
+				else
+					qdel(protect_objective)
 		else
 			var/datum/objective/steal/steal_objective = new
 			steal_objective.owner = wizard
@@ -89,58 +93,24 @@
 			var/datum/objective/hijack/hijack_objective = new
 			hijack_objective.owner = wizard
 			wizard.objectives += hijack_objective
+
+	var/martyr_compatibility = 1 //You can't succeed in stealing if you're dead.
+	for(var/datum/objective/O in traitor.objectives)
+		if(!O.martyr_compatible)
+			martyr_compatibility = 0
+			break
+
+	if(martyr_compatibility && martyr_chance)
+		var/datum/objective/martyr/martyr_objective = new
+		martyr_objective.owner = traitor
+		traitor.objectives += martyr_objective
+		return
 	else
-		if (!(locate(/datum/objective/escape) in wizard.objectives))
+		if(!(locate(/datum/objective/escape) in traitor.objectives))
 			var/datum/objective/escape/escape_objective = new
-			escape_objective.owner = wizard
-			wizard.objectives += escape_objective
-
-	return
-	// switch(rand(1,100))
-	// 	if(1 to 30)
-
-	// 		var/datum/objective/assassinate/kill_objective = new
-	// 		kill_objective.owner = wizard
-	// 		kill_objective.find_target()
-	// 		wizard.objectives += kill_objective
-
-	// 		if (!(locate(/datum/objective/escape) in wizard.objectives))
-	// 			var/datum/objective/escape/escape_objective = new
-	// 			escape_objective.owner = wizard
-	// 			wizard.objectives += escape_objective
-	// 	if(31 to 60)
-	// 		var/datum/objective/steal/steal_objective = new
-	// 		steal_objective.owner = wizard
-	// 		steal_objective.find_target()
-	// 		wizard.objectives += steal_objective
-
-	// 		if (!(locate(/datum/objective/escape) in wizard.objectives))
-	// 			var/datum/objective/escape/escape_objective = new
-	// 			escape_objective.owner = wizard
-	// 			wizard.objectives += escape_objective
-
-	// 	if(61 to 85)
-	// 		var/datum/objective/assassinate/kill_objective = new
-	// 		kill_objective.owner = wizard
-	// 		kill_objective.find_target()
-	// 		wizard.objectives += kill_objective
-
-	// 		var/datum/objective/steal/steal_objective = new
-	// 		steal_objective.owner = wizard
-	// 		steal_objective.find_target()
-	// 		wizard.objectives += steal_objective
-
-	// 		if (!(locate(/datum/objective/survive) in wizard.objectives))
-	// 			var/datum/objective/survive/survive_objective = new
-	// 			survive_objective.owner = wizard
-	// 			wizard.objectives += survive_objective
-
-	// 	else
-	// 		if (!(locate(/datum/objective/hijack) in wizard.objectives))
-	// 			var/datum/objective/hijack/hijack_objective = new
-	// 			hijack_objective.owner = wizard
-	// 			wizard.objectives += hijack_objective
-	// return
+			escape_objective.owner = traitor
+			traitor.objectives += escape_objective
+			return
 
 
 /datum/game_mode/proc/name_wizard(mob/living/carbon/human/wizard_mob)

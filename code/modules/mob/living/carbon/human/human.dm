@@ -274,12 +274,12 @@
 		if(href_list["embedded_object"])
 			var/obj/item/I = locate(href_list["embedded_object"])
 			var/obj/item/organ/limb/L = locate(href_list["embedded_limb"])
-			if(!I || !L || I.loc != src) //no item, no limb, or item is not in limb (the person atleast) anymore
+			if(!I || !L || I.loc != src || !locate(I) in L.embedded) //no item, no limb, or item is not in limb (the person atleast) anymore
 				return
 			var/time_taken = 30*I.w_class
 			usr.visible_message("<span class='notice'>[usr] attempts to remove [I] from [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!</span>",\
 								"<span class='notice'>You attempt to remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()], it will take [time_taken/10] seconds.</span>")
-			if(do_after(usr, time_taken, needhand = 1))
+			if(do_mob(usr, src, time_taken) && I.loc == src) //CHECK IF THE EMBEDDED ITEM IS STILL INSIDE JEUZZ
 				L.embedded -= I
 				update_damage_overlays()
 				L.take_damage(10*I.w_class)//It hurts to rip it out, get surgery you dingus.
