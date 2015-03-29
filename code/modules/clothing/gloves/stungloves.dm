@@ -1,4 +1,8 @@
 //Brought back as a traitor assistant-only item!
+//TODO: Use this function below instead
+// // Called just before an attack_hand(), in mob/UnarmedAttack()
+// /obj/item/clothing/gloves/proc/Touch(var/atom/A, var/proximity)
+// 	return 0 // return 1 to cancel attack_hand()
 
 /obj/item/clothing/gloves/stungloves
 	desc = "On closer inspection, these are yellow gloves with some kind of device attached to them..."

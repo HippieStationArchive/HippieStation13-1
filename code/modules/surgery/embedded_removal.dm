@@ -29,6 +29,10 @@
 			for(var/obj/item/I in L.embedded)
 				objects++
 				I.loc = get_turf(H)
+				if(istype(I, /obj/item/weapon/paper))
+					var/obj/item/weapon/paper/P = I
+					P.attached = null
+					I.update_icon()
 				L.embedded -= I
 				H.update_damage_overlays()
 

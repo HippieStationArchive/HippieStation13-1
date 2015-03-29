@@ -20,7 +20,7 @@
 		addicted_to.delete()
 	addicted_to = new/datum/reagents(1000) //Max volume might be nerfed to prevent hyper addiction to everything.
 	addicted_to.my_atom = src
-	
+
 	verbs += /mob/living/proc/mob_sleep
 	verbs += /mob/living/proc/lay_down
 	//initialise organs
@@ -285,13 +285,16 @@
 				L.take_damage(10*I.w_class)//It hurts to rip it out, get surgery you dingus.
 				adjustBloodLoss(0.05, L) //oof. You'll bleed to death.
 				I.loc = src.loc
+				if(istype(I, /obj/item/weapon/paper))
+					var/obj/item/weapon/paper/P = I
+					P.attached = null
+					I.update_icon()
 				// usr.put_in_hands(I) //sorry but nope, causes bugs
 				src.emote("scream")
 				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
 				usr.visible_message("<span class='danger'>[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!</span>",\
 									"<span class='userdanger'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()]!</span>")
 			return
-
 		if(href_list["item"])
 			var/slot = text2num(href_list["item"])
 			if(slot in check_obscured_slots())
@@ -334,6 +337,11 @@
 
 		..()
 
+	if(href_list["read_embedded"])
+		var/obj/item/weapon/paper/I = locate(href_list["read_embedded"])
+		if(!I || I.loc != src || I.attached != src) //no item, no limb, or item is not in limb (the person atleast) anymore
+			return
+		I.examine(usr)
 
 	if(href_list["criminal"])
 		if(istype(usr, /mob/living/carbon/human))
@@ -643,9 +651,9 @@
 					isOK = 0
 
 				for(var/obj/item/I in O.embedded)
-					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a \icon[I] [I] embedded in your [O.getDisplayName()]!</a>"
+					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a \icon[I] [I] embedded in your [O.getDisplayName()]!</a> [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[H];read_embedded=\ref[I]'>Read</a>)" : ""]"
 					isOK = 0
-			
+
 			if(isOK)
 				src << "\t \blue You are not injured!"
 
