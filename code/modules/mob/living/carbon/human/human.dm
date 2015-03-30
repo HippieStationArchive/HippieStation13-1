@@ -245,7 +245,7 @@
 	dat += "</table>"
 	for(var/obj/item/organ/limb/O in src.organs)
 		for(var/obj/item/I in O.embedded)
-			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I]</a><br>"
+			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I] [I.pinned ? "(Pinned down)" : ""]</a><br>"
 
 	var/datum/browser/popup = new(user, "mob\ref[src]", "[src]", 440, 510)
 	popup.set_content(dat)
@@ -277,6 +277,8 @@
 			if(!I || !L || I.loc != src || !locate(I) in L.embedded) //no item, no limb, or item is not in limb (the person atleast) anymore
 				return
 			var/time_taken = 30*I.w_class
+			if(I.pinned) //Only the rodgun pins people down currently
+				time_taken += 4 //Increase time since you're pinned down
 			usr.visible_message("<span class='notice'>[usr] attempts to remove [I] from [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!</span>",\
 								"<span class='notice'>You attempt to remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()], it will take [time_taken/10] seconds.</span>")
 			if(do_mob(usr, src, time_taken) && I.loc == src) //CHECK IF THE EMBEDDED ITEM IS STILL INSIDE JEUZZ
@@ -285,6 +287,12 @@
 				L.take_damage(10*I.w_class)//It hurts to rip it out, get surgery you dingus.
 				adjustBloodLoss(0.05, L) //oof. You'll bleed to death.
 				I.loc = src.loc
+				if(I.pinned) //Only the rodgun pins people down currently
+					do_pindown(src.pinned_to, 0)
+					src.pinned_to = null
+					src.buckled = null
+					update_canmove()
+					I.pinned = null
 				if(istype(I, /obj/item/weapon/paper))
 					var/obj/item/weapon/paper/P = I
 					P.attached = null
@@ -651,7 +659,7 @@
 					isOK = 0
 
 				for(var/obj/item/I in O.embedded)
-					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a \icon[I] [I] embedded in your [O.getDisplayName()]!</a> [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[H];read_embedded=\ref[I]'>Read</a>)" : ""]"
+					src << "\t <a href='byond://?src=\ref[H];embedded_object=\ref[I];embedded_limb=\ref[O]'>\red There is \a \icon[I] [I] embedded in your [O.getDisplayName()]!</a> [I.pinned ? "It has also pinned you down!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[H];read_embedded=\ref[I]'>Read</a>)" : ""]"
 					isOK = 0
 
 			if(isOK)
