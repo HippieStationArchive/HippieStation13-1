@@ -278,7 +278,7 @@
 				return
 			var/time_taken = 30*I.w_class
 			if(I.pinned) //Only the rodgun pins people down currently
-				time_taken += 4 //Increase time since you're pinned down
+				time_taken += 10 //Increase time since you're pinned down
 			usr.visible_message("<span class='notice'>[usr] attempts to remove [I] from [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!</span>",\
 								"<span class='notice'>You attempt to remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()], it will take [time_taken/10] seconds.</span>")
 			if(do_mob(usr, src, time_taken) && I.loc == src) //CHECK IF THE EMBEDDED ITEM IS STILL INSIDE JEUZZ
@@ -290,7 +290,7 @@
 				if(I.pinned) //Only the rodgun pins people down currently
 					do_pindown(src.pinned_to, 0)
 					src.pinned_to = null
-					src.buckled = null
+					src.anchored = 0
 					update_canmove()
 					I.pinned = null
 				if(istype(I, /obj/item/weapon/paper))

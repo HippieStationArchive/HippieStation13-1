@@ -2,7 +2,29 @@
 	var/turf/pinned_to = null
 
 /obj
-	var/pinned = 0 //Used for unpinning a person when he's trying to take the embedded rod out
+	var/pinned = null //Used for unpinning a person when he's trying to take the embedded rod out
+
+//This is so hacky, jeez
+/turf
+	var/pinned = null //Used to track the turf's destruction so as to release the poor pinned dude
+
+/turf/Del()
+	if(src.pinned)
+		var/mob/living/carbon/human/H = src.pinned
+		H.anchored = 0
+		H.pinned_to = null
+		H.do_pindown(src, 0)
+		H.update_canmove()
+	..()
+
+/turf/ChangeTurf(var/path)
+	if(src.pinned)
+		var/mob/living/carbon/human/H = src.pinned
+		H.anchored = 0
+		H.pinned_to = null
+		H.do_pindown(src, 0)
+		H.update_canmove()
+	..()
 
 //Rod stuff
 /obj/item/projectile/rod
@@ -35,14 +57,14 @@
 				playsound(H, 'sound/weapons/rodgun_pierce.ogg', 50, 1) //For super audible murder
 				H.emote("scream")
 				H.adjustBloodLoss(0.01, O)
-				//Putting this fuckshit on hold. It is horribly broken.
-				// var/turf/T = get_step(H, dir)
-				// if(istype(T) && T.density && !H.pinned_to) //Can only pin someone once.
-				// 	H.pinned_to = T
-				// 	H.anchored = 1 //to preserve my sanity. Even though if the wall you're pinned to gets destroyed you'll stay anchored forever. FUUUUUUUUUUUUUCK.
-				// 	H.update_canmove()
-				// 	H.do_pindown(T, 1)
-				// 	R.pinned = T
+				var/turf/T = get_step(H, dir)
+				if(istype(T) && T.density && !H.pinned_to) //Can only pin someone once.
+					H.pinned_to = T
+					T.pinned = H
+					H.anchored = 1 //to preserve my sanity.
+					H.update_canmove()
+					H.do_pindown(T, 1)
+					R.pinned = T
 	else
 		playsound(target, 'sound/weapons/pierce.ogg', 50, 1)
 

@@ -41,7 +41,7 @@
 	icon_state = "security_start"
 	tape_type = /obj/item/holotape/security
 	icon_base = "security"
-	req_access = list(access_sec_doors) //Do access_weapons if you don't want lawyer to have access
+	req_access = list(access_sec_doors)
 
 /obj/item/holotape/security
 	name = "security holotape"

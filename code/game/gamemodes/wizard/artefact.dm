@@ -186,9 +186,9 @@
 
 	var/hat = pick(/obj/item/clothing/head/helmet/roman, /obj/item/clothing/head/helmet/roman/legionaire)
 	var/obj/item/weapon/shield/riot/roman/S = new(H)
-	S.flags |= NODROP //Cursed to forever wield the sword and shield!
+	// S.flags |= NODROP //Shield can still be dropped so you can use your spear or something.
 	var/obj/item/weapon/claymore/C = new(H)
-	C.flags |= NODROP //Ditto.
+	C.flags |= NODROP //ALERT: NODROP ITEMS CAN STILL BE PUT IN THE BELT SLOT PLS FIX
 	H.equip_to_slot_or_del(new hat(H), slot_head)
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/roman(H), slot_w_uniform)
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roman(H), slot_shoes)

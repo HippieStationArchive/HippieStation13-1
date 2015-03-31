@@ -14,6 +14,11 @@
 			user.adjustBruteLoss(-10)
 			user.adjustOxyLoss(-10)
 			user.adjustFireLoss(-10)
+			if(ishuman(user))
+				var/mob/living/carbon/human/H = user
+				for(var/obj/item/organ/limb/L in H.organs)
+					L.bloodloss = 0
+			user.update_damage_overlays()
 			sleep(10)
 
 	feedback_add_details("changeling_powers","RR")

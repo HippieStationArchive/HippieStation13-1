@@ -18,6 +18,10 @@
 	user.SetStunned(0)
 	user.SetWeakened(0)
 	user.radiation = 0
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		for(var/obj/item/organ/limb/L in H.organs)
+			L.bloodloss = 0
 	user.heal_overall_damage(user.getBruteLoss(), user.getFireLoss())
 	user.reagents.clear_reagents()
 	user << "<span class='notice'>We have regenerated.</span>"

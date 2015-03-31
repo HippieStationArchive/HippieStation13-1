@@ -38,7 +38,7 @@
 	possible_transfer_amounts = list(5)
 	volume = 20
 	can_be_placed_into = null
-	// var/smothered_mob = null //Used for process()
+	var/smothering = 0
 
 /obj/item/weapon/reagent_containers/glass/rag/afterattack(atom/A, mob/user as mob, proximity)
 	if(!proximity) return
@@ -50,10 +50,12 @@
 				reagents.trans_to(C, amount_per_transfer_from_this)
 				user << "<span class='notice'>You smother yourself with the damp rag.</span>"
 			else
+				if(smothering)
+					user << "<span class='notice'>You're already smothering someone!</span>"
+					return
 				if(user.a_intent == "grab")
 					// if(!(C.status_flags & CANPUSH))
 					// 	return
-
 					add_logs(user, C, "smothered")
 					if(!istype(user.get_inactive_hand(), /obj/item/weapon/grab))
 						var/obj/item/weapon/grab/G = new /obj/item/weapon/grab(user, C)
@@ -70,7 +72,7 @@
 					else
 						playsound(C.loc, 'sound/weapons/thudswoosh.ogg', 20, 1, -1)
 						user.visible_message("<span class='danger'>[user] has smothered \the [C] with \the [src]!</span>", "<span class='danger'>You smother \the [C] with \the [src]!</span>", "You hear some struggling and muffled cries of surprise")
-					handle_reagents(C)
+					smothering = 1
 				else
 					user << "<span class='notice'>You need to be on grab intent to smother someone!</span>"
 		return
@@ -95,13 +97,26 @@
 		return
 	reagents.remove_any(2)
 
-// /obj/item/weapon/reagent_containers/glass/rag/process() //WHY DOESN'T THIS WORK
-// 	if(iscarbon(loc))
-// 		var/mob/living/carbon/C = loc
-// 		var/obj/item/weapon/grab/G = C.l_hand
-// 		if(!istype(G))
-// 			G = C.r_hand
-// 			if(!istype(G))
-// 				return
-// 	if(reagents && reagents.total_volume)	//	check if it has any reagents at all
-// 		handle_reagents()
+/obj/item/weapon/reagent_containers/glass/rag/New()
+	processing_objects.Add(src)
+	..()
+
+/obj/item/weapon/reagent_containers/glass/rag/Destroy()
+	processing_objects.Remove(src)
+	..()
+
+/obj/item/weapon/reagent_containers/glass/rag/process()
+	if(iscarbon(loc))
+		var/mob/living/carbon/C = loc
+		var/obj/item/weapon/grab/G = C.l_hand
+		if(!istype(G))
+			G = C.r_hand
+			if(!istype(G))
+				smothering = 0
+				return
+		if(!G.affecting) return
+		if(ishuman(G.affecting))
+			var/mob/living/carbon/human/H = G.affecting
+			H.forcesay(list("-mppf!", "-hrgh!", "-mph!", "-pfhh!", "-mmf!"))
+		if(reagents && reagents.total_volume)	//	check if it has any reagents at all
+			handle_reagents(G.affecting)
