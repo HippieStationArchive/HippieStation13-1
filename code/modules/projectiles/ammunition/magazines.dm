@@ -185,7 +185,7 @@ obj/item/ammo_box/magazine/tommygunm45
 
 /obj/item/ammo_box/magazine/m12g
 	name = "shotgun magazine (12g buckshot)"
-	icon_state = "m12gs"
+	icon_state = "m12gb"
 	origin_tech = "combat=3;syndicate=1"
 	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
 	caliber = "shotgun"

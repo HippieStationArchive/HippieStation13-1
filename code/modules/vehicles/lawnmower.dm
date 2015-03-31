@@ -8,6 +8,7 @@
 		if(emagged)
 			if(istype(A, /mob/living/))
 				var/mob/living/C = A
+				C.adjustBruteLoss(25) //Crit in 4 hits, rip
 				var/atom/throw_target = get_edge_target_turf(C, get_dir(src, get_step_away(C, src)))
 				C.throw_at(throw_target, 4, 1)
 				return
@@ -39,23 +40,22 @@
 			emagged = 1
 			usr << "\red You emag the lawnmower and disable its safety."
 
-//Handled by janicart
-// /obj/structure/stool/bed/chair/janicart/lawnmower/update_mob()
-// 	if(buckled_mob)
-// 		buckled_mob.dir = dir
-// 		switch(dir)
-// 			if(SOUTH)
-// 				buckled_mob.pixel_x = 0
-// 				buckled_mob.pixel_y = 7
-// 			if(WEST)
-// 				buckled_mob.pixel_x = 5
-// 				buckled_mob.pixel_y = 2
-// 			if(NORTH)
-// 				buckled_mob.pixel_x = 0
-// 				buckled_mob.pixel_y = 4
-// 			if(EAST)
-// 				buckled_mob.pixel_x = -5
-// 				buckled_mob.pixel_y = 2
+/obj/structure/stool/bed/chair/janicart/lawnmower/update_mob()
+	if(buckled_mob)
+		buckled_mob.dir = dir
+		switch(dir)
+			if(SOUTH)
+				buckled_mob.pixel_x = 0
+				buckled_mob.pixel_y = 7
+			if(WEST)
+				buckled_mob.pixel_x = 5
+				buckled_mob.pixel_y = 2
+			if(NORTH)
+				buckled_mob.pixel_x = 0
+				buckled_mob.pixel_y = 4
+			if(EAST)
+				buckled_mob.pixel_x = -5
+				buckled_mob.pixel_y = 2
 
 obj/structure/stool/bed/chair/janicart/lawnmower/relaymove(mob/user as mob, direction)
 	if(user.stat || user.stunned || user.weakened || user.paralysis)

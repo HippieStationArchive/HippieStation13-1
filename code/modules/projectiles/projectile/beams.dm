@@ -88,9 +88,9 @@ obj/item/projectile/beam/emitter/Destroy()
 	return 1
 
 /obj/item/projectile/lasertag/redtag
-	icon_state = "laser"
+	icon_state = "redbeam"
 	suit_types = list(/obj/item/clothing/suit/bluetag)
 
 /obj/item/projectile/lasertag/bluetag
-	icon_state = "bluelaser"
+	icon_state = "bluebeam"
 	suit_types = list(/obj/item/clothing/suit/redtag)

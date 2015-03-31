@@ -40,17 +40,17 @@
 				var/obj/item/clothing/shoes/S = shoes
 
 				S.step_action(src)
-
-	if(lying)
-		if(istype(loc, /turf/space))
-			if(screamcount <= 0)
-				return 0
-			else
-				var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
-				if(gender == FEMALE)
-					sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
-				playsound(src.loc, sound, 50, 1, 5)
-				screamcount--
+	// This is honestly dumb. It makes CORPSES scream.
+	// if(lying)
+	// 	if(istype(loc, /turf/space))
+	// 		if(screamcount <= 0)
+	// 			return 0
+	// 		else
+	// 			var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
+	// 			if(gender == FEMALE)
+	// 				sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
+	// 			playsound(src.loc, sound, 50, 1, 5)
+	// 			screamcount--
 
 
 /mob/living/carbon/human/

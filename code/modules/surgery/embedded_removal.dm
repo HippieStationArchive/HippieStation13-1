@@ -32,7 +32,7 @@
 				if(I.pinned) //You REALLY won't be able to perform surgery on a pinned down dude, since he's standing up, but just a precaution...
 					H.do_pindown(H.pinned_to, 0)
 					H.pinned_to = null
-					H.buckled = null
+					H.anchored = 0
 					H.update_canmove()
 					I.pinned = null
 				if(istype(I, /obj/item/weapon/paper))
