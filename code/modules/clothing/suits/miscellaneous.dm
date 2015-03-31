@@ -249,6 +249,19 @@
 	icon_state = "griffin_wings"
 	item_state = "griffin_wings"
 
+// Payday Tux #wow
+//Toggle sprite not in yet deal with it
+
+/obj/item/clothing/suit/toggle/tux
+	name = "Tuxedo"
+	desc = "Wow does that look fancy!"
+	icon_state = "tux"
+	item_state = "tux"
+	togglename = "buttons"
+	action_button_name = "Toggle Suit Buttons"
+	body_parts_covered = ARMS|CHEST
+	allowed = list(/obj/item/weapon/gun/energy,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/device/flashlight/seclite)
+
 
 // non-WINTER COATS
 
@@ -337,3 +350,6 @@
 	desc = "It's got a disgusting brown color. Kinda reminds you of dried blood..."
 	icon_state = "apronwelder2"
 	item_state = "apronwelder2"
+
+
+
