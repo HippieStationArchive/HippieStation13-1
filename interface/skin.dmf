@@ -177,7 +177,7 @@ macro "borghotkeymode"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "Msay"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -194,6 +194,10 @@ macro "borghotkeymode"
 	elem 
 		name = "F3"
 		command = "asay"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "Msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -351,7 +355,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "Msay"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -368,6 +372,10 @@ macro "macro"
 	elem 
 		name = "F3"
 		command = "asay"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "Msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -593,7 +601,7 @@ macro "hotkeymode"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "Msay"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -610,6 +618,10 @@ macro "hotkeymode"
 	elem 
 		name = "F3"
 		command = "asay"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "Msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -751,7 +763,7 @@ macro "borgmacro"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "Msay"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -768,6 +780,10 @@ macro "borgmacro"
 	elem 
 		name = "F3"
 		command = "asay"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "Msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -2320,3 +2336,4 @@ window "infowindow"
 		on-tab = ""
 		prefix-color = none
 		suffix-color = none
+
