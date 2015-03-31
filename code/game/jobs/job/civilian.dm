@@ -16,7 +16,7 @@ Bartender
 	default_headset = /obj/item/device/radio/headset/headset_srv
 
 	access = list(access_hydroponics, access_bar, access_kitchen, access_morgue, access_mineral_storeroom, access_weapons)
-	minimal_access = list(access_bar, access_mineral_storeroom)
+	minimal_access = list(access_bar, access_mineral_storeroom, access_weapons)
 
 /datum/job/bartender/equip_backpack(var/mob/living/carbon/human/H)
 	// switch(H.backbag)
@@ -213,7 +213,7 @@ Clown
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_clown
 
 	access = list(access_theatre, access_maint_tunnels)
-	minimal_access = list(access_theatre)
+	minimal_access = list(access_theatre, access_maint_tunnels)
 
 /datum/job/clown/equip_backpack(var/mob/living/carbon/human/H)
 	var/obj/item/weapon/storage/backpack/BPK = new default_backpack(H)
@@ -256,7 +256,7 @@ Mime
 	//default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_mime //to-do
 
 	access = list(access_theatre, access_maint_tunnels)
-	minimal_access = list(access_theatre)
+	minimal_access = list(access_theatre, access_maint_tunnels)
 
 /datum/job/mime/equip_backpack(var/mob/living/carbon/human/H)
 	var/obj/item/weapon/storage/backpack/BPK = new default_backpack(H)

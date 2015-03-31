@@ -1,14 +1,17 @@
 // This code handles different species in the game.
 
-#define SPECIES_LAYER			23
-#define BODY_LAYER				22
+#define SPECIES_LAYER			26
+#define BODY_BEHIND_LAYER		25
+#define BODY_LAYER				24
+#define BODY_ADJ_LAYER			23
 #define HAIR_LAYER				8
+#define BODY_FRONT_LAYER		2
 
 #define TINT_IMPAIR 2
 #define TINT_BLIND 3
 
 #define HUMAN_MAX_OXYLOSS 3
-#define HUMAN_CRIT_MAX_OXYLOSS ( (last_tick_duration) /3)
+#define HUMAN_CRIT_MAX_OXYLOSS ((last_tick_duration)/ 3)
 
 #define HEAT_DAMAGE_LEVEL_1 2
 #define HEAT_DAMAGE_LEVEL_2 3
@@ -37,11 +40,14 @@
 	var/hair_color = null	// this allows races to have specific hair colors... if null, it uses the H's hair/facial hair colors. if "mutcolor", it uses the H's mutant_color
 	var/hair_alpha = 255	// the alpha used by the hair. 255 is completely solid, 0 is transparent.
 	var/use_skintones = 0	// does it use skintones or not? (spoiler alert this is only used by humans)
+	var/exotic_blood = null	// If your race wants to bleed something other than bog standard blood, change this.
 	var/meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human //What the species drops on gibbing
 	var/list/no_equip = list()	// slots the race can't equip stuff to
 	var/nojumpsuit = 0	// this is sorta... weird. it basically lets you equip stuff that usually needs jumpsuits without one, like belts and pockets and ids
 
 	var/say_mod = "says"	// affects the speech message
+
+	var/list/mutant_bodyparts = list() 	// Parts of the body that are diferent enough from the standard human model that they cause clipping with some equipment
 
 	var/speedmod = 0	// this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
 	var/armor = 0		// overall defense for the race... or less defense, if it's negative.
@@ -62,12 +68,13 @@
 	var/sound/miss_sound = 'sound/weapons/punchmiss.ogg'
 
 	var/mob/living/list/ignored_by = list()	// list of mobs that will ignore this species
+
 	///////////
 	// PROCS //
 	///////////
 
 /datum/species/proc/update_base_icon_state(var/mob/living/carbon/human/H)
-	if(HUSK in H.mutations)
+	if(H.disabilities & HUSK)
 		H.remove_overlay(SPECIES_LAYER) // races lose their color
 		return "husk"
 	else if(sexes)
@@ -85,19 +92,24 @@
 
 	var/g = (H.gender == FEMALE) ? "f" : "m"
 
+	if(!config.mutant_colors)
+		H.dna.mutant_color = default_color
+
 	if(MUTCOLORS in specflags)
 		var/image/spec_base
+		var/icon_state_string = "[id]_"
 		if(sexes)
-			spec_base = image("icon" = 'icons/mob/human.dmi', "icon_state" = "[id]_[g]_s", "layer" = -SPECIES_LAYER)
+			icon_state_string += "[g]_s"
 		else
-			spec_base = image("icon" = 'icons/mob/human.dmi', "icon_state" = "[id]_s", "layer" = -SPECIES_LAYER)
-		if(!config.mutant_colors)
-			H.dna.mutant_color = default_color
+			icon_state_string += "_s"
+
+		spec_base = image("icon" = 'icons/mob/human.dmi', "icon_state" = icon_state_string, "layer" = -SPECIES_LAYER)
+
 		spec_base.color = "#[H.dna.mutant_color]"
 		standing = spec_base
 
 	if(standing)
-		H.overlays_standing[SPECIES_LAYER]	= standing
+		H.overlays_standing[SPECIES_LAYER]	+= standing
 
 	H.apply_overlay(SPECIES_LAYER)
 
@@ -170,6 +182,8 @@
 
 	var/list/standing	= list()
 
+	handle_mutant_bodyparts(H)
+
 	// lipstick
 	if(H.lip_style && LIPS in specflags)
 		standing	+= image("icon"='icons/mob/human_face.dmi', "icon_state"="lips_[H.lip_style]_s", "layer" = -BODY_LAYER)
@@ -180,7 +194,7 @@
 		img_eyes_s.color = "#" + H.eye_color
 		standing	+= img_eyes_s
 
-	//Underwear & Undershirts
+	//Underwear, Undershirts & Socks
 	if(H.underwear)
 		var/datum/sprite_accessory/underwear/U = underwear_list[H.underwear]
 		if(U)
@@ -194,12 +208,60 @@
 			else
 				standing	+= image("icon"=U2.icon, "icon_state"="[U2.icon_state]_s", "layer"=-BODY_LAYER)
 
+
 	if(standing.len)
 		H.overlays_standing[BODY_LAYER] = standing
 
 	H.apply_overlay(BODY_LAYER)
 
 	return
+
+/datum/species/proc/handle_mutant_bodyparts(var/mob/living/carbon/human/H)
+	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
+	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
+	var/list/standing	= list()
+
+	H.remove_overlay(BODY_BEHIND_LAYER)
+	H.remove_overlay(BODY_ADJ_LAYER)
+	H.remove_overlay(BODY_FRONT_LAYER)
+
+	if(!mutant_bodyparts)
+		return
+
+	if("tail" in mutant_bodyparts)
+		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
+			bodyparts_to_add -= "tail"
+
+	if("snout" in mutant_bodyparts) //Take a closer look at that snout!
+		if(H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE))
+			bodyparts_to_add -= "snout"
+
+	if(!bodyparts_to_add)
+		return
+
+	var/icon_state_string = "[id]_"
+	var/g = (H.gender == FEMALE) ? "f" : "m"
+	var/image/I
+
+	if(sexes)
+		icon_state_string += "[g]_s"
+	else
+		icon_state_string += "_s"
+
+	if(!config.mutant_colors)
+		H.dna.mutant_color = default_color
+
+	for(var/layer in relevent_layers)
+		for(var/bodypart in bodyparts_to_add)
+			I = image("icon" = 'icons/mob/mutant_bodyparts.dmi', "icon_state" = "[icon_state_string]_[bodypart]_[layer]", "layer" =- layer)
+			I.color = "#[H.dna.mutant_color]"
+			standing += I
+		H.overlays_standing[layer] = standing.Copy()
+		standing = list()
+
+	H.apply_overlay(BODY_BEHIND_LAYER)
+	H.apply_overlay(BODY_ADJ_LAYER)
+	H.apply_overlay(BODY_FRONT_LAYER)
 
 /datum/species/proc/spec_life(var/mob/living/carbon/human/H)
 	return
@@ -258,10 +320,10 @@
 		if(slot_belt)
 			if(H.belt)
 				return 0
-			// if(!H.w_uniform && !nojumpsuit)
-			// 	if(!disable_warning)
-			// 		H << "<span class='danger'>You need a jumpsuit before you can attach this [I.name].</span>"
-			// 	return 0
+			if(!H.w_uniform && !nojumpsuit)
+				if(!disable_warning)
+					H << "<span class='danger'>You need a jumpsuit before you can attach this [I.name].</span>"
+				return 0
 			if( !(I.slot_flags & SLOT_BELT) )
 				return
 			return 1
@@ -378,33 +440,24 @@
 /datum/species/proc/handle_speech(var/message, var/mob/living/carbon/human/H)
 	return message
 
-	////////
+////////
 	//LIFE//
 	////////
 
 /datum/species/proc/handle_chemicals_in_body(var/mob/living/carbon/human/H)
 	if(H.reagents) H.reagents.metabolize(H)
 
-	//ADDICTIONS
-	if(H.addicted_to)
-		// world << "addicted_to is a thing!" //debug
-		for(var/A in H.addicted_to.reagent_list)
-			var/datum/reagent/R = A
-			if(R)
-				// world << "[R] exists!" //debug
-				R.on_mob_addicted(H)
-
 	//The fucking FAT mutation is the dumbest shit ever. It makes the code so difficult to work with
-	if(FAT in H.mutations)
+	if(H.disabilities & FAT)
 		if(H.overeatduration < 100)
 			H << "<span class='notice'>You feel fit again!</span>"
-			H.mutations -= FAT
+			H.disabilities &= ~FAT
 			H.update_inv_w_uniform(0)
 			H.update_inv_wear_suit()
 	else
 		if(H.overeatduration > 500)
 			H << "<span class='danger'>You suddenly feel blubbery!</span>"
-			H.mutations |= FAT
+			H.disabilities |= FAT
 			H.update_inv_w_uniform(0)
 			H.update_inv_wear_suit()
 
@@ -417,7 +470,7 @@
 			H.satiety++
 			if(prob(round(-H.satiety/40)))
 				H.Jitter(5)
-			hunger_rate = 5 * HUNGER_FACTOR
+			hunger_rate = 3 * HUNGER_FACTOR
 		H.nutrition = max (0, H.nutrition - hunger_rate)
 
 
@@ -475,19 +528,15 @@
 		H.see_invisible = invis_sight
 		H.see_in_dark = darksight
 
-		if(XRAY in H.mutations)
-			H.sight |= SEE_TURFS|SEE_MOBS|SEE_OBJS
-			H.see_in_dark = 8
-			H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
-
 		if(H.seer)
 			H.see_invisible = SEE_INVISIBLE_OBSERVER
 
-		if(H.mind && H.mind.changeling)
-			H.hud_used.lingchemdisplay.invisibility = 0
-			H.hud_used.lingchemdisplay.maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'> <font color='#dd66dd'>[H.mind.changeling.chem_charges]</font></div>"
-		else
-			H.hud_used.lingchemdisplay.invisibility = 101
+		if(H.mind)
+			if(H.mind.changeling)
+				H.hud_used.lingchemdisplay.invisibility = 0
+				H.hud_used.lingchemdisplay.maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'> <font color='#dd66dd'>[H.mind.changeling.chem_charges]</font></div>"
+			else
+				H.hud_used.lingchemdisplay.invisibility = 101
 
 		if(H.glasses)
 			if(istype(H.glasses, /obj/item/clothing/glasses))
@@ -505,14 +554,16 @@
 		if(H.tinttotal >= TINT_IMPAIR)
 			if(tinted_weldhelh)
 				if(H.tinttotal >= TINT_BLIND)
-					H.blinded = 1								// You get the sudden urge to learn to play keyboard
-					H.client.screen += global_hud.darkMask
-				else
+					H.eye_blind = max(H.eye_blind, 1)
+				if(H.client)
 					H.client.screen += global_hud.darkMask
 
 		if(H.blind)
-			if(H.blinded)		H.blind.layer = 18
+			if(H.eye_blind)		H.blind.layer = 18
 			else			H.blind.layer = 0
+
+		if(!H.client)//no client, no screen to update
+			return 1
 
 		if( H.disabilities & NEARSIGHTED && !istype(H.glasses, /obj/item/clothing/glasses/regular) )
 			H.client.screen += global_hud.vimpaired
@@ -581,16 +632,6 @@
 				H.nutrition_icon.icon_state = "nutrition3"
 			else
 				H.nutrition_icon.icon_state = "nutrition4"
-	if(H.stamina_icon)
-		// H.stamina_icon.icon_state = "stamina[round(H.getStaminaLoss()/20)]" //Can't display "critstate" stamina loss with this sadly
-		switch(H.getStaminaLoss())
-			if(90 to INFINITY)		H.stamina_icon.icon_state = "stamina5"
-			if(80 to 90)			H.stamina_icon.icon_state = "stamina4"
-			if(60 to 80)			H.stamina_icon.icon_state = "stamina3"
-			if(40 to 60)			H.stamina_icon.icon_state = "stamina2"
-			if(20 to 40)			H.stamina_icon.icon_state = "stamina1"
-			if(0 to 20)				H.stamina_icon.icon_state = "stamina0"
-			else					H.stamina_icon.icon_state = "stamina"
 
 	if(H.pressure)
 		H.pressure.icon_state = "pressure[H.pressure_alert]"
@@ -630,16 +671,6 @@
 	return 1
 
 /datum/species/proc/handle_mutations_and_radiation(var/mob/living/carbon/human/H)
-	if(H.getFireLoss())
-		if((COLD_RESISTANCE in H.mutations) || (prob(1)))
-			H.heal_organ_damage(0,1)
-
-	if ((HULK in H.mutations) && H.health <= 25)
-		H.mutations.Remove(HULK)
-		H.update_mutations()		//update our mutation overlays
-		H << "<span class='danger'>You suddenly feel very weak.</span>"
-		H.Weaken(3)
-		H.emote("collapse")
 
 	if (H.radiation && !(RADIMMUNE in specflags))
 		if (H.radiation > 100)
@@ -702,8 +733,8 @@
 			hasjetpack = 1
 	var/grav = has_gravity(H)
 
-	if(!grav && !hasjetpack && !istype(get_turf(H), /turf/space))
-		mspeed += 0.1 //Slower space without jetpack
+	if(!grav && !hasjetpack)
+		mspeed += 1 //Slower space without jetpack
 
 	var/health_deficiency = (100 - H.health + H.staminaloss)
 	if(health_deficiency >= 40)
@@ -720,10 +751,10 @@
 	if(H.back && grav)
 		mspeed += H.back.slowdown
 
-	if(FAT in H.mutations && grav)
+	if((H.disabilities & FAT) && grav)
 		mspeed += 1.5
-	if(H.bodytemperature < 283.222 && grav)
-		mspeed += (283.222 - H.bodytemperature) / 10 * 1.75
+	if(H.bodytemperature < 283.222)
+		mspeed += (283.222 - H.bodytemperature) / 10 * (grav+0.5)
 
 	mspeed += speedmod
 
@@ -739,28 +770,6 @@
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
 		return 0
 
-	var/obj/item/clothing/gloves/G = M.gloves
-	if(G && G.stunOnTouch)
-		if(H.w_uniform)
-			H.w_uniform.add_fingerprint(M) //Unless they're wearing something other than stun gloves the prints won't transfer.
-		if(!G.power_supply || G.power_supply.charge >= G.energyCost)
-			add_logs(M, H, "stunned")
-			M.do_attack_animation(H)
-			if(G.atk_verb)
-				H.visible_message("<span class='danger'>[M] has [G.atk_verb] [H]!</span>", \
-								"<span class='userdanger'>[M] has [G.atk_verb] [H]!</span>")
-			H.Stun(G.stunforce/2)
-			H.Weaken(G.stunforce)
-			H.apply_effect(STUTTER, G.stunforce)
-			if(G.power_supply)
-				G.power_supply.use(G.energyCost)
-			return
-		else if(G.power_supply.charge < G.energyCost)
-			add_logs(M, H, "attempted to stun")
-			M << "<span class='warning'>Out of charge!</span>"
-			H.visible_message("<span class='notice'>[M] has touched [H].</span>", \
-							"<span class='notice'>[M] has touched [H].</span>")
-			return
 	switch(M.a_intent)
 		if("help")
 			if(H.health >= 0)
@@ -778,7 +787,7 @@
 				return 0
 
 			if(H.cpr_time < world.time + 30)
-				add_logs(H, M, "CPRed")
+				add_logs(M, H, "CPRed")
 				M.visible_message("<span class='notice'>[M] is trying to perform CPR on [H]!</span>", \
 								"<span class='notice'>You try to perform CPR on [H]. Hold still!</span>")
 				if(!do_mob(M, H))
@@ -821,35 +830,17 @@
 
 			var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
 			var/armor_block = H.run_armor_check(affecting, "melee")
-			var/sfx = "punch"
-			var/fx = null
-			var/stamina = 0
-			if(G)
-				if(G.staminaDamage)
-					stamina = 1
-				if(G.hitsound)
-					sfx = pick(G.hitsound)
-				if(G.atk_verb)
-					fx = pick(G.atk_verb)
-			if(HULK in M.mutations)
-				damage += 5
 
-			if(M.dna && !stamina)
+			if(M.dna)
 				playsound(H.loc, M.dna.species.attack_sound, 25, 1, -1)
 			else
-				playsound(H.loc, sfx, 25, 1, -1)
+				playsound(H.loc, 'sound/weapons/punch1.ogg', 25, 1, -1)
 
-			if(fx)
-				H.visible_message("<span class='danger'>[M] has [fx] [H]!</span>", \
-								"<span class='userdanger'>[M] has [fx] [H]!</span>")
-			else
-				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
-								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
-			if(stamina)
-				H.apply_damage(damage*2, STAMINA, affecting, armor_block)
-			else
-				H.apply_damage(damage, BRUTE, affecting, armor_block)
+			H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
+							"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
+
+			H.apply_damage(damage, BRUTE, affecting, armor_block)
 			if((H.stat != DEAD) && damage >= 9)
 				H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
 								"<span class='userdanger'>[M] has weakened [H]!</span>")
@@ -936,73 +927,67 @@
 	apply_damage(I.force, I.damtype, affecting, armor, H)
 
 	var/bloody = 0
-	if((I.damtype == BRUTE) && I.force)
-		if(affecting.brute_dam >= I.bleedcap && prob(I.bleedchance)) //Bleedcap by default is 40, bleedchance is 30
-			if(affecting.bloodloss <= 0)
-				H << "<span class='userdanger'>Your [hit_area] starts bleeding!</span>"
-			H.adjustBloodLoss(0.1, affecting)
-
-		if(prob(25 + (I.force * 2)))
-			if(affecting.status == ORGAN_ORGANIC)
-				I.add_blood(H)	//Make the weapon bloody, not the person.
-				if(prob(I.force * 2))	//blood spatter!
-					bloody = 1
-					var/turf/location = H.loc
-					if(istype(location, /turf/simulated))
-						location.add_blood(H)
-					if(get_dist(H, H) <= 1)	//people with TK won't get smeared with blood
-						if(H.wear_suit)
-							H.wear_suit.add_blood(H)
-							H.update_inv_wear_suit(0)	//updates mob overlays to show the new blood (no refresh)
-						else if(H.w_uniform)
-							H.w_uniform.add_blood(H)
-							H.update_inv_w_uniform(0)	//updates mob overlays to show the new blood (no refresh)
-						if (H.gloves)
-							var/obj/item/clothing/gloves/G = H.gloves
-							G.add_blood(H)
-						else
-							H.add_blood(H)
-							H.update_inv_gloves()	//updates on-mob overlays for bloody hands and/or bloody gloves
+	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2))))
+		if(affecting.status == ORGAN_ORGANIC)
+			I.add_blood(H)	//Make the weapon bloody, not the person.
+			if(prob(I.force * 2))	//blood spatter!
+				bloody = 1
+				var/turf/location = H.loc
+				if(istype(location, /turf/simulated))
+					location.add_blood(H)
+				if(get_dist(H, H) <= 1)	//people with TK won't get smeared with blood
+					if(H.wear_suit)
+						H.wear_suit.add_blood(H)
+						H.update_inv_wear_suit(0)	//updates mob overlays to show the new blood (no refresh)
+					else if(H.w_uniform)
+						H.w_uniform.add_blood(H)
+						H.update_inv_w_uniform(0)	//updates mob overlays to show the new blood (no refresh)
+					if (H.gloves)
+						var/obj/item/clothing/gloves/G = H.gloves
+						G.add_blood(H)
+					else
+						H.add_blood(H)
+						H.update_inv_gloves()	//updates on-mob overlays for bloody hands and/or bloody gloves
 
 
-			switch(hit_area)
-				if("head")	//Harder to score a stun but if you do it lasts a bit longer
-					if(H.stat == CONSCIOUS && prob(I.force) && armor < 50)
-						H.visible_message("<span class='danger'>[H] has been knocked unconscious!</span>", \
-										"<span class='userdanger'>[H] has been knocked unconscious!</span>")
-						H.apply_effect(20, PARALYZE, armor)
-						if(H != user && I.damtype == BRUTE)
-							ticker.mode.remove_revolutionary(H.mind)
-							ticker.mode.remove_gangster(H.mind)
+		switch(hit_area)
+			if("head")	//Harder to score a stun but if you do it lasts a bit longer
+				if(H.stat == CONSCIOUS && prob(I.force) && armor < 50)
+					H.visible_message("<span class='danger'>[H] has been knocked unconscious!</span>", \
+									"<span class='userdanger'>[H] has been knocked unconscious!</span>")
+					H.apply_effect(20, PARALYZE, armor)
+					if(H != user && I.damtype == BRUTE)
+						ticker.mode.remove_revolutionary(H.mind)
+						ticker.mode.remove_gangster(H.mind)
 
-					if(bloody)	//Apply blood
-						if(H.wear_mask)
-							H.wear_mask.add_blood(H)
-							H.update_inv_wear_mask(0)
-						if(H.head)
-							H.head.add_blood(H)
-							H.update_inv_head(0)
-						if(H.glasses && prob(33))
-							H.glasses.add_blood(H)
-							H.update_inv_glasses(0)
+				if(bloody)	//Apply blood
+					if(H.wear_mask)
+						H.wear_mask.add_blood(H)
+						H.update_inv_wear_mask(0)
+					if(H.head)
+						H.head.add_blood(H)
+						H.update_inv_head(0)
+					if(H.glasses && prob(33))
+						H.glasses.add_blood(H)
+						H.update_inv_glasses(0)
 
-				if("chest")	//Easier to score a stun but lasts less time
-					if(H.stat == CONSCIOUS && I.force && prob(I.force + 10))
-						H.visible_message("<span class='danger'>[H] has been knocked down!</span>", \
-										"<span class='userdanger'>[H] has been knocked down!</span>")
-						H.apply_effect(5, WEAKEN, armor)
+			if("chest")	//Easier to score a stun but lasts less time
+				if(H.stat == CONSCIOUS && I.force && prob(I.force + 10))
+					H.visible_message("<span class='danger'>[H] has been knocked down!</span>", \
+									"<span class='userdanger'>[H] has been knocked down!</span>")
+					H.apply_effect(5, WEAKEN, armor)
 
-					if(bloody)
-						if(H.wear_suit)
-							H.wear_suit.add_blood(H)
-							H.update_inv_wear_suit(0)
-						if(H.w_uniform)
-							H.w_uniform.add_blood(H)
-							H.update_inv_w_uniform(0)
+				if(bloody)
+					if(H.wear_suit)
+						H.wear_suit.add_blood(H)
+						H.update_inv_wear_suit(0)
+					if(H.w_uniform)
+						H.w_uniform.add_blood(H)
+						H.update_inv_w_uniform(0)
 
-			if(Iforce > 10 || Iforce >= 5 && prob(33))
-				H.forcesay(hit_appends)	//forcesay checks stat already.
-			return
+		if(Iforce > 10 || Iforce >= 5 && prob(33))
+			H.forcesay(hit_appends)	//forcesay checks stat already.
+		return
 
 /datum/species/proc/attacked_by(var/obj/item/I, var/mob/living/user, var/def_zone, var/mob/living/carbon/human/H)
 	H.apply_damage(I.force, I.damtype)
@@ -1399,8 +1384,11 @@
 		H.update_fire()
 
 #undef SPECIES_LAYER
+#undef BODY_BEHIND_LAYER
 #undef BODY_LAYER
+#undef BODY_ADJ_LAYER
 #undef HAIR_LAYER
+#undef BODY_FRONT_LAYER
 
 #undef HUMAN_MAX_OXYLOSS
 #undef HUMAN_CRIT_MAX_OXYLOSS
