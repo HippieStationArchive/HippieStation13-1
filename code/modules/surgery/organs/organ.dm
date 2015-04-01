@@ -47,12 +47,12 @@
 	var/bloodloss = 0	//Amount of brute dealt to limb per tick.
 	var/status = ORGAN_ORGANIC
 	var/list/foreign_objects = list() //Typically used for bullets lodged into limbs.
-	// var/bulletcountdown = 0 //for bullet bleeding 
+	var/list/embedded = list() //Same as foreign objects, although completely external and can be pulled out without surgery.
 
 
 /obj/item/organ/limb/chest
 	name = "chest"
-	desc = "why is it detached..."
+	desc = "Why is it detached..?"
 	icon_state = "chest"
 	max_damage = 200
 	body_part = CHEST
@@ -60,7 +60,7 @@
 
 /obj/item/organ/limb/head
 	name = "head"
-	desc = "what a way to get a head in life..." //TODO: make more pun descriptions. hue.
+	desc = "What a way to get ahead in life."
 	icon_state = "head"
 	max_damage = 200
 	body_part = HEAD
@@ -68,7 +68,7 @@
 
 /obj/item/organ/limb/l_arm
 	name = "l_arm"
-	desc = "why is it detached..."
+	desc = "Give me an arm here!"
 	icon_state = "l_arm"
 	max_damage = 75
 	body_part = ARM_LEFT
@@ -76,7 +76,7 @@
 
 /obj/item/organ/limb/l_leg
 	name = "l_leg"
-	desc = "why is it detached..."
+	desc = "Break a leg!"
 	icon_state = "l_leg"
 	max_damage = 75
 	body_part = LEG_LEFT
@@ -84,7 +84,7 @@
 
 /obj/item/organ/limb/r_arm
 	name = "r_arm"
-	desc = "why is it detached..."
+	desc = "Give me an arm here!"
 	icon_state = "r_arm"
 	max_damage = 75
 	body_part = ARM_RIGHT
@@ -92,7 +92,7 @@
 
 /obj/item/organ/limb/r_leg
 	name = "r_leg"
-	desc = "why is it detached..."
+	desc = "Break a leg!"
 	icon_state = "r_leg"
 	max_damage = 75
 	body_part = LEG_RIGHT

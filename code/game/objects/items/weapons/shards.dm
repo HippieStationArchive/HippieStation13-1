@@ -12,8 +12,9 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	var/cooldown = 0
 	insulated = 1 //For electrified grilles
-	bleedcap = 20 //Same as shanks
+	bleedcap = 10 //Can only bleed on second hit, at least
 	bleedchance = 20 //Lower than shanks
+	embedchance = 30 //Pretty high chance to embed itself in you
 
 /obj/item/weapon/shard/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the shard of glass! It looks like \he's trying to commit suicide.</span>", \
@@ -75,10 +76,34 @@
 		playsound(loc, 'sound/effects/glass_step.ogg', 50, 1)
 		if(ishuman(AM))
 			var/mob/living/carbon/human/H = AM
-			if(!H.shoes)
-				H.apply_damage(5,BRUTE,(pick("l_leg", "r_leg")))
+			if(!H.shoes && !H.lying)
+				var/obj/item/organ/limb/O = H.get_organ(pick("l_leg", "r_leg"))
+				H.apply_damage(5, BRUTE, O)
 				H.Weaken(3)
-				if(cooldown < world.time - 10) //cooldown to avoid message spam.
+				if(prob(embedchance))
+					src.add_blood(H)
+					src.loc = H
+					O.embedded += src //Lodge the object into the limb
+					H.visible_message("<span class='warning'>\The [src] has embedded into [H]'s [O.getDisplayName()]!</span>",
+									"<span class='userdanger'>You feel [src] lodge into your [O.getDisplayName()]!</span>")
+					H.update_damage_overlays() //Update the fancy embeds
+					H.emote("scream")
+				if(cooldown < world.time - 10) //cooldown to avoid message spam. Too bad this cooldown is only for the shard itself.
 					H.visible_message("<span class='danger'>[H] steps in the broken glass!</span>", \
 							"<span class='userdanger'>You step in the broken glass!</span>")
+					cooldown = world.time
+			else if(H.lying && !H.w_uniform)
+				var/obj/item/organ/limb/O = H.get_organ(ran_zone())
+				H.apply_damage(5, BRUTE, O)
+				if(prob(embedchance))
+					src.add_blood(H)
+					src.loc = H
+					O.embedded += src //Lodge the object into the limb
+					H.visible_message("<span class='warning'>\The [src] has embedded into [H]'s [O.getDisplayName()]!</span>",
+								"<span class='userdanger'>You feel [src] lodge into your [O.getDisplayName()]!</span>")
+					H.update_damage_overlays() //Update the fancy embeds
+					H.emote("scream")
+				if(cooldown < world.time - 10) //cooldown to avoid message spam. Too bad this cooldown is only for the shard itself.
+					H.visible_message("<span class='danger'>[H] lay over the broken glass!</span>", \
+							"<span class='userdanger'>You lay over the broken glass!</span>")
 					cooldown = world.time

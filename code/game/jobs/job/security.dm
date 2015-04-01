@@ -43,6 +43,7 @@ Head of Security
 	H.equip_to_slot_or_del(new /obj/item/clothing/head/HoS/beret(H), slot_head)
 	H.equip_to_slot_or_del(new /obj/item/clothing/glasses/hud/security/sunglasses(H), slot_glasses)
 	H.equip_to_slot_or_del(new /obj/item/weapon/gun/energy/gun/pistol(H), slot_s_store)
+	H.equip_to_slot_or_del(new /obj/item/key/security(H), slot_r_store)
 
 	if(H.backbag == 1)
 		H.equip_to_slot_or_del(new /obj/item/weapon/restraints/handcuffs(H), slot_l_store)
@@ -92,6 +93,7 @@ Warden
 	H.equip_to_slot_or_del(new /obj/item/clothing/gloves/color/black(H), slot_gloves)
 	H.equip_to_slot_or_del(new /obj/item/clothing/glasses/hud/security/sunglasses(H), slot_glasses)
 	H.equip_to_slot_or_del(new /obj/item/device/flash/handheld(H), slot_l_store)
+	H.equip_to_slot_or_del(new /obj/item/key/security(H), slot_r_store)
 
 	if(H.backbag == 1)
 		H.equip_to_slot_or_del(new /obj/item/weapon/restraints/handcuffs(H), slot_l_hand)
@@ -136,6 +138,7 @@ Detective
 	H.equip_to_slot_or_del(new /obj/item/clothing/gloves/color/black(H), slot_gloves)
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/toggle/det_suit(H), slot_wear_suit)
 	H.equip_to_slot_or_del(new /obj/item/weapon/lighter/zippo(H), slot_l_store)
+	H.equip_to_slot_or_del(new /obj/item/toy/crayon/white(H), slot_r_store)
 
 	var/obj/item/clothing/mask/cigarette/cig = new /obj/item/clothing/mask/cigarette(H)
 	cig.light("")
@@ -143,7 +146,7 @@ Detective
 
 	if(H.backbag == 1)//Why cant some of these things spawn in his office?
 		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/evidence(H), slot_l_hand)
-		H.equip_to_slot_or_del(new /obj/item/device/detective_scanner(H), slot_r_store)
+		H.equip_to_slot_or_del(new /obj/item/device/detective_scanner(H), slot_r_hand)
 	else
 		H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/evidence(H), slot_in_backpack)
 		H.equip_to_slot_or_del(new /obj/item/device/detective_scanner(H), slot_in_backpack)

@@ -98,63 +98,61 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/job_specific //No job-specific support for surplus yet.
 	category = "Job-specific Contraband"
+	surplus = 0
 
+//ENGINEER DIVISION
+
+/datum/uplink_item/job_specific/rodgun
+	name = "Rod Gun"
+	desc = "Based on the staple gun design, this baby can be loaded with 3 rods that you can shoot for them to embed into people." //This thing may be super OP
+	item = /obj/item/weapon/gun/rodgun
+	cost = 10 //Costly, but for a good reason
+	jobs = list("Engineer", "Chief Engineer", "Atmospheric Technician")
+
+//CHEMIST
 /datum/uplink_item/job_specific/assX
 	name = "Ass-X pill"
 	desc = "A hilarious pill that will force your target to superfart while dealing lots of damage to their stomach. It can be surprisingly effective."
 	item = /obj/item/weapon/reagent_containers/pill/assX
 	cost = 4
-	surplus = 0
 	jobs = list("Chemist")
 
+//LIBRARIAN
 /datum/uplink_item/job_specific/soulstone
 	name = "Soulstone"
 	desc = "This stone will be able to capture your victim's soul and bind them to your will."
 	item = /obj/item/device/soulstone
+	cost = 5 //nerfed the cost on Chronitonity's request
+	jobs = list("Librarian") //Switched soulstones to librarian, gave chaplain skelestones
+//TODO: Add flash disguised as camera
+
+//CHAPLAIN
+/datum/uplink_item/job_specific/skelestone
+	name = "Skelestone"
+	desc = "Make a skeleton minion! Has one use."
+	item = /obj/item/device/necromantic_stone/oneuse
 	cost = 7
-	surplus = 0
 	jobs = list("Chaplain")
 
+//BARTENDER
 /datum/uplink_item/job_specific/buckshot
 	name = "12g Buckshot Shell"
 	desc = "Buckshot shells fire 5 pellets that will spread in the direction you are shooting. They can be loaded into your double-barreled shotgun. Absolutely devastating point-blank."
 	item = /obj/item/ammo_casing/shotgun/buckshot
 	cost = 5
-	surplus = 0
 	jobs = list("Bartender")
 
+//JANITOR
+
+//TODO: Meatcubing trashcart goon-style
+
+//ASSISTANT
 /datum/uplink_item/job_specific/stungloves
 	name = "Stun Gloves"
 	desc = "Classic among cunning assistant assasins, these gloves stun your target on touch. Be careful when you wear them, though."
 	item = /obj/item/clothing/gloves/stungloves
 	cost = 4
-	surplus = 0
 	jobs = list("Assistant")
-
-// /datum/uplink_item/job_specific/ducttape
-// 	name = "Duct tape"
-// 	desc = "An incredibly useful item, especially if you're permabrigged. You can use it to shut someone up (aim at head) and craft some nasty makeshift items."
-// 	item = /obj/item/stack/ducttape
-// 	cost = 1
-// 	surplus = 0
-// 	jobs = list("Assistant")
-
-// debug job-specific items.
-// /datum/uplink_item/job_specific/testa
-// 	name = "ASSISTANT-ONLY TEST"
-// 	desc = "A job-specific test."
-// 	item = /obj/item/weapon/soap/syndie
-// 	cost = 1
-// 	surplus = 0
-// 	jobs = list("Assistant")
-
-// /datum/uplink_item/job_specific/testb
-// 	name = "NO ASSISTANT TEST ITEM"
-// 	desc = "Assistant excluded from purchase, nerd."
-// 	item = /obj/item/weapon/soap/syndie
-// 	cost = 1
-// 	surplus = 0
-// 	jobs_exclude = list("Assistant")
 
 // DANGEROUS WEAPONS
 
@@ -654,8 +652,8 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/badass/syndiecards
 	name = "Syndicate Playing Cards"
-	desc = "A special deck of space-grade playing cards with a mono-molecular edge and metal reinforcement, making them slightly more robust than a normal deck of cards. \
-	You can also play card games with them or leave them on your victims."
+	desc = "A special deck of space-grade playing cards with a mono-molecular edge and metal reinforcement, making them more robust than a normal deck of cards. \
+	You can also play card games with them or leave them in your victims."
 	item = /obj/item/toy/cards/deck/syndicate
 	cost = 1
 	excludefrom = list(/datum/game_mode/nuclear)

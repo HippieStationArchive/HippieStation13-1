@@ -100,6 +100,7 @@
 			new/obj/item/darts(user.loc)
 			darts = 0
 			resetdarts()
+
 /obj/item/darts
 	name = "Dart"
 	desc = "Get the point?"
@@ -107,5 +108,6 @@
 	icon_state = "dart"
 	force = 4
 	throwforce = 10
+	embedchance = 30
 	w_class = 2
 

@@ -416,7 +416,7 @@
 	attack_verb = list("attacked", "coloured")
 	var/colour = "#FF0000" //RGB
 	var/drawtype = "rune"
-	var/list/graffiti = list("amyjon","face","matt","revolution","engie","guy","end","dwarf","uboa")
+	var/list/graffiti = list("amyjon","face","matt","revolution","engie","guy","end","dwarf","uboa","saturn","ghost","mystery")
 	var/list/letters = list("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z")
 	var/uses = 30 //0 for unlimited uses
 	var/instant = 0
@@ -511,7 +511,19 @@
 				user << "<span class='danger'>You ate your crayon!</span>"
 				qdel(src)
 	else
-		..()
+		if(istype(M, /mob/living/carbon/human) && M.lying && isturf(M.loc))
+			user << "You start drawing an outline of the [M]."
+			playsound(src.loc, 'sound/items/chalk_start.ogg', 40, 1)
+			if(instant || do_after(user, 50))
+				new /obj/effect/decal/cleanable/crayon(M.loc,colour,"body","body")
+				user << "You finish drawing an outline."
+				playsound(src.loc, 'sound/items/chalk.ogg', 40, 1)
+				if(uses)
+					uses--
+					if(!uses)
+						user << "<span class='danger'>You used up your crayon!</span>"
+						qdel(src)
+
 
 /*
  * Snap pops
@@ -660,7 +672,24 @@
 		return
 	..()
 
+/obj/item/toy/griffin
+	name = "griffin action figure"
+	desc = "An action figure modeled after 'The Griffin', criminal mastermind."
+	icon = 'icons/obj/toy.dmi'
+	icon_state = "griffinprize"
+	w_class = 2.0
+	cooldown = 0
 
+/obj/item/toy/griffin/attack_self(mob/user)
+	if(!cooldown) //for the sanity of everyone
+		var/message = pick("You can't stop me, Owl!", "My plan is flawless! The vault is mine!", "Caaaawwww!", "You will never catch me!")
+		user << "<span class='notice'>You pull the string on the [src].</span>"
+		playsound(user, 'sound/machines/click.ogg', 20, 1)
+		src.loc.visible_message("<span class='danger'>\icon[src] [message]</span>")
+		cooldown = 1
+		spawn(30) cooldown = 0
+		return
+	..()
 
 
 /*
@@ -678,6 +707,7 @@ obj/item/toy/cards
 	var/card_throwforce = 0
 	var/card_throw_speed = 3
 	var/card_throw_range = 7
+	var/card_embedchance = 0 //this is reserved for MEGA SYNDICATE THROWING STARS DISGUISED AS CARDS
 	var/list/card_attack_verb = list("attacked")
 
 obj/item/toy/cards/New()
@@ -1003,6 +1033,8 @@ obj/item/toy/cards/singlecard/apply_card_vars(obj/item/toy/cards/singlecard/newo
 	newobj.throw_range = newobj.card_throw_range
 	newobj.card_attack_verb = sourceobj.card_attack_verb
 	newobj.attack_verb = newobj.card_attack_verb
+	newobj.card_embedchance = sourceobj.card_embedchance
+	newobj.embedchance = newobj.card_embedchance
 
 
 /*
@@ -1018,6 +1050,7 @@ obj/item/toy/cards/deck/syndicate
 	card_throwforce = 10
 	card_throw_speed = 3
 	card_throw_range = 7
+	card_embedchance = 80 //freaking throwing stars
 	card_attack_verb = list("attacked", "sliced", "diced", "slashed", "cut")
 
 /*
@@ -1052,7 +1085,7 @@ obj/item/toy/cards/deck/syndicate
 
 /obj/item/toy/minimeteor
 	name = "\improper Mini-Meteor"
-	desc = "Relive the excitement of a meteor shower! SweetMeat-eor. Co is not responsible for any injuries, headaches or hearing loss caused by Mini-Meteor™"
+	desc = "Relive the excitement of a meteor shower! SweetMeat-eor. Co is not responsible for any injuries, headaches or hearing loss caused by Mini-Meteor?"
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "minimeteor"
 	w_class = 2.0
@@ -1114,3 +1147,23 @@ obj/item/toy/cards/deck/syndicate
 			user.visible_message("<span class='notice'>The [src] says, [pick(answers)]</span>")
 		sleep(cooldown - world.time)
 		icon_state = "magic8ball"
+
+
+/obj/item/toy/owl
+	name = "owl action figure"
+	desc = "An action figure modeled after 'The Owl', defender of justice."
+	icon = 'icons/obj/toy.dmi'
+	icon_state = "owlprize"
+	w_class = 2.0
+	cooldown = 0
+
+/obj/item/toy/owl/attack_self(mob/user)
+	if(!cooldown) //for the sanity of everyone
+		var/message = pick("You won't get away this time, Griffin!", "Stop right there, criminal!", "Hoot! Hoot!", "I am the night!")
+		user << "<span class='notice'>You pull the string on the [src].</span>"
+		playsound(user, 'sound/machines/click.ogg', 20, 1)
+		src.loc.visible_message("<span class='danger'>\icon[src] [message]</span>")
+		cooldown = 1
+		spawn(30) cooldown = 0
+		return
+	..()

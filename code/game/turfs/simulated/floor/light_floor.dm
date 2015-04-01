@@ -2,7 +2,6 @@
  *
  * Light floor
  */
-
 /turf/simulated/floor/light
 	name = "Light floor"
 	luminosity = 5
@@ -11,6 +10,8 @@
 	broken_states = list("light_broken")
 	var/on = 1
 	var/state //0 = fine, 1 = flickering, 2 = breaking, 3 = broken
+	var/list/coloredlights = list("g", "r", "y", "b", "p", "w", "s","o","g")
+	var/currentcolor = 1
 
 /turf/simulated/floor/light/New()
 	..()
@@ -21,12 +22,11 @@
 	update_icon()
 
 /turf/simulated/floor/light/update_icon()
-	if(!..())
-		return 0
+	..()
 	if(on)
 		switch(state)
 			if(0)
-				icon_state = "light_on"
+				icon_state = "light_on_[coloredlights[currentcolor]]"
 				SetLuminosity(1)
 			if(1)
 				var/num = pick("1","2","3","4")
@@ -47,9 +47,19 @@
 	..()
 
 /turf/simulated/floor/light/attack_hand(mob/user as mob)
-	on = !on
+	if(!on)
+		on = 1
+		currentcolor = 1
+		return
+	else
+		currentcolor++
+	if ( currentcolor > coloredlights.len)
+		on = 0
 	update_icon()
-	..()
+	..()  //I am not sure what the parent procs have for attack_hand, best to check later.
+
+/turf/simulated/floor/light/attack_ai(mob/user)
+	attack_hand(user)
 
 /turf/simulated/floor/light/attackby(obj/item/C as obj, mob/user as mob)
 	if(..())

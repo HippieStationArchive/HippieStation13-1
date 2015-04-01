@@ -1449,3 +1449,8 @@ var/list/WALLITEMS = list(
 		chance = max(chance - (initial_chance / steps), 0)
 		steps--
 
+
+/proc/getnameloc(var/objname)
+	for(var/atom/C in world)
+		if(C.name == objname)
+			usr << "[C.name] is in [C.x], [C.y], [C.z] in [C.loc]"

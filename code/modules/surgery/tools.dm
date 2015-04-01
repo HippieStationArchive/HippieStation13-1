@@ -42,7 +42,7 @@
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "drill"
 	hitsound = 'sound/weapons/circsawhit.ogg'
-	bleedchance = 20 //Only bleed chance increased, bleedcap still 40
+	bleedchance = 30 //Only bleed chance increased, bleedcap still default
 	m_amt = 10000
 	g_amt = 6000
 	flags = CONDUCT
@@ -50,6 +50,14 @@
 	w_class = 3.0
 	origin_tech = "materials=1;biotech=1"
 	attack_verb = list("drilled")
+
+/obj/item/weapon/surgicaldrill/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
+	if(!istype(M))	return ..()
+	if(user.zone_sel.selecting == "eyes" || (user.zone_sel.selecting == "head" && prob(40)))	
+		if((CLUMSY in user.mutations) && prob(50))
+			M = user
+		return eyestab(M,user)
+	return ..()
 
 /obj/item/weapon/scalpel
 	name = "scalpel"
@@ -76,6 +84,13 @@
 						"<span class='suicide'>[user] is slitting \his stomach open with [src]! It looks like \he's trying to commit seppuku.</span>"))
 	return (BRUTELOSS)
 
+/obj/item/weapon/scalpel/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
+	if(!istype(M))	return ..()
+	if(user.zone_sel.selecting == "eyes" || (user.zone_sel.selecting == "head" && prob(40)))
+		if((CLUMSY in user.mutations) && prob(50))
+			M = user
+		return eyestab(M,user)
+	return ..()
 
 /obj/item/weapon/circular_saw
 	name = "circular saw"
@@ -87,7 +102,7 @@
 	flags = CONDUCT
 	force = 15.0 //Nice force
 	bleedchance = 20 //Pretty robust
-	bleedcap = 20 //Standard edged weapon bleedcap
+	bleedcap = 10 //Lower bleedcap
 	w_class = 3.0
 	throwforce = 9.0
 	throw_speed = 2

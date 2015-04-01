@@ -93,6 +93,7 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 
 			var/dist = cheap_pythag(T.x - x0,T.y - y0)
 			var/flame_dist = 0
+			var/throw_dist = dist
 
 			if(dist < flame_range)
 				flame_dist = 1
@@ -102,17 +103,6 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 			else if(dist < light_impact_range)	dist = 3
 			else 								dist = 0
 
-
-			//for(var/mob/living/C in view(epicenter))
-			//	var/turf/M_turf = get_turf(C)
-			//	var/dist2 = get_dist(M_turf, epicenter)
-			//	if(dist2 <= round(max_range + world.view - 2, 1))
-			//		if(dist2 <= 3)
-			//			continue
-			//		var/atom/throw_target = get_edge_target_turf(C, get_dir(epicenter, get_step_away(C, epicenter)))
-			//		C.throw_at(throw_target, 20, 4)
-			///		C << "\red The explosions force throws you back!"
-
 			//------- TURF FIRES -------
 
 			if(T)
@@ -120,6 +110,25 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 					new/obj/effect/hotspot(T) //Mostly for ambience!
 				if(dist > 0)
 					T.ex_act(dist)
+
+			//--- THROW ITEMS AND PEOPLE AROUND ---
+
+			var/throw_dir = get_dir(epicenter,T)
+			for(var/atom/A in T)
+				spawn(0) //Simultaneously not one at a time
+					if(istype(A, /obj/item))
+						var/obj/item/I = A
+						if(!I.anchored)
+							var/throw_range = rand(throw_dist, max_range)
+							var/turf/throw_at = get_ranged_target_turf(I, throw_dir, throw_range)
+							I.throw_at(throw_at, throw_range,1)
+					if(istype(A, /mob/living))
+						var/mob/living/C = A
+						if(!C.anchored) //Not sure but you may or may not be thrown around even when buckled.
+							var/throw_range = rand(throw_dist, max_range)
+							var/turf/throw_at = get_ranged_target_turf(C, throw_dir, throw_range)
+							C.throw_at(throw_at, throw_range,1)
+							C << "\red The explosions force throws you back!"
 
 		var/took = (world.timeofday-start)/10
 		//You need to press the DebugGame verb to see these now....they were getting annoying and we've collected a fair bit of data. Just -test- changes  to explosion code using this please so we can compare

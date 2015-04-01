@@ -70,13 +70,31 @@ emp_act
 	var/armor = run_armor_check(O, "projectile")
 	if(armor < 100)
 		if(istype(B) && prob(max(0, B.mob_stuck_chance - (armor/2)))) //Bulletproof armor should be able to prevent bullets getting stuck in ya
-			if(O.name != "head") //Check if the affected limb is not your head
-				O.foreign_objects += new /obj/item/bullet(O) //Lodge the bullet into the limb
-				src << "<span class='userdanger'>You feel a sharp pain in your [O.getDisplayName()]!</span>"
-				if(prob(5)) emote("scream")
+			// if(O.name != "head") //Check if the affected limb is not your head
+			O.foreign_objects += new /obj/item/bullet(O) //Lodge the bullet into the limb
+			src << "<span class='userdanger'>You feel a sharp pain in your [O.getDisplayName()]!</span>"
+			if(prob(5)) emote("scream")
 			adjustBloodLoss(0.01, O) //Give the dude some bloodloss. Low amount since automatic weapons would be OP as fuck
 
 	return (..(P , def_zone))
+
+/mob/living/carbon/human/hitby(atom/movable/AM, zone, skip)
+	..()
+	var/obj/item/organ/limb/O = get_organ(check_zone(zone))
+	var/armor = run_armor_check(O, "melee")
+	if(armor < 100)
+		if(istype(AM, /obj/item) && AM.loc != src)
+			var/obj/item/I = AM
+			if(prob(max(0, I.embedchance - (armor/3))))
+				I.add_blood(src)
+				I.loc = src
+				O.embedded += I //Lodge the object into the limb
+				update_damage_overlays() //Update the fancy embeds
+				visible_message("<span class='warning'>The [I] has embedded into [src]'s [O.getDisplayName()]!</span>",
+								"<span class='userdanger'>You feel [I] lodge into your [O.getDisplayName()]!</span>")
+				if(prob(15)) emote("scream")
+				adjustBloodLoss(0.01, O) //Give the dude some bloodloss.
+				// adjustBruteLoss(I.w_class * 3) //Throwforce is already dealt, let's adjust brute loss when attempting to take it out without surgery
 
 /mob/living/carbon/human/proc/check_reflect(var/def_zone) //Reflection checks for anything in your l_hand, r_hand, or wear_suit based on reflect_chance var of the object
 	if(wear_suit && istype(wear_suit, /obj/item/))
@@ -125,7 +143,7 @@ emp_act
 			var/turf/picked = pick(turfs)
 			if(!isturf(picked)) return
 			if(buckled)
-				buckled.unbuckle()
+				buckled.unbuckle_mob()
 			src.loc = picked
 			return 1
 	return 0

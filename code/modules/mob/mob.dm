@@ -785,7 +785,7 @@ var/list/slot_equipment_priority = list( \
 //Robots and brains have their own version so don't worry about them
 /mob/proc/update_canmove()
 	var/ko = weakened || paralysis || stat || (status_flags & FAKEDEATH)
-	var/bed = !(buckled && istype(buckled, /obj/structure/stool/bed/chair))
+	var/buckle_lying = !(buckled && !buckled.buckle_lying)
 	if(ko || resting || stunned)
 		drop_r_hand()
 		drop_l_hand()
@@ -793,11 +793,13 @@ var/list/slot_equipment_priority = list( \
 		lying = 0
 		canmove = 1
 	if(buckled)
-		lying = 90 * bed
+		lying = 90*buckle_lying
+	else if(pinned_to)
+		lying = 0
 	else
 		if((ko || resting) && !lying)
 			fall(ko)
-	canmove = !(ko || resting || stunned || buckled)
+	canmove = !(ko || resting || stunned || buckled || pinned_to)
 	density = !lying
 	update_transform()
 	lying_prev = lying

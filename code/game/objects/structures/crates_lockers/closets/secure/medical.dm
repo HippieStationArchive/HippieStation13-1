@@ -69,12 +69,12 @@
 	new /obj/item/clothing/suit/toggle/labcoat(src)
 	new /obj/item/clothing/shoes/sneakers/white(src)
 	new /obj/item/device/radio/headset/headset_med(src)
-	new /obj/item/clothing/gloves/color/latex(src)
+	new /obj/item/clothing/gloves/color/latex/nitrile(src)
 	new /obj/item/weapon/defibrillator/loaded(src)
 	new /obj/item/device/sensor_device(src)
 	new /obj/item/weapon/storage/belt/medical(src)
 	new /obj/item/clothing/glasses/hud/health(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/medical(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/medical(src)
 	return
 
 
@@ -102,11 +102,11 @@
 	new /obj/item/clothing/shoes/sneakers/brown	(src)
 	new /obj/item/weapon/cartridge/cmo(src)
 	new /obj/item/device/radio/headset/heads/cmo(src)
-	new /obj/item/clothing/gloves/color/latex(src)
+	new /obj/item/clothing/gloves/color/latex/nitrile(src)
 	new /obj/item/weapon/defibrillator/loaded(src)
 	new /obj/item/weapon/storage/belt/medical(src)
 	new /obj/item/device/flash/handheld(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/medical(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/medical(src)
 	new /obj/item/weapon/reagent_containers/hypospray/CMO(src)
 	return
 

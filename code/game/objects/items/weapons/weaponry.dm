@@ -61,6 +61,7 @@
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	force = 40
+	embedchance = 30
 	throwforce = 10
 	w_class = 3
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
@@ -80,6 +81,7 @@
 	flags = CONDUCT
 	slot_flags = SLOT_BELT | SLOT_BACK
 	force = 40
+	embedchance = 30
 	throwforce = 10
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -144,8 +146,9 @@ obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
 	attack_verb = list("stabbed", "shanked", "sliced", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	insulated = 1 //For electrified grilles
-	bleedcap = 20 //Lower bleedcap - the actual fucking reason to use shanks.
+	bleedcap = 5 //Lower bleedcap - the actual fucking reason to use shanks.
 	bleedchance = 25 //Robust bleedchance - it's a shank, do you expect anything less?
+	embedchance = 10 //Slight chance to embed when thrown. Less than normal shards for obvious reasons.
 
 /obj/item/weapon/shank/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the shank! It looks like \he's trying to commit suicide.</span>", \
@@ -172,11 +175,48 @@ obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("stabbed", "slashed", "attacked")
 	insulated = 1
-	bleedcap = 20 //same as shanks
-	bleedchance = 25 //same as shanks
+	bleedcap = 10 //Bleedchance on second hit
+	bleedchance = 20 //Slightly worse than shanks
 	var/icon/broken_outline = icon('icons/obj/drinks.dmi', "broken")
 
 /obj/item/weapon/broken_bottle/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the [src]! It looks like \he's trying to commit suicide.</span>", \
 						"<span class='suicide'>[user] is slitting \his throat with the [src]! It looks like \he's trying to commit suicide.</span>"))
 	return (BRUTELOSS)
+
+/obj/item/weapon/hatchet
+	name = "hatchet"
+	desc = "A very sharp axe blade upon a short fibremetal handle. It has a long history of chopping things, but now it is used for chopping wood."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "hatchet"
+	flags = CONDUCT
+	force = 12.0
+	w_class = 1.0
+	throwforce = 15.0
+	throw_speed = 3
+	throw_range = 4
+	embedchance = 35 //Great embed chance
+	bleedcap = 10
+	bleedchance = 25
+	m_amt = 15000
+	origin_tech = "materials=2;combat=1"
+	attack_verb = list("chopped", "torn", "cut")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+
+/obj/item/weapon/scythe
+	icon_state = "scythe0"
+	name = "scythe"
+	desc = "A sharp and curved blade on a long fibremetal handle, this tool makes it easy to reap what you sow."
+	force = 13.0
+	throwforce = 5.0
+	throw_speed = 2
+	throw_range = 3
+	embedchance = 15 //relatively low
+	bleedcap = 0
+	bleedchance = 25
+	w_class = 4.0
+	flags = CONDUCT | NOSHIELD
+	slot_flags = SLOT_BACK
+	origin_tech = "materials=2;combat=2"
+	attack_verb = list("chopped", "sliced", "cut", "reaped")
+	hitsound = 'sound/weapons/bladeslice.ogg'

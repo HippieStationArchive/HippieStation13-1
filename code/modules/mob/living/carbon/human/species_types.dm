@@ -27,6 +27,7 @@
 	name = "Lizardperson"
 	id = "lizard"
 	say_mod = "hisses"
+	mutant_bodyparts = list("tail", "snout")
 	default_color = "00FF00"
 	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
@@ -38,7 +39,7 @@
 /datum/species/lizard/handle_speech(message)
 	// jesus christ why
 	if(copytext(message, 1, 2) != "*")
-		message = replacetext(message, "s", stutter("ss"))
+		message = replacetext(message, "s", "sss")
 
 	return message
 
@@ -293,8 +294,10 @@
 	// 2spooky
 	name = "Spooky Scary Skeleton"
 	id = "skeleton"
+	say_mod = "rattles"
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/skeleton
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE)
 /*
  ZOMBIES
 */

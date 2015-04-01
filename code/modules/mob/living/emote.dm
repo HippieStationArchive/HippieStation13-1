@@ -87,7 +87,15 @@
 			if (!src.restrained())
 				message = "<B>[src]</B> flaps its wings."
 				m_type = 2
-
+		if ("flip")//You guys that lazy to add a cooldown!?!?
+			if(emotecount >= 1)
+				if (!src.restrained() || src.resting || src.sleeping)//this is why we have checks for these things
+					src << "<span class = 'notice'>You do a flip!</span>"
+					src.SpinAnimation(7,1)//span
+					m_type = 2
+					emotecount--
+			else//shitty gimmick feature
+				src << "<span class = 'notice'>You feel too tired to do a flip!</span>"
 		if ("frown")
 			message = "<B>[src]</B> frowns."
 			m_type = 1
@@ -287,3 +295,15 @@
 			visible_message(message)
 		else if (m_type & 2)
 			src.loc.audible_message(message)
+
+
+/mob/living/
+	var/emotecount = 0
+	var/emotecounting = 0
+/mob/living/Life()
+	..()
+	if(emotecounting >= 20)
+		emotecount += 1
+		emotecounting = 0
+	else
+		emotecounting++

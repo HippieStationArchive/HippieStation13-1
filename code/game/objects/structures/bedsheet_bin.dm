@@ -18,7 +18,6 @@ LINEN BINS
 	w_class = 1.0
 	item_color = "white"
 
-
 /obj/item/weapon/bedsheet/attack(mob/living/M, mob/user)
 	if(!attempt_initiate_surgery(src, M, user))
 		..()
@@ -32,6 +31,14 @@ LINEN BINS
 	add_fingerprint(user)
 	return
 
+/obj/item/weapon/bedsheet/attackby(obj/item/I as obj, mob/user as mob)
+	if(istype(I, /obj/item/weapon/wirecutters))
+		user.drop_item(src)
+		qdel(src)
+		var/obj/item/stack/gauze/piece/B = new(user.loc)
+		user.put_in_hands(B)
+		return
+	..() //not sure if this is needed
 
 /obj/item/weapon/bedsheet/blue
 	icon_state = "sheetblue"

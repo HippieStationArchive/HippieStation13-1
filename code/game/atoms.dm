@@ -8,6 +8,7 @@
 	var/list/blood_DNA
 	var/last_bumped = 0
 	var/throwpass = 0
+	var/throwzone = "chest" //Targeted zone when thrown
 
 	///Chemistry.
 	var/datum/reagents/reagents = null
@@ -27,7 +28,7 @@
 /atom/proc/throw_impact(atom/hit_atom)
 	if(istype(hit_atom,/mob/living))
 		var/mob/living/M = hit_atom
-		M.hitby(src)
+		M.hitby(src, ran_zone(throwzone, 50)) //50% chance to hit targeted limb
 
 	else if(isobj(hit_atom))
 		var/obj/O = hit_atom
@@ -251,7 +252,7 @@ its easier to just keep the beam vertical.
 /atom/proc/fire_act()
 	return
 
-/atom/proc/hitby(atom/movable/AM as mob|obj)
+/atom/proc/hitby(atom/movable/AM as mob|obj, var/zone=ran_zone("chest", 65))
 	return
 
 

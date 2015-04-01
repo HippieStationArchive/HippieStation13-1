@@ -700,6 +700,7 @@
 		var/obj/item/weapon/tank/jetpack/J = H.back
 		if(J.allow_thrust(0.01, H))
 			hasjetpack = 1
+
 	var/grav = has_gravity(H)
 
 	if(!grav && !hasjetpack && !istype(get_turf(H), /turf/space))
@@ -740,27 +741,27 @@
 		return 0
 
 	var/obj/item/clothing/gloves/G = M.gloves
-	if(G && G.stunOnTouch)
-		if(H.w_uniform)
-			H.w_uniform.add_fingerprint(M) //Unless they're wearing something other than stun gloves the prints won't transfer.
-		if(!G.power_supply || G.power_supply.charge >= G.energyCost)
-			add_logs(M, H, "stunned")
-			M.do_attack_animation(H)
-			if(G.atk_verb)
-				H.visible_message("<span class='danger'>[M] has [G.atk_verb] [H]!</span>", \
-								"<span class='userdanger'>[M] has [G.atk_verb] [H]!</span>")
-			H.Stun(G.stunforce/2)
-			H.Weaken(G.stunforce)
-			H.apply_effect(STUTTER, G.stunforce)
-			if(G.power_supply)
-				G.power_supply.use(G.energyCost)
-			return
-		else if(G.power_supply.charge < G.energyCost)
-			add_logs(M, H, "attempted to stun")
-			M << "<span class='warning'>Out of charge!</span>"
-			H.visible_message("<span class='notice'>[M] has touched [H].</span>", \
-							"<span class='notice'>[M] has touched [H].</span>")
-			return
+	// if(G && G.stunOnTouch)
+	// 	if(H.w_uniform)
+	// 		H.w_uniform.add_fingerprint(M) //Unless they're wearing something other than stun gloves the prints won't transfer.
+	// 	if(!G.power_supply || G.power_supply.charge >= G.energyCost)
+	// 		add_logs(M, H, "stunned")
+	// 		M.do_attack_animation(H)
+	// 		if(G.atk_verb)
+	// 			H.visible_message("<span class='danger'>[M] has [G.atk_verb] [H]!</span>", \
+	// 							"<span class='userdanger'>[M] has [G.atk_verb] [H]!</span>")
+	// 		H.Stun(G.stunforce/2)
+	// 		H.Weaken(G.stunforce)
+	// 		H.apply_effect(STUTTER, G.stunforce)
+	// 		if(G.power_supply)
+	// 			G.power_supply.use(G.energyCost)
+	// 		return
+	// 	else if(G.power_supply.charge < G.energyCost)
+	// 		add_logs(M, H, "attempted to stun")
+	// 		M << "<span class='warning'>Out of charge!</span>"
+	// 		H.visible_message("<span class='notice'>[M] has touched [H].</span>", \
+	// 						"<span class='notice'>[M] has touched [H].</span>")
+	// 		return
 	switch(M.a_intent)
 		if("help")
 			if(H.health >= 0)

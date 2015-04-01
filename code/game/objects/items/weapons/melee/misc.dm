@@ -18,7 +18,7 @@
 
 /obj/item/weapon/melee/truncheon
 	name = "prototype baton"
-	desc = "A baton prototype. You shouldn't be able to find this."
+	desc = "A baton prototype. Despite how powerful it is it's relatively obscure."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "nightstickfiber"
 	item_state = "classic_baton"
@@ -142,6 +142,7 @@
 	force = 17.0 //Reduced force to put bigger emphasis on bleeding
 	bleedcap = 0 //Can cause bleeding even on first stab
 	bleedchance = 30 //Higher chance to cause bleeding - same as kitchen knife
+	embedchance = 50 //Makes it an amazing throwing weapon.
 	w_class = 1.0
 	slot_flags = SLOT_BELT
 	throwforce = 20.0 //Robust as fuck when thrown
@@ -181,7 +182,9 @@
 		attack_verb = list("stabbed", "torn", "cut", "sliced")
 		icon_state = "pocketknife_open"
 		w_class = 3
-		bleedcap = 20 //Reduce bleedcap
+		bleedchance = 20 //Increase bleedchance
+		bleedcap = 0 //Reduce bleedcap
+		embedchance = 30 //Increase embed chance
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now open.</span>"
 	else
@@ -191,7 +194,9 @@
 		attack_verb = null
 		icon_state = "pocketknife"
 		w_class = 1
+		bleedchance = 10 //Reduce bleedchance
 		bleedcap = 40 //restore bleedcap
+		embedchance = 0 //Reduce embed chance
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
 		user << "<span class='notice'>[src] is now closed.</span>"
 	add_fingerprint(user)

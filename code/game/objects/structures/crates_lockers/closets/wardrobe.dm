@@ -87,7 +87,7 @@
 	new /obj/item/clothing/shoes/sneakers/black(src)
 	new /obj/item/clothing/suit/nun(src)
 	new /obj/item/clothing/head/nun_hood(src)
-	new /obj/item/clothing/suit/toggle/chaplain_hoodie(src)
+	new /obj/item/clothing/suit/hooded/chaplain_hoodie(src)
 	new /obj/item/clothing/suit/holidaypriest(src)
 	new /obj/item/weapon/storage/backpack/cultpack (src)
 	new /obj/item/weapon/storage/fancy/candle_box(src)
@@ -260,7 +260,7 @@
 	new /obj/item/clothing/gloves/fingerless(src)
 	new /obj/item/clothing/head/soft/black(src)
 	new /obj/item/clothing/head/soft/black(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/science(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/science(src)
 	return
 
 
@@ -276,7 +276,7 @@
 	new /obj/item/clothing/shoes/sneakers/white(src)
 	new /obj/item/clothing/suit/toggle/labcoat/chemist(src)
 	new /obj/item/clothing/suit/toggle/labcoat/chemist(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/medical(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/medical(src)
 	return
 
 
@@ -292,7 +292,7 @@
 	new /obj/item/clothing/shoes/sneakers/white(src)
 	new /obj/item/clothing/suit/toggle/labcoat/genetics(src)
 	new /obj/item/clothing/suit/toggle/labcoat/genetics(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/medical(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/medical(src)
 	return
 
 
@@ -310,7 +310,7 @@
 	new /obj/item/clothing/suit/toggle/labcoat/virologist(src)
 	new /obj/item/clothing/mask/surgical(src)
 	new /obj/item/clothing/mask/surgical(src)
-	new /obj/item/clothing/suit/toggle/wintercoat/medical(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/medical(src)
 	return
 
 

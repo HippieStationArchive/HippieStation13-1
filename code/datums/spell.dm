@@ -25,6 +25,7 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 
 	var/clothes_req = 1 //see if it requires clothes
 	var/human_req = 0 //spell can only be cast by humans
+	var/nonabstract_req = 0 //spell can only be cast by mobs that are physical entities
 	var/stat_allowed = 0 //see if it requires being conscious/alive, need to set to 1 for ghostpells
 	var/invocation = "HURP DURP" //what is uttered when the wizard casts the spell
 	var/invocation_emote_self = null
@@ -54,15 +55,10 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 	if(((!user.mind) || !(src in user.mind.spell_list)) && !(src in user.mob_spell_list))
 		user << "<span class='warning'>You shouldn't have this spell! Something's wrong.</span>"
 		return 0
-	if(ticker.mode.name == "Ragin' Mages")
-		if(istype(src,/obj/effect/proc_holder/spell/targeted/area_teleport))
-			return
-		else
-			var/area/A = get_area(user)
-			if(istype(A, /area/wizard_station))
-				usr << "\red You feel it unwise to cast spells around your fellow wizards! Use your scoll to teleport instead!"
-				return 0
-	if(user.z == 2 && !centcom_cancast) //Certain spells are not allowed on the centcom zlevel
+
+	if(user.z == ZLEVEL_CENTCOM && !centcom_cancast) //Certain spells are not allowed on the centcom zlevel
+		return 0
+	if(user.z == ZLEVEL_CENTCOM && ticker.mode.name == "ragin' mages")
 		return 0
 
 	if(!skipcharge)
@@ -101,6 +97,9 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 	else
 		if(clothes_req || human_req)
 			user << "<span class='notice'>This spell can only be cast by humans!</span>"
+			return 0
+		if(nonabstract_req && (isbrain(user) || ispAI(user)))
+			user << "<span class='notice'>This spell can only be cast by physical beings!</span>"
 			return 0
 
 	if(!skipcharge)
@@ -246,6 +245,7 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 	var/max_targets = 1 //leave 0 for unlimited targets in range, 1 for one selectable target in range, more for limited number of casts (can all target one guy, depends on target_ignore_prev) in range
 	var/target_ignore_prev = 1 //only important if max_targets > 1, affects if the spell can be cast multiple times at one person from one cast
 	var/include_user = 0 //if it includes usr in the target list
+	var/random_target = 0 // chooses random viable target instead of asking the caster
 
 /obj/effect/proc_holder/spell/aoe_turf //affects all turfs in view or range (depends)
 	var/inner_radius = -1 //for all your ring spell needs
@@ -270,7 +270,11 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 
 				//targets += input("Choose the target for the spell.", "Targeting") as mob in possible_targets
 				//Adds a safety check post-input to make sure those targets are actually in range.
-				var/mob/M = input("Choose the target for the spell.", "Targeting") as mob in possible_targets
+				var/mob/M
+				if(!random_target)
+					M = input("Choose the target for the spell.", "Targeting") as mob in possible_targets
+				else
+					M = pick(possible_targets)
 				if(M in view_or_range(range, user, selection_type)) targets += M
 
 		else

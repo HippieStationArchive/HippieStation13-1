@@ -1,3 +1,8 @@
+//TODO: Use this function below instead
+// // Called just before an attack_hand(), in mob/UnarmedAttack()
+// /obj/item/clothing/gloves/proc/Touch(var/atom/A, var/proximity)
+// 	return 0 // return 1 to cancel attack_hand()
+
 /obj/item/clothing/gloves/boxing
 	name = "boxing gloves"
 	desc = "Because you really needed another excuse to punch your crewmates."

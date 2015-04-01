@@ -48,6 +48,7 @@
 	m_amt = 75
 	attack_verb = list("stabbed")
 	hitsound = 'sound/weapons/bladeslice.ogg'
+	embedchance = 20 //Low chance to embed itself in you
 
 /obj/item/weapon/screwdriver/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is stabbing the [src.name] into \his temple! It looks like \he's trying to commit suicide.</span>", \
@@ -431,7 +432,7 @@
  */
 
 /obj/item/weapon/crowbar
-	name = "pocket crowbar"
+	name = "crowbar"
 	desc = "A small crowbar. This handy tool is useful for lots of things, such as prying floor tiles or opening unpowered doors."
 	icon = 'icons/obj/items.dmi'
 	icon_state = "crowbar"

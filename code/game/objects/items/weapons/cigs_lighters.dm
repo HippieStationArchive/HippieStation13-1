@@ -417,6 +417,23 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	..()
 	name = "empty [initial(name)]"
 
+//GRAYSCALE LIGHTERS
+
+/obj/item/weapon/lighter/grayscale
+	name = "cheap lighter"
+	desc ="A cheap-as-free lighter."
+	icon = 'icons/obj/cigarettes.dmi'
+	icon_state = "lighter-off"
+	item_state = "lighter-off"
+	icon_on = "lighter-on"
+	icon_off = "lighter-off"
+
+/obj/item/weapon/lighter/grayscale/New()
+	var/icon/overlay = new /icon('icons/obj/cigarettes.dmi',"lighter-overlay")
+	overlay.ColorTone(color2hex(randomColor(1)))
+	overlays += overlay
+
+
 
 /////////
 //ZIPPO//
@@ -444,6 +461,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_on = "zippoon"
 	icon_off = "zippo"
 
+/obj/item/weapon/lighter/update_icon()
+	icon_state = lit ? icon_on : icon_off
+
+
 /obj/item/weapon/lighter/random
 	New()
 		var/color = pick("r","c","y","g")
@@ -455,8 +476,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(user.r_hand == src || user.l_hand == src)
 		if(!lit)
 			lit = 1
-			icon_state = icon_on
-			item_state = icon_on
+			update_icon()
 			force = 5
 			damtype = "fire"
 			hitsound = 'sound/items/welder.ogg'
@@ -471,12 +491,11 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 					user.adjustFireLoss(5)
 					user.visible_message("<span class='notice'>After a few attempts, [user] manages to light [src], they however burn their finger in the process.</span>")
 
-			user.AddLuminosity(1)
+			user.AddLuminosity(2)
 			processing_objects.Add(src)
 		else
 			lit = 0
-			icon_state = icon_off
-			item_state = icon_off
+			update_icon()
 			hitsound = "swing_hit"
 			force = 0
 			attack_verb = null //human_defense.dm takes care of it
@@ -485,7 +504,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			else
 				user.visible_message("<span class='notice'>[user] quietly shuts off [src].")
 
-			user.AddLuminosity(-1)
+			user.AddLuminosity(-2)
 			processing_objects.Remove(src)
 	else
 		return ..()
@@ -516,13 +535,13 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/weapon/lighter/pickup(mob/user)
 	if(lit)
 		SetLuminosity(0)
-		user.AddLuminosity(1)
+		user.AddLuminosity(2)
 	return
 
 
 /obj/item/weapon/lighter/dropped(mob/user)
 	if(lit)
-		user.AddLuminosity(-1)
+		user.AddLuminosity(-2)
 		SetLuminosity(1)
 	return
 

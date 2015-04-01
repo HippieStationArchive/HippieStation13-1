@@ -8,6 +8,57 @@
 	vision_flags = SEE_TURFS
 	invis_view = SEE_INVISIBLE_MINIMUM
 
+//These go here cause Anime~   ~Nexendia
+/obj/item/clothing/glasses/meson/gar
+	name = "gar mesons"
+	icon_state = "garm"
+	item_state = "garm"
+	desc = "Do the impossible, see the invisible!"
+	force = 10
+	throwforce = 10
+	throw_speed = 4
+	attack_verb = list("sliced")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+
+/obj/item/clothing/glasses/sunglasses/garb
+	desc = "Go beyond impossible and kick reason to the curb!"
+	name = "black gar glasses"
+	icon_state = "garb"
+	item_state = "garb"
+	force = 10
+	throwforce = 10
+	throw_speed = 4
+	attack_verb = list("sliced")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+
+/obj/item/clothing/glasses/sunglasses/garb/supergarb
+	desc = "Believe in us humans."
+	name = "black giga gar glasses"
+	icon_state = "supergarb"
+	item_state = "garb"
+	force = 12
+	throwforce = 12
+
+/obj/item/clothing/glasses/sunglasses/gar
+	desc = "Just who the hell do you think I am?!"
+	name = "gar glasses"
+	icon_state = "gar"
+	item_state = "gar"
+	force = 10
+	throwforce = 10
+	throw_speed = 4
+	attack_verb = list("sliced")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+
+/obj/item/clothing/glasses/sunglasses/gar/supergar
+	desc = "We evolve past the person we were a minute before. Little by little we advance with each turn. That's how a drill works!"
+	name = "giga gar glasses"
+	icon_state = "supergar"
+	item_state = "gar"
+	force = 18  //Buffed cause this is best anime!  ~Nexendia
+	throwforce = 12
+
+
 /obj/item/clothing/glasses/science
 	name = "Science Goggles"
 	desc = "A pair of snazzy goggles used to protect against chemical spills."

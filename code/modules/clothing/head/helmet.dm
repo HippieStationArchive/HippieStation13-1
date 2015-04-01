@@ -108,3 +108,40 @@ obj/item/clothing/head/helmet/bluetaghelm
 	armor = list(melee = 30, bullet = 10, laser = 20,energy = 10, bomb = 20, bio = 0, rad = 0)
 	// Offer about the same protection as a hardhat.
 	flags_inv = HIDEEARS|HIDEEYES
+
+/obj/item/clothing/head/helmet/alarm
+	name = "police siren helmet"
+	desc = "Issued to those who want to scare all the criminals off."
+	icon_state = "justice"
+	action_button_name = "Toggle Siren"
+
+/obj/item/clothing/head/helmet/alarm/pickup(mob/user)
+	if(up)
+		SetLuminosity(0)
+		user.AddLuminosity(3)
+	return
+
+/obj/item/clothing/head/helmet/alarm/dropped(mob/user)
+	if(up)
+		user.AddLuminosity(-3)
+		SetLuminosity(1)
+	return
+
+/obj/item/clothing/head/helmet/alarm/attack_self()
+	if(!usr.stat && !usr.restrained())
+		if(up)
+			up = !up
+			icon_state = initial(icon_state)
+			usr << "You turn off the lights on \the [src]."
+			usr.update_inv_head(0)
+			usr.AddLuminosity(-3)
+		else
+			up = !up
+			icon_state = "[icon_state]up"
+			usr << "You turn on the lights on \the [src]"
+			usr.update_inv_head(0)
+			usr.AddLuminosity(3)
+
+/obj/item/clothing/head/helmet/alarm/apeescape
+	desc = "Issued to those who want to STOP THAT MONKEY"
+	icon_state = "justice2"

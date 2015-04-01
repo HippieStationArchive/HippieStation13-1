@@ -128,11 +128,19 @@
 
 /obj/item/clothing/under/owl
 	name = "owl uniform"
-	desc = "A jumpsuit with owl wings. Photorealistic owl feathers! Twooooo!"
+	desc = "A soft brown jumpsuit made of synthetic feathers and strong conviction."
 	icon_state = "owl"
 	item_color = "owl"
 	fitted = 0
 	can_adjust = 0
+
+/obj/item/clothing/under/griffin
+	name = "griffon uniform"
+	desc = "A soft brown jumpsuit with a white feather collar made of synthetic feathers and a lust for mayhem."
+	icon_state = "griffin"
+	item_color = "griffin"
+	can_adjust = 0
+
 
 /obj/item/clothing/under/johnny
 	name = "johnny~~ jumpsuit"
@@ -447,4 +455,12 @@
 	icon_state = "drive_suit"
 	item_state = "drive_suit"
 	item_color = "drive_suit"
+	can_adjust = 0
+
+/obj/item/clothing/under/collaredshirt
+	name = "White Collared Shirt"
+	desc = "Looks Fancy!"
+	icon_state = "collaredshirt"
+	item_state = "collaredshirt"
+	item_color = "collaredshirt"
 	can_adjust = 0

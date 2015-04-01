@@ -1,6 +1,7 @@
 var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	new/datum/stack_recipe("grille", /obj/structure/grille, 2, time = 10, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("table frame", /obj/structure/table_frame, 2, time = 10, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("staples", /obj/item/stack/staples, 1, 5, 10), \
 	)
 
 /obj/item/stack/rods
@@ -8,6 +9,7 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	desc = "Some rods. Can be used for building, or something."
 	singular_name = "metal rod"
 	icon_state = "rods"
+	item_state = "rods"
 	flags = CONDUCT
 	w_class = 3.0
 	force = 9.0
@@ -18,10 +20,22 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	max_amount = 60
 	attack_verb = list("hit", "bludgeoned", "whacked")
 	hitsound = 'sound/weapons/grenadelaunch.ogg'
+	embedchance = 20 //relatively low chance to embed itself in you
 
 /obj/item/stack/rods/New(var/loc, var/amount=null)
 	recipes = rod_recipes
+	update_icon()
 	return ..()
+
+/obj/item/stack/rods/update_icon()
+	if(get_amount() <= 5)
+		icon_state = "rods-[get_amount()]"
+	else
+		icon_state = "rods"
+
+
+
+
 
 /obj/item/stack/rods/attackby(obj/item/W as obj, mob/user as mob)
 	..()

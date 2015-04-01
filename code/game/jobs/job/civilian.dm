@@ -16,7 +16,7 @@ Bartender
 	default_headset = /obj/item/device/radio/headset/headset_srv
 
 	access = list(access_hydroponics, access_bar, access_kitchen, access_morgue, access_mineral_storeroom, access_weapons)
-	minimal_access = list(access_bar, access_mineral_storeroom)
+	minimal_access = list(access_bar, access_mineral_storeroom, access_weapons)
 
 /datum/job/bartender/equip_backpack(var/mob/living/carbon/human/H)
 	// switch(H.backbag)
@@ -213,7 +213,7 @@ Clown
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_clown
 
 	access = list(access_theatre, access_maint_tunnels)
-	minimal_access = list(access_theatre)
+	minimal_access = list(access_theatre, access_maint_tunnels)
 
 /datum/job/clown/equip_backpack(var/mob/living/carbon/human/H)
 	var/obj/item/weapon/storage/backpack/BPK = new default_backpack(H)
@@ -256,7 +256,7 @@ Mime
 	//default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_mime //to-do
 
 	access = list(access_theatre, access_maint_tunnels)
-	minimal_access = list(access_theatre)
+	minimal_access = list(access_theatre, access_maint_tunnels)
 
 /datum/job/mime/equip_backpack(var/mob/living/carbon/human/H)
 	var/obj/item/weapon/storage/backpack/BPK = new default_backpack(H)
@@ -295,6 +295,7 @@ Janitor
 	spawn_positions = 1
 	supervisors = "the head of personnel"
 	selection_color = "#dddddd"
+	var/global/janitors = 1 // Give only the pussy wagon key to the first spawned Janitor
 
 	default_pda = /obj/item/device/pda/janitor
 	default_headset = /obj/item/device/radio/headset/headset_srv
@@ -303,8 +304,18 @@ Janitor
 	minimal_access = list(access_janitor, access_maint_tunnels)
 
 /datum/job/janitor/equip_items(var/mob/living/carbon/human/H)
+	janitors += 1
+
+	if(H.backbag != 1)
+		switch(janitors)
+			if(1)
+				H.equip_to_slot_or_del(new /obj/item/key(H), slot_in_backpack)
+			else
+				H.equip_to_slot_or_del(new /obj/item/weapon/soap/deluxe(H), slot_in_backpack)
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/janitor(H), slot_w_uniform)
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(H), slot_shoes)
+	H.equip_to_slot_or_del(new /obj/item/key/janitor(H), slot_r_store)
+
 
 /*
 Librarian

@@ -2,6 +2,7 @@
 	name = "chair"
 	desc = "You sit in this. Either by will or force."
 	icon_state = "chair"
+	buckle_lying = 0
 
 /obj/structure/stool/bed/chair/New()
 	..()
@@ -38,7 +39,9 @@
 		if(!direction || !buckled_mob.Move(get_step(src, direction), direction))
 			buckled_mob.buckled = src
 			dir = buckled_mob.dir
+			handle_layer()
 			return 0
+		handle_layer()
 		buckled_mob.buckled = src //Restoring
 	return 1
 
@@ -68,10 +71,10 @@
 			return
 		spin()
 
-/obj/structure/stool/bed/chair/MouseDrop_T(mob/M as mob, mob/user as mob)
-	if(!istype(M)) return
-	buckle_mob(M, user)
-	return
+// /obj/structure/stool/bed/chair/MouseDrop_T(mob/M as mob, mob/user as mob)
+// 	if(!istype(M)) return
+// 	buckle_mob(M, user)
+// 	return
 
 // Chair types
 /obj/structure/stool/bed/chair/wood/normal
@@ -115,7 +118,7 @@
 
 	return ..()
 
-/obj/structure/stool/bed/chair/comfy/afterbuckle()
+/obj/structure/stool/bed/chair/comfy/post_buckle_mob(mob/living/M)
 	if(buckled_mob)
 		overlays += armrest
 	else
@@ -138,6 +141,29 @@
 
 /obj/structure/stool/bed/chair/office
 	anchored = 0
+	var/cooldown = 0
+
+/obj/structure/stool/bed/chair/office/relaymove(mob/user, direction)
+	if((!Process_Spacemove(direction)) || (!has_gravity(src.loc)) || (cooldown) || user.stat || user.stunned || user.weakened || user.paralysis || (user.restrained()))
+		return
+	step(src, direction)
+	if(buckled_mob)
+		buckled_mob.dir = dir
+		switch(buckled_mob.dir)
+			if(NORTH)
+				buckled_mob.dir = SOUTH
+			if(WEST)
+				buckled_mob.dir = EAST
+			if(SOUTH)
+				buckled_mob.dir = NORTH
+			if(EAST)
+				buckled_mob.dir = WEST
+		dir = buckled_mob.dir
+	handle_rotation()
+	handle_layer()
+	cooldown = 1
+	spawn(10)
+		cooldown = 0
 
 /obj/structure/stool/bed/chair/office/light
 	icon_state = "officechair_white"

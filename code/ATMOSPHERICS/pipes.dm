@@ -7,6 +7,15 @@
 	can_unwrench = 1
 	var/alert_pressure = 80*ONE_ATMOSPHERE
 		//minimum pressure before check_pressure(...) should be called
+	//Buckling
+	can_buckle = 1
+	buckle_requires_restraints = 1
+	buckle_lying = -1
+
+/obj/machinery/atmospherics/pipe/attack_hand(mob/living/user) //We are doing this here because default machinery code overwrites buckling.
+	if(can_buckle && buckled_mob)
+		user_unbuckle_mob(user)
+	..()
 
 /obj/machinery/atmospherics/proc/pipeline_expansion()
 	return null

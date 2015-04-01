@@ -30,6 +30,9 @@
 
 //Called when we bump onto a mob
 /mob/living/proc/MobBump(mob/M)
+	//Even if we don't push/swap places, we "touched" them, so spread fire
+	spreadFire(M)
+
 	if(now_pushing)
 		return 1
 
@@ -572,6 +575,8 @@
 
 	if(C.handcuffed)
 		C.handcuffed = null
+		if(C.buckled && C.buckled.buckle_requires_restraints)
+			C.buckled.unbuckle_mob()
 		C.update_inv_handcuffed(0)
 		return
 	else
@@ -672,13 +677,13 @@
 							return
 						C.visible_message("<span class='danger'>[C] manages to unbuckle themself!</span>", \
 											"<span class='notice'>You successfully unbuckle yourself.</span>")
-						C.buckled.manual_unbuckle(C)
+						C.buckled.user_unbuckle_mob(C, C)
 					else
 						C << "<span class='warning'>You fail to unbuckle yourself!</span>"
 			else
-				L.buckled.manual_unbuckle(L)
+				L.buckled.user_unbuckle_mob(L, L)
 		else
-			L.buckled.manual_unbuckle(L)
+			L.buckled.user_unbuckle_mob(L, L)
 
 	//Breaking out of a container (Locker, sleeper, cryo...)
 	else if(loc && istype(loc, /obj) && !isturf(loc))
@@ -830,3 +835,34 @@
 	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = 2)
 	animate(pixel_x = initial(pixel_x), pixel_y = initial(pixel_y), time = 2)
 	floating = 0 // If we were without gravity, the bouncing animation got stopped, so we make sure we restart the bouncing after the next movement.
+
+/mob/living/proc/do_pindown(atom/A, tog=1) //Shamelessly copypasted above code
+	var/pixel_x_diff = 0
+	var/pixel_y_diff = 0
+	var/direction = get_dir(src, A)
+	switch(direction)
+		if(NORTH)
+			pixel_y_diff = 8
+		if(SOUTH)
+			pixel_y_diff = -8
+		if(EAST)
+			pixel_x_diff = 8
+		if(WEST)
+			pixel_x_diff = -8
+		if(NORTHEAST)
+			pixel_x_diff = 8
+			pixel_y_diff = 8
+		if(NORTHWEST)
+			pixel_x_diff = -8
+			pixel_y_diff = 8
+		if(SOUTHEAST)
+			pixel_x_diff = 8
+			pixel_y_diff = -8
+		if(SOUTHWEST)
+			pixel_x_diff = -8
+			pixel_y_diff = -8
+	if(tog==1)
+		animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = 2)
+	else
+		animate(pixel_x = initial(pixel_x), pixel_y = initial(pixel_y), time = 2)
+		floating = 0 // If we were without gravity, the bouncing animation got stopped, so we make sure we restart the bouncing after the next movement.
