@@ -109,9 +109,15 @@
 	w_class = 1
 	var/list/spooky_scaries = list()
 	var/unlimited = 0
+	var/romanprob = 33
+	var/maxskeles = 3
 
 /obj/item/device/necromantic_stone/unlimited
 	unlimited = 1
+
+/obj/item/device/necromantic_stone/oneuse //Used as a chaplain traitor item
+	maxskeles = 1
+	romanprob = 100
 
 /obj/item/device/necromantic_stone/attack(mob/living/carbon/human/M, mob/living/carbon/human/user)
 	if(!istype(M, /mob/living/carbon/human))
@@ -129,7 +135,7 @@
 		return
 
 	check_spooky()//clean out/refresh the list
-	if(spooky_scaries.len >= 3 && !unlimited)
+	if(spooky_scaries.len >= maxskeles && !unlimited)
 		user << "<span class='warning'>This artifact can only affect three undead at a time!</span>"
 		return
 
@@ -139,7 +145,7 @@
 	M << "<span class='notice'>You have been revived by </span><B>[user.real_name]!</B>"
 	M << "<span class='notice'>They are your master now, assist them even if it costs you your new life!</span>"
 
-	if(prob(33))
+	if(prob(romanprob))
 		equip_roman_skeleton(M)
 
 	var/mob/living/carbon/human/master = user
@@ -152,7 +158,12 @@
 	ticker.mode.traitors += M.mind
 	M.mind.special_role = "skeleton-thrall"
 
-	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/3 active thralls."]"
+	// if(uses != null)
+	// 	uses--
+	// 	if(uses <= 0)
+	// 		qdel(src)
+	// 		return
+	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/[maxskeles] active thralls."]"
 
 /obj/item/device/necromantic_stone/proc/check_spooky()
 	if(unlimited) //no point, the list isn't used.
@@ -174,9 +185,13 @@
 		H.unEquip(I)
 
 	var/hat = pick(/obj/item/clothing/head/helmet/roman, /obj/item/clothing/head/helmet/roman/legionaire)
+	var/obj/item/weapon/shield/riot/roman/S = new(H)
+	// S.flags |= NODROP //Shield can still be dropped so you can use your spear or something.
+	var/obj/item/weapon/claymore/C = new(H)
+	C.flags |= NODROP //ALERT: NODROP ITEMS CAN STILL BE PUT IN THE BELT SLOT PLS FIX
 	H.equip_to_slot_or_del(new hat(H), slot_head)
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/roman(H), slot_w_uniform)
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roman(H), slot_shoes)
-	H.equip_to_slot_or_del(new /obj/item/weapon/shield/riot/roman(H), slot_l_hand)
-	H.equip_to_slot_or_del(new /obj/item/weapon/claymore(H), slot_r_hand)
+	H.equip_to_slot_or_del(S, slot_l_hand)
+	H.equip_to_slot_or_del(C, slot_r_hand)
 	H.equip_to_slot_or_del(new /obj/item/weapon/twohanded/spear(H), slot_back)

@@ -456,3 +456,11 @@
 	item_state = "drive_suit"
 	item_color = "drive_suit"
 	can_adjust = 0
+
+/obj/item/clothing/under/collaredshirt
+	name = "White Collared Shirt"
+	desc = "Looks Fancy!"
+	icon_state = "collaredshirt"
+	item_state = "collaredshirt"
+	item_color = "collaredshirt"
+	can_adjust = 0

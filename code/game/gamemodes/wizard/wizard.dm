@@ -49,6 +49,7 @@
 
 /datum/game_mode/proc/forge_wizard_objectives(var/datum/mind/wizard)
 	var/is_hijacker = prob(10)
+	var/martyr_chance = prob(0) //Pretty sure that the crew will win if wizard dies no matter what.
 	var/objective_count = is_hijacker 			//Hijacking counts towards number of objectives
 	var/list/active_ais = active_ais()
 	var/has_to_kill = null
@@ -76,10 +77,10 @@
 				wizard.objectives += protect_objective
 			else
 				var/datum/objective/protect/protect_objective = new
-				protect_objective.owner = traitor
+				protect_objective.owner = wizard
 				protect_objective.find_target()
 				if(protect_objective.target != has_to_kill) //Check if he has the same dude as a kill objective
-					traitor.objectives += protect_objective
+					wizard.objectives += protect_objective
 				else
 					qdel(protect_objective)
 		else
@@ -95,21 +96,21 @@
 			wizard.objectives += hijack_objective
 
 	var/martyr_compatibility = 1 //You can't succeed in stealing if you're dead.
-	for(var/datum/objective/O in traitor.objectives)
+	for(var/datum/objective/O in wizard.objectives)
 		if(!O.martyr_compatible)
 			martyr_compatibility = 0
 			break
 
 	if(martyr_compatibility && martyr_chance)
 		var/datum/objective/martyr/martyr_objective = new
-		martyr_objective.owner = traitor
-		traitor.objectives += martyr_objective
+		martyr_objective.owner = wizard
+		wizard.objectives += martyr_objective
 		return
 	else
-		if(!(locate(/datum/objective/escape) in traitor.objectives))
+		if(!(locate(/datum/objective/escape) in wizard.objectives))
 			var/datum/objective/escape/escape_objective = new
-			escape_objective.owner = traitor
-			traitor.objectives += escape_objective
+			escape_objective.owner = wizard
+			wizard.objectives += escape_objective
 			return
 
 

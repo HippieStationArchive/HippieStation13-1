@@ -794,10 +794,12 @@ var/list/slot_equipment_priority = list( \
 		canmove = 1
 	if(buckled)
 		lying = 90*buckle_lying
+	else if(pinned_to)
+		lying = 0
 	else
 		if((ko || resting) && !lying)
 			fall(ko)
-	canmove = !(ko || resting || stunned || buckled)
+	canmove = !(ko || resting || stunned || buckled || pinned_to)
 	density = !lying
 	update_transform()
 	lying_prev = lying
