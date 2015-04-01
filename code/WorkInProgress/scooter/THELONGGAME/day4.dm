@@ -1,21 +1,13 @@
-var/global/datum/ep
+/proc/stationspin(var/spans = 1)//placeholder until ported from FPcode
+	while(spans)
+		for(var/client/C in world)
+			C.dir = 2
+			spawn(5)
+				C.dir = 4
+				spawn(5)
+					C.dir = 8
+					spawn(3)
+						C.dir = 1
 
-/proc/how2()
-	ep = new/datum/ep
-
-/datum/ep
-	var/on = 1
-	New()
-		begin()
-
-/datum/ep/proc/begin()
-	while(on)
-		for(var/turf/C in world)
-			C.color = pick("red","blue","purple","yellow","orange","green")
-			sleep(rand(1,5))
-		for(var/mob/C in world)
-			C.color = pick("red","blue","purple","yellow","orange","green")
-			sleep(rand(1,5))
-		for(var/obj/C in world)
-			C.color = pick("red","blue","purple","yellow","orange","green")
-			sleep(rand(1,5))
+			spans--
+	sleep(5)
