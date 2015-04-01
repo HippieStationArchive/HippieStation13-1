@@ -1454,3 +1454,14 @@ var/list/WALLITEMS = list(
 	for(var/atom/C in world)
 		if(C.name == objname)
 			usr << "[C.name] is in [C.x], [C.y], [C.z] in [C.loc]"
+
+/proc/randomColor(var/mode = 0)	//if 1 it doesn't pick white, black or gray
+	switch(mode)
+		if(0)
+			return pick("white","black","gray","red","green","blue","brown","yellow","orange","darkred",
+						"crimson","lime","darkgreen","cyan","navy","teal","purple","indigo")
+		if(1)
+			return pick("red","green","blue","brown","yellow","orange","darkred","crimson",
+						"lime","darkgreen","cyan","navy","teal","purple","indigo")
+		else
+			return "white"

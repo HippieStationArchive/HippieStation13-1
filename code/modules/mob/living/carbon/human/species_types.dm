@@ -27,7 +27,6 @@
 	name = "Lizardperson"
 	id = "lizard"
 	say_mod = "hisses"
-	mutant_bodyparts = list("tail", "snout")
 	default_color = "00FF00"
 	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
@@ -39,7 +38,7 @@
 /datum/species/lizard/handle_speech(message)
 	// jesus christ why
 	if(copytext(message, 1, 2) != "*")
-		message = replacetext(message, "s", "sss")
+		message = replacetext(message, "s", stutter("ss"))
 
 	return message
 
