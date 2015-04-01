@@ -14,7 +14,6 @@ var/list/admin_verbs_default = list(
 	/client/proc/investigate_show,		/*various admintools for investigation. Such as a singulo grief-log*/
 	/client/proc/secrets,
 	/client/proc/reload_admins,
-	/client/proc/reload_mentors,
 	/client/proc/reestablish_db_connection,/*reattempt a connection to the database*/
 	/client/proc/cmd_admin_pm_context,	/*right-click adminPM interface*/
 	/client/proc/cmd_admin_pm_panel,		/*admin-pm list*/
@@ -84,7 +83,6 @@ var/list/admin_verbs_fun = list(
 	/client/proc/object_say,
 	/client/proc/toggle_random_events,
 	/client/proc/set_ooc,
-	/client/proc/cmd_smite,
 	/client/proc/forceEvent
 	)
 var/list/admin_verbs_spawn = list(
@@ -96,7 +94,6 @@ var/list/admin_verbs_server = list(
 	/datum/admins/proc/restart,
 	/datum/admins/proc/delay,
 	/datum/admins/proc/toggleaban,
-	/client/proc/ToRban,
 	/client/proc/toggle_log_hrefs,
 	/datum/admins/proc/immreboot,
 	/client/proc/everyone_random,
@@ -112,21 +109,20 @@ var/list/admin_verbs_debug = list(
 	/client/proc/kill_air,
 	/client/proc/cmd_debug_make_powernets,
 	/client/proc/debug_controller,
-	/client/proc/debug_scheduler,
 	/client/proc/cmd_debug_mob_lists,
 	/client/proc/cmd_admin_delete,
 	/client/proc/cmd_debug_del_all,
 	/client/proc/restart_controller,
 	/client/proc/enable_debug_verbs,
-	/client/proc/callproc
+	/client/proc/callproc,
+	/client/proc/SDQL2_query
 	)
 var/list/admin_verbs_possess = list(
 	/proc/possess,
 	/proc/release
 	)
 var/list/admin_verbs_permissions = list(
-	/client/proc/edit_admin_permissions,
-	/client/proc/SDQL2_query
+	/client/proc/edit_admin_permissions
 	)
 var/list/admin_verbs_rejuv = list(
 	/client/proc/respawn_character
@@ -177,7 +173,6 @@ var/list/admin_verbs_hideable = list(
 	/datum/admins/proc/immreboot,
 	/client/proc/everyone_random,
 	/datum/admins/proc/toggleAI,
-	/client/proc/ToRban,
 	/client/proc/restart_controller,
 	/client/proc/cmd_admin_list_open_jobs,
 	/client/proc/callproc,
@@ -186,7 +181,6 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/kill_air,
 	/client/proc/cmd_debug_make_powernets,
 	/client/proc/debug_controller,
-	/client/proc/debug_scheduler,
 	/client/proc/startSinglo,
 	/client/proc/cmd_debug_mob_lists,
 	/client/proc/cmd_debug_del_all,
@@ -203,9 +197,6 @@ var/list/admin_verbs_hideable = list(
 
 		var/rights = holder.rank.rights
 		verbs += admin_verbs_default
-
-		verbs += /client/proc/cmd_mentor_say
-
 		if(rights & R_BUILDMODE)	verbs += /client/proc/togglebuildmodeself
 		if(rights & R_ADMIN)		verbs += admin_verbs_admin
 		if(rights & R_BAN)			verbs += admin_verbs_ban
@@ -509,6 +500,7 @@ var/list/admin_verbs_hideable = list(
 /client/proc/deadmin_self()
 	set name = "De-admin self"
 	set category = "Admin"
+
 	if(holder)
 		log_admin("[src] deadmined themself.")
 		message_admins("[src] deadmined themself.")
@@ -584,4 +576,3 @@ var/list/admin_verbs_hideable = list(
 		src << "You are already an admin."
 		verbs -= /client/proc/readmin
 		return
-

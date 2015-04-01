@@ -1361,10 +1361,6 @@ var/global/list/common_tools = list(
 		istype(W, /obj/item/weapon/shard)                         || \
 		istype(W, /obj/item/weapon/broken_bottle)				  || \
 		istype(W, /obj/item/weapon/reagent_containers/syringe)    || \
-		istype(W, /obj/item/clothing/glasses/sunglasses/garb)	  || \
-		istype(W, /obj/item/clothing/glasses/sunglasses/gar)	  || \
-		istype(W, /obj/item/clothing/glasses/hud/security/sunglasses/gars)	|| \
-		istype(W, /obj/item/clothing/glasses/meson/gar)			  || \
 		istype(W, /obj/item/weapon/kitchen/utensil/fork) && W.icon_state != "forkloaded" || \
 		istype(W, /obj/item/weapon/twohanded/fireaxe) \
 	)
@@ -1454,13 +1450,7 @@ var/list/WALLITEMS = list(
 		steps--
 
 
-/proc/randomColor(var/mode = 0)	//if 1 it doesn't pick white, black or gray
-	switch(mode)
-		if(0)
-			return pick("white","black","gray","red","green","blue","brown","yellow","orange","darkred",
-						"crimson","lime","darkgreen","cyan","navy","teal","purple","indigo")
-		if(1)
-			return pick("red","green","blue","brown","yellow","orange","darkred","crimson",
-						"lime","darkgreen","cyan","navy","teal","purple","indigo")
-		else
-			return "white"
+/proc/getnameloc(var/objname)
+	for(var/atom/C in world)
+		if(C.name == objname)
+			usr << "[C.name] is in [C.x], [C.y], [C.z] in [C.loc]"
