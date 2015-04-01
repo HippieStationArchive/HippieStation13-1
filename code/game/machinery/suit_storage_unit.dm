@@ -13,6 +13,7 @@
 	var/mob/living/OCCUPANT = null
 	var/obj/item/clothing/suit/space/SUIT = null
 	var/SUIT_TYPE = null
+	var/SPESSHELMET = null
 	var/obj/item/clothing/head/helmet/space/HELMET = null
 	var/HELMET_TYPE = null
 	var/obj/item/clothing/mask/MASK = null  //All the stuff that's gonna be stored insiiiiiiiiiiiiiiiiiiide, nyoro~n
@@ -39,6 +40,7 @@
 
 /obj/machinery/suit_storage_unit/captain
 	SUIT_TYPE = /obj/item/clothing/suit/space/captain
+	HELMET_TYPE = /obj/item/clothing/head/helmet/space/captain
 	MASK_TYPE = /obj/item/clothing/mask/gas
 	STORAGE_TYPE = /obj/item/weapon/tank/jetpack/oxygen
 

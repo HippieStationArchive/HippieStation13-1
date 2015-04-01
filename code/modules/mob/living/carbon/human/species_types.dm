@@ -27,6 +27,7 @@
 	name = "Lizardperson"
 	id = "lizard"
 	say_mod = "hisses"
+	mutant_bodyparts = list("tail", "snout")
 	default_color = "00FF00"
 	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
