@@ -7,26 +7,37 @@
 	icon_state = "nest"
 	var/health = 100
 
-/*
-/obj/structure/stool/bed/nest/unbuckle_other(mob/user as mob)
-	buckled_mob.visible_message(\
-		"<span class='notice'>[user.name] pulls [buckled_mob.name] free from the sticky nest!</span>",\
-		"[user.name] pulls you free from the gelatinous resin.",\
-		"You hear squelching...")
-	unbuckle()
 
-/obj/structure/stool/bed/nest/unbuckle_myself(mob/user as mob)
-	buckled_mob.visible_message(\
-		"<span class='warning'>[buckled_mob.name] struggles to break free of the gelatinous resin...</span>",\
-		"<span class='warning'>You struggle to break free from the gelatinous resin...</span>",\
-		"You hear squelching...")
-	spawn(600)
-		if(user && buckled_mob && user.buckled == src)
-			unbuckle()
-*/
+/obj/structure/stool/bed/nest/user_unbuckle_mob(mob/user)
+	var/mob/living/M
+	if(buckled_mob && buckled_mob.buckled == src)
+		if(buckled_mob != user)
+			M = unbuckle_mob()
+			if(M)
+				M.visible_message(\
+					"<span class='notice'>[user] pulls [M] free from the sticky nest!</span>",\
+					"<span class='notice'>[user] pulls you free from the gelatinous resin.</span>",\
+					"You hear squelching...")
+				playsound(loc, 'sound/effects/attackblob.ogg', 50, 1, -1)
+		else
+			buckled_mob.visible_message(\
+				"<span class='warning'>[buckled_mob] struggles to break free of the gelatinous resin...</span>",\
+				"<span class='warning'>You struggle to break free from the gelatinous resin...</span>",\
+				"You hear squelching...")
+			playsound(loc, 'sound/effects/attackblob.ogg', 20, 1, -2)
+			sleep(600)
+			if(user && buckled_mob && user.buckled == src)
+				M = unbuckle_mob()
+				if(M)
+					M.visible_message(\
+						"<span class='notice'>[M] frees themselves!</span>",\
+						"<span class='notice'>You free yourself from [src]!</span>",\
+						"<span class='notice'>You hear squelching...</span>")
+					playsound(loc, 'sound/effects/attackblob.ogg', 50, 1, -1)
+	return M
 
-/obj/structure/stool/bed/nest/user_buckle_mob(mob/M as mob, mob/user as mob)
-	if ( !ismob(M) || (get_dist(src, user) > 1) || (M.loc != src.loc) || user.restrained() || usr.stat || M.buckled || istype(user, /mob/living/silicon/pai) )
+/obj/structure/stool/bed/nest/user_buckle_mob(mob/living/M as mob, mob/user as mob)
+	if (!user.Adjacent(M) ||  user.restrained() || user.stat || M.buckled || istype(user, /mob/living/silicon/pai) )
 		return
 
 	if(istype(M,/mob/living/carbon/alien))
@@ -39,11 +50,11 @@
 	if(M == usr)
 		return
 	else
-		M.visible_message(\
-			"<span class='notice'>[user.name] secretes a thick vile goo, securing [M.name] into [src]!</span>",\
-			"<span class='warning'>[user.name] drenches you in a foul-smelling resin, trapping you in [src]!</span>",\
-			"<span class='notice'>You hear squelching...</span>")
-	return
+		if(buckle_mob(M))
+			M.visible_message(\
+				"<span class='notice'>[user] secretes a thick vile goo, securing [M] into [src]!</span>",\
+				"<span class='warning'>[user] drenches you in a foul-smelling resin, trapping you in [src]!</span>",\
+				"<span class='notice'>You hear squelching...</span>")
 
 /obj/structure/stool/bed/nest/post_buckle_mob(mob/living/M)
 	if(M == buckled_mob)

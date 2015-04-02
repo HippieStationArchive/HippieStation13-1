@@ -12,7 +12,7 @@
 	var/mopping = 0
 	var/mopcount = 0
 	var/mopcap = 5
-	var/mopspeed = 40
+	var/mopspeed = 10 //One second instead of four because fuck off /tg/
 
 /obj/item/weapon/mop/New()
 	create_reagents(mopcap)
@@ -73,4 +73,4 @@ obj/item/weapon/mop/proc/clean(turf/simulated/A)
 	force = 6
 	throwforce = 8
 	throw_range = 4
-	mopspeed = 20
+	mopspeed = 0 //SUPERSONIC MOPPING

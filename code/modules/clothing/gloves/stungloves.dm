@@ -7,7 +7,7 @@
 	item_state = "ygloves"
 	siemens_coefficient = 1.5
 	item_color = "yellow"
-	atk_verb = "stunned"
+	var/atk_verb = "stunned"
 	var/stunforce = 15 //Stun baton stunforce is 21
 	var/energyCost = 100
 	var/cell_type = /obj/item/weapon/stock_parts/cell //Contains 1000 charge.

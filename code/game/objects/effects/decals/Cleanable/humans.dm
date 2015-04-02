@@ -10,6 +10,7 @@
 	random_icon_states = list("floor1", "floor2", "floor3", "floor4", "floor5", "floor6", "floor7")
 	var/list/viruses = list()
 	blood_DNA = list()
+	var/amount = 5
 
 /obj/effect/decal/cleanable/blood/Destroy()
 	for(var/datum/disease/D in viruses)
@@ -26,8 +27,32 @@
 			if(B != src)
 				qdel(B)
 
+/obj/effect/decal/cleanable/blood/Crossed(mob/living/carbon/human/perp)
+	if (!istype(perp))
+		return
+	if(amount < 1)
+		return
+
+	if(perp.shoes)
+		perp.shoes:track_blood = max(amount,perp.shoes:track_blood)                //Adding blood to shoes
+		if(!perp.shoes.blood_DNA)
+			perp.shoes.blood_DNA = list()
+		perp.shoes.blood_DNA = blood_DNA.Copy()
+		// perp.shoes.track_blood_type = src.type
+		perp.shoes.add_blood(blood_DNA)
+		perp.update_inv_shoes()
+	else
+		perp.track_blood = max(amount,perp.track_blood)                                //Or feet
+		if(!perp.feet_blood_DNA)
+			perp.feet_blood_DNA = list()
+		perp.feet_blood_DNA = blood_DNA.Copy()
+		// perp.feet_blood_color=basecolor
+
+	amount -= 3
+
 /obj/effect/decal/cleanable/blood/splatter
 	random_icon_states = list("gibbl1", "gibbl2", "gibbl3", "gibbl4", "gibbl5")
+	amount = 3
 
 /obj/effect/decal/cleanable/blood/tracks
 	icon_state = "tracks"
@@ -103,7 +128,7 @@
 	random_icon_states = list("1", "2", "3")
 	gender = NEUTER
 	layer = 2
-	blood_DNA = list() //wow figured out how to fix runtimes, yay
+	blood_DNA = list()
 
 /obj/effect/decal/cleanable/drip/New()
 	..()

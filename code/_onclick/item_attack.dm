@@ -15,13 +15,18 @@
 	user.changeNext_move(CLICK_CD_MELEE)
 	I.attack(src, user)
 
-/mob/living/proc/attacked_by(var/obj/item/I, var/mob/living/user, var/def_zone)
+/mob/living/proc/attacked_by(var/obj/item/I, var/mob/living/user, var/def_zone) //this is actually unused thanks to species.dm
 	apply_damage(I.force, I.damtype)
 	if(I.damtype == "brute")
-		if(prob(33) && I.force)
-			var/turf/location = src.loc
-			if(istype(location, /turf/simulated))
-				location.add_blood_floor(src)
+		if(I.force)
+			if(prob(33))
+				var/turf/location = src.loc
+				if(istype(location, /turf/simulated))
+					location.add_blood_floor(src)
+			else if(prob(66))
+				var/turf/location = get_step_away(src,user)
+				if(istype(location, /turf/simulated))
+					location.add_blood_floor(src, 1) //1 for splatter
 
 	var/message_verb = ""
 	if(I.attack_verb && I.attack_verb.len)

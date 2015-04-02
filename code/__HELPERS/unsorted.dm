@@ -1465,3 +1465,32 @@ var/list/WALLITEMS = list(
 						"lime","darkgreen","cyan","navy","teal","purple","indigo")
 		else
 			return "white"
+
+/proc/reverse_direction(var/dir)
+	switch(dir)
+		if(NORTH)
+			return SOUTH
+		if(NORTHEAST)
+			return SOUTHWEST
+		if(EAST)
+			return WEST
+		if(SOUTHEAST)
+			return NORTHWEST
+		if(SOUTH)
+			return NORTH
+		if(SOUTHWEST)
+			return NORTHEAST
+		if(WEST)
+			return EAST
+		if(NORTHWEST)
+			return SOUTHEAST
+
+//Turns a direction into... a direction. Why did I port this from /vg/ again?
+/proc/num2dir(direction)
+	switch(direction)
+		if(1.0) return NORTH
+		if(2.0) return SOUTH
+		if(4.0) return EAST
+		if(8.0) return WEST
+		else
+			world.log << "UNKNOWN DIRECTION: [direction]"

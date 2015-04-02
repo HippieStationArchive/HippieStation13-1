@@ -345,19 +345,31 @@ var/list/blood_splatter_icons = list()
 			newDisease.holder = this*/
 
 // Only adds blood on the floor -- Skie
-/atom/proc/add_blood_floor(mob/living/carbon/M as mob)
+/atom/proc/add_blood_floor(mob/living/carbon/M as mob, var/splatter = 0)
 	if(istype(src, /turf/simulated))
 		if(check_dna_integrity(M))	//mobs with dna = (monkeys + humans at time of writing)
 			var/obj/effect/decal/cleanable/blood/B = locate() in contents
-			if(!B)	B = new(src)
+			if(!B)
+				if(!splatter)
+					B = new(src)
+				else
+					B = new /obj/effect/decal/cleanable/blood/splatter(src)
 			B.blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
 		else if(istype(M, /mob/living/carbon/alien))
 			var/obj/effect/decal/cleanable/xenoblood/B = locate() in contents
-			if(!B)	B = new(src)
+			if(!B)
+				if(!splatter)
+					B = new(src)
+				else
+					B = new /obj/effect/decal/cleanable/xenoblood/xsplatter(src)
 			B.blood_DNA["UNKNOWN BLOOD"] = "X*"
 		else if(istype(M, /mob/living/silicon/robot))
 			var/obj/effect/decal/cleanable/oil/B = locate() in contents
-			if(!B)	B = new(src)
+			if(!B)
+				if(!splatter)
+					B = new(src)
+				else
+					B = new /obj/effect/decal/cleanable/oil/streak(src)
 
 /atom/proc/add_blood_drip(mob/living/carbon/M as mob)
 	if(!istype(M)) return

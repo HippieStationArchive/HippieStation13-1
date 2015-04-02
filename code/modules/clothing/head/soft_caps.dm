@@ -11,10 +11,7 @@
 		src.flipped=0
 		..()
 
-	verb/flip()
-		set category = "Object"
-		set name = "Flip cap"
-		set src in usr
+	proc/flip()
 		if(usr.canmove && !usr.stat && !usr.restrained())
 			src.flipped = !src.flipped
 			if(src.flipped)
@@ -24,6 +21,16 @@
 				icon_state = "[item_color]soft"
 				usr << "You flip the hat back in normal position."
 			usr.update_inv_head(0)	//so our mob-overlays update
+
+	verb/flip_cap()
+		set category = "Object"
+		set name = "Flip cap"
+		set src in usr
+		flip()
+
+/obj/item/clothing/head/soft/AltClick()
+	..()
+	flip()
 
 /obj/item/clothing/head/soft/red
 	name = "red cap"

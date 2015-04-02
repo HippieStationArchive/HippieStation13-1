@@ -37,6 +37,40 @@
 	if (istype(A,/mob/living/carbon))
 		var/mob/living/carbon/M = A
 		if(M.lying)	return
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+
+			// Tracking blood
+			var/list/blood_DNA = null
+			// var/bloodcolor="" //Not implemented
+			var/new_track_blood = 0
+			if(H.shoes)
+				var/obj/item/clothing/shoes/S = H.shoes
+				if(S.track_blood && S.blood_DNA)
+					blood_DNA = S.blood_DNA
+					S.add_blood(M) //No bloody overlay for human sprite yet
+					new_track_blood = S.track_blood
+			else
+				if(H.track_blood && H.feet_blood_DNA)
+					blood_DNA = H.feet_blood_DNA
+					// bloodcolor=H.feet_blood_color
+					new_track_blood = H.track_blood
+
+			if (blood_DNA)
+				src.AddTracks(/obj/effect/decal/cleanable/blood/trackss/footprints,blood_DNA,H.dir,0,new_track_blood) // Coming
+				new_track_blood -= 0.5
+				var/turf/simulated/from = get_step(H,reverse_direction(H.dir))
+				if(istype(from) && from)
+					from.AddTracks(/obj/effect/decal/cleanable/blood/trackss/footprints,blood_DNA,0,H.dir,new_track_blood) // Going
+					new_track_blood -= 0.5
+
+			if(H.shoes)
+				var/obj/item/clothing/shoes/S = H.shoes
+				S.track_blood = new_track_blood
+			else
+				H.track_blood = new_track_blood
+
+			blood_DNA = null
 
 		switch (src.wet)
 			if(1) //wet floor
@@ -46,3 +80,9 @@
 
 			if(2) //lube
 				M.slip(0, 7, null, (STEP|SLIDE|GALOSHES_DONT_HELP))
+
+/turf/simulated/proc/AddTracks(var/typepath,var/bloodDNA,var/comingdir,var/goingdir,var/bloodamt)
+	var/obj/effect/decal/cleanable/blood/trackss/tracks = locate(typepath) in src
+	if(!tracks)
+		tracks = new typepath(src)
+	tracks.AddTracks(bloodDNA,comingdir,goingdir, bloodamt)
