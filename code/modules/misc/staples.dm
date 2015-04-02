@@ -76,6 +76,8 @@
 				O.embedded += new /obj/item/stack/staples(H, 1)
 			H.apply_damage(2, BRUTE, O, armor)
 			H.update_damage_overlays()
+			H.attack_log += "\[[time_stamp()]\] <font color='red'>Has stapled [target.name]([target.ckey]) @ [H.x],[H.y],[H.z]</font>" //cheesy attack log bug fix
+			target.attack_log += "\[[time_stamp()]\] <font color='red'>Has been stapled by [H.name]([H.ckey]) @ [target.x],[target.y],[target.z]</font>"
 			visible_message("<span class='danger'>[user] has stapled [target] in the [O.getDisplayName()]!</span>",
 							"<span class='userdanger'>[user] has stapled [target] in the [O.getDisplayName()]!</span>")
 		else
@@ -83,6 +85,8 @@
 				"<span class='userdanger'>[user] has attempted to staple [target] in the [O.getDisplayName()]!</span>")
 	else
 		target.adjustBruteLoss(5) //Just harm 'em
+		H.attack_log += "\[[time_stamp()]\] <font color='red'>Has stapled [target.name]([target.ckey]) @ [H.x],[H.y],[H.z]</font>" //cheesy attack log bug fix
+		target.attack_log += "\[[time_stamp()]\] <font color='red'>Has been stapled by [H.name]([H.ckey]) @ [target.x],[target.y],[target.z]</font>"
 		visible_message("<span class='danger'>[user] has stapled [target]!</span>",
 						"<span class='userdanger'>[user] has stapled [target]!</span>")
 
