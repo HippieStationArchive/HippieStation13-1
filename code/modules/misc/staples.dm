@@ -85,8 +85,8 @@
 				"<span class='userdanger'>[user] has attempted to staple [target] in the [O.getDisplayName()]!</span>")
 	else
 		target.adjustBruteLoss(5) //Just harm 'em
-		H.attack_log += "\[[time_stamp()]\] <font color='red'>Has stapled [target.name]([target.ckey]) @ [H.x],[H.y],[H.z]</font>" //cheesy attack log bug fix
-		target.attack_log += "\[[time_stamp()]\] <font color='red'>Has been stapled by [H.name]([H.ckey]) @ [target.x],[target.y],[target.z]</font>"
+		usr.attack_log += "\[[time_stamp()]\] <font color='red'>Has stapled [target.name]([target.ckey]) @ [usr.x],[usr.y],[usr.z]</font>" //cheesy attack log bug fix
+		target.attack_log += "\[[time_stamp()]\] <font color='red'>Has been stapled by [usr.name]([usr.ckey]) @ [target.x],[target.y],[target.z]</font>"
 		visible_message("<span class='danger'>[user] has stapled [target]!</span>",
 						"<span class='userdanger'>[user] has stapled [target]!</span>")
 
