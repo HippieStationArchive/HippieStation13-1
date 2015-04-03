@@ -441,7 +441,7 @@
 "iy" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet,/turf/simulated/floor/plasteel,/area/awaymission/BMPship/Aft)
 "iz" = (/obj/machinery/door/unpowered/shuttle,/turf/simulated/floor/plasteel{icon_state = "cafeteria"; dir = 2},/area/awaymission/BMPship/Aft)
 "iA" = (/obj/structure/mirror{pixel_y = 28},/turf/simulated/floor/plasteel{icon_state = "cafeteria"; dir = 2},/area/awaymission/BMPship/Aft)
-"iB" = (/obj/structure/toilet{dir = 8},/obj/machinery/light/small{dir = 1},/turf/simulated/floor/plasteel{icon_state = "cafeteria"; dir = 2},/area/awaymission/BMPship/Aft)
+"iB" = (/obj/structure/stool/bed/chair/toilet{dir = 8},/obj/machinery/light/small{dir = 1},/turf/simulated/floor/plasteel{icon_state = "cafeteria"; dir = 2},/area/awaymission/BMPship/Aft)
 "iC" = (/obj/item/weapon/caution,/turf/simulated/floor/plating/airless,/area/awaymission)
 "iD" = (/obj/machinery/portable_atmospherics/canister/air,/turf/simulated/floor/plating/airless,/area/awaymission)
 "iE" = (/obj/structure/closet/crate,/obj/item/weapon/spacecash/c10,/obj/item/weapon/spacecash/c200,/turf/simulated/floor/plasteel,/area/awaymission/BMPship/Aft)

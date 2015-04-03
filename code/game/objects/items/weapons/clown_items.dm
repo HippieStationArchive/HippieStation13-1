@@ -18,7 +18,7 @@
 	throwforce = 0
 	throw_speed = 3
 	throw_range = 7
-	var/cleanspeed = 50 //slower than mop
+	var/cleanspeed = 40 //slower than mop
 
 /obj/item/weapon/soap/nanotrasen
 	desc = "A Nanotrasen brand bar of soap. Smells of plasma."
@@ -27,12 +27,12 @@
 /obj/item/weapon/soap/deluxe
 	desc = "A deluxe Waffle Co. brand bar of soap. Smells of high-class luxury."
 	icon_state = "soapdeluxe"
-	cleanspeed = 40 //same speed as mop because deluxe -- captain gets one of these
+	cleanspeed = 20 //same speed as mop because deluxe -- captain gets one of these
 
 /obj/item/weapon/soap/syndie
 	desc = "An untrustworthy bar of soap made of strong chemical agents that dissolve blood faster."
 	icon_state = "soapsyndie"
-	cleanspeed = 10 //much faster than mop so it is useful for traitors who want to clean crime scenes
+	cleanspeed = 10 //faster than mop so it is useful for traitors who want to clean crime scenes
 
 /obj/item/weapon/soap/Crossed(AM as mob|obj)
 	if (istype(AM, /mob/living/carbon))

@@ -1,4 +1,4 @@
-/obj/structure/toilet
+/obj/structure/stool/bed/chair/toilet
 	name = "toilet"
 	desc = "The HT-451, a torque rotation-based, waste disposal unit for small matter. This one seems remarkably clean."
 	icon = 'icons/obj/watercloset.dmi'
@@ -10,18 +10,27 @@
 	var/w_items = 0			//the combined w_class of all the items in the cistern
 	var/mob/living/swirlie = null	//the mob being given a swirlie
 
-
-/obj/structure/toilet/New()
+/obj/structure/stool/bed/chair/toilet/New()
 	open = round(rand(0, 1))
 	update_icon()
 
 
-/obj/structure/toilet/attack_hand(mob/living/user)
-	if(swirlie)
-		user.changeNext_move(CLICK_CD_MELEE)
-		playsound(src.loc, "swing_hit", 25, 1)
-		swirlie.visible_message("<span class='danger'>[user] slams the toilet seat onto [swirlie]'s head!</span>", "<span class='userdanger'>[user] slams the toilet seat onto [swirlie]'s head!</span>", "You hear reverberating porcelain.")
-		swirlie.adjustBruteLoss(5)
+/obj/structure/stool/bed/chair/toilet/attack_hand(mob/living/user)
+	var/mob/living/carbon/C = user
+	var/obj/item/weapon/grab/G = C.l_hand
+	if(!istype(G))
+		G = C.r_hand
+
+	if(istype(G))
+		if(ishuman(G.affecting) && G.affecting != buckled_mob)
+			var/mob/living/carbon/human/H = G.affecting
+			H.forcesay(list("-mppf!", "-hrgh!", "-mph!", "-pfhh!", "-mmf!"))
+			user.changeNext_move(CLICK_CD_MELEE)
+			playsound(src.loc, "swing_hit", 25, 1)
+			H.visible_message("<span class='danger'>[user] slams the toilet seat onto [H]'s head!</span>",\
+									"<span class='userdanger'>[user] slams the toilet seat onto [H]'s head!</span>",\
+									"You hear reverberating porcelain.")
+			H.adjustBruteLoss(5)
 		return
 
 	if(cistern && !open)
@@ -38,15 +47,18 @@
 			w_items -= I.w_class
 			return
 
-	open = !open
+	if(!buckled_mob)
+		open = !open
+	else
+		user_unbuckle_mob(user)
 	update_icon()
 
 
-/obj/structure/toilet/update_icon()
+/obj/structure/stool/bed/chair/toilet/update_icon()
 	icon_state = "toilet[open][cistern]"
 
 
-/obj/structure/toilet/attackby(obj/item/I, mob/living/user)
+/obj/structure/stool/bed/chair/toilet/attackby(obj/item/I, mob/living/user)
 	if(istype(I, /obj/item/weapon/crowbar))
 		user << "<span class='notice'>You start to [cistern ? "replace the lid on the cistern" : "lift the lid off the cistern"].</span>"
 		playsound(loc, 'sound/effects/stonedoor_openclose.ogg', 50, 1)
@@ -57,35 +69,41 @@
 			return
 
 	if(istype(I, /obj/item/weapon/grab))
-		user.changeNext_move(CLICK_CD_MELEE)
-		var/obj/item/weapon/grab/G = I
-		if(!G.confirm())
-			return
-		if(isliving(G.affecting))
-			var/mob/living/GM = G.affecting
-			if(G.state >= GRAB_AGGRESSIVE)
-				if(GM.loc != get_turf(src))
-					user << "<span class='notice'>[GM] needs to be on [src].</span>"
-					return
-				if(!swirlie)
-					if(open)
-						GM.visible_message("<span class='danger'>[user] starts to give [GM] a swirlie!</span>", "<span class='userdanger'>[user] starts to give [GM] a swirlie!</span>")
-						swirlie = GM
-						if(do_after(user, 30, 5, 0))
-							GM.visible_message("<span class='danger'>[user] gives [GM] a swirlie!</span>", "<span class='userdanger'>[user] gives [GM] a swirlie!</span>", "You hear a toilet flushing.")
-							if(iscarbon(GM))
-								var/mob/living/carbon/C = GM
-								if(!C.internal)
-									C.adjustOxyLoss(5)
-							else
-								GM.adjustOxyLoss(5)
-						swirlie = null
-					else
-						playsound(src.loc, 'sound/effects/bang.ogg', 25, 1)
-						GM.visible_message("<span class='danger'>[user] slams [GM.name] into [src]!</span>", "<span class='userdanger'>[user] slams [GM.name] into [src]!</span>")
-						GM.adjustBruteLoss(5)
-			else
-				user << "<span class='notice'>You need a tighter grip.</span>"
+		if(!buckled_mob)
+			user.changeNext_move(CLICK_CD_MELEE)
+			var/obj/item/weapon/grab/G = I
+			if(!G.confirm())
+				return
+			if(isliving(G.affecting))
+				var/mob/living/GM = G.affecting
+				if(G.state >= GRAB_AGGRESSIVE)
+					// if(GM.loc != get_turf(src))
+					// 	user << "<span class='notice'>[GM] needs to be on [src].</span>"
+					// 	return
+					if(!swirlie)
+						if(open)
+							GM.loc = get_turf(src)
+							GM.visible_message("<span class='danger'>[user] starts to give [GM] a swirlie!</span>", "<span class='userdanger'>[user] starts to give [GM] a swirlie!</span>")
+							swirlie = GM
+							if(do_after(user, 30, 5, 0))
+								playsound(src.loc, 'sound/effects/slosh.ogg', 50, 1)
+								GM.visible_message("<span class='danger'>[user] gives [GM] a swirlie!</span>", "<span class='userdanger'>[user] gives [GM] a swirlie!</span>", "You hear a toilet flushing.")
+								if(iscarbon(GM))
+									var/mob/living/carbon/C = GM
+									if(!C.internal)
+										C.adjustOxyLoss(10)
+								else
+									GM.adjustOxyLoss(10)
+							swirlie = null
+						else
+							playsound(src.loc, 'sound/effects/bang.ogg', 25, 1)
+							GM.visible_message("<span class='danger'>[user] slams [GM.name] into [src]!</span>", "<span class='userdanger'>[user] slams [GM.name] into [src]!</span>")
+							GM.adjustBruteLoss(5)
+				else
+					user << "<span class='notice'>You need a tighter grip.</span>"
+		else
+			user << "<span class='notice'>[buckled_mob] is occupying the seat!</span>"
+		return
 
 	if(cistern)
 		if(I.w_class > 3)
@@ -125,7 +143,8 @@
 					user << "<span class='notice'>[GM.name] needs to on [src].</span>"
 					return
 				user.visible_message("<span class='danger'>[user] slams [GM] into [src]!</span>", "<span class='notice'>You slam [GM] into [src]!</span>")
-				GM.adjustBruteLoss(8)
+				GM.adjustBruteLoss(8) //This has no cooldown, yet nobody even knows it's possible. THIS IS INCREDIBLY ROBUST. Never add a cooldown for this pls
+				playsound(src.loc, 'sound/effects/bang.ogg', 50, 1)
 			else
 				user << "<span class='notice'>You need a tighter grip.</span>"
 
@@ -255,6 +274,7 @@
 				var/washears = 1
 				var/washglasses = 1
 
+				H.track_blood = 0 //No footprints for bare feet
 				if(H.wear_suit)
 					washgloves = !(H.wear_suit.flags_inv & HIDEGLOVES)
 					washshoes = !(H.wear_suit.flags_inv & HIDESHOES)
@@ -283,6 +303,7 @@
 					if(H.gloves.clean_blood())
 						H.update_inv_gloves(0)
 				if(H.shoes && washshoes)
+					H.track_blood = 0 //No footprints
 					if(H.shoes.clean_blood())
 						H.update_inv_shoes(0)
 				if(H.wear_mask && washmask)

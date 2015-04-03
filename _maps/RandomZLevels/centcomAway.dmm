@@ -427,7 +427,7 @@
 "ik" = (/obj/structure/table/reinforced,/obj/item/weapon/storage/box/bodybags,/turf/simulated/floor/plasteel{icon_state = "engine"},/area/awaymission/centcomAway/general)
 "il" = (/turf/simulated/floor/plasteel{icon_state = "green"; dir = 1},/area/awaymission/centcomAway/general)
 "im" = (/obj/machinery/door/airlock/centcom,/turf/simulated/floor/plasteel{icon_state = "white"},/area/awaymission/centcomAway/general)
-"in" = (/obj/structure/toilet{dir = 8},/turf/simulated/floor/plasteel{icon_state = "white"},/area/awaymission/centcomAway/general)
+"in" = (/obj/structure/stool/bed/chair/toilet{dir = 8},/turf/simulated/floor/plasteel{icon_state = "white"},/area/awaymission/centcomAway/general)
 "io" = (/obj/machinery/door_control{id = "XCCHangar1"; name = "Hangar Bay Blast Doors"; pixel_x = -28; pixel_y = 7; req_access_txt = "2"},/turf/simulated/floor/plating{tag = "icon-warnplate (WEST)"; icon_state = "warnplate"; dir = 8},/area/awaymission/centcomAway/hangar)
 "ip" = (/obj/structure/reagent_dispensers/watertank,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/awaymission/centcomAway/hangar)
 "iq" = (/obj/structure/rack,/obj/item/clothing/ears/earmuffs{pixel_x = -3; pixel_y = -2},/turf/simulated/floor/plating{tag = "icon-warnplate (WEST)"; icon_state = "warnplate"; dir = 8},/area/awaymission/centcomAway/hangar)

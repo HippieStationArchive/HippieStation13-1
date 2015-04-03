@@ -487,7 +487,7 @@
 "js" = (/turf/unsimulated/wall/fakeglass,/area/syndicate_mothership)
 "jt" = (/obj/machinery/computer/telecrystals/uplinker,/turf/unsimulated/floor{tag = "icon-podhatch (SOUTHWEST)"; icon_state = "podhatch"; dir = 10},/area/syndicate_mothership)
 "ju" = (/obj/structure/urinal{pixel_y = 28},/turf/unsimulated/floor{icon_state = "freezerfloor"; dir = 2},/area/syndicate_mothership)
-"jv" = (/obj/structure/toilet{pixel_y = 8},/obj/structure/window/reinforced/tinted{dir = 8; icon_state = "twindow"},/obj/machinery/door/window{name = "Tactical Toilet"; opacity = 1},/turf/unsimulated/floor{icon_state = "freezerfloor"; dir = 2},/area/syndicate_mothership)
+"jv" = (/obj/structure/stool/bed/chair/toilet{pixel_y = 8},/obj/structure/window/reinforced/tinted{dir = 8; icon_state = "twindow"},/obj/machinery/door/window{name = "Tactical Toilet"; opacity = 1},/turf/unsimulated/floor{icon_state = "freezerfloor"; dir = 2},/area/syndicate_mothership)
 "jw" = (/obj/structure/stool/bed/chair{dir = 4},/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/syndicate_station/start)
 "jx" = (/obj/structure/table,/obj/item/weapon/gun/energy/ionrifle,/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/syndicate_station/start)
 "jy" = (/obj/machinery/door/poddoor{auto_close = 300; id = "smindicate"; name = "outer blast door"},/obj/machinery/door_control{id = "smindicate"; name = "external door control"; pixel_x = -26; pixel_y = 0; req_access_txt = "150"},/turf/simulated/shuttle/plating,/area/syndicate_station/start)
