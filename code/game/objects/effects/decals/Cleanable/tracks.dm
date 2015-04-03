@@ -123,7 +123,7 @@
 		// TODO: Uncomment when the block above is fixed.
 		//if(!(updatedtracks&track.direction) && !track.fresh)
 		//	continue
-		world << "[track.amt] AMT for track"
+		//world << "[track.amt] AMT for track"  //crystal for fucks sake
 		var/stack_idx=setdirs["[track.direction]"]
 		var/state="blood[coming_state]"
 		truedir=track.direction
