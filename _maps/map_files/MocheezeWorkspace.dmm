@@ -961,7 +961,7 @@
 "sy" = (/obj/structure/closet/secure_closet/personal/cabinet,/obj/machinery/light/small{dir = 8},/turf/simulated/floor/wood,/area/crew_quarters/sleep)
 "sz" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/red,/turf/simulated/floor/wood,/area/crew_quarters/sleep)
 "sA" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/machinery/light{icon_state = "tube1"; dir = 8},/turf/simulated/floor/plasteel{icon_state = "neutral"; dir = 8},/area/crew_quarters/sleep)
-"sB" = (/obj/structure/toilet{pixel_y = 8},/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/crew_quarters/toilet)
+"sB" = (/obj/structure/stool/bed/chair/toilet{pixel_y = 8},/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/crew_quarters/toilet)
 "sC" = (/obj/machinery/recharge_station,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/crew_quarters/toilet)
 "sD" = (/obj/machinery/alarm{pixel_y = 23},/obj/structure/stool,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/crew_quarters/toilet)
 "sE" = (/obj/structure/grille,/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/crew_quarters/fitness)

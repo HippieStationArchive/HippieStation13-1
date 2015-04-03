@@ -54,7 +54,7 @@
 "bb" = (/obj/structure/window/reinforced{dir = 1},/obj/machinery/space_heater,/turf/simulated/floor/plasteel{icon_state = "cafeteria"},/area/djstation)
 "bc" = (/obj/structure/window/reinforced{dir = 1},/obj/structure/rack{dir = 4},/obj/item/clothing/under/soviet,/obj/item/clothing/head/ushanka,/turf/simulated/floor/plasteel{icon_state = "cafeteria"},/area/djstation)
 "bd" = (/obj/structure/sink{icon_state = "sink"; dir = 8; pixel_x = -12; pixel_y = 2},/obj/machinery/light/small,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/djstation)
-"be" = (/obj/structure/toilet{pixel_y = 8},/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/djstation)
+"be" = (/obj/structure/stool/bed/chair/toilet{pixel_y = 8},/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/djstation)
 "bf" = (/obj/structure/table,/obj/item/weapon/paper_bin{pixel_x = 1; pixel_y = 9},/obj/item/weapon/pen,/turf/simulated/floor/plasteel{icon_state = "cafeteria"},/area/djstation)
 "bg" = (/obj/structure/sign/securearea{desc = "A warning sign which reads 'EXTERNAL AIRLOCK'"; icon_state = "space"; layer = 4; name = "EXTERNAL AIRLOCK"; pixel_x = 0; pixel_y = -32},/turf/simulated/floor/plasteel{icon_state = "cafeteria"},/area/djstation)
 "bh" = (/obj/machinery/door/airlock/external{name = "Ruskie DJ Station"; req_access = null; req_access_txt = "0"},/turf/simulated/floor/plating,/area/djstation)

@@ -355,6 +355,7 @@ var/list/blood_splatter_icons = list()
 				else
 					B = new /obj/effect/decal/cleanable/blood/splatter(src)
 			B.blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
+			return B
 		else if(istype(M, /mob/living/carbon/alien))
 			var/obj/effect/decal/cleanable/xenoblood/B = locate() in contents
 			if(!B)
@@ -363,6 +364,7 @@ var/list/blood_splatter_icons = list()
 				else
 					B = new /obj/effect/decal/cleanable/xenoblood/xsplatter(src)
 			B.blood_DNA["UNKNOWN BLOOD"] = "X*"
+			return B
 		else if(istype(M, /mob/living/silicon/robot))
 			var/obj/effect/decal/cleanable/oil/B = locate() in contents
 			if(!B)
@@ -370,6 +372,7 @@ var/list/blood_splatter_icons = list()
 					B = new(src)
 				else
 					B = new /obj/effect/decal/cleanable/oil/streak(src)
+			return B
 
 /atom/proc/add_blood_drip(mob/living/carbon/M as mob)
 	if(!istype(M)) return

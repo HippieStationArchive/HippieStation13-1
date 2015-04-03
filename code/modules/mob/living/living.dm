@@ -523,7 +523,7 @@
 						if (M.lying && (prob(M.getBruteLoss() / 2)))
 							var/blood_exists = 0
 							var/trail_type = M.getTrail()
-							for(var/obj/effect/decal/cleanable/trail_holder/C in M.loc) //checks for blood splatter already on the floor
+							for(var/obj/effect/decal/cleanable/blood/trail_holder/C in M.loc) //checks for blood splatter already on the floor
 								blood_exists = 1
 							if (istype(M.loc, /turf/simulated) && trail_type != null && !M.buckled) //Added buckled check so you actually have a use for rollerbeds other than self surgery
 								var/newdir = get_dir(T, M.loc)
@@ -536,8 +536,8 @@
 								if((newdir in list(1, 2, 4, 8)) && (prob(50)))
 									newdir = turn(get_dir(T, M.loc), 180)
 								if(!blood_exists)
-									new /obj/effect/decal/cleanable/trail_holder(M.loc)
-								for(var/obj/effect/decal/cleanable/trail_holder/H in M.loc)
+									new /obj/effect/decal/cleanable/blood/trail_holder(M.loc)
+								for(var/obj/effect/decal/cleanable/blood/trail_holder/H in M.loc)
 									if((!(newdir in H.existing_dirs) || trail_type == "trails_1" || trail_type == "trails_2") && H.existing_dirs.len <= 16) //maximum amount of overlays is 16 (all light & heavy directions filled)
 										H.existing_dirs += newdir
 										H.overlays.Add(image('icons/effects/blood.dmi',trail_type,dir = newdir))
