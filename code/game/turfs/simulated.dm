@@ -48,7 +48,7 @@
 				var/obj/item/clothing/shoes/S = H.shoes
 				if(S.track_blood && S.blood_DNA)
 					blood_DNA = S.blood_DNA
-					S.add_blood(M) //No bloody overlay for human sprite yet
+					// H.shoes.add_blood(M) //why. We're only making footprints.
 					new_track_blood = S.track_blood
 			else
 				if(H.track_blood && H.feet_blood_DNA)

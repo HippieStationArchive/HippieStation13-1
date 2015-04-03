@@ -491,7 +491,7 @@
 "jw" = (/obj/machinery/conveyor{dir = 4; id = "mining_west"},/obj/machinery/light/small{dir = 1},/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/mine/west_outpost)
 "jx" = (/obj/structure/disposalpipe/trunk{dir = 4},/obj/machinery/disposal/deliveryChute{dir = 8},/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/mine/west_outpost)
 "jy" = (/obj/structure/grille,/obj/structure/disposalpipe/segment{dir = 4},/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/mine/west_outpost)
-"jz" = (/obj/structure/toilet{dir = 4},/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/mine/living_quarters)
+"jz" = (/obj/structure/stool/bed/chair/toilet{dir = 4},/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/mine/living_quarters)
 "jA" = (/obj/structure/sink{pixel_y = 30},/obj/machinery/light/small,/obj/structure/mirror{pixel_y = -32},/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/mine/living_quarters)
 "jB" = (/obj/machinery/door/airlock{name = "Toilet"},/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/mine/living_quarters)
 "jC" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel,/area/mine/living_quarters)

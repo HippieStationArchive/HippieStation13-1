@@ -351,7 +351,7 @@
 "gM" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/turf/simulated/shuttle/wall{icon_state = "swall12"; dir = 2},/area/wreck/bridge)
 "gN" = (/turf/simulated/shuttle/wall{icon_state = "swall11"; dir = 2},/area/wreck/bridge)
 "gO" = (/obj/machinery/hydroponics/constructable,/turf/simulated/floor/plasteel{icon_state = "green"; dir = 4},/area/wreck/botany)
-"gP" = (/obj/structure/toilet{dir = 4},/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/wreck/living)
+"gP" = (/obj/structure/stool/bed/chair/toilet{dir = 4},/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/wreck/living)
 "gQ" = (/obj/machinery/light/small,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/wreck/living)
 "gR" = (/obj/machinery/shower{dir = 8},/obj/item/weapon/storage/toolbox/mechanical,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/wreck/living)
 "gS" = (/obj/machinery/chem_dispenser,/obj/item/weapon/reagent_containers/glass/beaker,/turf/simulated/floor/plasteel{dir = 1; icon_state = "brown"},/area/wreck/living)

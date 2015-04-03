@@ -977,10 +977,16 @@
 				if(prob(I.force * 2))    //blood spatter!
 					bloody = 1
 					var/turf/location = H.loc
-					if(prob(50))		//Blood splatter... ON THE WALLS!
-						location = get_step(H, get_dir(user, H))
-						if(istype(location, /turf/simulated))
-							location.add_blood_floor(H, 1) //1 for splatter
+					if(prob(50))		//Blood splatter... ON THE WALLS! Problem: since it gets created on the wall turf itself it will be visible from all sides.
+						location = get_step(H, get_dir(user, H)) //We COULD fuck around with pixel_x/pixel_y variables, but then it might confuse the janitor.
+						if(istype(location, /turf/simulated)) //Then again, if he clicks on the blood itself it should work.
+							// if(istype(location, /turf/simulated/wall))
+							// 	var/obj/effect/decal/cleanable/B = H.loc.add_blood_floor(H, 1) //1 for splatter
+							// 	if(B) 
+							// 		B.pixel_x = (get_dir(H, user) & 3)? 0 : (get_dir(H, user) == 4 ? -24 : 24)
+							// 		B.pixel_y = (get_dir(H, user) & 3)? (get_dir(H, user) == 1 ? -24 : 24) : 0
+							// else						//This entire thing may cause problems, so it's commented out.
+							location.add_blood_floor(H, 1)
 					else
 						if(istype(location, /turf/simulated))
 							location.add_blood(H)
