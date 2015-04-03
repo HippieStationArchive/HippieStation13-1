@@ -12,7 +12,7 @@
 	var/mopping = 0
 	var/mopcount = 0
 	var/mopcap = 5
-	var/mopspeed = 10 //One second instead of four because fuck off /tg/
+	var/mopspeed = 8 //REDUCE THAT SHIT OH YA!!  ~Nexendia
 
 /obj/item/weapon/mop/New()
 	create_reagents(mopcap)

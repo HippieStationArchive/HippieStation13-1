@@ -13,7 +13,7 @@
 	embedchance = 0 //No chance to stick..  ~Nexendia
 
 /obj/item/dragon/suicide_act(mob/user)
-	user.visible_message(pick("<span class='suicide'>[user] is shoving [src.name] down /his throat! It looks like they're trying to commit suicide.</span>"))
+	user.visible_message(pick("<span class='suicide'>[user] is shoving [src.name] down \his throat! It looks like they're trying to commit suicide.</span>"))
 	return(BRUTELOSS)
 
 /obj/item/dragon/sea

@@ -40,6 +40,22 @@
 	icon_state = "securityhud"
 	hud_type = DATA_HUD_SECURITY_ADVANCED
 
+/obj/item/clothing/glasses/hud/security/attack_self(mob/user)
+
+	var/mob/M = usr
+	var/list/options = list()
+	options["HUD Sec"] = "sunhud"
+	options["Eye Patch Sec"] = "hudpatch"
+	options["Gar Sec"] = "gars"
+
+	var/choice = input(M,"To what form do you wish to Morph these Glasses?","Morph Glasses") in options
+
+	if(src && choice && !M.stat && in_range(M,src))
+		icon_state = options[choice]
+		M << "Your HUD has now morphed into [choice]!"
+		return 1
+
+
 /obj/item/clothing/glasses/hud/security/eyepatch
 	name = "Eyepatch HUD"
 	desc = "A heads-up display that connects directly to the optical nerve of the user, replacing the need for that useless eyeball."
