@@ -115,6 +115,7 @@
 	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
 	new /obj/item/clothing/mask/gas/sechailer(src)
 	new /obj/item/tapeproj/security(src)
+	new /obj/item/device/megaphone(src)
 	new /obj/item/weapon/storage/box/flashbangs(src)
 	new /obj/item/weapon/storage/box/zipties(src)
 	new /obj/item/weapon/reagent_containers/spray/pepper(src)

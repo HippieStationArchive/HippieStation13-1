@@ -257,6 +257,10 @@
 
 /mob/living/carbon/slime/proc/handle_nutrition()
 
+	if(docile) //Slime never gets hungry  ~Nexendia
+		nutrition = 700
+		return
+
 	if(prob(15))
 		nutrition -= 1 + is_adult
 
@@ -314,7 +318,7 @@
 
 		if(Target)
 			--target_patience
-			if (target_patience <= 0 || SStun || Discipline || attacked) // Tired of chasing or something draws out attention
+			if (target_patience <= 0 || SStun || Discipline || attacked || docile) // Tired of chasing or something draws out attention
 				target_patience = 0
 				Target = null
 
@@ -408,6 +412,7 @@
 	//Mood starts here
 	var/newmood = ""
 	if (rabid || attacked) newmood = "angry"
+	else if (docile) newmood = ":3"
 	else if (Target) newmood = "mischevous"
 
 	if (!newmood)
@@ -578,6 +583,7 @@
 	else return 200
 
 /mob/living/carbon/slime/proc/will_hunt(var/hunger = -1) // Check for being stopped from feeding and chasing
+	if (docile) return 0
 	if (hunger == 2 || rabid || attacked) return 1
 	if (Leader) return 0
 	if (holding_still) return 0
