@@ -603,6 +603,10 @@ var/global/list/g_fancy_list_of_types = null
 		"blue wizard",
 		"red wizard",
 		"marisa wizard",
+		"the owl",
+		"the griffin",
+		"timeline eradication agent",
+		"the space owl",
 		)
 	var/dresscode = input("Select dress for [M]", "Robust quick dress shop") as null|anything in dresspacks
 	if (isnull(dresscode))
@@ -962,7 +966,82 @@ var/global/list/g_fancy_list_of_types = null
 			W.registered_name = M.real_name
 			W.update_label()
 			M.equip_to_slot_or_del(W, slot_wear_id)
+	/*
+		Snowflakey fun shit goes down here!   ~Nexendia
+	*/
+		if("The Owl")
+			M.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/owl_mask(M), slot_wear_mask)
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_sec/alt(M), slot_ears)
+			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/hud/security/sunglasses<(M), slot_glasses)
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/owl(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/toggle/owlwings(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/weapon/melee/truncheon/telebaton(M), slot_r_store)
 
+			var/obj/item/weapon/card/id/W = new(M)
+			W.assignment = "The Owl"
+			W.registered_name = M.real_name
+			W.update_label()
+			M.equip_to_slot_or_del(W, slot_wear_id)
+
+		if("The Space Owl")
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_sec/alt(M), slot_ears)
+			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/hud/security/sunglasses<(M), slot_glasses)
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/owl(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/space/hardsuit/syndi/owl(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/weapon/melee/truncheon/telebaton(M), slot_r_store)
+
+			var/obj/item/weapon/card/id/W = new(M)
+			W.assignment = "The Owl"
+			W.registered_name = M.real_name
+			W.update_label()
+			M.equip_to_slot_or_del(W, slot_wear_id)
+
+		if("The Griffin")
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/griffin(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/griffin(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_sec/alt(M), slot_ears)
+			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/hud/security/sunglasses<(M), slot_glasses)
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/griffin(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/toggle/owlwings/griffinwings(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/weapon/melee/truncheon/telebaton(M), slot_r_store)
+
+			var/obj/item/weapon/card/id/W = new(M)
+			W.assignment = "The Griffin"
+			W.registered_name = M.real_name
+			W.update_label()
+			M.equip_to_slot_or_del(W, slot_wear_id)
+
+		if("Timeline Eradication Agent")
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/hud/security/sunglasses<(M), slot_glasses)
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/acj(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/space/chronos(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/chronos(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/weapon/chrono_eraser(M), slot_back)
+
+			var/obj/item/weapon/card/id/W = new(M)
+			W.icon_state = "centcom"
+			W.access = get_all_accesses()
+			W.access += get_centcom_access("Timeline Eradication Agent")
+			W.assignment = "Timeline Eradication Agent"
+			W.registered_name = M.real_name
+			W.update_label()
+			M.equip_to_slot_or_del(W, slot_wear_id)
+		/*
+		This guy needs the explosive implant as the Equipment is too powerful for the players to have!
+		*/
+			var/obj/item/weapon/implant/explosive/E = new/obj/item/weapon/implant/explosive(M)
+			E.imp_in = M
+			E.implanted = 1
+			E.implanted(M)
+			return 1
 
 	M.regenerate_icons()
 

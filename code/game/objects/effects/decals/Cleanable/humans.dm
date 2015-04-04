@@ -11,6 +11,7 @@
 	var/list/viruses = list()
 	blood_DNA = list()
 	var/amount = 5
+	var/creation_time = 0
 
 /obj/effect/decal/cleanable/blood/Destroy()
 	for(var/datum/disease/D in viruses)
@@ -20,6 +21,7 @@
 /obj/effect/decal/cleanable/blood/New()
 	..()
 	remove_ex_blood()
+	creation_time = world.time
 
 /obj/effect/decal/cleanable/blood/proc/remove_ex_blood() //removes existant blood on the turf
 	if(src.loc && isturf(src.loc))
@@ -49,6 +51,7 @@
 		// perp.feet_blood_color=basecolor
 
 	amount -= 3
+	if(amount < 0) amount = 0
 
 /obj/effect/decal/cleanable/blood/splatter
 	random_icon_states = list("gibbl1", "gibbl2", "gibbl3", "gibbl4", "gibbl5")
@@ -60,7 +63,7 @@
 	gender = PLURAL
 	random_icon_states = null
 
-/obj/effect/decal/cleanable/trail_holder //not a child of blood on purpose
+/obj/effect/decal/cleanable/blood/trail_holder //It wasn't specified WHY this isn't a child of blood so now it is.
 	name = "blood"
 	icon_state = "blank"
 	desc = "Your instincts say you shouldn't be following these."
@@ -71,6 +74,10 @@
 	random_icon_states = null
 	var/list/existing_dirs = list()
 	blood_DNA = list()
+	amount = 2
+
+/obj/effect/decal/cleanable/blood/trail_holder/remove_ex_blood()
+	return //Overwritten.
 
 /obj/effect/decal/cleanable/blood/gibs
 	name = "gibs"

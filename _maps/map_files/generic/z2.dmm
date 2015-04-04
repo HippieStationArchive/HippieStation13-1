@@ -633,7 +633,7 @@
 "mi" = (/obj/machinery/door_control{id = "nukeop_ready"; name = "mission launch control"; pixel_x = -26; pixel_y = 0; req_access_txt = "151"},/turf/unsimulated/floor{icon_state = "bar"; dir = 2},/area/syndicate_mothership)
 "mj" = (/obj/machinery/computer/telecrystals/uplinker,/turf/unsimulated/floor{tag = "icon-podhatch (SOUTHWEST)"; icon_state = "podhatch"; dir = 10},/area/syndicate_mothership)
 "mk" = (/obj/structure/urinal{pixel_y = 28},/turf/unsimulated/floor{icon_state = "freezerfloor"; dir = 2},/area/syndicate_mothership)
-"ml" = (/obj/structure/toilet{pixel_y = 8},/obj/structure/window/reinforced/tinted{dir = 8; icon_state = "twindow"},/obj/machinery/door/window{name = "Tactical Toilet"; opacity = 1},/turf/unsimulated/floor{icon_state = "freezerfloor"; dir = 2},/area/syndicate_mothership)
+"ml" = (/obj/structure/stool/bed/chair/toilet{pixel_y = 8},/obj/structure/window/reinforced/tinted{dir = 8; icon_state = "twindow"},/obj/machinery/door/window{name = "Tactical Toilet"; opacity = 1},/turf/unsimulated/floor{icon_state = "freezerfloor"; dir = 2},/area/syndicate_mothership)
 "mm" = (/obj/structure/stool,/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/syndicate_station/start)
 "mn" = (/obj/structure/table,/obj/item/device/aicard,/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/syndicate_station/start)
 "mo" = (/obj/machinery/door/poddoor{auto_close = 300; id = "smindicate"; name = "outer blast door"},/obj/machinery/door_control{id = "smindicate"; name = "external door control"; pixel_x = -26; pixel_y = 0; req_access_txt = "150"},/turf/simulated/shuttle/plating,/area/syndicate_station/start)

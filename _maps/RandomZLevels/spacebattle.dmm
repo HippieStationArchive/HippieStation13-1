@@ -416,7 +416,7 @@
 "hZ" = (/obj/machinery/shower{tag = "icon-shower (EAST)"; icon_state = "shower"; dir = 4},/obj/item/weapon/bikehorn/rubberducky,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/awaymission/spacebattle/cruiser)
 "ia" = (/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/awaymission/spacebattle/cruiser)
 "ib" = (/obj/machinery/shower{tag = "icon-shower (WEST)"; icon_state = "shower"; dir = 8},/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/awaymission/spacebattle/cruiser)
-"ic" = (/obj/structure/toilet,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/awaymission/spacebattle/cruiser)
+"ic" = (/obj/structure/stool/bed/chair/toilet,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/awaymission/spacebattle/cruiser)
 "id" = (/obj/structure/table/reinforced,/obj/item/weapon/storage/firstaid/fire,/turf/simulated/floor/plasteel{icon_state = "white"},/area/awaymission/spacebattle/cruiser)
 "ie" = (/turf/simulated/shuttle/wall{tag = "icon-swall_s9"; icon_state = "swall_s9"},/area/awaymission/spacebattle/cruiser)
 "if" = (/obj/machinery/door/unpowered/shuttle,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/awaymission/spacebattle/cruiser)

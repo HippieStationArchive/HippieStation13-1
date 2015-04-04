@@ -12,7 +12,7 @@
 	var/mopping = 0
 	var/mopcount = 0
 	var/mopcap = 5
-	var/mopspeed = 8 //REDUCE THAT SHIT OH YA!!  ~Nexendia
+	var/mopspeed = 20
 
 /obj/item/weapon/mop/New()
 	create_reagents(mopcap)
@@ -73,4 +73,4 @@ obj/item/weapon/mop/proc/clean(turf/simulated/A)
 	force = 6
 	throwforce = 8
 	throw_range = 4
-	mopspeed = 0 //SUPERSONIC MOPPING
+	mopspeed = 10 //SUPERSONIC MOPPING
