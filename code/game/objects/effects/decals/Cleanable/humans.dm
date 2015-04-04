@@ -6,6 +6,8 @@
 	anchored = 1
 	layer = 2
 	icon = 'icons/effects/blood.dmi'
+	var/base_icon = 'icons/effects/blood.dmi' //For upcoming /vg/-style blood coloring
+	var/basecolor = "#AE0C0C"
 	icon_state = "floor1"
 	random_icon_states = list("floor1", "floor2", "floor3", "floor4", "floor5", "floor6", "floor7")
 	var/list/viruses = list()
@@ -43,21 +45,39 @@
 		perp.shoes.blood_DNA = blood_DNA.Copy()
 		// perp.shoes.track_blood_type = src.type
 		if(istype(blood_source))
-			perp.shoes.add_blood(blood_source)
+			perp.shoes.add_blood(blood_source) //This doesn't work half the time. We need a add_blood_from_dna proc.
 		perp.update_inv_shoes()
 	else
 		perp.track_blood = max(amount,perp.track_blood)                                //Or feet
 		if(!perp.feet_blood_DNA)
 			perp.feet_blood_DNA = list()
 		perp.feet_blood_DNA = blood_DNA.Copy()
-		// perp.feet_blood_color=basfecolor
+		perp.feet_blood_color=basecolor //Currently unused
 
 	amount -= 3
 	if(amount < 0) amount = 0
 
+/obj/effect/decal/cleanable/blood/attack_hand(mob/living/carbon/human/user)
+	..()
+	if (amount && istype(user))
+		add_fingerprint(user)
+		if (user.gloves)
+			user << "<span class='notice'>You can't do that with gloves!</span>"
+			return
+		var/taken = rand(1,amount)
+		amount -= taken
+		user << "<span class='notice'>You get some of \the [src] on your hands.</span>"
+		if (!user.blood_DNA)
+			user.blood_DNA = list()
+		user.blood_DNA |= blood_DNA.Copy()
+		user.bloody_hands += taken
+		user.hand_blood_color = basecolor
+		user.update_inv_gloves(1)
+		user.verbs += /mob/living/carbon/human/proc/bloody_doodle
+
 /obj/effect/decal/cleanable/blood/splatter
 	name = "blood splatter"
-	// desc = "Someone must've been gutted in front of this."
+	desc = "Someone must've been gutted in front of this."
 	random_icon_states = list("gibbl1", "gibbl2", "gibbl3", "gibbl4", "gibbl5")
 	amount = 3
 
@@ -73,15 +93,18 @@
 	var/mob/living/blood_source
 	var/random_icon_states = list("splatter1", "splatter2", "splatter3")
 	var/amount = 3
+	var/splattering = 0
 
 /obj/effect/effect/splatter/proc/GoTo(turf/T, var/n=rand(1, 3))
 	for(var/i=0, i<=n, i++)
 		if(!src)
 			return
+		if(splattering)
+			return
 		step_towards(src,T)
 		if(!src)
 			return
-		sleep(1)
+		sleep(2)
 	qdel(src)
 
 /obj/effect/effect/splatter/New()
@@ -90,18 +113,22 @@
 	..()
 
 /obj/effect/effect/splatter/Bump(atom/A)
+	if(splattering) return
 	if(istype(A, /obj/item))
 		var/obj/item/I = A
 		I.add_blood(blood_source)
 	if(istype(A, /turf/simulated/wall))
 		// var/turf/simulated/wall/T = A
 		src.loc = A
+		splattering = 1
+		sleep(3)
 		qdel(src)
 		return
 
 	qdel(src)
 
 /obj/effect/effect/splatter/Crossed(atom/A)
+	if(splattering) return
 	if(istype(A, /obj/item))
 		var/obj/item/I = A
 		I.add_blood(blood_source)
@@ -117,6 +144,8 @@
 	if(istype(A, /turf/simulated/wall))
 		// var/turf/simulated/wall/T = A
 		src.loc = A
+		splattering = 1
+		sleep(3)
 		qdel(src)
 		return
 
@@ -228,3 +257,13 @@
 			blood += B
 		if(blood.len > 4) //fuk ye this works
 			qdel(pick(blood))
+
+/obj/effect/decal/cleanable/blood/palmprint
+	name = "bloody palmprint"
+	desc = "Huh. Scary."
+	gender = NEUTER
+	random_icon_states = list("palmprint1", "palmprint2")
+	amount = 0
+
+/obj/effect/decal/cleanable/blood/palmprint/remove_ex_blood() //INFINITE WALL PALMPRINTS WOOO
+	return

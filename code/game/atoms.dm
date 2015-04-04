@@ -289,6 +289,7 @@ var/list/blood_splatter_icons = list()
 	if(..() == 0)   return 0
 	return add_blood_list(M)
 
+//TODO: Add "add_blood_from_dna" proc. It's super important.
 /obj/item/add_blood(mob/living/carbon/M)
 	var/blood_count = blood_DNA == null ? 0 : blood_DNA.len
 	if(..() == 0)	return 0
@@ -328,7 +329,8 @@ var/list/blood_splatter_icons = list()
 	bloody_hands = rand(2, 4)
 	bloody_hands_mob = M
 	update_inv_gloves()	//handles bloody hands overlays and updating
-	return 1 //we applied blood to the item
+	verbs += /mob/living/carbon/human/proc/bloody_doodle //Add bloody handwriting capabilities.
+	return 1 //we applied blood to the person's hands
 
 /atom/proc/rejects_blood()
 	return 0

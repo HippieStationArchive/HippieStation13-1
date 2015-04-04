@@ -90,7 +90,8 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 
 /turf/simulated/floor/proc/break_tile_to_plating()
 	var/turf/simulated/floor/plating/T = make_plating()
-	T.break_tile()
+	if(istype(T))
+		T.break_tile()
 
 /turf/simulated/floor/proc/break_tile()
 	if(broken)
@@ -116,9 +117,10 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 	var/old_icon = icon_regular_floor
 	var/old_dir = dir
 	var/turf/simulated/floor/W = ..()
-	W.icon_regular_floor = old_icon
-	W.dir = old_dir
-	W.update_icon()
+	if(istype(W))
+		W.icon_regular_floor = old_icon
+		W.dir = old_dir
+		W.update_icon()
 	return W
 
 /turf/simulated/floor/attackby(obj/item/C as obj, mob/user as mob)

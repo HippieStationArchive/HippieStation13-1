@@ -3,8 +3,10 @@
 	var/mob/living/carbon/human/bloody_hands_mob
 	var/track_blood = 0
 	var/list/feet_blood_DNA
-	// var/feet_blood_color
+	var/feet_blood_color
 	var/track_blood_type
+	var/hand_blood_color = ""
+	// var/list/hand_blood_DNA = list() //Unused
 
 /obj/item/clothing/gloves
 	var/transfer_blood = 0
@@ -13,6 +15,7 @@
 /obj/item/clothing/shoes
 	var/track_blood = 0
 	var/track_blood_type
+	var/mob/living/carbon/human/bloody_tracks_mob
 
 /obj/item/weapon/reagent_containers/glass/rag
 	name = "damp rag"

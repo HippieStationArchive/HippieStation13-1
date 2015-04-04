@@ -1038,6 +1038,13 @@
 							H.w_uniform.add_blood(H)
 							H.update_inv_w_uniform(0)
 
+			if(bloody && prob(50)) //Relatively high chance to get some of the blood on your hands.
+				if (H.gloves)
+					var/obj/item/clothing/gloves/G = H.gloves
+					G.add_blood(H)
+				else
+					H.add_blood(H)
+					H.update_inv_gloves()    //updates on-mob overlays for bloody hands and/or bloody gloves
 			if(Iforce > 10 || Iforce >= 5 && prob(33))
 				H.forcesay(hit_appends)    //forcesay checks stat already.
 			return

@@ -124,7 +124,7 @@
 			usr << text("<span class='notice'>You punch the wall.</span>")
 			return
 
-	user << "<span class='notice'>You push the wall but nothing happens!</span>"
+	user << "<span class='notice'>You push the wall.</span>"
 	playsound(src, 'sound/weapons/Genhit.ogg', 25, 1)
 	src.add_fingerprint(user)
 	..()
