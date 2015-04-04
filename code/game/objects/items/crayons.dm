@@ -91,10 +91,10 @@
 //Spraycan stuff
 
 /obj/item/toy/crayon/spraycan
-	icon_state = "spraycanwhite_cap"
+	icon_state = "spraycanwhite"
 	desc = "A metallic container containing tasty paint."
 	var/capped = 1
-	instant = 1
+	instant = 0
 	validSurfaces = list(/turf/simulated/floor,/turf/simulated/wall)
 
 /obj/item/toy/crayon/spraycan/New()
@@ -107,15 +107,15 @@
 	switch(choice)
 		if("Toggle Cap")
 			user << "<span class='notice'>You [capped ? "Remove" : "Replace"] the cap of the [src]</span>"
-			capped = capped ? 0 : 1
-			icon_state = "spraycan[capped ? "_cap" : ""]"
-			update_icon()
+//			capped = capped ? 0 : 1
+//			icon_state = "spraycanwhite[capped ? "_cap" : ""]"
+//			update_icon()  //Crystal or someone else smart please fix
 		if("Change Drawing")
 			..()
 		if("Change Color")
 			colour = input(user,"Choose Color") as color
 			update_icon()
-
+/*
 /obj/item/toy/crayon/spraycan/afterattack(atom/target, mob/user as mob, proximity)
 	if(capped)
 		return
@@ -132,7 +132,7 @@
 			C.update_body()
 		playsound(user.loc, 'sound/effects/spray.ogg', 5, 1, 5)
 		..()
-
+*/
 /obj/item/toy/crayon/spraycan/update_icon()
 	overlays.Cut()
 	var/image/I = image('icons/obj/crayons.dmi',icon_state = "[capped ? "spraycan_cap_colors" : "spraycan_colors"]")
