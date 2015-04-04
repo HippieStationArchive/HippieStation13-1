@@ -91,7 +91,7 @@
 //Spraycan stuff
 
 /obj/item/toy/crayon/spraycan
-	icon_state = "spraycan_cap"
+	icon_state = "spraycanwhite_cap"
 	desc = "A metallic container containing tasty paint."
 	var/capped = 1
 	instant = 1
