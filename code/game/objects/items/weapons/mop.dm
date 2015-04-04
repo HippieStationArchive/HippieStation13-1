@@ -11,7 +11,7 @@
 	attack_verb = list("mopped", "bashed", "bludgeoned", "whacked")
 	var/mopping = 0
 	var/mopcount = 0
-	var/mopcap = 5
+	var/mopcap = 20
 	var/mopspeed = 20
 
 /obj/item/weapon/mop/New()
@@ -67,7 +67,7 @@ obj/item/weapon/mop/proc/clean(turf/simulated/A)
 /obj/item/weapon/mop/advanced
 	desc = "The most advanced tool in a custodian's arsenal. Just think of all the viscera you will clean up with this!"
 	name = "advanced mop"
-	mopcap = 10
+	mopcap = 40
 	icon_state = "advmop"
 	item_state = "mop"
 	force = 6
