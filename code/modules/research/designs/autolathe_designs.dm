@@ -526,7 +526,16 @@
 // 	build_path = /obj/item/baseball
 // 	category = list("initial", "Misc")
 
-//SPRAYCANS!!!
+//SPRAYCANS!!!  //They are back baby!  ~Nexendia
+
+/datum/design/spraycan
+	name = "Spray Can"
+	id = "spraycan"
+	build_type = AUTOLATHE
+	materials = list("$metal" = 70, "$glass" = 60)
+	build_path = /obj/item/toy/crayon/spraycan
+	category = list("initial", "Tools")
+
 /*
 /datum/design/spraycanred
 	name = "Red Spraycan"

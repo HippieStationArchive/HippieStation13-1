@@ -422,6 +422,7 @@
 	var/instant = 0
 	var/colourName = "red" //for updateIcon purposes
 	var/dat
+	var/list/validSurfaces = list(/turf/simulated/floor)
 
 /obj/item/toy/crayon/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is jamming the [src.name] up \his nose and into \his brain. It looks like \he's trying to commit suicide.</span>")
@@ -468,7 +469,7 @@
 		if("random_letter")
 			temp = pick(letters)
 		if("letter")
-			temp = input("Choose the letter.", "Crayon scribbles") in letters
+			temp = input("Choose the letter.", "Scribbles") in letters
 		if("random_rune")
 			temp = "rune[rand(1,6)]"
 		if("random_graffiti")
@@ -482,7 +483,7 @@
 
 /obj/item/toy/crayon/afterattack(atom/target, mob/user as mob, proximity)
 	if(!proximity) return
-	if(istype(target,/turf/simulated/floor))
+	if(is_type_in_list(target,validSurfaces))
 		var/temp = "rune"
 		if(letters.Find(drawtype))
 			temp = "letter"
@@ -497,18 +498,18 @@
 			if(uses)
 				uses--
 				if(!uses)
-					user << "<span class='danger'>You used up your crayon!</span>"
+					user << "<span class='danger'>You used up your [src.name]!</span>"
 					qdel(src)
 	return
 
 /obj/item/toy/crayon/attack(mob/M as mob, mob/user as mob)
 	if(M == user)
-		user << "You take a bite of the crayon. Delicious!"
+		user << "You take a bite of the [src.name]. Delicious!"  //Huffing them didn't work so LOGIC OUT THE WINDOW!  ~Nexendia
 		user.nutrition += 5
 		if(uses)
 			uses -= 5
 			if(uses <= 0)
-				user << "<span class='danger'>You ate your crayon!</span>"
+				user << "<span class='danger'>There is no more of the [src.name] left!</span>"
 				qdel(src)
 	else
 		if(istype(M, /mob/living/carbon/human) && M.lying && isturf(M.loc))
@@ -521,7 +522,7 @@
 				if(uses)
 					uses--
 					if(!uses)
-						user << "<span class='danger'>You used up your crayon!</span>"
+						user << "<span class='danger'>You used up your [src.name]!</span>"
 						qdel(src)
 
 

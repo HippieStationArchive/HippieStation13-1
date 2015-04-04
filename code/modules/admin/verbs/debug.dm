@@ -969,7 +969,7 @@ var/global/list/g_fancy_list_of_types = null
 	/*
 		Snowflakey fun shit goes down here!   ~Nexendia
 	*/
-		if("The Owl")
+		if("the owl")
 			M.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/owl_mask(M), slot_wear_mask)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat(M), slot_shoes)
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
@@ -985,7 +985,7 @@ var/global/list/g_fancy_list_of_types = null
 			W.update_label()
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
-		if("The Space Owl")
+		if("the space owl")
 			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl(M), slot_head)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat(M), slot_shoes)
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
@@ -1001,7 +1001,7 @@ var/global/list/g_fancy_list_of_types = null
 			W.update_label()
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
-		if("The Griffin")
+		if("the griffin")
 			M.equip_to_slot_or_del(new /obj/item/clothing/head/griffin(M), slot_head)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/griffin(M), slot_shoes)
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
@@ -1017,7 +1017,7 @@ var/global/list/g_fancy_list_of_types = null
 			W.update_label()
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
-		if("Timeline Eradication Agent")
+		if("timeline eradication agent")
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat(M), slot_shoes)
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
 			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/hud/security/sunglasses<(M), slot_glasses)
