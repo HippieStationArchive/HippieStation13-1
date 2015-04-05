@@ -20,9 +20,7 @@
 	if(!ishuman(user))
 		user << "<span class='warning'>You don't know how to use this!</span>"
 		return
-	if(user.can_speak())
-		user << "<span class='warning'>You find yourself unable to speak at all.</span>"
-		return
+
 	if(spamcheck > world.time)
 		user << "<span class='warning'>\The [src] needs to recharge!</span>"
 		return
@@ -31,6 +29,10 @@
 	if(!message)
 		return
 	message = capitalize(message)
+	if(!user.can_speak(message))
+		user << "<span class='warning'>You find yourself unable to speak at all.</span>"
+		return
+
 	if ((src.loc == user && user.stat == 0))
 		if(emagged)
 			if(insults)
