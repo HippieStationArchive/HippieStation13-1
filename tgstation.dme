@@ -9,7 +9,6 @@
 #define FILE_DIR "_maps"
 #define FILE_DIR "_maps/map_files"
 #define FILE_DIR "_maps/map_files/Asteroidstation"
-#define FILE_DIR "_maps/moch"
 #define FILE_DIR "code"
 #define FILE_DIR "code/WorkInProgress"
 #define FILE_DIR "code/WorkInProgress/nexendia"
