@@ -673,6 +673,11 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Construction Area"
 	icon_state = "construction"
 
+
+/area/woodshop
+	name = "Wood Shop"
+	icon_state = "woodshop"
+
 /area/hallway/secondary/entry
 	name = "\improper Arrival Shuttle Hallway"
 	icon_state = "entry"
