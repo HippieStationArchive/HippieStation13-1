@@ -107,7 +107,7 @@ var/list/uplink_items = list()
 	desc = "Based on the staple gun design, this baby can be loaded with 3 rods that you can shoot for them to embed into people." //This thing may be super OP
 	item = /obj/item/weapon/gun/rodgun
 	cost = 10 //Costly, but for a good reason
-	jobs = list("Engineer", "Chief Engineer", "Atmospheric Technician")
+	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
 
 //CHEMIST
 /datum/uplink_item/job_specific/assX

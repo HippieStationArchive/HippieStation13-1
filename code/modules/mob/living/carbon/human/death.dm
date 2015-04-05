@@ -60,14 +60,14 @@
 					I.throw_at(target, rand(1, 3), 1)
 	if(l_hand)
 		var/obj/item/E = l_hand
-		E.loc = get_turf(src)
-		var/atom/Ltarg = get_edge_target_turf(E, get_dir(E, get_step_away(E, E)))
-		E.throw_at(Ltarg, rand(1, 3), 1)
+		if(unEquip(E))
+			var/atom/Ltarg = get_edge_target_turf(E, get_dir(E, get_step_away(E, E)))
+			E.throw_at(Ltarg, rand(1, 3), 1)
 	if(r_hand)
 		var/obj/item/R = r_hand
-		R.loc = get_turf(src)
-		var/atom/Rtarg = get_edge_target_turf(R, get_dir(R, get_step_away(R, R)))
-		R.throw_at(Rtarg, rand(1, 3), 1)
+		if(unEquip(R))
+			var/atom/Rtarg = get_edge_target_turf(R, get_dir(R, get_step_away(R, R)))
+			R.throw_at(Rtarg, rand(1, 3), 1)
 	..()
 
 /mob/living/carbon/human/proc/makeSkeleton()

@@ -299,9 +299,9 @@
 				else if(H.w_uniform)
 					if(H.w_uniform.clean_blood())
 						H.update_inv_w_uniform(0)
-				if(H.gloves && washgloves)
-					if(H.gloves.clean_blood())
-						H.update_inv_gloves(0)
+				if(washgloves)
+					H.clean_blood()//We call this proc on human because clean_blood will automatically clean either gloves or hands.
+					H.update_inv_gloves(0)
 				if(H.shoes && washshoes)
 					H.track_blood = 0 //No footprints
 					if(H.shoes.clean_blood())

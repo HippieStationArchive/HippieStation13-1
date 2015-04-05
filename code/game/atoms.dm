@@ -289,6 +289,7 @@ var/list/blood_splatter_icons = list()
 	if(..() == 0)   return 0
 	return add_blood_list(M)
 
+//TODO: Add "add_blood_from_dna" proc. It's super important.
 /obj/item/add_blood(mob/living/carbon/M)
 	var/blood_count = blood_DNA == null ? 0 : blood_DNA.len
 	if(..() == 0)	return 0
@@ -316,8 +317,10 @@ var/list/blood_splatter_icons = list()
 	if(..() == 0)	return 0
 
 	var/obj/effect/decal/cleanable/blood/B = locate() in contents	//check for existing blood splatter
-	if(!B)	B = new /obj/effect/decal/cleanable/blood(src)			//make a bloood splatter if we couldn't find one
+	if(!B || istype(B, /obj/effect/decal/cleanable/blood/trail_holder) || istype(B, /obj/effect/decal/cleanable/blood/trackss))
+		B = new /obj/effect/decal/cleanable/blood(src)			//make a bloood splatter if we couldn't find one
 	B.add_blood_list(M)
+	B.blood_source = M
 	return 1 //we bloodied the floor
 
 /mob/living/carbon/human/add_blood(mob/living/carbon/M)
@@ -326,7 +329,8 @@ var/list/blood_splatter_icons = list()
 	bloody_hands = rand(2, 4)
 	bloody_hands_mob = M
 	update_inv_gloves()	//handles bloody hands overlays and updating
-	return 1 //we applied blood to the item
+	verbs += /mob/living/carbon/human/proc/bloody_doodle //Add bloody handwriting capabilities.
+	return 1 //we applied blood to the person's hands
 
 /atom/proc/rejects_blood()
 	return 0
@@ -349,16 +353,17 @@ var/list/blood_splatter_icons = list()
 	if(istype(src, /turf/simulated))
 		if(check_dna_integrity(M))	//mobs with dna = (monkeys + humans at time of writing)
 			var/obj/effect/decal/cleanable/blood/B = locate() in contents
-			if(!B)
+			if(!B || istype(B, /obj/effect/decal/cleanable/blood/trail_holder) || istype(B, /obj/effect/decal/cleanable/blood/trackss))
 				if(!splatter)
 					B = new(src)
 				else
 					B = new /obj/effect/decal/cleanable/blood/splatter(src)
 			B.blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
+			B.blood_source = M
 			return B
 		else if(istype(M, /mob/living/carbon/alien))
 			var/obj/effect/decal/cleanable/xenoblood/B = locate() in contents
-			if(!B)
+			if(!B || istype(B, /obj/effect/decal/cleanable/blood/trail_holder) || istype(B, /obj/effect/decal/cleanable/blood/trackss))
 				if(!splatter)
 					B = new(src)
 				else
@@ -367,7 +372,7 @@ var/list/blood_splatter_icons = list()
 			return B
 		else if(istype(M, /mob/living/silicon/robot))
 			var/obj/effect/decal/cleanable/oil/B = locate() in contents
-			if(!B)
+			if(!B || istype(B, /obj/effect/decal/cleanable/blood/trail_holder) || istype(B, /obj/effect/decal/cleanable/blood/trackss))
 				if(!splatter)
 					B = new(src)
 				else
@@ -380,6 +385,7 @@ var/list/blood_splatter_icons = list()
 		if(check_dna_integrity(M))	//mobs with dna = (monkeys + humans at time of writing)
 			var/obj/effect/decal/cleanable/drip/B = new /obj/effect/decal/cleanable/drip(src)
 			B.blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
+			B.blood_source = M
 		// else if(istype(M, /mob/living/carbon/alien))
 		// else if(istype(M, /mob/living/silicon/robot))
 

@@ -64,7 +64,8 @@
 	..()
 	if(ishuman(user) && !user.stat && !user.restrained())
 		new /obj/item/stack/cable_coil(user.loc, 15, item_color)
-		user << "You unwrap the cable restraints."
+		user << "You unwrap the [src]."
+		qdel(src)
 
 //Isn't defining new subtypes a little redundant if you only change icon state of base type when creating cablecuffs?
 

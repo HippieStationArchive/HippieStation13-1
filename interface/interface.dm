@@ -48,9 +48,9 @@
 	set name = "Report issue"
 	set desc = "Report an issue"
 	set hidden = 1
-	if(alert("This will open the GitLab issue reporter in your browser. Are you sure?",,"Yes","No")=="No")
+	if(alert("This will open our GitLab issue reporter in your browser. Are you sure? ( You will have to make an account!)",,"Yes","No")=="No")
 		return
-	src << link("https://github.com/HippieStationCode/HippieStation13Code/issues")
+	src << link("http://git.hippie-station-13.com/hippie-station-13/hippiestation13/issues")
 	return
 
 /client/verb/hotkeys_help()

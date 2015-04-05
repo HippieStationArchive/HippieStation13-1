@@ -6,10 +6,13 @@
 	anchored = 1
 	layer = 2
 	icon = 'icons/effects/blood.dmi'
+	var/base_icon = 'icons/effects/blood.dmi' //For upcoming /vg/-style blood coloring
+	var/basecolor = "#AE0C0C"
 	icon_state = "floor1"
 	random_icon_states = list("floor1", "floor2", "floor3", "floor4", "floor5", "floor6", "floor7")
 	var/list/viruses = list()
 	blood_DNA = list()
+	var/mob/living/blood_source
 	var/amount = 5
 	var/creation_time = 0
 
@@ -41,21 +44,122 @@
 			perp.shoes.blood_DNA = list()
 		perp.shoes.blood_DNA = blood_DNA.Copy()
 		// perp.shoes.track_blood_type = src.type
-		perp.shoes.add_blood(blood_DNA)
+		if(istype(blood_source))
+			perp.shoes.add_blood(blood_source) //This doesn't work half the time. We need a add_blood_from_dna proc.
 		perp.update_inv_shoes()
 	else
 		perp.track_blood = max(amount,perp.track_blood)                                //Or feet
 		if(!perp.feet_blood_DNA)
 			perp.feet_blood_DNA = list()
 		perp.feet_blood_DNA = blood_DNA.Copy()
-		// perp.feet_blood_color=basecolor
+		perp.feet_blood_color=basecolor //Currently unused
 
 	amount -= 3
 	if(amount < 0) amount = 0
 
+/obj/effect/decal/cleanable/blood/attack_hand(mob/living/carbon/human/user)
+	..()
+	if (amount && istype(user))
+		add_fingerprint(user)
+		if (user.gloves)
+			user << "<span class='notice'>You can't do that with gloves!</span>"
+			return
+		var/taken = rand(1,amount)
+		amount -= taken
+		user << "<span class='notice'>You get some of \the [src] on your hands.</span>"
+		if (!user.blood_DNA)
+			user.blood_DNA = list()
+		user.blood_DNA |= blood_DNA.Copy()
+		user.bloody_hands += taken
+		user.hand_blood_color = basecolor
+		user.update_inv_gloves(1)
+		user.verbs += /mob/living/carbon/human/proc/bloody_doodle
+
 /obj/effect/decal/cleanable/blood/splatter
+	name = "blood splatter"
+	desc = "Someone must've been gutted in front of this."
 	random_icon_states = list("gibbl1", "gibbl2", "gibbl3", "gibbl4", "gibbl5")
 	amount = 3
+
+//New splatter effect
+/obj/effect/effect/splatter //Used for blood effects coming outta ya
+	name = "blood splatter"
+	icon = 'icons/effects/blood.dmi'
+	anchored = 1.0
+	// layer = 3
+	pass_flags = PASSTABLE | PASSGRILLE
+	var/list/viruses = list()
+	blood_DNA = list()
+	var/mob/living/blood_source
+	var/random_icon_states = list("splatter1", "splatter2", "splatter3")
+	var/amount = 3
+	var/splattering = 0
+
+/obj/effect/effect/splatter/proc/GoTo(turf/T, var/n=rand(1, 3))
+	for(var/i=0, i<=n, i++)
+		if(!src)
+			return
+		if(splattering)
+			return
+		step_towards(src,T)
+		if(!src)
+			return
+		sleep(2)
+	qdel(src)
+
+/obj/effect/effect/splatter/New()
+	if (random_icon_states && length(random_icon_states) > 0)
+		icon_state = pick(random_icon_states)
+	..()
+
+/obj/effect/effect/splatter/Bump(atom/A)
+	if(splattering) return
+	if(istype(A, /obj/item))
+		var/obj/item/I = A
+		I.add_blood(blood_source)
+	if(istype(A, /turf/simulated/wall))
+		// var/turf/simulated/wall/T = A
+		src.loc = A
+		splattering = 1
+		sleep(3)
+		qdel(src)
+		return
+
+	qdel(src)
+
+/obj/effect/effect/splatter/Crossed(atom/A)
+	if(splattering) return
+	if(istype(A, /obj/item))
+		var/obj/item/I = A
+		I.add_blood(blood_source)
+	if(ishuman(A))
+		var/mob/living/carbon/human/H = A
+		if(H.wear_suit)
+			H.wear_suit.add_blood(H)
+			H.update_inv_wear_suit(0)    //updates mob overlays to show the new blood (no refresh)
+		else if(H.w_uniform)
+			H.w_uniform.add_blood(H)
+			H.update_inv_w_uniform(0)    //updates mob overlays to show the new blood (no refresh)
+
+	if(istype(A, /turf/simulated/wall))
+		// var/turf/simulated/wall/T = A
+		src.loc = A
+		splattering = 1
+		sleep(3)
+		qdel(src)
+		return
+
+	if(amount <= 0)
+		qdel(src)
+
+/obj/effect/effect/splatter/Destroy()
+	for(var/datum/disease/D in viruses)
+		D.cure(0)
+	if(istype(src.loc, /turf/simulated))
+		src.loc.add_blood_floor(blood_source, 1)
+	..()
+
+//Splatter effect END
 
 /obj/effect/decal/cleanable/blood/tracks
 	icon_state = "tracks"
@@ -73,7 +177,8 @@
 	layer = 2
 	random_icon_states = null
 	var/list/existing_dirs = list()
-	blood_DNA = list()
+	//blood_DNA = list()
+	//var/mob/living/blood_source
 	amount = 2
 
 /obj/effect/decal/cleanable/blood/trail_holder/remove_ex_blood()
@@ -136,6 +241,7 @@
 	gender = NEUTER
 	layer = 2
 	blood_DNA = list()
+	var/mob/living/blood_source
 
 /obj/effect/decal/cleanable/drip/New()
 	..()
@@ -151,3 +257,13 @@
 			blood += B
 		if(blood.len > 4) //fuk ye this works
 			qdel(pick(blood))
+
+/obj/effect/decal/cleanable/blood/palmprint
+	name = "bloody palmprint"
+	desc = "Huh. Scary."
+	gender = NEUTER
+	random_icon_states = list("palmprint1", "palmprint2")
+	amount = 0
+
+/obj/effect/decal/cleanable/blood/palmprint/remove_ex_blood() //INFINITE WALL PALMPRINTS WOOO
+	return

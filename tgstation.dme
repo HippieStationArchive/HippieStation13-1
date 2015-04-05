@@ -971,6 +971,7 @@
 #include "code\modules\crafting\guncrafting.dm"
 #include "code\modules\crafting\recipes.dm"
 #include "code\modules\crafting\table.dm"
+#include "code\modules\detectivework\bloody_handwriting.dm"
 #include "code\modules\detectivework\detective_work.dm"
 #include "code\modules\detectivework\evidence.dm"
 #include "code\modules\detectivework\footprints_and_rag.dm"

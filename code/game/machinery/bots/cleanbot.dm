@@ -220,7 +220,7 @@ text("<A href='?src=\ref[src];power=1'>[on ? "On" : "Off"]</A>"))
 	if(blood)
 		target_types += /obj/effect/decal/cleanable/xenoblood/
 		target_types += /obj/effect/decal/cleanable/xenoblood/xgibs
-		target_types += /obj/effect/decal/cleanable/blood/
+		target_types += /obj/effect/decal/cleanable/blood/ //But... isn't everything below already a subtype of blood?
 		target_types += /obj/effect/decal/cleanable/blood/gibs/
 		target_types += /obj/effect/decal/cleanable/blood/trail_holder
 

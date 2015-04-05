@@ -977,16 +977,13 @@
 				if(prob(I.force * 2))    //blood spatter!
 					bloody = 1
 					var/turf/location = H.loc
-					if(prob(50))		//Blood splatter... ON THE WALLS! Problem: since it gets created on the wall turf itself it will be visible from all sides.
-						location = get_step(H, get_dir(user, H)) //We COULD fuck around with pixel_x/pixel_y variables, but then it might confuse the janitor.
-						if(istype(location, /turf/simulated)) //Then again, if he clicks on the blood itself it should work.
-							// if(istype(location, /turf/simulated/wall))
-							// 	var/obj/effect/decal/cleanable/B = H.loc.add_blood_floor(H, 1) //1 for splatter
-							// 	if(B) 
-							// 		B.pixel_x = (get_dir(H, user) & 3)? 0 : (get_dir(H, user) == 4 ? -24 : 24)
-							// 		B.pixel_y = (get_dir(H, user) & 3)? (get_dir(H, user) == 1 ? -24 : 24) : 0
-							// else						//This entire thing may cause problems, so it's commented out.
-							location.add_blood_floor(H, 1)
+					if(prob(50))	//Spawn a bloodsplatter effect
+						var/obj/effect/effect/splatter/B = new(H)
+						// B.add_blood_list(H)
+						B.blood_source = H
+						var/n = rand(1,3)
+						var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
+						B.GoTo(targ, n)
 					else
 						if(istype(location, /turf/simulated))
 							location.add_blood(H)
@@ -1041,6 +1038,13 @@
 							H.w_uniform.add_blood(H)
 							H.update_inv_w_uniform(0)
 
+			if(bloody && prob(50)) //Relatively high chance to get some of the blood on your hands.
+				if (H.gloves)
+					var/obj/item/clothing/gloves/G = H.gloves
+					G.add_blood(H)
+				else
+					H.add_blood(H)
+					H.update_inv_gloves()    //updates on-mob overlays for bloody hands and/or bloody gloves
 			if(Iforce > 10 || Iforce >= 5 && prob(33))
 				H.forcesay(hit_appends)    //forcesay checks stat already.
 			return
