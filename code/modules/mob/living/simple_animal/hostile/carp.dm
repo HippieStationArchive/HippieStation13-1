@@ -1,5 +1,3 @@
-F
-
 /mob/living/simple_animal/hostile/carp
 	name = "space carp"
 	desc = "A ferocious, fang-bearing creature that resembles a fish."
@@ -89,7 +87,7 @@ F
 	icon_living = "livingplush"
 	icon_dead = "living_dead"
 	icon_gib = "brownbear_gib"
-	speak = list("squee!","Squeeze me!","SQUEE!","blabbers adorably")
+	speak = list("Squee!","Squeeze me!","SQUEE!","Squee~")
 	speak_emote = list("lovingly says","wheezes")
 	emote_hear = list("flutters around")
 	emote_see = list("floats around")
