@@ -188,6 +188,12 @@
 	if(H.lip_style && LIPS in specflags)
 		standing	+= image("icon"='icons/mob/human_face.dmi', "icon_state"="lips_[H.lip_style]_s", "layer" = -BODY_LAYER)
 
+	// spraypaint
+	if(H.spraypaint) //&& LIPS in specflags)
+		var/image/img_spraypaint = image("icon" = 'icons/mob/human_face.dmi', "icon_state" = "spray_[H.spraypaint]_s", "layer" = -BODY_LAYER)
+		img_spraypaint.color = H.spraypaint_color
+		standing	+= img_spraypaint
+
 	// eyes
 	if(EYECOLOR in specflags)
 		var/image/img_eyes_s = image("icon" = 'icons/mob/human_face.dmi', "icon_state" = "[eyes]_s", "layer" = -BODY_LAYER)

@@ -8,34 +8,38 @@ atom/proc/add_fibers(mob/living/carbon/human/M)
 		if(G.transfer_blood >= 1) //bloodied gloves transfer blood to touched object
 			if(istype(src, /turf/simulated/wall)) //BLOODY PALMPRINTS! WOO!
 				var/obj/effect/decal/cleanable/blood/palmprint/B = new(M.loc) //Create on user's location, we'll adjust pixel offset so bloody footprints don't show up from all sides on the wall
-				B.add_blood_list(G.bloody_hands_mob)
-				B.blood_source = G.bloody_hands_mob
-				var/blooddir = get_dir(M, src)
-				//Adjust pixel offset to make palmprints appear on the wall
-				B.pixel_x = blooddir & EAST ? 32 : (blooddir & WEST ? -32 : 0)
-				B.pixel_y = blooddir & NORTH ? 32 : (blooddir & SOUTH ? -32 : 0)
-				//Randomise pixel offset + adjust it accordingly from the center
-				B.pixel_x = blooddir & EAST ? -rand(6, 11) : (blooddir & WEST ? rand(6, 11) : rand(-7, 7))
-				B.pixel_y = blooddir & NORTH ? -rand(6, 11) : (blooddir & SOUTH ? rand(6, 11) : rand(-7, 7))
-				B.dir = M.dir //simple
-				G.transfer_blood--
+				if(istype(B))
+					if(istype(G.bloody_hands_mob)) //Fixes runtimes
+						B.add_blood_list(G.bloody_hands_mob)
+						B.blood_source = G.bloody_hands_mob
+					var/blooddir = get_dir(M, src)
+					//Adjust pixel offset to make palmprints appear on the wall
+					B.pixel_x = blooddir & EAST ? 32 : (blooddir & WEST ? -32 : 0)
+					B.pixel_y = blooddir & NORTH ? 32 : (blooddir & SOUTH ? -32 : 0)
+					//Randomise pixel offset + adjust it accordingly from the center
+					B.pixel_x = blooddir & EAST ? -rand(6, 11) : (blooddir & WEST ? rand(6, 11) : rand(-7, 7))
+					B.pixel_y = blooddir & NORTH ? -rand(6, 11) : (blooddir & SOUTH ? rand(6, 11) : rand(-7, 7))
+					B.dir = M.dir //simple
+					G.transfer_blood--
 			else
 				if(add_blood(G.bloody_hands_mob)) //only reduces the bloodiness of our gloves if the item wasn't already bloody
 					G.transfer_blood--
 	else if(M.bloody_hands >= 1)
 		if(istype(src, /turf/simulated/wall)) //BLOODY PALMPRINTS! WOO!
 			var/obj/effect/decal/cleanable/blood/palmprint/B = new(M.loc) //Create on user's location, we'll adjust pixel offset so bloody footprints don't show up from all sides on the wall
-			B.add_blood_list(M.bloody_hands_mob)
-			B.blood_source = M.bloody_hands_mob
-			var/blooddir = get_dir(M, src)
-			//Adjust pixel offset to make palmprints appear on the wall
-			B.pixel_x = blooddir & EAST ? 32 : (blooddir & WEST ? -32 : 0)
-			B.pixel_y = blooddir & NORTH ? 32 : (blooddir & SOUTH ? -32 : 0)
-			//Randomise pixel offset + adjust it accordingly from the center
-			B.pixel_x += blooddir & EAST ? -rand(6, 11) : (blooddir & WEST ? rand(6, 11) : rand(-7, 7))
-			B.pixel_y += blooddir & NORTH ? -rand(6, 11) : (blooddir & SOUTH ? rand(6, 11) : rand(-7, 7))
-			B.dir = M.dir //simple
-			M.bloody_hands--
+			if(istype(B))
+				if(istype(M.bloody_hands_mob)) //Fixes runtimes
+					B.add_blood_list(M.bloody_hands_mob)
+					B.blood_source = M.bloody_hands_mob
+				var/blooddir = get_dir(M, src)
+				//Adjust pixel offset to make palmprints appear on the wall
+				B.pixel_x = blooddir & EAST ? 32 : (blooddir & WEST ? -32 : 0)
+				B.pixel_y = blooddir & NORTH ? 32 : (blooddir & SOUTH ? -32 : 0)
+				//Randomise pixel offset + adjust it accordingly from the center
+				B.pixel_x += blooddir & EAST ? -rand(6, 11) : (blooddir & WEST ? rand(6, 11) : rand(-7, 7))
+				B.pixel_y += blooddir & NORTH ? -rand(6, 11) : (blooddir & SOUTH ? rand(6, 11) : rand(-7, 7))
+				B.dir = M.dir //simple
+				M.bloody_hands--
 		else
 			if(add_blood(M.bloody_hands_mob))
 				M.bloody_hands--
