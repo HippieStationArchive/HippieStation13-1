@@ -233,7 +233,7 @@
 	force = 0
 	throwforce = 6
 	w_class = 4
-	// flags = NODROP
+	flags = NODROP
 
 	var/revivecost = 1000
 	var/cooldown = 0
@@ -287,6 +287,8 @@
 	var/mob/living/carbon/human/H = M
 
 	if(busy)
+		return
+	if(istype(M, /obj) || istype(M, /turf))
 		return
 	if(!defib.powered)
 		user.visible_message("<span class='notice'>[defib] beeps: Unit is unpowered.</span>")
