@@ -473,6 +473,58 @@
 	name = "Long Side Part"
 	icon_state = "hair_longsidepart"
 
+//////////////////////////////////////////////
+// Shitty hair that Senpai wanted me to add //
+//////////////////////////////////////////////
+
+/datum/sprite_accessory/hair/birdnest
+	name = "Bird Nest"
+	icon_state = "hair_birdnest"
+
+/datum/sprite_accessory/hair/unkept
+	name = "Unkempt"
+	icon_state = "hair_unkept"
+
+/datum/sprite_accessory/hair/duelist
+	name = "Duelist"
+	icon_state = "hair_duelist"
+	gender = MALE
+
+/datum/sprite_accessory/hair/modern
+	name = "Modern"
+	icon_state = "hair_modern"
+	gender = FEMALE
+
+/datum/sprite_accessory/hair/unshavenmohawk
+	name = "Unshaven Mohawk"
+	icon_state = "hair_unshavenmohawk"
+	gender = MALE
+
+/datum/sprite_accessory/hair/fastline
+	name = "Fastline"
+	icon_state = "hair_fastline"
+	gender = MALE
+
+/datum/sprite_accessory/hair/drills
+	name = "Twincurls"
+	icon_state = "hair_twincurl"
+	gender = FEMALE
+
+/datum/sprite_accessory/hair/minidrills
+	name = "Twincurls 2"
+	icon_state = "hair_twincurl2"
+	gender = FEMALE
+
+/datum/sprite_accessory/hair/quadcurls
+	name = "Quad Curls"
+	icon_state = "hair_quadcurls"
+	gender = FEMALE
+
+/datum/sprite_accessory/hair/anime   //Why call it rapunzel when we all know it's fucking ANIME  ~Nexendia
+	name = "Anime Hair"
+	icon_state = "hair_anime"
+	gender = FEMALE
+
 /////////////////////////////
 // Facial Hair Definitions //
 /////////////////////////////
@@ -556,6 +608,30 @@
 /datum/sprite_accessory/facial_hair/fu
 	name = "Fu Manchu"
 	icon_state = "facial_fumanchu"
+
+//////////////////////////////////////////////
+// Shitty hair that Senpai wanted me to add //
+//////////////////////////////////////////////
+
+/datum/sprite_accessory/facial_hair/britstache
+	name = "Brit Stache"
+	icon_state = "facial_britstache"
+
+/datum/sprite_accessory/facial_hair/martialartist
+	name = "Martial Artist"
+	icon_state = "facial_martialartist"
+
+/datum/sprite_accessory/facial_hair/moonshiner
+	name = "Moonshiner"
+	icon_state = "facial_moonshiner"
+
+/datum/sprite_accessory/facial_hair/tribeard
+	name = "Tri-beard"
+	icon_state = "facial_tribeard"
+
+/datum/sprite_accessory/facial_hair/unshaven
+	name = "Unshaven"
+	icon_state = "facial_unshaven"
 
 ///////////////////////////
 // Underwear Definitions //
