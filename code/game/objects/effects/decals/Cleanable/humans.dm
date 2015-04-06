@@ -66,8 +66,9 @@
 		if (user.gloves)
 			user << "<span class='notice'>You get some of \the [src] on your gloves.</span>"
 			user.gloves.blood_DNA = blood_DNA
-			user.gloves.transfer_blood += taken
-			user.gloves.blood_color = basecolor
+			var/obj/item/clothing/gloves/G = user.gloves
+			G.transfer_blood += taken
+			G.blood_color = basecolor
 			user.update_inv_gloves(1)
 			user.verbs += /mob/living/carbon/human/proc/bloody_doodle
 		else
