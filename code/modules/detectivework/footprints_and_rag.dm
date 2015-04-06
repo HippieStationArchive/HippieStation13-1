@@ -10,6 +10,7 @@
 
 /obj/item/clothing/gloves
 	var/transfer_blood = 0
+	var/blood_color = ""
 	var/mob/living/carbon/human/bloody_hands_mob
 
 /obj/item/clothing/shoes
