@@ -61,25 +61,37 @@
 	..()
 	if (amount && istype(user))
 		add_fingerprint(user)
-		if (user.gloves)
-			user << "<span class='notice'>You can't do that with gloves!</span>"
-			return
 		var/taken = rand(1,amount)
 		amount -= taken
-		user << "<span class='notice'>You get some of \the [src] on your hands.</span>"
-		if (!user.blood_DNA)
-			user.blood_DNA = list()
-		user.blood_DNA |= blood_DNA.Copy()
-		user.bloody_hands += taken
-		user.hand_blood_color = basecolor
-		user.update_inv_gloves(1)
-		user.verbs += /mob/living/carbon/human/proc/bloody_doodle
+		if (user.gloves)
+			user << "<span class='notice'>You get some of \the [src] on your gloves.</span>"
+			user.gloves.blood_DNA = blood_DNA
+			var/obj/item/clothing/gloves/G = user.gloves
+			G.transfer_blood += taken
+			G.blood_color = basecolor
+			user.update_inv_gloves(1)
+			user.verbs += /mob/living/carbon/human/proc/bloody_doodle
+		else
+			user << "<span class='notice'>You get some of \the [src] on your hands.</span>"
+			if (!user.blood_DNA)
+				user.blood_DNA = list()
+			user.blood_DNA = blood_DNA
+			user.bloody_hands += taken
+			user.hand_blood_color = basecolor
+			user.update_inv_gloves(1)
+			user.verbs += /mob/living/carbon/human/proc/bloody_doodle
 
 /obj/effect/decal/cleanable/blood/splatter
 	name = "blood splatter"
 	desc = "Someone must've been gutted in front of this."
 	random_icon_states = list("gibbl1", "gibbl2", "gibbl3", "gibbl4", "gibbl5")
 	amount = 3
+
+/obj/effect/decal/cleanable/blood/splatter/remove_ex_blood() //removes existant blood splatters on the turf. Handled this way because we adjust pixel offset most of the time.
+	if(src.loc && isturf(src.loc))
+		for(var/obj/effect/decal/cleanable/blood/splatter/B in src.loc)
+			if(B != src)
+				qdel(B)
 
 //New splatter effect
 /obj/effect/effect/splatter //Used for blood effects coming outta ya
@@ -94,6 +106,8 @@
 	var/random_icon_states = list("splatter1", "splatter2", "splatter3")
 	var/amount = 3
 	var/splattering = 0
+	var/turf/prev_loc
+	var/skip = 0 //Skip creation of blood when destroyed?
 
 /obj/effect/effect/splatter/proc/GoTo(turf/T, var/n=rand(1, 3))
 	for(var/i=0, i<=n, i++)
@@ -101,6 +115,7 @@
 			return
 		if(splattering)
 			return
+		prev_loc = loc
 		step_towards(src,T)
 		if(!src)
 			return
@@ -111,6 +126,7 @@
 	if (random_icon_states && length(random_icon_states) > 0)
 		icon_state = pick(random_icon_states)
 	..()
+	prev_loc = loc //Just so we are sure prev_loc exists
 
 /obj/effect/effect/splatter/Bump(atom/A)
 	if(splattering) return
@@ -118,11 +134,22 @@
 		var/obj/item/I = A
 		I.add_blood(blood_source)
 	if(istype(A, /turf/simulated/wall))
-		// var/turf/simulated/wall/T = A
-		src.loc = A
-		splattering = 1
-		sleep(3)
-		qdel(src)
+		if(istype(prev_loc)) //var definition already checks for type
+			src.loc = A
+			splattering = 1 //So "Bump()" and "Crossed()" procs aren't called at the same time
+			skip = 1
+			sleep(3)
+			var/obj/effect/decal/cleanable/blood/B = src.loc.add_blood_floor(blood_source, 1)
+			//Adjust pixel offset to make splatters appear on the wall
+			if(istype(B))
+				B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
+				B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
+			qdel(src)
+		else //This will only happen if prev_loc is not even a turf, which is highly unlikely.
+			src.loc = A //Either way we got this.
+			splattering = 1 //So "Bump()" and "Crossed()" procs aren't called at the same time
+			sleep(3)
+			qdel(src)
 		return
 
 	qdel(src)
@@ -132,6 +159,7 @@
 	if(istype(A, /obj/item))
 		var/obj/item/I = A
 		I.add_blood(blood_source)
+		amount--
 	if(ishuman(A))
 		var/mob/living/carbon/human/H = A
 		if(H.wear_suit)
@@ -140,13 +168,25 @@
 		else if(H.w_uniform)
 			H.w_uniform.add_blood(H)
 			H.update_inv_w_uniform(0)    //updates mob overlays to show the new blood (no refresh)
+		amount--
 
 	if(istype(A, /turf/simulated/wall))
-		// var/turf/simulated/wall/T = A
-		src.loc = A
-		splattering = 1
-		sleep(3)
-		qdel(src)
+		if(istype(prev_loc)) //var definition already checks for type
+			src.loc = A
+			splattering = 1 //So "Bump()" and "Crossed()" procs aren't called at the same time
+			skip = 1
+			sleep(3)
+			var/obj/effect/decal/cleanable/blood/B = src.loc.add_blood_floor(blood_source, 1)
+			//Adjust pixel offset to make splatters appear on the wall
+			if(istype(B))
+				B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
+				B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
+			qdel(src)
+		else //This will only happen if prev_loc is not even a turf, which is highly unlikely.
+			src.loc = A //Either way we got this.
+			splattering = 1 //So "Bump()" and "Crossed()" procs aren't called at the same time
+			sleep(3)
+			qdel(src)
 		return
 
 	if(amount <= 0)
@@ -155,7 +195,7 @@
 /obj/effect/effect/splatter/Destroy()
 	for(var/datum/disease/D in viruses)
 		D.cure(0)
-	if(istype(src.loc, /turf/simulated))
+	if(istype(src.loc, /turf/simulated) && !skip)
 		src.loc.add_blood_floor(blood_source, 1)
 	..()
 

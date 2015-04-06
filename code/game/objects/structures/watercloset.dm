@@ -306,9 +306,12 @@
 					H.track_blood = 0 //No footprints
 					if(H.shoes.clean_blood())
 						H.update_inv_shoes(0)
-				if(H.wear_mask && washmask)
-					if(H.wear_mask.clean_blood())
+				if(washmask)
+					if(H.wear_mask && H.wear_mask.clean_blood())
 						H.update_inv_wear_mask(0)
+					if(H.spraypaint)
+						H.spraypaint = null
+						H.update_body()
 				if(H.glasses && washglasses)
 					if(H.glasses.clean_blood())
 						H.update_inv_glasses(0)

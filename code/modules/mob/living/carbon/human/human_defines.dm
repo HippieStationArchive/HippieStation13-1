@@ -15,6 +15,8 @@
 	var/skin_tone = "caucasian1"	//Skin tone
 
 	var/lip_style = null	//no lipstick by default- arguably misleading, as it could be used for general makeup
+	var/spraypaint = null	//No spraypaint on face by default - obvious reasons. Only used by paint cans currently.
+	var/spraypaint_color = "#FFFFFF" //White spraypaint by default
 
 	var/age = 30		//Player's age (pure fluff)
 	var/blood_type = "A+"	//Player's bloodtype (Not currently used, just character fluff)

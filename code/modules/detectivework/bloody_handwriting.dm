@@ -28,7 +28,7 @@
 /obj/effect/decal/cleanable/scribble/examine(mob/user)
 	..()
 	if(in_range(user, src))
-		user << "It reads: \"[info]\""
+		user << "It reads: <span class='notice'>\"[info]\"</span>"
 	else
 		user << "<span class='notice'>It is too far away.</span>"
 
@@ -39,22 +39,22 @@
 	else //cyborg or AI not seeing through a camera
 		dist = get_dist(src, user)
 	if(dist < 2)
-		user << "It reads: \"[info]\""
+		user << "It reads: <span class='notice'>\"[info]\"</span>"
 	else
-		user << "It reads: \"[stars(info)]\""
+		user << "It reads: <span class='notice'>\"[stars(info)]\"</span>"
 
 /mob/living/carbon/human/proc/bloody_doodle(var/turf/simulated/T as turf in view(1)) //Has rightclick functionality thanks to the args
 	set category = "IC"
 	set name = "Write in blood"
 	set desc = "Use blood on your hands to write a short message on the floor or a wall, murder mystery style."
 
-	if (src.stat)
-		return
+	// if (src.stat) //We need this commented out for death messages.
+	// 	return
 
 	if (usr != src)
 		return 0 //something is terribly wrong
 
-	if (!bloody_hands)
+	if (bloody_hands <= 0)
 		verbs -= /mob/living/carbon/human/proc/bloody_doodle
 		// if(src.client)
 		// 	src.client.verbs -= client/proc/bloody_doodle
@@ -78,27 +78,29 @@
 		return
 
 	//Let's have INFINITE DOODLES for now
-	// var/num_doodles = 0
-	// for (var/obj/effect/decal/cleanable/scribble/W in T)
-	// 	num_doodles++
-	// if (num_doodles > 4)
-	// 	src << "<span class='warning'>There is no space to write on!</span>"
-	// 	return
+	var/num_doodles = 0
+	for (var/obj/effect/decal/cleanable/scribble/W in T)
+		num_doodles++
+	if (num_doodles > 8) //doodles max, that's quite a lot.
+		src << "<span class='warning'>There is no space to write on!</span>"
+		return
 
+	var/message = ""
 	var/max_length = bloody_hands * 30 //tweeter style
 	var/msg = "Write a message. It cannot be longer than [max_length] characters."
-	var/critical = InCritical()
-	if(critical) //We're critical!
-		if(stat == UNCONSCIOUS) //We're unconscious... Attempting to write blood like this will kill you off, similar to deathwhisper.
-			msg += "\nWARNING! You will use up the last of your strength to leave a death message!\nLeave the message blank if you want to cancel."
+	if(max_length > 0) //Check if we actually WROTE a message.
+		if(InCritical()) //We're critical!
+			if(stat == UNCONSCIOUS) //We're unconscious... Attempting to write blood like this will kill you off, similar to deathwhisper.
+				msg += "\n<span class='userdanger'>WARNING!</span> You will use up the last of your strength to leave a death message!\nLeave the message blank if you want to cancel."
 
-	var/message = stripped_input(src,"[msg]","Blood writing", "")
+	message = stripped_input(src,"[msg]","Blood writing", "")
 
-	if (message)
-		var/used_blood_amount = round(length(message) / 30, 1)
+	if (message && src.loc == S) //Check if message exists and user's location didn't change.
+		var/used_blood_amount = max(1, round(length(message) / 30)) //To make sure we use up 1 blood even for the smallest messages
 		bloody_hands = max(0, bloody_hands - used_blood_amount) //use up some blood
-
+		src << "<span class='warning'>You used [used_blood_amount] blood. [bloody_hands]</span>" //DEBUG
 		if (length(message) > max_length)
+			message = copytext(message,1,max_length) //Why wasn't this here before
 			message += "-"
 			src << "<span class='warning'>You ran out of blood to write with!</span>"
 
@@ -123,16 +125,10 @@
 		W.add_fingerprint(src)
 		W.add_blood_list(bloody_hands_mob)
 
-		if(critical)
+		if(InCritical())
 			if(stat == UNCONSCIOUS)
 				succumb(1) //rip in peace
-				src << "<span class='warning'>You use up the last of your strength to write this death message: </span>[message]"
+				src << "<span class='warning'>You use up the last of your strength to write this death message: </span><span class='notice'><i>\"[message]\"</i></span>"
 			else
-				adjustOxyLoss(10) //Oxygen counts as "strength" for critical, so we'll decrease that.
+				adjustOxyLoss(9 + used_blood_amount) //Oxygen counts as "strength" for critical, so we'll decrease that. Writing a lengthy message is also going to kill you off faster.
 				src << "<span class='warning'>You feel weaker after writing the message...</span>"
-// /client/proc/bloody_doodle(var/turf/T in world)
-// 	set category = "IC"
-// 	set name = "Write in blood"
-// 	set desc = "Use blood on your hands to write a short message on the floor or a wall, murder mystery style."
-
-// 	return
