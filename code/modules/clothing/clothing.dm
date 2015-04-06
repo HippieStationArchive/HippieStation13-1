@@ -272,7 +272,7 @@ atom/proc/generate_female_clothing(index,t_color,icon)
 	..()
 	rolldown()
 
-/obj/item/clothing/under/CtrlClick(var/mob/user)
+/obj/item/clothing/under/CtrlClick()
 	..()
 	toggleSensors()
 
