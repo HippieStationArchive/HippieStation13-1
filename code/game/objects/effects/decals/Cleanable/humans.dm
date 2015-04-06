@@ -1,20 +1,24 @@
+#define DRYING_TIME 5 * (60*10) //How many minutes does it take for our blood to dry up? Change the first number to change mins.
+
 /obj/effect/decal/cleanable/blood
 	name = "blood"
 	desc = "It's red and gooey. Perhaps it's the chef's cooking?"
+	var/dryname = "dried blood"
+	var/drydesc = "It's dry and crusty. Someone is not doing their job."
 	gender = PLURAL
 	density = 0
 	anchored = 1
 	layer = 2
 	icon = 'icons/effects/blood.dmi'
-	var/base_icon = 'icons/effects/blood.dmi' //For upcoming /vg/-style blood coloring
-	var/basecolor = "#AE0C0C"
 	icon_state = "floor1"
 	random_icon_states = list("floor1", "floor2", "floor3", "floor4", "floor5", "floor6", "floor7")
-	var/list/viruses = list()
 	blood_DNA = list()
-	var/mob/living/blood_source
+	var/list/viruses = list()
 	var/amount = 5
 	var/creation_time = 0
+
+	var/base_icon = 'icons/effects/blood.dmi'
+	var/basecolor = "#A10808" //Color when wet
 
 /obj/effect/decal/cleanable/blood/Destroy()
 	for(var/datum/disease/D in viruses)
@@ -23,14 +27,23 @@
 
 /obj/effect/decal/cleanable/blood/New()
 	..()
-	remove_ex_blood()
+	update_icon()
 	creation_time = world.time
+	remove_ex_blood()
+	spawn(DRYING_TIME * (amount+1))
+		dry()
 
 /obj/effect/decal/cleanable/blood/proc/remove_ex_blood() //removes existant blood on the turf
 	if(src.loc && isturf(src.loc))
 		for(var/obj/effect/decal/cleanable/blood/B in src.loc)
 			if(B != src)
+				if (B.blood_DNA)
+					blood_DNA |= B.blood_DNA.Copy()
 				qdel(B)
+
+/obj/effect/decal/cleanable/blood/update_icon()
+	if(basecolor == "rainbow") basecolor = "#[pick(list("FF0000","FF7F00","FFFF00","00FF00","0000FF","4B0082","8F00FF"))]"
+	color = basecolor
 
 /obj/effect/decal/cleanable/blood/Crossed(mob/living/carbon/human/perp)
 	if (!istype(perp))
@@ -38,24 +51,38 @@
 	if(amount < 1)
 		return
 
-	if(perp.shoes)
-		perp.shoes:track_blood = max(amount,perp.shoes:track_blood)                //Adding blood to shoes
-		if(!perp.shoes.blood_DNA)
-			perp.shoes.blood_DNA = list()
-		perp.shoes.blood_DNA = blood_DNA.Copy()
-		// perp.shoes.track_blood_type = src.type
-		if(istype(blood_source))
-			perp.shoes.add_blood(blood_source) //This doesn't work half the time. We need a add_blood_from_dna proc.
-		perp.update_inv_shoes()
+	if(perp.shoes && !perp.buckled)//Adding blood to shoes
+		var/obj/item/clothing/shoes/S = perp.shoes
+		if(istype(S))
+			S.blood_color = basecolor
+			S.track_blood = max(amount,S.track_blood)
+			if(!S.blood_overlay)
+				S.generate_blood_overlay()
+			if(!S.blood_DNA)
+				S.blood_DNA = list()
+				S.blood_overlay.color = basecolor
+				S.overlays += S.blood_overlay
+			if(S.blood_overlay && S.blood_overlay.color != basecolor)
+				S.blood_overlay.color = basecolor
+				S.overlays.Cut()
+				S.overlays += S.blood_overlay
+			S.blood_DNA |= blood_DNA.Copy()
 	else
-		perp.track_blood = max(amount,perp.track_blood)                                //Or feet
+		perp.feet_blood_color = basecolor
+		perp.track_blood = max(amount,perp.track_blood)
 		if(!perp.feet_blood_DNA)
 			perp.feet_blood_DNA = list()
-		perp.feet_blood_DNA = blood_DNA.Copy()
-		perp.feet_blood_color=basecolor //Currently unused
+		perp.feet_blood_DNA |= blood_DNA.Copy()
 
+	perp.update_inv_shoes(1)
 	amount -= 3
 	if(amount < 0) amount = 0
+
+/obj/effect/decal/cleanable/blood/proc/dry()
+	name = dryname
+	desc = drydesc
+	color = adjust_brightness(color, -50)
+	amount = 0
 
 /obj/effect/decal/cleanable/blood/attack_hand(mob/living/carbon/human/user)
 	..()
@@ -65,21 +92,20 @@
 		amount -= taken
 		if (user.gloves)
 			user << "<span class='notice'>You get some of \the [src] on your gloves.</span>"
-			user.gloves.blood_DNA = blood_DNA
+			user.gloves.blood_DNA |= blood_DNA.Copy()
 			var/obj/item/clothing/gloves/G = user.gloves
 			G.transfer_blood += taken
 			G.blood_color = basecolor
-			user.update_inv_gloves(1)
-			user.verbs += /mob/living/carbon/human/proc/bloody_doodle
 		else
 			user << "<span class='notice'>You get some of \the [src] on your hands.</span>"
 			if (!user.blood_DNA)
 				user.blood_DNA = list()
-			user.blood_DNA = blood_DNA
+			user.blood_DNA |= blood_DNA.Copy()
 			user.bloody_hands += taken
 			user.hand_blood_color = basecolor
-			user.update_inv_gloves(1)
-			user.verbs += /mob/living/carbon/human/proc/bloody_doodle
+
+		user.update_inv_gloves(1)
+		user.verbs += /mob/living/carbon/human/proc/bloody_doodle
 
 /obj/effect/decal/cleanable/blood/splatter
 	name = "blood splatter"
@@ -108,6 +134,7 @@
 	var/splattering = 0
 	var/turf/prev_loc
 	var/skip = 0 //Skip creation of blood when destroyed?
+	var/bloodcolor = "#A10808" //Color of the blood
 
 /obj/effect/effect/splatter/proc/GoTo(turf/T, var/n=rand(1, 3))
 	for(var/i=0, i<=n, i++)
@@ -127,6 +154,11 @@
 		icon_state = pick(random_icon_states)
 	..()
 	prev_loc = loc //Just so we are sure prev_loc exists
+	update_icon()
+
+/obj/effect/effect/splatter/update_icon()
+	if(basecolor == "rainbow") basecolor = "#[pick(list("FF0000","FF7F00","FFFF00","00FF00","0000FF","4B0082","8F00FF"))]"
+	color = basecolor
 
 /obj/effect/effect/splatter/Bump(atom/A)
 	if(splattering) return
@@ -144,6 +176,8 @@
 			if(istype(B))
 				B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
 				B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
+				B.basecolor = bloodcolor
+				update_icon()
 			qdel(src)
 		else //This will only happen if prev_loc is not even a turf, which is highly unlikely.
 			src.loc = A //Either way we got this.
@@ -181,6 +215,8 @@
 			if(istype(B))
 				B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
 				B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
+				B.basecolor = bloodcolor
+				update_icon()
 			qdel(src)
 		else //This will only happen if prev_loc is not even a turf, which is highly unlikely.
 			src.loc = A //Either way we got this.
@@ -201,12 +237,6 @@
 
 //Splatter effect END
 
-/obj/effect/decal/cleanable/blood/tracks
-	icon_state = "tracks"
-	desc = "They look like tracks left by wheels."
-	gender = PLURAL
-	random_icon_states = null
-
 /obj/effect/decal/cleanable/blood/trail_holder //It wasn't specified WHY this isn't a child of blood so now it is.
 	name = "blood"
 	icon_state = "blank"
@@ -219,7 +249,7 @@
 	var/list/existing_dirs = list()
 	//blood_DNA = list()
 	//var/mob/living/blood_source
-	amount = 2
+	amount = 0 //Footprints are looking weiiiiiiiird
 
 /obj/effect/decal/cleanable/blood/trail_holder/remove_ex_blood()
 	return //Overwritten.
@@ -231,9 +261,24 @@
 	density = 0
 	anchored = 1
 	layer = 2
-	icon = 'icons/effects/blood.dmi'
-	icon_state = "gibbl5"
+	icon = 'icons/effects/gibs.dmi'
+	icon_state = "gib1"
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6")
+	var/fleshcolor = "#FFFFFF"
+
+/obj/effect/decal/cleanable/blood/gibs/update_icon()
+	var/image/giblets = new(base_icon, "[icon_state]_flesh", dir)
+	if(!fleshcolor || fleshcolor == "rainbow")
+		fleshcolor = "#[pick(list("FF0000","FF7F00","FFFF00","00FF00","0000FF","4B0082","8F00FF"))]"
+	giblets.color = fleshcolor
+
+	var/icon/blood = new(base_icon,"[icon_state]",dir)
+	if(basecolor == "rainbow") basecolor = "#[pick(list("FF0000","FF7F00","FFFF00","00FF00","0000FF","4B0082","8F00FF"))]"
+	blood.Blend(basecolor,ICON_MULTIPLY)
+
+	icon = blood
+	overlays.Cut()
+	overlays += giblets
 
 /obj/effect/decal/cleanable/blood/gibs/ex_act(severity, target)
 	return
@@ -272,28 +317,29 @@
 			if (step_to(src, get_step(src, direction), 0))
 				break
 
-/obj/effect/decal/cleanable/drip //it's seperate so it can stack drips
+/obj/effect/decal/cleanable/blood/drip
 	name = "blood drip"
 	desc = "Someone must've been bleeding."
+	dryname = "dried blood drip"
+	drydesc = "It's dry and crusty. Someone is not doing their job."
 	icon = 'icons/effects/drip.dmi'
 	icon_state = "1"
 	random_icon_states = list("1", "2", "3")
-	gender = NEUTER
 	layer = 2
-	blood_DNA = list()
 	var/mob/living/blood_source
+	amount = 0
 
-/obj/effect/decal/cleanable/drip/New()
+/obj/effect/decal/cleanable/blood/drip/New()
 	..()
-	pixel_x = rand(-6, 6)	//Randomizes postion
+	pixel_x = rand(-6, 6)	//Randomizes pixel
 	pixel_y = rand(-6, 6)
 	remove_ex_blood()
 
-/obj/effect/decal/cleanable/drip/proc/remove_ex_blood() //removes excessive blood drips on the turf
+/obj/effect/decal/cleanable/blood/drip/remove_ex_blood() //removes excessive blood drips on the turf
 	if(src.loc && isturf(src.loc))
 		var/list/blood = list()
 		//var/turf/T = src.loc
-		for(var/obj/effect/decal/cleanable/drip/B in src.loc)
+		for(var/obj/effect/decal/cleanable/blood/drip/B in src.loc)
 			blood += B
 		if(blood.len > 4) //fuk ye this works
 			qdel(pick(blood))

@@ -534,7 +534,7 @@
 /mob/living/carbon/human/interactive/proc/shitcurity(obj)
 	if(retal && TARGET)
 		for(var/obj/item/I in src.contents)
-			if(istype(I,/obj/item/weapon/restraints/handcuffs))
+			if(istype(I,/obj/item/weapon/handcuffs))
 				take_to_slot(I)
 				I.attack(TARGET,src)
 				sleep(25)

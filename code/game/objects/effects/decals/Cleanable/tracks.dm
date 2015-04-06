@@ -1,4 +1,4 @@
-//Shamelessly stolen from /vg/station
+//Mostly /vg/code with adjustments
 
 // 5 seconds
 #define TRACKS_CRUSTIFY_TIME   50
@@ -24,8 +24,8 @@
 	var/dirs=0
 	icon = 'icons/effects/footprints.dmi'
 	icon_state = ""
-	var/coming_state="h1"
-	var/going_state="h2"
+	var/coming_state="human1"
+	var/going_state="human2"
 	var/updatedtracks=0
 
 	// dir = id in stack
@@ -62,7 +62,7 @@
 	var/t=world.time + TRACKS_CRUSTIFY_TIME
 
 	var/datum/fluidtrack/track
-	// world << "CALLED WITH [comingdir] COMINGDIR AND [goingdir] GOINGDIR"
+
 	// Process 4 bits
 	for(var/bi=0;bi<4;bi++)
 		b=1<<bi
@@ -73,12 +73,9 @@
 			if(dirs&b)
 				var/sid=setdirs["[b]"]
 				track=stack[sid]
-				// world << "COMING BIT. COMPARING [track.amt] OF EXISTING TRACK TO [bloodamt] NEW AMT"
-				if(track.amt >= bloodamt)
-					// world << "SKIPPED DELETITION OF EXISTING TRACK FOR COMING"
+				if(track.amt >= bloodamt)//if(track.wet==t && track.basecolor==bloodcolor)
 					continue
 				// Remove existing stack entry
-				// world << "DELETED EXISTING TRACK FOR COMING"
 				stack.Remove(track)
 			track=new /datum/fluidtrack(b,bloodcolor,t,bloodamt)
 			stack.Add(track)
@@ -93,12 +90,9 @@
 			if(dirs&b)
 				var/sid=setdirs["[b]"]
 				track=stack[sid]
-				// world << "GOING BIT. COMPARING [track.amt] OF EXISTING TRACK TO [bloodamt] NEW AMT"
-				if(track.amt >= bloodamt)
-					// world << "SKIPPED DELETITION OF EXISTING TRACK FOR GOING"
+				if(track.amt >= bloodamt)//if(track.wet==t && track.basecolor==bloodcolor)
 					continue
 				// Remove existing stack entry
-				// world << "DELETED EXISTING TRACK FOR GOING"
 				stack.Remove(track)
 			track=new /datum/fluidtrack(b,bloodcolor,t,bloodamt)
 			stack.Add(track)
@@ -115,35 +109,65 @@
 	return
 
 /obj/effect/decal/cleanable/blood/trackss/update_icon()
+	overlays.Cut()
+	color = "#FFFFFF"
 	var/truedir=0
-	var/icon/flat = icon('icons/effects/footprints.dmi')
 
 	// Update ONLY the overlays that have changed.
 	for(var/datum/fluidtrack/track in stack)
-		// TODO: Uncomment when the block above is fixed.
-		//if(!(updatedtracks&track.direction) && !track.fresh)
-		//	continue
-		//world << "[track.amt] AMT for track"  //crystal for fucks sake
 		var/stack_idx=setdirs["[track.direction]"]
-		var/state="blood[coming_state]"
+		var/state=coming_state
 		truedir=track.direction
 		if(truedir&240) // Check if we're in the GOING block
-			state="blood[going_state]"
+			state=going_state
 			truedir=truedir>>4
-		var/icon/add = icon('icons/effects/footprints.dmi', state, num2dir(truedir))
-		// add.Blend("#FFFFFF",ICON_MULTIPLY)
-		add.Blend(rgb(255,255,255, max(0, min(track.amt*40, 255))), ICON_MULTIPLY)
-		flat.Blend(add,ICON_OVERLAY)
+
+		if(track.overlay)
+			track.overlay=null
+		// var/image/I = image(icon, icon_state=state, dir=num2dir(truedir))
+		// I.color = track.basecolor
+		var/icon/add = icon(icon, state, truedir) //num2dir is useless
+		add.Blend(rgb(255,255,255, max(0, min(track.amt*40, 255))), ICON_MULTIPLY) //Adjust alpha
+		add.Blend(track.basecolor,ICON_MULTIPLY) //Adjust color
+		// flat.Blend(add,ICON_OVERLAY)
 
 		track.fresh=0
+		track.overlay=add
 		stack[stack_idx]=track
-
-	icon = flat
+		overlays += add
 	updatedtracks=0 // Clear our memory of updated tracks.
 
+	// var/truedir=0
+	// var/icon/flat = icon('icons/effects/footprints.dmi')
+
+	// // Update ONLY the overlays that have changed.
+	// for(var/datum/fluidtrack/track in stack)
+	// 	// TODO: Uncomment when the block above is fixed.
+	// 	//if(!(updatedtracks&track.direction) && !track.fresh)
+	// 	//	continue
+	// 	//world << "[track.amt] AMT for track"  //crystal for fucks sake
+	// 	var/stack_idx=setdirs["[track.direction]"]
+	// 	var/state="blood[coming_state]"
+	// 	truedir=track.direction
+	// 	if(truedir&240) // Check if we're in the GOING block
+	// 		state="blood[going_state]"
+	// 		truedir=truedir>>4
+	// 	var/icon/add = icon('icons/effects/footprints.dmi', state, num2dir(truedir))
+	// 	// add.Blend("#FFFFFF",ICON_MULTIPLY)
+	// 	add.Blend(rgb(255,255,255, max(0, min(track.amt*40, 255))), ICON_MULTIPLY)
+	// 	flat.Blend(add,ICON_OVERLAY)
+
+	// 	track.fresh=0
+	// 	stack[stack_idx]=track
+
+	// icon = flat
+	// updatedtracks=0 // Clear our memory of updated tracks.
+
 /obj/effect/decal/cleanable/blood/trackss/footprints
-	name = "footprints"
+	name = "wet footprints"
 	desc = "Whoops..."
+	dryname = "dried footprints"
+	drydesc = "Whoops..."
 	coming_state = "h1"
 	going_state  = "h2"
 	amount = 0
@@ -161,3 +185,10 @@
 // 	gender = PLURAL
 // 	random_icon_states = null
 // 	amount = 0
+
+/obj/effect/decal/cleanable/blood/tracks
+	icon_state = "tracks"
+	desc = "They look like tracks left by wheels."
+	gender = PLURAL
+	random_icon_states = null
+	amount = 0

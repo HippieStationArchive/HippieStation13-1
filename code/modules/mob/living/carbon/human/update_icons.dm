@@ -294,7 +294,9 @@ Please contact me on #coderbus IRC. ~Carnie x
 				overlays_standing[UNIFORM_LAYER]	= standing
 
 		if(w_uniform.blood_DNA)
-			standing.overlays	+= image("icon"='icons/effects/blood.dmi', "icon_state"="uniformblood")
+			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "uniformblood")
+			bloodsies.color		= w_uniform.blood_color
+			standing.overlays += bloodsies
 
 		if(U.hastie)
 			var/tie_color = U.hastie.item_color
@@ -334,11 +336,15 @@ Please contact me on #coderbus IRC. ~Carnie x
 		overlays_standing[GLOVES_LAYER]	= standing
 
 		if(gloves.blood_DNA)
-			standing.overlays	+= image("icon"='icons/effects/blood.dmi', "icon_state"="bloodyhands")
+			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "bloodyhands")
+			bloodsies.color = gloves.blood_color
+			standing.overlays += bloodsies
 
 	else
 		if(blood_DNA)
-			overlays_standing[GLOVES_LAYER]	= image("icon"='icons/effects/blood.dmi', "icon_state"="bloodyhands")
+			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "bloodyhands")
+			bloodsies.color = hand_blood_color
+			overlays_standing[GLOVES_LAYER] = bloodsies
 
 	apply_overlay(GLOVES_LAYER)
 
@@ -385,7 +391,16 @@ Please contact me on #coderbus IRC. ~Carnie x
 		overlays_standing[SHOES_LAYER]	= standing
 
 		if(shoes.blood_DNA)
-			standing.overlays	+= image("icon"='icons/effects/blood.dmi', "icon_state"="shoeblood")
+			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "shoeblood")
+			bloodsies.color = shoes.blood_color
+			standing.overlays += bloodsies
+	else
+		if(feet_blood_DNA)
+			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "shoeblood")
+			bloodsies.color = feet_blood_color
+			overlays_standing[SHOES_LAYER] = bloodsies
+		else
+			overlays_standing[SHOES_LAYER] = null
 
 	apply_overlay(SHOES_LAYER)
 
@@ -422,7 +437,9 @@ Please contact me on #coderbus IRC. ~Carnie x
 		overlays_standing[HEAD_LAYER]	= standing
 
 		if(head.blood_DNA)
-			standing.overlays	+= image("icon"='icons/effects/blood.dmi', "icon_state"="helmetblood")
+			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "helmetblood")
+			bloodsies.color = head.blood_color
+			standing.overlays += bloodsies
 
 	apply_overlay(HEAD_LAYER)
 
@@ -462,7 +479,9 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 		if(wear_suit.blood_DNA)
 			var/obj/item/clothing/suit/S = wear_suit
-			standing.overlays	+= image("icon"='icons/effects/blood.dmi', "icon_state"="[S.blood_overlay_type]blood")
+			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "[S.blood_overlay_type]blood")
+			bloodsies.color = wear_suit.blood_color
+			standing.overlays += bloodsies
 
 	src.update_hair()
 	src.update_body()
@@ -520,20 +539,22 @@ Please contact me on #coderbus IRC. ~Carnie x
 			hud_used.hidden_inventory_update() 	//Updates the screenloc of the items on the 'other' inventory bar
 
 
-/mob/living/carbon/human/update_inv_handcuffed()
+/mob/living/carbon/human/update_inv_handcuffed() //Added customizability, so cable coils and zipties can finally have unique overlays! ~Crystalwarrior
 	remove_overlay(HANDCUFF_LAYER)
 
 	if(handcuffed)
 		drop_r_hand()
 		drop_l_hand()
-		stop_pulling()	//TODO: should be handled elsewhere
+		stop_pulling()
+		var/obj/item/weapon/handcuffs/C = handcuffed
+		var/cuff_icon = C.icon_overlay
 		if(hud_used)	//hud handcuff icons
 			var/obj/screen/inventory/R = hud_used.adding[3]
 			var/obj/screen/inventory/L = hud_used.adding[4]
-			R.overlays += image("icon"='icons/mob/screen_gen.dmi', "icon_state"="markus")
-			L.overlays += image("icon"='icons/mob/screen_gen.dmi', "icon_state"="gabrielle")
+			R.overlays += image("icon"='icons/mob/screen_handoverlay.dmi', "icon_state"="r_[cuff_icon]")
+			L.overlays += image("icon"='icons/mob/screen_handoverlay.dmi', "icon_state"="l_[cuff_icon]")
 
-		overlays_standing[HANDCUFF_LAYER]	= image("icon"='icons/mob/mob.dmi', "icon_state"="handcuff1", "layer"=-HANDCUFF_LAYER)
+		overlays_standing[HANDCUFF_LAYER]	= image("icon" = 'icons/mob/handcuff.dmi', "icon_state" = cuff_icon, "layer" = -HANDCUFF_LAYER)
 	else
 		if(hud_used)
 			var/obj/screen/inventory/R = hud_used.adding[3]
@@ -544,7 +565,7 @@ Please contact me on #coderbus IRC. ~Carnie x
 	apply_overlay(HANDCUFF_LAYER)
 
 
-/mob/living/carbon/human/update_inv_legcuffed()
+/mob/living/carbon/human/update_inv_legcuffed() //Not sure if this needs customizability like handcuffs.
 	remove_overlay(LEGCUFF_LAYER)
 
 	if(legcuffed)

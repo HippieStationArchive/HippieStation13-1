@@ -8,8 +8,7 @@
 	layer = 2.1 //Slightly higher layer than blood so you can see it
 	blood_DNA = list()
 	var/info //What's actually written on the scribble.
-	var/basecolor = "#FFFFFF" //Pure white. #AE0C0C is blood.
-	// var/mob/living/blood_source
+	var/basecolor = "#FFFFFF" //Pure white. #A10808 is blood.
 
 /obj/effect/decal/cleanable/scribble/New()
 	..()

@@ -7,7 +7,10 @@
 
 /obj/effect/decal/cleanable/blood/old/New()
 	..()
-	icon_state += "-old"
+	color = adjust_brightness(color, -70) //Even less color than normal blood
+
+/obj/effect/decal/cleanable/blood/old/dry() //We're already dry though
+	return
 
 /obj/effect/decal/cleanable/blood/gibs/old
 	name = "old rotting gibs"
@@ -16,8 +19,11 @@
 
 /obj/effect/decal/cleanable/blood/gibs/old/New()
 	..()
-	icon_state += "-old"
 	dir = pick(1,2,4,8)
+	color = adjust_brightness(color, -70)
+
+/obj/effect/decal/cleanable/blood/gibs/old/dry() //We're already dry though
+	return
 
 /obj/effect/decal/cleanable/vomit/old
 	name = "crusty dried vomit"
@@ -27,6 +33,6 @@
 	..()
 	icon_state += "-old"
 
-/obj/effect/decal/cleanable/robot_debris/old
+/obj/effect/decal/cleanable/blood/gibs/robot/old
 	name = "dusty robot debris"
 	desc = "Looks like nobody has touched this in a while."

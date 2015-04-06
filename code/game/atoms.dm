@@ -5,7 +5,6 @@
 	var/list/fingerprints
 	var/list/fingerprintshidden
 	var/fingerprintslast = null
-	var/list/blood_DNA
 	var/last_bumped = 0
 	var/throwpass = 0
 	var/throwzone = "chest" //Targeted zone when thrown

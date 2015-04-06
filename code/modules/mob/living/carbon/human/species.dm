@@ -63,6 +63,10 @@
 	// species flags. these can be found in flags.dm
 	var/list/specflags = list()
 
+	var/blood_color = "#A10808" //Red.
+	var/flesh_color = "#FFC896" //Pink.
+	var/single_gib_type = /obj/effect/decal/cleanable/blood/gibs
+
 	var/attack_verb = "punch"	// punch-specific attack verb
 	var/sound/attack_sound = 'sound/weapons/punch1.ogg'
 	var/sound/miss_sound = 'sound/weapons/punchmiss.ogg'
@@ -417,13 +421,13 @@
 		if(slot_handcuffed)
 			if(H.handcuffed)
 				return 0
-			if(!istype(I, /obj/item/weapon/restraints/handcuffs))
+			if(!istype(I, /obj/item/weapon/handcuffs))
 				return 0
 			return 1
 		if(slot_legcuffed)
 			if(H.legcuffed)
 				return 0
-			if(!istype(I, /obj/item/weapon/restraints/legcuffs))
+			if(!istype(I, /obj/item/weapon/legcuffs))
 				return 0
 			return 1
 		if(slot_in_backpack)
