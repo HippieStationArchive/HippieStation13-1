@@ -5,6 +5,7 @@
 	name = "\improper tank"
 	icon_state = "tank"
 	icon = 'code/WorkInProgress/nexendia/tanks.dmi'
+	alpha = 255
 	opacity = 0
 	step_in = 2
 	dir_in = 1 //Facing North.
@@ -45,6 +46,7 @@
 	name = "\improper tank"
 	icon_state = "tank"
 	icon = 'code/WorkInProgress/nexendia/tanks.dmi'
+	alpha = 255
 	opacity = 0
 	step_in = 2
 	dir_in = 1 //Facing North.
@@ -75,6 +77,7 @@
 	name = "\improper clown tank"
 	icon_state = "tank"
 	icon = 'code/WorkInProgress/nexendia/tanks.dmi'
+	alpha = 255
 	opacity = 0
 	step_in = 2
 	dir_in = 1 //Facing North.
@@ -106,6 +109,7 @@
 	name = "\improper syndi tank"
 	icon_state = "tankred"
 	icon = 'code/WorkInProgress/nexendia/tanks.dmi'
+	alpha = 255
 	opacity = 0   //No fucking opacity :I That shit is annoying seeing as this thing is fucking TINY  ~Nexendia
 	step_in = 2
 	dir_in = 1 //Facing North.
@@ -152,6 +156,7 @@
 	desc = "Nexendia's fucking Weeaboo Mobile... ADMIN ABUUUUUUSE!!!! AAAADMIIIN ABUUUUUUUUUSE!!!!"
 	name = "\improper Weeaboo Mobile"
 	icon_state = "tankwhite"
+	alpha = 255
 	opacity = 0
 	step_in = 2
 	dir_in = 1 //Facing North.
@@ -165,7 +170,6 @@
 	internal_damage_threshold = 60
 	max_equip = 4
 	step_energy_drain = 1
-	color = "#87878715"
 	stepsound = 'sound/effects/mowermove1.ogg'
 	turnsound = 'sound/effects/mowermove2.ogg'
 
