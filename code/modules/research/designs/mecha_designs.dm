@@ -177,6 +177,19 @@ datum/design/mech_scattershot
 	construction_time = 100
 	category = list("Exosuit Equipment")
 
+//TANK GUN THINGY
+
+/datum/design/tank_cannon
+	name = "30mm Tank AutoCannon"
+	desc = "Allows for the construction of the 30mm AutoCannon for the Tiny Tanks."
+	id = "tank_cannon"
+	build_type = MECHFAB
+	req_tech = list("combat" = 3)
+	build_path = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/tank
+	materials = list("$metal"=40000,"$glass"=20000) //I want them to be able to make them without mining but still be something you have to work for.. kinda..
+	construction_time = 100
+	category = list("Exosuit Equipment")
+
 datum/design/mech_carbine
 	name = "Exosuit Weapon (FNX-99 \"Hades\" Carbine)"
 	desc = "Allows for the construction of FNX-99 \"Hades\" Carbine."
