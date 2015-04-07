@@ -683,3 +683,14 @@
 	construction_time=150
 	build_path = /obj/item/drone_shell
 	category = list("Misc")
+
+/datum/design/tank
+	name = "Tiny Tank"
+	desc = "A Tiny Tank for ~FUN~"
+	id = "tank"
+	req_tech = list("combat" = 2)
+	build_type = MECHFAB
+	materials = list("$metal" = 120000, "$glass" = 20000)  //This will probably be made more expensive
+	construction_time = 3600   //I do not want a million of these on station!!! If this is made faster I quit  ~Nexendia
+	build_path = /obj/mecha/combat/tank
+	category = list("Misc")
