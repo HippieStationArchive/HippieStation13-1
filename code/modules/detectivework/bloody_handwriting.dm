@@ -48,9 +48,9 @@
 		return 0 //something is terribly wrong
 
 	var/blood_amt = bloody_hands
-	//var/bloodmob = bloody_hands_mob
+	var/bloodmob = bloody_hands_mob
 	var/bloodcolor = hand_blood_color
-	var/transferDNA = hand_blood_DNA
+	var/list/transferDNA = hand_blood_DNA
 	var/obj/item/clothing/gloves/G
 	if (src.gloves)
 		G = src.gloves
