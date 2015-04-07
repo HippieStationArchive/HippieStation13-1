@@ -557,6 +557,7 @@
 	name = "Fu Manchu"
 	icon_state = "facial_fumanchu"
 
+
 ///////////////////////////
 // Underwear Definitions //
 ///////////////////////////
