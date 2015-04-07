@@ -43,8 +43,9 @@
 			// Tracking blood
 			var/list/blood_DNA = null
 			var/new_track_blood = 0
+			var/obj/item/clothing/shoes/S
 			if(H.shoes)
-				var/obj/item/clothing/shoes/S = H.shoes
+				S = H.shoes
 				if(S.track_blood && S.blood_DNA)
 					blood_DNA |= S.blood_DNA.Copy()
 					bloodcolor = S.blood_color
@@ -63,8 +64,7 @@
 					from.AddTracks(/obj/effect/decal/cleanable/blood/trackss/footprints,blood_DNA,0,H.dir,new_track_blood,bloodcolor) // Going
 					new_track_blood -= 0.5
 
-			if(H.shoes)
-				var/obj/item/clothing/shoes/S = H.shoes
+			if(S)
 				S.track_blood = new_track_blood
 			else
 				H.track_blood = new_track_blood
@@ -81,7 +81,8 @@
 				M.slip(0, 7, null, (STEP|SLIDE|GALOSHES_DONT_HELP))
 
 /turf/simulated/proc/AddTracks(var/typepath,var/bloodDNA,var/comingdir,var/goingdir,var/bloodamt,var/bloodcolor="#A10808")
-    var/obj/effect/decal/cleanable/blood/trackss/tracks = locate(typepath) in src
-    if(!tracks)
-        tracks = new typepath(src)
-    tracks.AddTracks(bloodDNA,comingdir,goingdir,bloodamt)
+	world.log << "Called AddTracks for turf"
+	var/obj/effect/decal/cleanable/blood/trackss/tracks = locate(typepath) in src
+	if(!tracks)
+		tracks = new typepath(src)
+	tracks.AddTracks(bloodDNA,comingdir,goingdir,bloodamt, bloodcolor)

@@ -544,6 +544,8 @@
 										if(check_dna_integrity(M)) //blood DNA
 											var/mob/living/carbon/DNA_helper = pulling
 											H.blood_DNA[DNA_helper.dna.unique_enzymes] = DNA_helper.dna.blood_type
+											H.basecolor = DNA_helper.dna.species.blood_color
+											H.update_icon()
 											// H.blood_source = DNA_helper
 						if(pulling)
 							pulling.Move(T, get_dir(pulling, T))

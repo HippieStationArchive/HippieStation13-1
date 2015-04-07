@@ -41,7 +41,7 @@
 				if(prob(4))
 					new /obj/effect/decal/cleanable/blood/gibs/robot/old(src)
 				else
-					new /obj/effect/decal/cleanable/blood/oil(src)
+					new /obj/effect/decal/cleanable/blood/oil/old(src)
 			else
 				new /obj/effect/decal/cleanable/dirt(src)
 		return
@@ -60,7 +60,7 @@
 		if(prob(75))
 			new /obj/effect/decal/cleanable/dirt(src)
 		else
-			new /obj/effect/decal/cleanable/blood/oil(src)
+			new /obj/effect/decal/cleanable/blood/oil/old(src)
 		return
 
 

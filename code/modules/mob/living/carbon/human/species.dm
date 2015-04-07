@@ -990,7 +990,9 @@
 					if(prob(50))	//Spawn a bloodsplatter effect
 						var/obj/effect/effect/splatter/B = new(H)
 						// B.add_blood_list(H)
+						B.basecolor = H.dna.species.blood_color
 						B.blood_source = H
+						B.update_icon()
 						var/n = rand(1,3)
 						var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
 						B.GoTo(targ, n)

@@ -15,14 +15,8 @@
 	update_icon()
 
 /obj/effect/decal/cleanable/scribble/update_icon()
-	// if(basecolor == "rainbow") basecolor = "#[pick(list("FF0000","FF7F00","FFFF00","00FF00","0000FF","4B0082","8F00FF"))]"
+	if(basecolor == "rainbow") basecolor = "#[pick(list("FF0000","FF7F00","FFFF00","00FF00","0000FF","4B0082","8F00FF"))]"
 	color = basecolor
-
-	//Not sure if what's below is needed.
-	// var/icon/blood = icon(base_icon,icon_state,dir)
-	// blood.Blend(basecolor,ICON_MULTIPLY)
-
-	// icon = blood
 
 /obj/effect/decal/cleanable/scribble/examine(mob/user)
 	..()
@@ -53,14 +47,20 @@
 	if (usr != src)
 		return 0 //something is terribly wrong
 
-	if (bloody_hands <= 0)
+	var/blood_amt = bloody_hands
+	var/bloodmob = bloody_hands_mob
+	var/bloodcolor = hand_blood_color
+	var/obj/item/clothing/gloves/G
+	if (src.gloves)
+		G = src.gloves
+		blood_amt = G.transfer_blood
+		bloodmob = G.bloody_hands_mob
+		bloodcolor = G.blood_color
+
+	if (blood_amt <= 0)
 		verbs -= /mob/living/carbon/human/proc/bloody_doodle
 		// if(src.client)
 		// 	src.client.verbs -= client/proc/bloody_doodle
-
-	if (src.gloves)
-		src << "<span class='warning'>Your [src.gloves] are getting in the way.</span>"
-		return
 
 	var/turf/simulated/S = src.loc
 	if (!istype(S)) //to prevent doodling out of mechs and lockers
@@ -85,7 +85,7 @@
 		return
 
 	var/message = ""
-	var/max_length = bloody_hands * 30 //tweeter style
+	var/max_length = blood_amt * 30 //tweeter style
 	var/msg = "Write a message. It cannot be longer than [max_length] characters."
 	if(max_length > 0) //Check if we actually WROTE a message.
 		if(InCritical()) //We're critical!
@@ -96,8 +96,12 @@
 
 	if (message && src.loc == S) //Check if message exists and user's location didn't change.
 		var/used_blood_amount = max(1, round(length(message) / 30)) //To make sure we use up 1 blood even for the smallest messages
-		bloody_hands = max(0, bloody_hands - used_blood_amount) //use up some blood
-		src << "<span class='warning'>You used [used_blood_amount] blood. [bloody_hands]</span>" //DEBUG
+		blood_amt = max(0, blood_amt - used_blood_amount) //use up some blood
+		if(G)
+			G.transfer_blood = blood_amt
+		else
+			bloody_hands = blood_amt
+		src << "<span class='warning'>You used [used_blood_amount] blood. [blood_amt]</span>" //DEBUG
 		if (length(message) > max_length)
 			message = copytext(message,1,max_length) //Why wasn't this here before
 			message += "-"
@@ -117,12 +121,12 @@
 			W.pixel_x = rand(-8, 8)
 			W.pixel_y = rand(-8, 8)
 
-		W.basecolor = (hand_blood_color) ? hand_blood_color : "#CC0303"
+		W.basecolor = (bloodcolor) ? bloodcolor : "#CC0303"
 		W.update_icon()
 		W.info = message
 		W.desc = "It's written in blood..."
 		W.add_fingerprint(src)
-		W.add_blood_list(bloody_hands_mob)
+		W.add_blood_list(bloodmob)
 
 		if(InCritical())
 			if(stat == UNCONSCIOUS)

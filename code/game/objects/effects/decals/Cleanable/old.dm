@@ -7,7 +7,7 @@
 
 /obj/effect/decal/cleanable/blood/old/New()
 	..()
-	color = adjust_brightness(color, -70) //Even less color than normal blood
+	color = adjust_brightness(color, -120) //Even less color than normal blood
 
 /obj/effect/decal/cleanable/blood/old/dry() //We're already dry though
 	return
@@ -20,7 +20,7 @@
 /obj/effect/decal/cleanable/blood/gibs/old/New()
 	..()
 	dir = pick(1,2,4,8)
-	color = adjust_brightness(color, -70)
+	color = adjust_brightness(color, -100)
 
 /obj/effect/decal/cleanable/blood/gibs/old/dry() //We're already dry though
 	return
@@ -36,3 +36,18 @@
 /obj/effect/decal/cleanable/blood/gibs/robot/old
 	name = "dusty robot debris"
 	desc = "Looks like nobody has touched this in a while."
+
+/obj/effect/decal/cleanable/blood/oil/old
+	name = "dried motor oil"
+	desc = "It's black and greasy."
+	amount = 0
+
+/obj/effect/decal/cleanable/blood/oil/old/dry() //We're already dry though
+	return
+
+/obj/effect/decal/cleanable/blood/oil/streak/old
+	random_icon_states = list("mgibbl1", "mgibbl2", "mgibbl3", "mgibbl4", "mgibbl5")
+	amount = 0
+
+/obj/effect/decal/cleanable/blood/oil/streak/old/dry() //We're already dry though
+	return

@@ -55,7 +55,6 @@ var/list/blood_splatter_icons = list()
 		blood_DNA = list()
 
 	blood_color = "#A10808"
-
 	if(rejects_blood())
 		return 0
 	if(!istype(M))
@@ -98,6 +97,42 @@ var/list/blood_splatter_icons = list()
 			this.viruses += newDisease
 			newDisease.holder = this*/
 
+/atom/proc/add_blood_drip(mob/living/carbon/M as mob)
+	if(!istype(M)) return
+	if(istype(src, /turf/simulated))
+		if(check_dna_integrity(M))	//mobs with dna = (monkeys + humans at time of writing)
+			var/obj/effect/decal/cleanable/blood/drip/B = new(src, M.dna.species.blood_color)
+			if(istype(B))
+				B.blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
+				// B.update_icon()
+			// B.blood_source = M
+		// else if(istype(M, /mob/living/carbon/alien))
+		// else if(istype(M, /mob/living/silicon/robot))
+
+/atom/proc/clean_blood()
+	if(istype(blood_DNA, /list))
+		blood_DNA = null
+		return 1
+
+/*
+ * Turfs
+ */
+
+/turf/simulated/add_blood(mob/living/carbon/M)
+	if (!..())
+		return 0
+	var/found_color
+	if(M.dna && M.dna.species.blood_color)
+		found_color = M.dna.species.blood_color
+	var/obj/effect/decal/cleanable/blood/B = locate() in contents	//check for existing blood splatter
+	if(!B || istype(B, /obj/effect/decal/cleanable/blood/trail_holder) || istype(B, /obj/effect/decal/cleanable/blood/trackss))
+		B = new /obj/effect/decal/cleanable/blood(src, found_color)			//make a bloood splatter if we couldn't find one
+	B.add_blood_list(M)
+	// B.basecolor = found_color
+	// B.update_icon()
+	// B.blood_source = M
+	return 1 //we bloodied the floor
+
 // Only adds blood on the floor -- Skie
 /atom/proc/add_blood_floor(mob/living/carbon/M as mob, var/splatter = 0)
 	if(istype(src, /turf/simulated))
@@ -105,11 +140,12 @@ var/list/blood_splatter_icons = list()
 			var/obj/effect/decal/cleanable/blood/B = locate() in contents
 			if(!B || istype(B, /obj/effect/decal/cleanable/blood/trail_holder) || istype(B, /obj/effect/decal/cleanable/blood/trackss))
 				if(!splatter)
-					B = new(src)
+					B = new(src, M.dna.species.blood_color)
 				else
-					B = new /obj/effect/decal/cleanable/blood/splatter(src)
+					B = new /obj/effect/decal/cleanable/blood/splatter(src, M.dna.species.blood_color)
 			B.blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
-			// B.blood_source = M
+			// B.basecolor = M.dna.species.blood_color
+			// B.update_icon()
 			return B
 		else if(istype(M, /mob/living/carbon/alien))
 			var/obj/effect/decal/cleanable/blood/xeno/B = locate() in contents
@@ -119,6 +155,7 @@ var/list/blood_splatter_icons = list()
 				else
 					B = new /obj/effect/decal/cleanable/blood/xeno(src)
 			B.blood_DNA["UNKNOWN BLOOD"] = "X*"
+			// B.update_icon()
 			return B
 		else if(istype(M, /mob/living/silicon/robot))
 			var/obj/effect/decal/cleanable/blood/oil/B = locate() in contents
@@ -127,22 +164,8 @@ var/list/blood_splatter_icons = list()
 					B = new(src)
 				else
 					B = new /obj/effect/decal/cleanable/blood/oil/streak(src)
+			// B.update_icon()
 			return B
-
-/atom/proc/add_blood_drip(mob/living/carbon/M as mob)
-	if(!istype(M)) return
-	if(istype(src, /turf/simulated))
-		if(check_dna_integrity(M))	//mobs with dna = (monkeys + humans at time of writing)
-			var/obj/effect/decal/cleanable/blood/drip/B = new /obj/effect/decal/cleanable/blood/drip(src)
-			B.blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
-			// B.blood_source = M
-		// else if(istype(M, /mob/living/carbon/alien))
-		// else if(istype(M, /mob/living/silicon/robot))
-
-/atom/proc/clean_blood()
-	if(istype(blood_DNA, /list))
-		blood_DNA = null
-		return 1
 
 /*
  * Items
@@ -173,9 +196,11 @@ var/list/blood_splatter_icons = list()
 	if( !blood_overlay )
 		generate_blood_overlay()
 
-	//apply the blood-splatter overlay if it isn't already in there
-	if(!blood_DNA.len)
+	//apply the blood-splatter overlay if it's not the same blood.
+	if(blood_overlay && blood_overlay.color != blood_color)
 		blood_overlay.color = blood_color
+		overlays.Cut() //This will ruin custom overlays...
+		update_icon() //So this is why you have your overlays made in update_icon
 		overlays += blood_overlay
 
 	//if this blood isn't already in the list, add it
@@ -192,7 +217,6 @@ var/list/blood_splatter_icons = list()
 	var/icon/I = new /icon(icon, icon_state)
 	I.Blend(new /icon('icons/effects/blood.dmi', rgb(255,255,255)),ICON_ADD) //fills the icon_state with white (except where it's transparent)
 	I.Blend(new /icon('icons/effects/blood.dmi', "itemblood"),ICON_MULTIPLY) //adds blood and the remaining white areas become transparent
-
 	//not sure if this is worth it. It attaches the blood_overlay to every item of the same type if they don't have one already made.
 	for(var/obj/item/A in world)
 		if(A.type == type && !A.blood_overlay)
@@ -232,17 +256,6 @@ var/list/blood_splatter_icons = list()
 		return 0
 	return add_blood_list(M)
 
-/turf/simulated/add_blood(mob/living/carbon/M)
-	if (!..())
-		return 0
-
-	var/obj/effect/decal/cleanable/blood/B = locate() in contents	//check for existing blood splatter
-	if(!B || istype(B, /obj/effect/decal/cleanable/blood/trail_holder) || istype(B, /obj/effect/decal/cleanable/blood/trackss))
-		B = new /obj/effect/decal/cleanable/blood(src)			//make a bloood splatter if we couldn't find one
-	B.add_blood_list(M)
-	// B.blood_source = M
-	return 1 //we bloodied the floor
-
 /mob/living/carbon/human/add_blood(mob/living/carbon/M)
 	if (!..())
 		return 0
@@ -255,24 +268,28 @@ var/list/blood_splatter_icons = list()
 	verbs += /mob/living/carbon/human/proc/bloody_doodle //Add bloody handwriting capabilities.
 	return 1 //we applied blood to the person's hands
 
-/mob/living/carbon/human/clean_blood()
+/mob/living/carbon/human/clean_blood(var/clean_feet)
+	..() // Clear the Blood_DNA list
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
+		if(clean_feet)
+			if(shoes)
+				if(H.shoes.clean_blood())
+					var/obj/item/clothing/shoes/S = shoes
+					S.track_blood = 0 //No footprints
+					// S.blood_DNA = null
+					H.update_inv_shoes(0)
+			else
+				feet_blood_color = null
+				del(feet_blood_DNA)
+				H.update_inv_shoes(0)
+			return
 		if(H.gloves)
 			if(H.gloves.clean_blood())
 				H.update_inv_gloves(0)
 		else
-			..() // Clear the Blood_DNA list
 			if(H.bloody_hands)
 				H.bloody_hands = 0
 				H.bloody_hands_mob = null
 				H.update_inv_gloves(0)
 	update_icons()	//apply the now updated overlays to the mob
-
-// /mob/living/carbon/human/clean_blood(var/clean_feet)
-// 	.=..()
-// 	if(clean_feet && !shoes && istype(feet_blood_DNA, /list) && feet_blood_DNA.len)
-// 		feet_blood_color = null
-// 		del(feet_blood_DNA)
-// 		update_inv_shoes(1)
-// 		return 1

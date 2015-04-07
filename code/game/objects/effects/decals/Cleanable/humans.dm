@@ -15,6 +15,7 @@
 	blood_DNA = list()
 	var/list/viruses = list()
 	var/amount = 5
+	var/nostep = 0 //used by onwall bloods
 	var/creation_time = 0
 
 	var/base_icon = 'icons/effects/blood.dmi'
@@ -25,8 +26,10 @@
 		D.cure(0)
 	..()
 
-/obj/effect/decal/cleanable/blood/New()
+/obj/effect/decal/cleanable/blood/New(loc, var/spawncolor)
 	..()
+	if(spawncolor)
+		basecolor = spawncolor
 	update_icon()
 	creation_time = world.time
 	remove_ex_blood()
@@ -48,7 +51,7 @@
 /obj/effect/decal/cleanable/blood/Crossed(mob/living/carbon/human/perp)
 	if (!istype(perp))
 		return
-	if(amount < 1)
+	if(amount < 1 || nostep)
 		return
 
 	if(perp.shoes && !perp.buckled)//Adding blood to shoes
@@ -134,7 +137,7 @@
 	var/splattering = 0
 	var/turf/prev_loc
 	var/skip = 0 //Skip creation of blood when destroyed?
-	var/bloodcolor = "#A10808" //Color of the blood
+	var/basecolor = "#A10808" //Color of the blood
 
 /obj/effect/effect/splatter/proc/GoTo(turf/T, var/n=rand(1, 3))
 	for(var/i=0, i<=n, i++)
@@ -171,12 +174,13 @@
 			splattering = 1 //So "Bump()" and "Crossed()" procs aren't called at the same time
 			skip = 1
 			sleep(3)
-			var/obj/effect/decal/cleanable/blood/B = src.loc.add_blood_floor(blood_source, 1)
+			var/obj/effect/decal/cleanable/blood/B = prev_loc.add_blood_floor(blood_source, 1)
 			//Adjust pixel offset to make splatters appear on the wall
 			if(istype(B))
 				B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
 				B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
-				B.basecolor = bloodcolor
+				B.basecolor = basecolor
+				B.nostep = 1
 				update_icon()
 			qdel(src)
 		else //This will only happen if prev_loc is not even a turf, which is highly unlikely.
@@ -210,12 +214,13 @@
 			splattering = 1 //So "Bump()" and "Crossed()" procs aren't called at the same time
 			skip = 1
 			sleep(3)
-			var/obj/effect/decal/cleanable/blood/B = src.loc.add_blood_floor(blood_source, 1)
+			var/obj/effect/decal/cleanable/blood/B = prev_loc.add_blood_floor(blood_source, 1)
 			//Adjust pixel offset to make splatters appear on the wall
 			if(istype(B))
 				B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
 				B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
-				B.basecolor = bloodcolor
+				B.basecolor = basecolor
+				B.nostep = 1
 				update_icon()
 			qdel(src)
 		else //This will only happen if prev_loc is not even a turf, which is highly unlikely.
@@ -262,9 +267,10 @@
 	anchored = 1
 	layer = 2
 	icon = 'icons/effects/gibs.dmi'
+	base_icon = 'icons/effects/gibs.dmi'
 	icon_state = "gib1"
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6")
-	var/fleshcolor = "#FFFFFF"
+	var/fleshcolor = "#FFCA95" //Placeholder color
 
 /obj/effect/decal/cleanable/blood/gibs/update_icon()
 	var/image/giblets = new(base_icon, "[icon_state]_flesh", dir)
@@ -293,7 +299,7 @@
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6","gibdown1","gibdown1","gibdown1")
 
 /obj/effect/decal/cleanable/blood/gibs/body
-	random_icon_states = list("gibhead", "gibtorso")
+	random_icon_states = list("gibtorso") //"gibhead" icon missing for now
 
 /obj/effect/decal/cleanable/blood/gibs/limb
 	random_icon_states = list("gibleg", "gibarm")

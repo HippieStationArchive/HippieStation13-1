@@ -17,7 +17,7 @@
 	var/breakouttime = 600 //Deciseconds = 60s = 1 minute
 	var/cuffsound = 'sound/weapons/handcuffs.ogg'
 	var/trashtype = null //for disposable cuffs
-	var/icon_overlay = null //So you can override the overlay for HUD + Mob with custom icon names.
+	var/icon_overlay = "handcuff" //So you can override the overlay for HUD + Mob with custom icon names.
 
 /obj/item/weapon/handcuffs/attack(mob/living/carbon/C, mob/user)
 	if(CLUMSY in user.mutations && prob(50))
