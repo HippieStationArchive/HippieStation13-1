@@ -96,7 +96,7 @@
 				T = pick(empty_shuttle_turfs)
 				new /obj/effect/decal/cleanable/blood(T)
 				T = pick(empty_shuttle_turfs)
-				new /obj/effect/decal/cleanable/oil(T)
+				new /obj/effect/decal/cleanable/blood/oil(T)
 
 			if(RUSKY_PARTY)
 				var/datum/supply_order/O = new /datum/supply_order()
@@ -182,7 +182,7 @@
 
 				for(var/i=0,i<3,i++)
 					var/turf/T = pick(empty_shuttle_turfs)
-					var/spawn_type = pick(/obj/effect/decal/cleanable/flour, /obj/effect/decal/cleanable/robot_debris, /obj/effect/decal/cleanable/oil)
+					var/spawn_type = pick(/obj/effect/decal/cleanable/flour, /obj/effect/decal/cleanable/blood/gibs/robot, /obj/effect/decal/cleanable/blood/oil)
 					new spawn_type(T)
 
 		var/false_positive = 0

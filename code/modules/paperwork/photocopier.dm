@@ -278,12 +278,12 @@
 				qdel(src)
 			else
 				if(toner > 0)
-					new /obj/effect/decal/cleanable/oil(get_turf(src))
+					new /obj/effect/decal/cleanable/blood/oil(get_turf(src))
 					toner = 0
 		else
 			if(prob(50))
 				if(toner > 0)
-					new /obj/effect/decal/cleanable/oil(get_turf(src))
+					new /obj/effect/decal/cleanable/blood/oil(get_turf(src))
 					toner = 0
 
 
@@ -292,7 +292,7 @@
 		qdel(src)
 	else
 		if(toner > 0)
-			new /obj/effect/decal/cleanable/oil(get_turf(src))
+			new /obj/effect/decal/cleanable/blood/oil(get_turf(src))
 			toner = 0
 
 /obj/machinery/photocopier/MouseDrop_T(mob/target, mob/user)

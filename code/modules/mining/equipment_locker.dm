@@ -618,7 +618,7 @@
 /mob/living/simple_animal/hostile/mining_drone/Die()
 	..()
 	visible_message("<span class='danger'>[src] is destroyed!</span>")
-	new /obj/effect/decal/cleanable/robot_debris(src.loc)
+	new /obj/effect/decal/cleanable/blood/gibs/robot(src.loc)
 	DropOre()
 	qdel(src)
 	return

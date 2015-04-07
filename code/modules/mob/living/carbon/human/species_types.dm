@@ -35,6 +35,7 @@
 	attack_sound = 'sound/weapons/slash.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/lizard
+	blood_color = "#400040"
 
 /datum/species/lizard/handle_speech(message)
 	// jesus christ why
@@ -86,6 +87,7 @@
 	attack_sound = 'sound/weapons/slash.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = null
+	blood_color = "#030303" //Almost-completely-black
 
 
 
@@ -124,6 +126,7 @@
 	attack_verb = "slice"
 	attack_sound = 'sound/weapons/slice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
+	blood_color = "#ee5c42"
 	burnmod = 1.25
 	heatmod = 1.5
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/plant
@@ -195,6 +198,7 @@
 	sexes = 0
 	ignored_by = list(/mob/living/simple_animal/hostile/faithless)
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/shadow
+	blood_color = "#202020"
 
 /datum/species/shadow/spec_life(mob/living/carbon/human/H)
 	var/light_amount = 0
@@ -225,6 +229,7 @@
 	hair_alpha = 150
 	ignored_by = list(/mob/living/carbon/slime)
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/slime
+	blood_color = "#00688B"
 
 /*
  JELLYPEOPLE
@@ -239,6 +244,7 @@
 	eyes = "jelleyes"
 	specflags = list(MUTCOLORS,EYECOLOR)
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/slime
+	blood_color = "#00688B"
 
 /*
  GOLEMS
@@ -255,6 +261,7 @@
 	no_equip = list(slot_wear_mask, slot_wear_suit, slot_gloves, slot_shoes, slot_head, slot_w_uniform)
 	nojumpsuit = 1
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/golem
+	blood_color = "#CDAA7D"
 
 
 /*
@@ -265,6 +272,7 @@
 	name = "Adamantine Golem"
 	id = "adamantine"
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/golem/adamantine
+	blood_color = "#CDAA7D"
 
 /*
  FLIES
@@ -276,6 +284,7 @@
 	id = "fly"
 	say_mod = "buzzes"
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/fly
+	blood_color = "#8B8B00"
 
 /datum/species/fly/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(chem.id == "pestkiller")
@@ -298,6 +307,7 @@
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/skeleton
 	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE)
+	blood_color = "#808080"
 /*
  ZOMBIES
 */

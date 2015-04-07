@@ -440,13 +440,13 @@
 
 /obj/item/weapon/storage/box/handcuffs/New()
 	..()
-	new /obj/item/weapon/restraints/handcuffs(src)
-	new /obj/item/weapon/restraints/handcuffs(src)
-	new /obj/item/weapon/restraints/handcuffs(src)
-	new /obj/item/weapon/restraints/handcuffs(src)
-	new /obj/item/weapon/restraints/handcuffs(src)
-	new /obj/item/weapon/restraints/handcuffs(src)
-	new /obj/item/weapon/restraints/handcuffs(src)
+	new /obj/item/weapon/handcuffs(src)
+	new /obj/item/weapon/handcuffs(src)
+	new /obj/item/weapon/handcuffs(src)
+	new /obj/item/weapon/handcuffs(src)
+	new /obj/item/weapon/handcuffs(src)
+	new /obj/item/weapon/handcuffs(src)
+	new /obj/item/weapon/handcuffs(src)
 
 /obj/item/weapon/storage/box/zipties
 	name = "box of spare zipties"
@@ -455,13 +455,13 @@
 
 /obj/item/weapon/storage/box/zipties/New()
 	..()
-	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/handcuffs/cable/zipties(src)
 
 /obj/item/weapon/storage/box/fakesyndiesuit
 	name = "boxed space suit and helmet"

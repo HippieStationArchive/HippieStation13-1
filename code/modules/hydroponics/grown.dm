@@ -706,7 +706,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 	name = "blue-tomato"
 	desc = "I say blue-mah-to, you say blue-mae-to."
 	icon_state = "bluetomato"
-	splat = /obj/effect/decal/cleanable/oil
+	splat = /obj/effect/decal/cleanable/blood/oil
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/tomato/blue/add_juice()
 	..()

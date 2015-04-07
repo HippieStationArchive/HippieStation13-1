@@ -68,7 +68,7 @@
 "bp" = (/obj/machinery/door/unpowered/shuttle,/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/awaymission/spacebattle/syndicate1)
 "bq" = (/obj/structure/table/reinforced,/obj/item/weapon/c4,/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/awaymission/spacebattle/syndicate1)
 "br" = (/obj/structure/table/reinforced,/obj/item/weapon/grenade/spawnergrenade/manhacks,/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/awaymission/spacebattle/syndicate1)
-"bs" = (/obj/structure/table/reinforced,/obj/item/weapon/restraints/handcuffs,/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/awaymission/spacebattle/syndicate1)
+"bs" = (/obj/structure/table/reinforced,/obj/item/weapon/handcuffs,/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/awaymission/spacebattle/syndicate1)
 "bt" = (/turf/space,/turf/simulated/shuttle/wall{icon_state = "diagonalWall3"},/area/awaymission/spacebattle/syndicate3)
 "bu" = (/obj/structure/stool/bed/chair,/mob/living/simple_animal/hostile/syndicate,/turf/simulated/shuttle/floor{icon_state = "floor4"},/area/awaymission/spacebattle/syndicate3)
 "bv" = (/turf/space,/turf/simulated/shuttle/wall{dir = 4; icon_state = "diagonalWall3"},/area/awaymission/spacebattle/syndicate3)
