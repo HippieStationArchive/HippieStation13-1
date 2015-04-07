@@ -48,17 +48,21 @@
 		return 0 //something is terribly wrong
 
 	var/blood_amt = bloody_hands
-	var/bloodmob = bloody_hands_mob
+	//var/bloodmob = bloody_hands_mob
 	var/bloodcolor = hand_blood_color
+	var/transferDNA = hand_blood_DNA
 	var/obj/item/clothing/gloves/G
 	if (src.gloves)
 		G = src.gloves
 		blood_amt = G.transfer_blood
 		bloodmob = G.bloody_hands_mob
 		bloodcolor = G.blood_color
+		transferDNA = G.blood_DNA
 
-	if (blood_amt <= 0)
-		verbs -= /mob/living/carbon/human/proc/bloody_doodle
+	if (bloody_hands <= 0)
+		if(G && G.transfer_blood <= 0)
+			verbs -= /mob/living/carbon/human/proc/bloody_doodle
+		return
 		// if(src.client)
 		// 	src.client.verbs -= client/proc/bloody_doodle
 
@@ -126,7 +130,8 @@
 		W.info = message
 		W.desc = "It's written in blood..."
 		W.add_fingerprint(src)
-		W.add_blood_list(bloodmob)
+		// W.add_blood_list(bloodmob)
+		W.blood_DNA |= transferDNA.Copy()
 
 		if(InCritical())
 			if(stat == UNCONSCIOUS)

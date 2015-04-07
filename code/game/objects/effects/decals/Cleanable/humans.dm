@@ -174,14 +174,16 @@
 			splattering = 1 //So "Bump()" and "Crossed()" procs aren't called at the same time
 			skip = 1
 			sleep(3)
-			var/obj/effect/decal/cleanable/blood/B = prev_loc.add_blood_floor(blood_source, 1)
-			//Adjust pixel offset to make splatters appear on the wall
-			if(istype(B))
-				B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
-				B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
-				B.basecolor = basecolor
-				B.nostep = 1
-				update_icon()
+			var/mob/living/carbon/human/H = blood_source
+			if(istype(H))
+				var/obj/effect/decal/cleanable/blood/splatter/B = new(prev_loc, H.dna.species.blood_color)
+				//Adjust pixel offset to make splatters appear on the wall
+				if(istype(B))
+					B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
+					B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
+					B.basecolor = basecolor
+					B.nostep = 1
+					update_icon()
 			qdel(src)
 		else //This will only happen if prev_loc is not even a turf, which is highly unlikely.
 			src.loc = A //Either way we got this.
@@ -214,14 +216,16 @@
 			splattering = 1 //So "Bump()" and "Crossed()" procs aren't called at the same time
 			skip = 1
 			sleep(3)
-			var/obj/effect/decal/cleanable/blood/B = prev_loc.add_blood_floor(blood_source, 1)
-			//Adjust pixel offset to make splatters appear on the wall
-			if(istype(B))
-				B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
-				B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
-				B.basecolor = basecolor
-				B.nostep = 1
-				update_icon()
+			var/mob/living/carbon/human/H = blood_source
+			if(istype(H))
+				var/obj/effect/decal/cleanable/blood/splatter/B = new(prev_loc, H.dna.species.blood_color)
+				//Adjust pixel offset to make splatters appear on the wall
+				if(istype(B))
+					B.pixel_x = dir & EAST ? 32 : (dir & WEST ? -32 : 0)
+					B.pixel_y = dir & NORTH ? 32 : (dir & SOUTH ? -32 : 0)
+					B.basecolor = basecolor
+					B.nostep = 1
+					update_icon()
 			qdel(src)
 		else //This will only happen if prev_loc is not even a turf, which is highly unlikely.
 			src.loc = A //Either way we got this.

@@ -114,7 +114,7 @@
 	overlays.Cut()
 	color = "#FFFFFF"
 	var/truedir=0
-	world << "FOOTPRINTS: Called update_icon"
+	world.log << "FOOTPRINTS: Called update_icon"
 	// Update ONLY the overlays that have changed.
 	for(var/datum/fluidtrack/track in stack)
 		var/stack_idx=setdirs["[track.direction]"]
@@ -129,15 +129,16 @@
 		// var/image/I = image(icon, icon_state=state, dir=num2dir(truedir))
 		// I.color = track.basecolor
 		var/icon/add = icon(icon, state, truedir)
-		add.Blend(rgb(255,255,255, max(0, min(track.amt*40, 255))), ICON_MULTIPLY) //Adjust alpha
-		add.Blend(track.basecolor,ICON_ADD) //Adjust color
+		add.Blend(track.basecolor, ICON_MULTIPLY) //Adjust color
+		add += rgb(0,0,0, max(0, min(track.amt*40, 255))) //This adds alpha
+		// add.Blend(track.basecolor,ICON_MULTIPLY)
 		// flat.Blend(add,ICON_OVERLAY)
 
 		track.fresh=0
 		track.overlay=add
 		stack[stack_idx]=track
 		overlays += add
-		world << "Updated [src] with new [track.overlay] overlay"
+		world.log << "Updated [src] with new [track.overlay] overlay with [track.basecolor] color"
 	updatedtracks=0 // Clear our memory of updated tracks.
 
 	// var/truedir=0
@@ -171,8 +172,8 @@
 	desc = "Whoops..."
 	dryname = "dried footprints"
 	drydesc = "Whoops..."
-	coming_state = "h1"
-	going_state  = "h2"
+	coming_state = "human1"
+	going_state  = "human2"
 	amount = 0
 
 /obj/effect/decal/cleanable/blood/trackss/footprints/xeno

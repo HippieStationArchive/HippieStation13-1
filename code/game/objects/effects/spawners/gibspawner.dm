@@ -18,6 +18,7 @@
 					/obj/effect/decal/cleanable/blood/gibs,\
 					/obj/effect/decal/cleanable/blood/gibs,\
 					/obj/effect/decal/cleanable/blood/gibs/body,\
+					/obj/effect/decal/cleanable/blood/gibs/limb,\
 					/obj/effect/decal/cleanable/blood/gibs/core)
 	gibamounts = list(1,1,1,1,1,1,1)
 

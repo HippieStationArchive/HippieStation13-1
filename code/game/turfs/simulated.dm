@@ -41,7 +41,7 @@
 			var/mob/living/carbon/human/H = M
 			var/bloodcolor
 			// Tracking blood
-			var/list/blood_DNA = null
+			var/list/blood_DNA = list()
 			var/new_track_blood = 0
 			var/obj/item/clothing/shoes/S
 			if(H.shoes)
@@ -56,7 +56,7 @@
 					bloodcolor = H.feet_blood_color
 					new_track_blood = H.track_blood
 
-			if (blood_DNA)
+			if (blood_DNA.len)
 				src.AddTracks(/obj/effect/decal/cleanable/blood/trackss/footprints,blood_DNA,H.dir,0,new_track_blood,bloodcolor) // Coming
 				new_track_blood -= 0.5
 				var/turf/simulated/from = get_step(H,reverse_direction(H.dir))
