@@ -60,7 +60,10 @@
 		transferDNA = G.blood_DNA
 
 	if (bloody_hands <= 0)
-		if(G && G.transfer_blood <= 0)
+		if(G) //Gloves exist
+			if(G.transfer_blood <= 0) //No blood on gloves? No blood on hands? Remove verb.
+				verbs -= /mob/living/carbon/human/proc/bloody_doodle
+		else //Welp, gloves don't exist, fuck bloody doodles.
 			verbs -= /mob/living/carbon/human/proc/bloody_doodle
 
 	if(blood_amt <= 0)
