@@ -1,4 +1,4 @@
-##/tg/station v1.0.1
+##Hippie Station 13
 
 [![Build Status](https://travis-ci.org/tgstation/-tg-station.png)](https://travis-ci.org/tgstation/-tg-station)
 
