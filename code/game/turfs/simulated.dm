@@ -81,7 +81,7 @@
 				M.slip(0, 7, null, (STEP|SLIDE|GALOSHES_DONT_HELP))
 
 /turf/simulated/proc/AddTracks(var/typepath,var/bloodDNA,var/comingdir,var/goingdir,var/bloodamt,var/bloodcolor="#A10808")
-	world.log << "Called AddTracks for turf"
+	// world.log << "Called AddTracks for turf"
 	var/obj/effect/decal/cleanable/blood/trackss/tracks = locate(typepath) in src
 	if(!tracks)
 		tracks = new typepath(src)

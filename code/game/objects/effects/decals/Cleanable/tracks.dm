@@ -62,7 +62,7 @@
 	var/t=world.time + TRACKS_CRUSTIFY_TIME
 
 	var/datum/fluidtrack/track
-	world.log << "Called AddTracks for tracks"
+	// world.log << "Called AddTracks for tracks"
 	// Process 4 bits
 	for(var/bi=0;bi<4;bi++)
 		b=1<<bi
@@ -74,7 +74,7 @@
 				var/sid=setdirs["[b]"]
 				track=stack[sid]
 				if(track.amt >= bloodamt)//if(track.wet==t && track.basecolor==bloodcolor)
-					world.log << "Skipping COMING track because [track.amt] >= [bloodamt]"
+					// world.log << "Skipping COMING track because [track.amt] >= [bloodamt]"
 					continue
 				// Remove existing stack entry
 				stack.Remove(track)
@@ -92,7 +92,7 @@
 				var/sid=setdirs["[b]"]
 				track=stack[sid]
 				if(track.amt >= bloodamt)//if(track.wet==t && track.basecolor==bloodcolor)
-					world.log << "Skipping GOING track because [track.amt] >= [bloodamt]"
+					// world.log << "Skipping GOING track because [track.amt] >= [bloodamt]"
 					continue
 				// Remove existing stack entry
 				stack.Remove(track)
@@ -114,7 +114,7 @@
 	overlays.Cut()
 	color = "#FFFFFF"
 	var/truedir=0
-	world.log << "FOOTPRINTS: Called update_icon"
+	// world.log << "FOOTPRINTS: Called update_icon"
 	// Update ONLY the overlays that have changed.
 	for(var/datum/fluidtrack/track in stack)
 		var/stack_idx=setdirs["[track.direction]"]
@@ -138,7 +138,7 @@
 		track.overlay=add
 		stack[stack_idx]=track
 		overlays += add
-		world.log << "Updated [src] with new [track.overlay] overlay with [track.basecolor] color"
+		// world.log << "Updated [src] with new [track.overlay] overlay with [track.basecolor] color"
 	updatedtracks=0 // Clear our memory of updated tracks.
 
 	// var/truedir=0
