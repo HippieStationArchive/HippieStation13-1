@@ -1,7 +1,7 @@
 /obj/effect/decal/remains
 	name = "remains"
 	gender = PLURAL
-	icon = 'icons/effects/blood.dmi'
+	icon = 'icons/effects/gibs.dmi'
 	anchored = 0
 	closet_exception = 1
 

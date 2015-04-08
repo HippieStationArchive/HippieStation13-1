@@ -67,7 +67,7 @@
 "bo" = (/obj/structure/table/wood/poker,/obj/item/clothing/mask/cigarette,/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel{icon_state = "floorgrime"; temperature = 273.15},/area/wrecked/russian)
 "bp" = (/obj/structure/stool/bed/chair/comfy/black{dir = 8},/turf/simulated/floor/plasteel{icon_state = "floorgrime"; temperature = 273.15},/area/wrecked/russian)
 "bq" = (/obj/machinery/computer/security/wooden_tv,/obj/structure/barricade/wooden{layer = 2},/turf/simulated/floor/plasteel{icon_state = "floorgrime"; temperature = 273.15},/area/wrecked/russian)
-"br" = (/obj/effect/decal/cleanable/oil,/turf/simulated/floor/plasteel{icon_state = "floorgrime"; temperature = 273.15},/area/wrecked/russian)
+"br" = (/obj/effect/decal/cleanable/blood/oil,/turf/simulated/floor/plasteel{icon_state = "floorgrime"; temperature = 273.15},/area/wrecked/russian)
 "bs" = (/obj/machinery/vending/cigarette,/turf/simulated/floor/plasteel{icon_state = "floorgrime"; temperature = 273.15},/area/wrecked/russian)
 "bt" = (/obj/machinery/vending/snack,/obj/item/weapon/reagent_containers/food/snacks/syndicake,/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel{icon_state = "floorgrime"; temperature = 273.15},/area/wrecked/russian)
 "bu" = (/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel{icon_state = "floorgrime"; temperature = 273.15},/area/wrecked/russian)

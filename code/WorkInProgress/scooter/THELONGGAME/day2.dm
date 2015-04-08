@@ -47,7 +47,7 @@ var/global/datum/goonmod/goonmod
 							A.name = "gay baby jail"
 							C << "\red WHAT THE DINK! You are locked in a locker!"
 					if(2)
-						C.handcuffed = new /obj/item/weapon/restraints/handcuffs/cable/zipties/used(C)
+						C.handcuffed = new /obj/item/weapon/handcuffs/cable/zipties/used(C)
 						C.update_inv_handcuffed(0)	//update the handcuffs overlay
 						C << "\red You suddenly find your hands unable to move!"
 					if(3)

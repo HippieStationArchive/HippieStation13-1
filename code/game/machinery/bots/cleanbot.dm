@@ -204,25 +204,12 @@ text("<A href='?src=\ref[src];power=1'>[on ? "On" : "Off"]</A>"))
 /obj/machinery/bot/cleanbot/proc/get_targets()
 	target_types = new/list()
 
-	target_types += /obj/effect/decal/cleanable/oil
-	target_types += /obj/effect/decal/cleanable/vomit
-	target_types += /obj/effect/decal/cleanable/robot_debris
-	target_types += /obj/effect/decal/cleanable/crayon
-	target_types += /obj/effect/decal/cleanable/molten_item
-	target_types += /obj/effect/decal/cleanable/tomato_smudge
-	target_types += /obj/effect/decal/cleanable/egg_smudge
-	target_types += /obj/effect/decal/cleanable/pie_smudge
-	target_types += /obj/effect/decal/cleanable/flour
-	target_types += /obj/effect/decal/cleanable/ash
-	target_types += /obj/effect/decal/cleanable/greenglow
-	target_types += /obj/effect/decal/cleanable/dirt
+	target_types += /obj/effect/decal/cleanable
 
 	if(blood)
-		target_types += /obj/effect/decal/cleanable/xenoblood/
-		target_types += /obj/effect/decal/cleanable/xenoblood/xgibs
-		target_types += /obj/effect/decal/cleanable/blood/ //But... isn't everything below already a subtype of blood?
-		target_types += /obj/effect/decal/cleanable/blood/gibs/
-		target_types += /obj/effect/decal/cleanable/blood/trail_holder
+		target_types += /obj/effect/decal/cleanable/blood
+		// target_types += /obj/effect/decal/cleanable/blood/gibs/ //Already subtypes
+		// target_types += /obj/effect/decal/cleanable/blood/trail_holder
 
 /obj/machinery/bot/cleanbot/proc/clean(var/obj/effect/decal/cleanable/target)
 	anchored = 1

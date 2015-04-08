@@ -180,7 +180,7 @@ datum/reagent/blood/reaction_turf(var/turf/simulated/T, var/volume)//splash the 
 			newVirus.holder = blood_prop
 
 	else if(istype(self.data["donor"], /mob/living/carbon/alien))
-		var/obj/effect/decal/cleanable/xenoblood/blood_prop = locate() in T
+		var/obj/effect/decal/cleanable/blood/xeno/blood_prop = locate() in T
 		if(!blood_prop)
 			blood_prop = new(T)
 			blood_prop.blood_DNA["UNKNOWN DNA STRUCTURE"] = "X*"
@@ -678,7 +678,7 @@ datum/reagent/fuel/reaction_turf(var/turf/T, var/volume)
 	src = null
 	if(volume > 5)
 		if(!istype(T, /turf/space))
-			new /obj/effect/decal/cleanable/oil(T)
+			new /obj/effect/decal/cleanable/blood/oil(T)
 
 datum/reagent/space_cleaner
 	name = "Space cleaner"

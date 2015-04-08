@@ -21,7 +21,7 @@
 /datum/table_recipe/stunprod
 	name = "Stunprod"
 	result = /obj/item/weapon/melee/baton/cattleprod
-	reqs = list(/obj/item/weapon/restraints/handcuffs/cable = 1,
+	reqs = list(/obj/item/weapon/handcuffs/cable = 1,
 				/obj/item/stack/rods = 1,
 				/obj/item/weapon/wirecutters = 1,
 				/obj/item/weapon/stock_parts/cell = 1)

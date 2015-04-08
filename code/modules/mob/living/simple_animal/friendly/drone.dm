@@ -110,7 +110,7 @@
 								if(do_after(D, 60,5,0))
 									D.visible_message("<span class='notice'>[D] repairs itself using [src]'s remains!</span>")
 									D.adjustBruteLoss(-src.maxHealth)
-									new /obj/effect/decal/cleanable/oil/streak(get_turf(src))
+									new /obj/effect/decal/cleanable/blood/oil/streak(get_turf(src))
 									qdel(src)
 								else
 									D << "<span class='notice'>You need to remain still to cannibalize [src].</span>"

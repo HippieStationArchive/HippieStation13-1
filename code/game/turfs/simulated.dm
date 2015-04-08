@@ -39,33 +39,32 @@
 		if(M.lying)	return
 		if(istype(M, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = M
-
+			var/bloodcolor
 			// Tracking blood
-			var/list/blood_DNA = null
-			// var/bloodcolor="" //Not implemented
+			var/list/blood_DNA = list()
 			var/new_track_blood = 0
+			var/obj/item/clothing/shoes/S
 			if(H.shoes)
-				var/obj/item/clothing/shoes/S = H.shoes
+				S = H.shoes
 				if(S.track_blood && S.blood_DNA)
-					blood_DNA = S.blood_DNA
-					// H.shoes.add_blood(M) //why. We're only making footprints.
+					blood_DNA |= S.blood_DNA.Copy()
+					bloodcolor = S.blood_color
 					new_track_blood = S.track_blood
 			else
 				if(H.track_blood && H.feet_blood_DNA)
-					blood_DNA = H.feet_blood_DNA
-					// bloodcolor=H.feet_blood_color
+					blood_DNA |= H.feet_blood_DNA.Copy()
+					bloodcolor = H.feet_blood_color
 					new_track_blood = H.track_blood
 
-			if (blood_DNA)
-				src.AddTracks(/obj/effect/decal/cleanable/blood/trackss/footprints,blood_DNA,H.dir,0,new_track_blood) // Coming
+			if (blood_DNA.len)
+				src.AddTracks(/obj/effect/decal/cleanable/blood/trackss/footprints,blood_DNA,H.dir,0,new_track_blood,bloodcolor) // Coming
 				new_track_blood -= 0.5
 				var/turf/simulated/from = get_step(H,reverse_direction(H.dir))
 				if(istype(from) && from)
-					from.AddTracks(/obj/effect/decal/cleanable/blood/trackss/footprints,blood_DNA,0,H.dir,new_track_blood) // Going
+					from.AddTracks(/obj/effect/decal/cleanable/blood/trackss/footprints,blood_DNA,0,H.dir,new_track_blood,bloodcolor) // Going
 					new_track_blood -= 0.5
 
-			if(H.shoes)
-				var/obj/item/clothing/shoes/S = H.shoes
+			if(S)
 				S.track_blood = new_track_blood
 			else
 				H.track_blood = new_track_blood
@@ -81,8 +80,9 @@
 			if(2) //lube
 				M.slip(0, 7, null, (STEP|SLIDE|GALOSHES_DONT_HELP))
 
-/turf/simulated/proc/AddTracks(var/typepath,var/bloodDNA,var/comingdir,var/goingdir,var/bloodamt)
+/turf/simulated/proc/AddTracks(var/typepath,var/bloodDNA,var/comingdir,var/goingdir,var/bloodamt,var/bloodcolor="#A10808")
+	world.log << "Called AddTracks for turf"
 	var/obj/effect/decal/cleanable/blood/trackss/tracks = locate(typepath) in src
 	if(!tracks)
 		tracks = new typepath(src)
-	tracks.AddTracks(bloodDNA,comingdir,goingdir, bloodamt)
+	tracks.AddTracks(bloodDNA,comingdir,goingdir,bloodamt, bloodcolor)

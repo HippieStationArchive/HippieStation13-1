@@ -817,7 +817,7 @@
 	icon_state = "sec"
 	icon_deny = "sec-deny"
 	req_access_txt = "1"
-	products = list(/obj/item/key/security = 5,/obj/item/device/megaphone = 3,/obj/item/weapon/restraints/handcuffs = 8,/obj/item/weapon/restraints/handcuffs/cable/zipties = 10,/obj/item/weapon/grenade/flashbang = 4,/obj/item/device/flash/handheld = 5,
+	products = list(/obj/item/key/security = 5,/obj/item/device/megaphone = 3,/obj/item/weapon/handcuffs = 8,/obj/item/weapon/handcuffs/cable/zipties = 10,/obj/item/weapon/grenade/flashbang = 4,/obj/item/device/flash/handheld = 5,
 					/obj/item/weapon/reagent_containers/food/snacks/donut/normal = 12,/obj/item/weapon/storage/box/evidence = 6,/obj/item/device/flashlight/seclite = 4)
 	contraband = list(/obj/item/clothing/glasses/sunglasses = 2,/obj/item/weapon/storage/fancy/donut_box = 2,/obj/item/clothing/head/helmet/alarm = 3,/obj/item/clothing/head/helmet/alarm/apeescape = 3)
 
