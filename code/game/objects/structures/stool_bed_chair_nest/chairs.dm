@@ -3,6 +3,7 @@
 	desc = "You sit in this. Either by will or force."
 	icon_state = "chair"
 	buckle_lying = 0
+	var/can_rotate = 0
 
 /obj/structure/stool/bed/chair/New()
 	..()
@@ -58,18 +59,19 @@
 		buckled_mob.dir = dir
 
 /obj/structure/stool/bed/chair/verb/rotate()
-	set name = "Rotate Chair"
-	set category = "Object"
-	set src in oview(1)
+	if(src.can_rotate)
+		set name = "Rotate Chair"
+		set category = "Object"
+		set src in oview(1)
 
-	if(config.ghost_interaction)
-		spin()
-	else
-		if(!usr || !isturf(usr.loc))
-			return
-		if(usr.stat || usr.restrained())
-			return
-		spin()
+		if(config.ghost_interaction)
+			spin()
+		else
+			if(!usr || !isturf(usr.loc))
+				return
+			if(usr.stat || usr.restrained())
+				return
+			spin()
 
 // /obj/structure/stool/bed/chair/MouseDrop_T(mob/M as mob, mob/user as mob)
 // 	if(!istype(M)) return

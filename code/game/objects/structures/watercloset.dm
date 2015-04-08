@@ -5,6 +5,7 @@
 	icon_state = "toilet00"
 	density = 0
 	anchored = 1
+	can_rotate = 0
 	var/open = 0			//if the lid is up
 	var/cistern = 0			//if the cistern bit is open
 	var/w_items = 0			//the combined w_class of all the items in the cistern
@@ -129,24 +130,26 @@
 	icon_state = "urinal"
 	density = 0
 	anchored = 1
-
+	var/cooldown = 0
 
 /obj/structure/urinal/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/weapon/grab))
-		var/obj/item/weapon/grab/G = I
-		if(!G.confirm())
-			return
-		if(isliving(G.affecting))
-			var/mob/living/GM = G.affecting
-			if(G.state >= GRAB_AGGRESSIVE)
-				if(GM.loc != get_turf(src))
-					user << "<span class='notice'>[GM.name] needs to on [src].</span>"
-					return
-				user.visible_message("<span class='danger'>[user] slams [GM] into [src]!</span>", "<span class='notice'>You slam [GM] into [src]!</span>")
-				GM.adjustBruteLoss(8) //This has no cooldown, yet nobody even knows it's possible. THIS IS INCREDIBLY ROBUST. Never add a cooldown for this pls
-				playsound(src.loc, 'sound/effects/bang.ogg', 50, 1)
-			else
-				user << "<span class='notice'>You need a tighter grip.</span>"
+	if(cooldown < world.time - 10) //1 seconds cooldown
+		if(istype(I, /obj/item/weapon/grab))
+			var/obj/item/weapon/grab/G = I
+			if(!G.confirm())
+				return
+			if(isliving(G.affecting))
+				var/mob/living/GM = G.affecting
+				if(G.state >= GRAB_AGGRESSIVE)
+					if(!in_range(src, GM))
+						user << "<span class='notice'>[GM] needs to be near [src].</span>"
+						return
+					user.visible_message("<span class='danger'>[user] slams [GM] into [src]!</span>", "<span class='notice'>You slam [GM] into [src]!</span>")
+					GM.adjustBruteLoss(8)
+					playsound(src.loc, 'sound/effects/bang.ogg', 50, 1)
+					cooldown = world.time
+				else
+					user << "<span class='notice'>You need a tighter grip.</span>"
 
 
 
@@ -302,10 +305,10 @@
 				if(washgloves)
 					H.clean_blood()//We call this proc on human because clean_blood will automatically clean either gloves or hands.
 					H.update_inv_gloves(0)
-				if(H.shoes && washshoes)
-					H.track_blood = 0 //No footprints
-					if(H.shoes.clean_blood())
-						H.update_inv_shoes(0)
+				if(washshoes)
+					H.clean_blood(1) //The number is a bool to clean shoes/feet.
+					H.update_inv_shoes(0)
+
 				if(washmask)
 					if(H.wear_mask && H.wear_mask.clean_blood())
 						H.update_inv_wear_mask(0)

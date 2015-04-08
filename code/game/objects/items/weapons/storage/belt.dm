@@ -95,7 +95,7 @@
 		/obj/item/weapon/grenade/flashbang,
 		/obj/item/weapon/grenade/chem_grenade/teargas,
 		/obj/item/weapon/reagent_containers/spray/pepper,
-		/obj/item/weapon/restraints/handcuffs,
+		/obj/item/weapon/handcuffs,
 		/obj/item/device/flash/handheld,
 		/obj/item/clothing/glasses,
 		/obj/item/ammo_casing/shotgun,

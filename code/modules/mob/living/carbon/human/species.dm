@@ -63,6 +63,10 @@
 	// species flags. these can be found in flags.dm
 	var/list/specflags = list()
 
+	var/blood_color = "#A10808" //Red.
+	var/flesh_color = "#FFC896" //Pink.
+	var/single_gib_type = /obj/effect/decal/cleanable/blood/gibs
+
 	var/attack_verb = "punch"	// punch-specific attack verb
 	var/sound/attack_sound = 'sound/weapons/punch1.ogg'
 	var/sound/miss_sound = 'sound/weapons/punchmiss.ogg'
@@ -417,13 +421,13 @@
 		if(slot_handcuffed)
 			if(H.handcuffed)
 				return 0
-			if(!istype(I, /obj/item/weapon/restraints/handcuffs))
+			if(!istype(I, /obj/item/weapon/handcuffs))
 				return 0
 			return 1
 		if(slot_legcuffed)
 			if(H.legcuffed)
 				return 0
-			if(!istype(I, /obj/item/weapon/restraints/legcuffs))
+			if(!istype(I, /obj/item/weapon/legcuffs))
 				return 0
 			return 1
 		if(slot_in_backpack)
@@ -977,16 +981,18 @@
 				H << "<span class='userdanger'>Your [hit_area] starts bleeding!</span>"
 			H.adjustBloodLoss(0.1, affecting)
 
-		if(prob(25 + (I.force * 2)))
-			if(affecting.status == ORGAN_ORGANIC)
+		if(affecting.status == ORGAN_ORGANIC)
+			if(prob(I.force + I.bleedchance)) //Check probability for adding blood on weapon
 				I.add_blood(H)    //Make the weapon bloody
-				if(prob(I.force * 2))    //blood spatter!
-					bloody = 1
+				if(prob(25 + I.force/2 + I.bleedchance)) //More RNG for blood on killer/victim/floors/walls
+					bloody = 1 //Success. The victim will now get bloodified based on hit_area and more RNG.
 					var/turf/location = H.loc
 					if(prob(50))	//Spawn a bloodsplatter effect
 						var/obj/effect/effect/splatter/B = new(H)
 						// B.add_blood_list(H)
+						B.basecolor = H.dna.species.blood_color
 						B.blood_source = H
+						B.update_icon()
 						var/n = rand(1,3)
 						var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
 						B.GoTo(targ, n)
@@ -1008,10 +1014,10 @@
 							else
 								M.add_blood(H)
 								M.update_inv_gloves()    //updates on-mob overlays for bloody hands and/or bloody gloves
-
-			switch(hit_area)
-				if("head")    //Harder to score a stun but if you do it lasts a bit longer
-					if(H.stat == CONSCIOUS && prob(I.force) && armor < 50)
+		switch(hit_area)
+			if("head")    //Harder to score a stun but if you do it lasts a bit longer
+				if(prob(25 + (I.force * 2))) //Original probability handled outside the hit_area check. Moved here due to blood updates.
+					if(H.stat == CONSCIOUS && prob(I.force) && armor < 50) //More RNG for scoring KO aiming at head.
 						H.visible_message("<span class='danger'>[H] has been knocked unconscious!</span>", \
 										"<span class='userdanger'>[H] has been knocked unconscious!</span>")
 						H.apply_effect(20, PARALYZE, armor)
@@ -1019,41 +1025,42 @@
 							ticker.mode.remove_revolutionary(H.mind)
 							ticker.mode.remove_gangster(H.mind)
 
-					if(bloody)    //Apply blood
-						if(H.wear_mask)
-							H.wear_mask.add_blood(H)
-							H.update_inv_wear_mask(0)
-						if(H.head)
-							H.head.add_blood(H)
-							H.update_inv_head(0)
-						if(H.glasses && prob(33))
-							H.glasses.add_blood(H)
-							H.update_inv_glasses(0)
+				if(bloody)    //Apply blood
+					if(H.wear_mask)
+						H.wear_mask.add_blood(H)
+						H.update_inv_wear_mask(0)
+					if(H.head)
+						H.head.add_blood(H)
+						H.update_inv_head(0)
+					if(H.glasses && prob(44))
+						H.glasses.add_blood(H)
+						H.update_inv_glasses(0)
 
-				if("chest")    //Easier to score a stun but lasts less time
+			if("chest")    //Easier to score a stun but lasts less time
+				if(prob(25 + (I.force * 2))) //Original probability handled outside the hit_area check. Moved here due to blood updates.
 					if(H.stat == CONSCIOUS && I.force && prob(I.force + 10))
 						H.visible_message("<span class='danger'>[H] has been knocked down!</span>", \
 										"<span class='userdanger'>[H] has been knocked down!</span>")
 						H.apply_effect(5, WEAKEN, armor)
 
-					if(bloody)
-						if(H.wear_suit)
-							H.wear_suit.add_blood(H)
-							H.update_inv_wear_suit(0)
-						if(H.w_uniform)
-							H.w_uniform.add_blood(H)
-							H.update_inv_w_uniform(0)
+				if(bloody)
+					if(H.wear_suit)
+						H.wear_suit.add_blood(H)
+						H.update_inv_wear_suit(0)
+					if(H.w_uniform)
+						H.w_uniform.add_blood(H)
+						H.update_inv_w_uniform(0)
 
-			if(bloody && prob(50)) //Relatively high chance to get some of the blood on your hands.
-				if (H.gloves)
-					var/obj/item/clothing/gloves/G = H.gloves
-					G.add_blood(H)
-				else
-					H.add_blood(H)
-					H.update_inv_gloves()    //updates on-mob overlays for bloody hands and/or bloody gloves
-			if(Iforce > 10 || Iforce >= 5 && prob(33))
-				H.forcesay(hit_appends)    //forcesay checks stat already.
-			return
+		if(bloody && prob(50)) //Relatively high chance to get some of the blood on your hands.
+			if (H.gloves)
+				var/obj/item/clothing/gloves/G = H.gloves
+				G.add_blood(H)
+			else
+				H.add_blood(H)
+				H.update_inv_gloves()    //updates on-mob overlays for bloody hands and/or bloody gloves
+		if(Iforce > 10 || Iforce >= 5 && prob(33))
+			H.forcesay(hit_appends)    //forcesay checks stat already.
+		return
 
 
 /datum/species/proc/attacked_by(var/obj/item/I, var/mob/living/user, var/def_zone, var/mob/living/carbon/human/H)
