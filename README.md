@@ -127,3 +127,5 @@ All code is under a GNU GPL v3 license (http://www.gnu.org/licenses/gpl.html),
 including tools unless their readme specifies otherwise.
 All content including icons and sound is under a Creative Commons 3.0 BY-SA
 license (http://creativecommons.org/licenses/by-sa/3.0/).
+
+All code after commit 896ce6b0b69a0faa7d9ea2bbebf9f7175935aa7a is AGPLv3
