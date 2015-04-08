@@ -30,7 +30,7 @@
 	mutant_bodyparts = list("tail", "snout")
 	default_color = "00FF00"
 	roundstart = 0
-	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
+	specflags = list(MUTCOLORS,EYECOLOR,LIPS,HAIR)
 	attack_verb = "slash"
 	attack_sound = 'sound/weapons/slash.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
@@ -82,7 +82,7 @@
 	say_mod = "beeps"
 	default_color = "00FF00"
 	roundstart = 0
-	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
+	specflags = list(MUTCOLORS,EYECOLOR,LIPS,HAIR)
 	attack_verb = "punch"
 	attack_sound = 'sound/weapons/slash.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
