@@ -24,8 +24,8 @@
 	var/teleport_cooldown = 0 // every index requires a bluespace crystal
 	var/list/power_options = list(5, 10, 20, 25, 30, 40, 50, 80)
 	var/teleporting = 0
-	var/starting_crystals =2
-	var/max_crystals = 4
+	var/starting_crystals = 1
+	var/max_crystals = 8
 	var/list/crystals = list()
 	var/obj/item/device/gps/inserted_gps
 
@@ -107,7 +107,7 @@
 		t += "<div class='statusDisplay'>"
 
 		for(var/i = 1; i <= power_options.len; i++)
-			if((crystals.len * 2) + telepad.efficiency  < i)
+			if(crystals.len + telepad.efficiency  < i)
 				t += "<span class='linkOff'>[power_options[i]]</span>"
 				continue
 			if(power == power_options[i])

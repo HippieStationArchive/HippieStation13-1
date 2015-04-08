@@ -14,7 +14,7 @@
 	var/broken = 0     //Is the flash burnt out?
 	var/last_used = 0 //last world.time it was used.
 	var/battery_panel = 0 //If it can be modified or not!
-	var/overcharged = 1 //If overcharged you set people on fire.. but the bulb burns out on use!
+	var/overcharged = 0 //If overcharged you set people on fire.. but the bulb burns out on use!
 
 
 /obj/item/device/flash/proc/clown_check(mob/user)
