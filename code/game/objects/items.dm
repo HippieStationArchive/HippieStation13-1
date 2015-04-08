@@ -375,21 +375,6 @@
 			M.sdisabilities |= BLIND
 	return
 
-/obj/item/clean_blood()
-	. = ..()
-	if(.)
-		if(initial(icon) && initial(icon_state))
-			var/index = blood_splatter_index()
-			var/icon/blood_splatter_icon = blood_splatter_icons[index]
-			if(blood_splatter_icon)
-				overlays -= blood_splatter_icon
-
-/obj/item/clothing/gloves/clean_blood()
-	. = ..()
-	if(.)
-		transfer_blood = 0
-		bloody_hands_mob = null
-
 /obj/item/singularity_pull(S, current_size)
 	spawn(0) //this is needed or multiple items will be thrown sequentially and not simultaneously
 		if(current_size >= STAGE_FOUR)

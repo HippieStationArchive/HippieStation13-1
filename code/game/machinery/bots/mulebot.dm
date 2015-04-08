@@ -927,6 +927,6 @@ obj/machinery/bot/mulebot/bot_reset()
 	s.set_up(3, 1, src)
 	s.start()
 
-	new /obj/effect/decal/cleanable/oil(loc)
+	new /obj/effect/decal/cleanable/blood/oil(loc)
 	unload(0)
 	qdel(src)
