@@ -62,6 +62,8 @@
 	if (bloody_hands <= 0)
 		if(G && G.transfer_blood <= 0)
 			verbs -= /mob/living/carbon/human/proc/bloody_doodle
+
+	if(blood_amt <= 0)
 		return
 		// if(src.client)
 		// 	src.client.verbs -= client/proc/bloody_doodle
