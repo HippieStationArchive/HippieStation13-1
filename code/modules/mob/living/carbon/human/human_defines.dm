@@ -50,3 +50,6 @@
 	var/xylophone = 0 //For the spoooooooky xylophone cooldown
 
 	var/gender_ambiguous = 0 //if something goes wrong during gender reassignment this generates a line in examine
+
+	var/list/martial_arts = list() // Contains each of a human's current martial arts
+	var/datum/martial_art/martial_art = null // The currently in-use martial art

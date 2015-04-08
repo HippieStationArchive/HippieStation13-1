@@ -140,6 +140,9 @@
 		/obj/item/clothing/mask/luchador
 		)
 
+	martial_art = /datum/martial_art/wrestling
+	martial_art_slot = slot_belt
+
 /obj/item/weapon/storage/belt/military
 	name = "military belt"
 	desc = "A syndicate belt designed to be used by boarding parties.  Its style is modeled after the hardsuits they wear."
