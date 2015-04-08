@@ -54,7 +54,7 @@
 	var/embedforce = 0 //set it to something for override
 
 	//Vars for things like baseball bats that do unique things with thrown items below
-	var/special_throw = 0 
+	var/special_throw = 0
 	var/specthrowsound = null //Special throw sound for above functionality
 	var/specthrowmsg = null
 	var/throwrange_mult = 1 //Multiply the range of thrown item?
@@ -62,6 +62,11 @@
 	var/specthrow_maxwclass = 2 //Max weight class of the thrown item
 	var/deflectItem = 0 //For deflecting items thrown at you when you have throw intent on
 	var/mult = 0 //For code to reset throwforce back to normal after it hits something
+
+	//Vars for use by martial arts
+	var/martial_art = null
+	var/martial_art_slot = null
+	var/martial_art_instance = null
 
 /obj/item/device
 	icon = 'icons/obj/device.dmi'
@@ -233,6 +238,14 @@
 	return
 
 /obj/item/proc/dropped(mob/user as mob)
+
+	if(ishuman(user) && martial_art_instance)
+		var/mob/living/carbon/human/H = user
+
+		H.martial_arts -= martial_art_instance
+
+		H.update_martial_art()
+
 	..()
 
 // called just as an item is picked up (loc is not yet changed)
@@ -257,6 +270,21 @@
 // for items that can be placed in multiple slots
 // note this isn't called during the initial dressing of a player
 /obj/item/proc/equipped(mob/user, slot)
+
+	if(ishuman(user) && martial_art)
+		var/mob/living/carbon/human/H = user
+
+		// Remove any current martial art we have
+		if(martial_art_instance)
+			H.martial_arts -= martial_art_instance
+
+		// If we're in the right slot, add our martial art
+		if(slot == martial_art_slot)
+			martial_art_instance = new martial_art
+			H.martial_arts += martial_art_instance
+
+		H.update_martial_art()
+
 	return
 
 //the mob M is attempting to equip this item into the slot passed through as 'slot'. Return 1 if it can do this and 0 if it can't.
