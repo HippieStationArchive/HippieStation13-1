@@ -659,15 +659,16 @@
 				H.nutrition_icon.icon_state = "nutrition4"
 
 	if(H.stamina_icon)
+		// world.log << "[H.getStaminaLoss()] Stamina Loss"
 		// H.stamina_icon.icon_state = "stamina[round(H.getStaminaLoss()/20)]" //Can't display "critstate" stamina loss with this sadly
 		switch(H.getStaminaLoss())
-			if(90 to INFINITY)        H.stamina_icon.icon_state = "stamina5"
-			if(80 to 90)            H.stamina_icon.icon_state = "stamina4"
-			if(60 to 80)            H.stamina_icon.icon_state = "stamina3"
-			if(40 to 60)            H.stamina_icon.icon_state = "stamina2"
-			if(20 to 40)            H.stamina_icon.icon_state = "stamina1"
-			if(0 to 20)                H.stamina_icon.icon_state = "stamina0"
-			else                    H.stamina_icon.icon_state = "stamina"
+			if(91 to INFINITY)		H.stamina_icon.icon_state = "stamina5"
+			if(81 to 90)			H.stamina_icon.icon_state = "stamina4"
+			if(61 to 80)			H.stamina_icon.icon_state = "stamina3"
+			if(41 to 60)			H.stamina_icon.icon_state = "stamina2"
+			if(1 to 40)				H.stamina_icon.icon_state = "stamina1"
+			if(-INFINITY to 0)		H.stamina_icon.icon_state = "stamina0"
+			else					H.stamina_icon.icon_state = "stamina"
 
 	if(H.pressure)
 		H.pressure.icon_state = "pressure[H.pressure_alert]"

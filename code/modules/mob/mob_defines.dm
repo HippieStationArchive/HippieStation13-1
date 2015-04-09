@@ -165,4 +165,4 @@
 	var/atom/movable/remote_control //Calls relaymove() to whatever it is
 
 	var/turf/listed_turf = null	//the current turf being examined in the stat panel
-	var/footstep = 0 //Footstep cooldown
+	var/canTableClimb = 0 //Can this mob climb tables? Drag+drop yourself on a table to climb.

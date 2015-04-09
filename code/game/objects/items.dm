@@ -64,9 +64,9 @@
 	var/mult = 0 //For code to reset throwforce back to normal after it hits something
 
 	//Vars for use by martial arts
-	var/martial_art = null
-	var/martial_art_slot = null
-	var/martial_art_instance = null
+	var/martial_art_slot = null //The slot the item must be equipped in for martial arts to happen
+	var/datum/martial_art/martial_art = null //The martial art that is given to user
+	var/datum/martial_art/martial_art_instance = null //The actual instance that is created
 
 /obj/item/device
 	icon = 'icons/obj/device.dmi'
@@ -238,12 +238,11 @@
 	return
 
 /obj/item/proc/dropped(mob/user as mob)
-
 	if(ishuman(user) && martial_art_instance)
 		var/mob/living/carbon/human/H = user
 
 		H.martial_arts -= martial_art_instance
-
+		martial_art_instance.onDropped(H)
 		H.update_martial_art()
 
 	..()
@@ -282,7 +281,7 @@
 		if(slot == martial_art_slot)
 			martial_art_instance = new martial_art
 			H.martial_arts += martial_art_instance
-
+			martial_art_instance.onEquip(H)
 		H.update_martial_art()
 
 	return
