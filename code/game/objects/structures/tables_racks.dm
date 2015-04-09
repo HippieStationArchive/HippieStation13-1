@@ -231,7 +231,13 @@
 		return 0
 
 /obj/structure/table/MouseDrop_T(atom/movable/O, mob/user)
-	if ((!( istype(O, /obj/item/weapon) ) || user.get_active_hand() != O))
+	if(user.canTableClimb && O == user && user.loc != src.loc)
+		user.visible_message("<span class='danger'>[user] starts climbing onto \the [src]!</span>", \
+									"<span class='userdanger'>[user] starts climbing onto \the [src]!</span>")
+		if(do_after(user, 30))
+			user.loc = src.loc
+		return
+	if(!istype(O, /obj/item/weapon) || user.get_active_hand() != O)
 		return
 	if(isrobot(user))
 		return

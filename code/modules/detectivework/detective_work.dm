@@ -11,7 +11,10 @@ atom/proc/add_fibers(mob/living/carbon/human/M)
 				if(istype(B))
 					if(istype(G.bloody_hands_mob)) //Fixes runtimes
 						B.add_blood_list(G.bloody_hands_mob)
-						B.basecolor = M.blood_color
+					else
+						B.blood_DNA |= G.blood_DNA.Copy()
+					B.basecolor = G.blood_color
+					B.update_icon() //Updates the color and stuff
 					var/blooddir = get_dir(M, src)
 					//Adjust pixel offset to make palmprints appear on the wall
 					B.pixel_x = blooddir & EAST ? 32 : (blooddir & WEST ? -32 : 0)
@@ -30,7 +33,10 @@ atom/proc/add_fibers(mob/living/carbon/human/M)
 			if(istype(B))
 				if(istype(M.bloody_hands_mob)) //Fixes runtimes
 					B.add_blood_list(M.bloody_hands_mob)
-					B.basecolor = M.blood_color
+				else
+					B.blood_DNA |= M.hand_blood_DNA.Copy()
+				B.basecolor = M.blood_color
+				B.update_icon() //Updates the color and stuff
 				var/blooddir = get_dir(M, src)
 				//Adjust pixel offset to make palmprints appear on the wall
 				B.pixel_x = blooddir & EAST ? 32 : (blooddir & WEST ? -32 : 0)
