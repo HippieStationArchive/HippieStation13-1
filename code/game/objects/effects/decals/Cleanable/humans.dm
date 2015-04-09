@@ -51,7 +51,7 @@
 /obj/effect/decal/cleanable/blood/Crossed(mob/living/carbon/human/perp)
 	if (!istype(perp))
 		return
-	if(amount < 1 || nostep)
+	if(amount <= 0 || nostep)
 		return
 
 	if(perp.shoes && !perp.buckled)//Adding blood to shoes
@@ -99,11 +99,22 @@
 			var/obj/item/clothing/gloves/G = user.gloves
 			G.transfer_blood += taken
 			G.blood_color = basecolor
+			//Jacked from blood.dm. I REALLY need to make add_blood_from_DNA.
+			//if we haven't made our blood_overlay already
+			if( !G.blood_overlay )
+				G.generate_blood_overlay()
+
+			//apply the blood-splatter overlay if it's not the same blood.
+			if(G.blood_overlay && G.blood_overlay.color != G.blood_color)
+				G.blood_overlay.color = G.blood_color
+				G.overlays.Cut() //This will ruin custom overlays...
+				G.update_icon() //So this is why you have your overlays made in update_icon
+				G.overlays += G.blood_overlay
 		else
 			user << "<span class='notice'>You get some of \the [src] on your hands.</span>"
 			if (!user.blood_DNA)
 				user.blood_DNA = list()
-			user.blood_DNA |= blood_DNA.Copy()
+			user.hand_blood_DNA |= blood_DNA.Copy()
 			user.bloody_hands += taken
 			user.hand_blood_color = basecolor
 

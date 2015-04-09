@@ -6,6 +6,7 @@
 	basecolor="#232630"
 	fleshcolor="#FFFFFF"
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6", "gib7")
+	amount = 0 //Current issues: counts as blood, shows up as "blood-stained" for examine text. Might have to seperate it from blood type.
 
 /obj/effect/decal/cleanable/blood/gibs/robot/update_icon()
 	color = "#FFFFFF"

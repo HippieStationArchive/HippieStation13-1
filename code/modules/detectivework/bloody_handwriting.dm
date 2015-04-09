@@ -135,8 +135,10 @@
 		W.info = message
 		W.desc = "It's written in blood..."
 		W.add_fingerprint(src)
-		// W.add_blood_list(bloodmob)
-		W.blood_DNA |= transferDNA.Copy()
+		if(bloodmob)
+			W.add_blood_list(bloodmob)
+		else
+			W.blood_DNA |= transferDNA.Copy()
 
 		if(InCritical())
 			if(stat == UNCONSCIOUS)

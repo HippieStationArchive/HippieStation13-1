@@ -3,7 +3,7 @@
 	var/streak = ""
 	var/max_streak_length = 6
 	var/current_target = null
-	var/priority = 0
+	var/priority = 0 //Having multiple same-priority martial arts on same guy is not very good, so try to avoid that.
 
 /datum/martial_art/proc/disarm_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
 	return 0
@@ -12,6 +12,12 @@
 	return 0
 
 /datum/martial_art/proc/grab_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	return 0
+
+/datum/martial_art/proc/onEquip(var/mob/living/carbon/human/H) //Called when martial art was "equipped". Used for wrassling belt.
+	return 0
+
+/datum/martial_art/proc/onDropped(var/mob/living/carbon/human/H) //Called when martial art was "dropped". Used for wrassling belt.
 	return 0
 
 /datum/martial_art/proc/add_to_streak(var/element,var/mob/living/carbon/human/D)
@@ -26,7 +32,6 @@
 /datum/martial_art/proc/basic_hit(var/mob/living/carbon/human/A,var/mob/living/carbon/human/D, var/damage = rand(0,9))
 	add_logs(A, D, "punched")
 	A.do_attack_animation(D)
-
 	var/atk_verb = "punch"
 	if(D.lying)
 		atk_verb = "kick"
