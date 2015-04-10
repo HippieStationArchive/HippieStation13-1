@@ -51,7 +51,6 @@ You have four available combos to perform:<BR>
 	if(cooldown + 100 < world.time)
 		cooldown = world.time
 		streak = element //Set the streak to the element to clear out our streak without fucking up the new combo about to be performed.
-		world.log << "C-C-COMBO BREAKER!"
 	else
 		streak = streak+element
 	if(length(streak) > max_streak_length)
