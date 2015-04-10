@@ -232,8 +232,8 @@
 
 /obj/structure/table/MouseDrop_T(atom/movable/O, mob/user)
 	if(user.canTableClimb && O == user && user.loc != src.loc)
-		user.visible_message("<span class='danger'>[user] starts climbing onto \the [src]!</span>", \
-									"<span class='userdanger'>[user] starts climbing onto \the [src]!</span>")
+		user.visible_message("<span class='danger'>[user] attemtps to climb on \the [src]!</span>", \
+									"<span class='userdanger'>[user] attemtps to climb on \the [src]!</span>")
 		if(do_after(user, 30))
 			user.loc = src.loc
 		return
