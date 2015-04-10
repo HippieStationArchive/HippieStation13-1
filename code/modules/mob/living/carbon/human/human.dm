@@ -254,7 +254,8 @@
 // called when something steps onto a human
 // handles mulebot and fire spreading right now
 /mob/living/carbon/human/Crossed(var/atom/movable/AM)
-	spreadFire(AM)
+	if(prob(30))
+		spreadFire(AM)
 
 	var/obj/machinery/bot/mulebot/MB = AM
 	if(istype(MB))
