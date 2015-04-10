@@ -1,4 +1,5 @@
 var/global/datum/controller/occupations/job_master
+// var/global/max_gimmick_jobs = 3 //Max amount of gimmick jobs per round. TODO: Make this a pref
 
 /datum/controller/occupations
 		//List of all jobs
@@ -21,10 +22,35 @@ var/global/datum/controller/occupations/job_master
 		if(!job)	continue
 		if(job.faction != faction)	continue
 		if(!job.config_check()) continue
+		// if(istype(J, /datum/job/gimmick)) continue //Gimmick jobs are handled in seperate proc
 		occupations += job
 
 	return 1
 
+// /datum/controller/occupations/proc/LoadGimmickJobs(var/faction = "Station")
+// 	if(!occupations) occupations = list()
+// 	var/list/gimmick_jobs = typesof(/datum/job/gimmick)
+// 	if(!gimmick_jobs.len)
+// 		world << "<span class='userdanger'>Error setting up gimmick jobs, no job datums found</span>"
+// 		return 0
+
+// 	var/added_jobs = 0 //used to break out of while loop
+// 	var/limit = min(gimmick_jobs.len, max_gimmick_jobs) //Makes sure we're not stuck in inifnite loop
+// 	while(added_jobs <= limit)
+// 		var/E = pick(gimmick_jobs)
+// 		if(istype(E, /datum/job/gimmick))
+// 			var/datum/job/gimmick/J = E
+// 			if(J.faction != faction)
+// 				gimmick_jobs.Remove(J)
+// 				continue
+// 			if(!J.config_check())
+// 				gimmick_jobs.Remove(J)
+// 				continue
+// 			occupations += J
+// 		else
+// 			world << "<span class='userdanger'>ERROR: [E] is not a gimmick job type!</span>"
+// 			gimmick_jobs.Remove(E)
+// 			continue
 
 /datum/controller/occupations/proc/Debug(var/text)
 	if(!Debug2)	return 0
@@ -383,7 +409,6 @@ var/global/datum/controller/occupations/job_master
 				J.total_positions = 0
 
 	return 1
-
 
 /datum/controller/occupations/proc/HandleFeedbackGathering()
 	for(var/datum/job/job in occupations)
