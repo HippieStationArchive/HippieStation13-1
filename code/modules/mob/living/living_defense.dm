@@ -144,8 +144,9 @@ proc/vol_by_throwforce_and_or_w_class(var/obj/item/I)
 	var/L_old_on_fire = L.on_fire
 
 	if(on_fire) //Only spread fire stacks if we're on fire
-		fire_stacks /= 2
-		L.fire_stacks += fire_stacks
+		if(!issilicon(L)) //Don't light borgs on fire unless they have firestacks
+			fire_stacks /= 2
+			L.fire_stacks += fire_stacks
 		L.IgniteMob()
 
 	if(L_old_on_fire) //Only ignite us and gain their stacks if they were onfire before we bumped them

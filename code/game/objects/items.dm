@@ -244,8 +244,7 @@
 		H.martial_arts -= martial_art_instance
 		martial_art_instance.onDropped(H)
 		H.update_martial_art()
-
-	..()
+	..() //...but... we define the proc here.
 
 // called just as an item is picked up (loc is not yet changed)
 /obj/item/proc/pickup(mob/user)

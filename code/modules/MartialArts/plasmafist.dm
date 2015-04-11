@@ -22,12 +22,12 @@
 	user << "<span class='notice'>Check your memory to remember these techniques again.</span>"
 	if(H.mind)
 		H.mind.store_memory(\
-{"<HR>You have learned the arcane arts of <B>PLASMA FIST!</B>
-You have four available combos to perform:
-<B>TORNADO COMBO!</B> Harm, Harm, Disarm (HHD)
-<B>THROWBACK PUNCH!</B> Disarm, Harm, Disarm (DHD)
-<B>KNOCKOUT KICK!</B> Grab, Grab, Harm (GGH)
-<B>THE ULTIMATE PLASMA FIST TECHNIQUE!</B> Grab, Harm, Disarm, Disarm, Disarm (GHDDD)
+{"<HR>You have learned the arcane arts of <B>PLASMA FIST!</B><BR>
+You have four available combos to perform:<BR>
+<B>TORNADO COMBO!</B><BR>  Harm, Harm, Disarm (HHD)<BR>
+<B>THROWBACK PUNCH!</B><BR>  Disarm, Harm, Disarm (DHD)<BR>
+<B>KNOCKOUT KICK!</B><BR>  Grab, Grab, Harm (GGH)<BR>
+<B>THE ULTIMATE PLASMA FIST TECHNIQUE!</B><BR>  Grab, Harm, Disarm, Disarm, Disarm (GHDDD)
 <HR>"}\
 )
 	used = 1
@@ -42,27 +42,40 @@ You have four available combos to perform:
 	name = "Plasma Fist"
 	priority = 8
 	max_streak_length = 7 //Increase it with longer combos added
-	var/mob/living/carbon/human/lastmob //This is used for localized streaks. Streak will get cancelled if you switch victims.
+	var/cooldown = 0
+
+/datum/martial_art/plasma_fist/add_to_streak(var/element,var/mob/living/carbon/human/D)
+	if(D != current_target) //Is this functioning right?
+		current_target = D
+		streak = ""
+	if(cooldown + 100 < world.time)
+		cooldown = world.time
+		streak = element //Set the streak to the element to clear out our streak without fucking up the new combo about to be performed.
+	else
+		streak = streak+element
+	if(length(streak) > max_streak_length)
+		streak = copytext(streak,2)
+	return
 
 /datum/martial_art/plasma_fist/proc/check_streak(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
-	//If you're attacked by someone else with plasma fist your streak is broken. Must be fixed before uncommenting
-	// if(lastmob != D) //Streaks should only be on the same mob.
-	// 	streak = "" //This cancels out the combos too
-	// lastmob = D //Assign the new lastmob
 	if(findtext(streak,TORNADO_COMBO))
 		streak = ""
+		cooldown = world.time
 		Tornado(A,D)
 		return 1
 	if(findtext(streak,THROWBACK_COMBO))
 		streak = ""
+		cooldown = world.time
 		Throwback(A,D)
 		return 1
 	if(findtext(streak,KNOCKOUT_COMBO))
 		streak = ""
+		cooldown = world.time
 		Knockout(A,D)
 		return 1
 	if(findtext(streak,PLASMA_COMBO))
 		streak = ""
+		cooldown = world.time
 		Plasma(A,D)
 		return 1
 	return 0
@@ -100,7 +113,7 @@ You have four available combos to perform:
 								"<span class='userdanger'>[A] has knocked down [D] with a kick!</span>")
 	playsound(D.loc, 'sound/weapons/punch1.ogg', 50, 1, -1)
 	D.adjustBruteLoss(17) //Pretty hefty damage.
-	D.Paralyse(2) //You got kicked so hard you lost consciousness!
+	D.Weaken(1.5) //Approx. 3 seconds weaken. Due to the nature of ticks, however, it's as good as RNG.
 	var/atom/throw_target = get_edge_target_turf(D, get_dir(D, get_step_away(D, A)))
 	D.throw_at(throw_target, 2, 2)
 	A.say("PLASMA KICK!")
@@ -124,6 +137,7 @@ You have four available combos to perform:
 	return
 
 /datum/martial_art/plasma_fist/harm_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	if(A == D) return //You shouldn't be able to attack yourself
 	add_to_streak("H")
 	if(check_streak(A,D))
 		return 1
@@ -132,6 +146,7 @@ You have four available combos to perform:
 	return 1
 
 /datum/martial_art/plasma_fist/disarm_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	if(A == D) return //You shouldn't be able to attack yourself
 	add_to_streak("D")
 	if(check_streak(A,D))
 		return 1
@@ -140,6 +155,7 @@ You have four available combos to perform:
 	return 1
 
 /datum/martial_art/plasma_fist/grab_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	if(A == D) return //You shouldn't be able to attack yourself
 	add_to_streak("G")
 	if(check_streak(A,D))
 		return 1

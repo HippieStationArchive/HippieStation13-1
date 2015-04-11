@@ -1,4 +1,4 @@
-/turf/proc/turf_animation(var/anim_icon,var/anim_state,var/anim_x=0, var/anim_y=0, var/anim_layer=MOB_LAYER+1, var/anim_sound=null, var/anim_color=null)
+/turf/proc/turf_animation(var/anim_icon,var/anim_state,var/anim_x=0, var/anim_y=0, var/anim_layer=MOB_LAYER+1, var/anim_sound=null, var/anim_time=10, var/anim_color=null)
 	if(!c_animation)//spamming turf animations can have unintended effects, such as the overlays never disapearing. hence this check.
 		if(anim_sound)
 			playsound(src, anim_sound, 50, 1)
@@ -15,7 +15,8 @@
 		if(anim_color)
 			c_animation.color = anim_color
 		flick("turf_animation",c_animation)
-		spawn(10)
+		if(anim_time < 0) anim_time = 0
+		spawn(anim_time)
 			if(c_animation)
 				c_animation.Destroy()
 				returnToPool(c_animation)

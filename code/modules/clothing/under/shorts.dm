@@ -6,6 +6,13 @@
 	fitted = 0
 	can_adjust = 0
 
+/obj/item/clothing/under/shorts/New()
+	..()
+	if(!icon_state)
+		var/colour = pick("redshorts", "greenshorts", "blackshorts", "greyshorts")
+		icon_state = colour
+		item_color = colour
+
 /obj/item/clothing/under/shorts/red
 	icon_state = "redshorts"
 	item_color = "redshorts"

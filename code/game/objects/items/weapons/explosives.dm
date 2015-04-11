@@ -38,6 +38,9 @@
 	target = user
 	message_admins("[key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) suicided with [src.name] at ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
 	explode(get_turf(user))
+	if(istype(user, /mob/living))
+		var/mob/living/L = user
+		L.gib() //Since we'll be still alive when going boom, let's just gib ourselves here
 	return .
 
 /obj/item/weapon/c4/attackby(var/obj/item/I, var/mob/user)
@@ -91,6 +94,10 @@
 	explosion(location,0,0,3)
 	if(target)
 		target.overlays -= image_overlay
+		if(istype(target, /mob/living))
+			var/mob/living/L = target
+			if(L.stat == DEAD)
+				L.gib()
 	qdel(src)
 
 /obj/item/weapon/c4/attack(mob/M as mob, mob/user as mob, def_zone)

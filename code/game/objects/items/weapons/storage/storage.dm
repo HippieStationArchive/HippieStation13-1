@@ -335,8 +335,9 @@
 	return 1
 
 
-/obj/item/weapon/storage/dropped(mob/user)
-	return
+// Honest-to-goodness question here. WHY IN THE FUCK'S NAME WERE YOU OVERWRITING DROPPED PROC HERE!?
+// /obj/item/weapon/storage/dropped(mob/user)
+// 	return
 
 /obj/item/weapon/storage/attack_hand(mob/user)
 	playsound(loc, "rustle", 50, 1, -5)

@@ -1,7 +1,7 @@
 ##Hippie Station 13
 
-[![Build Status](https://travis-ci.org/tgstation/-tg-station.png)](https://travis-ci.org/tgstation/-tg-station)
 
+[![Build Status](https://travis-ci.org/HippieStationCode/HippieStation13.svg?branch=master)](https://travis-ci.org/HippieStationCode/HippieStation13)
 
 **Website:** http://www.tgstation13.org <BR>
 **Code:** https://github.com/tgstation/-tg-station <BR>
