@@ -1,0 +1,69 @@
+"a" = (/turf/space,/area/space)
+"b" = (/turf/simulated/shuttle/wall,/area/centcom/control)
+"c" = (/turf/space,/area/centcom/control)
+"d" = (/turf/simulated/pool/poolborder,/area/centcom/control)
+"e" = (/obj/machinery/poolcontroller,/turf/simulated/pool/poolborder,/area/centcom/control)
+"f" = (/turf/simulated/floor/plasteel,/area/centcom/control)
+"g" = (/turf/simulated/pool/water{icon_state = "sides"},/area/centcom/control)
+"h" = (/turf/simulated/floor/plasteel{tag = "icon-greenbluefull"; icon_state = "greenbluefull"; dir = 2},/obj/machinery/pooldrain{pixel_y = 6},/turf/simulated/pool/water{icon_state = "sides"},/area/centcom/control)
+"i" = (/turf/simulated/pool/water{icon_state = "sides2"},/area/centcom/control)
+"j" = (/turf/simulated/floor/plasteel{tag = "icon-greenbluefull"; icon_state = "greenbluefull"; dir = 2},/turf/simulated/pool/water,/area/centcom/control)
+"k" = (/turf/simulated/floor/plasteel{tag = "icon-greenbluefull"; icon_state = "greenbluefull"; dir = 2},/obj/structure/pool/ladder{dir = 4},/turf/simulated/pool/water,/area/centcom/control)
+"l" = (/turf/simulated/floor/plasteel{tag = "icon-greenbluefull"; icon_state = "greenbluefull"; dir = 2},/obj/structure/pool/Lboard,/turf/simulated/pool/water,/area/centcom/control)
+"m" = (/obj/structure/pool/Rboard,/turf/simulated/pool/poolborder,/area/centcom/control)
+"n" = (/obj/item/weapon/reagent_containers/glass/beaker,/turf/simulated/floor/plasteel,/area/centcom/control)
+"o" = (/obj/item/weapon/twohanded/poolnoodle/red,/turf/simulated/floor/plasteel,/area/centcom/control)
+"p" = (/obj/item/weapon/twohanded/poolnoodle/yellow,/turf/simulated/floor/plasteel,/area/centcom/control)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabbbbbbbbbbbbcccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabddddeddddfbddddeddddaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabdghgggggdfbdiiiiiiidaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabdjjjjjjjdfbdjjjjjjjdaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabdkjjjjjlmfbdkjjjjjlmaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabdjjjjjjjdfbdjjjjjjjdaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabdjjjjjjjdfbdjjjjjjjdaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabdddddddddfbdddddddddaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabfnofpfffffbcccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabffffffffffbcccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabffffffffffbcccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabffffffffffbcccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabffffffffffbcccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabffffffffffbcccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaabbbbbbbbbbbbcccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaacccccccccccccccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaacccccccccccccccccccccaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+"}

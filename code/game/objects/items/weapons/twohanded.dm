@@ -307,3 +307,54 @@ obj/item/weapon/twohanded/
 	icon_state = "spearglass[wielded]"
 	return
 
+/obj/item/weapon/twohanded/poolnoodle
+	icon_state = "noodle"
+	name = "Pool noodle"
+	desc = "A strange, bulky, bendable toy that can annoy people."
+	force = 0
+	w_class = 2.0
+	force_unwielded = 0
+	force_wielded = 1 // with two hands you can start annoying a lot more.
+	throwforce = 1
+	throw_speed = 10 //weeee
+	flags = NOSHIELD
+	item_color = "green"
+	hitsound = 'sound/weapons/tap.ogg'
+	attack_verb = list("flogged", "poked", "jabbed", "slapped", "annoyed")
+	wieldsound = 'sound/weapons/tap.ogg'
+	unwieldsound = 'sound/weapons/tap.ogg'
+	bleedcap = 0 //No bleeding mang.
+	bleedchance = 0 //NOPE
+	embedchance = 0 //NONE but would be hillarious
+
+/obj/item/weapon/twohanded/poolnoodle/attack(target as mob, mob/living/user as mob)
+	..()
+	if((wielded) && prob(50))
+		spawn(0)
+			for(var/i in list(1,2,4,8,4,2,1,2,4,8,4,2))
+				user.dir = i
+				sleep(1)
+
+
+/obj/item/weapon/twohanded/poolnoodle/update_icon()
+	if(wielded)
+		icon_state = "noodle[item_color]"
+	else
+		icon_state = "noodle[item_color]"
+	clean_blood()//blood overlays get weird otherwise, because the sprite changes.
+	return
+
+/obj/item/weapon/twohanded/poolnoodle/red
+	New()
+		icon_state = "noodlered"
+		item_color = "red"
+
+/obj/item/weapon/twohanded/poolnoodle/blue
+	New()
+		icon_state = "noodleblue"
+		item_color = "blue"
+
+/obj/item/weapon/twohanded/poolnoodle/yellow
+	New()
+		icon_state = "noodleyellow"
+		item_color = "yellow"

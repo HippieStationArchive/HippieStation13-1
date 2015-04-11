@@ -28,9 +28,11 @@
 		/obj/structure/safe,
 		/obj/machinery/disposal,
 		/obj/machinery/hydroponics,
+		/obj/machinery/poolcontroller,
 		/obj/machinery/biogenerator,
 		/mob/living/simple_animal/cow,
-		/mob/living/simple_animal/hostile/retaliate/goat
+		/mob/living/simple_animal/hostile/retaliate/goat,
+		/mob/living/simple_animal/hostile/livingplush,
 	)
 
 // /obj/item/weapon/reagent_containers/glass/examine()
@@ -62,6 +64,7 @@
 		reagents.reaction(target, TOUCH)
 		reagents.clear_reagents()
 		return
+
 
 	else if(istype(target, /obj/structure/reagent_dispensers)) //A dispenser. Transfer FROM it TO us.
 
@@ -99,11 +102,22 @@
 	else if(istype(target, /obj/item/clothing/suit/space/space_ninja))
 		return
 
+	else if(istype(target, /turf/simulated/pool/water))
+		if(reagents.total_volume >= 1)
+			user << "<span class='notice'>Doing that would be useless.</span>"
+		else
+			user << "<span class='notice'>You plunge [src] in the [target].</span>"
+			reagents.clear_reagents()
+			reagents.add_reagent("water", 45)
+			reagents.add_reagent("chlorine", 5)
+			return
+
+//		else if(istype(target, /turf/simulated/pool/water))
+
 	else if(reagents.total_volume)
 		user << "<span class='notice'>You splash the solution onto [target].</span>"
 		reagents.reaction(target, TOUCH)
 		reagents.clear_reagents()
-
 
 /obj/item/weapon/reagent_containers/glass/beaker
 	name = "beaker"
