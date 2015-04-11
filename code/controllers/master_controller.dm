@@ -57,6 +57,7 @@ var/global/pipe_processing_killed = 0
 		job_master = new /datum/controller/occupations()
 		job_master.SetupOccupations()
 		job_master.LoadJobs("config/jobs.txt")
+		//job_master.LoadGimmickJobs()
 		world << "<span class='userdanger'>Job setup complete</span>"
 
 	if(!syndicate_code_phrase)		syndicate_code_phrase	= generate_code_phrase()
