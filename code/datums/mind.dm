@@ -275,6 +275,25 @@
 			text += "head|loyal|<b>EMPLOYEE</b>|<a href='?src=\ref[src];revolution=headrev'>headrev</a>|<a href='?src=\ref[src];revolution=rev'>rev</a>"
 		sections["revolution"] = text
 
+		/** SHADOWLING **/
+		text = "shadowling"
+		if(ticker.mode.config_tag == "shadowling")
+			text = uppertext(text)
+		text = "<i><b>[text]</b></i>: "
+		if(src in ticker.mode.shadows)
+			text += "<b>SHADOWLING</b>|thrall|<a href='?src=\ref[src];shadowling=clear'>human</a>"
+		else if(src in ticker.mode.thralls)
+			text += "shadowling|<b>THRALL</b>|<a href='?src=\ref[src];shadowling=clear'>human</a>"
+		else
+			text += "<a href='?src=\ref[src];shadowling=shadowling'>shadowling</a>|<a href='?src=\ref[src];shadowling=thrall'>thrall</a>|<b>HUMAN</b>"
+
+		if(current && current.client && current.client.prefs.be_special & BE_SHADOWLING)
+			text += "|Enabled in Prefs"
+		else
+			text += "|Disabled in Prefs"
+
+		sections["shadowling"] = text
+
 		/** GANG ***/
 		text = "gang"
 		if (ticker.mode.config_tag=="gang")
