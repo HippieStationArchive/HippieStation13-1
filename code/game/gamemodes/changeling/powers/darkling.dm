@@ -186,6 +186,7 @@
 		hardset_dna(target, null, null, null, null, /datum/species/human/thrall)
 		var/datum/mind/thrall_mind = target.mind
 		thrall_mind.spell_list += new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind //Lets thralls hive-chat
+		ticker.mode.update_ling_icons_added(target.mind)
 
 
 

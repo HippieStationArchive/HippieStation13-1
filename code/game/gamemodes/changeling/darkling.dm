@@ -108,6 +108,7 @@ Made by Xhuis
 		finalize_shadowling(shadow)
 		process_shadow_objectives(shadow)
 		//give_shadowling_abilities(shadow)
+		update_ling_icons_added(shadow)
 	..()
 	return
 
@@ -352,3 +353,14 @@ Made by Xhuis
 		All around you is endless blackness. After you see something moving, you realize it isn't entirely lifeless.</font></span>" //A bit of spooking before they die
 	playsound(loc, 'sound/effects/EMPulse.ogg', 25, 1)
 	qdel(td)
+
+// Hud datums for shadowlings and thralls
+/datum/game_mode/proc/update_ling_icons_added(datum/mind/ling_mind)
+	var/datum/atom_hud/antag/linghud = huds[ANTAG_HUD_SHADOWLINGS]
+	linghud.join_hud(ling_mind.current)
+	set_antag_hud(ling_mind.current, (ling_mind in shadows) ? "shadowling" : (ling_mind in thralls) ? "thrall" : null)
+
+/datum/game_mode/proc/update_ling_icons_removed(datum/mind/ling_mind)
+	var/datum/atom_hud/antag/linghud = huds[ANTAG_HUD_SHADOWLINGS]
+	linghud.leave_hud(ling_mind.current)
+	set_antag_hud(ling_mind.current, null)

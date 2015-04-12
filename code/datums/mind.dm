@@ -1017,6 +1017,7 @@
 					current << "<span class='userdanger'>You have been brainwashed! You are no longer a thrall!</span>"
 					message_admins("[key_name_admin(usr)] has de-thrall'ed [current].")
 					log_admin("[key_name(usr)] has de-thrall'ed [current].")
+				ticker.mode.update_ling_icons_removed(src)
 			if("shadowling")
 				if(!ishuman(current))
 					usr << "<span class='warning'>This only works on humans!</span>"
@@ -1026,9 +1027,10 @@
 				current << "<span class='deadsay'><b>You notice a brightening around you. No, it isn't that. The shadows grow, darken, swirl. The darkness has a new welcome for you, and you realize with a \
 				start that you can't be human. No, you are a shadowling, a harbringer of the shadows! Your alien abilities have been unlocked from within, and you may both commune with your allies and use \
 				a chrysalis to reveal your true form. You are to ascend at all costs.</b></span>"
-				src.spell_list += new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind
-				src.spell_list += new /obj/effect/proc_holder/spell/targeted/enthrall
-				current.verbs += /mob/living/carbon/human/proc/shadowling_hatch
+				ticker.mode.greet_shadow(src)
+				ticker.mode.finalize_shadowling(src)
+				ticker.mode.process_shadow_objectives(src)
+				ticker.mode.update_ling_icons_added(src)
 			if("thrall")
 				if(!ishuman(current))
 					usr << "<span class='warning'>This only works on humans!</span>"
@@ -1041,6 +1043,7 @@
 				message_admins("[key_name_admin(usr)] has thrall'ed [current].")
 				log_admin("[key_name(usr)] has thrall'ed [current].")
 				src.spell_list += new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind
+				ticker.mode.update_ling_icons_added(src)
 	else if (href_list["monkey"])
 		var/mob/living/L = current
 		if (L.notransform)
