@@ -232,10 +232,10 @@
 
 /obj/structure/table/MouseDrop_T(atom/movable/O, mob/user)
 	if(user.canTableClimb && O == user && user.loc != src.loc)
-		user.visible_message("<span class='danger'>[user] attemtps to climb on \the [src]!</span>", \
-									"<span class='userdanger'>[user] attemtps to climb on \the [src]!</span>")
+		user.visible_message("<span class='danger'>[user] attempts to climb on \the [src]!</span>", \
+									"<span class='userdanger'>[user] attempts to climb on \the [src]!</span>")
 		if(do_after(user, 30))
-			user.loc = src.loc
+			user.forceMove(src.loc)
 		return
 	if(!istype(O, /obj/item/weapon) || user.get_active_hand() != O)
 		return
@@ -253,6 +253,11 @@
 		if(G.affecting.buckled)
 			user << "<span class='warning'>[G.affecting] is buckled to [G.affecting.buckled]!</span>"
 			return 0
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			var/datum/martial_art/attacker_style = H.martial_art
+			if(attacker_style && attacker_style.tablepush_act(user, G.affecting, G, src))
+				return 0
 		if(G.state < GRAB_AGGRESSIVE)
 			user << "<span class='warning'>You need a better grip to do that!</span>"
 			return 0

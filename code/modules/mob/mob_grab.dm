@@ -12,8 +12,6 @@
 	var/allow_upgrade = 1
 	var/last_upgrade = 0
 
-	var/addSlowdown = 0 //How much slowdown is applied to grabbed mob?
-
 	layer = 21
 	item_state = "nothing"
 	w_class = 5.0
@@ -127,7 +125,6 @@
 			return
 		assailant.visible_message("<span class='warning'>[assailant] has grabbed [affecting] aggressively (now hands)!</span>")
 		state = GRAB_AGGRESSIVE
-		addSlowdown = 1 //Aggro grab adds to slowdown
 	else
 		if(state < GRAB_NECK)
 			if(isslime(affecting))
@@ -141,9 +138,7 @@
 			add_logs(assailant, affecting, "neck-grabbed")
 			icon_state = "disarm/kill"
 			name = "disarm/kill"
-			addSlowdown = 1
 		else
-			addSlowdown = 1
 			if(state < GRAB_UPGRADING)
 				assailant.visible_message("<span class='danger'>[assailant] starts to tighten \his grip on [affecting]'s neck!</span>")
 				icon_state = "disarm/kill1"
