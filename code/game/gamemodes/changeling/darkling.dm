@@ -132,17 +132,25 @@ Made by Xhuis
 	var/mob/living/carbon/human/S = shadow_mind.current
 	shadow_mind.current.verbs += /mob/living/carbon/human/proc/shadowling_hatch
 	shadow_mind.spell_list += new /obj/effect/proc_holder/spell/targeted/enthrall
-	shadow_mind.spell_list += new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind
-	if(shadow_mind.assigned_role == "Clown")
-		S << "<span class='notice'>Your alien nature has allowed you to overcome your clownishness.</span>"
-		S.mutations.Remove(CLUMSY)
+	spawn(0)
+		shadow_mind.spell_list += new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind
+		update_ling_icons_added(shadow_mind)
+		if(shadow_mind.assigned_role == "Clown")
+			S << "<span class='notice'>Your alien nature has allowed you to overcome your clownishness.</span>"
+			S.mutations.Remove(CLUMSY)
 
 /datum/game_mode/proc/add_thrall(datum/mind/new_thrall_mind)
 	if (!istype(new_thrall_mind))
 		return 0
 	if(!(new_thrall_mind in thralls))
+		update_ling_icons_added(new_thrall_mind)
 		thralls += new_thrall_mind
 		new_thrall_mind.current.attack_log += "\[[time_stamp()]\] <span class='danger'>Became a thrall</span>"
+		new_thrall_mind.memory += "<b>The Shadowlings' Objectives:</b>: Ascend to your true form by use of the Ascendance ability. \
+		This may only be used with [required_thralls] collective thralls, while hatched, and is unlocked with the Collective Mind ability."
+		new_thrall_mind.current << "<b>The objectives of your shadowlings:</b>: Ascend to your true form by use of the Ascendance ability. \
+		This may only be used with [required_thralls] collective thralls, while hatched, and is unlocked with the Collective Mind ability."
+		new_thrall_mind.spell_list += new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind
 		return 1
 
 

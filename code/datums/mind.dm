@@ -1035,15 +1035,13 @@
 				if(!ishuman(current))
 					usr << "<span class='warning'>This only works on humans!</span>"
 					return
-				ticker.mode.add_thrall(src)
 				special_role = "thrall"
 				current << "<span class='deadsay'>All at once it becomes clear to you. Where others see darkness, you see an ally. You realize that the shadows are not dead and dark as one would think, but \
 				living, and breathing, and <b>eating</b>. Their children, the Shadowlings, are to be obeyed and protected at all costs.</span>"
 				current << "<span class='danger'>You may use the Hivemind Commune ability to communicate with your fellow enlightened ones.</span>"
+				ticker.mode.add_thrall(src)
 				message_admins("[key_name_admin(usr)] has thrall'ed [current].")
 				log_admin("[key_name(usr)] has thrall'ed [current].")
-				src.spell_list += new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind
-				ticker.mode.update_ling_icons_added(src)
 	else if (href_list["monkey"])
 		var/mob/living/L = current
 		if (L.notransform)
