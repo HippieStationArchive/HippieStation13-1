@@ -125,7 +125,7 @@
 		return
 	if(world.time < (last_upgrade + UPGRADE_COOLDOWN))
 		return
-	if(!assailant.canmove || assailant.lying)
+	if(!assailant.canmove || assailant.lying || !confirm()) //If you're trying to reinforce grab on someone who yackety saxxed away, it shouldn't teleport them to you or something.
 		qdel(src)
 		return
 

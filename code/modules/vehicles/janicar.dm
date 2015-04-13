@@ -1,3 +1,8 @@
+/*
+ *	CURRENT ISSUE:	Process_Spacemove still allows full movement in space for some unfathomable reason. Must be looked into.
+ *					This is true for all subtypes.
+ */
+
 //old style retardo-cart
 /obj/structure/stool/bed/chair/janicart
 	name = "janicart"

@@ -611,7 +611,7 @@
 				if(1)	H.healths.icon_state = "health6"
 				if(2)	H.healths.icon_state = "health7"
 				else
-					switch(H.health - H.staminaloss)
+					switch(H.health) //- H.staminaloss) -- redundant, we now have stamina loss icon
 						if(100 to INFINITY)		H.healths.icon_state = "health0"
 						if(80 to 100)			H.healths.icon_state = "health1"
 						if(60 to 80)			H.healths.icon_state = "health2"
@@ -803,6 +803,12 @@
 		mspeed += 1.5
 	if(H.bodytemperature < 283.222 && grav)
 		mspeed += (283.222 - H.bodytemperature) / 10 * 1.75
+
+	var/slowed = 0
+	for(var/obj/item/weapon/grab/G in H.grabbed_by)
+		if(G.state >= GRAB_AGGRESSIVE && !slowed)
+			mspeed += 2 //Space suit slowdown
+			slowed = 1
 
 	mspeed += speedmod
 

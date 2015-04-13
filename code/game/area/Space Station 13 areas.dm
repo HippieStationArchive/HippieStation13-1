@@ -788,6 +788,10 @@ proc/process_ghost_teleport_locs()
  	name = "\improper Library"
  	icon_state = "library"
 
+/area/johncenaarena
+	name = "Superslam Arena"
+	icon_state = "superslam"
+
 /area/chapel/main
 	name = "\improper Chapel"
 	icon_state = "chapel"

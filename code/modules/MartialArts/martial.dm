@@ -14,6 +14,9 @@
 /datum/martial_art/proc/grab_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
 	return 0
 
+/datum/martial_art/proc/tablepush_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D) //Called when you tablepush someone
+	return 0
+
 /datum/martial_art/proc/onEquip(var/mob/living/carbon/human/H) //Called when martial art was "equipped". Used for wrassling belt.
 	return 0
 

@@ -137,11 +137,17 @@
 	item_state = "champion"
 	storage_slots = 1
 	can_hold = list(
-		/obj/item/clothing/mask/luchador
+		/obj/item/clothing/mask/luchador,
+		/obj/item/weapon/paper
 		)
 
 	martial_art = /datum/martial_art/wrestling
 	martial_art_slot = slot_belt
+
+/obj/item/weapon/storage/belt/champion/New()
+	..()
+	new /obj/item/weapon/paper/Wrestling(src)
+
 
 /obj/item/weapon/storage/belt/military
 	name = "military belt"

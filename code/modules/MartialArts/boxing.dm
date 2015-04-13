@@ -1,3 +1,7 @@
+/* TODO:
+ * Make boxing check for targeted area and have different effects, KO's and Knockdowns based on stamina loss
+ */
+
 /datum/martial_art/boxing
 	name = "Boxing"
 	priority = 10
