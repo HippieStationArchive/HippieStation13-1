@@ -804,9 +804,11 @@
 	if(H.bodytemperature < 283.222 && grav)
 		mspeed += (283.222 - H.bodytemperature) / 10 * 1.75
 
-	if(istype(H.grabbed_by)) //Process_Grab() proc handles movement delay only for the client trying to break out in mob_movement.dm
-		var/obj/item/weapon/grab/G = H.grabbed_by
-		mspeed += G.addSlowdown
+	var/slowed = 0
+	for(var/obj/item/weapon/grab/G in H.grabbed_by)
+		if(G.state >= GRAB_AGGRESSIVE && !slowed)
+			mspeed += 2 //Space suit slowdown
+			slowed = 1
 
 	mspeed += speedmod
 

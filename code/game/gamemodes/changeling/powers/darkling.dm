@@ -42,6 +42,14 @@
 	usr << "<span class='deadsay'>You silently disable all nearby lights.</span>"
 	var/list/blacklisted_lights = list(/obj/item/device/flashlight/flare, /obj/item/device/flashlight/slime)
 	for(var/turf/T in targets)
+		for(var/mob/living/carbon/human/H in T.contents)
+			for(var/obj/item/device/flashlight/F in H)
+				if(is_type_in_list(F, blacklisted_lights))
+					F.visible_message("<span class='danger'>[F] goes slightly dim for a moment.</span>")
+					return
+				F.on = 0
+				F.visible_message("<span class='danger'>[F] gutters and falls dark.</span>")
+				F.update_brightness()
 		for(var/obj/item/device/flashlight/F in T.contents)
 			if(is_type_in_list(F, blacklisted_lights))
 				F.visible_message("<span class='danger'>[F] goes slightly dim for a moment.</span>")
@@ -56,6 +64,8 @@
 		for(var/obj/item/device/pda/P in orange(5, usr))
 			P.fon = 0
 			P.SetLuminosity(0) //failsafe
+		for(var/obj/effect/glowshroom/G in orange(3, usr)) //Smaller radius
+			qdel(G)
 
 
 
@@ -184,9 +194,6 @@
 		ticker.mode.add_thrall(target.mind)
 		target.mind.special_role = "Thrall"
 		hardset_dna(target, null, null, null, null, /datum/species/human/thrall)
-		var/datum/mind/thrall_mind = target.mind
-		thrall_mind.spell_list += new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind //Lets thralls hive-chat
-
 
 
 /obj/effect/proc_holder/spell/targeted/shadowling_hivemind
