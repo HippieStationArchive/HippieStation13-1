@@ -21,6 +21,7 @@
 	// replaced by OPENCONTAINER flags and atom/proc/is_open_container()
 	///Chemistry.
 
+	var/allow_spin = 1
 	var/can_examine_reagents = 0 //For examining reagents
 	var/prepo = null //for managing extra name flair like "deep-fried".
 
