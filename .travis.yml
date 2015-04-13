@@ -21,3 +21,6 @@ install:
 
 script:
   - bash dm.sh -M${DM_MAPFILE} tgstation.dme
+
+notifications:
+  irc: "irc.rizon.net#Codervan"
