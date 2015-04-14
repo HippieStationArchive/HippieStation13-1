@@ -3,10 +3,10 @@
 
 [![Build Status](https://travis-ci.org/HippieStationCode/HippieStation13.svg?branch=master)](https://travis-ci.org/HippieStationCode/HippieStation13)
 
-**Website:** http://www.tgstation13.org <BR>
-**Code:** https://github.com/tgstation/-tg-station <BR>
-**Wiki** http://tgstation13.org/wiki/Main_Page<BR>
-**IRC:** irc://irc.rizon.net/coderbus <BR>
+**Website:** http://www.hippie-station-13.com/forums/index.php <BR>
+**Code:** https://github.com/HippieStationCode/HippieStation13 <BR>
+**Wiki** http://wiki.hippie-station-13.com/Main_Page<BR>
+**IRC:** irc://irc.rizon.net/Codervan <BR>
 
 ##DOWNLOADING
 

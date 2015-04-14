@@ -245,17 +245,6 @@ Made by Xhuis
 			H.SetWeakened(0)
 			H.SetStunned(0)
 
-/datum/species/human/thrall
-	name = "Human?" //Can discern from a health analyzer; one of the few ways of finding thralls. Fluff-wise, it's close enough to human to give it that assumption, but altered in some ways
-	id = "thrall"
-
-
-
-
-
-
-
-
 
 
 
