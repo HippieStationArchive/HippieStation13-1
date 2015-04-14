@@ -10,8 +10,8 @@
 	step_in = 2
 	dir_in = 1 //Facing North.
 	health = 200
-	deflect_chance = 3
-	damage_absorption = list("brute"=10,"fire"=1,"bullet"=20,"laser"=5,"energy"=5,"bomb"=20)
+	deflect_chance = 15
+	damage_absorption = list("brute"=0.6,"bomb"=0.2)
 	max_temperature = 15000
 	wreckage = null
 	operation_req_access = list()
@@ -46,13 +46,13 @@
 	name = "\improper tank"
 	icon_state = "tank"
 	icon = 'code/WorkInProgress/nexendia/tanks.dmi'
-	alpha = 255
+	alpha = 40
 	opacity = 0
 	step_in = 2
 	dir_in = 1 //Facing North.
 	health = 200
-	deflect_chance = 3
-	damage_absorption = list("brute"=10,"fire"=1,"bullet"=20,"laser"=5,"energy"=5,"bomb"=20)
+	deflect_chance = 15
+	damage_absorption = list("brute"=0.6,"bomb"=0.2)
 	max_temperature = 15000
 	wreckage = null
 	operation_req_access = list(access_theatre)
@@ -82,8 +82,8 @@
 	step_in = 2
 	dir_in = 1 //Facing North.
 	health = 200
-	deflect_chance = 3
-	damage_absorption = list("brute"=10,"fire"=1,"bullet"=20,"laser"=5,"energy"=5,"bomb"=20)
+	deflect_chance = 15
+	damage_absorption = list("brute"=0.6,"bomb"=0.2)
 	max_temperature = 15000
 	wreckage = null
 	operation_req_access = list(access_theatre)
@@ -91,7 +91,6 @@
 	internal_damage_threshold = 25
 	max_equip = 2
 	step_energy_drain = 3
-	color = "#87878715"
 	stepsound = 'sound/effects/clownstep1.ogg'
 	turnsound = 'sound/effects/clownstep2.ogg'
 
@@ -113,15 +112,15 @@
 	opacity = 0   //No fucking opacity :I That shit is annoying seeing as this thing is fucking TINY  ~Nexendia
 	step_in = 2
 	dir_in = 1 //Facing North.
-	health = 200
-	deflect_chance = 3
-	damage_absorption = list("brute"=30,"fire"=10,"bullet"=30,"laser"=15,"energy"=10,"bomb"=30)
+	health = 400
+	deflect_chance = 20
+	damage_absorption = list("brute"=0.5,"fire"=1.1,"bullet"=0.65,"laser"=0.85,"energy"=0.9,"bomb"=0.8)
 	max_temperature = 15000
 	wreckage = null
 	operation_req_access = list()
 	add_req_access = 0
 	internal_damage_threshold = 30
-	max_equip = 2
+	max_equip = 3
 	step_energy_drain = 3
 	stepsound = 'sound/effects/mowermove1.ogg'
 	turnsound = 'sound/effects/mowermove2.ogg'
@@ -160,9 +159,9 @@
 	opacity = 0
 	step_in = 2
 	dir_in = 1 //Facing North.
-	health = 300
-	deflect_chance = 10
-	damage_absorption = list("brute"=20,"fire"=20,"bullet"=20,"laser"=20,"energy"=20,"bomb"=20)
+	health = 500
+	deflect_chance = 25
+	damage_absorption = list("brute"=0.5,"fire"=0.7,"bullet"=0.45,"laser"=0.6,"energy"=0.7,"bomb"=0.7)
 	max_temperature = 15000
 	wreckage = null
 	operation_req_access = list(access_syndicate)  //This is MY tank!
@@ -202,9 +201,9 @@
 	opacity = 0
 	step_in = 2
 	dir_in = 1 //Facing North.
-	health = 300
-	deflect_chance = 10
-	damage_absorption = list("brute"=20,"fire"=20,"bullet"=20,"laser"=20,"energy"=20,"bomb"=20)
+	health = 500
+	deflect_chance = 25
+	damage_absorption = list("brute"=0.5,"fire"=0.7,"bullet"=0.45,"laser"=0.6,"energy"=0.7,"bomb"=0.7)
 	max_temperature = 15000
 	wreckage = null
 	operation_req_access = list(access_syndicate)
