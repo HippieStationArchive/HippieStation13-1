@@ -45,7 +45,7 @@ You have four available combos to perform:<BR>
 	var/cooldown = 0
 
 /datum/martial_art/plasma_fist/add_to_streak(var/element,var/mob/living/carbon/human/D)
-	if(D != current_target) //Is this functioning right?
+	if(D != current_target)
 		current_target = D
 		streak = ""
 	if(cooldown + 100 < world.time)
@@ -81,6 +81,7 @@ You have four available combos to perform:<BR>
 	return 0
 
 /datum/martial_art/plasma_fist/proc/Tornado(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	add_logs(A, D, "tornado sweeped", addition="(Plasma Fist)")
 	A.say("TORNADO SWEEP!")
 	A.changeNext_move(3) //Same cooldown for subsequent punches. Otherwise it throws you off.
 	spawn(0)
@@ -96,6 +97,7 @@ You have four available combos to perform:<BR>
 	return
 
 /datum/martial_art/plasma_fist/proc/Throwback(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	add_logs(A, D, "plasma punched", addition="(Plasma Fist)")
 	D.visible_message("<span class='danger'>[A] has hit [D] with Plasma Punch!</span>", \
 								"<span class='userdanger'>[A] has hit [D] with Plasma Punch!</span>")
 	playsound(D.loc, 'sound/weapons/punch1.ogg', 50, 1, -1)
@@ -109,6 +111,7 @@ You have four available combos to perform:<BR>
 	return
 
 /datum/martial_art/plasma_fist/proc/Knockout(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	add_logs(A, D, "knocked down", addition="(Plasma Fist)")
 	D.visible_message("<span class='danger'>[A] has knocked down [D] with a kick!</span>", \
 								"<span class='userdanger'>[A] has knocked down [D] with a kick!</span>")
 	playsound(D.loc, 'sound/weapons/punch1.ogg', 50, 1, -1)
@@ -124,6 +127,7 @@ You have four available combos to perform:<BR>
 	A.do_attack_animation(D)
 	playsound(D.loc, 'sound/weapons/punch1.ogg', 50, 1, -1)
 	playsound(D.loc, pick("explosion"), 30, 1) //So it's pretty radcore
+	add_logs(A, D, "plasma fisted", addition="(Plasma Fist)")
 	A.say("PLASMA FIST!")
 	A.emote("scream")
 	D.visible_message("<span class='danger'>[A] has hit [D] with THE PLASMA FIST TECHNIQUE!</span>", \

@@ -1,3 +1,10 @@
+// /obj/item/chair //Used for picking up chairs and bashing people with them --TODO
+// 	name = "chair"
+// 	desc = "Can't exactly sit on this when it's carried by someone."
+// 	icon = 'icons/obj/objects.dmi'
+// 	icon_state = "chair"
+// 	w_class = 4.0
+
 /obj/structure/stool/bed/chair	//YES, chairs are a type of bed, which are a type of stool. This works, believe me.	-Pete
 	name = "chair"
 	desc = "You sit in this. Either by will or force."
@@ -14,6 +21,18 @@
 /obj/structure/stool/bed/chair/Move(atom/newloc, direct)
 	..()
 	handle_rotation()
+
+/obj/structure/stool/bed/chair/MouseDrop(over_object, src_location, over_location)
+	..()
+	// if(over_object == usr && Adjacent(usr) && (in_range(src, usr) || usr.contents.Find(src)))
+	// 	if(!ishuman(usr))
+	// 		return
+	// 	if(buckled_mob)
+	// 		return 0
+	// 	visible_message("<span class='notice'>[usr] picks up \the [src.name].</span>")
+	// 	new/obj/item/chair(get_turf(src))
+	// 	qdel(src)
+	// 	return
 
 /obj/structure/stool/bed/chair/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	..()

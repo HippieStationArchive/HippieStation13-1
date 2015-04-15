@@ -25,6 +25,7 @@
 	var/framestack = /obj/item/stack/rods
 	var/buildstack = /obj/item/stack/sheet/metal
 	var/busy = 0
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //Visual indication if this is a draggable object
 
 /obj/structure/table/New()
 	..()

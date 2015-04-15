@@ -73,7 +73,9 @@
 		if(prob(25))
 			stop_automated_movement = 1
 			if(prob(50))
-				Goto(pick(view(nestSize,nestLoc)),move_to_delay)
+				var/list/inRange = view(nestSize,nestLoc)
+				if(inRange.len)
+					Goto(pick(inRange),move_to_delay)
 			else
 				if(nestMates.len)
 					Goto(pick(nestMates),move_to_delay)
