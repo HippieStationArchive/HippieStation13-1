@@ -127,6 +127,11 @@
 			var/unholy2clean = A.reagents.get_reagent_amount("unholywater")
 			A.reagents.del_reagent("unholywater")
 			A.reagents.add_reagent("holywater",unholy2clean)
+		if(A.reagents && A.reagents.has_reagent("banana")) //CopyPasta Holy Banana!
+			user << "<span clas='notice'> You bless [A].</span>"
+			var/banana2holy = A.reagents.get_reagent_amount("banana")
+			A.reagents.del_reagent("banana")
+			A.reagents.add_reagent("holybanana",banana2holy)
 
 /obj/item/weapon/storage/book/bible/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	playsound(src.loc, "rustle", 50, 1, -5)
@@ -137,3 +142,9 @@
 		var/water2holy = W.reagents.get_reagent_amount("water")
 		W.reagents.del_reagent("water")
 		W.reagents.add_reagent("holywater",water2holy)
+
+	if(icon_state == "honk1" && W.reagents && W.reagents.has_reagent("banana"))
+		user << "<span class='notice'>You feel The Honk Mother blessing \the [W] as you insert it into \the [src].</span>"
+		var/banana2holy = W.reagents.get_reagent_amount("banana")
+		W.reagents.del_reagent("banana")
+		W.reagents.add_reagent("holybanana",banana2holy)
