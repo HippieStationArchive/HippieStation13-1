@@ -60,6 +60,7 @@
 	icon_state = "down"
 	anchored = 0
 	var/const/buckled_pixel_y_offset = 6 //Mobs buckled will have their pixel_y offset by this much
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //Visual indication if this is a draggable object
 
 
 /obj/structure/stool/bed/roller/post_buckle_mob(mob/M)
