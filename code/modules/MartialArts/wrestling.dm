@@ -1,3 +1,5 @@
+//New moves and bugfixes by Crystalwarrior160 - Original file only had suplex.
+
 /obj/item/weapon/paper/Wrestling
 	name = "paper - 'HOW TO WRASSLE LIKE A MOTHERFUCKER'"
 	info = {"<h4>WELCOME TO THE CLUB</h4>
@@ -79,9 +81,11 @@
 		G.state = GRAB_AGGRESSIVE
 		D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
 								"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
+		add_logs(A, D, "aggro-grabbed", addition="(Wrassling)")
 	else
 		D.visible_message("<span class='danger'>[A] holds [D] down! (Passive Grab)</span>", \
 									"<span class='userdanger'>[A] holds [D] down (Passive Grab)!</span>")
+		add_logs(A, D, "grabbed", addition="(Wrassling)")
 	return 1
 
 /datum/martial_art/wrestling/tablepush_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D, var/obj/item/weapon/grab/G, var/obj/structure/table/T)
@@ -116,10 +120,13 @@
 	D.SpinAnimation(10,1)
 	sleep(3)
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
+	D.forceMove(A.loc)
 	affecting = D.get_organ("head")
-	armor_block = A.run_armor_check(null, "melee")
-	A.apply_effect(4, WEAKEN, armor_block)
 	D.apply_damage(25, BRUTE, affecting, armor_block)
+	affecting = A.get_organ("chest")
+	armor_block = A.run_armor_check(affecting, "melee")
+	A.apply_effect(4, WEAKEN, armor_block)
+	add_logs(A, D, "suplexed", addition="(Wrassling)")
 	playsound(D, pick("swing_hit"), 40, 1)
 	for(var/mob/M in range(2, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
@@ -136,10 +143,11 @@
 	D.apply_damage(5, STAMINA, affecting, armor_block)
 	D.apply_damage(5, BRUTE, affecting, armor_block)
 	playsound(D, 'sound/weapons/push_hard.ogg', 50, 1)
+	add_logs(A, D, "backhand chopped", addition="(Wrassling)")
 	shake_camera(D, 2, 1)
 	D.stunned = 999 //This is a much better way to keep someone stunned for a short time due to the tick nature of AdjustStunned() proc
 	D.update_canmove()
-	sleep(15)
+	sleep(20)
 	if(!D) return
 	D.stunned = 0
 	D.update_canmove()
@@ -160,6 +168,7 @@
 	A.apply_effect(1, WEAKEN, armor_block)
 	A.changeNext_move(20) //Takes 2 seconds for another attack to pass
 	playsound(D, pick("swing_hit"), 40, 1)
+	add_logs(A, D, "chop dropped", addition="(Wrassling)")
 	for(var/mob/M in range(1, D)) //Only shake camera for close-by people
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 2, 1) //Shorter shake
@@ -178,18 +187,21 @@
 	A.forceMove(D.loc)
 	playsound(D, 'sound/weapons/push_hard.ogg', 50, 1)
 	sleep(4)
+	if(A)
+		A.stunned = 0
+		A.update_canmove()
+	if(D)
+		D.stunned = 0
+		D.update_canmove()
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	A.forceMove(D.loc)
 	var/obj/item/organ/limb/affecting = D.get_organ("head")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(3, WEAKEN, armor_block)
 	D.apply_damage(10, BRUTE, affecting, armor_block)
-	D.stunned = 0
-	A.stunned = 0
-	A.update_canmove()
-	D.update_canmove()
 	shake_camera(D, 3, 1) //Chokeslammed into the ground
 	playsound(D, pick("swing_hit"), 40, 1)
+	add_logs(A, D, "chokeslammed", addition="(Wrassling)")
 	return
 
 /* Finishers */
@@ -207,6 +219,12 @@
 	A.forceMove(D.loc)
 	playsound(D, 'sound/weapons/raise.ogg', 50, 1)
 	sleep(5)
+	if(A)
+		A.stunned = 0
+		A.update_canmove()
+	if(D)
+		D.stunned = 0
+		D.update_canmove()
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	A.forceMove(D.loc)
 	A.do_bounce_anim_dir(NORTH, 1, 8)
@@ -214,13 +232,10 @@
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(5, WEAKEN, armor_block)
 	D.apply_damage(30, BRUTE, affecting, armor_block)
-	D.stunned = 0
-	A.stunned = 0
-	A.update_canmove()
-	D.update_canmove()
 	D.emote("scream")
 	shake_camera(D, 3, 3) //His BACK got broken, shake the fuck out of his screen.
 	playsound(D, pick("swing_hit"), 60, 1)
+	add_logs(A, D, "performed a backbreaker on", addition="(Wrassling)")
 	A.changeNext_move(30) //Takes 3 seconds for another attack to pass
 	return
 
@@ -267,6 +282,7 @@
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 3, 1)
 	playsound(D, pick("swing_hit"), 60, 0)
+	add_logs(A, D, "tombstone piledrivered", addition="(Wrassling)")
 	return
 
 /* Performed from table */
@@ -294,6 +310,7 @@
 	D.emote("scream")
 	D.apply_effect(7, WEAKEN, armor_block)
 	playsound(D, pick("swing_hit"), 60, 1)
+	add_logs(A, D, "corkscrew elbow dropped", addition="(Wrassling)")
 	for(var/mob/M in range(3, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 3, 1)
@@ -304,19 +321,21 @@
 								"<span class='userdanger'>[A] performs an RKO on [D]!</span>")
 	A.AdjustWeakened(2)
 	A.pixel_x -= 6
-	A.do_bounce_anim_dir(NORTH, 3, 16)
+	animate(A, A.pixel_y = A.pixel_y + 16, time = 3)
+	animate(A, A.pixel_y = initial(A.pixel_y), time = 3)
 	D.AdjustWeakened(2) //Keeps the attacked in place
 	D.pixel_x += 6
-	D.do_bounce_anim_dir(NORTH, 3, 16)
+	animate(D, D.pixel_y = D.pixel_y + 16, time = 3)
+	animate(D, D.pixel_y = initial(D.pixel_y), time = 3)
 	var/todir = get_dir(A, D)
 	A.forceMove(D.loc)
 	playsound(A, 'sound/weapons/raise.ogg', 30, 0, -1)
 	sleep(2)
-	D.Move(get_step(D,todir))
-	A.forceMove(D.loc)
+	if(A) A.forceMove(D.loc)
+	playsound(D, 'sound/weapons/thudswoosh.ogg', 30, 1, -1)
 	sleep(3)
-	A.pixel_x = initial(A.pixel_x)
-	D.pixel_x = initial(D.pixel_x)
+	if(A) A.pixel_x = initial(A.pixel_x)
+	if(D) D.pixel_x = initial(D.pixel_x)
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
@@ -327,9 +346,11 @@
 	D.apply_damage(25, BRUTE, affecting, armor_block)
 	D.emote("scream")
 	D.apply_effect(7, WEAKEN, armor_block)
+	D.Move(get_step(D,todir))
 	A.do_bounce_anim_dir(SOUTH, 2, 8)
 	D.do_bounce_anim_dir(SOUTH, 2, 8)
 	playsound(D, pick("swing_hit"), 60, 1)
+	add_logs(A, D, "RKO'd", addition="(Wrassling)")
 	for(var/mob/M in range(3, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 3, 1)
@@ -347,7 +368,6 @@
 	playsound(A, 'sound/weapons/raise.ogg', 30, 0, -1)
 	sleep(3)
 	A.forceMove(D.loc)
-	playsound(D, 'sound/weapons/thudswoosh.ogg', 30, 1, -1)
 	playsound(A, 'sound/weapons/raise.ogg', 30, 0, -1)
 	sleep(1)
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
@@ -362,6 +382,7 @@
 	D.apply_damage(30, STAMINA, affecting, armor_block) //Still does stamina damage to compensate
 	D.apply_effect(7, WEAKEN, armor_block)
 	playsound(D, 'sound/weapons/push_hard.ogg', 60, 1) //Sound signalises that this is not a high-damage attack
+	add_logs(A, D, "moonsaulted", addition="(Wrassling)")
 	for(var/mob/M in range(2, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 3, 1)
@@ -388,6 +409,7 @@
 	D.do_bounce_anim_dir(SOUTH, 1, 4)
 	A.do_bounce_anim_dir(SOUTH, 1, 2)
 	playsound(D, pick("swing_hit"), 50, 1)
+	add_logs(A, D, "powerbombed", addition="(Wrassling)")
 	A.stunned = 0
 	A.changeNext_move(20) //Takes 2 seconds for another attack to pass
 

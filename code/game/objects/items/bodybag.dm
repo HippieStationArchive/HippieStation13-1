@@ -40,6 +40,7 @@
 	var/foldedbag_path = /obj/item/bodybag
 	density = 0
 	mob_storage_capacity = 2
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //Makes an actual visual indication that this is a draggable object
 
 
 /obj/structure/closet/body_bag/attackby(obj/item/I, mob/user)
