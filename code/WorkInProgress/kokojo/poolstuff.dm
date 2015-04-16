@@ -8,6 +8,26 @@
 	oxygen = MOLES_O2STANDARD
 	nitrogen = MOLES_N2STANDARD
 
+/obj/item
+	var/image/in_water = null //this saves our blood splatter overlay, which will be processed not to go over the edges of the sprite
+
+
+/mob
+	var/image/in_water = null //this saves our blood splatter overlay, which will be processed not to go over the edges of the sprite
+
+
+//
+/turf/simulated/pool/water/Entered(atom/A)
+	if(iscarbon(A))
+		var/icon/I = new /icon(icon, icon_state)
+		I.Blend(new /icon('icons/turf/pool.dmi', rgb(255,255,255)),ICON_ADD) //fills the icon_state with white (except where it's transparent)
+		I.Blend(new /icon('icons/turf/pool.dmi', "overlay"),ICON_MULTIPLY) //adds blood and the remaining white areas become transparent
+		//not sure if this is worth it. It attaches the blood_overlay to every item of the same type if they don't have one already made.
+		for(var/mob/living/carbon/swimmer in src.loc)
+			if(swimmer.type == type && !swimmer.in_water)
+				swimmer.in_water = image(I)
+
+
 
 /turf/simulated/pool/poolborder
 	name = "Pool Border"
@@ -16,18 +36,16 @@
 	icon_state = "side"
 
 
-
 /turf/simulated/pool/water/
 	name = "poolwater"
 	desc = "You're safer here than in the deep."
 	icon_state = "shallow"
 
-
 /turf/simulated/pool/poolborder/Entered(atom/A, atom/OL)
 	var/mob/living/carbon/nonwalker = A
 	..()
-	if(iscarbon(nonwalker) && !nonwalker.lying && nonwalker.m_intent == "walk")
-		if(prob(75))
+	if(iscarbon(nonwalker) && !nonwalker.lying && nonwalker.m_intent != "walk")
+		if(prob(1))
 			nonwalker.Stun(2)
 			nonwalker.Weaken(2)
 			nonwalker.adjustBruteLoss(2)
@@ -91,16 +109,14 @@
 				user << "<span class='notice'>You lower [M] in the water.</span>"
 				return
 
-/turf/simulated/pool/water/Entered(atom/Z, atom/OL)
+/turf/simulated/pool/water/Entered(atom/movable/Z, atom/OL) //EMP code + water overlay.
 	..()
-	for (var/mob/living/zapee in range(0,src))
-		Z.emp_act(1)
-	if(istype(Z,/obj/item) && !istype(Z,/obj/item/clothing/glasses) && !istype(Z,/obj/item/device/radio/headset))
-		Z.emp_act(1)
+//	generate_water_overlay()
+	Z.emp_act(1)
 
 
 
-
+//What happens if you don't drop in it like a good person would
 /turf/simulated/pool/water/Entered(atom/A, atom/OL)
 	..()
 	if (istype(A,/mob/living/silicon/robot))
@@ -112,6 +128,7 @@
 	else if(iscarbon(A))
 		var/mob/living/carbon/human/huuman = A
 		huuman.staminaloss += 1
+		huuman.overlays += image('icons/turf/pool.dmi', "overlay")
 		if(huuman.swimming == 1 || huuman.layer == 5.1) //People on the swimmingboard should not trigger messages
 			playsound(src, 'sound/items/water_shake.ogg', 20, 1)
 			huuman.ExtinguishMob()
@@ -167,13 +184,23 @@
 		else if(ladderman.y == src.y && ladderman.x == src.x && ladderman.swimming == 1)
 			ladderman.swimming = 0
 			sleep(1)
-			var/atom/move_target = get_edge_target_turf(ladderman, get_dir(src, get_step_away(src, ladderman)))
-			step_away(ladderman, move_target)
+			world << "2[src] 3[ladderman]"
+
+			step_towards(ladderman, src)
 
 /obj/structure/pool/Rboard
 	name = "JumpBoard"
+	density = 1
 	icon_state = "boardright"
 	desc = "The less-loved portion of the jumping board."
+	dir = 4
+
+/obj/structure/pool/Rboard/CheckExit(atom/movable/O as mob|obj, target as turf)
+	if(istype(O) && O.checkpass(PASSGLASS))
+		return 1
+	if(get_dir(O.loc, target) == dir)
+		return 0
+	return 1
 
 /obj/structure/pool/Lboard
 	name = "JumpBoard"
@@ -310,21 +337,26 @@
 	desc = "Nanostrasen does not cover drowning."
 	icon_state = "deep"
 
-
-/obj/machinery/pooldrain
+/obj/machinery/drain
 	name = "Drain"
 	icon = 'icons/turf/pool.dmi'
 	icon_state = "drain"
+	desc = "This is strangely useless."
+	anchored = 1
+
+/obj/machinery/poolfilter
+	name = "Filter"
+	icon = 'icons/turf/pool.dmi'
+	icon_state = "filter"
 	desc = "The part of the pool that swallows dangerous stuff"
 	anchored = 1
-	var/cooldown = 0
 
 /obj/machinery/pooldrain/emag_act(user as mob)
 	if(!emagged)
 		user << "\red You disable \the [src]'s shark filter. Run!" //you better be
 		emagged = 1
-		src.icon_state = "drain_b"
-		spawn(20)
+		src.icon_state = "filter_b"
+		spawn(50)
 			if(prob(50))
 				new /mob/living/simple_animal/hostile/shark(src.loc)
 			else
@@ -364,26 +396,31 @@
 //	overlays += image("icon"='icons/misc/beach.dmi',"icon_state"="water2","layer"=MOB_LAYER+0.1)
 //standing	+= image("icon"='icons/effects/genetics.dmi', "icon_state"="fire_s", "layer"=-MUTATIONS_LAYER)
 
-//shamelessly stolen from paradise. Credits to tigercat2000
 
 
 
+
+//shamelessly stolen from paradise. Credits to tigercat2000.
+//Modified a lot by Kokojo, because of that damn UI. I mean FUCK.
 /obj/machinery/poolcontroller
 	name = "Pool Controller"
 	desc = "A controller for the nearby pool."
 	icon = 'icons/turf/pool.dmi'
-	icon_state = "heatmachine"
+	icon_state = "poolcnorm"
+	anchored = 1
 	density = 1
+	var/amount_per_transfer_from_this = 5
 	var/list/linkedturfs = list() //List contains all of the linked pool turfs to this controller, assignment happens on New()
 	var/temperature = "normal" //The temperature of the pool, starts off on normal, which has no effects.
 	var/temperaturecolor = "" //used for nanoUI fancyness
 	var/srange = 5 //The range of the search for pool turfs, change this for bigger or smaller pools.
 	var/linkedmist = list() //Used to keep track of created mist
 	var/misted = 0 //Used to check for mist.
-	var/linkedchems = list() //List of chems,
+	var/chem_volume = 5
+
 
 /obj/machinery/poolcontroller/New() //This proc automatically happens on world start
-	create_reagents(1000)
+	create_reagents(chem_volume)
 	for(var/turf/simulated/pool/water/W in range(srange,src)) //Search for /turf/simulated/beach/water in the range of var/srange
 		src.linkedturfs += W //Add found pool turfs to the central list.
 	..() //Changed to call parent as per MarkvA's recommendation
@@ -400,6 +437,17 @@
 			user << "\red You re-enable \the [src]'s temperature safeguards." //Inform the user that they have just fixed the safeguards.
 			emagged = 0 //Set the emagged var to false.
 			return
+	if (istype(P,/obj/item/weapon/reagent_containers/glass/beaker/large))
+		if (P.reagents.total_volume >= 100)
+			if(adminlog)
+				log_say("[key_name(user)] has spilled chemicals in the pool")
+				message_admins("[key_name_admin(user)] has spilled chemicals in the pool .")
+			var/transfered = P.reagents.trans_to(src, chem_volume)
+			if(transfered)	//if reagents were transfered, show the message
+				user << "<span class='danger'>You spill the reagents in the reagent duplicator</span>"
+
+			else
+				user << "<span class='danger'>You'll need more to have an effect on the pool.</span>"
 		else
 			user << "\red Nothing happens." //If not emagged, don't do anything, and don't tell the user that it can be emagged.
 
@@ -407,33 +455,19 @@
 	else //If it's not a multitool, defer to /obj/machinery/attackby
 		..()
 
-
-/obj/machinery/poolcontroller/attackby(var/obj/item/O as obj, var/mob/user as mob)
-	if (istype(O,/obj/item/weapon/reagent_containers/glass/beaker/large))
-		if (O.reagents.total_volume >= 100)
-			user << "<span class='danger'>You spill the reagents in the pool's reservoir, bypassing the filter.</span>"
-			for(var/datum/reagent/chemlink in O:reagents.reagent_list)
-				src.linkedchems += chemlink
-				O.reagents.clear_reagents()
-		else
-			return
-
-
 //procs
 /obj/machinery/poolcontroller/proc/poison()
 	for(var/turf/simulated/pool/water/W in linkedturfs)
-		for(var/mob/M in W)
-			W.reagents.add_reagent("linkedchem", 45)
-			src.reagents.clear_reagents()
-
-/obj/machinery/poolcontroller/attack_hand(mob/user as mob)
-	ui_interact(user)
+		for(var/mob/living/swimee in W)
+			reagents.reaction(swimee, INGEST)
+			reagents.trans_to(swimee, 1)
+	reagents.remove_any(1)
 
 /obj/machinery/poolcontroller/process()
-	updateMobs() //Call the mob affecting proc
+	updatePool() //Call the mob affecting proc
 	poison()
 
-/obj/machinery/poolcontroller/proc/updateMobs()
+/obj/machinery/poolcontroller/proc/updatePool()
 	for(var/turf/simulated/pool/water/W in linkedturfs) //Check for pool-turfs linked to the controller.
 		for(var/mob/M in W) //Check for mobs in the linked pool-turfs.
 			//Sanity checks, don't affect robuts, AI eyes, and observers
@@ -447,28 +481,28 @@
 			switch(temperature) //Apply different effects based on what the temperature is set to.
 				if("scalding") //Burn the mob.
 					M.bodytemperature = min(500, M.bodytemperature + 35) //heat mob at 35k(elvin) per cycle
-					M << "<span class='danger'>The water is searing hot!</span>"
+					if(M.bodytemperature >= 400 && !M.stat)
+						M << "<span class='danger'>You're boiling alive!</span>"
 					return
 
 				if("frigid") //Freeze the mob.
 					M.bodytemperature = max(80, M.bodytemperature - 35) //cool mob at -35k per cycle
-					M << "<span class='danger'>The water is freezing!</span>"
+					if(M.bodytemperature <= 215 && !M.stat)
+						M << "<span class='danger'>You're  being frozen solid!</span>"
 					return
 
 				if("normal") //Normal temp does nothing, because it's just room temperature water.
 					return
 
 				if("warm") //Gently warm the mob.
-					M.bodytemperature = min(330, M.bodytemperature + 10) //Heats up mobs to just over normal, not enough to burn
-					if(prob(50)) //inform the mob of warm water half the time
-						M << "<span class='warning'>The water is quite warm.</span>" //Inform the mob it's warm water.
+					M.bodytemperature = min(360, M.bodytemperature + 20) //Heats up mobs till the termometer shows up
 					return
 
 				if("cool") //Gently cool the mob.
-					M.bodytemperature = max(290, M.bodytemperature - 10) //Cools mobs to just below normal, not enough to burn
-					if(prob(50)) //inform the mob of cold water half the time
-						M << "<span class='warning'>The water is chilly.</span>" //Inform the mob it's chilly water.
+					M.bodytemperature = max(250, M.bodytemperature - 20) //Cools mobs till the termometer shows up
 					return
+		for(var/obj/effect/decal/cleanable/decal in W)
+			del(decal)
 
 /obj/machinery/poolcontroller/proc/miston() //Spawn /obj/effect/mist (from the shower) on all linked pool tiles
 	for(var/turf/simulated/pool/water/W in linkedturfs)
@@ -484,49 +518,51 @@
 		del(M)
 	misted = 0 //no mist left, turn off the tracking var
 
-/obj/machinery/poolcontroller/ui_interact(mob/user, ui_key = "main")
-	var/data[0]
 
-	data["currentTemp"] = capitalize(src.temperature)
-	data["emagged"] = emagged
 
-	var/datum/nanoui/ui = nanomanager.get_open_ui(user, src, ui_key)
-	if (!ui)
-		// the ui does not exist, so we'll create a new one
-		ui = new(user, src, ui_key, "poolcontrollertest3", "Pool Cuntroll", 550, 550)
-		// When the UI is first opened this is the data it will use
-		ui.set_initial_data(data)
-		ui.open()
-		// Auto update every Master Controller tick
-		ui.set_auto_update(1)
-	else
-		// The UI is already open so push the new data to it
-		ui.push_data(data)
-		return
-	//user.set_machine(src)
+
+
+
+/obj/machinery/poolcontroller/attack_hand(mob/user)
+	user.set_machine(src)
+	var/dat
+	if(emagged)
+		dat += "<a href='?src=\ref[src];Scalding=1'>Scalding</a><br>"
+	dat += "<a href='?src=\ref[src];Warm=1'>Warm</a><br>"
+	dat += "<a href='?src=\ref[src];Normal=1'>Normal</a><br>"
+	dat += "<a href='?src=\ref[src];Cool=1'>Cool</a><br>"
+	if(emagged)
+		dat += "<a href='?src=\ref[src];Frigid=1'>Frigid</a><br>"
+
+	var/datum/browser/popup = new(user, "Pool Controller", name, 350, 250)
+	popup.set_content(dat)
+	popup.open()
 
 /obj/machinery/poolcontroller/Topic(href, href_list)
-	if(..())	return 1
+	if(!in_range(src, usr))
+		return
+	if(!isliving(usr))
+		return
+	if(href_list["Scalding"])
+		src.temperature = "scalding"
+		src.icon_state = "poolcscald"
+		miston()
+	if(href_list["Warm"])
+		src.temperature = "warm"
+		src.icon_state = "poolcwarm"
+		mistoff()
+	if(href_list["Normal"])
+		src.temperature = "normal"
+		src.icon_state = "poolcnorm"
+		mistoff()
+	if(href_list["Cool"])
+		src.temperature = "cool"
+		src.icon_state = "poolccool"
+		mistoff()
+	if(href_list["Frigid"])
+		src.temperature = "frigid"
+		src.icon_state = "poolcfrig"
+		mistoff()
+	update_icon()
+	updateUsrDialog()
 
-	switch(href_list["temp"])
-		if("Scalding")
-			if(!src.emagged)
-				return 0
-			src.temperature = "scalding"
-			miston()
-		if("Frigid")
-			if(!src.emagged)
-				return 0
-			src.temperature = "frigid"
-			mistoff()
-		if("Warm")
-			src.temperature = "warm"
-			mistoff()
-		if("Cool")
-			src.temperature = "cool"
-			mistoff()
-		if("Normal")
-			src.temperature = "normal"
-			mistoff()
-
-	return 1

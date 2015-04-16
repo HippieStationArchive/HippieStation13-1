@@ -107,9 +107,7 @@
 			user << "<span class='notice'>Doing that would be useless.</span>"
 		else
 			user << "<span class='notice'>You plunge [src] in the [target].</span>"
-			reagents.clear_reagents()
-			reagents.add_reagent("water", 45)
-			reagents.add_reagent("chlorine", 5)
+			reagents.add_reagent("water", 100)
 			return
 
 //		else if(istype(target, /turf/simulated/pool/water))
