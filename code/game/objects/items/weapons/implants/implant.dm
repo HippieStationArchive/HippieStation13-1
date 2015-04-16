@@ -157,7 +157,7 @@
 
 /obj/item/weapon/implant/loyalty/implanted(mob/target)
 	..()
-	if(target.mind in ticker.mode.head_revolutionaries)
+	if(target.mind in ticker.mode.head_revolutionaries || is_shadow_or_thrall(target))
 		target.visible_message("<span class='warning'>[target] seems to resist the implant!</span>", "<span class='warning'>You feel the corporate tendrils of Nanotrasen try to invade your mind!</span>")
 		return 0
 	if(target.mind in ticker.mode.revolutionaries)

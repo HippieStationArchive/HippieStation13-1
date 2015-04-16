@@ -1001,6 +1001,7 @@
 	else if(href_list["shadowling"])
 		switch(href_list["shadowling"])
 			if("clear")
+				ticker.mode.update_shadow_icons_removed(src)
 				src.spell_list = null
 				if(src in ticker.mode.shadows)
 					ticker.mode.shadows -= src
@@ -1017,7 +1018,7 @@
 					current << "<span class='userdanger'>You have been brainwashed! You are no longer a thrall!</span>"
 					message_admins("[key_name_admin(usr)] has de-thrall'ed [current].")
 					log_admin("[key_name(usr)] has de-thrall'ed [current].")
-				ticker.mode.update_ling_icons_removed(src)
+
 			if("shadowling")
 				if(!ishuman(current))
 					usr << "<span class='warning'>This only works on humans!</span>"
@@ -1030,7 +1031,9 @@
 				ticker.mode.greet_shadow(src)
 				ticker.mode.finalize_shadowling(src)
 				ticker.mode.process_shadow_objectives(src)
-				ticker.mode.update_ling_icons_added(src)
+				ticker.mode.finalize_shadowling(src)
+				ticker.mode.update_shadow_icons_added(src)
+
 			if("thrall")
 				if(!ishuman(current))
 					usr << "<span class='warning'>This only works on humans!</span>"
@@ -1042,6 +1045,7 @@
 				ticker.mode.add_thrall(src)
 				message_admins("[key_name_admin(usr)] has thrall'ed [current].")
 				log_admin("[key_name(usr)] has thrall'ed [current].")
+
 	else if (href_list["monkey"])
 		var/mob/living/L = current
 		if (L.notransform)
