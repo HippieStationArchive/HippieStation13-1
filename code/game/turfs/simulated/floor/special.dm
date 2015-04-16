@@ -9,4 +9,3 @@
 	icon_plating = "[icon_state]p"
 	broken_states = list("platingdmg1", "platingdmg2", "platingdmg3")
 	burnt_states = list("panelscorched")
-	..()

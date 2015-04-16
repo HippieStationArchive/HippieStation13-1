@@ -1,88 +1,83 @@
+/area/crew_quarters/pool
+	name = "\improper Pool"
+	icon_state = "pool"
+
+/area/centcom/pool
+	name = "\improper Centcomm Pool"
+	icon_state = "pool"
+
 /mob
   var/swimming = 0
 
 /turf/simulated/pool
 	name = "pool"
 	icon = 'icons/turf/pool.dmi'
-	thermite = 0
-	oxygen = MOLES_O2STANDARD
-	nitrogen = MOLES_N2STANDARD
-
-/obj/item
-	var/image/in_water = null //this saves our blood splatter overlay, which will be processed not to go over the edges of the sprite
-
-
-/mob
-	var/image/in_water = null //this saves our blood splatter overlay, which will be processed not to go over the edges of the sprite
-
-
-//
-/turf/simulated/pool/water/Entered(atom/A)
-	if(iscarbon(A))
-		var/icon/I = new /icon(icon, icon_state)
-		I.Blend(new /icon('icons/turf/pool.dmi', rgb(255,255,255)),ICON_ADD) //fills the icon_state with white (except where it's transparent)
-		I.Blend(new /icon('icons/turf/pool.dmi', "overlay"),ICON_MULTIPLY) //adds blood and the remaining white areas become transparent
-		//not sure if this is worth it. It attaches the blood_overlay to every item of the same type if they don't have one already made.
-		for(var/mob/living/carbon/swimmer in src.loc)
-			if(swimmer.type == type && !swimmer.in_water)
-				swimmer.in_water = image(I)
-
-
-
-/turf/simulated/pool/poolborder
-	name = "Pool Border"
-	desc = "No running around the pool!"
-	density = 0
-	icon_state = "side"
-
-
-/turf/simulated/pool/water/
-	name = "poolwater"
-	desc = "You're safer here than in the deep."
-	icon_state = "shallow"
-
-/turf/simulated/pool/poolborder/Entered(atom/A, atom/OL)
-	var/mob/living/carbon/nonwalker = A
-	..()
-	if(iscarbon(nonwalker) && !nonwalker.lying && nonwalker.m_intent != "walk")
-		if(prob(1))
-			nonwalker.Stun(2)
-			nonwalker.Weaken(2)
-			nonwalker.adjustBruteLoss(2)
-			playsound(nonwalker.loc, 'sound/misc/slip.ogg', 50, 1, -3)
+	//These are already defined in /simulated
+	// thermite = 0
+	// oxygen = MOLES_O2STANDARD
+	// nitrogen = MOLES_N2STANDARD
 
 //Put people out of the water
-/turf/simulated/pool/poolborder/MouseDrop_T(mob/M as mob, mob/user as mob)
-	var/mob/living/carbon/human/acting = user
-	var/mob/living/carbon/human/actee = M
+/turf/simulated/floor/MouseDrop_T(mob/M as mob, mob/user as mob)
 	if( user.stat || user.lying || !Adjacent(user) || !M.Adjacent(user)|| !iscarbon(M))
-		return
-	if(M.swimming == !1) //can't put yourself up if you are not swimming
-		return
+		return ..()
+	if(!M.swimming) //can't put yourself up if you are not swimming
+		return ..()
+	if(user == M)
+		M.visible_message("<span class='notice'>[user] is getting out the pool", \
+						"<span class='notice'>You start getting out of the pool.</span>")
+		if(do_mob(user, M, 20))
+			M.swimming = 0
+			var/turf/T = get_turf(M)
+			T.Exited(M)
+			M.forceMove(src)
+			user << "<span class='notice'>You get out of the pool.</span>"
+			playsound(src, 'sound/effects/water_exit.ogg', 20, 1)
 	else
-		if(user == M)
-			M.visible_message("<span class='notice'>[user] is getting out the pool", \
-							"<span class='notice'>You start getting out of the pool.</span>")
-			if(do_mob(user, M, 20))
-				M.loc = src
-				M.swimming = 0
-				user << "<span class='notice'>You get out of the pool.</span>"
-				if(acting.staminaloss > 38 && acting.staminaloss < 45)
-					user << "<span class='notice'>You feel refreshed and cleaned by the exercise!</span>"
-					user.reagents.add_reagent("hyperzine", 5)
-					user.reagents.add_reagent("anti_toxin", 3)
-		else
-			M.visible_message("<span class='notice'>You start getting [M] out of the pool.", \
-							"<span class='notice'>[M] is being pulled to the poolborder by [user].</span>")
-			if(do_mob(user, M, 20))
-				M.loc = src
-				M.swimming = 0
-				user << "<span class='notice'>You get [M] out of the pool.</span>"
-				if(actee.staminaloss > 38 && actee.staminaloss < 45)
-					M << "<span class='notice'>You feel refreshed and cleaned by the exercise!</span>"
-					M.reagents.add_reagent("hyperzine", 5)
-					M.reagents.add_reagent("anti_toxin", 3)
-				return
+		user.visible_message("<span class='notice'>[M] is being pulled to the poolborder by [user].</span>", \
+						"<span class='notice'>You start getting [M] out of the pool.")
+		if(do_mob(user, M, 20))
+			M.swimming = 0
+			var/turf/T = get_turf(M)
+			T.Exited(M)
+			M.forceMove(src)
+			user << "<span class='notice'>You get [M] out of the pool.</span>"
+			playsound(src, 'sound/effects/water_exit.ogg', 20, 1)
+			return
+
+/turf/simulated/floor/CanPass(atom/movable/A, turf/T)
+	if(istype(A, /mob/living) || istype(A, /obj/structure)) //This check ensures that only specific types of objects cannot pass into the water. Items will be able to get tossed out.
+		if(istype(get_turf(A), /turf/simulated/pool/water) && !istype(T, /turf/simulated/pool/water)) //!(locate(/obj/structure/pool/ladder) in get_turf(A).loc)
+			return 0
+	return ..()
+
+/obj/effect/overlay/water
+	name = "Water"
+	icon = 'icons/turf/pool.dmi'
+	icon_state = "overlay"
+	density = 0
+	mouse_opacity = 0
+	layer = 5
+	anchored = 1
+
+/turf/simulated/pool/water
+	name = "poolwater"
+	desc = "You're safer here than in the deep."
+	icon_state = "turf"
+	var/obj/effect/overlay/water/watereffect
+	var/cooldown = 0 //this is literally only used for a message
+
+/turf/simulated/pool/water/New()
+	..()
+	for(var/obj/effect/overlay/water/W in src)
+		if(W)
+			qdel(W)
+	watereffect = new /obj/effect/overlay/water(src)
+
+/turf/simulated/pool/water/ChangeTurf(var/path)
+	. = ..()
+	if(. != src)
+		qdel(watereffect) //Remove the water overlay so it doesn't hang around
 
 //put people in water, including you
 /turf/simulated/pool/water/MouseDrop_T(mob/M as mob, mob/user as mob)
@@ -97,70 +92,86 @@
 			M.visible_message("<span class='notice'>[user] is descending in the pool", \
 							"<span class='notice'>You start lowering yourself in the pool.</span>")
 			if(do_mob(user, M, 20))
-				M.loc = src
 				M.swimming = 1
+				M.forceMove(src)
 				user << "<span class='notice'>You lower yourself in the pool.</span>"
 		else
-			M.visible_message("<span class='notice'>You start lowering [M] in the pool.", \
-							"<span class='notice'>[M] is being put in the water by [user].</span>")
+			user.visible_message("<span class='notice'>[M] is being put in the water by [user].</span>", \
+							"<span class='notice'>You start lowering [M] in the pool.")
 			if(do_mob(user, M, 20))
-				M.loc = src
 				M.swimming = 1
+				M.forceMove(src)
 				user << "<span class='notice'>You lower [M] in the water.</span>"
 				return
 
-/turf/simulated/pool/water/Entered(atom/movable/Z, atom/OL) //EMP code + water overlay.
-	..()
-//	generate_water_overlay()
-	Z.emp_act(1)
-
-
-
 //What happens if you don't drop in it like a good person would
-/turf/simulated/pool/water/Entered(atom/A, atom/OL)
+/turf/simulated/pool/water/Entered(atom/A, turf/OL)
 	..()
+	A.emp_act(1)
+	// This makes water just look weird
+	// if(istype(A, /mob))
+	// 	var/mob/M = A
+	// 	if(istype(watereffect) && istype(OL) && src.y != OL.y) //We're checking for y variable here so layering isn't fucked when you move horizontally
+	// 		watereffect.layer = M.layer - 0.1 //Veeery tiny difference so layer 3 shit doesn't show up if mob's layer is MOB_LAYER (4).
+	// 		spawn(3)
+	// 			watereffect.layer = initial(watereffect.layer)
+
 	if (istype(A,/mob/living/silicon/robot))
 		var/mob/living/silicon/robot/swimborg = A
 		swimborg << "<span class='userdanger'>Your magnesium core explodes in reaction to the water!</span>"
 		swimborg.self_destruct()
 		if(swimborg.connected_ai)
 			swimborg.connected_ai << "<br><br><span class='alert'>ALERT - Cyborg magnesium core failure detected: [swimborg.name]</span><br>"
-	else if(iscarbon(A))
-		var/mob/living/carbon/human/huuman = A
-		huuman.staminaloss += 1
-		huuman.overlays += image('icons/turf/pool.dmi', "overlay")
-		if(huuman.swimming == 1 || huuman.layer == 5.1) //People on the swimmingboard should not trigger messages
-			playsound(src, 'sound/items/water_shake.ogg', 20, 1)
-			huuman.ExtinguishMob()
+	else if(ishuman(A))
+		var/mob/living/carbon/human/H = A
+		H.adjustStaminaLoss(1)
+		if(H.staminaloss > 35 && H.staminaloss < 50)
+			if (cooldown < world.time - 100)
+				cooldown = world.time
+				H << "<span class='notice'>You feel like you swam enough.</span>"
+		if(H.swimming == 1)
+			playsound(src, pick('sound/effects/water_wade1.ogg','sound/effects/water_wade2.ogg','sound/effects/water_wade3.ogg','sound/effects/water_wade4.ogg'), 20, 1)
+			H.ExtinguishMob()
 			return
-		if(huuman.swimming == 0)
-			if(istype(huuman, /mob/living/carbon))
-				if (huuman.wear_mask)
-					for(var/mob/B in viewers(huuman, 7))
-						B.show_message("<span class='notice'>[huuman] falls in the water!</span>", 1)
-						playsound(src, 'sound/effects/splash.ogg', 60, 1, 1)
-						huuman.Weaken(1)
-						huuman.swimming = 1
-						huuman.ExtinguishMob()
-					return
-				else
-					huuman.drop_item()
-					huuman.adjustOxyLoss(10)
-					if (huuman.coughedtime != 1)
-						huuman.coughedtime = 1
-						huuman.emote("cough")
-						spawn(20)
-							if(huuman && huuman.loc)
-								huuman.coughedtime = 0
-					for(var/mob/B in viewers(huuman, 7))
-						B.show_message("<span class='danger'>[huuman] falls in and takes a drink!</span>", 1)
-						playsound(src, 'sound/effects/splash.ogg', 60, 1, 1)
-						huuman.Weaken(3)
-						huuman.swimming = 1
-						huuman.ExtinguishMob()
-			else
+		if(H.swimming == 0)
+			if(locate(/obj/structure/pool/ladder) in H.loc)
+				H.swimming = 1
 				return
 
+			if (H.wear_mask && H.wear_mask.flags & MASKCOVERSMOUTH)
+				H.visible_message("<span class='danger'>[H] falls in the water!</span>",
+									"<span class='userdanger'>You fall in the water!</span>")
+				playsound(src, 'sound/effects/splash.ogg', 60, 1, 1)
+				H.Weaken(1)
+				H.swimming = 1
+				H.ExtinguishMob()
+				return
+			else
+				H.drop_item()
+				H.adjustOxyLoss(10)
+				H.emote("cough")
+				H.visible_message("<span class='danger'>[H] falls in and takes a drink!</span>",
+									"<span class='userdanger'>You fall in and swallow some water!</span>")
+				playsound(src, 'sound/effects/splash.ogg', 60, 1, 1)
+				H.Weaken(3)
+				H.swimming = 1
+				H.ExtinguishMob()
+
+/turf/simulated/pool/water/Exited(mob/M)
+	..()
+	var/turf/T = get_turf(M)
+	if(istype(M) && istype(watereffect) && istype(T) && src.y != T.y) //We're checking for y variable here so layering isn't fucked when you move horizontally
+		watereffect.layer = M.layer - 0.1 //Always a step behind!
+		spawn(3)
+			watereffect.layer = initial(watereffect.layer)
+	if(ishuman(M) && !istype(T, /turf/simulated/pool/water)) //Check if the dude exited the pool
+		var/mob/living/carbon/human/H = M
+		if(H.staminaloss > 35 && H.staminaloss < 50)
+			H << "<span class='notice'>You feel refreshed and cleaned by the exercise! You need to take a quick rest, though.</span>"
+			H.setStaminaLoss(55) //So you can't instantly go back to swim
+			H.adjustBruteLoss(-2)
+			H.adjustFireLoss(-2)
+			H.adjustToxLoss(-20) //An actual reason to take a swim
 
 /obj/structure/pool
 	name = "pool"
@@ -171,26 +182,20 @@
 	name = "Ladder"
 	icon_state = "ladder"
 	desc = "Are you getting in or are you getting out?."
+	layer = 5.1
 	dir=4
 
 /obj/structure/pool/ladder/attack_hand(mob/user as mob)
-	if(iscarbon(user))
-		var/mob/living/carbon/ladderman = user
-		if(ladderman.y == src.y && ladderman.swimming == 0)
-			ladderman.swimming = 1
-			sleep(1)
-			var/atom/move_target = get_edge_target_turf(src, dir)
-			step_towards(ladderman, move_target)
-		else if(ladderman.y == src.y && ladderman.x == src.x && ladderman.swimming == 1)
-			ladderman.swimming = 0
-			sleep(1)
-			world << "2[src] 3[ladderman]"
-
-			step_towards(ladderman, src)
+	if(Adjacent(user) && user.y == src.y && user.swimming == 0)
+		user.swimming = 1
+		user.forceMove(get_step(user, get_dir(user, src))) //Either way, you're getting IN or OUT of the pool.
+	else if(user.loc == src.loc && user.swimming == 1)
+		user.swimming = 0
+		user.forceMove(get_step(user, reverse_direction(dir)))
 
 /obj/structure/pool/Rboard
 	name = "JumpBoard"
-	density = 1
+	density = 0
 	icon_state = "boardright"
 	desc = "The less-loved portion of the jumping board."
 	dir = 4
@@ -315,28 +320,6 @@
 				if("No!")
 					return
 
-
-
-
-/turf/simulated/pool/poolborder/CanPass(atom/movable/A, turf/T)
-	var/obj/structure/stool/bed/B = A
-	if (istype(A, /obj/structure/stool/bed) && B.buckled_mob)//if it's a bed/chair and someone is buckled, it will not pass
-		return 0
-	else
-		if(istype(A, /mob/living)) // You Shall Not Pass!
-			var/mob/living/M = A
-			if(M.swimming)
-				return 0
-	return ..()
-
-
-/turf/simulated/pool/water/shallow
-	icon_state = "shallow"
-
-/turf/simulated/pool/water/deep
-	desc = "Nanostrasen does not cover drowning."
-	icon_state = "deep"
-
 /obj/machinery/drain
 	name = "Drain"
 	icon = 'icons/turf/pool.dmi'
@@ -351,9 +334,9 @@
 	desc = "The part of the pool that swallows dangerous stuff"
 	anchored = 1
 
-/obj/machinery/pooldrain/emag_act(user as mob)
+/obj/machinery/poolfilter/emag_act(user as mob)
 	if(!emagged)
-		user << "\red You disable \the [src]'s shark filter. Run!" //you better be
+		user << "\red You disable \the [src]'s shark filter. Run!" //you better
 		emagged = 1
 		src.icon_state = "filter_b"
 		spawn(50)
@@ -364,41 +347,6 @@
 					new /mob/living/simple_animal/hostile/shark/kawaii(src.loc)
 				else
 					new /mob/living/simple_animal/hostile/shark/laser(src.loc)
-
-
-
-
-
-
-
-//obj/item/weapon/kitchen/utensil/knife/attack(target as mob, mob/living/user as mob)
-//	if ((CLUMSY in user.mutations) && prob(50))
-//		user << "<span class='danger'> You accidentally cut yourself with \the [src].</span>"
-//		user.take_organ_damage(20)
-//		return
-//	playsound(loc, 'sound/weapons/bladeslice.ogg', 50, 1, -1)
-//	return ..()
-
-
-
-//Splash
-//turf/simulated/pool/water/attackby(obj/O as obj, mob/user as mob)
-//	visible_message("<span class='name'>[src]</span> splashes [obj] in the water!")
-
-
-
-
-
-//	var/pushdirection // push things that get caught in the transit tile this direction
-
-//turf/unsimulated/beach/water/New()
-//	..()
-//	overlays += image("icon"='icons/misc/beach.dmi',"icon_state"="water2","layer"=MOB_LAYER+0.1)
-//standing	+= image("icon"='icons/effects/genetics.dmi', "icon_state"="fire_s", "layer"=-MUTATIONS_LAYER)
-
-
-
-
 
 //shamelessly stolen from paradise. Credits to tigercat2000.
 //Modified a lot by Kokojo, because of that damn UI. I mean FUCK.
@@ -481,14 +429,14 @@
 			switch(temperature) //Apply different effects based on what the temperature is set to.
 				if("scalding") //Burn the mob.
 					M.bodytemperature = min(500, M.bodytemperature + 35) //heat mob at 35k(elvin) per cycle
-					if(M.bodytemperature >= 400 && !M.stat)
-						M << "<span class='danger'>You're boiling alive!</span>"
+					// if(M.bodytemperature >= 400 && !M.stat)
+						// M << "<span class='danger'>You're boiling alive!</span>"
 					return
 
 				if("frigid") //Freeze the mob.
 					M.bodytemperature = max(80, M.bodytemperature - 35) //cool mob at -35k per cycle
-					if(M.bodytemperature <= 215 && !M.stat)
-						M << "<span class='danger'>You're  being frozen solid!</span>"
+					// if(M.bodytemperature <= 215 && !M.stat)
+						// M << "<span class='danger'>You're being frozen solid!</span>"
 					return
 
 				if("normal") //Normal temp does nothing, because it's just room temperature water.
