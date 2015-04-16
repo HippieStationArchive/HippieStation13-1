@@ -39,7 +39,10 @@
 		CtrlShiftClickOn(A)
 		return
 	if(modifiers["middle"])
-		MiddleClickOn(A)
+		if(!controlled_mech)
+			MiddleClickOn(A)
+		else //Since MiddleClick is not used for anything right now, we give normal AI clicks since mech overrides regular clicks.
+			A.attack_ai(src)
 		return
 	if(modifiers["shift"])
 		ShiftClickOn(A)
@@ -61,6 +64,10 @@
 	if(waypoint_mode)
 		set_waypoint(A)
 		waypoint_mode = 0
+		return
+
+	if(controlled_mech) //Are we piloting a mech? Placed here so the modifiers are not overridden.
+		controlled_mech.click_action(A, src) //Override AI normal click behavior.
 		return
 
 	/*
