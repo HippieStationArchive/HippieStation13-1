@@ -34,3 +34,4 @@
 #define BE_MONKEY		2048
 #define BE_GANG			4096
 #define BE_SHADOWLING	8192
+#define BE_REVENANT		16384

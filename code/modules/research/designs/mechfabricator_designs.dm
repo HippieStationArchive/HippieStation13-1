@@ -683,8 +683,8 @@
 	construction_time=150
 	build_path = /obj/item/drone_shell
 	category = list("Misc")
-
-/datum/design/tank
+/*
+/datum/design/tank  //Don't want to work? fuck you too code.. Get commented out!
 	name = "Tiny Tank"
 	desc = "A Tiny Tank for ~FUN~"
 	id = "tank"
@@ -694,3 +694,4 @@
 	construction_time = 500
 	build_path = /obj/mecha/combat/tank
 	category = list("Misc")
+*/

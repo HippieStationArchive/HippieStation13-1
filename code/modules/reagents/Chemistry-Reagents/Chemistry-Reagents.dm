@@ -287,6 +287,21 @@ datum/reagent/water/holywater/reaction_turf(var/turf/simulated/T, var/volume)
 			qdel(R)
 	T.Bless()
 
+datum/reagent/water/holybanana
+	name = "Holy Banana"
+	id = "holybanana"
+	description = "Banana Juice blessed by The Honk Mother."
+	color = "#FFFF00" // rgb: 255, 255, 0
+
+datum/reagent/water/holybanana/on_mob_life(var/mob/living/M as mob)
+	if( ( istype(M, /mob/living/carbon/human) && M.job in list("Clown") ) || istype(M, /mob/living/carbon/monkey) )
+		M.adjustToxLoss(-2)
+		M.adjustFireLoss(-2)
+		M.adjustOxyLoss(-2)
+		M.adjustBruteLoss(-2)
+	holder.remove_reagent(src.id, 1)
+
+
 /*
 
 Leaving this here just incase no one likes Titty removing the effects..
