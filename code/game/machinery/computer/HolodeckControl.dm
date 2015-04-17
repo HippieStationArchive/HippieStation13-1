@@ -18,6 +18,7 @@
 	var/dat = "<h3>Current Loaded Programs</h3>"
 	dat += "<A href='?src=\ref[src];emptycourt=1'>((Empty Court)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];boxingcourt=1'>((Dodgeball Arena)</font>)</A><BR>"
+	dat += "<A href='?src=\ref[src];wrestlingcourt=1'>((Wrestling Arena)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];basketball=1'>((Basketball Court)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];thunderdomecourt=1'>((Thunderdome Court)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];beach=1'>((Beach)</font>)</A><BR>"
@@ -63,6 +64,11 @@
 
 		else if(href_list["boxingcourt"])
 			target = locate(/area/holodeck/source_boxingcourt)
+			if(target)
+				loadProgram(target)
+
+		else if(href_list["wrestlingcourt"])
+			target = locate(/area/holodeck/source_wrestlingcourt)
 			if(target)
 				loadProgram(target)
 
@@ -237,7 +243,9 @@
 
 	if(emagged)
 		for(var/obj/item/weapon/holo/esword/H in linkedholodeck)
-			H.damtype = BRUTE
+			H.damtype = BRUTE //Make all holo e-swords deal actual damage
+		for(var/obj/item/weapon/storage/belt/champion/B in linkedholodeck)
+			B.martial_art = /datum/martial_art/wrestling //Make all wrassling belts deal actual damage
 
 	spawn(30)
 		for(var/obj/effect/landmark/L in linkedholodeck)

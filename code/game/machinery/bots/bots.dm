@@ -386,7 +386,7 @@
 			var/mob/M = AM
 			if(M.client)
 				speech_bubble_recipients.Add(M.client)
-	flick_overlay(image('icons/mob/talk.dmi', src, "h[bubble_type][say_test(message)]", MOB_LAYER+1), speech_bubble_recipients, 30)
+	animate_speechbubble(image('icons/mob/talk.dmi', src, "h[bubble_type][say_test(message)]", MOB_LAYER+1), speech_bubble_recipients, 30)
 
 	//Generalized behavior code, override where needed!
 

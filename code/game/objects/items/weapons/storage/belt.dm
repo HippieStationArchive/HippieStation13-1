@@ -141,12 +141,15 @@
 		/obj/item/weapon/paper
 		)
 
+	var/stamina = 0
 	martial_art = /datum/martial_art/wrestling
 	martial_art_slot = slot_belt
 
 /obj/item/weapon/storage/belt/champion/New()
 	..()
 	new /obj/item/weapon/paper/Wrestling(src)
+	if(stamina == 1)
+		martial_art = /datum/martial_art/wrestling/stamina
 
 
 /obj/item/weapon/storage/belt/military
