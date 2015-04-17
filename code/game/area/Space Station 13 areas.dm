@@ -626,8 +626,8 @@ proc/process_ghost_teleport_locs()
 	name = "Atmospherics"
 	icon_state = "green"
 
-/area/maintenance/incinerator
-	name = "\improper Incinerator"
+/area/maintenance/abandonlab
+	name = "\improper Abandoned Lab"
 	icon_state = "disposal"
 
 /area/maintenance/disposal
