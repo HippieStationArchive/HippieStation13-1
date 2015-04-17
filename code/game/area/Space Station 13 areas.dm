@@ -791,6 +791,7 @@ proc/process_ghost_teleport_locs()
 /area/johncenaarena
 	name = "Superslam Arena"
 	icon_state = "superslam"
+	ambientsounds = list('sound/ambience/johncena.ogg') //This didn't have johncena.ogg as an ambient sound. THAT IS A SIN.
 
 /area/chapel/main
 	name = "\improper Chapel"
