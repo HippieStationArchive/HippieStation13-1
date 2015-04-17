@@ -184,7 +184,7 @@ var/list/department_radio_keys = list(
 		if(M.client)
 			speech_bubble_recipients.Add(M.client)
 	spawn(0)
-		flick_overlay(image('icons/mob/talk.dmi', src, "h[bubble_type][say_test(message)]",MOB_LAYER+1), speech_bubble_recipients, 30)
+		animate_speechbubble(image('icons/mob/talk.dmi', src, "h[bubble_type][say_test(message)]",MOB_LAYER+1), speech_bubble_recipients, 30)
 
 /proc/say_test(var/text) //Doesn't need to be mob_living proc
 	var/ending = copytext(text, length(text))
