@@ -26,6 +26,7 @@ var/datum/global_hud/global_hud = new()
 	blurry.icon_state = "blurry"
 	blurry.layer = 17
 	blurry.mouse_opacity = 0
+	blurry.blend_mode = BLEND_ADD
 
 	var/obj/screen/O
 	var/i
