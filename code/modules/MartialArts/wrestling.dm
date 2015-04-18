@@ -31,6 +31,10 @@
 /datum/martial_art/wrestling
 	name = "Wrestling"
 	priority = 9
+	var/damtype = BRUTE
+
+/datum/martial_art/wrestling/stamina //The safer type of wrassling
+	damtype = STAMINA
 
 /datum/martial_art/wrestling/harm_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
 	if(A == D) return 1 //You shouldn't be able to attack yourself
@@ -116,13 +120,13 @@
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(5, WEAKEN, armor_block)
-	A.SpinAnimation(10,1)
-	D.SpinAnimation(10,1)
+	A.SpinAnimation(6,1, easeout = ELASTIC_EASING)
+	D.SpinAnimation(6,1, easeout = ELASTIC_EASING)
 	sleep(3)
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	D.forceMove(A.loc)
 	affecting = D.get_organ("head")
-	D.apply_damage(25, BRUTE, affecting, armor_block)
+	D.apply_damage(25, damtype, affecting, armor_block)
 	affecting = A.get_organ("chest")
 	armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(4, WEAKEN, armor_block)
@@ -141,7 +145,7 @@
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(null, "melee")
 	D.apply_damage(5, STAMINA, affecting, armor_block)
-	D.apply_damage(5, BRUTE, affecting, armor_block)
+	D.apply_damage(5, damtype, affecting, armor_block)
 	playsound(D, 'sound/weapons/push_hard.ogg', 50, 1)
 	add_logs(A, D, "backhand chopped", addition="(Wrassling)")
 	shake_camera(D, 2, 1)
@@ -156,16 +160,23 @@
 /datum/martial_art/wrestling/proc/ChopDrop(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
 	D.visible_message("<span class='danger'>[A] chop drops [D]!</span>", \
 								"<span class='userdanger'>[A] chop drops [D]!</span>")
-	A.do_attack_animation(D)
-	spawn(1)
-		A.forceMove(D.loc)
-	var/obj/item/organ/limb/affecting = D.get_organ("chest")
-	var/armor_block = D.run_armor_check(affecting, "melee")
-	D.apply_damage(10, BRUTE, affecting, armor_block)
+	A.forceMove(D.loc)
+	var/obj/item/organ/limb/affecting = A.get_organ("chest")
+	var/armor_block = A.run_armor_check(affecting, "melee")
+	A.apply_effect(2, WEAKEN, armor_block)
+	D.stunned = 999
+	D.update_canmove()
+	A.do_bounce_anim_dir(NORTH, 4, 8, easein = BACK_EASING, easeout = BOUNCE_EASING)
+	playsound(A, 'sound/weapons/raise.ogg', 30, 0, -1)
+	sleep(4)
+	if(D)
+		D.stunned = 0
+		D.update_canmove()
+	if(!A || A.stat || !D || !A.Adjacent(D)) return
+	affecting = D.get_organ("chest")
+	armor_block = D.run_armor_check(affecting, "melee")
+	D.apply_damage(10, damtype, affecting, armor_block)
 	D.apply_effect(2, WEAKEN, armor_block)
-	affecting = A.get_organ("chest")
-	armor_block = A.run_armor_check(affecting, "melee")
-	A.apply_effect(1, WEAKEN, armor_block)
 	A.changeNext_move(20) //Takes 2 seconds for another attack to pass
 	playsound(D, pick("swing_hit"), 40, 1)
 	add_logs(A, D, "chop dropped", addition="(Wrassling)")
@@ -182,8 +193,8 @@
 	A.update_canmove()
 	D.stunned = 999
 	D.update_canmove()
-	D.do_bounce_anim_dir(NORTH, 2, 8)
-	A.do_bounce_anim_dir(NORTH, 2, 4)
+	D.do_bounce_anim_dir(NORTH, 3, 8, easeout = BOUNCE_EASING)
+	A.do_bounce_anim_dir(NORTH, 3, 4, easein = ELASTIC_EASING, easeout = BACK_EASING)
 	A.forceMove(D.loc)
 	playsound(D, 'sound/weapons/push_hard.ogg', 50, 1)
 	sleep(4)
@@ -198,7 +209,7 @@
 	var/obj/item/organ/limb/affecting = D.get_organ("head")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(3, WEAKEN, armor_block)
-	D.apply_damage(10, BRUTE, affecting, armor_block)
+	D.apply_damage(10, damtype, affecting, armor_block)
 	shake_camera(D, 3, 1) //Chokeslammed into the ground
 	playsound(D, pick("swing_hit"), 40, 1)
 	add_logs(A, D, "chokeslammed", addition="(Wrassling)")
@@ -210,12 +221,13 @@
 	D.visible_message("<span class='danger'>[A] performs a BACKBREAKER on [D]!</span>", \
 								"<span class='userdanger'>[A] performs a BACKBREAKER on [D]!</span>")
 	D.forceMove(A.loc)
+	D.dir = A.dir
 	A.stunned = 999 //Keeps both in place
 	A.update_canmove()
 	D.stunned = 999
 	D.update_canmove()
-	D.do_bounce_anim_dir(NORTH, 2, 8)
-	A.do_bounce_anim_dir(NORTH, 2, 4)
+	D.do_bounce_anim_dir(NORTH, 4, 8, easeout = BOUNCE_EASING)
+	A.do_bounce_anim_dir(NORTH, 2, 4, easein = CUBIC_EASING, easeout = BACK_EASING)
 	A.forceMove(D.loc)
 	playsound(D, 'sound/weapons/raise.ogg', 50, 1)
 	sleep(5)
@@ -227,11 +239,11 @@
 		D.update_canmove()
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	A.forceMove(D.loc)
-	A.do_bounce_anim_dir(NORTH, 1, 8)
+	A.do_bounce_anim_dir(NORTH, 1, 8, easeout = BACK_EASING)
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(5, WEAKEN, armor_block)
-	D.apply_damage(30, BRUTE, affecting, armor_block)
+	D.apply_damage(30, damtype, affecting, armor_block)
 	D.emote("scream")
 	shake_camera(D, 3, 3) //His BACK got broken, shake the fuck out of his screen.
 	playsound(D, pick("swing_hit"), 60, 1)
@@ -243,7 +255,7 @@
 	D.visible_message("<span class='danger'>[A] performs a TOMBSTONE PILEDRIVER on [D]!</span>", \
 								"<span class='userdanger'>[A] performs a TOMBSTONE PILEDRIVER on [D]!</span>")
 	A.AdjustStunned(2) //Keeps the attacker in place. 2 ticks should be enough for us
-	A.do_bounce_anim_dir(NORTH, 2, 7)
+	A.do_bounce_anim_dir(NORTH, 2, 7, easein = CUBIC_EASING)
 	D.AdjustStunned(2) //Keeps the attacked in place
 	A.dir = SOUTH
 	D.dir = SOUTH
@@ -258,12 +270,12 @@
 	var/speed = 10 / 3
 	animate(D, transform = span1, time = speed) //If we instantly turn the guy 180 degrees he'll just pop out and in of existance all weird-like
 	animate(D, transform = span2, time = speed)
-	animate(D, transform = span3, time = speed)
+	animate(D, transform = span3, time = speed, easing = ELASTIC_EASING)
 	playsound(D, 'sound/weapons/raise.ogg', 40, 0, -1)
 	sleep(10)
 	if(D) //Safety check
-		D.do_bounce_anim_dir(NORTH, 2, 10)
-		A.do_bounce_anim_dir(NORTH, 2, 10)
+		D.do_bounce_anim_dir(NORTH, 4, 10, easeout = BOUNCE_EASING)
+		A.do_bounce_anim_dir(NORTH, 2, 10, easeout = BACK_EASING)
 	sleep(2)
 	if(D)
 		D.transform = origTransform //This should fix the rotation
@@ -275,7 +287,7 @@
 	A.apply_damage(40, STAMINA, affecting, armor_block) //This move will take lots of your stamina as a balancing measure
 	affecting = D.get_organ("head")
 	armor_block = D.run_armor_check(affecting, "melee")
-	D.apply_damage(40, BRUTE, affecting, armor_block)
+	D.apply_damage(40, damtype, affecting, armor_block)
 	D.emote("scream")
 	D.apply_effect(7, WEAKEN, armor_block) //You got FUCKED UP.
 	for(var/mob/M in range(4, D)) //Shaky camera effect
@@ -291,14 +303,16 @@
 	D.visible_message("<span class='danger'>[A] performs a CORKSCREW ELBOW DROP on [D]!</span>", \
 								"<span class='userdanger'>[A] performs a CORKSCREW ELBOW DROP on [D]!</span>")
 	A.AdjustWeakened(2)
-	A.do_bounce_anim_dir(NORTH, 4, 16)
+	A.do_bounce_anim_dir(NORTH, 6, 16, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	D.AdjustStunned(2) //Keeps the attacked in place
 	for(var/i in list(NORTH, EAST, SOUTH, WEST))
+		if(!A) break
 		A.dir = i
 		if(i == SOUTH)
 			A.forceMove(D.loc)
 		playsound(A, 'sound/weapons/raise.ogg', 30, 0, -1)
 		sleep(2)
+	if(A) A.dir = NORTH
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
@@ -306,7 +320,7 @@
 	A.apply_damage(30, STAMINA, affecting, armor_block)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
-	D.apply_damage(35, BRUTE, affecting, armor_block)
+	D.apply_damage(35, damtype, affecting, armor_block)
 	D.emote("scream")
 	D.apply_effect(7, WEAKEN, armor_block)
 	playsound(D, pick("swing_hit"), 60, 1)
@@ -320,20 +334,20 @@
 	D.visible_message("<span class='danger'>[A] performs an RKO on [D]!</span>", \
 								"<span class='userdanger'>[A] performs an RKO on [D]!</span>")
 	A.AdjustWeakened(2)
+	A.lying = 90
 	A.pixel_x -= 6
-	animate(A, A.pixel_y = A.pixel_y + 16, time = 3)
-	animate(A, A.pixel_y = initial(A.pixel_y), time = 3)
+	A.do_bounce_anim_dir(NORTH, 4, 16, easeout = BOUNCE_EASING)
 	D.AdjustWeakened(2) //Keeps the attacked in place
+	D.lying = 270
 	D.pixel_x += 6
-	animate(D, D.pixel_y = D.pixel_y + 16, time = 3)
-	animate(D, D.pixel_y = initial(D.pixel_y), time = 3)
+	D.do_bounce_anim_dir(NORTH, 5, 16, easeout = BOUNCE_EASING)
 	var/todir = get_dir(A, D)
-	A.forceMove(D.loc)
 	playsound(A, 'sound/weapons/raise.ogg', 30, 0, -1)
-	sleep(2)
-	if(A) A.forceMove(D.loc)
-	playsound(D, 'sound/weapons/thudswoosh.ogg', 30, 1, -1)
+	A.forceMove(D.loc)
 	sleep(3)
+	if(D) D.Move(get_step(D,todir))
+	if(A) A.Move(get_step(A,todir))
+	sleep(2)
 	if(A) A.pixel_x = initial(A.pixel_x)
 	if(D) D.pixel_x = initial(D.pixel_x)
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
@@ -343,12 +357,9 @@
 	A.apply_damage(30, STAMINA, affecting, armor_block)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
-	D.apply_damage(25, BRUTE, affecting, armor_block)
+	D.apply_damage(25, damtype, affecting, armor_block)
 	D.emote("scream")
 	D.apply_effect(7, WEAKEN, armor_block)
-	D.Move(get_step(D,todir))
-	A.do_bounce_anim_dir(SOUTH, 2, 8)
-	D.do_bounce_anim_dir(SOUTH, 2, 8)
 	playsound(D, pick("swing_hit"), 60, 1)
 	add_logs(A, D, "RKO'd", addition="(Wrassling)")
 	for(var/mob/M in range(3, D)) //Shaky camera effect
@@ -366,20 +377,22 @@
 
 	D.AdjustStunned(2) //Keeps the attacked in place
 	playsound(A, 'sound/weapons/raise.ogg', 30, 0, -1)
-	sleep(3)
+	sleep(2)
 	A.forceMove(D.loc)
 	playsound(A, 'sound/weapons/raise.ogg', 30, 0, -1)
-	sleep(1)
+	sleep(2)
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	A.pixel_y = initial(A.pixel_y)
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(5, WEAKEN, armor_block)
 	A.apply_damage(10, STAMINA, affecting, armor_block)
+	A.do_bounce_anim_dir(NORTH, 2, 6, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
-	D.apply_damage(15, BRUTE, affecting, armor_block) //Doesn't do too much damage compared to other moves
+	D.apply_damage(15, damtype, affecting, armor_block) //Doesn't do too much damage compared to other moves
 	D.apply_damage(30, STAMINA, affecting, armor_block) //Still does stamina damage to compensate
+	D.do_bounce_anim_dir(NORTH, 2, 4, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	D.apply_effect(7, WEAKEN, armor_block)
 	playsound(D, 'sound/weapons/push_hard.ogg', 60, 1) //Sound signalises that this is not a high-damage attack
 	add_logs(A, D, "moonsaulted", addition="(Wrassling)")
@@ -394,23 +407,24 @@
 	D.visible_message("<span class='danger'>[A] powerbombs [D] on the [T]!</span>", \
 						"<span class='userdanger'>[A] powerbombs [D] on the [T]!</span>")
 	A.stunned = 999
-	A.do_bounce_anim_dir(NORTH, 4, 10)
+	A.do_bounce_anim_dir(NORTH, 4, 10, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	D.AdjustStunned(2)
 	D.forceMove(A.loc)
-	D.do_bounce_anim_dir(NORTH, 4, 16)
+	D.do_bounce_anim_dir(NORTH, 4, 16, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	playsound(D, 'sound/weapons/raise.ogg', 30, 0, -1)
 	sleep(4)
+	if(A)
+		A.stunned = 0
 	if(!A || A.stat || !D || !A.Adjacent(D) || !T) return
 	D.forceMove(T.loc)
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(6, WEAKEN, armor_block)
-	D.apply_damage(25, BRUTE, affecting, armor_block)
-	D.do_bounce_anim_dir(SOUTH, 1, 4)
-	A.do_bounce_anim_dir(SOUTH, 1, 2)
+	D.apply_damage(25, damtype, affecting, armor_block)
+	// D.do_bounce_anim_dir(SOUTH, 4, 2, easein = BOUNCE_EASING)
+	// A.do_bounce_anim_dir(SOUTH, 4, 2, easein = BOUNCE_EASING)
 	playsound(D, pick("swing_hit"), 50, 1)
 	add_logs(A, D, "powerbombed", addition="(Wrassling)")
-	A.stunned = 0
 	A.changeNext_move(20) //Takes 2 seconds for another attack to pass
 
 	if(istype(T, /obj/structure/table/glass))
@@ -431,5 +445,5 @@
 			D.adjustBloodLoss(0.01, O)
 		qdel(T)
 		return
-	if(!istype(T, /obj/structure/table/reinforced)) //Cannot destroy reinforced tables
+	if(!istype(T, /obj/structure/table/reinforced) && !istype(T, /obj/structure/table/holotable)) //Cannot destroy reinforced or holotables
 		T.table_destroy(1)

@@ -626,8 +626,8 @@ proc/process_ghost_teleport_locs()
 	name = "Atmospherics"
 	icon_state = "green"
 
-/area/maintenance/incinerator
-	name = "\improper Incinerator"
+/area/maintenance/abandonlab
+	name = "\improper Abandoned Lab"
 	icon_state = "disposal"
 
 /area/maintenance/disposal
@@ -791,6 +791,7 @@ proc/process_ghost_teleport_locs()
 /area/johncenaarena
 	name = "Superslam Arena"
 	icon_state = "superslam"
+	ambientsounds = list('sound/ambience/johncena.ogg') //This didn't have johncena.ogg as an ambient sound. THAT IS A SIN.
 
 /area/chapel/main
 	name = "\improper Chapel"
@@ -837,6 +838,9 @@ proc/process_ghost_teleport_locs()
 
 /area/holodeck/source_boxingcourt
 	name = "\improper Holodeck - Boxing Court"
+
+/area/holodeck/source_wrestlingcourt
+	name = "\improper Holodeck - Wrestling Court"
 
 /area/holodeck/source_basketball
 	name = "\improper Holodeck - Basketball Court"
