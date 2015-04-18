@@ -24,6 +24,15 @@
 	new /obj/item/clothing/shoes/sneakers/white( src )
 	return
 
+/obj/structure/closet/secure_closet/personal/pool
+	name = "Pool closet"
+
+/obj/structure/closet/secure_closet/personal/pool/New()
+	..()
+	contents.Cut()
+	new /obj/item/clothing/under/shorts/red( src )
+	return
+
 
 
 /obj/structure/closet/secure_closet/personal/cabinet
@@ -68,7 +77,7 @@
 					src.locked = !( src.locked )
 					if(src.locked)	src.icon_state = src.icon_locked
 					else	src.icon_state = src.icon_closed
-	
+
 					if(!src.registered_name)
 						src.registered_name = I.registered_name
 						src.desc = "Owned by [I.registered_name]."

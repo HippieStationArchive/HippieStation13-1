@@ -46,6 +46,8 @@
 	if(affecting)
 		if(affecting.buckled)
 			return null
+		if(assailant.swimming) //Can't throw people while in the pool
+			return null
 		if(state >= GRAB_AGGRESSIVE)
 			return affecting
 	return null
@@ -85,6 +87,8 @@
 	else
 		if(!affecting.buckled)
 			affecting.loc = assailant.loc
+			if(istype(affecting, /mob/living/carbon))
+				affecting.swimming = assailant.swimming
 
 	if(state >= GRAB_NECK)
 		affecting.Stun(5)	//It will hamper your voice, being choked and all.
@@ -93,8 +97,12 @@
 			L.adjustOxyLoss(1)
 
 	if(state >= GRAB_KILL)
-		affecting.Weaken(5)	//Should keep you down unless you get help.
-		affecting.losebreath = min(affecting.losebreath + 2, 3)
+		if(assailant.swimming == 1)
+			affecting.Weaken(5)	//Should keep you down unless you get help.
+			affecting.losebreath = min(affecting.losebreath + 2, 3)
+			if(isliving(affecting))
+				var/mob/living/L = affecting
+				L.adjustOxyLoss(15) //Drowning is fast mang.
 
 /obj/item/weapon/grab/attack_self()
 	do_grab()
@@ -135,12 +143,17 @@
 			state = GRAB_NECK
 			if(!affecting.buckled)
 				affecting.loc = assailant.loc
+			if(istype(affecting, /mob/living/carbon))
+				affecting.swimming = assailant.swimming
 			add_logs(assailant, affecting, "neck-grabbed")
 			icon_state = "disarm/kill"
 			name = "disarm/kill"
 		else
 			if(state < GRAB_UPGRADING)
-				assailant.visible_message("<span class='danger'>[assailant] starts to tighten \his grip on [affecting]'s neck!</span>")
+				if(assailant.swimming == 1)
+					assailant.visible_message("<span class='danger'>[assailant] is trying to drown [affecting]!</span>")
+				else
+					assailant.visible_message("<span class='danger'>[assailant] starts to tighten \his grip on [affecting]'s neck!</span>")
 				icon_state = "disarm/kill1"
 				state = GRAB_UPGRADING
 				if(do_after(assailant, UPGRADE_KILL_TIMER))
@@ -153,8 +166,12 @@
 						qdel(src)
 						return
 					state = GRAB_KILL
-					assailant.visible_message("<span class='danger'>[assailant] has tightened \his grip on [affecting]'s neck!</span>")
-					add_logs(assailant, affecting, "strangled")
+					if(assailant.swimming == 1)
+						assailant.visible_message("<span class='danger'>[assailant] is drowning [affecting]!</span>")
+						add_logs(assailant, affecting, "drowned")
+					else
+						assailant.visible_message("<span class='danger'>[assailant] has tightened \his grip on [affecting]'s neck!</span>")
+						add_logs(assailant, affecting, "strangled")
 
 					assailant.changeNext_move(CLICK_CD_TKSTRANGLE)
 					affecting.losebreath += 1

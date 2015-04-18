@@ -9,4 +9,9 @@
 	icon_plating = "[icon_state]p"
 	broken_states = list("platingdmg1", "platingdmg2", "platingdmg3")
 	burnt_states = list("panelscorched")
-	..()
+
+/turf/simulated/floor/special/update_icon()
+	if(!..())
+		return 0
+	if(!broken && !burnt)
+		icon_state = icon_regular_floor
