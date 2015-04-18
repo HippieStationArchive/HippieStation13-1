@@ -147,11 +147,12 @@ var/list/uplink_items = list()
 //TODO: Meatcubing trashcart goon-style
 
 //BOTANIST
-/datum/uplink_item/job_specific/chainsaw
+/datum/uplink_item/dangerous/chainsaw
 	name = "Chainsaw"
 	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack."
 	item = /obj/item/weapon/twohanded/chainsaw
 	cost = 14
+	jobs = list("Botanist", "Bartender", "Chef")
 
 //ASSISTANT
 /datum/uplink_item/job_specific/stungloves
