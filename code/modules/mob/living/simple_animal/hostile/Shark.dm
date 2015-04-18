@@ -7,6 +7,7 @@
 	icon_living = "shark"
 	icon_dead = "shark_dead"
 	icon_gib = "carp_gib"
+	environment_smash = 0
 	speak_chance = 0
 	turns_per_move = 3
 	meat_type = /obj/item/weapon/reagent_containers/food/snacks/meat
@@ -83,17 +84,18 @@
 	speak = list("Oh Senpai","Notice me senpai!","Oh my...","Kawaii~")
 	speak_emote = list("lovingly says","says")
 	speak_chance = 2
-	turns_per_move = 5
+	turns_per_move = 3
 	meat_type = /mob/living/simple_animal/butterfly
 	meat_amount = 3
 	maxHealth = 50
 	health = 50
 	maxbodytemp = INFINITY
 
-	harm_intent_damage = 8
-	melee_damage_lower = 8
-	melee_damage_upper = 10
+	harm_intent_damage = 0
+	melee_damage_lower = 0
+	melee_damage_upper = 0
 	attacktext = "violently hugs"
+	vision_range = 0
 
 /mob/living/simple_animal/hostile/shark/kawaii/Die()
 	visible_message("<span class='name'>[src]</span> says : Senpai, you noticed~!")
