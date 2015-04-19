@@ -308,7 +308,7 @@
 				change_time = 0
 			animate(lighting_object, alpha = newalpha, time = change_time)
 			if(newalpha >= LIGHTING_DARKEST_VISIBLE_ALPHA) //Doesn't actually make it darker or anything, just tells byond you can't see the tile
-				animate(luminosity = 0, time = 0)
+				luminosity = 0 //animate(luminosity = 0, time = 0) //I don't understand why there was an animate proc here. ~Crystalwarrior160
 
 	lighting_changed = 0
 
