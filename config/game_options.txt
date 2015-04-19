@@ -213,4 +213,4 @@ JOIN_WITH_MUTANT_RACE
 MUTANT_COLORS
 
 ## Starlight for exterior walls and breaches. Uncomment for starlight!
-STARLIGHT
+## STARLIGHT

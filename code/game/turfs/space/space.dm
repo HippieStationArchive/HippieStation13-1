@@ -22,7 +22,7 @@
 /turf/space/proc/update_starlight()
 	if(config)
 		if(config.starlight)
-			for(var/turf/T in orange(src,1))
+			for(var/turf/T in orange(src,3))
 				if(istype(T,/turf/simulated))
 					SetLuminosity(3)
 					return
