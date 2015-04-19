@@ -41,7 +41,7 @@
 	player_mind.special_role = "Revenant"
 	ticker.mode.traitors |= player_mind
 	revvie << 'sound/effects/ghost.ogg'
-	message_admins("[player_mind] has been made into a Revenant by an event!")
+	message_admins("[key_of_revenant] has been made into a Revenant by an event.")
 	log_game("[key_of_revenant] was spawned as a Revenant by an event.")
 	player_mind.store_memory("<span class='deadsay'>I am a revenant. My spectral form has been empowered. My only goal is to gather essence from the humans of [world.name].</span>")
 	revvie << "<br>"
