@@ -58,10 +58,7 @@
 
 /datum/station_state/proc/count()
 	set background=1
-	for(var/turf/T in world)
-		if(T.z != 1)
-			continue
-
+	for(var/turf/T in block(locate(1,1,1), locate(world.maxx,world.maxy,1)))
 		if(istype(T,/turf/simulated/floor))
 			if(!(T:burnt))
 				src.floor += 12
@@ -80,18 +77,15 @@
 			else
 				src.r_wall += 1
 
-	for(var/obj/O in world)
-		if(O.z != 1)
-			continue
-
-		if(istype(O, /obj/structure/window))
-			src.window += 1
-		else if(istype(O, /obj/structure/grille) && (!O:destroyed))
-			src.grille += 1
-		else if(istype(O, /obj/machinery/door))
-			src.door += 1
-		else if(istype(O, /obj/machinery))
-			src.mach += 1
+		for(var/obj/O in T.contents)
+			if(istype(O, /obj/structure/window))
+				src.window += 1
+			else if(istype(O, /obj/structure/grille) && (!O:destroyed))
+				src.grille += 1
+			else if(istype(O, /obj/machinery/door))
+				src.door += 1
+			else if(istype(O, /obj/machinery))
+				src.mach += 1
 	return
 
 

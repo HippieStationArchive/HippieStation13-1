@@ -4,21 +4,21 @@
 	lighting_controller.initializeLighting()
 
 /datum/controller/process/lighting/doWork()
-	lighting_controller.lights_workload_max = \
-		max(lighting_controller.lights_workload_max, lighting_controller.lights.len)
+	lighting_controller.changed_lights_workload = \
+		max(lighting_controller.changed_lights_workload, lighting_controller.changed_lights.len)
 
-	for(var/datum/light_source/L in lighting_controller.lights)
+	for(var/datum/light_source/L in lighting_controller.changed_lights)
 		if(L && L.check())
-			lighting_controller.lights.Remove(L)
+			lighting_controller.changed_lights.Remove(L)
 
 		scheck()
 
-	lighting_controller.changed_turfs_workload_max = \
-		max(lighting_controller.changed_turfs_workload_max, lighting_controller.changed_turfs.len)
+	lighting_controller.changed_turfs_workload = \
+		max(lighting_controller.changed_turfs_workload, lighting_controller.changed_turfs.len)
 
 	for(var/turf/T in lighting_controller.changed_turfs)
 		if(T && T.lighting_changed)
-			T.shift_to_subarea()
+			T.redraw_lighting()
 
 		scheck()
 

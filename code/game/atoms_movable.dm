@@ -49,6 +49,9 @@
 		last_move = 0
 		return
 
+	if(.)
+		Moved(oldloc, direct)
+
 	last_move = direct
 	src.move_speed = world.timeofday - src.l_move_time
 	src.l_move_time = world.timeofday
@@ -57,6 +60,10 @@
 		if(loc && direct && last_move == direct)
 			if(loc == newloc) //Remove this check and people can accelerate. Not opening that can of worms just yet.
 				newtonian_move(last_move)
+
+//Called after a successful Move(). By this point, we've already moved
+/atom/movable/proc/Moved(atom/OldLoc, Dir)
+	return 1
 
 /atom/movable/Del()
 	if(isnull(gc_destroyed) && loc)
@@ -68,14 +75,13 @@
 	..()
 
 /atom/movable/Destroy()
+	. = ..()
 	if(reagents)
 		qdel(reagents)
 	for(var/atom/movable/AM in contents)
 		qdel(AM)
-	tag = null
 	loc = null
 	invisibility = 101
-	// Do not call ..()
 
 // Previously known as HasEntered()
 // This is automatically called when something enters your square
@@ -96,12 +102,15 @@
 
 /atom/movable/proc/forceMove(atom/destination)
 	if(destination)
-		if(loc)
-			loc.Exited(src)
+		var/atom/oldloc = loc
+		if(oldloc)
+			oldloc.Exited(src, destination)
 		loc = destination
-		loc.Entered(src)
-		for(var/atom/movable/AM in loc)
+		destination.Entered(src, oldloc)
+		for(var/atom/movable/AM in destination)
+			if(AM == src)	continue
 			AM.Crossed(src)
+		Moved(oldloc, 0)
 		return 1
 	return 0
 
