@@ -293,3 +293,71 @@ var/list/blood_splatter_icons = list()
 				H.bloody_hands_mob = null
 				H.update_inv_gloves(0)
 	update_icons()	//apply the now updated overlays to the mob
+
+/mob/living/carbon/proc/wash() //Fully wash the human
+	if(src.r_hand)
+		src.r_hand.clean_blood()
+	if(src.l_hand)
+		src.l_hand.clean_blood()
+	if(src.back)
+		if(src.back.clean_blood())
+			src.update_inv_back(0)
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		var/washgloves = 1
+		var/washshoes = 1
+		var/washmask = 1
+		var/washears = 1
+		var/washglasses = 1
+
+		H.track_blood = 0 //No footprints for bare feet
+		if(H.wear_suit)
+			washgloves = !(H.wear_suit.flags_inv & HIDEGLOVES)
+			washshoes = !(H.wear_suit.flags_inv & HIDESHOES)
+
+		if(H.head)
+			washmask = !(H.head.flags_inv & HIDEMASK)
+			washglasses = !(H.head.flags_inv & HIDEEYES)
+			washears = !(H.head.flags_inv & HIDEEARS)
+
+		if(H.wear_mask)
+			if (washears)
+				washears = !(H.wear_mask.flags_inv & HIDEEARS)
+			if (washglasses)
+				washglasses = !(H.wear_mask.flags_inv & HIDEEYES)
+
+		if(H.head)
+			if(H.head.clean_blood())
+				H.update_inv_head(0)
+		if(H.wear_suit)
+			if(H.wear_suit.clean_blood())
+				H.update_inv_wear_suit(0)
+		else if(H.w_uniform)
+			if(H.w_uniform.clean_blood())
+				H.update_inv_w_uniform(0)
+		if(washgloves)
+			H.clean_blood()//We call this proc on human because clean_blood will automatically clean either gloves or hands.
+			H.update_inv_gloves(0)
+		if(washshoes)
+			H.clean_blood(1) //The number is a bool to clean shoes/feet.
+			H.update_inv_shoes(0)
+
+		if(washmask)
+			if(H.wear_mask && H.wear_mask.clean_blood())
+				H.update_inv_wear_mask(0)
+			if(H.spraypaint)
+				H.spraypaint = null
+				H.update_body()
+		if(H.glasses && washglasses)
+			if(H.glasses.clean_blood())
+				H.update_inv_glasses(0)
+		if(H.ears && washears)
+			if(H.ears.clean_blood())
+				H.update_inv_ears(0)
+		if(H.belt)
+			if(H.belt.clean_blood())
+				H.update_inv_belt(0)
+	else
+		if(src.wear_mask)						//if the mob is not human, it cleans the mask without asking for bitflags
+			if(src.wear_mask.clean_blood())
+				src.update_inv_wear_mask(0)

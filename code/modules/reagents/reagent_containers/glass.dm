@@ -1,4 +1,3 @@
-
 ////////////////////////////////////////////////////////////////////////////////
 /// (Mixing)Glass.
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,9 +27,11 @@
 		/obj/structure/safe,
 		/obj/machinery/disposal,
 		/obj/machinery/hydroponics,
+		/obj/machinery/poolcontroller,
 		/obj/machinery/biogenerator,
 		/mob/living/simple_animal/cow,
-		/mob/living/simple_animal/hostile/retaliate/goat
+		/mob/living/simple_animal/hostile/retaliate/goat,
+		/mob/living/simple_animal/hostile/livingplush,
 	)
 
 // /obj/item/weapon/reagent_containers/glass/examine()
@@ -62,6 +63,7 @@
 		reagents.reaction(target, TOUCH)
 		reagents.clear_reagents()
 		return
+
 
 	else if(istype(target, /obj/structure/reagent_dispensers)) //A dispenser. Transfer FROM it TO us.
 
@@ -99,11 +101,20 @@
 	else if(istype(target, /obj/item/clothing/suit/space/space_ninja))
 		return
 
+	else if(istype(target, /turf/simulated/pool/water))
+		if(reagents.total_volume >= 1)
+			user << "<span class='notice'>Doing that would be useless.</span>"
+		else
+			user << "<span class='notice'>You plunge [src] in the [target].</span>"
+			reagents.add_reagent("water", 100)
+			return
+
+//		else if(istype(target, /turf/simulated/pool/water))
+
 	else if(reagents.total_volume)
 		user << "<span class='notice'>You splash the solution onto [target].</span>"
 		reagents.reaction(target, TOUCH)
 		reagents.clear_reagents()
-
 
 /obj/item/weapon/reagent_containers/glass/beaker
 	name = "beaker"
@@ -224,7 +235,6 @@
 	icon = 'icons/obj/kitchen.dmi'
 	icon_state = "blender_jug_e"
 	volume = 100
-
 /obj/item/weapon/reagent_containers/glass/blender_jug/on_reagent_change()
 	switch(src.reagents.total_volume)
 		if(0)
@@ -233,7 +243,6 @@
 			icon_state = "blender_jug_h"
 		if(76 to 100)
 			icon_state = "blender_jug_f"
-
 /obj/item/weapon/reagent_containers/glass/canister		//not used apparantly
 	desc = "It's a canister. Mainly used for transporting fuel."
 	name = "canister"
@@ -243,11 +252,9 @@
 	m_amt = 300
 	g_amt = 0
 	w_class = 4.0
-
 	amount_per_transfer_from_this = 20
 	possible_transfer_amounts = list(10,20,30,60)
 	volume = 120
-
 /obj/item/weapon/reagent_containers/glass/dispenser
 	name = "reagent glass"
 	desc = "A reagent glass."
@@ -255,13 +262,10 @@
 	icon_state = "beaker0"
 	amount_per_transfer_from_this = 10
 	flags = OPENCONTAINER
-
 /obj/item/weapon/reagent_containers/glass/dispenser/surfactant
 	name = "reagent glass (surfactant)"
 	icon_state = "liquid"
-
 	New()
 		..()
 		reagents.add_reagent("fluorosurfactant", 20)
-
 */
