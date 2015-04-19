@@ -1,5 +1,7 @@
 var/datum/controller/lighting/lighting_controller = new
 
+#define MC_AVERAGE(average, current) (0.8*(average) + 0.2*(current))
+
 /datum/controller/lighting
 	var/processing = 0
 	var/processing_interval = 5	//setting this too low will probably kill the server. Don't be silly with it!
@@ -7,18 +9,16 @@ var/datum/controller/lighting/lighting_controller = new
 	var/iteration = 0
 	var/max_cpu_use = 98		//this is just to prevent it queueing up when the server is dying. Not a solution, just damage control while I rethink a lot of this and try out ideas.
 
-	var/lighting_states = 6
+	// var/lighting_states = 6
 
-	var/list/lights = list()
-	var/lights_workload_max = 0
+	var/list/changed_lights = list()		//list of all datum/light_source that need updating
+	var/changed_lights_workload = 0			//stats on the largest number of lights (max changed_lights.len)
+	var/list/changed_turfs = list()			//list of all turfs which may have a different light level
+	var/changed_turfs_workload = 0			//stats on the largest number of turfs changed (max changed_turfs.len)
 
-//	var/list/changed_lights()		//TODO: possibly implement this to reduce on overheads? Also, Look into static-lights idea.
-
-	var/list/changed_turfs = list()
-	var/changed_turfs_workload_max = 0
 
 /datum/controller/lighting/New()
-	lighting_states = max( 0, length(icon_states(LIGHTING_ICON))-1 )
+	// lighting_states = max( 0, length(icon_states(LIGHTING_ICON))-1 )
 	if(lighting_controller != src)
 		if(istype(lighting_controller,/datum/controller/lighting))
 			Recover()	//if we are replacing an existing lighting_controller (due to a crash) we attempt to preserve as much as we can
@@ -26,10 +26,9 @@ var/datum/controller/lighting/lighting_controller = new
 		lighting_controller = src
 
 
-//Workhorse of lighting. It cycles through each light to see which ones need their effects updating. It updates their
-//effects and then processes every turf in the queue, moving the turfs to the corresponing lighting sub-area.
-//All queue lists prune themselves, which will cause lights with no luminosity to be garbage collected (cheaper and safer
-//than deleting them). Processing interval should be roughly half a second for best results.
+//Workhorse of lighting. It cycles through each light that needs updating. It updates their
+//effects and then processes every turf in the queue, updating their lighting object's appearance
+//Any light that returns 1 in check() deletes itself
 //By using queues we are ensuring we don't perform more updates than are necessary
 /datum/controller/lighting/proc/process()
 	processing = 1
@@ -40,21 +39,21 @@ var/datum/controller/lighting/lighting_controller = new
 				iteration++
 				var/started = world.timeofday
 
-				lights_workload_max = max(lights_workload_max,lights.len)
-				for(var/i=1, i<=lights.len, i++)
-					var/datum/light_source/L = lights[i]
+				changed_lights_workload = MC_AVERAGE(changed_lights_workload, changed_lights.len)//max(changed_lights_workload,changed_lights.len)
+				for(var/i=1, i<=changed_lights.len, i++)
+					var/datum/light_source/L = changed_lights[i]
 					if(L && !L.check())
 						continue
-					lights.Cut(i,i+1)
+					changed_lights.Cut(i,i+1)
 					i--
 
 				sleep(-1)
 
-				changed_turfs_workload_max = max(changed_turfs_workload_max,changed_turfs.len)
+				changed_turfs_workload = MC_AVERAGE(changed_turfs_workload, changed_turfs.len)//max(changed_turfs_workload_max,changed_turfs.len)
 				for(var/i=1, i<=changed_turfs.len, i++)
 					var/turf/T = changed_turfs[i]
 					if(T && T.lighting_changed)
-						T.shift_to_subarea()
+						T.redraw_lighting()
 				changed_turfs.Cut()		// reset the changed list
 
 				process_cost = (world.timeofday - started)
@@ -69,10 +68,10 @@ var/datum/controller/lighting/lighting_controller = new
 	processing = 0
 	spawn(-1)
 		set background = BACKGROUND_ENABLED
-		for(var/i=1, i<=lights.len, i++)
-			var/datum/light_source/L = lights[i]
+		for(var/i=1, i<=changed_lights.len, i++)
+			var/datum/light_source/L = changed_lights[i]
 			if(L.check())
-				lights.Cut(i,i+1)
+				changed_lights.Cut(i,i+1)
 				i--
 
 		var/z_start = 1
@@ -87,7 +86,7 @@ var/datum/controller/lighting/lighting_controller = new
 			for(var/i=1,i<=world.maxx,i++)
 				for(var/j=1,j<=world.maxy,j++)
 					var/turf/T = locate(i,j,k)
-					if(T)	T.shift_to_subarea()
+					if(T)	T.init_lighting()
 
 		changed_turfs.Cut()		// reset the changed list
 
@@ -98,21 +97,21 @@ var/datum/controller/lighting/lighting_controller = new
 /datum/controller/lighting/proc/Recover()
 	if(!istype(lighting_controller.changed_turfs,/list))
 		lighting_controller.changed_turfs = list()
-	if(!istype(lighting_controller.lights,/list))
-		lighting_controller.lights = list()
+	if(!istype(lighting_controller.changed_lights,/list))
+		lighting_controller.changed_lights = list()
 
-	for(var/i=1, i<=lighting_controller.lights.len, i++)
-		var/datum/light_source/L = lighting_controller.lights[i]
+	for(var/i=1, i<=lighting_controller.changed_lights.len, i++)
+		var/datum/light_source/L = lighting_controller.changed_lights[i]
 		if(istype(L))
 			spawn(-1)			//so we don't crash the loop (inefficient)
 				L.check()
-				lights += L		//If we didn't runtime then this will get transferred over
+				changed_lights += L		//If we didn't runtime then this will get transferred over
 
 	for(var/i=1, i<=lighting_controller.changed_turfs.len, i++)
 		var/turf/T = lighting_controller.changed_turfs[i]
 		if(istype(T) && T.lighting_changed)
 			spawn(-1)
-				T.shift_to_subarea()
+				T.redraw_lighting()
 
 	var/msg = "## DEBUG: [time2text(world.timeofday)] lighting_controller restarted. Reports:\n"
 	for(var/varname in lighting_controller.vars)
@@ -126,5 +125,3 @@ var/datum/controller/lighting/lighting_controller = new
 					varval2 = "/list([length(varval2)])"
 				msg += "\t [varname] = [varval1] -> [varval2]\n"
 	world.log << msg
-
-#undef LIGHTING_ICON
