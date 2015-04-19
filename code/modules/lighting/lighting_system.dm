@@ -33,7 +33,7 @@
 #define LIGHTING_ICON 'icons/effects/alphacolors.dmi'
 #define LIGHTING_ICON_STATE "white"
 #define LIGHTING_TIME 1.2									//Time to do any lighting change. Actual number pulled out of my ass
-#define LIGHTING_DARKEST_VISIBLE_ALPHA 230					//Anything darker than this is so dark, we'll just consider the whole tile unlit
+#define LIGHTING_DARKEST_VISIBLE_ALPHA 240					//Anything darker than this is so dark, we'll just consider the whole tile unlit
 
 /datum/light_source
 	var/atom/owner
@@ -293,12 +293,12 @@
 	if(lighting_object)
 		var/newalpha
 		if(lighting_lumcount <= 0)
-			newalpha = 255
+			newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA //Change this variable for people to still be able to see in the dark
 		else
 			lighting_object.luminosity = 1
 			if(lighting_lumcount < LIGHTING_CAP)
-				var/num = Clamp(lighting_lumcount * LIGHTING_CAP_FRAC, 0, 255)
-				newalpha = 255-num
+				var/num = Clamp(lighting_lumcount * LIGHTING_CAP_FRAC, 0, LIGHTING_DARKEST_VISIBLE_ALPHA)
+				newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA-num
 			else //if(lighting_lumcount >= LIGHTING_CAP)
 				newalpha = 0
 

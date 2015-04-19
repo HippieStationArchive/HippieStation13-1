@@ -365,10 +365,12 @@ var/const/STEP = 2
 var/const/SLIDE = 4
 var/const/GALOSHES_DONT_HELP = 8
 /mob/living/carbon/slip(var/s_amount, var/w_amount, var/obj/O, var/lube)
-	loc.handle_slip(src, s_amount, w_amount, O, lube)
+	if(isturf(loc))
+		loc.handle_slip(src, s_amount, w_amount, O, lube)
 
 /mob/living/carbon/fall(var/forced)
-    loc.handle_fall(src, forced)//it's loc so it doesn't call the mob's handle_fall which does nothing
+	if(isturf(loc))
+    	loc.handle_fall(src, forced)//it's loc so it doesn't call the mob's handle_fall which does nothing
 
 /mob/living/carbon/is_muzzled()
 	return(istype(src.wear_mask, /obj/item/clothing/mask/muzzle))

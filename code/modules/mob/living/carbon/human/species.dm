@@ -580,7 +580,7 @@
 
 		if(H.see_override)	//Override all
 			H.see_invisible = H.see_override
-
+		if(H.see_in_dark == 0) H.see_in_dark = 1 //This is to try and fix the fake HDR causing the tile you're on to disappear.
 		//	This checks how much the mob's eyewear impairs their vision
 		if(H.tinttotal >= TINT_IMPAIR)
 			if(tinted_weldhelh)
