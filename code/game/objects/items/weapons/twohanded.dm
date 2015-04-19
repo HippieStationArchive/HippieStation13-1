@@ -370,8 +370,8 @@ obj/item/weapon/twohanded/
 		playsound(loc, "swing_hit", 50, 1, -1)
 		return ..()
 
-/obj/item/weapon/twohanded/chainsaw/IsShield() //Disarming someone with a chainsaw should be difficult. TOO BAD THIS ALSO BLOCKS TASER SHOTS.
-	if(wielded && prob(50)) //Added a probability so it's not a completely reliable godmode thing.
+/obj/item/weapon/twohanded/chainsaw/IsShield() //Disarming someone with a chainsaw should be difficult.
+	if(wielded)
 		return 1
 	else
 		return 0
