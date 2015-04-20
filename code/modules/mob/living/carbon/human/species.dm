@@ -73,6 +73,9 @@
 
 	var/mob/living/list/ignored_by = list()	// list of mobs that will ignore this species
 
+	var/max_dark_adjust = ADJUST_DARKNESS_MAX_ADJUST //Default var
+	var/min_dark_adjust = -3 //we can actually get too used to bright light
+
 	///////////
 	// PROCS //
 	///////////
@@ -545,11 +548,15 @@
 		H.sight &= ~(SEE_TURFS|SEE_MOBS|SEE_OBJS)
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
-		H.see_in_dark = darksight
+		H.see_in_dark = darksight + H.adjusted_darkness_sight
+		if(H.see_in_dark > 2)
+			H.see_invisible = SEE_INVISIBLE_LEVEL_ONE
+		else
+			H.see_invisible = SEE_INVISIBLE_LIVING
 
 		if(XRAY in H.mutations)
 			H.sight |= SEE_TURFS|SEE_MOBS|SEE_OBJS
-			H.see_in_dark = 8
+			H.see_in_dark = 8 + H.adjusted_darkness_sight
 			H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
 
 		if(H.seer)
@@ -573,7 +580,7 @@
 
 		if(H.see_override)	//Override all
 			H.see_invisible = H.see_override
-
+		if(H.see_in_dark == 0) H.see_in_dark = 1 //This is to try and fix the fake HDR causing the tile you're on to disappear.
 		//	This checks how much the mob's eyewear impairs their vision
 		if(H.tinttotal >= TINT_IMPAIR)
 			if(tinted_weldhelh)
