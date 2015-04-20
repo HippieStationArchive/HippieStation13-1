@@ -47,6 +47,8 @@
 
 /turf/simulated/floor/CanPass(atom/movable/A, turf/T)
 	if(istype(A, /mob/living) || istype(A, /obj/structure)) //This check ensures that only specific types of objects cannot pass into the water. Items will be able to get tossed out.
+		if(istype(A, /mob/living/simple_animal) || istype(A, /mob/living/carbon/monkey))
+			return ..()
 		if(istype(get_turf(A), /turf/simulated/pool/water) && !istype(T, /turf/simulated/pool/water)) //!(locate(/obj/structure/pool/ladder) in get_turf(A).loc)
 			return 0
 	return ..()
@@ -125,9 +127,8 @@
 	else if(ishuman(A))
 		var/mob/living/carbon/human/H = A
 		H.adjustStaminaLoss(1)
-//		if(H.staminaloss > 35 && H.staminaloss < 50)
-//			if (cooldown < world.time - 100)
-//				cooldown = world.time
+//		if(H.staminaloss > 40 && H.staminaloss < 55) //a bit more than needed, so that you have the time to react
+//			if (prob(25)
 //				H << "<span class='notice'>You feel like you swam enough.</span>"
 		if(H.swimming == 1)
 			playsound(src, pick('sound/effects/water_wade1.ogg','sound/effects/water_wade2.ogg','sound/effects/water_wade3.ogg','sound/effects/water_wade4.ogg'), 20, 1)
@@ -148,7 +149,7 @@
 				return
 			else
 				H.drop_item()
-				H.adjustOxyLoss(10)
+				H.adjustOxyLoss(5)
 				H.emote("cough")
 				H.visible_message("<span class='danger'>[H] falls in and takes a drink!</span>",
 									"<span class='userdanger'>You fall in and swallow some water!</span>")
@@ -168,7 +169,7 @@
 		var/mob/living/carbon/human/H = M
 		if(H.staminaloss > 35 && H.staminaloss < 50)
 			H << "<span class='notice'>You feel refreshed and cleaned by the exercise! You need to take a quick rest, though.</span>"
-			H.setStaminaLoss(60) //So you can't instantly go back to swim
+			H.setStaminaLoss(70) //So you can't instantly go back to swim
 			H.adjustBruteLoss(-2)
 			H.adjustFireLoss(-2)
 			H.adjustToxLoss(-20) //An actual reason to take a swim
@@ -213,6 +214,7 @@
 	desc = "Get on there to jump!"
 	layer = 5
 	dir = 8
+	var/menuup = 0
 	var/jumping = 0
 
 /obj/structure/pool/Lboard/proc/backswim(obj/O as obj, mob/user as mob) //Puts the sprite back to it's maiden condition after a jump.
@@ -231,93 +233,100 @@
 		if(jumping == 1)
 			user << "<span class='notice'>Someone else is already making a jump!</span>"
 			return
+		if(menuup == 1)
+			return
 		var/turf/T = get_turf(src)
 		if(user.swimming)
 			return
 		else
+			menuup = 1
 			switch( alert("Jump from the board?", "Jumpboard", "Yes!", "No!"))
 				if("Yes!")
-					jumper.visible_message("<span class='notice'>[user] climbs up \the [src]!</span>", \
-										 "<span class='notice'>You climb up \the [src] and prepares to jump!</span>")
-					jumper.canmove = 0
-					jumper.stunned = 4
-					jumping = 1
-					jumper.layer = 5.1
-					jumper.pixel_x = 3
-					jumper.pixel_y = 7
-					jumper.dir=8
-					spawn(1) //somehow necessary
-						jumper.loc = T
+					if(Adjacent(jumper))
+						jumper.visible_message("<span class='notice'>[user] climbs up \the [src]!</span>", \
+											 "<span class='notice'>You climb up \the [src] and prepares to jump!</span>")
+						jumper.canmove = 0
 						jumper.stunned = 4
-						spawn(10)
-							var/randn = rand(1, 100)
-							switch(randn)
-								if(1 to 20)
-									jumper.visible_message("<span class='notice'>[user] goes for a small dive!</span>", \
-														 "<span class='notice'>You go for a small dive.</span>")
-									sleep(15)
-									backswim()
-									var/atom/throw_target = get_edge_target_turf(src, dir)
-									jumper.throw_at(throw_target, 1, 1)
-								if(21 to 40)
-									jumper.visible_message("<span class='notice'>[user] goes for a dive!</span>", \
-														 "<span class='notice'>You're going for a dive!</span>")
-									sleep(20)
-									backswim()
-									var/atom/throw_target = get_edge_target_turf(src, dir)
-									jumper.throw_at(throw_target, 2, 1)
-
-								if(41 to 60)
-									jumper.visible_message("<span class='notice'>[user] goes for a long dive! Stay far away!</span>", \
-											"<span class='notice'>You're going for a long dive!!</span>")
-									sleep(25)
-									backswim()
-									var/atom/throw_target = get_edge_target_turf(src, dir)
-									jumper.throw_at(throw_target, 3, 1)
-
-								if(61 to 80)
-									jumper.visible_message("<span class='notice'>[user] goes for a awesome dive! Don't stand in \his way!</span>", \
-														 "<span class='notice'>You feel like this dive will be awesome</span>")
-									sleep(30)
-									backswim()
-									var/atom/throw_target = get_edge_target_turf(src, dir)
-									jumper.throw_at(throw_target, 4, 1)
-								if(81 to 91)
-									sleep(20)
-									backswim()
-									jumper.visible_message("<span class='danger'>[user] misses \his step!</span>", \
-												 "<span class='userdanger'>You misstep!</span>")
-									var/atom/throw_target = get_edge_target_turf(src, dir)
-									jumper.throw_at(throw_target, 0, 1)
-									jumper.Weaken(5)
-									jumper.adjustBruteLoss(10)
-
-								if(91 to 100)
-									jumper.visible_message("<span class='notice'>[user] is preparing for the legendary dive! Can he make it?</span>", \
-														 "<span class='userdanger'>You start preparing for a legendary dive!</span>")
-									jumper.SpinAnimation(7,1)
-
-									sleep(30)
-									if(prob(75))
+						jumping = 1
+						jumper.layer = 5.1
+						jumper.pixel_x = 3
+						jumper.pixel_y = 7
+						jumper.dir=8
+						spawn(1) //somehow necessary
+							jumper.loc = T
+							jumper.stunned = 4
+							menuup = 0
+							spawn(10)
+								var/randn = rand(1, 100)
+								switch(randn)
+									if(1 to 20)
+										jumper.visible_message("<span class='notice'>[user] goes for a small dive!</span>", \
+															 "<span class='notice'>You go for a small dive.</span>")
+										sleep(15)
 										backswim()
-										jumper.visible_message("<span class='notice'>[user] fails!</span>", \
-												 "<span class='userdanger'>You can't quite do it!</span>")
 										var/atom/throw_target = get_edge_target_turf(src, dir)
 										jumper.throw_at(throw_target, 1, 1)
-									else
-										jumper.fire_stacks = min(1,jumper.fire_stacks + 1)
-										jumper.IgniteMob()
-										sleep(5)
+									if(21 to 40)
+										jumper.visible_message("<span class='notice'>[user] goes for a dive!</span>", \
+															 "<span class='notice'>You're going for a dive!</span>")
+										sleep(20)
 										backswim()
-										jumper.visible_message("<span class='danger'>[user] bursts into flame of pure awesomness!</span>", \
-											 "<span class='userdanger'>No one can stop you now!</span>")
 										var/atom/throw_target = get_edge_target_turf(src, dir)
-										jumper.throw_at(throw_target, 6, 1)
-							spawn(35)
-								jumping = 0
+										jumper.throw_at(throw_target, 2, 1)
 
+									if(41 to 60)
+										jumper.visible_message("<span class='notice'>[user] goes for a long dive! Stay far away!</span>", \
+												"<span class='notice'>You're going for a long dive!!</span>")
+										sleep(25)
+										backswim()
+										var/atom/throw_target = get_edge_target_turf(src, dir)
+										jumper.throw_at(throw_target, 3, 1)
+
+									if(61 to 80)
+										jumper.visible_message("<span class='notice'>[user] goes for a awesome dive! Don't stand in \his way!</span>", \
+															 "<span class='notice'>You feel like this dive will be awesome</span>")
+										sleep(30)
+										backswim()
+										var/atom/throw_target = get_edge_target_turf(src, dir)
+										jumper.throw_at(throw_target, 4, 1)
+									if(81 to 91)
+										sleep(20)
+										backswim()
+										jumper.visible_message("<span class='danger'>[user] misses \his step!</span>", \
+														 "<span class='userdanger'>You misstep!</span>")
+										var/atom/throw_target = get_edge_target_turf(src, dir)
+										jumper.throw_at(throw_target, 0, 1)
+										jumper.Weaken(5)
+										jumper.adjustBruteLoss(10)
+
+									if(91 to 100)
+										jumper.visible_message("<span class='notice'>[user] is preparing for the legendary dive! Can he make it?</span>", \
+															 "<span class='userdanger'>You start preparing for a legendary dive!</span>")
+										jumper.SpinAnimation(7,1)
+
+										sleep(30)
+										if(prob(75))
+											backswim()
+											jumper.visible_message("<span class='notice'>[user] fails!</span>", \
+													 "<span class='userdanger'>You can't quite do it!</span>")
+											var/atom/throw_target = get_edge_target_turf(src, dir)
+											jumper.throw_at(throw_target, 1, 1)
+										else
+											jumper.fire_stacks = min(1,jumper.fire_stacks + 1)
+											jumper.IgniteMob()
+											sleep(5)
+											backswim()
+											jumper.visible_message("<span class='danger'>[user] bursts into flame of pure awesomness!</span>", \
+												 "<span class='userdanger'>No one can stop you now!</span>")
+											var/atom/throw_target = get_edge_target_turf(src, dir)
+											jumper.throw_at(throw_target, 6, 1)
+								spawn(35)
+									jumping = 0
+					else
+						return
 
 				if("No!")
+					menuup = 0
 					return
 
 /obj/machinery/drain
