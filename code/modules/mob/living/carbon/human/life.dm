@@ -531,7 +531,7 @@
 		else if(eye_blurry)	//blurry eyes heal slowly
 			eye_blurry = max(eye_blurry-1, 0)
 
-		handle_eyes_lighting(0)
+		// handle_eyes_lighting(0) //This seems to cause extreme amounts of lag with lots of people.
 		//Ears
 		if(sdisabilities & DEAF)	//disabled-deaf, doesn't get better on its own
 			ear_deaf = max(ear_deaf, 1)
@@ -786,7 +786,7 @@
 #define ADJUST_DARKNESS_MAX_ADJUST			2 //this is the default adjustment value
 #define ADJUST_DARKNESS_DELAY				30 //in deciseconds, how long we wait between adjusting darkness
 
-/mob/living/carbon/human/proc/handle_eyes_lighting(turf_change = 0)
+/mob/living/carbon/human/proc/handle_eyes_lighting(turf_change = 0) //Calling this every two ticks causes some severe lag problems apparently.
 	var/turf/light_turf = get_turf(src)
 	if(!blinded && light_turf && light_turf.lighting_lumcount <= (ADJUST_DARKNESS_LUMCOUNT_THRESHOLD - adjusted_darkness_sight*ADJUST_DARKNESS_INCREMENT))
 		if(adjusted_darkness_sight < (dna.species ? dna.species.max_dark_adjust : ADJUST_DARKNESS_MAX_ADJUST) && (turf_change || (lastDarknessAdjust + ADJUST_DARKNESS_DELAY < world.time))) //we can increase, and we've waited long enough
