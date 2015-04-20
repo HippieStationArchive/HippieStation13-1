@@ -202,6 +202,7 @@
 	step_in = 2
 	dir_in = 1 //Facing North.
 	health = 500
+	color = "#9900FF"
 	deflect_chance = 25
 	damage_absorption = list("brute"=0.5,"fire"=0.7,"bullet"=0.45,"laser"=0.6,"energy"=0.7,"bomb"=0.7)
 	max_temperature = 15000
@@ -220,6 +221,11 @@
 	ME.attach(src)
 	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/banana_mortar/tank
 	ME.attach(src)
+	ME = new /obj/item/mecha_parts/mecha_equipment/wormhole_generator
+	ME.attach(src)
+	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/energy/taser
+	ME.attach(src)
+
 	return
 
 /obj/mecha/combat/tank/plushie/add_cell(var/obj/item/weapon/stock_parts/cell/C=null)
