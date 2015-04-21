@@ -69,39 +69,45 @@
 /obj/machinery/poolcontroller/proc/updatePool()
 	for(var/turf/simulated/pool/water/W in linkedturfs) //Check for pool-turfs linked to the controller.
 		for(var/mob/M in W) //Check for mobs in the linked pool-turfs.
-			//Sanity checks, don't affect robuts, AI eyes, and observers
-//			if(isAIEye(M))
-//				return
-			if(issilicon(M))
-				return
 			if(isobserver(M))
-				return
+				continue
+
 			//End sanity checks, go on
 			switch(temperature) //Apply different effects based on what the temperature is set to.
 				if("scalding") //Burn the mob.
 					M.bodytemperature = min(500, M.bodytemperature + 35) //heat mob at 35k(elvin) per cycle
 					// if(M.bodytemperature >= 400 && !M.stat)
 						// M << "<span class='danger'>You're boiling alive!</span>"
-					return
 
 				if("frigid") //Freeze the mob.
-					M.bodytemperature = max(80, M.bodytemperature - 35) //cool mob at -35k per cycle
+					M.bodytemperature = max(80, M.bodytemperature - 35) //cool mob at -35k per cycle, less would not affect the mob enough.
 					// if(M.bodytemperature <= 215 && !M.stat)
 						// M << "<span class='danger'>You're being frozen solid!</span>"
-					return
 
 				if("normal") //Normal temp does nothing, because it's just room temperature water.
-					return
 
 				if("warm") //Gently warm the mob.
 					M.bodytemperature = min(360, M.bodytemperature + 20) //Heats up mobs till the termometer shows up
-					return
 
 				if("cool") //Gently cool the mob.
 					M.bodytemperature = max(250, M.bodytemperature - 20) //Cools mobs till the termometer shows up
-					return
+			var/mob/living/carbon/human/drownee = M
+			if(drownee.stat == DEAD)
+				continue
+			if(drownee && drownee.lying && !drownee.internal)
+				if(drownee.stat != CONSCIOUS)
+					drownee.adjustOxyLoss(9)
+					drownee << "<span class='danger'>You're quickly drowning!</span>"
+				else
+					if(!drownee.internal)
+						drownee.adjustOxyLoss(5)
+						if(prob(35))
+							drownee << "<span class='danger'>You're lacking air!</span>"
+
 		for(var/obj/effect/decal/cleanable/decal in W)
-			del(decal)
+			animate(decal, alpha = 10, time = 20)
+			spawn(25)
+				qdel(decal)
 
 /obj/machinery/poolcontroller/proc/miston() //Spawn /obj/effect/mist (from the shower) on all linked pool tiles
 	for(var/turf/simulated/pool/water/W in linkedturfs)
@@ -114,7 +120,7 @@
 
 /obj/machinery/poolcontroller/proc/mistoff() //Delete all /obj/effect/mist from all linked pool tiles.
 	for(var/obj/effect/mist/M in linkedmist)
-		del(M)
+		qdel(M)
 	misted = 0 //no mist left, turn off the tracking var
 
 
@@ -135,15 +141,19 @@
 	var/datum/browser/popup = new(user, "Pool Controller", name, 350, 250)
 	popup.set_content(dat)
 	popup.open()
+
 /obj/machinery/poolcontroller/Topic(href, href_list)
 	if(!in_range(src, usr))
 		return
 	if(!isliving(usr))
 		return
 	if(href_list["Scalding"])
-		src.temperature = "scalding"
-		src.icon_state = "poolcscald"
-		miston()
+		if(emagged)
+			src.temperature = "scalding"
+			src.icon_state = "poolcscald"
+			miston()
+		if(!emagged)
+			message_admins("[key_name_admin(usr)] is trying to use href exploits with the poolcontroller")
 	if(href_list["Warm"])
 		src.temperature = "warm"
 		src.icon_state = "poolcwarm"
@@ -157,8 +167,11 @@
 		src.icon_state = "poolccool"
 		mistoff()
 	if(href_list["Frigid"])
-		src.temperature = "frigid"
-		src.icon_state = "poolcfrig"
-		mistoff()
+		if(emagged)
+			src.temperature = "frigid"
+			src.icon_state = "poolcfrig"
+			mistoff()
+		if(!emagged)
+			message_admins("[key_name_admin(usr)] is trying to use href exploits with the poolcontroller")
 	update_icon()
 	updateUsrDialog()
