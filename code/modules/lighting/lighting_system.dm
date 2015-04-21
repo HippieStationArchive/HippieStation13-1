@@ -43,6 +43,11 @@
 	var/__x = 0		//x coordinate at last update
 	var/__y = 0		//y coordinate at last update
 
+	var/_l_color // do not use directly, only used as reference for updating
+	var/col_r
+	var/col_g
+	var/col_b
+
 /datum/light_source/New(atom/A)
 	if(!istype(A))
 		CRASH("The first argument to the light object's constructor must be the atom that is the light source. Expected atom, received '[A]' instead.")
@@ -85,7 +90,7 @@
 //Remove current effect
 /datum/light_source/proc/remove_effect().
 	for(var/turf/T in effect)
-		T.update_lumcount(-effect[T])
+		T.update_lumcount(-effect[T], col_r, col_g, col_b, 1)
 
 		if(T.affecting_lights && T.affecting_lights.len)
 			T.affecting_lights -= src
@@ -96,6 +101,7 @@
 /datum/light_source/proc/add_effect()
 	// only do this if the light is turned on and is on the map
 	if(owner && owner.loc && radius > 0)
+		readrgb(owner.l_color)
 		effect = list()
 		var/turf/To = get_turf(owner)
 		var/range = owner.get_light_range(radius)
@@ -110,7 +116,7 @@
 			var/delta_lumcount = T.lumen(src)
 			if(delta_lumcount > 0)
 				effect[T] = delta_lumcount
-				T.update_lumcount(delta_lumcount)
+				T.update_lumcount(delta_lumcount, col_r, col_g, col_b, 0)
 
 				if(!T.affecting_lights)
 					T.affecting_lights = list()
@@ -119,6 +125,16 @@
 		return 1
 	else
 		return 0
+
+/datum/light_source/proc/readrgb(const/col)
+	_l_color = col
+
+	if(col)
+		col_r = GetRedPart(col)
+		col_g = GetGreenPart(col)
+		col_b = GetBluePart(col)
+	else
+		col_r = null
 
 //How much light light_source L should apply to src
 /turf/proc/lumen(datum/light_source/L)
@@ -134,7 +150,7 @@
 
 /atom
 	var/datum/light_source/light
-
+	var/l_color
 
 //Turfs with opacity when they are constructed will trigger nearby lights to update
 //Turfs and atoms with luminosity when they are constructed will create a light_source automatically
@@ -216,7 +232,7 @@
 	icon_state = LIGHTING_ICON_STATE
 	layer = LIGHTING_LAYER
 	mouse_opacity = 0
-	blend_mode = BLEND_OVERLAY
+	blend_mode = BLEND_MULTIPLY
 	invisibility = INVISIBILITY_LIGHTING
 	color = "#000"
 	luminosity = 0
@@ -234,6 +250,12 @@
 	var/lighting_changed = 0
 	var/atom/movable/light/lighting_object //Will be null for space turfs and anything in a static lighting area
 	var/list/affecting_lights			//not initialised until used (even empty lists reserve a fair bit of memory)
+	
+	var/color_lighting_lumcount = 0
+	var/lumcount_r = 0
+	var/lumcount_g = 0
+	var/lumcount_b = 0
+	var/light_col_sources = 0
 
 /turf/ChangeTurf(var/path)
 	if(!path || path == type) //Sucks this is here but it would cause problems otherwise.
@@ -263,8 +285,31 @@
 	for(var/turf/space/S in orange(src,1))
 		S.update_starlight()
 
-/turf/proc/update_lumcount(amount)
+/turf/proc/update_lumcount(amount, col_r, col_g, col_b, removing = 0)
 	lighting_lumcount += amount
+
+	if(!isnull(col_r)) //col_r is the "key" var, if it's null so will the rest
+		if(removing)
+			light_col_sources--
+			lumcount_r -= col_r
+			lumcount_g -= col_g
+			lumcount_b -= col_b
+		else
+			light_col_sources++
+			lumcount_r += col_r
+			lumcount_g += col_g
+			lumcount_b += col_b
+
+		if(light_col_sources)
+			var/r_avg = Clamp(round(lumcount_r / light_col_sources, 16) + 15, 0, 255)
+			var/g_avg = Clamp(round(lumcount_g / light_col_sources, 16) + 15, 0, 255)
+			var/b_avg = Clamp(round(lumcount_b / light_col_sources, 16) + 15, 0, 255)
+			l_color = rgb(r_avg, g_avg, b_avg)
+		else
+			l_color = null
+
+		color_lighting_lumcount = max(color_lighting_lumcount + amount, 0) // Minimum of 0.
+
 	if(!lighting_changed)
 		lighting_controller.changed_turfs += src
 		lighting_changed = 1
@@ -301,6 +346,9 @@
 				newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA-num
 			else //if(lighting_lumcount >= LIGHTING_CAP)
 				newalpha = 0
+
+		if (lighting_object.color != l_color)
+			lighting_object.color = l_color
 
 		if(lighting_object.alpha != newalpha)
 			var/change_time = LIGHTING_TIME
