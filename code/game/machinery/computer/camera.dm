@@ -7,6 +7,7 @@
 	var/last_pic = 1.0
 	var/list/network = list("SS13")
 	var/mapping = 0//For the overview file, interesting bit of code.
+	l_color = "#B40000"
 
 /obj/machinery/computer/security/check_eye(var/mob/user as mob)
 	if ((get_dist(user, src) > 1 || user.blinded || !( current ) || !( current.status )) && (!istype(user, /mob/living/silicon)))
@@ -91,7 +92,7 @@
 	network = list("thunder")
 	density = 0
 	circuit = null
-
+	l_color = "#000000"
 // /obj/machinery/computer/security/telescreen/update_icon()
 // 	icon_state = initial(icon_state)
 // 	if(stat & BROKEN)
@@ -108,7 +109,7 @@
 	network = list("thunder")
 	density = 0
 	circuit = null
-
+	l_color = "#000000"
 
 /obj/machinery/computer/security/wooden_tv
 	name = "security camera monitor"
@@ -116,7 +117,7 @@
 	icon_state = "security_det"
 	icon_state_nopower = "security_det0"
 	icon_state_broken = "security_detb"
-
+	l_color = "#000000"
 
 /obj/machinery/computer/security/mining
 	name = "outpost camera console"
@@ -124,6 +125,7 @@
 	icon_state = "miningcameras"
 	network = list("MINE")
 	circuit = "/obj/item/weapon/circuitboard/mining"
+	l_color = "#CD00CD"
 
 /obj/machinery/computer/security/wooden_tv_prison
 	name = "security camera monitor"
@@ -132,3 +134,4 @@
 	icon_state_nopower = "security_det0"
 	icon_state_broken = "security_detb"
 	network = list("BORING")
+	l_color = "#000000"

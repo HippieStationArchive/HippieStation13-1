@@ -4,7 +4,7 @@
 	icon_state = "shuttle"
 	var/auth_need = 3.0
 	var/list/authorized = list(  )
-
+	l_color = "#7BF9FF"
 
 /obj/machinery/computer/emergency_shuttle/attackby(var/obj/item/weapon/card/W as obj, var/mob/user as mob)
 	if(stat & (BROKEN|NOPOWER))	return

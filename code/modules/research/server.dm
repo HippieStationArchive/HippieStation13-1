@@ -183,6 +183,7 @@
 	var/list/servers = list()
 	var/list/consoles = list()
 	var/badmin = 0
+	l_color = "#CD00CD"
 	circuit = /obj/item/weapon/circuitboard/rdservercontrol
 
 /obj/machinery/computer/rdservercontrol/Topic(href, href_list)

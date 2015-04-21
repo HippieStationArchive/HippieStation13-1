@@ -28,7 +28,8 @@
 	var/max_crystals = 8
 	var/list/crystals = list()
 	var/obj/item/device/gps/inserted_gps
-
+	l_color = "#0000FF"
+	
 /obj/machinery/computer/telescience/New()
 	..()
 	recalibrate()

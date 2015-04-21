@@ -10,7 +10,8 @@
 	var/calibrating
 	var/turf/target //Used for one-time-use teleport cards (such as clown planet coordinates.)
 						 //Setting this to 1 will set src.locked to null after a player enters the portal and will not allow hand-teles to open portals to that location.
-
+	l_color = "#0000FF"
+	
 /obj/machinery/computer/teleporter/New()
 	src.id = "[rand(1000, 9999)]"
 	link_power_station()

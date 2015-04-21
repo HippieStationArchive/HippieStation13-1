@@ -37,9 +37,10 @@
 	density = 1
 	anchored = 0
 	luminosity = 4
-
+	allow_spin = 0
+	
 	var/max_luminosity = 8 // Now varies based on power.
-	//l_color = "#ffcc00"
+	l_color = "#ffcc00"
 	var/max_power=2000
 
 	var/gasefficency = 3
@@ -56,7 +57,6 @@
 	var/emergency_alert = "CRYSTAL DELAMINATION IMMINENT."
 	var/explosion_point = 1000
 
-	//l_color = "#8A8A00" //dynamic lighting - TG code no haz
 	var/warning_color = "#B8B800"
 	var/emergency_color = "#D9D900"
 

@@ -49,7 +49,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 
 	var/selected_category
 	var/list/datum/design/matching_designs = list() //for the search function
-
+	l_color = "#CD00CD"
 
 /obj/machinery/computer/rdconsole/proc/CallTechName(var/ID) //A simple helper proc to find the name of a tech with a given ID.
 	var/datum/tech/check_tech
@@ -1085,7 +1085,8 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 	id = 2
 	req_access = null
 	req_access_txt = "29"
-
+	l_color = "#CD00CD"
+	
 /obj/machinery/computer/rdconsole/robotics/New()
 	..()
 	if(circuit)
@@ -1096,6 +1097,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 	name = "Core R&D Console"
 	desc = "A console used to interface with R&D tools."
 	id = 1
+	l_color = "#CD00CD"
 
 /obj/machinery/computer/rdconsole/experiment
 	name = "E.X.P.E.R.I-MENTOR R&D Console"

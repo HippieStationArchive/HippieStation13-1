@@ -351,7 +351,13 @@
 	var/damage_coeff
 	var/scan_level
 	var/precision_coeff
-
+	power_change()
+		..()
+		if(!(stat & (BROKEN|NOPOWER)) && src.occupant)
+			SetLuminosity(2)
+		else
+			SetLuminosity(0)
+			
 /obj/machinery/dna_scannernew/New()
 	..()
 	component_parts = list()
@@ -542,6 +548,8 @@
 	use_power = 1
 	idle_power_usage = 10
 	active_power_usage = 400
+
+	l_color = "#0000FF"
 
 /obj/machinery/computer/scan_consolenew/attackby(obj/item/I as obj, mob/user as mob)
 	if (istype(I, /obj/item/weapon/disk/data)) //INSERT SOME DISKETTES

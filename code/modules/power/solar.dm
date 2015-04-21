@@ -291,7 +291,7 @@ var/list/solars_list = list()
 	var/nexttime = 0		// time for a panel to rotate of 1° in manual tracking
 	var/obj/machinery/power/tracker/connected_tracker = null
 	var/list/connected_panels = list()
-
+	l_color = "#FF9933"
 
 /obj/machinery/power/solar_control/New()
 	..()
