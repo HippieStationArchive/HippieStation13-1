@@ -38,6 +38,10 @@
 	anchored = 0
 	luminosity = 4
 
+	var/max_luminosity = 8 // Now varies based on power.
+	l_color = "#ffcc00"
+	var/max_power=2000
+
 	var/gasefficency = 3
 
 	var/base_icon_state = "darkmatter"
@@ -245,6 +249,9 @@
 
 	power -= (power/500)**3
 
+	// Lighting based on power output.
+	SetLuminosity(Clamp(round(Clamp(power/max_power,0,1)*max_luminosity),0,max_luminosity))
+
 	return 1
 
 
@@ -376,6 +383,9 @@
 	desc = "A strangely translucent and iridescent crystal that looks like it used to be part of a larger structure. \red You get headaches just from looking at it."
 	icon_state = "darkmatter_shard"
 	base_icon_state = "darkmatter_shard"
+
+	max_luminosity = 5
+	max_power=3000
 
 	warning_point = 50
 	emergency_point = 400

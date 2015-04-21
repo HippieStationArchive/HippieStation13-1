@@ -53,6 +53,7 @@
 		CRASH("The first argument to the light object's constructor must be the atom that is the light source. Expected atom, received '[A]' instead.")
 	..()
 	owner = A
+	readrgb(owner.l_color)
 	radius = A.luminosity
 	__x = owner.x
 	__y = owner.y
@@ -150,7 +151,7 @@
 
 /atom
 	var/datum/light_source/light
-	var/l_color
+	var/l_color = "black"
 
 //Turfs with opacity when they are constructed will trigger nearby lights to update
 //Turfs and atoms with luminosity when they are constructed will create a light_source automatically
@@ -234,7 +235,7 @@
 	mouse_opacity = 0
 	blend_mode = BLEND_MULTIPLY
 	invisibility = INVISIBILITY_LIGHTING
-	color = "#000"
+	color = "black"
 	luminosity = 0
 	infra_luminosity = 1
 	anchored = 1
@@ -306,7 +307,10 @@
 			var/b_avg = Clamp(round(lumcount_b / light_col_sources, 16) + 15, 0, 255)
 			l_color = rgb(r_avg, g_avg, b_avg)
 		else
-			l_color = null
+			l_color = "black"
+
+		if(l_color == null)
+			l_color = "black"
 
 		color_lighting_lumcount = max(color_lighting_lumcount + amount, 0) // Minimum of 0.
 
@@ -347,8 +351,11 @@
 			else //if(lighting_lumcount >= LIGHTING_CAP)
 				newalpha = 0
 
-		if (lighting_object.color != l_color)
-			lighting_object.color = l_color
+		if (l_color != null && lighting_object.color != l_color)
+			if(lighting_object.color != null)
+				lighting_object.color = l_color
+			else
+				lighting_object.color = "black"
 
 		if(lighting_object.alpha != newalpha)
 			var/change_time = LIGHTING_TIME
