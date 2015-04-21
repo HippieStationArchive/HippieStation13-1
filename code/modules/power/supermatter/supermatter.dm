@@ -39,7 +39,7 @@
 	luminosity = 4
 
 	var/max_luminosity = 8 // Now varies based on power.
-	l_color = "#ffcc00"
+	//l_color = "#ffcc00"
 	var/max_power=2000
 
 	var/gasefficency = 3
@@ -364,7 +364,7 @@
 			for(var/atom/X in orange(pull_radius,src))
 				var/dist = get_dist(X, src)
 				var/obj/machinery/power/supermatter/S = src
-				
+
 				if(dist > 4) //consume_range
 					X.singularity_pull(S, STAGE_FIVE)
 				else if(dist <= 4) //consume_range

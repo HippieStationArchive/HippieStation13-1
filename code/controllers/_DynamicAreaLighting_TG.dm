@@ -1,9 +1,3 @@
-
-
-//LEGACY FILE -- DO NOT COMPILE. OBJECT-BASED SYSTEM IS IMPLEMENTED.
-
-
-
 /*
 	Modified DynamicAreaLighting for TGstation - Coded by Carnwennan
 
