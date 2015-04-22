@@ -209,8 +209,4 @@ DEFAULT_LAWS 2
 JOIN_WITH_MUTANT_RACE
 
 ## Uncomment to allow certain species to have custom colors
-
 MUTANT_COLORS
-
-## Starlight for exterior walls and breaches. Uncomment for starlight!
-## STARLIGHT

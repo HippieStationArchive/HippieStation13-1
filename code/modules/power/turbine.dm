@@ -63,7 +63,7 @@
 	circuit = /obj/item/weapon/circuitboard/turbine_computer
 	var/obj/machinery/power/compressor/compressor
 	var/id = 0
-
+	l_color = "#0000FF"
 // the inlet stage of the gas turbine electricity generator
 
 /obj/machinery/power/compressor/New()

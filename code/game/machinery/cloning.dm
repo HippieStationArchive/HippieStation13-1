@@ -22,7 +22,8 @@
 	var/eject_wait = 0 //Don't eject them as soon as they are created fuckkk
 	var/speed_coeff
 	var/efficiency
-
+	l_color = "#7BF9FF"
+	
 /obj/machinery/clonepod/New()
 	..()
 	component_parts = list()

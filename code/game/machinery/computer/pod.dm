@@ -8,7 +8,7 @@
 	var/timing = 0
 	var/time = 30
 	var/range = 4
-
+	l_color = "#50AB00"
 
 /obj/machinery/computer/pod/initialize()
 	for(var/obj/machinery/mass_driver/M in range(range, src))
@@ -132,6 +132,7 @@
 	desc = "The Syndicate operate on a tight budget. Operates external airlocks."
 	title = "External Airlock Controls"
 	req_access = list(access_syndicate)
+	l_color = "#000000"
 
 /obj/machinery/computer/pod/old/syndicate/attack_hand(mob/user)
 	if(!allowed(user))

@@ -13,8 +13,11 @@ obj/machinery/air_sensor
 	var/id_tag
 	var/frequency = 1439
 
+	l_color = "#7BF9FF"
+
 	var/on = 1
 	var/output = 3
+
 	//Flags:
 	// 1 for pressure
 	// 2 for temperature

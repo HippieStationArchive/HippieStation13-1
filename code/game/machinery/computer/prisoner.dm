@@ -13,7 +13,8 @@
 	var/screen = 0 // 0 - No Access Denied, 1 - Access allowed
 	var/obj/item/weapon/card/id/prisoner/inserted_id
 	circuit = /obj/item/weapon/circuitboard/prisoner
-
+	l_color = "#B40000"
+	
 /obj/machinery/computer/prisoner/attack_hand(var/mob/user as mob)
 	if(..())
 		return

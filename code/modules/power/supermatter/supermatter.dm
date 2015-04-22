@@ -37,6 +37,11 @@
 	density = 1
 	anchored = 0
 	luminosity = 4
+	allow_spin = 0
+	
+	var/max_luminosity = 8 // Now varies based on power.
+	l_color = "#ffcc00"
+	var/max_power=2000
 
 	var/gasefficency = 3
 
@@ -52,7 +57,6 @@
 	var/emergency_alert = "CRYSTAL DELAMINATION IMMINENT."
 	var/explosion_point = 1000
 
-	//l_color = "#8A8A00" //dynamic lighting - TG code no haz
 	var/warning_color = "#B8B800"
 	var/emergency_color = "#D9D900"
 
@@ -245,6 +249,9 @@
 
 	power -= (power/500)**3
 
+	// Lighting based on power output.
+	SetLuminosity(Clamp(round(Clamp(power/max_power,0,1)*max_luminosity),0,max_luminosity))
+
 	return 1
 
 
@@ -357,7 +364,7 @@
 			for(var/atom/X in orange(pull_radius,src))
 				var/dist = get_dist(X, src)
 				var/obj/machinery/power/supermatter/S = src
-				
+
 				if(dist > 4) //consume_range
 					X.singularity_pull(S, STAGE_FIVE)
 				else if(dist <= 4) //consume_range
@@ -376,6 +383,9 @@
 	desc = "A strangely translucent and iridescent crystal that looks like it used to be part of a larger structure. \red You get headaches just from looking at it."
 	icon_state = "darkmatter_shard"
 	base_icon_state = "darkmatter_shard"
+
+	max_luminosity = 5
+	max_power=3000
 
 	warning_point = 50
 	emergency_point = 400

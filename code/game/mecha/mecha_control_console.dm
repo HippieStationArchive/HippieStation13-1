@@ -8,7 +8,8 @@
 	var/list/located = list()
 	var/screen = 0
 	var/stored_data
-
+	l_color = "#CD00CD"
+	
 /obj/machinery/computer/mecha/attack_hand(var/mob/user as mob)
 	if(..())
 		return

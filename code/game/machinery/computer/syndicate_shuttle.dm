@@ -11,7 +11,8 @@
 	icon_state = "syndishuttle"
 	req_access = list(access_syndicate)
 	var/recall_only = 0
-
+	l_color = "#B40000"
+	
 /obj/machinery/computer/syndicate_station/recall
 	name = "syndicate shuttle recall terminal"
 	recall_only = 1

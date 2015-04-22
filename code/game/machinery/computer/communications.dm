@@ -31,6 +31,8 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 	var/const/STATE_ALERT_LEVEL = 8
 	var/const/STATE_CONFIRM_LEVEL = 9
 	var/const/STATE_TOGGLE_EMERGENCY = 10
+	
+	l_color = "#FFFFFF"
 
 	var/status_display_freq = "1435"
 	var/stat_msg1

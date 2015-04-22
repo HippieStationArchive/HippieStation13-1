@@ -19,11 +19,14 @@
 	desc = "A floating crystal that hums with an unearthly energy"
 	icon_state = "pylon"
 	luminosity = 5
+	l_color = "#3e0000"
 
 /obj/structure/cult/tome
 	name = "desk"
 	desc = "A desk covered in arcane manuscripts and tomes in unknown languages. Looking at the text makes your skin crawl"
 	icon_state = "tomealtar"
+	luminosity = 2
+	l_color = "#3e0000"
 //	luminosity = 5
 
 //sprites for this no longer exist	-Pete
@@ -44,6 +47,8 @@
 	density = 1
 	unacidable = 1
 	anchored = 1.0
+	luminosity=5
+	l_color="#ff0000"
 
 /obj/effect/gateway/Bumped(mob/M as mob|obj)
 	spawn(0)

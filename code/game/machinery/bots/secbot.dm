@@ -26,7 +26,14 @@
 	radio_frequency = SEC_FREQ //Security channel
 	bot_type = SEC_BOT
 	bot_filter = RADIO_SECBOT
-
+	l_color = "#B40000"
+	power_change()
+		..()
+		if(src.on)
+			SetLuminosity(2)
+		else
+			SetLuminosity(0)
+			
 	//List of weapons that secbots will not arrest for
 	var/safe_weapons = list(\
 		/obj/item/weapon/gun/energy/laser/bluetag,\

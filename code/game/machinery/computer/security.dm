@@ -21,7 +21,7 @@
 	//Sorting Variables
 	var/sortBy = "name"
 	var/order = 1 // -1 = Descending - 1 = Ascending
-
+	l_color = "#B40000"
 
 /obj/machinery/computer/secure_data/attackby(obj/item/O as obj, user as mob)
 	if(istype(O, /obj/item/weapon/card/id) && !scan)
@@ -690,3 +690,4 @@ What a mess.*/
 	icon_state = "messyfiles"
 	icon_state_nopower = "messyfiles0"
 	icon_state_broken = "messyfilesb"
+	l_color = "#000000"

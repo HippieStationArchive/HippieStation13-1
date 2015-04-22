@@ -11,6 +11,7 @@
 	icon_state = "dispenser"
 	use_power = 1
 	idle_power_usage = 40
+	l_color = "#0000FF"
 	var/energy = 50
 	var/max_energy = 50
 	var/amount = 30
@@ -1248,6 +1249,7 @@ obj/machinery/computer/pandemic/proc/replicator_cooldown(var/waittime)
 	amount = 30
 	recharge_delay = 5
 	uiname = "Soda Dispenser"
+	l_color = "#0000FF"
 	dispensable_reagents = list("water","ice","coffee","cream","tea","icetea","cola","spacemountainwind","dr_gibb","space_up","tonic","sodawater","lemon_lime","sugar","orangejuice","limejuice","tomatojuice")
 /obj/machinery/chem_dispenser/drinks/attackby(var/obj/item/O as obj, var/mob/user as mob)
 		if(default_unfasten_wrench(user, O))

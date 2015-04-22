@@ -38,18 +38,18 @@
 		pixel_y = ((src.dir & 3)? (src.dir ==1 ? 24 : -32) : (0))
 
 		spawn(20)
-			//for(var/obj/machinery/door/window/brigdoor/M in range(20, src))
+			//for(var/obj/machinery/door/window/brigdoor/M in world)
 			//	if (M.id == src.id)
 			//		targets += M
-			for(var/obj/machinery/door/poddoor/glass/G in range(20, src))
+			for(var/obj/machinery/door/poddoor/glass/G in world)
 				if (G.id == src.id)
 					targets += G
 
-			for(var/obj/machinery/flasher/F in range(20, src))
+			for(var/obj/machinery/flasher/F in world)
 				if(F.id == src.id)
 					targets += F
 
-			for(var/obj/structure/closet/secure_closet/brig/C in range(20, src))
+			for(var/obj/structure/closet/secure_closet/brig/C in world)
 				if(C.id == src.id)
 					targets += C
 

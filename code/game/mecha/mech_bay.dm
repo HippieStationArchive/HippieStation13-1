@@ -26,7 +26,8 @@
 	var/on = 0
 	var/repairability = 0
 	var/turf/recharging_turf = null
-
+	l_color = "#CD00CD"
+	
 /obj/machinery/mech_bay_recharge_port/New()
 	..()
 	component_parts = list()

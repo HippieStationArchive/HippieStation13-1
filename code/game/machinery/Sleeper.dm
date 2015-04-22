@@ -4,7 +4,8 @@
 	icon_state = "console"
 	anchored = 1	//About time someone fixed this.
 	density = 0
-
+	l_color = "#7BF9FF"
+	
 /obj/machinery/sleeper
 	name = "sleeper"
 	icon = 'icons/obj/Cryogenic2.dmi'

@@ -86,6 +86,13 @@
 
 /obj/machinery/computer/power_change()
 	..()
+	
+	//Might be shit
+	if(!(stat & (BROKEN|NOPOWER)))
+		SetLuminosity(2)
+	else
+		SetLuminosity(0)
+
 	update_icon()
 	return
 
