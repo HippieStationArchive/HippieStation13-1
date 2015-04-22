@@ -162,6 +162,10 @@
 		dat += "<I>A magical contract binding an apprentice wizard to your service, using it will summon them to your side.</I><BR>"
 		dat += "<HR>"
 
+		dat += "<A href='byond://?src=\ref[src];spell_choice=plasmafist'>Plasma Fist Scroll</A><BR>"
+		dat += "<I>This artifact is NOT reccomended for weaklings. An ancient scroll that will teach you the art of Plasma Fist. With it's various combos you can knock people down in the area around you, light them on fire and finally perform the PLASMA FIST that will gib your target.</I><BR>"
+		dat += "<HR>"
+
 		dat += "<A href='byond://?src=\ref[src];spell_choice=scrying'>Scrying Orb</A><BR>"
 		dat += "<I>An incandescent orb of crackling energy, using it will allow you to ghost while alive, allowing you to spy upon the station with ease. In addition, buying it will permanently grant you x-ray vision.</I><BR>"
 
@@ -358,6 +362,11 @@
 							feedback_add_details("wizard_spell_learned","CT") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
 							new /obj/item/weapon/antag_spawner/contract(get_turf(H))
 							temp = "You have purchased a contract of apprenticeship."
+							max_uses--
+						if("plasmafist")
+							feedback_add_details("wizard_spell_learned","PF") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
+							new /obj/item/weapon/plasma_fist_scroll(get_turf(H))
+							temp = "You have purchased the great and ancient PLASMA FIST."
 							max_uses--
 						if("scrying")
 							feedback_add_details("wizard_spell_learned","SO") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
