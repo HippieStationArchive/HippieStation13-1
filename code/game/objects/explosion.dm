@@ -111,24 +111,24 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 				if(dist > 0)
 					T.ex_act(dist)
 
+			if(!ignorecap)
 			//--- THROW ITEMS AND PEOPLE AROUND ---
-
-			var/throw_dir = get_dir(epicenter,T)
-			for(var/atom/A in T)
-				spawn(0) //Simultaneously not one at a time
-					if(istype(A, /obj/item))
-						var/obj/item/I = A
-						if(!I.anchored)
-							var/throw_range = rand(throw_dist, max_range)
-							var/turf/throw_at = get_ranged_target_turf(I, throw_dir, throw_range)
-							I.throw_at(throw_at, throw_range,1)
-					if(istype(A, /mob/living))
-						var/mob/living/C = A
-						if(!C.anchored) //Not sure but you may or may not be thrown around even when buckled.
-							var/throw_range = rand(throw_dist, max_range)
-							var/turf/throw_at = get_ranged_target_turf(C, throw_dir, throw_range)
-							C.throw_at(throw_at, throw_range,1)
-							C << "\red The explosions force throws you back!"
+				var/throw_dir = get_dir(epicenter,T)
+				for(var/atom/A in T)
+					spawn(0) //Simultaneously not one at a time
+						if(istype(A, /obj/item))
+							var/obj/item/I = A
+							if(!I.anchored)
+								var/throw_range = rand(throw_dist, max_range)
+								var/turf/throw_at = get_ranged_target_turf(I, throw_dir, throw_range)
+								I.throw_at(throw_at, throw_range,1)
+						if(istype(A, /mob/living))
+							var/mob/living/C = A
+							if(!C.anchored) //Not sure but you may or may not be thrown around even when buckled.
+								var/throw_range = rand(throw_dist, max_range)
+								var/turf/throw_at = get_ranged_target_turf(C, throw_dir, throw_range)
+								C.throw_at(throw_at, throw_range,1)
+								C << "\red The explosions force throws you back!"
 
 		var/took = (world.timeofday-start)/10
 		//You need to press the DebugGame verb to see these now....they were getting annoying and we've collected a fair bit of data. Just -test- changes  to explosion code using this please so we can compare
