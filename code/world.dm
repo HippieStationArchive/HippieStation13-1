@@ -110,12 +110,6 @@
 	map_name = "Unknown"
 	#endif
 
-	spawn(3000)		//so we aren't adding to the round-start lag
-		ToRban_autoupdate()
-	//	if(config.kick_inactive)
-	//		KickInactiveClients()
-	return
-
 #undef RECOMMENDED_VERSION
 
 //world/Topic(href, href_list[])
