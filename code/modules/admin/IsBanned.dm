@@ -61,7 +61,6 @@ world/IsBanned(key,address,computer_id)
 		. = CheckBan( ckey(key), computer_id, address )
 		if(.)
 			log_access("Failed Login: [key] [computer_id] [address] - Banned [.["reason"]]")
-			message_admins("<span class='adminnotice'>Failed Login: [key] id:[computer_id] ip:[address] - Banned [.["reason"]]</span>")
 			return .
 
 		return ..()	//default pager ban stuff
@@ -75,17 +74,12 @@ world/IsBanned(key,address,computer_id)
 			diary << "Ban database connection failure. Key [ckeytext] not checked"
 			return
 
-		var/failedcid = 1
-		var/failedip = 1
-
 		var/ipquery = ""
 		var/cidquery = ""
 		if(address)
-			failedip = 0
 			ipquery = " OR ip = '[address]' "
 
 		if(computer_id)
-			failedcid = 0
 			cidquery = " OR computerid = '[computer_id]' "
 
 		var/DBQuery/query = dbcon.NewQuery("SELECT ckey, ip, computerid, a_ckey, reason, expiration_time, duration, bantime, bantype FROM [format_table_name("ban")] WHERE (ckey = '[ckeytext]' [ipquery] [cidquery]) AND (bantype = 'PERMABAN'  OR (bantype = 'TEMPBAN' AND expiration_time > Now())) AND isnull(unbanned)")
@@ -110,9 +104,4 @@ world/IsBanned(key,address,computer_id)
 			var/desc = "\nReason: You, or another user of this computer or connection ([pckey]) is banned from playing here. The ban reason is:\n[reason]\nThis ban was applied by [ackey] on [bantime], [expires]"
 
 			return list("reason"="[bantype]", "desc"="[desc]")
-
-		if (failedcid)
-			message_admins("[key] has logged in with a blank computer id in the ban check.")
-		if (failedip)
-			message_admins("[key] has logged in with a blank ip in the ban check.")
 		return ..()	//default pager ban stuff
