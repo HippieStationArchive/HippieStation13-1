@@ -763,7 +763,7 @@ macro "borgmacro"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "ooc"
+		command = "adminhelp"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
