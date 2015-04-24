@@ -31,7 +31,7 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 	var/const/STATE_ALERT_LEVEL = 8
 	var/const/STATE_CONFIRM_LEVEL = 9
 	var/const/STATE_TOGGLE_EMERGENCY = 10
-	
+
 	l_color = "#FFFFFF"
 
 	var/status_display_freq = "1435"
@@ -555,19 +555,21 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 	return dat
 
 /obj/machinery/computer/communications/proc/make_announcement(var/mob/living/user, var/is_silicon)
-	var/input = stripped_input(user, "Please choose a message to announce to the station crew.", "What?")
 	if(!input || !user.canUseTopic(src))
 		return
 	if(is_silicon)
-		minor_announce(input)
 		ai_message_cooldown = 1
-		spawn(600)//One minute cooldown
+		spawn(600)
 			ai_message_cooldown = 0
 	else
-		priority_announce(input, null, 'sound/misc/announce.ogg', "Captain")
 		message_cooldown = 1
-		spawn(600)//One minute cooldown
+		spawn(600)
 			message_cooldown = 0
+	var/input = stripped_input(user, "Please choose a message to announce to the station crew.", "What?")
+	if(is_silicon)
+		minor_announce(input)
+	else
+		priority_announce(input, null, 'sound/misc/announce.ogg', "Captain")
 	log_say("[key_name(user)] has made a priority announcement: [input]")
 	message_admins("[key_name_admin(user)] has made a priority announcement.")
 

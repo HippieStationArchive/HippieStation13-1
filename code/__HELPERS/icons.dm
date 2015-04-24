@@ -689,7 +689,9 @@ The _flatIcons list is a cache for generated icon files.
 	while(TRUE)
 		if(curIndex<=process.len)
 			current = process[curIndex]
-			if(!current)	continue
+			if(!current)
+				curIndex++ //Skip broken layer so we don't proc forever
+				continue
 			currentLayer = current:layer
 			if(currentLayer<0) // Special case for FLY_LAYER
 				if(currentLayer <= -1000) return flat
@@ -798,13 +800,3 @@ The _flatIcons list is a cache for generated icon files.
 		var/image/I = O
 		composite.Blend(icon(I.icon, I.icon_state, I.dir, 1), ICON_OVERLAY)
 	return composite
-
-proc/adjust_brightness(var/color, var/value)
-	if (!color) return "#FFFFFF"
-	if (!value) return color
-
-	var/list/RGB = ReadRGB(color)
-	RGB[1] = Clamp(RGB[1]+value,0,255)
-	RGB[2] = Clamp(RGB[2]+value,0,255)
-	RGB[3] = Clamp(RGB[3]+value,0,255)
-	return rgb(RGB[1],RGB[2],RGB[3])
