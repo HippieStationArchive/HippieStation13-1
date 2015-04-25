@@ -90,6 +90,7 @@
 	ammo_type = /obj/item/ammo_casing/a40mm
 	max_ammo = 6
 
+
 ///////////EXTERNAL MAGAZINES////////////////
 
 /obj/item/ammo_box/magazine/m10mm
@@ -185,6 +186,19 @@ obj/item/ammo_box/magazine/tommygunm45
 	ammo_type = /obj/item/ammo_casing/a762
 	caliber = "a762"
 	max_ammo = 50
+
+/obj/item/ammo_box/magazine/m762/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),10)]"
+
+
+/obj/item/ammo_box/magazine/mbox12g
+	name = "box magazine (12 gauge)"
+	icon_state = "box12g"
+	origin_tech = "combat=3"
+	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
+	caliber = "shotgun"
+	max_ammo = 40
 
 /obj/item/ammo_box/magazine/m762/update_icon()
 	..()

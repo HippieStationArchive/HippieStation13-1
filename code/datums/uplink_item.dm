@@ -204,6 +204,14 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
+/datum/uplink_item/dangerous/machineshotgun
+	name = "Abstaz Shotgun Machinegun"
+	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 40-round box magazine of 12 gauge buckshot cartridges."
+	item = /obj/item/weapon/gun/projectile/automatic/abzats
+	cost = 100
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 0
+
 /datum/uplink_item/dangerous/crossbow
 	name = "Miniature Energy Crossbow"
 	desc = "A short bow mounted across a tiller in miniature. Small enough to fit into a pocket or slip into a bag unnoticed. It fires bolts tipped with a paralyzing toxin collected from a rare organism. \
@@ -331,6 +339,13 @@ var/list/uplink_items = list()
 	desc = "An additional 8-round buckshot magazine for use in the Bulldog shotgun. Front towards enemy."
 	item = /obj/item/ammo_box/magazine/m12g
 	cost = 2
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/ammo/boxbullbuckmg
+	name = "40rnd ammo box - 12g Buckshot"
+	desc = "A box of 40 rounds of buckshot ammo, intended for reloading of the Abzstas' box magazine."
+	item = /obj/item/ammo_box/magazine/m12g
+	cost = 16
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/bulldragon
