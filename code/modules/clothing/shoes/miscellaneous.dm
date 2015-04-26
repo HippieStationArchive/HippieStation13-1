@@ -162,3 +162,9 @@
 	desc = "A pair of costume boots fashioned after bird talons."
 	icon_state = "griffinboots"
 	item_state = "griffinboots"
+
+/obj/item/clothing/shoes/discoputin
+	name = "disco shoes"
+	desc = "Using the most advanced in bluespace disco technology, you too can dance the night away!"
+	icon_state = "discoputin"
+	item_state = "discoputin"
