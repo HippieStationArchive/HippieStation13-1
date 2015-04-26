@@ -409,6 +409,10 @@
 
 /obj/item/acid_act(var/acidpwr, var/toxpwr, var/acid_volume)
 	. = 1
+
+	if(unacidable)
+		return
+	
 	for(var/V in armor)
 		if(armor[V] > 0)
 			.-- //it survives the acid...
@@ -433,7 +437,3 @@
 	if(mult)
 		throwforce = initial(throwforce)
 		mult = 0
-	//This is handled in carbon's hitby proc for convenience.
-	// if(istype(A, /mob/living/carbon/human) && prob(embedchance))
-	// 	var/mob/living/carbon/human/H = A
-	// 	add_blood(H)
