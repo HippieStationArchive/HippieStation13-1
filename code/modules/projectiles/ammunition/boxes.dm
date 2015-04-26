@@ -39,3 +39,34 @@
 	ammo_type = /obj/item/ammo_casing/a40mm
 	max_ammo = 4
 	multiple_sprites = 1
+
+/obj/item/ammo_box/shotmgbuckshot
+	name = "ammo box (12g buckshot)"
+	icon_state = "12gboxbuckshot"
+	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
+	caliber = "shotgun"
+	max_ammo = 40
+
+
+/obj/item/ammo_box/shotmgslug
+	name = "ammo box (12g slug)"
+	icon_state = "12gboxslug"
+	ammo_type = /obj/item/ammo_casing/shotgun
+	caliber = "shotgun"
+	max_ammo = 40
+
+/obj/item/ammo_box/shotmgbeanbag
+	name = "ammo box (12g beanbag)"
+	icon_state = "12gboxbeanbag"
+	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+	caliber = "shotgun"
+	max_ammo = 40
+
+/obj/item/ammo_box/shotmgfrag
+	name = "ammo box (12g frag)"
+	icon_state = "12gboxfrag"
+	ammo_type = /obj/item/ammo_casing/shotgun/frag12
+	caliber = "shotgun"
+	max_ammo = 40
+
+
