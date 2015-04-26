@@ -117,10 +117,9 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 	var/old_icon = icon_regular_floor
 	var/old_dir = dir
 	var/turf/simulated/floor/W = ..()
-	if(istype(W))
-		W.icon_regular_floor = old_icon
-		W.dir = old_dir
-		W.update_icon()
+	W.icon_regular_floor = old_icon
+	W.dir = old_dir
+	W.update_icon()
 	return W
 
 /turf/simulated/floor/attackby(obj/item/C as obj, mob/user as mob)

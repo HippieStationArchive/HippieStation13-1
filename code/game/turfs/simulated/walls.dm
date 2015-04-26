@@ -266,10 +266,9 @@
 
 	if(thermite >= 50)
 		var/turf/simulated/floor/F = ChangeTurf(/turf/simulated/floor/plating)
-		if(istype(F))
-			F.burn_tile()
-			F.icon_state = "wall_thermite"
-			F.add_hiddenprint(user)
+		F.burn_tile()
+		F.icon_state = "wall_thermite"
+		F.add_hiddenprint(user)
 
 		spawn(max(50,150-thermite))
 			if(O)	qdel(O)
