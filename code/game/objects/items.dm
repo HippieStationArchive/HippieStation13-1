@@ -409,6 +409,10 @@
 
 /obj/item/acid_act(var/acidpwr, var/toxpwr, var/acid_volume)
 	. = 1
+
+	if(unacidable)
+		return
+	
 	for(var/V in armor)
 		if(armor[V] > 0)
 			.-- //it survives the acid...

@@ -54,9 +54,6 @@
 	var/achievement_hub = null//both defined via config
 	var/achievement_password = null
 
-	var/ToRban = 1
-
-
 	var/server
 	var/banappeals
 	var/wikiurl = "http://www.tgstation13.org/wiki" // Default wiki link.
