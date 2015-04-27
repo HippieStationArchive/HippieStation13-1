@@ -27,11 +27,6 @@
 #define COLD_GAS_DAMAGE_LEVEL_3 3 //Amount of damage applied when the current breath's temperature passes the 120K point
 
 /mob/living/carbon/human
-	var/oxygen_alert = 0
-	var/toxins_alert = 0
-	var/fire_alert = 0
-	var/pressure_alert = 0
-	var/temperature_alert = 0
 	var/tinttotal = 0				// Total level of visualy impairing items
 
 
@@ -50,7 +45,6 @@
 	//code. Very ugly. I dont care. Moving this stuff here so its easy
 	//to find it.
 	blinded = null
-	fire_alert = 0 //Reset this here, because both breathe() and handle_environment() have a chance to set it.
 	tinttotal = tintcheck() //here as both hud updates and status updates call it
 
 	//TODO: seperate this out
@@ -507,6 +501,7 @@
 			blinded = 1
 			stat = UNCONSCIOUS
 		else if(sleeping)
+			throw_alert("asleep")
 			handle_dreams()
 			adjustStaminaLoss(-10)
 			sleeping = max(sleeping-1, 0)
@@ -518,6 +513,7 @@
 		//CONSCIOUS
 		else
 			stat = CONSCIOUS
+			clear_alert("asleep")
 
 		//Eyes
 		if(sdisabilities & BLIND)	//disabled-blind, doesn't get better on its own

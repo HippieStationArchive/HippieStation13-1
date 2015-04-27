@@ -1,3 +1,5 @@
+
+
 /obj
 	var/can_buckle = 0
 	var/buckle_lying = -1 //bed-like behaviour, forces mob.lying = buckle_lying if != -1
@@ -32,11 +34,15 @@
 	if(!can_buckle || !istype(M) || (M.loc != loc) || M.buckled || (buckle_requires_restraints && !M.restrained()))
 		return 0
 
+	if (istype(M, /mob/living/carbon/slime) || istype(M, /mob/living/simple_animal/slime))
+		return 0
+
 	M.buckled = src
 	M.dir = dir
 	buckled_mob = M
 	M.update_canmove()
 	post_buckle_mob(M)
+	M.throw_alert("buckled", new_master = src)
 	return 1
 
 /obj/proc/unbuckle_mob()
@@ -45,6 +51,7 @@
 		buckled_mob.buckled = null
 		buckled_mob.anchored = initial(buckled_mob.anchored)
 		buckled_mob.update_canmove()
+		buckled_mob.clear_alert("buckled")
 		buckled_mob = null
 
 		post_buckle_mob(.)
@@ -58,10 +65,11 @@
 
 //Wrapper procs that handle sanity and user feedback
 /obj/proc/user_buckle_mob(mob/living/M, mob/user)
-	if(!user.Adjacent(M) || user.restrained() || user.lying || user.stat || src.buckled_mob)
+	if(!user.Adjacent(M) || user.restrained() || user.lying || user.stat)
 		return
 
 	add_fingerprint(user)
+	unbuckle_mob()
 
 	if(buckle_mob(M))
 		if(M == user)
@@ -91,5 +99,4 @@
 				"<span class='notice'>You hear metal clanking.</span>")
 		add_fingerprint(user)
 	return M
-
 
