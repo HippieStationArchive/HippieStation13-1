@@ -120,7 +120,9 @@ var/list/admin_verbs_debug = list(
 	/client/proc/restart_controller,
 	/client/proc/enable_debug_verbs,
 	/client/proc/callproc,
-	/client/proc/SDQL2_query
+	/client/proc/SDQL2_query,
+	/client/proc/test_movable_UI,
+	/client/proc/test_snap_UI
 	)
 var/list/admin_verbs_possess = list(
 	/proc/possess,
@@ -454,9 +456,9 @@ var/list/admin_verbs_hideable = list(
 	message_admins("<span class='adminnotice'>[key_name_admin(usr)] gave [key_name(T)] the spell [S].</span>")
 
 	if(T.mind)
-		T.mind.spell_list += new S
+		T.mind.AddSpell(new S)
 	else
-		T.mob_spell_list += new S
+		T.AddSpell(new S)
 		message_admins("<span class='danger'>Spells given to mindless mobs will not be transferred in mindswap or cloning!</span>")
 
 
