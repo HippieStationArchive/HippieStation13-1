@@ -7,8 +7,6 @@
 	var/ex_light = 3
 	var/ex_flash = 4
 
-	action_icon_state = "emp"
-
 /obj/effect/proc_holder/spell/targeted/explosion/cast(list/targets)
 
 	for(var/mob/living/target in targets)
