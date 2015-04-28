@@ -306,7 +306,6 @@
 		s_store = null
 		update_inv_s_store(0)
 
-	update_action_buttons()
 
 
 //This is an UNSAFE proc. Use mob_can_equip() before calling this one! Or rather use equip_to_slot_if_possible() or advanced_equip_to_slot_if_possible()
@@ -396,4 +395,3 @@
 		else
 			src << "<span class='danger'>You are trying to equip this item to an unsupported inventory slot. Report this to a coder!</span>"
 			return
-
