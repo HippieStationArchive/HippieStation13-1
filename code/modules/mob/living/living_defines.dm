@@ -46,3 +46,4 @@
 	var/spam_flag = 0 //Spamflag for emotes.
 	var/can_radio = 1 //Radio flag for disabling radio speech
 	var/nearcrit = 0 //for newcrit
+	var/list/datum/action/actions = list()
