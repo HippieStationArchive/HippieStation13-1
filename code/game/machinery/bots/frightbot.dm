@@ -9,7 +9,7 @@
 	throw_range = 5
 	w_class = 3.0
 
-/obj/item/weapon/frightbot_chasis/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/frightbot_chasis/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	..()
 	if(istype(W, /obj/item/device/radio))
 		user << "<span class='notice'>You complete the Frightbot! KEEEEEEEEEEE!!!</span>"

@@ -56,7 +56,7 @@
 		M.adjustBruteLoss(force / 2)
 
 
-/obj/item/weapon/shard/attackby(obj/item/I, mob/user)
+/obj/item/weapon/shard/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/WT = I
 		if(WT.remove_fuel(0, user))

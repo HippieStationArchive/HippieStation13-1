@@ -13,7 +13,7 @@
 	var/activepage
 	var/list/active_challenges = list()
 
-/obj/item/weapon/spellbook/attackby(obj/item/O as obj, mob/user as mob)
+/obj/item/weapon/spellbook/attackby(obj/item/O as obj, mob/user as mob, params)
 	if(istype(O, /obj/item/weapon/antag_spawner/contract))
 		var/obj/item/weapon/antag_spawner/contract/contract = O
 		if(contract.used)

@@ -73,7 +73,7 @@
 	else
 		overlays -= pod_overlays[DAMAGE]
 
-/obj/mecha/spacepod/attackby(obj/item/W as obj, mob/user as mob)
+/obj/mecha/spacepod/attackby(obj/item/W as obj, mob/user as mob, params)
 	if(istype(W, /obj/item/weapon/crowbar))
 		hatch_open = !hatch_open
 		user << "<span class='notice'>You [hatch_open ? "open" : "close"] the maintenance hatch.</span>"

@@ -104,7 +104,7 @@
 		E += M.rating
 	efficiency = E / 6
 
-/obj/machinery/power/compressor/attackby(obj/item/I, mob/user)
+/obj/machinery/power/compressor/attackby(obj/item/I, mob/user, params)
 	if(default_deconstruction_screwdriver(user, initial(icon_state), initial(icon_state), I))
 		return
 
@@ -267,7 +267,7 @@
 
 	interact(user)
 
-/obj/machinery/power/turbine/attackby(obj/item/I, mob/user)
+/obj/machinery/power/turbine/attackby(obj/item/I, mob/user, params)
 	if(default_deconstruction_screwdriver(user, initial(icon_state), initial(icon_state), I))
 		return
 

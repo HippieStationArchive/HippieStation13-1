@@ -226,9 +226,9 @@
 	verbs.Cut()
 	return
 
-/atom/movable/overlay/attackby(a, b)
+/atom/movable/overlay/attackby(a, b, params)
 	if (src.master)
-		return src.master.attackby(a, b)
+		return src.master.attackby(a, b, params)
 	return
 
 /atom/movable/overlay/attack_paw(a, b, c)

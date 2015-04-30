@@ -117,7 +117,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	create_reagents(chem_volume) // making the cigarette a chemical holder with a maximum volume of 15
 	// reagents.add_reagent("nicotine", 5) //Cigs always have nicotine in 'em. //Handled in weapons/storage/fancy.dm for cig packets.
 
-/obj/item/clothing/mask/cigarette/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/clothing/mask/cigarette/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	..()
 	var/lighting_text = "<span class='notice'>[user] lights their [name] with [W].</span>"
 	if(istype(W, /obj/item/weapon/weldingtool))

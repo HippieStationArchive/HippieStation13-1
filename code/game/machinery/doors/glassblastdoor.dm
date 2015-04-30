@@ -93,7 +93,7 @@
 		return
 
 
-	attackby(obj/item/W as obj, mob/user as mob)
+	attackby(obj/item/W as obj, mob/user as mob, params)
 		if(!istype(W)||!istype(user))
 			return 0
 		user.changeNext_move(CLICK_CD_MELEE)

@@ -243,7 +243,7 @@
 	det_time = rand(8,12) //So you don't know exactly when the hot potato will explode
 	..()
 
-/turf/simulated/mineral/gibtonite/attackby(obj/item/I, mob/user)
+/turf/simulated/mineral/gibtonite/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/device/mining_scanner) && stage == 1)
 		user.visible_message("<span class='notice'>You use the mining scanner to locate where to cut off the chain reaction and attempt to stop it...</span>")
 		defuse()
@@ -380,7 +380,7 @@
 		t.fullUpdateMineralOverlays()
 
 
-/turf/simulated/mineral/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/simulated/mineral/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 
 	if (!(istype(usr, /mob/living/carbon/human) || ticker) && ticker.mode.name != "monkey")
 		usr << "\red You don't have the dexterity to do this!"
@@ -512,7 +512,7 @@
 			src.gets_dug()
 	return
 
-/turf/simulated/floor/plating/asteroid/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/simulated/floor/plating/asteroid/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 
 	if(!W || !user)
 		return 0

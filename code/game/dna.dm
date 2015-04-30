@@ -490,7 +490,7 @@
 	open(user)
 	return
 
-/obj/machinery/dna_scannernew/attackby(obj/item/weapon/grab/G, mob/user)
+/obj/machinery/dna_scannernew/attackby(obj/item/weapon/grab/G, mob/user, params)
 
 	if(!occupant && default_deconstruction_screwdriver(user, icon_state, icon_state, G))//sent icon_state is irrelevant...
 		update_icon()//..since we're updating the icon here, since the scanner can be unpowered when opened/closed
@@ -551,7 +551,7 @@
 
 	l_color = "#0000FF"
 
-/obj/machinery/computer/scan_consolenew/attackby(obj/item/I as obj, mob/user as mob)
+/obj/machinery/computer/scan_consolenew/attackby(obj/item/I as obj, mob/user as mob, params)
 	if (istype(I, /obj/item/weapon/disk/data)) //INSERT SOME DISKETTES
 		if (!src.diskette)
 			user.drop_item()

@@ -132,7 +132,7 @@
 	anchored = 1
 	var/cooldown = 0
 
-/obj/structure/urinal/attackby(obj/item/I, mob/user)
+/obj/structure/urinal/attackby(obj/item/I, mob/user, params)
 	if(cooldown < world.time - 10) //1 seconds cooldown
 		if(istype(I, /obj/item/weapon/grab))
 			var/obj/item/weapon/grab/G = I
@@ -190,7 +190,7 @@
 			tile.MakeSlippery()
 
 
-/obj/machinery/shower/attackby(obj/item/I, mob/user)
+/obj/machinery/shower/attackby(obj/item/I, mob/user, params)
 	if(I.type == /obj/item/device/analyzer)
 		user << "<span class='notice'>The water temperature seems to be [watertemp].</span>"
 	if(istype(I, /obj/item/weapon/wrench))

@@ -10,7 +10,7 @@
 	w_class = 3.0
 	var/build_step = 0
 
-/obj/item/weapon/screambot_chasis/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/screambot_chasis/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	..()
 	if(istype(W, /obj/item/weapon/weldingtool) && build_step <= 0)
 		var/obj/item/weapon/weldingtool/WT = W

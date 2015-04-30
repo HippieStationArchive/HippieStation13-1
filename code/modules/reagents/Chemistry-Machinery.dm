@@ -217,7 +217,7 @@
 		for(i=1, i<=M.rating, i++)
 			dispensable_reagents = sortList(dispensable_reagents | special_reagents[i])
 
-/obj/machinery/chem_dispenser/constructable/attackby(var/obj/item/I, var/mob/user)
+/obj/machinery/chem_dispenser/constructable/attackby(var/obj/item/I, var/mob/user, params)
 	..()
 	if(default_deconstruction_screwdriver(user, "minidispenser-o", "minidispenser", I))
 		return
@@ -902,7 +902,7 @@ obj/machinery/computer/pandemic/proc/replicator_cooldown(var/waittime)
 		return
 
 
-/obj/machinery/reagentgrinder/attackby(var/obj/item/O as obj, var/mob/user as mob)
+/obj/machinery/reagentgrinder/attackby(var/obj/item/O as obj, var/mob/user as mob, params)
 
 		if(default_unfasten_wrench(user, O))
 				return
@@ -1251,7 +1251,7 @@ obj/machinery/computer/pandemic/proc/replicator_cooldown(var/waittime)
 	uiname = "Soda Dispenser"
 	l_color = "#0000FF"
 	dispensable_reagents = list("water","ice","coffee","cream","tea","icetea","cola","spacemountainwind","dr_gibb","space_up","tonic","sodawater","lemon_lime","sugar","orangejuice","limejuice","tomatojuice")
-/obj/machinery/chem_dispenser/drinks/attackby(var/obj/item/O as obj, var/mob/user as mob)
+/obj/machinery/chem_dispenser/drinks/attackby(var/obj/item/O as obj, var/mob/user as mob, params)
 		if(default_unfasten_wrench(user, O))
 				return
 		if (istype(O,/obj/item/weapon/reagent_containers/glass) || \

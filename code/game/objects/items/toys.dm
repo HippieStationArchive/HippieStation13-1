@@ -203,7 +203,7 @@
 	if (bullets)
 		user << "<span class='notice'>It is loaded with [bullets] foam dart\s.</span>"
 
-/obj/item/toy/crossbow/attackby(obj/item/I as obj, mob/user as mob)
+/obj/item/toy/crossbow/attackby(obj/item/I as obj, mob/user as mob, params)
 	if(istype(I, /obj/item/toy/ammo/crossbow))
 		if(bullets <= 4)
 			user.drop_item()

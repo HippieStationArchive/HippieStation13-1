@@ -25,7 +25,7 @@
 
 var/list/deepfry_icons = list()
 
-/obj/machinery/deepfryer/attackby(obj/item/I, mob/user)
+/obj/machinery/deepfryer/attackby(obj/item/I, mob/user, params)
 	if(on)
 		user << "<span class='notice'>[src] is still active!</span>"
 		return
