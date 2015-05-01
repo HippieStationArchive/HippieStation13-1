@@ -33,6 +33,13 @@
 	ammo_type = /obj/item/ammo_casing/c45
 	max_ammo = 20
 
+/obj/item/ammo_box/a762x39
+	name = "ammo box (7.62x39mm)"
+	icon_state = "45box"
+	origin_tech = "combat=3"
+	ammo_type = /obj/item/ammo_casing/a762x39
+	max_ammo = 30
+
 /obj/item/ammo_box/a40mm
 	name = "ammo box (40mm grenades)"
 	icon_state = "40mm"

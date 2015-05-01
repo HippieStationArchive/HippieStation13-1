@@ -246,8 +246,10 @@
 					new /obj/item/weapon/gun/projectile/automatic/c20r(get_turf(H))
 				if("saw")
 					new /obj/item/weapon/gun/projectile/automatic/l6_saw(get_turf(H))
-				if("abstaz")
+				if("abzats")
 					new /obj/item/weapon/gun/projectile/automatic/abzats(get_turf(H))
+				if("ak-922")
+					new /obj/item/weapon/gun/projectile/automatic/ak922(get_turf(H))
 
 		else
 			switch (randomizemagic)

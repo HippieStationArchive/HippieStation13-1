@@ -131,6 +131,18 @@
 	..()
 	icon_state = "[initial(icon_state)]-[round(ammo_count(),5)]"
 
+/obj/item/ammo_box/magazine/ak922
+	name = "AK-922 magazine (7.62x39)"
+	icon_state = "akmag"
+	origin_tech = "combat=3"
+	ammo_type = /obj/item/ammo_casing/a762x39
+	caliber = "7.62x39"
+	max_ammo = 30
+
+/obj/item/ammo_box/magazine/ak922/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),5)]"
+
 /obj/item/ammo_box/magazine/smgm45
 	name = "SMG magazine (.45)"
 	icon_state = "c20r45"
