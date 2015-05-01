@@ -38,10 +38,6 @@ var/list/sacrificed = list()
 
 
 /obj/effect/rune/proc/itemport(var/key)
-//	var/allrunesloc[]
-//	allrunesloc = new/list()
-//	var/index = 0
-//	var/tempnum = 0
 	var/culcount = 0
 	var/runecount = 0
 	var/obj/effect/rune/IP = null
@@ -815,7 +811,8 @@ var/list/sacrificed = list()
 		))
 			user << "<span class='danger'>The [cultist] is already free.</span>"
 			return
-		cultist.buckled = null
+		if(cultist.buckled)
+			cultist.buckled.unbuckle_mob()
 		if (cultist.handcuffed)
 			cultist.handcuffed.loc = cultist.loc
 			cultist.handcuffed = null

@@ -41,6 +41,8 @@
 					I.update_icon()
 				L.embedded -= I
 				H.update_damage_overlays()
+				if(!H.has_embedded_objects())
+					H.clear_alert("embeddedobject")
 
 			if(objects > 0)
 				user.visible_message("<span class='notice'>[user] sucessfully removes [objects] objects from [H]'s [L.getDisplayName()]!</span>")

@@ -235,23 +235,19 @@
 				if("mateba")
 					new /obj/item/weapon/gun/projectile/revolver/mateba(get_turf(H))
 				if("cannon")
-					var/obj/item/weapon/gun/energy/lasercannon/gat
-					new gat(get_turf(H))
+					new /obj/item/weapon/gun/energy/gun/nuclear(get_turf(H))
 				if("nuclear")
-					var/obj/item/weapon/gun/energy/gun/nuclear/gat
-					new gat(get_turf(H))
+					new /obj/item/weapon/gun/energy/gun/nuclear(get_turf(H))
 				if("sabr")
-					var/obj/item/weapon/gun/projectile/automatic/gat
-					new gat(get_turf(H))
+					new /obj/item/weapon/gun/projectile/automatic(get_turf(H))
 				if("bulldog")
-					var/obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/gat
-					new gat(get_turf(H))
+					new /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog(get_turf(H))
 				if("c20r")
-					var/obj/item/weapon/gun/projectile/automatic/c20r/gat
-					new gat(get_turf(H))
+					new /obj/item/weapon/gun/projectile/automatic/c20r(get_turf(H))
 				if("saw")
-					var/obj/item/weapon/gun/projectile/automatic/l6_saw/gat
-					new gat(get_turf(H))
+					new /obj/item/weapon/gun/projectile/automatic/l6_saw(get_turf(H))
+				if("abstaz")
+					new /obj/item/weapon/gun/projectile/automatic/abzats(get_turf(H))
 
 		else
 			switch (randomizemagic)

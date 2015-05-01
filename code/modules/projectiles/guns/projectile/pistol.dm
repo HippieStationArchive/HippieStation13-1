@@ -21,6 +21,18 @@
 	w_class = 3
 	mag_type = /obj/item/ammo_box/magazine/m45
 
+/obj/item/weapon/gun/projectile/automatic/pistol/g17
+	name = "Glock 17"
+	desc = "A classic 9mm handgun with a large magazine capacity.Used by security teams everywhere."
+	icon_state = "glock17"
+	w_class = 2
+	mag_type = /obj/item/ammo_box/magazine/g17
+
+/obj/item/weapon/gun/projectile/automatic/pistol/g17/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+	return
+
 /obj/item/weapon/gun/projectile/automatic/pistol/deagle
 	name = "desert eagle"
 	desc = "A robust .50 AE handgun."

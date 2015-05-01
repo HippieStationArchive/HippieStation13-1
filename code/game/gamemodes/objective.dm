@@ -149,14 +149,13 @@ datum/objective/debrain/find_target_by_role(role, role_type=0)
 datum/objective/debrain/check_completion()
 	if(!target)//If it's a free objective.
 		return 1
-	if( !owner.current || owner.current.stat==DEAD )//If you're otherwise dead.
+	if(!isbrain(target.current) || !target.current)
 		return 0
-	if( !target.current || !isbrain(target.current) )
-		return 0
-	var/atom/A = target.current
-	while(A.loc)			//check to see if the brainmob is on our person
-		A = A.loc
-		if(A == owner.current)
+	if(!isliving(owner.current))	return 0
+	var/list/all_items = owner.current.GetAllContents()	//this should get things in cheesewheels, books, etc.
+
+	for(var/obj/I in all_items) //Check for items
+		if(istype(I, target.current))
 			return 1
 	return 0
 
