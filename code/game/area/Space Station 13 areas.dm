@@ -131,8 +131,7 @@ proc/process_ghost_teleport_locs()
 	power_environ = 0
 	ambientsounds = list('sound/ambience/ambispace.ogg','sound/ambience/johncena.ogg',)
 	ambloop = 'sound/ambience/loop/hallow.ogg'
-
-
+	environment = 22 //Underwater environment
 
 //These are shuttle areas, they must contain two areas in a subgroup if you want to move a shuttle from one
 //place to another. Look at escape shuttle for example.
@@ -144,6 +143,7 @@ proc/process_ghost_teleport_locs()
 	lighting_use_dynamic = 0
 	var/push_dir = SOUTH
 	var/destination
+	environment = 18 //Quarry
 
 /area/shuttle/arrival
 	name = "\improper Arrival Shuttle"
@@ -315,6 +315,7 @@ proc/process_ghost_teleport_locs()
 	icon_state = "centcom"
 	requires_power = 0
 	has_gravity = 1
+	environment = 6 //Auditorium
 
 /area/centcom/control
 	name = "\improper Centcom Docks"
@@ -571,6 +572,7 @@ proc/process_ghost_teleport_locs()
 //Maintenance
 /area/maintenance
 	ambientsounds = list('sound/ambience/ambimaint1.ogg', 'sound/ambience/ambimaint2.ogg', 'sound/ambience/ambimaint3.ogg', 'sound/ambience/ambimaint4.ogg', 'sound/ambience/ambimaint5.ogg')
+	environment = 21 //Sewer pipe
 
 /area/maintenance/atmos_control
 	name = "Atmospherics Maintenance"
@@ -646,6 +648,9 @@ proc/process_ghost_teleport_locs()
 
 
 //Hallway
+
+/area/hallway
+	environment = 12 //Hallway
 
 /area/hallway/primary/fore
 	name = "\improper Fore Primary Hallway"
@@ -733,30 +738,37 @@ proc/process_ghost_teleport_locs()
 /area/crew_quarters
 	name = "\improper Dormitories"
 	icon_state = "Sleep"
+	environment = 4 //Livingroom
 
 /area/crew_quarters/toilet
 	name = "\improper Dormitory Toilets"
 	icon_state = "toilet"
+	environment = 3 //Bathroom
 
 /area/crew_quarters/sleep
 	name = "\improper Dormitories"
 	icon_state = "Sleep"
+	environment = 2 //Room
 
 /area/crew_quarters/sleep_male
 	name = "\improper Male Dorm"
 	icon_state = "Sleep"
+	environment = 2 //Room
 
 /area/crew_quarters/sleep_male/toilet_male
 	name = "\improper Male Toilets"
 	icon_state = "toilet"
+	environment = 3 //Bathroom
 
 /area/crew_quarters/sleep_female
 	name = "\improper Female Dorm"
 	icon_state = "Sleep"
+	environment = 2 //Room
 
 /area/crew_quarters/sleep_female/toilet_female
 	name = "\improper Female Toilets"
 	icon_state = "toilet"
+	environment = 3 //Bathroom
 
 /area/crew_quarters/locker
 	name = "\improper Locker Room"
@@ -765,6 +777,7 @@ proc/process_ghost_teleport_locs()
 /area/crew_quarters/locker/locker_toilet
 	name = "\improper Locker Toilets"
 	icon_state = "toilet"
+	environment = 3 //Bathroom
 
 /area/crew_quarters/fitness
 	name = "\improper Fitness Room"
@@ -794,38 +807,40 @@ proc/process_ghost_teleport_locs()
 	name = "Superslam Arena"
 	icon_state = "superslam"
 	ambientsounds = list('sound/ambience/johncena.ogg') //This didn't have johncena.ogg as an ambient sound. THAT IS A SIN.
+	environment = 7 //Concert Hall
 
 /area/chapel/main
 	name = "\improper Chapel"
 	icon_state = "chapel"
 	ambientsounds = list('sound/ambience/ambicha1.ogg','sound/ambience/ambicha2.ogg','sound/ambience/ambicha3.ogg','sound/ambience/ambicha4.ogg')
+	environment = 6 //Auditorium
 
 /area/chapel/office
 	name = "\improper Chapel Office"
 	icon_state = "chapeloffice"
+	environment = 2 //Room
 
 /area/lawoffice
 	name = "\improper Law Office"
 	icon_state = "law"
+	environment = 2 //Room
 
 /area/clown
 	name = "\improper Clown Office"
 	icon_state = "clown"
+	environment = 2 //Room
 
 /area/mime
 	name = "\improper Mime Office"
 	icon_state = "mime"
-
-
-
-
-
+	environment = 2 //Room
 
 /area/holodeck
 	name = "\improper Holodeck"
 	icon_state = "Holodeck"
 	luminosity = 1
 	lighting_use_dynamic = 0
+	environment = 9 //Arena
 
 /area/holodeck/alphadeck
 	name = "\improper Holodeck Alpha"
@@ -860,24 +875,16 @@ proc/process_ghost_teleport_locs()
 /area/holodeck/source_wildlife
 	name = "\improper Holodeck - Wildlife Simulation"
 
-
-
-
-
-
-
-
-
-
-
 //Engineering
 
 /area/engine
 	ambientsounds = list('sound/ambience/ambisin1.ogg','sound/ambience/ambisin2.ogg','sound/ambience/ambisin3.ogg','sound/ambience/ambisin4.ogg')
+	environment = 9 //Arena
 
 /area/engine/engine_smes
 	name = "\improper Engineering SMES"
 	icon_state = "engine_smes"
+	environment = 1 //Padded cell
 
 /area/engine/engineering
 	name = "Engineering"
@@ -886,10 +893,12 @@ proc/process_ghost_teleport_locs()
 /area/engine/sm_area
 	name = "Supermatter Area"
 	icon_state = "supermatter"
+	environment = 6
 
 /area/engine/break_room
 	name = "\improper Engineering Foyer"
 	icon_state = "engine"
+	environment = 4 //Livingroom
 
 /area/engine/chiefs_office
 	name = "\improper Chief Engineer's office"
@@ -898,10 +907,12 @@ proc/process_ghost_teleport_locs()
 /area/engine/secure_construction
 	name = "\improper Secure Construction Area"
 	icon_state = "engine"
+	environment = 4 //Livingroom
 
 /area/engine/gravity_generator
 	name = "Gravity Generator Room"
 	icon_state = "blue"
+	environment = 6 //Auditorium
 
 //Solars
 
@@ -910,6 +921,7 @@ proc/process_ghost_teleport_locs()
 	luminosity = 1
 	lighting_use_dynamic = 0
 	ambloop = 'sound/ambience/loop/hallow.ogg'
+	environment = 22 //Underwater
 
 	auxport
 		name = "\improper Fore Port Solar Array"
@@ -951,6 +963,8 @@ proc/process_ghost_teleport_locs()
 	name = "Fore Starboard Solar Maintenance"
 	icon_state = "SolarcontrolA"
 
+/area/assembly
+	environment = 13 //Stone Corridor
 
 /area/assembly/chargebay
 	name = "\improper Mech Bay"
@@ -977,11 +991,13 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Teleporter"
 	icon_state = "teleporter"
 	music = "signal"
+	environment = 18 //Quarry
 
 /area/gateway
 	name = "\improper Gateway"
 	icon_state = "teleporter"
 	music = "signal"
+	environment = 18 //Quarry
 
 /area/AIsattele
 	name = "\improper Abandoned Teleporter"
@@ -989,8 +1005,11 @@ proc/process_ghost_teleport_locs()
 	music = "signal"
 	ambientsounds = list('sound/ambience/ambimalf.ogg')
 	ambloop = 'sound/ambience/loop/quiethum.ogg'
+	environment = 18 //Quarry
 
 //MedBay
+/area/medical
+	environment = 12 //Hallway
 
 /area/medical/medbay
 	name = "Medbay"
@@ -1032,6 +1051,7 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Morgue"
 	icon_state = "morgue"
 	ambientsounds = list('sound/ambience/ambimo1.ogg','sound/ambience/ambimo2.ogg')
+	environment = 18 //Quarry
 
 /area/medical/chemistry
 	name = "Chemistry"
@@ -1040,6 +1060,7 @@ proc/process_ghost_teleport_locs()
 /area/medical/surgery
 	name = "Surgery"
 	icon_state = "surgery"
+	environment = 1 //Padded Cell
 
 /area/medical/cryo
 	name = "Cryogenics"
@@ -1062,6 +1083,8 @@ proc/process_ghost_teleport_locs()
 	icon_state = "exam_room"
 
 //Security
+/area/security
+	environment = 12 //Hallway
 
 /area/security/main
 	name = "\improper Security Office"
@@ -1123,18 +1146,22 @@ proc/process_ghost_teleport_locs()
 /area/security/nuke_storage
 	name = "\improper Vault"
 	icon_state = "nuke_storage"
+	environment = 18 //Quarry
 
 /area/ai_monitored/nuke_storage
 	name = "\improper Vault"
 	icon_state = "nuke_storage"
+	environment = 18 //Quarry
 
 /area/security/checkpoint
 	name = "\improper Security Checkpoint"
 	icon_state = "checkpoint1"
+	environment = 2 //Room
 
 /area/security/checkpoint2
 	name = "\improper Security Checkpoint"
 	icon_state = "security"
+	environment = 2 //Room
 
 /area/security/checkpoint/supply
 	name = "Security Post - Cargo Bay"
@@ -1163,6 +1190,7 @@ proc/process_ghost_teleport_locs()
 /area/quartermaster
 	name = "\improper Quartermasters"
 	icon_state = "quart"
+	environment = 5 //Stoneroom
 
 ///////////WORK IN PROGRESS//////////
 
@@ -1179,6 +1207,7 @@ proc/process_ghost_teleport_locs()
 /area/quartermaster/storage
 	name = "\improper Cargo Bay"
 	icon_state = "quartstorage"
+	environment = 10 //Hangar
 
 /area/quartermaster/qm
 	name = "\improper Quartermaster's Office"
@@ -1187,6 +1216,7 @@ proc/process_ghost_teleport_locs()
 /area/quartermaster/miningdock
 	name = "\improper Mining Dock"
 	icon_state = "mining"
+	environment = 10 //Hangar
 
 /area/quartermaster/miningstorage
 	name = "\improper Mining Storage"
@@ -1199,12 +1229,16 @@ proc/process_ghost_teleport_locs()
 /area/janitor/
 	name = "\improper Custodial Closet"
 	icon_state = "janitor"
+	environment = 2 //Room
 
 /area/hydroponics
 	name = "Hydroponics"
 	icon_state = "hydro"
+	environment = 2 //Room
 
 //Toxins
+/area/toxins
+	environment = 18 //Quarry
 
 /area/toxins/lab
 	name = "\improper Research and Development"
@@ -1217,10 +1251,12 @@ proc/process_ghost_teleport_locs()
 /area/toxins/storage
 	name = "\improper Toxins Storage"
 	icon_state = "toxstorage"
+	environment = 10 //Hangar
 
 /area/toxins/mineral_storeroom
 	name = "\improper Mineral Storeroom"
 	icon_state = "toxmisc"
+	environment = 10 //Hangar
 
 /area/toxins/test_area
 	name = "\improper Toxins Test Area"
@@ -1238,20 +1274,25 @@ proc/process_ghost_teleport_locs()
 /area/toxins/server
 	name = "\improper Server Room"
 	icon_state = "server"
+	environment = 10 //Hangar
 
 /area/toxins/telesci
 	name = "\improper Telescience Lab"
 	icon_state = "toxtest"
 
 //Storage
+/area/storage
+	environment = 10 //Hangar
 
 /area/storage/tools
 	name = "Auxiliary Tool Storage"
 	icon_state = "storage"
+	environment = 2 //Room
 
 /area/storage/primary
 	name = "Primary Tool Storage"
 	icon_state = "primarystorage"
+	environment = 2 //Room
 
 /area/storage/autolathe
 	name = "Autolathe Storage"
@@ -1260,6 +1301,7 @@ proc/process_ghost_teleport_locs()
 /area/storage/art
 	name = "Art Supply Storage"
 	icon_state = "storage"
+	environment = 2 //Room
 
 /area/storage/auxillary
 	name = "Auxillary Storage"
@@ -1316,6 +1358,7 @@ proc/process_ghost_teleport_locs()
 							'sound/ambience/ambicreek2.ogg','sound/ambience/ambigen5.ogg',\
 							'sound/ambience/ambigen7.ogg','sound/ambience/ambigen8.ogg',\
 							'sound/ambience/ambieng1.ogg')
+	environment = 8 //Cave
 
 /area/derelict/hallway/primary
 	name = "\improper Derelict Primary Hallway"
@@ -1462,6 +1505,7 @@ proc/process_ghost_teleport_locs()
 /area/turret_protected/
 	ambientsounds = list('sound/ambience/ambimalf.ogg')
 	ambloop = 'sound/ambience/loop/softhum.ogg'
+	environment = 10 //Hangar
 
 /area/turret_protected/ai_upload
 	name = "\improper AI Upload Chamber"
@@ -1545,6 +1589,7 @@ proc/process_ghost_teleport_locs()
 	has_gravity = 1
 	ambientsounds = list('sound/ambience/ambieng1.ogg', 'sound/ambience/ambimine.ogg')
 	// ambloop = 'sound/ambience/loop/softhum.ogg'
+	environment = 18 //Quarry
 
 /area/wreck/living
 	name = "\improper Prototype living area"
@@ -1591,6 +1636,7 @@ proc/process_ghost_teleport_locs()
 						'sound/ambience/ambicreek1.ogg', 'sound/ambience/ambicreek2.ogg',\
 						'sound/ambience/ambicha2.ogg', 'sound/ambience/ambicha3.ogg')
 	ambloop = 'sound/ambience/loop/softhum.ogg'
+	environment = 18 //Quarry
 
 /area/generic
 	name = "Unknown"
@@ -1602,6 +1648,7 @@ proc/process_ghost_teleport_locs()
 
 /area/tcommsat
 	ambientsounds = list('sound/ambience/ambisin2.ogg', 'sound/ambience/signal.ogg', 'sound/ambience/signal.ogg', 'sound/ambience/ambigen10.ogg')
+	environment = 10 //Hangar
 
 /area/tcommsat/entrance
 	name = "\improper Telecoms Teleporter"
@@ -1673,6 +1720,7 @@ proc/process_ghost_teleport_locs()
 
 /area/spacecontent
 	name = "space"
+	environment = 18 //Quarry
 
 /area/spacecontent/SpaceBar
 	name = "\improper Space Bar"

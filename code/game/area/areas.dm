@@ -27,6 +27,8 @@
 									'sound/ambience/ambigen14.ogg', 'sound/ambience/ambicreek1.ogg',\
 									'sound/ambience/ambicreek2.ogg', 'sound/ambience/ambiencegenlawnmower.ogg')
 	var/ambloop = 'sound/ambience/loop/shipambience.ogg'
+	var/environment = 0 //The environment effect this area has for sounds - refer to http://www.byond.com/docs/ref/info.html#/sound/var/environment
+	var/echo = -1 //The echo effect this area has for sounds - refer to http://www.byond.com/docs/ref/info.html#/sound/var/echo
 
 /area/New()
 	icon_state = ""
