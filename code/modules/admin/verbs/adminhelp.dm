@@ -104,7 +104,9 @@ var/list/adminhelp_ignored_words = list("unknown","the","a","an","of","monkey","
 		if(invalid)
 			admin_number_decrease++
 		if(X.prefs.toggles & SOUND_ADMINHELP)
-			X << 'sound/effects/adminhelp.ogg'
+			var/sound/S = sound('sound/effects/adminhelp.ogg')
+			S.environment = SOUND_DEFAULT_ENVIRONMENT
+			X << S
 		X << msg
 
 	//show it to the person adminhelping too
