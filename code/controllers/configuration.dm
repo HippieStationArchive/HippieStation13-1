@@ -39,6 +39,7 @@
 	var/Ticklag = 0.9
 	var/Tickcomp = 0
 	var/allow_holidays = 0				//toggles whether holiday-specific content should be used
+	var/proxybuster = 0 //For using the proxybuster
 
 	var/hostedby = null
 	var/respawn = 1
@@ -271,6 +272,8 @@
 					guests_allowed = 0
 				if("usewhitelist")
 					config.usewhitelist = 1
+				if("proxybuster")
+					config.proxybuster = 1
 				if("allow_metadata")
 					config.allow_Metadata = 1
 				if("kick_inactive")
