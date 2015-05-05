@@ -107,7 +107,7 @@ var/global/fartholdin = 0
 			return 0
 	else
 		world << "<span class='notice'>DEBUG: Bypassing prestart checks..."
-
+	
 	if(hide_mode)
 		var/list/modes = new
 		for (var/datum/game_mode/M in runnable_modes)

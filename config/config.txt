@@ -159,6 +159,3 @@ ACHIEVEMENT_HUB
 ACHIEVEMENT_PASSWORD 
 
 ##Why do you guys keep reuploading this with the hub stuff still set.
-
-##Proxy buster. Remove # to turn on.
-#PROXYBUSTER

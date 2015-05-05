@@ -1,12 +1,4 @@
 //handles setting lastKnownIP and computer_id for use by the ban systems as well as checking for multikeying
-var/list/proxyvpnblocker = file2list("config/buster.txt")
-var/list/proxyvpnblockerlist = list()
-var/dummything = list()
-//Alright what the above does marks people who are using a recorded proxy/vpn's IP address.
-//Setup for people without databases. Database version eventually.
-//All IPs must be set through config/buster.txt
-//http://i.imgur.com/u6UBNlH.png
-
 /mob/proc/update_Login_details()
 	//Multikey checks and logging
 	lastKnownIP	= client.address
@@ -30,15 +22,6 @@ var/dummything = list()
 					else
 						message_admins("<font color='red'><B>Notice: </B><font color='blue'>[key_name_admin(src)] has the same [matches] as [key_name_admin(M)] (no longer logged in). </font>")
 						log_access("Notice: [key_name(src)] has the same [matches] as [key_name(M)] (no longer logged in).")
-
-	if(config.proxybuster)
-		if(client in proxyvpnblockerlist)//Already in the list
-			return
-		if(lastKnownIP in proxyvpnblocker)
-			message_admins("<font color='red'><B>Notice: </B><font color='blue'>[key_name_admin(src)] is using an IP address ([lastKnownIP]) associated with VPN/Proxy on the watchlist.</font>")
-			log_access("[key_name_admin(src)] is using an IP address ([lastKnownIP]) associated with VPN/Proxy on the watchlist.")
-			proxyvpnblockerlist.Add(proxyvpnblockerlist)
-			dummything += "[key_name_admin(src)] is using an IP address ([lastKnownIP]) associated with VPN/Proxy on the watchlist."
 
 /mob/Login()
 	player_list |= src
