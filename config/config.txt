@@ -159,3 +159,6 @@ ACHIEVEMENT_HUB
 ACHIEVEMENT_PASSWORD 
 
 ##Why do you guys keep reuploading this with the hub stuff still set.
+
+##Proxybuster. # for off. Add IPs to buster.txt
+#PROXYBUSTER
