@@ -331,7 +331,6 @@ var/global/buttmode = 0
 
 			if(!delay_end)
 				sleep(restart_timeout)
-				kick_clients_in_lobby("\red The round came to an end with you in the lobby.", 1) //second parameter ensures only afk clients are kicked
 				world.Reboot()
 			else
 				world << "\blue <B>An admin has delayed the round end</B>"

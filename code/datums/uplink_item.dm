@@ -173,6 +173,13 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/gun/projectile/automatic/pistol
 	cost = 9
 
+/datum/uplink_item/dangerous/g17
+	name = "Syndicate Revolver"
+	desc = "A simple yet popular handgun chambered in 9mm. Made out of strong but lightwieght polymer. The standard magazine can hold up to 17 9mm cartridges. Not currently compatible with surpressors."
+	item = /obj/item/weapon/gun/projectile/automatic/pistol/g17
+	cost = 10
+	surplus = 15
+
 /datum/uplink_item/dangerous/revolver
 	name = "Syndicate Revolver"
 	desc = "A brutally simple syndicate revolver that fires .357 Magnum cartridges and has 7 chambers."
@@ -196,11 +203,27 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 50
 
+/datum/uplink_item/dangerous/ak922
+	name = "AK-922 Battle Rifle"
+	desc = "A standard issue New Russia battle rifle praised for being able to survive common issues in the field, including but not limited to: explosions, laser beams, toolboxes, and more. Chambered in the 7.62x39mm cartridge."
+	item = /obj/item/weapon/gun/projectile/automatic/ak922
+	cost = 16
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 50
+
 /datum/uplink_item/dangerous/machinegun
 	name = "L6 Squad Automatic Weapon"
 	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
 	item = /obj/item/weapon/gun/projectile/automatic/l6_saw
 	cost = 40
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 0
+
+/datum/uplink_item/dangerous/machineshotgun
+	name = "Abstaz Shotgun Machinegun"
+	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 40-round box magazine of 12 gauge buckshot cartridges."
+	item = /obj/item/weapon/gun/projectile/automatic/abzats
+	cost = 50
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -306,6 +329,12 @@ var/list/uplink_items = list()
 	item = /obj/item/ammo_box/magazine/m10mm
 	cost = 1
 
+/datum/uplink_item/ammo/g17
+	name = "Magazine - 9mm"
+	desc = "A spare fully-loaded magazine for use in the Glock 17 handgun. Holds up to 17 9mm cartridges."
+	item = /obj/item/ammo_box/magazine/g17
+	cost = 1
+
 /datum/uplink_item/ammo/revolver
 	name = "Speed Loader - .357"
 	desc = "A speed loader that contains seven additional .357 Magnum rounds for the syndicate revolver. For when you really need a lot of things dead."
@@ -333,6 +362,20 @@ var/list/uplink_items = list()
 	cost = 2
 	gamemodes = list(/datum/game_mode/nuclear)
 
+/datum/uplink_item/ammo/box12gbuckshot
+	name = "40rnd ammo box - 12g Buckshot"
+	desc = "A box of 40 rounds of buckshot ammo, intended for reloading of the Abzats' box magazine."
+	item = /obj/item/ammo_box/box12gbuckshot
+	cost = 8
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/ammo/box12gdragon
+	name = "40rnd ammo box - 12g Dragon's breath"
+	desc = "A box of 40 rounds of dragon's breath ammo, intended for reloading of the Abzats' box magazine."
+	item = /obj/item/ammo_box/box12gdragon
+	cost = 12
+	gamemodes = list(/datum/game_mode/nuclear)
+
 /datum/uplink_item/ammo/bulldragon
 	name = "Drum Magazine - 12g Dragon's Breath"
 	desc = "An alternative 8-round dragon's breath magazine for use in the Bulldog shotgun. I'm a fire starter, twisted fire starter!"
@@ -344,6 +387,13 @@ var/list/uplink_items = list()
 	name = "Box Magazine - 5.45x39mm"
 	desc = "An additional 30-round 5.45x39mm magazine for use in the C-90gl assault rifle. These bullets don't have the punch to knock most targets down, but dish out higher overall damage."
 	item = /obj/item/ammo_box/magazine/m545
+	cost = 2
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/ammo/ak922
+	name = "Box Magazine - 7.62x39mm"
+	desc = "An additional 30-round 7.62x39mm magazine for the AK-922 battle rifle. They have less kinetic energy than other ballistic projectiles but have higher velocity and penetration resulting in more damage to the target,"
+	item = /obj/item/ammo_box/magazine/ak922
 	cost = 2
 	gamemodes = list(/datum/game_mode/nuclear)
 
@@ -359,6 +409,14 @@ var/list/uplink_items = list()
 	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun. By the time you need to use this, you'll already be on a pile of corpses."
 	item = /obj/item/ammo_box/magazine/m762
 	cost = 12
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 0
+
+/datum/uplink_item/ammo/abzats
+	name = "Box Magazine - 7.62×51mm"
+	desc = "A 40-round box-magazine of 12 gauge buckshot ammunition for use in the Abzats shotgun machinegun. By the time you need to use this, you'll already be on a pile of corpses."
+	item = /obj/item/ammo_box/magazine/m762
+	cost = 15
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 

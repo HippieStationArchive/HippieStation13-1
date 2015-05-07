@@ -939,7 +939,7 @@ var/global/list/g_fancy_list_of_types = null
 			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_cent(M), slot_ears)
 			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/thermal/eyepatch(M), slot_glasses)
 			M.equip_to_slot_or_del(new /obj/item/clothing/suit/hgpirate(M), slot_wear_suit)
-			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/mountainbag(M), slot_back)
 			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/revolver/mateba(M), slot_belt)
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/soviet(M), slot_w_uniform)
 
@@ -948,6 +948,26 @@ var/global/list/g_fancy_list_of_types = null
 			W.access = get_all_accesses()
 			W.access += get_centcom_access("Admiral")
 			W.assignment = "Admiral"
+			W.registered_name = M.real_name
+			W.update_label()
+			M.equip_to_slot_or_del(W, slot_wear_id)
+
+		if("new-russia soldier")
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/soviethelmet(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/clothing/mask/balaclava/green(M), slot_wear_mask)
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat/camo(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/(M), slot_ears)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/defender(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/automatic/ak922(M), slot_r_hand)
+			M.equip_to_slot_or_del(new /obj/item/weapon/melee/combatknife(M), slot_belt)
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/soviet/gorka(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/ammo_box/magazine/ak922(M), slot_r_store)
+			M.equip_to_slot_or_del(new /obj/item/ammo_box/magazine/ak922(M), slot_l_store)
+
+			var/obj/item/weapon/card/id/W = new(M)
+			W.assignment = "New-Russia Soldier"		//No access by default
 			W.registered_name = M.real_name
 			W.update_label()
 			M.equip_to_slot_or_del(W, slot_wear_id)

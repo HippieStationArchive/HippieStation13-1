@@ -84,7 +84,26 @@
 	icon_state = "c20r[magazine ? "-[Ceiling(get_ammo(0)/4)*4]" : ""][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
 	return
 
+/obj/item/weapon/gun/projectile/automatic/ak922
+	name = "AK-922"
+	desc = "A New-Russia standard-issue battle rifle chambered in 7.62x39mm. Packs a punch and is built out of strong materials with an old yet reliable build."
+	icon_state = "ak922"
+	item_state = "c20r"
+	origin_tech = "combat=5;materials=3"
+	mag_type = /obj/item/ammo_box/magazine/ak922
+	fire_sound = 'sound/weapons/handcannon.ogg'
+	fire_delay = 1
+	burst_size = 3
 
+/obj/item/weapon/gun/projectile/automatic/ak922/afterattack()
+	..()
+	empty_alarm()
+	return
+
+/obj/item/weapon/gun/projectile/automatic/ak922/update_icon()
+	..()
+	icon_state = "ak922[magazine ? "-[Ceiling(get_ammo(0)/5)*5]" : ""][chambered ? "" : "-e"]"
+	return
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw
 	name = "syndicate LMG"
@@ -140,6 +159,65 @@
 
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/attackby(var/obj/item/A as obj, mob/user as mob)
+	if(!cover_open)
+		user << "<span class='notice'>[src]'s cover is closed! You can't insert a new mag!</span>"
+		return
+	..()
+
+/obj/item/weapon/gun/projectile/automatic/abzats
+	name = "Abzats shotgun machinegun"
+	desc = "A heavily modified L6 SAW, the parts have been swapped out and others reinforced to be able to fire 12 gauge shotgun shells."
+	icon_state = "abzatsclosed100"
+	item_state = "l6closedmag"
+	w_class = 5
+	slot_flags = 0
+	origin_tech = "combat=5;materials=3;syndicate=4"
+	mag_type = /obj/item/ammo_box/magazine/mbox12g
+	fire_sound = 'sound/weapons/shotgun_shoot.ogg'
+	var/cover_open = 0
+	can_suppress = 0
+	burst_size = 2
+	fire_delay = 1
+
+/obj/item/weapon/gun/projectile/automatic/abzats/burst_select()
+	return
+
+
+/obj/item/weapon/gun/projectile/automatic/abzats/attack_self(mob/user as mob)
+	cover_open = !cover_open
+	user << "<span class='notice'>You [cover_open ? "open" : "close"] [src]'s cover.</span>"
+	update_icon()
+
+
+/obj/item/weapon/gun/projectile/automatic/abzats/update_icon()
+	icon_state = "abzats[cover_open ? "open" : "closed"][magazine ? Ceiling(get_ammo(0)/12.5)*25 : "-empty"]"
+
+
+/obj/item/weapon/gun/projectile/automatic/abzats/afterattack(atom/target as mob|obj|turf, mob/living/user as mob|obj, flag, params) //what I tried to do here is just add a check to see if the cover is open or not and add an icon_state change because I can't figure out how c-20rs do it with overlays
+	if(cover_open)
+		user << "<span class='notice'>[src]'s cover is open! Close it before firing!</span>"
+	else
+		..()
+		update_icon()
+
+
+/obj/item/weapon/gun/projectile/automatic/abzats/attack_hand(mob/user as mob)
+	if(loc != user)
+		..()
+		return	//let them pick it up
+	if(!cover_open || (cover_open && !magazine))
+		..()
+	else if(cover_open && magazine)
+		//drop the mag
+		magazine.update_icon()
+		magazine.loc = get_turf(src.loc)
+		user.put_in_hands(magazine)
+		magazine = null
+		update_icon()
+		user << "<span class='notice'>You remove the magazine from [src].</span>"
+
+
+/obj/item/weapon/gun/projectile/automatic/abzats/attackby(var/obj/item/A as obj, mob/user as mob)
 	if(!cover_open)
 		user << "<span class='notice'>[src]'s cover is closed! You can't insert a new mag!</span>"
 		return

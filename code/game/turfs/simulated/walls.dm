@@ -269,11 +269,12 @@
 		F.burn_tile()
 		F.icon_state = "wall_thermite"
 		F.add_hiddenprint(user)
-		spawn(max(100,300-thermite))
+
+		spawn(max(50,150-thermite))
 			if(O)	qdel(O)
 	else
 		thermite = 0
-		spawn(50)
+		spawn(25)
 			if(O)	qdel(O)
 	return
 

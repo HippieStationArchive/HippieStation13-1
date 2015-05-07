@@ -37,6 +37,15 @@
 	flags = NOSLIP
 	armor = list(melee = 80, bullet = 60, laser = 50, energy = 50, bomb = 50, bio = 30, rad = 30)
 
+/obj/item/clothing/shoes/combat/camo //camo boots for ruskies
+	name = "camoflage combat boots"
+	desc = "High speed, camoflaged, no drag combat boots."
+	icon_state = "camoboots"
+	item_state = "camoboots"
+	permeability_coefficient = 0.01
+	flags = NOSLIP
+	armor = list(melee = 50, bullet = 60, laser = 50, energy = 30, bomb = 20, bio = 10, rad = 15)
+
 /obj/item/clothing/shoes/space_ninja
 	name = "ninja shoes"
 	desc = "A pair of running shoes. Excellent for running and even better for smashing skulls."
@@ -162,3 +171,9 @@
 	desc = "A pair of costume boots fashioned after bird talons."
 	icon_state = "griffinboots"
 	item_state = "griffinboots"
+
+/obj/item/clothing/shoes/discoputin
+	name = "disco shoes"
+	desc = "Using the most advanced in bluespace disco technology, you too can dance the night away!"
+	icon_state = "discoputin"
+	item_state = "discoputin"
