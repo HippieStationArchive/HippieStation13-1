@@ -47,7 +47,7 @@
 	max_ammo = 4
 	multiple_sprites = 1
 
-/obj/item/ammo_box/shotmgbuckshot
+/obj/item/ammo_box/box12gbuckshot
 	name = "ammo box (12g buckshot)"
 	icon_state = "12gboxbuckshot"
 	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
@@ -55,24 +55,24 @@
 	max_ammo = 40
 
 
-/obj/item/ammo_box/shotmgslug
+/obj/item/ammo_box/box12gslug
 	name = "ammo box (12g slug)"
 	icon_state = "12gboxslug"
 	ammo_type = /obj/item/ammo_casing/shotgun
 	caliber = "shotgun"
 	max_ammo = 40
 
-/obj/item/ammo_box/shotmgbeanbag
+/obj/item/ammo_box/box12gbeanbag
 	name = "ammo box (12g beanbag)"
 	icon_state = "12gboxbeanbag"
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
 	caliber = "shotgun"
 	max_ammo = 40
 
-/obj/item/ammo_box/shotmgfrag
-	name = "ammo box (12g frag)"
-	icon_state = "12gboxfrag"
-	ammo_type = /obj/item/ammo_casing/shotgun/frag12
+/obj/item/ammo_box/box12gdragon
+	name = "ammo box (12g dragon's breath)"
+	icon_state = "12gboxdragon"
+	ammo_type = /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath
 	caliber = "shotgun"
 	max_ammo = 40
 

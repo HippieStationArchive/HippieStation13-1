@@ -30,7 +30,7 @@
 
 /obj/item/weapon/gun/projectile/automatic/pistol/g17/update_icon()
 	..()
-	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+	icon_state = "[initial(icon_state)][chambered ? "" : "-e"]"
 	return
 
 /obj/item/weapon/gun/projectile/automatic/pistol/deagle

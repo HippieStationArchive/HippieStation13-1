@@ -45,10 +45,10 @@
 	return ..()
 
 /obj/item/weapon/storage/backpack/holding/handle_item_insertion(obj/item/W, prevent_warning = 0, mob/user)
-	if(istype(W, /obj/item/weapon/storage/backpack/holding) && !W.crit_fail)
-		var/safety = alert(user, "You feel this may not be the best idea.", "Put in [name]?", "Proceed", "Abort")
-		if(safety == "Abort" || !in_range(src, user) || !src || !W || user.incapacitated())
-			return
+//	if(istype(W, /obj/item/weapon/storage/backpack/holding) && !W.crit_fail)
+//		var/safety = alert(user, "You feel this may not be the best idea.", "Put in [name]?", "Proceed", "Abort")
+//		if(safety == "Abort" || !in_range(src, user) || !src || !W || user.incapacitated())	<----	This isn't working -DerptheStewpidGoat
+//			return
 		investigate_log("has become a singularity. Caused by [user.key]","singulo")
 		user << "<span class='danger'>The Bluespace interfaces of the two devices catastrophically malfunction!</span>"
 		qdel(W)
@@ -59,7 +59,7 @@
 		qdel(src)
 		singulo.process()
 		return
-	..()
+		..()
 
 /obj/item/weapon/storage/backpack/holding/proc/failcheck(mob/user as mob)
 	if (prob(src.reliability)) return 1 //No failure
