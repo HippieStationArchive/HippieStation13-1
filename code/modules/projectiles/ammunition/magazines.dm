@@ -212,7 +212,19 @@ obj/item/ammo_box/magazine/tommygunm45
 	caliber = "shotgun"
 	max_ammo = 40
 
-/obj/item/ammo_box/magazine/m762/update_icon()
+/obj/item/ammo_box/magazine/mbox12g/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),10)]"
+
+/obj/item/ammo_box/magazine/mbox12g/dragon
+	name = "box magazine (12 gauge)"
+	icon_state = "box12g"		//Gotta give this it's own proper icon later
+	origin_tech = "combat=3"
+	ammo_type = /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath
+	caliber = "shotgun"
+	max_ammo = 40
+
+/obj/item/ammo_box/magazine/mbox12g/dragon/update_icon()
 	..()
 	icon_state = "[initial(icon_state)]-[round(ammo_count(),10)]"
 

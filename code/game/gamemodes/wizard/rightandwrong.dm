@@ -250,6 +250,8 @@
 					new /obj/item/weapon/gun/projectile/automatic/abzats(get_turf(H))
 				if("ak-922")
 					new /obj/item/weapon/gun/projectile/automatic/ak922(get_turf(H))
+				if("glock17")
+					new /obj/item/weapon/gun/projectile/automatic/pistol/g17(get_turf(H))
 
 		else
 			switch (randomizemagic)
