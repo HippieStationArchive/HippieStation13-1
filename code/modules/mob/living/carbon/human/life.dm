@@ -27,11 +27,6 @@
 #define COLD_GAS_DAMAGE_LEVEL_3 3 //Amount of damage applied when the current breath's temperature passes the 120K point
 
 /mob/living/carbon/human
-	var/oxygen_alert = 0
-	var/toxins_alert = 0
-	var/fire_alert = 0
-	var/pressure_alert = 0
-	var/temperature_alert = 0
 	var/tinttotal = 0				// Total level of visualy impairing items
 
 
@@ -50,7 +45,6 @@
 	//code. Very ugly. I dont care. Moving this stuff here so its easy
 	//to find it.
 	blinded = null
-	fire_alert = 0 //Reset this here, because both breathe() and handle_environment() have a chance to set it.
 	tinttotal = tintcheck() //here as both hud updates and status updates call it
 
 	//TODO: seperate this out
@@ -507,6 +501,7 @@
 			blinded = 1
 			stat = UNCONSCIOUS
 		else if(sleeping)
+			throw_alert("asleep")
 			handle_dreams()
 			adjustStaminaLoss(-10)
 			sleeping = max(sleeping-1, 0)
@@ -517,6 +512,7 @@
 					emote("snore")
 		//CONSCIOUS
 		else
+			clear_alert("asleep")
 			stat = CONSCIOUS
 
 		//Eyes
@@ -614,6 +610,8 @@
 	client.screen.Remove(global_hud.blurry, global_hud.druggy, global_hud.vimpaired, global_hud.darkMask)
 
 	update_action_buttons()
+	handle_actions()
+
 
 	if(damageoverlay.overlays)
 		damageoverlay.overlays = list()
@@ -701,6 +699,23 @@
 
 	return 1
 
+/mob/living/carbon/human/proc/handle_actions()
+	//Pretty bad, i'd use picked/dropped instead but the parent calls in these are nonexistent
+	for(var/datum/action/A in actions)
+		if(A.CheckRemoval(src))
+			A.Remove(src)
+	for(var/obj/item/I in src)
+		if(I.action_button_name)
+			if(!I.action)
+				if(I.action_button_is_hands_free)
+					I.action = new/datum/action/item_action/hands_free
+				else
+					I.action = new/datum/action/item_action
+				I.action.name = I.action_button_name
+				I.action.target = I
+			I.action.Grant(src)
+	return
+
 /mob/living/carbon/human/proc/handle_random_events()
 	// Puke if toxloss is too high
 	if(!stat)
@@ -776,6 +791,59 @@
 						if(istype(I))
 							L.take_damage(I.embedforce ? I.embedforce : I.w_class*5)
 							src << "<span class='userdanger'>\The [I] embedded in your [L.getDisplayName()] hurts!</span>"
+
+/mob/living/carbon/human/update_action_buttons()
+	if(!hud_used) return
+	if(!client) return
+
+	if(hud_used.hud_shown != 1)	//Hud toggled to minimal
+		return
+
+	client.screen -= hud_used.hide_actions_toggle
+	for(var/datum/action/A in actions)
+		if(A.button)
+			client.screen -= A.button
+
+	if(hud_used.action_buttons_hidden)
+		if(!hud_used.hide_actions_toggle)
+			hud_used.hide_actions_toggle = new(hud_used)
+			hud_used.hide_actions_toggle.UpdateIcon()
+
+		if(!hud_used.hide_actions_toggle.moved)
+			hud_used.hide_actions_toggle.screen_loc = hud_used.ButtonNumberToScreenCoords(1)
+			//hud_used.SetButtonCoords(hud_used.hide_actions_toggle,1)
+
+		client.screen += hud_used.hide_actions_toggle
+		return
+
+	var/button_number = 0
+	for(var/datum/action/A in actions)
+		button_number++
+		if(A.button == null)
+			var/obj/screen/movable/action_button/N = new(hud_used)
+			N.owner = A
+			A.button = N
+
+		var/obj/screen/movable/action_button/B = A.button
+
+		B.UpdateIcon()
+
+		B.name = A.UpdateName()
+
+		client.screen += B
+
+		if(!B.moved)
+			B.screen_loc = hud_used.ButtonNumberToScreenCoords(button_number)
+			//hud_used.SetButtonCoords(B,button_number)
+
+	if(button_number > 0)
+		if(!hud_used.hide_actions_toggle)
+			hud_used.hide_actions_toggle = new(hud_used)
+			hud_used.hide_actions_toggle.InitialiseIcon(src)
+		if(!hud_used.hide_actions_toggle.moved)
+			hud_used.hide_actions_toggle.screen_loc = hud_used.ButtonNumberToScreenCoords(button_number+1)
+			//hud_used.SetButtonCoords(hud_used.hide_actions_toggle,button_number+1)
+		client.screen += hud_used.hide_actions_toggle
 
 //Lighting changes and their effect on vision
 #define ADJUST_DARKNESS_LUMCOUNT_THRESHOLD	2.5 //how dark we get before humans start adjusting to darkness

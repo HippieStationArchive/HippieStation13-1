@@ -13,6 +13,21 @@
 /obj/item/clothing/mask/balaclava/attack_self(var/mob/user)
 	adjustmask(user)
 
+/obj/item/clothing/mask/balaclava/green
+	name = "green balaclava"
+	desc = "A simple green balaclava. Excellent for use in camoflaging the user's face if the environment is suitable. One such unsuitable environment is a space station."
+	icon_state = "balaclavagreen"
+	item_state = "balaclavagreen"
+	flags = BLOCKHAIR
+	flags_inv = HIDEFACE
+	visor_flags_inv = HIDEFACE
+	w_class = 2
+	action_button_name = "Adjust Balaclava"
+	ignore_maskadjust = 0
+
+/obj/item/clothing/mask/balaclava/green/attack_self(var/mob/user)
+	adjustmask(user)
+
 /obj/item/clothing/mask/luchador
 	name = "Luchador Mask"
 	desc = "Worn by robust fighters, flying high to defeat their foes!"

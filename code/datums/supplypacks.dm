@@ -1124,7 +1124,8 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 					/obj/item/clothing/head/beret,
 					/obj/item/clothing/suit/suspenders,
 					/obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing,
-					/obj/item/weapon/storage/backpack/mime)
+					/obj/item/weapon/storage/backpack/mime,
+					/obj/item/clothing/shoes/discoputin)
 	cost = 10
 	containertype = /obj/structure/closet/crate/secure
 	containername = "standard costumes"

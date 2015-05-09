@@ -87,6 +87,7 @@
 			blinded = 1
 			stat = UNCONSCIOUS
 		else if(sleeping)
+			throw_alert("asleep")
 			sleeping = max(sleeping-1, 0)
 			blinded = 1
 			stat = UNCONSCIOUS
@@ -95,6 +96,7 @@
 					emote("hiss_")
 		//CONSCIOUS
 		else
+			clear_alert("asleep")
 			stat = CONSCIOUS
 
 		/*	What in the living hell is this?*/
@@ -180,13 +182,6 @@
 			pullin.icon_state = "pull"
 		else
 			pullin.icon_state = "pull0"
-
-	if (toxin)	toxin.icon_state = "tox[toxins_alert ? 1 : 0]"
-	if (oxygen) oxygen.icon_state = "oxy[oxygen_alert ? 1 : 0]"
-	if (fire) fire.icon_state = "fire[fire_alert ? 1 : 0]"
-	//NOTE: the alerts dont reset when youre out of danger. dont blame me,
-	//blame the person who coded them. Temporary fix added.
-
 
 	client.screen.Remove(global_hud.blurry,global_hud.druggy,global_hud.vimpaired)
 
