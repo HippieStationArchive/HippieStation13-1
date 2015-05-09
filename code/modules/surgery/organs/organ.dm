@@ -27,14 +27,6 @@
 	else
 		icon_state = "appendix"
 
-
-//Looking for brains?
-//Try code/modules/mob/living/carbon/brain/brain_item.dm
-
-//Old Datum Limbs:
-// code/modules/unused/limbs.dm
-
-
 /obj/item/organ/limb
 	name = "limb"
 	var/mob/owner = null
@@ -181,4 +173,8 @@
 		if("head")		return "head"
 		else			return name
 
-
+/mob/living/carbon/human/proc/has_embedded_objects()
+	. = 0
+	for(var/obj/item/organ/limb/L in organs)
+		for(var/obj/item/I in L.embedded)
+			return 1

@@ -8,24 +8,6 @@
 /turf
 	var/pinned = null //Used to track the turf's destruction so as to release the poor pinned dude
 
-/turf/Del()
-	if(src.pinned)
-		var/mob/living/carbon/human/H = src.pinned
-		H.anchored = 0
-		H.pinned_to = null
-		H.do_pindown(src, 0)
-		H.update_canmove()
-	..()
-
-/turf/ChangeTurf(var/path)
-	if(src.pinned)
-		var/mob/living/carbon/human/H = src.pinned
-		H.anchored = 0
-		H.pinned_to = null
-		H.do_pindown(src, 0)
-		H.update_canmove()
-	..()
-
 //Rod stuff
 /obj/item/projectile/rod
 	name = "metal rod"
@@ -142,22 +124,3 @@
 /obj/item/weapon/gun/rodgun/New()
 	..()
 	chambered = new ammo_type(src)
-
-// /obj/item/weapon/gun/rodgun/process_fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, var/message = 1, params)
-// 	add_fingerprint(user)
-
-// 	if(rods > 0)
-// 		if(get_dist(user, target) <= 1) //Making sure whether the target is in vicinity for the pointblank shot
-// 			shoot_live_shot(user, 1, target)
-// 		else
-// 			shoot_live_shot(user)
-// 		rods--
-// 	else
-// 		shoot_with_empty_chamber(user)
-
-// 	update_icon()
-
-// 	if(user.hand)
-// 		user.update_inv_l_hand(0)
-// 	else
-// 		user.update_inv_r_hand(0)
