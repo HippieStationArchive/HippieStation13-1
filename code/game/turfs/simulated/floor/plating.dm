@@ -96,6 +96,19 @@
 /turf/simulated/floor/engine/make_plating()
 	return //unplateable
 
+/turf/simulated/floor/engine/ex_act(severity,target)
+	switch(severity)
+		if(1.0)
+			if(prob(80))
+				ReplaceWithLattice()
+			else if(prob(50))
+				qdel(src)
+			else
+				make_plating(1)
+		if(2.0)
+			if(prob(50))
+				make_plating(1)
+
 /turf/simulated/floor/engine/attackby(obj/item/weapon/C as obj, mob/user as mob)
 	if(!C || !user)
 		return
@@ -145,4 +158,3 @@
 	oxygen = 0
 	nitrogen = 0
 	temperature = TCMB
-
