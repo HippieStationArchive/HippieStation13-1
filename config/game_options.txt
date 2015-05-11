@@ -97,8 +97,8 @@ PROBABILITY MALFUNCTION 2
 PROBABILITY BLOB 1
 PROBABILITY MONKEY 0
 PROBABILITY METEOR 0
-PROBABILITY EXTENDED 0
-PROBABILITY RAGINMAGES 0
+PROBABILITY EXTENDED 1
+PROBABILITY RAGINMAGES 1
 PROBABILITY SHADOWLING 4
 
 ## You probably want to keep sandbox off by default for secret and random.
@@ -110,6 +110,7 @@ PROBABILITY SANDBOX 0
 #CONTINUOUS_ROUND_REV
 #CONTINUOUS_ROUND_WIZ
 #CONTINUOUS_ROUND_MALF
+#CONTINUOUS_ROUND_GANG
 
 ## The amount of time it takes for the emergency shuttle to be called, from round start.
 SHUTTLE_REFUEL_DELAY 18000
@@ -210,3 +211,7 @@ JOIN_WITH_MUTANT_RACE
 
 ## Uncomment to allow certain species to have custom colors
 MUTANT_COLORS
+
+##Comment for "normal" explosions, which ignore obstacles
+##Uncomment for explosions that react to doors and walls
+REACTIONARY_EXPLOSIONS
