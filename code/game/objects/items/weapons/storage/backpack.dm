@@ -35,7 +35,7 @@
 	desc = "A backpack that opens into a localized pocket of Blue Space."
 	origin_tech = "bluespace=4"
 	icon_state = "holdingpack"
-	max_w_class = 5
+	max_w_class = 5f
 	max_combined_w_class = 35
 
 /obj/item/weapon/storage/backpack/holding/can_be_inserted(obj/item/W, stop_messages = 0, mob/user)
@@ -45,10 +45,7 @@
 	return ..()
 
 /obj/item/weapon/storage/backpack/holding/handle_item_insertion(obj/item/W, prevent_warning = 0, mob/user)
-//	if(istype(W, /obj/item/weapon/storage/backpack/holding) && !W.crit_fail)
-//		var/safety = alert(user, "You feel this may not be the best idea.", "Put in [name]?", "Proceed", "Abort")
-//		if(safety == "Abort" || !in_range(src, user) || !src || !W || user.incapacitated())	<----	This isn't working -DerptheStewpidGoat
-//			return
+	if(istype(W, /obj/item/weapon/storage/backpack/holding) && !W.crit_fail)
 		investigate_log("has become a singularity. Caused by [user.key]","singulo")
 		user << "<span class='danger'>The Bluespace interfaces of the two devices catastrophically malfunction!</span>"
 		qdel(W)
