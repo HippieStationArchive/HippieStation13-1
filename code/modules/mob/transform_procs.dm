@@ -48,6 +48,7 @@
 	if(suiciding)
 		O.suiciding = suiciding
 	O.loc = loc
+	O.update_pipe_vision()
 	O.a_intent = "harm"
 
 	//keep viruses?
@@ -298,6 +299,7 @@
 	O.cell = new(O)
 	O.cell.maxcharge = 7500
 	O.cell.charge = 7500
+	O.update_pipe_vision()
 
 
 	O.gender = gender
