@@ -35,7 +35,7 @@
 	desc = "A backpack that opens into a localized pocket of Blue Space."
 	origin_tech = "bluespace=4"
 	icon_state = "holdingpack"
-	max_w_class = 5f
+	max_w_class = 5
 	max_combined_w_class = 35
 
 /obj/item/weapon/storage/backpack/holding/can_be_inserted(obj/item/W, stop_messages = 0, mob/user)
