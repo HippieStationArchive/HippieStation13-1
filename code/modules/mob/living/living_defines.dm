@@ -47,3 +47,6 @@
 	var/can_radio = 1 //Radio flag for disabling radio speech
 	var/nearcrit = 0 //for newcrit
 	var/list/datum/action/actions = list()
+
+	var/list/pipes_shown = list()
+	var/last_played_vent

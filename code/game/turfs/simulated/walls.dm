@@ -16,6 +16,8 @@
 	var/sheet_type = /obj/item/stack/sheet/metal
 	var/obj/item/stack/sheet/builtin_sheet = null
 
+	explosion_block = 1
+
 /turf/simulated/wall/New()
 	..()
 	builtin_sheet = new sheet_type
@@ -269,7 +271,6 @@
 		F.burn_tile()
 		F.icon_state = "wall_thermite"
 		F.add_hiddenprint(user)
-
 		spawn(max(50,150-thermite))
 			if(O)	qdel(O)
 	else

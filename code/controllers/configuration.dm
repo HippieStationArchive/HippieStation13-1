@@ -141,6 +141,7 @@
 
 	var/default_laws = 0 //Controls what laws the AI spawns with.
 	var/silicon_max_law_amount = 12
+	var/reactionary_explosions
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -425,6 +426,8 @@
 					config.mutant_races				= 1
 				if("mutant_colors")
 					config.mutant_colors			= 1
+				if("reactionary_explosions")
+					config.reactionary_explosions	= 1
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 

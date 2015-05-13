@@ -210,3 +210,7 @@ JOIN_WITH_MUTANT_RACE
 
 ## Uncomment to allow certain species to have custom colors
 MUTANT_COLORS
+
+##Comment for "normal" explosions, which ignore obstacles
+##Uncomment for explosions that react to doors and walls
+REACTIONARY_EXPLOSIONS
