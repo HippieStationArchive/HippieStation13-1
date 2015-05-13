@@ -87,7 +87,7 @@ Housekeeping and pipe network stuff below
 		parent.build_pipeline(src)
 
 /obj/machinery/atmospherics/unary/disconnect(obj/machinery/atmospherics/reference)
-	if(reference == node)
+	if(reference == node || reference == src)
 		if(istype(node, /obj/machinery/atmospherics/pipe))
 			qdel(parent)
 		node = null
