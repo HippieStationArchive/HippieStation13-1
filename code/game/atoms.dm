@@ -25,6 +25,9 @@
 	var/can_examine_reagents = 0 //For examining reagents
 	var/prepo = null //for managing extra name flair like "deep-fried".
 
+	//Value used to increment ex_act() if reactionary_explosions is on
+	var/explosion_block = 0
+
 /atom/proc/throw_impact(atom/hit_atom)
 	if(istype(hit_atom,/mob/living))
 		var/mob/living/M = hit_atom

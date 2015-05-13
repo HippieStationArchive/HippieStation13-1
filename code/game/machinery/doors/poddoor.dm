@@ -6,6 +6,7 @@
 	var/preposition = ""
 	var/id = 1
 	var/auto_close = 0 // Time in seconds to automatically close when opened, 0 if it doesn't.
+	explosion_block = 3
 
 /obj/machinery/door/poddoor/preopen
 	icon_state = "open"
@@ -33,6 +34,28 @@
 	if(stat & NOPOWER)
 		open(1)	//ignore the usual power requirement.
 
+/obj/machinery/door/poddoor/ex_act(severity, target)
+	switch(severity)
+		if(1.0)
+			if(prob(80))
+				qdel(src)
+			else
+				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				s.set_up(2, 1, src)
+				s.start()
+		if(2.0)
+			if(prob(20))
+				qdel(src)
+			else
+				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				s.set_up(2, 1, src)
+				s.start()
+
+		if(3.0)
+			if(prob(80))
+				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				s.set_up(2, 1, src)
+				s.start()
 
 /obj/machinery/door/poddoor/open(ignorepower = 0)
 	if(operating)
@@ -84,10 +107,10 @@
 
 	operating = 0
 
+/*/
 
 
 
-/*
 /obj/machinery/door/poddoor/two_tile_hor/open()
 	if (src.operating == 1) //doors can still open when emag-disabled
 		return

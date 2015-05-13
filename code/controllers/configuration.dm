@@ -39,6 +39,7 @@
 	var/Ticklag = 0.9
 	var/Tickcomp = 0
 	var/allow_holidays = 0				//toggles whether holiday-specific content should be used
+	var/proxybuster = 0 //For using the proxybuster
 
 	var/hostedby = null
 	var/respawn = 1
@@ -140,6 +141,7 @@
 
 	var/default_laws = 0 //Controls what laws the AI spawns with.
 	var/silicon_max_law_amount = 12
+	var/reactionary_explosions
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -268,6 +270,8 @@
 					guests_allowed = 0
 				if("usewhitelist")
 					config.usewhitelist = 1
+				if("proxybuster")
+					config.proxybuster = 1
 				if("allow_metadata")
 					config.allow_Metadata = 1
 				if("kick_inactive")
@@ -422,6 +426,8 @@
 					config.mutant_races				= 1
 				if("mutant_colors")
 					config.mutant_colors			= 1
+				if("reactionary_explosions")
+					config.reactionary_explosions	= 1
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
