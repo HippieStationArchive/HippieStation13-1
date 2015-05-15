@@ -32,7 +32,7 @@
 		return
 	..()
 
-/obj/machinery/foodgrill/attackby(obj/item/I, mob/user) //TODO: Deeprfy people when emagged
+/obj/machinery/foodgrill/attackby(obj/item/I, mob/user, params) //TODO: Deeprfy people when emagged
 	if(on)
 		user << "<span class='notice'>[src] is already processing, please wait.</span>"
 		return

@@ -2422,7 +2422,7 @@ It is possible to destroy the net by the occupant or someone else.
 	healthcheck()
 	return
 
-/obj/effect/energy_net/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/effect/energy_net/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	var/aforce = W.force
 	health = max(0, health - aforce)
 	healthcheck()

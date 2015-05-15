@@ -27,7 +27,7 @@
 		E += C.rating * 2
 	efficiency = E
 
-/obj/machinery/telepad/attackby(obj/item/I, mob/user)
+/obj/machinery/telepad/attackby(obj/item/I, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "pad-idle-o", "pad-idle", I))
 		return
 
@@ -59,7 +59,7 @@
 /obj/machinery/telepad_cargo/New()
 	cargo_telepads += src
 
-/obj/machinery/telepad_cargo/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/machinery/telepad_cargo/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(istype(W, /obj/item/weapon/rcs))
 		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 		s.set_up(5, 1, src)

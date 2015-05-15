@@ -278,7 +278,7 @@
 	if(prob(5))
 		playsound(loc, 'sound/spookoween/insane_low_laugh.ogg', 300, 1)
 
-/mob/living/simple_animal/hostile/retaliate/clown/insane/attackby(var/obj/item/O as obj, var/mob/user as mob)
+/mob/living/simple_animal/hostile/retaliate/clown/insane/attackby(var/obj/item/O as obj, var/mob/user as mob, params)
 	if(istype(O,/obj/item/weapon/nullrod))
 		if(prob(5))
 			visible_message("<span class='notice'>[src] finally found the peace it deserves. You hear honks echoing off into the distance.</span>")

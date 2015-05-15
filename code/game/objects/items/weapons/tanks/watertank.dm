@@ -96,7 +96,7 @@
 				H.put_in_l_hand(src)
 	return
 
-/obj/item/weapon/watertank/attackby(obj/item/W, mob/user)
+/obj/item/weapon/watertank/attackby(obj/item/W, mob/user, params)
 	if(W == noz)
 		remove_noz(user)
 		return

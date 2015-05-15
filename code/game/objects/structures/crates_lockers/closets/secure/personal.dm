@@ -62,7 +62,7 @@
 	new /obj/item/device/radio/headset( src )
 	return
 
-/obj/structure/closet/secure_closet/personal/attackby(obj/item/W as obj, mob/user as mob)
+/obj/structure/closet/secure_closet/personal/attackby(obj/item/W as obj, mob/user as mob, params)
 
 	if(istype(W))
 		var/obj/item/weapon/card/id/I = W.GetID()

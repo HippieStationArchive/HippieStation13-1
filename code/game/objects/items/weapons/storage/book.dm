@@ -133,7 +133,7 @@
 			A.reagents.del_reagent("banana")
 			A.reagents.add_reagent("holybanana",banana2holy)
 
-/obj/item/weapon/storage/book/bible/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/storage/book/bible/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	playsound(src.loc, "rustle", 50, 1, -5)
 	..()
 

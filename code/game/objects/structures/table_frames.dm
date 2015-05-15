@@ -18,7 +18,7 @@
 	anchored = 0
 	layer = 2.8
 
-/obj/structure/table_frame/attackby(var/obj/item/I, mob/user)
+/obj/structure/table_frame/attackby(var/obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/wrench))
 		user << "<span class='notice'>Now disassembling [src].</span>"
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
@@ -61,7 +61,7 @@
 	desc = "Four wooden legs with four framing wooden rods for a wooden table. You could easily pass through this."
 	icon_state = "wood_frame"
 
-/obj/structure/table_frame/wood/attackby(var/obj/item/I, mob/user)
+/obj/structure/table_frame/wood/attackby(var/obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/wrench))
 		user << "<span class='notice'>Now disassembling [src].</span>"
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)

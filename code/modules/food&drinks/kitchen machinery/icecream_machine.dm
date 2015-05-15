@@ -26,7 +26,7 @@
 	R.my_atom = src
 
 
-/obj/machinery/icemachine/attackby(obj/item/I, mob/user)
+/obj/machinery/icemachine/attackby(obj/item/I, mob/user, params)
 	if(istype(I,/obj/item/weapon/wrench))
 		if(!anchored)
 			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)

@@ -23,7 +23,7 @@
 	else
 		return 1
 
-/obj/item/weapon/storage/bag/tray/attackby(obj/item/W, mob/user)
+/obj/item/weapon/storage/bag/tray/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stack/ducttape))
 		return
 	..()

@@ -48,7 +48,7 @@ obj/item/weapon/mop/proc/clean(turf/simulated/A)
 			user << "<span class='notice'>You have finished mopping!</span>"
 
 
-/obj/effect/attackby(obj/item/I, mob/user)
+/obj/effect/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/mop) || istype(I, /obj/item/weapon/soap))
 		return
 	..()

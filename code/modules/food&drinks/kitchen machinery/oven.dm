@@ -22,7 +22,7 @@ var/global/list/still_choices = typesof(/obj/item/weapon/reagent_containers/food
 	..()
 	updatefood()
 
-/obj/machinery/cooking/attackby(obj/item/I, mob/user)
+/obj/machinery/cooking/attackby(obj/item/I, mob/user, params)
 	if(on)
 		user << "The machine is already running."
 		return

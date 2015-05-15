@@ -80,7 +80,7 @@
 	radiate()
 	..()
 
-/turf/simulated/wall/mineral/uranium/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/simulated/wall/mineral/uranium/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	radiate()
 	..()
 
@@ -96,7 +96,7 @@
 	mineral = "plasma"
 	thermal_conductivity = 0.04
 
-/turf/simulated/wall/mineral/plasma/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/simulated/wall/mineral/plasma/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(is_hot(W) > 300)//If the temperature of the object is over 300, then ignite
 		message_admins("Plasma wall ignited by [key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
 		log_game("Plasma wall ignited by [user.ckey]([user]) in ([x],[y],[z])")
@@ -134,7 +134,7 @@
 	else
 		return 0
 
-/turf/simulated/wall/mineral/proc/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/simulated/wall/mineral/proc/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if((mineral == "gold") || (mineral == "silver"))
 		if(shocked)
 			shock()

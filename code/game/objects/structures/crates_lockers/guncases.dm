@@ -43,7 +43,7 @@
 	else
 		usr << "\blue It is currently empty."
 
-/obj/structure/closet/guncase/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/structure/closet/guncase/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(opened)
 		if(istype(W, /obj/item/weapon/gun))
 			if(contents.len >= storage_capacity)

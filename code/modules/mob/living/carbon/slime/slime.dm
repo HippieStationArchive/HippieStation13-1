@@ -414,7 +414,7 @@
 			updatehealth()
 	return
 
-/mob/living/carbon/slime/attackby(obj/item/W, mob/living/user)
+/mob/living/carbon/slime/attackby(obj/item/W, mob/living/user, params)
 	if(istype(W,/obj/item/stack/sheet/mineral/plasma)) //Let's you feed slimes plasma.
 		if (user in Friends)
 			++Friends[user]
@@ -929,7 +929,7 @@ mob/living/carbon/slime/var/temperature_resistance = T0C+75
 	if (environment.toxins > MOLES_PLASMA_VISIBLE)//plasma exposure causes the egg to hatch
 		src.Hatch()
 
-/obj/item/weapon/reagent_containers/food/snacks/egg/slime/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/reagent_containers/food/snacks/egg/slime/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(istype( W, /obj/item/toy/crayon ))
 		return
 	else

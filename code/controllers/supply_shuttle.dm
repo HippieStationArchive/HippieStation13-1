@@ -651,7 +651,7 @@ var/global/datum/controller/supply_shuttle/supply_shuttle
 	onclose(user, "computer")
 	return
 
-/obj/machinery/computer/supplycomp/attackby(I as obj, user as mob)
+/obj/machinery/computer/supplycomp/attackby(I as obj, user as mob, params)
 	if(istype(I,/obj/item/weapon/card/emag) && !hacked)
 		user << "<span class='notice'> Special supplies unlocked.</span>"
 		hacked = 1

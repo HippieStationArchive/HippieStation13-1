@@ -18,7 +18,7 @@
 
 // CRAFTING //
 
-/obj/item/weaponcrafting/reciever/attackby(obj/item/W as obj, mob/user as mob)
+/obj/item/weaponcrafting/reciever/attackby(obj/item/W as obj, mob/user as mob, params)
 	if(istype(W,/obj/item/pipe))
 		user << "You attach the shotgun barrel to the reciever. The pins seem loose."
 		var/obj/item/weaponcrafting/ishotgunconstruction/I = new /obj/item/weaponcrafting/ishotgunconstruction
@@ -51,7 +51,7 @@
 	icon = 'icons/obj/improvised.dmi'
 	icon_state = "ishotgunstep1"
 
-/obj/item/weaponcrafting/ishotgunconstruction2/attackby(obj/item/W as obj, mob/user as mob)
+/obj/item/weaponcrafting/ishotgunconstruction2/attackby(obj/item/W as obj, mob/user as mob, params)
 	if(istype(W,/obj/item/weaponcrafting/stock))
 		user << "You attach the stock to the reciever-barrel assembly."
 		var/obj/item/weaponcrafting/ishotgunconstruction3/I = new /obj/item/weaponcrafting/ishotgunconstruction3

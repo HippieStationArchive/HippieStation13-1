@@ -209,7 +209,7 @@ Crematorium Switch
 		usr << "<span class='danger'>Access denied.</span>"
 	return
 
-/obj/machinery/crema_switch/attackby(obj/item/W as obj, mob/user as mob)
+/obj/machinery/crema_switch/attackby(obj/item/W as obj, mob/user as mob, params)
 	if(W.GetID())
 		attack_hand(user)
 	else

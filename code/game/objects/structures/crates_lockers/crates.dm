@@ -308,7 +308,7 @@
 	else
 		..()
 
-/obj/structure/closet/crate/secure/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/structure/closet/crate/secure/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(istype(W, /obj/item/weapon/card) && src.allowed(user) && !locked && !opened && !broken)
 		user << "<span class='notice'>You lock \the [src].</span>"
 		src.locked = 1
@@ -345,7 +345,7 @@
 /obj/structure/closet/crate/attack_paw(mob/user as mob)
 	return attack_hand(user)
 
-/obj/structure/closet/crate/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/structure/closet/crate/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(opened)
 		if(isrobot(user))
 			return
@@ -405,7 +405,7 @@
 			src.req_access += pick(get_all_accesses())
 	..()
 
-/obj/structure/closet/crate/mining/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/structure/closet/crate/mining/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(!opened)
 		if(istype(W, /obj/item/weapon/rcs))
 			var/obj/item/weapon/rcs/E = W

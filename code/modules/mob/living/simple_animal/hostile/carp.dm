@@ -149,7 +149,7 @@
 	udder.my_atom = src
 	..()
 
-/mob/living/simple_animal/hostile/livingplush/attackby(var/obj/item/O as obj, var/mob/user as mob)
+/mob/living/simple_animal/hostile/livingplush/attackby(var/obj/item/O as obj, var/mob/user as mob, params)
 	if(stat == CONSCIOUS && istype(O, /obj/item/weapon/reagent_containers/glass))
 		user.visible_message("<span class='notice'>[user] gets some strange liquid from [src] using \the [O].</span>")
 		var/obj/item/weapon/reagent_containers/glass/G = O
