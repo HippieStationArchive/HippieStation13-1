@@ -297,7 +297,7 @@
 						if(isalien(src))
 							sound = pick('sound/voice/hiss6.ogg')
 
-				playsound(src.loc, sound, 50, 1, 10, 1.2)
+				playsound(src.loc, sound, 50, 1, 14, 1.2)
 				message = "<B>[src]</B> screams!"
 				src.adjustOxyLoss(5)
 				m_type = 2
