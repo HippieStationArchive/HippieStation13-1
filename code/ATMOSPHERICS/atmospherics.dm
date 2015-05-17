@@ -169,12 +169,11 @@ Pipelines + Other Objects -> Pipe network
 		if(target.initialize_directions & get_dir(target,src))
 			return target
 
-
-#define VENT_SOUND_DELAY 30
-
 /obj/machinery/atmospherics/relaymove(var/mob/living/user, var/direction)
 	if(!(direction & initialize_directions)) //cant go this way.
 		return
+	if(!user.canmove) return
+	if(user.buckled == src || buckled_mob == user) return
 
 	var/obj/machinery/atmospherics/target_move = findConnecting(direction)
 	if(target_move)
@@ -185,7 +184,7 @@ Pipelines + Other Objects -> Pipe network
 		else if(target_move.can_crawl_through())
 			user.loc = target_move
 			user.client.eye = target_move  //Byond only updates the eye every tick, This smooths out the movement
-			if(world.time - user.last_played_vent > VENT_SOUND_DELAY)
+			if(world.time - user.last_played_vent > rand(7, 30))
 				user.last_played_vent = world.time
 				playsound(src, 'sound/machines/ventcrawl.ogg', 50, 1, -3)
 	else
