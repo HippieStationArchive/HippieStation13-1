@@ -14,11 +14,15 @@
 	var/srange = 5 //The range of the search for pool turfs, change this for bigger or smaller pools.
 	var/linkedmist = list() //Used to keep track of created mist
 	var/misted = 0 //Used to check for mist.
-	var/chem_volume = 5
-
+	var/chem_volume = 10
+	var/datum/wires/poolcontroller/wires = null
+	var/open_panel = 0
+	var/blinkwire = 0 //possibly a drain function in the future. Currently just a blinking light.
+	var/seconds_electrified = 0	//Shock morons, like an airlock.
 
 /obj/machinery/poolcontroller/New() //This proc automatically happens on world start
 	create_reagents(chem_volume)
+	wires = new(src)
 	for(var/turf/simulated/pool/water/W in range(srange,src)) //Search for /turf/simulated/beach/water in the range of var/srange
 		src.linkedturfs += W //Add found pool turfs to the central list.
 	..() //Changed to call parent as per MarkvA's recommendation
@@ -28,38 +32,60 @@
 		user << "\red You disable \the [src]'s temperature safeguards." //Inform the mob of what emagging does.
 		emagged = 1 //Set the emag var to true.
 
-/obj/machinery/poolcontroller/attackby(obj/item/P as obj, mob/user as mob, params) //Proc is called when a user hits the pool controller with something.
-
-	if(istype(P,/obj/item/device/multitool)) //If the mob hits the pool controller with a multitool, reset the emagged status
-		if(emagged) //Check the emag status
-			user << "\red You re-enable \the [src]'s temperature safeguards." //Inform the user that they have just fixed the safeguards.
-			emagged = 0 //Set the emagged var to false.
-			return
-	if (istype(P,/obj/item/weapon/reagent_containers/glass/beaker/large))
-		if (P.reagents.total_volume >= 100)
+/obj/machinery/poolcontroller/attackby(obj/item/weapon/W, mob/user)
+	if(istype(W, /obj/item/weapon/screwdriver) && anchored)
+		panel_open = !panel_open
+		user << "You [panel_open ? "open" : "close"] the maintenance panel."
+		overlays.Cut()
+		if(panel_open)
+			overlays += image(icon, "wires")
+		updateUsrDialog()
+		return
+	else if(istype(W, /obj/item/device/multitool)||istype(W, /obj/item/weapon/wirecutters))
+		if(panel_open)
+			attack_hand(user)
+		return
+	else if (istype(W,/obj/item/weapon/reagent_containers/glass/beaker/large))
+		if (W.reagents.total_volume >= 100)
 			if(adminlog)
 				log_say("[key_name(user)] has spilled chemicals in the pool")
 				message_admins("[key_name_admin(user)] has spilled chemicals in the pool .")
-			var/transfered = P.reagents.trans_to(src, chem_volume)
+			var/transfered = W.reagents.trans_to(src, chem_volume)
 			if(transfered)	//if reagents were transfered, show the message
 				user << "<span class='danger'>You spill the reagents in the reagent duplicator</span>"
-				P.reagents.clear_reagents()
+				W.reagents.clear_reagents()
 
-			else
-				user << "<span class='danger'>You'll need more to have an effect on the pool.</span>"
 		else
-			user << "\red Nothing happens." //If not emagged, don't do anything, and don't tell the user that it can be emagged.
-
-		return //Return, nothing else needs to be done.
-	else //If it's not a multitool, defer to /obj/machinery/attackby
+			user << "<span class='danger'>You'll need more to have an effect on the pool.</span>"
+	else
 		..()
 
+/obj/machinery/vending/attack_paw(mob/user)
+	return attack_hand(user)
+
 //procs
+/obj/machinery/poolcontroller/proc/shock(mob/user, prb)
+	if(stat & (BROKEN|NOPOWER))		// unpowered, no shock
+		return 0
+	if(!prob(prb))
+		return 0
+	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	s.set_up(5, 1, src)
+	s.start()
+	if(electrocute_mob(user, get_area(src), src, 0.7))
+		return 1
+	else
+		return 0
+
+/obj/machinery/poolcontroller/proc/wires()
+	return wires.GetInteractWindow()
+
 /obj/machinery/poolcontroller/proc/poison()
 	for(var/turf/simulated/pool/water/W in linkedturfs)
 		for(var/mob/living/swimee in W)
 			reagents.reaction(swimee, INGEST)
 			reagents.trans_to(swimee, 1)
+			continue
 	reagents.remove_any(1)
 
 /obj/machinery/poolcontroller/process()
@@ -109,6 +135,7 @@
 			spawn(25)
 				qdel(decal)
 
+
 /obj/machinery/poolcontroller/proc/miston() //Spawn /obj/effect/mist (from the shower) on all linked pool tiles
 	for(var/turf/simulated/pool/water/W in linkedturfs)
 		var/M = new /obj/effect/mist(W)
@@ -123,14 +150,11 @@
 		qdel(M)
 	misted = 0 //no mist left, turn off the tracking var
 
-
-
-
-
-
 /obj/machinery/poolcontroller/attack_hand(mob/user)
 	user.set_machine(src)
-	var/dat
+	var/dat = ""
+	if(panel_open)
+		dat += wires()
 	if(emagged)
 		dat += "<a href='?src=\ref[src];Scalding=1'>Scalding</a><br>"
 	dat += "<a href='?src=\ref[src];Warm=1'>Warm</a><br>"
@@ -138,7 +162,7 @@
 	dat += "<a href='?src=\ref[src];Cool=1'>Cool</a><br>"
 	if(emagged)
 		dat += "<a href='?src=\ref[src];Frigid=1'>Frigid</a><br>"
-	var/datum/browser/popup = new(user, "Pool Controller", name, 350, 250)
+	var/datum/browser/popup = new(user, "Pool Controller", name, 350, 480)
 	popup.set_content(dat)
 	popup.open()
 
