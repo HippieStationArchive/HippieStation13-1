@@ -99,8 +99,7 @@
 //SOUND:
 #define SOUND_MINIMUM_PRESSURE 10
 #define FALLOFF_SOUNDS	1
-#define SOUND_DEFAULT_ENVIRONMENT 2 //2 is Room environment
-#define SURROUND_CAP	14 //Original: 7 -- Increasing this variable for testing of immershuns
+#define SURROUND_CAP	7
 
 //FONTS:
 // Used by Paper and PhotoCopier (and PaperBin once a year).
