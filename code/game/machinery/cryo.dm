@@ -74,6 +74,9 @@
 		return
 	close_machine(target)
 
+/obj/machinery/atmospherics/unary/cryo_cell/can_crawl_through()
+	return 0 // No. Just no.
+	
 /obj/machinery/atmospherics/unary/cryo_cell/allow_drop()
 	return 0
 
