@@ -178,7 +178,7 @@ var/list/uplink_items = list()
 	desc = "A simple yet popular handgun chambered in 9mm. Made out of strong but lightwieght polymer. The standard magazine can hold up to 17 9mm cartridges. Recent upgrades have made it compatible with suppressors."
 	item = /obj/item/weapon/gun/projectile/automatic/pistol/g17
 	cost = 14
-	surplus = 20
+	surplus = 50
 
 /datum/uplink_item/dangerous/revolver
 	name = "Syndicate Revolver"
