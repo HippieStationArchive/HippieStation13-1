@@ -1,4 +1,4 @@
-/proc/playsound(var/atom/source, soundin, vol as num, vary, extrarange as num, falloff, surround = 1, environment = -1, is_2d = 0)
+/proc/playsound(var/atom/source, soundin, vol as num, vary, extrarange as num, falloff, surround = 1)
 
 	soundin = get_sfx(soundin) // same sound for everyone
 
@@ -17,10 +17,10 @@
 		if(get_dist(M, turf_source) <= world.view + extrarange)
 			var/turf/T = get_turf(M)
 			if(T && T.z == turf_source.z)
-				M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, surround, environment, is_2d)
+				M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, surround)
 
 
-/atom/proc/playsound_local(var/turf/turf_source, soundin, vol as num, vary, frequency, falloff, surround = 1, environment = -1, is_2d = 0)
+/atom/proc/playsound_local(var/turf/turf_source, soundin, vol as num, vary, frequency, falloff, surround = 1)
 	soundin = get_sfx(soundin)
 
 	var/sound/S = sound(soundin)
@@ -36,10 +36,7 @@
 
 	if(isturf(turf_source))
 		var/turf/T = get_turf(src)
-		var/area/A = get_area(T)
-		if(A)
-			if(environment < 0 && !is_2d)
-				environment = A.environment
+
 		//Atmosphere affects sound
 		var/pressure_factor = 1
 		var/datum/gas_mixture/hearer_env = T.return_air()
@@ -73,12 +70,10 @@
 		// The y value is for above your head, but there is no ceiling in 2d spessmens.
 		S.y = 1
 		S.falloff = (falloff ? falloff : FALLOFF_SOUNDS)
-		if(environment >= 0)
-			S.environment = environment
 
 	src << S
 
-/mob/playsound_local(var/turf/turf_source, soundin, vol as num, vary, frequency, falloff, surround = 1, environment = -1, is_2d = 0)
+/mob/playsound_local(var/turf/turf_source, soundin, vol as num, vary, frequency, falloff, surround = 1)
 	if(!client || ear_deaf > 0)
 		return
 	..()
