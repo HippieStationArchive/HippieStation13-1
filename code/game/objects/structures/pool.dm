@@ -17,6 +17,9 @@
 	// oxygen = MOLES_O2STANDARD
 	// nitrogen = MOLES_N2STANDARD
 
+/turf/simulated/floor/blob_act()
+	return
+
 //Put people out of the water
 /turf/simulated/floor/MouseDrop_T(mob/M as mob, mob/user as mob)
 	if( user.stat || user.lying || !Adjacent(user) || !M.Adjacent(user)|| !iscarbon(M))
@@ -49,6 +52,8 @@
 	if(istype(A, /mob/living) || istype(A, /obj/structure)) //This check ensures that only specific types of objects cannot pass into the water. Items will be able to get tossed out.
 		if(istype(A, /mob/living/simple_animal) || istype(A, /mob/living/carbon/monkey))
 			return ..()
+		if (istype(A, /obj/structure) && istype(A.pulledby, /mob/living/carbon/human))
+			return ..()
 		if(istype(get_turf(A), /turf/simulated/pool/water) && !istype(T, /turf/simulated/pool/water)) //!(locate(/obj/structure/pool/ladder) in get_turf(A).loc)
 			return 0
 	return ..()
@@ -75,6 +80,7 @@
 		if(W)
 			qdel(W)
 	watereffect = new /obj/effect/overlay/water(src)
+
 
 /turf/simulated/pool/water/ChangeTurf(var/path)
 	. = ..()
@@ -127,18 +133,20 @@
 	else if(ishuman(A))
 		var/mob/living/carbon/human/H = A
 		H.adjustStaminaLoss(1)
-//		if(H.staminaloss > 40 && H.staminaloss < 55) //a bit more than needed, so that you have the time to react
-//			if (prob(25)
-//				H << "<span class='notice'>You feel like you swam enough.</span>"
 		if(H.swimming == 1)
 			playsound(src, pick('sound/effects/water_wade1.ogg','sound/effects/water_wade2.ogg','sound/effects/water_wade3.ogg','sound/effects/water_wade4.ogg'), 20, 1)
 			H.ExtinguishMob()
+			if(H.toxloss > 30 && H.staminaloss > 20 && H.staminaloss < 40) 	 //Heals toxin damage pretty well.
+				H.adjustToxLoss(-0.4)
+			if(H.fireloss < 21 && H.staminaloss > 20 && H.staminaloss < 40) //Heals light fire damage.
+				H.adjustFireLoss(-0.4)
+			if(H.bruteloss < 11 && H.staminaloss > 20 && H.staminaloss < 40) //Heals very light brute damage.
+				H.adjustBruteLoss(-0.4)
 			return
 		if(H.swimming == 0)
 			if(locate(/obj/structure/pool/ladder) in H.loc)
 				H.swimming = 1
 				return
-
 			if (H.wear_mask && H.wear_mask.flags & MASKCOVERSMOUTH)
 				H.visible_message("<span class='danger'>[H] falls in the water!</span>",
 									"<span class='userdanger'>You fall in the water!</span>")
@@ -165,14 +173,6 @@
 		watereffect.layer = M.layer - 0.1 //Always a step behind!
 		spawn(3)
 			watereffect.layer = initial(watereffect.layer)
-	if(ishuman(M) && !istype(T, /turf/simulated/pool/water)) //Check if the dude exited the pool
-		var/mob/living/carbon/human/H = M
-		if(H.staminaloss > 35 && H.staminaloss < 50)
-			H << "<span class='notice'>You feel refreshed and cleaned by the exercise! You need to take a quick rest, though.</span>"
-			H.setStaminaLoss(70) //So you can't instantly go back to swim
-			H.adjustBruteLoss(-2)
-			H.adjustFireLoss(-2)
-			H.adjustToxLoss(-20) //An actual reason to take a swim
 
 /obj/structure/pool
 	name = "pool"

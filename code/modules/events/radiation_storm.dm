@@ -4,8 +4,8 @@
 	max_occurrences = 2
 
 /datum/round_event/radiation_storm
-	var/list/protected_areas = list(/area/maintenance, /area/turret_protected/ai_upload, /area/turret_protected/ai_upload_foyer, /area/turret_protected/ai)
-
+	var/list/protected_areas = list(/area/maintenance, /area/turret_protected/ai_upload, /area/turret_protected/ai_upload_foyer, /area/turret_protected/ai, /area/turret_protected/ai)
+	var/list/protected_pool = list (/area/crew_quarters/pool)
 
 /datum/round_event/radiation_storm/setup()
 	startWhen = rand(20, 40)
@@ -65,6 +65,9 @@
 		var/skip = 0
 		for(var/a in protected_areas)
 			if(istype(T.loc, a))
+				skip = 1
+		for(var/a in protected_pool)
+			if(istype(T.loc, a) && istype(T, /turf/simulated/pool/water))
 				skip = 1
 				continue
 
