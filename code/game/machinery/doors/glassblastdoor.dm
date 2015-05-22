@@ -113,8 +113,11 @@
 						playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
 				else
 					user << "<span class='notice'>[src] is already in good condition.</span>"
-		else if(istype(W,/obj/item/stack/sheet/rglass))
-			var/obj/item/stack/sheet/rglass/GL = W
+		else if(istype(W,/obj/item/stack/sheet/rglass) || istype(W,/obj/item/stack/sheet/rglass/cyborg))
+			if(istype(W,/obj/item/stack/sheet/rglass))
+				var/obj/item/stack/sheet/rglass/GL = W
+			if(istype(W,/obj/item/stack/sheet/rglass/cyborg))
+				var/obj/item/stack/sheet/rglass/cyborg/GL = W
 			if(health <= 0)
 				if(GL.use(2))
 					user << "<span class='notice'>You repair [src].</span>"
@@ -123,16 +126,7 @@
 					playsound(loc, 'sound/items/Deconstruct.ogg', 40, 1)
 				else
 					user << "<span class='notice'>You need more glass.</span>"
-		else if(istype(W,/obj/item/stack/sheet/rglass/cyborg))
-			var/obj/item/stack/sheet/rglass/cyborg/GL = W
-			if(health <= 0)
-				if(GL.use(2))
-					user << "<span class='notice'>You repair [src].</span>"
-					health = 20
-					update_health()
-					playsound(loc, 'sound/items/Deconstruct.ogg', 40, 1)
-				else
-					user << "<span class='notice'>You need more glass.</span>"
+
 		else if(stat & BROKEN)//No hitting it after it breaks
 			return 0
 		else if(..())//Could crowbar it or such so stop here
