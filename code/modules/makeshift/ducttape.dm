@@ -67,6 +67,27 @@
 /*
  * Crafting recipes below
  */
+/obj/item/stack/ducttape/attack(mob/living/target as mob, mob/living/user as mob)
+	if(ishuman(target) && (user.zone_sel.selecting == "mouth" || user.zone_sel.selecting == "head"))
+		var/mob/living/carbon/human/H = target
+		if( \
+				(H.head && H.head.flags & HEADCOVERSMOUTH) || \
+				(H.wear_mask && H.wear_mask.flags & MASKCOVERSMOUTH) \
+			)
+			user << "<span class='danger'>You're going to need to remove that mask/helmet first.</span>"
+			return
+		playsound(loc, 'sound/items/ducttape1.ogg', 30, 1)
+		if(do_mob(user, H, 20))
+			// H.wear_mask = new/obj/item/clothing/mask/muzzle/tape(H)
+			H.equip_to_slot_or_del(new /obj/item/clothing/mask/muzzle/tape(H), slot_wear_mask)
+			user << "<span class='notice'>You tape [H]'s mouth.</span>"
+			playsound(loc, 'sound/items/ducttape1.ogg', 50, 1)
+			if(src.use(2) == 0)
+				user.drop_item()
+				qdel(src)
+			add_logs(user, H, "mouth-taped")
+		else
+			user << "<span class='warning'>You fail to tape [H]'s mouth.</span>"
 
 /obj/item/stack/ducttape/afterattack(W, mob/user as mob)
 	if(istype(W, /obj/item/weapon/shard))
@@ -105,26 +126,7 @@
 			user.put_in_hands(new_item)
 		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
 
-	if(ishuman(W) && (user.zone_sel.selecting == "mouth" || user.zone_sel.selecting == "head"))
-		var/mob/living/carbon/human/H = W
-		if( \
-				(H.head && H.head.flags & HEADCOVERSMOUTH) || \
-				(H.wear_mask && H.wear_mask.flags & MASKCOVERSMOUTH) \
-			)
-			user << "<span class='danger'>You're going to need to remove that mask/helmet first.</span>"
-			return
-		playsound(loc, 'sound/items/ducttape1.ogg', 30, 1)
-		if(do_mob(user, H, 20))
-			// H.wear_mask = new/obj/item/clothing/mask/muzzle/tape(H)
-			H.equip_to_slot_or_del(new /obj/item/clothing/mask/muzzle/tape(H), slot_wear_mask)
-			user << "<span class='notice'>You tape [H]'s mouth.</span>"
-			playsound(loc, 'sound/items/ducttape1.ogg', 50, 1)
-			if(src.use(2) == 0)
-				user.drop_item()
-				qdel(src)
-			add_logs(user, H, "mouth-taped")
-		else
-			user << "<span class='warning'>You fail to tape [H]'s mouth.</span>"
+
 
 
 
