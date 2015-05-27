@@ -338,15 +338,7 @@
 				var/total_burn	= 0
 				var/total_brute	= 0
 				if(do_after(user, 20)) //placed on chest and short delay to shock for dramatic effect, revive time is 5sec total
-					if(!defib.safety && H.stat == DEAD)
-						H.gib()
-						return
-					else if (!defib.safety)
-						H.apply_damage(75,BURN,"chest")
-						H.Stun(10)
-						H.Weaken(10)
-						H.apply_effect(STUTTER, 25)
-						return					for(var/obj/item/carried_item in H.contents)
+					for(var/obj/item/carried_item in H.contents)
 						if((istype(carried_item, /obj/item/clothing/suit/armor)) || (istype(carried_item, /obj/item/clothing/suit/space)))
 							user.visible_message("<span class='notice'>[defib] buzzes: Patient's chest is obscured. Operation aborted.</span>")
 							playsound(get_turf(src), 'sound/machines/defib_failed.ogg', 50, 0)
