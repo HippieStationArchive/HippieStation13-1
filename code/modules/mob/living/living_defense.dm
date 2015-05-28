@@ -45,7 +45,9 @@ proc/vol_by_throwforce_and_or_w_class(var/obj/item/I)
 		if(istype(I,/obj/item/weapon)) //If the item is a weapon...
 			var/obj/item/weapon/W = I
 			dtype = W.damtype
-
+			if(W.stun_on_hit > 0)//not sure if already implemented , just set a variable and stun from here
+				Stun(W.stun_on_hit)
+				Weaken(W.stun_on_hit)
 			if (W.throwforce > 0) //If the weapon's throwforce is greater than zero...
 				if (W.throwhitsound) //...and throwhitsound is defined...
 					playsound(loc, W.throwhitsound, volume, 1, -1) //...play the weapon's throwhitsound.
