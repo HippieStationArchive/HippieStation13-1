@@ -2,6 +2,7 @@
 	name = "weapon"
 	icon = 'icons/obj/weapons.dmi'
 	var/no_hitsound = 0 //Make this 1 if you want no hitsounds
+	var/stun_on_hit = 0
 
 /obj/item/weapon/New()
 	..()
