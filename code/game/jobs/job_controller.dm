@@ -99,6 +99,10 @@ var/global/datum/controller/occupations/job_master
 			Debug("FOC flag failed, Player: [player], Flag: [flag], ")
 			continue
 
+		if(job.title != "Assistant" && player.client.prefs.pref_species.id == "tarajan")
+			Debug("FOC non-human failed, Player: [player]")
+			continue
+
 		if(config.enforce_human_authority && (job.title in command_positions) && player.client.prefs.pref_species.id != "human")
 			Debug("FOC non-human failed, Player: [player]")
 			continue
@@ -126,6 +130,10 @@ var/global/datum/controller/occupations/job_master
 
 		if(!job.player_old_enough(player.client))
 			Debug("GRJ player not old enough, Player: [player]")
+			continue
+
+		if(job.title != "Assistant" && player.client.prefs.pref_species.id == "tarajan")
+			Debug("FOC non-human failed, Player: [player]")
 			continue
 
 		if(config.enforce_human_authority && (job.title in command_positions) && player.client.prefs.pref_species.id != "human")
@@ -282,6 +290,10 @@ var/global/datum/controller/occupations/job_master
 
 				if(!job.player_old_enough(player.client))
 					Debug("DO player not old enough, Player: [player], Job:[job.title]")
+					continue
+
+				if(job.title != "Assistant" && player.client.prefs.pref_species.id == "tarajan")
+					Debug("DO tarajan non-assistant role, Player: [player]")
 					continue
 
 				if(config.enforce_human_authority && (job.title in command_positions) && player.client.prefs.pref_species.id != "human")

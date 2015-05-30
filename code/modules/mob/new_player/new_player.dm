@@ -263,6 +263,8 @@
 		return 0
 	if(config.enforce_human_authority && (rank in command_positions) && client.prefs.pref_species.id != "human")
 		return 0
+	if(job.title != "Assistant" && client.prefs.pref_species.id == "tarajan")
+		return 0
 	return 1
 
 
