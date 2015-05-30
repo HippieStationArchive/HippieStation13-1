@@ -1243,7 +1243,6 @@ var/global/list/achievements = list("Goodcurity")
 		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Observer.)")
 		message_admins("[key_name_admin(usr)] has sent [key_name_admin(M)] to the thunderdome. (Observer.)")
 
-
 	else if(href_list["snowflakes"])
 		if(!check_rights(R_ADMIN))	return
 		var/dat = "<html><body>"
@@ -1254,56 +1253,13 @@ var/global/list/achievements = list("Goodcurity")
 		dat += "<b><h2>Snowflakes and Unlockables</b></h2>"
 		dat += "<p>Key: [M.key]</br>"
 		var/list/datum/species/specieslist = list()
-/*
-		var/lizard
-		var/cat
-		var/tarajan
-		var/plant
-		var/shadow
-		var/pod
-		var/slime
-		var/bot
-		var/bird
-		var/skeleton
-		var/jelly//U?
-		var/human*/
+
 		for(var/X in M.client.prefs.specialsnowflakes)
 			specieslist.Add(X)
-			/*
-			if(X.id == "tarajan")
-				cat = X
-			if(X.id == "lizard")
-				lizard = X
-			if(X.id == "shadow")
-				shadow = X
-			if(X.id == "plant")
-				plant = X
-			if(X.id == "tarajan")
-				tarajan = X
-			if(X.id == "pod")
-				pod = X
-			if(X.id == "slime")
-				slime = X
-			if(X.id == "jelly")
-				jelly = X
-			if(X.id == "IPC")
-				bot = X
-			if(X.id == "bird")
-				bird = X
-			if(X.id == "skeleton")
-				skeleton = X
-			if(X.id == "human")
-				human = X*/
 
 		for(var/B in specieslist)
 			dat += "Has unlocked: [B]<br>"
-//		dat += "<b>Lizardmen:</b> [lizard ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Human</b> [human ? "Unlocked" : "Locked"]<br>"
-//		dat += "<b>Tarajan</b>: [cat ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Pod</b> [pod ? "Unlocked" : "Locked"]<br>"
-//		dat += "<b>Shadow:</b> [shadow ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Slime</b> [slime ? "Unlocked" : "Locked"]<br>"
-//		dat += "<b>Plant</b>: [plant ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Jelly</b> [jelly ? "Unlocked" : "Locked"]<br>"
-//		dat += "<b>Tarajan:</b> [tarajan ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>IPC</b> [bot ? "Unlocked" : "Locked"]<br>"
-//		dat += "<b>Bird:</b> [bird ? "Unlocked" : "Locked"]&nbsp;&nbsp;&nbsp;&nbsp;<b>Skeleton</b> [skeleton ? "Unlocked" : "Locked"]<br>"
-		if(M.client.goodcurity)
+
 			dat += "<p><p>Goodcurity: \green unlocked."
 		else
 			dat += "<p><p>Goodcurity: \red locked."
@@ -1317,7 +1273,6 @@ var/global/list/achievements = list("Goodcurity")
 		usr << browse(dat,"window=snowflakes;size=350x500")
 		log_admin("[key_name(usr)] is viewing [key_name(M)]'s unlocked snowflakes")
 		message_admins("\blue [key_name(usr)] is viewing [key_name(M)]'s unlocked snowflakes", 1)
-//
 
 	else if(href_list["sfaward"])
 		if(!check_rights(R_ADMIN))	return
@@ -1335,15 +1290,20 @@ var/global/list/achievements = list("Goodcurity")
 	else if(href_list["sfremove"])
 		if(!check_rights(R_ADMIN))	return
 		var/mob/M = locate(href_list["sfremove"])
-		var/datum/species/snowflake = input(usr, "Choose what snowflake you want to remove:", "Griefers")  as null|anything in M.client.prefs.specialsnowflakes
-
-
+		var/snowflake = input(usr, "Choose what snowflake you want to remove. Remove the last one to species lock:", "Griefers")  as null|anything in M.client.prefs.specialsnowflakes
 		if(snowflake)
-			usr << "\red You remove [M.key]'s ability to use the [snowflake.id] snowflake"
-			message_admins("[usr] removed one of [M.key]'s snowflakes: [snowflake.id]")
-			M.client.prefs.specialsnowflakes.Remove(snowflake)
-
-
+			var/C = 0
+			for(var/Y in M.client.prefs.specialsnowflakes)
+				C++
+			if(C <= 1)
+				M.client.prefs.pref_species = new snowflake()
+				usr << "\red You lock [M.client] to a species"
+				message_admins("[usr] has species locked [M.key] to: [snowflake]")
+			else
+				M.client.prefs.specialsnowflakes -= snowflake
+				usr << "\red You remove [M.key]'s ability to use the [snowflake] snowflake"
+				message_admins("[usr] removed one of [M.key]'s snowflakes: [snowflake]")
+			M.client.prefs.save_character()
 
 	else if(href_list["revive"])
 		if(!check_rights(R_REJUVINATE))	return
