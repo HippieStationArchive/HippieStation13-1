@@ -8,7 +8,6 @@
 	required_players = 20
 	required_enemies = 1
 	recommended_enemies = 1
-	pre_setup_before_jobs = 1
 
 	var/use_huds = 1
 	var/finished = 0
