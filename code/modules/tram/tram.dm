@@ -16,9 +16,6 @@
 	if(prob(50))
 		qdel(src)
 
-/obj/tram/meteorhit()
-	qdel(src)
-
 /obj/tram/attack_animal(var/mob/living/simple_animal/M as mob)
 	if(M.melee_damage_upper == 0)	return
 	if(prob(M.melee_damage_upper))
@@ -48,7 +45,7 @@
 	var/last_played_rail
 
 	var/automode = 0
-	var/list/blacklist = list(/obj/tram/rail,/atom/movable/lighting_overlay)
+	var/list/blacklist = list(/obj/tram/rail)
 
 /obj/tram/tram_controller/New()
 	spawn(1)
@@ -142,9 +139,8 @@
 /obj/tram/tram_controller/proc/check_validity(var/atom/movable/AM)
 	if(!AM)	return 0
 	if(is_type_in_list(AM, blacklist))	return 0
-	if(!AM.simulated)	return 0
 	if(AM.anchored)
-		if(istype(AM,/obj/tram) || istype(AM,/obj/vehicle))
+		if(istype(AM,/obj/tram))
 			return 1
 		return 0
 	return 1
@@ -230,7 +226,5 @@
 	for(var/atom/movable/A in tram)
 		var/turf/T = get_step(A,dir)
 		A.forceMove(T) //Move everything inside the tram and the tram itself manually
-		if(A.light_range)
-			A.set_light()
 	gen_collision() //Generate collision again
 	return 1
