@@ -227,20 +227,8 @@ var/global/datum/controller/occupations/job_master
 		if(player.ready && player.mind && !player.mind.assigned_role)
 			unassigned += player
 
-	initial_players_to_assign = unassigned.len
-
-	Debug("DO, Len: [unassigned.len]")
-	if(unassigned.len == 0)	return 0
-
 	//Scale number of open security officer slots to population
 	setup_officer_positions()
-
-	//Jobs will have fewer access permissions if the number of players exceeds the threshold defined in game_options.txt
-	if(config.minimal_access_threshold)
-		if(config.minimal_access_threshold > unassigned.len)
-			config.jobs_have_minimal_access = 0
-		else
-			config.jobs_have_minimal_access = 1
 
 	//Shuffle players and jobs
 	unassigned = shuffle(unassigned)
