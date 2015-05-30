@@ -54,6 +54,7 @@
 	var/miming = 0 // Mime's vow of silence
 	var/antag_hud_icon_state = null //this mind's ANTAG_HUD should have this icon_state
 	var/datum/atom_hud/antag/antag_hud = null //this mind's antag HUD
+	var/list/restricted_roles = list()
 
 /datum/mind/New(var/key)
 	src.key = key

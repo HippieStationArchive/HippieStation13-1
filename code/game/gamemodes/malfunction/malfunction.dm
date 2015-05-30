@@ -8,9 +8,6 @@
 	required_players = 20
 	required_enemies = 1
 	recommended_enemies = 1
-	pre_setup_before_jobs = 1
-
-
 	var/AI_win_timeleft = 5400 //started at 5400, in case I change this for testing round end.
 	var/malf_mode_declared = 0
 	var/station_captured = 0
