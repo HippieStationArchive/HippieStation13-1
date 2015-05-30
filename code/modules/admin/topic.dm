@@ -1259,7 +1259,8 @@ var/global/list/achievements = list("Goodcurity")
 
 		for(var/B in specieslist)
 			dat += "Has unlocked: [B]<br>"
-
+		
+		if(M.client.goodcurity)
 			dat += "<p><p>Goodcurity: \green unlocked."
 		else
 			dat += "<p><p>Goodcurity: \red locked."
@@ -1287,6 +1288,7 @@ var/global/list/achievements = list("Goodcurity")
 			M.client.prefs.specialsnowflakes += snowflake
 			M.client.prefs.save_character()
 			message_admins("[usr] gave [M.key] a snowflake: [snowflake]")
+
 	else if(href_list["sfremove"])
 		if(!check_rights(R_ADMIN))	return
 		var/mob/M = locate(href_list["sfremove"])
