@@ -81,7 +81,6 @@
 	return 0
 
 /obj/machinery/atmospherics/unary/cryo_cell/relaymove(var/mob/user)
-	..()
 	open_machine()
 
 /obj/machinery/atmospherics/unary/cryo_cell/container_resist()
@@ -190,7 +189,6 @@
 		// The UI is already open so push the new data to it
 		ui.push_data(data)
 		return
-	//user.set_machine(src)
 
 /obj/machinery/atmospherics/unary/cryo_cell/Topic(href, href_list)
 	if(usr == occupant || panel_open)
