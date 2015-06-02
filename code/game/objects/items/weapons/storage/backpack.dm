@@ -56,7 +56,7 @@
 		qdel(src)
 		singulo.process()
 		return
-		..()
+	..()
 
 /obj/item/weapon/storage/backpack/holding/proc/failcheck(mob/user as mob)
 	if (prob(src.reliability)) return 1 //No failure
