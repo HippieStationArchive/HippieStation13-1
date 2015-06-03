@@ -12,8 +12,18 @@
 	var/op = 1
 	var/activepage
 	var/list/active_challenges = list()
+	var/mob/living/carbon/owner = null
 
-/obj/item/weapon/spellbook/attackby(obj/item/O as obj, mob/user as mob, params)
+/obj/item/weapon/spellbook/New(mob/living/carbon/M as mob)
+	owner = M
+
+/obj/item/weapon/spellbook/attackby(obj/item/O as obj, mob/living/carbon/user as mob)
+	if(user != owner)
+		user << "<span class='userdanger'>The book pierces your soul!" 
+		user.Paralyse(1)
+		user.apply_damage(10, BURN)
+		return
+	
 	if(istype(O, /obj/item/weapon/antag_spawner/contract))
 		var/obj/item/weapon/antag_spawner/contract/contract = O
 		if(contract.used)
@@ -26,8 +36,13 @@
 
 
 
-
-/obj/item/weapon/spellbook/attack_self(mob/user as mob)
+/obj/item/weapon/spellbook/attack_self(mob/living/carbon/user as mob)
+	if(user != owner)
+		user << "<span class='userdanger'>The book pierces your soul!" 
+		user.Paralyse(1)
+		user.apply_damage(10, BURN)
+		return
+	
 	user.set_machine(src)
 	var/dat
 	if(temp)
