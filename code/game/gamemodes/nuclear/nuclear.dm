@@ -8,7 +8,6 @@
 	required_players = 20 // 20 players - 5 players to be the nuke ops = 15 players remaining
 	required_enemies = 5
 	recommended_enemies = 5
-	pre_setup_before_jobs = 1
 	antag_flag = BE_OPERATIVE
 
 	var/const/agents_possible = 5 //If we ever need more syndicate agents.

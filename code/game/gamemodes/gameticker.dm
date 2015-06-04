@@ -93,10 +93,8 @@ var/global/fartholdin = 0
 			return 0
 
 	//Configure mode and assign player to special mode stuff
-	var/can_continue = 0
-	if (src.mode.pre_setup_before_jobs)	can_continue = src.mode.pre_setup()
+	var/can_continue = src.mode.pre_setup()
 	job_master.DivideOccupations() 				//Distribute jobs
-	if (!src.mode.pre_setup_before_jobs)	can_continue = src.mode.pre_setup()
 
 	if(!Debug2)
 		if(!can_continue)
