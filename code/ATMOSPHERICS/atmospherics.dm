@@ -20,26 +20,32 @@ Pipelines + Other Objects -> Pipe network
 	var/initialize_directions = 0
 	var/pipe_color
 	var/obj/item/pipe/stored
-
 	var/welded = 0 //Used on pumps and scrubbers
-
 	var/global/list/iconsetids = list()
 	var/global/list/pipeimages = list()
+	var/datum/pipeline/parent = null
 
-
-/obj/machinery/atmospherics/Destroy()
-	for(var/mob/living/L in src)
-		L.remove_ventcrawl()
-		L.forceMove(get_turf(src))
-	..()
+	var/image/pipe_vision_img = null
 
 
 /obj/machinery/atmospherics/New()
 	..()
-
 	SetInitDirections()
 	if(can_unwrench)
 		stored = new(src, make_from=src)
+
+/obj/machinery/atmospherics/Destroy()
+	if (stored)
+		qdel(stored)
+	stored = null
+
+	for(var/mob/living/L in src)
+		L.remove_ventcrawl()
+		L.forceMove(get_turf(src))
+	if(pipe_vision_img)
+		qdel(pipe_vision_img)
+
+	..()
 
 /obj/machinery/atmospherics/proc/SetInitDirections()
 	return
@@ -173,7 +179,7 @@ Pipelines + Other Objects -> Pipe network
 	if(!(direction & initialize_directions)) //cant go this way.
 		return
 	if(!user.canmove) return
-	if(user.buckled == src || buckled_mob == user) return
+	if(user.buckled == src || buckled_mob == user) return //You shouldn't squeeze INSIDE pipes when you're buckled to them from the outside...
 
 	var/obj/machinery/atmospherics/target_move = findConnecting(direction)
 	if(target_move)
@@ -184,9 +190,9 @@ Pipelines + Other Objects -> Pipe network
 		else if(target_move.can_crawl_through())
 			user.loc = target_move
 			user.client.eye = target_move  //Byond only updates the eye every tick, This smooths out the movement
-			if(world.time - user.last_played_vent > rand(7, 30))
+			if(world.time - user.last_played_vent > rand(7, 32))
 				user.last_played_vent = world.time
-				playsound(src, 'sound/machines/ventcrawl.ogg', 50, 1, -3)
+				playsound(src, 'sound/machines/ventcrawl.ogg', 50, 1, -7)
 	else
 		if((direction & initialize_directions) || is_type_in_list(src, ventcrawl_machinery) && can_crawl_through()) //if we move in a way the pipe can connect, but doesn't - or we're in a vent
 			user.remove_ventcrawl()
