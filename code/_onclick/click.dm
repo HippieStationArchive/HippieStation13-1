@@ -85,7 +85,7 @@
 
 
 	if(W == A)
-		W.attack_self(src)
+		W.attack_self(src, params)
 		if(hand)
 			update_inv_l_hand(0)
 		else
