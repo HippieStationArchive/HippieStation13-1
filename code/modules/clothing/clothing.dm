@@ -7,6 +7,37 @@
 	var/visor_flags_inv = 0		// same as visor_flags, but for flags_inv
 
 	var/alt_desc = null
+	examine()
+		..()
+		var/info = "\blue It appears to cover: "
+		if(!body_parts_covered)//Display what it covers
+			info += "|Nothing|"
+		if(body_parts_covered & HEAD)
+			info += "|Head|"
+		if(body_parts_covered & ARMS)
+			info += "|Arms|"
+		if(body_parts_covered & CHEST)
+			info += "|Chest|"
+		if(body_parts_covered & LEGS)
+			info += "|Legs|"
+		//Might want to display temp/pressure values here
+		//Next display armor values
+		for(var/armortype in list(IMPACT, SLASH, PIERCE, BOMB, BIO, IRRADIATE))
+			var/value = armor[armortype]
+			if(!value)//If we dont have any protection then dont display it
+				continue
+			var/armordesc = "negligible"
+			switch(value)
+				if(0.0 to 0.35)
+					armordesc = "low"
+				if(0.36 to 0.6)
+					armordesc = "medium"
+				if(0.61 to 0.99)
+					armordesc = "high"
+				else
+					armordesc = "extreme"
+			usr << "\blue It has \a [armordesc] resistance to [armortype] damage."
+		return 1
 
 //Ears: currently only used for headsets and earmuffs
 /obj/item/clothing/ears
@@ -75,6 +106,8 @@ BLIND     // can't see anything
 	icon = 'icons/obj/clothing/hats.dmi'
 	body_parts_covered = HEAD
 	slot_flags = SLOT_HEAD
+
+
 
 //Mask
 /obj/item/clothing/mask

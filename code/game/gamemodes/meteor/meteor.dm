@@ -26,6 +26,7 @@
 
 /datum/game_mode/meteor/declare_completion()
 	var/text
+	var/text2
 	var/survivors = 0
 	for(var/mob/living/player in player_list)
 		if(player.stat != DEAD)
@@ -41,10 +42,10 @@
 			survivors++
 
 	if(survivors)
-		world << "<span class='boldnotice'>The following survived the meteor storm</span>:[text]"
+		text2 += "<span class='boldnotice'>The following survived the meteor storm</span>:[text]"
 	else
-		world << "<span class='boldnotice'>Nobody survived the meteor storm!</span>"
-
+		text2 += "<span class='boldnotice'>Nobody survived the meteor storm!</span>"
+	outputstats += text2
 	feedback_set_details("round_end_result","end - evacuation")
 	feedback_set("round_end_result",survivors)
 

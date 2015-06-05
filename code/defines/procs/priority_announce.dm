@@ -10,6 +10,9 @@
 	else if(type == "Captain")
 		announcement += "<h1 class='alert'>Captain Announces</h1>"
 		news_network.SubmitArticle(text, "Captain's Announcement", "Station Announcements", null)
+	else if(type == "Syndicate")
+		announcement += "<h1 class='alert'>Enemy Intercept</h1>"
+		news_network.SubmitArticle(text, "Enemy Intercept", "Station Announcements", null)
 
 	else
 		announcement += "<h1 class='alert'>[command_name()] Update</h1>"

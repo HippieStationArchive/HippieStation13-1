@@ -59,8 +59,10 @@ var/list/admin_verbs_admin = list(
 	/client/proc/cmd_admin_direct_narrate,	/*send text directly to a player with no padding. Useful for narratives and fluff-text*/
 	/client/proc/cmd_admin_world_narrate,	/*sends text to all players with no padding*/
 	/client/proc/cmd_admin_create_centcom_report,
+	/client/proc/cmd_admin_create_syndicate_report,
 	/client/proc/check_words,			/*displays cult-words*/
-	/client/proc/reset_all_tcs			/*resets all telecomms scripts*/
+	/client/proc/reset_all_tcs,			/*resets all telecomms scripts*/
+	/client/proc/shuttlecontroller
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
@@ -586,3 +588,13 @@ var/list/admin_verbs_hideable = list(
 		src << "You are already an admin."
 		verbs -= /client/proc/readmin
 		return
+
+
+
+/client/proc/shuttlecontroller()
+	set name = "Shuttle Control"
+	set category = "Admin"
+	if(holder)
+		holder.shuttlecontrol()
+	feedback_add_details("admin_verb","CHA") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	return

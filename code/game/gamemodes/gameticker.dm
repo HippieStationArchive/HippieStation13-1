@@ -314,6 +314,7 @@ var/global/buttmode = 0
 		auto_toggle_ooc(1) // Turn it on
 		spawn
 			declare_completion()
+			display_end_round()
 
 		spawn(50)
 			if (mode.station_was_nuked)
@@ -408,6 +409,32 @@ var/global/buttmode = 0
 			if(robo) //How the hell do we lose robo between here and the world messages directly above this?
 				robo.laws.show_laws(world)
 
+
+	var/text = "<div align='center'><B>Round statistics listed below:</B><br><br> General Statistics:"
+	for (var/mob/living/silicon/ai/aiPlayer in mob_list)
+		if (aiPlayer.stat != 2)
+			text += "<br><br><b>[aiPlayer.name] (Played by: [aiPlayer.key])'s laws at the end of the game were:</b>"
+		else
+			text += "<br><br><b>[aiPlayer.name] (Played by: [aiPlayer.key])'s laws when it was deactivated were:</b>"
+		text += aiPlayer.show_laws(1, 1)
+
+		if (aiPlayer.connected_robots.len)
+			var/robolist = "<br><br><b>The AI's loyal minions were:</b> "
+			for(var/mob/living/silicon/robot/robo in aiPlayer.connected_robots)
+				robolist += "[robo.name][robo.stat?" (Deactivated) (Played by: [robo.key]), ":" (Played by: [robo.key]), "]"
+			text += " [robolist]"
+
+	for (var/mob/living/silicon/robot/robo in mob_list)
+		if (!robo.connected_ai)
+			if (robo.stat != 2)
+				text += "<br><br><b>[robo.name] (Played by: [robo.key]) survived as an AI-less borg! Its laws were:</b>"
+			else
+				text += "<br><br><b>[robo.name] (Played by: [robo.key]) was unable to survive the rigors of being a cyborg without an AI. Its laws were:</b>"
+
+			if(robo) //How the hell do we lose robo between here and the world messages directly above this?
+				text +=	robo.laws.show_laws(world, 1)
+
+	outputstats +=  "<br>[text]<br>"
 	mode.declare_completion()//To declare normal completion.
 
 	//calls auto_declare_completion_* for all modes
@@ -431,5 +458,86 @@ var/global/buttmode = 0
 	log_game("Antagonists at round end were...")
 	for(var/i in total_antagonists)
 		log_game("[i]s[total_antagonists[i]].")
+/*
+	if(religionname)
+		outputstats += "<br>Religion: [religionname]"
+	if(Bible_deity_name)
+		outputstats += "<br>Deity Name: [Bible_deity_name]"
+
+	outputstats += "<br><br>Misc statistics:"
+	if(achivements_unlocked > 0)
+		feedback_set("achivements_unlocked",achivements_unlocked)
+		outputstats += "<br>[achivements_unlocked] achievement(s) were unlocked this round."
+	if(surgery_preformed > 0)
+		feedback_set("surgery_preformed",surgery_preformed)
+		outputstats += "<br>[surgery_preformed] surgerie(s) were completed this round."
+	if(snap_pops > 0)
+		feedback_set("snap_pops",snap_pops)
+		outputstats += "<br>[snap_pops] snap pops were thrown this round."
+	if(suicides_dead > 0)
+		feedback_set("suicides_dead",suicides_dead)
+		outputstats += "<br>[suicides_dead] crew member(s) got rid of themselves."
+	if(aliens_born > 0)
+		feedback_set("aliens_born",aliens_born)
+		outputstats += "<br>[aliens_born] crew member(s) became parent(s) to an alien larva."
+	if(cores_smashed > 0)
+		feedback_set("cores_smashed",cores_smashed)
+		outputstats += "<br>[cores_smashed] adamantite cores were smashed."
+	if(failed_tele > 0)
+		feedback_set("failed_tele",failed_tele)
+		outputstats += "<br>[failed_tele] crew member(s) went through a malfunctioning hand teleporter portal."
+	if(areas_made > 0)
+		feedback_set("areas_made",areas_made)
+		outputstats += "<br>[areas_made] new areas were made."
+	if(flush_disp > 0)
+		feedback_set("flush_disp",flush_disp)
+		outputstats += "<br>[flush_disp] disposals were flushed."
+	if(record_bans > 0)
+		feedback_set("record_bans",record_bans)
+		outputstats += "<br>[record_bans] person/people were banned."
+	if(vouchers > 0)
+		feedback_set("vouchers_total",vouchers)
+		outputstats += "<br>The station has [vouchers] vouchers."
+	return 1
+
+*/
+
+
+	mode.declare_completion()//To declare normal completion.
+
+	//calls auto_declare_completion_* for all modes
+	for(var/handler in typesof(/datum/game_mode/proc))
+		if (findtext("[handler]","auto_declare_completion_"))
+			call(mode, handler)()
+
+	//Print a list of antagonists to the server log
+
+	//Look into all mobs in world, dead or alive
+	for(var/datum/mind/Mind in minds)
+		var/temprole = Mind.special_role
+		if(temprole)							//if they are an antagonist of some sort.
+			if(temprole in total_antagonists)	//If the role exists already, add the name to it
+				total_antagonists[temprole] += ", [Mind.name]([Mind.key])"
+			else
+				total_antagonists.Add(temprole) //If the role doesnt exist in the list, create it and add the mob
+				total_antagonists[temprole] += ": [Mind.name]([Mind.key])"
+
+	//Now print them all into the log!
+	log_game("Antagonists at round end were...")
+	for(var/i in total_antagonists)
+		log_game("[i]s[total_antagonists[i]].")
 
 	return 1
+
+
+
+
+/datum/controller/gameticker/proc/display_end_round()
+
+	fdel("config/endlogs.txt")
+	text2file(outputstats, "config/endlogs.txt")
+
+	for (var/mob/M in player_list)
+		M << browse(outputstats,"window=endround;size=600x700;can_close=1")
+
+	return

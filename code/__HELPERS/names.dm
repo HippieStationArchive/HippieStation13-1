@@ -25,6 +25,17 @@ var/command_name = null
 	command_name = name
 	return name
 
+var/scommand_name = null
+/proc/scommand_name()
+	if (scommand_name)
+		return scommand_name
+	var/name = "Syndicate Command"
+	scommand_name = name
+	return name
+
+
+
+
 /proc/change_command_name(var/name)
 
 	command_name = name

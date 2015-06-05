@@ -11,6 +11,19 @@
 		src << "<span class='danger'>The wiki URL is not set in the server configuration.</span>"
 	return
 
+/client/verb/tutorial()
+	set name = "Tutorial"
+	set desc = "Learn some basics."
+	set hidden = 1
+	if (ticker.current_state == 3)
+		if (istype(src.mob, /mob/living/carbon/human))
+			src.screen += new/obj/screen/tutorialbasics
+		else
+			src << "\red You must be a human to do this!"
+	else
+		src << "\red The game must have started to do this!"
+	return
+
 /client/verb/forum()
 	set name = "forum"
 	set desc = "Visit the forum."
@@ -34,6 +47,14 @@
 	else
 		src << "<span class='danger'>The rules URL is not set in the server configuration.</span>"
 	return
+
+/client/verb/displayend()
+	set name = "Round Results"
+	set desc = "Display the most recent round end results."
+	set category = "OOC"
+
+	var/tempstats = file2text("config/endlogs.txt")
+	src << browse(tempstats,"window=endround;size=600x700;can_close=1")
 
 /client/verb/reportissue()
 	set name = "Report issue"

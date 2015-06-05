@@ -1,5 +1,12 @@
 #define MIDNIGHT_ROLLOVER		864000	//number of deciseconds in a day
 
+//impact damages
+#define IMPACT		"impact"
+#define SLASH		"slash"
+#define PIERCE		"pierce"
+#define BIO			"bio"
+#define BOMB		"bomb"
+#define IRRADIATE	"rad"
 
 //Human Overlays Indexes/////////
 #define SPECIES_LAYER			26		// mutantrace colors... these are on a seperate layer in order to prvent

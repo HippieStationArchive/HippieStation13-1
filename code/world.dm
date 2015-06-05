@@ -308,4 +308,6 @@ proc/establish_db_connection()
 	else
 		return 1
 
+var/outputstats = null // for stats gathering!
+
 #undef FAILED_DB_CONNECTION_CUTOFF

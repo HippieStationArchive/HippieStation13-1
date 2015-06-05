@@ -156,6 +156,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Species
 
 	S["species"]			>> pref_species
+
+	//misc
+	S["date_first_joined"]			>> date_first_joined
 //	if(config.mutant_races && species_name && (species_name in specialsnowflakes))
 //		var/newtype = specialsnowflakes[species_name]
 //		pref_species = new newtype()
@@ -266,7 +269,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["backbag"]			<< backbag
 	S["species"]			<< pref_species
 	S["mutant_color"]		<< mutant_color
-	S["specialsnowflakes"] << specialsnowflakes
+	S["specialsnowflakes"]  <<specialsnowflakes
+	S["date_first_joined"]	<< date_first_joined
 	//Jobs
 	S["userandomjob"]		<< userandomjob
 	S["job_civilian_high"]	<< job_civilian_high

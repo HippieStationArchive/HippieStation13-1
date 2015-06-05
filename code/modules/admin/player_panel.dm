@@ -555,3 +555,28 @@
 		usr << browse(dat, "window=roundstatus;size=400x500")
 	else
 		alert("The game hasn't started yet!")
+
+
+
+/datum/admins/proc/shuttlecontrol()
+	if (ticker && ticker.current_state >= GAME_STATE_PLAYING)
+		var/dat = "<html><head><title>Shuttle Panel</title></head><body><h1><B>Shuttle Control</B></h1>"
+		dat += "<center>"
+		if (!emergency_shuttle.online)
+			dat += "<a href='?_src_=holder;call_shuttle=1'>Call Emergency Shuttle</a><br>"
+		else
+			var/timeleft = emergency_shuttle.timeleft()
+			if(emergency_shuttle.location == 0)
+				dat += "ETA: <a href='?_src_=holder;edit_shuttle_time=1'>[(timeleft / 60) % 60]:[add_zero(num2text(timeleft % 60), 2)]</a><BR>"
+				dat += "<a href='?_src_=holder;call_shuttle=2'>Send Back Emergency Shuttle</a><br>"
+			else
+				dat += "ETA: <a href='?_src_=holder;edit_shuttle_time=1'>[(timeleft / 60) % 60]:[add_zero(num2text(timeleft % 60), 2)]</a><BR>"
+		dat += "<a href='?_src_=holder;delay_round_end=1'>[ticker.delay_end ? "End Round Normally" : "Delay Round End"]</a><br>"
+		dat += "<A href='?src=\ref[src];secretsadmin=moveminingshuttle'>Move Mining Shuttle</A><BR>"
+		dat += "<A href='?src=\ref[src];secretsadmin=movelaborshuttle'>Move Labor Shuttle</A><BR>"
+		dat += "<A href='?src=\ref[src];secretsadmin=moveferry'>Move Ferry</A><BR>"
+
+		dat += "</center></body></html>"
+		usr << browse(dat, "window=roundstatus;size=200x230")
+	else
+		alert("The game hasn't started yet!")

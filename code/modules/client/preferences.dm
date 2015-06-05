@@ -30,6 +30,8 @@ datum/preferences
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
 	var/max_save_slots = 6
 
+	var/points = 0
+	var/date_first_joined
 	//non-preference stuff
 	var/muted = 0
 	var/last_ip
@@ -108,6 +110,9 @@ datum/preferences
 	var/list/datum/species/specialsnowflake = specialsnowflakes
 	specialsnowflake += /datum/species/human
 	specialsnowflake += /datum/species/lizard
+
+	date_first_joined = time2text(world.timeofday, "hh:mm.ss")
+
 	real_name = random_name(gender)
 	if(!loaded_preferences_successfully)
 		save_preferences()

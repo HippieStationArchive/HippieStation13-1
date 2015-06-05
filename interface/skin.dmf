@@ -1854,7 +1854,7 @@ window "rpane"
 		on-close = ""
 	elem "rpanewindow"
 		type = CHILD
-		pos = 0,0
+		pos = 0,-3
 		size = 640x499
 		anchor1 = 0,0
 		anchor2 = 100,100
@@ -1878,6 +1878,34 @@ window "rpane"
 		splitter = 50
 		show-splitter = true
 		lock = none
+	elem "button7"
+		type = BUTTON
+		pos = 480,0
+		size = 60x16
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Tutorial"
+		image = ""
+		command = "tutorial"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "rpanemode"
+		button-type = pushbutton
 	elem "reportissueb"
 		type = BUTTON
 		pos = 408,0
@@ -2048,7 +2076,7 @@ window "rpane"
 		button-type = pushbox
 	elem "browseb"
 		type = BUTTON
-		pos = 552,0
+		pos = 544,0
 		size = 60x16
 		anchor1 = none
 		anchor2 = none
