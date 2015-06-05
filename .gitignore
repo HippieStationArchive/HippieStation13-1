@@ -1,25 +1,11 @@
-###Files and folders specified here will never be tracked.
-
-#Ignore everything in datafolder and subdirectories
 data/**/*
+config/**/*
 
-#Ignore admin directories
-cfg/admin.txt
-config/admins.txt
-config/dbconfig.txt
-data/mode.txt
-
-#Ignore compiled files and other files generated during compilation.
 *.dmb
 *.rsc
 *.lk
 *.int
 *.db
-
-hippie.sublime-project
-hippie.sublime-workspace
-auth.log
-compile.sh
 
 tools/Runtime\ Condenser/Output.txt
 tools/Runtime\ Condenser/Input.txt
