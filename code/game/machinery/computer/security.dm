@@ -346,7 +346,7 @@ What a mess.*/
 							active2 = E
 					screen = 3	*/
 
-			if ("Print Record")
+			if ("QUICK PATCH TO PREVENT LE EXPLOIT")
 				if (!( printing ))
 					printing = 1
 					data_core.securityPrintCount++
