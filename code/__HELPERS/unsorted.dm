@@ -1210,12 +1210,11 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	else return zone
 
 
-//Gets the turf this atom inhabits
-/proc/get_turf(atom/movable/AM)
-	if(istype(AM))
-		return locate(/turf) in AM.locs
-	else if(isturf(AM))
-		return AM
+/proc/get_turf(atom/A)
+	if (!istype(A))
+		return
+	for(A, A && !isturf(A), A=A.loc); //semicolon is for the empty statement
+	return A
 
 //Gets the turf this atom's *ICON* appears to inhabit
 //Uses half the width/height respectively to work out
