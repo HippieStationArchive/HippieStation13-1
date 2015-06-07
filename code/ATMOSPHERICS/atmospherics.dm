@@ -20,32 +20,26 @@ Pipelines + Other Objects -> Pipe network
 	var/initialize_directions = 0
 	var/pipe_color
 	var/obj/item/pipe/stored
+
 	var/welded = 0 //Used on pumps and scrubbers
+
 	var/global/list/iconsetids = list()
 	var/global/list/pipeimages = list()
-	var/datum/pipeline/parent = null
 
-	var/image/pipe_vision_img = null
+
+/obj/machinery/atmospherics/Destroy()
+	for(var/mob/living/L in src)
+		L.remove_ventcrawl()
+		L.forceMove(get_turf(src))
+	..()
 
 
 /obj/machinery/atmospherics/New()
 	..()
+
 	SetInitDirections()
 	if(can_unwrench)
 		stored = new(src, make_from=src)
-
-/obj/machinery/atmospherics/Destroy()
-	if (stored)
-		qdel(stored)
-	stored = null
-
-	for(var/mob/living/L in src)
-		L.remove_ventcrawl()
-		L.forceMove(get_turf(src))
-	if(pipe_vision_img)
-		qdel(pipe_vision_img)
-
-	..()
 
 /obj/machinery/atmospherics/proc/SetInitDirections()
 	return

@@ -62,39 +62,36 @@ var/list/ventcrawl_machinery = list(/obj/machinery/atmospherics/unary/vent_pump,
 		src << "<span class='warning'>This ventilation duct is not connected to anything!</span>"
 
 
-/mob/living/proc/add_ventcrawl(obj/machinery/atmospherics/starting_machine)
-	if(!istype(starting_machine) || !starting_machine.returnPipenet())
+/mob/living/proc/add_ventcrawl(obj/machinery/atmospherics/unary/starting_machine)
+	if(!starting_machine)
 		return
-	var/list/totalMembers = list()
-	totalMembers |= starting_machine.parent.members
-	totalMembers |= starting_machine.parent.other_atmosmch
-
-	for(var/obj/machinery/atmospherics/A in totalMembers)
-		if(!A.pipe_vision_img)
-			A.pipe_vision_img = image(A, A.loc, layer = 20, dir = A.dir)
-			//20 for being above darkness
-		pipes_shown |= A.pipe_vision_img
+	var/list/totalMembers = starting_machine.parent.members + starting_machine.parent.other_atmosmch
+	for(var/atom/A in totalMembers)
+		var/image/new_image = image(A, A.loc, dir = A.dir)
+		pipes_shown += new_image
 		if(client)
-			client.images |= A.pipe_vision_img
+			client.images += new_image
 
 
 /mob/living/proc/remove_ventcrawl()
-	if(client)
-		for(var/image/current_image in pipes_shown)
-			client.images -= current_image
-		client.eye = src
+	for(var/image/current_image in pipes_shown)
+		client.images -= current_image
+
 	pipes_shown.len = 0
 
+	if(client)
+		client.eye = src
 
 
 
 //OOP
-/atom/proc/update_pipe_vision(var/atom/new_loc = null)
+/atom/proc/update_pipe_vision()
 	return
 
-/mob/living/update_pipe_vision(var/atom/new_loc = null)
-	. = loc
-	if(new_loc)
-		. = new_loc
-	remove_ventcrawl()
-	add_ventcrawl(.)
+/mob/living/update_pipe_vision()
+	if(pipes_shown.len)
+		if(!istype(loc, /obj/machinery/atmospherics))
+			remove_ventcrawl()
+	else
+		if(istype(loc, /obj/machinery/atmospherics))
+			add_ventcrawl(loc)
