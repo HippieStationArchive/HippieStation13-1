@@ -31,6 +31,7 @@ var/global/fartholdin = 0
 	var/list/availablefactions = list()	  // list of factions with openings
 
 	var/pregame_timeleft = 0
+	var/can_continue = 0
 
 	var/delay_end = 0	//if set to nonzero, the round will not restart on it's own
 
@@ -92,15 +93,16 @@ var/global/fartholdin = 0
 			job_master.ResetOccupations()
 			return 0
 
-	//Configure mode and assign player to special mode stuff
-	var/can_continue = src.mode.pre_setup()
+	can_continue = src.mode.pre_setup()		//Choose antagonists
 	job_master.DivideOccupations() 				//Distribute jobs
 
 	if(!Debug2)
 		if(!can_continue)
-			del(mode)
 			current_state = GAME_STATE_PREGAME
 			world << "<B>Error setting up [master_mode].</B> Reverting to pre-game lobby."
+			log_admin("The gamemode setup for [mode.name] errored out.")
+			world.log << "The gamemode setup for [mode.name] errored out."
+			del(mode)
 			job_master.ResetOccupations()
 			return 0
 	else
