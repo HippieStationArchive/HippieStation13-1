@@ -111,7 +111,7 @@ Class Procs:
 	var/mob/living/occupant = null
 	var/unsecuring_tool = /obj/item/weapon/wrench
 	var/interact_offline = 0 // Can the machine be interacted with while de-powered.
-	
+
 	var/inMachineList = 1 // For debugging.
 
 /obj/machinery/New()
@@ -388,3 +388,15 @@ Class Procs:
 //called on machinery construction (i.e from frame to machinery) but not on initialization
 /obj/machinery/proc/construction()
 	return
+
+// Hook for html_interface module to prevent updates to clients who don't have this as their active machine.
+/obj/machinery/proc/hiIsValidClient(datum/html_interface_client/hclient)
+	if (hclient.client.mob && hclient.client.mob.stat == 0)
+		if (isAI(hclient.client.mob)) return TRUE
+		else                          return hclient.client.mob.machine == src && src.Adjacent(hclient.client.mob)
+	else
+		return FALSE
+
+// Hook for html_interface module to unset the active machine when the window is closed by the player.
+/obj/machinery/proc/hiOnHide(datum/html_interface_client/hclient)
+	if (hclient.client.mob && hclient.client.mob.machine == src) hclient.client.mob.unset_machine()
