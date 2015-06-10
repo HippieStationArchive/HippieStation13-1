@@ -539,14 +539,15 @@
 									new /obj/effect/decal/cleanable/blood/trail_holder(M.loc)
 								for(var/obj/effect/decal/cleanable/blood/trail_holder/H in M.loc)
 									if((!(newdir in H.existing_dirs) || trail_type == "trails_1" || trail_type == "trails_2") && H.existing_dirs.len <= 16) //maximum amount of overlays is 16 (all light & heavy directions filled)
-										H.existing_dirs += newdir
-										H.overlays.Add(image('icons/effects/blood.dmi',trail_type,dir = newdir))
-										if(check_dna_integrity(M)) //blood DNA
-											var/mob/living/carbon/DNA_helper = pulling
-											H.blood_DNA[DNA_helper.dna.unique_enzymes] = DNA_helper.dna.blood_type
-											H.basecolor = DNA_helper.dna.species.blood_color
-											H.update_icon()
-											// H.blood_source = DNA_helper
+										if(istype(pulling,/mob/living/carbon)
+											H.existing_dirs += newdir
+											H.overlays.Add(image('icons/effects/blood.dmi',trail_type,dir = newdir))
+											if(check_dna_integrity(M)) //blood DNA
+												var/mob/living/carbon/DNA_helper = pulling
+												H.blood_DNA[DNA_helper.dna.unique_enzymes] = DNA_helper.dna.blood_type
+												H.basecolor = DNA_helper.dna.species.blood_color
+												H.update_icon()
+												// H.blood_source = DNA_helper
 						if(pulling)
 							pulling.Move(T, get_dir(pulling, T))
 						if(M)
