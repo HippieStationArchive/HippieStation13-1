@@ -197,6 +197,8 @@
 
 
 /turf/simulated/wall/proc/try_decon(obj/item/weapon/W as obj, mob/user as mob, turf/T as turf)
+	if(!istype(T,/turf/simulated/wall)//this goes anywhere ANYWHERE it needs to.
+		return 0 //SCREW YOU
 	if( istype(W, /obj/item/weapon/weldingtool) )
 		var/obj/item/weapon/weldingtool/WT = W
 		if( WT.remove_fuel(0,user) )
@@ -224,6 +226,8 @@
 
 
 /turf/simulated/wall/proc/try_destroy(obj/item/weapon/W as obj, mob/user as mob, turf/T as turf)
+	if(!istype(T,/turf/simulated/wall)
+		return 0 //SCREW YOU
 	if (istype(W, /obj/item/weapon/pickaxe/drill/diamonddrill))
 		user << "<span class='notice'>You begin to drill though the wall.</span>"
 		if(do_after(user, slicing_duration*0.6))  // diamond drill is faster than welding tool slicing
