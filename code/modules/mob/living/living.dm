@@ -539,7 +539,7 @@
 									new /obj/effect/decal/cleanable/blood/trail_holder(M.loc)
 								for(var/obj/effect/decal/cleanable/blood/trail_holder/H in M.loc)
 									if((!(newdir in H.existing_dirs) || trail_type == "trails_1" || trail_type == "trails_2") && H.existing_dirs.len <= 16) //maximum amount of overlays is 16 (all light & heavy directions filled)
-										if(istype(pulling,/mob/living/carbon)
+										if(istype(pulling,/mob/living/carbon))
 											H.existing_dirs += newdir
 											H.overlays.Add(image('icons/effects/blood.dmi',trail_type,dir = newdir))
 											if(check_dna_integrity(M)) //blood DNA
