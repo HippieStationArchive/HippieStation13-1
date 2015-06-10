@@ -66,15 +66,12 @@ var/list/possible_changeling_IDs = list("Alpha","Beta","Gamma","Delta","Epsilon"
 
 /datum/game_mode/changeling/post_setup()
 	for(var/datum/mind/changeling in changelings)
-		
-		if(changeling.current.make_changeling())
-			log_game("[changeling.key] (ckey) has been selected as a changeling")
-			changeling.special_role = "Changeling"
-			forge_changeling_objectives(changeling)
-			changeling.restricted_roles = restricted_jobs
-			greet_changeling(changeling)
-		else
-			log_game("Error setting up changeling , [changeling.key]")
+		log_game("[changeling.key] (ckey) has been selected as a changeling")
+		changeling.current.make_changeling()
+		changeling.special_role = "Changeling"
+		changeling.restricted_roles = restricted_jobs
+		forge_changeling_objectives(changeling)
+		greet_changeling(changeling)
 	..()
 	return
 
