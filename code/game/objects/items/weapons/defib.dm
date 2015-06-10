@@ -82,6 +82,8 @@
 	..()
 
 /obj/item/weapon/defibrillator/MouseDrop(obj/over_object)
+	if(!over_object)
+		return
 	if(ishuman(src.loc))
 		var/mob/living/carbon/human/H = src.loc
 		switch(over_object.name)
