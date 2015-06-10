@@ -52,8 +52,6 @@
 		user << "There is [src.get_amount()] in the stack."
 
 /obj/item/stack/proc/get_amount()
-	if(!source)
-		return 0
 	if (is_cyborg)
 		return round(source.energy / cost)
 	else
