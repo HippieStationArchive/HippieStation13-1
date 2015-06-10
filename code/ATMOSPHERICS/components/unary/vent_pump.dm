@@ -96,8 +96,7 @@
 
 	if(welded)
 		return 0
-	if(!parent)
-		return//this one feels hacky but I can't dare delve into this atmos code
+
 	var/datum/gas_mixture/environment = loc.return_air()
 	var/environment_pressure = environment.return_pressure()
 
