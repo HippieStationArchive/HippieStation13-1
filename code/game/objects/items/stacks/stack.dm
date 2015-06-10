@@ -253,8 +253,6 @@
 		..()
 
 /obj/item/stack/proc/copy_evidences(obj/item/stack/from as obj)
-	if(!from)
-		return
 	src.blood_DNA |= from.blood_DNA.Copy()
 	src.fingerprints  = from.fingerprints
 	src.fingerprintshidden  = from.fingerprintshidden
