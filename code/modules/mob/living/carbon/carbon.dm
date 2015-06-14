@@ -373,4 +373,4 @@ var/const/GALOSHES_DONT_HELP = 8
 		loc.handle_fall(src, forced)//it's loc so it doesn't call the mob's handle_fall which does nothing
 
 /mob/living/carbon/is_muzzled()
-	return(istype(src.wear_mask, /obj/item/clothing/mask/muzzle))
+	return(istype(src.wear_mask, /obj/item/clothing/mask/muzzle) || src.silent > 0)
