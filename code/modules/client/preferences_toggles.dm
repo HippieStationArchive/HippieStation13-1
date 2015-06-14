@@ -90,7 +90,7 @@
 	feedback_add_details("admin_verb","TLobby") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/verb/togglemidis()
-	set name = "Hear/Silence Midis"
+	set name = "Hear/Silence Midis and Sound Files"
 	set category = "Preferences"
 	set desc = "Toggles hearing sounds uploaded by admins"
 	prefs.toggles ^= SOUND_MIDI
@@ -100,7 +100,7 @@
 		if(admin_sound)
 			src << admin_sound
 	else
-		src << "You will no longer hear sounds uploaded by admins; any currently playing midis have been disabled."
+		src << "You will no longer hear sounds uploaded by admins; any currently playing sound files and midis have been disabled."
 		if(admin_sound && !(admin_sound.status & SOUND_PAUSED))
 			admin_sound.status |= SOUND_PAUSED
 			src << admin_sound
