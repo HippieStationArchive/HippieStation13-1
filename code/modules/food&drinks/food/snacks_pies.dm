@@ -128,3 +128,14 @@
 	icon_state = "pumpkinpieslice"
 	trash = /obj/item/trash/plate
 	bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/buttpie  // butt pie thanks to NoScopeToolbox!
+   name = "butt pie"
+   desc = "Oh! Ugh! Ew! Disgusting! Is that filling chocolate?" //Alternate description: "Is that filling chocolate?"
+   icon_state = "buttpie"
+   trash = /obj/item/trash/plate
+
+/obj/item/weapon/reagent_containers/food/snacks/buttpie/New()
+   ..()
+   reagents.add_reagent("nutriment", 4)
+   bitesize = 5

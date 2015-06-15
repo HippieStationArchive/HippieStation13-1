@@ -83,3 +83,10 @@
 		/obj/item/weapon/reagent_containers/food/snacks/chocolatebar,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/chocoorange
+
+/datum/recipe/buttpie
+   reagents = list("flour" = 10)
+   items = list(
+       /obj/item/organ/butt, //Just a wild guess! REPLACE WITH PROPER PATH!
+   )
+   result = /obj/item/weapon/reagent_containers/food/snacks/buttpie
