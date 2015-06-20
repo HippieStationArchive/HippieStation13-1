@@ -10,7 +10,7 @@
 	name = "traitor"
 	config_tag = "traitor"
 	antag_flag = BE_TRAITOR
-	restricted_jobs = list("Security Officer", "Warden", "Detective", "Cyborg", "AI", "Captain", "Head of Personnel", "Chief Medical Officer", "Research Director", "Chief Engineer", "Head of Security")//They are part of the AI if he is traitor so are they, they use to get double chances  //Temp fix for a serious issue ~Nexendia
+	restricted_jobs = list("Cyborg")//They are part of the AI if he is traitor so are they, they use to get double chances
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel")//AI", Currently out of the list as malf does not work for shit
 	required_players = 4
 	required_enemies = 1
