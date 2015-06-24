@@ -232,8 +232,8 @@
 	name = "Janiborg Bucket"
 	desc = "A small bucket for janiborgs."
 	icon = 'icons/obj/janitor.dmi'
-	icon_state = "bucket"
-	item_state = "bucket"
+	icon_state = "mopbucket"
+	item_state = "mopbucket"
 	m_amt = 200
 	g_amt = 0
 	w_class = 3.0
