@@ -8,6 +8,9 @@
 
 /obj/machinery/computer/emergency_shuttle/attackby(var/obj/item/weapon/card/W as obj, var/mob/user as mob)
 	if(stat & (BROKEN|NOPOWER))	return
+	if(emergency_shuttle.location != DOCKED)
+		user << "The shuttle is already in motion."
+		return
 	if (!( istype(W, /obj/item/weapon/card) ) || !( ticker ) || emergency_shuttle.location != DOCKED || !( user ) || emergency_shuttle.timeleft() < 11)	return
 	if (istype(W, /obj/item/weapon/card/id)||istype(W, /obj/item/device/pda))
 		if (istype(W, /obj/item/device/pda))
@@ -31,23 +34,25 @@
 			return 0
 		switch(choice)
 			if("Authorize")
-				src.authorized -= W:registered_name
-				src.authorized += W:registered_name
-				if (src.auth_need - src.authorized.len > 0)
-					message_admins("[key_name(user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) has authorized early shuttle launch in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
-					log_game("[user.ckey]([user]) has authorized early shuttle launch in ([x],[y],[z])")
-					minor_announce("[src.auth_need - src.authorized.len] more authorization(s) needed until shuttle is launched early",null,1)
+				if (emergency_shuttle.location == DOCKED)
+					src.authorized -= W:registered_name
+					src.authorized += W:registered_name
+					if (src.auth_need - src.authorized.len > 0)
+						message_admins("[key_name(user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) has authorized early shuttle launch in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
+						log_game("[user.ckey]([user]) has authorized early shuttle launch in ([x],[y],[z])")
+						minor_announce("[src.auth_need - src.authorized.len] more authorization(s) needed until shuttle is launched early",null,1)
+					else
+						var/time = emergency_shuttle.timeleft()
+						message_admins("[key_name(user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) has launched the emergency shuttle in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>) [time] seconds before launch.",0,1)
+						log_game("[user.ckey]([user]) has launched the emergency shuttle in ([x],[y],[z]) [time] seconds before launch.")
+						minor_announce("The emergency shuttle will launch in 10 seconds",null,1)
+						emergency_shuttle.online = 1
+						emergency_shuttle.settimeleft(10)
+						//src.authorized = null
+						del(src.authorized)
+						src.authorized = list(  )
 				else
-					var/time = emergency_shuttle.timeleft()
-					message_admins("[key_name(user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) has launched the emergency shuttle in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>) [time] seconds before launch.",0,1)
-					log_game("[user.ckey]([user]) has launched the emergency shuttle in ([x],[y],[z]) [time] seconds before launch.")
-					minor_announce("The emergency shuttle will launch in 10 seconds",null,1)
-					emergency_shuttle.online = 1
-					emergency_shuttle.settimeleft(10)
-					//src.authorized = null
-					del(src.authorized)
-					src.authorized = list(  )
-
+					user << "The shuttle is already in motion."
 			if("Repeal")
 				src.authorized -= W:registered_name
 				minor_announce("[src.auth_need - src.authorized.len] authorizations needed until shuttle is launched early")
