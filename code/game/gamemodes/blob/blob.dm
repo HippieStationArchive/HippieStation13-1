@@ -55,9 +55,9 @@ var/list/blob_nodes = list()
 
 
 /datum/game_mode/blob/proc/greet_blob(var/datum/mind/blob)
-	blob.current << "<span class='userdanger'>You are infected by the Blob!</span>"
-	blob.current << "<b>Your body is ready to give spawn to a new blob core which will eat this station.</b>"
-	blob.current << "<b>Find a good location to spawn the core and then take control and overwhelm the station!</b>"
+	blob.current << "<span class='userdanger'><font size '4'>You are infected by the Blob!</font></span>"
+	blob.current << "<span class='userdanger'><font size '5'>Your body is ready to give spawn to a new blob core which will eat this station.</font></span>"
+	blob.current << "<span class='userdanger'><font size '4'>Find a good location to spawn the core and then take control and overwhelm the station!</font></span>"
 	blob.current << "<b>When you have found a location, wait until you spawn; this will happen automatically and you cannot speed up the process.</b>"
 	blob.current << "<b>If you go outside of the station level, or in space, then you will die; make sure your location has lots of ground to cover.</b>"
 	return
