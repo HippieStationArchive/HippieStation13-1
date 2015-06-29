@@ -55,7 +55,7 @@ var/list/blob_nodes = list()
 
 
 /datum/game_mode/blob/proc/greet_blob(var/datum/mind/blob)
-	blob.current << "<span class='userdanger'>You are infected by the Blob!</span>"
+	blob.current << "<span class='userdanger'><font size='4'>You are infected by the Blob!</font></span>"
 	blob.current << "<b>Your body is ready to give spawn to a new blob core which will eat this station.</b>"
 	blob.current << "<b>Find a good location to spawn the core and then take control and overwhelm the station!</b>"
 	blob.current << "<b>When you have found a location, wait until you spawn; this will happen automatically and you cannot speed up the process.</b>"
@@ -116,11 +116,11 @@ var/list/blob_nodes = list()
 
 		sleep(100)
 
-		show_message("<span class='userdanger'>You feel tired and bloated.</span>")
+		show_message("<span class='userdanger'><font size='3'>You feel tired and bloated.</font></span>")
 
 		sleep(wait_time)
 
-		show_message("<span class='userdanger'>You feel like you are about to burst.</span>")
+		show_message("<span class='userdanger'><font size='4'>You feel like you are about to burst.</font></span>")
 
 		sleep(wait_time / 2)
 
