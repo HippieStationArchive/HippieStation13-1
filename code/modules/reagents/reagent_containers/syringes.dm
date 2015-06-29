@@ -148,7 +148,9 @@
 				return
 			if(istype(target, /obj/item/weapon/implantcase/chem))
 				return
-
+			if(istype(target, /obj/item/weapon/reagent_containers/spray))
+				user << "<span class='notice'>You cannot inject directly into the spray bottle using syringes.</span>"
+				return
 			if(!target.is_open_container() && !target.is_injectable() && !ismob(target))
 				user << "<span class='notice'>You cannot directly fill [target].</span>"
 				return
