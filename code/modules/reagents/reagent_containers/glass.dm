@@ -11,6 +11,7 @@
 	volume = 50
 	flags = OPENCONTAINER
 	can_examine_reagents = 1
+	banned_reagents = list("pacid","sacid")
 
 	var/list/can_be_placed_into = list(
 		/obj/machinery/chem_master/,

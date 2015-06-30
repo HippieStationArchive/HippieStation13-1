@@ -7,6 +7,7 @@
 	possible_transfer_amounts = list(1, 2, 3, 4, 5)
 	volume = 5
 	can_examine_reagents = 1
+	banned_reagents = list("pacid","sacid")
 
 /obj/item/weapon/reagent_containers/dropper/afterattack(obj/target, mob/user , proximity)
 	if(!proximity) return
@@ -16,6 +17,13 @@
 		if(target.reagents.total_volume >= target.reagents.maximum_volume)
 			user << "<span class='notice'>[target] is full.</span>"
 			return
+
+		if(istype(target, /obj/item/weapon/reagent_containers/spray))
+			var/obj/item/weapon/reagent_containers/RC = target // copied from glass regant checker
+			for(var/bad_reg in RC.banned_reagents)
+				if(reagents.has_reagent(bad_reg, 1)) //Message is a bit "Game-y" but I can't think up a better one.
+					user << "<span class='warning'>A chemical in [src] is far too dangerous to transfer to [target]!</span>"
+					return
 
 		if(!target.is_open_container() && !ismob(target) && !istype(target,/obj/item/weapon/reagent_containers/food) && !istype(target, /obj/item/clothing/mask/cigarette)) //You can inject humans and food but you cant remove the shit.
 			user << "<span class='notice'>You cannot directly fill [target].</span>"

@@ -149,8 +149,11 @@
 			if(istype(target, /obj/item/weapon/implantcase/chem))
 				return
 			if(istype(target, /obj/item/weapon/reagent_containers/spray))
-				user << "<span class='notice'>You cannot inject directly into the spray bottle using syringes.</span>"
-				return
+				var/obj/item/weapon/reagent_containers/RC = target // copied from glass regant checker
+				for(var/bad_reg in RC.banned_reagents)
+					if(reagents.has_reagent(bad_reg, 1)) //Message is a bit "Game-y" but I can't think up a better one.
+						user << "<span class='warning'>A chemical in [src] is far too dangerous to transfer to [target]!</span>"
+						return
 			if(!target.is_open_container() && !target.is_injectable() && !ismob(target))
 				user << "<span class='notice'>You cannot directly fill [target].</span>"
 				return
