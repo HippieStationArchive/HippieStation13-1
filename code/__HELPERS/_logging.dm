@@ -25,6 +25,7 @@
 		diary << "\[[time_stamp()]]ADMIN: [text]"
 
 /proc/log_mentor(text)
+	mentor_log.Add(text)
 	diary << "\[[time_stamp()]]MENTOR: [text]"
 
 /proc/log_game(text)

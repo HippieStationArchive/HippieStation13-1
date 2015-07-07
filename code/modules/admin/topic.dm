@@ -1259,7 +1259,7 @@ var/global/list/achievements = list("Goodcurity")
 
 		for(var/B in specieslist)
 			dat += "Has unlocked: [B]<br>"
-		
+
 		if(M.client.goodcurity)
 			dat += "<p><p>Goodcurity: \green unlocked."
 		else
@@ -2248,6 +2248,13 @@ var/global/list/achievements = list("Goodcurity")
 				if(!admin_log.len)
 					dat += "No-one has done anything this round!"
 				usr << browse(dat, "window=admin_log")
+			if("mentor_log")
+				var/dat = "<B>Mentor Log<HR></B>"
+				for(var/l in mentor_log)
+					dat += "<li>[l]</li>"
+				if(!mentor_log.len)
+					dat += "No mentors have done anything this round!"
+				usr << browse(dat, "window=mentor_log")
 			if("list_job_debug")
 				var/dat = "<B>Job Debug info.</B><HR>"
 				if(job_master)
