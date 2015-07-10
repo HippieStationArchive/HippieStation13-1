@@ -292,7 +292,6 @@
 
 	// find a radio! toolbox(es), backpack, belt, headset
 	var/loc = ""
-	world.log << "Found [joined_player_list.len] players in-game when equipping traitor [traitor_mob]."
 
 	var/obj/item/R = locate(/obj/item/device/pda) in traitor_mob.contents //Hide the uplink in a PDA if available, otherwise radio
 	if(!R)
