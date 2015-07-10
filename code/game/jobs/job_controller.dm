@@ -98,12 +98,11 @@ var/global/datum/controller/occupations/job_master
 		if(flag && (!player.client.prefs.be_special & flag))
 			Debug("FOC flag failed, Player: [player], Flag: [flag], ")
 			continue
-		if(player.mind && job.title in player.mind.restricted_roles)
-			Debug("FOC incompatible with antagonist role, Player: [player]")
-			continue
+
 		if(config.enforce_human_authority && (job.title in command_positions) && player.client.prefs.pref_species.id != "human")
 			Debug("FOC non-human failed, Player: [player]")
 			continue
+
 		if(player.client.prefs.GetJobDepartment(job, level) & job.flag)
 			Debug("FOC pass, Player: [player], Level:[level]")
 			candidates += player
@@ -127,10 +126,6 @@ var/global/datum/controller/occupations/job_master
 
 		if(!job.player_old_enough(player.client))
 			Debug("GRJ player not old enough, Player: [player]")
-			continue
-
-		if(player.mind && job.title in player.mind.restricted_roles)
-			Debug("GRJ incompatible with antagonist role, Player: [player], Job: [job.title]")
 			continue
 
 		if(config.enforce_human_authority && (job.title in command_positions) && player.client.prefs.pref_species.id != "human")
@@ -227,6 +222,9 @@ var/global/datum/controller/occupations/job_master
 		if(player.ready && player.mind && !player.mind.assigned_role)
 			unassigned += player
 
+	Debug("DO, Len: [unassigned.len]")
+	if(unassigned.len == 0)	return 0
+
 	//Scale number of open security officer slots to population
 	setup_officer_positions()
 
@@ -284,10 +282,6 @@ var/global/datum/controller/occupations/job_master
 
 				if(!job.player_old_enough(player.client))
 					Debug("DO player not old enough, Player: [player], Job:[job.title]")
-					continue
-
-				if(player.mind && job.title in player.mind.restricted_roles)
-					Debug("DO incompatible with antagonist role, Player: [player], Job:[job.title]")
 					continue
 
 				if(config.enforce_human_authority && (job.title in command_positions) && player.client.prefs.pref_species.id != "human")

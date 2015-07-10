@@ -31,7 +31,6 @@ var/global/fartholdin = 0
 	var/list/availablefactions = list()	  // list of factions with openings
 
 	var/pregame_timeleft = 0
-	var/can_continue = 0
 
 	var/delay_end = 0	//if set to nonzero, the round will not restart on it's own
 
@@ -93,8 +92,11 @@ var/global/fartholdin = 0
 			job_master.ResetOccupations()
 			return 0
 
-	can_continue = src.mode.pre_setup()		//Choose antagonists
+	//Configure mode and assign player to special mode stuff
+	var/can_continue = 0
+	if (src.mode.pre_setup_before_jobs)	can_continue = src.mode.pre_setup()
 	job_master.DivideOccupations() 				//Distribute jobs
+	if (!src.mode.pre_setup_before_jobs)	can_continue = src.mode.pre_setup()
 
 	if(!Debug2)
 		if(!can_continue)
