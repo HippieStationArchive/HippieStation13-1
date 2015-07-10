@@ -228,6 +228,29 @@
 		user.unEquip(src)
 		qdel(src)
 
+/obj/item/weapon/reagent_containers/glass/bucket_borg
+	name = "Janiborg Bucket"
+	desc = "A small bucket for janiborgs."
+	icon = 'icons/obj/janitor.dmi'
+	icon_state = "mopbucket"
+	item_state = "mopbucket"
+	m_amt = 200
+	g_amt = 0
+	w_class = 3.0
+	amount_per_transfer_from_this = 20
+	possible_transfer_amounts = list(10,20,30,50,70)
+	volume = 70
+	flags = OPENCONTAINER
+
+/obj/item/weapon/reagent_containers/glass/bucket_borg/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/weapon/mop))
+		if(reagents.total_volume < 1)
+			user << "[src] is out of water!</span>"
+		else
+			reagents.trans_to(I, 5)
+			user << "<span class='notice'>You wet [I] in [src].</span>"
+			playsound(loc, 'sound/effects/slosh.ogg', 25, 1)
+
 /*
 /obj/item/weapon/reagent_containers/glass/blender_jug
 	name = "Blender Jug"
