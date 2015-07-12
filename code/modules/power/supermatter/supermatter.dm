@@ -254,9 +254,9 @@
 
 	return 1
 
-/obj/machinery/power/supermatter_shard/singularity_act()
+/obj/machinery/power/supermatter/singularity_act()
 	var/gain = 100
-	investigate_log("Supermatter shard consumed by singularity.","singulo")
+	investigate_log("Supermatter consumed by singularity.","singulo")
 	message_admins("Singularity has consumed a supermatter shard and can now become stage six.")
 	visible_message("<span class='userdanger'>[src] is consumed by the singularity!</span>")
 	for(var/mob/M in mob_list)
