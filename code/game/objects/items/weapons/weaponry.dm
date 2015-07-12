@@ -19,6 +19,21 @@
 	user << "<font color='red'> You have <b>BANNED</b> [M]</font>"
 	playsound(loc, 'sound/effects/adminhelp.ogg', 15) //keep it at 15% volume so people don't jump out of their skin too much
 
+/obj/item/weapon/throwingknife
+	name = "Throwing knife"
+	desc = "Take it to partys , have a drink with it , stab the clown to death!"
+	icon = 'icons/obj/kitchen.dmi'
+	icon_state = "knife"
+	item_state = "knife"
+	force = 3.0 
+	stun_on_hit = 3 //new variable , ill explain in the pull request.
+	throw_range = 10
+	throwforce = 30.0 //lots of force = lots of fun
+	slot_flags = SLOT_BELT | SLOT_POCKET
+	bleedcap = 0
+	bleedchance = 50
+	embedchance = 70
+	w_class = 1
 
 /obj/item/weapon/nullrod
 	name = "null rod"

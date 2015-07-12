@@ -433,6 +433,13 @@ var/list/uplink_items = list()
 	cost = 4
 	excludefrom = list(/datum/game_mode/nuclear)
 
+/datum/uplink_item/stealthy_weapons/throwing
+	name = "Throwing Knife"
+	desc = "Hasbro's latest in their line of pure evil , a knife that deals devestating damage when thrown , still good for shanking the clown to death though."
+	item = /obj/item/weapon/throwingknife
+	cost = 6 //same as the combat knife
+	surplus = 50
+
 /datum/uplink_item/stealthy_weapons/soap
 	name = "Syndicate Soap"
 	desc = "A sinister-looking surfactant used to clean blood stains to hide murders and prevent DNA analysis. You can also drop it underfoot to slip people."
