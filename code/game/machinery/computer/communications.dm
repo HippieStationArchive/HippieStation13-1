@@ -93,7 +93,7 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 					var/old_level = security_level
 					if(!tmp_alertlevel) tmp_alertlevel = SEC_LEVEL_GREEN
 					if(tmp_alertlevel < SEC_LEVEL_GREEN) tmp_alertlevel = SEC_LEVEL_GREEN
-					if(tmp_alertlevel > SEC_LEVEL_BLUE && !M.client.goodcurity) tmp_alertlevel = SEC_LEVEL_BLUE //Cannot engage delta with this unless goodcurity
+					if(tmp_alertlevel > SEC_LEVEL_BLUE) tmp_alertlevel = SEC_LEVEL_BLUE //Cannot engage delta with this unless goodcurity
 					set_security_level(tmp_alertlevel)
 					if(security_level != old_level)
 						//Only notify the admins if an actual change happened
@@ -161,7 +161,18 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 				src.state = STATE_VIEWMESSAGE
 		if("status")
 			src.state = STATE_STATUSDISPLAY
-
+		if("requestdelta")
+			if(src.authenticated==2)
+				if(CM.cooldown)
+					usr << "Arrays recycling.  Please stand by."
+					return
+				var/input = stripped_input(usr, "Please explain why you're requesting Code Delta.  Transmission does not guarantee a response.", "To abort, send an empty message.", "")
+				if(!input || !(usr in view(1,src)))
+					return
+				request_delta(usr, input)
+				usr << "Code delta request sent."
+				log_say("[key_name(usr)] has requested Code Delta.")
+				CM.cooldown = 55
 		if("securitylevel")
 			src.tmp_alertlevel = text2num( href_list["newalertlevel"] )
 			if(!tmp_alertlevel) tmp_alertlevel = 0
@@ -425,7 +436,7 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 				dat += "<A HREF='?src=\ref[src];operation=securitylevel;newalertlevel=[SEC_LEVEL_BLUE]'>Blue</A><BR>"
 				dat += "<A HREF='?src=\ref[src];operation=securitylevel;newalertlevel=[SEC_LEVEL_GREEN]'>Green</A><BR>"
 				if(user.client.goodcurity)
-					dat += "<A HREF='?src=\ref[src];operation=securitylevel;newalertlevel=[SEC_LEVEL_DELTA]'>Delta</A>"
+					dat += "<A HREF='?src=\ref[src];operation=requestdelta'>Delta</A>"
 
 		if(STATE_CONFIRM_LEVEL)
 			dat += "Current alert level: [get_security_level()]<BR>"
