@@ -20,8 +20,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/atmosalm = 0
 	var/poweralm = 1
 	var/party = null
-	var/danger = null
-	var/rglow = null
 	level = null
 	name = "Space"
 	icon = 'icons/turf/areas.dmi'

@@ -233,50 +233,16 @@
 					D.open()
 	return
 
-/area/proc/dangalert()
-	if(name == "Space")
-		return
-	if(!danger)
-		danger = 1
-		updateicon()
-		src.mouse_opacity = 0
-	return
-
-/area/proc/dangreset()
-	if(danger)
-		danger = 0
-		updateicon()
-		src.mouse_opacity = 0
-	return
-
-/area/proc/redglow() //for use in the blowout event (or anywhere else it would fit)
-	if(!rglow)
-		rglow = 1
-		updateicon()
-		src.mouse_opacity = 0
-	return
-
-/area/proc/redglowreset()
-	if(rglow)
-		rglow = 0
-		updateicon()
-		src.mouse_opacity = 0
-	return
-
 /area/proc/updateicon()
-	if ((fire || eject || party || danger || rglow) && (!requires_power||power_environ) && !lighting_space)//If it doesn't require power, can still activate this proc.
-		if(fire && !eject && !party && !danger && !rglow)
+	if ((fire || eject || party) && (!requires_power||power_environ) && !lighting_space)//If it doesn't require power, can still activate this proc.
+		if(fire && !eject && !party)
 			icon_state = "blue"
 		/*else if(atmosalm && !fire && !eject && !party)
 			icon_state = "bluenew"*/
-		else if(!fire && eject && !party && !danger && !rglow)
+		else if(!fire && eject && !party)
 			icon_state = "red"
-		else if(party && !fire && !eject && !danger && !rglow)
+		else if(party && !fire && !eject)
 			icon_state = "party"
-		else if(danger && !fire && !eject && !party && !rglow)
-			icon_state = "danger"
-		else if(rglow && !fire && !eject && !party && !danger)
-			icon_state = "rglow"
 		else
 			icon_state = "blue-red"
 	else
