@@ -81,6 +81,7 @@
 #define STAGE_THREE 5
 #define STAGE_FOUR 7
 #define STAGE_FIVE 9
+#define STAGE_SIX 11
 
 //zlevel defines, can be overridden for different maps in the appropriate _maps file.
 #define ZLEVEL_SPACEMAX 7
