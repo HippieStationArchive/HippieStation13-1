@@ -120,6 +120,13 @@
 	caliber = "9mm"
 	max_ammo = 20
 
+/obj/item/ammo_box/magazine/mp15sd6
+	name = "MP15SD6 magazine (9mm)"
+	icon_state = "mp15sd6"
+	ammo_type = /obj/item/ammo_casing/c9mm
+	caliber = "9mm"
+	max_ammo = 30
+
 /obj/item/ammo_box/magazine/g17
 	name = "G17 magazine (9mm)"
 	icon_state = "g17"

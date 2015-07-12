@@ -965,6 +965,7 @@ var/global/list/g_fancy_list_of_types = null
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/soviet/gorka(M), slot_w_uniform)
 			M.equip_to_slot_or_del(new /obj/item/ammo_box/magazine/ak922(M), slot_r_store)
 			M.equip_to_slot_or_del(new /obj/item/ammo_box/magazine/ak922(M), slot_l_store)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/mountainbag(M), slot_back)
 
 			var/obj/item/weapon/card/id/W = new(M)
 			W.assignment = "New-Russia Soldier"		//No access by default

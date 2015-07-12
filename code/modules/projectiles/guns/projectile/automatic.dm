@@ -84,6 +84,23 @@
 	icon_state = "c20r[magazine ? "-[Ceiling(get_ammo(0)/4)*4]" : ""][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
 	return
 
+/obj/item/weapon/gun/projectile/automatic/mp15sd6	// uh oh derp's adding another gun oh shit
+	name = "MP15SD6 Submachine Gun"
+	desc = "A NanoTrasen submachine gun. This specific model is used by special-forces teams. This one has had a red-dot sight and grip mounted. In addition, it comes with an integrated suppresor. Has 'James Gastovski' scratched onto the receiver for reasons unknown to you."
+	icon_state = "mp15sd6"
+	item_state = "c20r"
+	origin_tech = "combat=5;materials=4"
+	mag_type = /obj/item/ammo_box/magazine/mp15sd6
+	fire_sound = 'sound/weapons/Gunshot_silenced.ogg'
+	can_suppress = 0	// It's already suppressed thanks to the integrated suppresor.
+	fire_delay = 0
+	burst_size = 3
+
+/obj/item/weapon/gun/projectile/automatic/mp15sd6/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+	return
+
 /obj/item/weapon/gun/projectile/automatic/ak922
 	name = "AK-922"
 	desc = "A New-Russia standard-issue battle rifle chambered in 7.62x39mm. Packs a punch and is built out of strong materials with an old yet reliable build."
