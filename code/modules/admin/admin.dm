@@ -483,6 +483,14 @@ var/global/floorIsLava = 0
 			<A href='?src=\ref[src];secretscoder=infinite_sec'>Remove cap on security officers</A><BR>
 			<BR>
 			"}
+		if(check_rights(R_FUN,0))
+			dat += {"
+				<A href='?src=\ref[src];secretscoder=alert_green'>Switch station to Code Green</A><BR>
+				<A href='?src=\ref[src];secretscoder=alert_blue'>Switch station to Code Blue</A><BR>
+				<A href='?src=\ref[src];secretscoder=alert_red'>Switch station to Code Red</A><BR>
+				<A href='?src=\ref[src];secretscoder=alert_delta'>Switch station to Code Delta</A><BR>
+				<BR>
+				"}
 
 	usr << browse(dat, "window=secrets")
 	return
