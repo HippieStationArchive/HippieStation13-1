@@ -2277,26 +2277,6 @@ var/global/list/achievements = list("Goodcurity")
 		if(!check_rights(R_DEBUG))	return
 
 		switch(href_list["secretscoder"])
-			if("alert_green")
-				set_security_level("green")
-				message_admins("[key_name_admin(usr)] set the station to Code Green")
-				log_admin("[key_name_admin(usr)] set the station to Code Green")
-				return
-			if("alert_blue")
-				set_security_level("blue")
-				message_admins("[key_name_admin(usr)] set the station to Code Blue")
-				log_admin("[key_name_admin(usr)] set the station to Code Blue")
-				return
-			if("alert_red")
-				set_security_level("red")
-				message_admins("[key_name_admin(usr)] set the station to Code Red")
-				log_admin("[key_name_admin(usr)] set the station to Code Red")
-				return
-			if("alert_delta")
-				set_security_level("delta")
-				message_admins("[key_name_admin(usr)] set the station to Code Delta")
-				log_admin("[key_name_admin(usr)] set the station to Code Delta")
-				return
 			if("maint_access_brig")
 				for(var/obj/machinery/door/airlock/maintenance/M in world)
 					M.check_access()
