@@ -375,7 +375,7 @@
 
 
 /obj/singularity/proc/combust_mobs()
-	for(var/mob/living/carbon/C in orange(20, src))
+	for(var/mob/living/carbon/C in orange(10, src))
 		C.visible_message("<span class='warning'>[C]'s skin bursts into flame!</span>", \
 						  "<span class='boldannounce'>You feel an inner fire as your skin is suddenly covered in fire!</span>")
 		C.adjust_fire_stacks(5)
