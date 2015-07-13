@@ -28,7 +28,7 @@
 	force = 3.0 
 	stun_on_hit = 3 //new variable , ill explain in the pull request.
 	throw_range = 10
-	throwforce = 10//debuffs to the same as a null rod
+	throwforce = 15//debuffs to the same as a null rod
 	slot_flags = SLOT_BELT | SLOT_POCKET
 	bleedcap = 0
 	bleedchance = 50
