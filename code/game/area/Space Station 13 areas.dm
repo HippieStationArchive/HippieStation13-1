@@ -1036,7 +1036,12 @@ proc/process_ghost_teleport_locs()
 /area/medical/chemistry
 	name = "Chemistry"
 	icon_state = "chem"
-
+/area/toxins/chemtest
+	name = "Chemical Testing Area"
+	icon_state = "chem"
+/area/toxins/chemlab
+	name = "Chemical Laboratory"
+	icon_state = "chem"
 /area/medical/surgery
 	name = "Surgery"
 	icon_state = "surgery"
