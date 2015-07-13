@@ -29,7 +29,7 @@
 	is recieving it.
 	The most common are:
 	* mob/UnarmedAttack(atom,adjacent) - used here only when adjacent, with no item in hand; in the case of humans, checks gloves
-	* atom/attackby(item,user) - used only when adjacent
+	* atom/attackby(item,user,params) - used only when adjacent
 	* item/afterattack(atom,user,adjacent,params) - used both ranged and adjacent
 	* mob/RangedAttack(atom,params) - used only ranged, only used for tk and laser eyes but could be changed
 */
@@ -85,7 +85,7 @@
 
 
 	if(W == A)
-		W.attack_self(src)
+		W.attack_self(src, params)
 		if(hand)
 			update_inv_l_hand(0)
 		else
@@ -96,7 +96,7 @@
 	if(!isturf(A) && A == loc || (A in contents) || (A.loc in contents))
 		// No adjacency needed
 		if(W)
-			var/resolved = A.attackby(W,src)
+			var/resolved = A.attackby(W,src,params)
 			if(!resolved && A && W)
 				W.afterattack(A,src,1,params) // 1 indicates adjacency
 		else
@@ -113,7 +113,7 @@
 		if(A.Adjacent(src)) // see adjacent.dm
 			if(W)
 				// Return 1 in attackby() to prevent afterattack() effects (when safely moving items for example)
-				var/resolved = A.attackby(W,src)
+				var/resolved = A.attackby(W,src,params)
 				if(!resolved && A && W)
 					W.afterattack(A,src,1,params) // 1: clicking something Adjacent
 			else

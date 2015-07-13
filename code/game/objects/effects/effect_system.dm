@@ -985,7 +985,7 @@ steam.start() -- spawns the effect
 	return
 
 
-/obj/structure/foamedmetal/attackby(var/obj/item/I, var/mob/user)
+/obj/structure/foamedmetal/attackby(var/obj/item/I, var/mob/user, params)
 
 	if (istype(I, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = I

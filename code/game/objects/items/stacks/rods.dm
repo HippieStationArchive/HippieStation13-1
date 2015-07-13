@@ -28,7 +28,7 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	return ..()
 
 /obj/item/stack/rods/update_icon()
-	if(get_amount() <= 5)
+	if(get_amount() <= 5  && !is_cyborg)
 		icon_state = "rods-[get_amount()]"
 	else
 		icon_state = "rods"
@@ -37,7 +37,7 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 
 
 
-/obj/item/stack/rods/attackby(obj/item/W as obj, mob/user as mob)
+/obj/item/stack/rods/attackby(obj/item/W as obj, mob/user as mob, params)
 	..()
 	if (istype(W, /obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/WT = W

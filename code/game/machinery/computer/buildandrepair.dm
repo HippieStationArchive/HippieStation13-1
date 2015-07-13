@@ -240,7 +240,7 @@
 	origin_tech = "programming=1"
 
 
-/obj/item/weapon/circuitboard/supplycomp/attackby(obj/item/I as obj, mob/user as mob)
+/obj/item/weapon/circuitboard/supplycomp/attackby(obj/item/I as obj, mob/user as mob, params)
 	if(istype(I,/obj/item/device/multitool))
 		var/catastasis = src.contraband_enabled
 		var/opposite_catastasis
@@ -262,7 +262,7 @@
 				user << "DERP! BUG! Report this (And what you were doing to cause it) to Agouri"
 	return
 
-/obj/item/weapon/circuitboard/rdconsole/attackby(obj/item/I as obj, mob/user as mob)
+/obj/item/weapon/circuitboard/rdconsole/attackby(obj/item/I as obj, mob/user as mob, params)
 	if(istype(I,/obj/item/weapon/screwdriver))
 		if(build_path == /obj/machinery/computer/rdconsole/core)
 			name = "circuit board (RD Console - Robotics)"
@@ -274,14 +274,14 @@
 			user << "<span class='notice'>Defaulting access protocols.</span>"
 	return
 
-/obj/item/weapon/circuitboard/shuttle/attackby(obj/item/I as obj, mob/user as mob)
+/obj/item/weapon/circuitboard/shuttle/attackby(obj/item/I as obj, mob/user as mob, params)
 	if(istype(I, /obj/item/device/multitool))
 		var/chosen_id = round(input(usr, "Choose an ID number:", "Input an Integer", null) as num|null)
 		if(chosen_id >= 0)
 			id = chosen_id
 	return
 
-/obj/structure/computerframe/attackby(obj/item/P as obj, mob/user as mob)
+/obj/structure/computerframe/attackby(obj/item/P as obj, mob/user as mob, params)
 	add_fingerprint(user)
 	switch(state)
 		if(0)

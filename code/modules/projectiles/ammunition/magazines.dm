@@ -90,6 +90,7 @@
 	ammo_type = /obj/item/ammo_casing/a40mm
 	max_ammo = 6
 
+
 ///////////EXTERNAL MAGAZINES////////////////
 
 /obj/item/ammo_box/magazine/m10mm
@@ -119,7 +120,26 @@
 	caliber = "9mm"
 	max_ammo = 20
 
+/obj/item/ammo_box/magazine/g17
+	name = "G17 magazine (9mm)"
+	icon_state = "g17"
+	ammo_type = /obj/item/ammo_casing/c9mm
+	caliber = "9mm"
+	max_ammo = 17
+
 /obj/item/ammo_box/magazine/smgm9mm/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),5)]"
+
+/obj/item/ammo_box/magazine/ak922
+	name = "AK-922 magazine (7.62x39)"
+	icon_state = "akmag"
+	origin_tech = "combat=3"
+	ammo_type = /obj/item/ammo_casing/a762x39
+	caliber = "7.62x39"
+	max_ammo = 30
+
+/obj/item/ammo_box/magazine/ak922/update_icon()
 	..()
 	icon_state = "[initial(icon_state)]-[round(ammo_count(),5)]"
 
@@ -180,6 +200,31 @@ obj/item/ammo_box/magazine/tommygunm45
 	max_ammo = 50
 
 /obj/item/ammo_box/magazine/m762/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),10)]"
+
+
+/obj/item/ammo_box/magazine/mbox12g
+	name = "box magazine (12 gauge)"
+	icon_state = "box12g"
+	origin_tech = "combat=3"
+	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
+	caliber = "shotgun"
+	max_ammo = 40
+
+/obj/item/ammo_box/magazine/mbox12g/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),10)]"
+
+/obj/item/ammo_box/magazine/mbox12g/dragon
+	name = "box magazine (12 gauge)"
+	icon_state = "box12g"		//Gotta give this it's own proper icon later
+	origin_tech = "combat=3"
+	ammo_type = /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath
+	caliber = "shotgun"
+	max_ammo = 40
+
+/obj/item/ammo_box/magazine/mbox12g/dragon/update_icon()
 	..()
 	icon_state = "[initial(icon_state)]-[round(ammo_count(),10)]"
 

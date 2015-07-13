@@ -114,7 +114,7 @@
 
 // attach a wire to a power machine - leads from the turf you are standing on
 //almost never called, overwritten by all power machines but terminal and generator
-/obj/machinery/power/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/power/attackby(obj/item/weapon/W, mob/user, params)
 
 	if(istype(W, /obj/item/stack/cable_coil))
 
@@ -359,6 +359,15 @@
 	powernets += src
 
 /datum/powernet/Destroy()
+
+	//Go away references, you suck!
+	for(var/obj/structure/cable/C in cables)
+		cables -= C
+		C.powernet = null
+	for(var/obj/machinery/power/M in nodes)
+		nodes -= M
+		M.powernet = null
+
 	powernets -= src
 
 /datum/powernet/proc/is_empty()

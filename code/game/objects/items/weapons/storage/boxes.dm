@@ -50,7 +50,7 @@
 	user.update_inv_r_hand()
 	qdel(src)
 
-/obj/item/weapon/storage/box/attackby(obj/item/W, mob/user)
+/obj/item/weapon/storage/box/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stack/packageWrap))
 		return 0
 	..()

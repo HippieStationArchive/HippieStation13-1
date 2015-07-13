@@ -32,7 +32,7 @@ var/bomb_set
 				src.attack_hand(M)
 	return
 
-/obj/machinery/nuclearbomb/attackby(obj/item/weapon/I as obj, mob/user as mob)
+/obj/machinery/nuclearbomb/attackby(obj/item/weapon/I as obj, mob/user as mob, params)
 	if (istype(I, /obj/item/weapon/disk/nuclear))
 		usr.drop_item()
 		I.loc = src
@@ -211,7 +211,6 @@ var/bomb_set
 					blackbox.save_all_data_to_sql()
 				sleep(300)
 				log_game("Rebooting due to nuclear detonation")
-				kick_clients_in_lobby("<span class='danger'>The round came to an end with you in the lobby.</span>", 1) //second parameter ensures only afk clients are kicked
 				world.Reboot()
 				return
 	return

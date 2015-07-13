@@ -270,7 +270,7 @@
 		..()
 		reagents.add_reagent("wine", 50)
 
-/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/attackby(obj/item/W as obj, mob/user as mob)
+/obj/item/weapon/reagent_containers/food/drinks/bottle/customizable/attackby(obj/item/W as obj, mob/user as mob, params)
 	if(istype(W,/obj/item/weapon/pen))
 		var/n_name = copytext(sanitize(input(usr, "What would you like to name this bottle?", "Food Renaming", null)  as text), 1, MAX_NAME_LEN)
 		if((loc == usr && usr.stat == 0))

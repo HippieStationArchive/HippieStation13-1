@@ -177,7 +177,7 @@ macro "borghotkeymode"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "ooc"
+		command = "adminhelp"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -355,7 +355,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "ooc"
+		command = "adminhelp"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -601,7 +601,7 @@ macro "hotkeymode"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "ooc"
+		command = "adminhelp"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -763,7 +763,7 @@ macro "borgmacro"
 		is-disabled = false
 	elem 
 		name = "F1"
-		command = "ooc"
+		command = "adminhelp"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -1880,7 +1880,7 @@ window "rpane"
 		lock = none
 	elem "reportissueb"
 		type = BUTTON
-		pos = 480,0
+		pos = 408,0
 		size = 67x16
 		anchor1 = none
 		anchor2 = none
@@ -1957,34 +1957,6 @@ window "rpane"
 		text = "Rules"
 		image = ""
 		command = "rules"
-		is-flat = false
-		stretch = false
-		is-checked = false
-		group = "rpanemode"
-		button-type = pushbutton
-	elem "teamspeakb"
-		type = BUTTON
-		pos = 408,0
-		size = 67x16
-		anchor1 = none
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		font-style = ""
-		text-color = #000000
-		background-color = none
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = none
-		drop-zone = false
-		right-click = false
-		saved-params = "is-checked"
-		on-size = ""
-		text = "Teamspeak"
-		image = ""
-		command = "teamspeak"
 		is-flat = false
 		stretch = false
 		is-checked = false

@@ -11,7 +11,6 @@
 
 //Hud stuff
 
-	var/obj/screen/cells = null
 	var/obj/screen/inv1 = null
 	var/obj/screen/inv2 = null
 	var/obj/screen/inv3 = null
@@ -380,7 +379,7 @@
 	return !cleared
 
 
-/mob/living/silicon/robot/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/mob/living/silicon/robot/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if (istype(W, /obj/item/weapon/handcuffs)) // fuck i don't even know why isrobot() in handcuff code isn't working so this will have to do
 		return
 
@@ -927,6 +926,10 @@
 		state = 1
 	lockcharge = state
 	update_canmove()
+	if(state)
+		throw_alert("locked")
+	else
+		clear_alert("locked")
 
 /mob/living/silicon/robot/proc/SetEmagged(var/new_state)
 	emagged = new_state
@@ -938,6 +941,11 @@
 			uneq_module(module.emag)
 	if(hud_used)
 		hud_used.update_robot_modules_display()	//Shows/hides the emag item if the inventory screen is already open.
+	if(emagged)
+		throw_alert("hacked")
+	else
+		clear_alert("hacked")
+
 	update_icons()
 
 /mob/living/silicon/robot/verb/outputlaws()

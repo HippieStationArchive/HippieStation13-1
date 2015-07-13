@@ -19,7 +19,7 @@
 	density = 0
 	..()
 
-/obj/structure/statue/attackby(obj/item/weapon/W, mob/user)
+/obj/structure/statue/attackby(obj/item/weapon/W, mob/user, params)
 	hardness -= W.force/100
 	user << "You hit the [name] with your [W.name]!"
 	CheckHardness()
@@ -94,7 +94,7 @@
 	desc = "This statue has a sickening green colour."
 	icon_state = "eng"
 
-/obj/structure/statue/uranium/attackby(obj/item/weapon/W, mob/user)
+/obj/structure/statue/uranium/attackby(obj/item/weapon/W, mob/user, params)
 	radiate()
 	..()
 
@@ -142,7 +142,7 @@
 		PlasmaBurn(500)
 	..()
 
-/obj/structure/statue/plasma/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/structure/statue/plasma/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(is_hot(W) > 300)//If the temperature of the object is over 300, then ignite
 		message_admins("Plasma statue ignited by [key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
 		log_game("Plasma statue ignited by [user.ckey]([user]) in ([x],[y],[z])")
@@ -246,7 +246,7 @@
 /obj/structure/statue/bananium/Bumped(atom/user)
 	honk()
 
-/obj/structure/statue/bananium/attackby(obj/item/weapon/W, mob/user)
+/obj/structure/statue/bananium/attackby(obj/item/weapon/W, mob/user, params)
 	honk()
 	..()
 

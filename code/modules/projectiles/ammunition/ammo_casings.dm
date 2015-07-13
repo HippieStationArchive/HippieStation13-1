@@ -141,6 +141,11 @@
 	caliber = "a545"
 	projectile_type = /obj/item/projectile/bullet/heavybullet
 
+/obj/item/ammo_casing/a762x39
+	desc = "A 7.62x39mm bullet casing."
+	caliber = "a7.62x39"
+	projectile_type = /obj/item/projectile/bullet/heavybullet
+
 /obj/item/ammo_casing/caseless
 	desc = "A caseless bullet casing."
 

@@ -74,11 +74,13 @@
 		return
 	close_machine(target)
 
+/obj/machinery/atmospherics/unary/cryo_cell/can_crawl_through()
+	return 0 // No. Just no.
+	
 /obj/machinery/atmospherics/unary/cryo_cell/allow_drop()
 	return 0
 
 /obj/machinery/atmospherics/unary/cryo_cell/relaymove(var/mob/user)
-	..()
 	open_machine()
 
 /obj/machinery/atmospherics/unary/cryo_cell/container_resist()
@@ -187,7 +189,6 @@
 		// The UI is already open so push the new data to it
 		ui.push_data(data)
 		return
-	//user.set_machine(src)
 
 /obj/machinery/atmospherics/unary/cryo_cell/Topic(href, href_list)
 	if(usr == occupant || panel_open)
@@ -220,7 +221,7 @@
 	add_fingerprint(usr)
 	return 1 // update UIs attached to this object
 
-/obj/machinery/atmospherics/unary/cryo_cell/attackby(obj/item/I, mob/user)
+/obj/machinery/atmospherics/unary/cryo_cell/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/reagent_containers/glass))
 		if(beaker)
 			user << "<span class='notice'>A beaker is already loaded into [src].</span>"

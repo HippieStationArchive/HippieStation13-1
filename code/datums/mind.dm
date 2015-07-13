@@ -54,6 +54,7 @@
 	var/miming = 0 // Mime's vow of silence
 	var/antag_hud_icon_state = null //this mind's ANTAG_HUD should have this icon_state
 	var/datum/atom_hud/antag/antag_hud = null //this mind's antag HUD
+	var/list/restricted_roles = list()
 
 /datum/mind/New(var/key)
 	src.key = key
@@ -80,6 +81,7 @@
 	current = new_character								//associate ourself with our new body
 	new_character.mind = src							//and associate our new body with ourself
 	transfer_antag_huds(new_character)					//inherit the antag HUDs from this mind (TODO: move this to a possible antag datum)
+	transfer_actions(new_character)
 
 	if(active)
 		new_character.key = key		//now transfer the key to link the client to our new body
@@ -1321,6 +1323,38 @@
 	ticker.mode.greet_gang(src)
 	ticker.mode.equip_gang(current)
 
+/datum/mind/proc/AddSpell(var/obj/effect/proc_holder/spell/spell)
+	spell_list += spell
+	if(!spell.action)
+		spell.action = new/datum/action/spell_action
+		spell.action.target = spell
+		spell.action.name = spell.name
+		spell.action.button_icon = spell.action_icon
+		spell.action.button_icon_state = spell.action_icon_state
+		spell.action.background_icon_state = spell.action_background_icon_state
+	spell.action.Grant(current)
+	return
+
+/datum/mind/proc/transfer_actions(var/mob/living/new_character)
+	if(current && current.actions)
+		for(var/datum/action/A in current.actions)
+			A.Grant(new_character)
+	transfer_mindbound_actions(new_character)
+
+/datum/mind/proc/transfer_mindbound_actions(var/mob/living/new_character)
+	for(var/obj/effect/proc_holder/spell/spell in spell_list)
+		if(!spell.action) // Unlikely but whatever
+			spell.action = new/datum/action/spell_action
+			spell.action.target = spell
+			spell.action.name = spell.name
+			spell.action.button_icon = spell.action_icon
+			spell.action.button_icon_state = spell.action_icon_state
+			spell.action.background_icon_state = spell.action_background_icon_state
+		spell.action.Grant(new_character)
+	return
+
+
+
 /mob/proc/sync_mind()
 	mind_initialize()	//updates the mind (or creates and initializes one if one doesn't exist)
 	mind.active = 1		//indicates that the mind is currently synced with a client
@@ -1421,4 +1455,3 @@
 	..()
 	mind.assigned_role = "[initial(name)]"
 	mind.special_role = "Cultist"
-

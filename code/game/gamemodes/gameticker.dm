@@ -100,14 +100,16 @@ var/global/fartholdin = 0
 
 	if(!Debug2)
 		if(!can_continue)
-			del(mode)
 			current_state = GAME_STATE_PREGAME
 			world << "<B>Error setting up [master_mode].</B> Reverting to pre-game lobby."
+			log_admin("The gamemode setup for [mode.name] errored out.")
+			world.log << "The gamemode setup for [mode.name] errored out."
+			del(mode)
 			job_master.ResetOccupations()
 			return 0
 	else
 		world << "<span class='notice'>DEBUG: Bypassing prestart checks..."
-	
+
 	if(hide_mode)
 		var/list/modes = new
 		for (var/datum/game_mode/M in runnable_modes)
@@ -331,7 +333,6 @@ var/global/buttmode = 0
 
 			if(!delay_end)
 				sleep(restart_timeout)
-				kick_clients_in_lobby("\red The round came to an end with you in the lobby.", 1) //second parameter ensures only afk clients are kicked
 				world.Reboot()
 			else
 				world << "\blue <B>An admin has delayed the round end</B>"

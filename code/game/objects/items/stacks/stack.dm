@@ -53,7 +53,10 @@
 
 /obj/item/stack/proc/get_amount()
 	if (is_cyborg)
-		return round(source.energy / cost)
+		if(source)
+			return round(source.energy / cost)
+		else
+			return 0
 	else
 		return (amount)
 
@@ -219,7 +222,7 @@
 		..()
 	return
 
-/obj/item/stack/attackby(obj/item/W as obj, mob/user as mob)
+/obj/item/stack/attackby(obj/item/W as obj, mob/user as mob, params)
 
 	if (istype(W, src.type))
 		var/obj/item/stack/S = W
@@ -251,6 +254,8 @@
 		..()
 
 /obj/item/stack/proc/copy_evidences(obj/item/stack/from as obj)
+	if(!from)
+		return
 	src.blood_DNA |= from.blood_DNA.Copy()
 	src.fingerprints  = from.fingerprints
 	src.fingerprintshidden  = from.fingerprintshidden

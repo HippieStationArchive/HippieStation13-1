@@ -10,7 +10,7 @@
 	idle_power_usage = 5
 	var/on = FALSE	//Is it making cereal already?
 
-/obj/machinery/cerealmaker/attackby(obj/item/I, mob/user)
+/obj/machinery/cerealmaker/attackby(obj/item/I, mob/user, params)
 	if(on)
 		user << "<span class='notice'>[src] is already processing, please wait.</span>"
 		return

@@ -46,6 +46,8 @@
 	var/hasShocked = 0 //Prevents multiple shocks from happening
 	var/autoclose = 1
 
+	explosion_block = 1
+
 /obj/machinery/door/airlock/command
 	icon = 'icons/obj/doors/Doorcom.dmi'
 	doortype = /obj/structure/door_assembly/door_assembly_com
@@ -248,6 +250,13 @@
 	var/mineral = "bananium"
 	doortype = /obj/structure/door_assembly/door_assembly_clown
 
+/obj/machinery/door/airlock/mime
+	name = "mimesteinium airlock"
+	desc = "..."
+	icon = 'icons/obj/doors/Doorsilver.dmi'
+	var/mineral = "mimesteinium"
+	doortype = null
+
 /obj/machinery/door/airlock/sandstone
 	name = "sandstone airlock"
 	icon = 'icons/obj/doors/Doorsand.dmi'
@@ -269,11 +278,13 @@
 	name = "high tech security airlock"
 	icon = 'icons/obj/doors/hightechsecurity.dmi'
 	doortype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
 
 /obj/machinery/door/airlock/shuttle
 	name = "shuttle airlock"
 	icon = 'icons/obj/doors/doorshuttle.dmi'
 	doortype = /obj/structure/door_assembly/door_assembly_shuttle
+	explosion_block = 2
 
 /obj/machinery/door/airlock/wood
 	name = "wooden airlock"
@@ -1003,6 +1014,8 @@ About the new airlock wires panel:
 			playsound(src.loc, 'sound/machines/windowdoor.ogg', 100, 1)
 		if(istype(src, /obj/machinery/door/airlock/clown))
 			playsound(src.loc, 'sound/items/bikehorn.ogg', 30, 1)
+		if(istype(src, /obj/machinery/door/airlock/mime))
+			playsound(src.loc, null)
 		else
 			playsound(src.loc, 'sound/machines/airlock.ogg', 30, 1)
 		if(src.closeOther != null && istype(src.closeOther, /obj/machinery/door/airlock/) && !src.closeOther.density)
@@ -1041,6 +1054,8 @@ About the new airlock wires panel:
 			playsound(src.loc, 'sound/machines/windowdoor.ogg', 30, 1)
 		if(istype(src, /obj/machinery/door/airlock/clown))
 			playsound(src.loc, 'sound/items/bikehorn.ogg', 30, 1)
+		if(istype(src, /obj/machinery/door/airlock/mime))
+			playsound(src.loc, null)
 		else
 			playsound(src.loc, 'sound/machines/airlock.ogg', 30, 1)
 	else

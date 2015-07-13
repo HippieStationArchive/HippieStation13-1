@@ -92,6 +92,17 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 		for(var/turf/T in trange(max_range, epicenter))
 
 			var/dist = cheap_pythag(T.x - x0,T.y - y0)
+			if(config.reactionary_explosions)
+				var/turf/Trajectory = T
+				while(Trajectory != epicenter)
+					Trajectory = get_step_towards(Trajectory, epicenter)
+					if(Trajectory.density && Trajectory.explosion_block)
+						dist += Trajectory.explosion_block
+
+					for(var/obj/machinery/door/D in Trajectory)
+						if(D.density && D.explosion_block)
+							dist += D.explosion_block
+
 			var/flame_dist = 0
 			var/throw_dist = dist
 
@@ -111,24 +122,24 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 				if(dist > 0)
 					T.ex_act(dist)
 
+			if(!ignorecap)
 			//--- THROW ITEMS AND PEOPLE AROUND ---
-
-			var/throw_dir = get_dir(epicenter,T)
-			for(var/atom/A in T)
-				spawn(0) //Simultaneously not one at a time
-					if(istype(A, /obj/item))
-						var/obj/item/I = A
-						if(!I.anchored)
-							var/throw_range = rand(throw_dist, max_range)
-							var/turf/throw_at = get_ranged_target_turf(I, throw_dir, throw_range)
-							I.throw_at(throw_at, throw_range,1)
-					if(istype(A, /mob/living))
-						var/mob/living/C = A
-						if(!C.anchored) //Not sure but you may or may not be thrown around even when buckled.
-							var/throw_range = rand(throw_dist, max_range)
-							var/turf/throw_at = get_ranged_target_turf(C, throw_dir, throw_range)
-							C.throw_at(throw_at, throw_range,1)
-							C << "\red The explosions force throws you back!"
+				var/throw_dir = get_dir(epicenter,T)
+				for(var/atom/A in T)
+					spawn(0) //Simultaneously not one at a time
+						if(istype(A, /obj/item))
+							var/obj/item/I = A
+							if(!I.anchored)
+								var/throw_range = rand(throw_dist, max_range)
+								var/turf/throw_at = get_ranged_target_turf(I, throw_dir, throw_range)
+								I.throw_at(throw_at, throw_range,1)
+						if(istype(A, /mob/living))
+							var/mob/living/C = A
+							if(!C.anchored) //Not sure but you may or may not be thrown around even when buckled.
+								var/throw_range = rand(throw_dist, max_range)
+								var/turf/throw_at = get_ranged_target_turf(C, throw_dir, throw_range)
+								C.throw_at(throw_at, throw_range,1)
+								C << "\red The explosions force throws you back!"
 
 		var/took = (world.timeofday-start)/10
 		//You need to press the DebugGame verb to see these now....they were getting annoying and we've collected a fair bit of data. Just -test- changes  to explosion code using this please so we can compare
@@ -149,8 +160,74 @@ proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impa
 
 	return 1
 
-
-
-proc/secondaryexplosion(turf/epicenter, range)
+/proc/secondaryexplosion(turf/epicenter, range)
 	for(var/turf/tile in trange(range, epicenter))
 		tile.ex_act(2)
+
+/client/proc/check_bomb_impacts()
+	set name = "Check Bomb Impact"
+	set category = "Debug"
+
+	var/newmode = alert("Use reactionary explosions?","Check Bomb Impact", "Yes", "No")
+
+	var/turf/epicenter = get_turf(src.mob)
+	var/dev = 0
+	var/heavy = 0
+	var/light = 0
+	var/list/choices = list("Small Bomb","Medium Bomb","Big Bomb","Custom Bomb")
+	var/choice = input("Bomb Size?") in choices
+	switch(choice)
+		if(null)
+			return 0
+		if("Small Bomb")
+			dev = 1
+			heavy = 2
+			light = 3
+		if("Medium Bomb")
+			dev = 2
+			heavy = 3
+			light = 4
+		if("Big Bomb")
+			dev = 3
+			heavy = 5
+			light = 7
+		if("Custom Bomb")
+			dev = input("Devestation range (Tiles):") as num
+			heavy = input("Heavy impact range (Tiles):") as num
+			light = input("Light impact range (Tiles):") as num
+
+	var/max_range = max(dev, heavy, light)
+	var/x0 = epicenter.x
+	var/y0 = epicenter.y
+	var/list/wipe_colours = list()
+	for(var/turf/T in trange(max_range, epicenter))
+		wipe_colours += T
+		var/dist = cheap_pythag(T.x - x0, T.y - y0)
+
+		if(newmode == "Yes")
+			var/turf/TT = T
+			while(TT != epicenter)
+				TT = get_step_towards(TT,epicenter)
+				if(TT.density && TT.explosion_block)
+					dist += TT.explosion_block
+
+				for(var/obj/machinery/door/D in TT)
+					if(D.density && D.explosion_block)
+						dist += D.explosion_block
+
+		if(dist < dev)
+			T.color = "red"
+			T.maptext = "Dev"
+		else if (dist < heavy)
+			T.color = "yellow"
+			T.maptext = "Heavy"
+		else if (dist < light)
+			T.color = "blue"
+			T.maptext = "Light"
+		else
+			continue
+
+	sleep(100)
+	for(var/turf/T in wipe_colours)
+		T.color = null
+		T.maptext = ""

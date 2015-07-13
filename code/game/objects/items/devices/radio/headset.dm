@@ -195,12 +195,12 @@
 
 /obj/item/device/radio/headset/ai
 	name = "\proper Integrated Subspace Transceiver "
-	keyslot = new /obj/item/device/encryptionkey/ai
+	keyslot2 = new /obj/item/device/encryptionkey/ai
 
 /obj/item/device/radio/headset/ai/receive_range(freq, level)
 	return ..(freq, level, 1)
 
-/obj/item/device/radio/headset/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/device/radio/headset/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 //	..()
 	user.set_machine(src)
 	if (!( istype(W, /obj/item/weapon/screwdriver) || (istype(W, /obj/item/device/encryptionkey/ ))))

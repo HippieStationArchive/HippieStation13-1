@@ -16,6 +16,8 @@
 	var/sheet_type = /obj/item/stack/sheet/metal
 	var/obj/item/stack/sheet/builtin_sheet = null
 
+	explosion_block = 1
+
 /turf/simulated/wall/New()
 	..()
 	builtin_sheet = new sheet_type
@@ -131,7 +133,7 @@
 	return
 
 
-/turf/simulated/wall/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/turf/simulated/wall/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	user.changeNext_move(CLICK_CD_MELEE)
 	if (!user.IsAdvancedToolUser())
 		user << "<span class='warning'>You don't have the dexterity to do this!</span>"
@@ -269,11 +271,11 @@
 		F.burn_tile()
 		F.icon_state = "wall_thermite"
 		F.add_hiddenprint(user)
-		spawn(max(100,300-thermite))
+		spawn(max(50,150-thermite))
 			if(O)	qdel(O)
 	else
 		thermite = 0
-		spawn(50)
+		spawn(25)
 			if(O)	qdel(O)
 	return
 

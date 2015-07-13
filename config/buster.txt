@@ -1,0 +1,7 @@
+###############################################################################################
+# VPS/Proxy IPs go here. Only for those. This isn't for banning                               #
+#                                                                                             #
+# One line per IP.                                                                            #
+# In-game will alert admins when they connect for the first time in the round                 #
+# Reports to end round logs for a condensed view.		                              #
+###############################################################################################

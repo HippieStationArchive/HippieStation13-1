@@ -127,7 +127,7 @@
 	var/obj/item/stack/rods/newrods = new(loc)
 	transfer_fingerprints_to(newrods)
 
-/obj/structure/grille/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/structure/grille/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	user.changeNext_move(CLICK_CD_MELEE)
 	add_fingerprint(user)
 	if(istype(W, /obj/item/weapon/wirecutters))
@@ -243,7 +243,6 @@
 
 /obj/structure/grille/hitby(AM as mob|obj)
 	..()
-	visible_message("<span class='danger'>[src] was hit by [AM].</span>")
 	var/tforce = 0
 	if(ismob(AM))
 		tforce = 5

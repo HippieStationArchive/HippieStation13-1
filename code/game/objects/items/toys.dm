@@ -203,7 +203,7 @@
 	if (bullets)
 		user << "<span class='notice'>It is loaded with [bullets] foam dart\s.</span>"
 
-/obj/item/toy/crossbow/attackby(obj/item/I as obj, mob/user as mob)
+/obj/item/toy/crossbow/attackby(obj/item/I as obj, mob/user as mob, params)
 	if(istype(I, /obj/item/toy/ammo/crossbow))
 		if(bullets <= 4)
 			user.drop_item()
@@ -709,10 +709,11 @@ obj/item/toy/cards/deck/attackby(obj/item/toy/cards/cardhand/C, mob/living/user)
 		return
 	if(Adjacent(usr))
 		if(over_object == M && loc != M)
+			M.remove_from_mob(src)//little bit hacky but it works so
 			M.put_in_hands(src)
 			usr << "<span class='notice'>You pick up the deck.</span>"
-
 		else if(istype(over_object, /obj/screen))
+			M.remove_from_mob(src)
 			switch(over_object.name)
 				if("l_hand")
 					M.put_in_l_hand(src)

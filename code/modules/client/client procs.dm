@@ -1,7 +1,6 @@
 	////////////
 	//SECURITY//
 	////////////
-#define TOPIC_SPAM_DELAY	1		//2 ticks is about 2/10ths of a second; it was 4 ticks, but that caused too many clicks to be lost due to lag (this doesn't use ticks scrub open-source coder)
 #define UPLOAD_LIMIT		2097152	//Restricts client uploads to the server to 1MB //Could probably do with being lower.
 #define MIN_CLIENT_VERSION	0		//Just an ambiguously low version for now, I don't want to suddenly stop people playing.
 									//I would just like the code ready should it ever need to be used.
@@ -23,11 +22,6 @@
 /client/Topic(href, href_list, hsrc)
 	if(!usr || usr != mob)	//stops us calling Topic for somebody else's client. Also helps prevent usr=null
 		return
-
-	//Reduces spamming of links by dropping calls that happen during the delay period
-	if(next_allowed_topic_time > world.time)
-		return
-	next_allowed_topic_time = world.time + TOPIC_SPAM_DELAY
 
 	//Admin PM
 	if(href_list["priv_msg"])
@@ -196,8 +190,10 @@ var/next_external_rsc = 0
 
 	while (query.NextRow())
 		player_age = text2num(query.item[2])
-		break
-
+		return
+	// player not found.
+	player_age = 0
+	message_admins("[key_name_admin(src)] is connecting here for the first time.")
 
 /client/proc/sync_client_with_db()
 	if (IsGuestKey(src.key))
@@ -267,6 +263,14 @@ var/next_external_rsc = 0
 
 //send resources to the client. It's here in its own proc so we can move it around easiliy if need be
 /client/proc/send_resources()
+
+	spawn
+		// Preload the HTML interface. This needs to be done due to BYOND bug http://www.byond.com/forum/?post=1487244
+		var/datum/html_interface/hi
+		for (var/type in typesof(/datum/html_interface))
+			hi = new type(null)
+			hi.sendResources(src)
+
 	getFiles(
 		'nano/js/libraries.min.js',
 		'nano/js/nano_update.js',

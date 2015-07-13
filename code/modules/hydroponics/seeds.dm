@@ -27,7 +27,7 @@
 	pixel_x = rand(-8, 8)
 	pixel_y = rand(-8, 8)
 
-/obj/item/seeds/attackby(var/obj/item/O as obj, var/mob/user as mob)
+/obj/item/seeds/attackby(var/obj/item/O as obj, var/mob/user as mob, params)
 	if (istype(O, /obj/item/device/analyzer/plant_analyzer))
 		user << "*** <B>[plantname]</B> ***"
 		user << "-Plant Endurance: <span class='notice'> [endurance]</span>"
@@ -82,7 +82,7 @@
 	var/blood_type = null
 	var/factions = null
 
-/obj/item/seeds/replicapod/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/seeds/replicapod/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(istype(W,/obj/item/weapon/reagent_containers/syringe))
 		if(ckey == null)
 			for(var/datum/reagent/blood/bloodSample in W.reagents.reagent_list)

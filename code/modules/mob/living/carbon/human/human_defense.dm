@@ -86,6 +86,7 @@ emp_act
 		if(istype(AM, /obj/item) && AM.loc != src)
 			var/obj/item/I = AM
 			if(prob(max(0, I.embedchance - (armor/3))))
+				throw_alert("embeddedobject")
 				I.add_blood(src)
 				I.loc = src
 				O.embedded += I //Lodge the object into the limb
@@ -94,7 +95,6 @@ emp_act
 								"<span class='userdanger'>You feel [I] lodge into your [O.getDisplayName()]!</span>")
 				if(prob(15)) emote("scream")
 				adjustBloodLoss(0.01, O) //Give the dude some bloodloss.
-				// adjustBruteLoss(I.w_class * 3) //Throwforce is already dealt, let's adjust brute loss when attempting to take it out without surgery
 
 /mob/living/carbon/human/proc/check_reflect(var/def_zone) //Reflection checks for anything in your l_hand, r_hand, or wear_suit based on reflect_chance var of the object
 	if(wear_suit && istype(wear_suit, /obj/item/))

@@ -103,7 +103,6 @@
 
 /obj/structure/alien/resin/hitby(atom/movable/AM)
 	..()
-	visible_message("<span class='danger'>[src] was hit by [AM].</span>")
 	var/tforce = 0
 	if(!isobj(AM))
 		tforce = 10
@@ -221,7 +220,7 @@
 	qdel(src)
 
 
-/obj/structure/alien/weeds/attackby(obj/item/I, mob/user)
+/obj/structure/alien/weeds/attackby(obj/item/I, mob/user, params)
 	user.changeNext_move(CLICK_CD_MELEE)
 	if(I.attack_verb.len)
 		visible_message("<span class='danger'>[user] has [pick(I.attack_verb)] [src] with [I]!</span>")
@@ -377,7 +376,7 @@
 	healthcheck()
 
 
-/obj/structure/alien/egg/attackby(obj/item/I, mob/user)
+/obj/structure/alien/egg/attackby(obj/item/I, mob/user, params)
 	if(I.attack_verb.len)
 		visible_message("<span class='danger'>[user] has [pick(I.attack_verb)] [src] with [I]!</span>")
 	else

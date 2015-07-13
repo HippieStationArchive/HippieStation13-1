@@ -124,7 +124,7 @@
 		user << "[src] was bitten multiple times!"
 
 
-/obj/item/weapon/reagent_containers/food/snacks/attackby(obj/item/weapon/W, mob/user)
+/obj/item/weapon/reagent_containers/food/snacks/attackby(obj/item/weapon/W, mob/user, params)
 	if(istype(W,/obj/item/weapon/storage))
 		..() // -> item/attackby()
 		return 0
@@ -234,7 +234,7 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/sliceable/store
 
-/obj/item/weapon/reagent_containers/food/snacks/sliceable/store/attackby(obj/item/weapon/W, mob/user)
+/obj/item/weapon/reagent_containers/food/snacks/sliceable/store/attackby(obj/item/weapon/W, mob/user, params)
 	if(W.w_class <= 2)
 		if(contents.len)
 			return 0

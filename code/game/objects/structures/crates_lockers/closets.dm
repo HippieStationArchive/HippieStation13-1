@@ -158,7 +158,7 @@
 		qdel(src)
 
 
-/obj/structure/closet/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/structure/closet/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(src.opened)
 		if(istype(W, /obj/item/weapon/grab))
 			if(src.large)
@@ -330,7 +330,7 @@
 	else
 		user << "<span class='warning'>You fail to break out of [src]!</span>"
 		
-/obj/structure/closet/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/structure/closet/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(!opened)
 		if(istype(W, /obj/item/weapon/rcs))
 			var/obj/item/weapon/rcs/E = W

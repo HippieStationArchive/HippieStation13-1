@@ -87,7 +87,7 @@
 	popup.set_content(dat)
 	popup.open()
 
-/obj/machinery/icecream_vat/attackby(var/obj/item/O as obj, var/mob/user as mob)
+/obj/machinery/icecream_vat/attackby(var/obj/item/O as obj, var/mob/user as mob, params)
 	if(istype(O,/obj/item/weapon/wrench))
 		if(!anchored)
 			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)

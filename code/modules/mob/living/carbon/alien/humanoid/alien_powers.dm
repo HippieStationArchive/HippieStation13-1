@@ -170,6 +170,6 @@ Doesn't work on other aliens/AI.*/
 			if(A in stomach_contents)
 				stomach_contents.Remove(A)
 				A.loc = loc
-				//Paralyse(10)
+				A.update_pipe_vision()
 		src.visible_message("<span class='alertealien'>[src] hurls out the contents of their stomach!</span>")
 	return

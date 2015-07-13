@@ -12,6 +12,7 @@
 	if(findtext(act,"s",-1) && !findtext(act,"_",-2))//Removes ending s's unless they are prefixed with a '_'
 		act = copytext(act,1,length(act))
 
+	var/silent = is_muzzled()
 	var/muzzled = is_muzzled()
 	//var/m_type = 1
 
@@ -277,31 +278,36 @@
 			m_type = 1
 
 		if ("scream")
-			if (miming)
-				message = "<B>[src]</B> acts out a scream!"
-			else
-				var/DNA = src.dna.species.id
-				var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
-				switch(DNA)
-					if("IPC")
-						sound = "sound/voice/screamsilicon.ogg"
-					if("tarajan")
-						sound = "sound/misc/cat.ogg"
-					if("lizard")
-						sound = "sound/misc/lizard.ogg"
-					if("avian")
-						sound = "sound/misc/caw.ogg"
-					else
-						if(gender == FEMALE)
-							sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
-						if(isalien(src))
-							sound = pick('sound/voice/hiss6.ogg')
-
-				playsound(src.loc, sound, 50, 1, 10, 1.2)
-				message = "<B>[src]</B> screams!"
-				src.adjustOxyLoss(5)
+			if(silent) // Fixes the screaming while muffled issue. Thanks to Crystal for the fix.
+				message = "<B>[src]</B> makes a loud, muffled noise."
 				m_type = 2
-				delay = 15
+			else
+				if (miming)
+					message = "<B>[src]</B> acts out a scream!"
+				else
+					var/DNA = src.dna.species.id
+					var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
+					switch(DNA)
+						if("IPC")
+							sound = "sound/voice/screamsilicon.ogg"
+						if("tarajan")
+							sound = "sound/misc/cat.ogg"
+						if("lizard")
+							sound = "sound/misc/lizard.ogg"
+						if("avian")
+							sound = "sound/misc/caw.ogg"
+						else
+							if(gender == FEMALE)
+								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
+							if(isalien(src))
+								sound = pick('sound/voice/hiss6.ogg')
+
+					playsound(src.loc, sound, 50, 1, 4, 1.2)
+					message = "<B>[src]</B> screams!"
+					src.adjustOxyLoss(5)
+					m_type = 2
+					delay = 15
+
 
 	////////////////
 	// IPC EMOTES //
