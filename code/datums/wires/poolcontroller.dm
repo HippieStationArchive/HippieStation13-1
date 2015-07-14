@@ -3,7 +3,7 @@
 	holder_type = /obj/machinery/poolcontroller
 	wire_count = 4
 
-var/const/POOL_WIRE_BLINK = 1
+var/const/POOL_WIRE_DRAIN = 1
 var/const/POOL_WIRE_EMAG = 2
 var/const/POOL_WIRE_ELECTRIFY = 4
 
@@ -25,15 +25,15 @@ var/const/POOL_WIRE_ELECTRIFY = 4
 /datum/wires/poolcontroller/GetInteractWindow()
 	var/obj/machinery/poolcontroller/P = holder
 	. += ..()
-	. += "<BR>The orange light is [P.blinkwire ? "blinking" : "off"].<BR>"
+	. += "<BR>The orange light is [P.drainable ? "blinking" : "off"].<BR>"
 	. += "The blue light is [P.emagged ? "flashing" : "off"].<BR>"
 	. += "The red light is [P.seconds_electrified ? "on" : "off"].<BR>"
 
 /datum/wires/poolcontroller/UpdatePulsed(var/index)
 	var/obj/machinery/poolcontroller/P = holder
 	switch(index)
-		if(POOL_WIRE_BLINK)
-			P.blinkwire = 1
+		if(POOL_WIRE_DRAIN)
+			P.drainable = 0
 		if(POOL_WIRE_EMAG)
 			if(P.emagged)
 				P.emagged = 0
@@ -46,11 +46,11 @@ var/const/POOL_WIRE_ELECTRIFY = 4
 /datum/wires/poolcontroller/UpdateCut(var/index, var/mended)
 	var/obj/machinery/poolcontroller/P = holder
 	switch(index)
-		if(POOL_WIRE_BLINK)
+		if(POOL_WIRE_DRAIN)
 			if(mended)
-				P.blinkwire = 0
+				P.drainable = 0
 			else
-				P.blinkwire = 1
+				P.drainable = 1
 		if(POOL_WIRE_EMAG)
 			if(mended)
 				P.emagged = 0
