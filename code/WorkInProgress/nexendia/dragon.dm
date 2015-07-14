@@ -43,6 +43,12 @@
 	throwforce = 9
 	embedchance = 30 //Fuck Logic.. ~Nexendia
 
+/obj/item/dragon/dildo
+	name = "Dildo"
+	desc = "It's a Dildo..."
+	icon_state = "dildo1"
+
+
 /obj/structure/statue/dragon/shelf
 	name = "Dragon Dildo Shelf"
 	desc = "A shelf for all your fucking oversized Dildos.."

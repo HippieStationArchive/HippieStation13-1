@@ -993,23 +993,26 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 /datum/supply_packs/misc/tank
 	name = "Tiny Tank Crate"
 	contains = list(/obj/mecha/combat/tank/loaded)
-	cost = 750
+	cost = 20000
 	containertype = /obj/structure/closet/crate/secure
 	containername = "\improper Tiny Tank Crate"
+	hidden = 1
 
 /datum/supply_packs/misc/clowntank
 	name = "Clown Tank Crate"
 	contains = list(/obj/mecha/combat/tank/clowntank/loaded)
-	cost = 850
+	cost = 42500
 	containertype = /obj/structure/closet/crate/secure
 	containername = "\improper Clown Tank Crate"
+	hidden = 1
 
 /datum/supply_packs/misc/mimetank
 	name = "Mime Tank Crate"
 	contains = list(/obj/mecha/combat/tank/mimetank/loaded)
-	cost = 900 //It's nearly invisible thus most expensive..
+	cost = 55000 //It's nearly invisible thus most expensive..
 	containertype = /obj/structure/closet/crate/secure
 	containername = "\improper Mime Tank Crate"
+	hidden = 1
 
 
 ///////////// Paper Work
