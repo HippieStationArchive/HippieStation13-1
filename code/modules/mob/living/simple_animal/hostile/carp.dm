@@ -149,7 +149,7 @@
 	udder.my_atom = src
 	..()
 
-/mob/living/simple_animal/hostile/livingplush/attackby(var/obj/item/O as obj, var/mob/user as mob, params)
+/mob/living/simple_animal/hostile/livingplush/attackby(var/obj/item/O as obj, var/mob/user as mob)
 	if(stat == CONSCIOUS && istype(O, /obj/item/weapon/reagent_containers/glass))
 		user.visible_message("<span class='notice'>[user] gets some strange liquid from [src] using \the [O].</span>")
 		var/obj/item/weapon/reagent_containers/glass/G = O
@@ -166,6 +166,6 @@
 /mob/living/simple_animal/hostile/livingplush/Life()
 	. = ..()
 	if(stat == CONSCIOUS)
-		if(udder && prob(30))
+		if(udder && prob(10))
 			playsound(src, pick('sound/items/squeak1.ogg', 'sound/items/squeak2.ogg'), 40, 1)
 			udder.add_reagent("mushroomhallucinogen", rand(1, 2))
