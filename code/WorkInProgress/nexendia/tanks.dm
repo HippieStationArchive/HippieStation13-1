@@ -26,11 +26,9 @@
 	..()
 	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/tank
 	ME.attach(src)
-	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack
-	ME.attach(src)
 	return
 
-/obj/mecha/combat/tank/synditank/add_cell(var/obj/item/weapon/stock_parts/cell/C=null)
+/obj/mecha/combat/tank/add_cell(var/obj/item/weapon/stock_parts/cell/C=null)
 	if(C)
 		C.forceMove(src)
 		cell = C
