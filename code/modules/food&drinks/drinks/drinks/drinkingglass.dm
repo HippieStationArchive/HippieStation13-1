@@ -442,6 +442,10 @@
 				icon_state = "dr_gibb_glass"
 				name = "Glass of welder fuel"
 				desc = "Unless you are an industrial tool, this is probably not safe for consumption."
+			if("drbeedrink")
+				icon_state = "drbeedrink"
+				name = "Glass of Dr. Bee's special"
+				desc = "An absolutely BEErific drink!"
 			else
 				icon_state ="glass_brown"
 				name = "Glass of ..what?"

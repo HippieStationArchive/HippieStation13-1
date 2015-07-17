@@ -11,8 +11,12 @@
 	cooldown_min = 20 //20 deciseconds reduction per rank
 
 	action_icon_state = "knock"
+	var/cast_sound = null
 
 /obj/effect/proc_holder/spell/aoe_turf/knock/cast(list/targets)
+	if(cast_sound)
+		playsound(usr.loc, cast_sound, 50, 1)
+
 	for(var/turf/T in targets)
 		for(var/obj/machinery/door/door in T.contents)
 			spawn(1)

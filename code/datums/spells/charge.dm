@@ -10,9 +10,13 @@
 	range = -1
 	cooldown_min = 400 //50 deciseconds reduction per rank
 	include_user = 1
+	var/cast_sound = null
 
 
 /obj/effect/proc_holder/spell/targeted/charge/cast(list/targets)
+	if(cast_sound)
+		playsound(usr.loc, cast_sound, 50, 1)
+
 	for(var/mob/living/user in targets)
 		var/list/hand_items = list(user.get_active_hand(),user.get_inactive_hand())
 		var/charged_item = null

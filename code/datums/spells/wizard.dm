@@ -285,6 +285,33 @@
 	summon_type = "/obj/structure/closet/statue"
 	action_icon_state = "statue"
 
+/obj/effect/proc_holder/spell/aoe_turf/conjure/beesummon
+	name = "Summon Bees"
+	desc = "This spell summons SPACE BEES around the caster"
+	school = "conjuration"
+	charge_max = 600
+	clothes_req = 1
+	invocation = "RECILE UMO AMU"
+	invocation_type = "shout"
+	range = 2
+	cooldown_min = 200 //100 deciseconds reduction per rank
+	summon_amt = 5
+	summon_type = list("/mob/living/simple_animal/hostile/poison/bees")
+	cast_sound = ("sound/voice/beesummon.ogg")
+
+/obj/effect/proc_holder/spell/aoe_turf/conjure/randomsound/beesummon // For testing the random sound system for spells
+	name = "Beerandomsound"
+	desc = "This spell summons SPACE BEES around the caster"
+	school = "conjuration"
+	charge_max = 100
+	clothes_req = 1
+	invocation = "RECILE UMO AMU"
+	invocation_type = "shout"
+	range = 2
+	cooldown_min = 200 //100 deciseconds reduction per rank
+	summon_amt = 5
+	summon_type = list("/mob/living/simple_animal/hostile/poison/bees")
+
 /obj/effect/proc_holder/spell/dumbfire/fireball
 	name = "Fireball"
 	desc = "This spell fires a fireball at a target and does not require wizard garb."

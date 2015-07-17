@@ -5,6 +5,7 @@
 	var/disabilities = 0 //bits
 	var/list/mutations = list() //mutation strings
 	var/duration = 100 //deciseconds
+	var/cast_sound = null
 	/*
 		Disabilities
 			1st bit - ?
@@ -16,6 +17,8 @@
 	*/
 
 /obj/effect/proc_holder/spell/targeted/genetic/cast(list/targets)
+	if(cast_sound)
+		playsound(usr.loc, cast_sound, 50, 1)
 
 	for(var/mob/living/target in targets)
 		target.mutations.Add(mutations)
