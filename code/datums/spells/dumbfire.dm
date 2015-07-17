@@ -19,7 +19,6 @@
 
 	var/proj_lifespan = 100 //in deciseconds * proj_step_delay
 	var/proj_step_delay = 1 //lower = faster
-	var/cast_sound = null
 
 /obj/effect/proc_holder/spell/dumbfire/choose_targets(mob/user = usr)
 
@@ -32,7 +31,6 @@
 	perform(list(T))
 
 /obj/effect/proc_holder/spell/dumbfire/cast(list/targets, mob/user = usr)
-
 	if(cast_sound)
 		playsound(usr.loc, cast_sound, 50, 1)
 

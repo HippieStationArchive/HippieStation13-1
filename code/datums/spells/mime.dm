@@ -54,6 +54,8 @@
 	..()
 
 /obj/effect/proc_holder/spell/targeted/mime/speak/cast(list/targets)
+	if(cast_sound)
+		playsound(usr.loc, cast_sound, 50, 1)
 	for(var/mob/living/carbon/human/H in targets)
 		H.mind.miming=!H.mind.miming
 		if(H.mind.miming)

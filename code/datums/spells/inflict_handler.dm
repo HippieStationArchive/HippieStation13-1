@@ -19,7 +19,6 @@
 
 	var/summon_type = null //this will put an obj at the target's location
 
-	var/cast_sound = null
 
 /obj/effect/proc_holder/spell/targeted/inflict_handler/cast(list/targets)
 

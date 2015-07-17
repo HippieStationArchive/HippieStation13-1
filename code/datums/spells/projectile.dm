@@ -20,7 +20,6 @@
 
 	var/proj_lifespan = 15 //in deciseconds * proj_step_delay
 	var/proj_step_delay = 1 //lower = faster
-	var/cast_sound = null
 
 /obj/effect/proc_holder/spell/targeted/projectile/cast(list/targets, mob/user = usr)
 

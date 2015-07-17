@@ -8,8 +8,8 @@
 
 	var/include_space = 0 //whether it includes space tiles in possible teleport locations
 	var/include_dense = 0 //whether it includes dense tiles in possible teleport locations
-	var/cast_sound = null
 /obj/effect/proc_holder/spell/targeted/turf_teleport/cast(list/targets)
+
 	if(cast_sound)
 		playsound(usr.loc, cast_sound, 50, 1)
 

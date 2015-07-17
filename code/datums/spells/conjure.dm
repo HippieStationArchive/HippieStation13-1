@@ -13,17 +13,13 @@
 	var/list/newVars = list() //vars of the summoned objects will be replaced with those where they meet
 	//should have format of list("emagged" = 1,"name" = "Wizard's Justicebot"), for example
 
-	var/cast_sound = "sound/items/welder.ogg"
-
 /obj/effect/proc_holder/spell/aoe_turf/conjure/cast(list/targets)
+	if(cast_sound)
+		playsound(usr.loc, cast_sound, 50, 1)
 
 	for(var/turf/T in targets)
 		if(T.density && !summon_ignore_density)
 			targets -= T
-
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
-		//playsound(usr.loc, cast_sound, 100, 0, 4)
 
 	for(var/i=0,i<summon_amt,i++)
 		if(!targets.len)
@@ -53,9 +49,7 @@
 
 	return
 
-// The following area is commented out for it's not finished.
-
-/obj/effect/proc_holder/spell/aoe_turf/conjure/randomsound
+/obj/effect/proc_holder/spell/aoe_turf/conjure/randomsound // Leaving this in for Lawli to test later
 	name = "ConjureSound"
 	desc = "This spell conjures objs of the specified types in range, also plays a random sound"
 

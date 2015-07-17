@@ -19,6 +19,8 @@
 	..()
 
 /obj/effect/proc_holder/spell/targeted/trigger/cast(list/targets)
+	if(cast_sound)
+		playsound(usr.loc, cast_sound, 50, 1)
 	for(var/mob/living/target in targets)
 		for(var/obj/effect/proc_holder/spell/spell in contents)
 			spell.perform(list(target),0)

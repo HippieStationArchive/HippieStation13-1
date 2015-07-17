@@ -297,7 +297,7 @@
 	cooldown_min = 200 //100 deciseconds reduction per rank
 	summon_amt = 5
 	summon_type = list("/mob/living/simple_animal/hostile/poison/bees")
-	cast_sound = ("sound/voice/beesummon.ogg")
+	cast_sound = ("sound/magic/beesummon.ogg")
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/randomsound/beesummon // For testing the random sound system for spells
 	name = "Beerandomsound"

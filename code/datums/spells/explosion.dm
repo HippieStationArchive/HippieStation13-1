@@ -6,7 +6,6 @@
 	var/ex_heavy = 2
 	var/ex_light = 3
 	var/ex_flash = 4
-	var/cast_sound = null
 
 	action_icon_state = "emp"
 

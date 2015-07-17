@@ -10,7 +10,6 @@
 	range = -1
 	cooldown_min = 400 //50 deciseconds reduction per rank
 	include_user = 1
-	var/cast_sound = null
 
 
 /obj/effect/proc_holder/spell/targeted/charge/cast(list/targets)

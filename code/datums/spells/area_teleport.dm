@@ -5,7 +5,6 @@
 
 	var/randomise_selection = 0 //if it lets the usr choose the teleport loc or picks it from the list
 	var/invocation_area = 1 //if the invocation appends the selected area
-	var/cast_sound = null
 
 /obj/effect/proc_holder/spell/targeted/area_teleport/perform(list/targets, recharge = 1)
 	var/thearea = before_cast(targets)
@@ -32,7 +31,6 @@
 	return thearea
 
 /obj/effect/proc_holder/spell/targeted/area_teleport/cast(list/targets,area/thearea)
-
 	if(cast_sound)
 		playsound(usr.loc, cast_sound, 50, 1)
 
