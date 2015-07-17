@@ -17,9 +17,6 @@
 
 /obj/effect/proc_holder/spell/targeted/genetic/cast(list/targets)
 
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
-
 	for(var/mob/living/target in targets)
 		target.mutations.Add(mutations)
 		target.disabilities |= disabilities

@@ -22,10 +22,6 @@
 	var/proj_step_delay = 1 //lower = faster
 
 /obj/effect/proc_holder/spell/targeted/projectile/cast(list/targets, mob/user = usr)
-
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
-
 	for(var/mob/living/target in targets)
 		spawn(0)
 			var/obj/effect/proc_holder/spell/targeted/projectile

@@ -133,6 +133,8 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 				user.whisper(replacetext(invocation," ","`"))
 		if("emote")
 			user.visible_message(invocation, invocation_emote_self) //same style as in mob/living/emote.dm
+	if(cast_sound)
+		playsound(get_turf(user), cast_sound, 50, 1)
 
 /obj/effect/proc_holder/spell/New()
 	..()

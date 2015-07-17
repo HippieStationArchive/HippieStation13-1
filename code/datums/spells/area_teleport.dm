@@ -31,8 +31,6 @@
 	return thearea
 
 /obj/effect/proc_holder/spell/targeted/area_teleport/cast(list/targets,area/thearea)
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
 
 	for(var/mob/living/target in targets)
 		var/list/L = list()

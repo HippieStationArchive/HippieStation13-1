@@ -31,9 +31,6 @@
 	perform(list(T))
 
 /obj/effect/proc_holder/spell/dumbfire/cast(list/targets, mob/user = usr)
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
-
 	for(var/turf/target in targets)
 		spawn(0)
 			var/obj/effect/proc_holder/spell/targeted/projectile

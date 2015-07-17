@@ -434,4 +434,10 @@ datum/reagent/consumable/cherryjelly
 	description = "Totally the best. Only to be spread on foods with excellent lateral symmetry."
 	color = "#801E28" // rgb: 128, 30, 40
 
+datum/reagent/consumable/honey
+	name = "Honey"
+	id = "honey"
+	description = "Some gooey honey, nothing really special about this"
+	color = "##a98307" // rgb: 169, 131, 7
+
 

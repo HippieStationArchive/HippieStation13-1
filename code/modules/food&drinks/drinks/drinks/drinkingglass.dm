@@ -445,7 +445,7 @@
 			if("drbeedrink")
 				icon_state = "drbeedrink"
 				name = "Glass of Dr. Bee's special"
-				desc = "An absolutely BEErific drink!"
+				desc = "You know what this drink needs? More BEEES!"
 			else
 				icon_state ="glass_brown"
 				name = "Glass of ..what?"

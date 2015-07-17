@@ -11,9 +11,6 @@
 
 /obj/effect/proc_holder/spell/targeted/explosion/cast(list/targets)
 
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
-
 	for(var/mob/living/target in targets)
 		explosion(target.loc,ex_severe,ex_heavy,ex_light,ex_flash)
 

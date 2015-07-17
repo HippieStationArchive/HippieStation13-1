@@ -14,9 +14,6 @@
 	//should have format of list("emagged" = 1,"name" = "Wizard's Justicebot"), for example
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/cast(list/targets)
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
-
 	for(var/turf/T in targets)
 		if(T.density && !summon_ignore_density)
 			targets -= T

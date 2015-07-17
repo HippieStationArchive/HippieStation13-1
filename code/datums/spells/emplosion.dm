@@ -7,9 +7,6 @@
 
 /obj/effect/proc_holder/spell/targeted/emplosion/cast(list/targets)
 
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
-
 	for(var/mob/living/target in targets)
 		empulse(target.loc, emp_heavy, emp_light)
 

@@ -19,8 +19,6 @@ Make sure spells that are removed from spell_list are actually removed and delet
 Also, you never added distance checking after target is selected. I've went ahead and did that.
 */
 /obj/effect/proc_holder/spell/targeted/mind_transfer/cast(list/targets,mob/user = usr, distanceoverride)
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
 	if(!targets.len)
 		user << "No mind found."
 		return

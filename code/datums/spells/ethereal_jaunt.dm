@@ -16,9 +16,6 @@
 
 /obj/effect/proc_holder/spell/targeted/ethereal_jaunt/cast(list/targets) //magnets, so mostly hardcoded
 
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
-
 	for(var/mob/living/target in targets)
 		target.notransform = 1 //protects the mob from being transformed (replaced) midjaunt and getting stuck in bluespace
 		spawn(0)

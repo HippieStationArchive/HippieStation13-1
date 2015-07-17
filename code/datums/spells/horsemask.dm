@@ -16,9 +16,6 @@
 
 /obj/effect/proc_holder/spell/targeted/horsemask/cast(list/targets, mob/user = usr)
 
-	if(cast_sound)
-		playsound(usr.loc, cast_sound, 50, 1)
-
 	if(!targets.len)
 		user << "<span class='notice'>No target found in range.</span>"
 		return
