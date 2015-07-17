@@ -2,7 +2,7 @@
 	name = "Spawn Revenant"
 	typepath = /datum/round_event/revenant
 	max_occurrences = 3
-	earliest_start = 0 //Meant to mix things up early-game.
+	earliest_start = 27000 //The earliest point this can actually start is about 45 minutes into the round.
 
 
 
