@@ -1479,6 +1479,7 @@
 #include "code\WorkInProgress\scooter\THELONGGAME\day1.dm"
 #include "code\WorkInProgress\scooter\THELONGGAME\day3.dm"
 #include "code\WorkInProgress\scooter\THELONGGAME\day4.dm"
+#include "code\WorkInProgress\TDscrap\Bees.dm"
 #include "interface\interface.dm"
 #include "interface\stylesheet.dm"
 #include "interface\skin.dmf"
