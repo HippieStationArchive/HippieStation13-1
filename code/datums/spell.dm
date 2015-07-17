@@ -212,7 +212,7 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 				smoke.start()
 
 
-/obj/effect/proc_holder/spell/proc/cast(list/targets) // Wont work in other magic anyhow
+/obj/effect/proc_holder/spell/proc/cast(list/targets)
 	return
 
 /obj/effect/proc_holder/spell/proc/critfail(list/targets)
