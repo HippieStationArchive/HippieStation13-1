@@ -607,6 +607,9 @@ var/global/list/g_fancy_list_of_types = null
 		"the griffin",
 		"timeline eradication agent",
 		"the space owl",
+		"new-russian soldier",
+		"syndie space operative melee",
+		"syndie space operative ranged",
 		)
 	var/dresscode = input("Select dress for [M]", "Robust quick dress shop") as null|anything in dresspacks
 	if (isnull(dresscode))
@@ -764,6 +767,37 @@ var/global/list/g_fancy_list_of_types = null
 
 			var/obj/item/weapon/twohanded/fireaxe/fire_axe = new(M)
 			M.equip_to_slot_or_del(fire_axe, slot_r_hand)
+
+		if("syndie space operative melee")
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/syndicate(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/syndicate(M), slot_wear_mask)
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/hardsuit/syndi(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/syndicate/alt(M), slot_ears)
+			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/thermal(M), slot_glasses)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/space/hardsuit/syndi(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/weapon/melee/energy/sword(M), slot_l_store)
+			M.equip_to_slot_or_del(new /obj/item/weapon/shield/energy(M), slot_r_store)
+			M.equip_to_slot_or_del(new /obj/item/weapon/tank/emergency_oxygen/double(M), slot_belt)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/card/id/syndicate(M), slot_wear_id)
+
+		if("syndie space operative ranged")
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/syndicate(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/syndicate(M), slot_wear_mask)
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/hardsuit/syndi(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/syndicate/alt(M), slot_ears)
+			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/thermal(M), slot_glasses)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/space/hardsuit/syndi(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/weapon/melee/energy/sword(M), slot_l_store)
+			M.equip_to_slot_or_del(new /obj/item/weapon/card/emag(M), slot_r_store)
+			M.equip_to_slot_or_del(new /obj/item/weapon/tank/emergency_oxygen/double(M), slot_belt)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/automatic/c20r(M), slot_r_hand)
+			M.equip_to_slot_or_del(new /obj/item/weapon/card/id/syndicate(M), slot_wear_id)
 
 		if("masked killer")
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/overalls(M), slot_w_uniform)
@@ -952,14 +986,14 @@ var/global/list/g_fancy_list_of_types = null
 			W.update_label()
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
-		if("new-russia soldier")
+		if("new-russian soldier")
 			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/soviethelmet(M), slot_head)
-			M.equip_to_slot_or_del(new /obj/item/clothing/mask/balaclava/green(M), slot_wear_mask)
+			M.equip_to_slot_or_del(new /obj/item/clothing/mask/gas(M), slot_wear_mask)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/combat/camo(M), slot_shoes)
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/combat(M), slot_gloves)
 			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/(M), slot_ears)
 			M.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/defender(M), slot_wear_suit)
-			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/mountainbag(M), slot_back)
 			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/automatic/ak922(M), slot_r_hand)
 			M.equip_to_slot_or_del(new /obj/item/weapon/melee/combatknife(M), slot_belt)
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/soviet/gorka(M), slot_w_uniform)

@@ -1,13 +1,28 @@
 /obj/item/clothing/mask/gas
 	name = "gas mask"
-	desc = "A face-covering mask that can be connected to an air supply. While good for concealing your identity, it isn't good for blocking gas flow." //More accurate
+	desc = "A face-covering mask that can be connected to an air supply. While good for concealing your identity, it isn't good for blocking gas flow. These particular models have a cosmetic-changing feature." //More accurate
 	icon_state = "gas_alt"
 	flags = MASKCOVERSMOUTH | MASKCOVERSEYES | BLOCK_GAS_SMOKE_EFFECT | MASKINTERNALS
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE
 	w_class = 3.0
-	item_state = "gas_alt"
+	item_state = "gas_altold"
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.01
+
+/obj/item/clothing/mask/gas/attack_self(mob/user)
+
+	var/mob/M = usr
+	var/list/options = list()
+	options["New-Russian Gas Mask"] = "gas_altold"		//Old gas mask.
+	options["NT RV2 Gas Mask"] = "gas_mask"		//Ye Olde Goon gas mask(?).
+	options["NT Standard Gas Mask"] = "gas_alt"		//Current gas mask.
+
+	var/choice = input(M,"To what form do you wish to morph this gas mask??","Morph Mask") in options
+
+	if(src && choice && !M.stat && in_range(M,src))
+		icon_state = options[choice]
+		M << "Your gas mask has now morphed into the [choice]!"
+		return 1
 
 // **** Welding gas mask ****
 
