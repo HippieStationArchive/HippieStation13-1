@@ -178,7 +178,7 @@
 //In this file: Summon Magic/Summon Guns/Summon Events
 
 /proc/rightandwrong(var/summon_type, var/mob/user, var/survivor_probability) //0 = Summon Guns, 1 = Summon Magic
-	var/list/gunslist 			= list("taser","egun","laser","revolver","detective","c20r","nuclear","deagle","gyrojet","pulse","suppressed","cannon","doublebarrel","shotgun","combatshotgun","bulldog","mateba","sabr","saw")
+	var/list/gunslist 			= list("taser","egun","laser","revolver","detective","c20r","nuclear","deagle","gyrojet","pulse","suppressed","cannon","doublebarrel","shotgun","combatshotgun","bulldog","mateba","sabr","saw","abzats","ak922","glock17")
 	var/list/magiclist 			= list("fireball","smoke","blind","mindswap","forcewall","knock","horsemask","charge", "summonitem", "wandnothing", "wanddeath", "wandresurrection", "wandpolymorph", "wandteleport", "wanddoor", "wandfireball", "staffchange", "staffhealing", "armor", "scrying", "necromantic","staffdoor", "special")
 	var/list/magicspeciallist	= list("staffchange","staffanimation", "wandbelt", "contract", "staffchaos")
 
@@ -248,7 +248,7 @@
 					new /obj/item/weapon/gun/projectile/automatic/l6_saw(get_turf(H))
 				if("abzats")
 					new /obj/item/weapon/gun/projectile/automatic/abzats(get_turf(H))
-				if("ak-922")
+				if("ak922")
 					new /obj/item/weapon/gun/projectile/automatic/ak922(get_turf(H))
 				if("glock17")
 					new /obj/item/weapon/gun/projectile/automatic/pistol/g17(get_turf(H))

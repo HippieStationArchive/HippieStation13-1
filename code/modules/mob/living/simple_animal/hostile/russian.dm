@@ -55,3 +55,29 @@
 		new weapon1 (src.loc)
 	qdel(src)
 	return
+
+/mob/living/simple_animal/hostile/russian/ranged/spetsnaz
+	name = "Russian Spetsnaz"
+	icon_state = "spetsnaz"
+	icon_living = "spetsnaz"
+	corpse = /obj/effect/landmark/mobcorpse/russian/ranged/spetsnaz
+	weapon1 = /obj/item/weapon/gun/projectile/automatic/ak922
+	ranged = 1
+	rapid = 1
+	retreat_distance = 5
+	minimum_distance = 5
+	maxHealth = 150		//They got some serious armor on
+	health = 150
+	projectiletype = /obj/item/projectile/bullet/heavybullet
+	projectilesound = 'sound/weapons/handcannon.ogg'
+	casingtype = /obj/item/ammo_casing/a762x39{empty = 1} //Spawns it as empty
+
+
+/mob/living/simple_animal/hostile/russian/Die()
+	..()
+	if(corpse)
+		new corpse (src.loc)
+	if(weapon1)
+		new weapon1 (src.loc)
+	qdel(src)
+	return
