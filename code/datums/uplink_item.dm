@@ -523,11 +523,13 @@ var/list/uplink_items = list()
 /datum/uplink_item/device_tools
 	category = "Devices and Tools"
 
+/* //No emags till Dildos are added in again!  ~Nexendia
 /datum/uplink_item/device_tools/emag
 	name = "Cryptographic Sequencer"
 	desc = "The emag is a small card that unlocks hidden functions in electronic devices, subverts intended functions and characteristically breaks security mechanisms."
 	item = /obj/item/weapon/card/emag
 	cost = 6
+*/
 
 /datum/uplink_item/device_tools/toolbox
 	name = "Full Syndicate Toolbox"
