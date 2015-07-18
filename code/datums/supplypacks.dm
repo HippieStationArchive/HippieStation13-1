@@ -771,6 +771,12 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	containername = "butterflies crate"
 	contraband = 1
 
+/datum/supply_packs/organic/pug
+	name = "Domesticated Bees Crate"
+	cost = 30
+	containertype = /obj/structure/closet/critter/bees
+	containername = "domesticated bee crate"
+
 ////// hippy gear
 
 /datum/supply_packs/organic/hydroponics // -- Skie

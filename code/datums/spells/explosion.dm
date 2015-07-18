@@ -14,4 +14,5 @@
 	for(var/mob/living/target in targets)
 		explosion(target.loc,ex_severe,ex_heavy,ex_light,ex_flash)
 
+
 	return
