@@ -438,6 +438,6 @@ datum/reagent/consumable/honey
 	name = "Honey"
 	id = "honey"
 	description = "Some gooey honey, nothing really special about this"
-	color = "##a98307" // rgb: 169, 131, 7
+	color = "#a98307" // rgb: 169, 131, 7
 
 
