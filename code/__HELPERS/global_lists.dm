@@ -2,7 +2,7 @@
 /////Initial Building/////
 //////////////////////////
 var/global/list/rewardlist[0]
-var/global/list/datum/species/rewardlistbase = list(/datum/species/human, /datum/species/lizard,/datum/species/cat, /datum/species/bird, /datum/species/bot)
+var/global/list/datum/species/rewardlistbase = list(/datum/species/human, /datum/species/lizard,/datum/species/cat, /datum/species/bird, /datum/species/bot,  /datum/species/jelly)
 /proc/make_datum_references_lists()
 	//hair
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/hair, hair_styles_list, hair_styles_male_list, hair_styles_female_list)
