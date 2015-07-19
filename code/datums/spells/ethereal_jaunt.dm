@@ -15,6 +15,7 @@
 	var/jaunt_duration = 50 //in deciseconds
 
 /obj/effect/proc_holder/spell/targeted/ethereal_jaunt/cast(list/targets) //magnets, so mostly hardcoded
+
 	for(var/mob/living/target in targets)
 		target.notransform = 1 //protects the mob from being transformed (replaced) midjaunt and getting stuck in bluespace
 		spawn(0)
@@ -53,6 +54,7 @@
 			target.client.eye = target
 			qdel(animation)
 			qdel(holder)
+
 
 /obj/effect/proc_holder/spell/targeted/ethereal_jaunt/proc/jaunt_disappear(var/atom/movable/overlay/animation, var/mob/living/target)
 	animation.icon_state = "liquify"
