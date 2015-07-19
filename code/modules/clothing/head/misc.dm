@@ -219,7 +219,7 @@
 	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 
-	/obj/item/clothing/head/beehat
+/obj/item/clothing/head/beehat
 	name = "Bee"
 	desc = "ITS A DAMN BEE, PUT IT ON YOUR HEAD"
 	icon_state = "beehat"

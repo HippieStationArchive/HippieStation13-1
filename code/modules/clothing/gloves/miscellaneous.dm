@@ -35,7 +35,7 @@
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 
-	/obj/item/clothing/gloves/beegloves
+/obj/item/clothing/gloves/beegloves
 	name = "Bee Attack Gloves"
 	desc = "These gloves are absolutely covered in honey!"
 	icon_state = "beegloves"
