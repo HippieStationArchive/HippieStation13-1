@@ -41,3 +41,10 @@
 	spawner_type = /mob/living/simple_animal/hostile/carp
 	deliveryamt = 5
 	origin_tech = "materials=3;magnets=4;syndicate=4"
+
+/obj/item/weapon/grenade/spawnergrenade/beenade
+	name = "Bee-nade"
+	spawner_type = /mob/living/simple_animal/hostile/bee
+	icon_state = "beenade"
+	deliveryamt = 5
+	origin_tech = "materials=3;magnets=4;syndicate=4"

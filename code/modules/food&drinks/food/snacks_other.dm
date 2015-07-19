@@ -255,3 +255,14 @@
 	reagents.add_reagent("nutriment", 4)
 	reagents.add_reagent("sugar", 2)
 	reagents.add_reagent("coco", 2)
+
+/obj/item/weapon/reagent_containers/food/snacks/honeycomb
+	name = "Honey Comb"
+	desc = "A honey comb, full of delicious honey"
+	icon_state = "honeycomb"
+
+/obj/item/weapon/reagent_containers/food/snacks/honeycomb/New()
+		..()
+		reagents.add_reagent("nutriment", 3)
+		reagents.add_reagent("honey", 10)
+		src.bitesize = 3
