@@ -616,29 +616,3 @@ datum/reagent/consumable/ethanol/silencer/on_mob_life(var/mob/living/M as mob)
 		M.heal_organ_damage(1,1)
 	..()
 	return
-
-datum/reagent/consumable/ethanol/drbeedrink
-	name = "Dr. Bee's Special Cocktail "
-	id = "drbeedrink"
-	description = "You know what this drink needs? More BEEES!"
-	color = "#f6c21b" // rgb: 246, 194, 27
-	nutriment_factor = 1 * REAGENTS_METABOLISM
-	boozepwr = 50
-
-
-datum/reagent/consumable/ethanol/drbeedrink/on_mob_life(var/mob/living/M as mob)
-	if(M.getOxyLoss() && prob(80))
-		M.adjustOxyLoss(-1)
-	if(M.getBruteLoss() && prob(80))
-		M.heal_organ_damage(1,0)
-	if(M.getFireLoss() && prob(80))
-		M.heal_organ_damage(0,1)
-	if(M.getToxLoss() && prob(80))
-		M.adjustToxLoss(-1)
-	if(M.dizziness !=0)
-		M.dizziness = max(0,M.dizziness-3)
-	if(M.confused !=0)
-		M.confused = max(0,M.confused - 1)
-	holder.remove_reagent(id, metabolization_rate/M.metabolism_efficiency)
-	return
-

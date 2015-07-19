@@ -218,10 +218,3 @@
 	item_state = "griffinhat"
 	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
-
-	/obj/item/clothing/head/beehat
-	name = "Bee"
-	desc = "ITS A DAMN BEE, PUT IT ON YOUR HEAD"
-	icon_state = "beehat"
-	item_state = "beehat"
-	armor = list(melee = 10, bullet = 10, laser = 10, energy = 10, bomb = 0, bio = 0, rad = 0)

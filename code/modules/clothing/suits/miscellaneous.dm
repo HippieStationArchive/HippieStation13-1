@@ -351,10 +351,5 @@
 	icon_state = "apronwelder2"
 	item_state = "apronwelder2"
 
-/obj/item/clothing/suit/armor/beebox
-	name = "Bee Box"
-	desc = "A largish beebox that goes over the entire waist, and is supported by straps"
-	icon_state = "beebox"
-	item_state = "beebox"
-	armor = list(melee = 10, bullet = 1, laser = 1, energy = 1, bomb = 0, bio = 0, rad = 0)
+
 

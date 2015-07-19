@@ -513,10 +513,3 @@
 	result = "thirteenloko"
 	required_reagents = list("vodka" = 1, "coffee" = 1, "limejuice" = 1)
 	result_amount = 3
-
-/datum/chemical_reaction/drbeedrink
-	name = "Dr. Bee's Special Cocktail"
-	id = "drbeedrink"
-	result = "drbeedrink"
-	required_reagents = list("honey" = 1, "gin" = 1)
-	result_amount = 2

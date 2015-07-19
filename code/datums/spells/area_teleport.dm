@@ -31,7 +31,6 @@
 	return thearea
 
 /obj/effect/proc_holder/spell/targeted/area_teleport/cast(list/targets,area/thearea)
-
 	for(var/mob/living/target in targets)
 		var/list/L = list()
 		for(var/turf/T in get_area_turfs(thearea.type))

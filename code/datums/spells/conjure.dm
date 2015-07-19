@@ -13,10 +13,16 @@
 	var/list/newVars = list() //vars of the summoned objects will be replaced with those where they meet
 	//should have format of list("emagged" = 1,"name" = "Wizard's Justicebot"), for example
 
+	var/cast_sound = 'sound/items/welder.ogg'
+
 /obj/effect/proc_holder/spell/aoe_turf/conjure/cast(list/targets)
+
 	for(var/turf/T in targets)
 		if(T.density && !summon_ignore_density)
 			targets -= T
+
+	if(cast_sound)
+		playsound(src.loc, cast_sound, 50, 1)
 
 	for(var/i=0,i<summon_amt,i++)
 		if(!targets.len)
@@ -45,54 +51,6 @@
 						qdel(summoned_object)
 
 	return
-
-/obj/effect/proc_holder/spell/aoe_turf/conjure/randomsound // Leaving this in for Lawli to test later
-	name = "ConjureSound"
-	desc = "This spell conjures objs of the specified types in range, also plays a random sound"
-
-	// The following vars refer to the random sounds
-	var/magic_sound = null
-
-/obj/effect/proc_holder/spell/aoe_turf/conjure/randomsound/cast(list/targets)
-
-	for(var/turf/T in targets)
-		if(T.density && !summon_ignore_density)
-			targets -= T
-	if(prob(50))
-		magic_sound = "magicwallet"
-	else
-		magic_sound = "beesummon"
-	playsound(usr.loc, "sound/magic/[magic_sound].ogg", 100, 0, 4)
-
-
-	for(var/i=0,i<summon_amt,i++)
-		if(!targets.len)
-			break
-		var/summoned_object_type = pick(summon_type)
-		var/spawn_place = pick(targets)
-		if(summon_ignore_prev_spawn_points)
-			targets -= spawn_place
-		if(ispath(summoned_object_type,/turf))
-			if(istype(get_turf(usr),/turf/simulated/shuttle))
-				usr << "<span class='danger'>You can't build things on shuttles!</span>"
-				break
-			var/turf/O = spawn_place
-			var/N = summoned_object_type
-			O.ChangeTurf(N)
-		else
-			var/atom/summoned_object = new summoned_object_type(spawn_place)
-
-			for(var/varName in newVars)
-				if(varName in summoned_object.vars)
-					summoned_object.vars[varName] = newVars[varName]
-
-			if(summon_lifespan)
-				spawn(summon_lifespan)
-					if(summoned_object)
-						qdel(summoned_object)
-
-	return
-
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/summonEdSwarm //test purposes
 	name = "Dispense Wizard Justice"

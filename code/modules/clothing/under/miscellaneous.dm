@@ -474,11 +474,3 @@
 	item_state = "collaredshirt"
 	item_color = "collaredshirt"
 	can_adjust = 0
-
-	/obj/item/clothing/under/beesuit
-	name = "Dr. BEES' suit"
-	desc = "It's a tight spandex suit with a big B in the center of it"
-	icon_state = "beesuit"
-	item_state = "armor"
-	item_color = "beesuit"
-	can_adjust = 0

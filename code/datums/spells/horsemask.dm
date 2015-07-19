@@ -15,7 +15,6 @@
 	var/list/compatible_mobs = list(/mob/living/carbon/human, /mob/living/carbon/monkey)
 
 /obj/effect/proc_holder/spell/targeted/horsemask/cast(list/targets, mob/user = usr)
-
 	if(!targets.len)
 		user << "<span class='notice'>No target found in range.</span>"
 		return
