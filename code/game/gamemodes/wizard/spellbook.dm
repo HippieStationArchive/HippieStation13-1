@@ -19,11 +19,11 @@
 
 /obj/item/weapon/spellbook/attackby(obj/item/O as obj, mob/living/carbon/user as mob)
 	if(user != owner)
-		user << "<span class='userdanger'>The book pierces your soul!" 
+		user << "<span class='userdanger'>The book pierces your soul!"
 		user.Paralyse(1)
 		user.apply_damage(10, BURN)
 		return
-	
+
 	if(istype(O, /obj/item/weapon/antag_spawner/contract))
 		var/obj/item/weapon/antag_spawner/contract/contract = O
 		if(contract.used)
@@ -38,11 +38,11 @@
 
 /obj/item/weapon/spellbook/attack_self(mob/living/carbon/user as mob)
 	if(user != owner)
-		user << "<span class='userdanger'>The book pierces your soul!" 
+		user << "<span class='userdanger'>The book pierces your soul!"
 		user.Paralyse(1)
 		user.apply_damage(10, BURN)
 		return
-	
+
 	user.set_machine(src)
 	var/dat
 	if(temp)
@@ -110,6 +110,9 @@
 
 		dat += "<A href='byond://?src=\ref[src];spell_choice=fleshtostone'>Flesh to Stone</A> (60)<BR>"
 		dat += "<I>This spell will curse a person to immediately turn into an unmoving statue. The effect will eventually wear off if the statue is not destroyed.</I><BR>"
+
+		dat += "<A href='byond://?src=\ref[src];spell_choice=beesummon'>Summon Bees</A> (60)<BR>"
+		dat += "<I>Even amongst the Space Wizard Federation, this spell is feared. This conjuration spell will spawn a small group of space bees around the caster.</I><BR>"
 		if(ticker.mode.name != "Ragin' Mages")
 			dat += "<A href='byond://?src=\ref[src];spell_choice=summonevents'>Summon Events</A> (One time use, persistent global spell)<BR>"
 			dat += "<I>Give Murphy's law a little push and replace all events with special wizard ones that will confound and confuse everyone. Multiple castings increase the rate of these events.</I><BR>"
@@ -222,7 +225,7 @@
 				uses--
 			/*
 			*/
-				var/list/available_spells = list(magicmissile = "Magic Missile", fireball = "Fireball", disintegrate = "Disintegrate", disabletech = "Disable Tech", smoke = "Smoke", blind = "Blind", mindswap = "Mind Transfer", forcewall = "Forcewall", blink = "Blink", teleport = "Teleport", mutate = "Mutate", etherealjaunt = "Ethereal Jaunt", knock = "Knock", horseman = "Curse of the Horseman", fleshtostone = "Flesh to Stone", summonguns = "Summon Guns", summonmagic = "Summon Magic", summonevents = "Summon Events", staffchange = "Staff of Change", soulstone = "Six Soul Stone Shards and the spell Artificer", armor = "Mastercrafted Armor Set", staffanimate = "Staff of Animation", staffchaos = "Staff of Chaos", staffdoor = "Staff of Door Creation", wands = "Wand Assortment")
+				var/list/available_spells = list(magicmissile = "Magic Missile", fireball = "Fireball", disintegrate = "Disintegrate", disabletech = "Disable Tech", smoke = "Smoke", blind = "Blind", mindswap = "Mind Transfer", forcewall = "Forcewall", blink = "Blink", teleport = "Teleport", mutate = "Mutate", etherealjaunt = "Ethereal Jaunt", knock = "Knock", horseman = "Curse of the Horseman", fleshtostone = "Flesh to Stone", horseman = "Curse of the Horseman", beesummon = "Summon Bees", summonguns = "Summon Guns", summonmagic = "Summon Magic", summonevents = "Summon Events", staffchange = "Staff of Change", soulstone = "Six Soul Stone Shards and the spell Artificer", armor = "Mastercrafted Armor Set", staffanimate = "Staff of Animation", staffchaos = "Staff of Chaos", staffdoor = "Staff of Door Creation", wands = "Wand Assortment")
 				var/already_knows = 0
 				for(var/obj/effect/proc_holder/spell/aspell in H.mind.spell_list)
 					if(available_spells[href_list["spell_choice"]] == initial(aspell.name))
@@ -311,13 +314,16 @@
 						if("horseman")
 							feedback_add_details("wizard_spell_learned","HH") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
 							H.mind.spell_list += new /obj/effect/proc_holder/spell/targeted/horsemask(null)
-
 							temp = "You have learned curse of the horseman."
 						if("fleshtostone")
 							feedback_add_details("wizard_spell_learned","FS") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
 							H.mind.spell_list += new /obj/effect/proc_holder/spell/targeted/inflict_handler/flesh_to_stone(null)
 							H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/inflict_handler/flesh_to_stone(null))
 							temp = "You have learned flesh to stone."
+						if("beesummon")
+							feedback_add_details("wizard_spell_learned","BS") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
+							H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/conjure/beesummon(null))
+							temp = "You have learned Summon Bees."
 						if("summonguns")
 							feedback_add_details("wizard_spell_learned","SG") //please do not change the abbreviation to keep data processing consistent. Add a unique id to any new spells
 							rightandwrong(0, H, 30)
