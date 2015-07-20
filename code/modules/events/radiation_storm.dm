@@ -6,7 +6,6 @@
 /datum/round_event/radiation_storm
 	var/list/protected_areas = list(/area/maintenance, /area/turret_protected/ai_upload, /area/turret_protected/ai_upload_foyer, /area/turret_protected/ai)
 
-
 /datum/round_event/radiation_storm/setup()
 	startWhen = rand(20, 40)
 	endWhen = startWhen + rand(-10,10)
@@ -35,7 +34,6 @@
 					shake_camera(M, 40, 1)
 					spawn(((endWhen) * 0.66))
 						shake_camera(M, 40, 1) //just to make you shit your pants
-
 
 		var/skip = 0
 		for(var/a in protected_areas)
