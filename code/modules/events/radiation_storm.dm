@@ -93,5 +93,4 @@
 
 
 /datum/round_event/radiation_storm/end()
-	sleep(60) // simple fix for radiation storms lasting longer than calculated
 	priority_announce("The radiation threat has passed. Please return to your workplaces.", "Radiation Storm")
