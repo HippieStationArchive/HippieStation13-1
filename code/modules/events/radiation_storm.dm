@@ -93,4 +93,5 @@
 
 
 /datum/round_event/radiation_storm/end()
+	spawn(60)
 	priority_announce("The radiation threat has passed. Please return to your workplaces.", "Radiation Storm")
