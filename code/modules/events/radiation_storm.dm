@@ -19,6 +19,8 @@
 			M << sound('sound/AI/radiation_short.ogg', volume=50) //Alarm + AI voice! WOO!
 
 /datum/round_event/radiation_storm/start()
+	spawn(60 + (endWhen) + (startWhen)) // Announce fix
+		priority_announce("The radiation threat has passed. Please return to your workplaces.", "Radiation Storm")
 
 	for(var/mob/C in mob_list)
 		var/turf/T = get_turf(C)
@@ -26,13 +28,14 @@
 		if(T.z != 1)	continue
 
 		for(var/mob/M)
-			playsound(M,'sound/ambience/blowout.ogg',50,0)
+			playsound(M,'sound/ambience/blowout.ogg',20,0) //TURN THAT SHIT WAAAY THE FUCK DOWN
 			if(M.client)
 				shake_camera(M, 40, 1) //BOOM BOOM SHAKE THE ROOM
 				spawn(((endWhen) * 0.33))
 					shake_camera(M, 40, 1)
 					spawn(((endWhen) * 0.66))
 						shake_camera(M, 40, 1) //just to make you shit your pants
+
 
 		var/skip = 0
 		for(var/a in protected_areas)
@@ -91,7 +94,7 @@
 			var/mob/living/simple_animal/M = C
 			M.apply_damage((rand(90, 900)), TOX, null, 1) //this is what you get for not taking care of your pets!!!
 
-
-/datum/round_event/radiation_storm/end()
-	spawn(60)
-		priority_announce("The radiation threat has passed. Please return to your workplaces.", "Radiation Storm")
+// Dont need this as we can pull the vars up there and broadcast it too.
+///datum/round_event/radiation_storm/end()
+//	spawn(60 + endWhen + startWhen)
+//		priority_announce("The radiation threat has passed. Please return to your workplaces. TEST", "Radiation Storm")
