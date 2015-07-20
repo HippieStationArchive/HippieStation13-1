@@ -429,6 +429,9 @@
 			if(limbs.len)
 				for(var/obj/item/organ/limb/L in limbs)
 					L.bloodloss = 0 //Set bleeding to 0
+					for(var/obj/item/I in L.embedded)
+						L.embedded -= I
+						I.loc = src.loc
 		if(C.reagents)
 			for(var/datum/reagent/R in C.reagents.reagent_list)
 				C.reagents.clear_reagents()
