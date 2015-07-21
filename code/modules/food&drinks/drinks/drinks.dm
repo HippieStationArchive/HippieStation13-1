@@ -10,6 +10,7 @@
 	var/gulp_size = 5 //This is now officially broken ... need to think of a nice way to fix it.
 	possible_transfer_amounts = list(5,10,25)
 	volume = 50
+	banned_reagents = list("pacid","sacid")
 
 /obj/item/weapon/reagent_containers/food/drinks/on_reagent_change()
 	if (gulp_size < 5) gulp_size = 5
@@ -79,8 +80,16 @@
 
 		var/trans = target.reagents.trans_to(src, target:amount_per_transfer_from_this)
 		user << "<span class='notice'>You fill [src] with [trans] units of the contents of [target].</span>"
-
+		
+	// Banned reagent checker ported from every other container that already utilizes it.
 	else if(target.is_open_container()) //Something like a glass. Player probably wants to transfer TO it.
+		if(istype(target, /obj/item/weapon/reagent_containers/spray))
+			var/obj/item/weapon/reagent_containers/RC = target // copied from glass regant checker
+			for(var/bad_reg in RC.banned_reagents)
+				if(reagents.has_reagent(bad_reg, 1)) //Message is a bit "Game-y" but I can't think up a better one.
+					user << "<span class='warning'>A chemical in [src] is far too dangerous to transfer to [target]!</span>"
+					return
+
 		if(!reagents.total_volume)
 			user << "<span class='warning'>[src] is empty.</span>"
 			return
