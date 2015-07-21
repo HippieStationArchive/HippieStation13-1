@@ -80,7 +80,8 @@
 
 		var/trans = target.reagents.trans_to(src, target:amount_per_transfer_from_this)
 		user << "<span class='notice'>You fill [src] with [trans] units of the contents of [target].</span>"
-
+		
+	// Banned reagent checker ported from every other container that already utilizes it.
 	else if(target.is_open_container()) //Something like a glass. Player probably wants to transfer TO it.
 		if(istype(target, /obj/item/weapon/reagent_containers/spray))
 			var/obj/item/weapon/reagent_containers/RC = target // copied from glass regant checker
