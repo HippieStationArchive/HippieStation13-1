@@ -63,11 +63,14 @@
 
 	// attack by item places it in to disposal
 /obj/machinery/disposal/attackby(var/obj/item/I, var/mob/user, params)
-	if(stat & BROKEN || !I || !user || (I.flags & NODROP))
+	if(stat & BROKEN || !I || !user) //(I.flags & NODROP)) removed to save borgs from not being able to dump crap into disposals.. Not sure if it will affect anything else?
 		return
 
-	if(isrobot(user) && !istype(I, /obj/item/weapon/storage/bag/trash))
-		return
+// This does literaly nothing ever
+//	if(isrobot(user) && !istype(I, /obj/item/weapon/storage/bag/trash))
+//		return
+//
+
 	src.add_fingerprint(user)
 	if(mode<=0) // It's off
 		if(istype(I, /obj/item/weapon/screwdriver))

@@ -1671,7 +1671,7 @@
 "aGg" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/red,/turf/simulated/floor/wood,/area/crew_quarters/sleep)
 "aGh" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/machinery/light{icon_state = "tube1"; dir = 8},/turf/simulated/floor/plasteel{icon_state = "neutral"; dir = 8},/area/crew_quarters/sleep)
 "aGi" = (/obj/structure/stool/bed/chair/toilet,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/crew_quarters/toilet)
-"aGj" = (/obj/machinery/recharge_station,/obj/item/dragon/sea,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/crew_quarters/toilet)
+"aGj" = (/obj/machinery/recharge_station,/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/crew_quarters/toilet)
 "aGk" = (/obj/machinery/door/airlock{name = "Unisex Restrooms"; req_access_txt = "0"},/obj/structure/disposalpipe/segment,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel{icon_state = "freezerfloor"},/area/crew_quarters/toilet)
 "aGl" = (/turf/simulated/wall,/area/crew_quarters/theatre)
 "aGm" = (/obj/machinery/atmospherics/binary/valve,/turf/simulated/floor/plating,/area/maintenance/fsmaint2)
@@ -4898,7 +4898,7 @@
 "bQj" = (/obj/structure/disposalpipe/segment,/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/floor/plasteel{dir = 2; icon_state = "yellowcorner"},/area/hallway/primary/aft)
 "bQk" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/wall,/area/maintenance/asmaint)
 "bQl" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/wall/r_wall,/area/maintenance/asmaint)
-"bQm" = (/obj/structure/closet,/obj/machinery/atmospherics/pipe/manifold/supply/hidden,/obj/item/dragon/equine,/turf/simulated/floor/plating,/area/maintenance/asmaint)
+"bQm" = (/obj/structure/closet,/obj/machinery/atmospherics/pipe/manifold/supply/hidden,/turf/simulated/floor/plating,/area/maintenance/asmaint)
 "bQn" = (/obj/structure/reagent_dispensers/watertank,/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/floor/plating,/area/maintenance/asmaint)
 "bQo" = (/obj/structure/reagent_dispensers/fueltank,/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/floor/plating,/area/maintenance/asmaint)
 "bQp" = (/obj/machinery/meter,/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/floor/plating,/area/maintenance/asmaint)
@@ -5687,7 +5687,7 @@
 "cfs" = (/obj/machinery/alarm{frequency = 1439; pixel_y = 23},/obj/item/weapon/wrench,/obj/machinery/atmospherics/pipe/manifold/supply/hidden{tag = "icon-manifold-b-f (WEST)"; dir = 8},/turf/simulated/floor/plating{icon_state = "warnplate"; dir = 9},/area/medical/virology)
 "cft" = (/obj/machinery/atmospherics/binary/valve/open{tag = "icon-mvalve_map (EAST)"; icon_state = "mvalve_map"; dir = 4},/turf/simulated/floor/plating{icon_state = "warnplate"; dir = 1},/area/medical/virology)
 "cfu" = (/obj/machinery/atmospherics/unary/tank/air{dir = 8},/turf/simulated/floor/plating{icon_state = "warnplate"; dir = 5},/area/medical/virology)
-"cfv" = (/obj/structure/closet/emcloset,/obj/effect/decal/cleanable/cobweb,/obj/item/dragon/canine,/turf/simulated/floor/plating,/area/maintenance/asmaint)
+"cfv" = (/obj/structure/closet/emcloset,/obj/effect/decal/cleanable/cobweb,/turf/simulated/floor/plating,/area/maintenance/asmaint)
 "cfw" = (/obj/structure/rack{dir = 1},/obj/machinery/light/small{dir = 1},/obj/effect/spawner/lootdrop/maintenance,/turf/simulated/floor/plating,/area/maintenance/asmaint)
 "cfx" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/turf/simulated/floor/plating,/area/maintenance/asmaint)
 "cfy" = (/obj/structure/grille,/obj/structure/disposalpipe/segment{dir = 4},/obj/structure/cable{icon_state = "0-2"; d2 = 2},/obj/machinery/door/poddoor/preopen{id = "xenobio1"; name = "containment blast door"},/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/engine,/area/toxins/xenobiology)
@@ -7330,3 +7330,4 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 "}
+
