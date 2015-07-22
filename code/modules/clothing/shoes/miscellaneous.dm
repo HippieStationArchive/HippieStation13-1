@@ -177,3 +177,10 @@
 	desc = "Using the most advanced in bluespace disco technology, you too can dance the night away!"
 	icon_state = "discoputin"
 	item_state = "discoputin"
+
+/obj/item/clothing/shoes/beeboots
+	name = "BEE Boots"
+	desc = "Modified combat boots, has the scent of honey on them."
+	icon_state = "beeboots"
+	item_state = "beeboots"
+	armor = list(melee = 25, bullet = 25, laser = 25, energy = 10, bomb = 25, bio = 0, rad = 0)
