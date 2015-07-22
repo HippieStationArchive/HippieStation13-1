@@ -2,35 +2,34 @@
 	desc = "A .357 bullet casing."
 	caliber = "357"
 	projectile_type = /obj/item/projectile/bullet
+	icon_state = "casing_357"
 
 /obj/item/ammo_casing/a50
 	desc = "A .50AE bullet casing."
 	caliber = ".50"
 	projectile_type = /obj/item/projectile/bullet
+	icon_state = "casing_357"
 
 /obj/item/ammo_casing/c38
 	desc = "A .38 bullet casing."
 	caliber = "38"
 	projectile_type = /obj/item/projectile/bullet/weakbullet2
-
+	icon_state = "casing_38"
 
 /obj/item/ammo_casing/c10mm
 	desc = "A 10mm bullet casing."
 	caliber = "10mm"
 	projectile_type = /obj/item/projectile/bullet/midbullet3
 
-
 /obj/item/ammo_casing/c9mm
 	desc = "A 9mm bullet casing."
 	caliber = "9mm"
 	projectile_type = /obj/item/projectile/bullet/weakbullet3
 
-
 /obj/item/ammo_casing/c45
 	desc = "A .45 bullet casing."
 	caliber = ".45"
 	projectile_type = /obj/item/projectile/bullet/midbullet
-
 
 /obj/item/ammo_casing/shotgun
 	name = "shotgun slug"
@@ -132,19 +131,22 @@
 	return
 
 /obj/item/ammo_casing/a762
-	desc = "A 7.62mm bullet casing."
+	desc = "A 7.62x51mm bullet casing."
 	caliber = "a762"
 	projectile_type = /obj/item/projectile/bullet
+	icon_state = "casing_762x51"
 
 /obj/item/ammo_casing/a545
 	desc = "A 5.45mm bullet casing."
 	caliber = "a545"
 	projectile_type = /obj/item/projectile/bullet/heavybullet
+	icon_state = "casing_545"
 
 /obj/item/ammo_casing/a762x39
 	desc = "A 7.62x39mm bullet casing."
 	caliber = "a7.62x39"
 	projectile_type = /obj/item/projectile/bullet/heavybullet
+	icon_state = "casing_762x39"
 
 /obj/item/ammo_casing/caseless
 	desc = "A caseless bullet casing."
