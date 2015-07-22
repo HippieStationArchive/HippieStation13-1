@@ -87,7 +87,7 @@
 			user << "<span class='notice'>[target] is full.</span>"
 			return
 
-		if(istype(target, /obj/item/weapon/reagent_containers))
+		if(istype(target, /obj/item/weapon/reagent_containers/spray))
 			var/obj/item/weapon/reagent_containers/RC = target
 			for(var/bad_reg in RC.banned_reagents)
 				if(reagents.has_reagent(bad_reg, 1)) //Message is a bit "Game-y" but I can't think up a better one.
