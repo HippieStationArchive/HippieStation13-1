@@ -1,0 +1,14 @@
+Before making any map changes :
+
+Run prepare_map.bat
+
+After making ALL YOUR CHANGES
+Save, compile.
+
+Run clean_map.bat. (Don't worry if it finds 8000+ differences)
+
+PR.
+
+This ensures multiple people can work on the map at the same time, and takes less space.
+
+-K
