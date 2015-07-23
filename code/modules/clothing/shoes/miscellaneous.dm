@@ -179,7 +179,7 @@
 	item_state = "discoputin"
 
 /obj/item/clothing/shoes/beeboots
-	name = "BEE Boots"
+	name = "Bee Boots"
 	desc = "Modified combat boots, has the scent of honey on them."
 	icon_state = "beeboots"
 	item_state = "beeboots"
