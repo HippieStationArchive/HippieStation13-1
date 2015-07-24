@@ -34,15 +34,14 @@
 			O.ChangeTurf(N)
 		else
 			var/atom/summoned_object = new summoned_object_type(spawn_place)
-
 			for(var/varName in newVars)
 				if(varName in summoned_object.vars)
 					summoned_object.vars[varName] = newVars[varName]
-
 			if(summon_lifespan)
 				spawn(summon_lifespan)
 					if(summoned_object)
 						qdel(summoned_object)
+
 
 	return
 
