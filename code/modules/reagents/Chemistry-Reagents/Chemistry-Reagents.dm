@@ -65,10 +65,6 @@ datum/reagent/proc/reaction_obj(var/obj/O, var/volume) //By default we transfer 
 	//if(O.reagents)
 	//	O.reagents.add_reagent(id,volume/3)
 	return
-datum/reagent/proc/on_fart(var/mob/living/M as mob)
-	return
-datum/reagent/proc/on_scream(var/mob/living/M as mob)
-	return
 
 datum/reagent/proc/reaction_turf(var/turf/T, var/volume)
 	src = null

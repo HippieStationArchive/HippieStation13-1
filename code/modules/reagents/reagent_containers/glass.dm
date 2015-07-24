@@ -12,10 +12,8 @@
 	flags = OPENCONTAINER
 	can_examine_reagents = 1
 
-
 	var/list/can_be_placed_into = list(
 		/obj/machinery/chem_master/,
-		/obj/machinery/adv_chem,
 		/obj/machinery/chem_dispenser/,
 		/obj/machinery/reagentgrinder,
 		/obj/structure/table,
@@ -45,14 +43,8 @@
 // 				usr << "\blue [R.volume] units of [R.name]"
 // 		else
 // 			usr << "\blue Nothing."
-/obj/item/weapon/reagent_containers/glass/attackby(var/obj/D, mob/user as mob, params)
-	if(istype(D,/obj/item/weapon/weldingtool))
-		if(reagents.present_machines[1] <= 500 + 30)
-			reagents.present_machines[1] += 30 //increase the temperature
-		else
-			reagents.present_machines[1] = 500
-/obj/item/weapon/reagent_containers/glass/afterattack(obj/target, mob/user, proximity)
 
+/obj/item/weapon/reagent_containers/glass/afterattack(obj/target, mob/user, proximity)
 	if(!proximity) return // not adjacent
 	for(var/type in can_be_placed_into)
 		if(istype(target, type))
@@ -64,7 +56,6 @@
 		target.visible_message("<span class='danger'>[user] has splashed [target] with something!</span>", \
 						"<span class='userdanger'>[user] has splashed [target] with something!</span>")
 		if(reagents)
-			reagents.present_machines[1] = M.bodytemperature
 			for(var/datum/reagent/A in reagents.reagent_list)
 				R += A.id + " ("
 				R += num2text(A.volume) + "),"
@@ -236,28 +227,6 @@
 		user.put_in_hands(new /obj/item/weapon/bucket_sensor)
 		user.unEquip(src)
 		qdel(src)
-/obj/item/weapon/reagent_containers/glass/bucket_borg
-	name = "Janiborg Bucket"
-	desc = "A small bucket for janiborgs."
-	icon = 'icons/obj/janitor.dmi'
-	icon_state = "mopbucket"
-	item_state = "mopbucket"
-	m_amt = 200
-	g_amt = 0
-	w_class = 3.0
-	amount_per_transfer_from_this = 20
-	possible_transfer_amounts = list(10,20,30,50,70)
-	volume = 70
-	flags = OPENCONTAINER
-
-/obj/item/weapon/reagent_containers/glass/bucket_borg/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/weapon/mop))
-		if(reagents.total_volume < 1)
-			user << "[src] is out of water!</span>"
-		else
-			reagents.trans_to(I, 5)
-			user << "<span class='notice'>You wet [I] in [src].</span>"
-			playsound(loc, 'sound/effects/slosh.ogg', 25, 1)
 
 /*
 /obj/item/weapon/reagent_containers/glass/blender_jug
