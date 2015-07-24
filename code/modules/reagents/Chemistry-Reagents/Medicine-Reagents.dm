@@ -1,4 +1,5 @@
 
+
 #define REM REAGENTS_EFFECT_MULTIPLIER
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +21,23 @@ datum/reagent/medicine/ethylredoxrazine	// FUCK YOU, ALCOHOL
 	description = "A powerful oxidizer that reacts with ethanol."
 	reagent_state = SOLID
 	color = "#605048" // rgb: 96, 80, 72
+
+datum/reagent/medicine/atropine	// goodbye sarin
+	name = "Atropine"
+	id = "atropine"
+	description = "Used to treat sarin and tabun poisoning , better act quickly!"
+	reagent_state = LIQUID
+	color = "#BBEDA4" // rgb: 96, 80, 72
+
+datum/reagent/medicine/atropine/on_mob_life(var/mob/living/M as mob)
+	M.confused = 15
+	M.reagents.remove_all_type(/datum/reagent/toxin/sarin, 1*REM, 0, 1)
+	M.reagents.remove_all_type(/datum/reagent/toxin/tabun, 1*REM, 0, 1)
+	M.reagents.remove_all_type(/datum/reagent/toxin/sarin_a, 1*REM, 0, 1)
+	M.reagents.remove_all_type(/datum/reagent/toxin/sarin_b, 1*REM, 0, 1)
+	M.adjustToxLoss(3)//deals moderate toxin damage
+	..()
+	return
 
 datum/reagent/medicine/ethylredoxrazine/on_mob_life(var/mob/living/M as mob)
 	M.dizziness = 0
@@ -59,6 +77,30 @@ datum/reagent/medicine/hyperzine/on_mob_life(var/mob/living/M as mob)
 	..()
 	return
 
+datum/reagent/medicine/superzine
+	name = "Superzine"
+	id = "Superzine"
+	description = "An extremely effective muscle stimulant and stamina restorer."
+	color = "#C8A5DC" // rgb: 200, 165, 220
+	metabolization_rate = 0.3 * REAGENTS_METABOLISM//even slower metabolism
+
+datum/reagent/medicine/superzine/on_mob_life(var/mob/living/M as mob)
+	if(M.stat != DEAD)
+		if(prob(15))
+			M.emote(pick("twitch","blink_r","shiver"))
+		M.status_flags |= GOTTAGOFAST
+		M.adjustStaminaLoss(-5)
+		if(prob(2))
+			M<<"<span class='danger'>You collapse suddenly!"
+			M.emote("collapse")
+			M.SetParalysis(3)
+	else if(volume > 50)//eh you guys decide on this one
+		if(prob(25))
+			M.gib()
+		else
+			M.emote("twitch")
+	..()
+	return
 datum/reagent/medicine/leporazine
 	name = "Leporazine"
 	id = "leporazine"
@@ -235,6 +277,111 @@ datum/reagent/medicine/anti_toxin/on_mob_life(var/mob/living/M as mob)
 		M.adjustToxLoss(-2*REM)
 	..()
 	return
+
+datum/reagent/medicine/defib
+	name = "Exstatic mixture"
+	id = "defib"
+	description = "An amazing chemical that can bring the dead back to life!"
+	color = "#C8A5DC" // rgb: 200, 165, 220
+datum/reagent/medicine/defib/on_mob_life(var/mob/living/M as mob)
+	if(M.stat == DEAD)
+		M.setCloneLoss(0)
+		M.setOxyLoss(0)
+		M.radiation = 0
+		M.heal_organ_damage(5,5)
+		M.setToxLoss(-5)
+		M.hallucination = 0
+		M.setBrainLoss(0)
+		M.disabilities = 0
+		M.sdisabilities = 0
+		M.eye_blurry = 0
+		M.eye_blind = 0
+		M.SetWeakened(0)
+		M.SetStunned(0)
+		M.SetParalysis(0)
+		M.dizziness = 0
+		M.drowsyness = 0
+		M.stuttering = 0
+		M.confused = 0
+		M.sleeping = 0
+		M.jitteriness = 0
+		M.stat = 1
+		..()
+		return
+	else
+		M.adjustBrainLoss(100)//boom
+		M.setToxLoss(100)
+		M.adjustBruteLoss(100)
+		return
+
+datum/reagent/medicine/sodiumf
+	name = "Sodium fluoride"
+	id = "sodiumf"
+	description = "A powerful antitoxin"
+	color = "#C8A5DC" // rgb: 200, 165, 220
+
+datum/reagent/medicine/sodiumf/on_mob_life(var/mob/living/M as mob)
+	if(M.stat != DEAD)
+		M.reagents.remove_all_type(/datum/reagent/toxin, 1*REM, 0, 1)
+		M.adjustOxyLoss(1)
+		M.hallucination = max(0, M.hallucination - 5*REM)
+		M.adjustToxLoss(-7*REM)
+	..()
+	return
+
+datum/reagent/medicine/aluminiumf
+	name = "Aluminium fluorate"
+	id = "aluminiumf"
+	description = "A powerful burn and rute healing chemical"
+	color = "#C8A5DC" // rgb: 200, 165, 220
+
+datum/reagent/medicine/aluminiumf/on_mob_life(var/mob/living/M as mob)
+	if(M.stat != DEAD)
+		M.adjustToxLoss(1)//deals minor toxin damage  designed to be very potent
+		M.hallucination = 2 //just a weeny bit
+		M.adjustFireLoss(-5 * REM)
+		M.adjustBruteLoss(-5 * REM)
+	..()
+	return
+datum/reagent/medicine/life
+	name = "Liquid Life"
+	id = "life"
+	description = "I wonder what this does?"
+	color = "#C8A5DC" // rgb: 200, 165, 220
+
+datum/reagent/medicine/life/on_mob_life(var/mob/living/M as mob)
+	if(M.stat != DEAD)
+		M.setToxLoss(0)//deals minor toxin damage  designed to be very potent
+		M.hallucination = 0 //just a weeny bit
+		M.adjustFireLoss(-10)
+		M.adjustBruteLoss(-10)
+	..()
+	return
+
+datum/reagent/medicine/virogone
+	name = "Cyclo-bromazine"
+	id = "virogone"
+	description = "Very good at removing all known diseases"
+	color = "#C8A5DC" // rgb: 200, 165, 220
+
+datum/reagent/medicine/virogone/on_mob_life(var/mob/living/M as mob)
+	if(M.stat != DEAD)
+		M.adjustToxLoss(2)
+		M.adjustStaminaLoss(10)//use up the stamina , it can't be a miracle chem
+		for(var/datum/disease/D in M.viruses)
+			if(D.severity == NONTHREAT || D.agent == "N-G-T")
+				continue
+			D.spread_text = "Remissive"
+			D.stage--
+			if(D.stage < 1)
+				D.cure()
+	..()
+	return
+datum/reagent/medicine/zed
+	name = "Z-E-D"
+	id = "zed"
+	description = "ZOMBIE - ERADICATION - DEVICE"
+	color = "#1B4DC3" // rgb: 200, 165, 220
 
 datum/reagent/medicine/adminordrazine //An OP chemical for admins
 	name = "Adminordrazine"
