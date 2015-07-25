@@ -174,8 +174,8 @@ var/list/uplink_items = list()
 	cost = 9
 
 /datum/uplink_item/dangerous/g17
-	name = "Syndicate Revolver"
-	desc = "A simple yet popular handgun chambered in 9mm. Made out of strong but lightwieght polymer. The standard magazine can hold up to 17 9mm cartridges. Not currently compatible with surpressors."
+	name = "Glock 17 Handgun"
+	desc = "A simple yet popular handgun chambered in 9mm. Made out of strong but lightwieght polymer. The standard magazine can hold up to 17 9mm cartridges. Compatible with a universal suppressor."
 	item = /obj/item/weapon/gun/projectile/automatic/pistol/g17
 	cost = 10
 	surplus = 15

@@ -91,6 +91,7 @@
 	item_state = "c20r"
 	origin_tech = "combat=5;materials=3"
 	mag_type = /obj/item/ammo_box/magazine/ak922
+	can_suppress = 0
 	fire_sound = 'sound/weapons/handcannon.ogg'
 	fire_delay = 1
 	burst_size = 3

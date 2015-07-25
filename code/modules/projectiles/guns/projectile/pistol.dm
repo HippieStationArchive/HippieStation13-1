@@ -20,6 +20,7 @@
 	icon_state = "m1911"
 	w_class = 3
 	mag_type = /obj/item/ammo_box/magazine/m45
+	can_suppress = 0
 
 /obj/item/weapon/gun/projectile/automatic/pistol/g17
 	name = "Glock 17"
@@ -30,7 +31,7 @@
 
 /obj/item/weapon/gun/projectile/automatic/pistol/g17/update_icon()
 	..()
-	icon_state = "[initial(icon_state)][chambered ? "" : "-e"]"
+	icon_state = "[initial(icon_state)][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
 	return
 
 /obj/item/weapon/gun/projectile/automatic/pistol/deagle
@@ -39,6 +40,7 @@
 	icon_state = "deagle"
 	force = 14
 	mag_type = /obj/item/ammo_box/magazine/m50
+	can_suppress = 0
 	fire_sound = 'sound/weapons/deagle.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/pistol/deagle/update_icon()
