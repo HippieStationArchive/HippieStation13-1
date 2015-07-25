@@ -47,6 +47,7 @@
 	return
 
 
+
 /datum/game_mode/proc/forge_wizard_objectives(var/datum/mind/wizard)
 	var/is_hijacker = prob(10)
 	var/martyr_chance = prob(0) //Pretty sure that the crew will win if wizard dies no matter what.
@@ -185,6 +186,7 @@
 	wizard_mob << "<span class='userdanger'>Do not Attack or Steal from your fellow Wizards in the Den!</span>"
 	wizard_mob.mind.store_memory("<B>Remember:</B> do not forget to prepare your spells.")
 	wizard_mob.update_icons()
+	wizard_mob.faction |= "wizard"
 	return 1
 
 

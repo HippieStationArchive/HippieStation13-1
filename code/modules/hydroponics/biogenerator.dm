@@ -141,11 +141,14 @@
 			dat += "10 cream: <A href='?src=\ref[src];create=cream;amount=1'>Make</A> ([30/efficiency])<BR>"
 			dat += "Monkey cube: <A href='?src=\ref[src];create=meat;amount=1'>Make</A> ([250/efficiency])"
 			dat += "</div>"
-			dat += "<h3>Nutrients:</h3>"
+			dat += "<h3>Chemicals:</h3>"
 			dat += "<div class='statusDisplay'>"
 			dat += "E-Z-Nutrient: <A href='?src=\ref[src];create=ez;amount=1'>Make</A><A href='?src=\ref[src];create=ez;amount=5'>x5</A> ([10/efficiency])<BR>"
 			dat += "Left 4 Zed: <A href='?src=\ref[src];create=l4z;amount=1'>Make</A><A href='?src=\ref[src];create=l4z;amount=5'>x5</A> ([20/efficiency])<BR>"
 			dat += "Robust Harvest: <A href='?src=\ref[src];create=rh;amount=1'>Make</A><A href='?src=\ref[src];create=rh;amount=5'>x5</A> ([25/efficiency])<BR>"
+			dat += "Weed Killer: <A href='?src=\ref[src];create=wk;amount=1'>Make</A><A href='?src=\ref[src];create=wk;amount=5'>x5</A> ([50/efficiency])<BR>"
+			dat += "Pest Killer: <A href='?src=\ref[src];create=pk;amount=1'>Make</A><A href='?src=\ref[src];create=pk;amount=5'>x5</A> ([50/efficiency])<BR>"
+//			dat += "Unstable Mutagen: <A href='?src=\ref[src];create=mut;amount=1'>Make</A><A href='?src=\ref[src];create=mut;amount=5'>x5</A> ([200/efficiency])<BR>"
 			dat += "</div>"
 			dat += "<h3>Leather:</h3>"
 			dat += "<div class='statusDisplay'>"
@@ -235,6 +238,15 @@
 		if("l4z")
 			if (check_cost(20/efficiency)) return 0
 			else new/obj/item/weapon/reagent_containers/glass/bottle/nutrient/l4z(src.loc)
+		if("wk")
+			if (check_cost(50/efficiency)) return 0
+			else new/obj/item/weapon/reagent_containers/glass/bottle/weedkiller(src.loc)
+		if("pk")
+			if (check_cost(50/efficiency)) return 0
+			else new/obj/item/weapon/reagent_containers/glass/bottle/pestkiller(src.loc)
+		if("mut")
+			if (check_cost(200/efficiency)) return 0
+			else new/obj/item/weapon/reagent_containers/glass/bottle/nutrient/mut(src.loc)
 		if("rh")
 			if (check_cost(25/efficiency)) return 0
 			else new/obj/item/weapon/reagent_containers/glass/bottle/nutrient/rh(src.loc)

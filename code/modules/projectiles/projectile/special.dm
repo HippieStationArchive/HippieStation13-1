@@ -182,3 +182,7 @@ obj/item/projectile/kinetic/New()
 	damage = 25
 	weaken = 5
 	mob_stuck_chance = 0
+
+/obj/item/projectile/bullet/frag12/on_hit(atom/target, blocked = 0)
+	explosion(target, -1, 0, 2)
+	return 1

@@ -118,3 +118,30 @@
 /obj/item/weapon/reagent_containers/glass/bottle/nutrient/rh/New()
 	..()
 	reagents.add_reagent("robustharvestnutriment", 50)
+
+/obj/item/weapon/reagent_containers/glass/bottle/weedkiller
+	name = "bottle of weed killer"
+	icon = 'icons/obj/chemical.dmi'
+	icon_state = "bottle19"
+
+/obj/item/weapon/reagent_containers/glass/bottle/weedkiller/New()
+	..()
+	reagents.add_reagent("weedkiller", 50)
+
+/obj/item/weapon/reagent_containers/glass/bottle/pestkiller
+	name = "bottle of pest spray"
+	icon = 'icons/obj/chemical.dmi'
+	icon_state = "bottle20"
+
+/obj/item/weapon/reagent_containers/glass/bottle/pestkiller/New()
+	..()
+	reagents.add_reagent("pestkiller", 50)
+
+/obj/item/weapon/reagent_containers/glass/bottle/nutrient/mut
+	name = "bottle of Unstable Mutagen"
+	icon = 'icons/obj/chemical.dmi'
+	icon_state = "bottle18"
+
+/obj/item/weapon/reagent_containers/glass/bottle/nutrient/mut/New()
+	..()
+	reagents.add_reagent("mutagen", 50)
