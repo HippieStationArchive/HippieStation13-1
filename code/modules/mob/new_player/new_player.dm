@@ -257,8 +257,6 @@
 		return 0
 	if((job.current_positions >= job.total_positions) && job.total_positions != -1)
 		return 0
-	if(src.client.prefs.pref_species.id == "tarajan" && rank != "Assistant")
-		return 0
 	if(jobban_isbanned(src,rank))
 		return 0
 	if(!job.player_old_enough(src.client))
