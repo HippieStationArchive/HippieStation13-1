@@ -323,6 +323,9 @@ datum/preferences
 			if(jobban_isbanned(user, rank))
 				HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[BANNED\]</b></font></td></tr>"
 				continue
+			if(user.client.prefs.pref_species.id == "tarajan" && rank != "Assistant")
+				HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[CAT-BANNED\]</b></font></td></tr>"
+				continue
 			if(!job.player_old_enough(user.client))
 				var/available_in_days = job.available_in_days(user.client)
 				HTML += "<font color=red>[rank]</font></td><td><font color=red> \[IN [(available_in_days)] DAYS\]</font></td></tr>"
@@ -370,10 +373,14 @@ datum/preferences
 			HTML += "<a class='white' href='?_src_=prefs;preference=job;task=setJobLevel;level=[prefUpperLevel];text=[rank]' oncontextmenu='javascript:return setJobPrefRedirect([prefLowerLevel], \"[rank]\");'>"
 
 			if(rank == "Assistant")//Assistant is special
-				if(job_civilian_low & ASSISTANT)
-					HTML += "<font color=green>Yes</font>"
+				//This is a bit ugh, but the user needs actual feedback on the fact they're being forced to be an assistant
+				if(user.client.prefs.pref_species.id == "tarajan")
+					HTML += "<font color=orange><b>Forced</b></font>"
 				else
-					HTML += "<font color=red>No</font>"
+					if(job_civilian_low & ASSISTANT)
+						HTML += "<font color=green>Yes</font>"
+					else
+						HTML += "<font color=red>No</font>"
 				HTML += "</a></td></tr>"
 				continue
 
