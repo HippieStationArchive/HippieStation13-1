@@ -1151,7 +1151,7 @@
 "awg" = (/obj/structure/noticeboard{dir = 1; pixel_y = -27},/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/wood,/area/security/seclounge)
 "awh" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/obj/machinery/disposal,/obj/structure/disposalpipe/trunk{dir = 8},/turf/simulated/floor/wood,/area/security/seclounge)
 "awi" = (/turf/simulated/wall/r_wall,/area/crew_quarters/courtroom)
-"awj" = (/obj/machinery/door/airlock/security{name = "Security Garage"; req_access = null; req_access_txt = "63"},/turf/space,/area/crew_quarters/courtroom)
+"awj" = (/obj/machinery/door/airlock/security{name = "Security Garage"; req_access = null; req_access_txt = "63"},/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/crew_quarters/courtroom)
 "awk" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/door/airlock/maintenance{name = "Security Lounge Maintenance"; req_access_txt = "63"},/obj/structure/disposalpipe/segment,/turf/simulated/floor/plating,/area/security/seclounge)
 "awl" = (/obj/structure/table,/obj/item/weapon/shard,/obj/item/weapon/shard{icon_state = "medium"},/obj/item/weapon/shard{icon_state = "small"},/obj/effect/spawner/lootdrop/maintenance,/turf/simulated/floor/plating,/area/maintenance/fsmaint2)
 "awm" = (/obj/structure/rack,/obj/effect/spawner/lootdrop/maintenance{lootcount = 2; name = "2maintenance loot spawner"},/turf/simulated/floor/plating,/area/maintenance/fsmaint2)
