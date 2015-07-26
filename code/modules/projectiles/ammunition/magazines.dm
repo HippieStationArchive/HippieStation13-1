@@ -120,6 +120,10 @@
 	caliber = "9mm"
 	max_ammo = 20
 
+/obj/item/ammo_box/magazine/smgm9mm/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),5)]"
+
 /obj/item/ammo_box/magazine/g17
 	name = "G17 magazine (9mm)"
 	icon_state = "g17"
@@ -127,9 +131,9 @@
 	caliber = "9mm"
 	max_ammo = 17
 
-/obj/item/ammo_box/magazine/smgm9mm/update_icon()
+/obj/item/ammo_box/magazine/g17/update_icon()
 	..()
-	icon_state = "[initial(icon_state)]-[round(ammo_count(),5)]"
+	icon_state = "[initial(icon_state)]-[Ceiling(ammo_count(0)/17)*17]"
 
 /obj/item/ammo_box/magazine/ak922
 	name = "AK-922 magazine (7.62x39)"
@@ -218,7 +222,7 @@ obj/item/ammo_box/magazine/tommygunm45
 
 /obj/item/ammo_box/magazine/mbox12g/dragon
 	name = "box magazine (12 gauge)"
-	icon_state = "box12g"		//Gotta give this it's own proper icon later
+	icon_state = "box12g"
 	origin_tech = "combat=3"
 	ammo_type = /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath
 	caliber = "shotgun"
