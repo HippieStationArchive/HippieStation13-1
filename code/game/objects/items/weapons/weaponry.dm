@@ -22,10 +22,9 @@
 /obj/item/weapon/throwingknife
 	name = "Throwing knife"
 	desc = "Take it to partys , have a drink with it , stab the clown to death!"
-	icon = 'icons/obj/kitchen.dmi'
-	icon_state = "knife"
-	item_state = "knife"
-	force = 3.0 
+	icon_state = "throwingknife"
+	item_state = "throwingknife"
+	force = 3.0
 	stun_on_hit = 3 //new variable , ill explain in the pull request.
 	throw_range = 10
 	throwforce = 15//debuffs to the same as a null rod
