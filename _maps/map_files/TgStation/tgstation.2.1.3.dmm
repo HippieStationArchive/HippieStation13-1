@@ -427,7 +427,7 @@
 "aik" = (/turf/simulated/wall,/area/security/seclounge)
 "ail" = (/obj/structure/disposalpipe/sortjunction{dir = 4; icon_state = "pipe-j2s"; sortType = 7},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/turf/simulated/floor/plasteel{icon_state = "red"; dir = 4},/area/security/main)
 "aim" = (/obj/structure/disposalpipe/segment{dir = 4},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/turf/simulated/floor/wood,/area/security/seclounge)
-"ain" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/obj/structure/cable{d2 = 8; icon_state = "0-8"},/turf/simulated/floor/plating,/area/security/seclounge)
+"ain" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/obj/structure/cable{d2 = 8; icon_state = "0-8"},/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/floor/plating,/area/security/seclounge)
 "aio" = (/obj/structure/disposalpipe/segment{dir = 4},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/obj/structure/flora/kirbyplants,/turf/simulated/floor/wood,/area/security/seclounge)
 "aip" = (/obj/machinery/light{icon_state = "tube1"; dir = 8},/obj/machinery/atmospherics/unary/vent_scrubber{dir = 1; on = 1; scrub_N2O = 0; scrub_Toxins = 0},/turf/simulated/floor/plasteel{icon_state = "white"},/area/security/prison)
 "aiq" = (/turf/simulated/floor/plasteel{icon_state = "white"},/area/security/prison)

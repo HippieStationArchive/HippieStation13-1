@@ -39,6 +39,13 @@
 		if(M.lying)	return
 		if(istype(M, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = M
+
+			if(H.pinned_to) //Pinning removal on forced movement... please don't yell at me, this is the only way to reliably do it
+				H.do_pindown(H.pinned_to, 0)
+				H.pinned_to = null
+				H.anchored = 0
+				H.update_canmove()
+
 			var/bloodcolor
 			// Tracking blood
 			var/list/blood_DNA = list()
