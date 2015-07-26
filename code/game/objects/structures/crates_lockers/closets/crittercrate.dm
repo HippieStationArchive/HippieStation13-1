@@ -8,6 +8,15 @@
 	var/content_mob = null
 	var/amount = 1
 
+/obj/structure/closet/update_icon()
+	overlays.Cut()
+	if(!opened)
+		icon_state = icon_closed
+		if(welded)
+			overlays += "weldedcritter"
+	else
+		icon_state = icon_opened
+
 /obj/structure/closet/critter/can_open()
 	if(locked || welded)
 		return 0
