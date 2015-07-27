@@ -153,9 +153,9 @@
 	new /obj/item/device/analyzer(src)
 	new /obj/item/device/analyzer(src)
 	new /obj/item/device/analyzer(src)
-	new /obj/item/clothing/shoes/sneakers/black(src)
-	new /obj/item/clothing/shoes/sneakers/black(src)
-	new /obj/item/clothing/shoes/sneakers/black(src)
+	new /obj/item/clothing/shoes/workboots(src)
+	new /obj/item/clothing/shoes/workboots(src)
+	new /obj/item/clothing/shoes/workboots(src)
 	return
 
 
