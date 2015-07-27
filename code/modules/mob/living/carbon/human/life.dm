@@ -845,36 +845,7 @@
 			//hud_used.SetButtonCoords(hud_used.hide_actions_toggle,button_number+1)
 		client.screen += hud_used.hide_actions_toggle
 
-//Lighting changes and their effect on vision
-#define ADJUST_DARKNESS_LUMCOUNT_THRESHOLD	2.5 //how dark we get before humans start adjusting to darkness
-#define ADJUST_DARKNESS_INCREMENT			0.5 //how much darkness a single point will drop the threshold by
-#define ADJUST_DARKNESS_MAX_INFLICT			3 //how blurry or blind we can get from being exposed to light
-#define ADJUST_DARKNESS_BLURRY_SIGHT		8 //how high a combination of bright + adjusted has to be to make vision blurry
-#define ADJUST_DARKNESS_BLIND_SIGHT			12 //how high a combination of bright + adjusted has to be to blind the human
-#define ADJUST_DARKNESS_MAX_ADJUST			2 //this is the default adjustment value
-#define ADJUST_DARKNESS_DELAY				30 //in deciseconds, how long we wait between adjusting darkness
 
-/mob/living/carbon/human/proc/handle_eyes_lighting(turf_change = 0) //Calling this every two ticks causes some severe lag problems apparently.
-	var/turf/light_turf = get_turf(src)
-	if(!blinded && light_turf && light_turf.lighting_lumcount <= (ADJUST_DARKNESS_LUMCOUNT_THRESHOLD - adjusted_darkness_sight*ADJUST_DARKNESS_INCREMENT))
-		if(adjusted_darkness_sight < (dna.species ? dna.species.max_dark_adjust : ADJUST_DARKNESS_MAX_ADJUST) && (turf_change || (lastDarknessAdjust + ADJUST_DARKNESS_DELAY < world.time))) //we can increase, and we've waited long enough
-			adjusted_darkness_sight++
-			lastDarknessAdjust = world.time
-			if(adjusted_darkness_sight == (dna.species ? dna.species.max_dark_adjust : ADJUST_DARKNESS_MAX_ADJUST) && get_adjust_message)
-				src.show_message("Your eyes fully adjust to the darkness.")
-	else if(light_turf && light_turf.lighting_lumcount > ADJUST_DARKNESS_LUMCOUNT_THRESHOLD) //lighting is higher than the threshold, no need to check
-		// if(!blinded && turf_change || (lastDarknessAdjust + ADJUST_DARKNESS_DELAY < world.time))
-			// if(adjusted_darkness_sight > 0 && light_turf.lighting_lumcount + adjusted_darkness_sight >= ADJUST_DARKNESS_BLIND_SIGHT && !eye_blind)
-			// 	eye_blind += rand(1, ADJUST_DARKNESS_MAX_INFLICT)
-			// 	src.show_message("<span class='rose'>The sudden brightness blinds you!</span>")
-			// if(adjusted_darkness_sight > 0 && light_turf.lighting_lumcount + adjusted_darkness_sight >= ADJUST_DARKNESS_BLURRY_SIGHT && !eye_blurry && !eye_blind)
-			// 	eye_blurry += rand(1, ADJUST_DARKNESS_MAX_INFLICT)
-			// 	src.show_message("<span class='rose'>The sudden brightness blurs your vision!</span>")
-		if(adjusted_darkness_sight > (dna.species ? dna.species.min_dark_adjust : 0))
-			adjusted_darkness_sight--
-			lastDarknessAdjust = world.time
-			if(adjusted_darkness_sight == (dna.species ? dna.species.min_dark_adjust : 0) && get_adjust_message)
-				src.show_message("Your eyes fully adjust to the light.")
 
 #undef HUMAN_MAX_OXYLOSS
 #undef HUMAN_CRIT_MAX_OXYLOSS
