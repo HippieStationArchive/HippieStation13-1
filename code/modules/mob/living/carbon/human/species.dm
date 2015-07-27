@@ -546,15 +546,11 @@
 		H.sight &= ~(SEE_TURFS|SEE_MOBS|SEE_OBJS)
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
-		H.see_in_dark = darksight + H.adjusted_darkness_sight
-		if(H.see_in_dark > 2)
-			H.see_invisible = SEE_INVISIBLE_LEVEL_ONE
-		else
-			H.see_invisible = SEE_INVISIBLE_LIVING
+		H.see_in_dark = darksight
 
 		if(XRAY in H.mutations)
 			H.sight |= SEE_TURFS|SEE_MOBS|SEE_OBJS
-			H.see_in_dark = 8 + H.adjusted_darkness_sight
+			H.see_in_dark = 8
 			H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
 
 		if(H.seer)
