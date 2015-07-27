@@ -9,6 +9,10 @@
 	var/target_must_be_fat = 0									//Needs to be fat
 	var/requires_organic_chest = 0								//Prevents you from performing an operation on Robotic chests***
 	var/has_multi_loc = 0 										//Multiple locations - RR
+	var/ignore_clothes = 0
+
+	var/user_species_restricted = 0								//Surgery only performable BY species
+	var/list/user_species_ids
 
 	// v This is broken atm. It only works for INITIATING surgery, doesn't actually work for PERFORMING it. v
 	// var/must_be_lying = 1										//Checks if the human/monkey must be lying down to perform surgery.

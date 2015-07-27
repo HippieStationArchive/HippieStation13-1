@@ -569,6 +569,11 @@
 			else
 				H.hud_used.lingchemdisplay.invisibility = 101
 
+		if(H.remote_view)
+			H.sight |= SEE_TURFS
+			H.sight |= SEE_MOBS
+			H.sight |= SEE_OBJS
+
 		if(H.glasses)
 			if(istype(H.glasses, /obj/item/clothing/glasses))
 				var/obj/item/clothing/glasses/G = H.glasses
