@@ -876,12 +876,5 @@
 			if(adjusted_darkness_sight == (dna.species ? dna.species.min_dark_adjust : 0) && get_adjust_message)
 				src.show_message("Your eyes fully adjust to the light.")
 
-/mob/living/carbon/human/verb/adjust_eyes_light_messages()
-	set name = "See Eyes Adjustment"
-	set desc = "Toggle the messages for your eyes adjusting to the light or not."
-	set category = "IC"
-	src.get_adjust_message = !src.get_adjust_message
-	src << "You will now [!get_adjust_message ? "not " : ""]receive messages when your vision adjusts to the ambient lighting."
-
 #undef HUMAN_MAX_OXYLOSS
 #undef HUMAN_CRIT_MAX_OXYLOSS
