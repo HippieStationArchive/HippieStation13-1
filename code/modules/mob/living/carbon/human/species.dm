@@ -73,8 +73,6 @@
 
 	var/mob/living/list/ignored_by = list()	// list of mobs that will ignore this species
 
-	var/max_dark_adjust = ADJUST_DARKNESS_MAX_ADJUST //Default var
-	var/min_dark_adjust = -3 //we can actually get too used to bright light
 
 	///////////
 	// PROCS //
