@@ -1022,6 +1022,10 @@ proc/process_ghost_teleport_locs()
 	name = "Robotics"
 	icon_state = "medresearch"
 
+/area/medical/medlounge
+	name = "Medical Waiting Area"
+	icon_state = "medlounge"
+
 /area/medical/research
 	name = "Medical Research"
 	icon_state = "medresearch"
@@ -1068,6 +1072,10 @@ proc/process_ghost_teleport_locs()
 /area/security/main
 	name = "\improper Security Office"
 	icon_state = "security"
+
+/area/security/seclounge
+	name = "Security Lounge"
+	icon_state = "seclounge"
 
 /area/security/brig
 	name = "\improper Brig"

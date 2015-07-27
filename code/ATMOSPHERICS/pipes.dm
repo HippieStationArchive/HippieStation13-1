@@ -64,3 +64,7 @@
 /obj/machinery/atmospherics/pipe/proc/redraw()
 	//used for rapid pipe thing
 	return
+
+/obj/machinery/atmospherics/pipe/proc/update_node_icon()
+	//Used for pipe painting. Overriden in the children.
+	return

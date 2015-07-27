@@ -244,6 +244,11 @@ var/global/datum/controller/occupations/job_master
 		assistant_candidates -= player
 	Debug("DO, AC1 end")
 
+	for(var/mob/new_player/player in unassigned)
+		if(player.client.prefs.pref_species.id == "tarajan")
+			AssignRole(player, "Assistant")
+
+
 	//Select one head
 	Debug("DO, Running Head Check")
 	FillHeadPosition()
