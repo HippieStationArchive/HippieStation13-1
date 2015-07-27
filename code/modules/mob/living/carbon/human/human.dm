@@ -474,6 +474,7 @@
 
 /mob/living/carbon/human/can_inject(var/mob/user, var/error_msg, var/target_zone)
 	. = 1 // Default to returning true.
+	if(NOINJECT in dna.species.specflags) . = 0 //for golems
 	if(user && !target_zone)
 		target_zone = user.zone_sel.selecting
 	// If targeting the head, see if the head item is thin enough.
