@@ -31,6 +31,11 @@
 /mob/camera/aiEye/Move()
 	return 0
 
+/mob/camera/aiEye/proc/GetViewerClient()
+	if(ai)
+		return ai.client
+	return null
+
 
 // AI MOVEMENT
 

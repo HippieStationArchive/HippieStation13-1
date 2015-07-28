@@ -84,6 +84,7 @@
 	var/traitor_scaling_coeff = 6		//how much does the amount of players get divided by to determine traitors
 	var/changeling_scaling_coeff = 6	//how much does the amount of players get divided by to determine changelings
 	var/security_scaling_coeff = 8		//how much does the amount of players get divided by to determine open security officer positions
+	var/abductor_scaling_coeff = 15     //how many players per abductor team
 
 	var/traitor_objectives_amount = 2
 	var/wizard_objectives_amount = 3
@@ -375,6 +376,8 @@
 					config.changeling_scaling_coeff	= text2num(value)
 				if("security_scaling_coeff")
 					config.security_scaling_coeff	= text2num(value)
+				if("abductor_scaling_coeff")
+					config.abductor_scaling_coeff	= text2num(value)
 				if("traitor_objectives_amount")
 					config.traitor_objectives_amount = text2num(value)
 				if("wizard_objectives_amount")

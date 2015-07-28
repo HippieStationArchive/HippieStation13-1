@@ -269,7 +269,7 @@
 			G.affecting.Weaken(5)
 		G.affecting.visible_message("<span class='danger'>[G.assailant] pushes [G.affecting] onto [src].</span>", \
 									"<span class='userdanger'>[G.assailant] pushes [G.affecting] onto [src].</span>")
-		add_logs(G.assailant, G.affecting, "pushed")
+		add_logs(G.assailant, G.affecting, "tabled")
 		var/mob/M = G.affecting
 		qdel(I)
 		return M

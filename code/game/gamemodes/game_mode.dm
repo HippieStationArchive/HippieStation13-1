@@ -221,6 +221,7 @@
 		if(BE_GANG)			roletext="gangster"
 		if(BE_CULTIST)		roletext="cultist"
 		if(BE_MONKEY)		roletext="monkey"
+		if(BE_ABDUCTOR)		roletext="abductor"
 
 	// Ultimate randomizing code right here
 	for(var/mob/new_player/player in player_list)
@@ -402,4 +403,15 @@ proc/display_roundstart_logout_report()
 		text += "body destroyed"
 	text += ")"
 
+	return text
+
+/datum/game_mode/proc/printobjectives(var/datum/mind/ply)
+	var/text = ""
+	var/count = 1
+	for(var/datum/objective/objective in ply.objectives)
+		if(objective.check_completion())
+			text += "<br><b>Objective #[count]</b>: [objective.explanation_text] <font color='green'><b>Success!</b></font>"
+		else
+			text += "<br><b>Objective #[count]</b>: [objective.explanation_text] <span class='danger'>Fail.</span>"
+		count++
 	return text

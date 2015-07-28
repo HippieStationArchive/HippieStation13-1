@@ -85,6 +85,7 @@ USE_RECURSIVE_EXPLOSIONS
 ## Default probablity is 1, increase to make that mode more likely to be picked.
 ## Set to 0 to disable that mode.
 
+PROBABILITY ABDUCTION 2
 PROBABILITY TRAITOR 7
 PROBABILITY TRAITORCHAN 3
 PROBABILITY DOUBLE_AGENTS 6
