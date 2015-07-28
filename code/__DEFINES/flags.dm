@@ -69,6 +69,9 @@
 #define NOGUNS		512
 #define NOBLOOD		1024
 #define NOFIRE		2048
+#define NOINJECT	4096
+#define VIRUSIMMUNE	8192
+
 
 /*
 	These defines are used specifically with the atom/movable/languages bitmask.

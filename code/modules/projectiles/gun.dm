@@ -111,7 +111,7 @@
 /obj/item/weapon/gun/proc/process_fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, var/message = 1, params)
 
 	add_fingerprint(user)
-
+	add_logs(usr, target, "shot at", admin=0)
 	if(!special_check(user))
 		return
 

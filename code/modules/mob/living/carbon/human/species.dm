@@ -73,8 +73,6 @@
 
 	var/mob/living/list/ignored_by = list()	// list of mobs that will ignore this species
 
-	var/max_dark_adjust = ADJUST_DARKNESS_MAX_ADJUST //Default var
-	var/min_dark_adjust = -3 //we can actually get too used to bright light
 
 	///////////
 	// PROCS //
@@ -548,15 +546,11 @@
 		H.sight &= ~(SEE_TURFS|SEE_MOBS|SEE_OBJS)
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
-		H.see_in_dark = darksight + H.adjusted_darkness_sight
-		if(H.see_in_dark > 2)
-			H.see_invisible = SEE_INVISIBLE_LEVEL_ONE
-		else
-			H.see_invisible = SEE_INVISIBLE_LIVING
+		H.see_in_dark = darksight
 
 		if(XRAY in H.mutations)
 			H.sight |= SEE_TURFS|SEE_MOBS|SEE_OBJS
-			H.see_in_dark = 8 + H.adjusted_darkness_sight
+			H.see_in_dark = 8
 			H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
 
 		if(H.seer)
@@ -568,6 +562,11 @@
 				H.hud_used.lingchemdisplay.maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'> <font color='#dd66dd'>[H.mind.changeling.chem_charges]</font></div>"
 			else
 				H.hud_used.lingchemdisplay.invisibility = 101
+
+		if(H.remote_view)
+			H.sight |= SEE_TURFS
+			H.sight |= SEE_MOBS
+			H.sight |= SEE_OBJS
 
 		if(H.glasses)
 			if(istype(H.glasses, /obj/item/clothing/glasses))

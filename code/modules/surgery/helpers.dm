@@ -8,6 +8,12 @@
 
 				if(locate(S.type) in M.surgeries)
 					continue
+				if(S.user_species_restricted)
+					if(!istype(user, /mob/living/carbon/human))
+						continue
+					var/mob/living/carbon/human/doc = user
+					if(!(doc.dna.species.id in S.user_species_ids))
+						continue
 				if(S.target_must_be_dead && M.stat != DEAD)
 					continue
 				if(S.target_must_be_fat && !(FAT in M.mutations))
@@ -35,7 +41,7 @@
 				var/datum/surgery/S = available_surgeries[P]
 				var/datum/surgery/procedure = new S.type
 				if(procedure)
-					if(get_location_accessible(M, procedure.location))
+					if(get_location_accessible(M, procedure.location) || procedure.ignore_clothes)
 						if(procedure.location == "anywhere") // if location == "anywhere" change location to the surgeon's target, otherwise leave location as is.
 							procedure.location = user.zone_sel.selecting
 						M.surgeries += procedure
