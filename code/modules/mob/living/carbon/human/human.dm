@@ -303,6 +303,7 @@
 				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
 				usr.visible_message("<span class='danger'>[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!</span>",\
 									"<span class='userdanger'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()]!</span>")
+				add_logs(usr, src, "un-embedded of [I] ")
 				if(!has_embedded_objects())
 					clear_alert("embeddedobject")
 
