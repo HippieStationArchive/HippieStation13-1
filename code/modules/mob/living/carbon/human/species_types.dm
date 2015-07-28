@@ -254,7 +254,7 @@
 	// Animated beings of stone. They have increased defenses, and do not need to breathe. They're also slow as fuuuck.
 	name = "Golem"
 	id = "golem"
-<<<<<<< HEAD
+
 	specflags = list(NOBREATH,HEATRES,COLDRES,NOGUNS,NOBLOOD,RADIMMUNE,NOINJECT,VIRUSIMMUNE)
 
 	speedmod = 3
