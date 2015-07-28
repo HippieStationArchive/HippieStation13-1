@@ -142,12 +142,15 @@
 			log_admin("DEBUG: [O] in processor havent suitable recipe. How do you put it in?") //-rastaf0
 			continue
 		src.processing = 1
+		var/offset = prob(50) ? -2 : 2
+		animate(src, pixel_x = pixel_x + offset, time = 0.2, loop = 200)
 		user.visible_message("<span class='notice'>[user] turns on \a [src].</span>", \
 			"You turn on \a [src].", \
 			"You hear a food processor")
 		playsound(src.loc, 'sound/machines/blender.ogg', 50, 1)
 		use_power(500)
 		sleep(P.time)
+		pixel_x = initial(pixel_x) //PUT THAT BACK
 		P.process(src.loc, O)
 		src.processing = 0
 	src.visible_message("<span class='notice'>\the [src] finished processing.</span>")
