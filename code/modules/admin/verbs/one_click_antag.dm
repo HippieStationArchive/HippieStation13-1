@@ -21,12 +21,11 @@ client/proc/one_click_antag()
 		<a href='?src=\ref[src];makeAntag=6'>Make Wizard (Requires Ghosts)</a><br>
 		<a href='?src=\ref[src];makeAntag=7'>Make Nuke Team (Requires Ghosts)</a><br>
 		<a href='?src=\ref[src];makeAntag=10'>Make Deathsquad (Requires Ghosts)</a><br>
+		<a href='?src=\ref[src];makeAntag=13'>Make Abductor Team (Requires Ghosts)</a><br>
 		"}
 /* These dont work just yet
 	Ninja, aliens and deathsquad I have not looked into yet
 	Nuke team is getting a null mob returned from makebody() (runtime error: null.mind. Line 272)
-
-
 		<a href='?src=\ref[src];makeAntag=8'>Make Space Ninja (Requires Ghosts)</a><br>
 		<a href='?src=\ref[src];makeAntag=9'>Make Aliens (Requires Ghosts)</a><br>
 		"}
@@ -393,6 +392,74 @@ client/proc/one_click_antag()
 		return 1
 
 	return
+
+/datum/admins/proc/makeAbductorTeam()
+	var/list/mob/dead/observer/candidates = list()
+	var/time_passed = world.time
+
+	for(var/mob/dead/observer/G in player_list)
+		spawn(0)
+			switch(alert(G,"Do you wish to be considered for Abductor Team?","Please answer in 30 seconds!","Yes","No"))
+				if("Yes")
+					if((world.time-time_passed)>300)//If more than 30 game seconds passed.
+						return
+					candidates += G
+				if("No")
+					return
+				else
+					return
+	sleep(300)
+
+	for(var/mob/dead/observer/G in candidates)
+		if(!G.key)
+			candidates.Remove(G)
+
+	if(candidates.len >= 2)
+		//Oh god why we can't have static functions
+		var/teams_finished = 0
+		if(ticker.mode.config_tag == "abduction")
+			var/datum/game_mode/abduction/A = ticker.mode
+			teams_finished = A.teams
+		else
+			teams_finished = round(ticker.mode.abductors.len / 2)
+		var/number =  teams_finished + 1
+
+		var/datum/game_mode/abduction/temp
+		if(ticker.mode.config_tag == "abduction")
+			temp = ticker.mode
+		else
+			temp = new
+
+		var/agent_mind = pick(candidates)
+		candidates -= agent_mind
+		var/scientist_mind = pick(candidates)
+
+		var/mob/living/carbon/human/agent=makeBody(agent_mind)
+		var/mob/living/carbon/human/scientist=makeBody(scientist_mind)
+
+		agent_mind = agent.mind
+		scientist_mind = scientist.mind
+
+		temp.scientists.len = number
+		temp.agents.len = number
+		temp.abductors.len = 2*number
+		temp.team_objectives.len = number
+		temp.team_names.len = number
+		temp.scientists[number] = scientist_mind
+		temp.agents[number] = agent_mind
+		temp.abductors |= list(agent_mind,scientist_mind)
+		temp.make_abductor_team(number,preset_scientist=scientist_mind,preset_agent=agent_mind)
+		temp.post_setup_team(number)
+
+		if(ticker.mode.config_tag == "abduction")
+			var/datum/game_mode/abduction/A = ticker.mode
+			A.teams += 1
+		else
+			ticker.mode.abductors |= temp.abductors
+
+		return 1
+	else
+		return
 
 
 /datum/admins/proc/makeGangsters()

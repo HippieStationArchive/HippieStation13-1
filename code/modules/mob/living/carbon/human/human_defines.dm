@@ -54,6 +54,8 @@
 	var/list/martial_arts = list() // Contains each of a human's current martial arts
 	var/datum/martial_art/martial_art = null // The currently in-use martial art
 
+	var/name_override //For temporary visible name change
+
 	var/adjusted_darkness_sight = 0
 	var/get_adjust_message = 0 //whether or not we'll be spammed by the adjustment messages
 	var/lastDarknessAdjust = 0

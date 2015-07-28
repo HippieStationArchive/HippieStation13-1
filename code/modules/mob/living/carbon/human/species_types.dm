@@ -254,7 +254,9 @@
 	// Animated beings of stone. They have increased defenses, and do not need to breathe. They're also slow as fuuuck.
 	name = "Golem"
 	id = "golem"
-	specflags = list(NOBREATH,HEATRES,COLDRES,NOGUNS,NOBLOOD,RADIMMUNE,NOINJECT)
+<<<<<<< HEAD
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOGUNS,NOBLOOD,RADIMMUNE,NOINJECT,VIRUSIMMUNE)
+
 	speedmod = 3
 	armor = 55
 	punchmod = 5
@@ -308,6 +310,35 @@
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/skeleton
 	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE)
 	blood_color = "#808080"
+
+// Abductor
+/datum/species/abductor
+	name = "Abductor"
+	id = "abductor"
+	darksight = 3
+	say_mod = "gibbers"
+	sexes = 0
+	invis_sight = SEE_INVISIBLE_LEVEL_ONE
+	specflags = list(NOBLOOD,NOBREATH)
+	var/scientist = 0 // vars to not pollute spieces list with castes
+	var/agent = 0
+	var/team = 1
+
+/datum/species/abductor/handle_speech(message)
+	//Hacks
+	var/mob/living/carbon/human/user = usr
+	for(var/mob/living/carbon/human/H in mob_list)
+		if(H.dna.species.id != "abductor")
+			continue
+		else
+			var/datum/species/abductor/target_spec = H.dna.species
+			if(target_spec.team == team)
+				H << "<i><font color=#800080><b>[user.name]:</b> [message]</font></i>"
+				//return - technically you can add more aliens to a team
+	for(var/mob/M in dead_mob_list)
+		M << "<i><font color=#800080><b>[user.name]:</b> [message]</font></i>"
+	return ""
+
 /*
  ZOMBIES
 */
@@ -319,6 +350,7 @@
 	say_mod = "moans"
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/zombie
+
 
 /datum/species/zombie/handle_speech(message)
 	var/list/message_list = text2list(message, " ")
