@@ -555,7 +555,7 @@
 	var/dat = ""
 	if(!src.beaker)
 		dat += "No beaker loaded"
-	else if(src.temperatue != -1)
+	else if(src.temperature != -1)
 		dat += "Temperature : [src.temperature]K <BR><BR>"
 		dat += "Target temperature : [src.target_temp]K <BR><BR>"
 		dat += "<A href='?src=\ref[src];lower=1'>Temp (- 10) </A> "
@@ -603,9 +603,10 @@
 	if((stat & (BROKEN|NOPOWER)) || !beaker)
 		return
 	if(heating)
+		var/datum/reagents/R = src.beaker:reagents
 		if(R.present_machines[1] == -1)
 			return
-		var/datum/reagents/R = src.beaker:reagents
+
 		R.present_machines[1] = src.temperature
 		R.handle_reactions()//always called
 		if(temperature == target_temp)
