@@ -381,6 +381,72 @@ to destroy them and players will be able to make replacements.
 							/obj/item/weapon/stock_parts/manipulator = 1,
 							/obj/item/weapon/stock_parts/console_screen = 1,
 							/obj/item/weapon/stock_parts/cell = 1)
+//adv chem
+/obj/item/weapon/circuitboard/distiller
+	name = "circuit board (Chemical Distillery)"
+	build_path = /obj/machinery/adv_chem/distiller
+	board_type = "machine"
+	origin_tech = "materials=4;engineering=5;programming=3;plasmatech=1;biotech=1"
+	req_components = list(
+							/obj/item/weapon/stock_parts/matter_bin = 1,
+							/obj/item/weapon/stock_parts/capacitor = 5,
+							/obj/item/weapon/stock_parts/manipulator = 3,
+							/obj/item/weapon/stock_parts/console_screen = 1,
+							/obj/item/weapon/stock_parts/micro_laser = 3,
+							/obj/item/weapon/stock_parts/cell = 1)
+/obj/item/weapon/circuitboard/pressure
+	name = "circuit board (Pressurized reaction vessel)"
+	build_path = /obj/machinery/adv_chem/pressure
+	board_type = "machine"
+	origin_tech = "materials=5;engineering=5;programming=2;plasmatech=3;biotech=2"
+	req_components = list(
+							/obj/item/weapon/stock_parts/matter_bin = 3,
+							/obj/item/weapon/stock_parts/capacitor = 6,
+							/obj/item/weapon/stock_parts/manipulator = 5,
+							/obj/item/weapon/stock_parts/console_screen = 1,
+							/obj/item/weapon/stock_parts/micro_laser = 4,
+							/obj/item/weapon/stock_parts/scanning_module = 1,
+							/obj/item/weapon/stock_parts/cell = 1)
+/obj/item/weapon/circuitboard/centrifuge
+	name = "circuit board (Centrifuge)"
+	build_path = /obj/machinery/adv_chem/centrifuge
+	board_type = "machine"
+	origin_tech = "materials=6;engineering=6;programming=5;plasmatech=2;biotech=4"
+	req_components = list(
+							/obj/item/weapon/stock_parts/matter_bin = 4,
+							/obj/item/weapon/stock_parts/capacitor = 3,
+							/obj/item/weapon/stock_parts/manipulator = 6,
+							/obj/item/weapon/stock_parts/console_screen = 1,
+							/obj/item/weapon/stock_parts/micro_laser = 4,
+							/obj/item/weapon/stock_parts/scanning_module = 4,
+							/obj/item/weapon/stock_parts/cell = 1)
+/obj/item/weapon/circuitboard/radioactive
+	name = "circuit board (Radioactive molecular reassembler)"
+	build_path = /obj/machinery/adv_chem/radioactive
+	board_type = "machine"
+	origin_tech = "materials=6;engineering=6;programming=5;plasmatech=2;biotech=4"
+	req_components = list(
+							/obj/item/weapon/stock_parts/matter_bin/super = 1,
+							/obj/item/weapon/stock_parts/capacitor = 5,
+							/obj/item/weapon/stock_parts/manipulator/pico = 3,
+							/obj/item/weapon/stock_parts/console_screen = 1,
+							/obj/item/weapon/stock_parts/micro_laser/ultra = 3,
+							/obj/item/weapon/stock_parts/scanning_module/phasic = 4,
+							/obj/item/weapon/stock_parts/cell = 1)
+/obj/item/weapon/circuitboard/bluespace
+	name = "circuit board (Bluespace recombobulator)"
+	build_path = /obj/machinery/adv_chem/bluespace
+	board_type = "machine"
+	origin_tech = "materials=6;engineering=6;programming=5;plasmatech=3;biotech=4,bluespace = 3"
+	req_components = list(
+							/obj/item/weapon/stock_parts/matter_bin/super = 3,
+							/obj/item/weapon/stock_parts/capacitor/super = 10,
+							/obj/item/weapon/stock_parts/manipulator/pico = 5,
+							/obj/item/weapon/stock_parts/console_screen = 1,
+							/obj/item/weapon/stock_parts/micro_laser/ultra = 5,
+							/obj/item/weapon/stock_parts/scanning_module/phasic = 4,
+							/obj/item/bluespace_crystal = 3,//this thing is an utter SHIT to make
+							/obj/item/weapon/stock_parts/cell = 1)
 
 
 /obj/item/weapon/circuitboard/destructive_analyzer
