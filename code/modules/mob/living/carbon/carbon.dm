@@ -249,6 +249,8 @@
 /mob/living/carbon/proc/canBeHandcuffed()
 	return 0
 
+
+
 /mob/living/carbon/unEquip(obj/item/I) //THIS PROC DID NOT CALL ..() AND THAT COST ME AN ENTIRE DAY OF DEBUGGING.
 	. = ..() //Sets the default return value to what the parent returns.
 	if(!. || !I) //We don't want to set anything to null if the parent returned 0.
