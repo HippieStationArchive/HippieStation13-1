@@ -1,4 +1,4 @@
-HOW TO CONVERT A MAP TO THE NEW (june 2008) ACCESS LEVEL SYSTEM
+1HOW TO CONVERT A MAP TO THE NEW (june 2008) ACCESS LEVEL SYSTEM
 1. Open the .dmp file up in Notepad
 2. Find all the "access = blahblah" attributes of doors.
 3. Delete them.
