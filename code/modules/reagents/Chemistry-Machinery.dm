@@ -279,8 +279,6 @@
 
 /obj/machinery/adv_chem/attack_hand(mob/user as mob)
 	return
-/obj/machinery/adv_chem/Topic(href, href_list)
-	return
 /obj/machinery/adv_chem/process()
 	return
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -315,7 +313,7 @@
 		dat += "Contained reagents<BR>"
 		var/datum/reagents/R = src.beaker:reagents
 		for(var/datum/reagent/I in R.reagent_list)
-			dat += "[I.name] , [I.volume] Units <BR>"
+			dat += "Reagent : [I.name] , [I.volume] Units <BR>"
 	user << browse("<TITLE>Pressurized reaction chamber</TITLE>Reactor menu:<BR><BR>[dat]", "window=preactor;size=575x400")
 	onclose(user, "preactor")
 
@@ -375,6 +373,7 @@
 			src.beaker = B
 			src.updateUsrDialog()
 	if(istype(B,/obj/item/stack/sheet/mineral/uranium))
+		user<<"You add the uranium to the machine"
 		var/obj/item/stack/sheet/mineral/uranium/I = B
 		material_amt += I.amount * 500
 		user.drop_item()
@@ -556,7 +555,7 @@
 	var/dat = ""
 	if(!src.beaker)
 		dat += "No beaker loaded"
-	else
+	else if(src.temperatue != -1)
 		dat += "Temperature : [src.temperature]K <BR><BR>"
 		dat += "Target temperature : [src.target_temp]K <BR><BR>"
 		dat += "<A href='?src=\ref[src];lower=1'>Temp (- 10) </A> "
@@ -569,6 +568,8 @@
 		var/datum/reagents/R = src.beaker:reagents
 		for(var/datum/reagent/I in R.reagent_list)
 			dat += "[I.name] , [I.volume] Units <BR>"
+	else
+		dat += "No reagents within the container"
 	user << browse("<TITLE>Chemical Distillery</TITLE>Chemical Distillery menu:<BR><BR>[dat]", "window=dist;size=575x400")
 	onclose(user, "dist")
 
@@ -602,6 +603,8 @@
 	if((stat & (BROKEN|NOPOWER)) || !beaker)
 		return
 	if(heating)
+		if(R.present_machines[1] == -1)
+			return
 		var/datum/reagents/R = src.beaker:reagents
 		R.present_machines[1] = src.temperature
 		R.handle_reactions()//always called
