@@ -210,11 +210,17 @@
 	item_state = "gas_mask"
 	armor = list(melee = 0, bullet = 0, laser = 2,energy = 2, bomb = 0, bio = 75, rad = 0)
 
+/obj/item/clothing/mask/gas/plaguedoctor/attack_self(mob/user)
+	return
+
 /obj/item/clothing/mask/gas/syndicate
 	name = "syndicate mask"
 	desc = "A close-fitting tactical mask that can be connected to an air supply."
 	icon_state = "syndicate"
 	strip_delay = 60
+
+/obj/item/clothing/mask/gas/syndicate/attack_self(mob/user)
+	return
 
 /obj/item/clothing/mask/gas/voice
 	name = "gas mask"
@@ -289,12 +295,18 @@ obj/item/clothing/mask/gas/clown_hat/attack_self(mob/user)
 	icon_state = "sexyclown"
 	item_state = "sexyclown"
 
+/obj/item/clothing/mask/gas/sexyclown/attack_self(mob/user)
+	return
+
 /obj/item/clothing/mask/gas/mime
 	name = "mime mask"
 	desc = "The traditional mime's mask. It has an eerie facial posture."
 	alloweat = 1
 	icon_state = "mime"
 	item_state = "mime"
+
+/obj/item/clothing/mask/gas/mime/attack_self(mob/user)
+	return
 
 /obj/item/clothing/mask/gas/monkeymask
 	name = "monkey mask"
@@ -303,6 +315,9 @@ obj/item/clothing/mask/gas/clown_hat/attack_self(mob/user)
 	icon_state = "monkeymask"
 	item_state = "monkeymask"
 
+/obj/item/clothing/mask/gas/monkeymask/attack_self(mob/user)
+	return
+
 /obj/item/clothing/mask/gas/sexymime
 	name = "sexy mime mask"
 	desc = "A traditional female mime's mask."
@@ -310,18 +325,30 @@ obj/item/clothing/mask/gas/clown_hat/attack_self(mob/user)
 	icon_state = "sexymime"
 	item_state = "sexymime"
 
+/obj/item/clothing/mask/gas/sexymime/attack_self(mob/user)
+	return
+
 /obj/item/clothing/mask/gas/death_commando
 	name = "Death Commando Mask"
 	icon_state = "death_commando_mask"
 	item_state = "death_commando_mask"
+
+/obj/item/clothing/mask/gas/death_commando/attack_self(mob/user)
+	return
 
 /obj/item/clothing/mask/gas/cyborg
 	name = "cyborg visor"
 	desc = "Beep boop."
 	icon_state = "death"
 
+/obj/item/clothing/mask/gas/cyborg/attack_self(mob/user)
+	return
+
 /obj/item/clothing/mask/gas/owl_mask
 	name = "owl mask"
 	desc = "Twoooo!"
 	alloweat = 1
 	icon_state = "owl"
+
+/obj/item/clothing/mask/gas/owl_mask/attack_self(mob/user)
+	return
