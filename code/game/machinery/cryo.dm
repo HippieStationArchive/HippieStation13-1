@@ -76,19 +76,32 @@
 
 /obj/machinery/atmospherics/unary/cryo_cell/can_crawl_through()
 	return 0 // No. Just no.
-	
+
 /obj/machinery/atmospherics/unary/cryo_cell/allow_drop()
 	return 0
 
 /obj/machinery/atmospherics/unary/cryo_cell/relaymove(var/mob/user)
 	open_machine()
 
-/obj/machinery/atmospherics/unary/cryo_cell/container_resist()
-	if(stat & DEAD)
-		return
-	sleep(usr.stat * 1200)
-	open_machine()
-	return
+/obj/machinery/atmospherics/unary/cryo_cell/verb/move_eject()
+	set name = "Eject Cryo Cell"
+	set desc = "Begin the release sequence inside the cryo tube."
+	set category = "Object"
+	set src in oview(1)
+	if(usr == occupant)	//If the user is inside the tube...
+		if(usr.stat == DEAD)	//and he's not dead....
+			return
+		usr << "<span class='notice'>Release sequence activated. This will take about a minute.</span>"
+		spawn(700)
+			if(!src || !usr || !occupant)	//Check if someone's released/replaced/bombed him already
+				return
+			open_machine()
+			add_fingerprint(usr)
+	else
+		if(!istype(usr, /mob/living) || usr.stat)
+			usr << "<span class='warning'>You can't do that!</span>"
+			return
+		open_machine()
 
 /obj/machinery/atmospherics/unary/cryo_cell/examine(mob/user)
 	..()
