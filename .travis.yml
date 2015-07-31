@@ -8,8 +8,8 @@ env:
     - BYOND_MINOR="1293"
     matrix:
     - DM_MAPFILE="tgstation2"
-    - DM_MAPFILE="metastation"
-    - DM_MAPFILE="ministation"
+
+
   
 cache:
   directories:
