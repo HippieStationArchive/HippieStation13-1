@@ -1211,7 +1211,7 @@ obj/machinery/power/apc/proc/autoset(var/val, var/on)
 		var/foo = 0
 		for(var/area/A in area.related)
 			for(var/obj/machinery/light/L in A)
-				foo = 1
+				if(!L.status)	foo = 1 //status 0 is LIGHT_OK
 				L.on = 1
 				L.broken()
 				sleep(1)
