@@ -33,7 +33,8 @@ before_script:
 script:
   - shopt -s globstar
   - (! grep 'step_[xy]' _maps/**/*.dmm)
-
+  - source $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/byondsetup
+  - bash dm.sh -M${DM_MAPFILE} tgstation.dme
 
 notifications:
   slack: hippiestation13:XhmNC2DjV6oSGiocJ7kFVsV9   
