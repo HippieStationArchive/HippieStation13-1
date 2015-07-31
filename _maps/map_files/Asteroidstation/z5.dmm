@@ -10,7 +10,7 @@
 "aj" = (/turf/simulated/floor/plating/airless,/area/AIsattele)
 "ak" = (/obj/structure/rack,/obj/item/clothing/gloves/yellow,/turf/simulated/floor/plating/airless,/area/AIsattele)
 "al" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating/airless,/area/AIsattele)
-"am" = (/obj/item/weapon/stock_parts/cell{step_x = 0},/turf/simulated/floor/plating/airless,/area/AIsattele)
+"am" = (/obj/item/weapon/stock_parts/cell,/turf/simulated/floor/plating/airless,/area/AIsattele)
 "an" = (/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plating/airless,/area/AIsattele)
 "ao" = (/obj/effect/decal/cleanable/blood/gibs/robot/old,/turf/simulated/floor/plating/airless,/area/AIsattele)
 "ap" = (/obj/machinery/door/airlock/external,/turf/simulated/floor/plating/airless,/area/AIsattele)
