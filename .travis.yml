@@ -8,8 +8,6 @@ env:
     - BYOND_MINOR="1293"
     matrix:
     - DM_MAPFILE="tgstation2"
-
-
   
 cache:
   directories:
@@ -31,6 +29,10 @@ install:
 before_script:
   - chmod +x ./install-byond.sh
   - ./install-byond.sh
+
+script:
+  - shopt -s globstar
+  - (! grep 'step_[xy]' _maps/**/*.dmm)
 
 
 notifications:
