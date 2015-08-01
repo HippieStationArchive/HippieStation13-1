@@ -336,7 +336,7 @@
 "gx" = (/obj/machinery/the_singularitygen{anchored = 0},/turf/simulated/floor/plating{icon_state = "warnplate"; dir = 4},/area/engine/engineering)
 "gy" = (/obj/machinery/computer/station_alert,/turf/simulated/floor/plasteel,/area/engine/engineering)
 "gz" = (/obj/machinery/computer/monitor{name = "primary power monitoring console"},/turf/simulated/floor/plasteel,/area/engine/engineering)
-"gA" = (/obj/structure/table,/obj/item/weapon/tank/emergency_oxygen/engi,/obj/item/clothing/mask/breath{step_x = 0; step_y = 0},/turf/simulated/floor/plasteel{icon_state = "yellow"},/area/engine/engineering)
+"gA" = (/obj/structure/table,/obj/item/weapon/tank/emergency_oxygen/engi,/obj/item/clothing/mask/breath,/turf/simulated/floor/plasteel{icon_state = "yellow"},/area/engine/engineering)
 "gB" = (/obj/machinery/computer/atmos_alert,/obj/machinery/requests_console{announcementConsole = 1; department = "Chief Engineer's Desk"; departmentType = 3; name = "Chief Engineer RC"; pixel_x = -32; pixel_y = 0},/turf/simulated/floor/plasteel{dir = 2; icon_state = "neutralfull"},/area/engine/chiefs_office)
 "gC" = (/obj/structure/table/reinforced,/obj/item/weapon/folder/yellow,/obj/item/weapon/paper/monitorkey,/turf/simulated/floor/plasteel{dir = 2; icon_state = "neutralfull"},/area/engine/chiefs_office)
 "gD" = (/obj/structure/closet/secure_closet/engineering_chief{req_access_txt = "0"},/turf/simulated/floor/plasteel{dir = 2; icon_state = "neutralfull"},/area/engine/chiefs_office)
