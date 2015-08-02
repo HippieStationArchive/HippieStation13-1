@@ -1,13 +1,14 @@
 /obj/machinery/abductor/experiment
-	name = "Experimental machinery"
-	desc = "A human-sized coffin sporting wide array of automatic surgery tools"
+	name = "experimentation machine"
+	desc = "A large man-sized tube sporting a complex array of surgical apparatus."
 	icon = 'icons/obj/abductor.dmi'
 	icon_state = "experiment-open"
 	density = 0
 	anchored = 1
 	state_open = 1
 	var/points = 0
-	var/list/history = new
+	var/list/history = list()
+	var/list/abductee_minds = list()
 	var/flash = " - || - "
 	var/obj/machinery/abductor/console/console
 
@@ -17,9 +18,6 @@
 	if(IsAbductor(target))
 		return
 	close_machine(target)
-
-/obj/machinery/abductor/experiment/allow_drop()
-	return 0
 
 /obj/machinery/abductor/experiment/attack_hand(mob/user)
 	if(..())
@@ -38,7 +36,7 @@
 	if(state_open && !panel_open)
 		..(target)
 
-/obj/machinery/abductor/experiment/proc/dissection_icon(var/mob/living/carbon/human/H)
+/obj/machinery/abductor/experiment/proc/dissection_icon(mob/living/carbon/human/H)
 	var/icon/photo = null
 	var/g = (H.gender == FEMALE) ? "f" : "m"
 	if(!config.mutant_races || H.dna.species.use_skintones)
@@ -88,7 +86,8 @@
 		dat += "<a href='?src=\ref[src];experiment=3'>Analyze</a><br>"
 		dat += "</td></tr></table>"
 	else
-		dat += "<span class='linkOff'> Experiment </span>"
+		dat += "<span class='linkOff'>Experiment </span>"
+
 	if(!occupant)
 		dat += "<h3>Machine Unoccupied</h3>"
 	else
@@ -100,7 +99,7 @@
 			if(1)
 				dat += "<span class='average'>Unconscious</span>"
 			else
-				dat += "<span class='bad'>DEAD</span>"
+				dat += "<span class='bad'>Deceased</span>"
 	dat += "<br>"
 	dat += "[flash]"
 	dat += "<br>"
@@ -130,39 +129,42 @@
 	updateUsrDialog()
 	add_fingerprint(usr)
 
-/obj/machinery/abductor/experiment/proc/Experiment(var/mob/occupant,var/type)
+/obj/machinery/abductor/experiment/proc/Experiment(mob/occupant,type)
 	var/mob/living/carbon/human/H = occupant
 	var/point_reward = 0
 	if(H in history)
-		return "<span class='bad'>Specimen already in the database</span>"
+		return "<span class='bad'>Specimen already in database.</span>"
 	if(H.stat == DEAD)
 		say("Specimen deceased - please provide fresh sample.")
-		return "<span class='bad'>Specimen Deceased</span>"
+		return "<span class='bad'>Specimen deceased.</span>"
 	var/obj/item/gland/GlandTest = locate() in H
 	if(!GlandTest)
 		say("Experimental dissection not detected!")
 		return "<span class='bad'>No glands detected!</span>"
 	if(H.mind != null && H.ckey != null)
 		history += H
-		say("Processing Specimen...")
+		abductee_minds += H.mind
+		say("Processing specimen...")
 		sleep(5)
 		switch(text2num(type))
 			if(1)
 				H << "<span class='warning'>You feel violated.</span>"
 			if(2)
-				H << "<span class='warning'>You feel being sliced and put back together.</span>"
+				H << "<span class='warning'>You feel yourself being sliced apart and put back together.</span>"
 			if(3)
-				H << "<span class='warning'>You feel under intense scrutiny.</span>"
+				H << "<span class='warning'>You feel intensely watched.</span>"
 		sleep(5)
-		H << "<span class='warning'>Your mind snaps!</span>"
+		H << "<span class='warning'><b>Your mind snaps!</b></span>"
 		var/objtype = pick(typesof(/datum/objective/abductee/) - /datum/objective/abductee/)
 		var/datum/objective/abductee/O = new objtype()
+		ticker.mode.abductees += H.mind
 		H.mind.objectives += O
 		var/obj_count = 1
 		H << "<span class='notice'>Your current objectives:</span>"
 		for(var/datum/objective/objective in H.mind.objectives)
 			H << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
 			obj_count++
+
 		for(var/obj/item/gland/G in H)
 			G.Start()
 			point_reward++
@@ -171,30 +173,35 @@
 			SendBack(H)
 			playsound(src.loc, 'sound/machines/ding.ogg', 50, 1)
 			points += point_reward
-			return "<span class='good'>Experiment Successfull! [point_reward] new data-points collected.</span>"
+			return "<span class='good'>Experiment successful! [point_reward] new data-points collected.</span>"
 		else
 			playsound(src.loc, 'sound/machines/buzz-sigh.ogg', 50, 1)
-			return "<span class='bad'>Experiment Failed! No replacement organ detected.</span>"
+			return "<span class='bad'>Experiment failed! No replacement organ detected.</span>"
 	else
-		say("Brain Activity Nonexistant - Disposing Sample...")
+		say("Brain activity nonexistant - disposing sample...")
 		open_machine()
 		SendBack(H)
-		return "<span class='bad'>Specimen Braindead - Disposed</span>"
+		return "<span class='bad'>Specimen braindead - disposed.</span>"
 	return "<span class='bad'>ERROR</span>"
-/obj/machinery/abductor/experiment/proc/SendBack(var/mob/living/carbon/human/H)
+
+
+/obj/machinery/abductor/experiment/proc/SendBack(mob/living/carbon/human/H)
 	H.Sleeping(8)
 	var/area/A
 	if(console && console.pad && console.pad.teleport_target)
 		A = console.pad.teleport_target
 		if(A.safe) // right now crew areas are safe - being locked behind closed doors is not fun
 			TeleportToArea(H,A)
+			H.uncuff()
+			return
 	//Area not chosen / It's not safe area - teleport to arrivals
 	H.forceMove(pick(latejoin))
+	H.uncuff()
+	return
+
 
 /obj/machinery/abductor/experiment/update_icon()
 	if(state_open)
 		icon_state = "experiment-open"
 	else
 		icon_state = "experiment"
-/obj/machinery/abductor/experiment/say_quote(text)
-	return "beeps, \"[text]\""

@@ -393,36 +393,14 @@ client/proc/one_click_antag()
 
 	return
 
+
+//Abductors
 /datum/admins/proc/makeAbductorTeam()
-	var/list/mob/dead/observer/candidates = list()
-	var/time_passed = world.time
-
-	for(var/mob/dead/observer/G in player_list)
-		spawn(0)
-			switch(alert(G,"Do you wish to be considered for Abductor Team?","Please answer in 30 seconds!","Yes","No"))
-				if("Yes")
-					if((world.time-time_passed)>300)//If more than 30 game seconds passed.
-						return
-					candidates += G
-				if("No")
-					return
-				else
-					return
-	sleep(300)
-
-	for(var/mob/dead/observer/G in candidates)
-		if(!G.key)
-			candidates.Remove(G)
+	var/list/mob/dead/observer/candidates = getCandidates("Do you wish to be considered for an Abductor Team?", "abductor", null)
 
 	if(candidates.len >= 2)
 		//Oh god why we can't have static functions
-		var/teams_finished = 0
-		if(ticker.mode.config_tag == "abduction")
-			var/datum/game_mode/abduction/A = ticker.mode
-			teams_finished = A.teams
-		else
-			teams_finished = round(ticker.mode.abductors.len / 2)
-		var/number =  teams_finished + 1
+		var/number =  ticker.mode.abductor_teams + 1
 
 		var/datum/game_mode/abduction/temp
 		if(ticker.mode.config_tag == "abduction")
@@ -451,16 +429,14 @@ client/proc/one_click_antag()
 		temp.make_abductor_team(number,preset_scientist=scientist_mind,preset_agent=agent_mind)
 		temp.post_setup_team(number)
 
-		if(ticker.mode.config_tag == "abduction")
-			var/datum/game_mode/abduction/A = ticker.mode
-			A.teams += 1
-		else
+		ticker.mode.abductor_teams++
+
+		if(ticker.mode.config_tag != "abduction")
 			ticker.mode.abductors |= temp.abductors
 
 		return 1
 	else
 		return
-
 
 /datum/admins/proc/makeGangsters()
 
@@ -493,6 +469,45 @@ client/proc/one_click_antag()
 		return 1
 
 	return 0
+
+
+//TODO: REDO OCA USING THIS PROC :~)
+
+/datum/admins/proc/getCandidates(var/Question, var/jobbanType, var/datum/game_mode/gametypeCheck)
+	var/list/mob/dead/observer/candidates = list()
+	var/time_passed = world.time
+	if (!Question)
+		Question = "Would you like to be a special role?"
+
+	for(var/mob/dead/observer/G in player_list)
+		if(!G.key || !G.client)
+			continue
+		if (jobbanType)
+			if(jobban_isbanned(G, jobbanType) || jobban_isbanned(G, "Syndicate"))
+				continue
+		spawn(0)
+			G << 'sound/misc/woah.ogg' //Alerting them to their consideration
+			switch(alert(G,Question,"Please answer in 30 seconds!","Yes","No"))
+				if("Yes")
+					G << "<span class='notice'>Choice registered: Yes.</span>"
+					if((world.time-time_passed)>300)//If more than 30 game seconds passed.
+						G << "<span class='danger'>Sorry, you were too late for the consideration!</span>"
+						G << 'sound/machines/buzz-sigh.ogg'
+						return
+					candidates += G
+				if("No")
+					G << "<span class='danger'>Choice registered: No.</span>"
+					return
+				else
+					return
+	sleep(300)
+
+	//Check all our candidates, to make sure they didn't log off during the 30 second wait period.
+	for(var/mob/dead/observer/G in candidates)
+		if(!G.key || !G.client)
+			candidates.Remove(G)
+
+	return candidates
 
 
 /datum/admins/proc/makeBody(var/mob/dead/observer/G_found) // Uses stripped down and bastardized code from respawn character
