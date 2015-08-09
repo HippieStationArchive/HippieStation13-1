@@ -138,7 +138,8 @@
 	storage_slots = 1
 	can_hold = list(
 		/obj/item/clothing/mask/luchador,
-		/obj/item/weapon/paper
+		/obj/item/weapon/paper,
+		/obj/item/weapon/disk/nuclear
 		)
 
 	var/stamina = 0
