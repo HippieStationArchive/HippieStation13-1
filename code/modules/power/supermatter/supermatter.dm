@@ -17,8 +17,8 @@
 #define WARNING_DELAY 30 		//seconds between warnings.
 
 /obj/machinery/power/supermatter
-	name = "supermatter shard"
-	desc = "A strangely translucent and iridescent crystal that looks like it used to be part of a larger structure. <span class='danger'>You get headaches just from looking at it.</span>"
+	name = "supermatter"
+	desc = "A strangely translucent and iridescent crystal. <span class='danger'>You get headaches just from looking at it.</span>"
 	icon = 'icons/obj/supermatter.dmi'
 	icon_state = "darkmatter"
 	density = 1
