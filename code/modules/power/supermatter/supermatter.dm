@@ -2,11 +2,11 @@
 //Please do not bother them with bugs from this port, however, as it has been modified quite a bit.
 //Modifications include removing the world-ending full supermatter variation, and leaving only the shard.
 
-#define NITROGEN_RETARDATION_FACTOR 2        //Higher == N2 slows reaction more
-#define THERMAL_RELEASE_MODIFIER 5                //Higher == less heat released during reaction
-#define PLASMA_RELEASE_MODIFIER 750                //Higher == less plasma released by reaction
-#define OXYGEN_RELEASE_MODIFIER 325        //Higher == less oxygen released at high temperature/power
-#define REACTION_POWER_MODIFIER 0.55                //Higher == more overall power
+#define NITROGEN_RETARDATION_FACTOR 0.15        //Higher == N2 slows reaction more
+#define THERMAL_RELEASE_MODIFIER 100               //Higher == less heat released during reaction
+#define PLASMA_RELEASE_MODIFIER 250                //Higher == less plasma released by reaction
+#define OXYGEN_RELEASE_MODIFIER 500        //Higher == less oxygen released at high temperature/power
+#define REACTION_POWER_MODIFIER 1.1                //Higher == more overall power
 
 
 //These would be what you would get at point blank, decreases with distance
