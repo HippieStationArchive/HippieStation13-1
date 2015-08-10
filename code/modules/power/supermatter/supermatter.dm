@@ -27,9 +27,9 @@
 
 	var/grav_pulling = 0
 	var/pull_radius = 14
-	// Time in ticks between delamination ('exploding') and exploding (as in the actual boom)
 	var/pull_time = 400
 	var/pull_ticks = 4
+	var/sound_played = 0
 
 	var/gasefficency = 3
 
