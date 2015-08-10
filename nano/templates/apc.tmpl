@@ -31,7 +31,7 @@
 				{{else}}
 					<span class='bad'>Off</span>
 				{{/if}}
-			{{else}}
+			{{else locked == 0}}
 				{{:~link('On', 'power', {'breaker' : 1}, isOperating ? 'selected' : null)}}{{:~link('Off', 'close', {'breaker' : 1}, isOperating ? null : 'selected')}}
 			{{/if}}
 		</div>
@@ -57,13 +57,13 @@
 			Power Cell:
 		</div>
 		{{if powerCellStatus == null}}
-			<div class="itemContent bad">		
+			<div class="itemContent bad">
 				Power cell removed.
 			</div>
 		{{else}}
-			<div class="itemContent" style="width: 60px">		
+			<div class="itemContent" style="width: 60px">
 				{{:~round(powerCellStatus*10)/10}}%
-			</div>	
+			</div>
 			{{:~displayBar(powerCellStatus, 0, 100, powerCellStatus >= 50 ? 'good' : powerCellStatus >= 25 ? 'average' : 'bad')}}
 		{{/if}}
 	</div>
@@ -79,7 +79,7 @@
 						<span class='good'>Auto</span>
 					{{else}}
 						<span class='bad'>Off</span>
-					{{/if}}				
+					{{/if}}
 				{{else}}
 					{{:~link('Auto', 'refresh', {'cmode' : 1}, chargeMode ? 'selected' : null)}}{{:~link('Off', 'close', {'cmode' : 1}, chargeMode ? null : 'selected')}}
 				{{/if}}
@@ -117,7 +117,7 @@
 					[Auto]
 				{{else}}
 					[Manual]
-				{{/if}}		
+				{{/if}}
 			</div>
 			{{if !~root.locked || ~root.siliconUser}}
 				<div class="itemContentFull">
@@ -151,7 +151,7 @@
 				{{else}}
 					<span class='bad'>Disengaged</span>
 				{{/if}}
-			{{else}}
+			{{else locked == 0}}
 				{{:~link('Engaged', 'locked', {'lock' : 1}, coverLocked ? 'selected' : null)}}{{:~link('Disengaged', 'unlocked', {'lock' : 1}, coverLocked ? null : 'selected')}}
 			{{/if}}
 		</div>
@@ -176,4 +176,3 @@
 	{{/if}}
 
 </div>
-		
