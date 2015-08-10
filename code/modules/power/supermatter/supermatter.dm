@@ -25,7 +25,7 @@
 	anchored = 0
 	luminosity = 4
 
-
+	var/grav_pulling = 0
 	var/gasefficency = 3
 
 	var/base_icon_state = "darkmatter"
@@ -76,8 +76,11 @@
 
 /obj/machinery/power/supermatter/proc/explode()
 	investigate_log("has exploded.", "supermatter")
+	message_admins("Supermatter exploded at ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
 	explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 3, explosion_power * 4, 1)
 	qdel(src)
+	anchored = 1
+	grav_pulling = 1
 	return
 
 /obj/machinery/power/supermatter/process()
@@ -91,6 +94,9 @@
 
 	if(istype(L, /turf/space))	// Stop processing this stuff if we've been ejected.
 		return
+	
+	if(grav_pulling)
+		supermatter_pull()
 
 	if(damage > warning_point) // while the core is still damaged and it's still worth noting its status
 		if((world.timeofday - lastwarning) / 10 >= WARNING_DELAY)
@@ -269,6 +275,9 @@
 	else if(isobj(AM) && !istype(AM, /obj/effect))
 		AM.visible_message("<span class='danger'>\The [AM] smacks into \the [src] and rapidly flashes to ash.</span>",\
 		"<span class='italics'>You hear a loud crack as you are washed with a wave of heat.</span>")
+	else if(!grav_pulling) //To prevent spam, detonating supermatter does not indicate non-mobs being destroyed
+		AM.visible_message("<span class=\"warning\">\The [AM] smacks into \the [src] and rapidly flashes to ash.</span>",\
+		"<span class=\"warning\">You hear a loud crack as you are washed with a wave of heat.</span>")
 	else
 		return
 
@@ -300,3 +309,32 @@
 				"<span class='danger'>The unearthly ringing subsides and you notice you have new radiation burns.</span>", 2)
 		else
 			L.show_message("<span class='italics'>You hear an uneartly ringing and notice your skin is covered in fresh radiation burns.</span>", 2)
+
+/obj/machinery/power/supermatter/proc/supermatter_pull()
+	set background = BACKGROUND_ENABLED
+	if(sound_played == 0)
+		switch(rand(1,2))
+			if(1)
+				playsound(src.loc, 'sound/misc/smboom2.ogg', 100, 0, 16)
+			if(2)
+				playsound(src.loc, 'sound/misc/smboom1.ogg', 100, 0, 16)
+
+	sound_played = 1
+	if(pull_ticks != 0)
+		spawn((pull_time / pull_ticks) - 15)
+			for(var/atom/X in orange(pull_radius,src))
+				var/dist = get_dist(X, src)
+				var/obj/machinery/power/supermatter/S = src
+
+				if(dist > 4) //consume_range
+					X.singularity_pull(S, STAGE_FIVE)
+				else if(dist <= 4) //consume_range
+					if(rand(1,8) == 2) //12.5%
+						var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
+						smoke.set_up(1, 0, X.loc, 1) // if more than one smoke, spread it around
+						smoke.start()
+					if(istype(src, /obj/machinery/power/supermatter)) continue // don't delete us yo
+					explosion(X.loc,1,2,3)
+					qdel(X)
+		pull_ticks = pull_ticks - 1
+	return
