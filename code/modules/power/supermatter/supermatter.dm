@@ -26,18 +26,18 @@
 	luminosity = 4
 
 
-	var/gasefficency = 0.125
+	var/gasefficency = 3
 
 	var/base_icon_state = "darkmatter"
 
 	var/damage = 0
 	var/damage_archived = 0
 	var/safe_alert = "Crystalline hyperstructure returning to safe operating levels."
-	var/warning_point = 50
+	var/warning_point = 100
 	var/warning_alert = "Danger! Crystal hyperstructure instability!"
-	var/emergency_point = 500
+	var/emergency_point = 700
 	var/emergency_alert = "CRYSTAL DELAMINATION IMMINENT."
-	var/explosion_point = 900
+	var/explosion_point = 1000
 
 	var/emergency_issued = 0
 
