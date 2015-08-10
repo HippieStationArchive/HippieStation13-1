@@ -26,6 +26,11 @@
 	luminosity = 4
 
 	var/grav_pulling = 0
+	var/pull_radius = 14
+	// Time in ticks between delamination ('exploding') and exploding (as in the actual boom)
+	var/pull_time = 400
+	var/pull_ticks = 4
+
 	var/gasefficency = 3
 
 	var/base_icon_state = "darkmatter"
@@ -38,16 +43,11 @@
 	var/emergency_point = 700
 	var/emergency_alert = "CRYSTAL DELAMINATION IMMINENT."
 	var/explosion_point = 1000
-
 	var/emergency_issued = 0
-
 	var/explosion_power = 8
-
 	var/lastwarning = 0				// Time in 1/10th of seconds since the last sent warning
 	var/power = 0
-
 	var/oxygen = 0					// Moving this up here for easier debugging.
-
 	//Temporary values so that we can optimize this
 	//How much the bullets damage should be multiplied by when it is added to the internal variables
 	var/config_bullet_energy = 2
