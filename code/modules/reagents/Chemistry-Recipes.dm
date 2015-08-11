@@ -121,8 +121,8 @@ silicate
 	result_amount = 4
 /datum/chemical_reaction/superzine
 	name = "Superzine"
-	id = "superzine"
-	result = "superzine"
+	id = "Superzine"
+	result = "Superzine"
 	required_catalysts = list("mutagen" = 5)
 	required_reagents = list("meth" = 2, "hexamine" = 2,"virogone" = 2)
 	required_machines = list(500,-1,78,-1,-1)
@@ -258,7 +258,7 @@ silicate
 	id = "impvolt"
 	result = "impvolt"
 	required_reagents = list("sparky" = 5, "emit" = 2)
-	required_machines = list(450,-1,-1,-1,15)
+	required_machines = list(290,-1,-1,-1,15)
 	bi_amount = 4
 	overheat_reaction = 1
 	bi_product = "emit_on"//dangerous to make
@@ -277,9 +277,8 @@ silicate
 	name = "Emittrium"
 	id = "emit"
 	result = "emit"
-	required_reagents = list("sparky" = 3, "superzine" = 2,"uranium" = 3)
+	required_reagents = list("uranium" = 1 , "sparky" = 4 , "volt" = 2)
 	required_machines = list(-1,-1,-1,-1,6)//oh boy is this nasty
-	required_catalysts = list("chlorine" = 1)
 	bi_amount = 2
 	bi_product = "radium"
 	result_amount = 6
@@ -296,7 +295,7 @@ silicate
 	name = "Exstatic mixture"
 	id = "defib"
 	result = "defib"
-	required_reagents = list("spark" = 2, "carbonf" = 2,"virogone" = 2)
+	required_reagents = list("sparky" = 2, "carbonf" = 2,"virogone" = 2)
 	required_machines = list(-1,-1,70,-1,-1)//need a lot of pressure to cram all this gunk into a molecule
 //	bi_amount = 4
 //	bi_product = "Radioactive waste" not added yet
@@ -305,7 +304,7 @@ silicate
 	name = "Liquid life"
 	id = "life"
 	result = "life"
-	required_reagents = list("superzine" = 1, "virogone" = 1,"defib" = 1)
+	required_reagents = list("Superzine" = 1, "virogone" = 1,"defib" = 1)
 	required_machines = list(-1,-1,-1,-1,25)//oh boy is this nasty
 	bi_amount = 2
 	bi_product = "methphos"
@@ -414,7 +413,7 @@ silicate
 	name = "Fartium"
 	id = "fart"
 	result = "fart"
-	required_reagents = list("superzine" = 1, "emote" = 2,"meth" = 1)
+	required_reagents = list("Superzine" = 1, "emote" = 2,"meth" = 1)
 	required_machines = list(370,-1,-1,25,-1)//oh boy is this nasty
 	required_catalysts = list("defib" = 1)
 	result_amount = 4
