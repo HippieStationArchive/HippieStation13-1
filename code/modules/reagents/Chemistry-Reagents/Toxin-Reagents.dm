@@ -234,7 +234,7 @@ datum/reagent/toxin/cryonium
 	description = "Chilly."
 	color = "#75AC53"
 datum/reagent/toxin/cryonium/on_mob_life(var/mob/living/M as mob)
-	M.bodytemperature -= 3//this is how you avoid super boom
+	M.bodytemperature -= 9//this is how you avoid super boom
 datum/reagent/toxin/cryonium/on_update()
 	if(!holder)
 		return
@@ -249,7 +249,7 @@ datum/reagent/toxin/pyrosium
 	description = "Warm."
 	color = "#75AC53"
 datum/reagent/toxin/pyrosium/on_mob_life(var/mob/living/M as mob)
-	M.bodytemperature += 3
+	M.bodytemperature += 9
 	holder.remove_reagent(src.id,5,safety = 1)
 datum/reagent/toxin/pyrosium/on_update()
 	if(!holder)
@@ -278,7 +278,7 @@ datum/reagent/toxin/smokep/on_mob_life(var/mob/living/M as mob)
 		M.emote(pick("cough","sneeze"))
 datum/reagent/toxin/smokep/on_fart(var/mob/living/M as mob)
 	M.visible_message("<span class='danger'>[M] farts out a noxious cloud!</span>")
-	create_smoke(src, 10)
+	create_smoke(holder, 10)
 
 datum/reagent/toxin/fart//for wu eric
 	name = "Fartium"
@@ -332,7 +332,7 @@ datum/reagent/toxin/carbonf
 	description = "A fairly nasty chemical used to produce potent medicines"
 	color = "#A300B3"
 datum/reagent/toxin/carbonf/on_mob_life(var/mob/living/M as mob)
-	M.adjustToxLoss(1)
+	M.adjustToxLoss(4)
 datum/reagent/toxin/sparky
 	name = "Electrostatic substance"
 	id = "sparky"
