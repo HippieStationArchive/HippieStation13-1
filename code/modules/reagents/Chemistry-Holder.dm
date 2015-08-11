@@ -255,12 +255,11 @@ datum/reagents/proc/handle_reactions()
 							if(present_machines[3] > i)
 								conditions_met = 1//ok we are back in business
 								result_mod = (present_machines[3] - i) * 2// whilst some reagent is still produced no where near as much is
-						if(count == 4)
-							if(present_machines[5] > i || present_machines[5] < i)
-								var/off_by = abs(present_machines[5] - i)
-								for(var/mob/living/l in range(2,src))//boy is this thing nasty!
-									l.show_message("<span class=\"warning\">You feel disorientated!</span>")
-									do_teleport(l, get_turf(l), off_by / 2, asoundin = 'sound/effects/phasein.ogg')
+						if(count == 5)
+							if(present_machines[5] == i)
+								conditions_met = 1
+								
+							
 					count ++
 
 				for(var/B in C.required_reagents)
