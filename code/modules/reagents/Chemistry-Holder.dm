@@ -537,6 +537,8 @@ atom/proc/create_reagents(var/max_vol)
 
 //also a convenience , used to create smoke which will be used a lot in these reactions
 datum/proc/create_smoke(var/datum/reagents/holder, var/created_volume)
+	if(!holder)
+		return
 	var/location = get_turf(holder.my_atom)
 	var/datum/effect/effect/system/chem_smoke_spread/S = new /datum/effect/effect/system/chem_smoke_spread//yer it's stolen , don't judge
 	S.attach(location)
