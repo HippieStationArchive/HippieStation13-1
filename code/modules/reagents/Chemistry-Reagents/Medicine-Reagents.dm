@@ -323,7 +323,7 @@ datum/reagent/medicine/sodiumf
 datum/reagent/medicine/sodiumf/on_mob_life(var/mob/living/M as mob)
 	if(M.stat != DEAD)
 		M.reagents.remove_all_type(/datum/reagent/toxin, 1*REM, 0, 1)
-		M.adjustOxyLoss(1)
+		M.adjustOxyLoss(20)//prevents spamming of the chemical , requires dexalin in combination with it
 		M.hallucination = max(0, M.hallucination - 5*REM)
 		M.adjustToxLoss(-7*REM)
 	..()
