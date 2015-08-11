@@ -518,6 +518,7 @@ datum/reagents/proc/delete()
 		R.holder = null
 	if(my_atom)
 		my_atom.reagents = null
+	processing_objects.Remove(src)
 datum/reagents/proc/process()
 	for(var/datum/reagent/R in reagent_list)
 		R.on_update(src.my_atom) //just a bit cleaner than adding every reagent individually to the process function , instead have a global call
