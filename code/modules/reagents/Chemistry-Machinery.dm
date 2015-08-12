@@ -300,6 +300,7 @@
 	var/dat = ""
 	if(!src.beaker)
 		dat += "No beaker loaded"
+		dat += "<A href='?src=\ref[src];pressure=1'>Pressurize chamber</A><BR><BR> "
 	else
 		dat += "Target pressure: [src.pressure] Atmospheres <BR><BR>"
 
@@ -384,6 +385,9 @@
 		return
 	if(!beaker || material_amt == 0)
 		user.visible_message("<span class='danger'>The [src.name] pings angrilly!</span>")
+	if(beaker && material_amt == 0)
+		beaker.loc = src.loc//eject the beaker
+		beaker = null
 	else if(!active)
 		user<<"<span class='notice'>You turn on the [src.name].</span>"
 		active = 1
@@ -555,9 +559,14 @@
 	var/dat = ""
 	if(!src.beaker)
 		dat += "No beaker loaded"
+		dat += "<A href='?src=\ref[src];eject=1'>Eject beaker</A><BR><BR> "
 	else if(src.temperature != -1)
 		dat += "Temperature : [src.temperature]K <BR><BR>"
 		dat += "Target temperature : [src.target_temp]K <BR><BR>"
+		if(heating)
+			dat+= "Heating : Yes"
+		else
+			dat+= "Heating : No"
 		dat += "<A href='?src=\ref[src];lower=1'>Temp (- 10) </A> "
 		dat += "<A href='?src=\ref[src];higher=1'>Temp (+ 10)</A> "
 		dat += "<A href='?src=\ref[src];lower_=1'>Temp (- 100) </A> "
