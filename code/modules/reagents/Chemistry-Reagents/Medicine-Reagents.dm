@@ -285,7 +285,12 @@ datum/reagent/medicine/defib
 	color = "#C8A5DC" // rgb: 200, 165, 220
 datum/reagent/medicine/defib/on_mob_life(var/mob/living/M as mob)
 	holder.clear_reagents()//prevents insta gibbing and removes all toxins
-	if(M.stat == DEAD)
+	if(M.stat != DEAD)
+		M.adjustBrainLoss(100)//boom
+		M.setToxLoss(100)
+		M.adjustBruteLoss(100)
+		return
+	else//be careful
 		M.setCloneLoss(0)
 		M.setOxyLoss(0)
 		M.radiation = 0
@@ -307,11 +312,6 @@ datum/reagent/medicine/defib/on_mob_life(var/mob/living/M as mob)
 		M.sleeping = 0
 		M.jitteriness = 0
 		..()
-		return
-	else//be careful
-		M.adjustBrainLoss(100)//boom
-		M.setToxLoss(100)
-		M.adjustBruteLoss(100)
 		return
 
 datum/reagent/medicine/sodiumf
@@ -369,7 +369,7 @@ datum/reagent/medicine/virogone/on_mob_life(var/mob/living/M as mob)
 		M.adjustToxLoss(2)
 		M.adjustStaminaLoss(10)//use up the stamina , it can't be a miracle chem
 		for(var/datum/disease/D in M.viruses)
-			if(D.severity == NONTHREAT || D.agent == "N-G-T")
+			if(D.severity == NONTHREAT || D.agent == "N-G-T"|| !(D.disease_flags & 1))//last one checks if it's curable
 				continue
 			D.spread_text = "Remissive"
 			D.stage--
