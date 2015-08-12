@@ -238,7 +238,7 @@ silicate
 /datum/chemical_reaction/atropine
 	name = "Atropine"
 	id = "atropine"
-	result = "atrpoine"
+	result = "atropine"
 	required_reagents = list("water" = 2, "carbon" = 5, "nitrogen" = 3)
 	required_machines = list(-1,1,-1,-1,-1)
 	bi_amount = 2
@@ -407,8 +407,20 @@ silicate
 	result = "emote"
 	required_reagents = list("hyperzine" = 1, "sugar" = 2,"ammonia" = 1)
 	required_machines = list(-1,1,-1,-1,-1)//oh boy is this nasty
-	required_catalysts = list("ehtyl" = 1)
+	required_catalysts = list("ethyl" = 1)
 	result_amount = 4
+/datum/chemical_reaction/bear
+	name = "Bearium"
+	id = "bear"
+	result = "bear"
+	required_reagents = list("life" = 2, "volt" = 3,"meth" = 1)
+	required_machines = list(460,-1,-1,-1,20)
+	overheat_reaction = 1
+	heat_up_give = 1
+	final_temp = 350
+	bi_amount = 3
+	bi_product = "radgoop"
+	result_amount = 3
 /datum/chemical_reaction/fart
 	name = "Fartium"
 	id = "fart"
