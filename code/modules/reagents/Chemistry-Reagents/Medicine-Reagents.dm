@@ -319,7 +319,6 @@ datum/reagent/medicine/defib/on_mob_life(var/mob/living/O as mob)
 		M.stat = 1
 		dead_mob_list -= M
 		living_mob_list |= list(M)
-		add_logs(user, M, "revived", object="Liquid Life")
 		..()
 		return
 
