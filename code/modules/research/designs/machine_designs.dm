@@ -1,7 +1,53 @@
 ////////////////////////////////////////
 //////////////MISC Boards///////////////
 ////////////////////////////////////////
-
+//chem stuff
+/datum/design/distiller
+	name = "Machine Design (Chemical Distillery)"
+	desc = "The circuit board for a Chemical distillery."
+	id = "distiller"
+	req_tech = list("programming" = 4, "biotech" = 1, "engineering" = 5, "materials" = 4, "plasmatech" = 1)
+	build_type = IMPRINTER
+	materials = list("$glass" = 1000, "sacid" = 20)
+	build_path = /obj/item/weapon/circuitboard/distiller
+	category = list ("Medical Machinery")
+/datum/design/pressure
+	name = "Machine Design (Pressurized reaction chamber)"
+	desc = "The circuit board for a Pressurized reaction chamber."
+	id = "pressure"
+	req_tech = list("programming" = 4, "biotech" = 1, "engineering" = 5, "materials" = 4, "plasmatech" = 1)
+	build_type = IMPRINTER
+	materials = list("$glass" = 1000, "sacid" = 20)
+	build_path = /obj/item/weapon/circuitboard/pressure
+	category = list ("Medical Machinery")
+/datum/design/centrifuge
+	name = "Machine Design (Centrifuge)"
+	desc = "The circuit board for a Centrifuge."
+	id = "centrifuge"
+	req_tech = list("programming" = 5, "biotech" = 4, "engineering" = 6, "materials" = 6, "plasmatech" = 2)
+	build_type = IMPRINTER
+	materials = list("$glass" = 1000, "sacid" = 20)
+	build_path = /obj/item/weapon/circuitboard/centrifuge
+	category = list ("Medical Machinery")
+/datum/design/radioactive
+	name = "Machine Design (Radioactive molecular reassembler)"
+	desc = "The circuit board for a Radioactive molecular reassembler."
+	id = "radioactive"
+	req_tech = list("programming" = 5, "biotech" = 4, "engineering" = 6, "materials" = 6, "plasmatech" = 2)
+	build_type = IMPRINTER
+	materials = list("$glass" = 1000, "sacid" = 20)
+	build_path = /obj/item/weapon/circuitboard/radioactive
+	category = list ("Medical Machinery")
+/datum/design/bluespace
+	name = "Machine Design (Bluespace recombobulator)"
+	desc = "The circuit board for a Bluespace Recombobulator."
+	id = "bluespace"
+	req_tech = list("programming" = 5, "biotech" = 4, "engineering" = 6, "materials" = 6, "plasmatech" = 3,"bluespace" = 3)
+	build_type = IMPRINTER
+	materials = list("$glass" = 1000, "sacid" = 20)
+	build_path = /obj/item/weapon/circuitboard/bluespace
+	category = list ("Medical Machinery")
+//end of chem stuff
 /datum/design/smes
 	name = "Machine Design (SMES Board)"
 	desc = "The circuit board for a SMES."

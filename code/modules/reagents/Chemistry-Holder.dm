@@ -10,8 +10,10 @@ datum/reagents
 	var/total_volume = 0
 	var/maximum_volume = 100
 	var/atom/my_atom = null
+	var/list/present_machines = list(-1,-1,-1,-1,-1)
 
 datum/reagents/New(maximum=100)
+	processing_objects.Add(src) //tada she now ticks
 	maximum_volume = maximum
 
 	//I dislike having these here but map-objects are initialised before world/New() is called. >_>
@@ -106,7 +108,7 @@ datum/reagents/proc/trans_to(var/obj/target, var/amount=1, var/multiplier=1, var
 		var/current_reagent_transfer = current_reagent.volume * part
 		if(preserve_data)
 			trans_data = current_reagent.data
-		R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier), trans_data)
+		R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier),trans_data,temp = src.present_machines[1])
 		src.remove_reagent(current_reagent.id, current_reagent_transfer)
 
 	src.update_total()
@@ -231,7 +233,34 @@ datum/reagents/proc/handle_reactions()
 				var/total_matching_catalysts= 0
 				var/matching_container = 0
 				var/matching_other = 0
+				var/over_reacted = 0
 				var/list/multipliers = new/list()
+				var/list/required_machines = C.required_machines
+				var/result_mod = 1
+				var/count = 1
+				var/conditions_met = 1
+				for(var/i in required_machines) //ugh got a bit dodgy here , ill sort it out later <- lcass famous last words
+					if(i != -1)//no fucking with trek chems!
+						if(i != present_machines[count])//it will have already reacted before this stage if its something like tricord
+							conditions_met = 0
+						////////check temperature///////////
+						if(count == 1)//If it goes above heat_up_give this isnt called instead it overreacts
+							if(present_machines[1] > i && present_machines[1] <= i + C.heat_up_give)
+								conditions_met = 1//ok we are back in business
+							else if(present_machines[1] > i + C.heat_up_give && C.overheat_reaction)
+								over_reacted = 1
+								conditions_met = 1 // we still want a huge fire ball inferno.
+						///////check pressure////////
+						if(count == 3)
+							if(present_machines[3] > i)
+								conditions_met = 1//ok we are back in business
+								result_mod = (present_machines[3] - i) * 2// whilst some reagent is still produced no where near as much is
+						if(count == 5)
+							if(present_machines[5] == i)
+								conditions_met = 1
+								
+							
+					count ++
 
 				for(var/B in C.required_reagents)
 					if(!has_reagent(B, C.required_reagents[B]))	break
@@ -258,20 +287,20 @@ datum/reagents/proc/handle_reactions()
 
 					if(M.Uses > 0) // added a limit to slime cores -- Muskets requested this
 						matching_other = 1
-
-
-
-
-				if(total_matching_reagents == total_required_reagents && total_matching_catalysts == total_required_catalysts && matching_container && matching_other)
+				if(total_matching_reagents == total_required_reagents && total_matching_catalysts == total_required_catalysts && matching_container && matching_other && conditions_met)
 					var/multiplier = min(multipliers)
 					for(var/B in C.required_reagents)
 						remove_reagent(B, (multiplier * C.required_reagents[B]), safety = 1)
 
-					var/created_volume = C.result_amount*multiplier
+					var/created_volume = (C.result_amount*multiplier)/result_mod
 					if(C.result)
 						feedback_add_details("chemical_reaction","[C.result]|[C.result_amount*multiplier]")
 						multiplier = max(multiplier, 1) //this shouldnt happen ...
-						add_reagent(C.result, C.result_amount*multiplier)
+						add_reagent(C.result, (C.result_amount*multiplier)/result_mod,C.final_temp)
+					if(C.bi_product)
+						feedback_add_details("chemical_reaction","[C.result]|[C.result_amount*multiplier]")
+						multiplier = max(multiplier, 1) //this shouldnt happen ...
+						add_reagent(C.bi_product, C.bi_amount*multiplier,C.final_temp)
 
 					var/list/seen = viewers(4, get_turf(my_atom))
 
@@ -292,6 +321,8 @@ datum/reagents/proc/handle_reactions()
 
 					C.on_reaction(src, created_volume)
 					reaction_occured = 1
+					if(over_reacted)//once everything is done a big wafting cloud of toxic fumes is produced , lovely
+						create_smoke(src, 10)
 					break
 
 	while(reaction_occured)
@@ -321,7 +352,7 @@ datum/reagents/proc/del_reagent(var/reagent)
 
 datum/reagents/proc/check_gofast(var/mob/M)
 	if(istype(M, /mob))
-		if(M.reagents.has_reagent("hyperzine")||M.reagents.has_reagent("unholywater")||M.reagents.has_reagent("nuka_cola"))
+		if(M.reagents.has_reagent("hyperzine")||M.reagents.has_reagent("unholywater")||M.reagents.has_reagent("nuka_cola")||M.reagents.has_reagent("superzine"))
 			return 1
 		else
 			M.status_flags &= ~GOTTAGOFAST
@@ -362,16 +393,23 @@ datum/reagents/proc/reaction(var/atom/A, var/method=TOUCH, var/volume_modifier=0
 					R.reaction_obj(A, R.volume+volume_modifier)
 	return
 
-datum/reagents/proc/add_reagent(var/reagent, var/amount, var/list/data=null)
+datum/reagents/proc/add_reagent(var/reagent, var/amount,var/temp = 270, var/list/data=null)
 	if(!isnum(amount)) return 1
 	update_total()
 	if(total_volume + amount > maximum_volume) amount = (maximum_volume - total_volume) //Doesnt fit in. Make it disappear. Shouldnt happen. Will happen.
-
+	//adjust temperature
+	if(total_volume > 0)
+		var/mult = amount/(total_volume + amount)
+		var/temp_dif = present_machines[1] - temp//assume it's 270 , I can't be bothered to change all the add_reagent procs atm
+		present_machines[1] -= temp_dif * mult// apply the new temperature to the current reagent holder
+	else
+		present_machines[1] = temp
 	for(var/A in reagent_list)
 
 		var/datum/reagent/R = A
 		if (R.id == reagent)
 			R.volume += amount
+
 			update_total()
 			my_atom.on_reagent_change()
 			R.on_merge(data)
@@ -480,6 +518,10 @@ datum/reagents/proc/delete()
 		R.holder = null
 	if(my_atom)
 		my_atom.reagents = null
+	processing_objects.Remove(src)
+datum/reagents/proc/process()
+	for(var/datum/reagent/R in reagent_list)
+		R.on_update(src.my_atom) //just a bit cleaner than adding every reagent individually to the process function , instead have a global call
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -492,3 +534,24 @@ atom/proc/create_reagents(var/max_vol)
 		reagents.delete()
 	reagents = new/datum/reagents(max_vol)
 	reagents.my_atom = src
+
+//also a convenience , used to create smoke which will be used a lot in these reactions
+datum/proc/create_smoke(var/datum/reagents/holder, var/created_volume)
+	if(!holder)
+		return
+	if(!created_volume){
+		return
+	}
+	var/location = get_turf(holder.my_atom)
+	var/datum/effect/effect/system/chem_smoke_spread/S = new /datum/effect/effect/system/chem_smoke_spread//yer it's stolen , don't judge
+	S.attach(location)
+	playsound(location, 'sound/effects/smoke.ogg', 50, 1, -3)
+	spawn(0)
+		if(S)
+			S.set_up(holder, 10, 0, location)
+			S.start()
+			sleep(10)
+			S.start()
+		if(holder && holder.my_atom)
+			holder.clear_reagents()
+	return
