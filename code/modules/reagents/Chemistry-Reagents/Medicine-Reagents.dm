@@ -283,8 +283,13 @@ datum/reagent/medicine/defib
 	id = "defib"
 	description = "An amazing chemical that can bring the dead back to life!"
 	color = "#C8A5DC" // rgb: 200, 165, 220
-datum/reagent/medicine/defib/on_mob_life(var/mob/living/M as mob)
+datum/reagent/medicine/defib/on_mob_life(var/mob/living/O as mob)
 	holder.clear_reagents()//prevents insta gibbing and removes all toxins
+	var/mob/living/carbon/human/M
+	if(ishuman(O))
+		M = O
+	else
+		return//no reviving pun pun or slimes n stuff 
 	if(M.stat != DEAD)
 		M.adjustBrainLoss(100)//boom
 		M.setToxLoss(100)
@@ -311,6 +316,10 @@ datum/reagent/medicine/defib/on_mob_life(var/mob/living/M as mob)
 		M.confused = 0
 		M.sleeping = 0
 		M.jitteriness = 0
+		M.stat = 1
+		dead_mob_list -= M
+		living_mob_list |= list(M)
+		add_logs(user, M, "revived", object="Liquid Life")
 		..()
 		return
 
