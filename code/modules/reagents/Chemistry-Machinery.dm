@@ -300,7 +300,6 @@
 	var/dat = ""
 	if(!src.beaker)
 		dat += "No beaker loaded"
-		dat += "<A href='?src=\ref[src];pressure=1'>Pressurize chamber</A><BR><BR> "
 	else
 		dat += "Target pressure: [src.pressure] Atmospheres <BR><BR>"
 
@@ -385,12 +384,13 @@
 		return
 	if(!beaker || material_amt == 0)
 		user.visible_message("<span class='danger'>The [src.name] pings angrilly!</span>")
-	if(beaker && material_amt == 0)
-		beaker.loc = src.loc//eject the beaker
-		beaker = null
 	else if(!active)
 		user<<"<span class='notice'>You turn on the [src.name].</span>"
 		active = 1
+	if(beaker && material_amt == 0)
+		beaker.loc = src.loc//eject the beaker
+		beaker = null
+
 /obj/machinery/adv_chem/radioactive/process()
 	if(stat & BROKEN || !active || !beaker)
 		return
@@ -559,7 +559,7 @@
 	var/dat = ""
 	if(!src.beaker)
 		dat += "No beaker loaded"
-		dat += "<A href='?src=\ref[src];eject=1'>Eject beaker</A><BR><BR> "
+	
 	else if(src.temperature != -1)
 		dat += "Temperature : [src.temperature]K <BR><BR>"
 		dat += "Target temperature : [src.target_temp]K <BR><BR>"
@@ -578,7 +578,8 @@
 		for(var/datum/reagent/I in R.reagent_list)
 			dat += "[I.name] , [I.volume] Units <BR>"
 	else
-		dat += "No reagents within the container"
+		dat += "No reagents within the container<BR>"
+		dat += "<A href='?src=\ref[src];eject=1'>Eject beaker</A><BR><BR> "
 	user << browse("<TITLE>Chemical Distillery</TITLE>Chemical Distillery menu:<BR><BR>[dat]", "window=dist;size=575x400")
 	onclose(user, "dist")
 
