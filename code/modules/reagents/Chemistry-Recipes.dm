@@ -277,7 +277,7 @@ silicate
 	name = "Emittrium"
 	id = "emit"
 	result = "emit"
-	required_reagents = list("uranium" = 1 , "sparky" = 4 , "volt" = 2)
+	required_reagents = list("uranium" = 1 , "sparky" = 4 , "oxyplas" = 2)
 	required_machines = list(-1,-1,-1,-1,6)//oh boy is this nasty
 	bi_amount = 2
 	bi_product = "radium"
