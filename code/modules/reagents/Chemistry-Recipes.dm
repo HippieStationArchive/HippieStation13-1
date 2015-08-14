@@ -454,7 +454,7 @@ silicate
 	result = "sarinb"
 	required_machines = list(300,-1,-1,-1,-1)
 	heat_up_give = 0 //yer this is what makes it difficult to discover
-	required_reagents = list("sarina" = 5)
+	required_reagents = list("sarina" = 2)
 	result_amount = 1
 /datum/chemical_reaction/sarin
 	name = "Sarin"
@@ -462,7 +462,7 @@ silicate
 	result = "sarin"
 	overheat_reaction = 1 //hehehe quickest way to get killed as a lunatic chemist
 	required_machines = list(-1,1,-1,-1,-1)
-	required_reagents = list("sarinb" = 10) //bitch this is difficult to make and is really really slow to produce
+	required_reagents = list("sarinb" = 5) 
 	result_amount = 1
 
 /datum/chemical_reaction/impure_cyanide
@@ -498,7 +498,7 @@ silicate
 	id = "tabun"
 	result = "tabun"
 	required_machines = list(-1,1,-1,-1,-1)
-	required_reagents = list("tabunc" = 10)
+	required_reagents = list("tabunc" = 3)
 	result_amount = 1
 	bi_amount = 9
 	bi_product = "goop"
