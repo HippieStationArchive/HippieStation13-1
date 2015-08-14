@@ -102,10 +102,10 @@ silicate
 	result = "ethyl"
 	required_reagents = list("ammonia" = 3, "carbon" = 1)
 	required_machines = list(350,-1,-1,-1,-1)
-	bi_amount = 2
+	bi_amount = 1
 	final_temp = 290
 	bi_product = "nitrogen"
-	result_amount = 2
+	result_amount = 3
 /datum/chemical_reaction/meth
 	name = "Methamphetamine"
 	id = "meth"
@@ -116,9 +116,9 @@ silicate
 	overheat_reaction = 1
 	final_temp = 20
 	heat_up_give = 1
-	bi_amount = 6
+	bi_amount = 2
 	bi_product = "goop"
-	result_amount = 4
+	result_amount = 8
 /datum/chemical_reaction/superzine
 	name = "Superzine"
 	id = "Superzine"
@@ -200,16 +200,16 @@ silicate
 	required_machines = list(230,-1,35,-1,-1)
 	heat_up_give = 10
 	overheat_reaction = 1
-	result_amount = 2
+	result_amount = 5
 /datum/chemical_reaction/carbonf
 	name = "Carbonic fluoride"
 	id = "carbonf"
 	result = "carbonf"
 	required_reagents = list("ethyl" = 3, "fluorine" = 4)
 	required_machines = list(320,-1,-1,-1,-1)
-	bi_amount = 2
+	bi_amount = 3
 	bi_product = "oxygen"
-	result_amount = 2
+	result_amount = 4
 /datum/chemical_reaction/aluminiumf
 	name = "Aluminium fluorate"
 	id = "aluminiumf"
@@ -223,9 +223,9 @@ silicate
 	result = "sodiumf"
 	required_reagents = list("carbonf" = 3, "sodium" = 4)
 	required_machines = list(470,-1,-1,-1,-1)
-	bi_amount = 1
+	bi_amount = 3
 	bi_product = "goop" //all that sodium waste has to go somewhere
-	result_amount = 2
+	result_amount = 4
 /datum/chemical_reaction/virogone
 	name = "Cyclo-bromazine"
 	id = "virogone"
@@ -250,29 +250,29 @@ silicate
 	result = "sparky"
 	required_reagents = list("uranium" = 5, "carbon" = 2)
 	required_machines = list(-1,-1,-1,20,-1)//needs the radio combobulator thing
-	bi_amount = 4
+	bi_amount = 2
 	bi_product = "radgoop"
-	result_amount = 3
+	result_amount = 5
 /datum/chemical_reaction/impvolt
 	name = "Translucent mixture"
 	id = "impvolt"
 	result = "impvolt"
 	required_reagents = list("sparky" = 5, "emit" = 2)
 	required_machines = list(290,-1,-1,-1,15)
-	bi_amount = 4
+	bi_amount = 2
 	overheat_reaction = 1
 	bi_product = "emit_on"//dangerous to make
-	result_amount = 3
+	result_amount = 5
 /datum/chemical_reaction/volt
 	name = "Sparking mixture"
 	id = "volt"
 	result = "volt"
 	required_reagents = list("impvolt" = 1, "methphos" = 2)
 	required_machines = list(250,1,-1,-1,-1)
-	bi_amount = 2
+	bi_amount = 1
 	overheat_reaction = 1
 	bi_product = "dizinc"//dont overheat this shizzle , you will set the entire lab crew on fire!
-	result_amount = 1
+	result_amount = 2
 /datum/chemical_reaction/emit
 	name = "Emittrium"
 	id = "emit"
@@ -297,18 +297,16 @@ silicate
 	result = "defib"
 	required_reagents = list("sparky" = 2, "carbonf" = 2,"virogone" = 2)
 	required_machines = list(-1,-1,70,-1,-1)//need a lot of pressure to cram all this gunk into a molecule
-//	bi_amount = 4
-//	bi_product = "Radioactive waste" not added yet
-	result_amount = 3
+	result_amount = 4
 /datum/chemical_reaction/life
 	name = "Liquid life"
 	id = "life"
 	result = "life"
 	required_reagents = list("Superzine" = 1, "virogone" = 1,"defib" = 1)
 	required_machines = list(-1,-1,-1,-1,25)//oh boy is this nasty
-	bi_amount = 2
+	bi_amount = 1
 	bi_product = "methphos"
-	result_amount = 1
+	result_amount = 2
 /datum/chemical_reaction/aus
 	name = "Ausium"
 	id = "aus"
@@ -330,32 +328,28 @@ silicate
 	required_reagents = list("impalco" = 4, "ethanol" = 3 , "isoprop" = 3)
 	required_machines = list(-1,1,-1,-1,-1)
 	bi_product = "ethyl"
-	bi_amount = 5
-	result_amount = 5
+	bi_amount = 3
+	result_amount = 6
 /datum/chemical_reaction/cryo
 	name = "Cryonium"
 	id = "cryo"
 	result = "cryo"
 	required_reagents = list("ammonia" = 3, "isoprop" = 2)
-	required_machines = list(0,1,-1,-1,-1)
+	required_machines = list(-1,-1,-1,-1,-1)
 	overheat_reaction = 1
 	heat_up_give = 40
-	bi_product = "goop"
-	final_temp = 0
-	bi_amount = 2
-	result_amount = 3
+	final_temp = 500
+	result_amount = 5
 /datum/chemical_reaction/pyro
 	name = "Pyronium"
 	id = "pyro"
 	result = "pyro"
 	required_reagents = list("plasma" = 3, "hexamine" = 2)
-	required_machines = list(500,1,-1,-1,-1)
+	required_machines = list(-1,-1,-1,-1,-1)
 	overheat_reaction = 1
 	heat_up_give = 1
 	final_temp = 0
-	bi_product = "goop"
-	bi_amount = 2
-	result_amount = 3
+	result_amount = 5
 /datum/chemical_reaction/dizinc
 	name = "Diethyl Mercury"
 	id = "dizinc"
@@ -369,10 +363,10 @@ silicate
 	id = "dizincboom"
 	result = null
 	required_reagents = list("dizinc" = 1, "oxygen" = 1)//no other conditions required , it's that volatile
-	result_amount = 3
+	result_amount = 2
 /datum/chemical_reaction/dizincboom/on_reaction(var/datum/reagents/holder, var/created_volume)
 	var/location = get_turf(holder.my_atom)
-	explosion(location,created_volume/35,created_volume/25,created_volume/20)
+	explosion(location,round(created_volume/35,1),round(created_volume/25,1),round(created_volume/20,1))
 	holder.clear_reagents()
 	return
 /datum/chemical_reaction/sboom
@@ -390,7 +384,7 @@ silicate
 	name = "N-amino azidotetrazole"
 	id = "superboom"
 	result = "superboom"
-	required_reagents = list("sboom" = 5, "ammonia" = 3)
+	required_reagents = list("sboom" = 3, "ammonia" = 3,"dizinc" = 2)
 	required_machines = list(280,-1,35,-1,-1)//oh boy is this nasty
 	required_catalysts = list("tabunb" = 1)
 	heat_up_give = 5
@@ -416,9 +410,9 @@ silicate
 	overheat_reaction = 1
 	heat_up_give = 1
 	final_temp = 350
-	bi_amount = 3
+	bi_amount = 2
 	bi_product = "radgoop"
-	result_amount = 3
+	result_amount = 4
 /datum/chemical_reaction/fart
 	name = "Fartium"
 	id = "fart"
@@ -447,7 +441,7 @@ silicate
 	id = "sarina"
 	result = "sarina"
 	required_reagents = list("isoprop" = 3, "methphos" = 2)
-	result_amount = 1
+	result_amount = 3
 /datum/chemical_reaction/sarin_b
 	name = "Extremely dilute sarin"
 	id = "sarinb"
@@ -508,9 +502,9 @@ silicate
 	result = "cyanide"
 	bi_product = "goop"
 	required_machines = list(-1,1,-1,-1,-1)
-	bi_amount = 9
+	bi_amount = 5
 	required_reagents = list("icyanide" = 10)
-	result_amount = 1
+	result_amount = 5
 //end of lcass' maniacal nightmare
 /datum/chemical_reaction/thermite
 	name = "Thermite"
