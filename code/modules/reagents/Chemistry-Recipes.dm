@@ -277,7 +277,7 @@ silicate
 	name = "Emittrium"
 	id = "emit"
 	result = "emit"
-	required_reagents = list("uranium" = 1 , "sparky" = 4 , "volt" = 2)
+	required_reagents = list("uranium" = 1 , "sparky" = 4 , "oxyplas" = 2)
 	required_machines = list(-1,-1,-1,-1,6)//oh boy is this nasty
 	bi_amount = 2
 	bi_product = "radium"
@@ -372,9 +372,7 @@ silicate
 	result_amount = 3
 /datum/chemical_reaction/dizincboom/on_reaction(var/datum/reagents/holder, var/created_volume)
 	var/location = get_turf(holder.my_atom)
-	var/datum/effect/effect/system/reagents_explosion/e = new()
-	e.set_up(round (created_volume/8, 0), location, 0, 0)//little bit more than twice as powerful.
-	e.start()
+	explosion(location,created_volume/35,created_volume/25,created_volume/20)
 	holder.clear_reagents()
 	return
 /datum/chemical_reaction/sboom
