@@ -69,6 +69,11 @@ datum/reagent/proc/reaction_obj(var/obj/O, var/volume) //By default we transfer 
 datum/reagent/proc/reaction_turf(var/turf/T, var/volume)
 	src = null
 	return
+datum/reagent/proc/on_fart(var/mob/living/M as mob)
+	return
+datum/reagent/proc/on_scream(var/mob/living/M as mob)
+	return
+
 
 datum/reagent/proc/on_mob_life(var/mob/living/M as mob)
 	if(!istype(M, /mob/living))

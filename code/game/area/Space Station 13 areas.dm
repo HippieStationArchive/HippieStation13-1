@@ -104,7 +104,14 @@ proc/process_ghost_teleport_locs()
 
 
 /*-----------------------------------------------------------------------------*/
-
+//chem area
+/area/toxins/chemtest
+	name = "Chemical Testing Area"
+	icon_state = "chem"
+/area/toxins/chemlab
+	name = "Chemical Laboratory"
+	icon_state = "chem"
+//chem area
 /area/engine/
 
 /area/turret_protected/
