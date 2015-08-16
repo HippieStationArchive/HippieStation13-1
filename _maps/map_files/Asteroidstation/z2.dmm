@@ -579,7 +579,7 @@
 "lg" = (/turf/unsimulated/wall/fakeglass{icon_state = "fakewindows"; dir = 9},/area/syndicate_mothership)
 "lh" = (/turf/unsimulated/wall/fakeglass{icon_state = "fakewindows2"; dir = 8},/area/syndicate_mothership)
 "li" = (/obj/item/weapon/reagent_containers/food/snacks/mushroompizzaslice,/turf/unsimulated/floor{icon_state = "bar"; dir = 2},/area/syndicate_mothership)
-"lj" = (/obj/item/weapon/reagent_containers/food/drinks/beer{pixel_x = 5; pixel_y = -2; step_x = 0},/obj/item/toy/cards/deck/syndicate{icon_state = "deck_syndicate_full"; pixel_x = -6; pixel_y = 6},/turf/unsimulated/floor{icon_state = "bar"; dir = 2},/area/syndicate_mothership)
+"lj" = (/obj/item/weapon/reagent_containers/food/drinks/beer{pixel_x = 5; pixel_y = -2 },/obj/item/toy/cards/deck/syndicate{icon_state = "deck_syndicate_full"; pixel_x = -6; pixel_y = 6},/turf/unsimulated/floor{icon_state = "bar"; dir = 2},/area/syndicate_mothership)
 "lk" = (/obj/machinery/computer/telecrystals/uplinker,/turf/unsimulated/floor{tag = "icon-podhatch (WEST)"; icon_state = "podhatch"; dir = 8},/area/syndicate_mothership)
 "ll" = (/turf/unsimulated/wall,/area/centcom/suppy)
 "lm" = (/turf/unsimulated/wall/fakeglass{icon_state = "fakewindows"; dir = 1},/area/centcom/control)

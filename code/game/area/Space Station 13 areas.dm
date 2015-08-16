@@ -46,6 +46,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/static_environ
 
 	var/has_gravity = 0
+	var/safe = 0 				//Is the area teleport-safe: no space / radiation / aggresive mobs / other dangers
 
 	var/no_air = null
 	var/area/master				// master area used for power calcluations
@@ -493,6 +494,7 @@ proc/process_ghost_teleport_locs()
 /area/prison/crew_quarters
 	name = "\improper Prison Security Quarters"
 	icon_state = "security"
+	safe = 1
 
 /area/prison/rec_room
 	name = "\improper Prison Rec Room"
@@ -1606,6 +1608,11 @@ proc/process_ghost_teleport_locs()
 	name = "Unknown"
 	icon_state = "storage"
 
+/area/abductor_ship
+	name = "\improper Abductor Ship"
+	icon_state = "yellow"
+	requires_power = 0
+	has_gravity = 1
 
 
 // Telecommunications Satellite

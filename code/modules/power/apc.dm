@@ -1208,13 +1208,14 @@ obj/machinery/power/apc/proc/autoset(var/val, var/on)
 	if(/* !get_connection() || */ !operating || shorted)
 		return
 	if( cell && cell.charge>=20)
-		cell.use(20);
-		spawn(0)
-			for(var/area/A in area.related)
-				for(var/obj/machinery/light/L in A)
-					L.on = 1
-					L.broken()
-					sleep(1)
+		var/foo = 0
+		for(var/area/A in area.related)
+			for(var/obj/machinery/light/L in A)
+				if(!L.status)	foo = 1 //status 0 is LIGHT_OK
+				L.on = 1
+				L.broken()
+				sleep(1)
+		if(foo)	cell.use(20)
 
 /obj/machinery/power/apc/proc/shock(mob/user, prb)
 	if(!prob(prb))

@@ -10,7 +10,7 @@
 	desc = "You sit in this. Either by will or force."
 	icon_state = "chair"
 	buckle_lying = 0
-	var/can_rotate = 0
+	var/can_rotate = 1
 
 /obj/structure/stool/bed/chair/New()
 	..()

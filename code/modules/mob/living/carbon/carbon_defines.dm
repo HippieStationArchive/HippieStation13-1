@@ -16,3 +16,7 @@
 
 	var/datum/dna/dna = null//Carbon
 	var/datum/reagents/addicted_to = null //Addictions
+
+// ACC Eyesocket
+
+	var/remote_view = 0
