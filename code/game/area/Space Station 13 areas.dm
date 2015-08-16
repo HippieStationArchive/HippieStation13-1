@@ -107,10 +107,10 @@ proc/process_ghost_teleport_locs()
 //chem area
 /area/toxins/chemtest
 	name = "Chemical Testing Area"
-	icon_state = "chem"
+	icon_state = "chem_test"
 /area/toxins/chemlab
 	name = "Chemical Laboratory"
-	icon_state = "chem"
+	icon_state = "chem_lab"
 //chem area
 /area/engine/
 
@@ -912,7 +912,7 @@ proc/process_ghost_teleport_locs()
 
 /area/engine/gravity_generator
 	name = "Gravity Generator Room"
-	icon_state = "blue"
+	icon_state = "grav_gen"
 
 //Solars
 
