@@ -5541,7 +5541,7 @@
 "ccC" = (/obj/machinery/chem_dispenser/constructable,/turf/simulated/floor/plasteel{dir = 5; icon_state = "whiteblue"},/area/toxins/chemlab)
 "ccD" = (/obj/structure/reagent_dispensers/watertank,/turf/simulated/floor/plating,/area/maintenance/asmaint)
 "ccE" = (/obj/machinery/door/airlock/glass_science{name = "Chemical Storage"; req_access_txt = "47"},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/obj/machinery/door/firedoor,/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/toxins/chemlab)
-"ccF" = (/obj/machinery/atmospherics/unary/vent_scrubber{dir = 1; on = 1; scrub_N2O = 0; scrub_Toxins = 0},/obj/structure/reagent_dispensers/watertank{step_x = 1},/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/toxins/chemlab)
+"ccF" = (/obj/machinery/atmospherics/unary/vent_scrubber{dir = 1; on = 1; scrub_N2O = 0; scrub_Toxins = 0},/obj/structure/reagent_dispensers/watertank,/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/toxins/chemlab)
 "ccG" = (/obj/machinery/door/firedoor,/turf/simulated/floor/plasteel{dir = 1; icon_state = "whitepurple"},/area/toxins/chemlab)
 "ccH" = (/turf/simulated/wall/r_wall,/area/toxins/chemtest)
 "ccI" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/turf/simulated/wall,/area/toxins/chemlab)
