@@ -12,11 +12,11 @@ url = "https://hooks.slack.com/services/T085X750F/B08G48JTX/caglPdJkatDwlTm8XxRq
 
 #PATHS MUST HAVE DOUBLE BACKSLASHED \\
 program_data = {
-        "dm_path" : 'E:\\Storage1\\BYOND\\bin\\dreammaker.exe',
-        "dd_path" : 'E:\\Storage1\\BYOND\\bin\\dreamdaemon.exe',
-        "dmb_path" :  'C:\\Users\\Jeremy\\Documents\\GitHub\\HippieStation13\\tgstation.dmb',
-        "gs_path" : 'C:\\Users\\Jeremy\\AppData\\Local\\GitHub\\PortableGit_c2ba306e536fdf878271f7fe636a147ff37326ad\\bin\\sh.exe',
-        "repo_path" : 'C:\\Users\\Jeremy\Documents\\GitHub\\HippieStation13',
+        "dm_path" : '',
+        "dd_path" : '',
+        "dmb_path" :  '',
+        "gs_path" : '',
+        "repo_path" : '',
         "dd_running" : False,
         "dd_called" : False,
         "update" : True,
