@@ -481,6 +481,7 @@ datum/reagent/toxin/bear
 	id = "bear"
 	description = "If you like puns and gibbed monkeys you will like this."
 	color = "#CAD15A"
+	metabolization_rate = 0.8 * REAGENTS_METABOLISM
 datum/reagent/toxin/bear/on_mob_life(var/mob/living/carbon/M as mob)
 	if(!data)
 		data = 1
@@ -518,7 +519,7 @@ datum/reagent/toxin/bear/on_mob_life(var/mob/living/carbon/M as mob)
 			new bear(M.loc)
 			M.gib()
 	data++
-	holder.remove_reagent(src.id,2,safety = 1)
+	
 datum/reagent/toxin/methphos
 	name = "Methylphosphonyl difluoride"
 	id = "methphos"
@@ -574,6 +575,7 @@ datum/reagent/toxin/sarin //will kill very very quickly unless atropine is given
 	description = "Possibly the most toxic substance known to man"
 	color = "#FFFFFF"
 	toxpwr = 12
+	metabolization_rate = 3 * REAGENTS_METABOLISM//same as tabun but with a much higher damage
 datum/reagent/toxin/sarin/on_mob_life(var/mob/living/M as mob)
 	if(!data) data = 1
 
@@ -625,7 +627,7 @@ datum/reagent/toxin/tabun
 	description = "Made by your friendly neighbourhood nazis!"
 	color = "#003333"
 	toxpwr = 5
-	metabolization_rate = 8 * REAGENTS_METABOLISM //goes really quickly but does huge amounts of damage
+	metabolization_rate = 3 * REAGENTS_METABOLISM 
 
 datum/reagent/toxin/tabun/on_mob_life(var/mob/living/M as mob)
 	M.adjustToxLoss(7*REM)//This stuff is crazily powerful

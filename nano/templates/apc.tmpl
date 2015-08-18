@@ -31,7 +31,7 @@
 				{{else}}
 					<span class='bad'>Off</span>
 				{{/if}}
-			{{else locked == 0}}
+			{{else locked == 0 || siliconUser}}
 				{{:~link('On', 'power', {'breaker' : 1}, isOperating ? 'selected' : null)}}{{:~link('Off', 'close', {'breaker' : 1}, isOperating ? null : 'selected')}}
 			{{/if}}
 		</div>
@@ -151,7 +151,7 @@
 				{{else}}
 					<span class='bad'>Disengaged</span>
 				{{/if}}
-			{{else locked == 0}}
+			{{else locked == 0 || siliconUser}}
 				{{:~link('Engaged', 'locked', {'lock' : 1}, coverLocked ? 'selected' : null)}}{{:~link('Disengaged', 'unlocked', {'lock' : 1}, coverLocked ? null : 'selected')}}
 			{{/if}}
 		</div>
