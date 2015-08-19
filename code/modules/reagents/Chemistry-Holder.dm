@@ -108,7 +108,7 @@ datum/reagents/proc/trans_to(var/obj/target, var/amount=1, var/multiplier=1, var
 		var/current_reagent_transfer = current_reagent.volume * part
 		if(preserve_data)
 			trans_data = current_reagent.data
-		R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier),trans_data,temp = src.present_machines[1])
+		R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier),data = trans_data,temp = src.present_machines[1])
 		src.remove_reagent(current_reagent.id, current_reagent_transfer)
 
 	src.update_total()
@@ -130,7 +130,7 @@ datum/reagents/proc/copy_to(var/obj/target, var/amount=1, var/multiplier=1, var/
 		var/current_reagent_transfer = current_reagent.volume * part
 		if(preserve_data)
 			trans_data = current_reagent.data
-		R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier), trans_data)
+		R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier),data = trans_data)
 
 	src.update_total()
 	R.update_total()
@@ -153,7 +153,7 @@ datum/reagents/proc/trans_id_to(var/obj/target, var/reagent, var/amount=1, var/p
 		if(current_reagent.id == reagent)
 			if(preserve_data)
 				trans_data = current_reagent.data
-			R.add_reagent(current_reagent.id, amount, trans_data)
+			R.add_reagent(current_reagent.id, amount, data = trans_data)
 			src.remove_reagent(current_reagent.id, amount, 1)
 			break
 
@@ -393,7 +393,7 @@ datum/reagents/proc/reaction(var/atom/A, var/method=TOUCH, var/volume_modifier=0
 					R.reaction_obj(A, R.volume+volume_modifier)
 	return
 
-datum/reagents/proc/add_reagent(var/reagent, var/amount,var/temp = 270, var/list/data=null)
+datum/reagents/proc/add_reagent(var/reagent, var/amount, var/list/data=null,var/temp = 270)
 	if(!isnum(amount)) return 1
 	update_total()
 	if(total_volume + amount > maximum_volume) amount = (maximum_volume - total_volume) //Doesnt fit in. Make it disappear. Shouldnt happen. Will happen.
