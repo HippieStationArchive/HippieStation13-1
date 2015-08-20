@@ -19,7 +19,6 @@ var/global/list/object_profiling = list()
 				try
 					o:process()
 				catch(var/exception/e)
-					world.Error(e)
 					continue
 				scheck()
 				continue
