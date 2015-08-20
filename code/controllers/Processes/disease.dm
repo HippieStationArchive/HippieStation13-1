@@ -7,5 +7,13 @@
 	updateQueueInstance = new
 
 /datum/controller/process/disease/doWork()
-	updateQueueInstance.init(active_diseases, "process")
-	updateQueueInstance.Run()
+	for(var/d in active_diseases)
+		if(d)
+			try
+				d:process()
+			catch(var/exception/e)
+				world.Error(e)
+				continue
+			scheck()
+			continue
+		active_diseases -= d
