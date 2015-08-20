@@ -76,6 +76,8 @@
 		playsound(loc, 'sound/effects/glass_step.ogg', 50, 1)
 		if(ishuman(AM))
 			var/mob/living/carbon/human/H = AM
+			if(HARDFEET in H.dna.species.specflags)
+				return 0
 			if(!H.shoes && !H.lying)
 				var/obj/item/organ/limb/O = H.get_organ(pick("l_leg", "r_leg"))
 				H.apply_damage(5, BRUTE, O)
