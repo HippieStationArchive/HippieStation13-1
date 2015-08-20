@@ -10,7 +10,6 @@
 			try
 				d:process()
 			catch(var/exception/e)
-				world.Error(e)
 				continue
 			scheck()
 			continue
