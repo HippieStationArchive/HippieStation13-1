@@ -1493,3 +1493,10 @@ var/list/WALLITEMS = list(
 		if(8.0) return WEST
 		else
 			world.log << "UNKNOWN DIRECTION: [direction]"
+			
+/proc/print_runtime(exception/e)
+	world.log << "[time_stamp()] Runtime detected\n[e] at [e.file]:[e.line]\n [e.desc]"
+
+/world/Error(exception/e)
+	print_runtime(e)
+	..()			
