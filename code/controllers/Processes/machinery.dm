@@ -42,6 +42,5 @@
 				if(!machines.Remove(M))
 					machines.Cut(i,i+1)
 		catch(var/exception/e)
-			world.Error(e)
 			continue
 		if(!(i%20)) scheck()
