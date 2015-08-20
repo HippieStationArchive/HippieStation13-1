@@ -71,6 +71,7 @@
 #define NOFIRE		2048
 #define NOINJECT	4096
 #define VIRUSIMMUNE	8192
+#define HARDFEET	16384
 
 
 /*
