@@ -1090,6 +1090,48 @@ var/global/list/achievements = list("Goodcurity")
 		M << "\blue Your mentor access has been removed"
 		M.verbs -= /client/proc/cmd_mentor_say
 
+	else if(href_list["addwatchlist"])
+		if(!check_rights(R_ADMIN))	return
+
+		var/mob/M = locate(href_list["addwatchlist"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
+
+		if(!M.client)
+			usr << "no client"
+			return
+
+		var/reason = input(usr,"Reason?","reason","Metagaming") as text|null
+		if(!reason)
+			return
+
+		log_admin("[key_name(usr)] has added [key_name(M)] to the watchlist for: [reason]")
+		message_admins("\blue [key_name(usr)] has added [key_name(M)] to the watchlist for: [reason]", 1)
+
+		reason = sanitizeSQL(reason)
+
+		var/DBQuery/query = dbcon.NewQuery("INSERT INTO [format_table_name("watch")] (ckey, reason) VALUES ('[M.client.ckey]', '[reason]')")
+		if(!query.Execute())
+			var/err = query.ErrorMsg()
+			log_game("SQL ERROR during adding new watch entry. Error : \[[err]\]\n")
+
+	else if(href_list["removewatchlist"])
+		if(!check_rights(R_ADMIN))	return
+
+		var/mob/living/carbon/human/M = locate(href_list["removewatchlist"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
+
+		log_admin("[key_name(usr)] has removed watch entry from [key_name(M)]")
+		message_admins("\blue [key_name_admin(usr)] has removed watch entry from [key_name_admin(M)]", 1)
+
+		var/DBQuery/query = dbcon.NewQuery("DELETE FROM [format_table_name("watch")] WHERE ckey = '[M.client.ckey]'")
+		if(!query.Execute())
+			var/err = query.ErrorMsg()
+			log_game("SQL ERROR during removing watch entry. Error : \[[err]\]\n")
+
 	else if(href_list["sendtoprison"])
 		if(!check_rights(R_ADMIN))	return
 
