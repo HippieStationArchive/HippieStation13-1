@@ -1,11 +1,10 @@
 var/global/list/object_profiling = list()
+
 /datum/controller/process/obj
-	var/tmp/datum/updateQueue/updateQueueInstance
+	schedule_interval = 20 // every 2 seconds
 
 /datum/controller/process/obj/setup()
 	name = "obj"
-	schedule_interval = 20 // every 2 seconds
-	updateQueueInstance = new
 
 /datum/controller/process/obj/started()
 	..()
@@ -16,10 +15,7 @@ var/global/list/object_profiling = list()
 	if(processing_objects)
 		for(var/o in processing_objects)
 			if(o)
-				try
-					o:process()
-				catch(var/exception/e)
-					continue
+				o:process()
 				scheck()
 				continue
 			processing_objects -= o
