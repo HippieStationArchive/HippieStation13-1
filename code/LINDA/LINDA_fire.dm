@@ -91,7 +91,7 @@
 		just_spawned = 0
 		return 0
 
-	var/turf/simulated/location = loc
+	var/turf/simulated/floor/location = loc
 	if(!istype(location))
 		Kill()
 		return
