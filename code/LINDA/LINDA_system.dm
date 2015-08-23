@@ -63,8 +63,19 @@ datum/controller/air_system
 	master_controller.air_superconductivity = (world.timeofday - timer) / 10
 
 /datum/controller/air_system/proc/process_hotspots()
+	if(hotspots.len == 0)
+		return
+	var/hotspot_exist = 0
+	var/chosen = pick(hotspots)
 	for(var/obj/effect/hotspot/H in hotspots)
 		H.process()
+		hotspot_exist += 1
+	if(hotspot_exist > 20)
+		var/volume = hotspot_exist / 10
+		if(volume > 50)//greatly remove stacking
+			volume = 50
+		playsound(get_turf(chosen), 'sound/effects/fire.ogg', volume, extrarange = 2,falloff = 1)
+	
 
 /datum/controller/air_system/proc/process_super_conductivity()
 	for(var/turf/simulated/T in active_super_conductivity)
