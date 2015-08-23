@@ -43,6 +43,7 @@
 	..()
 
 /turf/simulated/floor/mineral/plasma/proc/PlasmaBurn()
+	make_plating() // Makes floor into default floor after spawning a bit of toxins and heat.
 	atmos_spawn_air(SPAWN_HEAT | SPAWN_TOXINS, 20)
 
 /turf/simulated/floor/mineral/plasma/proc/ignite(exposed_temperature)
