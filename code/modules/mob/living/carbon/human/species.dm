@@ -49,6 +49,8 @@
 
 	var/list/mutant_bodyparts = list() 	// Parts of the body that are diferent enough from the standard human model that they cause clipping with some equipment
 
+	var/list/mutations_to_have = list()
+
 	var/speedmod = 0	// this affects the race's speed. positive numbers make it move slower, negative numbers make it move faster
 	var/armor = 0		// overall defense for the race... or less defense, if it's negative.
 	var/brutemod = 1	// multiplier for brute damage
@@ -685,6 +687,11 @@
 	return 1
 
 /datum/species/proc/handle_mutations_and_radiation(var/mob/living/carbon/human/H)
+	for(var/M in mutations_to_have)
+		if(M in H.mutations)
+			continue
+		H.mutations.Add(M)
+
 	if(H.getFireLoss())
 		if((COLD_RESISTANCE in H.mutations) || (prob(1)))
 			H.heal_organ_damage(0,1)
