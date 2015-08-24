@@ -73,6 +73,7 @@
 	attack_sound = 'sound/effects/claw.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/lizard
+	mutations_to_have = list(CLUMSY)
 
 
 /datum/species/bot
