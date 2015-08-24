@@ -55,6 +55,7 @@
 		M.adjustFireLoss(intialFire - M.getFireLoss())
 		M.adjustBruteLoss(intialBrute - M.getBruteLoss())
 		M.setOxyLoss(intialOxy)
+		M.Paralyse(4)
 	if (timer <= 0)
 		dump_contents()
 		processing_objects.Remove(src)
