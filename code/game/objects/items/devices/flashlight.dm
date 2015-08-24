@@ -99,9 +99,14 @@
 					user << "<span class='notice'>[M]'s pupils narrow.</span>"
 	else
 		return ..()
-
-
+/obj/item/device/flashlight/proc/can_use(mob/user)
+	if(user && ismob(user))
+		if(!user.stat && user.canmove && !user.restrained())
+			return 1
+	return 0
 /obj/item/device/flashlight/pickup(mob/user)
+	if(!can_use(user))
+		return
 	if(on)
 		user.AddLuminosity(brightness_on)
 		if(src.l_color != null)
