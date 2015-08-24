@@ -54,6 +54,7 @@
 	icon_state = "lantern"
 	desc = "A mining lantern."
 	brightness_on = 6			// luminosity when on
+	l_color = "#5e2e00"
 
 /*****************************Pickaxe********************************/
 
