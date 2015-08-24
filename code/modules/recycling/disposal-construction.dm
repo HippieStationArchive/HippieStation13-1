@@ -223,7 +223,7 @@
 			if(W.remove_fuel(0,user))
 				playsound(loc, 'sound/items/Welder2.ogg', 100, 1)
 				user << "<span class='notice'>You start welding the [nicetype] in place...</span>"
-				if(do_after(user, 20))
+				if(do_after(user, 20, target = src))
 					if(!loc || !W.isOn())
 						return
 					user << "<span class='notice'>The [nicetype] has been welded in place.</span>"
@@ -251,7 +251,7 @@
 					else if(ptype == DISP_END_CHUTE)
 						var/obj/machinery/disposal/deliveryChute/P = new /obj/machinery/disposal/deliveryChute(loc,src)
 						transfer_fingerprints_to(P)
-					qdel(src)
+
 					return
 		else
 			user << "<span class='warning'>You need to attach it to the plating first!</span>"

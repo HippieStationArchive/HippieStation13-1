@@ -160,6 +160,14 @@ obj/item/device/flashlight/lamp/bananalamp
 	icon_state = "bananalamp"
 	item_state = "bananalamp"
 
+obj/item/device/flashlight/lamp/bananalamp/Crossed(AM as mob|obj)
+	if (istype(AM, /mob/living/carbon))
+		var/mob/living/carbon/M = AM
+		var/stun = 1
+		var/weaken = 1
+		M.slip(stun, weaken, src)
+		return 1
+
 // FLARES
 
 /obj/item/device/flashlight/flare
