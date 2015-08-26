@@ -246,6 +246,13 @@
 	idle_power_usage = 10
 	var/obj/item/weapon/reagent_containers/glass/beaker = null
 
+/obj/machinery/adv_chem/power_change()
+	if(powered())
+		stat &= ~NOPOWER
+	else
+		spawn(rand(0, 15))
+			stat |= NOPOWER
+
 /obj/machinery/adv_chem/ex_act(severity, target)
 	if(severity < 3)
 		..()
@@ -294,7 +301,7 @@
 	var/target_pressure = 1
 
 /obj/machinery/adv_chem/pressure/attack_hand(mob/user as mob)
-	if(stat & BROKEN)
+	if(stat & BROKEN || stat & NOPOWER)
 		return
 	user.set_machine(src)
 	var/dat = ""
@@ -318,6 +325,8 @@
 	onclose(user, "preactor")
 
 /obj/machinery/adv_chem/pressure/Topic(href, href_list)
+	if(stat & BROKEN || stat & NOPOWER)
+		return
 	usr.set_machine(src)
 	if(href_list["lower"])
 		if(src.pressure - 1 >= 0)
@@ -362,6 +371,8 @@
 	var/target_time = 10
 
 /obj/machinery/adv_chem/radioactive/attackby(var/obj/item/B as obj, var/mob/user as mob)
+	if(stat & BROKEN || stat & NOPOWER)
+		return
 	if(istype(B,/obj/item/weapon/reagent_containers/glass))
 		if(src.beaker)
 			user<<"A beaker is already loaded into the machine"
@@ -394,7 +405,7 @@
 /obj/machinery/adv_chem/radioactive/process()
 	if(stat & BROKEN || !active || !beaker)
 		return
-	if(curr_time == target_time)
+	if(curr_time == target_time || stat & NOPOWER)
 		active = 0
 		curr_time = 0
 		var/datum/reagents/R = src.beaker:reagents
@@ -435,6 +446,8 @@
 
 
 /obj/machinery/adv_chem/bluespace/attackby(var/obj/item/B as obj, var/mob/user as mob)
+	if(stat & NOPOWER)
+		return
 	if(istype(B,/obj/item/weapon/reagent_containers/glass))
 		if(src.beaker)
 			user<<"A beaker is already loaded into the machine"
@@ -452,7 +465,7 @@
 		qdel(B)
 
 /obj/machinery/adv_chem/bluespace/attack_hand(mob/user as mob)
-	if(stat & BROKEN)
+	if(stat & BROKEN  || stat & NOPOWER)
 		return
 	if(!beaker)
 		user<<"<span class='notice'>There is no beaker loaded in the [src.name]"
@@ -495,11 +508,11 @@
 /obj/machinery/adv_chem/bluespace/process()
 	if(stat & BROKEN || !active || !beaker)
 		return
-	if(curr_time == target_time)
+	if(curr_time == target_time  || stat & NOPOWER)
 		active = 0
 		curr_time = 0
 		var/datum/reagents/R = src.beaker:reagents
-		R.present_machines[5] = 0//reset the value so we don't have outside reactions
+		R.present_machines[5] = -1//reset the value so we don't have outside reactions
 		beaker.loc = src.loc
 		beaker = null
 		return
@@ -540,6 +553,8 @@
 	var/heating = 0
 
 /obj/machinery/adv_chem/distiller/attackby(var/obj/item/weapon/B as obj, var/mob/user as mob)
+	if(stat & NOPOWER)
+		return
 	if(istype(B,/obj/item/weapon/reagent_containers/glass))
 		if(src.beaker)
 			user<<"A beaker is already loaded into the machine"
@@ -553,13 +568,13 @@
 			temperature = src.beaker:reagents.present_machines[1]//this makes it unique
 			src.updateUsrDialog()
 /obj/machinery/adv_chem/distiller/attack_hand(mob/user as mob)
-	if(stat & BROKEN)
+	if(stat & BROKEN  || stat & NOPOWER)
 		return
 	user.set_machine(src)
 	var/dat = ""
 	if(!src.beaker)
 		dat += "No beaker loaded"
-	
+
 	else if(src.temperature != -1)
 		dat += "Temperature : [src.temperature]K <BR><BR>"
 		dat += "Target temperature : [src.target_temp]K <BR><BR>"
@@ -651,7 +666,7 @@
 	var/working = 0
 
 /obj/machinery/adv_chem/centrifuge/attack_hand(mob/user as mob)
-	if(stat & BROKEN || working)
+	if(stat & BROKEN || working || stat & NOPOWER)
 		return
 	if(src.beaker)
 		user<<"<span class='notice'>You activate the centrifuge."
