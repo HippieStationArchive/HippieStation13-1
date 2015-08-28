@@ -171,6 +171,10 @@
 			H.do_pindown(src, 0)
 			H.update_canmove()
 
+	if(!can_have_cabling())
+		for(var/obj/structure/cable/C in contents)
+			C.Deconstruct()
+
 	return W
 
 //////Assimilate Air//////
@@ -367,8 +371,9 @@
 	ChangeTurf(/turf/space)
 	return(2)
 
+
 /turf/proc/can_have_cabling()
-	return !density
+	return 1
 
 /turf/proc/can_lay_cable()
 	return can_have_cabling() & !intact

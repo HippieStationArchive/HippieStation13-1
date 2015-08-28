@@ -110,7 +110,7 @@
 				make_plating(1)
 
 /turf/simulated/floor/engine/attackby(obj/item/weapon/C as obj, mob/user as mob)
-	if(!C || !user)
+	if(..())
 		return
 	if(istype(C, /obj/item/weapon/wrench))
 		user << "<span class='notice'>Removing rods...</span>"
