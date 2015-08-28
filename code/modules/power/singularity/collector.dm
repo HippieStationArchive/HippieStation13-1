@@ -32,6 +32,8 @@ var/global/list/rad_collectors = list()
 			eject()
 		else
 			P.air_contents.toxins -= 0.001*drainratio
+	if(last_power)
+		add_avail(last_power)
 	return
 
 
@@ -130,7 +132,6 @@ var/global/list/rad_collectors = list()
 	if(P && active)
 		var/power_produced = 0
 		power_produced = P.air_contents.toxins*pulse_strength*20
-		add_avail(power_produced)
 		last_power = power_produced
 		return
 	return
