@@ -33,7 +33,6 @@
 		else
 			user << "<span class='warning'>You need one rod to build lattice.</span>"
 		return
-
 	if(istype(C, /obj/item/stack/tile/plasteel))
 		var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
 		if(L)
@@ -47,15 +46,6 @@
 				user << "<span class='warning'>You need one floor tile to build a floor.</span>"
 		else
 			user << "<span class='danger'>The plating is going to need some support. Place metal rods first.</span>"
-
-	if(istype(C, /obj/item/stack/cable_coil))
-		var/obj/item/stack/cable_coil/coil = C
-		for(var/obj/structure/cable/LC in src)
-			if((LC.d1==0)||(LC.d2==0))
-				LC.attackby(C,user)
-				return
-		coil.place_turf(src, user)
-
 
 /turf/space/Entered(atom/movable/A)
 	..()
@@ -220,8 +210,3 @@ proc/setup_map_transitions() //listamania
 
 /turf/space/singularity_act()
 	return
-
-/turf/space/can_have_cabling()
-	if(locate(/obj/structure/lattice/catwalk, src))
-		return 1
-	return 0

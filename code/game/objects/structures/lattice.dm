@@ -78,60 +78,14 @@
 			if(!(istype(get_step(src, direction), /turf/space)))
 				dir_sum += direction
 
-	icon_state = "[name][dir_sum]"
+	icon_state = "lattice[dir_sum]"
 	return
 
 /obj/structure/lattice/Deconstruct()
 	var/turf/T = loc
 	stored.loc = T
-	updateOverlays() //#fuck -W
 	..()
 
 /obj/structure/lattice/singularity_pull(S, current_size)
 	if(current_size >= STAGE_FOUR)
 		Deconstruct()
-
-/obj/structure/lattice/catwalk
-	name = "catwalk"
-	desc = "A catwalk for easier EVA manuevering."
-	icon_state = "catwalkfull"
-
-/obj/structure/lattice/catwalk/Move()
-	var/turf/T = loc
-	for(var/obj/structure/cable/C in T)
-		C.Deconstruct()
-	..()
-
-/obj/structure/lattice/catwalk/Destroy()
-	var/turf/T = loc
-	T.intact = 1
-	for(var/obj/structure/cable/C in T)
-		C.Destroy()
-	..()
-
-/obj/structure/lattice/catwalk/Deconstruct()
-	var/turf/T = loc
-	T.intact = 1
-	for(var/obj/structure/cable/C in T)
-		C.Deconstruct()
-	..()
-
-
-/obj/structure/lattice/catwalk/attackby(obj/item/C, mob/user, params)
-	..()
-	if(istype(C, /obj/item/stack/cable_coil))
-		var/turf/T = get_turf(src)
-		T.attackby(C, user) //catwalks 'enable' coil laying on space tiles, not the catwalks themselves
-		return
-
-/obj/structure/lattice/catwalk/updateOverlays()
-	overlays.Cut()
-
-	var/dir_sum = 0
-
-	for (var/direction in cardinal)
-		if(locate(/obj/structure/lattice/catwalk, get_step(src, direction))) //so we only blend with other catwalks
-			dir_sum += direction
-
-	icon_state = "[name][dir_sum]"
-	return
