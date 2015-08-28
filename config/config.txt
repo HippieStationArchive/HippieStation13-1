@@ -56,6 +56,9 @@ LOG_PRAYER
 ## log lawchanges
 LOG_LAW
 
+##LOG RUNTIME ERRORS NEATLY
+LOG_RUNTIMES
+
 ## log all Topic() calls (for use by coders in tracking down Topic issues)
 # LOG_HREFS
 
