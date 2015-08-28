@@ -128,7 +128,7 @@
 		if(get_dist(src, user) > 1)
 			return
 
-		coil.place_turf(T, user)
+		coil.turf_place(T, user)
 		return
 	else
 		..()
@@ -473,7 +473,7 @@
 // return a knot cable (O-X) if one is present in the turf
 // null if there's none
 /turf/proc/get_cable_node()
-	if(!can_have_cabling())
+	if(!istype(src, /turf/simulated/floor))
 		return null
 	for(var/obj/structure/cable/C in src)
 		if(C.d1 == 0)
@@ -481,6 +481,7 @@
 	return null
 
 /area/proc/get_apc()
-	for(var/obj/machinery/power/apc/APC in apcs_list)
-		if(APC.area == src)
-			return APC
+	for(var/area/RA in src.related)
+		var/obj/machinery/power/apc/FINDME = locate() in RA
+		if (FINDME)
+			return FINDME
