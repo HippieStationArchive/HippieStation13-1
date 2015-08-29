@@ -1,4 +1,4 @@
-//This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:32
+ //This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:32
 
 var/const/TOUCH = 1
 var/const/INGEST = 2
@@ -130,7 +130,7 @@ datum/reagents/proc/copy_to(var/obj/target, var/amount=1, var/multiplier=1, var/
 		var/current_reagent_transfer = current_reagent.volume * part
 		if(preserve_data)
 			trans_data = current_reagent.data
-		R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier), data = trans_data)
+		R.add_reagent(current_reagent.id, (current_reagent_transfer * multiplier),data = trans_data)
 
 	src.update_total()
 	R.update_total()
@@ -170,28 +170,23 @@ datum/reagents/proc/trans_id_to(var/obj/target, var/reagent, var/amount=1, var/p
 				var/datum/reagents/R = target.reagents
 				var/trans_data = null
 				//if(R.total_volume + amount > R.maximum_volume) return 0
-
 				current_list_element = rand(1,reagent_list.len) //Eh, bandaid fix.
-
 				while(total_transfered != amount)
 					if(total_transfered >= amount) break //Better safe than sorry.
 					if(total_volume <= 0 || !reagent_list.len) break
 					if(R.total_volume >= R.maximum_volume) break
-
 					if(current_list_element > reagent_list.len) current_list_element = 1
 					var/datum/reagent/current_reagent = reagent_list[current_list_element]
 					if(preserve_data)
 						trans_data = current_reagent.data
 					R.add_reagent(current_reagent.id, (1 * multiplier), trans_data)
 					src.remove_reagent(current_reagent.id, 1)
-
 					current_list_element++
 					total_transfered++
 					src.update_total()
 					R.update_total()
 				R.handle_reactions()
 				handle_reactions()
-
 				return total_transfered
 */
 
@@ -393,7 +388,7 @@ datum/reagents/proc/reaction(var/atom/A, var/method=TOUCH, var/volume_modifier=0
 					R.reaction_obj(A, R.volume+volume_modifier)
 	return
 
-datum/reagents/proc/add_reagent(var/reagent, var/amount,var/temp = 270, var/list/data=null)
+datum/reagents/proc/add_reagent(var/reagent, var/amount, var/list/data=null,var/temp = 270)
 	if(!isnum(amount)) return 1
 	update_total()
 	if(total_volume + amount > maximum_volume) amount = (maximum_volume - total_volume) //Doesnt fit in. Make it disappear. Shouldnt happen. Will happen.
@@ -443,10 +438,10 @@ datum/reagents/proc/add_reagent(var/reagent, var/amount,var/temp = 270, var/list
 
 	return 1
 
-datum/reagents/proc/add_reagent_list(var/list/list_reagents, var/list/indata=null) // Like add_reagent but you can enter a list. Format it like this: list("toxin" = 10, "beer" = 15)
+datum/reagents/proc/add_reagent_list(var/list/list_reagents, var/list/data=null) // Like add_reagent but you can enter a list. Format it like this: list("toxin" = 10, "beer" = 15)
 	for(var/r_id in list_reagents)
 		var/amt = list_reagents[r_id]
-		add_reagent(r_id, amt,data = indata)
+		add_reagent(r_id, amt, data)
 
 datum/reagents/proc/remove_reagent(var/reagent, var/amount, var/safety)//Added a safety check for the trans_id_to
 
