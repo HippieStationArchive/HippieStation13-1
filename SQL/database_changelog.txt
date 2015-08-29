@@ -1,3 +1,7 @@
+29 August 2015, by Nalar
+
+Added the current HippieStation schema, "hippie_schema.sql". Currently the most up to date schema used by the server. Does not use a prefix.
+
 19 September 2014, by MrStonedOne
 
 Removed erro_ from table names. dbconfig.txt has a option allowing you to change the prefix used in code, defaults to "erro_" if left out for legacy reasons.
