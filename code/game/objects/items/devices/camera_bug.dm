@@ -48,7 +48,7 @@
 	if(expansion)
 		qdel(expansion)
 		expansion = null
-	del(src)
+	qdel(src)
 /* Easier to just call del() than this nonsense
 	get_cameras()
 	for(var/cam_tag in bugged_cameras)

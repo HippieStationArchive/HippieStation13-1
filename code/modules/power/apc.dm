@@ -148,7 +148,7 @@
 	area.power_change()
 	if(occupier)
 		malfvacate(1)
-	del(wires)
+	qdel(wires)
 	if(cell)
 		qdel(cell)
 	if(terminal)

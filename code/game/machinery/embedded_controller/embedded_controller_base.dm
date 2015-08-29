@@ -7,7 +7,7 @@ datum/computer/file/embedded_program/proc/post_signal(datum/signal/signal, comm_
 	if(master)
 		master.post_signal(signal, comm_line)
 	else
-		del(signal)
+		qdel(signal)
 
 datum/computer/file/embedded_program/proc/receive_user_command(command)
 
