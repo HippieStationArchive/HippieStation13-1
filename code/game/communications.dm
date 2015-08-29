@@ -207,7 +207,7 @@ datum/controller/radio/proc/remove_object(obj/device, old_frequency)
 
 		if(frequency.devices.len == 0)
 			frequencies -= f_text
-			del(frequency)
+			qdel(frequency)
 
 	return 1
 
