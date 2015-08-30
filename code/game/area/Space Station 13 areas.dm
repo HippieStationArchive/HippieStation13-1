@@ -1094,10 +1094,6 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Prison Wing"
 	icon_state = "sec_prison"
 
-/area/security/execution
-	name = "Execution Room"
-	icon_state = "sec_execution"
-
 /area/security/processing
 	name = "\improper Labor Shuttle Dock"
 	icon_state = "sec_prison"
