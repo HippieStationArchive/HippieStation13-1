@@ -11,7 +11,7 @@ var/list/admin_ranks = list()								//list of all admin_rank datums
 	switch(name)
 		if("Removed",null,"")
 			ERROR("invalid admin-rank name. datum deleted")
-			del(src)
+			qdel(src)
 	if(init_rights)	rights = init_rights
 	if(!init_adds)	init_adds = list()
 	if(!init_subs)	init_subs = list()
