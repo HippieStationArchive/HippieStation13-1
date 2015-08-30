@@ -823,6 +823,10 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Mime Office"
 	icon_state = "mime"
 
+/area/crew_quarters/Arcade
+	name = "\improper Arcade"
+	icon_state = "arcade"
+
 
 
 
