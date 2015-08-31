@@ -126,13 +126,13 @@ silicate
 	name = "Liquid gibs"
 	id = "gib"
 	result = "gib"
-	required_reagents = list("water" = 2, "blood" = 2,"plasma" = 2)
+	required_reagents = list("isoprop" = 2, "blood" = 2,"plasma" = 2)
 	required_machines = list(350,-1,-1,-1,-1)
 	overheat_reaction = 1
 	final_temp = 320
 	heat_up_give = 1
 	bi_amount = 2
-	bi_product = "blood"//if you over react set the entire room on fire, if you do it properly have a nice reward
+	bi_product = "blood"
 	result_amount = 4
 /datum/chemical_reaction/gib_splode
 	name = "Liquid gibs explosion!"
