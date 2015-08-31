@@ -631,9 +631,6 @@
 		var/datum/reagents/R = src.beaker:reagents
 		if(R.present_machines[1] == -1)
 			return
-
-		R.present_machines[1] = src.temperature
-		R.handle_reactions()//always called
 		if(temperature == target_temp)
 			heating = 0
 			return
@@ -650,6 +647,8 @@
 		else if(increase_amt + temperature < 0)
 			increase_amt -= (temperature + increase_amt)
 		temperature += increase_amt
+		R.present_machines[1] = src.temperature
+		R.handle_reactions()
 	src.updateUsrDialog()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

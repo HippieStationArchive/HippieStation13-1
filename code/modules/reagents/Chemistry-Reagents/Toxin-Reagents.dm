@@ -146,7 +146,7 @@ datum/reagent/toxin/impvolt/on_mob_life(var/mob/living/M as mob)
 	if(prob(25))
 		M<<"<span class='userdanger'>Your insides burn!</span>"
 		M.take_organ_damage(10)
-		holder.remove_reagent(src.id,15)
+		holder.remove_reagent(src.id,5)
 datum/reagent/toxin/volt
 	name = "Sparking mixture"
 	id = "volt"
@@ -161,7 +161,7 @@ datum/reagent/toxin/volt/on_mob_life(var/mob/living/M as mob)
 			T.adjustFireLoss(15)
 			T.adjustBrainLoss(10)
 		playsound(M.loc,'sound/effects/thunder.ogg',50,1)
-		holder.remove_reagent(src.id, 10, safety = 1)
+		holder.remove_reagent(src.id, 5, safety = 1)
 datum/reagent/toxin/volt/on_fart(var/mob/living/M as mob)
 	var/obj/effect/lightning/eff = new /obj/effect/lightning(M.loc)
 	eff.start()
@@ -189,7 +189,7 @@ datum/reagent/toxin/emit_on/on_update()
 			A.yo = -20
 			A.xo = 0
 	A.fire()
-	holder.remove_reagent(src.id,10,safety = 1)
+	holder.remove_reagent(src.id,5,safety = 1)
 datum/reagent/toxin/emit_on/on_mob_life(var/mob/living/M as mob)
 	M.adjustFireLoss(10)
 	var/emit_dir = pick(1,2,3,4)
@@ -208,7 +208,7 @@ datum/reagent/toxin/emit_on/on_mob_life(var/mob/living/M as mob)
 			A.yo = -20
 			A.xo = 0
 	A.fire()
-	holder.remove_reagent(src.id,10,safety = 1)
+	holder.remove_reagent(src.id,5,safety = 1)
 datum/reagent/toxin/emit_on/on_fart(var/mob/living/M as mob)
 	M.adjustFireLoss(50)
 	var/obj/item/projectile/beam/emitter/A = PoolOrNew(/obj/item/projectile/beam/emitter,get_turf(holder.my_atom))
@@ -320,12 +320,6 @@ datum/reagent/toxin/superboom/on_update()
 		explosion(location,volume/20,volume/15,volume/10)
 		holder.clear_reagents()
 		return
-
-datum/reagent/toxin/ethyl
-	name = "Ethyl alcohol"
-	id = "ethyl"
-	description = "Brilliant at burning"
-	color = "#A245B2"
 datum/reagent/toxin/carbonf
 	name = "Carbonic fluoride"
 	id = "carbonf"
@@ -481,7 +475,7 @@ datum/reagent/toxin/bear
 	id = "bear"
 	description = "If you like puns and gibbed monkeys you will like this."
 	color = "#CAD15A"
-	metabolization_rate = 0.8 * REAGENTS_METABOLISM
+	metabolization_rate = 0.1 * REAGENTS_METABOLISM
 datum/reagent/toxin/bear/on_mob_life(var/mob/living/carbon/M as mob)
 	if(!data)
 		data = 1
