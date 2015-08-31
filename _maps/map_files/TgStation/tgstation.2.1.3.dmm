@@ -5772,7 +5772,7 @@
 "cgZ" = (/obj/machinery/flasher/portable,/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 1},/turf/simulated/floor/plasteel{icon_state = "vault"; dir = 8},/area/ai_monitored/security/armory)
 "cha" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/obj/machinery/door/airlock/glass_security{name = "Security Gear"; req_access_txt = "2"},/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/security/main)
 "chb" = (/obj/machinery/flasher/portable,/obj/structure/window/reinforced{dir = 1},/turf/simulated/floor/plasteel{icon_state = "vault"; dir = 8},/area/ai_monitored/security/armory)
-"chc" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/ai_monitored/security/armory)
+"chc" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/obj/machinery/door/poddoor/shutters/preopen{id = "armorydesk"; name = "Armory"},/turf/simulated/floor/plating,/area/ai_monitored/security/armory)
 "chd" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/obj/machinery/door/airlock/external{name = "Solar Maintenance"; req_access = null; req_access_txt = "10; 13"},/turf/simulated/floor/plating,/area/solar/auxstarboard)
 "che" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plating,/area/solar/auxstarboard)
 "chf" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/turf/simulated/floor/plating,/area/solar/auxstarboard)
