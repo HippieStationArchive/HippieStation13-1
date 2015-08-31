@@ -283,7 +283,7 @@ datum/reagent/medicine/defib
 	id = "defib"
 	description = "An amazing chemical that can bring the dead back to life!"
 	color = "#C8A5DC" // rgb: 200, 165, 220
-datum/reagent/medicine/defib/on_mob_life(var/mob/living/O as mob)
+datum/reagent/medicine/defib/reaction_mob(var/mob/living/carbon/O, var/method=TOUCH, var/volume, var/zone=ran_zone("", 20))
 	holder.clear_reagents()//prevents insta gibbing and removes all toxins
 	var/mob/living/carbon/human/M
 	if(ishuman(O))
