@@ -1098,8 +1098,16 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Prison Wing"
 	icon_state = "sec_prison"
 
+/area/security/observation
+	name = "\improper Execution Observation"
+	icon_state = "sec_observation"
+
+/area/security/isolation
+	name = "\improper Isolation Room"
+	icon_state = "sec_isolation"
+
 /area/security/execution
-	name = "Execution Room"
+	name = "\improper Execution Room"
 	icon_state = "sec_execution"
 
 /area/security/processing
