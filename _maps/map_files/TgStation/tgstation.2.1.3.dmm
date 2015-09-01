@@ -7258,7 +7258,7 @@
 "cJD" = (/obj/machinery/requests_console{department = "Security"; departmentType = 5; pixel_x = -30; pixel_y = 0},/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/security/warden)
 "cJE" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/wall/r_wall,/area/security/warden)
 "cJF" = (/turf/simulated/floor/plasteel{icon_state = "red"; dir = 8},/area/security/main)
-"cJG" = (/obj/effect/decal/cleanable/blood/oil/old,/obj/effect/decal/cleanable/blood/gibs/robot/old,/obj/structure/stool/bed/chair/janicart/secway,/turf/simulated/floor/plasteel,/area/security/main)
+"cJG" = (/obj/effect/decal/cleanable/blood/gibs/robot/old,/obj/structure/stool/bed/chair/janicart/secway{can_buckle = 0; name = "broken secway"},/obj/effect/decal/cleanable/blood/oil,/turf/simulated/floor/plasteel,/area/security/main)
 "cJH" = (/obj/item/weapon/storage/toolbox/mechanical,/turf/simulated/floor/plasteel,/area/security/main)
 "cJI" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel,/area/security/main)
 "cJJ" = (/obj/structure/stool/bed/chair{dir = 1},/turf/simulated/floor/plasteel{icon_state = "red"; dir = 9},/area/security/observation)
