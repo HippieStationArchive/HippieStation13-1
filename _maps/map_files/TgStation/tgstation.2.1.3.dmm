@@ -5771,7 +5771,7 @@
 "cgY" = (/obj/structure/rack,/obj/item/weapon/storage/toolbox/mechanical,/turf/simulated/floor/plasteel{icon_state = "vault"; dir = 8},/area/ai_monitored/security/armory)
 "cgZ" = (/obj/machinery/vending/security,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/security/main)
 "cha" = (/obj/structure/table,/obj/machinery/recharger,/obj/item/device/radio/intercom{freerange = 0; frequency = 1459; name = "Station Intercom (General)"; pixel_x = 29},/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/security/main)
-"chb" = (/obj/machinery/light{dir = 4; icon_state = "tube1"},/obj/structure/table,/obj/machinery/recharger,/obj/machinery/atmospherics/pipe/simple/supply/hidden,/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/security/main)
+"chb" = (/obj/structure/table,/obj/machinery/recharger,/obj/machinery/atmospherics/pipe/simple/supply/hidden,/turf/simulated/floor/plasteel{icon_state = "showroomfloor"},/area/security/main)
 "chc" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/turf/simulated/floor/plasteel{icon_state = "red"; dir = 8},/area/security/main)
 "chd" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/obj/machinery/door/airlock/external{name = "Solar Maintenance"; req_access = null; req_access_txt = "10; 13"},/turf/simulated/floor/plating,/area/solar/auxstarboard)
 "che" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plating,/area/solar/auxstarboard)
