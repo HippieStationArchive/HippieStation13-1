@@ -101,7 +101,7 @@ silicate
 	id = "meth"
 	result = "meth"
 	required_catalysts = list("aluminium" = 5)
-	required_reagents = list("tabuna" = 3, "ethanol" = 5,"ammonia" = 2)
+	required_reagents = list("tabuna" = 3, "ethanol" = 5,"hydrogen" = 2)
 	required_machines = list(420,-1,8,-1,-1)
 	overheat_reaction = 1
 	final_temp = 20
@@ -382,7 +382,7 @@ silicate
 	result = "emote"
 	required_reagents = list("hyperzine" = 1, "sugar" = 2,"ammonia" = 1)
 	required_machines = list(-1,1,-1,-1,-1)//oh boy is this nasty
-	required_catalysts = list("ethanol" = 1)
+	required_catalysts = list("fluorine" = 1)
 	result_amount = 4
 /datum/chemical_reaction/bear
 	name = "Bearium"
