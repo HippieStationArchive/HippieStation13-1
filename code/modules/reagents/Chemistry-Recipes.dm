@@ -281,6 +281,13 @@ silicate
 	result_amount = 1
 	overheat_reaction = 1
 	heat_up_give = 400
+/datum/chemical_reaction/defib
+	name = "Exstatic mixture"
+	id = "defib"
+	result = "defib"
+	required_reagents = list("sparky" = 2, "carbonf" = 2,"virogone" = 2)
+	required_machines = list(-1,-1,70,-1,-1)//need a lot of pressure to cram all this gunk into a molecule
+	result_amount = 4
 /datum/chemical_reaction/life
 	name = "Liquid life"
 	id = "life"
@@ -402,7 +409,7 @@ silicate
 	result = "fart"
 	required_reagents = list("Superzine" = 1, "emote" = 2,"meth" = 1)
 	required_machines = list(370,-1,-1,25,-1)//oh boy is this nasty
-	required_catalysts = list("mercury" = 1)
+	required_catalysts = list("defib" = 1)
 	result_amount = 4
 
 /datum/chemical_reaction/methphos

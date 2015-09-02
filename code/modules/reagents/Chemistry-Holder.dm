@@ -1,4 +1,4 @@
- //This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:32
+//This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:32
 
 var/const/TOUCH = 1
 var/const/INGEST = 2
@@ -253,8 +253,8 @@ datum/reagents/proc/handle_reactions()
 						if(count == 5)
 							if(present_machines[5] == i)
 								conditions_met = 1
-								
-							
+
+
 					count ++
 
 				for(var/B in C.required_reagents)
@@ -291,11 +291,11 @@ datum/reagents/proc/handle_reactions()
 					if(C.result)
 						feedback_add_details("chemical_reaction","[C.result]|[C.result_amount*multiplier]")
 						multiplier = max(multiplier, 1) //this shouldnt happen ...
-						add_reagent(C.result, (C.result_amount*multiplier)/result_mod,C.final_temp)
+						add_reagent(C.result, (C.result_amount*multiplier)/result_mod,temp = C.final_temp)
 					if(C.bi_product)
 						feedback_add_details("chemical_reaction","[C.result]|[C.result_amount*multiplier]")
 						multiplier = max(multiplier, 1) //this shouldnt happen ...
-						add_reagent(C.bi_product, C.bi_amount*multiplier,C.final_temp)
+						add_reagent(C.bi_product, C.bi_amount*multiplier,temp = C.final_temp)
 
 					var/list/seen = viewers(4, get_turf(my_atom))
 
@@ -388,7 +388,7 @@ datum/reagents/proc/reaction(var/atom/A, var/method=TOUCH, var/volume_modifier=0
 					R.reaction_obj(A, R.volume+volume_modifier)
 	return
 
-datum/reagents/proc/add_reagent(var/reagent, var/amount, var/list/data=null,var/temp = 270)
+datum/reagents/proc/add_reagent(var/reagent, var/amount, var/list/data=0,var/temp = 270)
 	if(!isnum(amount)) return 1
 	update_total()
 	if(total_volume + amount > maximum_volume) amount = (maximum_volume - total_volume) //Doesnt fit in. Make it disappear. Shouldnt happen. Will happen.
