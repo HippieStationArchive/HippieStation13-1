@@ -35,13 +35,15 @@
 
 /turf/simulated/floor/mineral/plasma/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	if(exposed_temperature > 300)
-		set_life
+		set_life()
 		PlasmaBurn()
+
 /turf/simulated/floor/mineral/plasma/proc/set_life()
 	if(lit)
 		return
 	lit = 1
 	life = rand(15,25)
+
 /turf/simulated/floor/mineral/plasma/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(is_hot(W) > 300)//If the temperature of the object is over 300, then ignite
 		message_admins("Plasma flooring was ignited by [key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
@@ -60,8 +62,6 @@
 /turf/simulated/floor/mineral/plasma/proc/ignite(exposed_temperature)
 	if(exposed_temperature > 300)
 		PlasmaBurn()
-
-
 
 /turf/simulated/floor/mineral/gold
 	name = "gold floor"
