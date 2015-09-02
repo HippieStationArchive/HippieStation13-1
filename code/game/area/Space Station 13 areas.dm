@@ -918,6 +918,10 @@ proc/process_ghost_teleport_locs()
 	name = "Gravity Generator Room"
 	icon_state = "grav_gen"
 
+/area/engine/sm_room
+	name = "Supermatter Room"
+	icon_state = "sm_room"
+
 //Solars
 
 /area/solar
