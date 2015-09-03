@@ -19,10 +19,6 @@
 #endif
 	//logs
 	var/date_string = time2text(world.realtime, "YYYY/MM-Month/DD-Day")
-//	if(revdata && istext(revdata.revision) && length(revdata.revision)>7)
-//		log = file("data/logs/runtime/[copytext(revdata.revision,1,8)].log")
-//	else
-//		log = file("data/logs/runtime/[time2text(world.realtime,"YYYY-MM")].log")		//funtimelog
 	href_logfile = file("data/logs/[date_string] hrefs.htm")
 	diary = file("data/logs/[date_string].log")
 	diaryofmeanpeople = file("data/logs/[date_string] Attack.log")
@@ -52,6 +48,13 @@
 	if(config && config.server_name != null && config.server_suffix && world.port > 0)
 		// dumb and hardcoded but I don't care~
 		config.server_name += " #[(world.port % 1000) / 100]"
+
+	if(config && config.log_runtimes)
+		//Runtime error logs
+		if(revdata && istext(revdata.revision) && length(revdata.revision)>7)
+			log = file("data/logs/runtime/[copytext(revdata.revision,1,8)].log")
+		else
+			log = file("data/logs/runtime/[time2text(world.realtime,"YYYY-MM")].log")
 
 	timezoneOffset = text2num(time2text(0,"hh")) * 36000
 

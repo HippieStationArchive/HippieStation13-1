@@ -1,11 +1,13 @@
 /datum/controller/process/disease
-	var/tmp/datum/updateQueue/updateQueueInstance
+	schedule_interval = 20 // every 2 seconds
 
 /datum/controller/process/disease/setup()
 	name = "disease"
-	schedule_interval = 20 // every 2 seconds
-	updateQueueInstance = new
 
 /datum/controller/process/disease/doWork()
-	updateQueueInstance.init(active_diseases, "process")
-	updateQueueInstance.Run()
+	for(var/d in active_diseases)
+		if(d)
+			d:process()
+			scheck()
+			continue
+		active_diseases -= d

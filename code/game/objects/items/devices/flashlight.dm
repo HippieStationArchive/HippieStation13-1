@@ -12,6 +12,12 @@
 	action_button_name = "Toggle Light"
 	var/on = 0
 	var/brightness_on = 4 //luminosity when on
+	var/atom/last_user //So when the flashlight is destroyed the last user's l_color won't be fucked
+
+/obj/item/device/flashlight/Destroy()
+	if(last_user != null)
+		last_user.l_color = last_user.l_color - src.l_color
+	..()
 
 /obj/item/device/flashlight/initialize()
 	..()
@@ -27,12 +33,20 @@
 		icon_state = "[initial(icon_state)]-on"
 		if(loc == user)
 			user.AddLuminosity(brightness_on)
+			if(src.l_color != null)
+				var/rgb1 = hex2rgb(user.l_color)
+				var/rgb2 = hex2rgb(src.l_color)
+				user.l_color = addrgb(rgb1, rgb2)
 		else if(isturf(loc))
 			SetLuminosity(brightness_on)
 	else
 		icon_state = initial(icon_state)
 		if(loc == user)
 			user.AddLuminosity(-brightness_on)
+			if(src.l_color != null)
+				var/rgb1 = hex2rgb(user.l_color)
+				var/rgb2 = hex2rgb(src.l_color)
+				user.l_color = subrgb(rgb1, rgb2)
 		else if(isturf(loc))
 			SetLuminosity(0)
 
@@ -85,17 +99,30 @@
 					user << "<span class='notice'>[M]'s pupils narrow.</span>"
 	else
 		return ..()
-
-
+/obj/item/device/flashlight/proc/can_use(mob/user)
+	if(user && ismob(user))
+		if(!user.stat && user.canmove && !user.restrained())
+			return 1
+	return 0
 /obj/item/device/flashlight/pickup(mob/user)
+	if(!can_use(user))
+		return
 	if(on)
 		user.AddLuminosity(brightness_on)
+		if(src.l_color != null)
+			var/rgb1 = hex2rgb(user.l_color)
+			var/rgb2 = hex2rgb(src.l_color)
+			user.l_color = addrgb(rgb1, rgb2)
 		SetLuminosity(0)
 
 
 /obj/item/device/flashlight/dropped(mob/user)
 	if(on)
 		user.AddLuminosity(-brightness_on)
+		if(src.l_color != null)
+			var/rgb1 = hex2rgb(user.l_color)
+			var/rgb2 = hex2rgb(src.l_color)
+			user.l_color = subrgb(rgb1, rgb2)
 		SetLuminosity(brightness_on)
 
 
@@ -160,6 +187,14 @@ obj/item/device/flashlight/lamp/bananalamp
 	icon_state = "bananalamp"
 	item_state = "bananalamp"
 
+obj/item/device/flashlight/lamp/bananalamp/Crossed(AM as mob|obj)
+	if (istype(AM, /mob/living/carbon))
+		var/mob/living/carbon/M = AM
+		var/stun = 1
+		var/weaken = 1
+		M.slip(stun, weaken, src)
+		return 1
+
 // FLARES
 
 /obj/item/device/flashlight/flare
@@ -170,6 +205,7 @@ obj/item/device/flashlight/lamp/bananalamp
 	icon_state = "flare"
 	item_state = "flare"
 	action_button_name = null	//just pull it manually, neckbeard.
+	l_color = "#7e0000"
 	var/fuel = 0
 	var/on_damage = 7
 	var/produce_heat = 1500
@@ -232,7 +268,6 @@ obj/item/device/flashlight/lamp/bananalamp
 	item_state = "torch"
 	on_damage = 10
 
-
 /obj/item/device/flashlight/slime
 	gender = PLURAL
 	name = "glowing slime extract"
@@ -245,6 +280,7 @@ obj/item/device/flashlight/lamp/bananalamp
 	m_amt = 0
 	g_amt = 0
 	brightness_on = 6 //luminosity when on
+	l_color = "#3e3e00"
 
 /obj/item/device/flashlight/emp
 	origin_tech = "magnets=4;syndicate=5"

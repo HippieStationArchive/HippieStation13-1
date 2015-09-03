@@ -96,22 +96,12 @@ silicate
 	required_reagents = list("radium" = 1, "phosphorus" = 1, "chlorine" = 1)
 	result_amount = 3
 //lcass chems , my maniacal nightmare
-/datum/chemical_reaction/ethyl
-	name = "Ethyl alcohol"
-	id = "ethyl"
-	result = "ethyl"
-	required_reagents = list("ammonia" = 3, "carbon" = 1)
-	required_machines = list(350,-1,-1,-1,-1)
-	bi_amount = 1
-	final_temp = 290
-	bi_product = "nitrogen"
-	result_amount = 3
 /datum/chemical_reaction/meth
 	name = "Methamphetamine"
 	id = "meth"
 	result = "meth"
 	required_catalysts = list("aluminium" = 5)
-	required_reagents = list("tabuna" = 3, "ethyl" = 5,"ammonia" = 2)
+	required_reagents = list("tabuna" = 3, "ethanol" = 5,"hydrogen" = 2)
 	required_machines = list(420,-1,8,-1,-1)
 	overheat_reaction = 1
 	final_temp = 20
@@ -124,7 +114,7 @@ silicate
 	id = "Superzine"
 	result = "Superzine"
 	required_catalysts = list("mutagen" = 5)
-	required_reagents = list("meth" = 2, "hexamine" = 2,"virogone" = 2)
+	required_reagents = list("meth" = 2, "hexamine" = 2,"ethanol" = 2)
 	required_machines = list(500,-1,78,-1,-1)
 	overheat_reaction = 1
 	final_temp = 120
@@ -136,7 +126,7 @@ silicate
 	name = "Liquid gibs"
 	id = "gib"
 	result = "gib"
-	required_reagents = list("water" = 2, "life" = 2,"plasma" = 2)
+	required_reagents = list("water" = 2, "blood" = 2,"plasma" = 2)
 	required_machines = list(350,-1,-1,-1,-1)
 	overheat_reaction = 1
 	final_temp = 320
@@ -196,7 +186,7 @@ silicate
 	id = "hexamine"
 	result = "hexamine"
 	required_catalysts = list("iron" = 3)
-	required_reagents = list("ammonia" = 5, "carbon" = 3)
+	required_reagents = list("ammonia" = 2, "carbon" = 3)
 	required_machines = list(230,-1,35,-1,-1)
 	heat_up_give = 10
 	overheat_reaction = 1
@@ -205,7 +195,7 @@ silicate
 	name = "Carbonic fluoride"
 	id = "carbonf"
 	result = "carbonf"
-	required_reagents = list("ethyl" = 3, "fluorine" = 4)
+	required_reagents = list("ethanol" = 3, "fluorine" = 4)
 	required_machines = list(320,-1,-1,-1,-1)
 	bi_amount = 3
 	bi_product = "oxygen"
@@ -248,8 +238,8 @@ silicate
 	name = "Electrostatic substance"
 	id = "sparky"
 	result = "sparky"
-	required_reagents = list("uranium" = 5, "carbon" = 2)
-	required_machines = list(-1,-1,-1,20,-1)//needs the radio combobulator thing
+	required_reagents = list("uranium" = 2, "carbon" = 2)
+	required_machines = list(-1,-1,-1,6,-1)//needs the radio combobulator thing
 	bi_amount = 2
 	bi_product = "radgoop"
 	result_amount = 5
@@ -257,12 +247,12 @@ silicate
 	name = "Translucent mixture"
 	id = "impvolt"
 	result = "impvolt"
-	required_reagents = list("sparky" = 5, "emit" = 2)
+	required_reagents = list("sparky" = 2, "emit" = 2)
 	required_machines = list(290,-1,-1,-1,15)
-	bi_amount = 2
+	bi_amount = 1
 	overheat_reaction = 1
 	bi_product = "emit_on"//dangerous to make
-	result_amount = 5
+	result_amount = 3
 /datum/chemical_reaction/volt
 	name = "Sparking mixture"
 	id = "volt"
@@ -277,11 +267,11 @@ silicate
 	name = "Emittrium"
 	id = "emit"
 	result = "emit"
-	required_reagents = list("uranium" = 1 , "sparky" = 4 , "oxyplas" = 2)
+	required_reagents = list("uranium" = 1 , "sparky" = 2 , "oxyplas" = 2)
 	required_machines = list(-1,-1,-1,-1,6)//oh boy is this nasty
-	bi_amount = 2
+	bi_amount = 1
 	bi_product = "radium"
-	result_amount = 6
+	result_amount = 4
 /datum/chemical_reaction/emit_on
 	name = "Emittrium_on"
 	id = "emit_on"
@@ -291,18 +281,11 @@ silicate
 	result_amount = 1
 	overheat_reaction = 1
 	heat_up_give = 400
-/datum/chemical_reaction/defib
-	name = "Exstatic mixture"
-	id = "defib"
-	result = "defib"
-	required_reagents = list("sparky" = 2, "carbonf" = 2,"virogone" = 2)
-	required_machines = list(-1,-1,70,-1,-1)//need a lot of pressure to cram all this gunk into a molecule
-	result_amount = 4
 /datum/chemical_reaction/life
 	name = "Liquid life"
 	id = "life"
 	result = "life"
-	required_reagents = list("Superzine" = 1, "virogone" = 1,"defib" = 1)
+	required_reagents = list("Superzine" = 1, "virogone" = 1,"carbonf" = 1)
 	required_machines = list(-1,-1,-1,-1,25)//oh boy is this nasty
 	bi_amount = 1
 	bi_product = "methphos"
@@ -311,7 +294,7 @@ silicate
 	name = "Ausium"
 	id = "aus"
 	result = "aus"
-	required_reagents = list("space_drugs" = 5, "ethyl" = 3,"lithium" = 2)
+	required_reagents = list("space_drugs" = 5, "ethanol" = 3,"lithium" = 2)
 	required_machines = list(430,1,-1,-1,-1)
 	result_amount = 5
 /datum/chemical_reaction/impalco
@@ -327,7 +310,7 @@ silicate
 	result = "alco"
 	required_reagents = list("impalco" = 4, "ethanol" = 3 , "isoprop" = 3)
 	required_machines = list(-1,1,-1,-1,-1)
-	bi_product = "ethyl"
+	bi_product = "ethanol"
 	bi_amount = 3
 	result_amount = 6
 /datum/chemical_reaction/cryo
@@ -354,19 +337,19 @@ silicate
 	name = "Diethyl Mercury"
 	id = "dizinc"
 	result = "dizinc"
-	required_reagents = list("mercury" = 1, "ethyl" = 2)
+	required_reagents = list("mercury" = 1, "ethanol" = 2,"hexamine" = 2)
 	required_machines = list(290,-1,-1,-1,-1)
 	overheat_reaction = 1
 	result_amount = 3
-/datum/chemical_reaction/dizincboom
+/datum/chemical_reaction/dizincboom//milder explosion now
 	name = "Moderate explosion"
 	id = "dizincboom"
 	result = null
 	required_reagents = list("dizinc" = 1, "oxygen" = 1)//no other conditions required , it's that volatile
-	result_amount = 2
+	result_amount = 1
 /datum/chemical_reaction/dizincboom/on_reaction(var/datum/reagents/holder, var/created_volume)
 	var/location = get_turf(holder.my_atom)
-	explosion(location,round(created_volume/35,1),round(created_volume/25,1),round(created_volume/20,1))
+	explosion(location,0,round(created_volume/25,1),round(created_volume/20,1))
 	holder.clear_reagents()
 	return
 /datum/chemical_reaction/sboom
@@ -374,18 +357,18 @@ silicate
 	id = "sboom"
 	result = "sboom"
 	required_reagents = list("isoprop" = 1, "nitrogen" = 6,"carbon" = 3)
-	required_machines = list(290,-1,35,-1,-1)//oh boy is this nasty
+	required_machines = list(290,-1,35,-1,-1)
 	required_catalysts = list("goop" = 1)
 	final_temp = 100
 	bi_amount = 5
 	bi_product = "tabuna"
 	result_amount = 5
-/datum/chemical_reaction/superboom
+/datum/chemical_reaction/superboom//the reaction is more difficult considering this can gib people
 	name = "N-amino azidotetrazole"
 	id = "superboom"
 	result = "superboom"
 	required_reagents = list("sboom" = 3, "ammonia" = 3,"dizinc" = 2)
-	required_machines = list(280,-1,35,-1,-1)//oh boy is this nasty
+	required_machines = list(280,-1,-1,15,-1)
 	required_catalysts = list("tabunb" = 1)
 	heat_up_give = 5
 	final_temp = 100
@@ -399,7 +382,7 @@ silicate
 	result = "emote"
 	required_reagents = list("hyperzine" = 1, "sugar" = 2,"ammonia" = 1)
 	required_machines = list(-1,1,-1,-1,-1)//oh boy is this nasty
-	required_catalysts = list("ethyl" = 1)
+	required_catalysts = list("fluorine" = 1)
 	result_amount = 4
 /datum/chemical_reaction/bear
 	name = "Bearium"
@@ -419,7 +402,7 @@ silicate
 	result = "fart"
 	required_reagents = list("Superzine" = 1, "emote" = 2,"meth" = 1)
 	required_machines = list(370,-1,-1,25,-1)//oh boy is this nasty
-	required_catalysts = list("defib" = 1)
+	required_catalysts = list("mercury" = 1)
 	result_amount = 4
 
 /datum/chemical_reaction/methphos
@@ -457,7 +440,7 @@ silicate
 	overheat_reaction = 1 //hehehe quickest way to get killed as a lunatic chemist
 	required_machines = list(-1,1,-1,-1,-1)
 	required_reagents = list("sarinb" = 5)
-	result_amount = 1
+	result_amount = 3
 
 /datum/chemical_reaction/impure_cyanide
 	name = "Impure Cyanide"
@@ -494,8 +477,9 @@ silicate
 	required_machines = list(-1,1,-1,-1,-1)
 	required_reagents = list("tabunc" = 3)
 	result_amount = 1
-	bi_amount = 9
+	bi_amount = 5
 	bi_product = "goop"
+	result_amount = 5
 /datum/chemical_reaction/cyanide
 	name = "Cyanide"
 	id = "cyanide"
@@ -1101,7 +1085,6 @@ datum/chemical_reaction/pestkiller
 	result_amount = 1
 	required_container = /obj/item/slime_core
 	required_other = 1
-
 /datum/chemical_reaction/slime_explosion
 	name = "Slime Explosion"
 	id = "m_explosion"
@@ -1115,7 +1098,6 @@ datum/chemical_reaction/pestkiller
 	var/datum/effect/effect/system/reagents_explosion/e = new()
 	e.set_up(round (created_volume/10, 1), location, 0, 0)
 	e.start()
-
 	holder.clear_reagents()
 	return
 /datum/chemical_reaction/slimejam
@@ -1138,7 +1120,6 @@ datum/chemical_reaction/pestkiller
 	var/location = get_turf(holder.my_atom)
 	new /obj/item/weapon/reagent_containers/food/snacks/meat/syntiflesh(location)
 	return
-
 /datum/chemical_reaction/slimeenzyme
 	name = "Slime Enzyme"
 	id = "m_enzyme"
@@ -1165,20 +1146,14 @@ datum/chemical_reaction/pestkiller
 	required_other = 3
 /datum/chemical_reaction/slimevirus/on_reaction(var/datum/reagents/holder, var/created_volume)
 	holder.clear_reagents()
-
 	var/virus = pick(/datum/disease/advance/flu, /datum/disease/advance/cold, \
 	 /datum/disease/pierrot_throat, /datum/disease/fake_gbs, \
 	 /datum/disease/brainrot, /datum/disease/magnitis)
-
-
 	var/datum/disease/F = new virus(0)
 	var/list/data = list("viruses"= list(F))
 	holder.add_reagent("blood", 20, data)
-
 	holder.add_reagent("cyanide", rand(1,10))
-
 	return
-
 /datum/chemical_reaction/slimeteleport
 	name = "Slime Teleport"
 	id = "m_tele"
@@ -1189,41 +1164,32 @@ datum/chemical_reaction/pestkiller
 	required_container = /obj/item/slime_core
 	required_other = 4
 /datum/chemical_reaction/slimeteleport/on_reaction(var/datum/reagents/holder, var/created_volume)
-
 	// Calculate new position (searches through beacons in world)
 	var/obj/item/device/radio/beacon/chosen
 	var/list/possible = list()
 	for(var/obj/item/device/radio/beacon/W in world)
 		possible += W
-
 	if(possible.len > 0)
 		chosen = pick(possible)
-
 	if(chosen)
 	// Calculate previous position for transition
-
 		var/turf/FROM = get_turf(holder.my_atom) // the turf of origin we're travelling FROM
 		var/turf/TO = get_turf(chosen)			 // the turf of origin we're travelling TO
-
 		playsound(TO, 'sound/effects/phasein.ogg', 100, 1)
-
 		var/list/flashers = list()
 		for(var/mob/living/carbon/human/M in viewers(TO, null))
 			if(M:eyecheck() <= 0)
 				flick("e_flash", M.flash) // flash dose faggots
 				flashers += M
-
 		var/y_distance = TO.y - FROM.y
 		var/x_distance = TO.x - FROM.x
 		for (var/atom/movable/A in range(2, FROM )) // iterate thru list of mobs in the area
 			if(istype(A, /obj/item/device/radio/beacon)) continue // don't teleport beacons because that's just insanely stupid
 			if( A.anchored && !istype(A, /mob/dead/observer) ) continue // don't teleport anchored things (computers, tables, windows, grilles, etc) because this causes problems!
 			// do teleport ghosts however because hell why not
-
 			var/turf/newloc = locate(A.x + x_distance, A.y + y_distance, TO.z) // calculate the new place
 			if(!A.Move(newloc)) // if the atom, for some reason, can't move, FORCE them to move! :) We try Move() first to invoke any movement-related checks the atom needs to perform after moving
 				A.loc = locate(A.x + x_distance, A.y + y_distance, TO.z)
-
 			spawn()
 				if(ismob(A) && !(A in flashers)) // don't flash if we're already doing an effect
 					var/mob/M = A
@@ -1248,7 +1214,6 @@ datum/chemical_reaction/pestkiller
 	required_container = /obj/item/slime_core
 	required_other = 4
 /datum/chemical_reaction/slimecrit/on_reaction(var/datum/reagents/holder, var/created_volume)
-
 	var/blocked = list(/mob/living/simple_animal/hostile,
 		/mob/living/simple_animal/hostile/pirate,
 		/mob/living/simple_animal/hostile/pirate/ranged,
@@ -1263,13 +1228,10 @@ datum/chemical_reaction/pestkiller
 		/mob/living/simple_animal/clown
 		)//exclusion list for things you don't want the reaction to create.
 	var/list/critters = typesof(/mob/living/simple_animal/hostile) - blocked // list of possible hostile mobs
-
 	playsound(get_turf(holder.my_atom), 'sound/effects/phasein.ogg', 100, 1)
-
 	for(var/mob/living/carbon/human/M in viewers(get_turf(holder.my_atom), null))
 		if(M:eyecheck() <= 0)
 			flick("e_flash", M.flash)
-
 	for(var/i = 1, i <= created_volume, i++)
 		var/chosen = pick(critters)
 		var/mob/living/simple_animal/hostile/C = new chosen
@@ -1286,16 +1248,12 @@ datum/chemical_reaction/pestkiller
 	required_container = /obj/item/slime_core
 	required_other = 4
 /datum/chemical_reaction/slimebork/on_reaction(var/datum/reagents/holder, var/created_volume)
-
 	var/list/borks = typesof(/obj/item/weapon/reagent_containers/food/snacks) - /obj/item/weapon/reagent_containers/food/snacks
 	// BORK BORK BORK
-
 	playsound(get_turf(holder.my_atom), 'sound/effects/phasein.ogg', 100, 1)
-
 	for(var/mob/living/carbon/human/M in viewers(get_turf(holder.my_atom), null))
 		if(M:eyecheck() <= 0)
 			flick("e_flash", M.flash)
-
 	for(var/i = 1, i <= created_volume + rand(1,2), i++)
 		var/chosen = pick(borks)
 		var/obj/B = new chosen
@@ -1304,9 +1262,6 @@ datum/chemical_reaction/pestkiller
 			if(prob(50))
 				for(var/j = 1, j <= rand(1, 3), j++)
 					step(B, pick(NORTH,SOUTH,EAST,WEST))
-
-
-
 /datum/chemical_reaction/slimechloral
 	name = "Slime Chloral"
 	id = "m_bunch"
@@ -1335,23 +1290,16 @@ datum/chemical_reaction/pestkiller
 	result_amount = 2
 	required_container = /obj/item/slime_core
 	required_other = 5
-
 /datum/chemical_reaction/slimefoam/on_reaction(var/datum/reagents/holder, var/created_volume)
-
-
 	var/location = get_turf(holder.my_atom)
 	for(var/mob/M in viewers(5, location))
 		M << "\red The solution violently bubbles!"
-
 	location = get_turf(holder.my_atom)
-
 	for(var/mob/M in viewers(5, location))
 		M << "\red The solution spews out foam!"
-
 	//world << "Holder volume is [holder.total_volume]"
 	//for(var/datum/reagent/R in holder.reagent_list)
 	//	world << "[R.name] = [R.volume]"
-
 	var/datum/effect/effect/system/foam_spread/s = new()
 	s.set_up(created_volume, location, holder, 0)
 	s.start()
@@ -1471,7 +1419,6 @@ datum/chemical_reaction/pestkiller
 				/mob/living/simple_animal/hostile/asteroid/hivelordbrood,
 				/mob/living/simple_animal/hostile/carp/holocarp,
 				/mob/living/simple_animal/hostile/mining_drone
-
 				)//exclusion list for things you don't want the reaction to create.
 			var/list/critters = typesof(/mob/living/simple_animal/hostile) - blocked // list of possible hostile mobs
 
@@ -1530,6 +1477,7 @@ datum/chemical_reaction/pestkiller
 				/mob/living/simple_animal/hostile/syndicate/melee/space,
 				/mob/living/simple_animal/hostile/syndicate/ranged,
 				/mob/living/simple_animal/hostile/syndicate/ranged/space,
+				/mob/living/simple_animal/hostile/russian/ranged/spetsnaz,
 				/mob/living/simple_animal/hostile/alien/queen/large,
 				/mob/living/simple_animal/hostile/retaliate,
 				/mob/living/simple_animal/hostile/retaliate/clown,
@@ -1941,4 +1889,3 @@ datum/chemical_reaction/pestkiller
 	var/obj/P = new chosen
 	if(P)
 		P.loc = get_turf(holder.my_atom)
-

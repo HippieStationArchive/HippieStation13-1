@@ -42,7 +42,7 @@
 				var/turf/simulated/T = get_step(src, direction)
 				if(istype(T))
 					air_master.add_to_active(T)
-	
+
 	if(src.pinned)
 		var/mob/living/carbon/human/H = src.pinned
 		if(istype(H))
@@ -170,7 +170,11 @@
 			H.pinned_to = null
 			H.do_pindown(src, 0)
 			H.update_canmove()
-			
+
+	if(!can_have_cabling())
+		for(var/obj/structure/cable/C in contents)
+			C.Deconstruct()
+
 	return W
 
 //////Assimilate Air//////
@@ -208,6 +212,10 @@
 /turf/proc/ReplaceWithLattice()
 	src.ChangeTurf(/turf/space)
 	new /obj/structure/lattice( locate(src.x, src.y, src.z) )
+
+/turf/proc/ReplaceWithCatwalk()
+	src.ChangeTurf(/turf/space)
+	new /obj/structure/lattice/catwalk(locate(src.x, src.y, src.z) )
 
 /turf/proc/phase_damage_creatures(damage,mob/U = null)//>Ninja Code. Hurts and knocks out creatures on this turf
 	for(var/mob/living/M in src)
@@ -362,3 +370,10 @@
 				O.singularity_act()
 	ChangeTurf(/turf/space)
 	return(2)
+
+
+/turf/proc/can_have_cabling()
+	return 1
+
+/turf/proc/can_lay_cable()
+	return can_have_cabling() & !intact

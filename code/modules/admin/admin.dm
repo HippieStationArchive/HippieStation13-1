@@ -144,6 +144,8 @@ var/global/floorIsLava = 0
 		body += "<br>"
 		body += "<A href='?_src_=holder;forcespeech=\ref[M]'>Forcesay</A> | "
 		body += "<A href='?_src_=holder;snowflakes=\ref[M]'>Reward Menu</A> | "
+		body += "<A href='?_src_=holder;addwatchlist=\ref[M]'>Add to Watchlist</A> | "
+		body += "<A href='?_src_=holder;removewatchlist=\ref[M]'>Remove from Watchlist</A> | "
 		body += "<A href='?_src_=holder;mentor=\ref[M]'>Make Mentor</A> | "
 		body += "<A href='?_src_=holder;removementor=\ref[M]'>Remove Mentor</A> | "
 		body += "<A href='?_src_=holder;tdome1=\ref[M]'>Thunderdome 1</A> | "

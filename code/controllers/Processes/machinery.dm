@@ -40,5 +40,4 @@
 				M.inMachineList = 0
 			if(!machines.Remove(M))
 				machines.Cut(i,i+1)
-		if(!(i%500)) sleep(2)
-		scheck()
+		if(!(i%20)) scheck()

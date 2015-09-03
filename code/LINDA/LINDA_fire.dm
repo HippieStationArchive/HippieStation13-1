@@ -22,7 +22,9 @@
 		return 1
 
 	var/igniting = 0
-
+	var/obj/effect/hotspot/hot = locate(/obj/effect/hotspot, src)
+	if(hot)
+		return 0
 	if((exposed_temperature > PLASMA_MINIMUM_BURN_TEMPERATURE) && air_contents.toxins > 0.5)
 		igniting = 1
 
@@ -60,7 +62,7 @@
 	perform_exposure()
 
 /obj/effect/hotspot/proc/perform_exposure()
-	var/turf/simulated/floor/location = loc
+	var/turf/simulated/location = loc
 	if(!istype(location))	return 0
 
 	if(volume > CELL_VOLUME*0.95)	bypassing = 1
@@ -71,7 +73,7 @@
 			volume = location.air.fuel_burnt*FIRE_GROWTH_RATE
 			temperature = location.air.temperature
 	else
-		var/datum/gas_mixture/affected = location.air.remove_ratio(volume/location.air.volume)
+		var/datum/gas_mixture/affected = location.air.remove_quick()//clear dat gas then replace :3
 		affected.temperature = temperature
 		affected.react()
 		temperature = affected.temperature
@@ -137,8 +139,7 @@
 		/*if(prob(25))
 			location.ReplaceWithSpace()
 			return 0*/
-	if(prob(15))
-		playsound(src.loc, 'sound/effects/fire.ogg', 30, 1, -1) //play it at low volume so the stacking isn't too bad.
+
 	return 1
 
 // Garbage collect itself by nulling reference to it

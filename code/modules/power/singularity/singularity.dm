@@ -165,7 +165,7 @@
 				consume_range = 2
 				dissipate_delay = 4
 				dissipate_track = 0
-				dissipate_strength = 20
+				dissipate_strength = 40
 		if(STAGE_FOUR)
 			if((check_turfs_in(1,3))&&(check_turfs_in(2,3))&&(check_turfs_in(4,3))&&(check_turfs_in(8,3)))
 				current_size = STAGE_FOUR
@@ -173,7 +173,7 @@
 				icon_state = "singularity_s7"
 				pixel_x = -96
 				pixel_y = -96
-				grav_pull = 10
+				grav_pull = 7
 				consume_range = 3
 				dissipate_delay = 10
 				dissipate_track = 0

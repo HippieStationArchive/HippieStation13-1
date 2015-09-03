@@ -4,6 +4,7 @@
 // BEGIN_INTERNALS
 // END_INTERNALS
 
+
 // BEGIN_FILE_DIR
 #define FILE_DIR .
 // END_FILE_DIR
@@ -50,6 +51,7 @@
 #include "code\__HELPERS\matrices.dm"
 #include "code\__HELPERS\mobs.dm"
 #include "code\__HELPERS\names.dm"
+#include "code\__HELPERS\rgbToHexConverter.dm"
 #include "code\__HELPERS\sanitize_values.dm"
 #include "code\__HELPERS\text.dm"
 #include "code\__HELPERS\time.dm"
@@ -281,6 +283,7 @@
 #include "code\game\dna.dm"
 #include "code\game\say.dm"
 #include "code\game\shuttle_engines.dm"
+#include "code\game\skincmd.dm"
 #include "code\game\smoothwall.dm"
 #include "code\game\sound.dm"
 #include "code\game\area\ai_monitored.dm"
@@ -1485,6 +1488,7 @@
 #include "code\modules\vehicles\lawnmower.dm"
 #include "code\modules\vehicles\segway.dm"
 #include "code\WorkInProgress\atlantique\screambot.dm"
+#include "code\WorkInProgress\kokojo\fireworks.dm"
 #include "code\WorkInProgress\nexendia\tanks.dm"
 #include "code\WorkInProgress\redswandir\buttes_and_bots.dm"
 #include "code\WorkInProgress\redswandir\spesspods\filler.dm"

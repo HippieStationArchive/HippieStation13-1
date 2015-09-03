@@ -24,6 +24,7 @@
 	var/log_attack = 0					// log attack messages
 	var/log_adminchat = 0				// log admin chat messages
 	var/log_pda = 0						// log pda messages
+	var/log_runtimes = 0				// log runtime errors neatly
 	var/log_hrefs = 0					// logs all links clicked in-game. Could be used for debugging and tracking down exploits
 	var/sql_enabled = 0					// for sql switching
 	var/allow_admin_ooccolor = 0		// Allows admins with relevant permissions to have their own ooc colour
@@ -221,6 +222,8 @@
 					config.log_emote = 1
 				if("log_adminchat")
 					config.log_adminchat = 1
+				if("log_runtimes")
+					config.log_runtimes = 1
 				if("log_pda")
 					config.log_pda = 1
 				if("log_hrefs")
