@@ -13,7 +13,7 @@
 	if(!msg)	return
 	if(!mob)	return						//this doesn't happen
 
-	var/mentor_msg = "<span class='mentornotice'><font color='purple'>New Mentor PM From <b>[key_name_mentor(src, 1, 0, 1)]</b>: [msg]</font></span>"
+	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0, 1)]</b>: [msg]</font></span>"
 	log_mentor("MENTORHELP: " + msg)
 
 	for(var/client/X in mentors)
@@ -24,7 +24,7 @@
 		A << 'sound/Items/Bikehorn2.ogg'
 		A << mentor_msg
 
-	src << "<span class='mentornotice'><font color='purple'>Mentor PM Sent: [msg]</font></span>"
+	src << "<span class='mentornotice'><font color='purple'>PM to-<b>Mentors</b>: [msg]</font></span>"
 	return
 
 /proc/key_name_mentor(var/whom, var/include_link = null, var/include_name = 0, var/include_follow = 0)
@@ -75,6 +75,6 @@
 		. += "*no key*"
 
 	if(include_follow)
-		. += " <a href='?mentor_follow=\ref[M]'>(F)</a>"
+		. += " (<a href='?mentor_follow=\ref[M]'>F</a>)"
 
 	return .

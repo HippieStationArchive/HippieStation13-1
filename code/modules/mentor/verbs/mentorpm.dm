@@ -45,8 +45,8 @@
 
 	msg = emoji_parse(msg)
 	C << 'sound/Items/Bikehorn2.ogg'
-	C << "<font color='purple'>Mentor PM From <b>[key_name_mentor(src, C, 1, check_mentor(C) && !check_mentor(src))]</b>: [msg]</font>"
-	src << "<font color='green'>Mentor PM To <b>[key_name_mentor(C, src, 1, check_mentor(src) && !check_mentor(C))]</b>: [msg]</font>"
+	C << "<font color='purple'>Mentor PM from-<b>[key_name_mentor(src, C, 1, check_mentor(C) && !check_mentor(src))]</b>: [msg]</font>"
+	src << "<font color='green'>Mentor PM to-<b>[key_name_mentor(C, src, 1, check_mentor(src) && !check_mentor(C))]</b>: [msg]</font>"
 
 	//we don't use message_Mentors here because the sender/receiver might get it too
 	for(var/client/X in mentors)
