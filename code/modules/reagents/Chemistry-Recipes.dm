@@ -456,7 +456,7 @@ silicate
 	result = "sarin"
 	overheat_reaction = 1 //hehehe quickest way to get killed as a lunatic chemist
 	required_machines = list(-1,1,-1,-1,-1)
-	required_reagents = list("sarinb" = 5) 
+	required_reagents = list("sarinb" = 5)
 	result_amount = 1
 
 /datum/chemical_reaction/impure_cyanide
@@ -1453,6 +1453,7 @@ datum/chemical_reaction/pestkiller
 				/mob/living/simple_animal/hostile/pirate/ranged,
 				/mob/living/simple_animal/hostile/russian,
 				/mob/living/simple_animal/hostile/russian/ranged,
+				/mob/living/simple_animal/hostile/russian/ranged/spetsnaz,
 				/mob/living/simple_animal/hostile/syndicate,
 				/mob/living/simple_animal/hostile/syndicate/melee,
 				/mob/living/simple_animal/hostile/syndicate/melee/space,
@@ -1470,6 +1471,7 @@ datum/chemical_reaction/pestkiller
 				/mob/living/simple_animal/hostile/asteroid/hivelordbrood,
 				/mob/living/simple_animal/hostile/carp/holocarp,
 				/mob/living/simple_animal/hostile/mining_drone
+
 				)//exclusion list for things you don't want the reaction to create.
 			var/list/critters = typesof(/mob/living/simple_animal/hostile) - blocked // list of possible hostile mobs
 
