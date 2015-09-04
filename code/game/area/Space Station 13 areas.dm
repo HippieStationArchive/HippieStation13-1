@@ -651,6 +651,10 @@ proc/process_ghost_teleport_locs()
 	name = "Speakeasy"
 	icon_state = "yellow"
 
+/area/maintenance/sec_isolation_maintenance
+	name = "Isolation Maintenance"
+	icon_state = "isolationmaint"
+
 
 //Hallway
 
