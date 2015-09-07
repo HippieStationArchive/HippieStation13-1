@@ -126,7 +126,7 @@ silicate
 	name = "Liquid gibs"
 	id = "gib"
 	result = "gib"
-	required_reagents = list("water" = 2, "blood" = 2,"plasma" = 2)
+	required_reagents = list("water" = 2, "blood" = 2,"methphos" = 2)
 	required_machines = list(350,-1,-1,-1,-1)
 	overheat_reaction = 1
 	final_temp = 320
@@ -439,7 +439,7 @@ silicate
 	result = "sarin"
 	overheat_reaction = 1 //hehehe quickest way to get killed as a lunatic chemist
 	required_machines = list(-1,1,-1,-1,-1)
-	required_reagents = list("sarinb" = 5) 
+	required_reagents = list("sarinb" = 5)
 	result_amount = 3
 
 /datum/chemical_reaction/impure_cyanide
@@ -1085,7 +1085,6 @@ datum/chemical_reaction/pestkiller
 	result_amount = 1
 	required_container = /obj/item/slime_core
 	required_other = 1
-
 /datum/chemical_reaction/slime_explosion
 	name = "Slime Explosion"
 	id = "m_explosion"
@@ -1099,7 +1098,6 @@ datum/chemical_reaction/pestkiller
 	var/datum/effect/effect/system/reagents_explosion/e = new()
 	e.set_up(round (created_volume/10, 1), location, 0, 0)
 	e.start()
-
 	holder.clear_reagents()
 	return
 /datum/chemical_reaction/slimejam
@@ -1122,7 +1120,6 @@ datum/chemical_reaction/pestkiller
 	var/location = get_turf(holder.my_atom)
 	new /obj/item/weapon/reagent_containers/food/snacks/meat/syntiflesh(location)
 	return
-
 /datum/chemical_reaction/slimeenzyme
 	name = "Slime Enzyme"
 	id = "m_enzyme"
@@ -1149,20 +1146,14 @@ datum/chemical_reaction/pestkiller
 	required_other = 3
 /datum/chemical_reaction/slimevirus/on_reaction(var/datum/reagents/holder, var/created_volume)
 	holder.clear_reagents()
-
 	var/virus = pick(/datum/disease/advance/flu, /datum/disease/advance/cold, \
 	 /datum/disease/pierrot_throat, /datum/disease/fake_gbs, \
 	 /datum/disease/brainrot, /datum/disease/magnitis)
-
-
 	var/datum/disease/F = new virus(0)
 	var/list/data = list("viruses"= list(F))
 	holder.add_reagent("blood", 20, data)
-
 	holder.add_reagent("cyanide", rand(1,10))
-
 	return
-
 /datum/chemical_reaction/slimeteleport
 	name = "Slime Teleport"
 	id = "m_tele"
@@ -1173,41 +1164,32 @@ datum/chemical_reaction/pestkiller
 	required_container = /obj/item/slime_core
 	required_other = 4
 /datum/chemical_reaction/slimeteleport/on_reaction(var/datum/reagents/holder, var/created_volume)
-
 	// Calculate new position (searches through beacons in world)
 	var/obj/item/device/radio/beacon/chosen
 	var/list/possible = list()
 	for(var/obj/item/device/radio/beacon/W in world)
 		possible += W
-
 	if(possible.len > 0)
 		chosen = pick(possible)
-
 	if(chosen)
 	// Calculate previous position for transition
-
 		var/turf/FROM = get_turf(holder.my_atom) // the turf of origin we're travelling FROM
 		var/turf/TO = get_turf(chosen)			 // the turf of origin we're travelling TO
-
 		playsound(TO, 'sound/effects/phasein.ogg', 100, 1)
-
 		var/list/flashers = list()
 		for(var/mob/living/carbon/human/M in viewers(TO, null))
 			if(M:eyecheck() <= 0)
 				flick("e_flash", M.flash) // flash dose faggots
 				flashers += M
-
 		var/y_distance = TO.y - FROM.y
 		var/x_distance = TO.x - FROM.x
 		for (var/atom/movable/A in range(2, FROM )) // iterate thru list of mobs in the area
 			if(istype(A, /obj/item/device/radio/beacon)) continue // don't teleport beacons because that's just insanely stupid
 			if( A.anchored && !istype(A, /mob/dead/observer) ) continue // don't teleport anchored things (computers, tables, windows, grilles, etc) because this causes problems!
 			// do teleport ghosts however because hell why not
-
 			var/turf/newloc = locate(A.x + x_distance, A.y + y_distance, TO.z) // calculate the new place
 			if(!A.Move(newloc)) // if the atom, for some reason, can't move, FORCE them to move! :) We try Move() first to invoke any movement-related checks the atom needs to perform after moving
 				A.loc = locate(A.x + x_distance, A.y + y_distance, TO.z)
-
 			spawn()
 				if(ismob(A) && !(A in flashers)) // don't flash if we're already doing an effect
 					var/mob/M = A
@@ -1232,7 +1214,6 @@ datum/chemical_reaction/pestkiller
 	required_container = /obj/item/slime_core
 	required_other = 4
 /datum/chemical_reaction/slimecrit/on_reaction(var/datum/reagents/holder, var/created_volume)
-
 	var/blocked = list(/mob/living/simple_animal/hostile,
 		/mob/living/simple_animal/hostile/pirate,
 		/mob/living/simple_animal/hostile/pirate/ranged,
@@ -1247,13 +1228,10 @@ datum/chemical_reaction/pestkiller
 		/mob/living/simple_animal/clown
 		)//exclusion list for things you don't want the reaction to create.
 	var/list/critters = typesof(/mob/living/simple_animal/hostile) - blocked // list of possible hostile mobs
-
 	playsound(get_turf(holder.my_atom), 'sound/effects/phasein.ogg', 100, 1)
-
 	for(var/mob/living/carbon/human/M in viewers(get_turf(holder.my_atom), null))
 		if(M:eyecheck() <= 0)
 			flick("e_flash", M.flash)
-
 	for(var/i = 1, i <= created_volume, i++)
 		var/chosen = pick(critters)
 		var/mob/living/simple_animal/hostile/C = new chosen
@@ -1270,16 +1248,12 @@ datum/chemical_reaction/pestkiller
 	required_container = /obj/item/slime_core
 	required_other = 4
 /datum/chemical_reaction/slimebork/on_reaction(var/datum/reagents/holder, var/created_volume)
-
 	var/list/borks = typesof(/obj/item/weapon/reagent_containers/food/snacks) - /obj/item/weapon/reagent_containers/food/snacks
 	// BORK BORK BORK
-
 	playsound(get_turf(holder.my_atom), 'sound/effects/phasein.ogg', 100, 1)
-
 	for(var/mob/living/carbon/human/M in viewers(get_turf(holder.my_atom), null))
 		if(M:eyecheck() <= 0)
 			flick("e_flash", M.flash)
-
 	for(var/i = 1, i <= created_volume + rand(1,2), i++)
 		var/chosen = pick(borks)
 		var/obj/B = new chosen
@@ -1288,9 +1262,6 @@ datum/chemical_reaction/pestkiller
 			if(prob(50))
 				for(var/j = 1, j <= rand(1, 3), j++)
 					step(B, pick(NORTH,SOUTH,EAST,WEST))
-
-
-
 /datum/chemical_reaction/slimechloral
 	name = "Slime Chloral"
 	id = "m_bunch"
@@ -1319,23 +1290,16 @@ datum/chemical_reaction/pestkiller
 	result_amount = 2
 	required_container = /obj/item/slime_core
 	required_other = 5
-
 /datum/chemical_reaction/slimefoam/on_reaction(var/datum/reagents/holder, var/created_volume)
-
-
 	var/location = get_turf(holder.my_atom)
 	for(var/mob/M in viewers(5, location))
 		M << "\red The solution violently bubbles!"
-
 	location = get_turf(holder.my_atom)
-
 	for(var/mob/M in viewers(5, location))
 		M << "\red The solution spews out foam!"
-
 	//world << "Holder volume is [holder.total_volume]"
 	//for(var/datum/reagent/R in holder.reagent_list)
 	//	world << "[R.name] = [R.volume]"
-
 	var/datum/effect/effect/system/foam_spread/s = new()
 	s.set_up(created_volume, location, holder, 0)
 	s.start()
@@ -1437,6 +1401,7 @@ datum/chemical_reaction/pestkiller
 				/mob/living/simple_animal/hostile/pirate/ranged,
 				/mob/living/simple_animal/hostile/russian,
 				/mob/living/simple_animal/hostile/russian/ranged,
+				/mob/living/simple_animal/hostile/russian/ranged/spetsnaz,
 				/mob/living/simple_animal/hostile/syndicate,
 				/mob/living/simple_animal/hostile/syndicate/melee,
 				/mob/living/simple_animal/hostile/syndicate/melee/space,
@@ -1512,6 +1477,7 @@ datum/chemical_reaction/pestkiller
 				/mob/living/simple_animal/hostile/syndicate/melee/space,
 				/mob/living/simple_animal/hostile/syndicate/ranged,
 				/mob/living/simple_animal/hostile/syndicate/ranged/space,
+				/mob/living/simple_animal/hostile/russian/ranged/spetsnaz,
 				/mob/living/simple_animal/hostile/alien/queen/large,
 				/mob/living/simple_animal/hostile/retaliate,
 				/mob/living/simple_animal/hostile/retaliate/clown,
@@ -1923,4 +1889,3 @@ datum/chemical_reaction/pestkiller
 	var/obj/P = new chosen
 	if(P)
 		P.loc = get_turf(holder.my_atom)
-
