@@ -136,3 +136,10 @@
 				/obj/item/stack/packageWrap = 5,)
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 200
+
+/datum/table_recipe/picket
+	name = "Picket Sign"
+	result = /obj/item/weapon/picket_sign
+	reqs = list(/obj/item/stack/rods = 1,
+				/obj/item/stack/sheet/cardboard = 1)
+	time = 60
