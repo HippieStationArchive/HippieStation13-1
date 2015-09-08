@@ -126,7 +126,7 @@ silicate
 	name = "Liquid gibs"
 	id = "gib"
 	result = "gib"
-	required_reagents = list("water" = 2, "blood" = 2,"plasma" = 2)
+	required_reagents = list("water" = 2, "blood" = 2,"methphos" = 2)
 	required_machines = list(350,-1,-1,-1,-1)
 	overheat_reaction = 1
 	final_temp = 320
