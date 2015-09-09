@@ -314,7 +314,7 @@
 								jumper.throw_at(throw_target, 3, 1)
 
 							if(61 to 80)
-								jumper.visible_message("<span class='notice'>[user] goes for a awesome dive! Don't stand in \his way!</span>", \
+								jumper.visible_message("<span class='notice'>[user] goes for an awesome dive! Don't stand in \his way!</span>", \
 													 "<span class='notice'>You feel like this dive will be awesome</span>")
 								sleep(30)
 								backswim()
@@ -347,7 +347,7 @@
 									jumper.IgniteMob()
 									sleep(5)
 									backswim()
-									jumper.visible_message("<span class='danger'>[user] bursts into flame of pure awesomness!</span>", \
+									jumper.visible_message("<span class='danger'>[user] bursts into flames of pure awesomness!</span>", \
 										 "<span class='userdanger'>No one can stop you now!</span>")
 									var/atom/throw_target = get_edge_target_turf(src, dir)
 									jumper.throw_at(throw_target, 6, 1)
