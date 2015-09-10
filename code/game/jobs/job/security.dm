@@ -26,6 +26,7 @@ Head of Security
 	default_backpack = /obj/item/weapon/storage/backpack/security
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_sec
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_security
+	default_storagebox = /obj/item/weapon/storage/box/security
 
 /datum/job/hos/get_access()
 	return get_all_accesses()
@@ -76,6 +77,7 @@ Warden
 	default_backpack = /obj/item/weapon/storage/backpack/security
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_sec
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_security
+	default_storagebox = /obj/item/weapon/storage/box/security
 
 	access = list(access_security, access_sec_doors, access_brig, access_armory, access_court, access_maint_tunnels, access_morgue, access_weapons)
 	minimal_access = list(access_security, access_sec_doors, access_brig, access_armory, access_court, access_weapons) //See /datum/job/warden/get_access()
@@ -177,6 +179,7 @@ Security Officer
 	default_backpack = /obj/item/weapon/storage/backpack/security
 	default_satchel = /obj/item/weapon/storage/backpack/satchel_sec
 	default_dufflebag = /obj/item/weapon/storage/backpack/dufflebag_security
+	default_storagebox = /obj/item/weapon/storage/box/security
 
 	access = list(access_security, access_sec_doors, access_brig, access_court, access_maint_tunnels, access_morgue, access_weapons)
 	minimal_access = list(access_security, access_sec_doors, access_brig, access_court, access_weapons) //But see /datum/job/warden/get_access()
