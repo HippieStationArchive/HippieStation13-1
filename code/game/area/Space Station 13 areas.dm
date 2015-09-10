@@ -651,6 +651,10 @@ proc/process_ghost_teleport_locs()
 	name = "Speakeasy"
 	icon_state = "yellow"
 
+/area/maintenance/sec_isolation_maintenance
+	name = "Isolation Maintenance"
+	icon_state = "isolationmaint"
+
 
 //Hallway
 
@@ -823,6 +827,10 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Mime Office"
 	icon_state = "mime"
 
+/area/crew_quarters/Arcade
+	name = "\improper Arcade"
+	icon_state = "arcade"
+
 
 
 
@@ -913,6 +921,10 @@ proc/process_ghost_teleport_locs()
 /area/engine/gravity_generator
 	name = "Gravity Generator Room"
 	icon_state = "grav_gen"
+
+/area/engine/sm_room
+	name = "Supermatter Room"
+	icon_state = "sm_room"
 
 //Solars
 
@@ -1093,6 +1105,18 @@ proc/process_ghost_teleport_locs()
 /area/security/prison
 	name = "\improper Prison Wing"
 	icon_state = "sec_prison"
+
+/area/security/observation
+	name = "\improper Execution Observation"
+	icon_state = "sec_observation"
+
+/area/security/isolation
+	name = "\improper Isolation Room"
+	icon_state = "sec_isolation"
+
+/area/security/execution
+	name = "\improper Execution Room"
+	icon_state = "sec_execution"
 
 /area/security/processing
 	name = "\improper Labor Shuttle Dock"
