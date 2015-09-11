@@ -19,6 +19,7 @@
 	internal_damage_threshold = 25
 	max_equip = 2
 	step_energy_drain = 3
+	var/thrusters = 0 //can't forget this lmao
 	stepsound = 'sound/effects/mowermove1.ogg'
 	turnsound = 'sound/effects/mowermove2.ogg'
 
@@ -93,10 +94,6 @@
 	..()
 	if (href_list["toggle_thrusters"])
 		src.toggle_thrusters()
-	if (href_list["smoke"])
-		src.smoke()
-	if (href_list["toggle_zoom"])
-		src.zoom()
 	return
 
 
