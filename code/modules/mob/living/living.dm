@@ -412,6 +412,7 @@
 	sdisabilities = 0
 	disabilities = 0
 	blinded = 0
+	sleeping = 0
 	eye_blind = 0
 	eye_blurry = 0
 	ear_deaf = 0
@@ -420,6 +421,9 @@
 	ExtinguishMob()
 	fire_stacks = 0
 	suiciding = 0
+	eye_stat = 0
+	eye_blind = 0
+	eye_blurry = 0
 	if(iscarbon(src))
 		var/mob/living/carbon/C = src
 		C.handcuffed = initial(C.handcuffed)
