@@ -456,7 +456,7 @@
 
 		if(config.health_threshold_crit >= health) //Newcrit!
 			nearcrit = 1
-			if(stat == CONSCIOUS)
+			if(stat != DEAD)
 				adjustOxyLoss(1)
 				Weaken(3)
 				if(prob(15))
