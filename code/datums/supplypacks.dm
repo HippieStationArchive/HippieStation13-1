@@ -996,12 +996,6 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	cost = 8
 	containername = "Corporate Posters Crate"
 
-/datum/supply_packs/misc/tank
-	name = "Tiny Tank Crate"
-	contains = list(/obj/mecha/combat/tank/loaded)
-	cost = 3000
-	containertype = /obj/structure/closet/crate/secure
-	containername = "\improper Tiny Tank Crate"
 
 ///////////// Paper Work
 
