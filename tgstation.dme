@@ -1489,7 +1489,6 @@
 #include "code\modules\vehicles\segway.dm"
 #include "code\WorkInProgress\atlantique\screambot.dm"
 #include "code\WorkInProgress\kokojo\fireworks.dm"
-#include "code\WorkInProgress\nexendia\tanks.dm"
 #include "code\WorkInProgress\redswandir\buttes_and_bots.dm"
 #include "code\WorkInProgress\redswandir\spesspods\filler.dm"
 #include "code\WorkInProgress\redswandir\spesspods\spacepod_equipment.dm"
