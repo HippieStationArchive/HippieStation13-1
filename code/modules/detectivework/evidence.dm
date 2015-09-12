@@ -25,6 +25,10 @@
 		user << "<span class='notice'>You find putting an evidence bag in another evidence bag to be slightly absurd.</span>"
 		return 1 //now this is podracing
 
+	if(istype(I, /obj/item/weapon/storage/box))
+		user << "<span class='notice'>The box itself refuses to go into the evidence bag, for it fears imploding on itself.</span>"
+		return 1 //now this is podracing
+
 	if(I.w_class > 3)
 		user << "<span class='notice'>[I] won't fit in [src].</span>"
 		return

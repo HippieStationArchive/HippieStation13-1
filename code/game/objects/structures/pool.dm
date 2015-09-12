@@ -24,6 +24,15 @@
 	if(loc.name == "Drained Pool")
 		return
 	if(user.stat || user.lying || !Adjacent(user) || !M.Adjacent(user)|| !iscarbon(M))
+		if(isrobot(M))
+			M.visible_message("<span class='notice'>[user] begins to float.", \
+				"<span class='notice'>You start your emergency floaters.</span>")
+			if(do_mob(user, M, 20))
+				var/turf/T = get_turf(M)
+				T.Exited(M)
+				M.forceMove(src)
+				user << "<span class='notice'>You get out of the pool.</span>"
+				playsound(src, 'sound/effects/water_exit.ogg', 20, 1)
 		return ..()
 	if(!M.swimming) //can't put yourself up if you are not swimming
 		return ..()
@@ -49,7 +58,9 @@
 			return
 
 /turf/simulated/floor/CanPass(atom/movable/A, turf/T)
-	if(istype(A, /mob/living) || istype(A, /obj/structure)) //This check ensures that only specific types of objects cannot pass into the water. Items will be able to get tossed out.
+	if(!has_gravity(src))
+		return ..()
+	else if(istype(A, /mob/living) || istype(A, /obj/structure)) //This check ensures that only specific types of objects cannot pass into the water. Items will be able to get tossed out.
 		if(istype(A, /mob/living/simple_animal) || istype(A, /mob/living/carbon/monkey))
 			return ..()
 		if (istype(A, /obj/structure) && istype(A.pulledby, /mob/living/carbon/human))
@@ -58,7 +69,7 @@
 			return 0
 	return ..()
 
-/obj/effect/overlay/water
+/obj/overlay/water
 	name = "Water"
 	icon = 'icons/turf/pool.dmi'
 	icon_state = "overlay"
@@ -71,14 +82,15 @@
 	name = "poolwater"
 	desc = "You're safer here than in the deep."
 	icon_state = "turf"
-	var/obj/effect/overlay/water/watereffect
+	var/obj/overlay/water/watereffect
 
 /turf/simulated/pool/water/New()
 	..()
-	for(var/obj/effect/overlay/water/W in src)
+	for(var/obj/overlay/water/W in src)
 		if(W)
 			qdel(W)
-	watereffect = new /obj/effect/overlay/water(src)
+	watereffect = new /obj/overlay/water(src)
+
 
 /turf/simulated/pool/water/ChangeTurf(var/path)
 	. = ..()
@@ -87,7 +99,7 @@
 
 //put people in water, including you
 /turf/simulated/pool/water/MouseDrop_T(mob/M as mob, mob/user as mob)
-	if(drained)
+	if(drained || !has_gravity(src))
 		return
 	if(user.stat || user.lying || !Adjacent(user) || !M.Adjacent(user)|| !iscarbon(M))
 		return
@@ -115,7 +127,9 @@
 //What happens if you don't drop in it like a good person would
 /turf/simulated/pool/water/Entered(atom/A, turf/OL)
 	..()
-	if(drained) //self explanatory I believe
+	if(!has_gravity(src))
+		return
+	else if(drained)
 		if(ishuman(A))
 			var/mob/living/carbon/human/H = A
 			if(H.swimming == 0)
@@ -155,15 +169,9 @@
 			var/mob/living/carbon/human/H = A
 			H.adjustStaminaLoss(1)
 			H.wash()
+			H.ExtinguishMob()
 			if(H.swimming == 1)
 				playsound(src, pick('sound/effects/water_wade1.ogg','sound/effects/water_wade2.ogg','sound/effects/water_wade3.ogg','sound/effects/water_wade4.ogg'), 20, 1)
-				H.ExtinguishMob()
-				if(H.toxloss < 30 && H.staminaloss > 20 && H.staminaloss < 40) 	 //Heals toxin damage pretty well.
-					H.adjustToxLoss(-0.4)
-				if(H.fireloss < 21 && H.staminaloss > 20 && H.staminaloss < 40) //Heals light fire damage.
-					H.adjustFireLoss(-0.4)
-				if(H.bruteloss < 11 && H.staminaloss > 20 && H.staminaloss < 40) //Heals very light brute damage.
-					H.adjustBruteLoss(-0.4)
 				return
 			if(H.swimming == 0)
 				if(locate(/obj/structure/pool/ladder) in H.loc)
@@ -175,7 +183,6 @@
 					playsound(src, 'sound/effects/splash.ogg', 60, 1, 1)
 					H.Weaken(1)
 					H.swimming = 1
-					H.ExtinguishMob()
 					return
 				else
 					H.drop_item()
@@ -186,7 +193,6 @@
 					playsound(src, 'sound/effects/splash.ogg', 60, 1, 1)
 					H.Weaken(3)
 					H.swimming = 1
-					H.ExtinguishMob()
 
 /turf/simulated/pool/water/Exited(mob/M)
 	..()
@@ -370,7 +376,10 @@
 					L.emote("cough")
 				L.adjustStaminaLoss(4) //You need to give em a break!
 
-
+/turf/simulated/pool/water/attackby(obj/item/weapon/W, mob/user)
+		W.reagents.add_reagent("water", 5)
+		user << "<span class='notice'>You wet [W] in [src].</span>"
+		playsound(loc, 'sound/effects/slosh.ogg', 25, 1)
 
 
 /obj/effect/splash
