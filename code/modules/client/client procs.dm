@@ -168,7 +168,7 @@ var/next_external_rsc = 0
 
 	spawn()
 		goodcurity = src.mob.check_achievement("Goodcurity", src.key)
-
+	IsBanned(src)
 	//////////////
 	//DISCONNECT//
 	//////////////
