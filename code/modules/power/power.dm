@@ -482,5 +482,5 @@
 
 /area/proc/get_apc()
 	for(var/obj/machinery/power/apc/APC in apcs_list)
-		if(APC.area == src)
+		if(APC.area.name == src.name)
 			return APC
