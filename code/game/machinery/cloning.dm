@@ -23,7 +23,7 @@
 	var/speed_coeff
 	var/efficiency
 	l_color = "#7BF9FF"
-
+	
 /obj/machinery/clonepod/New()
 	..()
 	component_parts = list()
@@ -211,9 +211,6 @@
 
 			 //Slowly get that clone healed and finished.
 			src.occupant.adjustCloneLoss(-((speed_coeff/2)))
-
-			//They'll suffocate whilst in critical otherwise.
-			src.occupant.setOxyLoss(0)
 
 			//Premature clones may have brain damage.
 			src.occupant.adjustBrainLoss(-((speed_coeff/2)))
