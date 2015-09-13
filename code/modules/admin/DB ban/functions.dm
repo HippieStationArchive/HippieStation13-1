@@ -365,7 +365,7 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 		output += "<option value='[j]'>[j]</option>"
 	for(var/j in nonhuman_positions)
 		output += "<option value='[j]'>[j]</option>"
-	for(var/j in list("traitor","changeling","operative","revolutionary", "gangster","cultist","wizard"))
+	for(var/j in list("traitor","changeling","operative","revolutionary", "gangster","cultist","wizard", "shadowling"))
 		output += "<option value='[j]'>[j]</option>"
 	output += "</select></td></tr></table>"
 	output += "<b>Reason:<br></b><textarea name='dbbanreason' cols='50'></textarea><br>"
@@ -382,7 +382,7 @@ datum/admins/proc/DB_ban_unban_by_id(var/id)
 	output += "<b>Admin ckey:</b> <input type='text' name='dbsearchadmin' value='[adminckey]'>"
 	output += "<b>Cid:</b> <input type='text' name='dbsearchcid' value='[playerid]'>"
 	output += "<b>Cip:</b> <input type='text' name='dbsearchcip' value='[playerip]'>"
-	
+
 	output += "<input style='visibility: hidden; width: 0; height: 0;' type='text' name='banpanelnoargs' value='banpanel'>"
 
 	output += "<input type='submit' value='search'>"
