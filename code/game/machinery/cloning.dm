@@ -213,7 +213,7 @@
 			src.occupant.adjustCloneLoss(-((speed_coeff/2)))
 
 			//They'll suffocate whilst cloning due to critical condition otherwise.
-            src.occupant.setOxyLoss(0)
+			src.occupant.setOxyLoss(0)
 
 			//Premature clones may have brain damage.
 			src.occupant.adjustBrainLoss(-((speed_coeff/2)))
