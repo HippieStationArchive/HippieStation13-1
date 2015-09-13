@@ -22,11 +22,7 @@ Bartender
 	// switch(H.backbag)
 	if(H.backbag == 1) //No backpack or satchel
 
-		var/obj/item/weapon/storage/box/box = new default_storagebox(H)
-		new /obj/item/ammo_casing/shotgun/beanbag(box)
-		new /obj/item/ammo_casing/shotgun/beanbag(box)
-		new /obj/item/ammo_casing/shotgun/beanbag(box)
-		new /obj/item/ammo_casing/shotgun/beanbag(box)
+		var/obj/item/weapon/storage/box/box = new default_storagebox(H)b
 		H.equip_to_slot_or_del(box, slot_r_hand)
 
 	else if(H.backbag > 1) // Backpack, satchel, etc etc etc
@@ -42,12 +38,7 @@ Bartender
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(H), slot_shoes)
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/vest/alt(H), slot_wear_suit)
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/bartender(H), slot_w_uniform)
-
-	if(H.backbag > 1)
-		H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
-		H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
-		H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
-		H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
+	H.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/bandolier/full(H), slot_belt)
 
 /*
 Chef - fuck you -tg-
