@@ -1848,7 +1848,7 @@ ________________________________________________________________________________
 		else if(istype(I, /obj/item/weapon/stock_parts/cell))
 			if(I:maxcharge>cell.maxcharge&&n_gloves&&n_gloves.candrain)
 				U << "<span class='notice'>Higher maximum capacity detected.\nUpgrading...</span>"
-				if (n_gloves&&n_gloves.candrain&&do_after(U,s_delay))
+				if (n_gloves&&n_gloves.candrain&&do_after(U,s_delay, target = src))
 					U.drop_item()
 					I.loc = src
 					I:charge = min(I:charge+cell.charge, I:maxcharge)
@@ -1867,7 +1867,7 @@ ________________________________________________________________________________
 			var/obj/item/weapon/disk/tech_disk/TD = I
 			if(TD.stored)//If it has something on it.
 				U << "Research information detected, processing..."
-				if(do_after(U,s_delay))
+				if(do_after(U,s_delay, target = src))
 					for(var/datum/tech/current_data in stored_research)
 						if(current_data.id==TD.stored.id)
 							if(current_data.level<TD.stored.level)
@@ -1981,7 +1981,7 @@ ________________________________________________________________________________
 					if(S.cell.charge+drain>S.cell.maxcharge)
 						drain = S.cell.maxcharge-S.cell.charge
 						maxcapacity = 1//Reached maximum battery capacity.
-					if (do_after(U,10))
+					if (do_after(U,10, target = src))
 						spark_system.start()
 						playsound(A.loc, "sparks", 50, 1)
 						A.cell.charge-=drain
@@ -2009,7 +2009,7 @@ ________________________________________________________________________________
 					if(S.cell.charge+drain>S.cell.maxcharge)
 						drain = S.cell.maxcharge-S.cell.charge
 						maxcapacity = 1
-					if (do_after(U,10))
+					if (do_after(U,10, target = src))
 						spark_system.start()
 						playsound(A.loc, "sparks", 50, 1)
 						A.charge-=drain
@@ -2023,7 +2023,7 @@ ________________________________________________________________________________
 		if("CELL")
 			var/obj/item/weapon/stock_parts/cell/A = target
 			if(A.charge)
-				if (G.candrain&&do_after(U,30))
+				if (G.candrain&&do_after(U,30, target = src))
 					U << "<span class='notice'>Gained <B>[A.charge]</B> energy from the cell.</span>"
 					if(S.cell.charge+A.charge>S.cell.maxcharge)
 						S.cell.charge=S.cell.maxcharge
@@ -2051,7 +2051,7 @@ ________________________________________________________________________________
 					while(G.candrain&&!maxcapacity&&!isnull(A))//And start a proc similar to drain from wire.
 						drain = rand(G.mindrain,G.maxdrain)
 						var/drained = 0
-						if(PN&&do_after(U,10))
+						if(PN&&do_after(U,10, target = src))
 							drained = min(drain, PN.avail)
 							PN.load += drained
 							if(drained < drain)//if no power on net, drain apcs
@@ -2087,7 +2087,7 @@ ________________________________________________________________________________
 			if(A:files&&A:files.known_tech.len)
 				for(var/datum/tech/current_data in S.stored_research)
 					U << "<span class='notice'>Checking \the [current_data.name] database.</span>"
-					if(do_after(U, S.s_delay)&&G.candrain&&!isnull(A))
+					if(do_after(U, S.s_delay, target = src)&&G.candrain&&!isnull(A))
 						for(var/datum/tech/analyzing_data in A:files.known_tech)
 							if(current_data.id==analyzing_data.id)
 								if(analyzing_data.level>current_data.level)
@@ -2103,7 +2103,7 @@ ________________________________________________________________________________
 			while(G.candrain&&!maxcapacity&&!isnull(A))
 				drain = (round((rand(G.mindrain,G.maxdrain))/2))
 				var/drained = 0
-				if(PN&&do_after(U,10))
+				if(PN&&do_after(U,10, target = src))
 					drained = min(drain, PN.avail)
 					PN.load += drained
 					if(drained < drain)//if no power on net, drain apcs
@@ -2136,7 +2136,7 @@ ________________________________________________________________________________
 					if(S.cell.charge+drain>S.cell.maxcharge)
 						drain = S.cell.maxcharge-S.cell.charge
 						maxcapacity = 1
-					if (do_after(U,10))
+					if (do_after(U,10, target = src))
 						A.spark_system.start()
 						playsound(A.loc, "sparks", 50, 1)
 						A.cell.use(drain)
@@ -2159,7 +2159,7 @@ ________________________________________________________________________________
 					if(S.cell.charge+drain>S.cell.maxcharge)
 						drain = S.cell.maxcharge-S.cell.charge
 						maxcapacity = 1
-					if (do_after(U,10))
+					if (do_after(U,10, target = src))
 						A.spark_system.start()
 						playsound(A.loc, "sparks", 50, 1)
 						A.cell.charge-=drain

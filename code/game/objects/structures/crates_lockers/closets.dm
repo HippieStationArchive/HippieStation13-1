@@ -176,7 +176,7 @@
 			if(WT.remove_fuel(0,user))
 				user << "<span class='notice'>You begin cutting \the [src] apart...</span>"
 				playsound(loc, 'sound/items/Welder.ogg', 40, 1)
-				if(do_after(user,40,5,1))
+				if(do_after(user,40,5,1, target = src))
 					if( !src.opened || !istype(src, /obj/structure/closet) || !user || !WT || !WT.isOn() || !user.loc )
 						return
 					playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
@@ -198,7 +198,7 @@
 		if(WT.remove_fuel(0,user))
 			user << "<span class='notice'>You begin [welded ? "unwelding":"welding"] \the [src]...</span>"
 			playsound(loc, 'sound/items/Welder2.ogg', 40, 1)
-			if(do_after(user,40,5,1))
+			if(do_after(user,40,5,1, target = src))
 				if(src.opened || !istype(src, /obj/structure/closet) || !user || !WT || !WT.isOn() || !user.loc )
 					return
 				playsound(loc, 'sound/items/welder.ogg', 50, 1)
@@ -311,7 +311,7 @@
 	user << "<span class='notice'>You lean on the back of [src] and start pushing the door open. (this will take about [breakout_time] minutes.)</span>"
 	for(var/mob/O in viewers(src))
 		O << "<span class='warning'>[src] begins to shake violently!</span>"
-	if(do_after(user,(breakout_time*60*10))) //minutes * 60seconds * 10deciseconds
+	if(do_after(user,(breakout_time*60*10), target = usr)) //minutes * 60seconds * 10deciseconds
 		if(!user || user.stat != CONSCIOUS || user.loc != src || opened || (!locked && !welded && !istype(src.loc, /obj/mecha)) )
 			return
 		//we check after a while whether there is a point of resisting anymore and whether the user is capable of resisting
@@ -329,7 +329,7 @@
 		open()
 	else
 		user << "<span class='warning'>You fail to break out of [src]!</span>"
-		
+
 /obj/structure/closet/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(!opened)
 		if(istype(W, /obj/item/weapon/rcs))

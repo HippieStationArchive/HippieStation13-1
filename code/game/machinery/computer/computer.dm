@@ -86,7 +86,7 @@
 
 /obj/machinery/computer/power_change()
 	..()
-	
+
 	//Might be shit
 	if(!(stat & (BROKEN|NOPOWER)))
 		SetLuminosity(2)
@@ -106,7 +106,7 @@
 	if(istype(I, /obj/item/weapon/screwdriver) && circuit)
 		playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 		user << "<span class='notice'> You start to disconnect the monitor.</span>"
-		if(do_after(user, 20))
+		if(do_after(user, 20, target = src))
 			var/obj/structure/computerframe/A = new /obj/structure/computerframe( src.loc )
 			A.circuit = circuit
 			A.anchored = 1

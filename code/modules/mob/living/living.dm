@@ -610,7 +610,7 @@
 		C.visible_message("<span class='warning'>[C] is trying to break [I]!</span>")
 		C << "<span class='notice'>You attempt to break [I]. (This will take around 5 seconds and you need to stand still.)</span>"
 		spawn(0)
-			if(do_after(C, 50))
+			if(do_after(C, 50, target = C))
 				if(!I || C.buckled)
 					return
 				cuff_break(I, C)
@@ -621,7 +621,7 @@
 		C.visible_message("<span class='warning'>[C] attempts to remove [I]!</span>")
 		C << "<span class='notice'>You attempt to remove [I]. (This will take around [displaytime] minutes and you need to stand still.)</span>"
 		spawn(0)
-			if(do_after(C, breakouttime, 10))
+			if(do_after(C, breakouttime, 10, target = C))
 				if(!I || C.buckled)
 					return
 				C.visible_message("<span class='danger'>[C] manages to remove [I]!</span>")
@@ -711,7 +711,7 @@
 				C.visible_message("<span class='warning'>[C] attempts to unbuckle themself!</span>", \
 							"<span class='notice'>You attempt to unbuckle yourself. (This will take around one minute and you need to stay still.)</span>")
 				spawn(0)
-					if(do_after(usr, 600))
+					if(do_after(usr, 600, target = C))
 						if(!C.buckled)
 							return
 						C.visible_message("<span class='danger'>[C] manages to unbuckle themself!</span>", \
