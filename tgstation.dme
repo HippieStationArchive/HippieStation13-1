@@ -285,6 +285,7 @@
 #include "code\game\shuttle_engines.dm"
 #include "code\game\skincmd.dm"
 #include "code\game\smoothwall.dm"
+#include "code\game\socket_talk.dm"
 #include "code\game\sound.dm"
 #include "code\game\area\ai_monitored.dm"
 #include "code\game\area\areas.dm"
