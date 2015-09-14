@@ -21,6 +21,7 @@
 	slot_flags = SLOT_BACK	//ERROOOOO
 	max_w_class = 3
 	max_combined_w_class = 21
+	storage_slots = 21
 
 /obj/item/weapon/storage/backpack/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	playsound(src.loc, "rustle", 50, 1, -5)
@@ -81,7 +82,6 @@
 	icon_state = "giftbag0"
 	item_state = "giftbag"
 	w_class = 4.0
-	storage_slots = 20 //Can store a lot.
 	max_w_class = 3
 	max_combined_w_class = 60
 
@@ -199,7 +199,6 @@
 	desc = "A very slim satchel that can easily fit into tight spaces."
 	icon_state = "satchel-flat"
 	w_class = 3 //Can fit in backpacks itself.
-	storage_slots = 5
 	max_combined_w_class = 15
 	level = 1
 	cant_hold = list(/obj/item/weapon/storage/backpack/satchel_flat) //muh recursive backpacks
