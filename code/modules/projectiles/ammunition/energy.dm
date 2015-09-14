@@ -133,3 +133,7 @@
 	projectile_type = /obj/item/projectile/beam/wormhole/orange
 	select_name = "orange"
 
+/obj/item/ammo_casing/energy/c3dbullet
+	projectile_type = /obj/item/projectile/bullet/midbullet2
+	select_name = "execute"
+	fire_sound = "gunshot"
