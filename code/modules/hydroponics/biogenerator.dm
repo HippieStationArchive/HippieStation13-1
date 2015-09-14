@@ -161,6 +161,10 @@
 			dat += "Mining satchel: <A href='?src=\ref[src];create=mnbag;amount=1'>Make</A> ([200/efficiency])<BR>"
 			dat += "Botanical gloves: <A href='?src=\ref[src];create=gloves;amount=1'>Make</A> ([250/efficiency])<BR>"
 			dat += "Utility belt: <A href='?src=\ref[src];create=tbelt;amount=1'>Make</A> ([300/efficiency])<BR>"
+			dat += "Security belt: <A href='?src=\ref[src];create=sbelt;amount=1'>Make</A> ([300/efficiency])<BR>"
+			dat += "Medical belt: <A href='?src=\ref[src];create=mbelt;amount=1'>Make</A> ([300/efficiency])<BR>"
+			dat += "Janitorial belt: <A href='?src=\ref[src];create=jbelt;amount=1'>Make</A> ([300/efficiency])<BR>"
+			dat += "Bandolier belt: <A href='?src=\ref[src];create=bbelt;amount=1'>Make</A> ([300/efficiency])<BR>"
 			dat += "Leather Satchel: <A href='?src=\ref[src];create=satchel;amount=1'>Make</A> ([400/efficiency])<BR>"
 			dat += "Leather Jacket: <A href='?src=\ref[src];create=jacket;amount=1'>Make</A> ([500/efficiency])<BR>"
 			dat += "</div>"
@@ -277,6 +281,18 @@
 		if("tbelt")
 			if (check_cost(300/efficiency)) return 0
 			else new/obj/item/weapon/storage/belt/utility(src.loc)
+		if("sbelt")
+			if (check_cost(300/efficiency)) return 0
+			else new/obj/item/weapon/storage/belt/security(src.loc)
+		if("mbelt")
+			if (check_cost(300/efficiency)) return 0
+			else new/obj/item/weapon/storage/belt/medical(src.loc)
+		if("jbelt")
+			if (check_cost(300/efficiency)) return 0
+			else new/obj/item/weapon/storage/belt/janitor(src.loc)
+		if("bbelt")
+			if (check_cost(300/efficiency)) return 0
+			else new/obj/item/weapon/storage/belt/bandolier(src.loc)
 		if("satchel")
 			if (check_cost(400/efficiency)) return 0
 			else new/obj/item/weapon/storage/backpack/satchel(src.loc)
