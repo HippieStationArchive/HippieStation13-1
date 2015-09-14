@@ -207,7 +207,7 @@
 			animation_length = 0
 			modtype = "Sec"
 			status_flags &= ~CANPUSH
-			feedback_inc("cyborg_security",1)
+			feedback_inc("cyborg_detective",1)
 
 	transform_animation(animation_length)
 	notify_ai(2)
