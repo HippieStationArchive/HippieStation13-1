@@ -38,6 +38,22 @@ var/global/datum/controller/processScheduler/processScheduler
 	// Setup for these processes will be deferred until all the other processes are set up.
 	var/tmp/list/deferredSetupList = new
 
+	var/tmp/currentTick = 0
+
+	var/tmp/currentTickStart = 0
+
+	var/tmp/timeAllowance = 0
+
+	var/tmp/cpuAverage = 0
+
+	var/tmp/timeAllowanceMax = 0
+
+/datum/controller/processScheduler/New()
+	..()
+	scheduler_sleep_interval = world.tick_lag
+	timeAllowance = world.tick_lag * 0.5
+	timeAllowanceMax = world.tick_lag
+
 /**
  * deferSetupFor
  * @param path processPath
@@ -70,7 +86,13 @@ var/global/datum/controller/processScheduler/processScheduler
 		process()
 
 /datum/controller/processScheduler/proc/process()
+	updateCurrentTickData()
+
+	for(var/i=world.tick_lag,i<world.tick_lag*50,i+=world.tick_lag)
+		spawn(i) updateCurrentTickData()
 	while(isRunning)
+		// Hopefully spawning this for 50 ticks in the future will make it the first thing in the queue.
+		spawn(world.tick_lag*50) updateCurrentTickData()
 		checkRunningProcesses()
 		queueProcesses()
 		runQueuedProcesses()
@@ -94,13 +116,10 @@ var/global/datum/controller/processScheduler/processScheduler
 			//Status changed.
 
 			switch(status)
-				if(PROCESS_STATUS_MAYBE_HUNG)
-					message_admins("Process '[p.name]' is [p.getStatusText(status)].")
 				if(PROCESS_STATUS_PROBABLY_HUNG)
-					message_admins("Process '[p.name]' is [p.getStatusText(status)].")
+					message_admins("Process '[p.name]' may be hung.")
 				if(PROCESS_STATUS_HUNG)
-					message_admins("Process '[p.name]' is [p.getStatusText(status)].")
-					p.handleHung()
+					message_admins("Process '[p.name]' is hung and will be restarted.")
 
 /datum/controller/processScheduler/proc/queueProcesses()
 	for(var/datum/controller/process/p in processes)
@@ -109,11 +128,11 @@ var/global/datum/controller/processScheduler/processScheduler
 			continue
 
 		// If world.timeofday has rolled over, then we need to adjust.
-		if (world.timeofday < last_start[p])
-			last_start[p] -= 864000
+		if (TimeOfHour < last_start[p])
+			last_start[p] -= 36000
 
 		// If the process should be running by now, go ahead and queue it
-		if (world.timeofday > last_start[p] + p.schedule_interval)
+		if (TimeOfHour > last_start[p] + p.schedule_interval)
 			setQueuedProcessState(p)
 
 /datum/controller/processScheduler/proc/runQueuedProcesses()
@@ -197,7 +216,6 @@ var/global/datum/controller/processScheduler/processScheduler
 	if (!(process in idle))
 		idle += process
 
-	process.idle()
 
 /datum/controller/processScheduler/proc/setQueuedProcessState(var/datum/controller/process/process)
 	if (process in running)
@@ -218,21 +236,20 @@ var/global/datum/controller/processScheduler/processScheduler
 	if (!(process in running))
 		running += process
 
-	process.running()
 
 /datum/controller/processScheduler/proc/recordStart(var/datum/controller/process/process, var/time = null)
 	if (isnull(time))
-		time = world.timeofday
+		time = TimeOfHour
 
 	last_start[process] = time
 
 /datum/controller/processScheduler/proc/recordEnd(var/datum/controller/process/process, var/time = null)
 	if (isnull(time))
-		time = world.timeofday
+		time = TimeOfHour
 
 	// If world.timeofday has rolled over, then we need to adjust.
 	if (time < last_start[process])
-		last_start[process] -= 864000
+		last_start[process] -= 36000
 
 	var/lastRunTime = time - last_start[process]
 
@@ -318,3 +335,32 @@ var/global/datum/controller/processScheduler/processScheduler
 
 /datum/controller/processScheduler/proc/getIsRunning()
 	return isRunning
+
+/datum/controller/processScheduler/proc/getCurrentTickElapsedTime()
+	if (world.time > currentTick)
+		updateCurrentTickData()
+		return 0
+	else
+		return TimeOfHour - currentTickStart
+
+/datum/controller/processScheduler/proc/updateCurrentTickData()
+	if (world.time > currentTick)
+		// New tick!
+		currentTick = world.time
+		currentTickStart = TimeOfHour
+		updateTimeAllowance()
+		cpuAverage = (world.cpu + cpuAverage + cpuAverage) / 3
+
+
+/datum/controller/processScheduler/proc/updateTimeAllowance()
+	// Time allowance goes down linearly with world.cpu.
+	var/tmp/error = cpuAverage - 100
+	var/tmp/timeAllowanceDelta = sign(error) * -0.5 * world.tick_lag * max(0, 0.01 * abs(error))
+
+	//timeAllowance = world.tick_lag * min(1, 0.5 * ((200/max(1,cpuAverage)) - 1))
+	timeAllowance = min(timeAllowanceMax, max(0, timeAllowance + timeAllowanceDelta))
+
+/datum/controller/processScheduler/proc/sign(var/x)
+	if (x == 0)
+		return 1
+	return x / abs(x)

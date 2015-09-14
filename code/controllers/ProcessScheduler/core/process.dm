@@ -48,7 +48,7 @@
 	// This controls how often the process will yield (call sleep(0)) while it is running.
 	// Every concurrent process should sleep periodically while running in order to allow other
 	// processes to execute concurrently.
-	var/tmp/sleep_interval = PROCESS_DEFAULT_SLEEP_INTERVAL
+	var/tmp/sleep_interval
 
 	// hang_warning_time - this is the time (in 1/10 seconds) after which the server will begin to show "maybe hung" in the context window
 	var/tmp/hang_warning_time = PROCESS_DEFAULT_HANG_WARNING_TIME
@@ -69,10 +69,10 @@
 	 * recordkeeping vars
 	 */
 
-	// Records the time (server ticks) at which the process last finished sleeping
+	// Records the time (1/10s timeofday) at which the process last finished sleeping
 	var/tmp/last_slept = 0
 
-	// Records the time (s-ticks) at which the process last began running
+	// Records the time (1/10s timeofday) at which the process last began running
 	var/tmp/run_start = 0
 
 	// Records the number of times this process has been killed and restarted
@@ -92,7 +92,8 @@ datum/controller/process/New(var/datum/controller/processScheduler/scheduler)
 	idle()
 	name = "process"
 	schedule_interval = 50
-	sleep_interval = 2
+	schedule_interval = 50
+	sleep_interval = world.tick_lag / PROCESS_DEFAULT_SLEEP_INTERVAL
 	last_slept = 0
 	run_start = 0
 	ticks = 0
@@ -101,10 +102,10 @@ datum/controller/process/New(var/datum/controller/processScheduler/scheduler)
 
 datum/controller/process/proc/started()
 	// Initialize last_slept so we can know when to sleep
-	last_slept = world.timeofday
+	last_slept = TimeOfHour
 
 	// Initialize run_start so we can detect hung processes.
-	run_start = world.timeofday
+	run_start = TimeOfHour
 
 	// Initialize defer count
 	cpu_defer_count = 0
@@ -162,8 +163,8 @@ datum/controller/process/proc/handleHung()
 		lastObjType = lastObj.type
 
 	// If world.timeofday has rolled over, then we need to adjust.
-	if (world.timeofday < run_start)
-		run_start -= 864000
+	if (TimeOfHour < run_start)
+		run_start -= 36000
 
 	var/msg = "[name] process hung at tick #[ticks]. Process was unresponsive for [(world.timeofday - run_start) / 10] seconds and was restarted. Last task: [last_task]. Last Object Type: [lastObjType]"
 	logTheThing("debug", null, null, msg)
@@ -196,14 +197,14 @@ datum/controller/process/proc/scheck(var/tickId = 0)
 
 	// For each tick the process defers, it increments the cpu_defer_count so we don't
 	// defer indefinitely
-	if (world.cpu >= cpu_threshold + cpu_defer_count * 10)
-		sleep(1)
+	if (main.getCurrentTickElapsedTime() > main.timeAllowance)
+		sleep(world.tick_lag*1)
 		cpu_defer_count++
-		last_slept = world.timeofday
+		last_slept = TimeOfHour
 	else
 		// If world.timeofday has rolled over, then we need to adjust.
-		if (world.timeofday < last_slept)
-			last_slept -= 864000
+		if (TimeOfHour < last_slept)
+			last_slept -= 36000
 
 		if (world.timeofday > last_slept + sleep_interval)
 			// If we haven't slept in sleep_interval ticks, sleep to allow other work to proceed.
@@ -217,7 +218,10 @@ datum/controller/process/proc/update()
 
 	var/elapsedTime = getElapsedTime()
 
-	if (elapsedTime > hang_restart_time)
+	if (hung)
+		handleHung()
+		return
+	else if (elapsedTime > hang_restart_time)
 		hung()
 	else if (elapsedTime > hang_alert_time)
 		setStatus(PROCESS_STATUS_PROBABLY_HUNG)
@@ -225,9 +229,9 @@ datum/controller/process/proc/update()
 		setStatus(PROCESS_STATUS_MAYBE_HUNG)
 
 datum/controller/process/proc/getElapsedTime()
-	if (world.timeofday < run_start)
-		return world.timeofday - (run_start - 864000)
-	return world.timeofday - run_start
+	if (TimeOfHour < run_start)
+		return TimeOfHour - (run_start - 36000)
+	return TimeOfHour - run_start
 
 datum/controller/process/proc/tickDetail()
 	return
