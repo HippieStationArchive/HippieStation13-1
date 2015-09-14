@@ -136,7 +136,6 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/disabler)
 	cell_type = "/obj/item/weapon/stock_parts/cell"
 
-
 /obj/item/weapon/gun/energy/wormhole_projector
 	name = "bluespace wormhole projector"
 	desc = "A projector that emits high density quantum-coupled bluespace beams."

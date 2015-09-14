@@ -130,7 +130,7 @@
 /mob/living/silicon/robot/proc/pick_module()
 	if(module)
 		return
-	designation = input("Please, select a module!", "Robot", null, null) in list("Standard", "Engineering", "Medical", "Miner", "Janitor","Service")
+	designation = input("Please, select a module!", "Robot", null, null) in list("Standard", "Engineering", "Medical", "Miner", "Janitor","Service", "Detective")
 	var/animation_length=0
 	if(module)
 		return
@@ -197,6 +197,17 @@
 			animation_length = 22
 			modtype = "Jan"
 			feedback_inc("cyborg_janitor",1)
+
+		if("Detective")
+			module = new /obj/item/weapon/robot_module/security(src)
+			hands.icon_state = "security"
+			module = new /obj/item/weapon/robot_module/security(src)
+			hands.icon_state = "security"
+			icon_state = "detborg"
+			animation_length = 0
+			modtype = "Sec"
+			status_flags &= ~CANPUSH
+			feedback_inc("cyborg_security",1)
 
 	transform_animation(animation_length)
 	notify_ai(2)
