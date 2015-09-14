@@ -65,8 +65,19 @@ var/global/datum/controller/processScheduler/processScheduler
 	if (!(processPath in deferredSetupList))
 		deferredSetupList += processPath
 
+/datum/controller/processScheduler/proc/keepalive()
+	spawn while(1)
+		sleep(10)
+		// Notify the other process that we're still there
+		socket_talk.send_keepalive()
+
 /datum/controller/processScheduler/proc/setup()
 	// There can be only one
+	socket_talk = new /datum/socket_talk()
+
+	// notify the other process that we started up
+	socket_talk.send_raw("type=startup")
+
 	if(processScheduler && (processScheduler != src))
 		del(src)
 		return 0
@@ -96,7 +107,10 @@ var/global/datum/controller/processScheduler/processScheduler
 		checkRunningProcesses()
 		queueProcesses()
 		runQueuedProcesses()
+		// Notify the other process that we're still there
+		socket_talk.send_keepalive()
 		sleep(scheduler_sleep_interval)
+
 
 /datum/controller/processScheduler/proc/stop()
 	isRunning = 0
