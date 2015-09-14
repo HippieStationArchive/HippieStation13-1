@@ -66,12 +66,23 @@ var/global/pipe_processing_killed = 0
 	//if(!emergency_shuttle)			emergency_shuttle = new /datum/shuttle_controller/emergency_shuttle()
 	if(!supply_shuttle)				supply_shuttle = new /datum/controller/supply_shuttle()
 
+/datum/controller/game_controller/proc/keepalive()
+	spawn while(1)
+		sleep(10)
+		// Notify the other process that we're still there
+		socket_talk.send_keepalive()
+
+
 /datum/controller/game_controller/proc/setup()
 	world.tick_lag = config.Ticklag
 
 	setup_objects()
 	setupgenetics()
 	setupfactions()
+	socket_talk = new /datum/socket_talk()
+
+	// notify the other process that we started up
+	socket_talk.send_raw("type=startup")
 
 	//spawn(0)
 	//	if(ticker)
@@ -220,6 +231,9 @@ var/global/pipe_processing_killed = 0
 				if(end_time < start_time)
 					start_time -= MIDNIGHT_ROLLOVER    //deciseconds in a day
 				sleep( round(minimum_ticks - (end_time - start_time),1) )
+
+				// Notify the other process that we're still there
+				socket_talk.send_keepalive()
 			else
 				sleep(10)
 
