@@ -785,7 +785,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 			if(user && user.client)
 				user.client.images -= progbar
 			return 0
-		if (!uninterruptible && (user.loc != user_loc || target.loc != target_loc || user.get_active_hand() != holding || user.incapacitated() || user.lying ))
+		if (!uninterruptible && (user.loc != user_loc || target.loc != target_loc || user.get_active_hand() != holding || user.stat || user.stunned || user.weakened || user.paralysis || user.lying ))
 			if(user && user.client)
 				user.client.images -= progbar
 			return 0
