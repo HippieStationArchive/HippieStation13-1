@@ -203,10 +203,6 @@ var/next_mob_id = 0
 /mob/proc/restrained()
 	return
 
-// This will eventually get ported so ill leave its ghost behind
-///mob/proc/incapacitated()
-//	return
-
 //This proc is called whenever someone clicks an inventory ui slot.
 /mob/proc/attack_ui(slot)
 	var/obj/item/W = get_active_hand()
