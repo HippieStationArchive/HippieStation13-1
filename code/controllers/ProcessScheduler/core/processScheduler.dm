@@ -65,19 +65,8 @@ var/global/datum/controller/processScheduler/processScheduler
 	if (!(processPath in deferredSetupList))
 		deferredSetupList += processPath
 
-/datum/controller/processScheduler/proc/keepalive()
-	spawn while(1)
-		sleep(10)
-		// Notify the other process that we're still there
-		socket_talk.send_keepalive()
-
 /datum/controller/processScheduler/proc/setup()
 	// There can be only one
-	socket_talk = new /datum/socket_talk()
-
-	// notify the other process that we started up
-	socket_talk.send_raw("type=startup")
-
 	if(processScheduler && (processScheduler != src))
 		del(src)
 		return 0
@@ -107,10 +96,7 @@ var/global/datum/controller/processScheduler/processScheduler
 		checkRunningProcesses()
 		queueProcesses()
 		runQueuedProcesses()
-		// Notify the other process that we're still there
-		socket_talk.send_keepalive()
 		sleep(scheduler_sleep_interval)
-
 
 /datum/controller/processScheduler/proc/stop()
 	isRunning = 0
@@ -128,7 +114,6 @@ var/global/datum/controller/processScheduler/processScheduler
 		// Check status changes
 		if(status != previousStatus)
 			//Status changed.
-
 			switch(status)
 				if(PROCESS_STATUS_PROBABLY_HUNG)
 					message_admins("Process '[p.name]' may be hung.")
@@ -230,7 +215,6 @@ var/global/datum/controller/processScheduler/processScheduler
 	if (!(process in idle))
 		idle += process
 
-
 /datum/controller/processScheduler/proc/setQueuedProcessState(var/datum/controller/process/process)
 	if (process in running)
 		running -= process
@@ -249,7 +233,6 @@ var/global/datum/controller/processScheduler/processScheduler
 		idle -= process
 	if (!(process in running))
 		running += process
-
 
 /datum/controller/processScheduler/proc/recordStart(var/datum/controller/process/process, var/time = null)
 	if (isnull(time))

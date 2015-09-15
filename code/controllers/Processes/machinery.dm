@@ -11,7 +11,7 @@
 		if(i > machines.len)
 			break
 		var/obj/machinery/M = machines[i]
-		if(istype(M) && !M.gcDestroyed)
+		if(istype(M))
 			#ifdef PROFILE_MACHINES
 			var/time_start = world.timeofday
 			#endif

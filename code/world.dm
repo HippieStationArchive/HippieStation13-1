@@ -91,7 +91,7 @@
 
 	makepowernets()
 
-	socket_talk = new /datum/socket_talk()
+
 	processScheduler = new
 	master_controller = new /datum/controller/game_controller()
 	spawn(-1)
