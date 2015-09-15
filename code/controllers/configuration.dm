@@ -42,7 +42,6 @@
 	var/allow_holidays = 0				//toggles whether holiday-specific content should be used
 	var/proxybuster = 0 //For using the proxybuster
 
-
 	var/hostedby = null
 	var/respawn = 1
 	var/guest_jobban = 1

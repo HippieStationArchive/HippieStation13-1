@@ -11,6 +11,14 @@
 
 /datum/controller/process/mob/doWork()
 	if (mob_list)
-		for(var/mob/M in mob_list)
-			M:Life()
-			scheck()
+		for(var/atom/m in mob_list)
+			if(m)
+
+				try
+					m:Life()
+				catch(var/exception/e)
+					world.log << "ERROR### Mob loop caught an exception:[e]"
+					continue
+				scheck()
+				continue
+			mob_list -= m

@@ -10,3 +10,4 @@
 /datum/controller/process/nanoui/doWork()
 	for(var/p in nanomanager.processing_uis)
 		p:process()
+		scheck()

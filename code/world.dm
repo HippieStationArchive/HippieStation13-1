@@ -91,7 +91,6 @@
 
 	makepowernets()
 
-
 	processScheduler = new
 	master_controller = new /datum/controller/game_controller()
 	spawn(-1)
