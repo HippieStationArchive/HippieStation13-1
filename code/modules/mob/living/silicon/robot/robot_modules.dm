@@ -160,7 +160,7 @@
 /obj/item/weapon/robot_module/security/New()
 	..()
 	modules += new /obj/item/device/flashlight/seclite(src)
-	modules += new /obj/item/weapon/gun/energy/gun/advtaser/cyborg/(src)
+	modules += new /obj/item/weapon/gun/energy/disabler/cyborg/(src)
 	modules += new /obj/item/weapon/handcuffs/cable/zipties/cyborg(src)
 	modules += new /obj/item/device/detective_scanner(src)
 	modules += new /obj/item/clothing/mask/gas/sechailer/cyborg(src)
