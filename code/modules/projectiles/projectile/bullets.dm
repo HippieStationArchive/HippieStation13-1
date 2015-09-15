@@ -5,6 +5,7 @@
 	damage_type = BRUTE
 	nodamage = 0
 	flag = "bullet"
+	hitsound_wall = "ricochet"
 	var/mob_stuck_chance = 40 //For lodging bullets into limbs for extraction.
 
 /obj/item/projectile/bullet/weakbullet
