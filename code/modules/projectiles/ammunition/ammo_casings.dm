@@ -46,7 +46,7 @@
 	icon_state = "gshell"
 	projectile_type = /obj/item/projectile/bullet/pellet
 	pellets = 5
-	variance = 0.8
+	variance = 25
 
 
 /obj/item/ammo_casing/shotgun/beanbag
@@ -64,7 +64,7 @@
 	projectile_type = /obj/item/projectile/bullet/pellet/weak
 	m_amt = 250
 	pellets = 5
-	variance = 0.8
+	variance = 35
 
 
 /obj/item/ammo_casing/shotgun/stunslug
@@ -107,7 +107,7 @@
 	icon_state = "ishell2"
 	projectile_type = /obj/item/projectile/bullet/incendiary/shell/dragonsbreath
 	pellets = 4
-	variance = 0.9
+	variance = 30
 
 /obj/item/ammo_casing/shotgun/techshell
 	name = "unloaded technological shell"

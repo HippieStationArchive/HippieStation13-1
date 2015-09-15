@@ -11,8 +11,9 @@
 	var/caliber = null							//Which kind of guns it can be loaded into
 	var/projectile_type = null					//The bullet type to create when New() is called
 	var/obj/item/projectile/BB = null 			//The loaded bullet
-	var/pellets = 0								//Pellets for spreadshot
-	var/variance = 0							//Variance for inaccuracy fundamental to the casing
+	var/pellets = 1								//Pellets for spreadshot
+	var/variance = 0							//Variance for inaccuracy fundamental to the casing, also known as bullet spread
+	var/randomspread = 0						//Spread the projectiles out in a cone or just random?
 	var/empty = 0								//If you want to spawn empty ammo casings
 
 

@@ -104,7 +104,7 @@ proc/vol_by_throwforce_and_or_w_class(var/obj/item/I)
 /mob/living/proc/IgniteMob()
 	if(fire_stacks > 0 && !on_fire)
 		on_fire = 1
-		src.AddLuminosity(3)
+		AddLuminosity(3)
 		playsound(src, 'sound/Effects/combust.ogg', 40, 1, -1)
 		update_fire()
 
@@ -112,7 +112,7 @@ proc/vol_by_throwforce_and_or_w_class(var/obj/item/I)
 	if(on_fire)
 		on_fire = 0
 		fire_stacks = 0
-		src.AddLuminosity(-3)
+		AddLuminosity(-3)
 		update_fire()
 
 /mob/living/proc/update_fire()

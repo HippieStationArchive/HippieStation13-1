@@ -5,6 +5,7 @@
 	damage_type = OXY
 	nodamage = 1
 	flag = "magic"
+	// speed = 1
 
 /obj/item/projectile/magic/death
 	name = "bolt of death"
@@ -22,6 +23,8 @@
 	damage_type = BRUTE
 	nodamage = 0
 	flag = "magic"
+	legacy = 1 //No pixel travelling
+	animate_movement = SLIDE_STEPS //Reset movement to default
 
 /obj/item/projectile/magic/fireball/Range()
 	var/mob/living/L = locate(/mob/living) in (range(src, 1) - firer)
