@@ -21,7 +21,7 @@
 /obj/effect/blob/core/Destroy()
 	blob_cores -= src
 	if(overmind)
-		qdel(overmind)
+		del(overmind)
 	processing_objects.Remove(src)
 	..()
 
