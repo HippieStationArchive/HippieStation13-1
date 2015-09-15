@@ -284,6 +284,11 @@ Please contact me on #coderbus IRC. ~Carnie x
 		var/t_color = w_uniform.item_color
 		if(!t_color)		t_color = icon_state
 		var/image/standing	= image("icon"='icons/mob/uniform.dmi', "icon_state"="[t_color]_s", "layer"=-UNIFORM_LAYER)
+		var/iconfile2use //Which icon file to use to generate the overlay and any female alterations
+		if(U.alternate_worn_icon)
+			iconfile2use = U.alternate_worn_icon
+		if(!iconfile2use)
+			iconfile2use = 'icons/mob/uniform.dmi'
 
 		overlays_standing[UNIFORM_LAYER]	= standing
 

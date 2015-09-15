@@ -256,6 +256,10 @@ datum/reagent/water/reaction_obj(var/obj/O, var/volume)
 		var/obj/item/weapon/reagent_containers/food/snacks/monkeycube/cube = O
 		if(!cube.wrapped)
 			cube.Expand()
+	if(istype(O, /obj/item/weapon/canvas))
+		var/obj/item/weapon/canvas/C = O
+		C.visible_message("<span class='notice'>[C] is cleaned by the water!</span>")
+		C.Clean()
 	return
 
 datum/reagent/water/reaction_mob(var/mob/living/M, var/method=TOUCH, var/volume)//Splashing people with water can help put them out!

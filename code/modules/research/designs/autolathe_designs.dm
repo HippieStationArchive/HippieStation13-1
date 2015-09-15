@@ -534,63 +534,61 @@
 	build_type = AUTOLATHE
 	materials = list("$metal" = 70, "$glass" = 60)
 	build_path = /obj/item/toy/crayon/spraycan
-	category = list("initial", "Tools")
+	category = list("initial", "Misc")
 
-/*
-/datum/design/spraycanred
-	name = "Red Spraycan"
-	id = "spraycanred"
+//CANVASES!!! Fun drawing!
+/datum/design/canvas
+	name = "11px by 11px Canvas"
+	id = "canvas"
 	build_type = AUTOLATHE
-	materials = list("$metal" = 70, "$glass" = 60)
-	build_path = /obj/item/toy/crayon/spraycan/red
-	category = list("initial", "Tools")
+	materials = list("$metal" = 50)
+	build_path = /obj/item/weapon/canvas
+	category = list("initial", "Misc")
 
-/datum/design/spraycanorange
-	name = "Orange Spraycan"
-	id = "spraycanorange"
+/datum/design/canvas/nineteenXnineteen
+	name = "19px by 19px Canvas"
+	id = "canvas19x19"
 	build_type = AUTOLATHE
-	materials = list("$metal" = 70, "$glass" = 60)
-	build_path = /obj/item/toy/crayon/spraycan/orange
-	category = list("initial", "Tools")
+	materials = list("$metal" = 50)
+	build_path = /obj/item/weapon/canvas/nineteenXnineteen
+	category = list("initial", "Misc")
 
-/datum/design/spraycanyellow
-	name = "Yellow Spraycan"
-	id = "spraycanyellow"
+/datum/design/canvas/twentythreeXnineteen
+	name = "23px by 19px Canvas"
+	id = "canvas23x19"
 	build_type = AUTOLATHE
-	materials = list("$metal" = 70, "$glass" = 60)
-	build_path = /obj/item/toy/crayon/spraycan/yellow
-	category = list("initial", "Tools")
+	materials = list("$metal" = 70)
+	build_path = /obj/item/weapon/canvas/twentythreeXnineteen
+	category = list("initial", "Misc")
 
-/datum/design/spraycangreen
-	name = "Green Spraycan"
-	id = "spraycangreen"
+/datum/design/canvas/twentythreeXtwentythree
+	name = "23px by 23px Canvas"
+	id = "canvas23x23"
 	build_type = AUTOLATHE
-	materials = list("$metal" = 70, "$glass" = 60)
-	build_path = /obj/item/toy/crayon/spraycan/green
-	category = list("initial", "Tools")
+	materials = list("$metal" = 100)
+	build_path = /obj/item/weapon/canvas/twentythreeXtwentythree
+	category = list("initial", "Misc")
 
-/datum/design/spraycanblue
-	name = "Blue Spraycan"
-	id = "spraycanblue"
+/datum/design/paintbrush
+	name = "Paintbrush"
+	id = "paintbrush"
 	build_type = AUTOLATHE
-	materials = list("$metal" = 70, "$glass" = 60)
-	build_path = /obj/item/toy/crayon/spraycan/blue
-	category = list("initial", "Tools")
+	materials = list("$metal" = 100)
+	build_path = /obj/item/weapon/paintbrush
+	category = list("initial", "Misc")
 
-/datum/design/spraycanblue
-	name = "Purple Spraycan"
-	id = "spraycanpurple"
+/datum/design/broadbrush
+	name = "Broad-brush"
+	id = "broadbrush"
 	build_type = AUTOLATHE
-	materials = list("$metal" = 70, "$glass" = 60)
-	build_path = /obj/item/toy/crayon/spraycan/purple
-	category = list("initial", "Tools")
+	materials = list("$metal" = 100)
+	build_path = /obj/item/weapon/paintbrush/broadbrush
+	category = list("initial", "Misc")
 
-/datum/design/spraycanwhite
-	name = "White Spraycan"
-	id = "spraycanwhite"
+/datum/design/colorpalette
+	name = "Color Palette"
+	id = "colorpalette"
 	build_type = AUTOLATHE
-	materials = list("$metal" = 70, "$glass" = 60)
-	build_path = /obj/item/toy/crayon/spraycan/white
-	category = list("initial", "Tools")
-
-*/
+	materials = list("$metal" = 100)
+	build_path = /obj/item/weapon/palette
+	category = list("initial", "Misc")

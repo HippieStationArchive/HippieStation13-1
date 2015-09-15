@@ -69,6 +69,9 @@
 	var/datum/martial_art/martial_art = null //The martial art that is given to user
 	var/datum/martial_art/martial_art_instance = null //The actual instance that is created
 
+	var/icon/alternate_worn_icon = null//If this is set, update_icons() will find on mob (WORN, NOT INHANDS) states in this file instead, primary use: badminnery/events
+
+
 /obj/item/device
 	icon = 'icons/obj/device.dmi'
 
@@ -412,7 +415,7 @@
 
 	if(unacidable)
 		return
-	
+
 	for(var/V in armor)
 		if(armor[V] > 0)
 			.-- //it survives the acid...
