@@ -12,6 +12,7 @@
 
 /obj/item/weapon/reagent_containers/glass/rag/afterattack(atom/A, mob/user as mob, proximity)
 	if(!proximity) return
+	if(istype(A, /obj/item/weapon/canvas) && user.a_intent != "harm") return //Rag can only be used to wipe tiny pixels away unless you have aggressive intent.
 	var/mob/living/carbon/C = A
 	if(ismob(C) && reagents && reagents.total_volume && (user.zone_sel.selecting == "mouth" || user.zone_sel.selecting == "head"))
 		if(user.get_inactive_hand() == null || istype(user.get_inactive_hand(), /obj/item/weapon/grab))

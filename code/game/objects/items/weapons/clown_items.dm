@@ -42,6 +42,7 @@
 /obj/item/weapon/soap/afterattack(atom/target, mob/user as mob, proximity)
 	if(!proximity)
 		return
+	if(istype(target, /obj/item/weapon/canvas) && user.a_intent != "harm") return //Soap can only be used to wipe tiny pixels away unless you have aggressive intent.
 	//I couldn't feasibly  fix the overlay bugs caused by cleaning items we are wearing.
 	//So this is a workaround. This also makes more sense from an IC standpoint. ~Carn
 	if(user.client && (target in user.client.screen))
