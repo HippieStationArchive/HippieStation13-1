@@ -101,7 +101,8 @@ var/global/list/datum/stack_recipe/wood_recipes = list ( \
 	new/datum/stack_recipe("book case", /obj/structure/bookcase, 4, time = 15, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("drying rack", /obj/machinery/smartfridge/drying_rack, 10, time = 15, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("wooden baseball bat", /obj/item/weapon/baseballbat, 3), \
-	)
+	new/datum/stack_recipe("easel", /obj/structure/easel, 3, one_per_turf = 1, on_floor = 1), \
+ 	)
 
 /obj/item/stack/sheet/mineral/wood
 	name = "wooden plank"

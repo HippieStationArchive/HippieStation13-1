@@ -1506,3 +1506,16 @@ var/list/WALLITEMS = list(
 		if(8.0) return WEST
 		else
 			world.log << "UNKNOWN DIRECTION: [direction]"
+
+
+//Finds the distance between two atoms, in pixels
+//centered = 0 counts from turf edge to edge
+//centered = 1 counts from turf center to turf center
+//of course mathematically this is just adding world.icon_size on again
+/proc/getPixelDistance(var/atom/A, var/atom/B, var/centered = 1)
+	if(!istype(A)||!istype(B))
+		return 0
+	. = bounds_dist(A, B) + sqrt((((A.pixel_x+B.pixel_x)**2) + ((A.pixel_y+B.pixel_y)**2)))
+	if(centered)
+		. += world.icon_size
+
