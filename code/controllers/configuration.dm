@@ -41,7 +41,7 @@
 	var/Tickcomp = 0
 	var/allow_holidays = 0				//toggles whether holiday-specific content should be used
 	var/proxybuster = 0 //For using the proxybuster
-	var/socket_talk	= 0
+
 
 	var/hostedby = null
 	var/respawn = 1
@@ -293,15 +293,13 @@
 					useircbot = 1
 				if("ticklag")
 					Ticklag = text2num(value)
-				if("socket_talk")
-					socket_talk = text2num(value)
 				if("tickcomp")
 					Tickcomp = 1
 				if("automute_on")
 					automute_on = 1
 				if("comms_key")
 					global.comms_key = value
-					if(value != "default_pwd" && length(value)  > 6) //It's the default value or less than 6 characters long, warn badmins
+					if(value != "default_pwd" && length(value) > 6) //It's the default value or less than 6 characters long, warn badmins
 						global.comms_allowed = 1
 				if("see_own_notes")
 					config.see_own_notes = 1
