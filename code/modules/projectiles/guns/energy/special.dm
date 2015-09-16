@@ -140,7 +140,16 @@
 	name = "cyborg disabler"
 	desc = "An integrated disabler that draws from a cyborg's power cell. This weapon contains a limiter to prevent the cyborg's power cell from overheating."
 	var/charge_tick = 0
-	var/recharge_time = 2.5
+	var/recharge_time = 1.3 // 2.5 is fucking long
+
+/obj/item/weapon/gun/energy/disabler/cyborg/New()
+	..()
+	processing_objects.Add(src)
+
+
+/obj/item/weapon/gun/energy/disabler/cyborg/Destroy()
+	processing_objects.Remove(src)
+	..()
 
 /obj/item/weapon/gun/energy/disabler/cyborg/process() //Every [recharge_time] ticks, recharge a shot for the cyborg
 	charge_tick++
