@@ -58,7 +58,7 @@
 /mob/living/simple_animal/construct/attack_animal(mob/living/simple_animal/M as mob)
 	if(istype(M, /mob/living/simple_animal/construct/builder))
 		health += 5
-		M.emote("me", 1, "mends some of \the <EM>[src]'s</EM> wounds.")
+		visible_message("<span class='notice'>[M] mends some of \the <EM>[src]</EM>'s wounds.</span>")
 	else if(src != M)
 		..()
 
