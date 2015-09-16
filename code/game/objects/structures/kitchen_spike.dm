@@ -1,10 +1,34 @@
-#define SKINTYPE_MONKEY 1
-#define SKINTYPE_ALIEN 2
+#define SKINTYPE_MONKEY	/obj/item/stack/sheet/animalhide/monkey
+#define SKINTYPE_ALIEN	/obj/item/stack/sheet/animalhide/xeno
+#define SKINTYPE_BEAR	/obj/item/clothing/head/bearpelt
+#define SKINTYPE_CORGI	/obj/item/stack/sheet/animalhide/corgi
 
-#define MEATTYPE_MONKEY 1
-#define MEATTYPE_ALIEN 2
+#define MEATTYPE_MONKEY	/obj/item/weapon/reagent_containers/food/snacks/meat/monkey
+#define MEATTYPE_ALIEN	/obj/item/weapon/reagent_containers/food/snacks/xenomeat
+#define MEATTYPE_BEAR	/obj/item/weapon/reagent_containers/food/snacks/bearmeat
+#define MEATTYPE_CORGI	/obj/item/weapon/reagent_containers/food/snacks/xenomeat
 
 //////Kitchen Spike
+
+/obj/structure/kitchenspike_frame
+	name = "meatspike frame"
+	icon = 'icons/obj/kitchen.dmi'
+	icon_state = "spikeframe"
+	desc = "The frame of a meat spike."
+	density = 1
+	anchored = 0
+
+/obj/structure/kitchenspike_frame/attackby(obj/item/I, mob/user, params)
+	add_fingerprint(user)
+	if(istype(I, /obj/item/stack/rods))
+		var/obj/item/stack/rods/R = I
+		if(R.get_amount() >= 4)
+			R.use(4)
+			user << "<span class='notice'>You add spikes to the frame.</span>"
+			var/obj/F = new /obj/structure/kitchenspike(src.loc,)
+			transfer_fingerprints_to(F)
+			qdel(src)
+
 
 /obj/structure/kitchenspike
 	name = "meat spike"
@@ -19,44 +43,71 @@
 	var/skin = 0
 	var/skintype = null
 
-/obj/structure/kitchenspike/attack_paw(mob/user as mob)
-	return src.attack_hand(usr)
+	var/global/list/allowed_types = list(
+		/mob/living/carbon/monkey,
+		/mob/living/carbon/alien,
+		/mob/living/simple_animal/hostile/bear,
+		/mob/living/simple_animal/corgi,
+	)
 
-/obj/structure/kitchenspike/attackby(obj/item/weapon/grab/G as obj, mob/user as mob, params)
-	if(!istype(G, /obj/item/weapon/grab))
-		return
-	if(istype(G.affecting, /mob/living/carbon/monkey))
-		if(src.occupied == 0)
-			src.icon_state = "spikebloody"
-			src.occupied = 1
-			src.meat = 5
-			src.meattype = MEATTYPE_MONKEY
-			src.skin = 1
-			src.skintype = SKINTYPE_MONKEY
-			for(var/mob/O in viewers(src, null))
-				O.show_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
-			qdel(G.affecting)
-			qdel(G)
+	var/global/list/meatlist = list(
+		"monkey"	= MEATTYPE_MONKEY,
+		"alien"		= MEATTYPE_ALIEN,
+		"bear"		= MEATTYPE_BEAR,
+		"corgi"		= MEATTYPE_CORGI,
+	)
+	var/global/list/skinlist = list(
+		"monkey"	= SKINTYPE_MONKEY,
+		"alien"		= SKINTYPE_ALIEN,
+		"bear"		= SKINTYPE_BEAR,
+		"corgi"		= SKINTYPE_CORGI,
+	)
 
+/obj/structure/kitchenspike/proc/is_mob_allowed(var/obj/item/weapon/grab/G)
+	for(var/I in allowed_types)
+		if(istype(G.affecting, I))
+			return I
+	return 0
+
+/obj/structure/kitchenspike/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/weapon/crowbar))
+		if(!src.occupied)
+			playsound(loc, 'sound/items/Crowbar.ogg', 100, 1)
+			if(do_after(user, 20, target = src))
+				user << "<span class='notice'>You pry the spikes out of the frame.</span>"
+				new /obj/item/stack/rods(loc, 4)
+				var/obj/F = new /obj/structure/kitchenspike_frame(src.loc,)
+				transfer_fingerprints_to(F)
+				qdel(src)
 		else
-			user << "<span class='danger'>The spike already has something on it, finish collecting its meat first!</span>"
-	else if(istype(G.affecting, /mob/living/carbon/alien))
-		if(src.occupied == 0)
-			src.icon_state = "spikebloodygreen"
-			src.occupied = 1
-			src.meat = 5
-			src.meattype = MEATTYPE_ALIEN
-			src.skin = 0
-			src.skintype = SKINTYPE_ALIEN
-			for(var/mob/O in viewers(src, null))
-				O.show_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
-			qdel(G.affecting)
-			qdel(G)
-		else
-			user << "<span class='danger'>The spike already has something on it, finish collecting its meat first!</span>"
-	else
-		user << "<span class='danger'>They are too big for the spike, try something smaller!</span>"
+			user << "<span class='notice'>You can't do that while something's on the spike!</span>"
 		return
+	if(istype(I, /obj/item/weapon/grab))
+		var/obj/item/weapon/grab/G = I
+		var/allowed_type = is_mob_allowed(G)
+		if(allowed_type)
+			if(!occupied)
+				occupied = 1
+				meat = 5
+				skin = 1
+
+				var/list/affecting_path = text2list("[allowed_type]", "/")		//we want a specific part of the type path for this: the last part of the path in allowed_types
+				var/affecting_type = affecting_path[affecting_path.len]			//ex. 1 if affecting.type is /mob/living/carbon/monkey, this will set affecting_type to "monkey"
+																				//ex. 2 if affecting.type is /mob/living/carbon/alien/humanoid/queen, this will set affecting_type to "alien"
+
+				//set these vars to the appropriate values based on type
+				icon_state = "spikebloody[affecting_type]"
+				meattype = meatlist["[affecting_type]"]
+				skintype = skinlist["[affecting_type]"]
+
+				var/mob/living/O = G.affecting
+				O.visible_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
+				qdel(G.affecting)
+				qdel(G)
+			else
+				user << "<span class='danger'>The spike already has something on it; finish collecting its meat first!</span>"
+			return
+	..()
 
 ///obj/structure/kitchenspike/MouseDrop_T(var/atom/movable/C, mob/user)
 //	if(istype(C, /obj/mob/carbon/monkey)
@@ -66,40 +117,26 @@
 /obj/structure/kitchenspike/attack_hand(mob/user as mob)
 	if(..())
 		return
-	if(src.occupied)
-		if(src.meattype == MEATTYPE_MONKEY && src.skintype == SKINTYPE_MONKEY)
-			if(src.skin >= 1)
-				src.skin--
-				new /obj/item/stack/sheet/animalhide/monkey(src.loc)
-				user << "You remove the hide from the monkey!"
-			else if(src.meat > 1)
-				src.meat--
-				new /obj/item/weapon/reagent_containers/food/snacks/meat/monkey(src.loc )
-				usr << "You remove some meat from the monkey."
-			else if(src.meat == 1)
-				src.meat--
-				new /obj/item/weapon/reagent_containers/food/snacks/meat/monkey(src.loc)
-				usr << "You remove the last piece of meat from the monkey!"
-				src.icon_state = "spike"
-				src.occupied = 0
-		else if(src.meattype == MEATTYPE_ALIEN && src.skintype == SKINTYPE_ALIEN)
-			if(src.skin >= 1)
-				src.skin--
-				new /obj/item/stack/sheet/animalhide/xeno(src.loc)
-				user << "You remove the hide from the alien!"
-			else if(src.meat > 1)
-				src.meat--
-				new /obj/item/weapon/reagent_containers/food/snacks/xenomeat(src.loc )
-				usr << "You remove some meat from the alien."
-			else if(src.meat == 1)
-				src.meat--
-				new /obj/item/weapon/reagent_containers/food/snacks/xenomeat(src.loc)
-				usr << "You remove the last piece of meat from the alien!"
-				src.icon_state = "spike"
-				src.occupied = 0
+	if(occupied)
+		if(meat >= 1)
+			new meattype(src.loc)
+			meat--
+			if(meat > 1)
+				usr << "<span class='notice'>You remove some meat from [src].</span>"
+			return
+	if(src.skin >=1)
+		new skintype(src.loc)
+		skin--
+		usr << "<span class='notice'>You remove the hide from [src].</span>"
+		icon_state = "spike"
+		occupied = 0
 
 #undef SKINTYPE_MONKEY
 #undef SKINTYPE_ALIEN
+#undef SKINTYPE_BEAR
+#undef SKINTYPE_CORGI
 
 #undef MEATTYPE_MONKEY
 #undef MEATTYPE_ALIEN
+#undef MEATTYPE_BEAR
+#undef MEATTYPE_CORGI
