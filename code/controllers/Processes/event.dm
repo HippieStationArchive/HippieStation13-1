@@ -1,8 +1,10 @@
 /datum/controller/process/event
-	schedule_interval = 20 // every 2 seconds
+	var/tmp/datum/updateQueue/updateQueueInstance
 
 /datum/controller/process/event/setup()
 	name = "event"
+	schedule_interval = 20 // every 2 seconds
+	updateQueueInstance = new
 
 /datum/controller/process/event/doWork()
 	events.process()
