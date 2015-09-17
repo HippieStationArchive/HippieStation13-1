@@ -1,7 +1,7 @@
 var/global/list/power_machinery_profiling = list()
 
 /datum/controller/process/power_machinery
-	var/tmp/datum/updateQueue/updateQueueInstance
+
 
 /datum/controller/process/power_machinery/setup()
 	name = "pow_machine"

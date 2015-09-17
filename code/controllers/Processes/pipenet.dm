@@ -5,6 +5,7 @@
 /datum/controller/process/pipenet/doWork()
 	for(var/datum/pipeline/P in pipe_networks)
 		P.process()
+		scheck()
 
 	//for(var/datum/pipe_network/pipeNetwork in pipe_networks)
 	//	if(istype(pipeNetwork) && !pipeNetwork.disposed)
