@@ -240,7 +240,7 @@
 	cell_type = "/obj/item/weapon/stock_parts/cell/secborg"
 	ammo_type = list(/obj/item/ammo_casing/energy/c3dbullet)
 	var/charge_tick = 0
-	var/recharge_time = 10
+	var/recharge_time = 2
 
 /obj/item/weapon/gun/energy/revolver/cyborg/update_icon()
 	return
