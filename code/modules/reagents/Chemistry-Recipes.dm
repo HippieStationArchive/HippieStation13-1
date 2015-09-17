@@ -522,7 +522,7 @@ silicate
 	name = "Drying agent"
 	id = "drying_agent"
 	result = "drying_agent"
-	required_reagents = list("stable_plasma" = 2, "ethanol" = 1, "sodium" = 1)
+	required_reagents = list("cleaner" = 2, "ethanol" = 1, "sodium" = 1)
 	result_amount = 3
 
 /datum/chemical_reaction/pacid
