@@ -155,16 +155,16 @@
 	fix_modules()
 
 /obj/item/weapon/robot_module/security
-	name = "security robot module"
+	name = "detective robot module"
 
 /obj/item/weapon/robot_module/security/New()
 	..()
 	modules += new /obj/item/device/flashlight/seclite(src)
+	modules += new /obj/item/weapon/gun/energy/disabler/cyborg/(src)
 	modules += new /obj/item/weapon/handcuffs/cable/zipties/cyborg(src)
-	modules += new /obj/item/weapon/melee/baton/loaded(src)
-	modules += new /obj/item/weapon/gun/energy/gun/advtaser/cyborg(src)
+	modules += new /obj/item/device/detective_scanner(src)
 	modules += new /obj/item/clothing/mask/gas/sechailer/cyborg(src)
-	emag = new /obj/item/weapon/gun/energy/laser/cyborg(src)
+	emag = new /obj/item/weapon/gun/energy/revolver/cyborg(src)
 	fix_modules()
 
 
