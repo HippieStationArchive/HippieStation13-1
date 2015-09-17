@@ -152,10 +152,10 @@ datum/objective/debrain/check_completion()
 	if(!isbrain(target.current) || !target.current)
 		return 0
 	if(!isliving(owner.current))	return 0
-	var/list/all_items = owner.current.GetAllContents()	//this should get things in cheesewheels, books, etc.
-
-	for(var/obj/I in all_items) //Check for items
-		if(istype(I, target.current))
+	var/atom/A = target.current
+	while(A.loc)
+		A = A.loc
+		if(A == owner.current)
 			return 1
 	return 0
 

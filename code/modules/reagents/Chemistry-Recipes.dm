@@ -518,6 +518,13 @@ silicate
 	required_reagents = list("water" = 1, "silicon" = 1, "oxygen" = 1)
 	result_amount = 4
 
+/datum/chemical_reaction/drying_agent
+	name = "Drying agent"
+	id = "drying_agent"
+	result = "drying_agent"
+	required_reagents = list("cleaner" = 2, "ethanol" = 1, "sodium" = 1)
+	result_amount = 3
+
 /datum/chemical_reaction/pacid
 	name = "Polytrinic acid"
 	id = "pacid"

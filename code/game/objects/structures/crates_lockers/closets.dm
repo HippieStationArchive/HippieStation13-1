@@ -274,7 +274,7 @@
 	if(!usr.canmove || usr.stat || usr.restrained())
 		return
 
-	if(ishuman(usr))
+	if(iscarbon(usr) || issilicon(usr))
 		src.attack_hand(usr, 1) //"toggle" var to make the verb actually detectable code-wise for coding exceptions
 	else
 		usr << "<span class='warning'>This mob type can't use this verb.</span>"
