@@ -75,7 +75,6 @@ Hotkey-Mode: (hotkey-mode must be on)
 \tr = throw
 \tm = me
 \tt = say
-\to = OOC
 \tb = resist
 \tx = swap-hand
 \tz = activate held object (or y)
@@ -128,7 +127,6 @@ Hotkey-Mode: (hotkey-mode must be on)
 \tw = up
 \tq = unequip active module
 \tt = say
-\to = OOC
 \tx = cycle active modules
 \tb = resist
 \tz = activate held object (or y)
