@@ -573,11 +573,11 @@ macro "hotkeymode"
 		is-disabled = false
 	elem 
 		name = "M"
-		command = "/me"
+		command = "me"
 		is-disabled = false
 	elem 
 		name = "CTRL+M"
-		command = "/me"
+		command = "me"
 		is-disabled = false
 	elem 
 		name = "O"
