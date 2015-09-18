@@ -14,7 +14,7 @@
 	if(!mob)	return						//this doesn't happen
 
 	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0, 1)]</b>: [msg]</font></span>"
-	log_mentor("MENTORHELP: " + msg)
+	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0, 0)]: [msg]")
 
 	for(var/client/X in mentors)
 		X << 'sound/Items/Bikehorn2.ogg'
