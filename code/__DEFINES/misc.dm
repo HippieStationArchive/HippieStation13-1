@@ -108,3 +108,8 @@
 #define PEN_FONT "Verdana"
 #define CRAYON_FONT "Comic Sans MS"
 #define SIGNFONT "Times New Roman"
+
+//Turf wet states
+#define TURF_DRY		0
+#define TURF_WET_WATER	1
+#define TURF_WET_LUBE	2
