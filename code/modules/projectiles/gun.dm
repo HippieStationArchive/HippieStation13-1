@@ -117,7 +117,7 @@
 
 	for(var/i = 1 to burst_size)
 		if(!issilicon(user))
-			if(!(src in get_both_hands(user))) //for burst firing
+			if(i>1 && !(src in get_both_hands(user))) //for burst firing
 				break
 		if(chambered)
 			if(!chambered.fire(target, user, params, , suppressed))
