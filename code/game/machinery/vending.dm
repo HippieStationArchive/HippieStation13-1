@@ -671,7 +671,7 @@
 	vend_delay = 34
 	products = list(/obj/item/weapon/reagent_containers/food/drinks/coffee = 25,/obj/item/weapon/reagent_containers/food/drinks/tea = 25,/obj/item/weapon/reagent_containers/food/drinks/h_chocolate = 25)
 	contraband = list(/obj/item/weapon/reagent_containers/food/drinks/ice = 10)
-	syndicate = list(/obj/item/weapon/reagent_containers/hypospray/medipen/methpack = 1)
+	syndicate = list(/obj/item/weapon/reagent_containers/hypospray/medipen/stimpack = 1)
 	refill_canister = /obj/item/weapon/vending_refill/coffee
 
 

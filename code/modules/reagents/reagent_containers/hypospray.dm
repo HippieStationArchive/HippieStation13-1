@@ -122,15 +122,3 @@
 	reagents.add_reagent("lexorin", 1)
 	update_icon()
 	return
-
-/obj/item/weapon/reagent_containers/hypospray/medipen/methpack
-	name = "Methipen"
-	desc = "When the coffee just does not make it anymore."
-	icon_state = "stimpen"
-
-/obj/item/weapon/reagent_containers/hypospray/medipen/methpack/New()
-	..()
-	reagents.remove_reagent("inaprovaline", 10)
-	reagents.add_reagent("meth", 10)
-	update_icon()
-	return
