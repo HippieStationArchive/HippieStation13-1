@@ -432,6 +432,9 @@
 			var/list/limbs = H.get_damaged_organs(0,0,1) //Check if any organs are bleeding
 			if(limbs.len)
 				for(var/obj/item/organ/limb/L in limbs)
+					if(L.foreign_objects.len)
+						for(var/obj/item/B in L.foreign_objects)
+							del(B)
 					L.bloodloss = 0 //Set bleeding to 0
 					for(var/obj/item/I in L.embedded)
 						L.embedded -= I
