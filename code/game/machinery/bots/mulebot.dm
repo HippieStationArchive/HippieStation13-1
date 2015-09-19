@@ -460,7 +460,7 @@ obj/machinery/bot/mulebot/bot_reset()
 
 
 	load.loc = loc
-	load.pixel_y -= 9
+	load.pixel_y = 0
 	load.layer = initial(load.layer)
 	if(dirn)
 		var/turf/T = loc
