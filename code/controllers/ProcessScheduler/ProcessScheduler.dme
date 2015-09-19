@@ -7,11 +7,6 @@
 
 // BEGIN_FILE_DIR
 #define FILE_DIR .
-#define FILE_DIR "bower_components"
-#define FILE_DIR "bower_components/bootstrap2.3.2"
-#define FILE_DIR "bower_components/bootstrap2.3.2/bootstrap"
-#define FILE_DIR "bower_components/bootstrap2.3.2/bootstrap/img"
-#define FILE_DIR "bower_components/bootstrap2.3.2/img"
 // END_FILE_DIR
 
 // BEGIN_PREFERENCES
@@ -22,8 +17,6 @@
 #include "core\_stubs.dm"
 #include "core\process.dm"
 #include "core\processScheduler.dm"
-#include "core\updateQueue.dm"
-#include "core\updateQueueWorker.dm"
 #include "test\processSchedulerView.dm"
 #include "test\testDyingUpdateQueueProcess.dm"
 #include "test\testHarness.dm"

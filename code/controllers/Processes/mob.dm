@@ -1,20 +1,24 @@
 /datum/controller/process/mob
-	var/tmp/datum/updateQueue/updateQueueInstance
+	schedule_interval = 20 // every 2 seconds
 
 /datum/controller/process/mob/setup()
 	name = "mob"
-	schedule_interval = 20 // every 2 seconds
-	updateQueueInstance = new
 
 /datum/controller/process/mob/started()
 	..()
-	if(!updateQueueInstance)
-		if(!mob_list)
-			mob_list = list()
-		else if(mob_list.len)
-			updateQueueInstance = new
+	if(!mob_list)
+		mob_list = list()
 
 /datum/controller/process/mob/doWork()
-	if(updateQueueInstance)
-		updateQueueInstance.init(mob_list, "Life")
-		updateQueueInstance.Run()
+	if (mob_list)
+		for(var/atom/m in mob_list)
+			if(m)
+
+				try
+					m:Life()
+				catch(var/exception/e)
+					world.log << "ERROR### Mob loop caught an exception:[e]"
+					continue
+				scheck()
+				continue
+			mob_list -= m
