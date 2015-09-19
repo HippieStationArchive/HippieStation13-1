@@ -1,0 +1,6 @@
+<h1>Welcome to Hippie Station 13!</h1>
+<p>We have a new revision of the rules up, make sure you read through it!</p>
+<p>Use mhelp to ask questions, ahelp to speak to an admin.</p>
+<i>Visit our teamspeak at: 188.165.255.120 
+
+This server is running on a modified /tg/station 13 build.</i>

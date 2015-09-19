@@ -833,7 +833,23 @@ datum/reagent/diethylamine
 	description = "A secondary amine, mildly corrosive."
 	color = "#604030" // rgb: 96, 64, 48
 
+/datum/reagent/drying_agent
+	name = "Drying agent"
+	id = "drying_agent"
+	description = "Can be used to dry things."
+	reagent_state = LIQUID
+	color = "#A70FFF"
 
+/datum/reagent/drying_agent/reaction_turf(turf/simulated/T, reac_volume)
+	if(istype(T) && T.wet)
+		T.MakeDry(TURF_WET_WATER)
+		T.MakeDry(TURF_WET_LUBE)
+
+/datum/reagent/drying_agent/reaction_obj(obj/O, reac_volume)
+	if(O.type == /obj/item/clothing/shoes/galoshes)
+		var/t_loc = get_turf(O)
+		qdel(O)
+		new /obj/item/clothing/shoes/galoshes/dry(t_loc)
 
 /////////////////////////Coloured Crayon Powder////////////////////////////
 //For colouring in /proc/mix_color_from_reagents

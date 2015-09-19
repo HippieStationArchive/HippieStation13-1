@@ -100,6 +100,14 @@ macro "borghotkeymode"
 		command = ".west"
 		is-disabled = false
 	elem 
+		name = "B"
+		command = "resist"
+		is-disabled = false
+	elem 
+		name = "CTRL+B"
+		command = "resist"
+		is-disabled = false
+	elem 
 		name = "D+REP"
 		command = ".east"
 		is-disabled = false
@@ -122,6 +130,14 @@ macro "borghotkeymode"
 	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "O"
+		command = "OOC"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "OOC"
 		is-disabled = false
 	elem 
 		name = "Q"
@@ -306,6 +322,10 @@ macro "macro"
 		command = ".west"
 		is-disabled = false
 	elem 
+		name = "CTRL+B"
+		command = "resist"
+		is-disabled = false
+	elem 
 		name = "CTRL+D+REP"
 		command = ".east"
 		is-disabled = false
@@ -320,6 +340,14 @@ macro "macro"
 	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "CTRL+M"
+		command = "/me"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "CTRL+Q"
@@ -504,6 +532,14 @@ macro "hotkeymode"
 		command = ".west"
 		is-disabled = false
 	elem 
+		name = "B"
+		command = "resist"
+		is-disabled = false
+	elem 
+		name = "CTRL+B"
+		command = "resist"
+		is-disabled = false
+	elem 
 		name = "D+REP"
 		command = ".east"
 		is-disabled = false
@@ -534,6 +570,22 @@ macro "hotkeymode"
 	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "M"
+		command = "/me"
+		is-disabled = false
+	elem 
+		name = "CTRL+M"
+		command = "/me"
+		is-disabled = false
+	elem 
+		name = "O"
+		command = "OOC"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "Q"
@@ -726,6 +778,14 @@ macro "borgmacro"
 		command = ".west"
 		is-disabled = false
 	elem 
+		name = "B"
+		command = "resist"
+		is-disabled = false
+	elem 
+		name = "CTRL+B"
+		command = "resist"
+		is-disabled = false
+	elem 
 		name = "CTRL+D+REP"
 		command = ".east"
 		is-disabled = false
@@ -736,6 +796,14 @@ macro "borgmacro"
 	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "O"
+		command = "ooc"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "CTRL+Q"
@@ -1242,6 +1310,8 @@ window "chemdispenser"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "eject"
 		type = BUTTON
 		pos = 264,4
@@ -1408,6 +1478,8 @@ window "chemdispenser"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "child1"
 		type = CHILD
 		pos = 0,40
@@ -1529,6 +1601,8 @@ window "chemdispenser_reagents"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 
 window "mainwindow"
 	elem "mainwindow"

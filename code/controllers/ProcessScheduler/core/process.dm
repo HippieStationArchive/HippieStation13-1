@@ -168,22 +168,17 @@ datum/controller/process/proc/handleHung()
 	logTheThing("debug", null, null, msg)
 	logTheThing("diary", null, null, msg, "debug")
 	message_admins(msg)
-
 	main.restartProcess(src.name)
-
 datum/controller/process/proc/kill()
 	if (!killed)
 		var/msg = "[name] process was killed at tick #[ticks]."
 		logTheThing("debug", null, null, msg)
 		logTheThing("diary", null, null, msg, "debug")
 		//finished()
-
 		// Allow inheritors to clean up if needed
 		onKill()
-
 		// This should del
 		del(src)
-
 datum/controller/process/proc/scheck(var/tickId = 0)
 	if (killed)
 		// The kill proc is the only place where killed is set.
@@ -194,7 +189,6 @@ datum/controller/process/proc/scheck(var/tickId = 0)
 		// This will only really help if the doWork proc ends up in an infinite loop.
 		handleHung()
 		CRASH("Process [name] hung and was restarted.")
-
 	// For each tick the process defers, it increments the cpu_defer_count so we don't
 	// defer indefinitely
 	if (main.getCurrentTickElapsedTime() > main.timeAllowance)
@@ -205,19 +199,15 @@ datum/controller/process/proc/scheck(var/tickId = 0)
 		// If world.timeofday has rolled over, then we need to adjust.
 		if (TimeOfHour < last_slept)
 			last_slept -= 36000
-
 		if (TimeOfHour > last_slept + sleep_interval)
 			// If we haven't slept in sleep_interval deciseconds, sleep to allow other work to proceed.
 			sleep(0)
 			last_slept = TimeOfHour
-
 datum/controller/process/proc/update()
 	// Clear delta
 	if(previousStatus != status)
 		setStatus(status)
-
 	var/elapsedTime = getElapsedTime()
-
 	if (hung)
 		handleHung()
 		return
@@ -227,19 +217,14 @@ datum/controller/process/proc/update()
 		setStatus(PROCESS_STATUS_PROBABLY_HUNG)
 	else if (elapsedTime > hang_warning_time)
 		setStatus(PROCESS_STATUS_MAYBE_HUNG)
-
-
 datum/controller/process/proc/getElapsedTime()
 	if (TimeOfHour < run_start)
 		return TimeOfHour - (run_start - 36000)
 	return TimeOfHour - run_start
-
 datum/controller/process/proc/tickDetail()
 	return
-
 datum/controller/process/proc/getContext()
 	return "<tr><td>[name]</td><td>[main.averageRunTime(src)]</td><td>[main.last_run_time[src]]</td><td>[main.highest_run_time[src]]</td><td>[ticks]</td></tr>\n"
-
 datum/controller/process/proc/getContextData()
 	return list(
 	"name" = name,
@@ -251,10 +236,8 @@ datum/controller/process/proc/getContextData()
 	"status" = getStatusText(),
 	"disabled" = disabled
 	)
-
 datum/controller/process/proc/getStatus()
 	return status
-
 datum/controller/process/proc/getStatusText(var/s = 0)
 	if(!s)
 		s = status
@@ -273,21 +256,16 @@ datum/controller/process/proc/getStatusText(var/s = 0)
 			return "HUNG"
 		else
 			return "UNKNOWN"
-
 datum/controller/process/proc/getPreviousStatus()
 	return previousStatus
-
 datum/controller/process/proc/getPreviousStatusText()
 	return getStatusText(previousStatus)
-
 datum/controller/process/proc/setStatus(var/newStatus)
 	previousStatus = status
 	status = newStatus
-
 datum/controller/process/proc/setLastTask(var/task, var/object)
 	last_task = task
 	last_object = object
-
 datum/controller/process/proc/_copyStateFrom(var/datum/controller/process/target)
 	main = target.main
 	name = target.name
@@ -300,23 +278,15 @@ datum/controller/process/proc/_copyStateFrom(var/datum/controller/process/target
 	last_task = target.last_task
 	last_object = target.last_object
 	copyStateFrom(target)
-
 datum/controller/process/proc/copyStateFrom(var/datum/controller/process/target)
-
 datum/controller/process/proc/onKill()
-
 datum/controller/process/proc/onStart()
-
 datum/controller/process/proc/onFinish()
-
 datum/controller/process/proc/disable()
 	disabled = 1
-
 datum/controller/process/proc/enable()
 	disabled = 0
-
 datum/controller/process/proc/getLastRunTime()
 	return main.getProcessLastRunTime(src)
-
 datum/controller/process/proc/getTicks()
 	return ticks
