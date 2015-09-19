@@ -41,7 +41,7 @@
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 	if(!msg)	return
 
-	log_mentor("PM: [key_name(src)]->[key_name(C)]: [msg]")
+	log_mentor("Mentor PM: [key_name(src)]->[key_name(C)]: [msg]")
 
 	msg = emoji_parse(msg)
 	C << 'sound/Items/Bikehorn2.ogg'
