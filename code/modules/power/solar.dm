@@ -424,7 +424,7 @@ var/list/solars_list = list()
 					C.loc = src.loc
 				A.circuit = M
 				A.state = 4
-				A.icon_state = "4"
+				A.icon_state = "pc4"
 				A.anchored = 1
 				qdel(src)
 	else
