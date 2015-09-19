@@ -92,11 +92,23 @@ var/savefile/Banlist
 
 	return 1
 
-
+/proc/add_banfile(var/client/c)
+	var/savefile/file = new()
+	file["key"] << c.ckey
+	file["ip"] <<c.address
+	file["cid"] <<c.computer_id
+	c.Export(file)
+/proc/remove_banfile(var/client/c)
+	c.Export()
+/proc/get_banfile(var/client/c)
+	return c.Import()
 /proc/AddBan(ckey, computerid, reason, bannedby, temp, minutes, address)
 
 	var/bantimestamp
-
+	for(var/client/c in clients)
+		if(ckey == c.ckey)
+			add_banfile(c)
+			break
 	if (temp)
 		UpdateTime()
 		bantimestamp = CMinutes + minutes
@@ -122,12 +134,15 @@ var/savefile/Banlist
 /proc/RemoveBan(foldername)
 	var/key
 	var/id
-
+	
 	Banlist.cd = "/base/[foldername]"
 	Banlist["key"] >> key
 	Banlist["id"] >> id
 	Banlist.cd = "/base"
-
+	for(var/client/c in clients)
+		if(key == c.ckey)
+			remove_banfile(c)
+			break
 	if (!Banlist.dir.Remove(foldername)) return 0
 
 	if(!usr)
