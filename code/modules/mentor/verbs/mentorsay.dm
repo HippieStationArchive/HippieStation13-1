@@ -7,7 +7,7 @@
 	msg = copytext(sanitize(msg), 1, MAX_MESSAGE_LEN)
 	if(!msg)	return
 
-	log_mentor("[key_name(src)] : [msg]")
+	log_mentor("MSAY: [key_name(src)] : [msg]")
 
 	if(check_rights(R_ADMIN,0))
 		msg = "<span class='mentoradmin'><span class='prefix'>MENTOR:</span> <EM>[key_name(src, 0, 0)]</EM>: <span class='message'>[msg]</span></span>"

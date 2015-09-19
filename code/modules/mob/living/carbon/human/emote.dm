@@ -557,6 +557,7 @@
 						if(lose_butt)
 							visible_message("\red <b>[src]</b>'s ass hits <b>[M]</b> in the face!", "\red Your ass smacks <b>[M]</b> in the face!")
 							M.apply_damage(15,"brute","head")
+							add_logs(src, M, "farted on", object=null, addition=" (DAMAGE DEALT: 15)")
 						else
 							visible_message("\red <b>[src]</b> farts in <b>[M]</b>'s face!")
 
@@ -568,6 +569,7 @@
 					if(M != src)
 						visible_message("\red <b>[src]</b>'s ass blasts <b>[M]</b> in the face!", "\red You ass blast <b>[M]</b>!")
 						M.apply_damage(75,"brute","head")
+						add_logs(src, M, "superfarted on", object=null, addition=" (DAMAGE DEALT: 75)")
 
 				visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
 

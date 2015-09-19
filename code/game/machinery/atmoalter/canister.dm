@@ -297,12 +297,16 @@ Release Pressure: <A href='?src=\ref[src];pressure_adj=-1000'>-</A> <A href='?sr
 			if (valve_open)
 				if (holding)
 					release_log += "Valve was <b>closed</b> by [usr] ([usr.ckey]), stopping the transfer into the [holding]<br>"
+					add_logs(usr, src, "closed", object=null, addition="(INTENT: [uppertext(usr.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
 				else
 					release_log += "Valve was <b>closed</b> by [usr] ([usr.ckey]), stopping the transfer into the <font color='red'><b>air</b></font><br>"
+					add_logs(usr, src, "closed", object=null, addition="(INTENT: [uppertext(usr.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
 			else
 				if (holding)
 					release_log += "Valve was <b>opened</b> by [usr] ([usr.ckey]), starting the transfer into the [holding]<br>"
+					add_logs(usr, src, "opened", object=null, addition=", transferring into [holding] (INTENT: [uppertext(usr.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
 				else
+					add_logs(usr, src, "opened", object=null, addition=", trasnferring into the air (INTENT: [uppertext(usr.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
 					release_log += "Valve was <b>opened</b> by [usr] ([usr.ckey]), starting the transfer into the <font color='red'><b>air</b></font><br>"
 			valve_open = !valve_open
 
