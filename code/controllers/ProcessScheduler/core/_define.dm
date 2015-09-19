@@ -11,8 +11,9 @@
 #define PROCESS_DEFAULT_HANG_ALERT_TIME 	600 // 60 seconds
 #define PROCESS_DEFAULT_HANG_RESTART_TIME 	900 // 90 seconds
 #define PROCESS_DEFAULT_SCHEDULE_INTERVAL 	50  // 50 ticks
-#define PROCESS_DEFAULT_SLEEP_INTERVAL		8	// 8 ticks
+#define PROCESS_DEFAULT_SLEEP_INTERVAL		2	// 2 ticks
 #define PROCESS_DEFAULT_CPU_THRESHOLD		90  // 90%
+
 
 //#define UPDATE_QUEUE_DEBUG
 // If btime.dll is available, do this shit

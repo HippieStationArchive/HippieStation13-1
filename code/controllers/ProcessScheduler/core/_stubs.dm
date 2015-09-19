@@ -4,15 +4,14 @@
  * This file contains constructs that the process scheduler expects to exist
  * in a standard ss13 fork.
  */
-/*
+
 /**
  * message_admins
  *
  * sends a message to admins
  */
-/proc/message_admins(msg)
-	world << msg
-*/
+
+
 /**
  * logTheThing
  *

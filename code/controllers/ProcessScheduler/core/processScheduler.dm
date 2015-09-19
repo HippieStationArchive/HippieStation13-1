@@ -216,7 +216,6 @@ var/global/datum/controller/processScheduler/processScheduler
 	if (!(process in idle))
 		idle += process
 
-
 /datum/controller/processScheduler/proc/setQueuedProcessState(var/datum/controller/process/process)
 	if (process in running)
 		running -= process
@@ -235,7 +234,6 @@ var/global/datum/controller/processScheduler/processScheduler
 		idle -= process
 	if (!(process in running))
 		running += process
-
 
 /datum/controller/processScheduler/proc/recordStart(var/datum/controller/process/process, var/time = null)
 	if (isnull(time))

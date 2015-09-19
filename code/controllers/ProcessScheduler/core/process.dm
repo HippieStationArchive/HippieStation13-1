@@ -92,7 +92,6 @@ datum/controller/process/New(var/datum/controller/processScheduler/scheduler)
 	idle()
 	name = "process"
 	schedule_interval = 50
-	schedule_interval = 50
 	sleep_interval = world.tick_lag / PROCESS_DEFAULT_SLEEP_INTERVAL
 	last_slept = 0
 	run_start = 0
@@ -165,8 +164,7 @@ datum/controller/process/proc/handleHung()
 	// If world.timeofday has rolled over, then we need to adjust.
 	if (TimeOfHour < run_start)
 		run_start -= 36000
-
-	var/msg = "[name] process hung at tick #[ticks]. Process was unresponsive for [(world.timeofday - run_start) / 10] seconds and was restarted. Last task: [last_task]. Last Object Type: [lastObjType]"
+	var/msg = "[name] process hung at tick #[ticks]. Process was unresponsive for [(TimeOfHour - run_start) / 10] seconds and was restarted. Last task: [last_task]. Last Object Type: [lastObjType]"
 	logTheThing("debug", null, null, msg)
 	logTheThing("diary", null, null, msg, "debug")
 	message_admins(msg)
@@ -183,8 +181,6 @@ datum/controller/process/proc/kill()
 		// Allow inheritors to clean up if needed
 		onKill()
 
-		killed = TRUE
-
 		// This should del
 		del(src)
 
@@ -194,6 +190,10 @@ datum/controller/process/proc/scheck(var/tickId = 0)
 		// The kill proc should have deleted this datum, and all sleeping procs that are
 		// owned by it.
 		CRASH("A killed process is still running somehow...")
+	if (hung)
+		// This will only really help if the doWork proc ends up in an infinite loop.
+		handleHung()
+		CRASH("Process [name] hung and was restarted.")
 
 	// For each tick the process defers, it increments the cpu_defer_count so we don't
 	// defer indefinitely
@@ -206,10 +206,10 @@ datum/controller/process/proc/scheck(var/tickId = 0)
 		if (TimeOfHour < last_slept)
 			last_slept -= 36000
 
-		if (world.timeofday > last_slept + sleep_interval)
-			// If we haven't slept in sleep_interval ticks, sleep to allow other work to proceed.
+		if (TimeOfHour > last_slept + sleep_interval)
+			// If we haven't slept in sleep_interval deciseconds, sleep to allow other work to proceed.
 			sleep(0)
-			last_slept = world.timeofday
+			last_slept = TimeOfHour
 
 datum/controller/process/proc/update()
 	// Clear delta
@@ -227,6 +227,7 @@ datum/controller/process/proc/update()
 		setStatus(PROCESS_STATUS_PROBABLY_HUNG)
 	else if (elapsedTime > hang_warning_time)
 		setStatus(PROCESS_STATUS_MAYBE_HUNG)
+
 
 datum/controller/process/proc/getElapsedTime()
 	if (TimeOfHour < run_start)
@@ -314,8 +315,8 @@ datum/controller/process/proc/disable()
 datum/controller/process/proc/enable()
 	disabled = 0
 
-/datum/controller/process/proc/getLastRunTime()
+datum/controller/process/proc/getLastRunTime()
 	return main.getProcessLastRunTime(src)
 
-/datum/controller/process/proc/getTicks()
+datum/controller/process/proc/getTicks()
 	return ticks
