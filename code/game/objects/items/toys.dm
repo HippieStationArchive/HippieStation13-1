@@ -403,6 +403,20 @@
 	w_class = 3
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced")
 	hitsound = 'sound/weapons/bladeslice.ogg'
+
+/obj/item/toy/claymore
+	name = "replica claymore"
+	desc = "What are you standing around staring at this for? Get to harassing people!"
+	icon = 'icons/obj/items.dmi'
+	icon_state = "claymore"
+	item_state = "claymore"
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	slot_flags = SLOT_BELT
+	force = 5
+	throwforce = 5
+	w_class = 3
+	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+
 /*
  * Moved crayons from here to crayons.dm
  */

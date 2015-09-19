@@ -240,6 +240,26 @@
 	..()
 	reagents.add_reagent("wine", 100)
 
+/obj/item/weapon/reagent_containers/food/drinks/bottle/hooch
+	name = "Hooch Bucket"
+	desc = "Dissolved to be nearly useless."
+	icon = 'icons/obj/janitor.dmi'
+	icon_state = "bucket"
+	item_state = "bucket"
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/hooch/New()
+	..()
+	reagents.add_reagent("hooch", 100)
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/hippie
+	name = "Hippie's Booze"
+	desc = "Admiral Hippie's secret booze."
+	icon_state = "vermouthbottle"
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/hippie/New()
+	..()
+	reagents.add_reagent("hippiesdelight", 100)
+
 //////////////////////////JUICES AND STUFF ///////////////////////
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/orangejuice

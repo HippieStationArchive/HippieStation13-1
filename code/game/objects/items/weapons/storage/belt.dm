@@ -276,7 +276,7 @@
 	icon_state = "fannypack_yellow"
 	item_state = "fannypack_yellow"
 
-/obj/item/weapon/storage/belt/bandolier
+/obj/item/weapon/storage/belt/bandolier/full
 	name = "bandolier"
 	desc = "A bandolier for holding shotgun ammunition."
 	icon_state = "bandolier"
