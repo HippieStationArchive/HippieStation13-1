@@ -13,7 +13,7 @@
 	if(!msg)	return
 	if(!mob)	return						//this doesn't happen
 
-	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0, 1)]</b>: [msg]</font></span>"
+	var/mentor_msg = "<span class='mentornotice'><b><font color='purple'>MENTORHELP:</b> <b>[key_name_mentor(src, 1, 0, 1, 1)]</b>: [msg]</font></span>"
 	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0, 0)]: [msg]")
 
 	for(var/client/X in mentors)
@@ -27,7 +27,7 @@
 	src << "<span class='mentornotice'><font color='purple'>PM to-<b>Mentors</b>: [msg]</font></span>"
 	return
 
-/proc/key_name_mentor(var/whom, var/include_link = null, var/include_name = 0, var/include_follow = 0)
+/proc/key_name_mentor(var/whom, var/include_link = null, var/include_name = 0, var/include_follow = 0, var/char_name_only = 0)
 	var/mob/M
 	var/client/C
 	var/key
@@ -64,6 +64,13 @@
 
 		if(C && C.holder && C.holder.fakekey)
 			. += "Administrator"
+		else if (char_name_only)
+			if(istype(C.mob,/mob/new_player) || istype(C.mob, /mob/dead/observer)) //If they're in the lobby or observing, display their ckey
+				. += key
+			else if(C && C.mob) //If they're playing/in the round, only show the mob name
+				. += C.mob.name
+			else //If for some reason neither of those are applicable and they're mentorhelping, show ckey
+				. += key
 		else
 			. += key
 		if(!C)
