@@ -612,6 +612,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 				usr.Beam(thrallToRevive,icon_state="red_lightning",icon='icons/effects/effects.dmi',time=1)
 				sleep(10)
 				thrallToRevive.revive()
+				thrallToRevive.setBrainLoss(100)
 				thrallToRevive.visible_message("<span class='boldannounce'>[thrallToRevive] heaves in breath, dim red light shining in their eyes.</span>", \
 											   "<span class='shadowling'><b><i>You have returned. One of your masters has brought you from the darkness beyond.</b></i></span>")
 				thrallToRevive.Weaken(4)
@@ -620,57 +621,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 			else
 				charge_counter = charge_max
 				return
-
-/obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle
-	name = "Destroy Engines"
-	desc = "Extends the time of the emergency shuttle's arrival by ten to fifteen minutes."
-	panel = "Shadowling Abilities"
-	range = 1
-	clothes_req = 0
-	charge_max = 600
-	action_icon_state = "extend_shuttle"
-
-/obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle/cast(list/targets, mob/living/carbon/human/U = usr)
-	if(!shadowling_check(usr))
-		charge_counter = charge_max
-		return
-	for(var/mob/living/carbon/human/target in targets)
-		if(!ishuman(target) || !target)
-			charge_counter = charge_max
-			return
-		if(target.stat)
-			charge_counter = charge_max
-			return
-		if(!is_thrall(target))
-			usr << "<span class='warning'>[target] must be a thrall.</span>"
-			charge_counter = charge_max
-			return
-		if(!(emergency_shuttle.online))
-			usr << "<span class='warning'>The shuttle must be inbound only to the station.</span>"
-			charge_counter = charge_max
-			return
-		var/mob/living/carbon/human/M = target
-		U.visible_message("<span class='warning'>[U]'s eyes flash a bright red!</span>", \
-						  "<span class='notice'>You begin to draw [M]'s life force.</span>")
-		M.visible_message("<span class='warning'>[M]'s face falls slack, their jaw slightly distending.</span>", \
-						  "<span class='boldannounce'>You are suddenly transported... far, far away...</span>")
-		if(!do_after(U, 50, target = M))
-			M << "<span class='warning'>You are snapped back to reality, your haze dissipating!</span>"
-			U << "<span class='warning'>You have been interrupted. The draw has failed.</span>"
-			return
-		U << "<span class='notice'>You project [M]'s life force toward the approaching shuttle, extending its arrival duration!</span>"
-		M.visible_message("<span class='warning'>[M]'s eyes suddenly flare red. They proceed to collapse on the floor, not breathing.</span>", \
-						  "<span class='warning'><b>...speeding by... ...pretty blue glow... ...touch it... ...no glow now... ...no light... ...nothing at all...</span>")
-		M.death()
-		if(emergency_shuttle.location==0)
-			if(emergency_shuttle.online == 1)
-				var/more_minutes = 4500
-				var/timer = emergency_shuttle.timeleft()
-				timer += more_minutes
-				priority_announce("Major system failure aboard the emergency shuttle. This will extend its arrival time by approximately 15 minutes..", "System Failure", 'sound/misc/notice1.ogg')
-				emergency_shuttle.settimeleft(timer)
-
-
 
 
 // THRALL ABILITIES BEYOND THIS POINT //
@@ -1069,7 +1019,6 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/flashfreeze(null))
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/collective_mind(null))
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_regenarmor(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle(null))
 
 
 
