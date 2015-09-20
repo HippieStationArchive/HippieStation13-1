@@ -4812,7 +4812,7 @@
 "bOB" = (/obj/machinery/computer/area_atmos{dir = 1},/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/toxins/storage)
 "bOC" = (/obj/structure/sign/nosmoking_2{pixel_x = -32},/turf/simulated/floor/plasteel{dir = 5; icon_state = "whitehall"},/area/medical/research{name = "Research Division"})
 "bOD" = (/obj/structure/disposalpipe/segment,/obj/machinery/atmospherics/pipe/manifold/supply/hidden{dir = 8},/turf/simulated/floor/plasteel{icon_state = "white"},/area/medical/research{name = "Research Division"})
-"bOE" = (/obj/machinery/door/airlock/maintenance{name = "Disposal Access"; req_access_txt = "12"},/obj/structure/disposalpipe/segment{dir = 4},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/turf/simulated/floor/plating,/area/maintenance/disposal)
+"bOE" = (/obj/machinery/door/airlock/maintenance{name = "Disposal Access"; req_access_txt = "12"},/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/floor/plating,/area/maintenance/disposal)
 "bOF" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/floor/plasteel{dir = 10; icon_state = "warnwhite"},/area/medical/research{name = "Research Division"})
 "bOG" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/floor/plating,/area/toxins/mixing)
 "bOH" = (/obj/structure/sign/nosmoking_2{pixel_x = -32},/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/toxins/mixing)
