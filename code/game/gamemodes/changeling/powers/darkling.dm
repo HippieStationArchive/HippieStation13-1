@@ -503,26 +503,29 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 		return
 	targetsDrained = 0
 	nearbyTargets = list()
-	for(var/turf/T in targets)
-		for(var/mob/living/carbon/M in T.contents)
-			if(M == usr) continue
-			targetsDrained++
-			nearbyTargets.Add(M)
-		if(!targetsDrained)
-			charge_counter = charge_max
-			usr << "<span class='warning'>There were no nearby humans for you to drain.</span>"
-			return
-		for(var/mob/living/carbon/M in nearbyTargets)
-			nearbyTargets.Remove(M) //To prevent someone dying like a zillion times
-			U.adjustToxLoss(-10)
-			U.adjustOxyLoss(-10)
-			U.adjustStaminaLoss(-20)
-			U.AdjustWeakened(-1)
-			U.AdjustStunned(-1)
-			M.adjustOxyLoss(20)
-			M.adjustStaminaLoss(20)
-			M << "<span class='boldannounce'>You feel a wave of exhaustion and a curious draining sensation directed towards [usr]!</span>"
-			usr << "<span class='shadowling'>You draw the life from [M] to heal your wounds.</span>"
+	for(var/mob/living/carbon/human/M in oview(range))
+		world << "1"
+		if(M == usr) continue
+		world << "2"
+		targetsDrained++
+		nearbyTargets.Add(M)
+	if(!targetsDrained)
+		world << "3"
+		charge_counter = charge_max
+		usr << "<span class='warning'>There were no nearby humans for you to drain.</span>"
+		return
+	for(var/mob/living/carbon/M in nearbyTargets)
+		world << "4"
+		nearbyTargets.Remove(M) //To prevent someone dying like a zillion times
+		U.adjustToxLoss(-10)
+		U.adjustOxyLoss(-10)
+		U.adjustStaminaLoss(-20)
+		U.AdjustWeakened(-1)
+		U.AdjustStunned(-1)
+		M.adjustOxyLoss(20)
+		M.adjustStaminaLoss(20)
+		M << "<span class='boldannounce'>You feel a wave of exhaustion and a curious draining sensation directed towards [usr]!</span>"
+		usr << "<span class='shadowling'>You draw the life from [M] to heal your wounds.</span>"
 
 
 /obj/effect/proc_holder/spell/targeted/revive_thrall
@@ -661,7 +664,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 		M.death()
 		if(emergency_shuttle.location==0)
 			if(emergency_shuttle.online == 1)
-				var/more_minutes = 9000
+				var/more_minutes = 4500
 				var/timer = emergency_shuttle.timeleft()
 				timer += more_minutes
 				priority_announce("Major system failure aboard the emergency shuttle. This will extend its arrival time by approximately 15 minutes..", "System Failure", 'sound/misc/notice1.ogg')

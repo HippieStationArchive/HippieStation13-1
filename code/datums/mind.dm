@@ -1046,11 +1046,8 @@
 				ticker.mode.shadows += src
 				special_role = "shadowling"
 				current << "<span class='shadowling'><b>Something stirs deep in your mind. A red light floods your vision, and slowly you remember. Though your human disguise has served you well, the \
-+				time is nigh to cast it off and enter your true form. You have disguised yourself amongst the humans, but you are not one of them. You are a shadowling, and you are to ascend at all costs.\
+				time is nigh to cast it off and enter your true form. You have disguised yourself amongst the humans, but you are not one of them. You are a shadowling, and you are to ascend at all costs.\
 				</b></span>"
-				ticker.mode.greet_shadow(src)
-				ticker.mode.finalize_shadowling(src)
-				ticker.mode.process_shadow_objectives(src)
 				ticker.mode.finalize_shadowling(src)
 				ticker.mode.update_shadow_icons_added(src)
 
