@@ -60,7 +60,7 @@
 
 	if(key)
 		if(include_link)
-			. += "<a href='?mentor_msg=[ckey]'>"
+			. += "<a href='?mentor_msg=\ref[M]'>"
 
 		if(C && C.holder && C.holder.fakekey)
 			. += "Administrator"
