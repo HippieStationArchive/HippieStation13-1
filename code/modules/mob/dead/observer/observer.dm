@@ -159,6 +159,13 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	mind.current.key = key
 	return 1
 
+/mob/dead/observer/proc/notify_cloning(var/message, var/sound)
+	if(message)
+		src << "<span class='ghostalert'>[message]</span>"
+	src << "<span class='ghostalert'><a href=?src=\ref[src];reenter=1>(Click to re-enter)</a></span>"
+	if(sound)
+		src << sound(sound)
+
 /mob/dead/observer/proc/dead_tele()
 	set category = "Ghost"
 	set name = "Teleport"

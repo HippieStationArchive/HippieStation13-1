@@ -73,6 +73,11 @@ var/global/list/achievements = list("Goodcurity")
 				log_admin("[key_name(usr)] created abductor team.")
 				if(!src.makeAbductorTeam())
 					usr << "<span class='danger'>Unfortunatly there were not enough candidates available.</span>"
+			if("14")
+				message_admins("[key_name(usr)] created a shadowling.")
+				log_admin("[key_name(usr)] created a shadowling.")
+				if(!src.makeShadowling())
+					usr << "<span class='danger'>Unfortunatly there were not enough candidates available.</span>"
 
 	else if(href_list["forceevent"])
 		var/datum/round_event_control/E = locate(href_list["forceevent"]) in events.control
