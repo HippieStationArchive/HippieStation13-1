@@ -29,7 +29,8 @@
 		return
 
 	if(href_list["mentor_msg"])
-		cmd_mentor_pm(href_list["mentor_msg"],null)
+		var/mob/M = locate(href_list["mentor_msg"])
+		cmd_mentor_pm(M,null)
 		return
 
 	if(href_list["mentor_follow"])
