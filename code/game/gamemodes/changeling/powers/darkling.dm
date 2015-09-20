@@ -966,7 +966,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	include_user = 1
 	action_icon_state = "transmit"
 
-/obj/effect/proc_holder/spell/targeted/ascendantTransmit/cast(list/targets)
+/obj/effect/proc_holder/spell/targeted/ascendant_transmit/cast(list/targets)
 	for(var/mob/living/user in targets)
 		var/text = stripped_input(user, "What do you want to say to everything on and near [station_name()]?.", "Transmit to World", "")
 		if(!text)
