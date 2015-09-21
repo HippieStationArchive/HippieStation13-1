@@ -84,6 +84,18 @@
 
 	var/msg = "<b>Current Mentors:</b>\n"
 	for(var/client/C in mentors)
-		msg += "\t[C]\n"
+		var/suffix = ""
+		if(holder)
+			if(isobserver(C.mob))
+				suffix += " - Observing"
+			else if(istype(C.mob,/mob/new_player))
+				suffix += " - Lobby"
+			else
+				suffix += " - Playing"
+
+			if(C.is_afk())
+				suffix += " (AFK)"
+
+		msg += "\t[C][suffix]\n"
 
 	src << msg
