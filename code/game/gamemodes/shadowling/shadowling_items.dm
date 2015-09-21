@@ -42,6 +42,7 @@
 	siemens_coefficient = 0
 	unacidable = 1
 	flags = ABSTRACT | NODROP
+	flags_inv = 0
 
 
 /obj/item/clothing/gloves/shadowling
@@ -67,6 +68,7 @@
 	origin_tech = null
 	unacidable = 1
 	flags = ABSTRACT | NODROP | STOPSPRESSUREDMAGE
+	flags_inv = 0
 
 
 /obj/item/clothing/glasses/night/shadowling
