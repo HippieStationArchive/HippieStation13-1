@@ -34,3 +34,5 @@
 		if(client)
 			handle_privacy_poll()
 			client.playtitlemusic()
+			if(client.prefs.toggles & SHOW_CHANGES)
+				src << browse('html/changelog.html', "window=changes;size=675x650")
