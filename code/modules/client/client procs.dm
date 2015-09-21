@@ -29,7 +29,11 @@
 		return
 
 	if(href_list["mentor_msg"])
-		cmd_mentor_pm(href_list["mentor_msg"],null)
+		if(config.mentors_mobname_only)
+			var/mob/M = locate(href_list["mentor_msg"])
+			cmd_mentor_pm(M,null)
+		else
+			cmd_mentor_pm(href_list["mentor_msg"],null)
 		return
 
 	if(href_list["mentor_follow"])
