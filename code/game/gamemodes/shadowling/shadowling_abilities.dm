@@ -207,6 +207,8 @@
 			return
 		if(!target.client)
 			usr << "<span class='warning'>[target]'s mind is vacant of activity.</span>"
+			charge_counter = charge_max
+			return
 		enthralling = 1
 		usr << "<span class='danger'>This target is valid. You begin the enthralling.</span>"
 		target << "<span class='userdanger'>[usr] stares at you. You feel your head begin to pulse.</span>"
@@ -484,17 +486,15 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 		return
 	targetsDrained = 0
 	nearbyTargets = list()
-	for(var/turf/T in targets)
-		for(var/mob/living/carbon/M in T.contents)
-			if(M == usr) continue
-			targetsDrained++
-			nearbyTargets.Add(M)
+	for(var/mob/living/carbon/human/M in oview(range))
+		if(M == usr) continue
+		targetsDrained++
+		nearbyTargets.Add(M)
 	if(!targetsDrained)
 		charge_counter = charge_max
 		usr << "<span class='warning'>There were no nearby humans for you to drain.</span>"
 		return
 	for(var/mob/living/carbon/M in nearbyTargets)
-		U.heal_organ_damage(10, 10)
 		U.adjustToxLoss(-10)
 		U.adjustOxyLoss(-10)
 		U.adjustStaminaLoss(-20)
@@ -587,6 +587,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 				usr.Beam(thrallToRevive,icon_state="red_lightning",icon='icons/effects/effects.dmi',time=1)
 				sleep(10)
 				thrallToRevive.revive()
+				thrallToRevive.setBrainLoss(100)
 				thrallToRevive.visible_message("<span class='boldannounce'>[thrallToRevive] heaves in breath, dim red light shining in their eyes.</span>", \
 											   "<span class='shadowling'><b><i>You have returned. One of your masters has brought you from the darkness beyond.</b></i></span>")
 				thrallToRevive.Weaken(4)
@@ -595,49 +596,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			else
 				charge_counter = charge_max
 				return
-/obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle
-	name = "Destroy Engines"
-	desc = "Extends the time of the emergency shuttle's arrival by ten to fifteen minutes."
-	panel = "Shadowling Abilities"
-	range = 1
-	clothes_req = 0
-	charge_max = 600
-	action_icon_state = "extend_shuttle"
-/obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle/cast(list/targets, mob/living/carbon/human/U = usr)
-	if(!shadowling_check(usr))
-		charge_counter = charge_max
-		return
-	for(var/mob/living/carbon/human/target in targets)
-		if(target.stat)
-			charge_counter = charge_max
-			return
-		if(!is_thrall(target))
-			usr << "<span class='warning'>[target] must be a thrall.</span>"
-			charge_counter = charge_max
-			return
-		if(SSshuttle.emergency.mode != SHUTTLE_CALL)
-			usr << "<span class='warning'>The shuttle must be inbound only to the station.</span>"
-			charge_counter = charge_max
-			return
-		var/mob/living/carbon/human/M = target
-		U.visible_message("<span class='warning'>[U]'s eyes flash a bright red!</span>", \
-						  "<span class='notice'>You begin to draw [M]'s life force.</span>")
-		M.visible_message("<span class='warning'>[M]'s face falls slack, their jaw slightly distending.</span>", \
-						  "<span class='boldannounce'>You are suddenly transported... far, far away...</span>")
-		if(!do_after(U, 50, target = M))
-			M << "<span class='warning'>You are snapped back to reality, your haze dissipating!</span>"
-			U << "<span class='warning'>You have been interrupted. The draw has failed.</span>"
-			return
-		U << "<span class='notice'>You project [M]'s life force toward the approaching shuttle, extending its arrival duration!</span>"
-		M.visible_message("<span class='warning'>[M]'s eyes suddenly flare red. They proceed to collapse on the floor, not breathing.</span>", \
-						  "<span class='warning'><b>...speeding by... ...pretty blue glow... ...touch it... ...no glow now... ...no light... ...nothing at all...</span>")
-		M.death()
-		if(SSshuttle.emergency.mode == SHUTTLE_CALL)
-			var/more_minutes = 9000
-			var/timer = SSshuttle.emergency.timeLeft()
-			timer += more_minutes
-			priority_announce("Major system failure aboard the emergency shuttle. This will extend its arrival time by approximately 15 minutes..", "System Failure", 'sound/misc/notice1.ogg')
-			SSshuttle.emergency.setTimer(timer)
+
 // THRALL ABILITIES BEYOND THIS POINT //
 /obj/effect/proc_holder/spell/targeted/lesser_glare //Thrall version of Glare - same effects but for 5 seconds
 	name = "Lesser Glare"
@@ -843,6 +802,26 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			target.Weaken(8)
 			target.take_organ_damage(0,50)
 			usr.Beam(target,icon_state="red_lightning",icon='icons/effects/effects.dmi',time=1)
+/obj/effect/proc_holder/spell/targeted/vortex
+	name = "Vortex"
+	desc = "Tears open a hole in reality. Anyone, INCLUDING YOU, walking through it will be trapped there for eternity."
+	panel = "Ascendant"
+	range = -1
+	include_user = 1
+	charge_max = 300
+	clothes_req = 0
+
+/obj/effect/proc_holder/spell/targeted/vortex/cast(list/targets)
+	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
+	if(SHA.phasing)
+		usr << "<span class='warning'>You are not in the same plane of existence. Unphase first.</span>"
+		return
+
+	for(SHA in targets)
+		SHA.visible_message("<span class='userdanger'>[SHA] raises their arms upward as the markings on their body flare a blinding red!</span>", \
+						"<span class='shadowling'>You tear open a rift to the black space between worlds. <b><font size=3>It would be wise to avoid it.</font></b></span>")
+
+		new /obj/structure/shadow_vortex(SHA.loc)
 /obj/effect/proc_holder/spell/targeted/shadowling_hivemind_ascendant //Large, all-caps text in shadowling chat
 	name = "Ascendant Commune"
 	desc = "Allows you to LOUDLY communicate with all other shadowlings and thralls."
