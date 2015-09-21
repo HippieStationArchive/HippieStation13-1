@@ -394,6 +394,7 @@ datum/species/shadow/ling/lesser //Empowered thralls. Obvious, but powerful
 	origin_tech = null
 	unacidable = 1
 	flags = ABSTRACT | NODROP | STOPSPRESSUREDMAGE
+	flags_inv = 0
 
 
 /obj/item/clothing/glasses/night/shadowling
