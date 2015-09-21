@@ -30,6 +30,7 @@
 	var/allow_admin_ooccolor = 0		// Allows admins with relevant permissions to have their own ooc colour
 	var/allow_vote_restart = 0 			// allow votes to restart
 	var/allow_vote_mode = 0				// allow votes to change mode
+	var/mentors_mobname_only = 0		// Whether or not mentors see mob names or ckeys only
 	var/vote_delay = 6000				// minimum time between voting sessions (deciseconds, 10 minute default)
 	var/vote_period = 600				// length of voting period (deciseconds, default 1 minute)
 	var/vote_no_default = 0				// vote does not default to nochange/norestart (tbi)
@@ -253,6 +254,8 @@
 					config.server_suffix = 1
 				if("hostedby")
 					config.hostedby = value
+				if("mentors_mobname_only")
+					config.mentors_mobname_only = 1
 				if("server")
 					config.server = value
 				if("banappeals")
