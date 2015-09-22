@@ -337,6 +337,14 @@
 	allowed = list(/obj/item/weapon/pickaxe,/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/toy,/obj/item/weapon/storage/fancy/cigarettes,/obj/item/weapon/lighter)
 	armor = list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
 
+/obj/item/clothing/suit/raincoat
+	name = "Raincoat"
+	desc = "Do you like Huey Lewis and the News?"
+	icon_state = "raincoat"
+	item_state = "raincoat"
+	allowed = list (/obj/item/weapon/twohanded/fireaxe)
+	armor = list(melee = 5, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
+
 //FPSS13 PORTS!
 
 /obj/item/clothing/suit/reporterjacket
