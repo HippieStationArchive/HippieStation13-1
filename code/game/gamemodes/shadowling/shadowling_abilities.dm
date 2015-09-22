@@ -797,7 +797,6 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			target << "<span class='userdanger'>You are struck by a bolt of lightning!</span>"
 			playsound(target, 'sound/magic/LightningShock.ogg', 50, 1)
 			target.Weaken(8)
-			target.take_organ_damage(0,50)
 			usr.Beam(target,icon_state="red_lightning",icon='icons/effects/effects.dmi',time=1)
 /obj/effect/proc_holder/spell/targeted/vortex
 	name = "Vortex"
