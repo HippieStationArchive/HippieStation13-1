@@ -37,7 +37,7 @@
 		icon_state = rock_color
 	if(ore_overlay)
 		src.overlays += image('icons/turf/mining.dmi', ore_overlay)
-	
+
 	spawn(1)
 		var/turf/T
 		if((istype(get_step(src, NORTH), /turf/simulated/floor)) || (istype(get_step(src, NORTH), /turf/space)) || (istype(get_step(src, NORTH), /turf/simulated/shuttle/floor)))
@@ -403,7 +403,7 @@
 		user << "\red You start picking."
 		playsound(user, 'sound/Effects/mininghit.ogg', 20, 1)
 
-		if(do_after(user,W:digspeed))
+		if(do_after(user,W:digspeed, target = src))
 			user << "\blue You finish cutting into the rock."
 			gets_drilled()
 

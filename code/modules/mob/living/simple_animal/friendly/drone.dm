@@ -91,7 +91,7 @@
 								D << "<span class='notice'>You can't seem to find the [pick(faux_gadgets)]. Without it, [src] [pick(faux_problems)].</span>"
 								return
 							D.visible_message("<span class='notice'>[D] begins to reactivate [src].</span>")
-							if(do_after(user,30,needhand = 1))
+							if(do_after(user,30,needhand = 1, target = user))
 								health = health_repair_max
 								stat = CONSCIOUS
 								icon_state = icon_living
@@ -107,7 +107,7 @@
 						if("Cannibalize")
 							if(D.health < D.maxHealth)
 								D.visible_message("<span class='notice'>[D] begins to cannibalize parts from [src].</span>")
-								if(do_after(D, 60,5,0))
+								if(do_after(D, 60,5,0, target = user))
 									D.visible_message("<span class='notice'>[D] repairs itself using [src]'s remains!</span>")
 									D.adjustBruteLoss(-src.maxHealth)
 									new /obj/effect/decal/cleanable/blood/oil/streak(get_turf(src))
@@ -150,7 +150,7 @@
 	if(istype(I, /obj/item/weapon/screwdriver) && stat != DEAD)
 		if(health < health_repair_max)
 			user << "<span class='notice'>You start to tighten loose screws on [src].</span>"
-			if(do_after(user,80))
+			if(do_after(user,80, , target = user))
 				health = health_repair_max
 				visible_message("<span class='notice'>[user] tightens [src == user ? "their" : "[src]'s"] loose screws!</span>")
 			else
@@ -420,12 +420,12 @@
 		var/r_state = r_hand.item_state
 		if(!r_state)
 			r_state = r_hand.icon_state
-		
+
 		if(!(r_state in icon_states("icons/mob/items_righthand.dmi"))) //TODO should probably populate this list at start?
 			hands_overlays = image("icon" = 'icons/mob/items_righthand1.dmi', "icon_state" = r_state, "layer"=-HANDS_LAYER)
 		else
 			hands_overlays = image("icon" = 'icons/mob/items_righthand.dmi', "icon_state" = r_state, "layer"=-HANDS_LAYER)
-		
+
 		if(client && hud_used)
 			r_hand.layer = 20
 			r_hand.screen_loc = ui_rhand
@@ -435,12 +435,12 @@
 		var/l_state = l_hand.item_state
 		if(!l_state)
 			l_state = l_hand.icon_state
-		
+
 		if(!(l_state in icon_states("icons/mob/items_lefthand.dmi"))) //TODO should probably populate this list at start?
 			hands_overlays = image("icon" = 'icons/mob/items_lefthand1.dmi', "icon_state" = l_state, "layer"=-HANDS_LAYER)
 		else
 			hands_overlays = image("icon" = 'icons/mob/items_lefthand.dmi', "icon_state" = l_state, "layer"=-HANDS_LAYER)
-		
+
 		if(client && hud_used)
 			l_hand.layer = 20
 			l_hand.screen_loc = ui_lhand
@@ -557,7 +557,7 @@
 	if(istype(loc, /mob/living))
 		var/mob/living/L = loc
 		L.show_message("<span class='notice'>[drone] is trying to escape!</span>")
-		if(!do_after(L, 50) || loc != L)
+		if(!do_after(L, 50, , target = src) || loc != L)
 			return
 		L.unEquip(src)
 

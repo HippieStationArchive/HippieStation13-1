@@ -13,7 +13,7 @@
 		if(anchored && !istype(src,/obj/structure/girder/displaced))
 			playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
 			user << "<span class='notice'>Now disassembling the girder...</span>"
-			if(do_after(user,40))
+			if(do_after(user,40, target = src))
 				if(!src) return
 				user << "<span class='notice'>You dissasembled the girder!</span>"
 				new /obj/item/stack/sheet/metal(get_turf(src))
@@ -24,7 +24,7 @@
 				return
 			playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
 			user << "<span class='notice'>Now securing the girder...</span>"
-			if(do_after(user, 40))
+			if(do_after(user, 40, target = src))
 				if(!src) return
 				user << "<span class='notice'>You secured the girder!</span>"
 				var/obj/structure/girder/G = new (loc)
@@ -33,7 +33,7 @@
 
 	else if(istype(W, /obj/item/weapon/pickaxe/plasmacutter))
 		user << "<span class='notice'>Now slicing apart the girder...</span>"
-		if(do_after(user,30))
+		if(do_after(user,30, target = src))
 			if(!src) return
 			user << "<span class='notice'>You slice apart the girder!</span>"
 			new /obj/item/stack/sheet/metal(get_turf(src))
@@ -47,7 +47,7 @@
 	else if(istype(W, /obj/item/weapon/screwdriver) && state == 2 && istype(src,/obj/structure/girder/reinforced))
 		playsound(src.loc, 'sound/items/Screwdriver.ogg', 100, 1)
 		user << "<span class='notice'>Now unsecuring support struts...</span>"
-		if(do_after(user,40))
+		if(do_after(user,40, target = src))
 			if(!src) return
 			user << "<span class='notice'>You unsecured the support struts!</span>"
 			state = 1
@@ -55,7 +55,7 @@
 	else if(istype(W, /obj/item/weapon/wirecutters) && istype(src,/obj/structure/girder/reinforced) && state == 1)
 		playsound(src.loc, 'sound/items/Wirecutter.ogg', 100, 1)
 		user << "<span class='notice'>Now removing support struts...</span>"
-		if(do_after(user,40))
+		if(do_after(user,40, target = src))
 			if(!src) return
 			user << "<span class='notice'>You removed the support struts!</span>"
 			var/obj/structure/girder/G = new (loc)
@@ -65,7 +65,7 @@
 	else if((istype(W, /obj/item/weapon/crowbar) || (istype(W,/obj/item/weapon/twohanded/fireaxe) && W:wielded == 1)) && state == 0 && anchored )
 		playsound(src.loc, 'sound/items/Crowbar.ogg', 100, 1)
 		user << "<span class='notice'>Now dislodging the girder...</span>"
-		if(do_after(user, 40))
+		if(do_after(user, 40, target = src))
 			if(!src) return
 			user << "<span class='notice'>You dislodged the girder!</span>"
 			var/obj/structure/girder/displaced/D = new (loc)
@@ -95,7 +95,7 @@
 						user << "<span class='warning'>You need two sheets of metal to finish a wall.</span>"
 						return
 					user << "<span class='notice'>Now adding plating...</span>"
-					if (do_after(user, 40))
+					if (do_after(user, 40, target = src))
 						if(loc == null || S.get_amount() < 2)
 							return
 						S.use(2)
@@ -122,7 +122,7 @@
 					if (src.icon_state == "reinforced") //I cant believe someone would actually write this line of code...
 						if(S.amount < 1) return ..()
 						user << "<span class='notice'>Now finalising reinforced wall...</span>"
-						if(do_after(user, 50))
+						if(do_after(user, 50, target = src))
 							if(!src || !S || S.amount < 1) return
 							S.use(1)
 							user << "<span class='notice'>Wall fully reinforced!</span>"
@@ -135,7 +135,7 @@
 					else
 						if(S.amount < 1) return ..()
 						user << "<span class='notice'>Now reinforcing girders...</span>"
-						if (do_after(user,60))
+						if (do_after(user,60, target = src))
 							if(!src || !S || S.amount < 1) return
 							S.use(1)
 							user << "<span class='notice'>Girders reinforced!</span>"
@@ -159,7 +159,7 @@
 			else
 				if(S.amount < 2) return ..()
 				user << "<span class='notice'>Now adding plating...</span>"
-				if (do_after(user,40))
+				if (do_after(user,40, target = src))
 					if(!src || !S || S.amount < 2) return
 					S.use(2)
 					user << "<span class='notice'>You added the plating!</span>"
@@ -259,7 +259,7 @@
 	if(istype(W, /obj/item/weapon/wrench))
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
 		user << "<span class='notice'>Now disassembling the girder...</span>"
-		if(do_after(user,40))
+		if(do_after(user,40, target = src))
 			user << "<span class='notice'>You dissasembled the girder!</span>"
 			var/obj/effect/decal/remains/human/R = new (get_turf(src))
 			transfer_fingerprints_to(R)
@@ -267,7 +267,7 @@
 
 	else if(istype(W, /obj/item/weapon/pickaxe/plasmacutter))
 		user << "<span class='notice'>Now slicing apart the girder...</span>"
-		if(do_after(user,30))
+		if(do_after(user,30, target = src))
 			user << "<span class='notice'>You slice apart the girder!</span>"
 			var/obj/effect/decal/remains/human/R = new (get_turf(src))
 			transfer_fingerprints_to(R)
@@ -275,7 +275,7 @@
 
 	else if(istype(W, /obj/item/weapon/pickaxe/drill/diamonddrill))
 		user << "<span class='notice'>You drill through the girder!</span>"
-		if(do_after(user, 5))
+		if(do_after(user, 5, target = src))
 			var/obj/effect/decal/remains/human/R = new (get_turf(src))
 			transfer_fingerprints_to(R)
 			qdel(src)

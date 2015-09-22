@@ -68,7 +68,7 @@
 				else if(icon_state == "open")
 					if(pod.contents.len && user.loc != pod)
 						user.visible_message("<span class='warning'>[user] starts emptying [pod]'s contents onto the floor!</span>")
-						if(do_after(user, 10)) //So it doesn't default to close_animation() on fail
+						if(do_after(user, 10, target = src)) //So it doesn't default to close_animation() on fail
 							if(pod.loc == loc)
 								for(var/atom/movable/AM in pod)
 									AM.loc = get_turf(user)

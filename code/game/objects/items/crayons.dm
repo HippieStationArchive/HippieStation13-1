@@ -108,7 +108,7 @@
 		user << "You start drawing a [temp] on the [target.name]."
 		if(!instant) //So we don't get layered sfx
 			playsound(src.loc, start_drawing_sound, 40, 1)
-		if(instant || do_after(user, use_delay))
+		if(instant || do_after(user, use_delay, target = src))
 			var/obj/effect/decal/cleanable/W = null
 			var/rand_offset = 0
 			var/taken = 1
@@ -165,7 +165,7 @@
 		if(istype(M, /mob/living/carbon/human) && M.lying && isturf(M.loc))
 			user << "You start drawing an outline of the [M]."
 			playsound(src.loc, 'sound/items/chalk_start.ogg', 40, 1)
-			if(instant || do_after(user, 50))
+			if(instant || do_after(user, 50, target = src))
 				new /obj/effect/decal/cleanable/crayon(M.loc,colour,"body","body")
 				user << "You finish drawing an outline."
 				playsound(src.loc, 'sound/items/chalk.ogg', 40, 1)

@@ -467,7 +467,7 @@ var/global/list/RPD_recipes=list(
 			P.color = paint_color
 			P.pipe_color = paint_color
 			P.stored.color = paint_color
-			
+
 			user.visible_message("<span class='notice'>[user] paints \the [P] [paint_color].</span>","<span class='notice'>You paint \the [P] [paint_color].</span>")
 			P.redraw()
 			return 1
@@ -476,7 +476,7 @@ var/global/list/RPD_recipes=list(
 			if(istype(A,/obj/item/pipe) || istype(A,/obj/item/pipe_meter) || istype(A,/obj/structure/disposalconstruct))
 				user << "<span class='notice'>Destroying Pipe...</span>"
 				playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
-				if(do_after(user, 5))
+				if(do_after(user, 5, target = src))
 					activate()
 					del(A)
 					return 1
@@ -491,7 +491,7 @@ var/global/list/RPD_recipes=list(
 				return 0
 			user << "<span class='notice'>Building Pipes ...</span>"
 			playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
-			if(do_after(user, 10))
+			if(do_after(user, 10, target = src))
 				activate()
 				var/obj/item/pipe/P = new (A, pipe_type=p_type, dir=p_dir)
 				P.update()
@@ -505,7 +505,7 @@ var/global/list/RPD_recipes=list(
 				return 0
 			user << "<span class='notice'>Building Meter...</span>"
 			playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
-			if(do_after(user, 10))
+			if(do_after(user, 10, target = src))
 				activate()
 				new /obj/item/pipe_meter(A)
 				return 1
@@ -517,7 +517,7 @@ var/global/list/RPD_recipes=list(
 				return 0
 			user << "<span class='notice'>Building Pipes...</span>"
 			playsound(get_turf(src), 'sound/machines/click.ogg', 50, 1)
-			if(do_after(user, 10))
+			if(do_after(user, 10, target = src))
 				activate()
 				var/obj/structure/disposalconstruct/C = new (A)
 				// This may still produce runtimes, but I checked and /obj/structure/disposalconstruct

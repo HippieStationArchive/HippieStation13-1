@@ -55,7 +55,7 @@
 	else
 		if(istype(A) && src in user)
 			user.visible_message("[user] starts to wipe down [A] with [src]!")
-			if(do_after(user,30))
+			if(do_after(user,30, target = src))
 				user.visible_message("[user] finishes wiping off the [A]!")
 				//Shameless copy pasta from mop code
 				if(reagents.has_reagent("water", 1) || reagents.has_reagent("holywater", 1))

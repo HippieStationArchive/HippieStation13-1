@@ -22,7 +22,7 @@
 	if(istype(I, /obj/item/weapon/wrench))
 		user << "<span class='notice'>Now disassembling [src].</span>"
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-		if(do_after(user, 30))
+		if(do_after(user, 30, target = src))
 			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 			new /obj/item/stack/rods(src.loc)
 			qdel(src)
@@ -30,7 +30,7 @@
 	if(istype(I, /obj/item/stack/sheet/plasteel))
 		var/obj/item/stack/sheet/plasteel/P = I
 		user << "<span class='notice'>Now adding [P] to [src].</span>"
-		if(do_after(user, 50))
+		if(do_after(user, 50, target = src))
 			new /obj/structure/table/reinforced(src.loc)
 			qdel(src)
 			P.use(1)
@@ -38,7 +38,7 @@
 	if(istype(I, /obj/item/stack/sheet/metal))
 		var/obj/item/stack/sheet/metal/M = I
 		user << "<span class='notice'>Now adding [M] to [src].</span>"
-		if(do_after(user, 20))
+		if(do_after(user, 20, target = src))
 			new /obj/structure/table(src.loc)
 			qdel(src)
 			M.use(1)
@@ -46,7 +46,7 @@
 	if(istype(I, /obj/item/stack/sheet/glass))
 		var/obj/item/stack/sheet/glass/G = I
 		user << "<span class='notice'>Now adding [G] to [src].</span>"
-		if(do_after(user, 20))
+		if(do_after(user, 20, target = src))
 			new /obj/structure/table/glass(src.loc)
 			qdel(src)
 			G.use(1)
@@ -65,7 +65,7 @@
 	if(istype(I, /obj/item/weapon/wrench))
 		user << "<span class='notice'>Now disassembling [src].</span>"
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-		if(do_after(user, 30))
+		if(do_after(user, 30, target = src))
 			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 			new /obj/item/stack/sheet/mineral/wood(src.loc)
 			qdel(src)
@@ -73,7 +73,7 @@
 	if(istype(I, /obj/item/stack/sheet/mineral/wood))
 		var/obj/item/stack/sheet/mineral/wood/W = I
 		user << "<span class='notice'>Now adding [W] to [src].</span>"
-		if(do_after(user, 20))
+		if(do_after(user, 20, target = src))
 			new /obj/structure/table/wood(src.loc)
 			qdel(src)
 			W.use(1)
@@ -81,7 +81,7 @@
 	if(istype(I, /obj/item/stack/tile/carpet))
 		var/obj/item/stack/tile/carpet/C = I
 		user << "<span class='notice'>Now adding [C] to [src].</span>"
-		if(do_after(user, 20))
+		if(do_after(user, 20, target = src))
 			new /obj/structure/table/wood/poker(src.loc)
 			qdel(src)
 			C.use(1)

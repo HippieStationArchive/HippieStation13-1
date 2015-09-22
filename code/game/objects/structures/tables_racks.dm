@@ -235,7 +235,7 @@
 	if(user.canTableClimb && O == user && user.loc != src.loc)
 		user.visible_message("<span class='danger'>[user] attempts to climb on \the [src]!</span>", \
 									"<span class='userdanger'>[user] attempts to climb on \the [src]!</span>")
-		if(do_after(user, 30))
+		if(do_after(user, 30, target = src))
 			user.forceMove(src.loc)
 		return
 	if(!istype(O, /obj/item/weapon) || user.get_active_hand() != O)
@@ -356,7 +356,7 @@
 	if(destroy_type == TBL_DISASSEMBLE)
 		user << "<span class='notice'>Now disassembling [src].</span>"
 		playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
-		if(do_after(user, 20))
+		if(do_after(user, 20, target = src))
 			new frame(src.loc)
 			new buildstack(src.loc)
 			qdel(src)
@@ -365,7 +365,7 @@
 	if(destroy_type == TBL_DECONSTRUCT)
 		user << "<span class='notice'>Now deconstructing [src].</span>"
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-		if(do_after(user, 40))
+		if(do_after(user, 40, target = src))
 			new framestack(src.loc)
 			new buildstack(src.loc)
 			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
@@ -441,14 +441,14 @@
 			if(src.status == 2)
 				user << "<span class='notice'>Now weakening the reinforced table</span>"
 				playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
-				if (do_after(user, 50))
+				if (do_after(user, 50, target = src))
 					if(!src || !WT.isOn()) return
 					user << "<span class='notice'>Table weakened</span>"
 					src.status = 1
 			else
 				user << "<span class='notice'>Now strengthening the reinforced table</span>"
 				playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
-				if (do_after(user, 50))
+				if (do_after(user, 50, target = src))
 					if(!src || !WT.isOn()) return
 					user << "<span class='notice'>Table strengthened</span>"
 					src.status = 2
@@ -603,7 +603,7 @@
 
 /obj/item/weapon/rack_parts/attack_self(mob/user as mob)
 	user << "<span class='notice'>Constructing rack...</span>"
-	if (do_after(user, 50))
+	if (do_after(user, 50, target = src))
 		var/obj/structure/rack/R = new /obj/structure/rack( user.loc )
 		R.add_fingerprint(user)
 		user.drop_item()

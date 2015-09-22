@@ -291,3 +291,4 @@
 			user.visible_message("<span class='notice'>[user] has flipped [src]. It lands on [coinflip].</span>", \
 								 "<span class='notice'>You flip [src]. It lands on [coinflip].</span>", \
 								 "<span class='notice'>You hear the clattering of loose change.</span>")
+

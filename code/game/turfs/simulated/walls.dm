@@ -209,7 +209,7 @@
 		if( WT.remove_fuel(0,user) )
 			user << "<span class='notice'>You begin slicing through the outer plating.</span>"
 			playsound(src, 'sound/items/Welder.ogg', 100, 1)
-			if(do_after(user, slicing_duration))
+			if(do_after(user, slicing_duration, target = src))
 				if( !istype(src, /turf/simulated/wall) || !user || !WT || !WT.isOn() || !T )
 					return 1
 				if( user.loc == T && user.get_active_hand() == WT )
@@ -219,7 +219,7 @@
 	else if( istype(W, /obj/item/weapon/pickaxe/plasmacutter) )
 		user << "<span class='notice'>You begin slicing through the outer plating.</span>"
 		playsound(src, 'sound/items/Welder.ogg', 100, 1)
-		if(do_after(user, slicing_duration*0.6))  // plasma cutter is faster than welding tool
+		if(do_after(user, slicing_duration*0.6, target = src))  // plasma cutter is faster than welding tool
 			if( !istype(src, /turf/simulated/wall) || !user || !W || !T )
 				return 1
 			if( user.loc == T && user.get_active_hand() == W )
@@ -233,7 +233,7 @@
 /turf/simulated/wall/proc/try_destroy(obj/item/weapon/W as obj, mob/user as mob, turf/T as turf)
 	if (istype(W, /obj/item/weapon/pickaxe/drill/diamonddrill))
 		user << "<span class='notice'>You begin to drill though the wall.</span>"
-		if(do_after(user, slicing_duration*0.6))  // diamond drill is faster than welding tool slicing
+		if(do_after(user, slicing_duration*0.6, target = src))  // diamond drill is faster than welding tool slicing
 			if( !istype(src, /turf/simulated/wall) || !user || !W || !T )
 				return 1
 			if( user.loc == T && user.get_active_hand() == W )
@@ -246,7 +246,7 @@
 		EB.spark_system.start()
 		user << "<span class='notice'>You stab \the [EB] into the wall and begin to slice it apart.</span>"
 		playsound(src, "sparks", 50, 1)
-		if(do_after(user, slicing_duration*0.7))  //energy blade slicing is faster than welding tool slicing
+		if(do_after(user, slicing_duration*0.7, target = src))  //energy blade slicing is faster than welding tool slicing
 			if( !istype(src, /turf/simulated/wall) || !user || !EB || !T )
 				return 1
 			if( user.loc == T && user.get_active_hand() == W )

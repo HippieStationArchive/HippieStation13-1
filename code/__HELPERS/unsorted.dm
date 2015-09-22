@@ -766,7 +766,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 
 	else return get_step(ref, base_dir)
 
-/proc/do_mob(var/mob/user , var/mob/target, var/time = 30, numticks = 5) //This is quite an ugly solution but i refuse to use the old request system.
+/proc/do_mob(mob/user , mob/target, time = 30, numticks = 5, uninterruptible = 0) //This is quite an ugly solution but i refuse to use the old request system.
 	if(!user || !target)
 		return 0
 	if(numticks == 0)
@@ -775,42 +775,86 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	var/target_loc = target.loc
 	var/holding = user.get_active_hand()
 	var/timefraction = round(time/numticks)
-	for(var/i = 0, i<numticks, i++)
+	var/image/progbar
+	for(var/i = 1 to numticks)
+		if(user.client)
+			progbar = make_progress_bar(i, numticks, target)
+			user.client.images |= progbar
 		sleep(timefraction)
 		if(!user || !target)
+			if(user && user.client)
+				user.client.images -= progbar
 			return 0
-		if ( user.loc != user_loc || target.loc != target_loc || user.get_active_hand() != holding || user.stat || ( user.stunned || user.weakened || user.paralysis || user.lying ) )
+		if (!uninterruptible && (user.loc != user_loc || target.loc != target_loc || user.get_active_hand() != holding || user.stat || user.stunned || user.weakened || user.paralysis || user.lying ))
+			if(user && user.client)
+				user.client.images -= progbar
 			return 0
-
+		if(user && user.client)
+			user.client.images -= progbar
+	if(user && user.client)
+		user.client.images -= progbar
 	return 1
 
-/proc/do_after(mob/user, delay, numticks = 5, needhand = 1)
-	if(!user || isnull(user))
+/proc/make_progress_bar(current_number, goal_number, atom/target)
+	if(current_number && goal_number && target)
+		var/image/progbar
+		progbar = image("icon" = 'icons/effects/doafter_icon.dmi', "loc" = target, "icon_state" = "prog_bar_0")
+		progbar.icon_state = "prog_bar_[round(((current_number / goal_number) * 100), 10)]"
+		progbar.pixel_y = 32
+		return progbar
+
+/proc/do_after(mob/user, delay, numticks = 5, needhand = 1, atom/target = null)
+	if(!user)
 		return 0
+
 	if(numticks == 0)
 		return 0
 
+	var/atom/Tloc = null
+	if(target)
+		Tloc = target.loc
+
 	var/delayfraction = round(delay/numticks)
-	var/turf/T = user.loc
+	var/atom/Uloc = user.loc
 	var/holding = user.get_active_hand()
-	var/holdingnull = 1
+	var/holdingnull = 1 //User is not holding anything
 	if(holding)
-		holdingnull = 0
-
-	for(var/i = 0, i<numticks, i++)
+		holdingnull = 0 //User is holding a tool of some kind
+	var/image/progbar
+	for (var/i = 1 to numticks)
+		if(user.client)
+			progbar = make_progress_bar(i, numticks, target)
+			if(progbar)
+				user.client.images |= progbar
 		sleep(delayfraction)
-
-
-		if(!user || user.stat || user.weakened || user.stunned || !(user.loc == T))
+		if(!user || user.stat || user.weakened || user.stunned  || !(user.loc == Uloc))
+			if(user && user.client && progbar)
+				user.client.images -= progbar
 			return 0
 
-		if(needhand)	//Sometimes you don't want the user to have to keep their active hand
+		if(Tloc && (!target || Tloc != target.loc)) //Tloc not set when we don't want to track target
+			if(user && user.client && progbar)
+				user.client.images -= progbar
+			return 0 // Target no longer exists or has moved
+
+		if(needhand)
+			//This might seem like an odd check, but you can still need a hand even when it's empty
+			//i.e the hand is used to insert some item/tool into the construction
 			if(!holdingnull)
 				if(!holding)
+					if(user && user.client && progbar)
+						user.client.images -= progbar
 					return 0
 			if(user.get_active_hand() != holding)
+				if(user && user.client && progbar)
+					user.client.images -= progbar
 				return 0
-
+			if(user && user.client && progbar)
+				user.client.images -= progbar
+		if(user && user.client && progbar)
+			user.client.images -= progbar
+	if(user && user.client && progbar)
+		user.client.images -= progbar
 	return 1
 
 //Takes: Anything that could possibly have variables and a varname to check.

@@ -186,7 +186,7 @@
 
 	sawn_state = SAWN_SAWING
 
-	if(do_after(user, 30))
+	if(do_after(user, 30, target = src))
 		name = "sawn-off [src.name]"
 		desc = sawn_desc
 		icon_state = initial(icon_state) + "-sawn"
