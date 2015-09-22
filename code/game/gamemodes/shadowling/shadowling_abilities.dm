@@ -10,7 +10,7 @@
 	return 0
 
 
-/obj/effect/proc_holder/spell/targeted/glare
+/obj/effect/proc_holder/spell/targeted/glare //Stuns and mutes a human target for 10 seconds
 	name = "Glare"
 	desc = "Stuns and mutes a target for a decent duration."
 	panel = "Shadowling Abilities"
@@ -33,17 +33,15 @@
 			usr << "<span class='danger'>You don't see why you would want to paralyze an ally.</span>"
 			charge_counter = charge_max
 			return
-
 		var/mob/living/carbon/human/M = target
 		usr.visible_message("<span class='warning'><b>[usr]'s eyes flash a blinding red!</b></span>")
 		target.visible_message("<span class='danger'>[target] freezes in place, their eyes glazing over...</span>")
 		if(in_range(target, usr))
 			target << "<span class='userdanger'>Your gaze is forcibly drawn into [usr]'s eyes, and you are mesmerized by the heavenly lights...</span>"
 		else //Only alludes to the shadowling if the target is close by
-			target << "<span class='userdanger'>Red lights suddenly dance in your vision, and you are mesmerized by the heavenly beauty...</span>"
+			target << "<span class='userdanger'>Red lights suddenly dance in your vision, and you are mesmerized by their heavenly beauty...</span>"
 		target.Stun(10)
 		M.silent += 10
-
 
 
 /obj/effect/proc_holder/spell/aoe_turf/veil //Puts out most nearby lights except for flares and yellow slime cores
@@ -56,7 +54,7 @@
 	action_icon_state = "veil"
 	var/blacklisted_lights = list(/obj/item/device/flashlight/flare, /obj/item/device/flashlight/slime)
 
-/obj/effect/proc_holder/spell/aoe_turf/veil/proc/extinguishItem(var/obj/item/I) //Does not darken items held by mobs due to mobs having separate luminosity, use extinguishMob() or write your own proc.
+/obj/effect/proc_holder/spell/aoe_turf/veil/proc/extinguishItem(obj/item/I) //Does not darken items held by mobs due to mobs having separate luminosity, use extinguishMob() or write your own proc.
 	if(istype(I, /obj/item/device/flashlight))
 		var/obj/item/device/flashlight/F = I
 		if(F.on)
@@ -71,7 +69,7 @@
 	I.SetLuminosity(0)
 	return I.luminosity
 
-/obj/effect/proc_holder/spell/aoe_turf/veil/proc/extinguishMob(var/mob/living/H)
+/obj/effect/proc_holder/spell/aoe_turf/veil/proc/extinguishMob(mob/living/H)
 	var/blacklistLuminosity = 0
 	for(var/obj/item/F in H)
 		blacklistLuminosity += extinguishItem(F)
@@ -92,17 +90,13 @@
 		for(var/obj/machinery/computer/C in T.contents)
 			C.SetLuminosity(0)
 			C.visible_message("<span class='warning'>[C] grows dim, its screen barely readable.</span>")
-		for(var/obj/effect/glowshroom/G in orange(7, usr)) //Very good radius
+		for(var/obj/effect/glowshroom/G in orange(7, usr)) //High radius because glowshroom spam wrecks shadowlings
 			G.visible_message("<span class='warning'>[G] withers away!</span>")
 			qdel(G)
-		for(var/mob/living/H in T.contents) // Remember no lights
+		for(var/mob/living/H in T.contents)
 			extinguishMob(H)
-
-
-
-		for(var/obj/effect/glowshroom/G in orange(3, usr)) //Smaller radius
-			qdel(G)
-
+		for(var/mob/living/silicon/robot/borgie in T.contents)
+			borgie.update_headlamp(1)
 
 
 /obj/effect/proc_holder/spell/targeted/shadow_walk //Grants the shadowling invisibility and phasing for 4 seconds
@@ -130,10 +124,9 @@
 		if(user.buckled)
 			user.buckled.unbuckle_mob()
 		sleep(40) //4 seconds
-		user.visible_message("<span class='warning'>[user] suddendly manifests!!</span>", "<span class='shadowling'>The pressure becomes too much and you exit the rift.</span>")
+		user.visible_message("<span class='warning'>[user] suddenly manifests!</span>", "<span class='shadowling'>The pressure becomes too much and you exit the rift.</span>")
 		user.incorporeal_move = 0
 		user.alpha = 255
-
 
 
 /obj/effect/proc_holder/spell/aoe_turf/flashfreeze //Stuns and freezes nearby people - a bit more effective than a changeling's cryosting
@@ -168,10 +161,9 @@
 				M.reagents.add_reagent("frostoil", 15) //Half of a cryosting
 
 
-
 /obj/effect/proc_holder/spell/targeted/enthrall //Turns a target into the shadowling's slave. This overrides all previous loyalties
 	name = "Enthrall"
-	desc = "Allows you to enslave a conscious, non-catatonic human to your will. This takes some time to cast."
+	desc = "Allows you to enslave a conscious, non-braindead, non-catatonic human to your will. This takes some time to cast."
 	panel = "Shadowling Abilities"
 	charge_max = 0
 	clothes_req = 0
@@ -209,12 +201,12 @@
 			usr << "<span class='warning'>You can only enthrall humans.</span>"
 			charge_counter = charge_max
 			return
-		if(!target.client)
-			usr << "<span class='warning'>[target]'s mind is vacant of activity.</span>"
-			charge_counter = charge_max
-			return
 		if(enthralling)
 			usr << "<span class='warning'>You are already enthralling!</span>"
+			charge_counter = charge_max
+			return
+		if(!target.client)
+			usr << "<span class='warning'>[target]'s mind is vacant of activity.</span>"
 			charge_counter = charge_max
 			return
 		enthralling = 1
@@ -229,7 +221,7 @@
 				if(2)
 					usr << "<span class='notice'>You begin the enthralling of [target].</span>"
 					usr.visible_message("<span class='danger'>[usr] leans over [target], their eyes glowing a deep crimson, and stares into their face.</span>")
-					target << "<span class='danger'>Your gaze is forcibly drawn into a blinding red light. You fall to the floor as conscious thought is wiped away.</span>"
+					target << "<span class='boldannounce'>Your gaze is forcibly drawn into a blinding red light. You fall to the floor as conscious thought is wiped away.</span>"
 					target.Weaken(12)
 					sleep(20)
 					if(isloyal(target))
@@ -242,13 +234,12 @@
 						for(var/obj/item/weapon/implant/loyalty/L in target)
 							if(L && L.implanted)
 								qdel(L)
-								target << "<span class='boldannounce'>Your unwavering loyalty to Nanotrasen unexpectedly falters, dims, dies. You feel a sense of liberation which is quickly stifled by terror.</span>"
-
+								target << "<span class='boldannounce'>Your unwavering loyalty to Nanotrasen unexpectedly falters, dims, dies.</span>"
 				if(3)
 					usr << "<span class='notice'>You begin rearranging [target]'s memories.</span>"
 					usr.visible_message("<span class='danger'>[usr]'s eyes flare brightly.</span>")
 					target << "<span class='boldannounce'>Your head cries out. The veil of reality begins to crumple and something evil bleeds through.</span>" //Ow the edge
-			if(!do_mob(usr, target, 100)) //around 30 seconds total for enthralling  45 for someone with a loyalty implant
+			if(!do_mob(usr, target, 100)) //around 30 seconds total for enthralling, 45 for someone with a loyalty implant
 				usr << "<span class='warning'>The enthralling has been interrupted - your target's mind returns to its previous state.</span>"
 				target << "<span class='userdanger'>A spike of pain drives into your head, wiping your memory. You aren't sure what's happened, but you feel a faint sense of revulsion.</span>"
 				enthralling = 0
@@ -271,7 +262,7 @@
 	clothes_req = 0
 	range = -1
 	include_user = 1
-	action_icon_state = "transmit"
+	action_icon_state = "commune"
 
 /obj/effect/proc_holder/spell/targeted/shadowling_hivemind/cast(list/targets)
 	for(var/mob/living/user in targets)
@@ -279,12 +270,13 @@
 			user << "<span class='warning'><b>As you attempt to commune with the others, an agonizing spike of pain drives itself into your head!</b></span>"
 			user.apply_damage(10, BRUTE, "head")
 			return
-		var/text = stripped_input(user, "What do you want to say to fellow thralls and shadowlings?.", "Hive Chat", "")
+		var/text = stripped_input(user, "What do you want to say your thralls and fellow shadowlings?.", "Hive Chat", "")
 		if(!text)
 			return
 		for(var/mob/M in mob_list)
 			if(is_shadow_or_thrall(M) || (M in dead_mob_list))
 				M << "<span class='shadowling'><b>\[Shadowling\]</b><i> [usr.real_name]</i>: [text]</span>"
+
 
 /obj/effect/proc_holder/spell/targeted/shadowling_regenarmor //Resets a shadowling's species to normal, removes genetic defects, and re-equips their armor
 	name = "Regenerate Chitin"
@@ -298,7 +290,7 @@
 
 /obj/effect/proc_holder/spell/targeted/shadowling_regenarmor/cast(list/targets)
 	for(var/mob/living/user in targets)
-		user.visible_message("<span class='warning'>[user]'s skin suddenly bubbles and shift around their body!</span>", \
+		user.visible_message("<span class='warning'>[user]'s skin suddenly bubbles and shifts around their body!</span>", \
 							 "<span class='shadowling'>You regenerate your protective armor and cleanse your form of defects.</span>")
 		user.equip_to_slot_or_del(new /obj/item/clothing/under/shadowling(usr), slot_w_uniform)
 		user.equip_to_slot_or_del(new /obj/item/clothing/shoes/shadowling(usr), slot_shoes)
@@ -307,7 +299,8 @@
 		user.equip_to_slot_or_del(new /obj/item/clothing/gloves/shadowling(usr), slot_gloves)
 		user.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/shadowling(usr), slot_wear_mask)
 		user.equip_to_slot_or_del(new /obj/item/clothing/glasses/night/shadowling(usr), slot_glasses)
-		hardset_dna(user, null, null, null, null, /datum/species/shadow/ling) //can't be a shadowling without being a shadowling
+		hardset_dna(user, null, null, null, null, /datum/species/shadow/ling)
+
 
 /obj/effect/proc_holder/spell/targeted/collective_mind //Lets a shadowling bring together their thralls' strength, granting new abilities and a headcount
 	name = "Collective Hivemind"
@@ -339,7 +332,7 @@
 				thralls++
 				M << "<span class='shadowling'>You feel hooks sink into your mind and pull.</span>"
 
-		if(!do_after(user, 30))
+		if(!do_after(user, 30, target = user))
 			user << "<span class='warning'>Your concentration has been broken. The mental hooks you have sent out now retract into your mind.</span>"
 			return
 
@@ -358,6 +351,7 @@
 			drainLifeAcquired = 1
 			user << "<span class='shadowling'><i>The power of your thralls has granted you the <b>Drain Life</b> ability. You can now drain the health of nearby humans to heal yourself.</i></span>"
 			user.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/drain_life(null))
+
 
 		if(thralls >= 9 && !reviveThrallAcquired)
 			reviveThrallAcquired = 1
@@ -385,7 +379,6 @@
 						M << "<span class='shadowling'><b>[user.real_name] has coalesced the strength of the thralls. You can draw upon it at any time to ascend. (Shadowling Evolution Tab)</b></span>" //Tells all the other shadowlings
 
 
-
 /obj/effect/proc_holder/spell/targeted/blindness_smoke //Spawns a cloud of smoke that blinds non-thralls/shadows and grants slight healing to shadowlings and their allies
 	name = "Blindness Smoke"
 	desc = "Spews a cloud of smoke which will blind enemies."
@@ -409,7 +402,7 @@
 		B.reagents.clear_reagents() //Just in case!
 		B.icon_state = null //Invisible
 		B.reagents.add_reagent("blindness_smoke", 10)
-		var/datum/effect/effect/system/chem_smoke_spread/S = new /datum/effect/effect/system/chem_smoke_spread
+		var/datum/effect/effect/system/smoke_spread/chem/S = new
 		S.attach(B)
 		if(S)
 			S.set_up(B.reagents, 10, 0, B.loc)
@@ -419,13 +412,12 @@
 		qdel(B)
 
 datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
-	name = "odd Black Liquid"
+	name = "odd black liquid"
 	id = "blindness_smoke"
 	description = "<::ERROR::> CANNOT ANALYZE REAGENT <::ERROR::>"
 	color = "#000000" //Complete black (RGB: 0, 0, 0)
 	metabolization_rate = 100 //lel
-
-datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
+/datum/reagent/shadowling_blindness_smoke/on_mob_life(mob/living/M)
 	if(!M) M = holder.my_atom
 	if(!is_shadow_or_thrall(M))
 		M << "<span class='warning'><b>You breathe in the black smoke, and your eyes burn horribly!</b></span>"
@@ -440,9 +432,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 		M.adjustToxLoss(-2)
 	..()
 	return
-
-
-
 /obj/effect/proc_holder/spell/aoe_turf/unearthly_screech //Damages nearby windows, confuses nearby carbons, and outright stuns silly cones
 	name = "Sonic Screech"
 	desc = "Deafens, stuns, and confuses nearby people. Also shatters windows."
@@ -452,7 +441,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	clothes_req = 0
 	action_icon_state = "screech"
 	sound = 'sound/effects/screech.ogg'
-
 /obj/effect/proc_holder/spell/aoe_turf/unearthly_screech/cast(list/targets)
 	if(!shadowling_check(usr))
 		charge_counter = charge_max
@@ -469,12 +457,11 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 			if(iscarbon(target))
 				var/mob/living/carbon/M = target
 				M << "<span class='danger'><b>A spike of pain drives into your head and scrambles your thoughts!</b></span>"
-				M.Weaken(2)
 				M.confused += 10
-				M.ear_damage += 3
+				M.setEarDamage(M.ear_damage + 3)
 			else if(issilicon(target))
 				var/mob/living/silicon/S = target
-				S << "<span class='warning'><b>ERROR $!(@ ERROR )#^! SENSOR OVERLOAD \[$(!@#</b></span>"
+				S << "<span class='warning'><b>ERROR $!(@ ERROR )#^! SENSORY OVERLOAD \[$(!@#</b></span>"
 				S << 'sound/misc/interference.ogg'
 				playsound(S, 'sound/machines/warning-buzzer.ogg', 50, 1)
 				var/datum/effect/effect/system/spark_spread/sp = new /datum/effect/effect/system/spark_spread
@@ -482,10 +469,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 				sp.start()
 				S.Weaken(6)
 		for(var/obj/structure/window/W in T.contents)
-			W.hit(rand(80,100))
-
-
-
+			W.hit(rand(80, 100))
 /obj/effect/proc_holder/spell/aoe_turf/drain_life //Deals stamina and oxygen damage to nearby humans and heals the shadowling. On a short cooldown because of the small range and situational usefulness
 	name = "Drain Life"
 	desc = "Damages nearby humans, draining their life and healing your own wounds."
@@ -496,27 +480,21 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	action_icon_state = "drain_life"
 	var/targetsDrained
 	var/list/nearbyTargets
-
-/obj/effect/proc_holder/spell/aoe_turf/drain_life/cast(list/targets, var/mob/living/carbon/human/U = usr)
+/obj/effect/proc_holder/spell/aoe_turf/drain_life/cast(list/targets, mob/living/carbon/human/U = usr)
 	if(!shadowling_check(usr))
 		charge_counter = charge_max
 		return
 	targetsDrained = 0
 	nearbyTargets = list()
 	for(var/mob/living/carbon/human/M in oview(range))
-		world << "1"
 		if(M == usr) continue
-		world << "2"
 		targetsDrained++
 		nearbyTargets.Add(M)
 	if(!targetsDrained)
-		world << "3"
 		charge_counter = charge_max
 		usr << "<span class='warning'>There were no nearby humans for you to drain.</span>"
 		return
 	for(var/mob/living/carbon/M in nearbyTargets)
-		world << "4"
-		nearbyTargets.Remove(M) //To prevent someone dying like a zillion times
 		U.adjustToxLoss(-10)
 		U.adjustOxyLoss(-10)
 		U.adjustStaminaLoss(-20)
@@ -525,10 +503,8 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 		M.adjustOxyLoss(20)
 		M.adjustStaminaLoss(20)
 		M << "<span class='boldannounce'>You feel a wave of exhaustion and a curious draining sensation directed towards [usr]!</span>"
-		usr << "<span class='shadowling'>You draw the life from [M] to heal your wounds.</span>"
-
-
-/obj/effect/proc_holder/spell/targeted/revive_thrall
+	usr << "<span class='shadowling'>You draw life from those around you to heal your wounds.</span>"
+/obj/effect/proc_holder/spell/targeted/revive_thrall //Completely revives a dead thrall
 	name = "Black Recuperation"
 	desc = "Revives or empowers a thrall."
 	panel = "Shadowling Abilities"
@@ -537,7 +513,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	clothes_req = 0
 	include_user = 0
 	action_icon_state = "revive_thrall"
-
 /obj/effect/proc_holder/spell/targeted/revive_thrall/cast(list/targets)
 	if(!shadowling_check(usr))
 		charge_counter = charge_max
@@ -622,10 +597,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 				charge_counter = charge_max
 				return
 
-
 // THRALL ABILITIES BEYOND THIS POINT //
-
-
 /obj/effect/proc_holder/spell/targeted/lesser_glare //Thrall version of Glare - same effects but for 5 seconds
 	name = "Lesser Glare"
 	desc = "Stuns and mutes a target for a short duration."
@@ -633,7 +605,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	charge_max = 450
 	clothes_req = 0
 	action_icon_state = "glare"
-
 /obj/effect/proc_holder/spell/targeted/lesser_glare/cast(list/targets)
 	for(var/mob/living/carbon/human/target in targets)
 		if(!ishuman(target) || !target)
@@ -655,8 +626,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 			target << "<span class='userdanger'>Red lights suddenly dance in your vision, and you are starstruck by their heavenly beauty...</span>"
 		target.Stun(5) //Roughly 50% as long as the normal one
 		M.silent += 5
-
-
 /obj/effect/proc_holder/spell/targeted/lesser_shadow_walk //Thrall version of Shadow Walk, only works in darkness, doesn't grant phasing, but gives near-invisibility
 	name = "Guise"
 	desc = "Wraps your form in shadows, making you harder to see."
@@ -666,7 +635,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	range = -1
 	include_user = 1
 	action_icon_state = "shadow_walk"
-
 /obj/effect/proc_holder/spell/targeted/lesser_shadow_walk/cast(list/targets)
 	for(var/mob/living/user in targets)
 		user.visible_message("<span class='warning'>[user] suddenly fades away!</span>", "<span class='shadowling'>You veil yourself in darkness, making you harder to see.</span>")
@@ -674,8 +642,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 		sleep(40)
 		user.visible_message("<span class='warning'>[user] appears from nowhere!</span>", "<span class='shadowling'>Your shadowy guise slips away.</span>")
 		user.alpha = initial(user.alpha)
-
-
 /obj/effect/proc_holder/spell/targeted/thrall_vision //Toggleable night vision for thralls
 	name = "Darksight"
 	desc = "Gives you night vision."
@@ -684,9 +650,8 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	range = -1
 	include_user = 1
 	clothes_req = 0
-	var/active = 0
 	action_icon_state = "darksight"
-
+	var/active = 0
 /obj/effect/proc_holder/spell/targeted/thrall_vision/cast(list/targets)
 	for(var/mob/living/user in targets)
 		if(!istype(user) || !ishuman(user)) return
@@ -700,8 +665,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 			user << "<span class='notice'>You return your vision to normal.</span>"
 			H.see_in_dark = 0
 			H.dna.species.invis_sight = initial(H.dna.species.invis_sight)
-
-
 /obj/effect/proc_holder/spell/targeted/lesser_shadowling_hivemind //Lets a thrall talk with their allies
 	name = "Lesser Commune"
 	desc = "Allows you to silently communicate with all other shadowlings and thralls."
@@ -710,8 +673,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	clothes_req = 0
 	range = -1
 	include_user = 1
-	action_icon_state = "transmit"
-
+	action_icon_state = "commune"
 /obj/effect/proc_holder/spell/targeted/lesser_shadowling_hivemind/cast(list/targets)
 	for(var/mob/living/user in targets)
 		if(!is_shadow_or_thrall(user))
@@ -724,11 +686,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 		for(var/mob/M in mob_list)
 			if(is_shadow_or_thrall(M) || (M in dead_mob_list))
 				M << "<span class='shadowling'><b>\[Thrall\]</b><i> [usr.real_name]</i>: [text]</span>"
-
-
-
 // ASCENDANT ABILITIES BEYOND THIS POINT //
-
 /obj/effect/proc_holder/spell/targeted/annihilate //Gibs someone instantly.
 	name = "Annihilate"
 	desc = "Gibs someone instantly."
@@ -738,14 +696,12 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	clothes_req = 0
 	action_icon_state = "annihilate"
 	sound = 'sound/magic/Staff_Chaos.ogg'
-
 /obj/effect/proc_holder/spell/targeted/annihilate/cast(list/targets)
 	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
 	if(SHA.phasing)
 		usr << "<span class='warning'>You are not in the same plane of existence. Unphase first.</span>"
 		charge_counter = charge_max
 		return
-
 	for(var/mob/living/boom in targets)
 		if(is_shadow(boom)) //Used to not work on thralls. Now it does so you can PUNISH THEM LIKE THE WRATHFUL GOD YOU ARE.
 			usr << "<span class='warning'>Making an ally explode seems unwise.<span>"
@@ -759,9 +715,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 			playsound(boom, 'sound/magic/Disintegrate.ogg', 100, 1)
 		boom.visible_message("<span class='userdanger'>[boom] explodes!</span>")
 		boom.gib()
-
-
-
 /obj/effect/proc_holder/spell/targeted/hypnosis //Enthralls someone instantly. Nonlethal alternative to Annihilate
 	name = "Hypnosis"
 	desc = "Instantly enthralls a human."
@@ -770,14 +723,12 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	charge_max = 0
 	clothes_req = 0
 	action_icon_state = "enthrall"
-
 /obj/effect/proc_holder/spell/targeted/hypnosis/cast(list/targets)
 	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
 	if(SHA.phasing)
 		charge_counter = charge_max
 		usr << "<span class='warning'>You are not in the same plane of existence. Unphase first.</span>"
 		return
-
 	for(var/mob/living/carbon/human/target in targets)
 		if(is_shadow_or_thrall(target))
 			usr << "<span class='warning'>You cannot enthrall an ally.<span>"
@@ -795,16 +746,12 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 			usr << "<span class='warning'>You can only enthrall humans.</span>"
 			charge_counter = charge_max
 			return
-
 		usr << "<span class='shadowling'>You instantly rearrange <b>[target]</b>'s memories, hyptonitizing them into a thrall.</span>"
 		target << "<span class='userdanger'><font size=3>An agonizing spike of pain drives into your mind, and--</font></span>"
 		ticker.mode.add_thrall(target.mind)
 		target.mind.special_role = "thrall"
 		var/datum/mind/thrall_mind = target.mind
 		thrall_mind.spell_list += new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind
-
-
-
 /obj/effect/proc_holder/spell/targeted/shadowling_phase_shift //Permanent version of shadow walk with no drawback. Toggleable.
 	name = "Phase Shift"
 	desc = "Phases you into the space between worlds at will, allowing you to move through walls and become invisible."
@@ -814,7 +761,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	charge_max = 15
 	clothes_req = 0
 	action_icon_state = "shadow_walk"
-
 /obj/effect/proc_holder/spell/targeted/shadowling_phase_shift/cast(list/targets)
 	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
 	for(SHA in targets)
@@ -829,9 +775,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 			"<span class='shadowling'>You return from the space between worlds.</span>")
 			SHA.incorporeal_move = 0
 			SHA.alpha = 255
-
-
-
 /obj/effect/proc_holder/spell/aoe_turf/ascendant_storm //Releases bolts of lightning to everyone nearby
 	name = "Lightning Storm"
 	desc = "Shocks everyone nearby."
@@ -839,8 +782,8 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	range = 6
 	charge_max = 100
 	clothes_req = 0
+	action_icon_state = "lightning_storm"
 	sound = 'sound/magic/lightningbolt.ogg'
-
 /obj/effect/proc_holder/spell/aoe_turf/ascendant_storm/cast(list/targets)
 	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
 	if(SHA.phasing)
@@ -850,7 +793,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	playMagSound()
 	usr.visible_message("<span class='warning'><b>A massive ball of lightning appears in [usr]'s hands and flares out!</b></span>", \
 						"<span class='shadowling'>You conjure a ball of lightning and release it.</span>")
-
 	for(var/turf/T in targets)
 		for(var/mob/living/carbon/human/target in T.contents)
 			if(is_shadow_or_thrall(target))
@@ -860,9 +802,6 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 			target.Weaken(8)
 			target.take_organ_damage(0,50)
 			usr.Beam(target,icon_state="red_lightning",icon='icons/effects/effects.dmi',time=1)
-
-
-
 /obj/effect/proc_holder/spell/targeted/vortex
 	name = "Vortex"
 	desc = "Tears open a hole in reality. Anyone, INCLUDING YOU, walking through it will be trapped there for eternity."
@@ -883,10 +822,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 						"<span class='shadowling'>You tear open a rift to the black space between worlds. <b><font size=3>It would be wise to avoid it.</font></b></span>")
 
 		new /obj/structure/shadow_vortex(SHA.loc)
-
-
-
-/obj/effect/proc_holder/spell/targeted/shadowling_hivemind_ascendant  //Large, all-caps text in shadowling chat
+/obj/effect/proc_holder/spell/targeted/shadowling_hivemind_ascendant //Large, all-caps text in shadowling chat
 	name = "Ascendant Commune"
 	desc = "Allows you to LOUDLY communicate with all other shadowlings and thralls."
 	panel = "Ascendant"
@@ -894,8 +830,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	clothes_req = 0
 	range = -1
 	include_user = 1
-	action_icon_state = "transmit"
-
+	action_icon_state = "commune"
 /obj/effect/proc_holder/spell/targeted/shadowling_hivemind_ascendant/cast(list/targets)
 	for(var/mob/living/user in targets)
 		var/text = stripped_input(user, "What do you want to say to fellow thralls and shadowlings?.", "Hive Chat", "")
@@ -905,8 +840,7 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 		for(var/mob/M in mob_list)
 			if(is_shadow_or_thrall(M) || (M in dead_mob_list))
 				M << "<span class='shadowling'><b>\[Ascendant\]<i> [usr.real_name]</i>: [text]</b></span>" //Bigger text for ascendants.
-
-/obj/effect/proc_holder/spell/targeted/ascendant_transmit
+/obj/effect/proc_holder/spell/targeted/ascendant_transmit //Sends a message to the entire world. If this gets abused too much it can be removed safely
 	name = "Ascendant Broadcast"
 	desc = "Sends a message to the whole wide world."
 	panel = "Ascendant"
@@ -915,187 +849,9 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	range = -1
 	include_user = 1
 	action_icon_state = "transmit"
-
 /obj/effect/proc_holder/spell/targeted/ascendant_transmit/cast(list/targets)
 	for(var/mob/living/user in targets)
 		var/text = stripped_input(user, "What do you want to say to everything on and near [station_name()]?.", "Transmit to World", "")
 		if(!text)
 			return
 		world << "<font size=4><span class='shadowling'><b>\"[text]\"</font></span>"
-
-//In here: Hatch and Ascendance
-var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "Noaey'gief", "Mii`mahza", "Amerziox", "Gyrg-mylin", "Kanet'pruunance", "Vigistaezian") //Unpronouncable 2: electric boogalo
-/obj/effect/proc_holder/spell/targeted/shadowling_hatch
-	name = "Hatch"
-	desc = "Casts off your disguise."
-	panel = "Shadowling Evolution"
-	charge_max = 3000
-	clothes_req = 0
-	range = -1
-	include_user = 1
-	action_icon_state = "hatch"
-
-/obj/effect/proc_holder/spell/targeted/shadowling_hatch/cast(list/targets)
-	if(usr.stat || !ishuman(usr) || !usr || !is_shadow(usr)) return
-	for(var/mob/living/carbon/human/H in targets)
-		var/hatch_or_no = alert(H,"Are you sure you want to hatch? You cannot undo this!",,"Yes","No")
-		switch(hatch_or_no)
-			if("No")
-				H << "<span class='warning'>You decide against hatching for now."
-				charge_counter = charge_max
-				return
-			if("Yes")
-				H.Stun(INFINITY) //This is bad but notransform won't work.
-				H.visible_message("<span class='warning'>[H]'s things suddenly slip off. They hunch over and vomit up a copious amount of purple goo which begins to shape around them!</span>", \
-									"<span class='shadowling'>You remove any equipment which would hinder your hatching and begin regurgitating the resin which will protect you.</span>")
-
-				for(var/obj/item/I in H) //drops all items
-					H.unEquip(I)
-
-				sleep(50)
-				var/turf/simulated/floor/F
-				var/turf/shadowturf = get_turf(usr)
-				for(F in orange(1, usr))
-					new /obj/structure/alien/resin/wall/shadowling(F)
-				for(var/obj/structure/alien/resin/wall/shadowling/R in shadowturf) //extremely hacky
-					qdel(R)
-					new /obj/structure/alien/weeds/node(shadowturf) //Dim lighting in the chrysalis -- removes itself afterwards
-
-				H.visible_message("<span class='warning'>A chrysalis forms around [H], sealing them inside.</span>", \
-									"<span class='shadowling'>You create your chrysalis and begin to contort within.</span>")
-
-				sleep(100)
-				H.visible_message("<span class='warning'><b>The skin on [H]'s back begins to split apart. Black spines slowly emerge from the divide.</b></span>", \
-									"<span class='shadowling'>Spines pierce your back. Your claws break apart your fingers. You feel excruciating pain as your true form begins its exit.</span>")
-
-				sleep(90)
-				H.visible_message("<span class='warning'><b>[H], skin shifting, begins tearing at the walls around them.</b></span>", \
-								"<span class='shadowling'>Your false skin slips away. You begin tearing at the fragile membrane protecting you.</span>")
-
-				sleep(80)
-				playsound(H.loc, 'sound/weapons/slash.ogg', 25, 1)
-				H << "<i><b>You rip and slice.</b></i>"
-				sleep(10)
-				playsound(H.loc, 'sound/weapons/slashmiss.ogg', 25, 1)
-				H << "<i><b>The chrysalis falls like water before you.</b></i>"
-				sleep(10)
-				playsound(H.loc, 'sound/weapons/slice.ogg', 25, 1)
-				H << "<i><b>You are free!</b></i>"
-
-				sleep(10)
-				playsound(H.loc, 'sound/effects/ghost.ogg', 100, 1)
-				var/newNameId = pick(possibleShadowlingNames)
-				possibleShadowlingNames.Remove(newNameId)
-				H.real_name = newNameId
-				H.name = usr.real_name
-				H.SetStunned(0)
-				H << "<i><b><font size=3>YOU LIVE!!!</i></b></font>"
-
-				for(var/obj/structure/alien/resin/wall/shadowling/W in orange(H, 1))
-					playsound(W, 'sound/effects/splat.ogg', 50, 1)
-					qdel(W)
-				for(var/obj/structure/alien/weeds/node/N in shadowturf)
-					qdel(N)
-				H.visible_message("<span class='warning'>The chrysalis explodes in a shower of purple flesh and fluid!</span>")
-				H.underwear = "Nude"
-				H.undershirt = "Nude"
-				H.faction |= "faithless"
-
-				H.equip_to_slot_or_del(new /obj/item/clothing/under/shadowling(H), slot_w_uniform)
-				H.equip_to_slot_or_del(new /obj/item/clothing/shoes/shadowling(H), slot_shoes)
-				H.equip_to_slot_or_del(new /obj/item/clothing/suit/space/shadowling(H), slot_wear_suit)
-				H.equip_to_slot_or_del(new /obj/item/clothing/head/shadowling(H), slot_head)
-				H.equip_to_slot_or_del(new /obj/item/clothing/gloves/shadowling(H), slot_gloves)
-				H.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/shadowling(H), slot_wear_mask)
-				H.equip_to_slot_or_del(new /obj/item/clothing/glasses/night/shadowling(H), slot_glasses)
-				hardset_dna(H, null, null, null, null, /datum/species/shadow/ling) //can't be a shadowling without being a shadowling
-
-				sleep(10)
-				H << "<span class='shadowling'><b><i>Your powers are awoken. You may now live to your fullest extent. Remember your goal. Cooperate with your thralls and allies.</b></i></span>"
-				H.mind.remove_spell(/obj/effect/proc_holder/spell/targeted/shadowling_hatch)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/glare(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/veil(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadow_walk(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/flashfreeze(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/collective_mind(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_regenarmor(null))
-
-
-
-/obj/effect/proc_holder/spell/targeted/shadowling_ascend
-	name = "Ascend"
-	desc = "Enters your true form."
-	panel = "Shadowling Evolution"
-	charge_max = 3000
-	clothes_req = 0
-	range = -1
-	include_user = 1
-	action_icon_state = "ascend"
-
-/obj/effect/proc_holder/spell/targeted/shadowling_ascend/cast(list/targets)
-	if(usr.stat || !ishuman(usr) || !usr || !shadowling_check(usr)) return
-	for(var/mob/living/carbon/human/H in targets)
-		var/hatch_or_no = alert(H,"It is time to ascend. Are you sure about this?",,"Yes","No")
-		switch(hatch_or_no)
-			if("No")
-				H << "<span class='warning'>You decide against ascending for now."
-				charge_counter = charge_max
-				return
-			if("Yes")
-				H.notransform = 1
-				H.visible_message("<span class='warning'>[H]'s things suddenly slip off. They gently rise into the air, red light glowing in their eyes.</span>", \
-									"<span class='shadowling'>You rise into the air and get ready for your transformation.</span>")
-
-				for(var/obj/item/I in H) //drops all items
-					H.unEquip(I)
-
-				sleep(50)
-
-				H.visible_message("<span class='warning'>[H]'s skin begins to crack and harden.</span>", \
-									"<span class='shadowling'>Your flesh begins creating a shield around yourself.</span>")
-
-				sleep(100)
-				H.visible_message("<span class='warning'>The small horns on [H]'s head slowly grow and elongate.</span>", \
-								  "<span class='shadowling'>Your body continues to mutate. Your telepathic abilities grow.</span>") //y-your horns are so big, senpai...!~
-
-				sleep(90)
-				H.visible_message("<span class='warning'>[H]'s body begins to violently stretch and contort.</span>", \
-								  "<span class='shadowling'>You begin to rend apart the final barriers to godhood.</span>")
-
-				sleep(40)
-				H << "<i><b>Yes!</b></i>"
-				sleep(10)
-				H << "<i><b><span class='big'>YES!!</span></b></i>"
-				sleep(10)
-				H << "<i><b><span class='reallybig'>YE--</span></b></i>"
-				sleep(1)
-				for(var/mob/living/M in orange(7, H))
-					M.Weaken(10)
-					M << "<span class='userdanger'>An immense pressure slams you onto the ground!</span>"
-				world << "<font size=5><span class='shadowling'><b>\"VYSHA NERADA YEKHEZET U'RUU!!\"</font></span>"
-				world << 'sound/hallucinations/veryfar_noise.ogg'
-				for(var/obj/machinery/power/apc/A in apcs_list)
-					A.overload_lighting()
-				var/mob/A = new /mob/living/simple_animal/ascendant_shadowling(H.loc)
-				for(var/obj/effect/proc_holder/spell/S in H.mind.spell_list)
-					if(S == src) continue
-					H.mind.remove_spell(S)
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/annihilate(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/hypnosis(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_phase_shift(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/ascendant_storm(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind_ascendant(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/ascendant_transmit(null))
-				H.mind.transfer_to(A)
-				A.name = H.real_name
-				if(A.real_name)
-					A.real_name = H.real_name
-				H.invisibility = 60 //This is pretty bad, but is also necessary for the shuttle call to function properly
-				H.flags |= GODMODE
-				H.loc = A
-				sleep(50)
-				if(!ticker.mode.shadowling_ascended)
-					emergency_shuttle.incall(0.3)
-				ticker.mode.shadowling_ascended = 1
-				A.mind.remove_spell(src)
-				qdel(H)
