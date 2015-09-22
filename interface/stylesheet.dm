@@ -24,7 +24,7 @@ em						{font-style: normal;	font-weight: bold;}
 .mentor					{color: #E236D8;	font-weight: bold;}
 
 .name					{					font-weight: bold;}
-.shadowling				{color: #311648;}
+.shadowling				{color: #3b2769;}
 .say					{}
 .deadsay				{color: #5c00e6;}
 .radio					{color: #008000;}
