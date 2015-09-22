@@ -723,6 +723,12 @@ var/list/uplink_items = list()
 	cost = 20
 	excludefrom = list(/datum/game_mode/nuclear)
 
+/datum/uplink_item/badass/raincoat
+	name = "Raincoat"
+	desc = "It's hip to be square!"
+	item = /obj/item/clothing/suit/raincoat
+	cost = 1
+
 /datum/uplink_item/badass/syndiecards
 	name = "Syndicate Playing Cards"
 	desc = "A special deck of space-grade playing cards with a mono-molecular edge and metal reinforcement, making them more robust than a normal deck of cards. \
