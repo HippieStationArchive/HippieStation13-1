@@ -298,3 +298,39 @@
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen, /obj/item/weapon/gun/energy,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/handcuffs,/obj/item/weapon/tank/oxygen)
 	armor = list(melee = 30, bullet = 15, laser = 30, energy = 10, bomb = 10, bio = 100, rad = 50)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security
+
+		//Clown hardsuit
+/obj/item/clothing/head/helmet/space/hardsuit/clown
+	name = "clowning hardsuit helmet"
+	desc = "A special helmet designed for HONKing in a hazardous, low pressure environment. Has reinforced plating for assistant encounters."
+	icon_state = "spaceclownhelmet"
+	item_state = "spaceclownhelmet"
+	flags = HEADCOVERSEYES | BLOCKHAIR | HEADCOVERSMOUTH | STOPSPRESSUREDMAGE
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+
+/obj/item/clothing/suit/space/hardsuit/clown
+	icon_state = "spaceclown"
+	name = "clowning hardsuit"
+	desc = "A special hardsuit designed for HONKing in a hazardous, low pressure environment. Has reinforced plating for assistant encounters."
+	item_state = "spaceclown"
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/weapon/tank/oxygen,/obj/item/weapon/bikehorn)
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/clown
+
+	//Mime hardsuit
+/obj/item/clothing/head/helmet/space/hardsuit/mime
+	name = "miming hardsuit helmet"
+	desc = "A special helmet designed for silent baguette munching in hazardous, low pressure environment. Has reinforced plating in case the white flag is not seen."
+	icon_state = "spacemimehelmet"
+	item_state = "spacemimehelmet"
+	flags = HEADCOVERSEYES | BLOCKHAIR | HEADCOVERSMOUTH | STOPSPRESSUREDMAGE
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+
+/obj/item/clothing/suit/space/hardsuit/mime
+	icon_state = "spacemime"
+	name = "miming hardsuit"
+	desc = "A special hardsuit designed for silent baguette munching in hazardous, low pressure environment. Has reinforced plating in case the white flag is not seen."
+	item_state = "spacemime"
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/weapon/tank/oxygen,/obj/item/weapon/reagent_containers/food/snacks/baguette)
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/mime

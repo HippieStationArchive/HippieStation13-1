@@ -82,6 +82,17 @@
 	MASK_TYPE = /obj/item/clothing/mask/breath
 	STORAGE_TYPE = /obj/item/clothing/shoes/magboots/advance
 
+/obj/machinery/suit_storage_unit/clown
+	SUIT_TYPE = /obj/item/clothing/suit/space/hardsuit/clown
+	MASK_TYPE = /obj/item/clothing/mask/gas
+	STORAGE_TYPE = /obj/item/weapon/tank/jetpack/oxygen
+
+/obj/machinery/suit_storage_unit/mime
+	SUIT_TYPE = /obj/item/clothing/suit/space/hardsuit/mime
+	MASK_TYPE = /obj/item/clothing/mask/gas
+	STORAGE_TYPE = /obj/item/weapon/tank/jetpack/oxygen
+
+
 /obj/machinery/suit_storage_unit/New()
 	src.update_icon()
 	if(SUIT_TYPE)
