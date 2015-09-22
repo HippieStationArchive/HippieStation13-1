@@ -117,13 +117,6 @@ var/list/uplink_items = list()
 	cost = 4
 	jobs = list("Chemist")
 
-/datum/uplink_item/job_specific/chemsprayer //This can only end well
-	name = "Chemical Sprayer"
-	desc = "A powerful industrial spraygun that holds 600 units of any liquid, and can cover area faster than a standard spray bottle."
-	item = /obj/item/weapon/reagent_containers/spray/chemsprayer
-	cost = 18 //No no-slips thanks
-	jobs = list("Chemist")
-
 //LIBRARIAN
 /datum/uplink_item/job_specific/soulstone
 	name = "Soulstone"
