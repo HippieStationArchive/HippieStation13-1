@@ -95,8 +95,6 @@
 			qdel(G)
 		for(var/mob/living/H in T.contents)
 			extinguishMob(H)
-		for(var/mob/living/silicon/robot/borgie in T.contents)
-			borgie.update_headlamp(1)
 
 
 /obj/effect/proc_holder/spell/targeted/shadow_walk //Grants the shadowling invisibility and phasing for 4 seconds
@@ -402,7 +400,7 @@
 		B.reagents.clear_reagents() //Just in case!
 		B.icon_state = null //Invisible
 		B.reagents.add_reagent("blindness_smoke", 10)
-		var/datum/effect/effect/system/smoke_spread/chem/S = new
+		var/datum/effect/effect/system/chem_smoke_spread/S = new /datum/effect/effect/system/chem_smoke_spread
 		S.attach(B)
 		if(S)
 			S.set_up(B.reagents, 10, 0, B.loc)
@@ -427,7 +425,6 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			M.Stun(3)
 	else
 		M << "<span class='notice'><b>You breathe in the black smoke, and you feel revitalized!</b></span>"
-		M.heal_organ_damage(2,2)
 		M.adjustOxyLoss(-2)
 		M.adjustToxLoss(-2)
 	..()
@@ -458,7 +455,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 				var/mob/living/carbon/M = target
 				M << "<span class='danger'><b>A spike of pain drives into your head and scrambles your thoughts!</b></span>"
 				M.confused += 10
-				M.setEarDamage(M.ear_damage + 3)
+				M.ear_damage += 3
 			else if(issilicon(target))
 				var/mob/living/silicon/S = target
 				S << "<span class='warning'><b>ERROR $!(@ ERROR )#^! SENSORY OVERLOAD \[$(!@#</b></span>"
@@ -698,7 +695,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	sound = 'sound/magic/Staff_Chaos.ogg'
 /obj/effect/proc_holder/spell/targeted/annihilate/cast(list/targets)
 	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
-	if(SHA.phasing)
+	if(SHA.phase)
 		usr << "<span class='warning'>You are not in the same plane of existence. Unphase first.</span>"
 		charge_counter = charge_max
 		return
@@ -725,7 +722,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	action_icon_state = "enthrall"
 /obj/effect/proc_holder/spell/targeted/hypnosis/cast(list/targets)
 	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
-	if(SHA.phasing)
+	if(SHA.phase)
 		charge_counter = charge_max
 		usr << "<span class='warning'>You are not in the same plane of existence. Unphase first.</span>"
 		return
@@ -764,8 +761,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 /obj/effect/proc_holder/spell/targeted/shadowling_phase_shift/cast(list/targets)
 	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
 	for(SHA in targets)
-		SHA.phasing = !SHA.phasing
-		if(SHA.phasing)
+		SHA.phase = !SHA.phase
+		if(SHA.phase)
 			SHA.visible_message("<span class='danger'>[SHA] suddenly vanishes!</span>", \
 			"<span class='shadowling'>You begin phasing through planes of existence. Use the ability again to return.</span>")
 			SHA.incorporeal_move = 1
@@ -786,7 +783,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	sound = 'sound/magic/lightningbolt.ogg'
 /obj/effect/proc_holder/spell/aoe_turf/ascendant_storm/cast(list/targets)
 	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
-	if(SHA.phasing)
+	if(SHA.phase)
 		usr << "<span class='warning'>You are not in the same plane of existence. Unphase first.</span>"
 		charge_counter = charge_max
 		return
@@ -813,7 +810,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 
 /obj/effect/proc_holder/spell/targeted/vortex/cast(list/targets)
 	var/mob/living/simple_animal/ascendant_shadowling/SHA = usr
-	if(SHA.phasing)
+	if(SHA.phase)
 		usr << "<span class='warning'>You are not in the same plane of existence. Unphase first.</span>"
 		return
 

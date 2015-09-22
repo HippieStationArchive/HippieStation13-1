@@ -74,7 +74,6 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 				H.visible_message("<span class='warning'>The chrysalis explodes in a shower of purple flesh and fluid!</span>")
 				H.underwear = "Nude"
 				H.undershirt = "Nude"
-				H.socks = "Nude"
 				H.faction |= "faithless"
 
 				H.equip_to_slot_or_del(new /obj/item/clothing/under/shadowling(H), slot_w_uniform)
@@ -95,7 +94,6 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/flashfreeze(null))
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/collective_mind(null))
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_regenarmor(null))
-				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle(null))
 
 
 
@@ -172,7 +170,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 				H.loc = A
 				sleep(50)
 				if(!ticker.mode.shadowling_ascended)
-					SSshuttle.emergency.request(null, 0.3)
+					emergency_shuttle.incall(0.3)
 				ticker.mode.shadowling_ascended = 1
 				A.mind.remove_spell(src)
 				qdel(H)
