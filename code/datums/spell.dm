@@ -7,6 +7,7 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 	name = "Spell"
 	desc = "A wizard spell"
 	panel = "Spells"
+	var/sound = "sound/weapons/badZap.ogg"
 	anchored = 1 // Crap like fireball projectiles are proc_holders, this is needed so fireballs don't get blown back into your face via atmos etc.
 	pass_flags = PASSTABLE
 	density = 0
@@ -135,6 +136,9 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 			user.visible_message(invocation, invocation_emote_self) //same style as in mob/living/emote.dm
 	if(cast_sound)
 		playsound(get_turf(user), cast_sound, 50, 1)
+
+/obj/effect/proc_holder/spell/proc/playMagSound()
+	playsound(get_turf(usr), sound,50,1)
 
 /obj/effect/proc_holder/spell/New()
 	..()
