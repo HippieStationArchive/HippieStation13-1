@@ -230,7 +230,7 @@
 					usr << "<span class='notice'>You begin the enthralling of [target].</span>"
 					usr.visible_message("<span class='danger'>[usr] leans over [target], their eyes glowing a deep crimson, and stares into their face.</span>")
 					target << "<span class='danger'>Your gaze is forcibly drawn into a blinding red light. You fall to the floor as conscious thought is wiped away.</span>"
-					target.Stun(12)
+					target.Weaken(12)
 					sleep(20)
 					if(isloyal(target))
 						usr << "<span class='notice'>They are enslaved by Nanotrasen. You begin to shut down the nanobot implant - this will take some time.</span>"
@@ -504,14 +504,18 @@ datum/reagent/shadowling_blindness_smoke/on_mob_life(var/mob/living/M as mob)
 	targetsDrained = 0
 	nearbyTargets = list()
 	for(var/mob/living/carbon/human/M in oview(range))
+		world << "1"
 		if(M == usr) continue
+		world << "2"
 		targetsDrained++
 		nearbyTargets.Add(M)
 	if(!targetsDrained)
+		world << "3"
 		charge_counter = charge_max
 		usr << "<span class='warning'>There were no nearby humans for you to drain.</span>"
 		return
 	for(var/mob/living/carbon/M in nearbyTargets)
+		world << "4"
 		nearbyTargets.Remove(M) //To prevent someone dying like a zillion times
 		U.adjustToxLoss(-10)
 		U.adjustOxyLoss(-10)
