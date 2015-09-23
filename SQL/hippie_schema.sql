@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `death` (
   `brainloss` int(11) NOT NULL,
   `fireloss` int(11) NOT NULL,
   `oxyloss` int(11) NOT NULL,
+  `toxloss` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
