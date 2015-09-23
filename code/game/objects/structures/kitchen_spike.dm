@@ -137,6 +137,7 @@
 					H.buckled = src
 					H.dir = 2
 					buckled_mob = H
+					add_logs(user,"Impaled", H, "on a meatspike")
 					return
 		user << "<span class='danger'>You can't use that on the spike!</span>"
 
@@ -154,6 +155,7 @@
 				"[user.name] tries to pull [M.name] free of the [src]!",\
 				"<span class='notice'>[user.name] is trying to pull you off the [src], opening up fresh wounds!</span>",\
 				"<span class='italics'>You hear a squishy wet noise.</span>")
+
 /*			if(!do_after(M, 150, target = src)) //Nexendia will fix this for me
 				if(M && M.buckled)
 					M.visible_message(\
