@@ -303,8 +303,9 @@
 /obj/item/clothing/head/helmet/space/hardsuit/clown
 	name = "clowning hardsuit helmet"
 	desc = "A special helmet designed for HONKing in a hazardous, low pressure environment. Has reinforced plating for assistant encounters."
-	icon_state = "spaceclownhelmet"
-	item_state = "spaceclownhelmet"
+	icon_state = "hardsuit0-clown"
+	item_state = "clown_helm"
+	item_color = "clown"
 	flags = HEADCOVERSEYES | BLOCKHAIR | HEADCOVERSMOUTH | STOPSPRESSUREDMAGE
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
 
@@ -321,8 +322,9 @@
 /obj/item/clothing/head/helmet/space/hardsuit/mime
 	name = "miming hardsuit helmet"
 	desc = "A special helmet designed for silent baguette munching in hazardous, low pressure environment. Has reinforced plating in case the white flag is not seen."
-	icon_state = "spacemimehelmet"
-	item_state = "spacemimehelmet"
+	icon_state = "hardsuit0-mime"
+	item_state = "mime_helm"
+	item_color = "mime"
 	flags = HEADCOVERSEYES | BLOCKHAIR | HEADCOVERSMOUTH | STOPSPRESSUREDMAGE
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
 
