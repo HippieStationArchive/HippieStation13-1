@@ -4,11 +4,17 @@
 	icon_state = "revolver"
 	fire_sound = 'sound/weapons/revolver_shoot.ogg'
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder
+	unique_reskin = 1
 
 /obj/item/weapon/gun/projectile/revolver/New()
 	..()
 	if(!istype(magazine, /obj/item/ammo_box/magazine/internal/cylinder))
 		verbs -= /obj/item/weapon/gun/projectile/revolver/verb/spin
+	else
+		options["Default"] = "revolver"
+		options["Alternate"] = "revolver_nagant"
+		options["Cancel"] = null
+
 
 /obj/item/weapon/gun/projectile/revolver/chamber_round(var/spin = 1)
 	if(spin)
