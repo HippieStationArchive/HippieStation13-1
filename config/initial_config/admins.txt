@@ -1,1 +1,1 @@
-pyko = Host
+admin_key = AdminRank
