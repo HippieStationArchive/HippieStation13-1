@@ -130,14 +130,17 @@
 					pos.add_blood_floor(H)
 					H.adjustBruteLoss(30)
 					var/matrix/m120 = matrix()
-					m120.Turn(180)
+					if(G.affecting.lying)
+						m120.Turn(270)
+					else
+						m120.Turn(180)
 					animate(H, transform = m120, time = 3)
 					H.pixel_y = H.get_standard_pixel_y_offset(180)
 					occupied = TRUE
 					H.buckled = src
 					H.dir = 2
 					buckled_mob = H
-					add_logs(user,"Impaled", H, "on a meatspike")
+					add_logs(user, H, "impaled", object="meatspike")
 					return
 		user << "<span class='danger'>You can't use that on the spike!</span>"
 
