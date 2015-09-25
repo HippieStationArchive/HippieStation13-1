@@ -14,6 +14,7 @@
 	origin_tech = "combat=3;materials=3;powerstorage=2"
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode/gun)
 	cell_type = "/obj/item/weapon/stock_parts/cell"
+	can_flashlight = 0
 
 /obj/item/weapon/gun/energy/gun/advtaser
 	name = "advanced taser"
@@ -29,6 +30,7 @@
 	cell_type = "/obj/item/weapon/stock_parts/cell/secborg"
 	var/charge_tick = 0
 	var/recharge_time = 10
+	can_flashlight = 0
 
 /obj/item/weapon/gun/energy/gun/advtaser/cyborg/New()
 	..()
