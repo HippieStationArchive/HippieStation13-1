@@ -162,7 +162,7 @@
 	playstyle_string = "As a Choas type, you have only light damage resistance, but will ignite any enemy you bump into. In addition, your melee attacks will randomly teleport enemies."
 	environment_smash = 1
 	magic_fluff_string = "..And draw the Wizard, bringer of endless chaos!"
-	tech_fluff_string = "Boot sequence complete. Crowd control modules activated. Nanoswarm online."
+	tech_fluff_string = "Boot sequence complete. Crowd control modules activated. Holoparasites online."
 	bio_fluff_string = "Your scarab swarm finishes mutating and stirs to life, ready to sow havoc at random."
 
 /mob/living/simple_animal/hostile/guardian/fire/Life() //Dies if the summoner dies
@@ -211,7 +211,7 @@
 	playstyle_string = "As a standard type you have no special abilities, but have a high damage resistance and a powerful attack capable of smashing through walls."
 	environment_smash = 2
 	magic_fluff_string = "..And draw the Assistant, faceless and generic, but never to be underestimated."
-	tech_fluff_string = "Boot sequence complete. Standard combat modules loaded. Nanoswarm online."
+	tech_fluff_string = "Boot sequence complete. Standard combat modules loaded. Holoparasites online."
 	bio_fluff_string = "Your scarab swarm stirs to life, ready to tear apart your enemies."
 	var/battlecry = "AT"
 
@@ -244,8 +244,8 @@
 	melee_damage_lower = 15
 	melee_damage_upper = 15
 	playstyle_string = "As a Support type, you may toggle your basic attacks to a healing mode. In addition, Alt-Clicking on an adjacent mob will warp them to your bluespace beacon after a short delay."
-	magic_fluff_string = "..And draw the CMO, a potent force of life...and death."
-	tech_fluff_string = "Boot sequence complete. Medical modules active. Bluespace modules activated. Nanoswarm online."
+	magic_fluff_string = "..And draw the Medical Doctor, a potent force of life...and death."
+	tech_fluff_string = "Boot sequence complete. Medical modules active. Bluespace modules activated. Holoparasites online."
 	bio_fluff_string = "Your scarab swarm finishes mutating and stirs to life, capable of mending wounds and travelling via bluespace."
 	var/turf/simulated/floor/beacon
 	var/beacon_cooldown = 0
@@ -368,7 +368,7 @@
 	range = 13
 	playstyle_string = "As a ranged type, you have only light damage resistance, but are capable of spraying shards of crystal at incredibly high speed. You can also deploy surveillance snares to monitor enemy movement. Finally, you can switch to scout mode, in which you can't attack, but can move without limit."
 	magic_fluff_string = "..And draw the Sentinel, an alien master of ranged combat."
-	tech_fluff_string = "Boot sequence complete. Ranged combat modules active. Nanoswarm online."
+	tech_fluff_string = "Boot sequence complete. Ranged combat modules active. Holoparasites online."
 	bio_fluff_string = "Your scarab swarm finishes mutating and stirs to life, capable of spraying shards of crystal."
 	var/list/snares = list()
 	var/toggle = FALSE
@@ -619,7 +619,7 @@
 			G.color = color2hex(picked_color)
 			G.real_name = "[mob_name] [capitalize(picked_color)]"
 			user << "[G.magic_fluff_string]."
-		if("tech")
+		if("bio")
 			var/colour = pick("orange", "neon", "pink", "red", "blue", "green")
 			G.name = "[mob_name] [capitalize(colour)]"
 			G.real_name = "[mob_name] [capitalize(colour)]"
@@ -628,26 +628,26 @@
 			G.animated_manifest = TRUE
 			user << "[G.tech_fluff_string]."
 			G.attacktext = "swarms"
-			G.speak_emote = list("states")
-		if("bio")
+			G.speak_emote = list("chitters")
+		if("tech")
 			user << "[G.bio_fluff_string]."
 			G.attacktext = "swarms"
-			G.speak_emote = list("chitters")
+			G.speak_emote = list("states")
 
 /obj/item/weapon/guardiancreator/choose
 	random = FALSE
 
 /obj/item/weapon/guardiancreator/tech
-	name = "parasitic nanomachine injector"
-	desc = "Though powerful in combat, these nanomachines require a living host as a source of fuel and home base."
+	name = "holoparasite injector"
+	desc = "It contains alien nanomachines of unknown origin. Though capable of near sorcerous feats via use of hardlight holograms. It requires an organic host as a home base and source of fuel."
 	icon = 'icons/obj/syringe.dmi'
 	icon_state = "combat_hypo"
 	theme = "tech"
-	mob_name = "Nanomachine Swarm"
+	mob_name = "Holoparasite"
 	use_message = "You start to power on the injector..."
 	used_message = "The injector has already been used."
 	failure_message = "<B>...ERROR. BOOT SEQUENCE ABORTED. AI FAILED TO INTIALIZE. PLEASE CONTACT SUPPORT OR TRY AGAIN LATER.</B>"
-	ling_failure = "The nanomachines recoil in horror. They want nothing to do with a creature like you."
+	ling_failure = "The holoparasites recoil in horror. They want nothing to do with a creature like you."
 
 /obj/item/weapon/guardiancreator/tech/choose
 	random = FALSE
@@ -694,6 +694,6 @@
 
 /obj/item/weapon/storage/box/syndie_kit/guardian/New()
 	..()
-	new /obj/item/weapon/guardiancreator/tech/choose(src)
+	new /obj/item/weapon/guardiancreator/biological/choose(src)
 	new /obj/item/weapon/paper/guardian(src)
 	return
