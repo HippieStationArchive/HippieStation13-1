@@ -694,6 +694,6 @@
 
 /obj/item/weapon/storage/box/syndie_kit/guardian/New()
 	..()
-	new /obj/item/weapon/guardiancreator/biological/choose(src)
+	new /obj/item/weapon/guardiancreator/tech/choose(src)
 	new /obj/item/weapon/paper/guardian(src)
 	return
