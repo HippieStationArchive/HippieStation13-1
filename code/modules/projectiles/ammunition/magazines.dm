@@ -287,3 +287,25 @@ obj/item/ammo_box/magazine/tommygunm45
 	name = "shotgun magazine (12g taser slugs)"
 	icon_state = "m12gs"
 	ammo_type = /obj/item/ammo_casing/shotgun/stunslug
+//l85 ammunition
+/obj/item/ammo_box/magazine/l85
+	name = "L85A2 5.56x45mm magazine"
+	icon = 'icons/obj/buttlauncher.dmi'
+	icon_state = "full"
+	origin_tech = "combat=3"
+	ammo_type = /obj/item/ammo_casing/a556
+	caliber = "556"
+	max_ammo = 30
+/obj/item/ammo_box/magazine/l85/update_icon()
+	..()
+	if(ammo_count()>0)
+		icon_state="full"
+	else
+		icon_state="empty"
+
+/obj/item/ammo_box/magazine/l85/s
+	name = "L85A2 5.56x45mm stamina magazine"
+	origin_tech = "combat=1"
+	ammo_type = /obj/item/ammo_casing/a556/s
+	caliber = "556"
+	max_ammo = 30
