@@ -7,6 +7,21 @@
 	flag = "bullet"
 	var/mob_stuck_chance = 40 //For lodging bullets into limbs for extraction.
 
+/obj/item/projectile/bullet/l85l//lethal l85
+	damage = 15
+	mob_stuck_chance = 10//much lower embed chance
+
+/obj/item/projectile/bullet/l85s
+	damage = 3
+	nodamage = 0
+	mob_stuck_chance = 0
+
+/obj/item/projectile/bullet/l85s/on_hit(var/atom/target, var/blocked = 0)
+	..()
+	if(istype(target, /mob/living/carbon))
+		var/mob/living/carbon/M = target
+		M.adjustStaminaLoss(rand(5,20))
+
 /obj/item/projectile/bullet/weakbullet
 	damage = 5
 	stun = 5

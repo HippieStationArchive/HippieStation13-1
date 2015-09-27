@@ -10,6 +10,18 @@
 	projectile_type = /obj/item/projectile/bullet
 	icon_state = "casing_357"
 
+/obj/item/ammo_casing/a556
+	desc = "A 5.56x45mm bullet casing."
+	caliber = "556"
+	projectile_type = /obj/item/projectile/bullet/l85l
+	icon_state = "casing_357"
+
+/obj/item/ammo_casing/a556/s
+	desc = "A 5.56x45mm bullet casing."
+	caliber = "556"
+	projectile_type = /obj/item/projectile/bullet/l85s
+	icon_state = "casing_357"
+
 /obj/item/ammo_casing/c38
 	desc = "A .38 bullet casing."
 	caliber = "38"
@@ -132,7 +144,7 @@
 
 /obj/item/ammo_casing/a762
 	desc = "A 7.62x51mm bullet casing."
-	caliber = "a762"
+	caliber = "762"
 	projectile_type = /obj/item/projectile/bullet
 	icon_state = "casing_762x51"
 
@@ -144,7 +156,7 @@
 
 /obj/item/ammo_casing/a762x39
 	desc = "A 7.62x39mm bullet casing."
-	caliber = "7.62x39"
+	caliber = "a7.62x39"
 	projectile_type = /obj/item/projectile/bullet/heavybullet
 	icon_state = "casing_762x39"
 
