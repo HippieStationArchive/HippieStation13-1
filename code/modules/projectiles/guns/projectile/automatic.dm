@@ -331,8 +331,11 @@
 	else
 		icon_state = "l85a2"
 //stamina rifle
-/obj/item/weapon/gun/projectile/automatic/l85a2/s
-	magazine = new /obj/item/ammo_box/magazine/l85/s()
+/obj/item/weapon/gun/projectile/automatic/l85a2/s/New()
+	..()
+	magazine = new /obj/item/ammo_box/magazine/l85/s
+	chambered = null
+	chamber_round()
 //l85 construction
 /obj/item/weapon/l85frame
 	name = "L85A2 frame"
@@ -379,5 +382,7 @@
 					var/obj/item/weapon/gun/projectile/automatic/l85a2/weapon = new /obj/item/weapon/gun/projectile/automatic/l85a2()
 					weapon.loc = get_turf(user.loc)
 					weapon.magazine = null
+					weapon.chambered = null
 					user.drop_item()
 					qdel(src)
+
