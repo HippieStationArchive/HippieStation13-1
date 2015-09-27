@@ -313,17 +313,15 @@
 /obj/item/weapon/gun/projectile/automatic/l85a2
 	name = "L85A2"
 	desc = "An old classic brought back to life , fires lethal and stamina damaging rounds."
-	icon_state = "ak922"
 	item_state = "c20r"
 	origin_tech = "combat=5;materials=3"
 	icon = 'icons/obj/buttlauncher.dmi'
 	icon_state = "l85a2loaded"
 	mag_type = /obj/item/ammo_box/magazine/l85
-	can_suppress = 1
+	can_suppress = 0
 	fire_sound = 'sound/weapons/handcannon.ogg'
 	fire_delay = 2
 	burst_size = 2
-	recoil = 1
 /obj/item/weapon/gun/projectile/automatic/l85a2/update_icon()
 	if(magazine)
 		icon_state = "l85a2loaded"
