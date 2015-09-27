@@ -340,7 +340,23 @@ What are the archived variables for?
 
 //	del(giver)
 	return 1
+/datum/gas_mixture/proc/remove_quick()
+	var/datum/gas_mixture/removed = new
 
+
+	removed.oxygen = oxygen
+	removed.nitrogen = nitrogen
+	removed.carbon_dioxide = carbon_dioxide
+	removed.toxins = toxins
+
+	oxygen -= removed.oxygen
+	nitrogen -= removed.nitrogen
+	carbon_dioxide -= removed.carbon_dioxide
+	toxins -= removed.toxins
+
+	removed.temperature = temperature
+
+	return removed
 /datum/gas_mixture/remove(amount)
 
 	var/sum = total_moles()

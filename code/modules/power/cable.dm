@@ -434,12 +434,15 @@ obj/structure/cable/proc/avail()
 				P.disconnect_from_network() //remove from current network (and delete powernet)
 		return
 
+	var/obj/O = P_list[1]
 	// remove the cut cable from its turf and powernet, so that it doesn't get count in propagate_network worklist
 	loc = null
 	powernet.remove_cable(src) //remove the cut cable from its powernet
 
-	var/datum/powernet/newPN = new()// creates a new powernet...
-	propagate_network(P_list[1], newPN)//... and propagates it to the other side of the cable
+	spawn(0) //so we don't rebuild the network X times when singulo/explosion destroys a line of X cables
+		if(O && !qdeleted(O))
+			var/datum/powernet/newPN = new()// creates a new powernet...
+			propagate_network(O, newPN)//... and propagates it to the other side of the cable
 
 	// Disconnect machines connected to nodes
 	if(d1 == 0) // if we cut a node (O-X) cable
@@ -632,37 +635,37 @@ obj/structure/cable/proc/avail()
 	var/path = "/obj/structure/cable" + (item_color == "red" ? "" : "/" + item_color)
 	return new path (location)
 
-// called when cable_coil is clicked on a turf/simulated/floor
-/obj/item/stack/cable_coil/proc/turf_place(turf/simulated/floor/F, mob/user)
+// called when cable_coil is clicked on a turf
+/obj/item/stack/cable_coil/proc/place_turf(turf/T, mob/user)
 	if(!isturf(user.loc))
+		return
+
+	if(!T.can_have_cabling())
+		user << "You can only lay cables on catwalks and plating!"
 		return
 
 	if(get_amount() < 1) // Out of cable
 		user << "There is no cable left."
 		return
 
-	if(get_dist(F,user) > 1) // Too far
+	if(get_dist(T,user) > 1) // Too far
 		user << "You can't lay cable at a place that far away."
-		return
-
-	if(F.intact)		// Ff floor is intact, complain
-		user << "You can't lay cable there unless the floor tiles are removed."
 		return
 
 	else
 		var/dirn
 
-		if(user.loc == F)
+		if(user.loc == T)
 			dirn = user.dir			// if laying on the tile we're on, lay in the direction we're facing
 		else
-			dirn = get_dir(F, user)
+			dirn = get_dir(T, user)
 
-		for(var/obj/structure/cable/LC in F)
+		for(var/obj/structure/cable/LC in T)
 			if(LC.d2 == dirn && LC.d1 == 0)
 				user << "There's already a cable at that position."
 				return
 
-		var/obj/structure/cable/C = get_new_cable (F)
+		var/obj/structure/cable/C = get_new_cable(T)
 
 		//set up the new cable
 		C.d1 = 0 //it's a O-X node cable
@@ -705,15 +708,15 @@ obj/structure/cable/proc/avail()
 
 
 	if(U == T) //if clicked on the turf we're standing on, try to put a cable in the direction we're facing
-		turf_place(T,user)
+		place_turf(T,user)
 		return
 
 	var/dirn = get_dir(C, user)
 
 	// one end of the clicked cable is pointing towards us
 	if(C.d1 == dirn || C.d2 == dirn)
-		if(U.intact)						// can't place a cable if the floor is complete
-			user << "You can't lay cable there unless the floor tiles are removed."
+		if(U.can_have_cabling())						//checking if it's a plating or catwalk
+			user << "You can only lay cables on catwalks and plating!"
 			return
 		else
 			// cable is pointing at us, we're standing on an open tile

@@ -13,23 +13,15 @@ Bartender
 	selection_color = "#dddddd"
 
 	default_pda = /obj/item/device/pda/bar
+	default_pda_slot = slot_l_store
 	default_headset = /obj/item/device/radio/headset/headset_srv
 
 	access = list(access_hydroponics, access_bar, access_kitchen, access_morgue, access_mineral_storeroom, access_weapons)
 	minimal_access = list(access_bar, access_mineral_storeroom, access_weapons)
 
 /datum/job/bartender/equip_backpack(var/mob/living/carbon/human/H)
-	// switch(H.backbag)
-	if(H.backbag == 1) //No backpack or satchel
 
-		var/obj/item/weapon/storage/box/box = new default_storagebox(H)
-		new /obj/item/ammo_casing/shotgun/beanbag(box)
-		new /obj/item/ammo_casing/shotgun/beanbag(box)
-		new /obj/item/ammo_casing/shotgun/beanbag(box)
-		new /obj/item/ammo_casing/shotgun/beanbag(box)
-		H.equip_to_slot_or_del(box, slot_r_hand)
-
-	else if(H.backbag > 1) // Backpack, satchel, etc etc etc
+	if(H.backbag > 1) // Backpack, satchel, etc etc etc
 		var/obj/item/weapon/storage/backpack/BPK = new default_backpack(H)
 		new default_storagebox(BPK)
 		H.equip_to_slot_or_del(BPK, slot_back,1)
@@ -42,12 +34,7 @@ Bartender
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(H), slot_shoes)
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/vest/alt(H), slot_wear_suit)
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/bartender(H), slot_w_uniform)
-
-	if(H.backbag > 1)
-		H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
-		H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
-		H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
-		H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
+	H.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/bandolier/full(H), slot_belt)
 
 /*
 Chef - fuck you -tg-
@@ -181,7 +168,7 @@ Shaft Miner
 
 /datum/job/mining/equip_items(var/mob/living/carbon/human/H)
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/miner(H), slot_w_uniform)
-	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(H), slot_shoes)
+	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/workboots(H), slot_shoes)
 
 	if(H.backbag == 1)
 		H.equip_to_slot_or_del(new /obj/item/weapon/crowbar(H), slot_l_hand)

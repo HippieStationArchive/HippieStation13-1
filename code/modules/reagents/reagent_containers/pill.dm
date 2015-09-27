@@ -59,6 +59,9 @@
 		if(!target.reagents.total_volume)
 			user << "<span class='notice'>[target] is empty. There's nothing to dissolve [src] in.</span>"
 			return
+		if(istype(target, /obj/item/weapon/reagent_containers/spray))
+			user << "You cannot find any opening where to insert the pill..."
+			return
 		user << "<span class='notice'>You dissolve [src] in [target].</span>"
 		for(var/mob/O in viewers(2, user))	//viewers is necessary here because of the small radius
 			O << "<span class='warning'>[user] slips something into [target].</span>"

@@ -13,11 +13,12 @@
 	..()
 	levelupdate()
 
-/turf/simulated/proc/MakeSlippery(var/wet_setting = 1) // 1 = Water, 2 = Lube
+
+/turf/simulated/proc/MakeSlippery(var/wet_setting = TURF_WET_WATER) // 1 = Water, 2 = Lube
 	if(wet >= wet_setting)
 		return
 	wet = wet_setting
-	if(wet_setting == 1)
+	if(wet_setting == TURF_WET_WATER)
 		if(wet_overlay)
 			overlays -= wet_overlay
 			wet_overlay = null
@@ -27,10 +28,14 @@
 	spawn(rand(790, 820)) // Purely so for visual effect
 		if(!istype(src, /turf/simulated)) //Because turfs don't get deleted, they change, adapt, transform, evolve and deform. they are one and they are all.
 			return
-		if(wet > wet_setting) return
-		wet = 0
-		if(wet_overlay)
-			overlays -= wet_overlay
+		MakeDry(wet_setting)
+
+/turf/simulated/proc/MakeDry(wet_setting = TURF_WET_WATER)
+	if(wet > wet_setting)
+		return
+	wet = TURF_DRY
+	if(wet_overlay)
+		overlays -= wet_overlay
 
 /turf/simulated/Entered(atom/A, atom/OL)
 	..()
@@ -79,13 +84,13 @@
 			blood_DNA = null
 
 		switch (src.wet)
-			if(1) //wet floor
+			if(TURF_WET_WATER) //wet floor
 				if(!M.slip(4, 2, null, (NO_SLIP_WHEN_WALKING|STEP)))
 					M.inertia_dir = 0
 				return
 
-			if(2) //lube
-				M.slip(0, 7, null, (STEP|SLIDE|GALOSHES_DONT_HELP))
+			if(TURF_WET_LUBE) //lube
+				M.slip(0, 7, null, (STEP|SLIDE))
 
 /turf/simulated/proc/AddTracks(var/typepath,var/bloodDNA,var/comingdir,var/goingdir,var/bloodamt,var/bloodcolor="#A10808")
 	// world.log << "Called AddTracks for turf"

@@ -29,7 +29,11 @@
 		return
 
 	if(href_list["mentor_msg"])
-		cmd_mentor_pm(href_list["mentor_msg"],null)
+		if(config.mentors_mobname_only)
+			var/mob/M = locate(href_list["mentor_msg"])
+			cmd_mentor_pm(M,null)
+		else
+			cmd_mentor_pm(href_list["mentor_msg"],null)
 		return
 
 	if(href_list["mentor_follow"])
@@ -157,6 +161,12 @@ var/next_external_rsc = 0
 
 	send_resources()
 
+	if(!void)
+		void = new()
+
+	screen += void
+
+
 	if(prefs.lastchangelog != changelog_hash) //bolds the changelog button on the interface so we know there are updates.
 		changes()
 
@@ -228,6 +238,13 @@ var/next_external_rsc = 0
 			message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer ID which is <bold>CURRENTLY</bold> banned: [query_cid.item[1]] they were banned for <bold>[query.item[2]]</bold> by <bold>[query.item[1]]</bold></font>")
 
 		related_accounts_cid += "[query_cid.item[1]],"
+
+	var/DBQuery/query = dbcon.NewQuery("SELECT ckey, reason FROM [format_table_name("watch")] WHERE (ckey = '[sql_ckey]')")
+	query.Execute()
+	if(query.NextRow())
+		message_admins("<font color='red'><B>Notice: </B></font><font color='blue'>User [src.key] is currently being watched, please keep an eye on them. Watch reason: [query_cid.item[2]]</font>")
+		send2irc("Watch Alert", "[src.ckey] is currently being watched and has joined the server! - Watch reason: [query_cid.item[2]]")
+
 
 	var/admin_rank = "Player"
 	if (src.holder && src.holder.rank)

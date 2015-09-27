@@ -35,7 +35,7 @@
 					undrained.desc = "You're safer here than in the deep."
 					undrained.icon_state = "turf"
 					undrained.drained = 0
-				for(var/obj/effect/overlay/water/undrained2 in range(5,src))
+				for(var/obj/overlay/water/undrained2 in range(5,src))
 					undrained2.icon_state = "overlay"
 				for(var/obj/effect/effect/waterspout/undrained3 in range(1,src))
 					qdel(undrained3)
@@ -80,7 +80,7 @@
 					drained.desc = "Don't fall in!"
 					drained.icon_state = "drained"
 					drained.drained = 1
-				for(var/obj/effect/overlay/water/drained2 in range(5,src))
+				for(var/obj/overlay/water/drained2 in range(5,src))
 					drained2.icon_state = "0"
 				for(var/obj/effect/whirlpool/drained3 in range(1,src))
 					qdel(drained3)

@@ -85,9 +85,14 @@
 					user << "<span class='notice'>[M]'s pupils narrow.</span>"
 	else
 		return ..()
-
-
+/obj/item/device/flashlight/proc/can_use(mob/user)
+	if(user && ismob(user))
+		if(!user.stat && user.canmove && !user.restrained())
+			return 1
+	return 0
 /obj/item/device/flashlight/pickup(mob/user)
+	if(!can_use(user))
+		return
 	if(on)
 		user.AddLuminosity(brightness_on)
 		SetLuminosity(0)
@@ -159,6 +164,14 @@ obj/item/device/flashlight/lamp/bananalamp
 	desc = "Only a clown would think to make a ghetto banana-shaped lamp. Even has a goofy pullstring."
 	icon_state = "bananalamp"
 	item_state = "bananalamp"
+
+obj/item/device/flashlight/lamp/bananalamp/Crossed(AM as mob|obj)
+	if (istype(AM, /mob/living/carbon))
+		var/mob/living/carbon/M = AM
+		var/stun = 1
+		var/weaken = 1
+		M.slip(stun, weaken, src)
+		return 1
 
 // FLARES
 

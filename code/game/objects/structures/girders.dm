@@ -62,7 +62,7 @@
 			transfer_fingerprints_to(G)
 			qdel(src)
 
-	else if(istype(W, /obj/item/weapon/crowbar) && state == 0 && anchored )
+	else if((istype(W, /obj/item/weapon/crowbar) || (istype(W,/obj/item/weapon/twohanded/fireaxe) && W:wielded == 1)) && state == 0 && anchored )
 		playsound(src.loc, 'sound/items/Crowbar.ogg', 100, 1)
 		user << "<span class='notice'>Now dislodging the girder...</span>"
 		if(do_after(user, 40))

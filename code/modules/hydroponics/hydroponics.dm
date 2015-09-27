@@ -635,7 +635,7 @@ obj/machinery/hydroponics/attackby(var/obj/item/O as obj, var/mob/user as mob, p
 			H.applyChemicals(S)
 
 			S.clear_reagents()
-			del(S)
+			qdel(S)
 			H.update_icon()
 		if(reagent_source) // If the source wasn't composted and destroyed
 			reagent_source.update_icon()

@@ -72,7 +72,8 @@ RSF
 			new /obj/item/weapon/spacecash/c10( A.loc )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 200 //once money becomes useful, I guess changing this to a high ammount, like 500 units a kick, till then, enjoy dosh!
+				if(engy.cell.charge > 200) engy.cell.charge -= 200
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -86,7 +87,8 @@ RSF
 			new /obj/item/weapon/spacecash/c10( A )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 200 //once money becomes useful, I guess changing this to a high ammount, like 500 units a kick, till then, enjoy dosh!
+				if(engy.cell.charge > 200) engy.cell.charge -= 200
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -100,7 +102,8 @@ RSF
 			new /obj/item/weapon/reagent_containers/food/drinks/drinkingglass( A.loc )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 50
+				if(engy.cell.charge > 50) engy.cell.charge -= 50
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -114,7 +117,8 @@ RSF
 			new /obj/item/weapon/reagent_containers/food/drinks/drinkingglass( A )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 50
+				if(engy.cell.charge > 50) engy.cell.charge -= 50
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -128,7 +132,8 @@ RSF
 			new /obj/item/weapon/paper( A.loc )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 10
+				if(engy.cell.charge > 10) engy.cell.charge -= 10
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -142,7 +147,8 @@ RSF
 			new /obj/item/weapon/paper( A )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 10
+				if(engy.cell.charge > 10) engy.cell.charge -= 10
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -156,7 +162,8 @@ RSF
 			new /obj/item/weapon/pen( A.loc )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 50
+				if(engy.cell.charge > 50) engy.cell.charge -= 50
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -170,7 +177,8 @@ RSF
 			new /obj/item/weapon/pen( A )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 50
+				if(engy.cell.charge > 50) engy.cell.charge -= 50
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -184,7 +192,8 @@ RSF
 			new /obj/item/weapon/storage/pill_bottle/dice( A.loc )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 200
+				if(engy.cell.charge > 200) engy.cell.charge -= 200
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -198,7 +207,8 @@ RSF
 			new /obj/item/weapon/storage/pill_bottle/dice( A )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 200
+				if(engy.cell.charge > 200) engy.cell.charge -= 200
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -212,7 +222,8 @@ RSF
 			new /obj/item/clothing/mask/cigarette( A.loc )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 10
+				if(engy.cell.charge > 10) engy.cell.charge -= 10
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."
@@ -226,7 +237,8 @@ RSF
 			new /obj/item/clothing/mask/cigarette( A )
 			if (isrobot(user))
 				var/mob/living/silicon/robot/engy = user
-				engy.cell.charge -= 10
+				if(engy.cell.charge > 10) engy.cell.charge -= 10
+				else user << "Not enough charge."
 			else
 				matter--
 				user << "The RSF now holds [matter]/30 fabrication-units."

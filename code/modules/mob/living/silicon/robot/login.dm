@@ -4,6 +4,8 @@
 	regenerate_icons()
 	if(mind)	ticker.mode.remove_revolutionary(mind)
 	if(mind)	ticker.mode.remove_gangster(mind)
+	if(mind)	ticker.mode.remove_thrall(mind,0)
+	if(mind)	ticker.mode.remove_shadowling(mind)
 	sleep(5) //Hopefully this will be able to fix the issue where borgs don't have zeroth law when the AI is traitor.
 	show_laws()
 

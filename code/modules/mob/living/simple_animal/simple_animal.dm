@@ -78,7 +78,8 @@
 
 /mob/living/simple_animal/Login()
 	if(src && src.client)
-		src.client.screen = null
+		src.client.screen = list()
+		client.screen += client.void
 	..()
 
 /mob/living/simple_animal/updatehealth()
@@ -110,6 +111,20 @@
 		AdjustWeakened(-1)
 	if(paralysis)
 		AdjustParalysis(-1)
+	if(eye_blind)
+		eye_blind = 0
+	if(eye_blurry)
+		eye_blurry = 0
+	if(eye_stat)
+		eye_stat = 0
+	if(ear_damage)
+		ear_damage = 0
+	if(ear_deaf)
+		ear_deaf = 0
+	if(stuttering)
+		stuttering = 0
+	if(druggy)
+		druggy = 0
 
 	//Movement
 	if(!client && !stop_automated_movement && wander)

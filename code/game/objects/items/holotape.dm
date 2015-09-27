@@ -47,7 +47,7 @@
 	name = "security holotape"
 	desc = "A length of security hard-light holotape. It reads: SECURITY LINE | DO NOT CROSS."
 	icon_base = "security"
-	req_access = list(access_sec_doors) 
+	req_access = list(access_sec_doors)
 
 /obj/item/tapeproj/engineering
 	name = "engineering holotape projector"
@@ -275,10 +275,10 @@
 			for (var/obj/item/holotape/P in cur)
 				if(P.icon_state == icon_dir)
 					N = 0
-					del(P)
+					qdel(P)
 			cur = get_step(cur,dir[i])
 
-	del(src)
+	qdel(src)
 	return
 
 #undef MAX_TAPE_RANGE

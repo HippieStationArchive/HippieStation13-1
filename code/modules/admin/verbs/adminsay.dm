@@ -7,7 +7,7 @@
 	msg = copytext(sanitize(msg), 1, MAX_MESSAGE_LEN)
 	if(!msg)	return
 
-	log_admin("[key_name(src)] : [msg]")
+	log_admin("ASAY: [key_name(src)] : [msg]")
 
 	msg = emoji_parse(msg)
 
@@ -17,6 +17,6 @@
 	else
 		msg = "<span class='adminobserver'><span class='prefix'>ADMIN:</span> <EM>[key_name(usr, 1)]:</EM> <span class='message'>[msg]</span></span>"
 		admins << msg
-	
+
 	feedback_add_details("admin_verb","M") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 

@@ -352,3 +352,26 @@ obj/item/clothing/mask/gas/clown_hat/attack_self(mob/user)
 
 /obj/item/clothing/mask/gas/owl_mask/attack_self(mob/user)
 	return
+
+/obj/item/clothing/mask/gas/tiki_mask
+	name = "tiki mask"
+	desc = "A tiki mask. Only a real Jerk would wear this."
+	alloweat = 1
+	icon_state = "tiki_eyebrow"
+	item_state = "tiki_eyebrow"
+
+obj/item/clothing/mask/gas/tiki_mask/attack_self(mob/user)
+
+	var/mob/M = usr
+	var/list/options = list()
+	options["Original Tiki"] = "tiki_eyebrow"
+	options["Happy Tiki"] = "tiki_happy"
+	options["Confused Tiki"] = "tiki_confused"
+	options["Angry Tiki"] ="tiki_angry"
+
+	var/choice = input(M,"To what form do you wish to change this mask?","Morph Mask") in options
+
+	if(src && choice && !M.stat && in_range(M,src))
+		icon_state = options[choice]
+		M << "The Tiki Mask has now changed into the [choice] Mask!"
+	return 1

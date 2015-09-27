@@ -34,7 +34,11 @@ var/list/freqtospan = list(
 	for(var/atom/movable/AM in get_hearers_in_view(range, src))
 		AM.Hear(rendered, src, languages, message)
 
-/atom/movable/proc/compose_message(atom/movable/speaker, message_langs, raw_message, radio_freq)
+//To get robot span classes, stuff like that.
+/atom/movable/proc/get_spans()
+	return list()
+
+/atom/movable/proc/compose_message(atom/movable/speaker, message_langs, raw_message, radio_freq, list/spans)
 	//This proc uses text() because it is faster than appending strings. Thanks BYOND.
 	//Basic span
 	var/spanpart1 = "<span class='[radio_freq ? get_radio_span(radio_freq) : "game say"]'>"
@@ -47,7 +51,7 @@ var/list/freqtospan = list(
 	//End name span.
 	var/endspanpart = "</span>"
 	//Message
-	var/messagepart = " <span class='message'>[lang_treat(speaker, message_langs, raw_message)]</span></span>"
+	var/messagepart = " <span class='message'>[lang_treat(speaker, message_langs, raw_message, spans)]</span></span>"
 
 	return "[spanpart1][spanpart2][freqpart][compose_track_href(speaker, message_langs, raw_message, radio_freq)][namepart][compose_job(speaker, message_langs, raw_message, radio_freq)][endspanpart][messagepart]"
 
@@ -57,16 +61,20 @@ var/list/freqtospan = list(
 /atom/movable/proc/compose_job(atom/movable/speaker, message_langs, raw_message, radio_freq)
 	return ""
 
-/atom/movable/proc/say_quote(var/text)
-	if(!text)
+/atom/movable/proc/say_quote(input, list/spans=list())
+	if(!input)
 		return "says, \"...\""	//not the best solution, but it will stop a large number of runtimes. The cause is somewhere in the Tcomms code
-	var/ending = copytext(text, length(text))
-	if (ending == "?")
-		return "asks, \"[text]\""
-	if (ending == "!")
-		return "exclaims, \"[text]\""
+	var/ending = copytext(input, length(input))
+	if(copytext(input, length(input) - 1) == "!!")
+		spans |= SPAN_YELL
+		return "[verb_yell], \"[attach_spans(input, spans)]\""
+	input = attach_spans(input, spans)
+	if(ending == "?")
+		return "[verb_ask], \"[input]\""
+	if(ending == "!")
+		return "[verb_exclaim], \"[input]\""
 
-	return "says, \"[text]\""
+	return "[verb_say], \"[input]\""
 
 /atom/movable/proc/lang_treat(atom/movable/speaker, message_langs, raw_message)
 	if(languages & message_langs)
@@ -103,6 +111,16 @@ var/list/freqtospan = list(
 	if(returntext)
 		return returntext
 	return "[copytext("[freq]", 1, 4)].[copytext("[freq]", 4, 5)]"
+
+/proc/attach_spans(input, list/spans)
+	return "[message_spans_start(spans)][input]</span>"
+
+/proc/message_spans_start(list/spans)
+	var/output = "<span class='"
+	for(var/S in spans)
+		output = "[output][S] "
+	output = "[output]'>"
+	return output
 
 /atom/movable/proc/GetVoice()
 	return name

@@ -784,11 +784,14 @@ Turf and target are seperate in case you want to teleport some distance from a t
 
 	return 1
 
-/proc/do_after(mob/user, delay, numticks = 5, needhand = 1)
+/proc/do_after(mob/user, delay, numticks = 5, needhand = 1, atom/target = null)
 	if(!user || isnull(user))
 		return 0
 	if(numticks == 0)
 		return 0
+	var/atom/Tloc = null
+	if(target)
+		Tloc = target.loc
 
 	var/delayfraction = round(delay/numticks)
 	var/turf/T = user.loc
@@ -804,6 +807,8 @@ Turf and target are seperate in case you want to teleport some distance from a t
 		if(!user || user.stat || user.weakened || user.stunned || !(user.loc == T))
 			return 0
 
+		if(Tloc && (!target || Tloc != target.loc)) //Tloc not set when we don't want to track target
+			return 0
 		if(needhand)	//Sometimes you don't want the user to have to keep their active hand
 			if(!holdingnull)
 				if(!holding)
@@ -1464,6 +1469,19 @@ var/list/WALLITEMS = list(
 						"lime","darkgreen","cyan","navy","teal","purple","indigo")
 		else
 			return "white"
+
+
+/proc/screen_loc2turf(scr_loc, turf/origin)
+	var/tX = text2list(scr_loc, ",")
+	var/tY = text2list(tX[2], ":")
+	var/tZ = origin.z
+	tY = tY[1]
+	tX = text2list(tX[1], ":")
+	tX = tX[1]
+	tX = max(1, min(world.maxx, origin.x + (text2num(tX) - (world.view + 1))))
+	tY = max(1, min(world.maxy, origin.y + (text2num(tY) - (world.view + 1))))
+	return locate(tX, tY, tZ)
+
 
 /proc/reverse_direction(var/dir)
 	switch(dir)

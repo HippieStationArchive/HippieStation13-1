@@ -24,11 +24,13 @@
 	var/log_attack = 0					// log attack messages
 	var/log_adminchat = 0				// log admin chat messages
 	var/log_pda = 0						// log pda messages
+	var/log_runtimes = 0				// log runtime errors neatly
 	var/log_hrefs = 0					// logs all links clicked in-game. Could be used for debugging and tracking down exploits
 	var/sql_enabled = 0					// for sql switching
 	var/allow_admin_ooccolor = 0		// Allows admins with relevant permissions to have their own ooc colour
 	var/allow_vote_restart = 0 			// allow votes to restart
 	var/allow_vote_mode = 0				// allow votes to change mode
+	var/mentors_mobname_only = 0		// Whether or not mentors see mob names or ckeys only
 	var/vote_delay = 6000				// minimum time between voting sessions (deciseconds, 10 minute default)
 	var/vote_period = 600				// length of voting period (deciseconds, default 1 minute)
 	var/vote_no_default = 0				// vote does not default to nochange/norestart (tbi)
@@ -66,6 +68,7 @@
 	var/useircbot = 0
 
 	var/admin_legacy_system = 0	//Defines whether the server uses the legacy admin system with admins.txt or the SQL system. Config option in config.txt
+	var/mentor_legacy_system = 0 ////Defines whether the server uses the legacy mentor system with mentors.txt or the SQL system. Config option in config.txt
 	var/ban_legacy_system = 0	//Defines whether the server uses the legacy banning system with the files in /data or the SQL system. Config option in config.txt
 	var/use_age_restriction_for_jobs = 0 //Do jobs use account age restrictions? --requires database
 	var/see_own_notes = 0 //Can players see their own admin notes (read-only)? Config option in config.txt
@@ -159,7 +162,7 @@
 				probabilities[M.config_tag] = M.probability
 				if(M.votable)
 					votable_modes += M.config_tag
-		del(M)
+		qdel(M)
 	votable_modes += "secret"
 
 /datum/configuration/proc/load(filename, type = "config") //the type can also be game_options, in which case it uses a different switch. not making it separate to not copypaste code - Urist
@@ -221,6 +224,8 @@
 					config.log_emote = 1
 				if("log_adminchat")
 					config.log_adminchat = 1
+				if("log_runtimes")
+					config.log_runtimes = 1
 				if("log_pda")
 					config.log_pda = 1
 				if("log_hrefs")
@@ -249,6 +254,8 @@
 					config.server_suffix = 1
 				if("hostedby")
 					config.hostedby = value
+				if("mentors_mobname_only")
+					config.mentors_mobname_only = 1
 				if("server")
 					config.server = value
 				if("banappeals")
@@ -483,7 +490,7 @@
 		var/datum/game_mode/M = new T()
 		if(M.config_tag && M.config_tag == mode_name)
 			return M
-		del(M)
+		qdel(M)
 	return new /datum/game_mode/extended()
 
 /datum/configuration/proc/get_runnable_modes()
@@ -492,10 +499,10 @@
 		var/datum/game_mode/M = new T()
 		//world << "DEBUG: [T], tag=[M.config_tag], prob=[probabilities[M.config_tag]]"
 		if(!(M.config_tag in modes))
-			del(M)
+			qdel(M)
 			continue
 		if(probabilities[M.config_tag]<=0)
-			del(M)
+			qdel(M)
 			continue
 		if(M.can_start())
 			runnable_modes[M] = probabilities[M.config_tag]

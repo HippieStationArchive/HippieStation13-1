@@ -116,7 +116,7 @@
 /obj/structure/stool/bed/chair/escape
 	icon_state = "sbluechair"
 	name = "Shuttle Chair"
-	desc = "Always confy, and efficient at leaving your worries behind."
+	desc = "Always comfy, and efficient at leaving your worries behind."
 
 /obj/structure/stool/bed/chair/wood/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(istype(W, /obj/item/weapon/wrench))

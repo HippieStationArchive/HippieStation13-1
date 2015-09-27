@@ -4,13 +4,29 @@
 	icon_state = "revolver"
 	fire_sound = 'sound/weapons/revolver_shoot.ogg'
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder
+	unique_reskin = 1
 
-/obj/item/weapon/gun/projectile/revolver/chamber_round()
-	if ((chambered && chambered.BB)|| !magazine) //if there's a live ammo in the chamber or no magazine
-		return
-	else if (magazine.ammo_count())
+/obj/item/weapon/gun/projectile/revolver/New()
+	..()
+	if(!istype(magazine, /obj/item/ammo_box/magazine/internal/cylinder))
+		verbs -= /obj/item/weapon/gun/projectile/revolver/verb/spin
+	else
+		options["Default"] = "revolver"
+		options["Alternate"] = "revolver_nagant"
+		options["Cancel"] = null
+
+
+/obj/item/weapon/gun/projectile/revolver/chamber_round(var/spin = 1)
+	if(spin)
 		chambered = magazine.get_round(1)
+	else
+		chambered = magazine.stored_ammo[1]
 	return
+
+/obj/item/weapon/gun/projectile/revolver/shoot_with_empty_chamber(mob/living/user as mob|obj)
+	..()
+	chamber_round(1)
+
 
 /obj/item/weapon/gun/projectile/revolver/process_chamber()
 	return ..(0, 1)
@@ -25,23 +41,46 @@
 		else
 			playsound(user.loc, 'sound/weapons/effects/reload1.ogg', 30, 1, -2)
 		update_icon()
-		chamber_round()
+		chamber_round(0)
+
+	if(unique_rename)
+		if(istype(A, /obj/item/weapon/pen))
+			rename_gun(user)
 
 /obj/item/weapon/gun/projectile/revolver/attack_self(mob/living/user as mob)
 	var/num_unloaded = 0
+	chambered = null
 	while (get_ammo() > 0)
 		var/obj/item/ammo_casing/CB
 		CB = magazine.get_round(0)
-		chambered = null
-		CB.loc = get_turf(src.loc)
-		CB.SpinAnimation(10, 1)
-		CB.update_icon()
+		if(CB)
+			CB.loc = get_turf(src.loc)
+			CB.SpinAnimation(10, 1)
+			CB.update_icon()
+			num_unloaded++
 		playsound(CB.loc, pick('sound/weapons/effects/ShellCasing1.ogg', 'sound/weapons/effects/ShellCasing2.ogg', 'sound/weapons/effects/ShellCasing3.ogg'), 15, 1, -1)
-		num_unloaded++
 	if (num_unloaded)
 		user << "<span class = 'notice'>You unload [num_unloaded] shell\s from [src].</span>"
 	else
 		user << "<span class='notice'>[src] is empty.</span>"
+
+/obj/item/weapon/gun/projectile/revolver/verb/spin()
+	set name = "Spin Chamber"
+	set category = "Object"
+	set desc = "Click to spin your revolver's chamber."
+
+	var/mob/M = usr
+
+	if(M.stat || !in_range(M,src))
+		return
+
+	if(istype(magazine, /obj/item/ammo_box/magazine/internal/cylinder))
+		var/obj/item/ammo_box/magazine/internal/cylinder/C = magazine
+		C.spin()
+		chamber_round(0)
+		usr.visible_message("[usr] spins [src]'s chamber.", "<span class='notice'>You spin [src]'s chamber.</span>")
+	else
+		verbs -= /obj/item/weapon/gun/projectile/revolver/verb/spin
 
 /obj/item/weapon/gun/projectile/revolver/can_shoot()
 	return get_ammo(0,0)
@@ -63,6 +102,18 @@
 	icon_state = "detective"
 	origin_tech = "combat=2;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rev38
+	unique_rename = 1
+	unique_reskin = 1
+
+/obj/item/weapon/gun/projectile/revolver/detective/New()
+	..()
+	options["Default"] = "detective"
+	options["Leopard Spots"] = "detective_leopard"
+	options["Black Panther"] = "detective_panther"
+	options["Gold Trim"] = "detective_gold"
+	options["The Peacemaker"] = "detective_peacemaker"
+	options["Cancel"] = null
+
 
 /obj/item/weapon/gun/projectile/revolver/detective/special_check(var/mob/living/carbon/human/M)
 	if(magazine.caliber == initial(magazine.caliber))
@@ -75,38 +126,6 @@
 		qdel(src)
 		return 0
 	return 1
-
-/obj/item/weapon/gun/projectile/revolver/detective/verb/rename_gun()
-	set name = "Name Gun"
-	set category = "Object"
-	set desc = "Click to rename your gun."
-
-	var/mob/M = usr
-	var/input = stripped_input(M,"What do you want to name the gun?", ,"", MAX_NAME_LEN)
-
-	if(src && input && !M.stat && in_range(M,src) && !M.restrained() && M.canmove)
-		name = input
-		M << "You name the gun [input]. Say hello to your new friend."
-		return 1
-
-/obj/item/weapon/gun/projectile/revolver/detective/verb/reskin_gun()
-	set name = "Reskin gun"
-	set category = "Object"
-	set desc = "Click to reskin your gun."
-
-	var/mob/M = usr
-	var/list/options = list()
-	options["The Original"] = "detective"
-	options["Leopard Spots"] = "detective_leopard"
-	options["Black Panther"] = "detective_panther"
-	options["Gold Trim"] = "detective_gold"
-	options["The Peacemaker"] = "detective_peacemaker"
-	var/choice = input(M,"What do you want to skin the gun to?","Reskin Gun") in options
-
-	if(src && choice && !M.stat && in_range(M,src) && !M.restrained() && M.canmove)
-		icon_state = options[choice]
-		M << "Your gun is now skinned as [choice]. Say hello to your new friend."
-		return 1
 
 /obj/item/weapon/gun/projectile/revolver/detective/attackby(var/obj/item/A as obj, mob/user as mob)
 	..()
@@ -153,7 +172,7 @@
 	name = "russian revolver"
 	desc = "A Russian-made revolver for drinking games. Uses .357 ammo, and has a mechanism that spins the chamber before each trigger pull."
 	origin_tech = "combat=2;materials=2"
-	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rus357
+	mag_type = /obj/item/ammo_box/magazine/internal/rus357
 	var/spun = 0
 
 /obj/item/weapon/gun/projectile/revolver/russian/New()
@@ -231,3 +250,40 @@
 
 		user.visible_message("<span class='danger'>*click*</span>")
 		playsound(user, 'sound/weapons/empty.ogg', 100, 1)
+
+
+/obj/item/weapon/gun/energy/revolver/cyborg
+	name = "cyborg revolver"
+	desc = "An autorevolver that fires 3d-printed flachettes slowly regenerated using a cyborg's internal power source."
+	icon_state = "mateba"
+	cell_type = "/obj/item/weapon/stock_parts/cell/secborg"
+	ammo_type = list(/obj/item/ammo_casing/energy/c3dbullet)
+	var/charge_tick = 0
+	var/recharge_time = 2
+
+/obj/item/weapon/gun/energy/revolver/cyborg/update_icon()
+	return
+
+/obj/item/weapon/gun/energy/revolver/cyborg/New()
+	..()
+	processing_objects.Add(src)
+
+
+/obj/item/weapon/gun/energy/revolver/cyborg/Destroy()
+	processing_objects.Remove(src)
+	..()
+
+/obj/item/weapon/gun/energy/revolver/cyborg/process()
+	charge_tick++
+	if(charge_tick < recharge_time) return 0
+	charge_tick = 0
+
+	if(!power_supply) return 0 //sanity
+	if(isrobot(src.loc))
+		var/mob/living/silicon/robot/R = src.loc
+		if(R && R.cell)
+			var/obj/item/ammo_casing/energy/shot = ammo_type[select] //Necessary to find cost of shot
+			if(R.cell.use(shot.e_cost)) 		//Take power from the borg...
+				power_supply.give(shot.e_cost)	//...to recharge the shot
+
+	return 1

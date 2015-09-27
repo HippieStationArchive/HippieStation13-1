@@ -73,6 +73,11 @@ var/global/list/achievements = list("Goodcurity")
 				log_admin("[key_name(usr)] created abductor team.")
 				if(!src.makeAbductorTeam())
 					usr << "<span class='danger'>Unfortunatly there were not enough candidates available.</span>"
+			if("14")
+				message_admins("[key_name(usr)] created a shadowling.")
+				log_admin("[key_name(usr)] created a shadowling.")
+				if(!src.makeShadowling())
+					usr << "<span class='danger'>Unfortunatly there were not enough candidates available.</span>"
 
 	else if(href_list["forceevent"])
 		var/datum/round_event_control/E = locate(href_list["forceevent"]) in events.control
@@ -610,6 +615,12 @@ var/global/list/achievements = list("Goodcurity")
 		else
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=wizard;jobban4=\ref[M]'>[replacetext("Wizard", " ", "&nbsp")]</a></td>"
 
+		//Shadowlings
+		if(jobban_isbanned(M, "shadowling") || isbanned_dept)
+			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=shadowling;jobban4=\ref[M]'><font color=red>[replacetext("Shadowling", " ", "&nbsp")]</font></a></td>"
+		else
+			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=shadowling;jobban4=\ref[M]'>[replacetext("Shadowling", " ", "&nbsp")]</a></td>"
+
 /*		//Malfunctioning AI	//Removed Malf-bans because they're a pain to impliment
 		if(jobban_isbanned(M, "malf AI") || isbanned_dept)
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=malf AI;jobban4=\ref[M]'><font color=red>[replacetext("Malf AI", " ", "&nbsp")]</font></a></td>"
@@ -1089,6 +1100,48 @@ var/global/list/achievements = list("Goodcurity")
 		load_mentors()
 		M << "\blue Your mentor access has been removed"
 		M.verbs -= /client/proc/cmd_mentor_say
+
+	else if(href_list["addwatchlist"])
+		if(!check_rights(R_ADMIN))	return
+
+		var/mob/M = locate(href_list["addwatchlist"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
+
+		if(!M.client)
+			usr << "no client"
+			return
+
+		var/reason = input(usr,"Reason?","reason","Metagaming") as text|null
+		if(!reason)
+			return
+
+		log_admin("[key_name(usr)] has added [key_name(M)] to the watchlist for: [reason]")
+		message_admins("\blue [key_name(usr)] has added [key_name(M)] to the watchlist for: [reason]", 1)
+
+		reason = sanitizeSQL(reason)
+
+		var/DBQuery/query = dbcon.NewQuery("INSERT INTO [format_table_name("watch")] (ckey, reason) VALUES ('[M.client.ckey]', '[reason]')")
+		if(!query.Execute())
+			var/err = query.ErrorMsg()
+			log_game("SQL ERROR during adding new watch entry. Error : \[[err]\]\n")
+
+	else if(href_list["removewatchlist"])
+		if(!check_rights(R_ADMIN))	return
+
+		var/mob/living/carbon/human/M = locate(href_list["removewatchlist"])
+		if(!ismob(M))
+			usr << "this can be only used on instances of type /mob"
+			return
+
+		log_admin("[key_name(usr)] has removed watch entry from [key_name(M)]")
+		message_admins("\blue [key_name_admin(usr)] has removed watch entry from [key_name_admin(M)]", 1)
+
+		var/DBQuery/query = dbcon.NewQuery("DELETE FROM [format_table_name("watch")] WHERE ckey = '[M.client.ckey]'")
+		if(!query.Execute())
+			var/err = query.ErrorMsg()
+			log_game("SQL ERROR during removing watch entry. Error : \[[err]\]\n")
 
 	else if(href_list["sendtoprison"])
 		if(!check_rights(R_ADMIN))	return

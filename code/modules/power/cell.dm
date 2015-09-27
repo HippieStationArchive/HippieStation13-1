@@ -26,11 +26,11 @@
 /obj/item/weapon/stock_parts/cell/proc/use(var/amount)
 	if(rigged && amount > 0)
 		explode()
+		charge = 0
+		return 1
+	else
+		charge = (charge - amount)
 		return 0
-
-	if(charge < amount)	return 0
-	charge = (charge - amount)
-	return 1
 
 // recharge the cell
 /obj/item/weapon/stock_parts/cell/proc/give(var/amount)

@@ -317,6 +317,13 @@ var/list/uplink_items = list()
 	if(istype(T))
 		T.TC_cost = cost
 
+/datum/uplink_item/dangerous/guardian
+	name = "Holoparasites"
+	desc = "Though capable of near sorcerous feats via use of hardlight holograms and nanomachines, they require an organic host as a home base and source of fuel."
+	item = /obj/item/weapon/storage/box/syndie_kit/guardian
+	cost = 12
+
+
 // AMMUNITION
 
 /datum/uplink_item/ammo
@@ -722,6 +729,12 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/syndicate
 	cost = 20
 	excludefrom = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/badass/raincoat
+	name = "Raincoat"
+	desc = "It's hip to be square!"
+	item = /obj/item/clothing/suit/raincoat
+	cost = 1
 
 /datum/uplink_item/badass/syndiecards
 	name = "Syndicate Playing Cards"
