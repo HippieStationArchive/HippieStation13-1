@@ -312,7 +312,7 @@
 	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,HARDFEET)
 	blood_color = "#808080"
 
-/datum/species/skeleton/alt
+/datum/species/skelly
 	//3spooky
 	name = "Spooky Scary Skeleton"
 	id = "skeleton"
