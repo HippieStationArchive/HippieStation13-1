@@ -64,14 +64,14 @@
 	desc = "A traditional shotgun with tactical furniture and an eight-shell capacity underneath."
 	icon_state = "cshotgun"
 	origin_tech = "combat=5;materials=2"
-	mag_type = /obj/item/ammo_box/magazine/internal/shotcom
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
 	w_class = 5
 
 /obj/item/weapon/gun/projectile/shotgun/riot //for spawn in the armory
 	name = "riot shotgun"
 	desc = "A sturdy shotgun with a longer magazine and a fixed tactical stock designed for non-lethal riot control."
 	icon_state = "riotshotgun"
-	mag_type = /obj/item/ammo_box/magazine/internal/shotriot
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/riot
 	sawn_desc = "Come with me if you want to live."
 
 /obj/item/weapon/gun/projectile/shotgun/riot/attackby(var/obj/item/A as obj, mob/user as mob)
@@ -93,9 +93,22 @@
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=3;materials=1"
-	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/dualshot
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/dual
 	sawn_desc = "Omar's coming!"
 	fire_sound = 'sound/weapons/shotgun.ogg'
+	unique_rename = 1
+	unique_reskin = 1
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/New()
+	..()
+	options["Default"] = "dshotgun"
+	options["Dark Red Finish"] = "dshotgun-d"
+	options["Ash"] = "dshotgun-f"
+	options["Faded Grey"] = "dshotgun-g"
+	options["Maple"] = "dshotgun-l"
+	options["Rosewood"] = "dshotgun-p"
+	options["Cancel"] = null
+
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/attackby(var/obj/item/A as obj, mob/user as mob)
 	..()
@@ -133,8 +146,10 @@
 	w_class = 4.0
 	force = 10
 	origin_tech = "combat=2;materials=2"
-	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/improvised
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/improvised
 	sawn_desc = "I'm just here for the gasoline."
+	unique_rename = 0
+	unique_reskin = 0
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/attackby(var/obj/item/A as obj, mob/user as mob)
 	..()
@@ -189,7 +204,7 @@
 	if(do_after(user, 30))
 		name = "sawn-off [src.name]"
 		desc = sawn_desc
-		icon_state = initial(icon_state) + "-sawn"
+		icon_state = "[icon_state]-sawn"
 		w_class = 3.0
 		item_state = "gun"
 		slot_flags &= ~SLOT_BACK	//you can't sling it on your back

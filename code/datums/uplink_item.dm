@@ -317,6 +317,13 @@ var/list/uplink_items = list()
 	if(istype(T))
 		T.TC_cost = cost
 
+/datum/uplink_item/dangerous/guardian
+	name = "Guardian Swarm"
+	desc = "A parasitic species that will nest inside you, providing you a Guardian Stand."
+	item = /obj/item/weapon/storage/box/syndie_kit/guardian
+	cost = 12
+
+
 // AMMUNITION
 
 /datum/uplink_item/ammo

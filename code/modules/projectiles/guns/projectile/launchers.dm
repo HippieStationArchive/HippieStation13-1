@@ -6,7 +6,7 @@
 	name = "grenade launcher"
 	icon_state = "dshotgun-sawn"
 	item_state = "gun"
-	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/grenadelauncher
+	mag_type = /obj/item/ammo_box/magazine/internal/grenadelauncher
 	w_class = 3
 
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/attackby(var/obj/item/A, mob/user)
@@ -14,12 +14,12 @@
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
 		chamber_round()
 
-/obj/item/weapon/gun/projectile/revolver/grenadelauncher/multi
+/obj/item/weapon/gun/projectile/revolver/grenademulti
 	desc = "A revolving 6-shot grenade launcher."
 	name = "multi grenade launcher"
 	icon_state = "bulldog"
 	item_state = "bulldog"
-	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/grenadelauncher/multi
+	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/grenademulti
 
 /obj/item/weapon/gun/projectile/automatic/gyropistol
 	name = "gyrojet pistol"
