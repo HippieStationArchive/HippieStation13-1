@@ -303,3 +303,6 @@ its easier to just keep the beam vertical.
 
 /atom/proc/narsie_act()
 	return
+
+/atom/proc/storage_contents_dump_act(obj/item/weapon/storage/src_object, mob/user)
+    return 0

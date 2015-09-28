@@ -280,6 +280,13 @@
 	else
 		return 1
 
+/obj/item/weapon/twohanded/shockpaddles/Topic(href, href_list)
+	if(href_list["reenter"])
+		var/mob/dead/observer/ghost = usr
+		if(istype(ghost))
+			ghost.reenter_corpse(ghost)
+
+
 /obj/item/weapon/twohanded/shockpaddles/attack(mob/M as mob, mob/user as mob)
 	var/tobehealed
 	var/threshold = -config.health_threshold_dead
@@ -385,7 +392,7 @@
 							// 	user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Please try again.</span>")
 							else
 								if(ghost)
-									ghost << "<span class='ghostalert'>Your heart is being defibrillated. Return to your body if you want to be revived!</span> (Verbs -> Ghost -> Re-enter corpse)"
+									ghost << "<span class='ghostalert'>Your heart is being defibrillated. Re-enter your corpse if you want to be revived! <a href=?src=\ref[src];reenter=1>(Click to re-enter)</a></span>"
 									ghost << sound('sound/effects/genetics.ogg')
 									user.visible_message("<span class='warning'>[defib] buzzes: Resuscitation failed - Mental interface failure.</span>")
 								else
