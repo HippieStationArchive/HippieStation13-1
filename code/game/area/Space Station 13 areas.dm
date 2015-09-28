@@ -387,6 +387,14 @@ proc/process_ghost_teleport_locs()
 	ambloop = 'sound/ambience/loop/hallow.ogg'
 	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
 
+/area/clownship
+	name = "\improper Clown Ship"
+	icon_state = "honk"
+	requires_power = 0
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/hallow.ogg'
+	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
+
 /area/telesciareas
 	name = "\improper Cosmic Anomaly"
 	icon_state = "telesci"
@@ -825,6 +833,10 @@ proc/process_ghost_teleport_locs()
 
 /area/mime
 	name = "\improper Mime Office"
+	icon_state = "mime"
+
+/area/mimeship
+	name = "\improper Mime Ship"
 	icon_state = "mime"
 
 /area/crew_quarters/Arcade
