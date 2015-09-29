@@ -322,6 +322,7 @@
 	fire_sound = 'sound/weapons/handcannon.ogg'
 	fire_delay = 2
 	burst_size = 2
+	w_class = 4
 /obj/item/weapon/gun/projectile/automatic/l85a2/update_icon()
 	if(magazine)
 		icon_state = "l85a2loaded"
