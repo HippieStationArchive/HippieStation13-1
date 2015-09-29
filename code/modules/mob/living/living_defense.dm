@@ -35,7 +35,7 @@ proc/vol_by_throwforce_and_or_w_class(var/obj/item/I)
 		else
 				return 0
 
-/mob/living/hitby(atom/movable/AM, zone)//Standardization and logging -Sieve
+/mob/living/hitby(atom/movable/AM, zone,mob/thrower)//Standardization and logging -Sieve
 	if(istype(AM, /obj/item))
 		if(!zone)
 			zone = ran_zone("chest", 65)
@@ -66,11 +66,8 @@ proc/vol_by_throwforce_and_or_w_class(var/obj/item/I)
 		var/armor = run_armor_check(zone, "melee", "Your armor has protected your [parse_zone(zone)].", "Your armor has softened hit to your [parse_zone(zone)].")
 		apply_damage(I.throwforce, dtype, zone, armor, I)
 
-		if(I.fingerprintslast)
-			var/client/assailant = directory[ckey(I.fingerprintslast)]
-			if(assailant && assailant.mob && istype(assailant.mob,/mob))
-				var/mob/M = assailant.mob
-				add_logs(M, src, "hit", object="[I]")
+		if(thrower)
+			add_logs(thrower, src, "hit", object="[I]")
 
 /mob/living/mech_melee_attack(obj/mecha/M)
 	if(M.occupant.a_intent == "harm")

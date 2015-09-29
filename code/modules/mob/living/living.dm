@@ -435,6 +435,7 @@
 					if(L.foreign_objects.len)
 						for(var/obj/item/B in L.foreign_objects)
 							del(B)
+						L.foreign_objects = list()
 					L.bloodloss = 0 //Set bleeding to 0
 					for(var/obj/item/I in L.embedded)
 						L.embedded -= I
@@ -916,3 +917,9 @@
 	else
 		src.pixel_x = 0
 		src.pixel_y = 0
+
+/mob/living/proc/get_standard_pixel_x_offset(lying = 0)
+	return initial(pixel_x)
+
+/mob/living/proc/get_standard_pixel_y_offset(lying = 0)
+	return initial(pixel_y)

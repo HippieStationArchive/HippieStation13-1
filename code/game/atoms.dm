@@ -28,10 +28,10 @@
 	//Value used to increment ex_act() if reactionary_explosions is on
 	var/explosion_block = 0
 
-/atom/proc/throw_impact(atom/hit_atom)
+/atom/proc/throw_impact(atom/hit_atom,mob/thrower)
 	if(istype(hit_atom,/mob/living))
 		var/mob/living/M = hit_atom
-		M.hitby(src, ran_zone(throwzone, 50)) //50% chance to hit targeted limb
+		M.hitby(src,thrower)
 
 	else if(isobj(hit_atom))
 		var/obj/O = hit_atom
@@ -303,3 +303,6 @@ its easier to just keep the beam vertical.
 
 /atom/proc/narsie_act()
 	return
+
+/atom/proc/storage_contents_dump_act(obj/item/weapon/storage/src_object, mob/user)
+    return 0
