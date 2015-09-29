@@ -122,6 +122,7 @@
 				/obj/item/weapon/weldingtool = 3,
 				/obj/item/weapon/wirecutters = 1,
 				/obj/item/weapon/wrench = 4,
+				/obj/item/weapon/relic = 3,
 				"" = 11
 				)
 
