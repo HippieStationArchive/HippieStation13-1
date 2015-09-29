@@ -318,8 +318,8 @@ var/list/uplink_items = list()
 		T.TC_cost = cost
 
 /datum/uplink_item/dangerous/guardian
-	name = "Holoparasites"
-	desc = "Though capable of near sorcerous feats via use of hardlight holograms and nanomachines, they require an organic host as a home base and source of fuel."
+	name = "Guardian Swarm"
+	desc = "A parasitic species that will nest inside you, providing you a Guardian Stand."
 	item = /obj/item/weapon/storage/box/syndie_kit/guardian
 	cost = 12
 

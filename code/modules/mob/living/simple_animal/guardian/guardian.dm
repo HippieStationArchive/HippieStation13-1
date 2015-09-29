@@ -128,6 +128,7 @@
 		if(M == src.summoner || (M in dead_mob_list))
 			M << "<span class='boldannounce'><i>[src]:</i> [input]</span>"
 	src << "<span class='boldannounce'><i>[src]:</i> [input]</span>"
+	log_say("[src.real_name]/[src.key] : [text]")
 
 /mob/living/proc/guardian_comm()
 	set name = "Communicate"
@@ -144,6 +145,7 @@
 		else if (M in dead_mob_list)
 			M << "<span class='boldannounce'><i>[src]:</i> [input]</span>"
 	src << "<span class='boldannounce'><i>[src]:</i> [input]</span>"
+	log_say("[src.real_name]/[src.key] : [text]")
 
 
 //////////////////////////TYPES OF GUARDIANS
@@ -196,7 +198,7 @@
 	if(istype(AM, /mob/living/))
 		var/mob/living/M = AM
 		if(AM != src.summoner)
-			M.adjust_fire_stacks(7)
+			M.adjust_fire_stacks(4)
 			M.IgniteMob()
 
 /mob/living/simple_animal/hostile/guardian/fire/Bump(AM as mob|obj)
@@ -694,6 +696,6 @@
 
 /obj/item/weapon/storage/box/syndie_kit/guardian/New()
 	..()
-	new /obj/item/weapon/guardiancreator/tech/choose(src)
+	new /obj/item/weapon/guardiancreator/biological/choose(src)
 	new /obj/item/weapon/paper/guardian(src)
 	return
