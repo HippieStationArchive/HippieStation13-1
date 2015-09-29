@@ -327,12 +327,3 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	dat += data_core.get_manifest()
 
 	src << browse(dat, "window=manifest;size=370x420;can_close=1")
-
-//this is called when a ghost is drag clicked to something.
-/mob/dead/observer/MouseDrop(atom/over)
-	if(!usr || !over) return
-	if (isobserver(usr) && usr.client.holder && isliving(over))
-		if (usr.client.holder.cmd_ghost_drag(src,over))
-			return
-
-	return ..()
