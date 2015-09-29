@@ -22,7 +22,7 @@
 
 
 /obj/item/organ/brain/proc/transfer_identity(mob/living/carbon/H)
-	name = "[H]'s brain"
+	name = "[H.real_name]'s brain"
 	brainmob = new(src)
 	brainmob.name = H.real_name
 	brainmob.real_name = H.real_name
