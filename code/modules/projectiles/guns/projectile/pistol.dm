@@ -1,6 +1,6 @@
 /obj/item/weapon/gun/projectile/automatic/pistol
 	name = "syndicate pistol"
-	desc = "A small, easily concealable 10mm handgun. Has a threaded barrel for suppressors."
+	desc = "Known as the DC3 Elite, this is a small, easily concealable 10mm handgun. Has a threaded barrel for suppressors."
 	icon_state = "pistol"
 	w_class = 2
 	origin_tech = "combat=2;materials=2;syndicate=2"

@@ -224,10 +224,10 @@
 	desc = "A weapon for combat exosuits. Shoots a spread of pellets."
 	icon_state = "mecha_scatter"
 	equip_cooldown = 20
-	projectile = /obj/item/projectile/bullet/midbullet
-	projectiles = 40
+	projectile = /obj/item/projectile/bullet/pellet
+	projectiles = 90
 	projectile_energy_cost = 25
-	var/projectiles_per_shot = 4
+	var/projectiles_per_shot = 9	//81 points of damage if all pellets hit, seems fine to me for a mech shotgun.
 	var/deviation = 0.7
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/scattershot/action(atom/target)
@@ -265,6 +265,7 @@
 	name = "\improper Ultra AC 2"
 	desc = "A weapon for combat exosuits. Shoots a rapid, three shot burst."
 	icon_state = "mecha_uac2"
+	fire_sound = "sound/weapons/tommygun_shoot.ogg"
 	equip_cooldown = 10
 	projectile = /obj/item/projectile/bullet/weakbullet
 	projectiles = 300
