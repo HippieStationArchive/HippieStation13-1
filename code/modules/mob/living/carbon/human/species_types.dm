@@ -309,6 +309,7 @@
 	say_mod = "rattles"
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/skeleton
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,HARDFEET)
 	blood_color = "#808080"
 
 /datum/species/skeleton/alt
@@ -317,6 +318,7 @@
 	id = "skeleton"
 	say_mod = "rattles"
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/skeleton
+	specflags = null
 	blood_color = "#808080"
 
 // Abductor
