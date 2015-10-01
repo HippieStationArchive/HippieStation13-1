@@ -95,6 +95,7 @@
 /obj/item/clothing/suit/armor/defender
 	name = "Defender MK2"
 	desc = "A New-Russia combat armor vest with a flat-green camoflauge. It uses ceramic plates to grant the wearer extremely effective protection against ballistic weaponry and moderate protection from explosions."
+	slowdown = 0.5
 	icon_state = "defender"
 	item_state = "defender"
 	armor = list(melee = 35, bullet = 80, laser = 20, energy = 15, bomb = 45, bio = 0, rad = 0)
