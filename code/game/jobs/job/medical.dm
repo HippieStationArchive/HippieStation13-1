@@ -34,6 +34,7 @@ Chief Medical Officer
 	suit = /obj/item/clothing/suit/toggle/labcoat/cmo
 	l_hand = /obj/item/weapon/storage/firstaid/regular
 	suit_store = /obj/item/device/flashlight/pen
+	l_pocket = /obj/item/device/sensor_device
 	backpack_contents = list(/obj/item/weapon/melee/classic_baton/telescopic=1)
 
 	backpack = /obj/item/weapon/storage/backpack/medic
@@ -72,6 +73,7 @@ Medical Doctor
 	suit =  /obj/item/clothing/suit/toggle/labcoat
 	l_hand = /obj/item/weapon/storage/firstaid/regular
 	suit_store = /obj/item/device/flashlight/pen
+	l_pocket = /obj/item/device/sensor_device
 
 	backpack = /obj/item/weapon/storage/backpack/medic
 	satchel = /obj/item/weapon/storage/backpack/satchel_med

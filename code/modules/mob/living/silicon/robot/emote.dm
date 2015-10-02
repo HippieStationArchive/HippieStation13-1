@@ -217,6 +217,11 @@
 			playsound(loc, 'sound/machines/warning-buzzer.ogg', 50, 0)
 			m_type = 2
 
+		if ("scream")
+			playsound(src.loc, pick('sound/voice/screamsilicon.ogg'), 50, 0, 10, 1.2)
+			message = "<B>[src]</B> screams!"
+			m_type = 2
+
 		if ("help")
 			src << "Help for cyborg emotes. You can use these emotes with say \"*emote\":\n\naflap, beep-(none)/mob, bow-(none)/mob, buzz-(none)/mob,buzz2,chime, clap, custom, deathgasp, flap, glare-(none)/mob, honk, look-(none)/mob, me, nod, ping-(none)/mob, sad, \nsalute-(none)/mob, twitch, twitch_s, warn,"
 

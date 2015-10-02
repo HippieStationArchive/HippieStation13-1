@@ -294,8 +294,7 @@
 	desc = "A large dufflebag for holding extra things."
 	icon_state = "duffle"
 	item_state = "duffle"
-	slowdown = 1
-	max_combined_w_class = 30
+	max_combined_w_class = 21
 
 /obj/item/weapon/storage/backpack/dufflebag/syndie
 	name = "suspicious looking dufflebag"
@@ -304,7 +303,6 @@
 	item_state = "duffle-syndiemed"
 	origin_tech = "syndicate=1"
 	silent = 1
-	slowdown = 0
 
 /obj/item/weapon/storage/backpack/dufflebag/syndie/med
 	name = "medical dufflebag"

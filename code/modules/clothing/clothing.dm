@@ -233,8 +233,7 @@ BLIND     // can't see anything
 	var/obj/item/clothing/tie/hastie = null
 
 /obj/item/clothing/under/New()
-	if(random_sensor)
-		sensor_mode = pick(0,1,2,3)
+	sensor_mode = 3 //Suit sensors are now always on on roundstart. Players will have to remember to turn them off if they want.
 	adjusted = 0
 	suit_color = item_color
 	..()
