@@ -66,6 +66,7 @@
 				open()
 			else
 				do_animate("deny")
+				playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
 		return
 	return
 
@@ -98,6 +99,7 @@
 			open()
 		else
 			do_animate("deny")
+			playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
 	return
 
 
@@ -136,6 +138,7 @@
 		return
 	if(src.density)
 		do_animate("deny")
+		playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
 	return
 
 /obj/machinery/door/blob_act()
@@ -186,6 +189,7 @@
 				flick("doorc1", src)
 		if("deny")
 			flick("door_deny", src)
+			playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
 	return
 
 
