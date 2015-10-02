@@ -347,7 +347,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "CTRL+S"
-		command = "*scream"
+		command = "say *scream"
 		is-disabled = false
 	elem 
 		name = "CTRL+S+REP"
@@ -581,7 +581,7 @@ macro "hotkeymode"
 		is-disabled = false
 	elem 
 		name = "CTRL+S"
-		command = "*scream"
+		command = "say *scream"
 		is-disabled = false
 	elem "s_key"
 		name = "S+REP"
