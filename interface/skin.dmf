@@ -334,12 +334,20 @@ macro "macro"
 		command = "a-intent right"
 		is-disabled = false
 	elem 
+		name = "CTRL+O"
+		command = "ooc"
+		is-disabled = false
+	elem 
 		name = "CTRL+Q"
 		command = ".northwest"
 		is-disabled = false
 	elem 
 		name = "CTRL+R"
 		command = ".southwest"
+		is-disabled = false
+	elem 
+		name = "CTRL+S"
+		command = "say *scream"
 		is-disabled = false
 	elem 
 		name = "CTRL+S+REP"
@@ -380,10 +388,6 @@ macro "macro"
 	elem 
 		name = "F5"
 		command = "Aghost"
-		is-disabled = false
-	elem 
-		name = "CTRL+O"
-		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "F6"
@@ -574,6 +578,10 @@ macro "hotkeymode"
 	elem 
 		name = "CTRL+R"
 		command = ".southwest"
+		is-disabled = false
+	elem 
+		name = "CTRL+S"
+		command = "say *scream"
 		is-disabled = false
 	elem "s_key"
 		name = "S+REP"
