@@ -148,3 +148,5 @@
 	new /obj/item/weapon/gun/projectile/shotgun/riot(src)
 	new /obj/item/weapon/gun/projectile/shotgun/riot(src)
 	new /obj/item/weapon/gun/projectile/shotgun/riot(src)
+	new /obj/item/weapon/gun/projectile/automatic/l85a2/s(src)
+	new /obj/item/weapon/gun/projectile/automatic/l85a2/s(src)

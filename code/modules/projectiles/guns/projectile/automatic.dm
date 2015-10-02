@@ -309,3 +309,79 @@
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
 	can_suppress = 0
 	burst_size = 4
+
+/obj/item/weapon/gun/projectile/automatic/l85a2
+	name = "L85A2"
+	desc = "An old classic brought back to life , fires lethal and stamina damaging rounds."
+	item_state = "c20r"
+	origin_tech = "combat=5;materials=3"
+	icon = 'icons/obj/buttlauncher.dmi'
+	icon_state = "l85a2loaded"
+	mag_type = /obj/item/ammo_box/magazine/l85
+	can_suppress = 0
+	fire_sound = 'sound/weapons/handcannon.ogg'
+	fire_delay = 2
+	burst_size = 2
+	w_class = 4
+/obj/item/weapon/gun/projectile/automatic/l85a2/update_icon()
+	if(magazine)
+		icon_state = "l85a2loaded"
+		return
+	else
+		icon_state = "l85a2"
+//stamina rifle
+/obj/item/weapon/gun/projectile/automatic/l85a2/s/New()
+	..()
+	magazine = new /obj/item/ammo_box/magazine/l85/s
+	chambered = null
+	chamber_round()
+//l85 construction
+/obj/item/weapon/l85frame
+	name = "L85A2 frame"
+	desc = "The frame for an automatic weapon"
+	item_state = "c20r"
+	icon = 'icons/obj/buttlauncher.dmi'
+	icon_state = "cons1"
+	var/stage = 0
+	attackby(var/obj/item/A as obj, mob/user as mob)
+		if(stage == 0)
+			if(istype(A,/obj/item/stack/sheet/plasteel))
+				var/obj/item/stack/sheet/plasteel/stack = A
+				if(stack.amount >=5)
+					user<<"<span class='notice'>You attach a cover around the frame of the [src.name].</span>"
+					stack.use(5)
+					stage = 1
+					icon_state = "cons2"
+		else if(stage == 1)
+			if(istype(A,/obj/item/weaponcrafting/reciever))
+				stage = 2
+				user<<"<span class='notice'>You attach the Modular Reciever to the [src.name].</span>"
+				user.drop_item()
+				qdel(A)
+				icon_state = "cons3"
+
+		else if(stage == 2)
+			if(istype(A,/obj/item/stack/rods))
+				var/obj/item/stack/rods/stack = A
+				if(stack.amount >= 2)
+					stack.use(2)
+					user<<"<span class='notice'>You insert two rods into the [src.name] forming the barrel and gas piston.</span>"
+					stage = 3
+					icon_state = "l85a2"
+		else if(stage == 3)
+			if(istype(A,/obj/item/weapon/screwdriver))
+				user<<"<span class='notice'>You tighten the screws surrounding the [src.name].</span>"
+				stage = 4
+		else if(stage == 4)
+			if(istype(A,/obj/item/weapon/weldingtool))
+				user<<"<span class='notice'>You begin to weld the remaining chasis together.</span>"
+				playsound(loc, 'sound/items/Welder2.ogg', 100, 1)
+				spawn(5)
+					user<<"<span class='notice'>You weld the remaining chasis together finishing the L85A2.</span>"
+					var/obj/item/weapon/gun/projectile/automatic/l85a2/weapon = new /obj/item/weapon/gun/projectile/automatic/l85a2()
+					weapon.loc = get_turf(user.loc)
+					weapon.magazine = null
+					weapon.chambered = null
+					user.drop_item()
+					qdel(src)
+

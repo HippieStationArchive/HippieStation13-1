@@ -444,6 +444,30 @@
 	build_path = /obj/item/ammo_casing/shotgun
 	category = list("hacked", "Security")
 
+/datum/design/l85
+	name = "L85A2 Frame"
+	id = "l85"
+	build_type = AUTOLATHE
+	materials = list("$metal" = 25000)
+	build_path = /obj/item/weapon/l85frame
+	category = list("hacked", "Weapons and ammo")
+
+/datum/design/buttlaunch
+	name = "Butt Launcher frame"
+	id = "l85"
+	build_type = AUTOLATHE
+	materials = list("$metal" = 5000)
+	build_path = /obj/item/weapon/buttlaunch1
+	category = list("hacked", "Weapons and ammo")
+
+/datum/design/l85s
+	name = "L85A2 Stamina ammunition"
+	id = "l85sa"
+	build_type = AUTOLATHE
+	materials = list("$metal" = 700)
+	build_path = /obj/item/ammo_box/magazine/l85/s
+	category = list("hacked", "Weapons and ammo")
+
 /datum/design/buckshot_shell
 	name = "Buckshot shell"
 	id = "buckshot_shell"
