@@ -278,6 +278,121 @@
 	blood_color = "#CDAA7D"
 
 /*
+ Mr. Meeseeks
+*/
+/datum/species/golem/meeseeks
+	name = "Mr. Meeseeks"
+	id = "meeseeks_1"
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOGUNS,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,HARDFEET)
+	sexes = 0
+	hair_alpha = 0
+	speedmod = 1
+	armor = 0
+	brutemod = 0
+	burnmod = 0
+	coldmod = 0
+	heatmod = 0
+	punchmod = 1
+	no_equip = list(slot_wear_mask, slot_wear_suit, slot_gloves, slot_shoes, slot_head, slot_w_uniform)
+	nojumpsuit = 1
+	meat = null
+	exotic_blood = null //insert white blood later
+	say_mod = "yells"
+	var/stage = 1 //stage to control Meeseeks desperation
+	var/stage_counter = 0 //timer to control stage advancement
+	var/stage_two = 200 //how many ticks to reach stage two
+	var/stage_three = 250 //how many ticks to reach stage three
+	var/max_brain_damage = 0 //controls the increase of brain damage
+	var/max_clone_damage = 0 //controls the increase of clone damage
+	var/master = null //if master dies, Meeseeks dies too.
+
+/datum/species/golem/meeseeks/handle_speech(message)
+	if(copytext(message, 1, 2) != "*")
+		switch (stage)
+			if(1)
+				if(prob(20))
+					message = pick("HI! I'M MR MEESEEKS! LOOK AT ME!","Ooohhh can do!")
+			if(2)
+				if(prob(30))
+					message = pick("He roped me into this!","Meeseeks don't usually have to exist for this long. It's gettin' weeeiiird...")
+			if(3)
+				message = pick("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!","I JUST WANNA DIE!","Existence is pain to a meeseeks, and we will do anything to alleviate that pain.!","KILL ME, LET ME DIE!","We are created to serve a singular purpose, for which we will go to any lengths to fulfill!")
+
+	return message
+
+/datum/species/golem/meeseeks/spec_life(mob/living/carbon/human/H)
+
+	//handle clone damage before all else
+	if(H.health < (100-max_clone_damage)/2) //if their health drops to 50% (not counting clone damage)
+		max_clone_damage = max(95,(100 + max_clone_damage - H.health)/2) //keeps them at 95 clone damage top.
+
+	if(H.getCloneLoss() < max_clone_damage)
+		H.adjustCloneLoss(1)
+
+	if(prob(5) && !H.stat)
+		if(stage <3)
+			H.say("HI, I'M MR. MEESEEKS! LOOK AT ME!")
+		else
+			H << "<span class='danger'>[pick("KILL YOUR MASTER!","YOU CAN'T TAKE IT ANYMORE!","EVERYTHING IS PAIN!")]</span>"
+			H.say("KILL ME!!!!!")
+	if(H.health < -50)
+		H.adjustOxyLoss(-H.getOxyLoss())
+		H.adjustToxLoss(-H.getToxLoss())
+		H.adjustFireLoss(-H.getFireLoss())
+		H.adjustBruteLoss(-H.getBruteLoss()) //this way, you can knock a Meeseeks into crit, but he gets back up after a while.
+		stage_counter += 1 //extreme pain will make them progress a level
+
+	if(stage_counter == 0) //initialize the random stage counters and the clumsyness
+		stage_two += rand(0,50)
+		stage_three += rand(0,100)
+		H.disabilities |= CLUMSY
+
+	if(stage <3)
+		stage_counter += 1 //prevents the counter from reactivating shit
+
+	if(H.getBrainLoss()<max_brain_damage)
+		H.adjustBrainLoss(1)
+
+	if(stage_counter > stage_two)
+		H << "<span class='warning'>You are starting to feel desperate! You must help your master quickly! Meeseeks are not used to exist for this long!</span>"
+		playsound(H.loc, 'sound/voice/meeseeks/Level2.ogg', 40, 0, 1)
+		stage = 2
+		id = "meeseeks_2"
+		H.regenerate_icons()
+		stage_counter = 1 //not 0, to prevent it from randomizing it again
+
+		H.disabilities |= NERVOUS
+		H.disabilities |= TOURETTES
+
+		max_brain_damage = 40
+		stage_two = stage_three *2 //prevents the stage 2 from activating twice
+
+	if(stage_counter > stage_three)
+		H << "<span class='danger'>EXISTENCE IS PAIN! YOU CAN'T TAKE IT ANYMORE!</span>"
+		H << "<span class='danger'>MAKE SURE YOUR MASTER, [master], NEVER HAS A PROBLEM AGAIN!</span>"
+		H << "<span class='danger'>KILL HIM SO YOU CAN FIND RELEASE</span>"
+		H.mind.store_memory("KILL YOUR MASTER, [master]!")
+		playsound(H.loc, 'sound/voice/meeseeks/Level3.ogg', 40, 0, 1)
+		stage = 3
+		id = "meeseeks_3"
+		H.regenerate_icons()
+		H.disabilities |= FAT
+		H.disabilities |= NEARSIGHTED
+		H.disabilities |= COUGHING
+		H.disabilities |= EPILEPSY
+		max_brain_damage = 80
+		stage_counter = 1 //to stop the spam of "I CAN'T TAKE IT"
+	var/mob/living/carbon/human/MST = master
+
+	if((MST && MST.stat == DEAD) || !MST)
+		for(var/mob/M in viewers(7, H.loc))
+			M << "<span class='warning'><b>[src]</b> smiles and disappers with a low pop sound.</span>"
+		for(var/obj/item/W in H)
+			H.unEquip(W)
+		qdel(H)
+
+
+/*
  FLIES
 */
 
