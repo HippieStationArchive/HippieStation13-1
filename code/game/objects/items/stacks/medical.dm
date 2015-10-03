@@ -12,7 +12,6 @@
 	var/heal_brute = 0
 	var/heal_burn = 0
 	var/stop_bleeding = 0
-	var/self_delay = 50
 
 /obj/item/stack/medical/attack(mob/living/M, mob/user)
 
@@ -67,8 +66,6 @@
 				t_himself = "himself"
 			else if(user.gender == FEMALE)
 				t_himself = "herself"
-			user.visible_message("<span class='notice'>[user] starts to apply [src] on [t_himself]...</span>", "<span class='notice'>You begin applying [src] on yourself...</span>")
-			if(!do_mob(user, M, self_delay))	return
 			user.visible_message("<span class='green'>[user] applies [src] on [t_himself].</span>", "<span class='green'>You apply [src] on yourself.</span>")
 
 
@@ -108,7 +105,6 @@
 	singular_name = "medical gauze"
 	icon_state = "gauze"
 	stop_bleeding = 1800
-	self_delay = 80
 
 /obj/item/stack/medical/gauze/improvised
 	name = "improvised gauze"
