@@ -53,6 +53,7 @@
 	var/bleedcap = 20 //Amount of damage the limb must have to initiate bleeding - nerfed the cap to increase importance of bleeding
 	var/embedchance = 0 //For items that can embed themselves into you when thrown.
 	var/embedforce = 0 //set it to something for override
+	var/assthrown = 0 //set to 1 to make the item 100% embed into an user when superfarted
 
 	//Vars for things like baseball bats that do unique things with thrown items below
 	var/special_throw = 0
@@ -412,7 +413,6 @@
 
 	if(unacidable)
 		return
-	
 	for(var/V in armor)
 		if(armor[V] > 0)
 			.-- //it survives the acid...

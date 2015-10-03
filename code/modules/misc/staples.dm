@@ -40,6 +40,7 @@
 	var/ammo = 5
 	var/max_ammo = 10
 	var/obj/item/weapon/paper/P = null //TODO: Make papers attachable to people
+	var/obj/item/organ/butt/B = null
 
 /obj/item/weapon/staplegun/New()
 	..()
@@ -50,6 +51,8 @@
 	usr << "It contains [ammo]/[max_ammo] staples."
 	if(istype(P))
 		usr << "There's [P] loaded in it."
+	if(istype(B))
+		usr << "There's... a butt loaded in it?What."
 
 /obj/item/weapon/staplegun/update_icon()
 	var/amt = max(0, min(round(ammo/1.5), 6))
@@ -63,6 +66,30 @@
 
 	if(istype(target, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = target
+		if(!H.w_uniform)
+			if(user.zone_sel.selecting =="groin")
+				if(!(/obj/item/organ/butt in H.internal_organs))
+					if(istype(B))
+						H.internal_organs += B
+						B.loc = target
+						if(target == user)
+							user.visible_message("<span class='danger'>[user] staples his butt back on his groin!</span>", "<span class='userdanger'>You staple your butt back on, but it looks loose!</span>")
+						else
+							user.visible_message("<span class='danger'>[user] staples the butt back on [H]'s groin!</span>", "<span class='userdanger'>You staple the butt back on [H]'s groin, but it looks loose!</span>")
+						B.loose = 1
+						B = null
+				else
+					if(target == user)
+						user << "<span class='danger'>You already have a butt!</span>"
+					else
+						user << "<span class='danger'>[H] already has a butt!</span>"
+					return 0
+		else
+			if(target == user)
+				user << "<span class='danger'>You must remove your jumpsuit before doing that!</span>"
+			else
+				user << "<span class='danger'>You must remove his jumpsuit before doing that!</span>"
+			return 0
 		var/obj/item/organ/limb/O = H.get_organ(ran_zone(check_zone(user.zone_sel.selecting), 65))
 		var/armor = H.run_armor_check(O, "melee")
 		if(armor <= 40)
@@ -154,3 +181,14 @@
 			user << "<span class='notice'>You put \the [P] in \the [src]."
 		else
 			user << "<span class='notice'>There is already a paper in \the [src]!"
+	if(istype(I, /obj/item/organ/butt))
+		if(!istype(P))
+			if(!istype(B))
+				user.drop_item()
+				I.loc = src
+				B = I
+				user << "<span class='notice'>You put \the [B] in \the [src].</span>"
+			else
+				user << "<span class='notice'>There is already a butt in \the [src]!</span>"
+		else
+			user << "<span class='notice'>There is already a paper in \the [src]!</span>"

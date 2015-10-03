@@ -80,6 +80,7 @@
 	body_parts_covered = HEAD
 	slot_flags = SLOT_HEAD
 	embedchance = 5 //This is a joke
+	var/loose = 0
 	//These are not used
 	// var/subjectname = ""
 	// var/subjectjob = null

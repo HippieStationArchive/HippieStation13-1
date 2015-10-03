@@ -791,6 +791,15 @@
 						if(istype(I))
 							L.take_damage(I.embedforce ? I.embedforce : I.w_class*5)
 							src << "<span class='userdanger'>\The [I] embedded in your [L.getDisplayName()] hurts!</span>"
+		var/obj/item/organ/butt/B = getorgan(/obj/item/organ/butt)
+		var/obj/item/organ/limb/chest/C = getlimb(/obj/item/organ/limb/chest)
+		if(B)
+			if(B.contents.len && C.bloodloss < 0.5)
+				var/obj/item/A = pick(B.contents)
+				if(A.bleedchance >= 20)
+					if(prob(20))
+						adjustBloodLoss(0.005, C)
+						src << "<span class='userdanger'>\The [A] in your butt hurts!</span>"
 
 /mob/living/carbon/human/update_action_buttons()
 	if(!hud_used) return
