@@ -483,7 +483,7 @@
 	var/fart_type = FART_GENERIC
 	var/message = null
 
-	if(super)
+	if(super && !B.loose)
 		count = 10
 		fart_type = FART_ASSBLAST //Put this outside probability check just in case. There were cases where superfart did a normal fart.
 		if(prob(76)) // 76%
@@ -523,20 +523,76 @@
 			B = locate() in src.internal_organs
 			if(!B) break
 			playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
+			if(B.contents.len)
+				var/obj/item/O = pick(B.contents)
+				var/turf/location = get_turf(B)
+				if(istype(O, /obj/item/weapon/lighter))
+					var/obj/item/weapon/lighter/grayscale/G = O
+					G.processcolor()
+					if(G.lit == 1 && location)
+						new/obj/effect/hotspot(location)
+				else if(istype(O, /obj/item/weapon/weldingtool))
+					var/obj/item/weapon/weldingtool/J = O
+					if(J.welding == 1 && location)
+						new/obj/effect/hotspot(location)
+				else if(istype(O, /obj/item/weapon/bikehorn) || istype(O, /obj/item/weapon/bikehorn/rubberducky))
+					playsound(src, 'sound/items/bikehorn.ogg', 50, 1, 5)
+				else if(istype(O, /obj/item/device/megaphone))
+					playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5)
+				else
+					playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
+				if(prob(33) && !super)
+					O.loc = get_turf(src)
+					B.contents -= O
+			else
+				playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
 			sleep(1)
 		B = locate() in src.internal_organs
 		if(!B) //Neccesary checks to prevent hyper duplicating buttblasts
 			src << "\red You don't have a butt!"
 			return
 		if(super)
-			sleep(4)
-			playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5)
+			if(!B.loose)
+				sleep(4)
+				playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5)
+				if(B.contents.len)
+					var/obj/item/O = pick(B.contents)
+					O.assthrown = 1
+					O.loc = get_turf(src)
+					B.contents -= O
+					var/turf/target = get_turf(O.loc)
+					var/range = 7
+					var/turf/new_turf
+					var/new_dir
+					switch(dir)
+						if(1)
+							new_dir = 2
+						if(2)
+							new_dir = 1
+						if(4)
+							new_dir = 8
+						if(8)
+							new_dir = 4
+					for(var/i = 1; i < range; i++)
+						new_turf = get_step(target, new_dir)
+						target = new_turf
+						if(new_turf.density)
+							break
+					O.throw_at(target,range,O.throw_speed,src)
+					O.assthrown = 0 // so you can't just unembed it and throw it for insta embeds
+			else
+				src << "\red Your butt's too loose to superfart!"
 		B = locate() in src.internal_organs
 		if(!B) //Same here, sorry for the copypasta but it's neccesary with "sleep"
 			src << "\red You don't have a butt!"
 			return
 		if(lose_butt)
+			if(B.contents.len)
+				var/obj/item/O = pick(B.contents)
+				O.loc = get_turf(src)
+				B.contents -= O
 			src.internal_organs -= B
+			src.contents -= B
 			new /obj/item/organ/butt(src.loc)
 			new /obj/effect/decal/cleanable/blood(src.loc)
 

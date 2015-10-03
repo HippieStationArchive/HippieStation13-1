@@ -813,6 +813,12 @@
 	// var/obj/item/clothing/gloves/G = M.gloves
 	switch(M.a_intent)
 		if("help")
+			if(M.zone_sel.selecting =="groin")
+				if(M == H)
+					M.visible_message("<span class='userdanger'>[M] slaps his own ass!</span>", "<span class='userdanger'>You slap your own ass!</span>")
+				else
+					M.visible_message("<span class='userdanger'>[M] slaps [H]'s ass!</span>", "<span class='userdanger'>You slap [H]'s ass!</span>")
+				return 0
 			if(H.health >= 0)
 				H.help_shake_act(M)
 				if(H != M)
@@ -859,6 +865,8 @@
 				var/atk_verb = "punch"
 				if(H.lying)
 					atk_verb = "kick"
+				else if(M.zone_sel.selecting =="groin")
+					atk_verb = "spank"
 				else if(M.dna)
 					atk_verb = M.dna.species.attack_verb
 
@@ -960,6 +968,60 @@
 		user.do_attack_animation(H)
 	if((user != H) && H.check_shields(I.force, "the [I.name]"))
 		return 0
+
+	if(user.zone_sel.selecting =="groin")
+		if(user.a_intent == "grab")
+			var/obj/item/organ/butt/B = H.getorgan(/obj/item/organ/butt)
+			if(!H.w_uniform)
+				if(B.contents.len == 1)
+					if(H == user)
+						user << "<span class='warning'>Your butt is full!</span>"
+					else
+						user << "<span class='warning'>[H]'s butt is full!</span>"
+					return 0
+				else
+					if (!B)
+						if(H == user)
+							user << "<span class='warning'>You have no butt!</span>"
+						else
+							user << "<span class='warning'>[H] has no butt!</span>"
+						return 0
+					else
+						if(I.w_class < 3.0)
+							if(H == user)
+								user.visible_message("<span class='warning'>[user] starts hiding [I] inside his own butt...</span>", "<span class='warning'>You start hiding [I] inside your own butt...</span>")
+							else
+								user.visible_message("<span class='warning'>[user] starts hiding [I] inside [H]'s butt...</span>", "<span class='warning'>You start hiding [I] inside [H]'s butt...</span>")
+							if(do_mob(user, B, 30))
+								user.drop_item()
+								B.contents += I
+								I.wasinass = 1
+								I.add_blood(H)
+								if(H == user)
+									user.visible_message("<span class='warning'>[user] hides [I] inside his own butt.</span>", "<span class='warning'>You hide [I] inside your own butt.</span>")
+								else
+									user.visible_message("<span class='warning'>[user] hides [I] inside [H]'s.</span>", "<span class='warning'>You hide [I] inside [H]'s butt.</span>")
+								return 0
+							else
+								if(H == user)
+									user << "<span class='warning'>You fail to insert [I] in your butt.</span>"
+								else
+									user << "<span class='warning'>You fail to insert [I] in [H]'s butt.</span>"
+								return 0
+						else
+							if(H == user)
+								user << "<span class='warning'>This item is too big to fit in your butt!</span>"
+							else
+								user << "<span class='warning'>This item is too big to fit in [H]'s butt!</span>"
+							return 0
+			else
+				if(H == user)
+					user << "<span class='warning'>You'll need to remove your jumpsuit first.</span>"
+				else
+					user << "<span class='warning'>You'll need to remove [H]'s jumpsuit first.</span>"
+					H << "<span class='warning'>You feel your butt being poked with \the [I]!</span>"
+					user.visible_message("<span class='warning'>[user] pokes [H]'s butt with \the [I]!</span>", "<span class='warning'>You poke [H]'s butt with \the [I]!</span>")
+				return 0
 
 	if(I.attack_verb && I.attack_verb.len)
 		H.visible_message("<span class='danger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>", \
