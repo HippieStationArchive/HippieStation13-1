@@ -19,7 +19,6 @@ var/list/blood_splatter_icons = list()
 
 	var/list/hand_blood_DNA = list()
 	var/hand_blood_color
-	var/assinspect = 0
 
 /obj/item
 	var/image/blood_overlay = null //this saves our blood splatter overlay, which will be processed not to go over the edges of the sprite
@@ -199,10 +198,7 @@ var/list/blood_splatter_icons = list()
 
 	//apply the blood-splatter overlay if it's not the same blood.
 	if(blood_overlay && blood_overlay.color != blood_color)
-		if(wasinass == 1)
-			blood_overlay.color = "#8A4B08"
-		else
-			blood_overlay.color = blood_color
+		blood_overlay.color = blood_color
 		overlays.Cut() //This will ruin custom overlays...
 		update_icon() //So this is why you have your overlays made in update_icon
 		overlays += blood_overlay
@@ -260,17 +256,14 @@ var/list/blood_splatter_icons = list()
 		return 0
 	return add_blood_list(M)
 
-/mob/living/carbon/human/add_blood(mob/living/carbon/M, assinspect)
+/mob/living/carbon/human/add_blood(mob/living/carbon/M)
 	if (!..())
 		return 0
 	if(!add_blood_list(M))
 		return 0
 	bloody_hands = rand(2, 4)
 	bloody_hands_mob = M
-	if(assinspect == 1)
-		hand_blood_color = "#8a4b08"
-	else
-		hand_blood_color = blood_color
+	hand_blood_color = blood_color
 	update_inv_gloves()	//handles bloody hands overlays and updating
 	verbs += /mob/living/carbon/human/proc/bloody_doodle //Add bloody handwriting capabilities.
 	return 1 //we applied blood to the person's hands

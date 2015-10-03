@@ -987,7 +987,6 @@
 							if(do_mob(user, B, 30))
 								user.drop_item()
 								B.contents += I
-								I.wasinass = 1
 								I.add_blood(H)
 								if(H == user)
 									user.visible_message("<span class='warning'>[user] hides [I] inside his own butt.</span>", "<span class='warning'>You hide [I] inside your own butt.</span>")
