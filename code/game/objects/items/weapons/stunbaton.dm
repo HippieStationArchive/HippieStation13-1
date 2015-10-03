@@ -39,10 +39,11 @@
 			status = 0
 			update_icon()
 			playsound(loc, "sparks", 75, 1, -1)
-		if(bcell.use(chrgdeductamt))
-			return 1
 		else
-			return 0
+			if(bcell.use(chrgdeductamt))
+				status = 0
+				update_icon()
+				playsound(loc, "sparks", 75, 1, -1)
 
 /obj/item/weapon/melee/baton/update_icon()
 	if(status)

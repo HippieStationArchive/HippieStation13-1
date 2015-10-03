@@ -36,7 +36,7 @@
 /obj/item/weapon/reagent_containers/food/drinks/attack(mob/M as mob, mob/user as mob, def_zone)
 
 	if(!reagents || !reagents.total_volume)
-		user << "<span class='alert'>None of [src] left, oh no!</span>"
+		user << "<span class='warning'>[src] is empty!</span>"
 		return 0
 
 	if(!canconsume(M, user))
@@ -52,10 +52,10 @@
 		playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
 		return 1
 
-	M.visible_message("<span class='warning'>[user] attempts to feed [src] to [M].</span>")
+	M.visible_message("<span class='danger'>[user] attempts to feed the contents of [src] to [M].</span>", "<span class='userdanger'>[user] attempts to feed the contents of [src] to [M].</span>")
 	if(!do_mob(user, M)) return
 	if(!reagents.total_volume) return // The drink might be empty after the delay, such as by spam-feeding
-	M.visible_message("<span class='warning'>[user] feeds [src] to [M].</span>")
+	M.visible_message("<span class='danger'>[user] feeds the contents of [src] to [M].</span>", "<span class='userdanger'>[user] feeds the contents of [src] to [M].</span>")
 	add_logs(user, M, "fed", object="[reagentlist(src)]")
 	if(reagents.total_volume)
 		reagents.reaction(M, INGEST)

@@ -312,6 +312,15 @@
 	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,HARDFEET)
 	blood_color = "#808080"
 
+/datum/species/skeleton/alt
+	//3spooky
+	name = "Spooky Scary Skeleton"
+	id = "skeleton"
+	say_mod = "rattles"
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/skeleton
+	specflags = null
+	blood_color = "#808080"
+
 // Abductor
 /datum/species/abductor
 	name = "Abductor"

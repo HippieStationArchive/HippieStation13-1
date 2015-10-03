@@ -35,7 +35,7 @@
 	new /obj/item/weapon/shovel(src)
 	new /obj/item/weapon/pickaxe(src)
 	new /obj/item/clothing/glasses/meson(src)
-
+	new /obj/item/clothing/suit/hooded/wintercoat/miner (src)
 
 /**********************Shuttle Computer**************************/
 
