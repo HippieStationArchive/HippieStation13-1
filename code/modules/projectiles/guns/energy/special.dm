@@ -23,7 +23,6 @@
 	origin_tech = "combat=4;magnets=4;materials=4"
 	w_class = 3
 	slot_flags = SLOT_BELT
-	pin = null
 	ammo_x_offset = 2
 	flight_x_offset = 18
 	flight_y_offset = 11
@@ -34,7 +33,6 @@
 	icon_state = "decloner"
 	origin_tech = "combat=5;materials=4;powerstorage=3"
 	ammo_type = list(/obj/item/ammo_casing/energy/declone)
-	pin = null
 	ammo_x_offset = 1
 
 /obj/item/weapon/gun/energy/decloner/update_icon()
@@ -193,7 +191,6 @@
 	origin_tech = "combat=2;magnets=2;syndicate=3" //can be further researched for more syndie tech
 	suppressed = 0
 	ammo_type = list(/obj/item/ammo_casing/energy/bolt/large)
-	pin = null
 
 /obj/item/weapon/gun/energy/plasmacutter
 	name = "plasma cutter"
@@ -328,7 +325,6 @@
 	origin_tech = "combat=3;materials=4;powerstorage=3;magnets=2"
 	ammo_type = list(/obj/item/ammo_casing/energy/temp, /obj/item/ammo_casing/energy/temp/hot)
 	cell_type = "/obj/item/weapon/stock_parts/cell/high"
-	pin = null
 
 /obj/item/weapon/gun/energy/temperature/attack_self(mob/living/user)
 	select_fire(user)

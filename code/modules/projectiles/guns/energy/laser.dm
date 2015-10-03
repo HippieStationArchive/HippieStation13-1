@@ -91,7 +91,6 @@
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=4;materials=3;powerstorage=3"
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/heavy)
-	pin = null
 	ammo_x_offset = 3
 
 /obj/item/weapon/gun/energy/xray
