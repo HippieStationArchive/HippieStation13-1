@@ -17,7 +17,6 @@
 	return
 
 /obj/item/weapon/gun/energy/pulse/loyalpin
-	pin = /obj/item/device/firing_pin/implant/loyalty
 
 /obj/item/weapon/gun/energy/pulse/carbine
 	name = "pulse carbine"
@@ -32,7 +31,6 @@
 	flight_y_offset = 12
 
 /obj/item/weapon/gun/energy/pulse/carbine/loyalpin
-	pin = /obj/item/device/firing_pin/implant/loyalty
 
 /obj/item/weapon/gun/energy/pulse/pistol
 	name = "pulse pistol"
@@ -45,7 +43,7 @@
 	can_charge = 0
 
 /obj/item/weapon/gun/energy/pulse/pistol/loyalpin
-	pin = /obj/item/device/firing_pin/implant/loyalty
+
 
 /obj/item/weapon/gun/energy/pulse/destroyer
 	name = "pulse destroyer"

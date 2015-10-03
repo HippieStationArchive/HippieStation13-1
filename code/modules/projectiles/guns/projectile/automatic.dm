@@ -13,10 +13,8 @@
 	desc = "A prototype three-round burst 9mm submachine gun, designated 'SABR'. Has a threaded barrel for suppressors."
 	icon_state = "saber"
 	mag_type = /obj/item/ammo_box/magazine/smgm9mm
-	pin = null
 
 /obj/item/weapon/gun/projectile/automatic/proto/unrestricted
-	pin = /obj/item/device/firing_pin
 
 /obj/item/weapon/gun/projectile/automatic/update_icon()
 	..()
@@ -89,10 +87,8 @@
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
 	fire_delay = 2
 	burst_size = 2
-	pin = /obj/item/device/firing_pin/implant/pindicate
 
 /obj/item/weapon/gun/projectile/automatic/c20r/unrestricted
-	pin = /obj/item/device/firing_pin
 
 /obj/item/weapon/gun/projectile/automatic/c20r/New()
 	..()
@@ -149,10 +145,8 @@
 	can_suppress = 0
 	burst_size = 5
 	fire_delay = 3
-	pin = /obj/item/device/firing_pin/implant/pindicate
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/unrestricted
-	pin = /obj/item/device/firing_pin
 
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/attack_self(mob/user)
@@ -207,7 +201,6 @@
 	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/underbarrel
 	burst_size = 3
 	fire_delay = 2
-	pin = /obj/item/device/firing_pin/implant/pindicate
 
 /obj/item/weapon/gun/projectile/automatic/m90/New()
 	..()
@@ -216,7 +209,6 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/m90/unrestricted
-	pin = /obj/item/device/firing_pin
 
 /obj/item/weapon/gun/projectile/automatic/m90/unrestricted/New()
 	..()

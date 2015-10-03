@@ -13,7 +13,6 @@
 	item_state = "gun"
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode/gun)
 	can_flashlight = 0
-	pin = null
 	ammo_x_offset = 1
 
 /obj/item/weapon/gun/energy/gun/advtaser
