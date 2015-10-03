@@ -65,6 +65,9 @@
 		if(gun)
 			qdel(gun)
 
+/obj/item/device/firing_pin/generic
+	name = "Generic firing pin"
+	desc = "A firing pin, like the ones in the ol' west. This one incoperates absolutely no security features"
 
 
 /obj/item/device/firing_pin/magic
