@@ -65,8 +65,8 @@
 			if(mecha.occupant && (src.allowed(mecha.occupant) || src.check_access_list(mecha.operation_req_access) || emergency == 1))
 				open()
 			else
-				do_animate("deny")
 				playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
+				do_animate("deny")
 		return
 	return
 
@@ -98,8 +98,8 @@
 		if(allowed(user) || src.emergency == 1)
 			open()
 		else
-			do_animate("deny")
 			playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
+			do_animate("deny")
 	return
 
 
@@ -137,8 +137,8 @@
 			close()
 		return
 	if(src.density)
-		do_animate("deny")
 		playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
+		do_animate("deny")
 	return
 
 /obj/machinery/door/blob_act()
@@ -188,8 +188,8 @@
 			else
 				flick("doorc1", src)
 		if("deny")
-			flick("door_deny", src)
 			playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
+			flick("door_deny", src)
 	return
 
 
