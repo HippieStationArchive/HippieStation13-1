@@ -408,13 +408,13 @@ emp_act
 					user.visible_message("<span class='warning'>[user] starts inspecting his own ass!</span>", "<span class='warning'>You start inspecting your ass!</span>")
 				else
 					user.visible_message("<span class='warning'>[user] starts inspecting [src]'s ass!</span>", "<span class='warning'>You start inspecting [src]'s ass!</span>")
+				add_blood(user, 1)
 				if(do_mob(user, src, 40))
 					if(B.contents.len == 1)
 						if(user == src)
 							user.visible_message("<span class='warning'>[user] inspects his own ass!</span>", "<span class='warning'>You inspect your ass!</span>")
 						else
 							user.visible_message("<span class='warning'>[user] inspects [src]'s ass!</span>", "<span class='warning'>You inspect [src]'s ass!</span>")
-						add_blood(user, 1)
 						var/obj/item/O = pick(B.contents)
 						O.loc = get_turf(src)
 						B.contents -= O

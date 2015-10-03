@@ -99,7 +99,7 @@
 		else
 			msg += "[t_He] [t_has] \icon[gloves] \a [gloves] on [t_his] hands.\n"
 	else if(blood_DNA)
-		msg += "<span class='warning'>[t_He] [t_has] [hand_blood_color==poo?"poo-stained":"blood-stained"]ed hands!</span>\n"
+		msg += "<span class='warning'>[t_He] [t_has] [hand_blood_color==poo?"poo-stained":"blood-stained"] hands!</span>\n"
 
 	//handcuffed?
 
