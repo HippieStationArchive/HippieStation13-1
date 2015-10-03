@@ -528,7 +528,6 @@
 				var/turf/location = get_turf(B)
 				if(istype(O, /obj/item/weapon/lighter))
 					var/obj/item/weapon/lighter/grayscale/G = O
-					G.processcolor()
 					if(G.lit == 1 && location)
 						new/obj/effect/hotspot(location)
 				else if(istype(O, /obj/item/weapon/weldingtool))
