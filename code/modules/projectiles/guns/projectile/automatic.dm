@@ -86,7 +86,7 @@
 
 /obj/item/weapon/gun/projectile/automatic/ak922
 	name = "AK-922"
-	desc = "A New-Russia standard-issue battle rifle chambered in 7.62x39mm. Packs a punch and is built out of strong materials with an old yet reliable build."
+	desc = "A New-Russia standard-issue assault rifle chambered in 7.62x39mm. Packs a punch and is built out of strong materials with an old yet tried and proven build."
 	icon_state = "ak922"
 	item_state = "c20r"
 	origin_tech = "combat=5;materials=3"
@@ -166,7 +166,7 @@
 	..()
 
 /obj/item/weapon/gun/projectile/automatic/abzats
-	name = "Abzats shotgun machinegun"
+	name = "Abzats"
 	desc = "A heavily modified L6 SAW, the parts have been swapped out and others reinforced to be able to fire 12 gauge shotgun shells."
 	icon_state = "abzatsclosed100"
 	item_state = "l6closedmag"
@@ -226,7 +226,7 @@
 
 /obj/item/weapon/gun/projectile/automatic/c90gl
 	name = "syndicate assault rifle"
-	desc = "A bullpup three-round burst 5.45x39 assault rifle with a unique toploading design, designated 'C-90gl'. Has an attached underbarrel grenade launcher which can be toggled on and off."
+	desc = "A bullpup three-round burst 5.45x39 assault rifle with a unique toploading design, designated 'C-90'. Has an attached underbarrel grenade launcher which can be toggled on and off."
 	icon_state = "c90gl"
 	item_state = "c90gl"
 	origin_tech = "combat=5;materials=2;syndicate=8"

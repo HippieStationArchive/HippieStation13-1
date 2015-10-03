@@ -4,6 +4,7 @@
 	damage = 60
 	damage_type = BRUTE
 	nodamage = 0
+	hitsound = 'sound/effects/mob_shot.ogg'
 	flag = "bullet"
 	var/mob_stuck_chance = 40 //For lodging bullets into limbs for extraction.
 

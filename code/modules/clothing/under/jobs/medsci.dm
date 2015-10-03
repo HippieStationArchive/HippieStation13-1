@@ -80,6 +80,7 @@
 /obj/item/clothing/under/rank/nursesuit
 	desc = "It's a jumpsuit commonly worn by nursing staff in the medical department."
 	name = "nurse's suit"
+	can_adjust = 0
 	icon_state = "nursesuit"
 	item_state = "w_suit"
 	item_color = "nursesuit"

@@ -297,6 +297,7 @@
 /obj/item/clothing/under/soviet/gorka
 	name = "Gorka SPOSN Uniform"
 	desc = "A Soviet-era combat uniform designed to be used in mountainous environments."
+	can_adjust = 0
 	icon_state = "gorka"
 	item_state = "bl_suit"
 	item_color = "gorka"

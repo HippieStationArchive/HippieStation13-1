@@ -85,6 +85,7 @@
 /obj/item/clothing/under/rank/janitor/alt
 	desc = "It's the alternative uniform of the station's janitor. It has minor protection from biohazards. Usually worn by total scrublords."
 	name = "janitor's jumpsuit"
+	can_adjust = 0
 	icon_state = "janiform"
 	item_state = "janiform"
 	item_color = "janiform"

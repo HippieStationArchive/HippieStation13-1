@@ -265,6 +265,7 @@
 	name = "\improper Ultra AC 2"
 	desc = "A weapon for combat exosuits. Shoots a rapid, three shot burst."
 	icon_state = "mecha_uac2"
+	fire_sound = "sound/weapons/tommygun_shoot.ogg"
 	equip_cooldown = 10
 	projectile = /obj/item/projectile/bullet/weakbullet
 	projectiles = 300
