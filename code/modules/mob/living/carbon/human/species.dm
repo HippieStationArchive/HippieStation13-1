@@ -813,12 +813,6 @@
 	// var/obj/item/clothing/gloves/G = M.gloves
 	switch(M.a_intent)
 		if("help")
-			if(M.zone_sel.selecting =="groin")
-				if(M == H)
-					M.visible_message("<span class='userdanger'>[M] slaps his own ass!</span>", "<span class='userdanger'>You slap your own ass!</span>")
-				else
-					M.visible_message("<span class='userdanger'>[M] slaps [H]'s ass!</span>", "<span class='userdanger'>You slap [H]'s ass!</span>")
-				return 0
 			if(H.health >= 0)
 				H.help_shake_act(M)
 				if(H != M)
@@ -865,8 +859,6 @@
 				var/atk_verb = "punch"
 				if(H.lying)
 					atk_verb = "kick"
-				else if(M.zone_sel.selecting =="groin")
-					atk_verb = "spank"
 				else if(M.dna)
 					atk_verb = M.dna.species.attack_verb
 
