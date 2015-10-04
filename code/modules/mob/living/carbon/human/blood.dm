@@ -119,6 +119,12 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 				blood_max += 1
 			if(brutedamage > 70)
 				blood_max += 2
+		var/obj/item/organ/butt/B = getorgan(/obj/item/organ/butt)
+		if(B in internal_organs)
+			if(B.contents.len)
+				var/obj/item/A = pick(B.contents)
+				if(A.is_sharp() || is_pointed(A))
+					blood_max += 0.3
 		if(bleedsuppress)
 			blood_max = 0
 		drip(blood_max)
@@ -152,6 +158,7 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 	if(T.virus && T.virus.spread_type != SPECIAL)
 		B.data["virus"] = new T.virus.type(0)
 	*/
+
 
 	for(var/datum/disease/D in src.viruses)
 		B.data["viruses"] += D.Copy()
