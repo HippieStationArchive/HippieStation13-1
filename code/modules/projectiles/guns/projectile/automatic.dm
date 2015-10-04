@@ -155,7 +155,7 @@
 
 /obj/item/weapon/gun/projectile/automatic/ak922/update_icon()
 	..()
-	icon_state = "ak922[magazine ? "-[Ceiling(get_ammo(0)/5)*5]" : ""][chambered ? "" : "-e"]"
+	icon_state = "ak922gold[magazine ? "-[Ceiling(get_ammo(0)/5)*5]" : ""][chambered ? "" : "-e"]"
 	return
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw
