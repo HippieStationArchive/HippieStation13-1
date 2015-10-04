@@ -1,7 +1,7 @@
 //In this file: Summon Magic/Summon Guns/Summon Events
 
 /proc/rightandwrong(summon_type, mob/user, survivor_probability) //0 = Summon Guns, 1 = Summon Magic
-	var/list/gunslist 			= list("taser","egun","laser","revolver","detective","c20r","nuclear","deagle","gyrojet","pulse","suppressed","cannon","doublebarrel","shotgun","combatshotgun","bulldog","mateba","sabr","crossbow","saw","car","boltaction","speargun","arg","uzi")
+	var/list/gunslist 			= list("taser","egun","laser","revolver","detective","c20r","nuclear","deagle","gyrojet","pulse","suppressed","cannon","doublebarrel","shotgun","combatshotgun","bulldog","mateba","sabr","crossbow","saw","car","boltaction","speargun","arg","uzi","abzats","ak922","ak922gold","g17")
 	var/list/magiclist 			= list("fireball","smoke","blind","mindswap","forcewall","knock","horsemask","charge", "summonitem", "wandnothing", "wanddeath", "wandresurrection", "wandpolymorph", "wandteleport", "wanddoor", "wandfireball", "staffchange", "staffhealing", "armor", "scrying","staffdoor","voodoo", "special")
 	var/list/magicspeciallist	= list("staffchange","staffanimation", "wandbelt", "contract", "staffchaos", "necromantic")
 
@@ -90,8 +90,16 @@
 					var/obj/item/weapon/gun/projectile/automatic/l6_saw/gat  = new(get_turf(H))
 					gat.pin = new /obj/item/device/firing_pin
 				if("car")
-					var/obj/item/weapon/gun/projectile/automatic/m90/gat  = new(get_turf(H))
+					var/obj/item/weapon/gun/projectile/automatic/c90/gat  = new(get_turf(H))
 					gat.pin = new /obj/item/device/firing_pin
+				if("abzats")
+					new /obj/item/weapon/gun/projectile/automatic/shotgun/abzats(get_turf(H))
+				if("ak922")
+					new /obj/item/weapon/gun/projectile/automatic/ak922(get_turf(H))
+				if("ak922gold")
+					new /obj/item/weapon/gun/projectile/automatic/ak922/gold(get_turf(H))
+				if("glock17")
+					new /obj/item/weapon/gun/projectile/automatic/pistol/g17(get_turf(H))
 			playsound(get_turf(H),'sound/magic/Summon_guns.ogg', 50, 1)
 
 		else
