@@ -159,7 +159,6 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 		B.data["virus"] = new T.virus.type(0)
 	*/
 
-
 	for(var/datum/disease/D in src.viruses)
 		B.data["viruses"] += D.Copy()
 
