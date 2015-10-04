@@ -843,7 +843,7 @@ body
 			if(!check_rights(R_SPAWN))	return
 
 			var/mob/living/carbon/human/H = locate(href_list["purrbation"])
-			if(!istype(H))
+			if(!istype(H) || H.dna.species.id == "IPC" || H.dna.species.id == "tajaran" || H.dna.species.id == "avian"|| H.dna.species.id == "lizard")
 				usr << "This can only be done to instances of type /mob/living/carbon/human"
 				return
 
@@ -859,6 +859,7 @@ body
 					message_admins("<span class='notice'>[key_name(usr)] has put [key_name(H)] on purrbation.</span>")
 					H.dna.features["tail_human"] = "Cat"
 					H.dna.features["ears"] = "Cat"
+					H.set_species(/datum/species/cat)
 				else
 					usr << "Removed [H] from purrbation."
 					H << "You suddenly don't feel valid anymore."
@@ -866,6 +867,7 @@ body
 					message_admins("<span class='notice'>[key_name(usr)] has removed [key_name(H)] from purrbation.</span>")
 					H.dna.features["tail_human"] = "None"
 					H.dna.features["ears"] = "None"
+					H.set_species(/datum/species/human)
 				H.regenerate_icons()
 				return
 
