@@ -103,6 +103,20 @@
 	flags = STOPSPRESSUREDMAGE
 	strip_delay = 80
 
+/obj/item/clothing/head/helmet/soviethelmet
+	name = "New Russia helmet"
+	desc = "A standard camoflauge helmet of the New-Russia military. Has greater ballistic protection than many other helmets."
+	icon_state = "soviethelm"
+	flags = HEADCOVERSEYES | HEADBANGPROTECT
+	item_state = "soviethelm"
+	armor = list(melee = 50, bullet = 60, laser = 30,energy = 10, bomb = 25, bio = 0, rad = 0)
+	flags_inv = HIDEEARS
+	cold_protection = HEAD
+	min_cold_protection_temperature = HELMET_MIN_TEMP_PROTECT
+	heat_protection = HEAD
+	max_heat_protection_temperature = HELMET_MAX_TEMP_PROTECT
+	strip_delay = 60
+
 /obj/item/clothing/head/helmet/swat/nanotrasen
 	name = "\improper SWAT helmet"
 	desc = "An extremely robust, space-worthy helmet with the Nanotrasen logo emblazoned on the top."

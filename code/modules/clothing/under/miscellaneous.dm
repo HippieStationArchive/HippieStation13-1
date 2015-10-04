@@ -305,6 +305,16 @@
 	item_color = "soviet"
 	can_adjust = 0
 
+/obj/item/clothing/under/soviet/gorka
+	name = "Gorka SPOSN Uniform"
+	desc = "A Soviet-era combat uniform designed to be used in mountainous environments."
+	icon_state = "gorka"
+	item_state = "bl_suit"
+	item_color = "gorka"
+	can_adjust = 0
+	has_sensor = 0
+	armor = list(melee = 10, bullet = 5, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+
 /obj/item/clothing/under/redcoat
 	name = "redcoat uniform"
 	desc = "Looks old."

@@ -9,6 +9,7 @@
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=4;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot
+	fire_sound = 'sound/weapons/shotgun.ogg'
 	var/recentpump = 0 // to prevent spammage
 
 /obj/item/weapon/gun/projectile/shotgun/attackby(obj/item/A, mob/user, params)
@@ -69,6 +70,7 @@
 	desc = "A sturdy shotgun with a longer magazine and a fixed tactical stock designed for non-lethal riot control."
 	icon_state = "riotshotgun"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/riot
+	fire_sound = 'sound/weapons/shotgun.ogg'
 	sawn_desc = "Come with me if you want to live."
 
 /obj/item/weapon/gun/projectile/shotgun/riot/attackby(obj/item/A, mob/user, params)
@@ -85,16 +87,16 @@
 ///////////////////////
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction
-	name = "\improper Mosin Nagant rifle"
-	desc = "This piece of junk looks like something that could have been used 700 years ago. It feels slightly moist."
-	icon_state = "moistnugget"
-	item_state = "moistnugget"
+	name = "Mosin M91/30"
+	desc = "This piece of junk looks like something that could have been used 700 years ago."	//No maymays allowed.
+	icon_state = "mosin"
+	item_state = "mosin"
 	slot_flags = 0 //no SLOT_BACK sprite, alas
 	mag_type = /obj/item/ammo_box/magazine/internal/boltaction
 	var/bolt_open = 0
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction/pump(mob/M)
-	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
+	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)	//The sound for this HAS to be changed at some point.
 	if(bolt_open)
 		pump_reload(M)
 	else
@@ -128,6 +130,7 @@
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=3;materials=1"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/dual
+	fire_sound = 'sound/weapons/shotgun.ogg'
 	sawn_desc = "Omar's coming!"
 	unique_rename = 1
 	unique_reskin = 1
@@ -180,6 +183,7 @@
 	slot_flags = null
 	origin_tech = "combat=2;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/improvised
+	fire_sound = 'sound/weapons/shotgun.ogg'
 	sawn_desc = "I'm just here for the gasoline."
 	unique_rename = 0
 	unique_reskin = 0
@@ -248,14 +252,14 @@
 // Bulldog shotgun //
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog
-	name = "\improper MLG-12 'Bulldog' Shotgun"
+	name = "Syndicate Shotgun"
 	desc = "A semi-auto, mag-fed shotgun for combat in narrow corridors, nicknamed 'Bulldog' by boarding parties. Compatible only with specialized 8-round drum magazines."
 	icon_state = "bulldog"
 	item_state = "bulldog"
 	w_class = 3
 	origin_tech = "combat=5;materials=4;syndicate=6"
 	mag_type = /obj/item/ammo_box/magazine/m12g
-	fire_sound = 'sound/weapons/Gunshot.ogg'
+	fire_sound = 'sound/weapons/shotgun_shoot.ogg'
 	can_suppress = 0
 	burst_size = 1
 	fire_delay = 0
@@ -289,12 +293,72 @@
 	..()
 	src.pump(user)
 
+/obj/item/weapon/gun/projectile/automatic/shotgun/abzats
+	name = "Abzats"
+	desc = "A heavily modified L6 SAW, the parts have been swapped out and others reinforced to be able to fire 12 gauge shotgun shells."
+	icon_state = "abzatsclosed100"
+	item_state = "l6closedmag"
+	w_class = 5
+	slot_flags = 0
+	origin_tech = "combat=5;materials=3;syndicate=4"
+	mag_type = /obj/item/ammo_box/magazine/mbox12g
+	fire_sound = 'sound/weapons/shotgun_shoot.ogg'
+	var/cover_open = 0
+	can_suppress = 0
+	burst_size = 2
+	fire_delay = 1
+
+/obj/item/weapon/gun/projectile/automatic/shotgun/abzats/burst_select()
+	return
+
+
+/obj/item/weapon/gun/projectile/automatic/shotgun/abzats/attack_self(mob/user)
+	cover_open = !cover_open
+	user << "<span class='notice'>You [cover_open ? "open" : "close"] [src]'s cover.</span>"
+	update_icon()
+
+
+/obj/item/weapon/gun/projectile/automatic/shotgun/abzats/update_icon()
+	icon_state = "abzats[cover_open ? "open" : "closed"][magazine ? Ceiling(get_ammo(0)/12.5)*25 : "-empty"]"
+
+
+/obj/item/weapon/gun/projectile/automatic/shotgun/abzats/afterattack(atom/target as mob|obj|turf, mob/living/user as mob|obj, flag, params) //what I tried to do here is just add a check to see if the cover is open or not and add an icon_state change because I can't figure out how c-20rs do it with overlays
+	if(cover_open)
+		user << "<span class='warning'>[src]'s cover is open! Close it before firing!</span>"
+	else
+		..()
+		update_icon()
+
+
+/obj/item/weapon/gun/projectile/automatic/shotgun/abzats/attack_hand(mob/user)
+	if(loc != user)
+		..()
+		return	//let them pick it up
+	if(!cover_open || (cover_open && !magazine))
+		..()
+	else if(cover_open && magazine)
+		//drop the mag
+		magazine.update_icon()
+		magazine.loc = get_turf(src.loc)
+		user.put_in_hands(magazine)
+		magazine = null
+		update_icon()
+		user << "<span class='notice'>You remove the magazine from [src].</span>"
+
+
+/obj/item/weapon/gun/projectile/automatic/shotgun/abzats/attackby(obj/item/A, mob/user, params)
+	if(!cover_open)
+		user << "<span class='warning'>[src]'s cover is closed! You can't insert a new mag.</span>"
+		return
+	..()
+
 // COMBAT SHOTGUN //
 
 /obj/item/weapon/gun/projectile/shotgun/automatic/combat
-	name = "combat shotgun"
+	name = "Combat Shotgun"
 	desc = "A semi automatic shotgun with tactical furniture and a six-shell capacity underneath."
 	icon_state = "cshotgun"
 	origin_tech = "combat=5;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
+	fire_sound = 'sound/weapons/shotgun.ogg'
 	w_class = 5

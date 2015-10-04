@@ -17,6 +17,24 @@
 	blood_overlay_type = "armor"
 	armor = list(melee = 50, bullet = 15, laser = 25, energy = 10, bomb = 25, bio = 0, rad = 0)
 
+/obj/item/clothing/suit/armor/chestrig
+	name = "chestrig"
+	desc = "A lightweight, flat-green camoflauge vest which can carry just about any kind of gear, at the cost of offering virtually no protection."
+	icon_state = "chestrig"
+	item_state = "chestrig"
+	allowed = list(/obj/item/weapon/gun/energy,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/device/flashlight/seclite,/obj/item/weapon/melee/classic_baton/telescopic)
+	blood_overlay_type = "armor"
+	armor = list(melee = 10, bullet = 5, laser = 5, energy = 0, bomb = 0, bio = 0, rad = 0)
+
+/obj/item/clothing/suit/armor/defender
+	name = "Defender MK2 Body Armor"
+	desc = "A New-Russia combat armor vest with a flat-green camoflauge. It uses ceramic plates to grant the wearer extremely effective protection against ballistic weaponry and moderate protection from explosions."
+	icon_state = "defender"
+	item_state = "defender"
+	armor = list(melee = 35, bullet = 80, laser = 20, energy = 15, bomb = 45, bio = 0, rad = 0)
+	strip_delay = 70
+	put_on_delay = 50
+
 /obj/item/clothing/suit/armor/vest/alt
 	name = "armor"
 	desc = "An armored vest that protects against most types of damage. This is a civilian variant."

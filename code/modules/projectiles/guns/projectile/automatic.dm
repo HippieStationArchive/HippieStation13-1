@@ -9,7 +9,7 @@
 	action_button_name = "Toggle Firemode"
 
 /obj/item/weapon/gun/projectile/automatic/proto
-	name = "\improper NanoTrasen Saber SMG"
+	name = "Prototype SMG"
 	desc = "A prototype three-round burst 9mm submachine gun, designated 'SABR'. Has a threaded barrel for suppressors."
 	icon_state = "saber"
 	mag_type = /obj/item/ammo_box/magazine/smgm9mm
@@ -78,7 +78,7 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/c20r
-	name = "\improper C-20r SMG"
+	name = "Syndicate SMG"
 	desc = "A bullpup two-round burst .45 SMG, designated 'C-20r'. Has a 'Scarborough Arms - Per falcis, per pravitas' buttstamp."
 	icon_state = "c20r"
 	item_state = "c20r"
@@ -106,8 +106,8 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/wt550
-	name = "security auto rifle"
-	desc = "A outdated personal defence weapon. Uses 9mm rounds and is designated the WT-550 Automatic Rifle."
+	name = "Automatic Security Rifle"
+	desc = "An outdated personal defence weapon. Uses 9mm rounds and is designated the WT-550 Automatic Rifle."
 	icon_state = "wt550"
 	item_state = "arg"
 	mag_type = /obj/item/ammo_box/magazine/wt550m9
@@ -124,15 +124,42 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/mini_uzi
-	name = "\improper 'Type U3' Uzi"
-	desc = "A lightweight, burst-fire submachine gun, for when you really want someone dead. Uses 9mm rounds."
+	name = "Mini-Uzi"
+	desc = "De oozi naihn millahmeada, for when you really want someone dead."
 	icon_state = "mini-uzi"
 	origin_tech = "combat=5;materials=2;syndicate=8"
 	mag_type = /obj/item/ammo_box/magazine/uzim9mm
 	burst_size = 2
 
+/obj/item/weapon/gun/projectile/automatic/ak922
+	name = "AK-922"
+	desc = "A New-Russia standard-issue battle rifle chambered in 7.62x39mm. Packs a punch and is built out of strong materials with an old yet reliable build."
+	icon_state = "ak922"
+	item_state = "ak922"
+	origin_tech = "combat=5;materials=3"
+	mag_type = /obj/item/ammo_box/magazine/ak922
+	can_suppress = 0
+	fire_sound = 'sound/weapons/handcannon.ogg'
+	fire_delay = 1
+	burst_size = 3
+
+/obj/item/weapon/gun/projectile/automatic/ak922/gold
+	icon_state = "ak922gold"
+	item_state = "ak922gold"
+	desc = "Damn son! Now that's a nice gun!"
+
+/obj/item/weapon/gun/projectile/automatic/ak922/afterattack()
+	..()
+	empty_alarm()
+	return
+
+/obj/item/weapon/gun/projectile/automatic/ak922/update_icon()
+	..()
+	icon_state = "ak922[magazine ? "-[Ceiling(get_ammo(0)/5)*5]" : ""][chambered ? "" : "-e"]"
+	return
+
 /obj/item/weapon/gun/projectile/automatic/l6_saw
-	name = "\improper L6 SAW LMG"
+	name = "Syndicate LMG"
 	desc = "A heavily modified 7.62 light machine gun, designated 'L6 SAW'. Has 'Aussec Armoury - 2531' engraved on the receiver below the designation."
 	icon_state = "l6closed100"
 	item_state = "l6closedmag"
@@ -189,47 +216,47 @@
 		return
 	..()
 
-/obj/item/weapon/gun/projectile/automatic/m90
-	name = "\improper M-90gl Carbine"
-	desc = "A three-round burst 5.56 toploading carbine, designated 'M-90gl'. Has an attached underbarrel grenade launcher which can be toggled on and off."
-	icon_state = "m90"
-	item_state = "m90"
+/obj/item/weapon/gun/projectile/automatic/c90
+	name = "Syndicate Carbine"
+	desc = "A three-round burst 5.56 toploading carbine, designated 'C-90'. Has an attached underbarrel grenade launcher which can be toggled on and off."
+	icon_state = "c90"
+	item_state = "c90"
 	origin_tech = "combat=5;materials=2;syndicate=8"
-	mag_type = /obj/item/ammo_box/magazine/m556
+	mag_type = /obj/item/ammo_box/magazine/m545
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
 	can_suppress = 0
 	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/underbarrel
 	burst_size = 3
 	fire_delay = 2
 
-/obj/item/weapon/gun/projectile/automatic/m90/New()
+/obj/item/weapon/gun/projectile/automatic/c90/New()
 	..()
 	underbarrel = new /obj/item/weapon/gun/projectile/revolver/grenadelauncher(src)
 	update_icon()
 	return
 
-/obj/item/weapon/gun/projectile/automatic/m90/unrestricted
+/obj/item/weapon/gun/projectile/automatic/c90/unrestricted
 
-/obj/item/weapon/gun/projectile/automatic/m90/unrestricted/New()
+/obj/item/weapon/gun/projectile/automatic/c90/unrestricted/New()
 	..()
 	underbarrel = new /obj/item/weapon/gun/projectile/revolver/grenadelauncher/unrestricted(src)
 	update_icon()
 	return
 
-/obj/item/weapon/gun/projectile/automatic/m90/afterattack(atom/target, mob/living/user, flag, params)
+/obj/item/weapon/gun/projectile/automatic/c90/afterattack(atom/target, mob/living/user, flag, params)
 	if(select == 2)
 		underbarrel.afterattack(target, user, flag, params)
 	else
 		..()
 		return
-/obj/item/weapon/gun/projectile/automatic/m90/attackby(obj/item/A, mob/user, params)
+/obj/item/weapon/gun/projectile/automatic/c90/attackby(obj/item/A, mob/user, params)
 	if(istype(A, /obj/item/ammo_casing))
 		if(istype(A, underbarrel.magazine.ammo_type))
 			underbarrel.attack_self()
 			underbarrel.attackby(A, user, params)
 	else
 		..()
-/obj/item/weapon/gun/projectile/automatic/m90/update_icon()
+/obj/item/weapon/gun/projectile/automatic/c90/update_icon()
 	..()
 	overlays.Cut()
 	switch(select)
@@ -241,7 +268,7 @@
 			overlays += "[initial(icon_state)]gren"
 	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
 	return
-/obj/item/weapon/gun/projectile/automatic/m90/burst_select()
+/obj/item/weapon/gun/projectile/automatic/c90/burst_select()
 	var/mob/living/carbon/human/user = usr
 	switch(select)
 		if(0)
@@ -262,7 +289,7 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/tommygun
-	name = "\improper Thompson SMG"
+	name = "Tommy Gun"
 	desc = "Based on the classic 'Chicago Typewriter'."
 	icon_state = "tommygun"
 	item_state = "shotgun"
@@ -276,7 +303,7 @@
 	fire_delay = 1
 
 /obj/item/weapon/gun/projectile/automatic/ar
-	name = "\improper NT-ARG 'Boarder'"
+	name = "NT Assault Rifle"
 	desc = "A robust assault rile used by Nanotrasen fighting forces."
 	icon_state = "arg"
 	item_state = "arg"
