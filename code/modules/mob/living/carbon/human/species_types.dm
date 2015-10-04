@@ -95,6 +95,64 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	if(H)
 		H.endTailWag()
 
+
+/datum/species/bird
+	// flappy bird
+	name = "Avian"
+	id = "avian"
+	say_mod = "squawks"
+	default_color = "00FF00"
+	roundstart = 1
+	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
+	attack_verb = "claws"
+	attack_sound = 'sound/effects/claw.ogg'
+	miss_sound = 'sound/weapons/slashmiss.ogg'
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+
+
+/datum/species/cat
+	// catban
+	name = "Tarajan"
+	id = "tarajan"
+	say_mod = "meows"
+	default_color = "00FF00"
+	roundstart = 1
+	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
+	attack_verb = "slash"
+	attack_sound = 'sound/effects/claw.ogg'
+	miss_sound = 'sound/weapons/slashmiss.ogg'
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	mutations_to_have = list(CLUMSY)
+
+/datum/species/cat/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	if(rank in security_positions) //This list does not include lawyers.
+		return 0
+	if(rank in science_positions)
+		return 0
+	if(rank in medical_positions)
+		return 0
+	if(rank in engineering_positions)
+		return 0
+	if(rank == "Quartermaster") //QM is not contained in command_positions but we still want to bar mutants from it.
+		return 0
+	return 1
+
+
+/datum/species/bot
+	// Why bother have borgs
+	name = "IPC"
+	id = "IPC"
+	say_mod = "beeps"
+	default_color = "00FF00"
+	roundstart = 1
+	specflags = list(MUTCOLORS,EYECOLOR,LIPS,HAIR)
+	attack_verb = "punch"
+	attack_sound = 'sound/weapons/slash.ogg'
+	miss_sound = 'sound/weapons/slashmiss.ogg'
+	meat = null
+
 /*
  PLANTPEOPLE
 */

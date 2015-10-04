@@ -108,14 +108,6 @@ macro "borghotkeymode"
 		command = "resist"
 		is-disabled = false
 	elem 
-		name = "O"
-		command = "ooc"
-		is-disabled = false
-	elem 
-		name = "CTRL+O"
-		command = "ooc"
-		is-disabled = false
-	elem 
 		name = "D+REP"
 		command = ".east"
 		is-disabled = false
@@ -138,6 +130,14 @@ macro "borghotkeymode"
 	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "O"
+		command = "ooc"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "Q"
@@ -206,6 +206,14 @@ macro "borghotkeymode"
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -327,7 +335,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "CTRL+F"
-		command = "a-intent left"
+		command = "say *fart"
 		is-disabled = false
 	elem 
 		name = "CTRL+G"
@@ -384,6 +392,14 @@ macro "macro"
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -541,7 +557,7 @@ macro "hotkeymode"
 		is-disabled = false
 	elem 
 		name = "CTRL+F"
-		command = "a-intent left"
+		command = "say *fart"
 		is-disabled = false
 	elem 
 		name = "G"
@@ -642,6 +658,14 @@ macro "hotkeymode"
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -750,10 +774,6 @@ macro "borgmacro"
 		command = "resist"
 		is-disabled = false
 	elem 
-		name = "CTRL+O"
-		command = "ooc"
-		is-disabled = false
-	elem 
 		name = "CTRL+D+REP"
 		command = ".east"
 		is-disabled = false
@@ -764,6 +784,10 @@ macro "borgmacro"
 	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "CTRL+Q"
@@ -804,6 +828,14 @@ macro "borgmacro"
 	elem 
 		name = "SHIFT+F2+REP"
 		command = ".screenshot"
+		is-disabled = false
+	elem 
+		name = "F3"
+		command = "asay"
+		is-disabled = false
+	elem 
+		name = "F4"
+		command = "msay"
 		is-disabled = false
 	elem 
 		name = "F5"

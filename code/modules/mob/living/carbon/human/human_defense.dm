@@ -287,6 +287,45 @@ emp_act
 		acid_volume_left = max(acid_volume_left - acid_decay, 0)
 
 /mob/living/carbon/human/grabbedby(mob/living/user)
+	if(user.zone_sel.selecting == "groin")
+		var/obj/item/organ/butt/B = src.getorgan(/obj/item/organ/butt)
+		if(!w_uniform)
+			if(B)
+				if(user == src)
+					user.visible_message("<span class='warning'>[user] starts inspecting his own ass!</span>", "<span class='warning'>You start inspecting your ass!</span>")
+				else
+					user.visible_message("<span class='warning'>[user] starts inspecting [src]'s ass!</span>", "<span class='warning'>You start inspecting [src]'s ass!</span>")
+				if(do_mob(user, src, 40))
+					if(B.contents.len == 1)
+						if(user == src)
+							user.visible_message("<span class='warning'>[user] inspects his own ass!</span>", "<span class='warning'>You inspect your ass!</span>")
+						else
+							user.visible_message("<span class='warning'>[user] inspects [src]'s ass!</span>", "<span class='warning'>You inspect [src]'s ass!</span>")
+						var/obj/item/O = pick(B.contents)
+						O.loc = get_turf(src)
+						B.contents -= O
+						return 0
+					else
+						user.visible_message("<span class='warning'>There's nothing in here!</span>")
+						return 0
+				else
+					if(user == src)
+						user.visible_message("<span class='warning'>[user] fails to inspect his own ass!</span>", "<span class='warning'>You fail to inspect your ass!</span>")
+					else
+						user.visible_message("<span class='warning'>[user] fails to inspect [src]'s ass!</span>", "<span class='warning'>You fail to inspect [src]'s ass!</span>")
+					return 0
+			else
+				user << "<span class='warning'>There's nothing to inspect!</span>"
+				return 0
+		else
+			if(user == src)
+				user.visible_message("<span class='warning'>[user] grabs his own butt!</span>", "<span class='warning'>You grab your own butt!</span>")
+				user << "<span class='warning'>You'll need to remove your jumpsuit first!</span>"
+			else
+				user.visible_message("<span class='warning'>[user] grabs [src]'s butt!</span>", "<span class='warning'>You grab [src]'s butt!</span>")
+				user << "<span class='warning'>You'll need to remove [src]'s jumpsuit first!</span>"
+				src << "<span class='warning'>You feel your butt being grabbed!</span>"
+			return 0
 	if(w_uniform)
 		w_uniform.add_fingerprint(user)
 	..()
@@ -376,9 +415,9 @@ emp_act
 		skipcatch = 1
 		blocked = 1
 	else if(I)
-		if(I.throw_speed >= EMBED_THROWSPEED_THRESHOLD)
-			if(can_embed(I))
-				if(prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags)))
+		if(I.throw_speed >= EMBED_THROWSPEED_THRESHOLD || I.assthrown)
+			if(can_embed(I) || I.assthrown)
+				if(prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags)) || I.assthrown)
 					throw_alert("embeddedobject")
 					var/obj/item/organ/limb/L = pick(organs)
 					L.embedded_objects |= I

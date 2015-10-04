@@ -146,3 +146,39 @@
 	if(inflamed)
 		S.reagents.add_reagent("????", 5)
 	return S
+
+/obj/item/organ/butt //left it as a normal organ instead of /internal 'cause it doesn't need all those procs up here plus possible conflicts with ass update
+	name = "butt"
+	desc = "extremely treasured body part"
+	icon_state = "butt"
+	item_state = "butt"
+	throwforce = 5
+	throw_speed = 4
+	force = 5
+	hitsound = 'sound/misc/fart.ogg'
+	throwhitsound = 'sound/misc/fart.ogg' //woo
+	body_parts_covered = HEAD
+	slot_flags = SLOT_HEAD
+	embed_chance = 5 //This is a joke
+	var/loose = 0
+
+/obj/item/organ/butt/xeno //XENOMORPH BUTTS ARE BEST BUTTS yes i agree
+	name = "alien butt"
+	desc = "best trophy ever"
+	icon_state = "xenobutt"
+	item_state = "xenobutt"
+
+/obj/item/organ/butt/attackby(var/obj/item/W, mob/user as mob, params) // copypasting bot manufucturing process, im a lazy fuck
+
+	if(istype(W, /obj/item/robot_parts/l_arm) || istype(W, /obj/item/robot_parts/r_arm))
+		user.drop_item()
+		qdel(W)
+		var/turf/T = get_turf(src.loc)
+		var/obj/machinery/bot/buttbot/B = new(T)
+		if(istype(src, /obj/item/organ/butt/xeno))
+			B.xeno = 1
+			B.icon_state = "buttbot_xeno"
+			B.speech_list = list("hissing butts", "hiss hiss motherfucker", "nice trophy nerd", "butt", "woop get an alien inspection")
+		user << "<span class='notice'>You add the robot arm to the butt and... What?</span>"
+		user.drop_item(src)
+		qdel(src)
