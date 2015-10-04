@@ -308,6 +308,15 @@
 			if (miming)
 				message = "<B>[src]</B> sneezes."
 			else
+				if (muzzled)
+					message = "<B>[src]</B> makes a strange noise."
+				else
+					var/sound = pick('sound/misc/malesneeze01.ogg', 'sound/misc/malesneeze02.ogg', 'sound/misc/malesneeze03.ogg')
+					if(gender == FEMALE)
+						sound = pick('sound/misc/femsneeze01.ogg', 'sound/misc/femsneeze02.ogg')
+					playsound(src.loc, sound, 50, 1, 5)
+					message = "<B>[src]</B> sneezes."
+				m_type = 2
 				..(act)
 
 		if ("sniff","sniffs")
