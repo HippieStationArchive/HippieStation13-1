@@ -111,11 +111,12 @@ Bartender
 /datum/outfit/job/bartender
 	name = "Bartender"
 
-	belt = /obj/item/device/pda/bar
+	belt = /obj/item/weapon/storage/belt/bandolier/full
 	ears = /obj/item/device/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/bartender
 	suit = /obj/item/clothing/suit/armor/vest
-	backpack_contents = list(/obj/item/ammo_casing/shotgun/beanbag=4)
+	l_pocket = /obj/item/device/pda/bar
+
 
 /*
 Cook

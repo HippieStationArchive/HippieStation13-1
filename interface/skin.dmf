@@ -327,7 +327,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "CTRL+F"
-		command = "a-intent left"
+		command = "say *fart"
 		is-disabled = false
 	elem 
 		name = "CTRL+G"
@@ -541,7 +541,7 @@ macro "hotkeymode"
 		is-disabled = false
 	elem 
 		name = "CTRL+F"
-		command = "a-intent left"
+		command = "say *fart"
 		is-disabled = false
 	elem 
 		name = "G"
