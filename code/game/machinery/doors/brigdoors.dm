@@ -39,9 +39,9 @@
 	Radio.listening = 0
 
 	spawn(20)
-		for(var/obj/machinery/door/window/brigdoor/M in range(20, src))
-			if (M.id == src.id)
-				targets += M
+		for(var/obj/machinery/door/poddoor/glass/G in range(20, src))
+			if (G.id == src.id)
+				targets += G
 
 		for(var/obj/machinery/flasher/F in range(20, src))
 			if(F.id == src.id)
@@ -72,8 +72,6 @@
 			timeset(0)
 		src.updateUsrDialog()
 		src.update_icon()
-	else
-		timer_end()
 	return
 
 
@@ -89,10 +87,8 @@
 /obj/machinery/door_timer/proc/timer_start()
 	if(stat & (NOPOWER|BROKEN))	return 0
 
-	for(var/obj/machinery/door/window/brigdoor/door in targets)
-		if(door.density)	continue
-		spawn(0)
-			door.close()
+	for(var/obj/machinery/door/poddoor/glass/G in targets)
+		G.next_door_state = 1
 
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)	continue
@@ -105,10 +101,8 @@
 /obj/machinery/door_timer/proc/timer_end()
 	if(stat & (NOPOWER|BROKEN))	return 0
 
-	for(var/obj/machinery/door/window/brigdoor/door in targets)
-		if(!door.density)	continue
-		spawn(0)
-			door.open()
+	for(var/obj/machinery/door/poddoor/glass/G in targets)
+		G.next_door_state = 0
 
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)	continue
@@ -158,6 +152,8 @@
 	dat += "Time Left: [(minute ? text("[minute]:") : null)][second] <br/>"
 	dat += "<a href='?src=\ref[src];tp=-60'>-</a> <a href='?src=\ref[src];tp=-1'>-</a> <a href='?src=\ref[src];tp=1'>+</a> <A href='?src=\ref[src];tp=60'>+</a><br/>"
 
+	dat += "<br/><a href='?src=\ref[src];toggle_doors=1'>Toggle External Door</a><br/>"
+
 	for(var/obj/machinery/flasher/F in targets)
 		if(F.last_flash && (F.last_flash + 150) > world.time)
 			dat += "<br/><A href='?src=\ref[src];fc=1'>Flash Charging</A>"
@@ -189,6 +185,9 @@
 		timeleft = min(max(round(timeleft), 0), 600)
 		timing = text2num(href_list["timing"])
 		timeset(timeleft)
+		if(timing)
+			src.timer_start()
+
 	else if(href_list["tp"]) //adjust timer
 		var/timeleft = timeleft()
 		var/tp = text2num(href_list["tp"])
@@ -200,13 +199,14 @@
 	else if(href_list["fc"])
 		for(var/obj/machinery/flasher/F in targets)
 			F.flash()
+	else if(href_list["toggle_doors"])
+		for(var/obj/machinery/door/poddoor/glass/G in targets)
+			G.next_door_state = !G.next_door_state
+
 	src.add_fingerprint(usr)
 	src.updateUsrDialog()
 	src.update_icon()
-	if(timing)
-		src.timer_start()
-	else
-		src.timer_end()
+
 	return
 
 
