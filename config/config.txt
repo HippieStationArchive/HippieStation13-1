@@ -152,7 +152,7 @@ ALLOW_HOLIDAYS
 TICKLAG 0.6
 
 ## Defines if Tick Compensation is used.  It results in a minor slowdown of movement of all mobs, but attempts to result in a level movement speed across all ticks.  Recommended if tickrate is lowered.
-TICKCOMP 0
+#TICKCOMP 0
 
 ## Comment this out to disable automuting
 AUTOMUTE_ON
