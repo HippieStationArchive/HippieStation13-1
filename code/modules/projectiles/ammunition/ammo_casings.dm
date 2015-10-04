@@ -1,45 +1,48 @@
 /obj/item/ammo_casing/a357
-	desc = "A .357 bullet casing."
+	desc = "A .357 cartridge."
+	icon_state = "casing_357"
 	caliber = "357"
 	projectile_type = /obj/item/projectile/bullet
 
 /obj/item/ammo_casing/a50
-	desc = "A .50AE bullet casing."
+	desc = "A .50 Action Express cartridge."
+	icon_state = "casing_357"
 	caliber = ".50"
 	projectile_type = /obj/item/projectile/bullet
 
 /obj/item/ammo_casing/c38
-	desc = "A .38 bullet casing."
+	desc = "A .38 Special rubber-bullet cartridge."
+	icon_state = "casing_38"
 	caliber = "38"
 	projectile_type = /obj/item/projectile/bullet/weakbullet2
 
 /obj/item/ammo_casing/c10mm
-	desc = "A 10mm bullet casing."
+	desc = "A 10mm cartridge."
 	caliber = "10mm"
 	projectile_type = /obj/item/projectile/bullet/midbullet3
 
 /obj/item/ammo_casing/c9mm
-	desc = "A 9mm bullet casing."
+	desc = "A 9mm cartridge."
 	caliber = "9mm"
 	projectile_type = /obj/item/projectile/bullet/weakbullet3
 
 /obj/item/ammo_casing/c9mmap
-	desc = "A 9mm bullet casing."
+	desc = "An armour-piercing 9mm cartridge."
 	caliber = "9mm"
 	projectile_type =/obj/item/projectile/bullet/armourpiercing
 
 /obj/item/ammo_casing/c9mmtox
-	desc = "A 9mm bullet casing."
+	desc = "A toxic 9mm cartridge."
 	caliber = "9mm"
 	projectile_type = /obj/item/projectile/bullet/toxinbullet
 
 /obj/item/ammo_casing/c9mminc
-	desc = "A 9mm bullet casing."
+	desc = "An incendiary 9mm cartridge."
 	caliber = "9mm"
 	projectile_type = /obj/item/projectile/bullet/incendiary/firebullet
 
 /obj/item/ammo_casing/c45
-	desc = "A .45 bullet casing."
+	desc = "A .45 ACP cartridge."
 	caliber = ".45"
 	projectile_type = /obj/item/projectile/bullet/midbullet
 
@@ -193,18 +196,31 @@
 	reagents.add_reagent("sodium_thiopental", 6)
 
 /obj/item/ammo_casing/a762
-	desc = "A 7.62mm bullet casing."
+	desc = "A 7.62x51mm cartridge."
 	icon_state = "762-casing"
 	caliber = "a762"
 	projectile_type = /obj/item/projectile/bullet
 
-/obj/item/ammo_casing/a556
-	desc = "A 5.56mm bullet casing."
+/obj/item/ammo_casing/a545
+	desc = "A 5.45x39mm cartridge."
+	icon_state = "casing_545"
 	caliber = "a556"
 	projectile_type = /obj/item/projectile/bullet/heavybullet
 
+/obj/item/ammo_casing/a556
+	desc = "A 5.56x45mm cartridge."
+	caliber = "a556"
+	projectile_type = /obj/item/projectile/bullet/heavybullet
+	icon_state = "casing_545"
+
+/obj/item/ammo_casing/a762x39
+	desc = "A 7.62x39mm bullet casing."
+	icon_state = "casing_762x39"
+	caliber = "7.62x39"
+	projectile_type = /obj/item/projectile/bullet/heavybullet
+
 /obj/item/ammo_casing/caseless
-	desc = "A caseless bullet casing."
+	desc = "A caseless cartridge."
 
 
 /obj/item/ammo_casing/caseless/fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, params, distro, quiet)
@@ -219,7 +235,7 @@
 	icon_state = "[initial(icon_state)]"
 
 /obj/item/ammo_casing/caseless/a75
-	desc = "A .75 bullet casing."
+	desc = "A .75 cartridge."
 	caliber = "75"
 	icon_state = "s-casing-live"
 	projectile_type = /obj/item/projectile/bullet/gyro

@@ -33,6 +33,42 @@
 	ammo_type = /obj/item/ammo_casing/c45
 	max_ammo = 20
 
+/obj/item/ammo_box/a762x39
+	name = "ammo box (7.62x39mm)"
+	icon_state = "45box"
+	origin_tech = "combat=3"
+	ammo_type = /obj/item/ammo_casing/a762x39
+	max_ammo = 30
+
+/obj/item/ammo_box/box12gbuckshot
+	name = "ammo box (12g buckshot)"
+	icon_state = "12gboxbuckshot"
+	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
+	caliber = "shotgun"
+	max_ammo = 40
+
+
+/obj/item/ammo_box/box12gslug
+	name = "ammo box (12g slug)"
+	icon_state = "12gboxslug"
+	ammo_type = /obj/item/ammo_casing/shotgun
+	caliber = "shotgun"
+	max_ammo = 40
+
+/obj/item/ammo_box/box12gbeanbag
+	name = "ammo box (12g beanbag)"
+	icon_state = "12gboxbeanbag"
+	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+	caliber = "shotgun"
+	max_ammo = 40
+
+/obj/item/ammo_box/box12gdragon
+	name = "ammo box (12g dragon's breath)"
+	icon_state = "12gboxdragon"
+	ammo_type = /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath
+	caliber = "shotgun"
+	max_ammo = 40
+
 /obj/item/ammo_box/a40mm
 	name = "ammo box (40mm grenades)"
 	icon_state = "40mm"

@@ -44,6 +44,55 @@
 
 
 /obj/item/weapon/reagent_containers/food/snacks/attack(mob/M, mob/user, def_zone)
+	if(user.zone_sel.selecting =="groin" && user.a_intent == "grab")
+		if(ishuman(M))
+			var/mob/living/carbon/human/H = M
+			var/obj/item/organ/butt/B = H.getorgan(/obj/item/organ/butt)
+			if(!H.w_uniform)
+				if(B.contents.len == 1)
+					if(M == user)
+						user << "<span class='warning'>Your butt is full!</span>"
+					else
+						user << "<span class='warning'>[H]'s butt is full!</span>"
+					return 0
+				if(H == user)
+					H << "<span class='notice'>You stuff [src] into your butt.</span>"
+				else
+					H.visible_message("<span class='danger'>[user] attempts to stuff [src] inside [H]'s butt.</span>", \
+										"<span class='userdanger'>You attempt to stuff [src] inside [H]'s butt.</span>")
+					if(!do_mob(user, H)) return
+					H.visible_message("<span class='danger'>[user] stuffs [src] inside [H]'s butt.</span>", \
+										"<span class='userdanger'>You stuff [src] inside [H]'s butt.</span>")
+				user.unEquip(src)
+				add_logs(user, M, "stuffed", object="[reagentlist(src)]")
+				B.contents += src
+				for(var/i = 1 to reagents.total_volume)
+					if(!(src in B.contents))
+						break
+					sleep(50)
+					reagents.trans_to(M, 1)
+					i++
+				if(trash)
+					if(ispath(trash,/obj/item/weapon/grown))
+						var/obj/item/TrashItem = new trash(usr,src.potency)
+						B.contents += TrashItem
+					else if(ispath(trash,/obj/item))
+						var/obj/item/TrashItem = new trash(usr)
+						B.contents += TrashItem
+					else if(istype(trash,/obj/item))
+						B.contents += trash
+				qdel(src)
+				return 1
+			else
+				if(M == user)
+					user << "<span class='warning'>You'll need to remove your jumpsuit first.</span>"
+				else
+					user << "<span class='warning'>You'll need to remove [M]'s jumpsuit first.</span>"
+				return 0
+		else
+			user << "<span class='warning'>You can only do that to humans.</span>"
+			return 0
+
 	if(!eatverb)
 		eatverb = pick("bite","chew","nibble","gnaw","gobble","chomp")
 	if(!reagents.total_volume)						//Shouldn't be needed but it checks to see if it has anything left in it.

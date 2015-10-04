@@ -100,10 +100,17 @@ var/list/uplink_items = list()
 	category = "Conspicuous and Dangerous Weapons"
 
 /datum/uplink_item/dangerous/pistol
-	name = "FK-69 Pistol"
+	name = "Syndicate Pistol"
 	desc = "A small, easily concealable handgun that uses 10mm auto rounds in 8-round magazines and is compatible with suppressors."
 	item = /obj/item/weapon/gun/projectile/automatic/pistol
 	cost = 9
+
+/datum/uplink_item/dangerous/g17
+	name = "Glock 17 Handgun"
+	desc = "A simple yet popular handgun chambered in 9mm. Made out of strong but lightweight polymer. The standard magazine can hold up to 14 9mm cartridges. Compatible with a universal suppressor."
+	item = /obj/item/weapon/gun/projectile/automatic/pistol/g17
+	cost = 11
+	surplus = 15
 
 /datum/uplink_item/dangerous/revolver
 	name = "Syndicate Revolver"
@@ -125,15 +132,31 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/gang)
 
 /datum/uplink_item/dangerous/carbine
-	name = "M-90gl Carbine"
-	desc = "A fully-loaded three-round burst carbine that uses 30-round 5.56mm magazines with a togglable underslung 40mm grenade launcher."
-	item = /obj/item/weapon/gun/projectile/automatic/m90
+	name = "C-90GL Carbine"
+	desc = "A fully-loaded three-round burst carbine that uses 30-round 5.56mm magazines with an underslung 40mm grenade launcher."
+	item = /obj/item/weapon/gun/projectile/automatic/c90
 	cost = 18
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 50
 
+/datum/uplink_item/dangerous/ak922
+	name = "AK-922 Assault Rifle"
+	desc = "A standard issue New Russia assault rifle praised for being able to survive common issues in the field, including but not limited to: explosions, laser beams, toolboxes, and clowns. Chambered in the 7.62x39mm cartridge."
+	item = /obj/item/weapon/gun/projectile/automatic/ak922
+	cost = 16		//Cheaper than the C-90 because it has no grenade launcher, but is otherwise identical, excluding icons and the like.
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 50
+
+/datum/uplink_item/dangerous/ak922gold
+	name = "Gold-Plated AK-922 Assault Rifle"
+	desc = "An AK-922 with gold-plating. Now you can kill innocent workers of a hated company with efficiency AND style!"
+	item = /obj/item/weapon/gun/projectile/automatic/ak922/gold
+	cost = 17
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 50
+
 /datum/uplink_item/dangerous/carbine/unrestricted
-	item = /obj/item/weapon/gun/projectile/automatic/m90/unrestricted
+	item = /obj/item/weapon/gun/projectile/automatic/c90/unrestricted
 	gamemodes = list(/datum/game_mode/gang)
 
 /datum/uplink_item/dangerous/machinegun
@@ -144,13 +167,21 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
+/datum/uplink_item/dangerous/machineshotgun
+	name = "Abzats Shotgun Machinegun"
+	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 40-round box magazine of 12 gauge buckshot cartridges."
+	item = /obj/item/weapon/gun/projectile/automatic/shotgun/abzats
+	cost = 45
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 0
+
 /datum/uplink_item/dangerous/crossbow
 	name = "Miniature Energy Crossbow"
 	desc = "A short bow mounted across a tiller in miniature. Small enough to fit into a pocket or slip into a bag unnoticed. It will synthesize and fire bolts tipped with a paralyzing toxin that will \
 	briefly stun targets and cause them to slur as if inebriated. It can produce an infinite amount of bolts, but must be manually recharged with each shot."
 	item = /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow
 	cost = 12
-	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
+	excludefrom = (/datum/game_mode/gang)
 	surplus = 50
 
 /datum/uplink_item/dangerous/flamethrower
@@ -263,6 +294,12 @@ var/list/uplink_items = list()
 	item = /obj/item/ammo_box/magazine/m10mm
 	cost = 1
 
+/datum/uplink_item/ammo/g17
+	name = "Handgun Magazine - 9mm"
+	desc = "A spare fully-loaded magazine for use in the Glock 17 handgun. Holds up to 14 9mm cartridges."
+	item = /obj/item/ammo_box/magazine/g17
+	cost = 1
+
 /datum/uplink_item/ammo/revolver
 	name = "Speed Loader - .357"
 	desc = "A speed loader that contains seven additional .357 Magnum rounds for the syndicate revolver. For when you really need a lot of things dead."
@@ -270,18 +307,11 @@ var/list/uplink_items = list()
 	cost = 4
 
 /datum/uplink_item/ammo/smg
-	name = "SMG Magazine - .45"
-	desc = "An additional 20-round .45 magazine for use in the C-20r submachine gun. These bullets pack a lot of punch that can knock most targets down, but do limited overall damage."
+	name = "SMG Magazine - .45 ACP"
+	desc = "An additional 20-round .45 ACP magazine for use in the C-20r submachine gun. These bullets pack a lot of punch that can knock most targets down, but do limited overall damage."
 	item = /obj/item/ammo_box/magazine/smgm45
 	cost = 2
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
-
-/datum/uplink_item/ammo/ammobag
-	name = "Ammo Duffelbag - Shotgun Ammo Grab Bag"
-	desc = "A duffelbag filled with Bulldog ammo to kit out an entire team, at a discounted price."
-	item = /obj/item/weapon/storage/backpack/dufflebag/syndie/ammo/loaded
-	cost = 10 //bulk buyer's discount. Very useful if you're buying a mech and dont have TC left to buy people non-shotgun guns
-	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/bullslug
 	name = "Drum Magazine - 12g Slugs"
@@ -311,6 +341,27 @@ var/list/uplink_items = list()
 	cost = 2
 	gamemodes = list(/datum/game_mode/nuclear)
 
+/datum/uplink_item/ammo/box12gbuckshot
+	name = "40rnd ammo box - 12g Buckshot"
+	desc = "A box of 40 rounds of buckshot ammo, intended for reloading of the Abzats' box magazine."
+	item = /obj/item/ammo_box/box12gbuckshot
+	cost = 8
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/ammo/box12gbuckshot
+	name = "Abzats Spare Ammo Box - Buckshot"
+	desc = "An ammo box designed for use with the Abzats machine shotgun. Holds up to forty 12 gauge shotgun shells."
+	item = /obj/item/ammo_box/magazine/mbox12g
+	cost = 10
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/ammo/box12gdragon
+	name = "40rnd ammo box - 12g Dragon's breath"
+	desc = "A box of 40 rounds of dragon's breath ammo, intended for reloading of the Abzats' box magazine."
+	item = /obj/item/ammo_box/box12gdragon
+	cost = 12
+	gamemodes = list(/datum/game_mode/nuclear)
+
 /datum/uplink_item/ammo/bioterror
 	name = "Box of Bioterror Syringes"
 	desc = "A box full of preloaded syringes, containing various chemicals that seize up the victim's motor and broca systems, making it impossible for them to move or speak for some time."
@@ -320,14 +371,21 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/ammo/carbine
 	name = "Toploader Magazine - 5.56"
-	desc = "An additional 30-round 5.56 magazine for use in the M-90gl carbine. These bullets don't have the punch to knock most targets down, but dish out higher overall damage."
+	desc = "An additional 30-round 5.56 magazine for use in the C-90gl carbine. These bullets don't have the punch to knock most targets down, but dish out higher overall damage."
 	item = /obj/item/ammo_box/magazine/m556
+	cost = 2
+	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
+
+/datum/uplink_item/ammo/ak922
+	name = "Box Magazine - 7.62x39mm"
+	desc = "An additional 30-round 7.62x39mm magazine for the AK-922 battle rifle. While they don't hit as hard as other projectiles, they have higher velocity and penetrating power."
+	item = /obj/item/ammo_box/magazine/ak922
 	cost = 2
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 
 /datum/uplink_item/ammo/a40mm
 	name = "Ammo Box - 40mm grenades"
-	desc = "A box of 4 additional 40mm HE grenades for use the M-90gl's underbarrel grenade launcher. Your teammates will thank you to not shoot these down small hallways."
+	desc = "A box of 4 additional 40mm HE grenades for use the C-90gl's underbarrel grenade launcher. Your teammates will thank you to not shoot these down small hallways."
 	item = /obj/item/ammo_box/a40mm
 	cost = 4
 	gamemodes = list(/datum/game_mode/nuclear)

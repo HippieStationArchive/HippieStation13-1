@@ -38,6 +38,9 @@
 		name = real_name
 	if(name != real_name)
 		alt_name = " (died as [real_name])"
+	if(message == "*fart" || message == "*scream")
+		src << "<span class='danger'>Please don't do emotes in the chat. ([message])</span>"
+		return
 
 	message = src.say_quote(message, get_spans())
 	var/rendered = "<span class='game deadsay'><span class='prefix'>DEAD:</span> <span class='name'>[name]</span>[alt_name] <span class='message'>[message]</span></span>"
