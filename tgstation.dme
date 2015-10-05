@@ -12,6 +12,8 @@
 #define FILE_DIR "code/modules/html_interface"
 #define FILE_DIR "code/modules/html_interface/cards"
 #define FILE_DIR "code/modules/html_interface/nanotrasen"
+#define FILE_DIR "data"
+#define FILE_DIR "data/minimaps"
 #define FILE_DIR "html"
 #define FILE_DIR "icons"
 #define FILE_DIR "icons/ass"
@@ -70,7 +72,7 @@
 #define FILE_DIR "sound/violin"
 #define FILE_DIR "sound/voice"
 #define FILE_DIR "sound/voice/complionator"
-#define FILE_DIR "sound/vox_fem"
+#define FILE_DIR "sound/vox"
 #define FILE_DIR "sound/weapons"
 // END_FILE_DIR
 
