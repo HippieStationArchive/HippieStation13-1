@@ -373,7 +373,26 @@
 					message = "<B>[src]</B> screams!"
 					src.adjustOxyLoss(5)
 					m_type = 2
-					delay = 15
+			delay = 15
+
+		if ("vomit")
+			if(src.nutrition >= 50)
+				message = "<span class='danger'>[src] vomits!</span>"
+				src.nutrition -= 40
+				src.adjustToxLoss(-3)
+				src.adjustBruteLoss(5)
+				var/turf/T = get_turf(src)
+				T.add_vomit_floor(src)
+				playsound(src, 'sound/effects/splat.ogg', 50, 1)
+			else
+				message = "<span class='danger'>[src] dry heaves violently!</span>"
+				src.adjustBruteLoss(8)
+				var/sound = pick('sound/misc/cough1.ogg', 'sound/misc/cough2.ogg', 'sound/misc/cough3.ogg', 'sound/misc/cough4.ogg')
+				if(gender == FEMALE)
+					sound = pick('sound/misc/cough_f1.ogg', 'sound/misc/cough_f2.ogg', 'sound/misc/cough_f3.ogg')
+				playsound(src.loc, sound, 50, 1, 5)
+			m_type = 1
+			delay = 30
 
 		if ("shiver","shivers")
 			message = "<B>[src]</B> shivers."
