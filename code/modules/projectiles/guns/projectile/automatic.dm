@@ -78,7 +78,7 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/c20r
-	name = "Syndicate SMG"
+	name = "C-20r SMG"
 	desc = "A bullpup two-round burst .45 SMG, designated 'C-20r'. Has a 'Scarborough Arms - Per falcis, per pravitas' buttstamp."
 	icon_state = "c20r"
 	item_state = "c20r"
@@ -159,7 +159,7 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw
-	name = "Syndicate LMG"
+	name = "L6 SAW LMG"
 	desc = "A heavily modified 7.62 light machine gun, designated 'L6 SAW'. Has 'Aussec Armoury - 2531' engraved on the receiver below the designation."
 	icon_state = "l6closed100"
 	item_state = "l6closedmag"

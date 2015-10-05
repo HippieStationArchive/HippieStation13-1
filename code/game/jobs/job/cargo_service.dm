@@ -138,6 +138,7 @@ Cook
 	access = list(access_hydroponics, access_bar, access_kitchen, access_morgue)
 	minimal_access = list(access_kitchen, access_morgue)
 
+
 /datum/outfit/job/cook
 	name = "Cook"
 
@@ -155,6 +156,7 @@ Cook
 		suit = /obj/item/clothing/suit/apron/chef
 		head = /obj/item/clothing/head/soft/mime
 
+	H.dna.add_mutation(SWEDISH)
 
 /*
 Botanist
