@@ -181,7 +181,7 @@ var/list/uplink_items = list()
 	briefly stun targets and cause them to slur as if inebriated. It can produce an infinite amount of bolts, but must be manually recharged with each shot."
 	item = /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow
 	cost = 12
-	excludefrom = (/datum/game_mode/gang)
+	excludefrom = list(/datum/game_mode/gang)
 	surplus = 50
 
 /datum/uplink_item/dangerous/flamethrower

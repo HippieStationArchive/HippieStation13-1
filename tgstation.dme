@@ -73,6 +73,7 @@
 #define FILE_DIR "sound/voice"
 #define FILE_DIR "sound/voice/complionator"
 #define FILE_DIR "sound/vox"
+#define FILE_DIR "sound/vox/secret"
 #define FILE_DIR "sound/weapons"
 // END_FILE_DIR
 
