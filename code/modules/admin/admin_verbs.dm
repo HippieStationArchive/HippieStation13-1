@@ -16,6 +16,7 @@ var/list/admin_verbs_default = list(
 	/client/proc/investigate_show,		/*various admintools for investigation. Such as a singulo grief-log*/
 	/client/proc/secrets,
 	/client/proc/reload_admins,
+	/client/proc/reload_mentors,
 	/client/proc/reestablish_db_connection,/*reattempt a connection to the database*/
 	/client/proc/cmd_admin_pm_context,	/*right-click adminPM interface*/
 	/client/proc/cmd_admin_pm_panel,		/*admin-pm list*/
@@ -220,6 +221,7 @@ var/list/admin_verbs_hideable = list(
 
 		var/rights = holder.rank.rights
 		verbs += admin_verbs_default
+		verbs += /client/proc/cmd_mentor_say
 		if(rights & R_BUILDMODE)	verbs += /client/proc/togglebuildmodeself
 		if(rights & R_ADMIN)		verbs += admin_verbs_admin
 		if(rights & R_BAN)			verbs += admin_verbs_ban
