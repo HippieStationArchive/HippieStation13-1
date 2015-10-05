@@ -14,6 +14,7 @@
 	stop_automated_movement = 1
 	floating = 1
 	attack_sound = 'sound/weapons/punch1.ogg'
+	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 0
 	attacktext = "punches"
 	maxHealth = 100000 //The spirit itself is invincible
@@ -21,6 +22,7 @@
 	environment_smash = 0
 	melee_damage_lower = 15
 	melee_damage_upper = 15
+	butcher_results = list(/obj/item/weapon/ectoplasm = 1)
 	AIStatus = AI_OFF
 	var/animated_manifest = FALSE
 	var/cooldown = 0
@@ -70,7 +72,6 @@
 		src.summoner.adjustBruteLoss(damage)
 		if(damage)
 			src.summoner << "<span class='danger'><B>Your [src.name] is under attack! You take damage!</span></B>"
-
 			src.summoner.visible_message("<span class='danger'>Blood sprays from [summoner] as [src] takes damage!</span>")
 		if(src.summoner.stat == UNCONSCIOUS)
 			src.summoner << "<span class='danger'><B>Your body can't take the strain of sustaining [src.name] in this condition, it begins to fall apart!</span></B>"
@@ -115,6 +116,7 @@
 	if(cooldown > world.time)
 		return
 	src.loc = summoner
+	buckled = null
 	cooldown = world.time + 30
 
 /mob/living/simple_animal/hostile/guardian/verb/Communicate()
@@ -161,10 +163,10 @@
 	attacktext = "sears"
 	damage_transfer = 0.8
 	range = 10
-	playstyle_string = "As a Choas type, you have only light damage resistance, but will ignite any enemy you bump into. In addition, your melee attacks will randomly teleport enemies."
+	playstyle_string = "As a Chaos type, you have only light damage resistance, but will ignite any enemy you bump into. In addition, your melee attacks will randomly teleport enemies."
 	environment_smash = 1
 	magic_fluff_string = "..And draw the Wizard, bringer of endless chaos!"
-	tech_fluff_string = "Boot sequence complete. Crowd control modules activated. Holoparasites online."
+	tech_fluff_string = "Boot sequence complete. Crowd control modules activated. Holoparasite swarm online."
 	bio_fluff_string = "Your scarab swarm finishes mutating and stirs to life, ready to sow havoc at random."
 
 /mob/living/simple_animal/hostile/guardian/fire/Life() //Dies if the summoner dies
@@ -185,7 +187,6 @@
 	..()
 	src.collision_ignite(AM)
 
-
 /mob/living/simple_animal/hostile/guardian/fire/Bumped(AM as mob|obj)
 	..()
 	src.collision_ignite(AM)
@@ -198,7 +199,7 @@
 	if(istype(AM, /mob/living/))
 		var/mob/living/M = AM
 		if(AM != src.summoner)
-			M.adjust_fire_stacks(4)
+			M.adjust_fire_stacks(7)
 			M.IgniteMob()
 
 /mob/living/simple_animal/hostile/guardian/fire/Bump(AM as mob|obj)
@@ -213,7 +214,7 @@
 	playstyle_string = "As a standard type you have no special abilities, but have a high damage resistance and a powerful attack capable of smashing through walls."
 	environment_smash = 2
 	magic_fluff_string = "..And draw the Assistant, faceless and generic, but never to be underestimated."
-	tech_fluff_string = "Boot sequence complete. Standard combat modules loaded. Holoparasites online."
+	tech_fluff_string = "Boot sequence complete. Standard combat modules loaded. Holoparasite swarm online."
 	bio_fluff_string = "Your scarab swarm stirs to life, ready to tear apart your enemies."
 	var/battlecry = "AT"
 
@@ -246,8 +247,8 @@
 	melee_damage_lower = 15
 	melee_damage_upper = 15
 	playstyle_string = "As a Support type, you may toggle your basic attacks to a healing mode. In addition, Alt-Clicking on an adjacent mob will warp them to your bluespace beacon after a short delay."
-	magic_fluff_string = "..And draw the Medical Doctor, a potent force of life...and death."
-	tech_fluff_string = "Boot sequence complete. Medical modules active. Bluespace modules activated. Holoparasites online."
+	magic_fluff_string = "..And draw the CMO, a potent force of life...and death."
+	tech_fluff_string = "Boot sequence complete. Medical modules active. Bluespace modules activated. Holoparasite swarm online."
 	bio_fluff_string = "Your scarab swarm finishes mutating and stirs to life, capable of mending wounds and travelling via bluespace."
 	var/turf/simulated/floor/beacon
 	var/beacon_cooldown = 0
@@ -270,7 +271,6 @@
 	set name = "Toggle Mode"
 	set category = "Guardian"
 	set desc = "Toggle between combat and healing modes."
-
 	if(src.loc == summoner)
 		if(toggle)
 			a_intent = "harm"
@@ -321,7 +321,7 @@
 		return
 	if(!beacon)
 		src << "<span class='danger'><B>You need a beacon placed to warp things!</span></B>"
-
+		return
 	if(!Adjacent(A))
 		src << "<span class='danger'><B>You must be adjacent to your target!</span></B>"
 		return
@@ -370,7 +370,7 @@
 	range = 13
 	playstyle_string = "As a ranged type, you have only light damage resistance, but are capable of spraying shards of crystal at incredibly high speed. You can also deploy surveillance snares to monitor enemy movement. Finally, you can switch to scout mode, in which you can't attack, but can move without limit."
 	magic_fluff_string = "..And draw the Sentinel, an alien master of ranged combat."
-	tech_fluff_string = "Boot sequence complete. Ranged combat modules active. Holoparasites online."
+	tech_fluff_string = "Boot sequence complete. Ranged combat modules active. Holoparasite swarm online."
 	bio_fluff_string = "Your scarab swarm finishes mutating and stirs to life, capable of spraying shards of crystal."
 	var/list/snares = list()
 	var/toggle = FALSE
@@ -442,9 +442,6 @@
 				if(G.summoner)
 					G.summoner << "<span class='danger'><B>[AM] has crossed your surveillance trap at [get_area(snare_loc)].</span></B>"
 
-
-
-
 ////Bomb
 
 /mob/living/simple_animal/hostile/guardian/bomb
@@ -452,9 +449,9 @@
 	melee_damage_upper = 15
 	damage_transfer = 0.6
 	range = 13
-	playstyle_string = "As an explosive type, you have only moderate close combat abilities, but are capable of converting any adjacent item into a disguised bomb via Alt click."
+	playstyle_string = "As an explosive type, you have only moderate close combat abilities, but are capable of converting any adjacent item into a disguised bomb via alt click."
 	magic_fluff_string = "..And draw the Scientist, master of explosive death."
-	tech_fluff_string = "Boot sequence complete. Explosive modules active. Nanoswarm online."
+	tech_fluff_string = "Boot sequence complete. Explosive modules active. Holoparasite swarm online."
 	bio_fluff_string = "Your scarab swarm finishes mutating and stirs to life, capable of stealthily booby trapping items."
 	var/bomb_cooldown = 0
 
@@ -486,15 +483,7 @@
 	stored_obj = A
 	anchored = A.anchored
 	density = A.density
-	name = A.name
-	desc = A.desc
-	icon = A.icon
-	icon_state = A.icon_state
-	overlays = A.overlays
-	anchored = A.anchored
-	density = A.density
-	pixel_y = A.pixel_y
-	pixel_x = A.pixel_x
+	appearance = A.appearance
 	spawn(600)
 		stored_obj.loc = get_turf(src.loc)
 		spawner << "<span class='danger'><B>Failure! Your trap didn't catch anyone this time.</span></B>"
@@ -527,7 +516,7 @@
 /obj/item/weapon/guardiancreator
 	name = "deck of tarot cards"
 	desc = "An enchanted deck of tarot cards, rumored to be a source of unimaginable power. "
-	icon = 'icons/obj/playing_cards.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "deck_syndicate_full"
 	var/used = FALSE
 	var/theme = "magic"
@@ -552,31 +541,12 @@
 		return
 	used = TRUE
 	user << "[use_message]"
-	var/list/candidates = get_candidates(BE_ALIEN, ALIEN_AFK_BRACKET)
+	var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
+	var/mob/dead/observer/theghost = null
 
-	shuffle(candidates)
-
-	var/time_passed = world.time
-	var/list/consenting_candidates = list()
-
-	for(var/candidate in candidates)
-
-		spawn(0)
-			switch(alert(candidate, "Would you like to play as the [mob_name] of [user.real_name]? Please choose quickly!","Confirmation","Yes","No"))
-				if("Yes")
-					if((world.time-time_passed)>=50 || !src)
-						return
-					consenting_candidates += candidate
-
-	sleep(50)
-
-	if(!src)
-		return
-
-	if(consenting_candidates.len)
-		var/client/C = null
-		C = pick(consenting_candidates)
-		spawn_guardian(user, C.key)
+	if(candidates.len)
+		theghost = pick(candidates)
+		spawn_guardian(user, theghost.key)
 	else
 		user << "[failure_message]"
 		used = FALSE
@@ -621,7 +591,7 @@
 			G.color = color2hex(picked_color)
 			G.real_name = "[mob_name] [capitalize(picked_color)]"
 			user << "[G.magic_fluff_string]."
-		if("bio")
+		if("tech")
 			var/colour = pick("orange", "neon", "pink", "red", "blue", "green")
 			G.name = "[mob_name] [capitalize(colour)]"
 			G.real_name = "[mob_name] [capitalize(colour)]"
@@ -629,19 +599,18 @@
 			G.icon_state = "parasite[colour]"
 			G.animated_manifest = TRUE
 			user << "[G.tech_fluff_string]."
-			G.attacktext = "swarms"
-			G.speak_emote = list("chitters")
-		if("tech")
+			G.speak_emote = list("states")
+		if("bio")
 			user << "[G.bio_fluff_string]."
 			G.attacktext = "swarms"
-			G.speak_emote = list("states")
+			G.speak_emote = list("chitters")
 
 /obj/item/weapon/guardiancreator/choose
 	random = FALSE
 
 /obj/item/weapon/guardiancreator/tech
 	name = "holoparasite injector"
-	desc = "It contains alien nanomachines of unknown origin. Though capable of near sorcerous feats via use of hardlight holograms. It requires an organic host as a home base and source of fuel."
+	desc = "It contains alien nanoswarm of unknown origin. Though capable of near sorcerous feats via use of hardlight holograms and nanomachines, it requires an organic host as a home base and source of fuel."
 	icon = 'icons/obj/syringe.dmi'
 	icon_state = "combat_hypo"
 	theme = "tech"
@@ -667,7 +636,6 @@
 
 /obj/item/weapon/guardiancreator/biological/choose
 	random = FALSE
-
 
 
 /obj/item/weapon/paper/guardian
@@ -696,6 +664,6 @@
 
 /obj/item/weapon/storage/box/syndie_kit/guardian/New()
 	..()
-	new /obj/item/weapon/guardiancreator/biological/choose(src)
+	new /obj/item/weapon/guardiancreator/tech/choose(src)
 	new /obj/item/weapon/paper/guardian(src)
 	return

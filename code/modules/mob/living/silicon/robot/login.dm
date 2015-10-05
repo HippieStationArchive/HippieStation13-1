@@ -2,12 +2,11 @@
 /mob/living/silicon/robot/Login()
 	..()
 	regenerate_icons()
+	show_laws(0)
 	if(mind)	ticker.mode.remove_revolutionary(mind)
-	if(mind)	ticker.mode.remove_gangster(mind)
+	if(mind)	ticker.mode.remove_gangster(mind,1,remove_bosses=1)
 	if(mind)	ticker.mode.remove_thrall(mind,0)
 	if(mind)	ticker.mode.remove_shadowling(mind)
-	sleep(5) //Hopefully this will be able to fix the issue where borgs don't have zeroth law when the AI is traitor.
-	show_laws()
 
 /mob/living/silicon/robot/update_hotkey_mode()
 	winset(src, null, "mainwindow.macro=borghotkeymode hotkey_toggle.is-checked=true mapwindow.map.focus=true input.background-color=#F0F0F0")

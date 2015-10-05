@@ -15,7 +15,7 @@
 	name = "card"
 	desc = "Does card things."
 	icon = 'icons/obj/card.dmi'
-	w_class = 1.0
+	w_class = 1
 
 	var/list/files = list(  )
 
@@ -85,7 +85,7 @@
 	var/assignment = null
 	var/dorm = 0		// determines if this ID has claimed a dorm already
 
-/obj/item/weapon/card/id/attack_self(mob/user as mob)
+/obj/item/weapon/card/id/attack_self(mob/user)
 	user.visible_message("<span class='notice'>[user] shows you: \icon[src] [src.name].</span>", \
 					"<span class='notice'>You show \the [src.name].</span>")
 	src.add_fingerprint(user)
@@ -110,7 +110,7 @@ update_label()
 update_label("John Doe", "Clowny")
 	Properly formats the name and occupation and sets the id name to the arguments
 */
-/obj/item/weapon/card/id/proc/update_label(var/newname, var/newjob)
+/obj/item/weapon/card/id/proc/update_label(newname, newjob)
 	if(newname || newjob)
 		name = "[(!newname)	? "identification card"	: "[newname]'s ID Card"][(!newjob) ? "" : " ([newjob])"]"
 		return
@@ -132,7 +132,7 @@ update_label("John Doe", "Clowny")
 	access = list(access_maint_tunnels, access_syndicate)
 	origin_tech = "syndicate=3"
 
-/obj/item/weapon/card/id/syndicate/afterattack(var/obj/item/weapon/O as obj, mob/user as mob, proximity)
+/obj/item/weapon/card/id/syndicate/afterattack(obj/item/weapon/O, mob/user, proximity)
 	if(!proximity) return
 	if(istype(O, /obj/item/weapon/card/id))
 		var/obj/item/weapon/card/id/I = O
@@ -201,6 +201,28 @@ update_label("John Doe", "Clowny")
 	New()
 		access = get_all_centcom_access()
 		..()
+/obj/item/weapon/card/id/ert
+	name = "\improper Centcom ID"
+	desc = "A ERT ID card"
+	icon_state = "centcom"
+	registered_name = "Emergency Response Team Commander"
+	assignment = "Emergency Response Team Commander"
+	New() access = get_all_accesses()+get_ert_access("commander")-access_change_ids
+
+/obj/item/weapon/card/id/ert/Security
+	registered_name = "Security Response Officer"
+	assignment = "Security Response Officer"
+	New() access = get_all_accesses()+get_ert_access("sec")-access_change_ids
+
+/obj/item/weapon/card/id/ert/Engineer
+	registered_name = "Engineer Response Officer"
+	assignment = "Engineer Response Officer"
+	New() access = get_all_accesses()+get_ert_access("eng")-access_change_ids
+
+/obj/item/weapon/card/id/ert/Medical
+	registered_name = "Medical Response Officer"
+	assignment = "Medical Response Officer"
+	New() access = get_all_accesses()+get_ert_access("med")-access_change_ids
 
 /obj/item/weapon/card/id/prisoner
 	name = "prisoner ID card"
@@ -212,8 +234,8 @@ update_label("John Doe", "Clowny")
 	var/goal = 0 //How far from freedom?
 	var/points = 0
 
-/obj/item/weapon/card/id/prisoner/attack_self(mob/user as mob)
-	usr << "You have accumulated [points] out of the [goal] points you need for freedom."
+/obj/item/weapon/card/id/prisoner/attack_self(mob/user)
+	usr << "<span class='notice'>You have accumulated [points] out of the [goal] points you need for freedom.</span>"
 
 /obj/item/weapon/card/id/prisoner/one
 	name = "Prisoner #13-001"

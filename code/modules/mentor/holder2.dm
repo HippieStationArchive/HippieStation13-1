@@ -6,7 +6,6 @@ var/list/mentor_datums = list()
 
 /datum/mentors/New(ckey)
 	if(!ckey)
-		ERROR("Mentor datum created without a ckey argument. Datum has been deleted")
 		del(src)
 		return
 	mentor_datums[ckey] = src

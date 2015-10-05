@@ -74,6 +74,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 				H.visible_message("<span class='warning'>The chrysalis explodes in a shower of purple flesh and fluid!</span>")
 				H.underwear = "Nude"
 				H.undershirt = "Nude"
+				H.socks = "Nude"
 				H.faction |= "faithless"
 
 				H.equip_to_slot_or_del(new /obj/item/clothing/under/shadowling(H), slot_w_uniform)
@@ -83,7 +84,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 				H.equip_to_slot_or_del(new /obj/item/clothing/gloves/shadowling(H), slot_gloves)
 				H.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/shadowling(H), slot_wear_mask)
 				H.equip_to_slot_or_del(new /obj/item/clothing/glasses/night/shadowling(H), slot_glasses)
-				hardset_dna(H, null, null, null, null, /datum/species/shadow/ling) //can't be a shadowling without being a shadowling
+				H.set_species(/datum/species/shadow/ling) //can't be a shadowling without being a shadowling
 
 				sleep(10)
 				H << "<span class='shadowling'><b><i>Your powers are awoken. You may now live to your fullest extent. Remember your goal. Cooperate with your thralls and allies.</b></i></span>"
@@ -94,6 +95,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/flashfreeze(null))
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/collective_mind(null))
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_regenarmor(null))
+				H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle(null))
 
 
 
@@ -170,7 +172,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 				H.loc = A
 				sleep(50)
 				if(!ticker.mode.shadowling_ascended)
-					emergency_shuttle.incall(0.3)
+					SSshuttle.emergency.request(null, 0.3)
 				ticker.mode.shadowling_ascended = 1
 				A.mind.remove_spell(src)
 				qdel(H)

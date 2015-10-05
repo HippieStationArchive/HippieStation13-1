@@ -1,7 +1,0 @@
-BEFORE MAKING MAP CHANGES
-
-1. Run 'prepare_map.bat' or if you are making changes to one of the z-level files, run 'Prepare_map_and_zlevels.bat'
-2. Make your map changes then save and close the editor.
-3. Run either 'clean_map.bat' or 'clean_map_and_zlevels.bat' depending on which one you made changes to.
-4. MOST IMPORTANT - ONLY COMMITT THE FILES THAT YOU ACTUALLY CHANGED. If you did not actually make changes to it, DO NOT COMMITT IT. 
-

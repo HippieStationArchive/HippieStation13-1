@@ -1,9 +1,9 @@
-/obj/item/ammo_casing/proc/fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, params, var/distro, var/quiet)
+/obj/item/ammo_casing/proc/fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, params, distro, quiet, zone_override = "")
 	distro += variance
 	for (var/i = max(1, pellets), i > 0, i--)
 		var/curloc = user.loc
 		var/targloc = get_turf(target)
-		ready_proj(target, user, quiet)
+		ready_proj(target, user, quiet, zone_override)
 		if(distro)
 			targloc = spread(targloc, curloc, distro)
 		if(!throw_proj(targloc, user, params))
@@ -15,25 +15,28 @@
 	update_icon()
 	return 1
 
-/obj/item/ammo_casing/proc/ready_proj(atom/target as mob|obj|turf, mob/living/user, var/quiet)
+/obj/item/ammo_casing/proc/ready_proj(atom/target as mob|obj|turf, mob/living/user, quiet, zone_override = "")
 	if (!BB)
 		return
 	BB.original = target
 	BB.firer = user
-	BB.def_zone = user.zone_sel.selecting
+	if (zone_override)
+		BB.def_zone = zone_override
+	else
+		BB.def_zone = user.zone_sel.selecting
 	BB.suppressed = quiet
 
 	if(reagents && BB.reagents)
 		reagents.trans_to(BB, reagents.total_volume) //For chemical darts/bullets
-		reagents.delete()
-	return
+		qdel(reagents)
 
 /obj/item/ammo_casing/proc/throw_proj(var/turf/targloc, mob/living/user as mob|obj, params)
 	var/turf/curloc = user.loc
 	if (!istype(targloc) || !istype(curloc) || !BB)
 		return 0
-	if(targloc == curloc)			//Fire the projectile
-		user.bullet_act(BB)
+	if(targloc == curloc)
+		if(BB.original == user) //if we target ourselves we go straight to bullet_act()
+			user.bullet_act(BB, BB.def_zone)
 		qdel(BB)
 		return 1
 	BB.loc = get_turf(user)
@@ -54,7 +57,7 @@
 	BB = null
 	return 1
 
-/obj/item/ammo_casing/proc/spread(var/turf/target, var/turf/current, var/distro)
+/obj/item/ammo_casing/proc/spread(turf/target, turf/current, distro)
 	var/dx = abs(target.x - current.x)
 	var/dy = abs(target.y - current.y)
 	return locate(target.x + round(gaussian(0, distro) * (dy+2)/8, 1), target.y + round(gaussian(0, distro) * (dx+2)/8, 1), target.z)

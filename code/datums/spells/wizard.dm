@@ -25,10 +25,12 @@
 	proj_trail_icon_state = "magicmd"
 
 	action_icon_state = "magicm"
+	sound = "sound/magic/MAGIC_MISSILE.ogg"
 
 /obj/effect/proc_holder/spell/targeted/inflict_handler/magic_missile
 	amt_weakened = 3
 	amt_dam_fire = 10
+	sound = "sound/magic/MM_Hit.ogg"
 
 /obj/effect/proc_holder/spell/targeted/genetic/mutate
 	name = "Mutate"
@@ -39,35 +41,17 @@
 	clothes_req = 1
 	invocation = "BIRUZ BENNAR"
 	invocation_type = "shout"
-	message = "<span class='notice'>You feel strong! You feel a pressure building behind your eyes!</span>"
 	range = -1
 	include_user = 1
 	centcom_cancast = 0
 
-	mutations = list(LASER, HULK)
+	mutations = list(LASEREYES, HULK)
 	duration = 300
 	cooldown_min = 300 //25 deciseconds reduction per rank
 
 	action_icon_state = "mutate"
+	sound = "sound/magic/Mutate.ogg"
 
-/obj/effect/proc_holder/spell/targeted/inflict_handler/disintegrate
-	name = "Disintegrate"
-	desc = "This spell instantly kills somebody adjacent to you with the vilest of magick."
-
-	school = "evocation"
-	charge_max = 600
-	clothes_req = 1
-	invocation = "EI NATH"
-	invocation_type = "shout"
-	range = 1
-	cooldown_min = 200 //100 deciseconds reduction per rank
-
-	destroys = "gib_brain"
-
-	sparks_spread = 1
-	sparks_amt = 4
-
-	action_icon_state = "gib"
 
 /obj/effect/proc_holder/spell/targeted/smoke
 	name = "Smoke"
@@ -100,6 +84,7 @@
 
 	emp_heavy = 6
 	emp_light = 10
+	sound = "sound/magic/Disable_Tech.ogg"
 
 /obj/effect/proc_holder/spell/targeted/turf_teleport/blink
 	name = "Blink"
@@ -124,6 +109,15 @@
 	centcom_cancast = 0 //prevent people from getting to centcom
 
 	action_icon_state = "blink"
+	sound1="sound/magic/blink.ogg"
+	sound2="sound/magic/blink.ogg"
+
+/obj/effect/proc_holder/spell/targeted/turf_teleport/blink/cult
+	name = "quickstep"
+
+	charge_max = 100
+	clothes_req = 0
+	cult_req = 1
 
 /obj/effect/proc_holder/spell/targeted/area_teleport/teleport
 	name = "Teleport"
@@ -140,8 +134,8 @@
 
 	smoke_spread = 1
 	smoke_amt = 5
-
-	action_icon_state = "shield"
+	sound1="sound/magic/Teleport_diss.ogg"
+	sound2="sound/magic/Teleport_app.ogg"
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/forcewall
 	name = "Forcewall"
@@ -158,6 +152,23 @@
 	summon_type = list("/obj/effect/forcefield")
 	summon_lifespan = 300
 
+	action_icon_state = "shield"
+	cast_sound = "sound/magic/ForceWall.ogg"
+
+
+/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop
+	name = "Stop Time"
+	desc = "This spell stops time for everyone except for you, allowing you to move freely while your enemies and even projectiles are frozen."
+	charge_max = 300
+	clothes_req = 1
+	invocation = "TOKI WO TOMARE"
+	invocation_type = "shout"
+	range = 0
+	cooldown_min = 90
+	summon_amt = 1
+	action_icon_state = "time"
+
+	summon_type = list(/obj/effect/timestop/wizard)
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/carp
 	name = "Summon Carp"
@@ -171,6 +182,7 @@
 	range = 1
 
 	summon_type = list(/mob/living/simple_animal/hostile/carp)
+	cast_sound = "sound/magic/Summon_Karp.ogg"
 
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/construct
@@ -187,6 +199,8 @@
 	summon_type = list(/obj/structure/constructshell)
 
 	action_icon_state = "artificer"
+	cast_sound = "sound/magic/SummonItems_generic.ogg"
+
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/creature
 	name = "Summon Creature Swarm"
@@ -201,6 +215,77 @@
 	range = 3
 
 	summon_type = list(/mob/living/simple_animal/hostile/creature)
+	cast_sound = "sound/magic/SummonItems_generic.ogg"
+
+/obj/effect/proc_holder/spell/targeted/trigger/blind
+	name = "Blind"
+	desc = "This spell temporarily blinds a single person and does not require wizard garb."
+
+	school = "transmutation"
+	charge_max = 300
+	clothes_req = 0
+	invocation = "STI KALY"
+	invocation_type = "whisper"
+	message = "<span class='notice'>Your eyes cry out in pain!</span>"
+	cooldown_min = 50 //12 deciseconds reduction per rank
+
+	starting_spells = list("/obj/effect/proc_holder/spell/targeted/inflict_handler/blind","/obj/effect/proc_holder/spell/targeted/genetic/blind")
+
+	action_icon_state = "blind"
+
+/obj/effect/proc_holder/spell/aoe_turf/conjure/creature/cult
+	name = "Summon Creatures (DANGEROUS)"
+	cult_req = 1
+	charge_max = 5000
+	summon_amt = 2
+
+
+
+/obj/effect/proc_holder/spell/targeted/inflict_handler/blind
+	amt_eye_blind = 10
+	amt_eye_blurry = 20
+	sound="sound/magic/Blind.ogg"
+
+/obj/effect/proc_holder/spell/targeted/genetic/blind
+	disabilities = BLIND
+	duration = 300
+	sound="sound/magic/Blind.ogg"
+
+/obj/effect/proc_holder/spell/dumbfire/fireball
+	name = "Fireball"
+	desc = "This spell fires a fireball at a target and does not require wizard garb."
+
+	school = "evocation"
+	charge_max = 60
+	clothes_req = 0
+	invocation = "ONI SOMA"
+	invocation_type = "shout"
+	range = 20
+	cooldown_min = 20 //10 deciseconds reduction per rank
+
+	proj_icon_state = "fireball"
+	proj_name = "a fireball"
+	proj_type = "/obj/effect/proc_holder/spell/turf/fireball"
+
+	proj_lifespan = 200
+	proj_step_delay = 1
+
+	action_icon_state = "fireball"
+	sound = "sound/magic/Fireball.ogg"
+
+/obj/effect/proc_holder/spell/turf/fireball/cast(turf/T)
+	explosion(T, -1, 0, 2, 3, 0, flame_range = 2)
+
+
+/obj/effect/proc_holder/spell/targeted/inflict_handler/fireball
+	amt_dam_brute = 20
+	amt_dam_fire = 25
+
+/obj/effect/proc_holder/spell/targeted/explosion/fireball
+	ex_severe = -1
+	ex_heavy = -1
+	ex_light = 2
+	ex_flash = 5
 
 /obj/effect/proc_holder/spell/aoe_turf/repulse
 	name = "Repulse"
@@ -214,11 +299,14 @@
 	selection_type = "view"
 	var/maxthrow = 5
 
+	action_icon_state = "repulse"
+
 /obj/effect/proc_holder/spell/aoe_turf/repulse/cast(list/targets)
 	var/mob/user = usr
 	var/list/thrownatoms = list()
 	var/atom/throwtarget
 	var/distfromcaster
+	playsound(user, "sound/magic/Repulse.ogg", 50, 1, -1)
 	for(var/turf/T in targets) //Done this way so things don't get thrown all around hilariously.
 		for(var/atom/movable/AM in T)
 			thrownatoms += AM
@@ -244,106 +332,4 @@
 				var/mob/living/M = AM
 				M.Weaken(2)
 				M << "<span class='userdanger'>You're thrown back by a mystical force!</span>"
-			spawn(0) AM.throw_at(throwtarget, ((Clamp((maxthrow - (Clamp(distfromcaster - 2, 0, distfromcaster))), 3, maxthrow))), 1)//So stuff gets tossed around at the same time.
-
-/obj/effect/proc_holder/spell/targeted/trigger/blind
-	name = "Blind"
-	desc = "This spell temporarily blinds a single person and does not require wizard garb."
-
-	school = "transmutation"
-	charge_max = 300
-	clothes_req = 0
-	invocation = "STI KALY"
-	invocation_type = "whisper"
-	message = "<span class='notice'>Your eyes cry out in pain!</span>"
-	cooldown_min = 50 //12 deciseconds reduction per rank
-
-	starting_spells = list("/obj/effect/proc_holder/spell/targeted/inflict_handler/blind","/obj/effect/proc_holder/spell/targeted/genetic/blind")
-	action_icon_state = "blind"
-
-/obj/effect/proc_holder/spell/targeted/inflict_handler/blind
-	amt_eye_blind = 10
-	amt_eye_blurry = 20
-
-/obj/effect/proc_holder/spell/targeted/genetic/blind
-	disabilities = 1
-	duration = 300
-
-/obj/effect/proc_holder/spell/targeted/inflict_handler/flesh_to_stone
-	name = "Flesh to Stone"
-	desc = "This spell turns a single person into an inert statue for a long period of time."
-
-	school = "transmutation"
-	charge_max = 600
-	clothes_req = 1
-	range = 2
-	invocation = "STAUN EI"
-	invocation_type = "shout"
-	amt_stunned = 2//just exists to make sure the statue "catches" them
-	cooldown_min = 200 //100 deciseconds reduction per rank
-
-	summon_type = "/obj/structure/closet/statue"
-	action_icon_state = "statue"
-
-/obj/effect/proc_holder/spell/aoe_turf/conjure/beesummon
-	name = "Summon Bees"
-	desc = "This spell summons SPACE BEES around the caster"
-	school = "conjuration"
-	charge_max = 600
-	clothes_req = 1
-	invocation = "RECILE UMO AMU"
-	invocation_type = "shout"
-	range = 2
-	cooldown_min = 200 //100 deciseconds reduction per rank
-	summon_amt = 5
-	summon_type = list("/mob/living/simple_animal/hostile/poison/bees")
-	cast_sound = ("sound/magic/beesummon.ogg")
-	newVars = list("name" = "Wizard's Bees", "faction" = list("wizard"))
-
-/obj/effect/proc_holder/spell/aoe_turf/conjure/randomsound/beesummon // For testing the random sound system for spells
-	name = "Beerandomsound"
-	desc = "This spell summons SPACE BEES around the caster"
-	school = "conjuration"
-	charge_max = 100
-	clothes_req = 1
-	invocation = "RECILE UMO AMU"
-	invocation_type = "shout"
-	range = 2
-	cooldown_min = 200 //100 deciseconds reduction per rank
-	summon_amt = 5
-	summon_type = list("/mob/living/simple_animal/hostile/poison/bees")
-
-/obj/effect/proc_holder/spell/dumbfire/fireball
-	name = "Fireball"
-	desc = "This spell fires a fireball at a target and does not require wizard garb."
-
-	school = "evocation"
-	charge_max = 60
-	clothes_req = 0
-	invocation = "ONI SOMA"
-	invocation_type = "shout"
-	range = 20
-	cooldown_min = 20 //10 deciseconds reduction per rank
-
-	proj_icon_state = "fireball"
-	proj_name = "a fireball"
-	proj_type = "/obj/effect/proc_holder/spell/turf/fireball"
-
-	proj_lifespan = 200
-	proj_step_delay = 1
-
-	action_icon_state = "fireball"
-
-/obj/effect/proc_holder/spell/turf/fireball/cast(var/turf/T)
-	explosion(T, -1, 0, 2, 3, 0, flame_range = 2)
-
-
-/obj/effect/proc_holder/spell/targeted/inflict_handler/fireball
-	amt_dam_brute = 20
-	amt_dam_fire = 25
-
-/obj/effect/proc_holder/spell/targeted/explosion/fireball
-	ex_severe = -1
-	ex_heavy = -1
-	ex_light = 2
-	ex_flash = 5
+			spawn(0) AM.throw_at(throwtarget, ((Clamp((maxthrow - (Clamp(distfromcaster - 2, 0, distfromcaster))), 3, maxthrow))), 1,user)//So stuff gets tossed around at the same time.

@@ -1,8 +1,8 @@
 /obj/machinery/computer/camera_advanced
 	name = "advanced camera console"
 	desc = "Used to access the various cameras on the station."
-	icon_state = "cameras"
-	//circuit = /obj/item/weapon/circuitboard/security
+	icon_screen = "cameras"
+	icon_keyboard = "security_key"
 	var/mob/camera/aiEye/remote/eyeobj
 	var/mob/living/carbon/human/current_user = null
 	var/list/networks = list("SS13")
@@ -13,19 +13,19 @@
 	eyeobj = new()
 	eyeobj.origin = src
 
-/obj/machinery/computer/camera_advanced/proc/GrantActions(var/mob/living/carbon/user)
+/obj/machinery/computer/camera_advanced/proc/GrantActions(mob/living/carbon/user)
 	off_action.target = user
 	off_action.Grant(user)
 	jump_action.target = user
 	jump_action.Grant(user)
 
-/obj/machinery/computer/camera_advanced/check_eye(var/mob/user as mob)
+/obj/machinery/computer/camera_advanced/check_eye(mob/user)
 	if (get_dist(user, src) > 1 || user.eye_blind)
 		off_action.Activate()
 		return 0
 	return 1
 
-/obj/machinery/computer/camera_advanced/attack_hand(var/mob/user as mob)
+/obj/machinery/computer/camera_advanced/attack_hand(mob/user)
 	if(..())
 		return
 	if(!iscarbon(user))
@@ -38,7 +38,7 @@
 		GrantActions(user)
 		current_user = user
 		eyeobj.user = user
-		eyeobj.name = "Camere Eye ([user.name])"
+		eyeobj.name = "Camera Eye ([user.name])"
 		L.remote_view = 1
 		L.remote_control = eyeobj
 		L.client.perspective = EYE_PERSPECTIVE
@@ -71,8 +71,7 @@
 		return user.client
 	return null
 
-
-/mob/camera/aiEye/remote/setLoc(var/T)
+/mob/camera/aiEye/remote/setLoc(T)
 	if(user)
 		if(!isturf(user.loc))
 			return
@@ -117,10 +116,13 @@
 	C.remote_view = 0
 	remote_eye.origin.current_user = null
 	remote_eye.origin.jump_action.Remove(C)
+	remote_eye.user = null
 	if(C.client)
 		C.client.perspective = MOB_PERSPECTIVE
 		C.client.eye = src
 		C.client.images -= remote_eye.user_image
+		for(var/datum/camerachunk/chunk in remote_eye.visibleCameraChunks)
+			C.client.images -= chunk.obscured
 	C.remote_control = null
 	C.unset_machine()
 	src.Remove(C)

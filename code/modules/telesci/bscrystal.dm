@@ -16,25 +16,26 @@
 	pixel_y = rand(-5, 5)
 
 
-/obj/item/bluespace_crystal/attack_self(var/mob/user)
-	user.visible_message("<span class='notice'>[user] crushes [src]!</span>")
-	new /obj/effect/effect/sparks(src.loc)
+/obj/item/bluespace_crystal/attack_self(mob/user)
+	user.visible_message("<span class='warning'>[user] crushes [src]!</span>", "<span class='danger'>You crush [src]!</span>")
+	PoolOrNew(/obj/effect/effect/sparks, loc)
 	playsound(src.loc, "sparks", 50, 1)
 	blink_mob(user)
-	user.drop_item()
+	user.unEquip(src)
 	qdel(src)
 
-/obj/item/bluespace_crystal/proc/blink_mob(var/mob/living/L)
+/obj/item/bluespace_crystal/proc/blink_mob(mob/living/L)
 	do_teleport(L, get_turf(L), blink_range, asoundin = 'sound/effects/phasein.ogg')
 
 /obj/item/bluespace_crystal/throw_impact(atom/hit_atom)
-	..()
-	visible_message("<span class='notice'>[src] fizzles and disappears upon impact!</span>")
-	new /obj/effect/effect/sparks(src.loc)
-	playsound(src.loc, "sparks", 50, 1)
-	if(isliving(hit_atom))
-		blink_mob(hit_atom)
-	qdel(src)
+	if(!..()) // not caught in mid-air
+		visible_message("<span class='notice'>[src] fizzles and disappears upon impact!</span>")
+		var/turf/T = get_turf(hit_atom)
+		PoolOrNew(/obj/effect/effect/sparks, T)
+		playsound(src.loc, "sparks", 50, 1)
+		if(isliving(hit_atom))
+			blink_mob(hit_atom)
+		qdel(src)
 
 // Artifical bluespace crystal, doesn't give you much research.
 

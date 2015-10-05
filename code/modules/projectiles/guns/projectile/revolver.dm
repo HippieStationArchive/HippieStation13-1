@@ -1,20 +1,13 @@
 /obj/item/weapon/gun/projectile/revolver
-	name = "revolver"
+	name = "\improper .357 revolver"
 	desc = "A suspicious revolver. Uses .357 ammo." //usually used by syndicates
 	icon_state = "revolver"
-	fire_sound = 'sound/weapons/revolver_shoot.ogg'
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder
-	unique_reskin = 1
 
 /obj/item/weapon/gun/projectile/revolver/New()
 	..()
 	if(!istype(magazine, /obj/item/ammo_box/magazine/internal/cylinder))
 		verbs -= /obj/item/weapon/gun/projectile/revolver/verb/spin
-	else
-		options["Default"] = "revolver"
-		options["Alternate"] = "revolver_nagant"
-		options["Cancel"] = null
-
 
 /obj/item/weapon/gun/projectile/revolver/chamber_round(var/spin = 1)
 	if(spin)
@@ -27,19 +20,14 @@
 	..()
 	chamber_round(1)
 
-
 /obj/item/weapon/gun/projectile/revolver/process_chamber()
 	return ..(0, 1)
 
-/obj/item/weapon/gun/projectile/revolver/attackby(var/obj/item/A as obj, mob/user as mob)
-	var/num_loaded = magazine.attackby(A, user, 1)
+/obj/item/weapon/gun/projectile/revolver/attackby(obj/item/A, mob/user, params)
+	var/num_loaded = magazine.attackby(A, user, params, 1)
 	if(num_loaded)
 		user << "<span class='notice'>You load [num_loaded] shell\s into \the [src].</span>"
 		A.update_icon()
-		if(istype(A, /obj/item/ammo_casing))
-			playsound(user.loc, pick('sound/weapons/effects/bullet_insert.ogg', 'sound/weapons/effects/bullet_insert2.ogg'), 30, 1, -2)
-		else
-			playsound(user.loc, 'sound/weapons/effects/reload1.ogg', 30, 1, -2)
 		update_icon()
 		chamber_round(0)
 
@@ -47,7 +35,7 @@
 		if(istype(A, /obj/item/weapon/pen))
 			rename_gun(user)
 
-/obj/item/weapon/gun/projectile/revolver/attack_self(mob/living/user as mob)
+/obj/item/weapon/gun/projectile/revolver/attack_self(mob/living/user)
 	var/num_unloaded = 0
 	chambered = null
 	while (get_ammo() > 0)
@@ -58,11 +46,10 @@
 			CB.SpinAnimation(10, 1)
 			CB.update_icon()
 			num_unloaded++
-		playsound(CB.loc, pick('sound/weapons/effects/ShellCasing1.ogg', 'sound/weapons/effects/ShellCasing2.ogg', 'sound/weapons/effects/ShellCasing3.ogg'), 15, 1, -1)
 	if (num_unloaded)
-		user << "<span class = 'notice'>You unload [num_unloaded] shell\s from [src].</span>"
+		user << "<span class='notice'>You unload [num_unloaded] shell\s from [src].</span>"
 	else
-		user << "<span class='notice'>[src] is empty.</span>"
+		user << "<span class='warning'>[src] is empty!</span>"
 
 /obj/item/weapon/gun/projectile/revolver/verb/spin()
 	set name = "Spin Chamber"
@@ -82,10 +69,11 @@
 	else
 		verbs -= /obj/item/weapon/gun/projectile/revolver/verb/spin
 
+
 /obj/item/weapon/gun/projectile/revolver/can_shoot()
 	return get_ammo(0,0)
 
-/obj/item/weapon/gun/projectile/revolver/get_ammo(var/countchambered = 0, var/countempties = 1)
+/obj/item/weapon/gun/projectile/revolver/get_ammo(countchambered = 0, countempties = 1)
 	var/boolets = 0 //mature var names for mature people
 	if (chambered && countchambered)
 		boolets++
@@ -98,6 +86,7 @@
 	user << "[get_ammo(0,0)] of those are live rounds."
 
 /obj/item/weapon/gun/projectile/revolver/detective
+	name = "\improper .38 Mars Special"
 	desc = "A cheap Martian knock-off of a classic law enforcement firearm. Uses .38-special rounds."
 	icon_state = "detective"
 	origin_tech = "combat=2;materials=2"
@@ -114,53 +103,50 @@
 	options["The Peacemaker"] = "detective_peacemaker"
 	options["Cancel"] = null
 
+/obj/item/weapon/gun/projectile/revolver/detective/process_fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, message = 1, params, zone_override = "")
+	if(magazine.caliber != initial(magazine.caliber))
+		if(prob(70 - (magazine.ammo_count() * 10)))	//minimum probability of 10, maximum of 60
+			playsound(user, fire_sound, 50, 1)
+			user << "<span class='userdanger'>[src] blows up in your face!</span>"
+			user.take_organ_damage(0,20)
+			user.unEquip(src)
+			return 0
+	..()
 
-/obj/item/weapon/gun/projectile/revolver/detective/special_check(var/mob/living/carbon/human/M)
-	if(magazine.caliber == initial(magazine.caliber))
-		return 1
-	if(prob(70 - (magazine.ammo_count() * 10)))	//minimum probability of 10, maximum of 60
-		playsound(M, fire_sound, 50, 1)
-		M << "<span class='danger'>[src] blows up in your face!</span>"
-		M.take_organ_damage(0,20)
-		M.drop_item()
-		qdel(src)
-		return 0
-	return 1
-
-/obj/item/weapon/gun/projectile/revolver/detective/attackby(var/obj/item/A as obj, mob/user as mob)
+/obj/item/weapon/gun/projectile/revolver/detective/attackby(obj/item/A, mob/user, params)
 	..()
 	if(istype(A, /obj/item/weapon/screwdriver))
 		if(magazine.caliber == "38")
-			user << "<span class='notice'>You begin to reinforce the barrel of [src].</span>"
+			user << "<span class='notice'>You begin to reinforce the barrel of [src]...</span>"
 			if(magazine.ammo_count())
 				afterattack(user, user)	//you know the drill
-				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='danger'>[src] goes off in your face!</span>")
+				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='userdanger'>[src] goes off in your face!</span>")
 				return
-			if(do_after(user, 30))
+			if(do_after(user, 30, target = src))
 				if(magazine.ammo_count())
-					user << "<span class='notice'>You can't modify it!</span>"
+					user << "<span class='warning'>You can't modify it!</span>"
 					return
 				magazine.caliber = "357"
 				desc = "The barrel and chamber assembly seems to have been modified."
-				user << "<span class='warning'>You reinforce the barrel of [src]! Now it will fire .357 rounds.</span>"
+				user << "<span class='notice'>You reinforce the barrel of [src]. Now it will fire .357 rounds.</span>"
 		else
-			user << "<span class='notice'>You begin to revert the modifications to [src].</span>"
+			user << "<span class='notice'>You begin to revert the modifications to [src]...</span>"
 			if(magazine.ammo_count())
 				afterattack(user, user)	//and again
-				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='danger'>[src] goes off in your face!</span>")
+				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='userdanger'>[src] goes off in your face!</span>")
 				return
-			if(do_after(user, 30))
+			if(do_after(user, 30, target = src))
 				if(magazine.ammo_count())
-					user << "<span class='notice'>You can't modify it!</span>"
+					user << "<span class='warning'>You can't modify it!</span>"
 					return
 				magazine.caliber = "38"
 				desc = initial(desc)
-				user << "<span class='warning'>You remove the modifications on [src]! Now it will fire .38 rounds.</span>"
+				user << "<span class='notice'>You remove the modifications on [src]. Now it will fire .38 rounds.</span>"
 
 
 /obj/item/weapon/gun/projectile/revolver/mateba
-	name = "mateba"
-	desc = "A retro high-powered mateba autorevolver typically used by officers of the New Russia military. Uses .357 ammo."
+	name = "\improper Unica 6 auto-revolver"
+	desc = "A retro high-powered autorevolver typically used by officers of the New Russia military. Uses .357 ammo."
 	icon_state = "mateba"
 	origin_tech = "combat=2;materials=2"
 
@@ -169,8 +155,8 @@
 // You can spin the chamber to randomize the position of the bullet.
 
 /obj/item/weapon/gun/projectile/revolver/russian
-	name = "russian revolver"
-	desc = "A Russian-made revolver for drinking games. Uses .357 ammo, and has a mechanism that spins the chamber before each trigger pull."
+	name = "\improper russian revolver"
+	desc = "A Russian-made revolver for drinking games. Uses .357 ammo, and has a mechanism requiring you to spin the chamber before each trigger pull."
 	origin_tech = "combat=2;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/rus357
 	var/spun = 0
@@ -187,21 +173,21 @@
 		chamber_round()
 	spun = 1
 
-/obj/item/weapon/gun/projectile/revolver/russian/attackby(var/obj/item/A as obj, mob/user as mob)
+/obj/item/weapon/gun/projectile/revolver/russian/attackby(obj/item/A, mob/user, params)
 	var/num_loaded = ..()
 	if(num_loaded)
-		user.visible_message("<span class='warning'>[user] loads a single bullet into the revolver and spins the chamber.</span>", "<span class='warning'>You load a single bullet into the chamber and spin it.</span>")
+		user.visible_message("[user] loads a single bullet into the revolver and spins the chamber.", "<span class='notice'>You load a single bullet into the chamber and spin it.</span>")
 	else
-		user.visible_message("<span class='warning'>[user] spins the chamber of the revolver.</span>", "<span class='warning'>You spin the revolver's chamber.</span>")
+		user.visible_message("[user] spins the chamber of the revolver.", "<span class='notice'>You spin the revolver's chamber.</span>")
 	if(get_ammo() > 0)
 		Spin()
 	update_icon()
 	A.update_icon()
 	return
 
-/obj/item/weapon/gun/projectile/revolver/russian/attack_self(mob/user as mob)
+/obj/item/weapon/gun/projectile/revolver/russian/attack_self(mob/user)
 	if(!spun && can_shoot())
-		user.visible_message("<span class='warning'>[user] spins the chamber of the revolver.</span>", "<span class='warning'>You spin the revolver's chamber.</span>")
+		user.visible_message("[user] spins the chamber of the revolver.", "<span class='notice'>You spin the revolver's chamber.</span>")
 		Spin()
 	else
 		var/num_unloaded = 0
@@ -213,24 +199,28 @@
 			CB.update_icon()
 			num_unloaded++
 		if (num_unloaded)
-			user << "<span class = 'notice'>You unload [num_unloaded] shell\s from [src]!</span>"
+			user << "<span class='notice'>You unload [num_unloaded] shell\s from [src].</span>"
 		else
 			user << "<span class='notice'>[src] is empty.</span>"
 
 /obj/item/weapon/gun/projectile/revolver/russian/afterattack(atom/target as mob|obj|turf, mob/living/user as mob|obj, flag, params)
-	if(user.a_intent == "harm") // Flogging action
-		return
+	if(flag)
+		if(!(target in user.contents) && ismob(target))
+			if(user.a_intent == "harm") // Flogging action
+				return
+
 	if(isliving(user))
 		if(!can_trigger_gun(user))
 			return
 	if(target != user)
-		user << "<span class='warning'>A mechanism prevents you from shooting anyone but yourself.</span>"
+		if(ismob(target))
+			user << "<span class='warning'>A mechanism prevents you from shooting anyone but yourself!</span>"
 		return
 
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(!spun)
-			user << "<span class='warning'>You need to spin the revolver's chamber first.</span>"
+			user << "<span class='warning'>You need to spin the revolver's chamber first!</span>"
 			return
 
 		spun = 0
@@ -241,49 +231,12 @@
 				playsound(user, fire_sound, 50, 1)
 				var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
 				var/limb_name = affecting.getDisplayName()
-				if(affecting == "head" || affecting == "eyes" || affecting == "mouth")
+				if(affecting.name == "head" || affecting.name == "eyes" || affecting.name == "mouth")
 					user.apply_damage(300, BRUTE, affecting)
-					user.visible_message("<span class='danger'>[user.name] fires [src] at \his head!</span>", "<span class='userdanger'>You fire [src] at your head!</span>", "You hear a gunshot!")
+					user.visible_message("<span class='danger'>[user.name] fires [src] at \his head!</span>", "<span class='userdanger'>You fire [src] at your head!</span>", "<span class='italics'>You hear a gunshot!</span>")
 				else
-					user.visible_message("<span class='danger'>[user.name] cowardly fires [src] at \his [limb_name]!</span>", "<span class='userdanger'>You cowardly fire [src] at your [limb_name]!</span>", "You hear a gunshot!")
+					user.visible_message("<span class='danger'>[user.name] cowardly fires [src] at \his [limb_name]!</span>", "<span class='userdanger'>You cowardly fire [src] at your [limb_name]!</span>", "<span class='italics'>You hear a gunshot!</span>")
 				return
 
 		user.visible_message("<span class='danger'>*click*</span>")
 		playsound(user, 'sound/weapons/empty.ogg', 100, 1)
-
-
-/obj/item/weapon/gun/energy/revolver/cyborg
-	name = "cyborg revolver"
-	desc = "An autorevolver that fires 3d-printed flachettes slowly regenerated using a cyborg's internal power source."
-	icon_state = "mateba"
-	cell_type = "/obj/item/weapon/stock_parts/cell/secborg"
-	ammo_type = list(/obj/item/ammo_casing/energy/c3dbullet)
-	var/charge_tick = 0
-	var/recharge_time = 2
-
-/obj/item/weapon/gun/energy/revolver/cyborg/update_icon()
-	return
-
-/obj/item/weapon/gun/energy/revolver/cyborg/New()
-	..()
-	processing_objects.Add(src)
-
-
-/obj/item/weapon/gun/energy/revolver/cyborg/Destroy()
-	processing_objects.Remove(src)
-	..()
-
-/obj/item/weapon/gun/energy/revolver/cyborg/process()
-	charge_tick++
-	if(charge_tick < recharge_time) return 0
-	charge_tick = 0
-
-	if(!power_supply) return 0 //sanity
-	if(isrobot(src.loc))
-		var/mob/living/silicon/robot/R = src.loc
-		if(R && R.cell)
-			var/obj/item/ammo_casing/energy/shot = ammo_type[select] //Necessary to find cost of shot
-			if(R.cell.use(shot.e_cost)) 		//Take power from the borg...
-				power_supply.give(shot.e_cost)	//...to recharge the shot
-
-	return 1

@@ -24,14 +24,13 @@
 
 	loot = list(
 				/obj/item/weapon/gun/projectile/automatic/pistol = 8,
-				/obj/item/weapon/gun/projectile/shotgun/combat = 5,
+				/obj/item/weapon/gun/projectile/shotgun/automatic/combat = 5,
 				/obj/item/weapon/gun/projectile/revolver/mateba,
 				/obj/item/weapon/gun/projectile/automatic/pistol/deagle
 				)
 
 /obj/effect/spawner/lootdrop/maintenance
 	name = "maintenance loot spawner"
-
 
 	//How to balance this table
 	//-------------------------
@@ -62,7 +61,7 @@
 				/obj/item/bodybag = 1,
 				/obj/item/clothing/glasses/meson = 2,
 				/obj/item/clothing/glasses/sunglasses = 1,
-				/obj/item/clothing/gloves/color/white{color = "yellow"; desc = "The colors are a bit dodgy."; icon_state = "yellow"; item_color = "yellow"; item_state = "ygloves"; name = "insulated gloves"} = 1,
+				/obj/item/clothing/gloves/color/yellow/fake = 1,
 				/obj/item/clothing/head/hardhat = 1,
 				/obj/item/clothing/head/hardhat/red = 1,
 				/obj/item/clothing/head/that{throwforce = 1; throwing = 1} = 1,
@@ -80,16 +79,10 @@
 				/obj/item/device/t_scanner = 6,
 				/obj/item/stack/cable_coil = 4,
 				/obj/item/stack/cable_coil{amount = 5} = 6,
-				/obj/item/weapon/reagent_containers/medical/bruise_pack = 1,
-				/obj/item/stack/gauze{amount = 1} = 3,
-				/obj/item/stack/gauze = 1,
-				/obj/item/weapon/reagent_containers/chempatch = 1,
+				/obj/item/stack/medical/bruise_pack = 1,
 				/obj/item/stack/rods{amount = 10} = 9,
 				/obj/item/stack/rods{amount = 23} = 1,
 				/obj/item/stack/rods{amount = 50} = 1,
-				/obj/item/stack/ducttape{amount = 5} = 6,
-				/obj/item/stack/ducttape{amount = 10} = 2,
-				/obj/item/stack/ducttape = 1,
 				/obj/item/stack/sheet/cardboard = 2,
 				/obj/item/stack/sheet/metal{amount = 20} = 1,
 				/obj/item/stack/sheet/mineral/plasma{layer = 2.9} = 1,
@@ -99,7 +92,8 @@
 				/obj/item/clothing/head/cone = 1,
 				/obj/item/weapon/coin/silver = 1,
 				/obj/item/weapon/coin/twoheaded = 1,
-				/obj/item/weapon/contraband/poster = 1,
+				/obj/item/weapon/poster/contraband = 1,
+				/obj/item/weapon/poster/legit = 1,
 				/obj/item/weapon/crowbar = 1,
 				/obj/item/weapon/crowbar/red = 1,
 				/obj/item/weapon/extinguisher = 11,
@@ -108,52 +102,31 @@
 				/obj/item/weapon/paper/crumpled = 1,
 				/obj/item/weapon/pen = 1,
 				/obj/item/weapon/reagent_containers/spray/pestspray = 1,
+				/obj/item/weapon/reagent_containers/glass/rag = 3,
 				/obj/item/weapon/stock_parts/cell = 3,
 				/obj/item/weapon/storage/belt/utility = 2,
 				/obj/item/weapon/storage/box = 2,
 				/obj/item/weapon/storage/box/cups = 1,
 				/obj/item/weapon/storage/box/donkpockets = 1,
 				/obj/item/weapon/storage/box/lights/mixed = 3,
+				/obj/item/weapon/storage/box/hug/medical = 1,
 				/obj/item/weapon/storage/fancy/cigarettes/dromedaryco = 1,
 				/obj/item/weapon/storage/toolbox/mechanical = 1,
 				/obj/item/weapon/screwdriver = 3,
-				/obj/item/weapon/tank/emergency_oxygen = 2,
+				/obj/item/weapon/tank/internals/emergency_oxygen = 2,
 				/obj/item/weapon/vending_refill/cola = 1,
 				/obj/item/weapon/weldingtool = 3,
 				/obj/item/weapon/wirecutters = 1,
 				/obj/item/weapon/wrench = 4,
+				/obj/item/weapon/relic = 3,
 				"" = 11
 				)
 
-/obj/effect/spawner/lootdrop/botany
-	name = "botany loot spawner"
-	lootcount = 5
-
-	//How to balance this table
-	//-------------------------
-	//The total added weight of all the entries should be (roughly) equal to the total number of lootdrops
-	//(take in account those that spawn more than one object!)
-	//
-	//While this is random, probabilities tells us that item distribution will have a tendency to look like
-	//the content of the weighted table that created them.
-	//The less lootdrops, the less even the distribution.
-	//
-	//If you want to give items a weight <1 you can multiply all the weights by 10
-	//
-	//the "" entry will spawn nothing, if you increase this value,
-	//ensure that you balance it with more spawn points
-
+/obj/effect/spawner/lootdrop/crate_spawner
+	name = "lootcrate spawner"
+	lootdoubles = 0
 
 	loot = list(
-				/obj/item/weapon/reagent_containers/food/snacks/grown/carrot = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/tomato = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/chili = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/whitebeet = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/chili = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/chanterelle = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/tobacco = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/tea/astra = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/corn = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/cherries = 1,
-				/obj/item/weapon/reagent_containers/food/snacks/grown/potato = 1,
+				/obj/structure/closet/crate/secure/loot = 20,
+				"" = 80
 				)

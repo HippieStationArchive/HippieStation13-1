@@ -1,16 +1,20 @@
 /mob/living/silicon/ai/Life()
-	if (src.stat == 2)
+	if (src.stat == DEAD)
 		return
 	else //I'm not removing that shitton of tabs, unneeded as they are. -- Urist
 		//Being dead doesn't mean your temperature never changes
 		var/turf/T = get_turf(src)
 
-		if (src.stat!=0)
+		if (src.stat!= CONSCIOUS)
 			src.cameraFollow = null
 			src.reset_view(null)
 			src.unset_machine()
 
-		src.updatehealth()
+		updatehealth()
+
+		update_gravity(mob_has_gravity())
+
+		update_action_buttons()
 
 		if (src.malfhack)
 			if (src.malfhack.aidisabled)
@@ -51,7 +55,7 @@
 
 		if (!blindness)
 			//stage = 4.5
-			if (src.blind && src.blind.layer != 0)
+			if (src.blind.layer != 0)
 				src.blind.layer = 0
 			src.sight |= SEE_TURFS
 			src.sight |= SEE_MOBS

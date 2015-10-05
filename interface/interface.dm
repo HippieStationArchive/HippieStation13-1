@@ -35,13 +35,28 @@
 		src << "<span class='danger'>The rules URL is not set in the server configuration.</span>"
 	return
 
+/client/verb/github()
+	set name = "Github"
+	set desc = "Visit Github"
+	set hidden = 1
+	if(config.githuburl)
+		if(alert("This will open the Github repository in your browser. Are you sure?",,"Yes","No")=="No")
+			return
+		src << link(config.githuburl)
+	else
+		src << "<span class='danger'>The Github URL is not set in the server configuration.</span>"
+	return
+
 /client/verb/reportissue()
 	set name = "Report issue"
 	set desc = "Report an issue"
 	set hidden = 1
-	if(alert("This will open our GitLab issue reporter in your browser. Are you sure? ( You will have to make an account!)",,"Yes","No")=="No")
-		return
-	src << link("http://github.com/HippieStationCode/HippieStation13/issues")
+	if(config.githuburl)
+		if(alert("This will open the Github issue reporter in your browser. Are you sure?",,"Yes","No")=="No")
+			return
+		src << link("[config.githuburl]/issues/new")
+	else
+		src << "<span class='danger'>The Github URL is not set in the server configuration.</span>"
 	return
 
 /client/verb/hotkeys_help()
@@ -51,7 +66,7 @@
 	var/adminhotkeys = {"<font color='purple'>
 Admin:
 \tF5 = Aghost (admin-ghost)
-\tF6 = player-panel-new
+\tF6 = player-panel
 \tF7 = admin-pm
 \tF8 = Invisimin
 </font>"}
@@ -97,12 +112,11 @@ Any-Mode: (hotkey doesn't need to be on)
 \tCtrl+e = equip
 \tCtrl+r = throw
 \tCtrl+b = resist
+\tCtrl+O = OOC
 \tCtrl+x = swap-hand
 \tCtrl+z = activate held object (or Ctrl+y)
 \tCtrl+f = cycle-intents-left
 \tCtrl+g = cycle-intents-right
-\tCtrl+b = resist
-\tCtrl+o = OOC
 \tCtrl+1 = help-intent
 \tCtrl+2 = disarm-intent
 \tCtrl+3 = grab-intent
@@ -165,3 +179,10 @@ Any-Mode: (hotkey doesn't need to be on)
 
 	src << hotkey_mode
 	src << other
+
+// Needed to circumvent a bug where .winset does not work when used on the window.on-size event in skins.
+// Used by /datum/html_interface/nanotrasen (code/modules/html_interface/nanotrasen/nanotrasen.dm)
+/client/verb/_swinset(var/x as text)
+	set name = ".swinset"
+	set hidden = 1
+	winset(src, null, x)

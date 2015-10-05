@@ -3,7 +3,7 @@
 	icon = 'icons/obj/status_display.dmi' //invisibility!
 	mouse_opacity = 0
 	density = 0
-	mob_size = 0
+	mob_size = MOB_SIZE_TINY
 
 	var/network = "SS13"
 	var/obj/machinery/camera/current = null
@@ -15,6 +15,7 @@
 
 	var/speakStatement = "states"
 	var/speakExclamation = "declares"
+	var/speakDoubleExclamation = "alarms"
 	var/speakQuery = "queries"
 
 	var/obj/item/weapon/pai_cable/cable		// The cable we produce and use when door or camera jacking
@@ -47,15 +48,19 @@
 	var/obj/item/radio/integrated/signal/sradio // AI's signaller
 
 
-/mob/living/silicon/pai/New(var/obj/item/device/paicard)
+/mob/living/silicon/pai/New(var/obj/item/device/paicard/P)
 	make_laws()
 	canmove = 0
-	src.loc = paicard
-	card = paicard
+	if(!istype(P)) //when manually spawning a pai, we create a card to put it into.
+		var/newcardloc = P
+		P = new /obj/item/device/paicard(newcardloc)
+		P.setPersonality(src)
+	loc = P
+	card = P
 	sradio = new(src)
 	if(card)
 		if(!card.radio)
-			card.radio = new /obj/item/device/radio(src.card)
+			card.radio = new /obj/item/device/radio(card)
 		radio = card.radio
 
 	//PDA
@@ -78,12 +83,7 @@
 
 /mob/living/silicon/pai/Stat()
 	..()
-	statpanel("Status")
-	if (src.client.statpanel == "Status")
-		if(emergency_shuttle.online && emergency_shuttle.location < 2)
-			var/timeleft = emergency_shuttle.timeleft()
-			if (timeleft)
-				stat(null, "ETA-[(timeleft / 60) % 60]:[add_zero(num2text(timeleft % 60), 2)]")
+	if(statpanel("Status"))
 		if(src.silence_time)
 			var/timeleft = round((silence_time - world.timeofday)/10 ,1)
 			stat(null, "Communications system reboot in -[(timeleft / 60) % 60]:[add_zero(num2text(timeleft % 60), 2)]")
@@ -92,7 +92,7 @@
 		else
 			stat(null, text("Systems nonfunctional"))
 
-/mob/living/silicon/pai/check_eye(var/mob/user as mob)
+/mob/living/silicon/pai/check_eye(mob/user)
 	if (!src.current)
 		return null
 	user.reset_view(src.current)
@@ -112,7 +112,7 @@
 		// 33% chance of no additional effect
 
 	if(prob(20))
-		visible_message("<span class='danger'>A shower of sparks spray from [src]'s inner workings.</span>", 3, "<span class='danger'>You hear and smell the ozone hiss of electrical sparks being expelled violently.</span>", 2)
+		visible_message("<span class='warning'>A shower of sparks spray from [src]'s inner workings.</span>", 3, "<span class='italics'>You hear and smell the ozone hiss of electrical sparks being expelled violently.</span>", 2)
 		return src.death(0)
 
 	silence_time = world.timeofday + 120 * 10		// Silence for 2 minutes
@@ -138,15 +138,15 @@
 	..()
 
 	switch(severity)
-		if(1.0)
+		if(1)
 			if (src.stat != 2)
 				adjustBruteLoss(100)
 				adjustFireLoss(100)
-		if(2.0)
+		if(2)
 			if (src.stat != 2)
 				adjustBruteLoss(60)
 				adjustFireLoss(60)
-		if(3.0)
+		if(3)
 			if (src.stat != 2)
 				adjustBruteLoss(30)
 
@@ -157,7 +157,7 @@
 
 ///mob/living/silicon/pai/attack_hand(mob/living/carbon/M as mob)
 
-/mob/living/silicon/pai/proc/switchCamera(var/obj/machinery/camera/C)
+/mob/living/silicon/pai/proc/switchCamera(obj/machinery/camera/C)
 	usr:cameraFollow = null
 	if (!C)
 		src.unset_machine()
@@ -167,9 +167,9 @@
 
 	// ok, we're alive, camera is good and in our network...
 
-	src.set_machine(src)
-	src:current = C
-	src.reset_view(C)
+	set_machine(src)
+	current = C
+	reset_view(C)
 	return 1
 
 
@@ -180,8 +180,15 @@
 	src.unset_machine()
 	src:cameraFollow = null
 
-/mob/living/silicon/pai/UnarmedAttack(var/atom/A)//Stops runtimes due to attack_animal being the default
+/mob/living/silicon/pai/UnarmedAttack(atom/A)//Stops runtimes due to attack_animal being the default
 	return
+
+/mob/living/silicon/pai/on_forcemove(atom/newloc)
+	if(card)
+		card.loc = newloc
+	else //something went very wrong.
+		CRASH("pAI without card")
+	loc = card
 
 //Addition by Mord_Sith to define AI's network change ability
 /*

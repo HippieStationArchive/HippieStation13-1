@@ -1,14 +1,15 @@
-// To clarify:
-// For use_to_pickup and allow_quick_gather functionality,
-// see item/attackby() (/game/objects/items.dm)
-// Do not remove this functionality without good reason, cough reagent_containers cough.
-// -Sayu
+// External storage-related logic:
+// /mob/proc/ClickOn() in /_onclick/click.dm - clicking items in storages
+// /mob/living/Move() in /modules/mob/living/living.dm - hiding storage boxes on mob movement
+// /item/attackby() in /game/objects/items.dm - use_to_pickup and allow_quick_gather functionality
+// -- c0
 
 
 /obj/item/weapon/storage
 	name = "storage"
 	icon = 'icons/obj/storage.dmi'
-	w_class = 3.0
+	w_class = 3
+	var/silent = 0 // No message on putting items in
 	var/list/can_hold = new/list() //List of objects which this item can store (if set, it can't store anything else)
 	var/list/cant_hold = new/list() //List of objects which this item can't store (in effect only if can_hold isn't set)
 	var/list/is_seeing = new/list() //List of mobs which are currently seeing the contents of this item's storage
@@ -42,11 +43,11 @@
 			show_to(M)
 			return
 
-		if(!( M.restrained() ) && !( M.stat ))
-			if(!( istype(over_object, /obj/screen) ))
+		if(!M.restrained() && !M.stat)
+			if(!istype(over_object, /obj/screen))
 				return content_can_dump(over_object, M)
 
-			if(!(loc == usr) || (loc && loc.loc == usr))
+			if(loc != usr || (loc && loc.loc == usr))
 				return
 
 			playsound(loc, "rustle", 50, 1, -5)
@@ -72,6 +73,9 @@
 //Object behaviour on storage dump
 /obj/item/weapon/storage/storage_contents_dump_act(obj/item/weapon/storage/src_object, mob/user)
 	for(var/obj/item/I in src_object)
+		if(user.s_active != src_object)
+			if(I.on_found(user))
+				return
 		if(can_be_inserted(I,0,user))
 			src_object.remove_from_storage(I, src)
 	orient2hud(user)
@@ -107,7 +111,7 @@
 	is_seeing |= user
 
 
-/obj/item/weapon/storage/throw_at(atom/target, range, speed)
+/obj/item/weapon/storage/throw_at(atom/target, range, speed, mob/thrower, spin)
 	close_all()
 	return ..()
 
@@ -126,7 +130,7 @@
 /obj/item/weapon/storage/proc/can_see_contents()
 	var/list/cansee = list()
 	for(var/mob/M in is_seeing)
-		if(M.s_active == src)
+		if(M.s_active == src && M.client)
 			cansee |= M
 		else
 			is_seeing -= M
@@ -237,7 +241,7 @@
 		return 0 //Means the item is already in the storage item
 	if(contents.len >= storage_slots)
 		if(!stop_messages)
-			usr << "<span class='notice'>[W] won't fit in [src], make some space.</span>"
+			usr << "<span class='warning'>[src] is full, make some space!</span>"
 		return 0 //Storage item is full
 
 	if(can_hold.len)
@@ -248,18 +252,18 @@
 				break
 		if(!ok)
 			if(!stop_messages)
-				usr << "<span class='notice'>[src] cannot hold [W].</span>"
+				usr << "<span class='warning'>[src] cannot hold [W]!</span>"
 			return 0
 
 	for(var/A in cant_hold) //Check for specific items which this container can't hold.
 		if(istype(W, A))
 			if(!stop_messages)
-				usr << "<span class='notice'>[src] cannot hold [W].</span>"
+				usr << "<span class='warning'>[src] cannot hold [W]!</span>"
 			return 0
 
 	if(W.w_class > max_w_class)
 		if(!stop_messages)
-			usr << "<span class='notice'>[W] is too big for [src].</span>"
+			usr << "<span class='warning'>[W] is too big for [src]!</span>"
 		return 0
 
 	var/sum_w_class = W.w_class
@@ -268,17 +272,17 @@
 
 	if(sum_w_class > max_combined_w_class)
 		if(!stop_messages)
-			usr << "<span class='notice'>[src] is full, make some space.</span>"
+			usr << "<span class='warning'>[W] won't fit in [src], make some space!</span>"
 		return 0
 
 	if(W.w_class >= w_class && (istype(W, /obj/item/weapon/storage)))
 		if(!istype(src, /obj/item/weapon/storage/backpack/holding))	//bohs should be able to hold backpacks again. The override for putting a boh in a boh is in backpack.dm.
 			if(!stop_messages)
-				usr << "<span class='notice'>[src] cannot hold [W] as it's a storage item of the same size.</span>"
+				usr << "<span class='warning'>[src] cannot hold [W] as it's a storage item of the same size!</span>"
 			return 0 //To prevent the stacking of same sized storage items.
 
 	if(W.flags & NODROP) //SHOULD be handled in unEquip, but better safe than sorry.
-		usr << "<span class='notice'>\the [W] is stuck to your hand, you can't put it in \the [src]</span>"
+		usr << "<span class='warning'>\the [W] is stuck to your hand, you can't put it in \the [src]!</span>"
 		return 0
 
 	return 1
@@ -292,6 +296,8 @@
 	if(usr)
 		if(!usr.unEquip(W))
 			return 0
+	if(silent)
+		prevent_warning = 1
 	W.loc = src
 	W.on_enter_storage(src)
 	if(usr)
@@ -300,13 +306,13 @@
 
 		add_fingerprint(usr)
 
-		if(!prevent_warning && !istype(W, /obj/item/weapon/gun/energy/crossbow))
+		if(!prevent_warning && !istype(W, /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow))
 			for(var/mob/M in viewers(usr, null))
 				if(M == usr)
 					usr << "<span class='notice'>You put [W] [preposition]to [src].</span>"
 				else if(in_range(M, usr)) //If someone is standing close enough, they can tell what it is...
 					M.show_message("<span class='notice'>[usr] puts [W] [preposition]to [src].</span>", 1)
-				else if(W && W.w_class >= 3.0) //Otherwise they can only see large or normal items from a distance...
+				else if(W && W.w_class >= 3) //Otherwise they can only see large or normal items from a distance...
 					M.show_message("<span class='notice'>[usr] puts [W] [preposition]to [src].</span>", 1)
 
 		orient2hud(usr)
@@ -351,7 +357,7 @@
 	..()
 
 	if(isrobot(user))
-		user << "<span class='notice'>You're a robot. No.</span>"
+		user << "<span class='warning'>You're a robot. No.</span>"
 		return 0	//Robots can't interact with storage items.
 
 	if(!can_be_inserted(W, 0 , user))
@@ -361,9 +367,8 @@
 	return 1
 
 
-// Honest-to-goodness question here. WHY IN THE FUCK'S NAME WERE YOU OVERWRITING DROPPED PROC HERE!?
-// /obj/item/weapon/storage/dropped(mob/user)
-// 	return
+/obj/item/weapon/storage/dropped(mob/user)
+	return
 
 /obj/item/weapon/storage/attack_hand(mob/user)
 	playsound(loc, "rustle", 50, 1, -5)
@@ -455,10 +460,13 @@
 
 
 /obj/item/weapon/storage/Destroy()
+	for(var/obj/O in contents)
+		O.mouse_opacity = initial(O.mouse_opacity)
+
 	close_all()
 	qdel(boxes)
 	qdel(closer)
-	..()
+	return ..()
 
 
 /obj/item/weapon/storage/emp_act(severity)
@@ -474,3 +482,7 @@
 		if(verbs.Find(/obj/item/weapon/storage/verb/quick_empty))
 			quick_empty()
 
+/obj/item/weapon/storage/handle_atom_del(atom/A)
+	if(A in contents)
+		usr = null
+		remove_from_storage(A, loc)

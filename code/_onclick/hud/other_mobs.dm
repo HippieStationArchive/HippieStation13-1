@@ -14,6 +14,10 @@
 	mymob.blind.layer = 0
 	mymob.blind.mouse_opacity = 0
 
+	mymob.client.screen = list()
+	mymob.client.screen += list(mymob.blind)
+	mymob.client.screen += mymob.client.void
+
 /datum/hud/proc/blob_hud(ui_style = 'icons/mob/screen_midnight.dmi')
 
 	blobpwrdisplay = new /obj/screen()
@@ -29,7 +33,5 @@
 	blobhealthdisplay.layer = 20
 
 	mymob.client.screen = list()
-
 	mymob.client.screen += list(blobpwrdisplay, blobhealthdisplay)
-
 	mymob.client.screen += mymob.client.void

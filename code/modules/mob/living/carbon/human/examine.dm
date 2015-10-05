@@ -104,7 +104,7 @@
 
 	//handcuffed?
 	if(handcuffed)
-		if(istype(handcuffed, /obj/item/weapon/handcuffs/cable))
+		if(istype(handcuffed, /obj/item/weapon/restraints/handcuffs/cable))
 			msg += "<span class='warning'>[t_He] [t_is] \icon[handcuffed] restrained with cable!</span>\n"
 		else
 			msg += "<span class='warning'>[t_He] [t_is] \icon[handcuffed] handcuffed!</span>\n"
@@ -173,7 +173,7 @@
 	var/appears_dead = 0
 	if(stat == DEAD || (status_flags & FAKEDEATH))
 		appears_dead = 1
-		if(getorgan(/obj/item/organ/brain))//Only perform these checks if there is no brain
+		if(getorgan(/obj/item/organ/internal/brain))//Only perform these checks if there is no brain
 			if(suiciding)
 				msg += "<span class='warning'>[t_He] appears to have commited suicide... there is no hope of recovery.</span>\n"
 			msg += "<span class='deadsay'>[t_He] [t_is] limp and unresponsive; there are no signs of life"
@@ -202,13 +202,6 @@
 		else
 			msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
 
-	temp = getBloodLoss()
-	if(temp)
-		if(temp < 0.5)
-			msg += "[t_He] [t_is] bleeding slightly.\n"
-		else
-			msg += "<B>[t_He] [t_is] bleeding profusely!</B>\n"
-
 	temp = getFireLoss()
 	if(temp)
 		if(temp < 30)
@@ -223,9 +216,11 @@
 		else
 			msg += "<B>[t_He] [t_has] severe cellular damage.</B>\n"
 
+
 	for(var/obj/item/organ/limb/L in organs)
-		for(var/obj/item/I in L.embedded)
-			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L.getDisplayName()]!</B> [I.pinned ? "It [t_has] pinned [t_him] down to \the [I.pinned]!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[src];read_embedded=\ref[I]'>Read</a>)" : ""]\n"
+		for(var/obj/item/I in L.embedded_objects)
+			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L.getDisplayName()]!</B>\n"
+
 
 	if(fire_stacks > 0)
 		msg += "[t_He] [t_is] covered in something flammable.\n"
@@ -241,21 +236,26 @@
 		else
 			msg += "[t_He] [t_is] quite chubby.\n"
 
+	if(pale)
+		msg += "[t_He] [t_has] pale skin.\n"
+
+	if(bleedsuppress)
+		msg += "[t_He] [t_is] bandaged with something.\n"
+	else if(blood_max)
+		msg += "<B>[t_He] [t_is] bleeding!</B>\n"
+
 	msg += "</span>"
 
 	if(!appears_dead)
 		if(stat == UNCONSCIOUS)
 			msg += "[t_He] [t_is]n't responding to anything around [t_him] and seems to be asleep.\n"
-		else if(nearcrit)
-			msg += "[t_He] appears to be incapacitated and is struggling to breathe.\n"
 		else if(getBrainLoss() >= 60)
 			msg += "[t_He] [t_has] a stupid expression on [t_his] face.\n"
 
-		if(getorgan(/obj/item/organ/brain))
-			//if(istype(src,/mob/living/carbon/human/interactive))
-				//msg += "<span class='deadsay'>[t_He] [t_is] appears to be some sort of sick automaton, [t_his] eyes are glazed over and [t_his] mouth is slightly agape.</span>\n"
-			//else if(!key)
-			if (!key)
+		if(getorgan(/obj/item/organ/internal/brain))
+			if(istype(src,/mob/living/carbon/human/interactive))
+				msg += "<span class='deadsay'>[t_He] [t_is] appears to be some sort of sick automaton, [t_his] eyes are glazed over and [t_his] mouth is slightly agape.</span>\n"
+			else if(!key)
 				msg += "<span class='deadsay'>[t_He] [t_is] totally catatonic. The stresses of life in deep-space must have been too much for [t_him]. Any recovery is unlikely.</span>\n"
 			else if(!client)
 				msg += "[t_He] [t_has] a vacant, braindead stare...\n"
@@ -266,26 +266,49 @@
 	if(!wear_mask && is_thrall(src) && in_range(user,src))
 		msg += "Their features seem unnaturally tight and drawn.\n"
 
-	if(surgeries.len)
-		msg += "It looks like [t_He] [t_has] ongoing surgeries.\n"
-
 	if(istype(user, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user
-		if(istype(H.glasses, /obj/item/clothing/glasses/hud/security) || istype(H.glasses, /obj/item/clothing/glasses/hud/security/sunglasses))
-			if(!user.stat && user != src) //|| !user.canmove || user.restrained()) Fluff: Sechuds have eye-tracking technology and sets 'arrest' to people that the wearer looks and blinks at.
-				var/criminal = "None"
-
-				var/perpname = get_face_name(get_id_name(""))
-				if(perpname)
-					var/datum/data/record/R = find_record("name", perpname, data_core.security)
+		var/obj/item/organ/internal/cyberimp/eyes/hud/CIH = H.getorgan(/obj/item/organ/internal/cyberimp/eyes/hud)
+		if(istype(H.glasses, /obj/item/clothing/glasses/hud) || CIH)
+			var/perpname = get_face_name(get_id_name(""))
+			if(perpname)
+				var/datum/data/record/R = find_record("name", perpname, data_core.general)
+				if(R)
+					msg += "<span class='deptradio'>Rank:</span> [R.fields["rank"]]<br>"
+					msg += "<a href='?src=\ref[src];hud=1;photo_front=1'>\[Front photo\]</a> "
+					msg += "<a href='?src=\ref[src];hud=1;photo_side=1'>\[Side photo\]</a><br>"
+				if(istype(H.glasses, /obj/item/clothing/glasses/hud/health) || istype(CIH,/obj/item/organ/internal/cyberimp/eyes/hud/medical))
+					var/implant_detect
+					for(var/obj/item/organ/internal/cyberimp/CI in internal_organs)
+						if(CI.status == ORGAN_ROBOTIC)
+							implant_detect += "[name] is modified with a [CI.name].<br>"
+					if(implant_detect)
+						msg += "Detected cybernetic modifications:<br>"
+						msg += implant_detect
 					if(R)
-						criminal = R.fields["criminal"]
+						var/health = R.fields["p_stat"]
+						msg += "<a href='?src=\ref[src];hud=m;p_stat=1'>\[[health]\]</a>"
+						health = R.fields["m_stat"]
+						msg += "<a href='?src=\ref[src];hud=m;m_stat=1'>\[[health]\]</a><br>"
+					R = find_record("name", perpname, data_core.medical)
+					if(R)
+						msg += "<a href='?src=\ref[src];hud=m;evaluation=1'>\[Medical evaluation\]</a><br>"
 
-					msg += "<span class = 'deptradio'>Criminal status:</span> <a href='?src=\ref[src];criminal=1;status=1'>\[[criminal]\]</a>\n"
-					msg += "<span class = 'deptradio'>Security record:</span> <a href='?src=\ref[src];criminal=1;view=1'>\[View\]</a> "
-					msg += "<a href='?src=\ref[src];criminal=1;add_crime=1'>\[Add crime\]</a> "
-					msg += "<a href='?src=\ref[src];criminal=1;view_comment=1'>\[View comment log\]</a> "
-					msg += "<a href='?src=\ref[src];criminal=1;add_comment=1'>\[Add comment\]</a>\n"
+
+				if(istype(H.glasses, /obj/item/clothing/glasses/hud/security) || istype(CIH,/obj/item/organ/internal/cyberimp/eyes/hud/security))
+					if(!user.stat && user != src)
+					//|| !user.canmove || user.restrained()) Fluff: Sechuds have eye-tracking technology and sets 'arrest' to people that the wearer looks and blinks at.
+						var/criminal = "None"
+
+						R = find_record("name", perpname, data_core.security)
+						if(R)
+							criminal = R.fields["criminal"]
+
+						msg += "<span class='deptradio'>Criminal status:</span> <a href='?src=\ref[src];hud=s;status=1'>\[[criminal]\]</a>\n"
+						msg += "<span class='deptradio'>Security record:</span> <a href='?src=\ref[src];hud=s;view=1'>\[View\]</a> "
+						msg += "<a href='?src=\ref[src];hud=s;add_crime=1'>\[Add crime\]</a> "
+						msg += "<a href='?src=\ref[src];hud=s;view_comment=1'>\[View comment log\]</a> "
+						msg += "<a href='?src=\ref[src];hud=s;add_comment=1'>\[Add comment\]</a>\n"
 
 	msg += "*---------*</span>"
 
