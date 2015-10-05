@@ -83,7 +83,6 @@ Head of Personnel
 			            access_theatre, access_chapel_office, access_library, access_research, access_mining, access_heads_vault, access_mining_station,
 			            access_hop, access_RC_announce, access_keycard_auth, access_gateway, access_mineral_storeroom)
 
-
 /datum/outfit/job/hop
 	name = "Head of Personnel"
 
@@ -98,5 +97,9 @@ Head of Personnel
 
 /datum/outfit/job/hop/post_equip(mob/living/carbon/human/H)
 	..()
-	
+	var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
+	L.imp_in = H
+	L.implanted = 1
+	H.sec_hud_set_implants()
+
 	announce_head(H, list("Supply", "Service"))
