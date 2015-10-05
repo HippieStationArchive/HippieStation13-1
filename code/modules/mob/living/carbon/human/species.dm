@@ -1009,7 +1009,7 @@
 
 	if(user.zone_sel.selecting =="groin")
 		if(user.a_intent == "grab")
-			var/obj/item/organ/butt/B = H.getorgan(/obj/item/organ/butt)
+			var/obj/item/organ/internal/butt/B = H.getorgan(/obj/item/organ/internal/butt)
 			if(!H.w_uniform)
 				if(B.contents.len == 1)
 					if(H == user)
