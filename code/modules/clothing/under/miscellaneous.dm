@@ -22,6 +22,16 @@
 	item_color = "ek"
 	can_adjust = 0
 
+/obj/item/clothing/under/cosby
+	name = "sweater"
+	desc = "Zip zap zoobity bap"
+	icon_state = "cosby"
+	item_state = "r_suit" //bleh
+	item_color = "cosby"
+	can_adjust = 0
+	force = 0.001 	//TG doesn't have the forcehitsound that Hippie has at the moment, so this is just a hacky solution until or unless we figure something out -DerptheStewpidGoat
+	hitsound = list('sound/voice/cosby1.ogg','sound/voice/cosby2.ogg','sound/voice/cosby3.ogg','sound/voice/cosby4.ogg','sound/voice/cosby5.ogg')
+
 /obj/item/clothing/under/sl_suit
 	desc = "It's a very amish looking suit."
 	name = "amish suit"
