@@ -147,11 +147,13 @@
 		S.reagents.add_reagent("????", 5)
 	return S
 
-/obj/item/organ/butt //left it as a normal organ instead of /internal 'cause it doesn't need all those procs up here plus possible conflicts with ass update
+/obj/item/organ/internal/butt //nvm i need to make it internal for surgery fuck
 	name = "butt"
 	desc = "extremely treasured body part"
 	icon_state = "butt"
 	item_state = "butt"
+	zone = "groin"
+	slot = "butt"
 	throwforce = 5
 	throw_speed = 4
 	force = 5
@@ -162,20 +164,20 @@
 	embed_chance = 5 //This is a joke
 	var/loose = 0
 
-/obj/item/organ/butt/xeno //XENOMORPH BUTTS ARE BEST BUTTS yes i agree
+/obj/item/organ/internal/butt/xeno //XENOMORPH BUTTS ARE BEST BUTTS yes i agree
 	name = "alien butt"
 	desc = "best trophy ever"
 	icon_state = "xenobutt"
 	item_state = "xenobutt"
 
-/obj/item/organ/butt/attackby(var/obj/item/W, mob/user as mob, params) // copypasting bot manufucturing process, im a lazy fuck
+/obj/item/organ/internal/butt/attackby(var/obj/item/W, mob/user as mob, params) // copypasting bot manufucturing process, im a lazy fuck
 
 	if(istype(W, /obj/item/robot_parts/l_arm) || istype(W, /obj/item/robot_parts/r_arm))
 		user.drop_item()
 		qdel(W)
 		var/turf/T = get_turf(src.loc)
 		var/obj/machinery/bot/buttbot/B = new(T)
-		if(istype(src, /obj/item/organ/butt/xeno))
+		if(istype(src, /obj/item/organ/internal/butt/xeno))
 			B.xeno = 1
 			B.icon_state = "buttbot_xeno"
 			B.speech_list = list("hissing butts", "hiss hiss motherfucker", "nice trophy nerd", "butt", "woop get an alien inspection")

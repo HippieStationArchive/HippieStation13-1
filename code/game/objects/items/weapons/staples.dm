@@ -38,7 +38,7 @@
 	var/ammo = 5
 	var/max_ammo = 10
 	var/obj/item/weapon/paper/P = null //TODO: Make papers attachable to people
-	var/obj/item/organ/butt/B = null
+	var/obj/item/organ/internal/butt/B = null
 
 /obj/item/weapon/staplegun/New()
 	..()
@@ -66,7 +66,7 @@
 		var/mob/living/carbon/human/H = target
 		if(user.zone_sel.selecting =="groin")
 			if(!H.w_uniform)
-				if(!(/obj/item/organ/butt in H.internal_organs))
+				if(!(/obj/item/organ/internal/butt in H.internal_organs))
 					if(istype(B))
 						H.internal_organs += B
 						B.loc = target
@@ -185,7 +185,7 @@
 			user << "<span class='notice'>You put \the [P] in \the [src]."
 		else
 			user << "<span class='notice'>There is already a paper in \the [src]!"
-	if(istype(I, /obj/item/organ/butt))
+	if(istype(I, /obj/item/organ/internal/butt))
 		if(!istype(P))
 			if(!istype(B))
 				user.drop_item()

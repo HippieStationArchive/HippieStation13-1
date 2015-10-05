@@ -288,7 +288,7 @@ emp_act
 
 /mob/living/carbon/human/grabbedby(mob/living/user)
 	if(user.zone_sel.selecting == "groin")
-		var/obj/item/organ/butt/B = src.getorgan(/obj/item/organ/butt)
+		var/obj/item/organ/internal/butt/B = src.getorgan(/obj/item/organ/internal/butt)
 		if(!w_uniform)
 			if(B)
 				if(user == src)
