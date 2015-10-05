@@ -869,6 +869,7 @@
 #include "code\game\pooling\pool.dm"
 #include "code\game\turfs\simulated.dm"
 #include "code\game\turfs\turf.dm"
+#include "code\game\turfs\turf_animation.dm"
 #include "code\game\turfs\simulated\dirtystation.dm"
 #include "code\game\turfs\simulated\floor.dm"
 #include "code\game\turfs\simulated\walls.dm"

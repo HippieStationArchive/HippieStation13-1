@@ -101,7 +101,7 @@
 			D.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(D), slot_ears)
 			D.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(D), slot_back)
 			D.equip_to_slot_or_del(new /obj/item/weapon/storage/box/engineer(D.back), slot_in_backpack)
-			playsound(D,'sound/misc/adminspawn.ogg', 90, 1)
+			T.turf_animation('icons/effects/96x96.dmi',"beamin",-32,0,MOB_LAYER+1,'sound/misc/adminspawn.ogg',5)
 			D.name = "Admin"
 			D.real_name = "Admin"
 			var/newname = ""
