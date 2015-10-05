@@ -24,6 +24,9 @@
 
 	var/PathNode/PNode = null //associated PathNode in the A* algorithm
 
+	// Flick animation shit
+	var/atom/movable/overlay/c_animation = null
+
 	flags = 0
 
 	var/image/obscured	//camerachunks
