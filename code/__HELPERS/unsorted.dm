@@ -1131,7 +1131,7 @@ var/global/list/common_tools = list(
 
 	var/list/embed_items = list(\
 	/obj/item/stack/rods,\
-	/obj/item/organ/butt,\
+	/obj/item/organ/internal/butt,\
 	)
 
 	if(is_type_in_list(W, embed_items))

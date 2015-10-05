@@ -119,7 +119,7 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 				blood_max += 1
 			if(brutedamage > 70)
 				blood_max += 2
-		var/obj/item/organ/butt/B = getorgan(/obj/item/organ/butt)
+		var/obj/item/organ/internal/butt/B = getorgan(/obj/item/organ/internal/butt)
 		if(B in internal_organs)
 			if(B.contents.len)
 				var/obj/item/A = pick(B.contents)

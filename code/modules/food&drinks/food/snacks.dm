@@ -47,7 +47,7 @@
 	if(user.zone_sel.selecting =="groin" && user.a_intent == "grab")
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
-			var/obj/item/organ/butt/B = H.getorgan(/obj/item/organ/butt)
+			var/obj/item/organ/internal/butt/B = H.getorgan(/obj/item/organ/internal/butt)
 			if(!H.w_uniform)
 				if(B.contents.len == 1)
 					if(M == user)

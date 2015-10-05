@@ -127,7 +127,7 @@
 
 		if ("fart")
 			exception = 1
-			var/obj/item/organ/butt/B = locate() in src.internal_organs
+			var/obj/item/organ/internal/butt/B = locate() in src.internal_organs
 			if(!B)
 				src << "\red You don't have a butt!"
 				return
@@ -184,7 +184,7 @@
 						B.contents -= O
 					src.internal_organs -= B
 					src.contents -= B
-					new /obj/item/organ/butt(src.loc)
+					new /obj/item/organ/internal/butt(src.loc)
 					new /obj/effect/decal/cleanable/blood(src.loc)
 					src.nutrition -= rand(15, 30)
 					visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
@@ -445,7 +445,7 @@
 
 		if ("superfart") //how to remove ass
 			exception = 1
-			var/obj/item/organ/butt/B = locate() in src.internal_organs
+			var/obj/item/organ/internal/butt/B = locate() in src.internal_organs
 			if(!B)
 				src << "\red You don't have a butt!"
 				return
@@ -498,7 +498,7 @@
 					O.throw_at(target,range,O.throw_speed,src)
 					O.assthrown = 0 // so you can't just unembed it and throw it for insta embeds
 				src.internal_organs -= B
-				new /obj/item/organ/butt(src.loc)
+				new /obj/item/organ/internal/butt(src.loc)
 				new /obj/effect/decal/cleanable/blood(src.loc)
 				src.nutrition -= 500
 				switch(fart_type)
