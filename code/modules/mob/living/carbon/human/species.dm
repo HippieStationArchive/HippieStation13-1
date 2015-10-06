@@ -1010,19 +1010,13 @@
 	if(user.zone_sel.selecting =="groin")
 		if(user.a_intent == "grab")
 			var/obj/item/organ/internal/butt/B = H.getorgan(/obj/item/organ/internal/butt)
-			if(!H.w_uniform)
-				if(B.contents.len == 1)
-					if(H == user)
-						user << "<span class='warning'>Your butt is full!</span>"
-					else
-						user << "<span class='warning'>[H]'s butt is full!</span>"
-					return 0
-				else
-					if (!B)
+			if(B)
+				if(!H.w_uniform)
+					if(B.contents.len == 1)
 						if(H == user)
-							user << "<span class='warning'>You have no butt!</span>"
+							user << "<span class='warning'>Your butt is full!</span>"
 						else
-							user << "<span class='warning'>[H] has no butt!</span>"
+							user << "<span class='warning'>[H]'s butt is full!</span>"
 						return 0
 					else
 						if(I.w_class < 3.0)
@@ -1051,13 +1045,19 @@
 							else
 								user << "<span class='warning'>This item is too big to fit in [H]'s butt!</span>"
 							return 0
+				else
+					if(H == user)
+						user << "<span class='warning'>You'll need to remove your jumpsuit first.</span>"
+					else
+						user << "<span class='warning'>You'll need to remove [H]'s jumpsuit first.</span>"
+						H << "<span class='warning'>You feel your butt being poked with \the [I]!</span>"
+						user.visible_message("<span class='warning'>[user] pokes [H]'s butt with \the [I]!</span>", "<span class='warning'>You poke [H]'s butt with \the [I]!</span>")
+					return 0
 			else
 				if(H == user)
-					user << "<span class='warning'>You'll need to remove your jumpsuit first.</span>"
+					user << "<span class='warning'>You have no butt!</span>"
 				else
-					user << "<span class='warning'>You'll need to remove [H]'s jumpsuit first.</span>"
-					H << "<span class='warning'>You feel your butt being poked with \the [I]!</span>"
-					user.visible_message("<span class='warning'>[user] pokes [H]'s butt with \the [I]!</span>", "<span class='warning'>You poke [H]'s butt with \the [I]!</span>")
+					user << "<span class='warning'>[H] has no butt!</span>"
 				return 0
 
 	if(I.attack_verb && I.attack_verb.len)

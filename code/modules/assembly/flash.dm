@@ -11,6 +11,8 @@
 	crit_fail = 0     //Is the flash burnt out?
 	var/times_used = 0 //Number of times it's been used.
 	var/last_used = 0 //last world.time it was used.
+	var/battery_panel = 0 //If it can be modified or not!
+	var/overcharged = 0 //If overcharged you set people on fire.. but the bulb burns out on use!
 
 
 /obj/item/device/assembly/flash/update_icon(var/flash = 0)
@@ -33,6 +35,21 @@
 		flash_carbon(user, user, 15, 0)
 		return 0
 	return 1
+
+/obj/item/device/assembly/flash/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/weapon/screwdriver))
+		if(battery_panel)
+			user << "<span class='notice'>You close the battery compartment on the [src].</span>"
+			battery_panel = 0
+		else
+			user << "<span class='notice'>You open the battery compartment on the [src].</span>"
+			battery_panel = 1
+	if(battery_panel && !overcharged)
+		if(istype(W, /obj/item/weapon/stock_parts/cell))
+			user << "<span class='notice'>You jam the cell into battery compartment on the [src].</span>"
+			qdel(W)
+			overcharged = 1
+			overlays += "overcharge"
 
 /obj/item/device/assembly/flash/activate()
 	if(!try_use_flash())
@@ -88,6 +105,7 @@
 			M.confused += power
 			terrible_conversion_proc(M, user)
 			M.Stun(1)
+			M.Weaken(5)
 			visible_message("<span class='disarm'>[user] blinds [M] with the flash!</span>")
 			user << "<span class='danger'>You blind [M] with the flash!</span>"
 			M << "<span class='userdanger'>[user] blinds you with the flash!</span>"
@@ -108,6 +126,10 @@
 
 	if(iscarbon(M))
 		flash_carbon(M, user, 5, 1)
+		if(overcharged)
+			M.adjust_fire_stacks(6)
+			M.IgniteMob()
+			burn_out()
 		return 1
 
 	else if(issilicon(M))
