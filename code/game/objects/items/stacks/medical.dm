@@ -59,14 +59,14 @@
 				else if(src.heal_brute < 1)
 					user << "<span class='notice'> [src] won't help [M] at all.</span>"
 					return
-			user.visible_message("<span class='notice'>[user] applies [src] on [M].</span>", "<span class='green'>You apply [src] on [M].</span>")
+			user.visible_message("<span class='notice'>[user] applies [src] on [M].</span>", "<span class='notice'>You apply [src] on [M].</span>")
 		else
 			var/t_himself = "itself"
 			if(user.gender == MALE)
 				t_himself = "himself"
 			else if(user.gender == FEMALE)
 				t_himself = "herself"
-			user.visible_message("<span class='notice'>[user] applies [src] on [t_himself].</span>", "<span class='green'>You apply [src] on yourself.</span>")
+			user.visible_message("<span class='notice'>[user] applies [src] on [t_himself].</span>", "<span class='notice'>You apply [src] on yourself.</span>")
 
 
 	if(ishuman(M))
