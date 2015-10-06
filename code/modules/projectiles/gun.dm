@@ -243,6 +243,8 @@
 /obj/item/weapon/gun/attack(mob/M as mob, mob/user)
 	if(user.a_intent == "harm") //Flogging
 		..()
+	else if(user.zone_sel.selecting =="groin" && user.a_intent == "grab")
+		..()
 	else
 		return
 

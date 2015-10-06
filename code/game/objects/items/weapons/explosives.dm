@@ -102,4 +102,7 @@
 	qdel(src)
 
 /obj/item/weapon/c4/attack(mob/M, mob/user, def_zone)
-	return
+	if(user.zone_sel.selecting =="groin" && user.a_intent == "grab")
+		..()
+	else
+		return
