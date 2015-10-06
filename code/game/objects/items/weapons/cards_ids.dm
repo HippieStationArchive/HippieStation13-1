@@ -64,8 +64,11 @@
 	origin_tech = "magnets=2;syndicate=2"
 	flags = NOBLUDGEON
 
-/obj/item/weapon/card/emag/attack()
-	return
+/obj/item/weapon/card/emag/attack(mob/user)
+	if(user.zone_sel.selecting =="groin" && user.a_intent == "grab")
+		..()
+	else
+		return
 
 /obj/item/weapon/card/emag/afterattack(atom/target, mob/user, proximity)
 	var/atom/A = target
