@@ -148,6 +148,8 @@ var/global/floorIsLava = 0
 		body += "<b>Other actions:</b>"
 		body += "<br>"
 		body += "<A href='?_src_=holder;forcespeech=\ref[M]'>Forcesay</A> | "
+		body += "<A href='?_src_=holder;mentor=\ref[M]'>Make Mentor</A> | "
+		body += "<A href='?_src_=holder;removementor=\ref[M]'>Remove Mentor</A> | "
 		body += "<A href='?_src_=holder;tdome1=\ref[M]'>Thunderdome 1</A> | "
 		body += "<A href='?_src_=holder;tdome2=\ref[M]'>Thunderdome 2</A> | "
 		body += "<A href='?_src_=holder;tdomeadmin=\ref[M]'>Thunderdome Admin</A> | "
@@ -516,7 +518,6 @@ var/global/floorIsLava = 0
 		usr << "<font color='red'>Error: Start Now: Game is in startup, please wait until it has finished.</font>"
 	else
 		usr << "<font color='red'>Error: Start Now: Game has already started.</font>"
-		
 	return 0
 
 /datum/admins/proc/toggleenter()
