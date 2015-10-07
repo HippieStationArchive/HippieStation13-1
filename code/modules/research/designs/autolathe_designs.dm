@@ -570,3 +570,11 @@
 	materials = list(MAT_METAL = 150, MAT_GLASS = 125)
 	build_path = /obj/item/weapon/hand_labeler
 	category = list("initial", "Electronics")
+
+/datum/design/baseballbatmetal
+	name = "Metal Baseball Bat"
+	id = "bbat_metal"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/weapon/baseballbat/metal
+	category = list("hacked", "Misc")

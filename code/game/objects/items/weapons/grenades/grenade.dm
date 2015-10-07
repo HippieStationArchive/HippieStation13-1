@@ -111,3 +111,9 @@
 
 /obj/item/weapon/grenade/attack_paw(mob/user)
 	return attack_hand(user)
+
+/obj/item/weapon/grenade/attack(mob/user)
+	if(user.zone_sel.selecting =="groin" && user.a_intent == "grab")
+		..()
+	else
+		return

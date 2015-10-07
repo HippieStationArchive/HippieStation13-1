@@ -172,6 +172,7 @@
 			dat += "Leather Jacket: <A href='?src=\ref[src];create=jacket;amount=1'>Make</A> ([500/efficiency])<BR>"
 			dat += "Leather Overcoat: <A href='?src=\ref[src];create=overcoat;amount=1'>Make</A> ([1000/efficiency])<BR>"
 			dat += "Rice Hat: <A href='?src=\ref[src];create=rice_hat;amount=1'>Make</A> ([300/efficiency])<BR>"
+			dat += "Baseball: <A href='?src=\ref[src];create=bbat;amount=1'>Make</A> ([100/efficiency])<BR>"
 			dat += "</div>"
 		else
 			dat += "<div class='statusDisplay'>No container inside, please insert container.</div>"
@@ -313,6 +314,9 @@
 		if("rice_hat")
 			if (check_cost(300/efficiency)) return 0
 			else new/obj/item/clothing/head/rice_hat(src.loc)
+		if("bbat")
+			if (check_cost(100/efficiency)) return 0
+			else new/obj/item/baseball(src.loc)
 	processing = 0
 	menustat = "complete"
 	update_icon()
