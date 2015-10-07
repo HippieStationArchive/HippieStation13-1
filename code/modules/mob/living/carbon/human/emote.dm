@@ -161,10 +161,12 @@
 						var/obj/item/weapon/lighter/G = O
 						if(G.lit && location)
 							new/obj/effect/hotspot(location)
+							playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
 					else if(istype(O, /obj/item/weapon/weldingtool))
 						var/obj/item/weapon/weldingtool/J = O
 						if(J.welding == 1 && location)
 							new/obj/effect/hotspot(location)
+							playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
 					else if(istype(O, /obj/item/weapon/bikehorn) || istype(O, /obj/item/weapon/bikehorn/rubberducky))
 						playsound(src, 'sound/items/bikehorn.ogg', 50, 1, 5)
 					else if(istype(O, /obj/item/device/megaphone))
