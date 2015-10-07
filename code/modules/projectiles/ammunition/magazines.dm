@@ -222,7 +222,7 @@
 	ammo_type = /obj/item/ammo_casing/c9mmtox
 
 /obj/item/ammo_box/magazine/smgm9mm/fire
-	name = "SMG Magazine (Incindiary 9mm)"
+	name = "SMG Magazine (Incendiary 9mm)"
 	ammo_type = /obj/item/ammo_casing/c9mminc
 
 /obj/item/ammo_box/magazine/smgm45
@@ -326,7 +326,7 @@ obj/item/ammo_box/magazine/tommygunm45
 	multiple_sprites = 2
 
 /obj/item/ammo_box/magazine/m762
-	name = "box magazine (7.62mm)"
+	name = "box magazine (7.62x51mm)"
 	icon_state = "a762-50"
 	origin_tech = "combat=2"
 	ammo_type = /obj/item/ammo_casing/a762
