@@ -30,6 +30,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 4000, MAT_GLASS = 1000)
 	build_path = /obj/item/weapon/gun/energy/stunrevolver
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/nuclear_gun
@@ -41,6 +42,7 @@
 	materials = list(MAT_METAL = 5000, MAT_GLASS = 1000, MAT_URANIUM = 2000)
 	reliability = 76
 	build_path = /obj/item/weapon/gun/energy/gun/nuclear
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/tele_shield
@@ -51,6 +53,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 4000, MAT_GLASS = 5000, MAT_SILVER = 300)
 	build_path = /obj/item/weapon/shield/riot/tele
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/lasercannon
@@ -61,6 +64,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_DIAMOND = 2000)
 	build_path = /obj/item/weapon/gun/energy/lasercannon
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/decloner
@@ -72,6 +76,7 @@
 	materials = list(MAT_GOLD = 5000,MAT_URANIUM = 10000)
 	reagents = list("mutagen" = 40)
 	build_path = /obj/item/weapon/gun/energy/decloner
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/rapidsyringe
@@ -92,6 +97,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 5000, MAT_GLASS = 1500, MAT_URANIUM = 1500, MAT_SILVER = 1500)
 	build_path = /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow/large
+	locked = 1
 	category = list("Weapons")
 	reliability = 76
 
@@ -103,6 +109,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 5000, MAT_GLASS = 500, MAT_SILVER = 3000)
 	build_path = /obj/item/weapon/gun/energy/temperature
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/flora_gun
@@ -135,6 +142,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 8000, MAT_SILVER = 2000, MAT_DIAMOND = 1000)
 	build_path = /obj/item/weapon/gun/projectile/automatic/proto
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/xray
@@ -145,6 +153,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_GOLD = 5000,MAT_URANIUM = 10000, MAT_METAL = 4000)
 	build_path = /obj/item/weapon/gun/energy/xray
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/ioncarbine
@@ -155,6 +164,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_SILVER = 4000, MAT_METAL = 6000, MAT_URANIUM = 1000)
 	build_path = /obj/item/weapon/gun/energy/ionrifle/carbine
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/wormhole_projector
@@ -165,6 +175,7 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_SILVER = 1000, MAT_METAL = 5000, MAT_DIAMOND = 3000)
 	build_path = /obj/item/weapon/gun/energy/wormhole_projector
+	locked = 1
 	category = list("Weapons")
 
 /datum/design/reciever

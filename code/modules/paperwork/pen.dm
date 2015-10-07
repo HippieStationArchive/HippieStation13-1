@@ -46,6 +46,8 @@
 
 
 /obj/item/weapon/pen/attack(mob/living/M, mob/user,stealth)
+	if(user.zone_sel.selecting =="groin" && user.a_intent == "grab")
+		..()
 	if(!istype(M))
 		return
 
