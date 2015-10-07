@@ -162,7 +162,7 @@
 
 		playsound(loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 
-/mob/living/carbon/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0)
+/mob/living/carbon/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0, noflash = 0)
 	var/damage = intensity - check_eye_prot()
 	if(..()) // we've been flashed
 		if(weakeyes)

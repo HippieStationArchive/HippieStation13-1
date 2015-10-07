@@ -446,7 +446,7 @@
 /mob/living/silicon/grabbedby(mob/living/user)
 	return
 
-/mob/living/silicon/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0)
+/mob/living/silicon/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0, noflash = 0)
 	if(affect_silicon)
 		return ..()
 

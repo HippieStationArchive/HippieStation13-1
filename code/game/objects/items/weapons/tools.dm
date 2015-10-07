@@ -296,7 +296,7 @@
 		reagents.remove_reagent("welding_fuel", amount)
 		check_fuel()
 		if(M)
-			M.flash_eyes(light_intensity)
+			M.flash_eyes(light_intensity, noflash = 1)
 		return 1
 	else
 		if(M)
