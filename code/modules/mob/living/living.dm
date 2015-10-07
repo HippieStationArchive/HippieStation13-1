@@ -697,9 +697,10 @@ Sorry Giacom. Please don't be mad :(
 		floating = 0
 
 //called when the mob receives a bright flash
-/mob/living/proc/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0)
+/mob/living/proc/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0, noflash = 0)
 	if(check_eye_prot() < intensity && (override_blindness_check || !(disabilities & BLIND)))
-		flick("e_flash", flash)
+		if(!noflash)
+			flick("e_flash", flash)
 		return 1
 
 //this returns the mob's protection against eye damage (number between -1 and 2)
