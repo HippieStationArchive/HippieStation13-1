@@ -1,11 +1,5 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1444170071
-DIR: code code\_onclick code\datums code\datums\helper_datums code\game code\game\gamemodes code\game\gamemodes\changeling code\game\gamemodes\traitor code\game\machinery code\game\machinery\computer code\game\machinery\doors code\game\objects code\game\objects\items code\game\objects\items\stacks code\game\objects\items\stacks\sheets code\game\objects\items\weapons code\modules code\modules\mob code\modules\mob\living code\modules\mob\living\carbon code\modules\mob\living\carbon\human code\modules\paperwork icons icons\effects icons\mob icons\mob\inhands icons\obj sound 
 AUTO_FILE_DIR: OFF
-MAP_ICON_TYPE: 0
-LAST_COMPILE_VERSION: 508.1299
-WINDOW: icons\effects\ss13_dark_alpha7.dmi;code\game\objects\items\weapons\cards_ids.dm;code\game\objects\items\stacks\sheets\glass.dm;code\game\objects\items\weapons\explosives.dm;code\modules\paperwork\pen.dm;code\modules\mob\living\carbon\human\species.dm;code\modules\mob\living\carbon\carbon.dm;code\game\objects\items.dm;code\game\objects\items\weapons\baseball.dm;code\game\atoms_movable.dm;code\game\atoms.dm
-FILE: code\game\objects\items\weapons\baseball.dm
 */
 // END_INTERNALS
