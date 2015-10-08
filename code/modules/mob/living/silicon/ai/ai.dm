@@ -832,7 +832,7 @@ var/list/ai_list = list()
 		src << "You have been downloaded to a mobile storage device. Remote device connection severed."
 		user << "<span class='boldnotice'>Transfer successful</span>: [name] ([rand(1000,9999)].exe) removed from host terminal and stored within local memory."
 
-/mob/living/silicon/ai/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0)
+/mob/living/silicon/ai/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0, noflash = 0)
 	return // no eyes, no flashing
 
 /mob/living/silicon/ai/attackby(obj/item/weapon/W, mob/user, params)
