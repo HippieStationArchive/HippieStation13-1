@@ -624,7 +624,7 @@ var/global/list/g_fancy_list_of_types = null
 		alert("Invalid mob")
 		return
 	//log_admin("[key_name(src)] has alienized [M.key].")
-	
+
 
 	var/list/outfits = list("Naked","Custom","As Job...")
 	var/list/paths = typesof(/datum/outfit) - /datum/outfit - typesof(/datum/outfit/job)
@@ -656,10 +656,12 @@ var/global/list/g_fancy_list_of_types = null
 			return
 
 	feedback_add_details("admin_verb","SEQ") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
 	for (var/obj/item/I in M)
-		if (istype(I, /obj/item/weapon/implant))
+		if (istype(I, /obj/item/weapon/implant) || istype(I, /obj/item/organ))
 			continue
 		qdel(I)
+
 	switch(dresscode)
 		if ("Naked")
 			//do nothing
