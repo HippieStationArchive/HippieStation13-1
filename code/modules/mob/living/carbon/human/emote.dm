@@ -355,7 +355,7 @@
 					message = "<B>[src]</B> acts out a scream!"
 				else
 					var/DNA = src.dna.species.id
-					var/sound = pick('sound/misc/scream_m.ogg', 'sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg', 'sound/misc/scream_wilhelm.ogg')
+					var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
 					switch(DNA)
 						if("IPC")
 							sound = "sound/voice/screamsilicon.ogg"
@@ -367,7 +367,7 @@
 							sound = "sound/misc/caw.ogg"
 						else
 							if(gender == FEMALE)
-								sound = pick('sound/misc/scream_f.ogg', 'sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg', 'sound/misc/scream_f3.ogg')
+								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
 							if(isalien(src))
 								sound = pick('sound/voice/hiss6.ogg')
 
