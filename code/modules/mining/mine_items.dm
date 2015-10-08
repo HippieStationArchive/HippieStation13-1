@@ -28,6 +28,9 @@
 	new /obj/item/clothing/gloves/fingerless(src)
 	new /obj/item/clothing/gloves/fingerless(src)
 	new /obj/item/clothing/gloves/fingerless(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/miner(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/miner(src)
+	new /obj/item/clothing/suit/hooded/wintercoat/miner(src)
 
 /obj/structure/closet/secure_closet/miner
 	name = "miner's equipment"
@@ -42,7 +45,7 @@
 	new /obj/item/weapon/shovel(src)
 	new /obj/item/weapon/pickaxe(src)
 	new /obj/item/clothing/glasses/meson(src)
-
+	new	/obj/item/device/flashlight/lantern(src)
 
 /**********************Shuttle Computer**************************/
 
