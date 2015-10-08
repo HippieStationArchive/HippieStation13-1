@@ -188,39 +188,6 @@
 	build_path = /obj/item/weaponcrafting/reciever
 	category = list("Weapons")
 
-//WT550 Mags
-
-/datum/design/mag_oldsmg
-	name = "WT-550 Auto Gun Magazine (9mm)"
-	desc = "A 20 round magazine for the out of date security WT-550 Auto Rifle"
-	id = "mag_oldsmg"
-	req_tech = list("combat" = 1, "materials" = 1)
-	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 4000)
-	build_path = /obj/item/ammo_box/magazine/wt550m9
-	category = list("Ammo")
-
-/datum/design/mag_oldsmg/ap_mag
-	name = "WT-550 Auto Gun Armour Piercing Magazine (9mmAP)"
-	desc = "A 20 round armour piercing magazine for the out of date security WT-550 Auto Rifle"
-	id = "mag_oldsmg_ap"
-	materials = list(MAT_METAL = 6000, MAT_SILVER = 200)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtap
-
-/datum/design/mag_oldsmg/ic_mag
-	name = "WT-550 Auto Gun Incendiary Magazine (9mmIC)"
-	desc = "A 20 round armour piercing magazine for the out of date security WT-550 Auto Rifle"
-	id = "mag_oldsmg_ic"
-	materials = list(MAT_METAL = 6000, MAT_SILVER = 200, MAT_GLASS = 800)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wtic
-
-/datum/design/mag_oldsmg/tx_mag
-	name = "WT-550 Auto Gun Urnaium Magazine (9mmTX)"
-	desc = "A 20 round urnaium tipped magazine for the out of date security WT-550 Auto Rifle"
-	id = "mag_oldsmg_tx"
-	materials = list(MAT_METAL = 6000, MAT_SILVER = 400, MAT_URANIUM = 2000)
-	build_path = /obj/item/ammo_box/magazine/wt550m9/wttx
-
 //SABR Mags
 
 /datum/design/mag_smg
