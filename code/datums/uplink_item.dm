@@ -199,6 +199,12 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/melee/energy/sword/saber
 	cost = 8
 
+/datum/uplink_item/job_specific/chainsaw
+	name = "Chainsaw"
+	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack."
+	item = /obj/item/weapon/twohanded/chainsaw
+	cost = 14
+
 /datum/uplink_item/dangerous/emp
 	name = "EMP Kit"
 	desc = "A box that contains two EMP grenades, an EMP implant and a short ranged recharging device disguised as a flashlight. Useful to disrupt communication and silicon lifeforms."
