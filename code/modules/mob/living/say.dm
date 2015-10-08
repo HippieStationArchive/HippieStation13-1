@@ -65,6 +65,9 @@ var/list/crit_allowed_modes = list(MODE_WHISPER,MODE_CHANGELING,MODE_ALIEN)
 		say_dead(message)
 		return
 
+	if(stat)
+		return
+
 	if(check_emote(message))
 		return
 

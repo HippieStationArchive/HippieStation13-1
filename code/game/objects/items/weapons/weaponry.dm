@@ -166,7 +166,7 @@
 	icon_state = "switchblade"
 	desc = "A sharp, concealable, spring-loaded knife."
 	flags = CONDUCT
-	force = 20
+	force = 15
 	w_class = 2
 	throwforce = 15
 	throw_speed = 3
