@@ -1,7 +1,6 @@
 /obj/item/latexballon
 	name = "latex glove"
-	desc = "Not like anyone wears these anyways."
-	icon = 'icons/obj/items.dmi'
+	desc = "" //todo
 	icon_state = "latexballon"
 	item_state = "lgloves"
 	force = 0
