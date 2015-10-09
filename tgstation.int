@@ -1,11 +1,6 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1444383415
-DIR: _maps _maps\map_files _maps\map_files\generic _maps\map_files\TgStation _maps\RandomZLevels code code\__DEFINES code\__HELPERS code\_globalvars code\_onclick code\controllers code\controllers\subsystem code\datums code\datums\spells code\datums\wires 
-AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
-LAST_COMPILE_VERSION: 509.1303
-WINDOW: code\__DEFINES\genetics.dm
-FILE: code\__DEFINES\genetics.dm
+AUTO_FILE_DIR: OFF
 */
 // END_INTERNALS
