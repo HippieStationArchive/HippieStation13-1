@@ -8,8 +8,9 @@
 	if(length(admins) > 0)
 		Lines += "<b>Admins:</b>"
 		for(var/client/C in sortList(admins))
-			if(!C.holder.fakekey)
-				Lines += "\t <font color='#FF0000'>[C.key]</font>[show_info(C)]"
+			if(C.holder)
+				if(!C.holder.fakekey)
+					Lines += "\t <font color='#FF0000'>[C.key]</font>[show_info(C)]"
 
 	if(length(mentors) > 0)
 		Lines += "<b>Mentors:</b>"
@@ -20,7 +21,10 @@
 
 	Lines += "<b>Players:</b>"
 	for(var/client/C in sortList(clients))
-		if(!check_mentor_other(C) || C.holder.fakekey)
+		if(C.holder)
+			if(C.holder.fakekey)
+				Lines += "\t [C.holder.fakekey][show_info(C)]"
+		else if(!check_mentor_other(C))
 			Lines += "\t [C.key][show_info(C)]"
 
 	for(var/line in Lines)
