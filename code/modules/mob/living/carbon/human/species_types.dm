@@ -109,6 +109,11 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
 
+/datum/species/bird/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
+
 
 /datum/species/cat
 	// catban
@@ -153,6 +158,10 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = null
 
+/datum/species/bot/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
 /*
  PLANTPEOPLE
 */
