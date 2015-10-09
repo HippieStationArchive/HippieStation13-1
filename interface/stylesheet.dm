@@ -83,6 +83,7 @@ h1.alert, h2.alert		{color: #000000;}
 
 .sans					{font-family: "Comic Sans MS", cursive, sans-serif;}
 .robot					{font-family: "Courier New", cursive, sans-serif;}
+.clwunescape			{color: #999900; font-size: 14px; font-family: "RuneScape UF", cursive, sans-serif;}
 
 .big					{font-size: 3;}
 .reallybig				{font-size: 4;}
