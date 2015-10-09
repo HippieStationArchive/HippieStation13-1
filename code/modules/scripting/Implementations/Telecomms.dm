@@ -110,6 +110,7 @@ var/list/allowed_custom_spans = list(SPAN_ROBOT,SPAN_YELL,SPAN_ITALICS,SPAN_SANS
 		interpreter.SetVar("$loud",		SPAN_YELL)	//Bolding, applied when ending a message with several exclamation marks.
 		interpreter.SetVar("$emphasis",	SPAN_ITALICS) //Italics
 		interpreter.SetVar("$wacky",		SPAN_SANS) //Comic sans font, normally seen from the genetics power.
+		interpreter.SetVar("$clwne", SPAN_CLWUNESCAPE)	//ClwneSpek shall rise once more!
 
 		//Language bitflags
 		interpreter.SetVar("HUMAN"   ,	HUMAN)
