@@ -1,6 +1,9 @@
 // BEGIN_INTERNALS
 /*
-MAP_ICON_TYPE: 0
+DIR: code code\game code\game\gamemodes\changeling code\game\gamemodes\changeling\powers code\modules code\modules\mob code\modules\mob\living code\modules\mob\living\carbon code\modules\mob\living\carbon\human 
 AUTO_FILE_DIR: OFF
+MAP_ICON_TYPE: 0
+WINDOW: code\game\gamemodes\changeling\changeling.dm;code\game\gamemodes\changeling\powers\transform.dm;code\game\gamemodes\changeling\changeling_power.dm;code\modules\mob\living\carbon\human\species_types.dm
+FILE: code\modules\mob\living\carbon\human\species_types.dm
 */
 // END_INTERNALS
