@@ -19,6 +19,7 @@
 #define STEALTH		"Cloak Of Darkness"
 #define CHAMELEON	"Chameleon"
 #define WACKY		"Wacky"
+#define CLWUNESCAPE		"Clwunescape"
 #define MUT_MUTE	"Mute"
 #define SMILE		"Smile"
 #define UNINTELLIGABLE		"Unintelligable"
