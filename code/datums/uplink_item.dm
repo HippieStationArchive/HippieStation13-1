@@ -48,9 +48,6 @@ var/list/uplink_items = list()
 	var/list/gamemodes = list() // Empty list means it is in all the gamemodes. Otherwise place the gamemode name here.
 	var/list/excludefrom = list() //Empty list does nothing. Place the name of gamemode you don't want this item to be available in here. This is so you dont have to list EVERY mode to exclude something.
 	var/surplus = 100 //Chance of being included in the surplus crate (when pick() selects it)
-	var/list/jobs = list() // For job-specific traitor items. Leave empty for all jobs to be allowed to buy it.
-	var/list/jobs_exclude = list() //Not sure why would you want to exclude uplink items from some jobs, but okay.
-
 
 /datum/uplink_item/proc/spawn_item(turf/loc, obj/item/device/uplink/U)
 	if(item)
@@ -96,19 +93,6 @@ var/list/uplink_items = list()
 //	UPLINK ITEMS
 //
 */
-
-// JOB-SPECIFIC ITEMS
-
-/datum/uplink_item/job_specific //No job-specific support for surplus yet.
-	category = "Job-specific Contraband"
-	surplus = 0
-
-/datum/uplink_item/job_specific/chainsaw
-	name = "Chainsaw"
-	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack."
-	item = /obj/item/weapon/twohanded/chainsaw
-	cost = 14
-	jobs = list("Botanist", "Bartender", "Chef")
 
 // DANGEROUS WEAPONS
 
