@@ -422,12 +422,12 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	user.underwear = chosen_prof.underwear
 	user.undershirt = chosen_prof.undershirt
 	user.socks = chosen_prof.socks
-
+	user.dna = chosen_dna //Should fix the whole "ERM MEH GERD I TURNED INTO A HUMAN INSTEAD OF ROBIT"
 	chosen_dna.transfer_identity(user, 1)
 	user.updateappearance(mutcolor_update=1)
 	user.update_body()
 	user.domutcheck()
-
+/* //Seriously, why was this even added?
 	//vars hackery. not pretty, but better than the alternative.
 	for(var/slot in slots)
 		if(istype(user.vars[slot], slot2type[slot]) && !(chosen_prof.exists_list[slot])) //remove unnecessary flesh items
@@ -454,6 +454,7 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 		C.item_state = chosen_prof.item_state_list[slot]
 		if(equip)
 			user.equip_to_slot_or_del(C, slot2slot[slot])
+*/
 
 	user.regenerate_icons()
 
