@@ -20,6 +20,7 @@
 #define CHAMELEON	"Chameleon"
 #define WACKY		"Wacky"
 #define MUT_MUTE	"Mute"
+#define CLWUNESCAPE		"Clwunescape"
 #define SMILE		"Smile"
 #define UNINTELLIGABLE		"Unintelligable"
 #define SWEDISH		"Swedish"
