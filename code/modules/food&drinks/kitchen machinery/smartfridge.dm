@@ -336,48 +336,6 @@
 	var/obj/item/device/slime_scanner/T = new /obj/item/device/slime_scanner(src)
 	load(T)
 
-// -------------------------------------
-// Kitchen Smartfridge
-// -------------------------------------
-/obj/machinery/smartfridge/kitchen
-	name = "harvest storage"
-	desc = "Holds and preserves organically grown biomasses. Otherwise known as plants."
-//All the required to make one of each pizza!pizza masterrace
-/obj/machinery/smartfridge/kitchen/New()
-	..()
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/tomato/A = new /obj/item/weapon/reagent_containers/food/snacks/grown/tomato(src, 50)
-	load(A)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/tomato/B = new /obj/item/weapon/reagent_containers/food/snacks/grown/tomato(src, 50)
-	load(B)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/tomato/C = new /obj/item/weapon/reagent_containers/food/snacks/grown/tomato(src, 50)
-	load(C)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris/D = new /obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris(src, 50)
-	load(D)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris/E = new /obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris(src, 50)
-	load(E)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris/F = new /obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris(src, 50)
-	load(F)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/eggplant/G = new /obj/item/weapon/reagent_containers/food/snacks/grown/eggplant(src, 50)
-	load(G)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/eggplant/H = new /obj/item/weapon/reagent_containers/food/snacks/grown/eggplant(src, 50)
-	load(H)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/carrot/I = new /obj/item/weapon/reagent_containers/food/snacks/grown/carrot(src, 50)
-	load(I)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/carrot/J = new /obj/item/weapon/reagent_containers/food/snacks/grown/carrot(src, 50)
-	load(J)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/corn/K = new /obj/item/weapon/reagent_containers/food/snacks/grown/corn(src, 50)
-	load(K)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/corn/L = new /obj/item/weapon/reagent_containers/food/snacks/grown/corn(src, 50)
-	load(L)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/apple/M = new /obj/item/weapon/reagent_containers/food/snacks/grown/apple(src, 50)
-	load(M)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/apple/N = new /obj/item/weapon/reagent_containers/food/snacks/grown/apple(src, 50)
-	load(N)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/wheat/O = new /obj/item/weapon/reagent_containers/food/snacks/grown/wheat(src, 50)
-	load(O)
-	var/obj/item/weapon/reagent_containers/food/snacks/grown/wheat/P = new /obj/item/weapon/reagent_containers/food/snacks/grown/wheat(src, 50)
-	load(P)
-
 // -----------------------------
 // Chemistry Medical Smartfridge
 // -----------------------------
