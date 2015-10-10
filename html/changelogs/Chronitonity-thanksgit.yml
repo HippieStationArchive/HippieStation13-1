@@ -1,0 +1,6 @@
+   author: Chronitonity		
+   		
+   delete-after: True		
+   		
+   changes: 		
+    - rscadd: "Allows Science Goggles to scan items to see their research capabilities."	  	
