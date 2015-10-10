@@ -97,6 +97,19 @@ var/list/uplink_items = list()
 //
 */
 
+// JOB-SPECIFIC ITEMS
+
+/*/datum/uplink_item/job_specific //No job-specific support for surplus yet.
+	category = "Job-specific Contraband"
+	surplus = 0
+
+/datum/uplink_item/job_specific/chainsaw
+	name = "Chainsaw"
+	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack."
+	item = /obj/item/weapon/twohanded/chainsaw
+	cost = 14
+	jobs = list("Botanist", "Bartender", "Chef")
+*/
 // DANGEROUS WEAPONS
 
 /datum/uplink_item/dangerous
