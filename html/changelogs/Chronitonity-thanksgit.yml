@@ -1,6 +1,0 @@
-   author: Chronitonity
-   
-   delete-after: True
-   
-   changes: 
-     - rscadd: "Science Goggles can now toggle "Scanning Mode", which allows them to see the research capabilities of items."
