@@ -32,8 +32,6 @@
 		if(!endtime)
 			src << "<span class='danger'>Datetime entered is invalid.</span>"
 			return
-		else
-	else
 	var/DBQuery/query_time_later = dbcon.NewQuery("SELECT DATE('[endtime]') < NOW()")
 	if(!query_time_later.Execute())
 		var/err = query_time_later.ErrorMsg()
@@ -44,8 +42,6 @@
 		if(checklate)
 			src << "<span class='danger'>Datetime entered is not later than current server time.</span>"
 			return
-		else
-	else
 	var/adminonly
 	switch(alert("Admin only poll?",,"Yes","No","Cancel"))
 		if("Yes")
