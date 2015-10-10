@@ -94,6 +94,11 @@
 	flash_protect = 1
 	tint = 1
 
+/obj/item/clothing/glasses/sunglasses/noir
+	name = "noir sunglasses"
+	desc = "Take a trip to 1941!"
+	color_view = list(0.299,0.299,0.299, 0.587,0.587,0.587, 0.114,0.114,0.114) //greyscale
+
 /obj/item/clothing/glasses/sunglasses/garb
 	desc = "Go beyond impossible and kick reason to the curb!"
 	name = "black gar glasses"
