@@ -1,9 +1,0 @@
- 
-author: TDcoolguy300
-
-delete-after: True
-
-changes: 
-  - rscdel: "Disabled flesh clothing for changlings"
-  - tweak: "Humans can now only be in Command positions, no ayyliens allowed."
-  - bugfix: "Changlings now get their Absorbee's species aswell"
