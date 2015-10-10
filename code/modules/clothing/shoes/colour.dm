@@ -81,20 +81,20 @@
 	icon_state = "orange"
 	item_color = "orange"
 
-/obj/item/clothing/shoes/sneakers/orange/attack_self(mob/user as mob)
+/obj/item/clothing/shoes/sneakers/orange/attack_self(mob/user)
 	if (src.chained)
 		src.chained = null
 		src.slowdown = SHOES_SLOWDOWN
-		new /obj/item/weapon/handcuffs( user.loc )
+		new /obj/item/weapon/restraints/handcuffs( user.loc )
 		src.icon_state = "orange"
 	return
 
-/obj/item/clothing/shoes/sneakers/orange/attackby(H as obj, loc)
+/obj/item/clothing/shoes/sneakers/orange/attackby(obj/H, loc, params)
 	..()
-	if ((istype(H, /obj/item/weapon/handcuffs) && !( src.chained )))
+	if ((istype(H, /obj/item/weapon/restraints/handcuffs) && !( src.chained )))
 		//H = null
 		if (src.icon_state != "orange") return
-		if(istype(H, /obj/item/weapon/handcuffs/cable))
+		if(istype(H, /obj/item/weapon/restraints/handcuffs/cable))
 			return 0
 		qdel(H)
 		src.chained = 1
@@ -106,6 +106,6 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/C = user
 		if(C.shoes == src && src.chained == 1)
-			user << "<span class='notice'>You need help taking these off!</span>"
+			user << "<span class='warning'>You need help taking these off!</span>"
 			return
 	..()

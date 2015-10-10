@@ -63,7 +63,7 @@
 	var/obj/screen/alert/path_as_obj = text2path("/obj/screen/alert/[id]")
 	// BYOND magic-fu - we'll be storing a path in this reference and retrieving vars from it.
 	if(!path_as_obj)
-		ERROR("[src] threw alert [category] with invalid path /obj/screen/alert/[id]")
+		throw EXCEPTION("throw_alert(): Invalid screen alert path") //check for obj/screen/alert/[id]
 		return 0
 	alert.name = initial(path_as_obj.name)
 	alert.desc = initial(path_as_obj.desc)
@@ -98,17 +98,35 @@
 	desc = "Something seems to have gone wrong with this alert, so report this bug please"
 	var/timeout = 0 //If set to a number, this alert will clear itself after that many deciseconds
 
-//HUMANS
 
+//Gas alerts
 /obj/screen/alert/oxy
-	name = "Choking"
+	name = "Choking (No O2)"
 	desc = "You're not getting enough oxygen. Find some good air before you pass out! \
 The box in your backpack has an oxygen tank and gas mask in it."
 
+/obj/screen/alert/too_much_oxy
+	name = "Choking (O2)"
+	desc = "There's too much oxygen in the air, and you're breathing it in! Find some good air before you pass out!"
+
+/obj/screen/alert/not_enough_co2
+	name = "Choking (No CO2)"
+	desc = "You're not getting enough carbon dioxide. Find some good air before you pass out!"
+
+/obj/screen/alert/too_much_co2
+	name = "Chocking (CO2)"
+	desc = "There's too much carbon dioxide in the air, and you're breathing it in! Find some good air before you pass out!"
+
+/obj/screen/alert/not_enough_tox
+	name = "Choking (No Plasma)"
+	desc = "You're not getting enough plasma. Find some good air before you pass out!"
+
 /obj/screen/alert/tox_in_air
-	name = "Toxic Gas"
+	name = "Choking (Plasma)"
 	desc = "There's highly flammable, toxic plasma in the air and you're breathing it in. Find some fresh air. \
 The box in your backpack has an oxygen tank and gas mask in it."
+//End gas alerts
+
 
 /obj/screen/alert/fat
 	name = "Fat"
@@ -210,6 +228,13 @@ office by your AI master or any qualified human may resolve this matter. Robotic
 so as to remain in compliance with the most up-to-date laws."
 	timeout = 300
 
+//MECHS
+
+/obj/screen/alert/low_mech_integrity
+	name = "Mech Damaged"
+	desc = "Mech integrity is low."
+
+
 //OBJECT-BASED
 
 /obj/screen/alert/buckled
@@ -265,6 +290,4 @@ so as to remain in compliance with the most up-to-date laws."
 		return usr.client.Click(master, location, control, params)
 
 /obj/screen/alert/Destroy()
-	..()
-	PlaceInPool(src)
-	return 1 // Don't destroy me, I have a family!
+	return QDEL_HINT_PUTINPOOL //Don't destroy me, I have a family!

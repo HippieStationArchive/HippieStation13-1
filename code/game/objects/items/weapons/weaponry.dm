@@ -5,7 +5,7 @@
 	icon_state = "toyhammer"
 	slot_flags = SLOT_BELT
 	throwforce = 0
-	w_class = 1.0
+	w_class = 1
 	throw_speed = 3
 	throw_range = 7
 	attack_verb = list("banned")
@@ -16,23 +16,9 @@
 
 /obj/item/weapon/banhammer/attack(mob/M, mob/user)
 	M << "<font color='red'><b> You have been banned FOR NO REISIN by [user]<b></font>"
-	user << "<font color='red'> You have <b>BANNED</b> [M]</font>"
+	user << "<font color='red'>You have <b>BANNED</b> [M]</font>"
 	playsound(loc, 'sound/effects/adminhelp.ogg', 15) //keep it at 15% volume so people don't jump out of their skin too much
 
-/obj/item/weapon/throwingknife
-	name = "Throwing knife"
-	desc = "Take it to partys , have a drink with it , stab the clown to death!"
-	icon_state = "throwingknife"
-	item_state = "throwingknife"
-	force = 3.0
-	stun_on_hit = 3 //new variable , ill explain in the pull request.
-	throw_range = 10
-	throwforce = 15//debuffs to the same as a null rod
-	slot_flags = SLOT_BELT | SLOT_POCKET
-	bleedcap = 0
-	bleedchance = 50
-	embedchance = 70
-	w_class = 1
 
 /obj/item/weapon/nullrod
 	name = "null rod"
@@ -73,9 +59,8 @@
 	item_state = "claymore"
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	flags = CONDUCT
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_BELT | SLOT_BACK
 	force = 40
-	embedchance = 30
 	throwforce = 10
 	w_class = 3
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
@@ -95,7 +80,6 @@
 	flags = CONDUCT
 	slot_flags = SLOT_BELT | SLOT_BACK
 	force = 40
-	embedchance = 30
 	throwforce = 10
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -111,7 +95,7 @@
 /obj/item/weapon/katana/IsShield()
 		return 1
 
-obj/item/weapon/wirerod
+/obj/item/weapon/wirerod
 	name = "wired rod"
 	desc = "A rod with some wire wrapped around the top. It'd be easy to attach something to the top bit."
 	icon_state = "wiredrod"
@@ -120,16 +104,17 @@ obj/item/weapon/wirerod
 	force = 9
 	throwforce = 10
 	w_class = 3
-	m_amt = 1875
+	materials = list(MAT_METAL=1000)
 	attack_verb = list("hit", "bludgeoned", "whacked", "bonked")
 
-obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
+/obj/item/weapon/wirerod/attackby(obj/item/I, mob/user, params)
 	..()
 	if(istype(I, /obj/item/weapon/shard))
 		var/obj/item/weapon/twohanded/spear/S = new /obj/item/weapon/twohanded/spear
 
+		if(!remove_item_from_storage(user))
+			user.unEquip(src)
 		user.unEquip(I)
-		user.unEquip(src)
 
 		user.put_in_hands(S)
 		user << "<span class='notice'>You fasten the glass shard to the top of the rod with the cable.</span>"
@@ -139,98 +124,153 @@ obj/item/weapon/wirerod/attackby(var/obj/item/I, mob/user as mob)
 	else if(istype(I, /obj/item/weapon/wirecutters))
 		var/obj/item/weapon/melee/baton/cattleprod/P = new /obj/item/weapon/melee/baton/cattleprod
 
+		if(!remove_item_from_storage(user))
+			user.unEquip(src)
 		user.unEquip(I)
-		user.unEquip(src)
 
 		user.put_in_hands(P)
 		user << "<span class='notice'>You fasten the wirecutters to the top of the rod with the cable, prongs outward.</span>"
 		qdel(I)
 		qdel(src)
 
-/obj/item/weapon/shank
-	name = "shank"
-	desc = "A nasty looking shard of glass. There's duct tape over one of the ends."
-	icon = 'icons/obj/weapons.dmi'
-	icon_state = "shank"
-	w_class = 2.0
-	force = 10.0 //Average force
-	throwforce = 10.0
-	item_state = "shard-glass"
-	g_amt = MINERAL_MATERIAL_AMOUNT
-	attack_verb = list("stabbed", "shanked", "sliced", "cut")
-	hitsound = 'sound/weapons/bladeslice.ogg'
-	insulated = 1 //For electrified grilles
-	bleedcap = 5 //Lower bleedcap - the actual fucking reason to use shanks.
-	bleedchance = 25 //Robust bleedchance - it's a shank, do you expect anything less?
-	embedchance = 10 //Slight chance to embed when thrown. Less than normal shards for obvious reasons.
 
-/obj/item/weapon/shank/suicide_act(mob/user)
-	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the shank! It looks like \he's trying to commit suicide.</span>", \
-						"<span class='suicide'>[user] is slitting \his throat with the shank! It looks like \he's trying to commit suicide.</span>"))
-	return (BRUTELOSS)
+/obj/item/weapon/throwing_star
+	name = "throwing star"
+	desc = "An ancient weapon still used to this day due to it's ease of lodging itself into victim's body parts"
+	icon_state = "throwingstar"
+	item_state = "eshield0"
+	force = 2
+	throwforce = 20 //This is never used on mobs since this has a 100% embed chance.
+	throw_speed = 4
+	embedded_pain_multiplier = 4
+	w_class = 2
+	embed_chance = 100
+	embedded_fall_chance = 0 //Hahaha!
+	sharpness = IS_SHARP
 
-/obj/item/weapon/shank/attack_self(mob/user)
-	playsound(user, 'sound/items/ducttape2.ogg', 50, 1)
-	var/obj/item/weapon/shard/new_item = new(user.loc)
-	user << "<span class='notice'>You take the duct tape off the [src].</span>"
-	qdel(src)
-	user.put_in_hands(new_item)
+//5*(2*4) = 5*8 = 45, 45 damage if you hit one person with all 5 stars.
+//Not counting the damage it will do while embedded (2*4 = 8, at 15% chance)
+/obj/item/weapon/storage/box/throwing_stars/New()
+	..()
+	contents = list()
+	new /obj/item/weapon/throwing_star(src)
+	new /obj/item/weapon/throwing_star(src)
+	new /obj/item/weapon/throwing_star(src)
+	new /obj/item/weapon/throwing_star(src)
+	new /obj/item/weapon/throwing_star(src)
 
-/obj/item/weapon/broken_bottle //Moved it here from food&drinks
-	name = "Broken Bottle"
-	desc = "A bottle with a sharp broken bottom."
-	icon = 'icons/obj/drinks.dmi'
-	icon_state = "broken_bottle"
-	force = 10.0
-	throwforce = 5.0
-	throw_speed = 3
-	throw_range = 5
-	item_state = "beer"
-	hitsound = 'sound/weapons/bladeslice.ogg'
-	attack_verb = list("stabbed", "slashed", "attacked")
-	insulated = 1
-	bleedcap = 10 //Bleedchance on second hit
-	bleedchance = 20 //Slightly worse than shanks
-	var/icon/broken_outline = icon('icons/obj/drinks.dmi', "broken")
 
-/obj/item/weapon/broken_bottle/suicide_act(mob/user)
-	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the [src]! It looks like \he's trying to commit suicide.</span>", \
-						"<span class='suicide'>[user] is slitting \his throat with the [src]! It looks like \he's trying to commit suicide.</span>"))
-	return (BRUTELOSS)
 
-/obj/item/weapon/hatchet
-	name = "hatchet"
-	desc = "A very sharp axe blade upon a short fibremetal handle. It has a long history of chopping things, but now it is used for chopping wood."
-	icon = 'icons/obj/weapons.dmi'
-	icon_state = "hatchet"
+/obj/item/weapon/switchblade
+	name = "switchblade"
+	icon_state = "switchblade"
+	desc = "A sharp, concealable, spring-loaded knife."
 	flags = CONDUCT
-	force = 12.0
-	w_class = 1.0
-	throwforce = 15.0
+	force = 15
+	w_class = 2
+	throwforce = 15
+	throw_speed = 3
+	throw_range = 6
+	materials = list(MAT_METAL=12000)
+	origin_tech = "materials=1"
+	hitsound = 'sound/weapons/Genhit.ogg'
+	attack_verb = list("stubbed", "poked")
+	var/extended
+
+/obj/item/weapon/switchblade/attack_self(mob/user)
+	extended = !extended
+	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
+	if(extended)
+		force = 20
+		w_class = 3
+		throwforce = 15
+		icon_state = "switchblade_ext"
+		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+		hitsound = 'sound/weapons/bladeslice.ogg'
+	else
+		force = 1
+		w_class = 2
+		throwforce = 5
+		icon_state = "switchblade"
+		attack_verb = list("stubbed", "poked")
+		hitsound = 'sound/weapons/Genhit.ogg'
+
+/obj/item/weapon/switchblade/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)
+
+/obj/item/weapon/phone
+	name = "red phone"
+	desc = "Should anything ever go wrong..."
+	icon = 'icons/obj/items.dmi'
+	icon_state = "red_phone"
+	force = 3
+	throwforce = 2
 	throw_speed = 3
 	throw_range = 4
-	embedchance = 35 //Great embed chance
-	bleedcap = 10
-	bleedchance = 25
-	m_amt = 15000
-	origin_tech = "materials=2;combat=1"
-	attack_verb = list("chopped", "torn", "cut")
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	w_class = 2
+	attack_verb = list("called", "rang")
+	hitsound = 'sound/weapons/ring.ogg'
 
-/obj/item/weapon/scythe
-	icon_state = "scythe0"
-	name = "scythe"
-	desc = "A sharp and curved blade on a long fibremetal handle, this tool makes it easy to reap what you sow."
-	force = 13.0
-	throwforce = 5.0
+/obj/item/weapon/phone/suicide_act(mob/user)
+	if(locate(/obj/structure/stool) in user.loc)
+		user.visible_message("<span class='notice'>[user] begins to tie a noose with the [src.name]'s cord! It looks like \he's trying to commit suicide.</span>")
+	else
+		user.visible_message("<span class='notice'>[user] is strangling \himself with the [src.name]'s cord! It looks like \he's trying to commit suicide.</span>")
+	return(OXYLOSS)
+
+/obj/item/weapon/cane
+	name = "cane"
+	desc = "A cane used by a true gentlemen. Or a clown."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "cane"
+	item_state = "stick"
+	force = 5
+	throwforce = 5
+	w_class = 2
+	materials = list(MAT_METAL=50)
+	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
+
+/obj/item/weapon/staff
+	name = "wizards staff"
+	desc = "Apparently a staff used by the wizard."
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "staff"
+	force = 3
+	throwforce = 5
 	throw_speed = 2
-	throw_range = 3
-	embedchance = 15 //relatively low
-	bleedcap = 0
-	bleedchance = 25
-	w_class = 4.0
-	flags = CONDUCT | NOSHIELD
-	slot_flags = SLOT_BACK
-	origin_tech = "materials=2;combat=2"
-	attack_verb = list("chopped", "sliced", "cut", "reaped")
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	throw_range = 5
+	w_class = 2
+	flags = NOSHIELD
+	attack_verb = list("bludgeoned", "whacked", "disciplined")
+	burn_state = 0 //Burnable
+
+/obj/item/weapon/staff/broom
+	name = "broom"
+	desc = "Used for sweeping, and flying into the night while cackling. Black cat not included."
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "broom"
+
+/obj/item/weapon/staff/stick
+	name = "stick"
+	desc = "A great tool to drag someone else's drinks across the bar."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "stick"
+	item_state = "stick"
+	force = 3
+	throwforce = 5
+	throw_speed = 2
+	throw_range = 5
+	w_class = 2
+	flags = NOSHIELD
+
+/obj/item/weapon/ectoplasm
+	name = "ectoplasm"
+	desc = "spooky"
+	gender = PLURAL
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "ectoplasm"
+
+/obj/item/weapon/ectoplasm/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is inhaling the [src.name]! It looks like \he's trying to visit the astral plane.</span>")
+	return (OXYLOSS)

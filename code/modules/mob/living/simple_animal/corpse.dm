@@ -110,7 +110,7 @@
 	corpsemask = /obj/item/clothing/mask/gas/syndicate
 	corpsehelmet = /obj/item/clothing/head/helmet/space/hardsuit/syndi
 	corpseback = /obj/item/weapon/tank/jetpack/oxygen
-	corpsepocket1 = /obj/item/weapon/tank/emergency_oxygen
+	corpsepocket1 = /obj/item/weapon/tank/internals/emergency_oxygen
 	corpseid = 1
 	corpseidjob = "Operative"
 	corpseidaccess = "Syndicate"
@@ -155,17 +155,3 @@
 
 /obj/effect/landmark/mobcorpse/russian/ranged
 	corpsehelmet = /obj/item/clothing/head/ushanka
-
-
-/obj/effect/landmark/mobcorpse/russian/ranged/spetsnaz
-	name = "Russian Spetsnaz"
-	corpseuniform = /obj/item/clothing/under/soviet/gorka
-	corpseshoes = /obj/item/clothing/shoes/combat/camo
-	corpsehelmet = /obj/item/clothing/head/helmet/soviethelmet
-	corpsemask = /obj/item/clothing/mask/gas
-	corpseback = /obj/item/weapon/storage/backpack/mountainbag
-	corpsepocket1 = /obj/item/ammo_box/magazine/ak922
-	corpsesuit = /obj/item/clothing/suit/armor/defender
-	corpsegloves = /obj/item/clothing/gloves/combat
-	corpsebelt = /obj/item/weapon/melee/combatknife
-	corpseglasses = /obj/item/clothing/glasses/night

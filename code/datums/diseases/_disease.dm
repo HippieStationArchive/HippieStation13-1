@@ -97,7 +97,7 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 			break //One missing cure is enough to fail
 
 
-/datum/disease/proc/spread(var/atom/source, var/force_spread = 0)
+/datum/disease/proc/spread(atom/source, force_spread = 0)
 	if((spread_flags & SPECIAL || spread_flags & NON_CONTAGIOUS || spread_flags & BLOOD) && !force_spread)
 		return
 
@@ -122,13 +122,13 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 	if(isturf(source.loc))
 		for(var/mob/living/carbon/C in oview(spread_range, source))
 			if(isturf(C.loc))
-				if(AStar(source.loc, C.loc, /turf/proc/AdjacentTurfs, /turf/proc/Distance, spread_range))
+				if(AStar(source.loc, C.loc, null, /turf/proc/Distance, spread_range))
 					C.ContractDisease(src)
 
 
-/datum/disease/proc/process()
+/datum/disease/process()
 	if(!holder)
-		active_diseases -= src
+		SSdisease.processing -= src
 		return
 
 	if(prob(infectivity))
@@ -138,7 +138,7 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 		for(var/datum/disease/D in affected_mob.viruses)
 			if(D != src)
 				if(IsSame(D))
-					del(D)
+					qdel(D)
 
 		if(holder == affected_mob)
 			if(affected_mob.stat != DEAD)
@@ -156,7 +156,7 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 			if(!(type in affected_mob.resistances))
 				affected_mob.resistances += type
 				remove_virus()
-	del(src)
+	qdel(src)
 
 
 /datum/disease/New()
@@ -169,17 +169,19 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 						cure()
 						return
 
-	active_diseases += src
+	SSdisease.processing += src
 
 
-/datum/disease/proc/IsSame(var/datum/disease/D)
+/datum/disease/proc/IsSame(datum/disease/D)
 	if(istype(src, D.type))
 		return 1
 	return 0
 
 
 /datum/disease/proc/Copy()
-	return new type()
+	var/datum/disease/D = new type()
+	D.strain_data = strain_data.Copy()
+	return D
 
 
 /datum/disease/proc/GetDiseaseID()
@@ -187,7 +189,7 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 
 
 /datum/disease/Del()
-	active_diseases.Remove(src)
+	SSdisease.processing.Remove(src)
 	..()
 
 
