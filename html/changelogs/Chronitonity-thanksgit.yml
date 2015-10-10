@@ -3,4 +3,4 @@
    delete-after: True
    
    changes: 
-     - rscadd: "Adds Cluwnescape mutation. Only possible to get through telecomms or other fuckery."
+     - rscadd: "Science Goggles can now toggle "Scanning Mode", which allows them to see the research capabilities of items."
