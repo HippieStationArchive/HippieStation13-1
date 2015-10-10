@@ -144,6 +144,67 @@
 
 /obj/structure/stool/bed/chair/office
 	anchored = 0
+	var/cooldown = 0
+
+/obj/structure/stool/bed/chair/office/relaymove(mob/user, direction)
+	if((!Process_Spacemove(direction)) || (!has_gravity(src.loc)) || (cooldown) || user.stat || user.stunned || user.weakened || user.paralysis || (user.restrained()))
+		return
+	step(src, direction)
+	if(buckled_mob)
+		buckled_mob.dir = dir
+		switch(buckled_mob.dir)
+			if(NORTH)
+				buckled_mob.dir = SOUTH
+			if(WEST)
+				buckled_mob.dir = EAST
+			if(SOUTH)
+				buckled_mob.dir = NORTH
+			if(EAST)
+				buckled_mob.dir = WEST
+		dir = buckled_mob.dir
+	handle_rotation()
+	handle_layer()
+	cooldown = 1
+	spawn(10)
+		cooldown = 0
+
+	//Wheelchair
+
+/obj/structure/stool/bed/chair/wheelchair
+	name = "wheelchair"
+	desc = "Chances are you don't really need this."
+	icon_state = "wheelchair"
+	anchored = 0
+	var/cooldown = 0
+
+/obj/structure/stool/bed/chair/wheelchair/handle_rotation()
+	overlays = null
+	var/image/O = image(icon = 'icons/obj/objects.dmi', icon_state = "wheelchair_overlay", layer = FLY_LAYER, dir = src.dir)
+	overlays += O
+	if(buckled_mob)
+		buckled_mob.dir = dir
+
+/obj/structure/stool/bed/chair/wheelchair/relaymove(mob/user, direction)
+	if((!Process_Spacemove(direction)) || (!has_gravity(src.loc)) || (cooldown) || user.stat || user.stunned || user.weakened || user.paralysis || (user.restrained()))
+		return
+	step(src, direction)
+	if(buckled_mob)
+		buckled_mob.dir = dir
+		switch(buckled_mob.dir)		//Changing all the below dirs is probably totally unneccessary but hell if I know.
+			if(NORTH)
+				buckled_mob.dir = NORTH
+			if(WEST)
+				buckled_mob.dir = WEST
+			if(SOUTH)
+				buckled_mob.dir = SOUTH
+			if(EAST)
+				buckled_mob.dir = EAST
+		dir = buckled_mob.dir
+	handle_rotation()
+	handle_layer()
+	cooldown = 1
+	spawn(4)
+		cooldown = 0
 
 /obj/structure/stool/bed/chair/office/light
 	icon_state = "officechair_white"
