@@ -99,7 +99,7 @@ var/list/uplink_items = list()
 
 // JOB-SPECIFIC ITEMS
 
-/datum/uplink_item/job_specific //No job-specific support for surplus yet.
+/*/datum/uplink_item/job_specific //No job-specific support for surplus yet.
 	category = "Job-specific Contraband"
 	surplus = 0
 
@@ -109,7 +109,7 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/twohanded/chainsaw
 	cost = 14
 	jobs = list("Botanist", "Bartender", "Chef")
-
+*/
 // DANGEROUS WEAPONS
 
 /datum/uplink_item/dangerous
