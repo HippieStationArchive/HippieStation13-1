@@ -1,0 +1,6 @@
+   author: Chronitonity
+   
+   delete-after: True
+   
+   changes: 
+     - tweak: "Slipping now does 5 damage instead of 2, but damage is no longer spread across every limb."
