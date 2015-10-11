@@ -63,7 +63,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	mutant_bodyparts = list("tail_lizard", "snout", "spines", "horns", "frills", "body_markings")
 	default_features = list("mcolor" = "0F0", "tail" = "Smooth", "snout" = "Round", "horns" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None")
 	attack_verb = "slash"
-	attack_sound = 'sound/weapons/slash.ogg'
+	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
 
@@ -105,7 +105,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	roundstart = 1
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
 	attack_verb = "claws"
-	attack_sound = 'sound/effects/claw.ogg'
+	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
 
@@ -124,7 +124,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	roundstart = 1
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
 	attack_verb = "slash"
-	attack_sound = 'sound/effects/claw.ogg'
+	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
 	mutations_to_have = list(CLUMSY)
@@ -154,8 +154,8 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	roundstart = 1
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS,HAIR)
 	attack_verb = "punch"
-	attack_sound = 'sound/weapons/slash.ogg'
-	miss_sound = 'sound/weapons/slashmiss.ogg'
+	attack_sound = 'sound/weapons/smash.ogg'
+	miss_sound = 'sound/weapons/punchmiss.ogg'
 	meat = null
 
 /datum/species/bot/qualifies_for_rank(rank, list/features)
