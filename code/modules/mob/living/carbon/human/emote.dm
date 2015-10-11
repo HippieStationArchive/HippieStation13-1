@@ -176,6 +176,7 @@
 					if(prob(33))
 						O.loc = get_turf(src)
 						B.contents -= O
+						B.stored -= O.itemstorevalue
 				else
 					playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
 				sleep(1)
