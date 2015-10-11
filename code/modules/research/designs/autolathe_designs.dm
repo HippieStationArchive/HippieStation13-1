@@ -441,7 +441,7 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 500)
 	build_path = /obj/item/weapon/flamethrower/full
-	category = list("hacked", "Weapons and ammo")
+	category = list("hacked", "Misc")
 
 /datum/design/rcd
 	name = "Rapid construction device (RCD)"
@@ -513,6 +513,14 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 4000)
 	build_path = /obj/item/ammo_casing/shotgun/incendiary
+	category = list("hacked", "Security")
+
+/datum/design/buttlaunch
+	name = "Butt Launcher frame"
+	id = "buttlaunch"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 5000)
+	build_path = /obj/item/weapon/buttlaunch1
 	category = list("hacked", "Security")
 
 /datum/design/a357
