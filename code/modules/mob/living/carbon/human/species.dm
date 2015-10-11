@@ -1008,22 +1008,24 @@
 			var/obj/item/organ/internal/butt/B = H.getorgan(/obj/item/organ/internal/butt)
 			if(B)
 				if(!H.w_uniform)
-					if(B.contents.len == 1)
-						if(H == user)
-							user << "<span class='warning'>Your butt is full!</span>"
-						else
-							user << "<span class='warning'>[H]'s butt is full!</span>"
-						return 0
-					else
-						if(I.w_class < 3.0)
+					var/buttspace = B.capacity - B.stored
+					if(!I.itemstorevalue)
+						switch(I.w_class)
+							if(1) I.itemstorevalue += 1 // tiny
+							if(2) I.itemstorevalue += 2 // small
+							if(3) I.itemstorevalue += 4 // normal
+							else I.itemstorevalue = -1 // too big
+					if(I.itemstorevalue != -1)//if the item is not too big
+						if(B.stored < B.capacity && I.itemstorevalue <= buttspace) // if the butt can still hold an item
 							if(H == user)
 								user.visible_message("<span class='warning'>[user] starts hiding [I] inside his own butt...</span>", "<span class='warning'>You start hiding [I] inside your own butt...</span>")
 							else
 								user.visible_message("<span class='warning'>[user] starts hiding [I] inside [H]'s butt...</span>", "<span class='warning'>You start hiding [I] inside [H]'s butt...</span>")
-							if(do_mob(user, B, 30))
+							if(do_mob(user, H, 30))
 								user.drop_item()
 								B.contents += I
 								I.add_blood(H)
+								B.stored += I.itemstorevalue
 								if(H == user)
 									user.visible_message("<span class='warning'>[user] hides [I] inside his own butt.</span>", "<span class='warning'>You hide [I] inside your own butt.</span>")
 								else
@@ -1037,10 +1039,16 @@
 								return 0
 						else
 							if(H == user)
-								user << "<span class='warning'>This item is too big to fit in your butt!</span>"
+								user << "<span class='warning'>Your butt is full!</span>"
 							else
-								user << "<span class='warning'>This item is too big to fit in [H]'s butt!</span>"
+								user << "<span class='warning'>[H]'s butt is full!</span>"
 							return 0
+					else
+						if(H == user)
+							user << "<span class='warning'>This item is too big to fit in your butt!</span>"
+						else
+							user << "<span class='warning'>This item is too big to fit in [H]'s butt!</span>"
+						return 0
 				else
 					if(H == user)
 						user << "<span class='warning'>You'll need to remove your jumpsuit first.</span>"
