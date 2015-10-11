@@ -3,4 +3,4 @@
    delete-after: True
    
    changes: 
-     - tweak: "Slipping now does 5 damage instead of 2, but damage is no longer spread across every limb."
+     - tweak: "Slipping damage is now directed all into one limb, instead of being spread across the body."
