@@ -1346,3 +1346,16 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/tea/astra/add_juice()
 	..()
 	reagents.add_reagent("salglu_solution", 1 + round((potency / 20), 1))
+
+/obj/item/weapon/reagent_containers/food/snacks/grown/buttflower
+	seed = /obj/item/seeds/buttseed
+	name = "buttflower"
+	desc = "Gives off a pungent aroma once it blooms."
+	icon_state = "buttflower" //coder spriting ftw
+	trash = /obj/item/organ/internal/butt
+
+/obj/item/weapon/reagent_containers/food/snacks/grown/buttflower/add_juice()
+	if(..())
+		reagents.add_reagent("fartium", 1 + round((potency / 10), 1))
+		bitesize = 1 + round(reagents.total_volume / 2, 1)
+

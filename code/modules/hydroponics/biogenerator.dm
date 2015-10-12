@@ -152,6 +152,7 @@
 			dat += "Robust Harvest: <A href='?src=\ref[src];create=rh;amount=1'>Make</A><A href='?src=\ref[src];create=rh;amount=5'>x5</A> ([25/efficiency])<BR>"
 			dat += "Weed Killer: <A href='?src=\ref[src];create=wk;amount=1'>Make</A><A href='?src=\ref[src];create=wk;amount=5'>x5</A> ([50/efficiency])<BR>"
 			dat += "Pest Killer: <A href='?src=\ref[src];create=pk;amount=1'>Make</A><A href='?src=\ref[src];create=pk;amount=5'>x5</A> ([50/efficiency])<BR>"
+			dat += "Unstable Mutagen: <A href='?src=\ref[src];create=mut;amount=1'>Make</A><A href='?src=\ref[src];create=mut;amount=5'>x5</A> ([200/efficiency])<BR>"
 			dat += "</div>"
 			dat += "<h3>Leather and Cloth:</h3>"
 			dat += "<div class='statusDisplay'>"
@@ -263,6 +264,9 @@
 		if("pk")
 			if (check_cost(50/efficiency)) return 0
 			else new/obj/item/weapon/reagent_containers/glass/bottle/pestkiller(src.loc)
+		if("mut")
+			if (check_cost(200/efficiency)) return 0
+			else new/obj/item/weapon/reagent_containers/glass/bottle/mutagen(src.loc)
 		if("wallet")
 			if (check_cost(100/efficiency)) return 0
 			else new/obj/item/weapon/storage/wallet(src.loc)
