@@ -1,0 +1,6 @@
+   author: Nalar
+   
+   delete-after: True
+   
+   changes: 
+     - rscadd: "Admins with +permissions can now create server polls."

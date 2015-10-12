@@ -1,0 +1,7 @@
+   author: Chronitonity
+   
+   delete-after: True
+   
+   changes: 
+     - tweak: "Wizard Spell Books now have 10 points to spend on spells."
+     - tweak: "Most spells cost 2 points, underused spells cost 1 point, some powerful spells cost 3."
