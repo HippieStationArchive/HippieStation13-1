@@ -401,6 +401,16 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
 	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,PIERCEIMMUNE)
+
+/datum/species/skeleton/playable
+	// 2spooky
+	name = "Spooky Scary Skeleton"
+	id = "skeleton"
+	say_mod = "rattles"
+	roundstart = 1
+	sexes = 0
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
+	specflags = list(MUTCOLORS,EYECOLOR)
 /*
  ZOMBIES
 */
