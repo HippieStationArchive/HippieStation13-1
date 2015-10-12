@@ -1,0 +1,18 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - rscadd: "Ass update 3.0!Now each type of butt has a capacity. Normal butt capacity is 2, xeno is 3, bluespace is 4."
+  - rscadd: "Tiny items value is 1, small is 2, normal is 4. Do math and see how many can fit!"
+  - rscadd: "Butt of Holding!Those butts can hold 1 normal item OR 2 small items OR 4 tiny items, or 2 tiny items and one small etc."
+  - rscadd: "Butt launchers!You can get a frame from an autolathe, attach a mousetrap to it,screw it and add a wrench. Shoot butts!"
+  - rscadd: "Butt seeds!3 start in the seed vendor, once planted and harvested you get..."
+  - rscadd: "Butt flowers!Grow butts through botany, get a butt flower filled with Fartium, get a fresh new butt!"
+  - rscadd: "Fartium!Do not get an addiction of this or you're in deep shit.Only way to get it currently is through buttflowers."
+  - rscadd: "You can now make unstable mutagen bottles through the biogenerator."
+  - rscadd: "Butts now make a fart sound when thrown."
+  - bugfix: "Superfarting now makes the old pre-port sound."
+  - bugfix: "Staples can now be built with rods in a 5:1 ratio."
+  - bugfix: "You can now properly make flamethrower chassis in autolathe."
+  - bugfix: "Fixed an issue where progress bars wouldn't show up while inserting items in a butt."

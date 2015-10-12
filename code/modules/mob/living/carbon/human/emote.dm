@@ -176,17 +176,18 @@
 					if(prob(33))
 						O.loc = get_turf(src)
 						B.contents -= O
+						B.stored -= O.itemstorevalue
 				else
 					playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
 				sleep(1)
 				if(lose_butt)
-					if(B.contents.len)
-						var/obj/item/O = pick(B.contents)
+					for(var/obj/item/O in B.contents)
 						O.loc = get_turf(src)
 						B.contents -= O
+						B.stored -= O.itemstorevalue
 					src.internal_organs -= B
 					src.contents -= B
-					new /obj/item/organ/internal/butt(src.loc)
+					B.loc = get_turf(src)
 					new /obj/effect/decal/cleanable/blood(src.loc)
 					src.nutrition -= rand(15, 30)
 					visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
@@ -468,39 +469,42 @@
 						L.layer = 16
 						L.start()
 						playsound(Y,'sound/effects/thunder.ogg', 90, 1)
-
 						spawn(10)
 							src.gib()
 						break //This is to prevent multi-gibbening
 				sleep(4)
+				for(var/i = 1, i <= 10, i++)
+					playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
+					sleep(1)
 				playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5)
 				if(B.contents.len)
-					var/obj/item/O = pick(B.contents)
-					O.assthrown = 1
-					O.loc = get_turf(src)
-					B.contents -= O
-					var/turf/target = get_turf(O.loc)
-					var/range = 7
-					var/turf/new_turf
-					var/new_dir
-					switch(dir)
-						if(1)
-							new_dir = 2
-						if(2)
-							new_dir = 1
-						if(4)
-							new_dir = 8
-						if(8)
-							new_dir = 4
-					for(var/i = 1; i < range; i++)
-						new_turf = get_step(target, new_dir)
-						target = new_turf
-						if(new_turf.density)
-							break
-					O.throw_at(target,range,O.throw_speed,src)
-					O.assthrown = 0 // so you can't just unembed it and throw it for insta embeds
+					for(var/obj/item/O in B.contents)
+						O.assthrown = 1
+						O.loc = get_turf(src)
+						B.contents -= O
+						B.stored -= O.itemstorevalue
+						var/turf/target = get_turf(O.loc)
+						var/range = 7
+						var/turf/new_turf
+						var/new_dir
+						switch(dir)
+							if(1)
+								new_dir = 2
+							if(2)
+								new_dir = 1
+							if(4)
+								new_dir = 8
+							if(8)
+								new_dir = 4
+						for(var/i = 1; i < range; i++)
+							new_turf = get_step(target, new_dir)
+							target = new_turf
+							if(new_turf.density)
+								break
+						O.throw_at(target,range,O.throw_speed,src)
+						O.assthrown = 0 // so you can't just unembed it and throw it for insta embeds
 				src.internal_organs -= B
-				new /obj/item/organ/internal/butt(src.loc)
+				B.loc = get_turf(src)
 				new /obj/effect/decal/cleanable/blood(src.loc)
 				src.nutrition -= 500
 				switch(fart_type)
