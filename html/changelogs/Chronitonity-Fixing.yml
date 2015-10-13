@@ -3,9 +3,5 @@
    delete-after: True
    
    changes: 
-     - tweak: "Cloning pods tell completation percentage from examining now."
-     - bugfix: "You can now eat with the Riot Helmet Visor up."
-     - bugfix: "Tablecrafting will now tell you why it failed, and will allow you to use children types of objects to craft them."
-     - tweak: "Mobs can now attack barricades in an attempt to eat you."
-     - tweak: "You now need to butcher a morph to get items out of it. Everytime you butcher it 10 items drop out."
-
+     - tweak: "Blood Tomatoes give Type O- Blood, an easy way for you to farm the best blood type."
+     - bugfix: "Lye is actually creatable now."

@@ -42,8 +42,8 @@
 
 
 /obj/item/clothing/under/rank/chef
-	name = "cook's suit"
-	desc = "A suit which is given only to the most <b>hardcore</b> cooks in space."
+	name = "chef's suit"
+	desc = "A suit which is given only to the most <b>hardcore</b> chefs in space."
 	icon_state = "chef"
 	item_color = "chef"
 
