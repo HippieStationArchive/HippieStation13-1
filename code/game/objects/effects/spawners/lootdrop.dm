@@ -185,5 +185,5 @@
 				/obj/item/toy/foamblade = 10,
 				/obj/item/weapon/grown/bananapeel = 40,
 				/obj/item/weapon/grown/bananapeel/specialpeel = 5,
-				"" = 25
+				"" = 100
 				)
