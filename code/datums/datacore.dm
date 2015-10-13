@@ -336,7 +336,7 @@ var/record_id_num = 1001
 			clothes_s = icon('icons/mob/uniform.dmi', "chemistrywhite_s")
 			clothes_s.Blend(icon('icons/mob/feet.dmi', "white"), ICON_UNDERLAY)
 			clothes_s.Blend(icon('icons/mob/suit.dmi', "labcoat_chem"), ICON_OVERLAY)
-		if("Cook")
+		if("Chef")
 			clothes_s = icon('icons/mob/uniform.dmi', "chef_s")
 			clothes_s.Blend(icon('icons/mob/feet.dmi', "black"), ICON_UNDERLAY)
 			clothes_s.Blend(icon('icons/mob/suit.dmi', "chef"), ICON_OVERLAY)
