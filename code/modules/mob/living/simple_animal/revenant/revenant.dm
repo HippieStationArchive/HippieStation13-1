@@ -4,7 +4,7 @@
 //Admin-spawn or random event
 
 #define INVISIBILITY_REVENANT 30
-
+var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wrath", "Envy", "Pride", "Acedia", "Casper", "Lucifer")
 /mob/living/simple_animal/revenant
 	name = "revenant"
 	desc = "A malevolent spirit."
@@ -167,6 +167,10 @@
 /mob/living/simple_animal/revenant/New()
 	..()
 	spawn(5)
+		if(!(possibleRevenantNames.len)) possibleRevenantNames.Add("Lust", "Gluttony", "Greed", "Sloth", "Wrath", "Envy", "Pride", "Acedia", "Casper", "Lucifer") // to avoid cannot read null.len
+		var/newnameID = pick(possibleRevenantNames)
+		possibleRevenantNames.Remove(newnameID)
+		name = newnameID
 		if(src.mind)
 			src.mind.remove_all_antag()
 			src.mind.wipe_memory()
@@ -186,6 +190,8 @@
 			var/datum/objective/revenantFluff/objective2 = new
 			objective2.owner = src.mind
 			src.mind.objectives += objective2
+			src.mind.name = name
+			real_name = name
 			src << "<b>Objective #2</b>: [objective2.explanation_text]"
 			ticker.mode.traitors |= src.mind //Necessary for announcing
 		AddSpell(new /obj/effect/proc_holder/spell/targeted/revenant_transmit(null))
