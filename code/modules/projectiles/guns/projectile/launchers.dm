@@ -79,3 +79,97 @@
 		user << "<span class='notice'>You load [num_loaded] spear\s into \the [src].</span>"
 		update_icon()
 		chamber_round()
+
+/obj/item/weapon/gun/buttlauncher
+	name = "butt launcher"
+	desc = "For HONKing on an extreme level!"
+	icon = 'icons/obj/buttlauncher.dmi'
+	icon_state = "buttempty"
+	item_state = "riotgun"
+	w_class = 3.0
+	throw_speed = 2
+	throw_range = 7
+	force = 5.0
+	var/obj/item/organ/internal/butt/contained
+	var/screwdrivered
+	materials = list(MAT_METAL = 2000)
+
+/obj/item/weapon/gun/buttlauncher/examine(mob/user)
+	..()
+	user << "[(contained)? "The [src.name] has a butt loaded!" : "The [src.name] is empty."]."
+
+/obj/item/weapon/gun/buttlauncher/attackby(obj/item/I as obj, mob/user as mob, params)
+	if(istype(I,/obj/item/organ/internal/butt))
+		if(!contained)
+			user<<"<span class='notice'>You insert the butt into the [src.name].</span>"
+			contained = I
+			user.drop_item()
+			icon_state="buttfull"
+			I.loc = src
+		else
+			user<<"<span class='notice'>There is already a butt loaded into the [src.name]. </span>"
+	else
+		user<<"<span class='notice'>Only butts fit!</span class='notice'>"
+
+/obj/item/weapon/gun/buttlauncher/afterattack(obj/target, mob/user , flag)
+
+	if (istype(target, /obj/item/weapon/storage/backpack ))
+		return
+
+	else if (locate (/obj/structure/table, src.loc))
+		return
+
+	else if(target == user)
+		return
+
+	if(contained)
+		spawn(0) throw_butt(target,user)
+	else
+		user << "<span class='danger'>The [src.name] has no butts.</span>"
+
+/obj/item/weapon/gun/buttlauncher/proc/throw_butt(target,mob/user)
+	user.visible_message("<span class='danger'>[user] fires the [src.name]!</span>","<span class='userdanger'>You fire the [src.name]!</span>")
+	contained.loc = user.loc
+	contained.throw_at(target, 30, 4)//fly butts
+	contained = null
+	icon_state="buttempty"
+
+//construction
+/obj/item/weapon/buttlaunch1
+	name = "butt launcher frame"
+	desc = "The frame for a butt launcher"
+	icon = 'icons/obj/buttlauncher.dmi'
+	icon_state = "buttempty"
+	item_state = "riotgun"
+/obj/item/weapon/buttlaunch1/attackby(obj/item/I as obj, mob/user as mob, params)
+	if(istype(I,/obj/item/device/assembly/mousetrap))
+		var/obj/launch = new /obj/item/weapon/buttlaunch2
+		launch.loc = get_turf(user.loc)
+		user<<"<span class='notice'>You attach the mouse trap to the [src.name].</span>"
+		user.drop_item()
+		qdel(I)
+		qdel(src)
+/obj/item/weapon/buttlaunch2
+	name = "partially built butt launcher"
+	desc = "The frame for a butt launcher, it has a mousetrap hastily taped to it."
+	icon = 'icons/obj/buttlauncher.dmi'
+	icon_state = "buttempty"
+	item_state = "riotgun"
+	var/screwdrivered = 0
+/obj/item/weapon/buttlaunch2/attackby(obj/item/I as obj, mob/user as mob, params)
+	if(istype(I,/obj/item/weapon/screwdriver))
+		if(!screwdrivered)
+			user<<"<span class='notice'>You secure the mousetrap to the [src.name].</span>"
+			src.screwdrivered = 1
+		else
+			user<<"The screws won't go any tighter!"
+	if(istype(I,/obj/item/weapon/wrench))
+		if(screwdrivered)
+			user<<"<span class='notice'>You add the wrench to the assembly.</span>"
+			var/obj/launch = new /obj/item/weapon/gun/buttlauncher
+			launch.loc = get_turf(user.loc)
+			user.drop_item()
+			qdel(I)
+			qdel(src)
+		else
+			user<<"The mouse trap wobbles as you try to attach the wrench."

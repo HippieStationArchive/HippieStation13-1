@@ -114,6 +114,10 @@
 	name = "synthmeat"
 	desc = "A synthetic slab of meat."
 
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/meatproduct
+	name = "meat product"
+	desc = "A meatlike substance created by food chemists from... well...."
+
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/monkey
 	name = "monkey meat"
 
