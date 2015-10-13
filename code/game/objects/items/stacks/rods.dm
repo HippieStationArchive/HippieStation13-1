@@ -1,6 +1,7 @@
 var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	new/datum/stack_recipe("grille", /obj/structure/grille, 2, time = 10, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("table frame", /obj/structure/table_frame, 2, time = 10, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("staples", /obj/item/stack/staples, 1, 5, 10), \
 	)
 
 /obj/item/stack/rods

@@ -385,7 +385,9 @@ Class Procs:
 			var/obj/item/weapon/circuitboard/CB = locate(/obj/item/weapon/circuitboard) in component_parts
 			var/P
 			if(W.works_from_distance)
-				display_parts(user)
+				user << "<span class='notice'>Following parts detected in the machine:</span>"
+				for(var/var/obj/item/C in component_parts)
+					user << "<span class='notice'>   [C.name]</span>"
 			for(var/obj/item/weapon/stock_parts/A in component_parts)
 				for(var/D in CB.req_components)
 					if(ispath(A.type, D))
@@ -404,21 +406,13 @@ Class Procs:
 							break
 			RefreshParts()
 		else
-			display_parts(user)
+			user << "<span class='notice'>Following parts detected in the machine:</span>"
+			for(var/var/obj/item/C in component_parts)
+				user << "<span class='notice'>   [C.name]</span>"
 		if(shouldplaysound)
 			W.play_rped_sound()
 		return 1
 	return 0
-
-/obj/machinery/proc/display_parts(mob/user)
-	user << "<span class='notice'>Following parts detected in the machine:</span>"
-	for(var/obj/item/C in component_parts)
-		user << "<span class='notice'>\icon[C] [C.name]</span>"
-
-/obj/machinery/examine(mob/user)
-	..(user)
-	if(user.research_scanner && component_parts)
-		display_parts(user)
 
 //called on machinery construction (i.e from frame to machinery) but not on initialization
 /obj/machinery/proc/construction()
