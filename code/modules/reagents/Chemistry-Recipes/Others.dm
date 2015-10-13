@@ -405,3 +405,4 @@
 	id = "lye"
 	result = "lye"
 	required_reagents = list("sodium" = 1, "hydrogen" = 1, "oxygen" = 3)
+	result_amount = 3
