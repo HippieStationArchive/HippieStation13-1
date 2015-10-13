@@ -30,7 +30,7 @@ var/const/CIVILIAN			=(1<<2)
 var/const/HOP				=(1<<0)
 var/const/BARTENDER			=(1<<1)
 var/const/BOTANIST			=(1<<2)
-var/const/COOK				=(1<<3)
+var/const/CHEF				=(1<<3)
 var/const/JANITOR			=(1<<4)
 var/const/LIBRARIAN			=(1<<5)
 var/const/QUARTERMASTER		=(1<<6)
@@ -97,7 +97,7 @@ var/list/supply_positions = list(
 var/list/civilian_positions = list(
 	"Bartender",
 	"Botanist",
-	"Cook",
+	"Chef",
 	"Janitor",
 	"Librarian",
 	"Lawyer",
