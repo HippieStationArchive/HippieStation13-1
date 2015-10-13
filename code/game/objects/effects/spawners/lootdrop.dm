@@ -170,7 +170,7 @@
 				/obj/item/weapon/switchblade = 5,
 				/obj/item/weapon/tome = 1,
 				/obj/item/weapon/toy/xmas_cracker = 10,
-				/obj/item/weapon/veilrender/honkrender = 4,
+				/obj/item/weapon/veilrender/honkrender = 1,
 				/obj/item/ammo_box/foambox = 10,
 				/obj/item/areaeditor/permit = 5,
 				/obj/item/clothing/gloves/boxing = 20,
