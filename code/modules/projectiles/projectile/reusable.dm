@@ -31,9 +31,8 @@
 /obj/item/projectile/bullet/reusable/foam_dart
 	name = "foam dart"
 	desc = "I hope you're wearing eye protection."
-	damage = 0 // It's a damn toy.
-	damage_type = OXY
-	nodamage = 1
+	damage = 1 // It's a damn toy.
+	damage_type = STAMINA
 	icon = 'icons/obj/guns/toy.dmi'
 	icon_state = "foamdart"
 	ammo_type = /obj/item/ammo_casing/caseless/foam_dart
@@ -43,4 +42,4 @@
 	name = "riot foam dart"
 	icon_state = "foamdart_riot"
 	ammo_type = /obj/item/ammo_casing/caseless/foam_dart/riot
-	stamina = 25
+	damage = 25
