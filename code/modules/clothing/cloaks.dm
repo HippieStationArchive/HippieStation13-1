@@ -40,7 +40,7 @@
 	desc = "Worn by Sciencia, thaumaturges and researchers of the universe. Smells like plasma, napalm, and victory."
 	icon_state = "rdcloak"
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 10, bomb = 10, bio = 0, rad = 10)
-	burn_state - -1
+	burn_state = -1
 
 /obj/item/clothing/cloak/cap
 	name = "captain's cloak"
