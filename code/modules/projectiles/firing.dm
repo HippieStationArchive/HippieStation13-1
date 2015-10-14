@@ -38,6 +38,7 @@
 		if(target) //if the target is right on our location we go straight to bullet_act()
 			target.bullet_act(BB, BB.def_zone)
 		qdel(BB)
+		BB = null
 		return 1
 	BB.loc = get_turf(user)
 	BB.starting = get_turf(user)
