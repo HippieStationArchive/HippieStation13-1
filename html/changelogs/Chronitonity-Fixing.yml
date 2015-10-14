@@ -3,9 +3,8 @@
    delete-after: True
    
    changes: 
-     - tweak: "Cloning pods tell completation percentage from examining now."
-     - bugfix: "You can now eat with the Riot Helmet Visor up."
-     - bugfix: "Tablecrafting will now tell you why it failed, and will allow you to use children types of objects to craft them."
-     - tweak: "Mobs can now attack barricades in an attempt to eat you."
-     - tweak: "You now need to butcher a morph to get items out of it. Everytime you butcher it 10 items drop out."
+     - tweak: "Borg RCD's use less power now."
+     - bugfix: "Atmos firefighting helmets now block syringes and hair."
+     - bugfix: "The Recycler now gives you your plasma back."
+     - bugfix: "Lipstick is no longer always black on your mob."
 
