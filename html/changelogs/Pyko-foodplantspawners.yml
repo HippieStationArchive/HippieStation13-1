@@ -35,4 +35,3 @@ delete-after: True
 changes: 
   - rscadd: "Added random food spawners to kitchen desk/tables at bar."
   - rscadd: "Added 10x random plant spawner to kitchen-botany desk and garden"
-  - bugfix: "Moved some lamps and vents in dorms."
