@@ -1,7 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixes lockers not being able to be deconstructed with a welder while opened."
-  - bugfix: "Fixes monkeys not being able to ventcrawl due to internal organs counting as items."
