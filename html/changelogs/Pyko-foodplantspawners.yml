@@ -33,6 +33,8 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Added random food spawners to kitchen desk/tables at bar."
-  - rscadd: "Added 10x random plant spawner to kitchen-botany desk and garden"
+  - rscadd: "Added 5 random food spawners to kitchen desk/tables at bar."
+  - rsdel: "Removed Donut box from kitchen desk."
+  - rscadd: "Added 15x random plant spawner to kitchen-botany desk and 10x in garden"
+  - rsdel: "Removed static plants from garden and kitchen smarfridge."
   - bugfix: "Moved some lamps and vents in dorms."
