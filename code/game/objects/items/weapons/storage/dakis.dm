@@ -21,6 +21,7 @@
 		body_choice = input("Pick a body.") in list(
 
 		"Callie",
+		"Camille",
 		"Casca",
 		"Chaika",
 		"Elisabeth",
