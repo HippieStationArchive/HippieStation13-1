@@ -378,15 +378,6 @@
 	var/obj/item/weapon/reagent_containers/food/snacks/grown/wheat/P = new /obj/item/weapon/reagent_containers/food/snacks/grown/wheat(src, 50)
 	load(P)
 
-
-// -------------------------------------
-// Kitchen Smartfridge(empty)
-// -------------------------------------
-/obj/machinery/smartfridge/kitchenempty
-	name = "harvest storage"
-	desc = "Holds and preserves organically grown biomasses. Otherwise known as plants."
-
-	
 // -----------------------------
 // Chemistry Medical Smartfridge
 // -----------------------------
