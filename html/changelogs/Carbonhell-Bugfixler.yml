@@ -1,0 +1,8 @@
+author: Carbonhell
+
+delete-after: True
+
+
+changes: 
+  - bugfix: "Fixes closets not being deconstructable with a welder while opened."
+  - bugfix: "Fixes ventcrawling not working for monkeys due to internal organs counting as items."
