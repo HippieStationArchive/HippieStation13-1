@@ -36,3 +36,4 @@ changes:
   - rscadd: "Created random food and plant spawners."
   - tweak: "Replaced the static plants at garden with random ones."
   - rscadd: "One random food fresh out of microwave at kitchen."
+  - bugfix: "Fixed some lights and vents around dorms and theater."
