@@ -436,6 +436,11 @@ var/list/teleportlocs = list()
 	name = "Electrical Maintenance"
 	icon_state = "yellow"
 
+/area/maintenance/isomaint
+	name = "Isolation Maintenance"
+	icon_state = "yellow"
+
+
 //Hallway
 
 /area/hallway/primary/fore
@@ -840,6 +845,10 @@ var/list/teleportlocs = list()
 
 /area/security/prison
 	name = "\improper Prison Wing"
+	icon_state = "sec_prison"
+
+/area/security/isolation
+	name = "\improper High Risk Isolation"
 	icon_state = "sec_prison"
 
 /area/security/processing
