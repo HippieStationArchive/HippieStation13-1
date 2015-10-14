@@ -1112,8 +1112,10 @@
 						H.visible_message("<span class='danger'>[H] has been knocked unconscious!</span>", \
 										"<span class='userdanger'>[H] has been knocked unconscious!</span>")
 						H.apply_effect(20, PARALYZE, armor_block)
-					if(prob(I.force + ((100 - H.health)/2)) && H != user && I.damtype == BRUTE)
-						ticker.mode.remove_revolutionary(H.mind)
+					var/role = lowertext(user.mind.special_role)
+					if(role != "revolutionary" && role != "head revolutionary")
+						if(prob(I.force + ((100 - H.health)/2)) && H != user && I.damtype == BRUTE)
+							ticker.mode.remove_revolutionary(H.mind)
 
 				if(bloody)	//Apply blood
 					if(H.wear_mask)

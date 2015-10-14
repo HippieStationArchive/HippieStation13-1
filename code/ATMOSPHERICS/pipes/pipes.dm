@@ -100,3 +100,7 @@
 		if(NODE_I)
 			var/obj/machinery/atmospherics/N = NODE_I
 			N.update_icon()
+
+/obj/machinery/atmospherics/pipe/attack_hand(mob/user)
+	if(buckled_mob)
+		user_unbuckle_mob(user)
