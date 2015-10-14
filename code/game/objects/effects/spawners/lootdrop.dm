@@ -177,7 +177,6 @@
 				/obj/item/clothing/shoes/clown_shoes/banana_shoes = 5,
 				/obj/item/documents/syndicate/blue = 1,
 				/obj/item/documents/syndicate/red = 1,
-				/obj/item/drone_shell/syndrone = 1,
 				/obj/item/seeds/kudzuseed = 5,
 				/obj/item/toy/syndicateballoon = 1,
 				/obj/item/toy/crayon/rainbow = 40,
