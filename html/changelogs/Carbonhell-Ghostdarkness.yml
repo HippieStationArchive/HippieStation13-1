@@ -1,0 +1,7 @@
+author: Carbonhell
+
+delete-after: True
+
+
+changes: 
+  - tweak: "Now when you ghost, your darkness vision is automatically toggled on."
