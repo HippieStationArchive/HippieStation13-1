@@ -56,6 +56,14 @@
 			update_icon()
 			return
 
+	if(istype(I, /obj/item/weapon/reagent_containers))
+		if (!open)
+			return
+		var/obj/item/weapon/reagent_containers/RG = I
+		RG.reagents.add_reagent("????", min(RG.volume - RG.reagents.total_volume, RG.amount_per_transfer_from_this))
+		user << "<span class='notice'>You fill [RG] from [src]. Gross.</span>"
+		return
+
 	if(istype(I, /obj/item/weapon/grab))
 		user.changeNext_move(CLICK_CD_MELEE)
 		var/obj/item/weapon/grab/G = I
