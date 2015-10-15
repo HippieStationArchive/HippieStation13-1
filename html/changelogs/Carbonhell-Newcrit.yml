@@ -1,0 +1,8 @@
+author: Carbonhell
+
+delete-after: True
+
+
+changes: 
+  - rscadd: "Newcrit system ported,now you can whisper while at 0 hp to -50 hp."
+  - rscadd: "Crit crawling ported,you can crawl at the expenses of damage while in crit."

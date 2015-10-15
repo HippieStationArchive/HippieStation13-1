@@ -860,6 +860,8 @@
 				mspeed += 1.5
 			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
 				mspeed += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
+			if(H.nearcrit) //This is for crawling
+				mspeed += 30 //Can crawl only every 3 seconds pretty much
 
 			mspeed += speedmod
 
