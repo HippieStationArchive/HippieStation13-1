@@ -40,6 +40,7 @@
 /obj/item/trash/plate
 	name = "plate"
 	icon_state = "plate"
+	burn_state = -1
 
 /obj/item/trash/pistachios
 	name = "pistachios pack"
@@ -58,6 +59,7 @@
 	name = "candle"
 	icon = 'icons/obj/candle.dmi'
 	icon_state = "candle4"
+	burn_state = -1
 
 /obj/item/trash/can
 	name = "crushed can"

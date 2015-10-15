@@ -168,6 +168,7 @@
 	desc = "A backpack specially designed to repel stains and hazardous liquids."
 	icon_state = "chempack"
 	item_state = "chempack"
+	burn_state = -1
 
 /obj/item/weapon/storage/backpack/genetics
 	name = "genetics backpack"
@@ -232,6 +233,7 @@
 	desc = "A sterile satchel with chemist colours."
 	icon_state = "satchel-chem"
 	item_state = "satchel-chem"
+	burn_state = -1
 
 /obj/item/weapon/storage/backpack/satchel_gen
 	name = "geneticist satchel"

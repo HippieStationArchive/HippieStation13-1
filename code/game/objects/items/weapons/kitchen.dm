@@ -95,6 +95,7 @@
 	throw_speed = 3
 	throw_range = 7
 	w_class = 3
+	burn_state = 0
 	attack_verb = list("bashed", "battered", "bludgeoned", "thrashed", "whacked")
 
 /* Trays  moved to /obj/item/weapon/storage/bag */

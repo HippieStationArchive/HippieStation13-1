@@ -14,6 +14,7 @@
 	w_class = 4
 	max_w_class = 3
 	max_combined_w_class = 21
+	burn_state = 0
 
 /obj/item/weapon/storage/daki/attack_self(mob/living/user)
 	var/body_choice
