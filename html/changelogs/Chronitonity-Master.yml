@@ -3,9 +3,6 @@
    delete-after: True
    
    changes: 
-     - rscadd: "Some New Chemicals! Lye and Liquid Gibs."
-     - rscadd: "Lye is made from equal units of Sodium, Oxygen and Hydrogen."
-     - rscadd: "Chemists can now scoop up gibs to get 5 units of Liquid Gibs."
-     - rscadd: "Take 15u of Lye and 15u of Liquid Gibs and heat it up to 374K to get some unique Gib Soap."
-     - rscadd: "Take 5u of Liquid Gibs and 5u of Stabilizing Agent and heat it up to 374K to get a Candle."
-     - rscadd: "Mix 10u of Liquid Gibs, 10u of Carbon and 10u of Nutriment to get some Meat Product"
+     - rscadd: "Allows you to wear buckets on your head for protection."
+     - rscadd: "You can now scoop ???? out of toilet bowls. This is a vital ingredient to Bath Salts."
+     - tweak: "Rolling down your jumpsuit now exposes your chest. Useful if you want to do self surgery."
