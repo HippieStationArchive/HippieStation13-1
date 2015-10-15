@@ -60,6 +60,7 @@
 	desc = "Yarr."
 	icon_state = "eyepatch"
 	item_state = "eyepatch"
+	burn_state = 0
 
 /obj/item/clothing/glasses/monocle
 	name = "monocle"
@@ -175,6 +176,7 @@
 //	vision_flags = BLIND	//handled in life.dm/handle_regular_hud_updates()
 	flash_protect = 2
 	tint = 3			// to make them blind
+	burn_state = 0
 
 /obj/item/clothing/glasses/sunglasses/big
 	desc = "Strangely ancient technology used to help provide rudimentary eye cover. Larger than average enhanced shielding blocks many flashes."
