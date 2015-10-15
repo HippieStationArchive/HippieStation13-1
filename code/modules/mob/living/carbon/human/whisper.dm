@@ -36,13 +36,16 @@
 		return
 
 	// If whispering your last words, limit the whisper based on how close you are to death.
-	if(critical)
+	if(stat == UNCONSCIOUS && critical)
 		var/health_diff = round(-config.health_threshold_dead + health)
 		// If we cut our message short, abruptly end it with a-..
 		var/message_len = length(message)
 		message = copytext(message, 1, health_diff) + "[message_len > health_diff ? "-.." : "..."]"
 		message = Ellipsis(message, 10, 1)
 		whispers = "whispers in their final breath"
+	else if(critical) //If whispering while in critical state but conscious
+		message = Ellipsis(message, 40, 1)
+		whispers = "mutters"
 
 	message = treat_message(message)
 
@@ -50,6 +53,7 @@
 	for(var/mob/M in player_list)
 		if(M.stat == DEAD && M.client && ((M.client.prefs.chat_toggles & CHAT_GHOSTWHISPER) || (get_dist(M, src) <= 7)))
 			listening_dead |= M
+			world << M
 
 	var/list/listening = get_hearers_in_view(1, src)
 	listening |= listening_dead
@@ -67,6 +71,7 @@
 
 	var/spans = list(SPAN_ITALICS)
 	rendered = "<span class='game say'><span class='name'>[GetVoice()]</span>[alt_name] [whispers], <span class='message'>\"[attach_spans(message, spans)]\"</span></span>"
+	var/displayuser = "<span class='game say'>You whisper in your final breath, <span class='message'>\"<i>[message]</i>\"</span></span>"
 
 	for(var/atom/movable/AM in listening)
 		if(istype(AM,/obj/item/device/radio))
@@ -80,5 +85,6 @@
 			continue
 		AM.Hear(rendered, src, languages, message, , spans)
 
-	if(critical) //Dying words.
+	if(critical && stat == UNCONSCIOUS) //Dying words.
 		succumb(1)
+		usr.show_message(displayuser, 2)
