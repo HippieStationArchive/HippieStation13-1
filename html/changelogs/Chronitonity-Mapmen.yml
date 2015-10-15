@@ -1,0 +1,7 @@
+   author: Chronitonity
+   
+   delete-after: True
+   
+   changes: 
+     - rscadd: "CMO and RD have hardsuits in their office now."
+     - rscadd: "Maint near EVA was reworked just a tiny bit."
