@@ -618,7 +618,7 @@
 	var/cooldown
 
 /obj/item/weapon/relic/New()
-	icon_state = pick("strangeobject1","strangeobject2","strangeobject3")
+	icon_state = pick("strangeobject1","strangeobject2","strangeobject3","strangeobject4","strangeobject5","strangeobject6","strangeobject7","strangeobject8")
 	realName = "[pick("broken","twisted","spun","improved","silly","regular","badly made")] [pick("device","object","toy","illegal tech","weapon")]"
 
 
