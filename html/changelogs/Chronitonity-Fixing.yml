@@ -3,5 +3,8 @@
    delete-after: True
    
    changes: 
-     - tweak: "Blood Tomatoes give Type O- Blood, an easy way for you to farm the best blood type."
-     - bugfix: "Lye is actually creatable now."
+     - tweak: "Borg RCD's use less power now."
+     - bugfix: "Atmos firefighting helmets now block syringes and hair."
+     - bugfix: "The Recycler now gives you your plasma back."
+     - bugfix: "Lipstick is no longer always black on your mob."
+
