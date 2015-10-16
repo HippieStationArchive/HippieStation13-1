@@ -4,4 +4,4 @@ delete-after: True
 
 changes: 
     - tweak: "All reagent containers (beakers, glasses, buckets ect) now is done by clicking them in your hands, just like how spray bottles work.
-    - tweak: "Reagent dispensers like water or fueltanks no longer only transfer 10u, they use the containers transfer amount.
+    - tweak: "Reagent dispensers like water or fueltanks no longer only transfer 10u, they use the containers transfer amount."
