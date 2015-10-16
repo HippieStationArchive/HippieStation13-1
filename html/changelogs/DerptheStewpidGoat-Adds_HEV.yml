@@ -1,0 +1,14 @@
+# Your name.  
+author: DerptheStewpidgoat
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - rscadd: "New H.E.V suit and helmet added. They both have moderate protection from lasers, bullets, and melee attacks, with high protection from bombs, radiation, and biological threats. These are not the only qualities of the suit or helmet however."
+  - rscadd: "The H.E.V suit can be made from the R&D protolathe, but it requires high research and quite a few materials, most of them needed from mining."
