@@ -1,8 +1,0 @@
-   author: Chronitonity
-   
-   delete-after: True
-   
-   changes: 
-     - rscadd: "Ports Dakimakuras over. These are just anime ass weeb pillows that you can love/punch or wear on your back. They also store three slots in them."
-     - rscadd: "For now only the Captain spawns with a body pillow in his possession, more can be found in the dark tunnels of Maintenance or in the Contraband Locker."
-     - rscadd: "Cargo can now make basic Machine Parts at the Autolathe."

@@ -75,6 +75,11 @@ var/list/crit_allowed_modes = list(MODE_WHISPER,MODE_CHANGELING,MODE_ALIEN)
 		return
 
 	var/message_mode = get_message_mode(message)
+	if(nearcrit && stat == CONSCIOUS)
+		whisper(message)
+		adjustOxyLoss(1)
+		// radio_return = NOPASS
+		return
 
 	if(stat && !(message_mode in crit_allowed_modes))
 		return
