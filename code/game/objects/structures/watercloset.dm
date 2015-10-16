@@ -397,6 +397,11 @@
 		return
 
 	if(istype(O, /obj/item/weapon/reagent_containers))
+		if(istype(O, /obj/item/weapon/reagent_containers/blood) && user.a_intent == "harm")
+			var/obj/item/weapon/reagent_containers/blood/BL = O
+			user << "<span class='notice'>You empty [BL] in [src].</span>"
+			BL.reagents.clear_reagents()
+			return
 		var/obj/item/weapon/reagent_containers/RG = O
 		RG.reagents.add_reagent("water", min(RG.volume - RG.reagents.total_volume, RG.amount_per_transfer_from_this))
 		user << "<span class='notice'>You fill [RG] from [src].</span>"
