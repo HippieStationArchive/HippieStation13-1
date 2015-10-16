@@ -124,7 +124,7 @@
 				user << "<span class='notice'>[src] is empty.</span>"
 				return
 
-			if(!target.is_open_container() && !ismob(target) && !istype(target, /obj/item/weapon/reagent_containers/food) && !istype(target, /obj/item/slime_extract) && !istype(target, /obj/item/clothing/mask/cigarette) && !istype(target, /obj/item/weapon/storage/fancy/cigarettes))
+			if((!target.is_open_container() && !target.is_inject_only()) && !ismob(target) && !istype(target, /obj/item/weapon/reagent_containers/food) && !istype(target, /obj/item/slime_extract) && !istype(target, /obj/item/clothing/mask/cigarette) && !istype(target, /obj/item/weapon/storage/fancy/cigarettes))
 				user << "<span class='warning'>You cannot directly fill [target]!</span>"
 				return
 			if(target.reagents.total_volume >= target.reagents.maximum_volume)
