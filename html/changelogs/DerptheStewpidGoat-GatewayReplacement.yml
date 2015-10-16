@@ -11,3 +11,4 @@ delete-after: True
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
   - rscadd: "Kinda sekrit new area added to maintenance."
+  - rscadd: "The gateway has been moved down to engineering maintenance and has more of an in-construction style to it."
