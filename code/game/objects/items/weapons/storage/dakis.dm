@@ -16,7 +16,6 @@
 	max_combined_w_class = 21
 	var/spam_flag = 0
 	var/cooldowntime = 20
-	burn_state = 0
 
 /obj/item/weapon/storage/daki/attack_self(mob/living/user)
 	var/body_choice
