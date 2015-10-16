@@ -25,6 +25,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	w_class = 1
 	origin_tech = "materials=1"
 	heat = 1000
+	burn_state = 0 //If this is in a fire, a lot more than the top is gonna burn.
 
 /obj/item/weapon/match/process()
 	var/turf/location = get_turf(src)
@@ -114,6 +115,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/smoketime = 300
 	var/chem_volume = 30
 	heat = 1000
+	burn_state = 0
 
 /obj/item/clothing/mask/cigarette/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is huffing the [src.name] as quickly as they can! It looks like \he's trying to give \himself cancer.</span>")
@@ -347,6 +349,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_state = "cigbutt"
 	w_class = 1
 	throwforce = 0
+	burn_state = 0
 
 /obj/item/weapon/cigbutt/cigarbutt
 	name = "cigar butt"
@@ -448,6 +451,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon_on = "cobpipeon"  //Note - these are in masks.dmi
 	icon_off = "cobpipeoff"
 	smoketime = 0
+	burn_state = 0
 
 
 /////////
@@ -566,6 +570,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	icon = 'icons/obj/cigarettes.dmi'
 	icon_state = "cig_paper"
 	w_class = 1
+	burn_state = 0
 
 /obj/item/weapon/rollingpaper/afterattack(atom/target, mob/user, proximity)
 	if(!proximity)
