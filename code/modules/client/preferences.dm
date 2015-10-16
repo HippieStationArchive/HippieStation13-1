@@ -716,7 +716,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 				if("s_tone")
 					skin_tone = random_skin_tone()
 				if("bag")
-					backbag = rand(1,2)
+					backbag = rand(1,4)
 				if("all")
 					random_character()
 
