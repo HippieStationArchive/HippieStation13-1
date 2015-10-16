@@ -17,7 +17,7 @@
 	new /obj/item/unactivated_swarmer(get_turf(the_gateway))
 	if(prob(25)) //25% chance to announce it to the crew
 		var/swarmer_report = "<font size=3><b>[command_name()] High-Priority Update</b></span>"
-		swarmer_report += "<br><br>Our long-range sensors have detected an odd signal emanating from your station's gateway. We recommend immediate investigation of your gateway, as something may have come \
+		swarmer_report += "<br><br>Our long-range sensors have detected an odd signal emanating from an area of space north of the holodeck. We recommend immediate investigation of your gateway, as something may have come \
 		through."
 		print_command_report(swarmer_report,"Classified [command_name()] Update")
 		priority_announce("A report has been downloaded and printed out at all communications consoles.", "Incoming Classified Message", 'sound/AI/commandreport.ogg')
