@@ -28,8 +28,9 @@
 
 /obj/item/clothing/head/collectable/paper
 	name = "collectable paper hat"
-	desc = "What looks like an ordinary paper hat is actually a rare and valuable collector's edition paper hat. Keep away from water, fire, and Librarians."
+	desc = "What looks like an ordinary paper hat is actually a rare and valuable collector's edition paper hat. Oddly enough, it seems fireproof."
 	icon_state = "paper"
+	burn_state = -1
 
 /obj/item/clothing/head/collectable/tophat
 	name = "collectable top hat"
@@ -100,6 +101,7 @@
 	desc = "WARNING! Offers no real protection, or luminosity, but damn, is it fancy!"
 	icon_state = "hardhat0_yellow"
 	item_state = "hardhat0_yellow"
+	burn_state = -1
 
 /obj/item/clothing/head/collectable/HoS
 	name = "collectable HoS hat"

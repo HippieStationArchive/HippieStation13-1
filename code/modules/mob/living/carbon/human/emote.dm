@@ -61,7 +61,10 @@
 					if(gender == FEMALE)
 						sound = pick('sound/misc/cough_f1.ogg', 'sound/misc/cough_f2.ogg', 'sound/misc/cough_f3.ogg')
 					playsound(src.loc, sound, 50, 1, 5)
-					message = "<B>[src]</B> coughs!"
+					if(nearcrit)
+						message = "<B>[src]</B> coughs painfuly!"
+					else
+						message = "<B>[src]</B> coughs!"
 					m_type = 2
 				else
 					message = "<B>[src]</B> makes a strong noise."
@@ -366,6 +369,8 @@
 							sound = "sound/misc/lizard.ogg"
 						if("avian")
 							sound = "sound/misc/caw.ogg"
+						if("skeleton")
+							sound = "sound/misc/skeleton.ogg"
 						else
 							if(gender == FEMALE)
 								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
