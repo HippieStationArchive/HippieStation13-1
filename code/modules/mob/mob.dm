@@ -788,6 +788,8 @@ var/list/slot_equipment_priority = list( \
 		if((ko || resting) && !lying)
 			fall(ko)
 	canmove = !(ko || resting || stunned || buckled)
+	if(nearcrit && !stat)
+		canmove = !(stunned || buckled) // IF PINNED_TO IS ADDED REMEMBER TO ADD A CHECK HERE, FOR WHEN WE'LL PORT RODGUNS
 	density = !lying
 	if(lying)
 		if(layer == initial(layer)) //to avoid special cases like hiding larvas.

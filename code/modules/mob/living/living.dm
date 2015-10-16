@@ -177,7 +177,7 @@ Sorry Giacom. Please don't be mad :(
 
 /mob/living/verb/succumb(whispered as null)
 	set hidden = 1
-	if (InCritical())
+	if (InCritical() && stat == UNCONSCIOUS)
 		src.attack_log += "[src] has [whispered ? "whispered his final words" : "succumbed to death"] with [round(health, 0.1)] points of health!"
 		src.adjustOxyLoss(src.health - config.health_threshold_dead)
 		updatehealth()

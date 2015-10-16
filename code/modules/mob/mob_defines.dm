@@ -157,3 +157,5 @@
 	var/permanent_sight_flags = 0
 
 	var/resize = 1 //Badminnery resize
+
+	var/nearcrit = 0 //for newcrit

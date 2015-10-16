@@ -265,7 +265,17 @@
 			death()
 			return
 
-		if(getOxyLoss() > 50 || health <= config.health_threshold_crit)
+		if(health <= config.health_threshold_crit)
+			nearcrit = 1
+			if(stat != DEAD)
+				Weaken(3)
+				if(prob(15))
+					spawn(0)
+						emote(pick("moan", "cough", "groan", "whimper"))
+		else
+			nearcrit = 0
+
+		if(getOxyLoss() > 50 || health <= -50)
 			Paralyse(3)
 			stat = UNCONSCIOUS
 

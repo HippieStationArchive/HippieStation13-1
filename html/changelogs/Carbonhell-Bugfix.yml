@@ -1,9 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixes not being able to unbuckle cuffed people from pipes."
-  - bugfix: "Fixed major bug with toy shotguns loaded with riot darts becoming machine guns in terms of speed."
-  - bugfix: "Revs can no longer deconvert other revs with blows to the head."
-  - bugfix: "Fixes spacemountainwind not having text in soda dispenser, name was too long so it was replaced with Space Wind."
