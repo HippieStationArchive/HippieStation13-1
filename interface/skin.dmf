@@ -888,8 +888,8 @@ menu "menu"
 		is-disabled = false
 		saved-params = "is-checked"
 	elem 
-		name = ""
-		command = ""
+		name = "&Reconnect"
+		command = ".reconnect"
 		category = "&File"
 		is-checked = false
 		can-check = false
