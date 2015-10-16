@@ -440,6 +440,10 @@ var/list/teleportlocs = list()
 	name = "Isolation Maintenance"
 	icon_state = "yellow"
 
+/area/maintenance/strangeroom
+	name = "Strange Room"
+	icon_state = "yellow"
+
 
 //Hallway
 
