@@ -33,7 +33,7 @@
 
 /obj/item/clothing/glasses/science
 	name = "Science Goggles"
-	desc = "A pair of snazzy goggles used to protect against chemical spills. Fitted with an analyzer for scanning items."
+	desc = "A pair of snazzy goggles used to protect against chemical spills. Fitted with an analyzer for scanning items and reagents."
 	icon_state = "purple"
 	item_state = "glasses"
 
@@ -45,6 +45,15 @@
 /obj/item/clothing/glasses/science/dropped(mob/user)
 	user.scanner.devices -= 1
 	..(user)
+
+/obj/item/clothing/glasses/science/bartender
+	name = "science glasses"
+	desc = "A pair of imitation sunglasses that allow for scanning of reagents inside containers. Functions like normal sunglasses."
+	icon_state = "sun"
+	item_state = "sunglasses"
+	darkness_view = 1
+	flash_protect = 1
+	tint = 1
 
 /obj/item/clothing/glasses/night
 	name = "Night Vision Goggles"

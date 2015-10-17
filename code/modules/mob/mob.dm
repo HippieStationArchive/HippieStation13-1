@@ -1005,3 +1005,16 @@ var/list/slot_equipment_priority = list( \
 
 /mob/proc/can_unbuckle(mob/user)
 	return 1
+
+//Can the mob see reagents inside of containers?
+/mob/proc/can_see_reagents()
+	if(stat == DEAD) //Ghosts and such can always see reagents
+		return 1
+	if(issilicon(src)) //Silicons can automatically view reagents
+		return 1
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		var/obj/item/clothing/glasses/G = H.get_item_by_slot(slot_glasses)
+		if(istype(G, /obj/item/clothing/glasses/science)) //Science goggles can view reagents
+			return 1
+	return 0
