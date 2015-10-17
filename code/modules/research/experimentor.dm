@@ -609,7 +609,7 @@
 /obj/item/weapon/relic
 	name = "strange object"
 	desc = "What mysteries could this hold?"
-	icon = 'icons/obj/assemblies.dmi'
+	icon = 'icons/obj/strange_object.dmi'
 	origin_tech = "combat=1;plasmatech=1;powerstorage=1;materials=1"
 	var/realName = "defined object"
 	var/revealed = FALSE
@@ -618,7 +618,7 @@
 	var/cooldown
 
 /obj/item/weapon/relic/New()
-	icon_state = pick("shock_kit","armor-igniter-analyzer","infra-igniter0","infra-igniter1","radio-multitool","prox-radio1","radio-radio","timer-multitool0","radio-igniter-tank")
+	icon_state = pick("strangeobject1","strangeobject2","strangeobject3","strangeobject4","strangeobject5","strangeobject6","strangeobject7","strangeobject8")
 	realName = "[pick("broken","twisted","spun","improved","silly","regular","badly made")] [pick("device","object","toy","illegal tech","weapon")]"
 
 
