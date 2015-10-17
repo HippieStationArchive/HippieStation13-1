@@ -91,6 +91,7 @@
 	desc = "Duller than dull, you have no idea how it can even slice food."
 	force = 2
 	throwforce = 1
+	icon_state = "safety_knife"
 
 /obj/item/weapon/kitchen/rollingpin
 	name = "rolling pin"
@@ -106,6 +107,7 @@
 /obj/item/weapon/kitchen/rollingpin/safety
 	name = "plastic rolling pin"
 	desc = "Lightweight, definitely not usable to knock out the Warden."
+	icon_state = "safety_rolling_pin"
 	force = 2
 	throwforce = 1
 
