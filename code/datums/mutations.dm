@@ -281,18 +281,22 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 /datum/mutation/human/dwarfism
 
 	name = "Dwarfism"
-	quality = MINOR_NEGATIVE
+	quality = POSITIVE
+	get_chance = 15
+	lowest_value = 256 * 12
 	text_gain_indication = "<span class='notice'>Everything around you seems to grow..</span>"
 	text_lose_indication = "<span class='notice'>Everything around you seems to shrink..</span>"
 
 /datum/mutation/human/dwarfism/on_acquiring(mob/living/carbon/human/owner)
 	if(..())	return
 	owner.resize = 0.8
+	owner.ventcrawler = 1
 	owner.visible_message("<span class='danger'>[owner] suddenly shrinks!</span>")
 
 /datum/mutation/human/dwarfism/on_losing(mob/living/carbon/human/owner)
 	if(..())	return
 	owner.resize = 1.25
+	owner.ventcrawler = 0
 	owner.visible_message("<span class='danger'>[owner] suddenly grows!</span>")
 
 /datum/mutation/human/clumsy
@@ -566,69 +570,6 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 		if(prob(30))
 			message += " Bork[pick("",", bork",", bork, bork")]!"
 	return message
-
-/datum/mutation/human/chav
-	name = "Chav"
-	quality = MINOR_NEGATIVE
-	text_gain_indication = "<span class='notice'>Ye feel like a reet prat like, innit?</span>"
-	text_lose_indication = "<span class='notice'>You no longer feel like being rude and sassy.</span>"
-
-/datum/mutation/human/chav/say_mod(message)
-	if(message)
-		message = " [message] "
-		message = replacetext(message," looking at  ","  gawpin' at ")
-		message = replacetext(message," great "," bangin' ")
-		message = replacetext(message," man "," mate ")
-		message = replacetext(message," friend ",pick(" mate "," bruv "," bledrin "))
-		message = replacetext(message," what "," wot ")
-		message = replacetext(message," drink "," wet ")
-		message = replacetext(message," get "," giz ")
-		message = replacetext(message," what "," wot ")
-		message = replacetext(message," no thanks "," wuddent fukken do one ")
-		message = replacetext(message," i don't know "," wot mate ")
-		message = replacetext(message," no "," naw ")
-		message = replacetext(message," robust "," chin ")
-		message = replacetext(message,"  hi  "," how what how ")
-		message = replacetext(message," hello "," sup bruv ")
-		message = replacetext(message," kill "," bang ")
-		message = replacetext(message," murder "," bang ")
-		message = replacetext(message," windows "," windies ")
-		message = replacetext(message," window "," windy ")
-		message = replacetext(message," break "," do ")
-		message = replacetext(message," your "," yer ")
-		message = replacetext(message," security "," coppers ")
-	return trim(message)
-
-/datum/mutation/human/elvis
-	name = "Elvis"
-	quality = MINOR_NEGATIVE
-	text_gain_indication = "<span class='notice'>You feel pretty good, honeydoll.</span>"
-	text_lose_indication = "<span class='notice'>You feel a little less conversation would be great.</span>"
-
-/datum/mutation/human/elvis/on_life(mob/living/carbon/human/owner)
-	switch(pick(1,2))
-		if(1)
-			if(prob(15))
-				var/list/dancetypes = list("swinging", "fancy", "stylish", "20'th century", "jivin'", "rock and roller", "cool", "salacious", "bashing", "smashing")
-				var/dancemoves = pick(dancetypes)
-				owner.visible_message("<b>[owner]</b> busts out some [dancemoves] moves!")
-		if(2)
-			if(prob(15))
-				owner.visible_message("<b>[owner]</b> [pick("jiggles their hips", "rotates their hips", "gyrates their hips", "taps their foot", "dances to an imaginary song", "jiggles their legs", "snaps their fingers")]!")
-
-/datum/mutation/human/elvis/say_mod(message)
-	if(message)
-		message = " [message] "
-		message = replacetext(message," i'm not "," I aint ")
-		message = replacetext(message," girl ",pick(" honey "," baby "," baby doll "))
-		message = replacetext(message," man ",pick(" son "," buddy "," brother"," pal "," friendo "))
-		message = replacetext(message," out of "," outta ")
-		message = replacetext(message," thank you "," thank you, thank you very much ")
-		message = replacetext(message," what are you "," whatcha ")
-		message = replacetext(message," yes ",pick(" sure", "yea "))
-		message = replacetext(message," faggot "," square ")
-		message = replacetext(message," muh valids "," getting my kicks ")
-	return trim(message)
 
 /datum/mutation/human/laser_eyes
 	name = "Laser Eyes"
