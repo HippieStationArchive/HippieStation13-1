@@ -1,0 +1,6 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - tweak: "Shadowling rounds start with 3 shadowlings instead of 2 now."
