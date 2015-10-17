@@ -33,5 +33,5 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "You can no longer see what reagents are in a container by examining them unless you're a Ghost, Silicon, or have the propper tools."
-  - rscadd: "Science Goggles can now be used to see what reagents are in a container. Chemists start with them on now, and the bartender gets a pair that looks and acts like sunglasses."
+  - rscadd: "Bartenders Sunglasses gets their own shitty sprites."
+  - rscadd: "CMO and RD hardsuit can be used to see reagents."
