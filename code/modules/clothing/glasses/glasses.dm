@@ -46,11 +46,11 @@
 	user.scanner.devices -= 1
 	..(user)
 
-/obj/item/clothing/glasses/science/bartender
-	name = "science glasses"
-	desc = "A pair of imitation sunglasses that allow for scanning of reagents inside containers. Functions like normal sunglasses."
-	icon_state = "sun"
-	item_state = "sunglasses"
+/obj/item/clothing/glasses/bartender
+	name = "Bartender Glasses"
+	desc = "A pair of sunglasses that allow for scanning of reagents inside containers.."
+	icon_state = "barhud"
+	item_state = "barhud"
 	darkness_view = 1
 	flash_protect = 1
 	tint = 1

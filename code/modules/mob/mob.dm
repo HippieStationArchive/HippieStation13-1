@@ -1015,6 +1015,6 @@ var/list/slot_equipment_priority = list( \
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		var/obj/item/clothing/glasses/G = H.get_item_by_slot(slot_glasses)
-		if(istype(G, /obj/item/clothing/glasses/science)) //Science goggles can view reagents
+		if(istype(G, /obj/item/clothing/glasses/science) || istype(G, /obj/item/clothing/glasses/bartender))//Science goggles can view reagents
 			return 1
 	return 0
