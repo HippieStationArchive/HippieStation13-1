@@ -200,6 +200,7 @@ obj/item/device/flashlight/lamp/bananalamp
 	var/on_damage = 7
 	var/produce_heat = 1500
 	heat = 1000
+	burn_state = 0
 
 /obj/item/device/flashlight/flare/New()
 	fuel = rand(800, 1000) // Sorry for changing this so much but I keep under-estimating how long X number of ticks last in seconds.
