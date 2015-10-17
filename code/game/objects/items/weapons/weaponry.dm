@@ -229,6 +229,7 @@
 	throwforce = 5
 	w_class = 2
 	materials = list(MAT_METAL=50)
+	burn_state = 0
 	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
 
 /obj/item/weapon/staff

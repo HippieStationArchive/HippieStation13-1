@@ -78,6 +78,7 @@
 	max_combined_w_class = 200 //Doesn't matter what this is, so long as it's more or equal to storage_slots * ore.w_class
 	max_w_class = 3
 	can_hold = list(/obj/item/weapon/ore)
+	burn_state = 0
 
 /obj/item/weapon/storage/bag/ore/cyborg
 	name = "cyborg mining satchel"
@@ -111,6 +112,7 @@
 	name = "portable seed extractor"
 	desc = "For the enterprising botanist on the go. Less efficient than the stationary model, it creates one seed per plant."
 	icon_state = "portaseeder"
+	burn_state = -1
 
 /obj/item/weapon/storage/bag/plants/portaseeder/verb/dissolve_contents()
 	set name = "Activate Seed Extraction"
