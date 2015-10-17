@@ -1,11 +1,11 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1444948838
-DIR: _maps _maps\map_files _maps\map_files\TgStation code code\game\area code\game\objects code\game\objects\structures code\modules code\modules\research icons icons\obj icons\obj\machines 
+LAST_COMPILE_TIME: 1445098195
+DIR: _maps _maps\map_files _maps\map_files\TgStation code code\datums code\datums\spells code\game code\game\area code\game\gamemodes code\game\gamemodes\blob code\game\gamemodes\blob\blobs code\game\gamemodes\shadowling code\game\mecha code\game\mecha\combat code\game\objects code\game\objects\effects code\game\objects\effects\effect_system code\game\objects\items code\game\objects\items\weapons code\game\objects\items\weapons\grenades code\game\objects\items\weapons\tanks code\game\objects\structures code\modules code\modules\events code\modules\events\wizard code\modules\mob code\modules\mob\living code\modules\mob\living\carbon code\modules\ninja code\modules\ninja\suit code\modules\ninja\suit\n_suit_verbs code\modules\power code\modules\projectiles code\modules\projectiles\guns code\modules\projectiles\guns\magic code\modules\projectiles\projectile code\modules\reagents code\modules\reagents\Chemistry-Recipes code\modules\research icons icons\obj icons\obj\machines 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 509.1303
-WINDOW: _maps\map_files\TgStation\tgstation.2.1.3.dmm
-FILE: _maps\map_files\TgStation\tgstation.2.1.3.dmm
+WINDOW: code\datums\spell.dm;code\datums\spells\construct_spells.dm;code\game\gamemodes\blob\blobs\blob_mobs.dm;code\game\gamemodes\shadowling\shadowling_abilities.dm;code\game\mecha\combat\marauder.dm;code\game\objects\effects\effect_system\effects_foam.dm;code\game\objects\effects\effect_system\effects_smoke.dm;code\game\objects\effects\explosion_particles.dm;code\game\objects\items\weapons\grenades\chem_grenade.dm;code\game\objects\items\weapons\grenades\smokebomb.dm;code\game\objects\items\weapons\scrolls.dm;code\game\objects\items\weapons\tanks\watertank.dm;code\game\objects\structures\hivebot.dm;code\modules\events\vent_clog.dm;code\modules\events\wizard\curseditems.dm;code\modules\events\wizard\shuffle.dm;code\modules\mob\living\carbon\life.dm;code\modules\ninja\suit\n_suit_verbs\ninja_smoke.dm;code\modules\power\apc.dm;code\modules\projectiles\guns\magic\wand.dm;code\modules\projectiles\projectile\magic.dm;code\modules\reagents\Chemistry-Holder.dm;code\modules\reagents\Chemistry-Recipes\Pyrotechnics.dm;code\modules\research\experimentor.dm
+FILE: code\modules\research\experimentor.dm
 */
 // END_INTERNALS
