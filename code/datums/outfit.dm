@@ -68,7 +68,10 @@
 	for(var/path in backpack_contents)
 		var/number = backpack_contents[path]
 		for(var/i=0,i<number,i++)
-			H.equip_to_slot_or_del(new path(H),slot_in_backpack)
+			if(H.backbag == 5)
+				var/obj/item/weapon/storage/box/survival/box = H.get_item_by_slot(slot_l_hand)
+				box.contents += new path // no backpack,put in box
+			else H.equip_to_slot_or_del(new path(H),slot_in_backpack)
 
 	post_equip(H)
 
