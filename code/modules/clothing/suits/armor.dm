@@ -55,8 +55,6 @@
 	unacidable = 1	//Acids have no effect
 	burn_state = -1 //Not Burnable
 	armor = list(melee = 40, bullet = 45, laser = 45, energy = 30, bomb = 90, bio = 100, rad = 90)
-	strip_delay = 70
-	put_on_delay = 50
 
 /obj/item/clothing/suit/armor/vest/alt
 	name = "armor"
