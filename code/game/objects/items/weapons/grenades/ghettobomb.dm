@@ -16,6 +16,7 @@
 	display_timer = 0
 	var/range = 3
 	var/times = list()
+	burn_state = 0 //Flammable for now, may cause fires to trigger an explosion later.
 
 /obj/item/weapon/grenade/iedcasing/New(loc)
 	..()
