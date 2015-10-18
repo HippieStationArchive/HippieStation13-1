@@ -1,0 +1,10 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - rscadd: "Ports the deepfrier, with some neat features!."
+  - rscadd: "All deepfried things have a nice overlay, better than the old one."
+  - rscadd: "When you deepfry an item,if it has no reagent it'll gain 1 nutriment, if it had more than 2 nutriment it'll have half the nutriment it had, any other chem gets fully transferred."
+  - rscadd: "You can also deepfry mobs, with an effect similar to the suit storage unit frying one, it causes 50 burn damage and to put someone inside, it takes the same time of meat spikes."
+  - rscadd: "All the mob's items will be deepfried aswell,but will retain their uses, while if deepfried alone they'll become snacks.."
