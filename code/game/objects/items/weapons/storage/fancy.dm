@@ -77,6 +77,7 @@
 	item_state = "candlebox5"
 	storage_slots = 5
 	throwforce = 2
+	burn_state = -1 //Bad idea to keep stuff with the sole purpose of burning inside a flammable box.
 	slot_flags = SLOT_BELT
 	spawn_type = /obj/item/candle
 
@@ -93,6 +94,7 @@
 	throwforce = 0
 	slot_flags = SLOT_BELT
 	storage_slots = 6
+	burn_state = -1 //Bad idea to keep stuff with the sole purpose of burning inside a flammable box.
 	can_hold = list(/obj/item/clothing/mask/cigarette, /obj/item/weapon/lighter)
 	icon_type = "cigarette"
 	spawn_type = /obj/item/clothing/mask/cigarette
