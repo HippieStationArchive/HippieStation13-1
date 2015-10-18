@@ -30,6 +30,7 @@
 	var/resetTime = 15
 	var/cloneMode = FALSE
 	var/cloneCount = 0
+	bound_width = 64// I could walk through it before :/
 	var/list/item_reactions = list()
 	var/list/valid_items = list() //valid items for special reactions like transforming
 	var/list/critical_items = list() //items that can cause critical reactions
