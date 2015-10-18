@@ -186,6 +186,7 @@ var/list/teleportlocs = list()
 	icon_state = "syndie-ship"
 	requires_power = 0
 	has_gravity = 1
+	ambientsounds = list('sound/ambience/windwinterinside.ogg')
 
 /area/syndicate_mothership/control
 	name = "\improper Syndicate Control Room"
