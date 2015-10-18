@@ -36,6 +36,7 @@
 	desc = "A pair of snazzy goggles used to protect against chemical spills. Fitted with an analyzer for scanning items and reagents."
 	icon_state = "purple"
 	item_state = "glasses"
+	scan_reagents = 1 //You can see reagents while wearing science goggles
 
 /obj/item/clothing/glasses/science/equipped(mob/user, slot)
 	if(slot == slot_glasses)
@@ -46,14 +47,15 @@
 	user.scanner.devices -= 1
 	..(user)
 
-/obj/item/clothing/glasses/science/bartender
-	name = "science glasses"
-	desc = "A pair of imitation sunglasses that allow for scanning of reagents inside containers. Functions like normal sunglasses."
-	icon_state = "sun"
-	item_state = "sunglasses"
+/obj/item/clothing/glasses/bartender
+	name = "Bartender Glasses"
+	desc = "A pair of sunglasses that allow for scanning of reagents inside containers.."
+	icon_state = "barhud"
+	item_state = "barhud"
 	darkness_view = 1
 	flash_protect = 1
 	tint = 1
+	scan_reagents = 1 //Bartender needs to see whats cooking
 
 /obj/item/clothing/glasses/night
 	name = "Night Vision Goggles"
