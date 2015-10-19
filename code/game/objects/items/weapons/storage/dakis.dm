@@ -14,6 +14,9 @@
 	w_class = 4
 	max_w_class = 3
 	max_combined_w_class = 21
+	var/spam_flag = 0
+	var/cooldowntime = 20
+	burn_state = 0 //Burn an effigy of Camille. No one will stop you. I swear.
 
 /obj/item/weapon/storage/daki/attack_self(mob/living/user)
 	var/body_choice
@@ -54,17 +57,21 @@
 		name = custom_name + " " + name
 		desc = "A large pillow depicting [custom_name] in a compromising position. Featuring as many dimensions as you."
 	else
-		if(user.a_intent == "help")
-			user.visible_message("<span class='notice'>[user] hugs the [name].</span>")
-			playsound(src.loc, "rustle", 50, 1, -5)
-		if(user.a_intent == "disarm")
-			user.visible_message("<span class='notice'>[user] kisses the [name].</span>")
-			playsound(src.loc, "rustle", 50, 1, -5)
-		if(user.a_intent == "grab")
-			user.visible_message("<span class='warning'>[user] holds the [name]!</span>")
-			playsound(src.loc, 'sound/items/bikehorn.ogg', 50, 1)
-		if(user.a_intent == "harm")
-			user.visible_message("<span class='danger'>[user] punches the [name]!</span>")
-			playsound(user.loc, 'sound/effects/shieldbash.ogg', 50, 1)
+		if(!spam_flag)
+			spam_flag = 1
+			if(user.a_intent == "help")
+				user.visible_message("<span class='notice'>[user] hugs the [name].</span>")
+				playsound(src.loc, "rustle", 50, 1, -5)
+			if(user.a_intent == "disarm")
+				user.visible_message("<span class='notice'>[user] kisses the [name].</span>")
+				playsound(src.loc, "rustle", 50, 1, -5)
+			if(user.a_intent == "grab")
+				user.visible_message("<span class='warning'>[user] holds the [name]!</span>")
+				playsound(src.loc, 'sound/items/bikehorn.ogg', 50, 1)
+			if(user.a_intent == "harm")
+				user.visible_message("<span class='danger'>[user] punches the [name]!</span>")
+				playsound(user.loc, 'sound/effects/shieldbash.ogg', 50, 1)
+			spawn(cooldowntime)
+				spam_flag = 0
 
 ////////////////////////////

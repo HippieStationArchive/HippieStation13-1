@@ -1064,7 +1064,6 @@
 	card_throw_speed = 3
 	card_throw_range = 7
 	card_attack_verb = list("attacked", "sliced", "diced", "slashed", "cut")
-	burn_state = -1 //Not Burnable
 
 /*
  * Fake nuke
