@@ -416,10 +416,20 @@ emp_act
 		skipcatch = 1
 		blocked = 1
 	else if(I)
-		if(I.throw_speed >= EMBED_THROWSPEED_THRESHOLD || I.assthrown)
+		if(can_embed(I) || I.assthrown)
+			if((prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
+				throw_alert("embeddedobject")
+				var/obj/item/organ/limb/L = pick(organs)
+				L.embedded_objects |= I
+				I.add_blood(src)//it embedded itself in you, of course it's bloody!
+				I.loc = src
+				L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
+				visible_message("<span class='danger'>\the [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\the [I.name] embeds itself in your [L.getDisplayName()]!</span>")
+				hitpush = 0
+				skipcatch = 1 //can't catch the now embedded item
 			if(can_embed(I) || I.assthrown)
 				if(prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags)) || I.assthrown)
-					throw_alert("embeddedobject")
+					throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
 					var/obj/item/organ/limb/L = pick(organs)
 					L.embedded_objects |= I
 					I.add_blood(src)//it embedded itself in you, of course it's bloody!
@@ -428,5 +438,4 @@ emp_act
 					visible_message("<span class='danger'>\the [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\the [I.name] embeds itself in your [L.getDisplayName()]!</span>")
 					hitpush = 0
 					skipcatch = 1 //can't catch the now embedded item
-
 	return ..()

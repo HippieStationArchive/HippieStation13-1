@@ -145,7 +145,6 @@
 	embedded_pain_multiplier = 4
 	w_class = 2
 	embed_chance = 100
-	embedded_fall_chance = 0 //Hahaha!
 	sharpness = IS_SHARP
 
 //5*(2*4) = 5*8 = 45, 45 damage if you hit one person with all 5 stars.
