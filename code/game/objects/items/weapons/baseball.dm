@@ -26,6 +26,7 @@
 	specthrow_maxwclass = 2 //Max weight class that you can throw
 	specthrowmsg = "batted"
 	w_class = 3
+	burn_state = 0
 
 // /mob/living/carbon/throw_item(atom/target)
 // 	..()
@@ -38,6 +39,7 @@
 	force = 15 //Buffed again. It's kind of expensive to mass produce it since every 50 metal you can only get 3 bats.
 	throwforce = 13
 	specthrow_maxwclass = 3 //You can bat normal sized items with metal bat
+	burn_state = -1
 
 /obj/item/baseball
 	name = "baseball"

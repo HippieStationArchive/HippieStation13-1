@@ -86,6 +86,7 @@ Shaft Miner
 
 	backpack = /obj/item/weapon/storage/backpack/industrial
 	satchel = /obj/item/weapon/storage/backpack/satchel_eng
+	duffle = /obj/item/weapon/storage/backpack/dufflebag/engineering
 	box = /obj/item/weapon/storage/box/engineer
 
 /*
@@ -111,6 +112,7 @@ Bartender
 /datum/outfit/job/bartender
 	name = "Bartender"
 
+	glasses = /obj/item/clothing/glasses/bartender
 	belt = /obj/item/device/pda/bar
 	ears = /obj/item/device/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/bartender
@@ -186,6 +188,11 @@ Botanist
 	suit = /obj/item/clothing/suit/apron
 	gloves  =/obj/item/clothing/gloves/botanic_leather
 	suit_store = /obj/item/device/analyzer/plant_analyzer
+
+	backpack = /obj/item/weapon/storage/backpack/botany
+	satchel = /obj/item/weapon/storage/backpack/satchel_hyd
+	duffle = /obj/item/weapon/storage/backpack/dufflebag/hydroponics
+	mountain = /obj/item/weapon/storage/backpack/mountainbag_hyd
 
 
 /*

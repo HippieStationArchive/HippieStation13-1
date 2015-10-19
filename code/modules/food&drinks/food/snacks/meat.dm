@@ -102,7 +102,11 @@
 	desc = "Halfway to becoming fertilizer for your garden."
 	filling_color = "#6B8E23"
 
-
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/fried
+	name = "fried meat"
+	icon_state = "deepfriedmeat"
+	desc = "For the refined fatman."
+	filling_color = "#61380B"
 
 
 

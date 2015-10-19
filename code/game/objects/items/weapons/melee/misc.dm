@@ -32,6 +32,7 @@
 	w_class = 3
 	var/cooldown = 0
 	var/on = 1
+	burn_state = 0
 
 /obj/item/weapon/melee/classic_baton/attack(mob/target, mob/living/user)
 	if(on)

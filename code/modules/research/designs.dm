@@ -401,6 +401,26 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/clothing/glasses/science
 	category = list("Equipment")
 
+/datum/design/hev_suit
+	name = "H.E.V Suit"
+	desc = "An advanced suit designed for scientists out in the field needing protection from just about any danger, including but not limited to angry military grunts."
+	id = "hev_suit"
+	req_tech = list("materials" = 5, "engineering" = 5, "combat" = 5, "biotech" = 4)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 4500, MAT_GOLD = 3000, MAT_PLASMA = 1000, MAT_URANIUM = 1500)
+	build_path = /obj/item/clothing/suit/armor/hev_suit
+	category = list("Equipment")
+
+/datum/design/hev_helmet
+	name = "H.E.V Helmet"
+	desc = "An advanced helmet designed for scientists out in the field needing protection from just about any danger, including but not limited to angry military grunts."
+	id = "hev_helmet"
+	req_tech = list("materials" = 5, "engineering" = 5, "combat" = 5, "biotech" = 4)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 2500, MAT_GLASS = 3000, MAT_GOLD = 1500, MAT_PLASMA = 2000, MAT_DIAMOND = 1000)
+	build_path = /obj/item/clothing/head/helmet/hev_helmet
+	category = list("Equipment")
+
 /////////////////////////////////////////
 ////////////Janitor Designs//////////////
 /////////////////////////////////////////
