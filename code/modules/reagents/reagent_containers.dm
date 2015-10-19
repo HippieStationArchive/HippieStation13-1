@@ -12,8 +12,6 @@
 	var/disease_amount = 20
 	var/spillable = 0
 
-/obj/item/weapon/reagent_containers/verb/set_APTFT() //set amount_per_transfer_from_this
-
 /obj/item/weapon/reagent_containers/New(location, vol = 0)
 	..()
 	if (vol > 0)
