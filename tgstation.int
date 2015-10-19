@@ -1,11 +1,11 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1445098195
-DIR: _maps _maps\map_files _maps\map_files\TgStation code code\datums code\datums\spells code\game code\game\area code\game\gamemodes code\game\gamemodes\blob code\game\gamemodes\blob\blobs code\game\gamemodes\shadowling code\game\mecha code\game\mecha\combat 
+LAST_COMPILE_TIME: 1445292038
+DIR: _maps _maps\map_files _maps\map_files\MiniStation _maps\map_files\TgStation code code\__DEFINES code\controllers code\controllers\subsystem code\datums code\datums\diseases code\datums\spells code\game code\game\area code\game\gamemodes code\game\gamemodes\blob code\game\gamemodes\wizard code\game\machinery code\game\machinery\embedded_controller code\game\objects code\game\objects\items code\game\objects\items\devices code\game\objects\items\weapons code\game\turfs code\modules code\modules\mob code\modules\mob\living code\modules\mob\living\carbon code\modules\mob\living\carbon\human code\modules\projectiles code\modules\projectiles\guns code\modules\projectiles\guns\projectile code\modules\surgery icons icons\Testing 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
-LAST_COMPILE_VERSION: 509.1303
-WINDOW: _maps\map_files\TgStation\tgstation.2.1.3.dmm
-FILE: _maps\map_files\TgStation\tgstation.2.1.3.dmm
+LAST_COMPILE_VERSION: 508.1299
+WINDOW: code\modules\projectiles\guns\projectile\rodgun.dm;code\modules\surgery\remove_embedded_object.dm;code\game\turfs\turf.dm;code\modules\mob\living\living.dm;code\modules\mob\living\carbon\human\human.dm;code\modules\mob\living\carbon\human\examine.dm;code\modules\mob\mob.dm;code\datums\uplink_item.dm;code\game\objects\items\weapons\stunbaton.dm;code\game\objects\items\devices\uplinks.dm;code\game\gamemodes\wizard\artefact.dm
+FILE: code\game\objects\items\devices\uplinks.dm
 */
 // END_INTERNALS
