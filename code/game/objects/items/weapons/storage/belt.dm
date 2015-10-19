@@ -190,6 +190,7 @@
 	icon_state = "bandolier"
 	item_state = "bandolier"
 	storage_slots = 16
+	burn_state = 0
 	can_hold = list(
 		/obj/item/ammo_casing/shotgun
 		)
@@ -212,6 +213,7 @@
 	item_state = "holster"
 	storage_slots = 3
 	max_w_class = 3
+	burn_state = 0
 	can_hold = list(
 		/obj/item/weapon/gun/projectile/automatic/pistol,
 		/obj/item/weapon/gun/projectile/revolver,
@@ -231,48 +233,58 @@
 	name = "black fannypack"
 	icon_state = "fannypack_black"
 	item_state = "fannypack_black"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/red
 	name = "red fannypack"
 	icon_state = "fannypack_red"
 	item_state = "fannypack_red"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/purple
 	name = "purple fannypack"
 	icon_state = "fannypack_purple"
 	item_state = "fannypack_purple"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/blue
 	name = "blue fannypack"
 	icon_state = "fannypack_blue"
 	item_state = "fannypack_blue"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/orange
 	name = "orange fannypack"
 	icon_state = "fannypack_orange"
 	item_state = "fannypack_orange"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/white
 	name = "white fannypack"
 	icon_state = "fannypack_white"
 	item_state = "fannypack_white"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/green
 	name = "green fannypack"
 	icon_state = "fannypack_green"
 	item_state = "fannypack_green"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/pink
 	name = "pink fannypack"
 	icon_state = "fannypack_pink"
 	item_state = "fannypack_pink"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/cyan
 	name = "cyan fannypack"
 	icon_state = "fannypack_cyan"
 	item_state = "fannypack_cyan"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/yellow
 	name = "yellow fannypack"
 	icon_state = "fannypack_yellow"
 	item_state = "fannypack_yellow"
+	burn_state = 0

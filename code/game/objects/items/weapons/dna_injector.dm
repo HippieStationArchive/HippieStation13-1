@@ -351,30 +351,6 @@
 		..()
 		remove_mutations.Add(mutations_list[SWEDISH])
 
-/obj/item/weapon/dnainjector/chavmut
-	name = "\improper DNA injector (Chav)"
-	New()
-		..()
-		add_mutations.Add(mutations_list[CHAV])
-
-/obj/item/weapon/dnainjector/antichav
-	name = "\improper DNA injector (Anti-Chav)"
-	New()
-		..()
-		remove_mutations.Add(mutations_list[CHAV])
-
-/obj/item/weapon/dnainjector/elvismut
-	name = "\improper DNA injector (Elvis)"
-	New()
-		..()
-		add_mutations.Add(mutations_list[ELVIS])
-
-/obj/item/weapon/dnainjector/antielvis
-	name = "\improper DNA injector (Anti-Elvis)"
-	New()
-		..()
-		remove_mutations.Add(mutations_list[ELVIS])
-
 /obj/item/weapon/dnainjector/clwunescapemut
 	name = "\improper DNA injector (Clwunescape)"
 	New()

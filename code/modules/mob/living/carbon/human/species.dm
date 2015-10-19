@@ -222,7 +222,6 @@
 
 /datum/species/proc/handle_body(mob/living/carbon/human/H)
 	H.remove_overlay(BODY_LAYER)
-
 	var/list/standing	= list()
 
 	handle_mutant_bodyparts(H)
@@ -257,6 +256,11 @@
 		var/datum/sprite_accessory/socks/U3 = socks_list[H.socks]
 		if(U3)
 			standing	+= image("icon"=U3.icon, "icon_state"="[U3.icon_state]_s", "layer"=-BODY_LAYER)
+
+	if(H.deepfried)
+		var/icon/HI = icon(H.icon, H.icon_state)
+		HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+		standing	+= image(HI, "layer" =-BODY_LAYER)
 
 	if(standing.len)
 		H.overlays_standing[BODY_LAYER] = standing
@@ -393,6 +397,8 @@
 							I.color = "#[H.eye_color]"
 				else
 					I.color = forced_colour
+			if(H.deepfried)
+				I.color = "#956327"
 			standing += I
 
 			if(S.hasinner)
@@ -400,7 +406,9 @@
 					icon_string = "[id]_[g]_[bodypart]inner_[S.icon_state]_[layer]"
 				else
 					icon_string = "[id]_m_[bodypart]inner_[S.icon_state]_[layer]"
-
+				if(H.deepfried)
+					var/icon/HI = icon(H.icon, H.icon_state)
+					HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
 				I = image("icon" = 'icons/mob/mutant_bodyparts.dmi', "icon_state" = icon_string, "layer" =- layer)
 
 				standing += I

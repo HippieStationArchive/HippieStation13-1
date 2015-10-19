@@ -168,6 +168,7 @@
 	desc = "A backpack specially designed to repel stains and hazardous liquids."
 	icon_state = "chempack"
 	item_state = "chempack"
+	burn_state = -1
 
 /obj/item/weapon/storage/backpack/genetics
 	name = "genetics backpack"
@@ -232,6 +233,7 @@
 	desc = "A sterile satchel with chemist colours."
 	icon_state = "satchel-chem"
 	item_state = "satchel-chem"
+	burn_state = -1
 
 /obj/item/weapon/storage/backpack/satchel_gen
 	name = "geneticist satchel"
@@ -289,12 +291,15 @@
 	new /obj/item/stack/tile/plasteel(src)
 	new /obj/item/weapon/crowbar(src)
 
+/*
+ * Dufflebag Types
+ */
+
 /obj/item/weapon/storage/backpack/dufflebag
 	name = "dufflebag"
 	desc = "A large dufflebag for holding extra things."
 	icon_state = "duffle"
 	item_state = "duffle"
-	max_combined_w_class = 21
 
 /obj/item/weapon/storage/backpack/dufflebag/syndie
 	name = "suspicious looking dufflebag"
@@ -386,3 +391,79 @@
 	icon_state = "duffle-clown"
 	item_state = "duffle-clown"
 
+/obj/item/weapon/storage/backpack/dufflebag/virology
+	name = "virologist duffle bag"
+	desc = "A sterile duffle bag with convenient bottle pockets."
+	icon_state = "duffle-virology"
+	item_state = "duffle-virology"
+
+/obj/item/weapon/storage/backpack/dufflebag/toxins
+	name = "scientist duffle bag"
+	desc = "Neat duffle bag that is designed to hold research materials."
+	icon_state = "duffle-toxins"
+	item_state = "duffle-toxins"
+	burn_state = -1
+
+/obj/item/weapon/storage/backpack/dufflebag/genetics
+	name = "geneticist duffle bag"
+	desc = "Geneticist's duffle bag with convenient disk pockets."
+	icon_state = "duffle-genetics"
+	item_state = "duffle-genetics"
+
+/obj/item/weapon/storage/backpack/dufflebag/chemistry
+	name = "chemist duffle bag"
+	desc = "It's a duffle bag designed to hold various reagents."
+	icon_state = "duffle-chemistry"
+	item_state = "duffle-chemistry"
+
+/obj/item/weapon/storage/backpack/dufflebag/hydroponics
+	name = "hydroponics duffle bag"
+	desc = "Convenient duffle bag for plant-related work."
+	icon_state = "duffle-hydroponics"
+	item_state = "duffle-hydroponics"
+
+/*
+ * Mountain Backpack Types
+ */
+
+/obj/item/weapon/storage/backpack/mountainbag
+	name = "mountain backpack"
+	desc = "Usually used by mountaineers, it's quite bulky."
+	icon_state = "mountainbag"
+	item_state = "mountainbag"
+
+/obj/item/weapon/storage/backpack/mountainbag_chem
+	name = "chemistry backpack"
+	desc = "Usually used by explorer chemists. Has a nice orange color to it."
+	icon_state = "mountainbag-chem"
+	item_state = "mountainbag-chem"
+
+/obj/item/weapon/storage/backpack/mountainbag_gen
+	name = "geneticist backpack"
+	desc = "Usually used by explorer geneticists. Has a nice blue color to it."
+	icon_state = "mountainbag-gen"
+	item_state = "mountainbag-gen"
+
+/obj/item/weapon/storage/backpack/mountainbag_tox
+	name = "scientist backpack"
+	desc = "Usually used by explorer scientists. Has a nice purple color to it."
+	icon_state = "mountainbag-tox"
+	item_state = "mountainbag-tox"
+
+/obj/item/weapon/storage/backpack/mountainbag_vir
+	name = "virologist backpack"
+	desc = "Usually used by explorer virologists. Has a nice dark green color to it."
+	icon_state = "mountainbag-vir"
+	item_state = "mountainbag-vir"
+
+/obj/item/weapon/storage/backpack/mountainbag_hyd
+	name = "botanist backpack"
+	desc = "Usually used by explorer botanists. Has a nice purple color to it."
+	icon_state = "mountainbag-hyd"
+	item_state = "mountainbag-hyd"
+
+/obj/item/weapon/storage/backpack/mountainbag_med
+	name = "medical backpack"
+	desc = "Usually used by explorer medics. Has a nice white color to it."
+	icon_state = "mountainbag-med"
+	item_state = "mountainbag-med"
