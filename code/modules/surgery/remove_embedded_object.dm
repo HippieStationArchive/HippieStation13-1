@@ -28,6 +28,12 @@
 				objects++
 				I.loc = get_turf(H)
 				L.embedded_objects -= I
+				if(I.pinned)
+					target.do_pindown(target.pinned_to, 0)
+					target.pinned_to = null
+					target.anchored = 0
+					target.update_canmove()
+					I.pinned = null
 
 			if(objects > 0)
 				user.visible_message("[user] sucessfully removes [objects] objects from [H]'s [L.getDisplayName()]!", "<span class='notice'>You sucessfully remove [objects] objects from [H]'s [L.getDisplayName()].</span>")

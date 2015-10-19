@@ -28,7 +28,7 @@ var/list/world_uplinks = list()
 	return ..()
 
 //Let's build a menu!
-/obj/item/device/uplink/proc/generate_menu()
+/obj/item/device/uplink/proc/generate_menu(mob/user)
 
 	var/dat = "<B>[src.welcome]</B><BR>"
 	dat += "Tele-Crystals left: [src.uses]<BR>"
@@ -52,6 +52,12 @@ var/list/world_uplinks = list()
 			i++
 			var/desc = "[item.desc]"
 			var/cost_text = ""
+			if(item.jobs.len && !(user.mind.assigned_role in item.jobs))
+				// world << "User doesn't fit the job requirement."
+				continue
+			if(item.jobs_exclude.len && (user.mind.assigned_role in item.jobs_exclude))
+				// world << "User's job is excluded."
+				continue
 			if(item.cost > 0)
 				cost_text = "([item.cost])"
 			if(item.cost <= uses)
@@ -76,7 +82,7 @@ var/list/world_uplinks = list()
 /obj/item/device/uplink/interact(mob/user as mob)
 
 	var/dat = "<body link='yellow' alink='white' bgcolor='#601414'><font color='white'>"
-	dat += src.generate_menu()
+	dat += src.generate_menu(user)
 	dat += "<A href='byond://?src=\ref[src];lock=1'>Lock</a>"
 	dat += "</font></body>"
 	user << browse(dat, "window=hidden")
