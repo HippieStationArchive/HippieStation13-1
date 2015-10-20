@@ -23,7 +23,8 @@
 
 /obj/machinery/deepfryer/proc/mob_fry(mob/living/F, mob/user)
 	if(buckled_mob) return
-	F.visible_message("<span class='warning'>[user] starts putting [F] into [src]!</span>", "<span class='userdanger'>[user] starts shoving you into [src]!</span>")
+	if(F == user) F.visible_message("<span class='warning'>[user] starts squeezing into [src]!</span>", "<span class='userdanger'>You start squeezing into [src]!</span>")
+	else F.visible_message("<span class='warning'>[user] starts putting [F] into [src]!</span>", "<span class='userdanger'>[user] starts shoving you into [src]!</span>")
 	if(!do_mob(user, src, 120)) return
 	if(buckled_mob) return //to prevent spam/queing up attacks
 	if(F.buckled) return
@@ -148,6 +149,17 @@
 			return
 		mob_fry(I, user)
 	else item_fry(I, user)
+
+/obj/machinery/deepfryer/MouseDrop_T(mob/living/M, mob/user)
+	if(!istype(M)) return
+	if (user.stat != 0) return
+	if(on)
+		user << "<span class='notice'>[src] is still active!</span>"
+		return
+	if(!anchored)
+		user << "The machine must be anchored to be usable!"
+		return
+	mob_fry(M, user)
 
 /obj/machinery/deepfryer/attack_hand(mob/user)
 	if(on && frying)

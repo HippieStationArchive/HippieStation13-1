@@ -216,6 +216,7 @@
 
 	if(href_list["ejectBeaker"])
 		if(beaker)
+			add_logs(usr, src,"removed the beaker from ")
 			var/obj/item/weapon/reagent_containers/glass/B = beaker
 			B.loc = get_step(loc, SOUTH)
 			beaker = null
@@ -235,8 +236,16 @@
 
 		beaker = I
 		I.loc = src
+		// Start logigng
+		var/list/rbeaker = list()
+		for(var/datum/reagent/R in I.reagents.reagent_list)
+			rbeaker += R.name
+		var/contained = english_list(rbeaker)
+		add_logs(user, src,"placed a new beaker in ", I, addition=" which had [contained]")
+		// Stop logging
 		user.visible_message("[user] places [I] in [src].", \
 							"<span class='notice'>You place [I] in [src].</span>")
+
 
 	if(!(on || occupant || state_open))
 		if(default_deconstruction_screwdriver(user, "cell-o", "cell-off", I))
