@@ -6,6 +6,7 @@
 	var/list/fingerprintshidden
 	var/fingerprintslast = null
 	var/list/blood_DNA
+	var/bypasslog = 0 // for custom logging when thrown
 
 	///Chemistry.
 	var/datum/reagents/reagents = null
@@ -276,8 +277,9 @@ its easier to just keep the beam vertical.
 		if(I.fingerprintslast)
 			var/client/assailant = directory[ckey(I.fingerprintslast)]
 			if(assailant && assailant.mob && istype(assailant.mob,/mob))
-				var/mob/M = assailant.mob
-				add_logs(M, src, "hit", object="[I]")
+				if(!I.bypasslog)
+					var/mob/M = assailant.mob
+					add_logs(M, src, "hit", object="[I]")
 
 var/list/blood_splatter_icons = list()
 
