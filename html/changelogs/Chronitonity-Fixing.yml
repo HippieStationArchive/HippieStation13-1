@@ -1,7 +1,0 @@
-   author: Chronitonity
-   
-   delete-after: True
-   
-   changes: 
-     - tweak: "Blood Tomatoes give Type O- Blood, an easy way for you to farm the best blood type."
-     - bugfix: "Lye is actually creatable now."

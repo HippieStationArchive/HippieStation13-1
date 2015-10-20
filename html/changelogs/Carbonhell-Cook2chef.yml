@@ -1,7 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Changed all cook references to chef. No cooks allowed."
-  - bugfix: "Fixed revenant endgame text borking up."
