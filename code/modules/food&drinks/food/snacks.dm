@@ -388,3 +388,8 @@
 		TB.MouseDrop(over)
 	else
 		..()
+
+/obj/item/weapon/reagent_containers/food/snacks/deepfryholder
+	name = "Deep Fried Foods Holder Obj"
+	icon_state = "deepfried_holder_icon"
+	bitesize = 2
