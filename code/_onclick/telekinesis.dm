@@ -71,6 +71,7 @@ var/const/tk_maxrange = 15
 	//item_state = null
 	w_class = 10
 	layer = 20
+	bypasslog = 1
 
 	var/last_throw = 0
 	var/atom/movable/focus = null
@@ -130,8 +131,13 @@ var/const/tk_maxrange = 15
 
 	else
 		apply_focus_overlay()
+		focus.bypasslog = 1
 		focus.throw_at(target, 10, 1)
+		if(ismob(target))
+			var/mob/M = target
+			add_logs(user, M, "hit", object="[focus]", addition="(TELEKINESIS)")
 		last_throw = world.time
+	focus.bypasslog = 0
 	return
 
 /proc/tkMaxRangeCheck(mob/user, atom/target, atom/focus)
