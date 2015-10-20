@@ -6,9 +6,6 @@
 	put_on_delay = 60
 	species_exception = list(/datum/species/golem, /datum/species/golem/adamantine) // now you too can be a golem boxing champion
 
-	martial_art = /datum/martial_art/boxing
-	martial_art_slot = slot_gloves
-
 /obj/item/clothing/gloves/boxing/green
 	icon_state = "boxinggreen"
 	item_state = "boxinggreen"

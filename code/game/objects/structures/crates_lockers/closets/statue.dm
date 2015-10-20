@@ -21,7 +21,7 @@
 			L.client.perspective = EYE_PERSPECTIVE
 			L.client.eye = src
 		L.loc = src
-		L.sdisabilities += MUTE
+		L.disabilities += MUTE
 		L.faction += "mimic" //Stops mimics from instaqdeling people in statues
 
 		health = L.health + 100 //stoning damaged mobs will result in easier to shatter statues
@@ -30,8 +30,10 @@
 		intialBrute = L.getBruteLoss()
 		intialOxy = L.getOxyLoss()
 		if(ishuman(L))
-			name = "statue of [L.name]"
-			if(L.gender == "female")
+			var/mob/living/carbon/human/H = L
+			name = "statue of [H.name]"
+			H.bleedsuppress = 1
+			if(H.gender == "female")
 				icon_state = "human_female"
 		else if(ismonkey(L))
 			name = "statue of a monkey"
@@ -45,7 +47,7 @@
 		qdel(src)
 		return
 
-	processing_objects.Add(src)
+	SSobj.processing |= src
 	..()
 
 /obj/structure/closet/statue/process()
@@ -57,7 +59,7 @@
 		M.setOxyLoss(intialOxy)
 	if (timer <= 0)
 		dump_contents()
-		processing_objects.Remove(src)
+		SSobj.processing.Remove(src)
 		qdel(src)
 
 /obj/structure/closet/statue/dump_contents()
@@ -78,7 +80,7 @@
 
 	for(var/mob/living/M in src)
 		M.loc = src.loc
-		M.sdisabilities -= MUTE
+		M.disabilities -= MUTE
 		M.take_overall_damage((M.health - health - 100),0) //any new damage the statue incurred is transfered to the mob
 		M.faction -= "mimic"
 		if(M.client)
@@ -106,7 +108,7 @@
 /obj/structure/closet/statue/toggle()
 	return
 
-/obj/structure/closet/statue/bullet_act(var/obj/item/projectile/Proj)
+/obj/structure/closet/statue/bullet_act(obj/item/projectile/Proj)
 	health -= Proj.damage
 	if(health <= 0)
 		for(var/mob/M in src)
@@ -114,7 +116,7 @@
 
 	return
 
-/obj/structure/closet/statue/attack_animal(mob/living/simple_animal/user as mob)
+/obj/structure/closet/statue/attack_animal(mob/living/simple_animal/user)
 	if(user.environment_smash)
 		for(var/mob/M in src)
 			shatter(M)
@@ -123,7 +125,8 @@
 	for(var/mob/M in src)
 		shatter(M)
 
-/obj/structure/closet/statue/attackby(obj/item/I as obj, mob/user as mob, params)
+/obj/structure/closet/statue/attackby(obj/item/I, mob/user, params)
+	user.changeNext_move(CLICK_CD_MELEE)
 	health -= I.force
 	visible_message("<span class='danger'>[user] strikes [src] with [I].</span>")
 	if(health <= 0)
@@ -148,7 +151,7 @@
 /obj/structure/closet/statue/update_icon()
 	return
 
-/obj/structure/closet/statue/proc/shatter(mob/user as mob)
+/obj/structure/closet/statue/proc/shatter(mob/user)
 	if (user)
 		user.dust()
 	dump_contents()

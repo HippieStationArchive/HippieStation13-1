@@ -18,9 +18,6 @@
 	throwforce = 10
 	throw_speed = 3
 	throw_range = 4
-
-	//Special variables for special functionality. I don't define vars or add on to procs here because I'd go insane doing that.
-	//Check items.dm for var definitions
 	special_throw = 1
 	deflectItem = 1
 	specthrowsound = 'sound/weapons/basebat.ogg'
@@ -28,8 +25,8 @@
 	throwforce_mult = 1.2 //Multiply the throwforce of thrown object meagerly - don't make this too high
 	specthrow_maxwclass = 2 //Max weight class that you can throw
 	specthrowmsg = "batted"
-
 	w_class = 3
+	burn_state = 0
 
 // /mob/living/carbon/throw_item(atom/target)
 // 	..()
@@ -42,6 +39,7 @@
 	force = 15 //Buffed again. It's kind of expensive to mass produce it since every 50 metal you can only get 3 bats.
 	throwforce = 13
 	specthrow_maxwclass = 3 //You can bat normal sized items with metal bat
+	burn_state = -1
 
 /obj/item/baseball
 	name = "baseball"

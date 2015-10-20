@@ -1,12 +1,13 @@
-##Hippie Station 13
+##/tg/station v1.0.1 
+
+[![Build Status](https://travis-ci.org/tgstation/-tg-station.png)](https://travis-ci.org/tgstation/-tg-station)
 
 
-[![Build Status](https://travis-ci.org/HippieStationCode/HippieStation13.svg?branch=master)](https://travis-ci.org/HippieStationCode/HippieStation13)
+**Website:** http://www.tgstation13.org <BR>
+**Code:** https://github.com/tgstation/-tg-station <BR>
+**Wiki** http://tgstation13.org/wiki/Main_Page <BR>
+**IRC:** irc://irc.rizon.net/coderbus or if you dont have an IRC client, you can click  [here](https://kiwiirc.com/client/irc.rizon.net:6667/?&theme=cli#coderbus).<BR>
 
-**Website:** http://www.hippie-station-13.com/forums/index.php <BR>
-**Code:** https://github.com/HippieStationCode/HippieStation13 <BR>
-**Wiki** http://wiki.hippie-station-13.com/Main_Page<BR>
-**IRC:** irc://irc.rizon.net/Codervan <BR>
 
 ##DOWNLOADING
 
@@ -71,6 +72,11 @@ compiled tgstation.dmb file.  Make sure to set the port to the one you
 specified in the config.txt, and set the Security box to 'Safe'.  Then press GO
 and the server should start up and be ready to join.
 
+###HOSTING ON LINUX
+We use BYGEX for some of our text replacement related code. Unfortunately, we
+only have a windows dll included right now. You can find a version known to compile on linux, along with some basic install instructions here
+https://github.com/optimumtact/byond-regex
+
 ##UPDATING
 
 To update an existing installation, first back up your /config and /data folders
@@ -123,9 +129,9 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ##LICENSE
 
-All code is under a GNU GPL v3 license (http://www.gnu.org/licenses/gpl.html),
-including tools unless their readme specifies otherwise.
+All code after commit 333c566b88108de218d882840e61928a9b759d8f on 2014/31/12 at 4:38 PM PST (https://github.com/tgstation/-tg-station/commit/333c566b88108de218d882840e61928a9b759d8f) is licensed under GNU AGPL v3 (http://www.gnu.org/licenses/agpl-3.0.html).
+All code before commit 333c566b88108de218d882840e61928a9b759d8f on 2014/31/12 at 4:38 PM PST (https://github.com/tgstation/-tg-station/commit/333c566b88108de218d882840e61928a9b759d8f) is licensed under GNU GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html).
+
+including tools unless their readme specifies otherwise. See LICENSE-AGPLv3.txt and LICENSE-GPLv3.txt for more details.
 All content including icons and sound is under a Creative Commons 3.0 BY-SA
 license (http://creativecommons.org/licenses/by-sa/3.0/).
-
-All code after commit 896ce6b0b69a0faa7d9ea2bbebf9f7175935aa7a is AGPLv3

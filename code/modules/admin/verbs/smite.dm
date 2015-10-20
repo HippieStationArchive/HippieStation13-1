@@ -9,9 +9,9 @@
 	proc/start()
 		icon_state = "lightning" //i'm sure there's a more elegant way to do this.
 		spawn(20)
-			del(src)
+			qdel(src)
 
-/client/proc/cmd_smite(var/mob/living/M in world)
+/client/proc/cmd_smite(mob/living/M in mob_list)
 	set category = "Fun"
 	set name = "Smite"
 	if(!holder)
@@ -26,7 +26,7 @@
 	var/dam = input(src, "How much damage?", "THE LIGHT SHALL BURN YOU") as num
 	var/obj/effect/lightning/L = new /obj/effect/lightning()
 	L.loc = get_turf(M.loc)
-	L.layer = M.layer+1 //i want it to display over clothing
+	L.layer = 16 //i want it to display over clothing
 	L.start()
 	playsound(M,'sound/effects/thunder.ogg',50,1)
 	switch(damtype)

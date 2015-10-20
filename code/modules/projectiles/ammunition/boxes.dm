@@ -40,13 +40,6 @@
 	ammo_type = /obj/item/ammo_casing/a762x39
 	max_ammo = 30
 
-/obj/item/ammo_box/a40mm
-	name = "ammo box (40mm grenades)"
-	icon_state = "40mm"
-	ammo_type = /obj/item/ammo_casing/a40mm
-	max_ammo = 4
-	multiple_sprites = 1
-
 /obj/item/ammo_box/box12gbuckshot
 	name = "ammo box (12g buckshot)"
 	icon_state = "12gboxbuckshot"
@@ -76,4 +69,28 @@
 	caliber = "shotgun"
 	max_ammo = 40
 
+/obj/item/ammo_box/a40mm
+	name = "ammo box (40mm grenades)"
+	icon_state = "40mm"
+	ammo_type = /obj/item/ammo_casing/a40mm
+	max_ammo = 4
+	multiple_sprites = 1
 
+/obj/item/ammo_box/a762
+	name = "stripper clip (7.62mm)"
+	desc = "A stripper clip."
+	icon_state = "762"
+	ammo_type = /obj/item/ammo_casing/a762
+	max_ammo = 5
+	multiple_sprites = 1
+
+/obj/item/ammo_box/foambox
+	name = "ammo box (Foam Darts)"
+	icon = 'icons/obj/guns/toy.dmi'
+	icon_state = "foambox"
+	ammo_type = /obj/item/ammo_casing/caseless/foam_dart
+	max_ammo = 40
+
+/obj/item/ammo_box/foambox/riot
+	icon_state = "foambox_riot"
+	ammo_type = /obj/item/ammo_casing/caseless/foam_dart/riot

@@ -9,13 +9,13 @@
 /obj/screen
 	name = ""
 	icon = 'icons/mob/screen_gen.dmi'
-	layer = 20.0
+	layer = 20
 	unacidable = 1
 	var/obj/master = null	//A reference to the object in the slot. Grabs or items, generally.
 
 /obj/screen/Destroy()
 	master = null
-	..()
+	return ..()
 
 
 /obj/screen/text
@@ -51,6 +51,20 @@
 /obj/screen/drop/Click()
 	usr.drop_item_v()
 
+/obj/screen/grab
+	name = "grab"
+
+/obj/screen/grab/Click()
+	var/obj/item/weapon/grab/G = master
+	G.s_click(src)
+	return 1
+
+/obj/screen/grab/attack_hand()
+	return
+
+/obj/screen/grab/attackby()
+	return
+
 /obj/screen/act_intent
 	name = "intent"
 	icon_state = "help"
@@ -83,16 +97,22 @@
 /obj/screen/internals/Click()
 	if(iscarbon(usr))
 		var/mob/living/carbon/C = usr
-		if(!C.stat && !C.stunned && !C.paralysis && !C.restrained())
+		if(!C.incapacitated())
 			if(C.internal)
 				C.internal = null
-				C << "<span class='notice'>No longer running on internals.</span>"
+				C << "<span class='notice'>You are no longer running on internals.</span>"
 				icon_state = "internal0"
 			else
 				if(!istype(C.wear_mask, /obj/item/clothing/mask))
-					C << "<span class='notice'>You are not wearing a mask.</span>"
+					C << "<span class='warning'>You are not wearing an internals mask!</span>"
 					return 1
 				else
+					var/obj/item/clothing/mask/M = C.wear_mask
+					if(M.mask_adjusted) // if mask on face but pushed down
+						M.adjustmask(C) // adjust it back
+					if( !(M.flags & MASKINTERNALS) )
+						C << "<span class='warning'>You are not wearing an internals mask!</span>"
+						return
 					if(istype(C.l_hand, /obj/item/weapon/tank))
 						C << "<span class='notice'>You are now running on internals from the [C.l_hand] on your left hand.</span>"
 						C.internal = C.l_hand
@@ -122,7 +142,7 @@
 					if(C.internal)
 						icon_state = "internal1"
 					else
-						C << "<span class='notice'>You don't have an oxygen tank.</span>"
+						C << "<span class='warning'>You don't have an oxygen tank!</span>"
 
 /obj/screen/mov_intent
 	name = "run/walk toggle"
@@ -146,6 +166,13 @@
 
 /obj/screen/pull/Click()
 	usr.stop_pulling()
+
+/obj/screen/pull/update_icon(mob/mymob)
+	if(!mymob) return
+	if(mymob.pulling)
+		icon_state = "pull"
+	else
+		icon_state = "pull0"
 
 /obj/screen/resist
 	name = "resist"
@@ -247,24 +274,13 @@
 	overlays.Cut()
 	overlays += image('icons/mob/screen_gen.dmi', "[selecting]")
 
-
-/obj/screen/Click(location, control, params)
-	if(!usr)	return 1
-
-	if(name == "Reset Machine") //I don't know what this is, CTRL+F has the only entry right here in this file, so I'm going to leave it in case it is something important
-		usr.unset_machine()
-	else
-		return 0
-
-	return 1
-
 /obj/screen/inventory/Click()
 	// At this point in client Click() code we have passed the 1/10 sec check and little else
 	// We don't even know if it's a middle click
 	if(world.time <= usr.next_move)
 		return 1
 
-	if(usr.stat || usr.paralysis || usr.stunned || usr.weakened || usr.restrained())
+	if(usr.incapacitated())
 		return 1
 	if (istype(usr.loc,/obj/mecha)) // stops inventory actions in a mech
 		return 1

@@ -32,13 +32,12 @@
 			if(istype(O))
 				R.add_blood(H)
 				R.loc = H
-				O.embedded += R //Lodge the object into the limb
+				O.embedded_objects += R //Lodge the object into the limb
 				H.update_damage_overlays() //Update the fancy embeds
 				visible_message("<span class='warning'>The [R] has embedded into [H]'s [O.getDisplayName()]!</span>",
 								"<span class='userdanger'>You feel [R] lodge into your [O.getDisplayName()]!</span>")
 				playsound(H, 'sound/weapons/rodgun_pierce.ogg', 50, 1) //For super audible murder
 				H.emote("scream")
-				H.adjustBloodLoss(0.01, O)
 				var/turf/T = get_step(H, dir)
 				if(istype(T) && T.density && !H.pinned_to) //Can only pin someone once.
 					H.pinned_to = T
@@ -59,7 +58,7 @@
 	icon = 'icons/obj/staples.dmi'
 	icon_state = "rodgun"
 	item_state = "gun"
-	m_amt = 15000
+	materials = list(MAT_METAL = 15000)
 	w_class = 3.0
 	throwforce = 5
 	throw_speed = 3
@@ -71,18 +70,15 @@
 	var/ammo_type = /obj/item/ammo_casing/rod
 	var/rods = 1
 	var/maxrods = 3
-
 //Info
 /obj/item/weapon/gun/rodgun/update_icon()
 	..()
 	overlays.Cut()
 	if(rods > 0)
 		overlays += "rg_loaded"
-
 /obj/item/weapon/gun/rodgun/examine(mob/user)
 	..()
 	user << "[rods] / [maxrods] rods loaded."
-
 //Reloading
 /obj/item/weapon/gun/rodgun/attackby(obj/item/I, mob/user as mob)
 	..()
@@ -102,25 +98,35 @@
 			user << "<span class='notice'>You insert [amt] rods in \the [src]. Now it contains [rods] rods."
 		else
 			user << "<span class='notice'>\The [src] is already full!</span>"
-
 //Fire overwrite stolen from magic wand code
 /obj/item/weapon/gun/rodgun/afterattack(atom/target as mob, mob/living/user as mob, flag)
 	newshot()
 	..()
-
 /obj/item/weapon/gun/rodgun/can_shoot()
 	return rods > 0
-
 /obj/item/weapon/gun/rodgun/proc/newshot()
 	if(rods > 0 && chambered)
 		chambered.newshot()
 	return
-
 /obj/item/weapon/gun/rodgun/process_chamber()
 	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
 		rods--//... drain a charge
 	return
-
 /obj/item/weapon/gun/rodgun/New()
 	..()
 	chambered = new ammo_type(src)
+// /obj/item/weapon/gun/rodgun/process_fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, var/message = 1, params)
+// 	add_fingerprint(user)
+// 	if(rods > 0)
+// 		if(get_dist(user, target) <= 1) //Making sure whether the target is in vicinity for the pointblank shot
+// 			shoot_live_shot(user, 1, target)
+// 		else
+// 			shoot_live_shot(user)
+// 		rods--
+// 	else
+// 		shoot_with_empty_chamber(user)
+// 	update_icon()
+// 	if(user.hand)
+// 		user.update_inv_l_hand(0)
+// 	else
+// 		user.update_inv_r_hand(0)

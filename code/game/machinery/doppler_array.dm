@@ -2,11 +2,12 @@ var/list/doppler_arrays = list()
 
 /obj/machinery/doppler_array
 	name = "tachyon-doppler array"
-	desc = "A highly precise directional sensor array which measures the release of quants from decaying tachyons. The doppler shifting of the mirror-image formed by these quants can reveal the size, location and temporal affects of energetic disturbances within a large radius ahead of the array."
+	desc = "A highly precise directional sensor array which measures the release of quants from decaying tachyons. The doppler shifting of the mirror-image formed by these quants can reveal the size, location and temporal affects of energetic disturbances within a large radius ahead of the array.\n<span class='notice'>Alt-click to rotate it clockwise.</span>"
 	icon = 'icons/obj/machines/research.dmi'
 	icon_state = "tdoppler"
 	density = 1
 	anchored = 1
+	verb_say = "states coldly"
 
 /obj/machinery/doppler_array/New()
 	..()
@@ -14,12 +15,12 @@ var/list/doppler_arrays = list()
 
 /obj/machinery/doppler_array/Destroy()
 	doppler_arrays -= src
-	..()
+	return ..()
 
 /obj/machinery/doppler_array/process()
 	return PROCESS_KILL
 
-/obj/machinery/doppler_array/attackby(var/obj/item/O as obj, var/mob/user as mob, params)
+/obj/machinery/doppler_array/attackby(obj/item/O, mob/user, params)
 	if(istype(O, /obj/item/weapon/wrench))
 		if(!anchored && !isinspace())
 			anchored = 1
@@ -43,8 +44,18 @@ var/list/doppler_arrays = list()
 	src.dir = turn(src.dir, 90)
 	return
 
-/obj/machinery/doppler_array/proc/sense_explosion(var/x0,var/y0,var/z0,var/devastation_range,var/heavy_impact_range,var/light_impact_range,
-												  var/took,var/orig_dev_range,var/orig_heavy_range,var/orig_light_range)
+/obj/machinery/doppler_array/AltClick(mob/user)
+	..()
+	if(!user.canUseTopic(user))
+		user << "<span class='warning'>You can't do that right now!</span>"
+		return
+	if(!in_range(src, user))
+		return
+	else
+		rotate()
+
+/obj/machinery/doppler_array/proc/sense_explosion(x0,y0,z0,devastation_range,heavy_impact_range,light_impact_range,
+												  took,orig_dev_range,orig_heavy_range,orig_light_range)
 	if(stat & NOPOWER)	return
 	if(z != z0)			return
 
@@ -75,9 +86,6 @@ var/list/doppler_arrays = list()
 
 	for(var/message in messages)
 		say(message)
-
-/obj/machinery/doppler_array/say_quote(text)
-	return "states coldly, \"[text]\""
 
 /obj/machinery/doppler_array/power_change()
 	if(stat & BROKEN)

@@ -6,20 +6,17 @@
 	density = 1
 	anchored = 0
 	pressure_resistance = 2*ONE_ATMOSPHERE
-	can_examine_reagents = 1
-	var/amount_per_transfer_from_this = 10
-	var/possible_transfer_amounts = list(10,25,50,100)
 
 /obj/structure/reagent_dispensers/ex_act(severity, target)
 	switch(severity)
-		if(1.0)
+		if(1)
 			qdel(src)
 			return
-		if(2.0)
+		if(2)
 			if (prob(50))
 				qdel(src)
 				return
-		if(3.0)
+		if(3)
 			if (prob(5))
 				qdel(src)
 				return
@@ -30,24 +27,16 @@
 	if(prob(50))
 		qdel(src)
 
-/obj/structure/reagent_dispensers/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+/obj/structure/reagent_dispensers/attackby(obj/item/weapon/W, mob/user, params)
 	return
 
 /obj/structure/reagent_dispensers/New()
 	create_reagents(1000)
-	if (!possible_transfer_amounts)
-		src.verbs -= /obj/structure/reagent_dispensers/verb/set_APTFT
 	..()
 
-/obj/structure/reagent_dispensers/verb/set_APTFT() //set amount_per_transfer_from_this
-	set name = "Set transfer amount"
-	set category = "Object"
-	set src in view(1)
-	if(usr.stat || !usr.canmove || usr.restrained())
-		return
-	var/N = input("Amount per transfer from this:","[src]") as null|anything in possible_transfer_amounts
-	if (N)
-		amount_per_transfer_from_this = N
+/obj/structure/reagent_dispensers/examine(mob/user)
+	..()
+	user << "It contains [reagents.total_volume] units."
 
 //Dispensers
 /obj/structure/reagent_dispensers/watertank
@@ -55,24 +44,24 @@
 	desc = "A watertank"
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "watertank"
-	amount_per_transfer_from_this = 10
-	New()
-		..()
-		reagents.add_reagent("water",1000)
+
+/obj/structure/reagent_dispensers/watertank/New()
+	..()
+	reagents.add_reagent("water",1000)
 
 /obj/structure/reagent_dispensers/watertank/ex_act(severity, target)
 	switch(severity)
-		if(1.0)
+		if(1)
 			qdel(src)
 			return
-		if(2.0)
+		if(2)
 			if (prob(50))
-				new /obj/effect/effect/water(src.loc)
+				PoolOrNew(/obj/effect/effect/water, src.loc)
 				qdel(src)
 				return
-		if(3.0)
+		if(3)
 			if (prob(5))
-				new /obj/effect/effect/water(src.loc)
+				PoolOrNew(/obj/effect/effect/water, src.loc)
 				qdel(src)
 				return
 		else
@@ -80,7 +69,7 @@
 
 /obj/structure/reagent_dispensers/watertank/blob_act()
 	if(prob(50))
-		new /obj/effect/effect/water(src.loc)
+		PoolOrNew(/obj/effect/effect/water, loc)
 		qdel(src)
 
 /obj/structure/reagent_dispensers/fueltank
@@ -88,18 +77,21 @@
 	desc = "A fueltank"
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "weldtank"
-	amount_per_transfer_from_this = 10
-	New()
-		..()
-		reagents.add_reagent("fuel",1000)
+
+/obj/structure/reagent_dispensers/fueltank/New()
+	..()
+	reagents.add_reagent("welding_fuel",1000)
 
 
-/obj/structure/reagent_dispensers/fueltank/bullet_act(var/obj/item/projectile/Proj)
+/obj/structure/reagent_dispensers/fueltank/bullet_act(obj/item/projectile/Proj)
 	..()
 	if(istype(Proj ,/obj/item/projectile/beam)||istype(Proj,/obj/item/projectile/bullet))
-		message_admins("[key_name_admin(Proj.firer)] triggered a fueltank explosion.")
-		log_game("[key_name(Proj.firer)] triggered a fueltank explosion.")
-		explosion(src.loc,-1,0,2, flame_range = 2)
+		if((Proj.damage_type == BURN) || (Proj.damage_type == BRUTE))
+			if(Proj.nodamage)
+				return
+			message_admins("[key_name_admin(Proj.firer)] triggered a fueltank explosion.")
+			log_game("[key_name(Proj.firer)] triggered a fueltank explosion.")
+			explosion(src.loc,-1,0,2, flame_range = 2)
 
 
 /obj/structure/reagent_dispensers/fueltank/blob_act()
@@ -123,88 +115,52 @@
 	icon_state = "peppertank"
 	anchored = 1
 	density = 0
-	amount_per_transfer_from_this = 45
-	New()
-		..()
-		reagents.add_reagent("condensedcapsaicin",1000)
+
+/obj/structure/reagent_dispensers/peppertank/New()
+	..()
+	reagents.add_reagent("condensedcapsaicin",1000)
 
 
 /obj/structure/reagent_dispensers/water_cooler
 	name = "Water-Cooler"
 	desc = "A machine that dispenses water to drink"
-	amount_per_transfer_from_this = 5
 	icon = 'icons/obj/vending.dmi'
 	icon_state = "water_cooler"
-	possible_transfer_amounts = null
 	anchored = 1
 	var/cups = 50
-	New()
-		..()
-		reagents.add_reagent("water",500)
 
-/obj/structure/reagent_dispensers/water_cooler/attack_hand(var/mob/living/carbon/human/user)
+/obj/structure/reagent_dispensers/water_cooler/New()
+	..()
+	reagents.add_reagent("water",500)
+
+/obj/structure/reagent_dispensers/water_cooler/attack_hand(mob/living/carbon/human/user)
 	if((!istype(user)) || (user.stat))
 		return
 	if(cups <= 0)
-		user << "<span class='danger'>What? No cups?"
+		user << "<span class='warning'>No cups left!</span>"
 		return
 	cups--
 	user.put_in_hands(new /obj/item/weapon/reagent_containers/food/drinks/sillycup)
-	user.visible_message("<span class='notice'>[user] gets a cup from [src].","<span class='notice'>You get a cup from [src].")
+	user.visible_message("[user] gets a cup from [src].","<span class='notice'>You get a cup from [src].</span>")
 
-/obj/structure/reagent_dispensers/water_cooler/attackby(var/obj/item/I, var/mob/user, params)
+/obj/structure/reagent_dispensers/water_cooler/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/paper))
-		user.drop_item()
+		if(!user.drop_item())
+			return
 		qdel(I)
 		cups++
 		return
 	else
 		..()
-
-/obj/structure/reagent_dispensers/honk_cooler
-	name = "Honk-Cooler"
-	desc = "A machine filled with the clown's thick juice! NICE!"
-	amount_per_transfer_from_this = 5
-	icon = 'icons/obj/vending.dmi'
-	icon_state = "honk_cooler"
-	possible_transfer_amounts = null
-	anchored = 1
-	var/cups = 50
-	New()
-		..()
-		reagents.add_reagent("banana",100)
-
-/obj/structure/reagent_dispensers/honk_cooler/attack_hand(var/mob/living/carbon/human/user)
-	if((!istype(user)) || (user.stat))
-		return
-	if(cups <= 0)
-		user << "<span class='danger'>What? No cups?"
-		return
-	cups--
-	user.put_in_hands(new /obj/item/weapon/reagent_containers/food/drinks/sillycup)
-	user.visible_message("<span class='notice'>[user] gets a cup from [src].","<span class='notice'>You get a cup from [src].")
-
-/obj/structure/reagent_dispensers/honk_cooler/attackby(var/obj/item/I, var/mob/user, params)
-	if(istype(I, /obj/item/weapon/paper))
-		user.drop_item()
-		qdel(I)
-		cups++
-		return
-	else
-		..()
-
-
-
-
 /obj/structure/reagent_dispensers/beerkeg
 	name = "beer keg"
 	desc = "A beer keg"
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "beertankTEMP"
-	amount_per_transfer_from_this = 10
-	New()
-		..()
-		reagents.add_reagent("beer",1000)
+
+/obj/structure/reagent_dispensers/beerkeg/New()
+	..()
+	reagents.add_reagent("beer",1000)
 
 /obj/structure/reagent_dispensers/beerkeg/blob_act()
 	explosion(src.loc,0,3,5,7,10)
@@ -215,9 +171,8 @@
 	desc = "A dispenser of virus food."
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "virusfoodtank"
-	amount_per_transfer_from_this = 10
 	anchored = 1
 
-	New()
-		..()
-		reagents.add_reagent("virusfood", 1000)
+/obj/structure/reagent_dispensers/virusfood/New()
+	..()
+	reagents.add_reagent("virusfood", 1000)

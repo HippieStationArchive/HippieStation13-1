@@ -15,8 +15,10 @@
 	icon_state = "nightvision1"
 
 /obj/screen/alien/nightvision/Click()
-	var/mob/living/carbon/alien/humanoid/A = usr
-	A.nightvisiontoggle()
+	var/mob/living/carbon/alien/A = usr
+	var/obj/effect/proc_holder/alien/nightvisiontoggle/T = locate() in A.abilities
+	if(T)
+		T.fire(A)
 
 
 /datum/hud/proc/alien_hud()
@@ -106,7 +108,7 @@
 
 	mymob.pullin = new /obj/screen/pull()
 	mymob.pullin.icon = 'icons/mob/screen_alien.dmi'
-	mymob.pullin.icon_state = "pull0"
+	mymob.pullin.update_icon(mymob)
 	mymob.pullin.screen_loc = ui_pull_resist
 
 //begin indicators
@@ -132,9 +134,10 @@
 	mymob.blind.name = " "
 	mymob.blind.screen_loc = "CENTER-7,CENTER-7"
 	mymob.blind.layer = 0
+	mymob.blind.mouse_opacity = 0
 
 	mymob.flash = new /obj/screen()
-	mymob.flash.icon = 'icons/mob/screen_alien.dmi'
+	mymob.flash.icon = 'icons/mob/screen_gen.dmi'
 	mymob.flash.icon_state = "blank"
 	mymob.flash.name = "flash"
 	mymob.flash.screen_loc = "WEST,SOUTH to EAST,NORTH"
@@ -144,7 +147,8 @@
 	mymob.zone_sel.icon = 'icons/mob/screen_alien.dmi'
 	mymob.zone_sel.update_icon()
 
-	mymob.client.screen = null
+	mymob.client.screen = list()
 
 	mymob.client.screen += list( mymob.throw_icon, mymob.zone_sel, mymob.healths, nightvisionicon, alien_plasma_display, mymob.pullin, mymob.blind, mymob.flash) //, mymob.hands, mymob.rest, mymob.sleep, mymob.mach )
 	mymob.client.screen += adding + other
+	mymob.client.screen += mymob.client.void

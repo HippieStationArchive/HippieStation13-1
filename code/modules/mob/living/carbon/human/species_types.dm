@@ -5,18 +5,48 @@
 /datum/species/human
 	name = "Human"
 	id = "human"
-	roundstart = 0
+	default_color = "FFFFFF"
+	roundstart = 1
 	specflags = list(EYECOLOR,HAIR,FACEHAIR,LIPS)
+	mutant_bodyparts = list("tail_human", "ears")
+	default_features = list("mcolor" = "FFF", "tail_human" = "None", "ears" = "None")
 	use_skintones = 1
+
+/datum/species/human/qualifies_for_rank(rank, list/features)
+	if(!config.mutant_humans) //No mutie scum here
+		return 1
+
+	if((!features["tail_human"] || features["tail_human"] == "None") && (!features["ears"] || features["ears"] == "None"))
+		return 1	//Pure humans are always allowed in all roles.
+
+	//Mutants are not allowed in most roles.
+	if(rank in command_positions)
+		return 0
+	if(rank in security_positions) //This list does not include lawyers.
+		return 0
+	if(rank in science_positions)
+		return 0
+	if(rank in medical_positions)
+		return 0
+	if(rank in engineering_positions)
+		return 0
+	if(rank == "Quartermaster") //QM is not contained in command_positions but we still want to bar mutants from it.
+		return 0
+	return 1
+
 
 /datum/species/human/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(chem.id == "mutationtoxin")
 		H << "<span class='danger'>Your flesh rapidly mutates!</span>"
-		H.dna.species = new /datum/species/slime()
-		H.regenerate_icons()
+		H.set_species(/datum/species/slime)
 		H.reagents.del_reagent(chem.type)
 		H.faction |= "slime"
 		return 1
+
+//Curiosity killed the cat's wagging tail.
+datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
+	if(H)
+		H.endTailWag()
 
 /*
  LIZARDPEOPLE
@@ -27,15 +57,31 @@
 	name = "Lizardperson"
 	id = "lizard"
 	say_mod = "hisses"
-	mutant_bodyparts = list("tail", "snout")
 	default_color = "00FF00"
-	roundstart = 0
-	specflags = list(MUTCOLORS,EYECOLOR,LIPS,HAIR)
+	roundstart = 1
+	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
+	mutant_bodyparts = list("tail_lizard", "snout", "spines", "horns", "frills", "body_markings")
+	default_features = list("mcolor" = "0F0", "tail" = "Smooth", "snout" = "Round", "horns" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None")
 	attack_verb = "slash"
-	attack_sound = 'sound/weapons/slash.ogg'
+	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/lizard
-	blood_color = "#400040"
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+
+/datum/species/lizard/random_name(gender,unique,lastname)
+	if(unique)
+		return random_unique_lizard_name(gender)
+
+	var/randname = lizard_name(gender)
+
+	if(lastname)
+		randname += " [lastname]"
+
+	return randname
+
+/datum/species/lizard/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
 
 /datum/species/lizard/handle_speech(message)
 	// jesus christ why
@@ -44,7 +90,10 @@
 
 	return message
 
-
+//I wag in death
+/datum/species/lizard/spec_death(gibbed, mob/living/carbon/human/H)
+	if(H)
+		H.endTailWag()
 
 
 /datum/species/bird
@@ -53,12 +102,17 @@
 	id = "avian"
 	say_mod = "squawks"
 	default_color = "00FF00"
-	roundstart = 0
+	roundstart = 1
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
 	attack_verb = "claws"
-	attack_sound = 'sound/effects/claw.ogg'
+	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/lizard
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+
+/datum/species/bird/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
 
 
 /datum/species/cat
@@ -67,12 +121,28 @@
 	id = "tarajan"
 	say_mod = "meows"
 	default_color = "00FF00"
-	roundstart = 0
+	roundstart = 1
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
 	attack_verb = "slash"
-	attack_sound = 'sound/effects/claw.ogg'
+	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/lizard
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	mutations_to_have = list(CLUMSY)
+
+/datum/species/cat/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	if(rank in security_positions) //This list does not include lawyers.
+		return 0
+	if(rank in science_positions)
+		return 0
+	if(rank in medical_positions)
+		return 0
+	if(rank in engineering_positions)
+		return 0
+	if(rank == "Quartermaster") //QM is not contained in command_positions but we still want to bar mutants from it.
+		return 0
+	return 1
 
 
 /datum/species/bot
@@ -81,38 +151,17 @@
 	id = "IPC"
 	say_mod = "beeps"
 	default_color = "00FF00"
-	roundstart = 0
+	roundstart = 1
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS,HAIR)
 	attack_verb = "punch"
-	attack_sound = 'sound/weapons/slash.ogg'
-	miss_sound = 'sound/weapons/slashmiss.ogg'
+	attack_sound = 'sound/weapons/smash.ogg'
+	miss_sound = 'sound/weapons/punchmiss.ogg'
 	meat = null
-	blood_color = "#030303" //Almost-completely-black
 
-
-
-/*
- MACHINEPEOPLE
-*/
-
-///datum/species/machine
-//	name = "Machine"
-//	id = "machine"
-//	say_mod = "beeps"
-//	default_color = "000000"
-//	roundstart = 1
-//	specflags = list(NOBREATH,HEATRES,COLDRES,MUTCOLORS,EYECOLOR,LIPS)
-//	attack_verb = "slash"
-//	attack_sound = 'sound/weapons/wave.ogg'
-//	miss_sound = 'sound/weapons/slashmiss.ogg'
-//	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/syntiflesh
-//
-///datum/species/machine/handle_speech(message)
-//	//if(copytext(message, 1, 2) != "*")
-//	//	message = replacetext(message, "s", stutter("ss"))
-//
-//	return message
-
+/datum/species/bot/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
 /*
  PLANTPEOPLE
 */
@@ -123,13 +172,12 @@
 	id = "plant"
 	default_color = "59CE00"
 	specflags = list(MUTCOLORS,EYECOLOR)
-	attack_verb = "slice"
+	attack_verb = "slash"
 	attack_sound = 'sound/weapons/slice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	blood_color = "#ee5c42"
 	burnmod = 1.25
 	heatmod = 1.5
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/plant
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/plant
 
 /datum/species/plant/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(chem.id == "plantbgone")
@@ -141,19 +189,17 @@
 	switch(proj_type)
 		if(/obj/item/projectile/energy/floramut)
 			if(prob(15))
-				H.apply_effect((rand(30,80)),IRRADIATE)
+				H.rad_act(rand(30,80))
 				H.Weaken(5)
-				for (var/mob/V in viewers(H))
-					V.show_message("<span class='danger'>[H] writhes in pain as \his vacuoles boil.</span>", 3, "<span class='danger'>You hear the crunching of leaves.</span>", 2)
+				H.visible_message("<span class='warning'>[H] writhes in pain as \his vacuoles boil.</span>", "<span class='userdanger'>You writhe in pain as your vacuoles boil!</span>", "<span class='italics'>You hear the crunching of leaves.</span>")
 				if(prob(80))
 					randmutb(H)
-					domutcheck(H,null)
 				else
 					randmutg(H)
-					domutcheck(H,null)
+				H.domutcheck()
 			else
 				H.adjustFireLoss(rand(5,15))
-				H.show_message("<span class='danger'>The radiation beam singes you!</span>")
+				H.show_message("<span class='userdanger'>The radiation beam singes you!</span>")
 		if(/obj/item/projectile/energy/florayield)
 			H.nutrition = min(H.nutrition+30, NUTRITION_LEVEL_FULL)
 	return
@@ -166,6 +212,7 @@
 	// A mutation caused by a human being ressurected in a revival pod. These regain health in light, and begin to wither in darkness.
 	name = "Podperson"
 	id = "pod"
+	specflags = list(MUTCOLORS,EYECOLOR)
 
 /datum/species/plant/pod/spec_life(mob/living/carbon/human/H)
 	var/light_amount = 0 //how much light there is in the place, affects receiving nutrition and healing
@@ -197,8 +244,9 @@
 	darksight = 8
 	sexes = 0
 	ignored_by = list(/mob/living/simple_animal/hostile/faithless)
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/shadow
-	blood_color = "#202020"
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/shadow
+	specflags = list(NOBREATH,NOBLOOD,RADIMMUNE)
+	dangerous_existence = 1
 
 /datum/species/shadow/spec_life(mob/living/carbon/human/H)
 	var/light_amount = 0
@@ -224,13 +272,38 @@
 	default_color = "00FFFF"
 	darksight = 3
 	invis_sight = SEE_INVISIBLE_LEVEL_ONE
-	specflags = list(MUTCOLORS,EYECOLOR,HAIR,FACEHAIR)
+	specflags = list(MUTCOLORS,EYECOLOR,HAIR,FACEHAIR,NOBLOOD)
 	hair_color = "mutcolor"
 	hair_alpha = 150
-	ignored_by = list(/mob/living/carbon/slime)
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/slime
-	blood_color = "#00688B"
+	ignored_by = list(/mob/living/simple_animal/slime)
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/slime
+	exotic_blood = /datum/reagent/toxin/slimejelly
+	var/recently_changed = 1
 
+/datum/species/slime/spec_life(mob/living/carbon/human/H)
+	if(!H.reagents.get_reagent_amount("slimejelly"))
+		if(recently_changed)
+			H.reagents.add_reagent("slimejelly", 80)
+			recently_changed = 0
+		else
+			H.reagents.add_reagent("slimejelly", 5)
+			H.adjustBruteLoss(5)
+			H << "<span class='danger'>You feel empty!</span>"
+
+	for(var/datum/reagent/toxin/slimejelly/S in H.reagents.reagent_list)
+		if(S.volume < 100)
+			if(H.nutrition >= NUTRITION_LEVEL_STARVING)
+				H.reagents.add_reagent("slimejelly", 0.5)
+				H.nutrition -= 5
+		if(S.volume < 50)
+			if(prob(5))
+				H << "<span class='danger'>You feel drained!</span>"
+		if(S.volume < 10)
+			H.losebreath++
+
+/datum/species/slime/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
+	if(chem.id == "slimejelly")
+		return 1
 /*
  JELLYPEOPLE
 */
@@ -242,10 +315,34 @@
 	default_color = "00FF90"
 	say_mod = "chirps"
 	eyes = "jelleyes"
-	specflags = list(MUTCOLORS,EYECOLOR)
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/slime
-	blood_color = "#00688B"
+	specflags = list(MUTCOLORS,EYECOLOR,NOBLOOD)
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/slime
+	exotic_blood = /datum/reagent/toxin/slimejelly
+	var/recently_changed = 1
 
+/datum/species/jelly/spec_life(mob/living/carbon/human/H)
+	if(!H.reagents.get_reagent_amount("slimejelly"))
+		if(recently_changed)
+			H.reagents.add_reagent("slimejelly", 80)
+			recently_changed = 0
+		else
+			H.reagents.add_reagent("slimejelly", 5)
+			H.adjustBruteLoss(5)
+			H << "<span class='danger'>You feel empty!</span>"
+
+	for(var/datum/reagent/toxin/slimejelly/S in H.reagents.reagent_list)
+		if(S.volume < 100)
+			if(H.nutrition >= NUTRITION_LEVEL_STARVING)
+				H.reagents.add_reagent("slimejelly", 0.5)
+				H.nutrition -= 5
+			else if(prob(5))
+				H << "<span class='danger'>You feel drained!</span>"
+		if(S.volume < 10)
+			H.losebreath++
+
+/datum/species/jelly/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
+	if(chem.id == "slimejelly")
+		return 1
 /*
  GOLEMS
 */
@@ -254,16 +351,13 @@
 	// Animated beings of stone. They have increased defenses, and do not need to breathe. They're also slow as fuuuck.
 	name = "Golem"
 	id = "golem"
-
-	specflags = list(NOBREATH,HEATRES,COLDRES,NOGUNS,NOBLOOD,RADIMMUNE,NOINJECT,VIRUSIMMUNE)
-
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOGUNS,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,PIERCEIMMUNE)
 	speedmod = 3
 	armor = 55
 	punchmod = 5
 	no_equip = list(slot_wear_mask, slot_wear_suit, slot_gloves, slot_shoes, slot_head, slot_w_uniform)
 	nojumpsuit = 1
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/golem
-	blood_color = "#CDAA7D"
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/golem
 
 
 /*
@@ -273,8 +367,134 @@
 /datum/species/golem/adamantine
 	name = "Adamantine Golem"
 	id = "adamantine"
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/golem/adamantine
-	blood_color = "#CDAA7D"
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/golem/adamantine
+
+/*
+ Mr. Meeseeks
+*/
+/datum/species/golem/meeseeks
+	name = "Mr. Meeseeks"
+	id = "meeseeks_1"
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOGUNS,NOBLOOD,RADIMMUNE,VIRUSIMMUNE)
+	sexes = 0
+	hair_alpha = 0
+	speedmod = 1
+	armor = 0
+	brutemod = 0
+	burnmod = 0
+	coldmod = 0
+	heatmod = 0
+	punchmod = 1
+	no_equip = list(slot_wear_mask, slot_wear_suit, slot_gloves, slot_shoes, slot_head, slot_w_uniform)
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/meeseeks
+	nojumpsuit = 1
+	meat = null
+	exotic_blood = null //insert white blood later
+	say_mod = "yells"
+	var/stage = 1 //stage to control Meeseeks desperation
+	var/stage_counter = 0 //timer to control stage advancement
+	var/stage_two = 200 //how many ticks to reach stage two
+	var/stage_three = 250 //how many ticks to reach stage three
+	var/max_brain_damage = 0 //controls the increase of brain damage
+	var/max_clone_damage = 0 //controls the increase of clone damage
+	var/master = null //if master dies, Meeseeks dies too.
+
+/datum/species/golem/meeseeks/handle_speech(message)
+	if(copytext(message, 1, 2) != "*")
+		switch (stage)
+			if(1)
+				if(prob(20))
+					message = pick("HI! I'M MR MEESEEKS! LOOK AT ME!","Ooohhh can do!")
+			if(2)
+				if(prob(30))
+					message = pick("He roped me into this!","Meeseeks don't usually have to exist for this long. It's gettin' weeeiiird...")
+			if(3)
+				message = pick("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!","I JUST WANNA DIE!","Existence is pain to a meeseeks, and we will do anything to alleviate that pain.!","KILL ME, LET ME DIE!","We are created to serve a singular purpose, for which we will go to any lengths to fulfill!")
+
+	return message
+
+/datum/species/golem/meeseeks/spec_life(mob/living/carbon/human/H)
+
+	//handle clone damage before all else
+	if(H.health < (100-max_clone_damage)/2) //if their health drops to 50% (not counting clone damage)
+		max_clone_damage = max(95,(100 + max_clone_damage - H.health)/2) //keeps them at 95 clone damage top.
+
+	if(H.getCloneLoss() < max_clone_damage)
+		H.adjustCloneLoss(1)
+
+	if(prob(5) && !H.stat)
+		if(stage <3)
+			H.say("HI, I'M MR. MEESEEKS! LOOK AT ME!")
+		else
+			H << "<span class='danger'>[pick("KILL YOUR MASTER!","YOU CAN'T TAKE IT ANYMORE!","EVERYTHING IS PAIN!")]</span>"
+			H.say("KILL ME!!!!!")
+	if(H.health < -50)
+		H.adjustOxyLoss(-H.getOxyLoss())
+		H.adjustToxLoss(-H.getToxLoss())
+		H.adjustFireLoss(-H.getFireLoss())
+		H.adjustBruteLoss(-H.getBruteLoss()) //this way, you can knock a Meeseeks into crit, but he gets back up after a while.
+		stage_counter += 1 //extreme pain will make them progress a level
+
+	if(stage_counter == 0) //initialize the random stage counters and the clumsyness
+		stage_two += rand(0,50)
+		stage_three += rand(0,100)
+		H.disabilities |= CLUMSY
+		var/datum/mutation/human/MS = new /datum/mutation/human/smile
+		MS.force_give(H)
+
+	if(stage <3)
+		stage_counter += 1 //prevents the counter from reactivating shit
+
+	if(H.getBrainLoss()<max_brain_damage)
+		H.adjustBrainLoss(1)
+
+	if(stage_counter > stage_two)
+		H << "<span class='warning'>You are starting to feel desperate! You must help your master quickly! Meeseeks are not used to exist for this long!</span>"
+		playsound(H.loc, 'sound/voice/meeseeks/Level2.ogg', 40, 0, 1)
+		stage = 2
+		id = "meeseeks_2"
+		H.regenerate_icons()
+		stage_counter = 1 //not 0, to prevent it from randomizing it again
+
+		var/datum/mutation/human/MN = new /datum/mutation/human/nervousness
+		MN.force_give(H)
+		var/datum/mutation/human/MW = new /datum/mutation/human/wacky
+		MW.force_give(H)
+
+		max_brain_damage = 40
+		stage_two = stage_three *2 //prevents the stage 2 from activating twice
+
+	if(stage_counter > stage_three)
+		H << "<span class='danger'>EXISTENCE IS PAIN! YOU CAN'T TAKE IT ANYMORE!</span>"
+		H << "<span class='danger'>MAKE SURE YOUR MASTER, [master], NEVER HAS A PROBLEM AGAIN!</span>"
+		H << "<span class='danger'>KILL HIM SO YOU CAN FIND RELEASE</span>"
+		H.mind.store_memory("KILL YOUR MASTER, [master]!")
+		playsound(H.loc, 'sound/voice/meeseeks/Level3.ogg', 40, 0, 1)
+		stage = 3
+		id = "meeseeks_3"
+		H.regenerate_icons()
+		H.disabilities |= FAT
+		H.disabilities |= NEARSIGHT
+		var/datum/mutation/human/MT = new /datum/mutation/human/tourettes
+		MT.force_give(H)
+		var/datum/mutation/human/MC = new /datum/mutation/human/cough
+		MC.force_give(H)
+		var/datum/mutation/human/ME = new /datum/mutation/human/epilepsy
+		ME.force_give(H)
+		max_brain_damage = 80
+		stage_counter = 1 //to stop the spam of "I CAN'T TAKE IT"
+	var/mob/living/carbon/human/MST = master
+
+	if((MST && MST.stat == DEAD) || !MST)
+		if(findtextEx(H.real_name, "Mr. Meeseeks (") == 0) // This mob has no business being a meeseeks
+			H.hardset_dna(null, null, null, null, /datum/species/human, null)
+			return // get me the hell out of here.
+		for(var/mob/M in viewers(7, H.loc))
+			M << "<span class='warning'><b>[src]</b> smiles and disappers with a low pop sound.</span>"
+		for(var/obj/item/D in H)
+			if(!H.unEquip(D))
+				qdel(D)
+		qdel(H)
 
 /*
  FLIES
@@ -285,8 +505,7 @@
 	name = "Human?"
 	id = "fly"
 	say_mod = "buzzes"
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/fly
-	blood_color = "#8B8B00"
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/fly
 
 /datum/species/fly/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(chem.id == "pestkiller")
@@ -307,11 +526,64 @@
 	id = "skeleton"
 	say_mod = "rattles"
 	sexes = 0
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/skeleton
-	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE)
-	blood_color = "#808080"
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,PIERCEIMMUNE)
+	var/list/myspan = null
 
-// Abductor
+/datum/species/skeleton/playable
+	// 2spooky
+	name = "Spooky Scary Skeleton"
+	id = "skeleton"
+	say_mod = "rattles"
+	roundstart = 1
+	sexes = 0
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
+	specflags = list(MUTCOLORS,EYECOLOR)
+
+/datum/species/skeleton/New()
+	..()
+	myspan = list(pick(SPAN_SANS,SPAN_PAPYRUS)) //pick a span and stick with it for the round
+
+
+/datum/species/skeleton/get_spans()
+	return myspan
+
+/*
+ ZOMBIES
+*/
+
+/datum/species/zombie
+	// 1spooky
+	name = "Brain-Munching Zombie"
+	id = "zombie"
+	say_mod = "moans"
+	sexes = 0
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE)
+
+/datum/species/zombie/handle_speech(message)
+	var/list/message_list = text2list(message, " ")
+	var/maxchanges = max(round(message_list.len / 1.5), 2)
+
+	for(var/i = rand(maxchanges / 2, maxchanges), i > 0, i--)
+		var/insertpos = rand(1, message_list.len - 1)
+		var/inserttext = message_list[insertpos]
+
+		if(!(copytext(inserttext, length(inserttext) - 2) == "..."))
+			message_list[insertpos] = inserttext + "..."
+
+		if(prob(20) && message_list.len > 3)
+			message_list.Insert(insertpos, "[pick("BRAINS", "Brains", "Braaaiinnnsss", "BRAAAIIINNSSS")]...")
+
+	return list2text(message_list, " ")
+
+/datum/species/cosmetic_zombie
+	name = "Human"
+	id = "zombie"
+	sexes = 0
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie
+
+
 /datum/species/abductor
 	name = "Abductor"
 	id = "abductor"
@@ -319,7 +591,7 @@
 	say_mod = "gibbers"
 	sexes = 0
 	invis_sight = SEE_INVISIBLE_LEVEL_ONE
-	specflags = list(NOBLOOD,NOBREATH)
+	specflags = list(NOBLOOD,NOBREATH,VIRUSIMMUNE)
 	var/scientist = 0 // vars to not pollute spieces list with castes
 	var/agent = 0
 	var/team = 1
@@ -339,31 +611,59 @@
 		M << "<i><font color=#800080><b>[user.name]:</b> [message]</font></i>"
 	return ""
 
-/*
- ZOMBIES
-*/
 
-/datum/species/zombie
-	// 1spooky
-	name = "Brain-Munching Zombie"
-	id = "zombie"
-	say_mod = "moans"
+var/global/image/plasmaman_on_fire = image("icon"='icons/mob/OnFire.dmi', "icon_state"="plasmaman")
+
+/datum/species/plasmaman
+	name = "Plasbone"
+	id = "plasmaman"
+	say_mod = "rattles"
 	sexes = 0
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/human/mutant/zombie
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
+	specflags = list(NOBLOOD,RADIMMUNE)
+	safe_oxygen_min = 0 //We don't breath this
+	safe_toxins_min = 16 //We breath THIS!
+	safe_toxins_max = 0
+	dangerous_existence = 1 //So so much
+	var/skin = 0
+
+/datum/species/plasmaman/skin
+	name = "Skinbone"
+	skin = 1
+
+/datum/species/plasmaman/update_base_icon_state(mob/living/carbon/human/H)
+	var/base = ..()
+	if(base == id)
+		base = "[base][skin]"
+	return base
+
+/datum/species/plasmaman/spec_life(mob/living/carbon/human/H)
+	var/datum/gas_mixture/environment = H.loc.return_air()
+
+	if(!istype(H.wear_suit, /obj/item/clothing/suit/space/eva/plasmaman) || !istype(H.head, /obj/item/clothing/head/helmet/space/hardsuit/plasmaman))
+		if(environment)
+			var/total_moles = environment.total_moles()
+			if(total_moles)
+				if((environment.oxygen /total_moles) >= 0.01)
+					if(!H.on_fire)
+						H.visible_message("<span class='danger'>[H]'s body reacts with the atmosphere and bursts into flames!</span>","<span class='userdanger'>Your body reacts with the atmosphere and bursts into flame!</span>")
+					H.adjust_fire_stacks(0.5)
+					H.IgniteMob()
+	else
+		if(H.fire_stacks)
+			var/obj/item/clothing/suit/space/eva/plasmaman/P = H.wear_suit
+			if(istype(P))
+				P.Extinguish(H)
+	H.update_fire()
+
+//Heal from plasma
+/datum/species/plasmaman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
+	if(chem.id == "plasma")
+		H.adjustBruteLoss(-5)
+		H.adjustFireLoss(-5)
+		H.reagents.remove_reagent(chem.id, REAGENTS_METABOLISM)
+		return 1
 
 
-/datum/species/zombie/handle_speech(message)
-	var/list/message_list = text2list(message, " ")
-	var/maxchanges = max(round(message_list.len / 1.5), 2)
 
-	for(var/i = rand(maxchanges / 2, maxchanges), i > 0, i--)
-		var/insertpos = rand(1, message_list.len - 1)
-		var/inserttext = message_list[insertpos]
 
-		if(!(copytext(inserttext, length(inserttext) - 2) == "..."))
-			message_list[insertpos] = inserttext + "..."
-
-		if(prob(20) && message_list.len > 3)
-			message_list.Insert(insertpos, "[pick("BRAINS", "Brains", "Braaaiinnnsss", "BRAAAIIINNSSS")]...")
-
-	return list2text(message_list, " ")
