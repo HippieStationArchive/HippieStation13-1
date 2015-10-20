@@ -38,6 +38,7 @@ var/const/tk_maxrange = 15
 	user.put_in_active_hand(O)
 	O.host = user
 	O.focus_object(src)
+	fingerprintslast = user.ckey
 	return
 
 /obj/item/attack_tk(mob/user)
@@ -46,6 +47,7 @@ var/const/tk_maxrange = 15
 	user.put_in_active_hand(O)
 	O.host = user
 	O.focus_object(src)
+	fingerprintslast = user.ckey
 	return
 
 
@@ -128,7 +130,7 @@ var/const/tk_maxrange = 15
 
 	else
 		apply_focus_overlay()
-		focus.throw_at(target, 10, 1,user)
+		focus.throw_at(target, 10, 1)
 		last_throw = world.time
 	return
 

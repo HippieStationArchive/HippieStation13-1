@@ -79,6 +79,7 @@
 
 /obj/item/weapon/reagent_containers/throw_impact(atom/target)
 	. = ..()
+	var/client/assailant = directory[ckey(fingerprintslast)]
 
 	if(!reagents || !reagents.total_volume || !spillable)
 		return
@@ -93,11 +94,9 @@
 			R += A.id + " ("
 			R += num2text(A.volume) + "),"
 
-		if(thrownby)
-			add_logs(thrownby, M, "splashed", R)
 		reagents.reaction(target, TOUCH)
 
-	else if((target.CanPass(src, get_turf(src))) && thrownby && thrownby.mind && thrownby.mind.assigned_role == "Bartender")
+	else if((target.CanPass(src, get_turf(src))) && assailant.mob && assailant.mob.mind && assailant.mob.mind.assigned_role == "Bartender")
 		visible_message("<span class='notice'>[src] lands onto the [target.name] without spilling a single drop.</span>")
 		return
 

@@ -271,6 +271,13 @@ its easier to just keep the beam vertical.
 	if(density && !has_gravity(AM)) //thrown stuff bounces off dense stuff in no grav.
 		spawn(2)
 			step(AM,  turn(AM.dir, 180))
+	if(istype(AM, /obj/item))
+		var/obj/item/I = AM
+		if(I.fingerprintslast)
+			var/client/assailant = directory[ckey(I.fingerprintslast)]
+			if(assailant && assailant.mob && istype(assailant.mob,/mob))
+				var/mob/M = assailant.mob
+				add_logs(M, src, "hit", object="[I]")
 
 var/list/blood_splatter_icons = list()
 

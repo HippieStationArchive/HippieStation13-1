@@ -506,7 +506,7 @@
 							target = new_turf
 							if(new_turf.density)
 								break
-						O.throw_at(target,range,O.throw_speed,src)
+						O.throw_at(target,range,O.throw_speed)
 						O.assthrown = 0 // so you can't just unembed it and throw it for insta embeds
 				src.internal_organs -= B
 				B.loc = get_turf(src)

@@ -1,9 +1,11 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1445295863
-DIR: _maps _maps\map_files _maps\map_files\TgStation code code\_onclick code\_onclick\hud code\datums code\datums\spells code\game code\game\area code\game\gamemodes code\game\gamemodes\blob code\game\gamemodes\blob\blobs code\game\gamemodes\changeling code\game\gamemodes\changeling\powers code\game\gamemodes\shadowling code\game\mecha code\game\mecha\combat code\game\objects code\game\objects\effects code\game\objects\effects\decals code\game\objects\effects\decals\Cleanable code\modules code\modules\mob code\modules\mob\living code\modules\mob\living\carbon code\modules\mob\living\carbon\alien code\modules\mob\living\carbon\alien\humanoid code\modules\mob\living\carbon\human code\modules\projectiles code\modules\projectiles\guns code\modules\projectiles\guns\projectile 
+LAST_COMPILE_TIME: 1445348016
+DIR: code code\__HELPERS code\_onclick code\_onclick\hud code\game code\game\machinery code\game\machinery\embedded_controller code\game\objects code\game\objects\items code\modules code\modules\mob code\modules\mob\living code\modules\mob\living\carbon code\modules\mob\living\carbon\human code\modules\reagents 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 508.1299
+WINDOW: code\modules\mob\living\living_defense.dm;code\modules\reagents\reagent_containers.dm;code\game\atoms_movable.dm;code\game\atoms.dm;code\game\objects\items.dm;code\modules\ninja\suit\n_suit_verbs\ninja_sword_recall.dm;code\modules\projectiles\guns\grenade_launcher.dm;code\game\objects\items\weapons\dice.dm;code\_onclick\telekinesis.dm;code\game\objects\items\weapons\pneumaticCannon.dm;code\modules\games\cards.dm;code\modules\mob\living\carbon\alien\special\facehugger.dm;code\datums\spells\wizard.dm;code\modules\mob\living\carbon\carbon.dm;code\modules\admin\verbs\buildmode.dm;code\modules\mob\living\carbon\human\emote.dm;code\game\gamemodes\blob\blobs\storage.dm;code\game\objects\items\weapons\storage\storage.dm;code\game\objects\items\toys.dm;code\__HELPERS\mobs.dm;code\_onclick\hud\alert.dm;code\modules\mob\living\carbon\human\human_defense.dm
+FILE: code\modules\reagents\reagent_containers.dm
 */
 // END_INTERNALS
