@@ -586,3 +586,11 @@
 	materials = list(MAT_METAL = 30000)
 	build_path = /obj/item/weapon/baseballbat/metal
 	category = list("hacked", "Misc")
+
+/datum/design/geiger
+	name = "Geiger counter"
+	id = "geigercounter"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 150, MAT_GLASS = 150)
+	build_path = /obj/item/device/geiger_counter
+	category = list("initial", "Tools")
