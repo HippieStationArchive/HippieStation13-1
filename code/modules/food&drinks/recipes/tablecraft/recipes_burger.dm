@@ -250,3 +250,19 @@
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/burger/rat
 	category = CAT_FOOD
+
+/datum/table_recipe/meatseeks_small
+	name = "Meatseeks Quarter Pounder"
+	reqs = list(
+			/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/meeseeks = 1,
+			/obj/item/weapon/reagent_containers/food/snacks/bun = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/burger/meatseek
+
+/datum/table_recipe/meatseeks_big
+	name = "Meatseeks Big Stack"
+	reqs = list(
+			/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/meeseeks = 3,
+			/obj/item/weapon/reagent_containers/food/snacks/bun = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/burger/meatseek_big

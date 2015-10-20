@@ -1,9 +1,11 @@
 // BEGIN_INTERNALS
 /*
 LAST_COMPILE_TIME: 1444607426
-DIR: _maps _maps\map_files _maps\map_files\TgStation code code\game code\game\area code\game\objects code\game\objects\structures icons icons\obj 
+DIR: code code\datums code\datums\spells code\game code\game\objects code\game\objects\items code\game\objects\items\devices code\modules code\modules\admin code\modules\admin\verbs code\modules\mob code\modules\mob\living code\modules\mob\living\carbon code\modules\mob\living\carbon\human code\modules\mob\living\carbon\monkey code\modules\mob\living\silicon code\modules\mob\living\silicon\pai code\modules\mob\living\silicon\robot code\modules\mob\living\simple_animal code\modules\mob\living\simple_animal\friendly code\modules\mob\living\simple_animal\friendly\drone code\modules\mob\living\simple_animal\hostile code\modules\mob\living\simple_animal\revenant code\modules\mob\living\simple_animal\slaughter code\modules\ninja code\modules\ninja\suit code\modules\paperwork code\modules\power code\modules\power\singularity code\modules\power\supermatter code\modules\projectiles code\modules\projectiles\guns code\modules\projectiles\guns\projectile code\modules\research 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 509.1303
+WINDOW: code\modules\mob\living\carbon\human\species_types.dm;code\game\objects\items\devices\meeseeksbox.dm;code\modules\research\designs.dm;code\datums\datumvars.dm;code\modules\admin\verbs\randomverbs.dm;code\game\dna.dm;code\modules\admin\admin_verbs.dm;code\modules\admin\verbs\one_click_antag.dm
+FILE: code\game\objects\items\devices\meeseeksbox.dm
 */
 // END_INTERNALS
