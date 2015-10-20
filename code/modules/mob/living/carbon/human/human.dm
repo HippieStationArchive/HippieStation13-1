@@ -79,6 +79,10 @@
 			if(mind.changeling)
 				stat("Chemical Storage", "[mind.changeling.chem_charges]/[mind.changeling.chem_storage]")
 				stat("Absorbed DNA", mind.changeling.absorbedcount)
+			if(mind.vampire)
+				stat("Total Blood Stolen", "[mind.vampire.sucked_blood]cl")
+				stat("Clean Blood", "[mind.vampire.clean_blood]cl")
+				stat("Dirty Blood", "[mind.vampire.dirty_blood]cl")
 
 
 	//NINJACODE
