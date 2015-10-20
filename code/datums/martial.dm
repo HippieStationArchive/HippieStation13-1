@@ -392,23 +392,23 @@
 
 /datum/martial_art/cqc/proc/Cqc3(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(!D.stat && !D.stunned && !D.weakened)
-		D.visible_message("<span class='warning'>[A] sweeps  [D]'s foot and makes them fall!</span>", \
+		D.visible_message("<span class='warning'>[A] sweeps [D]'s foot and makes them fall!</span>", \
 						  "<span class='userdanger'>[A] sweeps your foot and you fall!</span>")
 		playsound(get_turf(A), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 		D.emote("scream")
 		D.drop_item()
 		D.apply_damage(5, BRUTE, pick("l_leg", "r_leg"))
 		D.Weaken(2)
-		return 1
-	return basic_hit(A,D)
 
 /datum/martial_art/cqc/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-		D.visible_message("<span class='warning'>[A] grapples [D]!</span>", \
+	D.visible_message("<span class='warning'>[A] grapples [D]!</span>", \
 						  "<span class='userdanger'>[A] grapples you!</span>")
+	..()
+	var/obj/item/weapon/grab/G = A.get_active_hand()
+	if(G)
+		G.state = GRAB_AGGRESSIVE
 		playsound(get_turf(D), 'sound/weapons/grapple.ogg', 50, 1, -1)
-		G.State = GRAB_AGGRESSIVE //Instant aggressive grab
 		D.Stun(2)
-
 /datum/martial_art/cqc/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	add_to_streak("H")
 	if(check_streak(A,D))
