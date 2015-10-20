@@ -131,6 +131,12 @@
 			baton_stun(L, user)
 		..()
 
+/obj/item/weapon/melee/baton/throw_impact(atom/A)
+	..()
+	if(iscarbon(A) && src.loc != A) //This checks if the stun baton's location isn't in the dude's hands or inside him
+		var/mob/living/carbon/H = A
+		if(prob(50) && status)
+			baton_stun(H, usr)
 
 /obj/item/weapon/melee/baton/proc/baton_stun(mob/living/L, mob/user)
 	if(isrobot(loc))
