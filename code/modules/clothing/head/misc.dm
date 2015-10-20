@@ -42,6 +42,7 @@
 	desc = "These were once used by plague doctors. They're pretty much useless."
 	icon_state = "plaguedoctor"
 	permeability_coefficient = 0.01
+	burn_state = -1
 
 /obj/item/clothing/head/hasturhood
 	name = "hastur's hood"
@@ -62,6 +63,7 @@
 	desc = "A plastic replica of a Syndicate agent's space helmet. You'll look just like a real murderous Syndicate agent in this! This is a toy, it is not made for use in space!"
 	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
+	burn_state = -1
 
 /obj/item/clothing/head/cardborg
 	name = "cardborg helmet"
@@ -166,6 +168,7 @@
 	desc = "A helmet made out of chitinous alien hide."
 	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
+	burn_state = -1
 
 /obj/item/clothing/head/fedora
 	name = "fedora"

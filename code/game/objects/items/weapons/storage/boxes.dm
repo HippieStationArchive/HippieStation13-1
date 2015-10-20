@@ -563,6 +563,7 @@
 	item_state = "zippo"
 	storage_slots = 10
 	w_class = 1
+	burn_state = -1 //Bad idea to keep stuff with the sole purpose of burning inside a flammable box.
 	slot_flags = SLOT_BELT
 	can_hold = list(/obj/item/weapon/match)
 

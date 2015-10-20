@@ -1064,7 +1064,6 @@
 	card_throw_speed = 3
 	card_throw_range = 7
 	card_attack_verb = list("attacked", "sliced", "diced", "slashed", "cut")
-	burn_state = -1 //Not Burnable
 
 /*
  * Fake nuke
@@ -1124,16 +1123,15 @@
 	w_class = 2
 	attack_verb = list("bitten", "eaten", "fin slapped")
 	burn_state = 0 //Burnable
-	var/bitesound = 'sound/weapons/bite.ogg'
 
 // Attack mob
 /obj/item/toy/carpplushie/attack(mob/M, mob/user)
-	playsound(loc, bitesound, 20, 1)	// Play bite sound in local area
+	playsound(src, pick('sound/items/squeak1.ogg', 'sound/items/squeak2.ogg'), 40, 1)
 	return ..()
 
 // Attack self
 /obj/item/toy/carpplushie/attack_self(mob/user)
-	playsound(src.loc, bitesound, 20, 1)
+	playsound(src, pick('sound/items/squeak1.ogg', 'sound/items/squeak2.ogg'), 40, 1)
 	user << "<span class='notice'>You pet [src]. D'awww.</span>"
 	return ..()
 

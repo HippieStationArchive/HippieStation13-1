@@ -55,6 +55,8 @@ var/list/ventcrawl_machinery = list(/obj/machinery/atmospherics/components/unary
 					var/failed = 0
 					if(istype(I, /obj/item/weapon/implant))
 						continue
+					if(istype(I, /obj/item/organ/internal))
+						continue
 					else
 						failed++
 

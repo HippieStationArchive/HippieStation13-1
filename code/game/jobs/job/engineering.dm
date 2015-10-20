@@ -40,6 +40,7 @@ Chief Engineer
 
 	backpack = /obj/item/weapon/storage/backpack/industrial
 	satchel = /obj/item/weapon/storage/backpack/satchel_eng
+	duffle = /obj/item/weapon/storage/backpack/dufflebag/engineering
 	box = /obj/item/weapon/storage/box/engineer
 	pda_slot = slot_l_store
 
@@ -81,6 +82,7 @@ Station Engineer
 
 	backpack = /obj/item/weapon/storage/backpack/industrial
 	satchel = /obj/item/weapon/storage/backpack/satchel_eng
+	duffle = /obj/item/weapon/storage/backpack/dufflebag/engineering
 	box = /obj/item/weapon/storage/box/engineer
 	pda_slot = slot_l_store
 
