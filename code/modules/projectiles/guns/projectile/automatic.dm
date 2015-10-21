@@ -5,7 +5,7 @@
 	var/select = 1
 	can_suppress = 1
 	burst_size = 3
-	fire_delay = 2
+	fire_delay = 1	//Pre-rebase fire rate, nothing to see here.
 	action_button_name = "Toggle Firemode"
 
 /obj/item/weapon/gun/projectile/automatic/proto
