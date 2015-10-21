@@ -51,6 +51,10 @@
 
 	dna.species.spec_life(src) // for mutantraces
 
+	//If they're a vampire, do vampire-specific thingies
+	if(is_vampire(src))
+		handle_vampirism()
+
 
 /mob/living/carbon/human/calculate_affecting_pressure(pressure)
 	if((wear_suit && (wear_suit.flags & STOPSPRESSUREDMAGE)) && (head && (head.flags & STOPSPRESSUREDMAGE)))
@@ -330,5 +334,35 @@
 		losebreath += 5
 		adjustOxyLoss(5)
 		adjustBruteLoss(1)
+
+/mob/living/carbon/human/proc/handle_vampirism()
+	var/datum/vampire/V = get_vampire(src)
+	if(!V)
+		return 0
+
+	//Things that require clean blood and will not substitute dirty blood go under here
+	if(V.clean_blood)
+		//Vampires slowly recuperate wounds using clean blood
+		if(V.use_blood(0.01, 1))
+			restore_blood() //The body's blood itself is kept high by the vampire's clean blood. This does kinda mean you can infinitely fill blood bags...
+			adjustBruteLoss(-0.5)
+			adjustFireLoss(-0.2) //Slower than others due to their fire vulnerability
+			adjustToxLoss(-0.5)
+			adjustOxyLoss(-2)
+			adjustCloneLoss(-1)
+			adjustBrainLoss(-1)
+			if(losebreath)
+				losebreath--
+
+	//Vampires use blood to stay nourished
+	if(V.use_blood(0.01, 1)) //Tiny, tiny amounts of clean blood
+		nutrition = NUTRITION_LEVEL_WELL_FED
+	else if(V.use_blood(0.1, 0)) //Or much larger amounts of dirty blood
+		nutrition = NUTRITION_LEVEL_WELL_FED
+	else //But if they have no blood at all...
+		if(nutrition > 0)
+			nutrition -= 50 //...they start starving FAST.
+			nutrition = Clamp(nutrition, 0, INFINITY)
+
 
 #undef HUMAN_MAX_OXYLOSS
