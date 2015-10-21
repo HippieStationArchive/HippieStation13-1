@@ -84,6 +84,14 @@
 			newVirus.holder = blood_prop
 	return
 
+/datum/reagent/blood/on_mob_life(mob/living/M)
+	if(is_vampire(M))
+		var/datum/vampire/V = M.get_vampire()
+		V.dirty_blood += volume //Vampires can drink stored blood to gain dirty blood
+		holder.remove_reagent(id, volume)
+		return 1
+	..()
+
 /datum/reagent/liquidgibs
 	name = "Liquid gibs"
 	id = "liquidgibs"
