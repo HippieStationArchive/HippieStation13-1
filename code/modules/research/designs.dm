@@ -226,7 +226,7 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/device/gps
 	category = list("Bluespace Designs")
 
-/datum/design/meeseeks_box
+/*/datum/design/meeseeks_box
 	name = "Mr. Meeseeks Box"
 	desc = "A blue box with a button on top. You hear a faint voice from inside desperate to help you."
 	id = "meeseeks_box"
@@ -234,7 +234,7 @@ other types of metals and chemistry for reagents).
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_DIAMOND = 500)
 	build_path = /obj/item/device/meeseeks_box
-	category = list("Bluespace Designs")
+	category = list("Bluespace Designs")	*/
 
 /datum/design/miningsatchel_holding
 	name = "Mining Satchel of Holding"
