@@ -1,0 +1,7 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "A reconnect button has been added to the FILE category in the top left. Using it should reconnect you to the server and skip a byond ad."
+  - rscadd: "Tooltips have been added to the Action and Status Buttons on the hud. Hovering over those buttons will tell you their name and in the case of status buttons, why they are there."
