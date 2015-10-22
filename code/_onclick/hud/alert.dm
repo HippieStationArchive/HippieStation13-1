@@ -81,6 +81,14 @@
 	var/severity = 0
 
 
+/obj/screen/alert/MouseEntered(location,control,params)
+	openToolTip(usr,params,title = name,content = desc)
+
+
+/obj/screen/alert/MouseExited()
+	closeToolTip(usr)
+
+
 //Gas alerts
 /obj/screen/alert/oxy
 	name = "Choking (No O2)"
@@ -169,7 +177,7 @@ or something covering your eyes."
 
 /obj/screen/alert/embeddedobject
 	name = "Embedded Object"
-	desc = "Something got lodged into your flesh and is causing major bleeding. It might fall out with time, but surgery is the safest way. \
+	desc = "Something got lodged into your flesh and is causing major bleeding. Surgery is the safest way to remove it. \
 If you're feeling frisky, click yourself in help intent to pull the object out."
 	icon_state = "embeddedobject"
 
