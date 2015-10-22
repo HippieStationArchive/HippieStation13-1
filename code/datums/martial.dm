@@ -389,6 +389,32 @@
 		streak = ""
 		Cqc3(A,D)
 		return 1
+	if(streak != "")
+		switch(streak)
+			if("leg_sweep")
+				streak = ""
+				leg_sweep(A,D)
+				return 1
+			if("quick_choke")
+				streak = ""
+				quick_choke(A,D)
+				return 1
+		return 0
+	return 0
+
+/datum/martial_art/cqc/teach(var/mob/living/carbon/human/H,var/make_temporary=0)
+	..()
+	H << "<span class = 'userdanger'>You know the basics of CQC!</span>"
+	H << "<span class = 'danger'>Recall your teachings using the Recall Training verb in the CQC menu, in your verbs menu.</span>"
+	H.verbs += /mob/living/carbon/human/proc/cqc_help
+	H.verbs += /mob/living/carbon/human/proc/leg_sweep
+	H.verbs += /mob/living/carbon/human/proc/quick_choke
+
+/datum/martial_art/cqc/remove(var/mob/living/carbon/human/H)
+	..()
+	H.verbs -= /mob/living/carbon/human/proc/cqc_help
+	H.verbs -= /mob/living/carbon/human/proc/leg_sweep
+	H.verbs -= /mob/living/carbon/human/proc/quick_choke
 
 /datum/martial_art/cqc/proc/Cqc3(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(!D.stat && !D.stunned && !D.weakened)
@@ -410,9 +436,13 @@
 		playsound(get_turf(D), 'sound/weapons/grapple.ogg', 50, 1, -1)
 		D.Stun(2)
 /datum/martial_art/cqc/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("H")
 	if(check_streak(A,D))
 		return 1
+	add_to_streak("H")
+	add_logs(A, D, "punched")
+	A.do_attack_animation(D)
+	var/picked_hit_type = pick("punches", "kicks")
+	(picked_hit_type == "kicks")
 	D.visible_message("<span class='danger'>[A] [pick("punches", "strikes", "chops", "hits")] [D]!</span>", \
 					  "<span class='userdanger'>[A] hits you!</span>")
 	D.apply_damage(10, BRUTE)
@@ -431,12 +461,54 @@
 
 /mob/living/carbon/human/proc/cqc_help()
 	set name = "Recall Training"
-	set desc = "Try Remember the basics of cqc."
+	set desc = "Try to remember some the basics of cqc."
 	set category = "CQC"
 
 	usr << "<b><i>You remember the training from your former mentor...</i></b>"
 	usr << "<span class='notice'>Three Hit Combo</span>: Harm Harm Harm. Drops the opponent."
 	usr << "<span class='notice'>Judo Slam</span>: Disarm. Slams the opponent on the ground, at the cost of limited mobility."
+
+/datum/martial_art/cqc/teach(var/mob/living/carbon/human/H,var/make_temporary=0)
+	..()
+	H << "<span class = 'userdanger'>You know the basics of CQC!</span>"
+	H << "<span class = 'danger'>Recall your teachings using the Recall Training verb in the CQC menu, in your verbs menu.</span>"
+	H.verbs += /mob/living/carbon/human/proc/quick_choke
+
+/datum/martial_art/cqc/remove(var/mob/living/carbon/human/H)
+
+
+/datum/martial_art/cqc/proc/leg_sweep(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	if(D.stat || D.weakened)
+		return 0
+	D.visible_message("<span class='warning'>[A] leg sweeps [D]!</span>", \
+					  	"<span class='userdanger'>[A] leg sweeps you!</span>")
+	playsound(get_turf(A), 'sound/effects/hit_kick.ogg', 50, 1, -1)
+	D.apply_damage(5, BRUTE)
+	D.Weaken(6)
+	return 1
+
+/datum/martial_art/cqc/proc/quick_choke(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	D.visible_message("<span class='warning'>[A] grabs and chokes [D]!</span>", \
+				  	"<span class='userdanger'>[A] grabs and chokes you!</span>")
+	playsound(get_turf(A), 'sound/effects/hit_punch.ogg', 50, 1, -1)
+	D.losebreath += 5
+	D.adjustOxyLoss(15)
+	D.silent += 6
+	return 1
+
+/mob/living/carbon/human/proc/leg_sweep()
+	set name = "Leg Sweep"
+	set desc = "Sets your next move to the Leg Sweep."
+	set category = "CQC"
+	usr << "<b><i>Your next attack will be a Leg Sweep.</i></b>"
+	martial_art.streak = "leg_sweep"
+
+/mob/living/carbon/human/proc/quick_choke()
+	set name = "Quick Choke"
+	set desc = "Sets your next move to the Quick Choke."
+	set category = "CQC"
+	usr << "<b><i>Your next attack will be a Quick Choke.</i></b>"
+	martial_art.streak = "quick_choke"
 
 //ITEMS
 
