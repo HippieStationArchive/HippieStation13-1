@@ -24,14 +24,12 @@
 /obj/structure/stool/bed/attack_paw(mob/user)
 	return src.attack_hand(user)
 
-/obj/structure/stool/bed/attack_animal(mob/living/simple_animal/user)//No more buckling hostile mobs to chairs to render them immobile forever
-	if(user.environment_smash)
-		user.do_attack_animation(src)
-		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
-		visible_message("<span class='danger'>[user] destroys \the [src].</span>")
+/obj/structure/stool/bed/attack_animal(mob/living/simple_animal/M)//No more buckling hostile mobs to chairs to render them immobile forever
+	if(M.environment_smash)
 		new /obj/item/stack/sheet/metal(src.loc)
 		qdel(src)
-	return
+		return
+
 
 /*
  * Roller beds

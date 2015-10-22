@@ -179,11 +179,9 @@
 /obj/structure/closet/attack_animal(mob/living/simple_animal/user)
 	if(user.environment_smash)
 		user.do_attack_animation(src)
-		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
 		visible_message("<span class='danger'>[user] destroys \the [src].</span>")
 		dump_contents()
 		qdel(src)
-	return
 
 /obj/structure/closet/blob_act()
 	if(prob(75))

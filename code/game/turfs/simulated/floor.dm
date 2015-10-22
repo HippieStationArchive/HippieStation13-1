@@ -85,15 +85,6 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 /turf/simulated/floor/attack_paw(mob/user)
 	return src.attack_hand(user)
 
-/turf/simulated/floor/attack_animal(mob/living/simple_animal/M)
-	if(istype(M, /mob/living/simple_animal/construct/builder))
-		M.changeNext_move(CLICK_CD_MELEE)
-		M.do_attack_animation(src)
-		playsound(src, 'sound/items/deconstruct.ogg', 100, 1)
-		ChangeTurf(/turf/simulated/floor/plasteel/cult)
-		icon_state = "cult"
-	return
-
 /turf/simulated/floor/proc/gets_drilled()
 	return
 
@@ -173,7 +164,6 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 /turf/simulated/floor/narsie_act()
 	if(prob(20))
 		ChangeTurf(/turf/simulated/floor/plasteel/cult)
-		icon_state = "cult"
 
 /turf/simulated/floor/can_have_cabling()
 	return !burnt & !broken & !lava
