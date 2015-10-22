@@ -446,6 +446,7 @@
 
 /obj/structure/rack/attack_alien(mob/living/user)
 	user.do_attack_animation(src)
+	playsound(src.loc, 'sound/weapons/bladeslice.ogg', 50, 1)
 	visible_message("<span class='warning'>[user] slices [src] apart.</span>")
 	rack_destroy()
 
@@ -453,8 +454,10 @@
 /obj/structure/rack/attack_animal(mob/living/simple_animal/user)
 	if(user.environment_smash)
 		user.do_attack_animation(src)
+		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
 		visible_message("<span class='warning'>[user] smashes [src] apart.</span>")
 		rack_destroy()
+
 /obj/structure/rack/attack_tk() // no telehulk sorry
 	return
 
