@@ -5,7 +5,7 @@
 	// Nanotrasen TCS Language - Made by Doohl
 
 //Span classes that players are allowed to set in a radio transmission.
-var/list/allowed_custom_spans = list(SPAN_ROBOT,SPAN_YELL,SPAN_ITALICS,SPAN_SANS,SPAN_CLWUNESCAPE)
+var/list/allowed_custom_spans = list(SPAN_ROBOT,SPAN_YELL,SPAN_ITALICS,SPAN_SANS,SPAN_CLWUNESCAPE,SPAN_PAPYRUS)
 
 /n_Interpreter/TCS_Interpreter
 	var/datum/TCS_Compiler/Compiler
@@ -111,6 +111,7 @@ var/list/allowed_custom_spans = list(SPAN_ROBOT,SPAN_YELL,SPAN_ITALICS,SPAN_SANS
 		interpreter.SetVar("$emphasis",	SPAN_ITALICS) //Italics
 		interpreter.SetVar("$wacky",		SPAN_SANS) //Comic sans font, normally seen from the genetics power.
 		interpreter.SetVar("$clwne", SPAN_CLWUNESCAPE)	//ClwneSpek shall rise once more!
+		interpreter.SetVar("$papyrus", SPAN_PAPYRUS)  //Memes?
 
 		//Language bitflags
 		interpreter.SetVar("HUMAN"   ,	HUMAN)
