@@ -244,7 +244,7 @@ var/list/allowed_custom_spans = list(SPAN_ROBOT,SPAN_YELL,SPAN_ITALICS,SPAN_SANS
 		signal.data["verb_yell"]	= interpreter.GetCleanVar("$yell")
 		signal.data["verb_exclaim"]	= interpreter.GetCleanVar("$exclaim")
 		var/list/setspans 			= interpreter.GetCleanVar("$filters") //Save the span vector/list to a holder list
-		setspans &= allowed_custom_spans //Prune out any illegal ones. Go ahead, comment this line out. See the horror you can unleash!
+//		setspans &= allowed_custom_spans //Prune out any illegal ones. Go ahead, comment this line out. See the horror you can unleash!  //Release the SPANS!
 		if(islist(setspans)) //Previous comment block was right. Players cannot be trusted with ANYTHING. At all. Ever.
 			signal.data["spans"]	= setspans //Apply new span to the signal only if it is a valid list, made using vector() in the script.
 
