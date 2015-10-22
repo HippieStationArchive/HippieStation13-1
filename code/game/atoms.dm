@@ -6,6 +6,7 @@
 	var/list/fingerprintshidden
 	var/fingerprintslast = null
 	var/list/blood_DNA
+	var/bypasslog = 0 // for custom logging when thrown
 
 	///Chemistry.
 	var/datum/reagents/reagents = null
@@ -271,6 +272,14 @@ its easier to just keep the beam vertical.
 	if(density && !has_gravity(AM)) //thrown stuff bounces off dense stuff in no grav.
 		spawn(2)
 			step(AM,  turn(AM.dir, 180))
+	if(istype(AM, /obj/item))
+		var/obj/item/I = AM
+		if(I.fingerprintslast)
+			var/client/assailant = directory[ckey(I.fingerprintslast)]
+			if(assailant && assailant.mob && istype(assailant.mob,/mob))
+				if(!I.bypasslog)
+					var/mob/M = assailant.mob
+					add_logs(M, src, "hit", object="[I]")
 
 var/list/blood_splatter_icons = list()
 

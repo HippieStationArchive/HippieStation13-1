@@ -4,6 +4,7 @@
 	icon = 'icons/obj/chemical.dmi'
 	icon_state = null
 	w_class = 1
+	bypasslog = 1
 	var/amount_per_transfer_from_this = 5
 	var/list/possible_transfer_amounts = list(5,10,15,25,30)
 	var/volume = 30
@@ -79,6 +80,7 @@
 
 /obj/item/weapon/reagent_containers/throw_impact(atom/target)
 	. = ..()
+	var/client/assailant = directory[ckey(fingerprintslast)]
 
 	if(!reagents || !reagents.total_volume || !spillable)
 		return
@@ -92,12 +94,11 @@
 		for(var/datum/reagent/A in reagents.reagent_list)
 			R += A.id + " ("
 			R += num2text(A.volume) + "),"
+		add_logs(assailant.mob, target, "splashed", object="[src]", addition="[R]")
 
-		if(thrownby)
-			add_logs(thrownby, M, "splashed", R)
 		reagents.reaction(target, TOUCH)
 
-	else if((target.CanPass(src, get_turf(src))) && thrownby && thrownby.mind && thrownby.mind.assigned_role == "Bartender")
+	else if((target.CanPass(src, get_turf(src))) && assailant.mob && assailant.mob.mind && assailant.mob.mind.assigned_role == "Bartender")
 		visible_message("<span class='notice'>[src] lands onto the [target.name] without spilling a single drop.</span>")
 		return
 
