@@ -1,5 +1,5 @@
 /****************************************************
-				BLOOD SYSTEM
+				BLOOD SYSTEM hi
 ****************************************************/
 //Blood levels
 var/const/BLOOD_VOLUME_SAFE = 501
