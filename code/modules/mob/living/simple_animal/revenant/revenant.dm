@@ -15,7 +15,8 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 	health = 25
 	maxHealth = 25
 	healable = 0
-	see_invisible = INVISIBILITY_REVENANT
+	see_invisible = SEE_INVISIBLE_MINIMUM
+	see_in_dark = 8
 	languages = ALL
 	response_help   = "passes through"
 	response_disarm = "swings at"
@@ -385,7 +386,7 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 	if(client_to_revive)
 		for(var/mob/M in mob_list)
 			if(M.client == client_to_revive && M.stat == DEAD) //Only recreates the mob if the mob the client is in is dead
-				message_admins("[R.client] was a revenant and died. Re-making them into the new revenant formed by ectoplasm.")
+				message_admins("[M.client] was a revenant and died. Re-making them into the new revenant formed by ectoplasm.")
 				R.client = client_to_revive
 				key_of_revenant = client_to_revive.key
 				break

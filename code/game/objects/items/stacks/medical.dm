@@ -125,3 +125,4 @@
 	icon_state = "ointment"
 	heal_burn = 40
 	origin_tech = "biotech=1"
+	burn_state = -1

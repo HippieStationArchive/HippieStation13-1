@@ -31,6 +31,7 @@
 	can_adjust = 0
 	force = 0.001 	//TG doesn't have the forcehitsound that Hippie has at the moment, so this is just a hacky solution until or unless we figure something out -DerptheStewpidGoat
 	hitsound = list('sound/voice/cosby1.ogg','sound/voice/cosby2.ogg','sound/voice/cosby3.ogg','sound/voice/cosby4.ogg','sound/voice/cosby5.ogg')
+	burn_state = -1
 
 /obj/item/clothing/under/sl_suit
 	desc = "It's a very amish looking suit."
@@ -97,6 +98,7 @@
 	item_state = "gy_suit"
 	item_color = "vice"
 	can_adjust = 0
+	alt_covers_chest = 1
 
 /obj/item/clothing/under/rank/centcom_officer
 	desc = "It's a jumpsuit worn by Centcom Officers."
@@ -471,6 +473,7 @@
 	item_color = "plaid_red"
 	fitted = FEMALE_UNIFORM_TOP
 	can_adjust = 1
+	alt_covers_chest = 1
 
 /obj/item/clothing/under/plaid_skirt/blue
 	name = "blue plaid skirt"
@@ -478,6 +481,9 @@
 	icon_state = "plaid_blue"
 	item_state = "plaid_blue"
 	item_color = "plaid_blue"
+	fitted = FEMALE_UNIFORM_TOP
+	can_adjust = 1
+	alt_covers_chest = 1
 
 /obj/item/clothing/under/plaid_skirt/purple
 	name = "purple plaid skirt"
@@ -485,6 +491,9 @@
 	icon_state = "plaid_purple"
 	item_state = "plaid_purple"
 	item_color = "plaid_purple"
+	fitted = FEMALE_UNIFORM_TOP
+	can_adjust = 1
+	alt_covers_chest = 1
 
 /obj/item/clothing/under/jester
 	name = "jester suit"

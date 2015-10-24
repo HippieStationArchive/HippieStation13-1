@@ -284,7 +284,6 @@
 			return
 		A.loc = BB
 		BB.damage = 5
-		BB.nodamage = 0
 		user << "<span class='notice'>You insert [A] into [src].</span>"
 	return
 

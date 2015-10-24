@@ -91,7 +91,7 @@
 		var/obj/item/organ/limb/O = H.get_organ(ran_zone(check_zone(user.zone_sel.selecting), 65))
 		var/armor = H.run_armor_check(O, "melee")
 		if(armor <= 40)
-			H.throw_alert("embeddedobject")
+			H.throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
 			var/obj/item/organ/limb/L = pick(H.organs)
 			if(istype(P)) //If the staplegun contains paper...
 				P.loc = H

@@ -33,9 +33,10 @@
 
 /obj/item/clothing/glasses/science
 	name = "Science Goggles"
-	desc = "A pair of snazzy goggles used to protect against chemical spills. Fitted with an analyzer for scanning items."
+	desc = "A pair of snazzy goggles used to protect against chemical spills. Fitted with an analyzer for scanning items and reagents."
 	icon_state = "purple"
 	item_state = "glasses"
+	scan_reagents = 1 //You can see reagents while wearing science goggles
 
 /obj/item/clothing/glasses/science/equipped(mob/user, slot)
 	if(slot == slot_glasses)
@@ -45,6 +46,16 @@
 /obj/item/clothing/glasses/science/dropped(mob/user)
 	user.scanner.devices -= 1
 	..(user)
+
+/obj/item/clothing/glasses/bartender
+	name = "Bartender Glasses"
+	desc = "A pair of sunglasses that allow for scanning of reagents inside containers.."
+	icon_state = "barhud"
+	item_state = "barhud"
+	darkness_view = 1
+	flash_protect = 1
+	tint = 1
+	scan_reagents = 1 //Bartender needs to see whats cooking
 
 /obj/item/clothing/glasses/night
 	name = "Night Vision Goggles"
@@ -60,6 +71,7 @@
 	desc = "Yarr."
 	icon_state = "eyepatch"
 	item_state = "eyepatch"
+	burn_state = 0
 
 /obj/item/clothing/glasses/monocle
 	name = "monocle"
@@ -175,6 +187,7 @@
 //	vision_flags = BLIND	//handled in life.dm/handle_regular_hud_updates()
 	flash_protect = 2
 	tint = 3			// to make them blind
+	burn_state = 0
 
 /obj/item/clothing/glasses/sunglasses/big
 	desc = "Strangely ancient technology used to help provide rudimentary eye cover. Larger than average enhanced shielding blocks many flashes."
