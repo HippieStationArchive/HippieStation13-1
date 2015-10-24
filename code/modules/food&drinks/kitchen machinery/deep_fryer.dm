@@ -26,7 +26,7 @@
 		return
 	if(F == user) F.visible_message("<span class='warning'>[user] starts squeezing into [src]!</span>", "<span class='userdanger'>You start squeezing into [src]!</span>")
 	else F.visible_message("<span class='warning'>[user] starts putting [F] into [src]!</span>", "<span class='userdanger'>[user] starts shoving you into [src]!</span>")
-	if(!do_mob(user, src, 120))
+	if(!do_mob(user, F, 120)) //SRC should of been F in this case, it's the person putting the mob in, not the deepfryer,
 		return
 	if(buckled_mob) //to prevent spam/queing up attacks
 		return
