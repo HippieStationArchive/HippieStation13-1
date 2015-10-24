@@ -1,0 +1,7 @@
+author: TDcoolguy300
+
+
+delete-after: True
+
+changes: 
+  - rscadd: "Adds a Teamspeak button uptop, right after "report issue.""
