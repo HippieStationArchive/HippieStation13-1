@@ -204,6 +204,7 @@
 			M.jitteriness = 0
 			M.stuttering = 0
 			M.confused = 0
+			return
 	holder.remove_reagent(src.id, 0.4)	//fixed consumption to prevent balancing going out of whack
 	return
 

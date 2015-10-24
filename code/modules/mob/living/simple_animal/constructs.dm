@@ -144,7 +144,7 @@
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	construct_spells = list(/obj/effect/proc_holder/spell/targeted/ethereal_jaunt/shift)
 	playstyle_string = "<B>You are a Wraith. Though relatively fragile, you are fast, deadly, and even able to phase through walls.</B>"
-
+	pass_flags = PASSTABLE // They're ghosts, man. They can't destroy the tables, so let them pass over.
 
 
 /////////////////////////////Artificer/////////////////////////
@@ -167,13 +167,15 @@
 	attack_sound = 'sound/weapons/punch2.ogg'
 	construct_spells = list(/obj/effect/proc_holder/spell/aoe_turf/conjure/construct/lesser,
 							/obj/effect/proc_holder/spell/aoe_turf/conjure/wall,
-							/obj/effect/proc_holder/spell/aoe_turf/conjure/floor,
+						//	/obj/effect/proc_holder/spell/aoe_turf/conjure/floor,
 							/obj/effect/proc_holder/spell/aoe_turf/conjure/soulstone,
 							/obj/effect/proc_holder/spell/targeted/projectile/magic_missile/lesser)
 	playstyle_string = "<B>You are an Artificer. You are incredibly weak and fragile, but you are able to construct fortifications, \
 						use magic missile, repair allied constructs (by clicking on them), \
 						</B><I>and most important of all create new constructs</I><B> \
-						(Use your Artificer spell to summon a new construct shell and Summon Soulstone to create a new soulstone).</B>"
+						(Use your Artificer spell to summon a new construct shell and Summon Soulstone to create a new soulstone).</B> \
+						To construct a floor, click on an existing floor or space tile. To construct a wall, \
+						stand where you wish the wall to be and cast the lesser construction spell."
 
 /////////////////////////////Harvester/////////////////////////
 
