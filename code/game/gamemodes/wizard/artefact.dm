@@ -149,7 +149,7 @@
 
 	equip_roman_skeleton(M)
 
-	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/3 active thralls."]"
+	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/[maxskeles] active thralls."]"
 
 /obj/item/device/necromantic_stone/proc/check_spooky()
 	if(unlimited) //no point, the list isn't used.
