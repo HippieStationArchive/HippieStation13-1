@@ -198,7 +198,7 @@
 		return 1
 	if(operating)
 		return
-	if(!ticker)
+	if(!ticker || !ticker.mode)
 		return 0
 	operating = 1
 
