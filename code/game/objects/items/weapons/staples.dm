@@ -57,7 +57,7 @@
 	overlays.Cut()
 	overlays += icon(icon, "[icon_state][amt]")
 
-/obj/item/weapon/staplegun/attack(mob/living/target as mob, mob/living/user as mob)
+/obj/item/weapon/staplegun/attack(mob/living/target, mob/living/user)
 	if(ammo <= 0)
 		playsound(user, 'sound/weapons/empty.ogg', 100, 1)
 		return
@@ -68,8 +68,7 @@
 			if(!H.w_uniform)
 				if(!(/obj/item/organ/internal/butt in H.internal_organs))
 					if(istype(B))
-						H.internal_organs += B
-						B.loc = target
+						B.Insert(target)
 						if(target == user)
 							user.visible_message("<span class='danger'>[user] staples his butt back on his groin!</span>", "<span class='userdanger'>You staple your butt back on, but it looks loose!</span>")
 						else
