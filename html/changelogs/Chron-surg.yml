@@ -1,0 +1,6 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "You can now perform surgery on yourself standing up. It'll bit harder to do surgery this way though."

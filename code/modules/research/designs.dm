@@ -226,6 +226,16 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/device/gps
 	category = list("Bluespace Designs")
 
+/*/datum/design/meeseeks_box
+	name = "Mr. Meeseeks Box"
+	desc = "A blue box with a button on top. You hear a faint voice from inside desperate to help you."
+	id = "meeseeks_box"
+	req_tech = list("materials" = 3, "programming" = 2, "bluespace" = 4)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_DIAMOND = 500)
+	build_path = /obj/item/device/meeseeks_box
+	category = list("Bluespace Designs")	*/
+
 /datum/design/miningsatchel_holding
 	name = "Mining Satchel of Holding"
 	desc = "A mining satchel that can hold an infinite amount of ores."
@@ -235,6 +245,17 @@ other types of metals and chemistry for reagents).
 	materials = list(MAT_GOLD = 250, MAT_URANIUM = 500) //quite cheap, for more convenience
 	reliability = 100
 	build_path = /obj/item/weapon/storage/bag/ore/holding
+	category = list("Bluespace Designs")
+
+/datum/design/bluebutt
+	name = "Butt Of Holding"
+	desc = "This butt has bluespace properties, letting you store more items in it. Four tiny items, or two small ones, or one normal one can fit."
+	id = "bluebutt"
+	req_tech = list("bluespace" = 5, "biotech" = 4)
+	build_type = PROTOLATHE
+	materials = list(MAT_GOLD = 500, MAT_SILVER = 500) //quite cheap, for more convenience
+	reliability = 100
+	build_path = /obj/item/organ/internal/butt/bluebutt
 	category = list("Bluespace Designs")
 
 
@@ -378,6 +399,36 @@ other types of metals and chemistry for reagents).
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 4500, MAT_SILVER = 1500, MAT_GOLD = 2500)
 	build_path = /obj/item/clothing/shoes/magboots
+	category = list("Equipment")
+
+/datum/design/sci_goggles
+	name = "Science Goggles"
+	desc = "Goggles fitted with a portable analyzer capable of determining the research worth of an item or components of a machine."
+	id = "scigoggles"
+	req_tech = list("materials" = 3, "magnets" = 3, "engineering" = 2)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 250, MAT_GLASS = 300)
+	build_path = /obj/item/clothing/glasses/science
+	category = list("Equipment")
+
+/datum/design/hev_suit
+	name = "H.E.V Suit"
+	desc = "An advanced suit designed for scientists out in the field needing protection from just about any danger, including but not limited to angry military grunts."
+	id = "hev_suit"
+	req_tech = list("materials" = 5, "engineering" = 5, "combat" = 5, "biotech" = 4)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 4500, MAT_GOLD = 3000, MAT_PLASMA = 1000, MAT_URANIUM = 1500)
+	build_path = /obj/item/clothing/suit/armor/hev_suit
+	category = list("Equipment")
+
+/datum/design/hev_helmet
+	name = "H.E.V Helmet"
+	desc = "An advanced helmet designed for scientists out in the field needing protection from just about any danger, including but not limited to angry military grunts."
+	id = "hev_helmet"
+	req_tech = list("materials" = 5, "engineering" = 5, "combat" = 5, "biotech" = 4)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 2500, MAT_GLASS = 3000, MAT_GOLD = 1500, MAT_PLASMA = 2000, MAT_DIAMOND = 1000)
+	build_path = /obj/item/clothing/head/helmet/hev_helmet
 	category = list("Equipment")
 
 /////////////////////////////////////////

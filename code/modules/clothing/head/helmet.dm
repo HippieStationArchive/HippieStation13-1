@@ -52,17 +52,11 @@
 	if(usr.canmove && !usr.stat && !usr.restrained() && can_toggle)
 		if(world.time > cooldown + toggle_cooldown)
 			cooldown = world.time
+			up = !up
 			if(up)
-				up = !up
-				flags |= (visor_flags)
-				flags_inv |= (visor_flags_inv)
-				icon_state = initial(icon_state)
-				usr << "[toggle_message] \the [src]."
-				usr.update_inv_head()
-			else
-				up = !up
 				flags &= ~(visor_flags)
 				flags_inv &= ~(visor_flags_inv)
+				flags_cover &= 0
 				icon_state = "[initial(icon_state)]up"
 				usr << "[alt_toggle_message] \the [src]"
 				usr.update_inv_head()
@@ -70,6 +64,13 @@
 					while(up)
 						playsound(src.loc, "[active_sound]", 100, 0, 4)
 						sleep(15)
+			else
+				flags |= (visor_flags)
+				flags_inv |= (visor_flags_inv)
+				flags_cover = initial(flags_cover)
+				icon_state = initial(icon_state)
+				usr << "[toggle_message] \the [src]."
+				usr.update_inv_head()
 
 /obj/item/clothing/head/helmet/justice
 	name = "helmet of justice"
@@ -116,6 +117,23 @@
 	heat_protection = HEAD
 	max_heat_protection_temperature = HELMET_MAX_TEMP_PROTECT
 	strip_delay = 60
+
+/obj/item/clothing/head/helmet/hev_helmet
+	name = "H.E.V Helmet"
+	icon_state = "hev"
+	desc = "An advanced Hazardous Environment helmet designed to be used in conjunction with the Hazardous Environment Suit. Allows the user to continue the progression of SCIENCE in the field despite nearly any danger they may encounter."
+	flash_protect = 1
+	permeability_coefficient = 0.01
+	flags = BLOCKHAIR | THICKMATERIAL | STOPSPRESSUREDMAGE | HEADBANGPROTECT
+	cold_protection = HEAD
+	min_cold_protection_temperature = HELMET_MIN_TEMP_PROTECT
+	heat_protection = HEAD
+	max_heat_protection_temperature = HELMET_MAX_TEMP_PROTECT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	armor = list(melee = 40, bullet = 45, laser = 45, energy = 30, bomb = 90, bio = 100, rad = 90)
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
+	unacidable = 1	//Acids have no effect
+	burn_state = -1 //Not Burnable
 
 /obj/item/clothing/head/helmet/swat/nanotrasen
 	name = "\improper SWAT helmet"

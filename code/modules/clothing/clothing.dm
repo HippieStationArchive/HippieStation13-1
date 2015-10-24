@@ -17,6 +17,7 @@
 	var/obj/item/device/flashlight/F = null
 	var/can_flashlight = 0
 	var/gang //Is this a gang outfit?
+	var/scan_reagents = 0 //Can the wearer see reagents while it's equipped?
 
 //Ears: currently only used for headsets and earmuffs
 /obj/item/clothing/ears
@@ -216,6 +217,7 @@ BLIND     // can't see anything
 	burn_state = -1 //Not Burnable
 
 //Under clothing
+
 /obj/item/clothing/under
 	icon = 'icons/obj/clothing/uniforms.dmi'
 	name = "under"
@@ -229,6 +231,7 @@ BLIND     // can't see anything
 	var/sensor_mode = 0	/* 1 = Report living/dead, 2 = Report detailed damages, 3 = Report location */
 	var/can_adjust = 1
 	var/adjusted = 0
+	var/alt_covers_chest = 0 // for adjusted/rolled-down jumpsuits, 0 = exposes chest and arms, 1 = exposes arms only
 	var/suit_color = null
 	var/obj/item/clothing/tie/hastie = null
 
@@ -358,12 +361,17 @@ atom/proc/generate_female_clothing(index,t_color,icon,type)
 		src.fitted = initial(fitted)
 		src.item_color = initial(item_color)
 		src.item_color = src.suit_color //colored jumpsuits are shit and break without this
+		src.body_parts_covered = CHEST|GROIN|LEGS|ARMS
 		usr << "<span class='notice'>You adjust the suit back to normal.</span>"
 		src.adjusted = 0
 	else
 		if(src.fitted != FEMALE_UNIFORM_TOP)
 			src.fitted = NO_FEMALE_UNIFORM
 		src.item_color += "_d"
+		if (alt_covers_chest) // for the special snowflake suits that don't expose the chest when adjusted
+			src.body_parts_covered = CHEST|GROIN|LEGS
+		else
+			src.body_parts_covered = GROIN|LEGS
 		usr << "<span class='notice'>You adjust the suit to wear it more casually.</span>"
 		src.adjusted = 1
 	usr.update_inv_w_uniform()

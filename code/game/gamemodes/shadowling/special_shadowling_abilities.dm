@@ -25,6 +25,8 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 									"<span class='shadowling'>You remove any equipment which would hinder your hatching and begin regurgitating the resin which will protect you.</span>")
 
 				for(var/obj/item/I in H) //drops all items
+					if (istype(I, /obj/item/weapon/implant) || istype(I, /obj/item/organ))
+						continue
 					H.unEquip(I)
 
 				sleep(50)
@@ -59,6 +61,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "Hel-uae", "N
 
 				sleep(10)
 				playsound(H.loc, 'sound/effects/ghost.ogg', 100, 1)
+				if(!(possibleShadowlingNames.len)) possibleShadowlingNames.Add("U'ruan", "Y`shej", "Nex", "Hel-uae", "Noaey'gief", "Mii`mahza", "Amerziox", "Gyrg-mylin", "Kanet'pruunance", "Vigistaezian") // error cannot pick null list safety
 				var/newNameId = pick(possibleShadowlingNames)
 				possibleShadowlingNames.Remove(newNameId)
 				H.real_name = newNameId

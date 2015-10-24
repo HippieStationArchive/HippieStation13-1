@@ -46,6 +46,13 @@
 			var/turf/simulated/T = get_step(src, direction)
 			if(istype(T))
 				SSair.add_to_active(T)
+	if(src.pinned)
+		var/mob/living/carbon/human/H = src.pinned
+		if(istype(H))
+			H.anchored = 0
+			H.pinned_to = null
+			H.do_pindown(src, 0)
+			H.update_canmove()
 	..()
 
 /turf/attack_hand(mob/user)
@@ -271,7 +278,8 @@
 					step(C, olddir)
 					C.spin(1,1)
 		if(C.lying != oldlying) //did we actually fall?
-			C.adjustBruteLoss(2)
+			var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
+			C.apply_damage(2, BRUTE, dam_zone)
 		return 1
 
 /turf/singularity_act()

@@ -441,7 +441,7 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 500)
 	build_path = /obj/item/weapon/flamethrower/full
-	category = list("hacked", "Weapons and ammo")
+	category = list("hacked", "Misc")
 
 /datum/design/rcd
 	name = "Rapid construction device (RCD)"
@@ -515,6 +515,14 @@
 	build_path = /obj/item/ammo_casing/shotgun/incendiary
 	category = list("hacked", "Security")
 
+/datum/design/buttlaunch
+	name = "Butt Launcher frame"
+	id = "buttlaunch"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 5000)
+	build_path = /obj/item/weapon/buttlaunch1
+	category = list("hacked", "Security")
+
 /datum/design/a357
 	name = "Ammo box (.357)"
 	id = "a357"
@@ -578,3 +586,11 @@
 	materials = list(MAT_METAL = 30000)
 	build_path = /obj/item/weapon/baseballbat/metal
 	category = list("hacked", "Misc")
+
+/datum/design/geiger
+	name = "Geiger counter"
+	id = "geigercounter"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 150, MAT_GLASS = 150)
+	build_path = /obj/item/device/geiger_counter
+	category = list("initial", "Tools")

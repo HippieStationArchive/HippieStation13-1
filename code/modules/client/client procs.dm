@@ -206,6 +206,12 @@ var/next_external_rsc = 0
 	if (config && config.autoconvert_notes)
 		convert_notes_sql(ckey)
 
+
+	//This is down here because of the browse() calls in tooltip/New()
+	if(!tooltips)
+		tooltips = new /datum/tooltip(src)
+
+
 //////////////
 //DISCONNECT//
 //////////////
@@ -300,6 +306,14 @@ var/next_external_rsc = 0
 /client/proc/is_afk(duration=3000)
 	if(inactivity > duration)	return inactivity
 	return 0
+
+// Byond seemingly calls stat, each tick.
+// Calling things each tick can get expensive real quick.
+// So we slow this down a little.
+// See: http://www.byond.com/docs/ref/info.html#/client/proc/Stat
+/client/Stat()
+	. = ..()
+	sleep(1)
 
 //send resources to the client. It's here in its own proc so we can move it around easiliy if need be
 /client/proc/send_resources()

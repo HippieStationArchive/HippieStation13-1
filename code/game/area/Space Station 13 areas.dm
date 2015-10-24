@@ -186,6 +186,7 @@ var/list/teleportlocs = list()
 	icon_state = "syndie-ship"
 	requires_power = 0
 	has_gravity = 1
+	ambientsounds = list('sound/ambience/windwinterinside.ogg')
 
 /area/syndicate_mothership/control
 	name = "\improper Syndicate Control Room"
@@ -435,6 +436,15 @@ var/list/teleportlocs = list()
 /area/maintenance/electrical
 	name = "Electrical Maintenance"
 	icon_state = "yellow"
+
+/area/maintenance/isomaint
+	name = "Isolation Maintenance"
+	icon_state = "yellow"
+
+/area/maintenance/strangeroom
+	name = "Strange Room"
+	icon_state = "yellow"
+
 
 //Hallway
 
@@ -840,6 +850,10 @@ var/list/teleportlocs = list()
 
 /area/security/prison
 	name = "\improper Prison Wing"
+	icon_state = "sec_prison"
+
+/area/security/isolation
+	name = "\improper High Risk Isolation"
 	icon_state = "sec_prison"
 
 /area/security/processing

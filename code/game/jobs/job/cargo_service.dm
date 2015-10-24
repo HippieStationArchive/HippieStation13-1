@@ -86,6 +86,7 @@ Shaft Miner
 
 	backpack = /obj/item/weapon/storage/backpack/industrial
 	satchel = /obj/item/weapon/storage/backpack/satchel_eng
+	duffle = /obj/item/weapon/storage/backpack/dufflebag/engineering
 	box = /obj/item/weapon/storage/box/engineer
 
 /*
@@ -111,6 +112,7 @@ Bartender
 /datum/outfit/job/bartender
 	name = "Bartender"
 
+	glasses = /obj/item/clothing/glasses/bartender
 	belt = /obj/item/device/pda/bar
 	ears = /obj/item/device/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/bartender
@@ -119,11 +121,11 @@ Bartender
 
 
 /*
-Cook
+Chef, cook is horrible
 */
-/datum/job/cook
-	title = "Cook"
-	flag = COOK
+/datum/job/chef
+	title = "Chef"
+	flag = CHEF
 	department_head = list("Head of Personnel")
 	department_flag = CIVILIAN
 	faction = "Station"
@@ -131,28 +133,28 @@ Cook
 	spawn_positions = 1
 	supervisors = "the head of personnel"
 	selection_color = "#bbe291"
-	var/cooks = 0 //Counts cooks amount
+	var/chefs = 0 //Counts chefs amount
 
-	outfit = /datum/outfit/job/cook
+	outfit = /datum/outfit/job/chef
 
 	access = list(access_hydroponics, access_bar, access_kitchen, access_morgue)
 	minimal_access = list(access_kitchen, access_morgue)
 
 
-/datum/outfit/job/cook
-	name = "Cook"
+/datum/outfit/job/chef
+	name = "Chef"
 
-	belt = /obj/item/device/pda/cook
+	belt = /obj/item/device/pda/chef
 	ears = /obj/item/device/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/chef
 	suit = /obj/item/clothing/suit/toggle/chef
 	head = /obj/item/clothing/head/chefhat
 
-/datum/outfit/job/cook/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/chef/pre_equip(mob/living/carbon/human/H)
 	..()
-	var/datum/job/cook/J = SSjob.GetJob(H.job)
-	J.cooks++
-	if(J.cooks>1)//Cooks
+	var/datum/job/chef/J = SSjob.GetJob(H.job)
+	J.chefs++
+	if(J.chefs>1)//CHEFS GODDAMNIT
 		suit = /obj/item/clothing/suit/apron/chef
 		head = /obj/item/clothing/head/soft/mime
 
@@ -186,6 +188,11 @@ Botanist
 	suit = /obj/item/clothing/suit/apron
 	gloves  =/obj/item/clothing/gloves/botanic_leather
 	suit_store = /obj/item/device/analyzer/plant_analyzer
+
+	backpack = /obj/item/weapon/storage/backpack/botany
+	satchel = /obj/item/weapon/storage/backpack/satchel_hyd
+	duffle = /obj/item/weapon/storage/backpack/dufflebag/hydroponics
+	mountain = /obj/item/weapon/storage/backpack/mountainbag_hyd
 
 
 /*

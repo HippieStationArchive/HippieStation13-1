@@ -1,6 +1,6 @@
 var/list/uplink_items = list()
 
-/proc/get_uplink_items()
+/proc/get_uplink_items(var/gamemode_override=null)
 	// If not already initialized..
 	if(!uplink_items.len)
 
@@ -12,10 +12,6 @@ var/list/uplink_items = list()
 
 			var/datum/uplink_item/I = new item()
 			if(!I.item)
-				continue
-			if(I.gamemodes.len && ticker && !(ticker.mode.type in I.gamemodes))
-				continue
-			if(I.excludefrom.len && ticker && (ticker.mode.type in I.excludefrom))
 				continue
 			if(I.last)
 				last += I
@@ -33,7 +29,26 @@ var/list/uplink_items = list()
 
 			uplink_items[I.category] += I
 
-	return uplink_items
+	//Filtered version
+	var/list/filtered_uplink_items = list()
+
+	for(var/category in uplink_items)
+		for(var/datum/uplink_item/I in uplink_items[category])
+			if(I.gamemodes.len)
+				if(!gamemode_override && ticker && !(ticker.mode.type in I.gamemodes))
+					continue
+				if(gamemode_override && !(gamemode_override in I.gamemodes))
+					continue
+			if(I.excludefrom.len)
+				if(!gamemode_override && ticker && (ticker.mode.type in I.excludefrom))
+					continue
+				if(gamemode_override && (gamemode_override in I.excludefrom))
+					continue
+			if(!filtered_uplink_items[I.category])
+				filtered_uplink_items[I.category] = list()
+			filtered_uplink_items[category] += I
+
+	return filtered_uplink_items
 
 // You can change the order of the list by putting datums before/after one another OR
 // you can use the last variable to make sure it appears last, well have the category appear last.
@@ -48,6 +63,9 @@ var/list/uplink_items = list()
 	var/list/gamemodes = list() // Empty list means it is in all the gamemodes. Otherwise place the gamemode name here.
 	var/list/excludefrom = list() //Empty list does nothing. Place the name of gamemode you don't want this item to be available in here. This is so you dont have to list EVERY mode to exclude something.
 	var/surplus = 100 //Chance of being included in the surplus crate (when pick() selects it)
+	var/list/jobs = list() // For job-specific traitor items. Leave empty for all jobs to be allowed to buy it.
+	var/list/jobs_exclude = list() //Not sure why would you want to exclude uplink items from some jobs, but okay.
+
 
 /datum/uplink_item/proc/spawn_item(turf/loc, obj/item/device/uplink/U)
 	if(item)
@@ -93,6 +111,54 @@ var/list/uplink_items = list()
 //	UPLINK ITEMS
 //
 */
+
+// JOB-SPECIFIC ITEMS
+
+/datum/uplink_item/job_specific //No job-specific support for surplus yet.
+	category = "Job-specific Contraband"
+	surplus = 0
+
+//ENGINEER DIVISION
+
+/datum/uplink_item/job_specific/rodgun
+	name = "Rod Gun"
+	desc = "Based on the staple gun design, this baby can be loaded with 3 rods that you can shoot for them to embed into people." //This thing may be super OP
+	item = /obj/item/weapon/gun/rodgun
+	cost = 10 //Costly, but for a good reason
+	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
+
+//SERVICE DIVISION
+
+/datum/uplink_item/job_specific/chainsaw
+	name = "Chainsaw"
+	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack."
+	item = /obj/item/weapon/twohanded/chainsaw
+	cost = 14
+	jobs = list("Botanist", "Bartender", "Chef")
+
+//LIBRARIAN
+/datum/uplink_item/job_specific/soulstone
+	name = "Soulstone"
+	desc = "This stone will be able to capture your victim's soul and bind them to your will."
+	item = /obj/item/device/soulstone
+	cost = 5 //nerfed the cost on Chronitonity's request
+	jobs = list("Librarian")
+
+//CHAPLAIN
+/datum/uplink_item/job_specific/skelestone
+	name = "Skelestone"
+	desc = "Make a skeleton minion! Has one use."
+	item = /obj/item/device/necromantic_stone/oneuse
+	cost = 7
+	jobs = list("Chaplain")
+
+//BARTENDER
+/datum/uplink_item/job_specific/buckshot
+	name = "12g Buckshot Shell"
+	desc = "Buckshot shells fire 5 pellets that will spread in the direction you are shooting. They can be loaded into your double-barreled shotgun. Absolutely devastating point-blank."
+	item = /obj/item/ammo_casing/shotgun/buckshot
+	cost = 5
+	jobs = list("Bartender")
 
 // DANGEROUS WEAPONS
 
@@ -280,7 +346,7 @@ var/list/uplink_items = list()
 	desc = "Though capable of near sorcerous feats via use of hardlight holograms and nanomachines, they require an organic host as a home base and source of fuel."
 	item = /obj/item/weapon/storage/box/syndie_kit/guardian
 	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
-	cost = 12
+	cost = 20
 
 // AMMUNITION
 

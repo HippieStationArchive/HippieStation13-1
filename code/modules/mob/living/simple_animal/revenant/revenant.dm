@@ -4,7 +4,7 @@
 //Admin-spawn or random event
 
 #define INVISIBILITY_REVENANT 30
-
+var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wrath", "Envy", "Pride", "Acedia", "Casper", "Lucifer")
 /mob/living/simple_animal/revenant
 	name = "revenant"
 	desc = "A malevolent spirit."
@@ -15,7 +15,8 @@
 	health = 25
 	maxHealth = 25
 	healable = 0
-	see_invisible = INVISIBILITY_REVENANT
+	see_invisible = SEE_INVISIBLE_MINIMUM
+	see_in_dark = 8
 	languages = ALL
 	response_help   = "passes through"
 	response_disarm = "swings at"
@@ -167,6 +168,10 @@
 /mob/living/simple_animal/revenant/New()
 	..()
 	spawn(5)
+		if(!(possibleRevenantNames.len)) possibleRevenantNames.Add("Lust", "Gluttony", "Greed", "Sloth", "Wrath", "Envy", "Pride", "Acedia", "Casper", "Lucifer") // to avoid cannot read null.len
+		var/newnameID = pick(possibleRevenantNames)
+		possibleRevenantNames.Remove(newnameID)
+		name = newnameID
 		if(src.mind)
 			src.mind.remove_all_antag()
 			src.mind.wipe_memory()
@@ -186,6 +191,8 @@
 			var/datum/objective/revenantFluff/objective2 = new
 			objective2.owner = src.mind
 			src.mind.objectives += objective2
+			src.mind.name = name
+			real_name = name
 			src << "<b>Objective #2</b>: [objective2.explanation_text]"
 			ticker.mode.traitors |= src.mind //Necessary for announcing
 		AddSpell(new /obj/effect/proc_holder/spell/targeted/revenant_transmit(null))
@@ -379,7 +386,7 @@
 	if(client_to_revive)
 		for(var/mob/M in mob_list)
 			if(M.client == client_to_revive && M.stat == DEAD) //Only recreates the mob if the mob the client is in is dead
-				message_admins("[R.client] was a revenant and died. Re-making them into the new revenant formed by ectoplasm.")
+				message_admins("[M.client] was a revenant and died. Re-making them into the new revenant formed by ectoplasm.")
 				R.client = client_to_revive
 				key_of_revenant = client_to_revive.key
 				break

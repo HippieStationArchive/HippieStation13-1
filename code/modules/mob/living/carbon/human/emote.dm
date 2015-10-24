@@ -61,7 +61,10 @@
 					if(gender == FEMALE)
 						sound = pick('sound/misc/cough_f1.ogg', 'sound/misc/cough_f2.ogg', 'sound/misc/cough_f3.ogg')
 					playsound(src.loc, sound, 50, 1, 5)
-					message = "<B>[src]</B> coughs!"
+					if(nearcrit)
+						message = "<B>[src]</B> coughs painfuly!"
+					else
+						message = "<B>[src]</B> coughs!"
 					m_type = 2
 				else
 					message = "<B>[src]</B> makes a strong noise."
@@ -176,17 +179,17 @@
 					if(prob(33))
 						O.loc = get_turf(src)
 						B.contents -= O
+						B.stored -= O.itemstorevalue
 				else
 					playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
 				sleep(1)
 				if(lose_butt)
-					if(B.contents.len)
-						var/obj/item/O = pick(B.contents)
+					for(var/obj/item/O in B.contents)
 						O.loc = get_turf(src)
 						B.contents -= O
-					src.internal_organs -= B
-					src.contents -= B
-					new /obj/item/organ/internal/butt(src.loc)
+						B.stored -= O.itemstorevalue
+					B.Remove(src)
+					B.loc = get_turf(src)
 					new /obj/effect/decal/cleanable/blood(src.loc)
 					src.nutrition -= rand(15, 30)
 					visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
@@ -365,6 +368,8 @@
 							sound = "sound/misc/lizard.ogg"
 						if("avian")
 							sound = "sound/misc/caw.ogg"
+						if("skeleton")
+							sound = "sound/misc/skeleton.ogg"
 						else
 							if(gender == FEMALE)
 								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
@@ -454,6 +459,7 @@
 			if(B.loose)
 				src << "\red Your butt's too loose to superfart!"
 				return
+			B.loose = 1 // to avoid spamsuperfart
 			var/fart_type = 1 //Put this outside probability check just in case. There were cases where superfart did a normal fart.
 			if(prob(76)) // 76%     1: ASSBLAST  2:SUPERNOVA  3: FARTFLY
 				fart_type = 1
@@ -468,39 +474,43 @@
 						L.layer = 16
 						L.start()
 						playsound(Y,'sound/effects/thunder.ogg', 90, 1)
-
 						spawn(10)
 							src.gib()
 						break //This is to prevent multi-gibbening
 				sleep(4)
+				for(var/i = 1, i <= 10, i++)
+					playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
+					sleep(1)
 				playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5)
 				if(B.contents.len)
-					var/obj/item/O = pick(B.contents)
-					O.assthrown = 1
-					O.loc = get_turf(src)
-					B.contents -= O
-					var/turf/target = get_turf(O.loc)
-					var/range = 7
-					var/turf/new_turf
-					var/new_dir
-					switch(dir)
-						if(1)
-							new_dir = 2
-						if(2)
-							new_dir = 1
-						if(4)
-							new_dir = 8
-						if(8)
-							new_dir = 4
-					for(var/i = 1; i < range; i++)
-						new_turf = get_step(target, new_dir)
-						target = new_turf
-						if(new_turf.density)
-							break
-					O.throw_at(target,range,O.throw_speed,src)
-					O.assthrown = 0 // so you can't just unembed it and throw it for insta embeds
-				src.internal_organs -= B
-				new /obj/item/organ/internal/butt(src.loc)
+					for(var/obj/item/O in B.contents)
+						O.assthrown = 1
+						O.loc = get_turf(src)
+						B.contents -= O
+						B.stored -= O.itemstorevalue
+						var/turf/target = get_turf(O.loc)
+						var/range = 7
+						var/turf/new_turf
+						var/new_dir
+						switch(dir)
+							if(1)
+								new_dir = 2
+							if(2)
+								new_dir = 1
+							if(4)
+								new_dir = 8
+							if(8)
+								new_dir = 4
+						for(var/i = 1; i < range; i++)
+							new_turf = get_step(target, new_dir)
+							target = new_turf
+							if(new_turf.density)
+								break
+						O.throw_at(target,range,O.throw_speed)
+						O.assthrown = 0 // so you can't just unembed it and throw it for insta embeds
+				B.Remove(src)
+				B.loc = get_turf(src)
+				if(B.loose) B.loose = 0
 				new /obj/effect/decal/cleanable/blood(src.loc)
 				src.nutrition -= 500
 				switch(fart_type)

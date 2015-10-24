@@ -55,6 +55,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/origin_tech = null	//Used by R&D to determine what research bonuses it grants.
 	var/needs_permit = 0			//Used by security bots to determine if this item is safe for public use.
 	var/assthrown = 0 //set to 1 to make the item 100% embed into an user when superfarted
+	var/itemstorevalue = 0 // for w class stuff related to asses
 
 	var/list/attack_verb = list() //Used in attackby() to say how something was attacked "[x] has been [z.attack_verb] by [y] with [z]"
 	var/list/species_exception = list()	// even if a species cannot put items in a certain slot, if the species id is in the item's exception list, it will be able to wear that item
@@ -72,17 +73,13 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/deflectItem = 0 //For deflecting items thrown at you when you have throw intent on
 	var/mult = 0 //For code to reset throwforce back to normal after it hits something
 
-	var/mob/thrownby = null
-
 	/obj/item/mouse_drag_pointer = MOUSE_ACTIVE_POINTER //the icon to indicate this object is being dragged
 
 	//So items can have custom embedd values
 	//Because customisation is king
 	var/embed_chance = EMBED_CHANCE
-	var/embedded_fall_chance = EMBEDDED_ITEM_FALLOUT
 	var/embedded_pain_chance = EMBEDDED_PAIN_CHANCE
 	var/embedded_pain_multiplier = EMBEDDED_PAIN_MULTIPLIER  //The coefficient of multiplication for the damage this item does while embedded (this*w_class)
-	var/embedded_fall_pain_multiplier = EMBEDDED_FALL_PAIN_MULTIPLIER //The coefficient of multiplication for the damage this item does when falling out of a limb (this*w_class)
 	var/embedded_impact_pain_multiplier = EMBEDDED_IMPACT_PAIN_MULTIPLIER //The coefficient of multiplication for the damage this item does when first embedded (this*w_class)
 	var/embedded_unsafe_removal_pain_multiplier = EMBEDDED_UNSAFE_REMOVAL_PAIN_MULTIPLIER //The coefficient of multiplication for the damage removing this without surgery causes (this*w_class)
 	var/embedded_unsafe_removal_time = EMBEDDED_UNSAFE_REMOVAL_TIME //A time in ticks, multiplied by the w_class.
@@ -178,6 +175,31 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		pronoun = "It is"
 
 	user << "[pronoun] a [size] item." //e.g. They are a small item. or It is a bulky item.
+
+	if(user.research_scanner) //Mob has a research scanner active.
+		var/msg = "*--------* <BR>"
+
+		if(origin_tech)
+			msg += "<span class='notice'>Testing potentials:</span><BR>"
+			var/list/techlvls = params2list(origin_tech)
+			for(var/T in techlvls) //This needs to use the better names.
+				msg += "Tech: [CallTechName(T)] | magnitude: [techlvls[T]] <BR>"
+			msg += "Research reliability: [reliability]% <BR>"
+			if(crit_fail)
+				msg += "<span class='danger'>Critical failure detected in subject!</span><BR>"
+		else
+			msg += "<span class='danger'>No tech origins detected.</span><BR>"
+
+
+		if(materials.len)
+			msg += "<span class='notice'>Extractable materials:<BR>"
+			for(var/mat in materials)
+				msg += "[CallMaterialName(mat)]<BR>" //Capitize first word, remove the "$"
+		else
+			msg += "<span class='danger'>No extractable materials detected.</span><BR>"
+		msg += "*--------*"
+		user << msg
+
 
 /obj/item/attack_hand(mob/user)
 	if (!user) return
@@ -497,8 +519,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		mult = 0
 	return
 
-/obj/item/throw_at(atom/target, range, speed, mob/thrower, spin=1)
-	thrownby = thrower
+/obj/item/throw_at(atom/target, range, speed, spin=1)
 	. = ..()
 	throw_speed = initial(throw_speed) //explosions change this.
 

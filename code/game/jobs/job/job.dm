@@ -137,22 +137,26 @@
 	id = /obj/item/weapon/card/id
 	ears = /obj/item/device/radio/headset
 	belt = /obj/item/device/pda
-	back = /obj/item/weapon/storage/backpack
 	shoes = /obj/item/clothing/shoes/sneakers/black
 
 	var/backpack = /obj/item/weapon/storage/backpack
 	var/satchel  = /obj/item/weapon/storage/backpack/satchel_norm
+	var/duffle = /obj/item/weapon/storage/backpack/dufflebag
+	var/mountain = /obj/item/weapon/storage/backpack/mountainbag
 	var/box = /obj/item/weapon/storage/box/survival
 
 	var/pda_slot = slot_belt
 
 /datum/outfit/job/pre_equip(mob/living/carbon/human/H)
-	if(H.backbag == 1) //Backpack
-		back =  backpack
-	else //Satchel
-		back = satchel
+	if(H.backbag != 5) // if guy has a backpack
+		switch(H.backbag)
+			if(1) back = backpack
+			if(2) back = satchel
+			if(3) back = duffle
+			if(4) back = mountain
 
-	backpack_contents[box] = 1
+		backpack_contents[box] = 1
+	else H.equip_to_slot_or_del(new box(H), slot_l_hand)
 
 /datum/outfit/job/post_equip(mob/living/carbon/human/H)
 	var/obj/item/weapon/card/id/C = H.wear_id

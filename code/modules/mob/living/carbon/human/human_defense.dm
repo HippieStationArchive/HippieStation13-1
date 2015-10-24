@@ -27,7 +27,7 @@ emp_act
 /mob/living/carbon/human/proc/checkarmor(obj/item/organ/limb/def_zone, type)
 	if(!type)	return 0
 	var/protection = 0
-	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform)
+	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back) // The back slot can now be used for armor.
 	for(var/bp in body_parts)
 		if(!bp)	continue
 		if(bp && istype(bp ,/obj/item/clothing))
@@ -296,7 +296,7 @@ emp_act
 				else
 					user.visible_message("<span class='warning'>[user] starts inspecting [src]'s ass!</span>", "<span class='warning'>You start inspecting [src]'s ass!</span>")
 				if(do_mob(user, src, 40))
-					if(B.contents.len == 1)
+					if(B.contents.len)
 						if(user == src)
 							user.visible_message("<span class='warning'>[user] inspects his own ass!</span>", "<span class='warning'>You inspect your ass!</span>")
 						else
@@ -304,6 +304,7 @@ emp_act
 						var/obj/item/O = pick(B.contents)
 						O.loc = get_turf(src)
 						B.contents -= O
+						B.stored -= O.itemstorevalue
 						return 0
 					else
 						user.visible_message("<span class='warning'>There's nothing in here!</span>")
@@ -415,17 +416,15 @@ emp_act
 		skipcatch = 1
 		blocked = 1
 	else if(I)
-		if(I.throw_speed >= EMBED_THROWSPEED_THRESHOLD || I.assthrown)
-			if(can_embed(I) || I.assthrown)
-				if(prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags)) || I.assthrown)
-					throw_alert("embeddedobject")
-					var/obj/item/organ/limb/L = pick(organs)
-					L.embedded_objects |= I
-					I.add_blood(src)//it embedded itself in you, of course it's bloody!
-					I.loc = src
-					L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
-					visible_message("<span class='danger'>\the [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\the [I.name] embeds itself in your [L.getDisplayName()]!</span>")
-					hitpush = 0
-					skipcatch = 1 //can't catch the now embedded item
-
+		if(can_embed(I) || I.assthrown)
+			if((prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
+				throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
+				var/obj/item/organ/limb/L = pick(organs)
+				L.embedded_objects |= I
+				I.add_blood(src)//it embedded itself in you, of course it's bloody!
+				I.loc = src
+				L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
+				visible_message("<span class='danger'>\the [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\the [I.name] embeds itself in your [L.getDisplayName()]!</span>")
+				hitpush = 0
+				skipcatch = 1 //can't catch the now embedded item
 	return ..()

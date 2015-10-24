@@ -21,11 +21,11 @@ var/list/image/ghost_darkness_images = list() //this is a list of images for thi
 	var/fun_verbs = 0
 	var/image/ghostimage = null //this mobs ghost image, for deleting and stuff
 	var/ghostvision = 1 //is the ghost able to see things humans can't?
-	var/seedarkness = 1
+	var/seedarkness = 0
 
 /mob/dead/observer/New(mob/body)
 	sight |= SEE_TURFS | SEE_MOBS | SEE_OBJS | SEE_SELF
-	see_invisible = SEE_INVISIBLE_OBSERVER
+	see_invisible = SEE_INVISIBLE_OBSERVER_NOLIGHTING
 	see_in_dark = 100
 	verbs += /mob/dead/observer/proc/dead_tele
 	stat = DEAD

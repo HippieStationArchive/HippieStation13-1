@@ -25,11 +25,15 @@ Head of Security
 	access = list(access_security, access_sec_doors, access_brig, access_armory, access_court, access_weapons,
 			            access_forensics_lockers, access_morgue, access_maint_tunnels, access_all_personal_lockers,
 			            access_research, access_engine, access_mining, access_medical, access_construction, access_mailsorting,
-			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway)
+			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway, access_research,
+			            access_captain, access_genetics, access_tox, access_robotics, access_atmospherics, access_chapel_office,
+			            access_cargo, access_hydroponics, access_bar, access_kitchen)
 	minimal_access = list(access_security, access_sec_doors, access_brig, access_armory, access_court, access_weapons,
 			            access_forensics_lockers, access_morgue, access_maint_tunnels, access_all_personal_lockers,
 			            access_research, access_engine, access_mining, access_medical, access_construction, access_mailsorting,
-			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway)
+			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway, access_captain,
+			            access_research, access_genetics, access_tox, access_robotics, access_atmospherics, access_chapel_office,
+			            access_hydroponics, access_bar, access_kitchen, access_cargo)
 
 /datum/outfit/job/hos
 	name = "Head of Security"
@@ -49,6 +53,7 @@ Head of Security
 
 	backpack = /obj/item/weapon/storage/backpack/security
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
+	duffle = /obj/item/weapon/storage/backpack/dufflebag/sec
 
 /datum/outfit/job/hos/post_equip(mob/living/carbon/human/H)
 	..()
@@ -100,6 +105,7 @@ Warden
 
 	backpack = /obj/item/weapon/storage/backpack/security
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
+	duffle = /obj/item/weapon/storage/backpack/dufflebag/sec
 
 /datum/outfit/job/warden/post_equip(mob/living/carbon/human/H)
 	..()
@@ -199,6 +205,7 @@ var/list/sec_departments = list("engineering", "supply", "medical", "science")
 
 	backpack = /obj/item/weapon/storage/backpack/security
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
+	duffle = /obj/item/weapon/storage/backpack/dufflebag/sec
 	box = /obj/item/weapon/storage/box/security
 
 	var/department = null

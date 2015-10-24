@@ -89,6 +89,7 @@
 	slowdown = SHOES_SLOWDOWN+1
 	item_color = "clown"
 	var/footstep = 1	//used for squeeks whilst walking
+	burn_state = -1
 
 /obj/item/clothing/shoes/clown_shoes/step_action()
 	if(footstep > 1)
@@ -124,6 +125,7 @@
 	item_state = "jackboots"
 	strip_delay = 40
 	put_on_delay = 40
+	burn_state = -1
 
 /obj/item/clothing/shoes/cult
 	name = "nar-sian invoker boots"
@@ -135,6 +137,7 @@
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
 	heat_protection = FEET
 	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
+	burn_state = -1
 
 /obj/item/clothing/shoes/cult/alt
 	name = "cultist boots"
@@ -158,6 +161,7 @@
 	item_state = "roman"
 	strip_delay = 100
 	put_on_delay = 100
+	burn_state = -1
 
 /obj/item/clothing/shoes/griffin
 	name = "griffon boots"

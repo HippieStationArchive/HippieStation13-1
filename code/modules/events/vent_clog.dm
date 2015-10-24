@@ -28,14 +28,14 @@
 	if(activeFor % interval == 0)
 		var/obj/vent = pick_n_take(vents)
 		if(vent && vent.loc)
-			var/list/gunk = list("water","carbon","flour","radium","toxin","cleaner","nutriment","condensedcapsaicin","mushroomhallucinogen","lube",
+			var/list/gunk = list("water","toxin","cleaner","nutriment","condensedcapsaicin","mushroomhallucinogen","lube",
 								 "plantbgone","banana","charcoal","space_drugs","morphine","holywater","ethanol","hot_coco","facid")
 			var/datum/reagents/R = new/datum/reagents(50)
 			R.my_atom = vent
 			R.add_reagent(pick(gunk), 50)
 
 			var/datum/effect/effect/system/smoke_spread/chem/smoke = new
-			smoke.set_up(R, rand(1, 2), 0, vent, 0, silent = 1)
+			smoke.set_up(R, 1, vent, silent = 1)
 			playsound(vent.loc, 'sound/effects/smoke.ogg', 50, 1, -3)
 			smoke.start()
 			qdel(R)

@@ -167,7 +167,7 @@
 		if(ticker && ticker.round_end_sound)
 			world << sound(ticker.round_end_sound)
 		else
-			world << sound(pick('sound/AI/newroundsexy.ogg','sound/misc/apcdestroyed.ogg','sound/misc/bangindonk.ogg','sound/misc/leavingtg.ogg')) // random end sounds!! - LastyBatsy
+			world << sound(pick('sound/AI/newroundsexy.ogg','sound/misc/endround1.ogg','sound/misc/endround2.ogg','sound/misc/endround3.ogg')) // random end sounds!! - LastyBatsy
 	for(var/client/C in clients)
 		if(config.server)	//if you set a server location in config.txt, it sends you there instead of trying to reconnect to the same world address. -- NeoFite
 			C << link("byond://[config.server]")

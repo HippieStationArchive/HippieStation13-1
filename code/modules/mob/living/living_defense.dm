@@ -71,8 +71,6 @@
 							"<span class='userdanger'>[src] has been hit by [I].</span>")
 			var/armor = run_armor_check(zone, "melee", "Your armor has protected your [parse_zone(zone)].", "Your armor has softened hit to your [parse_zone(zone)].",I.armour_penetration)
 			apply_damage(I.throwforce, dtype, zone, armor, I)
-			if(I.thrownby)
-				add_logs(I.thrownby, src, "hit", I)
 	else
 		playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
 	..()
@@ -109,7 +107,10 @@
 /mob/living/proc/IgniteMob()
 	if(fire_stacks > 0 && !on_fire)
 		on_fire = 1
+		src.visible_message("<span class='warning'>[src] catches fire!</span>", \
+						"<span class='userdanger'>You're set on fire!</span>")
 		src.AddLuminosity(3)
+		throw_alert("fire", /obj/screen/alert/fire)
 		update_fire()
 
 /mob/living/proc/ExtinguishMob()
@@ -117,6 +118,7 @@
 		on_fire = 0
 		fire_stacks = 0
 		src.AddLuminosity(-3)
+		clear_alert("fire")
 		update_fire()
 
 /mob/living/proc/update_fire()
