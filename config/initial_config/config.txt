@@ -132,7 +132,7 @@ GITHUBURL https://github.com/HippieStationCode/HippieStation13
 BANAPPEALS http://www.hippie-station-13.com/forums/viewforum.php?f=8
 
 ## TeamSpeak URL, allows the client to connect directly to the Teamspeak server of your choice. Typically the link for a TS3 url is ts3server://[TS IP/ADDRESS]?port=[PORTNUM]
-#TEAMSPEAKURL 
+#TEAMSPEAKURL [ADDRESS]
 
 ## In-game features
 ##Toggle for having jobs load up from the .txt
