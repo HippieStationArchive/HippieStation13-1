@@ -33,6 +33,15 @@
 /turf/space/attack_paw(mob/user)
 	return src.attack_hand(user)
 
+/turf/space/attack_animal(mob/living/simple_animal/M)
+	if(istype(M, /mob/living/simple_animal/construct/builder))
+		M.changeNext_move(CLICK_CD_MELEE)
+		M.do_attack_animation(src)
+		playsound(src, 'sound/items/deconstruct.ogg', 100, 1)
+		ChangeTurf(/turf/simulated/floor/plasteel/cult)
+		icon_state = "cult"
+	return
+
 /turf/space/attackby(obj/item/C, mob/user, params)
 	..()
 	if(istype(C, /obj/item/stack/rods))
