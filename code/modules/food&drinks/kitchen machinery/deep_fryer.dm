@@ -21,13 +21,17 @@
 	if(frying)
 		usr << "You can make out [frying] in the oil."
 
-/obj/machinery/deepfryer/proc/mob_fry(mob/living/F, mob/user)
-	if(buckled_mob) return
+/obj/machinery/deepfryer/proc/mob_fry(mob/living/F, mob/user) //SYNTAX CLEANUP *SCREAM
+	if(buckled_mob)
+		return
 	if(F == user) F.visible_message("<span class='warning'>[user] starts squeezing into [src]!</span>", "<span class='userdanger'>You start squeezing into [src]!</span>")
 	else F.visible_message("<span class='warning'>[user] starts putting [F] into [src]!</span>", "<span class='userdanger'>[user] starts shoving you into [src]!</span>")
-	if(!do_mob(user, src, 120)) return
-	if(buckled_mob) return //to prevent spam/queing up attacks
-	if(F.buckled) return
+	if(!do_mob(user, src, 120))
+		return
+	if(buckled_mob) //to prevent spam/queing up attacks
+		return
+	if(F.buckled)
+		return
 	on = TRUE
 	F.loc = src
 	frying = F
@@ -38,7 +42,7 @@
 		for(var/i in 1 to 4)
 			if(!frying && contents.len) // emergency check for shit that becomes an object on death like mices..fucking mices...
 				var/C = contents[1]
-				src.visible_message("<span class='warning'>[C] dissolves in the oil!Fuck!</span>")
+				src.visible_message("<span class='warning'>[C] dissolves in the oil! Fuck!</span>")
 				icon_state = "fryer_off"
 				on = FALSE
 				playsound(src.loc, 'sound/machines/ding.ogg', 50, 1, -7)
