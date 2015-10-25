@@ -73,8 +73,6 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/deflectItem = 0 //For deflecting items thrown at you when you have throw intent on
 	var/mult = 0 //For code to reset throwforce back to normal after it hits something
 
-	var/mob/thrownby = null
-
 	/obj/item/mouse_drag_pointer = MOUSE_ACTIVE_POINTER //the icon to indicate this object is being dragged
 
 	//So items can have custom embedd values
@@ -521,8 +519,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		mult = 0
 	return
 
-/obj/item/throw_at(atom/target, range, speed, mob/thrower, spin=1)
-	thrownby = thrower
+/obj/item/throw_at(atom/target, range, speed, spin=1)
 	. = ..()
 	throw_speed = initial(throw_speed) //explosions change this.
 

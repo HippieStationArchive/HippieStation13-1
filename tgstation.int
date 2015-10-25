@@ -1,9 +1,0 @@
-// BEGIN_INTERNALS
-/*
-LAST_COMPILE_TIME: 1445295863
-DIR: _maps _maps\map_files _maps\map_files\TgStation code code\_onclick code\_onclick\hud code\datums code\datums\spells code\game code\game\area code\game\gamemodes code\game\gamemodes\blob code\game\gamemodes\blob\blobs code\game\gamemodes\changeling code\game\gamemodes\changeling\powers code\game\gamemodes\shadowling code\game\mecha code\game\mecha\combat code\game\objects code\game\objects\effects code\game\objects\effects\decals code\game\objects\effects\decals\Cleanable code\modules code\modules\mob code\modules\mob\living code\modules\mob\living\carbon code\modules\mob\living\carbon\alien code\modules\mob\living\carbon\alien\humanoid code\modules\mob\living\carbon\human code\modules\projectiles code\modules\projectiles\guns code\modules\projectiles\guns\projectile 
-AUTO_FILE_DIR: OFF
-MAP_ICON_TYPE: 0
-LAST_COMPILE_VERSION: 508.1299
-*/
-// END_INTERNALS

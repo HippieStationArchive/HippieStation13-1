@@ -1,0 +1,8 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "Slimepeople now generate Slime Jelly within their body, up to 200 units if they are well fed."
+  - rscadd: "Slimepeople can now split if they contain 200 units of Slime Jelly. They create a copy that the player can switch between."
+  - rscadd: "Dying while in control of a Slimeperson body will disallow you to switch to another body." 

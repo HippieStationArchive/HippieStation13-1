@@ -79,6 +79,10 @@
 			if(mind.changeling)
 				stat("Chemical Storage", "[mind.changeling.chem_charges]/[mind.changeling.chem_storage]")
 				stat("Absorbed DNA", mind.changeling.absorbedcount)
+			if(mind.vampire)
+				stat("Total Blood Stolen", "[mind.vampire.sucked_blood]cl")
+				stat("Clean Blood", "[mind.vampire.clean_blood]cl")
+				stat("Dirty Blood", "[mind.vampire.dirty_blood]cl")
 
 
 	//NINJACODE
@@ -315,10 +319,13 @@
 					update_canmove()
 					I.pinned = null
 				usr.put_in_hands(I)
+				I.add_fingerprint(usr)
 				src.emote("scream")
 				usr.visible_message("[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!","<span class='notice'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()].</span>")
 				if(!has_embedded_objects())
 					clear_alert("embeddedobject")
+				if(usr.machine == src && in_range(src, usr))
+					show_inv(usr)
 			return
 
 		if(href_list["item"])

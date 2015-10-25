@@ -772,6 +772,7 @@
 	choice = cards[1]
 	H.cardname = choice
 	H.parentdeck = src
+	H.add_fingerprint(user)
 	var/O = src
 	H.apply_card_vars(H,O)
 	src.cards -= choice
@@ -1064,6 +1065,7 @@
 	card_throw_speed = 3
 	card_throw_range = 7
 	card_attack_verb = list("attacked", "sliced", "diced", "slashed", "cut")
+	sharpness = IS_SHARP //so you can embed it like the old way
 
 /*
  * Fake nuke
