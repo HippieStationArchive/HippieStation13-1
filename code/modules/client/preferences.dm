@@ -92,9 +92,6 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	var/metadata = ""
 
 	var/unlock_content = 0
-	
-	var/list/ignoring = list()
-
 
 /datum/preferences/New(client/C)
 	blood_type = random_blood_type()
