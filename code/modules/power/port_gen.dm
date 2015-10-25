@@ -337,3 +337,15 @@ display round(lastgen) and plasmatank amount
 	board_path = "/obj/item/weapon/circuitboard/pacman/wood"
 	overheat()
 		explosion(src.loc, 1, 1, 1, -1)
+
+
+/obj/machinery/power/port_gen/pacman/wood/attackby(obj/item/O, mob/user, params)
+        if(istype(O, /obj/item/weapon/grown/log))
+                var/obj/item/weapon/grown/log/L = O
+                var/obj/item/stack/plank = new L.plank_type(user.loc, 1 + round(L.potency / 25))
+                for(var/obj/item/stack/ST in user.loc)
+                        if(ST != plank && istype(ST, L.plank_type) && ST.amount < ST.max_amount)
+                                ST.attackby(plank, user)
+                qdel(O)
+                ..(plank) // either this or ..(plank, user, params)
+        else ..()
