@@ -434,3 +434,10 @@
 
 /obj/item/clothing/head/winterhood/miner
 	icon_state = "winterhood_miner"
+
+/obj/item/clothing/suit/raincoat
+	name = "Raincoat"
+	desc = "Do you like Huey Lewis and the News?"
+	icon_state = "raincoat"
+	item_state = "raincoat"
+	allowed = list (/obj/item/weapon/twohanded/fireaxe)

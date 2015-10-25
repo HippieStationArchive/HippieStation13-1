@@ -878,6 +878,12 @@ var/list/uplink_items = list()
 
 // POINTLESS BADASSERY
 
+/datum/uplink_item/badass/raincoat
+ 	name = "Raincoat"
+ 	desc = "It's hip to be square!"
+ 	item = /obj/item/clothing/suit/raincoat
+ 	cost = 1
+
 /datum/uplink_item/badass
 	category = "(Pointless) Badassery"
 	surplus = 0
