@@ -106,7 +106,11 @@
 	if(M.environment_smash >= 2)
 		playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
 		M << "<span class='notice'>You smash through the wall.</span>"
-		dismantle_wall(1)
+		if(istype(M, /mob/living/simple_animal/construct))
+			ChangeTurf(/turf/simulated/floor/plasteel/cult)
+			icon_state = "cult"
+		else
+			dismantle_wall(1)
 		return
 
 /turf/simulated/wall/attack_hulk(mob/user)
