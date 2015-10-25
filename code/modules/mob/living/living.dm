@@ -177,7 +177,7 @@ Sorry Giacom. Please don't be mad :(
 
 /mob/living/verb/succumb(whispered as null)
 	set hidden = 1
-	if (InCritical())
+	if (InCritical() && stat == UNCONSCIOUS)
 		src.attack_log += "[src] has [whispered ? "whispered his final words" : "succumbed to death"] with [round(health, 0.1)] points of health!"
 		src.adjustOxyLoss(src.health - config.health_threshold_dead)
 		updatehealth()
@@ -674,12 +674,12 @@ Sorry Giacom. Please don't be mad :(
 	return name
 
 /mob/living/update_gravity(has_gravity)
-	if(!ticker)
+	if(!ticker || !ticker.mode)
 		return
 	if(has_gravity)
 		clear_alert("weightless")
 	else
-		throw_alert("weightless")
+		throw_alert("weightless", /obj/screen/alert/weightless)
 	float(!has_gravity)
 
 /mob/living/proc/float(on)
@@ -890,3 +890,34 @@ Sorry Giacom. Please don't be mad :(
 			butcher_results.Remove(path) //In case you want to have things like simple_animals drop their butcher results on gib, so it won't double up below.
 	visible_message("<span class='notice'>[user] butchers [src].</span>")
 	gib()
+
+/mob/living/proc/do_pindown(atom/A, tog=1) //Shamelessly copypasted above code
+	var/pixel_x_diff = 0
+	var/pixel_y_diff = 0
+	var/direction = get_dir(src, A)
+	switch(direction)
+		if(NORTH)
+			pixel_y_diff = 8
+		if(SOUTH)
+			pixel_y_diff = -8
+		if(EAST)
+			pixel_x_diff = 8
+		if(WEST)
+			pixel_x_diff = -8
+		if(NORTHEAST)
+			pixel_x_diff = 8
+			pixel_y_diff = 8
+		if(NORTHWEST)
+			pixel_x_diff = -8
+			pixel_y_diff = 8
+		if(SOUTHEAST)
+			pixel_x_diff = 8
+			pixel_y_diff = -8
+		if(SOUTHWEST)
+			pixel_x_diff = -8
+			pixel_y_diff = -8
+	if(tog==1)
+		animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = 2)
+	else
+		animate(src, pixel_x = initial(pixel_x), pixel_y = initial(pixel_y), time = 2)
+		floating = 0 // If we were without gravity, the bouncing animation got stopped, so we make sure we restart the bouncing after the next movement.

@@ -204,6 +204,8 @@
 	if(!src)
 		return
 
+	listclearnulls(consenting_candidates) //some candidates might have left during sleep(50)
+
 	if(consenting_candidates.len)
 		var/client/C = null
 		C = pick(consenting_candidates)
@@ -296,6 +298,21 @@
 	qdel(src)
 
 
+/obj/item/slimepotion/speed
+	name = "slime speed potion"
+	desc = "A potent chemical mix that will remove the slowdown from any item."
+	icon = 'icons/obj/chemical.dmi'
+	icon_state = "bottle3"
+
+/obj/item/slimepotion/speed/afterattack(obj/item/C, mob/user)
+	..()
+	if(C.slowdown <= 0)
+		user << "<span class='warning'>The [C] can't be made any faster!</span>"
+		return..()
+	user <<"<span class='notice'>You slather the red gunk over the [C], making it faster.</span>"
+	C.color = "#FF0000"
+	C.slowdown = 0
+	qdel(src)
 
 ////////Adamantine Golem stuff I dunno where else to put it
 

@@ -314,6 +314,9 @@
 	for(var/atom/movable/AM in thrownatoms)
 		if(AM == user || AM.anchored) continue
 
+		if(isobj(AM))
+			var/obj/O = AM
+			O.fingerprintslast = usr.ckey
 		var/obj/effect/overlay/targeteffect	= new /obj/effect/overlay{icon='icons/effects/effects.dmi'; icon_state="shieldsparkles"; mouse_opacity=0; density = 0}()
 		AM.overlays += targeteffect
 		throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(AM, user)))
@@ -330,6 +333,7 @@
 		else
 			if(istype(AM, /mob/living))
 				var/mob/living/M = AM
+				M.fingerprintslast = usr.ckey
 				M.Weaken(2)
 				M << "<span class='userdanger'>You're thrown back by a mystical force!</span>"
-			spawn(0) AM.throw_at(throwtarget, ((Clamp((maxthrow - (Clamp(distfromcaster - 2, 0, distfromcaster))), 3, maxthrow))), 1,user)//So stuff gets tossed around at the same time.
+			spawn(0) AM.throw_at(throwtarget, ((Clamp((maxthrow - (Clamp(distfromcaster - 2, 0, distfromcaster))), 3, maxthrow))), 1)//So stuff gets tossed around at the same time.

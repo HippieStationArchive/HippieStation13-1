@@ -897,6 +897,15 @@ menu "menu"
 		is-disabled = false
 		saved-params = "is-checked"
 	elem 
+		name = "&Reconnect"
+		command = ".reconnect"
+		category = "&File"
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
+	elem 
 		name = "&Quit"
 		command = ".quit"
 		category = "&File"
@@ -1725,6 +1734,32 @@ window "mainwindow"
 		is-checked = false
 		group = ""
 		button-type = pushbox
+	elem "tooltip"
+		type = BROWSER
+		pos = 0,0
+		size = 999x999
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #ffffff
+		background-color = #000000
+		is-visible = false
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		show-history = false
+		show-url = false
+		auto-format = false
+		use-title = false
+		on-show = ""
+		on-hide = ""
 
 window "mapwindow"
 	elem "mapwindow"
@@ -1865,7 +1900,7 @@ window "rpane"
 	elem "rpane"
 		type = MAIN
 		pos = 281,0
-		size = 640x480
+		size = 856x563
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1904,7 +1939,7 @@ window "rpane"
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
-		size = 640x499
+		size = 856x582
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
@@ -1927,6 +1962,34 @@ window "rpane"
 		splitter = 50
 		show-splitter = true
 		lock = none
+	elem "teamspeakb"
+		type = BUTTON
+		pos = 552,0
+		size = 60x16
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Teamspeak"
+		image = ""
+		command = "Teamspeak"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "rpanemode"
+		button-type = pushbutton
 	elem "reportissueb"
 		type = BUTTON
 		pos = 480,0
@@ -2125,7 +2188,7 @@ window "rpane"
 		button-type = pushbox
 	elem "browseb"
 		type = BUTTON
-		pos = 552,0
+		pos = 616,0
 		size = 60x16
 		anchor1 = none
 		anchor2 = none

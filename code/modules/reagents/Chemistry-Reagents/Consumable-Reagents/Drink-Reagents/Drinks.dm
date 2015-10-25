@@ -115,6 +115,12 @@
 	nutriment_factor = 2 * REAGENTS_METABOLISM
 	color = "#302000" // rgb: 48, 32, 0
 
+/datum/reagent/consumable/grapejuice
+	name = "Grape juice"
+	id = "grapejuice"
+	description = "The juice of a bunch of grapes. Guaranteed non-alcoholic."
+	color = "#290029" // dark purple
+
 /datum/reagent/consumable/milk
 	name = "Milk"
 	id = "milk"
@@ -261,9 +267,9 @@
 	return
 
 /datum/reagent/consumable/spacemountainwind
-	name = "Space Mountain Wind"
+	name = "Space Wind"
 	id = "spacemountainwind"
-	description = "Blows right through you like a space wind."
+	description = "Space Mountain Wind, blows right through you like a space wind."
 	color = "#102000" // rgb: 16, 32, 0
 
 /datum/reagent/consumable/spacemountainwind/on_mob_life(mob/living/M)
@@ -465,6 +471,12 @@
 	description = "A solution."
 	color = "#C8A5DC"
 
+
+/datum/reagent/consumable/grape_soda
+	name = "Grape soda"
+	id = "grapesoda"
+	description = "Beloved of children and teetotalers."
+	color = "#E6CDFF"
 
 //////////////////////////////////////////////The ten friggen million reagents that get you drunk//////////////////////////////////////////////
 

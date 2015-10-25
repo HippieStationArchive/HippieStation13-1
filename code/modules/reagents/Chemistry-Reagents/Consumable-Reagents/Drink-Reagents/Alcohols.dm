@@ -163,7 +163,7 @@
 /datum/reagent/consumable/ethanol/tequila
 	name = "Tequila"
 	id = "tequila"
-	description = "A strong and mildly flavoured, mexican produced spirit. Feeling thirsty, hombre?"
+	description = "A strong and mildly flavoured, Mexican produced spirit. Feeling thirsty, hombre?"
 	color = "#FFFF91" // rgb: 255, 255, 145
 	boozepwr = 35
 
@@ -177,9 +177,16 @@
 /datum/reagent/consumable/ethanol/wine
 	name = "Wine"
 	id = "wine"
-	description = "An premium alchoholic beverage made from distilled grape juice."
+	description = "An premium alcoholic beverage made from distilled grape juice."
 	color = "#7E4043" // rgb: 126, 64, 67
 	boozepwr = 45
+
+/datum/reagent/consumable/ethanol/grappa
+	name = "Grappa"
+	id = "grappa"
+	description = "A fine Italian brandy, for when regular wine just isn't alcoholic enough for you."
+	color = "#F8EBF1"
+	boozepwr = 35
 
 /datum/reagent/consumable/ethanol/cognac
 	name = "Cognac"

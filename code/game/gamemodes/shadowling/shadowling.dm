@@ -85,7 +85,7 @@ Made by Xhuis
 	if(config.protect_assistant_from_antagonist)
 		restricted_jobs += "Assistant"
 
-	var/shadowlings = max(2, round(num_players()/20))
+	var/shadowlings = max(3, round(num_players()/20))
 
 
 	while(shadowlings)
@@ -266,7 +266,9 @@ Made by Xhuis
 		light_amount = T.get_lumcount()
 		if(light_amount > LIGHT_DAM_THRESHOLD && !H.incorporeal_move) //Can survive in very small light levels. Also doesn't take damage while incorporeal, for shadow walk purposes
 			H.take_overall_damage(0, LIGHT_DAMAGE_TAKEN)
-			H << "<span class='userdanger'>The light burns you!</span>" //Message spam to say "GET THE FUCK OUT"
+			if(H.stat != DEAD)
+				H << "<span class='userdanger'>The light burns you!</span>" //Message spam to say "GET THE FUCK OUT"
+				H << 'sound/weapons/sear.ogg'
 			H << 'sound/weapons/sear.ogg'
 		else if (light_amount < LIGHT_HEAL_THRESHOLD)
 			H.heal_overall_damage(5,5)

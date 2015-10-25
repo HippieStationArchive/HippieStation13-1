@@ -61,7 +61,10 @@
 					if(gender == FEMALE)
 						sound = pick('sound/misc/cough_f1.ogg', 'sound/misc/cough_f2.ogg', 'sound/misc/cough_f3.ogg')
 					playsound(src.loc, sound, 50, 1, 5)
-					message = "<B>[src]</B> coughs!"
+					if(nearcrit)
+						message = "<B>[src]</B> coughs painfuly!"
+					else
+						message = "<B>[src]</B> coughs!"
 					m_type = 2
 				else
 					message = "<B>[src]</B> makes a strong noise."
@@ -185,8 +188,7 @@
 						O.loc = get_turf(src)
 						B.contents -= O
 						B.stored -= O.itemstorevalue
-					src.internal_organs -= B
-					src.contents -= B
+					B.Remove(src)
 					B.loc = get_turf(src)
 					new /obj/effect/decal/cleanable/blood(src.loc)
 					src.nutrition -= rand(15, 30)
@@ -366,6 +368,8 @@
 							sound = "sound/misc/lizard.ogg"
 						if("avian")
 							sound = "sound/misc/caw.ogg"
+						if("skeleton")
+							sound = "sound/misc/skeleton.ogg"
 						else
 							if(gender == FEMALE)
 								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
@@ -455,6 +459,7 @@
 			if(B.loose)
 				src << "\red Your butt's too loose to superfart!"
 				return
+			B.loose = 1 // to avoid spamsuperfart
 			var/fart_type = 1 //Put this outside probability check just in case. There were cases where superfart did a normal fart.
 			if(prob(76)) // 76%     1: ASSBLAST  2:SUPERNOVA  3: FARTFLY
 				fart_type = 1
@@ -501,10 +506,11 @@
 							target = new_turf
 							if(new_turf.density)
 								break
-						O.throw_at(target,range,O.throw_speed,src)
+						O.throw_at(target,range,O.throw_speed)
 						O.assthrown = 0 // so you can't just unembed it and throw it for insta embeds
-				src.internal_organs -= B
+				B.Remove(src)
 				B.loc = get_turf(src)
+				if(B.loose) B.loose = 0
 				new /obj/effect/decal/cleanable/blood(src.loc)
 				src.nutrition -= 500
 				switch(fart_type)

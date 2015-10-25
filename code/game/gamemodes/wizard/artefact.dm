@@ -113,9 +113,13 @@
 	w_class = 1
 	var/list/spooky_scaries = list()
 	var/unlimited = 0
+	var/maxskeles = 3
 
 /obj/item/device/necromantic_stone/unlimited
 	unlimited = 1
+
+/obj/item/device/necromantic_stone/oneuse //Used as a chaplain traitor item
+	maxskeles = 1
 
 /obj/item/device/necromantic_stone/attack(mob/living/carbon/human/M, mob/living/carbon/human/user)
 	if(!istype(M))
@@ -133,7 +137,7 @@
 		return
 
 	check_spooky()//clean out/refresh the list
-	if(spooky_scaries.len >= 3 && !unlimited)
+	if(spooky_scaries.len >= maxskeles && !unlimited)
 		user << "<span class='warning'>This artifact can only affect three undead at a time!</span>"
 		return
 
@@ -145,7 +149,7 @@
 
 	equip_roman_skeleton(M)
 
-	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/3 active thralls."]"
+	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/[maxskeles] active thralls."]"
 
 /obj/item/device/necromantic_stone/proc/check_spooky()
 	if(unlimited) //no point, the list isn't used.

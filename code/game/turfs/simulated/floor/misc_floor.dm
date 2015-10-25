@@ -48,6 +48,10 @@
 	icon = 'icons/turf/snow.dmi'
 	icon_state = "snow"
 
+/turf/simulated/floor/plating/snow/New()
+	icon_state = "snow[rand(1, 7)]"		//This randomizes the icon for snow tiles at run-time or when created between 7 different snow tile icons which are actually VERY nice. Thanks Nienhaus.
+	..()
+
 /turf/simulated/floor/plating/snow/ex_act(severity, target)
 	contents_explosion(severity, target)
 

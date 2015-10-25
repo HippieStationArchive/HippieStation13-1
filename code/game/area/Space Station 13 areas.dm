@@ -186,6 +186,7 @@ var/list/teleportlocs = list()
 	icon_state = "syndie-ship"
 	requires_power = 0
 	has_gravity = 1
+	ambientsounds = list('sound/ambience/windwinterinside.ogg')
 
 /area/syndicate_mothership/control
 	name = "\improper Syndicate Control Room"
@@ -438,6 +439,10 @@ var/list/teleportlocs = list()
 
 /area/maintenance/isomaint
 	name = "Isolation Maintenance"
+	icon_state = "yellow"
+
+/area/maintenance/strangeroom
+	name = "Strange Room"
 	icon_state = "yellow"
 
 
@@ -1078,7 +1083,7 @@ var/list/teleportlocs = list()
 
 /area/derelict
 	name = "\improper Derelict Station"
-	icon_state = "storage"
+	icon_state = "hallC"
 
 /area/derelict/hallway/primary
 	name = "\improper Derelict Primary Hallway"
@@ -1092,6 +1097,10 @@ var/list/teleportlocs = list()
 	name = "\improper Derelict Arrival Centre"
 	icon_state = "yellow"
 
+/area/derelict/storage/janitor
+	name = "Derelict Custodial Closet"
+	icon_state = "janitor"
+
 /area/derelict/storage/equipment
 	name = "Derelict Equipment Storage"
 
@@ -1103,8 +1112,20 @@ var/list/teleportlocs = list()
 	icon_state = "green"
 
 /area/derelict/bridge
-	name = "\improper Derelict Control Room"
+	name = "\improper Derelict Command"
 	icon_state = "bridge"
+
+/area/derelict/brig
+	name = "\improper Derelict Security"
+	icon_state = "security"
+
+/area/derelict/cargo
+	name = "\improper Derelict Supply"
+	icon_state = "quartstorage"
+
+/area/derelict/research
+	name = "\improper Derelict Research"
+	icon_state = "medresearch"
 
 /area/derelict/secret
 	name = "\improper Derelict Secret Room"
@@ -1118,6 +1139,10 @@ var/list/teleportlocs = list()
 	name = "\improper Derelict Computer Core"
 	icon_state = "ai"
 
+/area/derelict/bridge/hop
+	name = "Derelict Job Assignment"
+	icon_state = "head_quarters"
+
 /area/derelict/solar_control
 	name = "\improper Derelict Solar Control"
 	icon_state = "engine"
@@ -1129,6 +1154,10 @@ var/list/teleportlocs = list()
 /area/derelict/crew_quarters
 	name = "\improper Derelict Crew Quarters"
 	icon_state = "fitness"
+
+/area/derelict/crew_quarters/bar
+	name = "\improper Derelict Diner"
+	icon_state = "bar"
 
 /area/derelict/medical
 	name = "Derelict Medbay"
@@ -1163,7 +1192,7 @@ var/list/teleportlocs = list()
 	icon_state = "yellow"
 
 /area/derelict/singularity_engine
-	name = "\improper Derelict Singularity Engine"
+	name = "\improper Derelict Engine"
 	icon_state = "engine"
 
 /area/derelict/gravity_generator

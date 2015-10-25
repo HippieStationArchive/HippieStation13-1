@@ -46,6 +46,15 @@
 			var/turf/simulated/T = get_step(src, direction)
 			if(istype(T))
 				SSair.add_to_active(T)
+	if(src.pinned)
+		var/mob/living/carbon/human/H = src.pinned
+		if(istype(H))
+			H.anchored = 0
+			H.pinned_to = null
+			H.do_pindown(src, 0)
+			H.update_canmove()
+			for(var/obj/item/stack/rods/R in H.contents)
+				if(R.pinned) R.pinned = null
 	..()
 
 /turf/attack_hand(mob/user)

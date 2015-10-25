@@ -274,6 +274,10 @@
 /turf/simulated/floor/plasteel/podhatch/corner
 	icon_state = "podhatchcorner"
 
+/turf/simulated/floor/plasteel/syndifloor
+	icon = 'icons/newsyndicate.dmi'
+	icon_state = "syndilogo"
+
 
 
 /turf/simulated/floor/plasteel/circuit

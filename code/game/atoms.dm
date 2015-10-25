@@ -6,6 +6,7 @@
 	var/list/fingerprintshidden
 	var/fingerprintslast = null
 	var/list/blood_DNA
+	var/bypasslog = 0 // for custom logging when thrown
 
 	///Chemistry.
 	var/datum/reagents/reagents = null
@@ -87,6 +88,9 @@
 // false if closed
 /atom/proc/is_open_container()
 	return flags & OPENCONTAINER
+
+/atom/proc/is_inject_only()
+	return flags & INJECTONLY
 
 /*//Convenience proc to see whether a container can be accessed in a certain way.
 
@@ -237,8 +241,14 @@ its easier to just keep the beam vertical.
 	if(reagents && is_open_container()) //is_open_container() isn't really the right proc for this, but w/e
 		user << "It contains:"
 		if(reagents.reagent_list.len)
-			for(var/datum/reagent/R in reagents.reagent_list)
-				user << "[R.volume] units of [R.name]"
+			if(user.can_see_reagents()) //Show each individual reagent
+				for(var/datum/reagent/R in reagents.reagent_list)
+					user << "[R.volume] units of [R.name]"
+			else //Otherwise, just show the total volume
+				var/total_volume = 0
+				for(var/datum/reagent/R in reagents.reagent_list)
+					total_volume += R.volume
+				user << "[total_volume] units of various reagents"
 		else
 			user << "Nothing."
 
@@ -262,6 +272,14 @@ its easier to just keep the beam vertical.
 	if(density && !has_gravity(AM)) //thrown stuff bounces off dense stuff in no grav.
 		spawn(2)
 			step(AM,  turn(AM.dir, 180))
+	if(istype(AM, /obj/item))
+		var/obj/item/I = AM
+		if(I.fingerprintslast)
+			var/client/assailant = directory[ckey(I.fingerprintslast)]
+			if(assailant && assailant.mob && istype(assailant.mob,/mob))
+				if(!I.bypasslog)
+					var/mob/M = assailant.mob
+					add_logs(M, src, "hit", object="[I]")
 
 var/list/blood_splatter_icons = list()
 
