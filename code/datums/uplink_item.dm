@@ -114,9 +114,20 @@ var/list/uplink_items = list()
 
 // JOB-SPECIFIC ITEMS
 
-/*/datum/uplink_item/job_specific //No job-specific support for surplus yet.
+/datum/uplink_item/job_specific //No job-specific support for surplus yet.
 	category = "Job-specific Contraband"
 	surplus = 0
+
+//ENGINEER DIVISION
+
+/datum/uplink_item/job_specific/rodgun
+	name = "Rod Gun"
+	desc = "Based on the staple gun design, this baby can be loaded with 3 rods that you can shoot for them to embed into people." //This thing may be super OP
+	item = /obj/item/weapon/gun/rodgun
+	cost = 10 //Costly, but for a good reason
+	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
+
+//SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
 	name = "Chainsaw"
@@ -124,7 +135,31 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/twohanded/chainsaw
 	cost = 14
 	jobs = list("Botanist", "Bartender", "Chef")
-*/
+
+//LIBRARIAN
+/datum/uplink_item/job_specific/soulstone
+	name = "Soulstone"
+	desc = "This stone will be able to capture your victim's soul and bind them to your will."
+	item = /obj/item/device/soulstone
+	cost = 5 //nerfed the cost on Chronitonity's request
+	jobs = list("Librarian")
+
+//CHAPLAIN
+/datum/uplink_item/job_specific/skelestone
+	name = "Skelestone"
+	desc = "Make a skeleton minion! Has one use."
+	item = /obj/item/device/necromantic_stone/oneuse
+	cost = 7
+	jobs = list("Chaplain")
+
+//BARTENDER
+/datum/uplink_item/job_specific/buckshot
+	name = "12g Buckshot Shell"
+	desc = "Buckshot shells fire 5 pellets that will spread in the direction you are shooting. They can be loaded into your double-barreled shotgun. Absolutely devastating point-blank."
+	item = /obj/item/ammo_casing/shotgun/buckshot
+	cost = 5
+	jobs = list("Bartender")
+
 // DANGEROUS WEAPONS
 
 /datum/uplink_item/dangerous
