@@ -59,6 +59,18 @@
 		src << "<span class='danger'>The Github URL is not set in the server configuration.</span>"
 	return
 
+/client/verb/teamspeak()
+	set name = "Teamspeak"
+	set desc = "Join the TS server."
+	set hidden = 1
+	if(config.teamspeakurl)
+		if(alert("This will connect you directly to the Teamspeak server if you have teamspeak installed. Are you sure?",,"Yes","No")=="No")
+			return
+		src << link(config.teamspeakurl)
+	else
+		src << "<span class='danger'>The Teamspeak URL is not set in the server configuration.</span>"
+	return
+
 /client/verb/hotkeys_help()
 	set name = "hotkeys-help"
 	set category = "OOC"
