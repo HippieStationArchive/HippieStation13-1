@@ -335,6 +335,12 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
+/datum/uplink_item/dangerous/cqc_gloves
+	name = "Tactical Gloves"
+	desc = "Comfortable grey gloves with the CQC martial art inside."
+	item = /obj/item/clothing/gloves/cqc
+	cost = 12
+
 //for refunding the syndieborg teleporter
 /datum/uplink_item/dangerous/syndieborg/spawn_item()
 	var/obj/item/weapon/antag_spawner/borg_tele/T = ..()

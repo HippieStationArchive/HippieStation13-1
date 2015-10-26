@@ -1,0 +1,7 @@
+
+author: Memendia
+
+delete-after: True
+
+changes: 
+  - rscadd: "Admins are now able to ban Players from OOC."

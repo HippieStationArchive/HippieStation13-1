@@ -150,6 +150,12 @@
 	icon_state = "mateba"
 	origin_tech = "combat=2;materials=2"
 
+/obj/item/weapon/gun/projectile/revolver/nagant
+	name = "\improper Nagant M1895"
+	desc = "A very, very old revolver. It's been modified to shoot .357 ammo."
+	icon_state = "nagant"
+	origin_tech = "combat=2;materials=2"
+
 
 // A gun to play Russian Roulette!
 // You can spin the chamber to randomize the position of the bullet.
