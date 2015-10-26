@@ -21,15 +21,13 @@
 		var/list/frying = list2text(contents, ", ")
 		user << "You can make out [frying] in the oil."
 
-<<<<<<< HEAD
 /obj/machinery/deepfryer/proc/mob_fry(mob/living/F, mob/user)
 	if(!istype(F)) return //implicit typechecking for /mob/living
 	if(buckled_mob) return
-=======
+
 /obj/machinery/deepfryer/proc/mob_fry(mob/living/F, mob/user) //SYNTAX CLEANUP *SCREAM
 	if(buckled_mob)
 		return
->>>>>>> upstream/master
 	if(F == user) F.visible_message("<span class='warning'>[user] starts squeezing into [src]!</span>", "<span class='userdanger'>You start squeezing into [src]!</span>")
 	else F.visible_message("<span class='warning'>[user] starts putting [F] into [src]!</span>", "<span class='userdanger'>[user] starts shoving you into [src]!</span>")
 	if(!do_mob(user, F, 120)) //SRC should of been F in this case, it's the person putting the mob in, not the deepfryer,
@@ -45,7 +43,6 @@
 	icon_state = "fryer_on"
 	spawn(0)
 		for(var/i in 1 to 4)
-<<<<<<< HEAD
 			if(!F) //if mob got deleted for some reasons
 				if(!contents.len) return // nothing
 				else
@@ -57,7 +54,6 @@
 					qdel(C)
 					return
 			if(F.loc != src) return // if we ejected the mob, can't process anything
-=======
 			if(!frying && contents.len) // emergency check for shit that becomes an object on death like mices..fucking mices...
 				var/C = contents[1]
 				src.visible_message("<span class='warning'>[C] dissolves in the oil! Fuck!</span>")
@@ -66,7 +62,6 @@
 				playsound(src.loc, 'sound/machines/ding.ogg', 50, 1, -7)
 				qdel(C)
 				return
->>>>>>> upstream/master
 			F.emote("scream")
 			F.adjustFireLoss(12.5)
 			sleep(50)
