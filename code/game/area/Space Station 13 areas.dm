@@ -853,7 +853,7 @@ var/list/teleportlocs = list()
 	icon_state = "sec_prison"
 
 /area/security/perma
-	name = "\improper Perma Prison Area"
+	name = "\improper Perma Prison"
 	icon_state = "sec_prison"
 
 /area/security/isolation
