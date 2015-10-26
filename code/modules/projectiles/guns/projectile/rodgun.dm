@@ -46,6 +46,7 @@
 					H.update_canmove()
 					H.do_pindown(T, 1)
 					R.pinned = T
+			add_logs(firer, H, "shot", src, addition="[H.pinned_to?" PINNED":""]")
 	else
 		playsound(target, 'sound/weapons/pierce.ogg', 50, 1)
 
