@@ -133,7 +133,7 @@
 				)
 
 /obj/effect/spawner/lootdrop/contraband
-//Total of 1886 items. (26/10/2015)
+//Total of 1850 items. (26/10/2015)
 	name = "contraband spawner"
 	loot = list(
 				/obj/item/weapon/relic = 80,
@@ -156,8 +156,6 @@
 				/obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/deus{potency = 100} = 10,
 				/obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris{potency = 100} = 10,
 				/obj/item/weapon/reagent_containers/food/snacks/grown/banana{potency = 100} = 10,
-				/obj/item/weapon/baseballbat = 20,
-				/obj/item/weapon/baseballbat/metal = 10,
 				/obj/item/weapon/cartridge/clown = 30,
 				/obj/item/weapon/lipstick/random = 30,
 				/obj/item/weapon/picket_sign = 40,
@@ -170,10 +168,8 @@
 				/obj/item/weapon/storage/crayons = 20,
 				/obj/item/weapon/storage/spooky = 5,
 				/obj/item/weapon/storage/book/bible = 5,
-				/obj/item/weapon/switchblade = 5,
 				/obj/item/weapon/tome = 1,
 				/obj/item/weapon/toy/xmas_cracker = 10,
-				/obj/item/weapon/veilrender/honkrender = 1,
 				/obj/item/ammo_box/foambox = 10,
 				/obj/item/areaeditor/permit = 5,
 				/obj/item/clothing/gloves/boxing = 20,
