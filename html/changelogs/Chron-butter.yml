@@ -1,0 +1,7 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "You can now change your Character and Game Preferences while playing. Game Preferences will take effect on the current round, Character Preferences will take effect next round."
+  - rscadd: "To do this, go into the Preferences Tab and select Game Preferences"
