@@ -12,13 +12,13 @@
 	var/obj/item/weapon/tank/jetpack/J = H.back
 	J.toggle()
 	J.Topic(null, list("stat" = 1))
-			
+
 
 /datum/outfit/tournament
 
 /datum/outfit/tournament/
 	name = "tournament standard red"
-	
+
 	uniform = /obj/item/clothing/under/color/red
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	suit = /obj/item/clothing/suit/armor/vest
@@ -30,7 +30,7 @@
 
 /datum/outfit/tournament/red
 	name = "tournament standard green"
-	
+
 	uniform = /obj/item/clothing/under/color/green
 
 /datum/outfit/tournament/gangster
@@ -156,7 +156,7 @@
 /datum/outfit/assassin/post_equip(mob/living/carbon/human/H)
 	var/obj/item/clothing/under/U = H.w_uniform
 	U.attachTie(new /obj/item/clothing/tie/waistcoat(H))
-	
+
 	//Could use a type
 	var/obj/item/weapon/storage/secure/briefcase/sec_briefcase = H.l_hand
 	for(var/obj/item/briefcase_item in sec_briefcase)
@@ -172,7 +172,7 @@
 	pda.owner = H.real_name
 	pda.ownjob = "Reaper"
 	pda.update_label()
-	
+
 	var/obj/item/weapon/card/id/syndicate/W = H.wear_id
 	W.access = get_all_accesses()
 	W.assignment = "Reaper"
@@ -285,6 +285,31 @@
 	W.registered_name = H.real_name
 	W.update_label()
 
+/datum/outfit/soviet/soldier
+	name = "New-Russian Soldier"
+
+	head = /obj/item/clothing/head/helmet/soviethelmet
+	mask = /obj/item/clothing/mask/gas
+	shoes = /obj/item/clothing/shoes/combat/camo
+	gloves = /obj/item/clothing/gloves/combat
+	ears = /obj/item/device/radio/headset
+	glasses = /obj/item/clothing/glasses/night
+	suit = /obj/item/clothing/suit/armor/defender
+	back = /obj/item/weapon/storage/backpack/mountainbag
+	suit_store = /obj/item/weapon/gun/projectile/automatic/ak922
+	uniform = /obj/item/clothing/under/soviet/gorka
+	l_pocket = /obj/item/ammo_box/magazine/ak922
+	r_pocket = /obj/item/ammo_box/magazine/ak922
+
+/datum/outfit/soviet/soldier/post_equip(mob/living/carbon/human/H)
+	var/obj/item/weapon/card/id/W = H.wear_id
+	W.icon_state = "centcom"
+	W.access = get_all_accesses()
+	W.access += get_centcom_access("New-Russian Soldier")
+	W.assignment = "New-Russian Soldier"
+	W.registered_name = H.real_name
+	W.update_label()
+
 /datum/outfit/mobster
 	name = "Mobster"
 
@@ -340,7 +365,7 @@
 	var/obj/item/device/radio/R = H.ears
 	R.set_frequency(CENTCOM_FREQ)
 	R.freqlock = 1
-	
+
 	var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)//Here you go Deuryn
 	L.imp_in = H
 	L.implanted = 1
@@ -359,7 +384,35 @@
 	name = "Death Commando Officer"
 	head = /obj/item/clothing/head/helmet/space/beret
 
+//ION PMC
 
+/datum/outfit/ion_corp/
+	name = "ION Corp. PMC"
+	uniform = /obj/item/clothing/under/color/black
+	suit = /obj/item/clothing/suit/armor/bulletproof
+	head = /obj/item/clothing/head/soft/black
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/fingerless
+	back = /obj/item/weapon/storage/backpack
+	l_pocket = /obj/item/device/assembly/flash
+	r_pocket = /obj/item/weapon/restraints/handcuffs/cable/zipties
+	suit_store = /obj/item/weapon/gun/projectile/automatic/proto
+	belt = /obj/item/weapon/storage/belt/security
+	id = /obj/item/weapon/card/id
+	ears = /obj/item/device/radio/headset/headset_sec/alt
+	r_hand = /obj/item/weapon/paper/pmc_contract
+	l_hand = /obj/item/weapon/storage/box/zipties
+	mask = /obj/item/clothing/mask/balaclava
+	glasses = /obj/item/clothing/glasses/hud/security/night
 
+	backpack_contents = list(/obj/item/weapon/storage/box=1,\
+		/obj/item/ammo_box/magazine/smgm9mm=3,\
+		/obj/item/weapon/storage/firstaid/regular=1,\
+		/obj/item/device/flashlight/seclite=1,\
+		/obj/item/weapon/gun/energy/stunrevolver=1)
 
-			
+/datum/outfit/ion_corp/post_equip(mob/living/carbon/human/H)
+	var/obj/item/weapon/card/id/W = H.wear_id
+	W.assignment = "ION Corp. PMC"
+	W.registered_name = H.real_name
+	W.update_label()
