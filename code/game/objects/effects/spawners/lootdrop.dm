@@ -133,6 +133,7 @@
 				)
 
 /obj/effect/spawner/lootdrop/contraband
+//Total of 1886 items. (26/10/2015)
 	name = "contraband spawner"
 	loot = list(
 				/obj/item/weapon/relic = 80,
@@ -189,8 +190,8 @@
 				"" = 100
 				)
 
-
 /obj/effect/spawner/lootdrop/food
+//Total of 870 items. (26/10/2015)
 	name = "food_spawner"
 	loot = list(
 				/obj/item/weapon/reagent_containers/food/snacks/baguette = 5,
@@ -308,6 +309,7 @@
 				)
 
 /obj/effect/spawner/lootdrop/plants
+//Total of 279 items. (26/10/2015)
 	name = "plant_spawner"
 	loot = list(
 				/obj/item/weapon/reagent_containers/food/snacks/grown/corn = 10,
