@@ -14,14 +14,15 @@
 	use_power = 1
 	idle_power_usage = 5
 	var/on = FALSE	//Is it deep frying already?
-	var/obj/item/frying = null	//What's being fried RIGHT NOW?
 
-/obj/machinery/deepfryer/examine()
+/obj/machinery/deepfryer/examine(mob/user)
 	..()
-	if(frying)
-		usr << "You can make out [frying] in the oil."
+	if(contents.len)
+		var/list/frying = list2text(contents, ", ")
+		user << "You can make out [frying] in the oil."
 
 /obj/machinery/deepfryer/proc/mob_fry(mob/living/F, mob/user)
+	if(!istype(F)) return //implicit typechecking for /mob/living
 	if(buckled_mob) return
 	if(F == user) F.visible_message("<span class='warning'>[user] starts squeezing into [src]!</span>", "<span class='userdanger'>You start squeezing into [src]!</span>")
 	else F.visible_message("<span class='warning'>[user] starts putting [F] into [src]!</span>", "<span class='userdanger'>[user] starts shoving you into [src]!</span>")
@@ -30,20 +31,22 @@
 	if(F.buckled) return
 	on = TRUE
 	F.loc = src
-	frying = F
 	user.stop_pulling()
 	user.drop_item()
 	icon_state = "fryer_on"
 	spawn(0)
 		for(var/i in 1 to 4)
-			if(!frying && contents.len) // emergency check for shit that becomes an object on death like mices..fucking mices...
-				var/C = contents[1]
-				src.visible_message("<span class='warning'>[C] dissolves in the oil!Fuck!</span>")
-				icon_state = "fryer_off"
-				on = FALSE
-				playsound(src.loc, 'sound/machines/ding.ogg', 50, 1, -7)
-				qdel(C)
-				return
+			if(!F) //if mob got deleted for some reasons
+				if(!contents.len) return // nothing
+				else
+					var/C = contents[1]
+					src.visible_message("<span class='warning'>[C] dissolves in the oil!Fuck!</span>")
+					icon_state = "fryer_off"
+					on = FALSE
+					playsound(src.loc, 'sound/machines/ding.ogg', 50, 1, -7)
+					qdel(C)
+					return
+			if(F.loc != src) return // if we ejected the mob, can't process anything
 			F.emote("scream")
 			F.adjustFireLoss(12.5)
 			sleep(50)
@@ -52,7 +55,7 @@
 			var/icon/OI = icon(O.icon, O.icon_state)
 			OI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
 			O.icon = OI
-			O.name = "deep fried [O.name]"
+			if(!(findtext(O.name, "deep fried"))) O.name = "deep fried [O.name]"
 		if(ishuman(F))
 			var/mob/living/carbon/human/ligger = F // fucking liggers and birds causing me issues like always
 			if(MUTCOLORS in ligger.dna.species.specflags)
@@ -67,7 +70,6 @@
 			F.icon = HI
 		if(!(findtext(F.name, "deep fried"))) // deep fried deep fried deep fried deep fried deep fired John Snow says, "hi", no
 			F.name = "deep fried [F.name]"
-			F.real_name = F.name
 		add_logs(user, F, "deepfried")
 		icon_state = "fryer_off"
 		on = FALSE
@@ -79,43 +81,41 @@
 	I.loc = src
 	user << "<span class='notice'>You put [I] into [src].</span>"
 	on = TRUE
-	frying = I
 	icon_state = "fryer_on"
-	sleep(200)
+	spawn(200)
 
-	if(frying && frying.loc == src)
-		icon_state = "fryer_off"
-		on = FALSE
-		playsound(src.loc, 'sound/machines/ding.ogg', 50, 1, -7)
-		if(I.fry_amt > 5 && prob(I.fry_amt * 3)) //Don't overfry shit!
-			visible_message("<span class='danger'>[I] [pick("breaks", "crumbles", "burns")] in [src]!</span>")
-			new /obj/effect/decal/cleanable/ash(loc)
+		if(I && I.loc == src)
+			icon_state = "fryer_off"
+			on = FALSE
+			playsound(src.loc, 'sound/machines/ding.ogg', 50, 1, -7)
+			if(I.fry_amt > 5 && prob(I.fry_amt * 3)) //Don't overfry shit!
+				visible_message("<span class='danger'>[I] [pick("breaks", "crumbles", "burns")] in [src]!</span>")
+				new /obj/effect/decal/cleanable/ash(loc)
+				qdel(I)
+				return
+
+			var/obj/item/weapon/reagent_containers/food/snacks/deepfryholder/S = new(get_turf(src))
+			if(I.reagents)
+				if(I.reagents.total_volume)
+					var/amount = I.reagents.get_reagent_amount("nutriment")
+					if(I.reagents.has_reagent("nutriment") && amount > 1)  // special check to only transfer half of the nutriment the fried object had, if it has 2 nutriments or more
+						I.reagents.trans_id_to(S, "nutriment", amount/2)
+						I.reagents.del_reagent("nutriment") // so the rest won't be added with I.reagents.trans_to(S, I.reagents.total_volume)
+					else
+						S.reagents.add_reagent("nutriment", 1) // otherwise just give 1 nutriment
+					I.reagents.trans_to(S, I.reagents.total_volume)
+			else S.reagents.add_reagent("nutriment", 1) // if old item had no chems,just give 1 nutriment
+
+			var/icon/IC = icon(I.icon, I.icon_state)
+			IC.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			S.icon = IC
+			S.name = I.name //In case the if check for length fails so we don't name it "Deep Fried Food Holder Obj"
+			if(!(findtext(I.name, "deep fried"))) S.name = "deep fried [I.name]"
+			S.fry_amt = I.fry_amt + 1
+			S.desc = I.desc
+			if(istype(I, /obj/item/weapon/disk/nuclear))
+				S.desc = "Welp. I guess Centcomm will have to bluespace ANOTHER nuke disk now."
 			qdel(I)
-			return
-
-		var/obj/item/weapon/reagent_containers/food/snacks/deepfryholder/S = new(get_turf(src))
-		if(I.reagents)
-			if(I.reagents.total_volume)
-				var/amount = I.reagents.get_reagent_amount("nutriment")
-				if(I.reagents.has_reagent("nutriment") && amount > 1)  // special check to only transfer half of the nutriment the fried object had, if it has 2 nutriments or more
-					I.reagents.trans_id_to(S, "nutriment", amount/2)
-					I.reagents.del_reagent("nutriment") // so the rest won't be added with frying.reagents.trans_to(S, frying.reagents.total_volume)
-				else
-					S.reagents.add_reagent("nutriment", 1) // otherwise just give 1 nutriment
-				I.reagents.trans_to(S, I.reagents.total_volume)
-		else S.reagents.add_reagent("nutriment", 1) // if old item had no chems,just give 1 nutriment
-
-		var/icon/IC = icon(I.icon, I.icon_state)
-		IC.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
-		S.icon = IC
-		S.name = I.name //In case the if check for length fails so we don't name it "Deep Fried Food Holder Obj"
-		if(length(S.name) < 500) //S.name = "[pick("extra", "super", "hyper", "mega", "ultra")] deep fried [initial(frying.name)]"
-			S.name = "deep fried [I.name]"
-		S.fry_amt = I.fry_amt + 1
-		S.desc = I.desc
-		if(istype(I, /obj/item/weapon/disk/nuclear))
-			S.desc = "Welp. I guess Centcomm will have to bluespace ANOTHER nuke disk now."
-		qdel(I)
 
 /obj/machinery/deepfryer/attackby(obj/item/I, mob/user)
 	if(on)
@@ -143,11 +143,12 @@
 		return
 	if(istype(I, /obj/item/weapon/grab)) // what happens if we try to put an human in the frier?
 		var/obj/item/weapon/grab/G = I
-		I = G.affecting
+		var/mob/living/grabbed_thing = G.affecting
+		if(!istype(grabbed_thing)) return//check type
 		if(G.state < GRAB_AGGRESSIVE)
 			user << "<span class='warning'>You need a better grip to do that!</span>"
 			return
-		mob_fry(I, user)
+		mob_fry(grabbed_thing, user)
 	else item_fry(I, user)
 
 /obj/machinery/deepfryer/MouseDrop_T(mob/living/M, mob/user)
@@ -162,13 +163,17 @@
 	mob_fry(M, user)
 
 /obj/machinery/deepfryer/attack_hand(mob/user)
-	if(on && frying)
-		if(ismob(frying))
-			user << "<span class='warning'>You cannot pull him out!</span>"
+	if(on && contents.len)
+		var/O = pop(contents)
+		if(ismob(O))
+			var/mob/M = O
+			user << "<span class='warning'>You pull [M] out!</span>"
+			M.loc = get_turf(src)
+			icon_state = "fryer_off"
+			on = FALSE
 			return
-		user << "<span class='notice'>You pull [frying] from [src]! It looks like you were just in time!</span>"
-		user.put_in_hands(frying)
-		frying = null
+		user << "<span class='notice'>You pull [O] from [src]! It looks like you were just in time!</span>"
+		user.put_in_hands(O)
 		icon_state = "fryer_off"
 		on = FALSE
 		return
