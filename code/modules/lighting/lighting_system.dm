@@ -265,9 +265,8 @@
 	lighting_object = locate() in src
 	init_lighting()
 
-	for(var/turf/space/S in orange(src,1))
+	for(var/turf/space/S in RANGE_TURFS(1,src)) //RANGE_TURFS is in code\__HELPERS\game.dm
 		S.update_starlight()
-
 
 /turf/proc/update_lumcount(amount)
 	lighting_lumcount += amount
