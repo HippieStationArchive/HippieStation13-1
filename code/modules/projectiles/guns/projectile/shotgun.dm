@@ -88,13 +88,11 @@
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction
 	name = "Mosin M91/30"
-	desc = "This piece of junk looks like something that could have been used 700 years ago... Where's the bayonet?"	//maymays allowed
+	desc = "This piece of junk looks like something that could have been used 700 years ago."	//No maymays allowed.
 	icon_state = "mosin"
 	item_state = "mosin"
-	slot_flags = SLOT_BACK //we got slot back sprites nigga
+	slot_flags = 0 //no SLOT_BACK sprite, alas
 	mag_type = /obj/item/ammo_box/magazine/internal/boltaction
-	sawn_desc = "A NUU CHEEKI BREEKI I V DAMKE."
-	fire_sound = 'sound/weapons/handcannon.ogg'
 	var/bolt_open = 0
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction/pump(mob/M)
@@ -116,17 +114,6 @@
 /obj/item/weapon/gun/projectile/shotgun/boltaction/examine(mob/user)
 	..()
 	user << "The bolt is [bolt_open ? "open" : "closed"]."
-
-/obj/item/weapon/gun/projectile/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
-	..()
-	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
-		chamber_round()
-	if(istype(A, /obj/item/weapon/melee/energy))
-		var/obj/item/weapon/melee/energy/W = A
-		if(W.active)
-			sawoff(user)
-	if(istype(A, /obj/item/weapon/circular_saw) || istype(A, /obj/item/weapon/gun/energy/plasmacutter))
-		sawoff(user)
 
 /////////////////////////////
 // DOUBLE BARRELED SHOTGUN //
