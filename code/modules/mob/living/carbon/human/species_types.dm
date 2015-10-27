@@ -620,6 +620,11 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 /datum/species/skeleton/get_spans()
 	return myspan
 
+/datum/species/skeleton/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
+
 /*
  ZOMBIES
 */
