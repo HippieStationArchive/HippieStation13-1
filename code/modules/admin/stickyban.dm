@@ -13,6 +13,8 @@
 
 			if (data["ckey"])
 				ckey = ckey(data["ckey"])
+				if(!ckey)
+					return
 			else
 				ckey = input(usr,"Ckey","Ckey","") as text|null
 				if (!ckey)
