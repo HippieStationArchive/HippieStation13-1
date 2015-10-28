@@ -68,8 +68,6 @@
 			var/icon/HI = icon(F.icon, F.icon_state)
 			HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
 			F.icon = HI
-		if(!(findtext(F.name, "deep fried"))) // deep fried deep fried deep fried deep fried deep fired John Snow says, "hi", no
-			F.name = "deep fried [F.name]"
 		add_logs(user, F, "deepfried")
 		icon_state = "fryer_off"
 		on = FALSE
