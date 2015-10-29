@@ -189,6 +189,7 @@
 /obj/machinery/disposal/attack_animal(mob/living/simple_animal/M)
 	if(M.environment_smash)
 		M.do_attack_animation(src)
+		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
 		visible_message("<span class='danger'>[M.name] smashes \the [src] apart!</span>")
 		qdel(src)
 	return

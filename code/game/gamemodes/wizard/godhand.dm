@@ -75,3 +75,10 @@
 	M.Stun(2)
 	new /obj/structure/closet/statue(M.loc, M)
 	..()
+
+/datum/reagent/toxin/diseased_blood //Something may be done with this
+	name = "Diseased Blood"
+	id = "diseased_blood"
+	description = "Stagnant human blood full of crippling diseases."
+	color = rgb(55, 65, 55) //A nice 'n dark sickly green
+	toxpwr = 20

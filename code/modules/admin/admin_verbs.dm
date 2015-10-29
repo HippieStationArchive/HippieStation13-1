@@ -61,7 +61,8 @@ var/list/admin_verbs_admin = list(
 	/client/proc/cmd_admin_world_narrate,	/*sends text to all players with no padding*/
 	/client/proc/cmd_admin_local_narrate,	//sends text to all mobs within view of atmo
 	/client/proc/cmd_admin_create_centcom_report,
-	/client/proc/reset_all_tcs			/*resets all telecomms scripts*/
+	/client/proc/reset_all_tcs,			/*resets all telecomms scripts*/
+	/client/proc/toggle_antag_hud 	/*toggle display of the admin antag hud*/
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
@@ -134,7 +135,8 @@ var/list/admin_verbs_debug = list(
 	/client/proc/populate_world,
 	/client/proc/cmd_display_del_log,
 	/client/proc/reset_latejoin_spawns,
-	/client/proc/create_outfits
+	/client/proc/create_outfits,
+	/client/proc/debug_huds
 	)
 var/list/admin_verbs_possess = list(
 	/proc/possess,
@@ -213,7 +215,9 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/panicbunker,
 	/client/proc/admin_change_sec_level,
 	/client/proc/toggle_nuke,
-	/client/proc/cmd_display_del_log
+	/client/proc/cmd_display_del_log,
+	/client/proc/toggle_antag_hud,
+	/client/proc/debug_huds
 	)
 
 /client/proc/add_admin_verbs()
@@ -642,3 +646,112 @@ var/list/admin_verbs_hideable = list(
 
 							testing("Spawned test mob with name \"[mob.name]\" at [tile.x],[tile.y],[tile.z]")
 			while (!area && --j > 0)
+//RISK CODE HERE DON'T USE IN LIVE SERVER,ALSO THERE'S NO CHECK FOR ADMINS SO ANYONE CAN USE IT WATCHOUTYO
+//Special proc to set up the server for mapping via screenshots
+/*/client/verb/mapWorld()
+        set name = "Map World"
+        set desc = "Takes a series of screenshots for mapping"
+        set category =  "Debug"
+
+        //Gotta prevent dummies
+        var/confirm = alert("WARNING: This proc should absolutely not be run on a live server! Make sure you know what you are doing!", "WARNING", "Cancel", "Proceed")
+        if(confirm == "Cancel")
+                return
+
+        //Viewport size
+        var/viewport_width
+        var/viewport_height
+        var/inputView = input(src, "Set your desired viewport size. (60 for 300x300 maps, 50 for 200x200)", "Viewport Size", 60) as num
+        if (inputView < 1)
+                return
+        else
+                viewport_width = inputView
+                viewport_height = inputView
+
+        src.view = "[viewport_width]x[viewport_height]"
+
+        //Z levels to map
+        var/z
+        var/allZ = 0
+        var/safeAllZ = 0
+        var/inputZ = input(src, "What Z level do you want to map? (10 for all levels, 11 for all except centcom level)", "Z Level", 11) as num
+        if (inputZ < 1)
+                return
+        else if (inputZ == 10)
+                allZ = 1
+        else if (inputZ == 11)
+                safeAllZ = 1
+        else
+                z = inputZ
+
+        var/delay
+        var/inputDelay = input(src, "Delay between changing location/taking screenshots. (If unsure, leave as as default)", "Delay", 7) as num
+        if (inputDelay < 1)
+                return
+        else
+                delay = inputDelay
+
+        var/confirm2 = alert("Make everyone invisible? (Literally every mob)", "Invisible Mobs?", "No", "Yes")
+        if (confirm2 == "Yes")
+                //Make everyone invisible so they don't get in the way of screenshots
+                for (var/mob/M in mob_list)
+                        if (M.ckey)
+                                M.alpha = 0
+
+        var/confirm3 = alert("Max out all power devices? (Prevents lights from going out mid-mapping)", "Max Power?", "No", "Yes")
+        if (confirm3 == "Yes")
+                //Max out all power (to avoid lights dying mid mapping)
+                for(var/obj/machinery/power/apc/C in machines)
+                        if(C.cell && C.z == 1)
+                                C.cell.charge = C.cell.maxcharge
+                for(var/obj/machinery/power/smes/S in machines)
+                        if(S.z != 1)
+                                continue
+                        S.charge = S.capacity
+                        S.output_level = 200000
+                        S.outputting = 1
+                        S.update_icon()
+                        S.power_change()
+
+        var/confirm4 = alert("Turn space bright pink? (For post processing/optimizations)", "Pink Background?", "No", "Yes")
+        if (confirm4 == "Yes")
+                //Make every space tile bright pink (for further processing via local image manipulation)
+                for (var/turf/space/S in world)
+                        if (S.contents.len == 0 && S.overlays.len == 0) //Doesnt pinkify tiles with crap on top of them (transparant overlays fuck with the image processing later)
+                                S.icon = 'icons/effects/effects.dmi'
+                                S.icon_state = "map"
+                                S.color = "#ff00e4" //Removed due to making everything pink 4noreisin
+
+        var/start_x = (viewport_width / 2) + 1
+        var/start_y = (viewport_height / 2) + 1
+
+        //Map eeeeverything
+        if (allZ || safeAllZ)
+                for (var/curZ = 1; curZ <= world.maxz; curZ++)
+                        if (safeAllZ && curZ == 2)
+                                continue //Skips centcom
+                        for (var/y = start_y; y <= world.maxy; y += viewport_height)
+                                for (var/x = start_x; x <= world.maxx; x += viewport_width)
+                                        src.mob.x = x
+                                        src.mob.y = y
+                                        src.mob.z = curZ
+                                        sleep(delay)
+                                        winset(src, null, "command=\".screenshot auto\"")
+                                        sleep(delay)
+                        if (curZ != world.maxz)
+                                var/pause = alert("Z Level ([curZ]) finished. Organise your screenshot files and press Ok to continue or Cancel to cease mapping.", "Tea break", "Ok", "Cancel")
+                                if (pause == "Cancel")
+                                        return
+        //Or just one level I GUESS
+        else
+                for (var/y = start_y; y <= world.maxy; y += viewport_height)
+                        for (var/x = start_x; x <= world.maxx; x += viewport_width)
+                                src.mob.x = x
+                                src.mob.y = y
+                                src.mob.z = z
+                                sleep(delay)
+                                winset(src, null, "command=\".screenshot auto\"")
+                                sleep(delay)
+
+        alert("Mapping complete!", "Yay!", "Ok")
+*/

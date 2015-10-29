@@ -346,7 +346,7 @@ var/list/uplink_items = list()
 	desc = "Though capable of near sorcerous feats via use of hardlight holograms and nanomachines, they require an organic host as a home base and source of fuel."
 	item = /obj/item/weapon/storage/box/syndie_kit/guardian
 	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
-	cost = 16
+	cost = 20
 
 // AMMUNITION
 
@@ -924,6 +924,12 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_macrobomb
 	cost = 20
 	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/badass/raincoat
+    name = "Raincoat"
+    desc = "It's hip to be square!"
+    item = /obj/item/clothing/suit/raincoat
+    cost = 1
 
 /datum/uplink_item/badass/random
 	name = "Random Item"
