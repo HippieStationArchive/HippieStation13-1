@@ -156,7 +156,6 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_verb = "punch"
 	attack_sound = 'sound/weapons/smash.ogg'
 	miss_sound = 'sound/weapons/punchmiss.ogg'
-	meat = null
 
 /datum/species/bot/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)

@@ -261,6 +261,8 @@
 	item_color = "owl"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl
 
+/obj/item/clothing/suit/space/hardsuit/syndi/owl/cursed
+	flags = NODROP
 
 	//Wizard hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/wizard
