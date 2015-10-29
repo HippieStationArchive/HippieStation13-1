@@ -594,6 +594,10 @@
 /datum/species/proc/handle_speech(message, mob/living/carbon/human/H)
 	return message
 
+//return a list of spans or an empty list
+/datum/species/proc/get_spans()
+	return list()
+
 ////////
 	//LIFE//
 	////////
@@ -1097,8 +1101,15 @@
 			if(prob(I.force * 2))	//blood spatter!
 				bloody = 1
 				var/turf/location = H.loc
-				if(istype(location, /turf/simulated))
-					location.add_blood(H)
+				if(prob(50))	//Spawn a bloodsplatter effect
+					var/obj/effect/decal/cleanable/blood/hitsplatter/B = new(H)
+					B.blood_source = H
+					var/n = rand(1,3)
+					var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
+					B.GoTo(targ, n)
+				else
+					if(istype(location, /turf/simulated))
+						location.add_blood(H)
 				if(ishuman(user))
 					var/mob/living/carbon/human/M = user
 					if(get_dist(M, H) <= 1)	//people with TK won't get smeared with blood
