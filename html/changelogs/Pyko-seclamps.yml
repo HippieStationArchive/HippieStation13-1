@@ -36,3 +36,4 @@ changes:
   - tweak: "Buffed the steam generator a bit."
   - tweak: "Split brig-area in to sec lobby-area and brig-area"
   - rscdel: "Removed some lamps around sec."
+  - bugfix: "Fixed couple roundstart AT's"
