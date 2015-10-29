@@ -235,6 +235,7 @@
 	A.current = T
 	A.yo = U.y - T.y
 	A.xo = U.x - T.x
+	A.firer = src
 	A.fire()
 	return
 
