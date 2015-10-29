@@ -517,4 +517,3 @@
 	icon_state = "tracksuit"
 	item_state = "tracksuit"
 	item_color = "tracksuit"
-	can_adjust = 0

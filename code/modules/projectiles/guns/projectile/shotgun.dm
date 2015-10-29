@@ -88,10 +88,10 @@
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction
 	name = "Mosin M91/30"
-	desc = "This piece of junk looks like something that could have been used 700 years ago... Where's the bayonet?"	//maymays allowed
+	desc = "This piece of junk looks like something that could have been used 700 years ago... Where's the bayonet?"	//mm.. gagsa
 	icon_state = "mosin"
 	item_state = "mosin"
-	slot_flags = SLOT_BACK //we got slot back sprites nigga
+	slot_flags = SLOT_BACK //we got slot back sprites comrade
 	mag_type = /obj/item/ammo_box/magazine/internal/boltaction
 	sawn_desc = "A NUU CHEEKI BREEKI I V DAMKE."
 	fire_sound = 'sound/weapons/handcannon.ogg'

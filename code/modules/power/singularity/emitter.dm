@@ -181,6 +181,7 @@
 				A.yo = -20
 				A.xo = 0
 		A.starting = loc
+		A.firer = src
 		A.fire()
 
 

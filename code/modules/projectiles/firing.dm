@@ -19,7 +19,7 @@
 	if (!BB)
 		return
 	BB.original = target
-	BB.firer = user
+	if(!BB.firer) BB.firer = user
 	if (zone_override)
 		BB.def_zone = zone_override
 	else

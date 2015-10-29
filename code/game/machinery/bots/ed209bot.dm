@@ -200,11 +200,13 @@ Auto Patrol[]"},
 	if(istype(Proj ,/obj/item/projectile/beam)||istype(Proj,/obj/item/projectile/bullet))
 		if((Proj.damage_type == BURN) || (Proj.damage_type == BRUTE))
 			if (!Proj.nodamage && Proj.damage < src.health)
-				threatlevel = Proj.firer.assess_threat(src)
-				threatlevel += 6
-				if(threatlevel >= 4)
-					target = Proj.firer
-					mode = BOT_HUNT
+				if(ismob(Proj.firer))
+					var/mob/M = Proj.firer
+					threatlevel = M.assess_threat(src)
+					threatlevel += 6
+					if(threatlevel >= 4)
+						target = M
+						mode = BOT_HUNT
 	..()
 
 /obj/machinery/bot/ed209/bot_process()

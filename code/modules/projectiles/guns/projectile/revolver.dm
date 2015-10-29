@@ -156,7 +156,6 @@
 	icon_state = "nagant"
 	origin_tech = "combat=2;materials=2"
 
-
 // A gun to play Russian Roulette!
 // You can spin the chamber to randomize the position of the bullet.
 
