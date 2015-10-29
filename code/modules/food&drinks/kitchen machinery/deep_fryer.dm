@@ -170,9 +170,11 @@
 			icon_state = "fryer_off"
 			on = FALSE
 			return
-		user << "<span class='notice'>You pull [O] from [src]! It looks like you were just in time!</span>"
-		user.put_in_hands(O)
-		icon_state = "fryer_off"
-		on = FALSE
+		else
+			var/obj/item/item = O
+			user << "<span class='notice'>You pull [item] from [src]! It looks like you were just in time!</span>"
+			item.loc = get_turf(src)
+			icon_state = "fryer_off"
+			on = FALSE
 		return
 	..()
