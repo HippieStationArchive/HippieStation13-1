@@ -1,0 +1,8 @@
+author: Blobbernaut
+
+delete-after: True
+
+changes: 
+  - rscadd: "Returned a few armor items to their pre-rebase values. (Mostly affecting sec's headware.)"
+  - rscadd: "Added a new system for artificers to construct cult tiles. Now, just click on a floor or space tile to change it into an engraved floor rather than using a spell. Constructing walls still uses a spell."
+  - rscadd: "Fixed cloaks not actually applying the armor values they were supposed to. Cloaks now give a small amount of armor depending on the type."
