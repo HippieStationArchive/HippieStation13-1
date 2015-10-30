@@ -94,7 +94,7 @@
 		for(var/datum/reagent/A in reagents.reagent_list)
 			R += A.id + " ("
 			R += num2text(A.volume) + "),"
-		if(assailant.mob) add_logs(assailant.mob, target, "splashed", object="[src]", addition="[R]")
+		if(assailant) add_logs(assailant.mob, target, "splashed", object="[src]", addition="[R]")
 
 		reagents.reaction(target, TOUCH)
 
