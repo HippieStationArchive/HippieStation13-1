@@ -1,7 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - tweak: "Gun cases in armory now start closed."
-  - bugfix: "Possibly fixes the known bug with embedding where an embedded item couldn't be removed in any way."
