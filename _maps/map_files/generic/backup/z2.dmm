@@ -660,7 +660,7 @@
 "mJ" = (/obj/structure/rack,/obj/item/clothing/suit/space/syndicate/black/red,/obj/item/clothing/head/helmet/space/syndicate/black/red,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
 "mK" = (/turf/simulated/floor/plating/snow,/turf/simulated/floor/plating/snow/gravsnow/corner{dir = 10},/area/syndicate_mothership)
 "mL" = (/obj/structure/table/wood,/obj/item/weapon/reagent_containers/food/drinks/beer{pixel_x = 5; pixel_y = -2},/obj/item/toy/cards/deck/syndicate{icon_state = "deck_syndicate_full"; pixel_x = -6; pixel_y = 6},/turf/simulated/floor/wood,/area/syndicate_mothership)
-"mM" = (/turf/simulated/floor/plasteel/recharge_floor,/area/syndicate_mothership)
+"mM" = (/turf/simulated/floor/plasteel/mech_bay_recharge_floor,/area/syndicate_mothership)
 "mN" = (/obj/machinery/mech_bay_recharge_port,/turf/simulated/floor/plating,/area/syndicate_mothership)
 "mO" = (/turf/simulated/floor/plasteel/bar,/turf/simulated/floor/plasteel/syndifloor{tag = "icon-syndilogo-2"; icon_state = "syndilogo-2"},/area/syndicate_mothership)
 "mP" = (/obj/machinery/computer/mech_bay_power_console,/turf/simulated/floor/plating,/area/syndicate_mothership)
