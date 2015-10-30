@@ -326,6 +326,11 @@ var/list/uplink_items = list()
 	cost = 140
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
+/datum/uplink_item/dangerous/cqc_gloves
+	name = "Tactical Gloves"
+	desc = "Comfortable grey gloves with the CQC martial art inside."
+	item = /obj/item/clothing/gloves/cqc
+	cost = 12
 
 /datum/uplink_item/dangerous/syndieborg
 	name = "Syndicate Cyborg"

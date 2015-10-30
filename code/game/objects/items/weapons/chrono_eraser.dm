@@ -125,7 +125,9 @@
 	var/obj/item/weapon/gun/energy/chrono_gun/gun = null
 
 /obj/item/projectile/energy/chrono_beam/fire()
-	gun = firer.get_active_hand()
+	if(ismob(firer))
+		var/mob/M = firer
+		gun = M.get_active_hand()
 	if(istype(gun))
 		return ..()
 	else

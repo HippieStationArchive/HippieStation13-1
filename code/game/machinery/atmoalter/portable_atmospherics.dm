@@ -12,6 +12,23 @@
 	var/maximum_pressure = 90*ONE_ATMOSPHERE
 	var/lastupdate = 0
 
+/obj/machinery/portable_atmospherics/initialize()
+	..()
+	if(anchored)
+		var/obj/machinery/atmospherics/components/unary/portables_connector/possible_port = locate(/obj/machinery/atmospherics/components/unary/portables_connector) in loc
+		if(possible_port)
+			initconnect(possible_port)
+			update_icon()
+
+/obj/machinery/portable_atmospherics/proc/initconnect(obj/machinery/atmospherics/components/unary/portables_connector/new_port)
+	if(connected_port || !new_port || new_port.connected_device)
+		return 0
+	if(new_port.loc != loc)
+		return 0
+	connected_port = new_port
+	connected_port.connected_device = src
+	return 1
+
 /obj/machinery/portable_atmospherics/New()
 	..()
 	SSair.atmos_machinery += src

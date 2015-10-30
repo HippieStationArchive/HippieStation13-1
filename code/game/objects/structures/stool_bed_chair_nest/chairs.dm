@@ -206,6 +206,10 @@
 	spawn(4)
 		cooldown = 0
 
+/obj/structure/stool/bed/chair/wheelchair/rotate()
+	..()
+	handle_rotation()
+
 /obj/structure/stool/bed/chair/office/light
 	icon_state = "officechair_white"
 

@@ -71,6 +71,8 @@
 
 
 /obj/item/weapon/pneumatic_cannon/afterattack(atom/target as mob|obj|turf, mob/living/carbon/human/user as mob|obj, flag, params)
+	if(target in user.contents) // to avoid shooting yourself by putting this thing in the backpack
+		return
 	if(user.a_intent == "harm" || !ishuman(user))
 		return ..()
 	if(!loadedItems || !loadedWeightClass)
