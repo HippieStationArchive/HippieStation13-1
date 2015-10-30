@@ -1,6 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixes a bug where deepfrying mobs that become an item on death caused the deepfryer to runtime out."

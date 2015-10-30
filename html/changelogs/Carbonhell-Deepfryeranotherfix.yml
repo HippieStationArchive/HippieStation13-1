@@ -1,8 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixes a few bugs related to deepfryer, it won't make you crash anymore."
-  - rscdel: "Now items and mobs can get the deep fried prefix only once, to prevent client crashes."
-  - rscadd: "You can now remove mobs while they're being fried to save them...or deepfry them again,like the devil you are."
