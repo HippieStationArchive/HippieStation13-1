@@ -128,6 +128,7 @@
 		G.affecting.Weaken(2)
 		G.affecting.visible_message("<span class='danger'>[G.assailant] pushes [G.affecting] onto [src].</span>", \
 									"<span class='userdanger'>[G.assailant] pushes [G.affecting] onto [src].</span>")
+		playsound(src.loc, 'sound/weapons/push_hard.ogg', 50, 1)
 		add_logs(G.assailant, G.affecting, "pushed")
 		qdel(I)
 		return 1
