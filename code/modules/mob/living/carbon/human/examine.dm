@@ -280,6 +280,10 @@
 	if(!wear_mask && is_thrall(src) && in_range(user,src))
 		msg += "Their features seem unnaturally tight and drawn.\n"
 
+	var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in organs
+	if(O && O.teeth.len <= 0)
+		msg += "Their teeth are missing!\n"
+
 	if(istype(user, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user
 		var/obj/item/organ/internal/cyberimp/eyes/hud/CIH = H.getorgan(/obj/item/organ/internal/cyberimp/eyes/hud)
