@@ -34,7 +34,7 @@ delete-after: True
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
   - rscadd: "DENTAL UPDATE! People now have teeth that can be knocked out of their mouths. Targeting head will have the chance to do that, targeting mouth improves the chances even more!"
-  - rscadd: "Without teeth you will have a lisp. There's two new surgeries added: teeth reinsertion surgery and dental implant surgery. Both surgeries require you to target mouth with damp rag for them to activate. Teeth reinsertion surgery can be performed bare-handed and doesn't require any tools. You can remove teeth that way, too!"
+  - rscadd: "Without teeth you will have a lisp. There's two new surgeries added: teeth reinsertion surgery and dental implant surgery. Both surgeries require you to target mouth with surgical drapes for them to activate. Teeth reinsertion surgery can be performed bare-handed and doesn't require any tools. You can remove teeth that way, too!"
   - rscadd: "Dental implant surgery requires a drill and a pill. You will insert the pill into the target's mouth and the target will be able to activate the pill whenever they please!"
   - rscadd: "If you lost your original teeth you can go up to an autolathe, open up MEDICAL category and make some replacement teeth. They can still have dental implants in them."
   - tweak: "Made collapsed rollerbeds fit in backpacks."
