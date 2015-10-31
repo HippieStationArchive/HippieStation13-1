@@ -292,3 +292,9 @@
 	desc = "Whose smart idea was it to use toys as crowd control? Ages 18 and up."
 	projectile_type = /obj/item/projectile/bullet/reusable/foam_dart/riot
 	icon_state = "foamdart_riot"
+
+/obj/item/ammo_casing/a762rubber
+	desc = "A Rubber 7.62x51mm cartridge."
+	icon_state = "762steel-casing"
+	caliber = "a762"
+	projectile_type = /obj/item/projectile/bullet/weakbullet2
