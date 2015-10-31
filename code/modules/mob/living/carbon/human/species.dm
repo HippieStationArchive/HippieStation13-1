@@ -894,9 +894,13 @@
 /datum/species/proc/spec_attack_hand(mob/living/carbon/human/M, mob/living/carbon/human/H)
 	if(!istype(M)) //sanity check for drones.
 		return
-	if((M != H) && H.check_shields(0, M.name))
+	var/shieldcheck = H.check_shields(0, M.name)
+	if((M != H) && shieldcheck)
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
+		if(isliving(shieldcheck))
+			var/mob/living/L = shieldcheck
+			L.attack_hand(M)
 		return 0
 
 	var/datum/martial_art/attacker_style = M.martial_art
@@ -1015,7 +1019,11 @@
 	// Allows you to put in item-specific reactions based on species
 	if(user != H)
 		user.do_attack_animation(H)
-	if(H.check_shields(I.force, "the [I.name]", I))
+	var/shieldcheck = H.check_shields(I.force, "the [I.name]", I)
+	if(shieldcheck)
+		if(isliving(shieldcheck))
+			var/mob/living/L = shieldcheck
+			L.attacked_by(I, user, def_zone)
 		return 0
 
 	if(user.zone_sel.selecting =="groin")

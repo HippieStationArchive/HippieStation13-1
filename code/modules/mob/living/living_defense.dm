@@ -188,7 +188,6 @@
 	if(!G)	//the grab will delete itself in New if src is anchored
 		return 0
 	user.put_in_active_hand(G)
-	G.synch()
 	LAssailant = user
 
 	playsound(src.loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
