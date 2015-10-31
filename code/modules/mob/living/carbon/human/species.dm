@@ -953,6 +953,11 @@
 					H.forcesay(hit_appends)
 				else if(H.lying)
 					H.forcesay(hit_appends)
+				if(istype(affecting, /obj/item/organ/limb/head) && prob(damage * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
+					var/obj/item/organ/limb/head/U = affecting
+					U.knock_out_teeth(get_dir(M, H))
+					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
+									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 		if("disarm")
 			if(attacker_style && attacker_style.disarm_act(M,H))
 				return 1
@@ -1138,7 +1143,11 @@
 					if(role != "revolutionary" && role != "head revolutionary")
 						if(prob(I.force + ((100 - H.health)/2)) && H != user && I.damtype == BRUTE)
 							ticker.mode.remove_revolutionary(H.mind)
-
+				var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
+				if(prob(I.force * (def_zone == "mouth" ? 2 : 1)) && O) //Will the teeth fly out?
+					O.knock_out_teeth(get_dir(user, H))
+					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
+									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 				if(bloody)	//Apply blood
 					if(H.wear_mask)
 						H.wear_mask.add_blood(H)
