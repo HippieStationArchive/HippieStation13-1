@@ -1,5 +1,5 @@
 # Your name.  
-author: Cafaling
+author: Crystalwarrior160
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
@@ -10,6 +10,5 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - tweak: "The Russian Derelict has mysteriously vanished, and in its place is another abandoned station with its own story to tell."
-  - rscadd: "The Owl's legacy has landed somewhere close to the station. Will you take up the mantle?"
-  - rscadd: "A bunch of neat secrets that you have to find yourselves. Checking the Github and source code is cheating, cheater."
+  - rscadd: "Context-based grabs/Grab-Fu has been added from Atlas! Grabbing system got a major overhaul. You can now have meatshields with neck grab, cover someone's eyes or mouth and more! Check the pull request on github for more info."
+  - rscadd: "Damp rag no longer useless! Smothering added. Grab intent + aim at mouth/head + attack with rag to auto-grab someone and smother them. Also works to just grab someone with damp rag in other hand."

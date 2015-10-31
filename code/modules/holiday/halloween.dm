@@ -53,7 +53,7 @@
 //////////////////////////////
 //Spookoween trapped closets//
 //////////////////////////////
-
+/*
 #define SPOOKY_SKELETON 1
 #define ANGRY_FAITHLESS 2
 #define SCARY_BATS 		3
@@ -153,7 +153,6 @@
 
 /obj/structure/closet/crate/set_spooky_trap()
 	return
-
 
 ////////////////////
 //Spookoween Ghost//
@@ -289,3 +288,5 @@
 
 /mob/living/simple_animal/hostile/retaliate/clown/insane/handle_temperature_damage()
 	return
+
+*/

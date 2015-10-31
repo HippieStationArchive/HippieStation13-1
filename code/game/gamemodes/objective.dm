@@ -461,9 +461,15 @@ var/global/list/possible_items = list()
 	if(owner && owner.current && targetinfo)
 		if(istype(owner.current, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = owner.current
-			var/list/slots = list ("backpack" = slot_in_backpack)
+			var/list/slots = list (
+				"backpack" = slot_in_backpack,
+				"left hand" = slot_l_hand,
+				"right hand" = slot_r_hand,
+			)
 			for(var/obj/item/I in targetinfo.special_equipment)
-				H.equip_in_one_of_slots(I, slots)
+				var/equip = H.equip_in_one_of_slots(I, slots, qdel_on_fail = 0)
+				if(!equip) // if somehow it failed to put the special equip in your backpack/hands, put it under you. should never happen tho.
+					I.loc = get_turf(H)
 				H.update_icons()
 
 var/global/list/possible_items_special = list()

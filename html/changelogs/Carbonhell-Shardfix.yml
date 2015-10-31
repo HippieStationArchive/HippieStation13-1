@@ -1,6 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixes ghosts entering in sacrificed inactive shards bugging out and insta-killing the newly created shard"

@@ -332,7 +332,7 @@ display round(lastgen) and plasmatank amount
 	name = "\improper Portable steam generator"
 	icon_state = "portgen2"
 	sheet_path = /obj/item/stack/sheet/mineral/wood
-	power_gen = 125
+	power_gen = 300
 	time_per_sheet = 300
 	board_path = "/obj/item/weapon/circuitboard/pacman/wood"
 	overheat()

@@ -159,6 +159,13 @@ var/list/uplink_items = list()
 	item = /obj/item/ammo_casing/shotgun/buckshot
 	cost = 5
 	jobs = list("Bartender")
+	
+/datum/uplink_item/job_specific/alien
+	name = "Unknown Alien"
+	desc = "An unknown and hostile alien lifeform."
+	item = /obj/item/clothing/mask/facehugger
+	cost = 20
+	jobs = list("Shaft Miner")
 
 // DANGEROUS WEAPONS
 
