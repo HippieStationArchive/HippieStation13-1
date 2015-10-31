@@ -117,9 +117,11 @@
 		istype(W,/obj/item/clothing) || \
 		istype(W,/obj/item/weapon/bedsheet))
 
-		if(!W.can_be_washed)
-			user << "This item does not fit."
-			return
+		if(istype(W,/obj/item/clothing))
+			var/obj/item/clothing/C = W
+			if(!C.can_be_washed)
+				user << "This item does not fit."
+				return
 		if(W.flags & NODROP) //if "can't drop" item
 			user << "<span class='warning'>\The [W] is stuck to your hand, you cannot put it in the washing machine!</span>"
 			return
