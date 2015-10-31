@@ -189,3 +189,18 @@
 	item_state = "plantbgone"
 	volume = 100
 	list_reagents = list("plantbgone" = 100)
+
+/obj/item/weapon/reagent_containers/spray/plantbgonesafety
+	name = "Plant-B-Gone"
+	desc = "Kills those pesky weeds!"
+	icon = 'icons/obj/hydroponics/equipment.dmi'
+	icon_state = "plantbgone"
+	item_state = "plantbgone"
+	volume = 100
+	list_reagents = list("plantbgone" = 100)
+	amount_per_transfer_from_this = 5
+	possible_transfer_amounts = list(5)
+
+/obj/item/weapon/reagent_containers/spray/plantbgonesafety/attack_self(mob/user)
+	user << "<span class='notice'>The nozzle seems to be unremoveable..</span>"
+
