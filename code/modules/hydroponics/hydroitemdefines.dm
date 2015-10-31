@@ -54,9 +54,28 @@
 	..()
 	reagents.add_reagent("pestkiller", 100)
 
+
+/obj/item/weapon/reagent_containers/spray/pestspray/New()
+	..()
+	reagents.add_reagent("pestkiller", 100)
+
 /obj/item/weapon/reagent_containers/spray/pestspray/suicide_act(mob/user)
 	viewers(user) << "<span class='suicide'>[user] is huffing the [src.name]! It looks like \he's trying to commit suicide.</span>"
 	return (TOXLOSS)
+
+/obj/item/weapon/reagent_containers/spray/pestspray/safetypestspray
+	desc = "It's some non-refillable pest eliminator spray! <I>Do not inhale!</I>"
+	icon = 'icons/obj/hydroponics/equipment.dmi'
+	name = "pest spray"
+	icon_state = "pestspray"
+	item_state = "spray"
+	volume = 100
+	flags = INJECTONLY
+	slot_flags = SLOT_BELT
+	throwforce = 0
+	w_class = 2
+	throw_speed = 3
+	throw_range = 10
 
 /obj/item/weapon/cultivator
 	name = "cultivator"
