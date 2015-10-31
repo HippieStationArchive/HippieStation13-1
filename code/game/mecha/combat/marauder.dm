@@ -164,8 +164,8 @@
 		M.log_message("Toggled zoom mode.")
 		M.occupant_message("<font color='[M.zoom?"blue":"red"]'>Zoom mode [M.zoom?"en":"dis"]abled.</font>")
 		if(M.zoom)
-			src.reset_stretch = winget(src.occupant.client, "mapwindow.map", "icon-size")
-			winset(src.occupant.client, "mapwindow.map", "icon-size=0")
+			M.reset_stretch = winget(M.occupant.client, "mapwindow.map", "icon-size")
+			winset(M.occupant.client, "mapwindow.map", "icon-size=0")
 			owner.client.view = 12
 			owner << sound('sound/mecha/imag_enh.ogg',volume=50)
 		else

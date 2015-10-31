@@ -14,7 +14,7 @@
 			else //Smart spread
 				spread = round((i / pellets - 0.5) * distro)
 				// world << "[spread] spread! [pellets] pellets! [i] i! [distro] variance!"
-		if(!throw_proj(target, targloc, user, params))
+		if(!throw_proj(target, targloc, user, params, spread))
 			return 0
 		if(i > 1)
 			newshot()
