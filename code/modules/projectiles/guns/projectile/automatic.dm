@@ -152,17 +152,22 @@
 	mag_unload_sound = 'sound/effects/wep_magazines/ak922_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ak922_chamber.ogg'
 
-/obj/item/weapon/gun/projectile/automatic/ak922/gold
-	icon_state = "ak922gold"
-	item_state = "ak922gold"
-	desc = "Damn son! Now that's a nice gun!"
-
 /obj/item/weapon/gun/projectile/automatic/ak922/afterattack()
 	..()
 	empty_alarm()
 	return
 
 /obj/item/weapon/gun/projectile/automatic/ak922/update_icon()
+	..()
+	icon_state = "ak922[magazine ? "-[Ceiling(get_ammo(0)/5)*5]" : ""][chambered ? "" : "-e"]"
+	return
+
+/obj/item/weapon/gun/projectile/automatic/ak922/gold
+	icon_state = "ak922gold"
+	item_state = "ak922gold"
+	desc = "Damn son! Now that's a nice gun!"
+
+/obj/item/weapon/gun/projectile/automatic/ak922/gold/update_icon()
 	..()
 	icon_state = "ak922gold[magazine ? "-[Ceiling(get_ammo(0)/5)*5]" : ""][chambered ? "" : "-e"]"
 	return
@@ -182,7 +187,7 @@
 	burst_size = 5
 	fire_delay = 3
 	mag_load_sound = null 	//Snowflake code here el rip
-	mag_unload_sound = 'sound/effects/wep_magazines/lmg_unload.ogg'
+	mag_unload_sound = null
 	chamber_sound = null 	//Can't chamber like other guns
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/unrestricted
@@ -219,7 +224,7 @@
 		user.put_in_hands(magazine)
 		magazine = null
 		update_icon()
-		playsound(loc, 'sound/effects/wep_magazines/lmg_load.ogg', 50, 1, -1)
+		playsound(loc, 'sound/effects/wep_magazines/lmg_unload.ogg', 80)
 		user << "<span class='notice'>You remove the magazine from [src].</span>"
 
 
