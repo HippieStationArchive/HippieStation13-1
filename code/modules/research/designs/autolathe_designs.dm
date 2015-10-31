@@ -602,3 +602,11 @@
 	materials = list(MAT_METAL = 150, MAT_GLASS = 150)
 	build_path = /obj/item/device/geiger_counter
 	category = list("initial", "Tools")
+
+/datum/design/rubber762
+	name = "Ammo box (.762x54)"
+	id = "a762rubber"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_box/a762rubber
+	category = list("hacked", "Security")
