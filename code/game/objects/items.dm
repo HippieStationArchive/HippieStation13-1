@@ -100,8 +100,6 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/heat = 0
 	var/sharpness = IS_BLUNT
 
-	var/can_be_washed = 1 //Can this item be washed in the washing machine? (This is better than ugly as fuck hardcode.)
-
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
 	if(((src in target) && !target_self) || ((!istype(target.loc, /turf)) && (!istype(target, /turf)) && (not_inside)) || is_type_in_list(target, can_be_placed_into))
 		return 0
