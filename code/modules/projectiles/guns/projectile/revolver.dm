@@ -3,6 +3,9 @@
 	desc = "A suspicious revolver. Uses .357 ammo." //usually used by syndicates
 	icon_state = "revolver"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder
+	mag_load_sound = null
+	mag_unload_sound = null		//Revolvers already have their own sfx for this kind of stuff
+	chamber_sound = null
 
 /obj/item/weapon/gun/projectile/revolver/New()
 	..()
@@ -150,6 +153,11 @@
 	icon_state = "mateba"
 	origin_tech = "combat=2;materials=2"
 
+/obj/item/weapon/gun/projectile/revolver/nagant
+	name = "\improper Nagant M1895"
+	desc = "A very, very old revolver. It's been modified to shoot .357 ammo."
+	icon_state = "nagant"
+	origin_tech = "combat=2;materials=2"
 
 // A gun to play Russian Roulette!
 // You can spin the chamber to randomize the position of the bullet.

@@ -11,11 +11,15 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot
 	fire_sound = 'sound/weapons/shotgun.ogg'
 	var/recentpump = 0 // to prevent spammage
+	mag_load_sound = null
+	mag_unload_sound = null		//Shotguns have their own procs related to loading, unloading, etc.
+	chamber_sound = null
 
 /obj/item/weapon/gun/projectile/shotgun/attackby(obj/item/A, mob/user, params)
 	var/num_loaded = magazine.attackby(A, user, params, 1)
 	if(num_loaded)
 		user << "<span class='notice'>You load [num_loaded] shell\s into \the [src]!</span>"
+		playsound(loc, 'sound/effects/wep_magazines/insertShotgun.ogg', 50, 1, -1)
 		A.update_icon()
 		update_icon()
 
@@ -88,19 +92,22 @@
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction
 	name = "Mosin M91/30"
-	desc = "This piece of junk looks like something that could have been used 700 years ago."	//No maymays allowed.
+	desc = "This piece of junk looks like something that could have been used 700 years ago... Where's the bayonet?"	//mm.. gagsa
 	icon_state = "mosin"
 	item_state = "mosin"
-	slot_flags = 0 //no SLOT_BACK sprite, alas
+	slot_flags = SLOT_BACK //we got slot back sprites comrade
 	mag_type = /obj/item/ammo_box/magazine/internal/boltaction
+	sawn_desc = "A NUU CHEEKI BREEKI I V DAMKE."
+	fire_sound = 'sound/weapons/handcannon.ogg'
 	var/bolt_open = 0
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction/pump(mob/M)
-	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)	//The sound for this HAS to be changed at some point.
 	if(bolt_open)
 		pump_reload(M)
+		playsound(loc, 'sound/effects/wep_magazines/rifle_bolt_back.ogg', 50, 1, -1)
 	else
 		pump_unload(M)
+		playsound(loc, 'sound/effects/wep_magazines/rifle_bolt_forward.ogg', 50, 1, -1)
 	bolt_open = !bolt_open
 	update_icon()	//I.E. fix the desc
 	return 1
@@ -114,6 +121,18 @@
 /obj/item/weapon/gun/projectile/shotgun/boltaction/examine(mob/user)
 	..()
 	user << "The bolt is [bolt_open ? "open" : "closed"]."
+
+/obj/item/weapon/gun/projectile/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
+	..()
+	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
+		chamber_round()
+		playsound(loc, 'sound/effects/wep_magazines/rifle_load.ogg', 50, 1, -1)
+	if(istype(A, /obj/item/weapon/melee/energy))
+		var/obj/item/weapon/melee/energy/W = A
+		if(W.active)
+			sawoff(user)
+	if(istype(A, /obj/item/weapon/circular_saw) || istype(A, /obj/item/weapon/gun/energy/plasmacutter))
+		sawoff(user)
 
 /////////////////////////////
 // DOUBLE BARRELED SHOTGUN //
@@ -263,6 +282,9 @@
 	can_suppress = 0
 	burst_size = 1
 	fire_delay = 0
+	mag_load_sound = 'sound/effects/wep_magazines/bulldog_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/bulldog_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/bulldog_chamber.ogg'
 	action_button_name = null
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/unrestricted
@@ -307,6 +329,9 @@
 	can_suppress = 0
 	burst_size = 2
 	fire_delay = 1
+	mag_load_sound = 'sound/effects/wep_magazines/lmg_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/lmg_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/lmg_chamber.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/abzats/burst_select()
 	return

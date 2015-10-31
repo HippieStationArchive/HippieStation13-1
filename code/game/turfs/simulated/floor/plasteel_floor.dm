@@ -330,6 +330,9 @@
 	icon_state = "recharge_floor"
 /turf/simulated/floor/plasteel/recharge_floor/asteroid
 	icon_state = "recharge_floor_asteroid"
+	oxygen = 0
+	nitrogen = 0
+	temperature = TCMB
 
 
 /turf/simulated/floor/plasteel/chapel

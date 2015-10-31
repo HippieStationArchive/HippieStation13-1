@@ -155,7 +155,9 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 
 /mob/living/simple_animal/revenant/say(message)
 	for(var/mob/M in mob_list)
-		if(istype(M, /mob/living/simple_animal/revenant) || M.stat == DEAD)
+		if(istype(M, /mob/new_player))
+			continue
+		if(istype(M, /mob/living/simple_animal/revenant)  || M.stat == DEAD)
 			M << "<span class='deadsay'><b>REVENANT: [src]</b> says, \"[message]\"" //Can commune with the dead
 	return
 
