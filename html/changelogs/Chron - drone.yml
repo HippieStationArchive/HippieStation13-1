@@ -1,6 +1,0 @@
-author: Chronitonity
-
-delete-after: True
-
-changes: 
-    - tweak: "Drones no longer need gravity to move."

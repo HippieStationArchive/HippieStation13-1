@@ -9,7 +9,7 @@
 	opacity = 0
 	var/case_type = null
 	var/gun_category = /obj/item/weapon/gun
-	var/open = 1
+	var/open = 0 // why would you make it start opened?like, why? there's literally zero reason, are you for real wtf
 	var/capacity = 4
 
 /obj/structure/guncase/New()
@@ -60,8 +60,10 @@
 /obj/structure/guncase/attack_hand(mob/user)
 	if(isrobot(user) || isalien(user))
 		return
-	update_icon()
-	interact(user)
+	if(!open)
+		open = 1
+		update_icon()
+	else interact(user)
 
 /obj/structure/guncase/interact(mob/user)
 	var/dat = {"<div class='block'>
