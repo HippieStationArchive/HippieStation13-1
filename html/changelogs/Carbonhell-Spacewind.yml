@@ -1,6 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - tweak: "Reverts spacewind to the old pre-rebase one."

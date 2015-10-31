@@ -1,6 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - rscadd: "You can now inject chemicals in bloodpacks. You can only inject, if you want to draw them you have to use an IV drip."
