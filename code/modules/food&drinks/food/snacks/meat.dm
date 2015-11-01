@@ -140,7 +140,7 @@
 	filling_color = "#61380B"
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
-	icon_state = "tomatomeat"
+	icon_state = "rottenmeat"
 	desc = "Korea & Spessmen eat kitty"
 	filling_color = "#ff69b4"
 
