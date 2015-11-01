@@ -239,7 +239,7 @@ var/list/crit_allowed_modes = list(MODE_WHISPER,MODE_CHANGELING,MODE_ALIEN)
 		message = derpspeech(message, stuttering)
 
 	if(lisp)
-		message = lisp(message)
+		message = lisp(message, lisp)
 
 	if(stuttering)
 		message = stutter(message)

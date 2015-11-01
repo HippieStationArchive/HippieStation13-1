@@ -255,7 +255,7 @@
 	id = "replacement_teeth"
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 250)
-	build_path = /obj/item/organ/teeth/replacement
+	build_path = /obj/item/stack/organ/teeth/replacement
 	category = list("initial", "Medical")
 
 /datum/design/beaker
