@@ -84,7 +84,7 @@
 	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/bird
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
-	icon_state = "lizardmeat"
+	icon_state = "IPCmeat"
 	desc = "Crunchy IPC meat"
 	filling_color = "#ffffff"
 	name = "-IPC meat"
