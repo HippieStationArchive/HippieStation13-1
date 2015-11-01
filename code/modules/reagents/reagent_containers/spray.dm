@@ -202,5 +202,5 @@
 	possible_transfer_amounts = list(5)
 
 /obj/item/weapon/reagent_containers/spray/plantbgonesafety/attack_self(mob/user)
-	user << "<span class='notice'>The nozzle seems to be unremoveable..</span>"
+	user << "<span class='notice'>The nozzle seems to be unremovable.</span>"
 
