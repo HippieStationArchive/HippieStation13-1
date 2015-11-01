@@ -19,7 +19,7 @@
 	var/num_loaded = magazine.attackby(A, user, params, 1)
 	if(num_loaded)
 		user << "<span class='notice'>You load [num_loaded] shell\s into \the [src]!</span>"
-		playsound(loc, 'sound/effects/wep_magazines/insertShotgun.ogg', 50, 1, -1)
+		playsound(loc, 'sound/effects/wep_magazines/insertShotgun.ogg', 80)
 		A.update_icon()
 		update_icon()
 
@@ -104,10 +104,10 @@
 /obj/item/weapon/gun/projectile/shotgun/boltaction/pump(mob/M)
 	if(bolt_open)
 		pump_reload(M)
-		playsound(loc, 'sound/effects/wep_magazines/rifle_bolt_back.ogg', 50, 1, -1)
+		playsound(loc, 'sound/effects/wep_magazines/rifle_bolt_back.ogg', 80)
 	else
 		pump_unload(M)
-		playsound(loc, 'sound/effects/wep_magazines/rifle_bolt_forward.ogg', 50, 1, -1)
+		playsound(loc, 'sound/effects/wep_magazines/rifle_bolt_forward.ogg', 80)
 	bolt_open = !bolt_open
 	update_icon()	//I.E. fix the desc
 	return 1
@@ -126,7 +126,7 @@
 	..()
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
 		chamber_round()
-		playsound(loc, 'sound/effects/wep_magazines/rifle_load.ogg', 50, 1, -1)
+		playsound(loc, 'sound/effects/wep_magazines/rifle_load.ogg', 80)
 	if(istype(A, /obj/item/weapon/melee/energy))
 		var/obj/item/weapon/melee/energy/W = A
 		if(W.active)
@@ -206,6 +206,9 @@
 	sawn_desc = "I'm just here for the gasoline."
 	unique_rename = 0
 	unique_reskin = 0
+	mag_load_sound = 'sound/effects/wep_magazines/rifle_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
+	chamber_sound = null
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/attackby(obj/item/A, mob/user, params)
 	..()

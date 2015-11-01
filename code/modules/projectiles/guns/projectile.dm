@@ -61,7 +61,7 @@
 			chamber_round()
 			A.update_icon()
 			update_icon()
-			playsound(loc, mag_load_sound, 50, 1, -1)
+			playsound(loc, mag_load_sound, 80)	//First val = volume, second = rand (pitch), third = fadeout rate
 			return 1
 		else if (magazine)
 			user << "<span class='notice'>There's already a magazine in \the [src].</span>"
@@ -114,13 +114,13 @@
 		user.put_in_hands(magazine)
 		magazine.update_icon()
 		magazine = null
-		playsound(loc, mag_unload_sound, 50, 1, -1)
+		playsound(loc, mag_unload_sound, 80)
 		user << "<span class='notice'>You pull the magazine out of \the [src].</span>"
 	else if(chambered)
 		AC.loc = get_turf(src)
 		AC.SpinAnimation(10, 1)
 		chambered = null
-		playsound(loc, chamber_sound, 50, 1, -1)
+		playsound(loc, chamber_sound, 80)
 		user << "<span class='notice'>You unload the round from \the [src]'s chamber.</span>"
 	else
 		user << "<span class='notice'>There's no magazine in \the [src].</span>"
