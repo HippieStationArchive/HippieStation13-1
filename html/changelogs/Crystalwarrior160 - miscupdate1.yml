@@ -37,5 +37,6 @@ changes:
   - tweak: "Now the lisp depends on the amount of missing teeth. Examine text tells you how much teeth are you missing."
   - tweak: "The amount of teeth knocking out now depends on weapon's force. You won't be able to >punch< any more than ~7 teeth now unless you're hulk or something. Punching teeth out, however, is a better idea than to try to use a lower-brute weapon on them. Instead, go grab a toolbox or heck a fireaxe and apply it directly to the mouth for the biggest possible chance to knock dem teeth out."
   - tweak: "Made collapsed rollerbeds fit in backpacks."
+  - tweak: "Improved 'dancing' (both people passive-grabbing each other) animation."
   - soundadd: "Added RIP AND TEAR sound effect to removing embedding items."
   - bugfix: "Fixed resisting grabs. You can now properly resist out of all grab types (except succesful choking (last grab stage) - you can't save yourself now)"

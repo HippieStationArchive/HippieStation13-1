@@ -160,9 +160,10 @@
 /obj/item/weapon/grab/proc/adjust_position()
 	if(affecting.buckled)
 		return
-
+	var/easing = LINEAR_EASING
+	var/time = 5
 	if(affecting.lying && state != GRAB_KILL)
-		animate(affecting, pixel_x = 0, pixel_y = -4, 5, 1, LINEAR_EASING)
+		animate(affecting, pixel_x = 0, pixel_y = -4, time, 1, easing)
 		affecting.layer = 3.9
 		if(force_down)
 			affecting.set_dir(SOUTH) //face up
@@ -178,6 +179,8 @@
 			shift = 8
 			if(dancing) //look at partner
 				shift = 10
+				time = 3
+				easing = SINE_EASING
 				assailant.set_dir(get_dir(assailant, affecting))
 		if(GRAB_AGGRESSIVE)
 			shift = 12
@@ -204,7 +207,7 @@
 	if(adir & EAST)
 		Pixel_x =-shift
 
-	animate(affecting, pixel_x = Pixel_x, pixel_y = Pixel_y, 5, 1, LINEAR_EASING)
+	animate(affecting, pixel_x = Pixel_x, pixel_y = Pixel_y, time, 1, easing)
 
 /obj/item/weapon/grab/proc/s_click()
 	if(!affecting)
