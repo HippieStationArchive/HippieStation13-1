@@ -32,7 +32,7 @@
 	category = CAT_FOOD
 
 /datum/table_recipe/humanburger/robo
-	name = "Robo burger"
+	name = "IPC burger"
 	reqs = list(
 		/obj/item/weapon/reagent_containers/food/snacks/bun = 1,
 		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/robo = 1

@@ -30,7 +30,7 @@
 	category = CAT_FOOD
 
 /datum/table_recipe/humankebab/robo
-	name = "Robo kebab"
+	name = "IPC kebab"
 	reqs = list(
 		/obj/item/stack/rods = 1,
 		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/robo = 2
@@ -64,6 +64,15 @@
 		/obj/item/trash/deadmouse = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/rat
+	category = CAT_FOOD
+
+/datum/table_recipe/doubleratkebab
+	name = "Double Rat Kebab"
+	reqs = list(
+		/obj/item/stack/rods = 1,
+		/obj/item/trash/deadmouse = 2
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/doublerat
 	category = CAT_FOOD
 
 /datum/table_recipe/tofukebab
@@ -181,7 +190,7 @@
 	result = /obj/item/weapon/reagent_containers/food/snacks/sausage
 	category = CAT_FOOD
 
-/datum/table_recipe/sausage
+/datum/table_recipe/tbonesteak
 	name = "T-bone Steak"
 	reqs = list(
 		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain = 1,

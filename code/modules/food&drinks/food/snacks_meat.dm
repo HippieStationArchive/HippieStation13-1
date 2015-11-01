@@ -118,8 +118,8 @@
 	desc = "Bird meat, on a stick."
 
 /obj/item/weapon/reagent_containers/food/snacks/kebab/human/robo
-	name = "robo-kebab"
-	desc = "Robo meat, on a stick."
+	name = "IPC-kebab"
+	desc = "IPC meat, on a stick."
 
 /obj/item/weapon/reagent_containers/food/snacks/kebab/human/cat
 	name = "cat-kebab"
@@ -140,6 +140,13 @@
 	desc = "Not so delicious rat meat, on a stick."
 	bonus_reagents = list("nutriment" = 1, "vitamin" = 1)
 	icon_state = "ratkebab"
+
+/obj/item/weapon/reagent_containers/food/snacks/kebab/doublerat
+	name = "double rat-kebab"
+	desc = "Not so delicious rat meat, on a stick."
+	bonus_reagents = list("nutriment" = 3, "vitamin" = 4)
+	icon_state = "doubleratkebab"
+
 
 /obj/item/weapon/reagent_containers/food/snacks/monkeycube
 	name = "monkey cube"

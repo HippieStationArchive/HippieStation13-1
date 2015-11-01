@@ -29,7 +29,7 @@
 	bonus_reagents = list("vitamin" = 4)
 
 /obj/item/weapon/reagent_containers/food/snacks/burger/human/robo
-	name = "robo burger"
+	name = "IPC burger"
 	desc = "Oily and crunchy."
 	bonus_reagents = list("vitamin" = 4)
 

@@ -73,32 +73,22 @@
 	icon_state = "lizardmeat"
 	desc = "Delicious dino damage"
 	filling_color = "#6B8E23"
-
-/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
 	name = "-lizard meat"
 	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/lizard
-	slice_path = /obj/item/weapon/reagent_containers/food/snacks/meat/rawcutlet/plain/human
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
 	icon_state = "fishfillet"
 	desc = "Looks like chicken meat"
 	filling_color = "#3B2E43"
-
-/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
 	name = "-bird meat"
 	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/bird
-	slice_path = /obj/item/weapon/reagent_containers/food/snacks/meat/rawcutlet/plain/human
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
 	icon_state = "lizardmeat"
-	desc = "Crunchy robo meat"
+	desc = "Crunchy IPC meat"
 	filling_color = "#ffffff"
-
-/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
-	name = "-robo meat"
+	name = "-IPC meat"
 	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/robo
-	slice_path = /obj/item/weapon/reagent_containers/food/snacks/meat/rawcutlet/plain/human
-
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/plant
 	icon_state = "plantmeat"
@@ -143,14 +133,8 @@
 	icon_state = "rottenmeat"
 	desc = "Aww, the kitty is playing dead."
 	filling_color = "#ff69b4"
-
-/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
 	name = "-cat meat"
 	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/cat
-	slice_path = /obj/item/weapon/reagent_containers/food/snacks/meat/rawcutlet/plain/human
-
-
-
 
 
 ////////////////////////////////////// OTHER MEATS ////////////////////////////////////////////////////////
