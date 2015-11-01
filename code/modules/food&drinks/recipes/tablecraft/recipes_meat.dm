@@ -11,6 +11,43 @@
 	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human
 	category = CAT_FOOD
 
+/datum/table_recipe/humankebab/lizard
+	name = "Lizard kebab"
+	reqs = list(
+		/obj/item/stack/rods = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/lizard = 2
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human/lizard
+	category = CAT_FOOD
+
+/datum/table_recipe/humankebab/bird
+	name = "Bird kebab"
+	reqs = list(
+		/obj/item/stack/rods = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/bird = 2
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human/bird
+	category = CAT_FOOD
+
+/datum/table_recipe/humankebab/robo
+	name = "Robo kebab"
+	reqs = list(
+		/obj/item/stack/rods = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/robo = 2
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human/robo
+	category = CAT_FOOD
+
+/datum/table_recipe/humankebab/cat
+	name = "Cat kebab"
+	reqs = list(
+		/obj/item/stack/rods = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/cat = 2
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human/cat
+	category = CAT_FOOD
+
+
 /datum/table_recipe/kebab
 	name = "Kebab"
 	reqs = list(
@@ -18,6 +55,15 @@
 		/obj/item/weapon/reagent_containers/food/snacks/meat/steak = 2
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/monkey
+	category = CAT_FOOD
+
+/datum/table_recipe/ratkebab
+	name = "Rat Kebab"
+	reqs = list(
+		/obj/item/stack/rods = 1,
+		/obj/item/trash/deadmouse = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/rat
 	category = CAT_FOOD
 
 /datum/table_recipe/tofukebab

@@ -109,6 +109,22 @@
 	desc = "A human meat, on a stick."
 	bonus_reagents = list("nutriment" = 1, "vitamin" = 6)
 
+/obj/item/weapon/reagent_containers/food/snacks/kebab/human/lizard
+	name = "lizard-kebab"
+	desc = "A lizard meat, on a stick."
+
+/obj/item/weapon/reagent_containers/food/snacks/kebab/human/bird
+	name = "bird-kebab"
+	desc = "A bird meat, on a stick."
+
+/obj/item/weapon/reagent_containers/food/snacks/kebab/human/robo
+	name = "robo-kebab"
+	desc = "A robo meat, on a stick."
+
+/obj/item/weapon/reagent_containers/food/snacks/kebab/human/cat
+	name = "cat-kebab"
+	desc = "A cat meat, on a stick."
+
 /obj/item/weapon/reagent_containers/food/snacks/kebab/monkey
 	name = "meat-kebab"
 	desc = "Delicious meat, on a stick."
@@ -118,6 +134,11 @@
 	name = "tofu-kebab"
 	desc = "Vegan meat, on a stick."
 	bonus_reagents = list("nutriment" = 1)
+
+/obj/item/weapon/reagent_containers/food/snacks/kebab/rat
+	name = "rat-kebab"
+	desc = "Not so delicious rat meat, on a stick."
+	bonus_reagents = list("nutriment" = 1, "vitamin" = 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/monkeycube
 	name = "monkey cube"
