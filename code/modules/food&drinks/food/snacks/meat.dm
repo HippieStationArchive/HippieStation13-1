@@ -81,7 +81,7 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
 	icon_state = "fishfillet"
-	desc = "looks like chicken meat"
+	desc = "Looks like chicken meat"
 	filling_color = "#3B2E43"
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
@@ -141,7 +141,7 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
 	icon_state = "rottenmeat"
-	desc = "Korea & Spessmen eat kitty"
+	desc = "Aww, the kitty is playing dead."
 	filling_color = "#ff69b4"
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
