@@ -83,7 +83,6 @@
 		return 0 //cannot shoot yourself
 	if(bumped)//Stops multihit projectiles
 		return 1
-	bumped = 1
 	if(isliving(A))
 		var/mob/living/M = A
 		var/reagent_note
@@ -111,11 +110,12 @@
 			volume = 5
 		playsound(loc, hitsound_wall, volume, 1, -1)
 
+	bumped = 1
 	var/turf/new_loc = get_turf(A)
 	var/permutation = A.bullet_act(src, def_zone) // searches for return value, could be deleted after run so check A isn't null
 	if(permutation == -1 || forcedodge)// the bullet passes through a dense object!
 		spawn(1)
-			bumped = 0 // reset bumped variable... after a delay. We don't want the projectile to hit AGAIN. Fixes deflecting projectiles
+			bumped = 0 // reset bumped variable... after a delay. We don't want the projectile to hit AGAIN. Fixes deflecting projectiles.
 		loc = new_loc
 		permutated.Add(A)
 		return 0
@@ -130,13 +130,13 @@
 
 	qdel(src)
 
-// /obj/item/projectile/CanPass(atom/movable/mover, turf/target, height=0)
-// 	if(height==0) return 1
+/obj/item/projectile/CanPass(atom/movable/mover, turf/target, height=0)
+	if(height==0) return 1
 
-// 	if(istype(mover, /obj/item/projectile))
-// 		return prob(95)
-// 	else
-// 		return 1
+	// if(istype(mover, /obj/item/projectile))
+	// 	return prob(95)
+	// else
+	return 1
 
 /obj/item/projectile/Process_Spacemove(var/movement_dir = 0)
 	return 1 //Bullets don't drift in space
@@ -160,7 +160,7 @@
 				// overlays.Cut()
 				// var/icon/I=new(initial(icon),icon_state) //using initial(icon) makes sure that the angle for that is reset as well
 				// I.Turn(Angle)
-				// I.DrawBox(rgb(255,0,0,50),1,1,32,32)
+				// I.DrawBox(rgb(255,0,0,50),1,1,32,32) 
 				// icon = I
 				if(spread) //Chaotic spread
 					Angle += (rand() - 0.5) * spread

@@ -1,22 +1,19 @@
-/obj/item/ammo_casing/proc/fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, params, distro, quiet, zone_override = "")
+/obj/item/ammo_casing/proc/fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, params, distro, quiet, zone_override = "", spread)
 	distro += variance
-	for (var/i = max(1, pellets), i > 0, i--)
+	for (var/i=1 to pellets)
 		// var/curloc = user.loc
 		var/targloc = get_turf(target)
 		ready_proj(target, user, quiet, zone_override)
 		// if(distro) //legacy bullet spread not supported. It never worked correctly anyway.
 		// 	targloc = spread(targloc, curloc, distro)
-		var/spread = 0
-		if(distro) //We have to spread a pixel-precision bullet. throw_proj was called before so angles should exist by now...
+		if(distro && spread==null) //We have to spread a pixel-precision bullet. throw_proj was called before so angles should exist by now...
 			if(randomspread)
 				spread = round((rand() - 0.5) * distro)
-				// world << "[spread] spread!"
 			else //Smart spread
 				spread = round((i / pellets - 0.5) * distro)
-				// world << "[spread] spread! [pellets] pellets! [i] i! [distro] variance!"
 		if(!throw_proj(target, targloc, user, params, spread))
 			return 0
-		if(i > 1)
+		if(i < pellets)
 			newshot()
 	user.changeNext_move(CLICK_CD_RANGE)
 	user.newtonian_move(get_dir(target, user))
@@ -83,14 +80,11 @@
 
 			//Split Y+Pixel_Y up into list(Y, Pixel_Y)
 			var/list/screen_loc_Y = text2list(screen_loc_params[2],":")
-			// world << "X: [screen_loc_X[1]] PixelX: [screen_loc_X[2]] / Y: [screen_loc_Y[1]] PixelY: [screen_loc_Y[2]]"
 			var/x = text2num(screen_loc_X[1]) * 32 + text2num(screen_loc_X[2]) - 32
 			var/y = text2num(screen_loc_Y[1]) * 32 + text2num(screen_loc_Y[2]) - 32
 			var/ox = round(480/2) //"origin" x - Basically center of the screen. This is a bad way of doing it because if you are able to view MORE than 15 tiles at a time your aim will get fucked.
 			var/oy = round(480/2) //"origin" y - Basically center of the screen.
-			// world << "Pixel position: [x] [y]"
 			var/angle = Atan2(y - oy, x - ox)
-			// world << "Angle: [angle]"
 			src.Angle = angle
 	if(spread)
 		src.Angle += spread
