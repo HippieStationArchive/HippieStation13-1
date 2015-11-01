@@ -139,6 +139,7 @@
 	name = "rat-kebab"
 	desc = "Not so delicious rat meat, on a stick."
 	bonus_reagents = list("nutriment" = 1, "vitamin" = 1)
+	icon_state = "ratkebab"
 
 /obj/item/weapon/reagent_containers/food/snacks/monkeycube
 	name = "monkey cube"
