@@ -58,6 +58,30 @@
 	viewers(user) << "<span class='suicide'>[user] is huffing the [src.name]! It looks like \he's trying to commit suicide.</span>"
 	return (TOXLOSS)
 
+/obj/item/weapon/reagent_containers/spray/safetypestspray
+	desc = "It's some pest eliminator spray! <I>Do not inhale!</I>"
+	icon = 'icons/obj/hydroponics/equipment.dmi'
+	name = "pest spray"
+	icon_state = "pestspray"
+	item_state = "spray"
+	volume = 100
+	flags = OPENCONTAINER
+	slot_flags = SLOT_BELT
+	throwforce = 0
+	w_class = 2
+	throw_speed = 3
+	throw_range = 10
+	amount_per_transfer_from_this = 5
+	possible_transfer_amounts = list(5)
+
+/obj/item/weapon/reagent_containers/spray/safetypestspray/New()
+	..()
+	reagents.add_reagent("pestkiller", 100)
+
+/obj/item/weapon/reagent_containers/spray/safetypestspray/attack_self(mob/user)
+	user << "<span class='notice'>The nozzle seems to be unremovable.</span>"
+
+
 /obj/item/weapon/cultivator
 	name = "cultivator"
 	desc = "It's used for removing weeds or scratching your back."
