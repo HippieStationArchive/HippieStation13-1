@@ -18,6 +18,26 @@
 	desc = "A bloody burger."
 	bonus_reagents = list("vitamin" = 4)
 
+/obj/item/weapon/reagent_containers/food/snacks/burger/human/lizard
+	name = "lizard burger"
+	desc = "Fucking liggers!"
+	bonus_reagents = list("vitamin" = 4)
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/human/bird
+	name = "bird burger"
+	desc = "Tastes like chicken."
+	bonus_reagents = list("vitamin" = 4)
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/human/robo
+	name = "robo burger"
+	desc = "Oily and crunchy."
+	bonus_reagents = list("vitamin" = 4)
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/human/cat
+	name = "cat burger"
+	desc = "Cat burglar no more."
+	bonus_reagents = list("vitamin" = 4)
+
 /obj/item/weapon/reagent_containers/food/snacks/burger/corgi
 	name = "corgi burger"
 	desc = "You monster."

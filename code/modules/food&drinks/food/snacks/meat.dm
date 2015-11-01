@@ -74,6 +74,32 @@
 	desc = "Delicious dino damage"
 	filling_color = "#6B8E23"
 
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	name = "-lizard meat"
+	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/lizard
+	slice_path = /obj/item/weapon/reagent_containers/food/snacks/meat/rawcutlet/plain/human
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
+	icon_state = "lizardmeat"
+	desc = "looks like chicken meat"
+	filling_color = "#3B2E43"
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
+	name = "-bird meat"
+	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/bird
+	slice_path = /obj/item/weapon/reagent_containers/food/snacks/meat/rawcutlet/plain/human
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
+	icon_state = "lizardmeat"
+	desc = "Crunchy robo meat"
+	filling_color = "#ffffff"
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
+	name = "-robo meat"
+	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/robo
+	slice_path = /obj/item/weapon/reagent_containers/food/snacks/meat/rawcutlet/plain/human
+
+
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/plant
 	icon_state = "plantmeat"
 	desc = "All the joys of healthy eating with all the fun of cannibalism"
@@ -112,6 +138,16 @@
 	icon_state = "deepfriedmeat"
 	desc = "For the refined fatman."
 	filling_color = "#61380B"
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
+	icon_state = "lizardmeat"
+	desc = "Korea & Spessmen eat kitty"
+	filling_color = "#ff69b4"
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
+	name = "-cat meat"
+	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/cat
+	slice_path = /obj/item/weapon/reagent_containers/food/snacks/meat/rawcutlet/plain/human
 
 
 
@@ -195,6 +231,22 @@
 /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/lizard
+	name = "lizard steak"
+	desc = "A piece of hot spicy lizard meat."
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/bird
+	name = "bird steak"
+	desc = "A piece of hot spicy bird meat."
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/robo
+	name = "robo steak"
+	desc = "A piece of hot spicy robo meat."
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/cat
+	name = "cat steak"
+	desc = "A piece of hot spicy cat meat."
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/steak/killertomato
 	name = "killer tomato steak"
