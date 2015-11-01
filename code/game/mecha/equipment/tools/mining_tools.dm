@@ -15,6 +15,8 @@
 		return
 	if(istype(target, /turf) && !istype(target, /turf/simulated))
 		return
+	if(istype(target, /atom/movable/light))
+		return
 	if(isobj(target))
 		var/obj/target_obj = target
 		if(target_obj.unacidable)
