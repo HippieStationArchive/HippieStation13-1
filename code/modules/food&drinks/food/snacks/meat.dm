@@ -260,6 +260,11 @@
 /obj/item/weapon/reagent_containers/food/snacks/meat/steak/spider
 	name = "spider steak"
 
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/Tbone
+	name = "T-bone steak"
+	desc = "The bone seems a bit odd..."
+	bonus_reagents = list("nutriment" = 3, "vitamin" = 3)
+
 
 
 //////////////////////////////// MEAT CUTLETS ///////////////////////////////////////////////////////

@@ -180,3 +180,12 @@
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/sausage
 	category = CAT_FOOD
+
+/datum/table_recipe/sausage
+	name = "T-bone Steak"
+	reqs = list(
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton = 2
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/Tbone
+	category = CAT_FOOD
