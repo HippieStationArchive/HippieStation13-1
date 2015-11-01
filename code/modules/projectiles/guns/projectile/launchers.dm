@@ -63,6 +63,9 @@
 	fire_delay = 0
 	select = 0
 	action_button_name = null
+	mag_load_sound = null
+	mag_unload_sound = null
+	chamber_sound = null
 
 /obj/item/weapon/gun/projectile/automatic/speargun/update_icon()
 	return

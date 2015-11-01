@@ -246,7 +246,7 @@
 	name = "Boss' Day"
 	begin_day = 16
 	begin_month = OCTOBER
-/*
+
 /datum/holiday/halloween
 	name = HALLOWEEN
 	begin_day = 30
@@ -259,7 +259,7 @@
 
 /datum/holiday/halloween/getStationPrefix()
 	return pick("Bone-Rattling","Mr. Bones' Own","2SPOOKY","Spooky","Scary","Skeletons")
-*/
+
 /datum/holiday/vegan
 	name = "Vegan Day"
 	begin_day = 1
