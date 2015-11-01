@@ -159,6 +159,13 @@ var/list/uplink_items = list()
 	item = /obj/item/ammo_casing/shotgun/buckshot
 	cost = 5
 	jobs = list("Bartender")
+	
+/datum/uplink_item/job_specific/alien
+	name = "Unknown Alien"
+	desc = "An unknown and hostile alien lifeform."
+	item = /obj/item/clothing/mask/facehugger
+	cost = 20
+	jobs = list("Shaft Miner")
 
 // DANGEROUS WEAPONS
 
@@ -326,6 +333,11 @@ var/list/uplink_items = list()
 	cost = 140
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
+/datum/uplink_item/dangerous/cqc_gloves
+	name = "Tactical Gloves"
+	desc = "Comfortable grey gloves with the CQC martial art inside."
+	item = /obj/item/clothing/gloves/cqc
+	cost = 12
 
 /datum/uplink_item/dangerous/syndieborg
 	name = "Syndicate Cyborg"
@@ -334,12 +346,6 @@ var/list/uplink_items = list()
 	cost = 50
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
-
-/datum/uplink_item/dangerous/cqc_gloves
-	name = "Tactical Gloves"
-	desc = "Comfortable grey gloves with the CQC martial art inside."
-	item = /obj/item/clothing/gloves/cqc
-	cost = 12
 
 //for refunding the syndieborg teleporter
 /datum/uplink_item/dangerous/syndieborg/spawn_item()
@@ -930,6 +936,12 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_macrobomb
 	cost = 20
 	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/badass/raincoat
+    name = "Raincoat"
+    desc = "It's hip to be square!"
+    item = /obj/item/clothing/suit/raincoat
+    cost = 1
 
 /datum/uplink_item/badass/random
 	name = "Random Item"

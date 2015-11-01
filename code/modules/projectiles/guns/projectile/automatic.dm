@@ -6,6 +6,9 @@
 	can_suppress = 1
 	burst_size = 3
 	fire_delay = 1	//Pre-rebase fire rate, nothing to see here.
+	mag_load_sound = 'sound/effects/wep_magazines/smg_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/smg_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/smg_chamber.ogg'
 	action_button_name = "Toggle Firemode"
 
 /obj/item/weapon/gun/projectile/automatic/proto
@@ -114,6 +117,9 @@
 	fire_delay = 2
 	can_suppress = 0
 	burst_size = 0
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/wt550/ui_action_click()
 	return
@@ -142,6 +148,9 @@
 	fire_sound = 'sound/weapons/handcannon.ogg'
 	fire_delay = 1
 	burst_size = 3
+	mag_load_sound = 'sound/effects/wep_magazines/ak922_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ak922_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ak922_chamber.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/ak922/gold
 	icon_state = "ak922gold"
@@ -172,6 +181,9 @@
 	can_suppress = 0
 	burst_size = 5
 	fire_delay = 3
+	mag_load_sound = null 	//Snowflake code here el rip
+	mag_unload_sound = 'sound/effects/wep_magazines/lmg_unload.ogg'
+	chamber_sound = null 	//Can't chamber like other guns
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/unrestricted
 
@@ -207,6 +219,7 @@
 		user.put_in_hands(magazine)
 		magazine = null
 		update_icon()
+		playsound(loc, 'sound/effects/wep_magazines/lmg_load.ogg', 50, 1, -1)
 		user << "<span class='notice'>You remove the magazine from [src].</span>"
 
 
@@ -228,6 +241,9 @@
 	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/underbarrel
 	burst_size = 3
 	fire_delay = 2
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/c90/New()
 	..()
@@ -301,6 +317,9 @@
 	can_suppress = 0
 	burst_size = 4
 	fire_delay = 1
+	mag_load_sound = 'sound/effects/wep_magazines/bulldog_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/bulldog_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/bulldog_chamber.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/ar
 	name = "NT Assault Rifle"
@@ -314,3 +333,6 @@
 	can_suppress = 0
 	burst_size = 3
 	fire_delay = 1
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'

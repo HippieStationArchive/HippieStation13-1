@@ -28,6 +28,25 @@
 	max_damage = 200
 	body_part = CHEST
 
+/obj/item/organ/teeth
+	name = "teeth"
+	gender = PLURAL
+	desc = "Welp. Someone had their teeth knocked out. Somehow, there's all 32 teeth in here."
+	icon_state = "teeth"
+
+/obj/item/organ/teeth/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] jams [src] into \his eyes! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)
+
+/obj/item/organ/teeth/New()
+	..()
+	transform *= TransformUsingVariable(0.25, 1, 0.5) //Half-size the teeth
+
+/obj/item/organ/teeth/replacement
+	name = "replacement teeth"
+	gender = PLURAL
+	desc = "First teeth, now replacements. When does it end?"
+	icon_state = "dentals"
 
 /obj/item/organ/limb/head
 	name = "head"
@@ -35,7 +54,25 @@
 	icon_state = "head"
 	max_damage = 200
 	body_part = HEAD
+	var/list/teeth = list()
 
+/obj/item/organ/limb/head/New()
+	..()
+	teeth += new /obj/item/organ/teeth
+
+/obj/item/organ/limb/head/proc/knock_out_teeth(throw_dir) //Won't support knocking teeth out of a dismembered head or anything like that yet.
+	for(var/obj/item/organ/teeth/T in teeth)
+		teeth -= T
+		T.loc = owner.loc
+		T.add_blood(owner)
+		var/turf/target = get_turf(owner.loc)
+		var/range = rand(2,T.throw_range)
+		for(var/i = 1; i < range; i++)
+			var/turf/new_turf = get_step(target, throw_dir)
+			target = new_turf
+			if(new_turf.density)
+				break
+		T.throw_at(target,T.throw_range,T.throw_speed)
 
 /obj/item/organ/limb/l_arm
 	name = "l_arm"
@@ -67,8 +104,6 @@
 	icon_state = "r_leg"
 	max_damage = 75
 	body_part = LEG_RIGHT
-
-
 
 //Applies brute and burn damage to the organ. Returns 1 if the damage-icon states changed at all.
 //Damage will not exceed max_damage using this proc

@@ -9,7 +9,7 @@
 	opacity = 0
 	var/case_type = null
 	var/gun_category = /obj/item/weapon/gun
-	var/open = 1
+	var/open = 0 // why would you make it start opened?like, why? there's literally zero reason, are you for real wtf
 	var/capacity = 4
 
 /obj/structure/guncase/New()
@@ -27,8 +27,15 @@
 
 /obj/structure/guncase/update_icon()
 	overlays.Cut()
-	for(var/i = contents.len, i >= 1, i--)
-		overlays += image(icon = src.icon, icon_state = "[case_type]", pixel_x = 4 * (i -1) )
+	var/n = 4 //first line of guns overlay
+	var/m = 0 //second line of guns overlay
+	if(contents.len <= 4) n = contents.len
+	else m = contents.len-n
+	for(var/i in 1 to n)
+		overlays += image(icon = src.icon, icon_state = "[case_type]", pixel_x = 3 * (i-1) )
+	if(m)
+		for(var/i in 1 to m)
+			overlays += image(icon = src.icon, icon_state = "[case_type]", pixel_x = 3 * (i-1), pixel_y = 6)
 	if(open)
 		overlays += "[icon_state]_open"
 	else
@@ -44,21 +51,21 @@
 			contents += I
 			user << "<span class='notice'>You place [I] in [src].</span>"
 			update_icon()
+			interact(usr)
 			return
 
 	open = !open
 	update_icon()
 
 /obj/structure/guncase/attack_hand(mob/user)
-	if(isrobot(usr) || isalien(usr))
+	if(isrobot(user) || isalien(user))
 		return
-	if(contents.len && open)
-		ShowWindow(user)
-	else
-		open = !open
+	if(!open)
+		open = 1
 		update_icon()
+	else interact(user)
 
-/obj/structure/guncase/proc/ShowWindow(mob/user)
+/obj/structure/guncase/interact(mob/user)
 	var/dat = {"<div class='block'>
 				<h3>Stored Guns</h3>
 				<table align='center'>"}
@@ -74,14 +81,19 @@
 /obj/structure/guncase/Topic(href, href_list)
 	if(href_list["retrieve"])
 		var/obj/item/O = locate(href_list["retrieve"])
+		if(O.loc != src)
+			interact(usr)
+			return //safety check so you can't teleport guns
 		if(!usr.canUseTopic(src))
 			return
+		if(!open) return //safety check,don't just teleport junk out of a guncase if it's closed
 		if(ishuman(usr))
 			if(!usr.get_active_hand())
 				usr.put_in_hands(O)
 			else
 				O.loc = get_turf(src)
 			update_icon()
+			interact(usr)
 
 /obj/structure/guncase/shotgun
 	name = "shotgun locker"
@@ -95,3 +107,4 @@
 	icon_state = "ecase"
 	case_type = "egun"
 	gun_category = /obj/item/weapon/gun/energy
+	capacity = 7

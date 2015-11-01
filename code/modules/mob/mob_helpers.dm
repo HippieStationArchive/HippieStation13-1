@@ -237,6 +237,16 @@
 		newphrase+="[newletter]";counter-=1
 	return newphrase
 
+/proc/lisp(message)
+	message = replacetext(message, "f", "ph")
+	message = replacetext(message, "t", "ph")
+	message = replacetext(message, "s", "sh")
+	message = replacetext(message, "th", "hh")
+	message = replacetext(message, "ck", "gh")
+	message = replacetext(message, "c", "gh")
+	message = replacetext(message, "k", "gh")
+	return message
+
 /proc/stutter(n)
 	var/te = html_decode(n)
 	var/t = ""//placed before the message. Not really sure what it's for.
