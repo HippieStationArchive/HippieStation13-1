@@ -20,7 +20,7 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/burger/human/lizard
 	name = "lizard burger"
-	desc = "Fucking liggers!"
+	desc = "Made from non-valid tailmeat."
 	bonus_reagents = list("vitamin" = 4)
 
 /obj/item/weapon/reagent_containers/food/snacks/burger/human/bird
