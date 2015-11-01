@@ -80,7 +80,7 @@
 	slice_path = /obj/item/weapon/reagent_containers/food/snacks/meat/rawcutlet/plain/human
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
-	icon_state = "lizardmeat"
+	icon_state = "fishfillet"
 	desc = "looks like chicken meat"
 	filling_color = "#3B2E43"
 
@@ -140,7 +140,7 @@
 	filling_color = "#61380B"
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
-	icon_state = "lizardmeat"
+	icon_state = "tomatomeat"
 	desc = "Korea & Spessmen eat kitty"
 	filling_color = "#ff69b4"
 
