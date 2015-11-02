@@ -321,6 +321,7 @@
 				I.loc = get_turf(src)
 				I.add_fingerprint(usr)
 				src.emote("scream")
+				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
 				usr.visible_message("[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!","<span class='notice'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()].</span>")
 				if(!has_embedded_objects())
 					clear_alert("embeddedobject")

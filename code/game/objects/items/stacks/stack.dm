@@ -206,6 +206,7 @@
 	S.copy_evidences(src)
 	use(transfer)
 	S.add(transfer)
+	return transfer //Return how much was merged.
 
 /obj/item/stack/Crossed(obj/o)
 	if(istype(o, src.type) && !o.throwing)

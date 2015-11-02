@@ -959,7 +959,7 @@
 					H.forcesay(hit_appends)
 				if(istype(affecting, /obj/item/organ/limb/head) && prob(damage * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
 					var/obj/item/organ/limb/head/U = affecting
-					U.knock_out_teeth(get_dir(M, H))
+					U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((damage*2)/100)))
 					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
 									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 		if("disarm")
@@ -1115,11 +1115,12 @@
 				bloody = 1
 				var/turf/location = H.loc
 				if(prob(50))	//Spawn a bloodsplatter effect
-					var/obj/effect/decal/cleanable/blood/hitsplatter/B = new(H)
-					B.blood_source = H
-					var/n = rand(1,3)
-					var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
-					B.GoTo(targ, n)
+					spawn()
+						var/obj/effect/decal/cleanable/blood/hitsplatter/B = new(H)
+						B.blood_source = H
+						var/n = rand(1,3)
+						var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
+						B.GoTo(targ, n)
 				else
 					if(istype(location, /turf/simulated))
 						location.add_blood(H)
@@ -1152,8 +1153,8 @@
 						if(prob(I.force + ((100 - H.health)/2)) && H != user && I.damtype == BRUTE)
 							ticker.mode.remove_revolutionary(H.mind)
 				var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
-				if(prob(I.force * (def_zone == "mouth" ? 2 : 1)) && O) //Will the teeth fly out?
-					O.knock_out_teeth(get_dir(user, H))
+				if(prob(I.force * (def_zone == "mouth" ? 3 : 1)) && O) //Will the teeth fly out?
+					O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force*1.5)/100)))
 					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
 									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 				if(bloody)	//Apply blood
