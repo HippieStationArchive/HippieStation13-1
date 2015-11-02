@@ -8,6 +8,7 @@
 	strip_delay = 60
 	put_on_delay = 40
 	burn_state = -1 //Won't burn in fires
+	can_be_washed = 0
 
 /obj/item/clothing/suit/armor/vest
 	name = "armor"
