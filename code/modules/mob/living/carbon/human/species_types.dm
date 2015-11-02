@@ -107,7 +107,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_verb = "claws"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
 
 /datum/species/bird/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)
@@ -126,7 +126,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_verb = "slash"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
 	mutations_to_have = list(CLUMSY)
 
 /datum/species/cat/qualifies_for_rank(rank, list/features)
@@ -156,6 +156,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_verb = "punch"
 	attack_sound = 'sound/weapons/smash.ogg'
 	miss_sound = 'sound/weapons/punchmiss.ogg'
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
 
 /datum/species/bot/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)
