@@ -249,7 +249,7 @@
 		msg += "You recognize Lilith's blessing. [t_He], like you, is a vampire.\n"
 
 	if(is_vampire(src) && src.mind && src.mind.vampire && src.mind.vampire.clean_blood <= 10) //If they're a vampire with less than 10 units of CLEAN blood, give a unique examine text
-		msg += "[t_He] has deathly pale. skin\n"
+		msg += "[t_He] has deathly pale skin.\n"
 
 	if(bleedsuppress)
 		msg += "[t_He] [t_is] bandaged with something.\n"
@@ -281,8 +281,8 @@
 		msg += "Their features seem unnaturally tight and drawn.\n"
 
 	var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in organs
-	if(O && (!O.teeth || O.teeth.amount < O.teeth.max_amount))
-		msg += "[!O.teeth ? "All" : "[O.teeth.max_amount - O.teeth.amount]"] of [t_his] teeth are missing!\n"
+	if(O && O.get_teeth() < O.max_teeth)
+		msg += "[O.get_teeth() <= 0 ? "All" : "[O.max_teeth - O.get_teeth()]"] of [t_his] teeth are missing!\n"
 
 	if(istype(user, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user

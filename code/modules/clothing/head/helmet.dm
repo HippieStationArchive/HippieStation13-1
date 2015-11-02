@@ -13,6 +13,7 @@
 	strip_delay = 60
 	burn_state = -1 //Won't burn in fires
 	flags_cover = HEADCOVERSEYES
+	can_be_washed = 0
 
 
 /obj/item/clothing/head/helmet/New()

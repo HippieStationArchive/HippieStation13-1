@@ -18,6 +18,7 @@
 	var/can_flashlight = 0
 	var/gang //Is this a gang outfit?
 	var/scan_reagents = 0 //Can the wearer see reagents while it's equipped?
+	var/can_be_washed = 1 //Can this item be washed in the washing machine? (This is better than ugly as fuck hardcode.)
 
 //Ears: currently only used for headsets and earmuffs
 /obj/item/clothing/ears
