@@ -642,7 +642,6 @@ Sorry Giacom. Please don't be mad :(
 					G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip!</span>", \
 												"<span class='userdanger'>[src] has broken free of your grip!</span>")
 					qdel(G)
-					return
 				else if(G.state == GRAB_AGGRESSIVE)
 					if(prob(40 - (G.force_down * 20))) //20% chance to break free if you're forced down
 						if(G.force_down)
@@ -654,7 +653,6 @@ Sorry Giacom. Please don't be mad :(
 							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip!</span>", \
 														"<span class='userdanger'>[src] has broken free of your grip!</span>")
 						qdel(G)
-						return
 				else if(G.state == GRAB_NECK)
 					if(prob(5)) //Low as fuck chance
 						G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s headlock!</span>", \
@@ -664,13 +662,10 @@ Sorry Giacom. Please don't be mad :(
 						update_canmove()
 						G.assailant.Stun(2) //Temporarily stun the assailant to give the victim some fighting chance
 						qdel(G)
-						return
 			if(resisting)
 				visible_message("<span class='warning'>[src] tries to resist!</span>")
-				return
 		else
-			src << "<span class='warning'>You have to wait [round(world.time - last_special)/10] seconds to attempt another resist!</span>"
-			return
+			src << "<span class='warning'>You have to wait [round(last_special - world.time)/10] seconds to attempt another resist!</span>"
 
 	//unbuckling yourself
 	if(buckled && last_special <= world.time)
@@ -690,7 +685,7 @@ Sorry Giacom. Please don't be mad :(
 
 
 /mob/living/proc/resist_buckle()
-	buckled.user_unbuckle_mob(src,src)
+	buckled.user_unbuckle_mob(src)
 
 /mob/living/proc/resist_fire()
 	return
