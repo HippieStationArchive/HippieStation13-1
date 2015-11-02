@@ -359,6 +359,17 @@
 	if(slurring)
 		slurring = max(slurring-1,0)
 
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
+		if(O)
+			if(!O.teeth)
+				lisp = 100 //No teeth = full lisp power
+			else
+				lisp = (1 - (O.teeth.amount/O.teeth.max_amount)) * 100 //Less teeth = more lisp
+		else
+			lisp = 0 //No head = no lisp.
+
 	if(silent)
 		silent = max(silent-1, 0)
 

@@ -54,6 +54,8 @@
 			t_state = r_hand.icon_state
 
 		var/image/I = image("icon" = r_hand.righthand_file, "icon_state"="[t_state]", "layer"=-R_HAND_LAYER)
+		I.color = r_hand.color
+		I.alpha = r_hand.alpha
 		I = center_image(I, r_hand.inhand_x_dimension, r_hand.inhand_y_dimension)
 		overlays_standing[R_HAND_LAYER] = I
 
@@ -73,6 +75,8 @@
 			t_state = l_hand.icon_state
 
 		var/image/I = image("icon" = l_hand.lefthand_file, "icon_state"="[t_state]", "layer"=-L_HAND_LAYER)
+		I.color = l_hand.color
+		I.alpha = l_hand.alpha
 		I = center_image(I, l_hand.inhand_x_dimension, l_hand.inhand_y_dimension)
 		overlays_standing[L_HAND_LAYER] = I
 
@@ -114,7 +118,8 @@
 			standing = image("icon"=wear_mask.alternate_worn_icon, "icon_state"="[wear_mask.icon_state]", "layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/mask.dmi', "icon_state"="[wear_mask.icon_state]", "layer"=-layer2use)
-
+		standing.color = wear_mask.color
+		standing.alpha = wear_mask.alpha
 		overlays_standing[FACEMASK_LAYER]	= standing
 
 		if(wear_mask.blood_DNA && (wear_mask.body_parts_covered & HEAD))
@@ -136,7 +141,8 @@
 			standing = image("icon"=back.alternate_worn_icon, "icon_state"="[back.icon_state]", "layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/back.dmi', "icon_state"="[back.icon_state]", "layer"=-layer2use)
-
+		standing.color = back.color
+		standing.alpha = back.alpha
 		overlays_standing[BACK_LAYER] = standing
 		return back
 
@@ -156,7 +162,7 @@
 			standing = image("icon"=head.alternate_worn_icon, "icon_state"="[head.icon_state]", "layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/head.dmi', "icon_state"="[head.icon_state]", "layer"=-layer2use)
-		standing.color = head.color // For now, this is here solely for kitty ears, but everything should do this eventually
+		standing.color = head.color
 		standing.alpha = head.alpha
 
 		overlays_standing[HEAD_LAYER] = standing

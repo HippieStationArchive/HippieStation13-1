@@ -894,9 +894,13 @@
 /datum/species/proc/spec_attack_hand(mob/living/carbon/human/M, mob/living/carbon/human/H)
 	if(!istype(M)) //sanity check for drones.
 		return
-	if((M != H) && H.check_shields(0, M.name))
+	var/shieldcheck = H.check_shields(0, M.name)
+	if((M != H) && shieldcheck)
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
+		if(isliving(shieldcheck))
+			var/mob/living/L = shieldcheck
+			L.attack_hand(M)
 		return 0
 
 	var/datum/martial_art/attacker_style = M.martial_art
@@ -953,6 +957,11 @@
 					H.forcesay(hit_appends)
 				else if(H.lying)
 					H.forcesay(hit_appends)
+				if(istype(affecting, /obj/item/organ/limb/head) && prob(damage * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
+					var/obj/item/organ/limb/head/U = affecting
+					U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((damage*2)/100)))
+					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
+									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 		if("disarm")
 			if(attacker_style && attacker_style.disarm_act(M,H))
 				return 1
@@ -1015,7 +1024,11 @@
 	// Allows you to put in item-specific reactions based on species
 	if(user != H)
 		user.do_attack_animation(H)
-	if(H.check_shields(I.force, "the [I.name]", I))
+	var/shieldcheck = H.check_shields(I.force, "the [I.name]", I)
+	if(shieldcheck)
+		if(isliving(shieldcheck))
+			var/mob/living/L = shieldcheck
+			L.attacked_by(I, user, def_zone)
 		return 0
 
 	if(user.zone_sel.selecting =="groin")
@@ -1102,11 +1115,12 @@
 				bloody = 1
 				var/turf/location = H.loc
 				if(prob(50))	//Spawn a bloodsplatter effect
-					var/obj/effect/decal/cleanable/blood/hitsplatter/B = new(H)
-					B.blood_source = H
-					var/n = rand(1,3)
-					var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
-					B.GoTo(targ, n)
+					spawn()
+						var/obj/effect/decal/cleanable/blood/hitsplatter/B = new(H)
+						B.blood_source = H
+						var/n = rand(1,3)
+						var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
+						B.GoTo(targ, n)
 				else
 					if(istype(location, /turf/simulated))
 						location.add_blood(H)
@@ -1138,7 +1152,11 @@
 					if(role != "revolutionary" && role != "head revolutionary")
 						if(prob(I.force + ((100 - H.health)/2)) && H != user && I.damtype == BRUTE)
 							ticker.mode.remove_revolutionary(H.mind)
-
+				var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
+				if(prob(I.force * (def_zone == "mouth" ? 3 : 1)) && O) //Will the teeth fly out?
+					O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force*1.5)/100)))
+					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
+									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 				if(bloody)	//Apply blood
 					if(H.wear_mask)
 						H.wear_mask.add_blood(H)

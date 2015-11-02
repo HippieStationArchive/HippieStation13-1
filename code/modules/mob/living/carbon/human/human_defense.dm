@@ -60,8 +60,13 @@ emp_act
 
 			return -1 // complete projectile permutation
 
-	if(check_shields(P.damage, "the [P.name]", P))
-		P.on_hit(src, 100, def_zone)
+	var/shieldcheck = check_shields(P.damage, "the [P.name]", P)
+	if(shieldcheck)
+		if(isliving(shieldcheck)) //Meatshield
+			var/mob/living/L = shieldcheck
+			L.bullet_act(P, def_zone)
+		else
+			P.on_hit(src, 100, def_zone)
 		return 2
 	return (..(P , def_zone))
 
@@ -86,6 +91,10 @@ emp_act
 		if(AM.flags & NOSHIELD) //weapon ignores shields altogether
 			return 0
 	var/blocker
+	for(var/obj/item/weapon/grab/G in src)
+		if(G.assailant == src && G.state >= GRAB_NECK && G.affecting && !G.affecting.lying)
+			if(prob(85)) //High chance to hit the body shield instead
+				blocker = G.affecting //Special case
 	if(l_hand)
 		if(l_hand.IsShield() && prob(block_chance))
 			blocker = l_hand
@@ -95,7 +104,7 @@ emp_act
 	if(blocker)
 		visible_message("<span class='danger'>[src] blocks [attack_text] with [blocker]!</span>", \
 						"<span class='userdanger'>[src] blocks [attack_text] with [blocker]!</span>")
-		return 1
+		return blocker
 	if(wear_suit)
 		if(wear_suit.IsShield() && (prob(50)))
 			visible_message("<span class='danger'>The reactive teleport system flings [src] clear of [attack_text]!</span>", \
@@ -112,7 +121,7 @@ emp_act
 			if(buckled)
 				buckled.unbuckle_mob()
 			forceMove(picked)
-			return 1
+			return wear_suit
 	return 0
 
 
@@ -335,7 +344,11 @@ emp_act
 /mob/living/carbon/human/attack_animal(mob/living/simple_animal/M)
 	if(..())
 		var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
-		if(check_shields(damage, "the [M.name]"))
+		var/shieldcheck = check_shields(damage, "the [M.name]")
+		if(shieldcheck)
+			if(isliving(shieldcheck))
+				var/mob/living/L = shieldcheck
+				L.attack_animal(M)
 			return 0
 		var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
 		var/obj/item/organ/limb/affecting = get_organ(ran_zone(dam_zone))
@@ -344,15 +357,19 @@ emp_act
 		updatehealth()
 
 
-/mob/living/carbon/human/attack_larva(mob/living/carbon/alien/larva/L)
+/mob/living/carbon/human/attack_larva(mob/living/carbon/alien/larva/M)
 
 	if(..()) //successful larva bite.
 		var/damage = rand(1, 3)
-		if(check_shields(damage, "the [L.name]"))
+		var/shieldcheck = check_shields(damage, "the [M.name]")
+		if(shieldcheck)
+			if(isliving(shieldcheck))
+				var/mob/living/L = shieldcheck
+				L.attack_larva(M)
 			return 0
 		if(stat != DEAD)
-			L.amount_grown = min(L.amount_grown + damage, L.max_grown)
-			var/obj/item/organ/limb/affecting = get_organ(ran_zone(L.zone_sel.selecting))
+			M.amount_grown = min(M.amount_grown + damage, M.max_grown)
+			var/obj/item/organ/limb/affecting = get_organ(ran_zone(M.zone_sel.selecting))
 			var/armor_block = run_armor_check(affecting, "melee")
 			apply_damage(damage, BRUTE, affecting, armor_block)
 			updatehealth()
@@ -364,7 +381,11 @@ emp_act
 		if(M.is_adult)
 			damage = rand(10, 35)
 
-		if(check_shields(damage, "the [M.name]"))
+		var/shieldcheck = check_shields(damage, "the [M.name]")
+		if(shieldcheck)
+			if(isliving(shieldcheck))
+				var/mob/living/L = shieldcheck
+				L.attack_slime(M)
 			return 0
 
 		var/dam_zone = pick("head", "chest", "l_arm", "r_arm", "l_leg", "r_leg", "groin")
@@ -411,7 +432,11 @@ emp_act
 	if(istype(AM, /obj/item))
 		I = AM
 		throwpower = I.throwforce
-	if(check_shields(throwpower, "\the [AM.name]", AM, 1))
+	var/shieldcheck = check_shields(throwpower, "\the [AM.name]", AM, 1)
+	if(shieldcheck)
+		if(isliving(shieldcheck))
+			var/mob/living/L = shieldcheck
+			L.hitby(AM, skipcatch, 0, blocked) //hitpush is always 0 so the meatshield doesn't get moved away
 		hitpush = 0
 		skipcatch = 1
 		blocked = 1
@@ -424,7 +449,7 @@ emp_act
 				I.add_blood(src)//it embedded itself in you, of course it's bloody!
 				I.loc = src
 				L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
-				visible_message("<span class='danger'>\the [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\the [I.name] embeds itself in your [L.getDisplayName()]!</span>")
+				visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
 				hitpush = 0
 				skipcatch = 1 //can't catch the now embedded item
 	return ..()

@@ -3,6 +3,9 @@
 	desc = "A suspicious revolver. Uses .357 ammo." //usually used by syndicates
 	icon_state = "revolver"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder
+	mag_load_sound = null
+	mag_unload_sound = null		//Revolvers already have their own sfx for this kind of stuff
+	chamber_sound = null
 
 /obj/item/weapon/gun/projectile/revolver/New()
 	..()

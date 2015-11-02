@@ -84,6 +84,8 @@
 				stat("Clean Blood", "[mind.vampire.clean_blood]cl")
 				stat("Dirty Blood", "[mind.vampire.dirty_blood]cl")
 
+				stat("Sanguine Regeneration", "[mind.vampire.fast_heal ? "ON" : "OFF"]")
+				stat("Accelerated Recovery", "[mind.vampire.stun_reduction ? "ON" : "OFF"]")
 
 	//NINJACODE
 	if(istype(wear_suit, /obj/item/clothing/suit/space/space_ninja)) //Only display if actually a ninja.
@@ -318,9 +320,10 @@
 					src.anchored = 0
 					update_canmove()
 					I.pinned = null
-				usr.put_in_hands(I)
+				I.loc = get_turf(src)
 				I.add_fingerprint(usr)
 				src.emote("scream")
+				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
 				usr.visible_message("[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!","<span class='notice'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()].</span>")
 				if(!has_embedded_objects())
 					clear_alert("embeddedobject")
@@ -749,7 +752,7 @@
 				src << "\t [status == "OK" ? "\blue" : "\red"] Your [org.getDisplayName()] is [status]."
 
 				for(var/obj/item/I in org.embedded_objects)
-					src << "\t <a href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[org]'>\red There is \a [I] embedded in your [org.getDisplayName()]! </a> [I.pinned ? "It has also pinned you down!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[org];read_embedded=\ref[I]'>Read</a>)" : ""]"
+					src << "\t <A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[org]'>\red There is \a [I] embedded in your [org.getDisplayName()]! </A> [I.pinned ? "It has also pinned you down!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<A href='byond://?src=\ref[org];read_embedded=\ref[I]'>Read</A>)" : ""]"
 
 			if(blood_max)
 				src << "<span class='danger'>You are bleeding!</span>"

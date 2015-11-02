@@ -1,6 +1,10 @@
 /mob/living/carbon/human/attack_alien(mob/living/carbon/alien/humanoid/M)
-	if(check_shields(0, M.name))
+	var/shieldcheck = check_shields(0, M.name)
+	if(shieldcheck)
 		visible_message("<span class='danger'>[M] attempted to touch [src]!</span>")
+		if(isliving(shieldcheck))
+			var/mob/living/L = shieldcheck
+			L.attack_alien(M)
 		return 0
 
 	if(..())

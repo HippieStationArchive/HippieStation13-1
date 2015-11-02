@@ -116,6 +116,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/chem_volume = 30
 	heat = 1000
 	burn_state = 0
+	can_be_washed = 0
 
 /obj/item/clothing/mask/cigarette/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is huffing the [src.name] as quickly as they can! It looks like \he's trying to give \himself cancer.</span>")

@@ -28,6 +28,32 @@
 	max_damage = 200
 	body_part = CHEST
 
+/obj/item/stack/organ/teeth
+	name = "teeth"
+	singular_name = "tooth"
+	w_class = 2
+	throwforce = 2
+	max_amount = 32
+	// gender = PLURAL
+	desc = "Welp. Someone had their teeth knocked out."
+	icon = 'icons/obj/surgery.dmi'
+	icon_state = "teeth"
+	var/list/implants = list() //Dental implants/pills/etc.
+
+/obj/item/stack/organ/teeth/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] jams [src] into \his eyes! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)
+
+/obj/item/stack/organ/teeth/New()
+	..()
+	transform *= TransformUsingVariable(0.25, 1, 0.5) //Half-size the teeth
+
+/obj/item/stack/organ/teeth/replacement
+	name = "replacement teeth"
+	singular_name = "replacement tooth"
+	// gender = PLURAL
+	desc = "First teeth, now replacements. When does it end?"
+	icon_state = "dentals"
 
 /obj/item/organ/limb/head
 	name = "head"
@@ -35,7 +61,32 @@
 	icon_state = "head"
 	max_damage = 200
 	body_part = HEAD
+	var/obj/item/stack/organ/teeth/teeth
 
+/obj/item/organ/limb/head/New()
+	..()
+	teeth += new /obj/item/stack/organ/teeth(src, 32)
+
+/obj/item/organ/limb/head/proc/knock_out_teeth(throw_dir, num=32) //Won't support knocking teeth out of a dismembered head or anything like that yet.
+	num = Clamp(num, 1, 32)
+	if(istype(teeth)) //We still have teeth
+		var/stacks = rand(1,3)
+		for(var/curr = 1 to stacks) //Random amount of teeth stacks
+			if(teeth.zero_amount()) return //No teeth left, abort!
+			var/drop = round(min(teeth.amount, num)/stacks) //Calculate the amount of teeth in the stack
+			var/obj/item/stack/organ/teeth/T = new teeth.type(owner.loc, drop)
+			T.copy_evidences(teeth)
+			teeth.use(drop)
+			T.add_blood(owner)
+			var/turf/target = get_turf(owner.loc)
+			var/range = rand(2,T.throw_range)
+			for(var/i = 1; i < range; i++)
+				var/turf/new_turf = get_step(target, throw_dir)
+				target = new_turf
+				if(new_turf.density)
+					break
+			T.throw_at(target,T.throw_range,T.throw_speed)
+		teeth.zero_amount() //Try to delete the teeth
 
 /obj/item/organ/limb/l_arm
 	name = "l_arm"
@@ -67,8 +118,6 @@
 	icon_state = "r_leg"
 	max_damage = 75
 	body_part = LEG_RIGHT
-
-
 
 //Applies brute and burn damage to the organ. Returns 1 if the damage-icon states changed at all.
 //Damage will not exceed max_damage using this proc

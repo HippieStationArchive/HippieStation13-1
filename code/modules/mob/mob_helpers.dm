@@ -237,6 +237,16 @@
 		newphrase+="[newletter]";counter-=1
 	return newphrase
 
+/proc/lisp(message, intensity=100) //Intensity = how hard will the dude be lisped
+	message = prob(intensity) ? replacetext(message, "f", "ph") : message
+	message = prob(intensity) ? replacetext(message, "t", "ph") : message
+	message = prob(intensity) ? replacetext(message, "s", "sh") : message
+	message = prob(intensity) ? replacetext(message, "th", "hh") : message
+	message = prob(intensity) ? replacetext(message, "ck", "gh") : message
+	message = prob(intensity) ? replacetext(message, "c", "gh") : message
+	message = prob(intensity) ? replacetext(message, "k", "gh") : message
+	return message
+
 /proc/stutter(n)
 	var/te = html_decode(n)
 	var/t = ""//placed before the message. Not really sure what it's for.
