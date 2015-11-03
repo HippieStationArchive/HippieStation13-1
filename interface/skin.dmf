@@ -572,6 +572,10 @@ macro "hotkeymode"
 		command = "rest"
 		is-disabled = false
 	elem 
+		name = "CTRL+C"
+		command = "rest"
+		is-disabled = false
+	elem 
 		name = "CTRL+O"
 		command = "ooc"
 		is-disabled = false
