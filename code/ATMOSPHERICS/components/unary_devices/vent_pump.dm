@@ -38,6 +38,9 @@
 	var/radio_filter_out
 	var/radio_filter_in
 
+	var/cover = 0 //For hiding tiny objects in, 1 means cover is up, can hide.
+	var/list/items = list() //Hidden items inside.
+
 /obj/machinery/atmospherics/components/unary/vent_pump/on
 	on = 1
 	icon_state = "vent_out"
@@ -294,13 +297,43 @@
 					welded = 0
 					update_icon()
 			return 1
+	if(istype(W, /obj/item/weapon/crowbar))
+		// var/obj/item/weapon/crowbar/C = W
+		playsound(loc, 'sound/items/Crowbar.ogg', 40, -2)
+		cover = !cover
+		user << "<span class='notice'>You pry [cover ? "off" : "in"] the vent cover.</span>"
+		return 1
+	if(cover)
+		if(W.w_class <= 1 && !(locate(/obj/item) in items)) //Can hide small shit like ID's and emags in vents
+			user << "<span class='notice'>You insert \the [W] inside \the [src]!</span>"
+			user.drop_item()
+			items += W
+			W.loc = src
+		else
+			user << "<span class='notice'>You cannot seem to fit \the [W]!</span>"
+		return 1
 	else
 		return ..()
+
+/obj/machinery/atmospherics/components/unary/vent_pump/attack_hand(mob/user)
+	if(cover)
+		var/obj/item/I = locate() in items
+		if(istype(I))
+			user << "<span class='notice'>You take \the [I] out of [src]!</span>"
+			user.put_in_hands(I)
+			items -= I
+		else
+			user << "<span class='notice'>You can't find anything in \the [src]!</span>"
+		return
+	else
+		..()
 
 /obj/machinery/atmospherics/components/unary/vent_pump/examine(mob/user)
 	..()
 	if(welded)
 		user << "It seems welded shut."
+	if(cover)
+		user << "It's cover is open."
 
 /obj/machinery/atmospherics/components/unary/vent_pump/power_change()
 	if(powered(power_channel))

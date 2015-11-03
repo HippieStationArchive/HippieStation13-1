@@ -2,6 +2,7 @@
 	name = "bullet"
 	icon_state = "bullet"
 	hitsound = 'sound/effects/bullet_hit_mob.ogg'
+	hitsound_wall = "ricochet"
 	damage = 60
 	damage_type = BRUTE
 	nodamage = 0
@@ -19,6 +20,9 @@
 
 /obj/item/projectile/bullet/weakbullet3
 	damage = 20
+
+/obj/item/projectile/bullet/weakbullet4
+	damage = 10
 
 /obj/item/projectile/bullet/toxinbullet
 	damage = 15
