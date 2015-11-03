@@ -73,7 +73,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/deflectItem = 0 //For deflecting items thrown at you when you have throw intent on
 	var/mult = 0 //For code to reset throwforce back to normal after it hits something
 
-	/obj/item/mouse_drag_pointer = MOUSE_ACTIVE_POINTER //the icon to indicate this object is being dragged
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //the icon to indicate this object is being dragged
 
 	//So items can have custom embedd values
 	//Because customisation is king

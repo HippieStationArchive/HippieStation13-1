@@ -143,6 +143,7 @@
 
 
 /obj/item/projectile/proc/fire(var/setAngle)
+	bumped = 0 //We're fired, so let's reset bumped variable (this is for projectiles that are PoolOrNew'ed like emitter beams.)
 	if(setAngle) Angle = setAngle
 	if(!legacy)
 		spawn() //New projectile system
