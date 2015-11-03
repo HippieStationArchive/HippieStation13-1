@@ -14,7 +14,7 @@
 	icon_state = "bbat"
 	item_state = "bbat"
 	slot_flags = SLOT_BELT //Including the belt sprite to look cool
-	force = 13 //10 force is just sad
+	force = 10
 	throwforce = 10
 	throw_speed = 3
 	throw_range = 4
@@ -32,7 +32,7 @@
 // 	..()
 
 /obj/item/weapon/baseballbat/metal
-	// name = "baseball bat"
+	name = "metal baseball bat"
 	desc = "A smooth metal club used in baseball to hit the ball. Or to purify your adversaries."
 	icon_state = "bbat_metal"
 	item_state = "bbat_metal"
@@ -40,6 +40,16 @@
 	throwforce = 13
 	specthrow_maxwclass = 3 //You can bat normal sized items with metal bat
 	burn_state = -1
+
+/obj/item/weapon/baseballbat/spike
+	name = "spiked baseball bat"
+	desc = "A wooden baseball bat with metal spikes crudely attached."
+	icon_state = "bbat_spike"
+	item_state = "bbat_spike"
+	force = 13
+	throwforce = 15 // Its got spikes sticking out of it
+	burn_state = 0
+	armour_penetration = 20
 
 /obj/item/baseball
 	name = "baseball"
@@ -50,6 +60,10 @@
 	force = 0
 	throwforce = 5
 	throw_range = 7
+
+/obj/item/weapon/baseballbat/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] smashes the baseball bat into \his head! It looks like \he's trying to commit suicide..</span>")
+	return (BRUTELOSS)
 
 /mob/living/carbon/human/hitby(atom/movable/AM, zone)
 	..()
