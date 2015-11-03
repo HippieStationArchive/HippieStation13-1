@@ -132,6 +132,10 @@ macro "borghotkeymode"
 		command = "a-intent right"
 		is-disabled = false
 	elem 
+		name = "O"
+		command = "ooc"
+		is-disabled = false
+	elem
 		name = "CTRL+O"
 		command = "ooc"
 		is-disabled = false
@@ -574,6 +578,10 @@ macro "hotkeymode"
 	elem 
 		name = "CTRL+C"
 		command = "rest"
+		is-disabled = false
+	elem
+		name = "O"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "CTRL+O"

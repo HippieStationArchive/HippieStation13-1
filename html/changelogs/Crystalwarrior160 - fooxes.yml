@@ -34,6 +34,5 @@ delete-after: True
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
   - rscadd: "Added new keybind for resting. Ctrl + C or C in hotkey mode will make you rest!"
-  - rscdel: "Removed the hotkey mode OOC keybind 'O' (didn't touch 'Ctrl+O'). It caused too much accidental IC OOC and was frankly unneccesary."
   - bugfix: "Fixed emitter beams not hitting the shield generators."
   - tweak: "Added 'drag and drop' mouse pointer to bodybags and rollerbeds to help indicate that they can be dragged&dropped."
