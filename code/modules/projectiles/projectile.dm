@@ -69,7 +69,7 @@
 	if(isanimal(target))	return 0
 	var/mob/living/L = target
 	L.on_hit(type)
-	return L.apply_effects(stun, weaken, paralyze, irradiate, stutter, eyeblur, drowsy, blocked, stamina, jitter)
+	return L.apply_effects(stun, weaken, paralyze, irradiate, slur, stutter, eyeblur, drowsy, blocked, stamina, jitter)
 
 /obj/item/projectile/proc/vol_by_damage()
 	if(src.damage)
@@ -161,7 +161,7 @@
 				// overlays.Cut()
 				// var/icon/I=new(initial(icon),icon_state) //using initial(icon) makes sure that the angle for that is reset as well
 				// I.Turn(Angle)
-				// I.DrawBox(rgb(255,0,0,50),1,1,32,32) 
+				// I.DrawBox(rgb(255,0,0,50),1,1,32,32)
 				// icon = I
 				if(spread) //Chaotic spread
 					Angle += (rand() - 0.5) * spread
