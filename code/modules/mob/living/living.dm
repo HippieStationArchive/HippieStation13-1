@@ -620,29 +620,52 @@ Sorry Giacom. Please don't be mad :(
 		return
 	changeNext_move(CLICK_CD_RESIST)
 
-	//resisting grabs (as if it helps anyone...)
-	if(!stat && canmove && !restrained())
-		var/resisting = 0
-		for(var/obj/O in requests)
-			qdel(O)
-			resisting++
-		for(var/obj/item/weapon/grab/G in grabbed_by)
-			resisting++
-			if(G.state == GRAB_PASSIVE)
-				qdel(G)
-			else
-				if(G.state == GRAB_AGGRESSIVE)
-					if(prob(25))
-						visible_message("<span class='warning'>[src] has broken free of [G.assailant]'s grip!</span>")
+	//resisting grabs. Increased chances so it's actually used.
+	if(!stat && !restrained()) //Restraining someone after headlocking them is GG
+		if(last_special <= world.time)
+			// changeNext_move(CLICK_CD_BREAKOUT)
+			last_special = world.time + CLICK_CD_BREAKOUT //Additional cooldown
+			var/resisting = 0
+			for(var/obj/O in requests) //Would help knowing what this actually is...
+				qdel(O)
+				resisting++
+			for(var/obj/item/weapon/grab/G in usr.grabbed_by)
+				resisting++
+				if(prob(50) && (G.last_hit_zone == "eyes" || G.last_hit_zone == "mouth")) //Resisting this should always be possible
+					visible_message("<span class='danger'>[src] manages to push [G.assailant]'s hand from their [G.last_hit_zone]!</span>", \
+									"<span class='userdanger'>[src] has managed to push your hand from their [G.last_hit_zone]!</span>")
+					G.assailant.zone_sel.selecting = "head"
+					G.assailant.zone_sel.update_icon()
+					eye_blind = 1
+					silent = 1
+				if(G.state == GRAB_PASSIVE)
+					G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip!</span>", \
+												"<span class='userdanger'>[src] has broken free of your grip!</span>")
+					qdel(G)
+				else if(G.state == GRAB_AGGRESSIVE)
+					if(prob(40 - (G.force_down * 20))) //20% chance to break free if you're forced down
+						if(G.force_down)
+							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip, tumbling him down!</span>", \
+														"<span class='userdanger'>You tumble to the ground after [src] resists out of your pindown!</span>")
+							G.assailant.Weaken(3)
+							step_away(G.assailant,src)
+						else
+							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip!</span>", \
+														"<span class='userdanger'>[src] has broken free of your grip!</span>")
 						qdel(G)
-				else
-					if(G.state == GRAB_NECK)
-						if(prob(5))
-							visible_message("<span class='warning'>[src] has broken free of [G.assailant]'s headlock!</span>")
-							qdel(G)
-		if(resisting)
-			visible_message("<span class='warning'>[src] resists!</span>")
-			return
+				else if(G.state == GRAB_NECK)
+					if(prob(5)) //Low as fuck chance
+						G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s headlock!</span>", \
+													"<span class='userdanger'>[src] has broken free of your grab, temporarily immobilizing you!</span>") //So nobody complains about "WTF I CAN'T MOVE"
+						step_away(G.assailant,src)
+						stunned = 0 //Instantly remove stun on the victim
+						update_canmove()
+						G.assailant.Stun(2) //Temporarily stun the assailant to give the victim some fighting chance
+						qdel(G)
+			if(resisting)
+				visible_message("<span class='warning'>[src] tries to resist!</span>")
+		else
+			src << "<span class='warning'>You have to wait [round(last_special - world.time)/10] seconds to attempt another resist!</span>"
 
 	//unbuckling yourself
 	if(buckled && last_special <= world.time)
@@ -662,7 +685,7 @@ Sorry Giacom. Please don't be mad :(
 
 
 /mob/living/proc/resist_buckle()
-	buckled.user_unbuckle_mob(src,src)
+	buckled.user_unbuckle_mob(src)
 
 /mob/living/proc/resist_fire()
 	return

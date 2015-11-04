@@ -275,6 +275,10 @@ obj/item/ammo_box/magazine/tommygunm45
 	caliber = "a545"
 	max_ammo = 30
 
+/obj/item/ammo_box/magazine/m545/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),30)]"
+
 /obj/item/ammo_box/magazine/mbox12g
 	name = "box magazine (12 gauge buckshot)"
 	icon_state = "box12g"

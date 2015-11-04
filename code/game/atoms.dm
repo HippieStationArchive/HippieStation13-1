@@ -451,3 +451,8 @@ var/list/blood_splatter_icons = list()
 /atom/Stat()
 	. = ..()
 	sleep(1)
+
+//called to set the atom's dir and used to add behaviour to dir-changes
+/atom/proc/set_dir(new_dir)
+	. = new_dir != dir
+	dir = new_dir
