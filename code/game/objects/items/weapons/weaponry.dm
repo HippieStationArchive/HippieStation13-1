@@ -208,7 +208,7 @@
 	throw_speed = 3
 	throw_range = 4
 	w_class = 2
-
+	attack_verb = list("called", "rang")
 	hitsound = 'sound/weapons/ring.ogg'
 
 /obj/item/weapon/phone/suicide_act(mob/user)
