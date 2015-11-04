@@ -140,7 +140,7 @@ var/list/uplink_items = list()
 /datum/uplink_item/job_specific/soulstone
 	name = "Soulstone"
 	desc = "This stone will be able to capture your victim's soul and bind them to your will."
-	item = /obj/item/device/soulstone
+	item = /obj/item/device/soulstone/anybody
 	cost = 5 //nerfed the cost on Chronitonity's request
 	jobs = list("Librarian")
 

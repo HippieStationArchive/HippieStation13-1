@@ -40,7 +40,7 @@
 	density = 0
 	mob_storage_capacity = 2
 	open_sound = 'sound/items/zip.ogg'
-
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //Drag&Drop pointer indicating it's possible
 
 /obj/structure/closet/body_bag/attackby(obj/item/I, mob/user, params)
 	if (istype(I, /obj/item/weapon/pen) || istype(I, /obj/item/toy/crayon))
