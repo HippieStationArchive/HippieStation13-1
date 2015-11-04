@@ -136,7 +136,7 @@
 		if(!O || !O.teeth_list.len) return ..()
 		H.visible_message("<span class='danger'>[user] tries to tear off [H]'s tooth with [src]!</span>",
 							"<span class='userdanger'>[user] tries to tear off your tooth with [src]!</span>")
-		if(do_after(user, 50)
+		if(do_after(user, 50))
 			if(!O || !O.teeth_list.len) return
 			var/obj/item/stack/teeth/teeth = pick(O.teeth_list)
 			var/obj/item/stack/teeth/T = new teeth.type(H.loc, 1)
