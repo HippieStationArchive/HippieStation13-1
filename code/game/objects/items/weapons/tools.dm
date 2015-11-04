@@ -487,7 +487,7 @@
 	attack_verb = list("attacked", "bashed", "battered", "bludgeoned", "whacked")
 
 /obj/item/weapon/crowbar/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is putting the [src.name] into his mouth and proceeds to weigh down! It looks like \he's trying to commit suicide.</span>")
+	user.visible_message("<span class='suicide'>[user] is putting the [src.name] into \his mouth and proceeds to weigh down! It looks like \he's trying to commit suicide.</span>")
 	playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
 	playsound(loc, 'sound/misc/tear.ogg', 50, 1, -1) //RIP AND TEAR. RIP AND TEAR.
 	return (BRUTELOSS)
