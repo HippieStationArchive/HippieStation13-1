@@ -12,3 +12,4 @@ delete-after: True
 changes: 
   - rscadd: "Adds Ice Picks. Don't try using them to fix your eyes, or you might end up lobotimized."
   - rscadd: "Ice Picks can be made at a hacked autolathe, or found in some cold areas."
+  - tweak: "Metal baseball bats now cost a decent amount less at the autolathe."
