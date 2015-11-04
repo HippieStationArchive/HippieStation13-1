@@ -111,7 +111,7 @@
 		if(!O.lastarea)
 			O.lastarea = get_area(O.loc)
 //		O.update_gravity(O.mob_has_gravity())
-		if(isliving(M)
+		if(isliving(M))
 			var/mob/living/L = M
 			if(L.client && (L.client.prefs.toggles & SOUND_AMBIENCE)) //This makes space ambience always play regardless of area. Rest of it is located in code/game/area/areas.dm
 				var/area/F = get_area(L.loc)

@@ -24,8 +24,8 @@
 	var/wielded = 0
 	var/force_unwielded = 0
 	var/force_wielded = 0
-	var/wieldsound = null
-	var/unwieldsound = null
+	var/wieldsound = 'sound/weapons/raise.ogg'
+	var/unwieldsound = 'sound/weapons/raise.ogg'
 
 /obj/item/weapon/twohanded/proc/unwield(mob/living/carbon/user)
 	if(!wielded || !user) return

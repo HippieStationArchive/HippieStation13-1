@@ -11,6 +11,8 @@
 	action_button_name = "Toggle Light"
 	var/on = 0
 	var/brightness_on = 4 //luminosity when on
+	var/sound_toggleON = 'sound/items/flashlight_on.ogg'
+	var/sound_toggleOFF = 'sound/items/flashlight_off.ogg'
 
 /obj/item/device/flashlight/initialize()
 	..()
@@ -40,6 +42,7 @@
 		user << "<span class='warning'>You cannot turn the light on while in this [user.loc]!</span>" //To prevent some lighting anomalities.
 		return 0
 	on = !on
+	playsound(loc, on ? sound_toggleON : sound_toggleOFF, 30, 1, -1)
 	update_brightness(user)
 	return 1
 
@@ -57,7 +60,7 @@
 
 		var/mob/living/carbon/human/H = M	//mob has protective eyewear
 		if(istype(M, /mob/living/carbon/human) && ((H.head && H.head.flags_cover & HEADCOVERSEYES) || (H.wear_mask && H.wear_mask.flags_cover & MASKCOVERSEYES) || (H.glasses && H.glasses.flags_cover & GLASSESCOVERSEYES)))
-			user << "<span class='notice'>You're going to need to remove that [(H.head && H.head.flags_cover & HEADCOVERSEYES) ? "helmet" : (H.wear_mask && H.wear_mask.flags_cover & MASKCOVERSEYES) ? "mask": "glasses"] first.</span>"
+			user << "<span class='notice'>You need to remove that [(H.head && H.head.flags_cover & HEADCOVERSEYES) ? "helmet" : (H.wear_mask && H.wear_mask.flags_cover & MASKCOVERSEYES) ? "mask": "glasses"] first.</span>"
 			return
 
 		if(M == user)	//they're using it on themselves

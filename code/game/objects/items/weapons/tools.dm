@@ -27,10 +27,11 @@
 	materials = list(MAT_METAL=150)
 	origin_tech = "materials=1;engineering=1"
 	attack_verb = list("bashed", "battered", "bludgeoned", "whacked")
+	hitsound = 'sound/weapons/wrench.ogg'
 
 /obj/item/weapon/wrench/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
+	playsound(loc, hitsound, 50, 1, -1)
 	return (BRUTELOSS)
 
 /*
@@ -55,6 +56,7 @@
 /obj/item/weapon/screwdriver/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is stabbing the [src.name] into \his temple! It looks like \he's trying to commit suicide.</span>", \
 						"<span class='suicide'>[user] is stabbing the [src.name] into \his heart! It looks like \he's trying to commit suicide.</span>"))
+	playsound(loc, hitsound, 50, 1, -1)
 	return(BRUTELOSS)
 
 /obj/item/weapon/screwdriver/New(loc, var/param_color = null)
@@ -135,7 +137,7 @@
 
 /obj/item/weapon/wirecutters/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is cutting at \his arteries with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	playsound(loc, 'sound/items/Wirecutter.ogg', 50, 1, -1)
+	playsound(loc, hitsound, 50, 1, -1)
 	return (BRUTELOSS)
 
 /*
@@ -465,10 +467,11 @@
 	materials = list(MAT_METAL=50)
 	origin_tech = "engineering=1"
 	attack_verb = list("attacked", "bashed", "battered", "bludgeoned", "whacked")
+	hitsound = list('sound/weapons/crowbar1.ogg','sound/weapons/crowbar2.ogg','sound/weapons/crowbar3.ogg')
 
 /obj/item/weapon/crowbar/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
+	playsound(loc, hitsound, 50, 1, -1)
 	return (BRUTELOSS)
 
 /obj/item/weapon/crowbar/red

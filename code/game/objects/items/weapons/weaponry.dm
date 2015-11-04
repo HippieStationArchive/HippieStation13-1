@@ -180,6 +180,7 @@
 	extended = !extended
 	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
 	if(extended)
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
 		force = 15
 		w_class = 3
 		throwforce = 15
@@ -187,6 +188,7 @@
 		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 		hitsound = 'sound/weapons/bladeslice.ogg'
 	else
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
 		force = 1
 		w_class = 2
 		throwforce = 5
