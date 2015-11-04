@@ -57,6 +57,7 @@ emp_act
 				P.firer = src
 				P.yo = new_y - curloc.y
 				P.xo = new_x - curloc.x
+				P.Angle = ""//round(Get_Angle(P,P.original))
 
 			return -1 // complete projectile permutation
 
@@ -449,7 +450,7 @@ emp_act
 				I.add_blood(src)//it embedded itself in you, of course it's bloody!
 				I.loc = src
 				L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
-				visible_message("<span class='danger'>\the [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\the [I.name] embeds itself in your [L.getDisplayName()]!</span>")
+				visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
 				hitpush = 0
 				skipcatch = 1 //can't catch the now embedded item
 	return ..()

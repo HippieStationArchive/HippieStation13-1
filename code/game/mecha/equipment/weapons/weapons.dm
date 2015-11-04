@@ -4,53 +4,49 @@
 	origin_tech = "materials=3;combat=3"
 	var/projectile
 	var/fire_sound
-	var/projectiles_per_shot = 1
-	var/deviation = 0
-	var/shot_delay = 0
+	var/projectiles_per_shot = 1 //How many projectiles will this fire at once?
+	var/variance = 0 //Amount of variance per shot
+	var/randomspread = 0 //Set this to 1 to disable "smart spread" shotguns use.
+	var/projectile_delay = 0
 
-/obj/item/mecha_parts/mecha_equipment/weapon/can_attach(obj/mecha/combat/M)
+/obj/item/mecha_parts/mecha_equipment/weapon/can_attach(var/obj/mecha/combat/M as obj)
 	if(..())
 		if(istype(M))
 			return 1
 	return 0
 
 /obj/item/mecha_parts/mecha_equipment/weapon/proc/get_shot_amount()
-	return 1
+	return projectiles_per_shot
 
-/obj/item/mecha_parts/mecha_equipment/weapon/action(atom/target)
-	if(!action_checks(target))
-		return 0
+/obj/item/mecha_parts/mecha_equipment/weapon/action(atom/target, params)
+	if(!action_checks(target)) return 0
 
 	var/turf/curloc = get_turf(chassis)
-	var/turf/targloc = get_turf(target)
+	var/atom/targloc = get_turf(target)
 	if (!targloc || !istype(targloc) || !curloc)
 		return 0
 	if (targloc == curloc)
 		return 0
-
 	set_ready_state(0)
-	for(var/i=1 to get_shot_amount())
+	for (var/i=1 to get_shot_amount()) //Scattershot support
+		playsound(chassis, fire_sound, 50, 1)
 		var/obj/item/projectile/A = new projectile(curloc)
 		A.firer = chassis.occupant
 		A.original = target
 		A.current = curloc
-
-		if(deviation)
-			A.yo = (targloc.y + round(gaussian(0,deviation),1)) - curloc.y
-			A.xo = (targloc.x + round(gaussian(0,deviation),1)) - curloc.x
-		else
-			A.yo = targloc.y - curloc.y
-			A.xo = targloc.x - curloc.x
-
+		var/spread = 0
+		if(variance) //We have to spread a pixel-precision bullet. throw_proj was called before so angles should exist by now...
+			if(randomspread)
+				spread = round((rand() - 0.5) * variance)
+			else //Smart spread
+				spread = round((i / projectiles_per_shot - 0.5) * variance)
+		A.preparePixelProjectile(targloc, chassis.occupant, params, spread) //There's also a spread var you can use.
 		A.fire()
-		playsound(chassis, fire_sound, 50, 1)
-
-		if(shot_delay)
-			sleep(shot_delay)
+		sleep(max(0, projectile_delay)) //Wait X amount of deciseconds before sending another projectile.
 
 	chassis.log_message("Fired from [src.name], targeting [target].")
+	do_after_cooldown()
 	return 1
-
 
 //Base energy weapon type
 /obj/item/mecha_parts/mecha_equipment/weapon/energy
@@ -58,6 +54,10 @@
 
 /obj/item/mecha_parts/mecha_equipment/weapon/energy/get_shot_amount()
 	return min(round(chassis.cell.charge / energy_drain), projectiles_per_shot)
+
+// /obj/item/mecha_parts/mecha_equipment/weapon/energy/action(atom/target, params)
+// 	..()
+// 	chassis.use_power(energy_drain)
 
 /obj/item/mecha_parts/mecha_equipment/weapon/energy/start_cooldown()
 	set_ready_state(0)
@@ -159,9 +159,9 @@
 			return 1
 	return 0
 
-/obj/item/mecha_parts/mecha_equipment/weapon/honker/action(target)
-	if(!action_checks(target))
-		return
+/obj/item/mecha_parts/mecha_equipment/weapon/honker/action(target, params)
+	if(!action_checks(target)) return 0
+	set_ready_state(0)
 	playsound(chassis, 'sound/items/AirHorn.ogg', 100, 1)
 	chassis.occupant_message("<font color='red' size='5'>HONK</font>")
 	for(var/mob/living/carbon/M in ohearers(6, chassis))
@@ -184,6 +184,7 @@
 	var/turf/T = get_turf(src)
 	message_admins("[key_name_admin(chassis.occupant, chassis.occupant.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[chassis.occupant]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[chassis.occupant]'>FLW</A>) used a Mecha Honker in ([T.x],[T.y],[T.z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[T.x];Y=[T.y];Z=[T.z]'>JMP</a>)",0,1)
 	log_game("[chassis.occupant.ckey]([chassis.occupant]) used a Mecha Honker in ([T.x],[T.y],[T.z])")
+	do_after_cooldown()
 	return 1
 
 
@@ -201,6 +202,8 @@
 	if(!..())
 		return 0
 	if(projectiles <= 0)
+		return 0
+	if(!equip_ready)
 		return 0
 	return 1
 
@@ -259,19 +262,32 @@
 	projectiles = 40
 	projectile_energy_cost = 25
 	projectiles_per_shot = 4
-	deviation = 0.7
+	variance = 25
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg
 	name = "\improper Ultra AC 2"
 	desc = "A weapon for combat exosuits. Shoots a rapid, three shot burst."
 	icon_state = "mecha_uac2"
-	equip_cooldown = 10
-	projectile = /obj/item/projectile/bullet/weakbullet3
+	equip_cooldown = 4
+	projectile = /obj/item/projectile/bullet/weakbullet
 	projectiles = 300
 	projectile_energy_cost = 20
 	projectiles_per_shot = 3
-	deviation = 0.3
-	shot_delay = 2
+	variance = 6 //Small spread
+	randomspread = 1 //Random spread.
+	projectile_delay = 2 //2 deciseconds before sending another projectile.
+
+/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/bulletstorm //Mostly for testing, but it's also pretty as hell.
+	name = "\improper Bulletstorm U.N.Owen-Alpha"
+	desc = "Very flashy weapon for combat exosuits that spreads 16 projectiles in 90 degrees in a short burst"
+	icon_state = "mecha_uac2"
+	equip_cooldown = 10
+	projectile = /obj/item/projectile/bullet/weakbullet4 //10-force embeddable projectile of doom
+	projectiles = 300
+	projectile_energy_cost = 5
+	projectiles_per_shot = 16
+	variance = 90 //Spread all the projectiles in a 90 degree cone
+	projectile_delay = 1 //Minimal delay between shots for amazing effects
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher
 	var/missile_speed = 2

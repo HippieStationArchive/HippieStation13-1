@@ -55,15 +55,15 @@
 			var/icon/OI = icon(O.icon, O.icon_state)
 			OI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
 			O.icon = OI
+			O.fry_amt = O.fry_amt + 1
 			if(!(findtext(O.name, "deep fried"))) O.name = "deep fried [O.name]"
 		if(ishuman(F))
 			var/mob/living/carbon/human/ligger = F // fucking liggers and birds causing me issues like always
 			if(MUTCOLORS in ligger.dna.species.specflags)
 				ligger.dna.species.specflags -= MUTCOLORS
-				ligger.regenerate_icons()
 			ligger.deepfried = 1 // to avoid the deepfry overlay to reset when icons get regenerated
 			ligger.fry_amt++
-			ligger.update_body()
+			ligger.regenerate_icons() //Updates the deepfried items overlays
 		else // blending works for simple mobs which don't use a complicated update proc like simple animals so, but if you revive them..their icon won't change. idk
 			var/icon/HI = icon(F.icon, F.icon_state)
 			HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
