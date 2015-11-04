@@ -42,7 +42,10 @@
 		user << "<span class='warning'>You cannot turn the light on while in this [user.loc]!</span>" //To prevent some lighting anomalities.
 		return 0
 	on = !on
-	playsound(loc, on ? sound_toggleON : sound_toggleOFF, 30, 1, -1)
+	if(on && sound_toggleON)
+		playsound(loc, sound_toggleON, 30, 1, -1)
+	else if(!on && sound_toggleOFF)
+		playsound(loc, sound_toggleOFF, 30, 1, -1)
 	update_brightness(user)
 	return 1
 
@@ -204,6 +207,8 @@ obj/item/device/flashlight/lamp/bananalamp
 	var/produce_heat = 1500
 	heat = 1000
 	burn_state = 0
+	sound_toggleON = 'sound/items/flareOn.ogg'
+	sound_toggleOFF = 'sound/weapons/flesh_burn.ogg'
 
 /obj/item/device/flashlight/flare/New()
 	fuel = rand(800, 1000) // Sorry for changing this so much but I keep under-estimating how long X number of ticks last in seconds.
@@ -285,6 +290,8 @@ obj/item/device/flashlight/lamp/bananalamp
 	slot_flags = SLOT_BELT
 	materials = list()
 	brightness_on = 6 //luminosity when on
+	sound_toggleON = null
+	sound_toggleOFF = null
 
 /obj/item/device/flashlight/emp
 	origin_tech = "magnets=4;syndicate=5"
