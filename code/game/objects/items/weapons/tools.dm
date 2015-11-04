@@ -488,7 +488,11 @@
 
 /obj/item/weapon/crowbar/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is putting the [src.name] into \his mouth and proceeds to weigh down! It looks like \he's trying to commit suicide.</span>")
-	playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
+	playsound(loc, 'sound/weapons/grapple.ogg', 50, 1, -1)
+	sleep(3)
+	var/turf/simulated/location = get_turf(user)
+	if(istype(location))
+		location.add_blood_floor(user)
 	playsound(loc, 'sound/misc/tear.ogg', 50, 1, -1) //RIP AND TEAR. RIP AND TEAR.
 	return (BRUTELOSS)
 
