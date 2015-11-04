@@ -35,8 +35,8 @@
 	var/semicd = 0						//cooldown handler
 	var/heavy_weapon = 0
 
-	var/spread = 0 //Spread induced by the gun itself.
-	var/randomspread = 1 //Whether or not to use the random spread algorithm.
+	var/distro = 0 //Additional spread added to the ammo casing.
+	var/randomspread = -1 //Set this to 0 or 1 to force a randomspread on casing
 
 	var/unique_rename = 0 //allows renaming with a pen
 	var/unique_reskin = 0 //allows one-time reskinning
@@ -203,12 +203,7 @@
 				if( i>1 && !(src in get_both_hands(user))) //for burst firing
 					break
 			if(chambered)
-				var/sprd = 0
-				if(randomspread)
-					sprd = round((rand() - 0.5) * spread)
-				else //Smart spread
-					sprd = round((i / burst_size - 0.5) * spread)
-				if(!chambered.fire(target, user, params, , suppressed, zone_override, sprd))
+				if(!chambered.fire(target, user, params, distro, suppressed, zone_override, randomspread)) //if randomspread is -1 the casing will handle it
 					shoot_with_empty_chamber(user)
 					break
 				else
@@ -224,7 +219,7 @@
 			sleep(fire_delay)
 	else
 		if(chambered)
-			if(!chambered.fire(target, user, params, spread, suppressed, zone_override))
+			if(!chambered.fire(target, user, params, distro, suppressed, zone_override, randomspread)) //if randomspread is -1 the casing will handle it
 				shoot_with_empty_chamber(user)
 				return
 			else
@@ -388,12 +383,12 @@
 		target.visible_message("<span class='warning'>[user] sticks [src] in their mouth, ready to pull the trigger...</span>", \
 			"<span class='userdanger'>You stick [src] in your mouth, ready to pull the trigger...</span>")
 	else
-		target.visible_message("<span class='warning'>[user] points [src] at [target]'s head, ready to pull the trigger...</span>", \
+		target.visible_message("<span class='warning'>[user] points [src] at [target]'s mouth, ready to pull the trigger...</span>", \
 			"<span class='userdanger'>[user] points [src] at your head, ready to pull the trigger...</span>")
 
 	semicd = 1
 
-	if(!do_mob(user, target, 120) || user.zone_sel.selecting != "mouth")
+	if(!do_mob(user, target, 120) || user.zone_sel.selecting != "mouth") //12 seconds to pull this off. At first I thought this was too slow but then I realised pindowns balance it out.
 		if(user)
 			if(user == target)
 				user.visible_message("<span class='notice'>[user] decided life was worth living.</span>")
