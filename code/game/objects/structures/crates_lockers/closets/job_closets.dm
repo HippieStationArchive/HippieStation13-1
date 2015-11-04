@@ -116,6 +116,7 @@
 	icon_state = "coffin"
 	burn_state = 0 //Burnable
 	burntime = 20
+	can_weld_shut = 0
 
 /obj/structure/closet/wardrobe/red
 	name = "security wardrobe"
