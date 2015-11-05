@@ -776,6 +776,11 @@ var/list/slot_equipment_priority = list( \
 /mob/proc/update_canmove()
 	var/ko = weakened || paralysis || stat || (status_flags & FAKEDEATH)
 	var/buckle_lying = !(buckled && !buckled.buckle_lying)
+	var/grabbed = 0 //Search for grabs within src
+	for(var/obj/item/weapon/grab/G in grabbed_by)
+		if(G.assailant && G.state >= GRAB_NECK && G.affecting == src)
+			grabbed = 1
+			break
 	if(ko || resting || stunned)
 		drop_r_hand()
 		drop_l_hand()
@@ -786,6 +791,8 @@ var/list/slot_equipment_priority = list( \
 		lying = 90*buckle_lying
 	else if(pinned_to)
 		lying = 0
+	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead
+		lying = nearcrit || stat || (status_flags & FAKEDEATH) 
 	else
 		if((ko || resting) && !lying)
 			fall(ko)
