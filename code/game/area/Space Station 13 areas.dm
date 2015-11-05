@@ -96,7 +96,7 @@ var/list/teleportlocs = list()
 	power_equip = 0
 	power_environ = 0
 	valid_territory = 0
-	ambientsounds = list('sound/ambience/ambispace.ogg','sound/ambience/space_stutter.ogg',\
+	ambientsounds = list('sound/ambience/ambispace.ogg','sound/ambience/space_stutter.ogg','sound/ambience/space_ambience.ogg',\
 				'sound/ambience/title1.ogg','sound/ambience/title2.ogg','sound/ambience/title3.ogg',)
 	ambloop = 'sound/ambience/loop/space.ogg'
 

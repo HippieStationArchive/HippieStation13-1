@@ -24,6 +24,7 @@
 	icon_state = "glock17"
 	w_class = 2
 	mag_type = /obj/item/ammo_box/magazine/g17
+	fire_sound = list('sound/weapons/pistol_glock17_1.ogg','sound/weapons/pistol_glock17_2.ogg')
 
 /obj/item/weapon/gun/projectile/automatic/pistol/g17/update_icon()
 	..()
@@ -37,6 +38,7 @@
 	w_class = 3
 	mag_type = /obj/item/ammo_box/magazine/m45
 	can_suppress = 0
+	fire_sound = 'sound/weapons/pistol_m1911.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/pistol/deagle
 	name = "Desert Eagle"
@@ -45,6 +47,7 @@
 	force = 14
 	mag_type = /obj/item/ammo_box/magazine/m50
 	can_suppress = 0
+	fire_sound = 'sound/weapons/deagle.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/pistol/deagle/update_icon()
 	..()

@@ -11,6 +11,7 @@
 	mag_unload_sound = 'sound/effects/wep_magazines/smg_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/smg_chamber.ogg'
 	action_button_name = "Toggle Firemode"
+	fire_sound = 'sound/weapons/Machinegun.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/proto
 	name = "Prototype SMG"
@@ -325,7 +326,7 @@
 	slot_flags = 0
 	origin_tech = "combat=5;materials=1;syndicate=2"
 	mag_type = /obj/item/ammo_box/magazine/tommygunm45
-	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
+	fire_sound = 'sound/weapons/tommygun_shoot.ogg'
 	can_suppress = 0
 	burst_size = 4
 	fire_delay = 1
