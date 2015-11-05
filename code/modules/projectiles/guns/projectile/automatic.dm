@@ -124,6 +124,7 @@
 	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+	fire_sound = 'sound/weapons/Gunshot_beefy.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/wt550/ui_action_click()
 	return
@@ -187,7 +188,7 @@
 	slot_flags = 0
 	origin_tech = "combat=5;materials=1;syndicate=2"
 	mag_type = /obj/item/ammo_box/magazine/m762
-	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
+	fire_sound = 'sound/weapons/gunshot_saw.ogg'
 	var/cover_open = 0
 	can_suppress = 0
 	burst_size = 5
