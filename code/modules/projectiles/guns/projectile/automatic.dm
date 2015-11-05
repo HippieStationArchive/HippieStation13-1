@@ -6,8 +6,7 @@
 	can_suppress = 1
 	burst_size = 3
 	fire_delay = 1	//Pre-rebase fire rate, nothing to see here.
-	distro = 3 //Additional distro added to the projectiles once auto firerate is selected.
-	randomspread = 1 //Force random spread on the ammo casing
+	spread = 3 //Additional spread added to the projectiles once auto firerate is selected.
 	mag_load_sound = 'sound/effects/wep_magazines/smg_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/smg_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/smg_chamber.ogg'
@@ -62,12 +61,12 @@
 	if(!select)
 		burst_size = 1
 		fire_delay = 0
-		distro = 0
+		spread = 0
 		user << "<span class='notice'>You switch to semi-automatic.</span>"
 	else
 		burst_size = initial(burst_size)
 		fire_delay = initial(fire_delay)
-		distro = initial(distro)
+		spread = initial(spread)
 		user << "<span class='notice'>You switch to [burst_size]-rnd burst.</span>"
 
 	playsound(user, 'sound/weapons/empty.ogg', 100, 1)
@@ -140,7 +139,7 @@
 	origin_tech = "combat=5;materials=2;syndicate=8"
 	mag_type = /obj/item/ammo_box/magazine/uzim9mm
 	burst_size = 4
-	distro = 10
+	spread = 10
 
 /obj/item/weapon/gun/projectile/automatic/ak922
 	name = "AK-922"
@@ -153,7 +152,7 @@
 	fire_sound = 'sound/weapons/handcannon.ogg'
 	fire_delay = 1
 	burst_size = 3
-	distro = 6
+	spread = 6
 	mag_load_sound = 'sound/effects/wep_magazines/ak922_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ak922_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ak922_chamber.ogg'
@@ -192,7 +191,7 @@
 	can_suppress = 0
 	burst_size = 5
 	fire_delay = 3
-	distro = 8
+	spread = 8
 	mag_load_sound = null 	//Snowflake code here el rip
 	mag_unload_sound = null
 	chamber_sound = null 	//Can't chamber like other guns
@@ -253,7 +252,7 @@
 	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/underbarrel
 	burst_size = 3
 	fire_delay = 2
-	distro = 6
+	spread = 6
 	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
@@ -330,7 +329,7 @@
 	can_suppress = 0
 	burst_size = 4
 	fire_delay = 1
-	distro = 7
+	spread = 7
 	mag_load_sound = 'sound/effects/wep_magazines/bulldog_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/bulldog_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/bulldog_chamber.ogg'
@@ -347,7 +346,7 @@
 	can_suppress = 0
 	burst_size = 3
 	fire_delay = 1
-	distro = 5
+	spread = 3
 	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
