@@ -1559,6 +1559,7 @@
 #include "code\modules\surgery\implant_removal.dm"
 #include "code\modules\surgery\limb augmentation.dm"
 #include "code\modules\surgery\lipoplasty.dm"
+#include "code\modules\surgery\lobotomy.dm"
 #include "code\modules\surgery\organ_manipulation.dm"
 #include "code\modules\surgery\plastic_surgery.dm"
 #include "code\modules\surgery\remove_embedded_object.dm"
