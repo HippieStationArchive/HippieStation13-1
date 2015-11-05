@@ -130,6 +130,26 @@
 			C.buckled.unbuckle_mob()
 		C.update_inv_handcuffed(0)
 		return
+	if(ishuman(C) && user.zone_sel.selecting == "mouth")
+		var/mob/living/carbon/human/H = C
+		var/obj/item/organ/limb/head/O = locate() in H.organs
+		if(!O || !O.teeth_list.len) return ..()
+		H.visible_message("<span class='danger'>[user] tries to tear off [H]'s tooth with [src]!</span>",
+							"<span class='userdanger'>[user] tries to tear off your tooth with [src]!</span>")
+		if(do_after(user, 50))
+			if(!O || !O.teeth_list.len) return
+			var/obj/item/stack/teeth/teeth = pick(O.teeth_list)
+			var/obj/item/stack/teeth/T = new teeth.type(H.loc, 1)
+			T.copy_evidences(teeth)
+			teeth.use(1)
+			T.add_blood(H)
+			teeth.zero_amount() //Try to delete the teeth
+			H.visible_message("<span class='notice'>[user] tears off [H]'s tooth with [src]!</span>",
+							"<span class='userdanger'>[user] tears off your tooth with [src]!</span>")
+			var/armor = H.run_armor_check(O, "melee")
+			H.apply_damage(rand(1,5), BRUTE, O, armor)
+			H.emote("scream")
+			return
 	else
 		..()
 
@@ -467,8 +487,13 @@
 	attack_verb = list("attacked", "bashed", "battered", "bludgeoned", "whacked")
 
 /obj/item/weapon/crowbar/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
+	user.visible_message("<span class='suicide'>[user] is putting the [src.name] into \his mouth and proceeds to weigh down! It looks like \he's trying to commit suicide.</span>")
+	playsound(loc, 'sound/weapons/grapple.ogg', 50, 1, -1)
+	sleep(3)
+	var/turf/simulated/location = get_turf(user)
+	if(istype(location))
+		location.add_blood_floor(user)
+	playsound(loc, 'sound/misc/tear.ogg', 50, 1, -1) //RIP AND TEAR. RIP AND TEAR.
 	return (BRUTELOSS)
 
 /obj/item/weapon/crowbar/red
