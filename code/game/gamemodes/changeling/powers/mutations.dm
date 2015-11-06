@@ -150,7 +150,7 @@
 	throwforce = 0 //Just to be on the safe side
 	throw_range = 0
 	throw_speed = 0
-	hitsound = 'sound/weapons/armblade.ogg'
+	hitsound = 'sound/weapons/bladeslice2.ogg'
 
 /obj/item/weapon/melee/arm_blade/New(location,silent)
 	..()

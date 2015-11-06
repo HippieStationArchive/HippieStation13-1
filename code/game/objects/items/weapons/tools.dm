@@ -488,7 +488,7 @@
 	materials = list(MAT_METAL=50)
 	origin_tech = "engineering=1"
 	attack_verb = list("attacked", "bashed", "battered", "bludgeoned", "whacked")
-	hitsound = list('sound/weapons/crowbar1.ogg','sound/weapons/crowbar2.ogg','sound/weapons/crowbar3.ogg')
+	hitsound = list('sound/weapons/crowbar1.ogg','sound/weapons/crowbar2.ogg')
 
 /obj/item/weapon/crowbar/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is putting the [src.name] into \his mouth and proceeds to weigh down! It looks like \he's trying to commit suicide.</span>")
