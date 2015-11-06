@@ -10,6 +10,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Adds Ice Picks. Don't try using them to fix your eyes, or you might end up lobotimized."
-  - rscadd: "Ice Picks can be made at a hacked autolathe, or found in some cold areas."
-  - tweak: "Metal baseball bats now cost a decent amount less at the autolathe."
+  - rscdel: "Removes the rest hotkey."
