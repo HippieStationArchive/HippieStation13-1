@@ -81,12 +81,12 @@ var/next_mob_id = 0
 // self_message (optional) is what the src mob sees e.g. "You do something!"
 // blind_message (optional) is what blind people will hear e.g. "You hear something!"
 
-/mob/visible_message(message, self_message, blind_message)
+/mob/visible_message(message, self_message, blind_message, range = 7)
 	var/list/mob_viewers = list()
 	var/list/possible_viewers = list()
 	mob_viewers |= src
 	mob_viewers |= viewers(src)
-	var/heard = get_hear(7, src)
+	var/heard = get_hear(range, src)
 	for(var/atom/movable/A in heard)
 		possible_viewers |= recursive_hear_check(A)
 	for(var/mob/B in possible_viewers)
@@ -108,7 +108,7 @@ var/next_mob_id = 0
 
 	if(blind_message)
 		var/list/mob_hearers = list()
-		for(var/mob/C in get_hearers_in_view(7, src))
+		for(var/mob/C in get_hearers_in_view(range, src))
 			if(C in mob_viewers)
 				continue
 			mob_hearers |= C
@@ -120,11 +120,11 @@ var/next_mob_id = 0
 // message is output to anyone who can see, e.g. "The [src] does something!"
 // blind_message (optional) is what blind people will hear e.g. "You hear something!"
 
-/atom/proc/visible_message(message, blind_message)
+/atom/proc/visible_message(message, blind_message, range = 7)
 	var/list/mob_viewers = list()
 	var/list/possible_viewers = list()
 	mob_viewers |= viewers(src)
-	var/heard = get_hear(7, src)
+	var/heard = get_hear(range, src)
 	for(var/atom/movable/A in heard)
 		possible_viewers |= recursive_hear_check(A)
 	for(var/mob/B in possible_viewers)
@@ -141,7 +141,7 @@ var/next_mob_id = 0
 
 	if(blind_message)
 		var/list/mob_hearers = list()
-		for(var/mob/C in get_hearers_in_view(7, src))
+		for(var/mob/C in get_hearers_in_view(range, src))
 			if(C in mob_viewers)
 				continue
 			mob_hearers |= C

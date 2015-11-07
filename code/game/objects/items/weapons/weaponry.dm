@@ -110,7 +110,7 @@
 /obj/item/weapon/wirerod/attackby(obj/item/I, mob/user, params)
 	..()
 	if(istype(I, /obj/item/weapon/shard))
-		var/obj/item/weapon/twohanded/spear/S = new /obj/item/weapon/twohanded/spear
+		var/obj/item/weapon/twohanded/spear/S = new
 
 		if(!remove_item_from_storage(user))
 			user.unEquip(src)
@@ -122,7 +122,7 @@
 		qdel(src)
 
 	else if(istype(I, /obj/item/weapon/wirecutters))
-		var/obj/item/weapon/melee/baton/cattleprod/P = new /obj/item/weapon/melee/baton/cattleprod
+		var/obj/item/weapon/melee/baton/cattleprod/P = new
 
 		if(!remove_item_from_storage(user))
 			user.unEquip(src)
@@ -132,7 +132,18 @@
 		user << "<span class='notice'>You fasten the wirecutters to the top of the rod with the cable, prongs outward.</span>"
 		qdel(I)
 		qdel(src)
+	else if(istype(I, /obj/item/weapon/weldingtool))
+		var/obj/item/weapon/weldingtool/welder = I
+		playsound(loc, 'sound/items/Welder.ogg', 100, 1)
+		if(welder.remove_fuel(1,user))
+			user << "<span class='notice'>You weld \the [src] in half.</span>"
+			var/obj/item/garrothandles/S = new
 
+			if(!remove_item_from_storage(user))
+				user.unEquip(src)
+
+			user.put_in_hands(S)
+			qdel(src)
 
 /obj/item/weapon/throwing_star
 	name = "throwing star"
