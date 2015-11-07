@@ -960,9 +960,9 @@
 					H.forcesay(hit_appends)
 				if(istype(affecting, /obj/item/organ/limb/head) && prob(damage * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
 					var/obj/item/organ/limb/head/U = affecting
-					U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((damage*2)/100)))
-					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
-									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
+					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((damage*2)/100))))
+						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
+										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 		if("disarm")
 			if(attacker_style && attacker_style.disarm_act(M,H))
 				return 1
@@ -1155,9 +1155,9 @@
 							ticker.mode.remove_revolutionary(H.mind)
 				var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
 				if(prob(I.force * (def_zone == "mouth" ? 3 : 1)) && O) //Will the teeth fly out?
-					O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force*1.5)/100)))
-					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
-									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
+					if(O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force*1.5)/100))))
+						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
+										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 				if(bloody)	//Apply blood
 					if(H.wear_mask)
 						H.wear_mask.add_blood(H)

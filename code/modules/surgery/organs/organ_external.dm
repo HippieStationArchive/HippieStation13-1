@@ -125,11 +125,12 @@
 
 /obj/item/organ/limb/head/proc/knock_out_teeth(throw_dir, num=32) //Won't support knocking teeth out of a dismembered head or anything like that yet.
 	num = Clamp(num, 1, 32)
+	var/done = 0
 	if(teeth_list && teeth_list.len) //We still have teeth
 		var/stacks = rand(1,3)
 		for(var/curr = 1 to stacks) //Random amount of teeth stacks
 			var/obj/item/stack/teeth/teeth = pick(teeth_list)
-			if(teeth.zero_amount()) return //No teeth left, abort!
+			if(!teeth || teeth.zero_amount()) return //No teeth left, abort!
 			var/drop = round(min(teeth.amount, num)/stacks) //Calculate the amount of teeth in the stack
 			var/obj/item/stack/teeth/T = new teeth.type(owner.loc, drop)
 			T.copy_evidences(teeth)
@@ -144,6 +145,8 @@
 					break
 			T.throw_at(target,T.throw_range,T.throw_speed)
 			teeth.zero_amount() //Try to delete the teeth
+			done = 1
+	return done
 
 /obj/item/organ/limb/l_arm
 	name = "l_arm"
