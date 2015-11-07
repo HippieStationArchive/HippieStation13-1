@@ -468,8 +468,8 @@ var/global/list/possible_items = list()
 			)
 			for(var/eq_path in targetinfo.special_equipment)
 				var/obj/O = new eq_path
-				H.equip_in_one_of_slots(O, slots, qdel_on_fail = 0)
-				if(!eq_path) // if somehow it failed to put the special equip in your backpack/hands, put it under you. should never happen tho.
+				var/equip =	H.equip_in_one_of_slots(O, slots, qdel_on_fail = 0)
+				if(!equip) // if somehow it failed to put the special equip in your backpack/hands, put it under you. should never happen tho.
 					O.loc = get_turf(H)
 				H.update_icons()
 
