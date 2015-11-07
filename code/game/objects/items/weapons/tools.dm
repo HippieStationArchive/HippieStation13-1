@@ -135,18 +135,22 @@
 	if(ishuman(C) && user.zone_sel.selecting == "mouth")
 		var/mob/living/carbon/human/H = C
 		var/obj/item/organ/limb/head/O = locate() in H.organs
-		if(!O || !O.teeth_list.len) return ..()
+		if(!O || !O.get_teeth())
+			user << "<span class='notice'>[H] doesn't have any teeth left!</span>"
+			return
 		H.visible_message("<span class='danger'>[user] tries to tear off [H]'s tooth with [src]!</span>",
 							"<span class='userdanger'>[user] tries to tear off your tooth with [src]!</span>")
 		if(do_after(user, 50))
-			if(!O || !O.teeth_list.len) return
-			var/obj/item/stack/teeth/teeth = pick(O.teeth_list)
-			var/obj/item/stack/teeth/T = new teeth.type(H.loc, 1)
-			T.copy_evidences(teeth)
-			teeth.use(1)
+			if(!O || !O.get_teeth()) return
+			var/obj/item/stack/teeth/E = pick(O.teeth_list)
+			if(!E || E.zero_amount()) return
+			var/obj/item/stack/teeth/T = new E.type(H.loc, 1)
+			T.copy_evidences(E)
+			E.use(1)
 			T.add_blood(H)
-			teeth.zero_amount() //Try to delete the teeth
-			H.visible_message("<span class='notice'>[user] tears off [H]'s tooth with [src]!</span>",
+			E.zero_amount() //Try to delete the teeth
+			add_logs(user, H, "torn out the tooth from", src)
+			H.visible_message("<span class='danger'>[user] tears off [H]'s tooth with [src]!</span>",
 							"<span class='userdanger'>[user] tears off your tooth with [src]!</span>")
 			var/armor = H.run_armor_check(O, "melee")
 			H.apply_damage(rand(1,5), BRUTE, O, armor)
