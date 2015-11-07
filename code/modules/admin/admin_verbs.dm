@@ -62,7 +62,8 @@ var/list/admin_verbs_admin = list(
 	/client/proc/cmd_admin_local_narrate,	//sends text to all mobs within view of atmo
 	/client/proc/cmd_admin_create_centcom_report,
 	/client/proc/reset_all_tcs,			/*resets all telecomms scripts*/
-	/client/proc/toggle_antag_hud 	/*toggle display of the admin antag hud*/
+	/client/proc/toggle_antag_hud, 	/*toggle display of the admin antag hud*/
+	/client/proc/aooc /*sends a message to all antags on the server*/
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
