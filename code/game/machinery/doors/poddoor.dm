@@ -8,6 +8,8 @@
 	sub_door = 1
 	explosion_block = 3
 	heat_proof = 1
+	var/sound_open = 'sound/machines/blast_door.ogg'
+	var/sound_close = 'sound/machines/blast_door.ogg'
 
 /obj/machinery/door/poddoor/preopen
 	icon_state = "open"
@@ -49,6 +51,7 @@
 	operating = 1
 	flick("opening", src)
 	icon_state = "open"
+	playsound(src.loc, sound_open, 100, 1)
 	SetOpacity(0)
 	sleep(5)
 	density = 0
@@ -76,13 +79,14 @@
 	operating = 1
 	flick("closing", src)
 	icon_state = "closed"
+	playsound(src.loc, sound_close, 100, 1)
 	SetOpacity(1)
 	sleep(5)
 	density = 1
-	sleep(5)
+	// sleep(5)
 	air_update_turf(1)
 	update_freelook_sight()
-	sleep(5)
+	// sleep(5)
 	crush()
 	sleep(5)
 	operating = 0
