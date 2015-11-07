@@ -7,7 +7,7 @@
 	icon_state = "dshotgun-sawn"
 	item_state = "gun"
 	mag_type = /obj/item/ammo_box/magazine/internal/grenadelauncher
-	fire_sound = 'sound/weapons/grenadelaunch.ogg'
+	fire_sound = 'sound/weapons/grenadelauncher.ogg'
 	w_class = 3
 	pin = /obj/item/device/firing_pin/implant/pindicate
 
@@ -34,7 +34,7 @@
 	name = "\improper Gyrojet rocket pistol"
 	desc = "A prototype pistol designed to fire self propelled rockets."
 	icon_state = "gyropistol"
-	fire_sound = 'sound/weapons/grenadelaunch.ogg'
+	fire_sound = 'sound/weapons/grenadelauncher.ogg'
 	origin_tech = "combat=3"
 	mag_type = /obj/item/ammo_box/magazine/m75
 	burst_size = 1

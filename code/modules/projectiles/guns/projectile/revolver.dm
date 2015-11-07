@@ -6,6 +6,7 @@
 	mag_load_sound = null
 	mag_unload_sound = null		//Revolvers already have their own sfx for this kind of stuff
 	chamber_sound = null
+	fire_sound = 'sound/weapons/revolver_shoot.ogg'
 
 /obj/item/weapon/gun/projectile/revolver/New()
 	..()
@@ -152,6 +153,7 @@
 	desc = "A retro high-powered autorevolver typically used by officers of the New Russia military. Uses .357 ammo."
 	icon_state = "mateba"
 	origin_tech = "combat=2;materials=2"
+	fire_sound = 'sound/weapons/revolver_big.ogg'
 
 /obj/item/weapon/gun/projectile/revolver/nagant
 	name = "\improper Nagant M1895"

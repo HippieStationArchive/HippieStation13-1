@@ -1,0 +1,13 @@
+# Your name.  
+author: DerptheStewpidgoat
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - rscadd: "Powerfist added! It's available to any traitor for 14 TC. When wielded in both hands (one glove holds the power fist while the other houses the battery pack), the user can smash any target across a room with moderate damage and some stamina damage. Needs to charge automatically in-between punches, but the time needed to charge is negligible. Does NOT go in your gloves slot, instead, it must be wielded in both hands to function."

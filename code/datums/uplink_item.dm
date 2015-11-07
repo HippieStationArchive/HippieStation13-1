@@ -140,7 +140,7 @@ var/list/uplink_items = list()
 /datum/uplink_item/job_specific/soulstone
 	name = "Soulstone"
 	desc = "This stone will be able to capture your victim's soul and bind them to your will."
-	item = /obj/item/device/soulstone
+	item = /obj/item/device/soulstone/anybody
 	cost = 5 //nerfed the cost on Chronitonity's request
 	jobs = list("Librarian")
 
@@ -159,7 +159,8 @@ var/list/uplink_items = list()
 	item = /obj/item/ammo_casing/shotgun/buckshot
 	cost = 5
 	jobs = list("Bartender")
-	
+
+//MINER
 /datum/uplink_item/job_specific/alien
 	name = "Unknown Alien"
 	desc = "An unknown and hostile alien lifeform."
@@ -271,6 +272,12 @@ var/list/uplink_items = list()
 	energy swords to create a double energy sword, which must be wielded in two hands but is more robust and deflects all energy projectiles."
 	item = /obj/item/weapon/melee/energy/sword/saber
 	cost = 8
+
+/datum/uplink_item/dangerous/powerfist
+	name = "Power Fist"
+	desc = "A set of large gloves. One glove holds the power cell while the other is a plasteel mechanically powered fist which can deliver a massive blow to any target with the ability to throw them across a room. The power fist itself can only be used once every half to two-thirds of a second approximately."
+	item = /obj/item/weapon/twohanded/powerfist
+	cost = 14	//May need to be adjusted after we see how it performs in a non-test environment
 
 /datum/uplink_item/dangerous/emp
 	name = "EMP Kit"

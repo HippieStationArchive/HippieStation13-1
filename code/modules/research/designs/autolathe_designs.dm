@@ -255,7 +255,7 @@
 	id = "replacement_teeth"
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 250)
-	build_path = /obj/item/organ/teeth/replacement
+	build_path = /obj/item/stack/teeth/replacement
 	category = list("initial", "Medical")
 
 /datum/design/beaker
@@ -591,7 +591,7 @@
 	name = "Metal Baseball Bat"
 	id = "bbat_metal"
 	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 30000)
+	materials = list(MAT_METAL = 12000)
 	build_path = /obj/item/weapon/baseballbat/metal
 	category = list("hacked", "Misc")
 
@@ -610,3 +610,11 @@
 	materials = list(MAT_METAL = 30000)
 	build_path = /obj/item/ammo_box/a762rubber
 	category = list("hacked", "Security")
+
+/datum/design/icepick
+	name = "Ice Pick"
+	id = "icepick"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 3000)
+	build_path = /obj/item/weapon/icepick
+	category = list("hacked", "Medical")

@@ -113,3 +113,56 @@
 /obj/item/weapon/twohanded/mjollnir/update_icon()  //Currently only here to fuck with the on-mob icons.
 	icon_state = "mjollnir[wielded]"
 	return
+
+//POWER FIST
+//This thing is a mish-mash of singularity hammer and mjollnir code, but it seems to work well.
+
+/obj/item/weapon/twohanded/powerfist
+	name = "Power Fist"
+	desc = "A set of large gloves. One glove holds the power cell while the other is a plasteel mechanically powered fist which can deliver a massive blow to any target with the ability to throw them across a room. The power fist itself can only be used once every half to two-thirds of a second approximately."
+	icon_state = "powerfist0"
+	flags = CONDUCT
+	force = 5
+	force_unwielded = 5
+	force_wielded = 10
+	throwforce = 10
+	throw_range = 7
+	w_class = 3
+	var/charged = 1		//This might need to be raised, because lower charge = the faster the power fist is ready to...power fist someone again. After testing this seems good to me actually.
+	origin_tech = "combat=5;powerstorage=3"
+
+/obj/item/weapon/twohanded/powerfist/New()
+	..()
+	SSobj.processing |= src
+
+
+/obj/item/weapon/twohanded/powerfist/Destroy()
+	SSobj.processing.Remove(src)
+	return ..()
+
+
+/obj/item/weapon/twohanded/powerfist/process()
+	if(charged < 1)
+		charged++
+	return
+
+/obj/item/weapon/twohanded/powerfist/afterattack(mob/living/target)
+	var/datum/effect/effect/system/lightning_spread/s = new /datum/effect/effect/system/lightning_spread
+	if(wielded)
+		if(charged == 1)
+			charged = 0
+			s.set_up(5, 1, target.loc)
+			s.start()
+			target.take_organ_damage(15,0)
+			target.visible_message("<span class='danger'>[target.name] was power-fisted by the [src.name]!</span>", \
+				"<span class='userdanger'>You hear a loud crack!</span>", \
+				"<span class='italics'>You hear the sound of bones crunching!</span>")
+			var/atom/throw_target = get_edge_target_turf(target, get_dir(src, get_step_away(target, src)))
+			target.throw_at(throw_target, 10, 0.2)
+			playsound(loc, 'sound/weapons/resonator_blast.ogg', 50, 1)
+			target.adjustStaminaLoss(20)
+			return
+
+/obj/item/weapon/twohanded/powerfist/update_icon()  //Currently only here to fuck with the on-mob icons.
+	icon_state = "powerfist[wielded]"
+	return

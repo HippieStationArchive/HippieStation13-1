@@ -111,6 +111,7 @@
 						"<span class='userdanger'>You're set on fire!</span>")
 		src.AddLuminosity(3)
 		throw_alert("fire", /obj/screen/alert/fire)
+		playsound(src, 'sound/Effects/combust.ogg', 40, 1)
 		update_fire()
 
 /mob/living/proc/ExtinguishMob()
