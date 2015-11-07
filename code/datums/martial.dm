@@ -103,13 +103,13 @@
 	var/obj/item/organ/limb/affecting = D.get_organ(ran_zone(A.zone_sel.selecting))
 	var/armor_block = D.run_armor_check(affecting, "melee")
 
-	playsound(D.loc, A.dna.species.attack_sound, 25, 1, -1)
+	playsound(D.loc, list('sound/weapons/boxing1.ogg','sound/weapons/boxing2.ogg','sound/weapons/boxing3.ogg','sound/weapons/boxing4.ogg'), 25, 1, -1)
 
 	D.visible_message("<span class='danger'>[A] has hit [D] with a [atk_verb]!</span>", \
 								"<span class='userdanger'>[A] has hit [D] with a [atk_verb]!</span>")
 
 	D.apply_damage(damage, STAMINA, affecting, armor_block)
-	add_logs(A, D, "punched")
+	add_logs(A, D, "boxed")
 	if(D.getStaminaLoss() > 50)
 		var/knockout_prob = D.getStaminaLoss() + rand(-15,15)
 		if((D.stat != DEAD) && prob(knockout_prob))

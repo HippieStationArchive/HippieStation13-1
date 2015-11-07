@@ -1,16 +1,19 @@
-/obj/item/ammo_casing/proc/fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, params, distro, quiet, zone_override = "", spread)
+/obj/item/ammo_casing/proc/fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, params, distro, quiet, zone_override = "", spr)
 	distro += variance
 	for (var/i=1 to pellets)
+		var/spread = 0
 		// var/curloc = user.loc
 		var/targloc = get_turf(target)
 		ready_proj(target, user, quiet, zone_override)
 		// if(distro) //legacy bullet spread not supported. It never worked correctly anyway.
 		// 	targloc = spread(targloc, curloc, distro)
-		if(distro && spread==null) //We have to spread a pixel-precision bullet. throw_proj was called before so angles should exist by now...
+		if(spr)
+			spread = spr
+		if(distro) //We have to spread a pixel-precision bullet. throw_proj was called before so angles should exist by now...
 			if(randomspread)
-				spread = round((rand() - 0.5) * distro)
+				spread += round((rand() - 0.5) * distro)
 			else //Smart spread
-				spread = round((i / pellets - 0.5) * distro)
+				spread += round((i / pellets - 0.5) * distro)
 		if(!throw_proj(target, targloc, user, params, spread))
 			return 0
 		if(i < pellets)
