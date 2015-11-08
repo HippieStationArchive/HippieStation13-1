@@ -1,57 +1,57 @@
 //Crafting
-/obj/item/garrothandles
-	name = "garrot handles"
-	desc = "Two handles for a garrot to be made."
-	icon_state = "garrothandles"
+/obj/item/garrotehandles
+	name = "garrote handles"
+	desc = "Two handles for a garrote to be made."
+	icon_state = "garrotehandles"
 	// item_state = "rods"
-	icon = 'icons/obj/garrot.dmi'
+	icon = 'icons/obj/garrote.dmi'
 	w_class = 2
 	materials = list(MAT_METAL=1000)
 
-/obj/item/garrothandles/attackby(obj/item/I, mob/user, params)
+/obj/item/garrotehandles/attackby(obj/item/I, mob/user, params)
 	..()
 	if(istype(I, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/R = I
 		if (R.use(20))
-			var/obj/item/weapon/garrot/W = new /obj/item/weapon/garrot
+			var/obj/item/weapon/garrote/W = new /obj/item/weapon/garrote
 			if(!remove_item_from_storage(user))
 				user.unEquip(src)
 			W.item_color = I.item_color
 			W.update_icon()
 			user.put_in_hands(W)
-			user << "<span class='notice'>You attach the cable to the handles and pull on them tightly, creating a garrot.</span>"
+			user << "<span class='notice'>You attach the cable to the handles and pull on them tightly, creating a garrote.</span>"
 			qdel(src)
 		else
-			user << "<span class='warning'>You need 20 cables to make a garrot!</span>"
+			user << "<span class='warning'>You need 20 cables to make a garrote!</span>"
 			return
 
 //Wepon
-/obj/item/weapon/garrot
-	name = "garrot"
+/obj/item/weapon/garrote
+	name = "garrote"
 	desc = "Extremely robust for stealth takedowns and rapid chokeholds."
 	w_class = 2
-	icon = 'icons/obj/garrot.dmi'
+	icon = 'icons/obj/garrote.dmi'
 	icon_state = "garrot"
 	item_color = ""
 	var/garroting = 0
 	var/next_garrot = 0
 
-/obj/item/weapon/garrot/New()
+/obj/item/weapon/garrote/New()
 	..()
 	update_icon()
 
-/obj/item/weapon/garrot/Destroy()
+/obj/item/weapon/garrote/Destroy()
 	SSobj.processing.Remove(src)
 	..()
 
-/obj/item/weapon/garrot/update_icon()
+/obj/item/weapon/garrote/update_icon()
 	if (!item_color)
 		item_color = pick("red", "yellow", "blue", "green")
-	icon_state = "garrot[garroting ? "_w" : ""][item_color ? "_[item_color]" : ""]"
+	icon_state = "garrote[garroting ? "_w" : ""][item_color ? "_[item_color]" : ""]"
 
-/obj/item/weapon/garrot/attack_self(mob/user)
+/obj/item/weapon/garrote/attack_self(mob/user)
 	if(garroting)
-		user << "<span class='notice'>You release the garrot on your victim.</span>" //Not the grab, though. Only the garrot.
+		user << "<span class='notice'>You release the garrote on your victim.</span>" //Not the grab, though. Only the garrote.
 		garroting = 0
 		SSobj.processing.Remove(src)
 		update_icon()
@@ -78,7 +78,7 @@
 				"<span class='danger'>You grab \the [G.affecting] with \the [src]!</span>",\
 				"You hear some struggling and muffled cries of surprise")
 
-/obj/item/weapon/garrot/afterattack(atom/A, mob/living/user as mob, proximity, click_parameters)
+/obj/item/weapon/garrote/afterattack(atom/A, mob/living/user as mob, proximity, click_parameters)
 	if(!proximity) return
 	if(iscarbon(A))
 		var/mob/living/carbon/C = A
@@ -110,10 +110,10 @@
 				user << "<span class='notice'>You're already garroting someone!</span>"
 	return
 
-/obj/item/weapon/garrot/process()
+/obj/item/weapon/garrote/process()
 	if(iscarbon(loc))
 		var/mob/living/carbon/C = loc
-		if(src != C.r_hand && src != C.l_hand) //THE GARROT IS NOT IN HANDS, ABORT
+		if(src != C.r_hand && src != C.l_hand) //THE GARROTe IS NOT IN HANDS, ABORT
 			garroting = 0
 			SSobj.processing.Remove(src)
 			update_icon()

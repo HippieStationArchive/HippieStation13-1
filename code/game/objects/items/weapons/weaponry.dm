@@ -137,7 +137,7 @@
 		playsound(loc, 'sound/items/Welder.ogg', 100, 1)
 		if(welder.remove_fuel(1,user))
 			user << "<span class='notice'>You weld \the [src] in half.</span>"
-			var/obj/item/garrothandles/S = new
+			var/obj/item/garrotehandles/S = new
 
 			if(!remove_item_from_storage(user))
 				user.unEquip(src)
