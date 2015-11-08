@@ -12,6 +12,8 @@
 		var/obj/item/held_item = get_active_hand()
 		if(held_item)
 			var/damagetype = held_item.suicide_act(src)
+			if(!canSuicide()) //When we were returned the actual suicide method seems like we were interrupted.
+				return
 			if(damagetype)
 				var/damage_mod = 1
 				switch(damagetype) //Sorry about the magic numbers.
