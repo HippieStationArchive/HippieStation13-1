@@ -9,11 +9,11 @@ var/list/zombie_cure = list()
 	spread_flags = SPECIAL
 	viable_mobtypes = list(/mob/living/carbon/monkey, /mob/living/carbon/human)
 	permeability_mod = 1
-	cure_chance = 1
+	cure_chance = 60
 	longevity = 30
 	desc = "Zombies with this disease will bite humans, causing them to mutate into one."
 	severity = BIOHAZARD
-	stage_prob = 4
+	stage_prob = 3
 	visibility_flags = HIDDEN_SCANNER
 	agent = "Z-Virus Beta"
 
@@ -39,7 +39,9 @@ var/list/zombie_cure = list()
 
 /datum/disease/transformation/zombie/do_disease_transformation(mob/living/carbon/affected_mob)
 	if(affected_mob.notransform) return
+	affected_mob.death(1)
 	affected_mob.notransform = 1
+	sleep(30)
 	Zombify(affected_mob)
 	cure()
 
@@ -56,15 +58,15 @@ var/list/zombie_cure = list()
 				if(prob(2))
 					affected_mob.emote(pick("cough", "sneeze"))
 			if(3)
-				if(prob(2))
-					affected_mob.emote(pick("cough", "sneeze"))
 				if(prob(5))
+					affected_mob.emote(pick("cough", "sneeze"))
+				else if(prob(5))
 					affected_mob << "<span class='notice'>[pick("You're having difficulty breathing.", "Your breathing becomes heavy.")]</span>"
 					affected_mob.emote("gasp")
-				if(prob(3))
+				else if(prob(5))
 					affected_mob << "<span class='danger'>You feel a stabbing pain in your head.</span>"
 					affected_mob.confused += 10
-				if(prob(3))
+				else if(prob(5))
 					if(ishuman(affected_mob))
 						var/mob/living/carbon/human/H = affected_mob
 						H.vessel.remove_reagent("blood",rand(1,5))
@@ -77,18 +79,17 @@ var/list/zombie_cure = list()
 					affected_mob << "<span class='notice'>[pick("You feel hot.", "You feel like you're burning.")]</span>"
 					if(affected_mob.bodytemperature < BODYTEMP_HEAT_DAMAGE_LIMIT)
 						affected_mob.bodytemperature = min(affected_mob.bodytemperature + (20 * stage), BODYTEMP_HEAT_DAMAGE_LIMIT - 1)
-				if(prob(5))
+				else if(prob(3))
 					affected_mob << "<span class='danger'>You feel faint...</span>"
 					affected_mob.emote("faint")
-				if(prob(4))
+				else if(prob(5))
 					affected_mob.visible_message("<span class='warning'>[affected_mob] looks very pale...</span>", "<span class='notice'>You look very pale...</span>")
-				if(prob(4))
+				else if(prob(7))
 					affected_mob.emote(pick("cough", "sneeze", "groan", "gasp"))
 
 /proc/Zombify(mob/living/carbon/human/H)
 	// if(!H.HasDisease(/datum/disease/transformation/zombie)) return //Let's not turn someone into a zombie if they no longer have it
 	if(!istype(H)) return
-	world << "TRYING TO ZOMBIFY [H]"
 	H.set_species(/datum/species/zombie)
 	var/mob/living/simple_animal/hostile/zombie/Z = new /mob/living/simple_animal/hostile/zombie(H.loc)
 	Z.faction = list("zombie")

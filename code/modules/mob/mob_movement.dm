@@ -175,7 +175,7 @@
 			else if(mob.dir == EAST)
 				mob.lying = 90
 				mob.update_canmove()
-			playsound(mob.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -12) //Crawling is VERY quiet
+			playsound(mob.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -4) //Crawling is VERY quiet
 			mob.visible_message("<span class='danger'>[mob] crawls forward!</span>", \
 								"<span class='userdanger'>You crawl forward at the expense of some of your strength.</span>")
 
