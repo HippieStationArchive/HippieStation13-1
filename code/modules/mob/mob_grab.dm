@@ -388,6 +388,7 @@
 		affecting.pixel_x = 0
 		affecting.pixel_y = 0 //used to be an animate, not quick enough for del'ing
 		affecting.layer = initial(affecting.layer)
+		affecting.update_canmove()
 	// qdel(hud)
 	..()
 
@@ -397,6 +398,7 @@
 		affecting.pixel_y = 0 //used to be an animate, not quick enough for del'ing
 		affecting.layer = initial(affecting.layer)
 		affecting.grabbed_by -= src
+		affecting.update_canmove()
 	// qdel(hud)
 	..()
 
