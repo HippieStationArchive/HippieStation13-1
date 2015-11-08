@@ -135,7 +135,6 @@
 	desc = "A large mechanically powered fist made out of plasteel which can deliver a massive blow to any target with the ability to throw them across a room. The power fist needs approximately a second in between each punch before it is powered again."
 	icon_state = "powerfist"
 	item_state = "powerfist"
-	flags = CONDUCT
 	force = 10
 	throwforce = 10
 	throw_range = 7
@@ -158,7 +157,7 @@
 		charged++
 	return
 
-/obj/item/weapon/melee/powerfist/afterattack(mob/living/target)
+/obj/item/weapon/melee/powerfist/attack(mob/living/target)
 	var/datum/effect/effect/system/lightning_spread/s = new /datum/effect/effect/system/lightning_spread
 	if(charged == 1)
 		charged = 0
