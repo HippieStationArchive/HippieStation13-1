@@ -194,7 +194,7 @@
 	burst_size = 5
 	fire_delay = 3
 	spread = 8
-	mag_load_sound = null 	//Snowflake code here el rip
+	mag_load_sound = 'sound/effects/wep_magazines/lmg_load.ogg'
 	mag_unload_sound = null
 	chamber_sound = null 	//Can't chamber like other guns
 
