@@ -573,6 +573,25 @@ About the new airlock wires panel:
 		..(user)
 	return
 
+/obj/machinery/door/airlock/attack_animal(mob/living/simple_animal/M)
+	if(!istype(M)) return
+	if(!M.can_force_doors) return
+	if(allowed(M))
+		..(M)
+		return
+	if(!density) return //Not even an obstacle, don't bother
+	var/delay = 100 + (welded != null * 10) + (locked * 20) //40 seconds to pry open the bolted+welded door
+	M.visible_message("<span class='danger'>[M] is trying to force open \the [src]!</span>",
+					"<span class='warning'>You try to force open \the [src] (This is going to take [delay/10] seconds).</span>")
+	if(do_after(M, delay, target = src))
+		M.visible_message("<span class='danger'>[M] forces open \the [src]!</span>",
+						"<span class='warning'>You force open \the [src]!</span>")
+		if(welded)
+			welded = !welded
+		if(locked)
+			locked = !locked
+		update_icon()
+		open(2)
 
 /obj/machinery/door/airlock/Topic(href, href_list, var/nowindow = 0)
 	// If you add an if(..()) check you must first remove the var/nowindow parameter.
