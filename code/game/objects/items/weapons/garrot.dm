@@ -2,7 +2,7 @@
 /obj/item/garrotehandles
 	name = "garrote handles"
 	desc = "Two handles for a garrote to be made."
-	icon_state = "garrotehandles"
+	icon_state = "garrothandles"
 	// item_state = "rods"
 	icon = 'icons/obj/garrote.dmi'
 	w_class = 2
