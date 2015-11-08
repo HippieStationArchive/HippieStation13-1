@@ -1225,7 +1225,6 @@
 	icon_state = "nuketoy"
 	var/cooldown = 0
 	var/toysay = "What the fuck did you do?"
-	var/obj/item/toy/accessory/hastoy = null
 
 /obj/item/toy/figure/attack_self(mob/user as mob)
 	if( cooldown < world.time )
