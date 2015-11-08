@@ -624,7 +624,6 @@ Sorry Giacom. Please don't be mad :(
 	if(!stat && !restrained()) //Restraining someone after headlocking them is GG
 		if(last_special <= world.time)
 			// changeNext_move(CLICK_CD_BREAKOUT)
-			last_special = world.time + CLICK_CD_BREAKOUT //Additional cooldown
 			var/resisting = 0
 			for(var/obj/O in requests) //Would help knowing what this actually is...
 				qdel(O)
@@ -663,6 +662,7 @@ Sorry Giacom. Please don't be mad :(
 						G.assailant.Stun(2) //Temporarily stun the assailant to give the victim some fighting chance
 						qdel(G)
 			if(resisting)
+				last_special = world.time + CLICK_CD_BREAKOUT //Additional cooldown
 				visible_message("<span class='warning'>[src] tries to resist!</span>")
 		else
 			src << "<span class='warning'>You have to wait [round(last_special - world.time)/10] seconds to attempt another resist!</span>"
