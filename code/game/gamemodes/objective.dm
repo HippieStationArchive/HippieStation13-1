@@ -466,10 +466,11 @@ var/global/list/possible_items = list()
 				"left hand" = slot_l_hand,
 				"right hand" = slot_r_hand,
 			)
-			for(var/obj/item/I in targetinfo.special_equipment)
-				var/equip = H.equip_in_one_of_slots(I, slots, qdel_on_fail = 0)
+			for(var/eq_path in targetinfo.special_equipment)
+				var/obj/O = new eq_path
+				var/equip = H.equip_in_one_of_slots(O, slots, qdel_on_fail = 0)
 				if(!equip) // if somehow it failed to put the special equip in your backpack/hands, put it under you. should never happen tho.
-					I.loc = get_turf(H)
+					O.loc = get_turf(H)
 				H.update_icons()
 
 var/global/list/possible_items_special = list()
