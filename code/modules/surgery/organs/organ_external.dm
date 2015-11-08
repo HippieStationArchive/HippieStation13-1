@@ -28,25 +28,83 @@
 	max_damage = 200
 	body_part = CHEST
 
-/obj/item/organ/teeth
+/obj/item/stack/teeth
 	name = "teeth"
-	gender = PLURAL
-	desc = "Welp. Someone had their teeth knocked out. Somehow, there's all 32 teeth in here."
+	singular_name = "tooth"
+	w_class = 2
+	throwforce = 2
+	max_amount = 32
+	// gender = PLURAL
+	desc = "Welp. Someone had their teeth knocked out."
+	icon = 'icons/obj/surgery.dmi'
 	icon_state = "teeth"
 
-/obj/item/organ/teeth/suicide_act(mob/user)
+/obj/item/stack/teeth/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] jams [src] into \his eyes! It looks like \he's trying to commit suicide.</span>")
 	return (BRUTELOSS)
 
-/obj/item/organ/teeth/New()
+/obj/item/stack/teeth/human
+	name = "human teeth"
+	singular_name = "human tooth"
+
+/obj/item/stack/teeth/human/New()
 	..()
 	transform *= TransformUsingVariable(0.25, 1, 0.5) //Half-size the teeth
 
-/obj/item/organ/teeth/replacement
+/obj/item/stack/teeth/human/gold //Special traitor objective maybe?
+	name = "golden teeth"
+	singular_name = "gold tooth"
+	desc = "Captain spent a fortune on these."
+	icon_state = "teeth_gold"
+
+/obj/item/stack/teeth/generic //Used for species without unique teeth defined yet
+	name = "teeth"
+
+/obj/item/stack/teeth/generic/New()
+	..()
+	transform *= TransformUsingVariable(0.25, 1, 0.5) //Half-size the teeth
+
+/obj/item/stack/teeth/replacement
 	name = "replacement teeth"
-	gender = PLURAL
+	singular_name = "replacement tooth"
+	// gender = PLURAL
 	desc = "First teeth, now replacements. When does it end?"
 	icon_state = "dentals"
+
+/obj/item/stack/teeth/replacement/New()
+	..()
+	transform *= TransformUsingVariable(0.25, 1, 0.5) //Half-size the teeth
+
+/obj/item/stack/teeth/cat
+	name = "tarajan teeth"
+	singular_name = "tarajan tooth"
+	desc = "Treasured trophy."
+	sharpness = IS_SHARP
+	icon_state = "teeth_cat"
+
+/obj/item/stack/teeth/cat/New()
+	..()
+	transform *= TransformUsingVariable(0.35, 1, 0.5) //resize the teeth
+
+/obj/item/stack/teeth/lizard
+	name = "lizard teeth"
+	singular_name = "lizard tooth"
+	desc = "They're quite sharp."
+	sharpness = IS_SHARP
+	icon_state = "teeth_cat"
+
+/obj/item/stack/teeth/lizard/New()
+	..()
+	transform *= TransformUsingVariable(0.30, 1, 0.5) //resize the teeth
+
+/obj/item/stack/teeth/xeno
+	name = "xenomorph teeth"
+	singular_name = "xenomorph tooth"
+	desc = "The only way to get these is to capture a xenomorph and surgically remove their teeth."
+	throwforce = 4
+	sharpness = IS_SHARP
+	icon_state = "teeth_xeno"
+	max_amount = 48
 
 /obj/item/organ/limb/head
 	name = "head"
@@ -54,25 +112,41 @@
 	icon_state = "head"
 	max_damage = 200
 	body_part = HEAD
-	var/list/teeth = list()
+	var/list/teeth_list = list() //Teeth are added in carbon/human/New()
+	var/max_teeth = 32 //Changed based on teeth type the species spawns with
+	var/list/dentals = list() //Dentals - pills inserted into teeth. I'd die trying to keep track of these for every single tooth.
 
-/obj/item/organ/limb/head/New()
-	..()
-	teeth += new /obj/item/organ/teeth
+/obj/item/organ/limb/head/proc/get_teeth() //returns collective amount of teeth
+	var/amt = 0
+	if(!teeth_list) teeth_list = list()
+	for(var/obj/item/stack/teeth in teeth_list)
+		amt += teeth.amount
+	return amt
 
-/obj/item/organ/limb/head/proc/knock_out_teeth(throw_dir) //Won't support knocking teeth out of a dismembered head or anything like that yet.
-	for(var/obj/item/organ/teeth/T in teeth)
-		teeth -= T
-		T.loc = owner.loc
-		T.add_blood(owner)
-		var/turf/target = get_turf(owner.loc)
-		var/range = rand(2,T.throw_range)
-		for(var/i = 1; i < range; i++)
-			var/turf/new_turf = get_step(target, throw_dir)
-			target = new_turf
-			if(new_turf.density)
-				break
-		T.throw_at(target,T.throw_range,T.throw_speed)
+/obj/item/organ/limb/head/proc/knock_out_teeth(throw_dir, num=32) //Won't support knocking teeth out of a dismembered head or anything like that yet.
+	num = Clamp(num, 1, 32)
+	var/done = 0
+	if(teeth_list && teeth_list.len) //We still have teeth
+		var/stacks = rand(1,3)
+		for(var/curr = 1 to stacks) //Random amount of teeth stacks
+			var/obj/item/stack/teeth/teeth = pick(teeth_list)
+			if(!teeth || teeth.zero_amount()) return //No teeth left, abort!
+			var/drop = round(min(teeth.amount, num)/stacks) //Calculate the amount of teeth in the stack
+			var/obj/item/stack/teeth/T = new teeth.type(owner.loc, drop)
+			T.copy_evidences(teeth)
+			teeth.use(drop)
+			T.add_blood(owner)
+			var/turf/target = get_turf(owner.loc)
+			var/range = rand(2,T.throw_range)
+			for(var/i = 1; i < range; i++)
+				var/turf/new_turf = get_step(target, throw_dir)
+				target = new_turf
+				if(new_turf.density)
+					break
+			T.throw_at(target,T.throw_range,T.throw_speed)
+			teeth.zero_amount() //Try to delete the teeth
+			done = 1
+	return done
 
 /obj/item/organ/limb/l_arm
 	name = "l_arm"

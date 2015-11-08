@@ -13,6 +13,44 @@
 	result = /obj/item/weapon/reagent_containers/food/snacks/burger/human
 	category = CAT_FOOD
 
+/datum/table_recipe/humanburger/lizard
+	name = "Lizard burger"
+	reqs = list(
+		/obj/item/weapon/reagent_containers/food/snacks/bun = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/lizard = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/burger/human/lizard
+	category = CAT_FOOD
+
+/datum/table_recipe/humanburger/bird
+	name = "Bird burger"
+	reqs = list(
+		/obj/item/weapon/reagent_containers/food/snacks/bun = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/bird = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/burger/human/bird
+	category = CAT_FOOD
+
+/datum/table_recipe/humanburger/robo
+	name = "IPC burger"
+	reqs = list(
+		/obj/item/weapon/reagent_containers/food/snacks/bun = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/robo = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/burger/human/robo
+	category = CAT_FOOD
+
+
+/datum/table_recipe/humanburger/cat
+	name = "Cat burger"
+	reqs = list(
+		/obj/item/weapon/reagent_containers/food/snacks/bun = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/cat = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/burger/human/cat
+	category = CAT_FOOD
+
+
 /datum/table_recipe/burger
 	name = "Burger"
 	reqs = list(

@@ -180,13 +180,15 @@
 	extended = !extended
 	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
 	if(extended)
-		force = 20
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
+		force = 15
 		w_class = 3
 		throwforce = 15
 		icon_state = "switchblade_ext"
 		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 		hitsound = 'sound/weapons/bladeslice.ogg'
 	else
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
 		force = 1
 		w_class = 2
 		throwforce = 5
@@ -274,3 +276,25 @@
 /obj/item/weapon/ectoplasm/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is inhaling the [src.name]! It looks like \he's trying to visit the astral plane.</span>")
 	return (OXYLOSS)
+
+/obj/item/weapon/icepick
+	name = "ice pick"
+	desc = "Perfect for breaking ice, or piercing skulls."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "icepick"
+	item_state = "icepick"
+	force = 7
+	throwforce = 5
+	throw_speed = 4
+	throw_range = 6
+	w_class = 1
+	attack_verb = list("stabbed", "picked", "lobotomized")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+
+/obj/item/weapon/icepick/attack(mob/living/carbon/M, mob/living/carbon/user)
+	if(!istype(M))	return ..()
+	if(user.zone_sel.selecting != "eyes" && user.zone_sel.selecting != "head")
+		return ..()
+	if(user.disabilities & CLUMSY && prob(50))
+		M = user
+	return eyestab(M,user)

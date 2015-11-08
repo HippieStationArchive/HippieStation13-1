@@ -27,6 +27,12 @@
 					 /obj/item/organ/limb/r_arm, /obj/item/organ/limb/r_leg, /obj/item/organ/limb/l_leg)
 	for(var/obj/item/organ/limb/O in organs)
 		O.owner = src
+		if(istype(O, /obj/item/organ/limb/head))
+			var/obj/item/organ/limb/head/U = O
+			var/obj/item/stack/teeth/T = new src.dna.species.teeth_type(U)
+			U.max_teeth = T.max_amount //Set max teeth for the head based on teeth spawntype
+			T.amount = T.max_amount
+			U.teeth_list += T
 	internal_organs += new /obj/item/organ/internal/appendix
 	internal_organs += new /obj/item/organ/internal/heart
 	internal_organs += new /obj/item/organ/internal/brain
@@ -84,6 +90,8 @@
 				stat("Clean Blood", "[mind.vampire.clean_blood]cl")
 				stat("Dirty Blood", "[mind.vampire.dirty_blood]cl")
 
+				stat("Sanguine Regeneration", "[mind.vampire.fast_heal ? "ON" : "OFF"]")
+				stat("Accelerated Recovery", "[mind.vampire.stun_reduction ? "ON" : "OFF"]")
 
 	//NINJACODE
 	if(istype(wear_suit, /obj/item/clothing/suit/space/space_ninja)) //Only display if actually a ninja.
@@ -321,6 +329,7 @@
 				I.loc = get_turf(src)
 				I.add_fingerprint(usr)
 				src.emote("scream")
+				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
 				usr.visible_message("[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!","<span class='notice'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()].</span>")
 				if(!has_embedded_objects())
 					clear_alert("embeddedobject")
