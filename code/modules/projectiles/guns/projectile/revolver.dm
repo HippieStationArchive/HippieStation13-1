@@ -32,6 +32,10 @@
 	if(num_loaded)
 		user << "<span class='notice'>You load [num_loaded] shell\s into \the [src].</span>"
 		A.update_icon()
+		if(istype(A, /obj/item/ammo_casing))
+			playsound(user.loc, pick('sound/effects/wep_misc/bullet_insert.ogg', 'sound/effects/wep_misc/bullet_insert2.ogg'), 30, 1, -2)
+		else
+			playsound(user.loc, 'sound/effects/wep_misc/reload1.ogg', 30, 1, -2)
 		update_icon()
 		chamber_round(0)
 
@@ -50,6 +54,7 @@
 			CB.SpinAnimation(10, 1)
 			CB.update_icon()
 			num_unloaded++
+		playsound(CB.loc, pick('sound/effects/wep_misc/ShellCasing1.ogg', 'sound/effects/wep_misc/ShellCasing2.ogg', 'sound/effects/wep_misc/ShellCasing3.ogg'), 15, 1, -1)
 	if (num_unloaded)
 		user << "<span class='notice'>You unload [num_unloaded] shell\s from [src].</span>"
 	else
