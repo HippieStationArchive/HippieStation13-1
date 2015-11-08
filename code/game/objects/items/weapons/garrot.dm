@@ -1,7 +1,7 @@
 //Crafting
 /obj/item/garrotehandles
 	name = "garrote handles"
-	desc = "Two handles for a garrote to be made."
+	desc = "Two handles for a garrote to be made. Needs cable to finish it."
 	icon_state = "garrothandles"
 	// item_state = "rods"
 	icon = 'icons/obj/garrote.dmi'
@@ -47,7 +47,7 @@
 /obj/item/weapon/garrote/update_icon()
 	if (!item_color)
 		item_color = pick("red", "yellow", "blue", "green")
-	icon_state = "garrote[garroting ? "_w" : ""][item_color ? "_[item_color]" : ""]"
+	icon_state = "garrot[garroting ? "_w" : ""][item_color ? "_[item_color]" : ""]"
 
 /obj/item/weapon/garrote/attack_self(mob/user)
 	if(garroting)
@@ -113,7 +113,7 @@
 /obj/item/weapon/garrote/process()
 	if(iscarbon(loc))
 		var/mob/living/carbon/C = loc
-		if(src != C.r_hand && src != C.l_hand) //THE GARROTe IS NOT IN HANDS, ABORT
+		if(src != C.r_hand && src != C.l_hand) //THE GARROTE IS NOT IN HANDS, ABORT
 			garroting = 0
 			SSobj.processing.Remove(src)
 			update_icon()

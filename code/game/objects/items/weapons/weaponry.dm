@@ -134,8 +134,8 @@
 		qdel(src)
 	else if(istype(I, /obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/welder = I
-		playsound(loc, 'sound/items/Welder.ogg', 100, 1)
 		if(welder.remove_fuel(1,user))
+			playsound(loc, 'sound/items/Welder.ogg', 100, 1)
 			user << "<span class='notice'>You weld \the [src] in half.</span>"
 			var/obj/item/garrotehandles/S = new
 

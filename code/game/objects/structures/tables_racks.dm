@@ -30,6 +30,7 @@
 	var/mob/tableclimber
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/obj/structure/table, /obj/structure/table/reinforced)
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //Drag&Drop pointer indicating it's possible -- for tablecrafting
 
 /obj/structure/table/New()
 	..()
