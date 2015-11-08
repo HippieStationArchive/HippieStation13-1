@@ -10,6 +10,6 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Adds garrots into the game! They are similar to damp rags in functionalty, but have a different purpose. It's MUCH faster to choke someone out with a garrot.  There are two ways to craft it:  Using table, put a single rod, 15 cables and have a welding tool in-hand. Drag&Drop the table on yourself and select 'Garrote Handles'.  Doing it the old-fashioned way, you need to make a wire rod, apply welder on it and then apply 20 cables on the created garrot handles."
+  - rscadd: "Adds garrots into the game! They are similar to damp rags in functionalty, but have a different purpose. It's MUCH faster to choke someone out with a garrot.  There are two ways to craft it:  Using table, put a single rod, 15 cables and have a welding tool in-hand. Drag&Drop the table on yourself and select 'Garrote Handles'. Apply 20 cables on the created garrot handles.  Doing it the old-fashioned way, you need to make a wire rod, apply welder on it and then apply 20 cables on the created garrot handles."
   - bugfix: "Damp rag and garrot are now only added to processing objects when neccesary, this oughta reduce lag."
   - tweak: "Increased movement delay for KILL grabs so you're even less mobile."
