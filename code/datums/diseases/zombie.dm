@@ -1,4 +1,4 @@
-var/list/possible_z_cures = list("spaceacillin", "leporazine", "synaptizine", "lipolicide", "silver", "gold")
+var/list/possible_z_cures = list("spaceacillin", "leporazine", "synaptizine", "lipolicide")//, "silver", "gold")
 var/list/zombie_cure = list()
 
 /datum/disease/transformation/zombie
@@ -7,11 +7,11 @@ var/list/zombie_cure = list()
 	cures = list()
 	spread_text = "Zombie Bites"
 	spread_flags = SPECIAL
-	viable_mobtypes = list(/mob/living/carbon/monkey, /mob/living/carbon/human)
+	viable_mobtypes = list(/mob/living/carbon/human)
 	permeability_mod = 1
 	cure_chance = 60
 	longevity = 30
-	desc = "Zombies with this disease will bite humans, causing them to mutate into one."
+	desc = "Humans infected with this disease eventually will become a zombie that will spread the disease via biting."
 	severity = BIOHAZARD
 	stage_prob = 3
 	visibility_flags = HIDDEN_SCANNER
@@ -41,9 +41,9 @@ var/list/zombie_cure = list()
 	if(affected_mob.notransform) return
 	affected_mob.death(1)
 	affected_mob.notransform = 1
-	sleep(30)
-	Zombify(affected_mob)
 	cure()
+	spawn(30)
+		Zombify(affected_mob)
 
 /datum/disease/transformation/zombie/has_cure()
 	if(affected_mob.stat == DEAD) //Cure won't work if the disease holder is already dead. The only thing to do now is to get rid of the corpse.
@@ -88,8 +88,9 @@ var/list/zombie_cure = list()
 					affected_mob.emote(pick("cough", "sneeze", "groan", "gasp"))
 
 /proc/Zombify(mob/living/carbon/human/H)
-	// if(!H.HasDisease(/datum/disease/transformation/zombie)) return //Let's not turn someone into a zombie if they no longer have it
 	if(!istype(H)) return
+	H.death(1)
+	H.update_canmove()
 	H.set_species(/datum/species/zombie)
 	var/mob/living/simple_animal/hostile/zombie/Z = new /mob/living/simple_animal/hostile/zombie(H.loc)
 	Z.faction = list("zombie")

@@ -577,10 +577,9 @@ About the new airlock wires panel:
 	if(!istype(M)) return
 	if(!M.can_force_doors) return
 	if(allowed(M))
-		..(M)
-		return
+		return src.attack_hand(M)
 	if(!density) return //Not even an obstacle, don't bother
-	var/delay = 100 + (welded != null * 10) + (locked * 20) //40 seconds to pry open the bolted+welded door
+	var/delay = 100 + (welded != null * 100) + (locked * 200) //40 seconds to pry open the bolted+welded door
 	M.visible_message("<span class='danger'>[M] is trying to force open \the [src]!</span>",
 					"<span class='warning'>You try to force open \the [src] (This is going to take [delay/10] seconds).</span>")
 	if(do_after(M, delay, target = src))
