@@ -469,9 +469,9 @@
 	reagent_state = SOLID
 	color = "#1C1300" // rgb: 30, 20, 0
 
-/datum/reagent/carbon/reaction_turf(turf/T, reac_volume)
-	if(!istype(T, /turf/space))
-		new /obj/effect/decal/cleanable/dirt(T)
+//datum/reagent/carbon/reaction_turf(turf/T, reac_volume)		//Carbon smoke is DESTROYING the server when made as a result of this, I don't know how to fix that so chron suggested I comment this out for now. -DerptheStewpidGoat
+//	if(!istype(T, /turf/space))
+//		new /obj/effect/decal/cleanable/dirt(T)
 
 /datum/reagent/chlorine
 	name = "Chlorine"
