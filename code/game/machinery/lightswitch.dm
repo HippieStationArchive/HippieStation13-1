@@ -47,7 +47,7 @@
 /obj/machinery/light_switch/attack_hand(mob/user)
 
 	on = !on
-
+	playsound(loc, 'sound/machines/lightswitch.ogg', 30, 1, -3)
 	for(var/area/A in area.master.related)
 		A.lightswitch = on
 		A.updateicon()

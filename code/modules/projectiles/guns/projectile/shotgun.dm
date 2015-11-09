@@ -332,6 +332,7 @@
 	can_suppress = 0
 	burst_size = 2
 	fire_delay = 1
+	spread = 15
 	mag_load_sound = 'sound/effects/wep_magazines/lmg_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/lmg_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/lmg_chamber.ogg'
