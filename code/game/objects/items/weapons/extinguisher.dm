@@ -20,6 +20,7 @@
 	var/power = 5 //Maximum distance launched water will travel
 	var/precision = 0 //By default, turfs picked from a spray are random, set to 1 to make it always have at least one water effect per row
 	var/cooling_power = 2 //Sets the cooling_temperature of the water reagent datum inside of the extinguisher when it is refilled
+	var/list/blacklist = list("clf3")
 
 /obj/item/weapon/extinguisher/mini
 	name = "pocket fire extinguisher"
@@ -63,6 +64,10 @@
 			safety = safety_save
 			return 1
 		var/obj/structure/reagent_dispensers/W = target
+		var/list/badchem = W.reagents.reagent_list&blacklist
+			if(badchem.len)
+				visible_message("<span class='warning'>[W] refuses to refill [src]!</span>")
+				return 1
 		var/transferred = W.reagents.trans_to(src, max_chem)
 		if(transferred > 0)
 			user << "<span class='notice'>\The [src] has been refilled by [transferred] units.</span>"
