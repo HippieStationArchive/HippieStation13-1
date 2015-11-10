@@ -65,9 +65,9 @@
 			return 1
 		var/obj/structure/reagent_dispensers/W = target
 		var/list/badchem = W.reagents.reagent_list&blacklist
-			if(badchem.len)
-				visible_message("<span class='warning'>[W] refuses to refill [src]!</span>")
-				return 1
+		if(badchem.len)
+			visible_message("<span class='warning'>[W] refuses to refill [src]!</span>")
+			return 1
 		var/transferred = W.reagents.trans_to(src, max_chem)
 		if(transferred > 0)
 			user << "<span class='notice'>\The [src] has been refilled by [transferred] units.</span>"
