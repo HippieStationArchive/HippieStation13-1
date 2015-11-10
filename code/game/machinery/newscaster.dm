@@ -157,16 +157,6 @@ var/list/obj/machinery/newscaster/allCasters = list()
 	for(var/obj/machinery/newscaster/NEWSCASTER in allCasters)
 		NEWSCASTER.update_icon()
 
-
-
-/obj/item/wallframe/newscaster
-	name = "newscaster frame"
-	desc = "Used to build newscasters, just secure to the wall."
-	icon_state = "newscaster"
-	materials = list(MAT_METAL=14000, MAT_GLASS=8000)
-	result_path = /obj/machinery/newscaster
-
-
 /obj/machinery/newscaster
 	name = "newscaster"
 	desc = "A standard Nanotrasen-licensed newsfeed handler for use in commercial space stations. All the news you absolutely have no use for, in one place!"

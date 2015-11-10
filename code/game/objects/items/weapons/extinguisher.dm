@@ -11,9 +11,9 @@
 	throw_speed = 2
 	throw_range = 7
 	force = 10
-	materials = list(MAT_METAL=90)
+	materials = list(MAT_METAL=500)
 	attack_verb = list("slammed", "whacked", "bashed", "thunked", "battered", "bludgeoned", "thrashed")
-	var/max_water = 50
+	var/max_chem = 50
 	var/last_use = 1
 	var/safety = 1
 	var/sprite_name = "fire_extinguisher"
@@ -32,12 +32,13 @@
 	w_class = 2
 	force = 3
 	materials = list()
-	max_water = 30
+	max_chem = 30
 	sprite_name = "miniFE"
+	materials = list(MAT_METAL=300)
 
 /obj/item/weapon/extinguisher/New()
-	create_reagents(max_water)
-	reagents.add_reagent("water", max_water)
+	create_reagents(max_chem)
+	reagents.add_reagent("water", max_chem)
 
 /obj/item/weapon/extinguisher/attack_self(mob/user)
 	safety = !safety
@@ -54,15 +55,15 @@
 		user << "It is empty."
 
 /obj/item/weapon/extinguisher/proc/AttemptRefill(atom/target, mob/user)
-	if(istype(target, /obj/structure/reagent_dispensers/watertank) && target.Adjacent(user))
+	if(istype(target, /obj/structure/reagent_dispensers) && target.Adjacent(user))
 		var/safety_save = safety
 		safety = 1
 		if(reagents.total_volume == reagents.maximum_volume)
 			user << "<span class='warning'>\The [src] is already full!</span>"
 			safety = safety_save
 			return 1
-		var/obj/structure/reagent_dispensers/watertank/W = target
-		var/transferred = W.reagents.trans_to(src, max_water)
+		var/obj/structure/reagent_dispensers/W = target
+		var/transferred = W.reagents.trans_to(src, max_chem)
 		if(transferred > 0)
 			user << "<span class='notice'>\The [src] has been refilled by [transferred] units.</span>"
 			playsound(src.loc, 'sound/effects/refill.ogg', 50, 1, -6)
@@ -131,7 +132,7 @@
 
 		for(var/a=0, a<5, a++)
 			spawn(0)
-				var/obj/effect/effect/water/W = PoolOrNew( /obj/effect/effect/water, get_turf(src) )
+				var/obj/effect/effect/water/W = new /obj/effect/effect/water(get_turf(src))
 				var/turf/my_target = pick(the_targets)
 				if(precision)
 					the_targets -= my_target
@@ -147,14 +148,9 @@
 					W.reagents.reaction(get_turf(W))
 					for(var/atom/atm in get_turf(W))
 						if(!W) return
-						W.reagents.reaction(atm)
-						if(isliving(atm)) //For extinguishing mobs on fire
-							var/mob/living/M = atm
-							M.ExtinguishMob()
-						if(istype(atm,/obj/item))
-							var/obj/item/Item = atm
-							Item.extinguish()
+						W.reagents.reaction(atm, TOUCH) // so it actually puts peeps out with water etc
 					if(W.loc == my_target) break
+					if(!W.reagents.total_volume) break
 					sleep(2)
 
 	else
@@ -167,4 +163,8 @@
 	if(loc == user && reagents.total_volume)
 		reagents.clear_reagents()
 		user.visible_message("[user] empties out \the [src] onto the floor using the release valve.", "<span class='info'>You quietly empty out \the [src] using its release valve.</span>")
+	return
+
+/obj/item/weapon/extinguisher/autolathe_crafted(obj/machinery/autolathe/A)
+	reagents.clear_reagents()
 	return
