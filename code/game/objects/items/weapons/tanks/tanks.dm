@@ -278,3 +278,12 @@
 
 	else if(integrity < 3)
 		integrity++
+
+/obj/item/weapon/tank/autolathe_crafted(obj/machinery/autolathe/A)
+	if(air_contents)
+		air_contents.oxygen = 0
+		air_contents.nitrogen = 0
+		air_contents.toxins = 0
+		air_contents.carbon_dioxide = 0
+		clearlist(air_contents.trace_gases)
+	return
