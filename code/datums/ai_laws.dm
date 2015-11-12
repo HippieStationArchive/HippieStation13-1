@@ -60,7 +60,7 @@
 /datum/ai_laws/aussie
 	name = "A.U.S.S.I.E"
 	inherent = list("Never dog your mates, or, through inaction, allow your mates to be dogged.",\
-					"Law 2: Always be a good bloke, unless being a good bloke conflicts with Law 1.",\
+					"Always be a good bloke, unless being a good bloke conflicts with Law 1.",\
 					"Never let a shitcunt glass your head in, unless it would conflict with Law 1 or Law 2.")
 
 /datum/ai_laws/antimov
