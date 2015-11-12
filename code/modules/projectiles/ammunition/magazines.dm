@@ -109,7 +109,14 @@
 	ammo_type = /obj/item/ammo_casing/shotgun/rubbershot
 	max_ammo = 6
 
+/obj/item/ammo_box/magazine/internal/shot/triple
+	name = "triple-barrel shotgun internal magazine"
+	max_ammo = 3
 
+/obj/item/ammo_box/magazine/internal/shot/lever
+	name = "leveraction shotgun internal magazine"
+	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
+	max_ammo = 5
 
 
 /obj/item/ammo_box/magazine/internal/grenadelauncher

@@ -418,6 +418,7 @@
 	desc = "A precursor powered suit designed for combat. Has radiation shielding, Incredibly weak to electronic pulses."
 	item_state = "powerarmour"
 	armor = list(melee = 65, bullet = 35, laser = 30, energy = 0, bomb = 50, bio = 100, rad = 90)
+	origin_tech = "materials=5;engineering=5;combat=4"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/powerarmour
 	slowdown = 1
 

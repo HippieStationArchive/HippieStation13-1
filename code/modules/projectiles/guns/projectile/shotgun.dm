@@ -392,3 +392,32 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
 	fire_sound = 'sound/weapons/shotgun.ogg'
 	w_class = 5
+
+// Triple Threat //
+
+/obj/item/weapon/gun/projectile/revolver/triplebarrel
+	name = "triple-barreled shotgun"
+	desc = "A play on a true classic."
+	icon_state = "triplethreat"
+	item_state = "riotshotgun"
+	w_class = 4
+	force = 12
+	flags = CONDUCT
+	slot_flags = SLOT_BACK
+	origin_tech = "combat=4;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/triple
+	fire_sound = 'sound/weapons/shotgun.ogg'
+
+
+// 1887 lever action
+
+/obj/item/weapon/gun/projectile/shotgun/leveraction //for space bar
+	name = "lever action shotgun"
+	desc = "A short shotgun with a short magazine and carved grip with a hacked off barrel."
+	icon_state = "leveraction"
+	item_state = "revolver"
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/lever
+	fire_sound = 'sound/weapons/shotgun.ogg'
+	w_class = 3
+	force = 10
+	slot_flags = SLOT_BELT
