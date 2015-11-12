@@ -334,8 +334,8 @@
 	fire_delay = 1
 	spread = 15
 	mag_load_sound = 'sound/effects/wep_magazines/lmg_load.ogg'
-	mag_unload_sound = 'sound/effects/wep_magazines/lmg_unload.ogg'
-	chamber_sound = 'sound/effects/wep_magazines/lmg_chamber.ogg'
+	mag_unload_sound = null
+	chamber_sound = null
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/abzats/burst_select()
 	return
@@ -372,6 +372,7 @@
 		user.put_in_hands(magazine)
 		magazine = null
 		update_icon()
+		playsound(loc, 'sound/effects/wep_magazines/lmg_unload.ogg', 80)
 		user << "<span class='notice'>You remove the magazine from [src].</span>"
 
 
