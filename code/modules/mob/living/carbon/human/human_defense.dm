@@ -442,8 +442,17 @@ emp_act
 		skipcatch = 1
 		blocked = 1
 	else if(I)
+		var/obj/item/B = get_active_hand()
+		if(istype(B) && B.deflectItem && B.specthrow_maxwclass >= I.w_class)
+			throw_mode_off()
+			visible_message("<span class='warning'>[src] has [B.specthrowmsg] [I]!</span>")
+			var/atom/throw_target = get_edge_target_turf(src, src.dir)
+			I.throw_at(throw_target, I.throw_range, I.throw_speed)
+			if(B.specthrowsound)
+				playsound(loc, B.specthrowsound, 50, 1, -7)
+			return //Effectively deflected
 		if(can_embed(I) || I.assthrown)
-			if((prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
+			if((!in_throw_mode || get_active_hand()) && (prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
 				throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
 				var/obj/item/organ/limb/L = pick(organs)
 				L.embedded_objects |= I
