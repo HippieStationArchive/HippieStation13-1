@@ -330,12 +330,34 @@
 		playsound(loc, 'sound/effects/glass_step.ogg', 50, 1)
 		if(ishuman(AM))
 			var/mob/living/carbon/human/H = AM
-			if(PIERCEIMMUNE in H.dna.species.specflags)
-				return 0
-			if(!H.shoes)
-				H.apply_damage(5,BRUTE,(pick("l_leg", "r_leg")))
+			if(!H.shoes && !H.lying)
+				var/obj/item/organ/limb/O = H.get_organ(pick("l_leg", "r_leg"))
+				H.apply_damage(5, BRUTE, O)
 				H.Weaken(3)
-				if(cooldown < world.time - 10) //cooldown to avoid message spam.
+				if(prob(embedchance))
+					src.add_blood(H)
+					src.loc = H
+					O.embedded += src //Lodge the object into the limb
+					H.visible_message("<span class='warning'>\The [src] has embedded into [H]'s [O.getDisplayName()]!</span>",
+									"<span class='userdanger'>You feel [src] lodge into your [O.getDisplayName()]!</span>")
+					H.update_damage_overlays() //Update the fancy embeds
+					H.emote("scream")
+				if(cooldown < world.time - 10) //cooldown to avoid message spam. Too bad this cooldown is only for the shard itself.
 					H.visible_message("<span class='danger'>[H] steps in the broken glass!</span>", \
 							"<span class='userdanger'>You step in the broken glass!</span>")
+					cooldown = world.time
+			else if(H.lying && !H.w_uniform)
+				var/obj/item/organ/limb/O = H.get_organ(ran_zone())
+				H.apply_damage(5, BRUTE, O)
+				if(prob(embedchance))
+					src.add_blood(H)
+					src.loc = H
+					O.embedded += src //Lodge the object into the limb
+					H.visible_message("<span class='warning'>\The [src] has embedded into [H]'s [O.getDisplayName()]!</span>",
+								"<span class='userdanger'>You feel [src] lodge into your [O.getDisplayName()]!</span>")
+					H.update_damage_overlays() //Update the fancy embeds
+					H.emote("scream")
+				if(cooldown < world.time - 10) //cooldown to avoid message spam. Too bad this cooldown is only for the shard itself.
+					H.visible_message("<span class='danger'>[H] lays over the broken glass!</span>", \
+							"<span class='userdanger'>You lay over the broken glass!</span>")
 					cooldown = world.time
