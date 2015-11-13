@@ -21,7 +21,7 @@
 		code += dig
 		digits -= dig  //Player can enter codes with matching digits, but there are never matching digits in the answer
 
-	var/loot = rand(1,110) //100 different crates with varying chances of spawning
+	var/loot = rand(1,106) //100 different crates with varying chances of spawning
 	switch(loot)
 		if(1 to 5) //5% chance
 			new /obj/item/weapon/reagent_containers/food/drinks/bottle/rum(src)
@@ -153,7 +153,7 @@
 			new /obj/item/clothing/mask/luchador(src)
 		if(100)
 			new /obj/item/clothing/head/bearpelt(src)
-		if(101 to 110)
+		if(101 to 106)
 			new /obj/item/clothing/suit/space/hardsuit/powerarmour(src)
 			new /obj/item/weapon/melee/powerfist
 
