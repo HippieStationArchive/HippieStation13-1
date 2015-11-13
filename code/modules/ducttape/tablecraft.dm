@@ -6,3 +6,5 @@
 				/obj/item/stack/ducttape = 6)
 	time = 80
 	category = CAT_ARMOR
+
+//More will be added soon

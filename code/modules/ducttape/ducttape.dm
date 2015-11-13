@@ -61,7 +61,7 @@
 	return(OXYLOSS)
 
 /*
- * LEGACY Crafting recipes below
+ * Crafting recipes below
  */
 
 /obj/item/stack/ducttape/afterattack(atom/W, mob/user as mob, proximity_flag)
@@ -73,20 +73,6 @@
 		var/replace = (user.get_inactive_hand()==W)
 		qdel(W)
 		src.use(1)
-		if(replace)
-			user.put_in_hands(new_item)
-		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
-
-	if(istype(W, /obj/item/stack/sheet/metal))
-		var/obj/item/weapon/tapedmetal/new_item = new(user.loc)
-		user << "<span class='notice'>You strap [src] to the [W].</span>"
-		var/obj/item/stack/sheet/metal/R = W
-		W = null
-		R.use(1)
-		if(src.use(6) == 0)
-			user.drop_item()
-			qdel(src)
-		var/replace = (user.get_inactive_hand()==R)
 		if(replace)
 			user.put_in_hands(new_item)
 		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
@@ -152,22 +138,3 @@
 // 		if(replace)
 // 			user.put_in_hands(new_item)
 // 		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
-
-/obj/item/weapon/tapedmetal
-	name = "taped metal sheet"
-	desc = "A metal sheet with tape over it. Can be used for something."
-	w_class = 3.0
-	force = 5
-	throwforce = 5
-	throw_speed = 1
-	throw_range = 3
-	attack_verb = list("bashed", "battered", "bludgeoned", "thrashed", "smashed")
-	icon = 'icons/new/makeshift.dmi'
-	icon_state = "tapedmetal"
-
-/obj/item/weapon/tapedmetal/attack_self(mob/user)
-	playsound(user, 'sound/items/ducttape2.ogg', 50, 1)
-	var/obj/item/stack/sheet/metal/new_item = new(user.loc)
-	user << "<span class='notice'>You take the duct tape off the [src].</span>"
-	qdel(src)
-	user.put_in_hands(new_item)
