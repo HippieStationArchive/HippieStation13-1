@@ -723,14 +723,6 @@
 	build_path = /obj/structure/reagent_dispensers
 	category = list("initial", "Atmos")
 
-/datum/design/pneumaticcannon
-	name = "Pneumatic cannon"
-	id = "pneumaticcannon"
-	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 10000)
-	build_path = /obj/item/weapon/pneumatic_cannon
-	category = list("hacked", "Atmos")
-
 /datum/design/rpd
 	name = "Rapid pipe dispenser (RPD)"
 	id = "rpd"
