@@ -9,6 +9,7 @@
 	item_state = "bulldog"
 	lefthand_file = 'icons/mob/inhands/guns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/guns_righthand.dmi'
+	materials = list(MAT_METAL = 8000)
 	var/maxWeightClass = 20 //The max weight of items that can fit into the cannon
 	var/loadedWeightClass = 0 //The weight of items currently in the cannon
 	var/obj/item/weapon/tank/internals/tank = null //The gas tank that is drawn from to fire things

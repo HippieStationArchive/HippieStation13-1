@@ -2,11 +2,12 @@
 	materials = list(MAT_METAL=MINERAL_MATERIAL_AMOUNT*2)
 	flags = CONDUCT
 	origin_tech = "materials=1;engineering=1"
+	icon = 'icons/obj/wallframe.dmi'
 	item_state = "syringe_kit"
 	w_class = 2
 	var/result_path
-	var/inverse = 0
-	// For inverse dir frames like light fixtures.
+	var/inverse = 0 // For inverse dir frames like light fixtures.
+	var/powerless = 0 // does the wallframe need power or not, 1 if yes 0 if no
 
 /obj/item/wallframe/proc/try_build(turf/on_wall)
 	if(get_dist(on_wall,usr)>1)
@@ -19,7 +20,7 @@
 	if(!istype(loc, /turf/simulated/floor))
 		usr << "<span class='warning'>You cannot place [src] on this spot!</span>"
 		return
-	if(A.requires_power == 0 || istype(A, /area/space))
+	if(!powerless && A.requires_power == 0 || istype(A, /area/space))
 		usr << "<span class='warning'>You cannot place [src] in this area!</span>"
 		return
 	if(gotwallitem(loc, ndir, inverse*2))
@@ -70,7 +71,6 @@
 /obj/item/wallframe/apc
 	name = "\improper APC frame"
 	desc = "Used for repairing or building APCs"
-	icon = 'icons/obj/apc_repair.dmi'
 	icon_state = "apc_frame"
 	result_path = /obj/machinery/power/apc
 	inverse = 1
@@ -95,8 +95,32 @@
 			qdel(T)
 	return 1
 
+// BUTTONS
+/obj/item/wallframe/button
+	name = "button frame"
+	desc = "Used for building buttons."
+	icon_state = "button_frame"
+	result_path = /obj/machinery/button
+	materials = list(MAT_METAL=MINERAL_MATERIAL_AMOUNT)
 
-/obj/item/weapon/electronics
+//FIRE EXTINGUISHER CABINET
+/obj/item/wallframe/extinguishercabinet
+	name = "extinguisher cabinet frame"
+	desc = "A small wall mounted cabinet designed to hold a fire extinguisher. Apply on wall."
+	icon_state = "extinguisher_frame"
+	result_path = /obj/structure/extinguisher_cabinet/empty
+	materials = list(MAT_METAL=MINERAL_MATERIAL_AMOUNT)
+	powerless = 1
+
+//NEWSCASTER
+/obj/item/wallframe/newscaster
+	name = "newscaster frame"
+	desc = "Used to build newscasters, just secure to the wall."
+	icon_state = "newscaster"
+	materials = list(MAT_METAL=14000, MAT_GLASS=8000)
+	result_path = /obj/machinery/newscaster
+
+/obj/item/weapon/electronics // why the fuck is this here...?i don't even
 	desc = "Looks like a circuit. Probably is."
 	icon = 'icons/obj/module.dmi'
 	icon_state = "door_electronics"

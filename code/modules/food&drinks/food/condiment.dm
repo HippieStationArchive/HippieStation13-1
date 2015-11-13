@@ -54,7 +54,7 @@
 
 /obj/item/weapon/reagent_containers/food/condiment/afterattack(obj/target, mob/user , proximity)
 	if(!proximity) return
-	if(istype(target, /obj/structure/reagent_dispensers)) //A dispenser. Transfer FROM it TO us.
+	if(istype(target, /obj/structure/reagent_dispensers) && !(target.flags & INJECTONLY)) //A dispenser. Transfer FROM it TO us.
 
 		if(!target.reagents.total_volume)
 			user << "<span class='warning'>[target] is empty!</span>"
@@ -68,7 +68,7 @@
 		user << "<span class='notice'>You fill [src] with [trans] units of the contents of [target].</span>"
 
 	//Something like a glass or a food item. Player probably wants to transfer TO it.
-	else if(target.is_open_container() || istype(target, /obj/item/weapon/reagent_containers/food/snacks))
+	else if(target.is_open_container() || target.flags & INJECTONLY || istype(target, /obj/item/weapon/reagent_containers/food/snacks))
 		if(!reagents.total_volume)
 			user << "<span class='warning'>[src] is empty!</span>"
 			return
