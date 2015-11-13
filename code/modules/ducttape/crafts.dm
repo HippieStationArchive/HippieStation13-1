@@ -35,7 +35,7 @@
 		if(ishuman(loc))
 			var/mob/living/carbon/human/H = loc
 			visible_message("<span class='danger'>[H]'s shield breaks!</span>", "<span class='userdanger'>Your shield breaks!</span>")
-			playsound(user, 'sound/effects/bang.ogg', 30, 1)
+			playsound(H, 'sound/effects/bang.ogg', 30, 1)
 			H.unEquip(src, 1)
 		spawn(1) //Delay the deletion so the code has time to work with the shield
 			qdel(src)
