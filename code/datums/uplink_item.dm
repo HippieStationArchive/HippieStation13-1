@@ -160,14 +160,6 @@ var/list/uplink_items = list()
 	cost = 5
 	jobs = list("Bartender")
 
-//MINER
-/datum/uplink_item/job_specific/alien
-	name = "Unknown Alien"
-	desc = "An unknown and hostile alien lifeform."
-	item = /obj/item/clothing/mask/facehugger
-	cost = 20
-	jobs = list("Shaft Miner")
-
 // DANGEROUS WEAPONS
 
 /datum/uplink_item/dangerous
