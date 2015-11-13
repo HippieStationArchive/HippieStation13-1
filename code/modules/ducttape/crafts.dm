@@ -5,8 +5,8 @@
 /obj/item/clothing/suit/armor/makeshift
 	name = "makeshift armor"
 	desc = "A hazard vest with metal plate taped on it. It offers some protection, however it slows you down."
-	icon_state = "metalarmor"
-	item_state = "metalarmor"
+	icon_state = "makeshiftarmor"
+	item_state = "makeshiftarmor"
 	w_class = 3
 	slowdown = 1
 	blood_overlay_type = "armor"
@@ -34,7 +34,8 @@
 	if(prob(30))
 		if(ishuman(loc))
 			var/mob/living/carbon/human/H = loc
-			visible_message("<span class='warning'>[H]'s shield breaks!</span>", "<span class='warning'>Your shield breaks!</span>")
+			visible_message("<span class='danger'>[H]'s shield breaks!</span>", "<span class='userdanger'>Your shield breaks!</span>")
+			playsound(user, 'sound/effects/bang.ogg', 30, 1)
 			H.unEquip(src, 1)
 		spawn(1) //Delay the deletion so the code has time to work with the shield
 			qdel(src)
@@ -54,7 +55,6 @@
 	force = 10.0 //Average force
 	throwforce = 10.0
 	item_state = "shard-glass"
-	g_amt = MINERAL_MATERIAL_AMOUNT
 	attack_verb = list("stabbed", "shanked", "sliced", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	siemens_coefficient = 0 //Means it's insulated
@@ -72,3 +72,57 @@
 	user << "<span class='notice'>You take the duct tape off the [src].</span>"
 	qdel(src)
 	user.put_in_hands(new_item)
+
+/obj/item/weapon/melee/retractable_spear
+	name = "retractable spear"
+	desc = "A compact spear that can be extended. Doesn't hurt as much while retracted."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "retspear0"
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	throwhitsound = 'sound/weapons/bladeslice.ogg'
+	slot_flags = SLOT_BELT
+	w_class = 2
+	force = 7
+	var/on = 0
+	embed_chance = 8
+	sharpness = IS_SHARP
+
+/obj/item/weapon/melee/retractable_spear/suicide_act(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/obj/item/organ/internal/brain/B = H.getorgan(/obj/item/organ/internal/brain)
+
+	user.visible_message("<span class='suicide'>[user] stuffs the [src] up their nose and presses the 'extend' button! It looks like they're trying to clear their mind.</span>")
+	if(!on)
+		src.attack_self(user)
+	else
+		playsound(loc, 'sound/weapons/batonextend.ogg', 50, 1)
+		add_fingerprint(user)
+	sleep(3)
+	if (H && !qdeleted(H))
+		if (B && !qdeleted(B))
+			H.internal_organs -= B
+			qdel(B)
+		gibs(H.loc, H.viruses, H.dna)
+		return (BRUTELOSS)
+	return
+
+/obj/item/weapon/melee/retractable_spear/attack_self(mob/user)
+	on = !on
+	if(on)
+		user << "<span class ='warning'>You extend the baton.</span>"
+		icon_state = "retspear1"
+		w_class = 4 //doesnt fit in backpack when its on for balance
+		force = 15 //Decent enough force
+		embed_chance = 25 //Slightly increased embedchance - not as good as spears
+		attack_verb = list("attacked", "poked", "jabbed", "torn", "gored")
+	else
+		user << "<span class ='notice'>You collapse the baton.</span>"
+		icon_state = "retspear0"
+		slot_flags = SLOT_BELT
+		w_class = 2
+		force = 7
+		embed_chance = 8
+		attack_verb = list("stabbed", "shanked", "sliced", "cut")
+
+	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
+	add_fingerprint(user)

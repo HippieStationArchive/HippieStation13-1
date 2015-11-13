@@ -17,25 +17,21 @@
 		return ..()
 	var/mob/living/carbon/human/H = user
 	if(loc == user && H.wear_mask == src)
+		used = 1
 		qdel(src)
-		user << "<span class='danger'>You take off the duct tape. It's not pleasant.</span>"
-		playsound(user, 'sound/items/ducttape2.ogg', 50, 1)
-		H.apply_damage(2, BRUTE, "head")
 	else
 		..()
 
 /obj/item/clothing/mask/muzzle/tape/dropped(mob/user as mob)
 	if (!user) return
-	if (istype(src.loc, /obj/item/weapon/storage))
+	if (istype(src.loc, /obj/item/weapon/storage) || used)
 		return ..()
 	var/mob/living/carbon/human/H = user
 	..()
 	if(H.wear_mask == src && !src.used)
-		user << "<span class='danger'>Your tape was forcefully removed from your mouth. It's not pleasant.</span>"
+		H << "<span class='userdanger'>Your tape was forcefully removed from your mouth. It's not pleasant.</span>"
 		playsound(user, 'sound/items/ducttape2.ogg', 50, 1)
 		H.apply_damage(2, BRUTE, "head")
-		src.used = 1
-		src.desc = "This one appears to be used."
 		user.drop_item()
 		qdel(src)
 		// H.wear_mask = null
@@ -49,12 +45,11 @@
 	icon_state = "tape"
 	item_state = "tape"
 	amount = 15
+	max_amount = 15
 	throwforce = 0
 	w_class = 2.0
 	throw_speed = 3
 	throw_range = 7
-	m_amt = 10
-	noAction = 1
 
 /obj/item/stack/ducttape/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is taping \his entire face with the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -98,7 +93,7 @@
 			user << "<span class='danger'>You're going to need to remove that mask/helmet first.</span>"
 			return
 		playsound(loc, 'sound/items/ducttape1.ogg', 30, 1)
-		if(do_mob(user, H, 20))
+		if(do_mob(user, H, 20) && !H.wear_mask)
 			// H.wear_mask = new/obj/item/clothing/mask/muzzle/tape(H)
 			H.equip_to_slot_or_del(new /obj/item/clothing/mask/muzzle/tape(H), slot_wear_mask)
 			user << "<span class='notice'>You tape [H]'s mouth.</span>"
@@ -109,32 +104,3 @@
 			add_logs(user, H, "mouth-taped")
 		else
 			user << "<span class='warning'>You fail to tape [H]'s mouth.</span>"
-
-
-
-/*/obj/item/weapon/shard/attackby(obj/item/stack/W, mob/user as mob)
-	..()
-	if(istype(W, /obj/item/stack/ducttape))
-		var/obj/item/weapon/shank/new_item = new(user.loc)
-		user << "<span class='notice'>You use [W] to turn [src] into [new_item].</span>"
-		var/replace = (user.get_inactive_hand()==src)
-		qdel(src)
-		W.use(1)
-		if(replace)
-			user.put_in_hands(new_item)
-		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)*/
-
-// /obj/item/stack/sheet/metal/attackby(obj/item/stack/W, mob/user as mob)
-// 	..()
-// 	if(istype(W, /obj/item/stack/ducttape))
-// 		var/obj/item/weapon/tapedmetal/new_item = new(user.loc)
-// 		user << "<span class='notice'>You strap [W] to the [src].</span>"
-// 		var/obj/item/stack/sheet/metal/R = src
-// 		src = null
-// 		R.use(1)
-// 		if(W.use(4) == 0)
-// 			qdel(W)
-// 		var/replace = (user.get_inactive_hand()==R)
-// 		if(replace)
-// 			user.put_in_hands(new_item)
-// 		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
