@@ -94,6 +94,12 @@
 
 	return ..()
 
+/obj/item/weapon/restraints/handcuffs/cable/attack_self(mob/user)
+	..()
+	new /obj/item/stack/cable_coil(user.loc, 15, item_color)
+	user << "<span class='notice'>You unwrap the [src].</span>"
+	qdel(src)
+
 /obj/item/weapon/restraints/handcuffs/cable/red
 	icon_state = "cuff_red"
 

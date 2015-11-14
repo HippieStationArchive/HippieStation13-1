@@ -8,6 +8,12 @@
 	var/obj/item/weapon/extinguisher/has_extinguisher = new/obj/item/weapon/extinguisher
 	var/opened = 0
 
+/obj/structure/extinguisher_cabinet/New(loc, ndir = 0, built = 0)
+	..()
+	if(built)
+		dir = ndir
+		pixel_x = (src.dir & 3)? 0 : (src.dir == 4 ? -27 : 27)
+		pixel_y = (src.dir & 3)? (src.dir ==1 ? -30 : 30) : 0
 
 /obj/structure/extinguisher_cabinet/ex_act(severity, target)
 	switch(severity)
@@ -78,3 +84,9 @@
 			icon_state = "extinguisher_full"
 	else
 		icon_state = "extinguisher_empty"
+
+//empty cabinet for ingame making purposes
+/obj/structure/extinguisher_cabinet/empty
+	icon_state = "extinguisher_empty"
+	has_extinguisher = null
+	opened = 1

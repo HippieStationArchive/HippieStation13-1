@@ -133,8 +133,8 @@
 	if(!action_checks(target) || get_dist(chassis, target)>3)
 		return
 
-	if(istype(target, /obj/structure/reagent_dispensers/watertank) && get_dist(chassis,target) <= 1)
-		var/obj/structure/reagent_dispensers/watertank/WT = target
+	if(istype(target, /obj/structure/reagent_dispensers) && get_dist(chassis,target) <= 1)
+		var/obj/structure/reagent_dispensers/WT = target
 		WT.reagents.trans_to(src, 1000)
 		occupant_message("<span class='notice'>Extinguisher refilled.</span>")
 		playsound(chassis, 'sound/effects/refill.ogg', 50, 1, -6)
