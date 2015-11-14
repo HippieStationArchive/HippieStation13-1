@@ -1025,7 +1025,7 @@
 	// Allows you to put in item-specific reactions based on species
 	if(user != H)
 		user.do_attack_animation(H)
-	var/shieldcheck = H.check_shields(I.force, "the [I.name]", I)
+	var/shieldcheck = H.check_shields(I.force, "the [I.name]", I, 0, I.armour_penetration)
 	if(shieldcheck)
 		if(isliving(shieldcheck))
 			var/mob/living/L = shieldcheck
