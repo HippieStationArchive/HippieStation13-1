@@ -165,7 +165,7 @@
 
 /datum/reagent/medicine/silver_sulfadiazine/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
-		if(method == TOUCH)
+		if(method == PATCH)
 			M.adjustFireLoss(-reac_volume)
 			if(show_message)
 				M << "<span class='notice'>You feel your burns healing!</span>"
@@ -212,7 +212,7 @@
 
 /datum/reagent/medicine/styptic_powder/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
-		if(method == TOUCH)
+		if(method == PATCH)
 			M.adjustBruteLoss(-reac_volume)
 			if(show_message)
 				M << "<span class='notice'>You feel your wounds knitting back together!</span>"
@@ -296,7 +296,7 @@
 
 /datum/reagent/medicine/synthflesh/reaction_mob(mob/living/M, method=TOUCH, reac_volume,show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
-		if(method == TOUCH)
+		if(method == PATCH)
 			M.adjustBruteLoss(-1.5*reac_volume)
 			M.adjustFireLoss(-1.5*reac_volume)
 			if(show_message)
