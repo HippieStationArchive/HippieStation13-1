@@ -129,8 +129,9 @@
 /datum/reagent/water/reaction_turf(turf/simulated/T, reac_volume)
 	if (!istype(T)) return
 	var/CT = cooling_temperature
-	if(reac_volume >= 10)
-		T.MakeSlippery()
+	if(reac_volume >= 1)
+		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
+		T.MakeSlippery(1, time)
 
 	for(var/mob/living/simple_animal/slime/M in T)
 		M.apply_water()
@@ -174,7 +175,7 @@
 	if(!istype(M, /mob/living))
 		return
 	if(method == TOUCH)
-		M.adjust_fire_stacks(-(reac_volume / 10))
+		M.adjust_fire_stacks(-(reac_volume))
 	..()
 
 /datum/reagent/water/holywater
@@ -258,7 +259,8 @@
 /datum/reagent/lube/reaction_turf(turf/simulated/T, reac_volume)
 	if (!istype(T)) return
 	if(reac_volume >= 1)
-		T.MakeSlippery(2)
+		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
+		T.MakeSlippery(2, time)
 
 /datum/reagent/spraytan
 	name = "Spray Tan"
@@ -471,7 +473,9 @@
 
 /datum/reagent/carbon/reaction_turf(turf/T, reac_volume)
 	if(!istype(T, /turf/space))
-		new /obj/effect/decal/cleanable/dirt(T)
+		var/obj/effect/decal/cleanable/dirt/D = locate() in T.contents
+		if(!D)
+			new /obj/effect/decal/cleanable/dirt(T)
 
 /datum/reagent/chlorine
 	name = "Chlorine"
@@ -587,12 +591,13 @@
 /datum/reagent/uranium/on_mob_life(mob/living/M)
 	M.apply_effect(1/M.metabolism_efficiency,IRRADIATE,0)
 	..()
-
 /datum/reagent/uranium/reaction_turf(turf/T, reac_volume)
 	if(reac_volume >= 3)
 		if(!istype(T, /turf/space))
-			var/obj/effect/decal/cleanable/reagentdecal = new/obj/effect/decal/cleanable/greenglow(T)
-			reagentdecal.reagents.add_reagent("uranium", reac_volume)
+			var/obj/effect/decal/cleanable/greenglow/GG = locate() in T.contents
+			if(!GG)
+				GG = new/obj/effect/decal/cleanable/greenglow(T)
+			GG.reagents.add_reagent("uranium", reac_volume)
 
 /datum/reagent/aluminium
 	name = "Aluminium"
@@ -625,6 +630,24 @@
 /datum/reagent/fuel/on_mob_life(mob/living/M)
 	M.adjustToxLoss(1)
 	..()
+
+/datum/chemical_reaction/fuel_explosion
+	name = "Fuel boom"
+	id = "fuel_explosion"
+	result = null
+	required_reagents = list("welding_fuel" = 1)
+	result_amount = 1
+	required_temp = 700
+	mix_message = "<span class='boldannounce'>The fuel lights up and burst in flames!!</span>"
+
+/datum/chemical_reaction/fuel_explosion/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	if(!holder.my_atom.is_open_container()) // fuel's in a closed space, let's make it go boom and jazz
+		var/datum/effect/effect/system/reagents_explosion/e = new()
+		e.set_up(min(1 + round(created_volume/15, 1), 17), location, 0, 0)
+		e.start()
+	else // let's just make fire
+		PoolOrNew(/obj/effect/hotspot, location)
 
 /datum/reagent/space_cleaner
 	name = "Space cleaner"

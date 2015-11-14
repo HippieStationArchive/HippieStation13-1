@@ -283,18 +283,26 @@
 
 /obj/item/weapon/weldingtool/afterattack(atom/O, mob/user, proximity)
 	if(!proximity) return
-	if(istype(O, /obj/structure/reagent_dispensers/fueltank) && in_range(src, O))
+	if(istype(O, /obj/structure/reagent_dispensers) && in_range(src, O))
+		var/obj/structure/reagent_dispensers/D = O
 		if(!welding)
-			O.reagents.trans_to(src, max_fuel)
-			user << "<span class='notice'>[src] refueled.</span>"
-			playsound(src.loc, 'sound/effects/refill.ogg', 50, 1, -6)
-			update_icon()
-			return
+			if(D.reagents.has_reagent("welding_fuel"))
+				D.reagents.trans_id_to(src, "welding_fuel", max_fuel)
+				user << "<span class='notice'>[src] refueled.</span>"
+				playsound(src.loc, 'sound/effects/refill.ogg', 50, 1, -6)
+				update_icon()
+				return
+			else
+				user << "<span class='notice'>[D] has not enough welding fuel to refill!</span>"
+				return
 		else
 			message_admins("[key_name_admin(user)] triggered a fueltank explosion.")
 			log_game("[key_name(user)] triggered a fueltank explosion.")
 			user << "<span class='warning'>That was stupid of you.</span>"
-			O.ex_act()
+			O.reagents.chem_temp = 1000
+			O.reagents.handle_reactions()
+			if(D)
+				D.boom()
 			return
 
 	if(welding)
