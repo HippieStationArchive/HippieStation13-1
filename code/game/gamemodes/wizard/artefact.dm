@@ -149,6 +149,16 @@
 
 	equip_roman_skeleton(M)
 
+	var/mob/living/carbon/human/master = user
+	var/datum/objective/protect/protect_master = new /datum/objective/protect
+	protect_master.owner = M.mind
+	protect_master.target = master.mind
+	protect_master.explanation_text = "Protect [master.real_name], your master."
+	M.mind.objectives += protect_master
+	ticker.mode.traitors += M.mind
+	M.mind.special_role = "skeleton-thrall"
+
+
 	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/[maxskeles] active thralls."]"
 
 /obj/item/device/necromantic_stone/proc/check_spooky()
@@ -168,6 +178,7 @@
 //Funny gimmick, skeletons always seem to wear roman/ancient armour
 /obj/item/device/necromantic_stone/proc/equip_roman_skeleton(mob/living/carbon/human/H)
 	for(var/obj/item/I in H)
+		if(istype(I, /obj/item/organ)) continue
 		H.unEquip(I)
 
 	var/hat = pick(/obj/item/clothing/head/helmet/roman, /obj/item/clothing/head/helmet/roman/legionaire)

@@ -153,7 +153,7 @@
 					W.reagents.reaction(get_turf(W))
 					for(var/atom/atm in get_turf(W))
 						if(!W) return
-						W.reagents.reaction(atm, TOUCH) // so it actually puts peeps out with water etc
+						W.reagents.reaction(atm, TOUCH, show_message = 0) // so it actually puts peeps out with water etc
 					if(W.loc == my_target) break
 					if(!W.reagents.total_volume) break
 					sleep(2)

@@ -134,9 +134,6 @@
 	tank.on = 0
 	loc = tank
 
-/obj/item/weapon/reagent_containers/spray/mister/attack_self()
-	return
-
 /proc/check_tank_exists(parent_tank, mob/living/carbon/human/M, obj/O)
 	if (!parent_tank || !istype(parent_tank, /obj/item/weapon/watertank))	//To avoid weird issues from admin spawns
 		M.unEquip(O)
