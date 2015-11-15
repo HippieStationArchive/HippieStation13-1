@@ -33,7 +33,7 @@
 		return
 	if(!M.has_dna())
 		return  //No robots, AIs, aliens, Ians or other mobs should be affected by this.
-	if((method==VAPOR && prob(min(33, reac_volume))) || method==INGEST || method==TOUCH || method==INJECT)
+	if((method==VAPOR && prob(min(33, reac_volume))) || method==INGEST || method==PATCH || method==INJECT)
 		randmuti(M)
 		if(prob(98))
 			randmutb(M)
