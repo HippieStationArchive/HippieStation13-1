@@ -41,9 +41,9 @@ var/list/zombie_cure = list()
 	if(affected_mob.notransform) return
 	affected_mob.death(1)
 	affected_mob.notransform = 1
+	sleep(30)
 	cure()
-	spawn(30)
-		Zombify(affected_mob)
+	Zombify(affected_mob)
 
 /datum/disease/transformation/zombie/has_cure()
 	if(affected_mob.stat == DEAD) //Cure won't work if the disease holder is already dead. The only thing to do now is to get rid of the corpse.
@@ -86,24 +86,3 @@ var/list/zombie_cure = list()
 					affected_mob.visible_message("<span class='warning'>[affected_mob] looks very pale...</span>", "<span class='notice'>You look very pale...</span>")
 				else if(prob(7))
 					affected_mob.emote(pick("cough", "sneeze", "groan", "gasp"))
-
-/proc/Zombify(mob/living/carbon/human/H)
-	if(!istype(H)) return
-	H.death(1)
-	H.update_canmove()
-	H.set_species(/datum/species/zombie)
-	var/mob/living/simple_animal/hostile/zombie/Z = new /mob/living/simple_animal/hostile/zombie(H.loc)
-	Z.faction = list("zombie")
-	Z.appearance = H.appearance
-	Z.transform = matrix()
-	Z.pixel_y = 0
-	for(var/mob/dead/observer/ghost in player_list)
-		if(H.real_name == ghost.real_name)
-			ghost.reenter_corpse()
-			break
-	Z.ckey = H.ckey
-	H.stat = DEAD
-	H.loc = Z
-	Z.stored_corpse = H
-	playsound(Z.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 40, 1, -2)
-	Z.visible_message("<span class='danger'>[Z] staggers to their feet!</span>", "<span class='userdanger'>You have transformed into a Zombie. Spread the infection!</span>")
