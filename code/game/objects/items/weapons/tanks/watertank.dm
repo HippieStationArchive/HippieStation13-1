@@ -14,6 +14,7 @@
 	var/obj/item/weapon/noz
 	var/on = 0
 	var/volume = 500
+	var/list/allowedchem = list("water") // to avoid spraying 100 units of LOVE on someone also known as unstable mutagen
 
 /obj/item/weapon/watertank/autolathe_crafted(obj/machinery/autolathe/A)
 	reagents.clear_reagents()
@@ -103,6 +104,13 @@
 		return
 	..()
 
+/obj/item/weapon/watertank/on_reagent_change()
+	for(var/datum/reagent/R in reagents.reagent_list)
+		if(!(R.id in allowedchem))
+			visible_message("<span class='warning'>[src] refuses to be refilled with [R.name]!</span>", "<span class='warning'>[src] refuses to be refilled with [R.name]!</span>")
+			reagents.del_reagent(R.id)
+	return
+
 // This mister item is intended as an extension of the watertank and always attached to it.
 // Therefore, it's designed to be "locked" to the player's hands or extended back onto
 // the watertank backpack. Allowing it to be placed elsewhere or created without a parent
@@ -158,6 +166,8 @@
 	desc = "A janitorial watertank backpack with nozzle to clean dirt and graffiti."
 	icon_state = "waterbackpackjani"
 	item_state = "waterbackpackjani"
+	allowedchem = list("water", "cleaner")
+
 
 /obj/item/weapon/watertank/janitor/New()
 	..()
@@ -170,15 +180,12 @@
 	icon_state = "misterjani"
 	item_state = "misterjani"
 	amount_per_transfer_from_this = 5
-	possible_transfer_amounts = list()
+	possible_transfer_amounts = list(5, 10)
+	var/list/allowedchem = list("water", "cleaner")
 
 
 /obj/item/weapon/watertank/janitor/make_noz()
 	return new /obj/item/weapon/reagent_containers/spray/mister/janitor(src)
-
-/obj/item/weapon/reagent_containers/spray/mister/janitor/attack_self(var/mob/user)
-	amount_per_transfer_from_this = (amount_per_transfer_from_this == 10 ? 5 : 10)
-	user << "<span class='notice'>You [amount_per_transfer_from_this == 10 ? "remove" : "fix"] the nozzle. You'll now use [amount_per_transfer_from_this] units per spray.</span>"
 
 //ATMOS FIRE FIGHTING BACKPACK
 
