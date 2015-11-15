@@ -128,49 +128,60 @@
 	add_fingerprint(user)
 
 //POWER FIST
-//This thing is a mish-mash of singularity hammer and mjollnir code, but it seems to work well.
+//This thing -was- a mish-mash of singularity hammer and mjollnir code, and it had performed awfully.
 
 /obj/item/weapon/melee/powerfist
 	name = "Power Fist"
 	desc = "A large mechanically powered fist made out of plasteel which can deliver a massive blow to any target with the ability to throw them across a room. The power fist needs approximately a second in between each punch before it is powered again."
 	icon_state = "powerfist"
 	item_state = "powerfist"
-	force = 5	//For some reason the proc with all the big fancy effects cancels this out MOST of the time.
+	force = 30
 	throwforce = 10
 	throw_range = 7
 	w_class = 3
-	var/charged = 1		//This might need to be raised, because lower charge = the faster the power fist is ready to...power fist someone again. After testing this seems good to me actually.
 	origin_tech = "combat=5;powerstorage=3"
 	needs_permit = 0 //Other syndicate weapons don't piss off beepsky either
+	var/click_delay = 1.3
 
-/obj/item/weapon/melee/powerfist/New()
-	..()
-	SSobj.processing |= src
+/obj/item/weapon/melee/powerfist/attack(mob/living/target, mob/living/user)		//Keep this to powerfist/attack and NOT powerfist/afterattack , powerfist/afterattack gives this thing INFINITE range without further checks.
+	var/datum/effect/effect/system/lightning_spread/s = new /datum/effect/effect/system/lightning_spread
+	s.set_up(5, 1, target.loc)
+	s.start()	//Executes these speshul effects on the hit target AKA victim.
 
+	if(istype(target, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = target
+		var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(user.zone_sel.selecting))
+		var/armor_block = H.run_armor_check(affecting, "melee")
+		target.apply_damage(force, BRUTE, affecting, armor_block)	//If it's a mob and humanoid, give it brute damage which ignores any armor for the hit body part.
+	else
+		target.apply_damage(force, BRUTE)	//If it's a mob but not a humanoid, just give it plain brute damage.
 
-/obj/item/weapon/melee/powerfist/Destroy()
-	SSobj.processing.Remove(src)
-	return ..()
+	target.visible_message("<span class='danger'>[target.name] was power-fisted by [user]!</span>", \
+		"<span class='userdanger'>You hear a loud crack!</span>", \
+		"<span class='italics'>You hear the sound of bones crunching!</span>")
 
+	var/atom/throw_target = get_edge_target_turf(target, get_dir(src, get_step_away(target, src)))
+	spawn(1)
+		target.throw_at(throw_target, 10, 0.2)	//Throws the target 10 tiles
 
-/obj/item/weapon/melee/powerfist/process()
-	if(charged < 1)
-		charged++
+	playsound(loc, 'sound/weapons/resonator_blast.ogg', 50, 1)
+
+	add_logs(user, target, "power fisted", src)
+
+	user.changeNext_move(CLICK_CD_MELEE * click_delay) //As a balance measure it's not as spammable as other weapons.
+
 	return
 
-/obj/item/weapon/melee/powerfist/attack(mob/living/target, mob/living/user)
-	var/datum/effect/effect/system/lightning_spread/s = new /datum/effect/effect/system/lightning_spread
-	if(charged == 1)
-		charged = 0
-		s.set_up(5, 1, target.loc)
-		s.start()
-		target.take_organ_damage(30,0)	//30 brute damage, because this whole proc for some reason cancels out the base force damage MOST of the time.
-		target.visible_message("<span class='danger'>[target.name] was power-fisted by [user]!</span>", \
-			"<span class='userdanger'>You hear a loud crack!</span>", \
-			"<span class='italics'>You hear the sound of bones crunching!</span>")
-		var/atom/throw_target = get_edge_target_turf(target, get_dir(src, get_step_away(target, src)))
-		target.throw_at(throw_target, 10, 0.2)
-		playsound(loc, 'sound/weapons/resonator_blast.ogg', 50, 1)
-		target.adjustStaminaLoss(15)
-		add_logs(user, target, "power fisted", src)
-		return
+/obj/item/weapon/melee/powerfist/afterattack(atom/A as mob|obj|turf|area, mob/user, proximity)	//Borrowed code from the fire axe yaaay
+	if(!proximity) return
+	if(A && (istype(A,/obj/structure/window) || istype(A,/obj/structure/grille))) //destroys windows and grilles in one hit
+		if(istype(A,/obj/structure/window)) //should just make a window.Break() proc but couldn't bother with it
+			var/obj/structure/window/W = A
+
+			new /obj/item/weapon/shard( W.loc )
+			if(W.reinf) new /obj/item/stack/rods( W.loc)
+
+			if (W.dir == SOUTHWEST)
+				new /obj/item/weapon/shard( W.loc )
+				if(W.reinf) new /obj/item/stack/rods( W.loc)
+		qdel(A)
