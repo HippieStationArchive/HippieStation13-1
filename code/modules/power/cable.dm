@@ -546,33 +546,31 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 		new_cable.item_color = item_color
 		new_cable.update_icon()
 
-/obj/item/stack/cable_coil/proc/makeRestraints()
-	var/mob/M = usr
-
-	if(ishuman(M) && !M.restrained() && !M.stat && M.canmove)
-		if(!istype(usr.loc,/turf))
+/obj/item/stack/cable_coil/proc/makeRestraints(mob/user)
+	if(ishuman(user) && !user.restrained() && !user.stat && user.canmove)
+		if(!istype(user.loc,/turf))
 			return
 		if(src.amount <= 14)
 			usr << "<span class='danger'>You need at least 15 lengths to make restraints!</span>"
 			return
-		var/obj/item/weapon/restraints/handcuffs/cable/B = new /obj/item/weapon/restraints/handcuffs/cable(usr.loc)
+		var/obj/item/weapon/restraints/handcuffs/cable/B = new /obj/item/weapon/restraints/handcuffs/cable(user.loc)
 		B.icon_state = "cuff_[item_color]"
-		M.put_in_hands(B)
-		usr << "<span class='notice'>You wind some cable together to make some restraints.</span>"
+		user.put_in_hands(B)
+		user << "<span class='notice'>You wind some cable together to make some restraints.</span>"
 		src.use(15)
 	else
-		usr << "<span class='notice'>You cannot do that.</span>"
+		user << "<span class='notice'>You cannot do that.</span>"
 
-/obj/item/stack/cable_coil/verb/make_restraint()
+/obj/item/stack/cable_coil/verb/make_restraint(mob/user)
 	set name = "Make Cable Restraints"
 	set category = "Object"
-	makeRestraints()
+	makeRestraints(user)
 	..()
 
-/obj/item/stack/cable_coil/AltClick()
-	if(usr.Adjacent(src))
-		..()
-		makeRestraints()
+/obj/item/stack/cable_coil/AltClick(mob/user)
+	..()
+	if(user.Adjacent(src))
+		makeRestraints(user)
 
 //add cables to the stack
 /obj/item/stack/cable_coil/proc/give(extra)
