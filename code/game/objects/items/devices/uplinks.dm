@@ -1,9 +1,7 @@
 //This could either be split into the proper DM files or placed somewhere else all together, but it'll do for now -Nodrak
 
 /*
-
 A list of items and costs is stored under the datum of every game mode, alongside the number of crystals, and the welcoming message.
-
 */
 
 var/list/world_uplinks = list()
@@ -19,6 +17,8 @@ var/list/world_uplinks = list()
 	var/uplink_owner = null//text-only
 	var/used_TC = 0
 
+	var/mode_override = null
+
 /obj/item/device/uplink/New()
 	..()
 	world_uplinks+=src
@@ -28,7 +28,7 @@ var/list/world_uplinks = list()
 	return ..()
 
 //Let's build a menu!
-/obj/item/device/uplink/proc/generate_menu()
+/obj/item/device/uplink/proc/generate_menu(mob/user)
 
 	var/dat = "<B>[src.welcome]</B><BR>"
 	dat += "Tele-Crystals left: [src.uses]<BR>"
@@ -36,7 +36,7 @@ var/list/world_uplinks = list()
 	dat += "<B>Request item:</B><BR>"
 	dat += "<I>Each item costs a number of tele-crystals as indicated by the number following their name.</I><br><BR>"
 
-	var/list/buyable_items = get_uplink_items()
+	var/list/buyable_items = get_uplink_items(mode_override)
 
 	// Loop through categories
 	var/index = 0
@@ -52,6 +52,12 @@ var/list/world_uplinks = list()
 			i++
 			var/desc = "[item.desc]"
 			var/cost_text = ""
+			if(item.jobs.len && !(user.mind.assigned_role in item.jobs))
+				// world << "User doesn't fit the job requirement."
+				continue
+			if(item.jobs_exclude.len && (user.mind.assigned_role in item.jobs_exclude))
+				// world << "User's job is excluded."
+				continue
 			if(item.cost > 0)
 				cost_text = "([item.cost])"
 			if(item.cost <= uses)
@@ -76,7 +82,7 @@ var/list/world_uplinks = list()
 /obj/item/device/uplink/interact(mob/user as mob)
 
 	var/dat = "<body link='yellow' alink='white' bgcolor='#601414'><font color='white'>"
-	dat += src.generate_menu()
+	dat += src.generate_menu(user)
 	dat += "<A href='byond://?src=\ref[src];lock=1'>Lock</a>"
 	dat += "</font></body>"
 	user << browse(dat, "window=hidden")
@@ -100,7 +106,7 @@ var/list/world_uplinks = list()
 			var/category = split[1]
 			var/number = text2num(split[2])
 
-			var/list/buyable_items = get_uplink_items()
+			var/list/buyable_items = get_uplink_items(mode_override)
 
 			var/list/uplink = buyable_items[category]
 			if(uplink && uplink.len >= number)
@@ -118,12 +124,9 @@ var/list/world_uplinks = list()
 
 // HIDDEN UPLINK - Can be stored in anything but the host item has to have a trigger for it.
 /* How to create an uplink in 3 easy steps!
-
  1. All obj/item 's have a hidden_uplink var. By default it's null. Give the item one with "new(src)", it must be in it's contents. Feel free to add "uses".
-
  2. Code in the triggers. Use check_trigger for this, I recommend closing the item's menu with "usr << browse(null, "window=windowname") if it returns true.
  The var/value is the value that will be compared with the var/target. If they are equal it will activate the menu.
-
  3. If you want the menu to stay until the users locks his uplink, add an active_uplink_check(mob/user as mob) in your interact/attack_hand proc.
  Then check if it's true, if true return. This will stop the normal menu appearing and will instead show the uplink menu.
 */
@@ -210,6 +213,5 @@ var/list/world_uplinks = list()
 	..()
 	hidden_uplink = new(src)
 	hidden_uplink.uses = 20
-
 
 

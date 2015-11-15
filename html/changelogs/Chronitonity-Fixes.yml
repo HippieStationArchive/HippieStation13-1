@@ -1,6 +1,0 @@
-   author: Chronitonity
-   
-   delete-after: True
-   
-   changes: 
-     - tweak: "Slipping damage is now directed all into one limb, instead of being spread across the body."

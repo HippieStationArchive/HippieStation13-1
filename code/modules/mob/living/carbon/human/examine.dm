@@ -219,7 +219,7 @@
 
 	for(var/obj/item/organ/limb/L in organs)
 		for(var/obj/item/I in L.embedded_objects)
-			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L.getDisplayName()]!</B>\n"
+			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L.getDisplayName()]!</B>[I.pinned ? "It [t_has] pinned [t_him] down to \the [I.pinned]!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[src];read_embedded=\ref[I]'>Read</a>)" : ""]\n"
 
 
 	if(fire_stacks > 0)
@@ -236,8 +236,20 @@
 		else
 			msg += "[t_He] [t_is] quite chubby.\n"
 
-	if(pale)
+	if(pale && !is_vampire(user))
 		msg += "[t_He] [t_has] pale skin.\n"
+
+	if(!is_vampire(src) && is_vampire(user) && vessel) //Vampires can see exact blood levels at a glance
+		var/datum/reagent/blood/B = locate() in vessel.reagent_list
+		var/usable_blood = B.volume - (BLOOD_VOLUME_OKAY + 25)
+		usable_blood = Clamp(usable_blood, 0, INFINITY)
+		msg += "[t_He] [t_has] [B.volume]cl of blood, [usable_blood]cl of which is drinkable without harming [t_him].\n"
+
+	if(is_vampire(src) && is_vampire(user))
+		msg += "You recognize Lilith's blessing. [t_He], like you, is a vampire.\n"
+
+	if(is_vampire(src) && src.mind && src.mind.vampire && src.mind.vampire.clean_blood <= 10) //If they're a vampire with less than 10 units of CLEAN blood, give a unique examine text
+		msg += "[t_He] has deathly pale skin.\n"
 
 	if(bleedsuppress)
 		msg += "[t_He] [t_is] bandaged with something.\n"
@@ -249,6 +261,8 @@
 	if(!appears_dead)
 		if(stat == UNCONSCIOUS)
 			msg += "[t_He] [t_is]n't responding to anything around [t_him] and seems to be asleep.\n"
+		else if(nearcrit)
+			msg += "[t_He] appears to be incapacitated and is struggling to breathe.\n"
 		else if(getBrainLoss() >= 60)
 			msg += "[t_He] [t_has] a stupid expression on [t_his] face.\n"
 
@@ -265,6 +279,10 @@
 
 	if(!wear_mask && is_thrall(src) && in_range(user,src))
 		msg += "Their features seem unnaturally tight and drawn.\n"
+
+	var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in organs
+	if(O && O.get_teeth() < O.max_teeth)
+		msg += "[O.get_teeth() <= 0 ? "All" : "[O.max_teeth - O.get_teeth()]"] of [t_his] teeth are missing!\n"
 
 	if(istype(user, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user

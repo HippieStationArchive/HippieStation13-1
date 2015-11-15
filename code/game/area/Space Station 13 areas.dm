@@ -96,7 +96,9 @@ var/list/teleportlocs = list()
 	power_equip = 0
 	power_environ = 0
 	valid_territory = 0
-	ambientsounds = list('sound/ambience/ambispace.ogg','sound/ambience/title2.ogg',)
+	ambientsounds = list('sound/ambience/ambispace.ogg','sound/ambience/space_stutter.ogg','sound/ambience/space_ambience.ogg',\
+				'sound/ambience/title1.ogg','sound/ambience/title2.ogg','sound/ambience/title3.ogg',)
+	ambloop = 'sound/ambience/loop/space.ogg'
 
 //These are shuttle areas; all subtypes are only used as teleportation markers, they have no actual function beyond that.
 
@@ -144,6 +146,10 @@ var/list/teleportlocs = list()
 
 /area/shuttle/abandoned
 	name = "\improper Abandoned Ship"
+	ambientsounds = list('sound/ambience/ambiatm1.ogg', 'sound/ambience/ambmaint.ogg',\
+						'sound/ambience/ambicreek1.ogg', 'sound/ambience/ambicreek2.ogg',\
+						'sound/ambience/ambicha2.ogg', 'sound/ambience/ambicha3.ogg')
+	ambloop = 'sound/ambience/loop/softhum.ogg'
 
 /area/start
 	name = "start area"
@@ -160,12 +166,14 @@ var/list/teleportlocs = list()
 	icon_state = "centcom"
 	requires_power = 0
 	has_gravity = 1
+	ambloop = 'sound/ambience/loop/cargohum.ogg'
 
 /area/centcom/control
 	name = "\improper Centcom Docks"
 
 /area/centcom/evac
 	name = "\improper Centcom Recovery Ship"
+	ambloop = 'sound/ambience/loop/cargohum.ogg'
 
 /area/centcom/supply
 	name = "\improper Centcom Supply Shuttle Dock"
@@ -186,6 +194,8 @@ var/list/teleportlocs = list()
 	icon_state = "syndie-ship"
 	requires_power = 0
 	has_gravity = 1
+	ambloop = 'sound/ambience/loop/windwinterinside.ogg'
+	ambientsounds = list('sound/ambience/ambicreek1.ogg', 'sound/ambience/ambicreek2.ogg', 'sound/ambience/johncena.ogg')
 
 /area/syndicate_mothership/control
 	name = "\improper Syndicate Control Room"
@@ -220,6 +230,8 @@ var/list/teleportlocs = list()
 	name = "\improper Clown Planet"
 	icon_state = "honk"
 	requires_power = 0
+	ambloop = 'sound/ambience/loop/space.ogg'
+	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
 
 /area/telesciareas
 	name = "\improper Cosmic Anomaly"
@@ -264,6 +276,7 @@ var/list/teleportlocs = list()
 	icon_state = "yellow"
 	requires_power = 0
 	has_gravity = 1
+	ambloop = 'sound/ambience/loop/terriblehum.ogg'
 
 //Abductors
 /area/abductor_ship
@@ -271,7 +284,7 @@ var/list/teleportlocs = list()
 	icon_state = "yellow"
 	requires_power = 0
 	has_gravity = 1
-
+	ambloop = 'sound/ambience/loop/opressivehum.ogg'
 
 //PRISON
 /area/prison
@@ -360,8 +373,8 @@ var/list/teleportlocs = list()
 //STATION13
 
 /area/atmos
- 	name = "Atmospherics"
- 	icon_state = "atmos"
+	name = "Atmospherics"
+	icon_state = "atmos"
 
 //Maintenance
 /area/maintenance
@@ -438,6 +451,10 @@ var/list/teleportlocs = list()
 
 /area/maintenance/isomaint
 	name = "Isolation Maintenance"
+	icon_state = "yellow"
+
+/area/maintenance/strangeroom
+	name = "Strange Room"
 	icon_state = "yellow"
 
 
@@ -579,8 +596,8 @@ var/list/teleportlocs = list()
 	icon_state = "Theatre"
 
 /area/library
- 	name = "\improper Library"
- 	icon_state = "library"
+	name = "\improper Library"
+	icon_state = "library"
 
 /area/chapel/main
 	name = "\improper Chapel"
@@ -761,6 +778,7 @@ var/list/teleportlocs = list()
 	icon_state = "teleporter"
 	music = "signal"
 	ambientsounds = list('sound/ambience/ambimalf.ogg')
+	ambloop = 'sound/ambience/loop/quiethum.ogg'
 
 //MedBay
 
@@ -839,12 +857,20 @@ var/list/teleportlocs = list()
 	name = "\improper Security Office"
 	icon_state = "security"
 
+/area/security/sec_lobby
+	name = "\improper Security Lobby"
+	icon_state = "security"
+
 /area/security/brig
 	name = "\improper Brig"
 	icon_state = "brig"
 
 /area/security/prison
 	name = "\improper Prison Wing"
+	icon_state = "sec_prison"
+
+/area/security/perma
+	name = "\improper Perma Prison"
 	icon_state = "sec_prison"
 
 /area/security/isolation
@@ -998,6 +1024,7 @@ var/list/teleportlocs = list()
 	valid_territory = 0
 	name = "\improper Toxins Test Area"
 	icon_state = "toxtest"
+	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/toxins/mixing
 	name = "\improper Toxins Mixing Room"
@@ -1073,12 +1100,18 @@ var/list/teleportlocs = list()
 	name = "\improper DJ Station Solars"
 	icon_state = "DJ"
 	has_gravity = 1
+	ambloop = 'sound/ambience/loop/space.ogg'
 
 //DERELICT
 
 /area/derelict
 	name = "\improper Derelict Station"
-	icon_state = "storage"
+	icon_state = "hallC"
+	ambloop = 'sound/ambience/loop/drone01.ogg'
+	ambientsounds = list('sound/ambience/ambmaint.ogg','sound/ambience/ambicreek1.ogg',\
+							'sound/ambience/ambicreek2.ogg','sound/ambience/ambigen5.ogg',\
+							'sound/ambience/ambigen7.ogg','sound/ambience/ambigen8.ogg',\
+							'sound/ambience/ambieng1.ogg')
 
 /area/derelict/hallway/primary
 	name = "\improper Derelict Primary Hallway"
@@ -1092,6 +1125,10 @@ var/list/teleportlocs = list()
 	name = "\improper Derelict Arrival Centre"
 	icon_state = "yellow"
 
+/area/derelict/storage/janitor
+	name = "Derelict Custodial Closet"
+	icon_state = "janitor"
+
 /area/derelict/storage/equipment
 	name = "Derelict Equipment Storage"
 
@@ -1103,8 +1140,20 @@ var/list/teleportlocs = list()
 	icon_state = "green"
 
 /area/derelict/bridge
-	name = "\improper Derelict Control Room"
+	name = "\improper Derelict Command"
 	icon_state = "bridge"
+
+/area/derelict/brig
+	name = "\improper Derelict Security"
+	icon_state = "security"
+
+/area/derelict/cargo
+	name = "\improper Derelict Supply"
+	icon_state = "quartstorage"
+
+/area/derelict/research
+	name = "\improper Derelict Research"
+	icon_state = "medresearch"
 
 /area/derelict/secret
 	name = "\improper Derelict Secret Room"
@@ -1118,6 +1167,10 @@ var/list/teleportlocs = list()
 	name = "\improper Derelict Computer Core"
 	icon_state = "ai"
 
+/area/derelict/bridge/hop
+	name = "Derelict Job Assignment"
+	icon_state = "head_quarters"
+
 /area/derelict/solar_control
 	name = "\improper Derelict Solar Control"
 	icon_state = "engine"
@@ -1129,6 +1182,10 @@ var/list/teleportlocs = list()
 /area/derelict/crew_quarters
 	name = "\improper Derelict Crew Quarters"
 	icon_state = "fitness"
+
+/area/derelict/crew_quarters/bar
+	name = "\improper Derelict Diner"
+	icon_state = "bar"
 
 /area/derelict/medical
 	name = "Derelict Medbay"
@@ -1153,6 +1210,10 @@ var/list/teleportlocs = list()
 /area/derelict/ship
 	name = "\improper Abandoned Ship"
 	icon_state = "yellow"
+	ambientsounds = list('sound/ambience/ambiatm1.ogg', 'sound/ambience/ambmaint.ogg',\
+						'sound/ambience/ambicreek1.ogg', 'sound/ambience/ambicreek2.ogg',\
+						'sound/ambience/ambicha2.ogg', 'sound/ambience/ambicha3.ogg')
+	ambloop = 'sound/ambience/loop/softhum.ogg'
 
 /area/solar/derelict_starboard
 	name = "\improper Derelict Starboard Solar Array"
@@ -1163,7 +1224,7 @@ var/list/teleportlocs = list()
 	icon_state = "yellow"
 
 /area/derelict/singularity_engine
-	name = "\improper Derelict Singularity Engine"
+	name = "\improper Derelict Engine"
 	icon_state = "engine"
 
 /area/derelict/gravity_generator
@@ -1199,6 +1260,7 @@ var/list/teleportlocs = list()
 /area/construction/solars
 	name = "\improper Solar Panels"
 	icon_state = "yellow"
+	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/construction/solarscontrol
 	name = "\improper Solar Panel Control"
@@ -1232,6 +1294,7 @@ var/list/teleportlocs = list()
 
 /area/turret_protected/
 	ambientsounds = list('sound/ambience/ambimalf.ogg')
+	ambloop = 'sound/ambience/loop/softhum.ogg'
 
 /area/turret_protected/ai_upload
 	name = "\improper AI Upload Chamber"
@@ -1262,24 +1325,28 @@ var/list/teleportlocs = list()
 	icon_state = "storage"
 	luminosity = 1
 	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/turret_protected/AIsatextFS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
 	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/turret_protected/AIsatextAS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
 	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/turret_protected/AIsatextAP
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
 	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/turret_protected/NewAIMain
 	name = "\improper AI Main New"
@@ -1317,6 +1384,7 @@ var/list/teleportlocs = list()
 
 /area/tcommsat
 	ambientsounds = list('sound/ambience/ambisin2.ogg', 'sound/ambience/signal.ogg', 'sound/ambience/signal.ogg', 'sound/ambience/ambigen10.ogg')
+	ambloop = 'sound/ambience/loop/drone02.ogg'
 
 /area/tcommsat/entrance
 	name = "\improper Telecoms Teleporter"
@@ -1386,7 +1454,8 @@ var/list/teleportlocs = list()
 	lighting_use_dynamic = 0
 	requires_power = 0
 	has_gravity = 1
-	ambientsounds = list('sound/ambience/shore.ogg', 'sound/ambience/seag1.ogg','sound/ambience/seag2.ogg','sound/ambience/seag2.ogg')
+	ambloop = 'sound/ambience/loop/shore.ogg'
+	ambientsounds = list('sound/ambience/seag1.ogg','sound/ambience/seag2.ogg','sound/ambience/seag2.ogg')
 
 /area/spacecontent
 	name = "space"

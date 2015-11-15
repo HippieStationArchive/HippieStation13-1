@@ -179,9 +179,11 @@
 /obj/structure/closet/attack_animal(mob/living/simple_animal/user)
 	if(user.environment_smash)
 		user.do_attack_animation(src)
+		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
 		visible_message("<span class='danger'>[user] destroys \the [src].</span>")
 		dump_contents()
 		qdel(src)
+	return
 
 /obj/structure/closet/blob_act()
 	if(prob(75))
@@ -204,7 +206,7 @@
 		if(istype(W,/obj/item/tk_grab))
 			return 0
 		if(istype(W, cutting_tool))
-			if(istype(cutting_tool, /obj/item/weapon/weldingtool))
+			if(istype(W, /obj/item/weapon/weldingtool))
 				var/obj/item/weapon/weldingtool/WT = W
 				if(!WT.remove_fuel(0,user))
 					return

@@ -230,7 +230,7 @@
 
 /obj/machinery/r_n_d/experimentor/proc/throwSmoke(turf/where)
 	var/datum/effect/effect/system/smoke_spread/smoke = new
-	smoke.set_up(1,0, where, 0)
+	smoke.set_up(0, where)
 	smoke.start()
 
 /obj/machinery/r_n_d/experimentor/proc/pickWeighted(list/from)
@@ -320,7 +320,7 @@
 			R.add_reagent(chosenchem , 50)
 			investigate_log("Experimentor has released [chosenchem] smoke.", "experimentor")
 			var/datum/effect/effect/system/smoke_spread/chem/smoke = new
-			smoke.set_up(R, 1, 0, src, 0, silent = 1)
+			smoke.set_up(R, 0, src, silent = 1)
 			playsound(src.loc, 'sound/effects/smoke.ogg', 50, 1, -3)
 			smoke.start()
 			qdel(R)
@@ -332,7 +332,7 @@
 			R.my_atom = src
 			R.add_reagent(chosenchem , 50)
 			var/datum/effect/effect/system/smoke_spread/chem/smoke = new
-			smoke.set_up(R, 1, 0, src, 0, silent = 1)
+			smoke.set_up(R, 0, src, silent = 1)
 			playsound(src.loc, 'sound/effects/smoke.ogg', 50, 1, -3)
 			smoke.start()
 			qdel(R)
@@ -419,7 +419,7 @@
 			R.add_reagent("frostoil" , 50)
 			investigate_log("Experimentor has released frostoil gas.", "experimentor")
 			var/datum/effect/effect/system/smoke_spread/chem/smoke = new
-			smoke.set_up(R, 1, 0, src, 0, silent = 1)
+			smoke.set_up(R, 0, src, silent = 1)
 			playsound(src.loc, 'sound/effects/smoke.ogg', 50, 1, -3)
 			smoke.start()
 			qdel(R)
@@ -441,7 +441,7 @@
 		if(prob(EFFECT_PROB_MEDIUM-badThingCoeff))
 			visible_message("<span class='warning'>[src] malfunctions, releasing a flurry of chilly air as [exp_on] pops out!</span>")
 			var/datum/effect/effect/system/smoke_spread/smoke = new
-			smoke.set_up(1,0, src.loc, 0)
+			smoke.set_up(0, src.loc)
 			smoke.start()
 			ejectItem()
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -609,7 +609,7 @@
 /obj/item/weapon/relic
 	name = "strange object"
 	desc = "What mysteries could this hold?"
-	icon = 'icons/obj/assemblies.dmi'
+	icon = 'icons/obj/strange_object.dmi'
 	origin_tech = "combat=1;plasmatech=1;powerstorage=1;materials=1"
 	var/realName = "defined object"
 	var/revealed = FALSE
@@ -618,7 +618,7 @@
 	var/cooldown
 
 /obj/item/weapon/relic/New()
-	icon_state = pick("shock_kit","armor-igniter-analyzer","infra-igniter0","infra-igniter1","radio-multitool","prox-radio1","radio-radio","timer-multitool0","radio-igniter-tank")
+	icon_state = pick("strangeobject1","strangeobject2","strangeobject3","strangeobject4","strangeobject5","strangeobject6","strangeobject7","strangeobject8")
 	realName = "[pick("broken","twisted","spun","improved","silly","regular","badly made")] [pick("device","object","toy","illegal tech","weapon")]"
 
 
@@ -647,7 +647,7 @@
 
 /obj/item/weapon/relic/proc/throwSmoke(turf/where)
 	var/datum/effect/effect/system/smoke_spread/smoke = new
-	smoke.set_up(1,0, where, 0)
+	smoke.set_up(0, where)
 	smoke.start()
 
 /obj/item/weapon/relic/proc/corgicannon(mob/user)

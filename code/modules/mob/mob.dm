@@ -81,12 +81,12 @@ var/next_mob_id = 0
 // self_message (optional) is what the src mob sees e.g. "You do something!"
 // blind_message (optional) is what blind people will hear e.g. "You hear something!"
 
-/mob/visible_message(message, self_message, blind_message)
+/mob/visible_message(message, self_message, blind_message, range = 7)
 	var/list/mob_viewers = list()
 	var/list/possible_viewers = list()
 	mob_viewers |= src
 	mob_viewers |= viewers(src)
-	var/heard = get_hear(7, src)
+	var/heard = get_hear(range, src)
 	for(var/atom/movable/A in heard)
 		possible_viewers |= recursive_hear_check(A)
 	for(var/mob/B in possible_viewers)
@@ -108,7 +108,7 @@ var/next_mob_id = 0
 
 	if(blind_message)
 		var/list/mob_hearers = list()
-		for(var/mob/C in get_hearers_in_view(7, src))
+		for(var/mob/C in get_hearers_in_view(range, src))
 			if(C in mob_viewers)
 				continue
 			mob_hearers |= C
@@ -120,11 +120,11 @@ var/next_mob_id = 0
 // message is output to anyone who can see, e.g. "The [src] does something!"
 // blind_message (optional) is what blind people will hear e.g. "You hear something!"
 
-/atom/proc/visible_message(message, blind_message)
+/atom/proc/visible_message(message, blind_message, range = 7)
 	var/list/mob_viewers = list()
 	var/list/possible_viewers = list()
 	mob_viewers |= viewers(src)
-	var/heard = get_hear(7, src)
+	var/heard = get_hear(range, src)
 	for(var/atom/movable/A in heard)
 		possible_viewers |= recursive_hear_check(A)
 	for(var/mob/B in possible_viewers)
@@ -141,7 +141,7 @@ var/next_mob_id = 0
 
 	if(blind_message)
 		var/list/mob_hearers = list()
-		for(var/mob/C in get_hearers_in_view(7, src))
+		for(var/mob/C in get_hearers_in_view(range, src))
 			if(C in mob_viewers)
 				continue
 			mob_hearers |= C
@@ -776,6 +776,11 @@ var/list/slot_equipment_priority = list( \
 /mob/proc/update_canmove()
 	var/ko = weakened || paralysis || stat || (status_flags & FAKEDEATH)
 	var/buckle_lying = !(buckled && !buckled.buckle_lying)
+	var/grabbed = 0 //Search for grabs within src
+	for(var/obj/item/weapon/grab/G in grabbed_by)
+		if(G.assailant && G.state >= GRAB_NECK && G.affecting == src)
+			grabbed = 1
+			break
 	if(ko || resting || stunned)
 		drop_r_hand()
 		drop_l_hand()
@@ -784,10 +789,16 @@ var/list/slot_equipment_priority = list( \
 		canmove = 1
 	if(buckled)
 		lying = 90*buckle_lying
+	else if(pinned_to)
+		lying = 0
+	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead
+		lying = 90*(nearcrit || stat || (status_flags & FAKEDEATH))
 	else
 		if((ko || resting) && !lying)
 			fall(ko)
-	canmove = !(ko || resting || stunned || buckled)
+	canmove = !(ko || resting || stunned || buckled || pinned_to)
+	if(nearcrit && !stat)
+		canmove = !(stunned || buckled || pinned_to)
 	density = !lying
 	if(lying)
 		if(layer == initial(layer)) //to avoid special cases like hiding larvas.
@@ -1003,3 +1014,16 @@ var/list/slot_equipment_priority = list( \
 
 /mob/proc/can_unbuckle(mob/user)
 	return 1
+
+//Can the mob see reagents inside of containers?
+/mob/proc/can_see_reagents()
+	if(stat == DEAD) //Ghosts and such can always see reagents
+		return 1
+	if(issilicon(src)) //Silicons can automatically view reagents
+		return 1
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		for(var/obj/item/clothing/C in H) //If they have some clothing equipped that lets them see reagents, they can see reagents
+			if(C.scan_reagents)
+				return 1
+	return 0

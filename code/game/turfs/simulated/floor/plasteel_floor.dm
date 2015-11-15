@@ -274,6 +274,10 @@
 /turf/simulated/floor/plasteel/podhatch/corner
 	icon_state = "podhatchcorner"
 
+/turf/simulated/floor/plasteel/syndifloor
+	icon = 'icons/newsyndicate.dmi'
+	icon_state = "syndilogo"
+
 
 
 /turf/simulated/floor/plasteel/circuit
@@ -326,6 +330,9 @@
 	icon_state = "recharge_floor"
 /turf/simulated/floor/plasteel/recharge_floor/asteroid
 	icon_state = "recharge_floor_asteroid"
+	oxygen = 0
+	nitrogen = 0
+	temperature = TCMB
 
 
 /turf/simulated/floor/plasteel/chapel

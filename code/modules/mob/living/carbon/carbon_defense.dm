@@ -18,7 +18,7 @@
 		take_organ_damage(10)
 
 /mob/living/carbon/attackby(obj/item/I, mob/user, params)
-	if(lying)
+	if(lying || user == src)
 		if(surgeries.len)
 			if(user.a_intent == "help")
 				for(var/datum/surgery/S in surgeries)

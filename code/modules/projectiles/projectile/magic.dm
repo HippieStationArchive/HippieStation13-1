@@ -23,6 +23,8 @@
 	damage = 10
 	damage_type = BRUTE
 	nodamage = 0
+	legacy = 1 //No pixel travelling
+	animate_movement = SLIDE_STEPS //Reset movement to default
 
 /obj/item/projectile/magic/fireball/Range()
 	var/mob/living/L = locate(/mob/living) in (range(src, 1) - firer)
@@ -82,7 +84,7 @@
 			teleammount++
 			do_teleport(stuff, stuff, 10)
 			var/datum/effect/effect/system/smoke_spread/smoke = new
-			smoke.set_up(max(round(10 - teleammount),1), 0, stuff.loc) //Smoke drops off if a lot of stuff is moved for the sake of sanity
+			smoke.set_up(max(round(4 - teleammount),0), stuff.loc) //Smoke drops off if a lot of stuff is moved for the sake of sanity
 			smoke.start()
 
 /obj/item/projectile/magic/door

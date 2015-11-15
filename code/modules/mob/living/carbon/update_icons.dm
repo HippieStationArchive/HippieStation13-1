@@ -54,6 +54,13 @@
 			t_state = r_hand.icon_state
 
 		var/image/I = image("icon" = r_hand.righthand_file, "icon_state"="[t_state]", "layer"=-R_HAND_LAYER)
+		I.color = r_hand.color
+		I.alpha = r_hand.alpha
+		if(r_hand.fry_amt > 0)
+			var/icon/HI = icon(I.icon, I.icon_state)
+			for(var/i = 1 to r_hand.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			I = image(HI, "layer" = R_HAND_LAYER)
 		I = center_image(I, r_hand.inhand_x_dimension, r_hand.inhand_y_dimension)
 		overlays_standing[R_HAND_LAYER] = I
 
@@ -73,6 +80,13 @@
 			t_state = l_hand.icon_state
 
 		var/image/I = image("icon" = l_hand.lefthand_file, "icon_state"="[t_state]", "layer"=-L_HAND_LAYER)
+		I.color = l_hand.color
+		I.alpha = l_hand.alpha
+		if(l_hand.fry_amt > 0)
+			var/icon/HI = icon(I.icon, I.icon_state)
+			for(var/i = 1 to l_hand.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			I = image(HI, "layer" = L_HAND_LAYER)
 		I = center_image(I, l_hand.inhand_x_dimension, l_hand.inhand_y_dimension)
 		overlays_standing[L_HAND_LAYER] = I
 
@@ -114,7 +128,13 @@
 			standing = image("icon"=wear_mask.alternate_worn_icon, "icon_state"="[wear_mask.icon_state]", "layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/mask.dmi', "icon_state"="[wear_mask.icon_state]", "layer"=-layer2use)
-
+		standing.color = wear_mask.color
+		standing.alpha = wear_mask.alpha
+		if(wear_mask.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to wear_mask.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = FACEMASK_LAYER)
 		overlays_standing[FACEMASK_LAYER]	= standing
 
 		if(wear_mask.blood_DNA && (wear_mask.body_parts_covered & HEAD))
@@ -136,7 +156,13 @@
 			standing = image("icon"=back.alternate_worn_icon, "icon_state"="[back.icon_state]", "layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/back.dmi', "icon_state"="[back.icon_state]", "layer"=-layer2use)
-
+		standing.color = back.color
+		standing.alpha = back.alpha
+		if(back.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to back.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = BACK_LAYER)
 		overlays_standing[BACK_LAYER] = standing
 		return back
 
@@ -156,9 +182,13 @@
 			standing = image("icon"=head.alternate_worn_icon, "icon_state"="[head.icon_state]", "layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/head.dmi', "icon_state"="[head.icon_state]", "layer"=-layer2use)
-		standing.color = head.color // For now, this is here solely for kitty ears, but everything should do this eventually
+		standing.color = head.color
 		standing.alpha = head.alpha
-
+		if(head.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to head.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = HEAD_LAYER)
 		overlays_standing[HEAD_LAYER] = standing
 
 		if(head.blood_DNA)

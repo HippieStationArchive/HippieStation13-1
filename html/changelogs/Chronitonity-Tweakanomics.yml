@@ -1,7 +1,0 @@
-   author: Chronitonity
-   
-   delete-after: True
-   
-   changes: 
-     - rscadd: "Skeletons are readded to the game for all players."
-     - bugfix: "Drinking alcohol will get you hammered again."

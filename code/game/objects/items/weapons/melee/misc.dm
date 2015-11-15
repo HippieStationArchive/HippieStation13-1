@@ -13,7 +13,7 @@
 	w_class = 3
 	origin_tech = "combat=4"
 	attack_verb = list("flogged", "whipped", "lashed", "disciplined")
-	hitsound = 'sound/weapons/slash.ogg' //pls replace
+	hitsound = 'sound/weapons/chainofcommand.ogg'
 
 /obj/item/weapon/melee/chainofcommand/suicide_act(mob/user)
 		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -32,6 +32,7 @@
 	w_class = 3
 	var/cooldown = 0
 	var/on = 1
+	burn_state = 0
 
 /obj/item/weapon/melee/classic_baton/attack(mob/target, mob/living/user)
 	if(on)
@@ -125,3 +126,51 @@
 
 	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
 	add_fingerprint(user)
+
+//POWER FIST
+//This thing is a mish-mash of singularity hammer and mjollnir code, but it seems to work well.
+
+/obj/item/weapon/melee/powerfist
+	name = "Power Fist"
+	desc = "A large mechanically powered fist made out of plasteel which can deliver a massive blow to any target with the ability to throw them across a room. The power fist needs approximately a second in between each punch before it is powered again."
+	icon_state = "powerfist"
+	item_state = "powerfist"
+	force = 5	//For some reason the proc with all the big fancy effects cancels this out MOST of the time.
+	throwforce = 10
+	throw_range = 7
+	w_class = 3
+	var/charged = 1		//This might need to be raised, because lower charge = the faster the power fist is ready to...power fist someone again. After testing this seems good to me actually.
+	origin_tech = "combat=5;powerstorage=3"
+	needs_permit = 0 //Other syndicate weapons don't piss off beepsky either
+
+/obj/item/weapon/melee/powerfist/New()
+	..()
+	SSobj.processing |= src
+
+
+/obj/item/weapon/melee/powerfist/Destroy()
+	SSobj.processing.Remove(src)
+	return ..()
+
+
+/obj/item/weapon/melee/powerfist/process()
+	if(charged < 1)
+		charged++
+	return
+
+/obj/item/weapon/melee/powerfist/attack(mob/living/target, mob/living/user)
+	var/datum/effect/effect/system/lightning_spread/s = new /datum/effect/effect/system/lightning_spread
+	if(charged == 1)
+		charged = 0
+		s.set_up(5, 1, target.loc)
+		s.start()
+		target.take_organ_damage(30,0)	//30 brute damage, because this whole proc for some reason cancels out the base force damage MOST of the time.
+		target.visible_message("<span class='danger'>[target.name] was power-fisted by [user]!</span>", \
+			"<span class='userdanger'>You hear a loud crack!</span>", \
+			"<span class='italics'>You hear the sound of bones crunching!</span>")
+		var/atom/throw_target = get_edge_target_turf(target, get_dir(src, get_step_away(target, src)))
+		target.throw_at(throw_target, 10, 0.2)
+		playsound(loc, 'sound/weapons/resonator_blast.ogg', 50, 1)
+		target.adjustStaminaLoss(15)
+		add_logs(user, target, "power fisted", src)
+		return

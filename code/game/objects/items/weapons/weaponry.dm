@@ -110,7 +110,7 @@
 /obj/item/weapon/wirerod/attackby(obj/item/I, mob/user, params)
 	..()
 	if(istype(I, /obj/item/weapon/shard))
-		var/obj/item/weapon/twohanded/spear/S = new /obj/item/weapon/twohanded/spear
+		var/obj/item/weapon/twohanded/spear/S = new
 
 		if(!remove_item_from_storage(user))
 			user.unEquip(src)
@@ -122,7 +122,7 @@
 		qdel(src)
 
 	else if(istype(I, /obj/item/weapon/wirecutters))
-		var/obj/item/weapon/melee/baton/cattleprod/P = new /obj/item/weapon/melee/baton/cattleprod
+		var/obj/item/weapon/melee/baton/cattleprod/P = new
 
 		if(!remove_item_from_storage(user))
 			user.unEquip(src)
@@ -132,7 +132,18 @@
 		user << "<span class='notice'>You fasten the wirecutters to the top of the rod with the cable, prongs outward.</span>"
 		qdel(I)
 		qdel(src)
+	else if(istype(I, /obj/item/weapon/weldingtool))
+		var/obj/item/weapon/weldingtool/welder = I
+		if(welder.remove_fuel(1,user))
+			playsound(loc, 'sound/items/Welder.ogg', 100, 1)
+			user << "<span class='notice'>You weld \the [src] in half.</span>"
+			var/obj/item/garrotehandles/S = new
 
+			if(!remove_item_from_storage(user))
+				user.unEquip(src)
+
+			user.put_in_hands(S)
+			qdel(src)
 
 /obj/item/weapon/throwing_star
 	name = "throwing star"
@@ -145,7 +156,6 @@
 	embedded_pain_multiplier = 4
 	w_class = 2
 	embed_chance = 100
-	embedded_fall_chance = 0 //Hahaha!
 	sharpness = IS_SHARP
 
 //5*(2*4) = 5*8 = 45, 45 damage if you hit one person with all 5 stars.
@@ -181,13 +191,15 @@
 	extended = !extended
 	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
 	if(extended)
-		force = 20
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
+		force = 15
 		w_class = 3
 		throwforce = 15
 		icon_state = "switchblade_ext"
 		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 		hitsound = 'sound/weapons/bladeslice.ogg'
 	else
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
 		force = 1
 		w_class = 2
 		throwforce = 5
@@ -229,6 +241,7 @@
 	throwforce = 5
 	w_class = 2
 	materials = list(MAT_METAL=50)
+	burn_state = 0
 	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
 
 /obj/item/weapon/staff
@@ -274,3 +287,25 @@
 /obj/item/weapon/ectoplasm/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is inhaling the [src.name]! It looks like \he's trying to visit the astral plane.</span>")
 	return (OXYLOSS)
+
+/obj/item/weapon/icepick
+	name = "ice pick"
+	desc = "Perfect for breaking ice, or piercing skulls."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "icepick"
+	item_state = "icepick"
+	force = 7
+	throwforce = 5
+	throw_speed = 4
+	throw_range = 6
+	w_class = 1
+	attack_verb = list("stabbed", "picked", "lobotomized")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+
+/obj/item/weapon/icepick/attack(mob/living/carbon/M, mob/living/carbon/user)
+	if(!istype(M))	return ..()
+	if(user.zone_sel.selecting != "eyes" && user.zone_sel.selecting != "head")
+		return ..()
+	if(user.disabilities & CLUMSY && prob(50))
+		M = user
+	return eyestab(M,user)

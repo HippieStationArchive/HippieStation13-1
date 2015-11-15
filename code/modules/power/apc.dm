@@ -729,6 +729,7 @@
 //			spawn(10)
 //				world << " [area.name] [area.power_equip]"
 	else
+		//playsound(loc, 'sound/machinery/power_down.ogg', 40, 1, 4) //TODO -- find a good place for this sound effect
 		area.power_light = 0
 		area.power_equip = 0
 		area.power_environ = 0
@@ -941,7 +942,7 @@
 				src.malfhack = 1
 				update_icon()
 				var/datum/effect/effect/system/smoke_spread/smoke = new
-				smoke.set_up(3, 0, src.loc)
+				smoke.set_up(1, src.loc)
 				smoke.attach(src)
 				smoke.start()
 				var/datum/effect/effect/system/spark_spread/s = new

@@ -18,6 +18,26 @@
 	desc = "A bloody burger."
 	bonus_reagents = list("vitamin" = 4)
 
+/obj/item/weapon/reagent_containers/food/snacks/burger/human/lizard
+	name = "lizard burger"
+	desc = "Made from non-valid tailmeat."
+	bonus_reagents = list("vitamin" = 4)
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/human/bird
+	name = "bird burger"
+	desc = "Tastes like chicken."
+	bonus_reagents = list("vitamin" = 4)
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/human/robo
+	name = "IPC burger"
+	desc = "Oily and crunchy."
+	bonus_reagents = list("vitamin" = 4)
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/human/cat
+	name = "cat burger"
+	desc = "Cat burglar no more."
+	bonus_reagents = list("vitamin" = 4)
+
 /obj/item/weapon/reagent_containers/food/snacks/burger/corgi
 	name = "corgi burger"
 	desc = "You monster."
@@ -184,3 +204,15 @@
 	desc = "Pretty much what you'd expect..."
 	icon_state = "ratburger"
 	bonus_reagents = list("nutriment" = 1, "vitamin" = 1)
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/meatseek
+	name = "Meatseek Quarter Pounder"
+	desc = "It's practically begging to be eaten."
+	icon_state = "meatseek_quarter"
+	list_reagents = list("nutriment" = 3, "vitamin" = 2,"mushroomhallucinogen" = 2, "crank" = 3)
+
+/obj/item/weapon/reagent_containers/food/snacks/burger/meatseek_big
+	name = "Meatseek Big Stack"
+	desc = "It will either satisfy your appetite, or kill you trying."
+	icon_state = "meatseek_bigstack"
+	list_reagents = list("nutriment" = 8, "vitamin" = 5,"mushroomhallucinogen" = 5, "krokodil" = 3)

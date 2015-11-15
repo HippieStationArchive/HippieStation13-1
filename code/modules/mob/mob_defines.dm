@@ -48,6 +48,7 @@
 	var/ear_damage = 0		//Carbon
 	var/stuttering = null	//Carbon
 	var/slurring = 0		//Carbon
+	var/lisp = 0			//Carbon
 	var/real_name = null
 	var/bhunger = 0			//Carbon
 	var/ajourn = 0
@@ -55,6 +56,7 @@
 	var/confused = 0		//Carbon
 	var/sleeping = 0		//Carbon
 	var/resting = 0			//Carbon
+	var/silent = 0			//Carbon
 	var/lying = 0
 	var/lying_prev = 0
 	var/canmove = 1
@@ -157,3 +159,5 @@
 	var/permanent_sight_flags = 0
 
 	var/resize = 1 //Badminnery resize
+
+	var/nearcrit = 0 //for newcrit

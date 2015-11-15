@@ -78,20 +78,20 @@
 /obj/item/weapon/reagent_containers/glass/afterattack(obj/target, mob/user, proximity)
 	if((!proximity) || !check_allowed_items(target,target_self=1)) return
 
-	else if(istype(target, /obj/structure/reagent_dispensers)) //A dispenser. Transfer FROM it TO us.
+	else if(istype(target, /obj/structure/reagent_dispensers) && !(target.flags & INJECTONLY)) //A dispenser. Transfer FROM it TO us.
 
 		if(target.reagents && !target.reagents.total_volume)
-			user << "<span class='warning'>[target] is empty and can't be refilled!</span>"
+			user << "<span class='warning'>[target] is empty!</span>"
 			return
 
 		if(reagents.total_volume >= reagents.maximum_volume)
 			user << "<span class='notice'>[src] is full.</span>"
 			return
 
-		var/trans = target.reagents.trans_to(src, target:amount_per_transfer_from_this)
+		var/trans = target.reagents.trans_to(src, amount_per_transfer_from_this)
 		user << "<span class='notice'>You fill [src] with [trans] unit\s of the contents of [target].</span>"
 
-	else if(target.is_open_container() && target.reagents) //Something like a glass. Player probably wants to transfer TO it.
+	else if((target.is_open_container() || target.flags & INJECTONLY) && target.reagents) //Something like a glass. Player probably wants to transfer TO it.
 		if(!reagents.total_volume)
 			user << "<span class='warning'>[src] is empty!</span>"
 			return
@@ -255,7 +255,10 @@
 	amount_per_transfer_from_this = 20
 	possible_transfer_amounts = list(10,20,30,50,70)
 	volume = 70
-	flags = OPENCONTAINER
+	flags = OPENCONTAINER | BLOCKHAIR
+	slot_flags = SLOT_HEAD
+	armor = list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0) //Weak melee protection, because you can wear it on your head
+
 
 /obj/item/weapon/reagent_containers/glass/bucket/attackby(obj/O, mob/user, params)
 	if(istype(O, /obj/item/weapon/mop))
@@ -273,3 +276,10 @@
 		user.put_in_hands(new /obj/item/weapon/bucket_sensor)
 	else
 		..()
+
+/obj/item/weapon/reagent_containers/glass/bucket/equipped(mob/user, slot)
+	..()
+	if(slot == slot_head && reagents.total_volume)
+		user << "<span class='userdanger'>[src]'s contents spill all over you!</span>"
+		reagents.reaction(user, TOUCH)
+		reagents.clear_reagents()

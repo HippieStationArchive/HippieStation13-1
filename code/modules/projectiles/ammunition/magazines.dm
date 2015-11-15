@@ -208,17 +208,17 @@
 
 /obj/item/ammo_box/magazine/smgm9mm
 	name = "SMG magazine (9mm)"
-	icon_state = "smg9mm-42"
+	icon_state = "smg9mm-30"
 	ammo_type = /obj/item/ammo_casing/c9mm
 	caliber = "9mm"
-	max_ammo = 42
+	max_ammo = 30
 
 /obj/item/ammo_box/magazine/smgm9mm/ap
-	name = "SMG magazine (Armour Piercing 9mm)"
+	name = "SMG magazine (Armor-Piercing 9mm)"
 	ammo_type = /obj/item/ammo_casing/c9mmap
 
 /obj/item/ammo_box/magazine/smgm9mm/toxin
-	name = "SMG magazine (Toxin Tipped 9mm)"
+	name = "SMG magazine (Toxin-Tipped 9mm)"
 	ammo_type = /obj/item/ammo_casing/c9mmtox
 
 /obj/item/ammo_box/magazine/smgm9mm/fire
@@ -274,6 +274,10 @@ obj/item/ammo_box/magazine/tommygunm45
 	ammo_type = /obj/item/ammo_casing/a545
 	caliber = "a545"
 	max_ammo = 30
+
+/obj/item/ammo_box/magazine/m545/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),30)]"
 
 /obj/item/ammo_box/magazine/mbox12g
 	name = "box magazine (12 gauge buckshot)"

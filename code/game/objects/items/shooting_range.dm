@@ -6,6 +6,7 @@
 	density = 0
 	var/hp = 1800
 	var/obj/structure/target_stake/pinnedLoc
+	burn_state = 0
 
 /obj/item/target/Destroy()
 	removeOverlays()

@@ -250,6 +250,14 @@
 	build_path = /obj/item/weapon/hemostat
 	category = list("initial", "Medical")
 
+/datum/design/replacement_teeth
+	name = "Replacement teeth"
+	id = "replacement_teeth"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 250)
+	build_path = /obj/item/stack/teeth/replacement
+	category = list("initial", "Medical")
+
 /datum/design/beaker
 	name = "Beaker"
 	id = "beaker"
@@ -451,14 +459,6 @@
 	build_path = /obj/item/weapon/rcd
 	category = list("hacked", "Construction")
 
-/datum/design/rpd
-	name = "Rapid pipe dispenser (RPD)"
-	id = "rpd"
-	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 75000, MAT_GLASS = 37500)
-	build_path = /obj/item/weapon/pipe_dispenser
-	category = list("hacked", "Construction")
-
 /datum/design/electropack
 	name = "Electropack"
 	id = "electropack"
@@ -583,6 +583,150 @@
 	name = "Metal Baseball Bat"
 	id = "bbat_metal"
 	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 30000)
+	materials = list(MAT_METAL = 12000)
 	build_path = /obj/item/weapon/baseballbat/metal
 	category = list("hacked", "Misc")
+
+/datum/design/geiger
+	name = "Geiger counter"
+	id = "geigercounter"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 150, MAT_GLASS = 150)
+	build_path = /obj/item/device/geiger_counter
+	category = list("initial", "Tools")
+
+/datum/design/rubber762
+	name = "Ammo box (.762x54)"
+	id = "a762rubber"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_box/a762rubber
+	category = list("hacked", "Security")
+
+/datum/design/icepick
+	name = "Ice Pick"
+	id = "icepick"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 3000)
+	build_path = /obj/item/weapon/icepick
+	category = list("hacked", "Medical")
+
+/datum/design/emergencyoxy
+	name = "Emergency oxygen tank"
+	id = "emergencyoxy"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 1000)
+	build_path = /obj/item/weapon/tank/internals/emergency_oxygen
+	category = list("initial", "Atmos")
+
+/datum/design/emergencyoxyyellow
+	name = "Extended-capacity emergency oxygen tank"
+	id = "emergencyoxyyellow"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 2000)
+	build_path = /obj/item/weapon/tank/internals/emergency_oxygen/engi
+	category = list("initial", "Atmos")
+
+/datum/design/emergencyoxydouble
+	name = "Double emergency oxygen tank"
+	id = "emergencyoxydouble"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 4000)
+	build_path = /obj/item/weapon/tank/internals/emergency_oxygen/double
+	category = list("initial", "Atmos")
+
+/datum/design/oxytank
+	name = "Blue oxygen tank"
+	id = "oxytank"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 5000)
+	build_path = /obj/item/weapon/tank/internals/oxygen
+	category = list("initial", "Atmos")
+
+/datum/design/yellowtank
+	name = "Yellow oxygen tank"
+	id = "yellowtank"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 5000)
+	build_path = /obj/item/weapon/tank/internals/oxygen/yellow
+	category = list("initial", "Atmos")
+
+/datum/design/redtank
+	name = "ed oxygen tank"
+	id = "redtank"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 5000)
+	build_path = /obj/item/weapon/tank/internals/oxygen/red
+	category = list("initial", "Atmos")
+
+/datum/design/anesthetictank
+	name = "Anesthetic tank"
+	id = "anesthetictank"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 5000)
+	build_path = /obj/item/weapon/tank/internals/anesthetic
+	category = list("initial", "Atmos")
+
+/datum/design/plasmatank
+	name = "Plasma tank"
+	id = "plasmatank"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 5000)
+	build_path = /obj/item/weapon/tank/internals/plasma
+	category = list("initial", "Atmos")
+
+/datum/design/extinguisher
+	name = "Fire extinguisher"
+	id = "extinguisher"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 500)
+	build_path = /obj/item/weapon/extinguisher
+	category = list("initial", "Atmos")
+
+/datum/design/miniextinguisher
+	name = "Pocket fire extinguisher"
+	id = "miniextinguisher"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 300)
+	build_path = /obj/item/weapon/extinguisher/mini
+	category = list("initial", "Atmos")
+
+/datum/design/pipepainter
+	name = "Pipe painter"
+	id = "pipepainter"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 5000, MAT_GLASS = 2000)
+	build_path = /obj/item/device/pipe_painter
+	category = list("initial", "Atmos")
+
+/datum/design/firehelmet
+	name = "Firefighter helmet"
+	id = "firehelmet"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 200)
+	build_path = /obj/item/clothing/head/hardhat/red
+	category = list("initial", "Atmos")
+
+/datum/design/watertank
+	name = "Backpack firefighter tank"
+	id = "watertank"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 5000, MAT_GLASS = 3000)
+	build_path = /obj/item/weapon/watertank/atmos
+	category = list("initial", "Atmos")
+
+/datum/design/chemtank
+	name = "Chemical storage tank"
+	id = "chemtank"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 10000, MAT_GLASS = 10000)
+	build_path = /obj/structure/reagent_dispensers
+	category = list("initial", "Atmos")
+
+/datum/design/rpd
+	name = "Rapid pipe dispenser (RPD)"
+	id = "rpd"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 75000, MAT_GLASS = 37500)
+	build_path = /obj/item/weapon/pipe_dispenser
+	category = list("hacked", "Atmos")

@@ -646,8 +646,6 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	return 0
 
 /datum/preferences/proc/process_link(mob/user, list/href_list)
-	if(!istype(user, /mob/new_player))	return
-
 	if(href_list["jobbancheck"])
 		var/job = sanitizeSQL(href_list["jobbancheck"])
 		var/sql_ckey = sanitizeSQL(user.ckey)
@@ -716,7 +714,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 				if("s_tone")
 					skin_tone = random_skin_tone()
 				if("bag")
-					backbag = rand(1,2)
+					backbag = rand(1,4)
 				if("all")
 					random_character()
 

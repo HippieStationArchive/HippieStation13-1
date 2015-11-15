@@ -30,6 +30,12 @@
 	var/list/datum/design/matching_designs
 	var/selected_category
 	var/screen = 1
+	var/default_icon = "autolathe"
+	var/metalanim = "autolathe_r"
+	var/glassanim = "autolathe_o"
+	var/making = "autolathe_n"
+	var/maintpanel = "autolathe_t"
+	var/board = /obj/item/weapon/circuitboard/autolathe
 
 	var/datum/material_container/materials
 
@@ -39,6 +45,7 @@
 							"Construction",
 							"T-Comm",
 							"Security",
+							"Machinery",
 							"Medical",
 							"Misc"
 							)
@@ -46,7 +53,7 @@
 /obj/machinery/autolathe/New()
 	..()
 	component_parts = list()
-	component_parts += new /obj/item/weapon/circuitboard/autolathe(null)
+	component_parts += new board(null)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(null)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(null)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(null)
@@ -98,7 +105,7 @@
 		user << "<span class=\"alert\">The autolathe is busy. Please wait for completion of previous operation.</span>"
 		return 1
 
-	if(default_deconstruction_screwdriver(user, "autolathe_t", "autolathe", O))
+	if(default_deconstruction_screwdriver(user, maintpanel, default_icon, O))
 		updateUsrDialog()
 		return
 
@@ -132,9 +139,9 @@
 	if(inserted)
 		if(istype(O,/obj/item/stack))
 			if (O.materials[MAT_METAL])
-				flick("autolathe_o",src)//plays metal insertion animation
+				flick(metalanim,src)//plays metal insertion animation
 			if (O.materials[MAT_GLASS])
-				flick("autolathe_r",src)//plays glass insertion animation
+				flick(glassanim,src)//plays glass insertion animation
 			user << "<span class='notice'>You insert [inserted] sheet[inserted>1 ? "s" : ""] to the autolathe.</span>"
 			use_power(inserted*100)
 		else
@@ -192,8 +199,7 @@
 			if((materials.amount(MAT_METAL) >= metal_cost*multiplier/coeff) && (materials.amount(MAT_GLASS) >= glass_cost*multiplier/coeff))
 				busy = 1
 				use_power(power)
-				icon_state = "autolathe"
-				flick("autolathe_n",src)
+				flick(making,src)
 				spawn(32/coeff)
 					use_power(power)
 					if(is_stack)
@@ -218,12 +224,18 @@
 								break
 						if(multiplier)
 							var/obj/item/stack/N = new being_built.build_path(T)
+							N.autolathe_crafted(src)
 							N.amount = multiplier
 							N.update_icon()
 					else
 						var/list/materials_used = list(MAT_METAL=metal_cost/coeff, MAT_GLASS=glass_cost/coeff)
 						materials.use_amount(materials_used)
-						var/obj/item/new_item = new being_built.build_path(T)
+						var/obj/item/new_item
+						if(ispath(being_built.build_path, /obj/structure)) // if we're making a structure, make an object-in-a-box item that dispenses said structure on use, or everything runtimes
+							new_item = new /obj/item/device/object_in_a_box(T, being_built.build_path)
+						else
+							new_item = new being_built.build_path(T)
+						new_item.autolathe_crafted(src)
 						new_item.materials[MAT_METAL] /= coeff
 						new_item.materials[MAT_GLASS] /= coeff
 					busy = 0
@@ -373,9 +385,21 @@
 
 	if(hack)
 		for(var/datum/design/D in files.possible_designs)
-			if((D.build_type & 4) && ("hacked" in D.category))
+			if((D.build_type & AUTOLATHE) && ("hacked" in D.category))
 				files.known_designs += D
 	else
 		for(var/datum/design/D in files.known_designs)
 			if("hacked" in D.category)
 				files.known_designs -= D
+
+/obj/machinery/autolathe/atmos
+	name = "atmospheric fabricator"
+	desc = "It produces atmospheric related items using metal and glass."
+	icon_state = "mechfab1"
+	default_icon = "mechfab1"
+	metalanim = "mechfabo"
+	glassanim = "mechfabr"
+	making = "mechfab3"
+	maintpanel = "mechfabt"
+	categories = list("Atmos")
+	board = /obj/item/weapon/circuitboard/atmoslathe

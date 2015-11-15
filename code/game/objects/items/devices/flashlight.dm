@@ -11,6 +11,8 @@
 	action_button_name = "Toggle Light"
 	var/on = 0
 	var/brightness_on = 4 //luminosity when on
+	var/sound_toggleON = 'sound/items/flashlight_on.ogg'
+	var/sound_toggleOFF = 'sound/items/flashlight_off.ogg'
 
 /obj/item/device/flashlight/initialize()
 	..()
@@ -40,6 +42,10 @@
 		user << "<span class='warning'>You cannot turn the light on while in this [user.loc]!</span>" //To prevent some lighting anomalities.
 		return 0
 	on = !on
+	if(on && sound_toggleON)
+		playsound(loc, sound_toggleON, 30, 1, -1)
+	else if(!on && sound_toggleOFF)
+		playsound(loc, sound_toggleOFF, 30, 1, -1)
 	update_brightness(user)
 	return 1
 
@@ -57,7 +63,7 @@
 
 		var/mob/living/carbon/human/H = M	//mob has protective eyewear
 		if(istype(M, /mob/living/carbon/human) && ((H.head && H.head.flags_cover & HEADCOVERSEYES) || (H.wear_mask && H.wear_mask.flags_cover & MASKCOVERSEYES) || (H.glasses && H.glasses.flags_cover & GLASSESCOVERSEYES)))
-			user << "<span class='notice'>You're going to need to remove that [(H.head && H.head.flags_cover & HEADCOVERSEYES) ? "helmet" : (H.wear_mask && H.wear_mask.flags_cover & MASKCOVERSEYES) ? "mask": "glasses"] first.</span>"
+			user << "<span class='notice'>You need to remove that [(H.head && H.head.flags_cover & HEADCOVERSEYES) ? "helmet" : (H.wear_mask && H.wear_mask.flags_cover & MASKCOVERSEYES) ? "mask": "glasses"] first.</span>"
 			return
 
 		if(M == user)	//they're using it on themselves
@@ -200,6 +206,9 @@ obj/item/device/flashlight/lamp/bananalamp
 	var/on_damage = 7
 	var/produce_heat = 1500
 	heat = 1000
+	burn_state = 0
+	sound_toggleON = 'sound/items/flareOn.ogg'
+	sound_toggleOFF = 'sound/weapons/flesh_burn.ogg'
 
 /obj/item/device/flashlight/flare/New()
 	fuel = rand(800, 1000) // Sorry for changing this so much but I keep under-estimating how long X number of ticks last in seconds.
@@ -281,6 +290,8 @@ obj/item/device/flashlight/lamp/bananalamp
 	slot_flags = SLOT_BELT
 	materials = list()
 	brightness_on = 6 //luminosity when on
+	sound_toggleON = null
+	sound_toggleOFF = null
 
 /obj/item/device/flashlight/emp
 	origin_tech = "magnets=4;syndicate=5"

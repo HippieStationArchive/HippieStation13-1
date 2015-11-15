@@ -7,6 +7,7 @@
 	var/on = 0
 	var/datum/material_container/bananium
 	action_button_name = "Toggle Shoes"
+	burn_state = -1 //Nothing short of holy fire should be able to burn these away.
 
 /obj/item/clothing/shoes/clown_shoes/banana_shoes/New()
 	..()

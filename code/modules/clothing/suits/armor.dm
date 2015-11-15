@@ -8,6 +8,7 @@
 	strip_delay = 60
 	put_on_delay = 40
 	burn_state = -1 //Won't burn in fires
+	can_be_washed = 0
 
 /obj/item/clothing/suit/armor/vest
 	name = "armor"
@@ -15,7 +16,7 @@
 	icon_state = "armor"
 	item_state = "armor"
 	blood_overlay_type = "armor"
-	armor = list(melee = 50, bullet = 15, laser = 25, energy = 10, bomb = 25, bio = 0, rad = 0)
+	armor = list(melee = 50, bullet = 15, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
 
 /obj/item/clothing/suit/armor/chestrig
 	name = "chestrig"
@@ -35,13 +36,34 @@
 	strip_delay = 70
 	put_on_delay = 50
 
+/obj/item/clothing/suit/armor/hev_suit
+	name = "H.E.V Suit"
+	desc = "A highly advanced Hazardous Environment suit, this is the Mk7 version. Able to efficiently protect the user from just about any danger that a true scientist in the field may encounter. Also has some moderate protection from lasers, bullets, and blunt objects, just incase an angry military force decides to attempt to stop the progression of SCIENCE!"
+	icon_state = "hev"
+	item_state = "armor"
+	w_class = 4		//bulky item
+	gas_transfer_coefficient = 0.01
+	permeability_coefficient = 0.01
+	flags = STOPSPRESSUREDMAGE | THICKMATERIAL
+	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
+	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
+	strip_delay = 120
+	put_on_delay = 70
+	unacidable = 1	//Acids have no effect
+	burn_state = -1 //Not Burnable
+	armor = list(melee = 40, bullet = 45, laser = 45, energy = 30, bomb = 90, bio = 100, rad = 90)
+
 /obj/item/clothing/suit/armor/vest/alt
 	name = "armor"
 	desc = "An armored vest that protects against most types of damage. This is a civilian variant."
 	icon_state = "armoralt"
 	item_state = "armoralt"
 	blood_overlay_type = "armor"
-	armor = list(melee = 50, bullet = 15, laser = 25, energy = 10, bomb = 25, bio = 0, rad = 0)
+	armor = list(melee = 50, bullet = 15, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
 
 /obj/item/clothing/suit/armor/hos
 	name = "armored greatcoat"

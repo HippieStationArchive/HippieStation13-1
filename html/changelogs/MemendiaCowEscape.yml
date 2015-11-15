@@ -1,0 +1,7 @@
+author: Memendia
+
+delete-after: True
+
+changes: 
+  - rscadd: "Added a Cow to escape."
+  - rscadd: "Fixed the T-Pipe in Atmos that should have been a normal pipe."

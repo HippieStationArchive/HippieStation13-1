@@ -27,6 +27,12 @@
 					 /obj/item/organ/limb/r_arm, /obj/item/organ/limb/r_leg, /obj/item/organ/limb/l_leg)
 	for(var/obj/item/organ/limb/O in organs)
 		O.owner = src
+		if(istype(O, /obj/item/organ/limb/head))
+			var/obj/item/organ/limb/head/U = O
+			var/obj/item/stack/teeth/T = new src.dna.species.teeth_type(U)
+			U.max_teeth = T.max_amount //Set max teeth for the head based on teeth spawntype
+			T.amount = T.max_amount
+			U.teeth_list += T
 	internal_organs += new /obj/item/organ/internal/appendix
 	internal_organs += new /obj/item/organ/internal/heart
 	internal_organs += new /obj/item/organ/internal/brain
@@ -79,7 +85,13 @@
 			if(mind.changeling)
 				stat("Chemical Storage", "[mind.changeling.chem_charges]/[mind.changeling.chem_storage]")
 				stat("Absorbed DNA", mind.changeling.absorbedcount)
+			if(mind.vampire)
+				stat("Total Blood Stolen", "[mind.vampire.sucked_blood]cl")
+				stat("Clean Blood", "[mind.vampire.clean_blood]cl")
+				stat("Dirty Blood", "[mind.vampire.dirty_blood]cl")
 
+				stat("Sanguine Regeneration", "[mind.vampire.fast_heal ? "ON" : "OFF"]")
+				stat("Accelerated Recovery", "[mind.vampire.stun_reduction ? "ON" : "OFF"]")
 
 	//NINJACODE
 	if(istype(wear_suit, /obj/item/clothing/suit/space/space_ninja)) //Only display if actually a ninja.
@@ -252,6 +264,9 @@
 		dat += "<tr><td><B>Handcuffed:</B> <A href='?src=\ref[src];item=[slot_handcuffed]'>Remove</A></td></tr>"
 	if(legcuffed)
 		dat += "<tr><td><A href='?src=\ref[src];item=[slot_legcuffed]'>Legcuffed</A></td></tr>"
+	for(var/obj/item/organ/limb/O in src.organs)
+		for(var/obj/item/I in O.embedded_objects)
+			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I] [I.pinned ? "(Pinned down)" : ""]</a><br>"
 
 	dat += {"</table>
 	<A href='?src=\ref[user];mach_close=mob\ref[src]'>Close</A>
@@ -296,18 +311,30 @@
 			if(!I || !L || I.loc != src || !(I in L.embedded_objects)) //no item, no limb, or item is not in limb or in the person anymore
 				return
 			var/time_taken = I.embedded_unsafe_removal_time*I.w_class
-			usr.visible_message("<span class='warning'>[usr] attempts to remove [I] from their [L.getDisplayName()].</span>","<span class='notice'>You attempt to remove [I] from your [L.getDisplayName()]... (It will take [time_taken/10] seconds.)</span>")
+			if(I.pinned) //Only the rodgun pins people down currently
+				time_taken += 10 //Increase time since you're pinned down
+			usr.visible_message("<span class='warning'>[usr] attempts to remove [I] from [usr == src ? "their" : "[src]'s"] [L.getDisplayName()].</span>","<span class='notice'>You attempt to remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()]... (It will take [time_taken/10] seconds.)</span>")
 			if(do_after(usr, time_taken, needhand = 1, target = src))
 				if(!I || !L || I.loc != src || !(I in L.embedded_objects))
 					return
 				L.embedded_objects -= I
 				L.take_damage(I.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
 				I.loc = get_turf(src)
-				usr.put_in_hands(I)
-				usr.emote("scream")
-				usr.visible_message("[usr] successfully rips [I] out of their [L.getDisplayName()]!","<span class='notice'>You successfully remove [I] from your [L.getDisplayName()].</span>")
+				if(I.pinned) //Only the rodgun pins people down currently
+					do_pindown(src.pinned_to, 0)
+					src.pinned_to = null
+					src.anchored = 0
+					update_canmove()
+					I.pinned = null
+				I.loc = get_turf(src)
+				I.add_fingerprint(usr)
+				src.emote("scream")
+				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
+				usr.visible_message("[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!","<span class='notice'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()].</span>")
 				if(!has_embedded_objects())
 					clear_alert("embeddedobject")
+				if(usr.machine == src && in_range(src, usr))
+					show_inv(usr)
 			return
 
 		if(href_list["item"])
@@ -731,7 +758,7 @@
 				src << "\t [status == "OK" ? "\blue" : "\red"] Your [org.getDisplayName()] is [status]."
 
 				for(var/obj/item/I in org.embedded_objects)
-					src << "\t <a href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[org]'>\red There is \a [I] embedded in your [org.getDisplayName()]!</a>"
+					src << "\t <A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[org]'>\red There is \a [I] embedded in your [org.getDisplayName()]! </A> [I.pinned ? "It has also pinned you down!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<A href='byond://?src=\ref[org];read_embedded=\ref[I]'>Read</A>)" : ""]"
 
 			if(blood_max)
 				src << "<span class='danger'>You are bleeding!</span>"

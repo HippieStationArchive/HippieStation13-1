@@ -39,6 +39,20 @@
 		user.AddLuminosity(-brightness_on)
 		SetLuminosity(brightness_on)
 
+/obj/item/clothing/head/helmet/space/hardsuit/proc/display_visor_message(var/msg)
+	var/mob/wearer = loc
+	if(msg && ishuman(wearer))
+		wearer.show_message("\icon[src]<b><span class='robot'>[msg]</span></b>", 1)
+
+/obj/item/clothing/head/helmet/space/hardsuit/rad_act(severity)
+	..()
+	display_visor_message("Radiation pulse detected! Magnitide: <span class='green'>[severity]</span> RADs.")
+
+/obj/item/clothing/head/helmet/space/hardsuit/emp_act(severity)
+	..()
+	display_visor_message("[severity > 1 ? "Light" : "Strong"] electromagnetic pulse detected!")
+
+
 
 /obj/item/clothing/suit/space/hardsuit
 	name = "hardsuit"
@@ -137,7 +151,7 @@
 	icon_state = "hardsuit0-mining"
 	item_state = "mining_helm"
 	item_color = "mining"
-	armor = list(melee = 30, bullet = 5, laser = 10, energy = 5, bomb = 50, bio = 100, rad = 50)
+	armor = list(melee = 40, bullet = 5, laser = 10, energy = 5, bomb = 50, bio = 100, rad = 50)
 	brightness_on = 7
 
 
@@ -146,7 +160,7 @@
 	name = "mining hardsuit"
 	desc = "A special suit that protects against hazardous, low pressure environments. Has reinforced plating for wildlife encounters."
 	item_state = "mining_hardsuit"
-	armor = list(melee = 30, bullet = 5, laser = 10, energy = 5, bomb = 50, bio = 100, rad = 50)
+	armor = list(melee = 40, bullet = 5, laser = 10, energy = 5, bomb = 50, bio = 100, rad = 50)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals,/obj/item/weapon/storage/bag/ore,/obj/item/weapon/pickaxe)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/mining
 
@@ -160,7 +174,7 @@
 	icon_state = "hardsuit1-syndi"
 	item_state = "syndie_helm"
 	item_color = "syndi"
-	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
+	armor = list(melee = 60, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
 	on = 0
 	var/obj/item/clothing/suit/space/hardsuit/syndi/linkedsuit = null
 	action_button_name = "Toggle Helmet Mode"
@@ -234,7 +248,7 @@
 	slowdown = 1
 	w_class = 3
 	action_button_name = "Toggle Helmet"
-	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
+	armor = list(melee = 60, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword/saber,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi
 
@@ -261,6 +275,8 @@
 	item_color = "owl"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl
 
+/obj/item/clothing/suit/space/hardsuit/syndi/owl/cursed
+	flags = NODROP
 
 	//Wizard hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/wizard
@@ -302,7 +318,7 @@
 	flash_protect = 0
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
-
+	scan_reagents = 1 //Generally worn by the CMO, so they'd get utility off of seeing reagents
 
 /obj/item/clothing/suit/space/hardsuit/medical
 	icon_state = "hardsuit-medical"
@@ -323,6 +339,12 @@
 	unacidable = 1
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 60)
+	scan_reagents = 1
+	var/obj/machinery/doppler_array/integrated/bomb_radar
+
+/obj/item/clothing/head/helmet/space/hardsuit/rd/New()
+	..()
+	bomb_radar = new /obj/machinery/doppler_array/integrated(src)
 
 /obj/item/clothing/head/helmet/space/hardsuit/rd/equipped(mob/user, slot)
 	user.scanner.Grant(user)

@@ -69,16 +69,6 @@
 
 				breath = loc.remove_air(breath_moles)
 
-				//Harmful gasses
-				if(!has_smoke_protection())
-					for(var/obj/effect/effect/smoke/chem/S in range(1, src))
-						if(S.reagents.total_volume && S.lifetime)
-							var/fraction = 1/initial(S.lifetime)
-							S.reagents.reaction(src,INGEST, fraction)
-							var/amount = round(S.reagents.total_volume*fraction,0.1)
-							S.reagents.copy_to(src, amount)
-							S.lifetime--
-
 		else //Breathe from loc as obj again
 			if(istype(loc, /obj/))
 				var/obj/loc_as_obj = loc
@@ -104,7 +94,7 @@
 			return
 		adjustOxyLoss(1)
 		failed_last_breath = 1
-		throw_alert("oxy")
+		throw_alert("oxy", /obj/screen/alert/oxy)
 
 		return 0
 
@@ -134,7 +124,7 @@
 		else
 			adjustOxyLoss(3)
 			failed_last_breath = 1
-		throw_alert("oxy")
+		throw_alert("oxy", /obj/screen/alert/oxy)
 
 	else //Enough oxygen
 		failed_last_breath = 0
@@ -165,7 +155,7 @@
 		var/ratio = (breath.toxins/safe_tox_max) * 10
 		if(reagents)
 			reagents.add_reagent("plasma", Clamp(ratio, MIN_PLASMA_DAMAGE, MAX_PLASMA_DAMAGE))
-		throw_alert("tox_in_air")
+		throw_alert("tox_in_air", /obj/screen/alert/tox_in_air)
 	else
 		clear_alert("tox_in_air")
 
@@ -265,7 +255,17 @@
 			death()
 			return
 
-		if(getOxyLoss() > 50 || health <= config.health_threshold_crit)
+		if(health <= config.health_threshold_crit)
+			nearcrit = 1
+			if(stat != DEAD)
+				Weaken(3)
+				if(prob(15))
+					spawn(0)
+						emote(pick("moan", "cough", "groan", "whimper"))
+		else
+			nearcrit = 0
+
+		if(getOxyLoss() > 50 || health <= -50)
 			Paralyse(3)
 			stat = UNCONSCIOUS
 
@@ -291,7 +291,7 @@
 	CheckStamina()
 
 	if(sleeping)
-		throw_alert("asleep")
+		throw_alert("asleep", /obj/screen/alert/asleep)
 		handle_dreams()
 		adjustStaminaLoss(-10)
 		sleeping = max(sleeping-1, 0)
@@ -358,6 +358,17 @@
 
 	if(slurring)
 		slurring = max(slurring-1,0)
+
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
+		if(O)
+			if(!O.teeth_list.len || O.get_teeth() <= 0)
+				lisp = 100 //No teeth = full lisp power
+			else
+				lisp = (1 - (O.get_teeth()/O.max_teeth)) * 100 //Less teeth = more lisp
+		else
+			lisp = 0 //No head = no lisp.
 
 	if(silent)
 		silent = max(silent-1, 0)

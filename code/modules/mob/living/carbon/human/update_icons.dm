@@ -195,13 +195,19 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 		standing = image("icon"=iconfile2use, "icon_state"="[t_color]_s", "layer"=-layer2use)
 
-		overlays_standing[UNIFORM_LAYER]	= standing
-
 		if(dna && dna.species.sexes)
 			var/G = (gender == FEMALE) ? "f" : "m"
 			if(G == "f" && U.fitted != NO_FEMALE_UNIFORM)
 				standing	= wear_female_version(t_color, iconfile2use, UNIFORM_LAYER, U.fitted)
-				overlays_standing[UNIFORM_LAYER]	= standing
+
+		standing.color = w_uniform.color
+		standing.alpha = w_uniform.alpha
+		if(w_uniform.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to w_uniform.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = UNIFORM_LAYER)
+		overlays_standing[UNIFORM_LAYER]	= standing
 
 		if(w_uniform.blood_DNA)
 			standing.overlays	+= image("icon"='icons/effects/blood.dmi', "icon_state"="uniformblood")
@@ -225,7 +231,15 @@ Please contact me on #coderbus IRC. ~Carnie x
 		if(client && hud_used)
 			client.screen += wear_id
 
-		overlays_standing[ID_LAYER]	= image("icon"='icons/mob/mob.dmi', "icon_state"="id", "layer"=-ID_LAYER)
+		var/image/standing = image("icon"='icons/mob/mob.dmi', "icon_state"="id", "layer"=-ID_LAYER)
+		standing.color = wear_id.color
+		standing.alpha = wear_id.alpha
+		if(wear_id.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to wear_id.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = ID_LAYER)
+		overlays_standing[ID_LAYER]	= standing
 	sec_hud_set_ID()
 	apply_overlay(ID_LAYER)
 
@@ -253,6 +267,13 @@ Please contact me on #coderbus IRC. ~Carnie x
 		if(!standing)
 			standing = image("icon"='icons/mob/hands.dmi', "icon_state"="[t_state]", "layer"=-layer2use)
 
+		standing.color = gloves.color
+		standing.alpha = gloves.alpha
+		if(gloves.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to gloves.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = GLOVES_LAYER)
 		overlays_standing[GLOVES_LAYER]	= standing
 
 		if(gloves.blood_DNA)
@@ -286,7 +307,13 @@ Please contact me on #coderbus IRC. ~Carnie x
 			standing = image("icon"=glasses.alternate_worn_icon, "icon_state"="[glasses.icon_state]","layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/eyes.dmi', "icon_state"="[glasses.icon_state]", "layer"=-layer2use)
-
+		standing.color = glasses.color
+		standing.alpha = glasses.alpha
+		if(glasses.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to glasses.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = GLASSES_LAYER)
 		overlays_standing[GLASSES_LAYER] = standing
 
 	apply_overlay(GLASSES_LAYER)
@@ -312,7 +339,13 @@ Please contact me on #coderbus IRC. ~Carnie x
 			standing = image("icon"=ears.alternate_worn_icon, "icon_state"="[ears.icon_state]", "layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/ears.dmi', "icon_state"="[ears.icon_state]", "layer"=-layer2use)
-
+		standing.color = ears.color
+		standing.alpha = ears.alpha
+		if(ears.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to ears.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = EARS_LAYER)
 		overlays_standing[EARS_LAYER] = standing
 
 	apply_overlay(EARS_LAYER)
@@ -338,6 +371,13 @@ Please contact me on #coderbus IRC. ~Carnie x
 			standing = image("icon"=shoes.alternate_worn_icon, "icon_state"="[shoes.icon_state]","layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/feet.dmi', "icon_state"="[shoes.icon_state]", "layer"=-layer2use)
+		standing.color = shoes.color
+		standing.alpha = shoes.alpha
+		if(shoes.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to shoes.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = SHOES_LAYER)
 		overlays_standing[SHOES_LAYER]	= standing
 
 		//Bloody shoes
@@ -364,7 +404,15 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 		var/t_state = s_store.item_state
 		if(!t_state)	t_state = s_store.icon_state
-		overlays_standing[SUIT_STORE_LAYER]	= image("icon"='icons/mob/belt_mirror.dmi', "icon_state"="[t_state]", "layer"=-SUIT_STORE_LAYER)
+		var/image/standing = image("icon"='icons/mob/belt_mirror.dmi', "icon_state"="[t_state]", "layer"=-SUIT_STORE_LAYER)
+		standing.color = s_store.color
+		standing.alpha = s_store.alpha
+		if(s_store.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to s_store.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = SUIT_STORE_LAYER)
+		overlays_standing[SUIT_STORE_LAYER]	= standing
 
 	apply_overlay(SUIT_STORE_LAYER)
 
@@ -405,7 +453,13 @@ Please contact me on #coderbus IRC. ~Carnie x
 			standing = image("icon"=belt.alternate_worn_icon, "icon_state"="[t_state]", "layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/belt.dmi', "icon_state"="[t_state]", "layer"=-layer2use)
-
+		standing.color = belt.color
+		standing.alpha = belt.alpha
+		if(belt.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to belt.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = BELT_LAYER)
 		overlays_standing[BELT_LAYER] = standing
 
 	apply_overlay(BELT_LAYER)
@@ -433,6 +487,13 @@ Please contact me on #coderbus IRC. ~Carnie x
 			standing = image("icon"=wear_suit.alternate_worn_icon, "icon_state"="[wear_suit.icon_state]", "layer"=-layer2use)
 		if(!standing)
 			standing = image("icon"='icons/mob/suit.dmi', "icon_state"="[wear_suit.icon_state]", "layer"=-layer2use)
+		standing.color = wear_suit.color
+		standing.alpha = wear_suit.alpha
+		if(wear_suit.fry_amt > 0)
+			var/icon/HI = icon(standing.icon, standing.icon_state)
+			for(var/i = 1 to wear_suit.fry_amt)
+				HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+			standing = image(HI, "layer" = SUIT_LAYER)
 		overlays_standing[SUIT_LAYER]	= standing
 
 		if(istype(wear_suit, /obj/item/clothing/suit/straight_jacket))

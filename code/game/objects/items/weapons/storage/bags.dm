@@ -10,7 +10,7 @@
  *		Plant Bag
  *		Sheet Snatcher
  *		Book Bag
- *
+ *		Biowaste Bag
  *	-Sayu
  */
 
@@ -78,6 +78,7 @@
 	max_combined_w_class = 200 //Doesn't matter what this is, so long as it's more or equal to storage_slots * ore.w_class
 	max_w_class = 3
 	can_hold = list(/obj/item/weapon/ore)
+	burn_state = 0
 
 /obj/item/weapon/storage/bag/ore/cyborg
 	name = "cyborg mining satchel"
@@ -111,6 +112,7 @@
 	name = "portable seed extractor"
 	desc = "For the enterprising botanist on the go. Less efficient than the stationary model, it creates one seed per plant."
 	icon_state = "portaseeder"
+	burn_state = -1
 
 /obj/item/weapon/storage/bag/plants/portaseeder/verb/dissolve_contents()
 	set name = "Activate Seed Extraction"
@@ -351,4 +353,20 @@
 	w_class = 1
 	preposition = "in"
 	can_hold = list(/obj/item/weapon/reagent_containers/pill, /obj/item/weapon/reagent_containers/glass/beaker, /obj/item/weapon/reagent_containers/glass/bottle)
+	burn_state = 0 //Burnable
+
+/*
+ *  Biowaste bag (mostly for xenobiologists)
+ */
+
+/obj/item/weapon/storage/bag/bio
+	name = "bio bag"
+	icon = 'icons/obj/chemical.dmi'
+	icon_state = "biobag"
+	desc = "A bag for the safe transportation and disposal of biowaste and other biological materials."
+	storage_slots = 25
+	max_combined_w_class = 200
+	w_class = 1
+	preposition = "in"
+	can_hold = list(/obj/item/slime_extract, /obj/item/weapon/reagent_containers/syringe, /obj/item/weapon/reagent_containers/glass/beaker, /obj/item/weapon/reagent_containers/glass/bottle, /obj/item/weapon/reagent_containers/blood, /obj/item/weapon/reagent_containers/hypospray/medipen, /obj/item/trash/deadmouse)
 	burn_state = 0 //Burnable
