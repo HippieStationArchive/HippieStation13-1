@@ -42,9 +42,9 @@
 				user << "<span class='warning'>[H] isn't bleeding!</span>"
 				return
 
-	if(isliving(M))
-		if(!M.can_inject(user, 1))
-			return
+	// if(isliving(M))
+	// 	if(!M.can_inject(user, 1)) //This doesn't make a lick of sense in gameplay prespective and most other medical tools don't do a check for space suits/etc. to heal (patches, gauzes, etc.)
+	// 		return
 
 	if(user)
 		if (M != user)
