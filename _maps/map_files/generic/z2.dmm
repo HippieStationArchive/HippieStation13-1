@@ -649,7 +649,7 @@
 "my" = (/obj/machinery/door/airlock/external{req_access_txt = "150"},/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
 "mz" = (/obj/structure/sign/map/left{pixel_y = -32},/obj/structure/rack{icon = 'icons/obj/stationobjs.dmi'; icon_state = "minibar_left"; name = "skeletal minibar"},/obj/item/weapon/reagent_containers/food/drinks/bottle/vodka,/turf/simulated/floor/wood,/area/syndicate_mothership)
 "mA" = (/obj/machinery/computer/telecrystals/boss,/turf/simulated/floor/plasteel/podhatch{dir = 5},/area/syndicate_mothership)
-"mB" = (/obj/structure/sign/map/right{pixel_y = -32},/obj/structure/rack{icon = 'icons/obj/stationobjs.dmi'; icon_state = "minibar_right"; name = "skeletal minibar"},/obj/item/weapon/reagent_containers/food/drinks/bottle/gin,/turf/simulated/floor/wood,/area/syndicate_mothership)
+"mB" = (/obj/structure/sign/map/right{pixel_y = -32},/obj/structure/rack{icon = 'icons/obj/stationobjs.dmi'; icon_state = "minibar_right"; name = "skeletal minibar"},/obj/item/weapon/reagent_containers/food/drinks/bottle/gin,/obj/item/weapon/gun/projectile/automatic/pistol/automag,/turf/simulated/floor/wood,/area/syndicate_mothership)
 "mC" = (/obj/machinery/door/airlock/centcom{name = "Equipment Room"; opacity = 1; req_access_txt = "150"},/turf/simulated/floor/plasteel/bar{dir = 2},/area/syndicate_mothership)
 "mD" = (/obj/structure/lattice,/obj/effect/forcefield,/turf/space/transit,/area/wizard_station)
 "mE" = (/turf/simulated/floor/plasteel/cult{icon_state = "cultdamage3"},/area/wizard_station)

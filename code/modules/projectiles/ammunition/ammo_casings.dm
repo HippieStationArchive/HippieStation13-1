@@ -21,6 +21,11 @@
 	caliber = "10mm"
 	projectile_type = /obj/item/projectile/bullet/midbullet3
 
+/obj/item/ammo_casing/c44
+	desc = "A .44 AMP cartridge."
+	caliber = ".44"
+	projectile_type = /obj/item/projectile/bullet/heavybullet2
+
 /obj/item/ammo_casing/c9mm
 	desc = "A 9mm cartridge."
 	caliber = "9mm"
