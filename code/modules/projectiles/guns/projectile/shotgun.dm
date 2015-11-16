@@ -392,3 +392,30 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
 	fire_sound = 'sound/weapons/shotgun.ogg'
 	w_class = 5
+
+// Triple Threat //
+
+/obj/item/weapon/gun/projectile/revolver/triplebarrel // for biker bar
+	name = "triple-barreled shotgun"
+	desc = "A modded version of a true classic."
+	icon_state = "triplethreat"
+	item_state = "triplethreat"
+	w_class = 4
+	force = 10
+	flags = CONDUCT
+	slot_flags = SLOT_BACK
+	origin_tech = "combat=4;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/triple
+	fire_sound = 'sound/weapons/shotgun.ogg'
+
+// Lever Action //
+
+/obj/item/weapon/gun/projectile/shotgun/leveraction //for biker bar
+	name = "lever-action shotgun"
+	desc = "A short shotgun with a small magazine and a carved grip."
+	icon_state = "leveraction"
+	item_state = "gun"
+	slot_flags = SLOT_BELT
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/lever
+	fire_sound = 'sound/weapons/shotgun.ogg'
+	w_class = 3
