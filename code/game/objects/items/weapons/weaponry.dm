@@ -320,7 +320,7 @@
 	throwforce = 7
 	throw_speed = 2
 	throw_range = 5
-	w_class = 2
+	w_class = 3
 	flags = NOSHIELD
 	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
 	burn_state = 0
