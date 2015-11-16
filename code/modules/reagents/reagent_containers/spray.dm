@@ -14,7 +14,7 @@
 	var/spray_currentrange = 3 //the range of tiles the sprayer will reach when in fixed mode.
 	amount_per_transfer_from_this = 5
 	volume = 250
-	possible_transfer_amounts = list()
+	possible_transfer_amounts = list(5, 10)
 
 
 /obj/item/weapon/reagent_containers/spray/afterattack(atom/A as mob|obj, mob/user)
@@ -94,9 +94,8 @@
 
 /obj/item/weapon/reagent_containers/spray/attack_self(mob/user)
 
-	amount_per_transfer_from_this = (amount_per_transfer_from_this == 10 ? 5 : 10)
+	..()
 	spray_currentrange = (spray_currentrange == 1 ? spray_maxrange : 1)
-	user << "<span class='notice'>You [amount_per_transfer_from_this == 10 ? "remove" : "fix"] the nozzle. You'll now use [amount_per_transfer_from_this] units per spray.</span>"
 
 /obj/item/weapon/reagent_containers/spray/verb/empty()
 
