@@ -292,7 +292,7 @@
 				holder.throw_atom = object
 			if(pa.Find("right"))
 				if(holder.throw_atom)
-					holder.throw_atom.throw_at(object, 10, 1,user)
+					holder.throw_atom.throw_at(object, 10, 1)
 					log_admin("Build Mode: [key_name(usr)] threw [holder.throw_atom] at [object] ([object.x],[object.y],[object.z])")
 		if(AREA_BUILDMODE)
 			if(!holder.cornerA)

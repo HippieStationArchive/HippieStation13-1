@@ -114,9 +114,20 @@ var/list/uplink_items = list()
 
 // JOB-SPECIFIC ITEMS
 
-/*/datum/uplink_item/job_specific //No job-specific support for surplus yet.
+/datum/uplink_item/job_specific //No job-specific support for surplus yet.
 	category = "Job-specific Contraband"
 	surplus = 0
+
+//ENGINEER DIVISION
+
+/datum/uplink_item/job_specific/rodgun
+	name = "Rod Gun"
+	desc = "Based on the staple gun design, this baby can be loaded with 3 rods that you can shoot for them to embed into people." //This thing may be super OP
+	item = /obj/item/weapon/gun/rodgun
+	cost = 10 //Costly, but for a good reason
+	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
+
+//SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
 	name = "Chainsaw"
@@ -124,7 +135,39 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/twohanded/chainsaw
 	cost = 14
 	jobs = list("Botanist", "Bartender", "Chef")
-*/
+
+//LIBRARIAN
+/datum/uplink_item/job_specific/soulstone
+	name = "Soulstone"
+	desc = "This stone will be able to capture your victim's soul and bind them to your will."
+	item = /obj/item/device/soulstone/anybody
+	cost = 5 //nerfed the cost on Chronitonity's request
+	jobs = list("Librarian")
+
+//CHAPLAIN
+/datum/uplink_item/job_specific/skelestone
+	name = "Skelestone"
+	desc = "Make a skeleton minion! Has one use."
+	item = /obj/item/device/necromantic_stone/oneuse
+	cost = 7
+	jobs = list("Chaplain")
+
+//BARTENDER
+/datum/uplink_item/job_specific/buckshot
+	name = "12g Buckshot Shell"
+	desc = "Buckshot shells fire 5 pellets that will spread in the direction you are shooting. They can be loaded into your double-barreled shotgun. Absolutely devastating point-blank."
+	item = /obj/item/ammo_casing/shotgun/buckshot
+	cost = 5
+	jobs = list("Bartender")
+
+//MINER
+/datum/uplink_item/job_specific/alien
+	name = "Unknown Alien"
+	desc = "An unknown and hostile alien lifeform."
+	item = /obj/item/clothing/mask/facehugger
+	cost = 20
+	jobs = list("Shaft Miner")
+
 // DANGEROUS WEAPONS
 
 /datum/uplink_item/dangerous
@@ -230,6 +273,12 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/melee/energy/sword/saber
 	cost = 8
 
+/datum/uplink_item/dangerous/powerfist
+	name = "Power Fist"
+	desc = "A large mechanically powered fist made out of plasteel which can deliver a massive blow to any target with the ability to throw them across a room. The power fist needs approximately a second in between each punch before it is powered again."
+	item = /obj/item/weapon/melee/powerfist
+	cost = 10	//May need to be adjusted after we see how it performs in a non-test environment
+
 /datum/uplink_item/dangerous/emp
 	name = "EMP Kit"
 	desc = "A box that contains two EMP grenades, an EMP implant and a short ranged recharging device disguised as a flashlight. Useful to disrupt communication and silicon lifeforms."
@@ -291,6 +340,11 @@ var/list/uplink_items = list()
 	cost = 140
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
+/datum/uplink_item/dangerous/cqc_gloves
+	name = "Tactical Gloves"
+	desc = "Comfortable grey gloves with the CQC martial art inside."
+	item = /obj/item/clothing/gloves/cqc
+	cost = 12
 
 /datum/uplink_item/dangerous/syndieborg
 	name = "Syndicate Cyborg"
@@ -311,7 +365,7 @@ var/list/uplink_items = list()
 	desc = "Though capable of near sorcerous feats via use of hardlight holograms and nanomachines, they require an organic host as a home base and source of fuel."
 	item = /obj/item/weapon/storage/box/syndie_kit/guardian
 	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
-	cost = 16
+	cost = 20
 
 // AMMUNITION
 
@@ -480,7 +534,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/stealthy_weapons/traitor_chem_bottle
 	name = "Poison Kit"
-	desc = "An assortment of deadly chemicals packed into a compact box. Hard to utilize if there is no method of application."
+	desc = "An assortment of deadly chemicals packed into a compact box. Comes with a syringe for more precise application."
 	item = /obj/item/weapon/storage/box/syndie_kit/chemical
 	cost = 6
 	surplus = 50
@@ -889,6 +943,12 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_macrobomb
 	cost = 20
 	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/badass/raincoat
+    name = "Raincoat"
+    desc = "It's hip to be square!"
+    item = /obj/item/clothing/suit/raincoat
+    cost = 1
 
 /datum/uplink_item/badass/random
 	name = "Random Item"

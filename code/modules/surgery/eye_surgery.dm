@@ -8,7 +8,7 @@
 //fix eyes
 /datum/surgery_step/fix_eyes
 	name = "fix eyes"
-	implements = list(/obj/item/weapon/hemostat = 100, /obj/item/weapon/screwdriver = 45, /obj/item/weapon/pen = 25)
+	implements = list(/obj/item/weapon/hemostat = 100, /obj/item/weapon/screwdriver = 45, /obj/item/weapon/pen = 25, /obj/item/weapon/icepick = 5)
 	time = 64
 
 /datum/surgery_step/fix_eyes/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)

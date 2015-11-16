@@ -30,6 +30,7 @@
 	var/mob/tableclimber
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/obj/structure/table, /obj/structure/table/reinforced)
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //Drag&Drop pointer indicating it's possible -- for tablecrafting
 
 /obj/structure/table/New()
 	..()
@@ -128,6 +129,7 @@
 		G.affecting.Weaken(2)
 		G.affecting.visible_message("<span class='danger'>[G.assailant] pushes [G.affecting] onto [src].</span>", \
 									"<span class='userdanger'>[G.assailant] pushes [G.affecting] onto [src].</span>")
+		playsound(src.loc, 'sound/weapons/push_hard.ogg', 50, 1)
 		add_logs(G.assailant, G.affecting, "pushed")
 		qdel(I)
 		return 1
@@ -446,6 +448,7 @@
 
 /obj/structure/rack/attack_alien(mob/living/user)
 	user.do_attack_animation(src)
+	playsound(src.loc, 'sound/weapons/bladeslice.ogg', 50, 1)
 	visible_message("<span class='warning'>[user] slices [src] apart.</span>")
 	rack_destroy()
 
@@ -453,8 +456,10 @@
 /obj/structure/rack/attack_animal(mob/living/simple_animal/user)
 	if(user.environment_smash)
 		user.do_attack_animation(src)
+		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
 		visible_message("<span class='warning'>[user] smashes [src] apart.</span>")
 		rack_destroy()
+
 /obj/structure/rack/attack_tk() // no telehulk sorry
 	return
 

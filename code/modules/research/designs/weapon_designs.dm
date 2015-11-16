@@ -202,24 +202,27 @@
 
 /datum/design/mag_smg/ap_mag
 	name = "SABR SMG Armour Piercing Magazine (9mmAP)"
-	desc = "A 30-round armour piercing magazine for the prototype submachine gun. Deals slightly less damage by bypasses most armour"
+	desc = "A 30-round armour piercing magazine for the prototype submachine gun. The bullet itself utilizes stronger materials allowing it to punch through armor more easily, at the cost of less or no fragmentation of the bullet, resulting in less trauma."
 	id = "mag_smg_ap"
 	materials = list(MAT_METAL = 3000, MAT_SILVER = 100)
 	build_path = /obj/item/ammo_box/magazine/smgm9mm/ap
+	locked = 1
 
 /datum/design/mag_smg/incin_mag
 	name = "SABR SMG Incendiary Magazine (9mmIC)"
-	desc = "A 30-round incindiary round magazine for the prototype submachine gun. Deals significanlty less damage but sets the target on fire"
+	desc = "A 30-round incendiary round magazine for the prototype submachine gun. Deals significantly less damage but sets the target on fire."
 	id = "mag_smg_ic"
-	materials = list(MAT_METAL = 3000, MAT_SILVER = 100, MAT_GLASS = 400)
+	materials = list(MAT_METAL = 3000, MAT_SILVER = 100)
 	build_path = /obj/item/ammo_box/magazine/smgm9mm/fire
+	locked = 1
 
 /datum/design/mag_smg/incin_tox
 	name = "SABR SMG Urnaium Magazine (9mmTX)"
-	desc = "A 30-round urnaium tipped round magazine for the prototype submachine gun. Deals toxin damage, but less overall damage."
+	desc = "A 30-round uranium tipped round magazine for the prototype submachine gun. The bullet injects toxin into the victim, but with less overall physical damage."
 	id = "mag_smg_tx"
-	materials = list(MAT_METAL = 3000, MAT_GLASS = 200, MAT_URANIUM = 1000)
+	materials = list(MAT_METAL = 3000, MAT_URANIUM = 1000)
 	build_path = /obj/item/ammo_box/magazine/smgm9mm/toxin
+	locked = 1
 
 /datum/design/stunshell
 	name = "Stun Shell"

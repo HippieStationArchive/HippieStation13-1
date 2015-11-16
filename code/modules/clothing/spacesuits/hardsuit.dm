@@ -39,13 +39,26 @@
 		user.AddLuminosity(-brightness_on)
 		SetLuminosity(brightness_on)
 
+/obj/item/clothing/head/helmet/space/hardsuit/proc/display_visor_message(var/msg)
+	var/mob/wearer = loc
+	if(msg && ishuman(wearer))
+		wearer.show_message("\icon[src]<b><span class='robot'>[msg]</span></b>", 1)
+
+/obj/item/clothing/head/helmet/space/hardsuit/rad_act(severity)
+	..()
+	display_visor_message("Radiation pulse detected! Magnitide: <span class='green'>[severity]</span> RADs.")
+
+/obj/item/clothing/head/helmet/space/hardsuit/emp_act(severity)
+	..()
+	display_visor_message("[severity > 1 ? "Light" : "Strong"] electromagnetic pulse detected!")
+
+
 
 /obj/item/clothing/suit/space/hardsuit
 	name = "hardsuit"
 	desc = "A special suit that protects against hazardous, low pressure environments. Has radiation shielding."
 	icon_state = "hardsuit-engineering"
 	item_state = "eng_hardsuit"
-	slowdown = 2
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 75)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals,/obj/item/device/t_scanner, /obj/item/weapon/rcd)
 	var/obj/item/clothing/head/helmet/space/hardsuit/helmet
@@ -137,7 +150,7 @@
 	icon_state = "hardsuit0-mining"
 	item_state = "mining_helm"
 	item_color = "mining"
-	armor = list(melee = 30, bullet = 5, laser = 10, energy = 5, bomb = 50, bio = 100, rad = 50)
+	armor = list(melee = 40, bullet = 5, laser = 10, energy = 5, bomb = 50, bio = 100, rad = 50)
 	brightness_on = 7
 
 
@@ -146,7 +159,7 @@
 	name = "mining hardsuit"
 	desc = "A special suit that protects against hazardous, low pressure environments. Has reinforced plating for wildlife encounters."
 	item_state = "mining_hardsuit"
-	armor = list(melee = 30, bullet = 5, laser = 10, energy = 5, bomb = 50, bio = 100, rad = 50)
+	armor = list(melee = 40, bullet = 5, laser = 10, energy = 5, bomb = 50, bio = 100, rad = 50)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals,/obj/item/weapon/storage/bag/ore,/obj/item/weapon/pickaxe)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/mining
 
@@ -160,7 +173,7 @@
 	icon_state = "hardsuit1-syndi"
 	item_state = "syndie_helm"
 	item_color = "syndi"
-	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
+	armor = list(melee = 60, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
 	on = 0
 	var/obj/item/clothing/suit/space/hardsuit/syndi/linkedsuit = null
 	action_button_name = "Toggle Helmet Mode"
@@ -231,10 +244,9 @@
 	icon_state = "hardsuit1-syndi"
 	item_state = "syndie_hardsuit"
 	item_color = "syndi"
-	slowdown = 1
 	w_class = 3
 	action_button_name = "Toggle Helmet"
-	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
+	armor = list(melee = 60, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword/saber,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi
 
@@ -261,6 +273,8 @@
 	item_color = "owl"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl
 
+/obj/item/clothing/suit/space/hardsuit/syndi/owl/cursed
+	flags = NODROP
 
 	//Wizard hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/wizard
@@ -281,7 +295,6 @@
 	name = "gem-encrusted hardsuit"
 	desc = "A bizarre gem-encrusted suit that radiates magical energies."
 	item_state = "wiz_hardsuit"
-	slowdown = 1
 	w_class = 3
 	unacidable = 1
 	armor = list(melee = 40, bullet = 40, laser = 40, energy = 20, bomb = 35, bio = 100, rad = 50)
@@ -309,7 +322,6 @@
 	name = "medical hardsuit"
 	desc = "A special suit that protects against hazardous, low pressure environments. Built with lightweight materials for easier movement."
 	item_state = "medical_hardsuit"
-	slowdown = 1
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals,/obj/item/weapon/storage/firstaid,/obj/item/device/healthanalyzer,/obj/item/stack/medical)
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/medical
@@ -324,6 +336,11 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 60)
 	scan_reagents = 1
+	var/obj/machinery/doppler_array/integrated/bomb_radar
+
+/obj/item/clothing/head/helmet/space/hardsuit/rd/New()
+	..()
+	bomb_radar = new /obj/machinery/doppler_array/integrated(src)
 
 /obj/item/clothing/head/helmet/space/hardsuit/rd/equipped(mob/user, slot)
 	user.scanner.Grant(user)
@@ -379,3 +396,36 @@
 	desc = "A special bulky suit that protects against hazardous, low pressure environments. Has an additional layer of armor."
 	armor = list(melee = 45, bullet = 25, laser = 30, energy = 10, bomb = 25, bio = 100, rad = 50)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security/hos
+
+// powerarmour is for pussies
+
+/obj/item/clothing/head/helmet/space/hardsuit/powerarmour
+	name = "t-45d power armour helmet"
+	desc = "A precursor powered helmet designed for combat. Has radiation shielding, Incredibly weak to electronic pulses."
+	icon_state = "hardsuit0-powerarmour"
+	item_state = "hardsuit0-powerarmour"
+	item_color = "powerarmour"
+	armor = list(melee = 65, bullet = 30, laser = 30, energy = 0, bomb = 50, bio = 100, rad = 90)
+
+
+/obj/item/clothing/suit/space/hardsuit/powerarmour
+	icon_state = "powerarmour"
+	name = "t-45d power armour suit"
+	desc = "A precursor powered suit designed for combat. Has radiation shielding, Incredibly weak to electronic pulses."
+	item_state = "powerarmour"
+	armor = list(melee = 65, bullet = 35, laser = 30, energy = 0, bomb = 50, bio = 100, rad = 90)
+	origin_tech = "materials=5;engineering=5;combat=4"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/powerarmour
+	slowdown = 1
+
+/obj/item/clothing/suit/space/hardsuit/powerarmour/emp_act(severity, mob/living/user)
+    user = src.loc
+    if(istype(user,/mob/living/carbon/human))
+        if(slowdown <= 3)
+            slowdown += 1
+        user.electrocute_act(10 * severity,src)
+        user.visible_message("<span class='warning'>[user.name]'s suit shakes violently, sending out electrical sparks!</span>", \
+                       "<span class='danger'>Electronic interference detected in [src], servo damage has occured!.</span>", \
+                    "<span class='italics'>You hear loud electrical crackles.</span>")
+    else
+        return 0

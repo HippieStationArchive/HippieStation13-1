@@ -113,9 +113,13 @@
 	w_class = 1
 	var/list/spooky_scaries = list()
 	var/unlimited = 0
+	var/maxskeles = 3
 
 /obj/item/device/necromantic_stone/unlimited
 	unlimited = 1
+
+/obj/item/device/necromantic_stone/oneuse //Used as a chaplain traitor item
+	maxskeles = 1
 
 /obj/item/device/necromantic_stone/attack(mob/living/carbon/human/M, mob/living/carbon/human/user)
 	if(!istype(M))
@@ -133,7 +137,7 @@
 		return
 
 	check_spooky()//clean out/refresh the list
-	if(spooky_scaries.len >= 3 && !unlimited)
+	if(spooky_scaries.len >= maxskeles && !unlimited)
 		user << "<span class='warning'>This artifact can only affect three undead at a time!</span>"
 		return
 
@@ -145,7 +149,17 @@
 
 	equip_roman_skeleton(M)
 
-	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/3 active thralls."]"
+	var/mob/living/carbon/human/master = user
+	var/datum/objective/protect/protect_master = new /datum/objective/protect
+	protect_master.owner = M.mind
+	protect_master.target = master.mind
+	protect_master.explanation_text = "Protect [master.real_name], your master."
+	M.mind.objectives += protect_master
+	ticker.mode.traitors += M.mind
+	M.mind.special_role = "skeleton-thrall"
+
+
+	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/[maxskeles] active thralls."]"
 
 /obj/item/device/necromantic_stone/proc/check_spooky()
 	if(unlimited) //no point, the list isn't used.
@@ -164,6 +178,7 @@
 //Funny gimmick, skeletons always seem to wear roman/ancient armour
 /obj/item/device/necromantic_stone/proc/equip_roman_skeleton(mob/living/carbon/human/H)
 	for(var/obj/item/I in H)
+		if (istype(I, /obj/item/weapon/implant) || istype(I, /obj/item/organ)) continue
 		H.unEquip(I)
 
 	var/hat = pick(/obj/item/clothing/head/helmet/roman, /obj/item/clothing/head/helmet/roman/legionaire)
@@ -185,7 +200,7 @@ var/global/list/multiverse = list()
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "energy_katana"
 	item_state = "energy_katana"
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/weapons/bladeslice2.ogg'
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	force = 20

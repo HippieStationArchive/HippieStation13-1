@@ -91,8 +91,12 @@
 			var/blocked = 0
 			if(ishuman(A))
 				var/mob/living/carbon/human/H = A
-				if(H.check_shields(90, "the [name]", src, 1))
-					blocked = 1
+				var/checkshields = H.check_shields(90, "the [name]", src, 1)
+				if(checkshields)
+					if(isliving(checkshields))
+						L = checkshields
+					else
+						blocked = 1
 			if(!blocked)
 				L.visible_message("<span class ='danger'>[src] pounces on [L]!</span>", "<span class ='userdanger'>[src] pounces on you!</span>")
 				L.Weaken(5)

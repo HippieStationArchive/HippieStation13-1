@@ -71,8 +71,6 @@
 							"<span class='userdanger'>[src] has been hit by [I].</span>")
 			var/armor = run_armor_check(zone, "melee", "Your armor has protected your [parse_zone(zone)].", "Your armor has softened hit to your [parse_zone(zone)].",I.armour_penetration)
 			apply_damage(I.throwforce, dtype, zone, armor, I)
-			if(I.thrownby)
-				add_logs(I.thrownby, src, "hit", I)
 	else
 		playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
 	..()
@@ -113,6 +111,7 @@
 						"<span class='userdanger'>You're set on fire!</span>")
 		src.AddLuminosity(3)
 		throw_alert("fire", /obj/screen/alert/fire)
+		playsound(src, 'sound/Effects/combust.ogg', 40, 1)
 		update_fire()
 
 /mob/living/proc/ExtinguishMob()
@@ -190,7 +189,6 @@
 	if(!G)	//the grab will delete itself in New if src is anchored
 		return 0
 	user.put_in_active_hand(G)
-	G.synch()
 	LAssailant = user
 
 	playsound(src.loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
@@ -199,7 +197,7 @@
 
 
 /mob/living/attack_slime(mob/living/simple_animal/slime/M)
-	if (!ticker)
+	if(!ticker || !ticker.mode)
 		M << "You cannot attack people before the game has started."
 		return
 
@@ -228,7 +226,7 @@
 
 
 /mob/living/attack_paw(mob/living/carbon/monkey/M)
-	if (!ticker)
+	if(!ticker || !ticker.mode)
 		M << "You cannot attack people before the game has started."
 		return 0
 
@@ -273,7 +271,7 @@
 	return 0
 
 /mob/living/attack_alien(mob/living/carbon/alien/humanoid/M)
-	if (!ticker)
+	if(!ticker || !ticker.mode)
 		M << "You cannot attack people before the game has started."
 		return 0
 

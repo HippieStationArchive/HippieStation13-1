@@ -230,6 +230,15 @@
 		else
 			. = ..()
 
+		for (var/obj/item/weapon/grab/G in mob)
+			if (G.state == GRAB_NECK)
+				mob.set_dir(reverse_dir[direct])
+			if (G.state == GRAB_KILL)
+				move_delay = move_delay + 14 //Even more movement delay
+			G.adjust_position()
+		for (var/obj/item/weapon/grab/G in mob.grabbed_by)
+			G.adjust_position()
+
 		moving = 0
 		if(mob && .)
 			mob.throwing = 0

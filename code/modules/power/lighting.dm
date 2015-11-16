@@ -387,6 +387,7 @@
 				if(status != LIGHT_OK) break
 				on = !on
 				update(0)
+				playsound(src.loc, pick('sound/machines/flicker1.ogg', 'sound/machines/flicker2.ogg', 'sound/machines/flicker3.ogg'), 20, 1, -3)
 				sleep(rand(5, 15))
 			on = (status == LIGHT_OK)
 			update(0)
@@ -508,7 +509,7 @@
 
 	if(!skip_sound_and_sparks)
 		if(status == LIGHT_OK || status == LIGHT_BURNED)
-			playsound(src.loc, 'sound/effects/Glasshit.ogg', 75, 1)
+			playsound(src.loc, 'sound/machines/light_break.ogg', 60, 1)
 		if(on)
 			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 			s.set_up(3, 1, src)

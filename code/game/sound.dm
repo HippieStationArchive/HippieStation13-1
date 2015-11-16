@@ -103,4 +103,9 @@
 			if ("hiss") soundin = pick('sound/voice/hiss1.ogg','sound/voice/hiss2.ogg','sound/voice/hiss3.ogg','sound/voice/hiss4.ogg')
 			if ("pageturn") soundin = pick('sound/effects/pageturn1.ogg', 'sound/effects/pageturn2.ogg','sound/effects/pageturn3.ogg')
 			if ("gunshot") soundin = pick('sound/weapons/Gunshot.ogg', 'sound/weapons/Gunshot2.ogg','sound/weapons/Gunshot3.ogg','sound/weapons/Gunshot4.ogg')
+			if ("ricochet") soundin = pick(	'sound/effects/wep_misc/ric1.ogg', 'sound/effects/wep_misc/ric2.ogg','sound/effects/wep_misc/ric3.ogg',\
+											'sound/effects/wep_misc/ric4.ogg','sound/effects/wep_misc/ric5.ogg')
+	if(islist(soundin))
+		soundin = pick(soundin) //This allows for list input as hitsounds/etc.
+
 	return soundin

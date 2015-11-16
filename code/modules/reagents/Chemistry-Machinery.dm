@@ -1002,7 +1002,10 @@
 
 				//All types that you can put into the grinder to transfer the reagents to the beaker. !Put all recipes above this.!
 				/obj/item/weapon/reagent_containers/pill = list(),
-				/obj/item/weapon/reagent_containers/food = list()
+				/obj/item/weapon/reagent_containers/food = list(),
+				
+				//Random Meme-tier stuff!!
+				/obj/item/weapon/screwdriver = list("screwdrivercocktail" = 30)
 		)
 
 		var/list/juice_items = list (

@@ -553,7 +553,7 @@ var/const/GALOSHES_DONT_HELP = 4
 				target = new_turf
 				if(new_turf.density)
 					break
-			I.throw_at(target,I.throw_range,I.throw_speed,src)
+			I.throw_at(target,I.throw_range,I.throw_speed)
 		if(61 to 90) //throw it down to the floor
 			var/turf/target = get_turf(loc)
 			I.throw_at(target,I.throw_range,I.throw_speed,src)

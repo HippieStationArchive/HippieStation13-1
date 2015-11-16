@@ -4,6 +4,8 @@
 	desc = "Heavy duty metal shutters that opens mechanically."
 	icon = 'icons/obj/doors/shutters.dmi'
 	layer = 3.1
+	sound_open = 'sound/machines/shutter_open.ogg'
+	sound_close = 'sound/machines/shutter_close.ogg'
 
 /obj/machinery/door/poddoor/shutters/preopen
 	icon_state = "open"

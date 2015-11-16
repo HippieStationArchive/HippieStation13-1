@@ -9,6 +9,7 @@
 	item_state = "bulldog"
 	lefthand_file = 'icons/mob/inhands/guns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/guns_righthand.dmi'
+	materials = list(MAT_METAL = 8000)
 	var/maxWeightClass = 20 //The max weight of items that can fit into the cannon
 	var/loadedWeightClass = 0 //The weight of items currently in the cannon
 	var/obj/item/weapon/tank/internals/tank = null //The gas tank that is drawn from to fire things
@@ -71,6 +72,8 @@
 
 
 /obj/item/weapon/pneumatic_cannon/afterattack(atom/target as mob|obj|turf, mob/living/carbon/human/user as mob|obj, flag, params)
+	if(target in user.contents) // to avoid shooting yourself by putting this thing in the backpack
+		return
 	if(user.a_intent == "harm" || !ishuman(user))
 		return ..()
 	if(!loadedItems || !loadedWeightClass)
@@ -92,7 +95,7 @@
 			loadedWeightClass -= ITD.w_class
 			ITD.throw_speed = pressureSetting * 2
 			ITD.loc = get_turf(src)
-			ITD.throw_at(target, pressureSetting * 5, pressureSetting * 2,user)
+			ITD.throw_at(target, pressureSetting * 5, pressureSetting * 2)
 	if(pressureSetting >= 3)
 		user << "<span class='boldannounce'>\The [src]'s recoil knocks you down!</span>"
 		user.Weaken(2)

@@ -501,3 +501,19 @@
 	icon_state = "jester"
 	item_color = "jester"
 	can_adjust = 0
+
+/obj/item/clothing/under/odgreen
+	name = "olive drab suit"
+	desc = "Olive Drab. Commonly known as OD. A single-color battle uniform for general infantry use. Does not provide much camouflage."
+	icon_state = "odgreensuit"
+	item_state = "odgreensuit"
+	item_color = "odgreensuit"
+	can_adjust = 0
+	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+
+/obj/item/clothing/under/tracksuit
+	name = "track suit"
+	desc = "A particularly slavish tracksuit."
+	icon_state = "tracksuit"
+	item_state = "tracksuit"
+	item_color = "tracksuit"

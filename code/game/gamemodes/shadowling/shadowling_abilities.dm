@@ -643,6 +643,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 		M.visible_message("<span class='warning'>[M]'s eyes suddenly flare red. They proceed to collapse on the floor, not breathing.</span>", \
 						  "<span class='warning'><b>...speeding by... ...pretty blue glow... ...touch it... ...no glow now... ...no light... ...nothing at all...</span>")
 		M.death()
+		U.mind.remove_spell(src)
 		if(SSshuttle.emergency.mode == SHUTTLE_CALL)
 			var/more_minutes = 9000
 			var/timer = SSshuttle.emergency.timeLeft()

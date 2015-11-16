@@ -827,6 +827,12 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	contains = list(/obj/item/clothing/tie/petcollar)
 	containername = "corgi crate"
 
+/datum/supply_packs/organic/memedog
+	name = "Strange Dog Crate"
+	cost = 20
+	containertype = /obj/structure/closet/critter/memedog
+	containername = "Strange Dog Crate"
+
 /datum/supply_packs/organic/cat
 	name = "Cat Crate"
 	cost = 50 //Cats are worth as much as corgis.
