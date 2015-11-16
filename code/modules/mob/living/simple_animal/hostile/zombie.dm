@@ -103,18 +103,15 @@
 /mob/living/simple_animal/hostile/zombie/death()
 	..()
 	if(stored_corpse)
-		stored_corpse.loc = loc
-		if(ckey)
-			stored_corpse.ckey = src.ckey //This can potentially let ghosts get cloned from a zombie corpse
+		stored_corpse.loc = get_turf(src)
+		// if(ckey)
+		// 	stored_corpse.key = src.key //This is VERY broken.
 		qdel(src)
 		return
 
 /proc/Zombify(mob/living/carbon/human/H)
 	if(!istype(H)) return
-	H.update_canmove()
 	H.set_species(/datum/species/zombie)
-	if(!H.stat)
-		H.death()
 	ticker.mode.add_zombie(H.mind)
 	for(var/mob/dead/observer/ghost in player_list)
 		if(H.real_name == ghost.real_name)
@@ -130,7 +127,8 @@
 	Z.appearance = H.appearance
 	Z.transform = matrix()
 	Z.pixel_y = 0
-	H.stat = DEAD
+	if(H.stat != DEAD)
+		H.death(0)
 	H.loc = Z
 	Z.original_corpse_ckey = H.ckey
 	Z.stored_corpse = H

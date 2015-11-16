@@ -39,15 +39,15 @@ var/list/zombie_cure = list()
 
 /datum/disease/transformation/zombie/do_disease_transformation(mob/living/carbon/affected_mob)
 	if(affected_mob.notransform) return
-	affected_mob.death()
 	affected_mob.notransform = 1
-	sleep(30)
+	affected_mob.emote("faint")
+	spawn(30)
+		Zombify(affected_mob)
 	cure()
-	Zombify(affected_mob)
 
-/datum/disease/transformation/zombie/cure()
-	ticker.mode.remove_zombie(affected_mob.mind)
-	..()
+// /datum/disease/transformation/zombie/cure()
+// 	ticker.mode.remove_zombie(affected_mob.mind) //Unneeded, infected people aren't considered antags until transformation
+// 	..()
 
 /datum/disease/transformation/zombie/has_cure()
 	if(affected_mob.stat == DEAD) //Cure won't work if the disease holder is already dead. The only thing to do now is to get rid of the corpse.
