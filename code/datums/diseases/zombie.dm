@@ -13,7 +13,7 @@ var/list/zombie_cure = list()
 	longevity = 30
 	desc = "Humans infected with this disease eventually will become a zombie that will spread the disease via biting."
 	severity = BIOHAZARD
-	stage_prob = 3
+	stage_prob = 4
 	visibility_flags = HIDDEN_SCANNER
 	agent = "Z-Virus Beta"
 
@@ -39,7 +39,7 @@ var/list/zombie_cure = list()
 
 /datum/disease/transformation/zombie/do_disease_transformation(mob/living/carbon/affected_mob)
 	if(affected_mob.notransform) return
-	affected_mob.death(1)
+	affected_mob.death()
 	affected_mob.notransform = 1
 	sleep(30)
 	cure()
@@ -73,12 +73,12 @@ var/list/zombie_cure = list()
 				else if(prob(5))
 					if(ishuman(affected_mob))
 						var/mob/living/carbon/human/H = affected_mob
-						H.vessel.remove_reagent("blood",rand(1,5))
+						H.vessel.remove_reagent("blood",rand(1,3))
 					affected_mob.visible_message("<span class='warning'>[affected_mob] looks a bit pale...</span>", "<span class='notice'>You look a bit pale...</span>")
 			if(4)
 				if(ishuman(affected_mob))
 					var/mob/living/carbon/human/H = affected_mob
-					H.vessel.remove_reagent("blood",rand(1,2))
+					H.vessel.remove_reagent("blood",rand(1,5))
 				if(prob(15))
 					affected_mob << "<span class='notice'>[pick("You feel hot.", "You feel like you're burning.")]</span>"
 					if(affected_mob.bodytemperature < BODYTEMP_HEAT_DAMAGE_LIMIT)
@@ -90,3 +90,6 @@ var/list/zombie_cure = list()
 					affected_mob.visible_message("<span class='warning'>[affected_mob] looks very pale...</span>", "<span class='notice'>You look very pale...</span>")
 				else if(prob(7))
 					affected_mob.emote(pick("cough", "sneeze", "groan", "gasp"))
+	else
+		if(prob(stage_prob)) //DOUBLE the probability to mutate when dead
+			stage = min(stage+1, max_stages)

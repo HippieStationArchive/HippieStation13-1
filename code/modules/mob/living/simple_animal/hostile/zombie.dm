@@ -22,15 +22,15 @@
 	minbodytemp = 0
 	maxbodytemp = 350
 	unsuitable_atmos_damage = 10
-	environment_smash = 1
+	environment_smash = 1 //Can smash tables and lockers, etc.
 	can_force_doors = 1 //Can force doors open like a champ
 	robust_searching = 1
-	stat_attack = 1
+	stat_attack = 1 //Can attack unconscious players
 	gold_core_spawnable = 0 //No.
 	faction = list("zombie")
 	languages = ZOMBIE
 
-	var/infection = 20 //Chance of infecting the victim.
+	var/infection = 25 //Chance of infecting the victim.
 	var/mob/living/carbon/human/stored_corpse = null
 	var/original_corpse_ckey = null
 
@@ -54,6 +54,9 @@
 	if(ckey && client)
 		user << "The zombie is already controlled by a player."
 		return
+	if(stat)
+		user << "The zombie is dead!"
+		return
 	var/be_zombie = alert("Become a zombie? (Warning, You can no longer be cloned!)",,"Yes","No")
 	if(be_zombie == "No")
 		return
@@ -67,11 +70,11 @@
 
 /mob/living/simple_animal/hostile/zombie/Login()
 	..()
-	src << "<b>You have transformed into a Zombie. You exist only for one purpose: to spread the infection.</b>"
-	src << "<b>Clicking on the doors will let you force-open them. Time taken depends on if the door is bolted, welded or both.</b>"
-	src << "<b>Clicking on animal corpses will make you feast on them, restoring your health.</b>"
-	src << "<b>You will spread the infection through BITES. they have a random chance of happening when you attack a human being.</b>"
-	src << "<b>The zombie disease will make zombies even out of dead humans, but you can only spread it to living humans. Therefore it's not important to keep your victims alive.</b>"
+	src << "<b><font size = 3><font color = red>You have transformed into a Zombie. You exist only for one purpose: to spread the infection.</font color></font size></b>"
+	src << "Clicking on the doors will let you <b>force-open</b> them. Time taken depends on if the door is bolted, welded or both."
+	src << "Clicking on animal corpses will make you <b>feast</b> on them, restoring your health."
+	src << "You will spread the infection through <b>bites</b>. they have a random chance of happening when you attack a human being."
+	src << "The zombie disease will make zombies <b>even out of dead humans</b>, but you can only <b>spread it to living humans</b>. Therefore it's not important to keep your victims alive."
 
 /mob/living/simple_animal/hostile/zombie/AttackingTarget()
 	if(istype(target, /mob/living))
@@ -86,12 +89,12 @@
 			playsound(loc, 'sound/weapons/slice.ogg', 50, 1, -1)
 			visible_message("<span class='danger'>[src] begins consuming [L]!</span>",\
 							"<span class='userdanger'>You begin feasting on [L]...</span>")
-			if(do_mob(src, L, 80))
+			if(do_mob(src, L, 60))
 				visible_message("<span class='danger'>[src] tears [L] to pieces!</span>",\
 								"<span class='userdanger'>You feast on [L], restoring your health!</span>")
 				L.gib()
 				src.revive()
-				return
+			return
 
 	target.attack_animal(src)
 	attacktext = "claws"
@@ -108,9 +111,10 @@
 
 /proc/Zombify(mob/living/carbon/human/H)
 	if(!istype(H)) return
-	H.death(1)
 	H.update_canmove()
 	H.set_species(/datum/species/zombie)
+	if(!H.stat)
+		H.death()
 	ticker.mode.add_zombie(H.mind)
 	for(var/mob/dead/observer/ghost in player_list)
 		if(H.real_name == ghost.real_name)
