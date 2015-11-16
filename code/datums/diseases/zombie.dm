@@ -45,6 +45,10 @@ var/list/zombie_cure = list()
 	cure()
 	Zombify(affected_mob)
 
+/datum/disease/transformation/zombie/cure()
+	ticker.mode.remove_zombie(affected_mob.mind)
+	..()
+
 /datum/disease/transformation/zombie/has_cure()
 	if(affected_mob.stat == DEAD) //Cure won't work if the disease holder is already dead. The only thing to do now is to get rid of the corpse.
 		return 0

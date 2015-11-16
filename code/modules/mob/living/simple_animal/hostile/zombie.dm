@@ -111,6 +111,7 @@
 	H.death(1)
 	H.update_canmove()
 	H.set_species(/datum/species/zombie)
+	ticker.mode.add_zombie(H.mind)
 	for(var/mob/dead/observer/ghost in player_list)
 		if(H.real_name == ghost.real_name)
 			ghost.reenter_corpse()
