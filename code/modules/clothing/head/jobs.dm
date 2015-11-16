@@ -1,5 +1,5 @@
 
-//Bartender
+//Bartender //it's chef what the fuck is your problem?
 /obj/item/clothing/head/chefhat
 	name = "chef's hat"
 	desc = "It's a hat used by chefs to keep hair out of your food. Judging by the food in the mess, they don't work."
@@ -8,6 +8,15 @@
 	desc = "The commander in chef's head wear."
 	strip_delay = 10
 	put_on_delay = 10
+
+/obj/item/clothing/head/chefhat/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is donning [src]! It looks like they're trying to become a chef.</span>")
+	user.say("Bork Bork Bork!")
+	sleep(20)
+	user.visible_message("<span class='suicide'>[user] climbs into an imaginary oven!</span>")
+	user.say("BOOORK!")
+	playsound(user, 'sound/machines/ding.ogg', 50, 1)
+	return(FIRELOSS)
 
 //Captain
 /obj/item/clothing/head/caphat
@@ -38,7 +47,8 @@
 	name = "nun hood"
 	desc = "Maximum piety in this star system."
 	icon_state = "nun_hood"
-	flags = HEADCOVERSEYES|BLOCKHAIR
+	flags = BLOCKHAIR
+	flags_cover = HEADCOVERSEYES
 
 /obj/item/clothing/head/det_hat
 	name = "detective's fedora"
@@ -61,17 +71,17 @@
 	armor = list(melee = 80, bullet = 60, laser = 50, energy = 10, bomb = 25, bio = 10, rad = 0)
 	strip_delay = 80
 
+///obj/item/clothing/head/HoS/dermal
+//    name = "Dermal Armor Patch"
+//    desc = "An armored implant that automatically integrates just below the scalp for robust protection without sacrificing style."
+//    icon_state = "dermal"
+//    item_state = "dermal"
+//    flags_inv = 0
+
 /obj/item/clothing/head/HoS/beret
 	name = "head of security beret"
 	desc = "A robust beret for the Head of Security, for looking stylish while not sacrificing protection."
 	icon_state = "hosberetblack"
-	
-/obj/item/clothing/head/HoS/dermal
-    name = "Dermal Armor Patch"
-    desc = "An armored implant that automatically integrates just below the scalp for robust protection without sacrificing style."
-    icon_state = "dermal"
-    item_state = "dermal"
-    flags_inv = 0
 
 /obj/item/clothing/head/warden
 	name = "warden's police hat"
@@ -90,8 +100,9 @@
 /obj/item/clothing/head/beret/sec/navyhos
 	name = "head of security's beret"
 	desc = "A special beret with the Head of Security's insignia emblazoned on it. A symbol of excellence, a badge of courage, a mark of distinction."
-	armor = list(melee = 80, bullet = 60, laser = 50, energy = 10, bomb = 25, bio = 10, rad = 0)
 	icon_state = "hosberet"
+	armor = list(melee = 80, bullet = 60, laser = 50, energy = 10, bomb = 25, bio = 10, rad = 0)
+	strip_delay = 60
 
 /obj/item/clothing/head/beret/sec/navywarden
 	name = "warden's beret"

@@ -53,7 +53,7 @@
 //////////////////////////////
 //Spookoween trapped closets//
 //////////////////////////////
-
+/*
 #define SPOOKY_SKELETON 1
 #define ANGRY_FAITHLESS 2
 #define SCARY_BATS 		3
@@ -154,7 +154,6 @@
 /obj/structure/closet/crate/set_spooky_trap()
 	return
 
-
 ////////////////////
 //Spookoween Ghost//
 ////////////////////
@@ -234,8 +233,6 @@
 	maxHealth = 1e6
 	health = 1e6
 	emote_see = list("silently stares")
-	heat_damage_per_tick = 0
-	cold_damage_per_tick = 0
 	unsuitable_atmos_damage = 0
 	var/timer
 
@@ -278,13 +275,18 @@
 	if(prob(5))
 		playsound(loc, 'sound/spookoween/insane_low_laugh.ogg', 300, 1)
 
-/mob/living/simple_animal/hostile/retaliate/clown/insane/attackby(var/obj/item/O as obj, var/mob/user as mob, params)
+/mob/living/simple_animal/hostile/retaliate/clown/insane/attackby(obj/item/O, mob/user)
 	if(istype(O,/obj/item/weapon/nullrod))
 		if(prob(5))
-			visible_message("<span class='notice'>[src] finally found the peace it deserves. You hear honks echoing off into the distance.</span>")
+			visible_message("[src] finally found the peace it deserves. <i>You hear honks echoing off into the distance.</i>")
 			playsound(loc, 'sound/spookoween/insane_low_laugh.ogg', 300, 1)
 			qdel(src)
 		else
-			visible_message("<span class='userdanger'>[src] seems to be resisting the effect!</span>")
+			visible_message("<span class='danger'>[src] seems to be resisting the effect!</span>")
 	else
 		..()
+
+/mob/living/simple_animal/hostile/retaliate/clown/insane/handle_temperature_damage()
+	return
+
+*/

@@ -1,3 +1,4 @@
+
 /client
 		////////////////
 		//ADMIN THINGS//
@@ -16,7 +17,6 @@
 	var/moving			= null
 	var/adminobs		= null
 	var/area			= null
-	var/goodcurity = 0
 
 		///////////////
 		//SOUND STUFF//
@@ -29,7 +29,6 @@
 		////////////
 	// comment out the line below when debugging locally to enable the options & messages menu
 	control_freak = 1
-
 
 		////////////////////////////////////
 		//things that require the database//
@@ -44,3 +43,8 @@
 
 	// Used by html_interface module.
 	var/hi_last_pos
+
+
+	//datum that controls the displaying and hiding of tooltips
+	var/datum/tooltip/tooltips
+

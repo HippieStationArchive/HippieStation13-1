@@ -6,9 +6,9 @@
 	icon_state = "candle1"
 	item_state = "candle1"
 	w_class = 1
-
 	var/wax = 200
 	var/lit = 0
+	heat = 1000
 	proc
 		light(var/flavor_text = "<span class='danger'>[usr] lights the [name].</span>")
 
@@ -23,7 +23,7 @@
 	icon_state = "candle[i][lit ? "_lit" : ""]"
 
 
-/obj/item/candle/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+/obj/item/candle/attackby(obj/item/weapon/W, mob/user, params)
 	..()
 	if(istype(W, /obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/WT = W
@@ -46,6 +46,10 @@
 		if(M.lit)
 			light()
 
+/obj/item/candle/fire_act()
+	if(!src.lit)
+		light() //honk
+	return
 
 /obj/item/candle/light(var/flavor_text = "<span class='danger'>[usr] lights the [name].</span>")
 	if(!src.lit)
@@ -54,7 +58,7 @@
 		for(var/mob/O in viewers(usr, null))
 			O.show_message(flavor_text, 1)
 		SetLuminosity(CANDLE_LUMINOSITY)
-		processing_objects.Add(src)
+		SSobj.processing |= src
 
 
 /obj/item/candle/process()
@@ -73,7 +77,7 @@
 		T.hotspot_expose(700, 5)
 
 
-/obj/item/candle/attack_self(mob/user as mob)
+/obj/item/candle/attack_self(mob/user)
 	if(lit)
 		lit = 0
 		update_icon()
@@ -91,5 +95,8 @@
 	if(lit)
 		user.AddLuminosity(-CANDLE_LUMINOSITY)
 		SetLuminosity(CANDLE_LUMINOSITY)
+
+/obj/item/candle/is_hot()
+	return lit * heat
 
 #undef CANDLE_LUMINOSITY

@@ -53,6 +53,14 @@
 	var/mob/living/silicon/robot/R = usr
 	R.uneq_active()
 
+/obj/screen/robot/lamp
+	name = "headlamp"
+	icon_state = "lamp0"
+
+/obj/screen/robot/lamp/Click()
+	var/mob/living/silicon/robot/R = usr
+	R.control_headlamp()
+
 
 /datum/hud/proc/robot_hud()
 	adding = list()
@@ -102,6 +110,12 @@
 	using.screen_loc = ui_borg_sensor
 	adding += using
 
+//Headlamp control
+	using = new /obj/screen/robot/lamp()
+	using.screen_loc = ui_borg_lamp
+	adding += using
+	mymobR.lamp_button = using
+
 //Intent
 	using = new /obj/screen/act_intent()
 	using.icon = 'icons/mob/screen_cyborg.dmi'
@@ -127,7 +141,7 @@
 
 	mymob.pullin = new /obj/screen/pull()
 	mymob.pullin.icon = 'icons/mob/screen_cyborg.dmi'
-	mymob.pullin.icon_state = "pull0"
+	mymob.pullin.update_icon(mymob)
 	mymob.pullin.screen_loc = ui_borg_pull
 
 	mymob.blind = new /obj/screen()
@@ -139,7 +153,7 @@
 	mymob.blind.mouse_opacity = 0
 
 	mymob.flash = new /obj/screen()
-	mymob.flash.icon = 'icons/mob/screen_cyborg.dmi'
+	mymob.flash.icon = 'icons/mob/screen_gen.dmi'
 	mymob.flash.icon_state = "blank"
 	mymob.flash.name = "flash"
 	mymob.flash.screen_loc = "WEST,SOUTH to EAST,NORTH"

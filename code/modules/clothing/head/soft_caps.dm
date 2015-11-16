@@ -11,26 +11,38 @@
 		src.flipped=0
 		..()
 
-	proc/flip()
-		if(usr.canmove && !usr.stat && !usr.restrained())
-			src.flipped = !src.flipped
-			if(src.flipped)
-				icon_state = "[item_color]soft_flipped"
-				usr << "You flip the hat backwards."
-			else
-				icon_state = "[item_color]soft"
-				usr << "You flip the hat back in normal position."
-			usr.update_inv_head(0)	//so our mob-overlays update
-
-	verb/flip_cap()
+	verb/flipcap()
 		set category = "Object"
 		set name = "Flip cap"
-		set src in usr
-		flip()
 
-/obj/item/clothing/head/soft/AltClick()
+		flip(usr)
+
+
+/obj/item/clothing/head/soft/AltClick(mob/user)
 	..()
-	flip()
+	if(!user.canUseTopic(user))
+		user << "<span class='warning'>You can't do that right now!</span>"
+		return
+	if(!in_range(src, user))
+		return
+	else
+		flip(user)
+
+
+/obj/item/clothing/head/soft/proc/flip(mob/user)
+	if(user.canmove && !user.stat && !user.restrained())
+		src.flipped = !src.flipped
+		if(src.flipped)
+			icon_state = "[item_color]soft_flipped"
+			user << "<span class='notice'>You flip the hat backwards.</span>"
+		else
+			icon_state = "[item_color]soft"
+			user << "<span class='notice'>You flip the hat back in normal position.</span>"
+		usr.update_inv_head()	//so our mob-overlays update
+
+/obj/item/clothing/head/soft/examine(mob/user)
+	..()
+	user << "<span class='notice'>Alt-click the cap to flip it [flipped ? "forwards" : "backwards"].</span>"
 
 /obj/item/clothing/head/soft/red
 	name = "red cap"

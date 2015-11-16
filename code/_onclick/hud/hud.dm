@@ -113,7 +113,7 @@ var/datum/global_hud/global_hud = new()
 	var/obj/screen/movable/action_button/hide_toggle/hide_actions_toggle
 	var/action_buttons_hidden = 0
 
-datum/hud/New(mob/owner)
+/datum/hud/New(mob/owner)
 	mymob = owner
 	instantiate()
 	..()
@@ -197,12 +197,13 @@ datum/hud/New(mob/owner)
 		blob_hud()
 	else if(isdrone(mymob))
 		drone_hud(ui_style)
-
-	if(istype(mymob.loc,/obj/mecha))
-		show_hud(HUD_STYLE_REDUCED)
+	else if(isswarmer(mymob))
+		swarmer_hud()
+	else if(isguardian(mymob))
+		guardian_hud()
 
 //Version denotes which style should be displayed. blank or 0 means "next version"
-/datum/hud/proc/show_hud(var/version = 0)
+/datum/hud/proc/show_hud(version = 0)
 	if(!ismob(mymob))
 		return 0
 	if(!mymob.client)
@@ -244,7 +245,6 @@ datum/hud/New(mob/owner)
 			if(hotkeybuttons)
 				mymob.client.screen -= hotkeybuttons
 
-
 			//These ones are not a part of 'adding', 'other' or 'hotkeybuttons' but we want them gone.
 			mymob.client.screen -= mymob.zone_sel	//zone_sel is a mob variable for some reason.
 			mymob.client.screen -= lingstingdisplay
@@ -268,7 +268,6 @@ datum/hud/New(mob/owner)
 				mymob.client.screen -= other
 			if(hotkeybuttons)
 				mymob.client.screen -= hotkeybuttons
-
 
 			//These ones are not a part of 'adding', 'other' or 'hotkeybuttons' but we want them gone.
 			mymob.client.screen -= mymob.zone_sel	//zone_sel is a mob variable for some reason.

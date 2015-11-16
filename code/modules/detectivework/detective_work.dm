@@ -1,54 +1,16 @@
 //CONTAINS: Suit fibers and Detective's Scanning Computer
 
-atom/var/list/suit_fibers
+/atom/var/list/suit_fibers
 
-atom/proc/add_fibers(mob/living/carbon/human/M)
+/atom/proc/add_fibers(mob/living/carbon/human/M)
 	if(M.gloves && istype(M.gloves,/obj/item/clothing/))
 		var/obj/item/clothing/gloves/G = M.gloves
-		if(G.transfer_blood >= 1) //bloodied gloves transfer blood to touched object
-			if(istype(src, /turf/simulated/wall)) //BLOODY PALMPRINTS! WOO!
-				var/obj/effect/decal/cleanable/blood/palmprint/B = new(M.loc) //Create on user's location, we'll adjust pixel offset so bloody footprints don't show up from all sides on the wall
-				if(istype(B))
-					if(istype(G.bloody_hands_mob)) //Fixes runtimes
-						B.add_blood_list(G.bloody_hands_mob)
-					else
-						B.blood_DNA |= G.blood_DNA.Copy()
-					B.basecolor = G.blood_color
-					B.update_icon() //Updates the color and stuff
-					var/blooddir = get_dir(M, src)
-					//Adjust pixel offset to make palmprints appear on the wall
-					B.pixel_x = blooddir & EAST ? 32 : (blooddir & WEST ? -32 : 0)
-					B.pixel_y = blooddir & NORTH ? 32 : (blooddir & SOUTH ? -32 : 0)
-					//Randomise pixel offset + adjust it accordingly from the center
-					B.pixel_x = blooddir & EAST ? -rand(6, 11) : (blooddir & WEST ? rand(6, 11) : rand(-7, 7))
-					B.pixel_y = blooddir & NORTH ? -rand(6, 11) : (blooddir & SOUTH ? rand(6, 11) : rand(-7, 7))
-					B.dir = M.dir //simple
-					G.transfer_blood--
-			else
-				if(add_blood(G.bloody_hands_mob)) //only reduces the bloodiness of our gloves if the item wasn't already bloody
-					G.transfer_blood--
-	else if(M.bloody_hands >= 1)
-		if(istype(src, /turf/simulated/wall)) //BLOODY PALMPRINTS! WOO!
-			var/obj/effect/decal/cleanable/blood/palmprint/B = new(M.loc) //Create on user's location, we'll adjust pixel offset so bloody footprints don't show up from all sides on the wall
-			if(istype(B))
-				if(istype(M.bloody_hands_mob)) //Fixes runtimes
-					B.add_blood_list(M.bloody_hands_mob)
-				else
-					B.blood_DNA |= M.hand_blood_DNA.Copy()
-				B.basecolor = M.blood_color
-				B.update_icon() //Updates the color and stuff
-				var/blooddir = get_dir(M, src)
-				//Adjust pixel offset to make palmprints appear on the wall
-				B.pixel_x = blooddir & EAST ? 32 : (blooddir & WEST ? -32 : 0)
-				B.pixel_y = blooddir & NORTH ? 32 : (blooddir & SOUTH ? -32 : 0)
-				//Randomise pixel offset + adjust it accordingly from the center
-				B.pixel_x += blooddir & EAST ? -rand(6, 11) : (blooddir & WEST ? rand(6, 11) : rand(-7, 7))
-				B.pixel_y += blooddir & NORTH ? -rand(6, 11) : (blooddir & SOUTH ? rand(6, 11) : rand(-7, 7))
-				B.dir = M.dir //simple
-				M.bloody_hands--
-		else
-			if(add_blood(M.bloody_hands_mob))
-				M.bloody_hands--
+		if(G.transfer_blood > 1) //bloodied gloves transfer blood to touched objects
+			if(add_blood(G.bloody_hands_mob)) //only reduces the bloodiness of our gloves if the item wasn't already bloody
+				G.transfer_blood--
+	else if(M.bloody_hands > 1)
+		if(add_blood(M.bloody_hands_mob))
+			M.bloody_hands--
 	if(!suit_fibers) suit_fibers = list()
 	var/fibertext
 	var/item_multiplier = istype(src,/obj/item)?1.2:1
@@ -85,45 +47,41 @@ atom/proc/add_fibers(mob/living/carbon/human/M)
 			//world.log << "Added fibertext: [fibertext]"
 			suit_fibers += "Material from a pair of [M.gloves.name]."
 
-/atom/proc/add_hiddenprint(mob/living/M as mob)
+/atom/proc/add_hiddenprint(mob/living/M)
 	if(isnull(M)) return
 	if(isnull(M.key)) return
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if(!istype(H.dna, /datum/dna))
-			return 0
 		if(H.gloves)
 			if(fingerprintslast != H.ckey)
-				fingerprintshidden += text("\[[time_stamp()]\] (Wearing gloves). Real name: [], Key: []",H.real_name, H.key)
+				fingerprintshidden += "\[[time_stamp()]\] (Wearing gloves). Real name: [H.real_name], Key: [H.key]"
 				fingerprintslast = H.ckey
 			return 0
-		if(!( fingerprints ))
+		if(!fingerprints)
 			if(fingerprintslast != H.ckey)
-				fingerprintshidden += text("\[[time_stamp()]\] Real name: [], Key: []",H.real_name, H.key)
+				fingerprintshidden += "\[[time_stamp()]\] Real name: [H.real_name], Key: [H.key]"
 				fingerprintslast = H.ckey
 			return 1
 	else
 		if(fingerprintslast != M.ckey)
-			fingerprintshidden += text("\[[time_stamp()]\] Real name: [], Key: []",M.real_name, M.key)
+			fingerprintshidden += "\[[time_stamp()]\] Real name: [M.real_name], Key: [M.key]"
 			fingerprintslast = M.ckey
 	return
 
 //Set ignoregloves to add prints irrespective of the mob having gloves on.
-/atom/proc/add_fingerprint(mob/living/M as mob, ignoregloves = 0)
+/atom/proc/add_fingerprint(mob/living/M, ignoregloves = 0)
 	if(isnull(M)) return
 	if(isnull(M.key)) return
 	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
 		//Add the list if it does not exist.
 		if(!fingerprintshidden)
 			fingerprintshidden = list()
 
 		//Fibers~
-		add_fibers(M)
+		add_fibers(H)
 
 		//Now, lets get to the dirty work.
-		//First, make sure their DNA makes sense.
-		var/mob/living/carbon/human/H = M
-		check_dna_integrity(H)	//sets up dna and its variables if it was missing somehow
 
 		//Check if the gloves (if any) hide fingerprints
 		if(H.gloves)
@@ -165,7 +123,7 @@ atom/proc/add_fibers(mob/living/carbon/human/M)
 	return
 
 
-/atom/proc/transfer_fingerprints_to(var/atom/A)
+/atom/proc/transfer_fingerprints_to(atom/A)
 
 	// Make sure everything are lists.
 	if(!islist(A.fingerprints))

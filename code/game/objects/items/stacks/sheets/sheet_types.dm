@@ -5,6 +5,7 @@
  *		Wood
  *		Cloth
  *		Cardboard
+ *		Runed Metal (cult)
  */
 
 /*
@@ -28,18 +29,20 @@ var/global/list/datum/stack_recipe/metal_recipes = list ( \
 	new/datum/stack_recipe("computer frame", /obj/structure/computerframe, 5, time = 25, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("wall girders", /obj/structure/girder, 2, time = 50, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("airlock assembly", /obj/structure/door_assembly, 4, time = 50, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("firelock frame", /obj/structure/firelock_frame, 3, time = 50, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("machine frame", /obj/machinery/constructable_frame/machine_frame, 5, time = 25, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("turret frame", /obj/machinery/porta_turret_construct, 5, time = 25, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("meatspike frame", /obj/structure/kitchenspike_frame, 5, time = 25, one_per_turf = 1, on_floor = 1), \
 	null, \
-	new/datum/stack_recipe("frightbot chasis", /obj/item/weapon/frightbot_chasis, 2), \
-	new/datum/stack_recipe("screambot chasis", /obj/item/weapon/screambot_chasis, 2), \
 	new/datum/stack_recipe("grenade casing", /obj/item/weapon/grenade/chem_grenade), \
-	new/datum/stack_recipe("light fixture frame", /obj/item/light_fixture_frame, 2), \
-	new/datum/stack_recipe("small light fixture frame", /obj/item/light_fixture_frame/small, 1), \
+	new/datum/stack_recipe("light fixture frame", /obj/item/wallframe/light_fixture, 2), \
+	new/datum/stack_recipe("small light fixture frame", /obj/item/wallframe/light_fixture/small, 1), \
 	null, \
-	new/datum/stack_recipe("apc frame", /obj/item/apc_frame, 2), \
-	new/datum/stack_recipe("air alarm frame", /obj/item/alarm_frame, 2), \
-	new/datum/stack_recipe("fire alarm frame", /obj/item/firealarm_frame, 2), \
+	new/datum/stack_recipe("apc frame", /obj/item/wallframe/apc, 2), \
+	new/datum/stack_recipe("air alarm frame", /obj/item/wallframe/alarm, 2), \
+	new/datum/stack_recipe("fire alarm frame", /obj/item/wallframe/firealarm, 2), \
+	new/datum/stack_recipe("button frame", /obj/item/wallframe/button, 1), \
+	new/datum/stack_recipe("extinguisher cabinet frame", /obj/item/wallframe/extinguishercabinet, 1), \
 	null, \
 	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20, one_per_turf = 1, on_floor = 1), \
 )
@@ -49,13 +52,13 @@ var/global/list/datum/stack_recipe/metal_recipes = list ( \
 	desc = "Sheets made out of metal."
 	singular_name = "metal sheet"
 	icon_state = "sheet-metal"
-	m_amt = MINERAL_MATERIAL_AMOUNT
-	throwforce = 10.0
+	materials = list(MAT_METAL=MINERAL_MATERIAL_AMOUNT)
+	throwforce = 10
 	flags = CONDUCT
 	origin_tech = "materials=1"
 
 /obj/item/stack/sheet/metal/cyborg
-	m_amt = 0
+	materials = list()
 	is_cyborg = 1
 	cost = 500
 
@@ -77,8 +80,8 @@ var/global/list/datum/stack_recipe/plasteel_recipes = list ( \
 	desc = "This sheet is an alloy of iron and plasma."
 	icon_state = "sheet-plasteel"
 	item_state = "sheet-metal"
-	m_amt = 6000
-	throwforce = 10.0
+	materials = list(MAT_METAL=6000, MAT_PLASMA=6000)
+	throwforce = 10
 	flags = CONDUCT
 	origin_tech = "materials=2"
 
@@ -100,7 +103,10 @@ var/global/list/datum/stack_recipe/wood_recipes = list ( \
 	new/datum/stack_recipe("coffin", /obj/structure/closet/coffin, 5, time = 15, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("book case", /obj/structure/bookcase, 4, time = 15, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("drying rack", /obj/machinery/smartfridge/drying_rack, 10, time = 15, one_per_turf = 1, on_floor = 1), \
-	new/datum/stack_recipe("wooden baseball bat", /obj/item/weapon/baseballbat, 3), \
+	new/datum/stack_recipe("dog bed", /obj/structure/stool/bed/dogbed, 10, time = 10, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("display case chassis", /obj/structure/displaycase_chassis, 5, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("tiki mask", /obj/item/clothing/mask/gas/tiki_mask, 2), \
+	new/datum/stack_recipe("wooden baseball bat", /obj/item/weapon/baseballbat/wood, 3), \
 	)
 
 /obj/item/stack/sheet/mineral/wood
@@ -111,6 +117,7 @@ var/global/list/datum/stack_recipe/wood_recipes = list ( \
 	icon = 'icons/obj/items.dmi'
 	origin_tech = "materials=1;biotech=1"
 	sheettype = "wood"
+	burn_state = 0 //Burnable
 
 /obj/item/stack/sheet/mineral/wood/New(var/loc, var/amount=null)
 	recipes = wood_recipes
@@ -125,6 +132,7 @@ var/global/list/datum/stack_recipe/wood_recipes = list ( \
 	singular_name = "cloth roll"
 	icon_state = "sheet-cloth"
 	origin_tech = "materials=2"
+	burn_state = 0 //Burnable
 
 /*
  * Cardboard
@@ -138,6 +146,7 @@ var/global/list/datum/stack_recipe/cardboard_recipes = list ( \
 	new/datum/stack_recipe("cardborg helmet", /obj/item/clothing/head/cardborg), \
 	new/datum/stack_recipe("pizza box", /obj/item/pizzabox), \
 	new/datum/stack_recipe("folder", /obj/item/weapon/folder), \
+	new/datum/stack_recipe("large box", /obj/structure/closet/cardboard, 4), \
 )
 
 /obj/item/stack/sheet/cardboard	//BubbleWrap
@@ -146,7 +155,37 @@ var/global/list/datum/stack_recipe/cardboard_recipes = list ( \
 	singular_name = "cardboard sheet"
 	icon_state = "sheet-card"
 	origin_tech = "materials=1"
+	burn_state = 0 //Burnable
 
 /obj/item/stack/sheet/cardboard/New(var/loc, var/amount=null)
 		recipes = cardboard_recipes
 		return ..()
+
+/*
+ * Runed Metal
+*/
+
+var/global/list/datum/stack_recipe/runed_metal_recipes = list ( \
+	new/datum/stack_recipe("pylon", /obj/structure/cult/pylon, 4, time = 40, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("forge", /obj/structure/cult/forge, 6, time = 40, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("archives", /obj/structure/cult/tome, 4, time = 40, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("altar", /obj/structure/cult/talisman, 10, time = 40, one_per_turf = 1, on_floor = 1), \
+	)
+
+/obj/item/stack/sheet/runed_metal
+	name = "runed metal"
+	desc = "Sheets of cold metal with shifting inscriptions writ upon them."
+	singular_name = "runed metal"
+	icon_state = "sheet-runed"
+	icon = 'icons/obj/items.dmi'
+	sheettype = "runed"
+
+/obj/item/stack/sheet/runed_metal/New(var/loc, var/amount=null)
+	recipes = runed_metal_recipes
+	return ..()
+
+/obj/item/stack/sheet/runed_metal/attack_self(mob/user)
+	if(!iscultist(user))
+		user << "<span class='warning'>You aren't able to think of anything [src] could build...</span>"
+		return
+	..()

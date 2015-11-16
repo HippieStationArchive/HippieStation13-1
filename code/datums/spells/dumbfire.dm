@@ -31,6 +31,7 @@
 	perform(list(T))
 
 /obj/effect/proc_holder/spell/dumbfire/cast(list/targets, mob/user = usr)
+	playMagSound()
 	for(var/turf/target in targets)
 		spawn(0)
 			var/obj/effect/proc_holder/spell/targeted/projectile
@@ -78,6 +79,9 @@
 								qdel(trail)
 
 				current_loc = projectile.loc
+				var/matrix/M = new//matrix(transform)
+				M.Turn(dir2angle(projectile.dir))
+				projectile.transform = M //From this point on you won't need direction icons for projectiles.
 
 				sleep(proj_step_delay)
 

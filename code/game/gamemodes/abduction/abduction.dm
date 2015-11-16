@@ -107,7 +107,7 @@
 		H = agent.current
 		L = agent_landmarks[team_number]
 		H.loc = L.loc
-		hardset_dna(H, null, null, null, null, /datum/species/abductor)
+		H.set_species(/datum/species/abductor)
 		S = H.dna.species
 		S.agent = 1
 		S.team = team_number
@@ -115,13 +115,12 @@
 		equip_common(H,team_number)
 		equip_agent(H,team_number)
 		greet_agent(agent,team_number)
-		H.regenerate_icons()
 
 		scientist = scientists[team_number]
 		H = scientist.current
 		L = scientist_landmarks[team_number]
 		H.loc = L.loc
-		hardset_dna(H, null, null, null, null, /datum/species/abductor)
+		H.set_species(/datum/species/abductor)
 		S = H.dna.species
 		S.scientist = 1
 		S.team = team_number
@@ -129,7 +128,6 @@
 		equip_common(H,team_number)
 		equip_scientist(H,team_number)
 		greet_scientist(scientist,team_number)
-		H.regenerate_icons()
 	return ..()
 
 //Used for create antag buttons
@@ -156,7 +154,7 @@
 	H = agent.current
 	L = agent_landmarks[team_number]
 	H.loc = L.loc
-	hardset_dna(H, null, null, null, null, /datum/species/abductor)
+	H.set_species(/datum/species/abductor)
 	S = H.dna.species
 	S.agent = 1
 	S.team = team_number
@@ -164,13 +162,13 @@
 	equip_common(H,team_number)
 	equip_agent(H,team_number)
 	greet_agent(agent,team_number)
-	H.regenerate_icons()
+
 
 	scientist = scientists[team_number]
 	H = scientist.current
 	L = scientist_landmarks[team_number]
 	H.loc = L.loc
-	hardset_dna(H, null, null, null, null, /datum/species/abductor)
+	H.set_species(/datum/species/abductor)
 	S = H.dna.species
 	S.scientist = 1
 	S.team = team_number
@@ -178,7 +176,7 @@
 	equip_common(H,team_number)
 	equip_scientist(H,team_number)
 	greet_scientist(scientist,team_number)
-	H.regenerate_icons()
+
 
 
 /datum/game_mode/abduction/proc/greet_agent(datum/mind/abductor,team_number)
@@ -198,9 +196,11 @@
 /datum/game_mode/abduction/proc/greet_scientist(datum/mind/abductor,team_number)
 	abductor.objectives += team_objectives[team_number]
 	var/team_name = team_names[team_number]
+
 	abductor.current << "<span class='notice'>You are a scientist of [team_name]!</span>"
 	abductor.current << "<span class='notice'>With the help of your teammate, kidnap and experiment on station crew members!</span>"
 	abductor.current << "<span class='notice'>Use your tool and ship consoles to support the agent and retrieve human specimens.</span>"
+
 	var/obj_count = 1
 	for(var/datum/objective/objective in abductor.objectives)
 		abductor.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
@@ -209,6 +209,7 @@
 
 /datum/game_mode/abduction/proc/equip_common(mob/living/carbon/human/agent,team_number)
 	var/radio_freq = SYND_FREQ
+
 	var/obj/item/device/radio/R = new /obj/item/device/radio/headset/syndicate/alt(agent)
 	R.set_frequency(radio_freq)
 	agent.equip_to_slot_or_del(R, slot_ears)
@@ -228,6 +229,7 @@
 	if(!team_number)
 		var/datum/species/abductor/S = agent.dna.species
 		team_number = S.team
+
 	var/obj/machinery/abductor/console/console = get_team_console(team_number)
 	var/obj/item/clothing/suit/armor/abductor/vest/V = new /obj/item/clothing/suit/armor/abductor/vest(agent)
 	if(console!=null)
@@ -235,25 +237,26 @@
 		V.flags |= NODROP
 	agent.equip_to_slot_or_del(V, slot_wear_suit)
 	agent.equip_to_slot_or_del(new /obj/item/weapon/abductor_baton(agent), slot_in_backpack)
-	agent.equip_to_slot_or_del(new /obj/item/weapon/gun/energy/decloner/alien(agent), slot_belt)
+	agent.equip_to_slot_or_del(new /obj/item/weapon/gun/energy/alien(agent), slot_belt)
 	agent.equip_to_slot_or_del(new /obj/item/device/abductor/silencer(agent), slot_in_backpack)
 	agent.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/abductor(agent), slot_head)
+
 
 /datum/game_mode/abduction/proc/equip_scientist(var/mob/living/carbon/human/scientist,var/team_number)
 	if(!team_number)
 		var/datum/species/abductor/S = scientist.dna.species
 		team_number = S.team
+
 	var/obj/machinery/abductor/console/console = get_team_console(team_number)
 	var/obj/item/device/abductor/gizmo/G = new /obj/item/device/abductor/gizmo(scientist)
 	if(console!=null)
 		console.gizmo = G
 		G.console = console
 	scientist.equip_to_slot_or_del(G, slot_in_backpack)
+
 	var/obj/item/weapon/implant/abductor/beamplant = new /obj/item/weapon/implant/abductor(scientist)
-	beamplant.imp_in = scientist
-	beamplant.implanted = 1
-	beamplant.implanted(scientist)
-	beamplant.home = console.pad
+	beamplant.implant(scientist)
+
 
 /datum/game_mode/abduction/check_finished()
 	if(!finished)
@@ -261,7 +264,7 @@
 			var/obj/machinery/abductor/console/con = get_team_console(team_number)
 			var/datum/objective/objective = team_objectives[team_number]
 			if (con.experiment.points >= objective.target_amount)
-				emergency_shuttle.incall(0.5)
+				SSshuttle.emergency.request(null, 0.5)
 				finished = 1
 				return ..()
 	return ..()
@@ -272,9 +275,9 @@
 		var/datum/objective/objective = team_objectives[team_number]
 		var/team_name = team_names[team_number]
 		if(console.experiment.points >= objective.target_amount)
-			world << "<span class='greentext'><b>[team_name] team fullfilled its mission!</b></span>"
+			world << "<span class='greenannounce'>[team_name] team fullfilled its mission!</span>"
 		else
-			world << "<span class='greentext'><b>[team_name] team failed its mission.</b></span>"
+			world << "<span class='boldannounce'>[team_name] team failed its mission.</span>"
 	..()
 	return 1
 
@@ -293,20 +296,26 @@
 				text += printobjectives(abductee_mind)
 	text += "<br>"
 	world << text
+
 //Landmarks
 // TODO: Split into seperate landmarks for prettier ships
 /obj/effect/landmark/abductor
 	var/team = 1
+
 /obj/effect/landmark/abductor/console/New()
 	var/obj/machinery/abductor/console/c = new /obj/machinery/abductor/console(src.loc)
 	c.team = team
+
 	spawn(5) // I'd do this properly when i got some time, temporary hack for mappers
 		c.Initialize()
 	qdel(src)
+
+
 /obj/effect/landmark/abductor/agent
 /obj/effect/landmark/abductor/scientist
-// OBJECTIVES
 
+
+// OBJECTIVES
 /datum/objective/experiment
 	dangerrating = 10
 	target_amount = 6
@@ -321,7 +330,7 @@
 		if(!owner.current || !ishuman(owner.current))
 			return 0
 		var/mob/living/carbon/human/H = owner.current
-		if(!H.dna || !H.dna.species || !(H.dna.species.id == "abductor"))
+		if(H.dna.species.id != "abductor")
 			return 0
 		var/datum/species/abductor/S = H.dna.species
 		ab_team = S.team
@@ -348,7 +357,7 @@
 	explanation_text = "Capture"
 
 /datum/objective/abductee/capture/New()
-	var/list/jobs = get_all_jobs()
+	var/list/jobs = SSjob.occupations
 	for(var/datum/job/J in jobs)
 		if(J.current_positions < 1)
 			jobs -= J

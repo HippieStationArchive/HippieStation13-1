@@ -1,6 +1,6 @@
 /datum/round_event_control/spooky
 	name = "2 SPOOKY! (Halloween)"
-	holidayID = "Halloween"
+	holidayID = HALLOWEEN
 	typepath = /datum/round_event/spooky
 	weight = -1							//forces it to be called, regardless of weight
 	max_occurrences = 1
@@ -11,23 +11,25 @@
 	for(var/mob/living/carbon/human/H in mob_list)
 		var/obj/item/weapon/storage/backpack/b = locate() in H.contents
 		new /obj/item/weapon/storage/spooky(b)
-		if(H.dna)
-			if(prob(50))
-				hardset_dna(H, null, null, null, null, /datum/species/skeleton)
-			else
-				hardset_dna(H, null, null, null, null, /datum/species/zombie)
 
-	for(var/mob/living/simple_animal/corgi/Ian/Ian in mob_list)
+/*		//No fun allowed ~Memendia
+		if(prob(50))
+			H.set_species(/datum/species/skeleton)
+		else
+			H.set_species(/datum/species/zombie)
+*/
+	for(var/mob/living/simple_animal/pet/dog/corgi/Ian/Ian in mob_list)
 		Ian.place_on_head(new /obj/item/weapon/bedsheet(Ian))
 
 /datum/round_event/spooky/announce()
 	priority_announce(pick("RATTLE ME BONES!","THE RIDE NEVER ENDS!", "A SKELETON POPS OUT!", "SPOOKY SCARY SKELETONS!", "CREWMEMBERS BEWARE, YOU'RE IN FOR A SCARE!") , "THE CALL IS COMING FROM INSIDE THE HOUSE")
 
+/*  //No fun allowed ~Memendia
 //Eyeball migration
 /datum/round_event_control/carp_migration/eyeballs
 	name = "Eyeball Migration"
 	typepath = /datum/round_event/carp_migration/eyeballs
-	holidayID = "Halloween"
+	holidayID = HALLOWEEN
 	weight = 25
 	earliest_start = 0
 
@@ -40,7 +42,7 @@
 /datum/round_event_control/meteor_wave/spooky
 	name = "Pumpkin Wave"
 	typepath = /datum/round_event/meteor_wave/spooky
-	holidayID = "Halloween"
+	holidayID = HALLOWEEN
 	weight = 20
 	max_occurrences = 2
 
@@ -50,6 +52,7 @@
 /datum/round_event/meteor_wave/spooky/tick()
 	if(IsMultiple(activeFor, 4))
 		spawn_meteors(3, meteorsSPOOKY) //meteor list types defined in gamemode/meteor/meteors.dm
+*/
 
 //spooky foods (you can't actually make these when it's not halloween)
 /obj/item/weapon/reagent_containers/food/snacks/sugarcookie/spookyskull

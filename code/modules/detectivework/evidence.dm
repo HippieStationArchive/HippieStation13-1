@@ -25,10 +25,6 @@
 		user << "<span class='notice'>You find putting an evidence bag in another evidence bag to be slightly absurd.</span>"
 		return 1 //now this is podracing
 
-	if(istype(I, /obj/item/weapon/storage/box))
-		user << "<span class='notice'>The box itself refuses to go into the evidence bag, for it fears imploding on itself.</span>"
-		return 1 //now this is podracing
-
 	if(I.w_class > 3)
 		user << "<span class='notice'>[I] won't fit in [src].</span>"
 		return
@@ -49,8 +45,8 @@
 		else
 			return
 
-	user.visible_message("<span class='notice'>[user] puts [I] into [src].</span>", "<span class='notice'>You put [I] inside [src].</span>",\
-	"<span class='notice'>You hear a rustle as someone puts something into a plastic bag.</span>")
+	user.visible_message("[user] puts [I] into [src].", "<span class='notice'>You put [I] inside [src].</span>",\
+	"<span class='italics'>You hear a rustle as someone puts something into a plastic bag.</span>")
 
 	icon_state = "evidence"
 
@@ -69,11 +65,11 @@
 	w_class = I.w_class
 	return 1
 
-/obj/item/weapon/evidencebag/attack_self(mob/user as mob)
+/obj/item/weapon/evidencebag/attack_self(mob/user)
 	if(contents.len)
 		var/obj/item/I = contents[1]
-		user.visible_message("<span class='notice'>[user] takes [I] out of [src].</span>", "<span class='notice'>You take [I] out of [src].</span>",\
-		"<span class='notice'>You hear someone rustle around in a plastic bag, and remove something.</span>")
+		user.visible_message("[user] takes [I] out of [src].", "<span class='notice'>You take [I] out of [src].</span>",\
+		"<span class='italics'>You hear someone rustle around in a plastic bag, and remove something.</span>")
 		overlays.Cut()	//remove the overlays
 		user.put_in_hands(I)
 		w_class = 1
