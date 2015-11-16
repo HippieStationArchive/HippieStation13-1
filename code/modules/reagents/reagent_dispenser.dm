@@ -206,7 +206,7 @@
 			if (do_after(user, 20, target = src))
 				user.visible_message( \
 					"[user] tightens \the [src]'s casters.", \
-					"<span class='notice'>You tighten \the [src]'s casters. Now it can dispense water again.</span>", \
+					"<span class='notice'>You tighten \the [src]'s casters. Anchoring it down.</span>", \
 					"<span class='italics'>You hear ratchet.</span>")
 				anchored = 1
 		else if(anchored)
