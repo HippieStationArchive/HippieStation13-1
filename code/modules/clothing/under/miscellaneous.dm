@@ -517,11 +517,3 @@
 	icon_state = "tracksuit"
 	item_state = "tracksuit"
 	item_color = "tracksuit"
-
-/obj/item/clothing/under/zootsuit
-	name = "zoot suit"
-	desc = "A snazzy purple zoot suit. The name 'Big Papa' is stitched on the inside of the collar."
-	icon_state = "zootsuit"
-	item_state = "zootsuit"
-	item_color = "zootsuit"
-	can_adjust = 0
