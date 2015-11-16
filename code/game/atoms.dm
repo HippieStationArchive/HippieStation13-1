@@ -5,9 +5,7 @@
 	var/list/fingerprints
 	var/list/fingerprintshidden
 	var/fingerprintslast = null
-	var/last_bumped = 0
-	var/throwpass = 0
-	var/throwzone = "chest" //Targeted zone when thrown
+	var/list/blood_DNA
 
 	///Chemistry.
 	var/datum/reagents/reagents = null
@@ -17,36 +15,45 @@
 	//HUD images that this atom can provide.
 	var/list/hud_possible
 
-	//var/chem_is_open_container = 0
-	// replaced by OPENCONTAINER flags and atom/proc/is_open_container()
-	///Chemistry.
-
-	var/allow_spin = 1
-	var/can_examine_reagents = 0 //For examining reagents
-	var/prepo = null //for managing extra name flair like "deep-fried".
-
 	//Value used to increment ex_act() if reactionary_explosions is on
 	var/explosion_block = 0
 
-/atom/proc/throw_impact(atom/hit_atom)
-	if(istype(hit_atom,/mob/living))
-		var/mob/living/M = hit_atom
-		M.hitby(src, ran_zone(throwzone, 50)) //50% chance to hit targeted limb
+/atom/proc/onCentcom()
+	var/turf/T = get_turf(src)
+	if(!T)
+		return 0
 
-	else if(isobj(hit_atom))
-		var/obj/O = hit_atom
-		if(!O.anchored)
-			step(O, src.dir)
-		O.hitby(src)
+	if(T.z != ZLEVEL_CENTCOM)//if not, don't bother
+		return 0
 
-	else if(isturf(hit_atom))
-		var/turf/T = hit_atom
-		if(T.density)
-			spawn(2)
-				step(src, turn(src.dir, 180))
-			if(istype(src,/mob/living))
-				var/mob/living/M = src
-				M.take_organ_damage(20)
+	//check for centcomm shuttles
+	for(var/centcom_shuttle in list("emergency", "pod1", "pod2", "pod3", "pod4", "ferry"))
+		var/obj/docking_port/mobile/M = SSshuttle.getShuttle(centcom_shuttle)
+		if(T in M.areaInstance)
+			return 1
+
+	//finally check for centcom itself
+	return istype(T.loc,/area/centcom)
+
+/atom/proc/onSyndieBase()
+	var/turf/T = get_turf(src)
+	if(!T)
+		return 0
+
+	if(T.z != ZLEVEL_CENTCOM)//if not, don't bother
+		return 0
+
+	if(istype(T.loc,/area/shuttle/syndicate) || istype(T.loc,/area/syndicate_mothership))
+		return 1
+
+	return 0
+
+/atom/proc/attack_hulk(mob/living/carbon/human/hulk, do_attack_animation = 0)
+	if(do_attack_animation)
+		hulk.changeNext_move(CLICK_CD_MELEE)
+		add_logs(hulk, src, "punched", "hulk powers")
+		hulk.do_attack_animation(src)
+	return
 
 /atom/proc/CheckParts()
 	return
@@ -64,7 +71,7 @@
 	else
 		return null
 
-/atom/proc/check_eye(user as mob)
+/atom/proc/check_eye(mob/user)
 	if (istype(user, /mob/living/silicon/ai)) // WHYYYY
 		return 1
 	return
@@ -81,8 +88,8 @@
 /atom/proc/is_open_container()
 	return flags & OPENCONTAINER
 
-/atom/proc/is_injectable()
-	return flags & INJECTABLE
+/atom/proc/is_inject_only()
+	return flags & INJECTONLY
 
 /*//Convenience proc to see whether a container can be accessed in a certain way.
 
@@ -103,12 +110,11 @@
 /atom/proc/HasProximity(atom/movable/AM as mob|obj)
 	return
 
-/atom/proc/emp_act(var/severity)
+/atom/proc/emp_act(severity)
 	return
 
 /atom/proc/bullet_act(obj/item/projectile/P, def_zone)
-	P.on_hit(src, 0, def_zone)
-	. = 0
+	. = P.on_hit(src, 0, def_zone)
 
 /atom/proc/in_contents_of(container)//can take class or object instance as argument
 	if(ispath(container))
@@ -216,7 +222,7 @@ its easier to just keep the beam vertical.
 
 /atom/proc/examine(mob/user)
 	//This reformat names to get a/an properly working on item descriptions when they are bloody
-	var/f_name = "\a [prepo][src]."
+	var/f_name = "\a [src]."
 	if(src.blood_DNA && !istype(src, /obj/effect/decal))
 		if(gender == PLURAL)
 			f_name = "some "
@@ -231,13 +237,19 @@ its easier to just keep the beam vertical.
 	// *****RM
 	//user << "[name]: Dn:[density] dir:[dir] cont:[contents] icon:[icon] is:[icon_state] loc:[loc]"
 
-	if(reagents && can_examine_reagents)
-		user << "\blue It contains:"
+	if(reagents && is_open_container()) //is_open_container() isn't really the right proc for this, but w/e
+		user << "It contains:"
 		if(reagents.reagent_list.len)
-			for(var/datum/reagent/R in reagents.reagent_list)
-				user << "\blue [R.volume] units of [R.name]"
+			if(user.can_see_reagents()) //Show each individual reagent
+				for(var/datum/reagent/R in reagents.reagent_list)
+					user << "[R.volume] units of [R.name]"
+			else //Otherwise, just show the total volume
+				var/total_volume = 0
+				for(var/datum/reagent/R in reagents.reagent_list)
+					total_volume += R.volume
+				user << "[total_volume] units of various reagents"
 		else
-			user << "\blue Nothing."
+			user << "Nothing."
 
 /atom/proc/relaymove()
 	return
@@ -255,12 +267,125 @@ its easier to just keep the beam vertical.
 /atom/proc/fire_act()
 	return
 
-/atom/proc/hitby(atom/movable/AM as mob|obj, var/zone=ran_zone("chest", 65))
-	return
+/atom/proc/hitby(atom/movable/AM, skipcatch, hitpush, blocked)
+	if(density && !has_gravity(AM)) //thrown stuff bounces off dense stuff in no grav.
+		spawn(2)
+			step(AM,  turn(AM.dir, 180))
 
-/*
- * Blood procs moved to blood.dm in same folder
- */
+var/list/blood_splatter_icons = list()
+
+/atom/proc/blood_splatter_index()
+	return "\ref[initial(icon)]-[initial(icon_state)]"
+
+/atom/proc/add_blood_list(mob/living/carbon/M)
+	// Returns 0 if we have that blood already
+	if(!istype(blood_DNA, /list))	//if our list of DNA doesn't exist yet (or isn't a list) initialise it.
+		blood_DNA = list()
+	//if this blood isn't already in the list, add it
+	if(blood_DNA[M.dna.unique_enzymes])
+		return 0 //already bloodied with this blood. Cannot add more.
+	blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
+	return 1
+
+//returns 1 if made bloody, returns 0 otherwise
+/atom/proc/add_blood(mob/living/carbon/M)
+	if(!M || !M.has_dna() || rejects_blood())
+		return 0
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(NOBLOOD in H.dna.species.specflags)
+			return 0
+	return 1
+
+/obj/add_blood(mob/living/carbon/M)
+	if(!..())
+		return 0
+	return add_blood_list(M)
+
+/obj/item/add_blood(mob/living/carbon/M)
+	var/blood_count = !blood_DNA ? 0 : blood_DNA.len
+	if(!..())
+		return 0
+	//apply the blood-splatter overlay if it isn't already in there
+	if(!blood_count && initial(icon) && initial(icon_state))
+		//try to find a pre-processed blood-splatter. otherwise, make a new one
+		var/index = blood_splatter_index()
+		var/icon/blood_splatter_icon = blood_splatter_icons[index]
+		if(!blood_splatter_icon)
+			blood_splatter_icon = icon(initial(icon), initial(icon_state), , 1)		//we only want to apply blood-splatters to the initial icon_state for each object
+			blood_splatter_icon.Blend("#fff", ICON_ADD) 			//fills the icon_state with white (except where it's transparent)
+			blood_splatter_icon.Blend(icon('icons/effects/blood.dmi', "itemblood"), ICON_MULTIPLY) //adds blood and the remaining white areas become transparant
+			blood_splatter_icon = fcopy_rsc(blood_splatter_icon)
+			blood_splatter_icons[index] = blood_splatter_icon
+		overlays += blood_splatter_icon
+	return 1 //we applied blood to the item
+
+/obj/item/clothing/gloves/add_blood(mob/living/carbon/M)
+	if(!..())
+		return 0
+	transfer_blood = rand(2, 4)
+	bloody_hands_mob = M
+	return 1
+
+/turf/simulated/add_blood(mob/living/carbon/human/M)
+	if(!..())
+		return 0
+
+	var/obj/effect/decal/cleanable/blood/B = locate() in contents	//check for existing blood splatter
+	if(!B)
+		blood_splatter(src,M.get_blood(M.vessel),1)
+		B = locate(/obj/effect/decal/cleanable/blood) in contents
+	B.add_blood_list(M)
+	return 1 //we bloodied the floor
+
+/mob/living/carbon/human/add_blood(mob/living/carbon/M)
+	if(!..())
+		return 0
+	add_blood_list(M)
+	bloody_hands = rand(2, 4)
+	bloody_hands_mob = M
+	update_inv_gloves()	//handles bloody hands overlays and updating
+	return 1 //we applied blood to the item
+
+/atom/proc/rejects_blood()
+	return 0
+
+/atom/proc/add_vomit_floor(mob/living/carbon/M, toxvomit = 0)
+	if( istype(src, /turf/simulated) )
+		var/obj/effect/decal/cleanable/vomit/this = new /obj/effect/decal/cleanable/vomit(src)
+		if(M.reagents)
+			M.reagents.trans_to(this, M.reagents.total_volume / 10)
+		// Make toxins vomit look different
+		if(toxvomit)
+			this.icon_state = "vomittox_[pick(1,4)]"
+
+		/*for(var/datum/disease/D in M.viruses)
+			var/datum/disease/newDisease = D.Copy(1)
+			this.viruses += newDisease
+			newDisease.holder = this*/
+
+// Only adds blood on the floor -- Skie
+/atom/proc/add_blood_floor(mob/living/carbon/M)
+	if(istype(src, /turf/simulated))
+		if(M.has_dna())	//mobs with dna = (monkeys + humans at time of writing)
+			var/obj/effect/decal/cleanable/blood/B = locate() in contents
+			if(!B)
+				blood_splatter(src,M,1)
+				B = locate(/obj/effect/decal/cleanable/blood) in contents
+			B.blood_DNA[M.dna.unique_enzymes] = M.dna.blood_type
+		else if(istype(M, /mob/living/carbon/alien))
+			var/obj/effect/decal/cleanable/xenoblood/B = locate() in contents
+			if(!B)	B = new(src)
+			B.blood_DNA["UNKNOWN BLOOD"] = "X*"
+		else if(istype(M, /mob/living/silicon/robot))
+			var/obj/effect/decal/cleanable/oil/B = locate() in contents
+			if(!B)	B = new(src)
+
+/atom/proc/clean_blood()
+	if(istype(blood_DNA, /list))
+		blood_DNA = null
+		return 1
+
 
 /atom/proc/get_global_map_pos()
 	if(!islist(global_map) || isemptylist(global_map)) return
@@ -295,7 +420,7 @@ its easier to just keep the beam vertical.
 /atom/proc/singularity_pull()
 	return
 
-/atom/proc/acid_act(var/acidpwr, var/toxpwr, var/acid_volume)
+/atom/proc/acid_act(acidpwr, toxpwr, acid_volume)
 	return
 
 /atom/proc/emag_act()
@@ -303,3 +428,17 @@ its easier to just keep the beam vertical.
 
 /atom/proc/narsie_act()
 	return
+
+/atom/proc/storage_contents_dump_act(obj/item/weapon/storage/src_object, mob/user)
+    return 0
+
+//This proc is called on the location of an atom when the atom is Destroy()'d
+/atom/proc/handle_atom_del(atom/A)
+
+// Byond seemingly calls stat, each tick.
+// Calling things each tick can get expensive real quick.
+// So we slow this down a little.
+// See: http://www.byond.com/docs/ref/info.html#/client/proc/Stat
+/atom/Stat()
+	. = ..()
+	sleep(1)

@@ -3,7 +3,6 @@
 	desc = ""
 	icon_state = "bee_1"
 	icon_living = "bee"
-	icon_dead = ""
 	speak_emote = list("buzzes")
 	emote_hear = list("buzzes")
 	turns_per_move = 0
@@ -13,35 +12,31 @@
 	response_help  = "shoos"
 	response_disarm = "swats away"
 	response_harm   = "squashes"
-	stop_automated_movement_when_pulled = 0
 	maxHealth = 10
 	health = 10
 	faction = list("hostile")
 	move_to_delay = 0
 	environment_smash = 0
 	mouse_opacity = 2
-	pass_flags = PASSTABLE
+	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
+	mob_size = MOB_SIZE_SMALL
+	flying = 1
+	gold_core_spawnable = 1
 
 	//Spaceborn beings don't get hurt by space
-	min_oxy = 0
-	max_oxy = 0
-	min_tox = 0
-	max_tox = 0
-	min_co2 = 0
-	max_co2 = 0
-	min_n2 = 0
-	max_n2 = 0
+	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 0
 
-/mob/living/simple_animal/hostile/poison/bees/Process_Spacemove(var/movement_dir = 0)
+/mob/living/simple_animal/hostile/poison/bees/Process_Spacemove(movement_dir = 0)
 	return 1
 
 /mob/living/simple_animal/hostile/poison/bees/New()
 	..()
 	update_bees()
 
-/mob/living/simple_animal/hostile/poison/bees/Die()
-	..()
+/mob/living/simple_animal/hostile/poison/bees/death(gibbed)
+	..(1)
+	ghostize()
 	qdel(src)
 	return
 
@@ -57,7 +52,7 @@
 			overlays.Add(I)
 		if(overlays.len > health-1)
 			overlays.Remove(I)
-	poison_per_bite = health * 0.08 //each bee is .08 a toxin reagent
+	poison_per_bite = health * 0.5 //each bee is half a toxin reagent
 	if(health > 1)
 		desc = "A buzzy swarm of [health] poisonous space bees, renowned for their aggressiveness"
 	else

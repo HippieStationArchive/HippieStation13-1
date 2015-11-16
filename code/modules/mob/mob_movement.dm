@@ -1,16 +1,20 @@
 /mob/CanPass(atom/movable/mover, turf/target, height=0)
-	if(height==0) return 1
-
-	if(istype(mover) && mover.checkpass(PASSMOB))
+	if(height==0)
+		return 1
+	if(istype(mover, /obj/item/projectile) || mover.throwing)
+		return (!density || lying)
+	if(mover.checkpass(PASSMOB))
+		return 1
+	if(buckled == mover)
 		return 1
 	if(ismob(mover))
 		var/mob/moving_mob = mover
 		if ((other_mobs && moving_mob.other_mobs))
 			return 1
-		return (!mover.density || !density || lying)
-	else
-		return (!mover.density || !density || lying)
-	return
+		if (mover == buckled_mob)
+			return 1
+	return (!mover.density || !density || lying)
+
 
 
 /client/Northeast()
@@ -69,10 +73,10 @@
 
 
 /client/Center()
-	if (isobj(mob.loc))
+	if(isobj(mob.loc))
 		var/obj/O = mob.loc
-		if (mob.canmove)
-			return O.relaymove(mob, 16)
+		if(mob.canmove)
+			return O.relaymove(mob, 0)
 	return
 
 
@@ -101,8 +105,6 @@
 	if(mob.stat == DEAD)
 		mob.ghostize()
 		return 0
-	if(isAI(mob))
-		return AIMove(n,direct,mob)
 	if(moving)
 		return 0
 	if(isliving(mob))
@@ -119,6 +121,8 @@
 	if(mob.remote_control)					//we're controlling something, our movement is relayed to it
 		return mob.remote_control.relaymove(mob, direct)
 
+	if(isAI(mob))
+		return AIMove(n,direct,mob)
 
 	if(!mob.canmove)
 		return 0
@@ -136,16 +140,21 @@
 
 	if(isturf(mob.loc))
 
+
+		var/turf/T = mob.loc
+		move_delay = world.time//set move delay
+
+		move_delay += T.slowdown
+
 		if(mob.restrained())	//Why being pulled while cuffed prevents you from moving
 			for(var/mob/M in range(mob, 1))
 				if(M.pulling == mob)
-					if(!M.restrained() && M.stat == 0 && M.canmove && mob.Adjacent(M))
-						src << "<span class='notice'>You're restrained! You can't move!</span>"
+					if(!M.incapacitated() && mob.Adjacent(M))
+						src << "<span class='warning'>You're restrained! You can't move!</span>"
+						move_delay += 10
 						return 0
 					else
 						M.stop_pulling()
-
-		move_delay = world.time//set move delay
 
 		switch(mob.m_intent)
 			if("run")
@@ -155,6 +164,20 @@
 			if("walk")
 				move_delay += config.walk_speed
 		move_delay += mob.movement_delay()
+
+		if(mob.nearcrit) //You can only crawl in nearcrit
+			if(istype(mob, /mob/living))
+				var/mob/living/L = mob
+				L.adjustOxyLoss(1)
+			if(mob.dir == WEST)
+				mob.lying = 270
+				mob.update_canmove()
+			else if(mob.dir == EAST)
+				mob.lying = 90
+				mob.update_canmove()
+			playsound(mob.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -12) //Crawling is VERY quiet
+			mob.visible_message("<span class='danger'>[mob] crawls forward!</span>", \
+								"<span class='userdanger'>You crawl forward at the expense of some of your strength.</span>")
 
 		if(config.Tickcomp)
 			move_delay -= 1.3
@@ -173,7 +196,6 @@
 					var/mob/M = L[1]
 					if(M)
 						if ((get_dist(mob, M) <= 1 || M.loc == mob.loc))
-							var/turf/T = mob.loc
 							. = ..()
 							if (isturf(M.loc))
 								var/diag = get_dir(mob, M)
@@ -196,8 +218,15 @@
 							M.animate_movement = 2
 							return
 
-		if(mob.confused && IsEven(world.time))
-			step(mob, pick(cardinal))
+		if(mob.confused)
+			if(mob.confused > 40)
+				step(mob, pick(cardinal))
+			else if(prob(mob.confused * 1.5))
+				step(mob, angle2dir(dir2angle(direct) + pick(90, -90)))
+			else if(prob(mob.confused * 3))
+				step(mob, angle2dir(dir2angle(direct) + pick(45, -45)))
+			else
+				step(mob, direct)
 		else
 			. = ..()
 
@@ -295,6 +324,16 @@
 					anim(mobloc,mob,'icons/mob/mob.dmi',,"shadow",,L.dir)
 				L.loc = get_step(L, direct)
 			L.dir = direct
+		if(3) //Incorporeal move, but blocked by holy-watered tiles
+			var/turf/simulated/floor/stepTurf = get_step(L, direct)
+			if(stepTurf.flags & NOJAUNT)
+				L << "<span class='warning'>Holy energies block your path.</span>"
+				L.notransform = 1
+				spawn(2)
+					L.notransform = 0
+			else
+				L.loc = get_step(L, direct)
+				L.dir = direct
 	return 1
 
 
@@ -302,7 +341,7 @@
 ///Called by /client/Move()
 ///For moving in space
 ///Return 1 for movement 0 for none
-/mob/Process_Spacemove(var/movement_dir = 0)
+/mob/Process_Spacemove(movement_dir = 0)
 
 	if(..())
 		return 1
@@ -328,8 +367,6 @@
 				continue
 			if(AM.density)
 				if(AM.anchored)
-					if(istype(AM, /obj/item/projectile)) //"You grab the bullet and push off of it!" No
-						continue
 					return 1
 				if(pulling == AM)
 					continue
@@ -349,7 +386,7 @@
 /mob/proc/mob_negates_gravity()
 	return 0
 
-/mob/proc/Move_Pulled(var/atom/A)
+/mob/proc/Move_Pulled(atom/A)
 	if (!canmove || restrained() || !pulling)
 		return
 	if (pulling.anchored)
@@ -371,7 +408,7 @@
 		step(pulling, get_dir(pulling.loc, A))
 	return
 
-/mob/proc/slip(var/s_amount, var/w_amount, var/obj/O, var/lube)
+/mob/proc/slip(s_amount, w_amount, obj/O, lube)
 	return
 
 /mob/proc/update_gravity()

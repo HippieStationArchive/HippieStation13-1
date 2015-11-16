@@ -1,21 +1,21 @@
-/obj/item/clothing/shoes/proc/step_action(mob/user as mob) //this was made to rewrite clown shoes squeaking
-	var/turf/T = get_turf(user)
-	if(istype(T, /turf/space)) //Space should never have step sounds
-		return
-	// if(user.m_intent == "run") //&& prob(50) //to add to stealth
-	// 	if (user.footstep < world.time)
-	// 		user.footstep = world.time + 5 //Half a second
-	// 		playsound(src, "step", 15, 1)
-			//playsound(src, pick(T.stepsound), 15, 1)
+/obj/item/clothing/shoes/proc/step_action() //this was made to rewrite clown shoes squeaking
 
-/obj/item/clothing/shoes/syndigaloshes
-	desc = "A pair of brown shoes. They seem to have extra grip."
+/obj/item/clothing/shoes/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is bashing their own head in with [src]! Ain't that a kick in the head?</span>")
+	for(var/i = 0, i < 3, i++)
+		sleep(3)
+		playsound(user, 'sound/weapons/genhit2.ogg', 50, 1)
+	return(BRUTELOSS)
+
+/obj/item/clothing/shoes/sneakers/syndigaloshes
+	desc = "A pair of brown shoes."
 	name = "brown shoes"
 	icon_state = "brown"
 	item_state = "brown"
 	permeability_coefficient = 0.05
 	flags = NOSLIP
 	origin_tech = "syndicate=3"
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/shoes/sneakers/mime
 	name = "mime shoes"
@@ -27,15 +27,16 @@
 	desc = "High speed, low drag combat boots."
 	icon_state = "jackboots"
 	item_state = "jackboots"
-	armor = list(melee = 50, bullet = 50, laser = 50, energy = 25, bomb = 50, bio = 10, rad = 0)
+	armor = list(melee = 25, bullet = 25, laser = 25, energy = 25, bomb = 50, bio = 10, rad = 0)
 	strip_delay = 70
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/shoes/combat/swat //overpowered boots for death squads
 	name = "\improper SWAT boots"
 	desc = "High speed, no drag combat boots."
 	permeability_coefficient = 0.01
 	flags = NOSLIP
-	armor = list(melee = 80, bullet = 60, laser = 50, energy = 50, bomb = 50, bio = 30, rad = 30)
+	armor = list(melee = 40, bullet = 30, laser = 25, energy = 25, bomb = 50, bio = 30, rad = 30)
 
 /obj/item/clothing/shoes/combat/camo //camo boots for ruskies
 	name = "camoflage combat boots"
@@ -45,20 +46,6 @@
 	permeability_coefficient = 0.01
 	flags = NOSLIP
 	armor = list(melee = 50, bullet = 60, laser = 50, energy = 30, bomb = 20, bio = 10, rad = 15)
-
-/obj/item/clothing/shoes/space_ninja
-	name = "ninja shoes"
-	desc = "A pair of running shoes. Excellent for running and even better for smashing skulls."
-	icon_state = "s-ninja"
-	item_state = "secshoes"
-	permeability_coefficient = 0.01
-	flags = NOSLIP
-	armor = list(melee = 60, bullet = 50, laser = 30,energy = 15, bomb = 30, bio = 30, rad = 30)
-	strip_delay = 120
-	cold_protection = FEET
-	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
-	heat_protection = FEET
-	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
 
 /obj/item/clothing/shoes/sandal
 	desc = "A pair of rather plain, wooden sandals."
@@ -82,6 +69,7 @@
 	slowdown = SHOES_SLOWDOWN+1
 	strip_delay = 50
 	put_on_delay = 50
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/shoes/galoshes/dry
 	name = "absorbent galoshes"
@@ -92,7 +80,6 @@
 	var/turf/simulated/t_loc = get_turf(src)
 	if(istype(t_loc) && t_loc.wet)
 		t_loc.MakeDry(TURF_WET_WATER)
-		t_loc.MakeDry(TURF_WET_LUBE)
 
 /obj/item/clothing/shoes/clown_shoes
 	desc = "The prankster's standard-issue clowning shoes. Damn, they're huge!"
@@ -102,22 +89,14 @@
 	slowdown = SHOES_SLOWDOWN+1
 	item_color = "clown"
 	var/footstep = 1	//used for squeeks whilst walking
-	var/hacked = 0
+	burn_state = -1
 
-/obj/item/clothing/shoes/clown_shoes/emag_act(user as mob)
-	if(!hacked)
-		user << "<span class='notice'>You hear a strange HONK.</span>"
-		hacked = 1
-		if(prob(50))
-			slowdown=-4
-		else
-			flags = NOSLIP
-
-/obj/item/clothing/shoes/clown_shoes/step_action(mob/user as mob)
-	var/turf/T = get_turf(user)
-	if(istype(T, /turf/space)) //Space should never have step sounds
-		return
-	playsound(src, "clownstep", 30, 1)
+/obj/item/clothing/shoes/clown_shoes/step_action()
+	if(footstep > 1)
+		playsound(src, "clownstep", 50, 1)
+		footstep = 0
+	else
+		footstep++
 
 /obj/item/clothing/shoes/jackboots
 	name = "jackboots"
@@ -127,9 +106,10 @@
 	item_color = "hosred"
 	strip_delay = 50
 	put_on_delay = 50
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/shoes/winterboots
-	name = "fur boots"
+	name = "winter boots"
 	desc = "Boots lined with 'synthetic' animal fur."
 	icon_state = "winterboots"
 	item_state = "winterboots"
@@ -145,10 +125,10 @@
 	item_state = "jackboots"
 	strip_delay = 40
 	put_on_delay = 40
-
+	burn_state = -1
 
 /obj/item/clothing/shoes/cult
-	name = "cultist boots"
+	name = "nar-sian invoker boots"
 	desc = "A pair of boots worn by the followers of Nar-Sie."
 	icon_state = "cult"
 	item_state = "cult"
@@ -157,6 +137,11 @@
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
 	heat_protection = FEET
 	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
+	burn_state = -1
+
+/obj/item/clothing/shoes/cult/alt
+	name = "cultist boots"
+	icon_state = "cultalt"
 
 /obj/item/clothing/shoes/cyborg
 	name = "cyborg boots"
@@ -176,22 +161,10 @@
 	item_state = "roman"
 	strip_delay = 100
 	put_on_delay = 100
+	burn_state = -1
 
 /obj/item/clothing/shoes/griffin
 	name = "griffon boots"
 	desc = "A pair of costume boots fashioned after bird talons."
 	icon_state = "griffinboots"
 	item_state = "griffinboots"
-
-/obj/item/clothing/shoes/discoputin
-	name = "disco shoes"
-	desc = "Using the most advanced in bluespace disco technology, you too can dance the night away!"
-	icon_state = "discoputin"
-	item_state = "discoputin"
-
-/obj/item/clothing/shoes/beeboots
-	name = "Bee Boots"
-	desc = "Modified combat boots, has the scent of honey on them."
-	icon_state = "beeboots"
-	item_state = "beeboots"
-	armor = list(melee = 25, bullet = 25, laser = 25, energy = 10, bomb = 25, bio = 0, rad = 0)

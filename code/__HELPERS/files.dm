@@ -1,20 +1,13 @@
 //checks if a file exists and contains text
 //returns text as a string if these conditions are met
-
-/proc/bubblesort(list/L)
-  for(var/i = L.len, i > 0, i--) // start iterating backwards
-    for(var/j = 1, j < i, j++) // for each iteration backwards, iterate forwards until the 'i' counter is hit
-      if(L[j] > L[j+1]) // is the first number larger than the next number?
-        L.Swap(j, j+1) // if so, bring it down the list
-
 /proc/return_file_text(filename)
 	if(fexists(filename) == 0)
-		ERROR("File not found ([filename])")
+		throw EXCEPTION("return_file_text(): File not found")
 		return
 
 	var/text = file2text(filename)
 	if(!text)
-		ERROR("File empty ([filename])")
+		throw EXCEPTION("return_file_text(): File empty")
 		return
 
 	return text
@@ -31,8 +24,6 @@
 		var/list/choices = flist(path)
 		if(path != root)
 			choices.Insert(1,"/")
-
-		bubblesort(choices)
 
 		var/choice = input(src,"Choose a file to access:","Download",null) as null|anything in choices
 		switch(choice)

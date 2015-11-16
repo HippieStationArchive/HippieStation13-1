@@ -25,6 +25,9 @@
 
 	//Admin PM
 	if(href_list["priv_msg"])
+		if (href_list["ahelp_reply"])
+			cmd_ahelp_reply(href_list["priv_msg"])
+			return
 		cmd_admin_pm(href_list["priv_msg"],null)
 		return
 
@@ -62,7 +65,7 @@
 		return 0
 	return 1
 
-/client/proc/handle_spam_prevention(var/message, var/mute_type)
+/client/proc/handle_spam_prevention(message, mute_type)
 	if(config.automute_on && !holder && src.last_message == message)
 		src.last_message_count++
 		if(src.last_message_count >= SPAM_TRIGGER_AUTOMUTE)
@@ -100,10 +103,12 @@ var/list/external_rsc_urls
 var/next_external_rsc = 0
 #endif
 
+
 /client/New(TopicData)
+
 	TopicData = null							//Prevent calls to client.Topic from connect
 
-	if(connection != "seeker" && connection != "web")//Invalid connection type.
+	if(connection != "seeker")					//Invalid connection type.
 		return null
 	if(byond_version < MIN_CLIENT_VERSION)		//Out of date client.
 		return null
@@ -145,12 +150,32 @@ var/next_external_rsc = 0
 
 	if(holder)
 		add_admin_verbs()
-		admin_memo_show()
+		admin_memo_output("Show")
+		adminGreet()
 		if((global.comms_key == "default_pwd" || length(global.comms_key) <= 6) && global.comms_allowed) //It's the default value or less than 6 characters long, but it somehow didn't disable comms.
 			src << "<span class='danger'>The server's API key is either too short or is the default value! Consider changing it immediately!</span>"
 
 	add_verbs_from_config()
 	set_client_age_from_db()
+
+	if (isnum(player_age) && player_age == -1) //first connection
+		if (config.panic_bunker && !holder && !(ckey in deadmins))
+			log_access("Failed Login: [key] - New account attempting to connect during panic bunker")
+			message_admins("<span class='adminnotice'>Failed Login: [key] - New account attempting to connect during panic bunker</span>")
+			src << "Sorry but the server is currently not accepting connections from never before seen players."
+			del(src)
+			return 0
+
+		if (config.notify_new_player_age >= 0)
+			message_admins("New user: [key_name_admin(src)] is connecting here for the first time.")
+			if (config.irc_first_connection_alert)
+				send2irc_adminless_only("New-user", "[key_name(src)] is connecting for the first time!")
+
+		player_age = 0 // set it from -1 to 0 so the job selection code doesn't have a panic attack
+
+	else if (isnum(player_age) && player_age < config.notify_new_player_age)
+		message_admins("New user: [key_name_admin(src)] just connected with an age of [player_age] day[(player_age==1?"":"s")]")
+
 
 	if (!ticker || ticker.current_state == GAME_STATE_PREGAME)
 		spawn (rand(10,150))
@@ -166,18 +191,28 @@ var/next_external_rsc = 0
 
 	screen += void
 
-
 	if(prefs.lastchangelog != changelog_hash) //bolds the changelog button on the interface so we know there are updates.
-		changes()
+		src << "<span class='info'>You have unread updates in the changelog.</span>"
+		if(config.aggressive_changelog)
+			src.changes()
+		else
+			winset(src, "rpane.changelogb", "background-color=#eaeaea;font-style=bold")
 
-	spawn()
-		goodcurity = src.mob.check_achievement("Goodcurity", src.key)
+	if (ckey in clientmessages)
+		for (var/message in clientmessages[ckey])
+			src << message
+		clientmessages.Remove(ckey)
 
-	//////////////
-	//DISCONNECT//
-	//////////////
+	if (config && config.autoconvert_notes)
+		convert_notes_sql(ckey)
+
+//////////////
+//DISCONNECT//
+//////////////
+
 /client/Del()
 	if(holder)
+		adminGreet(1)
 		holder.owner = null
 		admins -= src
 	directory -= ckey
@@ -196,14 +231,16 @@ var/next_external_rsc = 0
 	var/sql_ckey = sanitizeSQL(src.ckey)
 
 	var/DBQuery/query = dbcon.NewQuery("SELECT id, datediff(Now(),firstseen) as age FROM [format_table_name("player")] WHERE ckey = '[sql_ckey]'")
-	query.Execute()
+	if (!query.Execute())
+		return
 
 	while (query.NextRow())
 		player_age = text2num(query.item[2])
 		return
-	// player not found.
-	player_age = 0
-	message_admins("[key_name_admin(src)] is connecting here for the first time.")
+
+	//no match mark it as a first connection for use in client/New()
+	player_age = -1
+
 
 /client/proc/sync_client_with_db()
 	if (IsGuestKey(src.key))
@@ -218,33 +255,19 @@ var/next_external_rsc = 0
 	var/DBQuery/query_ip = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE ip = '[address]' AND ckey != '[sql_ckey]'")
 	query_ip.Execute()
 	related_accounts_ip = ""
-
 	while(query_ip.NextRow())
-		var/DBQuery/query = dbcon.NewQuery("SELECT ckey, a_ckey, reason FROM [format_table_name("ban")] WHERE (ip = '[address]') AND (bantype = 'PERMABAN'  OR (bantype = 'TEMPBAN' AND expiration_time > Now())) AND isnull(unbanned)")
-		query.Execute()
-		while(query.NextRow())
-			message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer IP which is <bold>CURRENTLY</bold> banned: [query.item[1]] they were banned for <bold>[query.item[3]]</bold> by <bold>[query.item[2]]</font>")
-
-		related_accounts_ip += "[query_ip.item[1]],"
+		related_accounts_ip += "[query_ip.item[1]], "
 
 	var/DBQuery/query_cid = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid = '[computer_id]' AND ckey != '[sql_ckey]'")
 	query_cid.Execute()
 	related_accounts_cid = ""
-
 	while (query_cid.NextRow())
-		var/DBQuery/query = dbcon.NewQuery("SELECT a_ckey, reason FROM [format_table_name("ban")] WHERE (ckey = '[query_cid.item[1]]') AND (bantype = 'PERMABAN'  OR (bantype = 'TEMPBAN' AND expiration_time > Now())) AND isnull(unbanned)")
-		query.Execute()
-		while(query.NextRow())
-			message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer ID which is <bold>CURRENTLY</bold> banned: [query_cid.item[1]] they were banned for <bold>[query.item[2]]</bold> by <bold>[query.item[1]]</bold></font>")
+		related_accounts_cid += "[query_cid.item[1]], "
 
-		related_accounts_cid += "[query_cid.item[1]],"
-
-	var/DBQuery/query = dbcon.NewQuery("SELECT ckey, reason FROM [format_table_name("watch")] WHERE (ckey = '[sql_ckey]')")
-	query.Execute()
-	if(query.NextRow())
-		message_admins("<font color='red'><B>Notice: </B></font><font color='blue'>User [src.key] is currently being watched, please keep an eye on them. Watch reason: [query_cid.item[2]]</font>")
-		send2irc("Watch Alert", "[src.ckey] is currently being watched and has joined the server! - Watch reason: [query_cid.item[2]]")
-
+	var/watchreason = check_watchlist(sql_ckey)
+	if(watchreason)
+		message_admins("<font color='red'><B>Notice: </B></font><font color='blue'>[key_name_admin(src)] is on the watchlist and has just connected - Reason: [watchreason]</font>")
+		send2irc_adminless_only("Watchlist", "[key_name(src)] is on the watchlist and has just connected - Reason: [watchreason]")
 
 	var/admin_rank = "Player"
 	if (src.holder && src.holder.rank)
@@ -278,6 +301,14 @@ var/next_external_rsc = 0
 	if(inactivity > duration)	return inactivity
 	return 0
 
+// Byond seemingly calls stat, each tick.
+// Calling things each tick can get expensive real quick.
+// So we slow this down a little.
+// See: http://www.byond.com/docs/ref/info.html#/client/proc/Stat
+/client/Stat()
+	. = ..()
+	sleep(1)
+
 //send resources to the client. It's here in its own proc so we can move it around easiliy if need be
 /client/proc/send_resources()
 
@@ -288,23 +319,14 @@ var/next_external_rsc = 0
 			hi = new type(null)
 			hi.sendResources(src)
 
+	// Preload the crew monitor. This needs to be done due to BYOND bug http://www.byond.com/forum/?post=1487244
+	spawn
+		if (crewmonitor && crewmonitor.initialized)
+			crewmonitor.sendResources(src)
+
+	//Send nanoui files to client
+	SSnano.send_resources(src)
 	getFiles(
-		'nano/js/libraries.min.js',
-		'nano/js/nano_update.js',
-		'nano/js/nano_config.js',
-		'nano/js/nano_base_helpers.js',
-		'nano/css/shared.css',
-		'nano/css/icons.css',
-		'nano/templates/chem_dispenser.tmpl',
-		'nano/templates/smes.tmpl',
-		'nano/templates/apc.tmpl',
-		'nano/templates/cryo.tmpl',
-		'nano/images/uiBackground.png',
-		'nano/images/uiIcons16.png',
-		'nano/images/uiIcons24.png',
-		'nano/images/uiLinkPendingIcon.gif',
-		'nano/images/uiNoticeBackground.jpg',
-		'nano/images/uiTitleFluff.png',
 		'html/search.js',
 		'html/panels.css',
 		'html/browser/common.css',
@@ -338,20 +360,6 @@ var/next_external_rsc = 0
 		'icons/pda_icons/pda_scanner.png',
 		'icons/pda_icons/pda_signaler.png',
 		'icons/pda_icons/pda_status.png',
-		'icons/spideros_icons/sos_1.png',
-		'icons/spideros_icons/sos_2.png',
-		'icons/spideros_icons/sos_3.png',
-		'icons/spideros_icons/sos_4.png',
-		'icons/spideros_icons/sos_5.png',
-		'icons/spideros_icons/sos_6.png',
-		'icons/spideros_icons/sos_7.png',
-		'icons/spideros_icons/sos_8.png',
-		'icons/spideros_icons/sos_9.png',
-		'icons/spideros_icons/sos_10.png',
-		'icons/spideros_icons/sos_11.png',
-		'icons/spideros_icons/sos_12.png',
-		'icons/spideros_icons/sos_13.png',
-		'icons/spideros_icons/sos_14.png',
 		'icons/stamp_icons/large_stamp-clown.png',
 		'icons/stamp_icons/large_stamp-deny.png',
 		'icons/stamp_icons/large_stamp-ok.png',

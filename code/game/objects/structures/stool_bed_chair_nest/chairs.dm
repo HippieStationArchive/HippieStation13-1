@@ -1,16 +1,9 @@
-// /obj/item/chair //Used for picking up chairs and bashing people with them --TODO
-// 	name = "chair"
-// 	desc = "Can't exactly sit on this when it's carried by someone."
-// 	icon = 'icons/obj/objects.dmi'
-// 	icon_state = "chair"
-// 	w_class = 4.0
-
 /obj/structure/stool/bed/chair	//YES, chairs are a type of bed, which are a type of stool. This works, believe me.	-Pete
 	name = "chair"
-	desc = "You sit in this. Either by will or force."
+	desc = "You sit in this. Either by will or force.\n<span class='notice'>Alt-click to rotate it clockwise.</span>"
 	icon_state = "chair"
-	buckle_lying = 0
-	var/can_rotate = 1
+	buckle_lying = 0 //you sit in a chair, not lay
+	burn_state = -1 //Not Burnable
 
 /obj/structure/stool/bed/chair/New()
 	..()
@@ -22,23 +15,12 @@
 	..()
 	handle_rotation()
 
-/obj/structure/stool/bed/chair/MouseDrop(over_object, src_location, over_location)
-	..()
-	// if(over_object == usr && Adjacent(usr) && (in_range(src, usr) || usr.contents.Find(src)))
-	// 	if(!ishuman(usr))
-	// 		return
-	// 	if(buckled_mob)
-	// 		return 0
-	// 	visible_message("<span class='notice'>[usr] picks up \the [src.name].</span>")
-	// 	new/obj/item/chair(get_turf(src))
-	// 	qdel(src)
-	// 	return
-
-/obj/structure/stool/bed/chair/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+/obj/structure/stool/bed/chair/attackby(obj/item/weapon/W, mob/user, params)
 	..()
 	if(istype(W, /obj/item/assembly/shock_kit))
+		if(!user.drop_item())
+			return
 		var/obj/item/assembly/shock_kit/SK = W
-		user.drop_item()
 		var/obj/structure/stool/bed/chair/e_chair/E = new /obj/structure/stool/bed/chair/e_chair(src.loc)
 		playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 		E.dir = dir
@@ -46,7 +28,7 @@
 		SK.loc = E
 		SK.master = E
 		qdel(src)
-/obj/structure/stool/bed/chair/attack_tk(mob/user as mob)
+/obj/structure/stool/bed/chair/attack_tk(mob/user)
 	if(buckled_mob)
 		..()
 	else
@@ -59,10 +41,9 @@
 		if(!direction || !buckled_mob.Move(get_step(src, direction), direction))
 			buckled_mob.buckled = src
 			dir = buckled_mob.dir
-			handle_layer()
 			return 0
-		handle_layer()
 		buckled_mob.buckled = src //Restoring
+	handle_layer()
 	return 1
 
 /obj/structure/stool/bed/chair/proc/handle_layer()
@@ -78,26 +59,34 @@
 		buckled_mob.dir = dir
 
 /obj/structure/stool/bed/chair/verb/rotate()
-	if(src.can_rotate)
-		set name = "Rotate Chair"
-		set category = "Object"
-		set src in oview(1)
+	set name = "Rotate Chair"
+	set category = "Object"
+	set src in oview(1)
 
-		if(config.ghost_interaction)
-			spin()
-		else
-			if(!usr || !isturf(usr.loc))
-				return
-			if(usr.stat || usr.restrained())
-				return
-			spin()
+	if(config.ghost_interaction)
+		spin()
+	else
+		if(!usr || !isturf(usr.loc))
+			return
+		if(usr.stat || usr.restrained())
+			return
+		spin()
 
-// /obj/structure/stool/bed/chair/MouseDrop_T(mob/M as mob, mob/user as mob)
-// 	if(!istype(M)) return
-// 	buckle_mob(M, user)
-// 	return
+/obj/structure/stool/bed/chair/AltClick(mob/user)
+	..()
+	if(!user.canUseTopic(user))
+		user << "<span class='warning'>You can't do that right now!</span>"
+		return
+	if(!in_range(src, user))
+		return
+	else
+		rotate()
 
 // Chair types
+/obj/structure/stool/bed/chair/wood
+	burn_state = 0 //Burnable
+	burntime = 20
+
 /obj/structure/stool/bed/chair/wood/normal
 	icon_state = "wooden_chair"
 	name = "wooden chair"
@@ -108,17 +97,7 @@
 	name = "wooden chair"
 	desc = "Old is never too old to not be in fashion."
 
-/obj/structure/stool/bed/chair/escapepods
-	icon_state = "sblackchair"
-	name = "Pod Chair"
-	desc = "Always confy, and efficient at leaving your worries behind."
-
-/obj/structure/stool/bed/chair/escape
-	icon_state = "sbluechair"
-	name = "Shuttle Chair"
-	desc = "Always comfy, and efficient at leaving your worries behind."
-
-/obj/structure/stool/bed/chair/wood/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+/obj/structure/stool/bed/chair/wood/attackby(obj/item/weapon/W, mob/user, params)
 	if(istype(W, /obj/item/weapon/wrench))
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 		new /obj/item/stack/sheet/mineral/wood(src.loc)
@@ -128,9 +107,11 @@
 
 /obj/structure/stool/bed/chair/comfy
 	name = "comfy chair"
-	desc = "It looks comfy."
+	desc = "It looks comfy.\n<span class='notice'>Alt-click to rotate it clockwise.</span>"
 	icon_state = "comfychair"
 	color = rgb(255,255,255)
+	burn_state = 0 //Burnable
+	burntime = 30
 	var/image/armrest = null
 
 /obj/structure/stool/bed/chair/comfy/New()
@@ -144,6 +125,7 @@
 		overlays += armrest
 	else
 		overlays -= armrest
+
 
 /obj/structure/stool/bed/chair/comfy/brown
 	color = rgb(255,113,0)
@@ -184,6 +166,44 @@
 	handle_layer()
 	cooldown = 1
 	spawn(10)
+		cooldown = 0
+
+	//Wheelchair
+
+/obj/structure/stool/bed/chair/wheelchair
+	name = "wheelchair"
+	desc = "Chances are you don't really need this."
+	icon_state = "wheelchair"
+	anchored = 0
+	var/cooldown = 0
+
+/obj/structure/stool/bed/chair/wheelchair/handle_rotation()
+	overlays = null
+	var/image/O = image(icon = 'icons/obj/objects.dmi', icon_state = "wheelchair_overlay", layer = FLY_LAYER, dir = src.dir)
+	overlays += O
+	if(buckled_mob)
+		buckled_mob.dir = dir
+
+/obj/structure/stool/bed/chair/wheelchair/relaymove(mob/user, direction)
+	if((!Process_Spacemove(direction)) || (!has_gravity(src.loc)) || (cooldown) || user.stat || user.stunned || user.weakened || user.paralysis || (user.restrained()))
+		return
+	step(src, direction)
+	if(buckled_mob)
+		buckled_mob.dir = dir
+		switch(buckled_mob.dir)		//Changing all the below dirs is probably totally unneccessary but hell if I know.
+			if(NORTH)
+				buckled_mob.dir = NORTH
+			if(WEST)
+				buckled_mob.dir = WEST
+			if(SOUTH)
+				buckled_mob.dir = SOUTH
+			if(EAST)
+				buckled_mob.dir = EAST
+		dir = buckled_mob.dir
+	handle_rotation()
+	handle_layer()
+	cooldown = 1
+	spawn(4)
 		cooldown = 0
 
 /obj/structure/stool/bed/chair/office/light

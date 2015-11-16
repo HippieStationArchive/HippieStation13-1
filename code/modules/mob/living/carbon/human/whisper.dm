@@ -1,6 +1,8 @@
 /mob/living/carbon/human/whisper(message as text)
 	if(!IsVocal())
 		return
+	if(!message)
+		return
 
 	if(say_disabled)	//This is here to try to identify lag problems
 		usr << "<span class='danger'>Speech is currently admin-disabled.</span>"
@@ -10,7 +12,7 @@
 		return
 
 
-	message = trim(strip_html_properly(message))
+	message = trim(html_encode(message))
 	if(!can_speak(message))
 		return
 
@@ -49,7 +51,7 @@
 
 	var/list/listening_dead = list()
 	for(var/mob/M in player_list)
-		if(M.stat == DEAD && ((M.client.prefs.toggles & CHAT_GHOSTWHISPER) || (get_dist(M, src) <= 7)))
+		if(M.stat == DEAD && M.client && ((M.client.prefs.chat_toggles & CHAT_GHOSTWHISPER) || (get_dist(M, src) <= 7)))
 			listening_dead |= M
 
 	var/list/listening = get_hearers_in_view(1, src)
@@ -66,16 +68,22 @@
 	for(var/mob/M in watching)
 		M.show_message(rendered, 2)
 
-	rendered = "<span class='game say'><span class='name'>[GetVoice()]</span>[alt_name] [whispers], <span class='message'>\"<i>[message]</i>\"</span></span>"
+	var/spans = list(SPAN_ITALICS)
+	rendered = "<span class='game say'><span class='name'>[GetVoice()]</span>[alt_name] [whispers], <span class='message'>\"[attach_spans(message, spans)]\"</span></span>"
 	var/displayuser = "<span class='game say'>You whisper in your final breath, <span class='message'>\"<i>[message]</i>\"</span></span>"
-	for(var/mob/M in listening)
-		M.Hear(rendered, src, languages, message)
+
+	for(var/atom/movable/AM in listening)
+		if(istype(AM,/obj/item/device/radio))
+			continue
+		AM.Hear(rendered, src, languages, message, , spans)
 
 	message = stars(message)
-	rendered = "<span class='game say'><span class='name'>[GetVoice()]</span>[alt_name] [whispers], <span class='message'>\"<i>[message]</i>\"</span></span>"
-	for(var/mob/M in eavesdropping)
-		M.Hear(rendered, src, languages, message)
+	rendered = "<span class='game say'><span class='name'>[GetVoice()]</span>[alt_name] [whispers], <span class='message'>\"[attach_spans(message, spans)]\"</span></span>"
+	for(var/atom/movable/AM in eavesdropping)
+		if(istype(AM,/obj/item/device/radio))
+			continue
+		AM.Hear(rendered, src, languages, message, , spans)
 
-	if(stat == UNCONSCIOUS && critical) //Dying words.
+	if(critical && stat == UNCONSCIOUS) //Dying words.
 		succumb(1)
 		usr.show_message(displayuser, 2)

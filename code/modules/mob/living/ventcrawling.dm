@@ -1,9 +1,9 @@
 
-var/list/ventcrawl_machinery = list(/obj/machinery/atmospherics/unary/vent_pump, /obj/machinery/atmospherics/unary/vent_scrubber)
+var/list/ventcrawl_machinery = list(/obj/machinery/atmospherics/components/unary/vent_pump, /obj/machinery/atmospherics/components/unary/vent_scrubber)
 
 //VENTCRAWLING
 
-/mob/living/proc/handle_ventcrawl(var/atom/A)
+/mob/living/proc/handle_ventcrawl(atom/A)
 	if(!ventcrawler || !Adjacent(A))
 		return
 	if(stat)
@@ -12,8 +12,14 @@ var/list/ventcrawl_machinery = list(/obj/machinery/atmospherics/unary/vent_pump,
 	if(lying)
 		src << "You can't vent crawl while you're stunned!"
 		return
+	if(restrained())
+		src << "You can't vent crawl while you're restrained!"
+		return
+	if(buckled_mob)
+		src << "You can't vent crawl with [buckled_mob] on you!"
+		return
 
-	var/obj/machinery/atmospherics/unary/vent_found
+	var/obj/machinery/atmospherics/components/unary/vent_found
 
 
 	if(A)
@@ -34,10 +40,11 @@ var/list/ventcrawl_machinery = list(/obj/machinery/atmospherics/unary/vent_pump,
 
 
 	if(vent_found)
-		if(vent_found.parent && (vent_found.parent.members.len || vent_found.parent.other_atmosmch))
+		var/datum/pipeline/vent_found_parent = vent_found.PARENT1
+		if(vent_found_parent && (vent_found_parent.members.len || vent_found_parent.other_atmosmch))
 			visible_message("<span class='notice'>[src] begins climbing into the ventilation system...</span>" ,"<span class='notice'>You begin climbing into the ventilation system...</span>")
 
-			if(!do_after(src, 25))
+			if(!do_after(src, 25, target = vent_found))
 				return
 
 			if(!client)
@@ -47,6 +54,8 @@ var/list/ventcrawl_machinery = list(/obj/machinery/atmospherics/unary/vent_pump,
 				for(var/obj/item/I in contents)
 					var/failed = 0
 					if(istype(I, /obj/item/weapon/implant))
+						continue
+					if(istype(I, /obj/item/organ/internal))
 						continue
 					else
 						failed++
@@ -62,36 +71,41 @@ var/list/ventcrawl_machinery = list(/obj/machinery/atmospherics/unary/vent_pump,
 		src << "<span class='warning'>This ventilation duct is not connected to anything!</span>"
 
 
-/mob/living/proc/add_ventcrawl(obj/machinery/atmospherics/unary/starting_machine)
-	if(!starting_machine)
+/mob/living/proc/add_ventcrawl(obj/machinery/atmospherics/components/unary/starting_machine)
+	if(!istype(starting_machine) || !starting_machine.returnPipenet())
 		return
-	var/list/totalMembers = starting_machine.parent.members + starting_machine.parent.other_atmosmch
-	for(var/atom/A in totalMembers)
-		var/image/new_image = image(A, A.loc, dir = A.dir)
-		pipes_shown += new_image
+	var/list/totalMembers = list()
+	var/datum/pipeline/starting_machine_parent = starting_machine.PARENT1
+	totalMembers += starting_machine_parent.members
+	totalMembers += starting_machine_parent.other_atmosmch
+
+	for(var/obj/machinery/atmospherics/A in totalMembers)
+		if(!A.pipe_vision_img)
+			A.pipe_vision_img = image(A, A.loc, layer = 20, dir = A.dir)
+			//20 for being above darkness
+		pipes_shown += A.pipe_vision_img
 		if(client)
-			client.images += new_image
+			client.images += A.pipe_vision_img
 
 
 /mob/living/proc/remove_ventcrawl()
-	for(var/image/current_image in pipes_shown)
-		client.images -= current_image
-
+	if(client)
+		for(var/image/current_image in pipes_shown)
+			client.images -= current_image
+		client.eye = src
 	pipes_shown.len = 0
 
-	if(client)
-		client.eye = src
 
 
 
 //OOP
-/atom/proc/update_pipe_vision()
+/atom/proc/update_pipe_vision(atom/new_loc = null)
 	return
 
-/mob/living/update_pipe_vision()
-	if(pipes_shown.len)
-		if(!istype(loc, /obj/machinery/atmospherics))
-			remove_ventcrawl()
-	else
-		if(istype(loc, /obj/machinery/atmospherics))
-			add_ventcrawl(loc)
+/mob/living/update_pipe_vision(atom/new_loc = null)
+	. = loc
+	if(new_loc)
+		. = new_loc
+	remove_ventcrawl()
+	add_ventcrawl(.)
+

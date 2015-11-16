@@ -1,17 +1,14 @@
-/mob/living/carbon/human/gib_animation(var/animate)
+/mob/living/carbon/human/gib_animation(animate)
 	..(animate, "gibbed-h")
 
-/mob/living/carbon/human/dust_animation(var/animate)
+/mob/living/carbon/human/dust_animation(animate)
 	..(animate, "dust-h")
 
-/mob/living/carbon/human/dust(var/animation = 1)
+/mob/living/carbon/human/dust(animation = 1)
 	..()
 
 /mob/living/carbon/human/spawn_gibs()
-	if(dna)
-		hgibs(loc, viruses, dna)
-	else
-		hgibs(loc, viruses, null)
+	hgibs(loc, viruses, dna)
 
 /mob/living/carbon/human/spawn_dust()
 	new /obj/effect/decal/remains/human(loc)
@@ -22,6 +19,7 @@
 	stat = DEAD
 	dizziness = 0
 	jitteriness = 0
+	heart_attack = 0
 
 	if(istype(loc, /obj/mecha))
 		var/obj/mecha/M = loc
@@ -34,8 +32,7 @@
 		update_canmove()
 		if(client) blind.layer = 0
 
-	if(dna)
-		dna.species.spec_death(gibbed,src)
+	dna.species.spec_death(gibbed,src)
 
 	tod = worldtime2text()		//weasellos time of death patch
 	if(mind)	mind.store_memory("Time of death: [tod]", 0)
@@ -45,40 +42,14 @@
 		ticker.mode.check_win()		//Calls the rounds wincheck, mainly for wizard, malf, and changeling now
 	return ..(gibbed)
 
-/mob/living/carbon/human/end_animation(var/animate) //This is the best place to handle this in
-	for(var/obj/item/organ/limb/L in organs)
-		if(L.embedded.len)
-			for(var/obj/item/I in L.embedded)
-				spawn(0) //Simultaneous
-					L.embedded -= I
-					I.loc = get_turf(src)
-					if(istype(I, /obj/item/weapon/paper))
-						var/obj/item/weapon/paper/P = I
-						P.attached = null
-						I.update_icon()
-					var/atom/target = get_edge_target_turf(I, get_dir(I, get_step_away(I, I)))
-					I.throw_at(target, rand(1, 3), 1)
-	if(l_hand)
-		var/obj/item/E = l_hand
-		if(unEquip(E))
-			var/atom/Ltarg = get_edge_target_turf(E, get_dir(E, get_step_away(E, E)))
-			E.throw_at(Ltarg, rand(1, 3), 1)
-	if(r_hand)
-		var/obj/item/R = r_hand
-		if(unEquip(R))
-			var/atom/Rtarg = get_edge_target_turf(R, get_dir(R, get_step_away(R, R)))
-			R.throw_at(Rtarg, rand(1, 3), 1)
-	..()
-
 /mob/living/carbon/human/proc/makeSkeleton()
-	if(!check_dna_integrity(src))	return
 	status_flags |= DISFIGURED
-	dna.species = new /datum/species/skeleton(src)
+	set_species(/datum/species/skeleton)
 	return 1
 
 /mob/living/carbon/proc/ChangeToHusk()
-	if(HUSK in mutations)	return
-	mutations.Add(HUSK)
+	if(disabilities & HUSK)	return
+	disabilities |= HUSK
 	status_flags |= DISFIGURED	//makes them unknown without fucking up other stuff like admintools
 	return 1
 
@@ -90,5 +61,5 @@
 
 /mob/living/carbon/proc/Drain()
 	ChangeToHusk()
-	mutations |= NOCLONE
+	disabilities |= NOCLONE
 	return 1

@@ -47,7 +47,7 @@
 	log_mentor("Mentor PM: [key_name(src)]->[key_name(C)]: [msg]")
 
 	msg = emoji_parse(msg)
-	C << 'sound/Items/Bikehorn2.ogg'
+	C << 'sound/items/bikehorn.ogg'
 	var/show_char = config.mentors_mobname_only
 	if(check_mentor_other(C))
 		if(check_mentor())	//both are mentors

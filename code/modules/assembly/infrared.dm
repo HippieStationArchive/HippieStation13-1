@@ -1,15 +1,24 @@
 /obj/item/device/assembly/infra
 	name = "infrared emitter"
-	desc = "Emits a visible or invisible beam and is triggered when the beam is interrupted."
+	desc = "Emits a visible or invisible beam and is triggered when the beam is interrupted.\n<span class='notice'>Alt-click to rotate it clockwise.</span>"
 	icon_state = "infrared"
-	m_amt = 1000
-	g_amt = 500
+	materials = list(MAT_METAL=1000, MAT_GLASS=500)
 	origin_tech = "magnets=2"
 
 	var/on = 0
 	var/visible = 0
 	var/obj/effect/beam/i_beam/first = null
 	var/obj/effect/beam/i_beam/last = null
+
+
+/obj/item/device/assembly/infra/New()
+	..()
+	SSobj.processing |= src
+
+/obj/item/device/assembly/infra/Destroy()
+	if(first)
+		qdel(first)
+	return ..()
 
 /obj/item/device/assembly/infra/describe()
 	return "The infrared trigger is [on?"on":"off"]."
@@ -23,11 +32,12 @@
 /obj/item/device/assembly/infra/toggle_secure()
 	secured = !secured
 	if(secured)
-		processing_objects.Add(src)
+		SSobj.processing |= src
 	else
 		on = 0
-		if(first)	qdel(first)
-		processing_objects.Remove(src)
+		if(first)
+			qdel(first)
+		SSobj.processing.Remove(src)
 	update_icon()
 	return secured
 
@@ -46,7 +56,7 @@
 	if(!on)
 		if(first)
 			qdel(first)
-			return
+		return
 	if(!secured)
 		return
 	if(first && last)
@@ -88,17 +98,16 @@
 	if((!secured)||(!on)||(cooldown > 0))
 		return 0
 	pulse(0)
-	if(src.loc)
-		src.loc.audible_message("\icon[src] *beep* *beep*", null, 3)
+	audible_message("\icon[src] *beep* *beep*", null, 3)
 	cooldown = 2
 	spawn(10)
 		process_cooldown()
 	return
 
-/obj/item/device/assembly/infra/interact(mob/user as mob)//TODO: change this this to the wire control panel
+/obj/item/device/assembly/infra/interact(mob/user)//TODO: change this this to the wire control panel
 	if(is_secured(user))
 		user.set_machine(src)
-		var/dat = text("<TT><B>Infrared Laser</B>\n<B>Status</B>: []<BR>\n<B>Visibility</B>: []<BR>\n</TT>", (on ? text("<A href='?src=\ref[];state=0'>On</A>", src) : text("<A href='?src=\ref[];state=1'>Off</A>", src)), (src.visible ? text("<A href='?src=\ref[];visible=0'>Visible</A>", src) : text("<A href='?src=\ref[];visible=1'>Invisible</A>", src)))
+		var/dat = "<TT><B>Infrared Laser</B>\n<B>Status</B>: [on ? "<A href='?src=\ref[src];state=0'>On</A>" : "<A href='?src=\ref[src];state=1'>Off</A>"]<BR>\n<B>Visibility</B>: [visible ? "<A href='?src=\ref[src];visible=0'>Visible</A>" : "<A href='?src=\ref[src];visible=1'>Invisible</A>"]<BR>\n</TT>"
 		dat += "<BR><BR><A href='?src=\ref[src];refresh=1'>Refresh</A>"
 		dat += "<BR><BR><A href='?src=\ref[src];close=1'>Close</A>"
 		user << browse(dat, "window=infra")
@@ -107,7 +116,7 @@
 
 /obj/item/device/assembly/infra/Topic(href, href_list)
 	..()
-	if(!usr.canmove || usr.stat || usr.restrained() || !in_range(loc, usr))
+	if(usr.incapacitated() || !in_range(loc, usr))
 		usr << browse(null, "window=infra")
 		onclose(usr, "infra")
 		return
@@ -129,11 +138,21 @@
 	set category = "Object"
 	set src in usr
 
-	if(usr.stat || !usr.canmove || usr.restrained())
+	if(usr.incapacitated())
 		return
 
 	dir = turn(dir, 90)
 	return
+
+/obj/item/device/assembly/infra/AltClick(mob/user)
+	..()
+	if(!user.canUseTopic(user))
+		user << "<span class='warning'>You can't do that right now!</span>"
+		return
+	if(!in_range(src, user))
+		return
+	else
+		rotate()
 
 
 
@@ -147,9 +166,9 @@
 	var/obj/effect/beam/i_beam/previous = null
 	var/obj/item/device/assembly/infra/master = null
 	var/limit = null
-	var/visible = 0.0
+	var/visible = 0
 	var/left = null
-	anchored = 1.0
+	anchored = 1
 
 
 /obj/effect/beam/i_beam/proc/hit()
@@ -214,4 +233,4 @@
 	if(previous)
 		previous.next = null
 		master.last = previous
-	..()
+	return ..()

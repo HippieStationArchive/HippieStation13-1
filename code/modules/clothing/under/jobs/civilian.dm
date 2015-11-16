@@ -3,16 +3,16 @@
 /obj/item/clothing/under/rank/bartender
 	desc = "It looks like it could use some more flair."
 	name = "bartender's uniform"
-	icon_state = "ba_suit"
-	item_state = "ba_suit"
-	item_color = "ba_suit"
-
+	icon_state = "barman"
+	item_state = "bar_suit"
+	item_color = "barman"
+	alt_covers_chest = 1
 
 /obj/item/clothing/under/rank/captain //Alright, technically not a 'civilian' but its better then giving a .dm file for a single define.
 	desc = "It's a blue jumpsuit with some gold markings denoting the rank of \"Captain\"."
 	name = "captain's jumpsuit"
 	icon_state = "captain"
-	item_state = "caparmor"
+	item_state = "b_suit"
 	item_color = "captain"
 
 
@@ -42,10 +42,11 @@
 
 
 /obj/item/clothing/under/rank/chef
-	desc = "It's an apron which is given only to the most <b>hardcore</b> chefs in space."
+	name = "chef's suit"
+	desc = "A suit which is given only to the most <b>hardcore</b> chefs in space."
 	icon_state = "chef"
 	item_color = "chef"
-
+	alt_covers_chest = 1
 
 /obj/item/clothing/under/rank/clown
 	name = "clown suit"
@@ -53,7 +54,7 @@
 	icon_state = "clown"
 	item_state = "clown"
 	item_color = "clown"
-	fitted = 0
+	fitted = FEMALE_UNIFORM_TOP
 	can_adjust = 0
 
 
@@ -81,13 +82,8 @@
 	icon_state = "janitor"
 	item_color = "janitor"
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 10, rad = 0)
+	burn_state = -1
 
-/obj/item/clothing/under/rank/janitor/alt
-	desc = "It's the alternative uniform of the station's janitor. It has minor protection from biohazards. Usually worn by total scrublords."
-	name = "janitor's jumpsuit"
-	icon_state = "janiform"
-	item_state = "janiform"
-	item_color = "janiform"
 
 /obj/item/clothing/under/lawyer
 	desc = "Slick threads."
@@ -126,24 +122,25 @@
 	item_state = "bluesuit"
 	item_color = "bluesuit"
 	can_adjust = 1
-
+	alt_covers_chest = 1
 
 /obj/item/clothing/under/lawyer/purpsuit
 	name = "purple suit"
 	icon_state = "lawyer_purp"
 	item_state = "lawyer_purp"
 	item_color = "lawyer_purp"
-	fitted = 0
+	fitted = NO_FEMALE_UNIFORM
 	can_adjust = 1
-
+	alt_covers_chest = 1
 
 /obj/item/clothing/under/lawyer/blacksuit
 	name = "black suit"
 	desc = "A professional black suit. Nanotrasen Investigation Bureau approved!"
 	icon_state = "blacksuit"
-	item_state = "ba_suit"
+	item_state = "bar_suit"
 	item_color = "blacksuit"
 	can_adjust = 1
+	alt_covers_chest = 1
 
 
 /obj/item/clothing/under/rank/librarian

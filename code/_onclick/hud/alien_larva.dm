@@ -29,7 +29,7 @@
 
 	mymob.pullin = new /obj/screen/pull()
 	mymob.pullin.icon = 'icons/mob/screen_alien.dmi'
-	mymob.pullin.icon_state = "pull0"
+	mymob.pullin.update_icon(mymob)
 	mymob.pullin.screen_loc = ui_pull_resist
 
 	mymob.blind = new /obj/screen()
@@ -41,7 +41,7 @@
 	mymob.blind.mouse_opacity = 0
 
 	mymob.flash = new /obj/screen()
-	mymob.flash.icon = 'icons/mob/screen_alien.dmi'
+	mymob.flash.icon = 'icons/mob/screen_gen.dmi'
 	mymob.flash.icon_state = "blank"
 	mymob.flash.name = "flash"
 	mymob.flash.screen_loc = "WEST,SOUTH to EAST,NORTH"

@@ -18,11 +18,11 @@
 	log_mentor("MENTORHELP: [key_name_mentor(src, 0, 0, 0, 0)]: [msg]")
 
 	for(var/client/X in mentors)
-		X << 'sound/Items/Bikehorn2.ogg'
+		X << 'sound/items/bikehorn.ogg'
 		X << mentor_msg
 
 	for(var/client/A in admins)
-		A << 'sound/Items/Bikehorn2.ogg'
+		A << 'sound/items/bikehorn.ogg'
 		A << mentor_msg
 
 	src << "<span class='mentornotice'><font color='purple'>PM to-<b>Mentors</b>: [msg]</font></span>"

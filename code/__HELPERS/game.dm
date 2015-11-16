@@ -32,7 +32,7 @@
 
 // Like view but bypasses luminosity check
 
-/proc/get_hear(var/range, var/atom/source)
+/proc/get_hear(range, atom/source)
 
 	var/lum = source.luminosity
 	source.luminosity = 6
@@ -42,7 +42,7 @@
 
 	return heard
 
-/proc/alone_in_area(var/area/the_area, var/mob/must_be_alone, var/check_type = /mob/living/carbon)
+/proc/alone_in_area(area/the_area, mob/must_be_alone, check_type = /mob/living/carbon)
 	var/area/our_area = get_area_master(the_area)
 	for(var/C in living_mob_list)
 		if(!istype(C, check_type))
@@ -52,7 +52,6 @@
 		if(our_area == get_area_master(C))
 			return 0
 	return 1
-
 
 //We used to use linear regression to approximate the answer, but Mloc realized this was actually faster.
 //And lo and behold, it is, and it's more accurate to boot.
@@ -126,7 +125,7 @@
 
 //This is the new version of recursive_mob_check, used for say().
 //The other proc was left intact because morgue trays use it.
-/proc/recursive_hear_check(var/atom/O)
+/proc/recursive_hear_check(atom/O)
 	var/list/processing_list = list(O)
 	var/list/processed_list = list()
 	var/list/found_atoms = list()
@@ -148,7 +147,7 @@
 
 // Better recursive loop, technically sort of not actually recursive cause that shit is retarded, enjoy.
 //No need for a recursive limit either
-/proc/recursive_mob_check(var/atom/O,var/client_check=1,var/sight_check=1,var/include_radio=1)
+/proc/recursive_mob_check(atom/O,client_check=1,sight_check=1,include_radio=1)
 
 	var/list/processing_list = list(O)
 	var/list/processed_list = list()
@@ -188,7 +187,7 @@
 	return found_mobs
 
 
-/proc/get_hearers_in_view(var/R, var/atom/source)
+/proc/get_hearers_in_view(R, atom/source)
 	// Returns a list of hearers in view(R) from source (ignoring luminosity). Used in saycode.
 	var/turf/T = get_turf(source)
 	var/list/hear = list()
@@ -203,7 +202,7 @@
 	return hear
 
 
-/proc/get_mobs_in_radio_ranges(var/list/obj/item/device/radio/radios)
+/proc/get_mobs_in_radio_ranges(list/obj/item/device/radio/radios)
 
 	set background = BACKGROUND_ENABLED
 
@@ -248,7 +247,7 @@
 #undef SIGN
 
 
-/proc/isInSight(var/atom/A, var/atom/B)
+/proc/isInSight(atom/A, atom/B)
 	var/turf/Aturf = get_turf(A)
 	var/turf/Bturf = get_turf(B)
 
@@ -283,7 +282,7 @@
 		if(AM.Move(get_step(T, direction)))
 			break
 
-/proc/get_mob_by_key(var/key)
+/proc/get_mob_by_key(key)
 	for(var/mob/M in mob_list)
 		if(M.ckey == lowertext(key))
 			return M
@@ -324,23 +323,9 @@
 /proc/flick_overlay(image/I, list/show_to, duration)
 	for(var/client/C in show_to)
 		C.images += I
-	sleep(duration)
-	for(var/client/C in show_to)
-		C.images -= I
-
-/proc/animate_speechbubble(image/I, list/show_to, duration)
-	var/matrix/M = matrix()
-	M.Scale(0,0)
-	I.transform = M
-	I.alpha = 0
-	for(var/client/C in show_to)
-		C.images += I
-	animate(I, transform = 0, alpha = 255, time = 5, easing = ELASTIC_EASING)
-	sleep(duration-5)
-	animate(I, alpha = 0, time = 5, easing = EASE_IN)
-	sleep(5)
-	for(var/client/C in show_to)
-		C.images -= I
+	spawn(duration)
+		for(var/client/C in show_to)
+			C.images -= I
 
 /proc/get_active_player_count()
 	// Get active players who are playing in the round
@@ -378,7 +363,7 @@
 	src.dest_x = dest_x
 	src.dest_y = dest_y
 
-/proc/projectile_trajectory(var/src_x, var/src_y, var/rotation, var/angle, var/power)
+/proc/projectile_trajectory(src_x, src_y, rotation, angle, power)
 
 	// returns the destination (Vx,y) that a projectile shot at [src_x], [src_y], with an angle of [angle],
 	// rotated at [rotation] and with the power of [power]
@@ -395,11 +380,56 @@
 
 	return new /datum/projectile_data(src_x, src_y, time, distance, power_x, power_y, dest_x, dest_y)
 
-/proc/GetRedPart(const/hexa)
-	return hex2num(copytext(hexa, 2, 4))
+/proc/pollCandidates(var/Question, var/jobbanType, var/datum/game_mode/gametypeCheck, var/be_special_flag = 0, var/poll_time = 300)
+	var/list/mob/dead/observer/candidates = list()
+	var/time_passed = world.time
+	if (!Question)
+		Question = "Would you like to be a special role?"
 
-/proc/GetGreenPart(const/hexa)
-	return hex2num(copytext(hexa, 4, 6))
+	for(var/mob/dead/observer/G in player_list)
+		if(!G.key || !G.client)
+			continue
+		if(be_special_flag)
+			if(!(G.client.prefs.be_special & be_special_flag))
+				continue
+		if (gametypeCheck)
+			if(!gametypeCheck.age_check(G.client))
+				continue
+		if (jobbanType)
+			if(jobban_isbanned(G, jobbanType) || jobban_isbanned(G, "Syndicate"))
+				continue
+		spawn(0)
+			G << 'sound/misc/notice2.ogg' //Alerting them to their consideration
+			switch(alert(G,Question,"Please answer in [poll_time/10] seconds!","Yes","No"))
+				if("Yes")
+					G << "<span class='notice'>Choice registered: Yes.</span>"
+					if((world.time-time_passed)>poll_time)//If more than 30 game seconds passed.
+						G << "<span class='danger'>Sorry, you were too late for the consideration!</span>"
+						G << 'sound/machines/buzz-sigh.ogg'
+						return
+					candidates += G
+				if("No")
+					G << "<span class='danger'>Choice registered: No.</span>"
+					return
+				else
+					return
+	sleep(poll_time)
 
-/proc/GetBluePart(const/hexa)
-	return hex2num(copytext(hexa, 6, 8))
+	//Check all our candidates, to make sure they didn't log off during the 30 second wait period.
+	for(var/mob/dead/observer/G in candidates)
+		if(!G.key || !G.client)
+			candidates.Remove(G)
+
+	return candidates
+
+/proc/makeBody(mob/dead/observer/G_found) // Uses stripped down and bastardized code from respawn character
+	if(!G_found || !G_found.key)	return
+
+	//First we spawn a dude.
+	var/mob/living/carbon/human/new_character = new(pick(latejoin))//The mob being spawned.
+
+	G_found.client.prefs.copy_to(new_character)
+	new_character.dna.update_dna_identity()
+	new_character.key = G_found.key
+
+	return new_character
