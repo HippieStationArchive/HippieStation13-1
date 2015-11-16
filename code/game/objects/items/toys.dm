@@ -715,6 +715,8 @@
 	var/card_throwforce = 0
 	var/card_throw_speed = 3
 	var/card_throw_range = 7
+	var/card_embed_chance = 0
+	var/card_sharpness
 	var/list/card_attack_verb = list("attacked")
 
 /obj/item/toy/cards/New()
@@ -1049,7 +1051,10 @@
 	newobj.throw_range = newobj.card_throw_range
 	newobj.card_attack_verb = sourceobj.card_attack_verb
 	newobj.attack_verb = newobj.card_attack_verb
-
+	newobj.card_embed_chance = sourceobj.card_embed_chance
+	newobj.embed_chance = newobj.card_embed_chance
+	newobj.card_sharpness = sourceobj.card_sharpness
+	newobj.sharpness = newobj.card_sharpness
 
 /*
 || Syndicate playing cards, for pretending you're Gambit and playing poker for the nuke disk. ||
@@ -1065,7 +1070,8 @@
 	card_throw_speed = 3
 	card_throw_range = 7
 	card_attack_verb = list("attacked", "sliced", "diced", "slashed", "cut")
-	sharpness = IS_SHARP //so you can embed it like the old way
+	card_embed_chance = 80
+	card_sharpness = IS_SHARP //so you can embed it like the old way
 
 /*
  * Fake nuke

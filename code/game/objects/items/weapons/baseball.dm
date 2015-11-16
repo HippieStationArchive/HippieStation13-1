@@ -31,6 +31,8 @@
 // /mob/living/carbon/throw_item(atom/target)
 // 	..()
 
+/obj/item/weapon/baseballbat/wood
+
 /obj/item/weapon/baseballbat/metal
 	name = "metal baseball bat"
 	desc = "A smooth metal club used in baseball to hit the ball. Or to purify your adversaries."
