@@ -501,15 +501,3 @@
 	icon_state = "jester"
 	item_color = "jester"
 	can_adjust = 0
-
-/obj/item/clothing/under/zootsuit
-	name = "zoot suit"
-	desc = "A snazzy purple zoot suit. The name 'Big Papa' is stitched on the inside of the collar."
-	icon_state = "zootsuit"
-	item_state = "zootsuit"
-	item_color = "zootsuit"
-	body_parts_covered = CHEST|GROIN|ARMS
-	can_adjust = 0
-
-
-
