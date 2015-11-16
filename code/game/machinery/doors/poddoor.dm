@@ -39,6 +39,17 @@
 	if(stat & NOPOWER)
 		open(1)	//ignore the usual power requirement.
 
+/obj/machinery/door/poddoor/attack_animal(mob/living/simple_animal/M)
+	if(!istype(M)) return
+	if(!M.can_force_doors) return
+	if(!density) return //Not even an obstacle, don't bother
+	var/delay = 50 + (!(stat & NOPOWER) * 550) //60 seconds (a whole minute) for powered-up blastdoor. This makes Bridge the safest place from Zombies.
+	M.visible_message("<span class='danger'>[M] is trying to force open \the [src]!</span>",
+					"<span class='warning'>You try to force open \the [src] (This is going to take [delay/10] seconds).</span>")
+	if(do_after(M, delay, target = src))
+		M.visible_message("<span class='danger'>[M] forces open \the [src]!</span>",
+						"<span class='warning'>You force open \the [src]!</span>")
+		open(1)
 
 /obj/machinery/door/poddoor/open(ignorepower = 0)
 	if(operating)
