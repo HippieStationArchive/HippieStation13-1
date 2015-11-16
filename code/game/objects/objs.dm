@@ -181,3 +181,6 @@
 		burn_state = 0
 		overlays -= fire_overlay
 		SSobj.burning -= src
+
+/obj/proc/autolathe_crafted(obj/machinery/autolathe/A)
+	return

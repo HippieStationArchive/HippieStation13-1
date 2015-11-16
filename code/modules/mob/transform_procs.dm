@@ -151,7 +151,7 @@
 	sleep(22)
 	var/mob/living/carbon/human/O = new( loc )
 	for(var/obj/item/C in O.loc)
-		O.equip_to_appropriate_slot(C)
+		if(!C.anchored) O.equip_to_appropriate_slot(C)
 	qdel(animation)
 
 	dna.transfer_identity(O)

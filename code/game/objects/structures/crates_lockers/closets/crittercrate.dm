@@ -49,6 +49,10 @@
 		content_mob = /mob/living/simple_animal/pet/dog/corgi/Lisa
 	..()
 
+/obj/structure/closet/critter/memedog
+	name = "Strange Dog Crate"
+	content_mob = /mob/living/simple_animal/pet/dog/corgi/puppy/annoying_dog
+
 /obj/structure/closet/critter/cow
 	name = "cow crate"
 	content_mob = /mob/living/simple_animal/cow
