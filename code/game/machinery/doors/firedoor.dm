@@ -81,6 +81,21 @@
 
 	return
 
+/obj/machinery/door/firedoor/attack_animal(mob/living/simple_animal/M)
+	if(!istype(M)) return
+	if(!M.can_force_doors) return
+	if(!density) return //Not even an obstacle, don't bother
+	var/delay = 30 + (blocked * 60)
+	M.visible_message("<span class='danger'>[M] is trying to force open \the [src]!</span>",
+					"<span class='warning'>You try to force open \the [src] (This is going to take [delay/10] seconds).</span>")
+	if(do_after(M, delay, target = src))
+		M.visible_message("<span class='danger'>[M] forces open \the [src]!</span>",
+						"<span class='warning'>You force open \the [src]!</span>")
+		if(blocked)
+			blocked = !blocked
+		update_icon()
+		open()
+
 /obj/machinery/door/firedoor/attack_ai(mob/user)
 	add_fingerprint(user)
 	if(blocked || operating || stat & NOPOWER)
