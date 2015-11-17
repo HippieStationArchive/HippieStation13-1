@@ -129,7 +129,7 @@
 /datum/reagent/water/reaction_turf(turf/simulated/T, reac_volume)
 	if (!istype(T)) return
 	var/CT = cooling_temperature
-	if(reac_volume >= 1)
+	if(reac_volume >= 10)
 		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
 		T.MakeSlippery(1, time)
 
@@ -258,7 +258,7 @@
 
 /datum/reagent/lube/reaction_turf(turf/simulated/T, reac_volume)
 	if (!istype(T)) return
-	if(reac_volume >= 1)
+	if(reac_volume >= 10)
 		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
 		T.MakeSlippery(2, time)
 
