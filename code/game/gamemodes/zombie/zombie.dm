@@ -8,7 +8,7 @@
 
 	required_players = 20
 	required_enemies = 1
-	recommended_enemies = 1
+	recommended_enemies = 2
 
 	restricted_jobs = list("Cyborg", "AI")
 
@@ -17,14 +17,13 @@
 	var/carriers_to_make = 1
 	var/list/carriers = list()
 
-	var/zombies_to_win = 0
 	var/live_zombies = 0
 
-	var/players_per_carrier = 13 //1 patient zero every 13 players
+	var/players_per_carrier = 11 //1 patient zero every 13 players
 
+//Uncomment if you want zombie gamemode to be strictly mulligan
 /datum/game_mode/zombie/can_start()
-	return 0 //Zombie gamemodes are strictly mulligan
-	// ..()
+	return 0
 
 /datum/game_mode/zombie/pre_setup()
 	carriers_to_make = max(round(num_players()/players_per_carrier, 1), 1)
@@ -88,7 +87,7 @@
 	for(var/mob/living/simple_animal/hostile/zombie in living_mob_list)
 		if(zombie.stat != DEAD)
 			live_zombies++
-	if(live_zombies >= zombies_to_win)
+	if(live_zombies >= (num_players() * 0.8)) //80% of the crew infected
 		return 1
 	else
 		return 0
