@@ -530,4 +530,8 @@
 	icon_state = "zootsuit"
 	item_state = "zootsuit"
 	item_color = "zootsuit"
+<<<<<<< HEAD
 	can_adjust = 0
+=======
+	can_adjust = 0
+>>>>>>> refs/remotes/HippieStationCode/master
