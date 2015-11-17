@@ -352,3 +352,20 @@
 	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+
+
+/obj/item/weapon/gun/projectile/automatic/pistol/mac10
+	name = "Mac-10 SMG"
+	desc = "An old SMG, these used to be easily and cheaply mass-produced firearms. Their small size also made them great for concealing, however, the accuracy is anything but decent."
+	icon_state = "mac10"
+	mag_type = /obj/item/ammo_box/magazine/mac10
+	can_suppress = 0
+	w_class = 2
+	spread = 10
+	burst_size = 3
+	fire_delay = 1
+	fire_sound = 'sound/weapons/gunshot_smg.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/pistol/mac10/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
