@@ -276,9 +276,10 @@ Contains:
 	desc = "Assault System Specialist Combat Suit. Highly resistant to pressure and all forms of damage."
 	icon_state = "tcom"
 	item_state = "tcom"
+	flags_inv = null
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
 	armor = list(melee = 80, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 100, rad = 100)
-	slowdown = 1
+	slowdown = 0.5
 	strip_delay = 130
 
 /obj/item/clothing/head/helmet/space/ass
