@@ -110,7 +110,7 @@
 	l_pocket = /obj/item/weapon/reagent_containers/food/snacks/grown/banana
 	r_pocket = /obj/item/weapon/bikehorn
 	id = /obj/item/weapon/card/id
-	r_hand = /obj/item/weapon/twohanded/fireaxe
+	r_hand = /obj/item/weapon/twohanded/chainsaw
 
 /datum/outfit/tunnel_clown/post_equip(mob/living/carbon/human/H)
 	var/obj/item/weapon/card/id/W = H.wear_id
