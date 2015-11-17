@@ -30,7 +30,6 @@ Contains:
 	item_state = "capspacesuit"
 	w_class = 4
 	allowed = list(/obj/item/weapon/tank/internals, /obj/item/device/flashlight,/obj/item/weapon/gun/energy, /obj/item/weapon/gun/projectile, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs)
-	slowdown = 1
 	armor = list(melee = 40, bullet = 50, laser = 50, energy = 25, bomb = 50, bio = 100, rad = 50)
 
 
@@ -56,7 +55,6 @@ Contains:
 	item_state = "swat_suit"
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
 	armor = list(melee = 80, bullet = 80, laser = 50, energy = 50, bomb = 100, bio = 100, rad = 100)
-	slowdown = 1
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_HELM_MAX_TEMP_PROTECT
 	unacidable = 1
@@ -84,7 +82,6 @@ Contains:
 	w_class = 3
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
 	armor = list(melee = 80, bullet = 80, laser = 50, energy = 50, bomb = 100, bio = 100, rad = 100)
-	slowdown = 1
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_HELM_MAX_TEMP_PROTECT
 	unacidable = 1
@@ -102,7 +99,6 @@ Contains:
 	icon_state = "void"
 	item_state = "void"
 	desc = "An old, NASA Centcom branch designed, dark red space suit."
-	slowdown = 1
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals,/obj/item/device/multitool)
 
 
@@ -217,7 +213,6 @@ Contains:
 	icon_state = "space"
 	item_state = "s_suit"
 	desc = "A lightweight space suit with the basic ability to protect the wearer from the vacuum of space during emergencies."
-	slowdown = 1
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 100, rad = 20)
 
 /obj/item/clothing/head/helmet/space/eva
@@ -246,7 +241,6 @@ Contains:
 	item_state = "freedom"
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
 	armor = list(melee = 20, bullet = 40, laser = 30,energy = 25, bomb = 100, bio = 100, rad = 100)
-	slowdown = 1
 	strip_delay = 130
 	max_heat_protection_temperature = FIRE_IMMUNITY_HELM_MAX_TEMP_PROTECT
 	unacidable = 1
@@ -274,3 +268,43 @@ Contains:
 	armor = list(melee = -20, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 100, rad = 75) //As whimpy whimpy whoo
 	allowed = list(/obj/item/weapon/tank/internals, /obj/item/weapon/gun/projectile/automatic/speargun)	//I'm giving you a hint here
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/carp
+
+//Facepunch ASS armor
+
+/obj/item/clothing/suit/space/ass
+	name = "ASS Armor"
+	desc = "Assault System Specialist Combat Suit. Highly resistant to pressure and all forms of damage."
+	icon_state = "tcom"
+	item_state = "tcom"
+	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
+	armor = list(melee = 80, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 100, rad = 100)
+	slowdown = 1
+	strip_delay = 130
+
+/obj/item/clothing/head/helmet/space/ass
+	name = "ass helmet"
+	desc = "Assault System Specialist Combat Helmet. Highly resistant to pressure and all forms of damage."
+	icon_state = "tcom"
+	item_state = "tcom"
+	armor = list(melee = 80, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 100, rad = 100)
+	strip_delay = 130
+
+//Space Marine Power Armor from Facepunch
+
+/obj/item/clothing/head/helmet/space/imperium
+	name = "Mark VII Aquila Helmet"
+	desc = "The Mark VII Helmet corresponding to it's parent Power Armour."
+	icon_state = "bloodraven_helmet"
+	item_state = "bloodraven_helmet"
+	armor = list(melee = 80, bullet = 70, laser = 70, energy = 40, bomb = 80, bio = 100, rad = 100)
+	strip_delay = 200
+
+/obj/item/clothing/suit/space/imperium
+	name = "Mark VII Aquila Power Armour"
+	desc = "Mark VII armour was developed during the Horus Heresy, and remains in use as the most common form of power armour."
+	icon_state = "bloodraven_suit"
+	item_state = "bloodraven_suit"
+	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
+	slowdown = 1
+	armor = list(melee = 80, bullet = 70, laser = 70, energy = 40, bomb = 80, bio = 100, rad = 100)
+	strip_delay = 200

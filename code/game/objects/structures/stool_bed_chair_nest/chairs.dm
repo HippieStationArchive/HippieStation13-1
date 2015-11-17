@@ -203,7 +203,7 @@
 	handle_rotation()
 	handle_layer()
 	cooldown = 1
-	spawn(4)
+	spawn(3)
 		cooldown = 0
 
 /obj/structure/stool/bed/chair/wheelchair/rotate()

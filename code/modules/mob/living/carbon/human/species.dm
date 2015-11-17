@@ -944,7 +944,7 @@
 				var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
 				var/armor_block = H.run_armor_check(affecting, "melee")
 
-				playsound(H.loc, M.dna.species.attack_sound, 25, 1, -1)
+				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
 
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
@@ -1025,7 +1025,7 @@
 	// Allows you to put in item-specific reactions based on species
 	if(user != H)
 		user.do_attack_animation(H)
-	var/shieldcheck = H.check_shields(I.force, "the [I.name]", I)
+	var/shieldcheck = H.check_shields(I.force, "the [I.name]", I, 0, I.armour_penetration)
 	if(shieldcheck)
 		if(isliving(shieldcheck))
 			var/mob/living/L = shieldcheck

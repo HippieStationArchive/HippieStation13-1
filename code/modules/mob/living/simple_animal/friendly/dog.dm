@@ -495,6 +495,17 @@
 		return
 	..()
 
+/mob/living/simple_animal/pet/dog/corgi/puppy/annoying_dog
+	name = "annoying dog"
+	real_name = "annoying dog"
+	desc = "A little white dog."
+	icon_state = "meme_dog"
+	icon_living = "meme_dog"
+	icon_dead = "meme_dog_dead"
+	speak = list("FEED ME FEED ME!", "Shouldn't you be doing something else rather than thinking about murdering me??", "You'll pet me right? How about you just pet me?", "AUUUUUU")
+	speak_emote = list("barks", "woofs")
+	emote_hear = list("barks", "woofs", "yaps","pants")
+	emote_see = list("shakes its head", "shivers")
 
 //LISA! SQUEEEEEEEEE~
 /mob/living/simple_animal/pet/dog/corgi/Lisa

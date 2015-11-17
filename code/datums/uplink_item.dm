@@ -277,7 +277,7 @@ var/list/uplink_items = list()
 	name = "Power Fist"
 	desc = "A large mechanically powered fist made out of plasteel which can deliver a massive blow to any target with the ability to throw them across a room. The power fist needs approximately a second in between each punch before it is powered again."
 	item = /obj/item/weapon/melee/powerfist
-	cost = 14	//May need to be adjusted after we see how it performs in a non-test environment
+	cost = 10	//May need to be adjusted after we see how it performs in a non-test environment
 
 /datum/uplink_item/dangerous/emp
 	name = "EMP Kit"
@@ -534,7 +534,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/stealthy_weapons/traitor_chem_bottle
 	name = "Poison Kit"
-	desc = "An assortment of deadly chemicals packed into a compact box. Hard to utilize if there is no method of application."
+	desc = "An assortment of deadly chemicals packed into a compact box. Comes with a syringe for more precise application."
 	item = /obj/item/weapon/storage/box/syndie_kit/chemical
 	cost = 6
 	surplus = 50

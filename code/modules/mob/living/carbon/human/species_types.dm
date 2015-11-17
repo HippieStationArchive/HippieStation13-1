@@ -639,7 +639,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	say_mod = "moans"
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie
-	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE)
+	// specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE) //Overpowered, and simple_mobs set the species to this
 
 /datum/species/zombie/handle_speech(message)
 	var/list/message_list = text2list(message, " ")

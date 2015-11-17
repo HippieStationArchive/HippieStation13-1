@@ -42,7 +42,7 @@
 	var/obj/item/organ/limb/affecting = D.get_organ(ran_zone(A.zone_sel.selecting))
 	var/armor_block = D.run_armor_check(affecting, "melee")
 
-	playsound(D.loc, A.dna.species.attack_sound, 25, 1, -1)
+	playsound(D.loc, get_sfx(A.dna.species.attack_sound), 25, 1, -1)
 	D.visible_message("<span class='danger'>[A] has [atk_verb]ed [D]!</span>", \
 								"<span class='userdanger'>[A] has [atk_verb]ed [D]!</span>")
 
