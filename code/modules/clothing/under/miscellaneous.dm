@@ -169,6 +169,12 @@
 	item_color = "cloud"
 	can_adjust = 0
 
+/obj/item/clothing/under/gimmick/ass
+	name = "ASS Jumpsuit"
+	desc = "Assault System Specialist Combat Heavy Enhanced Energetic Kenitic Suit."
+	icon_state = "black"
+	item_color = "black"
+
 /obj/item/clothing/under/gimmick/rank/captain/suit
 	name = "captain's suit"
 	desc = "A green suit and yellow necktie. Exemplifies authority."
