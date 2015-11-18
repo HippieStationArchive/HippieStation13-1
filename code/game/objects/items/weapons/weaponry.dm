@@ -309,3 +309,17 @@
 	if(user.disabilities & CLUMSY && prob(50))
 		M = user
 	return eyestab(M,user)
+
+/obj/item/weapon/cane/pimpstick
+	name = "pimp stick"
+	desc = "A gold-rimmed cane, with a gleaming diamond set at the top. Great for bashing in kneecaps."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "pimpstick"
+	item_state = "pimpstick"
+	force = 10
+	throwforce = 7
+	w_class = 3
+	flags = NOSHIELD
+	attack_verb = list("pimped", "smacked", "disciplined", "busted", "capped", "decked")
+
+
