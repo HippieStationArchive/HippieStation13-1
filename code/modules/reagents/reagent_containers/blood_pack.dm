@@ -4,7 +4,7 @@
 	icon = 'icons/obj/bloodpack.dmi'
 	icon_state = "bloodpack"
 	volume = 200
-	flags = INJECTONLY
+	flags = OPENCONTAINER //you can fill a tank with 1000u of chems,not like you can empty bloodpacks without an IV anywhoo
 
 	var/blood_type = null
 
@@ -92,3 +92,18 @@
 	..()
 	update_icon()
 
+/obj/item/weapon/reagent_containers/blood/attackby(obj/item/I, mob/user, params)
+	if (istype(I, /obj/item/weapon/pen) || istype(I, /obj/item/toy/crayon))
+
+		var/t = stripped_input(user, "What would you like to label the blood pack?", name, null, 53)
+		if(!user.canUseTopic(src))
+			return
+		if(user.get_active_hand() != I)
+			return
+		if(!in_range(src, user) && loc != user)
+			return
+		if(t)
+			name = "blood pack - [t]"
+		else
+			name = "blood pack"
+		return
