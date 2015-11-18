@@ -652,7 +652,7 @@
 	category = list("initial", "Atmos")
 
 /datum/design/redtank
-	name = "ed oxygen tank"
+	name = "Red oxygen tank"
 	id = "redtank"
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 5000)
