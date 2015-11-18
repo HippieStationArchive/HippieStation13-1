@@ -215,7 +215,7 @@
 /datum/table_recipe/spikebat
 	name = "Spiked Baseball Bat"
 	result = /obj/item/weapon/baseballbat/spike
-	reqs = list(/obj/item/weapon/baseballbat = 1,
+	reqs = list(/obj/item/weapon/baseballbat/wood = 1,
 				/obj/item/stack/rods = 4,)
 	time = 120
 	category = CAT_WEAPON

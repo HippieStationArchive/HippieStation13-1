@@ -652,7 +652,7 @@
 	category = list("initial", "Atmos")
 
 /datum/design/redtank
-	name = "ed oxygen tank"
+	name = "Red oxygen tank"
 	id = "redtank"
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 5000)
@@ -722,14 +722,6 @@
 	materials = list(MAT_METAL = 10000, MAT_GLASS = 10000)
 	build_path = /obj/structure/reagent_dispensers
 	category = list("initial", "Atmos")
-
-/datum/design/pneumaticcannon
-	name = "Pneumatic cannon"
-	id = "pneumaticcannon"
-	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 10000)
-	build_path = /obj/item/weapon/pneumatic_cannon
-	category = list("hacked", "Atmos")
 
 /datum/design/rpd
 	name = "Rapid pipe dispenser (RPD)"

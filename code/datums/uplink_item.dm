@@ -160,14 +160,6 @@ var/list/uplink_items = list()
 	cost = 5
 	jobs = list("Bartender")
 
-//MINER
-/datum/uplink_item/job_specific/alien
-	name = "Unknown Alien"
-	desc = "An unknown and hostile alien lifeform."
-	item = /obj/item/clothing/mask/facehugger
-	cost = 20
-	jobs = list("Shaft Miner")
-
 // DANGEROUS WEAPONS
 
 /datum/uplink_item/dangerous
@@ -534,7 +526,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/stealthy_weapons/traitor_chem_bottle
 	name = "Poison Kit"
-	desc = "An assortment of deadly chemicals packed into a compact box. Hard to utilize if there is no method of application."
+	desc = "An assortment of deadly chemicals packed into a compact box. Comes with a syringe for more precise application."
 	item = /obj/item/weapon/storage/box/syndie_kit/chemical
 	cost = 6
 	surplus = 50

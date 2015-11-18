@@ -61,7 +61,7 @@ emp_act
 
 			return -1 // complete projectile permutation
 
-	var/shieldcheck = check_shields(P.damage, "the [P.name]", P)
+	var/shieldcheck = check_shields(P.damage, "the [P.name]", P, 0, P.armour_penetration)
 	if(shieldcheck)
 		if(isliving(shieldcheck)) //Meatshield
 			var/mob/living/L = shieldcheck
@@ -86,7 +86,7 @@ emp_act
 
 //End Here
 
-/mob/living/carbon/human/proc/check_shields(damage = 0, attack_text = "the attack", atom/movable/AM, thrown_proj = 0)
+/mob/living/carbon/human/proc/check_shields(damage = 0, attack_text = "the attack", atom/movable/AM, thrown_proj = 0, armour_penetration)
 	var/block_chance = 50 + 30*thrown_proj - round(damage / 3) //thrown things are easier to block
 	if(AM)
 		if(AM.flags & NOSHIELD) //weapon ignores shields altogether
@@ -97,11 +97,15 @@ emp_act
 			if(prob(85)) //High chance to hit the body shield instead
 				blocker = G.affecting //Special case
 	if(l_hand)
-		if(l_hand.IsShield() && prob(block_chance))
-			blocker = l_hand
+		if(l_hand.IsShield())
+			block_chance -= Clamp((armour_penetration-l_hand.armour_penetration)/2,0,100) //So armour piercing blades can still be parried by other blades, for example
+			if(prob(block_chance))
+				blocker = l_hand
 	if(r_hand)
-		if(r_hand.IsShield() && prob(block_chance))
-			blocker = r_hand
+		if(r_hand.IsShield())
+			block_chance -= Clamp((armour_penetration-r_hand.armour_penetration)/2,0,100)
+			if(prob(block_chance))
+				blocker = r_hand
 	if(blocker)
 		visible_message("<span class='danger'>[src] blocks [attack_text] with [blocker]!</span>", \
 						"<span class='userdanger'>[src] blocks [attack_text] with [blocker]!</span>")
@@ -442,8 +446,17 @@ emp_act
 		skipcatch = 1
 		blocked = 1
 	else if(I)
+		var/obj/item/B = get_active_hand()
+		if(istype(B) && B.deflectItem && B.specthrow_maxwclass >= I.w_class)
+			throw_mode_off()
+			visible_message("<span class='warning'>[src] has [B.specthrowmsg] [I]!</span>")
+			var/atom/throw_target = get_edge_target_turf(src, src.dir)
+			I.throw_at(throw_target, I.throw_range, I.throw_speed)
+			if(B.specthrowsound)
+				playsound(loc, B.specthrowsound, 50, 1, -7)
+			return //Effectively deflected
 		if(can_embed(I) || I.assthrown)
-			if((prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
+			if((!in_throw_mode || get_active_hand()) && (prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
 				throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
 				var/obj/item/organ/limb/L = pick(organs)
 				L.embedded_objects |= I
