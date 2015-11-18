@@ -52,7 +52,7 @@
 	for(var/datum/mind/carriermind in carriers)
 		zombie_infectees += carriermind
 
-		var/datum/disease/D = new /datum/disease/transformation/zombie
+		var/datum/disease/D = new /datum/disease/zombie
 		// D.visibility_flags = HIDDEN_SCANNER|HIDDEN_PANDEMIC
 		D.holder = carriermind.current
 		D.affected_mob = carriermind.current
@@ -69,7 +69,7 @@
 			if(zombie_mind.current && zombie_mind.current.stat != DEAD)
 				return 0
 
-		var/datum/disease/D = new /datum/disease/transformation/zombie() //ugly but unfortunately needed
+		var/datum/disease/D = new /datum/disease/zombie() //ugly but unfortunately needed
 		for(var/mob/living/carbon/human/H in living_mob_list)
 			if(H.mind)
 				if(H.HasDisease(D))
@@ -80,7 +80,7 @@
 /datum/game_mode/zombie/proc/check_zombie_victory()
 	if(SSshuttle.emergency.mode != SHUTTLE_ENDGAME)
 		return 0
-	var/datum/disease/D = new /datum/disease/transformation/zombie()
+	var/datum/disease/D = new /datum/disease/zombie()
 	for(var/mob/living/carbon/human/H in living_mob_list)
 		if (H.HasDisease(D))
 			live_zombies++
