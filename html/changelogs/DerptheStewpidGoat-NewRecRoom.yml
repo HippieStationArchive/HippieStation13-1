@@ -1,0 +1,13 @@
+# Your name.  
+author: DerptheStewpidgoat
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - rscadd: "Added a new recreation room to replace the rarely-used holodeck. Has a nice table for chatting with your fellow grey tide committee and a few arcade machines if you're looking to robust time. Also comes stocked with 2 easels and plenty of canvas for anyone feeling a bit artsy. Simply slap the canvas on the easel then begin clicking on it with a crayon."
