@@ -309,7 +309,7 @@
 	desc = "A paper cartridge for a breechloading rifle."
 	icon_state = "papercartridge"
 	caliber = "musket"
-	projectile_type = /obj/item/projectile/bullet
+	projectile_type = /obj/item/projectile/bullet/midbullet3
 
 
 /obj/item/ammo_casing/minieball // lazy memecuck,putting it in here
