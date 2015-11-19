@@ -419,3 +419,22 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/lever
 	fire_sound = 'sound/weapons/shotgun.ogg'
 	w_class = 3
+
+
+// breechloader
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/musket
+	name = "breech-loading musket"
+	desc = "This thing looks old!"
+	icon_state = "musket"
+	item_state = "musket"
+	w_class = 4
+	force = 10
+	slot_flags = SLOT_BACK
+	origin_tech = "combat=2;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/musket
+	fire_sound = 'sound/weapons/handcannon.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/rifle_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
+	chamber_sound = null
+	spread = 7
