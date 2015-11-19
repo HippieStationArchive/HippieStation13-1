@@ -438,3 +438,5 @@
 	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
 	chamber_sound = null
 	spread = 7
+	unique_rename = 0
+	unique_reskin = 0
