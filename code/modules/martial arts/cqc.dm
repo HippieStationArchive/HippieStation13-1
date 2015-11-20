@@ -129,6 +129,15 @@
 
 /obj/item/clothing/gloves/cqc
 	name = "tactical gloves"
+	desc = "Something oddly tactical about these gloves..."
+	icon_state = "fingerless"
+	item_state = "fingerless"
+	item_color = null	//So they don't wash.
+	transfer_prints = TRUE
+	strip_delay = 40
+	put_on_delay = 20
+	cold_protection = HANDS
+	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	var/datum/martial_art/cqc/style = new
 
 /obj/item/clothing/gloves/cqc/equipped(mob/user, slot)
@@ -160,7 +169,8 @@ obj/item/clothing/gloves/cqc/dropped(mob/user)
 	user << "<span class='sciradio'><i>And all at once the secrets of the CQC fill your mind. This basic form of close quarters combat has been imbued into this scroll. As you read through it, \
  	these secrets flood into your mind and body.<br>You now know the martial techniques of the The Boss. Your hand-to-hand combat has become much more effective, and you may now perform powerful \
  	combination attacks.<br>To learn more about these combos, use the Recall Training ability in the CQC tab.</i></span>"
-	user.verbs += /mob/living/carbon/human/proc/cqc_help
+	var/datum/martial_art/cqc/D = new
+	D.teach(user)
 	user.drop_item()
 	visible_message("<span class='warning'>[src] lights up in fire and quickly burns to ash.</span>")
 	new /obj/effect/decal/cleanable/ash(get_turf(src))

@@ -15,7 +15,16 @@
 /datum/martial_art/proc/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	return 0
 
-/datum/martial_art/proc/tablepush_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D) //Called when you tablepush someone
+/datum/martial_art/proc/grab_reinforce_act(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D) //Called on reinforce grab
+	return 0
+
+/datum/martial_art/proc/grab_attack_act(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D) //Called on attack with the grab
+	return 0
+
+/datum/martial_art/proc/grab_process(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D) //Called on grab process. Returning 1 will override it.
+	return 0
+
+/datum/martial_art/proc/tablepush_act(mob/living/carbon/human/A, mob/living/carbon/human/D) //Called when you tablepush someone
 	return 0
 
 /datum/martial_art/proc/add_to_streak(element,mob/living/carbon/human/D)

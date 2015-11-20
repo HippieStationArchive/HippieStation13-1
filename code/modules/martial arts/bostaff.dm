@@ -48,8 +48,9 @@
 										  "[user] smashes [H]'s head with [src]!", \
 										  "[user] beats [H] with front of [src]!", \
 										  "[user] twirls and slams [H] with [src]!")
-			H.visible_message("<span class='warning'>[pick(fluffmessages)]</span>", \
-								   "<span class='userdanger'>[pick(fluffmessages)]</span>")
+			var/msg = pick(fluffmessages) //So the fluff message is the same for world and user
+			H.visible_message("<span class='warning'>[msg]</span>", \
+								   "<span class='userdanger'>[msg]</span>")
 			playsound(get_turf(user), 'sound/effects/woodhit.ogg', 75, 1, -1)
 			H.adjustStaminaLoss(rand(13,20))
 			if(prob(10))

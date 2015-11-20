@@ -1119,6 +1119,7 @@
 #include "code\modules\martial arts\bostaff.dm"
 #include "code\modules\martial arts\boxing.dm"
 #include "code\modules\martial arts\cqc.dm"
+#include "code\modules\martial arts\krav_maga.dm"
 #include "code\modules\martial arts\martial.dm"
 #include "code\modules\martial arts\plasma_fist.dm"
 #include "code\modules\martial arts\sleeping_carp.dm"

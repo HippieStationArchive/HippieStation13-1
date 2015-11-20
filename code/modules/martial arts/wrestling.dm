@@ -1,32 +1,31 @@
 //New moves and bugfixes by Crystalwarrior160 - Original file only had suplex.
 
-/obj/item/weapon/paper/Wrestling
-	name = "paper - 'HOW TO WRASSLE LIKE A MOTHERFUCKER'"
-	info = {"<h4>WELCOME TO THE CLUB</h4>
-	Well lookie here, it's a new wrestler in town! You'll have to remember quite a few things to be an effective wrassler.<br>
-	You can grab people with Grab and Disarm intents. When grabbed, you'll have to switch your hand to an empty one to perform any of the moves.<br>
-	You can use harm intent to perform a backhand chop which will temporarily stun your target.<br>
-	Help intent functions as normal - it shakes your target up. This will be useful in performing moves that require your target to stand up.<br>
-	You can also climb tables by dragging and dropping yourself on them!<br>
-	<font size=5><b>DA MOVES</b></font><br>
-	<font size=4><b>Harm Intent</b></font><br>
-	<b>Backhand Chop</b>: Can be performed by using harm intent. Stuns target.<br>
-	<b>Chop Drop</b>: Perform on a laying down opponent. Causes damage.<br>
-	<u>Grab moves</u><br>
-	<b>Choke Slam</b>: Requires aggro grab. Puts your target down, stuns you for a little bit.<br>
-	<b>Back Breaker</b>: Stronger move than Choke Slam. Requires Neck Grab.<br>
-	<u>From-table Jumps</u><br>
-	<b>Moonsault</b>: Span on top of a guy and put him down. Doesn't cause too much damage but has a long stun.<br>
-	<b>Corkscrew Elbow Drop</b>: Performable on a guy who's laying down. Causes a lot of damage. Can be considered a finisher.<br>
-	<font size=4><b>Disarm Intent</b></font><br>
-	<u>Grab moves</u><br>
-	<b>Suplex</b>: An easy grab move. Requires basic grab. Weakens both you and your target, you get weakened for less time, however. Moderate damage.<br>
-	<b>Tombstone Piledriver</b>: Requires Neck Grab. Absolutely devastating damage, however, you receive quite a bit of stamina damage after performing it.<br>
-	<u>From-table Jumps</u><br>
-	<b>Cutter/RKO</b>: Target must be standing up. Moderate damage and long weaken on target.<br>
-	<font size=4><b>Table Push</b></font><br>
-	<b>Powerbomb</b>: Push someone on the table with a neckgrab. Can break tables that are not reinforced.<br>
-	"}
+var/wrestling_help = {
+"<h4>WELCOME TO THE CLUB</h4>
+Well lookie here, it's a new wrestler in town! You'll have to remember quite a few things to be an effective wrassler.<br>
+You can grab people with Grab and Disarm intents. When grabbed, you'll have to switch your hand to an empty one to perform any of the moves.<br>
+You can use harm intent to perform a backhand chop which will temporarily stun your target.<br>
+Help intent functions as normal - it shakes your target up. This will be useful in performing moves that require your target to stand up.<br>
+You can also climb tables by dragging and dropping yourself on them!<br>
+<font size=5><b>DA MOVES</b></font><br>
+<font size=4><b>Harm Intent</b></font><br>
+<b>Backhand Chop</b>: Can be performed by using harm intent. Stuns target.<br>
+<b>Chop Drop</b>: Perform on a laying down opponent. Causes damage.<br>
+<u>Grab moves</u><br>
+<b>Choke Slam</b>: Requires aggro grab. Puts your target down, stuns you for a little bit.<br>
+<b>Back Breaker</b>: Stronger move than Choke Slam. Requires Neck Grab.<br>
+<u>From-table Jumps</u><br>
+<b>Moonsault</b>: Span on top of a guy and put him down. Doesn't cause too much damage but has a long stun.<br>
+<b>Corkscrew Elbow Drop</b>: Performable on a guy who's laying down. Causes a lot of damage. Can be considered a finisher.<br>
+<font size=4><b>Disarm Intent</b></font><br>
+<u>Grab moves</u><br>
+<b>Suplex</b>: An easy grab move. Requires basic grab. Weakens both you and your target, you get weakened for less time, however. Moderate damage.<br>
+<b>Tombstone Piledriver</b>: Requires Neck Grab. Absolutely devastating damage, however, you receive quite a bit of stamina damage after performing it.<br>
+<u>From-table Jumps</u><br>
+<b>Cutter/RKO</b>: Target must be standing up. Moderate damage and long weaken on target.<br>
+<font size=4><b>Table Push</b></font><br>
+<b>Powerbomb</b>: Push someone on the table with a neckgrab. Can break tables that are not reinforced.<br>"
+}
 
 /datum/martial_art/wrestling
 	name = "Wrestling"
@@ -34,6 +33,24 @@
 
 /datum/martial_art/wrestling/stamina //The safer type of wrassling
 	damtype = STAMINA
+
+/mob/living/carbon/human/verb/wrestling_help()
+	set name = "Recall Training"
+	set desc = "Access the wrestling tutorial."
+	set category = "Wrestling"
+	usr << browse("<HTML><HEAD><TITLE>Wrassling for Dummies</TITLE></HEAD><BODY>[wrestling_help]<HR></BODY></HTML>", "window=Wrassling for Dummies")
+	onclose(usr, "Wrassling for Dummies")
+
+/datum/martial_art/wrestling/teach(var/mob/living/carbon/human/H)
+	..()
+	H << "<span class = 'userdanger'>You know how to WRESTLE!</span>"
+	H << "<span class = 'danger'>Recall your teachings using the Recall Training verb in the Wrestling menu, in your verbs menu.</span>"
+	H.verbs += /mob/living/carbon/human/verb/wrestling_help
+
+/datum/martial_art/wrestling/remove(var/mob/living/carbon/human/H)
+	..()
+	H << "<span class = 'userdanger'>You forget how to wrestle..</span>"
+	H.verbs -= /mob/living/carbon/human/verb/wrestling_help
 
 /datum/martial_art/wrestling/harm_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
 	if(A == D) return 1 //You shouldn't be able to attack yourself
@@ -104,9 +121,21 @@
 		return 1
 	return 0
 
+/obj/item/weapon/paper/Wrestling
+	name = "paper - 'HOW TO WRASSLE LIKE A MOTHERFUCKER'"
+	info = wrestling_help
+
 /obj/item/weapon/storage/belt/champion/wrestling
 	name = "Wrestling Belt"
 	var/datum/martial_art/wrestling/style = new
+
+/obj/item/weapon/storage/belt/champion/wrestling/holodeck
+	name = "Holowrestling Belt"
+	style = /datum/martial_art/wrestling/stamina/new
+
+/obj/item/weapon/storage/belt/champion/wrestling/New()
+	..()
+	new /obj/item/weapon/paper/Wrestling(src)
 
 /obj/item/weapon/storage/belt/champion/wrestling/equipped(mob/user, slot)
 	if(!ishuman(user))
@@ -157,7 +186,6 @@
 	A.do_attack_animation(D)
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(null, "melee")
-	D.apply_damage(5, STAMINA, affecting, armor_block)
 	D.apply_damage(5, damtype, affecting, armor_block)
 	playsound(D, 'sound/weapons/push_hard.ogg', 50, 1)
 	add_logs(A, D, "backhand chopped", addition="(Wrassling)")
@@ -168,6 +196,7 @@
 	if(!D) return
 	D.stunned = 0
 	D.update_canmove()
+	A.changeNext_move(20) //So it's not as spammable
 	return
 
 /datum/martial_art/wrestling/proc/ChopDrop(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
@@ -347,11 +376,11 @@
 	D.visible_message("<span class='danger'>[A] performs an RKO on [D]!</span>", \
 								"<span class='userdanger'>[A] performs an RKO on [D]!</span>")
 	A.AdjustWeakened(2)
-	A.lying = 90
+	A.lying = 270
 	A.pixel_x -= 6
 	A.do_bounce_anim_dir(NORTH, 4, 16, easeout = BOUNCE_EASING)
 	D.AdjustWeakened(2) //Keeps the attacked in place
-	D.lying = 270
+	D.lying = 90
 	D.pixel_x += 6
 	D.do_bounce_anim_dir(NORTH, 5, 16, easeout = BOUNCE_EASING)
 	var/todir = get_dir(A, D)
