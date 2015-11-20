@@ -160,6 +160,15 @@ var/list/uplink_items = list()
 	cost = 5
 	jobs = list("Bartender")
 
+//GENETICIST
+/datum/uplink_item/job_specific/radgun
+	name = "Radiation Gun"
+	desc = "A radiation gun capable of firing a beam of radiation that deals a large amount of damage over time, it has a 30 second cooldown."
+	item = /obj/item/weapon/gun/energy/radgun
+	cost = 16
+	jobs = list("Geneticist")
+
+
 // DANGEROUS WEAPONS
 
 /datum/uplink_item/dangerous
