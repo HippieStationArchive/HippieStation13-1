@@ -135,6 +135,7 @@
 	desc = "A large mechanically powered fist made out of plasteel which can deliver a massive blow to any target with the ability to throw them across a room. The power fist needs approximately a second in between each punch before it is powered again."
 	icon_state = "powerfist"
 	item_state = "powerfist"
+	flags = CONDUCT
 	force = 30
 	throwforce = 10
 	throw_range = 7
@@ -185,3 +186,17 @@
 				new /obj/item/weapon/shard( W.loc )
 				if(W.reinf) new /obj/item/stack/rods( W.loc)
 		qdel(A)
+
+//Bloodraven Chainsword from Facepunch
+
+/obj/item/weapon/melee/chainsword
+	name = "Chain Sword"
+	desc = "An imperium sword with motorized teeth that run along the blade. These monomolecure edged reazor sharp teeth make an angry buzzing sound as they spin and are capable of cutting through any foe."
+	icon_state = "chainsword_bloodravens"
+	item_state = "chainsword_bloodravens"
+	flags = CONDUCT
+	force = 40
+	w_class = 3
+	armour_penetration = 20
+	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	hitsound = 'sound/weapons/chainsword.ogg'

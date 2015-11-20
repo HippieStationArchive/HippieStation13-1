@@ -1,0 +1,18 @@
+# Your name.  
+author: Crystalwarrior
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - rscadd: "Rebalances some lesser used healing chems and toxins to make them more worthwhile to create and use."
+  - rscadd: "Two new poisons: Heparin and Teslium!"
+  - rscadd: "Heparin is made from Formaldehyde, Sodium, Chlorine, and Lithium. It makes the victim bleed uncontrollably and deals minor brute damage."
+  - rscadd: "Teslium is made from Plasma, Silver, and Black Powder and then heated to 400K. It periodically shocks the victim, changes their examine text, and makes them take more damage from electricity."
+  - rscadd: "Bloodpacks can be renamed by using a pen or crayon on them!"
+  - tweak: "You can now fill blood packs with other things instead of only syringes. Pour a bottle of alcohol in your bloodpack today!"
