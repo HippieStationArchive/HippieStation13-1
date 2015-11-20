@@ -313,5 +313,5 @@
 
 /obj/item/ammo_casing/minieball // lazy memecuck,putting it in here
 	name = "minie ball"
-	desc = "a small projectile with grooves"
+	desc = "A small projectile with grooves"
 	icon_state = "minieball"
