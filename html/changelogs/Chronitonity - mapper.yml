@@ -12,3 +12,6 @@ delete-after: True
 changes: 
   - rscadd: "Adds shutters you can toggle in the surgery room."
   - tweak: "All medical professions can now access the cloning room."
+  - tweak: "More newscasters in security added."
+  - tweak: "All medical professions can now access the cloning room."
+  - bugfix: "AIs can now open all the security shutters when they are closed."
