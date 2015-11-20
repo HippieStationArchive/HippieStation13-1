@@ -612,6 +612,9 @@ var/list/teleportlocs = list()
 	name = "\improper Law Office"
 	icon_state = "law"
 
+/area/rec_room
+	name = "\improper Recreation Room"
+	icon_state = "yellow"
 
 
 
