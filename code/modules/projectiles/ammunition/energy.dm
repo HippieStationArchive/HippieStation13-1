@@ -160,3 +160,9 @@ obj/item/ammo_casing/energy/net
 /obj/item/ammo_casing/energy/trap
 	projectile_type = /obj/item/projectile/energy/trap
 	select_name = "snare"
+
+/obj/item/ammo_casing/energy/rad
+	projectile_type = /obj/item/projectile/energy/rad
+	select_name = "rad"
+	fire_sound = 'sound/weapons/pulse3.ogg'
+	delay = 300
