@@ -10,4 +10,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Added a new recreation room to replace the rarely-used holodeck. Has a nice table for chatting with your fellow grey tide committee and a few arcade machines if you're looking to robust time. Also comes stocked with 2 easels and plenty of canvas for anyone feeling a bit artsy. Simply slap the canvas on the easel then begin clicking on it with a crayon."
+  - rscadd: "Added a new recreation room to the souther part of arrivals and also changed the layout of the southern part of arrivals a fair amount. Also made some minor changes to the bar."
