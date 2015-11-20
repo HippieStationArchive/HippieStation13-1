@@ -63,10 +63,6 @@
 	if(!confirm())
 		return 0
 
-	if(force_down && (!affecting.lying || affecting.loc != assailant.loc))
-		assailant << "<span class='notice'>You're no longer pinning [affecting] down.</span>"
-		force_down = 0
-		return 0
 
 	if(assailant.pulling == affecting)
 		assailant.stop_pulling()
@@ -221,24 +217,13 @@
 	if(!assailant.canmove || assailant.lying || !confirm()) //If you're trying to reinforce grab on someone who yackety saxxed away, it shouldn't teleport them to you or something.
 		qdel(src)
 		return
-	if(force_down && (!affecting.lying || affecting.loc != assailant.loc))
-		assailant << "<span class='notice'>You're no longer pinning [affecting] down.</span>"
-		force_down = 0
 
 	last_upgrade = world.time
 
 	if(state < GRAB_AGGRESSIVE)
 		if(!allow_upgrade)
 			return
-		if(!affecting.lying || affecting.loc != assailant.loc)
-			assailant.visible_message("<span class='warning'>[assailant] has grabbed [affecting] aggressively (now hands)!</span>")
-		else
-			assailant.visible_message("<span class='warning'>[assailant] pins [affecting] down to the ground (now hands)!</span>")
-			force_down = 1
-			affecting.Weaken(3)
-			step_to(assailant, affecting)
-			assailant.set_dir(EAST) //face the victim
-			affecting.set_dir(SOUTH) //face up
+		assailant.visible_message("<span class='warning'>[assailant] has grabbed [affecting] aggressively (now hands)!</span>")
 		state = GRAB_AGGRESSIVE
 		icon_state = "grabbed1"
 		icon_state = "reinforce1"
@@ -246,9 +231,6 @@
 		if(isslime(affecting))
 			assailant << "<span class='notice'>You squeeze [affecting], but nothing interesting happens.</span>"
 			return
-		if(force_down)
-			assailant << "<span class='notice'>You're no longer pinning [affecting] down.</span>"
-			force_down = 0
 		assailant.visible_message("<span class='warning'>[assailant] has reinforced \his grip on [affecting] (now neck)!</span>")
 		state = GRAB_NECK
 		assailant.set_dir(get_dir(assailant, affecting)) //Make assailant face affecting
@@ -323,43 +305,6 @@
 			// var/mob/living/carbon/human/affected = affecting
 			// var/mob/living/carbon/human/attacker = assailant
 			switch(assailant.a_intent)
-				if("help")
-					if(force_down)
-						assailant << "<span class='warning'>You no longer pin [affecting] to the ground.</span>"
-						force_down = 0
-						return
-				// if("harm") //Headbutting is OP as FUCK.
-				// 	if(affecting.lying)
-				// 		return
-				// 	if(headbutt_cooldown < world.time + 50)
-				// 		assailant.visible_message("<span class='danger'>[assailant] thrusts \his head into [affecting]'s skull!</span>")
-				// 		var/damage = 20
-				// 		var/obj/item/clothing/hat = attacker.head
-				// 		if(istype(hat))
-				// 			damage += hat.force * 10
-				// 		affecting.apply_damage(damage*rand(90, 110)/100, BRUTE, "head", affected.run_armor_check(affecting, "melee"))
-				// 		assailant.apply_damage(10*rand(90, 110)/100, BRUTE, "head", attacker.run_armor_check(attacker.get_organ("head"), "melee"))
-				// 		playsound(assailant.loc, "swing_hit", 25, 1)
-				// 		add_logs(assailant, affecting, "headbutted")
-				// 		headbutt_cooldown = world.time
-				// 	return
-				if("disarm")
-					if(world.time < (last_upgrade + UPGRADE_COOLDOWN)) //So you can't insta-pindown someone
-						return
-					if(state < GRAB_AGGRESSIVE)
-						assailant << "<span class='warning'>You require a better grab to do this.</span>"
-						return
-					if(!force_down)
-						assailant.visible_message("<span class='danger'>[user] is forcing [affecting] to the ground!</span>")
-						force_down = 1
-						affecting.Weaken(3)
-						step_to(assailant, affecting)
-						// affecting.lying = 1
-						assailant.set_dir(EAST) //face the victim
-						affecting.set_dir(SOUTH) //face up
-					else
-						assailant << "<span class='warning'>You are already pinning [affecting] to the ground.</span>"
-						return
 				if("grab")
 					s_click()
 					return
