@@ -304,7 +304,7 @@
 	caliber = "a762"
 	projectile_type = /obj/item/projectile/bullet/weakbullet2
 
-/obj/item/ammo_casing/musket/
+/obj/item/ammo_casing/musket
 	name = "paper cartridge"
 	desc = "A paper cartridge for a breechloading rifle."
 	icon_state = "papercartridge"
