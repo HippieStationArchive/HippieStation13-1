@@ -330,3 +330,14 @@
 	select_fire(user)
 	update_icon()
 	return
+
+/obj/item/weapon/gun/energy/radgun
+	name = "radiation gun"
+	desc = "A sinister weapon with three extremely rare radiation crystals sticking out of it."
+	icon_state = "radgun"
+	w_class = 2
+	origin_tech = "combat=3;materials=2;syndicate=3"
+	ammo_type = list(/obj/item/ammo_casing/energy/rad)
+	ammo_x_offset = 1
+	cell_type = /obj/item/weapon/stock_parts/cell/infinite
+

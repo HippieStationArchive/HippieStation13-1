@@ -144,3 +144,10 @@
 
 /obj/item/ammo_casing/energy/plasma/adv
 	projectile_type = /obj/item/projectile/plasma/adv
+
+/obj/item/projectile/energy/rad
+	name = "radiation beam"
+	icon_state = "xray"
+	nodamage = 1
+	damage_type = CLONE
+	irradiate = 50
