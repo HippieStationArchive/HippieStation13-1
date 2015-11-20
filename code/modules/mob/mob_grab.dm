@@ -141,7 +141,7 @@
 //Updating pixelshift, position and direction
 //Gets called on process, when the grab gets upgraded or the assailant moves
 /obj/item/weapon/grab/proc/adjust_position()
-	if(affecting.buckled)
+	if(affecting.buckled || !assailant.canmove || assailant.lying || !confirm()) //So people don't get randomly teleported or something
 		return
 	var/easing = LINEAR_EASING
 	var/time = 5
@@ -292,47 +292,9 @@
 			var/datum/martial_art/attacker_style = A.martial_art
 			if(attacker_style && attacker_style.grab_attack_act(src, A,D))
 				return 0
-			switch(assailant.a_intent)
-/*				if("help")
-					if(force_down)
-						assailant << "<span class='warning'>You no longer pin [affecting] to the ground.</span>"
-						force_down = 0
-						return*/
-/*				if("harm") //Headbutting is OP as FUCK.
-					if(affecting.lying)
-						return
-					if(headbutt_cooldown < world.time + 50)
-						assailant.visible_message("<span class='danger'>[assailant] thrusts \his head into [affecting]'s skull!</span>")
-						var/damage = 20
-						var/obj/item/clothing/hat = attacker.head
-						if(istype(hat))
-							damage += hat.force * 10
-						affecting.apply_damage(damage*rand(90, 110)/100, BRUTE, "head", affected.run_armor_check(affecting, "melee"))
-						assailant.apply_damage(10*rand(90, 110)/100, BRUTE, "head", attacker.run_armor_check(attacker.get_organ("head"), "melee"))
-						playsound(assailant.loc, "swing_hit", 25, 1)
-						add_logs(assailant, affecting, "headbutted")
-						headbutt_cooldown = world.time
-					return*/
-/*				if("disarm") //Pinning down is moved to a martial art
-					if(world.time < (last_upgrade + UPGRADE_COOLDOWN)) //So you can't insta-pindown someone
-						return
-					if(state < GRAB_AGGRESSIVE)
-						assailant << "<span class='warning'>You require a better grab to do this.</span>"
-						return
-					if(!force_down)
-						assailant.visible_message("<span class='danger'>[user] is forcing [affecting] to the ground!</span>")
-						force_down = 1
-						affecting.Weaken(3)
-						step_to(assailant, affecting)
-						// affecting.lying = 1
-						assailant.set_dir(EAST) //face the victim
-						affecting.set_dir(SOUTH) //face up
-					else
-						assailant << "<span class='warning'>You are already pinning [affecting] to the ground.</span>"
-						return*/
-				if("grab")
-					s_click()
-					return 0
+			if(assailant.a_intent == "grab")
+				s_click()
+				return 0
 
 	if(M == assailant && state >= GRAB_AGGRESSIVE)
 		if( (ishuman(user) && (user.disabilities & FAT) && ismonkey(affecting) ) || ( isalien(user) && iscarbon(affecting) ) )

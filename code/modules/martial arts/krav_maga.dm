@@ -15,37 +15,34 @@
 	usr << "<span class='notice'>Pinning Down</span>: Pin your opponent down to immobilize them. Several ways to execute: reinforcing grab on top of someone will pin down. Attacking someone with a grab IN-HAND and disarm intent will also execute the move."
 	usr << "<b><i>Most of your moves rely on intent cycling and grabs. Keep that in mind.</i></b>"
 
-/datum/martial_art/krav_maga/teach(var/mob/living/carbon/human/H)
+/datum/martial_art/krav_maga/teach(mob/living/carbon/human/H)
 	..()
 	H << "<span class = 'userdanger'>You know the arts of Krav Maga!</span>"
 	H << "<span class = 'danger'>Recall your teachings using the Recall Training verb in the Krav Maga menu, in your verbs menu.</span>"
 	H.verbs += /mob/living/carbon/human/verb/krav_maga_help
 
-/datum/martial_art/krav_maga/remove(var/mob/living/carbon/human/H)
+/datum/martial_art/krav_maga/remove(mob/living/carbon/human/H)
 	..()
 	H << "<span class = 'userdanger'>You forget the arts of Krav Maga..</span>"
 	H.verbs -= /mob/living/carbon/human/verb/krav_maga_help
 
-/datum/martial_art/krav_maga/disarm_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+/datum/martial_art/krav_maga/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	// if(check_streak(A,D))
 	// 	return 1
 	A.do_attack_animation(D)
 	add_logs(A, D, "disarmed", addition="(Krav Maga)")
 	if(prob(60))
-		var/obj/item/I
-		if(D.hand)
-			if(istype(D.l_hand, /obj/item))
-				I = D.l_hand
-				D.drop_item()
-				A.put_in_hands(I)
-		else
-			if(istype(D.r_hand, /obj/item))
-				I = D.r_hand
-				D.drop_item()
-				A.put_in_hands(I)
+		var/list/possible = list()
+		if(istype(D.l_hand, /obj/item))
+			possible += D.l_hand
+		if(istype(D.r_hand, /obj/item))
+			possible += D.r_hand
+		var/obj/item/I = pick(possible)
+		D.drop_item()
+		A.put_in_hands(I)
 		if(I)
-			D.visible_message("<span class='danger'>[A] has snatched [D]'s \improper[I]!</span>", \
-								"<span class='userdanger'>Your \improper[I] was snatched away by [A]!</span>")
+			D.visible_message("<span class='danger'>[A] has snatched [I] from [D]'s hands!</span>", \
+								"<span class='userdanger'>[I] was snatched from your hands by [A]!</span>")
 		else
 			D.visible_message("<span class='danger'>[A] has disarmed [D]!</span>", \
 							"<span class='userdanger'>[A] has disarmed [D]!</span>")
@@ -168,8 +165,8 @@ obj/item/clothing/gloves/krav_maga/dropped(mob/user)
 		style.remove(H)
 	return
 
-/obj/item/weapon/the_basics_of_krav_maga
-	name = "the basics of Krav Maga"
+/obj/item/weapon/the_arts_of_krav_maga
+	name = "the arts of Krav Maga"
 	desc = "A scroll filled with strange markings. It seems to be drawings of some sort of fighting style."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "scroll2"

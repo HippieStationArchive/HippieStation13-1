@@ -1,9 +1,8 @@
 //New moves and bugfixes by Crystalwarrior160 - Original file only had suplex.
 
-var/wrestling_help = {
-"<h4>WELCOME TO THE CLUB</h4>
+var/const/wrestling_help = {"<h4>WELCOME TO THE CLUB</h4>
 Well lookie here, it's a new wrestler in town! You'll have to remember quite a few things to be an effective wrassler.<br>
-You can grab people with Grab and Disarm intents. When grabbed, you'll have to switch your hand to an empty one to perform any of the moves.<br>
+You can grab people with Grab and Disarm intents. When grabbing someone, you have to switch intents and attack the dude WITH THE GRAB.<br>
 You can use harm intent to perform a backhand chop which will temporarily stun your target.<br>
 Help intent functions as normal - it shakes your target up. This will be useful in performing moves that require your target to stand up.<br>
 You can also climb tables by dragging and dropping yourself on them!<br>
@@ -11,7 +10,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 <font size=4><b>Harm Intent</b></font><br>
 <b>Backhand Chop</b>: Can be performed by using harm intent. Stuns target.<br>
 <b>Chop Drop</b>: Perform on a laying down opponent. Causes damage.<br>
-<u>Grab moves</u><br>
+<u>Grab moves (ATTACK WITH THE GRAB IN ACTIVE HAND)</u><br>
 <b>Choke Slam</b>: Requires aggro grab. Puts your target down, stuns you for a little bit.<br>
 <b>Back Breaker</b>: Stronger move than Choke Slam. Requires Neck Grab.<br>
 <u>From-table Jumps</u><br>
@@ -24,8 +23,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 <u>From-table Jumps</u><br>
 <b>Cutter/RKO</b>: Target must be standing up. Moderate damage and long weaken on target.<br>
 <font size=4><b>Table Push</b></font><br>
-<b>Powerbomb</b>: Push someone on the table with a neckgrab. Can break tables that are not reinforced.<br>"
-}
+<b>Powerbomb</b>: Push someone on the table with a neckgrab. Can break tables that are not reinforced.<br>"}
 
 /datum/martial_art/wrestling
 	name = "Wrestling"
@@ -66,16 +64,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	if(locate(/obj/structure/table) in get_turf(A))
 		Moonsault(A,D)
 		return 1
-	if(istype(A.get_inactive_hand(),/obj/item/weapon/grab))
-		var/obj/item/weapon/grab/G = A.get_inactive_hand()
-		if(G.affecting == D)
-			if(G.state == GRAB_AGGRESSIVE)
-				ChokeSlam(A,D)
-			else if(G.state >= GRAB_NECK)
-				BackBreaker(A,D)
-			else if(G.state < GRAB_AGGRESSIVE)
-				A << "<span class='notice'>You must have an upgraded grab to perform anything!</span>"
-			return 1
 	BackhandChop(A,D)
 	return 1
 
@@ -87,14 +75,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	if(locate(/obj/structure/table) in get_turf(A))
 		if(!D.lying)
 			Cutter(A,D)
-			return 1
-	if(istype(A.get_inactive_hand(),/obj/item/weapon/grab))
-		var/obj/item/weapon/grab/G = A.get_inactive_hand()
-		if(G.affecting == D)
-			if(G.state >= GRAB_NECK && !D.lying) //Tombstone piledriver can only be performed on people standing up
-				TombstonePiledriver(A,D) //Absolutely devastating
-			else //Suplex, however, doesn't need that.
-				Suplex(A,D)
 			return 1
 	grab_act(A,D)
 	return 1
@@ -114,6 +94,25 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 		add_logs(A, D, "grabbed", addition="(Wrassling)")
 	return 1
 
+/datum/martial_art/wrestling/grab_attack_act(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D)
+	switch(A.a_intent)
+		if("disarm")
+			if(G.state >= GRAB_NECK && !D.lying) //Tombstone piledriver can only be performed on people standing up
+				TombstonePiledriver(A,D) //Absolutely devastating
+			else //Suplex, however, doesn't need that.
+				Suplex(A,D)
+			return 1
+		if("harm")
+			if(G.state == GRAB_AGGRESSIVE)
+				ChokeSlam(A,D)
+			else if(G.state >= GRAB_NECK)
+				BackBreaker(A,D)
+			else if(G.state < GRAB_AGGRESSIVE)
+				A << "<span class='notice'>You must have an upgraded grab to perform anything!</span>"
+			return 1
+		else
+			return 0
+
 /datum/martial_art/wrestling/tablepush_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D, var/obj/item/weapon/grab/G, var/obj/structure/table/T)
 	if(G.state >= GRAB_NECK)
 		qdel(G)
@@ -131,7 +130,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 
 /obj/item/weapon/storage/belt/champion/wrestling/holodeck
 	name = "Holowrestling Belt"
-	style = /datum/martial_art/wrestling/stamina/new
+	style = new /datum/martial_art/wrestling/stamina
 
 /obj/item/weapon/storage/belt/champion/wrestling/New()
 	..()
@@ -187,6 +186,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(null, "melee")
 	D.apply_damage(5, damtype, affecting, armor_block)
+	A.changeNext_move(20) //So it's not as spammable
 	playsound(D, 'sound/weapons/push_hard.ogg', 50, 1)
 	add_logs(A, D, "backhand chopped", addition="(Wrassling)")
 	shake_camera(D, 2, 1)
@@ -196,7 +196,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	if(!D) return
 	D.stunned = 0
 	D.update_canmove()
-	A.changeNext_move(20) //So it's not as spammable
 	return
 
 /datum/martial_art/wrestling/proc/ChopDrop(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)

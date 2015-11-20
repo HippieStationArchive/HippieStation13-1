@@ -62,6 +62,10 @@ Head of Security
 	L.implanted = 1
 	H.sec_hud_set_implants()
 
+	var/datum/martial_art/krav_maga/style = new
+	style.teach(H)
+	H.verbs += /mob/living/carbon/human/verb/krav_maga_help
+
 	announce_head(H, list("Security")) //tell underlings (security radio) they have a head
 /*
 Warden
@@ -114,6 +118,9 @@ Warden
 	L.implanted = 1
 	H.sec_hud_set_implants()
 
+	var/datum/martial_art/krav_maga/style = new
+	style.teach(H)
+	H.verbs += /mob/living/carbon/human/verb/krav_maga_help
 /*
 Detective
 */
@@ -161,6 +168,9 @@ Detective
 	L.implanted = 1
 	H.sec_hud_set_implants()
 
+	var/datum/martial_art/krav_maga/style = new
+	style.teach(H)
+	H.verbs += /mob/living/carbon/human/verb/krav_maga_help
 /*
 Security Officer
 */
@@ -252,6 +262,10 @@ var/list/sec_departments = list("engineering", "supply", "medical", "science")
 	L.imp_in = H
 	L.implanted = 1
 	H.sec_hud_set_implants()
+
+	var/datum/martial_art/krav_maga/style = new
+	style.teach(H)
+	H.verbs += /mob/living/carbon/human/verb/krav_maga_help
 
 	var/obj/item/clothing/under/U = H.w_uniform
 	if(tie)

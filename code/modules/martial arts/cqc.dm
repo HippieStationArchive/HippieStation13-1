@@ -1,82 +1,6 @@
-//Used by special forces, developed by The Boss and Naked Snake. Uses combos. Basic attacks bypass armor and never miss
-#define Cqc3_COMBO "HHH"
-/datum/martial_art/cqc
-	name = "CQC"
+//Complete rework of the old CQC
 
-/datum/martial_art/cqc/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	if(findtext(streak,Cqc3_COMBO))
-		streak = ""
-		Cqc3(A,D)
-		return 1
-	if(streak != "")
-		switch(streak)
-			if("leg_sweep")
-				streak = ""
-				leg_sweep(A,D)
-				return 1
-			if("quick_choke")
-				streak = ""
-				quick_choke(A,D)
-				return 1
-		return 0
-	return 0
-
-/datum/martial_art/cqc/teach(var/mob/living/carbon/human/H)
-	..()
-	H << "<span class = 'userdanger'>You know the basics of CQC!</span>"
-	H << "<span class = 'danger'>Recall your teachings using the Recall Training verb in the CQC menu, in your verbs menu.</span>"
-	H.verbs += /mob/living/carbon/human/proc/cqc_help
-	H.verbs += /mob/living/carbon/human/proc/leg_sweep
-	H.verbs += /mob/living/carbon/human/proc/quick_choke
-
-/datum/martial_art/cqc/remove(var/mob/living/carbon/human/H)
-	..()
-	H << "<span class = 'userdanger'>You forget the basics of CQC..</span>"
-	H.verbs -= /mob/living/carbon/human/proc/cqc_help
-	H.verbs -= /mob/living/carbon/human/proc/leg_sweep
-	H.verbs -= /mob/living/carbon/human/proc/quick_choke
-
-/datum/martial_art/cqc/proc/Cqc3(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	if(!D.stat && !D.stunned && !D.weakened)
-		D.visible_message("<span class='warning'>[A] sweeps [D]'s foot and makes them fall!</span>", \
-						  "<span class='userdanger'>[A] sweeps your foot and you fall!</span>")
-		playsound(get_turf(A), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
-		D.emote("scream")
-		D.drop_item()
-		D.apply_damage(5, BRUTE, pick("l_leg", "r_leg"))
-		D.Weaken(2)
-
-/datum/martial_art/cqc/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	D.visible_message("<span class='warning'>[A] grapples [D]!</span>", \
-						  "<span class='userdanger'>[A] grapples you!</span>")
-	..()
-	var/obj/item/weapon/grab/G = A.get_active_hand()
-	if(G)
-		G.state = GRAB_AGGRESSIVE
-		playsound(get_turf(D), 'sound/weapons/grapple.ogg', 50, 1, -1)
-		D.Stun(2)
-
-/datum/martial_art/cqc/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	if(check_streak(A,D))
-		return 1
-	add_to_streak("H")
-	add_logs(A, D, "punched")
-	A.do_attack_animation(D)
-	D.visible_message("<span class='danger'>[A] [pick("punches", "strikes", "chops", "hits")] [D]!</span>", \
-					  "<span class='userdanger'>[A] hits you!</span>")
-	D.apply_damage(10, BRUTE)
-	playsound(get_turf(D), 'sound/weapons/punch1.ogg', 50, 1, -1)
-	return 1
-
-/datum/martial_art/cqc/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-		D.visible_message("<span class='warning'>[A] slams [D] onto the ground!</span>", \
-						  "<span class='userdanger'>[A] slams you onto the ground!</span>")
-		playsound(get_turf(A), 'sound/weapons/judoslam.ogg', 50, 1, -1)
-		D.drop_item()
-		D.apply_damage(15, BRUTE, pick("chest"))
-		D.Weaken(3)
-		A.Stun(3)
-		return 1
+#define CQC_COMBO "HHHHH"
 
 /mob/living/carbon/human/proc/cqc_help()
 	set name = "Recall Training"
@@ -84,46 +8,182 @@
 	set category = "CQC"
 
 	usr << "<b><i>You remember the training from your former mentor...</i></b>"
-	usr << "<span class='notice'>Three Hit Combo</span>: Harm Harm Harm. Drops the opponent."
-	usr << "<span class='notice'>Judo Slam</span>: Disarm. Slams the opponent on the ground, at the cost of limited mobility."
-	usr << "<span class='notice'>Quick Choke</span>:Mutes and Deprives the opponent of oxygen for a short time, but at the cost of limited mobility"
-	usr << "<span class='notice'>Leg Sweep</span>:Knocks an enemy down, doesn't do much damage."
+	// usr << "<span class='notice'>Three Hit Combo</span>: Harm Harm Harm. Drops the opponent."
 
-/datum/martial_art/cqc/proc/leg_sweep(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
-	if(D.stat || D.weakened)
-		return 0
-	D.visible_message("<span class='warning'>[A] leg sweeps [D]!</span>", \
-					  	"<span class='userdanger'>[A] leg sweeps you!</span>")
-	playsound(get_turf(A), 'sound/effects/hit_kick.ogg', 50, 1, -1)
-	D.apply_damage(5, BRUTE)
-	D.Weaken(1)
-	A.Stun(2)
+/datum/martial_art/cqc
+	name = "CQC"
+
+/datum/martial_art/cqc/teach(var/mob/living/carbon/human/H)
+	..()
+	H << "<span class = 'userdanger'>You know the basics of CQC!</span>"
+	H << "<span class = 'danger'>Recall your teachings using the Recall Training verb in the CQC menu, in your verbs menu.</span>"
+	H.verbs += /mob/living/carbon/human/proc/cqc_help
+
+/datum/martial_art/cqc/remove(var/mob/living/carbon/human/H)
+	..()
+	H << "<span class = 'userdanger'>You forget the basics of CQC..</span>"
+	H.verbs -= /mob/living/carbon/human/proc/cqc_help
+
+/datum/martial_art/cqc/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(findtext(streak,CQC_COMBO))
+		streak = ""
+		Combo(A,D)
+		return 1
+	return 0
+
+/datum/martial_art/cqc/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D) //Same as Krav Maga
+	// if(check_streak(A,D))
+	// 	return 1
+	A.do_attack_animation(D)
+	add_logs(A, D, "disarmed", addition="(CQC)")
+	if(prob(60))
+		var/list/possible = list()
+		if(istype(D.l_hand, /obj/item))
+			possible += D.l_hand
+		if(istype(D.r_hand, /obj/item))
+			possible += D.r_hand
+		var/obj/item/I = pick(possible)
+		D.drop_item()
+		A.put_in_hands(I)
+		if(I)
+			D.visible_message("<span class='danger'>[A] has snatched [I] from [D]'s hands!</span>", \
+								"<span class='userdanger'>[I] was snatched from your hands by [A]!</span>")
+		else
+			D.visible_message("<span class='danger'>[A] has disarmed [D]!</span>", \
+							"<span class='userdanger'>[A] has disarmed [D]!</span>")
+		playsound(D, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
+	else
+		D.visible_message("<span class='danger'>[A] attempted to disarm [D]!</span>", \
+							"<span class='userdanger'>[A] attempted to disarm [D]!</span>")
+		playsound(D, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
 	return 1
 
-/datum/martial_art/cqc/proc/quick_choke(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
-	D.visible_message("<span class='warning'>[A] grabs and chokes [D]!</span>", \
-				  	"<span class='userdanger'>[A] grabs and chokes you!</span>")
-	playsound(get_turf(A), 'sound/effects/hit_punch.ogg', 50, 1, -1)
-	D.losebreath += 5
-	D.adjustOxyLoss(15)
-	D.silent += 6
-	A.Stun(3)
-
+/datum/martial_art/cqc/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(check_streak(A,D))
+		return 1
+	add_to_streak("H")
+	add_logs(A, D, "punched", addition="(CQC)")
+	A.do_attack_animation(D)
+	var/msg = pick("punches", "strikes", "chops", "hits", "kicks")
+	D.visible_message("<span class='danger'>[A] [msg] [D]!</span>", \
+					  "<span class='userdanger'>[A] [msg] you!</span>")
+	var/obj/item/organ/limb/L = D.get_organ(ran_zone(A.zone_sel.selecting))
+	var/armor_block = D.run_armor_check(L, "melee")
+	D.apply_damage(rand(1,4), BRUTE, L, armor_block) //Low as fuck brute to compensate for combo potential
+	playsound(get_turf(D), get_sfx("punch"), 50, 1, -2)
+	A.changeNext_move(4) //Can attack quickly
 	return 1
 
-/mob/living/carbon/human/proc/leg_sweep()
-	set name = "Leg Sweep"
-	set desc = "Sets your next move to the Leg Sweep."
-	set category = "CQC"
-	usr << "<b><i>Your next attack will be a Leg Sweep.</i></b>"
-	martial_art.streak = "leg_sweep"
+/datum/martial_art/cqc/grab_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	if(A == D) return 1 //You shouldn't be able to attack yourself
+	D.grabbedby(A,1)
+	var/obj/item/weapon/grab/G = A.get_active_hand()
+	if(G && prob(50))
+		G.state = GRAB_AGGRESSIVE
+		D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
+								"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
+		add_logs(A, D, "aggro-grabbed", addition="(Wrassling)")
+	else
+		D.visible_message("<span class='danger'>[A] holds [D] down! (Passive Grab)</span>", \
+									"<span class='userdanger'>[A] holds [D] down (Passive Grab)!</span>")
+		add_logs(A, D, "grabbed", addition="(Wrassling)")
+	return 1
 
-/mob/living/carbon/human/proc/quick_choke()
-	set name = "Quick Choke"
-	set desc = "Sets your next move to the Quick Choke."
-	set category = "CQC"
-	usr << "<b><i>Your next attack will be a Quick Choke.</i></b>"
-	martial_art.streak = "quick_choke"
+/datum/martial_art/cqc/grab_reinforce_act(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D)
+	switch(G.state)
+		// if(GRAB_PASSIVE)
+		// if(GRAB_AGGRESSIVE)
+		if(GRAB_NECK)
+			A.visible_message("<span class='danger'>[A] starts to perform a half-wing choke on [D]!</span>")
+			G.icon_state = "kill1"
+			A.adjustOxyLoss(5)
+			A.adjustStaminaLoss(20)
+			G.state = GRAB_UPGRADING
+			if(do_after(A, round(50), target = D)) //Takes 5 seconds
+				if(G.state == GRAB_KILL)
+					return 1
+				if(!D)
+					qdel(G)
+					return 1
+				if(!A.canmove || A.lying)
+					qdel(G)
+					return 1
+				G.state = GRAB_KILL
+				A.visible_message("<span class='danger'>[A] performs a half-wing choke on [D]!</span>")
+				add_logs(A, D, "half-wing choked", addition="(CQC)")
+
+				A.changeNext_move(CLICK_CD_TKSTRANGLE)
+				D.losebreath += 1
+			else if(A)
+				A.visible_message("<span class='warning'>[A] was unable to perform a half-wing choke on [D]!</span>")
+				G.icon_state = "kill"
+				G.name = "kill"
+				G.state = GRAB_NECK
+			return 1
+		// if(GRAB_UPGRADING)
+		// if(GRAB_KILL)
+	return 0
+
+/datum/martial_art/cqc/grab_attack_act(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D)
+	switch(A.a_intent)
+		if("disarm")
+			if(G.state < GRAB_NECK)
+				A << "<span class='warning'>You require a better grab to do a chop.</span>"
+				return 1
+			if(D.lying)
+				A << "<span class='warning'>Target must be standing up to do a chop.</span>"
+				return 1
+			D.visible_message("<span class='danger'>[A] karate-chops [D]!</span>", \
+							  "<span class='userdanger'>[A] karate-chops you!</span>")
+			D << "<span class='warning'>You feel dizzy...</span>"
+			D.Dizzy(5)
+			D.adjustStaminaLoss(20)
+			A.changeNext_move(13)
+			add_logs(A, D, "karate-chopped", addition="(CQC)")
+			playsound(get_turf(A), 'sound/effects/hit_punch.ogg', 30, 1, -2)
+		if("harm")
+			if(G.state < GRAB_NECK)
+				A << "<span class='warning'>You require a better grab to do a slam.</span>"
+				return 1
+			if(D.lying)
+				A << "<span class='warning'>Target must be standing up to do a slam.</span>"
+				return 1
+			D.visible_message("<span class='danger'>[A] face-slams [D] on the ground, knocking them unconscious!</span>", \
+							  "<span class='userdanger'>[A] face-slams you unconscious!</span>")
+			playsound(get_turf(A), pick("swing_hit"), 50, 1, -1)
+			shake_camera(D, 3, 1)
+			add_logs(A, D, "face-slammed", addition="(CQC)")
+			var/obj/item/organ/limb/L = D.get_organ("head")
+			var/armor_block = D.run_armor_check(L, "melee")
+			D.apply_damage(9, BRUTE, L, armor_block) //Low as fuck brute to compensate for combo potential
+			D.apply_effect(10, PARALYZE, armor_block) //Will be decreased based on head armor, too
+			D.lying = 90 //Consistently be angled that way when pinned down for AESTHETICS
+			A.set_dir(EAST) //face the victim
+			D.set_dir(SOUTH) //face up
+			D.do_bounce_anim_dir(NORTH, 4, 8, easeout = BOUNCE_EASING)
+			A.changeNext_move(20)
+			A.Stun(2)
+			qdel(G)
+			return 1
+		else
+			return 0
+
+/datum/martial_art/cqc/proc/Combo(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	D.visible_message("<span class='danger'>[A] roundhouse kicks [D] unconscious!</span>", \
+					  "<span class='userdanger'>[A] roundhouse kicks you unconscious!</span>")
+	var/obj/item/organ/limb/L = D.get_organ("head")
+	var/armor_block = D.run_armor_check(L, "melee")
+	var/atom/throw_target = get_edge_target_turf(D, get_dir(A, get_step_away(D, A)))
+	D.throw_at(throw_target, pick(2,4), 2)	//Throws the target away
+	D.apply_damage(9, BRUTE, L, armor_block) //Low as fuck brute to compensate for combo potential
+	D.apply_effect(8, PARALYZE, armor_block) //Will be decreased based on head armor, too
+	A.do_attack_animation(D)
+	shake_camera(D, 3, 1)
+	playsound(A, get_sfx("punch"), 50, 1, -2)
+	playsound(D, pick("swing_hit"), 50, 1, -1)
+	add_logs(A, D, "combo'd", addition="(CQC)")
+	A.Stun(2) //Stun for two ticks - ranging from 2 to 4 seconds
+	A.changeNext_move(20) //Gives you a sensible delay
 
 //ITEMS
 
