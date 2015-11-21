@@ -252,7 +252,7 @@
 
 /datum/spellbook_entry/item/staffdoor
 	name = "Staff of Door Creation"
-	desc = "A particular staff that can mold solid metal into ornate wooden doors. Useful for getting around in the absence of other transportation. Does not work on glass."
+	desc = "A particular staff that can mold solid metal into ornate doors. Useful for getting around in the absence of other transportation. Does not work on glass."
 	item_path = /obj/item/weapon/gun/magic/staff/door
 	log_name = "SD"
 	cost = 1
