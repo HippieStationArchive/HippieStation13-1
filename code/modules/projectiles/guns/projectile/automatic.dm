@@ -372,7 +372,7 @@
 
 /obj/item/weapon/gun/projectile/automatic/alc
 	name = "AA-2553 ALC"
-	desc = "Known as the Automatic Laser Carbine, this modern, state-of-the-art Aussec Armory-produced energy weapon uses specialized disposable plasma cartridges in a small magazine similar to ballistic firearms. Advanced cooling technology allows for the ALC to be fired in short bursts. However, the unusual method of loading results in some inaccuracy compared to traditional energy weapons."
+	desc = "Known as the Automatic Laser Carbine, this modern, state-of-the-art energy weapon uses specialized disposable plasma cartridges in a small magazine similar to ballistic firearms. Advanced cooling technology allows for the ALC to be fired in short bursts. However, the unusual method of loading results in some inaccuracy compared to traditional energy weapons."
 	icon_state = "alc"
 	mag_type = /obj/item/ammo_box/magazine/alc
 	can_suppress = 0

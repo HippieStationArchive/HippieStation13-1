@@ -241,14 +241,6 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
-/datum/uplink_item/dangerous/autolaser
-	name = "Automatic Laser Carbine"
-	desc = "Known as the Automatic Laser Carbine, this modern, state-of-the-art Aussec Armory-produced energy weapon uses specialized disposable plasma cartridges in a small magazine similar to ballistic firearms. Advanced cooling technology allows for the ALC to be fired in short bursts. However, the unusual method of loading results in some inaccuracy compared to traditional energy weapons."
-	item = /obj/item/weapon/gun/projectile/automatic/alc
-	cost = 16
-	gamemodes = list(/datum/game_mode/nuclear)
-	surplus = 0
-
 /datum/uplink_item/dangerous/crossbow
 	name = "Miniature Energy Crossbow"
 	desc = "A short bow mounted across a tiller in miniature. Small enough to fit into a pocket or slip into a bag unnoticed. It will synthesize and fire bolts tipped with a paralyzing toxin that will \
@@ -445,13 +437,6 @@ var/list/uplink_items = list()
 	desc = "A box of 40 rounds of dragon's breath ammo, intended for reloading of the Abzats' box magazine."
 	item = /obj/item/ammo_box/box12gdragon
 	cost = 12
-	gamemodes = list(/datum/game_mode/nuclear)
-
-/datum/uplink_item/ammo/autolaser
-	name = "22rnd ALC Magazine"
-	desc = "A 22-round magazine containing disposable, specialized plasma cartridges for use with the Automatic Laser Carbine."
-	item = /obj/item/ammo_box/magazine/alc
-	cost = 3
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/bioterror

@@ -10,5 +10,6 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rcsadd: "New Automatic Laser Carbine available for nuke ops for 16 TC. Uses specialized plasma cartridges in 24-round magazines. Can also fire in bursts of 3."
+  - rcsadd: "New Automatic Laser Carbine that can be made from R&D. Uses specialized plasma cartridges in 24-round magazines. Can also fire in bursts of 3. Hint: it needs combat level 6 research, among some other research levels."
+  - tweak: "Made the H.E.V set cost a moderate amount less of materials and required research levels. Also made the modular receiver need lower research levels and less metal to be made. Modular receiver also no longer needs silver."
   - tweak: "New gorka on-mob icons so it looks less like ass. Also resprited the camo boots a bit to go better with the gorka uniform. Thanks to Sgt. Fragg for the new gorka uniform on-mob sprites. Additionally, also thanks to them for the entirety of the sprite work on the chest rig, defender armor, and gorka uniform."
