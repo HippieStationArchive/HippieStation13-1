@@ -647,7 +647,7 @@ Sorry Giacom. Please don't be mad :(
 							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip, tumbling him down!</span>", \
 														"<span class='userdanger'>You tumble to the ground after [src] resists out of your pindown!</span>")
 							G.assailant.Weaken(3)
-							G.affecting.AdjustWeakened(-2) //Reduce victim's weakened a bit so they'll always get up faster
+							G.affecting.AdjustWeakened(-1) //Reduce victim's weakened a bit so they'll always get up faster
 							step_away(G.assailant,src)
 						else
 							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip!</span>", \

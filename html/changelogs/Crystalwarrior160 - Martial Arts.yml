@@ -23,3 +23,8 @@ changes:
   - rscadd: "- KNOCKOUT KICK! Weakens opponent, deals hefty damage (GGH)"
   - rscadd: "- THE ULTIMATE PLASMA FIST TECHNIQUE! Gibs opponent similarly to Ei Nath. Leaves brain. (GHDGHDH)"
   - experiment: "Plasma Fist has been added as a buyable scroll for Wizard. It costs 8 skill points due to it's sheer, powerful potential and due to the fact that you're basically buying a spell bundle. The cost is subject to change based on player feedback."
+  - tweak: "Reduced all grab resist cooldowns from 10 seconds to 5 seconds."
+  - tweak: "Added a sound effect and visible_message to being slammed into walls by throws"
+  - tweak: "Now resisting out of pindowns will always let victim get up faster than assailant"
+  - tweak: "Being tablepushed onto a glass table now gives you 5 brute and has a chance to embed the shard into you."
+  - bugfix: "Fixed teleporting issue with grabs" 
