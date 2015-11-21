@@ -1,9 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixes changeling abilities Hivemind Channel and Hivemind Absorb not working and runtiming."
-  - bugfix: "Fixes being able to drill light overlay."
-  - bugfix: "Fixes mech bay floor not being crowbardable."
-  - bugfix: "Fixes random runtimes on login related to hotkey mode." 
