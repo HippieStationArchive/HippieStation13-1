@@ -34,12 +34,12 @@
 	streak = streak+element
 	if(length(streak) > max_streak_length)
 		streak = copytext(streak,2)
-	return
 
-/datum/martial_art/proc/basic_hit(mob/living/carbon/human/A,mob/living/carbon/human/D)
+/datum/martial_art/proc/basic_hit(mob/living/carbon/human/A,mob/living/carbon/human/D, var/damage = rand(0,9))
 
 	A.do_attack_animation(D)
-	var/damage = rand(0,9) + A.dna.species.punchmod
+
+	damage += A.dna.species.punchmod
 
 	var/atk_verb = A.dna.species.attack_verb
 	if(D.lying)

@@ -111,9 +111,9 @@
 	return ..()
 
 /mob/living/carbon/human/proc/sleeping_carp_help()
-	set name = "Recall Teachings"
+	set name = "Sleeping Carp Training"
 	set desc = "Remember the martial techniques of the Sleeping Carp clan."
-	set category = "Sleeping Carp"
+	set category = "Martial Arts"
 
 	usr << "<b><i>You retreat inward and recall the teachings of the Sleeping Carp...</i></b>"
 	usr << "<span class='notice'>Wrist Wrench</span>: Disarm Disarm. Forces opponent to drop item in hand."
@@ -136,7 +136,7 @@
 	user << "<span class='notice'>You begin to read the scroll...</span>"
 	user << "<span class='sciradio'><i>And all at once the secrets of the Sleeping Carp fill your mind. The ancient clan's martial teachings have been imbued into this scroll. As you read through it, \
  	these secrets flood into your mind and body.<br>You now know the martial techniques of the Sleeping Carp. Your hand-to-hand combat has become much more effective, and you may now perform powerful \
- 	combination attacks.<br>To learn more about these combos, use the Recall Teachings ability in the Sleeping Carp tab.</i></span>"
+ 	combination attacks.<br>To learn more about these combos, use the Sleeping Carp Training ability in the Martial Arts tab.</i></span>"
 	user.verbs += /mob/living/carbon/human/proc/sleeping_carp_help
 	var/datum/martial_art/the_sleeping_carp/theSleepingCarp = new(null)
 	theSleepingCarp.teach(user)

@@ -32,23 +32,23 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 /datum/martial_art/wrestling/stamina //The safer type of wrassling
 	damtype = STAMINA
 
-/mob/living/carbon/human/verb/wrestling_help()
-	set name = "Recall Training"
+/mob/living/carbon/human/proc/wrestling_help()
+	set name = "Wrestling Tutorial"
 	set desc = "Access the wrestling tutorial."
-	set category = "Wrestling"
+	set category = "Martial Arts"
 	usr << browse("<HTML><HEAD><TITLE>Wrassling for Dummies</TITLE></HEAD><BODY>[wrestling_help]<HR></BODY></HTML>", "window=Wrassling for Dummies")
 	onclose(usr, "Wrassling for Dummies")
 
 /datum/martial_art/wrestling/teach(var/mob/living/carbon/human/H)
 	..()
 	H << "<span class = 'userdanger'>You know how to WRESTLE!</span>"
-	H << "<span class = 'danger'>Recall your teachings using the Recall Training verb in the Wrestling menu, in your verbs menu.</span>"
-	H.verbs += /mob/living/carbon/human/verb/wrestling_help
+	H << "<span class = 'danger'>Recall your teachings using the Wrestling Tutorial verb in the Martial Arts menu, in your verbs menu.</span>"
+	H.verbs += /mob/living/carbon/human/proc/wrestling_help
 
 /datum/martial_art/wrestling/remove(var/mob/living/carbon/human/H)
 	..()
 	H << "<span class = 'userdanger'>You forget how to wrestle..</span>"
-	H.verbs -= /mob/living/carbon/human/verb/wrestling_help
+	H.verbs -= /mob/living/carbon/human/proc/wrestling_help
 
 /datum/martial_art/wrestling/harm_act(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
 	if(A == D) return 1 //You shouldn't be able to attack yourself
@@ -83,15 +83,16 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	if(A == D) return 1 //You shouldn't be able to attack yourself
 	D.grabbedby(A,1)
 	var/obj/item/weapon/grab/G = A.get_active_hand()
-	if(G && prob(50))
-		G.state = GRAB_AGGRESSIVE
-		D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
-								"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
-		add_logs(A, D, "aggro-grabbed", addition="(Wrassling)")
-	else
-		D.visible_message("<span class='danger'>[A] holds [D] down! (Passive Grab)</span>", \
-									"<span class='userdanger'>[A] holds [D] down (Passive Grab)!</span>")
-		add_logs(A, D, "grabbed", addition="(Wrassling)")
+	if(G)
+		if(prob(50))
+			G.state = GRAB_AGGRESSIVE
+			D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
+									"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
+			add_logs(A, D, "aggro-grabbed", addition="(Wrassling)")
+		else
+			D.visible_message("<span class='danger'>[A] holds [D] down! (Passive Grab)</span>", \
+										"<span class='userdanger'>[A] holds [D] down (Passive Grab)!</span>")
+			add_logs(A, D, "grabbed", addition="(Wrassling)")
 	return 1
 
 /datum/martial_art/wrestling/grab_attack_act(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D)

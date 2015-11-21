@@ -3,20 +3,21 @@
 #define CQC_COMBO "HHHHH"
 
 /mob/living/carbon/human/proc/cqc_help()
-	set name = "Recall Training"
+	set name = "Recall CQC Training"
 	set desc = "Try to remember some the basics of cqc."
-	set category = "CQC"
+	set category = "Martial Arts"
 
 	usr << "<b><i>You remember the training from your former mentor...</i></b>"
 	// usr << "<span class='notice'>Three Hit Combo</span>: Harm Harm Harm. Drops the opponent."
 
 /datum/martial_art/cqc
 	name = "CQC"
+	var/cooldown = 0
 
 /datum/martial_art/cqc/teach(var/mob/living/carbon/human/H)
 	..()
 	H << "<span class = 'userdanger'>You know the basics of CQC!</span>"
-	H << "<span class = 'danger'>Recall your teachings using the Recall Training verb in the CQC menu, in your verbs menu.</span>"
+	H << "<span class = 'danger'>Recall your teachings using the Recall CQC Training verb in the Martial Arts menu, in your verbs menu.</span>"
 	H.verbs += /mob/living/carbon/human/proc/cqc_help
 
 /datum/martial_art/cqc/remove(var/mob/living/carbon/human/H)
@@ -24,33 +25,69 @@
 	H << "<span class = 'userdanger'>You forget the basics of CQC..</span>"
 	H.verbs -= /mob/living/carbon/human/proc/cqc_help
 
+/datum/martial_art/cqc/add_to_streak(element,mob/living/carbon/human/D)
+	if(D != current_target)
+		current_target = D
+		streak = ""
+	if(cooldown + 60 < world.time)
+		cooldown = world.time
+		streak = element //Set the streak to the element to clear out our streak without fucking up the new combo about to be performed.
+	else
+		streak = streak+element
+	if(length(streak) > max_streak_length)
+		streak = copytext(streak,2)
+	return
+
 /datum/martial_art/cqc/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,CQC_COMBO))
+		cooldown = world.time
 		streak = ""
 		Combo(A,D)
 		return 1
 	return 0
 
 /datum/martial_art/cqc/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D) //Same as Krav Maga
-	// if(check_streak(A,D))
-	// 	return 1
 	A.do_attack_animation(D)
-	add_logs(A, D, "disarmed", addition="(CQC)")
+	add_logs(A, D, "disarmed", addition="(Krav Maga)")
 	if(prob(60))
-		var/list/possible = list()
-		if(istype(D.l_hand, /obj/item))
-			possible += D.l_hand
-		if(istype(D.r_hand, /obj/item))
-			possible += D.r_hand
-		var/obj/item/I = pick(possible)
-		D.drop_item()
-		A.put_in_hands(I)
-		if(I)
-			D.visible_message("<span class='danger'>[A] has snatched [I] from [D]'s hands!</span>", \
-								"<span class='userdanger'>[I] was snatched from your hands by [A]!</span>")
-		else
-			D.visible_message("<span class='danger'>[A] has disarmed [D]!</span>", \
-							"<span class='userdanger'>[A] has disarmed [D]!</span>")
+		var/talked = 0
+		if(D.pulling)
+			D.visible_message("<span class='warning'>[A] has broken [D]'s grip on [D.pulling]!</span>")
+			talked = 1
+			D.stop_pulling()
+
+		if(istype(D.l_hand, /obj/item/weapon/grab))
+			var/obj/item/weapon/grab/lgrab = D.l_hand
+			if(lgrab.affecting)
+				D.visible_message("<span class='warning'>[A] has broken [D]'s grip on [lgrab.affecting]!</span>")
+				talked = 1
+			spawn(1)
+				qdel(lgrab)
+		if(istype(D.r_hand, /obj/item/weapon/grab))
+			var/obj/item/weapon/grab/rgrab = D.r_hand
+			if(rgrab.affecting)
+				D.visible_message("<span class='warning'>[A] has broken [D]'s grip on [rgrab.affecting]!</span>")
+				talked = 1
+			spawn(1)
+				qdel(rgrab)
+
+		if(!talked)
+			var/obj/item/I
+			if(D.hand && istype(D.l_hand, /obj/item))
+				I = D.l_hand
+				if(D.drop_item())
+					A.put_in_hands(I)
+			else
+				if(istype(D.r_hand, /obj/item))
+					I = D.r_hand
+					if(D.drop_item())
+						A.put_in_hands(I)
+			if(I)
+				D.visible_message("<span class='danger'>[A] has snatched [I] from [D]'s hands!</span>", \
+									"<span class='userdanger'>[I] was snatched from your hands by [A]!</span>")
+			else
+				D.visible_message("<span class='danger'>[A] has disarmed [D]!</span>", \
+								"<span class='userdanger'>[A] has disarmed [D]!</span>")
 		playsound(D, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 	else
 		D.visible_message("<span class='danger'>[A] attempted to disarm [D]!</span>", \
@@ -59,9 +96,11 @@
 	return 1
 
 /datum/martial_art/cqc/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(D.stat || D.lying)
+		return 0 //Cannot perform combos on lying down opponents
+	add_to_streak("H")
 	if(check_streak(A,D))
 		return 1
-	add_to_streak("H")
 	add_logs(A, D, "punched", addition="(CQC)")
 	A.do_attack_animation(D)
 	var/msg = pick("punches", "strikes", "chops", "hits", "kicks")
@@ -78,15 +117,16 @@
 	if(A == D) return 1 //You shouldn't be able to attack yourself
 	D.grabbedby(A,1)
 	var/obj/item/weapon/grab/G = A.get_active_hand()
-	if(G && prob(50))
-		G.state = GRAB_AGGRESSIVE
-		D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
-								"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
-		add_logs(A, D, "aggro-grabbed", addition="(Wrassling)")
-	else
-		D.visible_message("<span class='danger'>[A] holds [D] down! (Passive Grab)</span>", \
-									"<span class='userdanger'>[A] holds [D] down (Passive Grab)!</span>")
-		add_logs(A, D, "grabbed", addition="(Wrassling)")
+	if(G)
+		if(prob(50))
+			G.state = GRAB_AGGRESSIVE
+			D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
+									"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
+			add_logs(A, D, "aggro-grabbed", addition="(Wrassling)")
+		else
+			D.visible_message("<span class='danger'>[A] holds [D] down! (Passive Grab)</span>", \
+										"<span class='userdanger'>[A] holds [D] down (Passive Grab)!</span>")
+			add_logs(A, D, "grabbed", addition="(Wrassling)")
 	return 1
 
 /datum/martial_art/cqc/grab_reinforce_act(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D)
@@ -130,23 +170,29 @@
 			if(G.state < GRAB_NECK)
 				A << "<span class='warning'>You require a better grab to do a chop.</span>"
 				return 1
-			if(D.lying)
+			if(D.lying || D.stat)
 				A << "<span class='warning'>Target must be standing up to do a chop.</span>"
+				return 1
+			if(D.buckled)
+				A << "<span class='warning'>Target mustn't be buckled to do a chop.</span>"
 				return 1
 			D.visible_message("<span class='danger'>[A] karate-chops [D]!</span>", \
 							  "<span class='userdanger'>[A] karate-chops you!</span>")
 			D << "<span class='warning'>You feel dizzy...</span>"
-			D.Dizzy(5)
+			D.Dizzy(30)
 			D.adjustStaminaLoss(20)
-			A.changeNext_move(13)
+			A.changeNext_move(20)
 			add_logs(A, D, "karate-chopped", addition="(CQC)")
 			playsound(get_turf(A), 'sound/effects/hit_punch.ogg', 30, 1, -2)
 		if("harm")
 			if(G.state < GRAB_NECK)
 				A << "<span class='warning'>You require a better grab to do a slam.</span>"
 				return 1
-			if(D.lying)
+			if(D.lying || D.stat)
 				A << "<span class='warning'>Target must be standing up to do a slam.</span>"
+				return 1
+			if(D.buckled)
+				A << "<span class='warning'>Target mustn't be buckled to do a slam.</span>"
 				return 1
 			D.visible_message("<span class='danger'>[A] face-slams [D] on the ground, knocking them unconscious!</span>", \
 							  "<span class='userdanger'>[A] face-slams you unconscious!</span>")
@@ -161,8 +207,8 @@
 			A.set_dir(EAST) //face the victim
 			D.set_dir(SOUTH) //face up
 			D.do_bounce_anim_dir(NORTH, 4, 8, easeout = BOUNCE_EASING)
-			A.changeNext_move(20)
-			A.Stun(2)
+			A.changeNext_move(30) //3 seconds delay before next move
+			A.Stun(3) //Sort of long stun
 			qdel(G)
 			return 1
 		else
@@ -181,7 +227,7 @@
 	shake_camera(D, 3, 1)
 	playsound(A, get_sfx("punch"), 50, 1, -2)
 	playsound(D, pick("swing_hit"), 50, 1, -1)
-	add_logs(A, D, "combo'd", addition="(CQC)")
+	add_logs(A, D, "roundhouse kicked", addition="(CQC)")
 	A.Stun(2) //Stun for two ticks - ranging from 2 to 4 seconds
 	A.changeNext_move(20) //Gives you a sensible delay
 
@@ -228,7 +274,7 @@ obj/item/clothing/gloves/cqc/dropped(mob/user)
 	user << "<span class='notice'>You begin to read the scroll...</span>"
 	user << "<span class='sciradio'><i>And all at once the secrets of the CQC fill your mind. This basic form of close quarters combat has been imbued into this scroll. As you read through it, \
  	these secrets flood into your mind and body.<br>You now know the martial techniques of the The Boss. Your hand-to-hand combat has become much more effective, and you may now perform powerful \
- 	combination attacks.<br>To learn more about these combos, use the Recall Training ability in the CQC tab.</i></span>"
+ 	combination attacks.</i></span>"
 	var/datum/martial_art/cqc/D = new
 	D.teach(user)
 	user.drop_item()
