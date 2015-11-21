@@ -227,7 +227,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/dangerous/machinegun
 	name = "L6 Squad Automatic Weapon"
-	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
+	desc = "A fully-loaded Aussec Armory belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
 	item = /obj/item/weapon/gun/projectile/automatic/l6_saw
 	cost = 40
 	gamemodes = list(/datum/game_mode/nuclear)
@@ -238,6 +238,14 @@ var/list/uplink_items = list()
 	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 40-round box magazine of 12 gauge buckshot cartridges."
 	item = /obj/item/weapon/gun/projectile/automatic/shotgun/abzats
 	cost = 45
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 0
+
+/datum/uplink_item/dangerous/autolaser
+	name = "Automatic Laser Carbine"
+	desc = "Known as the Automatic Laser Carbine, this modern, state-of-the-art Aussec Armory-produced energy weapon uses specialized disposable plasma cartridges in a small magazine similar to ballistic firearms. Advanced cooling technology allows for the ALC to be fired in short bursts. However, the unusual method of loading results in some inaccuracy compared to traditional energy weapons."
+	item = /obj/item/weapon/gun/projectile/automatic/alc
+	cost = 16
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -437,6 +445,13 @@ var/list/uplink_items = list()
 	desc = "A box of 40 rounds of dragon's breath ammo, intended for reloading of the Abzats' box magazine."
 	item = /obj/item/ammo_box/box12gdragon
 	cost = 12
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/ammo/autolaser
+	name = "22rnd ALC Magazine"
+	desc = "A 22-round magazine containing disposable, specialized plasma cartridges for use with the Automatic Laser Carbine."
+	item = /obj/item/ammo_box/magazine/alc
+	cost = 3
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/bioterror
