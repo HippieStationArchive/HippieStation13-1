@@ -309,3 +309,15 @@
 	icon_state = "762steel-casing"
 	caliber = "a762"
 	projectile_type = /obj/item/projectile/bullet/weakbullet2
+
+/obj/item/ammo_casing/musket
+	name = "paper cartridge"
+	desc = "A paper cartridge for a breechloading rifle."
+	icon_state = "papercartridge"
+	caliber = "musket"
+	projectile_type = /obj/item/projectile/bullet/midbullet2
+
+/obj/item/ammo_casing/minieball // lazy memecuck,putting it in here
+	name = "minie ball"
+	desc = "A small projectile with grooves"
+	icon_state = "minieball"

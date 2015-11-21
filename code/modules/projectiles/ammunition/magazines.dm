@@ -479,3 +479,12 @@ obj/item/ammo_box/magazine/tommygunm45
 /obj/item/ammo_box/magazine/toy/m762/update_icon()
 	..()
 	icon_state = "a762-[round(ammo_count(),10)]"
+
+// muskit
+
+/obj/item/ammo_box/magazine/internal/musket
+	name = "musket internal magazine"
+	ammo_type = /obj/item/ammo_casing/musket
+	caliber = "musket"
+	max_ammo = 1
+	multiload = 0
