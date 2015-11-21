@@ -54,6 +54,9 @@
 
 /obj/structure/reagent_dispensers/proc/boom() // detonate and explode were already taken and i hate two procs with the same name
 	if(reagents && reagents.reagent_list.len && !exploded)
+		reagents.chem_temp = 1000
+		reagents.handle_reactions()
+		if(!src) return 1// safety check,explosion could've deleted it!
 		exploded = 1
 		var/volumepereffect = reagents.total_volume / 9
 		var/list/effectlist = list()
@@ -97,6 +100,9 @@
 	return
 
 /obj/structure/reagent_dispensers/blob_act()
+	boom()
+
+/obj/structure/reagent_dispensers/fire_act()
 	if(prob(50))
 		boom()
 
@@ -126,9 +132,12 @@
 		if((Proj.damage_type == BURN) || (Proj.damage_type == BRUTE))
 			if(Proj.nodamage)
 				return
-			if(boom())
-				message_admins("[key_name_admin(Proj.firer)] triggered a chemtank explosion.")
-				log_game("[key_name(Proj.firer)] triggered a chemtank explosion.")
+			if(Proj.firer)//safety
+				var/mob/shooter = Proj.firer
+				message_admins("[key_name_admin(shooter)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>).")
+				log_game("[key_name(shooter)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"].")
+				shooter.attack_log += text("\[[time_stamp()]\] <font color='red'>Has detonated a chem tank @ [src ? "[x],[y],[z]" : "UNKNOWN LOCATION"]</font>")
+			boom()
 
 ////Roundstart dispensers
 //watertank
