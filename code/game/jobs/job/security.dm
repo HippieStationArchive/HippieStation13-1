@@ -64,7 +64,7 @@ Head of Security
 
 	var/datum/martial_art/krav_maga/style = new
 	style.teach(H)
-	H.verbs += /mob/living/carbon/human/verb/krav_maga_help
+	H.verbs += /mob/living/carbon/human/proc/krav_maga_help
 
 	announce_head(H, list("Security")) //tell underlings (security radio) they have a head
 /*
@@ -120,7 +120,7 @@ Warden
 
 	var/datum/martial_art/krav_maga/style = new
 	style.teach(H)
-	H.verbs += /mob/living/carbon/human/verb/krav_maga_help
+	H.verbs += /mob/living/carbon/human/proc/krav_maga_help
 /*
 Detective
 */
@@ -170,7 +170,7 @@ Detective
 
 	var/datum/martial_art/krav_maga/style = new
 	style.teach(H)
-	H.verbs += /mob/living/carbon/human/verb/krav_maga_help
+	H.verbs += /mob/living/carbon/human/proc/krav_maga_help
 /*
 Security Officer
 */
@@ -265,7 +265,7 @@ var/list/sec_departments = list("engineering", "supply", "medical", "science")
 
 	var/datum/martial_art/krav_maga/style = new
 	style.teach(H)
-	H.verbs += /mob/living/carbon/human/verb/krav_maga_help
+	H.verbs += /mob/living/carbon/human/proc/krav_maga_help
 
 	var/obj/item/clothing/under/U = H.w_uniform
 	if(tie)

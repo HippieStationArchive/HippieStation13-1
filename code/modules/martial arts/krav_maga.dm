@@ -15,7 +15,7 @@
 	usr << "<span class='notice'>Pinning Down</span>: Pin your opponent down to immobilize them. Several ways to execute: reinforcing grab on top of someone will pin down. Attacking someone with a grab IN-HAND and disarm intent will also execute the move."
 	usr << "<b><i>Most of your moves rely on intent cycling and grabs. Keep that in mind.</i></b>"
 
-/datum/martial_art/krav_maga/teach(mob/living/carbon/human/H)
+/datum/martial_art/krav_maga/teach(mob/living/carbon/human/H, make_temporary)
 	..()
 	H << "<span class = 'userdanger'>You know the arts of Krav Maga!</span>"
 	H << "<span class = 'danger'>Recall your teachings using the Krav Maga Tutorial verb in the Martial Arts menu, in your verbs menu.</span>"

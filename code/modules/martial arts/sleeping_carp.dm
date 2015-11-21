@@ -10,22 +10,27 @@
 /datum/martial_art/the_sleeping_carp/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,WRIST_WRENCH_COMBO))
 		streak = ""
+		A.hud_used.combo_object.update_icon(streak)
 		wristWrench(A,D)
 		return 1
 	if(findtext(streak,BACK_KICK_COMBO))
 		streak = ""
+		A.hud_used.combo_object.update_icon(streak)
 		backKick(A,D)
 		return 1
 	if(findtext(streak,STOMACH_KNEE_COMBO))
 		streak = ""
+		A.hud_used.combo_object.update_icon(streak)
 		kneeStomach(A,D)
 		return 1
 	if(findtext(streak,HEAD_KICK_COMBO))
 		streak = ""
+		A.hud_used.combo_object.update_icon(streak)
 		headKick(A,D)
 		return 1
 	if(findtext(streak,ELBOW_DROP_COMBO))
 		streak = ""
+		A.hud_used.combo_object.update_icon(streak)
 		elbowDrop(A,D)
 		return 1
 	return 0
@@ -85,7 +90,7 @@
 	return basic_hit(A,D)
 
 /datum/martial_art/the_sleeping_carp/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("G")
+	add_to_streak("G",A,D)
 	if(check_streak(A,D))
 		return 1
 	..()
@@ -94,7 +99,7 @@
 		G.state = GRAB_AGGRESSIVE //Instant aggressive grab
 
 /datum/martial_art/the_sleeping_carp/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("H")
+	add_to_streak("H",A,D)
 	if(check_streak(A,D))
 		return 1
 	D.visible_message("<span class='danger'>[A] [pick("punches", "kicks", "chops", "hits", "slams")] [D]!</span>", \
@@ -105,7 +110,7 @@
 
 
 /datum/martial_art/the_sleeping_carp/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("D")
+	add_to_streak("D",A,D)
 	if(check_streak(A,D))
 		return 1
 	return ..()

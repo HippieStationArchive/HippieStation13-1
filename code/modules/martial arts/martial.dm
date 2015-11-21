@@ -4,7 +4,6 @@
 	var/max_streak_length = 6
 	var/current_target = null
 	var/temporary = 0
-	var/datum/martial_art/base = null // The permanent style
 
 /datum/martial_art/proc/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	return 0
@@ -27,20 +26,19 @@
 /datum/martial_art/proc/tablepush_act(mob/living/carbon/human/A, mob/living/carbon/human/D) //Called when you tablepush someone
 	return 0
 
-/datum/martial_art/proc/add_to_streak(element,mob/living/carbon/human/D)
-	if(D != current_target)
+/datum/martial_art/proc/add_to_streak(element,mob/living/carbon/human/A,mob/living/carbon/human/D)
+	if(istype(D) && D != current_target)
 		current_target = D
 		streak = ""
 	streak = streak+element
 	if(length(streak) > max_streak_length)
 		streak = copytext(streak,2)
+	if(istype(A))
+		A.hud_used.combo_object.update_icon(streak)
 
-/datum/martial_art/proc/basic_hit(mob/living/carbon/human/A,mob/living/carbon/human/D, var/damage = rand(0,9))
-
+/datum/martial_art/proc/basic_hit(mob/living/carbon/human/A,mob/living/carbon/human/D)
 	A.do_attack_animation(D)
-
-	damage += A.dna.species.punchmod
-
+	var/damage = rand(0,9) + A.dna.species.punchmod
 	var/atk_verb = A.dna.species.attack_verb
 	if(D.lying)
 		atk_verb = "kick"
@@ -74,15 +72,11 @@
 /datum/martial_art/proc/teach(mob/living/carbon/human/H,make_temporary=0)
 	if(make_temporary)
 		temporary = 1
-	if(H.martial_art && H.martial_art.temporary)
-		if(temporary)
-			base = H.martial_art.base
-		else
-			H.martial_art.base = src //temporary styles have priority
-			return
 	H.martial_art = src
+	if(!temporary)
+		H.martial_art_base = src
 
 /datum/martial_art/proc/remove(mob/living/carbon/human/H)
 	if(H.martial_art != src)
 		return
-	H.martial_art = base
+	H.martial_art = H.martial_art_base

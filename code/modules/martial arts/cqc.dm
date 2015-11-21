@@ -8,13 +8,19 @@
 	set category = "Martial Arts"
 
 	usr << "<b><i>You remember the training from your former mentor...</i></b>"
-	// usr << "<span class='notice'>Three Hit Combo</span>: Harm Harm Harm. Drops the opponent."
+	usr << "<span class='notice'>Roundhouse Kick</span>: Punch 5 times. Knocks the opponent unconscious."
+	usr << "<span class='notice'>Robust Disarm</span>: Your disarms have no push chance, however, when you disarm someone the weapon is instantly put in your hands."
+	usr << "<span class='notice'>Clinch</span>: Grab. 50% chance to instantly grab your opponent into aggressive. Can be reinforced into neckgrab quickly."
+	usr << "<span class='notice'>Half-wing Choke</span>: Replaces normal choking. Faster to perform, also gives 20 staminaloss to opponent on attempted choke."
+	usr << "<span class='notice'>Karate Chop</span>: Disarm intent w/ NECK grab in active hand. Cannot be performed on downed opponent. Makes target dizzy, gives them 20 staminaloss."
+	usr << "<span class='notice'>Face Slam</span>: Harm intent w/ NECK grab in active hand. Cannot be performed on downed opponent. Slams opponent into the ground, knocking them unconscious. Stuns you for a bit, only reccomended in 1v1 fights."
+	usr << "<i>The arts of CQC are most effective as a surprise tactic. They were designed as a martial art that would aid a stealthy approach. Fighting multiple enemies with it would prove difficult.</i>"
 
 /datum/martial_art/cqc
 	name = "CQC"
 	var/cooldown = 0
 
-/datum/martial_art/cqc/teach(var/mob/living/carbon/human/H)
+/datum/martial_art/cqc/teach(var/mob/living/carbon/human/H, make_temporary)
 	..()
 	H << "<span class = 'userdanger'>You know the basics of CQC!</span>"
 	H << "<span class = 'danger'>Recall your teachings using the Recall CQC Training verb in the Martial Arts menu, in your verbs menu.</span>"
@@ -25,30 +31,32 @@
 	H << "<span class = 'userdanger'>You forget the basics of CQC..</span>"
 	H.verbs -= /mob/living/carbon/human/proc/cqc_help
 
-/datum/martial_art/cqc/add_to_streak(element,mob/living/carbon/human/D)
+/datum/martial_art/cqc/add_to_streak(element,mob/living/carbon/human/A,mob/living/carbon/human/D)
 	if(D != current_target)
 		current_target = D
 		streak = ""
 	if(cooldown + 60 < world.time)
-		cooldown = world.time
 		streak = element //Set the streak to the element to clear out our streak without fucking up the new combo about to be performed.
 	else
 		streak = streak+element
+	cooldown = world.time
 	if(length(streak) > max_streak_length)
 		streak = copytext(streak,2)
-	return
+	if(istype(A))
+		A.hud_used.combo_object.update_icon(streak, 60)
 
 /datum/martial_art/cqc/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,CQC_COMBO))
 		cooldown = world.time
 		streak = ""
+		A.hud_used.combo_object.update_icon(streak)
 		Combo(A,D)
 		return 1
 	return 0
 
 /datum/martial_art/cqc/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D) //Same as Krav Maga
 	A.do_attack_animation(D)
-	add_logs(A, D, "disarmed", addition="(Krav Maga)")
+	add_logs(A, D, "disarmed", addition="(CQC)")
 	if(prob(60))
 		var/talked = 0
 		if(D.pulling)
@@ -98,7 +106,7 @@
 /datum/martial_art/cqc/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(D.stat || D.lying)
 		return 0 //Cannot perform combos on lying down opponents
-	add_to_streak("H")
+	add_to_streak("H",A,D)
 	if(check_streak(A,D))
 		return 1
 	add_logs(A, D, "punched", addition="(CQC)")
@@ -122,11 +130,11 @@
 			G.state = GRAB_AGGRESSIVE
 			D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
 									"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
-			add_logs(A, D, "aggro-grabbed", addition="(Wrassling)")
+			add_logs(A, D, "aggro-grabbed", addition="(CQC)")
 		else
 			D.visible_message("<span class='danger'>[A] holds [D] down! (Passive Grab)</span>", \
 										"<span class='userdanger'>[A] holds [D] down (Passive Grab)!</span>")
-			add_logs(A, D, "grabbed", addition="(Wrassling)")
+			add_logs(A, D, "grabbed", addition="(CQC)")
 	return 1
 
 /datum/martial_art/cqc/grab_reinforce_act(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D)
@@ -179,7 +187,7 @@
 			D.visible_message("<span class='danger'>[A] karate-chops [D]!</span>", \
 							  "<span class='userdanger'>[A] karate-chops you!</span>")
 			D << "<span class='warning'>You feel dizzy...</span>"
-			D.Dizzy(30)
+			D.confused += 3 //Fucks with your movement
 			D.adjustStaminaLoss(20)
 			A.changeNext_move(20)
 			add_logs(A, D, "karate-chopped", addition="(CQC)")

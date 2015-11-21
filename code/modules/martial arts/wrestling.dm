@@ -39,7 +39,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	usr << browse("<HTML><HEAD><TITLE>Wrassling for Dummies</TITLE></HEAD><BODY>[wrestling_help]<HR></BODY></HTML>", "window=Wrassling for Dummies")
 	onclose(usr, "Wrassling for Dummies")
 
-/datum/martial_art/wrestling/teach(var/mob/living/carbon/human/H)
+/datum/martial_art/wrestling/teach(var/mob/living/carbon/human/H, make_temporary)
 	..()
 	H << "<span class = 'userdanger'>You know how to WRESTLE!</span>"
 	H << "<span class = 'danger'>Recall your teachings using the Wrestling Tutorial verb in the Martial Arts menu, in your verbs menu.</span>"
