@@ -415,9 +415,9 @@ other types of metals and chemistry for reagents).
 	name = "H.E.V Suit"
 	desc = "An advanced suit designed for scientists out in the field needing protection from just about any danger, including but not limited to angry military grunts."
 	id = "hev_suit"
-	req_tech = list("materials" = 5, "engineering" = 5, "combat" = 5, "biotech" = 4)
+	req_tech = list("materials" = 4, "engineering" = 4, "combat" = 3, "biotech" = 3)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 4500, MAT_GOLD = 3000, MAT_PLASMA = 1000, MAT_URANIUM = 1500)
+	materials = list(MAT_METAL = 3500, MAT_GOLD = 2500, MAT_PLASMA = 700, MAT_URANIUM = 1000)
 	build_path = /obj/item/clothing/suit/armor/hev_suit
 	category = list("Equipment")
 
@@ -425,9 +425,9 @@ other types of metals and chemistry for reagents).
 	name = "H.E.V Helmet"
 	desc = "An advanced helmet designed for scientists out in the field needing protection from just about any danger, including but not limited to angry military grunts."
 	id = "hev_helmet"
-	req_tech = list("materials" = 5, "engineering" = 5, "combat" = 5, "biotech" = 4)
+	req_tech = list("materials" = 4, "engineering" = 4, "combat" = 3, "biotech" = 3)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 2500, MAT_GLASS = 3000, MAT_GOLD = 1500, MAT_PLASMA = 2000, MAT_DIAMOND = 1000)
+	materials = list(MAT_METAL = 2000, MAT_GLASS = 1000, MAT_GOLD = 1000, MAT_PLASMA = 500, MAT_DIAMOND = 500)
 	build_path = /obj/item/clothing/head/helmet/hev_helmet
 	category = list("Equipment")
 

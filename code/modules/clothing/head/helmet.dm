@@ -123,9 +123,7 @@
 	desc = "A standard camoflauge helmet of the New-Russia military. Has greater ballistic protection than many other helmets."
 	icon_state = "soviethelm"
 	item_state = "soviethelm"
-	armor = list(melee = 50, bullet = 60, laser = 30,energy = 10, bomb = 25, bio = 0, rad = 0)
-	//Compared to the swat helmet... maybe could use a buff?
-	flags_inv = HIDEEARS
+	armor = list(melee = 60, bullet = 70, laser = 40,energy = 15, bomb = 25, bio = 0, rad = 0)
 	cold_protection = HEAD
 	min_cold_protection_temperature = HELMET_MIN_TEMP_PROTECT
 	heat_protection = HEAD
