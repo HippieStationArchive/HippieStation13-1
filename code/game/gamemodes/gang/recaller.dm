@@ -136,7 +136,7 @@
 			else
 				dat += "Brass Knuckles<br>"
 
-			dat += "(40 Influence) "
+			dat += "(30 Influence) "
 			if(points >= 40)
 				dat += "<a href='?src=\ref[src];purchase=tommyammo'>Thompson Ammo</a><br>"
 			else
