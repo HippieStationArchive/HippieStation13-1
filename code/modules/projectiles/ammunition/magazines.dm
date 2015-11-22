@@ -277,6 +277,13 @@
 	name = "SMG Magazine (Incendiary 9mm)"
 	ammo_type = /obj/item/ammo_casing/c9mminc
 
+/obj/item/ammo_box/magazine/alc
+	name = "Auto. Laser Carbine Magazine (plasma)"
+	icon_state = "alc-24"
+	ammo_type = /obj/item/ammo_casing/caseless/cplasma
+	caliber = "plasma"
+	max_ammo = 24
+
 /obj/item/ammo_box/magazine/smgm45
 	name = "SMG magazine (.45)"
 	icon_state = "c20r45-20"
@@ -472,3 +479,12 @@ obj/item/ammo_box/magazine/tommygunm45
 /obj/item/ammo_box/magazine/toy/m762/update_icon()
 	..()
 	icon_state = "a762-[round(ammo_count(),10)]"
+
+// muskit
+
+/obj/item/ammo_box/magazine/internal/musket
+	name = "musket internal magazine"
+	ammo_type = /obj/item/ammo_casing/musket
+	caliber = "musket"
+	max_ammo = 1
+	multiload = 0

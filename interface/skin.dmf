@@ -192,6 +192,42 @@ macro "borghotkeymode"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
+		name = "NUMPAD1"
+		command = "target-zone r_leg"
+		is-disabled = false
+	elem 
+		name = "NUMPAD2"
+		command = "target-zone groin"
+		is-disabled = false
+	elem 
+		name = "NUMPAD3"
+		command = "target-zone l_leg"
+		is-disabled = false
+	elem 
+		name = "NUMPAD4"
+		command = "target-zone r_arm"
+		is-disabled = false
+	elem 
+		name = "NUMPAD5"
+		command = "target-zone chest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD6"
+		command = "target-zone l_arm"
+		is-disabled = false
+	elem 
+		name = "NUMPAD7"
+		command = "target-zone eyes"
+		is-disabled = false
+	elem 
+		name = "NUMPAD8"
+		command = "target-zone head"
+		is-disabled = false
+	elem 
+		name = "NUMPAD9"
+		command = "target-zone mouth"
+		is-disabled = false
+	elem 
 		name = "F1"
 		command = "adminhelp"
 		is-disabled = false
@@ -376,6 +412,42 @@ macro "macro"
 	elem 
 		name = "CTRL+Z"
 		command = "Activate-Held-Object"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD1"
+		command = "target-zone r_leg"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD2"
+		command = "target-zone groin"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD3"
+		command = "target-zone l_leg"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD4"
+		command = "target-zone r_arm"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD5"
+		command = "target-zone chest"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD6"
+		command = "target-zone l_arm"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD7"
+		command = "target-zone eyes"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD8"
+		command = "target-zone head"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD9"
+		command = "target-zone mouth"
 		is-disabled = false
 	elem 
 		name = "F1"
@@ -644,6 +716,42 @@ macro "hotkeymode"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
+		name = "NUMPAD1"
+		command = "target-zone r_leg"
+		is-disabled = false
+	elem 
+		name = "NUMPAD2"
+		command = "target-zone groin"
+		is-disabled = false
+	elem 
+		name = "NUMPAD3"
+		command = "target-zone l_leg"
+		is-disabled = false
+	elem 
+		name = "NUMPAD4"
+		command = "target-zone r_arm"
+		is-disabled = false
+	elem 
+		name = "NUMPAD5"
+		command = "target-zone chest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD6"
+		command = "target-zone l_arm"
+		is-disabled = false
+	elem 
+		name = "NUMPAD7"
+		command = "target-zone eyes"
+		is-disabled = false
+	elem 
+		name = "NUMPAD8"
+		command = "target-zone head"
+		is-disabled = false
+	elem 
+		name = "NUMPAD9"
+		command = "target-zone mouth"
+		is-disabled = false
+	elem 
 		name = "F1"
 		command = "adminhelp"
 		is-disabled = false
@@ -812,6 +920,42 @@ macro "borgmacro"
 	elem 
 		name = "CTRL+Z"
 		command = "Activate-Held-Object"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD1"
+		command = "target-zone r_leg"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD2"
+		command = "target-zone groin"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD3"
+		command = "target-zone l_leg"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD4"
+		command = "target-zone r_arm"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD5"
+		command = "target-zone chest"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD6"
+		command = "target-zone l_arm"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD7"
+		command = "target-zone eyes"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD8"
+		command = "target-zone head"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD9"
+		command = "target-zone mouth"
 		is-disabled = false
 	elem 
 		name = "F1"

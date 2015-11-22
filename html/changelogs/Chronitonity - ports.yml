@@ -22,7 +22,7 @@
 #################################
 
 # Your name.  
-author: Crystalwarrior160
+author: Chronitonity
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
@@ -33,6 +33,8 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Teeth necklaces! Now you can wear a necklace with all of your adversaries' teeth! Teeth necklaces can be created by applying cable coil with 4 cables on a tooth. You can hang up to 16 teeth onto the necklace."
-  - rscadd: "Multiple teeth types now supported! Humans, Lizards and Tajarans now have unique teeth types."
-  - rscadd: "You can now have teeth of multiple types in your mouth! Enjoy having tajaran-lizard-human tooth-filled mouth!"
+  - rscadd: "Staff of doors now randomly picks a door type to create, instead of always wood doors."
+  - tweak: "ID consoles no longer strip accesses they can't give, like Syndieshuttle or Centcom access."
+  - rscadd: "Aiming at your face and clicking on a sink will now wash your face in the sink."
+  - tweak: "Washing your face will remove lipstick from your face, as well as make you less drowsy."
+  - rscadd: "You can now draw a star and numbers using a crayon or a spraycan."

@@ -647,6 +647,7 @@ Sorry Giacom. Please don't be mad :(
 							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip, tumbling him down!</span>", \
 														"<span class='userdanger'>You tumble to the ground after [src] resists out of your pindown!</span>")
 							G.assailant.Weaken(3)
+							G.affecting.AdjustWeakened(-1) //Reduce victim's weakened a bit so they'll always get up faster
 							step_away(G.assailant,src)
 						else
 							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip!</span>", \
@@ -662,7 +663,7 @@ Sorry Giacom. Please don't be mad :(
 						G.assailant.Stun(2) //Temporarily stun the assailant to give the victim some fighting chance
 						qdel(G)
 			if(resisting)
-				last_special = world.time + CLICK_CD_BREAKOUT //Additional cooldown
+				last_special = world.time + 50 //5-second cooldown
 				visible_message("<span class='warning'>[src] tries to resist!</span>")
 		else
 			src << "<span class='warning'>You have to wait [round(last_special - world.time)/10] seconds to attempt another resist!</span>"
@@ -784,12 +785,15 @@ Sorry Giacom. Please don't be mad :(
 
 
 /atom/movable/proc/do_attack_animation(atom/A, end_pixel_y)
+	var/direction = get_dir(src, A)
+	do_bounce_anim_dir(direction, 2, end_pixel_y=end_pixel_y)
+
+/atom/movable/proc/do_bounce_anim_dir(direction, wait, strength=8, easein=0, easeout=0, end_pixel_y)
 	var/pixel_x_diff = 0
 	var/pixel_y_diff = 0
 	var/final_pixel_y = initial(pixel_y)
 	if(end_pixel_y)
 		final_pixel_y = end_pixel_y
-	var/direction = get_dir(src, A)
 	switch(direction)
 		if(NORTH)
 			pixel_y_diff = 8
@@ -812,13 +816,12 @@ Sorry Giacom. Please don't be mad :(
 			pixel_x_diff = -8
 			pixel_y_diff = -8
 
-	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = 2)
-	animate(pixel_x = initial(pixel_x), pixel_y = final_pixel_y, time = 2)
+	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = wait, easing = easein)
+	animate(pixel_x = initial(pixel_x), pixel_y = final_pixel_y, time = wait, easing = easeout)
 
-
-/mob/living/do_attack_animation(atom/A)
+/mob/living/do_bounce_anim_dir(direction, wait, strength=8, easein=0, easeout=0, end_pixel_y)
 	var/final_pixel_y = get_standard_pixel_y_offset(lying)
-	..(A, final_pixel_y)
+	..(direction, wait, strength, easein, easeout, final_pixel_y)
 	floating = 0 // If we were without gravity, the bouncing animation got stopped, so we make sure to restart it in next life().
 
 /mob/living/proc/do_jitter_animation(jitteriness)

@@ -1,7 +1,0 @@
-author: Crystalwarrior160
-delete-after: True
-changes: 
-  - bugfix: "Fixed zombies appearing standing up on death."
-  - tweak: "Increased zombie infection chance, made zombie disease twice as fast if the infectee is dead."
-  - tweak: "Reduced time taken to consume animals from 8 seconds to 6 seconds."
-  - tweak: "Updated zombie antag info formatting to be more visible."
