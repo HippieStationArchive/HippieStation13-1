@@ -72,11 +72,13 @@
 /datum/martial_art/proc/teach(mob/living/carbon/human/H,make_temporary=0)
 	if(make_temporary)
 		temporary = 1
-	H.martial_art = src
 	if(!temporary)
+		if(H.martial_art_base)
+			H.martial_art_base.remove(H) //Notify the user that his previous martial art was switched. Also updates verbs, etc.
 		H.martial_art_base = src
+	H.martial_art = src
 
 /datum/martial_art/proc/remove(mob/living/carbon/human/H)
-	if(H.martial_art != src)
+	if(H.martial_art != src && H.martial_art_base != src)
 		return
 	H.martial_art = H.martial_art_base
