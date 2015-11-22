@@ -48,3 +48,13 @@
 	put_on_delay = 20
 	cold_protection = HANDS
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
+
+/obj/item/clothing/gloves/brassknuckles
+	name = "brass knuckles"
+	desc = "Metal knuckles that fit nicely in your grip."
+	icon_state = "brassknuckles"
+	item_state = null
+	item_color = null	//So they don't wash.
+	transfer_prints = TRUE
+	strip_delay = 40
+	put_on_delay = 20
