@@ -75,29 +75,6 @@
 		return
 	H.martial_art = base
 
-//brass knuckles
-
-/datum/martial_art/brassknuckles
-	name = "Brass Knuckles"
-
-/datum/martial_art/brassknuckles/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	A << "<span class='warning'>Can't disarm while using brass knuckles!</span>"
-	return 1
-
-/datum/martial_art/brassknuckles/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	A << "<span class='warning'>Can't grab while using brass knuckles!</span>"
-	return 1
-
-/datum/martial_art/brassknuckles/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-
-	A.do_attack_animation(D)
-	var/atk_verb = pick("left swing","right swing")
-	playsound(D.loc, list('sound/weapons/punch1.ogg','sound/weapons/punch2.ogg'), 25, 1, -1)
-	D.apply_damage(10, BRUTE)
-	D.visible_message("<span class='danger'>[A] has hit [D] with a [atk_verb]!</span>", \
-								"<span class='userdanger'>[A] has hit [D] with a [atk_verb]!</span>")
-
-
 /datum/martial_art/boxing
 	name = "Boxing"
 
@@ -534,11 +511,10 @@
 
 //ITEMS
 
-/obj/item/clothing/gloves/brassknuckles
-	name = "brass knuckles"
-	var/datum/martial_art/brassknuckles/style = new
+/obj/item/clothing/gloves/boxing
+	var/datum/martial_art/boxing/style = new
 
-/obj/item/clothing/gloves/brassknuckles/equipped(mob/user, slot)
+/obj/item/clothing/gloves/boxing/equipped(mob/user, slot)
 	if(!ishuman(user))
 		return
 	if(slot == slot_gloves)
@@ -546,14 +522,13 @@
 		style.teach(H,1)
 	return
 
-obj/item/clothing/gloves/brassknuckles/dropped(mob/user)
+/obj/item/clothing/gloves/boxing/dropped(mob/user)
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
 	if(H.get_item_by_slot(slot_gloves) == src)
 		style.remove(H)
 	return
-
 
 /obj/item/weapon/storage/belt/champion/wrestling
 	name = "Wrestling Belt"

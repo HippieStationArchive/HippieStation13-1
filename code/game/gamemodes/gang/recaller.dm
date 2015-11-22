@@ -124,33 +124,6 @@
 				dat += "Sleeping Carp Scroll (one-use)<br>"
 			dat += "<br>"
 
-
-		//////////////////
-		// RIGATONI FAM //
-		//////////////////
-
-		else if(gang.fighting_style == "mobster")
-			dat += "(10 Influence) "
-			if(points >= 10)
-				dat += "<a href='?src=\ref[src];purchase=brassknuckles'>Brass Knuckles</a><br>"
-			else
-				dat += "Brass Knuckles<br>"
-
-			dat += "(40 Influence) "
-			if(points >= 40)
-				dat += "<a href='?src=\ref[src];purchase=tommyammo'>Thompson Ammo</a><br>"
-			else
-				dat += "Thompson Ammo<br>"
-
-			dat += "<br>"
-
-			dat += "(60 Influence) "
-			if(points >= 65)
-				dat += "<a href='?src=\ref[src];purchase=thompson'>Thompson Machinegun</a><br>"
-			else
-				dat += "Thompson Machinegun <br>"
-			dat += "<br>"
-
 		////////////////////////
 		// STANDARD EQUIPMENT //
 		////////////////////////
@@ -236,10 +209,6 @@
 				if(gang.points >= 10)
 					item_type = /obj/item/weapon/switchblade
 					pointcost = 10
-			if("brassknuckles")
-				if(gang.points >= 10)
-					item_type = /obj/item/clothing/gloves/brassknuckles
-					pointcost = 10
 			if("pistol")
 				if(gang.points >= 25)
 					item_type = /obj/item/weapon/gun/projectile/automatic/pistol
@@ -252,14 +221,6 @@
 				if(gang.points >= 60)
 					item_type = /obj/item/weapon/gun/projectile/automatic/mini_uzi
 					pointcost = 60
-			if("thompson")
-				if(gang.points >= 60)
-					item_type = /obj/item/weapon/gun/projectile/automatic/tommygun
-					pointcost = 60
-			if("tommyammo")
-				if(gang.points >= 40)
-					item_type = /obj/item/ammo_box/magazine/tommygunm45
-					pointcost = 40
 			if("9mmammo")
 				if(gang.points >= 40)
 					item_type = /obj/item/ammo_box/magazine/uzim9mm
