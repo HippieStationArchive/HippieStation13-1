@@ -136,6 +136,18 @@
 			else
 				dat += "Brass Knuckles<br>"
 
+			dat += "(25 Influence) "
+			if(points >= 25)
+				dat += "<a href='?src=\ref[src];purchase=.38revolver'>.38 Revolver</a><br>"
+			else
+				dat += ".38 Revolver<br>"
+
+			dat += "(10 Influence) "
+			if(points >= 10)
+				dat += "<a href='?src=\ref[src];purchase=.38ammo'>.38 Ammo</a><br>"
+			else
+				dat += ".38 Ammo<br>"
+
 			dat += "(35 Influence) "
 			if(points >= 35)
 				dat += "<a href='?src=\ref[src];purchase=tommyammo'>Thompson Ammo</a><br>"
@@ -260,6 +272,14 @@
 				if(gang.points >= 35)
 					item_type = /obj/item/ammo_box/magazine/tommygunm45
 					pointcost = 35
+			if(".38ammo")
+				if(gang.points >= 10)
+					item_type = /obj/item/ammo_box/c38
+					pointcost = 10
+			if(".38revolver")
+				if(gang.points >= 25)
+					item_type = /obj/item/weapon/gun/projectile/revolver/rigatoni
+					pointcost = 25
 			if("9mmammo")
 				if(gang.points >= 40)
 					item_type = /obj/item/ammo_box/magazine/uzim9mm

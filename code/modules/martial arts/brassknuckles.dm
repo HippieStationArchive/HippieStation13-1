@@ -12,7 +12,22 @@
 					  "<span class='userdanger'>[A] hits you!</span>")
 	D.apply_damage(10, BRUTE)
 	playsound(get_turf(D), 'sound/weapons/punch1.ogg', 50, 1, -1)
+	D.apply_damage(10,STAMINA)
+	add_logs(A, D, "boxed")
+	if(D.getStaminaLoss() > 50)
+		var/knockout_prob = D.getStaminaLoss() + rand(-15,15)
+		if((D.stat != DEAD) && prob(knockout_prob))
+			D.visible_message("<span class='danger'>[A] has knocked [D] out with a haymaker!</span>", \
+								"<span class='userdanger'>[A] has knocked [D] out with a haymaker!</span>")
+			D.apply_effect(10,WEAKEN)
+			D.SetSleeping(5)
+			D.forcesay(hit_appends)
+		else if(D.lying)
+			D.forcesay(hit_appends)
 	return 1
+
+
+
 
 
 /datum/martial_art/rigatoni/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
@@ -37,3 +52,4 @@
 	if(H.get_item_by_slot(slot_gloves) == src)
 		style.remove(H)
 	return
+
