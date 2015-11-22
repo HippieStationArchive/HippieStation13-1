@@ -5,8 +5,7 @@
 
 
 /datum/martial_art/rigatoni/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	A << "<span class='warning'>Can't grab with brass knuckles!</span>"
-	return 1
+	return 0
 
 /datum/martial_art/rigatoni/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	D.visible_message("<span class='danger'>[A] [pick("punches", "kicks", "chops", "hits", "slams")] [D]!</span>", \
@@ -17,8 +16,7 @@
 
 
 /datum/martial_art/rigatoni/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	A << "<span class='warning'>Can't disarm with brass knuckles!</span>"
-	return 1
+	return 0
 
 
 /obj/item/clothing/gloves/brassknuckles
