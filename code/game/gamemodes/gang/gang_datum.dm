@@ -48,6 +48,9 @@
 		fighting_style = "martial"
 	if(name == "Rigatoni")
 		fighting_style = "mobster"
+	if(name == "Clandestine")
+		fighting_style = "stealth"
+
 
 	ganghud = new()
 	log_game("The [name] Gang has been created. Their gang color is [color].")
