@@ -47,14 +47,14 @@
 	desc = "A suit that protects against minor chemical spills. Has a purple stripe on the shoulder."
 	icon_state = "labcoat_tox"
 
-/obj/item/clothing/suit/labcoat/chameleon
+/obj/item/clothing/suit/labcoat/chameleon //For some reason the button up button was appearing where the action button should be for this, so until someone works that out this thing cant be buttoned up I guess
 	name = "labcoat"
 	icon_state = "labcoat"
 	item_state = "labcoat"
 	desc = "A reinforced labcoat that protects against much more than a minor chemical spill. Has a small dial inside it."
 	action_button_name = "Change"
 	origin_tech = "syndicate=2"
-	armor = list(melee = 50, bullet = 15, laser = 15, energy = 0, bomb = 0, bio = 50, rad = 0)
+	armor = list(melee = 35, bullet = 15, laser = 15, energy = 0, bomb = 0, bio = 50, rad = 0) //real armor is still better
 	var/list/clothing_choices = list()
 	burn_state = -1 //Won't burn in fires
 
