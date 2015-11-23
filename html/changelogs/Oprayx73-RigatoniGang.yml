@@ -35,3 +35,4 @@ delete-after: True
 changes: 
   - rscadd: "New Rigatoni Gang for gang gamemode!"
   - rscadd: "They can buy tommy guns, revolvers, and brass knuckles."
+  - rscadd: "Credits to Fragg for the revolver sprite."
