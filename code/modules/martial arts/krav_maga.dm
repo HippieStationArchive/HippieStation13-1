@@ -52,17 +52,24 @@
 				qdel(rgrab)
 
 		if(!talked)
-			var/obj/item/I
-			if(D.hand && istype(D.l_hand, /obj/item))
-				I = D.l_hand
-				if(D.drop_item())
-					A.put_in_hands(I)
-			else
-				if(istype(D.r_hand, /obj/item))
-					I = D.r_hand
-					if(D.drop_item())
-						A.put_in_hands(I)
-			if(I)
+			//Here we go. Robust disarming.
+			//Reason why we do so much robust checking is because we need to prioritize active hand for the opponent's item.
+			//HOWEVER, if the active hand actually contains nothing, we still should be able to snatch the weapon away from their OTHER hand.
+			//Normal disarming works by only disarming the active hand. However, since we sacrifice the push chance, which drops BOTH items,
+			//for this martial art, we allow the user to disarm the victim completely.
+			var/list/possible = list() //Have a list to keep track of possible items to snatch.
+			if(istype(D.l_hand, /obj/item))
+				possible += D.l_hand
+			if(istype(D.r_hand, /obj/item))
+				possible += D.r_hand
+			var/obj/item/I //Keep a picked "I" item variable.
+			if(possible && possible.len) //If we have a list of possible items...
+				if(D.hand) //Check which hand is active on the opponent. 1 = left hand, 0 = right hand.
+					I = possible[D.hand] //Set the picked item to active hand.
+				if(!I) //If active hand contains no weapon...
+					I = pick(possible) //Pick the other hand.
+			if(I && D.loc.allow_drop() && D.unEquip(I)) //We don't use drop_item due to the fact that it requires the item to be in active hand.
+				A.put_in_hands(I) //Put the disarmed item in attacker's hands.
 				D.visible_message("<span class='danger'>[A] has snatched [I] from [D]'s hands!</span>", \
 									"<span class='userdanger'>[I] was snatched from your hands by [A]!</span>")
 			else
