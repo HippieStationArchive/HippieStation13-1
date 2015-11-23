@@ -161,7 +161,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	D.forceMove(A.loc)
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
-	D.apply_effect(5, WEAKEN, armor_block)
+	D.apply_effect(5, WEAKEN)//, armor_block)
 	A.SpinAnimation(6,1, easeout = ELASTIC_EASING)
 	D.SpinAnimation(6,1, easeout = ELASTIC_EASING)
 	sleep(3)
@@ -171,7 +171,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	D.apply_damage(25, damtype, affecting, armor_block)
 	affecting = A.get_organ("chest")
 	armor_block = A.run_armor_check(affecting, "melee")
-	A.apply_effect(4, WEAKEN, armor_block)
+	A.apply_effect(4, WEAKEN)//, armor_block)
 	add_logs(A, D, "suplexed", addition="(Wrassling)")
 	playsound(D, pick("swing_hit"), 40, 1)
 	for(var/mob/M in range(2, D)) //Shaky camera effect
@@ -205,7 +205,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	A.forceMove(D.loc)
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
-	A.apply_effect(2, WEAKEN, armor_block)
+	A.apply_effect(2, WEAKEN)//, armor_block)
 	D.stunned = 999
 	D.update_canmove()
 	A.do_bounce_anim_dir(NORTH, 4, 8, easein = BACK_EASING, easeout = BOUNCE_EASING)
@@ -218,7 +218,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(10, damtype, affecting, armor_block)
-	D.apply_effect(2, WEAKEN, armor_block)
+	D.apply_effect(2, WEAKEN)//, armor_block)
 	A.changeNext_move(20) //Takes 2 seconds for another attack to pass
 	playsound(D, pick("swing_hit"), 40, 1)
 	add_logs(A, D, "chop dropped", addition="(Wrassling)")
@@ -250,7 +250,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	A.forceMove(D.loc)
 	var/obj/item/organ/limb/affecting = D.get_organ("head")
 	var/armor_block = D.run_armor_check(affecting, "melee")
-	D.apply_effect(3, WEAKEN, armor_block)
+	D.apply_effect(3, WEAKEN)//, armor_block)
 	D.apply_damage(10, damtype, affecting, armor_block)
 	shake_camera(D, 3, 1) //Chokeslammed into the ground
 	playsound(D, pick("swing_hit"), 40, 1)
@@ -284,7 +284,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	A.do_bounce_anim_dir(NORTH, 1, 8, easeout = BACK_EASING)
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
-	D.apply_effect(5, WEAKEN, armor_block)
+	D.apply_effect(5, WEAKEN)//, armor_block)
 	D.apply_damage(30, damtype, affecting, armor_block)
 	D.emote("scream")
 	shake_camera(D, 3, 3) //His BACK got broken, shake the fuck out of his screen.
@@ -325,13 +325,13 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	D.forceMove(A.loc)
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
-	A.apply_effect(5, WEAKEN, armor_block)
+	A.apply_effect(5, WEAKEN)//, armor_block)
 	A.apply_damage(40, STAMINA, affecting, armor_block) //This move will take lots of your stamina as a balancing measure
 	affecting = D.get_organ("head")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(40, damtype, affecting, armor_block)
 	D.emote("scream")
-	D.apply_effect(7, WEAKEN, armor_block) //You got FUCKED UP.
+	D.apply_effect(7, WEAKEN)//, armor_block) //You got FUCKED UP.
 	for(var/mob/M in range(4, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 3, 1)
@@ -358,13 +358,13 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
-	A.apply_effect(5, WEAKEN, armor_block)
+	A.apply_effect(5, WEAKEN)//, armor_block)
 	A.apply_damage(30, STAMINA, affecting, armor_block)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(35, damtype, affecting, armor_block)
 	D.emote("scream")
-	D.apply_effect(7, WEAKEN, armor_block)
+	D.apply_effect(7, WEAKEN)//, armor_block)
 	playsound(D, pick("swing_hit"), 60, 1)
 	add_logs(A, D, "corkscrew elbow dropped", addition="(Wrassling)")
 	for(var/mob/M in range(3, D)) //Shaky camera effect
@@ -395,13 +395,13 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
-	A.apply_effect(5, WEAKEN, armor_block)
+	A.apply_effect(5, WEAKEN)//, armor_block)
 	A.apply_damage(30, STAMINA, affecting, armor_block)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(25, damtype, affecting, armor_block)
 	D.emote("scream")
-	D.apply_effect(7, WEAKEN, armor_block)
+	D.apply_effect(7, WEAKEN)//, armor_block)
 	playsound(D, pick("swing_hit"), 60, 1)
 	add_logs(A, D, "RKO'd", addition="(Wrassling)")
 	for(var/mob/M in range(3, D)) //Shaky camera effect
@@ -427,7 +427,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	A.pixel_y = initial(A.pixel_y)
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
-	A.apply_effect(5, WEAKEN, armor_block)
+	A.apply_effect(5, WEAKEN)//, armor_block)
 	A.apply_damage(10, STAMINA, affecting, armor_block)
 	A.do_bounce_anim_dir(NORTH, 2, 6, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	affecting = D.get_organ("chest")
@@ -435,7 +435,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	D.apply_damage(15, damtype, affecting, armor_block) //Doesn't do too much damage compared to other moves
 	D.apply_damage(30, STAMINA, affecting, armor_block) //Still does stamina damage to compensate
 	D.do_bounce_anim_dir(NORTH, 2, 4, easein = BACK_EASING, easeout = BOUNCE_EASING)
-	D.apply_effect(7, WEAKEN, armor_block)
+	D.apply_effect(7, WEAKEN)//, armor_block)
 	playsound(D, 'sound/weapons/push_hard.ogg', 60, 1) //Sound signalises that this is not a high-damage attack
 	add_logs(A, D, "moonsaulted", addition="(Wrassling)")
 	for(var/mob/M in range(2, D)) //Shaky camera effect
@@ -461,7 +461,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	D.forceMove(T.loc)
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
-	D.apply_effect(6, WEAKEN, armor_block)
+	D.apply_effect(6, WEAKEN)//, armor_block)
 	D.apply_damage(25, damtype, affecting, armor_block)
 	// D.do_bounce_anim_dir(SOUTH, 4, 2, easein = BOUNCE_EASING)
 	// A.do_bounce_anim_dir(SOUTH, 4, 2, easein = BOUNCE_EASING)

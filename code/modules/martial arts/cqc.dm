@@ -19,6 +19,10 @@
 /datum/martial_art/cqc
 	name = "CQC"
 	var/cooldown = 0
+	var/damtype = BRUTE
+
+/datum/martial_art/cqc/stamina //The safer type of cqc
+	damtype = STAMINA
 
 /datum/martial_art/cqc/teach(var/mob/living/carbon/human/H, make_temporary)
 	..()
@@ -80,17 +84,24 @@
 				qdel(rgrab)
 
 		if(!talked)
-			var/obj/item/I
-			if(D.hand && istype(D.l_hand, /obj/item))
-				I = D.l_hand
-				if(D.drop_item())
-					A.put_in_hands(I)
-			else
-				if(istype(D.r_hand, /obj/item))
-					I = D.r_hand
-					if(D.drop_item())
-						A.put_in_hands(I)
-			if(I)
+			//Here we go. Robust disarming.
+			//Reason why we do so much robust checking is because we need to prioritize active hand for the opponent's item.
+			//HOWEVER, if the active hand actually contains nothing, we still should be able to snatch the weapon away from their OTHER hand.
+			//Normal disarming works by only disarming the active hand. However, since we sacrifice the push chance, which drops BOTH items,
+			//for this martial art, we allow the user to disarm the victim completely.
+			var/list/possible = list() //Have a list to keep track of possible items to snatch.
+			if(istype(D.l_hand, /obj/item))
+				possible += D.l_hand
+			if(istype(D.r_hand, /obj/item))
+				possible += D.r_hand
+			var/obj/item/I //Keep a picked "I" item variable.
+			if(possible && possible.len) //If we have a list of possible items...
+				if(D.hand) //Check which hand is active on the opponent. 1 = left hand, 0 = right hand.
+					I = possible[D.hand] //Set the picked item to active hand.
+				if(!I) //If active hand contains no weapon...
+					I = pick(possible) //Pick the other hand.
+			if(I && D.loc.allow_drop() && D.unEquip(I)) //We don't use drop_item due to the fact that it requires the item to be in active hand.
+				A.put_in_hands(I) //Put the disarmed item in attacker's hands.
 				D.visible_message("<span class='danger'>[A] has snatched [I] from [D]'s hands!</span>", \
 									"<span class='userdanger'>[I] was snatched from your hands by [A]!</span>")
 			else
@@ -116,7 +127,7 @@
 					  "<span class='userdanger'>[A] [msg] you!</span>")
 	var/obj/item/organ/limb/L = D.get_organ(ran_zone(A.zone_sel.selecting))
 	var/armor_block = D.run_armor_check(L, "melee")
-	D.apply_damage(rand(1,4), BRUTE, L, armor_block) //Low as fuck brute to compensate for combo potential
+	D.apply_damage(rand(1,4), damtype, L, armor_block) //Low as fuck brute to compensate for combo potential
 	playsound(get_turf(D), get_sfx("punch"), 50, 1, -2)
 	A.changeNext_move(4) //Can attack quickly
 	return 1
@@ -209,14 +220,14 @@
 			add_logs(A, D, "face-slammed", addition="(CQC)")
 			var/obj/item/organ/limb/L = D.get_organ("head")
 			var/armor_block = D.run_armor_check(L, "melee")
-			D.apply_damage(9, BRUTE, L, armor_block) //Low as fuck brute to compensate for combo potential
+			D.apply_damage(9, damtype, L, armor_block) //Low as fuck brute to compensate for combo potential
 			D.apply_effect(10, PARALYZE, armor_block) //Will be decreased based on head armor, too
 			D.lying = 90 //Consistently be angled that way when pinned down for AESTHETICS
 			A.set_dir(EAST) //face the victim
 			D.set_dir(SOUTH) //face up
 			D.do_bounce_anim_dir(NORTH, 4, 8, easeout = BOUNCE_EASING)
 			A.changeNext_move(30) //3 seconds delay before next move
-			A.Stun(3) //Sort of long stun
+			// A.Stun(3) //Sort of long stun
 			qdel(G)
 			return 1
 		else
@@ -229,14 +240,14 @@
 	var/armor_block = D.run_armor_check(L, "melee")
 	var/atom/throw_target = get_edge_target_turf(D, get_dir(A, get_step_away(D, A)))
 	D.throw_at(throw_target, pick(2,4), 2)	//Throws the target away
-	D.apply_damage(9, BRUTE, L, armor_block) //Low as fuck brute to compensate for combo potential
+	D.apply_damage(9, damtype, L, armor_block) //Low as fuck brute to compensate for combo potential
 	D.apply_effect(8, PARALYZE, armor_block) //Will be decreased based on head armor, too
 	A.do_attack_animation(D)
 	shake_camera(D, 3, 1)
 	playsound(A, get_sfx("punch"), 50, 1, -2)
 	playsound(D, pick("swing_hit"), 50, 1, -1)
 	add_logs(A, D, "roundhouse kicked", addition="(CQC)")
-	A.Stun(2) //Stun for two ticks - ranging from 2 to 4 seconds
+	// A.Stun(2) //Stun for two ticks - ranging from 2 to 4 seconds
 	A.changeNext_move(20) //Gives you a sensible delay
 
 //ITEMS
@@ -253,6 +264,11 @@
 	cold_protection = HANDS
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	var/datum/martial_art/cqc/style = new
+
+/obj/item/clothing/gloves/cqc/holo
+	name = "CQC VR Training Module"
+	desc = "Gloves that let you train in the arts of CQC."
+	style = new /datum/martial_art/cqc/stamina
 
 /obj/item/clothing/gloves/cqc/equipped(mob/user, slot)
 	if(!ishuman(user))
