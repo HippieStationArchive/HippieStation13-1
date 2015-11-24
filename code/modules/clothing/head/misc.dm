@@ -175,6 +175,23 @@
 	icon_state = "fedora"
 	item_state = "fedora"
 	desc = "A really cool hat if you're a mobster. A really lame hat if you're not."
+	action_button_name = "Tip Fedora"
+
+/obj/item/clothing/head/fedora/attack_self(mob/user)
+	var/mob/living/carbon/human/H = user
+	if(user.gender == MALE)
+		user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to girls.</span>")
+		user.say("M'lady.")
+		sleep(10)
+		H.facial_hair_style = "Neckbeard"
+		H.adjustBrainLoss(10)
+	else
+		user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to guys.</span>")
+		user.say("M'lord.")
+		sleep(10)
+		H.facial_hair_style = "Neckbeard"
+		H.adjustBrainLoss(10)
+	return
 
 /obj/item/clothing/head/fedora/suicide_act(mob/user)
 	if(user.gender == FEMALE)
@@ -185,6 +202,12 @@
 	sleep(10)
 	H.facial_hair_style = "Neckbeard"
 	return(BRUTELOSS)
+
+/obj/item/clothing/head/fedora/detective
+	name = "detective's fedora"
+	desc = "There's only one man who can sniff out the dirty stench of crime, and he's likely wearing this hat."
+	icon_state = "detective"
+	armor = list(melee = 50, bullet = 5, laser = 25, energy = 10, bomb = 0, bio = 0, rad = 0)
 
 /obj/item/clothing/head/sombrero
 	name = "sombrero"
