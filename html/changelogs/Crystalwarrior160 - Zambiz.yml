@@ -1,6 +1,0 @@
-author: Crystalwarrior160
-delete-after: True
-changes:
-  - rscadd: "Adds antag hud for player zombies + lets zombies see infected people"
-  - tweak: "You can now infect dead people as a zombie."
-  - bugfix: "Fixes some bugs with reposession of zombies"
