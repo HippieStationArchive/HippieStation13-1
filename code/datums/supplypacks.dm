@@ -240,7 +240,7 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	                /obj/item/device/camera,
 	                /obj/item/device/taperecorder,
 	                /obj/item/toy/crayon/white,
-	                /obj/item/clothing/head/det_hat)
+	                /obj/item/clothing/head/fedora/detective)
 	cost = 20
 	containername ="forensics crate"
 
