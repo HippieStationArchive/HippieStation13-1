@@ -86,6 +86,8 @@
 /mob/living/simple_animal/hostile/zombie/Login()
 	..()
 	UpdateInfectionImage()
+	if(mind)
+		ticker.mode.update_zombie_icons_added(mind)
 	src << "<b><font size = 3><font color = red>You have transformed into a Zombie. You exist only for one purpose: to spread the infection.</font color></font size></b>"
 	src << "Clicking on the doors will let you <b>force-open</b> them. Time taken depends on if the door is bolted, welded or both."
 	src << "Clicking on animal corpses will make you <b>feast</b> on them, restoring your health."
@@ -94,6 +96,8 @@
 
 /mob/living/simple_animal/hostile/zombie/Logout()
 	..()
+	if(mind)
+		ticker.mode.update_zombie_icons_removed(mind)
 	UpdateInfectionImage()
 
 /mob/living/simple_animal/hostile/zombie/AttackingTarget()
@@ -104,10 +108,15 @@
 				var/mob/living/carbon/human/H = L
 				attacktext = "bites"
 				attack_sound = list('sound/weapons/bite.ogg')
-				if(H.ContractDisease(new /datum/disease/zombie)) //This does checks for bioclothes, etc.
-					src << "<span class='warning'>You have succesfully infected [H]!"
+				var/datum/disease/zombie/Z = new()
+				if(H.ContractDisease(Z)) //This does checks for bioclothes, etc.
+					src << "<span class='userdanger'>You have succesfully infected [H]!</span>"
+					UpdateInfectionImage()
 				else
-					src << "<span class='warning'>You couldn't quite bite into [H]. They must be wearing protective clothing!"
+					if(H.HasDisease(Z))
+						src << "<span class='userdanger'>[H] is already infected!</span>"
+					else
+						src << "<span class='userdanger'>You couldn't quite bite into [H].</span>"
 		else if (L.stat) //Not human, feast!
 			playsound(loc, 'sound/weapons/slice.ogg', 50, 1, -1)
 			visible_message("<span class='danger'>[src] begins consuming [L]!</span>",\
@@ -149,6 +158,10 @@
 	if(stat != DEAD)
 		death(0)
 	loc = Z
+	for(var/mob/dead/observer/O in player_list)
+		if(O.ckey == ckey)
+			O.reenter_corpse()
+			break
 	if(mind)
 		mind.transfer_to(Z)
 	else
@@ -161,11 +174,11 @@
 /mob/living/simple_animal/hostile/zombie/proc/UpdateInfectionImage()
 	if (client)
 		for(var/image/I in client.images)
-			if(dd_hasprefix_case(I.icon_state, "z-virus"))
+			if(dd_hasprefix_case(I.icon_state, "zvirus"))
 				qdel(I)
 		for (var/mob/living/carbon/human/H in mob_list)
 			if(H.HasDisease(/datum/disease/zombie))
-				var/datum/disease/zombie/Z = locate(H.viruses)
+				var/datum/disease/zombie/Z = locate() in H.viruses
 				if(Z)
-					var/I = image('icons/mob/zombie.dmi', loc = H, icon_state = "z-virus[Z.stage]")
+					var/I = image('icons/mob/zombie.dmi', loc = H, icon_state = "zvirus[Z.stage]")
 					client.images += I

@@ -15,8 +15,9 @@ var/list/zombie_cure = list()
 	severity = BIOHAZARD
 	stage_prob = 4
 	visibility_flags = HIDDEN_SCANNER
+	disease_flags = CURABLE|CAN_CARRY
 	agent = "Z-Virus Beta"
-
+	max_stages = 5
 	undead = 1 //stage_act() will be called even if you're dead.
 
 /datum/disease/zombie/New()
@@ -30,6 +31,8 @@ var/list/zombie_cure = list()
 	for(var/str in zombie_cure)
 		cure_text += "[length(cure_text) > 0 ? "&" : ""][str]"
 	cures = zombie_cure
+	spawn(0)
+		ticker.mode.update_zombie_icons()
 
 /datum/disease/zombie/cure()
 	..()
@@ -96,8 +99,9 @@ var/list/zombie_cure = list()
 	else
 		if(stage >= max_stages && ishuman(affected_mob))
 			var/mob/living/carbon/human/H = affected_mob
-			H.Zombify()
+			spawn(30)
+				H.Zombify()
 			cure()
 			return
-		if(prob(stage_prob/2)) //6 probability
+		if(prob(stage_prob)) //Faster transformation that way
 			stage = min(stage+1, max_stages)
