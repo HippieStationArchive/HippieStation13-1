@@ -392,3 +392,51 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
 	fire_sound = 'sound/weapons/shotgun.ogg'
 	w_class = 5
+
+// Triple Threat //
+
+/obj/item/weapon/gun/projectile/revolver/triplebarrel // for biker bar
+	name = "triple-barreled shotgun"
+	desc = "A modded version of a true classic."
+	icon_state = "triplethreat"
+	item_state = "triplethreat"
+	w_class = 4
+	force = 10
+	flags = CONDUCT
+	slot_flags = SLOT_BACK
+	origin_tech = "combat=4;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/triple
+	fire_sound = 'sound/weapons/shotgun.ogg'
+
+// Lever Action //
+
+/obj/item/weapon/gun/projectile/shotgun/leveraction //for biker bar
+	name = "lever-action shotgun"
+	desc = "A short shotgun with a small magazine and a carved grip."
+	icon_state = "leveraction"
+	item_state = "gun"
+	slot_flags = SLOT_BELT
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/lever
+	fire_sound = 'sound/weapons/shotgun.ogg'
+	w_class = 3
+
+
+// breechloader
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/musket
+	name = "breech-loading musket"
+	desc = "This thing looks old!"
+	icon_state = "musket"
+	item_state = "musket"
+	w_class = 4
+	force = 10
+	slot_flags = SLOT_BACK
+	origin_tech = "combat=2;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/musket
+	fire_sound = 'sound/weapons/handcannon.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/rifle_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
+	chamber_sound = null
+	spread = 7
+	unique_rename = 0
+	unique_reskin = 0
