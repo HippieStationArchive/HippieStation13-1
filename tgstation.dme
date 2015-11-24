@@ -1597,7 +1597,6 @@
 #include "code\modules\trophys\necklaces.dm"
 #include "code\orphaned procs\AStar.dm"
 #include "code\orphaned procs\dbcore.dm"
-#include "code\orphaned procs\generic.dm"
 #include "code\orphaned procs\priority_announce.dm"
 #include "code\orphaned procs\statistics.dm"
 #include "interface\interface.dm"
