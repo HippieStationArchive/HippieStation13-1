@@ -92,7 +92,7 @@
 	src << "Clicking on the doors will let you <b>force-open</b> them. Time taken depends on if the door is bolted, welded or both."
 	src << "Clicking on animal corpses will make you <b>feast</b> on them, restoring your health."
 	src << "You will spread the infection through <b>bites</b>. they have a random chance of happening when you attack a human being."
-	src << "The zombie disease will make zombies <b>even out of dead humans</b>, but you can only <b>spread it to living humans</b>. Therefore it's not important to keep your victims alive."
+	src << "The zombie disease will make zombies <b>even out of dead humans</b>. Therefore it's better to kill your victims as soon as possible."
 
 /mob/living/simple_animal/hostile/zombie/Logout()
 	..()
