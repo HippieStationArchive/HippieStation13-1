@@ -296,11 +296,10 @@
 				user << "<span class='notice'>[D] has not enough welding fuel to refill!</span>"
 				return
 		else
-			message_admins("[key_name_admin(user)] triggered a fueltank explosion.")
-			log_game("[key_name(user)] triggered a fueltank explosion.")
+			message_admins("[key_name_admin(user)] triggered a chemtank explosion.")
+			log_game("[key_name(user)] triggered a chemtank explosion.")
+			user.attack_log += text("\[[time_stamp()]\] <font color='red'>Has detonated a chem tank @ [D ? "[D.x],[D.y],[D.z]" : "UNKNOWN LOCATION"]</font>")
 			user << "<span class='warning'>That was stupid of you.</span>"
-			O.reagents.chem_temp = 1000
-			O.reagents.handle_reactions()
 			if(D)
 				D.boom()
 			return

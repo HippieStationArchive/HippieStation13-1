@@ -252,7 +252,7 @@
 
 /datum/spellbook_entry/item/staffdoor
 	name = "Staff of Door Creation"
-	desc = "A particular staff that can mold solid metal into ornate wooden doors. Useful for getting around in the absence of other transportation. Does not work on glass."
+	desc = "A particular staff that can mold solid metal into ornate doors. Useful for getting around in the absence of other transportation. Does not work on glass."
 	item_path = /obj/item/weapon/gun/magic/staff/door
 	log_name = "SD"
 	cost = 1
@@ -310,6 +310,13 @@
 	desc = "A magical contract binding an apprentice wizard to your service, using it will summon them to your side."
 	item_path = /obj/item/weapon/antag_spawner/contract
 	log_name = "CT"
+
+/datum/spellbook_entry/item/plasma_fist
+	name = "Plasma Fist Scroll"
+	desc = "Consider this more of a \"Spell Bundle\". This artifact is NOT reccomended for weaklings. An ancient scroll that will teach you the art of Plasma Fist. With it's various combos you can knock people down in the area around you, light them on fire and finally perform the PLASMA FIST that will gib your target."
+	item_path = /obj/item/weapon/plasma_fist_scroll
+	log_name = "PF"
+	cost = 8 //VERY costly. Can only buy lvl1 magic missile/fireball/etc.
 
 /datum/spellbook_entry/item/bloodbottle
 	name = "Bottle of Blood"

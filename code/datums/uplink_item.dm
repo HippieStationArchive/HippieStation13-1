@@ -127,6 +127,13 @@ var/list/uplink_items = list()
 	cost = 10 //Costly, but for a good reason
 	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
 
+/datum/uplink_item/job_specific/labcoat
+	name = "Armored Labcoat"
+	desc = "An armored labcoat with the ability to change how it looks into any standard Nanotrasen issue labcoat."
+	item = /obj/item/clothing/suit/labcoat/chameleon
+	cost = 4
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Research Director", "Scientist", "Roboticist") //all the labcoat jobs
+
 //SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
