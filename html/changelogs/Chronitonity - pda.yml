@@ -34,4 +34,5 @@ delete-after: True
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
   - tweak: "You no longer need to have a PDA in hand to put in or take out an ID or pen."
+  - tweak: "You can now attatch or detatch silencers and flashlights from guns that arent in your hand."
   - rscadd: "Adds emoting bans."
