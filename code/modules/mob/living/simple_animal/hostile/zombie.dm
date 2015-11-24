@@ -158,9 +158,9 @@
 	if(stat != DEAD)
 		death(0)
 	loc = Z
-	for(var/mob/dead/observer/O in player_list)
-		if(O.ckey == ckey)
-			O.reenter_corpse()
+	for(var/mob/dead/observer/ghost in player_list)
+		if(H.real_name == ghost.real_name)
+			ghost.reenter_corpse()
 			break
 	if(mind)
 		mind.transfer_to(Z)
