@@ -159,7 +159,7 @@
 		death(0)
 	loc = Z
 	for(var/mob/dead/observer/ghost in player_list)
-		if(H.real_name == ghost.real_name)
+		if(real_name == ghost.real_name)
 			ghost.reenter_corpse()
 			break
 	if(mind)

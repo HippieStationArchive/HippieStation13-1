@@ -99,8 +99,7 @@ var/list/zombie_cure = list()
 	else
 		if(stage >= max_stages && ishuman(affected_mob))
 			var/mob/living/carbon/human/H = affected_mob
-			spawn(30)
-				H.Zombify()
+			H.Zombify()
 			cure()
 			return
 		if(prob(stage_prob)) //Faster transformation that way
