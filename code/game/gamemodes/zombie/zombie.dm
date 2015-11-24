@@ -69,10 +69,9 @@
 			if(zombie_mind.current && zombie_mind.current.stat != DEAD)
 				return 0
 
-		var/datum/disease/D = new /datum/disease/zombie() //ugly but unfortunately needed
 		for(var/mob/living/carbon/human/H in living_mob_list)
 			if(H.mind)
-				if(H.HasDisease(D))
+				if(H.HasDisease(/datum/disease/zombie))
 					return 0
 
 	..()
@@ -80,12 +79,11 @@
 /datum/game_mode/zombie/proc/check_zombie_victory()
 	if(SSshuttle.emergency.mode != SHUTTLE_ENDGAME)
 		return 0
-	var/datum/disease/D = new /datum/disease/zombie()
 	for(var/mob/living/carbon/human/H in living_mob_list)
-		if (H.HasDisease(D))
+		if (H.HasDisease(/datum/disease/zombie))
 			live_zombies++
-	for(var/mob/living/simple_animal/hostile/zombie in living_mob_list)
-		if(zombie.stat != DEAD)
+	for(var/mob/living/simple_animal/hostile/zombie/Z in mob_list)
+		if(Z.stat != DEAD)
 			live_zombies++
 	if(live_zombies >= (num_players() * 0.8)) //80% of the crew infected
 		return 1
@@ -93,13 +91,21 @@
 		return 0
 
 /datum/game_mode/proc/add_zombie(datum/mind/zombie_mind)
-	zombie_infectees |= zombie_mind
-	zombie_mind.special_role = "Zombie"
+	if(zombie_mind)
+		zombie_infectees |= zombie_mind
+		zombie_mind.special_role = "Zombie"
+		ticker.mode.update_zombie_icons_added(zombie_mind)
 
 /datum/game_mode/proc/remove_zombie(datum/mind/zombie_mind)
-	zombie_infectees.Remove(zombie_mind)
-	zombie_mind.special_role = null
+	if(zombie_mind)
+		zombie_infectees.Remove(zombie_mind)
+		zombie_mind.special_role = null
+		ticker.mode.update_zombie_icons_removed(zombie_mind)
 
+/datum/game_mode/proc/update_zombie_icons()
+	for(var/mob/living/simple_animal/hostile/zombie/Z in mob_list)
+		if(Z.stat != DEAD)
+			Z.UpdateInfectionImage()
 
 /datum/game_mode/zombie/declare_completion()
 	if(check_zombie_victory())
@@ -110,3 +116,13 @@
 		feedback_set_details("round_end_result","loss - staff stopped the zombies")
 		feedback_set("round_end_result",live_zombies)
 		world << "<span class='userdanger'>The staff managed to contain the zombie infestation!</span>"
+
+/datum/game_mode/proc/update_zombie_icons_added(datum/mind/zombie_mind)
+	var/datum/atom_hud/antag/zombie_hud = huds[ANTAG_HUD_ZOMBIE]
+	zombie_hud.join_hud(zombie_mind.current)
+	set_antag_hud(zombie_mind.current, "zombie")
+
+/datum/game_mode/proc/update_zombie_icons_removed(datum/mind/zombie_mind)
+	var/datum/atom_hud/antag/zombie_hud = huds[ANTAG_HUD_ZOMBIE]
+	zombie_hud.leave_hud(zombie_mind.current)
+	set_antag_hud(zombie_mind.current, null)

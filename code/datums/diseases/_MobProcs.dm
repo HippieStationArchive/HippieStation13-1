@@ -1,13 +1,17 @@
-
-/mob/proc/HasDisease(datum/disease/D)
+//Provide an actual disease datum if you don't want advance diseases to be differentiated or something.
+/mob/proc/HasDisease(D)
 	for(var/datum/disease/DD in viruses)
-		if(D.IsSame(DD))
+		if(istype(D, /datum/disease)) //Were we provided a disease?
+			var/datum/disease/I = D
+			if(I.IsSame(DD))
+				return 1
+		else if(DD.type == D) //Were we provided a type?
 			return 1
 	return 0
 
 
 /mob/proc/CanContractDisease(datum/disease/D)
-	if(stat == DEAD)
+	if(stat == DEAD && !D.undead)
 		return 0
 
 	if(D.GetDiseaseID() in resistances)

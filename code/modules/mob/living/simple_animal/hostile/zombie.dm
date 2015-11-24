@@ -85,11 +85,16 @@
 
 /mob/living/simple_animal/hostile/zombie/Login()
 	..()
+	UpdateInfectionImage()
 	src << "<b><font size = 3><font color = red>You have transformed into a Zombie. You exist only for one purpose: to spread the infection.</font color></font size></b>"
 	src << "Clicking on the doors will let you <b>force-open</b> them. Time taken depends on if the door is bolted, welded or both."
 	src << "Clicking on animal corpses will make you <b>feast</b> on them, restoring your health."
 	src << "You will spread the infection through <b>bites</b>. they have a random chance of happening when you attack a human being."
 	src << "The zombie disease will make zombies <b>even out of dead humans</b>, but you can only <b>spread it to living humans</b>. Therefore it's not important to keep your victims alive."
+
+/mob/living/simple_animal/hostile/zombie/Logout()
+	..()
+	UpdateInfectionImage()
 
 /mob/living/simple_animal/hostile/zombie/AttackingTarget()
 	if(istype(target, /mob/living))
@@ -128,27 +133,39 @@
 			stored_corpse.key = key
 		qdel(src)
 
-/proc/Zombify(mob/living/carbon/human/H)
-	if(!istype(H)) return
-	H.set_species(/datum/species/zombie)
-	var/mob/living/simple_animal/hostile/zombie/Z = new /mob/living/simple_animal/hostile/zombie(H.loc, H.ckey)
-	if(H.wear_suit)
-		var/obj/item/clothing/suit/armor/A = H.wear_suit
+/mob/living/carbon/human/proc/Zombify()
+	// if(istype(loc, /mob/living/simple_animal/hostile/zombie)) return
+	set_species(/datum/species/zombie)
+	var/mob/living/simple_animal/hostile/zombie/Z = new /mob/living/simple_animal/hostile/zombie(loc, ckey)
+	if(wear_suit)
+		var/obj/item/clothing/suit/armor/A = wear_suit
 		if(A.armor)
-			armor = A.armor //Set zombie's armor to that
+			Z.z_armor = A.armor //Set zombie's armor to that
 	Z.health = Z.maxHealth
 	Z.faction = list("zombie")
-	Z.appearance = H.appearance
+	Z.appearance = appearance
 	Z.transform = matrix()
 	Z.pixel_y = 0
-	if(H.stat != DEAD)
-		H.death(0)
-	H.loc = Z
-	if(H.mind)
-		H.mind.transfer_to(Z)
+	if(stat != DEAD)
+		death(0)
+	loc = Z
+	if(mind)
+		mind.transfer_to(Z)
 	else
-		Z.key = H.key
-	Z.stored_corpse = H
+		Z.key = key
+	Z.stored_corpse = src
 	ticker.mode.add_zombie(Z.mind)
 	playsound(Z.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 40, 1, -2)
 	Z.visible_message("<span class='danger'>[Z] staggers to their feet!</span>")
+
+/mob/living/simple_animal/hostile/zombie/proc/UpdateInfectionImage()
+	if (client)
+		for(var/image/I in client.images)
+			if(dd_hasprefix_case(I.icon_state, "z-virus"))
+				qdel(I)
+		for (var/mob/living/carbon/human/H in mob_list)
+			if(H.HasDisease(/datum/disease/zombie))
+				var/datum/disease/zombie/Z = locate(H.viruses)
+				if(Z)
+					var/I = image('icons/mob/zombie.dmi', loc = H, icon_state = "z-virus[Z.stage]")
+					client.images += I

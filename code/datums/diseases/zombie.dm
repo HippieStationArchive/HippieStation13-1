@@ -19,12 +19,6 @@ var/list/zombie_cure = list()
 
 	undead = 1 //stage_act() will be called even if you're dead.
 
-	stage1	= null
-	stage2	= null
-	stage3	= null
-	stage4	= null
-	stage5	= null
-
 /datum/disease/zombie/New()
 	..()
 	if(!zombie_cure || !zombie_cure.len) //Randomize zombie cure every round
@@ -37,9 +31,9 @@ var/list/zombie_cure = list()
 		cure_text += "[length(cure_text) > 0 ? "&" : ""][str]"
 	cures = zombie_cure
 
-// /datum/disease/zombie/cure()
-// 	ticker.mode.remove_zombie(affected_mob.mind) //Unneeded, infected people aren't considered antags until transformation
-// 	..()
+/datum/disease/zombie/cure()
+	..()
+	ticker.mode.update_zombie_icons()
 
 /datum/disease/zombie/has_cure()
 	if(affected_mob.stat == DEAD) //Cure won't work if the disease holder is already dead. The only thing to do now is to get rid of the corpse.
@@ -47,7 +41,16 @@ var/list/zombie_cure = list()
 	..()
 
 /datum/disease/zombie/stage_act()
+	if(ishuman(affected_mob))
+		var/mob/living/carbon/human/H = affected_mob
+		if(H.dna.species.id == "zombie")
+			cure()
+			return //So repeated zombifications don't happen.
+
+	var/prev_stage = stage
 	..()
+	if(stage != prev_stage) //stage changed
+		ticker.mode.update_zombie_icons()
 	if(affected_mob.stat != DEAD) //So flavortext doesn't show up on dead people. Transformation should still happen when dead though.
 		if(stage >= max_stages)
 			stage = max_stages - 1 //We're not dead yet, so let's switch back to stage 4
@@ -73,7 +76,7 @@ var/list/zombie_cure = list()
 					affected_mob.overeatduration = max(affected_mob.overeatduration - 25, 0)
 					affected_mob.nutrition = max(affected_mob.nutrition - 25, 0)
 			if(4)
-				else if(prob(15))
+				if(prob(15))
 					affected_mob << "<span class='notice'>[pick("You feel hot.", "You feel like you're burning.")]</span>"
 					if(affected_mob.bodytemperature < BODYTEMP_HEAT_DAMAGE_LIMIT)
 						affected_mob.bodytemperature = min(affected_mob.bodytemperature + (20 * stage), BODYTEMP_HEAT_DAMAGE_LIMIT - 1)
@@ -91,9 +94,10 @@ var/list/zombie_cure = list()
 				else if(prob(10))
 					affected_mob.emote(pick("cough", "sneeze", "groan", "gasp"))
 	else
-		if(stage >= max_stages)
-			Zombify(affected_mob)
+		if(stage >= max_stages && ishuman(affected_mob))
+			var/mob/living/carbon/human/H = affected_mob
+			H.Zombify()
 			cure()
 			return
-		if(prob(stage_prob)) //DOUBLE the probability to mutate when dead due to the fact that we still call parent
+		if(prob(stage_prob/2)) //6 probability
 			stage = min(stage+1, max_stages)
