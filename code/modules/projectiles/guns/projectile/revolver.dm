@@ -255,3 +255,12 @@
 
 		user.visible_message("<span class='danger'>*click*</span>")
 		playsound(user, 'sound/weapons/empty.ogg', 100, 1)
+
+
+/obj/item/weapon/gun/projectile/revolver/rigatoni
+	name = "italian revolver"
+	desc = "A black snubnosed .38 revolver. Very italian."
+	icon_state = "rigavolver"
+	item_state = "rigavolver"
+	origin_tech = "combat=2;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rev38

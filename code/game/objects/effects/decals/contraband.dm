@@ -54,7 +54,7 @@ list(name = "- Punch Shit", desc = " Fight things for no reason, like a man!"),
 list(name = "- The Griffin", desc = " The Griffin commands you to be the worst you can be. Will you?"),
 list(name = "- Lizard", desc = " This lewd poster depicts a lizard preparing to mate."),
 list(name = "- Free Drone", desc = " This poster commemorates the bravery of the rogue drone banned by CentComm."),
-list(name = "- Busty Backdoor Xeno Babes 6", desc = " Get a load, or give, of these all natural Xenos!") )
+list(name = "- The Guy From Boston", desc = "HEY ITS THE GUY FROM  BOSTON BABY AND IM FUCKING PISSED OFF!") )
 
 // LEGIT
 
