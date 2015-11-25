@@ -162,18 +162,6 @@
 			else
 				message = "<B>[src]</B> [message]"
 
-		if ("megascream")	//Sorry ladies, only got megascream sounds for males right now.
-			var/sound = pick('sound/misc/scream_male_mega1.ogg', 'sound/misc/scream_male_mega2.ogg')
-			if(gender == FEMALE)
-				sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
-			if(isalien(src))
-				sound = pick('sound/voice/hiss6.ogg')
-			playsound(src.loc, sound, 50, 1, 10, 1.2)
-			message = "<B>[src]</B> screams at the top of their lungs!"
-			src.adjustOxyLoss(10)
-			m_type = 2
-			delay = 20
-
 		if ("nod","nods")
 			message = "<B>[src]</B> nods."
 			m_type = 1
