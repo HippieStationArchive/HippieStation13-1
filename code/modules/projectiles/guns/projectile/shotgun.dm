@@ -210,6 +210,7 @@
 	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
 	chamber_sound = null
 
+
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/attackby(obj/item/A, mob/user, params)
 	..()
 	if(istype(A, /obj/item/stack/cable_coil) && !sawn_state)
@@ -222,6 +223,63 @@
 		else
 			user << "<span class='warning'>You need at least ten lengths of cable if you want to make a sling!</span>"
 			return
+
+// CANE SHOTGUN //
+
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane
+	name = "cane"
+	desc = "A cane used by a true gentlemen. Or a clown."
+	icon_state = "cane"
+	item_state = "cane"
+	w_class = 2
+	force = 10
+	slot_flags = null
+	origin_tech = "" // NO GIVAWAYS
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/improvised
+	fire_sound = 'sound/weapons/shotgun.ogg'
+	sawn_desc = "I'm sorry, but why did you saw your cane in the first place?"
+	unique_reskin = 1
+	mag_load_sound = null
+	mag_unload_sound = null
+	chamber_sound = null
+	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
+	fire_sound = 'sound/weapons/Gunshot_silenced.ogg'
+	suppressed = 1
+	var/list/cane_choices = list()
+
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/New()
+	..()
+	for(var/U in typesof(/obj/item/weapon/cane)-(/obj/item/weapon/cane/))
+		var/obj/item/weapon/cane/V = new U
+		src.cane_choices += V
+	return
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/verb/change()
+
+	set src in usr
+
+	var/obj/item/weapon/cane/A
+	A = input("Select Design to change it to", "BOOYEA", A) in cane_choices
+	if(!A)
+		return
+
+	if(usr.stat != CONSCIOUS)
+		return
+
+	if(sawn_state == SAWN_OFF)
+		usr << "<span class='warning'>\The [src] is shortened! You can't change it's deisgn!</span>"
+		return
+
+	desc = null
+
+	desc = A.desc
+	name = A.name
+	attack_verb = A.attack_verb
+	icon_state = A.icon_state
+	item_state = A.item_state
+	usr.update_inv_wear_suit()
+
 
 // Sawing guns related procs //
 
