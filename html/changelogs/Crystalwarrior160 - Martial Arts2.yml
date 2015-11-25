@@ -1,0 +1,7 @@
+author: Crystalwarrior160
+delete-after: True
+changes:
+  - rscadd: "Adds CQC, Krav Maga and Wrestling arenas to the holodeck for non-lethal practice"
+  - tweak: "Recodes the way disarms work for Krav Maga and CQC AGAIN, so now it prioritizes disarming in-hand item first and if there's no item in-hand it would check the other hand."
+  - tweak: "Made Wrestling Belt ignore armor for stuns so both you and your opponent are stunned for the same amount of ticks. Armor is still considered for applied damage."
+  - bugfix: "Made it so when your permament martial art changes you would 'forget' it like you're supposed to"

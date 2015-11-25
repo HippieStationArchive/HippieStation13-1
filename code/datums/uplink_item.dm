@@ -127,6 +127,13 @@ var/list/uplink_items = list()
 	cost = 10 //Costly, but for a good reason
 	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
 
+/datum/uplink_item/job_specific/labcoat
+	name = "Armored Labcoat"
+	desc = "An armored labcoat with the ability to change how it looks into any standard Nanotrasen issue labcoat."
+	item = /obj/item/clothing/suit/labcoat/chameleon
+	cost = 4
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Research Director", "Scientist", "Roboticist") //all the labcoat jobs
+
 //SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
@@ -282,6 +289,12 @@ var/list/uplink_items = list()
 	desc = "The minibomb is a grenade with a five-second fuse. Upon detonation, it will create a small hull breach in addition to dealing high amounts of damage to nearby personnel."
 	item = /obj/item/weapon/grenade/syndieminibomb
 	cost = 6
+
+/datum/uplink_item/dangerous/cat_grenade
+	name = "Feral Cat Delivery Grenade"
+	desc = "The feral cat delivery grenade contains 8 dehydrated feral cats in a similar manner to dehydrated monkeys, which, upon detonation, will be rehydrated by a small reservoir of water contained within the grenade. These cats will then attack anything in sight."
+	item = /obj/item/weapon/grenade/spawnergrenade/feral_cats
+	cost = 5
 
 /datum/uplink_item/dangerous/foamsmg
 	name = "Toy Submachine Gun"
