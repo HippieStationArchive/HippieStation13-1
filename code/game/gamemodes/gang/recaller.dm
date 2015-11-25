@@ -124,6 +124,88 @@
 				dat += "Sleeping Carp Scroll (one-use)<br>"
 			dat += "<br>"
 
+
+		//////////////////
+		// RIGATONI FAM //
+		//////////////////
+
+		else if(gang.fighting_style == "mobster")
+			dat += "(10 Influence) "
+			if(points >= 10)
+				dat += "<a href='?src=\ref[src];purchase=brassknuckles'>Brass Knuckles</a><br>"
+			else
+				dat += "Brass Knuckles<br>"
+
+			dat += "(25 Influence) "
+			if(points >= 25)
+				dat += "<a href='?src=\ref[src];purchase=.38revolver'>.38 Revolver</a><br>"
+			else
+				dat += ".38 Revolver<br>"
+
+			dat += "(10 Influence) "
+			if(points >= 10)
+				dat += "<a href='?src=\ref[src];purchase=.38ammo'>.38 Ammo</a><br>"
+			else
+				dat += ".38 Ammo<br>"
+
+			dat += "(35 Influence) "
+			if(points >= 35)
+				dat += "<a href='?src=\ref[src];purchase=tommyammo'>Thompson Ammo</a><br>"
+			else
+				dat += "Thompson Ammo<br>"
+
+			dat += "<br>"
+
+			dat += "(55 Influence) "
+			if(points >= 55)
+				dat += "<a href='?src=\ref[src];purchase=thompson'>Thompson Machinegun</a><br>"
+			else
+				dat += "Thompson Machinegun <br>"
+			dat += "<br>"
+
+		//////////////////
+		// CLANDESTINE  //
+		//////////////////
+
+		else if(gang.fighting_style == "stealth")
+			dat += "(5 Influence) "
+			if(points >= 5)
+				dat += "<a href='?src=\ref[src];purchase=suppressor'>Suppressor</a><br>"
+			else
+				dat += "Suppressor<br>"
+
+			dat += "(10 Influence) "
+			if(points >= 10)
+				dat += "<a href='?src=\ref[src];purchase=dagger'>Energy Dagger</a><br>"
+			else
+				dat += "Energy Dagger<br>"
+
+			dat += "(25 Influence) "
+			if(points >= 25)
+				dat += "<a href='?src=\ref[src];purchase=glock'>Glock 17</a><br>"
+			else
+				dat += "Glock 17<br>"
+
+			dat += "(10 Influence) "
+			if(points >= 10)
+				dat += "<a href='?src=\ref[src];purchase=glockammo'>Glock Magazine</a><br>"
+			else
+				dat += "Glock Magazine<br>"
+
+			dat += "(60 Influence) "
+			if(points >= 60)
+				dat += "<a href='?src=\ref[src];purchase=uzi'>Uzi SMG</a><br>"
+			else
+				dat += "Uzi SMG<br>"
+
+			dat += "&nbsp;&#8627;(40 Influence) "
+			if(points >= 40)
+				dat += "<a href='?src=\ref[src];purchase=9mmammo'>Uzi Ammo</a><br>"
+			else
+				dat += "Uzi Ammo<br>"
+
+			dat += "<br>"
+
 		////////////////////////
 		// STANDARD EQUIPMENT //
 		////////////////////////
@@ -209,6 +291,10 @@
 				if(gang.points >= 10)
 					item_type = /obj/item/weapon/switchblade
 					pointcost = 10
+			if("brassknuckles")
+				if(gang.points >= 10)
+					item_type = /obj/item/clothing/gloves/brassknuckles
+					pointcost = 10
 			if("pistol")
 				if(gang.points >= 25)
 					item_type = /obj/item/weapon/gun/projectile/automatic/pistol
@@ -221,6 +307,42 @@
 				if(gang.points >= 60)
 					item_type = /obj/item/weapon/gun/projectile/automatic/mini_uzi
 					pointcost = 60
+			if("glock")
+				if(gang.points >= 25)
+					item_type = /obj/item/weapon/gun/projectile/automatic/pistol/g17
+					pointcost = 25
+			if("glockammo")
+				if(gang.points >= 10)
+					item_type = /obj/item/ammo_box/magazine/g17
+					pointcost = 10
+			if("suppressor")
+				if(gang.points >= 5)
+					item_type = /obj/item/weapon/suppressor
+					pointcost = 5
+			if("dagger")
+				if(gang.points >= 10)
+					item_type = /obj/item/weapon/pen/edagger
+					pointcost = 10
+			if("projector")
+				if(gang.points >= 15)
+					item_type = /obj/item/device/chameleon
+					pointcost = 15
+			if("thompson")
+				if(gang.points >= 55)
+					item_type = /obj/item/weapon/gun/projectile/automatic/tommygun
+					pointcost = 55
+			if("tommyammo")
+				if(gang.points >= 35)
+					item_type = /obj/item/ammo_box/magazine/tommygunm45
+					pointcost = 35
+			if(".38ammo")
+				if(gang.points >= 10)
+					item_type = /obj/item/ammo_box/c38
+					pointcost = 10
+			if(".38revolver")
+				if(gang.points >= 25)
+					item_type = /obj/item/weapon/gun/projectile/revolver/rigatoni
+					pointcost = 25
 			if("9mmammo")
 				if(gang.points >= 40)
 					item_type = /obj/item/ammo_box/magazine/uzim9mm

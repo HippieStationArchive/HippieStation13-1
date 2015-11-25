@@ -323,13 +323,13 @@
 	desc = "Based on the classic 'Chicago Typewriter'."
 	icon_state = "tommygun"
 	item_state = "shotgun"
-	w_class = 5
+	w_class = 3
 	slot_flags = 0
 	origin_tech = "combat=5;materials=1;syndicate=2"
 	mag_type = /obj/item/ammo_box/magazine/tommygunm45
 	fire_sound = 'sound/weapons/tommygun_shoot.ogg'
 	can_suppress = 0
-	burst_size = 4
+	burst_size = 3
 	fire_delay = 1
 	spread = 7
 	mag_load_sound = 'sound/effects/wep_magazines/bulldog_load.ogg'

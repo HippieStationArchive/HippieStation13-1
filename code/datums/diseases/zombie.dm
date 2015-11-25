@@ -1,7 +1,7 @@
 var/list/possible_z_cures = list("spaceacillin", "leporazine", "synaptizine", "lipolicide")//, "silver", "gold")
 var/list/zombie_cure = list()
 
-/datum/disease/transformation/zombie
+/datum/disease/zombie
 	name = "Zombie Virus"
 	cure_text = ""
 	cures = list()
@@ -15,17 +15,12 @@ var/list/zombie_cure = list()
 	severity = BIOHAZARD
 	stage_prob = 4
 	visibility_flags = HIDDEN_SCANNER
+	disease_flags = CURABLE|CAN_CARRY
 	agent = "Z-Virus Beta"
-
+	max_stages = 5
 	undead = 1 //stage_act() will be called even if you're dead.
 
-	stage1	= null
-	stage2	= null
-	stage3	= null
-	stage4	= null
-	stage5	= null
-
-/datum/disease/transformation/zombie/New()
+/datum/disease/zombie/New()
 	..()
 	if(!zombie_cure || !zombie_cure.len) //Randomize zombie cure every round
 		zombie_cure = list()
@@ -36,27 +31,32 @@ var/list/zombie_cure = list()
 	for(var/str in zombie_cure)
 		cure_text += "[length(cure_text) > 0 ? "&" : ""][str]"
 	cures = zombie_cure
+	spawn(0)
+		ticker.mode.update_zombie_icons()
 
-/datum/disease/transformation/zombie/do_disease_transformation(mob/living/carbon/affected_mob)
-	if(affected_mob.notransform) return
-	affected_mob.notransform = 1
-	affected_mob.emote("faint")
-	spawn(30)
-		Zombify(affected_mob)
-	cure()
+/datum/disease/zombie/cure()
+	..()
+	ticker.mode.update_zombie_icons()
 
-// /datum/disease/transformation/zombie/cure()
-// 	ticker.mode.remove_zombie(affected_mob.mind) //Unneeded, infected people aren't considered antags until transformation
-// 	..()
-
-/datum/disease/transformation/zombie/has_cure()
+/datum/disease/zombie/has_cure()
 	if(affected_mob.stat == DEAD) //Cure won't work if the disease holder is already dead. The only thing to do now is to get rid of the corpse.
 		return 0
 	..()
 
-/datum/disease/transformation/zombie/stage_act()
+/datum/disease/zombie/stage_act()
+	if(ishuman(affected_mob))
+		var/mob/living/carbon/human/H = affected_mob
+		if(H.dna.species.id == "zombie")
+			cure()
+			return //So repeated zombifications don't happen.
+
+	var/prev_stage = stage
 	..()
+	if(stage != prev_stage) //stage changed
+		ticker.mode.update_zombie_icons()
 	if(affected_mob.stat != DEAD) //So flavortext doesn't show up on dead people. Transformation should still happen when dead though.
+		if(stage >= max_stages)
+			stage = max_stages - 1 //We're not dead yet, so let's switch back to stage 4
 		switch(stage)
 			if(2)
 				if(prob(2))
@@ -70,15 +70,15 @@ var/list/zombie_cure = list()
 				else if(prob(5))
 					affected_mob << "<span class='danger'>You feel a stabbing pain in your head.</span>"
 					affected_mob.confused += 10
-				else if(prob(5))
-					if(ishuman(affected_mob))
-						var/mob/living/carbon/human/H = affected_mob
-						H.vessel.remove_reagent("blood",rand(1,3))
-					affected_mob.visible_message("<span class='warning'>[affected_mob] looks a bit pale...</span>", "<span class='notice'>You look a bit pale...</span>")
-			if(4)
-				if(ishuman(affected_mob))
+				else if(prob(5) && ishuman(affected_mob))
 					var/mob/living/carbon/human/H = affected_mob
-					H.vessel.remove_reagent("blood",rand(1,5))
+					H.vessel.remove_reagent("blood",rand(1,2))
+					affected_mob.visible_message("<span class='warning'>[affected_mob] looks a bit pale...</span>", "<span class='notice'>You look a bit pale...</span>")
+				else if(prob(5))
+					affected_mob << "<span class='notice'>[pick("You feel hungry.", "You crave for food.")]</span>"
+					affected_mob.overeatduration = max(affected_mob.overeatduration - 25, 0)
+					affected_mob.nutrition = max(affected_mob.nutrition - 25, 0)
+			if(4)
 				if(prob(15))
 					affected_mob << "<span class='notice'>[pick("You feel hot.", "You feel like you're burning.")]</span>"
 					if(affected_mob.bodytemperature < BODYTEMP_HEAT_DAMAGE_LIMIT)
@@ -86,10 +86,21 @@ var/list/zombie_cure = list()
 				else if(prob(3))
 					affected_mob << "<span class='danger'>You feel faint...</span>"
 					affected_mob.emote("faint")
-				else if(prob(5))
+				else if(prob(12))
+					affected_mob << "<span class='notice'>[pick("You feel hungry.", "You crave for food.")]</span>"
+					affected_mob.overeatduration = max(affected_mob.overeatduration - 25, 0)
+					affected_mob.nutrition = max(affected_mob.nutrition - 25, 0)
+				else if(prob(5) && ishuman(affected_mob))
+					var/mob/living/carbon/human/H = affected_mob
+					H.vessel.remove_reagent("blood",rand(1,4))
 					affected_mob.visible_message("<span class='warning'>[affected_mob] looks very pale...</span>", "<span class='notice'>You look very pale...</span>")
-				else if(prob(7))
+				else if(prob(10))
 					affected_mob.emote(pick("cough", "sneeze", "groan", "gasp"))
 	else
-		if(prob(stage_prob)) //DOUBLE the probability to mutate when dead
+		if(stage >= max_stages && ishuman(affected_mob))
+			var/mob/living/carbon/human/H = affected_mob
+			H.Zombify()
+			cure()
+			return
+		if(prob(stage_prob)) //Faster transformation that way
 			stage = min(stage+1, max_stages)
