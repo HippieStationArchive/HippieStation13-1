@@ -299,6 +299,22 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	owner.ventcrawler = 0
 	owner.visible_message("<span class='danger'>[owner] suddenly grows!</span>")
 
+/datum/mutation/human/jellybones
+	name = "Jelly Bones"
+	quality = POSITIVE
+	get_chance = 25
+	lowest_value = 256 * 12
+	text_gain_indication = "<span class='notice'>Your bones feel like they're made of jelly, you could probably squeeze into a vent.</span>"
+	text_lose_indication = "<span class='notice'>Your bones feel solid again.</span>"
+
+/datum/mutation/human/jellybones/on_acquiring(mob/living/carbon/human/owner)
+	if(..())	return
+	owner.ventcrawler = 1
+
+/datum/mutation/human/jellybones/on_losing(mob/living/carbon/human/owner)
+	if(..())	return
+	owner.ventcrawler = 0
+
 /datum/mutation/human/clumsy
 
 	name = "Clumsiness"
