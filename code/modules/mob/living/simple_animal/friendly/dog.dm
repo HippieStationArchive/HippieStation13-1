@@ -233,7 +233,7 @@
 					/obj/item/weapon/paper, /obj/item/clothing/head/helmet, /obj/item/clothing/head/chefhat, /obj/item/clothing/head/collectable/chef,
 					/obj/item/clothing/head/caphat, /obj/item/clothing/head/collectable/captain, /obj/item/clothing/head/kitty,
 					/obj/item/clothing/head/collectable/kitty, /obj/item/clothing/head/rabbitears, /obj/item/clothing/head/collectable/rabbitears,
-					/obj/item/clothing/head/beret, /obj/item/clothing/head/collectable/beret, /obj/item/clothing/head/det_hat,
+					/obj/item/clothing/head/beret, /obj/item/clothing/head/fedora/detective,
 					/obj/item/clothing/head/nursehat, /obj/item/clothing/head/pirate, /obj/item/clothing/head/collectable/pirate,
 					/obj/item/clothing/head/ushanka, /obj/item/clothing/head/warden, /obj/item/clothing/head/collectable/police,
 					/obj/item/clothing/head/wizard/fake, /obj/item/clothing/head/wizard, /obj/item/clothing/head/collectable/wizard,
@@ -305,7 +305,7 @@
 			speak = list("le woof!", "le bark!", "JAPPE!!")
 			emote_see = list("cowers in fear.", "surrenders.", "plays dead.","looks as though there is a wall in front of him.")
 
-		if(/obj/item/clothing/head/det_hat)
+		if(/obj/item/clothing/head/fedora/detective)
 			name = "Detective [real_name]"
 			desc = "[name] sees through your lies..."
 			emote_see = list("investigates the area.","sniffs around for clues.","searches for scooby snacks.")
