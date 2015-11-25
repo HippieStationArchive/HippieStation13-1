@@ -1,0 +1,9 @@
+author: Crystalwarrior160
+delete-after: True
+changes: 
+  - rscadd: "Adds antag hud for player zombies + lets zombies see infected people"
+  - tweak: "You will no longer transform into a Zombie if you're alive. Zombie virus now requires you to be dead for transformation to happen."
+  - tweak: "Zombies now fully take the armor into account. If you see a zombie with ablative armor chances are lasers won't do as much damage to it."
+  - tweak: "Made zombie bites warn the zombie whether or not the infection passed - this helps convey to zombies that biosuits/spacesuits have a chance to protect against bites."
+  - tweak: "You can now infect dead people as a zombie."
+  - bugfix: "Fixes some bugs with reposession of zombies"

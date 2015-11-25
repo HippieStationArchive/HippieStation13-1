@@ -56,9 +56,9 @@
 
 			if (W.throwforce > 0) //If the weapon's throwforce is greater than zero...
 				if (W.throwhitsound) //...and throwhitsound is defined...
-					playsound(loc, W.throwhitsound, volume, 1, -1) //...play the weapon's throwhitsound.
+					playsound(loc, get_sfx(W.throwhitsound), volume, 1, -1) //...play the weapon's throwhitsound.
 				else if(W.hitsound) //Otherwise, if the weapon's hitsound is defined...
-					playsound(loc, W.hitsound, volume, 1, -1) //...play the weapon's hitsound.
+					playsound(loc, get_sfx(W.hitsound), volume, 1, -1) //...play the weapon's hitsound.
 				else if(!W.throwhitsound) //Otherwise, if throwhitsound isn't defined...
 					playsound(loc, 'sound/weapons/genhit.ogg',volume, 1, -1) //...play genhit.ogg.
 
@@ -111,6 +111,7 @@
 						"<span class='userdanger'>You're set on fire!</span>")
 		src.AddLuminosity(3)
 		throw_alert("fire", /obj/screen/alert/fire)
+		playsound(src, 'sound/Effects/combust.ogg', 40, 1)
 		update_fire()
 
 /mob/living/proc/ExtinguishMob()
@@ -188,7 +189,6 @@
 	if(!G)	//the grab will delete itself in New if src is anchored
 		return 0
 	user.put_in_active_hand(G)
-	G.synch()
 	LAssailant = user
 
 	playsound(src.loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
@@ -217,7 +217,7 @@
 		return 0
 	else
 		if(M.attack_sound)
-			playsound(loc, M.attack_sound, 50, 1, 1)
+			playsound(loc, get_sfx(M.attack_sound), 50, 1, 1)
 		M.do_attack_animation(src)
 		visible_message("<span class='danger'>\The [M] [M.attacktext] [src]!</span>", \
 						"<span class='userdanger'>\The [M] [M.attacktext] [src]!</span>")

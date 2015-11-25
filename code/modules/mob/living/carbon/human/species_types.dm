@@ -11,6 +11,7 @@
 	mutant_bodyparts = list("tail_human", "ears")
 	default_features = list("mcolor" = "FFF", "tail_human" = "None", "ears" = "None")
 	use_skintones = 1
+	teeth_type = /obj/item/stack/teeth/human
 
 /datum/species/human/qualifies_for_rank(rank, list/features)
 	if(!config.mutant_humans) //No mutie scum here
@@ -66,6 +67,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	teeth_type = /obj/item/stack/teeth/lizard
 
 /datum/species/lizard/random_name(gender,unique,lastname)
 	if(unique)
@@ -107,7 +109,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_verb = "claws"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
 
 /datum/species/bird/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)
@@ -126,8 +128,9 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_verb = "slash"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
 	mutations_to_have = list(CLUMSY)
+	teeth_type = /obj/item/stack/teeth/cat
 
 /datum/species/cat/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)
@@ -156,7 +159,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_verb = "punch"
 	attack_sound = 'sound/weapons/smash.ogg'
 	miss_sound = 'sound/weapons/punchmiss.ogg'
-	meat = null
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
 
 /datum/species/bot/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)
@@ -620,6 +623,11 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 /datum/species/skeleton/get_spans()
 	return myspan
 
+/datum/species/skeleton/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
+
 /*
  ZOMBIES
 */
@@ -631,7 +639,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	say_mod = "moans"
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie
-	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE)
+	// specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE) //Overpowered, and simple_mobs set the species to this
 
 /datum/species/zombie/handle_speech(message)
 	var/list/message_list = text2list(message, " ")

@@ -27,6 +27,12 @@
 					 /obj/item/organ/limb/r_arm, /obj/item/organ/limb/r_leg, /obj/item/organ/limb/l_leg)
 	for(var/obj/item/organ/limb/O in organs)
 		O.owner = src
+		if(istype(O, /obj/item/organ/limb/head))
+			var/obj/item/organ/limb/head/U = O
+			var/obj/item/stack/teeth/T = new src.dna.species.teeth_type(U)
+			U.max_teeth = T.max_amount //Set max teeth for the head based on teeth spawntype
+			T.amount = T.max_amount
+			U.teeth_list += T
 	internal_organs += new /obj/item/organ/internal/appendix
 	internal_organs += new /obj/item/organ/internal/heart
 	internal_organs += new /obj/item/organ/internal/brain
@@ -49,7 +55,7 @@
 	sec_hud_set_implants()
 	sec_hud_set_security_status()
 	//...and display them.
-	add_to_all_data_huds()
+	add_to_all_human_data_huds()
 
 /mob/living/carbon/human/Destroy()
 	for(var/atom/movable/organelle in organs)
@@ -84,6 +90,8 @@
 				stat("Clean Blood", "[mind.vampire.clean_blood]cl")
 				stat("Dirty Blood", "[mind.vampire.dirty_blood]cl")
 
+				stat("Sanguine Regeneration", "[mind.vampire.fast_heal ? "ON" : "OFF"]")
+				stat("Accelerated Recovery", "[mind.vampire.stun_reduction ? "ON" : "OFF"]")
 
 	//NINJACODE
 	if(istype(wear_suit, /obj/item/clothing/suit/space/space_ninja)) //Only display if actually a ninja.
@@ -318,9 +326,10 @@
 					src.anchored = 0
 					update_canmove()
 					I.pinned = null
-				usr.put_in_hands(I)
+				I.loc = get_turf(src)
 				I.add_fingerprint(usr)
 				src.emote("scream")
+				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
 				usr.visible_message("[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!","<span class='notice'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()].</span>")
 				if(!has_embedded_objects())
 					clear_alert("embeddedobject")
@@ -749,7 +758,7 @@
 				src << "\t [status == "OK" ? "\blue" : "\red"] Your [org.getDisplayName()] is [status]."
 
 				for(var/obj/item/I in org.embedded_objects)
-					src << "\t <a href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[org]'>\red There is \a [I] embedded in your [org.getDisplayName()]! </a> [I.pinned ? "It has also pinned you down!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[org];read_embedded=\ref[I]'>Read</a>)" : ""]"
+					src << "\t <A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[org]'>\red There is \a [I] embedded in your [org.getDisplayName()]! </A> [I.pinned ? "It has also pinned you down!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<A href='byond://?src=\ref[org];read_embedded=\ref[I]'>Read</A>)" : ""]"
 
 			if(blood_max)
 				src << "<span class='danger'>You are bleeding!</span>"

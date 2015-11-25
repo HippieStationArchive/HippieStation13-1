@@ -15,13 +15,14 @@
 		return
 	if(istype(target, /turf) && !istype(target, /turf/simulated))
 		return
+	if(istype(target, /atom/movable/light))
+		return
 	if(isobj(target))
 		var/obj/target_obj = target
 		if(target_obj.unacidable)
 			return
 	target.visible_message("<span class='warning'>[chassis] starts to drill [target].</span>", \
-					"<span class='userdanger'>[chassis] starts to drill [target]...</span>", \
-					 "<span class='italics'>You hear drilling.</span>")
+					"<span class='userdanger'>[chassis] starts to drill [target]...</span>")
 
 	if(do_after_cooldown(target))
 		if(istype(target, /turf/simulated/wall/r_wall))

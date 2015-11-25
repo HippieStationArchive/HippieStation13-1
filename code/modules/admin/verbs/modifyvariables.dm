@@ -49,7 +49,7 @@ var/list/VVckey_edit = list("key", "ckey")
 	switch(class)
 
 		if("text")
-			var_value = input("Enter new text:","Text") as null|message
+			var_value = input("Enter new text:","Text") as null|text
 
 		if("num")
 			var_value = input("Enter new number:","Num") as null|num
@@ -106,7 +106,7 @@ var/list/VVckey_edit = list("key", "ckey")
 	switch(class)
 
 		if("text")
-			var_value = input("Enter new text:","Text") as message
+			var_value = input("Enter new text:","Text") as text
 
 		if("num")
 			var_value = input("Enter new number:","Num") as num
@@ -302,7 +302,7 @@ var/list/VVckey_edit = list("key", "ckey")
 			return
 
 		if("text")
-			new_var = input("Enter new text:","Text") as message
+			new_var = input("Enter new text:","Text") as text
 
 			if(findtext(new_var,"\["))
 				var/process_vars = alert(usr,"\[] detected in string, process as variables?","Process Variables?","Yes","No")
@@ -557,7 +557,7 @@ var/list/VVckey_edit = list("key", "ckey")
 			return .(O.vars[variable])
 
 		if("text")
-			var/var_new = input("Enter new text:","Text",O.vars[variable]) as null|message
+			var/var_new = input("Enter new text:","Text",O.vars[variable]) as null|text
 			if(var_new==null) return
 
 			if(findtext(var_new,"\["))

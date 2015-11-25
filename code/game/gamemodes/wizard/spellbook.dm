@@ -252,7 +252,7 @@
 
 /datum/spellbook_entry/item/staffdoor
 	name = "Staff of Door Creation"
-	desc = "A particular staff that can mold solid metal into ornate wooden doors. Useful for getting around in the absence of other transportation. Does not work on glass."
+	desc = "A particular staff that can mold solid metal into ornate doors. Useful for getting around in the absence of other transportation. Does not work on glass."
 	item_path = /obj/item/weapon/gun/magic/staff/door
 	log_name = "SD"
 	cost = 1
@@ -310,6 +310,13 @@
 	desc = "A magical contract binding an apprentice wizard to your service, using it will summon them to your side."
 	item_path = /obj/item/weapon/antag_spawner/contract
 	log_name = "CT"
+
+/datum/spellbook_entry/item/plasma_fist
+	name = "Plasma Fist Scroll"
+	desc = "Consider this more of a \"Spell Bundle\". This artifact is NOT reccomended for weaklings. An ancient scroll that will teach you the art of Plasma Fist. With it's various combos you can knock people down in the area around you, light them on fire and finally perform the PLASMA FIST that will gib your target."
+	item_path = /obj/item/weapon/plasma_fist_scroll
+	log_name = "PF"
+	cost = 8 //VERY costly. Can only buy lvl1 magic missile/fireball/etc.
 
 /datum/spellbook_entry/item/bloodbottle
 	name = "Bottle of Blood"
@@ -636,7 +643,7 @@
 /obj/item/weapon/spellbook/oneuse/fireball
 	spell = /obj/effect/proc_holder/spell/dumbfire/fireball
 	spellname = "fireball"
-	icon_state ="bookfireball"
+	icon_state = "bookfireball"
 	desc = "This book feels warm to the touch."
 
 /obj/item/weapon/spellbook/oneuse/fireball/recoil(mob/user)
@@ -647,7 +654,7 @@
 /obj/item/weapon/spellbook/oneuse/smoke
 	spell = /obj/effect/proc_holder/spell/targeted/smoke
 	spellname = "smoke"
-	icon_state ="booksmoke"
+	icon_state = "booksmoke"
 	desc = "This book is overflowing with the dank arts."
 
 /obj/item/weapon/spellbook/oneuse/smoke/recoil(mob/user)
@@ -661,7 +668,7 @@
 /obj/item/weapon/spellbook/oneuse/blind
 	spell = /obj/effect/proc_holder/spell/targeted/trigger/blind
 	spellname = "blind"
-	icon_state ="bookblind"
+	icon_state = "bookblind"
 	desc = "This book looks blurry, no matter how you look at it."
 
 /obj/item/weapon/spellbook/oneuse/blind/recoil(mob/user)
@@ -672,7 +679,7 @@
 /obj/item/weapon/spellbook/oneuse/mindswap
 	spell = /obj/effect/proc_holder/spell/targeted/mind_transfer
 	spellname = "mindswap"
-	icon_state ="bookmindswap"
+	icon_state = "bookmindswap"
 	desc = "This book's cover is pristine, though its pages look ragged and torn."
 	var/mob/stored_swap = null //Used in used book recoils to store an identity for mindswaps
 
@@ -724,7 +731,7 @@
 /obj/item/weapon/spellbook/oneuse/forcewall
 	spell = /obj/effect/proc_holder/spell/aoe_turf/conjure/forcewall
 	spellname = "forcewall"
-	icon_state ="bookforcewall"
+	icon_state = "bookforcewall"
 	desc = "This book has a dedication to mimes everywhere inside the front cover."
 
 /obj/item/weapon/spellbook/oneuse/forcewall/recoil(mob/user)
@@ -738,7 +745,7 @@
 /obj/item/weapon/spellbook/oneuse/knock
 	spell = /obj/effect/proc_holder/spell/aoe_turf/knock
 	spellname = "knock"
-	icon_state ="bookknock"
+	icon_state = "bookknock"
 	desc = "This book is hard to hold closed properly."
 
 /obj/item/weapon/spellbook/oneuse/knock/recoil(mob/user)
@@ -749,7 +756,7 @@
 /obj/item/weapon/spellbook/oneuse/barnyard
 	spell = /obj/effect/proc_holder/spell/targeted/barnyardcurse
 	spellname = "barnyard"
-	icon_state ="bookhorses"
+	icon_state = "bookhorses"
 	desc = "This book is more horse than your mind has room for."
 
 /obj/item/weapon/spellbook/oneuse/barnyard/recoil(mob/living/carbon/user)
@@ -769,7 +776,7 @@
 /obj/item/weapon/spellbook/oneuse/charge
 	spell = /obj/effect/proc_holder/spell/targeted/charge
 	spellname = "charging"
-	icon_state ="bookcharge"
+	icon_state = "bookcharge"
 	desc = "This book is made of 100% post-consumer wizard."
 
 /obj/item/weapon/spellbook/oneuse/charge/recoil(mob/user)
@@ -780,7 +787,7 @@
 /obj/item/weapon/spellbook/oneuse/summonitem
 	spell = /obj/effect/proc_holder/spell/targeted/summonitem
 	spellname = "instant summons"
-	icon_state ="booksummons"
+	icon_state = "booksummons"
 	desc = "This book is bright and garish, very hard to miss."
 
 /obj/item/weapon/spellbook/oneuse/summonitem/recoil(mob/user)

@@ -60,8 +60,11 @@ var/list/admin_verbs_admin = list(
 	/client/proc/cmd_admin_direct_narrate,	/*send text directly to a player with no padding. Useful for narratives and fluff-text*/
 	/client/proc/cmd_admin_world_narrate,	/*sends text to all players with no padding*/
 	/client/proc/cmd_admin_local_narrate,	//sends text to all mobs within view of atmo
-	/client/proc/cmd_admin_create_centcom_report,
-	/client/proc/reset_all_tcs			/*resets all telecomms scripts*/
+	/client/proc/cmd_admin_create_centcom_report, //*Create Centcomm report
+	/client/proc/cmd_admin_create_intercept_report, //*Create intercept report
+	/client/proc/reset_all_tcs,			/*resets all telecomms scripts*/
+	/client/proc/toggle_antag_hud, 	/*toggle display of the admin antag hud*/
+	/client/proc/aooc /*sends a message to all antags on the server*/
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
@@ -134,7 +137,8 @@ var/list/admin_verbs_debug = list(
 	/client/proc/populate_world,
 	/client/proc/cmd_display_del_log,
 	/client/proc/reset_latejoin_spawns,
-	/client/proc/create_outfits
+	/client/proc/create_outfits,
+	/client/proc/debug_huds
 	)
 var/list/admin_verbs_possess = list(
 	/proc/possess,
@@ -184,6 +188,7 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/cmd_admin_add_freeform_ai_law,
 	/client/proc/cmd_admin_add_random_ai_law,
 	/client/proc/cmd_admin_create_centcom_report,
+	/client/proc/cmd_admin_create_intercept_report,
 	/client/proc/object_say,
 	/client/proc/toggle_random_events,
 	/client/proc/cmd_admin_add_random_ai_law,
@@ -213,7 +218,9 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/panicbunker,
 	/client/proc/admin_change_sec_level,
 	/client/proc/toggle_nuke,
-	/client/proc/cmd_display_del_log
+	/client/proc/cmd_display_del_log,
+	/client/proc/toggle_antag_hud,
+	/client/proc/debug_huds
 	)
 
 /client/proc/add_admin_verbs()

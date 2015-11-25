@@ -21,6 +21,11 @@
 	caliber = "10mm"
 	projectile_type = /obj/item/projectile/bullet/midbullet3
 
+/obj/item/ammo_casing/c44
+	desc = "A .44 AMP cartridge."
+	caliber = ".44"
+	projectile_type = /obj/item/projectile/bullet/heavybullet2
+
 /obj/item/ammo_casing/c9mm
 	desc = "A 9mm cartridge."
 	caliber = "9mm"
@@ -61,7 +66,7 @@
 	icon_state = "gshell"
 	projectile_type = /obj/item/projectile/bullet/pellet
 	pellets = 5
-	variance = 0.8
+	variance = 25
 
 /obj/item/ammo_casing/shotgun/rubbershot
 	name = "rubber shot"
@@ -69,7 +74,7 @@
 	icon_state = "bshell"
 	projectile_type = /obj/item/projectile/bullet/rpellet
 	pellets = 5
-	variance = 0.8
+	variance = 25
 	materials = list(MAT_METAL=4000)
 
 
@@ -88,7 +93,7 @@
 	projectile_type = /obj/item/projectile/bullet/pellet/weak
 	materials = list(MAT_METAL=250)
 	pellets = 5
-	variance = 0.8
+	variance = 25
 
 
 /obj/item/ammo_casing/shotgun/improvised/overload
@@ -99,7 +104,7 @@
 	projectile_type = /obj/item/projectile/bullet/pellet/random
 	materials = list(MAT_METAL=250)
 	pellets = 5
-	variance = 1
+	variance = 40
 
 /obj/item/ammo_casing/shotgun/improvised/overload/New()
 	..()
@@ -146,7 +151,7 @@
 	icon_state = "ishell2"
 	projectile_type = /obj/item/projectile/bullet/incendiary/shell/dragonsbreath
 	pellets = 4
-	variance = 0.9
+	variance = 35
 
 /obj/item/ammo_casing/shotgun/ion
 	name = "ion shell"
@@ -155,7 +160,7 @@
 	icon_state = "ionshell"
 	projectile_type = /obj/item/projectile/ion/weak
 	pellets = 4
-	variance = 0.9
+	variance = 36
 
 /obj/item/ammo_casing/shotgun/laserslug
 	name = "laser slug"
@@ -240,6 +245,12 @@
 	icon_state = "s-casing-live"
 	projectile_type = /obj/item/projectile/bullet/gyro
 
+/obj/item/ammo_casing/caseless/cplasma
+	desc = "A disposable, specialized plasma cartridge."
+	caliber = "plasma"
+	icon_state = "casing_plasma"
+	projectile_type = /obj/item/projectile/beam
+
 /obj/item/ammo_casing/a40mm
 	name = "40mm HE shell"
 	desc = "A cased high explosive grenade that can only be activated once fired out of a grenade launcher."
@@ -292,3 +303,21 @@
 	desc = "Whose smart idea was it to use toys as crowd control? Ages 18 and up."
 	projectile_type = /obj/item/projectile/bullet/reusable/foam_dart/riot
 	icon_state = "foamdart_riot"
+
+/obj/item/ammo_casing/a762rubber
+	desc = "A Rubber 7.62x51mm cartridge."
+	icon_state = "762steel-casing"
+	caliber = "a762"
+	projectile_type = /obj/item/projectile/bullet/weakbullet2
+
+/obj/item/ammo_casing/musket
+	name = "paper cartridge"
+	desc = "A paper cartridge for a breechloading rifle."
+	icon_state = "papercartridge"
+	caliber = "musket"
+	projectile_type = /obj/item/projectile/bullet/midbullet2
+
+/obj/item/ammo_casing/minieball // lazy memecuck,putting it in here
+	name = "minie ball"
+	desc = "A small projectile with grooves"
+	icon_state = "minieball"

@@ -23,6 +23,8 @@
 	damage = 10
 	damage_type = BRUTE
 	nodamage = 0
+	legacy = 1 //No pixel travelling
+	animate_movement = SLIDE_STEPS //Reset movement to default
 
 /obj/item/projectile/magic/fireball/Range()
 	var/mob/living/L = locate(/mob/living) in (range(src, 1) - firer)
@@ -91,6 +93,9 @@
 	damage = 0
 	damage_type = OXY
 	nodamage = 1
+	var/list/door_types = list(/obj/structure/mineral_door/wood,/obj/structure/mineral_door/iron,/obj/structure/mineral_door/silver,\
+		/obj/structure/mineral_door/gold,/obj/structure/mineral_door/uranium,/obj/structure/mineral_door/sandstone,/obj/structure/mineral_door/transparent/plasma,\
+		/obj/structure/mineral_door/transparent/diamond)
 
 /obj/item/projectile/magic/door/on_hit(atom/target)
 	. = ..()
@@ -101,7 +106,8 @@
 		CreateDoor(T)
 
 /obj/item/projectile/magic/door/proc/CreateDoor(turf/T)
-	new /obj/structure/mineral_door/wood(T)
+	var/door_type = pick(door_types)
+	new door_type(T)
 	T.ChangeTurf(/turf/simulated/floor/plating)
 
 

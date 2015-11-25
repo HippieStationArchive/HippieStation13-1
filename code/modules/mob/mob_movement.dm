@@ -175,7 +175,7 @@
 			else if(mob.dir == EAST)
 				mob.lying = 90
 				mob.update_canmove()
-			playsound(mob.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -12) //Crawling is VERY quiet
+			playsound(mob.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -4) //Crawling is VERY quiet
 			mob.visible_message("<span class='danger'>[mob] crawls forward!</span>", \
 								"<span class='userdanger'>You crawl forward at the expense of some of your strength.</span>")
 
@@ -229,6 +229,15 @@
 				step(mob, direct)
 		else
 			. = ..()
+
+		for (var/obj/item/weapon/grab/G in mob)
+			if (G.state == GRAB_NECK)
+				mob.set_dir(reverse_dir[direct])
+			if (G.state == GRAB_KILL)
+				move_delay = move_delay + 14 //Even more movement delay
+			G.adjust_position()
+		for (var/obj/item/weapon/grab/G in mob.grabbed_by)
+			G.adjust_position()
 
 		moving = 0
 		if(mob && .)

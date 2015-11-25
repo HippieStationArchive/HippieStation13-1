@@ -35,6 +35,9 @@
 	var/semicd = 0						//cooldown handler
 	var/heavy_weapon = 0
 
+	var/spread = 0 //Spread induced by the gun itself.
+	var/randomspread = 1 //Whether or not to use the random spread algorithm.
+
 	var/unique_rename = 0 //allows renaming with a pen
 	var/unique_reskin = 0 //allows one-time reskinning
 	var/reskinned = 0 //whether or not the gun has been reskinned
@@ -79,7 +82,6 @@
 
 /obj/item/weapon/gun/proc/process_chamber()
 	return 0
-
 
 //check if there's enough ammo/energy/whatever to shoot one time
 //i.e if clicking would make it shoot
@@ -201,14 +203,19 @@
 				if( i>1 && !(src in get_both_hands(user))) //for burst firing
 					break
 			if(chambered)
-				if(!chambered.fire(target, user, params, , suppressed, zone_override))
+				var/sprd = 0
+				if(randomspread)
+					sprd = round((rand() - 0.5) * spread)
+				else //Smart spread
+					sprd = round((i / burst_size - 0.5) * spread)
+				if(!chambered.fire(target, user, params, , suppressed, zone_override, sprd))
 					shoot_with_empty_chamber(user)
 					break
 				else
 					if(get_dist(user, target) <= 1) //Making sure whether the target is in vicinity for the pointblank shot
-						shoot_live_shot(user, 1, target, message)
+						shoot_live_shot(user, 1, target, i == 1 ? message : 0) //Only give the "X fires Y! message on first shot."
 					else
-						shoot_live_shot(user, 0, target, message)
+						shoot_live_shot(user, 0, target, i == 1 ? message : 0)
 			else
 				shoot_with_empty_chamber(user)
 				break
@@ -217,7 +224,7 @@
 			sleep(fire_delay)
 	else
 		if(chambered)
-			if(!chambered.fire(target, user, params, , suppressed, zone_override))
+			if(!chambered.fire(target, user, params, spread, suppressed, zone_override))
 				shoot_with_empty_chamber(user)
 				return
 			else
@@ -253,9 +260,6 @@
 		var/obj/item/device/flashlight/seclite/S = A
 		if(can_flashlight)
 			if(!F)
-				if(user.l_hand != src && user.r_hand != src)
-					user << "<span class='warning'>You'll need [src] in your hands to do that!</span>"
-					return
 				if(!user.unEquip(A))
 					return
 				user << "<span class='notice'>You click [S] into place on [src].</span>"
@@ -269,9 +273,6 @@
 
 	if(istype(A, /obj/item/weapon/screwdriver))
 		if(F)
-			if(user.l_hand != src && user.r_hand != src)
-				user << "<span class='warning'>You'll need [src] in your hands to do that!</span>"
-				return
 			for(var/obj/item/device/flashlight/seclite/S in src)
 				user << "<span class='notice'>You unscrew the seclite from [src].</span>"
 				F = null

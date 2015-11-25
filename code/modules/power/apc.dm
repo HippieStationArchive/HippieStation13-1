@@ -729,6 +729,7 @@
 //			spawn(10)
 //				world << " [area.name] [area.power_equip]"
 	else
+		//playsound(loc, 'sound/machinery/power_down.ogg', 40, 1, 4) //TODO -- find a good place for this sound effect
 		area.power_light = 0
 		area.power_equip = 0
 		area.power_environ = 0

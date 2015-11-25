@@ -2,6 +2,7 @@
 	name = "bullet"
 	icon_state = "bullet"
 	hitsound = 'sound/effects/bullet_hit_mob.ogg'
+	hitsound_wall = "ricochet"
 	damage = 60
 	damage_type = BRUTE
 	nodamage = 0
@@ -19,6 +20,9 @@
 
 /obj/item/projectile/bullet/weakbullet3
 	damage = 20
+
+/obj/item/projectile/bullet/weakbullet4
+	damage = 10
 
 /obj/item/projectile/bullet/toxinbullet
 	damage = 15
@@ -54,6 +58,10 @@
 
 /obj/item/projectile/bullet/heavybullet
 	damage = 35
+
+/obj/item/projectile/bullet/heavybullet2	//This is used in the automag .44 handgun exclusively available to the nuke op leader. The AP is because this is meant to be used on heavily-armored opponents.
+	damage = 85
+	armour_penetration = 10
 
 /obj/item/projectile/bullet/rpellet
 	damage = 3

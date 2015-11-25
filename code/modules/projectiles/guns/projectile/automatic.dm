@@ -6,7 +6,12 @@
 	can_suppress = 1
 	burst_size = 3
 	fire_delay = 1	//Pre-rebase fire rate, nothing to see here.
+	spread = 3 //Additional spread added to the projectiles once auto firerate is selected.
+	mag_load_sound = 'sound/effects/wep_magazines/smg_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/smg_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/smg_chamber.ogg'
 	action_button_name = "Toggle Firemode"
+	fire_sound = 'sound/weapons/Machinegun.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/proto
 	name = "Prototype SMG"
@@ -57,10 +62,12 @@
 	if(!select)
 		burst_size = 1
 		fire_delay = 0
+		spread = 0
 		user << "<span class='notice'>You switch to semi-automatic.</span>"
 	else
 		burst_size = initial(burst_size)
 		fire_delay = initial(fire_delay)
+		spread = initial(spread)
 		user << "<span class='notice'>You switch to [burst_size]-rnd burst.</span>"
 
 	playsound(user, 'sound/weapons/empty.ogg', 100, 1)
@@ -114,6 +121,10 @@
 	fire_delay = 2
 	can_suppress = 0
 	burst_size = 0
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+	fire_sound = 'sound/weapons/Gunshot_beefy.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/wt550/ui_action_click()
 	return
@@ -129,7 +140,8 @@
 	icon_state = "mini-uzi"
 	origin_tech = "combat=5;materials=2;syndicate=8"
 	mag_type = /obj/item/ammo_box/magazine/uzim9mm
-	burst_size = 2
+	burst_size = 4
+	spread = 10
 
 /obj/item/weapon/gun/projectile/automatic/ak922
 	name = "AK-922"
@@ -142,11 +154,10 @@
 	fire_sound = 'sound/weapons/handcannon.ogg'
 	fire_delay = 1
 	burst_size = 3
-
-/obj/item/weapon/gun/projectile/automatic/ak922/gold
-	icon_state = "ak922gold"
-	item_state = "ak922gold"
-	desc = "Damn son! Now that's a nice gun!"
+	spread = 6
+	mag_load_sound = 'sound/effects/wep_magazines/ak922_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ak922_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ak922_chamber.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/ak922/afterattack()
 	..()
@@ -154,6 +165,16 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/ak922/update_icon()
+	..()
+	icon_state = "ak922[magazine ? "-[Ceiling(get_ammo(0)/5)*5]" : ""][chambered ? "" : "-e"]"
+	return
+
+/obj/item/weapon/gun/projectile/automatic/ak922/gold
+	icon_state = "ak922gold"
+	item_state = "ak922gold"
+	desc = "Damn son! Now that's a nice gun!"
+
+/obj/item/weapon/gun/projectile/automatic/ak922/gold/update_icon()
 	..()
 	icon_state = "ak922gold[magazine ? "-[Ceiling(get_ammo(0)/5)*5]" : ""][chambered ? "" : "-e"]"
 	return
@@ -167,11 +188,15 @@
 	slot_flags = 0
 	origin_tech = "combat=5;materials=1;syndicate=2"
 	mag_type = /obj/item/ammo_box/magazine/m762
-	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
+	fire_sound = 'sound/weapons/gunshot_saw.ogg'
 	var/cover_open = 0
 	can_suppress = 0
 	burst_size = 5
 	fire_delay = 3
+	spread = 8
+	mag_load_sound = 'sound/effects/wep_magazines/lmg_load.ogg'
+	mag_unload_sound = null
+	chamber_sound = null 	//Can't chamber like other guns
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/unrestricted
 
@@ -207,6 +232,7 @@
 		user.put_in_hands(magazine)
 		magazine = null
 		update_icon()
+		playsound(loc, 'sound/effects/wep_magazines/lmg_unload.ogg', 80)
 		user << "<span class='notice'>You remove the magazine from [src].</span>"
 
 
@@ -228,6 +254,10 @@
 	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/underbarrel
 	burst_size = 3
 	fire_delay = 2
+	spread = 6
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/c90/New()
 	..()
@@ -293,14 +323,18 @@
 	desc = "Based on the classic 'Chicago Typewriter'."
 	icon_state = "tommygun"
 	item_state = "shotgun"
-	w_class = 5
+	w_class = 3
 	slot_flags = 0
 	origin_tech = "combat=5;materials=1;syndicate=2"
 	mag_type = /obj/item/ammo_box/magazine/tommygunm45
-	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
+	fire_sound = 'sound/weapons/tommygun_shoot.ogg'
 	can_suppress = 0
-	burst_size = 4
+	burst_size = 3
 	fire_delay = 1
+	spread = 7
+	mag_load_sound = 'sound/effects/wep_magazines/bulldog_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/bulldog_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/bulldog_chamber.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/ar
 	name = "NT Assault Rifle"
@@ -314,3 +348,52 @@
 	can_suppress = 0
 	burst_size = 3
 	fire_delay = 1
+	spread = 3
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+
+
+/obj/item/weapon/gun/projectile/automatic/pistol/mac10
+	name = "Mac-10 SMG"
+	desc = "An old SMG, these used to be easily and cheaply mass-produced firearms. Their small size also made them great for concealing, however, the accuracy is anything but decent."
+	icon_state = "mac10"
+	mag_type = /obj/item/ammo_box/magazine/mac10
+	can_suppress = 0
+	w_class = 2
+	spread = 10
+	burst_size = 3
+	fire_delay = 1
+	fire_sound = 'sound/weapons/gunshot_smg.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/pistol/mac10/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+
+/obj/item/weapon/gun/projectile/automatic/alc
+	name = "AA-2553 ALC"
+	desc = "Known as the Automatic Laser Carbine, this modern, state-of-the-art energy weapon uses specialized disposable plasma cartridges in a small magazine similar to ballistic firearms. Advanced cooling technology allows for the ALC to be fired in short bursts. However, the unusual method of loading results in some inaccuracy compared to traditional energy weapons."
+	icon_state = "alc"
+	mag_type = /obj/item/ammo_box/magazine/alc
+	can_suppress = 0
+	w_class = 3
+	spread = 4
+	burst_size = 3
+	fire_delay = 1.5
+	fire_sound = 'sound/weapons/laser.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/alc/process_chamber(eject_casing = 0, empty_chamber = 1)
+	..()
+
+/obj/item/weapon/gun/projectile/automatic/alc/afterattack()
+	..()
+	empty_alarm()
+	return
+
+/obj/item/weapon/gun/projectile/automatic/alc/update_icon()
+	..()
+	icon_state = "alc[magazine ? "-[Ceiling(get_ammo(0)/9)*8]" : ""][chambered ? "" : "-e"]"
+	return

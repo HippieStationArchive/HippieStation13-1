@@ -109,6 +109,14 @@
 	ammo_type = /obj/item/ammo_casing/shotgun/rubbershot
 	max_ammo = 6
 
+/obj/item/ammo_box/magazine/internal/shot/triple
+	name = "triple-barrel shotgun internal magazine"
+	max_ammo = 3
+
+/obj/item/ammo_box/magazine/internal/shot/lever
+	name = "leveraction shotgun internal magazine"
+	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
+	max_ammo = 5
 
 
 
@@ -161,6 +169,17 @@
 	max_ammo = 8
 	multiple_sprites = 2
 
+/obj/item/ammo_box/magazine/m44
+	name = "handgun magazine (.44 AMP)"
+	icon_state = "44"
+	ammo_type = /obj/item/ammo_casing/c44
+	caliber = ".44"
+	max_ammo = 7
+
+/obj/item/ammo_box/magazine/m44/update_icon()	//Shamelessly copied M1911 magazine sprites
+	..()
+	icon_state = "[initial(icon_state)]-[Ceiling(ammo_count(0)/7)*7]"
+
 /obj/item/ammo_box/magazine/m45
 	name = "handgun magazine (.45)"
 	icon_state = "45-8"
@@ -174,7 +193,7 @@
 
 /obj/item/ammo_box/magazine/wt550m9
 	name = "wt550 magazine (9mm)"
-	icon_state = "9mmt-20"
+	icon_state = "9mmt"
 	ammo_type = /obj/item/ammo_casing/c9mm
 	caliber = "9mm"
 	max_ammo = 20
@@ -206,6 +225,39 @@
 	..()
 	icon_state = "uzi9mm-[round(ammo_count(),4)]"
 
+/obj/item/ammo_box/magazine/mac10
+	name = "Mac-10 magazine (9mm)"
+	icon_state = "mac10-30"
+	ammo_type = /obj/item/ammo_casing/c9mm
+	caliber = "9mm"
+	max_ammo = 30
+
+/obj/item/ammo_box/magazine/mac10/update_icon()
+	..()
+	icon_state = "mac10-[round(ammo_count(),5)]"
+
+/obj/item/ammo_box/magazine/c05r
+	name = "C05-R magazine (.45 ACP)"
+	icon_state = "c05r"
+	ammo_type = /obj/item/ammo_casing/c45
+	caliber = ".45"
+	max_ammo = 12
+
+/obj/item/ammo_box/magazine/c05r/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[Ceiling(ammo_count(0)/12)*12]"
+
+/obj/item/ammo_box/magazine/luger
+	name = "P057A Luger Magazine (.357)"
+	icon_state = "luger"
+	ammo_type = /obj/item/ammo_casing/a357
+	caliber = ".357"
+	max_ammo = 10
+
+/obj/item/ammo_box/magazine/luger/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),2)]"
+
 /obj/item/ammo_box/magazine/smgm9mm
 	name = "SMG magazine (9mm)"
 	icon_state = "smg9mm-30"
@@ -225,6 +277,13 @@
 	name = "SMG Magazine (Incendiary 9mm)"
 	ammo_type = /obj/item/ammo_casing/c9mminc
 
+/obj/item/ammo_box/magazine/alc
+	name = "Auto. Laser Carbine Magazine (plasma)"
+	icon_state = "alc-24"
+	ammo_type = /obj/item/ammo_casing/caseless/cplasma
+	caliber = "plasma"
+	max_ammo = 24
+
 /obj/item/ammo_box/magazine/smgm45
 	name = "SMG magazine (.45)"
 	icon_state = "c20r45-20"
@@ -242,7 +301,7 @@ obj/item/ammo_box/magazine/tommygunm45
 	icon_state = "drum45"
 	ammo_type = /obj/item/ammo_casing/c45
 	caliber = ".45"
-	max_ammo = 50
+	max_ammo = 40
 
 /obj/item/ammo_box/magazine/g17
 	name = "G17 magazine (9mm)"
@@ -253,7 +312,7 @@ obj/item/ammo_box/magazine/tommygunm45
 
 /obj/item/ammo_box/magazine/g17/update_icon()
 	..()
-	icon_state = "[initial(icon_state)]-[Ceiling(ammo_count(0)/17)*17]"
+	icon_state = "[initial(icon_state)]-[Ceiling(ammo_count(0)/14)*14]"
 
 /obj/item/ammo_box/magazine/ak922
 	name = "AK-922 magazine (7.62x39)"
@@ -274,6 +333,10 @@ obj/item/ammo_box/magazine/tommygunm45
 	ammo_type = /obj/item/ammo_casing/a545
 	caliber = "a545"
 	max_ammo = 30
+
+/obj/item/ammo_box/magazine/m545/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[round(ammo_count(),30)]"
 
 /obj/item/ammo_box/magazine/mbox12g
 	name = "box magazine (12 gauge buckshot)"
@@ -416,3 +479,12 @@ obj/item/ammo_box/magazine/tommygunm45
 /obj/item/ammo_box/magazine/toy/m762/update_icon()
 	..()
 	icon_state = "a762-[round(ammo_count(),10)]"
+
+// muskit
+
+/obj/item/ammo_box/magazine/internal/musket
+	name = "musket internal magazine"
+	ammo_type = /obj/item/ammo_casing/musket
+	caliber = "musket"
+	max_ammo = 1
+	multiload = 0

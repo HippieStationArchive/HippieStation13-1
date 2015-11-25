@@ -158,7 +158,9 @@
 			src.shot_number = 0
 
 		var/obj/item/projectile/beam/emitter/A = PoolOrNew(/obj/item/projectile/beam/emitter,src.loc)
-
+		//Legacy mode since this projectile doesn't really need pixel travelling.
+		A.legacy = 1 //No pixel travelling
+		A.animate_movement = SLIDE_STEPS //Reset movement to default
 		A.dir = src.dir
 		playsound(src.loc, 'sound/weapons/emitter.ogg', 25, 1)
 
@@ -181,6 +183,7 @@
 				A.yo = -20
 				A.xo = 0
 		A.starting = loc
+		A.firer = src
 		A.fire()
 
 

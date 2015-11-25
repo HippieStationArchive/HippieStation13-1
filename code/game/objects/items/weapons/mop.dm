@@ -16,6 +16,7 @@
 	var/mopcount = 0
 	var/mopcap = 5
 	var/mopspeed = 30
+	hitsound = 'sound/weapons/mop.ogg'
 
 /obj/item/weapon/mop/New()
 	create_reagents(mopcap)

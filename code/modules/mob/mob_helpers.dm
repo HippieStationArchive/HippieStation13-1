@@ -237,6 +237,16 @@
 		newphrase+="[newletter]";counter-=1
 	return newphrase
 
+/proc/lisp(message, intensity=100) //Intensity = how hard will the dude be lisped
+	message = prob(intensity) ? replacetext(message, "f", "ph") : message
+	message = prob(intensity) ? replacetext(message, "t", "ph") : message
+	message = prob(intensity) ? replacetext(message, "s", "sh") : message
+	message = prob(intensity) ? replacetext(message, "th", "hh") : message
+	message = prob(intensity) ? replacetext(message, "ck", "gh") : message
+	message = prob(intensity) ? replacetext(message, "c", "gh") : message
+	message = prob(intensity) ? replacetext(message, "k", "gh") : message
+	return message
+
 /proc/stutter(n)
 	var/te = html_decode(n)
 	var/t = ""//placed before the message. Not really sure what it's for.
@@ -402,6 +412,36 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 				hud_used.action_intent.icon_state = "harm"
 			else
 				hud_used.action_intent.icon_state = "help"
+
+/mob/verb/target_zone_change(input as text)
+	set name = "target-zone"
+	set hidden = 1
+
+	if(src.zone_sel)
+		var/obj/screen/zone_sel/Target = src.zone_sel
+		var/old_selecting = Target.selecting
+		switch(input)
+			if("r_leg")
+				Target.selecting = "r_leg"
+			if("l_leg")
+				Target.selecting = "l_leg"
+			if("r_arm")
+				Target.selecting = "r_arm"
+			if("l_arm")
+				Target.selecting = "l_arm"
+			if("chest")
+				Target.selecting = "chest"
+			if("groin")
+				Target.selecting = "groin"
+			if("head")
+				Target.selecting = "head"
+			if("eyes")
+				Target.selecting = "eyes"
+			if("mouth")
+				Target.selecting = "mouth"
+
+		if(old_selecting != Target.selecting)
+			Target.update_icon()
 
 /proc/is_blind(A)
 	if(ismob(A))

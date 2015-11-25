@@ -27,10 +27,11 @@
 	materials = list(MAT_METAL=150)
 	origin_tech = "materials=1;engineering=1"
 	attack_verb = list("bashed", "battered", "bludgeoned", "whacked")
+	hitsound = 'sound/weapons/wrench.ogg'
 
 /obj/item/weapon/wrench/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
+	playsound(loc, hitsound, 50, 1, -1)
 	return (BRUTELOSS)
 
 /*
@@ -55,6 +56,7 @@
 /obj/item/weapon/screwdriver/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is stabbing the [src.name] into \his temple! It looks like \he's trying to commit suicide.</span>", \
 						"<span class='suicide'>[user] is stabbing the [src.name] into \his heart! It looks like \he's trying to commit suicide.</span>"))
+	playsound(loc, hitsound, 50, 1, -1)
 	return(BRUTELOSS)
 
 /obj/item/weapon/screwdriver/New(loc, var/param_color = null)
@@ -122,6 +124,31 @@
 		item_state = "cutters_yellow"
 
 /obj/item/weapon/wirecutters/attack(mob/living/carbon/C, mob/user)
+	if(ishuman(C) && user.zone_sel.selecting == "mouth")
+		var/mob/living/carbon/human/H = C
+		var/obj/item/organ/limb/head/O = locate() in H.organs
+		if(!O || !O.get_teeth())
+			user << "<span class='notice'>[H] doesn't have any teeth left!</span>"
+			return
+		H.visible_message("<span class='danger'>[user] tries to tear off [H]'s tooth with [src]!</span>",
+							"<span class='userdanger'>[user] tries to tear off your tooth with [src]!</span>")
+		if(do_after(user, 50, target = H))
+			if(!O || !O.get_teeth()) return
+			var/obj/item/stack/teeth/E = pick(O.teeth_list)
+			if(!E || E.zero_amount()) return
+			var/obj/item/stack/teeth/T = new E.type(H.loc, 1)
+			T.copy_evidences(E)
+			E.use(1)
+			T.add_blood(H)
+			E.zero_amount() //Try to delete the teeth
+			add_logs(user, H, "torn out the tooth from", src)
+			H.visible_message("<span class='danger'>[user] tears off [H]'s tooth with [src]!</span>",
+							"<span class='userdanger'>[user] tears off your tooth with [src]!</span>")
+			var/armor = H.run_armor_check(O, "melee")
+			H.apply_damage(rand(1,5), BRUTE, O, armor)
+			playsound(H, 'sound/misc/tear.ogg', 40, 1, -1) //RIP AND TEAR. RIP AND TEAR.
+			H.emote("scream")
+			return
 	if(istype(C) && C.handcuffed && istype(C.handcuffed, /obj/item/weapon/restraints/handcuffs/cable))
 		user.visible_message("<span class='notice'>[user] cuts [C]'s restraints with [src]!</span>")
 		qdel(C.handcuffed)
@@ -135,7 +162,7 @@
 
 /obj/item/weapon/wirecutters/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is cutting at \his arteries with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	playsound(loc, 'sound/items/Wirecutter.ogg', 50, 1, -1)
+	playsound(loc, hitsound, 50, 1, -1)
 	return (BRUTELOSS)
 
 /*
@@ -256,18 +283,25 @@
 
 /obj/item/weapon/weldingtool/afterattack(atom/O, mob/user, proximity)
 	if(!proximity) return
-	if(istype(O, /obj/structure/reagent_dispensers/fueltank) && in_range(src, O))
+	if(istype(O, /obj/structure/reagent_dispensers) && in_range(src, O))
+		var/obj/structure/reagent_dispensers/D = O
 		if(!welding)
-			O.reagents.trans_to(src, max_fuel)
-			user << "<span class='notice'>[src] refueled.</span>"
-			playsound(src.loc, 'sound/effects/refill.ogg', 50, 1, -6)
-			update_icon()
-			return
+			if(D.reagents.has_reagent("welding_fuel"))
+				D.reagents.trans_id_to(src, "welding_fuel", max_fuel)
+				user << "<span class='notice'>[src] refueled.</span>"
+				playsound(src.loc, 'sound/effects/refill.ogg', 50, 1, -6)
+				update_icon()
+				return
+			else
+				user << "<span class='notice'>[D] has not enough welding fuel to refill!</span>"
+				return
 		else
-			message_admins("[key_name_admin(user)] triggered a fueltank explosion.")
-			log_game("[key_name(user)] triggered a fueltank explosion.")
+			message_admins("[key_name_admin(user)] triggered a chemtank explosion.")
+			log_game("[key_name(user)] triggered a chemtank explosion.")
+			user.attack_log += text("\[[time_stamp()]\] <font color='red'>Has detonated a chem tank @ [D ? "[D.x],[D.y],[D.z]" : "UNKNOWN LOCATION"]</font>")
 			user << "<span class='warning'>That was stupid of you.</span>"
-			O.ex_act()
+			if(D)
+				D.boom()
 			return
 
 	if(welding)
@@ -465,10 +499,16 @@
 	materials = list(MAT_METAL=50)
 	origin_tech = "engineering=1"
 	attack_verb = list("attacked", "bashed", "battered", "bludgeoned", "whacked")
+	hitsound = list('sound/weapons/crowbar1.ogg','sound/weapons/crowbar2.ogg')
 
 /obj/item/weapon/crowbar/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
+	user.visible_message("<span class='suicide'>[user] is putting the [src.name] into \his mouth and proceeds to weigh down! It looks like \he's trying to commit suicide.</span>")
+	playsound(loc, 'sound/weapons/grapple.ogg', 50, 1, -1)
+	sleep(3)
+	var/turf/simulated/location = get_turf(user)
+	if(istype(location))
+		location.add_blood_floor(user)
+	playsound(loc, 'sound/misc/tear.ogg', 50, 1, -1) //RIP AND TEAR. RIP AND TEAR.
 	return (BRUTELOSS)
 
 /obj/item/weapon/crowbar/red
