@@ -345,6 +345,7 @@ var/list/uplink_items = list()
 	cost = 140
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
+
 /datum/uplink_item/dangerous/cqc_gloves
 	name = "Tactical Gloves"
 	desc = "Comfortable grey gloves with the CQC martial art inside."
@@ -394,7 +395,7 @@ var/list/uplink_items = list()
 	name = "Speed Loader - .357"
 	desc = "A speed loader that contains seven additional .357 Magnum rounds for the syndicate revolver. For when you really need a lot of things dead."
 	item = /obj/item/ammo_box/a357
-	cost = 4
+	cost = 2
 
 /datum/uplink_item/ammo/smg
 	name = "SMG Magazine - .45 ACP"
