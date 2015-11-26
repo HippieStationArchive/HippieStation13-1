@@ -45,8 +45,12 @@ Research Director
 	duffle = /obj/item/weapon/storage/backpack/dufflebag/toxins
 	mountain = /obj/item/weapon/storage/backpack/mountainbag_tox
 
-/datum/outfit/job/rd/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/rd/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
+
+	if(visualsOnly)
+		return
+
 	announce_head(H, list("Science")) //tell underlings (science radio) they have a head
 
 /*
