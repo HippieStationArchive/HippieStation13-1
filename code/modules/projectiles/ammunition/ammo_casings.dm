@@ -192,6 +192,9 @@
 /obj/item/ammo_casing/shotgun/dart/bioterror
 	desc = "A shotgun dart filled with deadly toxins."
 
+/obj/item/ammo_casing/shotgun/dart/bioterror
+	desc = "A shotgun dart filled with deadly toxins."
+
 /obj/item/ammo_casing/shotgun/dart/bioterror/New()
 	..()
 	reagents.add_reagent("neurotoxin", 6)
@@ -199,6 +202,14 @@
 	reagents.add_reagent("mutetoxin", 6) //;HELP OPS IN MAINT
 	reagents.add_reagent("coniine", 6)
 	reagents.add_reagent("sodium_thiopental", 6)
+
+/obj/item/ammo_casing/shotgun/dart/assassination
+	desc = "A specialist shotgun dart designed to inncapacitate and kill the target over time, so you can get very far away from your target"
+
+/obj/item/ammo_casing/shotgun/dart/assassination/New()
+	..()
+	reagents.add_reagent("neurotoxin", 6)
+	reagents.add_reagent("lexorin", 6)
 
 /obj/item/ammo_casing/a762
 	desc = "A 7.62x51mm cartridge."

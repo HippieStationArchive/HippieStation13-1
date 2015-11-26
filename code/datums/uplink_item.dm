@@ -127,6 +127,7 @@ var/list/uplink_items = list()
 	cost = 10 //Costly, but for a good reason
 	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
 
+//SCIENCE + MEDICAL
 /datum/uplink_item/job_specific/labcoat
 	name = "Armored Labcoat"
 	desc = "An armored labcoat with the ability to change how it looks into any standard Nanotrasen issue labcoat."
@@ -166,6 +167,14 @@ var/list/uplink_items = list()
 	item = /obj/item/ammo_casing/shotgun/buckshot
 	cost = 5
 	jobs = list("Bartender")
+
+//CLOWN + MIME
+/datum/uplink_item/job_specific/caneshotgun
+	name = "Cane Shotgun + Assassination Darts"
+	desc = "A specialized, one shell shotgun with a built-in cloaking device to mimic a cane. The shotgun is capable of hiding it's contents and the pin alongside being supressed. Comes with 6 special darts and a preloaded shrapnel round."
+	item = /obj/item/weapon/storage/box/syndie_kit/caneshotgun
+	cost = 15
+	jobs = list("Clown","Mime")
 
 // DANGEROUS WEAPONS
 

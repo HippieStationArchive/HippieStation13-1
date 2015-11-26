@@ -231,9 +231,12 @@
 	name = "cane"
 	desc = "A cane used by a true gentlemen. Or a clown."
 	icon_state = "cane"
-	item_state = "cane"
+	item_state = "stick"
+	icon = 'icons/obj/weapons.dmi'
+	sawn_state
 	w_class = 2
 	force = 10
+	can_unsuppress = 0
 	slot_flags = null
 	origin_tech = "" // NO GIVAWAYS
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/improvised
@@ -246,16 +249,35 @@
 	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
 	fire_sound = 'sound/weapons/Gunshot_silenced.ogg'
 	suppressed = 1
+	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	var/list/cane_choices = list()
 
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/attackby(obj/item/A, mob/user, params)
+	..()
+	if(istype(A, /obj/item/stack/cable_coil))
+		return
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/examine(mob/user) // HAD TO REPEAT EXAMINE CODE BECAUSE GUN CODE DOESNT STEALTH
+	var/f_name = "\a [src]."
+	if(src.blood_DNA && !istype(src, /obj/effect/decal))
+		if(gender == PLURAL)
+			f_name = "some "
+		else
+			f_name = "a "
+		f_name += "<span class='danger'>blood-stained</span> [name]!"
+
+	user << "\icon[src] That's [f_name]"
+
+	if(desc)
+		user << desc
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/New()
 	..()
-	for(var/U in typesof(/obj/item/weapon/cane)-(/obj/item/weapon/cane/))
+	for(var/U in typesof(/obj/item/weapon/cane))
 		var/obj/item/weapon/cane/V = new U
 		src.cane_choices += V
 	return
-/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/verb/change()
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/verb/Change()
 
 	set src in usr
 
@@ -268,7 +290,7 @@
 		return
 
 	if(sawn_state == SAWN_OFF)
-		usr << "<span class='warning'>\The [src] is shortened! You can't change it's deisgn!</span>"
+		usr << "<span class='warning'>\The [src] is shortened! You can't change it's design!</span>"
 		return
 
 	desc = null
@@ -278,7 +300,8 @@
 	attack_verb = A.attack_verb
 	icon_state = A.icon_state
 	item_state = A.item_state
-	usr.update_inv_wear_suit()
+	usr.update_inv_l_hand()
+	usr.update_inv_r_hand()
 
 
 // Sawing guns related procs //
