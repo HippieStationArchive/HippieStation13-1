@@ -233,7 +233,7 @@
 	icon_state = "cane"
 	item_state = "stick"
 	icon = 'icons/obj/weapons.dmi'
-	sawn_state = NO_SAW
+	sawn_state = SAWN_OFF
 	w_class = 2
 	force = 10
 	can_unsuppress = 0
