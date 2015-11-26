@@ -98,7 +98,10 @@
 		var/iconF = "flight"
 		if(F.on)
 			iconF = "flight_on"
-		overlays += image(icon = icon, icon_state = iconF, pixel_x = flight_x_offset, pixel_y = flight_y_offset)
+		overlays += image(icon = 'icons/obj/guns/attachments.dmi', icon_state = iconF, pixel_x = flight_x_offset, pixel_y = flight_y_offset)
+	if(knife)
+		var/iconK = "knife"
+		overlays += image(icon = 'icons/obj/guns/attachments.dmi', icon_state = iconK, pixel_x = knife_x_offset, pixel_y = knife_y_offset)
 	if(itemState)
 		itemState += "[ratio]"
 		item_state = itemState
