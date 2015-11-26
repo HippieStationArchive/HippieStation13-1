@@ -42,8 +42,12 @@ Chief Medical Officer
 	duffle = /obj/item/weapon/storage/backpack/dufflebag/med
 	mountain = /obj/item/weapon/storage/backpack/mountainbag_med
 
-/datum/outfit/job/cmo/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/cmo/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
+
+	if(visualsOnly)
+		return
+
 	announce_head(H, list("Medical")) //tell underlings (medical radio) they have a head
 
 /*
