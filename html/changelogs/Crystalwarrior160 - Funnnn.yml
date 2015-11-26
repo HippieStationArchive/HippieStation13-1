@@ -3,6 +3,6 @@ delete-after: True
 changes: 
   - imageadd: "Updated all guns to properly face to the right for consistency and sanity"
   - imageadd: "Added coolio anims to cqc"
-  - rscadd: "Added pocket knives and combat knives. Combat knives cost 3 TC and have very good throwforce"
+  - rscadd: "Added pocket knives and combat knives. Combat knives cost 3 TC and have very good throwforce. Nuke Ops start with combat knives."
   - rscadd: "Made combat knives and seclites attachable to many things, including assault rifles and bulldog shotgun"
   - bugfix: "Fixed species teeth not working correctly"
