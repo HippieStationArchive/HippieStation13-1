@@ -192,9 +192,6 @@
 /obj/item/ammo_casing/shotgun/dart/bioterror
 	desc = "A shotgun dart filled with deadly toxins."
 
-/obj/item/ammo_casing/shotgun/dart/bioterror
-	desc = "A shotgun dart filled with deadly toxins."
-
 /obj/item/ammo_casing/shotgun/dart/bioterror/New()
 	..()
 	reagents.add_reagent("neurotoxin", 6)

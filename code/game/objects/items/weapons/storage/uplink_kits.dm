@@ -160,7 +160,6 @@
 	new /obj/item/ammo_casing/shotgun/dart/assassination(src)
 	new /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane(src)
 
-
 /obj/item/weapon/storage/box/syndie_kit/bioterror
 	name = "bioterror syringe box"
 
