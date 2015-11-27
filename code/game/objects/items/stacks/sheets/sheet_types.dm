@@ -107,6 +107,7 @@ var/global/list/datum/stack_recipe/wood_recipes = list ( \
 	new/datum/stack_recipe("display case chassis", /obj/structure/displaycase_chassis, 5, one_per_turf = 1, on_floor = 1), \
 	new/datum/stack_recipe("tiki mask", /obj/item/clothing/mask/gas/tiki_mask, 2), \
 	new/datum/stack_recipe("wooden baseball bat", /obj/item/weapon/baseballbat/wood, 3), \
+	new/datum/stack_recipe("wooden teeth", /obj/item/stack/teeth/human/wood, 1, 5, 20), \
 	)
 
 /obj/item/stack/sheet/mineral/wood

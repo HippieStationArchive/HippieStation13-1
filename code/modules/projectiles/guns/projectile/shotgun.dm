@@ -22,6 +22,8 @@
 		playsound(loc, 'sound/effects/wep_magazines/insertShotgun.ogg', 80)
 		A.update_icon()
 		update_icon()
+		return
+	..()
 
 /obj/item/weapon/gun/projectile/shotgun/process_chamber()
 	return ..(0, 0)
@@ -99,6 +101,9 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/boltaction
 	sawn_desc = "A NUU CHEEKI BREEKI I V DAMKE."
 	fire_sound = 'sound/weapons/handcannon.ogg'
+	can_knife = 1
+	knife_x_offset = 17
+	knife_y_offset = 13
 	var/bolt_open = 0
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction/pump(mob/M)
@@ -112,18 +117,15 @@
 	update_icon()	//I.E. fix the desc
 	return 1
 
-/obj/item/weapon/gun/projectile/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
-	if(!bolt_open)
-		user << "<span class='notice'>The bolt is closed!</span>"
-		return
-	. = ..()
-
 /obj/item/weapon/gun/projectile/shotgun/boltaction/examine(mob/user)
 	..()
 	user << "The bolt is [bolt_open ? "open" : "closed"]."
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
 	..()
+	if(!bolt_open)
+		user << "<span class='notice'>The bolt is closed!</span>"
+		return
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
 		chamber_round()
 		playsound(loc, 'sound/effects/wep_magazines/rifle_load.ogg', 80)
@@ -370,23 +372,23 @@
 	mag_unload_sound = 'sound/effects/wep_magazines/bulldog_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/bulldog_chamber.ogg'
 	action_button_name = null
-
-/obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/unrestricted
+	can_flashlight = 1
+	flight_x_offset = 18
+	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/New()
 	..()
 	update_icon()
 	return
 
-/obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/proc/update_magazine()
-	if(magazine)
-		src.overlays = 0
-		overlays += "[magazine.icon_state]"
-		return
-
 /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/update_icon()
-	src.overlays = 0
-	update_magazine()
+	..()
+	if(magazine)
+		overlays.Cut()
+		overlays += "[magazine.icon_state]"
 	icon_state = "bulldog[chambered ? "" : "-e"]"
 	return
 
@@ -429,6 +431,7 @@
 
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/abzats/update_icon()
+	..()
 	icon_state = "abzats[cover_open ? "open" : "closed"][magazine ? Ceiling(get_ammo(0)/12.5)*25 : "-empty"]"
 
 
