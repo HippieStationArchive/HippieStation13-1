@@ -384,6 +384,7 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/update_icon()
+	..()
 	if(magazine)
 		overlays.Cut()
 		overlays += "[magazine.icon_state]"
