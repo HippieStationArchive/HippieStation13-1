@@ -25,14 +25,19 @@
 	//initialise organs
 	organs = newlist(/obj/item/organ/limb/chest, /obj/item/organ/limb/head, /obj/item/organ/limb/l_arm,
 					 /obj/item/organ/limb/r_arm, /obj/item/organ/limb/r_leg, /obj/item/organ/limb/l_leg)
+
 	for(var/obj/item/organ/limb/O in organs)
 		O.owner = src
-		if(istype(O, /obj/item/organ/limb/head))
-			var/obj/item/organ/limb/head/U = O
-			var/obj/item/stack/teeth/T = new src.dna.species.teeth_type(U)
-			U.max_teeth = T.max_amount //Set max teeth for the head based on teeth spawntype
-			T.amount = T.max_amount
-			U.teeth_list += T
+
+	//initialise teeth
+	var/obj/item/organ/limb/head/U = locate() in organs
+	if(istype(U))
+		U.teeth_list.Cut() //Clear out their mouth of teeth
+		var/obj/item/stack/teeth/T = new dna.species.teeth_type(U)
+		U.max_teeth = T.max_amount //Set max teeth for the head based on teeth spawntype
+		T.amount = T.max_amount
+		U.teeth_list += T
+
 	internal_organs += new /obj/item/organ/internal/appendix
 	internal_organs += new /obj/item/organ/internal/heart
 	internal_organs += new /obj/item/organ/internal/brain
@@ -44,6 +49,7 @@
 	make_blood()
 
 	..()
+
 	var/mob/M = src
 	faction |= "\ref[M]"
 
@@ -319,14 +325,14 @@
 					return
 				L.embedded_objects -= I
 				L.take_damage(I.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
-				I.loc = get_turf(src)
+				I.loc = get_turf(usr)
 				if(I.pinned) //Only the rodgun pins people down currently
 					do_pindown(src.pinned_to, 0)
 					src.pinned_to = null
 					src.anchored = 0
 					update_canmove()
 					I.pinned = null
-				I.loc = get_turf(src)
+				I.loc = get_turf(usr)
 				I.add_fingerprint(usr)
 				src.emote("scream")
 				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.

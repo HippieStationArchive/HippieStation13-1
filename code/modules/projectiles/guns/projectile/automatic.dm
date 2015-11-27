@@ -22,8 +22,7 @@
 /obj/item/weapon/gun/projectile/automatic/proto/unrestricted
 
 /obj/item/weapon/gun/projectile/automatic/update_icon()
-	..()
-	overlays.Cut()
+	..() //overlays.Cut() is called in parent
 	if(!select)
 		overlays += "[initial(icon_state)]semi"
 	if(select == 1)
@@ -155,6 +154,12 @@
 	fire_delay = 1
 	burst_size = 3
 	spread = 6
+	can_flashlight = 1
+	flight_x_offset = 18
+	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
 	mag_load_sound = 'sound/effects/wep_magazines/ak922_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ak922_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ak922_chamber.ogg'
@@ -258,6 +263,12 @@
 	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+	can_flashlight = 1
+	flight_x_offset = 18
+	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
 
 /obj/item/weapon/gun/projectile/automatic/c90/New()
 	..()
@@ -352,7 +363,12 @@
 	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
-
+	can_flashlight = 1
+	flight_x_offset = 18
+	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
 
 /obj/item/weapon/gun/projectile/automatic/pistol/mac10
 	name = "Mac-10 SMG"

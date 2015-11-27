@@ -169,6 +169,11 @@
 					return 1
 				G.state = GRAB_KILL
 				A.visible_message("<span class='danger'>[A] performs a half-wing choke on [D]!</span>")
+				var/origTransform = D.transform
+				var/matrix/span1 = matrix(D.transform)
+				span1.Turn(45)
+				animate(D, transform = span1, time = 3)
+				animate(D, transform = origTransform, time = 5, easing = BACK_EASING)
 				add_logs(A, D, "half-wing choked", addition="(CQC)")
 
 				A.changeNext_move(CLICK_CD_TKSTRANGLE)
@@ -197,7 +202,7 @@
 				return 1
 			D.visible_message("<span class='danger'>[A] karate-chops [D]!</span>", \
 							  "<span class='userdanger'>[A] karate-chops you!</span>")
-			D << "<span class='warning'>You feel dizzy...</span>"
+			D << "<span class='warning'>You feel confused...</span>"
 			D.confused += 3 //Fucks with your movement
 			D.adjustStaminaLoss(20)
 			A.changeNext_move(20)
@@ -222,10 +227,11 @@
 			var/armor_block = D.run_armor_check(L, "melee")
 			D.apply_damage(9, damtype, L, armor_block) //Low as fuck brute to compensate for combo potential
 			D.apply_effect(10, PARALYZE, armor_block) //Will be decreased based on head armor, too
-			D.lying = 90 //Consistently be angled that way when pinned down for AESTHETICS
+			A.do_bounce_anim_dir(SOUTH, 4, 2, easeout = BOUNCE_EASING)
 			A.set_dir(EAST) //face the victim
 			D.set_dir(SOUTH) //face up
-			D.do_bounce_anim_dir(NORTH, 4, 8, easeout = BOUNCE_EASING)
+			spawn(2)
+				D.do_bounce_anim_dir(NORTH, 3, 4, easeout = BOUNCE_EASING)
 			A.changeNext_move(30) //3 seconds delay before next move
 			// A.Stun(3) //Sort of long stun
 			qdel(G)
@@ -234,6 +240,16 @@
 			return 0
 
 /datum/martial_art/cqc/proc/Combo(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	A.set_dir(get_dir(A, get_step_away(A, D)))
+	A.SpinAnimation(5,1)
+	D.Stun(2)
+	A.Stun(2)
+	sleep(2)
+	if(!A || !D) return
+	A.set_dir(get_dir(A, D))
+	A.stunned = 0
+	A.update_canmove()
+	playsound(A, get_sfx("punch"), 50, 1, -2)
 	D.visible_message("<span class='danger'>[A] roundhouse kicks [D] unconscious!</span>", \
 					  "<span class='userdanger'>[A] roundhouse kicks you unconscious!</span>")
 	var/obj/item/organ/limb/L = D.get_organ("head")
@@ -244,7 +260,6 @@
 	D.apply_effect(8, PARALYZE, armor_block) //Will be decreased based on head armor, too
 	A.do_attack_animation(D)
 	shake_camera(D, 3, 1)
-	playsound(A, get_sfx("punch"), 50, 1, -2)
 	playsound(D, pick("swing_hit"), 50, 1, -1)
 	add_logs(A, D, "roundhouse kicked", addition="(CQC)")
 	// A.Stun(2) //Stun for two ticks - ranging from 2 to 4 seconds
