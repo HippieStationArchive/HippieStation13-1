@@ -23,6 +23,7 @@
 	projectile_type = /obj/item/projectile/rod
 
 /obj/item/projectile/rod/on_hit(atom/target, blocked = 0, hit_zone)
+	..()
 	if(ismob(target))
 		playsound(target, 'sound/weapons/rodgun_pierce.ogg', 50, 1)
 		if(ishuman(target))
