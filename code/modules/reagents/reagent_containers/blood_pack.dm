@@ -3,7 +3,7 @@
 	desc = "Contains blood used for transfusion. Must be attached to an IV drip."
 	icon = 'icons/obj/bloodpack.dmi'
 	icon_state = "bloodpack"
-	volume = 200
+	volume = 400
 	flags = OPENCONTAINER //you can fill a tank with 1000u of chems,not like you can empty bloodpacks without an IV anywhoo
 
 	var/blood_type = null
@@ -12,7 +12,7 @@
 	..()
 	if(blood_type != null)
 		name = "blood pack [blood_type]"
-		reagents.add_reagent("blood", 200, list("donor"=null,"viruses"=null,"blood_DNA"=null,"blood_type"=blood_type,"resistances"=null,"trace_chem"=null))
+		reagents.add_reagent("blood", 400, list("donor"=null,"viruses"=null,"blood_DNA"=null,"blood_type"=blood_type,"resistances"=null,"trace_chem"=null))
 		update_icon()
 
 /obj/item/weapon/reagent_containers/blood/attack_self(mob/user)
