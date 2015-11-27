@@ -1,0 +1,6 @@
+author: Memendia
+
+delete-after: True
+
+changes: 
+  - rscadd: "You are now able to recall/reroll your Guaridan."
