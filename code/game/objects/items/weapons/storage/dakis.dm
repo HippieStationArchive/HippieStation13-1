@@ -54,6 +54,9 @@
 
 		icon_state = "daki_[body_choice]"	//Wew
 		custom_name = input("What's her name?") as text
+		if(length(custom_name)>=10) // FUCK IFINITE TEXT
+			user << "<span class='danger'>Name is too long!</span>"
+			return
 		name = custom_name + " " + name
 		desc = "A large pillow depicting [custom_name] in a compromising position. Featuring as many dimensions as you."
 	else
