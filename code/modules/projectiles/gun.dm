@@ -412,7 +412,7 @@
 
 	semicd = 1
 
-	if(!do_mob(user, target, 120) || user.zone_sel.selecting != "mouth")
+	if(!do_mob(user, target, 120, numticks = 60) || user.zone_sel.selecting != "mouth") //60 ticks for 120 time, means it checks adjacency every 2 secs
 		if(user)
 			if(user == target)
 				user.visible_message("<span class='notice'>[user] decided life was worth living.</span>")
