@@ -1,5 +1,5 @@
 /obj/singularity/energy_ball
-	name = "Energy Ball"
+	name = "energy ball"
 	icon = 'icons/obj/tesla_engine/energy_ball.dmi'
 	icon_state = "energy_ball"
 	pixel_x = -32
@@ -19,7 +19,7 @@
 	var/move_dir = pick(alldirs)
 	var/turf/T = get_step(src,move_dir)
 	if(can_move(T))
-		loc = get_step(src,move_dir)
+		loc = T
 	return
 
 /obj/singularity/energy_ball/Bump(atom/A)
@@ -34,7 +34,7 @@
 		C.dust()
 	return
 
-proc/get_closest_atom(var/type, var/list, var/source)
+/proc/get_closest_atom(var/type, var/list, var/source)
 	var/closest_atom
 	var/closest_distance
 	for(var/A in list)
@@ -50,7 +50,7 @@ proc/get_closest_atom(var/type, var/list, var/source)
 				closest_atom = A
 	return closest_atom
 
-proc/tesla_zap(var/atom/source, var/zap_range = 3, var/power)
+/proc/tesla_zap(var/atom/source, var/zap_range = 3, var/power)
 	if(power < 1000)
 		return
 	var/list/tesla_coils = list()
