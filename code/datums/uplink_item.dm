@@ -265,6 +265,12 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 	surplus = 40
 
+/datum/uplink_item/dangerous/knife
+	name = "Combat Knife"
+	desc = "A military knife that has decent force and huge embedding chance when thrown. Can be considered stealthy."
+	item = /obj/item/weapon/melee/combatknife
+	cost = 3
+
 /datum/uplink_item/dangerous/sword
 	name = "Energy Sword"
 	desc = "The energy sword is an edged weapon with a blade of pure energy. The sword is small enough to be pocketed when inactive. Activating it produces a loud, distinctive noise. One can combine two \
@@ -345,6 +351,7 @@ var/list/uplink_items = list()
 	cost = 140
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
+
 /datum/uplink_item/dangerous/cqc_gloves
 	name = "Tactical Gloves"
 	desc = "Comfortable grey gloves with the CQC martial art inside."
@@ -394,7 +401,7 @@ var/list/uplink_items = list()
 	name = "Speed Loader - .357"
 	desc = "A speed loader that contains seven additional .357 Magnum rounds for the syndicate revolver. For when you really need a lot of things dead."
 	item = /obj/item/ammo_box/a357
-	cost = 4
+	cost = 2
 
 /datum/uplink_item/ammo/smg
 	name = "SMG Magazine - .45 ACP"

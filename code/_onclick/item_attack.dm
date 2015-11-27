@@ -77,9 +77,9 @@
 		return
 
 	if (hitsound && force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
-		playsound(loc, hitsound, get_clamped_volume(), 1, -1) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
+		playsound(loc, hitsound, get_clamped_volume(), 1, hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
 	else if (force == 0)//Otherwise, if the item's force is zero...
-		playsound(loc, 'sound/weapons/tap.ogg', get_clamped_volume(), 1, -1)//...play tap.ogg at get_clamped_volume()
+		playsound(loc, 'sound/weapons/tap.ogg', get_clamped_volume(), 1, hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
 	/////////////////////////
 	user.lastattacked = M
 	M.lastattacker = user
