@@ -208,4 +208,5 @@
 
 //Send all needed nano ui files to the client
 /datum/subsystem/nano/proc/send_resources(client)
-	getFilesSlow(client, asset_files)
+	for(var/file in asset_files)
+		client << browse_rsc(file)
