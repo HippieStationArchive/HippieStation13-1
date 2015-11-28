@@ -68,6 +68,8 @@ calculate the longest number of ticks the MC can wait between each cycle without
 		S.Initialize(world.timeofday, zlevel)
 		sleep(-1)
 
+	populate_asset_cache()
+
 	world << "<span class='boldannounce'>Initializations complete</span>"
 
 	world.sleep_offline = 1
