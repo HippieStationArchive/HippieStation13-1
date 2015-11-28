@@ -275,6 +275,22 @@
 		if(is_shadow_or_thrall(M) || (M in dead_mob_list))
 			M << "<span class='shadowling'><b>\[Shadowling\]</b><i> [usr.real_name]</i>: [text]</span>"
 
+/obj/effect/proc_holder/spell/targeted/ascendant_transmit //Sends a message to the entire world. If this gets abused too much it can be removed safely
+	name = "Ascendant Broadcast"
+	desc = "Sends a message to the whole wide world."
+	panel = "Ascendant"
+	charge_max = 200
+	clothes_req = 0
+	range = -1
+	include_user = 1
+	action_icon_state = "transmit"
+
+/obj/effect/proc_holder/spell/targeted/ascendant_transmit/cast(list/targets)
+	for(var/mob/living/user in targets)
+		var/text = stripped_input(user, "What do you want to say to everything on and near [station_name()]?.", "Transmit to World", "")
+		if(!text)
+			return
+		world << "<font size=4><span class='shadowling'><b>\"[text]\"</font></span>"
 
 /obj/effect/proc_holder/spell/self/shadowling_regenarmor //Resets a shadowling's species to normal, removes genetic defects, and re-equips their armor
 	name = "Rapid Re-Hatch"
