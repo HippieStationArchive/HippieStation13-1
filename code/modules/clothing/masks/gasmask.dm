@@ -173,3 +173,16 @@ obj/item/clothing/mask/gas/tiki_mask/attack_self(mob/user)
 		icon_state = options[choice]
 		M << "The Tiki Mask has now changed into the [choice] Mask!"
 	return 1
+
+obj/item/clothing/mask/respirator
+	name = "respirator"
+	desc = "A face-covering mask that can be connected to an air supply." //More accurate
+	icon_state = "respirator"
+	flags = BLOCK_GAS_SMOKE_EFFECT | MASKINTERNALS
+	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE
+	w_class = 3
+	item_state = "respirator"
+	gas_transfer_coefficient = 0.01
+	permeability_coefficient = 0.01
+	flags_cover = MASKCOVERSEYES | MASKCOVERSMOUTH
+	burn_state = -1 //Won't burn in fires
