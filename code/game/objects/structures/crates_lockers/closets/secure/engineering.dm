@@ -72,6 +72,7 @@
 	new /obj/item/tapeproj/engineering(src)
 	new /obj/item/clothing/mask/gas(src)
 	new /obj/item/clothing/glasses/meson/engine(src)
+	new /obj/item/clothing/mask/respirator(src)
 
 
 /obj/structure/closet/secure_closet/atmospherics
