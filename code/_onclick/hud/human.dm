@@ -306,6 +306,7 @@
 	mymob.flash.blend_mode = BLEND_ADD
 	mymob.flash.screen_loc = "WEST,SOUTH to EAST,NORTH"
 	mymob.flash.layer = 17
+	mymob.flash.mouse_opacity = 0
 
 	mymob.zone_sel = new /obj/screen/zone_sel()
 	mymob.zone_sel.icon = ui_style
