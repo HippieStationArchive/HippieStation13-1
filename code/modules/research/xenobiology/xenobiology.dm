@@ -473,47 +473,6 @@
 	qdel(src)
 
 
-/obj/effect/golemrune/temmie
-	name = "Temmie Rune"
-	desc = "A million greetings echo through this rune."
-
-	New()
-		..()
-		SSobj.processing |= src
-
-/obj/effect/golemrune/temmie/process()
-	var/mob/dead/observer/ghost
-	for(var/mob/dead/observer/O in src.loc)
-		if(!O.client)	continue
-		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
-		ghost = O
-		break
-	if(ghost)
-		icon_state = "golem2"
-	else
-		icon_state = "golem"
-
-/obj/effect/golemrune/temmie/attack_hand(mob/living/user)
-	var/mob/dead/observer/ghost
-	for(var/mob/dead/observer/O in src.loc)
-		if(!O.client)	continue
-		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
-		ghost = O
-		break
-	if(!ghost)
-		user << "<span class='warning'>The rune fizzles uselessly! There is no spirit nearby.</span>"
-		return
-	var/mob/living/simple_animal/hostile/temmie/G = new /mob/living/simple_animal/hostile/temmie
-	G.set_species(/mob/living/simple_animal/hostile/temmie)
-	G.loc = src.loc
-	G.key = ghost.key
-	G << "Hoi!"
-	if(user.mind.special_role)
-		message_admins("[G.real_name] has been summoned by [user.real_name], an antagonist.")
-	log_game("[G.real_name] ([G.key]) was made Temmie by [user.real_name]([user.key] using a Temmie-rune).")
-	qdel(src)
-
-
 /obj/effect/timestop
 	anchored = 1
 	name = "chronofield"

@@ -411,7 +411,7 @@ body
 
 	else if(href_list["datumrefresh"])
 		var/datum/DAT = locate(href_list["datumrefresh"])
-		if(!DAT) //can't be an istype() because /client etc aren't datums
+		if(!istype(DAT, /datum))
 			return
 		src.debug_variables(DAT)
 
