@@ -45,6 +45,7 @@ var/list/ai_list = list()
 	var/list/datum/AI_Module/current_modules = list()
 	var/fire_res_on_core = 0
 	var/can_dominate_mechs = 0
+	var/shunted = 0 //1 if the AI is currently shunted. Used to differentiate between shunted and ghosted/braindead
 
 	var/control_disabled = 0 // Set to 1 to stop AI from interacting via Click()
 	var/malfhacking = 0 // More or less a copy of the above var, so that malf AIs can hack and still get new cyborgs -- NeoFite
@@ -255,11 +256,6 @@ var/list/ai_list = list()
  				Module: [R.designation] | Loc: [borg_area.name] | Status: [robot_status]"))
 		else
 			stat(null, text("Systems nonfunctional"))
-
-/mob/living/silicon/ai/canUseTopic()
-	if(stat)
-		return
-	return 1
 
 /mob/living/silicon/ai/proc/ai_alerts()
 	var/dat = "<HEAD><TITLE>Current Station Alerts</TITLE><META HTTP-EQUIV='Refresh' CONTENT='10'></HEAD><BODY>\n"
