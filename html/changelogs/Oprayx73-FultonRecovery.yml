@@ -35,4 +35,6 @@ delete-after: True
 changes: 
   - rscadd: "RESEARCH ITEM/TRAITOR ITEM: Fulton Recovery Device"
   - rscadd: "Needs a beacon to send items to, anything not bolted down can be fultoned, even people."
+  - rscadd: "Sync the device to a beacon by engaging it inhand or, smacking a beacon with the device itself."
+  - rscadd: "[Note: if there is only one beacon out there, engaging it inhand will automatically calibrate to that beacon.]"
   - rscadd: "Big credits to iamgoofball and fragg for sprites & code."
