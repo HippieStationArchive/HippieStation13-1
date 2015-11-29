@@ -273,3 +273,14 @@
 	materials = list(MAT_METAL = 2000, MAT_SILVER = 500)
 	build_path = /obj/item/weapon/suppressor
 	category = list("Weapons")
+
+/datum/design/fulton
+	name = "Fulton Recovery Device"
+	desc = "A balloon that can be used to extract a target to a Balloon Extraction Point. Anything not bolted down can be moved."
+	id = "extraction_pack"
+	req_tech = list("combat" = 4, "engineering" = 5)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 2000, MAT_SILVER = 500)
+	build_path = /obj/item/weapon/extraction_pack
+	category = list("Weapons")
+
