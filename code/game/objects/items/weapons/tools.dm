@@ -21,8 +21,8 @@
 	icon_state = "wrench"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
-	force = 5
-	throwforce = 7
+	force = 7
+	throwforce = 10
 	w_class = 2
 	materials = list(MAT_METAL=150)
 	origin_tech = "materials=1;engineering=1"
@@ -497,8 +497,8 @@
 	icon_state = "crowbar"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
-	force = 5
-	throwforce = 7
+	force = 7
+	throwforce = 10
 	item_state = "crowbar"
 	w_class = 2
 	materials = list(MAT_METAL=50)
