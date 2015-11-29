@@ -1,0 +1,43 @@
+################################
+# Example Changelog File
+#
+# Note: This file, and files beginning with ".", and files that don't end in ".yml" will not be read. If you change this file, you will look really dumb.
+#
+# Your changelog will be merged with a master changelog. (New stuff added only, and only on the date entry for the day it was merged.)
+# When it is, any changes listed below will disappear.
+#
+# Valid Prefixes: 
+#   bugfix
+#   wip (For works in progress)
+#   tweak
+#   soundadd
+#   sounddel
+#   rscadd (general adding of nice things)
+#   rscdel (general deleting of nice things)
+#   imageadd
+#   imagedel
+#   spellcheck (typo fixes)
+#   experiment
+#   tgs (TG-ported fixes?)
+#################################
+
+# Your name.  
+author: Chronitonity
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - tweak: "Shadowling abilities now require the user to be human."
+  - tweak: "Enthralling now takes 21 seconds (down from 30)."
+  - tweak: "Regenerate Chitin has been renamed to Rapid Re-Hatch."
+  - tweak: "Dethralling surgery's final step now requires a flash, penlight, or flashlight."
+  - tweak: "Dethralling surgery now produces a black tumor, which has a high biological tech origin but dies quickly in the light."
+  - rscdel: "Shadowlings no longer have Enthrall before hatching."
+  - rscadd: "Shadowling clothing now has icons to better reflect its existence."
+  - rscdel: "Destroy Engines is now removed from the user after it is used once."
