@@ -290,3 +290,16 @@
 	feedback_add_details("changeling_powers", "PS")
 	return 1
 
+/obj/effect/proc_holder/changeling/sting/death
+	name = "Death Sting"
+	desc = "We inject a small amount of deadly poison that will kill the victim over a long period of time."
+	helptext = "Our target will know immediately of their plight. The toxin's metabolization is very low and it will slowly drain blood as well as deal toxin damage to the victim."
+	sting_icon = "sting_poison"
+	req_dna = 6 //Tier 3
+	chemical_cost = 50 //A potential guaranteed death is nothing to laugh at
+	evopoints_cost = 5 //Hefty price for the DEATH STING.
+
+/obj/effect/proc_holder/changeling/sting/death/sting_action(mob/user, mob/target)
+	add_logs(user, target, "stung", "death sting")
+	if(target.reagents)
+		target.reagents.add_reagent("wasting_toxin", 5)

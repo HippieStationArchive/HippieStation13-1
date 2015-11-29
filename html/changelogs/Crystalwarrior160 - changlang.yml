@@ -7,6 +7,7 @@ changes:
   - rscremove: "Removed Changeling team objectives"
   - rscadd: "Added synaptic enhancement as a changeling ability. When active, this will halve the delay between actions such as attacking."
   - rscadd: "Paralysis Sting has been re-added and revamped. After a short delay based on the victim's health, they will be knocked down for fifteen seconds."
+  - rscadd: "Death Sting has been re-added and revamped. It will inject them with a small dosage of Wasting Toxin with slow metabolization rate, which will slowly drain blood and deal toxin damage to the victim."
   - rscadd: "Horror Form has been added. When used, this will transform the changeling into their powerful true form, able to deal powerful damage, crawl through vents, and tear into living and dead humans to heal themselves. They will be incapable of returning to a human for three minutes, and when they do, are stunned for ten seconds. Death will automatically turn them back into humans and knock them out for thirty seconds."
   - tweak: "Chameleon ability for Changelings now makes them invisible to mouse cursor when they're completely invisible."
   - tweak: "Chameleon ability has been sped up slightly."
