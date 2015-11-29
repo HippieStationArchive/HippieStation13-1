@@ -3,7 +3,8 @@
 	desc = "We tear apart our human disguise, revealing our true form."
 	helptext = "We will become an unstoppable force of destruction. We will be able to turn back into a human after some time."
 	chemical_cost = 75
-	dna_cost = 20 //Requires a massive amount of absorptions
+	evopoints_cost = 15 //High cost
+	req_dna = 9 //Tier 4
 	req_human = 1
 
 /obj/effect/proc_holder/changeling/horror_form/sting_action(mob/living/carbon/human/user)

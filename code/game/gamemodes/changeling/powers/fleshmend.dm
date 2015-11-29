@@ -3,7 +3,8 @@
 	desc = "Our flesh rapidly regenerates, healing our wounds. Effectiveness decreases with quick, repeated use."
 	helptext = "Heals a moderate amount of damage over a short period of time. Can be used while unconscious."
 	chemical_cost = 25
-	dna_cost = 8
+	evopoints_cost = 4
+	req_dna = 6 //Tier 3
 	req_stat = UNCONSCIOUS
 	var/recent_uses = 1 //The factor of which the healing should be divided by
 

@@ -123,16 +123,22 @@
 		T.devouring = FALSE
 		return 0
 	T.devouring = FALSE
-	T.visible_message("<span class='warning'>[T] tears a chunk from [lunch]'s flesh!</span>", \
-					"<span class='danger'>We tear a chunk of flesh from [lunch] and devour it!</span>")
-	lunch.adjustBruteLoss(60)
-	lunch << "<span class='userdanger'>[T] takes a huge bite out of you!</span>"
-	var/obj/effect/decal/cleanable/blood/gibs/G = new(get_turf(lunch))
-	step(G, pick(alldirs)) //Make some gibs spray out for dramatic effect
-	playsound(lunch, 'sound/effects/splat.ogg', 50, 1)
-	if(!lunch.stat)
-		lunch.emote("scream")
-	if(lunch.disabilities & FAT)
+	var/fat = lunch.disabilities & FAT
+	if(lunch.bruteloss >= 300) //Wew lad they're pretty fucking eaten up eh.
+		lunch.gib()
+		T.visible_message("<span class='warning'>[lunch] is completely devoured by [T]!</span>", \
+						"<span class='danger'>You completely devour [T]!</span>")
+	else
+		lunch.adjustBruteLoss(60)
+		T.visible_message("<span class='warning'>[T] tears a chunk from [lunch]'s flesh!</span>", \
+						"<span class='danger'>We tear a chunk of flesh from [lunch] and devour it!</span>")
+		lunch << "<span class='userdanger'>[T] takes a huge bite out of you!</span>"
+		var/obj/effect/decal/cleanable/blood/gibs/G = new(get_turf(lunch))
+		step(G, pick(alldirs)) //Make some gibs spray out for dramatic effect
+		playsound(lunch, 'sound/effects/splat.ogg', 50, 1)
+		if(!lunch.stat)
+			lunch.emote("scream")
+	if(fat)
 		T.adjustBruteLoss(-100) //Tasty leetle peegy
 	else
 		T.adjustBruteLoss(-50)

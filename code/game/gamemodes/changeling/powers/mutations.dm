@@ -14,9 +14,9 @@
 	desc = "Go tell a coder if you see this"
 	helptext = "Yell at Miauw and/or Perakp"
 	chemical_cost = 1000
-	dna_cost = -1
+	evopoints_cost = -1
 	genetic_damage = 1000
-
+	req_dna = 6 //Tier 3
 	var/weapon_type
 	var/weapon_name_simple
 
@@ -57,9 +57,9 @@
 	desc = "Go tell a coder if you see this"
 	helptext = "Yell at Miauw and/or Perakp"
 	chemical_cost = 1000
-	dna_cost = -1
+	evopoints_cost = -1
 	genetic_damage = 1000
-
+	req_dna = 6 //Tier 3
 	var/helmet_type = /obj/item
 	var/suit_type = /obj/item
 	var/suit_name_simple = "    "
@@ -131,7 +131,8 @@
 	desc = "We reform one of our arms into a deadly blade."
 	helptext = "We may retract our armblade in the same manner as we form it. Cannot be used while in lesser form."
 	chemical_cost = 35 //Expensive chemical cost
-	dna_cost = 8 //Rather high DNA cost so armblade murderbone comes later into the round
+	evopoints_cost = 6 //Rather high DNA cost so armblade murderbone comes later into the round
+	req_dna = 9 //Tier 4
 	genetic_damage = 10
 	req_human = 1
 	max_genetic_damage = 20
@@ -204,7 +205,7 @@
 	desc = "We reform one of our arms into a hard shield."
 	helptext = "Organic tissue cannot resist damage forever; the shield will break after it is hit too much. The more genomes we absorb, the stronger it is. Cannot be used while in lesser form."
 	chemical_cost = 20
-	dna_cost = 5 //Less DNA required than armblade due to it being a shield, a less-offensive type of weapon
+	evopoints_cost = 5 //Less DNA required than armblade due to it being a shield, a less-offensive type of weapon
 	genetic_damage = 12
 	req_human = 1
 	max_genetic_damage = 20
@@ -259,7 +260,7 @@
 	desc = "We grow an organic suit to protect ourselves from space exposure."
 	helptext = "We must constantly repair our form to make it space-proof, reducing chemical production while we are protected. Retreating the suit damages our genomes. Cannot be used in lesser form."
 	chemical_cost = 20
-	dna_cost = 3
+	evopoints_cost = 3
 	genetic_damage = 8
 	req_human = 1
 	max_genetic_damage = 20
@@ -313,7 +314,7 @@
 	desc = "We turn our skin into tough chitin to protect us from damage."
 	helptext = "Upkeep of the armor requires a low expenditure of chemicals. The armor is strong against brute force, but does not provide much protection from lasers. Retreating the armor damages our genomes. Cannot be used in lesser form."
 	chemical_cost = 25 //More chems than spess suit
-	dna_cost = 6 //Cooler than just a shield therefore 6 DNA required
+	evopoints_cost = 6 //Cooler than just a shield therefore 6 DNA required
 	genetic_damage = 11
 	req_human = 1
 	max_genetic_damage = 20

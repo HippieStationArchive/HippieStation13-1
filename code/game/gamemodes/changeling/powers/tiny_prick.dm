@@ -4,6 +4,7 @@
 	var/sting_icon = null
 	var/standing_req = 0 //If the target has to be standing
 	var/conscious_req = 1 //If the sting can only be used on conscious targets
+	var/alive_req = 1
 
 /obj/effect/proc_holder/changeling/sting/Click()
 	var/mob/user = usr
@@ -42,7 +43,7 @@
 		return
 	if(!isturf(user.loc))
 		return
-	if(!AStar(user.loc, target.loc, null, /turf/proc/Distance, user.mind.changeling.sting_range, simulated_only = 0))
+	if(!AStar(user.loc, target.loc, null, /turf/proc/Distance, user.mind.changeling.sting_range))
 		return
 	if(standing_req && target.lying)
 		user << "<span class='warning'>We can only use this sting on standing targets!</span>"
@@ -50,7 +51,7 @@
 	if(conscious_req && target.stat)
 		user << "<span class='warning'>We can only use this sting on conscious targets!</span>"
 		return
-	if(target.stat == DEAD) //Dead, i.e. cannot metabolize chemicals!
+	if(alive_req && target.stat == DEAD) //Dead, i.e. cannot metabolize chemicals!
 		user << "<span class='warning'>[target] is dead!</span>"
 		return
 	if(target.mind && target.mind.changeling)
@@ -74,7 +75,11 @@
 	helptext = "The victim will transform much like a changeling would. The effects will be obvious to the victim, and the process will damage our genomes."
 	sting_icon = "sting_transform"
 	chemical_cost = 40
-	dna_cost = 3
+	evopoints_cost = 3
+	req_dna = 3 //Tier 2
+	alive_req = 0 //Can sting corpses
+	standing_req = 0
+	conscious_req = 0
 	genetic_damage = 100
 	var/datum/changelingprofile/selected_dna = null
 
@@ -125,7 +130,8 @@
 	helptext = "The victim will form an armblade much like a changeling would, except the armblade is dull and useless."
 	sting_icon = "sting_armblade"
 	chemical_cost = 40
-	dna_cost = 3
+	evopoints_cost = 3
+	req_dna = 3 //Tier 2
 	genetic_damage = 20
 	max_genetic_damage = 10
 
@@ -176,7 +182,7 @@
 	helptext = "Will give you the DNA of your target, allowing you to transform into them."
 	sting_icon = "sting_extract"
 	chemical_cost = 25
-	dna_cost = 0
+	evopoints_cost = 0
 
 /obj/effect/proc_holder/changeling/sting/extract_dna/can_sting(mob/user, mob/target)
 	if(..())
@@ -195,7 +201,7 @@
 	helptext = "Our target will not be alerted to their silence until they attempt to speak and cannot."
 	sting_icon = "sting_mute"
 	chemical_cost = 20
-	dna_cost = 3
+	evopoints_cost = 3
 
 /obj/effect/proc_holder/changeling/sting/mute/sting_action(mob/user, mob/living/carbon/target)
 	add_logs(user, target, "stung", "mute sting")
@@ -209,7 +215,7 @@
 	helptext = "The victim will immediately be blinded for a short time in addition to becoming permanently nearsighted."
 	sting_icon = "sting_blind"
 	chemical_cost = 25
-	dna_cost = 2
+	evopoints_cost = 2
 
 /obj/effect/proc_holder/changeling/sting/blind/sting_action(mob/user, mob/target)
 	add_logs(user, target, "stung", "blind sting")
@@ -227,7 +233,7 @@
 	helptext = "We evolve the ability to sting a target with a powerful hallucinogenic chemical. The target does not notice they have been stung, and the effect occurs after 30 to 60 seconds."
 	sting_icon = "sting_lsd"
 	chemical_cost = 10
-	dna_cost = 1
+	evopoints_cost = 1
 
 /obj/effect/proc_holder/changeling/sting/LSD/sting_action(mob/user, mob/living/carbon/target)
 	add_logs(user, target, "stung", "LSD sting")
@@ -243,7 +249,7 @@
 	helptext = "This will provide an ambiguous warning to the victim after a short time."
 	sting_icon = "sting_cryogenic"
 	chemical_cost = 15
-	dna_cost = 3
+	evopoints_cost = 3
 	conscious_req = 0 //Can be used on the unconscious
 
 /obj/effect/proc_holder/changeling/sting/cryo/sting_action(mob/user, mob/target)
@@ -265,7 +271,8 @@
 	helptext = "They will immediately be notified of their impending fate and will still be able to speak while paralyzed. The paralysis will last for around fifteen seconds."
 	sting_icon = "sting_paralysis"
 	chemical_cost = 30
-	dna_cost = 5
+	evopoints_cost = 4
+	req_dna = 3 //Tier 2
 	standing_req = 1
 
 /obj/effect/proc_holder/changeling/sting/paralysis/sting_action(mob/user, mob/living/target)

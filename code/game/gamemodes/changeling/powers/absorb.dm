@@ -2,7 +2,7 @@
 	name = "Absorb DNA"
 	desc = "Absorb the DNA of our victim."
 	chemical_cost = 0
-	dna_cost = 0
+	evopoints_cost = 0
 	req_human = 1
 	max_genetic_damage = 100
 
@@ -39,7 +39,7 @@
 				target.take_overall_damage(40)
 
 		feedback_add_details("changeling_powers","A[stage]")
-		if(!do_mob(user, target, 150))
+		if(!do_mob(user, target, 130)) //13 seconds per stage
 			user << "<span class='warning'>Our absorption of [target] has been interrupted!</span>"
 			changeling.isabsorbing = 0
 			return
@@ -100,7 +100,7 @@
 
 	changeling.isabsorbing = 0
 	changeling.canrespec = 1
-
+	qdel(G)
 	target.death(0)
 	target.Drain()
 	return 1

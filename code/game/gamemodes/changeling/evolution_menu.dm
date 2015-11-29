@@ -4,7 +4,7 @@ var/list/sting_paths
 /obj/effect/proc_holder/changeling/evolution_menu
 	name = "-Evolution Menu-" //Dashes are so it's listed before all the other abilities.
 	desc = "Choose our method of subjugation."
-	dna_cost = 0
+	evopoints_cost = 0
 
 /obj/effect/proc_holder/changeling/evolution_menu/Click()
 	if(!usr || !usr.mind || !usr.mind.changeling)
@@ -230,12 +230,18 @@ var/list/sting_paths
 		<table width='560' align='center' cellspacing='0' cellpadding='5' id='maintable_data'>"}
 
 	var/i = 1
+	var/list/abils = list()
 	for(var/path in sting_paths)
-
 		var/obj/effect/proc_holder/changeling/P = new path()
-		if(P.dna_cost <= 0) //Let's skip the crap we start with. Keeps the evolution menu uncluttered.
+		if(P.evopoints_cost <= 0) //Let's skip the crap we start with. Keeps the evolution menu uncluttered.
 			continue
+		abils += P
 
+	sortTim(abils, /proc/cmp_changeling_sort) //Sort changeling abilities based on tier and evopoints cost
+
+	var/tier = 0
+	var/last_req_dna = -1 //So Tier 1 shows up
+	for(var/obj/effect/proc_holder/changeling/P in abils)
 		var/ownsthis = changeling.has_sting(P)
 
 		var/color
@@ -249,8 +255,20 @@ var/list/sting_paths
 				color = "#f2f2f2"
 			else
 				color = "#e6e6e6"
-
-
+		if(P.req_dna > last_req_dna) //Ascend tiers based on required DNA
+			last_req_dna = P.req_dna
+			tier++
+			var/clr = "#c0c0c0"
+			if(last_req_dna<=changeling.absorbedcount) //Can purchase items in this tier
+				clr = "#c0eec0"
+			dat += {"
+			<tr id='tier[tier]'>
+				<td align='center' bgcolor='[clr]'>
+					<font size='5'><b>Tier [tier][last_req_dna>changeling.absorbedcount ? " - Requires [last_req_dna] absorptions to unlock" : ""]</b></font>
+					<br>
+				</td>
+			</tr>
+			"}
 		dat += {"
 
 			<tr id='data[i]' name='[i]' onClick="addToLocked('item[i]','data[i]','notice_span[i]')">
@@ -259,7 +277,7 @@ var/list/sting_paths
 					<a id='link[i]'
 					onmouseover='expand("item[i]","[P.name]","[P.desc]","[P.helptext]","[P]",[ownsthis])'
 					>
-					<b id='search[i]'>Evolve [P][ownsthis ? " - Purchased" : (P.req_dna>changeling.absorbedcount ? " - Requires [P.req_dna] absorptions" : " - Cost: [P.dna_cost]")]</b>
+					<b id='search[i]'>Evolve [P][ownsthis ? " - Purchased" : (P.req_dna>changeling.absorbedcount ? " - Requires [P.req_dna] absorptions" : " - Cost: [P.evopoints_cost]")]</b>
 					</a>
 					<br><span id='item[i]'></span>
 				</td>
@@ -320,11 +338,11 @@ var/list/sting_paths
 		user << "We have already evolved this ability!"
 		return
 
-	if(thepower.dna_cost < 0)
+	if(thepower.evopoints_cost < 0)
 		user << "We cannot evolve this ability."
 		return
 
-	if(geneticpoints < thepower.dna_cost)
+	if(geneticpoints < thepower.evopoints_cost)
 		user << "We have reached our capacity for abilities."
 		return
 
@@ -332,7 +350,7 @@ var/list/sting_paths
 		user << "We lack the energy to evolve new abilities right now."
 		return
 
-	geneticpoints -= thepower.dna_cost
+	geneticpoints -= thepower.evopoints_cost
 	purchasedpowers += thepower
 	thepower.on_purchase(user)
 
@@ -365,7 +383,7 @@ var/list/sting_paths
 	// purchase free powers.
 	for(var/path in sting_paths)
 		var/obj/effect/proc_holder/changeling/S = new path()
-		if(!S.dna_cost)
+		if(!S.evopoints_cost)
 			if(!mind.changeling.has_sting(S))
 				mind.changeling.purchasedpowers+=S
 			S.on_purchase(src)
@@ -392,7 +410,7 @@ var/list/sting_paths
 			mind.changeling.changeling_speak = 0
 			mind.changeling.reset()
 			for(var/obj/effect/proc_holder/changeling/p in mind.changeling.purchasedpowers)
-				if(p.dna_cost == 0 && keep_free_powers)
+				if(p.evopoints_cost == 0 && keep_free_powers)
 					continue
 				mind.changeling.purchasedpowers -= p
 				p.on_refund(src)
@@ -405,3 +423,7 @@ var/list/sting_paths
 		if(power.name == P.name)
 			return 1
 	return 0
+
+//Sorting procs
+/proc/cmp_changeling_sort(obj/effect/proc_holder/changeling/a, obj/effect/proc_holder/changeling/b)
+	return (a.req_dna + a.evopoints_cost) - (b.req_dna + b.evopoints_cost)

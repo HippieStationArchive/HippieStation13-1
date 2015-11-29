@@ -6,7 +6,8 @@
 	desc = "Creates heat receptors in our eyes and dramatically increases light sensing ability, or protects your vision from flashes."
 	helptext = "Grants us thermal vision or flash protection. We will become a lot more vulnerable to flash-based devices while thermal vision is active."
 	chemical_cost = 0
-	dna_cost = 2 //Would be 1 without thermal vision
+	evopoints_cost = 2 //Would be 1 without thermal vision
+	req_dna = 3 //Tier 2
 	var/active = 0 //Whether or not vision is enhanced
 
 /obj/effect/proc_holder/changeling/augmented_eyesight/sting_action(mob/living/carbon/human/user)

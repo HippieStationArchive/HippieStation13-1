@@ -3,7 +3,8 @@
 	desc = "We debase ourselves and become lesser. We become a monkey."
 	helptext = "This will cause us to unequip any items we cannot wear."
 	chemical_cost = 5
-	dna_cost = 1
+	evopoints_cost = 0 //Innate
+	req_dna = 3 //Tier 2
 	genetic_damage = 3
 	req_human = 1
 
