@@ -15,11 +15,19 @@
 		return
 	if(user.getorgan(/obj/item/organ/internal/cyberimp/eyes/thermals/ling))
 		user << "<span class='notice'>We shield our eyes from harsh light.</span>"
-		var/obj/item/organ/internal/cyberimp/eyes/O = new /obj/item/organ/internal/cyberimp/eyes/shield/ling()
+		var/obj/item/organ/internal/cyberimp/eyes/O = user.getorganslot("eye_ling")
+		if(O)
+			O.Remove(user)
+			qdel(O)
+		O = new /obj/item/organ/internal/cyberimp/eyes/shield/ling()
 		O.Insert(user)
 
 	else
-		var/obj/item/organ/internal/cyberimp/eyes/O = new /obj/item/organ/internal/cyberimp/eyes/thermals/ling()
+		var/obj/item/organ/internal/cyberimp/eyes/O = user.getorganslot("eye_ling")
+		if(O)
+			O.Remove(user)
+			qdel(O)
+		O = new /obj/item/organ/internal/cyberimp/eyes/thermals/ling()
 		O.Insert(user)
 
 	return 1

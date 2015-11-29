@@ -247,7 +247,7 @@
 	name = "Cryogenic Sting"
 	desc = "We silently sting a human with a cocktail of chemicals that freeze them."
 	helptext = "This will provide an ambiguous warning to the victim after a short time."
-	sting_icon = "sting_cryogenic"
+	sting_icon = "sting_cryo"
 	chemical_cost = 15
 	evopoints_cost = 3
 	conscious_req = 0 //Can be used on the unconscious

@@ -200,7 +200,7 @@
 /***************************************\
 |****************SHIELD*****************|
 \***************************************/
-/obj/effect/proc_holder/changeling/weapon/shield
+/*/obj/effect/proc_holder/changeling/weapon/shield
 	name = "Organic Shield"
 	desc = "We reform one of our arms into a hard shield."
 	helptext = "Organic tissue cannot resist damage forever; the shield will break after it is hit too much. The more genomes we absorb, the stronger it is. Cannot be used while in lesser form."
@@ -211,7 +211,7 @@
 	max_genetic_damage = 20
 
 	weapon_type = /obj/item/weapon/shield/changeling
-	weapon_name_simple = "shield"
+	weapon_name_simple = "shield"*/
 
 /obj/effect/proc_holder/changeling/weapon/shield/sting_action(mob/user)
 	var/datum/changeling/changeling = user.mind.changeling //So we can read the absorbedcount.
@@ -309,7 +309,7 @@
 /***************************************\
 |*****************ARMOR*****************|
 \***************************************/
-/obj/effect/proc_holder/changeling/suit/armor
+/*/obj/effect/proc_holder/changeling/suit/armor
 	name = "Chitinous Armor"
 	desc = "We turn our skin into tough chitin to protect us from damage."
 	helptext = "Upkeep of the armor requires a low expenditure of chemicals. The armor is strong against brute force, but does not provide much protection from lasers. Retreating the armor damages our genomes. Cannot be used in lesser form."
@@ -324,7 +324,7 @@
 	helmet_type = /obj/item/clothing/head/helmet/changeling
 	suit_name_simple = "armor"
 	helmet_name_simple = "helmet"
-
+*/
 /obj/item/clothing/suit/armor/changeling
 	name = "chitinous mass"
 	desc = "A tough, hard covering of black chitin."

@@ -430,7 +430,8 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	user.domutcheck()
 
 	//vars hackery. not pretty, but better than the alternative.
-	for(var/slot in slots)
+	//This creates new "flesh" duplicate items based on what the victim was wearing during absorbtions. There are many, many reasons why this is retarded.
+/*	for(var/slot in slots)
 		if(istype(user.vars[slot], slot2type[slot]) && !(chosen_prof.exists_list[slot])) //remove unnecessary flesh items
 			qdel(user.vars[slot])
 			continue
@@ -454,7 +455,7 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 		C.item_color = chosen_prof.item_color_list[slot]
 		C.item_state = chosen_prof.item_state_list[slot]
 		if(equip)
-			user.equip_to_slot_or_del(C, slot2slot[slot])
+			user.equip_to_slot_or_del(C, slot2slot[slot])*/
 
 	user.regenerate_icons()
 

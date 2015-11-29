@@ -255,6 +255,11 @@ var/list/sting_paths
 				color = "#f2f2f2"
 			else
 				color = "#e6e6e6"
+			if(P.req_dna>changeling.absorbedcount)
+				if(i%2 == 0)
+					color = "#d2d2d2"
+				else
+					color = "#c6c6c6"
 		if(P.req_dna > last_req_dna) //Ascend tiers based on required DNA
 			last_req_dna = P.req_dna
 			tier++
@@ -277,7 +282,7 @@ var/list/sting_paths
 					<a id='link[i]'
 					onmouseover='expand("item[i]","[P.name]","[P.desc]","[P.helptext]","[P]",[ownsthis])'
 					>
-					<b id='search[i]'>Evolve [P][ownsthis ? " - Purchased" : (P.req_dna>changeling.absorbedcount ? " - Requires [P.req_dna] absorptions" : " - Cost: [P.evopoints_cost]")]</b>
+					<b id='search[i]'>Evolve [P][ownsthis ? " - Purchased" : " - Cost: [P.evopoints_cost]"]</b>
 					</a>
 					<br><span id='item[i]'></span>
 				</td>

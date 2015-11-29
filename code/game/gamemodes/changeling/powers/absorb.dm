@@ -25,6 +25,7 @@
 /obj/effect/proc_holder/changeling/absorbDNA/sting_action(mob/user)
 	var/datum/changeling/changeling = user.mind.changeling
 	var/obj/item/weapon/grab/G = user.get_active_hand()
+	if(!istype(G)) return
 	var/mob/living/carbon/human/target = G.affecting
 	changeling.isabsorbing = 1
 	for(var/stage = 1, stage<=3, stage++)
@@ -37,6 +38,7 @@
 				user.visible_message("<span class='danger'>[user] stabs [target] with the proboscis!</span>", "<span class='notice'>We stab [target] with the proboscis.</span>")
 				target << "<span class='userdanger'>You feel a sharp stabbing pain!</span>"
 				target.take_overall_damage(40)
+				target.Weaken(10) //Long enough for you to absorb them
 
 		feedback_add_details("changeling_powers","A[stage]")
 		if(!do_mob(user, target, 130)) //13 seconds per stage
@@ -100,7 +102,6 @@
 
 	changeling.isabsorbing = 0
 	changeling.canrespec = 1
-	qdel(G)
 	target.death(0)
 	target.Drain()
 	return 1
