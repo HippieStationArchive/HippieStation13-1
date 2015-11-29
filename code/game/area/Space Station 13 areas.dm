@@ -620,6 +620,54 @@ var/list/teleportlocs = list()
 
 
 
+
+/area/holodeck
+	name = "\improper Holodeck"
+	icon_state = "Holodeck"
+	luminosity = 1
+	lighting_use_dynamic = 0
+
+/area/holodeck/alphadeck
+	name = "\improper Holodeck Alpha"
+
+
+/area/holodeck/source_plating
+	name = "\improper Holodeck - Off"
+	icon_state = "Holodeck"
+
+/area/holodeck/source_emptycourt
+	name = "\improper Holodeck - Empty Court"
+
+/area/holodeck/source_boxingcourt
+	name = "\improper Holodeck - Boxing Court"
+
+/area/holodeck/source_basketball
+	name = "\improper Holodeck - Basketball Court"
+
+/area/holodeck/source_thunderdomecourt
+	name = "\improper Holodeck - Thunderdome Court"
+
+/area/holodeck/source_beach
+	name = "\improper Holodeck - Beach"
+	icon_state = "Holodeck" // Lazy.
+
+/area/holodeck/source_burntest
+	name = "\improper Holodeck - Atmospheric Burn Test"
+
+/area/holodeck/source_wildlife
+	name = "\improper Holodeck - Wildlife Simulation"
+
+/area/holodeck/source_wrestling
+	name = "\improper Holodeck - Wrestling Arena"
+
+/area/holodeck/source_cqc
+	name = "\improper Holodeck - CQC VR Training"
+
+/area/holodeck/source_krav_maga
+	name = "\improper Holodeck - Krav Maga Training"
+
+
+
 //Engineering
 
 /area/engine
