@@ -1,9 +1,9 @@
 /obj/effect/proc_holder/changeling/fleshmend
 	name = "Fleshmend"
 	desc = "Our flesh rapidly regenerates, healing our wounds. Effectiveness decreases with quick, repeated use."
-	helptext = "Heals a moderate amount of damage over a short period of time. Can be used while unconscious, and will alert nearby crew."
+	helptext = "Heals a moderate amount of damage over a short period of time. Can be used while unconscious."
 	chemical_cost = 25
-	dna_cost = 2
+	dna_cost = 8
 	req_stat = UNCONSCIOUS
 	var/recent_uses = 1 //The factor of which the healing should be divided by
 
@@ -32,9 +32,10 @@
 			H.remove_all_embedded_objects()
 
 		for(var/i = 0, i < 10, i++) //The healing itself - doesn't heal toxin damage (that's anatomic panacea) and effectiveness decreases with each use in a short timespan
-			user.adjustBruteLoss(-10 / recent_uses)
-			user.adjustOxyLoss(-10 / recent_uses)
-			user.adjustFireLoss(-10 / recent_uses)
+			if(user)
+				user.adjustBruteLoss(-10 / recent_uses)
+				user.adjustOxyLoss(-10 / recent_uses)
+				user.adjustFireLoss(-10 / recent_uses)
 			sleep(10)
 
 	feedback_add_details("changeling_powers","RR")

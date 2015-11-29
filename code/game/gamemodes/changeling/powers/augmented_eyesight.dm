@@ -13,7 +13,7 @@
 	if(!istype(user))
 		return
 	if(user.getorgan(/obj/item/organ/internal/cyberimp/eyes/thermals/ling))
-		user << "<span class='notice'>Our eyes are protected from flashes.</span>"
+		user << "<span class='notice'>We shield our eyes from harsh light.</span>"
 		var/obj/item/organ/internal/cyberimp/eyes/O = new /obj/item/organ/internal/cyberimp/eyes/shield/ling()
 		O.Insert(user)
 
@@ -26,8 +26,9 @@
 
 /obj/effect/proc_holder/changeling/augmented_eyesight/on_refund(mob/user)
 	var/obj/item/organ/internal/cyberimp/eyes/O = user.getorganslot("eye_ling")
-	O.Remove(user)
-	qdel(O)
+	if(O)
+		O.Remove(user)
+		qdel(O)
 
 
 
@@ -63,7 +64,7 @@
 	origin_tech = "biotech=5;magnets=5"
 	slot = "eye_ling"
 	status = ORGAN_ORGANIC
-	aug_message = "You feel a minute twitch in our eyes, and darkness creeps away."
+	aug_message = "We feel a minute twitch in our eyes, and darkness creeps away."
 
 /obj/item/organ/internal/cyberimp/eyes/thermals/ling/emp_act(severity)
 	return
