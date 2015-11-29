@@ -56,12 +56,3 @@
 	desc = "Worn by robust fighters who are willing to do anything to win."
 	icon_state = "luchar"
 	item_state = "luchar"
-
-/obj/item/clothing/mask/threeholebalaclava
-	name = "three-holed balaclava"
-	desc = "It's a balaclava with a convenient mouth-hole."
-	icon_state = "threeholebalaclava"
-	item_state = "threeholebalaclava"
-	flags = BLOCKHAIR
-	flags_inv = HIDEFACE
-	visor_flags_inv = HIDEFACE
