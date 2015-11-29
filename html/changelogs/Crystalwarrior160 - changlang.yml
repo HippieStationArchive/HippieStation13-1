@@ -1,0 +1,14 @@
+author: Crystalwarrior160
+delete-after: True
+changes: 
+  - experimental: "Complete changeling rework! Now changeling abilities are divided into tiers based on required amount of absorbtions to unlock them. You start with 5 Evolution Points by default and have access to Tier 1, which includes various stings. You also have lesser form and mimic voice abilities from the start."
+  - experimental: "This is a VERY experimental update, and all player feedback is much appreciated!"
+  - rscremove: "Removed Changeling Shield, Chitinous Armor and Extract DNA sting"
+  - rscremove: "Removed Changeling team objectives"
+  - rscadd: "Added paralysis sting and synaptic enhancement as changeling abilities."
+  - rscadd: "Added TRUE FORM Changeling ability! It will transform you into a horrifying monster with very high attack rate, slow movement speed and ability to devour people using a verb."
+  - tweak: "Chameleon ability for Changelings now makes them invisible to mouse cursor when they're completely invisible."
+  - tweak: "Chameleon ability has been sped up slightly."
+  - bugfix: "Fixed transformations sometimes giving you 'fake' items that prevented you from equipping the real deal"
+  - bugfix: "Fixed lesser form dropping ling eye implants"
+  - experimental: "Full list of changes can be viewed in the PR: https://github.com/HippieStationCode/HippieStation13/pull/1324"
