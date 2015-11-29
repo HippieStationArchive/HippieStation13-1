@@ -13,6 +13,7 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#include "_maps\__MAP_DEFINES.dm.dm"
 #include "_maps\tgstation2.dm"
 #include "_maps\map_files\generic\z2.dmm"
 #include "_maps\map_files\generic\z3.dmm"
