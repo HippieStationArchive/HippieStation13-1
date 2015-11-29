@@ -674,7 +674,6 @@
 #include "code\game\objects\items\weapons\explosives.dm"
 #include "code\game\objects\items\weapons\extinguisher.dm"
 #include "code\game\objects\items\weapons\flamethrower.dm"
-#include "code\game\objects\items\weapons\fultonrecovery.dm"
 #include "code\game\objects\items\weapons\garrot.dm"
 #include "code\game\objects\items\weapons\gibgun.dm"
 #include "code\game\objects\items\weapons\gift_wrappaper.dm"
