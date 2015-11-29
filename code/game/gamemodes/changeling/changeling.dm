@@ -423,6 +423,7 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	user.underwear = chosen_prof.underwear
 	user.undershirt = chosen_prof.undershirt
 	user.socks = chosen_prof.socks
+	user.dna = chosen_dna //Should fix the whole "ERM MEH GERD I TURNED INTO A HUMAN INSTEAD OF ROBIT"
 
 	chosen_dna.transfer_identity(user, 1)
 	user.updateappearance(mutcolor_update=1)
