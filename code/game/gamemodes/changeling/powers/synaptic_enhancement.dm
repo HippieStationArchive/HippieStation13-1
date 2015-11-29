@@ -11,7 +11,7 @@
 	var/datum/changeling/changeling=user.mind.changeling
 	if(!active)
 		if(chemical_cost <= 30) //Hardcoded chem cost
-			user << "<span class='warning'>We require at least 30 unit\s to do that!</span>"
+			user << "<span class='warning'>We require at least 30 units to do that!</span>"
 			return
 		active = 1
 		changeling.chem_storage -= 30
