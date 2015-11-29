@@ -5,7 +5,7 @@
 
 /obj/structure/closet/secure_closet/engineering_chief/New()
 	..()
-	new /obj/item/clothing/cloak/ce(src)
+	new /obj/item/clothing/suit/cloak/ce(src)
 	new /obj/item/clothing/under/rank/chief_engineer(src)
 	new /obj/item/clothing/head/hardhat/white(src)
 	new /obj/item/clothing/head/welding(src)
@@ -72,6 +72,7 @@
 	new /obj/item/tapeproj/engineering(src)
 	new /obj/item/clothing/mask/gas(src)
 	new /obj/item/clothing/glasses/meson/engine(src)
+	new /obj/item/clothing/mask/respirator(src)
 
 
 /obj/structure/closet/secure_closet/atmospherics

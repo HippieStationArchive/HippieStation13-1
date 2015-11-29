@@ -487,5 +487,5 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 			D.emote("scream")
 		qdel(T)
 		return
-	if(!istype(T, /obj/structure/table/reinforced) && !istype(T, /obj/structure/table/holotable)) //Cannot destroy reinforced or holotables
+	if(!istype(T, /obj/structure/table/reinforced)) //Cannot destroy reinforced or holotables
 		T.table_destroy(1)
