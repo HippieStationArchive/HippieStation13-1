@@ -309,3 +309,24 @@ Contains:
 	slowdown = 1
 	armor = list(melee = 80, bullet = 70, laser = 70, energy = 40, bomb = 80, bio = 100, rad = 100)
 	strip_delay = 200
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal
+	name = "paranormal response unit helmet"
+	desc = "A helmet worn by those who deal with paranormal threats for a living."
+	icon_state = "hardsuit0-prt"
+	item_state = "hardsuit0-prt"
+	item_color = "knight_grey"
+	max_heat_protection_temperature = FIRE_IMMUNITY_HELM_MAX_TEMP_PROTECT
+
+/obj/item/clothing/suit/space/hardsuit/ert/paranormal
+	name = "paranormal response team suit"
+	desc = "Powerful wards are built into this hardsuit, protecting the user from all manner of paranormal threats."
+	icon_state = "knight_grey"
+	item_state = "knight_grey"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal
+	max_heat_protection_temperature = FIRE_IMMUNITY_SUIT_MAX_TEMP_PROTECT
+
+
+/obj/item/clothing/suit/space/hardsuit/ert/paranormal/New()
+	..()
+	new /obj/item/weapon/nullrod(src)

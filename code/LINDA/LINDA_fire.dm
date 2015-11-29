@@ -154,7 +154,7 @@
 	O.icon = src.icon
 	O.icon_state = src.icon_state
 	O.layer = src.layer
-	O.mouse_opacity = 1 
+	O.mouse_opacity = 1
 	O.dir = src.dir
 	O.loc = src.loc
 	animate(O, alpha=0, time=3)
@@ -171,6 +171,7 @@
 		if(T.active_hotspot == src)
 			T.active_hotspot = null
 	loc = null
+	..()
 	return QDEL_HINT_PUTINPOOL
 
 /obj/effect/hotspot/proc/DestroyTurf()

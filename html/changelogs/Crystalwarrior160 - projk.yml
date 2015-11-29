@@ -1,0 +1,5 @@
+author: Crystalwarrior160
+delete-after: True
+changes: 
+  - tweak: "Makes screen flash mouse-opaque so you can still shoot/interact with objects while flashed. Solves the issue where you literally couldn't shoot or defend yourself in any way when flashed."
+  - bugfix: "Overhaul to projectile.dm - made projectiles density 0, reworked Bump proc, simplified range procs. This means that projectiles won't randomly miss you in most cases where they did, and means projectiles won't randomly hit you when they shouldn't. Thanks to /tg/ for most of these."
