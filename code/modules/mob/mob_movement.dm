@@ -92,7 +92,7 @@
 
 
 /client/Move(n, direct)
-	if(!mob || !mob.loc)
+	if(!mob)
 		return 0
 	if(mob.notransform)
 		return 0	//This is sota the goto stop mobs from moving var
@@ -127,6 +127,10 @@
 	if(!mob.canmove)
 		return 0
 
+	if(!mob.lastarea)
+		mob.lastarea = get_area(mob.loc)
+
+
 	if(isobj(mob.loc) || ismob(mob.loc))	//Inside an object, tell it we moved
 		var/atom/O = mob.loc
 		return O.relaymove(mob, direct)
@@ -134,70 +138,112 @@
 	if(!mob.Process_Spacemove(direct))
 		return 0
 
-	if(mob.restrained())	//Why being pulled while cuffed prevents you from moving
-		for(var/mob/M in orange(1, mob))
-			if(M.pulling == mob)
-				if(!M.incapacitated() && mob.Adjacent(M))
-					src << "<span class='warning'>You're restrained! You can't move!</span>"
-					move_delay = world.time + 10
-					return 0
+	if(isturf(mob.loc))
+
+
+		var/turf/T = mob.loc
+		move_delay = world.time//set move delay
+
+		move_delay += T.slowdown
+
+		if(mob.restrained())	//Why being pulled while cuffed prevents you from moving
+			for(var/mob/M in range(mob, 1))
+				if(M.pulling == mob)
+					if(!M.incapacitated() && mob.Adjacent(M))
+						src << "<span class='warning'>You're restrained! You can't move!</span>"
+						move_delay += 10
+						return 0
+					else
+						M.stop_pulling()
+
+		switch(mob.m_intent)
+			if("run")
+				if(mob.drowsyness > 0)
+					move_delay += 6
+				move_delay += config.run_speed
+			if("walk")
+				move_delay += config.walk_speed
+		move_delay += mob.movement_delay()
+
+		if(mob.nearcrit) //You can only crawl in nearcrit
+			if(istype(mob, /mob/living))
+				var/mob/living/L = mob
+				L.adjustOxyLoss(1)
+			if(mob.dir == WEST)
+				mob.lying = 270
+				mob.update_canmove()
+			else if(mob.dir == EAST)
+				mob.lying = 90
+				mob.update_canmove()
+			playsound(mob.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -4) //Crawling is VERY quiet
+			mob.visible_message("<span class='danger'>[mob] crawls forward!</span>", \
+								"<span class='userdanger'>You crawl forward at the expense of some of your strength.</span>")
+
+		if(config.Tickcomp)
+			move_delay -= 1.3
+			var/tickcomp = (1 / (world.tick_lag)) * 1.3
+			move_delay = move_delay + tickcomp
+
+		//We are now going to move
+		moving = 1
+		//Something with pulling things
+		if(locate(/obj/item/weapon/grab, mob))
+			move_delay = max(move_delay, world.time + 7)
+			var/list/L = mob.ret_grab()
+			if(istype(L, /list))
+				if(L.len == 2)
+					L -= mob
+					var/mob/M = L[1]
+					if(M)
+						if ((get_dist(mob, M) <= 1 || M.loc == mob.loc))
+							. = ..()
+							if (isturf(M.loc))
+								var/diag = get_dir(mob, M)
+								if ((diag - 1) & diag)
+								else
+									diag = null
+								if ((get_dist(mob, M) > 1 || diag))
+									step(M, get_dir(M.loc, T))
 				else
-					M.stop_pulling()
+					for(var/mob/M in L)
+						M.other_mobs = 1
+						if(mob != M)
+							M.animate_movement = 3
+					for(var/mob/M in L)
+						spawn( 0 )
+							step(M, direct)
+							return
+						spawn( 1 )
+							M.other_mobs = null
+							M.animate_movement = 2
+							return
 
-
-	//We are now going to move
-	moving = 1
-	move_delay = mob.movement_delay() + world.time
-
-	//Something with pulling things
-	if(locate(/obj/item/weapon/grab, mob))
-		move_delay = max(move_delay, world.time + 7)
-		var/list/L = mob.ret_grab()
-		if(istype(L, /list))
-			if(L.len == 2)
-				L -= mob
-				var/mob/M = L[1]
-				if(M)
-					if ((get_dist(mob, M) <= 1 || M.loc == mob.loc))
-						. = ..()
-						if (isturf(M.loc))
-							var/diag = get_dir(mob, M)
-							if ((diag - 1) & diag)
-							else
-								diag = null
-							if ((get_dist(mob, M) > 1 || diag))
-								step(M, get_dir(M.loc, mob.loc))
+		if(mob.confused)
+			if(mob.confused > 40)
+				step(mob, pick(cardinal))
+			else if(prob(mob.confused * 1.5))
+				step(mob, angle2dir(dir2angle(direct) + pick(90, -90)))
+			else if(prob(mob.confused * 3))
+				step(mob, angle2dir(dir2angle(direct) + pick(45, -45)))
 			else
-				for(var/mob/M in L)
-					M.other_mobs = 1
-					if(mob != M)
-						M.animate_movement = 3
-				for(var/mob/M in L)
-					spawn( 0 )
-						step(M, direct)
-						return
-					spawn( 1 )
-						M.other_mobs = null
-						M.animate_movement = 2
-						return
-
-	if(mob.confused)
-		if(mob.confused > 40)
-			step(mob, pick(cardinal))
-		else if(prob(mob.confused * 1.5))
-			step(mob, angle2dir(dir2angle(direct) + pick(90, -90)))
-		else if(prob(mob.confused * 3))
-			step(mob, angle2dir(dir2angle(direct) + pick(45, -45)))
+				step(mob, direct)
 		else
-			step(mob, direct)
-	else
-		. = ..()
+			. = ..()
 
-	moving = 0
-	if(mob && .)
-		mob.throwing = 0
+		for (var/obj/item/weapon/grab/G in mob)
+			if (G.state == GRAB_NECK)
+				mob.set_dir(reverse_dir[direct])
+			if (G.state == GRAB_KILL)
+				move_delay = move_delay + 14 //Even more movement delay
+			G.adjust_position()
+		for (var/obj/item/weapon/grab/G in mob.grabbed_by)
+			G.adjust_position()
 
-	return .
+		moving = 0
+		if(mob && .)
+			mob.throwing = 0
+
+		return .
 
 
 ///Process_Grab()

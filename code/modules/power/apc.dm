@@ -557,16 +557,22 @@
 				opened = 1
 			update_icon()
 	else
-		if((!opened && wiresexposed && wires.IsInteractionTool(W)) || (issilicon(user) && !(stat & BROKEN) &&!malfhack))
-			return attack_hand(user)
-
-		..()
-		if( ((stat & BROKEN) || malfhack) && !opened && W.force >= 5 && W.w_class >= 3 && prob(20) )
+		if (	((stat & BROKEN) || malfhack) \
+				&& !opened \
+				&& W.force >= 5 \
+				&& W.w_class >= 3 \
+				&& prob(20) )
 			opened = 2
 			user.visible_message("<span class='warning'>[user.name] has knocked down the APC cover  with the [W.name].</span>", \
 				"<span class='danger'>You knock down the APC cover with your [W.name]!</span>", \
 				"<span class='italics'>You hear bang.</span>")
 			update_icon()
+		else
+			if (istype(user, /mob/living/silicon))
+				return src.attack_hand(user)
+			if (!opened && wiresexposed && wires.IsInteractionTool(W))
+				return src.attack_hand(user)
+			..()
 
 /obj/machinery/power/apc/emag_act(mob/user)
 	if(!emagged && !malfhack)
@@ -586,8 +592,11 @@
 // attack with hand - remove cell (if cover open) or interact with the APC
 
 /obj/machinery/power/apc/attack_hand(mob/user)
-	if (!user) return
-	add_fingerprint(user)
+//	if (!can_use(user)) This already gets called in interact() and in topic()
+//		return
+	if(!user)
+		return
+	src.add_fingerprint(user)
 	if(usr == user && opened && (!issilicon(user)))
 		if(cell)
 			user.put_in_hands(cell)
@@ -601,10 +610,14 @@
 			charging = 0
 			src.update_icon()
 		return
-	interact(user)
+	if(stat & (BROKEN|MAINT))
+		return
+	// do APC interaction
+	src.interact(user)
 
 /obj/machinery/power/apc/attack_alien(mob/living/carbon/alien/humanoid/user)
-	if(!user) return
+	if(!user)
+		return
 	user.do_attack_animation(src)
 	user.visible_message("<span class='danger'>[user.name] slashes at the [src.name]!</span>", "<span class='notice'>You slash at the [src.name]!</span>")
 	playsound(src.loc, 'sound/weapons/slash.ogg', 100, 1)
@@ -626,15 +639,35 @@
 
 
 /obj/machinery/power/apc/interact(mob/user)
-	if(stat & (BROKEN|MAINT)) return
-	if(wiresexposed && !istype(user, /mob/living/silicon/ai)) wires.Interact(user)
-	else ui_interact(user)
+	if(!user)
+		return
 
-/obj/machinery/power/apc/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, force_open = 0)
-	SSnano.try_update_ui(user, src, ui_key, ui, force_open = force_open)
-	if (!ui)
-		ui = new(user, src, ui_key, "apc.tmpl", name, 515, 550)
-		ui.open()
+	if(wiresexposed /*&& (!istype(user, /mob/living/silicon))*/) //Commented out the typecheck to allow engiborgs to repair damaged apcs.
+		wires.Interact(user)
+
+	return ui_interact(user)
+
+
+/obj/machinery/power/apc/proc/get_malf_status(mob/user)
+	if (ticker && ticker.mode && (user.mind in ticker.mode.malf_ai) && istype(user, /mob/living/silicon/ai))
+		if (src.malfai == (user:parent ? user:parent : user))
+			if (src.occupier == user)
+				return 3 // 3 = User is shunted in this APC
+			else if (istype(user.loc, /obj/machinery/power/apc))
+				return 4 // 4 = User is shunted in another APC
+			else
+				return 2 // 2 = APC hacked by user, and user is in its core.
+		else
+			return 1 // 1 = APC not hacked.
+	else
+		return 0 // 0 = User is not a Malf AI
+
+
+/obj/machinery/power/apc/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null)
+	if(!user)
+		return
+
+	ui = SSnano.push_open_or_new_ui(user, src, ui_key, ui, "apc.tmpl", "[area.name] - APC", 520, user.has_unlimited_silicon_privilege ? 465 : 420, 1)
 
 /obj/machinery/power/apc/get_ui_data(mob/user)
 	var/list/data = list(
@@ -684,21 +717,6 @@
 	)
 	return data
 
-
-/obj/machinery/power/apc/proc/get_malf_status(mob/user)
-	if (ticker && ticker.mode && (user.mind in ticker.mode.malf_ai) && istype(user, /mob/living/silicon/ai))
-		if (src.malfai == (user:parent ? user:parent : user))
-			if (src.occupier == user)
-				return 3 // 3 = User is shunted in this APC
-			else if (istype(user.loc, /obj/machinery/power/apc))
-				return 4 // 4 = User is shunted in another APC
-			else
-				return 2 // 2 = APC hacked by user, and user is in its core.
-		else
-			return 1 // 1 = APC not hacked.
-	else
-		return 0 // 0 = User is not a Malf AI
-
 /obj/machinery/power/apc/proc/report()
 	return "[area.name] : [equipment]/[lighting]/[environ] ([lastused_equip+lastused_light+lastused_environ]) : [cell? cell.percent() : "N/C"] ([charging])"
 
@@ -711,6 +729,7 @@
 //			spawn(10)
 //				world << " [area.name] [area.power_equip]"
 	else
+		//playsound(loc, 'sound/machinery/power_down.ogg', 40, 1, 4) //TODO -- find a good place for this sound effect
 		area.power_light = 0
 		area.power_equip = 0
 		area.power_environ = 0
@@ -766,8 +785,11 @@
 	return 1
 
 /obj/machinery/power/apc/Topic(href, href_list)
-	if(..()) return
-	if(!can_use(usr, 1)) return
+	if(..())
+		return 0
+
+	if(!can_use(usr, 1))
+		return 0
 
 	if (href_list["lock"])
 		coverlocked = !coverlocked
@@ -871,7 +893,6 @@
 		src.occupier.parent = malf.parent
 	else
 		src.occupier.parent = malf
-	malf.shunted = 1
 	malf.mind.transfer_to(src.occupier)
 	src.occupier.eyeobj.name = "[src.occupier.name] (AI Eye)"
 	if(malf.parent)
@@ -889,7 +910,6 @@
 		return
 	if(src.occupier.parent && src.occupier.parent.stat != 2)
 		src.occupier.mind.transfer_to(src.occupier.parent)
-		src.occupier.parent.shunted = 0
 		src.occupier.parent.adjustOxyLoss(src.occupier.getOxyLoss())
 		src.occupier.parent.cancel_camera()
 		qdel(src.occupier)
@@ -1152,7 +1172,10 @@
 					set_broken()
 
 /obj/machinery/power/apc/blob_act()
-	set_broken()
+	if (prob(75))
+		set_broken()
+		if (cell && prob(5))
+			cell.blob_act()
 
 /obj/machinery/power/apc/disconnect_terminal()
 	if(terminal)

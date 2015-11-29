@@ -1,5 +1,4 @@
-#define TANK_MAX_RELEASE_PRESSURE (ONE_ATMOSPHERE*3)
-#define TANK_MIN_RELEASE_PRESSURE 0
+#define TANK_MAX_RELEASE_PRESSURE (3*ONE_ATMOSPHERE)
 #define TANK_DEFAULT_RELEASE_PRESSURE (ONE_ATMOSPHERE*O2STANDARD)
 
 /obj/item/weapon/tank
@@ -23,20 +22,16 @@
 
 /obj/item/weapon/tank/suicide_act(mob/user)
 	var/mob/living/carbon/human/H = user
+
 	user.visible_message("<span class='suicide'>[user] is putting the [src]'s valve to their lips! I don't think they're gonna stop!</span>")
 	playsound(loc, 'sound/effects/spray.ogg', 10, 1, -3)
+	sleep(3)
 	if (H && !qdeleted(H))
-		for(var/obj/item/W in H)
-			H.unEquip(W)
-			if(prob(50))
-				step(W, pick(alldirs))
-		H.hair_style = "Bald"
-		H.update_hair()
-		H.blood_max = 5
-		gibs(H.loc, H.viruses, H.dna)
-		H.adjustBruteLoss(1000) //to make the body super-bloody
-
-	return (BRUTELOSS)
+		H.drop_l_hand()
+		H.drop_r_hand()
+		H.shred_clothing(1,150)
+		H.gib()
+	return
 
 /obj/item/weapon/tank/New()
 	..()
@@ -100,7 +95,7 @@
 /obj/item/weapon/tank/attackby(obj/item/weapon/W, mob/user, params)
 	..()
 
-	add_fingerprint(user)
+	src.add_fingerprint(user)
 	if (istype(src.loc, /obj/item/assembly))
 		icon = src.loc
 
@@ -111,18 +106,16 @@
 		bomb_assemble(W,user)
 
 /obj/item/weapon/tank/attack_self(mob/user)
-	if (!user) return
-	interact(user)
+	if (!(src.air_contents))
+		return
 
-/obj/item/weapon/tank/interact(mob/user)
-	add_fingerprint(user)
 	ui_interact(user)
 
-/obj/item/weapon/tank/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, force_open = 0)
-	SSnano.try_update_ui(user, src, ui_key, ui, force_open = force_open)
-	if (!ui)
-		ui = new(user, src, ui_key, "tanks.tmpl", name, 525, 175, state = inventory_state)
-		ui.open()
+/obj/item/weapon/tank/interact(mob/user, ui_key = "main")
+	SSnano.try_update_ui(user, src, ui_key, null, src.get_ui_data())
+
+/obj/item/weapon/tank/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null)
+	ui = SSnano.push_open_or_new_ui(user, src, ui_key, ui, "tanks.tmpl", "Tank", 500, 300, 0)
 
 /obj/item/weapon/tank/get_ui_data()
 	var/mob/living/carbon/location = null
@@ -136,7 +129,6 @@
 	data["tankPressure"] = round(air_contents.return_pressure() ? air_contents.return_pressure() : 0)
 	data["releasePressure"] = round(distribute_pressure ? distribute_pressure : 0)
 	data["defaultReleasePressure"] = round(TANK_DEFAULT_RELEASE_PRESSURE)
-	data["minReleasePressure"] = round(TANK_MIN_RELEASE_PRESSURE)
 	data["maxReleasePressure"] = round(TANK_MAX_RELEASE_PRESSURE)
 	data["valveOpen"] = 0
 	data["maskConnected"] = 0
@@ -157,41 +149,51 @@
 	return data
 
 /obj/item/weapon/tank/Topic(href, href_list)
-	if (..()) return
-	if (usr.stat|| usr.restrained()) return
-
-	if (href_list["dist_p"])
-		if (href_list["dist_p"] == "custom")
-			var/custom = input(usr, "What rate do you set the regulator to? The dial reads from 0 to [TANK_MAX_RELEASE_PRESSURE].") as null|num
-			if(isnum(custom))
-				href_list["dist_p"] = custom
-				.()
-		else if (href_list["dist_p"] == "reset")
-			distribute_pressure = TANK_DEFAULT_RELEASE_PRESSURE
-		else if (href_list["dist_p"] == "min")
-			distribute_pressure = TANK_MIN_RELEASE_PRESSURE
-		else if (href_list["dist_p"] == "max")
-			distribute_pressure = TANK_MAX_RELEASE_PRESSURE
-		else
-			distribute_pressure = text2num(href_list["dist_p"])
-		distribute_pressure = min(max(round(distribute_pressure), TANK_MIN_RELEASE_PRESSURE), TANK_MAX_RELEASE_PRESSURE)
-	if (href_list["stat"])
-		if(istype(loc,/mob/living/carbon))
-			var/mob/living/carbon/location = loc
-			if(location.internal == src)
-				location.internal = null
-				location.internals.icon_state = "internal0"
-				usr << "<span class='notice'>You close the tank release valve.</span>"
-				if (location.internals)
-					location.internals.icon_state = "internal0"
+	..()
+	if (usr.stat|| usr.restrained())
+		return
+	if (src.loc == usr)
+		usr.set_machine(src)
+		if (href_list["dist_p"])
+			if (href_list["dist_p"] == "reset")
+				src.distribute_pressure = TANK_DEFAULT_RELEASE_PRESSURE
+			else if (href_list["dist_p"] == "max")
+				src.distribute_pressure = TANK_MAX_RELEASE_PRESSURE
 			else
-				if(location.wear_mask && (location.wear_mask.flags & MASKINTERNALS))
-					location.internal = src
-					usr << "<span class='notice'>You open \the [src] valve.</span>"
+				var/cp = text2num(href_list["dist_p"])
+				src.distribute_pressure += cp
+			src.distribute_pressure = min(max(round(src.distribute_pressure), 0), 3*ONE_ATMOSPHERE)
+		if (href_list["stat"])
+			if(istype(loc,/mob/living/carbon))
+				var/mob/living/carbon/location = loc
+				if(location.internal == src)
+					location.internal = null
+					location.internals.icon_state = "internal0"
+					usr << "<span class='notice'>You close the tank release valve.</span>"
 					if (location.internals)
-						location.internals.icon_state = "internal1"
+						location.internals.icon_state = "internal0"
 				else
-					usr << "<span class='warning'>You need something to connect to \the [src]!</span>"
+					if(location.wear_mask && (location.wear_mask.flags & MASKINTERNALS))
+						location.internal = src
+						usr << "<span class='notice'>You open \the [src] valve.</span>"
+						if (location.internals)
+							location.internals.icon_state = "internal1"
+					else
+						usr << "<span class='warning'>You need something to connect to \the [src]!</span>"
+
+		src.add_fingerprint(usr)
+/*
+ * the following is needed for a tank lying on the floor. But currently we restrict players to use not weared tanks as intrals. --rastaf
+		for(var/mob/M in viewers(1, src.loc))
+			if ((M.client && M.machine == src))
+				src.attack_self(M)
+*/
+		src.attack_self(usr)
+	else
+		usr << browse(null, "window=tank")
+		return
+	return
+
 
 /obj/item/weapon/tank/remove_air(amount)
 	return air_contents.remove(amount)
@@ -276,3 +278,12 @@
 
 	else if(integrity < 3)
 		integrity++
+
+/obj/item/weapon/tank/autolathe_crafted(obj/machinery/autolathe/A)
+	if(air_contents)
+		air_contents.oxygen = 0
+		air_contents.nitrogen = 0
+		air_contents.toxins = 0
+		air_contents.carbon_dioxide = 0
+		clearlist(air_contents.trace_gases)
+	return
