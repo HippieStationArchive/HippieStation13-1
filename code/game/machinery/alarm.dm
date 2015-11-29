@@ -169,25 +169,40 @@
 	return 0
 
 /obj/machinery/alarm/attack_hand(mob/user)
-	if (..() || !user) return
-	if (buildstage != 2) return
-
-	interact(user)
-
-/obj/machinery/alarm/interact(mob/user)
-	if (user.has_unlimited_silicon_privilege && src.aidisabled)
-		user << "AI control for this Air Alarm interface has been disabled."
-		user << browse(null, "window=air_alarm")
+	if (..())
 		return
 
-	if(panel_open && !istype(user, /mob/living/silicon/ai)) wires.Interact(user)
-	else if (!shorted) ui_interact(user)
+	if (buildstage != 2)
+		return
 
-/obj/machinery/alarm/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null, force_open = 0)
-	SSnano.try_update_ui(user, src, ui_key, ui, force_open = force_open)
-	if (!ui)
-		ui = new(user, src, ui_key, "air_alarm.tmpl", name, 480, 625)
-		ui.open()
+	user.set_machine(src)
+
+	if ( (get_dist(src, user) > 1 ))
+		if (!istype(user, /mob/living/silicon))
+			user.unset_machine()
+			user << browse(null, "window=air_alarm")
+			user << browse(null, "window=AAlarmwires")
+			return
+
+
+		else if (user.has_unlimited_silicon_privilege && src.aidisabled)
+			user << "AI control for this Air Alarm interface has been disabled."
+			user << browse(null, "window=air_alarm")
+			return
+
+	if(!shorted)
+		ui_interact(user)
+
+	if(panel_open && (!istype(user, /mob/living/silicon/ai)))
+		wires.Interact(user)
+
+	return
+
+/obj/machinery/alarm/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null)
+	if(stat & (BROKEN|NOPOWER))
+		return
+
+	ui = SSnano.push_open_or_new_ui(user, src, ui_key, ui, "air_alarm.tmpl", "Air Alarm", 350, 500, 1)
 
 /obj/machinery/alarm/get_ui_data(mob/user)
 	var/data = list()
@@ -911,9 +926,9 @@ FIRE ALARM
 	..()
 
 /obj/machinery/firealarm/attackby(obj/item/W, mob/user, params)
-	add_fingerprint(user)
+	src.add_fingerprint(user)
 
-	if(istype(W, /obj/item/weapon/screwdriver) && buildstage == 2)
+	if (istype(W, /obj/item/weapon/screwdriver) && buildstage == 2)
 		playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 		panel_open = !panel_open
 		user << "<span class='notice'>The wires have been [panel_open ? "exposed" : "unexposed"].</span>"
@@ -923,13 +938,12 @@ FIRE ALARM
 	if(panel_open)
 		switch(buildstage)
 			if(2)
-				if(istype(W, /obj/item/device/multitool))
+				if (istype(W, /obj/item/device/multitool))
 					src.detecting = !( src.detecting )
 					if (src.detecting)
 						user.visible_message("[user] has reconnected [src]'s detecting unit!", "<span class='notice'>You reconnect [src]'s detecting unit.</span>")
 					else
 						user.visible_message("[user] has disconnected [src]'s detecting unit!", "<span class='notice'>You disconnect [src]'s detecting unit.</span>")
-					return
 
 				else if (istype(W, /obj/item/weapon/wirecutters))
 					buildstage = 1
@@ -939,18 +953,18 @@ FIRE ALARM
 					coil.loc = user.loc
 					user << "<span class='notice'>You cut the wires from \the [src].</span>"
 					update_icon()
-					return
 			if(1)
 				if(istype(W, /obj/item/stack/cable_coil))
 					var/obj/item/stack/cable_coil/coil = W
 					if(coil.get_amount() < 5)
 						user << "<span class='warning'>You need more cable for this!</span>"
-					else
-						coil.use(5)
-						buildstage = 2
-						user << "<span class='notice'>You wire \the [src].</span>"
-						update_icon()
-					return
+						return
+
+					coil.use(5)
+
+					buildstage = 2
+					user << "<span class='notice'>You wire \the [src].</span>"
+					update_icon()
 
 				else if(istype(W, /obj/item/weapon/crowbar))
 					playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
@@ -965,14 +979,12 @@ FIRE ALARM
 								new /obj/item/weapon/electronics/firealarm(user.loc)
 							buildstage = 0
 							update_icon()
-					return
 			if(0)
 				if(istype(W, /obj/item/weapon/electronics/firealarm))
 					user << "<span class='notice'>You insert the circuit.</span>"
 					qdel(W)
 					buildstage = 1
 					update_icon()
-					return
 
 				else if(istype(W, /obj/item/weapon/wrench))
 					user.visible_message("[user] removes the fire alarm assembly from the wall.", \
@@ -981,8 +993,9 @@ FIRE ALARM
 					frame.loc = user.loc
 					playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 					qdel(src)
-					return
-	return ..()
+		return
+
+	return
 
 /obj/machinery/firealarm/process()//Note: this processing was mostly phased out due to other code, and only runs when needed
 	if(stat & (NOPOWER|BROKEN))
