@@ -13,6 +13,7 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#include "_maps\__MAP_DEFINES.dm.dm"
 #include "_maps\tgstation2.dm"
 #include "_maps\map_files\generic\z2.dmm"
 #include "_maps\map_files\generic\z3.dmm"
@@ -689,7 +690,6 @@
 #include "code\game\objects\items\weapons\explosives.dm"
 #include "code\game\objects\items\weapons\extinguisher.dm"
 #include "code\game\objects\items\weapons\flamethrower.dm"
-#include "code\game\objects\items\weapons\fultonrecovery.dm"
 #include "code\game\objects\items\weapons\garrot.dm"
 #include "code\game\objects\items\weapons\gibgun.dm"
 #include "code\game\objects\items\weapons\gift_wrappaper.dm"

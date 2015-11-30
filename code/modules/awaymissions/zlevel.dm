@@ -39,7 +39,23 @@ var/away_loaded = 0
 			return
 
 		var/map = pick(potentialRandomZlevels)
+<<<<<<< HEAD
 		loadAwayMission(map)
+=======
+		var/file = file(map)
+		if(isfile(file))
+			maploader.load_map(file)
+			world.log << "away mission loaded: [map]"
+
+		map_transition_config.Add(AWAY_MISSION_LIST)
+
+		for(var/obj/effect/landmark/L in landmarks_list)
+			if (L.name != "awaystart")
+				continue
+			awaydestinations.Add(L)
+
+		world << "<span class='boldannounce'>Away mission loaded.</span>"
+>>>>>>> refs/remotes/HippieStationCode/master
 
 	else
 		world << "<span class='boldannounce'>No away missions found.</span>"
