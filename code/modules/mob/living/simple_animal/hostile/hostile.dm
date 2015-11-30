@@ -271,7 +271,7 @@
 			for(var/atom/A in T)
 				if(!A.Adjacent(src))
 					continue
-				if(istype(A, /obj/structure/window) || istype(A, /obj/structure/closet) || istype(A, /obj/structure/table) || istype(A, /obj/structure/grille) || istype(A, /obj/structure/rack))
+				if(istype(A, /obj/structure/window) || istype(A, /obj/machinery/door) || istype(A, /obj/structure/closet) || istype(A, /obj/structure/table) || istype(A, /obj/structure/grille) || istype(A, /obj/structure/rack))
 					A.attack_animal(src)
 	return
 
