@@ -3,6 +3,7 @@ delete-after: True
 changes: 
   - experimental: "Complete changeling rework! Now changeling abilities are divided into tiers based on required amount of absorbtions to unlock them. You start with 5 Evolution Points by default and have access to Tier 1, which includes various stings. You also have lesser form and mimic voice abilities from the start."
   - experimental: "This is a VERY experimental update, and all player feedback is much appreciated!"
+  - imageadd: "New Changeling UI sprites by Fury McFlurry! Go make him a cake or something."
   - rscremove: "Removed Changeling Shield, Chitinous Armor and Extract DNA sting"
   - rscremove: "Removed Changeling team objectives"
   - rscadd: "Added synaptic enhancement as a changeling ability. When active, this will halve the delay between actions such as attacking."
