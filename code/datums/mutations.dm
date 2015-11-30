@@ -426,17 +426,22 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	if(..())
 		return
 	owner.alpha = CHAMELEON_MUTATION_DEFAULT_TRANSPARENCY
+	owner.mouse_opacity = initial(owner.mouse_opacity)
 
 /datum/mutation/human/chameleon/on_life(mob/living/carbon/human/owner)
-	owner.alpha = max(0, owner.alpha - 25)
+	owner.alpha = max(0, owner.alpha - 50)
+	if(owner.alpha <= 0)
+		owner.mouse_opacity = 0 //So you are completely invisible and cannot be "scanned" by player's mouse movements.
 
 /datum/mutation/human/chameleon/on_move(mob/living/carbon/human/owner)
 	owner.alpha = CHAMELEON_MUTATION_DEFAULT_TRANSPARENCY
+	owner.mouse_opacity = initial(owner.mouse_opacity)
 
 /datum/mutation/human/chameleon/on_losing(mob/living/carbon/human/owner)
 	if(..())
 		return
 	owner.alpha = 255
+	owner.mouse_opacity = initial(owner.mouse_opacity)
 
 /datum/mutation/human/wacky
 	name = "Wacky"
