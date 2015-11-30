@@ -275,22 +275,6 @@
 		if(is_shadow_or_thrall(M) || (M in dead_mob_list))
 			M << "<span class='shadowling'><b>\[Shadowling\]</b><i> [usr.real_name]</i>: [text]</span>"
 
-/obj/effect/proc_holder/spell/targeted/ascendant_transmit //Sends a message to the entire world. If this gets abused too much it can be removed safely
-	name = "Ascendant Broadcast"
-	desc = "Sends a message to the whole wide world."
-	panel = "Ascendant"
-	charge_max = 200
-	clothes_req = 0
-	range = -1
-	include_user = 1
-	action_icon_state = "transmit"
-
-/obj/effect/proc_holder/spell/targeted/ascendant_transmit/cast(list/targets)
-	for(var/mob/living/user in targets)
-		var/text = stripped_input(user, "What do you want to say to everything on and near [station_name()]?.", "Transmit to World", "")
-		if(!text)
-			return
-		world << "<font size=4><span class='shadowling'><b>\"[text]\"</font></span>"
 
 /obj/effect/proc_holder/spell/self/shadowling_regenarmor //Resets a shadowling's species to normal, removes genetic defects, and re-equips their armor
 	name = "Rapid Re-Hatch"
@@ -427,6 +411,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	description = "<::ERROR::> CANNOT ANALYZE REAGENT <::ERROR::>"
 	color = "#000000" //Complete black (RGB: 0, 0, 0)
 	metabolization_rate = 100 //lel
+
 /datum/reagent/shadowling_blindness_smoke/on_mob_life(mob/living/M)
 	if(!M) M = holder.my_atom
 	if(!is_shadow_or_thrall(M))
@@ -442,6 +427,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 		M.adjustToxLoss(-2)
 	..()
 	return
+
+
 /obj/effect/proc_holder/spell/aoe_turf/unearthly_screech //Damages nearby windows, confuses nearby carbons, and outright stuns silly cones
 	name = "Sonic Screech"
 	desc = "Deafens, stuns, and confuses nearby people. Also shatters windows."
@@ -452,11 +439,13 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	clothes_req = 0
 	action_icon_state = "screech"
 	sound = 'sound/effects/screech.ogg'
+
 /obj/effect/proc_holder/spell/aoe_turf/unearthly_screech/cast(list/targets)
 	if(!shadowling_check(usr))
-		revert_cast()
+		charge_counter = charge_max
 		return
 	usr.audible_message("<span class='warning'><b>[usr] lets out a horrible scream!</b></span>")
+	playMagSound()
 	for(var/turf/T in targets)
 		for(var/mob/target in T.contents)
 			if(is_shadow_or_thrall(target))
@@ -480,6 +469,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 				S.Weaken(6)
 		for(var/obj/structure/window/W in T.contents)
 			W.hit(rand(80, 100))
+
 /obj/effect/proc_holder/spell/aoe_turf/drain_life //Deals stamina and oxygen damage to nearby humans and heals the shadowling. On a short cooldown because of the small range and situational usefulness
 	name = "Drain Life"
 	desc = "Damages nearby humans, draining their life and healing your own wounds."
@@ -491,6 +481,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	action_icon_state = "drain_life"
 	var/targetsDrained
 	var/list/nearbyTargets
+
 /obj/effect/proc_holder/spell/aoe_turf/drain_life/cast(list/targets, mob/living/carbon/human/U = usr)
 	if(!shadowling_check(U))
 		revert_cast()
@@ -517,6 +508,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 		M.adjustStaminaLoss(20)
 		M << "<span class='boldannounce'>You feel a wave of exhaustion and a curious draining sensation directed towards [usr]!</span>"
 	usr << "<span class='shadowling'>You draw life from those around you to heal your wounds.</span>"
+
+
 /obj/effect/proc_holder/spell/targeted/revive_thrall //Completely revives a dead thrall
 	name = "Black Recuperation"
 	desc = "Revives or empowers a thrall."
@@ -527,6 +520,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	clothes_req = 0
 	include_user = 0
 	action_icon_state = "revive_thrall"
+
 /obj/effect/proc_holder/spell/targeted/revive_thrall/cast(list/targets)
 	if(!shadowling_check(usr))
 		revert_cast()
@@ -609,6 +603,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			else
 				revert_cast()
 				return
+
+
 /obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle
 	name = "Destroy Engines"
 	desc = "Extends the time of the emergency shuttle's arrival by fifteen minutes. This can only be used once."
@@ -618,6 +614,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	clothes_req = 0
 	charge_max = 600
 	action_icon_state = "extend_shuttle"
+
 /obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle/cast(list/targets, mob/living/carbon/human/U = usr)
 	if(!shadowling_check(U))
 		revert_cast()
@@ -655,7 +652,11 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			SSshuttle.emergency.setTimer(timer)
 		U.mind.spell_list.Remove(src) //Can only be used once!
 		qdel(src)
+
+
 // THRALL ABILITIES BEYOND THIS POINT //
+
+
 /obj/effect/proc_holder/spell/targeted/lesser_glare //Thrall version of Glare - same effects but for 5 seconds
 	name = "Lesser Glare"
 	desc = "Stuns and mutes a target for a short duration."
@@ -664,6 +665,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "glare"
+
 /obj/effect/proc_holder/spell/targeted/lesser_glare/cast(list/targets)
 	for(var/mob/living/target in targets)
 		if(!ishuman(target) || !target)
@@ -687,6 +689,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			target << "<span class='userdanger'>Red lights suddenly dance in your vision, and you are starstruck by their heavenly beauty...</span>"
 		target.Stun(5) //Roughly 50% as long as the normal one
 		M.silent += 5
+
+
 /obj/effect/proc_holder/spell/self/lesser_shadow_walk //Thrall version of Shadow Walk, only works in darkness, doesn't grant phasing, but gives near-invisibility
 	name = "Guise"
 	desc = "Wraps your form in shadows, making you harder to see."

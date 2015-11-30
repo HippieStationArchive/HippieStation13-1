@@ -72,7 +72,7 @@ Made by Xhuis
 	required_enemies = 2
 	recommended_enemies = 2
 	restricted_jobs = list("AI", "Cyborg")
-	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel")
+	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
 
 /datum/game_mode/shadowling/announce()
 	world << "<b>The current game mode is - Shadowling!</b>"
@@ -85,7 +85,7 @@ Made by Xhuis
 	if(config.protect_assistant_from_antagonist)
 		restricted_jobs += "Assistant"
 
-	var/shadowlings = max(3, round(num_players()/20))
+	var/shadowlings = max(3, round(num_players()/14))
 
 
 	while(shadowlings)
@@ -268,7 +268,6 @@ Made by Xhuis
 			if(H.stat != DEAD)
 				H << "<span class='userdanger'>The light burns you!</span>" //Message spam to say "GET THE FUCK OUT"
 				H << 'sound/weapons/sear.ogg'
-			H << 'sound/weapons/sear.ogg'
 		else if (light_amount < LIGHT_HEAL_THRESHOLD)
 			H.heal_overall_damage(5,5)
 			H.adjustToxLoss(-5)
