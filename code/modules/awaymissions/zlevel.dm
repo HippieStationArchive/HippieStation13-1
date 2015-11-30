@@ -39,9 +39,9 @@ var/away_loaded = 0
 			return
 
 		var/map = pick(potentialRandomZlevels)
-<<<<<<< HEAD
+
 		loadAwayMission(map)
-=======
+
 		var/file = file(map)
 		if(isfile(file))
 			maploader.load_map(file)
@@ -55,8 +55,6 @@ var/away_loaded = 0
 			awaydestinations.Add(L)
 
 		world << "<span class='boldannounce'>Away mission loaded.</span>"
->>>>>>> refs/remotes/HippieStationCode/master
-
 	else
 		world << "<span class='boldannounce'>No away missions found.</span>"
 
