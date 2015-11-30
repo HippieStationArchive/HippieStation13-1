@@ -790,18 +790,6 @@ var/list/uplink_items = list()
 	item = /obj/item/device/powersink
 	cost = 10
 
-/datum/uplink_item/device_tools/fultoncircuit
-	name = "Fulton Recovery Beacon Circuitboard"
-	desc = "When put in a wired machine-housing with a manipulator and finished."
-	item = /obj/item/weapon/circuitboard/extraction_point
-	cost = 4
-
-/datum/uplink_item/device_tools/fultondevice
-	name = "Fulton Recovery Device"
-	desc = "Anything not bolted down can be fultoned to a recovery beacon, albeit obvious and a bit slow."
-	item = /obj/item/weapon/extraction_pack
-	cost = 6
-
 /datum/uplink_item/device_tools/singularity_beacon
 	name = "Singularity Beacon"
 	desc = "When screwed to wiring attached to an electric grid and activated, this large device pulls any active gravitational singularities towards it. \
