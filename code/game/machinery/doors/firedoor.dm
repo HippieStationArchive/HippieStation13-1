@@ -295,7 +295,7 @@
 				user.visible_message("<span class='notice'>[user] begins wiring [src]...</span>", \
 									 "<span class='notice'>You begin adding wires to [src]...</span>")
 				playsound(get_turf(src), 'sound/items/Deconstruct.ogg', 50, 1)
-				if(!do_after(user, 80/C.toolspeed, target = src)) return
+				if(!do_after(user, 60, target = src)) return
 				if(constructionStep != CONSTRUCTION_GUTTED) return
 				user.visible_message("<span class='notice'>[user] adds wires to [src].</span>", \
 									 "<span class='notice'>You wire [src].</span>")
