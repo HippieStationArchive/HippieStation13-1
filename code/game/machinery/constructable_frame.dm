@@ -433,14 +433,6 @@ to destroy them and players will be able to make replacements.
 							/obj/item/weapon/stock_parts/matter_bin = 1,
 							/obj/item/weapon/stock_parts/manipulator = 1)
 
-/obj/item/weapon/circuitboard/extraction_point
-	name = "circuit board (Balloon Extraction Point)"
-	build_path = /obj/machinery/extraction_point
-	board_type = "machine"
-	origin_tech = "programming=1"
-	req_components = list(
-							/obj/item/weapon/stock_parts/manipulator = 1)
-
 /obj/item/weapon/circuitboard/recycler
 	name = "circuit board (Recycler)"
 	build_path = /obj/machinery/recycler
