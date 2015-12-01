@@ -480,6 +480,16 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	attack_verb = list("whipped", "lashed", "disciplined", "flogged")
 	singular_name = "cable piece"
 
+/obj/item/stack/cable_coil/New(loc, amount = MAXCOIL, var/param_color = null)
+	..()
+	src.amount = amount
+	if(param_color)
+		item_color = param_color
+	pixel_x = rand(-2,2)
+	pixel_y = rand(-2,2)
+	update_icon()
+	recipes = cable_coil_recipes
+
 /obj/item/stack/cable_coil/cyborg
 	is_cyborg = 1
 	materials = list()
@@ -490,22 +500,135 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	item_color = cable_color
 	update_icon()
 
-/obj/item/stack/cable_coil/suicide_act(mob/user)
-	if(locate(/obj/structure/stool) in user.loc)
-		user.visible_message("<span class='suicide'>[user] is making a noose with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+//SUICIDE GOODNESS
+/obj/item/stack/cable_coil/suicide_act(mob/living/user)
+	if((locate(/obj/structure/stool) in user.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
+		use(1)
+		user.visible_message("<span class='suicide'>[user] is making a noose with the [src]! It looks like \he's trying to commit suicide.</span>")
+		if(do_after(user, 20, target = user.loc))
+			var/obj/structure/noose/N = new(get_turf(user.loc))
+			N.buckle_mob(user)
+			var/obj/item/organ/limb/affecting = null
+			if(ishuman(user))
+				var/mob/living/carbon/human/H = user
+				affecting = H.get_organ("head")
+			user.say("--Hrnk!!")
+			user.apply_damage(max(100 - user.getBruteLoss(), 0), BRUTE, affecting) //Pretty hardcore damage
+			user.adjustOxyLoss(30)
+			playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
+			playsound(user.loc, 'sound/misc/crack.ogg', 50, 1, -3)
+			user << "<span class='suicide'>With a loud crack in your neck, you feel your consciousness slipping away...</span>"
+		return
 	else
-		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	return(OXYLOSS)
+		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src]! It looks like \he's trying to commit suicide.</span>")
+		return(OXYLOSS)
 
-/obj/item/stack/cable_coil/New(loc, amount = MAXCOIL, var/param_color = null)
+/obj/structure/noose //It's a "chair".
+	name = "noose"
+	desc = "Well this just got a whole lot more morbid."
+	icon_state = "noose"
+	buckle_lying = 0
+	icon = 'icons/obj/objects.dmi'
+	anchored = 1
+	can_buckle = 1
+	burn_state = 0 //Burnable
+	burntime = 30
+	var/image/over = null
+	var/ticks = 0
+
+/obj/structure/noose/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/weapon/wirecutters))
+		user.visible_message("[user] cuts the noose.", "<span class='notice'>You cut the noose.</span>")
+		if(buckled_mob)
+			buckled_mob.visible_message("<span class='danger'>[buckled_mob] falls over and hits the ground!</span>",\
+										"<span class='userdanger'>You fall over and hit the ground!</span>")
+			buckled_mob.adjustBruteLoss(10)
+		qdel(src)
+		return
 	..()
-	src.amount = amount
-	if(param_color)
-		item_color = param_color
-	pixel_x = rand(-2,2)
-	pixel_y = rand(-2,2)
-	update_icon()
-	recipes = cable_coil_recipes
+
+/obj/structure/noose/New()
+	..()
+	pixel_y += 16 //Noose looks like it's "hanging" in the air
+	over = image(icon, "noose_overlay")
+	over.layer = MOB_LAYER + 0.1
+
+/obj/structure/noose/post_buckle_mob(mob/living/M)
+	if(M == buckled_mob)
+		layer = MOB_LAYER
+		overlays += over
+		SSobj.processing.Add(src)
+		M.pixel_y = initial(M.pixel_y) + 8 //rise them up a bit
+		M.dir = SOUTH
+	else
+		layer = initial(layer)
+		overlays -= over
+		SSobj.processing.Remove(src)
+		pixel_x = initial(pixel_x)
+		M.pixel_x = initial(M.pixel_x)
+		M.pixel_y = M.get_standard_pixel_y_offset(M.lying)
+
+/obj/structure/noose/user_unbuckle_mob(mob/living/user)
+	if(buckled_mob && buckled_mob.buckled == src)
+		var/mob/living/M = buckled_mob
+
+		if(M != user)
+			M.visible_message("<span class='notice'>[user] begins to untie the noose over [M]'s neck...</span>",\
+								"<span class='notice'>You begin to untie the noose over [M]'s neck...</span>")
+			if(do_mob(user, M, 100))
+				M.visible_message("<span class='notice'>[user] unties the noose over [M]'s neck!</span>",\
+									"<span class='notice'>You untie the noose over [M]'s neck!</span>")
+			else
+				return
+		else
+			M.visible_message(\
+				"<span class='warning'>[M] struggles to untie the noose over their neck!</span>",\
+				"<span class='notice'>You struggle to untie the noose over your neck... (Stay still for 15 seconds.)</span>")
+			if(!do_after(M, 150, target = src))
+				if(M && M.buckled)
+					M << "<span class='warning'>You fail to untie yourself!</span>"
+				return
+			if(!M.buckled)
+				return
+			M.visible_message(\
+				"<span class='warning'>[M] unties the noose over their neck!</span>",\
+				"<span class='notice'>You untie the noose over your neck!</span>")
+		unbuckle_mob()
+		add_fingerprint(user)
+
+/obj/structure/noose/process() //This is the edgiest flavortext you'll find in this entire goddamn codebase.
+	if(!buckled_mob)
+		SSobj.processing.Remove(src)
+		buckled_mob.pixel_x = initial(buckled_mob.pixel_x)
+		pixel_x = initial(pixel_x)
+		return
+	ticks++
+	switch(ticks)
+		if(1)
+			pixel_x -= 1
+			buckled_mob.pixel_x -= 1
+		if(2)
+			pixel_x += 1
+			buckled_mob.pixel_x += 1
+		if(3) //Every third tick it plays a sound and RNG's a flavor text
+			pixel_x += 1
+			buckled_mob.pixel_x += 1
+			if(prob(50))
+				var/flavor_text = list("<span class='suicide'>Saliva is coming out of [buckled_mob]'s mouth as they struggle in the noose, their legs flailing for anything to stand on.</span>",\
+										"<span class='suicide'>[buckled_mob]'s hands are desperately clutching the noose, struggling to untie it.</span>",\
+										"<span class='suicide'>[buckled_mob]'s limbs sway back and forth with diminishing strength.</span>")
+				if(buckled_mob.stat == DEAD) //DED
+					flavor_text = list("<span class='suicide'>[buckled_mob]'s limbs lifelessly sway back and forth.</span>",\
+										"<span class='suicide'>[buckled_mob]'s head is a pale blue, staring with their dead eyes.</span>",\
+										"<span class='suicide'>Blood slowly drips from [buckled_mob]'s neck, saliva pouring from their mouth.")
+				buckled_mob.visible_message(pick(flavor_text))
+			playsound(buckled_mob.loc, 'sound/effects/noose_idle.ogg', 50, 1, -3)
+		if(4)
+			pixel_x -= 1
+			buckled_mob.pixel_x -= 1
+			ticks = 0
+	buckled_mob.adjustOxyLoss(5)
+	buckled_mob.emote("gasp")
 
 ///////////////////////////////////
 // General procedures

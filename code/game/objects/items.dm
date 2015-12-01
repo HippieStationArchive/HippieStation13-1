@@ -132,7 +132,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 //FIRELOSS = 2
 //TOXLOSS = 4
 //OXYLOSS = 8
-//Output a creative message and then return the damagetype done
+//Output a creative message and then return the damagetype done. If you want to instakill do user.death()
 /obj/item/proc/suicide_act(mob/user)
 	return
 
