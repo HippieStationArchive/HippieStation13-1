@@ -147,7 +147,7 @@
 	var/slime_delay = 0
 	var/animal_delay = 0
 
-	var/gateway_delay = 18000 //How long the gateway takes before it activates. Default is half an hour.
+	var/gateway_delay = 6000 //How long the gateway takes before it activates. Default is 18000 - half an an hour.
 	var/ghost_interaction = 0
 
 	var/silent_ai = 0
@@ -164,6 +164,8 @@
 	var/grey_assistants = 0
 
 	var/aggressive_changelog = 0
+
+	var/roundstart_awaymissions = 0 //if an away mission will be loaded at roundstart.
 
 	var/reactionary_explosions = 0 //If we use reactionary explosions, explosions that react to walls and doors
 
@@ -360,6 +362,8 @@
 					config.announce_admin_logout = 1
 				if("announce_admin_login")
 					config.announce_admin_login = 1
+				if("roundstart_awaymissions")
+					roundstart_awaymissions = 1
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 

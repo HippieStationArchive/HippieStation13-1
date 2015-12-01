@@ -2,7 +2,7 @@
 	name = "Regenerative Stasis"
 	desc = "We fall into a stasis, allowing us to regenerate and trick our enemies."
 	chemical_cost = 15
-	dna_cost = 0
+	evopoints_cost = 0
 	req_dna = 1
 	req_stat = DEAD
 	max_genetic_damage = 100
