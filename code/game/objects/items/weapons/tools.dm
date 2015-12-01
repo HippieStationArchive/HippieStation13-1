@@ -21,13 +21,14 @@
 	icon_state = "wrench"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
-	force = 5
-	throwforce = 7
+	force = 7
+	throwforce = 10
 	w_class = 2
 	materials = list(MAT_METAL=150)
 	origin_tech = "materials=1;engineering=1"
 	attack_verb = list("bashed", "battered", "bludgeoned", "whacked")
 	hitsound = 'sound/weapons/wrench.ogg'
+	toolspeed = 1
 
 /obj/item/weapon/wrench/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -52,6 +53,7 @@
 	materials = list(MAT_METAL=75)
 	attack_verb = list("stabbed")
 	hitsound = 'sound/weapons/bladeslice.ogg'
+	toolspeed = 1
 
 /obj/item/weapon/screwdriver/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is stabbing the [src.name] into \his temple! It looks like \he's trying to commit suicide.</span>", \
@@ -116,6 +118,7 @@
 	origin_tech = "materials=1;engineering=1"
 	attack_verb = list("pinched", "nipped")
 	hitsound = 'sound/items/Wirecutter.ogg'
+	toolspeed = 1
 
 /obj/item/weapon/wirecutters/New(loc, var/param_color = null)
 	..()
@@ -182,6 +185,7 @@
 	throw_speed = 3
 	throw_range = 5
 	w_class = 2
+	toolspeed = 1
 
 	materials = list(MAT_METAL=70, MAT_GLASS=30)
 	origin_tech = "engineering=1"
@@ -463,6 +467,7 @@
 	change_icons = 0
 	can_off_process = 1
 	light_intensity = 1
+	toolspeed = 2
 
 
 //Proc to make the experimental welder generate fuel, optimized as fuck -Sieve
@@ -492,14 +497,15 @@
 	icon_state = "crowbar"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
-	force = 5
-	throwforce = 7
+	force = 7
+	throwforce = 10
 	item_state = "crowbar"
 	w_class = 2
 	materials = list(MAT_METAL=50)
 	origin_tech = "engineering=1"
 	attack_verb = list("attacked", "bashed", "battered", "bludgeoned", "whacked")
 	hitsound = list('sound/weapons/crowbar1.ogg','sound/weapons/crowbar2.ogg')
+	toolspeed = 1
 
 /obj/item/weapon/crowbar/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is putting the [src.name] into \his mouth and proceeds to weigh down! It looks like \he's trying to commit suicide.</span>")
@@ -525,3 +531,4 @@
 	throw_range = 3
 	materials = list(MAT_METAL=70)
 	icon_state = "crowbar_large"
+	toolspeed = 2
