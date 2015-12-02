@@ -1,47 +1,83 @@
 /*
 Author: NullQuery
 Created on: 2014-09-24
+
 	** CAUTION - A WORD OF WARNING **
+
 If there is no getter or setter available and you aren't extending my code with a sub-type, DO NOT ACCESS VARIABLES DIRECTLY!
+
 Add a getter/setter instead, even if it does nothing but return or set the variable. Thank you for your patience with me. -NQ
+
 	** Public API **
+
 	var/datum/html_interface/hi = new/datum/html_interface(ref, title, width = 700, height = 480, head = "")
+
 Creates a new HTML interface object with [ref] as the object and [title] as the initial title of the page. [width] and [height] is the initial width and height
 of the window. The text in [head] is added just before the end </head> tag.
+
 	hi.setTitle(title)
+
 Changes the title of the page.
+
 	hi.getTitle()
+
 Returns the current title of the page.
+
 	hi.updateLayout(layout)
+
 Updates the overall layout of the page (the HTML code between the body tags).
+
 This should be used sparingly.
+
 	hi.updateContent(id, content, ignore_cache = FALSE)
+
 Updates a portion of the page, i.e., the DOM element with the appropriate ID. The contents of the element are replaced with the provided HTML.
+
 The content is cached on the server-side to minimize network traffic when the client "should have" the same HTML. The client may not have
 the same HTML if scripts cause the content to change. In this case set the ignore_cache parameter.
+
 	hi.executeJavaScript(jscript, client = null)
+
 Executes Javascript on the browser.
+
 The client is optional and may be a /mob, /client or /html_interface_client object. If not specified the code is executed on all clients.
+
 	hi.show(client)
+
 Shows the HTML interface to the provided client. This will create a window, apply the current layout and contents. It will then wait for events.
+
 	hi.hide(client)
+
 Hides the HTML interface from the provided client. This will close the browser window.
+
 	hi.isUsed()
+
 Returns TRUE if the interface is being used (has an active client) or FALSE if not.
+
 	hi.closeAll()
+
 Closes the interface on all clients.
+
 	** Additional notes **
+
 When working with byond:// links make sure to reference the HTML interface object and NOT the original object. Topic() will still be called on
 your object, but it will pass through the HTML interface first allowing interception at a higher level.
+
 If you want to use custom resources(images/css/js) with an existing interface:
 You have to use modules/client/asset_cache to ensure they get sent BEFORE the interface opens
+
 	** Sample code **
+
 mob/var/datum/html_interface/hi
+
 mob/verb/test()
 	if (!hi) hi = new/datum/html_interface(src, "[src.key]")
+
 	hi.updateLayout("<div id=\"content\"></div>")
 	hi.updateContent("content", "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>")
+
 	hi.show(src)
+
 */
 
 /var/list/html_interfaces = new/list()
@@ -73,7 +109,7 @@ mob/verb/test()
 
 	// A type associated list of assets the interface needs.
 	//Sent to the client when the interface opens on the client for the first time.
-	var/static/asset_list = list()
+	var/static/list/asset_list
 
 /datum/html_interface/New(atom/ref, title, width = 700, height = 480, head = "")
 	html_interfaces.Add(src)
@@ -107,7 +143,8 @@ mob/verb/test()
 	for (var/R in resources)
 		register_asset(R,resources[R])
 		assetlist += R
-
+	if (!asset_list)
+		asset_list = list()
 	asset_list[type] = assetlist
 
 /datum/html_interface/proc/createWindow(datum/html_interface_client/hclient)
@@ -184,7 +221,8 @@ mob/verb/test()
 	hclient = getClient(hclient, TRUE)
 
 	if (istype(hclient))
-		send_asset_list(hclient.client,asset_list[type], TRUE)
+		if (type in asset_list && islist(asset_list[type]))
+			send_asset_list(hclient.client, asset_list[type], TRUE)
 
 		if (!winexists(hclient.client, "browser_\ref[src]"))
 			src.createWindow(hclient)

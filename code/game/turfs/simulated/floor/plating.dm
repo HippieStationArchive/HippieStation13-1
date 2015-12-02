@@ -98,7 +98,7 @@
 	if(istype(C, /obj/item/weapon/wrench))
 		user << "<span class='notice'>You begin removing rods...</span>"
 		playsound(src, 'sound/items/Ratchet.ogg', 80, 1)
-		if(do_after(user, 30, target = src))
+		if(do_after(user, 30/C.toolspeed, target = src))
 			if(!istype(src, /turf/simulated/floor/engine))
 				return
 			new /obj/item/stack/rods(src, 2)
@@ -200,23 +200,25 @@
 	nitrogen = 0
 	temperature = TCMB
 
-/turf/simulated/floor/plating/lava/ex_act()
+/turf/simulated/floor/plating/lava/deadly
+
+/turf/simulated/floor/plating/lava/deadly/ex_act()
 	return ..()
 
-/turf/simulated/floor/plating/lava/Entered(atom/movable/AM)
+/turf/simulated/floor/plating/lava/deadly/Entered(atom/movable/AM)
 	burn_stuff()
 	if(!processing)
 		processing = 1
 		SSobj.processing |= src
 
-/turf/simulated/floor/plating/lava/process()
+/turf/simulated/floor/plating/lava/deadly/process()
 	if(!contents)
 		processing = 0
 		SSobj.processing.Remove(src)
 		return
 	burn_stuff()
 
-/turf/simulated/floor/plating/lava/proc/burn_stuff()
+/turf/simulated/floor/plating/lava/deadly/proc/burn_stuff()
 	for(var/atom/movable/AM in contents)
 		if(!istype(AM))
 			return
@@ -234,24 +236,24 @@
 			L.adjust_fire_stacks(20)
 			L.IgniteMob()
 
-/turf/simulated/floor/plating/lava/break_tile()
+/turf/simulated/floor/plating/lava/deadly/break_tile()
 	return
 
-/turf/simulated/floor/plating/lava/burn_tile()
+/turf/simulated/floor/plating/lava/deadly/burn_tile()
 	return
 
-/turf/simulated/floor/plating/lava/attackby(obj/item/C, mob/user, params) //Lava isn't a good foundation to build on
+/turf/simulated/floor/plating/lava/deadly/attackby(obj/item/C, mob/user, params) //Lava isn't a good foundation to build on
 	return
 
-/turf/simulated/floor/plating/lava/smooth
+/turf/simulated/floor/plating/lava/deadly/smooth
 	name = "lava"
-	baseturf = /turf/simulated/floor/plating/lava/smooth
+	baseturf = /turf/simulated/floor/plating/lava/deadly/smooth
 	smooth = SMOOTH_TRUE
 	icon = 'icons/turf/floors/lava.dmi'
 	icon_state = "smooth"
 	canSmoothWith = list(/turf/simulated/wall)
 
-/turf/simulated/floor/plating/lava/smooth/airless
+/turf/simulated/floor/plating/lava/deadly/smooth/airless
 	oxygen = 0
 	nitrogen = 0
 	temperature = TCMB

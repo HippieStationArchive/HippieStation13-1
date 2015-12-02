@@ -342,6 +342,13 @@
 	log_name = "CT"
 	category = "Assistance"
 
+/datum/spellbook_entry/item/plasma_fist
+	name = "Plasma Fist Scroll"
+	desc = "Consider this more of a \"Spell Bundle\". This artifact is NOT reccomended for weaklings. An ancient scroll that will teach you the art of Plasma Fist. With it's various combos you can knock people down in the area around you, light them on fire and finally perform the PLASMA FIST that will gib your target."
+	item_path = /obj/item/weapon/plasma_fist_scroll
+	log_name = "PF"
+	cost = 4 //VERY costly. Can only buy lvl1 magic missile/fireball/etc.
+
 /datum/spellbook_entry/item/bloodbottle
 	name = "Bottle of Blood"
 	desc = "A bottle of magically infused blood, the smell of which will attract extradimensional beings when broken. Be careful though, the kinds of creatures summoned by blood magic are indiscriminate in their killing, and you yourself may become a victim."
@@ -494,7 +501,7 @@
 		user << "It appears to have no author."
 
 /obj/item/weapon/spellbook/proc/Initialize()
-	var/entry_types = typesof(/datum/spellbook_entry) - /datum/spellbook_entry/item - /datum/spellbook_entry/summon
+	var/entry_types = typesof(/datum/spellbook_entry) - /datum/spellbook_entry - /datum/spellbook_entry/item - /datum/spellbook_entry/summon
 	for(var/T in entry_types)
 		var/datum/spellbook_entry/E = new T
 		if(E.IsAvailible())
@@ -766,8 +773,28 @@
 		user <<"<span class='notice'>You stare at the book some more, but there doesn't seem to be anything else to learn...</span>"
 		return
 
-	var/obj/effect/proc_holder/spell/targeted/mind_transfer/swapper = new
-	swapper.cast(user, stored_swap, 1)
+	if(user.mind.special_verbs.len)
+		for(var/V in user.mind.special_verbs)
+			user.verbs -= V
+
+	if(stored_swap.mind.special_verbs.len)
+		for(var/V in stored_swap.mind.special_verbs)
+			stored_swap.verbs -= V
+
+	var/mob/dead/observer/ghost = stored_swap.ghostize(0)
+
+	user.mind.transfer_to(stored_swap)
+
+	if(stored_swap.mind.special_verbs.len)
+		for(var/V in user.mind.special_verbs)
+			user.verbs += V
+
+	ghost.mind.transfer_to(user)
+	user.key = ghost.key
+
+	if(user.mind.special_verbs.len)
+		for(var/V in user.mind.special_verbs)
+			user.verbs += V
 
 	stored_swap <<"<span class='warning'>You're suddenly somewhere else... and someone else?!</span>"
 	user <<"<span class='warning'>Suddenly you're staring at [src] again... where are you, who are you?!</span>"
