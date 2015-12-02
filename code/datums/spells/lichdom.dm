@@ -1,11 +1,11 @@
 /obj/effect/proc_holder/spell/targeted/lichdom
 	name = "Bind Soul"
-	desc = "A dark necromantic pact that can forever bind your soul to an item of your choosing. So long as both your body and the item remain intact you can revive from death, though the time between reincarnations grows steadily with use."
+	desc = "A dark necromantic pact that can forever bind your soul to an item of your choosing. So long as both your body and the item remain intact and on the same plane you can revive from death, though the time between reincarnations grows steadily with use."
 	school = "necromancy"
 	charge_max = 10
 	clothes_req = 0
 	centcom_cancast = 0
-	invocation = "NECREM IMORTIUM!"
+	invocation = "NECREuser IuserORTIUuser!"
 	invocation_type = "shout"
 	range = -1
 	level_max = 0 //cannot be improved
@@ -19,9 +19,8 @@
 
 /obj/effect/proc_holder/spell/targeted/lichdom/New()
 	if(ticker.mode.round_ends_with_antag_death)
-		ticker.mode.round_ends_with_antag_death = 0
+		..()
 
-	..()
 /obj/effect/proc_holder/spell/targeted/lichdom/cast(list/targets)
 	for(var/mob/user in targets)
 		var/list/hand_items = list()
@@ -40,6 +39,13 @@
 
 			if(!marked_item || qdeleted(marked_item)) //Wait nevermind
 				user << "<span class='warning'>Your phylactery is gone!</span>"
+				return
+
+			var/turf/user_turf = get_turf(user)
+			var/turf/item_turf = get_turf(marked_item)
+
+			if(user_turf.z != item_turf.z)
+				user << "<span class='warning'>Your phylactery is out of range!</span>"
 				return
 
 			if(isobserver(user))
@@ -61,7 +67,6 @@
 			var/mob/old_body = current_body
 			current_body = lich
 			lich.Weaken(10)
-
 			if(old_body && old_body.loc)
 				if(iscarbon(old_body))
 					var/mob/living/carbon/C = old_body

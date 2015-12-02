@@ -2,7 +2,7 @@
 	name = "Digital Camouflage"
 	desc = "By evolving the ability to distort our form and proprotions, we defeat common altgorithms used to detect lifeforms on cameras."
 	helptext = "We cannot be tracked by camera or seen by AI units while using this skill. However, humans looking at us will find us... uncanny."
-	dna_cost = 1
+	evopoints_cost = 2
 
 //Prevents AIs tracking you but makes you easily detectable to the human-eye.
 /obj/effect/proc_holder/changeling/digitalcamo/sting_action(mob/user)
