@@ -311,12 +311,14 @@
 	if(cooldown)
 		icon_state = "defibpaddles[wielded]_cooldown"
 
-/obj/item/weapon/twohanded/shockpaddles/suicide_act(mob/user)
+/obj/item/weapon/twohanded/shockpaddles/suicide_act(mob/living/user)
 	user.visible_message("<span class='danger'>[user] is putting the live paddles on \his chest! It looks like \he's trying to commit suicide.</span>")
 	if(req_defib)
 		defib.deductcharge(revivecost)
 	playsound(get_turf(src), 'sound/machines/defib_zap.ogg', 50, 1, -1)
-	user.heart_attack = 1
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		H.heart_attack = 1
 	return (OXYLOSS)
 
 /obj/item/weapon/twohanded/shockpaddles/dropped(mob/user)

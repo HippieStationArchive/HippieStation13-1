@@ -514,7 +514,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 				user << "<span class='danger'>You need at least 15 lengths to make a noose!</span>"
 				return
 			use(15)
-			var/obj/structure/noose/N = new(get_turf(user.loc))
+			new /obj/structure/noose(get_turf(user.loc))
 			user.visible_message("<span class='warning'>[user] makes a noose with [src]!</span>",\
 								"<span class='notice'>You make a noose with [src].</span>")
 	else
