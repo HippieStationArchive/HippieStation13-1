@@ -505,15 +505,15 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	set name = "Make Noose"
 	set category = "Object"
 	if((locate(/obj/structure/stool) in user.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
-		if(amount < 15)
-			user << "<span class='danger'>You need at least 15 lengths to make a noose!</span>"
+		if(amount < 30)
+			user << "<span class='danger'>You need at least 30 lengths to make a noose!</span>"
 			return
 		user << "<span class='notice'>You begin making a noose with [src]...</span>"
-		if(do_after(user, 20, target = user.loc))
-			if(amount < 15)
-				user << "<span class='danger'>You need at least 15 lengths to make a noose!</span>"
+		if(do_after(user, 100, target = user.loc))
+			if(amount < 30)
+				user << "<span class='danger'>You need at least 30 lengths to make a noose!</span>"
 				return
-			use(15)
+			use(30)
 			new /obj/structure/noose(get_turf(user.loc))
 			user.visible_message("<span class='warning'>[user] makes a noose with [src]!</span>",\
 								"<span class='notice'>You make a noose with [src].</span>")
@@ -633,8 +633,8 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 		M.visible_message(\
 			"<span class='danger'>[user] attempts to tie \the [src] over [M]'s neck!</span>",\
 			"<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
-		user << "<span class='notice'>It will take 15 seconds and you have to stand still.</span>"
-		if(do_mob(user, M, 150))
+		user << "<span class='notice'>It will take 20 seconds and you have to stand still.</span>"
+		if(do_mob(user, M, 200))
 			if(buckle_mob(M))
 				M.visible_message(\
 					"<span class='danger'>[user] ties \the [src] over [M]'s neck!</span>",\
