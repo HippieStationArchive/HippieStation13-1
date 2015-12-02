@@ -539,7 +539,7 @@
 			user.visible_message("<span class='notice'>[user] begins replacing [src] wires.</span>", \
 								 "<span class='notice'>You begin rewiring [src]...</span>")
 			playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
-			if(!do_after(user, 30, target = src))
+			if(!do_after(user, 30/I.toolspeed, target = src))
 				return
 			user.visible_message("<span class='notice'>[user] adds wires to [src].</span>", \
 								 "<span class='notice'>You rewire [src].</span>")
@@ -554,7 +554,7 @@
 			user.visible_message("<span class='notice'>[user] starts removing [src]'s broken interior plating.</span>", \
 								 "<span class='notice'>You begin removing the damaged interior plating from [src]...</span>")
 			playsound(src, 'sound/items/Crowbar.ogg', 50, 1)
-			if(!do_after(user, 30, target = src))
+			if(!do_after(user, 30/I.toolspeed, target = src))
 				return
 			user.visible_message("<span class='notice'>[user] removes the damaged interior plating from [src].</span>", \
 								 "<spna class='notice'>You remove the damaged interior plating from [src].</span>")
