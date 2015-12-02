@@ -29,10 +29,10 @@
 	attack_verb = list("bashed", "battered", "bludgeoned", "whacked")
 	hitsound = 'sound/weapons/wrench.ogg'
 
-/obj/item/weapon/wrench/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	playsound(loc, hitsound, 50, 1, -1)
-	return (BRUTELOSS)
+// /obj/item/weapon/wrench/suicide_act(mob/user) //TODO: Make this suicide less lame
+// 	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+// 	playsound(loc, hitsound, 50, 1, -1)
+// 	return (BRUTELOSS)
 
 /*
  * Screwdriver
@@ -53,7 +53,7 @@
 	attack_verb = list("stabbed")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 
-/obj/item/weapon/screwdriver/suicide_act(mob/user)
+/obj/item/weapon/screwdriver/suicide_act(mob/user) //TODO: Make this suicide less lame
 	user.visible_message(pick("<span class='suicide'>[user] is stabbing the [src.name] into \his temple! It looks like \he's trying to commit suicide.</span>", \
 						"<span class='suicide'>[user] is stabbing the [src.name] into \his heart! It looks like \he's trying to commit suicide.</span>"))
 	playsound(loc, hitsound, 50, 1, -1)
@@ -223,7 +223,7 @@
 	..()
 	user << "It contains [get_fuel()] unit\s of fuel out of [max_fuel]."
 
-/obj/item/weapon/weldingtool/suicide_act(mob/user)
+/obj/item/weapon/weldingtool/suicide_act(mob/user) //TODO: Make this suicide less lame
 	user.visible_message("<span class='suicide'>[user] welds \his every orifice closed! It looks like \he's trying to commit suicide..</span>")
 	return (FIRELOSS)
 

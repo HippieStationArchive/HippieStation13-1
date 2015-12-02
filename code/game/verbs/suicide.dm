@@ -177,6 +177,8 @@
 		src << "You're already dead!"
 	else if(stat == UNCONSCIOUS)
 		src << "You need to be conscious to suicide!"
+	else if(suiciding)
+		src << "You are already suiciding!"
 	return
 
 /mob/living/carbon/canSuicide()

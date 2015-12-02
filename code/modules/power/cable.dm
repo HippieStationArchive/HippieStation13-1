@@ -501,11 +501,30 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	update_icon()
 
 //SUICIDE GOODNESS
+/obj/item/stack/cable_coil/verb/make_noose(mob/user) //So traitors can hang people and stuff
+	set name = "Make Noose"
+	set category = "Object"
+	if((locate(/obj/structure/stool) in user.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
+		if(amount < 15)
+			user << "<span class='danger'>You need at least 15 lengths to make a noose!</span>"
+			return
+		user << "<span class='notice'>You begin making a noose with [src]...</span>"
+		if(do_after(user, 20, target = user.loc))
+			if(amount < 15)
+				user << "<span class='danger'>You need at least 15 lengths to make a noose!</span>"
+				return
+			use(15)
+			var/obj/structure/noose/N = new(get_turf(user.loc))
+			user.visible_message("<span class='warning'>[user] makes a noose with [src]!</span>",\
+								"<span class='notice'>You make a noose with [src].</span>")
+	else
+		user << "<span class='danger'>You have to be standing on top of a chair/table/toilet to make a noose!</span>"
+
 /obj/item/stack/cable_coil/suicide_act(mob/living/user)
 	if((locate(/obj/structure/stool) in user.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
-		use(1)
 		user.visible_message("<span class='suicide'>[user] is making a noose with the [src]! It looks like \he's trying to commit suicide.</span>")
 		if(do_after(user, 20, target = user.loc))
+			use(1)
 			var/obj/structure/noose/N = new(get_turf(user.loc))
 			N.buckle_mob(user)
 			var/obj/item/organ/limb/affecting = null
@@ -518,7 +537,9 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
 			playsound(user.loc, 'sound/misc/crack.ogg', 50, 1, -3)
 			user << "<span class='suicide'>With a loud crack in your neck, you feel your consciousness slipping away...</span>"
-		return
+			return
+		else
+			return
 	else
 		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src]! It looks like \he's trying to commit suicide.</span>")
 		return(OXYLOSS)
@@ -593,8 +614,38 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			M.visible_message(\
 				"<span class='warning'>[M] unties the noose over their neck!</span>",\
 				"<span class='notice'>You untie the noose over your neck!</span>")
+			M.Weaken(3)
 		unbuckle_mob()
 		add_fingerprint(user)
+
+/obj/structure/noose/user_buckle_mob(mob/living/M, mob/user)
+	if(!in_range(user, src) || user.stat || user.restrained())
+		return 0
+
+	add_fingerprint(user)
+
+	if(M == user && buckle_mob(M))
+		M.visible_message(\
+			"<span class='suicide'>[M] ties \the [src] over their neck!</span>",\
+			"<span class='suicide'>You tie \the [src] over your neck!</span>")
+		return 1
+	else
+		M.visible_message(\
+			"<span class='danger'>[user] attempts to tie \the [src] over [M]'s neck!</span>",\
+			"<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
+		user << "<span class='notice'>It will take 15 seconds and you have to stand still.</span>"
+		if(do_mob(user, M, 150))
+			if(buckle_mob(M))
+				M.visible_message(\
+					"<span class='danger'>[user] ties \the [src] over [M]'s neck!</span>",\
+					"<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
+				return 1
+			else
+		else
+			user.visible_message(\
+				"<span class='warning'>[user] fails to tie \the [src] over [M]'s neck!</span>",\
+				"<span class='warning'>You fail to tie \the [src] over [M]'s neck!</span>")
+			return 0
 
 /obj/structure/noose/process() //This is the edgiest flavortext you'll find in this entire goddamn codebase.
 	if(!buckled_mob)
