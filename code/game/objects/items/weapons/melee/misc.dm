@@ -16,8 +16,8 @@
 	hitsound = 'sound/weapons/chainofcommand.ogg'
 
 /obj/item/weapon/melee/chainofcommand/suicide_act(mob/user)
-		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-		return (OXYLOSS)
+	user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (OXYLOSS)
 
 
 
@@ -224,6 +224,6 @@
 	embedded_pain_multiplier = 6 //6 force applied when "it hurts"
 	embedded_pain_chance = 25 //25% chance to be pained by the knife
 
-/obj/item/weapon/melee/combatknife/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	return (BRUTELOSS)
+// /obj/item/weapon/melee/combatknife/suicide_act(mob/user)
+// 	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+// 	return (BRUTELOSS)

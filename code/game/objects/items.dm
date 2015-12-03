@@ -133,8 +133,19 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 //FIRELOSS = 2
 //TOXLOSS = 4
 //OXYLOSS = 8
-//Output a creative message and then return the damagetype done
+//If you want to make your own suicide messages, overwrite this function.
+//Output a creative message and then return the damagetype done. If you want to instakill do user.death()
 /obj/item/proc/suicide_act(mob/user)
+	if(force > 0)
+		var/list/flavortext = list("<span class='suicide'>[user] is bashing \himself repeadetly with \the [src]! It looks like they're trying to commit suicide.</span>",\
+									"<span class='suicide'>[user] smashes \himself with \the [src]! It looks like they're trying to commit suicide.</span>")
+		if(is_sharp())
+			flavortext = list("<span class='suicide'>[user] is slitting \his wrists with \the [src]! It looks like they're trying to commit suicide.</span>", \
+							"<span class='suicide'>[user] is slitting \his throat with \the [src]! It looks like they're trying to commit suicide.</span>", \
+							"<span class='suicide'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>")
+		user.visible_message(pick(flavortext))
+		playsound(loc, hitsound, 30, 1, -1)
+		return damtype
 	return
 
 /obj/item/verb/move_to_top()

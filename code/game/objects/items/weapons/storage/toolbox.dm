@@ -102,6 +102,6 @@
 	new /obj/item/weapon/wirecutters(src)
 	new /obj/item/device/multitool(src)
 
-/obj/item/weapon/storage/toolbox/suicide_act(mob/user)
+/obj/item/weapon/storage/toolbox/suicide_act(mob/user) //TODO: Make this suicide less lame
 	user.visible_message("<span class='suicide'>[user] robusts \himself with the toolbox! It looks like \he's trying to commit suicide..</span>")
 	return (BRUTELOSS)
