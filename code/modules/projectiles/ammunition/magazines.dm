@@ -279,7 +279,7 @@
 
 /obj/item/ammo_box/magazine/alc
 	name = "Auto. Laser Carbine Magazine (plasma)"
-	icon_state = "alc-24"
+	icon_state = "alc"
 	ammo_type = /obj/item/ammo_casing/caseless/cplasma
 	caliber = "plasma"
 	max_ammo = 24

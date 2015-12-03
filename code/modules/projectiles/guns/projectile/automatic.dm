@@ -427,6 +427,9 @@
 	burst_size = 3
 	fire_delay = 1
 	fire_sound = 'sound/weapons/tommygun_shoot.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/ak922_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ak922_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ak922_chamber.ogg'
 
 /obj/item/weapon/gun/projectile/automatic/aks74/update_icon()
 	..()
