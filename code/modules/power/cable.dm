@@ -458,7 +458,7 @@ By design, d1 is the smallest direction and d2 is the highest
 
 var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	new/datum/stack_recipe("cable restraints", /obj/item/weapon/restraints/handcuffs/cable, 15), \
-	new/datum/stack_recipe("noose", /obj/structure/noose, 30, time = 10, one_per_turf = 1, on_floor = 1), \
+	new/datum/stack_recipe("noose", /obj/structure/noose, 30, time = 100, one_per_turf = 1, on_floor = 1), \
 	)
 
 /obj/item/stack/cable_coil
@@ -505,8 +505,8 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 
 /obj/item/stack/cable_coil/building_checks(datum/stack_recipe/R, multiplier)
 	if(R.title == "noose")
-		if(!(locate(/obj/structure/stool) in user.loc) && !(locate(/obj/structure/table) in user.loc) && !(locate(/obj/structure/toilet) in user.loc))
-			user << "<span class='warning'>You have to be standing on top of a chair/table/toilet to make a noose!</span>"
+		if(!(locate(/obj/structure/stool) in usr.loc) && !(locate(/obj/structure/table) in usr.loc) && !(locate(/obj/structure/toilet) in usr.loc))
+			usr << "<span class='warning'>You have to be standing on top of a chair/table/toilet to make a noose!</span>"
 			return 0
 	return ..()
 
@@ -544,6 +544,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	can_buckle = 1
 	burn_state = 0 //Burnable
 	burntime = 30
+	layer = 5
 	var/image/over = null
 	var/ticks = 0
 
@@ -613,6 +614,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 /obj/structure/noose/user_buckle_mob(mob/living/M, mob/user)
 	if(!in_range(user, src) || user.stat || user.restrained() || !iscarbon(M))
 		return 0
+	if(M.loc != src.loc) return 0 //Can only noose someone if they're on the same tile as noose
 
 	add_fingerprint(user)
 
@@ -620,6 +622,8 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 		M.visible_message(\
 			"<span class='suicide'>[M] ties \the [src] over their neck!</span>",\
 			"<span class='suicide'>You tie \the [src] over your neck!</span>")
+		playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
+		add_logs(user, "", "hanged themselves", src)
 		return 1
 	else
 		M.visible_message(\
@@ -631,8 +635,14 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 				M.visible_message(\
 					"<span class='danger'>[user] ties \the [src] over [M]'s neck!</span>",\
 					"<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
+				playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
+				add_logs(user, M, "hanged", src)
 				return 1
 			else
+				user.visible_message(\
+					"<span class='warning'>[user] fails to tie \the [src] over [M]'s neck!</span>",\
+					"<span class='warning'>You fail to tie \the [src] over [M]'s neck!</span>")
+				return 0
 		else
 			user.visible_message(\
 				"<span class='warning'>[user] fails to tie \the [src] over [M]'s neck!</span>",\
@@ -651,8 +661,8 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			pixel_x -= 1
 			buckled_mob.pixel_x -= 1
 		if(2)
-			pixel_x += 1
-			buckled_mob.pixel_x += 1
+			pixel_x = initial(pixel_x)
+			buckled_mob.pixel_x = initial(buckled_mob.pixel_x)
 		if(3) //Every third tick it plays a sound and RNG's a flavor text
 			pixel_x += 1
 			buckled_mob.pixel_x += 1
@@ -667,8 +677,8 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 				buckled_mob.visible_message(pick(flavor_text))
 			playsound(buckled_mob.loc, 'sound/effects/noose_idle.ogg', 50, 1, -3)
 		if(4)
-			pixel_x -= 1
-			buckled_mob.pixel_x -= 1
+			pixel_x = initial(pixel_x)
+			buckled_mob.pixel_x = initial(buckled_mob.pixel_x)
 			ticks = 0
 	buckled_mob.adjustOxyLoss(5)
 	buckled_mob.emote("gasp")
