@@ -218,7 +218,7 @@
 	desc = "A 5.45x39mm cartridge."
 	icon_state = "casing_545"
 	caliber = "a556"
-	projectile_type = /obj/item/projectile/bullet/heavybullet
+	projectile_type = /obj/item/projectile/bullet/weakbullet3
 
 /obj/item/ammo_casing/a556
 	desc = "A 5.56x45mm cartridge."
