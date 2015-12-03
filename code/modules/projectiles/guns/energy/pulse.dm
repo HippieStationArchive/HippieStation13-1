@@ -29,6 +29,9 @@
 	can_flashlight = 1
 	flight_x_offset = 18
 	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
 
 /obj/item/weapon/gun/energy/pulse/carbine/loyalpin
 

@@ -3,17 +3,13 @@
 /datum/martial_art/rigatoni
 	name = "Rigatoni Knuckles"
 
-
-/datum/martial_art/rigatoni/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	return 0
-
 /datum/martial_art/rigatoni/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	D.visible_message("<span class='danger'>[A] [pick("punches", "kicks", "chops", "hits", "slams")] [D]!</span>", \
 					  "<span class='userdanger'>[A] hits you!</span>")
 	D.apply_damage(10, BRUTE)
 	playsound(get_turf(D), 'sound/weapons/punch1.ogg', 50, 1, -1)
 	D.apply_damage(10,STAMINA)
-	add_logs(A, D, "boxed")
+	add_logs(A, D, "knuckled", "(Rigatoni Knuckles)")
 	if(D.getStaminaLoss() > 50)
 		var/knockout_prob = D.getStaminaLoss() + rand(-15,15)
 		if((D.stat != DEAD) && prob(knockout_prob))
@@ -26,15 +22,11 @@
 			D.forcesay(hit_appends)
 	return 1
 
-
-
-
-
-/datum/martial_art/rigatoni/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	return 0
-
-
 /obj/item/clothing/gloves/brassknuckles
+	name = "brass knuckles"
+	desc = "Heavy brass knuckles.. you could do some damage with these!"
+	icon_state = "brassknuckles"
+	item_state = null
 	var/datum/martial_art/rigatoni/style = new
 
 /obj/item/clothing/gloves/brassknuckles/equipped(mob/user, slot)

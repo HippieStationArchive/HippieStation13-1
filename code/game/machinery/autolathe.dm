@@ -236,8 +236,7 @@
 						else
 							new_item = new being_built.build_path(T)
 						new_item.autolathe_crafted(src)
-						new_item.materials[MAT_METAL] /= coeff
-						new_item.materials[MAT_GLASS] /= coeff
+						new_item.materials = materials_used.Copy()
 					busy = 0
 					src.updateUsrDialog()
 

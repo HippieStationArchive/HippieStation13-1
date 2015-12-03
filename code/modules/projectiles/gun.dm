@@ -48,15 +48,19 @@
 
 	var/obj/item/device/firing_pin/pin = /obj/item/device/firing_pin/generic //standard firing pin for most guns
 
-	var/obj/item/device/flashlight/F = null
+	var/obj/item/device/flashlight/F = null //flashlight attachment
 	var/can_flashlight = 0
+	var/obj/item/knife = null //knife attachment
+	var/can_knife = 0
 
 	var/list/upgrades = list()
 
 	var/ammo_x_offset = 0 //used for positioning ammo count overlay on sprite
 	var/ammo_y_offset = 0
-	var/flight_x_offset = 0
+	var/flight_x_offset = 0 //Used for positioning flashlight overlay on sprite
 	var/flight_y_offset = 0
+	var/knife_x_offset = 0 //Used for positioning knife overlay on sprite
+	var/knife_y_offset = 0
 
 /obj/item/weapon/gun/New()
 	..()
@@ -248,7 +252,7 @@
 	feedback_add_details("gun_fired","[src.type]")
 
 /obj/item/weapon/gun/attack(mob/M as mob, mob/user)
-	if(user.a_intent == "harm") //Flogging
+	if(user.a_intent == "harm") //Flogging or knifing
 		..()
 	else if(user.zone_sel.selecting =="groin" && user.a_intent == "grab")
 		..()
@@ -259,7 +263,7 @@
 	if(istype(A, /obj/item/device/flashlight/seclite))
 		var/obj/item/device/flashlight/seclite/S = A
 		if(can_flashlight)
-			if(!F)
+			if(!F && !knife && !suppressed)
 				if(!user.unEquip(A))
 					return
 				user << "<span class='notice'>You click [S] into place on [src].</span>"
@@ -271,16 +275,37 @@
 				update_gunlight(user)
 				verbs += /obj/item/weapon/gun/proc/toggle_gunlight
 
+	if(istype(A, /obj/item/weapon/melee/combatknife))
+		var/obj/item/weapon/melee/combatknife/C = A
+		if(can_knife)
+			if(!F && !knife && !suppressed)
+				if(!user.unEquip(A))
+					return
+				user << "<span class='notice'>You click [C] into place on [src].</span>"
+				knife = C
+				A.loc = src
+				update_icon()
+				hitsound = knife.hitsound
+				force = knife.force
+
 	if(istype(A, /obj/item/weapon/screwdriver))
 		if(F)
 			for(var/obj/item/device/flashlight/seclite/S in src)
-				user << "<span class='notice'>You unscrew the seclite from [src].</span>"
+				user << "<span class='notice'>You unscrew [S] from [src].</span>"
 				F = null
 				S.loc = get_turf(user)
 				update_gunlight(user)
 				S.update_brightness(user)
 				update_icon()
 				verbs -= /obj/item/weapon/gun/proc/toggle_gunlight
+		if(knife)
+			for(var/obj/item/weapon/melee/combatknife/S in src)
+				user << "<span class='notice'>You unscrew [S] from [src].</span>"
+				knife = null
+				S.loc = get_turf(user)
+				update_icon()
+				hitsound = initial(hitsound)
+				force = initial(force)
 
 	if(unique_rename)
 		if(istype(A, /obj/item/weapon/pen))
@@ -303,7 +328,7 @@
 	F.on = !F.on
 	user << "<span class='notice'>You toggle the gunlight [F.on ? "on":"off"].</span>"
 
-	playsound(user, 'sound/weapons/empty.ogg', 100, 1)
+	playsound(user, F.on ? 'sound/items/flashlight_on.ogg' : 'sound/items/flashlight_off.ogg', 100, 1)
 	update_gunlight(user)
 	return
 
@@ -387,7 +412,7 @@
 
 	semicd = 1
 
-	if(!do_mob(user, target, 120) || user.zone_sel.selecting != "mouth")
+	if(!do_mob(user, target, 120, numticks = 60) || user.zone_sel.selecting != "mouth") //60 ticks for 120 time, means it checks adjacency every 2 secs
 		if(user)
 			if(user == target)
 				user.visible_message("<span class='notice'>[user] decided life was worth living.</span>")
