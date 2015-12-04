@@ -567,6 +567,10 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	over = image(icon, "noose_overlay")
 	over.layer = MOB_LAYER + 0.1
 
+/obj/structure/noose/Destroy()
+	SSobj.processing.Remove(src)
+	return ..()
+
 /obj/structure/noose/post_buckle_mob(mob/living/M)
 	if(M == buckled_mob)
 		layer = MOB_LAYER
