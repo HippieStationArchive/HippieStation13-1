@@ -310,6 +310,7 @@
 			qdel(src)
 
 
+	add_logs(user, affecting, "attempted to put", src, "into [M]")
 
 /obj/item/weapon/grab/dropped()
 	qdel(src)
