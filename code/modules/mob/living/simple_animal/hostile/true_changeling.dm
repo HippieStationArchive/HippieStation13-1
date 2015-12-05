@@ -1,5 +1,5 @@
-#define TRUE_CHANGELING_REFORM_THRESHOLD 180 //3 minutes by default
-#define TRUE_CHANGELING_PASSIVE_HEAL 3 //Amount of brute damage restored per tick
+#define TRUE_CHANGELING_REFORM_THRESHOLD 1800 //3 minutes by default
+// #define TRUE_CHANGELING_PASSIVE_HEAL 3 //Amount of brute damage restored per tick
 
 //Changelings in their true form.
 //Massive health and damage, but move slowly.
@@ -34,8 +34,8 @@
 	attack_sound = 'sound/effects/blobattack.ogg'
 	next_move_modifier = 0.5 //Faster attacks
 	butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human = 15) //It's a pretty big dude. Actually killing one is a feat.
-	gold_core_spawnable = 1 //To be fair, they won't be able to become changelings, like headslugs can
-	var/time_spent_as_true = 0
+	gold_core_spawnable = 0 //Should stay exclusive to changelings tbh, otherwise makes it much less significant to sight one
+	var/transformed_time = 0
 	var/playstyle_string = "<b><font size=3 color='red'>We have entered our true form!</font> We are unbelievably powerful, and regenerate life at a steady rate. However, most of \
 	our abilities are useless in this form, and we must utilise the abilities that we have gained as a result of our transformation. Currently, we are incapable of returning to a human. \
 	After several minutes, we will once again be able to revert into a human. Taking too much damage will also turn us back into a human in addition to knocking us out for a long time.</b>"
@@ -44,15 +44,47 @@
 
 /mob/living/simple_animal/hostile/true_changeling/New()
 	..()
-	spawn(0)
-		src << playstyle_string
+	transformed_time = world.time
+	emote("scream")
+
+/mob/living/simple_animal/hostile/true_changeling/Login()
+	..()
+	src << playstyle_string
 
 /mob/living/simple_animal/hostile/true_changeling/Life()
 	..()
-	adjustBruteLoss(-TRUE_CHANGELING_PASSIVE_HEAL) //True changelings slowly regenerate
-	time_spent_as_true += 1 //Used for re-forming
+	// adjustBruteLoss(-TRUE_CHANGELING_PASSIVE_HEAL) //Uncomment for passive healing
+
+/mob/living/simple_animal/hostile/true_changeling/emote(act, m_type=1, message = null)
+	if(stat)
+		return
+	if(act == "scream" && !spam_flag)
+		message = "<B>[src]</B> makes a loud, bone-chilling roar!"
+		act = "me"
+		var/frequency = get_rand_frequency() //so sound frequency is consistent
+		for(var/mob/M in range(35, src)) //You can hear the scream 7 screens away
+			// Double check for client
+			if(M && M.client)
+				var/turf/M_turf = get_turf(M)
+				if(M_turf && M_turf.z == src.z)
+					var/dist = get_dist(M_turf, src)
+					if(dist <= 7) //source of sound very close
+						M.playsound_local(src, 'sound/effects/horror_scream.ogg', 80, 1, frequency, falloff = 2)
+					else
+						var/vol = Clamp(100-((dist-7)*5), 10, 100) //Every tile decreases sound volume by 5
+						M.playsound_local(src, 'sound/effects/horror_scream_reverb.ogg', vol, 1, frequency, falloff = 5)
+				if(M.stat == DEAD && (M.client.prefs.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(get_turf(src),null)))
+					M.show_message(message)
+		audible_message(message)
+		spam_flag = 1
+		spawn(50)
+			spam_flag = 0
+		return
+
+	..(act, m_type, message)
 
 /mob/living/simple_animal/hostile/true_changeling/death()
+	emote("scream")
 	..(1)
 	if(stored_changeling && mind)
 		visible_message("<span class='warning'>[src] lets out a furious scream as it shrinks into its human form.</span>", \
@@ -80,8 +112,9 @@
 	if(stored_changeling.stat == DEAD)
 		usr << "<span class='warning'>Our human form is dead!</span>"
 		return 0
-	if(time_spent_as_true < TRUE_CHANGELING_REFORM_THRESHOLD)
-		usr << "<span class='warning'>We are still unable to change back at will!</span>"
+	if(world.time - transformed_time < TRUE_CHANGELING_REFORM_THRESHOLD)
+		var/timeleft = (transformed_time + TRUE_CHANGELING_REFORM_THRESHOLD) - world.time
+		usr << "<span class='warning'>We are still unable to change back at will! We need to wait [Ceiling(timeleft/600)] minutes.</span>"
 		return 0
 	usr.visible_message("<span class='warning'>[usr] suddenly crunches and twists into a smaller form!</span>", \
 						"<span class='danger'>We return to our lesser form.</span>")
@@ -124,10 +157,10 @@
 		return 0
 	T.devouring = FALSE
 	var/fat = lunch.disabilities & FAT
-	if(lunch.bruteloss >= 300) //Wew lad they're pretty fucking eaten up eh.
-		lunch.gib()
+	if(lunch.getBruteLoss() >= 300)
 		T.visible_message("<span class='warning'>[lunch] is completely devoured by [T]!</span>", \
-						"<span class='danger'>You completely devour [T]!</span>")
+						"<span class='danger'>You completely devour [lunch]!</span>")
+		lunch.gib()
 	else
 		lunch.adjustBruteLoss(60)
 		T.visible_message("<span class='warning'>[T] tears a chunk from [lunch]'s flesh!</span>", \
@@ -136,12 +169,12 @@
 		var/obj/effect/decal/cleanable/blood/gibs/G = new(get_turf(lunch))
 		step(G, pick(alldirs)) //Make some gibs spray out for dramatic effect
 		playsound(lunch, 'sound/effects/splat.ogg', 50, 1)
-		if(!lunch.stat)
-			lunch.emote("scream")
+		playsound(lunch, 'sound/misc/tear.ogg', 50, 1)
+		lunch.emote("scream")
 	if(fat)
 		T.adjustBruteLoss(-100) //Tasty leetle peegy
 	else
 		T.adjustBruteLoss(-50)
 
 #undef TRUE_CHANGELING_REFORM_THRESHOLD
-#undef TRUE_CHANGELING_PASSIVE_HEAL
+// #undef TRUE_CHANGELING_PASSIVE_HEAL
