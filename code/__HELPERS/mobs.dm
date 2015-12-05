@@ -127,7 +127,7 @@ Proc for attack log creation, because really why not
 5 is additional information, anything that needs to be added
 */
 
-/proc/add_logs(mob/user, atom/target, what_done, object=null, addition=null)
+/proc/add_logs(mob/user, mob/target, what_done, object=null, addition=null)
 	var/newhealthtxt = ""
 	var/coordinates = "([user.x],[user.y],[user.z])"
 	if (target)
@@ -138,6 +138,5 @@ Proc for attack log creation, because really why not
 	if(user && ismob(user))
 		user.attack_log += text("\[[time_stamp()]\] <font color='red'>Has [what_done] [target ? "[target.name][(ismob(target) && target.ckey) ? "([target.ckey])" : ""]" : "NON-EXISTANT SUBJECT"][object ? " with [object]" : " "][addition][newhealthtxt][coordinates]</font>")
 	if(target && ismob(target))
-		var/mob/living/L = target
-		L.attack_log += text("\[[time_stamp()]\] <font color='orange'>Has been [what_done] by [user ? "[user.name][(ismob(user) && user.ckey) ? "([user.ckey])" : ""]" : "NON-EXISTANT SUBJECT"][object ? " with [object]" : " "][addition][newhealthtxt][coordinates]</font>")
+		target.attack_log += text("\[[time_stamp()]\] <font color='orange'>Has been [what_done] by [user ? "[user.name][(ismob(user) && user.ckey) ? "([user.ckey])" : ""]" : "NON-EXISTANT SUBJECT"][object ? " with [object]" : " "][addition][newhealthtxt][coordinates]</font>")
 	log_attack("[user ? "[user.name][(ismob(user) && user.ckey) ? "([user.ckey])" : ""]" : "NON-EXISTANT SUBJECT"] [what_done] [target ? "[target.name][(ismob(target) && target.ckey)? "([target.ckey])" : ""]" : "NON-EXISTANT SUBJECT"][object ? " with [object]" : " "][addition][newhealthtxt][coordinates]")
