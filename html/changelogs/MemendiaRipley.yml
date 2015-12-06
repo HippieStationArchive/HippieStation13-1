@@ -1,0 +1,6 @@
+author: Memendia
+
+delete-after: True
+
+changes: 
+  - tweak: "Changed the ripley sprite to a newer one and made the mining ripley keep the old sprite."
