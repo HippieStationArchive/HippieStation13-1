@@ -2,7 +2,7 @@
 	set invisibility = 0
 	set background = BACKGROUND_ENABLED
 
-	if(digitalinvis)
+	if(digitalcamo)
 		handle_diginvis() //AI becomes unable to see mob
 
 	if (notransform)
