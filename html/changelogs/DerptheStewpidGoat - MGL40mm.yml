@@ -1,0 +1,41 @@
+################################
+# Example Changelog File
+#
+# Note: This file, and files beginning with ".", and files that don't end in ".yml" will not be read. If you change this file, you will look really dumb.
+#
+# Your changelog will be merged with a master changelog. (New stuff added only, and only on the date entry for the day it was merged.)
+# When it is, any changes listed below will disappear.
+#
+# Valid Prefixes: 
+#   bugfix
+#   wip (For works in progress)
+#   tweak
+#   soundadd
+#   sounddel
+#   rscadd (general adding of nice things)
+#   rscdel (general deleting of nice things)
+#   imageadd
+#   imagedel
+#   spellcheck (typo fixes)
+#   experiment
+#   tgs (TG-ported fixes?)
+#################################
+
+# Your name.  
+author: DerptheStewpidGoat
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - rscadd: "Added the new Strider 40mm Multi-Grenade-Launcher for nuke ops. Can hold six 40mm grenades and costs 25 TC. Can also appear from summon guns. Credits to Dr. / Sgt. Fragg for the sprite."
+  - rscadd: "Added the new Elite Syndicate Hardsuit for nuke ops. Has moderately better armory in every category against damage and is immune to fire and highly effective in protection against explosions. Costs 12 TC. Credits to /tg/ for this port."
+  - bugfix: "The pulse rifle now has proper on-back icons once again, along with using pre-rebase fire sounds."
+  - bugfix: "Fixed laser cannon on-back sprites."
+  - bugfix: "The AKS-740U is now on the wild west map for real this time and can now appear from summon guns."
+

@@ -129,10 +129,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	name = "Wrestling Belt"
 	var/datum/martial_art/wrestling/style = new
 
-/obj/item/weapon/storage/belt/champion/wrestling/holodeck
-	name = "Holowrestling Belt"
-	style = new /datum/martial_art/wrestling/stamina
-
 /obj/item/weapon/storage/belt/champion/wrestling/New()
 	..()
 	new /obj/item/weapon/paper/Wrestling(src)
@@ -146,6 +142,36 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	return
 
 /obj/item/weapon/storage/belt/champion/wrestling/dropped(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	if(H.get_item_by_slot(slot_belt) == src)
+		style.remove(H)
+	return
+
+/obj/item/weapon/holodeck/wrestling
+	name = "Holowrestling Belt"
+	desc = "Proves to the world that you are the strongest!"
+	icon_state = "championbelt"
+	item_state = "champion"
+	icon = 'icons/obj/clothing/belts.dmi'
+	slot_flags = SLOT_BELT
+	attack_verb = list("whipped", "lashed", "disciplined")
+	var/datum/martial_art/wrestling/stamina/style = new 
+
+/obj/item/weapon/holodeck/wrestling/New()
+	..()
+	new /obj/item/weapon/paper/Wrestling(src)
+
+/obj/item/weapon/holodeck/wrestling/equipped(mob/user, slot)
+	if(!ishuman(user))
+		return
+	if(slot == slot_belt)
+		var/mob/living/carbon/human/H = user
+		style.teach(H,1)
+	return
+
+/obj/item/weapon/holodeck/wrestling/dropped(mob/user)
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user

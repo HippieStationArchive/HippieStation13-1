@@ -1,0 +1,7 @@
+author: Crystalwarrior160
+delete-after: True
+changes: 
+  - tweak: "Rightclick verb for creating noose was replaced with a crafting menu option when you activate the cables in-hand."
+  - bugfix: "Fixes nooses choking borgs, etc. Now nooses only work on carbons."
+  - bugfix: "Fixed flavortext for nooses misreferencing the victim and not the user when it's supposed to be vice-versa."
+  - bugfix: "Nooses now give cables when cut with wirecutters."
