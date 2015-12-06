@@ -714,13 +714,13 @@
 	name = "Wasting Toxin"
 	id = "wasting_toxin"
 	description = "An insidious, biologically-produced poison. The body is barely capable of metabolizing it, meaning it will slowly kill them unless help is received."
-	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+	metabolization_rate = 0.3 * REAGENTS_METABOLISM
 	color = rgb(51, 202, 63)
-	toxpwr = 1
+	toxpwr = 2
 
 /datum/reagent/toxin/wasting_toxin/on_mob_life(mob/living/M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(H.vessel)
-			H.vessel.remove_reagent("blood",rand(1, 10)) //Drain blood with various effectiveness
+			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
 	..()

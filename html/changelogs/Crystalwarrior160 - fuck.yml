@@ -1,4 +1,0 @@
-author: Crystalwarrior160
-delete-after: True
-changes: 
-  - bugfix: "oh god fixed nooses hanging processing_objs because they were not removed from the list when destroyed"

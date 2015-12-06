@@ -248,20 +248,20 @@
 	desc = "We silently sting a human with a cocktail of chemicals that freeze them."
 	helptext = "This will provide an ambiguous warning to the victim after a short time."
 	sting_icon = "sting_cryo"
-	chemical_cost = 15
+	chemical_cost = 25
 	evopoints_cost = 3
 	conscious_req = 0 //Can be used on the unconscious
 
 /obj/effect/proc_holder/changeling/sting/cryo/sting_action(mob/user, mob/target)
 	add_logs(user, target, "stung", "cryo sting")
 	if(target.reagents)
-		target.reagents.add_reagent("frostoil", 30)
-	spawn(50)
+		target.reagents.add_reagent("frostoil", 10)
+	spawn(100)
 		if(target)
 			if(!target.stat)
 				target << "<span class='warning'>You feel strangely cold. Goosebumps break out across your skin.</span>"
 			else
-				target << "<span class='warning'><b>It's so cold.</b></span>" //Give a spookier message if they're unconscious
+				target << "<span class='notice'><b>It's so cold.</b></span>" //Give a spookier message if they're unconscious
 	feedback_add_details("changeling_powers","CS")
 	return 1
 
@@ -302,4 +302,5 @@
 /obj/effect/proc_holder/changeling/sting/death/sting_action(mob/user, mob/target)
 	add_logs(user, target, "stung", "death sting")
 	if(target.reagents)
-		target.reagents.add_reagent("wasting_toxin", 5)
+		target.reagents.add_reagent("wasting_toxin", 10)
+	return 1
