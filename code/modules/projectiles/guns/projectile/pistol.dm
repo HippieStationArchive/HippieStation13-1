@@ -11,7 +11,17 @@
 	mag_load_sound = 'sound/effects/wep_magazines/handgun_generic_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/handgun_generic_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/generic_chamber.ogg'
+	fire_sound = "gunshot"
 	action_button_name = null
+	can_flashlight = 1
+	flight_x_offset = 15
+	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 15
+	knife_y_offset = 12
+
+/obj/item/weapon/gun/projectile/automatic/pistol/ui_action_click()
+	return
 
 /obj/item/weapon/gun/projectile/automatic/pistol/update_icon()
 	..()
@@ -24,6 +34,8 @@
 	icon_state = "glock17"
 	w_class = 2
 	mag_type = /obj/item/ammo_box/magazine/g17
+	flight_x_offset = 18
+	knife_x_offset = 18
 	fire_sound = list('sound/weapons/pistol_glock17_1.ogg','sound/weapons/pistol_glock17_2.ogg')
 
 /obj/item/weapon/gun/projectile/automatic/pistol/g17/update_icon()
@@ -70,6 +82,8 @@
 	force = 10
 	mag_type = /obj/item/ammo_box/magazine/m44
 	can_suppress = 0
+	can_flashlight = 0
+	can_knife = 0
 	w_class = 3
 	fire_sound = 'sound/weapons/revolver_big.ogg'
 
@@ -83,6 +97,8 @@
 	icon_state = "c05r"
 	mag_type = /obj/item/ammo_box/magazine/c05r
 	can_suppress = 0
+	can_flashlight = 0
+	can_knife = 0
 	w_class = 2
 	fire_sound = 'sound/weapons/pistol_glock17_1.ogg'
 
@@ -96,6 +112,8 @@
 	icon_state = "p08"
 	mag_type = /obj/item/ammo_box/magazine/luger
 	can_suppress = 0
+	can_flashlight = 0
+	can_knife = 0
 	w_class = 2
 	fire_sound = 'sound/weapons/gunshot_beefy.ogg'
 

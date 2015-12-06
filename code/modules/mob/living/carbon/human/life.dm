@@ -50,7 +50,8 @@
 	name = get_visible_name()
 
 	dna.species.spec_life(src) // for mutantraces
-
+	if(hud_used && hud_used.combo_object && hud_used.combo_object.cooldown < world.time)
+		hud_used.combo_object.update_icon()
 	//If they're a vampire, do vampire-specific thingies
 	if(is_vampire(src))
 		handle_vampirism()
@@ -331,7 +332,8 @@
 	if(!heart_attack)
 		return
 	else
-		losebreath += 5
+		if(losebreath < 5)
+			losebreath += 2
 		adjustOxyLoss(5)
 		adjustBruteLoss(1)
 

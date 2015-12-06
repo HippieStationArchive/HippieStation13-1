@@ -2,15 +2,15 @@
 	name = "projectile"
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "bullet"
-	density = 1
 	anchored = 1 //so you can't pull them around
 	flags = ABSTRACT | NODROP
+	density = 0
 	unacidable = 1
 	pass_flags = PASSTABLE
 	mouse_opacity = 0
 	hitsound = 'sound/weapons/pierce.ogg'
+	pressure_resistance = INFINITY //No fun allowed :( (prevents projectiles from being blown around by space wind)
 	var/hitsound_wall = ""//"ricochet"
-	var/bumped = 0		//Prevents it from hitting more than one guy at once
 	var/def_zone = ""	//Aiming at
 	var/atom/firer = null//Who shot it
 	var/suppressed = 0	//Attack message
@@ -35,8 +35,8 @@
 	var/nodamage = 0 //Determines if the projectile will skip any damage inflictions
 	var/flag = "bullet" //Defines what armor to use when it hits things.  Must be set to bullet, laser, energy,or bomb
 	var/projectile_type = "/obj/item/projectile"
-	var/kill_count = 50 //This will de-increment every step. When 0, it will delete the projectile.
-		//Effects
+	var/range = 50 //This will de-increment every step. When 0, it will delete the projectile.
+	//Effects
 	var/stun = 0
 	var/weaken = 0
 	var/paralyze = 0
@@ -49,25 +49,47 @@
 	var/jitter = 0
 	var/forcedodge = 0
 	// 1 to pass solid objects, 2 to pass solid turfs (results in bugs, bugs and tons of bugs)
-	var/range = 0
-	var/proj_hit = 0
 
 /obj/item/projectile/proc/Range()
-	if(range)
-		range--
-		if(range <= 0)
-			on_range()
-	else
-		return
+	range--
+	if(range <= 0 && loc)
+		on_range()
 
 /obj/item/projectile/proc/on_range() //if we want there to be effects when they reach the end of their range
-	proj_hit = 1
 	qdel(src)
 
 /obj/item/projectile/proc/on_hit(atom/target, blocked = 0, hit_zone)
-	if(!isliving(target))	return 0
-	if(isanimal(target))	return 0
+	if(isturf(target) && hitsound_wall)
+		var/volume = Clamp(vol_by_damage() + 20, 0, 100)
+		if(suppressed)
+			volume = 5
+		playsound(loc, hitsound_wall, volume, 1, -1)
+
+	if(!isliving(target))
+		return 0
 	var/mob/living/L = target
+
+	var/organ_hit_text = ""
+	if(iscarbon(target)) //carbons usually have "limbs"
+		organ_hit_text = " in \the [parse_zone(def_zone)]"
+	if(suppressed)
+		playsound(loc, hitsound, 5, 1, -1)
+		L << "<span class='userdanger'>You've been shot by \a [src][organ_hit_text]!</span>"
+	else
+		if(hitsound)
+			var/volume = vol_by_damage()
+			playsound(loc, hitsound, volume, 1, -1)
+		L.visible_message("<span class='danger'>[L] is hit by \a [src][organ_hit_text]!</span>", \
+							"<span class='userdanger'>[L] is hit by \a [src][organ_hit_text]!</span>")	//X has fired Y is now given by the guns so you cant tell who shot you if you could not see the shooter
+
+	var/reagent_note
+	if(reagents && reagents.reagent_list)
+		reagent_note = " REAGENTS:"
+		for(var/datum/reagent/R in reagents.reagent_list)
+			reagent_note += R.id + " ("
+			reagent_note += num2text(R.volume) + ") "
+	add_logs(firer, L, "shot", object="[src]", addition=reagent_note)
+
 	L.on_hit(type)
 	return L.apply_effects(stun, weaken, paralyze, irradiate, slur, stutter, eyeblur, drowsy, blocked, stamina, jitter)
 
@@ -77,92 +99,52 @@
 	else
 		return 50 //if the projectile doesn't do damage, play its hitsound at 50% volume
 
-/obj/item/projectile/Bump(atom/A)
-	if(A == firer)
+/obj/item/projectile/Bump(atom/A, yes)
+	if(!yes) //prevents multi bumps.
+		return
+	if(A == firer || A == src)
 		loc = A.loc
 		return 0 //cannot shoot yourself
-	if(bumped)//Stops multihit projectiles
-		return 1
-	if(isliving(A))
-		var/mob/living/M = A
-		var/reagent_note
-		if(reagents && reagents.reagent_list)
-			reagent_note = " REAGENTS:"
-			for(var/datum/reagent/R in reagents.reagent_list)
-				reagent_note += R.id + " ("
-				reagent_note += num2text(R.volume) + ") "
-		var/distance = get_dist(get_turf(A), starting) // Get the distance between the turf shot from and the mob we hit and use that for the calculations.
-		def_zone = ran_zone(def_zone, max(100-(7*distance), 5)) //Lower accurancy/longer range tradeoff. 7 is a balanced number to use.
-		if(suppressed)
-			playsound(loc, hitsound, 5, 1, -1)
-			M << "<span class='userdanger'>You've been shot by \a [src] in \the [parse_zone(def_zone)]!</span>"
-		else
-			if(hitsound)
-				var/volume = vol_by_damage()
-				playsound(loc, hitsound, volume, 1, -1)
-			M.visible_message("<span class='danger'>[M] is hit by \a [src] in the [parse_zone(def_zone)]!</span>", \
-								"<span class='userdanger'>[M] is hit by \a [src] in the [parse_zone(def_zone)]!</span>")	//X has fired Y is now given by the guns so you cant tell who shot you if you could not see the shooter
-		add_logs(firer, M, "shot", object="[src]", addition=reagent_note)
 
-	if(isturf(A) && hitsound_wall)
-		var/volume = Clamp(vol_by_damage() + 20, 0, 100)
-		if(suppressed)
-			volume = 5
-		playsound(loc, hitsound_wall, volume, 1, -1)
+	var/distance = get_dist(get_turf(A), starting) // Get the distance between the turf shot from and the mob we hit and use that for the calculations.
+	def_zone = ran_zone(def_zone, max(100-(7*distance), 5)) //Lower accurancy/longer range tradeoff. 7 is a balanced number to use.
 
-	bumped = 1
-	var/turf/new_loc = get_turf(A)
+	var/turf/target_turf = get_turf(A)
+
 	var/permutation = A.bullet_act(src, def_zone) // searches for return value, could be deleted after run so check A isn't null
 	if(permutation == -1 || forcedodge)// the bullet passes through a dense object!
-		spawn(1)
-			bumped = 0 // reset bumped variable... after a delay. We don't want the projectile to hit AGAIN. Fixes deflecting projectiles.
-		loc = new_loc
-		permutated.Add(A)
+		loc = target_turf
+		if(A)
+			permutated.Add(A)
+		Range()
 		return 0
 	else
 		if(A && A.density && !ismob(A) && !(A.flags & ON_BORDER)) //if we hit a dense non-border obj or dense turf then we also hit one of the mobs on that tile.
 			var/list/mobs_list = list()
-			for(var/mob/living/L in new_loc)
+			for(var/mob/living/L in target_turf)
 				mobs_list += L
 			if(mobs_list.len)
 				var/mob/living/picked_mob = pick(mobs_list)
 				picked_mob.bullet_act(src, def_zone)
-
 	qdel(src)
-
-/obj/item/projectile/CanPass(atom/movable/mover, turf/target, height=0)
-	if(height==0) return 1
-
-	// if(istype(mover, /obj/item/projectile))
-	// 	return prob(95)
-	// else
-	return 1
 
 /obj/item/projectile/Process_Spacemove(var/movement_dir = 0)
 	return 1 //Bullets don't drift in space
 
 
 /obj/item/projectile/proc/fire(var/setAngle)
-	bumped = 0 //We're fired, so let's reset bumped variable (this is for projectiles that are PoolOrNew'ed like emitter beams.)
 	if(setAngle) Angle = setAngle
 	if(!legacy)
-		spawn() //New projectile system
+		spawn(1) //New projectile system
 			while(loc)
-				if(kill_count < 1)
-					qdel(src)
-					return
-				kill_count--
+				if(paused)
+					sleep(2)
+					continue
 				if((!( current ) || loc == current))
 					current = locate(Clamp(x+xo,1,world.maxx),Clamp(y+yo,1,world.maxy),z)
-
 				if(!Angle)
 					Angle=round(Get_Angle(src,current))
-				// world << "[Angle] angle"
-				// overlays.Cut()
-				// var/icon/I=new(initial(icon),icon_state) //using initial(icon) makes sure that the angle for that is reset as well
-				// I.Turn(Angle)
-				// I.DrawBox(rgb(255,0,0,50),1,1,32,32)
-				// icon = I
+
 				if(spread) //Chaotic spread
 					Angle += (rand() - 0.5) * spread
 				var/matrix/M = new//matrix(transform)
@@ -206,25 +188,18 @@
 				else
 					animate(src, pixel_x = pixel_x_offset, pixel_y = pixel_y_offset, time = max(1, (speed <= 3 ? speed - 1 : speed)))
 
-				/*var/turf/T = get_turf(src)
-				if(T)
-					T.color = "#6666FF"
-					spawn(10)
-						T.color = initial(T.color) */
-
-				if(!bumped && ((original && original.layer>=2.75) || ismob(original)))
+				if((original && original.layer>=2.75) || ismob(original))
 					if(loc == get_turf(original))
 						if(!(original in permutated))
-							Bump(original)
+							Bump(original, 1)
 				Range()
 				sleep(max(1, speed))
 	else
-		spawn() //Old projectile system
+		spawn(1) //Old projectile system
 			while(loc)
-				if(kill_count < 1)
-					qdel(src)
-					return
-				kill_count--
+				if(paused)
+					sleep(2)
+					continue
 				if((!( current ) || loc == current))
 					current = locate(Clamp(x+xo,1,world.maxx),Clamp(y+yo,1,world.maxy),z)
 				if(!Angle)
@@ -233,17 +208,17 @@
 				M.Turn(Angle)
 				transform = M //So there's no need to give icons directions again
 				step_towards(src, current)
-				if(!bumped && ((original && original.layer>=2.75) || ismob(original)))
+				if((original && original.layer>=2.75) || ismob(original))
 					if(loc == get_turf(original))
 						if(!(original in permutated))
-							Bump(original)
+							Bump(original, 1)
 				Range()
 				sleep(1)
 
-/obj/item/projectile/Crossed(atom/movable/AM) //A mob moving on a tile with a projectile is hit by it.
+/obj/item/projectile/Crossed(atom/movable/AM as mob) //A mob moving on a tile with a projectile is hit by it.
 	..()
 	if(isliving(AM) && AM.density && !checkpass(PASSMOB))
-		Bump(AM)
+		Bump(AM, 1)
 
 /obj/item/projectile/proc/dumbfire(var/dir)
 	current = get_ranged_target_turf(src, dir, world.maxx) //world.maxx is the range. Not sure how to handle this better.

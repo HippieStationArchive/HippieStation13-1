@@ -55,12 +55,20 @@ Head of Security
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
 	duffle = /obj/item/weapon/storage/backpack/dufflebag/sec
 
-/datum/outfit/job/hos/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/hos/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
+
+	if(visualsOnly)
+		return
+
 	var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
 	L.imp_in = H
 	L.implanted = 1
 	H.sec_hud_set_implants()
+
+	var/datum/martial_art/krav_maga/style = new
+	style.teach(H)
+	H.verbs += /mob/living/carbon/human/proc/krav_maga_help
 
 	announce_head(H, list("Security")) //tell underlings (security radio) they have a head
 /*
@@ -107,13 +115,20 @@ Warden
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
 	duffle = /obj/item/weapon/storage/backpack/dufflebag/sec
 
-/datum/outfit/job/warden/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/warden/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
+
+	if(visualsOnly)
+		return
+
 	var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
 	L.imp_in = H
 	L.implanted = 1
 	H.sec_hud_set_implants()
 
+	var/datum/martial_art/krav_maga/style = new
+	style.teach(H)
+	H.verbs += /mob/living/carbon/human/proc/krav_maga_help
 /*
 Detective
 */
@@ -143,7 +158,7 @@ Detective
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	suit = /obj/item/clothing/suit/det_suit
 	gloves = /obj/item/clothing/gloves/color/black
-	head = /obj/item/clothing/head/det_hat
+	head = /obj/item/clothing/head/fedora/detective
 	l_pocket = /obj/item/toy/crayon/white
 	r_pocket = /obj/item/weapon/lighter
 	backpack_contents = list(/obj/item/weapon/storage/box/evidence=1,\
@@ -151,16 +166,22 @@ Detective
 		/obj/item/weapon/melee/classic_baton/telescopic=1)
 	mask = /obj/item/clothing/mask/cigarette
 
-/datum/outfit/job/detective/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/detective/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	var/obj/item/clothing/mask/cigarette/cig = H.wear_mask
 	cig.light("")
+
+	if(visualsOnly)
+		return
 
 	var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
 	L.imp_in = H
 	L.implanted = 1
 	H.sec_hud_set_implants()
 
+	var/datum/martial_art/krav_maga/style = new
+	style.teach(H)
+	H.verbs += /mob/living/carbon/human/proc/krav_maga_help
 /*
 Security Officer
 */
@@ -214,11 +235,13 @@ var/list/sec_departments = list("engineering", "supply", "medical", "science")
 	var/destination = null
 	var/spawn_point = null
 
-/datum/outfit/job/security/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/security/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
+
 	if(sec_departments.len)
 		department = pick(sec_departments)
-		sec_departments -= department
+		if(!visualsOnly)
+			sec_departments -= department
 		switch(department)
 			if("supply")
 				ears = /obj/item/device/radio/headset/headset_sec/alt/department/supply
@@ -245,17 +268,24 @@ var/list/sec_departments = list("engineering", "supply", "medical", "science")
 				spawn_point = locate(/obj/effect/landmark/start/depsec/science) in department_security_spawns
 				tie = /obj/item/clothing/tie/armband/science
 
-/datum/outfit/job/security/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/security/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
+
+	var/obj/item/clothing/under/U = H.w_uniform
+	if(tie)
+		U.attachTie(new tie)
+
+	if(visualsOnly)
+		return
 
 	var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)
 	L.imp_in = H
 	L.implanted = 1
 	H.sec_hud_set_implants()
 
-	var/obj/item/clothing/under/U = H.w_uniform
-	if(tie)
-		U.attachTie(new tie)
+	var/datum/martial_art/krav_maga/style = new
+	style.teach(H)
+	H.verbs += /mob/living/carbon/human/proc/krav_maga_help
 
 	var/obj/item/weapon/card/id/W = H.wear_id
 	W.access |= dep_access

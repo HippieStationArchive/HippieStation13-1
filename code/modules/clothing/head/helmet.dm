@@ -123,9 +123,7 @@
 	desc = "A standard camoflauge helmet of the New-Russia military. Has greater ballistic protection than many other helmets."
 	icon_state = "soviethelm"
 	item_state = "soviethelm"
-	armor = list(melee = 50, bullet = 60, laser = 30,energy = 10, bomb = 25, bio = 0, rad = 0)
-	//Compared to the swat helmet... maybe could use a buff?
-	flags_inv = HIDEEARS
+	armor = list(melee = 60, bullet = 70, laser = 40,energy = 15, bomb = 25, bio = 0, rad = 0)
 	cold_protection = HEAD
 	min_cold_protection_temperature = HELMET_MIN_TEMP_PROTECT
 	heat_protection = HEAD
@@ -211,6 +209,35 @@
 	armor = list(melee = 30, bullet = 10, laser = 20,energy = 10, bomb = 20, bio = 0, rad = 0)
 	// Offer about the same protection as a hardhat.
 	flags_inv = HIDEEARS|HIDEEYES
+
+/obj/item/clothing/head/helmet/knight
+	name = "medieval helmet"
+	desc = "A classic metal helmet."
+	icon_state = "knight_green"
+	item_state = "knight_green"
+	armor = list(melee = 41, bullet = 15, laser = 5,energy = 5, bomb = 5, bio = 2, rad = 0)
+	flags = BLOCKHAIR
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	strip_delay = 80
+
+/obj/item/clothing/head/helmet/knight/blue
+	icon_state = "knight_blue"
+	item_state = "knight_blue"
+
+/obj/item/clothing/head/helmet/knight/yellow
+	icon_state = "knight_yellow"
+	item_state = "knight_yellow"
+
+/obj/item/clothing/head/helmet/knight/red
+	icon_state = "knight_red"
+	item_state = "knight_red"
+
+/obj/item/clothing/head/helmet/knight/templar
+	name = "crusader helmet"
+	desc = "Deus Vult."
+	icon_state = "knight_templar"
+	item_state = "knight_templar"
 
 //LightToggle
 

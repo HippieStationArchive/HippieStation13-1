@@ -18,6 +18,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 	var/hitsound = null
 	var/throwhitsound = null
+	var/hitsound_extrarange = -1 //How much extra range should the hitsound have?
 	var/w_class = 3
 	var/slot_flags = 0		//This is used to determine on which slots an item can fit.
 	pass_flags = PASSTABLE
@@ -99,6 +100,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/flags_cover = 0 //for flags such as GLASSESCOVERSEYES
 	var/heat = 0
 	var/sharpness = IS_BLUNT
+	var/toolspeed = 1
 
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
 	if(((src in target) && !target_self) || ((!istype(target.loc, /turf)) && (!istype(target, /turf)) && (not_inside)) || is_type_in_list(target, can_be_placed_into))
@@ -131,8 +133,19 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 //FIRELOSS = 2
 //TOXLOSS = 4
 //OXYLOSS = 8
-//Output a creative message and then return the damagetype done
+//If you want to make your own suicide messages, overwrite this function.
+//Output a creative message and then return the damagetype done. If you want to instakill do user.death()
 /obj/item/proc/suicide_act(mob/user)
+	if(force > 0)
+		var/list/flavortext = list("<span class='suicide'>[user] is bashing \himself repeadetly with \the [src]! It looks like they're trying to commit suicide.</span>",\
+									"<span class='suicide'>[user] smashes \himself with \the [src]! It looks like they're trying to commit suicide.</span>")
+		if(is_sharp())
+			flavortext = list("<span class='suicide'>[user] is slitting \his wrists with \the [src]! It looks like they're trying to commit suicide.</span>", \
+							"<span class='suicide'>[user] is slitting \his throat with \the [src]! It looks like they're trying to commit suicide.</span>", \
+							"<span class='suicide'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>")
+		user.visible_message(pick(flavortext))
+		playsound(loc, hitsound, 30, 1, -1)
+		return damtype
 	return
 
 /obj/item/verb/move_to_top()
@@ -232,11 +245,13 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 	pickup(user)
 	add_fingerprint(user)
-	user.put_in_active_hand(src)
+	if(!user.put_in_active_hand(src))
+		dropped(user)
 	return
 
 
 /obj/item/attack_paw(mob/user)
+	var/picked_up = 0
 
 	if (istype(src.loc, /obj/item/weapon/storage))
 		for(var/mob/M in range(1, src.loc))
@@ -251,8 +266,10 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		if(istype(src.loc, /mob/living))
 			return
 		src.pickup(user)
+		picked_up = 1
 
-	user.put_in_active_hand(src)
+	if(!user.put_in_active_hand(src) && picked_up)
+		dropped(user)
 	return
 
 

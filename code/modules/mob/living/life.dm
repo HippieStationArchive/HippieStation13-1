@@ -2,7 +2,7 @@
 	set invisibility = 0
 	set background = BACKGROUND_ENABLED
 
-	if(digitalinvis)
+	if(digitalcamo)
 		handle_diginvis() //AI becomes unable to see mob
 
 	if (notransform)
@@ -12,6 +12,8 @@
 	var/datum/gas_mixture/environment = loc.return_air()
 
 	if(stat != DEAD)
+		if(!stat && suiciding)
+			suiciding = 0 //Suicide attempt failed since we're out of crit and not even unconscious.
 
 		//Breathing, if applicable
 		handle_breathing()
@@ -166,8 +168,8 @@
 		I.action.Grant(src)
 
 	if(recursive)
-		for(var/obj/item/T in I)
-			give_action_button(I, recursive - 1)
+		for(var/obj/item/U in I)
+			give_action_button(U, recursive - 1)
 
 
 //this handles hud updates. Calls update_vision() and handle_hud_icons()

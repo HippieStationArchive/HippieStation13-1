@@ -42,9 +42,9 @@
 				user << "<span class='warning'>[H] isn't bleeding!</span>"
 				return
 
-	if(isliving(M))
-		if(!M.can_inject(user, 1))
-			return
+	// if(isliving(M))
+	// 	if(!M.can_inject(user, 1)) //This doesn't make a lick of sense in gameplay prespective and most other medical tools don't do a check for space suits/etc. to heal (patches, gauzes, etc.)
+	// 		return
 
 	if(user)
 		if (M != user)
@@ -104,13 +104,13 @@
 	gender = PLURAL
 	singular_name = "medical gauze"
 	icon_state = "gauze"
-	stop_bleeding = 1800
+	stop_bleeding = 3000 //5 mins
 
 /obj/item/stack/medical/gauze/improvised
 	name = "improvised gauze"
 	singular_name = "improvised gauze"
 	desc = "A roll of cloth roughly cut from something that can stop bleeding, but does not heal wounds."
-	stop_bleeding = 900
+	stop_bleeding = 1500 // 2.5 mins
 
 /obj/item/stack/medical/gauze/cyborg/
 	materials = list()

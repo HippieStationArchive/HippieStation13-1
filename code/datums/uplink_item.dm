@@ -127,6 +127,14 @@ var/list/uplink_items = list()
 	cost = 10 //Costly, but for a good reason
 	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
 
+//SCIENCE + MEDICAL
+/datum/uplink_item/job_specific/labcoat
+	name = "Armored Labcoat"
+	desc = "An armored labcoat with the ability to change how it looks into any standard Nanotrasen issue labcoat."
+	item = /obj/item/clothing/suit/labcoat/chameleon
+	cost = 4
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Research Director", "Scientist", "Roboticist") //all the labcoat jobs
+
 //SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
@@ -160,13 +168,13 @@ var/list/uplink_items = list()
 	cost = 5
 	jobs = list("Bartender")
 
-//MINER
-/datum/uplink_item/job_specific/alien
-	name = "Unknown Alien"
-	desc = "An unknown and hostile alien lifeform."
-	item = /obj/item/clothing/mask/facehugger
-	cost = 20
-	jobs = list("Shaft Miner")
+//CLOWN + MIME
+/datum/uplink_item/job_specific/caneshotgun
+	name = "Cane Shotgun + Assassination Darts"
+	desc = "A specialized, one shell shotgun with a built-in cloaking device to mimic a cane. The shotgun is capable of hiding it's contents and the pin alongside being supressed. Comes with 6 special darts and a preloaded shrapnel round."
+	item = /obj/item/weapon/storage/box/syndie_kit/caneshotgun
+	cost = 15
+	jobs = list("Clown","Mime")
 
 // DANGEROUS WEAPONS
 
@@ -235,7 +243,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/dangerous/machinegun
 	name = "L6 Squad Automatic Weapon"
-	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
+	desc = "A fully-loaded Aussec Armory belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
 	item = /obj/item/weapon/gun/projectile/automatic/l6_saw
 	cost = 40
 	gamemodes = list(/datum/game_mode/nuclear)
@@ -246,6 +254,14 @@ var/list/uplink_items = list()
 	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 40-round box magazine of 12 gauge buckshot cartridges."
 	item = /obj/item/weapon/gun/projectile/automatic/shotgun/abzats
 	cost = 45
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 0
+
+/datum/uplink_item/dangerous/mgl
+	name = "Strider MGL"
+	desc = "An Aussec Armory-produced Multi-Grenade-Launcher. Can hold six 40mm grenades for maximum firepower."
+	item = /obj/item/weapon/gun/projectile/revolver/grenadelauncher/mgl
+	cost = 25
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -266,6 +282,12 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 	surplus = 40
 
+/datum/uplink_item/dangerous/knife
+	name = "Combat Knife"
+	desc = "A military knife that has decent force and huge embedding chance when thrown. Can be considered stealthy."
+	item = /obj/item/weapon/melee/combatknife
+	cost = 3
+
 /datum/uplink_item/dangerous/sword
 	name = "Energy Sword"
 	desc = "The energy sword is an edged weapon with a blade of pure energy. The sword is small enough to be pocketed when inactive. Activating it produces a loud, distinctive noise. One can combine two \
@@ -277,7 +299,7 @@ var/list/uplink_items = list()
 	name = "Power Fist"
 	desc = "A large mechanically powered fist made out of plasteel which can deliver a massive blow to any target with the ability to throw them across a room. The power fist needs approximately a second in between each punch before it is powered again."
 	item = /obj/item/weapon/melee/powerfist
-	cost = 10	//May need to be adjusted after we see how it performs in a non-test environment
+	cost = 10
 
 /datum/uplink_item/dangerous/emp
 	name = "EMP Kit"
@@ -290,6 +312,12 @@ var/list/uplink_items = list()
 	desc = "The minibomb is a grenade with a five-second fuse. Upon detonation, it will create a small hull breach in addition to dealing high amounts of damage to nearby personnel."
 	item = /obj/item/weapon/grenade/syndieminibomb
 	cost = 6
+
+/datum/uplink_item/dangerous/cat_grenade
+	name = "Feral Cat Delivery Grenade"
+	desc = "The feral cat delivery grenade contains 8 dehydrated feral cats in a similar manner to dehydrated monkeys, which, upon detonation, will be rehydrated by a small reservoir of water contained within the grenade. These cats will then attack anything in sight."
+	item = /obj/item/weapon/grenade/spawnergrenade/feral_cats
+	cost = 5
 
 /datum/uplink_item/dangerous/foamsmg
 	name = "Toy Submachine Gun"
@@ -340,6 +368,7 @@ var/list/uplink_items = list()
 	cost = 140
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
+
 /datum/uplink_item/dangerous/cqc_gloves
 	name = "Tactical Gloves"
 	desc = "Comfortable grey gloves with the CQC martial art inside."
@@ -389,7 +418,7 @@ var/list/uplink_items = list()
 	name = "Speed Loader - .357"
 	desc = "A speed loader that contains seven additional .357 Magnum rounds for the syndicate revolver. For when you really need a lot of things dead."
 	item = /obj/item/ammo_box/a357
-	cost = 4
+	cost = 2
 
 /datum/uplink_item/ammo/smg
 	name = "SMG Magazine - .45 ACP"
@@ -469,8 +498,8 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 
 /datum/uplink_item/ammo/a40mm
-	name = "Ammo Box - 40mm grenades"
-	desc = "A box of 4 additional 40mm HE grenades for use the C-90gl's underbarrel grenade launcher. Your teammates will thank you to not shoot these down small hallways."
+	name = "Ammo Box - 40mm HE grenades"
+	desc = "A box of 6 additional 40mm HE grenades for use with the C90's grenade launcher or the Strider MGL. Your teammates will thank you to not shoot these down tight corridors."
 	item = /obj/item/ammo_box/a40mm
 	cost = 4
 	gamemodes = list(/datum/game_mode/nuclear)
@@ -709,6 +738,17 @@ var/list/uplink_items = list()
 	Nanotrasen crewmembers are trained to report red space suit sightings; these suits in particular are known to drive employees into a panic."
 	item = /obj/item/clothing/suit/space/hardsuit/syndi
 	cost = 8
+	excludefrom = list(/datum/game_mode/gang)
+
+/datum/uplink_item/device_tools/elite_hardsuit
+	name = "Elite Syndicate Hardsuit"
+	desc = "The elite Syndicate hardsuit is worn by only the best nuclear agents. Features much better armoring and complete fireproofing, as well as a built in jetpack. \
+	When the built in helmet is deployed your identity will be protected, even in death, as the suit cannot be removed by outside forces. Toggling the suit into combat mode \
+	will allow you all the mobility of a loose fitting uniform without sacrificing armoring. Additionally the suit is collapsible, small enough to fit within a backpack. \
+	Nanotrasen crewmembers are trained to report red space suit sightings; these suits in particular are known to drive employees into a panic."
+	item = /obj/item/clothing/suit/space/hardsuit/syndi/elite
+	cost = 12
+	gamemodes = list(/datum/game_mode/nuclear)
 	excludefrom = list(/datum/game_mode/gang)
 
 /datum/uplink_item/device_tools/thermal

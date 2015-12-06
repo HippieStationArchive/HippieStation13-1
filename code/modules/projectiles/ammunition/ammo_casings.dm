@@ -200,6 +200,14 @@
 	reagents.add_reagent("coniine", 6)
 	reagents.add_reagent("sodium_thiopental", 6)
 
+/obj/item/ammo_casing/shotgun/dart/assassination
+	desc = "A specialist shotgun dart designed to inncapacitate and kill the target over time, so you can get very far away from your target"
+
+/obj/item/ammo_casing/shotgun/dart/assassination/New()
+	..()
+	reagents.add_reagent("neurotoxin", 6)
+	reagents.add_reagent("lexorin", 6)
+
 /obj/item/ammo_casing/a762
 	desc = "A 7.62x51mm cartridge."
 	icon_state = "762-casing"
@@ -210,7 +218,7 @@
 	desc = "A 5.45x39mm cartridge."
 	icon_state = "casing_545"
 	caliber = "a556"
-	projectile_type = /obj/item/projectile/bullet/heavybullet
+	projectile_type = /obj/item/projectile/bullet/weakbullet3
 
 /obj/item/ammo_casing/a556
 	desc = "A 5.56x45mm cartridge."
@@ -244,6 +252,12 @@
 	caliber = "75"
 	icon_state = "s-casing-live"
 	projectile_type = /obj/item/projectile/bullet/gyro
+
+/obj/item/ammo_casing/caseless/cplasma
+	desc = "A disposable, specialized plasma cartridge."
+	caliber = "plasma"
+	icon_state = "casing_plasma"
+	projectile_type = /obj/item/projectile/beam
 
 /obj/item/ammo_casing/a40mm
 	name = "40mm HE shell"
@@ -303,3 +317,15 @@
 	icon_state = "762steel-casing"
 	caliber = "a762"
 	projectile_type = /obj/item/projectile/bullet/weakbullet2
+
+/obj/item/ammo_casing/musket
+	name = "paper cartridge"
+	desc = "A paper cartridge for a breechloading rifle."
+	icon_state = "papercartridge"
+	caliber = "musket"
+	projectile_type = /obj/item/projectile/bullet/midbullet2
+
+/obj/item/ammo_casing/minieball // lazy memecuck,putting it in here
+	name = "minie ball"
+	desc = "A small projectile with grooves"
+	icon_state = "minieball"

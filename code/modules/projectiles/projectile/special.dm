@@ -39,7 +39,7 @@
 
 /obj/item/projectile/bullet/a40mm/on_hit(atom/target, blocked = 0)
 	..()
-	explosion(target, -1, 0, 2, 1, 0, flame_range = 3)
+	explosion(target, -1, 3, 2, 4, 0, flame_range = 4)
 	return 1
 
 /obj/item/projectile/temp
@@ -131,10 +131,8 @@ obj/item/projectile/kinetic/New()
 	..()
 
 /obj/item/projectile/kinetic/Range()
-	range--
-	if(range <= 0)
-		new /obj/item/effect/kinetic_blast(src.loc)
-		qdel(src)
+	new /obj/item/effect/kinetic_blast(src.loc)
+	..()
 
 /obj/item/projectile/kinetic/on_hit(atom/target)
 	. = ..()
