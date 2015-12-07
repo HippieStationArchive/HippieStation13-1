@@ -257,6 +257,14 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
+/datum/uplink_item/dangerous/mgl
+	name = "Strider MGL"
+	desc = "An Aussec Armory-produced Multi-Grenade-Launcher. Can hold six 40mm grenades for maximum firepower."
+	item = /obj/item/weapon/gun/projectile/revolver/grenadelauncher/mgl
+	cost = 25
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 0
+
 /datum/uplink_item/dangerous/crossbow
 	name = "Miniature Energy Crossbow"
 	desc = "A short bow mounted across a tiller in miniature. Small enough to fit into a pocket or slip into a bag unnoticed. It will synthesize and fire bolts tipped with a paralyzing toxin that will \
@@ -291,7 +299,7 @@ var/list/uplink_items = list()
 	name = "Power Fist"
 	desc = "A large mechanically powered fist made out of plasteel which can deliver a massive blow to any target with the ability to throw them across a room. The power fist needs approximately a second in between each punch before it is powered again."
 	item = /obj/item/weapon/melee/powerfist
-	cost = 10	//May need to be adjusted after we see how it performs in a non-test environment
+	cost = 10
 
 /datum/uplink_item/dangerous/emp
 	name = "EMP Kit"
@@ -490,8 +498,8 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 
 /datum/uplink_item/ammo/a40mm
-	name = "Ammo Box - 40mm grenades"
-	desc = "A box of 4 additional 40mm HE grenades for use the C-90gl's underbarrel grenade launcher. Your teammates will thank you to not shoot these down small hallways."
+	name = "Ammo Box - 40mm HE grenades"
+	desc = "A box of 6 additional 40mm HE grenades for use with the C90's grenade launcher or the Strider MGL. Your teammates will thank you to not shoot these down tight corridors."
 	item = /obj/item/ammo_box/a40mm
 	cost = 4
 	gamemodes = list(/datum/game_mode/nuclear)
@@ -730,6 +738,17 @@ var/list/uplink_items = list()
 	Nanotrasen crewmembers are trained to report red space suit sightings; these suits in particular are known to drive employees into a panic."
 	item = /obj/item/clothing/suit/space/hardsuit/syndi
 	cost = 8
+	excludefrom = list(/datum/game_mode/gang)
+
+/datum/uplink_item/device_tools/elite_hardsuit
+	name = "Elite Syndicate Hardsuit"
+	desc = "The elite Syndicate hardsuit is worn by only the best nuclear agents. Features much better armoring and complete fireproofing, as well as a built in jetpack. \
+	When the built in helmet is deployed your identity will be protected, even in death, as the suit cannot be removed by outside forces. Toggling the suit into combat mode \
+	will allow you all the mobility of a loose fitting uniform without sacrificing armoring. Additionally the suit is collapsible, small enough to fit within a backpack. \
+	Nanotrasen crewmembers are trained to report red space suit sightings; these suits in particular are known to drive employees into a panic."
+	item = /obj/item/clothing/suit/space/hardsuit/syndi/elite
+	cost = 12
+	gamemodes = list(/datum/game_mode/nuclear)
 	excludefrom = list(/datum/game_mode/gang)
 
 /datum/uplink_item/device_tools/thermal
