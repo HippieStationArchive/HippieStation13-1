@@ -376,7 +376,7 @@
 	unacidable = 1
 	var/onboard_hud_enabled = 0 //stops conflicts with another diag HUD
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
-	armor = list(melee = 15, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 70)
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 60)
 	scan_reagents = 1
 	var/obj/machinery/doppler_array/integrated/bomb_radar
 
@@ -410,7 +410,7 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT //Same as an emergency firesuit. Not ideal for extended exposure.
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals, /obj/item/weapon/gun/energy/wormhole_projector,
 	/obj/item/weapon/hand_tele, /obj/item/device/aicard)
-	armor = list(melee = 20, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 70)
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 60)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/rd
 
 
