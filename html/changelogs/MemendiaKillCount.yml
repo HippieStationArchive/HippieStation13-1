@@ -1,0 +1,6 @@
+author: Memendia
+
+delete-after: True
+
+changes: 
+  - tgs: "Ported the round end report from /tg/. - Credit goes to Xhuis"
