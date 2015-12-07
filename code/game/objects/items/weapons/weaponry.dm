@@ -207,10 +207,6 @@
 		attack_verb = list("stubbed", "poked")
 		hitsound = 'sound/weapons/Genhit.ogg'
 
-/obj/item/weapon/switchblade/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	return (BRUTELOSS)
-
 /obj/item/weapon/pocketknife
 	name = "pocket knife"
 	desc = "Small, concealable blade that fits in the pocket nicely."
@@ -255,10 +251,6 @@
 	add_fingerprint(user)
 	return
 
-/obj/item/weapon/pocketknife/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	return (BRUTELOSS)
-
 /obj/item/weapon/phone
 	name = "red phone"
 	desc = "Should anything ever go wrong..."
@@ -272,7 +264,7 @@
 	attack_verb = list("called", "rang")
 	hitsound = 'sound/weapons/ring.ogg'
 
-/obj/item/weapon/phone/suicide_act(mob/user)
+/obj/item/weapon/phone/suicide_act(mob/user) //TODO: Make noosing work for this one like the cables
 	if(locate(/obj/structure/stool) in user.loc)
 		user.visible_message("<span class='notice'>[user] begins to tie a noose with the [src.name]'s cord! It looks like \he's trying to commit suicide.</span>")
 	else

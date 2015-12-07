@@ -310,23 +310,26 @@
 			qdel(src)
 
 
+	add_logs(user, affecting, "attempted to put", src, "into [M]")
 
 /obj/item/weapon/grab/dropped()
 	qdel(src)
 
 /obj/item/weapon/grab/Del()
 	if(affecting)
-		affecting.grabbed_by -= src
-		affecting.pixel_x = 0
-		affecting.pixel_y = 0 //used to be an animate, not quick enough for del'ing
+		if(!affecting.buckled)
+			affecting.pixel_x = initial(affecting.pixel_x)
+			affecting.pixel_y = affecting.get_standard_pixel_y_offset(affecting.lying) //used to be an animate, not quick enough for del'ing
 		affecting.layer = initial(affecting.layer)
+		affecting.grabbed_by -= src
 		affecting.update_canmove()
 	..()
 
 /obj/item/weapon/grab/Destroy()
 	if(affecting)
-		affecting.pixel_x = 0
-		affecting.pixel_y = 0 //used to be an animate, not quick enough for del'ing
+		if(!affecting.buckled)
+			affecting.pixel_x = initial(affecting.pixel_x)
+			affecting.pixel_y = affecting.get_standard_pixel_y_offset(affecting.lying) //used to be an animate, not quick enough for del'ing
 		affecting.layer = initial(affecting.layer)
 		affecting.grabbed_by -= src
 		affecting.update_canmove()

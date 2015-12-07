@@ -74,6 +74,11 @@
 	origin_tech = "materials=1;engineering=1"
 	attack_verb = list("hit", "pierced", "sliced", "attacked")
 
+// /obj/item/weapon/pickaxe/suicide_act(mob/user)
+	//Edgy flavortext to-do
+	//"User slams down the head of the pickaxe into Victim's chest!" "You hear bones crunching!" "Victim screams!" "User pulls back the pickaxe, and Victim's heart is popped out, along with bits of bones and other viscera!"
+	// return(BRUTELOSS)
+
 /obj/item/weapon/pickaxe/proc/playDigSound()
 	playsound(src, pick(digsound),50,1)
 
