@@ -178,6 +178,7 @@
 /obj/effect/proc_holder/spell/targeted/enthrall/cast(list/targets)
 	var/mob/living/carbon/human/user = usr
 	listclearnulls(ticker.mode.thralls)
+	if(jobban_isbanned(usr, "catban")) return
 	if(!(usr.mind in ticker.mode.shadows)) return
 	if(user.dna.species.id != "shadowling")
 		if(ticker.mode.thralls.len >= 5)
