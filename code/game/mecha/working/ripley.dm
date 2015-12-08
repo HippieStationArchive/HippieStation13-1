@@ -1,7 +1,7 @@
 /obj/mecha/working/ripley
 	desc = "Autonomous Power Loader Unit. This newer model is refitted with powerful armour against the dangers of the EVA mining process."
 	name = "\improper APLU \"Ripley\""
-	icon_state = "ripleyNew"
+	icon_state = "ripley"
 	step_in = 5
 	max_temperature = 20000
 	health = 200
@@ -84,11 +84,8 @@
 	return
 
 /obj/mecha/working/ripley/mining
-	name = "\improper APLU \"Miner\""
 	desc = "An old, dusty mining Ripley."
-	icon_state = "ripley"
-	wreckage = /obj/structure/mecha_wreckage/ripley/mining
-
+	name = "\improper APLU \"Miner\""
 
 /obj/mecha/working/ripley/mining/New()
 	..()

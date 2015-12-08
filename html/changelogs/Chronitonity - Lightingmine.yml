@@ -1,0 +1,6 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - tweak: "Low lighting objects now have larger low light effects."
