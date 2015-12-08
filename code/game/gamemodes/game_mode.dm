@@ -135,7 +135,7 @@
 	var/list/antag_canadates = list()
 
 	for(var/mob/living/carbon/human/H in living_crew)
-		if(H.client && H.client.prefs.allow_midround_antag)
+		if(H.client && H.client.prefs.allow_midround_antag && !jobban_isbanned(H, "catban"))
 			antag_canadates += H
 
 	if(!antag_canadates)
@@ -307,7 +307,7 @@
 
 	// Ultimate randomizing code right here
 	for(var/mob/new_player/player in player_list)
-		if(player.client && player.ready)
+		if(player.client && player.ready && !jobban_isbanned(player, "catban"))
 			players += player
 
 	// Shuffling, the players list is now ping-independent!!!
