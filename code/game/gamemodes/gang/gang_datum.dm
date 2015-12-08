@@ -39,11 +39,18 @@
 				color_hex = "#00B7EF"
 			if("purple")
 				color_hex = "#DA00FF"
+			if("black")
+				color_hex = "#111111"
 
 	name = (gangname ? gangname : pick(gang_name_pool))
 	gang_name_pool -= name
 	if(name == "Sleeping Carp")
 		fighting_style = "martial"
+	if(name == "Rigatoni")
+		fighting_style = "mobster"
+	if(name == "Clandestine")
+		fighting_style = "stealth"
+
 
 	ganghud = new()
 	log_game("The [name] Gang has been created. Their gang color is [color].")

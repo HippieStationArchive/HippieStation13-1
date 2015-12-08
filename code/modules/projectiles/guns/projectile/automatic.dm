@@ -323,13 +323,13 @@
 	desc = "Based on the classic 'Chicago Typewriter'."
 	icon_state = "tommygun"
 	item_state = "shotgun"
-	w_class = 5
+	w_class = 3
 	slot_flags = 0
 	origin_tech = "combat=5;materials=1;syndicate=2"
 	mag_type = /obj/item/ammo_box/magazine/tommygunm45
 	fire_sound = 'sound/weapons/tommygun_shoot.ogg'
 	can_suppress = 0
-	burst_size = 4
+	burst_size = 3
 	fire_delay = 1
 	spread = 7
 	mag_load_sound = 'sound/effects/wep_magazines/bulldog_load.ogg'
@@ -369,3 +369,31 @@
 /obj/item/weapon/gun/projectile/automatic/pistol/mac10/update_icon()
 	..()
 	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+
+/obj/item/weapon/gun/projectile/automatic/alc
+	name = "AA-2553 ALC"
+	desc = "Known as the Automatic Laser Carbine, this modern, state-of-the-art energy weapon uses specialized disposable plasma cartridges in a small magazine similar to ballistic firearms. Advanced cooling technology allows for the ALC to be fired in short bursts. However, the unusual method of loading results in some inaccuracy compared to traditional energy weapons."
+	icon_state = "alc"
+	mag_type = /obj/item/ammo_box/magazine/alc
+	can_suppress = 0
+	w_class = 3
+	spread = 4
+	burst_size = 3
+	fire_delay = 1.5
+	fire_sound = 'sound/weapons/laser.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/alc/process_chamber(eject_casing = 0, empty_chamber = 1)
+	..()
+
+/obj/item/weapon/gun/projectile/automatic/alc/afterattack()
+	..()
+	empty_alarm()
+	return
+
+/obj/item/weapon/gun/projectile/automatic/alc/update_icon()
+	..()
+	icon_state = "alc[magazine ? "-[Ceiling(get_ammo(0)/9)*8]" : ""][chambered ? "" : "-e"]"
+	return

@@ -313,9 +313,25 @@
 	item_state = "medical_helm"
 	item_color = "medical"
 	flash_protect = 0
+	var/onboard_hud_enabled = 0 //stops conflicts with another diag HUD
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
 	scan_reagents = 1 //Generally worn by the CMO, so they'd get utility off of seeing reagents
+
+/obj/item/clothing/head/helmet/space/hardsuit/medical/equipped(mob/living/carbon/human/user, slot)
+	..(user, slot)
+	if(user.glasses && istype(user.glasses, /obj/item/clothing/glasses/hud/health))
+		user << ("<span class='warning'>Your [user.glasses] prevents you using [src]'s medical visor HUD.</span>")
+	else
+		onboard_hud_enabled = 1
+		var/datum/atom_hud/DHUD = huds[DATA_HUD_MEDICAL_ADVANCED]
+		DHUD.add_hud_to(user)
+
+/obj/item/clothing/head/helmet/space/hardsuit/medical/dropped(mob/living/carbon/human/user)
+	..(user)
+	if(onboard_hud_enabled && !(user.glasses && istype(user.glasses, /obj/item/clothing/glasses/hud/health)))
+		var/datum/atom_hud/DHUD = huds[DATA_HUD_MEDICAL_ADVANCED]
+		DHUD.remove_hud_from(user)
 
 /obj/item/clothing/suit/space/hardsuit/medical
 	icon_state = "hardsuit-medical"
@@ -333,6 +349,7 @@
 	icon_state = "hardsuit0-rd"
 	item_color = "rd"
 	unacidable = 1
+	var/onboard_hud_enabled = 0 //stops conflicts with another diag HUD
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 60)
 	scan_reagents = 1
@@ -342,13 +359,22 @@
 	..()
 	bomb_radar = new /obj/machinery/doppler_array/integrated(src)
 
-/obj/item/clothing/head/helmet/space/hardsuit/rd/equipped(mob/user, slot)
-	user.scanner.Grant(user)
+/obj/item/clothing/head/helmet/space/hardsuit/rd/equipped(mob/living/carbon/human/user, slot)
 	..(user, slot)
+	user.scanner.Grant(user)
+	if(user.glasses && istype(user.glasses, /obj/item/clothing/glasses/hud/diagnostic))
+		user << ("<span class='warning'>Your [user.glasses] prevents you using [src]'s diagnostic visor HUD.</span>")
+	else
+		onboard_hud_enabled = 1
+		var/datum/atom_hud/DHUD = huds[DATA_HUD_DIAGNOSTIC]
+		DHUD.add_hud_to(user)
 
-/obj/item/clothing/head/helmet/space/hardsuit/rd/dropped(mob/user)
-	user.scanner.devices -= 1
+/obj/item/clothing/head/helmet/space/hardsuit/rd/dropped(mob/living/carbon/human/user)
 	..(user)
+	user.scanner.devices -= 1
+	if(onboard_hud_enabled && !(user.glasses && istype(user.glasses, /obj/item/clothing/glasses/hud/diagnostic)))
+		var/datum/atom_hud/DHUD = huds[DATA_HUD_DIAGNOSTIC]
+		DHUD.remove_hud_from(user)
 
 /obj/item/clothing/suit/space/hardsuit/rd
 	icon_state = "hardsuit-rd"
