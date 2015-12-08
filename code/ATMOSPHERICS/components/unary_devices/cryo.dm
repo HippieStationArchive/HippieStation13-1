@@ -203,16 +203,11 @@
 		if(!state_open)
 			on = 1
 
-	if(href_list["open"])
-		open_machine()
-
-	if(href_list["close"])
-		if(close_machine() == usr)
-			var/datum/nanoui/ui = SSnano.get_open_ui(usr, src, "main")
-			ui.close()
-			on = 1
 	if(href_list["switchOff"])
 		on = 0
+
+	if(href_list["ejectOccupant"])
+		open_machine()
 
 	if(href_list["ejectBeaker"])
 		if(beaker)
@@ -220,6 +215,7 @@
 			var/obj/item/weapon/reagent_containers/glass/B = beaker
 			B.loc = get_step(loc, SOUTH)
 			beaker = null
+
 	update_icon()
 	add_fingerprint(usr)
 	return 1 // update UIs attached to this object
