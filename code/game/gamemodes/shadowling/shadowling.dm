@@ -308,12 +308,3 @@ Made by Xhuis
 	var/datum/atom_hud/antag/shadow_hud = huds[ANTAG_HUD_SHADOW]
 	shadow_hud.leave_hud(shadow_mind.current)
 	set_antag_hud(shadow_mind.current, null)
-
-/turf/proc/get_lumcount()
-	var/light_amount
-	if(!src || !istype(src)) return
-	var/area/A = src.loc
-	if(!A || !istype(src)) return
-	if(A.lighting_use_dynamic) light_amount = src.lighting_lumcount
-	else light_amount =  10
-	return light_amount
