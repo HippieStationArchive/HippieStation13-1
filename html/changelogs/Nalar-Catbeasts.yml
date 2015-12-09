@@ -35,5 +35,5 @@ delete-after: True
 changes: 
   - rscadd: "Cat bans have been reimplemented as a type of jobban."
   - rscadd: "Cat banned players will now be made a cat when joining a round, regardless of preferences."
-  - rscdel: "Cat people can no longer be antagonists. This includes conversions and enthralling."
-  - rscdel: "Cat people can no longer be anything other than assistants."
+  - rscdel: "Cat banned people can no longer be antagonists. This includes conversions and enthralling."
+  - rscdel: "Cat banned people can no longer be anything other than assistants."
