@@ -273,3 +273,9 @@ var/list/bloody_footprints_cache = list()
 #define IS_BLUNT			0
 #define IS_SHARP			1
 #define IS_SHARP_ACCURATE	2
+
+//lighting area defines
+#define DYNAMIC_LIGHTING_DISABLED 0 //dynamic lighting disabled (area stays at full brightness)
+#define DYNAMIC_LIGHTING_ENABLED 1 //dynamic lighting enabled
+#define DYNAMIC_LIGHTING_IFSTARLIGHT 2 //dynamic lighting enabled only if starlight is.
+#define IS_DYNAMIC_LIGHTING(A) ( A.lighting_use_dynamic == DYNAMIC_LIGHTING_IFSTARLIGHT ? config.starlight : A.lighting_use_dynamic )
