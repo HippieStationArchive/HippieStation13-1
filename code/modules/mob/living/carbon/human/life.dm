@@ -35,6 +35,9 @@
 	if (notransform)
 		return
 
+	if(jobban_isbanned(src, "catban") && src.dna.species.name != "Tarajan")
+		src.set_species(/datum/species/cat, icon_update=1)
+
 	tinttotal = tintcheck() //here as both hud updates and status updates call it
 
 	if(..())
