@@ -1,27 +1,12 @@
-/json_token
-	var
-		value
-	New(v)
-		src.value = v
-	text
-	number
-	word
-	symbol
-	eof
-
-/json_reader
-	var
-		list
-			string		= list("'", "\"")
-			symbols 	= list("{", "}", "\[", "]", ":", "\"", "'", ",")
-			sequences 	= list("b" = 8, "t" = 9, "n" = 10, "f" = 12, "r" = 13)
-			tokens
-		json
-		i = 1
+json_reader/var/list/string	= list("'", "\"")
+json_reader/var/list/symbols 	= list("{", "}", "\[", "]", ":", "\"", "'", ",")
+json_reader/var/list/sequences 	= list("b" = 8, "t" = 9, "n" = 10, "f" = 12, "r" = 13)
+json_reader/var/list/tokens
+json_reader/var/json
+json_reader/var/i = 1
 
 
-/json_reader/proc/ScanJson(json)
-	// scanner
+json_reader/proc/ScanJson(json)
 	src.json = json
 	. = new/list()
 	src.i = 1
@@ -39,9 +24,9 @@
 		else
 			. += read_word()
 		i++
-	. += new/json_token/eof()
+		. += new/json_token/eof()
 
-/json_reader/proc/read_word()
+json_reader/proc/read_word()
 	var/val = ""
 	while(i <= lentext(json))
 		var/char = get_char()
@@ -51,10 +36,9 @@
 		val += char
 		i++
 
-/json_reader/proc/read_string(delim)
-	var
-		escape 	= FALSE
-		val		= ""
+json_reader/proc/read_string(delim)
+	var/escape = FALSE
+	var/val = ""
 	while(++i <= lentext(json))
 		var/char = get_char()
 		if(escape)
@@ -74,7 +58,7 @@
 				val += char
 	CRASH("Unterminated string.")
 
-/json_reader/proc/read_number()
+json_reader/proc/read_number()
 	var/val = ""
 	var/char = get_char()
 	while(is_digit(char) || char == "." || lowertext(char) == "e")
@@ -84,22 +68,21 @@
 	i-- // allow scanner to read the first non-number character
 	return new/json_token/number(text2num(val))
 
-/json_reader/proc/check_char()
+json_reader/proc/check_char()
 	ASSERT(args.Find(get_char()))
 
-/json_reader/proc/get_char()
+json_reader/proc/get_char()
 	return copytext(json, i, i+1)
 
-/json_reader/proc/is_whitespace(char)
+json_reader/proc/is_whitespace(char)
 	return char == " " || char == "\t" || char == "\n" || text2ascii(char) == 13
 
-/json_reader/proc/is_digit(char)
+json_reader/proc/is_digit(char)
 	var/c = text2ascii(char)
 	return 48 <= c && c <= 57 || char == "+" || char == "-"
 
 
-// parser
-/json_reader/proc/ReadObject(list/tokens)
+json_reader/proc/ReadObject(list/tokens)
 	src.tokens = tokens
 	. = new/list()
 	i = 1
@@ -124,36 +107,36 @@
 			else
 				die()
 
-/json_reader/proc/get_token()
+json_reader/proc/get_token()
 	return tokens[i]
 
-/json_reader/proc/next_token()
+json_reader/proc/next_token()
 	return tokens[++i]
 
-/json_reader/proc/read_token(val, type)
+json_reader/proc/read_token(val, type)
 	var/json_token/T = get_token()
 	if(!(T.value == val && istype(T, type)))
 		CRASH("Expected '[val]', found '[T.value]'.")
 	next_token()
 	return T
 
-/json_reader/proc/check_type(...)
+json_reader/proc/check_type(...)
 	var/json_token/T = get_token()
 	for(var/type in args)
 		if(istype(T, type))
 			return
 	CRASH("Bad token type: [T.type].")
 
-/json_reader/proc/check_value(...)
+json_reader/proc/check_value(...)
 	var/json_token/T = get_token()
 	ASSERT(args.Find(T.value))
 
-/json_reader/proc/read_key()
+json_reader/proc/read_key()
 	var/char = get_char()
 	if(char == "\"" || char == "'")
 		return read_string(char)
 
-/json_reader/proc/read_value()
+json_reader/proc/read_value()
 	var/json_token/T = get_token()
 	switch(T.type)
 		if(/json_token/text, /json_token/number)
@@ -176,7 +159,7 @@
 					return ReadObject(tokens.Copy(i))
 	die()
 
-/json_reader/proc/read_array()
+json_reader/proc/read_array()
 	read_token("\[", /json_token/symbol)
 	. = new/list()
 	var/list/L = .
@@ -199,6 +182,6 @@
 		CRASH("Unterminated array.")
 
 
-/json_reader/proc/die(json_token/T)
+json_reader/proc/die(json_token/T)
 	if(!T) T = get_token()
 	CRASH("Unexpected token: [T.value].")
