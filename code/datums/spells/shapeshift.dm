@@ -15,7 +15,7 @@
 	var/list/current_shapes = list()
 	var/list/current_casters = list()
 
-/obj/effect/proc_holder/spell/targeted/shapeshift/cast(list/targets)
+/obj/effect/proc_holder/spell/targeted/shapeshift/cast(list/targets,mob/user = usr)
 	for(var/mob/living/M in targets)
 		if(M in current_shapes)
 			Restore(M)
@@ -31,7 +31,7 @@
 	var/mob/living/shape = new shapeshift_type(caster.loc)
 	caster.loc = shape
 	caster.status_flags |= GODMODE
-	
+
 	current_shapes |= shape
 	current_casters |= caster
 	clothes_req = 0
@@ -54,7 +54,7 @@
 	human_req = initial(human_req)
 	current_casters.Remove(caster)
 	current_shapes.Remove(shape)
-	
+
 	shape.mind.transfer_to(caster)
 	qdel(shape) //Gib it maybe ?
 
