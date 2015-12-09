@@ -1,7 +1,7 @@
 //In here: useratch and Ascendance
 var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "userel-uae", "Noaey'gief", "Mii`mahza", "Amerziox", "Gyrg-mylin", "Kanet'pruunance", "Vigistaezian") //Unpronouncable 2: electric boogalo
 /obj/effect/proc_holder/spell/self/shadowling_hatch
-	name = "useratch"
+	name = "Hatch"
 	desc = "Casts off your disguise."
 	panel = "Shadowling Evolution"
 	charge_max = 3000
