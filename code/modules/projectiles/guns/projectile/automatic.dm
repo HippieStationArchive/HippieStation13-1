@@ -446,6 +446,8 @@
 	spread = 2
 	burst_size = 4
 	fire_delay = 1
+	force = 10 //melee damage
+	origin_tech = "combat=6;materials=4;syndicate=8"
 	fire_sound = 'sound/weapons/gunshot_g36.ogg'
 	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
