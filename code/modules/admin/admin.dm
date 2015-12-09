@@ -152,11 +152,11 @@ var/global/floorIsLava = 0
 			body += "<A href='?_src_=holder;simplemake=shade;mob=\ref[M]'>Shade</A>"
 			body += "<br>"
 
+	body += "<br><br>"
+	body += "<b>Other actions:</b>"
+	body += "<br>"
+	body += "<A href='?_src_=holder;forcespeech=\ref[M]'>Forcesay</A> | "
 	if (M.client)
-		body += "<br><br>"
-		body += "<b>Other actions:</b>"
-		body += "<br>"
-		body += "<A href='?_src_=holder;forcespeech=\ref[M]'>Forcesay</A> | "
 		body += "<A href='?_src_=holder;mentor=\ref[M]'>Make Mentor</A> | "
 		body += "<A href='?_src_=holder;removementor=\ref[M]'>Remove Mentor</A> | "
 		body += "<A href='?_src_=holder;tdome1=\ref[M]'>Thunderdome 1</A> | "

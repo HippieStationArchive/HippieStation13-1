@@ -1,6 +1,0 @@
-author: Crystalwarrior160
-delete-after: True
-changes: 
-  - rscadd: "Adds nooses! You can suicide with a cable coil on top of a stool/chair/bed/toilet/table to make a noose and choke yourself to death. You can also make a noose from cables to noose SOMEONE ELSE. WARNING: Edgiest feature."
-  - tweak: "Suicide verb received an overhaul! Now all items with force have generic suicide text based on their sharpness. Also you will no longer insta-die from suiciding, so there's time to save suicide victims!"
-  - bugfix: "Fixed suicide status persisting even after being saved (this means if you attempted suicide but got saved, next time you're crit you won't count as suicide)."

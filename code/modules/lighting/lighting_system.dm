@@ -115,12 +115,40 @@
 /datum/light_source/proc/add_effect()
 	// only do this if the light is turned on and is on the map
 	if(!owner || !owner.loc)
+<<<<<<< HEAD
+		return 0
+	var/range = owner.get_light_range(radius)
+	if(range <= 0 || luminosity <= 0)
+		owner.luminosity = 0
+=======
+>>>>>>> refs/remotes/HippieStationCode/master
 		return 0
 	var/range = owner.get_light_range(radius)
 	if(range <= 0 || luminosity <= 0)
 		owner.luminosity = 0
 		return 0
 
+	effect = list()
+	var/turf/To = get_turf(owner)
+
+
+	for(var/atom/movable/AM in To)
+		if(AM == owner)
+			continue
+		if(AM.opacity)
+			range = 0
+			break
+
+	owner.luminosity = range
+	var/center_strength = 0
+	if (cap <= 0)
+		center_strength = LIGHTING_CAP/LIGHTING_LUM_FOR_FULL_BRIGHT*(luminosity)
+	else
+		center_strength = cap
+
+	for(var/turf/T in view(range+1, To))
+
+<<<<<<< HEAD
 	effect = list()
 	var/turf/To = get_turf(owner)
 
@@ -143,6 +171,8 @@
 
 	for(var/turf/T in view(range+1, To))
 
+=======
+>>>>>>> refs/remotes/HippieStationCode/master
 #ifdef LIGHTING_CIRCULAR
 		var/distance = cheap_hypotenuse(T.x, T.y, __x, __y)
 #else
@@ -210,8 +240,13 @@
 		if (new_luminosity <= 0)
 			return
 		light = new(src)
+<<<<<<< HEAD
 
 	light.UpdateLuminosity(new_luminosity, new_cap)
+=======
+	light.UpdateLuminosity(new_luminosity, new_cap)
+
+>>>>>>> refs/remotes/HippieStationCode/master
 
 /atom/proc/AddLuminosity(delta_luminosity)
 	if(light)
@@ -328,15 +363,26 @@
 				newalpha = 255-num
 			else //if(lighting_lumcount >= LIGHTING_CAP)
 				newalpha = 0
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/HippieStationCode/master
 		if(newalpha >= LIGHTING_DARKEST_VISIBLE_ALPHA)
 			newalpha = 255
 		if(lighting_object.alpha != newalpha)
 			if(instantly)
+<<<<<<< HEAD
 				lighting_object.alpha = newalpha
 			else
 				animate(lighting_object, alpha = newalpha, time = LIGHTING_TIME)
 			if(newalpha >= LIGHTING_DARKEST_VISIBLE_ALPHA)
 				luminosity = 0
+=======
+				change_time = 0
+			animate(lighting_object, alpha = newalpha, time = change_time)
+			if(newalpha >= LIGHTING_DARKEST_VISIBLE_ALPHA)
+				animate(luminosity = 0, time = 0)
+>>>>>>> refs/remotes/HippieStationCode/master
 				lighting_object.luminosity = 0
 
 	lighting_changed = 0
