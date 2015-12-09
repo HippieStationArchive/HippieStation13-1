@@ -145,6 +145,12 @@
 	icon_state = "militarybelt"
 	item_state = "military"
 
+/obj/item/weapon/storage/belt/military/black
+	name = "military belt"
+	desc = "A sturdy black military belt. Can hold small weapons, magazines, or smaller boxes of ammunition."
+	icon_state = "militarybelt_black"
+	item_state = "military_black"
+
 /obj/item/weapon/storage/belt/wands
 	name = "wand belt"
 	desc = "A belt designed to hold various rods of power. A veritable fanny pack of exotic magic."
