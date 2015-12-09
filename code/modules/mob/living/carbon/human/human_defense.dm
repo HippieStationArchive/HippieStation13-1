@@ -115,12 +115,12 @@ emp_act
 			visible_message("<span class='danger'>The reactive teleport system flings [src] clear of [attack_text]!</span>", \
 							"<span class='userdanger'>The reactive teleport system flings [src] clear of [attack_text]!</span>")
 			var/list/turfs = new/list()
-			for(var/turf/T in orange(6, src))
+			for(var/turf/T in orange(4, src))
 				if(T.density) continue
-				if(T.x>world.maxx-6 || T.x<6)	continue
-				if(T.y>world.maxy-6 || T.y<6)	continue
+				if(T.x>world.maxx-4 || T.x<4)	continue
+				if(T.y>world.maxy-4 || T.y<4)	continue
 				turfs += T
-			if(!turfs.len) turfs += pick(/turf in orange(6, src))
+			if(!turfs.len) turfs += pick(/turf in orange(4, src))
 			var/turf/picked = pick(turfs)
 			if(!isturf(picked)) return
 			if(buckled)
