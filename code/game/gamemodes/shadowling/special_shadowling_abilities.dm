@@ -10,7 +10,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "userel-uae",
 	action_icon_state = "hatch"
 
 /obj/effect/proc_holder/spell/self/shadowling_hatch/cast(mob/living/carbon/human/user)
-	if(usr.stat || !ishuman(usr) || !usr || !is_shadow(usr)) return
+	if(user.stat || !ishuman(user) || !user || !is_shadow(user)) return
 	var/hatch_or_no = alert(user,"Are you sure you want to hatch? You cannot undo this!",,"Yes","No")
 	switch (hatch_or_no)
 		if("No")
@@ -27,8 +27,8 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "userel-uae",
 
 			sleep(50)
 			var/turf/simulated/floor/F
-			var/turf/shadowturf = get_turf(usr)
-			for(F in orange(1, usr))
+			var/turf/shadowturf = get_turf(user)
+			for(F in orange(1, user))
 				new /obj/structure/alien/resin/wall/shadowling(F)
 			for(var/obj/structure/alien/resin/wall/shadowling/R in shadowturf) //extremely hacky
 				qdel(R)
@@ -60,7 +60,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "userel-uae",
 			var/newNameId = pick(possibleShadowlingNames)
 			possibleShadowlingNames.Remove(newNameId)
 			user.real_name = newNameId
-			user.name = usr.real_name
+			user.name = user.real_name
 			user.SetStunned(0)
 			user << "<i><b><font size=3>YOU LIVE!!!</i></b></font>"
 
@@ -107,7 +107,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "userel-uae",
 	clothes_req = 0
 	action_icon_state = "ascend"
 
-/obj/effect/proc_holder/spell/self/shadowling_ascend/cast(mob/living/carbon/human/user)
+/obj/effect/proc_holder/spell/self/shadowling_ascend/cast(mob/living/carbon/human/H,mob/user = user)
 	if(!shadowling_check(user))
 		return
 	var/hatch_or_no = alert(user,"It is time to ascend. Are you sure about this?",,"Yes","No")
