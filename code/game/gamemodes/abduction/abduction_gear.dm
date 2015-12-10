@@ -77,9 +77,10 @@
 		M.regenerate_icons()
 	return
 
-/obj/item/clothing/suit/armor/abductor/vest/IsShield()
+/obj/item/clothing/suit/armor/abductor/vest/hit_reaction()
 	DeactivateStealth()
 	return 0
+
 /obj/item/clothing/suit/armor/abductor/vest/IsReflect()
 	DeactivateStealth()
 	return 0
@@ -494,7 +495,7 @@ Congratulations! You are now trained for xenobiology research!"}
 
 	var/species = "<span class='warning'>Unknown species</span>"
 	var/helptext = "<span class='warning'>Species unsuitable for experiments.</span>"
-	
+
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		species = "<span clas=='notice'>[H.dna.species.name]</span>"
