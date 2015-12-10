@@ -136,6 +136,9 @@ var/next_external_rsc = 0
 		verbs += /client/proc/cmd_mentor_say
 		mentors += src
 
+	if(mentor && !holder)
+		mentor_memo_output("Show")
+
 	//preferences datum - also holds some persistant data for the client (because we may as well keep these datums to a minimum)
 	prefs = preferences_datums[ckey]
 	if(!prefs)
