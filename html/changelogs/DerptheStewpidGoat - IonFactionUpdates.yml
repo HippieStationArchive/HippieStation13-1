@@ -1,0 +1,38 @@
+################################
+# Example Changelog File
+#
+# Note: This file, and files beginning with ".", and files that don't end in ".yml" will not be read. If you change this file, you will look really dumb.
+#
+# Your changelog will be merged with a master changelog. (New stuff added only, and only on the date entry for the day it was merged.)
+# When it is, any changes listed below will disappear.
+#
+# Valid Prefixes: 
+#   bugfix
+#   wip (For works in progress)
+#   tweak
+#   soundadd
+#   sounddel
+#   rscadd (general adding of nice things)
+#   rscdel (general deleting of nice things)
+#   imageadd
+#   imagedel
+#   spellcheck (typo fixes)
+#   experiment
+#   tgs (TG-ported fixes?)
+#################################
+
+# Your name.  
+author: DerptheStewpidGoat
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - rscadd: "New equipment added for the Ion faction, specifically the PMC units. This new equipment is a set of urban fatigues, heavy full-body combat armor, PMC SWAT Helmet, and XMG80 assault rifle."
+  - rscadd: "The armor is among some of the strongest in the game, ranking close or equal to that of deathsquad armor. The XMG80 assault rifle fires 6.8x43mm caseless ammunition from a 48-round magazine. The XMG80 can be spawned from summon guns. The sprite is based on a G36 but in a bullpup configuration for those curious. Thanks to Sgt. Fragg for the XMG80 sprites, and thanks to Fury McFlurry for the armor and clothing sprites."
+  - rscadd: "Note for admins, you can easily give a full set of this gear to any mob through the select equipment option and by equipping them either with the Ion Inc. PMC Rifleman or Field Technician outfit."
