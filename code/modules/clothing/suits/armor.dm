@@ -147,6 +147,21 @@
 	strip_delay = 70
 	put_on_delay = 50
 
+/obj/item/clothing/suit/armor/heavycombat
+	name = "MK48 Heavy Combat Armor"
+	desc = "A full-body combat armor produced by Ion Incorporated for its private military forces. Often seen worn by riflemen or other combat troops. Covers the entire body excluding the head with ceramic plates infused with goliath plates and coated in ablative materials, allowing for extreme ballistic protection and moderate laser or energy protection. Comes in a dark, urban camouflage."
+	icon_state = "combat_armor"
+	item_state = "combat_armor"
+	blood_overlay_type = "armor"
+	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	armor = list(melee = 65, bullet = 90, laser = 50, energy = 35, bomb = 75, bio = 0, rad = 30)
+	strip_delay = 130
+	put_on_delay = 75
+	slowdown = 0.2
+	unacidable = 1
+
 /obj/item/clothing/suit/armor/laserproof
 	name = "ablative armor vest"
 	desc = "A vest that excels in protecting the wearer against energy projectiles, as well as occasionally reflecting them."

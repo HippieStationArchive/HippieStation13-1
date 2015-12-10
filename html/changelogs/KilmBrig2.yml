@@ -1,0 +1,41 @@
+################################
+# Example Changelog File
+#
+# Note: This file, and files beginning with ".", and files that don't end in ".yml" will not be read. If you change this file, you will look really dumb.
+#
+# Your changelog will be merged with a master changelog. (New stuff added only, and only on the date entry for the day it was merged.)
+# When it is, any changes listed below will disappear.
+#
+# Valid Prefixes: 
+#   bugfix
+#   wip (For works in progress)
+#   tweak
+#   soundadd
+#   sounddel
+#   rscadd (general adding of nice things)
+#   rscdel (general deleting of nice things)
+#   imageadd
+#   imagedel
+#   spellcheck (typo fixes)
+#   experiment
+#   tgs (TG-ported fixes?)
+#################################
+
+# Your name.  
+author: Kilm
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - rscadd: "Added corridor access from Brig secure area into Brig Cell area meaning Sec don't need to go through the lobby any more."
+  - rscadd: "Added a mounted flasher to the Brig secure airlock transition between lobby and rear Brig office area with button in Brig Reception."
+  - rscadd: "Fixed Brig Cell doors not opening on time completion."
+  - rscadd: "Fitted Prisoner Holding Cell chutes to Arrivals Security Office, Cargo Security Office, Engineering Security Office and Core Security Office. You can place a prisoner in any of these and he'll end up in the Holding Cell at the Brig, making it easier for you to deal with greytiders."
+  - rscadd: "Fitted shutters to the Brig Office, controlled from the Brig Office."
+  - rscadd: "Upped Plasteel starter amount in Robotics from 10 to 18 to assist with the starter Mech stuff."
