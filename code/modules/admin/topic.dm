@@ -1288,6 +1288,7 @@
 			log_game("SQL ERROR during adding new mentor. Error : \[[err]\]\n")
 		load_mentors()
 		M.verbs += /client/proc/cmd_mentor_say
+		M.verbs += /client/proc/show_mentor_memo
 		M << "\blue You've been granted mentor access! Help people who send mentor-pms"
 
 	else if(href_list["removementor"])
@@ -1308,6 +1309,7 @@
 		load_mentors()
 		M << "\blue Your mentor access has been removed"
 		M.verbs -= /client/proc/cmd_mentor_say
+		M.verbs -= /client/proc/show_mentor_memo
 
 	else if(href_list["sendtoprison"])
 		if(!check_rights(R_ADMIN))	return

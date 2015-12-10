@@ -10,6 +10,15 @@
 		return
 	mentor_memo_output(memotask)
 
+/client/proc/show_mentor_memo()
+	set name = "Show Memos"
+	set category = "Mentor"
+	if(!check_mentor())	return
+	if(!dbcon.IsConnected())
+		src << "<span class='danger'>Failed to establish database connection.</span>"
+		return
+	mentor_memo_output("Show")
+
 /client/proc/mentor_memo_output(task)
 	if(!task)
 		return
