@@ -254,6 +254,31 @@
 	jetpack = new /obj/item/weapon/tank/jetpack/suit(src)
 	..()
 
+//Elite Syndie suit
+/obj/item/clothing/head/helmet/space/hardsuit/syndi/elite
+	name = "elite syndicate hardsuit helmet"
+	desc = "An elite version of the syndicate helmet, with improved armour and fire shielding. It is in travel mode. Property of Gorlex Marauders."
+	alt_desc = "An elite version of the syndicate helmet, with improved armour and fire shielding. It is in combat mode. Property of Gorlex Marauders."
+	icon_state = "hardsuit1-elite"
+	item_state = "syndie_hardsuit"
+	item_color = "elite"
+	armor = list(melee = 75, bullet = 60, laser = 50, energy = 25, bomb = 55, bio = 100, rad = 70)
+	heat_protection = HEAD
+	max_heat_protection_temperature = FIRE_IMMUNITY_SUIT_MAX_TEMP_PROTECT
+
+
+/obj/item/clothing/suit/space/hardsuit/syndi/elite
+	name = "elite syndicate hardsuit"
+	desc = "An elite version of the syndicate hardsuit, with improved armour and fire shielding. It is in travel mode."
+	alt_desc = "An elite version of the syndicate hardsuit, with improved armour and fire shielding. It is in combat mode."
+	icon_state = "hardsuit1-elite"
+	item_state = "syndie_hardsuit"
+	item_color = "elite"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/elite
+	armor = list(melee = 75, bullet = 60, laser = 50, energy = 25, bomb = 55, bio = 100, rad = 70)
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	max_heat_protection_temperature = FIRE_IMMUNITY_SUIT_MAX_TEMP_PROTECT
+
 //The Owl Hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl
 	name = "owl hardsuit helmet"
@@ -351,7 +376,7 @@
 	unacidable = 1
 	var/onboard_hud_enabled = 0 //stops conflicts with another diag HUD
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
-	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 60)
+	armor = list(melee = 15, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 70)
 	scan_reagents = 1
 	var/obj/machinery/doppler_array/integrated/bomb_radar
 
@@ -385,7 +410,7 @@
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT //Same as an emergency firesuit. Not ideal for extended exposure.
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals, /obj/item/weapon/gun/energy/wormhole_projector,
 	/obj/item/weapon/hand_tele, /obj/item/device/aicard)
-	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 60)
+	armor = list(melee = 20, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 70)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/rd
 
 

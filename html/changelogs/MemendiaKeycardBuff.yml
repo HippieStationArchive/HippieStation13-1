@@ -1,0 +1,6 @@
+author: Memendia
+
+delete-after: True
+
+changes: 
+  - tweak: "Changed the Keycard swipe time from 2 seconds to 4."
