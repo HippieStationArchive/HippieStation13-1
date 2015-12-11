@@ -1,0 +1,6 @@
+author: Memendia
+
+delete-after: True
+
+changes: 
+  - tweak: "Lowered the range that the Reactive Armor can teleport you from 6 to 4."
