@@ -30,7 +30,7 @@
 	origin_tech = "materials=2"
 	attack_verb = list("shoved", "bashed")
 
-/obj/item/weapon/shield/riot/trayshield/IsShield()
+/obj/item/weapon/shield/riot/trayshield/hit_reaction()
 	if(prob(30))
 		if(ishuman(loc))
 			var/mob/living/carbon/human/H = loc

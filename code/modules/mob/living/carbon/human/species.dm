@@ -896,7 +896,7 @@
 	if(!istype(M)) //sanity check for drones.
 		return
 	var/shieldcheck = H.check_shields(0, M.name)
-	if((M != H) && shieldcheck)
+	if((M != H) && M.a_intent != "help" && H.check_shields(0, M.name))
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
 		if(isliving(shieldcheck))

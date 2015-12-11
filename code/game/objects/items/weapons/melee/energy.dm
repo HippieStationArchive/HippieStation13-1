@@ -52,15 +52,16 @@
 	throw_range = 5
 	flags = NOSHIELD
 	origin_tech = "magnets=3;syndicate=4"
+	block_chance = 50
 	var/hacked = 0
 
 /obj/item/weapon/melee/energy/sword/New()
 	if(item_color == null)
 		item_color = pick("red", "blue", "green", "purple")
 
-/obj/item/weapon/melee/energy/sword/IsShield()
+/obj/item/weapon/melee/energy/sword/hit_reaction(mob/living/carbon/human/owner, attack_text, final_block_chance)
 	if(active)
-		return 1
+		return ..()
 	return 0
 
 /obj/item/weapon/melee/energy/attack_self(mob/living/carbon/user)
@@ -131,7 +132,7 @@
 	icon_state = "esaw_0"
 	item_color = null
 
-/obj/item/weapon/melee/energy/sword/cyborg/saw/IsShield()
+/obj/item/weapon/melee/energy/sword/cyborg/saw/hit_reaction()
 	return 0
 
 /obj/item/weapon/melee/energy/sword/saber
