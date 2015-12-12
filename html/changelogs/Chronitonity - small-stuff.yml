@@ -1,8 +1,0 @@
-author: Chronitonity
-
-delete-after: True
-
-changes: 
-  - rscadd: "A new mutant strain of glowshrooms, called glowcaps, can now be grown. They're rumored to have special properties."
-  - rscadd: "Sec barricades now block gunfire 80% of the time when active."
-  - rscadd: "Being adjacent to barricades allows you to shoot over them."
