@@ -22,7 +22,7 @@
 #################################
 
 # Your name.  
-author: DerptheStewpidGoat
+author: Kilm
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
@@ -33,5 +33,9 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - bugfix: "Fixed various bugs that were introduced with the gameplay update. Z-levels no longer have an X-axis extending to 510 tiles, shadowlings -should- be able to use all their abilities again, and wizards can no longer revive from death via lichdom through ghosting. Also made the asset caching more efficient, but it still needs work. Credits to /tg/ for the asset cache improvements and map X-axis fix."
+  - rscadd: "Fixed the Firelocks overlaying some of the doors in the Brig"
+  - rscadd: "Added in the other Prisoner Holding Cell Chutes to the remaining Sec departments around the Station. You can now send a prisoner to the Holding Cell in the Brig by shoving him in one of these disposal chutes in your local Sec office."
+  - rscadd: "Fixed a Brig Cell not opening automatically."
+  - rscadd: "Redesigned the Detectives office and gave him his own darkroom."
+  - rscadd: "Added some more metals and glass to Engineering to make it a more realistic starting sum for a department relied upon to fix the station."
 

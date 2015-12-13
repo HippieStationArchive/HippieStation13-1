@@ -33,7 +33,6 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Added the new AKS-740U carbine. It is similar to the AK-922, but fires the lower caliber 5.45x39mm round."
-  - rscadd: "New sprites for the Automatic Laser Carbine. Credits to Dr. / Sgt. Fragg for the sprites."
-  - tweak: "Polished up the Wild West away mission to give it some more detail. Also added a C05-R, Luger, Automag, Mac-10, and AKS-740U to the map. Additionally, fixed the invincible windows."
-
+  - rscadd: "New equipment added for the Ion faction, specifically the PMC units. This new equipment is a set of urban fatigues, heavy full-body combat armor, PMC SWAT Helmet, and XMG80 assault rifle."
+  - rscadd: "The armor is among some of the strongest in the game, ranking close or equal to that of deathsquad armor. The XMG80 assault rifle fires 6.8x43mm caseless ammunition from a 48-round magazine. The XMG80 can be spawned from summon guns. The sprite is based on a G36 but in a bullpup configuration for those curious. Thanks to Sgt. Fragg for the XMG80 sprites, and thanks to Fury McFlurry for the armor and clothing sprites."
+  - rscadd: "Note for admins, you can easily give a full set of this gear to any mob through the select equipment option and by equipping them either with the Ion Inc. PMC Rifleman or Field Technician outfit."

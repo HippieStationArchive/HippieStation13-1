@@ -1,0 +1,9 @@
+author: Memendia
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed brig cell doors being all access."
+  - bugfix: "Fixed brig cells in general so they actually worked."
+  - tweak: "Added windows to the brig lobby office."
+  - tweak: "Made the holding cell use security area instead of the hallway."

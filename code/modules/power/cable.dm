@@ -627,7 +627,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			"<span class='suicide'>[M] ties \the [src] over their neck!</span>",\
 			"<span class='suicide'>You tie \the [src] over your neck!</span>")
 		playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
-		add_logs(user, "", "hanged themselves", src)
+		add_logs(user, null, "hanged themselves", src)
 		return 1
 	else
 		M.visible_message(\

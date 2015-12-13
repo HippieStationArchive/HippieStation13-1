@@ -235,6 +235,10 @@ var/datum/subsystem/job/SSjob
 
 	HandleFeedbackGathering()
 
+	for(var/mob/new_player/player in unassigned)
+		if(jobban_isbanned(player, "catban"))
+			AssignRole(player, "Assistant")
+
 	//People who wants to be assistants, sure, go on.
 	Debug("DO, Running Assistant Check 1")
 	var/datum/job/assist = new /datum/job/assistant()
@@ -258,7 +262,6 @@ var/datum/subsystem/job/SSjob
 
 	//Other jobs are now checked
 	Debug("DO, Running Standard Check")
-
 
 	// New job giving system by Donkie
 	// This will cause lots of more loops, but since it's only done once it shouldn't really matter much at all.
