@@ -607,7 +607,7 @@
 
 /datum/sprite_accessory/facial_hair/moonshiner
 	name = "Moonshiner"
-	icon_state = "facial_watson"
+	icon_state = "facial_moonshiner"
 
 /datum/sprite_accessory/facial_hair/tribeard
 	name = "Tri-Beard"
