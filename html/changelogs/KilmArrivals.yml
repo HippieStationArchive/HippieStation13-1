@@ -34,7 +34,7 @@ delete-after: True
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
   - rscadd: "An entirely new Arrivals area. This area is basically like a customs area at an airport. You have 'Nothing to Declare' which is the green area, and 'Items to Declare' which is the red area. At round start, green will always be open so people aren't hindered coming on to the station, but if Sec so desire, they can go down and man the office there, control shutters, and force people to submit to baggage checks, etc. Full conveyor belt system and other such fluff. It expands the station slightly and gives Arrivals a reason to revisit. There are of course, other options to get past it...
-  - rsbugfix: "Fixed north door in Brig Cells not opening when button was pushed."
+  - bugfix: "Fixed north door in Brig Cells not opening when button was pushed."
   - rscdel: "Deleted the Arrivals Security checkpoint as it's been replaced with the central Sec office in the arrivals overhaul."
   - rscadd: "Invasive Search area. This is now where the original Sec checkpoint was. If someone comes through and you're not happy as the on-duty Sec officer... Off they go for a pokey bum search."
 
