@@ -1,7 +1,7 @@
 //In this file: Summon Magic/Summon Guns/Summon Events
 
 /proc/rightandwrong(summon_type, mob/user, survivor_probability) //0 = Summon Guns, 1 = Summon Magic
-	var/list/gunslist 			= list("taser","egun","laser","revolver","detective","c20r","nuclear","deagle","gyrojet","pulse","suppressed","cannon","doublebarrel","shotgun","combatshotgun","bulldog","mateba","sabr","crossbow","saw","car","boltaction","speargun","arg","uzi","abzats","ak922","ak922gold","g17","automag","luger","c96","mac10","gibgun","autolaser")
+	var/list/gunslist 			= list("taser","egun","laser","revolver","detective","c20r","nuclear","deagle","gyrojet","pulse","suppressed","cannon","doublebarrel","shotgun","combatshotgun","bulldog","mateba","sabr","crossbow","saw","car","boltaction","speargun","arg","uzi","abzats","ak922","ak922gold","g17","automag","luger","c96","mac10","gibgun","autolaser","xmg80")
 	var/list/magiclist 			= list("fireball","smoke","blind","mindswap","forcewall","knock","horsemask","charge", "summonitem", "wandnothing", "wanddeath", "wandresurrection", "wandpolymorph", "wandteleport", "wanddoor", "wandfireball", "staffchange", "staffhealing", "armor", "scrying","staffdoor","voodoo", "special")
 	var/list/magicspeciallist	= list("staffchange","staffanimation", "wandbelt", "contract", "staffchaos", "necromantic")
 
@@ -112,6 +112,8 @@
 					new /obj/item/weapon/gibgun(get_turf(H))
 				if("autolaser")
 					new /obj/item/weapon/gun/projectile/automatic/alc
+				if("xmg80")
+					new /obj/item/weapon/gun/projectile/automatic/xmg80
 			playsound(get_turf(H),'sound/magic/Summon_guns.ogg', 50, 1)
 
 		else
