@@ -1288,6 +1288,7 @@
 			log_game("SQL ERROR during adding new mentor. Error : \[[err]\]\n")
 		load_mentors()
 		M.verbs += /client/proc/cmd_mentor_say
+		M.verbs += /client/proc/show_mentor_memo
 		M << "\blue You've been granted mentor access! Help people who send mentor-pms"
 
 	else if(href_list["removementor"])
@@ -1308,6 +1309,7 @@
 		load_mentors()
 		M << "\blue Your mentor access has been removed"
 		M.verbs -= /client/proc/cmd_mentor_say
+		M.verbs -= /client/proc/show_mentor_memo
 
 	else if(href_list["sendtoprison"])
 		if(!check_rights(R_ADMIN))	return
@@ -2128,6 +2130,16 @@
 		if(query_memoedits.NextRow())
 			var/edit_log = query_memoedits.item[1]
 			usr << browse(edit_log,"window=memoeditlist")
+	else if(href_list["mentormemoeditlist"])
+		var/sql_key = sanitizeSQL("[href_list["memoeditlist"]]")
+		var/DBQuery/query_memoedits = dbcon.NewQuery("SELECT edits FROM [format_table_name("mentor_memo")] WHERE (ckey = '[sql_key]')")
+		if(!query_memoedits.Execute())
+			var/err = query_memoedits.ErrorMsg()
+			log_game("SQL ERROR obtaining edits from memo table. Error : \[[err]\]\n")
+			return
+		if(query_memoedits.NextRow())
+			var/edit_log = query_memoedits.item[1]
+			usr << browse(edit_log,"window=mentormemoeditlist")
 
 	else if(href_list["check_antagonist"])
 		if(!check_rights(R_ADMIN))
