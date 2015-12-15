@@ -6,3 +6,4 @@ changes:
   - rscadd: "Nuke Ops can now buy Sniper Rifles for 25 TC."
   - rscadd: "4 types of ammo are purchasable for sniper ammo. Default, Soporific/Knockout, Haemorrhage/Bleeding, and Penetration bullets which go through mobs and walls."
   - rscadd: "Sniper rifles can zoom in, and coders can make other guns zoomable/have attachable scopes"
+  - rscadd: "You can also silence a sniper rifle with a silencer."
