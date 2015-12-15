@@ -252,9 +252,9 @@
 		return 0
 	if(prob(hit_reaction_chance))
 		owner.visible_message("<span class='danger'>The [src] blocks the [attack_text], sending out jets of flame!</span>")
-		for(var/mob/living/carbon/C in range(6, owner))
+		for(var/mob/living/carbon/C in range(3, owner))
 			if(C != owner)
-				C.fire_stacks += 8
+				C.fire_stacks += 4
 				C.IgniteMob()
 		owner.fire_stacks = -20
 		return 1
@@ -351,3 +351,32 @@
 	desc = "God wills it!"
 	icon_state = "knight_templar"
 	item_state = "knight_templar"
+
+/obj/item/clothing/suit/armor/riot/knight/templar/holy
+	var/active = 0
+	name = "crusader armour"
+	desc = "A holy suit of armor, blessed in holy water and tears."
+	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0) //No armor
+	unacidable = 1
+	hit_reaction_chance = 50
+	action_button_name = "Toggle Blessing"
+
+/obj/item/clothing/suit/armor/riot/knight/templar/holy/attack_self(mob/user) //this is copypaste garbage but w.e.
+	src.active = !( src.active )
+	if (src.active)
+		user << "<span class='notice'>[src] has been blessed.</span>"
+	else
+		user << "<span class='notice'>[src] has been unblessed.</span>"
+		src.add_fingerprint(user)
+	return
+
+/obj/item/clothing/suit/armor/riot/knight/templar/holy/hit_reaction(mob/living/carbon/human/owner, attack_text)
+	if(prob(hit_reaction_chance))
+		owner.visible_message("<span class='danger'>The [src] blocks the [attack_text], sending out arcs of holy lightning!</span>")
+		for(var/mob/living/M in view(3, owner))
+			if(M == owner)
+				continue
+			owner.Beam(M,icon_state="purple_lightning",icon='icons/effects/effects.dmi',time=5)
+			M.adjustFireLoss(20)
+			playsound(M, 'sound/machines/defib_zap.ogg', 50, 1, -1)
+		return 1

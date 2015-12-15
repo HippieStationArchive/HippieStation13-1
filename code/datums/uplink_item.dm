@@ -160,6 +160,13 @@ var/list/uplink_items = list()
 	cost = 7
 	jobs = list("Chaplain")
 
+/datum/uplink_item/job_specific/holyarmor
+	name = "Holy Armor"
+	desc = "A set of blessed Holy Armor that shoots out lightning whenever you're attacked."
+	item = /obj/item/clothing/suit/armor/riot/knight/templar/holy
+	cost = 15
+	jobs = list("Chaplain")
+
 //BARTENDER
 /datum/uplink_item/job_specific/buckshot
 	name = "12g Buckshot Shell"
