@@ -353,6 +353,7 @@
 	item_state = "knight_templar"
 
 /obj/item/clothing/suit/armor/riot/knight/templar/holy
+	var/active = 0
 	name = "crusader armour"
 	desc = "A holy suit of armor, blessed in holy water and tears."
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0) //No armor
