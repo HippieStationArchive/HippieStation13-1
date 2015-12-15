@@ -290,10 +290,6 @@
 	if(usr.stat != CONSCIOUS)
 		return
 
-	if(sawn_state == SAWN_OFF)
-		usr << "<span class='warning'>\The [src] is shortened! You can't change it's design!</span>"
-		return
-
 	desc = null
 
 	desc = A.desc
