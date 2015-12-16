@@ -6,13 +6,16 @@
 	req_human = 1
 	max_genetic_damage = 100
 
-/obj/effect/proc_holder/changeling/swap_form/can_sting(mob/living/carbon/user)
+/obj/effect/proc_holder/changeling/absorbDNA/can_sting(mob/living/carbon/user)
 	if(!..())
 		return
 	var/obj/item/weapon/grab/G = user.get_active_hand()
 	if(!istype(G) || (G.state < GRAB_AGGRESSIVE))
 		user << "<span class='warning'>We must have an aggressive grab on creature in our active hand to do this!</span>"
 		return
+	if(changeling.isabsorbing)
+		user << "<span class='warning'>We are already absorbing a creature!</span>"
+	return
 	var/mob/living/carbon/target = G.affecting
 	if((target.disabilities & NOCLONE) || (target.disabilities & HUSK))
 		user << "<span class='warning'>The DNA of [target] is ruined beyond usability!</span>"
