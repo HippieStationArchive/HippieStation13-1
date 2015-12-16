@@ -13,9 +13,10 @@
 	if(!istype(G) || (G.state < GRAB_AGGRESSIVE))
 		user << "<span class='warning'>We must have an aggressive grab on creature in our active hand to do this!</span>"
 		return
+	var/datum/changeling/changeling = user.mind.changeling
 	if(changeling.isabsorbing)
 		user << "<span class='warning'>We are already absorbing a creature!</span>"
-	return
+		return
 	var/mob/living/carbon/target = G.affecting
 	if((target.disabilities & NOCLONE) || (target.disabilities & HUSK))
 		user << "<span class='warning'>The DNA of [target] is ruined beyond usability!</span>"

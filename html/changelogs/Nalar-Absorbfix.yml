@@ -34,3 +34,4 @@ delete-after: True
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
   - bugfix: "Changelings can now no longer spam the 'Absorb DNA' verb multiple times on a single mob to obtain more than two points."
+  - bugfix: "Changelings will no longer gasp, cough, groan or whimper when dying and regenerating."
