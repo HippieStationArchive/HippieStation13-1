@@ -257,7 +257,7 @@
 
 		if(health <= config.health_threshold_crit)
 			nearcrit = 1
-			if(stat != DEAD)
+			if(stat != DEAD && !(status_flags & FAKEDEATH))
 				Weaken(3)
 				if(prob(15))
 					spawn(0)
