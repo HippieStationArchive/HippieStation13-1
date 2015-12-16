@@ -1,7 +1,7 @@
 
 /obj/item/weapon/gun/projectile/sniper_rifle
 	name = "sniper rifle"
-	desc = "The kind of gun that will leave you crying for mummy before you even realise your leg's missing"
+	desc = "A .50 caliber sniper rifle that can be loaded with custom ammunition. Can be strapped to your back if needed."
 	icon_state = "sniper"
 	item_state = "sniper"
 	recoil = 2
@@ -15,6 +15,7 @@
 	zoomable = TRUE
 	zoom_amt = 7 //Long range, enough to see in front of you, but no tiles behind you.
 	slot_flags = SLOT_BACK
+	fire_sound = 'sound/weapons/shotgun.ogg'
 
 /obj/item/weapon/gun/projectile/sniper_rifle/update_icon()
 	if(magazine)

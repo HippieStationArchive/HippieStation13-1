@@ -398,7 +398,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/dangerous/sniper
 	name = "Sniper Rifle"
-	desc = "Ranged fury, syndicate style. guaranteed to cause shock and awe or your TC back!"
+	desc = "Ranged fury, syndicate style. Features a scope for precision fire."
 	item = /obj/item/weapon/gun/projectile/sniper_rifle
 	cost = 16
 	gamemodes = list(/datum/game_mode/nuclear)
