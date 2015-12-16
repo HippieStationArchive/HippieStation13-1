@@ -279,10 +279,14 @@
 
 /obj/item/ammo_box/magazine/alc
 	name = "Auto. Laser Carbine Magazine (plasma)"
-	icon_state = "alc-24"
+	icon_state = "alc"
 	ammo_type = /obj/item/ammo_casing/caseless/cplasma
 	caliber = "plasma"
 	max_ammo = 24
+
+/obj/item/ammo_box/magazine/alc/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[Ceiling(ammo_count(0)/24)*24]"
 
 /obj/item/ammo_box/magazine/smgm45
 	name = "SMG magazine (.45)"
@@ -326,15 +330,27 @@ obj/item/ammo_box/magazine/tommygunm45
 	..()
 	icon_state = "[initial(icon_state)]-[round(ammo_count(),5)]"
 
-/obj/item/ammo_box/magazine/m545
-	name = "box magazine (5.45mm)"
-	icon_state = "5.45m"
-	origin_tech = "combat=5;syndicate=1"
+/obj/item/ammo_box/magazine/aks74
+	name = "AKS-740U Magazine (5.45x39mm)"
+	icon_state = "aks74"
+	origin_tech = "combat=4"
 	ammo_type = /obj/item/ammo_casing/a545
 	caliber = "a545"
 	max_ammo = 30
 
-/obj/item/ammo_box/magazine/m545/update_icon()
+/obj/item/ammo_box/magazine/aks74/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[Ceiling(ammo_count(0)/30)*30]"
+
+/obj/item/ammo_box/magazine/c90
+	name = "box magazine (5.56x45mm)"
+	icon_state = "5.45m"
+	origin_tech = "combat=5;syndicate=1"
+	ammo_type = /obj/item/ammo_casing/a556
+	caliber = "a556"
+	max_ammo = 30
+
+/obj/item/ammo_box/magazine/c90/update_icon()
 	..()
 	icon_state = "[initial(icon_state)]-[round(ammo_count(),30)]"
 
@@ -378,6 +394,18 @@ obj/item/ammo_box/magazine/tommygunm45
 	caliber = "75"
 	multiple_sprites = 2
 	max_ammo = 8
+
+/obj/item/ammo_box/magazine/xmg80
+	name = "XMG80 Magazine (6.8x43mm Caseless)"
+	icon_state = "xmg80"
+	origin_tech = "combat=4" //Because tacticool
+	ammo_type = /obj/item/ammo_casing/caseless/a68
+	caliber = "a68"
+	max_ammo = 48
+
+/obj/item/ammo_box/magazine/xmg80/update_icon()
+	..()
+	icon_state = "[initial(icon_state)]-[Ceiling(ammo_count(0)/48)*48]"
 
 /obj/item/ammo_box/magazine/m556
 	name = "toploader magazine (5.56mm)"

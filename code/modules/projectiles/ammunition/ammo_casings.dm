@@ -26,6 +26,11 @@
 	caliber = ".44"
 	projectile_type = /obj/item/projectile/bullet/heavybullet2
 
+/obj/item/ammo_casing/caseless/a68
+	desc = "A 6.8x43mm cartridge."
+	caliber = "6.8"
+	projectile_type = /obj/item/projectile/bullet/heavybullet3
+
 /obj/item/ammo_casing/c9mm
 	desc = "A 9mm cartridge."
 	caliber = "9mm"
@@ -218,7 +223,7 @@
 	desc = "A 5.45x39mm cartridge."
 	icon_state = "casing_545"
 	caliber = "a556"
-	projectile_type = /obj/item/projectile/bullet/heavybullet
+	projectile_type = /obj/item/projectile/bullet/weakbullet3
 
 /obj/item/ammo_casing/a556
 	desc = "A 5.56x45mm cartridge."

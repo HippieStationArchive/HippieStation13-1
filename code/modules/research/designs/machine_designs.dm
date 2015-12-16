@@ -342,16 +342,6 @@
 	build_path = /obj/item/weapon/circuitboard/smartfridge
 	category = list ("Misc. Machinery")
 
-/datum/design/extraction_point
-	name = "Machine Design (Balloon Extraction Point Board)"
-	desc = "The circuit board for a Balloon Extraction Point."
-	id = "extractionpoint"
-	req_tech = list("programming" = 1)
-	build_type = IMPRINTER
-	materials = list(MAT_GLASS = 1000, "sacid" = 20)
-	build_path = /obj/item/weapon/circuitboard/extraction_point
-	category = list ("Misc. Machinery")
-
 /datum/design/monkey_recycler
 	name = "Machine Design (Monkey Recycler Board)"
 	desc = "The circuit board for a monkey recycler."

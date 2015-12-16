@@ -249,11 +249,11 @@
 
 /obj/item/weapon/gun/projectile/automatic/c90
 	name = "Syndicate Carbine"
-	desc = "A three-round burst 5.56 toploading carbine, designated 'C-90'. Has an attached underbarrel grenade launcher which can be toggled on and off."
+	desc = "A three-round burst 5.56x45mm toploading carbine, designated 'C-90'. Has an attached underbarrel grenade launcher which can be toggled on and off."
 	icon_state = "c90"
 	item_state = "c90"
 	origin_tech = "combat=5;materials=2;syndicate=8"
-	mag_type = /obj/item/ammo_box/magazine/m545
+	mag_type = /obj/item/ammo_box/magazine/c90
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
 	can_suppress = 0
 	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/underbarrel
@@ -387,9 +387,10 @@
 	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
 
 /obj/item/weapon/gun/projectile/automatic/alc
-	name = "AA-2553 ALC"
-	desc = "Known as the Automatic Laser Carbine, this modern, state-of-the-art energy weapon uses specialized disposable plasma cartridges in a small magazine similar to ballistic firearms. Advanced cooling technology allows for the ALC to be fired in short bursts. However, the unusual method of loading results in some inaccuracy compared to traditional energy weapons."
+	name = "Automatic Laser Carbine"
+	desc = "This modern, state-of-the-art energy weapon uses specialized disposable plasma cartridges in a small magazine similar to ballistic firearms. Advanced cooling technology allows for the ALC to be fired in short bursts. However, the unusual method of loading results in some inaccuracy compared to traditional energy weapons."
 	icon_state = "alc"
+	item_state = "alc"
 	mag_type = /obj/item/ammo_box/magazine/alc
 	can_suppress = 0
 	w_class = 3
@@ -413,3 +414,48 @@
 	..()
 	icon_state = "alc[magazine ? "-[Ceiling(get_ammo(0)/9)*8]" : ""][chambered ? "" : "-e"]"
 	return
+
+/obj/item/weapon/gun/projectile/automatic/aks74
+	name = "AKS-740U"
+	desc = "An earlier model of the AK platform, this fires a lower caliber cartridge and is a lighter weight than its AK-922 counterpart. Remains quite deadly regardless and functions similarly."
+	icon_state = "aks74"
+	item_state = "ak922"
+	mag_type = /obj/item/ammo_box/magazine/aks74
+	can_suppress = 0
+	w_class = 3
+	spread = 6
+	burst_size = 3
+	fire_delay = 1
+	fire_sound = 'sound/weapons/tommygun_shoot.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/ak922_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ak922_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ak922_chamber.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/aks74/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+
+/obj/item/weapon/gun/projectile/automatic/xmg80
+	name = "AA-XMG80"
+	desc = "A state-of-the-art, high-tech assault rifle manufactured by Aussec Armory. Comes with a 2x red dot sight. Utilizes the uncommon 6.8x43mm caseless ammunition, which is light while still allowing for superior armor-piercing capability and high velocity. Often called 'The Shredder' for its immense damage potential, which also results in this firearm being banned in NanoTrasen-controlled sectors for being 'too messy' and expensive."
+	icon_state = "xmg80"
+	item_state = "c20r"
+	mag_type = /obj/item/ammo_box/magazine/xmg80
+	can_suppress = 0
+	w_class = 3
+	spread = 2
+	burst_size = 4
+	fire_delay = 1
+	force = 10 //melee damage
+	origin_tech = "combat=6;materials=4;syndicate=8"
+	fire_sound = 'sound/weapons/gunshot_g36.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/xmg80/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+
+/obj/item/weapon/gun/projectile/automatic/xmg80/process_chamber(eject_casing = 0, empty_chamber = 1)
+	..()

@@ -100,6 +100,10 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/flags_cover = 0 //for flags such as GLASSESCOVERSEYES
 	var/heat = 0
 	var/sharpness = IS_BLUNT
+	var/toolspeed = 1
+
+	var/block_chance = 0
+	var/hit_reaction_chance = 0 //If you want to have something unrelated to blocking/armour piercing etc. Maybe not needed, but trying to think ahead/allow more freedom
 
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
 	if(((src in target) && !target_self) || ((!istype(target.loc, /turf)) && (!istype(target, /turf)) && (not_inside)) || is_type_in_list(target, can_be_placed_into))
@@ -132,8 +136,19 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 //FIRELOSS = 2
 //TOXLOSS = 4
 //OXYLOSS = 8
-//Output a creative message and then return the damagetype done
+//If you want to make your own suicide messages, overwrite this function.
+//Output a creative message and then return the damagetype done. If you want to instakill do user.death()
 /obj/item/proc/suicide_act(mob/user)
+	if(force > 0)
+		var/list/flavortext = list("<span class='suicide'>[user] is bashing \himself repeadetly with \the [src]! It looks like they're trying to commit suicide.</span>",\
+									"<span class='suicide'>[user] smashes \himself with \the [src]! It looks like they're trying to commit suicide.</span>")
+		if(is_sharp())
+			flavortext = list("<span class='suicide'>[user] is slitting \his wrists with \the [src]! It looks like they're trying to commit suicide.</span>", \
+							"<span class='suicide'>[user] is slitting \his throat with \the [src]! It looks like they're trying to commit suicide.</span>", \
+							"<span class='suicide'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>")
+		user.visible_message(pick(flavortext))
+		playsound(loc, hitsound, 30, 1, -1)
+		return damtype
 	return
 
 /obj/item/verb/move_to_top()
@@ -318,6 +333,12 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 // afterattack() and attack() prototypes moved to _onclick/item_attack.dm for consistency
 
+/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0)
+	if(prob(final_block_chance))
+		owner.visible_message("<span class='danger'>[owner] blocks [attack_text] with [src]!</span>")
+		return 1
+	return 0
+
 /obj/item/proc/talk_into(mob/M, input, channel, spans)
 	return
 
@@ -383,9 +404,6 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 //Checks before we get to here are: mob is alive, mob is not restrained, paralyzed, asleep, resting, laying, item is on the mob.
 /obj/item/proc/ui_action_click()
 	attack_self(usr)
-
-/obj/item/proc/IsShield()
-	return 0
 
 /obj/item/proc/IsReflect(var/def_zone) //This proc determines if and at what% an object will reflect energy projectiles if it's in l_hand,r_hand or wear_suit
 	return 0

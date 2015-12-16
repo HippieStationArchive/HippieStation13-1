@@ -2,7 +2,7 @@
 	set invisibility = 0
 	set background = BACKGROUND_ENABLED
 
-	if(digitalinvis)
+	if(digitalcamo)
 		handle_diginvis() //AI becomes unable to see mob
 
 	if (notransform)
@@ -12,6 +12,8 @@
 	var/datum/gas_mixture/environment = loc.return_air()
 
 	if(stat != DEAD)
+		if(!stat && suiciding)
+			suiciding = 0 //Suicide attempt failed since we're out of crit and not even unconscious.
 
 		//Breathing, if applicable
 		handle_breathing()

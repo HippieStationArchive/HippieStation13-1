@@ -110,6 +110,7 @@
 	options["Black Panther"] = "detective_panther"
 	options["Gold Trim"] = "detective_gold"
 	options["The Peacemaker"] = "detective_peacemaker"
+	options["Blue Sliver"] = "detective_bluesilver"
 	options["Cancel"] = null
 
 /obj/item/weapon/gun/projectile/revolver/detective/process_fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, message = 1, params, zone_override = "")
@@ -131,7 +132,7 @@
 				afterattack(user, user)	//you know the drill
 				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='userdanger'>[src] goes off in your face!</span>")
 				return
-			if(do_after(user, 30, target = src))
+			if(do_after(user, 30/A.toolspeed, target = src))
 				if(magazine.ammo_count())
 					user << "<span class='warning'>You can't modify it!</span>"
 					return
@@ -144,7 +145,7 @@
 				afterattack(user, user)	//and again
 				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='userdanger'>[src] goes off in your face!</span>")
 				return
-			if(do_after(user, 30, target = src))
+			if(do_after(user, 30/A.toolspeed, target = src))
 				if(magazine.ammo_count())
 					user << "<span class='warning'>You can't modify it!</span>"
 					return

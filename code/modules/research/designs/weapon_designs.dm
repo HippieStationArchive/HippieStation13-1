@@ -238,8 +238,9 @@
 /datum/design/magazine_autolaser
 	name = "Automatic Laser Carbine magazine (plasma)"
 	desc = "A 24-round magazine which utilizes unique, specialized caseless plasma ammunition. For use with the Automatic Laser Carbine."
-	id = "magazine_autolaser"
+	id = "magazineautolaser"
 	req_tech = list("combat" = 4, "materials" = 3, "plasmatech" = 3)
+	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 2500, MAT_PLASMA = 400)
 	build_path = /obj/item/ammo_box/magazine/alc
 	category = list("Ammo")
@@ -273,14 +274,3 @@
 	materials = list(MAT_METAL = 2000, MAT_SILVER = 500)
 	build_path = /obj/item/weapon/suppressor
 	category = list("Weapons")
-
-/datum/design/fulton
-	name = "Fulton Recovery Device"
-	desc = "A balloon that can be used to extract a target to a Balloon Extraction Point. Anything not bolted down can be moved."
-	id = "extraction_pack"
-	req_tech = list("combat" = 4, "engineering" = 5)
-	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 2000, MAT_SILVER = 500)
-	build_path = /obj/item/weapon/extraction_pack
-	category = list("Weapons")
-
