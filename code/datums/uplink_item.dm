@@ -403,6 +403,14 @@ var/list/uplink_items = list()
 	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 	cost = 20
 
+/datum/uplink_item/dangerous/sniper
+	name = "Sniper Rifle"
+	desc = "Ranged fury, syndicate style. Features a scope for precision fire."
+	item = /obj/item/weapon/gun/projectile/sniper_rifle
+	cost = 16
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 25
+
 // AMMUNITION
 
 /datum/uplink_item/ammo
@@ -525,6 +533,30 @@ var/list/uplink_items = list()
 	item = /obj/item/ammo_box/foambox/riot
 	cost = 2
 	surplus = 0
+
+/datum/uplink_item/ammo/sniper
+	name = "Sniper Magazine - .50"
+	desc = "An additional 6-round .50 magazine for use in the syndicate sniper rifle."
+	item = /obj/item/ammo_box/magazine/sniper_rounds
+	cost = 4 //70dmg rounds are no joke
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/ammo/sniper/soporific
+	name = "Sniper Magazine - Soporific Rounds"
+	desc = "A 3-round magazine of soporific ammo designed for use in the syndicate sniper rifle, put your enemies to sleep today!"
+	item = /obj/item/ammo_box/magazine/sniper_rounds/soporific
+	cost = 5
+
+/datum/uplink_item/ammo/sniper/haemorrhage
+	name = "Sniper Magazine - Haemorrhage Rounds"
+	desc = "A 5-round magazine of haemorrhage ammo designed for use in the syndicate sniper rifle, causes heavy bleeding in the target."
+	item = /obj/item/ammo_box/magazine/sniper_rounds/haemorrhage
+
+/datum/uplink_item/ammo/sniper/penetrator
+	name = "Sniper Magazine - Penetrator Rounds"
+	desc = "A 5-round magazine of penetrator ammo designed for use in the syndicate sniper rifle. Can pierce walls and multiple enemies."
+	item = /obj/item/ammo_box/magazine/sniper_rounds/penetrator
+	cost = 5
 
 // STEALTHY WEAPONS
 
@@ -682,6 +714,13 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/reagent_containers/syringe/stimulants
 	cost = 5
 	surplus = 90
+
+/datum/uplink_item/stealthy_tools/mulligan
+	name = "Randomizer"
+	desc = "Screwed up and have security on your tail? Looks got you feeling down? This handy syringe will give you a completely new identity and appearance."
+	item = /obj/item/weapon/reagent_containers/syringe/mulligan
+	cost = 1
+	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 
 // DEVICE AND TOOLS
 
@@ -856,6 +895,12 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 	surplus = 20
 
+/datum/uplink_item/device_tools/medgun
+	name = "Medbeam Gun"
+	desc = "Medical Beam Gun, useful in prolonged firefights."
+	item = /obj/item/weapon/gun/medbeam
+	cost = 13
+	gamemodes = list(/datum/game_mode/nuclear)
 
 // IMPLANTS
 

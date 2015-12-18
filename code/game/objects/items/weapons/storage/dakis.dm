@@ -16,7 +16,7 @@
 	max_combined_w_class = 21
 	var/spam_flag = 0
 	var/cooldowntime = 20
-	burn_state = 0 //Burn an effigy of Camille. No one will stop you. I swear.
+	burn_state = 0
 
 /obj/item/weapon/storage/daki/attack_self(mob/living/user)
 	var/body_choice
@@ -52,12 +52,12 @@
 		"Yaranaika",
 		"Yoko")
 
-		icon_state = "daki_[body_choice]"	//Wew
+		icon_state = "daki_[body_choice]"
 		custom_name = input("What's her name?") as text
-		if(length(custom_name)>=10) // FUCK IFINITE TEXT
+		if(length(custom_name)>=10)
 			user << "<span class='danger'>Name is too long!</span>"
 			return
-		name = custom_name + " " + name
+		name = sanitize(custom_name + " " + name)
 		desc = "A large pillow depicting [custom_name] in a compromising position. Featuring as many dimensions as you."
 	else
 		if(!spam_flag)
