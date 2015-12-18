@@ -203,6 +203,10 @@
 		attack_verb = list("stubbed", "poked")
 		hitsound = 'sound/weapons/Genhit.ogg'
 
+/obj/item/weapon/switchblade/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)
+
 /obj/item/weapon/pocketknife
 	name = "pocket knife"
 	desc = "Small, concealable blade that fits in the pocket nicely."
@@ -218,6 +222,10 @@
 	var/deactive_force = 3
 	w_class = 1 //note to self: weight class
 	sharpness = IS_BLUNT
+
+/obj/item/weapon/pocketknife/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)
 
 /obj/item/weapon/pocketknife/attack_self(mob/living/user)
 	if (user.disabilities & CLUMSY && prob(50))
