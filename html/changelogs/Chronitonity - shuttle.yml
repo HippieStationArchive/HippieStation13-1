@@ -1,0 +1,9 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "Destroyed shuttle tiles will now function as actual holes in the shuttle, not static tiles."
+  - rscadd: "This means objects and people can be thrown out of the shuttle by stepping or being forcibly introduce to one of the holes."
+  - rscadd: "Survival capsules have been added to the escape pod safes. Reminder that these can be launched early with an emag or during a red alert."
+  - bugfix: "You can now successfuly suicide with wrenches and other objects that were broken before."

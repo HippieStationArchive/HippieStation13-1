@@ -30,10 +30,10 @@
 	hitsound = 'sound/weapons/wrench.ogg'
 	toolspeed = 1
 
-// /obj/item/weapon/wrench/suicide_act(mob/user) //TODO: Make this suicide less lame
-// 	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-// 	playsound(loc, hitsound, 50, 1, -1)
-// 	return (BRUTELOSS)
+/obj/item/weapon/wrench/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is beating \himself to death with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	playsound(loc, hitsound, 50, 1, -1)
+	return (BRUTELOSS)
 
 /*
  * Screwdriver

@@ -192,14 +192,14 @@ var/list/uplink_items = list()
 	name = "Syndicate Pistol"
 	desc = "A small, easily concealable handgun that uses 10mm auto rounds in 8-round magazines and is compatible with suppressors."
 	item = /obj/item/weapon/gun/projectile/automatic/pistol
-	cost = 9
+	cost = 8
 	surplus = 15
 
 /datum/uplink_item/dangerous/g17
 	name = "Glock 17 Handgun"
 	desc = "A simple yet popular handgun chambered in 9mm. Made out of strong but lightweight polymer. The standard magazine can hold up to 14 9mm cartridges. Compatible with a universal suppressor."
 	item = /obj/item/weapon/gun/projectile/automatic/pistol/g17
-	cost = 11
+	cost = 10
 	surplus = 15
 
 /datum/uplink_item/dangerous/revolver
@@ -213,7 +213,7 @@ var/list/uplink_items = list()
 	name = "C-20r Submachine Gun"
 	desc = "A fully-loaded Scarborough Arms bullpup submachine gun that fires .45 rounds with a 20-round magazine and is compatible with suppressors."
 	item = /obj/item/weapon/gun/projectile/automatic/c20r
-	cost = 14
+	cost = 13
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 40
 
@@ -225,7 +225,7 @@ var/list/uplink_items = list()
 	name = "C-90GL Carbine"
 	desc = "A fully-loaded three-round burst carbine that uses 30-round 5.56mm magazines with an underslung 40mm grenade launcher."
 	item = /obj/item/weapon/gun/projectile/automatic/c90
-	cost = 18
+	cost = 17
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 50
 
@@ -243,7 +243,7 @@ var/list/uplink_items = list()
 	name = "Gold-Plated AK-922 Assault Rifle"
 	desc = "An AK-922 with gold-plating. Now you can kill innocent workers of a hated company with efficiency AND style!"
 	item = /obj/item/weapon/gun/projectile/automatic/ak922/gold
-	cost = 17
+	cost = 16
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 50
 
@@ -255,7 +255,15 @@ var/list/uplink_items = list()
 	name = "L6 Squad Automatic Weapon"
 	desc = "A fully-loaded Aussec Armory belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
 	item = /obj/item/weapon/gun/projectile/automatic/l6_saw
-	cost = 40
+	cost = 25 // no one buys this thing
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 0
+
+/datum/uplink_item/dangerous/bulldogshotgun
+	name = "Bulldog Shotgun"
+	desc = "A semi-auto shotgun that can hold 8 rounds in each magazine. Specialized for tight corriders."
+	item = /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog
+	cost = 13
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -263,7 +271,7 @@ var/list/uplink_items = list()
 	name = "Abzats Shotgun Machinegun"
 	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 40-round box magazine of 12 gauge buckshot cartridges."
 	item = /obj/item/weapon/gun/projectile/automatic/shotgun/abzats
-	cost = 45
+	cost = 30
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -382,19 +390,21 @@ var/list/uplink_items = list()
 	item = /obj/item/clothing/gloves/cqc
 	cost = 12
 
-/datum/uplink_item/dangerous/syndieborg
-	name = "Syndicate Cyborg"
-	desc = "A cyborg designed and programmed for systematic extermination of non-Syndicate personnel."
-	item = /obj/item/weapon/antag_spawner/borg_tele
-	cost = 50
+/datum/uplink_item/dangerous/reinforcement
+	name = "Reinforcements"
+	desc = "Call in an additional team member. They won't come with any gear, so you'll have to save some telecrystals to arm them as well."
+	item = /obj/item/weapon/antag_spawner/nuke_ops
+	cost = 25
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
-//for refunding the syndieborg teleporter
-/datum/uplink_item/dangerous/syndieborg/spawn_item()
-	var/obj/item/weapon/antag_spawner/borg_tele/T = ..()
-	if(istype(T))
-		T.TC_cost = cost
+/datum/uplink_item/dangerous/reinforcement/syndieborg
+	name = "Syndicate Cyborg"
+	desc = "A cyborg designed and programmed for systematic extermination of non-Syndicate personnel."
+	item = /obj/item/weapon/antag_spawner/nuke_ops/borg_tele
+	cost = 50
+	gamemodes = list(/datum/game_mode/nuclear)
+	surplus = 0
 
 /datum/uplink_item/dangerous/guardian
 	name = "Holoparasites"
@@ -715,6 +725,13 @@ var/list/uplink_items = list()
 	cost = 5
 	surplus = 90
 
+/datum/uplink_item/stealthy_tools/mulligan
+	name = "Randomizer"
+	desc = "Screwed up and have security on your tail? Looks got you feeling down? This handy syringe will give you a completely new identity and appearance."
+	item = /obj/item/weapon/reagent_containers/syringe/mulligan
+	cost = 1
+	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
+
 // DEVICE AND TOOLS
 
 /datum/uplink_item/device_tools
@@ -872,11 +889,11 @@ var/list/uplink_items = list()
 	cost = 3
 	gamemodes = list(/datum/game_mode/nuclear)
 
-/datum/uplink_item/device_tools/teleporter
-	name = "Teleporter Circuit Board"
-	desc = "A printed circuit board that completes the teleporter onboard the mothership. It is advised you calibrate the teleporter before entering it, as malfunctions can occur."
-	item = /obj/item/weapon/circuitboard/teleporter
-	cost = 40
+/datum/uplink_item/device_tools/assault_pod
+	name = "Assault Pod Targetting Device"
+	desc = "Use to select the landing zone of your assault pod."
+	item = /obj/item/device/assault_pod
+	cost = 20
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -888,6 +905,12 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 	surplus = 20
 
+/datum/uplink_item/device_tools/medgun
+	name = "Medbeam Gun"
+	desc = "Medical Beam Gun, useful in prolonged firefights."
+	item = /obj/item/weapon/gun/medbeam
+	cost = 13
+	gamemodes = list(/datum/game_mode/nuclear)
 
 // IMPLANTS
 
