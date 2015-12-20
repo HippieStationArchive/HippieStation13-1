@@ -4,7 +4,7 @@
 	area = /area/space
 	view = "15x15"
 	cache_lifespan = 7
-
+breakori'llcry
 var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 
 /world/New()
