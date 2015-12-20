@@ -213,12 +213,6 @@
 	reagents.add_reagent("neurotoxin", 6)
 	reagents.add_reagent("lexorin", 6)
 
-/obj/item/ammo_casing/a762
-	desc = "A 7.62x51mm cartridge."
-	icon_state = "762-casing"
-	caliber = "a762"
-	projectile_type = /obj/item/projectile/bullet
-
 /obj/item/ammo_casing/a545
 	desc = "A 5.45x39mm cartridge."
 	icon_state = "casing_545"
