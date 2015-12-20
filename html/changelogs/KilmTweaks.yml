@@ -33,9 +33,7 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Fixed the Firelocks overlaying some of the doors in the Brig"
-  - rscadd: "Added in the other Prisoner Holding Cell Chutes to the remaining Sec departments around the Station. You can now send a prisoner to the Holding Cell in the Brig by shoving him in one of these disposal chutes in your local Sec office."
-  - rscadd: "Fixed a Brig Cell not opening automatically."
-  - rscadd: "Redesigned the Detectives office and gave him his own darkroom."
-  - rscadd: "Added some more metals and glass to Engineering to make it a more realistic starting sum for a department relied upon to fix the station."
+  - bugfix: "Fixed Cell door from having 0 level access."
+  - rscadd: "Put switches at Sec arrival to control conveyor belts."
+  - bugfix: "Started conveyors in 'off' state due to start-state 'on' bug. Now controlled via switches next to them."
 
