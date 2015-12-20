@@ -277,7 +277,7 @@ var/list/uplink_items = list()
 	name = "Gold-Plated AK-922 Assault Rifle"
 	desc = "An AK-922 with gold-plating. Now you can kill innocent workers of a hated company with efficiency AND style!"
 	item = /obj/item/weapon/gun/projectile/automatic/ak922/gold
-	cost = 16
+	cost = 13
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 50
 
@@ -289,7 +289,7 @@ var/list/uplink_items = list()
 	name = "L6 Squad Automatic Weapon"
 	desc = "A fully-loaded Aussec Armory belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
 	item = /obj/item/weapon/gun/projectile/automatic/l6_saw
-	cost = 25 // no one buys this thing
+	cost = 23 // no one buys this thing
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -596,9 +596,29 @@ var/list/uplink_items = list()
 	name = "Box Magazine - 7.62x51mm"
 	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun. By the time you need to use this, you'll already be on a pile of corpses."
 	item = /obj/item/ammo_box/magazine/m762
-	cost = 12
+	cost = 6
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
+
+/datum/uplink_item/ammo/machinegun/bleeding
+	name = "Box Magazine - Bleeding 7.62x51mm"
+	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun equipped with special properties to induce internal bleeding on targets."
+	item = /obj/item/ammo_box/magazine/m762/bleeding
+
+/datum/uplink_item/ammo/machinegun/hollow
+	name = "Box Magazine - Hollow 7.62x51mm"
+	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun equipped with hollow-tips to help with the unarmored masses of crew."
+	item = /obj/item/ammo_box/magazine/m762/hollow
+
+/datum/uplink_item/ammo/machinegun/ap
+	name = "Box Magazine - Armor Penetrating 7.62x51mm"
+	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun equipped with special properties to puncture even the most durable armor."
+	item = /obj/item/ammo_box/magazine/m762/ap
+
+/datum/uplink_item/ammo/machinegun/incen
+	name = "Box Magazine - Incendiary 7.62x51mm"
+	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun, tipped with a special flammable mixture that'll ignite anyone struck by the bullet. Some men just want to watch the world burn."
+	item = /obj/item/ammo_box/magazine/m762/incen
 
 /datum/uplink_item/ammo/toydarts //This used to only be for nuke ops, but had the cost lowered and made available to traitors because >a box of foam darts is more expensive than four carbine magazines
 	name = "Box of Riot Darts"
