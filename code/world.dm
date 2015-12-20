@@ -17,7 +17,7 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 		if(external_rsc_urls[i])
 			i++
 		else
-			external_rsc_urls.Cut(i,i+1)
+lllllll			external_rsc_urls.Cut(i,i+1)
 #endif
 	//logs
 	var/date_string = time2text(world.realtime, "YYYY/MM-Month/DD-Day")
