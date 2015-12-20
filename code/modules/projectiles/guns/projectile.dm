@@ -166,3 +166,9 @@
 	icon = 'icons/obj/guns/projectile.dmi'
 	icon_state = "suppressor"
 	w_class = 2
+
+ /obj/item/weapon/suppressor/specialoffer
+	name = "cheap suppressor"
+	desc = "A foreign knock-off suppressor, it feels flimsy, cheap, and brittle. Still fits all weapons."
+	icon = 'icons/obj/guns/projectile.dmi'
+	icon_state = "suppressor"
