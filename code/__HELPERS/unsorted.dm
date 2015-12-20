@@ -1361,7 +1361,7 @@ B --><-- A
 		return
 	if(orbiting)
 		stop_orbit()
-		sleep(2.6+world.tick_lag) //the 2 second delay at the end of the existing orbit() call, plus some lag slack.
+
 	orbiting = A
 	var/matrix/initial_transform = matrix(transform)
 	var/lastloc = loc
@@ -1378,14 +1378,19 @@ B --><-- A
 	shift.Translate(0,radius)
 	transform = shift
 	SpinAnimation(rotation_speed, -1, clockwise, rotation_segments)
-	while(orbiting && orbiting.loc)
-		var/targetloc = get_turf(orbiting)
+
+	//we stack the orbits up client side, so we can assign this back to normal server side without it breaking the orbit
+	transform = initial_transform
+	while(orbiting && orbiting == A && A.loc)
+		var/targetloc = get_turf(A)
 		if(!lockinorbit && loc != lastloc && loc != targetloc)
 			break
 		loc = targetloc
 		lastloc = loc
 		sleep(0.6)
-	animate(src,transform = initial_transform, time = 2) //2 second delay
+
+	if (orbiting == A)
+		orbiting = null
 	SpinAnimation(0,0)
 
 
