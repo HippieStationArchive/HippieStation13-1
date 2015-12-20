@@ -13,11 +13,6 @@
 	can_suppress = 0
 	burst_size = 3
 	fire_delay = 1
-	pin = /obj/item/device/firing_pin/implant/pindicate
-
-/obj/item/weapon/gun/projectile/automatic/l6_saw/unrestricted
-	pin = /obj/item/device/firing_pin
-
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/attack_self(mob/user)
 	cover_open = !cover_open

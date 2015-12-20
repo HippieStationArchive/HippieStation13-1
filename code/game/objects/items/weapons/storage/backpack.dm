@@ -394,7 +394,7 @@
 	return
 
 /obj/item/weapon/storage/backpack/dufflebag/syndie/c20rbundle
-	desc = "A large dufflebag containing a C20r, some magazines, and a cheap looking suppressor."
+	desc = "A large dufflebag containing a C20r, some magazines, and a suppressor."
 
 /obj/item/weapon/storage/backpack/dufflebag/syndie/c20rbundle/New()
 	..()
@@ -402,7 +402,7 @@
 	new /obj/item/ammo_box/magazine/smgm45(src)
 	new /obj/item/ammo_box/magazine/smgm45(src)
 	new /obj/item/weapon/gun/projectile/automatic/c20r(src)
-	new /obj/item/weapon/suppressor/specialoffer(src)
+	new /obj/item/weapon/suppressor(src)
 	return
 
 /obj/item/weapon/storage/backpack/dufflebag/syndie/c90glbundle
