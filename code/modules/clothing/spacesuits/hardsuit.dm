@@ -297,7 +297,7 @@
 	desc = "A specialized hardsuit built for sustaining concussive blasts and shrapnel. It is in travel mode."
 	alt_desc = "A specialized hardsuit built for sustaining concussive blasts and shrapnel. It is in combat mode."
 	icon_state = "hardsuit1-blastco"
-	item_state = "syndie_hardsuit"
+	item_state = "blastco_hardsuit"
 	item_color = "blastco"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/blastco
 	armor = list(melee = 70, bullet = 30, laser = 50, energy = 25, bomb = 100, bio = 100, rad = 70)
