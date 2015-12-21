@@ -1,0 +1,7 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - tweak: "Grounding rods have been moved into secure storage."
+  - tweak: "If you don't drag the Grounding rods and put them near the tesla engine, make sure to turn the PA down to 0 or you and the crew will pay dearly."
