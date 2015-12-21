@@ -217,7 +217,7 @@
 
 /obj/item/weapon/gun/projectile/automatic/c90/unrestricted/New()
 	..()
-	underbarrel = new /obj/item/weapon/gun/projectile/revolver/grenadelauncher/unrestricted(src)
+	underbarrel = new /obj/item/weapon/gun/projectile/revolver/grenadelauncher(src)
 	update_icon()
 	return
 
