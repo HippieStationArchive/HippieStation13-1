@@ -653,7 +653,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 				"<span class='warning'>You fail to tie \the [src] over [M]'s neck!</span>")
 			return 0
 
-/obj/structure/noose/process() //This is the edgiest flavortext you'll find in this entire goddamn codebase.
+/obj/structure/noose/process()
 	if(!buckled_mob)
 		SSobj.processing.Remove(src)
 		buckled_mob.pixel_x = initial(buckled_mob.pixel_x)
@@ -671,13 +671,12 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			pixel_x += 1
 			buckled_mob.pixel_x += 1
 			if(prob(50))
-				var/flavor_text = list("<span class='suicide'>Saliva is coming out of [buckled_mob]'s mouth as they struggle in the noose, their legs flailing for anything to stand on.</span>",\
-										"<span class='suicide'>[buckled_mob]'s hands are desperately clutching the noose, struggling to untie it.</span>",\
+				var/flavor_text = list("<span class='suicide'>[buckled_mob]'s legs flail for anything to stand on.</span>",\
+										"<span class='suicide'>[buckled_mob]'s hands are desperately clutching the noose.</span>",\
 										"<span class='suicide'>[buckled_mob]'s limbs sway back and forth with diminishing strength.</span>")
-				if(buckled_mob.stat == DEAD) //DED
+				if(buckled_mob.stat == DEAD)
 					flavor_text = list("<span class='suicide'>[buckled_mob]'s limbs lifelessly sway back and forth.</span>",\
-										"<span class='suicide'>[buckled_mob]'s head is a pale blue, staring with their dead eyes.</span>",\
-										"<span class='suicide'>Blood slowly drips from [buckled_mob]'s neck, saliva pouring from their mouth.")
+										"<span class='suicide'>[buckled_mob]'s eyes stare straight ahead.</span>")
 				buckled_mob.visible_message(pick(flavor_text))
 			playsound(buckled_mob.loc, 'sound/effects/noose_idle.ogg', 50, 1, -3)
 		if(4)

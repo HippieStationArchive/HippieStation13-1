@@ -12,6 +12,7 @@
 	var/burn_state = -1 // -1=fireproof | 0=will burn in fires | 1=currently on fire
 	var/burntime = 10 //How long it takes to burn to ashes, in seconds
 	var/burn_world_time //What world time the object will burn up completely
+	var/being_shocked = 0
 
 /obj/Destroy()
 	if(!istype(src, /obj/machinery))
@@ -184,3 +185,10 @@
 
 /obj/proc/autolathe_crafted(obj/machinery/autolathe/A)
 	return
+
+/obj/proc/tesla_act(var/power)
+	being_shocked = 1
+	var/power_bounced = power / 2
+	tesla_zap(src, 5, power_bounced)
+	spawn(10)
+		being_shocked = 0

@@ -215,6 +215,7 @@
 	new /obj/item/weapon/tank/internals/air(src)
 	new /obj/item/weapon/pickaxe/emergency(src)
 	new /obj/item/weapon/pickaxe/emergency(src)
+	new /obj/item/weapon/survivalcapsule(src)
 
 /obj/item/weapon/storage/pod/attackby(obj/item/weapon/W, mob/user, params)
 	return

@@ -148,6 +148,9 @@ var/list/teleportlocs = list()
 /area/shuttle/syndicate
 	name = "\improper Syndicate Infiltrator"
 
+/area/shuttle/assault_pod
+	name = "Steel Rain"
+
 /area/shuttle/abandoned
 	name = "\improper Abandoned Ship"
 	ambientsounds = list('sound/ambience/ambiatm1.ogg', 'sound/ambience/ambmaint.ogg',\

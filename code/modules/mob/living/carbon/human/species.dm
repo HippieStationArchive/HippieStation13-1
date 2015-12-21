@@ -50,6 +50,7 @@
 	var/coldmod = 1		// multiplier for cold damage
 	var/heatmod = 1		// multiplier for heat damage
 	var/punchmod = 0	// adds to the punch damage
+	var/siemens_coeff = 1 //base electrocution coefficient
 
 	var/invis_sight = SEE_INVISIBLE_LIVING
 	var/darksight = 2
@@ -870,9 +871,9 @@
 			if(H.back)
 				mspeed += H.back.slowdown
 			if(H.l_hand)
-				. += H.l_hand.slowdown
+				mspeed += H.l_hand.slowdown
 			if(H.r_hand)
-				. += H.r_hand.slowdown
+				mspeed += H.r_hand.slowdown
 
 			if((H.disabilities & FAT))
 				mspeed += 1.5
