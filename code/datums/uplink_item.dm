@@ -238,7 +238,7 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/specoffer/chemical
-	name = "Tiger Cooperation Chemical Bioterror bundle"
+	name = "Tiger Corperation Chemical Bioterror bundle"
 	desc = "Contains Bioterror spray, Bioterror grenade, chemicals, syringe gun, box of syringes, Donksoft assault rifle, and some darts. Warning: Seal suit and equip internals before use."
 	item = /obj/item/weapon/storage/backpack/dufflebag/syndie/med/bioterrorbundle
 	cost = 30 //normal price 42 biggest saving here
