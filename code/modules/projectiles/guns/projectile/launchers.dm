@@ -1,6 +1,5 @@
 //KEEP IN MIND: These are different from gun/grenadelauncher. These are designed to shoot premade rocket and grenade projectiles, not flashbangs or chemistry casings etc.
 //Put handheld rocket launchers here if someone ever decides to make something so hilarious ~Paprika
-//Will do ~DerptheStewpidGoat
 
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher//this is only used for underbarrel grenade launchers at the moment, but admins can still spawn it if they feel like being assholes
 	desc = "A break-operated grenade launcher."
@@ -10,10 +9,6 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/grenadelauncher
 	fire_sound = 'sound/weapons/grenadelauncher.ogg'
 	w_class = 3
-	pin = /obj/item/device/firing_pin/implant/pindicate
-
-/obj/item/weapon/gun/projectile/revolver/grenadelauncher/unrestricted
-	pin = /obj/item/device/firing_pin
 
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/attackby(obj/item/A, mob/user, params)
 	..()
@@ -25,9 +20,11 @@
 	desc = "An Aussec Armory-produced Multi-Grenade-Launcher. Can hold six 40mm grenades for maximum firepower."
 	icon_state = "mgl"
 	item_state = "riotgun"
+	origin_tech = "combat=5"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/grenademulti
 	fire_sound = 'sound/weapons/grenadelauncher.ogg'
 	w_class = 3
+	slowdown = 1
 	pin = /obj/item/device/firing_pin/generic
 
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/cyborg

@@ -41,6 +41,27 @@
 	new /obj/item/device/pda/syndicate(src)
 	return
 
+
+/obj/structure/closet/syndicate/blastco
+	desc = "A dented locker that holds special equipment for a Blast Co boarding party."
+
+/obj/structure/closet/syndicate/blastco/New()
+	..()
+	contents = list()
+	new /obj/item/weapon/gun/projectile/revolver/grenadelauncher/mgl(src)
+	new /obj/item/weapon/storage/box/syndie_kit/imp_macrobomb(src)
+	new /obj/item/ammo_box/a40mm(src)
+	new /obj/item/clothing/shoes/rollerskates(src)
+	new /obj/item/device/sbeacondrop/bomb(src)
+	new /obj/item/weapon/grenade/syndieminibomb(src)
+	new /obj/item/weapon/grenade/syndieminibomb(src)
+	new /obj/item/weapon/c4(src)
+	new /obj/item/weapon/c4(src)
+	new /obj/item/weapon/c4(src)
+	new /obj/item/weapon/grenade/chem_grenade/incendiary(src)
+	new /obj/item/weapon/pinpointer/nukeop(src)
+	return
+
 /obj/structure/closet/syndicate/resources
 	desc = "An old, dusty locker."
 

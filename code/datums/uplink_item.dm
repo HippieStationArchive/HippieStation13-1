@@ -183,6 +183,19 @@ var/list/uplink_items = list()
 	cost = 15
 	jobs = list("Clown","Mime")
 
+//equipment room access
+
+/datum/uplink_item/equipaccess
+	category = "Equipment room access"
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/equipaccess/blastco
+	name = "Blast Co access"
+	desc = "This ID card will let you access the Blast Co equipment room. Inside is enough gear to fully equip a team with explosive based weaponry."
+	item = /obj/item/weapon/card/id/syndicate_blastco
+	cost = 200
+	gamemodes = list(/datum/game_mode/nuclear)
+
 //Operator special offers
 
 /datum/uplink_item/specoffer
@@ -215,6 +228,20 @@ var/list/uplink_items = list()
 	desc = "Support your fellow operatives with this medical bundle. Contains a Donksoft machine gun, a box of ammo, a pair of magboots and a medical beam gun to rescue your friends in no-gravity environments."
 	item = /obj/item/weapon/storage/backpack/dufflebag/syndie/med/medicalbundle
 	cost = 17
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/specoffer/sniper
+	name = "Sniper bundle"
+	desc = "Contains a collapsed sniper rifle in an expensive carrying case, a hollowpoint haemorrhage magazine, a soporific knockout magazine, a free surplus supressor, and a worn out suit and tie."
+	item = /obj/item/weapon/storage/briefcase/sniperbundle
+	cost = 20//26 normal cost. suppressor is excluded from price.
+	gamemodes = list(/datum/game_mode/nuclear)
+
+/datum/uplink_item/specoffer/chemical
+	name = "Tiger Corperation Chemical Bioterror bundle"
+	desc = "Contains Bioterror spray, Bioterror grenade, chemicals, syringe gun, box of syringes, Donksoft assault rifle, and some darts. Warning: Seal suit and equip internals before use."
+	item = /obj/item/weapon/storage/backpack/dufflebag/syndie/med/bioterrorbundle
+	cost = 30 //normal price 42 biggest saving here
 	gamemodes = list(/datum/game_mode/nuclear)
 
 // DANGEROUS WEAPONS
@@ -587,7 +614,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/ammo/fireteam
 	name = "Ammo Duffelbag - Fireteam Ammo Grab Bag"
-	desc = "A duffelbag filled with ammo to kit out a fireteam, contains four C20r magazines, two C90gl magazines, a box of 40mm grenades, and sniper ammunition at a discounted price." //C90gl ammo bag is too imba. fuck that.
+	desc = "A duffelbag filled with ammo to kit out a fireteam, contains four C20r magazines, two c90gl magazines, a box of 40mm grenades, and sniper ammunition at a discounted price." //C90gl ammo bag is too imba. fuck that.
 	item = /obj/item/weapon/storage/backpack/dufflebag/syndie/ammo/fireteam
 	cost = 24//you get 4 grenades for free. Normal price 29
 	gamemodes = list(/datum/game_mode/nuclear)
