@@ -69,7 +69,7 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 /obj/singularity/energy_ball/proc/handle_energy()
 	if(energy >= 300)
 		energy -= 300
-		playsound(src.loc, 'sound/magic/Lightning_chargeup.ogg', 100, 1, extrarange = 5)
+//		playsound(src.loc, 'sound/magic/Lightning_chargeup.ogg', 100, 1, extrarange = 5)
  		spawn(100)
  			var/obj/singularity/energy_ball/EB = new(loc)
  			orbiting_balls.Add(EB)
