@@ -168,3 +168,10 @@
 	desc = "A pair of costume boots fashioned after bird talons."
 	icon_state = "griffinboots"
 	item_state = "griffinboots"
+
+/obj/item/clothing/shoes/rollerskates
+	name = "blastco rollerskates"
+	desc = "A pair of roller skates, syndicate style. Will make you go faster."
+	icon_state = "magboots-old1"
+	item_state = "magboots-old1"
+	slowdown = -1

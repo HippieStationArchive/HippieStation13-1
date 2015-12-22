@@ -166,7 +166,7 @@
 "dj" = (/obj/structure/lattice,/obj/structure/window/reinforced,/turf/space,/area/mine/explored)
 "dk" = (/obj/structure/lattice,/obj/structure/window/reinforced,/obj/machinery/light{icon_state = "tube1"; dir = 4},/turf/space,/area/mine/north_outpost)
 "dl" = (/obj/machinery/mech_bay_recharge_port,/obj/structure/window/reinforced{dir = 8},/turf/simulated/floor/plasteel/airless{icon_state = "asteroidfloor"},/area/mine/north_outpost)
-"dm" = (/mob/living/simple_animal/hostile/asteroid,/turf/space,/area/mine/north_outpost)
+"dm" = (/turf/simulated/floor/plasteel/recharge_floor/asteroid,/turf/space,/area/mine/north_outpost)
 "dn" = (/obj/machinery/computer/mech_bay_power_console,/turf/simulated/floor/plasteel/airless{icon_state = "asteroidfloor"},/area/mine/north_outpost)
 "do" = (/obj/machinery/light/small{dir = 8},/turf/simulated/floor/plasteel,/area/mine/north_outpost)
 "dp" = (/obj/structure/closet/emcloset,/turf/simulated/floor/plasteel,/area/mine/north_outpost)
@@ -374,7 +374,7 @@
 "hj" = (/obj/machinery/telecomms/relay/preset/mining,/obj/machinery/light/small{dir = 1},/turf/simulated/floor/plasteel{icon_state = "vault"; dir = 1},/area/mine/maintenance)
 "hk" = (/obj/machinery/alarm{pixel_y = 24},/obj/machinery/atmospherics/components/unary/vent_pump{on = 1},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/mine/maintenance)
 "hl" = (/obj/structure/lattice,/obj/structure/window/reinforced{dir = 1},/obj/structure/window/reinforced{dir = 4},/turf/space,/area/mine/explored)
-"hm" = (/mob/living/simple_animal/hostile/asteroid,/turf/space,/area/mine/west_outpost)
+"hm" = (/turf/simulated/floor/plasteel/recharge_floor/asteroid,/turf/space,/area/mine/west_outpost)
 "hn" = (/obj/structure/lattice,/turf/space,/area/mine/explored)
 "ho" = (/turf/space,/area/mine/unexplored)
 "hp" = (/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"},/turf/simulated/floor/bluegrid,/area/mine/maintenance)
@@ -969,4 +969,3 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 "}
-

@@ -35,6 +35,9 @@
 	if (notransform)
 		return
 
+	if(jobban_isbanned(src, "catban") && src.dna.species.name != "Tarajan")
+		src.set_species(/datum/species/cat, icon_update=1)
+
 	tinttotal = tintcheck() //here as both hud updates and status updates call it
 
 	if(..())
@@ -50,7 +53,8 @@
 	name = get_visible_name()
 
 	dna.species.spec_life(src) // for mutantraces
-
+	if(hud_used && hud_used.combo_object && hud_used.combo_object.cooldown < world.time)
+		hud_used.combo_object.update_icon()
 	//If they're a vampire, do vampire-specific thingies
 	if(is_vampire(src))
 		handle_vampirism()
@@ -331,7 +335,8 @@
 	if(!heart_attack)
 		return
 	else
-		losebreath += 5
+		if(losebreath < 5)
+			losebreath += 2
 		adjustOxyLoss(5)
 		adjustBruteLoss(1)
 
@@ -342,12 +347,12 @@
 
 	//Things that require clean blood and will not substitute dirty blood go under here
 	if(V.clean_blood)
-		//Vampires slowly recuperate wounds using clean blood
-		if(V.use_blood(0.01, 1))
+		//Vampires slowly recuperate wounds using clean blood passively
+		if(!V.fast_heal && V.use_blood(0.01, 1))
 			restore_blood() //The body's blood itself is kept high by the vampire's clean blood. This does kinda mean you can infinitely fill blood bags...
-			adjustBruteLoss(-0.5)
-			adjustFireLoss(-0.2) //Slower than others due to their fire vulnerability
-			adjustToxLoss(-0.5)
+			adjustBruteLoss(-0.3)
+			adjustFireLoss(-0.1) //Slower than others due to their fire vulnerability
+			adjustToxLoss(-0.3)
 			adjustOxyLoss(-2)
 			adjustCloneLoss(-1)
 			adjustBrainLoss(-1)
@@ -363,6 +368,28 @@
 		if(nutrition > 0)
 			nutrition -= 50 //...they start starving FAST.
 			nutrition = Clamp(nutrition, 0, INFINITY)
+
+	//Sanguine Recuperation effects below this line
+	if(V.fast_heal)
+		if(V.use_blood(2, 1) || V.use_blood(6, 0)) //Either use 2 clean blood or 6 dirty blood
+			adjustBruteLoss(-3)
+			adjustFireLoss(-2)
+			adjustToxLoss(-3)
+			setOxyLoss(0) //With all that oxygenated blood, who needs to breathe?
+			adjustCloneLoss(-3)
+			adjustBrainLoss(-3)
+			losebreath = 0
+		else
+			V.fast_heal = 0 //If we lack the blood to continue, disable it for conservation
+
+	//Accelerated Recovery effects below this line
+	if(V.stun_reduction)
+		if(V.use_blood(3, 1) || V.use_blood(9, 0)) //Either use 3 clean blood or 9 dirty blood
+			AdjustStunned(-2)
+			AdjustWeakened(-2)
+			AdjustParalysis(-2)
+		else
+			V.stun_reduction = 0
 
 
 #undef HUMAN_MAX_OXYLOSS

@@ -94,7 +94,7 @@
 		if(!device && !board && istype(W, /obj/item/weapon/wrench))
 			user << "<span class='notice'>You start unsecuring the button frame...</span>"
 			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
-			if(do_after(user, 40, target = src))
+			if(do_after(user, 40/W.toolspeed, target = src))
 				user << "<span class='notice'>You unsecure the button frame.</span>"
 				transfer_fingerprints_to(new /obj/item/wallframe/button(get_turf(src)))
 				playsound(loc, 'sound/items/Deconstruct.ogg', 50, 1)
@@ -209,11 +209,3 @@
 	device_type = /obj/item/device/assembly/control/crematorium
 	req_access = list(access_crematorium)
 	id = 1
-
-/obj/item/wallframe/button
-	name = "button frame"
-	desc = "Used for building buttons."
-	icon = 'icons/obj/apc_repair.dmi'
-	icon_state = "button_frame"
-	result_path = /obj/machinery/button
-	materials = list(MAT_METAL=MINERAL_MATERIAL_AMOUNT)

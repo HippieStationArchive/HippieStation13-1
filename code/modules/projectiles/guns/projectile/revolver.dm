@@ -6,6 +6,7 @@
 	mag_load_sound = null
 	mag_unload_sound = null		//Revolvers already have their own sfx for this kind of stuff
 	chamber_sound = null
+	fire_sound = 'sound/weapons/revolver_shoot.ogg'
 
 /obj/item/weapon/gun/projectile/revolver/New()
 	..()
@@ -31,6 +32,10 @@
 	if(num_loaded)
 		user << "<span class='notice'>You load [num_loaded] shell\s into \the [src].</span>"
 		A.update_icon()
+		if(istype(A, /obj/item/ammo_casing))
+			playsound(user.loc, pick('sound/effects/wep_misc/bullet_insert.ogg', 'sound/effects/wep_misc/bullet_insert2.ogg'), 30, 1, -2)
+		else
+			playsound(user.loc, 'sound/effects/wep_misc/reload1.ogg', 30, 1, -2)
 		update_icon()
 		chamber_round(0)
 
@@ -49,6 +54,7 @@
 			CB.SpinAnimation(10, 1)
 			CB.update_icon()
 			num_unloaded++
+		playsound(CB.loc, pick('sound/effects/wep_misc/ShellCasing1.ogg', 'sound/effects/wep_misc/ShellCasing2.ogg', 'sound/effects/wep_misc/ShellCasing3.ogg'), 15, 1, -1)
 	if (num_unloaded)
 		user << "<span class='notice'>You unload [num_unloaded] shell\s from [src].</span>"
 	else
@@ -104,6 +110,7 @@
 	options["Black Panther"] = "detective_panther"
 	options["Gold Trim"] = "detective_gold"
 	options["The Peacemaker"] = "detective_peacemaker"
+	options["Blue Sliver"] = "detective_bluesilver"
 	options["Cancel"] = null
 
 /obj/item/weapon/gun/projectile/revolver/detective/process_fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, message = 1, params, zone_override = "")
@@ -125,7 +132,7 @@
 				afterattack(user, user)	//you know the drill
 				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='userdanger'>[src] goes off in your face!</span>")
 				return
-			if(do_after(user, 30, target = src))
+			if(do_after(user, 30/A.toolspeed, target = src))
 				if(magazine.ammo_count())
 					user << "<span class='warning'>You can't modify it!</span>"
 					return
@@ -138,7 +145,7 @@
 				afterattack(user, user)	//and again
 				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='userdanger'>[src] goes off in your face!</span>")
 				return
-			if(do_after(user, 30, target = src))
+			if(do_after(user, 30/A.toolspeed, target = src))
 				if(magazine.ammo_count())
 					user << "<span class='warning'>You can't modify it!</span>"
 					return
@@ -152,6 +159,7 @@
 	desc = "A retro high-powered autorevolver typically used by officers of the New Russia military. Uses .357 ammo."
 	icon_state = "mateba"
 	origin_tech = "combat=2;materials=2"
+	fire_sound = 'sound/weapons/revolver_big.ogg'
 
 /obj/item/weapon/gun/projectile/revolver/nagant
 	name = "\improper Nagant M1895"
@@ -248,3 +256,12 @@
 
 		user.visible_message("<span class='danger'>*click*</span>")
 		playsound(user, 'sound/weapons/empty.ogg', 100, 1)
+
+
+/obj/item/weapon/gun/projectile/revolver/rigatoni
+	name = "italian revolver"
+	desc = "A black snubnosed .38 revolver. Very italian."
+	icon_state = "rigavolver"
+	item_state = "rigavolver"
+	origin_tech = "combat=2;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rev38

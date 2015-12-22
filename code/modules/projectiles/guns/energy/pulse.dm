@@ -2,7 +2,7 @@
 	name = "pulse rifle"
 	desc = "A heavy-duty, multifaceted energy rifle with three modes. Preferred by front-line combat personnel."
 	icon_state = "pulse"
-	item_state = null
+	item_state = "pulse"
 	w_class = 4
 	force = 10
 	flags =  CONDUCT
@@ -29,6 +29,9 @@
 	can_flashlight = 1
 	flight_x_offset = 18
 	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
 
 /obj/item/weapon/gun/energy/pulse/carbine/loyalpin
 

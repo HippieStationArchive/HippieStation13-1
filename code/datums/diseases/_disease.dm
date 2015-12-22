@@ -61,6 +61,7 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 	var/permeability_mod = 1
 	var/severity =	NONTHREAT
 	var/list/required_organs = list()
+	var/undead = 0 //Whether or not this disease can act without requiring the user to be alive
 
 	var/list/strain_data = list() //dna_spread special bullshit
 
@@ -141,7 +142,7 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 					qdel(D)
 
 		if(holder == affected_mob)
-			if(affected_mob.stat != DEAD)
+			if(affected_mob.stat != DEAD || undead)
 				stage_act()
 
 	if(!affected_mob)

@@ -165,17 +165,18 @@
 				move_delay += config.walk_speed
 		move_delay += mob.movement_delay()
 
-		if(mob.nearcrit) //You can only crawl in nearcrit
+		if(mob.nearcrit && mob.crit_can_crawl) //You can only crawl in nearcrit
 			if(istype(mob, /mob/living))
 				var/mob/living/L = mob
-				L.adjustOxyLoss(1)
+				if(mob.crit_crawl_damage != 0) // let 'em have their negative values
+					L.apply_damage(mob.crit_crawl_damage, mob.crit_crawl_damage_type)
 			if(mob.dir == WEST)
 				mob.lying = 270
 				mob.update_canmove()
 			else if(mob.dir == EAST)
 				mob.lying = 90
 				mob.update_canmove()
-			playsound(mob.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -12) //Crawling is VERY quiet
+			playsound(mob.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -4) //Crawling is VERY quiet
 			mob.visible_message("<span class='danger'>[mob] crawls forward!</span>", \
 								"<span class='userdanger'>You crawl forward at the expense of some of your strength.</span>")
 
@@ -233,7 +234,8 @@
 		for (var/obj/item/weapon/grab/G in mob)
 			if (G.state == GRAB_NECK)
 				mob.set_dir(reverse_dir[direct])
-				move_delay = max(move_delay, world.time + 7) //More movement delay
+			if (G.state == GRAB_KILL)
+				move_delay = move_delay + 14 //Even more movement delay
 			G.adjust_position()
 		for (var/obj/item/weapon/grab/G in mob.grabbed_by)
 			G.adjust_position()

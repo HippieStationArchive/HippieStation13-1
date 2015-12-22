@@ -21,6 +21,9 @@
 	dat += "<A href='?src=\ref[src];boxingcourt=1'>((Dodgeball Arena)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];basketball=1'>((Basketball Court)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];thunderdomecourt=1'>((Thunderdome Court)</font>)</A><BR>"
+	dat += "<A href='?src=\ref[src];wrestling=1'>((Wrestling Arena)</font>)</A><BR>"
+	dat += "<A href='?src=\ref[src];cqc=1'>((CQC VR Training)</font>)</A><BR>"
+	dat += "<A href='?src=\ref[src];krav_maga=1'>((Krav Maga Training)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];beach=1'>((Beach)</font>)</A><BR>"
 //	dat += "<A href='?src=\ref[src];turnoff=1'>((Shutdown System)</font>)</A><BR>"
 
@@ -74,6 +77,21 @@
 
 		else if(href_list["thunderdomecourt"])
 			target = locate(/area/holodeck/source_thunderdomecourt)
+			if(target)
+				loadProgram(target)
+
+		else if(href_list["wrestling"])
+			target = locate(/area/holodeck/source_wrestling)
+			if(target)
+				loadProgram(target)
+
+		else if(href_list["cqc"])
+			target = locate(/area/holodeck/source_cqc)
+			if(target)
+				loadProgram(target)
+
+		else if(href_list["krav_maga"])
+			target = locate(/area/holodeck/source_krav_maga)
 			if(target)
 				loadProgram(target)
 
@@ -360,9 +378,9 @@
 	New()
 		item_color = "red"
 
-/obj/item/weapon/holo/esword/IsShield()
+/obj/item/weapon/holo/esword/hit_reaction(mob/living/carbon/human/owner, attack_text, final_block_chance)
 	if(active)
-		return 1
+		return ..()
 	return 0
 
 /obj/item/weapon/holo/esword/attack(mob/target, mob/user)

@@ -42,6 +42,7 @@
 	icon_state = "down"
 	anchored = 0
 	burn_state = -1 //Not Burnable
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //Drag&Drop pointer indicating it's possible
 
 /obj/structure/stool/bed/roller/post_buckle_mob(mob/living/M)
 	if(M == buckled_mob)

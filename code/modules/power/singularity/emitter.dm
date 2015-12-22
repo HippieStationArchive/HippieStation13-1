@@ -158,7 +158,9 @@
 			src.shot_number = 0
 
 		var/obj/item/projectile/beam/emitter/A = PoolOrNew(/obj/item/projectile/beam/emitter,src.loc)
-
+		//Legacy mode since this projectile doesn't really need pixel travelling.
+		A.legacy = 1 //No pixel travelling
+		A.animate_movement = SLIDE_STEPS //Reset movement to default
 		A.dir = src.dir
 		playsound(src.loc, 'sound/weapons/emitter.ogg', 25, 1)
 
@@ -225,7 +227,7 @@
 					user.visible_message("[user.name] starts to weld the [src.name] to the floor.", \
 						"<span class='notice'>You start to weld \the [src] to the floor...</span>", \
 						"<span class='italics'>You hear welding.</span>")
-					if (do_after(user,20, target = src))
+					if (do_after(user,20/W.toolspeed, target = src))
 						if(!src || !WT.isOn()) return
 						state = 2
 						user << "<span class='notice'>You weld \the [src] to the floor.</span>"
@@ -236,7 +238,7 @@
 					user.visible_message("[user.name] starts to cut the [src.name] free from the floor.", \
 						"<span class='notice'>You start to cut \the [src] free from the floor...</span>", \
 						"<span class='italics'>You hear welding.</span>")
-					if (do_after(user,20, target = src))
+					if (do_after(user,20/W.toolspeed, target = src))
 						if(!src || !WT.isOn()) return
 						state = 1
 						user << "<span class='notice'>You cut \the [src] free from the floor.</span>"

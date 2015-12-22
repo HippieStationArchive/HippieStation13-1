@@ -27,7 +27,7 @@ emp_act
 /mob/living/carbon/human/proc/checkarmor(obj/item/organ/limb/def_zone, type)
 	if(!type)	return 0
 	var/protection = 0
-	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back) // The back slot can now be used for armor.
+	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
 		if(!bp)	continue
 		if(bp && istype(bp ,/obj/item/clothing))
@@ -57,10 +57,11 @@ emp_act
 				P.firer = src
 				P.yo = new_y - curloc.y
 				P.xo = new_x - curloc.x
+				P.Angle = ""//round(Get_Angle(P,P.original))
 
 			return -1 // complete projectile permutation
 
-	var/shieldcheck = check_shields(P.damage, "the [P.name]", P)
+	var/shieldcheck = check_shields(P.damage, "the [P.name]", P, 0, P.armour_penetration)
 	if(shieldcheck)
 		if(isliving(shieldcheck)) //Meatshield
 			var/mob/living/L = shieldcheck
@@ -85,45 +86,28 @@ emp_act
 
 //End Here
 
-/mob/living/carbon/human/proc/check_shields(damage = 0, attack_text = "the attack", atom/movable/AM, thrown_proj = 0)
-	var/block_chance = 50 + 30*thrown_proj - round(damage / 3) //thrown things are easier to block
+/mob/living/carbon/human/proc/check_shields(damage = 0, attack_text = "the attack", atom/movable/AM, thrown_proj = 0, armour_penetration = 0)
+	var/block_chance_modifier = round(damage / -3) //thrown things are easier to block
 	if(AM)
 		if(AM.flags & NOSHIELD) //weapon ignores shields altogether
 			return 0
-	var/blocker
-	for(var/obj/item/weapon/grab/G in src)
-		if(G.assailant == src && G.state >= GRAB_NECK && G.affecting && !G.affecting.lying)
-			if(prob(85)) //High chance to hit the body shield instead
-				blocker = G.affecting //Special case
-	if(l_hand)
-		if(l_hand.IsShield() && prob(block_chance))
-			blocker = l_hand
-	if(r_hand)
-		if(r_hand.IsShield() && prob(block_chance))
-			blocker = r_hand
-	if(blocker)
-		visible_message("<span class='danger'>[src] blocks [attack_text] with [blocker]!</span>", \
-						"<span class='userdanger'>[src] blocks [attack_text] with [blocker]!</span>")
-		return blocker
+	if(l_hand && !istype(l_hand, /obj/item/clothing))
+		var/final_block_chance = l_hand.block_chance - (Clamp((armour_penetration-l_hand.armour_penetration)/2,0,100)) + block_chance_modifier //So armour piercing blades can still be parried by other blades, for example
+		if(l_hand.hit_reaction(src, attack_text, final_block_chance))
+			return 1
+	if(r_hand && !istype(r_hand, /obj/item/clothing))
+		var/final_block_chance = r_hand.block_chance - (Clamp((armour_penetration-r_hand.armour_penetration)/2,0,100)) + block_chance_modifier //Need to reset the var so it doesn't carry over modifications between attempts
+		if(r_hand.hit_reaction(src, attack_text, final_block_chance))
+			return 1
 	if(wear_suit)
-		if(wear_suit.IsShield() && (prob(50)))
-			visible_message("<span class='danger'>The reactive teleport system flings [src] clear of [attack_text]!</span>", \
-							"<span class='userdanger'>The reactive teleport system flings [src] clear of [attack_text]!</span>")
-			var/list/turfs = new/list()
-			for(var/turf/T in orange(6, src))
-				if(T.density) continue
-				if(T.x>world.maxx-6 || T.x<6)	continue
-				if(T.y>world.maxy-6 || T.y<6)	continue
-				turfs += T
-			if(!turfs.len) turfs += pick(/turf in orange(6, src))
-			var/turf/picked = pick(turfs)
-			if(!isturf(picked)) return
-			if(buckled)
-				buckled.unbuckle_mob()
-			forceMove(picked)
-			return wear_suit
+		var/final_block_chance = wear_suit.block_chance - (Clamp((armour_penetration-wear_suit.armour_penetration)/2,0,100)) + block_chance_modifier
+		if(wear_suit.hit_reaction(src, attack_text, final_block_chance))
+			return 1
+	if(w_uniform)
+		var/final_block_chance = w_uniform.block_chance - (Clamp((armour_penetration-w_uniform.armour_penetration)/2,0,100)) + block_chance_modifier
+		if(w_uniform.hit_reaction(src, attack_text, final_block_chance))
+			return 1
 	return 0
-
 
 /mob/living/carbon/human/attacked_by(obj/item/I, mob/living/user, def_zone)
 	if(!I || !user)	return 0
@@ -441,15 +425,24 @@ emp_act
 		skipcatch = 1
 		blocked = 1
 	else if(I)
+		var/obj/item/B = get_active_hand()
+		if(istype(B) && B.deflectItem && B.specthrow_maxwclass >= I.w_class)
+			throw_mode_off()
+			visible_message("<span class='warning'>[src] has [B.specthrowmsg] [I]!</span>")
+			var/atom/throw_target = get_edge_target_turf(src, src.dir)
+			I.throw_at(throw_target, I.throw_range, I.throw_speed)
+			if(B.specthrowsound)
+				playsound(loc, B.specthrowsound, 50, 1, -7)
+			return //Effectively deflected
 		if(can_embed(I) || I.assthrown)
-			if((prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
+			if((!in_throw_mode || get_active_hand()) && (prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
 				throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
 				var/obj/item/organ/limb/L = pick(organs)
 				L.embedded_objects |= I
 				I.add_blood(src)//it embedded itself in you, of course it's bloody!
 				I.loc = src
 				L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
-				visible_message("<span class='danger'>\the [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\the [I.name] embeds itself in your [L.getDisplayName()]!</span>")
+				visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
 				hitpush = 0
 				skipcatch = 1 //can't catch the now embedded item
 	return ..()
