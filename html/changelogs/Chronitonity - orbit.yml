@@ -1,0 +1,9 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "Orbiting now changes based on the size of what you're orbiting."
+  - rscadd: "Byond Members can choose different orbits from a selection of Circle, Triangle, Square, Hexagon or Pentagon orbiting."
+  - rscadd: "People with weaker computers should have less problems with orbiting."
+  - rscadd: "Ghosts can double click on anything that isn't a turf to orbit it."
