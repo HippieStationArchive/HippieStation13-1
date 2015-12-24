@@ -491,7 +491,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 		HTML += "<a class='white' href='?_src_=prefs;preference=job;task=setJobLevel;level=[prefUpperLevel];text=[rank]' oncontextmenu='javascript:return setJobPrefRedirect([prefLowerLevel], \"[rank]\");'>"
 
 		if(rank == "Assistant")//Assistant is special
-			if(jobban_isbanned(src, "catban"))
+			if(jobban_isbanned(user, "catban"))
 				HTML += "<font color=orange>Mandatory</font>"
 			else
 				if(job_civilian_low & ASSISTANT)
