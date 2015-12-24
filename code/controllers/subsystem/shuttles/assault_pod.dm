@@ -27,7 +27,6 @@
 	var/dheight = 0
 	var/width = 7
 	var/height = 7
-	var/used = 0
 	var/lz_dir = 1
 
 
@@ -35,11 +34,13 @@
 	var/target_area
 	target_area = input("Area to land", "Select a Landing Zone", target_area) in teleportlocs
 	var/area/picked_area = teleportlocs[target_area]
+	if(!src || qdeleted(src))
+		return
 
 	var/turf/T = pick(get_area_turfs(picked_area))
 
 	var/obj/docking_port/stationary/landing_zone = new /obj/docking_port/stationary(T)
-	landing_zone.id = "assault_pod[rand(1,1000)]"
+	landing_zone.id = "assault_pod(\ref[src])"
 	landing_zone.name = "Landing Zone"
 	landing_zone.dwidth = dwidth
 	landing_zone.dheight = dheight

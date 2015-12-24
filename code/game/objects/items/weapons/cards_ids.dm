@@ -172,6 +172,13 @@ update_label("John Doe", "Clowny")
 	assignment = "Syndicate Overlord"
 	access = list(access_syndicate)
 
+/obj/item/weapon/card/id/syndicate_blastco
+	name = "syndicate ID card"
+	desc = "An ID used to open the Blast Co equipment room on the syndicate base."
+	registered_name = "Syndicate"
+	assignment = "Syndicate Overlord"
+	access = list(access_syndicate_blastco)
+
 /obj/item/weapon/card/id/captains_spare
 	name = "captain's spare ID"
 	desc = "The spare ID of the High Lord himself."
