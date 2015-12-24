@@ -124,7 +124,7 @@
 	var/sparks = "securecratesparks"
 	var/emag = "securecrateemag"
 	locked = 1
-	health = 1000
+	health = 200
 
 /obj/structure/closet/crate/secure/weapon
 	desc = "A secure weapons crate."

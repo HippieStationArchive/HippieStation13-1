@@ -92,14 +92,9 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 				W:use(1)
 				visible_message("[user] repairs \the [src]!", "<span class='notice'>You repair \the [src].</span>")
 	else
-		..()
-		var/damage = 0
-		switch(W.damtype)
-			if("fire")
-				damage = W.force * 1
-			if("brute")
-				damage = W.force * 0.75
-		take_damage(damage)
+		user.changeNext_move(CLICK_CD_MELEE)
+		visible_message("<span class='warning'>[user] hits [src] with [W]!</span>", "<span class='warning'>You hit [src] with [W]!</span>")
+		take_damage(W.force)
 
 /obj/structure/barricade/wooden/ex_act(severity, target)
 	switch(severity)
