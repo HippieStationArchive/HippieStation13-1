@@ -71,6 +71,8 @@
 	var/use_age_restriction_for_jobs = 0 //Do jobs use account age restrictions? --requires database
 	var/see_own_notes = 0 //Can players see their own admin notes (read-only)? Config option in config.txt
 
+	var/announce_watchlist = 0
+
 	//Population cap vars
 	var/soft_popcap				= 0
 	var/hard_popcap				= 0
@@ -259,6 +261,8 @@
 					config.allow_admin_ooccolor = 1
 				if("allow_vote_restart")
 					config.allow_vote_restart = 1
+				if("announce_watchlist")
+					announce_watchlist = 1
 				if("allow_vote_mode")
 					config.allow_vote_mode = 1
 				if("no_dead_vote")
