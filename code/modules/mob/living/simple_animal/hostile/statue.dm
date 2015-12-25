@@ -125,6 +125,10 @@
 				if(!M.occupant.eye_blind)
 					return M.occupant
 	return null
+/mob/living/simple_animal/hostile/statue/restrained()
+	. = ..()
+	if(can_be_seen(loc))
+		return 1
 
 // Cannot talk
 
