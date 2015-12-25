@@ -13,7 +13,7 @@
 #define TORNADO_COMBO "HHD"
 #define THROWBACK_COMBO "DHD"
 #define KNOCKOUT_COMBO "GGH"
-#define PLASMA_COMBO "GHDGHDH"
+#define PLASMA_COMBO "HDDDH"
 
 /datum/martial_art/plasma_fist
 	name = "Plasma Fist"
