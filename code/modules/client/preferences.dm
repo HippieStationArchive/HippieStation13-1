@@ -62,7 +62,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	var/skin_tone = "caucasian1"		//Skin color
 	var/eye_color = "000"				//Eye color
 	var/datum/species/pref_species = new /datum/species/human()	//Mutant race
-	var/list/features = list("mcolor" = "FFF", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None")
+	var/list/features = list("mcolor" = "FFF", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "wing" = "Plain")
 
 	var/list/custom_names = list("clown", "mime", "ai", "cyborg", "religion", "deity")
 
@@ -291,6 +291,15 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 					dat += "<h3>Spines</h3>"
 
 					dat += "<a href='?_src_=prefs;preference=spines;task=input'>[features["spines"]]</a><BR>"
+
+					dat += "</td>"
+
+				if("wing" in pref_species.mutant_bodyparts)
+					dat += "<td valign='top' width='7%'>"
+
+					dat += "<h3>Wings</h3>"
+
+					dat += "<a href='?_src_=prefs;preference=wings;task=input'>[features["wing"]]</a><BR>"
 
 					dat += "</td>"
 
@@ -905,6 +914,12 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 					new_spines = input(user, "Choose your character's spines:", "Character Preference") as null|anything in spines_list
 					if(new_spines)
 						features["spines"] = new_spines
+
+				if("wings")
+					var/new_wings
+					new_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in wing_list
+					if(new_wings)
+						features["wing"] = new_wings
 
 				if("body_markings")
 					var/new_body_markings
