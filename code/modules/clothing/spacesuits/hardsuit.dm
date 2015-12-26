@@ -61,6 +61,7 @@
 	item_state = "eng_hardsuit"
 	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 75)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals,/obj/item/device/t_scanner, /obj/item/weapon/rcd)
+	siemens_coefficient = 0
 	var/obj/item/clothing/head/helmet/space/hardsuit/helmet
 	action_button_name = "Toggle Helmet"
 	var/helmettype = /obj/item/clothing/head/helmet/space/hardsuit
@@ -279,6 +280,31 @@
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_IMMUNITY_SUIT_MAX_TEMP_PROTECT
 
+//Blast Co Syndie suit
+/obj/item/clothing/head/helmet/space/hardsuit/syndi/blastco
+	name = "blastco syndicate hardsuit helmet"
+	desc = "A specialized helmet built for sustaining concussive blasts and shrapnel. It is in travel mode. Property of Blast-Co."
+	alt_desc = "A specialized helmet built for sustaining concussive blasts and shrapnel. It is in combat mode. Property of Blast-Co."
+	icon_state = "hardsuit1-blastco"
+	item_state = "syndie_hardsuit"
+	item_color = "blastco"
+	armor = list(melee = 70, bullet = 30, laser = 50, energy = 25, bomb = 100, bio = 100, rad = 70)
+	heat_protection = HEAD
+	max_heat_protection_temperature = FIRE_IMMUNITY_SUIT_MAX_TEMP_PROTECT
+
+
+/obj/item/clothing/suit/space/hardsuit/syndi/blastco
+	name = "blastco syndicate hardsuit"
+	desc = "A specialized hardsuit built for sustaining concussive blasts and shrapnel. It is in travel mode."
+	alt_desc = "A specialized hardsuit built for sustaining concussive blasts and shrapnel. It is in combat mode."
+	icon_state = "hardsuit1-blastco"
+	item_state = "blastco_hardsuit"
+	item_color = "blastco"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/blastco
+	armor = list(melee = 70, bullet = 30, laser = 50, energy = 25, bomb = 100, bio = 100, rad = 70)
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	max_heat_protection_temperature = FIRE_IMMUNITY_SUIT_MAX_TEMP_PROTECT
+
 //The Owl Hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl
 	name = "owl hardsuit helmet"
@@ -387,6 +413,7 @@
 /obj/item/clothing/head/helmet/space/hardsuit/rd/equipped(mob/living/carbon/human/user, slot)
 	..(user, slot)
 	user.scanner.Grant(user)
+	user.scanner.devices += 1
 	if(user.glasses && istype(user.glasses, /obj/item/clothing/glasses/hud/diagnostic))
 		user << ("<span class='warning'>Your [user.glasses] prevents you using [src]'s diagnostic visor HUD.</span>")
 	else
@@ -396,7 +423,7 @@
 
 /obj/item/clothing/head/helmet/space/hardsuit/rd/dropped(mob/living/carbon/human/user)
 	..(user)
-	user.scanner.devices -= 1
+	user.scanner.devices = max(0, user.scanner.devices - 1)
 	if(onboard_hud_enabled && !(user.glasses && istype(user.glasses, /obj/item/clothing/glasses/hud/diagnostic)))
 		var/datum/atom_hud/DHUD = huds[DATA_HUD_DIAGNOSTIC]
 		DHUD.remove_hud_from(user)

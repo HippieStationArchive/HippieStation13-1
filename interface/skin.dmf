@@ -147,6 +147,10 @@ macro "borghotkeymode"
 		name = "CTRL+Q"
 		command = "unequip-module"
 		is-disabled = false
+	elem 
+		name = "CTRL+S"
+		command = "say *scream"
+		is-disabled = false
 	elem "s_key"
 		name = "S+REP"
 		command = ".south"
@@ -900,6 +904,10 @@ macro "borgmacro"
 	elem 
 		name = "CTRL+Q"
 		command = "unequip-module"
+		is-disabled = false
+	elem 
+		name = "CTRL+S"
+		command = "say *scream"
 		is-disabled = false
 	elem 
 		name = "CTRL+S+REP"
