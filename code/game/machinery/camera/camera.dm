@@ -1,4 +1,4 @@
-#define CAMERA_UPGRADE_XRAY 1 
+#define CAMERA_UPGRADE_XRAY 1
 #define CAMERA_UPGRADE_EMP_PROOF 2
 #define CAMERA_UPGRADE_MOTION 4
 
@@ -69,6 +69,8 @@
 	return ..()
 
 /obj/machinery/camera/emp_act(severity)
+	if(!status)
+		return
 	if(!isEmpProof())
 		if(prob(150/severity))
 			icon_state = "[initial(icon_state)]emp"
