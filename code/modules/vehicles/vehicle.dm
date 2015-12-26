@@ -20,11 +20,12 @@ Dont touch this file unless you know your shit about this.
 	var/occupants = 0 //The driver is technically not an occupant
 	var/mob/living/carbon/human/driver //Driver of said vehicle, take his inputs
 	var/mass = 500 // Mass of the vehicle, used for movement calculations and collision
+	var/locked = 0 //Can you add/remove parts?
 
 	var/list/parts = list() //Holder for all vehicle parts
 
 	var/datum/action/vehicle/exit_vehicle/exit_vehicle = new
-
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 
 /obj/vehicle/update_icon()
 	overlays.Cut()
@@ -36,11 +37,18 @@ Dont touch this file unless you know your shit about this.
 		overlays += P.icon_state
 
 /obj/vehicle/attackby(var/obj/item/I, mob/user, params)
+
+	var/obj/item/vehicle_parts/armor/A = locate() in parts
+	var/obj/item/vehicle_parts/engine/E = locate() in parts
+	var/obj/item/vehicle_parts/propulsion/P = locate() in parts
+	var/obj/item/weapon/stock_parts/cell/C = locate() in parts
+	var/obj/item/vehicle_parts/chassis/CH = locate() in parts
+	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
+
 	if(istype(I,/obj/item/weapon/reagent_containers))
 		var/obj/item/weapon/reagent_containers/R = I
 		if(isrobot(user))
 			return
-		var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
 		if(!F)
 			user << "<span class='warning'>[src] has no fuel tank!</span>"
 			return
@@ -52,6 +60,36 @@ Dont touch this file unless you know your shit about this.
 		else
 			var/trans = R.reagents.trans_to(F, R.amount_per_transfer_from_this)
 			user << "<span class='notice'>You transfer [trans] units to [src]'s fuel tank</span>"
+
+	if(istype(I,/obj/item/weapon/weldingtool) && user.a_intent != "harm")
+		var/obj/item/weapon/weldingtool/WT = I
+		user.changeNext_move(CLICK_CD_MELEE)
+		if(WT.remove_fuel(5,user))
+			if(src.health<initial(src.health))
+				playsound(src.loc, 'sound/items/Welder2.ogg', 50, 1)
+				src.health += min(10, maxhealth-health)
+				user << "<span class='notice'>You repair some damage to [src]</span>"
+			else
+				user << "<span class='notice'>[src] is at full health</span>"
+		else
+			user << "<span class='notice'>The [WT] must be on!</span>"
+
+	if(istype(I,/obj/item/weapon/reagent_containers/fueltank) || istype(I,/obj/item/vehicle_parts) || istype(I,/obj/item/weapon/stock_parts/cell))
+		var/obj/item/vehicle_parts/O = I
+
+		if(O.part_type == A.part_type || O.part_type == E.part_type || O.part_type == P.part_type || O.part_type == CH.part_type || O.part_type == F.part_type  || O.part_type == C.part_type)
+			user << "<span class='warning'>[src] already has a [O.part_type]</span>"
+			return
+		else
+			user << "<span class='notice'>You begin to install [I] into [src]</span>"
+			if(do_after(user, 40, target = src))
+				user << "<span class='notice'>You install [I] into [src]</span>"
+				parts += I
+				I.loc = src
+				update_stats()
+			else
+				user << "<span class='notice'>You stop installing [I]</span>"
+
 	else
 		user.changeNext_move(CLICK_CD_MELEE)
 		user.do_attack_animation(src)
@@ -158,12 +196,7 @@ Dont touch this file unless you know your shit about this.
 		return
 	vehicle.exit()
 
-
-/obj/vehicle/test/New()
-	parts = newlist(/obj/item/weapon/reagent_containers/fueltank, /obj/item/vehicle_parts/propulsion, /obj/item/vehicle_parts/engine,
-					/obj/item/vehicle_parts/chassis, /obj/item/vehicle_parts/seat, /obj/item/weapon/stock_parts/cell,
-					/obj/item/vehicle_parts/armor)
-
+/obj/vehicle/New()
 	for(var/obj/item/O in parts)
 		O.loc = src
 	var/obj/item/vehicle_parts/engine/E = locate() in parts
@@ -171,8 +204,20 @@ Dont touch this file unless you know your shit about this.
 	F.reagents.add_reagent(E.fueltype, F.volume)
 	update_stats()
 
+
+
+/obj/vehicle/test/New()
+	parts = newlist(/obj/item/weapon/reagent_containers/fueltank, /obj/item/vehicle_parts/propulsion, /obj/item/vehicle_parts/engine,
+					/obj/item/vehicle_parts/chassis, /obj/item/vehicle_parts/seat, /obj/item/weapon/stock_parts/cell,
+					/obj/item/vehicle_parts/armor)
+	..()
+
+
 /obj/vehicle/proc/update_stats()
-	for(var/obj/item/vehicle_parts/O in parts)
+	for(var/obj/item/P in parts)
+		var/obj/item/vehicle_parts/O = P
+		if(!O.weight)
+			continue //Ignore massless objects
 		O.weight += mass
 	update_icon()
 
@@ -252,6 +297,67 @@ Dont touch this file unless you know your shit about this.
 		user << "<span class='warning'>You stop entering the vehicle!</span>"
 	return
 
+/obj/vehicle/MouseDrop(atom/over)
+	if(over != usr)
+		return
+	interact(usr)
+
+/obj/vehicle/MouseDrop(over_object, src_location, over_location)
+	..()
+	if(over_object == usr && Adjacent(usr) && (in_range(src, usr) || usr.contents.Find(src)))
+		interact(usr)
+
+/obj/vehicle/interact(mob/user)
+	if(user.incapacitated() || user.lying || !Adjacent(user))
+		return
+	user.face_atom(src)
+	var/dat = "<h3>Vehicle menu</h3>"
+	for(var/obj/item/P in parts)
+		dat += build_text(P)
+	dat += "</div>"
+
+	var/datum/browser/popup = new(user, "vehicle", src.name, 500, 500)
+	popup.set_content(dat)
+	popup.open()
+
+/obj/vehicle/Topic(href, href_list)
+	if(usr.stat || !Adjacent(usr) || usr.lying)
+		return
+	if(href_list["parts"])
+		var/obj/item/O = locate(href_list["parts"])
+		var/obj/item/vehicle_parts/P = O
+		if(locked)
+			usr << "<span class ='warning'>the [src] is locked!</span>"
+		if(driver || occupants)
+			usr << "<span class = 'warning'>You can't modify it while there are people inside!</span>"
+		if(P.part_type == "chassis")
+			usr << "<span class ='notice'>You begin to completely dismantle [src]</span>"
+			if(do_after(usr, 800, target = src))
+				for(var/obj/item/L in parts)
+					L.loc = get_turf(usr)
+				usr << "<span class ='notice'>You completely dismantle [src]</span>"
+				qdel(src)
+			else
+				usr << "<span class ='notice'>You stop dismantling [src]</span>"
+		else
+			usr << "<span class ='notice'>You begin removing the [P]</span>"
+			if(do_after(usr, 40, target = src))
+				P.loc = get_turf(usr)
+				parts -= P
+				update_stats()
+				usr << "<span class ='notice'>You sucessfully removed /the [P]</span>"
+			else
+				usr << "<span class ='warning'>You stop removing /the [P]</span>"
+			interact(usr)
+
+/obj/vehicle/proc/build_text(obj/item/P)
+	. = ""
+	var/name_text = ""
+
+	name_text ="<A href='?src=\ref[src];parts=\ref[P]'>[P.name]</A>"
+	. = "[name_text]<BR>"
+
+
 /obj/vehicle/proc/moved_inside(mob/living/carbon/human/H)
 	if(H && H.client && H in range(1))
 		if(!driver)
@@ -268,7 +374,6 @@ Dont touch this file unless you know your shit about this.
 		return 1
 	else
 		return 0
-//DAMAGE CODE, YAAAAAAAY
 
 /obj/vehicle/bullet_act(obj/item/projectile/Proj)
 	if(Proj.nodamage)
