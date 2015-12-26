@@ -11,6 +11,8 @@ Dont touch this file unless you know your shit about this.
 	density = 1 //Dense. To raise the heat.
 	opacity = 0 ///Not opaque by default. horrifying..
 	anchored = 1 //no pulling around.
+	var/health = 200 //Alot of this shit is getting set by the chassis
+	var/maxhealth = 200
 	var/lastmove = 0
 	var/list/blacklist
 	var/exposed = 0 //Used for calculating attacks, whether it hits the driver/occupants
@@ -33,24 +35,74 @@ Dont touch this file unless you know your shit about this.
 	if(P)
 		overlays += P.icon_state
 
-/obj/vehicle/attackby(var/obj/item/weapon/reagent_containers/I, mob/user, params)
-	if(isrobot(user))
-		return
-	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
-	if(!F)
-		user << "<span class='warning'>[src] has no fuel tank!</span>"
-		return
-	if(!I.possible_transfer_amounts)
-		return
-	if(F.reagents.total_volume == F.volume)
-		user << "<span class='warning'>[src]'s fuel tank is full!</span>"
-		return
+/obj/vehicle/attackby(var/obj/item/I, mob/user, params)
+	if(istype(I,/obj/item/weapon/reagent_containers))
+		var/obj/item/weapon/reagent_containers/R = I
+		if(isrobot(user))
+			return
+		var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
+		if(!F)
+			user << "<span class='warning'>[src] has no fuel tank!</span>"
+			return
+		if(!R.possible_transfer_amounts)
+			return
+		if(F.reagents.total_volume == F.volume)
+			user << "<span class='warning'>[src]'s fuel tank is full!</span>"
+			return
+		else
+			var/trans = R.reagents.trans_to(F, R.amount_per_transfer_from_this)
+			user << "<span class='notice'>You transfer [trans] units to [src]'s fuel tank</span>"
 	else
-		I.reagents.trans_to(F, I.amount_per_transfer_from_this)
+		user.changeNext_move(CLICK_CD_MELEE)
+		user.do_attack_animation(src)
+		if(I.hitsound)
+			playsound(src,I.hitsound,30,1)
+		if(I.force)
+			if(I.force < 10) //Innate armor for all vehicles
+				user.visible_message("<span class='danger'>[user] attacks [src], but /his attack does nothing!</span>", \
+					"<span class='userdanger'>You hit [src] with [I.name], but deal no damage!</span>")
+			else
+				take_damage(I.force,I.damtype)
+				user.visible_message("<span class='danger'>[user] attacks [src] with the [I.name]!</span>", \
+					"<span class='danger'>You hit [src] with the [I.name]</span>")
 
+/obj/vehicle/proc/take_damage(amount, type="brute")
+	if(amount)
+		var/damage = absorbDamage(amount,type)
+		health -= damage
+		update_health()
+		/*
+		occupant_message("<span class='userdanger'>Taking damage!</span>")
+		log_append_to_last("Took [damage] points of damage. Damage type: \"[type]\".",1)
+*/
+
+/obj/vehicle/proc/update_health()
+	if(src.health > 0)
+
+	else
+		qdel(src)
+
+/obj/vehicle/proc/absorbDamage(damage,damage_type)
+	var/coeff = 1
+	var/obj/item/vehicle_parts/armor/A = locate() in parts
+	if(A.vehicle_armor[damage_type])
+		coeff = A.vehicle_armor[damage_type]
+	return damage*coeff
 
 /obj/vehicle/examine(mob/user)
 	..()
+	var/integrity = health/maxhealth*100
+	switch(integrity)
+		if(85 to 100)
+			user << "It's fully intact."
+		if(65 to 85)
+			user << "It's slightly damaged."
+		if(45 to 65)
+			user << "It's badly damaged."
+		if(25 to 45)
+			user << "It's heavily damaged."
+		else
+			user << "It's falling apart."
 	if(parts)
 		user << "It's has:"
 		for(var/obj/item/part in parts)
@@ -123,6 +175,16 @@ Dont touch this file unless you know your shit about this.
 	for(var/obj/item/vehicle_parts/O in parts)
 		O.weight += mass
 	update_icon()
+
+/obj/vehicle/proc/click_action(atom/target,mob/user,params)
+	if(!driver || user.loc != loc )
+		return
+	if(user.incapacitated())
+		return
+	if(!locate(/turf) in list(target,target.loc)) // Prevents inventory from being drilled
+		return
+	if(src == target)
+		return
 
 /obj/vehicle/relaymove(mob/user, direction)
 	var/obj/item/vehicle_parts/propulsion/P = locate() in parts
@@ -206,3 +268,9 @@ Dont touch this file unless you know your shit about this.
 		return 1
 	else
 		return 0
+//DAMAGE CODE, YAAAAAAAY
+
+/obj/vehicle/bullet_act(obj/item/projectile/Proj)
+	if(Proj.nodamage)
+		return
+	take_damage(Proj.force,Proj.damtype)
