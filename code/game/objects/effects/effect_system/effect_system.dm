@@ -35,19 +35,19 @@ would spawn and follow the beaker, even if it is carried or thrown.
 		sleep(world.tick_lag)
 	return
 */
-/datum/effect/effect/system
+/datum/effect_system
 	var/number = 3
 	var/cardinals = 0
 	var/turf/location
 	var/atom/holder
 	var/setup = 0
 
-/datum/effect/effect/system/Destroy()
+/datum/effect_system/Destroy()
 	holder = null
 	location = null
 	return ..()
 
-/datum/effect/effect/system/proc/set_up(n = 3, c = 0, turf/loc)
+/datum/effect_system/proc/set_up(n = 3, c = 0, turf/loc)
 	if(n > 10)
 		n = 10
 	number = n
@@ -55,7 +55,7 @@ would spawn and follow the beaker, even if it is carried or thrown.
 	location = loc
 	setup = 1
 
-/datum/effect/effect/system/proc/attach(atom/atom)
+/datum/effect_system/proc/attach(atom/atom)
 	holder = atom
 
-/datum/effect/effect/system/proc/start()
+/datum/effect_system/proc/start()

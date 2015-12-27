@@ -48,7 +48,7 @@
 	L << "<span class='danger'><B>You are paralyzed from the intense shock!</B></span>"
 	L.Weaken(5)
 	var/turf/Lturf = get_turf(L)
-	new /datum/effect/effect/system/spark_spread(Lturf)
+	new /datum/effect_system/spark_spread(Lturf)
 	new /obj/effect/effect/sparks(Lturf)
 
 

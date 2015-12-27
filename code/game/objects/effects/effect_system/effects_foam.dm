@@ -117,30 +117,30 @@
 
 ///////////////////////////////////////////////
 //FOAM EFFECT DATUM
-/datum/effect/effect/system/foam_spread
+/datum/effect_system/foam_spread
 	var/amount = 10		// the size of the foam spread.
 	var/obj/chemholder
 	var/obj/effect/effect/foam/foamtype = /obj/effect/effect/foam
 	var/metal = 0
 
 
-/datum/effect/effect/system/foam_spread/metal
+/datum/effect_system/foam_spread/metal
 	foamtype = /obj/effect/effect/foam/metal
 
 
-/datum/effect/effect/system/foam_spread/New()
+/datum/effect_system/foam_spread/New()
 	..()
 	chemholder = PoolOrNew(/obj)
 	var/datum/reagents/R = new/datum/reagents(1000)
 	chemholder.reagents = R
 	R.my_atom = chemholder
 
-/datum/effect/effect/system/foam_spread/Destroy()
+/datum/effect_system/foam_spread/Destroy()
 	qdel(chemholder)
 	chemholder = null
 	return ..()
 
-/datum/effect/effect/system/foam_spread/set_up(amt=5, loca, datum/reagents/carry = null)
+/datum/effect_system/foam_spread/set_up(amt=5, loca, datum/reagents/carry = null)
 	if(istype(loca, /turf/))
 		location = loca
 	else
@@ -149,11 +149,11 @@
 	amount = round(sqrt(amt / 2), 1)
 	carry.copy_to(chemholder, 4*carry.total_volume) //The foam holds 4 times the total reagents volume for balance purposes.
 
-/datum/effect/effect/system/foam_spread/metal/set_up(amt=5, loca, datum/reagents/carry = null, metaltype)
+/datum/effect_system/foam_spread/metal/set_up(amt=5, loca, datum/reagents/carry = null, metaltype)
 	..()
 	metal = metaltype
 
-/datum/effect/effect/system/foam_spread/start()
+/datum/effect_system/foam_spread/start()
 	var/obj/effect/effect/foam/foundfoam = locate() in location
 	if(foundfoam)//If there was already foam where we start, we add our foaminess to it.
 		foundfoam.amount += amount

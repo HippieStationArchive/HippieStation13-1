@@ -92,18 +92,18 @@
 			for(var/obj/effect/effect/smoke/SM in newsmokes)
 				SM.spread_smoke()
 
-/datum/effect/effect/system/smoke_spread
+/datum/effect_system/smoke_spread
 	var/amount = 10
 	var/smoke_type = /obj/effect/effect/smoke
 
-/datum/effect/effect/system/smoke_spread/set_up(radius = 5, loca)
+/datum/effect_system/smoke_spread/set_up(radius = 5, loca)
 	if(isturf(loca))
 		location = loca
 	else
 		location = get_turf(loca)
 	amount = radius
 
-/datum/effect/effect/system/smoke_spread/start()
+/datum/effect_system/smoke_spread/start()
 	if(holder)
 		location = get_turf(holder)
 	var/obj/effect/effect/smoke/S = new smoke_type(location)
@@ -136,7 +136,7 @@
 
 
 
-/datum/effect/effect/system/smoke_spread/bad
+/datum/effect_system/smoke_spread/bad
 	smoke_type = /obj/effect/effect/smoke/bad
 
 /////////////////////////////////////////////
@@ -148,11 +148,11 @@
 	color = "#B2FFFF"
 	opaque = 0
 
-/datum/effect/effect/system/smoke_spread/freezing
+/datum/effect_system/smoke_spread/freezing
 	smoke_type = /obj/effect/effect/smoke/freezing
 	var/blast = 0
 
-/datum/effect/effect/system/smoke_spread/freezing/proc/Chilled(atom/A)
+/datum/effect_system/smoke_spread/freezing/proc/Chilled(atom/A)
 	if(istype(A, /turf/simulated))
 		var/turf/simulated/T = A
 		if(T.air)
@@ -176,11 +176,11 @@
 			Item.extinguish()
 	return
 
-/datum/effect/effect/system/smoke_spread/freezing/set_up(radius = 5, loca, blasting = 0)
+/datum/effect_system/smoke_spread/freezing/set_up(radius = 5, loca, blasting = 0)
 	..()
 	blast = blasting
 
-/datum/effect/effect/system/smoke_spread/freezing/start()
+/datum/effect_system/smoke_spread/freezing/start()
 	if(blast)
 		for(var/turf/T in trange(2, location))
 			Chilled(T)
@@ -203,7 +203,7 @@
 		M.emote("cough")
 		return 1
 
-/datum/effect/effect/system/smoke_spread/sleeping
+/datum/effect_system/smoke_spread/sleeping
 	smoke_type = /obj/effect/effect/smoke/sleeping
 
 /////////////////////////////////////////////
@@ -241,23 +241,23 @@
 
 
 
-/datum/effect/effect/system/smoke_spread/chem
+/datum/effect_system/smoke_spread/chem
 	var/obj/chemholder
 	smoke_type = /obj/effect/effect/smoke/chem
 
-/datum/effect/effect/system/smoke_spread/chem/New()
+/datum/effect_system/smoke_spread/chem/New()
 	..()
 	chemholder = PoolOrNew(/obj)
 	var/datum/reagents/R = new/datum/reagents(500)
 	chemholder.reagents = R
 	R.my_atom = chemholder
 
-/datum/effect/effect/system/smoke_spread/chem/Destroy()
+/datum/effect_system/smoke_spread/chem/Destroy()
 	qdel(chemholder)
 	chemholder = null
 	return ..()
 
-/datum/effect/effect/system/smoke_spread/chem/set_up(datum/reagents/carry = null, radius = 1, loca, silent = 0)
+/datum/effect_system/smoke_spread/chem/set_up(datum/reagents/carry = null, radius = 1, loca, silent = 0)
 	if(istype(loca, /turf/))
 		location = loca
 	else
@@ -288,7 +288,7 @@
 			log_game("A chemical smoke reaction has taken place in ([where])[contained]. No associated key.")
 
 
-/datum/effect/effect/system/smoke_spread/chem/start()
+/datum/effect_system/smoke_spread/chem/start()
 	var/color = mix_color_from_reagents(chemholder.reagents.reagent_list)
 	if(holder)
 		location = get_turf(holder)

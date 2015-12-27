@@ -35,10 +35,10 @@
 		T.hotspot_expose(1000,100)
 	return
 
-/datum/effect/effect/system/spark_spread
+/datum/effect_system/spark_spread
 	var/total_sparks = 0 // To stop it being spammed and lagging!
 
-/datum/effect/effect/system/spark_spread/set_up(n = 3, c = 0, loca)
+/datum/effect_system/spark_spread/set_up(n = 3, c = 0, loca)
 	if(n > 10)
 		n = 10
 	number = n
@@ -48,7 +48,7 @@
 	else
 		location = get_turf(loca)
 
-/datum/effect/effect/system/spark_spread/start()
+/datum/effect_system/spark_spread/start()
 	var/i = 0
 	for(i=0, i<src.number, i++)
 		if(src.total_sparks > 20)
@@ -78,10 +78,10 @@
 	name = "lightning"
 	icon_state = "electricity"
 
-/datum/effect/effect/system/lightning_spread
+/datum/effect_system/lightning_spread
 	var/total_sparks = 0 // To stop it being spammed and lagging!
 
-/datum/effect/effect/system/lightning_spread/set_up(n = 3, c = 0, loca)
+/datum/effect_system/lightning_spread/set_up(n = 3, c = 0, loca)
 	if(n > 10)
 		n = 10
 	number = n
@@ -91,7 +91,7 @@
 	else
 		location = get_turf(loca)
 
-/datum/effect/effect/system/lightning_spread/start()
+/datum/effect_system/lightning_spread/start()
 	var/i = 0
 	for(i=0, i<src.number, i++)
 		if(src.total_sparks > 20)
