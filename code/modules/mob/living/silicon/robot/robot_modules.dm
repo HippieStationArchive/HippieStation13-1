@@ -229,8 +229,7 @@
 		else
 			T.charge_tick = 0
 
-<<<<<<< HEAD
-=======
+
 /obj/item/weapon/robot_module/detective
 	name = "detective robot module"
 
@@ -243,7 +242,6 @@ obj/item/weapon/robot_module/detective/New()
 	emag = new /obj/item/weapon/gun/energy/revolver/cyborg(src)
 	fix_modules()
 
->>>>>>> 490cc647d1292a8563e4055cedeaa3950f8577e1
 /obj/item/weapon/robot_module/janitor
 	name = "janitorial robot module"
 
