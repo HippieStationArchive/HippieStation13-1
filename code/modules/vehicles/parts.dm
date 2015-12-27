@@ -11,14 +11,29 @@
 	var/part_type = null
 
 
-/obj/item/vehicle_parts/engine
+/obj/item/vehicle_parts/engine //Regent-based engines, other electric engines will need to overwrite engine_act()
 	name = "engine"
-	var/engine_power = 100 //Engine power, used to calculate the delay between movement
-	var/fueluse = 1
+	desc = "A generic, welding fuel powered engine"
+	var/engine_power = 100 //Engine power, used to calculate the delay between movement AND how much power it gives to the cell
+	var/fueluse = 1 //How many units it uses per move,
 	var/fueltype = "welding_fuel" //This is the fueltype, use the IDs, not the paths
 	part_type = "engine"
 
-
+//The act proc for doing effects while the engine is running, such as leaving a fire trail, draining the tank or cell of fuel, modify it per engine
+/obj/item/vehicle_parts/engine/proc/engine_act(var/obj/item/weapon/reagent_containers/fueltank/fueltank, var/obj/item/weapon/stock_parts/cell/cell, var/mob/user)
+	var/returnmsg
+	if(!cell) //I would draw on the cell to start the engine, but i'll leave this out for now
+		returnmsg = "nocell"
+		return returnmsg
+	else if(!fueltank.reagents.has_reagent(fueltype, fueluse))
+		returnmsg = "nofuel"
+		return returnmsg
+	else
+		fueltank.reagents.remove_reagent(fueltype, fueluse)
+		if(!fueltank.reagents.has_reagent(fueltype, fueluse))
+			user.visible_message("<span class='danger'>[src]'s engine stops abruptly.</span>",
+			"<span class='danger'>[src]'s engine stops abruptly</span>",
+			"<span class='italics'>You hear an engine die down</span>")
 
 
 /obj/item/vehicle_parts/propulsion
