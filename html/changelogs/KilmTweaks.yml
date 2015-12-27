@@ -33,7 +33,6 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - bugfix: "Fixed Cell door from having 0 level access."
-  - rscadd: "Put switches at Sec arrival to control conveyor belts."
-  - bugfix: "Started conveyors in 'off' state due to start-state 'on' bug. Now controlled via switches next to them."
-
+  - rscdel: "Deleted overlapping wooden chair in north-east random room"
+  - rscdel: "Tidied up Brig powernet"
+  - bugfix: "Fixed Firelock overlap in Intrusive Search Room at Arrivals"
