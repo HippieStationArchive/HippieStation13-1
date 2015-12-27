@@ -20,11 +20,13 @@ Dont touch this file unless you know your shit about this.
 	var/occupants = 0 //The driver is technically not an occupant
 	var/mob/living/carbon/human/driver //Driver of said vehicle, take his inputs
 	var/mass = 500 // Mass of the vehicle, used for movement calculations and collision
+	var/max_mass = 500
 	var/locked = 0 //Can you add/remove parts?
 
 	var/list/parts = list() //Holder for all vehicle parts
 
 	var/datum/action/vehicle/exit_vehicle/exit_vehicle = new
+	var/installing = 0
 	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 
 /obj/vehicle/update_icon()
@@ -37,12 +39,6 @@ Dont touch this file unless you know your shit about this.
 		overlays += P.icon_state
 
 /obj/vehicle/attackby(var/obj/item/I, mob/user, params)
-
-	var/obj/item/vehicle_parts/armor/A = locate() in parts
-	var/obj/item/vehicle_parts/engine/E = locate() in parts
-	var/obj/item/vehicle_parts/propulsion/P = locate() in parts
-	var/obj/item/weapon/stock_parts/cell/C = locate() in parts
-	var/obj/item/vehicle_parts/chassis/CH = locate() in parts
 	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
 
 	if(istype(I,/obj/item/weapon/reagent_containers))
@@ -76,19 +72,24 @@ Dont touch this file unless you know your shit about this.
 
 	if(istype(I,/obj/item/weapon/reagent_containers/fueltank) || istype(I,/obj/item/vehicle_parts) || istype(I,/obj/item/weapon/stock_parts/cell))
 		var/obj/item/vehicle_parts/O = I
-
-		if(O.part_type == A.part_type || O.part_type == E.part_type || O.part_type == P.part_type || O.part_type == CH.part_type || O.part_type == F.part_type  || O.part_type == C.part_type)
+		if(compareParts(O, parts))
 			user << "<span class='warning'>[src] already has a [O.part_type]</span>"
 			return
+		if(installing)
+			return
 		else
+			installing = 1
+			user.changeNext_move(CLICK_CD_MELEE)
 			user << "<span class='notice'>You begin to install [I] into [src]</span>"
 			if(do_after(user, 40, target = src))
 				user << "<span class='notice'>You install [I] into [src]</span>"
 				parts += I
-				I.loc = src
+				I.forceMove(src)
 				update_stats()
+				installing = 0
 			else
 				user << "<span class='notice'>You stop installing [I]</span>"
+				installing = 0
 
 	else
 		user.changeNext_move(CLICK_CD_MELEE)
@@ -109,16 +110,26 @@ Dont touch this file unless you know your shit about this.
 		var/damage = absorbDamage(amount,type)
 		health -= damage
 		update_health()
-		/*
-		occupant_message("<span class='userdanger'>Taking damage!</span>")
-		log_append_to_last("Took [damage] points of damage. Damage type: \"[type]\".",1)
-*/
 
 /obj/vehicle/proc/update_health()
 	if(src.health > 0)
 
 	else
 		qdel(src)
+
+/obj/vehicle/proc/compareParts(var/obj/item/vehicle_parts/input, var/list/part_list) //Meant for checking parts and whether there is already one installed or not.
+	for(var/obj/item/F in part_list)
+		var/obj/item/vehicle_parts/N = F
+		if(input.part_type == "seat") //Seats are ignored, of course.
+			return 0
+		else if(input.part_type == N.part_type)
+			return 1
+	return 0
+
+
+
+
+
 
 /obj/vehicle/proc/absorbDamage(damage,damage_type)
 	var/coeff = 1
@@ -186,7 +197,7 @@ Dont touch this file unless you know your shit about this.
 	var/obj/vehicle/vehicle
 
 /datum/action/vehicle/exit_vehicle
-	name = "Eject From Mech"
+	name = "Leave Vehicle"
 	button_icon_state = "mech_eject"
 
 /datum/action/vehicle/exit_vehicle/Activate()
@@ -201,7 +212,7 @@ Dont touch this file unless you know your shit about this.
 		O.loc = src
 	var/obj/item/vehicle_parts/engine/E = locate() in parts
 	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
-	F.reagents.add_reagent(E.fueltype, F.volume)
+	F.reagents.add_reagent(E.fueltype, F.volume) //Debug stuff
 	update_stats()
 
 
@@ -210,14 +221,19 @@ Dont touch this file unless you know your shit about this.
 	parts = newlist(/obj/item/weapon/reagent_containers/fueltank, /obj/item/vehicle_parts/propulsion, /obj/item/vehicle_parts/engine,
 					/obj/item/vehicle_parts/chassis, /obj/item/vehicle_parts/seat, /obj/item/weapon/stock_parts/cell,
 					/obj/item/vehicle_parts/armor)
+	update_stats()
 	..()
 
 
 /obj/vehicle/proc/update_stats()
+	mass = 0 //Reset mass to recalc
 	for(var/obj/item/P in parts)
+		P.loc = src //TRIPLE CHECKS BECAUSE YES
 		var/obj/item/vehicle_parts/O = P
 		if(!O.weight)
 			continue //Ignore massless objects
+		if(O.part_type == "seat")
+			occupants_max += 1
 		O.weight += mass
 	update_icon()
 
@@ -328,11 +344,13 @@ Dont touch this file unless you know your shit about this.
 		var/obj/item/vehicle_parts/P = O
 		if(locked)
 			usr << "<span class ='warning'>the [src] is locked!</span>"
+			return
 		if(driver || occupants)
 			usr << "<span class = 'warning'>You can't modify it while there are people inside!</span>"
+			return
 		if(P.part_type == "chassis")
 			usr << "<span class ='notice'>You begin to completely dismantle [src]</span>"
-			if(do_after(usr, 800, target = src))
+			if(do_after(usr, 500, target = src))
 				for(var/obj/item/L in parts)
 					L.loc = get_turf(usr)
 				usr << "<span class ='notice'>You completely dismantle [src]</span>"
@@ -340,14 +358,18 @@ Dont touch this file unless you know your shit about this.
 			else
 				usr << "<span class ='notice'>You stop dismantling [src]</span>"
 		else
-			usr << "<span class ='notice'>You begin removing the [P]</span>"
+			usr << "<span class ='notice'>You begin removing [P]</span>"
 			if(do_after(usr, 40, target = src))
+				if(P.part_type == "seat")
+					occupants_max--
 				P.loc = get_turf(usr)
 				parts -= P
+				if(P.icon_state in overlays)
+					overlays -= P.icon_state
 				update_stats()
-				usr << "<span class ='notice'>You sucessfully removed /the [P]</span>"
+				usr << "<span class ='notice'>You sucessfully removed [P]</span>"
 			else
-				usr << "<span class ='warning'>You stop removing /the [P]</span>"
+				usr << "<span class ='warning'>You stop removing [P]</span>"
 			interact(usr)
 
 /obj/vehicle/proc/build_text(obj/item/P)
