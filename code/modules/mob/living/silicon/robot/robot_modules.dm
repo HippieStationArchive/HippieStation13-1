@@ -229,17 +229,6 @@
 		else
 			T.charge_tick = 0
 
-/obj/item/weapon/robot_module/detective
-	name = "detective robot module"
-
-obj/item/weapon/robot_module/detective/New()
-	..()
-	modules += new /obj/item/weapon/restraints/handcuffs/cable/zipties/cyborg(src)
-	modules += new /obj/item/clothing/mask/gas/sechailer/cyborg(src)
-	modules += new /obj/item/weapon/gun/energy/revolver/cyborg(src)
-	modules += new /obj/item/device/detective_scanner(src)
-	fix_modules()
-
 /obj/item/weapon/robot_module/janitor
 	name = "janitorial robot module"
 
@@ -390,3 +379,16 @@ obj/item/weapon/robot_module/detective/New()
 	max_energy = 2500
 	recharge_rate = 250
 	name = "Medical Synthesizer"
+
+/obj/item/weapon/robot_module/detective
+	name = "detective robot module"
+
+obj/item/weapon/robot_module/detective/New()
+	..()
+	modules += new /obj/item/weapon/restraints/handcuffs/cable/zipties/cyborg(src)
+	modules += new /obj/item/weapon/gun/energy/disabler/cyborg(src)
+	modules += new /obj/item/clothing/mask/gas/sechailer/cyborg(src)
+	modules += new /obj/item/device/detective_scanner(src)
+	emag = new /obj/item/weapon/gun/energy/revolver/cyborg(src)
+
+	fix_modules()
