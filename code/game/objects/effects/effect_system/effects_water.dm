@@ -48,16 +48,16 @@ steam.start() -- spawns the effect
 	icon_state = "extinguish"
 	density = 0
 
-/datum/effect/effect/system/steam_spread
+/datum/effect_system/steam_spread
 
-/datum/effect/effect/system/steam_spread/set_up(n = 3, c = 0, turf/loc)
+/datum/effect_system/steam_spread/set_up(n = 3, c = 0, turf/loc)
 	if(n > 10)
 		n = 10
 	number = n
 	cardinals = c
 	location = loc
 
-/datum/effect/effect/system/steam_spread/start()
+/datum/effect_system/steam_spread/start()
 	var/i = 0
 	for(i=0, i<src.number, i++)
 		spawn(0)
@@ -81,16 +81,16 @@ steam.start() -- spawns the effect
 // even if it's carried of thrown.
 /////////////////////////////////////////////
 
-/datum/effect/effect/system/steam_trail_follow
+/datum/effect_system/steam_trail_follow
 	var/turf/oldposition
 	var/processing = 1
 	var/on = 1
 
-/datum/effect/effect/system/steam_trail_follow/set_up(atom/atom)
+/datum/effect_system/steam_trail_follow/set_up(atom/atom)
 	attach(atom)
 	oldposition = get_turf(atom)
 
-/datum/effect/effect/system/steam_trail_follow/start()
+/datum/effect_system/steam_trail_follow/start()
 	if(!src.on)
 		src.on = 1
 		src.processing = 1
@@ -115,6 +115,6 @@ steam.start() -- spawns the effect
 						src.processing = 1
 						src.start()
 
-/datum/effect/effect/system/steam_trail_follow/proc/stop()
+/datum/effect_system/steam_trail_follow/proc/stop()
 	src.processing = 0
 	src.on = 0

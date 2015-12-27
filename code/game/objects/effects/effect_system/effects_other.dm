@@ -11,20 +11,20 @@
 	icon_state = "ion_trails"
 	anchored = 1
 
-/datum/effect/effect/system/ion_trail_follow
+/datum/effect_system/ion_trail_follow
 	var/turf/oldposition
 	var/processing = 1
 	var/on = 1
 
-/datum/effect/effect/system/ion_trail_follow/Destroy()
+/datum/effect_system/ion_trail_follow/Destroy()
 	oldposition = null
 	return ..()
 
-/datum/effect/effect/system/ion_trail_follow/set_up(atom/atom)
+/datum/effect_system/ion_trail_follow/set_up(atom/atom)
 	attach(atom)
 
 
-/datum/effect/effect/system/ion_trail_follow/start() //Whoever is responsible for this abomination of code should become an hero
+/datum/effect_system/ion_trail_follow/start() //Whoever is responsible for this abomination of code should become an hero
 	if(!src.on)
 		src.on = 1
 		src.processing = 1
@@ -45,7 +45,7 @@
 				src.processing = 1
 				src.start()
 
-/datum/effect/effect/system/ion_trail_follow/proc/stop()
+/datum/effect_system/ion_trail_follow/proc/stop()
 	src.processing = 0
 	src.on = 0
 	oldposition = null
@@ -53,13 +53,13 @@
 
 
 //Reagent-based explosion effect
-/datum/effect/effect/system/reagents_explosion
+/datum/effect_system/reagents_explosion
 	var/amount 						// TNT equivalent
 	var/flashing = 0			// does explosion creates flash effect?
 	var/flashing_factor = 0		// factor of how powerful the flash effect relatively to the explosion
 	var/explosion_message = 1				//whether we show a message to mobs.
 
-/datum/effect/effect/system/reagents_explosion/set_up (amt, loc, flash = 0, flash_fact = 0, message = 1)
+/datum/effect_system/reagents_explosion/set_up (amt, loc, flash = 0, flash_fact = 0, message = 1)
 	amount = amt
 	explosion_message = message
 	if(istype(loc, /turf/))
@@ -72,12 +72,12 @@
 
 	return
 
-/datum/effect/effect/system/reagents_explosion/start()
+/datum/effect_system/reagents_explosion/start()
 	if(explosion_message)
 		location.visible_message("<span class='danger'>The solution violently explodes!</span>", \
 								"<span class='italics'>You hear an explosion!</span>")
 	if (amount <= 2)
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(2, 1, location)
 		s.start()
 
