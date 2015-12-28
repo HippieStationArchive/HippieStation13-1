@@ -80,6 +80,7 @@
 	//The Syndicate
 /var/const/access_syndicate = 150//General Syndicate Access
 /var/const/access_syndicate_leader = 151//Nuke Op Leader Access
+/var/const/access_syndicate_blastco = 152//For the equipment room
 
 /obj/var/list/req_access = null
 /obj/var/req_access_txt = "0"

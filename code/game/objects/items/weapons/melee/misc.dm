@@ -16,8 +16,8 @@
 	hitsound = 'sound/weapons/chainofcommand.ogg'
 
 /obj/item/weapon/melee/chainofcommand/suicide_act(mob/user)
-		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-		return (OXYLOSS)
+	user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (OXYLOSS)
 
 
 
@@ -200,3 +200,30 @@
 	armour_penetration = 20
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	hitsound = 'sound/weapons/chainsword.ogg'
+
+//Combat Knife
+/obj/item/weapon/melee/combatknife
+	name = "combat knife"
+	desc = "An extremely sharp military combat knife favored by syndicate agents."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "buckknife"
+	flags = CONDUCT
+	force = 17.0 //Reduced force to put bigger emphasis on bleeding
+	w_class = 1.0
+	slot_flags = SLOT_BELT
+	throwforce = 20.0 //Robust, but not as robust as it could be if it succesfully embeds
+	throw_speed = 3
+	throw_range = 8
+	attack_verb = list("stabbed", "torn", "cut", "sliced")
+	hitsound = 'sound/weapons/knife.ogg'
+	hitsound_extrarange = -3 //Sorta more sneaky beaky like
+	//Embedding
+	sharpness = IS_SHARP
+	embed_chance = 70 //Makes it an awesome throwing weapon.
+	embedded_impact_pain_multiplier = 30 //w_class is multiplied into this to determine damage applied on embed.
+	embedded_pain_multiplier = 6 //6 force applied when "it hurts"
+	embedded_pain_chance = 25 //25% chance to be pained by the knife
+
+/obj/item/weapon/melee/combatknife/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)

@@ -165,10 +165,11 @@
 				move_delay += config.walk_speed
 		move_delay += mob.movement_delay()
 
-		if(mob.nearcrit) //You can only crawl in nearcrit
+		if(mob.nearcrit && mob.crit_can_crawl) //You can only crawl in nearcrit
 			if(istype(mob, /mob/living))
 				var/mob/living/L = mob
-				L.adjustOxyLoss(1)
+				if(mob.crit_crawl_damage != 0) // let 'em have their negative values
+					L.apply_damage(mob.crit_crawl_damage, mob.crit_crawl_damage_type)
 			if(mob.dir == WEST)
 				mob.lying = 270
 				mob.update_canmove()

@@ -642,6 +642,30 @@
 		playsound(M, "sparks", 50, 1)
 	..()
 
+/datum/reagent/toxin/rotatium //Rotatium. Fucks up your rotation and is hilarious
+	name = "Rotatium"
+	id = "rotatium"
+	description = "A constantly swirling, oddly colourful fluid. Causes the consumer's sense of direction and hand-eye coordination to become wild."
+	reagent_state = LIQUID
+	color = "#FFFF00" //RGB: 255, 255, 0 Bright ass yellow
+	metabolization_rate = 0.6 * REAGENTS_METABOLISM
+	toxpwr = 0
+	var/rotate_timer = 0
+
+/datum/reagent/toxin/rotatium/on_mob_life(mob/living/M)
+	rotate_timer++
+	if(M.reagents.get_reagent_amount("rotatium") < 2)
+		M.client.dir = NORTH
+		..()
+		return
+	if(rotate_timer >= rand(5,30)) //Random rotations are wildly unpredictable and hilarious
+		rotate_timer = 0
+		M.client.dir = pick(NORTH, EAST, SOUTH, WEST)
+	..()
+
+/datum/reagent/toxin/rotatium/on_mob_delete(mob/living/M)
+	M.client.dir = NORTH
+	..()
 //ACID
 
 
@@ -686,3 +710,17 @@
 	toxpwr = 2
 	acidpwr = 20
 
+/datum/reagent/toxin/wasting_toxin //Used by the changeling death sting.
+	name = "Wasting Toxin"
+	id = "wasting_toxin"
+	description = "An insidious, biologically-produced poison. The body is barely capable of metabolizing it, meaning it will slowly kill them unless help is received."
+	metabolization_rate = 0.3 * REAGENTS_METABOLISM
+	color = rgb(51, 202, 63)
+	toxpwr = 2
+
+/datum/reagent/toxin/wasting_toxin/on_mob_life(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(H.vessel)
+			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
+	..()

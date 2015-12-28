@@ -1,0 +1,6 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - bugfix: "Dental Implants now work correctly."

@@ -275,7 +275,6 @@
 						"<span class='suicide'>[user] is slitting \his throat with the shard of glass! It looks like \he's trying to commit suicide.</span>"))
 	return (BRUTELOSS)
 
-
 /obj/item/weapon/shard/New()
 	icon_state = pick("large", "medium", "small")
 	switch(icon_state)

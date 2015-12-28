@@ -26,6 +26,11 @@
 	caliber = ".44"
 	projectile_type = /obj/item/projectile/bullet/heavybullet2
 
+/obj/item/ammo_casing/caseless/a68
+	desc = "A 6.8x43mm cartridge."
+	caliber = "6.8"
+	projectile_type = /obj/item/projectile/bullet/heavybullet3
+
 /obj/item/ammo_casing/c9mm
 	desc = "A 9mm cartridge."
 	caliber = "9mm"
@@ -200,17 +205,19 @@
 	reagents.add_reagent("coniine", 6)
 	reagents.add_reagent("sodium_thiopental", 6)
 
-/obj/item/ammo_casing/a762
-	desc = "A 7.62x51mm cartridge."
-	icon_state = "762-casing"
-	caliber = "a762"
-	projectile_type = /obj/item/projectile/bullet
+/obj/item/ammo_casing/shotgun/dart/assassination
+	desc = "A specialist shotgun dart designed to inncapacitate and kill the target over time, so you can get very far away from your target"
+
+/obj/item/ammo_casing/shotgun/dart/assassination/New()
+	..()
+	reagents.add_reagent("neurotoxin", 6)
+	reagents.add_reagent("lexorin", 6)
 
 /obj/item/ammo_casing/a545
 	desc = "A 5.45x39mm cartridge."
 	icon_state = "casing_545"
 	caliber = "a556"
-	projectile_type = /obj/item/projectile/bullet/heavybullet
+	projectile_type = /obj/item/projectile/bullet/weakbullet3
 
 /obj/item/ammo_casing/a556
 	desc = "A 5.56x45mm cartridge."

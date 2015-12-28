@@ -1,0 +1,8 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "Nuke Ops can now buy an access card to a new armory vault full of Blast Co equipment for 200 TC."
+  - rscadd: "While pricey, this card will outfit the entire Op team with a new hardsuit, explosives, and explosive based weaponry."
+  - rscadd: "Nuke Ops can now buy two new bundles, a sniper bundle and a chemical based bundle."

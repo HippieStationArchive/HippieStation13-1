@@ -14,7 +14,8 @@
 	new /obj/effect/decal/remains/human(loc)
 
 /mob/living/carbon/human/death(gibbed)
-	if(stat == DEAD)	return
+	if(stat == DEAD)
+		return
 	if(is_vampire(src))
 		var/datum/vampire/V = get_vampire()
 		var/rekt = 0
@@ -30,7 +31,8 @@
 			adjustStaminaLoss(-5)
 			src << "<span class='warning'>The clean blood in your body protects you from death.</span>"
 			return 0
-	if(healths)		healths.icon_state = "health5"
+	if(healths)
+		healths.icon_state = "health5"
 	stat = DEAD
 	dizziness = 0
 	jitteriness = 0

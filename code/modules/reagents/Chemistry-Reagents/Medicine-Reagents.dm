@@ -165,6 +165,7 @@
 			if(show_message)
 				M << "<span class='danger'>You feel your burns healing! It stings like hell!</span>"
 			M.emote("scream")
+	..()
 
 /datum/reagent/medicine/silver_sulfadiazine/on_mob_life(mob/living/M)
 	M.adjustFireLoss(-2*REM)
@@ -193,6 +194,7 @@
 	..()
 	return
 
+
 /datum/reagent/medicine/styptic_powder
 	name = "Styptic Powder"
 	id = "styptic_powder"
@@ -205,14 +207,13 @@
 		if(method in list(INGEST, VAPOR, INJECT))
 			M.adjustToxLoss(0.5*reac_volume)
 			if(show_message)
-				M << "<span class='danger'>You feel your bruises healing! It stings like hell!</span>"
-		else if(M.getFireLoss())
+				M << "<span class='warning'>You don't feel so good...</span>"
+		else if(M.getBruteLoss())
 			M.adjustBruteLoss(-reac_volume)
 			if(show_message)
-				M << "<span class='notice'>You feel your wounds knitting back together!</span>"
+				M << "<span class='danger'>You feel your wounds knitting back together!</span>"
 			M.emote("scream")
 	..()
-
 
 /datum/reagent/medicine/styptic_powder/on_mob_life(mob/living/M)
 	M.adjustBruteLoss(-2*REM)
@@ -346,6 +347,7 @@
 	for(var/datum/reagent/R in M.reagents.reagent_list)
 		if(R != src)
 			M.reagents.remove_reagent(R.id,2.5)
+			M.client.dir = NORTH
 	if(M.health > 20)
 		M.adjustToxLoss(2.5*REM)
 	..()

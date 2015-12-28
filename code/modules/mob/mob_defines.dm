@@ -140,8 +140,7 @@
 
 	var/area/lastarea = null
 
-	var/digitalcamo = 0 // Can they be tracked by the AI?
-	var/digitalinvis = 0 //Are they ivisible to the AI?
+	var/digitalcamo = 0 // Can they be tracked by the AI? And are they invisible?
 	var/image/digitaldisguise = null  //what does the AI see instead of them?
 
 	var/weakeyes = 0 //Are they vulnerable to flashes?
@@ -161,3 +160,6 @@
 	var/resize = 1 //Badminnery resize
 
 	var/nearcrit = 0 //for newcrit
+	var/crit_can_crawl = 0 //whether or not the mob can crawl in crit
+	var/crit_crawl_damage = 0 //No damage by default
+	var/crit_crawl_damage_type = OXY

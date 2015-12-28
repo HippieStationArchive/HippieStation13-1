@@ -64,9 +64,7 @@
 	throwforce = 10
 	w_class = 3
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-
-/obj/item/weapon/claymore/IsShield()
-	return 1
+	block_chance = 50
 
 /obj/item/weapon/claymore/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is falling on the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -84,6 +82,7 @@
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	block_chance = 50
 
 /obj/item/weapon/katana/cursed
 	slot_flags = null
@@ -91,9 +90,6 @@
 /obj/item/weapon/katana/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>")
 	return(BRUTELOSS)
-
-/obj/item/weapon/katana/IsShield()
-		return 1
 
 /obj/item/weapon/wirerod
 	name = "wired rod"
@@ -211,6 +207,54 @@
 	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
 	return (BRUTELOSS)
 
+/obj/item/weapon/pocketknife
+	name = "pocket knife"
+	desc = "Small, concealable blade that fits in the pocket nicely."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "pocketknife"
+	force = 3
+	throwforce = 3
+	hitsound = "swing_hit" //it starts deactivated
+	throw_speed = 3
+	throw_range = 8
+	var/active = 0
+	var/active_force = 12
+	var/deactive_force = 3
+	w_class = 1 //note to self: weight class
+	sharpness = IS_BLUNT
+
+/obj/item/weapon/pocketknife/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)
+
+/obj/item/weapon/pocketknife/attack_self(mob/living/user)
+	if (user.disabilities & CLUMSY && prob(50))
+		user << "<span class='warning'>You accidentally cut yourself with [src], like a doofus!</span>"
+		user.take_organ_damage(5,0)
+	active = !active
+	if (active)
+		force = active_force
+		throwforce = 14
+		sharpness = IS_SHARP
+		hitsound = 'sound/weapons/knife.ogg'
+		attack_verb = list("stabbed", "torn", "cut", "sliced")
+		icon_state = "pocketknife_open"
+		w_class = 3
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
+		user << "<span class='notice'>[src] is now open.</span>"
+	else
+		force = deactive_force
+		throwforce = 3
+		sharpness = IS_BLUNT
+		hitsound = "swing_hit"
+		attack_verb = null
+		icon_state = "pocketknife"
+		w_class = 1
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
+		user << "<span class='notice'>[src] is now closed.</span>"
+	add_fingerprint(user)
+	return
+
 /obj/item/weapon/phone
 	name = "red phone"
 	desc = "Should anything ever go wrong..."
@@ -224,7 +268,7 @@
 	attack_verb = list("called", "rang")
 	hitsound = 'sound/weapons/ring.ogg'
 
-/obj/item/weapon/phone/suicide_act(mob/user)
+/obj/item/weapon/phone/suicide_act(mob/user) //TODO: Make noosing work for this one like the cables
 	if(locate(/obj/structure/stool) in user.loc)
 		user.visible_message("<span class='notice'>[user] begins to tie a noose with the [src.name]'s cord! It looks like \he's trying to commit suicide.</span>")
 	else

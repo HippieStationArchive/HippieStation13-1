@@ -71,6 +71,8 @@
 	var/use_age_restriction_for_jobs = 0 //Do jobs use account age restrictions? --requires database
 	var/see_own_notes = 0 //Can players see their own admin notes (read-only)? Config option in config.txt
 
+	var/announce_watchlist = 0
+
 	//Population cap vars
 	var/soft_popcap				= 0
 	var/hard_popcap				= 0
@@ -147,7 +149,7 @@
 	var/slime_delay = 0
 	var/animal_delay = 0
 
-	var/gateway_delay = 18000 //How long the gateway takes before it activates. Default is half an hour.
+	var/gateway_delay = 6000 //How long the gateway takes before it activates. Default is 18000 - half an an hour.
 	var/ghost_interaction = 0
 
 	var/silent_ai = 0
@@ -164,6 +166,8 @@
 	var/grey_assistants = 0
 
 	var/aggressive_changelog = 0
+
+	var/roundstart_awaymissions = 0 //if an away mission will be loaded at roundstart.
 
 	var/reactionary_explosions = 0 //If we use reactionary explosions, explosions that react to walls and doors
 
@@ -257,6 +261,8 @@
 					config.allow_admin_ooccolor = 1
 				if("allow_vote_restart")
 					config.allow_vote_restart = 1
+				if("announce_watchlist")
+					announce_watchlist = 1
 				if("allow_vote_mode")
 					config.allow_vote_mode = 1
 				if("no_dead_vote")
@@ -360,6 +366,8 @@
 					config.announce_admin_logout = 1
 				if("announce_admin_login")
 					config.announce_admin_login = 1
+				if("roundstart_awaymissions")
+					roundstart_awaymissions = 1
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 

@@ -54,8 +54,14 @@
 /obj/item/stack/teeth/human/gold //Special traitor objective maybe?
 	name = "golden teeth"
 	singular_name = "gold tooth"
-	desc = "Captain spent a fortune on these."
+	desc = "Someone spent a fortune on these."
 	icon_state = "teeth_gold"
+
+/obj/item/stack/teeth/human/wood
+	name = "wooden teeth"
+	singular_name = "wooden tooth"
+	desc = "Made from the worst trees botany can provide."
+	icon_state = "teeth_wood"
 
 /obj/item/stack/teeth/generic //Used for species without unique teeth defined yet
 	name = "teeth"

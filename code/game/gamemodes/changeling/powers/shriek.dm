@@ -3,7 +3,8 @@
 	desc = "Our lungs and vocal chords shift, allowing us to briefly emit a noise that deafens and confuses the weak-minded."
 	helptext = "Emits a high-frequency sound that confuses and deafens humans, blows out nearby lights and overloads cyborg sensors."
 	chemical_cost = 20
-	dna_cost = 1
+	evopoints_cost = 4
+	req_dna = 6 //Tier 3
 	req_human = 1
 
 //A flashy ability, good for crowd control and sewing chaos.
@@ -32,7 +33,8 @@
 	name = "Dissonant Shriek"
 	desc = "We shift our vocal cords to release a high-frequency sound that overloads nearby electronics."
 	chemical_cost = 20
-	dna_cost = 1
+	evopoints_cost = 4
+	req_dna = 6 //Tier 3
 
 //A flashy ability, good for crowd control and sewing chaos.
 /obj/effect/proc_holder/changeling/dissonant_shriek/sting_action(mob/user)

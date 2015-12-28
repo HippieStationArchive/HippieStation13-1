@@ -2,7 +2,7 @@
 	name = "Transform"
 	desc = "We take on the appearance and voice of one we have absorbed."
 	chemical_cost = 5
-	dna_cost = 0
+	evopoints_cost = 0
 	req_dna = 1
 	req_human = 1
 	max_genetic_damage = 3

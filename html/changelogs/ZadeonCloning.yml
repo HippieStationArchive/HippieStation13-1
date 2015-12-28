@@ -1,0 +1,6 @@
+author: Zadeon
+
+delete-after: True
+
+changes: 
+  - tweak: "Changed the cloning area at genetics to have two cloners instead of one."
