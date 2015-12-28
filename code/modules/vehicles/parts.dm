@@ -20,8 +20,7 @@
 	part_type = "engine"
 
 //The act proc for doing effects while the engine is running, such as leaving a fire trail, draining the tank or cell of fuel, modify it per engine
-/obj/item/vehicle_parts/engine/proc/engine_act(var/obj/item/weapon/reagent_containers/fueltank/fueltank, var/obj/item/weapon/stock_parts/cell/cell, var/mob/user)
-	var/returnmsg
+/obj/item/vehicle_parts/engine/proc/engine_act(var/obj/item/weapon/reagent_containers/fueltank/fueltank, var/obj/item/weapon/stock_parts/cell/cell, var/mob/user, var/returnmsg)
 	if(!cell) //I would draw on the cell to start the engine, but i'll leave this out for now
 		returnmsg = "nocell"
 		return returnmsg
@@ -34,6 +33,30 @@
 			user.visible_message("<span class='danger'>[src]'s engine stops abruptly.</span>",
 			"<span class='danger'>[src]'s engine stops abruptly</span>",
 			"<span class='italics'>You hear an engine die down</span>")
+
+/obj/item/vehicle_parts/engine/fire
+	name = "fire engine"
+	desc = "Shoots fucking flames out the back when it moves"
+
+/obj/item/vehicle_parts/engine/fire/engine_act(var/obj/item/weapon/reagent_containers/fueltank/fueltank, var/obj/item/weapon/stock_parts/cell/cell, var/mob/user, var/returnmsg)
+	if(!cell) //I would draw on the cell to start the engine, but i'll leave this out for now
+		returnmsg = "nocell"
+		return returnmsg
+	else if(!fueltank.reagents.has_reagent(fueltype, fueluse))
+		returnmsg = "nofuel"
+		return returnmsg
+	else
+		fueltank.reagents.remove_reagent(fueltype, fueluse)
+		if(!fueltank.reagents.has_reagent(fueltype, fueluse))
+			user.visible_message("<span class='danger'>[src]'s engine stops abruptly.</span>",
+			"<span class='danger'>[src]'s engine stops abruptly</span>",
+			"<span class='italics'>You hear an engine die down</span>")
+
+		var/turf/location = get_turf(src)
+		if(location)
+			PoolOrNew(/obj/effect/hotspot, location)
+			location.hotspot_expose(700, 50, 1)
+
 
 
 /obj/item/vehicle_parts/propulsion

@@ -74,7 +74,7 @@ Dont touch this file unless you know your shit about this.
 
 	if(istype(I,/obj/item/weapon/reagent_containers/fueltank) || istype(I,/obj/item/vehicle_parts))
 		var/obj/item/vehicle_parts/O = I
-		if(compareParts(O, parts))
+		if(compareParts(O))
 			user << "<span class='warning'>[src] already has a [O.part_type]</span>"
 			return
 		if(installing)
@@ -85,6 +85,7 @@ Dont touch this file unless you know your shit about this.
 			user << "<span class='notice'>You begin to install [I] into [src]</span>"
 			if(do_after(user, 40, target = src))
 				user << "<span class='notice'>You install [I] into [src]</span>"
+				user.drop_item()
 				parts += I
 				I.forceMove(src)
 				update_stats()
@@ -128,10 +129,14 @@ Dont touch this file unless you know your shit about this.
 					"<span class='danger'>You hit [src] with the [I.name]</span>")
 
 
-/obj/vehicle/proc/compareParts(var/obj/item/vehicle_parts/input, var/list/part_list) //Meant for checking parts and whether there is already one installed or not.
-	for(var/obj/item/F in part_list)
+/obj/vehicle/proc/compareParts(var/obj/item/vehicle_parts/input) //Meant for checking parts and whether there is already one installed or not.
+	for(var/obj/item/F in parts)
+		if(istype(F,/obj/item/weapon/stock_parts/cell))
+			continue //Fuck that
 		var/obj/item/vehicle_parts/N = F
-		if(input.part_type == "seat") //Seats are ignored, of course.
+		if(istype(input,/obj/item/weapon/stock_parts/cell))
+			return 1
+		else if(input.part_type == "seat") //Seats are ignored, of course.
 			return 0
 		else if(input.part_type == N.part_type)
 			return 1
