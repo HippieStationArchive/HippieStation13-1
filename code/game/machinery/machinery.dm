@@ -284,9 +284,9 @@ Class Procs:
 
 //set_machine must be 0 if clicking the machinery doesn't bring up a dialog
 /obj/machinery/attack_hand(mob/user, check_power = 1, set_machine = 1)
-	if(user.lying || user.stat)
+	if((user.lying || user.stat) && !IsAdminGhost(user))
 		return 1
-	if(!user.IsAdvancedToolUser())
+	if(!user.IsAdvancedToolUser() && !IsAdminGhost(user))
 		usr << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return 1
 	if (ishuman(user))
@@ -427,8 +427,8 @@ Class Procs:
 
 // Hook for html_interface module to prevent updates to clients who don't have this as their active machine.
 /obj/machinery/proc/hiIsValidClient(datum/html_interface_client/hclient, datum/html_interface/hi)
-	if (hclient.client.mob && hclient.client.mob.stat == 0)
-		if (isAI(hclient.client.mob)) return TRUE
+	if (hclient.client.mob && (hclient.client.mob.stat == 0 || IsAdminGhost(hclient.client.mob)))
+		if (!(istype(usr, /mob/living/silicon) || IsAdminGhost(usr)))
 		else                          return hclient.client.mob.machine == src && src.Adjacent(hclient.client.mob)
 	else
 		return FALSE
