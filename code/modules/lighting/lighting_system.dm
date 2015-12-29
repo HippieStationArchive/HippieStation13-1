@@ -304,12 +304,12 @@
 	if(lighting_object)
 		var/newalpha
 		if(lighting_lumcount <= 0)
-			newalpha = 255
+			newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA
 		else
 			lighting_object.luminosity = 1
 			if(lighting_lumcount < LIGHTING_CAP)
-				var/num = Clamp(lighting_lumcount * LIGHTING_CAP_FRAC, 0, 255)
-				newalpha = 255-num
+				var/num = Clamp(lighting_lumcount * LIGHTING_CAP_FRAC, 0, LIGHTING_DARKEST_VISIBLE_ALPHA)
+				newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA-num
 			else //if(lighting_lumcount >= LIGHTING_CAP)
 				newalpha = 0
 
