@@ -1,6 +1,9 @@
 /*
 This is the base file for the Artic Station Vehicle code,
 Dont touch this file unless you know your shit about this.
+
+Well techincally it's now Hippie Station.
+but i'll port it back to Arctic station if we get back to it
 */
 
 /obj/vehicle
@@ -121,7 +124,7 @@ Dont touch this file unless you know your shit about this.
 			playsound(src,I.hitsound,30,1)
 		if(I.force)
 			if(I.force < 10) //Innate armor for all vehicles
-				user.visible_message("<span class='danger'>[user] attacks [src], but /his attack does nothing!</span>", \
+				user.visible_message("<span class='danger'>[user] attacks [src], but \his attack does nothing!</span>", \
 					"<span class='userdanger'>You hit [src] with [I.name], but deal no damage!</span>")
 			else
 				take_damage(I.force,I.damtype)
@@ -151,6 +154,8 @@ Dont touch this file unless you know your shit about this.
 	..()
 	var/integrity = health/maxhealth*100
 	switch(integrity)
+		if(100 to INFINITY)
+			user << "It's in a state not comprehenisble by you."
 		if(85 to 100)
 			user << "It's fully intact."
 		if(65 to 85)
@@ -174,6 +179,16 @@ Dont touch this file unless you know your shit about this.
 			else
 				user << "\icon[part] [part]"
 
+/obj/vehicle/Bump(var/atom/obstacle, yes)
+	if(yes)
+		if(..())
+			return
+		if(istype(obstacle, /obj))
+			var/obj/O = obstacle
+			if(!O.anchored)
+				step(obstacle, dir)
+		else if(istype(obstacle, /mob))
+			step(obstacle, dir)
 
 /obj/vehicle/proc/GrantActions(var/mob/living/user)
 	exit_vehicle.vehicle = src
@@ -181,8 +196,6 @@ Dont touch this file unless you know your shit about this.
 
 /obj/vehicle/proc/RemoveActions(var/mob/living/user)
 	exit_vehicle.Remove(usr)
-
-
 
 /obj/vehicle/proc/exit(var/atom/newloc = loc)
 	RemoveActions()
@@ -244,7 +257,7 @@ Dont touch this file unless you know your shit about this.
 		if(!O.weight)
 			continue //Ignore weightless objects
 		if(O.part_type == "seat")
-			occupants_max += 1
+			src.occupants_max += 1
 		O.weight += mass
 	update_icon()
 

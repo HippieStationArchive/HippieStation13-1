@@ -68,6 +68,16 @@
 				playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
 				do_animate("deny")
 		return
+
+	if(istype(AM, /obj/vehicle))
+		var/obj/vehicle/vehicle = AM
+		if(density)
+			if(vehicle.driver && (src.allowed(vehicle.driver) || emergency == 1))
+				open()
+			else
+				playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
+				do_animate("deny")
+
 	return
 
 /obj/machinery/door/Move()
