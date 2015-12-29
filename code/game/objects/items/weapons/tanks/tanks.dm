@@ -111,7 +111,8 @@
 		bomb_assemble(W,user)
 
 /obj/item/weapon/tank/attack_self(mob/user)
-	if (!user) return
+	if (!user)
+		return
 	interact(user)
 
 /obj/item/weapon/tank/interact(mob/user)
@@ -119,7 +120,7 @@
 	ui_interact(user)
 
 /obj/item/weapon/tank/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, force_open = 0)
-	SSnano.try_update_ui(user, src, ui_key, ui, force_open = force_open)
+	ui = SSnano.try_update_ui(user, src, ui_key, ui, force_open = force_open)
 	if (!ui)
 		ui = new(user, src, ui_key, "tanks.tmpl", name, 525, 175, state = inventory_state)
 		ui.open()
@@ -158,7 +159,8 @@
 
 /obj/item/weapon/tank/Topic(href, href_list)
 	if (..()) return
-	if (usr.stat|| usr.restrained()) return
+	if (usr.stat|| usr.restrained())
+		return
 
 	if (href_list["dist_p"])
 		if (href_list["dist_p"] == "custom")
