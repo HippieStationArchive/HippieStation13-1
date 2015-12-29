@@ -635,22 +635,11 @@
 
 
 /obj/machinery/power/apc/interact(mob/user)
-	if(!user)
-		return
-
-	if(wiresexposed /*&& (!istype(user, /mob/living/silicon))*/) //Commented out the typecheck to allow engiborgs to repair damaged apcs.
-		wires.Interact(user)
-
-	return ui_interact(user)
-
-
-/obj/machinery/power/apc/proc/get_malf_status(mob/user)
 	if(stat & (BROKEN|MAINT)) return
 	if(wiresexposed && !istype(user, /mob/living/silicon/ai)) wires.Interact(user)
 	else ui_interact(user)
 
-
-/obj/machinery/power/apc/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, force_open = 0)
+obj/machinery/power/apc/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, force_open = 0)
 	SSnano.try_update_ui(user, src, ui_key, ui, force_open = force_open)
 	if (!ui)
 		ui = new(user, src, ui_key, "apc.tmpl", name, 515, 550)

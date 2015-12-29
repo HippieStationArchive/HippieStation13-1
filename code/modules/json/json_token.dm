@@ -6,4 +6,4 @@ json_token/text
 json_token/number
 json_token/word
 json_token/symbol
-json_token/eo
+json_token/eof
