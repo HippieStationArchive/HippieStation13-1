@@ -1,4 +1,3 @@
-
 /proc/mix_color_from_reagents(list/reagent_list)
 	if(!istype(reagent_list))
 		return
@@ -20,5 +19,3 @@
 			color = BlendRGB(R.color, color, vol_temp/vol_counter)
 
 	return color
-
-

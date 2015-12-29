@@ -28,6 +28,9 @@ About the Holder:
 			This proc removes reagents from the holder until the passed amount
 			is matched. It'll try to remove some of ALL reagents contained.
 
+		remove_all(var/amount)
+			This proc removes reagents from the holder equally.
+
 		trans_to(var/obj/target, var/amount)
 			This proc equally transfers the contents of the holder to another
 			objects holder. You need to pass it the object (not the holder) you want
@@ -70,7 +73,7 @@ About the Holder:
 			I.e. if A is an object, it will call the reagents reaction_obj
 			proc. The method var is used for reaction on mobs. It simply tells
 			us if the mob TOUCHed the reagent, if it INGESTed the reagent, if the reagent
-			was VAPORIZEd on them, if the reagent was INJECTed, or transfered via a PATCH to them.
+			was VAPORIZEd on them, if the reagent was INJECTed,	or transfered via a PATCH to them.
 			Since the volume can be checked in a reagents proc, you might want to
 			use the volume_modifier var to modifiy the passed value without actually
 			changing the volume of the reagents.
