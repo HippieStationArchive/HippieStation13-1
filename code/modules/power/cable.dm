@@ -495,6 +495,8 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	is_cyborg = 1
 	materials = list()
 	cost = 1
+/obj/item/stack/cable_coil/cyborg/makeRestraints()
+	return //No cable cuffs for cyborgs
 
 /obj/item/stack/cable_coil/cyborg/attack_self(mob/user)
 	var/cable_color = input(user,"Pick a cable color.","Cable Color") in list("red","yellow","green","blue","pink","orange","cyan","white")
