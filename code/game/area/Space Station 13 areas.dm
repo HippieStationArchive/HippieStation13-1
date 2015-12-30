@@ -582,8 +582,8 @@ var/list/teleportlocs = list()
 	name = "\improper Locker Toilets"
 	icon_state = "toilet"
 
-/area/crew_quarters/pool
-	name = "\improper Pool"
+/area/crew_quarters/fitness
+	name = "\improper Fitness Room"
 	icon_state = "fitness"
 
 /area/crew_quarters/cafeteria
