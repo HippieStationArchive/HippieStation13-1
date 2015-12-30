@@ -35,4 +35,7 @@ delete-after: True
 changes: 
   - rscdel: "Deleted the laser and shotgun cabinets, replaced with secure lockers that require appropriate level to open"
   - rscadd: "Redesigned the Armoury, Riot Gear Room and Security Lockeroom. Now slightly bigger, better appointed and more appropriate for the amount of traffic they were getting during a round - generally trying to give Sec a better playing experience"
+  - rscadd: "Turned a bit of space in Engineering into a materials room, just to give it a bit more neatness and purpose. Tried using vendors for the materials but it spits out in single sheets, not feasible."
+  - rscadd: "Stuck a changing room above the sec locker room for the guys to hang out in towels, hi-five and generally be homo-erotic."
+  - rscadd: "Stuck in Sec spawn points at Arrivals and the Core Sec office so there's someone on hand straight away - kit is available from lockers. This is just a trial."
 
