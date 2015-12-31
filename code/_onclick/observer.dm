@@ -20,7 +20,7 @@
 			return									// seems legit.
 
 	// Things you might plausibly want to follow
-	if((ismob(A) && A != src) || istype(A,/obj/machinery/bot) || istype(A,/obj/singularity))
+	if(istype(A, /atom/movable))
 		ManualFollow(A)
 
 	// Otherwise jump
@@ -87,6 +87,11 @@
 /obj/item/weapon/storage/attack_ghost(mob/user)
 	orient2hud(user)
 	show_to(user)
+
+/obj/machinery/teleport/hub/attack_ghost(mob/user)
+	if(power_station && power_station.engaged && power_station.teleporter_console && power_station.teleporter_console.target)
+		user.Move(get_turf(power_station.teleporter_console.target))
+	return
 
 // -------------------------------------------
 // This was supposed to be used by adminghosts

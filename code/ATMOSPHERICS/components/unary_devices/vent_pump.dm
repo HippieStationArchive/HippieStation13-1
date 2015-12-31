@@ -285,17 +285,17 @@
 		if (WT.remove_fuel(0,user))
 			playsound(loc, 'sound/items/Welder.ogg', 40, 1)
 			user << "<span class='notice'>You begin welding the vent...</span>"
-			if(do_after(user, 20, target = src))
+			if(do_after(user, 20/W.toolspeed, target = src))
 				if(!src || !WT.isOn()) return
 				playsound(src.loc, 'sound/items/Welder2.ogg', 50, 1)
 				if(!welded)
 					user.visible_message("[user] welds the vent shut.", "<span class='notice'>You weld the vent shut.</span>", "<span class='italics'>You hear welding.</span>")
 					welded = 1
-					update_icon()
 				else
 					user.visible_message("[user] unwelds the vent.", "<span class='notice'>You unweld the vent.</span>", "<span class='italics'>You hear welding.</span>")
 					welded = 0
-					update_icon()
+				update_icon()
+				pipe_vision_img = image(src, loc, layer = 20, dir = dir)
 			return 1
 	if(istype(W, /obj/item/weapon/crowbar))
 		// var/obj/item/weapon/crowbar/C = W

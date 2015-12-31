@@ -296,6 +296,23 @@
 			qdel(holder)
 	return 1
 
+/datum/spacevine_mutation/flowering
+	name = "flowering"
+	hue = "#0A480D"
+	quality = NEGATIVE
+	severity = 10
+
+
+/datum/spacevine_mutation/flowering/on_grow(obj/effect/spacevine/holder)
+	if(holder.energy == 2 && prob(severity) && !locate(/obj/structure/alien/resin/flower_bud_enemy) in range(5,holder))
+		var/obj/structure/alien/resin/flower_bud_enemy/FBE = new /obj/structure/alien/resin/flower_bud_enemy (get_turf(holder))
+		FBE.layer = holder.layer+0.1
+
+
+/datum/spacevine_mutation/flowering/on_cross(obj/effect/spacevine/holder, mob/living/crosser)
+	holder.entangle(crosser)
+
+
 
 // SPACE VINES (Note that this code is very similar to Biomass code)
 /obj/effect/spacevine
@@ -503,13 +520,20 @@
 
 /obj/effect/spacevine/buckle_mob()
 	if(!buckled_mob && prob(25))
-		for(var/mob/living/carbon/V in src.loc)
-			for(var/datum/spacevine_mutation/SM in mutations)
-				SM.on_buckle(src, V)
-			if((V.stat != DEAD) && (V.buckled != src)) //not dead or captured
-				V << "<span class='danger'>The vines [pick("wind", "tangle", "tighten")] around you!</span>"
+		for(var/mob/living/V in src.loc)
+			entangle(V)
+			if(buckled_mob)
 				..(V)
 				break //only capture one mob at a time
+
+/obj/effect/spacevine/proc/entangle(mob/living/V)
+	if(!V)
+		return
+	for(var/datum/spacevine_mutation/SM in mutations)
+		SM.on_buckle(src, V)
+	if((V.stat != DEAD) && (V.buckled != src)) //not dead or captured
+		V << "<span class='danger'>The vines [pick("wind", "tangle", "tighten")] around you!</span>"
+		buckle_mob(V)
 
 /obj/effect/spacevine/proc/spread()
 	var/direction = pick(cardinal)

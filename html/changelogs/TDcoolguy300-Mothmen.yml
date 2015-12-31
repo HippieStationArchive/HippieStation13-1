@@ -1,0 +1,8 @@
+author: TDcoolguy300 + Fury McFlurry
+
+delete-after: True
+
+changes: 
+  - rscadd: "Adds mothmen as a playable race"
+  - rscadd: "Mothmen can choose from a current selection of wings at this time"
+  - rscadd: "Big thanks to Fury for the Sprites"

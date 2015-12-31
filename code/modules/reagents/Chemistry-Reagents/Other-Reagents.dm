@@ -384,6 +384,21 @@
 		H << "<span class='danger'>The pain vanishes suddenly. You feel no different.</span>"
 	return 1
 
+/datum/reagent/mulligan
+	name = "Randomizer Toxin"
+	id = "mulligan"
+	description = "This toxin will rapidly change the DNA of human beings. Commonly used by Syndicate spies and assassins in need of an emergency ID change."
+	color = "#5EFF3B" //RGB: 94, 255, 59
+	metabolization_rate = INFINITY
+
+/datum/reagent/mulligan/on_mob_life(mob/living/carbon/human/H)
+	..()
+	H << "<span class='warning'><b>You grit your teeth in pain as your body rapidly mutates!</b></span>"
+	H.visible_message("<b>[H]</b> suddenly transforms!")
+	randomize_human(H)
+	return 1
+
+
 /datum/reagent/aslimetoxin
 	name = "Advanced Mutation Toxin"
 	id = "amutationtoxin"
@@ -643,7 +658,7 @@
 /datum/chemical_reaction/fuel_explosion/on_reaction(datum/reagents/holder, created_volume)
 	var/location = get_turf(holder.my_atom)
 	if(!holder.my_atom.is_open_container()) // fuel's in a closed space, let's make it go boom and jazz
-		var/datum/effect/effect/system/reagents_explosion/e = new()
+		var/datum/effect_system/reagents_explosion/e = new()
 		e.set_up(min(1 + round(created_volume/15, 1), 17), location, 0, 0)
 		e.start()
 	else // let's just make fire

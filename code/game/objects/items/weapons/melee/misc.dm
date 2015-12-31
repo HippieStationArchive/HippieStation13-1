@@ -16,8 +16,8 @@
 	hitsound = 'sound/weapons/chainofcommand.ogg'
 
 /obj/item/weapon/melee/chainofcommand/suicide_act(mob/user)
-		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-		return (OXYLOSS)
+	user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (OXYLOSS)
 
 
 
@@ -145,7 +145,7 @@
 	var/click_delay = 1.3
 
 /obj/item/weapon/melee/powerfist/attack(mob/living/target, mob/living/user)		//Keep this to powerfist/attack and NOT powerfist/afterattack , powerfist/afterattack gives this thing INFINITE range without further checks.
-	var/datum/effect/effect/system/lightning_spread/s = new /datum/effect/effect/system/lightning_spread
+	var/datum/effect_system/lightning_spread/s = new /datum/effect_system/lightning_spread
 	s.set_up(5, 1, target.loc)
 	s.start()	//Executes these speshul effects on the hit target AKA victim.
 

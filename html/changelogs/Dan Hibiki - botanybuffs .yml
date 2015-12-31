@@ -1,0 +1,7 @@
+author: Dan Hibiki
+
+delete-after: True
+
+changes: 
+  - tweak: "Increased amount of spacedrugs found in ambrosia vulgaris and ambrosia deus"
+  - rscadd: "Added poison apple trees as a mutation to regular apple trees."

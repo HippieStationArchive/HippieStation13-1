@@ -91,7 +91,7 @@ var/list/teleportlocs = list()
 	icon_state = "space"
 	requires_power = 1
 	always_unpowered = 1
-	lighting_use_dynamic = 0
+	lighting_use_dynamic = DYNAMIC_LIGHTING_DISABLED
 	power_light = 0
 	power_equip = 0
 	power_environ = 0
@@ -100,13 +100,17 @@ var/list/teleportlocs = list()
 				'sound/ambience/title1.ogg','sound/ambience/title2.ogg','sound/ambience/title3.ogg',)
 	ambloop = 'sound/ambience/loop/space.ogg'
 
+/area/space/nearstation
+	icon_state = "space_near"
+	lighting_use_dynamic = DYNAMIC_LIGHTING_IFSTARLIGHT
+
 //These are shuttle areas; all subtypes are only used as teleportation markers, they have no actual function beyond that.
 
 /area/shuttle
 	name = "\improper Shuttle"
 	requires_power = 0
 	luminosity = 1
-	lighting_use_dynamic = 1
+	lighting_use_dynamic = DYNAMIC_LIGHTING_ENABLED
 	has_gravity = 1
 	valid_territory = 0
 	icon_state = "shuttle"
@@ -144,6 +148,9 @@ var/list/teleportlocs = list()
 /area/shuttle/syndicate
 	name = "\improper Syndicate Infiltrator"
 
+/area/shuttle/assault_pod
+	name = "Steel Rain"
+
 /area/shuttle/abandoned
 	name = "\improper Abandoned Ship"
 	ambientsounds = list('sound/ambience/ambiatm1.ogg', 'sound/ambience/ambmaint.ogg',\
@@ -156,7 +163,7 @@ var/list/teleportlocs = list()
 	icon_state = "start"
 	requires_power = 0
 	luminosity = 1
-	lighting_use_dynamic = 0
+	lighting_use_dynamic = DYNAMIC_LIGHTING_DISABLED
 	has_gravity = 1
 
 // CENTCOM
@@ -575,9 +582,9 @@ var/list/teleportlocs = list()
 	name = "\improper Locker Toilets"
 	icon_state = "toilet"
 
-/area/crew_quarters/fitness
-	name = "\improper Fitness Room"
-	icon_state = "fitness"
+/area/crew_quarters/pool
+	name = "\improper Pool"
+	icon_state = "pool"
 
 /area/crew_quarters/cafeteria
 	name = "\improper Cafeteria"
@@ -625,7 +632,7 @@ var/list/teleportlocs = list()
 	name = "\improper Holodeck"
 	icon_state = "Holodeck"
 	luminosity = 1
-	lighting_use_dynamic = 0
+	lighting_use_dynamic = DYNAMIC_LIGHTING_DISABLED
 
 /area/holodeck/alphadeck
 	name = "\improper Holodeck Alpha"
@@ -702,30 +709,30 @@ var/list/teleportlocs = list()
 /area/solar
 	requires_power = 0
 	luminosity = 1
-	lighting_use_dynamic = 0
+	lighting_use_dynamic = DYNAMIC_LIGHTING_IFSTARLIGHT
 	valid_territory = 0
 
-	auxport
+/area/solar/auxport
 		name = "\improper Fore Port Solar Array"
 		icon_state = "panelsA"
 
-	auxstarboard
+/area/solar/auxstarboard
 		name = "\improper Fore Starboard Solar Array"
 		icon_state = "panelsA"
 
-	fore
+/area/solar/fore
 		name = "\improper Fore Solar Array"
 		icon_state = "yellow"
 
-	aft
+/area/solar/aft
 		name = "\improper Aft Solar Array"
 		icon_state = "aft"
 
-	starboard
+/area/solar/starboard
 		name = "\improper Aft Starboard Solar Array"
 		icon_state = "panelsS"
 
-	port
+/area/solar/port
 		name = "\improper Aft Port Solar Array"
 		icon_state = "panelsP"
 
@@ -1328,28 +1335,28 @@ var/list/teleportlocs = list()
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
-	lighting_use_dynamic = 0
+	lighting_use_dynamic = DYNAMIC_LIGHTING_IFSTARLIGHT
 	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/turret_protected/AIsatextFS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
-	lighting_use_dynamic = 0
+	lighting_use_dynamic = DYNAMIC_LIGHTING_IFSTARLIGHT
 	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/turret_protected/AIsatextAS
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
-	lighting_use_dynamic = 0
+	lighting_use_dynamic = DYNAMIC_LIGHTING_IFSTARLIGHT
 	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/turret_protected/AIsatextAP
 	name = "\improper AI Sat Ext"
 	icon_state = "storage"
 	luminosity = 1
-	lighting_use_dynamic = 0
+	lighting_use_dynamic = DYNAMIC_LIGHTING_IFSTARLIGHT
 	ambloop = 'sound/ambience/loop/space.ogg'
 
 /area/turret_protected/NewAIMain
@@ -1455,7 +1462,7 @@ var/list/teleportlocs = list()
 	name = "Beach"
 	icon_state = "away"
 	luminosity = 1
-	lighting_use_dynamic = 0
+	lighting_use_dynamic = DYNAMIC_LIGHTING_DISABLED
 	requires_power = 0
 	has_gravity = 1
 	ambloop = 'sound/ambience/loop/shore.ogg'

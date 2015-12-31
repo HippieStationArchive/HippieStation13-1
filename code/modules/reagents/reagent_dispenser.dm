@@ -64,7 +64,7 @@
 		spawn(-1)
 			for(var/i in 1 to 11) // i will be later used for direction. i'm a smart man am i not?admit it fucker
 				if(i == 3 || i == 7) continue // those aren't directions.
-				var/obj/effect/effect/water/W = new /obj/effect/effect/water(get_turf(src))
+				var/obj/effect/particle_effect/water/W = new /obj/effect/particle_effect/water(get_turf(src))
 				W.create_reagents(200) // maximum it should hold is 200
 				reagents.trans_to(W,volumepereffect)
 				W.color = mix_color_from_reagents(W.reagents.reagent_list)

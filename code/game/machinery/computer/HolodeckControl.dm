@@ -189,7 +189,7 @@
 
 			for(var/turf/T in linkedholodeck)
 				if(prob(30))
-					var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+					var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 					s.set_up(2, 1, T)
 					s.start()
 				T.ex_act(3)
@@ -258,7 +258,7 @@
 				spawn(20)
 					if(istype(target,/area/holodeck/source_burntest))
 						var/turf/T = get_turf(L)
-						var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+						var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 						s.set_up(2, 1, T)
 						s.start()
 						if(T)
@@ -378,9 +378,9 @@
 	New()
 		item_color = "red"
 
-/obj/item/weapon/holo/esword/IsShield()
+/obj/item/weapon/holo/esword/hit_reaction(mob/living/carbon/human/owner, attack_text, final_block_chance)
 	if(active)
-		return 1
+		return ..()
 	return 0
 
 /obj/item/weapon/holo/esword/attack(mob/target, mob/user)

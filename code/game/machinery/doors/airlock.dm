@@ -214,7 +214,7 @@ About the new airlock wires panel:
 		return 0	//Already shocked someone recently?
 	if(!prob(prb))
 		return 0 //you lucked out, no shock for you
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(5, 1, src)
 	s.start() //sparks always.
 	if(electrocute_mob(user, get_area(src), src))
@@ -815,7 +815,7 @@ About the new airlock wires panel:
 		updateUsrDialog()
 	return
 
-/obj/machinery/door/airlock/attackby(obj/C, mob/user, params)
+/obj/machinery/door/airlock/attackby(obj/item/C, mob/user, params)
 	if(!istype(usr, /mob/living/silicon))
 		if(src.isElectrified())
 			if(src.shock(user, 75))
@@ -834,7 +834,7 @@ About the new airlock wires panel:
 							"<span class='notice'>You begin [welded ? "unwelding":"welding"] the airlock...</span>", \
 							"<span class='italics'>You hear welding.</span>")
 			playsound(loc, 'sound/items/Welder.ogg', 40, 1)
-			if(do_after(user,40,5,1, target = src))
+			if(do_after(user,40/C.toolspeed,5,1, target = src))
 				if(density && !operating)//Door must be closed to weld.
 					if( !istype(src, /obj/machinery/door/airlock) || !user || !W || !W.isOn() || !user.loc )
 						return
@@ -865,7 +865,7 @@ About the new airlock wires panel:
 		if(p_open && charge)
 			user << "<span class='notice'>You carefully start removing [charge] from [src]...</span>"
 			playsound(get_turf(src), 'sound/items/Crowbar.ogg', 50, 1)
-			if(!do_after(user, 150, target = src))
+			if(!do_after(user, 150/C.toolspeed, target = src))
 				user << "<span class='warning'>You slip and [charge] detonates!</span>"
 				charge.ex_act(1)
 				user.Weaken(3)
@@ -879,7 +879,7 @@ About the new airlock wires panel:
 			playsound(src.loc, 'sound/items/Crowbar.ogg', 100, 1)
 			user.visible_message("[user] removes the electronics from the airlock assembly.", \
 								 "<span class='notice'>You start to remove electronics from the airlock assembly...</span>")
-			if(do_after(user,40, target = src))
+			if(do_after(user,40/C.toolspeed, target = src))
 				if(src.loc)
 					if(src.doortype)
 						var/obj/structure/door_assembly/A = new src.doortype(src.loc)

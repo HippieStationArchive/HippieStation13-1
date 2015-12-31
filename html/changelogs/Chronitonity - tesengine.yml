@@ -1,0 +1,13 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "Ports Goofballs Tesla Engine as something else to do as an engineer."
+  - rscadd: "For the tesla engine, you need to wrench down all the tesla coils outside in the engine area."
+  - rscadd: "Then in the middle, move the singularity engine generator out of the way and wrench the tesla generator in the middle."
+  - rscadd: "Turn the containment shields on, and for more saftey, wrench down the grounding rods. These will hopefully prevent lightning from shocking you."
+  - rscadd: "Turn the PA on. It'll generate a huge ball of lightning. The longer the PA on, the more energy goes into the lightning ball, creating more smaller lightning balls that generate more power!"
+  - rscadd: "Be warned though, the more minature lightning balls, the more dangerous the engine is, especiall when freed."
+  - rscadd: "Be sure to stay safe and wear an engineering hardsuit and gloves in the event that you get near a ball of lightning."
+  - rscadd: "This doesn't remove the singularity, it just means you can pick between which engines to set up, or go set another engine up somewhere else now!"

@@ -50,6 +50,7 @@
 	var/coldmod = 1		// multiplier for cold damage
 	var/heatmod = 1		// multiplier for heat damage
 	var/punchmod = 0	// adds to the punch damage
+	var/siemens_coeff = 1 //base electrocution coefficient
 
 	var/invis_sight = SEE_INVISIBLE_LIVING
 	var/darksight = 2
@@ -363,6 +364,8 @@
 					S = ears_list[H.dna.features["ears"]]
 				if("body_markings")
 					S = body_markings_list[H.dna.features["body_markings"]]
+				if("wing")
+					S = wing_list[H.dna.features["wing"]]
 
 			if(!S || S.icon_state == "none")
 				continue
@@ -677,7 +680,7 @@
 			H.sight |= SEE_MOBS
 			H.sight |= SEE_OBJS
 
-		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 8 : darksight
+		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 3 : darksight
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
 
@@ -869,6 +872,10 @@
 				mspeed += H.shoes.slowdown
 			if(H.back)
 				mspeed += H.back.slowdown
+			if(H.l_hand)
+				mspeed += H.l_hand.slowdown
+			if(H.r_hand)
+				mspeed += H.r_hand.slowdown
 
 			if((H.disabilities & FAT))
 				mspeed += 1.5
@@ -896,7 +903,7 @@
 	if(!istype(M)) //sanity check for drones.
 		return
 	var/shieldcheck = H.check_shields(0, M.name)
-	if((M != H) && shieldcheck)
+	if((M != H) && M.a_intent != "help" && H.check_shields(0, M.name))
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
 		if(isliving(shieldcheck))

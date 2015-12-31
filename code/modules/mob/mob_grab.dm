@@ -47,6 +47,8 @@
 	if(affecting)
 		if(affecting.buckled)
 			return null
+		if(assailant.swimming) //Can't throw people while in the pool
+			return null
 		if(state >= GRAB_AGGRESSIVE)
 			return affecting
 	return null
@@ -90,6 +92,11 @@
 				icon_state = "reinforce1"
 		else
 			icon_state = "!reinforce"
+	else
+		if(!affecting.buckled)
+			affecting.loc = assailant.loc
+			if(istype(affecting, /mob/living/carbon))
+				affecting.swimming = assailant.swimming //Double check then make sure grabbing someone out of the pool changes the var.
 
 	if(state >= GRAB_AGGRESSIVE)
 		var/h = affecting.hand
@@ -127,6 +134,12 @@
 		affecting.Weaken(3)	//Should keep you down unless you get help.
 		affecting.stuttering = max(affecting.stuttering, 5) //It will hamper your voice, being choked and all.
 		affecting.losebreath = min(affecting.losebreath + 2, 3) //Choke 'em out!
+		if(assailant.swimming == 1)//Oh pool why are you so complicated
+			affecting.Weaken(2)	//Should keep you down unless you get help.
+			affecting.losebreath = min(affecting.losebreath + 2, 3)
+			if(isliving(affecting))
+				var/mob/living/L = affecting
+				L.adjustOxyLoss(15) //Drowning is fast mang.
 	adjust_position()
 
 /obj/item/weapon/grab/attack_self()
@@ -310,23 +323,26 @@
 			qdel(src)
 
 
+	add_logs(user, affecting, "attempted to put", src, "into [M]")
 
 /obj/item/weapon/grab/dropped()
 	qdel(src)
 
 /obj/item/weapon/grab/Del()
 	if(affecting)
-		affecting.grabbed_by -= src
-		affecting.pixel_x = 0
-		affecting.pixel_y = 0 //used to be an animate, not quick enough for del'ing
+		if(!affecting.buckled)
+			affecting.pixel_x = initial(affecting.pixel_x)
+			affecting.pixel_y = affecting.get_standard_pixel_y_offset(affecting.lying) //used to be an animate, not quick enough for del'ing
 		affecting.layer = initial(affecting.layer)
+		affecting.grabbed_by -= src
 		affecting.update_canmove()
 	..()
 
 /obj/item/weapon/grab/Destroy()
 	if(affecting)
-		affecting.pixel_x = 0
-		affecting.pixel_y = 0 //used to be an animate, not quick enough for del'ing
+		if(!affecting.buckled)
+			affecting.pixel_x = initial(affecting.pixel_x)
+			affecting.pixel_y = affecting.get_standard_pixel_y_offset(affecting.lying) //used to be an animate, not quick enough for del'ing
 		affecting.layer = initial(affecting.layer)
 		affecting.grabbed_by -= src
 		affecting.update_canmove()
