@@ -66,8 +66,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	var/list/custom_names = list("clown", "mime", "ai", "cyborg", "religion", "deity")
 
 		//Mob preview
-	var/icon/preview_icon_front = null
-	var/icon/preview_icon_side = null
+	var/icon/preview_icon = null
 
 		//Jobs, uses bitflags
 	var/job_civilian_high = 0
@@ -121,8 +120,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 /datum/preferences/proc/ShowChoices(mob/user)
 	if(!user || !user.client)	return
 	update_preview_icon()
-	user << browse_rsc(preview_icon_front, "previewicon.png")
-	user << browse_rsc(preview_icon_side, "previewicon2.png")
+	user << browse_rsc(preview_icon, "previewicon.png")
 	var/dat = "<center>"
 
 	dat += "<a href='?_src_=prefs;preference=tab;tab=0' [current_tab == 0 ? "class='linkOn'" : ""]>Character Settings</a> "
@@ -176,7 +174,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 
 			dat += "<td valign='center'>"
 
-			dat += "<div class='statusDisplay'><center><img src=previewicon.png height=64 width=64><img src=previewicon2.png height=64 width=64></center></div>"
+			dat += "<div class='statusDisplay'><center><img src=previewicon.png width=[preview_icon.Width()] height=[preview_icon.Height()]></center></div>"
 
 			dat += "</td></tr></table>"
 

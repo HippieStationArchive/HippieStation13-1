@@ -18,6 +18,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 	var/hitsound = null
 	var/throwhitsound = null
+	var/hitsound_extrarange = -1 //How much extra range should the hitsound have?
 	var/w_class = 3
 	var/slot_flags = 0		//This is used to determine on which slots an item can fit.
 	pass_flags = PASSTABLE
@@ -232,11 +233,13 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 	pickup(user)
 	add_fingerprint(user)
-	user.put_in_active_hand(src)
+	if(!user.put_in_active_hand(src))
+		dropped(user)
 	return
 
 
 /obj/item/attack_paw(mob/user)
+	var/picked_up = 0
 
 	if (istype(src.loc, /obj/item/weapon/storage))
 		for(var/mob/M in range(1, src.loc))
@@ -251,8 +254,10 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		if(istype(src.loc, /mob/living))
 			return
 		src.pickup(user)
+		picked_up = 1
 
-	user.put_in_active_hand(src)
+	if(!user.put_in_active_hand(src) && picked_up)
+		dropped(user)
 	return
 
 

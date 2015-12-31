@@ -127,6 +127,14 @@ var/list/uplink_items = list()
 	cost = 10 //Costly, but for a good reason
 	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
 
+//SCIENCE + MEDICAL
+/datum/uplink_item/job_specific/labcoat
+	name = "Armored Labcoat"
+	desc = "An armored labcoat with the ability to change how it looks into any standard Nanotrasen issue labcoat."
+	item = /obj/item/clothing/suit/labcoat/chameleon
+	cost = 4
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Research Director", "Scientist", "Roboticist") //all the labcoat jobs
+
 //SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
@@ -159,6 +167,14 @@ var/list/uplink_items = list()
 	item = /obj/item/ammo_casing/shotgun/buckshot
 	cost = 5
 	jobs = list("Bartender")
+
+//CLOWN + MIME
+/datum/uplink_item/job_specific/caneshotgun
+	name = "Cane Shotgun + Assassination Darts"
+	desc = "A specialized, one shell shotgun with a built-in cloaking device to mimic a cane. The shotgun is capable of hiding it's contents and the pin alongside being supressed. Comes with 6 special darts and a preloaded shrapnel round."
+	item = /obj/item/weapon/storage/box/syndie_kit/caneshotgun
+	cost = 15
+	jobs = list("Clown","Mime")
 
 // DANGEROUS WEAPONS
 
@@ -227,7 +243,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/dangerous/machinegun
 	name = "L6 Squad Automatic Weapon"
-	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
+	desc = "A fully-loaded Aussec Armory belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
 	item = /obj/item/weapon/gun/projectile/automatic/l6_saw
 	cost = 40
 	gamemodes = list(/datum/game_mode/nuclear)
@@ -258,6 +274,12 @@ var/list/uplink_items = list()
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 	surplus = 40
 
+/datum/uplink_item/dangerous/knife
+	name = "Combat Knife"
+	desc = "A military knife that has decent force and huge embedding chance when thrown. Can be considered stealthy."
+	item = /obj/item/weapon/melee/combatknife
+	cost = 3
+
 /datum/uplink_item/dangerous/sword
 	name = "Energy Sword"
 	desc = "The energy sword is an edged weapon with a blade of pure energy. The sword is small enough to be pocketed when inactive. Activating it produces a loud, distinctive noise. One can combine two \
@@ -282,6 +304,12 @@ var/list/uplink_items = list()
 	desc = "The minibomb is a grenade with a five-second fuse. Upon detonation, it will create a small hull breach in addition to dealing high amounts of damage to nearby personnel."
 	item = /obj/item/weapon/grenade/syndieminibomb
 	cost = 6
+
+/datum/uplink_item/dangerous/cat_grenade
+	name = "Feral Cat Delivery Grenade"
+	desc = "The feral cat delivery grenade contains 8 dehydrated feral cats in a similar manner to dehydrated monkeys, which, upon detonation, will be rehydrated by a small reservoir of water contained within the grenade. These cats will then attack anything in sight."
+	item = /obj/item/weapon/grenade/spawnergrenade/feral_cats
+	cost = 5
 
 /datum/uplink_item/dangerous/foamsmg
 	name = "Toy Submachine Gun"
@@ -332,6 +360,7 @@ var/list/uplink_items = list()
 	cost = 140
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
+
 /datum/uplink_item/dangerous/cqc_gloves
 	name = "Tactical Gloves"
 	desc = "Comfortable grey gloves with the CQC martial art inside."
@@ -381,7 +410,7 @@ var/list/uplink_items = list()
 	name = "Speed Loader - .357"
 	desc = "A speed loader that contains seven additional .357 Magnum rounds for the syndicate revolver. For when you really need a lot of things dead."
 	item = /obj/item/ammo_box/a357
-	cost = 4
+	cost = 2
 
 /datum/uplink_item/ammo/smg
 	name = "SMG Magazine - .45 ACP"

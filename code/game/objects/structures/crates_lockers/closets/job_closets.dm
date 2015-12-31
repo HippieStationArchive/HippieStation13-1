@@ -108,6 +108,8 @@
 	new /obj/item/weapon/storage/backpack/cultpack (src)
 	new /obj/item/weapon/storage/fancy/candle_box(src)
 	new /obj/item/weapon/storage/fancy/candle_box(src)
+	new /obj/item/clothing/head/helmet/knight/templar(src)
+	new /obj/item/clothing/suit/armor/riot/knight/templar(src)
 	return
 
 /obj/structure/closet/coffin
@@ -254,6 +256,8 @@
 /obj/structure/closet/wardrobe/robotics_black/New()
 	..()
 	contents = list()
+	new /obj/item/clothing/glasses/hud/diagnostic(src)
+	new /obj/item/clothing/glasses/hud/diagnostic(src)
 	new /obj/item/clothing/under/rank/roboticist(src)
 	new /obj/item/clothing/under/rank/roboticist(src)
 	new /obj/item/clothing/suit/toggle/labcoat(src)

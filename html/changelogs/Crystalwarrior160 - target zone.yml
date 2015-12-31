@@ -1,0 +1,6 @@
+author: Crystalwarrior160
+
+delete-after: True
+
+changes: 
+  - rscadd: "Added hotkeys for changing your limb targeting zone to the numpad. (Thanks to Delimusca for this!)"

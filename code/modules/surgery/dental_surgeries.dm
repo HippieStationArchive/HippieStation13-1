@@ -107,32 +107,24 @@
 	O.dentals += pill
 	pill.loc = O
 
-	var/datum/action/item_action/hands_free/activate_pill/P = new
-	P.button_icon_state = pill.icon_state
-	P.target = pill
-	P.Grant(target)
+	pill.action_button_is_hands_free = 1
+	pill.action_button_name = "burst [pill]"
+	target.give_action_button(pill)
+	pill.action.button_icon_state = pill.icon_state
 
 	user.visible_message("[user] wedges [pill] into [target]'s [parse_zone(target_zone)]!", "<span class='notice'>You wedge [pill] into [target]'s [parse_zone(target_zone)].</span>")
 	return 1
 
-/datum/action/item_action/hands_free/activate_pill
-	name = "activate pill"
-
-/datum/action/item_action/hands_free/activate_pill/Trigger()
-	if(CheckRemoval(owner))
-		return 0
-	var/obj/item/weapon/reagent_containers/food/drinks/P = target //Pill
-	if(ishuman(owner) && istype(P))
-		var/mob/living/carbon/human/H = owner
+/obj/item/weapon/reagent_containers/pill/ui_action_click()
+	if(ishuman(usr))
+		var/mob/living/carbon/human/H = usr
 		var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
 		if(!O || !O.get_teeth())
-			H << "<span class='caution'>You have no teeth to burst \the [P]!</span>"
-			return 0
-		H << "<span class='caution'>You grit your teeth and burst the implanted [P]!</span>"
-		add_logs(owner, H, "bursted the implanted", P.reagentlist(P))
-		if(P.reagents.total_volume)
-			P.reagents.reaction(H, INGEST)
-			P.reagents.trans_to(H, P.reagents.total_volume)
-		qdel(P)
-		return 1
-	return 0
+			H << "<span class='caution'>You have no teeth to burst \the [src]!</span>"
+			return
+		H << "<span class='caution'>You grit your teeth and burst the implanted [src]!</span>"
+		add_logs(usr, object=src, what_done="bursted the implanted", addition=src.reagentlist(src))
+		if(reagents && reagents.total_volume)
+			reagents.reaction(H, INGEST)
+			reagents.trans_to(H, reagents.total_volume)
+		qdel(src)

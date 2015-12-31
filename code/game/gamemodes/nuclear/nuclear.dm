@@ -186,7 +186,7 @@
 
 /datum/game_mode/nuclear/declare_completion()
 	var/disk_rescued = 1
-	for(var/obj/item/weapon/disk/nuclear/D in world)
+	for(var/obj/item/weapon/disk/nuclear/D in poi_list)
 		if(!D.onCentcom())
 			disk_rescued = 0
 			break
@@ -297,6 +297,7 @@
 	id = /obj/item/weapon/card/id/syndicate
 	belt = /obj/item/weapon/gun/projectile/automatic/pistol
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1)
+	r_pocket = /obj/item/weapon/melee/combatknife
 	var/tc = 20
 /datum/outfit/syndicate/post_equip(mob/living/carbon/human/H)
 	var/obj/item/device/radio/R = H.ears
@@ -323,6 +324,7 @@
 	r_pocket = /obj/item/weapon/gun/projectile/automatic/pistol
 	belt = /obj/item/weapon/storage/belt/military
 	r_hand = /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog
+	l_hand = /obj/item/weapon/melee/combatknife
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
 		/obj/item/weapon/tank/jetpack/oxygen/harness=1,\
 		/obj/item/weapon/pinpointer/nukeop=1)

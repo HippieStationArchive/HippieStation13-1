@@ -612,6 +612,9 @@ var/list/teleportlocs = list()
 	name = "\improper Law Office"
 	icon_state = "law"
 
+/area/rec_room
+	name = "\improper Recreation Room"
+	icon_state = "yellow"
 
 
 
@@ -654,13 +657,14 @@ var/list/teleportlocs = list()
 /area/holodeck/source_wildlife
 	name = "\improper Holodeck - Wildlife Simulation"
 
+/area/holodeck/source_wrestling
+	name = "\improper Holodeck - Wrestling Arena"
 
+/area/holodeck/source_cqc
+	name = "\improper Holodeck - CQC VR Training"
 
-
-
-
-
-
+/area/holodeck/source_krav_maga
+	name = "\improper Holodeck - Krav Maga Training"
 
 
 
