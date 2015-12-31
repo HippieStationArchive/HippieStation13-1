@@ -947,11 +947,11 @@
 	potency = 10
 	plant_type = 0
 	growthstages = 6
-	mutatelist = list(/obj/item/seeds/goldappleseed)
+	mutatelist = list(/obj/item/seeds/goldappleseed, /obj/item/seeds/poisonedappleseed)
 
 /obj/item/seeds/poisonedappleseed
 	name = "pack of apple seeds"
-	desc = "These seeds grow into apple trees."
+	desc = "These seeds grow into apple trees?"
 	icon_state = "seed-apple"
 	species = "apple"
 	plantname = "Apple Tree"

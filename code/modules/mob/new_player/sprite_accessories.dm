@@ -1413,3 +1413,22 @@
 /datum/sprite_accessory/spines_animated/aqautic
 	name = "Aquatic"
 	icon_state = "aqua"
+
+/datum/sprite_accessory/wing
+	color_src = 0
+
+/datum/sprite_accessory/wing/plain
+	name = "Plain"
+	icon_state = "plain"
+
+/datum/sprite_accessory/wing/monarch
+	name = "Monarch"
+	icon_state = "monarch"
+
+/datum/sprite_accessory/wing/luna
+	name = "Luna"
+	icon_state = "luna"
+
+/datum/sprite_accessory/wing/atlas
+	name = "Atlas"
+	icon_state = "atlas"
