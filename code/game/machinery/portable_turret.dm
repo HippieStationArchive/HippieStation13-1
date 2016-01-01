@@ -1097,14 +1097,14 @@ Status: []<BR>"},
 			src.attack_hand(user)
 
 /obj/machinery/turretid/attack_ai(mob/user)
-	if(!ailock)
+	if(!ailock || IsAdminGhost(user))
 		return attack_hand(user)
 	else
 		user << "<span class='notice'>There seems to be a firewall preventing you from accessing this device.</span>"
 
 /obj/machinery/turretid/attack_hand(mob/user as mob)
 	if ( get_dist(src, user) > 0 )
-		if ( !issilicon(user) )
+		if ( !(issilicon(user) || IsAdminGhost(user)) )
 			user << "<span class='notice'>You are too far away.</span>"
 			user.unset_machine()
 			user << browse(null, "window=turretid")
@@ -1139,7 +1139,7 @@ Status: []<BR>"},
 	if(..())
 		return
 	if (src.locked)
-		if (!istype(usr, /mob/living/silicon))
+		if (!(istype(usr, /mob/living/silicon) || IsAdminGhost(usr)))
 			usr << "Control panel is locked!"
 			return
 	if (href_list["toggleOn"])

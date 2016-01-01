@@ -176,7 +176,7 @@
 
 /obj/item/device/radio/Topic(href, href_list)
 	//..()
-	if (usr.stat || !on)
+	if ((usr.stat && !IsAdminGhost(usr)) || !on)
 		return
 
 	if (!(issilicon(usr) || (usr.contents.Find(src) || ( in_range(src, usr) && istype(loc, /turf) ))))
