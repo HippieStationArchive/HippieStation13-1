@@ -1,5 +1,0 @@
-author: Dan Hibiki
-delete-after: True
-changes: 
-  - tweak: "Lowered the amount of health secure crates had to rebase amount"
-  - tweak: "Added cooldown to attacking wooden barricades to prevent spam"
