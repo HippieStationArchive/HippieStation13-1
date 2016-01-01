@@ -38,8 +38,13 @@
 	interact(user)
 
 /obj/machinery/computer/monitor/interact(mob/user)
+<<<<<<< HEAD
 	if (!(istype(user, /mob/living/silicon) || IsAdminGhost(user)))
 		if (!istype(user, /mob/living/silicon))
+=======
+	if ( (get_dist(src, user) > 1 ) || (stat & (BROKEN|NOPOWER)) )
+		if (!(istype(user, /mob/living/silicon) || IsAdminGhost(user)))
+>>>>>>> a1b67a14c45b02233a3f7902d1e984a5ac97c13f
 			user.unset_machine()
 			user << browse(null, "window=powcomp")
 			return

@@ -286,7 +286,11 @@ Class Procs:
 /obj/machinery/attack_hand(mob/user, check_power = 1, set_machine = 1)
 	if((user.lying || user.stat) && !IsAdminGhost(user))
 		return 1
+<<<<<<< HEAD
 	if((user.lying || user.stat) && !IsAdminGhost(user))
+=======
+	if(!user.IsAdvancedToolUser() && !IsAdminGhost(user))
+>>>>>>> a1b67a14c45b02233a3f7902d1e984a5ac97c13f
 		usr << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return 1
 	if (ishuman(user))
@@ -428,7 +432,11 @@ Class Procs:
 // Hook for html_interface module to prevent updates to clients who don't have this as their active machine.
 /obj/machinery/proc/hiIsValidClient(datum/html_interface_client/hclient, datum/html_interface/hi)
 	if (hclient.client.mob && (hclient.client.mob.stat == 0 || IsAdminGhost(hclient.client.mob)))
+<<<<<<< HEAD
 		if (isAI(hclient.client.mob) || IsAdminGhost(hclient.client.mob)) return TRUE
+=======
+		if (!(istype(usr, /mob/living/silicon) || IsAdminGhost(usr)))
+>>>>>>> a1b67a14c45b02233a3f7902d1e984a5ac97c13f
 		else                          return hclient.client.mob.machine == src && src.Adjacent(hclient.client.mob)
 	else
 		return FALSE

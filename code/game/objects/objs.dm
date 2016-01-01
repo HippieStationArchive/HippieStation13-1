@@ -93,8 +93,14 @@
 			in_use = 0
 
 /obj/attack_ghost(mob/user)
+<<<<<<< HEAD
 	..()
 	ui_interact(user)
+=======
+	if(ui_interact(user) != -1)
+		return
+	..()
+>>>>>>> a1b67a14c45b02233a3f7902d1e984a5ac97c13f
 
 /obj/proc/interact(mob/user)
 	return

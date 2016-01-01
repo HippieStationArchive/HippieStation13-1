@@ -1120,10 +1120,10 @@ Status: []<BR>"},
 	var/area/area = loc
 	var/t = ""
 
-	if(src.locked && (!istype(user, /mob/living/silicon)))
+	if(src.locked && (!(istype(user, /mob/living/silicon) || IsAdminGhost(user))))
 		t += "<div class='notice icon'>Swipe ID card to unlock interface</div>"
 	else
-		if (!istype(user, /mob/living/silicon))
+		if (!istype(user, /mob/living/silicon) && !IsAdminGhost(user))
 			t += "<div class='notice icon'>Swipe ID card to lock interface</div>"
 		t += text("Turrets [] - <A href='?src=\ref[];toggleOn=1'>[]?</a><br>\n", src.enabled?"activated":"deactivated", src, src.enabled?"Disable":"Enable")
 		t += text("Currently set for [] - <A href='?src=\ref[];toggleLethal=1'>Change to []?</a><br>\n", src.lethal?"lethal":"stun repeatedly", src,  src.lethal?"Stun repeatedly":"Lethal")
