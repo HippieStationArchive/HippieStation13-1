@@ -34,6 +34,7 @@
 			"<span class='danger'>[src]'s engine stops abruptly</span>",
 			"<span class='italics'>You hear an engine die down</span>")
 
+
 /obj/item/vehicle_parts/engine/fire
 	name = "fire engine"
 	desc = "Shoots fucking flames out the back when it moves"
@@ -61,9 +62,8 @@
 
 /obj/item/vehicle_parts/propulsion
 	name = "propulsion"
-	var/thrust_type = "rolling" //Will look into this later
 	var/nograv = 0 //Can it function with no gravity?
-	weight = 0 //Typically has no weight as it's SUPPORTING the chassis
+	weight = 0 //Weight will be there
 	icon_state = "wheels"
 	part_type = "propulsion"
 

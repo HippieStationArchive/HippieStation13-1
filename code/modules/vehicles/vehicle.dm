@@ -8,7 +8,7 @@ but i'll port it back to Arctic station if we get back to it
 
 /obj/vehicle
 	name = "vehicle"
-	desc = "Who the hell spawned this?"
+	desc = "You shouldnt be seeing this"
 	icon = 'icons/vehicles/Bike.dmi'
 	icon_state = "blank"
 	density = 1
@@ -26,6 +26,7 @@ but i'll port it back to Arctic station if we get back to it
 	var/max_mass = 500
 	var/locked = 0 //Can you add/remove parts?
 	var/active = 0 //Is the vehicle's engine active?
+
 
 	var/list/parts = list() //Holder for all vehicle parts
 
@@ -232,10 +233,15 @@ but i'll port it back to Arctic station if we get back to it
 /obj/vehicle/New()
 	for(var/obj/item/O in parts)
 		O.loc = src
+	update_stats()
 	var/obj/item/vehicle_parts/engine/E = locate() in parts
 	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
+	if(!F)
+		return
+	if(!E)
+		return
 	F.reagents.add_reagent(E.fueltype, F.volume) //Debug stuff
-	update_stats()
+
 
 
 
@@ -269,7 +275,7 @@ but i'll port it back to Arctic station if we get back to it
 	if(src == target)
 		return
 
-/obj/vehicle/relaymove(mob/user, direction)
+/obj/vehicle/relaymove(mob/user, direction, atom/A)
 	var/obj/item/vehicle_parts/propulsion/P = locate() in parts
 	var/obj/item/vehicle_parts/engine/E = locate() in parts
 	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
@@ -296,7 +302,8 @@ but i'll port it back to Arctic station if we get back to it
 				lastmove = 0
 
 
-/obj/vehicle/MouseDrop_T(mob/M, mob/user)
+
+/obj/vehicle/MouseDrop_T(atom/M, mob/user)
 	if (!user.canUseTopic(src) || (user != M))
 		return
 	if(!ishuman(user)) // no silicons or drones in vehicles.
