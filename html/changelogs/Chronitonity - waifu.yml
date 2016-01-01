@@ -1,7 +1,0 @@
-author: Chronitonity
-
-delete-after: True
-
-changes: 
-  - bugfix: "Birds no longer 'claws' someone to death."
-  - bugfix: "Research scanners no longer work if they aren't worn on your eyes."
