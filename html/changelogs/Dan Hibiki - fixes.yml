@@ -1,8 +1,0 @@
-author: Dan Hibiki
-
-delete-after: True
-
-changes: 
-  - tweak: "Allows ghosts to use station teleporters."
-  - tweak: "Fixed typo in multiple ghost preferences."
-  - tweak: "Fixed tracking of blob progression for administrators."
