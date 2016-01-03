@@ -261,8 +261,7 @@
 
 	if(H.deepfried)
 		var/icon/HI = icon(H.icon, H.icon_state)
-		for(var/i in 1 to H.fry_amt)
-			HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+		HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
 		standing	+= image(HI, "layer" =-BODY_LAYER)
 
 	if(standing.len)
