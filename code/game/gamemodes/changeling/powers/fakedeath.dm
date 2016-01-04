@@ -24,6 +24,9 @@
 	return 1
 
 /obj/effect/proc_holder/changeling/fakedeath/can_sting(mob/user)
+	if(isobj(user.loc))
+		user << "<span class='warning'>We cannot regenerate while inside an object.</span>"
+		return
 	if(user.status_flags & FAKEDEATH)
 		user << "<span class='warning'>We are already regenerating.</span>"
 		return
