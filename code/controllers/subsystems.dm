@@ -23,6 +23,7 @@
 	var/next_fire = 0		//scheduled world.time for next fire()
 	var/cost = 0			//average time to execute
 	var/times_fired = 0		//number of times we have called fire()
+	var/obj/effect/statclick/statclick
 
 //used to initialize the subsystem BEFORE the map has loaded
 /datum/subsystem/New()

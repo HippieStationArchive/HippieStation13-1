@@ -546,7 +546,7 @@ About the new airlock wires panel:
 	return src.attack_hand(user)
 
 /obj/machinery/door/airlock/attack_hand(mob/user)
-	if(!istype(user, /mob/living/silicon))
+	if(!(istype(user, /mob/living/silicon) || IsAdminGhost(user)))
 		if(src.isElectrified())
 			if(src.shock(user, 100))
 				return
@@ -597,7 +597,7 @@ About the new airlock wires panel:
 	// Otherwise it will runtime with this kind of error: null.Topic()
 	if(!nowindow)
 		..()
-	if(usr.stat || usr.restrained())
+	if((usr.stat || usr.restrained()) && !IsAdminGhost(usr))
 		return
 	add_fingerprint(usr)
 	if(href_list["close"])
@@ -611,7 +611,7 @@ About the new airlock wires panel:
 
 
 
-	if(istype(usr, /mob/living/silicon) && src.canAIControl())
+	if((istype(usr, /mob/living/silicon) && src.canAIControl()) || IsAdminGhost(usr))
 		//AI
 		//aiDisable - 1 idscan, 2 disrupt main power, 3 disrupt backup power, 4 drop door bolts, 5 un-electrify door, 7 close door, 8 door safties, 9 door speed, 11 emergency access
 		//aiEnable - 1 idscan, 4 raise door bolts, 5 electrify door for 30 seconds, 6 electrify door indefinitely, 7 open door,  8 door safties, 9 door speed, 11 emergency access
@@ -816,7 +816,7 @@ About the new airlock wires panel:
 	return
 
 /obj/machinery/door/airlock/attackby(obj/item/C, mob/user, params)
-	if(!istype(usr, /mob/living/silicon))
+	if(!(istype(usr, /mob/living/silicon) || IsAdminGhost(user)))
 		if(src.isElectrified())
 			if(src.shock(user, 75))
 				return
@@ -898,10 +898,10 @@ About the new airlock wires panel:
 					if(!electronics)
 						ae = new/obj/item/weapon/electronics/airlock( src.loc )
 						if(req_one_access)
-							ae.use_one_access = 1
-							ae.conf_access = src.req_one_access
+							ae.one_access = 1
+							ae.accesses = src.req_one_access
 						else
-							ae.conf_access = src.req_access
+							ae.accesses = src.req_access
 					else
 						ae = electronics
 						electronics = null

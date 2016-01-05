@@ -778,3 +778,15 @@ var/global/list/g_fancy_list_of_types = null
 
 	if(!holder)	return
 	debug_variables(huds[i])
+
+/client/proc/reload_nanoui_resources()
+	set category = "Debug"
+	set name = "Reload NanoUI Resources"
+	set desc = "Force the client to redownload NanoUI Resources"
+
+	// Close open NanoUIs.
+	SSnano.close_user_uis(usr)
+
+
+	// Clear the user's cache so they get resent.
+	usr.client.cache = list()
