@@ -9,8 +9,7 @@ but i'll port it back to Arctic station if we get back to it
 /obj/vehicle
 	name = "vehicle"
 	desc = "You shouldnt be seeing this"
-	icon = 'icons/vehicles/Bike.dmi'
-	icon_state = "blank"
+	icon = 'icons/vehicles/vehicle.dmi'
 	density = 1
 	opacity = 0
 	anchored = 1
@@ -34,34 +33,30 @@ but i'll port it back to Arctic station if we get back to it
 	var/installing = 0
 	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 
+/obj/item/vehicle_parts
+	name = "vehicle part"
+	icon = null
+	icon_state = "blank"
+	w_class = 5  //Will vary between parts
+	flags = CONDUCT
+	origin_tech = "programming=2;materials=2"
+	var/durability = 100 //Durability of the part
+	var/weight = 10 //Mass of part
+	slowdown = 2
+	var/part_type = null
+
 /obj/vehicle/update_icon()
 	overlays.Cut()
 	var/obj/item/vehicle_parts/chassis/C = locate() in parts
 	var/obj/item/vehicle_parts/propulsion/P = locate() in parts
-	if(C)
-		icon_state = C.icon_state
 	if(P)
 		overlays += P.icon_state
+	if(C)
+		overlays += C.icon_state
 
 /obj/vehicle/attackby(var/obj/item/I, mob/user, params)
 	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
 	var/obj/item/weapon/stock_parts/cell/C = locate() in parts
-
-	if(istype(I,/obj/item/weapon/reagent_containers))
-		var/obj/item/weapon/reagent_containers/R = I
-		if(isrobot(user))
-			return
-		if(!F)
-			user << "<span class='warning'>[src] has no fuel tank!</span>"
-			return
-		if(!R.possible_transfer_amounts)
-			return
-		if(F.reagents.total_volume == F.volume)
-			user << "<span class='warning'>[src]'s fuel tank is full!</span>"
-			return
-		else
-			var/trans = R.reagents.trans_to(F, R.amount_per_transfer_from_this)
-			user << "<span class='notice'>You transfer [trans] units to [src]'s fuel tank</span>"
 
 	if(istype(I,/obj/item/weapon/weldingtool) && user.a_intent != "harm")
 		var/obj/item/weapon/weldingtool/WT = I
@@ -83,6 +78,8 @@ but i'll port it back to Arctic station if we get back to it
 			return
 		if(installing)
 			return
+		if((O.weight + mass) > max_mass)
+			user << "<span class='warning'>[src] is too heavy!</span>"
 		else
 			installing = 1
 			user.changeNext_move(CLICK_CD_MELEE) //To prevent spam
@@ -110,6 +107,7 @@ but i'll port it back to Arctic station if we get back to it
 			user << "<span class='notice'>You begin to install [I] into [src]</span>"
 			if(do_after(user, 40, target = src))
 				user << "<span class='notice'>You install [I] into [src]</span>"
+				user.drop_item()
 				parts += I
 				I.forceMove(src)
 				update_stats()
@@ -117,6 +115,22 @@ but i'll port it back to Arctic station if we get back to it
 			else
 				user << "<span class='notice'>You stop installing [I]</span>"
 				installing = 0
+
+	if(istype(I,/obj/item/weapon/reagent_containers))
+		var/obj/item/weapon/reagent_containers/R = I
+		if(isrobot(user))
+			return
+		if(!F)
+			user << "<span class='warning'>[src] has no fuel tank!</span>"
+			return
+		if(!R.possible_transfer_amounts)
+			return
+		if(F.reagents.total_volume == F.volume)
+			user << "<span class='warning'>[src]'s fuel tank is full!</span>"
+			return
+		else
+			var/trans = R.reagents.trans_to(F, R.amount_per_transfer_from_this)
+			user << "<span class='notice'>You transfer [trans] units to [src]'s fuel tank</span>"
 
 	else
 		user.changeNext_move(CLICK_CD_MELEE)
@@ -155,7 +169,7 @@ but i'll port it back to Arctic station if we get back to it
 	..()
 	var/integrity = health/maxhealth*100
 	switch(integrity)
-		if(100 to INFINITY)
+		if(101 to INFINITY)
 			user << "It's in a state not comprehenisble by you."
 		if(85 to 100)
 			user << "It's fully intact."
@@ -184,12 +198,15 @@ but i'll port it back to Arctic station if we get back to it
 	if(yes)
 		if(..())
 			return
+		var/obj/item/vehicle_parts/chassis/C = locate() in parts
+		C.bump_act(obstacle)
 		if(istype(obstacle, /obj))
 			var/obj/O = obstacle
 			if(!O.anchored)
 				step(obstacle, dir)
 		else if(istype(obstacle, /mob))
 			step(obstacle, dir)
+
 
 /obj/vehicle/proc/GrantActions(var/mob/living/user)
 	exit_vehicle.vehicle = src
@@ -260,20 +277,49 @@ but i'll port it back to Arctic station if we get back to it
 		var/obj/item/vehicle_parts/O = P
 		if(istype(P,/obj/item/weapon/stock_parts/cell))
 			continue //Ignore cells
-		if(!O.weight)
-			continue //Ignore weightless objects
 		if(O.part_type == "seat")
 			src.occupants_max += 1
-		O.weight += mass
+		if(!O.weight)
+			continue //Ignore weightless objects
+		mass += O.weight
 	update_icon()
 
 /obj/vehicle/proc/click_action(atom/target,mob/user,params)
-	if(!driver || user.loc != loc )
-		return
 	if(user.incapacitated())
 		return
 	if(src == target)
 		return
+	var/obj/item/W = user.get_active_hand()
+	if(istype(W,/obj/item/weapon/gun))
+		can_fire(W,target,user,params)
+
+/obj/vehicle/proc/do_newshot(obj/item/weapon/gun/energy/egun)
+	egun.newshot()
+
+/obj/vehicle/proc/can_fire(obj/item/weapon/gun/gun,atom/target,mob/user,params) //DRIVE BY SHOOTING, BOYS
+	if(istype(gun,/obj/item/weapon/gun/energy))
+		do_newshot(gun)
+	if(target in user.contents)
+		return
+	if(target == user)
+		return
+	if(gun.clumsy_check && gun.can_shoot()) //Clusmy check
+		if(istype(user, /mob/living))
+			var/mob/living/M = user
+			if (M.disabilities & CLUMSY && prob(40))
+				user << "<span class='userdanger'>You shoot yourself in the foot with \the [src], but hold onto the gun!</span>"
+				var/shot_leg = pick("l_leg", "r_leg")
+				gun.process_fire(user,user,0,params, zone_override = shot_leg)
+				return
+
+	if(isliving(user))
+		var/mob/living/L = user
+		if(!gun.can_trigger_gun(L))
+			return
+	gun.process_fire(target,user,1,params)
+
+
+
 
 /obj/vehicle/relaymove(mob/user, direction, atom/A)
 	var/obj/item/vehicle_parts/propulsion/P = locate() in parts
