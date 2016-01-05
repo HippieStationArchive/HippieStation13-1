@@ -17,7 +17,7 @@
 		- If so, is there any protection against somebody spam-clicking a link?
 	If you have any  questions about this stuff feel free to ask. ~Carn
 	*/
-/client/Topic(href, href_list, hsrc)
+/client/ui_act(action, params)
 	if(!usr || usr != mob)	//stops us calling Topic for somebody else's client. Also helps prevent usr=null
 		return
 	// NanoUI
@@ -56,6 +56,10 @@
 			mentor_follow(M)
 
 		return
+
+	if(href_list["nano_error"])
+		src << href_list["nano_error"]
+		throw EXCEPTION("NanoUI: [href_list["nano_error"]]")
 
 	//Logs all hrefs
 	if(config && config.log_hrefs && href_logfile)
