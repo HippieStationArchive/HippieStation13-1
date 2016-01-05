@@ -6,6 +6,7 @@
 #define EVERYONE_HAS_MAINT_ACCESS 4
 
 /datum/configuration
+	var/name = "Configuration"			// datum name
 	var/server_name = null				// server name (the name of the game window)
 	var/station_name = null				// station name (the name of the station in-game)
 	var/server_suffix = 0				// generate numeric suffix based on server port
@@ -176,6 +177,8 @@
 
 	var/announce_admin_logout = 0
 	var/announce_admin_login = 0
+	// The object used for the clickable stat() button.
+	var/obj/effect/statclick/statclick
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -625,3 +628,9 @@
 		if(M.required_players <= crew)
 			runnable_modes[M] = probabilities[M.config_tag]
 	return runnable_modes
+
+/datum/configuration/proc/stat_entry()
+	if(!statclick)
+		statclick = new/obj/effect/statclick/debug("Edit", src)
+
+	stat("[name]:", statclick)
