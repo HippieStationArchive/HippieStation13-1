@@ -151,7 +151,7 @@ MASS SPECTROMETER
 		user << "\t<span class='alert'>Brain damage detected. Subject may have had a concussion.</span>"
 
 	// Organ damage report
-	if(ishuman(M) && mode == 1)
+	if(istype(M, /mob/living/carbon/human) && mode == 1)
 		var/mob/living/carbon/human/H = M
 		var/list/damaged = H.get_damaged_organs(1,1)
 		if(length(damaged)>0 || oxy_loss>0 || tox_loss>0 || fire_loss>0)
@@ -163,8 +163,6 @@ MASS SPECTROMETER
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		user << "<span class='info'>Species: [H.dna.species.name]</span>"
-	if(ismonkey(M))
-		user << "<span class='info'>Species: Primate</span>"
 	user << "<span class='info'>Body temperature: [round(M.bodytemperature-T0C,0.1)] &deg;C ([round(M.bodytemperature*1.8-459.67,0.1)] &deg;F)</span>"
 
 	// Time of death
@@ -204,17 +202,18 @@ MASS SPECTROMETER
 			user.show_message("<span class='notice'>[implant_detect]</span>")
 
 /proc/chemscan(mob/living/user, mob/living/M)
-	if(ishuman(M) || ismonkey(M))
-		if(M.reagents)
-			if(M.reagents.reagent_list.len)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(H.reagents)
+			if(H.reagents.reagent_list.len)
 				user << "<span class='notice'>Subject contains the following reagents:</span>"
-				for(var/datum/reagent/R in M.reagents.reagent_list)
+				for(var/datum/reagent/R in H.reagents.reagent_list)
 					user << "<span class='notice'>[R.volume] units of [R.name][R.overdosed == 1 ? "</span> - <span class='boldannounce'>OVERDOSING</span>" : ".</span>"]"
 			else
 				user << "<span class='notice'>Subject contains no reagents.</span>"
-			if(M.reagents.addiction_list.len)
+			if(H.reagents.addiction_list.len)
 				user << "<span class='boldannounce'>Subject is addicted to the following reagents:</span>"
-				for(var/datum/reagent/R in M.reagents.addiction_list)
+				for(var/datum/reagent/R in H.reagents.addiction_list)
 					user << "<span class='danger'>[R.name]</span>"
 			else
 				user << "<span class='notice'>Subject is not addicted to any reagents.</span>"
