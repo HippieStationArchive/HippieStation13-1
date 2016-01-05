@@ -1211,6 +1211,7 @@
 		if(master_mode != "secret")
 			return alert(usr, "The game mode has to be secret!", null, null, null, null)
 		secret_force_mode = href_list["f_secret2"]
+		send2irc("Server", "[key_name(usr)] has forced secret to [secret_force_mode] for the round.")
 		log_admin("[key_name(usr)] set the forced secret mode as [secret_force_mode].")
 		message_admins("<span class='adminnotice'>[key_name_admin(usr)] set the forced secret mode as [secret_force_mode].</span>")
 		Game() // updates the main game menu
