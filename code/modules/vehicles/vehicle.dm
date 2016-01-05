@@ -272,13 +272,14 @@ but i'll port it back to Arctic station if we get back to it
 
 /obj/vehicle/proc/update_stats()
 	mass = 0 //Reset mass to recalc
+	occupants_max = 0 //Reset to recalc
 	for(var/obj/item/P in parts)
 		P.loc = src //TRIPLE CHECKS BECAUSE YES
 		var/obj/item/vehicle_parts/O = P
 		if(istype(P,/obj/item/weapon/stock_parts/cell))
 			continue //Ignore cells
 		if(O.part_type == "seat")
-			src.occupants_max += 1
+			occupants_max++
 		if(!O.weight)
 			continue //Ignore weightless objects
 		mass += O.weight
