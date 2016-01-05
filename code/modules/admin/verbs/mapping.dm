@@ -148,6 +148,7 @@ var/intercom_range_display_status = 0
 	src.verbs += /client/proc/count_objects_all
 	src.verbs += /client/proc/cmd_assume_direct_control	//-errorage
 	src.verbs += /client/proc/startSinglo
+	src.verbs += /client/proc/startTesla
 	src.verbs += /client/proc/fps	//allows you to set the ticklag.
 	src.verbs += /client/proc/cmd_admin_grantfullaccess
 	src.verbs += /client/proc/cmd_admin_areatest
