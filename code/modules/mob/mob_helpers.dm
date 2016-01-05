@@ -443,12 +443,6 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 		if(old_selecting != Target.selecting)
 			Target.update_icon()
 
-/proc/IsAdminGhost(var/mob/user)
-	if(check_rights(R_ADMIN, 0) && istype(user, /mob/dead/observer))
-		return 1
-	else
-		return 0
-
 /proc/is_blind(A)
 	if(ismob(A))
 		var/mob/B = A

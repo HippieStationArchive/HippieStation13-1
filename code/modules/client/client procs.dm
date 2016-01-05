@@ -20,6 +20,14 @@
 /client/Topic(href, href_list, hsrc)
 	if(!usr || usr != mob)	//stops us calling Topic for somebody else's client. Also helps prevent usr=null
 		return
+	// NanoUI
+	if(href_list["nano_error"])
+		src << href_list["nano_error"]
+		throw EXCEPTION("NanoUI: [href_list["nano_error"]]")
+	if(href_list["nano_log"])
+		src << href_list["nano_log"]
+		return
+	// asset_cache
 	if(href_list["asset_cache_confirm_arrival"])
 		//src << "ASSET JOB [href_list["asset_cache_confirm_arrival"]] ARRIVED."
 		var/job = text2num(href_list["asset_cache_confirm_arrival"])
@@ -336,4 +344,4 @@ var/next_external_rsc = 0
 
 	spawn(10)
 		//Precache the client with all other assets slowly, so as to not block other browse() calls
-		getFilesSlow(src, asset_cache, register_asset = FALSE)
+		getFilesSlow(src, SSasset.cache, register_asset = FALSE)

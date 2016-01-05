@@ -1,7 +1,21 @@
-#define ASSET_CACHE_SEND_TIMEOUT 25 // Amount of time MAX to send an asset, if this get exceeded we cancel the sleeping.
+/*
+Asset cache quick users guide:
 
-//List of ALL assets for the above, format is list(filename = asset).
-/var/global/list/asset_cache = list()
+Make a datum at the bottom of this file with your assets for your thing.
+The simple subsystem will most like be of use for most cases.
+Then call get_asset_datum() with the type of the datum you created and store the return
+Then call .send(client) on that stored return value.
+
+You can set verify to TRUE if you want send() to sleep until the client has the assets.
+*/
+
+
+// Amount of time(ds) MAX to send per asset, if this get exceeded we cancel the sleeping.
+// This is doubled for the first asset, then added per asset after
+#define ASSET_CACHE_SEND_TIMEOUT 7
+
+//When sending mutiple assets, how many before we give the client a quaint little sending resources message
+#define ASSET_CACHE_TELL_CLIENT_AMOUNT 8
 
 /client
 	var/list/cache = list() // List of all assets sent to this client by the asset cache.
@@ -10,6 +24,7 @@
 	var/last_asset_job = 0 // Last job done.
 
 //This proc sends the asset to the client, but only if it needs it.
+//This proc blocks(sleeps) unless verify is set to false
 /proc/send_asset(var/client/client, var/asset_name, var/verify = TRUE)
 	if(!istype(client))
 		if(ismob(client))
@@ -26,10 +41,13 @@
 	if(client.cache.Find(asset_name) || client.sending.Find(asset_name))
 		return 0
 
-	client << browse_rsc(asset_cache[asset_name], asset_name)
+	client << browse_rsc(SSasset.cache[asset_name], asset_name)
 	if(!verify || !winexists(client, "asset_cache_browser")) // Can't access the asset cache browser, rip.
-		client.cache += asset_name
+		if (client)
+			client.cache += asset_name
 		return 1
+	if (!client)
+		return 0
 
 	client.sending |= asset_name
 	var/job = ++client.last_asset_job
@@ -41,7 +59,7 @@
 	"}, "window=asset_cache_browser")
 
 	var/t = 0
-	var/timeout_time = ASSET_CACHE_SEND_TIMEOUT * client.sending.len
+	var/timeout_time = (ASSET_CACHE_SEND_TIMEOUT * client.sending.len) + ASSET_CACHE_SEND_TIMEOUT
 	while(client && !client.completed_asset_jobs.Find(job) && t < timeout_time) // Reception is handled in Topic()
 		sleep(1) // Lock up the caller until this is received.
 		t++
@@ -53,6 +71,7 @@
 
 	return 1
 
+//This proc blocks(sleeps) unless verify is set to false
 /proc/send_asset_list(var/client/client, var/list/asset_list, var/verify = TRUE)
 	if(!istype(client))
 		if(ismob(client))
@@ -69,15 +88,18 @@
 	var/list/unreceived = asset_list - (client.cache + client.sending)
 	if(!unreceived || !unreceived.len)
 		return 0
-
+	if (unreceived.len >= ASSET_CACHE_TELL_CLIENT_AMOUNT)
+		client << "Sending Resources..."
 	for(var/asset in unreceived)
-		if (asset in asset_cache)
-			client << browse_rsc(asset_cache[asset], asset)
+		if (asset in SSasset.cache)
+			client << browse_rsc(SSasset.cache[asset], asset)
 
 	if(!verify || !winexists(client, "asset_cache_browser")) // Can't access the asset cache browser, rip.
-		client.cache += unreceived
+		if (client)
+			client.cache += unreceived
 		return 1
-
+	if (!client)
+		return 0
 	client.sending |= unreceived
 	var/job = ++client.last_asset_job
 
@@ -101,22 +123,20 @@
 	return 1
 
 //This proc will download the files without clogging up the browse() queue, used for passively sending files on connection start.
-proc/getFilesSlow(var/client/client, var/list/files, var/register_asset = TRUE)
+//The proc calls procs that sleep for long times.
+/proc/getFilesSlow(var/client/client, var/list/files, var/register_asset = TRUE)
 	for(var/file in files)
+		if (!client)
+			break
 		if (register_asset)
 			register_asset(file,files[file])
 		send_asset(client,file)
+		sleep(-1) //queuing calls like this too quickly can cause issues in some client versions
 
 //This proc "registers" an asset, it adds it to the cache for further use, you cannot touch it from this point on or you'll fuck things up.
 //if it's an icon or something be careful, you'll have to copy it before further use.
 /proc/register_asset(var/asset_name, var/asset)
-	asset_cache[asset_name] = asset
-
-//From here on out it's populating the asset cache.
-/proc/populate_asset_cache()
-	for(var/type in typesof(/datum/asset) - list(/datum/asset, /datum/asset/simple))
-		var/datum/asset/A = new type()
-		A.register()
+	SSasset.cache[asset_name] = asset
 
 //These datums are used to populate the asset cache, the proc "register()" does this.
 
@@ -152,6 +172,19 @@ proc/getFilesSlow(var/client/client, var/list/files, var/register_asset = TRUE)
 
 //DEFINITIONS FOR ASSET DATUMS START HERE.
 
+
+/datum/asset/simple/nanoui
+	assets = list(
+		"nanoui.lib.js"				= 'nano/assets/nanoui.lib.js',
+		"nanoui.main.js"			= 'nano/assets/nanoui.main.js',
+		"nanoui.templates.js"		= 'nano/assets/nanoui.templates.js',
+		"nanoui.lib.css"			= 'nano/assets/nanoui.lib.css',
+		"nanoui.common.css"			= 'nano/assets/nanoui.common.css',
+		"nanoui.generic.css"		= 'nano/assets/nanoui.generic.css',
+		"nanoui.nanotrasen.css"		= 'nano/assets/nanoui.nanotrasen.css',
+		"fontawesome-webfont.eot"	= 'nano/assets/fontawesome-webfont.eot',
+		"fontawesome-webfont.woff2"	= 'nano/assets/fontawesome-webfont.woff2'
+	)
 
 /datum/asset/simple/pda
 	assets = list(
@@ -199,44 +232,9 @@ proc/getFilesSlow(var/client/client, var/list/files, var/register_asset = TRUE)
 		"large_stamp-law.png" = 'icons/stamp_icons/large_stamp-law.png'
 	)
 
+
 //Registers HTML Interface assets.
 /datum/asset/HTML_interface/register()
 	for(var/path in typesof(/datum/html_interface))
 		var/datum/html_interface/hi = new path()
 		hi.registerResources()
-
-/datum/asset/nanoui
-	var/list/common = list()
-
-	var/list/common_dirs = list(
-		"nano/styles/",
-		"nano/scripts/",
-		"nano/images/",
-		"nano/layouts/"
-	)
-	var/list/uncommon_dirs = list(
-		"nano/interfaces/"
-	)
-
-/datum/asset/nanoui/register()
-	// Crawl the directories to find files.
-	for (var/path in common_dirs)
-		var/list/filenames = flist(path)
-		for(var/filename in filenames)
-			if(copytext(filename, length(filename)) != "/") // Ignore directories.
-				if(fexists(path + filename))
-					common[filename] = fcopy_rsc(path + filename)
-					register_asset(filename, common[filename])
-	for (var/path in uncommon_dirs)
-		var/list/filenames = flist(path)
-		for(var/filename in filenames)
-			if(copytext(filename, length(filename)) != "/") // Ignore directories.
-				if(fexists(path + filename))
-					register_asset(filename, fcopy_rsc(path + filename))
-
-/datum/asset/nanoui/send(client, uncommon)
-	if(!islist(uncommon))
-		uncommon = list(uncommon)
-
-	send_asset_list(client, uncommon, FALSE)
-	send_asset_list(client, common, TRUE)

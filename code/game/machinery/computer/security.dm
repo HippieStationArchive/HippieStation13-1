@@ -322,11 +322,7 @@ What a mess.*/
 				else if(IsAdminGhost(usr))
 					active1 = null
 					active2 = null
-<<<<<<< HEAD
-					authenticated = usr.client.holder.admincaster_signature
-=======
 					authenticated = usr.client.holder.admin_signature
->>>>>>> a1b67a14c45b02233a3f7902d1e984a5ac97c13f
 					rank = "Central Command"
 					screen = 1
 				else if(istype(scan, /obj/item/weapon/card/id))
