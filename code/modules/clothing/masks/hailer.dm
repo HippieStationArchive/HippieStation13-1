@@ -106,9 +106,9 @@
 			if(2)
 				phrase = rand(1,11)	// default setting, set upper limit to last 'bad cop' phrase. Mask will play good cop and bad cop phrases
 			if(3)
-				phrase = rand(1,23)	// user has unlocked all phrases, set upper limit to last phrase. The mask will play all phrases
+				phrase = rand(1,25)	// user has unlocked all phrases, set upper limit to last phrase. The mask will play all phrases
 			if(4)
-				phrase = rand(12,23)	// user has broke the restrictor, it will now only play shitcurity phrases
+				phrase = rand(12,25)	// user has broke the restrictor, it will now only play shitcurity phrases
 
 		switch(phrase)	//sets the properties of the chosen phrase
 			if(1)				// good cop
