@@ -18,6 +18,12 @@
 	var/recent_uses = 0
 	var/broken_hailer = 0
 	burn_state = -1
+	/obj/item/clothing/mask/gas/sechailer/emag_act(mob/user)
+		if(!emagged)
+			emagged=1
+			flags+= NODROP | BLOCKHAIR | HEADBANGPROTECT | EARBANGPROTECT
+			user << "<span class='warning'>You overload \the [src]'s Big Guy synthesizer.</span>"
+
 
 /obj/item/clothing/mask/gas/sechailer/swat
 	name = "\improper SWAT mask"
