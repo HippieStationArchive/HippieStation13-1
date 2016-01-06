@@ -180,6 +180,12 @@
 			if(23)
 				phrase_text = "He didn't fly so good! Who wants to try next?"
 				phrase_sound = "bane5"
+			if(24)
+				phrase_text = "First one to talk gets to stay on my station!"
+				phrase_sound = "bane6"
+			if(25)
+				phrase_text = "Dr. Pavel, I'm security."
+				phrase_sound = "bane7"
 
 
 
