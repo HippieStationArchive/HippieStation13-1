@@ -899,11 +899,10 @@
 			features["mcolor"] = "#59CE00"
 		podman.hardset_dna(null,null,podman.real_name,blood_type,/datum/species/plant/pod,features)//Discard SE's and UI's, podman cloning is inaccurate, and always make them a podman
 		podman.set_cloned_appearance()
+		new /obj/item/weapon/reagent_containers/food/snacks/grown/potato(user,loc,round(getYield())/2)
 
 	else //else, one packet of seeds. maybe two
-		var/seed_count = 1
-		if(prob(getYield() * 20))
-			seed_count++
+		var/seed_count = 1 + round(getYield() / 3)
 		for(var/i=0,i<seed_count,i++)
 			var/obj/item/seeds/replicapod/harvestseeds = new /obj/item/seeds/replicapod(user.loc)
 			harvestseeds.lifespan = lifespan

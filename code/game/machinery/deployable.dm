@@ -62,6 +62,7 @@ for reference:
 	density = 1
 	var/health = 100
 	var/maxhealth = 100
+	burn_state = 0 //Burnable
 
 /obj/structure/barricade/wooden/attack_animal(mob/living/simple_animal/M)
 	M.changeNext_move(CLICK_CD_MELEE)
@@ -85,12 +86,24 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 
 /obj/structure/barricade/wooden/attackby(obj/item/W, mob/user, params)
 	if (istype(W, /obj/item/stack/sheet/mineral/wood))
+		var/obj/item/stack/sheet/mineral/wood/S = W
 		if (health < maxhealth)
 			visible_message("[user] begins to repair \the [src]!", "<span class='notice'>You begin to repair \the [src]...</span>")
 			if(do_after(user,20, target = src))
 				health = maxhealth
 				W:use(1)
 				visible_message("[user] repairs \the [src]!", "<span class='notice'>You repair \the [src].</span>")
+		if(S.amount >= 5 && health == maxhealth)
+			user << "<span class='notice'>You start to construct a wooden wall out of the barricade</span>"
+			if(do_after(user,40, target = src))
+				if(!src.loc || !S || S.amount < 5)
+					return
+				S.use(5)
+				user << "<span class='notice'>You have constructed the wood wall</span>"
+				new /obj/structure/barricade/wooden/wall(get_turf(src))
+				qdel(src)
+		else
+			return
 	else
 		user.changeNext_move(CLICK_CD_MELEE)
 		visible_message("<span class='warning'>[user] hits [src] with [W]!</span>", "<span class='warning'>You hit [src] with [W]!</span>")
