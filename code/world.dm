@@ -199,6 +199,8 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 	config = new /datum/configuration()
 	config.load("config/config.txt")
 	config.load("config/game_options.txt","game_options")
+	template_config = new /datum/template()
+	template_config.load("config/template.txt")
 	config.loadsql("config/dbconfig.txt")
 	// apply some settings from config..
 	abandon_allowed = config.respawn

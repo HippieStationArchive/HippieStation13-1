@@ -96,7 +96,8 @@ var/list/admin_verbs_fun = list(
 	/client/proc/bluespace_artillery,
 	/client/proc/admin_change_sec_level,
 	/client/proc/cmd_smite,
-	/client/proc/toggle_nuke
+	/client/proc/toggle_nuke,
+	/client/proc/TemplatePanel
 	)
 var/list/admin_verbs_spawn = list(
 	/datum/admins/proc/spawn_atom,		/*allows us to spawn instances*/
