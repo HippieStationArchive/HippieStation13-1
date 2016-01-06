@@ -122,7 +122,7 @@
 		lastcycle = world.time
 		if(planted && !dead)
 			// Advance age
-			age++
+			age += 2
 			needs_update = 1
 
 //Nutrients//////////////////////////////////////////////////////////////
@@ -193,7 +193,7 @@
 				adjustHealth(-rand(1,5) / rating)
 
 			// Harvest code
-			if(age > myseed.production && (age - lastproduce) > myseed.production && (!harvest && !dead))
+			if(age > myseed.production+6+(myseed.oneharvest*6) && (age - lastproduce) > myseed.production && (!harvest && !dead))
 				nutrimentMutation()
 				if(myseed && myseed.yield != -1) // Unharvestable shouldn't be harvested
 					harvest = 1
@@ -899,9 +899,9 @@
 			features["mcolor"] = "#59CE00"
 		podman.hardset_dna(null,null,podman.real_name,blood_type,/datum/species/plant/pod,features)//Discard SE's and UI's, podman cloning is inaccurate, and always make them a podman
 		podman.set_cloned_appearance()
-		new /obj/item/weapon/reagent_containers/food/snacks/grown/potato(user,loc,round(getYield())/2)
+		new /obj/item/weapon/reagent_containers/food/snacks/grown/potato(user,loc,round(getYield())/2)  //Bonus potatos, no particular reason.
 
-	else //else, one packet of seeds. maybe two
+	else //else, one packet of seeds. more depending on yield
 		var/seed_count = 1 + round(getYield() / 3)
 		for(var/i=0,i<seed_count,i++)
 			var/obj/item/seeds/replicapod/harvestseeds = new /obj/item/seeds/replicapod(user.loc)

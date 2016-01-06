@@ -62,7 +62,7 @@
 	var/mineral = "wood"
 	health = 200.
 	maxhealth = 200.0
-	burntime = 40 //Wooden walls are thick, so they take longer to burn down
+	burntime = 30 //Wooden walls are thick, so they take longer to burn down
 	var/temploc
 
 obj/structure/barricade/wooden/wall/attackby(obj/item/O as obj, mob/user as mob)
