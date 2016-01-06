@@ -4,7 +4,7 @@ var/datum/subsystem/nano/SSnano
 	name = "NanoUI"
 	wait = 10
 	priority = 16
-	var/display = 6
+	display = 6
 
 	can_fire = 1 // This needs to fire before round start.
 
