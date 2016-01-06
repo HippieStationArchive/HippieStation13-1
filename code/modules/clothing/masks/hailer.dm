@@ -106,9 +106,9 @@
 			if(2)
 				phrase = rand(1,11)	// default setting, set upper limit to last 'bad cop' phrase. Mask will play good cop and bad cop phrases
 			if(3)
-				phrase = rand(1,18)	// user has unlocked all phrases, set upper limit to last phrase. The mask will play all phrases
+				phrase = rand(1,23)	// user has unlocked all phrases, set upper limit to last phrase. The mask will play all phrases
 			if(4)
-				phrase = rand(12,18)	// user has broke the restrictor, it will now only play shitcurity phrases
+				phrase = rand(12,23)	// user has broke the restrictor, it will now only play shitcurity phrases
 
 		switch(phrase)	//sets the properties of the chosen phrase
 			if(1)				// good cop
@@ -165,6 +165,24 @@
 			if(18)
 				phrase_text = "I am, the LAW!"
 				phrase_sound = "dredd"
+			if(19)
+				phrase_text = "Well congratulations, you got yourself caught!"
+				phrase_sound = "bane1"
+			if(20)
+				phrase_text = "Now, what's the next step of your master plan?"
+				phrase_sound = "bane2"
+			if(21)
+				phrase_text = "No, this can't be happening! I'm in charge here!"
+				phrase_sound = "bane3"
+			if(22)
+				phrase_text = "They work for the mercenary... the masked man."
+				phrase_sound = "bane4"
+			if(23)
+				phrase_text = "He didn't fly so good! Who wants to try next?"
+				phrase_sound = "bane5"
+
+
+
 
 		usr.visible_message("[usr]'s Compli-o-Nator: <font color='red' size='4'><b>[phrase_text]</b></font>")
 		playsound(src.loc, "sound/voice/complionator/[phrase_sound].ogg", 100, 0, 4)
