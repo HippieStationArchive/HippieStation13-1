@@ -86,22 +86,25 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 
 /obj/structure/barricade/wooden/attackby(obj/item/W, mob/user, params)
 	if (istype(W, /obj/item/stack/sheet/mineral/wood))
-		var/obj/item/stack/sheet/mineral/wood/S = W
 		if (health < maxhealth)
 			visible_message("[user] begins to repair \the [src]!", "<span class='notice'>You begin to repair \the [src]...</span>")
 			if(do_after(user,20, target = src))
 				health = maxhealth
 				W:use(1)
 				visible_message("[user] repairs \the [src]!", "<span class='notice'>You repair \the [src].</span>")
-		if(S.amount >= 5 && health == maxhealth)
-			user << "<span class='notice'>You start to construct a wooden wall out of the barricade</span>"
-			if(do_after(user,40, target = src))
-				if(!src.loc || !S || S.amount < 5)
+				return
+	if(istype(W, /obj/item/weapon/hatchet) && user.a_intent == "help")
+		if(health == maxhealth)
+			user << "You begin to carve a hole for a window"
+			if(do_after(user,60/W.toolspeed, target = src))
+				if(!src.loc)
 					return
-				S.use(5)
-				user << "<span class='notice'>You have constructed the wood wall</span>"
-				new /obj/structure/barricade/wooden/wall(get_turf(src))
+				visible_message("<span class='notice'>[user] carves a frame out of [src].</span>","<span class ='notice'>You carve out a window frame from [src].</span>")
+				new /obj/item/stack/sheet/mineral/wood(get_turf(user))
+				new /obj/item/stack/sheet/mineral/wood(get_turf(user))
+				new /obj/structure/barricade/wooden/windowframe(get_turf(src))
 				qdel(src)
+				return
 		else
 			return
 	else

@@ -601,7 +601,6 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/banana/add_juice()
 	if(..())
-		reagents.add_reagent("potassium", 1 + round((potency / 20), 1))
 		reagents.add_reagent("banana", 1 + round((potency / 10), 1))
 		reagents.add_reagent("vitamin", 1 + round((potency / 25), 1))
 		bitesize = 5
@@ -1084,19 +1083,19 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/angel/add_juice()
 	..()
-	reagents.add_reagent("amatoxin", 1 + round(potency / 12, 1))
-	reagents.add_reagent("heparin", 1 + round(potency / 20, 1))
-	reagents.add_reagent("teslium", 1 + round(potency / 12, 1))
-	reagents.add_reagent("lexorin", 1 +round(potency / 12, 1))
+	reagents.add_reagent("amatoxin", 1 + round(potency / 10, 1))
+	reagents.add_reagent("heparin", 1 + round(potency / 12, 1))
+	reagents.add_reagent("teslium", 1 + round(potency / 10, 1))
+	reagents.add_reagent("lexorin", 1 + round(potency / 25, 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/angel/attackby(obj/item/O, mob/user, params)
 	. = ..()
 	if (istype(O, /obj/item/device/analyzer/plant_analyzer))
-		user << "<span class='info'>- Amatoxins: <i>[reagents.get_reagent_amount("amatoxin")]%</i></span>"
-		user << "<span class='info'>- Heparin <i>[reagents.get_reagent_amount("heparin")]%</i></span>"
-		user << "<span class='info'>- Teslium: <i>[reagents.get_reagent_amount("teslium")]%</i></span>"
-		user << "<span class='info'>- Lexorin: <i>[reagents.get_reagent_amount("lexorin")]%</i></span>"
+		user << "<span class='info'>- Amatoxins: <i>[reagents.get_reagent_amount("amatoxin")] units</i></span>"
+		user << "<span class='info'>- Heparin <i>[reagents.get_reagent_amount("heparin")] units</i></span>"
+		user << "<span class='info'>- Teslium: <i>[reagents.get_reagent_amount("teslium")] units</i></span>"
+		user << "<span class='info'>- Lexorin: <i>[reagents.get_reagent_amount("lexorin")] units</i></span>"
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/libertycap
 	seed = /obj/item/seeds/libertymycelium
@@ -1142,7 +1141,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/walkingmushroom/add_juice()
 	..()
 	reagents.add_reagent("nutriment", 2+round((potency / 10), 1))
-	reagents.add_reagent("tricordrazine", 5+round((potency/10), 1))
+	reagents.add_reagent("tricordrazine", 1+round((potency/12), 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/walkingmushroom/attack_self(mob/user)
@@ -1168,6 +1167,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/chanterelle/add_juice()
 	..()
 	reagents.add_reagent("nutriment", 1 + round((potency / 25), 1))
+	reagents.add_reagent("potassium", 1 + round((potency / 12), 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/glowshroom
@@ -1372,7 +1372,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/tea/astra/add_juice()
 	..()
-	reagents.add_reagent("salglu_solution", 1 + round((potency / 20), 1))
+	reagents.add_reagent("synaptizine", 1 + round((potency / 20), 1))
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/buttflower
 	seed = /obj/item/seeds/buttseed

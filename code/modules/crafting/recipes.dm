@@ -248,3 +248,12 @@
 	reqs = list(/obj/item/stack/sheet/metal = 2)
 	time = 120
 	category = CAT_WEAPON
+
+/datum/table_recipe/tooth_hatchet //For teeth hatchet
+	name = "Tooth hatchet"
+	result = /obj/item/weapon/hatchet/tooth
+	reqs = list(/obj/item/stack/rods = 1,
+				/obj/item/stack/cable_coil = 10,
+				/obj/item/stack/teeth = 3)
+	time = 80
+	category = CAT_WEAPON
