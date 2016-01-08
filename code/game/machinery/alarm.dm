@@ -98,6 +98,7 @@
 	//req_access = list(access_rd) //no, let departaments to work together
 	TLV = list(
 		"oxygen"         = new/datum/tlv(-1,-1,-1,-1), // Partial pressure, kpa
+		"nitrogen"       = new/datum/tlv(-1,-1,-1,-1), // Partial pressure, kpa
 		"carbon dioxide" = new/datum/tlv(-1,-1,-1,-1), // Partial pressure, kpa
 		"plasma"         = new/datum/tlv(-1,-1,-1,-1), // Partial pressure, kpa
 		"other"          = new/datum/tlv(-1,-1,-1,-1), // Partial pressure, kpa
@@ -108,10 +109,11 @@
 /obj/machinery/alarm/kitchen_cold_room
 	TLV = list(
 		"oxygen"         = new/datum/tlv(16,19,135,140), // Partial pressure, kpa
+		"nitrogen"       = new/datum/tlv(-1,-1,1000,1000), // Partial pressure, kpa
 		"carbon dioxide" = new/datum/tlv(-1,-1,5,10), // Partial pressure, kpa
 		"plasma"         = new/datum/tlv(-1,-1,0.2,0.5), // Partial pressure, kpa
 		"other"          = new/datum/tlv(-1,-1,0.5,1), // Partial pressure, kpa
-		"pressure"       = new/datum/tlv(ONE_ATMOSPHERE*0.80,ONE_ATMOSPHERE*0.90,ONE_ATMOSPHERE*1.50,ONE_ATMOSPHERE*1.60), /* kpa */
+		"pressure"       = new/datum/tlv(ONE_ATMOSPHERE*0.80,ONE_ATMOSPHERE*0.90,ONE_ATMOSPHERE*1.10,ONE_ATMOSPHERE*1.20), // kPa
 		"temperature"    = new/datum/tlv(200,210,273.15,283.15), // K
 	)
 
@@ -174,7 +176,6 @@
 	if (buildstage != 2) return
 
 	interact(user)
-
 
 /obj/machinery/alarm/interact(mob/user)
 	if (user.has_unlimited_silicon_privilege && src.aidisabled)
@@ -255,7 +256,7 @@
 	if(!location)
 		return
 	var/datum/gas_mixture/environment = location.return_air()
-	var/total = environment.oxygen + environment.carbon_dioxide + environment.toxins + environment.nitrogen
+	var/total = environment.oxygen + environment.nitrogen + environment.carbon_dioxide + environment.toxins
 
 	var/list/environment_data = list()
 	data["atmos_alarm"] = alarm_area.atmosalm
@@ -280,7 +281,7 @@
 
 		cur_tlv = TLV["carbon dioxide"]
 		var/carbon_dioxide_danger = cur_tlv.get_danger_level(environment.carbon_dioxide*partial_pressure)
-		environment_data += list(list("name" = "Carbon dioxide", "value" = environment.carbon_dioxide / total * 100, "unit" = "%", "danger_level" = carbon_dioxide_danger))
+		environment_data += list(list("name" = "Carbon Dioxide", "value" = environment.carbon_dioxide / total * 100, "unit" = "%", "danger_level" = carbon_dioxide_danger))
 
 		cur_tlv = TLV["plasma"]
 		var/plasma_danger = cur_tlv.get_danger_level(environment.toxins*partial_pressure)
@@ -296,6 +297,7 @@
 		cur_tlv = TLV["temperature"]
 		var/temperature_danger = cur_tlv.get_danger_level(environment.temperature)
 		environment_data += list(list("name" = "Temperature", "value" = environment.temperature, "unit" = "K ([round(environment.temperature - T0C, 0.1)]C)", "danger_level" = temperature_danger))
+
 		data["environment_data"] = environment_data
 
 /obj/machinery/alarm/proc/populate_controls(list/data)
@@ -647,7 +649,7 @@
 
 /obj/machinery/alarm/proc/post_alert(alert_level)
 
-	var/datum/radio_frequency/frequency = radio_controller.return_frequency(alarm_frequency)
+	var/datum/radio_frequency/frequency =radio_controller.return_frequency(alarm_frequency)
 
 	if(!frequency) return
 
@@ -890,9 +892,9 @@ FIRE ALARM
 	..()
 
 /obj/machinery/firealarm/attackby(obj/item/W, mob/user, params)
-	src.add_fingerprint(user)
+	add_fingerprint(user)
 
-	if (istype(W, /obj/item/weapon/screwdriver) && buildstage == 2)
+	if(istype(W, /obj/item/weapon/screwdriver) && buildstage == 2)
 		playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 		panel_open = !panel_open
 		user << "<span class='notice'>The wires have been [panel_open ? "exposed" : "unexposed"].</span>"
@@ -902,12 +904,13 @@ FIRE ALARM
 	if(panel_open)
 		switch(buildstage)
 			if(2)
-				if (istype(W, /obj/item/device/multitool))
+				if(istype(W, /obj/item/device/multitool))
 					src.detecting = !( src.detecting )
 					if (src.detecting)
 						user.visible_message("[user] has reconnected [src]'s detecting unit!", "<span class='notice'>You reconnect [src]'s detecting unit.</span>")
 					else
 						user.visible_message("[user] has disconnected [src]'s detecting unit!", "<span class='notice'>You disconnect [src]'s detecting unit.</span>")
+					return
 
 				else if (istype(W, /obj/item/weapon/wirecutters))
 					buildstage = 1
@@ -917,18 +920,18 @@ FIRE ALARM
 					coil.loc = user.loc
 					user << "<span class='notice'>You cut the wires from \the [src].</span>"
 					update_icon()
+					return
 			if(1)
 				if(istype(W, /obj/item/stack/cable_coil))
 					var/obj/item/stack/cable_coil/coil = W
 					if(coil.get_amount() < 5)
 						user << "<span class='warning'>You need more cable for this!</span>"
-						return
-
-					coil.use(5)
-
-					buildstage = 2
-					user << "<span class='notice'>You wire \the [src].</span>"
-					update_icon()
+					else
+						coil.use(5)
+						buildstage = 2
+						user << "<span class='notice'>You wire \the [src].</span>"
+						update_icon()
+					return
 
 				else if(istype(W, /obj/item/weapon/crowbar))
 					playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
@@ -943,12 +946,14 @@ FIRE ALARM
 								new /obj/item/weapon/electronics/firealarm(user.loc)
 							buildstage = 0
 							update_icon()
+					return
 			if(0)
 				if(istype(W, /obj/item/weapon/electronics/firealarm))
 					user << "<span class='notice'>You insert the circuit.</span>"
 					qdel(W)
 					buildstage = 1
 					update_icon()
+					return
 
 				else if(istype(W, /obj/item/weapon/wrench))
 					user.visible_message("[user] removes the fire alarm assembly from the wall.", \
@@ -957,9 +962,8 @@ FIRE ALARM
 					frame.loc = user.loc
 					playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 					qdel(src)
-		return
-
-	return
+					return
+	return ..()
 
 /obj/machinery/firealarm/process()//Note: this processing was mostly phased out due to other code, and only runs when needed
 	if(stat & (NOPOWER|BROKEN))
