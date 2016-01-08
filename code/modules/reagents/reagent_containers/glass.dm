@@ -28,6 +28,7 @@
 		/obj/machinery/disposal,
 		/obj/machinery/hydroponics,
 		/obj/machinery/biogenerator,
+		/obj/machinery/poolcontroller,
 		/mob/living/simple_animal/cow,
 		/mob/living/simple_animal/hostile/retaliate/goat
 	)
@@ -108,6 +109,14 @@
 	//NINJACODE
 	else if(istype(target, /obj/item/clothing/suit/space/space_ninja))
 		return
+
+	else if(istype(target, /turf/simulated/pool/water))
+		if(reagents.total_volume >= 1)
+			user << "<span class='notice'>Doing that would be useless.</span>"
+		else
+			user << "<span class='notice'>You plunge [src] in the [target].</span>"
+			reagents.add_reagent("water", 100)
+			return
 
 	else if(istype(target, /obj/effect/decal/cleanable)) //stops splashing while scooping up fluids
 		return

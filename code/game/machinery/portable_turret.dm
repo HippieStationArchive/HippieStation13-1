@@ -53,13 +53,13 @@
 
 	var/faction = "neutral"
 
-	var/datum/effect/effect/system/spark_spread/spark_system	//the spark system, used for generating... sparks?
+	var/datum/effect_system/spark_spread/spark_system	//the spark system, used for generating... sparks?
 
 /obj/machinery/porta_turret/New()
 	..()
 	icon_state = "[lasercolor]grey_target_prism"
 	//Sets up a spark system
-	spark_system = new /datum/effect/effect/system/spark_spread
+	spark_system = new /datum/effect_system/spark_spread
 	spark_system.set_up(5, 0, src)
 	spark_system.attach(src)
 
@@ -1097,14 +1097,14 @@ Status: []<BR>"},
 			src.attack_hand(user)
 
 /obj/machinery/turretid/attack_ai(mob/user)
-	if(!ailock)
+	if(!ailock || IsAdminGhost(user))
 		return attack_hand(user)
 	else
 		user << "<span class='notice'>There seems to be a firewall preventing you from accessing this device.</span>"
 
 /obj/machinery/turretid/attack_hand(mob/user as mob)
 	if ( get_dist(src, user) > 0 )
-		if ( !issilicon(user) )
+		if ( !(issilicon(user) || IsAdminGhost(user)) )
 			user << "<span class='notice'>You are too far away.</span>"
 			user.unset_machine()
 			user << browse(null, "window=turretid")
@@ -1120,10 +1120,10 @@ Status: []<BR>"},
 	var/area/area = loc
 	var/t = ""
 
-	if(src.locked && (!istype(user, /mob/living/silicon)))
+	if(src.locked && (!(istype(user, /mob/living/silicon) || IsAdminGhost(user))))
 		t += "<div class='notice icon'>Swipe ID card to unlock interface</div>"
 	else
-		if (!istype(user, /mob/living/silicon))
+		if (!istype(user, /mob/living/silicon) && !IsAdminGhost(user))
 			t += "<div class='notice icon'>Swipe ID card to lock interface</div>"
 		t += text("Turrets [] - <A href='?src=\ref[];toggleOn=1'>[]?</a><br>\n", src.enabled?"activated":"deactivated", src, src.enabled?"Disable":"Enable")
 		t += text("Currently set for [] - <A href='?src=\ref[];toggleLethal=1'>Change to []?</a><br>\n", src.lethal?"lethal":"stun repeatedly", src,  src.lethal?"Stun repeatedly":"Lethal")
@@ -1139,7 +1139,7 @@ Status: []<BR>"},
 	if(..())
 		return
 	if (src.locked)
-		if (!istype(usr, /mob/living/silicon))
+		if (!(istype(usr, /mob/living/silicon) || IsAdminGhost(usr)))
 			usr << "Control panel is locked!"
 			return
 	if (href_list["toggleOn"])
