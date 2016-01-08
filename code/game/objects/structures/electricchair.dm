@@ -44,14 +44,14 @@
 	A.updateicon()
 
 	flick("echair1", src)
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(12, 1, src)
 	s.start()
 	if(buckled_mob)
-		buckled_mob.burn_skin(85)
+		buckled_mob.electrocute_act(85, src)
 		buckled_mob << "<span class='userdanger'>You feel a deep shock course through your body!</span>"
 		sleep(1)
-		buckled_mob.burn_skin(85)
+		buckled_mob.electrocute_act(85, src)
 	visible_message("<span class='danger'>The electric chair went off!</span>", "<span class='italics'>You hear a deep sharp shock!</span>")
 
 	A.power_light = light

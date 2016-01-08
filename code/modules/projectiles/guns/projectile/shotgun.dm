@@ -258,6 +258,7 @@
 	..()
 	if(istype(A, /obj/item/stack/cable_coil))
 		return
+
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/examine(mob/user) // HAD TO REPEAT EXAMINE CODE BECAUSE GUN CODE DOESNT STEALTH
 	var/f_name = "\a [src]."
 	if(src.blood_DNA && !istype(src, /obj/effect/decal))
@@ -274,10 +275,12 @@
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/New()
 	..()
+	options = list()
 	for(var/U in typesof(/obj/item/weapon/cane))
 		var/obj/item/weapon/cane/V = new U
 		src.cane_choices += V
 	return
+
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/verb/Change()
 
 	set src in usr

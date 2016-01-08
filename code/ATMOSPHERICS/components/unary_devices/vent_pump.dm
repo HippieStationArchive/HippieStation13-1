@@ -291,11 +291,11 @@
 				if(!welded)
 					user.visible_message("[user] welds the vent shut.", "<span class='notice'>You weld the vent shut.</span>", "<span class='italics'>You hear welding.</span>")
 					welded = 1
-					update_icon()
 				else
 					user.visible_message("[user] unwelds the vent.", "<span class='notice'>You unweld the vent.</span>", "<span class='italics'>You hear welding.</span>")
 					welded = 0
-					update_icon()
+				update_icon()
+				pipe_vision_img = image(src, loc, layer = 20, dir = dir)
 			return 1
 	if(istype(W, /obj/item/weapon/crowbar))
 		// var/obj/item/weapon/crowbar/C = W
