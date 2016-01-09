@@ -40,5 +40,5 @@ changes:
   - tweak: "Increased the amount of chems consumed by smoking"
   - rscadd: "Added the creation of wood walls and windows"
   - rscadd: "Craft a window frame by using a hatchet on a barricade. Make a wall by using 5 pieces of wood on a window frame, or attach a window with one piece of glass"
-  - rscadd: "Added tooth hatchets, table crafted with one rod, 10 wire and 2 teeth. Weaker than normal hatchets, and will break on use"
-  - tweak: "Credits to derpthestewpidgoat for the wall icons and code, Fury for the tooth hatchet"
+  - rscadd: "Added tooth hatchets, table crafted with one rod, 10 wire and 3 teeth. Weaker than normal hatchets, and will break on use"
+  - tweak: "Credits to derpthestewpidgoat for the wall code, Fury for the tooth hatchet"

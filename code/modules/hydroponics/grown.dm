@@ -1051,8 +1051,8 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/reishi/attackby(obj/item/O, mob/user, params)
 	. = ..()
 	if (istype(O, /obj/item/device/analyzer/plant_analyzer))
-		user << "<span class='info'>- Anti-Toxin: <i>[reagents.get_reagent_amount("charcoal")]%</i></span>"
-		user << "<span class='info'>- Krokodil: <i>[reagents.get_reagent_amount("krokodil")]%</i></span>"
+		user << "<span class='info'>- Anti-Toxin: <i>[reagents.get_reagent_amount("charcoal")] units</i></span>"
+		user << "<span class='info'>- Krokodil: <i>[reagents.get_reagent_amount("krokodil")]units</i></span>"
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/amanita
 	seed = /obj/item/seeds/amanitamycelium
@@ -1113,8 +1113,8 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/libertycap/attackby(obj/item/O, mob/user, params)
 	. = ..()
 	if (istype(O, /obj/item/device/analyzer/plant_analyzer))
-		user << "<span class='info'>- Mushroom Hallucinogen: <i>[reagents.get_reagent_amount("mushroomhallucinogen")]%</i></span>"
-		user << "<span class='info'>- Calomel: <i>[reagents.get_reagent_amount("calomel")]%</i></span>"
+		user << "<span class='info'>- Mushroom Hallucinogen: <i>[reagents.get_reagent_amount("mushroomhallucinogen")] units</i></span>"
+		user << "<span class='info'>- Calomel: <i>[reagents.get_reagent_amount("calomel")] units</i></span>"
 
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/plumphelmet
