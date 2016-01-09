@@ -16,7 +16,7 @@ but i'll port it back to Arctic station if we get back to it
 	var/health = 200 //Alot of this shit is getting set by the chassis
 	var/maxhealth = 200
 	var/lastmove = 0
-	var/list/blacklist
+	var/list/blacklist = list() //Black list for parts
 	var/exposed = 0 //Used for calculating attacks, whether it hits the driver/occupants
 	var/occupants_max = 0 //Max occupants
 	var/occupants = 0 //The driver is technically not an occupant
@@ -327,7 +327,7 @@ but i'll port it back to Arctic station if we get back to it
 	var/obj/item/vehicle_parts/engine/E = locate() in parts
 	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
 	var/obj/item/weapon/stock_parts/cell/B = locate() in parts
-	if((!Process_Spacemove(direction)) || (!has_gravity(src.loc) && !P.nograv))
+	if((!Process_Spacemove(direction) && !P.nograv) || (!has_gravity(src.loc) && !P.nograv))
 		return
 	if(!driver) //Return if no driver
 		return
