@@ -8,6 +8,7 @@ var/list/admin_verbs_default = list(
 	/client/proc/hide_most_verbs,		/*hides all our hideable adminverbs*/
 	/client/proc/debug_variables,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
 	/client/proc/admin_memo,			/*admin memo system. show/delete/write. +SERVER needed to delete admin memos of others*/
+	/client/proc/mentor_memo,			/*memo memo system. show/delete/write. +SERVER needed to delete mentor memos of others*/
 	/client/proc/deadchat,				/*toggles deadchat on/off*/
 	/client/proc/dsay,					/*talk in deadchat using our ckey/fakekey*/
 	/client/proc/toggleprayers,			/*toggles prayers on/off*/
@@ -60,9 +61,11 @@ var/list/admin_verbs_admin = list(
 	/client/proc/cmd_admin_direct_narrate,	/*send text directly to a player with no padding. Useful for narratives and fluff-text*/
 	/client/proc/cmd_admin_world_narrate,	/*sends text to all players with no padding*/
 	/client/proc/cmd_admin_local_narrate,	//sends text to all mobs within view of atmo
-	/client/proc/cmd_admin_create_centcom_report,
+	/client/proc/cmd_admin_create_centcom_report, //*Create Centcomm report
+	/client/proc/cmd_admin_create_intercept_report, //*Create intercept report
 	/client/proc/reset_all_tcs,			/*resets all telecomms scripts*/
-	/client/proc/toggle_antag_hud 	/*toggle display of the admin antag hud*/
+	/client/proc/toggle_antag_hud, 	/*toggle display of the admin antag hud*/
+	/client/proc/aooc /*sends a message to all antags on the server*/
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
@@ -118,7 +121,6 @@ var/list/admin_verbs_debug = list(
 	/client/proc/cmd_admin_list_open_jobs,
 	/client/proc/Debug2,
 	/client/proc/cmd_debug_make_powernets,
-	/client/proc/debug_controller,
 	/client/proc/cmd_debug_mob_lists,
 	/client/proc/cmd_admin_delete,
 	/client/proc/cmd_debug_del_all,
@@ -186,6 +188,7 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/cmd_admin_add_freeform_ai_law,
 	/client/proc/cmd_admin_add_random_ai_law,
 	/client/proc/cmd_admin_create_centcom_report,
+	/client/proc/cmd_admin_create_intercept_report,
 	/client/proc/object_say,
 	/client/proc/toggle_random_events,
 	/client/proc/cmd_admin_add_random_ai_law,
@@ -203,8 +206,8 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/Debug2,
 	/client/proc/reload_admins,
 	/client/proc/cmd_debug_make_powernets,
-	/client/proc/debug_controller,
 	/client/proc/startSinglo,
+	/client/proc/startTesla,
 	/client/proc/cmd_debug_mob_lists,
 	/client/proc/cmd_debug_del_all,
 	/client/proc/enable_debug_verbs,
@@ -273,10 +276,12 @@ var/list/admin_verbs_hideable = list(
 		/client/proc/count_objects_all,
 		/client/proc/cmd_assume_direct_control,
 		/client/proc/startSinglo,
+		/client/proc/startTesla,
 		/client/proc/fps,
 		/client/proc/cmd_admin_grantfullaccess,
 		/client/proc/cmd_admin_areatest,
 		/client/proc/readmin,
+		/client/proc/reload_nanoui_resources
 		)
 	if(holder)
 		verbs.Remove(holder.rank.adds)
@@ -363,6 +368,8 @@ var/list/admin_verbs_hideable = list(
 	if(holder)
 		holder.check_antagonists()
 		log_admin("[key_name(usr)] checked antagonists.")	//for tsar~
+		if(!isobserver(usr))
+			message_admins("[key_name_admin(usr)] checked antagonists.")
 	feedback_add_details("admin_verb","CHA") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 

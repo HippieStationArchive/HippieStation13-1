@@ -80,10 +80,12 @@
 	. = ..()
 
 
-/mob/living/carbon/electrocute_act(shock_damage, obj/source, siemens_coeff = 1, override = 0)
+/mob/living/carbon/electrocute_act(shock_damage, obj/source, siemens_coeff = 1, override = 0, tesla_shock = 0)
 	shock_damage *= siemens_coeff
 	if(shock_damage<1 && !override)
 		return 0
+	if(reagents.has_reagent("teslium"))
+		shock_damage *= 1.5 //If the mob has teslium in their body, shocks are 50% more damaging!
 	take_overall_damage(0,shock_damage)
 	//src.burn_skin(shock_damage)
 	//src.adjustFireLoss(shock_damage) //burn_skin will do this for us
@@ -95,12 +97,13 @@
 	)
 	jitteriness += 1000 //High numbers for violent convulsions
 	do_jitter_animation(jitteriness)
-	stuttering += 2
-	Stun(2)
+	if(!tesla_shock || (tesla_shock && siemens_coeff > 0.5))
+		Stun(2)
 	spawn(20)
 		jitteriness = max(jitteriness - 990, 10) //Still jittery, but vastly less
-		Stun(3)
-		Weaken(3)
+		if(!tesla_shock || (tesla_shock && siemens_coeff > 0.5))
+			Stun(3)
+			Weaken(3)
 	if(override)
 		return override
 	else
@@ -282,13 +285,6 @@
 		newtonian_move(get_dir(target, src))
 
 		item.throw_at(target, range, throw_speed)
-
-/mob/living/carbon/can_use_hands()
-	if(handcuffed)
-		return 0
-	if(buckled && ! istype(buckled, /obj/structure/stool/bed/chair)) // buckling does not restrict hands
-		return 0
-	return 1
 
 /mob/living/carbon/restrained()
 	if (handcuffed)

@@ -206,28 +206,6 @@ Sorry Giacom. Please don't be mad :(
 /mob/living/proc/calculate_affecting_pressure(pressure)
 	return pressure
 
-
-//sort of a legacy burn method for /electrocute, /shock, and the e_chair
-/mob/living/proc/burn_skin(burn_amount)
-	if(istype(src, /mob/living/carbon/human))
-		//world << "DEBUG: burn_skin(), mutations=[mutations]"
-		var/mob/living/carbon/human/H = src	//make this damage method divide the damage to be done among all the body parts, then burn each body part for that much damage. will have better effect then just randomly picking a body part
-		var/divided_damage = (burn_amount)/(H.organs.len)
-		var/extradam = 0	//added to when organ is at max dam
-		for(var/obj/item/organ/limb/affecting in H.organs)
-			if(!affecting)	continue
-			if(affecting.take_damage(0, divided_damage+extradam))	//TODO: fix the extradam stuff. Or, ebtter yet...rewrite this entire proc ~Carn
-				H.update_damage_overlays(0)
-		H.updatehealth()
-		return 1
-	else if(istype(src, /mob/living/carbon/monkey))
-		var/mob/living/carbon/monkey/M = src
-		M.adjustFireLoss(burn_amount)
-		M.updatehealth()
-		return 1
-	else if(istype(src, /mob/living/silicon/ai))
-		return 0
-
 /mob/living/proc/adjustBodyTemp(actual, desired, incrementboost)
 	var/temperature = actual
 	var/difference = abs(actual-desired)	//get difference
@@ -385,7 +363,7 @@ Sorry Giacom. Please don't be mad :(
 	return 0
 
 
-/mob/living/proc/electrocute_act(shock_damage, obj/source, siemens_coeff = 1, safety = 0)
+/mob/living/proc/electrocute_act(shock_damage, obj/source, siemens_coeff = 1, safety = 0, tesla_shock = 0)
 	  return 0 //only carbon liveforms have this proc
 
 /mob/living/emp_act(severity)
@@ -624,7 +602,6 @@ Sorry Giacom. Please don't be mad :(
 	if(!stat && !restrained()) //Restraining someone after headlocking them is GG
 		if(last_special <= world.time)
 			// changeNext_move(CLICK_CD_BREAKOUT)
-			last_special = world.time + CLICK_CD_BREAKOUT //Additional cooldown
 			var/resisting = 0
 			for(var/obj/O in requests) //Would help knowing what this actually is...
 				qdel(O)
@@ -642,19 +619,18 @@ Sorry Giacom. Please don't be mad :(
 					G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip!</span>", \
 												"<span class='userdanger'>[src] has broken free of your grip!</span>")
 					qdel(G)
-					return
 				else if(G.state == GRAB_AGGRESSIVE)
 					if(prob(40 - (G.force_down * 20))) //20% chance to break free if you're forced down
 						if(G.force_down)
 							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip, tumbling him down!</span>", \
 														"<span class='userdanger'>You tumble to the ground after [src] resists out of your pindown!</span>")
 							G.assailant.Weaken(3)
+							G.affecting.AdjustWeakened(-1) //Reduce victim's weakened a bit so they'll always get up faster
 							step_away(G.assailant,src)
 						else
 							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip!</span>", \
 														"<span class='userdanger'>[src] has broken free of your grip!</span>")
 						qdel(G)
-						return
 				else if(G.state == GRAB_NECK)
 					if(prob(5)) //Low as fuck chance
 						G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s headlock!</span>", \
@@ -664,13 +640,11 @@ Sorry Giacom. Please don't be mad :(
 						update_canmove()
 						G.assailant.Stun(2) //Temporarily stun the assailant to give the victim some fighting chance
 						qdel(G)
-						return
 			if(resisting)
+				last_special = world.time + 50 //5-second cooldown
 				visible_message("<span class='warning'>[src] tries to resist!</span>")
-				return
 		else
-			src << "<span class='warning'>You have to wait [round(world.time - last_special)/10] seconds to attempt another resist!</span>"
-			return
+			src << "<span class='warning'>You have to wait [round(last_special - world.time)/10] seconds to attempt another resist!</span>"
 
 	//unbuckling yourself
 	if(buckled && last_special <= world.time)
@@ -690,7 +664,7 @@ Sorry Giacom. Please don't be mad :(
 
 
 /mob/living/proc/resist_buckle()
-	buckled.user_unbuckle_mob(src,src)
+	buckled.user_unbuckle_mob(src)
 
 /mob/living/proc/resist_fire()
 	return
@@ -789,12 +763,15 @@ Sorry Giacom. Please don't be mad :(
 
 
 /atom/movable/proc/do_attack_animation(atom/A, end_pixel_y)
+	var/direction = get_dir(src, A)
+	do_bounce_anim_dir(direction, 2, end_pixel_y=end_pixel_y)
+
+/atom/movable/proc/do_bounce_anim_dir(direction, wait, strength=8, easein=0, easeout=0, end_pixel_y)
 	var/pixel_x_diff = 0
 	var/pixel_y_diff = 0
 	var/final_pixel_y = initial(pixel_y)
 	if(end_pixel_y)
 		final_pixel_y = end_pixel_y
-	var/direction = get_dir(src, A)
 	switch(direction)
 		if(NORTH)
 			pixel_y_diff = 8
@@ -817,13 +794,12 @@ Sorry Giacom. Please don't be mad :(
 			pixel_x_diff = -8
 			pixel_y_diff = -8
 
-	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = 2)
-	animate(pixel_x = initial(pixel_x), pixel_y = final_pixel_y, time = 2)
+	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = wait, easing = easein)
+	animate(pixel_x = initial(pixel_x), pixel_y = final_pixel_y, time = wait, easing = easeout)
 
-
-/mob/living/do_attack_animation(atom/A)
+/mob/living/do_bounce_anim_dir(direction, wait, strength=8, easein=0, easeout=0, end_pixel_y)
 	var/final_pixel_y = get_standard_pixel_y_offset(lying)
-	..(A, final_pixel_y)
+	..(direction, wait, strength, easein, easeout, final_pixel_y)
 	floating = 0 // If we were without gravity, the bouncing animation got stopped, so we make sure to restart it in next life().
 
 /mob/living/proc/do_jitter_animation(jitteriness)
@@ -895,7 +871,7 @@ Sorry Giacom. Please don't be mad :(
 		return 0
 	if(invisibility || alpha == 0)//cloaked
 		return 0
-	if(digitalcamo || digitalinvis)
+	if(digitalcamo)
 		return 0
 
 	// Now, are they viewable by a camera? (This is last because it's the most intensive check)

@@ -9,10 +9,16 @@
 	slot_flags = SLOT_BACK
 	slowdown = 1
 	action_button_name = "Toggle Mister"
+	materials = list(MAT_METAL = 5000, MAT_GLASS = 3000)
 
 	var/obj/item/weapon/noz
 	var/on = 0
 	var/volume = 500
+	var/list/allowedchem = list("water") // to avoid spraying 100 units of LOVE on someone also known as unstable mutagen
+
+/obj/item/weapon/watertank/autolathe_crafted(obj/machinery/autolathe/A)
+	reagents.clear_reagents()
+	return
 
 /obj/item/weapon/watertank/New()
 	..()
@@ -98,6 +104,13 @@
 		return
 	..()
 
+/obj/item/weapon/watertank/on_reagent_change()
+	for(var/datum/reagent/R in reagents.reagent_list)
+		if(!(R.id in allowedchem))
+			visible_message("<span class='warning'>[src] refuses to be refilled with [R.name]!</span>", "<span class='warning'>[src] refuses to be refilled with [R.name]!</span>")
+			reagents.del_reagent(R.id)
+	return
+
 // This mister item is intended as an extension of the watertank and always attached to it.
 // Therefore, it's designed to be "locked" to the player's hands or extended back onto
 // the watertank backpack. Allowing it to be placed elsewhere or created without a parent
@@ -129,9 +142,6 @@
 	tank.on = 0
 	loc = tank
 
-/obj/item/weapon/reagent_containers/spray/mister/attack_self()
-	return
-
 /proc/check_tank_exists(parent_tank, mob/living/carbon/human/M, obj/O)
 	if (!parent_tank || !istype(parent_tank, /obj/item/weapon/watertank))	//To avoid weird issues from admin spawns
 		M.unEquip(O)
@@ -156,6 +166,8 @@
 	desc = "A janitorial watertank backpack with nozzle to clean dirt and graffiti."
 	icon_state = "waterbackpackjani"
 	item_state = "waterbackpackjani"
+	allowedchem = list("water", "cleaner")
+
 
 /obj/item/weapon/watertank/janitor/New()
 	..()
@@ -168,15 +180,12 @@
 	icon_state = "misterjani"
 	item_state = "misterjani"
 	amount_per_transfer_from_this = 5
-	possible_transfer_amounts = list()
+	possible_transfer_amounts = list(5, 10)
+	var/list/allowedchem = list("water", "cleaner")
 
 
 /obj/item/weapon/watertank/janitor/make_noz()
 	return new /obj/item/weapon/reagent_containers/spray/mister/janitor(src)
-
-/obj/item/weapon/reagent_containers/spray/mister/janitor/attack_self(var/mob/user)
-	amount_per_transfer_from_this = (amount_per_transfer_from_this == 10 ? 5 : 10)
-	user << "<span class='notice'>You [amount_per_transfer_from_this == 10 ? "remove" : "fix"] the nozzle. You'll now use [amount_per_transfer_from_this] units per spray.</span>"
 
 //ATMOS FIRE FIGHTING BACKPACK
 
@@ -211,7 +220,7 @@
 	icon_state = "atmos_nozzle"
 	item_state = "nozzleatmos"
 	safety = 0
-	max_water = 200
+	max_chem = 200
 	power = 8
 	precision = 1
 	cooling_power = 5
@@ -226,7 +235,7 @@
 	if(check_tank_exists(parent_tank, src))
 		tank = parent_tank
 		reagents = tank.reagents
-		max_water = tank.volume
+		max_chem = tank.volume
 		loc = tank
 	return
 
@@ -294,7 +303,7 @@
 		if(!Adj|| !istype(target, /turf))
 			return
 		if(metal_synthesis_cooldown < 5)
-			var/obj/effect/effect/foam/metal/F = PoolOrNew(/obj/effect/effect/foam/metal, get_turf(target))
+			var/obj/effect/particle_effect/foam/metal/F = PoolOrNew(/obj/effect/particle_effect/foam/metal, get_turf(target))
 			F.amount = 0
 			metal_synthesis_cooldown++
 			spawn(100)
@@ -312,7 +321,7 @@
 	pass_flags = PASSTABLE
 
 /obj/effect/nanofrost_container/proc/Smoke()
-	var/datum/effect/effect/system/smoke_spread/freezing/S = new
+	var/datum/effect_system/smoke_spread/freezing/S = new
 	S.set_up(2, src.loc, blasting=1)
 	S.start()
 	var/obj/effect/decal/cleanable/flour/F = new /obj/effect/decal/cleanable/flour(src.loc)

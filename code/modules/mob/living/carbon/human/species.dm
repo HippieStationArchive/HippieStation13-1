@@ -35,6 +35,7 @@
 	var/use_skintones = 0	// does it use skintones or not? (spoiler alert this is only used by humans)
 	var/exotic_blood = null	// If your race wants to bleed something other than bog standard blood, change this.
 	var/meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human //What the species drops on gibbing
+	var/teeth_type = /obj/item/stack/teeth/generic //What sort of teeth do the species have
 	var/list/no_equip = list()	// slots the race can't equip stuff to
 	var/nojumpsuit = 0	// this is sorta... weird. it basically lets you equip stuff that usually needs jumpsuits without one, like belts and pockets and ids
 	var/dangerous_existence = null //A flag for transformation spells that tells them "hey if you turn a person into one of these without preperation, they'll probably die!"
@@ -49,6 +50,7 @@
 	var/coldmod = 1		// multiplier for cold damage
 	var/heatmod = 1		// multiplier for heat damage
 	var/punchmod = 0	// adds to the punch damage
+	var/siemens_coeff = 1 //base electrocution coefficient
 
 	var/invis_sight = SEE_INVISIBLE_LIVING
 	var/darksight = 2
@@ -259,8 +261,7 @@
 
 	if(H.deepfried)
 		var/icon/HI = icon(H.icon, H.icon_state)
-		for(var/i in 1 to H.fry_amt)
-			HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+		HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
 		standing	+= image(HI, "layer" =-BODY_LAYER)
 
 	if(standing.len)
@@ -362,6 +363,8 @@
 					S = ears_list[H.dna.features["ears"]]
 				if("body_markings")
 					S = body_markings_list[H.dna.features["body_markings"]]
+				if("wing")
+					S = wing_list[H.dna.features["wing"]]
 
 			if(!S || S.icon_state == "none")
 				continue
@@ -676,7 +679,7 @@
 			H.sight |= SEE_MOBS
 			H.sight |= SEE_OBJS
 
-		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 8 : darksight
+		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 3 : darksight
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
 
@@ -868,6 +871,10 @@
 				mspeed += H.shoes.slowdown
 			if(H.back)
 				mspeed += H.back.slowdown
+			if(H.l_hand)
+				mspeed += H.l_hand.slowdown
+			if(H.r_hand)
+				mspeed += H.r_hand.slowdown
 
 			if((H.disabilities & FAT))
 				mspeed += 1.5
@@ -895,7 +902,7 @@
 	if(!istype(M)) //sanity check for drones.
 		return
 	var/shieldcheck = H.check_shields(0, M.name)
-	if((M != H) && shieldcheck)
+	if((M != H) && M.a_intent != "help" && H.check_shields(0, M.name))
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
 		if(isliving(shieldcheck))
@@ -943,7 +950,7 @@
 				var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
 				var/armor_block = H.run_armor_check(affecting, "melee")
 
-				playsound(H.loc, M.dna.species.attack_sound, 25, 1, -1)
+				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
 
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
@@ -959,9 +966,9 @@
 					H.forcesay(hit_appends)
 				if(istype(affecting, /obj/item/organ/limb/head) && prob(damage * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
 					var/obj/item/organ/limb/head/U = affecting
-					U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((damage*2)/100)))
-					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
-									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
+					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((damage*2)/100))))
+						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
+										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 		if("disarm")
 			if(attacker_style && attacker_style.disarm_act(M,H))
 				return 1
@@ -1024,7 +1031,7 @@
 	// Allows you to put in item-specific reactions based on species
 	if(user != H)
 		user.do_attack_animation(H)
-	var/shieldcheck = H.check_shields(I.force, "the [I.name]", I)
+	var/shieldcheck = H.check_shields(I.force, "the [I.name]", I, 0, I.armour_penetration)
 	if(shieldcheck)
 		if(isliving(shieldcheck))
 			var/mob/living/L = shieldcheck
@@ -1154,9 +1161,9 @@
 							ticker.mode.remove_revolutionary(H.mind)
 				var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
 				if(prob(I.force * (def_zone == "mouth" ? 3 : 1)) && O) //Will the teeth fly out?
-					O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force*1.5)/100)))
-					H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
-									"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
+					if(O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force*1.5)/100))))
+						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
+										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 				if(bloody)	//Apply blood
 					if(H.wear_mask)
 						H.wear_mask.add_blood(H)

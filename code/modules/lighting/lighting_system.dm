@@ -59,6 +59,8 @@
 		remove_effect()
 		owner.light = null
 		owner = null
+	if(changed)
+		SSlighting.changed_lights -= src
 	return ..()
 
 //Check a light to see if its effect needs reprocessing. If it does, remove any old effect and create a new one
@@ -120,6 +122,7 @@
 		return 1
 	else
 		return 0
+
 
 //How much light light_source L should apply to src
 /turf/proc/lumen(datum/light_source/L)
@@ -239,6 +242,7 @@
 	var/atom/movable/light/lighting_object //Will be null for space turfs and anything in a static lighting area
 	var/list/affecting_lights			//not initialised until used (even empty lists reserve a fair bit of memory)
 
+
 /turf/ChangeTurf(path)
 	if(!path || path == type) //Sucks this is here but it would cause problems otherwise.
 		return ..()
@@ -274,6 +278,7 @@
 
 /turf/proc/update_lumcount(amount)
 	lighting_lumcount += amount
+
 	if(!lighting_changed)
 		SSlighting.changed_turfs += src
 		lighting_changed = 1
@@ -283,7 +288,7 @@
 
 /turf/proc/init_lighting()
 	var/area/A = loc
-	if(!A.lighting_use_dynamic || istype(src, /turf/space))
+	if(!IS_DYNAMIC_LIGHTING(A) || istype(src, /turf/space))
 		lighting_changed = 0
 		if(lighting_object)
 			lighting_object.alpha = 0
@@ -302,15 +307,14 @@
 	if(lighting_object)
 		var/newalpha
 		if(lighting_lumcount <= 0)
-			newalpha = 255
+			newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA
 		else
 			lighting_object.luminosity = 1
 			if(lighting_lumcount < LIGHTING_CAP)
-				var/num = Clamp(lighting_lumcount * LIGHTING_CAP_FRAC, 0, 255)
-				newalpha = 255-num
+				var/num = Clamp(lighting_lumcount * LIGHTING_CAP_FRAC, 0, LIGHTING_DARKEST_VISIBLE_ALPHA)
+				newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA-num
 			else //if(lighting_lumcount >= LIGHTING_CAP)
 				newalpha = 0
-
 		if(lighting_object.alpha != newalpha)
 			var/change_time = LIGHTING_TIME
 			if(instantly)
@@ -321,16 +325,30 @@
 
 	lighting_changed = 0
 
+/turf/proc/get_lumcount()
+	var/light_amount
+	if(!src || !istype(src))
+		return
+	var/area/A = src.loc
+	if(!A || !istype(src))
+		return
+	if(IS_DYNAMIC_LIGHTING(A))
+		light_amount = src.lighting_lumcount
+	else
+		light_amount =  LIGHTING_CAP
+	return light_amount
+
 /area
-	var/lighting_use_dynamic = 1	//Turn this flag off to make the area fullbright
+	var/lighting_use_dynamic = DYNAMIC_LIGHTING_ENABLED	//Turn this flag off to make the area fullbright
 
 /area/New()
 	. = ..()
-	if(!lighting_use_dynamic)
+	if(lighting_use_dynamic != DYNAMIC_LIGHTING_ENABLED)
 		luminosity = 1
 
 /area/proc/SetDynamicLighting()
-	lighting_use_dynamic = 1
+	if (lighting_use_dynamic == DYNAMIC_LIGHTING_DISABLED)
+		lighting_use_dynamic = DYNAMIC_LIGHTING_ENABLED
 	luminosity = 0
 	for(var/turf/T in src.contents)
 		T.init_lighting()

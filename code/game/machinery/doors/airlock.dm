@@ -214,7 +214,7 @@ About the new airlock wires panel:
 		return 0	//Already shocked someone recently?
 	if(!prob(prb))
 		return 0 //you lucked out, no shock for you
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(5, 1, src)
 	s.start() //sparks always.
 	if(electrocute_mob(user, get_area(src), src))
@@ -546,7 +546,7 @@ About the new airlock wires panel:
 	return src.attack_hand(user)
 
 /obj/machinery/door/airlock/attack_hand(mob/user)
-	if(!istype(user, /mob/living/silicon))
+	if(!(istype(user, /mob/living/silicon) || IsAdminGhost(user)))
 		if(src.isElectrified())
 			if(src.shock(user, 100))
 				return
@@ -573,13 +573,31 @@ About the new airlock wires panel:
 		..(user)
 	return
 
+/obj/machinery/door/airlock/attack_animal(mob/living/simple_animal/M)
+	if(!istype(M)) return
+	if(!M.can_force_doors) return
+	if(allowed(M))
+		return src.attack_hand(M)
+	if(!density) return //Not even an obstacle, don't bother
+	var/delay = 100 + (welded != null * 100) + (locked * 200) //40 seconds to pry open the bolted+welded door
+	M.visible_message("<span class='danger'>[M] is trying to force open \the [src]!</span>",
+					"<span class='warning'>You try to force open \the [src] (This is going to take [delay/10] seconds).</span>")
+	if(do_after(M, delay, target = src))
+		M.visible_message("<span class='danger'>[M] forces open \the [src]!</span>",
+						"<span class='warning'>You force open \the [src]!</span>")
+		if(welded)
+			welded = !welded
+		if(locked)
+			locked = !locked
+		update_icon()
+		open(2)
 
 /obj/machinery/door/airlock/Topic(href, href_list, var/nowindow = 0)
 	// If you add an if(..()) check you must first remove the var/nowindow parameter.
 	// Otherwise it will runtime with this kind of error: null.Topic()
 	if(!nowindow)
 		..()
-	if(usr.stat || usr.restrained())
+	if((usr.stat || usr.restrained()) && !IsAdminGhost(usr))
 		return
 	add_fingerprint(usr)
 	if(href_list["close"])
@@ -593,7 +611,7 @@ About the new airlock wires panel:
 
 
 
-	if(istype(usr, /mob/living/silicon) && src.canAIControl())
+	if((istype(usr, /mob/living/silicon) && src.canAIControl()) || IsAdminGhost(usr))
 		//AI
 		//aiDisable - 1 idscan, 2 disrupt main power, 3 disrupt backup power, 4 drop door bolts, 5 un-electrify door, 7 close door, 8 door safties, 9 door speed, 11 emergency access
 		//aiEnable - 1 idscan, 4 raise door bolts, 5 electrify door for 30 seconds, 6 electrify door indefinitely, 7 open door,  8 door safties, 9 door speed, 11 emergency access
@@ -797,8 +815,8 @@ About the new airlock wires panel:
 		updateUsrDialog()
 	return
 
-/obj/machinery/door/airlock/attackby(obj/C, mob/user, params)
-	if(!istype(usr, /mob/living/silicon))
+/obj/machinery/door/airlock/attackby(obj/item/C, mob/user, params)
+	if(!(istype(usr, /mob/living/silicon) || IsAdminGhost(user)))
 		if(src.isElectrified())
 			if(src.shock(user, 75))
 				return
@@ -816,7 +834,7 @@ About the new airlock wires panel:
 							"<span class='notice'>You begin [welded ? "unwelding":"welding"] the airlock...</span>", \
 							"<span class='italics'>You hear welding.</span>")
 			playsound(loc, 'sound/items/Welder.ogg', 40, 1)
-			if(do_after(user,40,5,1, target = src))
+			if(do_after(user,40/C.toolspeed,5,1, target = src))
 				if(density && !operating)//Door must be closed to weld.
 					if( !istype(src, /obj/machinery/door/airlock) || !user || !W || !W.isOn() || !user.loc )
 						return
@@ -825,6 +843,22 @@ About the new airlock wires panel:
 					user.visible_message("[user.name] has [welded? "welded shut":"unwelded"] [src].", \
 										"<span class='notice'>You [welded ? "weld the airlock shut":"unweld the airlock"].</span>")
 					update_icon()
+		return
+	else if((istype(C, /obj/item/weapon/melee/energy/sword) && !( src.operating ) && src.density))
+		var/obj/item/weapon/melee/energy/sword/W = C
+		user.visible_message("[user] is [welded ? "unwelding":"welding"] the airlock.", \
+						"<span class='notice'>You begin [welded ? "unwelding":"welding"] the airlock...</span>", \
+						"<span class='italics'>You hear welding.</span>")
+		playsound(loc, 'sound/items/Welder.ogg', 40, 1)
+		if(do_after(user, 70, target = src))
+			if(density && !operating)//Door must be closed to weld.
+				if( !istype(src, /obj/machinery/door/airlock) || !user || !W || !user.loc )
+					return
+				playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
+				welded = !welded
+				user.visible_message("[user.name] has [welded? "welded shut":"unwelded"] [src].", \
+									"<span class='notice'>You [welded ? "weld the airlock shut":"unweld the airlock"].</span>")
+				update_icon()
 		return
 	else if(istype(C, /obj/item/weapon/screwdriver))
 		if(p_open && detonated)
@@ -847,7 +881,7 @@ About the new airlock wires panel:
 		if(p_open && charge)
 			user << "<span class='notice'>You carefully start removing [charge] from [src]...</span>"
 			playsound(get_turf(src), 'sound/items/Crowbar.ogg', 50, 1)
-			if(!do_after(user, 150, target = src))
+			if(!do_after(user, 150/C.toolspeed, target = src))
 				user << "<span class='warning'>You slip and [charge] detonates!</span>"
 				charge.ex_act(1)
 				user.Weaken(3)
@@ -861,7 +895,7 @@ About the new airlock wires panel:
 			playsound(src.loc, 'sound/items/Crowbar.ogg', 100, 1)
 			user.visible_message("[user] removes the electronics from the airlock assembly.", \
 								 "<span class='notice'>You start to remove electronics from the airlock assembly...</span>")
-			if(do_after(user,40, target = src))
+			if(do_after(user,40/C.toolspeed, target = src))
 				if(src.loc)
 					if(src.doortype)
 						var/obj/structure/door_assembly/A = new src.doortype(src.loc)
@@ -880,10 +914,10 @@ About the new airlock wires panel:
 					if(!electronics)
 						ae = new/obj/item/weapon/electronics/airlock( src.loc )
 						if(req_one_access)
-							ae.use_one_access = 1
-							ae.conf_access = src.req_one_access
+							ae.one_access = 1
+							ae.accesses = src.req_one_access
 						else
-							ae.conf_access = src.req_access
+							ae.accesses = src.req_access
 					else
 						ae = electronics
 						electronics = null

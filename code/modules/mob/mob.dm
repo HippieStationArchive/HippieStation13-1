@@ -24,7 +24,7 @@ var/next_mob_id = 0
 	prepare_huds()
 	..()
 
-/mob/proc/prepare_huds()
+/atom/proc/prepare_huds()
 	for(var/hud in hud_possible)
 		hud_list[hud] = image('icons/mob/hud.dmi', src, "")
 
@@ -81,12 +81,12 @@ var/next_mob_id = 0
 // self_message (optional) is what the src mob sees e.g. "You do something!"
 // blind_message (optional) is what blind people will hear e.g. "You hear something!"
 
-/mob/visible_message(message, self_message, blind_message)
+/mob/visible_message(message, self_message, blind_message, range = 7)
 	var/list/mob_viewers = list()
 	var/list/possible_viewers = list()
 	mob_viewers |= src
 	mob_viewers |= viewers(src)
-	var/heard = get_hear(7, src)
+	var/heard = get_hear(range, src)
 	for(var/atom/movable/A in heard)
 		possible_viewers |= recursive_hear_check(A)
 	for(var/mob/B in possible_viewers)
@@ -108,7 +108,7 @@ var/next_mob_id = 0
 
 	if(blind_message)
 		var/list/mob_hearers = list()
-		for(var/mob/C in get_hearers_in_view(7, src))
+		for(var/mob/C in get_hearers_in_view(range, src))
 			if(C in mob_viewers)
 				continue
 			mob_hearers |= C
@@ -120,11 +120,11 @@ var/next_mob_id = 0
 // message is output to anyone who can see, e.g. "The [src] does something!"
 // blind_message (optional) is what blind people will hear e.g. "You hear something!"
 
-/atom/proc/visible_message(message, blind_message)
+/atom/proc/visible_message(message, blind_message, range = 7)
 	var/list/mob_viewers = list()
 	var/list/possible_viewers = list()
 	mob_viewers |= viewers(src)
-	var/heard = get_hear(7, src)
+	var/heard = get_hear(range, src)
 	for(var/atom/movable/A in heard)
 		possible_viewers |= recursive_hear_check(A)
 	for(var/mob/B in possible_viewers)
@@ -141,7 +141,7 @@ var/next_mob_id = 0
 
 	if(blind_message)
 		var/list/mob_hearers = list()
-		for(var/mob/C in get_hearers_in_view(7, src))
+		for(var/mob/C in get_hearers_in_view(range, src))
 			if(C in mob_viewers)
 				continue
 			mob_hearers |= C
@@ -511,6 +511,7 @@ var/list/slot_equipment_priority = list( \
 	set name = "Changelog"
 	set category = "OOC"
 	getFiles(
+		'html/tg-ports.png',
 		'html/88x31.png',
 		'html/bug-minus.png',
 		'html/cross-circle.png',
@@ -549,55 +550,7 @@ var/list/slot_equipment_priority = list( \
 	if(is_admin && stat == DEAD)
 		is_admin = 0
 
-	var/list/names = list()
-	var/list/namecounts = list()
-	var/list/creatures = list()
-
-	for(var/obj/O in world)				//EWWWWWWWWWWWWWWWWWWWWWWWW ~needs to be optimised
-		if(!O.loc)
-			continue
-		if(istype(O, /obj/item/weapon/disk/nuclear))
-			var/name = "Nuclear Disk"
-			if (names.Find(name))
-				namecounts[name]++
-				name = "[name] ([namecounts[name]])"
-			else
-				names.Add(name)
-				namecounts[name] = 1
-			creatures[name] = O
-
-		if(istype(O, /obj/singularity))
-			var/name = "Singularity"
-			if (names.Find(name))
-				namecounts[name]++
-				name = "[name] ([namecounts[name]])"
-			else
-				names.Add(name)
-				namecounts[name] = 1
-			creatures[name] = O
-
-		if(istype(O, /obj/machinery/bot))
-			var/name = "BOT: [O.name]"
-			if (names.Find(name))
-				namecounts[name]++
-				name = "[name] ([namecounts[name]])"
-			else
-				names.Add(name)
-				namecounts[name] = 1
-			creatures[name] = O
-
-
-	for(var/mob/M in sortNames(mob_list))
-		var/name = M.name
-		if (names.Find(name))
-			namecounts[name]++
-			name = "[name] ([namecounts[name]])"
-		else
-			names.Add(name)
-			namecounts[name] = 1
-
-		creatures[name] = M
-
+	var/list/creatures = getpois()
 
 	client.perspective = EYE_PERSPECTIVE
 
@@ -668,9 +621,6 @@ var/list/slot_equipment_priority = list( \
 	if(istype(M, /mob/living/silicon/ai))	return
 	show_inv(usr)
 
-/mob/proc/can_use_hands()
-	return
-
 /mob/proc/is_active()
 	return (0 >= usr.stat)
 
@@ -714,16 +664,21 @@ var/list/slot_equipment_priority = list( \
 			stat("Location:","([x], [y], [z])")
 			stat("CPU:","[world.cpu]")
 			stat("Instances:","[world.contents.len]")
-
-			if(master_controller)
-				stat("MasterController:","[round(master_controller.cost,0.001)]ds (Interval:[master_controller.processing_interval] | Iteration:[master_controller.iteration])")
-				stat("Subsystem cost per second:","[round(master_controller.SSCostPerSecond,0.001)]ds")
-				for(var/datum/subsystem/SS in master_controller.subsystems)
-					if(SS.can_fire)
-						SS.stat_entry()
+			config.stat_entry()
+			if(Master)
+				Master.stat_entry()
 			else
-				stat("MasterController:","ERROR")
-
+				stat("Master Controller:", "ERROR")
+			if(Failsafe)
+				Failsafe.stat_entry()
+			else
+				stat("Failsafe Controller:", "ERROR")
+			if(Master)
+				stat("Subsystems:", "[round(Master.subsystem_cost, 0.001)]ds")
+				stat(null)
+				for(var/datum/subsystem/SS in Master.subsystems)
+					SS.stat_entry()
+			cameranet.stat_entry()
 	if(listed_turf && client)
 		if(!TurfAdjacent(listed_turf))
 			listed_turf = null
@@ -776,6 +731,11 @@ var/list/slot_equipment_priority = list( \
 /mob/proc/update_canmove()
 	var/ko = weakened || paralysis || stat || (status_flags & FAKEDEATH)
 	var/buckle_lying = !(buckled && !buckled.buckle_lying)
+	var/grabbed = 0 //Search for grabs within src
+	for(var/obj/item/weapon/grab/G in grabbed_by)
+		if(G.assailant && G.state >= GRAB_NECK && G.affecting == src)
+			grabbed = 1
+			break
 	if(ko || resting || stunned)
 		drop_r_hand()
 		drop_l_hand()
@@ -786,6 +746,8 @@ var/list/slot_equipment_priority = list( \
 		lying = 90*buckle_lying
 	else if(pinned_to)
 		lying = 0
+	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead
+		lying = 90*(nearcrit || stat || (status_flags & FAKEDEATH))
 	else
 		if((ko || resting) && !lying)
 			fall(ko)

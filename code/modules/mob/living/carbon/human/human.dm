@@ -25,8 +25,19 @@
 	//initialise organs
 	organs = newlist(/obj/item/organ/limb/chest, /obj/item/organ/limb/head, /obj/item/organ/limb/l_arm,
 					 /obj/item/organ/limb/r_arm, /obj/item/organ/limb/r_leg, /obj/item/organ/limb/l_leg)
+
 	for(var/obj/item/organ/limb/O in organs)
 		O.owner = src
+
+	//initialise teeth
+	var/obj/item/organ/limb/head/U = locate() in organs
+	if(istype(U))
+		U.teeth_list.Cut() //Clear out their mouth of teeth
+		var/obj/item/stack/teeth/T = new dna.species.teeth_type(U)
+		U.max_teeth = T.max_amount //Set max teeth for the head based on teeth spawntype
+		T.amount = T.max_amount
+		U.teeth_list += T
+
 	internal_organs += new /obj/item/organ/internal/appendix
 	internal_organs += new /obj/item/organ/internal/heart
 	internal_organs += new /obj/item/organ/internal/brain
@@ -38,6 +49,7 @@
 	make_blood()
 
 	..()
+
 	var/mob/M = src
 	faction |= "\ref[M]"
 
@@ -49,7 +61,7 @@
 	sec_hud_set_implants()
 	sec_hud_set_security_status()
 	//...and display them.
-	add_to_all_data_huds()
+	add_to_all_human_data_huds()
 
 /mob/living/carbon/human/Destroy()
 	for(var/atom/movable/organelle in organs)
@@ -279,22 +291,37 @@
 
 	spreadFire(AM)
 
+
 //Added a safety check in case you want to shock a human mob directly through electrocute_act.
-/mob/living/carbon/human/electrocute_act(shock_damage, obj/source, siemens_coeff = 1, safety = 0, override = 0)
-	if(!safety)
+/mob/living/carbon/human/electrocute_act(shock_damage, obj/source, siemens_coeff = 1, safety = 0, override = 0, tesla_shock = 0)
+	if(tesla_shock)
+		var/total_coeff = 1
 		if(gloves)
 			var/obj/item/clothing/gloves/G = gloves
-			siemens_coeff = G.siemens_coefficient
+			if(G.siemens_coefficient <= 0)
+				total_coeff -= 0.5
+		if(wear_suit)
+			var/obj/item/clothing/suit/S = wear_suit
+			if(S.siemens_coefficient <= 0)
+				total_coeff -= 0.95
+		siemens_coeff = total_coeff
+	else if(!safety)
+		var/gloves_siemens_coeff = 1
+		var/species_siemens_coeff = 1
+		if(gloves)
+			var/obj/item/clothing/gloves/G = gloves
+			gloves_siemens_coeff = G.siemens_coefficient
+		if(dna && dna.species)
+			species_siemens_coeff = dna.species.siemens_coeff
+		siemens_coeff = gloves_siemens_coeff * species_siemens_coeff
 	if(heart_attack)
 		if(shock_damage * siemens_coeff >= 1 && prob(25))
 			heart_attack = 0
 			if(stat == CONSCIOUS)
 				src << "<span class='notice'>You feel your heart beating again!</span>"
-	. = ..(shock_damage,source,siemens_coeff,safety,override)
+	. = ..(shock_damage,source,siemens_coeff,safety,override,tesla_shock)
 	if(.)
 		electrocution_animation(40)
-
-
 
 /mob/living/carbon/human/Topic(href, href_list)
 	if(usr.canUseTopic(src, BE_CLOSE, NO_DEXTERY))
@@ -313,14 +340,14 @@
 					return
 				L.embedded_objects -= I
 				L.take_damage(I.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
-				I.loc = get_turf(src)
+				I.loc = get_turf(usr)
 				if(I.pinned) //Only the rodgun pins people down currently
 					do_pindown(src.pinned_to, 0)
 					src.pinned_to = null
 					src.anchored = 0
 					update_canmove()
 					I.pinned = null
-				I.loc = get_turf(src)
+				I.loc = get_turf(usr)
 				I.add_fingerprint(usr)
 				src.emote("scream")
 				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.

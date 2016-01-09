@@ -47,6 +47,7 @@
 	item_color = "red"
 	name = "firefighter helmet"
 	flags = STOPSPRESSUREDMAGE
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 200)
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_HELM_MAX_TEMP_PROTECT
 	cold_protection = HEAD

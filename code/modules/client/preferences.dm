@@ -38,9 +38,11 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	var/ooccolor = null
 	var/be_special = 0					//Special role selection
 	var/UI_style = "Midnight"
+	var/nanoui_fancy = TRUE
 	var/toggles = TOGGLES_DEFAULT
 	var/chat_toggles = TOGGLES_DEFAULT_CHAT
 	var/ghost_form = "ghost"
+	var/ghost_orbit = GHOST_ORBIT_CIRCLE
 	var/allow_midround_antag = 1
 
 	//character preferences
@@ -61,13 +63,12 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	var/skin_tone = "caucasian1"		//Skin color
 	var/eye_color = "000"				//Eye color
 	var/datum/species/pref_species = new /datum/species/human()	//Mutant race
-	var/list/features = list("mcolor" = "FFF", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None")
+	var/list/features = list("mcolor" = "FFF", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "wing" = "Plain")
 
 	var/list/custom_names = list("clown", "mime", "ai", "cyborg", "religion", "deity")
 
 		//Mob preview
-	var/icon/preview_icon_front = null
-	var/icon/preview_icon_side = null
+	var/icon/preview_icon = null
 
 		//Jobs, uses bitflags
 	var/job_civilian_high = 0
@@ -121,8 +122,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 /datum/preferences/proc/ShowChoices(mob/user)
 	if(!user || !user.client)	return
 	update_preview_icon()
-	user << browse_rsc(preview_icon_front, "previewicon.png")
-	user << browse_rsc(preview_icon_side, "previewicon2.png")
+	user << browse_rsc(preview_icon, "previewicon.png")
 	var/dat = "<center>"
 
 	dat += "<a href='?_src_=prefs;preference=tab;tab=0' [current_tab == 0 ? "class='linkOn'" : ""]>Character Settings</a> "
@@ -176,7 +176,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 
 			dat += "<td valign='center'>"
 
-			dat += "<div class='statusDisplay'><center><img src=previewicon.png height=64 width=64><img src=previewicon2.png height=64 width=64></center></div>"
+			dat += "<div class='statusDisplay'><center><img src=previewicon.png width=[preview_icon.Width()] height=[preview_icon.Height()]></center></div>"
 
 			dat += "</td></tr></table>"
 
@@ -295,6 +295,15 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 
 					dat += "</td>"
 
+				if("wing" in pref_species.mutant_bodyparts)
+					dat += "<td valign='top' width='7%'>"
+
+					dat += "<h3>Wings</h3>"
+
+					dat += "<a href='?_src_=prefs;preference=wings;task=input'>[features["wing"]]</a><BR>"
+
+					dat += "</td>"
+
 				if("body_markings" in pref_species.mutant_bodyparts)
 					dat += "<td valign='top' width='7%'>"
 
@@ -331,13 +340,14 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
 			dat += "<h2>General Settings</h2>"
 			dat += "<b>UI Style:</b> <a href='?_src_=prefs;preference=ui'>[UI_style]</a><br>"
+			dat += "<b>Fancy NanoUI:</b> <a href='?_src_=prefs;preference=nanoui'>[(nanoui_fancy) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Play admin midis:</b> <a href='?_src_=prefs;preference=hear_midis'>[(toggles & SOUND_MIDI) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Play lobby music:</b> <a href='?_src_=prefs;preference=lobby_music'>[(toggles & SOUND_LOBBY) ? "Yes" : "No"]</a><br>"
-			dat += "<b>Ghost ears:</b> <a href='?_src_=prefs;preference=ghost_ears'>[(chat_toggles & CHAT_GHOSTEARS) ? "Nearest Creatures" : "All Speech"]</a><br>"
-			dat += "<b>Ghost sight:</b> <a href='?_src_=prefs;preference=ghost_sight'>[(chat_toggles & CHAT_GHOSTSIGHT) ? "Nearest Creatures" : "All Emotes"]</a><br>"
-			dat += "<b>Ghost whispers:</b> <a href='?_src_=prefs;preference=ghost_whispers'>[(chat_toggles & CHAT_GHOSTWHISPER) ? "Nearest Creatures" : "All Speech"]</a><br>"
+			dat += "<b>Ghost ears:</b> <a href='?_src_=prefs;preference=ghost_ears'>[(chat_toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</a><br>"
+			dat += "<b>Ghost sight:</b> <a href='?_src_=prefs;preference=ghost_sight'>[(chat_toggles & CHAT_GHOSTSIGHT) ? "All Emotes" : "Nearest Creatures"]</a><br>"
+			dat += "<b>Ghost whispers:</b> <a href='?_src_=prefs;preference=ghost_whispers'>[(chat_toggles & CHAT_GHOSTWHISPER) ? "All Speech" : "Nearest Creatures"]</a><br>"
 			dat += "<b>Ghost radio:</b> <a href='?_src=prefs;preference=ghost_radio'>[(chat_toggles & CHAT_GHOSTRADIO) ? "Yes" : "No"]</a><br>"
-			dat += "<b>Ghost pda:</b> <a href='?_src=prefs;preference=ghost_pda'>[(chat_toggles & CHAT_GHOSTPDA) ? "Nearest Creatures" : "All Messages"]</a><br>"
+			dat += "<b>Ghost pda:</b> <a href='?_src=prefs;preference=ghost_pda'>[(chat_toggles & CHAT_GHOSTPDA) ? "All Messages" : "Nearest Creatures"]</a><br>"
 			dat += "<b>Pull requests:</b> <a href='?_src_=prefs;preference=pull_requests'>[(chat_toggles & CHAT_PULLR) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Midround Antagonist:</b> <a href='?_src_=prefs;preference=allow_midround_antag'>[(toggles & MIDROUND_ANTAG) ? "Yes" : "No"]</a><br>"
 			if(config.allow_Metadata)
@@ -354,7 +364,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 				if(unlock_content)
 					dat += "<b>BYOND Membership Publicity:</b> <a href='?_src_=prefs;preference=publicity'>[(toggles & MEMBER_PUBLIC) ? "Public" : "Hidden"]</a><br>"
 					dat += "<b>Ghost Form:</b> <a href='?_src_=prefs;task=input;preference=ghostform'>[ghost_form]</a><br>"
-
+					dat += "<B>Ghost Orbit: </B> <a href='?_src_=prefs;task=input;preference=ghostorbit'>[ghost_orbit]</a><br>"
 
 			dat += "</td><td width='300px' height='300px' valign='top'>"
 
@@ -365,19 +375,22 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 				src.be_special = 0
 			var/n = 0
 			for (var/i in special_roles)
-				if(jobban_isbanned(user, i))
-					dat += "<b>Be [i]:</b> <a href='?_src_=prefs;jobbancheck=[i]'>BANNED</a><br>"
+				if(jobban_isbanned(user, "catban"))
+					dat += "<b>Be [i]:</b> <font color=red>CAT-BANNED</font><br>"
 				else
-					var/days_remaining = null
-					if(config.use_age_restriction_for_jobs && ispath(special_roles[i])) //If it's a game mode antag, check if the player meets the minimum age
-						var/mode_path = special_roles[i]
-						var/datum/game_mode/temp_mode = new mode_path
-						days_remaining = temp_mode.get_remaining_days(user.client)
-
-					if(days_remaining)
-						dat += "<b>Be [i]:</b> <font color=red> \[IN [days_remaining] DAYS]</font><br>"
+					if(jobban_isbanned(user, i))
+						dat += "<b>Be [i]:</b> <a href='?_src_=prefs;jobbancheck=[i]'>BANNED</a><br>"
 					else
-						dat += "<b>Be [i]:</b> <a href='?_src_=prefs;preference=be_special;num=[n]'>[src.be_special&(1<<n) ? "Yes" : "No"]</a><br>"
+						var/days_remaining = null
+						if(config.use_age_restriction_for_jobs && ispath(special_roles[i])) //If it's a game mode antag, check if the player meets the minimum age
+							var/mode_path = special_roles[i]
+							var/datum/game_mode/temp_mode = new mode_path
+							days_remaining = temp_mode.get_remaining_days(user.client)
+
+						if(days_remaining)
+							dat += "<b>Be [i]:</b> <font color=red> \[IN [days_remaining] DAYS]</font><br>"
+						else
+							dat += "<b>Be [i]:</b> <a href='?_src_=prefs;preference=be_special;num=[n]'>[src.be_special&(1<<n) ? "Yes" : "No"]</a><br>"
 				n++
 			dat += "</td></tr></table>"
 
@@ -433,6 +446,9 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 		HTML += "<tr bgcolor='[job.selection_color]'><td width='60%' align='right'>"
 		var/rank = job.title
 		lastJob = job
+		if(jobban_isbanned(user, "catban") && rank != "Assistant")
+			HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[CAT-BANNED\]</b></font></td></tr>"
+			continue
 		if(jobban_isbanned(user, rank))
 			HTML += "<font color=red>[rank]</font></td><td><a href='?_src_=prefs;jobbancheck=[rank]'> BANNED</a></td></tr>"
 			continue
@@ -486,10 +502,13 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 		HTML += "<a class='white' href='?_src_=prefs;preference=job;task=setJobLevel;level=[prefUpperLevel];text=[rank]' oncontextmenu='javascript:return setJobPrefRedirect([prefLowerLevel], \"[rank]\");'>"
 
 		if(rank == "Assistant")//Assistant is special
-			if(job_civilian_low & ASSISTANT)
-				HTML += "<font color=green>Yes</font>"
+			if(jobban_isbanned(user, "catban"))
+				HTML += "<font color=orange>Mandatory</font>"
 			else
-				HTML += "<font color=red>No</font>"
+				if(job_civilian_low & ASSISTANT)
+					HTML += "<font color=green>Yes</font>"
+				else
+					HTML += "<font color=red>No</font>"
 			HTML += "</a></td></tr>"
 			continue
 
@@ -725,6 +744,13 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 						var/new_form = input(user, "Thanks for supporting BYOND - Choose your ghostly form:","Thanks for supporting BYOND",null) as null|anything in ghost_forms
 						if(new_form)
 							ghost_form = new_form
+
+				if("ghostorbit")
+					if(unlock_content)
+						var/new_orbit = input(user, "Thanks for supporting BYOND - Choose your ghostly orbit:","Thanks for supporting BYOND", null) as null|anything in ghost_orbits
+						if(new_orbit)
+							ghost_orbit = new_orbit
+
 				if("name")
 					var/new_name = reject_bad_name( input(user, "Choose your character's name:", "Character Preference")  as text|null )
 					if(new_name)
@@ -891,6 +917,12 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 					if(new_spines)
 						features["spines"] = new_spines
 
+				if("wings")
+					var/new_wings
+					new_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in wing_list
+					if(new_wings)
+						features["wing"] = new_wings
+
 				if("body_markings")
 					var/new_body_markings
 					new_body_markings = input(user, "Choose your character's body markings:", "Character Preference") as null|anything in body_markings_list
@@ -970,6 +1002,9 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 					socks = random_socks(gender)
 					facial_hair_style = random_facial_hair_style(gender)
 					hair_style = random_hair_style(gender)
+
+				if("nanoui")
+					nanoui_fancy = !nanoui_fancy
 
 				if("hear_adminhelps")
 					toggles ^= SOUND_ADMINHELP

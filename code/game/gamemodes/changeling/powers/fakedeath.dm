@@ -2,7 +2,7 @@
 	name = "Regenerative Stasis"
 	desc = "We fall into a stasis, allowing us to regenerate and trick our enemies."
 	chemical_cost = 15
-	dna_cost = 0
+	evopoints_cost = 0
 	req_dna = 1
 	req_stat = DEAD
 	max_genetic_damage = 100
@@ -24,6 +24,9 @@
 	return 1
 
 /obj/effect/proc_holder/changeling/fakedeath/can_sting(mob/user)
+	if(isobj(user.loc))
+		user << "<span class='warning'>We cannot regenerate while inside an object.</span>"
+		return
 	if(user.status_flags & FAKEDEATH)
 		user << "<span class='warning'>We are already regenerating.</span>"
 		return

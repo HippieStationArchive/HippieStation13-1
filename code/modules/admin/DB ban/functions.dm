@@ -323,7 +323,7 @@
 	holder.DB_ban_panel()
 
 
-/datum/admins/proc/DB_ban_panel(playerckey = null, adminckey = null)
+/datum/admins/proc/DB_ban_panel(playerckey = null, adminckey = null, playercid = null, playerip = null)
 	if(!usr.client)
 		return
 
@@ -380,11 +380,13 @@
 	output += "<input type='hidden' name='src' value='\ref[src]'>"
 	output += "<b>Ckey:</b> <input type='text' name='dbsearchckey' value='[playerckey]'>"
 	output += "<b>Admin ckey:</b> <input type='text' name='dbsearchadmin' value='[adminckey]'>"
+	output += "<b>IP:</b> <input type='text' name='dbsearchip' value='[playerip]'>"
+	output += "<b>CID:</b> <input type='text' name='dbsearchcompid' value='[playercid]'>"
 	output += "<input type='submit' value='search'>"
 	output += "</form>"
 	output += "Please note that all jobban bans or unbans are in-effect the following round."
 
-	if(adminckey || playerckey)
+	if(adminckey || playerckey || playercid || playerip)
 
 		var/blcolor = "#ffeeee" //banned light
 		var/bdcolor = "#ffdddd" //banned dark
@@ -404,12 +406,18 @@
 		playerckey = ckey(playerckey)
 		var/adminsearch = ""
 		var/playersearch = ""
+		var/ipsearch = ""
+		var/cidsearch = ""
 		if(adminckey)
 			adminsearch = "AND a_ckey = '[adminckey]' "
 		if(playerckey)
 			playersearch = "AND ckey = '[playerckey]' "
+		if(playercid)
+			cidsearch = "AND computerid = '[playercid]' "
+		if(playerip)
+			ipsearch = "AND ip = '[playerip]' "
 
-		var/DBQuery/select_query = dbcon.NewQuery("SELECT id, bantime, bantype, reason, job, duration, expiration_time, ckey, a_ckey, unbanned, unbanned_ckey, unbanned_datetime, edits FROM [format_table_name("ban")] WHERE 1 [playersearch] [adminsearch] ORDER BY bantime DESC")
+		var/DBQuery/select_query = dbcon.NewQuery("SELECT id, bantime, bantype, reason, job, duration, expiration_time, ckey, a_ckey, unbanned, unbanned_ckey, unbanned_datetime, edits FROM [format_table_name("ban")] WHERE 1 [playersearch] [adminsearch] [cidsearch] [ipsearch] ORDER BY bantime DESC")
 		select_query.Execute()
 
 		while(select_query.NextRow())

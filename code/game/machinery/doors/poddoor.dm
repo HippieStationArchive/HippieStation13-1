@@ -8,6 +8,8 @@
 	sub_door = 1
 	explosion_block = 3
 	heat_proof = 1
+	var/sound_open = 'sound/machines/blast_door.ogg'
+	var/sound_close = 'sound/machines/blast_door.ogg'
 
 /obj/machinery/door/poddoor/preopen
 	icon_state = "open"
@@ -37,6 +39,17 @@
 	if(stat & NOPOWER)
 		open(1)	//ignore the usual power requirement.
 
+/obj/machinery/door/poddoor/attack_animal(mob/living/simple_animal/M)
+	if(!istype(M)) return
+	if(!M.can_force_doors) return
+	if(!density) return //Not even an obstacle, don't bother
+	var/delay = 50 + (!(stat & NOPOWER) * 550) //60 seconds (a whole minute) for powered-up blastdoor. This makes Bridge the safest place from Zombies.
+	M.visible_message("<span class='danger'>[M] is trying to force open \the [src]!</span>",
+					"<span class='warning'>You try to force open \the [src] (This is going to take [delay/10] seconds).</span>")
+	if(do_after(M, delay, target = src))
+		M.visible_message("<span class='danger'>[M] forces open \the [src]!</span>",
+						"<span class='warning'>You force open \the [src]!</span>")
+		open(1)
 
 /obj/machinery/door/poddoor/open(ignorepower = 0)
 	if(operating)
@@ -49,6 +62,7 @@
 	operating = 1
 	flick("opening", src)
 	icon_state = "open"
+	playsound(src.loc, sound_open, 100, 1)
 	SetOpacity(0)
 	sleep(5)
 	density = 0
@@ -76,13 +90,14 @@
 	operating = 1
 	flick("closing", src)
 	icon_state = "closed"
+	playsound(src.loc, sound_close, 100, 1)
 	SetOpacity(1)
 	sleep(5)
 	density = 1
-	sleep(5)
+	// sleep(5)
 	air_update_turf(1)
 	update_freelook_sight()
-	sleep(5)
+	// sleep(5)
 	crush()
 	sleep(5)
 	operating = 0
@@ -95,20 +110,20 @@
 			if(prob(80))
 				qdel(src)
 			else
-				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 				s.set_up(2, 1, src)
 				s.start()
 		if(2)
 			if(prob(20))
 				qdel(src)
 			else
-				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 				s.set_up(2, 1, src)
 				s.start()
 
 		if(3)
 			if(prob(80))
-				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 				s.set_up(2, 1, src)
 				s.start()
 

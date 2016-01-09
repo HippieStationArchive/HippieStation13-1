@@ -28,6 +28,7 @@
 		/obj/machinery/disposal,
 		/obj/machinery/hydroponics,
 		/obj/machinery/biogenerator,
+		/obj/machinery/poolcontroller,
 		/mob/living/simple_animal/cow,
 		/mob/living/simple_animal/hostile/retaliate/goat
 	)
@@ -78,10 +79,10 @@
 /obj/item/weapon/reagent_containers/glass/afterattack(obj/target, mob/user, proximity)
 	if((!proximity) || !check_allowed_items(target,target_self=1)) return
 
-	else if(istype(target, /obj/structure/reagent_dispensers)) //A dispenser. Transfer FROM it TO us.
+	else if(istype(target, /obj/structure/reagent_dispensers) && !(target.flags & INJECTONLY)) //A dispenser. Transfer FROM it TO us.
 
 		if(target.reagents && !target.reagents.total_volume)
-			user << "<span class='warning'>[target] is empty and can't be refilled!</span>"
+			user << "<span class='warning'>[target] is empty!</span>"
 			return
 
 		if(reagents.total_volume >= reagents.maximum_volume)
@@ -91,7 +92,7 @@
 		var/trans = target.reagents.trans_to(src, amount_per_transfer_from_this)
 		user << "<span class='notice'>You fill [src] with [trans] unit\s of the contents of [target].</span>"
 
-	else if(target.is_open_container() && target.reagents) //Something like a glass. Player probably wants to transfer TO it.
+	else if((target.is_open_container() || target.flags & INJECTONLY) && target.reagents) //Something like a glass. Player probably wants to transfer TO it.
 		if(!reagents.total_volume)
 			user << "<span class='warning'>[src] is empty!</span>"
 			return
@@ -108,6 +109,14 @@
 	//NINJACODE
 	else if(istype(target, /obj/item/clothing/suit/space/space_ninja))
 		return
+
+	else if(istype(target, /turf/simulated/pool/water))
+		if(reagents.total_volume >= 1)
+			user << "<span class='notice'>Doing that would be useless.</span>"
+		else
+			user << "<span class='notice'>You plunge [src] in the [target].</span>"
+			reagents.add_reagent("water", 100)
+			return
 
 	else if(istype(target, /obj/effect/decal/cleanable)) //stops splashing while scooping up fluids
 		return

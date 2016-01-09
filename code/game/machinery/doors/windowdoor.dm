@@ -285,7 +285,7 @@
 			playsound(src.loc, 'sound/items/Crowbar.ogg', 100, 1)
 			user.visible_message("[user] removes the electronics from the [src.name].", \
 								 "<span class='notice'>You start to remove electronics from the [src.name]...</span>")
-			if(do_after(user,40, target = src))
+			if(do_after(user,40/I.toolspeed, target = src))
 				if(src.p_open && !src.density && !src.operating && src.loc)
 					var/obj/structure/windoor_assembly/WA = new /obj/structure/windoor_assembly(src.loc)
 					switch(base_state)
@@ -317,10 +317,10 @@
 					if(!electronics)
 						ae = new/obj/item/weapon/electronics/airlock( src.loc )
 						if(req_one_access)
-							ae.use_one_access = 1
-							ae.conf_access = src.req_one_access
+							ae.one_access = 1
+							ae.accesses = src.req_one_access
 						else
-							ae.conf_access = src.req_access
+							ae.accesses = src.req_access
 					else
 						ae = electronics
 						electronics = null

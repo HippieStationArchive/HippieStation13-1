@@ -56,11 +56,13 @@
 
 /obj/effect/hotspot/New()
 	..()
+	alpha = 0
 	SSair.hotspots += src
 	perform_exposure()
 	dir = pick(cardinal)
 	air_update_turf()
-
+	spawn(0)
+		animate(src, alpha=255, time=2)
 
 /obj/effect/hotspot/proc/perform_exposure()
 	var/turf/simulated/location = loc
@@ -140,12 +142,25 @@
 		/*if(prob(25))
 			location.ReplaceWithSpace()
 			return 0*/
+	if(prob(15))
+		playsound(src.loc, 'sound/effects/fire.ogg', 30, 1) //play it at low volume so the stacking isn't too bad.
 	return 1
 
 // Garbage collect itself by nulling reference to it
 
 /obj/effect/hotspot/proc/Kill()
 	SetLuminosity(0)
+	var/obj/effect/overlay/O = new() //we create the fadeout animation as a seperate object so as not to break any shit.
+	O.icon = src.icon
+	O.icon_state = src.icon_state
+	O.layer = src.layer
+	O.mouse_opacity = 1
+	O.dir = src.dir
+	O.loc = src.loc
+	animate(O, alpha=0, time=3)
+	spawn(3)
+		if(O)
+			qdel(O)
 	PlaceInPool(src)
 
 /obj/effect/hotspot/Destroy()
@@ -156,6 +171,7 @@
 		if(T.active_hotspot == src)
 			T.active_hotspot = null
 	loc = null
+	..()
 	return QDEL_HINT_PUTINPOOL
 
 /obj/effect/hotspot/proc/DestroyTurf()

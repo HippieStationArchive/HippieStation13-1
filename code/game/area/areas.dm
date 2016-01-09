@@ -22,7 +22,10 @@
 									'sound/ambience/ambigen6.ogg','sound/ambience/ambigen7.ogg',\
 									'sound/ambience/ambigen8.ogg','sound/ambience/ambigen9.ogg',\
 									'sound/ambience/ambigen10.ogg','sound/ambience/ambigen11.ogg',\
-									'sound/ambience/ambigen12.ogg','sound/ambience/ambigen14.ogg')
+									'sound/ambience/ambigen12.ogg','sound/ambience/ambigen13.ogg',\
+									'sound/ambience/ambigen14.ogg', 'sound/ambience/ambicreek1.ogg',\
+									'sound/ambience/ambicreek2.ogg', 'sound/ambience/ambiencegenlawnmower.ogg')
+	var/ambloop = 'sound/ambience/loop/shipambience.ogg'
 
 /area/New()
 	icon_state = ""
@@ -37,8 +40,9 @@
 		power_light = 1
 		power_equip = 1
 		power_environ = 1
-		luminosity = 1
-		lighting_use_dynamic = 0
+
+		if (lighting_use_dynamic != DYNAMIC_LIGHTING_IFSTARLIGHT)
+			lighting_use_dynamic = DYNAMIC_LIGHTING_DISABLED
 
 	..()
 
@@ -332,21 +336,26 @@
 	L.lastarea = newarea
 
 	// Ambience goes down here -- make sure to list each area seperately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
-	if(L.client && !L.client.ambience_playing && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE)
-		L.client.ambience_playing = 1
-		L << sound('sound/ambience/shipambience.ogg', repeat = 1, wait = 0, volume = 35, channel = 2)
+	if(!(L && L.client && (L.client.prefs.toggles & SOUND_AMBIENCE)))	return
+	// if(istype(get_turf(A), /turf/space) && L.client.ambience_playing != 'sound/ambience/loop/hallow.ogg')
+	// 	L.client.ambience_playing = 'sound/ambience/loop/hallow.ogg'
+	// 	L << sound('sound/ambience/loop/hallow.ogg', repeat = 1, wait = 0, volume = 35, channel = 2)
+	// else if(L.client.ambience_playing != ambloop)
+	// 	L.client.ambience_playing = ambloop
+	// 	L << sound(ambloop, repeat = 1, wait = 0, volume = 35, channel = 2)
 
-	if(!(L.client && (L.client.prefs.toggles & SOUND_AMBIENCE)))	return //General ambience check is below the ship ambience so one can play without the other
+	// Actually handled in turf now, all for the sake of space turf always having space ambience.
+	// /code/game/turfs/turf.dm, line 85
 
 	if(prob(35))
 		var/sound = pick(ambientsounds)
 
-		if(!L.client.played)
+		if(L.client && L.client.played < world.time)
 			L << sound(sound, repeat = 0, wait = 0, volume = 25, channel = 1)
-			L.client.played = 1
-			spawn(600)			//ewww - this is very very bad
-				if(L.&& L.client)
-					L.client.played = 0
+			L.client.played = world.time + 900 //1.5 minutes
+
+/area/proc/mob_activate(var/mob/living/L)
+	return
 
 /proc/has_gravity(atom/AT, turf/T)
 	if(!T)

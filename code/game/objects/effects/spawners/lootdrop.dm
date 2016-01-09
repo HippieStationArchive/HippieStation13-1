@@ -74,6 +74,7 @@
 				/obj/item/device/assembly/timer = 3,
 				/obj/item/device/flashlight = 4,
 				/obj/item/device/flashlight/pen = 1,
+				/obj/item/device/meeseeks_box = 1,
 				/obj/item/weapon/storage/daki = 3,
 				/obj/item/device/multitool = 2,
 				/obj/item/device/radio/off = 2,
@@ -84,6 +85,9 @@
 				/obj/item/stack/rods{amount = 10} = 9,
 				/obj/item/stack/rods{amount = 23} = 1,
 				/obj/item/stack/rods{amount = 50} = 1,
+				/obj/item/stack/ducttape{amount = 5} = 6,
+				/obj/item/stack/ducttape{amount = 10} = 2,
+				/obj/item/stack/ducttape = 1,
 				/obj/item/stack/sheet/cardboard = 2,
 				/obj/item/stack/sheet/metal{amount = 20} = 1,
 				/obj/item/stack/sheet/mineral/plasma{layer = 2.9} = 1,
@@ -167,6 +171,7 @@
 				/obj/item/weapon/stamp/clown =20,
 				/obj/item/weapon/storage/crayons = 20,
 				/obj/item/weapon/storage/spooky = 5,
+				/obj/item/device/meeseeks_box = 5,
 				/obj/item/weapon/storage/book/bible = 5,
 				/obj/item/weapon/tome = 1,
 				/obj/item/weapon/toy/xmas_cracker = 10,
@@ -183,6 +188,9 @@
 				/obj/item/toy/foamblade = 10,
 				/obj/item/weapon/grown/bananapeel = 40,
 				/obj/item/weapon/grown/bananapeel/specialpeel = 5,
+				/obj/item/stack/ducttape{amount = 5} = 40,
+				/obj/item/stack/ducttape{amount = 10} = 20,
+				/obj/item/stack/ducttape = 10,
 				"" = 100
 				)
 
