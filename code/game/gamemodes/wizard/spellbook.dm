@@ -347,7 +347,13 @@
 	desc = "Consider this more of a \"Spell Bundle\". This artifact is NOT reccomended for weaklings. An ancient scroll that will teach you the art of Plasma Fist. With it's various combos you can knock people down in the area around you, light them on fire and finally perform the PLASMA FIST that will gib your target."
 	item_path = /obj/item/weapon/plasma_fist_scroll
 	log_name = "PF"
-	cost = 1  
+	cost = 1
+
+/datum/spellbook_entry/item/moonlightsword
+	name = "Moonlight Greatsword"
+	desc = "A sword that shines like the brilliant rays of the moon, unleashing its energy causes the blade to extend in a very wide slash. Acts as a magic catalyst. Must be charged through the life essence of a relatively healthy, advanced organism."
+	item_path = /obj/item/weapon/gun/magic/staff/moonlight_greatsword
+	log_name = "MS"
 
 /datum/spellbook_entry/item/bloodbottle
 	name = "Bottle of Blood"
