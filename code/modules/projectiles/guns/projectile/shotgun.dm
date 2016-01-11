@@ -235,7 +235,7 @@
 	item_state = "stick"
 	icon = 'icons/obj/weapons.dmi'
 	sawn_state = SAWN_OFF
-	w_class = 2
+	w_class = 3
 	force = 10
 	can_unsuppress = 0
 	slot_flags = null
