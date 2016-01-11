@@ -44,6 +44,7 @@
 	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
 		I += M.rating
 
+	emagged = 0
 	injection_chems = possible_chems[I]
 	efficiency = E
 	min_health = -E * 25
