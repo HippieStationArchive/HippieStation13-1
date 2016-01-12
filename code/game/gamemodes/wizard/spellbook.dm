@@ -461,7 +461,7 @@
 	if(times>0)
 		. += "You cast it [times] times.<br>"
 	return .
-
+/*
 /datum/spellbook_entry/summon/multisword
 	name = "Multiverse War"
 	category = "Rituals"
@@ -482,6 +482,7 @@
 	playsound(get_turf(user),"sound/magic/CastSummon.ogg",50,1)
 	user << "<span class='notice'>You have triggerd a multiverse war!</span>"
 	return 1
+*/
 
 /obj/item/weapon/spellbook
 	name = "spell book"
