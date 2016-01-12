@@ -24,7 +24,7 @@
 	ammo_type = /obj/item/ammo_casing/magic/pellet
 	icon_state = "moon_sword"
 	item_state = "moon_sword"
-	force = 15
+	force = 20
 	throwforce = 10
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	can_charge = 0
