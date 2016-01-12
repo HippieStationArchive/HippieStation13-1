@@ -44,7 +44,7 @@
 	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
 		I += M.rating
 
-	if(emagged = 2)
+	if(emagged == 2)
 		injection_chems = list("syndicate_nanites", "stimulants", "bath_salts", "methamphetamine", "fartium", "zombiepowder", "initropidril", "rotatium", "blackpowder")
 	else
 		injection_chems = possible_chems[I]
