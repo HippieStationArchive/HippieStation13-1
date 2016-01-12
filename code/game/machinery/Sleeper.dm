@@ -44,8 +44,10 @@
 	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
 		I += M.rating
 
-	emagged = 0
-	injection_chems = possible_chems[I]
+	if(emagged = 2)
+		injection_chems = list("syndicate_nanites", "stimulants", "bath_salts", "methamphetamine", "fartium", "zombiepowder", "initropidril", "rotatium", "blackpowder")
+	else
+		injection_chems = possible_chems[I]
 	efficiency = E
 	min_health = -E * 25
 
@@ -221,15 +223,15 @@
 			user << "<span class='notice'>You you disable the overdose prevention system.</span>"
 		else
 			playsound(src.loc, 'sound/effects/sparks4.ogg', 75, 1)
-			emagged = 1
+			emagged = 2
 			user << "<span class='notice'>You manage to completely rewrite the chemical synthesizer subroutine!</span>"
-			injection_chems = list("syndicate_nanites", "stimulants", "bath_salts", "methamphetamine", "fartium", "zombiepowder", "initropidril", "rotatium", "blackpowder")
+	RefreshParts()
 
 /obj/machinery/sleeper/proc/inject_chem(mob/user, chem)
 	if(!is_operational())
 		return
 	if(occupant && occupant.reagents)
-		if(emagged)
+		if(emagged > 0)
 			if(chem in injection_chems + "epinephrine")
 				if(occupant.reagents.get_reagent_amount(chem) + 30 <= 30 + 30*efficiency)
 					occupant.reagents.add_reagent(chem, 30)
