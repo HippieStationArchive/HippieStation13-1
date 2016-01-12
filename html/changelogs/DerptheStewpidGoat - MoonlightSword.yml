@@ -33,4 +33,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Added the Moonlight Greatsword for wizards. To use it, it must be charged from damaging non-crit humanoids 5 times. Once charged, you can use it as a ranged weapon to fire 5 pellets dealing 15 brute each. After firing, it must be fully charged once again. It can fit on your back. All credits to FuryMcFury for the sprites."
+  - rscadd: "Added the Moonlight Greatsword for wizards. To use it, it must be charged from damaging non-crit humanoids 5 times. Once charged, you can use it as a ranged weapon to fire 5 pellets dealing 15 brute each. After firing, it must be fully charged once again. The moonlight greatsword does 20 brute damage with a high bleed chance and can fit on your back. All credits to FuryMcFury for the sprites."
