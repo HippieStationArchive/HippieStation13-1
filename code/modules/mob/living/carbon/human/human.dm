@@ -187,6 +187,16 @@
 	..()
 
 /mob/living/carbon/human/blob_act()
+	if(dna.species.id == "meeseeks_1")
+		if(health > -10)
+			show_message("<span class='userdanger'>The blob attacks you!</span>")
+			adjustBruteLoss(25)
+			updatehealth()
+			return 1
+		else
+			show_message("<span class='userdanger'>You've failed your mission and dissapeared!</span>")
+			qdel(src)
+			return 1
 	if(stat == DEAD)	return
 	show_message("<span class='userdanger'>The blob attacks you!</span>")
 	var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
