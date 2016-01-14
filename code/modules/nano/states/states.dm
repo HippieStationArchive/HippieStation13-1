@@ -1,5 +1,5 @@
  /**
-  * NanoUI State
+  * NanoUI States
   *
   * Base state and helpers for states. Just does some sanity checks, implement a state for in-depth checks.
  **/
@@ -14,7 +14,7 @@
   *
   * return NANO_state The state of the UI.
  **/
-/atom/proc/CanUseTopic(mob/user, datum/topic_state/state)
+/atom/proc/nano_state(mob/user, datum/topic_state/state)
 	var/src_object = nano_host()
 	return state.can_use_topic(src_object, user) // Check if the state allows interaction.
 
@@ -43,7 +43,7 @@
 /mob/proc/shared_nano_interaction(atom/movable/src_object)
 	if (!client || stat) // Close NanoUIs if mindless or dead/unconcious.
 		return NANO_CLOSE
-// Update NanoUIs if incapicitated but concious.
+	// Update NanoUIs if incapicitated but concious.
 	else if (incapacitated() || lying)
 		return NANO_UPDATE
 	return NANO_INTERACTIVE
@@ -68,11 +68,12 @@
 	return ..()
 
 /mob/dead/observer/shared_nano_interaction(atom/movable/src_object)
-	if (check_rights(R_ADMIN, 0, src))
+	if (check_rights_for(client, R_ADMIN))
 		return NANO_INTERACTIVE // Admins can interact anyway.
 	if(!client || get_dist(src_object, src)	> client.view)
 		return NANO_CLOSE // Keep ghosts from opening too many NanoUIs.
 	return NANO_UPDATE // Ghosts can only view.
+
 
 /**
   * public
