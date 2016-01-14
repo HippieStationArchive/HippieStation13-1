@@ -12,13 +12,13 @@
 	var/obj/item/weapon/tank/jetpack/J = H.back
 	J.toggle()
 	J.Topic(null, list("stat" = 1))
-			
+
 
 /datum/outfit/tournament
 
 /datum/outfit/tournament/
 	name = "tournament standard red"
-	
+
 	uniform = /obj/item/clothing/under/color/red
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	suit = /obj/item/clothing/suit/armor/vest
@@ -30,7 +30,7 @@
 
 /datum/outfit/tournament/red
 	name = "tournament standard green"
-	
+
 	uniform = /obj/item/clothing/under/color/green
 
 /datum/outfit/tournament/gangster
@@ -38,7 +38,7 @@
 	uniform = /obj/item/clothing/under/rank/det
 	suit = /obj/item/clothing/suit/det_suit
 	glasses = /obj/item/clothing/glasses/thermal/monocle
-	head = /obj/item/clothing/head/det_hat
+	head = /obj/item/clothing/head/fedora/detective
 	r_hand = /obj/item/weapon/gun/projectile
 	l_hand = null
 	r_pocket = /obj/item/ammo_box/c10mm
@@ -56,7 +56,10 @@
 	l_pocket = /obj/item/weapon/grenade/chem_grenade/cleaner
 	backpack_contents = list(/obj/item/stack/tile/plasteel=6)
 
-/datum/outfit/tournament/janitor/post_equip(mob/living/carbon/human/H)
+/datum/outfit/tournament/janitor/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
 	var/obj/item/weapon/reagent_containers/glass/bucket/bucket = H.l_hand
 	bucket.reagents.add_reagent("water",70)
 
@@ -110,9 +113,12 @@
 	l_pocket = /obj/item/weapon/reagent_containers/food/snacks/grown/banana
 	r_pocket = /obj/item/weapon/bikehorn
 	id = /obj/item/weapon/card/id
-	r_hand = /obj/item/weapon/twohanded/fireaxe
+	r_hand = /obj/item/weapon/twohanded/chainsaw
 
-/datum/outfit/tunnel_clown/post_equip(mob/living/carbon/human/H)
+/datum/outfit/tunnel_clown/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
 	var/obj/item/weapon/card/id/W = H.wear_id
 	W.access = get_all_accesses()
 	W.assignment = "Tunnel Clown!"
@@ -153,10 +159,13 @@
 	id = /obj/item/weapon/card/id/syndicate
 	belt = /obj/item/device/pda/heads
 
-/datum/outfit/assassin/post_equip(mob/living/carbon/human/H)
+/datum/outfit/assassin/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	var/obj/item/clothing/under/U = H.w_uniform
 	U.attachTie(new /obj/item/clothing/tie/waistcoat(H))
-	
+
+	if(visualsOnly)
+		return
+
 	//Could use a type
 	var/obj/item/weapon/storage/secure/briefcase/sec_briefcase = H.l_hand
 	for(var/obj/item/briefcase_item in sec_briefcase)
@@ -172,7 +181,7 @@
 	pda.owner = H.real_name
 	pda.ownjob = "Reaper"
 	pda.update_label()
-	
+
 	var/obj/item/weapon/card/id/syndicate/W = H.wear_id
 	W.access = get_all_accesses()
 	W.assignment = "Reaper"
@@ -196,7 +205,10 @@
 	back = /obj/item/weapon/storage/backpack/satchel
 	id = /obj/item/weapon/card/id
 
-/datum/outfit/centcom_commander/post_equip(mob/living/carbon/human/H)
+/datum/outfit/centcom_commander/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
 	var/obj/item/weapon/card/id/W = H.wear_id
 	W.icon_state = "centcom"
 	W.access = get_all_accesses()
@@ -221,7 +233,10 @@
 	back = /obj/item/weapon/storage/backpack/satchel
 	id = /obj/item/weapon/card/id
 
-/datum/outfit/spec_ops/post_equip(mob/living/carbon/human/H)
+/datum/outfit/spec_ops/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
 	var/obj/item/weapon/card/id/W = H.wear_id
 	W.icon_state = "centcom"
 	W.access = get_all_accesses()
@@ -276,12 +291,43 @@
 
 	id = /obj/item/weapon/card/id
 
-/datum/outfit/soviet/post_equip(mob/living/carbon/human/H)
+/datum/outfit/soviet/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
 	var/obj/item/weapon/card/id/W = H.wear_id
 	W.icon_state = "centcom"
 	W.access = get_all_accesses()
 	W.access += get_centcom_access("Admiral")
 	W.assignment = "Admiral"
+	W.registered_name = H.real_name
+	W.update_label()
+
+/datum/outfit/soviet/soldier
+	name = "New-Russian Soldier"
+
+	head = /obj/item/clothing/head/helmet/soviethelmet
+	mask = /obj/item/clothing/mask/gas
+	shoes = /obj/item/clothing/shoes/combat/camo
+	gloves = /obj/item/clothing/gloves/combat
+	ears = /obj/item/device/radio/headset
+	glasses = /obj/item/clothing/glasses/night
+	suit = /obj/item/clothing/suit/armor/defender
+	back = /obj/item/weapon/storage/backpack/mountainbag
+	suit_store = /obj/item/weapon/gun/projectile/automatic/ak922
+	uniform = /obj/item/clothing/under/soviet/gorka
+	l_pocket = /obj/item/ammo_box/magazine/ak922
+	r_pocket = /obj/item/ammo_box/magazine/ak922
+
+/datum/outfit/soviet/soldier/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/weapon/card/id/W = H.wear_id
+	W.icon_state = "centcom"
+	W.access = get_all_accesses()
+	W.access += get_centcom_access("New-Russian Soldier")
+	W.assignment = "New-Russian Soldier"
 	W.registered_name = H.real_name
 	W.update_label()
 
@@ -297,7 +343,10 @@
 	r_hand = /obj/item/weapon/gun/projectile/automatic/tommygun
 	id = /obj/item/weapon/card/id
 
-/datum/outfit/mobster/post_equip(mob/living/carbon/human/H)
+/datum/outfit/mobster/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
 	var/obj/item/weapon/card/id/W = H.wear_id
 	W.assignment = "Assistant"
 	W.registered_name = H.real_name
@@ -336,11 +385,14 @@
 		/obj/item/device/flashlight=1,\
 		/obj/item/weapon/c4=1)
 
-/datum/outfit/death_commando/post_equip(mob/living/carbon/human/H)
+/datum/outfit/death_commando/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
 	var/obj/item/device/radio/R = H.ears
 	R.set_frequency(CENTCOM_FREQ)
 	R.freqlock = 1
-	
+
 	var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)//Here you go Deuryn
 	L.imp_in = H
 	L.implanted = 1
@@ -359,7 +411,139 @@
 	name = "Death Commando Officer"
 	head = /obj/item/clothing/head/helmet/space/beret
 
+//ION PMC
+
+/datum/outfit/ion_corp/
+	name = "Ion Inc. PMC Field Technician"
+	uniform = /obj/item/clothing/under/pmc
+	suit = /obj/item/clothing/suit/armor/bulletproof
+	head = /obj/item/clothing/head/helmet/swat/pmc
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/combat
+	back = /obj/item/weapon/storage/backpack/security
+	l_pocket = /obj/item/device/assembly/flash
+	r_pocket = /obj/item/weapon/restraints/handcuffs/cable/zipties
+	suit_store = /obj/item/weapon/gun/projectile/automatic/proto
+	belt = /obj/item/weapon/storage/belt/utility/full
+	id = /obj/item/weapon/card/id
+	mask = /obj/item/clothing/mask/gas/welding
+	ears = /obj/item/device/radio/headset/headset_sec/alt
+	r_hand = /obj/item/weapon/paper/pmc_contract
+	glasses = /obj/item/clothing/glasses/meson/engine
+
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/ammo_box/magazine/smgm9mm=3,\
+		/obj/item/weapon/storage/box/zipties=1,\
+		/obj/item/weapon/c4=3,\
+		/obj/item/weapon/gun/energy/stunrevolver=1)
+
+/datum/outfit/ion_corp/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/weapon/card/id/W = H.wear_id
+	W.assignment = "ION Incorp. PMC"
+	W.registered_name = H.real_name
+	W.update_label()
 
 
+/datum/outfit/ion_corp/rifleman
+	name = "Ion Inc. PMC Rifleman"
+	uniform = /obj/item/clothing/under/pmc
+	suit = /obj/item/clothing/suit/armor/heavycombat
+	head = /obj/item/clothing/head/helmet/swat/pmc
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/combat
+	back = /obj/item/weapon/storage/backpack/security
+	l_pocket = /obj/item/device/assembly/flash
+	r_pocket = /obj/item/weapon/restraints/handcuffs/cable/zipties
+	suit_store = /obj/item/weapon/gun/projectile/automatic/xmg80
+	belt = /obj/item/weapon/storage/belt/military/black
+	id = /obj/item/weapon/card/id
+	ears = /obj/item/device/radio/headset/headset_sec/alt
+	r_hand = /obj/item/weapon/paper/pmc_contract
+	mask = /obj/item/clothing/mask/gas
+	glasses = /obj/item/clothing/glasses/hud/security/night
 
-			
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/ammo_box/magazine/xmg80=5,\
+		/obj/item/weapon/storage/box/zipties=1,\
+		/obj/item/weapon/storage/box/flashbangs=1,\
+		/obj/item/weapon/storage/firstaid/regular=1,\
+		/obj/item/weapon/gun/energy/stunrevolver=1)
+
+//ASS Operative
+
+/datum/outfit/ass/
+	name = "ASS Operative"
+	uniform = /obj/item/clothing/under/gimmick/ass
+	suit = /obj/item/clothing/suit/space/ass
+	head = /obj/item/clothing/head/helmet/space/ass
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/fingerless
+	back = /obj/item/weapon/storage/backpack/security
+	l_pocket = /obj/item/device/assembly/flash
+	r_pocket = /obj/item/weapon/restraints/handcuffs/cable/zipties
+	suit_store = /obj/item/weapon/gun/energy/pulse/carbine
+	belt = /obj/item/weapon/gun/projectile/automatic/pistol/automag
+	id = /obj/item/weapon/card/id
+	ears = /obj/item/device/radio/headset/headset_cent/alt
+	mask = /obj/item/clothing/mask/gas
+	glasses = /obj/item/clothing/glasses/thermal
+
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/ammo_box/magazine/m44=2,\
+		/obj/item/weapon/storage/firstaid/tactical=1,\
+		/obj/item/weapon/c4=2,\
+		/obj/item/weapon/storage/box/flashbangs=1)
+
+/datum/outfit/ass/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/weapon/card/id/W = H.wear_id
+	W.icon_state = "centcom"
+	W.access = get_all_accesses()//They get full station access.
+	W.access += get_centcom_access("ASS Operative")//Let's add their alloted Centcom access.
+	W.assignment = "ASS Operative"
+	W.registered_name = H.real_name
+	W.update_label(W.registered_name, W.assignment)
+
+//Spess Muhreen
+//I have almost no idea what these guys are equipped with so forgive me
+
+/datum/outfit/imperium/
+	name = "Bloodraven Space Marine"
+	uniform = /obj/item/clothing/under/color/darkred
+	suit = /obj/item/clothing/suit/space/imperium
+	head = /obj/item/clothing/head/helmet/space/imperium
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/combat
+	back = /obj/item/weapon/storage/backpack/security
+	l_pocket = /obj/item/device/assembly/flash
+	r_pocket = /obj/item/weapon/restraints/handcuffs/cable/zipties
+	suit_store = /obj/item/weapon/gun/projectile/automatic/gyropistol
+	belt = /obj/item/weapon/gun/energy/stunrevolver
+	id = /obj/item/weapon/card/id
+	ears = /obj/item/device/radio/headset/headset_cent/alt
+	mask = /obj/item/clothing/mask/gas
+	glasses = /obj/item/clothing/glasses/thermal
+
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/ammo_box/magazine/m75=3,\
+		/obj/item/weapon/storage/firstaid/tactical=1,\
+		/obj/item/weapon/c4=2,\
+		/obj/item/weapon/melee/chainsword=1,\
+		/obj/item/weapon/storage/box/flashbangs=1)
+
+/datum/outfit/ass/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/weapon/card/id/W = H.wear_id
+	W.icon_state = "centcom"
+	W.access = get_all_accesses()//They get full station access.
+	W.access += get_centcom_access("Bloodraven")//Let's add their alloted Centcom access.
+	W.assignment = "Bloodraven"
+	W.registered_name = H.real_name
+	W.update_label(W.registered_name, W.assignment)

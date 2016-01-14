@@ -64,9 +64,7 @@
 	throwforce = 10
 	w_class = 3
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-
-/obj/item/weapon/claymore/IsShield()
-	return 1
+	block_chance = 50
 
 /obj/item/weapon/claymore/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is falling on the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -84,6 +82,7 @@
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	block_chance = 50
 
 /obj/item/weapon/katana/cursed
 	slot_flags = null
@@ -91,9 +90,6 @@
 /obj/item/weapon/katana/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>")
 	return(BRUTELOSS)
-
-/obj/item/weapon/katana/IsShield()
-		return 1
 
 /obj/item/weapon/wirerod
 	name = "wired rod"
@@ -110,7 +106,7 @@
 /obj/item/weapon/wirerod/attackby(obj/item/I, mob/user, params)
 	..()
 	if(istype(I, /obj/item/weapon/shard))
-		var/obj/item/weapon/twohanded/spear/S = new /obj/item/weapon/twohanded/spear
+		var/obj/item/weapon/twohanded/spear/S = new
 
 		if(!remove_item_from_storage(user))
 			user.unEquip(src)
@@ -122,7 +118,7 @@
 		qdel(src)
 
 	else if(istype(I, /obj/item/weapon/wirecutters))
-		var/obj/item/weapon/melee/baton/cattleprod/P = new /obj/item/weapon/melee/baton/cattleprod
+		var/obj/item/weapon/melee/baton/cattleprod/P = new
 
 		if(!remove_item_from_storage(user))
 			user.unEquip(src)
@@ -132,7 +128,18 @@
 		user << "<span class='notice'>You fasten the wirecutters to the top of the rod with the cable, prongs outward.</span>"
 		qdel(I)
 		qdel(src)
+	else if(istype(I, /obj/item/weapon/weldingtool))
+		var/obj/item/weapon/weldingtool/welder = I
+		if(welder.remove_fuel(1,user))
+			playsound(loc, 'sound/items/Welder.ogg', 100, 1)
+			user << "<span class='notice'>You weld \the [src] in half.</span>"
+			var/obj/item/garrotehandles/S = new
 
+			if(!remove_item_from_storage(user))
+				user.unEquip(src)
+
+			user.put_in_hands(S)
+			qdel(src)
 
 /obj/item/weapon/throwing_star
 	name = "throwing star"
@@ -180,13 +187,15 @@
 	extended = !extended
 	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
 	if(extended)
-		force = 20
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
+		force = 15
 		w_class = 3
 		throwforce = 15
 		icon_state = "switchblade_ext"
 		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 		hitsound = 'sound/weapons/bladeslice.ogg'
 	else
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
 		force = 1
 		w_class = 2
 		throwforce = 5
@@ -197,6 +206,54 @@
 /obj/item/weapon/switchblade/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
 	return (BRUTELOSS)
+
+/obj/item/weapon/pocketknife
+	name = "pocket knife"
+	desc = "Small, concealable blade that fits in the pocket nicely."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "pocketknife"
+	force = 3
+	throwforce = 3
+	hitsound = "swing_hit" //it starts deactivated
+	throw_speed = 3
+	throw_range = 8
+	var/active = 0
+	var/active_force = 12
+	var/deactive_force = 3
+	w_class = 1 //note to self: weight class
+	sharpness = IS_BLUNT
+
+/obj/item/weapon/pocketknife/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)
+
+/obj/item/weapon/pocketknife/attack_self(mob/living/user)
+	if (user.disabilities & CLUMSY && prob(50))
+		user << "<span class='warning'>You accidentally cut yourself with [src], like a doofus!</span>"
+		user.take_organ_damage(5,0)
+	active = !active
+	if (active)
+		force = active_force
+		throwforce = 14
+		sharpness = IS_SHARP
+		hitsound = 'sound/weapons/knife.ogg'
+		attack_verb = list("stabbed", "torn", "cut", "sliced")
+		icon_state = "pocketknife_open"
+		w_class = 3
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
+		user << "<span class='notice'>[src] is now open.</span>"
+	else
+		force = deactive_force
+		throwforce = 3
+		sharpness = IS_BLUNT
+		hitsound = "swing_hit"
+		attack_verb = null
+		icon_state = "pocketknife"
+		w_class = 1
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
+		user << "<span class='notice'>[src] is now closed.</span>"
+	add_fingerprint(user)
+	return
 
 /obj/item/weapon/phone
 	name = "red phone"
@@ -211,7 +268,7 @@
 	attack_verb = list("called", "rang")
 	hitsound = 'sound/weapons/ring.ogg'
 
-/obj/item/weapon/phone/suicide_act(mob/user)
+/obj/item/weapon/phone/suicide_act(mob/user) //TODO: Make noosing work for this one like the cables
 	if(locate(/obj/structure/stool) in user.loc)
 		user.visible_message("<span class='notice'>[user] begins to tie a noose with the [src.name]'s cord! It looks like \he's trying to commit suicide.</span>")
 	else
@@ -274,3 +331,39 @@
 /obj/item/weapon/ectoplasm/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is inhaling the [src.name]! It looks like \he's trying to visit the astral plane.</span>")
 	return (OXYLOSS)
+
+/obj/item/weapon/icepick
+	name = "ice pick"
+	desc = "Perfect for breaking ice, or piercing skulls."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "icepick"
+	item_state = "icepick"
+	force = 7
+	throwforce = 5
+	throw_speed = 4
+	throw_range = 6
+	w_class = 1
+	attack_verb = list("stabbed", "picked", "lobotomized")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+
+/obj/item/weapon/icepick/attack(mob/living/carbon/M, mob/living/carbon/user)
+	if(!istype(M))	return ..()
+	if(user.zone_sel.selecting != "eyes" && user.zone_sel.selecting != "head")
+		return ..()
+	if(user.disabilities & CLUMSY && prob(50))
+		M = user
+	return eyestab(M,user)
+
+/obj/item/weapon/cane/pimpstick
+	name = "pimp stick"
+	desc = "A gold-rimmed cane, with a gleaming diamond set at the top. Great for bashing in kneecaps."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "pimpstick"
+	item_state = "pimpstick"
+	force = 10
+	throwforce = 7
+	w_class = 3
+	flags = NOSHIELD
+	attack_verb = list("pimped", "smacked", "disciplined", "busted", "capped", "decked")
+
+

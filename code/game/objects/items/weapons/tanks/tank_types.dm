@@ -16,6 +16,7 @@
 	icon_state = "oxygen"
 	distribute_pressure = ONE_ATMOSPHERE*O2STANDARD
 	force = 10
+	materials = list(MAT_METAL = 5000)
 
 /obj/item/weapon/tank/internals/oxygen/New()
 	..()
@@ -41,6 +42,7 @@
 	icon_state = "anesthetic"
 	item_state = "an_tank"
 	force = 10
+	materials = list(MAT_METAL = 5000)
 
 /obj/item/weapon/tank/internals/anesthetic/New()
 	..()
@@ -80,6 +82,7 @@
 	flags = CONDUCT
 	slot_flags = null	//they have no straps!
 	force = 8
+	materials = list(MAT_METAL = 5000)
 
 /obj/item/weapon/tank/internals/plasma/New()
 	..()
@@ -155,6 +158,7 @@
 	force = 4
 	distribute_pressure = ONE_ATMOSPHERE*O2STANDARD
 	volume = 3 //Tiny. Real life equivalents only have 21 breaths of oxygen in them. They're EMERGENCY tanks anyway -errorage (dangercon 2011)
+	materials = list(MAT_METAL=1000)
 
 
 /obj/item/weapon/tank/internals/emergency_oxygen/New()
@@ -166,8 +170,10 @@
 	name = "extended-capacity emergency oxygen tank"
 	icon_state = "emergency_engi"
 	volume = 6
+	materials = list(MAT_METAL=2000)
 
 /obj/item/weapon/tank/internals/emergency_oxygen/double
 	name = "double emergency oxygen tank"
 	icon_state = "emergency_engi"
 	volume = 10
+	materials = list(MAT_METAL=4000)

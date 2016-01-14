@@ -105,6 +105,7 @@ var/datum/global_hud/global_hud = new()
 	var/obj/screen/l_hand_hud_object
 	var/obj/screen/action_intent
 	var/obj/screen/move_intent
+	var/obj/screen/combo/combo_object
 
 	var/list/adding
 	var/list/other
@@ -199,7 +200,8 @@ var/datum/global_hud/global_hud = new()
 		drone_hud(ui_style)
 	else if(isswarmer(mymob))
 		swarmer_hud()
-
+	else if(isguardian(mymob))
+		guardian_hud()
 
 //Version denotes which style should be displayed. blank or 0 means "next version"
 /datum/hud/proc/show_hud(version = 0)

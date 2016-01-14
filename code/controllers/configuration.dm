@@ -6,6 +6,7 @@
 #define EVERYONE_HAS_MAINT_ACCESS 4
 
 /datum/configuration
+	var/name = "Configuration"			// datum name
 	var/server_name = null				// server name (the name of the game window)
 	var/station_name = null				// station name (the name of the station in-game)
 	var/server_suffix = 0				// generate numeric suffix based on server port
@@ -58,6 +59,7 @@
 	var/forumurl = "http://tgstation13.org/phpBB/index.php" //default forums
 	var/rulesurl = "http://www.tgstation13.org/wiki/Rules" // default rules
 	var/githuburl = "https://www.github.com/tgstation/-tg-station" //default github
+	var/teamspeakurl = "" //default Teamspeak URL, TG doesnt have teamspeak hence it being empty
 
 	var/forbid_singulo_possession = 0
 	var/useircbot = 0
@@ -69,6 +71,10 @@
 	var/ban_legacy_system = 0	//Defines whether the server uses the legacy banning system with the files in /data or the SQL system. Config option in config.txt
 	var/use_age_restriction_for_jobs = 0 //Do jobs use account age restrictions? --requires database
 	var/see_own_notes = 0 //Can players see their own admin notes (read-only)? Config option in config.txt
+
+	var/announce_watchlist = 0
+	var/announce_adminhelps = 0
+	var/announce_adminhelp_exchanges = 0
 
 	//Population cap vars
 	var/soft_popcap				= 0
@@ -146,7 +152,7 @@
 	var/slime_delay = 0
 	var/animal_delay = 0
 
-	var/gateway_delay = 18000 //How long the gateway takes before it activates. Default is half an hour.
+	var/gateway_delay = 6000 //How long the gateway takes before it activates. Default is 18000 - half an an hour.
 	var/ghost_interaction = 0
 
 	var/silent_ai = 0
@@ -164,12 +170,16 @@
 
 	var/aggressive_changelog = 0
 
+	var/roundstart_awaymissions = 0 //if an away mission will be loaded at roundstart.
+
 	var/reactionary_explosions = 0 //If we use reactionary explosions, explosions that react to walls and doors
 
 	var/autoconvert_notes = 0 //if all connecting player's notes should attempt to be converted to the database
 
 	var/announce_admin_logout = 0
 	var/announce_admin_login = 0
+	// The object used for the clickable stat() button.
+	var/obj/effect/statclick/statclick
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -256,6 +266,8 @@
 					config.allow_admin_ooccolor = 1
 				if("allow_vote_restart")
 					config.allow_vote_restart = 1
+				if("announce_adminhelps")
+					config.announce_adminhelps = 1
 				if("allow_vote_mode")
 					config.allow_vote_mode = 1
 				if("no_dead_vote")
@@ -288,6 +300,8 @@
 					config.rulesurl = value
 				if("githuburl")
 					config.githuburl = value
+				if("teamspeakurl")
+					config.teamspeakurl = value
 				if("guest_jobban")
 					config.guest_jobban = 1
 				if("guest_ban")
@@ -357,6 +371,10 @@
 					config.announce_admin_logout = 1
 				if("announce_admin_login")
 					config.announce_admin_login = 1
+				if("announce_adminhelp_exchanges")
+					config.announce_adminhelp_exchanges = 1
+				if("roundstart_awaymissions")
+					roundstart_awaymissions = 1
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
@@ -613,3 +631,9 @@
 		if(M.required_players <= crew)
 			runnable_modes[M] = probabilities[M.config_tag]
 	return runnable_modes
+
+/datum/configuration/proc/stat_entry()
+	if(!statclick)
+		statclick = new/obj/effect/statclick/debug("Edit", src)
+
+	stat("[name]:", statclick)

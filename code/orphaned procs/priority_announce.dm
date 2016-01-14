@@ -1,4 +1,4 @@
-/proc/priority_announce(text, title = "", sound = 'sound/AI/attention.ogg', type)
+/proc/priority_announce(text, title = "", sound = 'sound/AI/attention.ogg', type, scommand)
 	if(!text)
 		return
 
@@ -6,6 +6,10 @@
 
 	if(type == "Priority")
 		announcement += "<h1 class='alert'>Priority Announcement</h1>"
+		if (title && length(title) > 0)
+			announcement += "<br><h2 class='alert'>[html_encode(title)]</h2>"
+	else if(type == "Syndicate")
+		announcement += "<h1 class='alert'>[scommand] Communications Intercepted</h1>"
 		if (title && length(title) > 0)
 			announcement += "<br><h2 class='alert'>[html_encode(title)]</h2>"
 	else if(type == "Captain")

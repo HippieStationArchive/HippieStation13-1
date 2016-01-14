@@ -53,6 +53,8 @@
 			H.pinned_to = null
 			H.do_pindown(src, 0)
 			H.update_canmove()
+			for(var/obj/item/stack/rods/R in H.contents)
+				if(R.pinned) R.pinned = null
 	..()
 
 /turf/attack_hand(mob/user)
@@ -109,6 +111,17 @@
 		if(!O.lastarea)
 			O.lastarea = get_area(O.loc)
 //		O.update_gravity(O.mob_has_gravity())
+		if(isliving(M))
+			var/mob/living/L = M
+			if(L.client && (L.client.prefs.toggles & SOUND_AMBIENCE)) //This makes space ambience always play regardless of area. Rest of it is located in code/game/area/areas.dm
+				var/area/F = get_area(L.loc)
+				if(M.isinspace())
+					if(L.client.ambience_playing != 'sound/ambience/loop/space.ogg')
+						L.client.ambience_playing = 'sound/ambience/loop/space.ogg'
+						L << sound('sound/ambience/loop/space.ogg', repeat = 1, wait = 0, volume = 35, channel = 2)
+				else if(L.client.ambience_playing != F.ambloop)
+					L.client.ambience_playing = F.ambloop
+					L << sound(F.ambloop, repeat = 1, wait = 0, volume = 35, channel = 2)
 
 	var/loopsanity = 100
 	for(var/atom/A in range(1))
@@ -343,3 +356,8 @@
 	icon = 'icons/obj/doors/airlocks/centcom/centcom.dmi'
 	icon_state = "fake_door"
 
+/turf/indestructible/rock
+	name = "dense rock"
+	desc = "An extremely densely-packed rock, most mining tools or explosives would never get through this."
+	icon = 'icons/turf/mining.dmi'
+	icon_state = "rock"

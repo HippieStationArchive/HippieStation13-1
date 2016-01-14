@@ -135,7 +135,7 @@
 	var/list/antag_canadates = list()
 
 	for(var/mob/living/carbon/human/H in living_crew)
-		if(H.client && H.client.prefs.allow_midround_antag)
+		if(H.client && H.client.prefs.allow_midround_antag && !jobban_isbanned(H, "catban"))
 			antag_canadates += H
 
 	if(!antag_canadates)
@@ -248,7 +248,10 @@
 		feedback_set("escaped_human",escaped_humans)
 	if(escaped_total > 0)
 		feedback_set("escaped_total",escaped_total)
-	send2irc("Server", "Round just ended.")
+	var/mode_to_display = "[ticker.mode]"
+	if(master_mode == "secret")
+		mode_to_display = "secret ([ticker.mode])"
+	send2irc("Server", "A round of [mode_to_display] just ended with [surviving_total] survivors and [ghosts] observers.")
 	return 0
 
 
@@ -307,7 +310,7 @@
 
 	// Ultimate randomizing code right here
 	for(var/mob/new_player/player in player_list)
-		if(player.client && player.ready)
+		if(player.client && player.ready && !jobban_isbanned(player, "catban"))
 			players += player
 
 	// Shuffling, the players list is now ping-independent!!!

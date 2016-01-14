@@ -422,6 +422,15 @@
 	build_path = /obj/item/weapon/circuitboard/ore_redemption
 	category = list ("Misc. Machinery")
 
+/datum/design/recharger
+	name = "Machine Design (Weapon Recharger Board)"
+	desc = "The circuit board for a Weapon Recharger."
+	id = "recharger"
+	req_tech = list("powerstorage" = 3, "engineering" = 3, "materials" = 4)
+	build_type = IMPRINTER
+	materials = list(MAT_GLASS = 1000, "sacid" = 20, MAT_GOLD = 100)
+	build_path = /obj/item/weapon/circuitboard/recharger
+	category = list("Misc. Machinery")
 
 /datum/design/mining_equipment_vendor
 	name = "Machine Design (Mining Rewards Vender Board)"
@@ -431,4 +440,24 @@
 	build_type = IMPRINTER
 	materials = list(MAT_GLASS = 1000, "sacid" = 20)
 	build_path = /obj/item/weapon/circuitboard/mining_equipment_vendor
+	category = list ("Misc. Machinery")
+
+/datum/design/tesla_coil
+	name = "Machine Design (Tesla Coil Board)"
+	desc = "The circuit board for a tesla coil."
+	id = "tesla_coil"
+	req_tech = list("programming" = 1)
+	build_type = IMPRINTER
+	materials = list(MAT_GLASS = 1000, "sacid" = 20)
+	build_path = /obj/item/weapon/circuitboard/tesla_coil
+	category = list ("Misc. Machinery")
+
+/datum/design/grounding_rod
+	name = "Machine Design (Grounding Rod Board)"
+	desc = "The circuit board for a grounding rod."
+	id = "grounding_rod"
+	req_tech = list("programming" = 1)
+	build_type = IMPRINTER
+	materials = list(MAT_GLASS = 1000, "sacid" = 20)
+	build_path = /obj/item/weapon/circuitboard/grounding_rod
 	category = list ("Misc. Machinery")

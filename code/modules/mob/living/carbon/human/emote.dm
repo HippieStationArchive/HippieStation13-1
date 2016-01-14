@@ -82,6 +82,13 @@
 					m_type = 2
 
 		if ("custom")
+			if(jobban_isbanned(src, "emote"))
+				src << "You cannot send custom emotes (banned)"
+				return
+			if(src.client)
+				if(client.prefs.muted & MUTE_IC)
+					src << "You cannot send IC messages (muted)."
+					return
 			var/input = copytext(sanitize(input("Choose an emote to display.") as text|null),1,MAX_MESSAGE_LEN)
 			if (!input)
 				return
@@ -188,8 +195,7 @@
 						O.loc = get_turf(src)
 						B.contents -= O
 						B.stored -= O.itemstorevalue
-					src.internal_organs -= B
-					src.contents -= B
+					B.Remove(src)
 					B.loc = get_turf(src)
 					new /obj/effect/decal/cleanable/blood(src.loc)
 					src.nutrition -= rand(15, 30)
@@ -288,6 +294,9 @@
 
 		if ("me")
 			if(silent)
+				return
+			if(jobban_isbanned(src, "emote"))
+				src << "You cannot send custom emotes (banned)"
 				return
 			if (src.client)
 				if (client.prefs.muted & MUTE_IC)
@@ -460,6 +469,7 @@
 			if(B.loose)
 				src << "\red Your butt's too loose to superfart!"
 				return
+			B.loose = 1 // to avoid spamsuperfart
 			var/fart_type = 1 //Put this outside probability check just in case. There were cases where superfart did a normal fart.
 			if(prob(76)) // 76%     1: ASSBLAST  2:SUPERNOVA  3: FARTFLY
 				fart_type = 1
@@ -508,8 +518,9 @@
 								break
 						O.throw_at(target,range,O.throw_speed)
 						O.assthrown = 0 // so you can't just unembed it and throw it for insta embeds
-				src.internal_organs -= B
+				B.Remove(src)
 				B.loc = get_turf(src)
+				if(B.loose) B.loose = 0
 				new /obj/effect/decal/cleanable/blood(src.loc)
 				src.nutrition -= 500
 				switch(fart_type)
@@ -517,8 +528,8 @@
 						for(var/mob/living/M in range(0))
 							if(M != src)
 								visible_message("\red <b>[src]</b>'s ass blasts <b>[M]</b> in the face!", "\red You ass blast <b>[M]</b>!")
-								M.apply_damage(75,"brute","head")
-								add_logs(src, M, "superfarted on", object=null, addition=" (DAMAGE DEALT: 75)")
+								M.apply_damage(50,"brute","head")
+								add_logs(src, M, "superfarted on", object=null, addition=" (DAMAGE DEALT: 50)")
 
 						visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
 

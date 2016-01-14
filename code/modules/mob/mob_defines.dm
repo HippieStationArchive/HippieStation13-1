@@ -48,6 +48,7 @@
 	var/ear_damage = 0		//Carbon
 	var/stuttering = null	//Carbon
 	var/slurring = 0		//Carbon
+	var/lisp = 0			//Carbon
 	var/real_name = null
 	var/bhunger = 0			//Carbon
 	var/ajourn = 0
@@ -55,6 +56,7 @@
 	var/confused = 0		//Carbon
 	var/sleeping = 0		//Carbon
 	var/resting = 0			//Carbon
+	var/silent = 0			//Carbon
 	var/lying = 0
 	var/lying_prev = 0
 	var/canmove = 1
@@ -138,8 +140,7 @@
 
 	var/area/lastarea = null
 
-	var/digitalcamo = 0 // Can they be tracked by the AI?
-	var/digitalinvis = 0 //Are they ivisible to the AI?
+	var/digitalcamo = 0 // Can they be tracked by the AI? And are they invisible?
 	var/image/digitaldisguise = null  //what does the AI see instead of them?
 
 	var/weakeyes = 0 //Are they vulnerable to flashes?
@@ -159,3 +160,6 @@
 	var/resize = 1 //Badminnery resize
 
 	var/nearcrit = 0 //for newcrit
+	var/crit_can_crawl = 0 //whether or not the mob can crawl in crit
+	var/crit_crawl_damage = 0 //No damage by default
+	var/crit_crawl_damage_type = OXY

@@ -104,6 +104,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["chat_toggles"]		>> chat_toggles
 	S["toggles"]			>> toggles
 	S["ghost_form"]			>> ghost_form
+	S["ghost_orbit"]		>> ghost_orbit
+	S["nanoui_fancy"]		>> nanoui_fancy
 
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
@@ -113,10 +115,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	ooccolor		= sanitize_ooccolor(sanitize_hexcolor(ooccolor, 6, 1, initial(ooccolor)))
 	lastchangelog	= sanitize_text(lastchangelog, initial(lastchangelog))
 	UI_style		= sanitize_inlist(UI_style, list("Midnight", "Plasmafire", "Retro"), initial(UI_style))
+	nanoui_fancy	= sanitize_integer(nanoui_fancy, 0, 1, initial(nanoui_fancy))
 	be_special		= sanitize_integer(be_special, 0, 65535, initial(be_special))
 	default_slot	= sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
 	toggles			= sanitize_integer(toggles, 0, 65535, initial(toggles))
 	ghost_form		= sanitize_inlist(ghost_form, ghost_forms, initial(ghost_form))
+	ghost_orbit 	= sanitize_inlist(ghost_orbit, ghost_orbits, initial(ghost_orbit))
 
 	return 1
 
@@ -132,11 +136,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["ooccolor"]			<< ooccolor
 	S["lastchangelog"]		<< lastchangelog
 	S["UI_style"]			<< UI_style
+	S["nanoui_fancy"]		<< nanoui_fancy
 	S["be_special"]			<< be_special
 	S["default_slot"]		<< default_slot
 	S["toggles"]			<< toggles
 	S["chat_toggles"]		<< chat_toggles
 	S["ghost_form"]			<< ghost_form
+	S["ghost_orbit"]		<< ghost_orbit
 
 	return 1
 
@@ -193,6 +199,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_lizard_frills"]			>> features["frills"]
 	S["feature_lizard_spines"]			>> features["spines"]
 	S["feature_lizard_body_markings"]	>> features["body_markings"]
+	S["feature_moth_wings"]				>> features["wing"]
 	if(!config.mutant_humans)
 		features["tail_human"] = "none"
 		features["ears"] = "none"
@@ -259,6 +266,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["frills"] 	= sanitize_inlist(features["frills"], frills_list)
 	features["spines"] 	= sanitize_inlist(features["spines"], spines_list)
 	features["body_markings"] 	= sanitize_inlist(features["body_markings"], body_markings_list)
+	features["wing"] 	= sanitize_inlist(features["wing"], wing_list)
 
 	userandomjob	= sanitize_integer(userandomjob, 0, 1, initial(userandomjob))
 	job_civilian_high = sanitize_integer(job_civilian_high, 0, 65535, initial(job_civilian_high))
@@ -308,6 +316,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_lizard_frills"]			<< features["frills"]
 	S["feature_lizard_spines"]			<< features["spines"]
 	S["feature_lizard_body_markings"]	<< features["body_markings"]
+	S["feature_moth_wings"]				<< features["wing"]
 	S["clown_name"]			<< custom_names["clown"]
 	S["mime_name"]			<< custom_names["mime"]
 	S["ai_name"]			<< custom_names["ai"]

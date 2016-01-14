@@ -133,8 +133,8 @@
 	if(!action_checks(target) || get_dist(chassis, target)>3)
 		return
 
-	if(istype(target, /obj/structure/reagent_dispensers/watertank) && get_dist(chassis,target) <= 1)
-		var/obj/structure/reagent_dispensers/watertank/WT = target
+	if(istype(target, /obj/structure/reagent_dispensers) && get_dist(chassis,target) <= 1)
+		var/obj/structure/reagent_dispensers/WT = target
 		WT.reagents.trans_to(src, 1000)
 		occupant_message("<span class='notice'>Extinguisher refilled.</span>")
 		playsound(chassis, 'sound/effects/refill.ogg', 50, 1, -6)
@@ -149,7 +149,7 @@
 			var/list/the_targets = list(T,T1,T2)
 			spawn(0)
 				for(var/a=0, a<5, a++)
-					var/obj/effect/effect/water/W = PoolOrNew(/obj/effect/effect/water, get_turf(chassis))
+					var/obj/effect/particle_effect/water/W = PoolOrNew(/obj/effect/particle_effect/water, get_turf(chassis))
 					if(!W)
 						return
 					var/turf/my_target = pick(the_targets)

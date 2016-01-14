@@ -240,7 +240,7 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	                /obj/item/device/camera,
 	                /obj/item/device/taperecorder,
 	                /obj/item/toy/crayon/white,
-	                /obj/item/clothing/head/det_hat)
+	                /obj/item/clothing/head/fedora/detective)
 	cost = 20
 	containername ="forensics crate"
 
@@ -253,20 +253,15 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 
 ///// Armor: Specialist
 
-/datum/supply_packs/security/armory/riothelmets
-	name = "Riot Helmets Crate"
-	contains = list(/obj/item/clothing/head/helmet/riot,
-					/obj/item/clothing/head/helmet/riot,
-					/obj/item/clothing/head/helmet/riot)
-	cost = 15
-	containername = "riot helmets crate"
-
-/datum/supply_packs/security/armory/riotarmor
+/datum/supply_packs/security/armory/riot //why seperate them
 	name = "Riot Armor Crate"
 	contains = list(/obj/item/clothing/suit/armor/riot,
 					/obj/item/clothing/suit/armor/riot,
-					/obj/item/clothing/suit/armor/riot)
-	cost = 15
+					/obj/item/clothing/suit/armor/riot,
+					/obj/item/clothing/head/helmet/riot,
+					/obj/item/clothing/head/helmet/riot,
+					/obj/item/clothing/head/helmet/riot)
+	cost = 25
 	containername = "riot armor crate"
 
 /datum/supply_packs/security/armory/riotshields
@@ -292,6 +287,19 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	cost = 20
 	containertype = /obj/structure/closet/crate/secure/plasma
 	containername = "ablative armor crate"
+
+/datum/supply_packs/security/armory/knight //why seperate them
+	name = "Knight Armor Crate"
+	contains = list(/obj/item/clothing/suit/armor/riot/knight,
+					/obj/item/clothing/suit/armor/riot/knight/red,
+					/obj/item/clothing/suit/armor/riot/knight/yellow,
+					/obj/item/clothing/suit/armor/riot/knight/blue,
+					/obj/item/clothing/head/helmet/knight,
+					/obj/item/clothing/head/helmet/knight/red,
+					/obj/item/clothing/head/helmet/knight/yellow,
+					/obj/item/clothing/head/helmet/knight/blue)
+	cost = 35
+	containername = "knight armor crate"
 
 /////// Weapons: Specialist
 
@@ -826,6 +834,12 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	containertype = /obj/structure/closet/critter/corgi
 	contains = list(/obj/item/clothing/tie/petcollar)
 	containername = "corgi crate"
+
+/datum/supply_packs/organic/memedog
+	name = "Strange Dog Crate"
+	cost = 20
+	containertype = /obj/structure/closet/critter/memedog
+	containername = "Strange Dog Crate"
 
 /datum/supply_packs/organic/cat
 	name = "Cat Crate"

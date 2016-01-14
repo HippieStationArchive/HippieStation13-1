@@ -73,6 +73,9 @@
 
 /obj/item/weapon/paper/examine(mob/user)
 	..()
+	var/datum/asset/assets = get_asset_datum(/datum/asset/simple/paper)
+	assets.send(user)
+
 	if(istype(src, /obj/item/weapon/paper/talisman)) //Talismans cannot be read
 		if(!iscultist(user) && !user.stat)
 			user << "<span class='danger'>There are indecipherable images scrawled on the paper in what looks to be... <i>blood?</i></span>"
@@ -378,6 +381,10 @@
 /obj/item/weapon/paper/Court
 	name = "paper- 'Judgement'"
 	info = "For crimes against the station, the offender is sentenced to:<BR>\n<BR>\n"
+
+/obj/item/weapon/paper/pmc_contract
+	name = "paper- 'ION PMC Contract'"
+	info = "<B>ION, Incorporated, hereafter referred to as the COMPANY, and the CONTRACTOR agree to enter into a new formal arrangement commencing on the TWENTY-FIRST (21) Day of the SEVENTH (7) Month of the year TWO THOUSAND FIVE-HUNDRED AND FIFTY-FIVE (2555), hereafter referred to as the OPERATION. <BR> The CONTRACTOR agrees that the rules of engagement hereafter referred to as the ROE (Expounded in detail in Annex II) fall under the remit of the UCMH. Furthermore, the OPERATION stipulates NO UNAUTHORIZED USE OF DEADLY FORCE unless fired upon. <BR> The COMPANY reserves the right to extend or narrow the scope of the UCMJ (Uniform Code of Military Justice) are to be detailed and countersigned in future addenda to this contract. <BR> Agile changes to the ROE are authorized under tactical COMPANY supervision. <BR> The CONTRACTOR agrees to the full liability of any and all deviations from the ROE within the OPERATION AOR nonwithstanding CLIENT or COMPANY contractual addenda. <BR> <BR> --ION <B>"
 
 /obj/item/weapon/paper/Toxin
 	name = "paper- 'Chemical Information'"

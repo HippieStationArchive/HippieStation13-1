@@ -169,6 +169,12 @@
 	item_color = "cloud"
 	can_adjust = 0
 
+/obj/item/clothing/under/gimmick/ass
+	name = "ASS Jumpsuit"
+	desc = "Assault System Specialist Combat Heavy Enhanced Energetic Kenitic Suit."
+	icon_state = "black"
+	item_color = "black"
+
 /obj/item/clothing/under/gimmick/rank/captain/suit
 	name = "captain's suit"
 	desc = "A green suit and yellow necktie. Exemplifies authority."
@@ -308,6 +314,17 @@
 	item_state = "pirate"
 	item_color = "pirate"
 	can_adjust = 0
+
+/obj/item/clothing/under/pmc
+	name = "urban-camouflage fatigues"
+	desc = "A set of fatigues in a dark urban camouflage. Manufactured by Ion Incorporated for its private military contractors in need of a robust uniform."
+	icon_state = "pmc"
+	item_state = "black"
+	item_color = "pmc"
+	has_sensor = 0
+	can_adjust = 0
+	armor = list(melee = 10, bullet = 5, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	unacidable = 1
 
 /obj/item/clothing/under/soviet
 	name = "soviet uniform"
@@ -500,4 +517,36 @@
 	desc = "A jolly dress, well suited to entertain your master, nuncle."
 	icon_state = "jester"
 	item_color = "jester"
+	can_adjust = 0
+
+/obj/item/clothing/under/odgreen
+	name = "olive drab suit"
+	desc = "Olive Drab. Commonly known as OD. A single-color battle uniform for general infantry use. Does not provide much camouflage."
+	icon_state = "odgreensuit"
+	item_state = "odgreensuit"
+	item_color = "odgreensuit"
+	can_adjust = 0
+	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+
+/obj/item/clothing/under/tracksuit
+	name = "track suit"
+	desc = "A particularly slavish tracksuit."
+	icon_state = "tracksuit"
+	item_state = "tracksuit"
+	item_color = "tracksuit"
+
+/obj/item/clothing/under/zootsuit
+	name = "zoot suit"
+	desc = "A snazzy purple zoot suit. The name 'Big Papa' is stitched on the inside of the collar."
+	icon_state = "zootsuit"
+	item_state = "zootsuit"
+	item_color = "zootsuit"
+	can_adjust = 0
+
+/obj/item/clothing/under/telvis
+	name = "snazzy jumpsuit"
+	desc = "A swingin' white jumpsuit studded with rhinestones. The name 'Telvis' is stitched on the inside of the collar."
+	icon_state = "telvis"
+	item_state = "telvis"
+	item_color = "telvis"
 	can_adjust = 0

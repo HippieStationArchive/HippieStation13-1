@@ -7,17 +7,25 @@
 	icon_state = "dshotgun-sawn"
 	item_state = "gun"
 	mag_type = /obj/item/ammo_box/magazine/internal/grenadelauncher
-	fire_sound = 'sound/weapons/grenadelaunch.ogg'
+	fire_sound = 'sound/weapons/grenadelauncher.ogg'
 	w_class = 3
-	pin = /obj/item/device/firing_pin/implant/pindicate
-
-/obj/item/weapon/gun/projectile/revolver/grenadelauncher/unrestricted
-	pin = /obj/item/device/firing_pin
 
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/attackby(obj/item/A, mob/user, params)
 	..()
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
 		chamber_round()
+
+/obj/item/weapon/gun/projectile/revolver/grenadelauncher/mgl
+	name = "Strider MGL"
+	desc = "An Aussec Armory-produced Multi-Grenade-Launcher. Can hold six 40mm grenades for maximum firepower."
+	icon_state = "mgl"
+	item_state = "riotgun"
+	origin_tech = "combat=5"
+	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/grenademulti
+	fire_sound = 'sound/weapons/grenadelauncher.ogg'
+	w_class = 3
+	slowdown = 1
+	pin = /obj/item/device/firing_pin/generic
 
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/cyborg
 	desc = "A 6-shot grenade launcher."
@@ -34,7 +42,7 @@
 	name = "\improper Gyrojet rocket pistol"
 	desc = "A prototype pistol designed to fire self propelled rockets."
 	icon_state = "gyropistol"
-	fire_sound = 'sound/weapons/grenadelaunch.ogg'
+	fire_sound = 'sound/weapons/grenadelauncher.ogg'
 	origin_tech = "combat=3"
 	mag_type = /obj/item/ammo_box/magazine/m75
 	burst_size = 1
@@ -63,6 +71,9 @@
 	fire_delay = 0
 	select = 0
 	action_button_name = null
+	mag_load_sound = null
+	mag_unload_sound = null
+	chamber_sound = null
 
 /obj/item/weapon/gun/projectile/automatic/speargun/update_icon()
 	return

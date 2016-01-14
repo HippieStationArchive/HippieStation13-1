@@ -106,7 +106,11 @@
 	if(M.environment_smash >= 2)
 		playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
 		M << "<span class='notice'>You smash through the wall.</span>"
-		dismantle_wall(1)
+		if(istype(M, /mob/living/simple_animal/construct))
+			ChangeTurf(/turf/simulated/floor/plasteel/cult)
+			icon_state = "cult"
+		else
+			dismantle_wall(1)
 		return
 
 /turf/simulated/wall/attack_hulk(mob/user)
@@ -178,7 +182,7 @@
 		if( WT.remove_fuel(0,user) )
 			user << "<span class='notice'>You begin slicing through the outer plating...</span>"
 			playsound(src, 'sound/items/Welder.ogg', 100, 1)
-			if(do_after(user, slicing_duration, target = src))
+			if(do_after(user, slicing_duration/W.toolspeed, target = src))
 				if( !istype(src, /turf/simulated/wall) || !user || !WT || !WT.isOn() || !T )
 					return 1
 				if( user.loc == T && user.get_active_hand() == WT )
@@ -189,6 +193,17 @@
 		user << "<span class='notice'>You begin slicing through the outer plating...</span>"
 		playsound(src, 'sound/items/Welder.ogg', 100, 1)
 		if(do_after(user, slicing_duration*0.6, target = src))  // plasma cutter is faster than welding tool
+			if( !istype(src, /turf/simulated/wall) || !user || !W || !T )
+				return 1
+			if( user.loc == T && user.get_active_hand() == W )
+				user << "<span class='notice'>You remove the outer plating.</span>"
+				dismantle_wall()
+				visible_message("The wall was sliced apart by [user]!", "<span class='italics'>You hear metal being sliced apart.</span>")
+				return 1
+	else if(istype(W, /obj/item/weapon/melee/energy/sword))
+		user << "<span class='notice'>You begin slicing through the outer plating...</span>"
+		playsound(src, 'sound/items/Welder.ogg', 100, 1)
+		if(do_after(user, slicing_duration*0.7, target = src))
 			if( !istype(src, /turf/simulated/wall) || !user || !W || !T )
 				return 1
 			if( user.loc == T && user.get_active_hand() == W )

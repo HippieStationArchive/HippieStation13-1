@@ -24,8 +24,8 @@
 	var/wielded = 0
 	var/force_unwielded = 0
 	var/force_wielded = 0
-	var/wieldsound = null
-	var/unwieldsound = null
+	var/wieldsound = 'sound/weapons/raise.ogg'
+	var/unwieldsound = 'sound/weapons/raise.ogg'
 
 /obj/item/weapon/twohanded/proc/unwield(mob/living/carbon/user)
 	if(!wielded || !user) return
@@ -110,13 +110,16 @@
 /obj/item/weapon/twohanded/offhand/wield()
 	qdel(src)
 
-/obj/item/weapon/twohanded/offhand/IsShield()//if the actual twohanded weapon is a shield, we count as a shield too!
+/obj/item/weapon/twohanded/offhand/hit_reaction()//if the actual twohanded weapon is a shield, we count as a shield too!
 	var/mob/user = loc
-	if(!istype(user)) return 0
+	if(!istype(user))
+		return 0
 	var/obj/item/I = user.get_active_hand()
-	if(I == src) I = user.get_inactive_hand()
-	if(!I) return 0
-	return I.IsShield()
+	if(I == src)
+		I = user.get_inactive_hand()
+	if(!I)
+		return 0
+	return I.hit_reaction()
 
 ///////////Two hand required objects///////////////
 //This is for objects that require two hands to even pick up
@@ -208,6 +211,7 @@
 	origin_tech = "magnets=3;syndicate=4"
 	item_color = "green"
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	block_chance = 50
 	var/hacked = 0
 
 /obj/item/weapon/twohanded/dualsaber/New()
@@ -239,11 +243,10 @@
 	else
 		user.adjustStaminaLoss(25)
 
-/obj/item/weapon/twohanded/dualsaber/IsShield()
+/obj/item/weapon/twohanded/dualsaber/hit_reaction(mob/living/carbon/human/owner, attack_text, final_block_chance)
 	if(wielded)
-		return 1
-	else
-		return 0
+		return ..()
+	return 0
 
 /obj/item/weapon/twohanded/dualsaber/attack_hulk(mob/living/carbon/human/user)  //In case thats just so happens that it is still activated on the groud, prevents hulk from picking it up
 	if(wielded)
@@ -351,7 +354,7 @@
 /obj/item/weapon/twohanded/chainsaw/attack(mob/target as mob, mob/living/user as mob)
 	if(wielded)
 		//incredibly loud; you ain't goin' for stealth with this thing. Credit goes to where Hotline Miami 2 got the chainsaw sounds from.
-		playsound(loc, pick('sound/weapons/chainsawAttack1.ogg', 'sound/weapons/chainsawAttack2.ogg', 'sound/weapons/chainsawAttack3.ogg'), 80, 1, 2)
+		hitsound = list('sound/weapons/chainsawAttack1.ogg', 'sound/weapons/chainsawAttack2.ogg', 'sound/weapons/chainsawAttack3.ogg')
 		if(isrobot(target))
 			..()
 			return
@@ -363,11 +366,10 @@
 			user.changeNext_move(CLICK_CD_MELEE * 2) //As a balance measure it's not as spammable as other weapons.
 		return
 	else
-		playsound(loc, "swing_hit", 50, 1, -1)
+		hitsound = "swing_hit"
 		return ..()
 
-/obj/item/weapon/twohanded/chainsaw/IsShield() //Disarming someone with a chainsaw should be difficult.
+/obj/item/weapon/twohanded/chainsaw/hit_reaction(mob/living/carbon/human/owner, attack_text, final_block_chance) //Disarming someone with a chainsaw should be difficult.
 	if(wielded)
-		return 1
-	else
-		return 0
+		return ..()
+	return 0

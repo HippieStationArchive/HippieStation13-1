@@ -211,3 +211,49 @@
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 200
 	category = CAT_WEAPON
+
+/datum/table_recipe/spikebat
+	name = "Spiked Baseball Bat"
+	result = /obj/item/weapon/baseballbat/spike
+	reqs = list(/obj/item/weapon/baseballbat/wood = 1,
+				/obj/item/stack/rods = 4,)
+	time = 120
+	category = CAT_WEAPON
+
+/datum/table_recipe/garrote_handles //Still need to apply some wires to finish it
+	name = "Garrote Handles"
+	result = /obj/item/garrotehandles
+	tools = list(/obj/item/weapon/weldingtool)
+	reqs = list(/obj/item/stack/cable_coil = 15,
+				/obj/item/stack/rods = 1,)
+	time = 120
+	category = CAT_WEAPON
+
+/datum/table_recipe/paper_cartridge//for duh breechloadin ryefull
+	name = "Black Powder Cartridge"
+	result = /obj/item/ammo_casing/musket
+	tools = list(/obj/item/weapon/screwdriver)
+	reqs = list(/obj/item/ammo_casing/minieball = 1,
+				/obj/item/stack/ducttape = 2,
+				/obj/item/weapon/paper = 1,
+				/datum/reagent/blackpowder = 15)
+	time = 300
+	category = CAT_AMMO
+
+
+/datum/table_recipe/minieball //for paper cartridge craftin'
+	name = "Minieball"
+	result = /obj/item/ammo_casing/minieball
+	tools = list(/obj/item/weapon/weldingtool)
+	reqs = list(/obj/item/stack/sheet/metal = 2)
+	time = 120
+	category = CAT_WEAPON
+
+/datum/table_recipe/tooth_hatchet //For teeth hatchet
+	name = "Tooth hatchet"
+	result = /obj/item/weapon/hatchet/tooth
+	reqs = list(/obj/item/stack/rods = 1,
+				/obj/item/stack/cable_coil = 10,
+				/obj/item/stack/teeth = 3)
+	time = 80
+	category = CAT_WEAPON

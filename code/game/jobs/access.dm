@@ -80,6 +80,7 @@
 	//The Syndicate
 /var/const/access_syndicate = 150//General Syndicate Access
 /var/const/access_syndicate_leader = 151//Nuke Op Leader Access
+/var/const/access_syndicate_blastco = 152//For the equipment room
 
 /obj/var/list/req_access = null
 /obj/var/req_access_txt = "0"
@@ -93,6 +94,9 @@
 		return 1
 	if(istype(M, /mob/living/silicon))
 		//AI can do whatever he wants
+		return 1
+	if(IsAdminGhost(M))
+		//Access can't stop the abuse
 		return 1
 	else if(istype(M, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = M

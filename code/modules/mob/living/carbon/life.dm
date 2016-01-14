@@ -257,7 +257,7 @@
 
 		if(health <= config.health_threshold_crit)
 			nearcrit = 1
-			if(stat != DEAD)
+			if(stat != DEAD && !(status_flags & FAKEDEATH))
 				Weaken(3)
 				if(prob(15))
 					spawn(0)
@@ -358,6 +358,17 @@
 
 	if(slurring)
 		slurring = max(slurring-1,0)
+
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
+		if(O)
+			if(!O.teeth_list.len || O.get_teeth() <= 0)
+				lisp = 100 //No teeth = full lisp power
+			else
+				lisp = (1 - (O.get_teeth()/O.max_teeth)) * 100 //Less teeth = more lisp
+		else
+			lisp = 0 //No head = no lisp.
 
 	if(silent)
 		silent = max(silent-1, 0)

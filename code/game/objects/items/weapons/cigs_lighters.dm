@@ -116,6 +116,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/chem_volume = 30
 	heat = 1000
 	burn_state = 0
+	can_be_washed = 0
 
 /obj/item/clothing/mask/cigarette/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is huffing the [src.name] as quickly as they can! It looks like \he's trying to give \himself cancer.</span>")
@@ -125,7 +126,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	..()
 	flags |= NOREACT // so it doesn't react until you light it
 	create_reagents(chem_volume) // making the cigarette a chemical holder with a maximum volume of 15
-	reagents.add_reagent("nicotine", 15)
+	reagents.add_reagent("nicotine", 5)
 
 /obj/item/clothing/mask/cigarette/attackby(obj/item/weapon/W, mob/user, params)
 	..()
@@ -176,7 +177,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		damtype = "fire"
 		force = 4
 		if(reagents.get_reagent_amount("plasma")) // the plasma explodes when exposed to fire
-			var/datum/effect/effect/system/reagents_explosion/e = new()
+			var/datum/effect_system/reagents_explosion/e = new()
 			e.set_up(round(reagents.get_reagent_amount("plasma") / 2.5, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
@@ -185,7 +186,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			qdel(src)
 			return
 		if(reagents.get_reagent_amount("welding_fuel")) // the fuel explodes, too, but much less violently
-			var/datum/effect/effect/system/reagents_explosion/e = new()
+			var/datum/effect_system/reagents_explosion/e = new()
 			e.set_up(round(reagents.get_reagent_amount("welding_fuel") / 5, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
@@ -215,8 +216,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		if(iscarbon(loc))
 			var/mob/living/carbon/C = loc
 			if (src == C.wear_mask) // if it's in the human/monkey mouth, transfer reagents to the mob
-				if(prob(15)) // so it's not an instarape in case of acid
-					var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
+				if(prob(30)) // so it's not an instarape in case of acid
+					var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 5)
 					reagents.reaction(C, INGEST, fraction)
 				reagents.trans_to(C, REAGENTS_METABOLISM)
 				return
@@ -468,11 +469,15 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	slot_flags = SLOT_BELT
 	var/lit = 0
 	heat = 1500
+	var/sound_toggleON = 'sound/items/zippo_on.ogg'
+	var/sound_toggleOFF = 'sound/items/zippo_off.ogg'
 
 /obj/item/weapon/lighter/greyscale
 	name = "cheap lighter"
 	desc = "A cheap-as-free lighter."
 	icon_state = "lighter"
+	sound_toggleON = 'sound/items/lighter_on.ogg'
+	sound_toggleOFF = 'sound/items/lighter_off.ogg'
 
 /obj/item/weapon/lighter/greyscale/New()
 	var/image/I = image(icon,"lighter-overlay")
@@ -486,6 +491,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(user.r_hand == src || user.l_hand == src)
 		if(!lit)
 			lit = 1
+			playsound(src, sound_toggleON, 30, 1, -1)
 			update_icon()
 			force = 5
 			damtype = "fire"
@@ -505,6 +511,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			SSobj.processing |= src
 		else
 			lit = 0
+			playsound(src, sound_toggleOFF, 30, 1, -1)
 			update_icon()
 			hitsound = "swing_hit"
 			force = 0

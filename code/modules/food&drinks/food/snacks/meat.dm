@@ -73,6 +73,22 @@
 	icon_state = "lizardmeat"
 	desc = "Delicious dino damage"
 	filling_color = "#6B8E23"
+	name = "-lizard meat"
+	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/lizard
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
+	icon_state = "fishfillet"
+	desc = "Looks like chicken meat"
+	filling_color = "#3B2E43"
+	name = "-bird meat"
+	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/bird
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
+	icon_state = "IPCmeat"
+	desc = "Crunchy IPC meat"
+	filling_color = "#ffffff"
+	name = "-IPC meat"
+	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/robo
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/plant
 	icon_state = "plantmeat"
@@ -88,6 +104,11 @@
 	icon_state = "flymeat"
 	desc = "Nothing says tasty like maggot filled radioactive mutant flesh"
 	list_reagents = list("nutriment" = 3, "uranium" = 3)
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/moth
+	icon_state = "mothmeat"
+	desc = "How did they get enough meat from a moth?"
+	list_reagents = list("nutriment" = 3, "uranium" = 0.5)
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
 	name = "-bone"
@@ -113,8 +134,12 @@
 	desc = "For the refined fatman."
 	filling_color = "#61380B"
 
-
-
+/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
+	icon_state = "rottenmeat"
+	desc = "Aww, the kitty is playing dead."
+	filling_color = "#ff69b4"
+	name = "-cat meat"
+	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/cat
 
 
 ////////////////////////////////////// OTHER MEATS ////////////////////////////////////////////////////////
@@ -196,6 +221,22 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human
 
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/lizard
+	name = "lizard steak"
+	desc = "A piece of hot spicy lizard meat."
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/bird
+	name = "bird steak"
+	desc = "A piece of hot spicy bird meat."
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/robo
+	name = "robo steak"
+	desc = "A piece of hot spicy robo meat."
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human/mutant/cat
+	name = "cat steak"
+	desc = "A piece of hot spicy cat meat."
+
 /obj/item/weapon/reagent_containers/food/snacks/meat/steak/killertomato
 	name = "killer tomato steak"
 
@@ -207,6 +248,11 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/meat/steak/spider
 	name = "spider steak"
+
+/obj/item/weapon/reagent_containers/food/snacks/meat/steak/Tbone
+	name = "T-bone steak"
+	desc = "The bone seems a bit odd..."
+	bonus_reagents = list("nutriment" = 3, "vitamin" = 3)
 
 
 

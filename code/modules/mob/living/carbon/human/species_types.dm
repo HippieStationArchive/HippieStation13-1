@@ -11,6 +11,7 @@
 	mutant_bodyparts = list("tail_human", "ears")
 	default_features = list("mcolor" = "FFF", "tail_human" = "None", "ears" = "None")
 	use_skintones = 1
+	teeth_type = /obj/item/stack/teeth/human
 
 /datum/species/human/qualifies_for_rank(rank, list/features)
 	if(!config.mutant_humans) //No mutie scum here
@@ -66,6 +67,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	teeth_type = /obj/item/stack/teeth/lizard
 
 /datum/species/lizard/random_name(gender,unique,lastname)
 	if(unique)
@@ -95,6 +97,33 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	if(H)
 		H.endTailWag()
 
+//MOTH PEOPLE
+/datum/species/moth
+	// WHO THE FUCK?
+	name = "Mothmen"
+	id = "moth"
+	say_mod = "flutters"
+	default_color = "00FF00"
+	roundstart = 1
+	specflags = list(LIPS)
+	mutant_bodyparts = list("wing")
+	default_features = list("wing" = "Plain")
+	attack_verb = "slash"
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/moth
+	teeth_type = /obj/item/stack/teeth/lizard
+
+/datum/species/moth/random_name(gender,unique,lastname)
+	if(unique)
+		return random_unique_moth_name(gender)
+
+	var/randname = moth_name(gender)
+
+	return randname
+
+/datum/species/moth/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
 
 /datum/species/bird
 	// flappy bird
@@ -104,10 +133,10 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	default_color = "00FF00"
 	roundstart = 1
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
-	attack_verb = "claws"
+	attack_verb = "claw"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
 
 /datum/species/bird/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)
@@ -126,8 +155,9 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_verb = "slash"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
 	mutations_to_have = list(CLUMSY)
+	teeth_type = /obj/item/stack/teeth/cat
 
 /datum/species/cat/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)
@@ -156,7 +186,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_verb = "punch"
 	attack_sound = 'sound/weapons/smash.ogg'
 	miss_sound = 'sound/weapons/punchmiss.ogg'
-	meat = null
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
 
 /datum/species/bot/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)
@@ -219,10 +249,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	var/light_amount = 0 //how much light there is in the place, affects receiving nutrition and healing
 	if(isturf(H.loc)) //else, there's considered to be no light
 		var/turf/T = H.loc
-		var/area/A = T.loc
-		if(A)
-			if(A.lighting_use_dynamic)	light_amount = min(10,T.lighting_lumcount) - 5
-			else						light_amount =  5
+		light_amount = min(10,T.get_lumcount()) - 5
 		H.nutrition += light_amount
 		if(H.nutrition > NUTRITION_LEVEL_FULL)
 			H.nutrition = NUTRITION_LEVEL_FULL
@@ -253,10 +280,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	var/light_amount = 0
 	if(isturf(H.loc))
 		var/turf/T = H.loc
-		var/area/A = T.loc
-		if(A)
-			if(A.lighting_use_dynamic)	light_amount = T.lighting_lumcount
-			else						light_amount =  10
+		light_amount = T.get_lumcount()
 		if(light_amount > 2) //if there's enough light, start dying
 			H.take_overall_damage(1,1)
 		else if (light_amount < 2) //heal in the dark
@@ -599,7 +623,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	say_mod = "rattles"
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
-	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,PIERCEIMMUNE)
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE,VIRUSIMMUNE)
 	var/list/myspan = null
 
 /datum/species/skeleton/playable
@@ -620,6 +644,11 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 /datum/species/skeleton/get_spans()
 	return myspan
 
+/datum/species/skeleton/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
+
 /*
  ZOMBIES
 */
@@ -631,7 +660,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	say_mod = "moans"
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie
-	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE)
+	// specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE) //Overpowered, and simple_mobs set the species to this
 
 /datum/species/zombie/handle_speech(message)
 	var/list/message_list = text2list(message, " ")

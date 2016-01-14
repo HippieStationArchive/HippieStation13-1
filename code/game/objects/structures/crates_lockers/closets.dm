@@ -179,9 +179,11 @@
 /obj/structure/closet/attack_animal(mob/living/simple_animal/user)
 	if(user.environment_smash)
 		user.do_attack_animation(src)
+		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
 		visible_message("<span class='danger'>[user] destroys \the [src].</span>")
 		dump_contents()
 		qdel(src)
+	return
 
 /obj/structure/closet/blob_act()
 	if(prob(75))
@@ -210,7 +212,7 @@
 					return
 				user << "<span class='notice'>You begin cutting \the [src] apart...</span>"
 				playsound(loc, cutting_sound, 40, 1)
-				if(do_after(user,40,5,1, target = src))
+				if(do_after(user,40/W.toolspeed,5,1, target = src))
 					if( !opened || !istype(src, /obj/structure/closet) || !user || !WT || !WT.isOn() || !user.loc )
 						return
 					playsound(loc, cutting_sound, 50, 1)

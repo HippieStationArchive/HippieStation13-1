@@ -70,10 +70,10 @@
 	max_ammo = 40
 
 /obj/item/ammo_box/a40mm
-	name = "ammo box (40mm grenades)"
+	name = "ammo box (40mm HE grenades)"
 	icon_state = "40mm"
 	ammo_type = /obj/item/ammo_casing/a40mm
-	max_ammo = 4
+	max_ammo = 6
 	multiple_sprites = 1
 
 /obj/item/ammo_box/a762
@@ -94,3 +94,11 @@
 /obj/item/ammo_box/foambox/riot
 	icon_state = "foambox_riot"
 	ammo_type = /obj/item/ammo_casing/caseless/foam_dart/riot
+
+/obj/item/ammo_box/a762rubber
+	name = "ammo box (7.62mm)"
+	desc = "A box of rubber bullets."
+	icon_state = "762box"
+	ammo_type = /obj/item/ammo_casing/a762rubber
+	max_ammo = 5
+	multiple_sprites = 1

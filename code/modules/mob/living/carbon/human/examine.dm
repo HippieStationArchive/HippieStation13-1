@@ -249,12 +249,18 @@
 		msg += "You recognize Lilith's blessing. [t_He], like you, is a vampire.\n"
 
 	if(is_vampire(src) && src.mind && src.mind.vampire && src.mind.vampire.clean_blood <= 10) //If they're a vampire with less than 10 units of CLEAN blood, give a unique examine text
-		msg += "[t_He] has deathly pale. skin\n"
+		msg += "[t_He] has deathly pale skin.\n"
 
 	if(bleedsuppress)
 		msg += "[t_He] [t_is] bandaged with something.\n"
-	else if(blood_max)
-		msg += "<B>[t_He] [t_is] bleeding!</B>\n"
+	if(blood_max)
+		if(reagents.has_reagent("heparin"))
+			msg += "<b>[t_He] [t_is] bleeding uncontrollably!</b>\n"
+		else
+			msg += "<B>[t_He] [t_is] bleeding!</B>\n"
+
+	if(reagents.has_reagent("teslium"))
+		msg += "[t_He] is emitting a gentle blue glow!\n"
 
 	msg += "</span>"
 
@@ -274,11 +280,15 @@
 			else if(!client)
 				msg += "[t_He] [t_has] a vacant, braindead stare...\n"
 
-		if(digitalcamo)
-			msg += "[t_He] [t_is] moving [t_his] body in an unnatural and blatantly inhuman manner.\n"
+		// if(digitalcamo)
+		// 	msg += "[t_He] [t_is] moving [t_his] body in an unnatural and blatantly inhuman manner.\n"
 
 	if(!wear_mask && is_thrall(src) && in_range(user,src))
 		msg += "Their features seem unnaturally tight and drawn.\n"
+
+	var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in organs
+	if(O && O.get_teeth() < O.max_teeth)
+		msg += "[O.get_teeth() <= 0 ? "All" : "[O.max_teeth - O.get_teeth()]"] of [t_his] teeth are missing!\n"
 
 	if(istype(user, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user

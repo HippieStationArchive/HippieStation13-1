@@ -23,6 +23,8 @@
 	damage = 10
 	damage_type = BRUTE
 	nodamage = 0
+	legacy = 1 //No pixel travelling
+	animate_movement = SLIDE_STEPS //Reset movement to default
 
 /obj/item/projectile/magic/fireball/Range()
 	var/mob/living/L = locate(/mob/living) in (range(src, 1) - firer)
@@ -62,6 +64,13 @@
 		else
 			target << "<span class='notice'>You rise with a start, you're alive!!!</span>"
 
+/obj/item/projectile/magic/pellet
+	name = "magic pellet"
+	icon_state = "moonslash"
+	damage = 15
+	damage_type = BRUTE
+	nodamage = 0
+
 /obj/item/projectile/magic/teleport
 	name = "bolt of teleportation"
 	icon_state = "bluespace"
@@ -81,7 +90,7 @@
 		if(!stuff.anchored && stuff.loc)
 			teleammount++
 			do_teleport(stuff, stuff, 10)
-			var/datum/effect/effect/system/smoke_spread/smoke = new
+			var/datum/effect_system/smoke_spread/smoke = new
 			smoke.set_up(max(round(4 - teleammount),0), stuff.loc) //Smoke drops off if a lot of stuff is moved for the sake of sanity
 			smoke.start()
 
@@ -91,6 +100,9 @@
 	damage = 0
 	damage_type = OXY
 	nodamage = 1
+	var/list/door_types = list(/obj/structure/mineral_door/wood,/obj/structure/mineral_door/iron,/obj/structure/mineral_door/silver,\
+		/obj/structure/mineral_door/gold,/obj/structure/mineral_door/uranium,/obj/structure/mineral_door/sandstone,/obj/structure/mineral_door/transparent/plasma,\
+		/obj/structure/mineral_door/transparent/diamond)
 
 /obj/item/projectile/magic/door/on_hit(atom/target)
 	. = ..()
@@ -101,7 +113,8 @@
 		CreateDoor(T)
 
 /obj/item/projectile/magic/door/proc/CreateDoor(turf/T)
-	new /obj/structure/mineral_door/wood(T)
+	var/door_type = pick(door_types)
+	new door_type(T)
 	T.ChangeTurf(/turf/simulated/floor/plating)
 
 

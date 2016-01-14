@@ -62,6 +62,7 @@ for reference:
 	density = 1
 	var/health = 100
 	var/maxhealth = 100
+	burn_state = 0 //Burnable
 
 /obj/structure/barricade/wooden/attack_animal(mob/living/simple_animal/M)
 	M.changeNext_move(CLICK_CD_MELEE)
@@ -91,15 +92,25 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 				health = maxhealth
 				W:use(1)
 				visible_message("[user] repairs \the [src]!", "<span class='notice'>You repair \the [src].</span>")
+				return
+	if(istype(W, /obj/item/weapon/hatchet) && user.a_intent == "help")
+		if(health == maxhealth)
+			user << "You begin to carve a hole for a window"
+			if(do_after(user,60/W.toolspeed, target = src))
+				if(!src.loc)
+					return
+				visible_message("<span class='notice'>[user] carves a frame out of [src].</span>","<span class ='notice'>You carve out a window frame from [src].</span>")
+				new /obj/item/stack/sheet/mineral/wood(get_turf(user))
+				new /obj/item/stack/sheet/mineral/wood(get_turf(user))
+				new /obj/structure/barricade/wooden/windowframe(get_turf(src))
+				qdel(src)
+				return
+		else
+			return
 	else
-		..()
-		var/damage = 0
-		switch(W.damtype)
-			if("fire")
-				damage = W.force * 1
-			if("brute")
-				damage = W.force * 0.75
-		take_damage(damage)
+		user.changeNext_move(CLICK_CD_MELEE)
+		visible_message("<span class='warning'>[user] hits [src] with [W]!</span>", "<span class='warning'>You hit [src] with [W]!</span>")
+		take_damage(W.force)
 
 /obj/structure/barricade/wooden/ex_act(severity, target)
 	switch(severity)
@@ -167,7 +178,7 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 					user << "Barrier lock toggled off."
 					return
 			else
-				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 				s.set_up(2, 1, src)
 				s.start()
 				visible_message("<span class='danger'>BZZzZZzZZzZT</span>")
@@ -187,21 +198,16 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 			return
 		return
 	else
-		..()
-		var/damage = 0
-		switch(W.damtype)
-			if("fire")
-				damage = W.force * 0.75
-			if("brute")
-				damage = W.force * 0.5
-		take_damage(damage)
+		user.changeNext_move(CLICK_CD_MELEE)
+		visible_message("<span class='warning'>[user] hits [src] with [W]!</span>", "<span class='warning'>You hit [src] with [W]!</span>")
+		take_damage(W.force)
 
 /obj/machinery/deployable/emag_act(mob/user)
 	if (src.emagged == 0)
 		src.emagged = 1
 		src.req_access = null
 		user << "<span class='notice'>You break the ID authentication lock on \the [src].</span>"
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(2, 1, src)
 		s.start()
 		visible_message("<span class='danger'>BZZzZZzZZzZT</span>")
@@ -209,7 +215,7 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 	else if (src.emagged == 1)
 		src.emagged = 2
 		user << "<span class='notice'>You short out the anchoring mechanism on \the [src].</span>"
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(2, 1, src)
 		s.start()
 		visible_message("<span class='danger'>BZZzZZzZZzZT</span>")
@@ -238,9 +244,14 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 /obj/machinery/deployable/barrier/CanPass(atom/movable/mover, turf/target, height=0)//So bullets will fly over and stuff.
 	if(height==0)
 		return 1
-	if(istype(mover) && mover.checkpass(PASSTABLE))
-		return 1
-	else
+	if(istype(mover, /obj/item/projectile))
+		if(!anchored)
+			return 1
+		var/obj/item/projectile/proj = mover
+		if(proj.firer && Adjacent(proj.firer))
+			return 1
+		if(prob(20))
+			return 1
 		return 0
 
 /obj/machinery/deployable/barrier/proc/explode()
@@ -251,7 +262,7 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 /*	var/obj/item/stack/rods/ =*/
 	new /obj/item/stack/rods(Tsec)
 
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
 

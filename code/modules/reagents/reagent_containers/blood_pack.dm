@@ -3,8 +3,8 @@
 	desc = "Contains blood used for transfusion. Must be attached to an IV drip."
 	icon = 'icons/obj/bloodpack.dmi'
 	icon_state = "bloodpack"
-	volume = 200
-	flags = INJECTONLY
+	volume = 400
+	flags = OPENCONTAINER //you can fill a tank with 1000u of chems,not like you can empty bloodpacks without an IV anywhoo
 
 	var/blood_type = null
 
@@ -12,8 +12,18 @@
 	..()
 	if(blood_type != null)
 		name = "blood pack [blood_type]"
-		reagents.add_reagent("blood", 200, list("donor"=null,"viruses"=null,"blood_DNA"=null,"blood_type"=blood_type,"resistances"=null,"trace_chem"=null))
+		reagents.add_reagent("blood", 400, list("donor"=null,"viruses"=null,"blood_DNA"=null,"blood_type"=blood_type,"resistances"=null,"trace_chem"=null))
 		update_icon()
+
+/obj/item/weapon/reagent_containers/blood/attack_self(mob/user)
+	if(is_vampire(user) && reagents.has_reagent("blood"))
+		user.visible_message("<span class='warning'>[user] squeezes the contents of [src] into their mouth!</span>",\
+							 "<span class='danger'>You resign yourself to drinking the filthy blood from [src].</span>")
+		for(var/datum/reagent/R in reagents.reagent_list)
+			user.reagents.add_reagent(R.id, R.volume)
+			reagents.remove_reagent(R.id, R.volume)
+		return 1
+	..()
 
 /obj/item/weapon/reagent_containers/blood/on_reagent_change()
 	update_icon()
@@ -82,3 +92,18 @@
 	..()
 	update_icon()
 
+/obj/item/weapon/reagent_containers/blood/attackby(obj/item/I, mob/user, params)
+	if (istype(I, /obj/item/weapon/pen) || istype(I, /obj/item/toy/crayon))
+
+		var/t = stripped_input(user, "What would you like to label the blood pack?", name, null, 53)
+		if(!user.canUseTopic(src))
+			return
+		if(user.get_active_hand() != I)
+			return
+		if(!in_range(src, user) && loc != user)
+			return
+		if(t)
+			name = "blood pack - [t]"
+		else
+			name = "blood pack"
+		return

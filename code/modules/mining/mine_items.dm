@@ -74,6 +74,11 @@
 	origin_tech = "materials=1;engineering=1"
 	attack_verb = list("hit", "pierced", "sliced", "attacked")
 
+// /obj/item/weapon/pickaxe/suicide_act(mob/user)
+	//Edgy flavortext to-do
+	//"User slams down the head of the pickaxe into Victim's chest!" "You hear bones crunching!" "Victim screams!" "User pulls back the pickaxe, and Victim's heart is popped out, along with bits of bones and other viscera!"
+	// return(BRUTELOSS)
+
 /obj/item/weapon/pickaxe/proc/playDigSound()
 	playsound(src, pick(digsound),50,1)
 
@@ -170,8 +175,8 @@
 /obj/item/weapon/survivalcapsule
 	name = "bluespace shelter capsule"
 	desc = "An emergency shelter stored within a pocket of bluespace."
-	icon_state = "pill3"
-	icon = 'icons/obj/chemical.dmi'
+	icon_state = "capsule"
+	icon = 'icons/obj/mining.dmi'
 	w_class = 1
 	var/used = FALSE
 
@@ -181,7 +186,7 @@
 		used = TRUE
 		sleep(50)
 		playsound(get_turf(src), 'sound/effects/phasein.ogg', 100, 1)
-		PoolOrNew(/obj/effect/effect/smoke, src.loc)
+		PoolOrNew(/obj/effect/particle_effect/smoke, src.loc)
 		load()
 		qdel(src)
 

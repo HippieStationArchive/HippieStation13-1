@@ -23,6 +23,7 @@
 	projectile_type = /obj/item/projectile/rod
 
 /obj/item/projectile/rod/on_hit(atom/target, blocked = 0, hit_zone)
+	..()
 	if(ismob(target))
 		playsound(target, 'sound/weapons/rodgun_pierce.ogg', 50, 1)
 		if(ishuman(target))
@@ -46,6 +47,7 @@
 					H.update_canmove()
 					H.do_pindown(T, 1)
 					R.pinned = T
+			add_logs(firer, H, "shot", src, addition="[H.pinned_to?" PINNED":""]")
 	else
 		playsound(target, 'sound/weapons/pierce.ogg', 50, 1)
 
@@ -72,8 +74,7 @@
 	var/maxrods = 3
 //Info
 /obj/item/weapon/gun/rodgun/update_icon()
-	..()
-	overlays.Cut()
+	..() //overlays.Cut() is called in parent
 	if(rods > 0)
 		overlays += "rg_loaded"
 /obj/item/weapon/gun/rodgun/examine(mob/user)

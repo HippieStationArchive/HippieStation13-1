@@ -449,6 +449,35 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	message_admins("[key_name_admin(src)] has created a command report")
 	feedback_add_details("admin_verb","CCR") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+//Old code AHOY!
+/client/proc/cmd_admin_create_intercept_report()
+	var/scommand_name = null
+	set category = "Special Verbs"
+	set name = "Create Antag Intercept"
+	if(!holder)
+		src << "Only administrators may use this command."
+		return
+	var/input = input(usr, "Please enter anything you want. Anything. Serious.", "What?", "") as message|null
+	if(!input)
+		return
+	var/input1 = input("Message:", text("Organization making intercept")) as text
+	if(!input1)
+		return
+	scommand_name = input1
+
+	var/confirm = alert(src, "Do you want to announce the contents of the report to the crew?", "Announce", "Yes", "No")
+	if(confirm == "Yes")
+		priority_announce(input, scommand_name, 'sound/AI/intercept2.ogg', "Syndicate", scommand_name)
+	else
+		priority_announce("An enemy intercept has been downloaded and printed out at all communications consoles.", "Incoming Intercepted Message", 'sound/AI/intercept2.ogg')
+
+	print_command_report(input,"[confirm=="Yes" ? "" : "Classified "][scommand_name] Intercept")
+
+	log_admin("[key_name(src)] has created an enemy command report: [input]")
+	message_admins("[key_name_admin(src)] has created an enemy command report")
+	feedback_add_details("admin_verb","CIR") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+// Old code ends here
+
 /client/proc/cmd_admin_delete(atom/O as obj|mob|turf in world)
 	set category = "Admin"
 	set name = "Delete"
@@ -929,3 +958,22 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 	</form></body></html>
 	"}
 	usr << browse(dat, "window=dressup;size=550x600")
+
+/client/proc/toggle_antag_hud()
+	set category = "Admin"
+	set name = "Toggle AntagHUD"
+	set desc = "Toggles the Admin AntagHUD"
+
+	if(!holder) return
+
+	var/datum/atom_hud/magical = huds[ANTAG_HUD_WIZ]
+	var/adding_hud = (usr in magical.hudusers) ? 0 : 1
+
+	for(var/datum/atom_hud/H in huds)
+		if(istype(H, /datum/atom_hud/antag))
+			(adding_hud) ? H.add_hud_to(usr) : H.remove_hud_from(usr)
+
+	usr << "You toggled your admin antag HUD [adding_hud ? "ON" : "OFF"]."
+	message_admins("[key_name_admin(usr)] toggled their admin antag HUD [adding_hud ? "ON" : "OFF"].")
+	log_admin("[key_name(usr)] toggled their admin antag HUD [adding_hud ? "ON" : "OFF"].")
+	feedback_add_details("admin_verb","TAH") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!

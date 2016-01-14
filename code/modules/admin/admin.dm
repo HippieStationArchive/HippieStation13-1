@@ -47,6 +47,15 @@ var/global/floorIsLava = 0
 	body += "<A href='?_src_=holder;newban=\ref[M]'>Ban</A> | "
 	body += "<A href='?_src_=holder;jobban2=\ref[M]'>Jobban</A> | "
 	body += "<A href='?_src_=holder;appearanceban=\ref[M]'>Identity Ban</A> | "
+	if(jobban_isbanned(M, "OOC"))
+		body+= "<A href='?_src_=holder;jobban3=OOC;jobban4=\ref[M]'><font color=red>OOCBan</font></A> | "
+	else
+		body+= "<A href='?_src_=holder;jobban3=OOC;jobban4=\ref[M]'>OOCBan</A> | "
+	if(jobban_isbanned(M, "emote"))
+		body+= "<A href='?_src_=holder;jobban3=emote;jobban4=\ref[M]'><font color=red>EmoteBan</font></A> | "
+	else
+		body+= "<A href='?_src_=holder;jobban3=emote;jobban4=\ref[M]'>Emoteban</A> | "
+
 	body += "<A href='?_src_=holder;shownoteckey=[M.ckey]'>Notes</A> | "
 	if(M.client)
 		if(M.client.check_watchlist(M.client.ckey))
@@ -143,11 +152,11 @@ var/global/floorIsLava = 0
 			body += "<A href='?_src_=holder;simplemake=shade;mob=\ref[M]'>Shade</A>"
 			body += "<br>"
 
+	body += "<br><br>"
+	body += "<b>Other actions:</b>"
+	body += "<br>"
+	body += "<A href='?_src_=holder;forcespeech=\ref[M]'>Forcesay</A> | "
 	if (M.client)
-		body += "<br><br>"
-		body += "<b>Other actions:</b>"
-		body += "<br>"
-		body += "<A href='?_src_=holder;forcespeech=\ref[M]'>Forcesay</A> | "
 		body += "<A href='?_src_=holder;mentor=\ref[M]'>Make Mentor</A> | "
 		body += "<A href='?_src_=holder;removementor=\ref[M]'>Remove Mentor</A> | "
 		body += "<A href='?_src_=holder;tdome1=\ref[M]'>Thunderdome 1</A> | "
@@ -193,7 +202,7 @@ var/global/floorIsLava = 0
 			dat+="<BR><A href='?src=\ref[src];ac_menu_wanted=1'>[(wanted_already) ? ("Manage") : ("Publish")] \"Wanted\" Issue</A>"
 			dat+="<BR><A href='?src=\ref[src];ac_menu_censor_story=1'>Censor Feed Stories</A>"
 			dat+="<BR><A href='?src=\ref[src];ac_menu_censor_channel=1'>Mark Feed Channel with Nanotrasen D-Notice (disables and locks the channel.</A>"
-			dat+="<BR><HR><A href='?src=\ref[src];ac_set_signature=1'>The newscaster recognises you as:<BR> <FONT COLOR='green'>[src.admincaster_signature]</FONT></A>"
+			dat+="<BR><HR><A href='?src=\ref[src];ac_set_signature=1'>The newscaster recognises you as:<BR> <FONT COLOR='green'>[src.admin_signature]</FONT></A>"
 		if(1)
 			dat+= "Station Feed Channels<HR>"
 			if( isemptylist(news_network.network_channels) )
@@ -209,13 +218,13 @@ var/global/floorIsLava = 0
 		if(2)
 			dat+="Creating new Feed Channel..."
 			dat+="<HR><B><A href='?src=\ref[src];ac_set_channel_name=1'>Channel Name</A>:</B> [src.admincaster_feed_channel.channel_name]<BR>"
-			dat+="<B><A href='?src=\ref[src];ac_set_signature=1'>Channel Author</A>:</B> <FONT COLOR='green'>[src.admincaster_signature]</FONT><BR>"
+			dat+="<B><A href='?src=\ref[src];ac_set_signature=1'>Channel Author</A>:</B> <FONT COLOR='green'>[src.admin_signature]</FONT><BR>"
 			dat+="<B><A href='?src=\ref[src];ac_set_channel_lock=1'>Will Accept Public Feeds</A>:</B> [(src.admincaster_feed_channel.locked) ? ("NO") : ("YES")]<BR><BR>"
 			dat+="<BR><A href='?src=\ref[src];ac_submit_new_channel=1'>Submit</A><BR><BR><A href='?src=\ref[src];ac_setScreen=[0]'>Cancel</A><BR>"
 		if(3)
 			dat+="Creating new Feed Message..."
 			dat+="<HR><B><A href='?src=\ref[src];ac_set_channel_receiving=1'>Receiving Channel</A>:</B> [src.admincaster_feed_channel.channel_name]<BR>" //MARK
-			dat+="<B>Message Author:</B> <FONT COLOR='green'>[src.admincaster_signature]</FONT><BR>"
+			dat+="<B>Message Author:</B> <FONT COLOR='green'>[src.admin_signature]</FONT><BR>"
 			dat+="<B><A href='?src=\ref[src];ac_set_new_message=1'>Message Body</A>:</B> [src.admincaster_feed_message.returnBody(-1)] <BR>"
 			dat+="<BR><A href='?src=\ref[src];ac_submit_new_message=1'>Submit</A><BR><BR><A href='?src=\ref[src];ac_setScreen=[0]'>Cancel</A><BR>"
 		if(4)
@@ -331,7 +340,7 @@ var/global/floorIsLava = 0
 			if(wanted_already)
 				dat+="<B>Wanted Issue created by:</B><FONT COLOR='green'>[news_network.wanted_issue.scannedUser]</FONT><BR>"
 			else
-				dat+="<B>Wanted Issue will be created under prosecutor:</B><FONT COLOR='green'>[src.admincaster_signature]</FONT><BR>"
+				dat+="<B>Wanted Issue will be created under prosecutor:</B><FONT COLOR='green'>[src.admin_signature]</FONT><BR>"
 			dat+="<BR><A href='?src=\ref[src];ac_submit_wanted=[end_param]'>[(wanted_already) ? ("Edit Issue") : ("Submit")]</A>"
 			if(wanted_already)
 				dat+="<BR><A href='?src=\ref[src];ac_cancel_wanted=1'>Take down Issue</A>"

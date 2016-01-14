@@ -1,16 +1,14 @@
 	////////////
 	//SECURITY//
 	////////////
-#define UPLOAD_LIMIT		2097152	//Restricts client uploads to the server to 1MB //Could probably do with being lower.
+#define UPLOAD_LIMIT		2097152	//Restricts client uploads to the server to 2MB //Could probably do with being lower.
 #define MIN_CLIENT_VERSION	0		//Just an ambiguously low version for now, I don't want to suddenly stop people playing.
 									//I would just like the code ready should it ever need to be used.
 	/*
 	When somebody clicks a link in game, this Topic is called first.
 	It does the stuff in this proc and  then is redirected to the Topic() proc for the src=[0xWhatever]
 	(if specified in the link). ie locate(hsrc).Topic()
-
 	Such links can be spoofed.
-
 	Because of this certain things MUST be considered whenever adding a Topic() for something:
 		- Can it be fed harmful values which could cause runtimes?
 		- Is the Topic call an admin-only thing?
@@ -22,7 +20,19 @@
 /client/Topic(href, href_list, hsrc)
 	if(!usr || usr != mob)	//stops us calling Topic for somebody else's client. Also helps prevent usr=null
 		return
-
+	// NanoUI
+	if(href_list["nano_error"])
+		src << href_list["nano_error"]
+		throw EXCEPTION("NanoUI: [href_list["nano_error"]]")
+	if(href_list["nano_log"])
+		src << href_list["nano_log"]
+		return
+	// asset_cache
+	if(href_list["asset_cache_confirm_arrival"])
+		//src << "ASSET JOB [href_list["asset_cache_confirm_arrival"]] ARRIVED."
+		var/job = text2num(href_list["asset_cache_confirm_arrival"])
+		completed_asset_jobs += job
+		return
 	//Admin PM
 	if(href_list["priv_msg"])
 		if (href_list["ahelp_reply"])
@@ -47,6 +57,10 @@
 
 		return
 
+	if(href_list["nano_error"])
+		src << href_list["nano_error"]
+		throw EXCEPTION("NanoUI: [href_list["nano_error"]]")
+
 	//Logs all hrefs
 	if(config && config.log_hrefs && href_logfile)
 		href_logfile << "<small>[time2text(world.timeofday,"hh:mm")] [src] (usr:[usr])</small> || [hsrc ? "[hsrc] " : ""][href]<br>"
@@ -61,7 +75,7 @@
 
 /client/proc/is_content_unlocked()
 	if(!prefs.unlock_content)
-		src << "Become a BYOND member to access member-perks and features, as well as support the engine that makes this game possible. <a href='http://www.byond.com/membership'>Click Here to find out more</a>."
+		src << "Become a BYOND member to access member-perks and features, as well as support the engine that makes this game possible. Only 10 bucks for 3 months! <a href='http://www.byond.com/membership'>Click Here to find out more</a>."
 		return 0
 	return 1
 
@@ -108,7 +122,7 @@ var/next_external_rsc = 0
 
 	TopicData = null							//Prevent calls to client.Topic from connect
 
-	if(connection != "seeker")					//Invalid connection type.
+	if(connection != "seeker" && connection != "web")//Invalid connection type.
 		return null
 	if(byond_version < MIN_CLIENT_VERSION)		//Out of date client.
 		return null
@@ -128,10 +142,11 @@ var/next_external_rsc = 0
 		admins += src
 		holder.owner = src
 
-	//Admin Authorisation
+	//Mentor Authorisation
 	var/mentor = mentor_datums[ckey]
 	if(mentor)
 		verbs += /client/proc/cmd_mentor_say
+		verbs += /client/proc/show_mentor_memo
 		mentors += src
 
 	//preferences datum - also holds some persistant data for the client (because we may as well keep these datums to a minimum)
@@ -155,6 +170,9 @@ var/next_external_rsc = 0
 		if((global.comms_key == "default_pwd" || length(global.comms_key) <= 6) && global.comms_allowed) //It's the default value or less than 6 characters long, but it somehow didn't disable comms.
 			src << "<span class='danger'>The server's API key is either too short or is the default value! Consider changing it immediately!</span>"
 
+	if(mentor && !holder)
+		mentor_memo_output("Show")
+
 	add_verbs_from_config()
 	set_client_age_from_db()
 
@@ -168,8 +186,7 @@ var/next_external_rsc = 0
 
 		if (config.notify_new_player_age >= 0)
 			message_admins("New user: [key_name_admin(src)] is connecting here for the first time.")
-			if (config.irc_first_connection_alert)
-				send2irc_adminless_only("New-user", "[key_name(src)] is connecting for the first time!")
+			send2irc_admin_notice_handler("new_player","New-user", "[key_name(src)] is connecting for the first time!")
 
 		player_age = 0 // set it from -1 to 0 so the job selection code doesn't have a panic attack
 
@@ -205,6 +222,9 @@ var/next_external_rsc = 0
 
 	if (config && config.autoconvert_notes)
 		convert_notes_sql(ckey)
+
+	if(!winexists(src, "asset_cache_browser")) // The client is using a custom skin, tell them.
+		src << "<span class='warning'>Unable to access asset cache browser, if you are using a custom skin file, please allow DS to download the updated version, if you are not, then make a bug report. This is not a critical issue but can cause issues with resource downloading, as it is impossible to know when extra resources arrived to you.</span>"
 
 
 	//This is down here because of the browse() calls in tooltip/New()
@@ -273,7 +293,7 @@ var/next_external_rsc = 0
 	var/watchreason = check_watchlist(sql_ckey)
 	if(watchreason)
 		message_admins("<font color='red'><B>Notice: </B></font><font color='blue'>[key_name_admin(src)] is on the watchlist and has just connected - Reason: [watchreason]</font>")
-		send2irc_adminless_only("Watchlist", "[key_name(src)] is on the watchlist and has just connected - Reason: [watchreason]")
+		send2irc_admin_notice_handler("watchlist", "Watchlist", "[key_name(src)] is on the watchlist and has just connected - Reason: [watchreason]")
 
 	var/admin_rank = "Player"
 	if (src.holder && src.holder.rank)
@@ -317,64 +337,15 @@ var/next_external_rsc = 0
 
 //send resources to the client. It's here in its own proc so we can move it around easiliy if need be
 /client/proc/send_resources()
-
-	spawn
-		// Preload the HTML interface. This needs to be done due to BYOND bug http://www.byond.com/forum/?post=1487244
-		var/datum/html_interface/hi
-		for (var/type in typesof(/datum/html_interface))
-			hi = new type(null)
-			hi.sendResources(src)
-
-	// Preload the crew monitor. This needs to be done due to BYOND bug http://www.byond.com/forum/?post=1487244
-	spawn
-		if (crewmonitor && crewmonitor.initialized)
-			crewmonitor.sendResources(src)
-
-	//Send nanoui files to client
-	SSnano.send_resources(src)
+	//get the common files
 	getFiles(
 		'html/search.js',
 		'html/panels.css',
 		'html/browser/common.css',
 		'html/browser/scannernew.css',
 		'html/browser/playeroptions.css',
-		'icons/pda_icons/pda_atmos.png',
-		'icons/pda_icons/pda_back.png',
-		'icons/pda_icons/pda_bell.png',
-		'icons/pda_icons/pda_blank.png',
-		'icons/pda_icons/pda_boom.png',
-		'icons/pda_icons/pda_bucket.png',
-		'icons/pda_icons/pda_chatroom.png',
-		'icons/pda_icons/pda_medbot.png',
-		'icons/pda_icons/pda_floorbot.png',
-		'icons/pda_icons/pda_cleanbot.png',
-		'icons/pda_icons/pda_crate.png',
-		'icons/pda_icons/pda_cuffs.png',
-		'icons/pda_icons/pda_eject.png',
-		'icons/pda_icons/pda_exit.png',
-		'icons/pda_icons/pda_flashlight.png',
-		'icons/pda_icons/pda_honk.png',
-		'icons/pda_icons/pda_mail.png',
-		'icons/pda_icons/pda_medical.png',
-		'icons/pda_icons/pda_menu.png',
-		'icons/pda_icons/pda_mule.png',
-		'icons/pda_icons/pda_notes.png',
-		'icons/pda_icons/pda_power.png',
-		'icons/pda_icons/pda_rdoor.png',
-		'icons/pda_icons/pda_reagent.png',
-		'icons/pda_icons/pda_refresh.png',
-		'icons/pda_icons/pda_scanner.png',
-		'icons/pda_icons/pda_signaler.png',
-		'icons/pda_icons/pda_status.png',
-		'icons/stamp_icons/large_stamp-clown.png',
-		'icons/stamp_icons/large_stamp-deny.png',
-		'icons/stamp_icons/large_stamp-ok.png',
-		'icons/stamp_icons/large_stamp-hop.png',
-		'icons/stamp_icons/large_stamp-cmo.png',
-		'icons/stamp_icons/large_stamp-ce.png',
-		'icons/stamp_icons/large_stamp-hos.png',
-		'icons/stamp_icons/large_stamp-rd.png',
-		'icons/stamp_icons/large_stamp-cap.png',
-		'icons/stamp_icons/large_stamp-qm.png',
-		'icons/stamp_icons/large_stamp-law.png'
 		)
+
+	spawn(10)
+		//Precache the client with all other assets slowly, so as to not block other browse() calls
+		getFilesSlow(src, SSasset.cache, register_asset = FALSE)

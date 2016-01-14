@@ -131,6 +131,9 @@ GITHUBURL https://github.com/HippieStationCode/HippieStation13
 ## Ban appeals URL - usually for a forum or wherever people should go to contact your admins.
 BANAPPEALS http://www.hippie-station-13.com/forums/viewforum.php?f=8
 
+## TeamSpeak URL, allows the client to connect directly to the Teamspeak server of your choice. Typically the link for a TS3 url is ts3server://[TS IP/ADDRESS]?port=[PORTNUM]
+#TEAMSPEAKURL [ADDRESS]
+
 ## In-game features
 ##Toggle for having jobs load up from the .txt
 # LOAD_JOBS_FROM_TXT
@@ -209,3 +212,12 @@ ANNOUNCE_ADMIN_LOGOUT
 
 ##Uncomment to have an admin message sent anytime an admin connects to a round in play, you can edit the messages in admin.dm
 #ANNOUNCE_ADMIN_LOGIN
+
+##Uncomment to always send a notification to IRC whenever someone on the watchlist connects. When commented, only sends a message if all admins are AFK or no admins are present
+#ANNOUNCE_WATCHLIST
+
+##Uncomment to always send a notification to IRC whenever someone adminhelps. When commented, only sends a message if all admins are AFK or no admins are present
+ANNOUNCE_ADMINHELPS
+
+##Uncomment for all admin PM conversations to be sent to IRC/Slack
+#ANNOUNCE_ADMINHELP_EXCHANGES

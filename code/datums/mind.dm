@@ -1066,11 +1066,12 @@
 					ticker.mode.shadows -= src
 					special_role = null
 					current << "<span class='userdanger'>Your powers have been quenched! You are no longer a shadowling!</span>"
-					src.spell_list = null
+					remove_spell(/obj/effect/proc_holder/spell/self/shadowling_hatch)
+					remove_spell(/obj/effect/proc_holder/spell/self/shadowling_ascend)
+					remove_spell(/obj/effect/proc_holder/spell/targeted/enthrall)
+					remove_spell(/obj/effect/proc_holder/spell/self/shadowling_hivemind)
 					message_admins("[key_name_admin(usr)] has de-shadowling'ed [current].")
 					log_admin("[key_name(usr)] has de-shadowling'ed [current].")
-					remove_spell(/obj/effect/proc_holder/spell/targeted/shadowling_hatch)
-					remove_spell(/obj/effect/proc_holder/spell/targeted/shadowling_ascend)
 				else if(src in ticker.mode.thralls)
 					ticker.mode.remove_thrall(src,0)
 					message_admins("[key_name_admin(usr)] has de-thrall'ed [current].")
@@ -1259,7 +1260,7 @@
 		ticker.mode.finalize_traitor(src)
 		ticker.mode.greet_traitor(src)
 
-/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0)
+/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0, telecrystals = TRUE)
 	if(!(src in ticker.mode.syndicates))
 		ticker.mode.syndicates += src
 		ticker.mode.update_synd_icons_added(src)
@@ -1280,7 +1281,7 @@
 		qdel(H.wear_suit)
 		qdel(H.w_uniform)
 
-		ticker.mode.equip_syndicate(current)
+		ticker.mode.equip_syndicate(current, telecrystals)
 
 		if (nuke_code)
 			store_memory("<B>Syndicate Nuclear Bomb Code</B>: [nuke_code]", 0, 0)

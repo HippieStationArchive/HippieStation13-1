@@ -183,11 +183,13 @@ Auto Patrol: []"},
 	if(istype(Proj ,/obj/item/projectile/beam)||istype(Proj,/obj/item/projectile/bullet))
 		if((Proj.damage_type == BURN) || (Proj.damage_type == BRUTE))
 			if (!Proj.nodamage && Proj.damage < src.health)
-				threatlevel = Proj.firer.assess_threat(src)
-				threatlevel += 6
-				if(threatlevel >= 4)
-					target = Proj.firer
-					mode = BOT_HUNT
+				if(ismob(Proj.firer))
+					var/mob/M = Proj.firer
+					threatlevel = M.assess_threat(src)
+					threatlevel += 6
+					if(threatlevel >= 4)
+						target = M
+						mode = BOT_HUNT
 	..()
 
 /obj/machinery/bot/secbot/bot_process()
@@ -371,7 +373,7 @@ Auto Patrol: []"},
 	if(prob(50))
 		new /obj/item/robot_parts/l_arm(Tsec)
 
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
 

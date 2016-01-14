@@ -143,11 +143,12 @@
 			log_admin("[key_name(usr)] has triggered an event. ([E.name])")
 		return
 
-	else if(href_list["dbsearchckey"] || href_list["dbsearchadmin"])
+	else if(href_list["dbsearchckey"] || href_list["dbsearchadmin"] || href_list["dbsearchip"] || href_list["dbsearchcompid"])
 		var/adminckey = href_list["dbsearchadmin"]
 		var/playerckey = href_list["dbsearchckey"]
-
-		DB_ban_panel(playerckey, adminckey)
+		var/playerip =  href_list["dbsearchip"]
+		var/playercid = href_list["dbsearchcompid"]
+		DB_ban_panel(playerckey, adminckey, playercid, playerip)
 		return
 
 	else if(href_list["dbbanedit"])
@@ -778,7 +779,15 @@
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=abductor;jobban4=\ref[M]'><font color=red>[replacetext("Abductor", " ", "&nbsp")]</font></a></td>"
 		else
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=abductor;jobban4=\ref[M]'>[replacetext("Abductor", " ", "&nbsp")]</a></td>"
+		jobs += "</tr></table>"
 
+		//Misc
+		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
+		jobs += "<tr bgcolor='ffeeaa'><th colspan='10'>Misc</th></tr><tr align='center'>"
+		if(jobban_isbanned(M, "catban"))
+			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=catban;jobban4=\ref[M]'><font color=red>[replacetext("Cat Ban", " ", "&nbsp")]</font></a></td>"
+		else
+			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=catban;jobban4=\ref[M]'>[replacetext("Cat Ban", " ", "&nbsp")]</a></td>"
 /*		//Malfunctioning AI	//Removed Malf-bans because they're a pain to impliment
 		if(jobban_isbanned(M, "malf AI") || isbanned_dept)
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=malf AI;jobban4=\ref[M]'><font color=red>[replacetext("Malf AI", " ", "&nbsp")]</font></a></td>"
@@ -1202,6 +1211,7 @@
 		if(master_mode != "secret")
 			return alert(usr, "The game mode has to be secret!", null, null, null, null)
 		secret_force_mode = href_list["f_secret2"]
+		send2irc("Server", "[key_name(usr)] has forced secret to [secret_force_mode] for the round.")
 		log_admin("[key_name(usr)] set the forced secret mode as [secret_force_mode].")
 		message_admins("<span class='adminnotice'>[key_name_admin(usr)] set the forced secret mode as [secret_force_mode].</span>")
 		Game() // updates the main game menu
@@ -1279,6 +1289,7 @@
 			log_game("SQL ERROR during adding new mentor. Error : \[[err]\]\n")
 		load_mentors()
 		M.verbs += /client/proc/cmd_mentor_say
+		M.verbs += /client/proc/show_mentor_memo
 		M << "\blue You've been granted mentor access! Help people who send mentor-pms"
 
 	else if(href_list["removementor"])
@@ -1299,6 +1310,7 @@
 		load_mentors()
 		M << "\blue Your mentor access has been removed"
 		M.verbs -= /client/proc/cmd_mentor_say
+		M.verbs -= /client/proc/show_mentor_memo
 
 	else if(href_list["sendtoprison"])
 		if(!check_rights(R_ADMIN))	return
@@ -1942,7 +1954,7 @@
 		else
 			var/choice = alert("Please confirm Feed channel creation","Network Channel Handler","Confirm","Cancel")
 			if(choice=="Confirm")
-				news_network.CreateFeedChannel(src.admincaster_feed_channel.channel_name, src.admincaster_signature, src.admincaster_feed_channel.locked, 1)
+				news_network.CreateFeedChannel(src.admincaster_feed_channel.channel_name, src.admin_signature, src.admincaster_feed_channel.locked, 1)
 				feedback_inc("newscaster_channels",1)
 				log_admin("[key_name(usr)] created command feed channel: [src.admincaster_feed_channel.channel_name]!")
 				src.admincaster_screen=5
@@ -1965,7 +1977,7 @@
 		if(src.admincaster_feed_message.returnBody(-1) =="" || src.admincaster_feed_message.returnBody(-1) =="\[REDACTED\]" || src.admincaster_feed_channel.channel_name == "" )
 			src.admincaster_screen = 6
 		else
-			news_network.SubmitArticle(src.admincaster_feed_message.returnBody(-1), src.admincaster_signature, src.admincaster_feed_channel.channel_name, null, 1)
+			news_network.SubmitArticle(src.admincaster_feed_message.returnBody(-1), src.admin_signature, src.admincaster_feed_channel.channel_name, null, 1)
 			feedback_inc("newscaster_stories",1)
 			src.admincaster_screen=4
 
@@ -2022,10 +2034,10 @@
 			var/choice = alert("Please confirm Wanted Issue [(input_param==1) ? ("creation.") : ("edit.")]","Network Security Handler","Confirm","Cancel")
 			if(choice=="Confirm")
 				if(input_param==1)          //If input_param == 1 we're submitting a new wanted issue. At 2 we're just editing an existing one. See the else below
-					news_network.submitWanted(admincaster_wanted_message.criminal, admincaster_wanted_message.body, admincaster_signature, null, 1, 1)
+					news_network.submitWanted(admincaster_wanted_message.criminal, admincaster_wanted_message.body, admin_signature, null, 1, 1)
 					src.admincaster_screen = 15
 				else
-					news_network.submitWanted(admincaster_wanted_message.criminal, admincaster_wanted_message.body, admincaster_signature)
+					news_network.submitWanted(admincaster_wanted_message.criminal, admincaster_wanted_message.body, admin_signature)
 					src.admincaster_screen = 19
 				log_admin("[key_name(usr)] issued a Station-wide Wanted Notification for [src.admincaster_wanted_message.criminal]!")
 		src.access_news_network()
@@ -2094,7 +2106,7 @@
 		src.access_news_network()
 
 	else if(href_list["ac_set_signature"])
-		src.admincaster_signature = adminscrub(input(usr, "Provide your desired signature", "Network Identity Handler", ""))
+		src.admin_signature = adminscrub(input(usr, "Provide your desired signature", "Network Identity Handler", ""))
 		src.access_news_network()
 
 	else if(href_list["ac_del_comment"])
@@ -2119,6 +2131,16 @@
 		if(query_memoedits.NextRow())
 			var/edit_log = query_memoedits.item[1]
 			usr << browse(edit_log,"window=memoeditlist")
+	else if(href_list["mentormemoeditlist"])
+		var/sql_key = sanitizeSQL("[href_list["memoeditlist"]]")
+		var/DBQuery/query_memoedits = dbcon.NewQuery("SELECT edits FROM [format_table_name("mentor_memo")] WHERE (ckey = '[sql_key]')")
+		if(!query_memoedits.Execute())
+			var/err = query_memoedits.ErrorMsg()
+			log_game("SQL ERROR obtaining edits from memo table. Error : \[[err]\]\n")
+			return
+		if(query_memoedits.NextRow())
+			var/edit_log = query_memoedits.item[1]
+			usr << browse(edit_log,"window=mentormemoeditlist")
 
 	else if(href_list["check_antagonist"])
 		if(!check_rights(R_ADMIN))

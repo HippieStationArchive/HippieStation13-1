@@ -24,12 +24,14 @@
 /obj/structure/stool/bed/attack_paw(mob/user)
 	return src.attack_hand(user)
 
-/obj/structure/stool/bed/attack_animal(mob/living/simple_animal/M)//No more buckling hostile mobs to chairs to render them immobile forever
-	if(M.environment_smash)
+/obj/structure/stool/bed/attack_animal(mob/living/simple_animal/user)//No more buckling hostile mobs to chairs to render them immobile forever
+	if(user.environment_smash)
+		user.do_attack_animation(src)
+		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
+		visible_message("<span class='danger'>[user] destroys \the [src].</span>")
 		new /obj/item/stack/sheet/metal(src.loc)
 		qdel(src)
-		return
-
+	return
 
 /*
  * Roller beds
@@ -40,6 +42,7 @@
 	icon_state = "down"
 	anchored = 0
 	burn_state = -1 //Not Burnable
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER //Drag&Drop pointer indicating it's possible
 
 /obj/structure/stool/bed/roller/post_buckle_mob(mob/living/M)
 	if(M == buckled_mob)
@@ -58,7 +61,7 @@
 	desc = "A collapsed roller bed that can be carried around."
 	icon = 'icons/obj/rollerbed.dmi'
 	icon_state = "folded"
-	w_class = 4 // Can't be put in backpacks.
+	w_class = 3 // CAN be put in backpacks. That makes it less useless.
 
 
 /obj/item/roller/attack_self(mob/user)
