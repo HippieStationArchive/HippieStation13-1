@@ -49,6 +49,8 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 		pixel_x = -32
 		pixel_y = -32
 		energy -= rand(1,3) // ensure that the telsa will now lose energy, instead of gaining. So that way it must constantly be blasted by the PA as a source of energy.
+	else
+		energy = 0 // ensure we don't have miniballs make more miniballs.
 	return
 
 /obj/singularity/energy_ball/examine(mob/user)
