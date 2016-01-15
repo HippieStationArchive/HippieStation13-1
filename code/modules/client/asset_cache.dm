@@ -173,10 +173,10 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 //DEFINITIONS FOR ASSET DATUMS START HERE.
 
 
-/datum/asset/simple/nanoui
+/datum/asset/simple/tgui
 	assets = list(
-		"nanoui.js"					= 'nano/assets/nanoui.js',
-		"nanoui.css"				= 'nano/assets/nanoui.css',
+		"tgui.js"					= 'tgui/assets/tgui.js',
+		"tgui.css"				= 'tgui/assets/tgui.css',
 	)
 
 /datum/asset/simple/pda

@@ -785,7 +785,7 @@ var/global/list/g_fancy_list_of_types = null
 	set desc = "Force the client to redownload NanoUI Resources"
 
 	// Close open NanoUIs.
-	SSnano.close_user_uis(usr)
+	SStgui.close_user_uis(usr)
 
 
 	// Clear the user's cache so they get resent.
