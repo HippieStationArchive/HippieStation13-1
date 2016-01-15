@@ -55,6 +55,10 @@
 
 		return
 
+	if(href_list["nano_error"])
+		src << href_list["nano_error"]
+		throw EXCEPTION("NanoUI: [href_list["nano_error"]]")
+
 	//Logs all hrefs
 	if(config && config.log_hrefs && href_logfile)
 		href_logfile << "<small>[time2text(world.timeofday,"hh:mm")] [src] (usr:[usr])</small> || [hsrc ? "[hsrc] " : ""][href]<br>"

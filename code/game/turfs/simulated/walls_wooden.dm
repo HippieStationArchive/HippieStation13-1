@@ -53,7 +53,7 @@
 /obj/structure/barricade/wooden/wall
 	name = "wooden wall"
 	desc = "One day, the botanist got wood."
-//	icon = 'icons/turf/walls/wooden_walls.dmi'
+	icon = 'icons/turf/walls/wooden_walls.dmi'
 	icon_state = "wall"
 	anchored = 1
 	density = 1
@@ -108,7 +108,7 @@ obj/structure/barricade/wooden/wall/attackby(obj/item/O as obj, mob/user as mob)
 /obj/structure/barricade/wooden/windowframe
 	name = "wooden window frame"
 	desc = "A wooden window frame with no glass in it. You can fit through rather easily."
-//	icon = 'icons/turf/walls/wooden_walls.dmi'
+	icon = 'icons/turf/walls/wooden_walls.dmi'
 	icon_state = "window_noglass"
 	anchored = 1.0
 	density = 0
