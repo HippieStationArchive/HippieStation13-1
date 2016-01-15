@@ -109,7 +109,10 @@
 			|| locate(/obj/machinery/computer/cloning, get_step(src, EAST)) \
 			|| locate(/obj/machinery/computer/cloning, get_step(src, WEST)))
 
-			occupant.notify_ghost_cloning("Your corpse has been placed into a cloning scanner. Re-enter your corpse if you want to be cloned!")
+			if(occupant.client.prefs.toggles & FORCE_REENTER)
+				occupant.get_ghost().reenter_corpse()
+			else
+				occupant.notify_ghost_cloning("Your corpse has been placed into a cloning scanner. Re-enter your corpse if you want to be cloned!")
 	return 1
 
 /obj/machinery/dna_scannernew/open_machine()
