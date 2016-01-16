@@ -918,6 +918,8 @@ var/list/slot_equipment_priority = list( \
 		ghost.notify_cloning(message, sound)
 		return ghost
 
+
+
 /mob/proc/adjustEarDamage()
 	return
 
