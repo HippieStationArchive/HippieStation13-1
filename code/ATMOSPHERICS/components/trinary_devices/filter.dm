@@ -38,14 +38,14 @@ Filter types:
 	flipped = 1
 
 /obj/machinery/atmospherics/components/trinary/filter/proc/set_frequency(new_frequency)
-	radio_controller.remove_object(src, frequency)
+	SSradio.remove_object(src, frequency)
 	frequency = new_frequency
 	if(frequency)
-		radio_connection = radio_controller.add_object(src, frequency, RADIO_ATMOSIA)
+		radio_connection = SSradio.add_object(src, frequency, RADIO_ATMOSIA)
 
 /obj/machinery/atmospherics/components/trinary/filter/Destroy()
-	if(radio_controller)
-		radio_controller.remove_object(src,frequency)
+	if(SSradio)
+		SSradio.remove_object(src,frequency)
 	return ..()
 
 /obj/machinery/atmospherics/components/trinary/filter/update_icon()
@@ -168,8 +168,8 @@ Filter types:
 		return
 	ui_interact(user)
 
-/obj/machinery/atmospherics/components/trinary/filter/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null, force_open = 0)
-	ui = SSnano.try_update_ui(user, src, ui_key, ui, force_open = force_open)
+/obj/machinery/atmospherics/components/trinary/filter/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open = force_open)
 	if (!ui)
 		ui = new(user, src, ui_key, "atmos_filter", name, 450, 145)
 		ui.open()
@@ -190,7 +190,7 @@ Filter types:
 			on=!on
 			investigate_log("was turned [on ? "on" : "off"] by [key_name(usr)]", "atmos")
 		if("pressure")
-			switch(params["set"])
+			switch(params["pressure"])
 				if("max")
 					target_pressure = MAX_OUTPUT_PRESSURE
 				if("custom")

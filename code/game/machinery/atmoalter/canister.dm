@@ -273,10 +273,10 @@ update_flag
 		return
 	ui_interact(user)
 
-/obj/machinery/portable_atmospherics/canister/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null, force_open = 0)
-	ui = SSnano.try_update_ui(user, src, ui_key, ui, force_open = force_open)
+/obj/machinery/portable_atmospherics/canister/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open = force_open)
 	if (!ui)
-		ui = new(user, src, ui_key, "canister", name, 470, 470, state = physical_state)
+		ui = new(user, src, ui_key, "canister", name, 405, 405, state = physical_state)
 		ui.open()
 
 /obj/machinery/portable_atmospherics/canister/get_ui_data()
@@ -319,7 +319,7 @@ update_flag
 					src.icon_state = colors[label]
 					src.name = "canister: [label]"
 		if("pressure")
-			switch(params["set"])
+			switch(params["pressure"])
 				if("custom")
 					var/custom = input(usr, "What rate do you set the regulator to? The dial reads from [CAN_MIN_RELEASE_PRESSURE] to [CAN_MAX_RELEASE_PRESSURE].") as null|num
 					if(custom)
