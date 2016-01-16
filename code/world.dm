@@ -60,7 +60,7 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 
 
 	spawn(-1)
-		master_controller.setup()
+		Master.Setup()
 
 	process_teleport_locs()			//Sets up the wizard teleport locations
 	SortAreas()						//Build the list of all existing areas and sort it alphabetically
@@ -103,7 +103,11 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 		s["host"] = host ? host : null
 
 		var/admins = 0
+		var/mentors = 0
 		for(var/client/C in clients)
+			var/mentor = mentor_datums[C.ckey]
+			if(mentor)
+				mentors++
 			if(C.holder)
 				if(C.holder.fakekey)
 					continue	//so stealthmins aren't revealed by the hub
@@ -114,6 +118,7 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 		s["revision"] = revdata.revision
 		s["revision_date"] = revdata.date
 		s["admins"] = admins
+		s["mentors"] = mentors
 		s["gamestate"] = 1
 		if(ticker)
 			s["gamestate"] = ticker.current_state

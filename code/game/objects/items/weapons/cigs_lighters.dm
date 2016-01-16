@@ -126,7 +126,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	..()
 	flags |= NOREACT // so it doesn't react until you light it
 	create_reagents(chem_volume) // making the cigarette a chemical holder with a maximum volume of 15
-	reagents.add_reagent("nicotine", 15)
+	reagents.add_reagent("nicotine", 5)
 
 /obj/item/clothing/mask/cigarette/attackby(obj/item/weapon/W, mob/user, params)
 	..()
@@ -177,7 +177,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		damtype = "fire"
 		force = 4
 		if(reagents.get_reagent_amount("plasma")) // the plasma explodes when exposed to fire
-			var/datum/effect/effect/system/reagents_explosion/e = new()
+			var/datum/effect_system/reagents_explosion/e = new()
 			e.set_up(round(reagents.get_reagent_amount("plasma") / 2.5, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
@@ -186,7 +186,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			qdel(src)
 			return
 		if(reagents.get_reagent_amount("welding_fuel")) // the fuel explodes, too, but much less violently
-			var/datum/effect/effect/system/reagents_explosion/e = new()
+			var/datum/effect_system/reagents_explosion/e = new()
 			e.set_up(round(reagents.get_reagent_amount("welding_fuel") / 5, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
@@ -216,8 +216,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		if(iscarbon(loc))
 			var/mob/living/carbon/C = loc
 			if (src == C.wear_mask) // if it's in the human/monkey mouth, transfer reagents to the mob
-				if(prob(15)) // so it's not an instarape in case of acid
-					var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
+				if(prob(30)) // so it's not an instarape in case of acid
+					var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 5)
 					reagents.reaction(C, INGEST, fraction)
 				reagents.trans_to(C, REAGENTS_METABOLISM)
 				return

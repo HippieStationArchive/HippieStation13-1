@@ -104,3 +104,5 @@
 /obj/machinery/atmospherics/pipe/attack_hand(mob/user)
 	if(buckled_mob)
 		user_unbuckle_mob(user)
+/obj/machinery/atmospherics/pipe/returnPipenets()
+	. = list(parent)

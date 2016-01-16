@@ -64,6 +64,13 @@
 		else
 			target << "<span class='notice'>You rise with a start, you're alive!!!</span>"
 
+/obj/item/projectile/magic/pellet
+	name = "magic pellet"
+	icon_state = "moonslash"
+	damage = 15
+	damage_type = BRUTE
+	nodamage = 0
+
 /obj/item/projectile/magic/teleport
 	name = "bolt of teleportation"
 	icon_state = "bluespace"
@@ -83,7 +90,7 @@
 		if(!stuff.anchored && stuff.loc)
 			teleammount++
 			do_teleport(stuff, stuff, 10)
-			var/datum/effect/effect/system/smoke_spread/smoke = new
+			var/datum/effect_system/smoke_spread/smoke = new
 			smoke.set_up(max(round(4 - teleammount),0), stuff.loc) //Smoke drops off if a lot of stuff is moved for the sake of sanity
 			smoke.start()
 
