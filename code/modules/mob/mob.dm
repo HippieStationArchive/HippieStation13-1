@@ -917,12 +917,11 @@ var/list/slot_equipment_priority = list( \
 	if(ghost)
 		ghost.notify_cloning(message, sound)
 		return ghost
-		
+
 /mob/proc/force_reentry()
 	var/mob/dead/observer/ghost = get_ghost()
 	if(ghost)
 		ghost.reenter_corpse()
-		return ghost
 
 /mob/proc/adjustEarDamage()
 	return
