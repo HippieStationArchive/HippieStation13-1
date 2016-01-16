@@ -454,7 +454,8 @@
 				update_icon()
 				return
 			if(H.client.prefs.toggles & FORCE_REENTER)
-				H.get_ghost().reenter_corpse()
+				var/mob/dead/observer/G = H.get_ghost()
+				G.reenter_corpse()
 			else
 				H.notify_ghost_cloning("Your heart is being defibrillated. Re-enter your corpse if you want to be revived!")
 			user.visible_message("<span class='warning'>[user] begins to place [src] on [M.name]'s chest.</span>", "<span class='warning'>You begin to place [src] on [M.name]'s chest...</span>")

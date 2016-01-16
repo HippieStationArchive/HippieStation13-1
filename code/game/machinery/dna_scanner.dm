@@ -110,7 +110,8 @@
 			|| locate(/obj/machinery/computer/cloning, get_step(src, WEST)))
 
 			if(occupant.client.prefs.toggles & FORCE_REENTER)
-				occupant.get_ghost().reenter_corpse()
+				var/mob/dead/observer/G = occupant.get_ghost()
+				G.reenter_corpse()
 			else
 				occupant.notify_ghost_cloning("Your corpse has been placed into a cloning scanner. Re-enter your corpse if you want to be cloned!")
 	return 1
