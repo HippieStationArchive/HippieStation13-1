@@ -108,6 +108,9 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 	else
 		qdel(src)
 
+/obj/singularity/energy_ball/attack_hand(mob/user)
+	return
+
 /proc/get_closest_atom(type, list, source)
 	var/closest_atom
 	var/closest_distance
