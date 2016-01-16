@@ -350,6 +350,9 @@
 	return
 
 /obj/machinery/computer/cloning/proc/scan_mob(mob/living/carbon/human/subject)
+	if(subject.client.prefs.toggles & FORCE_REENTER)
+		var/mob/dead/observer/G = subject.get_ghost()
+		G.reenter_corpse()
 	if (!istype(subject))
 		scantemp = "<font class='bad'>Unable to locate valid genetic data.</font>"
 		return
@@ -362,10 +365,9 @@
 	if ((subject.disabilities & NOCLONE) && (src.scanner.scan_level < 2))
 		scantemp = "<font class='bad'>Subject no longer contains the fundamental materials required to create a living clone.</font>"
 		return
-	if(!occupant.client.prefs.toggles & FORCE_REENTER)
-		if ((!subject.ckey) || (!subject.client))
-			scantemp = "<font class='bad'>Mental interface failure.</font>"
-			return
+	if ((!subject.ckey) || (!subject.client))
+		scantemp = "<font class='bad'>Mental interface failure.</font>"
+		return
 	if (find_record("ckey", subject.ckey, records))
 		scantemp = "<font class='average'>Subject already in database.</font>"
 		return
