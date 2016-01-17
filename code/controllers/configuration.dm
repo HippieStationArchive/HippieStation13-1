@@ -74,6 +74,7 @@
 
 	var/announce_watchlist = 0
 	var/announce_adminhelps = 0
+	var/announce_adminhelp_exchanges = 0
 
 	//Population cap vars
 	var/soft_popcap				= 0
@@ -370,6 +371,8 @@
 					config.announce_admin_logout = 1
 				if("announce_admin_login")
 					config.announce_admin_login = 1
+				if("announce_adminhelp_exchanges")
+					config.announce_adminhelp_exchanges = 1
 				if("roundstart_awaymissions")
 					roundstart_awaymissions = 1
 				else
