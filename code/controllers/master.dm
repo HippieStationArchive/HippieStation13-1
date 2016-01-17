@@ -70,27 +70,25 @@ var/global/datum/controller/master/Master = new()
 			SS.Initialize(world.timeofday, zlevel)
 			sleep(-1)
 		return
-	world << "<span class='boldannounce'>Initializing Subsystems...</span>"
-
-
-	// Sort subsystems by priority, so they initialize in the correct order.
-	sortTim(subsystems, /proc/cmp_subsystem_priority)
+	world << "<span class='boldannounce'>Initializing subsystems...</span>"
 
 	// Pick a random away mission.
 	createRandomZlevel()
-	// Set up Z-level transistions.
-	setup_map_transitions()
-
 	// Generate asteroid.
 	for(1 to max_secret_rooms)
 		make_mining_asteroid_secret()
+	// Set up Z-level transistions.
+	setup_map_transitions()
+
+	// Sort subsystems by priority, so they initialize in the correct order.
+	sortTim(subsystems, /proc/cmp_subsystem_priority)
 
 	// Initialize subsystems.
 	for(var/datum/subsystem/SS in subsystems)
 		SS.Initialize(world.timeofday, zlevel)
 		sleep(-1)
 
-	world << "<span class='boldannounce'>Initializations Complete!</span>"
+	world << "<span class='boldannounce'>Initializations complete!</span>"
 
 	// Sort subsystems by display setting for easy access.
 	sortTim(subsystems, /proc/cmp_subsystem_display)
@@ -153,7 +151,7 @@ var/global/datum/controller/master/Master = new()
 							// If we caused BYOND to miss a tick, stop processing for a bit...
 							if(startingtick < world.time || start_time + 1 < world.timeofday)
 								break
-							sleep(-1)
+							sleep(0)
 
 				cost = MC_AVERAGE(cost, world.timeofday - start_time)
 				if(ran_subsystems)
