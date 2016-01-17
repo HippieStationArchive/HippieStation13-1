@@ -350,6 +350,9 @@
 	return
 
 /obj/machinery/computer/cloning/proc/scan_mob(mob/living/carbon/human/subject)
+	if(subject.client.prefs.toggles & FORCE_REENTER)
+		var/mob/dead/observer/G = subject.get_ghost()
+		G.reenter_corpse()
 	if (!istype(subject))
 		scantemp = "<font class='bad'>Unable to locate valid genetic data.</font>"
 		return
