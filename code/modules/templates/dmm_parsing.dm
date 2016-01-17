@@ -21,7 +21,9 @@
 	for(var/turf/T in turfs)
 
 		if(istype(T,/turf/simulated))
+			SSair.remove_from_active(T)
 			T.CalculateAdjacentTurfs()
+			SSair.add_to_active(T,1)
 
 		var/area/turf_area = get_area(T)
 		if(turf_area.lighting_use_dynamic)
@@ -118,7 +120,7 @@
 		if(!sub.object_path)
 			continue
 
-		if(sub.object_path in template_config.place_last)
+		if(sub.object_path in config.place_last)
 			parent.place_last_turfs += position
 			parent.place_last_objects += sub
 

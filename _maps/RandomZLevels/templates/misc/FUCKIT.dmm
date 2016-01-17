@@ -1,0 +1,22 @@
+"a" = (/turf/space,/area/space)
+"b" = (/turf/simulated/wall/cult,/area/space)
+"c" = (/obj/machinery/door/airlock,/turf/simulated/floor/engine/cult,/area/space)
+"d" = (/turf/simulated/wall/cult,/area/generic)
+"e" = (/turf/simulated/floor/engine/cult,/area/generic)
+"f" = (/obj/machinery/door/airlock,/turf/simulated/floor/engine/cult,/area/generic)
+"g" = (/obj/machinery/power/tesla_coil,/turf/simulated/floor/engine/cult,/area/generic)
+"h" = (/obj/machinery/power/apc{name = "Aft Hall APC"; dir = 8; pixel_x = -25; pixel_y = 1},/turf/simulated/floor/engine/cult,/area/generic)
+"i" = (/obj/singularity/energy_ball{dissipate = 0; move_self = 0},/turf/simulated/floor/engine/cult,/area/generic)
+
+(1,1,1) = {"
+aaabccbaaa
+aaddeeddaa
+adddffddda
+adgeeeegda
+adheeeeeda
+adgeieegda
+adgeeeegda
+addeggedda
+aaddddddaa
+aaaaaaaaaa
+"}

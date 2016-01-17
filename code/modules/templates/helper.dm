@@ -4,9 +4,9 @@ var/list/_TempTemplateTurfs = list()
 
 /datum/subsystem/template/proc/GetCategories(var/names_only = 0)
 	if(!names_only)
-		return flist("[template_config.directory]/")
+		return flist("[config.directory]/")
 	else
-		var/list/categories = flist("[template_config.directory]/")
+		var/list/categories = flist("[config.directory]/")
 		for(var/c in categories)
 			categories[categories.Find(c)] = replacetext(c, "/", "")
 		return categories
@@ -14,13 +14,13 @@ var/list/_TempTemplateTurfs = list()
 /datum/subsystem/template/proc/GetAllTemplates()
 	var/list/templates
 	for(var/c in GetCategories())
-		for(var/template in flist("[template_config.directory]/[c]/"))
+		for(var/template in flist("[config.directory]/[c]/"))
 			templates[template] = c
 	return templates
 
 /datum/subsystem/template/proc/GetCategoryFromTemplate(var/name)
 	for(var/category in GetCategories(1))
-		if(name in flist("[template_config.directory]/[category]/"))
+		if(name in flist("[config.directory]/[category]/"))
 			return category
 	return 0
 
@@ -38,14 +38,14 @@ var/list/_TempTemplateTurfs = list()
 	var/count = 0
 	if(!category)
 		for(var/c in GetCategories())
-			count += length(flist("[template_config.directory]/[c]/"))
+			count += length(flist("[config.directory]/[c]/"))
 	else
-		count = length(flist("[template_config.directory]/[category]/"))
+		count = length(flist("[config.directory]/[category]/"))
 	return count
 
 /datum/subsystem/template/proc/GetTemplatesFromCategory(var/category)
 	if(!category)	return 0
-	return flist("[template_config.directory]/[category]/")
+	return flist("[config.directory]/[category]/")
 
 /datum/subsystem/template/proc/GetTemplateSize(var/path)
 	var/datum/dmm_object_collection/collection = parser.GetCollection(file2list(path))

@@ -154,9 +154,9 @@
 				if(category == "Cancel")
 					return 0
 
-				var/list/templates = flist("[template_config.directory]/[category]/")
+				var/list/templates = flist("[config.directory]/[category]/")
 				var/name = input("Which Template?", "Selection") in templates
-				var/path = "[template_config.directory]/[category]/[name]"
+				var/path = "[config.directory]/[category]/[name]"
 
 				if(!fexists(path))
 					usr << "<span class='warning'>Template with name '[name]' does not exist.</span>"
