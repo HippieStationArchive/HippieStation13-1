@@ -61,7 +61,7 @@
 		var/volumepereffect = reagents.total_volume / 9
 		var/list/effectlist = list()
 		visible_message("<span class='danger'>[src] ruptures, spraying its contents everywhere!</span>")
-		spawn(-1)
+		spawn(0)
 			for(var/i in 1 to 11) // i will be later used for direction. i'm a smart man am i not?admit it fucker
 				if(i == 3 || i == 7) continue // those aren't directions.
 				var/obj/effect/particle_effect/water/W = new /obj/effect/particle_effect/water(get_turf(src))

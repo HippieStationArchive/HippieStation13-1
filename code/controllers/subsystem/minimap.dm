@@ -159,7 +159,7 @@ var/datum/subsystem/minimap/SSminimap
 				if ((++i) % 512 == 0) sleep(1) // deliberate delay to avoid lag spikes
 
 			else
-				sleep(-1) // avoid sleeping if possible: prioritize pending procs
+				sleep(0) // avoid sleeping if possible: prioritize pending procs
 
 		// BYOND BUG: map_icon now contains 4 directions? Create a new icon with only a single state.
 		var/icon/result_icon = new/icon()

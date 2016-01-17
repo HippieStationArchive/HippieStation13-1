@@ -68,7 +68,7 @@ var/global/datum/controller/master/Master = new()
 	if (zlevel && zlevel > 0 && zlevel <= world.maxz)
 		for(var/datum/subsystem/SS in subsystems)
 			SS.Initialize(world.timeofday, zlevel)
-			sleep(-1)
+			sleep(0)
 		return
 	world << "<span class='boldannounce'>Initializing subsystems...</span>"
 
@@ -86,7 +86,7 @@ var/global/datum/controller/master/Master = new()
 	// Initialize subsystems.
 	for(var/datum/subsystem/SS in subsystems)
 		SS.Initialize(world.timeofday, zlevel)
-		sleep(-1)
+		sleep(0)
 
 	world << "<span class='boldannounce'>Initializations complete!</span>"
 
@@ -97,7 +97,7 @@ var/global/datum/controller/master/Master = new()
 	world.sleep_offline = 1
 	world.fps = config.fps
 
-	sleep(-1)
+	sleep(0)
 
 	// Loop.
 	Master.process()

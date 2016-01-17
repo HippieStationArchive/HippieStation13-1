@@ -16,7 +16,7 @@ var/datum/subsystem/bots/SSbot
 	var/seconds = wait * 0.1
 	for(var/thing in processing)
 		if(thing && !thing:gc_destroyed)
-			spawn(-1)
+			spawn(0)
 				thing:bot_process(seconds)
 			continue
 		processing.Remove(thing)
