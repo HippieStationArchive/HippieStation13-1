@@ -20,9 +20,9 @@
       </n-section>
       <n-section label='Filters'>
         <n-button icon='{{filter_co2 ? "check-square-o" : "square-o"}}' style='{{filter_co2 ? "selected" : null}}'
-          action='co2_scrub' params='{"id_tag": "{{id_tag}}", "val": {{+!filter_co2}}}'>Oxygen</n-button>
+          action='co2_scrub' params='{"id_tag": "{{id_tag}}", "val": {{+!filter_co2}}}'>CO2</n-button>
         <n-button icon='{{filter_n2o ? "check-square-o" : "square-o"}}' style='{{filter_n2o ? "selected" : null}}'
-          action='n2o_scrub' params='{"id_tag": "{{id_tag}}", "val": {{+!filter_n2o}}}'>Nitrogen</n-button>
+          action='n2o_scrub' params='{"id_tag": "{{id_tag}}", "val": {{+!filter_n2o}}}'>N2O</n-button>
         <n-button icon='{{filter_toxins ? "check-square-o" : "square-o"}}' style='{{filter_toxins ? "selected" : null}}'
           action='tox_scrub' params='{"id_tag": "{{id_tag}}", "val": {{+!filter_toxins}}}'>Plasma</n-button>
       </n-section>
