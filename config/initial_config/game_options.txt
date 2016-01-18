@@ -318,7 +318,6 @@ place_last /obj/machinery/disposal
 place_last /obj/machinery/atmospherics/unary/vent_pump
 place_last /obj/machinery/atmospherics/unary/vent_scrubber
 place_last /obj/machinery/disposalpipe/segment
-place_last /obj/effect/spawner/space/set_spawner/master
 place_last /obj/structure/lattice
 
 ## number of attempts when placing a structure
