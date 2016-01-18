@@ -39,9 +39,12 @@ component.exports = {
 }
 </script>
 
-<span class='button {{styles}} {{#grid}}gridable{{/}}'
+<span class='button {{styles}} {{#grid}}gridable{{/}} tooltip-left'
   unselectable='on'
   {{#clickable}}tabindex='0'{{/}}
+  data-tooltip='{{tooltip}}'
+  on-mouseover-mousemove='hover'
+  on-mouseleave='unhover'
   on-click-enter='{{#clickable}}press{{/}}'>
   {{#if icon}}
     <i class='fa fa-{{icon}}'></i>
