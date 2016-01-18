@@ -183,7 +183,6 @@
 // Templates
 	var/place_amount_min = 0
 	var/place_amount_max = 0
-	var/list/chances = list()
 	var/list/ignore_types = list()
 	var/list/zs = list()
 	var/list/place_last = list()
@@ -564,8 +563,6 @@
 					config.place_amount_min = text2num(value)
 				if("place_amount_max")
 					config.place_amount_max = text2num(value)
-				if("chances")
-					config.chances += value
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
