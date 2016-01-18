@@ -6,7 +6,7 @@
 
 /var/global/datum/ui_state/notcontained_state/notcontained_state = new()
 
-/datum/ui_state/notcontained_state/can_use_topic(src_object, mob/user)
+/datum/ui_state/notcontained_state/can_use_topic(atom/src_object, mob/user)
 	. = user.shared_ui_interaction(src_object)
 	if(. > UI_CLOSE)
 		return min(., user.notcontained_can_use_topic(src_object))

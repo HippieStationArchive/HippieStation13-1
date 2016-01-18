@@ -1,4 +1,4 @@
- /**
+/**
   * tgui external
   *
   * Contains all external tgui declarations.
@@ -53,7 +53,8 @@
   * private
   *
   * The UI's host object (usually src_object).
-  * Used internally by ui_state(s).
+  * This allows modules/datums to have the UI attached to them,
+  * and be a part of another object.
  **/
 /datum/proc/ui_host()
 	return src

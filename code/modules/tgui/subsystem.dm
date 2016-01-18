@@ -1,4 +1,4 @@
- /**
+/**
   * tgui subsystem
   *
   * Contains all tgui state and subsystem code.
@@ -12,7 +12,8 @@
   * required user mob The mob who opened/is using the UI.
   * required src_object datum The object/datum which owns the UI.
   * required ui_key string The ui_key of the UI.
-  * optional ui datum/tgui The UI to be updated, if it exists.  * optional force_open bool If the UI should be re-opened instead of updated.
+  * optional ui datum/tgui The UI to be updated, if it exists.
+  * optional force_open bool If the UI should be re-opened instead of updated.
   *
   * return datum/tgui The found UI.
  **/
@@ -59,7 +60,7 @@
   *
   * Update all UIs attached to src_object.
   *
-  * required src_object atom/movable The object which owns the UIs.
+  * required src_object datum The object/datum which owns the UIs.
   *
   * return int The number of UIs updated.
  **/

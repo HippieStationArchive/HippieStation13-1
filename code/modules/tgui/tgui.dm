@@ -1,4 +1,4 @@
- /**
+/**
   * tgui
   *
   * /tg/station user interface library
@@ -39,7 +39,7 @@
   * Create a new UI.
   *
   * required user mob The mob who opened/is using the UI.
-  * required src_object datum The object/datum which owns the UI.
+  * required src_object datum The object or datum which owns the UI.
   * required ui_key string The ui_key of the UI.
   * required interface string The interface used to render the UI.
   * optional title string The title of the UI.
@@ -79,7 +79,7 @@
   * Open this UI (and initialize it with data).
  **/
 /datum/tgui/proc/open()
-	set waitfor = 0 //Don't wait on sleep()s.
+	set waitfor = 0 // Don't wait on sleep()s.
 	if(!user.client)
 		return // Bail if there is no client.
 
@@ -88,12 +88,11 @@
 		return // Bail if we're not supposed to open.
 
 	if(!initial_data)
-		set_initial_data(src_object.get_ui_data(user)) // Otherwise use the passed data.
+		set_initial_data(src_object.get_ui_data(user)) // Get the UI data.
 
 	var/window_size = ""
 	if(width && height) // If we have a width and height, use them.
 		window_size = "size=[width]x[height];"
-
 	var/debugable = check_rights_for(user.client, R_DEBUG)
 	user << browse(get_html(debugable), "window=[window_id];[window_size][list2params(window_options)]") // Open the window.
 	winset(user, window_id, "on-close=\"uiclose \ref[src]\"") // Instruct the client to signal UI when the window is closed.
@@ -191,7 +190,7 @@
  **/
 /datum/tgui/proc/get_html(var/inline)
 	var/html
-	//Poplate HTML with JSON if we're supposed to inline.
+	// Poplate HTML with JSON if we're supposed to inline.
 	if(inline)
 		html = replacetextEx(SStgui.basehtml, "{}", get_json(initial_data))
 	else
@@ -221,8 +220,8 @@
 				"ref"   = "\ref[user]"
 			),
 			"srcObject" = list(
-				"name"  = "[src_object]",
-				"ref"   = "\ref[src_object]"
+				"name" = "[src_object]",
+				"ref"  = "\ref[src_object]"
 			)
 		)
 	return config_data
@@ -240,6 +239,7 @@
 
 	json_data["config"] = get_config_data()
 	if(!isnull(data))
+		json_data["data"] = data
 		json_data["adata"] = data
 
 	// Generate the JSON; replace bad characters.

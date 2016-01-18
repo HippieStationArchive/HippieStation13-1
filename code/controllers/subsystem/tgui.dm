@@ -4,6 +4,7 @@ var/datum/subsystem/tgui/SStgui
 	name = "tgui"
 	wait = 10
 	priority = 16
+	display = 6
 
 	can_fire = 1 // This needs to fire before round start.
 
