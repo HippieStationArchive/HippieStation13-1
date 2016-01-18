@@ -295,7 +295,7 @@
 // called when something steps onto a human
 // this could be made more general, but for now just handle mulebot
 /mob/living/carbon/human/Crossed(atom/movable/AM)
-	var/obj/machinery/bot/mulebot/MB = AM
+	var/mob/living/simple_animal/bot/mulebot/MB = AM
 	if(istype(MB))
 		MB.RunOver(src)
 
@@ -641,8 +641,8 @@
 	else
 		return null
 
-/mob/living/carbon/human/assess_threat(obj/machinery/bot/secbot/judgebot, lasercolor)
-	if(judgebot.emagged == 2)
+/mob/living/carbon/human/assess_threat(mob/living/simple_animal/bot/secbot/judgebot, lasercolor)
+	if(judgebot.emagged == 1)
 		return 10 //Everyone is a criminal!
 
 	var/threatcount = 0

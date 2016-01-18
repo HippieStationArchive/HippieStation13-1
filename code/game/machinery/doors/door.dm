@@ -52,13 +52,6 @@
 			bumpopen(M)
 		return
 
-	if(istype(AM, /obj/machinery/bot))
-		var/obj/machinery/bot/bot = AM
-		if(src.check_access(bot.botcard) || emergency == 1)
-			if(density)
-				open()
-		return
-
 	if(istype(AM, /obj/mecha))
 		var/obj/mecha/mecha = AM
 		if(density)
@@ -81,10 +74,6 @@
 	return !density
 
 /obj/machinery/door/CanAtmosPass()
-	return !density
-
-//used in the AStar algorithm to determinate if the turf the door is on is passable
-/obj/machinery/door/proc/CanAStarPass(var/obj/item/weapon/card/id/ID)
 	return !density
 
 /obj/machinery/door/proc/bumpopen(mob/user)

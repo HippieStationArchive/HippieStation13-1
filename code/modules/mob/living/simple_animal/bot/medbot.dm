@@ -3,7 +3,7 @@
 //MEDBOT ASSEMBLY
 
 
-/obj/machinery/bot/medbot
+/mob/living/simple_animal/bot/medbot
 	name = "\improper Medibot"
 	desc = "A little medical robot. He looks somewhat underwhelmed."
 	icon = 'icons/obj/aibots.dmi'
@@ -12,11 +12,18 @@
 	density = 0
 	anchored = 0
 	health = 20
-	maxhealth = 20
-	req_one_access =list(access_medical, access_robotics)
-	var/stunned = 0 //It can be stunned by tasers. Delicate circuits.
-//	var/emagged = 0
-	var/list/botcard_access = list(access_medical)
+	maxHealth = 20
+	pass_flags = PASSMOB
+
+	radio_key = /obj/item/device/encryptionkey/headset_med
+	radio_channel = "Medical"
+
+	bot_type = MED_BOT
+	model = "Medibot"
+	bot_core_type = /obj/machinery/bot_core/medbot
+	window_id = "automed"
+	window_name = "Automatic Medical Unit v1.1"
+
 	var/obj/item/weapon/reagent_containers/glass/reagent_glass = null //Can be set to draw from this for reagents.
 	var/skin = null //Set to "tox", "ointment" or "o2" for the other two firstaid kits.
 	var/mob/living/carbon/patient = null
@@ -30,7 +37,6 @@
 	var/declare_crit = 1 //If active, the bot will transmit a critical patient alert to MedHUD users.
 	var/declare_cooldown = 0 //Prevents spam of critical patient alerts.
 	var/stationary_mode = 0 //If enabled, the Medibot will not move automatically.
-	radio_frequency = MED_FREQ //Medical frequency
 	//Setting which reagents to use to treat what by default. By id.
 	var/treatment_brute = "bicaridine"
 	var/treatment_oxy = "dexalin"
@@ -39,10 +45,8 @@
 	var/treatment_virus = "spaceacillin"
 	var/treat_virus = 1 //If on, the bot will attempt to treat viral infections, curing them if possible.
 	var/shut_up = 0 //self explanatory :)
-	bot_type = MED_BOT
-	model = "Medibot"
 
-/obj/machinery/bot/medbot/mysterious
+/mob/living/simple_animal/bot/medbot/mysterious
 	name = "\improper Mysterious Medibot"
 	desc = "International Medibot of mystery."
 	skin = "bezerk"
@@ -51,7 +55,7 @@
 	treatment_fire = "tricordrazine"
 	treatment_tox = "tricordrazine"
 
-/obj/machinery/bot/medbot/derelict
+/mob/living/simple_animal/bot/medbot/derelict
 	name = "\improper Old Medibot"
 	desc = "Looks like it hasn't been modified since the late 2080s."
 	skin = "bezerk"
@@ -62,23 +66,7 @@
 	treatment_fire = "sodium_thiopental"
 	treatment_tox = "sodium_thiopental"
 
-/obj/item/weapon/firstaid_arm_assembly
-	name = "incomplete medibot assembly."
-	desc = "A first aid kit with a robot arm permanently grafted to it."
-	icon = 'icons/obj/aibots.dmi'
-	icon_state = "firstaid_arm"
-	var/build_step = 0
-	var/created_name = "Medibot" //To preserve the name if it's a unique medbot I guess
-	var/skin = null //Same as medbot, set to tox or ointment for the respective kits.
-	w_class = 3
-
-	/obj/item/weapon/firstaid_arm_assembly/New()
-		..()
-		spawn(5)
-			if(skin)
-				overlays += image('icons/obj/aibots.dmi', "kit_skin_[skin]")
-
-/obj/machinery/bot/medbot/proc/updateicon()
+/mob/living/simple_animal/bot/medbot/update_icon()
 	if(!on)
 		icon_state = "medibot0"
 		return
@@ -90,57 +78,47 @@
 	else
 		icon_state = "medibot1"
 
-/obj/machinery/bot/medbot/New()
+/mob/living/simple_animal/bot/medbot/New()
 	..()
-	updateicon()
+	update_icon()
 
 	spawn(4)
 		if(skin)
 			overlays += image('icons/obj/aibots.dmi', "medskin_[skin]")
 
 		var/datum/job/doctor/J = new/datum/job/doctor
-		botcard.access += J.get_access()
-		prev_access = botcard.access
+		access_card.access += J.get_access()
+		prev_access = access_card.access
 
+	var/datum/atom_hud/medsensor = huds[DATA_HUD_MEDICAL_ADVANCED]
+	medsensor.add_hud_to(src)
 
-/obj/machinery/bot/medbot/turn_on()
-	. = ..()
-	updateicon()
-	updateUsrDialog()
-
-/obj/machinery/bot/medbot/turn_off()
-	..()
-	updateUsrDialog()
-
-/obj/machinery/bot/medbot/bot_reset()
+/mob/living/simple_animal/bot/medbot/bot_reset()
 	..()
 	patient = null
 	oldpatient = null
 	oldloc = null
 	last_found = world.time
 	declare_cooldown = 0
-	updateicon()
+	update_icon()
 
-/obj/machinery/bot/medbot/proc/soft_reset() //Allows the medibot to still actively perform its medical duties without being completely halted as a hard reset does.
+/mob/living/simple_animal/bot/medbot/proc/soft_reset() //Allows the medibot to still actively perform its medical duties without being completely halted as a hard reset does.
 	path = list()
 	patient = null
 	mode = BOT_IDLE
 	last_found = world.time
-	updateicon()
+	update_icon()
 
-/obj/machinery/bot/medbot/set_custom_texts()
+/mob/living/simple_animal/bot/medbot/set_custom_texts()
 
 	text_hack = "You corrupt [name]'s reagent processor circuits."
 	text_dehack = "You reset [name]'s reagent processor circuits."
 	text_dehack_fail = "[name] seems damaged and does not respond to reprogramming!"
 
-/obj/machinery/bot/medbot/attack_paw(mob/user)
+/mob/living/simple_animal/bot/medbot/attack_paw(mob/user)
 	return attack_hand(user)
 
-/obj/machinery/bot/medbot/attack_hand(mob/user)
-	. = ..()
-	if (.)
-		return
+/mob/living/simple_animal/bot/medbot/get_controls(mob/user)
 	var/dat
 	dat += hack(user)
 	dat += "<TT><B>Medical Unit Controls v1.1</B></TT><BR><BR>"
@@ -152,7 +130,7 @@
 	else
 		dat += "None Loaded"
 	dat += "<br>Behaviour controls are [locked ? "locked" : "unlocked"]<hr>"
-	if(!locked || issilicon(user))
+	if(!locked || issilicon(user) || IsAdminGhost(user))
 		dat += "<TT>Healing Threshold: "
 		dat += "<a href='?src=\ref[src];adj_threshold=-10'>--</a> "
 		dat += "<a href='?src=\ref[src];adj_threshold=-5'>-</a> "
@@ -176,13 +154,11 @@
 		dat += "Patrol Station: <a href='?src=\ref[src];operation=patrol'>[auto_patrol ? "Yes" : "No"]</a><br>"
 		dat += "Stationary Mode: <a href='?src=\ref[src];stationary=1'>[stationary_mode ? "Yes" : "No"]</a><br>"
 
-	var/datum/browser/popup = new(user, "automed", "Automatic Medical Unit v1.1")
-	popup.set_content(dat)
-	popup.open()
-	return
+	return dat
 
-/obj/machinery/bot/medbot/Topic(href, href_list)
-	..()
+/mob/living/simple_animal/bot/medbot/Topic(href, href_list)
+	if(..())
+		return 1
 
 	if(href_list["adj_threshold"])
 		var/adjust_num = text2num(href_list["adj_threshold"])
@@ -216,29 +192,16 @@
 	else if (href_list["stationary"])
 		stationary_mode = !stationary_mode
 		path = list()
-		updateicon()
+		update_icon()
 
 	else if (href_list["virus"])
 		treat_virus = !treat_virus
 
-	updateUsrDialog()
+	update_controls()
 	return
 
-/obj/machinery/bot/medbot/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
-	if (istype(W, /obj/item/weapon/card/id)||istype(W, /obj/item/device/pda))
-		if (allowed(user) && !open && !emagged)
-			locked = !locked
-			user << "<span class='notice'>Controls are now [locked ? "locked." : "unlocked."]</span>"
-			updateUsrDialog()
-		else
-			if(emagged)
-				user << "<span class='warning'>ERROR</span>"
-			if(open)
-				user << "<span class='warning'>Please close the access panel before locking it!</span>"
-			else
-				user << "<span class='warning'>Access denied.</span>"
-
-	else if (istype(W, /obj/item/weapon/reagent_containers/glass))
+/mob/living/simple_animal/bot/medbot/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+	if (istype(W, /obj/item/weapon/reagent_containers/glass))
 		if(locked)
 			user << "<span class='warning'>You cannot insert a beaker because the panel is locked!</span>"
 			return
@@ -251,7 +214,7 @@
 		W.loc = src
 		reagent_glass = W
 		user << "<span class='notice'>You insert [W].</span>"
-		updateUsrDialog()
+		show_controls(user)
 		return
 
 	else
@@ -260,7 +223,7 @@
 		if (health < current_health) //if medbot took some damage
 			step_to(src, (get_step_away(src,user)))
 
-/obj/machinery/bot/medbot/Emag(mob/user)
+/mob/living/simple_animal/bot/medbot/Emag(mob/user)
 	..()
 	if(emagged == 2)
 		declare_crit = 0
@@ -272,7 +235,7 @@
 		if(user)
 			oldpatient = user
 
-/obj/machinery/bot/medbot/process_scan(mob/living/carbon/human/H)
+/mob/living/simple_animal/bot/medbot/process_scan(mob/living/carbon/human/H)
 	if (H.stat == 2)
 		return
 
@@ -289,7 +252,7 @@
 	else
 		return
 
-/obj/machinery/bot/medbot/bot_process()
+/mob/living/simple_animal/bot/medbot/handle_automated_action()
 	if (!..())
 		return
 
@@ -305,7 +268,7 @@
 		mode = BOT_IDLE
 
 		if(stunned <= 0)
-			updateicon()
+			update_icon()
 			stunned = 0
 		return
 
@@ -324,7 +287,7 @@
 	if(patient && (get_dist(src,patient) <= 1)) //Patient is next to us, begin treatment!
 		if(mode != BOT_HEALING)
 			mode = BOT_HEALING
-			updateicon()
+			update_icon()
 			frustration = 0
 			medicate_patient(patient)
 		return
@@ -340,7 +303,7 @@
 		return
 
 	if(patient && path.len == 0 && (get_dist(src,patient) > 1))
-		path = get_path_to(loc, get_turf(patient), src, /turf/proc/Distance_cardinal, 0, 30,id=botcard)
+		path = get_path_to(src, get_turf(patient), /turf/proc/Distance_cardinal, 0, 30,id=access_card)
 		mode = BOT_MOVING
 		if(!path.len) //Do not chase a patient we cannot reach.
 			soft_reset()
@@ -363,7 +326,7 @@
 
 	return
 
-/obj/machinery/bot/medbot/proc/assess_patient(mob/living/carbon/C)
+/mob/living/simple_animal/bot/medbot/proc/assess_patient(mob/living/carbon/C)
 	//Time to see if they need medical help!
 	if(C.stat == 2)
 		return 0 //welp too late for them!
@@ -410,7 +373,18 @@
 
 	return 0
 
-/obj/machinery/bot/medbot/proc/medicate_patient(mob/living/carbon/C)
+/mob/living/simple_animal/bot/medbot/UnarmedAttack(atom/A)
+	if(iscarbon(A))
+		var/mob/living/carbon/C = A
+		patient = C
+		mode = BOT_HEALING
+		update_icon()
+		medicate_patient(C)
+		update_icon()
+	else
+		..()
+
+/mob/living/simple_animal/bot/medbot/proc/medicate_patient(mob/living/carbon/C)
 	if(!on)
 		return
 
@@ -474,10 +448,13 @@
 		bot_reset()
 		return
 	else
+		if(!emagged && check_overdose(patient,reagent_id,injection_amount))
+			soft_reset()
+			return
 		C.visible_message("<span class='danger'>[src] is trying to inject [patient]!</span>", \
 			"<span class='userdanger'>[src] is trying to inject you!</span>")
 
-		spawn(30)
+		spawn(30)//replace with do mob
 			if ((get_dist(src, patient) <= 1) && (on) && assess_patient(patient))
 				if(reagent_id == "internal_beaker")
 					if(use_beaker && reagent_glass && reagent_glass.reagents.total_volume)
@@ -490,19 +467,26 @@
 					"<span class='userdanger'>[src] injects you with its syringe!</span>")
 			else
 				visible_message("[src] retracts its syringe.")
-
+			update_icon()
 			soft_reset()
 			return
 
 	reagent_id = null
 	return
 
-/obj/machinery/bot/medbot/bullet_act(obj/item/projectile/Proj)
+/mob/living/simple_animal/bot/medbot/proc/check_overdose(mob/living/carbon/patient,reagent_id,injection_amount)
+	var/datum/reagent/R  = chemical_reagents_list[reagent_id]
+	var/current_volume = patient.reagents.get_reagent_amount(reagent_id)
+	if(current_volume + injection_amount > R.overdose_threshold)
+		return 1
+	return 0
+
+/mob/living/simple_animal/bot/medbot/bullet_act(obj/item/projectile/Proj)
 	if(Proj.flag == "taser")
 		stunned = min(stunned+10,20)
 	..()
 
-/obj/machinery/bot/medbot/explode()
+/mob/living/simple_animal/bot/medbot/explode()
 	on = 0
 	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/turf/Tsec = get_turf(src)
@@ -523,82 +507,16 @@
 	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
-	qdel(src)
-	return
+	..()
 
-/obj/machinery/bot/medbot/proc/declare(crit_patient)
+/mob/living/simple_animal/bot/medbot/proc/declare(crit_patient)
 	if(declare_cooldown)
 		return
 	var/area/location = get_area(src)
-	speak("Medical emergency! [crit_patient ? "<b>[crit_patient]</b>" : "A patient"] is in critical condition at [location]!",radio_frequency)
+	speak("Medical emergency! [crit_patient ? "<b>[crit_patient]</b>" : "A patient"] is in critical condition at [location]!",radio_channel)
 	declare_cooldown = 1
 	spawn(200) //Twenty seconds
 		declare_cooldown = 0
 
-/*
- *	Medbot Assembly -- Can be made out of all three medkits.
- */
-
-/obj/item/weapon/storage/firstaid/attackby(obj/item/robot_parts/S, mob/user, params)
-
-	if ((!istype(S, /obj/item/robot_parts/l_arm)) && (!istype(S, /obj/item/robot_parts/r_arm)))
-		..()
-		return
-
-	//Making a medibot!
-	if(contents.len >= 1)
-		user << "<span class='warning'>You need to empty [src] out first!</span>"
-		return
-
-	var/obj/item/weapon/firstaid_arm_assembly/A = new /obj/item/weapon/firstaid_arm_assembly
-	if(istype(src,/obj/item/weapon/storage/firstaid/fire))
-		A.skin = "ointment"
-	else if(istype(src,/obj/item/weapon/storage/firstaid/toxin))
-		A.skin = "tox"
-	else if(istype(src,/obj/item/weapon/storage/firstaid/o2))
-		A.skin = "o2"
-	else if(istype(src,/obj/item/weapon/storage/firstaid/brute))
-		A.skin = "brute"
-
-	qdel(S)
-	user.put_in_hands(A)
-	user << "<span class='notice'>You add the robot arm to the first aid kit.</span>"
-	user.unEquip(src, 1)
-	qdel(src)
-
-
-/obj/item/weapon/firstaid_arm_assembly/attackby(obj/item/weapon/W, mob/user, params)
-	..()
-	if(istype(W, /obj/item/weapon/pen))
-		var/t = stripped_input(user, "Enter new robot name", name, created_name,MAX_NAME_LEN)
-		if (!t)
-			return
-		if (!in_range(src, usr) && loc != usr)
-			return
-		created_name = t
-	else
-		switch(build_step)
-			if(0)
-				if(istype(W, /obj/item/device/healthanalyzer))
-					if(!user.unEquip(W))
-						return
-					qdel(W)
-					build_step++
-					user << "<span class='notice'>You add the health sensor to [src].</span>"
-					name = "First aid/robot arm/health analyzer assembly"
-					overlays += image('icons/obj/aibots.dmi', "na_scanner")
-
-			if(1)
-				if(isprox(W))
-					if(!user.unEquip(W))
-						return
-					qdel(W)
-					build_step++
-					user << "<span class='notice'>You complete the Medibot. Beep boop!</span>"
-					var/turf/T = get_turf(src)
-					var/obj/machinery/bot/medbot/S = new /obj/machinery/bot/medbot(T)
-					S.skin = skin
-					S.name = created_name
-					user.unEquip(src, 1)
-					qdel(src)
-
+/obj/machinery/bot_core/medbot
+	req_one_access =list(access_medical, access_robotics)
