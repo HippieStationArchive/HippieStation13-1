@@ -9,7 +9,7 @@ var/datum/subsystem/template/SStemplate
 	parser = new()
 
 /datum/subsystem/template/Initialize()
-		//PlaceTemplates()
+		PlaceTemplates()
 		..()
 
 /datum/subsystem/template/proc/PlaceTemplateAt(var/turf/location, var/path, var/name)
@@ -72,7 +72,6 @@ var/datum/subsystem/template/SStemplate
 
 /datum/subsystem/template/proc/PickTemplates()
 	set background = 1
-	var/list/folders = list("misc")
 	var/list/picked = list()
 	config.place_amount_min = min(config.place_amount_min, GetTemplateCount())
 	config.place_amount_max = min(config.place_amount_max, GetTemplateCount())
@@ -81,13 +80,8 @@ var/datum/subsystem/template/SStemplate
 
 	log_game("TEMPL: Picking [pick_num] template(s).")
 
-	if(!length(folders)) //Fail safe
-		log_game("TEMPL: Aborting PickTemplates: no folders configured.")
-		return 0
-
 	while(pick_num > length(picked))
-		var/picked_category = pick(folders)
-		var/list/category_templates = GetTemplatesFromCategory(picked_category)
+		var/list/category_templates = GetTemplatesFromCategory("spacegen")
 
 		if(length(category_templates) <= 0)
 			continue
@@ -97,7 +91,7 @@ var/datum/subsystem/template/SStemplate
 		if(!picked_template)
 			continue
 
-		var/formatted = "[config.directory]/[picked_category]/[picked_template]"
+		var/formatted = "[config.directory]/spacegen/[picked_template]"
 		if(formatted in picked)
 			continue
 
