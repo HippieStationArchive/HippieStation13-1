@@ -563,8 +563,6 @@
 					config.place_amount_min = text2num(value)
 				if("place_amount_max")
 					config.place_amount_max = text2num(value)
-				if("chances")
-					config.chances += value
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
