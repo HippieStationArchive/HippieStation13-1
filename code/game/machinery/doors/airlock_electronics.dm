@@ -7,14 +7,6 @@
 	var/last_configurator = null
 	var/locked = 1
 
-/obj/item/weapon/electronics/airlock/attack_self(mob/user)
-	if (!user) return
-	interact(user)
-
-/obj/item/weapon/electronics/airlock/interact(mob/user)
-	add_fingerprint(user)
-	ui_interact(user)
-
 /obj/item/weapon/electronics/airlock/ui_interact(mob/user, ui_key = "main", var/datum/tgui/ui = null, force_open = 0, \
 																		datum/tgui/master_ui = null, datum/ui_state/state = default_state)
 	SStgui.try_update_ui(user, src, ui_key, ui, force_open)

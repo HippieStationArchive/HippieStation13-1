@@ -45,16 +45,35 @@ var/list/cached_gases_list = null
 	fuel_burnt = 0
 
 	//listmos procs
+
+		//assert_gas(gas_id) - used to guarantee that the gas list for this id exists.
+		//Must be used before adding to a gas. May be used before reading from a gas.
 /datum/gas_mixture/proc/assert_gas(gas_id)
 	var/cached_gases = gases
 	if(cached_gases[gas_id])
 		return
 	cached_gases[gas_id] = gaslist(gas_id) //see ATMOSPHERICS/gas_types.dm
 
+		//assert_gases(args) - shorthand for calling assert_gas() once for each gas type.
 /datum/gas_mixture/proc/assert_gases()
 	for(var/id in args)
 		assert_gas(id)
 
+		//add_gas(gas_id) - similar to assert_gas(), but does not check for an existing
+			//gas list for this id.
+		//Used instead of assert_gas() when you know the gas does not exist. Faster than assert_gas().
+/datum/gas_mixture/proc/add_gas(gas_id)
+	gases[gas_id] = gaslist(gas_id)
+
+		//add_gases(args) - shorthand for calling add_gas() once for each gas_type.
+/datum/gas_mixture/proc/add_gases()
+	for(var/id in args)
+		add_gas(id)
+
+		//garbage_collect() - removes any gas list which is empty.
+		//Must be used after subtracting from a gas. Must be used after assert_gas()
+			//if assert_gas() was called only to read from the gas.
+		//By removing empty gases, processing speed is increased.
 /datum/gas_mixture/proc/garbage_collect()
 	var/list/cached_gases = gases
 	for(var/id in cached_gases)
@@ -122,6 +141,7 @@ var/list/cached_gases_list = null
 			garbage_collect()
 
 			reacting = 1
+	/*
 	if(thermal_energy() > (PLASMA_BINDING_ENERGY*10))
 		if(procgases["plasma"] && procgases["co2"] && procgases["plasma"][MOLES] > MINIMUM_HEAT_CAPACITY && procgases["co2"][MOLES] > MINIMUM_HEAT_CAPACITY && (procgases["plasma"][MOLES]+procgases["co2"][MOLES])/total_moles() >= FUSION_PURITY_THRESHOLD)//Fusion wont occur if the level of impurities is too high.
 			//world << "pre [temperature, [procgases["plasma"][MOLES]], [procgases["co2"][MOLES]]
@@ -153,7 +173,7 @@ var/list/cached_gases_list = null
 					temperature = max(((temperature*old_heat_capacity + reaction_energy)/new_heat_capacity),TCMB)
 					//Prevents whatever mechanism is causing it to hit negative temperatures.
 				//world << "post [temperature], [procgases["plasma"][MOLES]], [procgases["co2"][MOLES]]
-
+			*/
 	fuel_burnt = 0
 	if(temperature > FIRE_MINIMUM_TEMPERATURE_TO_EXIST)
 		//world << "pre [temperature], [procgases["o2"][MOLES]], [procgases["plasma"][MOLES]]"
@@ -343,9 +363,7 @@ var/list/cached_gases_list = null
 		assert_gas(sample_id)
 		cached_gases[sample_id][MOLES] = sample_gases[sample_id][MOLES]
 		copied_gases += sample_id
-	for(var/id in cached_gases)
-		if(id in copied_gases)
-			continue
+	for(var/id in cached_gases-copied_gases)
 		assert_gas(id)
 		cached_gases[id][MOLES] = 0
 
@@ -380,41 +398,48 @@ var/list/cached_gases_list = null
 		old_self_heat_capacity = heat_capacity()
 		old_sharer_heat_capacity = sharer.heat_capacity()
 
-	var/heat_capacity_self_to_sharer = 0
-	var/heat_capacity_sharer_to_self = 0
+	var/heat_capacity_self_to_sharer = 0 //heat capacity of the moles transferred from us to the sharer
+	var/heat_capacity_sharer_to_self = 0 //heat capacity of the moles transferred from the sharer to us
 
-	for(var/sharer_id in sharercache)
-		assert_gas(sharer_id)
+	for(var/sharer_id in sharercache-selfcache)
+		add_gas(sharer_id) //we can use add_gas() because we're looping only through the IDs not in our cache
 
+	//GAS TRANSFER
 	for(var/id in selfcache)
-		sharer.assert_gas(id)
+		if(!sharercache[id]) //checking here prevents an uneeded proc call if the check fails.
+			sharer.add_gas(id)
 
-		var/sharergas = sharercache[id]
 		var/gas = selfcache[id]
+		var/sharergas = sharercache[id]
 
-		var/delta = QUANTIZE(gas[ARCHIVE] - sharergas[ARCHIVE])/(atmos_adjacent_turfs+1)
+		var/delta = QUANTIZE(gas[ARCHIVE] - sharergas[ARCHIVE])/(atmos_adjacent_turfs+1) //the amount of gas that gets moved between the mixtures
 
 		if(delta && abs(delta_temperature) > MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER)
-			var/gas_heat_capacity = abs(gas[MOLES] * gas[SPECIFIC_HEAT])
+			var/gas_heat_capacity = delta * gas[SPECIFIC_HEAT]
 			if(delta > 0)
 				heat_capacity_self_to_sharer += gas_heat_capacity
 			else
-				heat_capacity_sharer_to_self += gas_heat_capacity
-		gas[MOLES] -= delta
-		sharergas[MOLES] += delta
-		moved_moles += delta
-		abs_moved_moles += abs(delta)
+				heat_capacity_sharer_to_self -= gas_heat_capacity //subtract here instead of adding the absolute value because we know that delta is negative. saves a proc call.
+
+		gas[MOLES]			-= delta
+		sharergas[MOLES]	+= delta
+		moved_moles			+= delta
+		abs_moved_moles		+= abs(delta)
 
 	last_share = abs_moved_moles
+
+	//THERMAL ENERGY TRANSFER
 	if(abs(delta_temperature) > MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER)
 		var/new_self_heat_capacity = old_self_heat_capacity + heat_capacity_sharer_to_self - heat_capacity_self_to_sharer
 		var/new_sharer_heat_capacity = old_sharer_heat_capacity + heat_capacity_self_to_sharer - heat_capacity_sharer_to_self
 
+		//transfer of thermal energy (via changed heat capacity) between self and sharer
 		if(new_self_heat_capacity > MINIMUM_HEAT_CAPACITY)
 			temperature = (old_self_heat_capacity*temperature - heat_capacity_self_to_sharer*temperature_archived + heat_capacity_sharer_to_self*sharer.temperature_archived)/new_self_heat_capacity
 
 		if(new_sharer_heat_capacity > MINIMUM_HEAT_CAPACITY)
 			sharer.temperature = (old_sharer_heat_capacity*sharer.temperature-heat_capacity_sharer_to_self*sharer.temperature_archived + heat_capacity_self_to_sharer*temperature_archived)/new_sharer_heat_capacity
+		//thermal energy of the system (self and sharer) is unchanged
 
 			if(abs(old_sharer_heat_capacity) > MINIMUM_HEAT_CAPACITY)
 				if(abs(new_sharer_heat_capacity/old_sharer_heat_capacity - 1) < 0.10) // <10% change in sharer heat capacity
@@ -425,6 +450,7 @@ var/list/cached_gases_list = null
 		. = delta_pressure*R_IDEAL_GAS_EQUATION/volume
 
 	garbage_collect()
+	sharer.garbage_collect()
 
 /datum/gas_mixture/mimic(turf/model, atmos_adjacent_turfs = 4)
 	var/datum/gas_mixture/copied = new
@@ -432,7 +458,7 @@ var/list/cached_gases_list = null
 	. = share(copied, atmos_adjacent_turfs)
 
 /datum/gas_mixture/temperature_share(datum/gas_mixture/sharer, conduction_coefficient)
-
+	//transfer of thermal energy (via conduction) between self and sharer
 	var/delta_temperature = (temperature_archived - sharer.temperature_archived)
 	if(abs(delta_temperature) > MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER)
 		var/self_heat_capacity = heat_capacity_archived()
@@ -442,8 +468,9 @@ var/list/cached_gases_list = null
 			var/heat = conduction_coefficient*delta_temperature* \
 				(self_heat_capacity*sharer_heat_capacity/(self_heat_capacity+sharer_heat_capacity))
 
-			temperature -= heat/self_heat_capacity
-			sharer.temperature += heat/sharer_heat_capacity
+			temperature = max(temperature - heat/self_heat_capacity, TCMB)
+			sharer.temperature = max(sharer.temperature + heat/sharer_heat_capacity, TCMB)
+	//thermal energy of the system (self and sharer) is unchanged
 
 /datum/gas_mixture/temperature_mimic(turf/model, conduction_coefficient)
 	var/delta_temperature = (temperature - model.temperature)
@@ -454,7 +481,7 @@ var/list/cached_gases_list = null
 			var/heat = conduction_coefficient*delta_temperature* \
 				(self_heat_capacity*model.heat_capacity/(self_heat_capacity+model.heat_capacity))
 
-			temperature -= heat/self_heat_capacity
+			temperature = max(temperature - heat/self_heat_capacity, TCMB)
 
 /datum/gas_mixture/temperature_turf_share(turf/simulated/sharer, conduction_coefficient)
 	var/delta_temperature = (temperature_archived - sharer.temperature)
@@ -465,37 +492,26 @@ var/list/cached_gases_list = null
 			var/heat = conduction_coefficient*delta_temperature* \
 				(self_heat_capacity*sharer.heat_capacity/(self_heat_capacity+sharer.heat_capacity))
 
-			temperature -= heat/self_heat_capacity
-			sharer.temperature += heat/sharer.heat_capacity
+			temperature = max(temperature - heat/self_heat_capacity, TCMB)
+			sharer.temperature = max(sharer.temperature + heat/sharer.heat_capacity, TCMB)
 
 /datum/gas_mixture/compare(datum/gas_mixture/sample, datatype = MOLES, adjacents = 0)
 	. = ""
 	var/list/sample_gases = sample.gases //accessing datum vars is slower than proc vars
 	var/list/cached_gases = gases
-	var/list/gases_considered = new
 
-	for(var/id in cached_gases)
-		var/gas = cached_gases[id]
+	for(var/id in cached_gases|sample_gases)
+		var/gas_moles = cached_gases[id] ? cached_gases[id][datatype] : 0
 		var/sample_moles = sample_gases[id] ? sample_gases[id][datatype] : 0
-		var/delta = abs(gas[datatype] - sample_moles)/(adjacents+1)
+		var/delta = abs(gas_moles - sample_moles)/(adjacents+1)
 		if(delta > MINIMUM_AIR_TO_SUSPEND && \
-			delta > gas[datatype]*MINIMUM_AIR_RATIO_TO_SUSPEND)
+			delta > gas_moles*MINIMUM_AIR_RATIO_TO_SUSPEND)
 			return id
-		gases_considered += id
-
-	for(var/sample_id in sample_gases) //I'd rather have copy-paste than slow this down with a proc call... is there a better solution?
-		if(sample_id in gases_considered)
-			continue
-		var/sample_gas = sample_gases[sample_id]
-		var/gas_moles = cached_gases[sample_id] ? cached_gases[sample_id][datatype] : 0
-		var/delta = abs(sample_gas[datatype] - gas_moles)/(adjacents+1)
-		if(delta > MINIMUM_AIR_TO_SUSPEND && \
-			delta > sample_gas[datatype]*MINIMUM_AIR_RATIO_TO_SUSPEND)
-			return sample_id
 
 	if(total_moles() > MINIMUM_AIR_TO_SUSPEND)
 		var/temp
 		var/sample_temp
+
 		switch(datatype)
 			if(MOLES)
 				temp = temperature
@@ -503,6 +519,7 @@ var/list/cached_gases_list = null
 			if(ARCHIVE)
 				temp = temperature_archived
 				sample_temp = sample.temperature_archived
+
 		var/delta_temperature = abs(temp-sample_temp)
 		if((delta_temperature > MINIMUM_TEMPERATURE_DELTA_TO_SUSPEND) && \
 			delta_temperature > MINIMUM_TEMPERATURE_DELTA_TO_SUSPEND*temp)
@@ -510,17 +527,19 @@ var/list/cached_gases_list = null
 
 /datum/gas_mixture/copy_from_turf(turf/model)
 	assert_gases(arglist(hardcoded_gases))
-	gases["o2"][MOLES] = model.oxygen
-	gases["n2"][MOLES] = model.nitrogen
-	gases["plasma"][MOLES] = model.toxins
-	gases["co2"][MOLES] = model.carbon_dioxide
 	var/list/cached_gases = gases
-	for(var/id in cached_gases)
-		if(id in hardcoded_gases)
-			continue
+
+	cached_gases["o2"][MOLES]		= model.oxygen
+	cached_gases["n2"][MOLES]		= model.nitrogen
+	cached_gases["plasma"][MOLES]	= model.toxins
+	cached_gases["co2"][MOLES]		= model.carbon_dioxide
+
+	for(var/id in cached_gases-hardcoded_gases)
 		cached_gases[id][MOLES] = 0 //turfs don't account for anything other than the four old hardcoded gases
+
 	temperature = model.temperature
 
+	garbage_collect()
 //Takes the amount of the gas you want to PP as an argument
 //So I don't have to do some hacky switches/defines/magic strings
 

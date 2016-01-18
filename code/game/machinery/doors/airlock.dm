@@ -131,10 +131,10 @@ About the new airlock wires panel:
 			user.staminaloss += 50
 			user.stunned += 5
 			return
-	..(user)
+	..()
 
 /obj/machinery/door/airlock/bumpopen(mob/living/simple_animal/user)
-	..(user)
+	..()
 
 /obj/machinery/door/airlock/proc/isElectrified()
 	if(src.secondsElectrified != 0)
@@ -538,7 +538,7 @@ About the new airlock wires panel:
 			sleep(10)
 			//bring up airlock dialog
 			src.aiHacking = 0
-			if (user)
+			if(user)
 				src.attack_ai(user)
 
 
@@ -570,7 +570,7 @@ About the new airlock wires panel:
 	if(src.p_open)
 		wires.Interact(user)
 	else
-		..(user)
+		..()
 	return
 
 /obj/machinery/door/airlock/attack_animal(mob/living/simple_animal/M)

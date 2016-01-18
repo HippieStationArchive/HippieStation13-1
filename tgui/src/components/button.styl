@@ -1,5 +1,3 @@
-context = selector()
-
 buttoncolor(selector, color)
   &.{selector}
     transition: background-color 0.5s
@@ -11,7 +9,7 @@ buttoncolor(selector, color)
     outline: 0
 
 span.button
-  @extend {context} $fontReset
+  @extend $fontReset
   display: inline-block
   vertical-align: middle
   height: 20px
@@ -25,14 +23,17 @@ span.button
     padding-right: 2px
 
   buttoncolor(normal, button-color-normal)
-  buttoncolor(disabled, alpha(button-color-disabled, button-alpha-disabled))
+  buttoncolor(disabled, button-color-disabled)
   buttoncolor(selected, button-color-selected)
   buttoncolor(caution, button-color-caution)
   buttoncolor(danger, button-color-danger)
 
-  & + span:not(.button)
-    margin-left: 5px
-
   &.gridable
     width: 125px
     margin: 2px 0
+
+span:not(.button) + span.button
+  margin-left: 5px
+
+span.button + span:not(.button)
+  margin-left: 5px

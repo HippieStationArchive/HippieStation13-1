@@ -587,8 +587,8 @@
 // attack with hand - remove cell (if cover open) or interact with the APC
 
 /obj/machinery/power/apc/attack_hand(mob/user)
-	if (!user) return
-	add_fingerprint(user)
+	if(!user)
+		return
 	if(usr == user && opened && (!issilicon(user)))
 		if(cell)
 			user.put_in_hands(cell)
@@ -604,8 +604,7 @@
 		return
 	if(stat & (BROKEN|MAINT))
 		return
-	// do APC interaction
-	interact(user)
+	..()
 
 /obj/machinery/power/apc/attack_alien(mob/living/carbon/alien/humanoid/user)
 	if(!user)	return
@@ -630,8 +629,6 @@
 
 
 /obj/machinery/power/apc/interact(mob/user)
-	if(stat & (BROKEN|MAINT))
-		return
 	if(wiresexposed && !istype(user, /mob/living/silicon/ai))
 		wires.Interact(user)
 	else

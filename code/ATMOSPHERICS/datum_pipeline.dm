@@ -196,8 +196,8 @@ var/pipenetwarnings = 10
 	var/list/datum/pipeline/PL = list()
 	PL += src
 
-	for(var/i=1;i<=PL.len;i++)
-		var/datum/pipeline/P = PL[i]
+	for(var/i in PL)
+		var/datum/pipeline/P = i
 		GL += P.air
 		GL += P.other_airs
 		for(var/obj/machinery/atmospherics/components/binary/valve/V in P.other_atmosmch)
@@ -210,18 +210,15 @@ var/pipenetwarnings = 10
 
 	var/total_thermal_energy = 0
 	var/total_heat_capacity = 0
-	var/datum/gas_mixture/total_gas_mixture = new
+	var/datum/gas_mixture/total_gas_mixture = new(0)
 
-	for(var/datum/gas_mixture/G in GL)
+	for(var/i in GL)
+		var/datum/gas_mixture/G = i
 		total_gas_mixture.volume += G.volume
 		total_gas_mixture.merge(G)
 		total_thermal_energy += G.thermal_energy()
 		total_heat_capacity += G.heat_capacity()
-
-	if(total_heat_capacity > 0)
-		total_gas_mixture.temperature = total_thermal_energy/total_heat_capacity
-	else
-		total_gas_mixture.temperature = 0
+		total_gas_mixture.temperature = total_heat_capacity ? total_thermal_energy/total_heat_capacity : 0
 	if(total_gas_mixture.volume > 0)
 		//Update individual gas_mixtures by volume ratio
 		for(var/datum/gas_mixture/G in GL)

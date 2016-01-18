@@ -87,6 +87,10 @@
 		greet_syndicate(synd_mind)
 		equip_syndicate(synd_mind.current)
 
+		var/obj/item/device/radio/headset/syndicate/alt/A = locate() in synd_mind.current
+		if(A)
+			A.command = TRUE
+
 		if (nuke_code)
 			synd_mind.store_memory("<B>Syndicate Nuclear Bomb Code</B>: [nuke_code]", 0, 0)
 			synd_mind.current << "The nuclear authorization code is: <B>[nuke_code]</B>"
