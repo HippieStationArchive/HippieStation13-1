@@ -183,7 +183,6 @@
 // Templates
 	var/place_amount_min = 0
 	var/place_amount_max = 0
-	var/list/chances = list()
 	var/list/ignore_types = list()
 	var/list/zs = list()
 	var/list/place_last = list()
