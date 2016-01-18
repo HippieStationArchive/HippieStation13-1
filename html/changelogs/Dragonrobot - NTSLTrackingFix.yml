@@ -1,0 +1,6 @@
+author: Killerz104
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixes bug where changing $source with NTSL scripts prevents the AI from tracking people."
