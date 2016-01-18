@@ -195,3 +195,6 @@
 	tesla_zap(src, 5, power_bounced)
 	spawn(10)
 		being_shocked = 0
+
+/obj/proc/CanAStarPass()
+	. = !density

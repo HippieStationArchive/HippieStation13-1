@@ -37,7 +37,7 @@
 				M << "<br>"
 
 	if(botEmagChance)
-		for(var/obj/machinery/bot/bot in machines)
+		for(var/mob/living/simple_animal/bot/bot in machines)
 			if(prob(botEmagChance))
 				bot.Emag()
 

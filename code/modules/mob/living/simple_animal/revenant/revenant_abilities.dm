@@ -150,7 +150,7 @@
 		return
 	for(var/turf/T in targets)
 		spawn(0)
-			for(var/obj/machinery/bot/bot in T.contents)
+			for(var/mob/living/simple_animal/bot/bot in T.contents)
 				if(!bot.emagged)
 					bot.locked = 0
 					bot.open = 1
