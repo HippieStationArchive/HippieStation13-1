@@ -247,15 +247,6 @@ var/global/list/ghost_orbits = list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 	src << "[(prefs.toggles & INTENT_STYLE) ? "Clicking directly on intents selects them." : "Clicking on intents rotates selection clockwise."]"
 	prefs.save_preferences()
 	feedback_add_details("admin_verb","ITENTS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-	
-/client/verb/toggle_auto_reenter()
-	set name = "Toggle Automatic Re-entry on Revival"
-	set category = "Preferences"
-	set desc = "Choose to automatically re-enter your body when you are cloned or defibbed"
-	prefs.toggles ^= FORCE_REENTER
-	src << "[(prefs.toggles & FORCE_REENTER) ? "You will now receive a notification when you are being revived." : "You will now automatically enter your body when being revived."]"
-	prefs.save_preferences()
-	feedback_add_details("admin_verb","FrEnter") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/verb/setup_character()
 	set name = "Game Preferences"
