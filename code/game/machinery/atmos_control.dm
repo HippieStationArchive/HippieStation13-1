@@ -128,9 +128,6 @@
 	set_frequency(frequency)
 
 /obj/machinery/computer/atmos_control/ui_act(action, params)
-	if(..())
-		return
-
 	switch(action)
 		if("initialize")
 			if(name != initial(name))

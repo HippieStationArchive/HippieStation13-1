@@ -232,7 +232,7 @@
 	var/list/gases = air.gases
 	for(var/id in gases)
 		var/gas = gases[id]
-		if(gas[GAS_OVERLAY] && gas[MOLES] > gas[MOLES_VISIBLE])
+		if(gas[MOLES_VISIBLE] != null && gas[MOLES] > gas[MOLES_VISIBLE])
 			. += gas[GAS_OVERLAY]
 
 /turf/simulated/proc/share_air(turf/simulated/T)

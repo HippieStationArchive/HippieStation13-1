@@ -747,8 +747,6 @@ obj/machinery/power/apc/ui_interact(mob/user, ui_key = "main", var/datum/tgui/ui
 	return 1
 
 /obj/machinery/power/apc/ui_act(action, params)
-	if(..())
-		return
 	if(!can_use(usr, 1))
 		return
 

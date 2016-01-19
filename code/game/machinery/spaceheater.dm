@@ -154,9 +154,6 @@
 		ui.open()
 
 /obj/machinery/space_heater/ui_act(action, params)
-	if(..())
-		return
-
 	switch(action)
 		if("power")
 			on = !on

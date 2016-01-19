@@ -36,9 +36,6 @@
 	return data
 
 /obj/item/weapon/electronics/airlock/ui_act(action, params)
-	if(..())
-		return
-
 	switch(action)
 		if("clear")
 			accesses = list()

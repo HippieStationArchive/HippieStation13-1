@@ -9,10 +9,8 @@
 	icon_state = "yellow"
 	density = 1
 	var/health = 100
-
 	var/valve_open = 0
 	var/release_pressure = ONE_ATMOSPHERE
-
 	var/canister_color = "yellow"
 	var/filled = 0.5
 	pressure_resistance = 7*ONE_ATMOSPHERE
@@ -22,7 +20,6 @@
 	var/release_log = ""
 	var/update_flag = 0
 	var/gas_type = ""
-
 	var/static/list/label2types = list(
 		"caution" = /obj/machinery/portable_atmospherics/canister,
 		"n2o" = /obj/machinery/portable_atmospherics/canister/nitrous_oxide,
@@ -34,7 +31,7 @@
 	)
 
 
-/obj/machinery/portable_atmospherics/canister/sleeping_agent
+/obj/machinery/portable_atmospherics/canister/nitrous_oxide
 	name = "n2o canister"
 	desc = "Nitrous oxide gas. Known to cause drowsiness."
 	icon_state = "redws"
@@ -267,7 +264,7 @@ update_flag
 	..()
 
 /obj/machinery/portable_atmospherics/canister/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
-																		datum/tgui/master_ui = null, datum/ui_state/state = default_state)
+															datum/tgui/master_ui = null, datum/ui_state/state = physical_state)
 	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 	if(!ui)
 		ui = new(user, src, ui_key, "canister", name, 415, 405, master_ui, state)
@@ -292,8 +289,6 @@ update_flag
 	return data
 
 /obj/machinery/portable_atmospherics/canister/ui_act(action, params)
-	if(..())
-		return
 	switch(action)
 		if("relabel")
 			var/label = input("Label canister:", "Gas Canister") as null|anything in label2types
@@ -318,20 +313,20 @@ update_flag
 			release_pressure = Clamp(round(release_pressure), CAN_MIN_RELEASE_PRESSURE, CAN_MAX_RELEASE_PRESSURE)
 		if("valve")
 			var/logmsg
-			if (valve_open)
-				if (holding)
+			if(valve_open)
+				if(holding)
 					logmsg = "Valve was <b>closed</b> by [key_name(usr)], stopping the transfer into the [holding]<br>"
 				else
 					logmsg = "Valve was <b>closed</b> by [key_name(usr)], stopping the transfer into the <span class='boldannounce'>air</span><br>"
 			else
-				if (holding)
+				if(holding)
 					logmsg = "Valve was <b>opened</b> by [key_name(usr)], starting the transfer into the [holding]<br>"
 				else
 					logmsg = "Valve was <b>opened</b> by [key_name(usr)], starting the transfer into the <span class='boldannounce'>air</span><br>"
 					if(air_contents.gases["plasma"])
 						message_admins("[key_name_admin(usr)] (<A HREF='?_src_=holder;adminmoreinfo=\ref[usr]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[usr]'>FLW</A>) opened a canister that contains plasma! (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)")
 						log_admin("[key_name(usr)] opened a canister that contains plasma at [x], [y], [z]")
-					if(air_contents.gases["plasma"])
+					if(air_contents.gases["n2o"])
 						message_admins("[key_name_admin(usr)] (<A HREF='?_src_=holder;adminmoreinfo=\ref[usr]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[usr]'>FLW</A>) opened a canister that contains N2O! (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)")
 						log_admin("[key_name(usr)] opened a canister that contains N2O at [x], [y], [z]")
 			investigate_log(logmsg, "atmos")
@@ -339,7 +334,7 @@ update_flag
 			valve_open = !valve_open
 		if("eject")
 			if(holding)
-				if (valve_open)
+				if(valve_open)
 					investigate_log("[key_name(usr)] removed the [holding], leaving the valve open and transfering into the <span class='boldannounce'>air</span><br>", "atmos")
 				holding.loc = loc
 				holding = null
@@ -355,8 +350,9 @@ update_flag
 	return 1
 
 /obj/machinery/portable_atmospherics/canister/proc/create_gas()
-	air_contents.assert_gas(gas_type)
-	air_contents.gases[gas_type][MOLES] = (src.maximum_pressure*filled)*air_contents.volume/(R_IDEAL_GAS_EQUATION*air_contents.temperature)
+	if(gas_type)
+		air_contents.assert_gas(gas_type)
+		air_contents.gases[gas_type][MOLES] = (src.maximum_pressure*filled)*air_contents.volume/(R_IDEAL_GAS_EQUATION*air_contents.temperature)
 
 //Dirty way to fill room with gas. However it is a bit easier to do than creating some floor/engine/n2o -rastaf0
 /obj/machinery/portable_atmospherics/canister/nitrous_oxide/roomfiller/New()

@@ -5,7 +5,8 @@ var/datum/subsystem/air/SSair
 	priority = -1
 	wait = 5
 	dynamic_wait = 1
-	dwait_upper = 50
+	dwait_upper = 300
+	dwait_buffer = 0.5
 	display =1
 
 	var/cost_turfs = 0
@@ -21,7 +22,6 @@ var/datum/subsystem/air/SSair
 	var/list/hotspots = list()
 	var/list/networks = list()
 	var/list/obj/machinery/atmos_machinery = list()
-
 
 	//Special functions lists
 	var/list/turf/simulated/active_super_conductivity = list()
@@ -161,15 +161,19 @@ var/datum/subsystem/air/SSair
 /datum/subsystem/air/proc/setup_allturfs(z_level)
 	var/z_start = 1
 	var/z_finish = world.maxz
+
 	if(1 <= z_level && z_level <= world.maxz)
 		z_level = round(z_level)
 		z_start = z_level
 		z_finish = z_level
+
 	var/list/turfs_to_init = block(locate(1, 1, z_start), locate(world.maxx, world.maxy, z_finish))
+
 	for(var/turf/simulated/T in turfs_to_init)
 		T.CalculateAdjacentTurfs()
 		T.excited = 0
 		active_turfs -= T
+
 		if(T.blocks_air)
 			continue
 
@@ -189,6 +193,7 @@ var/datum/subsystem/air/SSair
 				T.excited = 1
 				active_turfs |= T
 				break
+
 	if(active_turfs.len)
 		warning("There are [active_turfs.len] active turfs at roundstart, this is a mapping error caused by a difference of the air between the adjacent turfs. You can see its coordinates using \"Mapping -> Show roundstart AT list\" verb (debug verbs required)")
 		for(var/turf/simulated/T in active_turfs)
