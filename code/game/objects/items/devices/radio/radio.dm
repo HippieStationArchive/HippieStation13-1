@@ -197,6 +197,9 @@
 	if(!M.IsVocal())
 		return
 
+	if(use_command)
+		spans |= SPAN_COMMAND
+
 	/* Quick introduction:
 		This new radio system uses a very robust FTL signaling technology unoriginally
 		dubbed "subspace" which is somewhat similar to 'blue-space' but can't
