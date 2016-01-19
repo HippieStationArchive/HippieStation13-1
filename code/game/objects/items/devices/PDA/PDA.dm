@@ -585,7 +585,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			if("Ringtone")
 				var/t = input(U, "Please enter new ringtone", name, ttone) as text
 				if(in_range(src, U) && loc == U)
-					if (t)
+					if(t)
 						if(hidden_uplink && (trim(lowertext(t)) == trim(lowertext(lock_code))))
 							hidden_uplink.interact(U)
 							U << "The PDA softly beeps."

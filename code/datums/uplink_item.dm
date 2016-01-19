@@ -48,7 +48,7 @@ var/list/uplink_items = list()
 	var/surplus = 100 //Chance of being included in the surplus crate (when pick() selects it)
 	var/list/jobs = list() // For job-specific traitor items. Leave empty for all jobs to be allowed to buy it.
 	var/list/jobs_exclude = list() //Not sure why would you want to exclude uplink items from some jobs, but okay.
-
+	var/refundable = FALSE
 
 /datum/uplink_item/proc/spawn_item(turf/loc, obj/item/device/uplink/U)
 	if(item)
@@ -449,6 +449,7 @@ var/list/uplink_items = list()
 	cost = 25
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
+	refundable = TRUE
 
 /datum/uplink_item/dangerous/reinforcement/syndieborg
 	name = "Syndicate Cyborg"
@@ -1178,7 +1179,7 @@ var/list/uplink_items = list()
 		buyable_items += temp_uplink_list[category]
 	var/list/bought_items = list()
 	U.uses -= cost
-	U.used_TC = 20
+	U.used_TC += 20
 	var/remaining_TC = 50
 
 	var/datum/uplink_item/I

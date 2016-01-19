@@ -86,14 +86,15 @@ var/list/world_uplinks = list()
 
 // Refund certain items by hitting the uplink with it.
 /obj/item/device/radio/uplink/attackby(obj/item/weapon/W, mob/user, params)
-	if(istype(W, /obj/item/weapon/antag_spawner/nuke_ops))
-		var/obj/item/weapon/antag_spawner/nuke_ops/S = W
-		if(!S.used)
-			hidden_uplink.uses += S.TC_cost
-			qdel(S)
-			user << "<span class='notice'>Teleporter refunded.</span>"
-		else
-			user << "<span class='warning'>This teleporter is already used!</span>"
+	if(istype(W))
+		for(var/path in subtypesof(/datum/uplink_item))
+			var/datum/uplink_item/D = path
+			if(initial(D.item) == W.type && initial(D.refundable))
+				hidden_uplink.uses += (D.cost)
+				hidden_uplink.used_TC -= initial(D.cost)
+				user << "<span class='notice'>[W] refunded.</span>"
+				qdel(W)
+				return
 
 // PRESET UPLINKS
 // A collection of preset uplinks.
@@ -103,6 +104,7 @@ var/list/world_uplinks = list()
 
 /obj/item/device/radio/uplink/New()
 	icon_state = "radio"
+	hidden_uplink = new(src)
 	hidden_uplink.lockable = FALSE
 
 /obj/item/device/radio/uplink/attack_self(mob/user)
