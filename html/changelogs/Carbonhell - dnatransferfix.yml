@@ -1,0 +1,6 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed issues with dna transferring, such as lings being permanently invisible if they absorbed a chameleoned human."
