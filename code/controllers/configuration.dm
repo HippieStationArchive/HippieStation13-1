@@ -5,6 +5,11 @@
 #define SECURITY_HAS_MAINT_ACCESS 2
 #define EVERYONE_HAS_MAINT_ACCESS 4
 
+//Not accessible from usual debug controller verb
+/datum/protected_configuration
+	var/autoadmin = 0
+	var/autoadmin_rank = "Game Admin"
+
 /datum/configuration
 	var/name = "Configuration"			// datum name
 	var/server_name = null				// server name (the name of the game window)
@@ -180,7 +185,7 @@
 	var/announce_admin_login = 0
 	// The object used for the clickable stat() button.
 	var/obj/effect/statclick/statclick
-// Templates
+	// Templates
 	var/place_amount_min = 0
 	var/place_amount_max = 0
 	var/list/ignore_types = list()
@@ -563,6 +568,10 @@
 					config.place_amount_min = text2num(value)
 				if("place_amount_max")
 					config.place_amount_max = text2num(value)
+				if("autoadmin")
+					protected_config.autoadmin = 1
+					if(value)
+						protected_config.autoadmin_rank = ckeyEx(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
