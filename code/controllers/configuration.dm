@@ -388,6 +388,10 @@
 					config.announce_adminhelp_exchanges = 1
 				if("roundstart_awaymissions")
 					roundstart_awaymissions = 1
+				if("autoadmin")
+					protected_config.autoadmin = 1
+					if(value)
+						protected_config.autoadmin_rank = ckeyEx(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
@@ -568,10 +572,6 @@
 					config.place_amount_min = text2num(value)
 				if("place_amount_max")
 					config.place_amount_max = text2num(value)
-				if("autoadmin")
-					protected_config.autoadmin = 1
-					if(value)
-						protected_config.autoadmin_rank = ckeyEx(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
