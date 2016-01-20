@@ -306,7 +306,6 @@
 	desc = "A large dufflebag for holding extra captainly goods."
 	icon_state = "duffle-captain"
 	item_state = "duffle-captain"
-	burn_state = FIRE_PROOF
 
 /obj/item/weapon/storage/backpack/dufflebag/med
 	name = "medical dufflebag"
@@ -325,7 +324,6 @@
 	desc = "A large dufflebag for holding extra tools and supplies."
 	icon_state = "duffle-eng"
 	item_state = "duffle-eng"
-	burn_state = FIRE_PROOF
 
 /obj/item/weapon/storage/backpack/dufflebag/clown
 	name = "clown's dufflebag"

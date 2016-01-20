@@ -18,9 +18,11 @@
 	SSobj.processing -= src
 	return ..()
 
+/obj/item/device/radio/intercom/attack_ai(mob/user)
+	interact(user)
+
 /obj/item/device/radio/intercom/attack_hand(mob/user)
-	spawn (0)
-		attack_self(user)
+	interact(user)
 
 /obj/item/device/radio/intercom/interact(mob/user)
 	..()

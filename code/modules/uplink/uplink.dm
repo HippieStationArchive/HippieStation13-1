@@ -54,6 +54,8 @@ var/global/list/uplinks = list()
 		)
 		for(var/item in uplink_items[category])
 			var/datum/uplink_item/I = uplink_items[category][item]
+			if(I.include_jobs.len && !(user.mind.assigned_role in I.include_jobs))
+				continue
 			cat["items"] += list(list(
 				"name" = I.name,
 				"category" = I.category,
@@ -102,6 +104,7 @@ var/global/list/uplinks = list()
 	..()
 	icon_state = "radio"
 	hidden_uplink = new(src)
+	hidden_uplink.active = TRUE
 	hidden_uplink.lockable = FALSE
 
 /obj/item/device/radio/uplink/nuclear/New()
@@ -110,5 +113,5 @@ var/global/list/uplinks = list()
 
 /obj/item/device/multitool/uplink/New()
 	hidden_uplink = new(src)
-	hidden_uplink.lockable = FALSE
 	hidden_uplink.active = TRUE
+	hidden_uplink.lockable = FALSE

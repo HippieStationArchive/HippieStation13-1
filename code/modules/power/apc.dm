@@ -552,22 +552,16 @@
 				opened = 1
 			update_icon()
 	else
-		if (	((stat & BROKEN) || malfhack) \
-				&& !opened \
-				&& W.force >= 5 \
-				&& W.w_class >= 3 \
-				&& prob(20) )
+		if((!opened && wiresexposed && wires.IsInteractionTool(W)) || (issilicon(user) && !(stat & BROKEN) &&!malfhack))
+			return attack_hand(user)
+
+		..()
+		if(((stat & BROKEN) || malfhack) && !opened && W.force >= 5 && W.w_class >= 3 && prob(20))
 			opened = 2
 			user.visible_message("<span class='warning'>[user.name] has knocked down the APC cover  with the [W.name].</span>", \
 				"<span class='danger'>You knock down the APC cover with your [W.name]!</span>", \
 				"<span class='italics'>You hear bang.</span>")
 			update_icon()
-		else
-			if (istype(user, /mob/living/silicon))
-				return src.attack_hand(user)
-			if (!opened && wiresexposed && wires.IsInteractionTool(W))
-				return src.attack_hand(user)
-			..()
 
 /obj/machinery/power/apc/emag_act(mob/user)
 	if(!emagged && !malfhack)
@@ -601,8 +595,6 @@
 			//user << "You remove the power cell."
 			charging = 0
 			src.update_icon()
-		return
-	if(stat & (BROKEN|MAINT))
 		return
 	..()
 
@@ -1109,9 +1101,13 @@ obj/machinery/power/apc/ui_interact(mob/user, ui_key = "main", var/datum/tgui/ui
 	lighting = 0
 	equipment = 0
 	environ = 0
+	update_icon()
+	update()
 	spawn(600)
 		equipment = 3
 		environ = 3
+		update_icon()
+		update()
 	..()
 
 /obj/machinery/power/apc/ex_act(severity, target)
