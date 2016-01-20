@@ -67,9 +67,15 @@
 /obj/item/projectile/magic/pellet
 	name = "magic pellet"
 	icon_state = "moonslash"
-	damage = 15
+	damage = 10
 	damage_type = BRUTE
 	nodamage = 0
+
+/obj/item/projectile/magic/pellet/bleed/on_hit(atom/target, blocked = 0, hit_zone)
+	if((blocked != 100) && istype(target, /mob/living/carbon/human))
+		var/mob/living/carbon/human/M = target
+		M.drip(15)
+	return ..()
 
 /obj/item/projectile/magic/teleport
 	name = "bolt of teleportation"
