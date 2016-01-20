@@ -251,7 +251,7 @@ var/global/datum/crewmonitor/crewmonitor = new
 		return ..()
 
 /datum/crewmonitor/proc/queueUpdate(z)
-	procqueue.schedule(50, crewmonitor, "update", z)
+	addtimer(crewmonitor, "update", 5, TRUE, z)
 
 
 /datum/crewmonitor/proc/sendResources(var/client/client)
