@@ -74,6 +74,7 @@
 
 	var/announce_watchlist = 0
 	var/announce_adminhelps = 0
+	var/announce_adminhelp_exchanges = 0
 
 	//Population cap vars
 	var/soft_popcap				= 0
@@ -179,6 +180,14 @@
 	var/announce_admin_login = 0
 	// The object used for the clickable stat() button.
 	var/obj/effect/statclick/statclick
+// Templates
+	var/place_amount_min = 0
+	var/place_amount_max = 0
+	var/list/ignore_types = list()
+	var/list/zs = list()
+	var/list/place_last = list()
+	var/tries = 10
+	var/directory = null
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -370,6 +379,8 @@
 					config.announce_admin_logout = 1
 				if("announce_admin_login")
 					config.announce_admin_login = 1
+				if("announce_adminhelp_exchanges")
+					config.announce_adminhelp_exchanges = 1
 				if("roundstart_awaymissions")
 					roundstart_awaymissions = 1
 				else
@@ -540,6 +551,18 @@
 					MAX_EX_LIGHT_RANGE = BombCap
 					MAX_EX_FLASH_RANGE = BombCap
 					MAX_EX_FLAME_RANGE = BombCap
+				if("zs")
+					config.zs += text2num(value)
+				if("place_last")
+					config.place_last += value
+				if("tries")
+					config.tries = text2num(value)
+				if("directory")
+					config.directory = value
+				if("place_amount_min")
+					config.place_amount_min = text2num(value)
+				if("place_amount_max")
+					config.place_amount_max = text2num(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
