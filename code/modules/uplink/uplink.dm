@@ -57,6 +57,7 @@ var/global/list/uplinks = list()
 			if(I.include_jobs.len && !(user.mind.assigned_role in I.include_jobs))
 				continue
 			if(!(I.name == "Holoparasites") && (user in ticker.mode.changelings))
+				continue
 			cat["items"] += list(list(
 				"name" = I.name,
 				"category" = I.category,
