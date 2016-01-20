@@ -56,6 +56,7 @@ var/global/list/uplinks = list()
 			var/datum/uplink_item/I = uplink_items[category][item]
 			if(I.include_jobs.len && !(user.mind.assigned_role in I.include_jobs))
 				continue
+			if(!(I.name == "Holoparasites") && (user in ticker.mode.changelings))
 			cat["items"] += list(list(
 				"name" = I.name,
 				"category" = I.category,
