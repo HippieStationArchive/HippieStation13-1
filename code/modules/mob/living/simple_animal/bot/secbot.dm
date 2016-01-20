@@ -37,6 +37,14 @@
 	weaponscheck = 0
 	auto_patrol = 1
 
+/mob/living/simple_animal/bot/secbot/beepsky/explode()
+	var/turf/Tsec = get_turf(src)
+	new /obj/item/weapon/stock_parts/cell/potato(Tsec)
+	var/obj/item/weapon/reagent_containers/food/drinks/drinkingglass/shotglass/S = new(Tsec)
+	S.list_reagents = list("whiskey" = 15)
+	S.on_reagent_change()
+	..()
+
 /mob/living/simple_animal/bot/secbot/pingsky
 	name = "Officer Pingsky"
 	desc = "It's Officer Pingsky! Delegated to satellite guard duty for harbouring anti-human sentiment."
@@ -135,6 +143,7 @@ Auto Patrol: []"},
 /mob/living/simple_animal/bot/secbot/attack_hand(mob/living/carbon/human/H)
 	if(H.a_intent == "harm")
 		retaliate(H)
+	return ..()
 
 /mob/living/simple_animal/bot/secbot/attackby(obj/item/weapon/W, mob/user, params)
 	..()
@@ -143,7 +152,7 @@ Auto Patrol: []"},
 	if(!istype(W, /obj/item/weapon/screwdriver) && (W.force) && (!target) && (W.damtype != STAMINA) ) // Added check for welding tool to fix #2432. Welding tool behavior is handled in superclass.
 		retaliate(user)
 
-/mob/living/simple_animal/bot/secbot/Emag(mob/user)
+/mob/living/simple_animal/bot/secbot/emag_act(mob/user)
 	..()
 
 	if(emagged == 2)
@@ -206,7 +215,7 @@ Auto Patrol: []"},
 		C.Weaken(5)
 		C.stuttering = 5
 		C.Stun(5)
-		add_logs(src,C,"stunned")
+	add_logs(src,C,"stunned")
 	if(declare_arrests)
 		var/area/location = get_area(src)
 		speak("[arrest_type ? "Detaining" : "Arresting"] level [threat] scumbag <b>[C]</b> in [location].", radio_channel)
@@ -393,102 +402,6 @@ Auto Patrol: []"},
 		C.Weaken(2)
 		return
 	..()
-
-//Secbot Construction
-
-/obj/item/clothing/head/helmet/attackby(obj/item/device/assembly/signaler/S, mob/user, params)
-	..()
-	if(!issignaler(S))
-		..()
-		return
-
-	if(type != /obj/item/clothing/head/helmet/sec) //Eh, but we don't want people making secbots out of space helmets.
-		return
-
-	if(F) //Has a flashlight. Player must remove it, else it will be lost forever.
-		user << "<span class='warning'>The mounted flashlight is in the way, remove it first!</span>"
-		return
-
-	if(S.secured)
-		qdel(S)
-		var/obj/item/weapon/secbot_assembly/A = new /obj/item/weapon/secbot_assembly
-		user.put_in_hands(A)
-		user << "<span class='notice'>You add the signaler to the helmet.</span>"
-		user.unEquip(src, 1)
-		qdel(src)
-	else
-		return
-
-/obj/item/weapon/secbot_assembly/attackby(obj/item/I, mob/user, params)
-	..()
-	if(istype(I, /obj/item/weapon/weldingtool))
-		if(!build_step)
-			var/obj/item/weapon/weldingtool/WT = I
-			if(WT.remove_fuel(0, user))
-				build_step++
-				overlays += "hs_hole"
-				user << "<span class='notice'>You weld a hole in [src]!</span>"
-		else if(build_step == 1)
-			var/obj/item/weapon/weldingtool/WT = I
-			if(WT.remove_fuel(0, user))
-				build_step--
-				overlays -= "hs_hole"
-				user << "<span class='notice'>You weld the hole in [src] shut!</span>"
-
-	else if(isprox(I) && (build_step == 1))
-		if(!user.unEquip(I))
-			return
-		build_step++
-		user << "<span class='notice'>You add the prox sensor to [src]!</span>"
-		overlays += "hs_eye"
-		name = "helmet/signaler/prox sensor assembly"
-		qdel(I)
-
-	else if(((istype(I, /obj/item/robot_parts/l_arm)) || (istype(I, /obj/item/robot_parts/r_arm))) && (build_step == 2))
-		if(!user.unEquip(I))
-			return
-		build_step++
-		user << "<span class='notice'>You add the robot arm to [src]!</span>"
-		name = "helmet/signaler/prox sensor/robot arm assembly"
-		overlays += "hs_arm"
-		qdel(I)
-
-	else if((istype(I, /obj/item/weapon/melee/baton)) && (build_step >= 3))
-		if(!user.unEquip(I))
-			return
-		build_step++
-		user << "<span class='notice'>You complete the Securitron! Beep boop.</span>"
-		var/mob/living/simple_animal/bot/secbot/S = new/mob/living/simple_animal/bot/secbot(get_turf(src))
-		S.name = created_name
-		qdel(I)
-		qdel(src)
-
-	else if(istype(I, /obj/item/weapon/pen))
-		var/t = stripped_input(user, "Enter new robot name", name, created_name,MAX_NAME_LEN)
-		if(!t)
-			return
-		if(!in_range(src, usr) && loc != usr)
-			return
-		created_name = t
-
-	else if(istype(I, /obj/item/weapon/screwdriver))
-		if(!build_step)
-			new /obj/item/device/assembly/signaler(get_turf(src))
-			new /obj/item/clothing/head/helmet/sec(get_turf(src))
-			user << "<span class='notice'>You disconnect the signaler from the helmet.</span>"
-			qdel(src)
-
-		else if(build_step == 2)
-			overlays -= "hs_eye"
-			new /obj/item/device/assembly/prox_sensor(get_turf(src))
-			user << "<span class='notice'>You detach the proximity sensor from [src].</span>"
-			build_step--
-
-		else if(build_step == 3)
-			overlays -= "hs_arm"
-			new /obj/item/robot_parts/l_arm(get_turf(src))
-			user << "<span class='notice'>You remove the robot arm from [src].</span>"
-			build_step--
 
 /obj/machinery/bot_core/secbot
 	req_access = list(access_security)

@@ -41,26 +41,23 @@
 	if(summoner)
 		if(summoner.stat == DEAD)
 			src << "<span class='danger'>Your summoner has died!</span>"
-			visible_message("<span class='danger'><B>The [src] dies along with its user!</B></span>")
 			summoner.visible_message("<span class='danger'><B>[summoner]'s body is completely consumed by the strain of sustaining [src]!</B></span>")
-			for(var/obj/item/W in summoner)
-				if(!summoner.unEquip(W))
-					qdel(W)
-			summoner.gib()
+			visible_message("<span class='danger'><B>The [src] dies along with its user!</B></span>")
 			ghostize()
 			qdel(src)
-	else
-		src << "<span class='danger'>Your summoner has died!</span>"
-		visible_message("<span class='danger'><B>The [src] dies along with its user!</B></span>")
-		ghostize()
-		qdel(src)
-	if(summoner)
+			summoner.gib()
+
 		if (get_dist(get_turf(summoner),get_turf(src)) <= range)
 			return
 		else
 			src << "You moved out of range, and were pulled back! You can only move [range] meters from [summoner.real_name]"
 			visible_message("<span class='danger'>The [src] jumps back to its user.</span>")
 			loc = get_turf(summoner)
+	else
+		src << "<span class='danger'>Your summoner has died!</span>"
+		visible_message("<span class='danger'><B>The [src] dies along with its user!</B></span>")
+		ghostize()
+		qdel(src)
 
 /mob/living/simple_animal/hostile/guardian/Move() //Returns to summoner if they move out of range
 	..()
@@ -77,8 +74,9 @@
 
 /mob/living/simple_animal/hostile/guardian/death()
 	..()
-	summoner << "<span class='danger'><B>Your [name] died somehow!</span></B>"
-	summoner.death()
+	if(summoner)
+		summoner << "<span class='danger'><B>Your [name] died somehow!</span></B>"
+		summoner.death()
 
 /mob/living/simple_animal/hostile/guardian/adjustHealth(amount) //The spirit is invincible, but passes on damage to the summoner
 	var/damage = amount * damage_transfer

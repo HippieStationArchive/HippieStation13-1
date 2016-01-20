@@ -154,7 +154,7 @@
 				if(!bot.emagged)
 					bot.locked = 0
 					bot.open = 1
-					bot.Emag(null)
+					bot.emag_act()
 			for(var/obj/machinery/mach in T.contents)
 				if(istype(mach, /obj/machinery/dominator) || istype(mach, /obj/machinery/power/apc)) //Doesn't work on dominators and APCs, to prevent kekkery
 					continue
