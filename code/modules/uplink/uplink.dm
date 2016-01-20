@@ -112,6 +112,7 @@ var/global/list/uplinks = list()
 	hidden_uplink.gamemode = /datum/game_mode/nuclear
 
 /obj/item/device/multitool/uplink/New()
+	..()
 	hidden_uplink = new(src)
 	hidden_uplink.active = TRUE
 	hidden_uplink.lockable = FALSE
