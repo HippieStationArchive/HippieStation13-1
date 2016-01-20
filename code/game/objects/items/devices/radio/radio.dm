@@ -114,6 +114,8 @@
 		secure_radio_connections[ch_name] = add_radio(src, radiochannels[ch_name])
 
 /obj/item/device/radio/interact(mob/user)
+	if (..())
+		return
 	if(b_stat && !istype(user, /mob/living/silicon/ai))
 		wires.Interact(user)
 	ui_interact(user)
