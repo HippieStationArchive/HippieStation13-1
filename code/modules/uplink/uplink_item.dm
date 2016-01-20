@@ -591,24 +591,36 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW; equipped with special properties \
 			to induce internal bleeding on targets."
 	item = /obj/item/ammo_box/magazine/m762/bleeding
+	cost = 10
+	surplus = 0
+	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/machinegun/hollow
 	name = "7.62x51mm (Hollow-Point) Box Magazine"
 	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW; equipped with hollow-point tips to help \
 			with the unarmored masses of crew."
 	item = /obj/item/ammo_box/magazine/m762/hollow
+	cost = 10
+	surplus = 0
+	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/machinegun/ap
 	name = "7.62x51mm (Armor Penetrating) Box Magazine"
 	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW; equipped with special properties \
 			to puncture even the most durable armor."
 	item = /obj/item/ammo_box/magazine/m762/ap
+	cost = 10
+	surplus = 0
+	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/machinegun/incen
 	name = "7.62x51mm (Incendiary) Box Magazine"
 	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW; tipped with a special flammable \
 			mixture that'll ignite anyone struck by the bullet. Some men just want to watch the world burn."
 	item = /obj/item/ammo_box/magazine/m762/incen
+	cost = 8
+	surplus = 0
+	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/sniper
 	name = ".50 Magazine"
@@ -622,12 +634,15 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	desc = "A 3-round magazine of soporific ammo designed for use with .50 sniper rifles. Put your enemies to sleep today!"
 	item = /obj/item/ammo_box/magazine/sniper_rounds/soporific
 	cost = 6
+	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/sniper/haemorrhage
 	name = ".50 Haemorrhage Magazine"
 	desc = "A 5-round magazine of haemorrhage ammo designed for use with .50 sniper rifles; causes heavy bleeding \
 			in the target."
 	item = /obj/item/ammo_box/magazine/sniper_rounds/haemorrhage
+	cost = 6
+	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/sniper/penetrator
 	name = ".50 Penetrator Magazine"
@@ -635,6 +650,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			Can pierce walls and multiple enemies."
 	item = /obj/item/ammo_box/magazine/sniper_rounds/penetrator
 	cost = 5
+	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/toydarts
 	name = "Box of Riot Darts"
