@@ -14,7 +14,6 @@
     "browserify": "13.0.0",
     "bulkify": "1.1.1",
     "bundle-collapser": "1.2.1",
-    "clew": "0.0.14",
     "dom4": "1.6.0",
     "es3ify": "0.1.4",
     "gulp": "github:gulpjs/gulp#4.0",

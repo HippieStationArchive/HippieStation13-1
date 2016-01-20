@@ -1,11 +1,12 @@
 body.syndicate
-  color-good               = pale-green
   color-highlight          = black
   background-color-start   = #750000
   background-color-end     = #340404
   rule-color-normal        = dark-gray
   titlebar-color-text      = pale-red
   titlebar-color-button    = pale-red
+  display-color-background = alpha(#000, 0.5)
+  display-color-shadow     = alpha(#000, 0.75)
   notice-color-first       = #750000
   notice-color-second      = #910101
   section-color-label      = white
@@ -22,5 +23,4 @@ body.syndicate
     linear-gradient(to bottom,
       background-color-start 0%,
       background-color-end 100%)
-  @import "util/*"
   @import "components/*"
