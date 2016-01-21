@@ -25,7 +25,7 @@ var/datum/subsystem/timer/SStimer
 		if (!event.thingToCall || qdeleted(event.thingToCall))
 			qdel(event)
 		if (event.timeToRun <= world.time)
-			spawn(-1)
+			spawn(0)
 				call(event.thingToCall,event.procToCall)(arglist(event.argList))
 			qdel(event)
 

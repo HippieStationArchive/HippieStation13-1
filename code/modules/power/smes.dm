@@ -318,23 +318,11 @@
 	if(terminal && terminal.powernet)
 		terminal.powernet.load += amount
 
-
-/obj/machinery/power/smes/attack_hand(mob/user)
-	if (!user)
-		return
-	add_fingerprint(user)
-	interact(user)
-
-
-/obj/machinery/power/smes/interact(mob/user)
-	if (stat & BROKEN)
-		return
-	ui_interact(user)
-
-/obj/machinery/power/smes/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open = force_open)
-	if (!ui)
-		ui = new(user, src, ui_key, "smes", name, 340, 440)
+/obj/machinery/power/smes/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
+																		datum/tgui/master_ui = null, datum/ui_state/state = default_state)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "smes", name, 340, 440, master_ui, state)
 		ui.open()
 
 /obj/machinery/power/smes/get_ui_data()
@@ -358,10 +346,6 @@
 	return data
 
 /obj/machinery/power/smes/ui_act(action, params)
-	if(..())
-		return
-
-
 	switch(action)
 		if("tryinput")
 			input_attempt = !input_attempt

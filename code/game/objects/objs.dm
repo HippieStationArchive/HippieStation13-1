@@ -17,6 +17,7 @@
 /obj/Destroy()
 	if(!istype(src, /obj/machinery))
 		SSobj.processing.Remove(src) // TODO: Have a processing bitflag to reduce on unnecessary loops through the processing lists
+	SStgui.close_uis(src)
 	return ..()
 
 /obj/assume_air(datum/gas_mixture/giver)
@@ -96,9 +97,6 @@
 	if(ui_interact(user) != -1)
 		return
 	..()
-
-/obj/proc/interact(mob/user)
-	return
 
 /obj/proc/container_resist()
 	return
@@ -197,3 +195,6 @@
 	tesla_zap(src, 5, power_bounced)
 	spawn(10)
 		being_shocked = 0
+
+/obj/proc/CanAStarPass()
+	. = !density

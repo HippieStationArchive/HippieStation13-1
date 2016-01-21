@@ -34,11 +34,6 @@
 		cmd_admin_pm(href_list["priv_msg"],null)
 		return
 
-	// NanoUI
-	if(href_list["nano_error"])
-		src << href_list["nano_error"]
-		throw EXCEPTION("NanoUI: [href_list["nano_error"]]")
-
 	if(href_list["mentor_msg"])
 		if(config.mentors_mobname_only)
 			var/mob/M = locate(href_list["mentor_msg"])
@@ -54,10 +49,6 @@
 			mentor_follow(M)
 
 		return
-
-	if(href_list["nano_error"])
-		src << href_list["nano_error"]
-		throw EXCEPTION("NanoUI: [href_list["nano_error"]]")
 
 	//Logs all hrefs
 	if(config && config.log_hrefs && href_logfile)
@@ -135,6 +126,19 @@ var/next_external_rsc = 0
 	directory[ckey] = src
 
 	//Admin Authorisation
+	if(protected_config.autoadmin)
+		if(!admin_datums[ckey])
+			var/datum/admin_rank/autorank
+			for(var/datum/admin_rank/R in admin_ranks)
+				if(R.name == protected_config.autoadmin_rank)
+					autorank = R
+					break
+			if(!autorank)
+				world << "Autoadmin rank not found"
+			else
+				var/datum/admins/D = new(autorank, ckey)
+				admin_datums[ckey] = D
+
 	holder = admin_datums[ckey]
 	if(holder)
 		admins += src
