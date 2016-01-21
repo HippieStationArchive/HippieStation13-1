@@ -19,10 +19,8 @@ var/datum/subsystem/minimap/SSminimap
 /datum/subsystem/minimap/Initialize(timeofday, zlevel)
 	if (zlevel)
 		return ..()
-	for(var/z = 1 to world.maxz)
-		generate(z)
-	for (var/z = 1 to world.maxz)
-		register_asset("minimap_[z].png", file("[getMinimapFile(z)].png"))
+	generate(1)
+	register_asset("minimap_1.png", file("[getMinimapFile(1)].png"))
 	..()
 
 /datum/subsystem/minimap/proc/generate(z, x1 = 1, y1 = 1, x2 = world.maxx, y2 = world.maxy)
