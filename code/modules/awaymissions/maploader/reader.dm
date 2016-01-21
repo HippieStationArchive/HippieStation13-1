@@ -44,7 +44,7 @@ var/global/dmm_suite/preloader/_preloader = null
 		var/model_key = copytext(tline,2,2+key_len)
 		var/model_contents = copytext(tline,findtext(tfile,"=")+3,length(tline))
 		grid_models[model_key] = model_contents
-		sleep(-1)
+		sleep(0)
 
 	///////////////////////////////////////////////////////////////////////////////////////
 	//now let's fill the map with turf and objects using the constructed model map
@@ -92,12 +92,12 @@ var/global/dmm_suite/preloader/_preloader = null
 
 			ycrd--
 
-			sleep(-1)
+			sleep(0)
 
 		//reached End Of File
 		if(findtext(tfile,quote+"}",zpos,0)+2==tfile_len)
 			break
-		sleep(-1)
+		sleep(0)
 
 /**
  * Fill a given tile with its area/turf/objects/mobs
@@ -155,7 +155,7 @@ var/global/dmm_suite/preloader/_preloader = null
 		members_attributes.len++
 		members_attributes[index++] = fields
 
-		sleep(-1)
+		sleep(0)
 	while(dpos != 0)
 
 

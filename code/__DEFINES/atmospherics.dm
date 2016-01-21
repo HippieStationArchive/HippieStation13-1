@@ -8,11 +8,15 @@
 #define MOLES_O2STANDARD		(MOLES_CELLSTANDARD*O2STANDARD)	// O2 standard value (21%)
 #define MOLES_N2STANDARD		(MOLES_CELLSTANDARD*N2STANDARD)	// N2 standard value (79%)
 
-#define GAS_O2 	(1 << 0)
-#define GAS_N2	(1 << 1)
-#define GAS_PL	(1 << 2)
-#define GAS_CO2	(1 << 3)
-#define GAS_N2O	(1 << 4)
+//indices of values in gas lists. used by listmos.
+#define MOLES			1
+#define ARCHIVE			2
+#define GAS_META		3
+//this is kinda hacky... but it means I don't have to change every single time they're called.
+#define SPECIFIC_HEAT	GAS_META][1
+#define GAS_NAME		GAS_META][2
+#define GAS_OVERLAY		GAS_META][4
+#define MOLES_VISIBLE	GAS_META][3
 
 //stuff you should probably leave well alone!
 //ATMOS
@@ -53,6 +57,8 @@
 #define CARBON_LIFEFORM_FIRE_RESISTANCE 	200+T0C	//Resistance to fire damage
 #define CARBON_LIFEFORM_FIRE_DAMAGE			4		//Fire damage
 	//Plasma fire properties
+#define OXYGEN_BURN_RATE_BASE				1.4
+#define PLASMA_BURN_RATE_DELTA				8
 #define PLASMA_MINIMUM_BURN_TEMPERATURE		100+T0C
 #define PLASMA_UPPER_TEMPERATURE			1370+T0C
 #define PLASMA_MINIMUM_OXYGEN_NEEDED		2
@@ -61,6 +67,13 @@
 #define MIN_PLASMA_DAMAGE					1
 #define MAX_PLASMA_DAMAGE					10
 #define MOLES_PLASMA_VISIBLE				0.5		//Moles in a standard cell after which plasma is visible
+
+//Plasma fusion properties
+#define PLASMA_BINDING_ENERGY				3000000
+#define MAX_CARBON_EFFICENCY				9
+#define PLASMA_FUSED_COEFFICENT				0.08
+#define CARBON_CATALYST_COEFFICENT			0.01
+#define FUSION_PURITY_THRESHOLD				0.9
 
 // Pressure limits.
 #define HAZARD_HIGH_PRESSURE				550		//This determins at what pressure the ultra-high pressure red icon is displayed. (This one is set as a constant)
