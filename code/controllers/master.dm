@@ -49,6 +49,9 @@ calculate the longest number of ticks the MC can wait between each cycle without
 
 /datum/controller/master/proc/Setup(zlevel)
 	if (zlevel && zlevel > 0 && zlevel <= world.maxz)
+		for(var/datum/subsystem/SS in subsystems)
+			SS.Initialize(world.timeofday, zlevel)
+			sleep(0)
 		for(var/datum/subsystem/S in subsystems)
 			S.Initialize(world.timeofday, zlevel)
 			sleep(-1)
@@ -58,7 +61,10 @@ calculate the longest number of ticks the MC can wait between each cycle without
 
 	//sort subsystems by priority, so they initialize in the correct order
 	sortTim(subsystems, /proc/cmp_subsystem_priority)
-
+	// Initialize subsystems.
+	for(var/datum/subsystem/SS in subsystems)
+		SS.Initialize(world.timeofday, zlevel)
+		sleep(0)
 	createRandomZlevel()	//gate system
 	setup_map_transitions()
 	for(var/i=0, i<max_secret_rooms, i++)
@@ -69,13 +75,12 @@ calculate the longest number of ticks the MC can wait between each cycle without
 		S.Initialize(world.timeofday, zlevel)
 		sleep(-1)
 
-
 	world << "<span class='boldannounce'>Initializations complete</span>"
 
 	world.sleep_offline = 1
 	world.fps = config.fps
 
-	sleep(-1)
+	sleep(0)
 
 	process()
 
