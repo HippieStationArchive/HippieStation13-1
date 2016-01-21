@@ -307,7 +307,8 @@
 		"sugar",
 		"orangejuice",
 		"limejuice",
-		"tomatojuice"
+		"tomatojuice",
+		"lemonjuice"
 	)
 
 /obj/machinery/chem_dispenser/drinks/attackby(obj/item/I, mob/user)
@@ -338,6 +339,7 @@
 		"sugar",
 		"orangejuice",
 		"limejuice",
+		"lemonjuice",
 		"sodawater",
 		"tonic",
 		"beer",
