@@ -112,6 +112,8 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/moth
 	teeth_type = /obj/item/stack/teeth/lizard
 
+
+
 /datum/species/moth/random_name(gender,unique,lastname)
 	if(unique)
 		return random_unique_moth_name(gender)
@@ -187,6 +189,20 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_sound = 'sound/weapons/smash.ogg'
 	miss_sound = 'sound/weapons/punchmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
+
+/datum/species/noose
+
+	name = "Nooseman"
+	id = "noose"
+	roundstart = 1
+	attack_verb = "lynch"
+	attack_sound = 'sound/effects/noose_idle.ogg'
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/noose
+
+/datum/species/noose/qualifies_for_rank(rank, list/features)
+	if (rank in command_positions)
+		return 0
+	return 1
 
 /datum/species/bot/qualifies_for_rank(rank, list/features)
 	if(rank in command_positions)

@@ -276,8 +276,12 @@
 					M = null
 				if (M)
 					message = "<B>[src]</B> hugs [M]."
+					if (src.dna.species.id == "noose")
+						message = "<B>[src]</B> wraps around [M]."
 				else
 					message = "<B>[src]</B> hugs \himself."
+					if (src.dna.species.id== "noose")
+						message = "<B>[src]</B> wraps around himself."
 
 		if ("johnny")
 			var/M
@@ -380,6 +384,9 @@
 							sound = "sound/misc/caw.ogg"
 						if("skeleton")
 							sound = "sound/misc/skeleton.ogg"
+						if("noose")
+							sound = "sound/effects/noose_idle.ogg"
+
 						else
 							if(gender == FEMALE)
 								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
