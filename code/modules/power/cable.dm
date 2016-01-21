@@ -514,7 +514,12 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 
 /obj/item/stack/cable_coil/suicide_act(mob/living/user)
 	if((locate(/obj/structure/stool) in user.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
-		user.visible_message("<span class='suicide'>[user] is making a noose with the [src]! It looks like \he's trying to commit suicide.</span>")
+		if (ishuman(user))
+			var/mob/living/carbon/human/H = user
+			if (H.dna.species.id == "noose")
+				H.visible_message("<span class='suicide'>[user] is trying to hang \himself on the wall! It looks like \he's trying to commit suicide.</span>")
+			else
+				H.visible_message("<span class='suicide'>[user] is making a noose with the [src]! It looks like \he's trying to commit suicide.</span>")
 		if(do_after(user, 20, target = user.loc))
 			qdel(src)
 			var/obj/structure/noose/N = new(get_turf(user.loc))

@@ -10,6 +10,10 @@
 	if(confirm == "Yes")
 		suiciding = 1
 		var/obj/item/held_item = get_active_hand()
+		if (!held_item)
+			if (src.dna.species.id == "noose")
+				src.put_in_active_hand(new/obj/item/stack/cable_coil)
+				held_item = get_active_hand()
 		if(held_item)
 			var/damagetype = held_item.suicide_act(src)
 			if(!canSuicide()) //When we were returned the actual suicide method seems like we were interrupted.
