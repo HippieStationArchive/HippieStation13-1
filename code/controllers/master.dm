@@ -49,28 +49,22 @@ calculate the longest number of ticks the MC can wait between each cycle without
 
 /datum/controller/master/proc/Setup(zlevel)
 	if (zlevel && zlevel > 0 && zlevel <= world.maxz)
-<<<<<<< HEAD
 		for(var/datum/subsystem/SS in subsystems)
 			SS.Initialize(world.timeofday, zlevel)
 			sleep(0)
-=======
 		for(var/datum/subsystem/S in subsystems)
 			S.Initialize(world.timeofday, zlevel)
 			sleep(-1)
->>>>>>> refs/remotes/HippieStationCode/master
 		return
 	world << "<span class='boldannounce'>Initializing Subsystems...</span>"
 
 
 	//sort subsystems by priority, so they initialize in the correct order
 	sortTim(subsystems, /proc/cmp_subsystem_priority)
-
-<<<<<<< HEAD
 	// Initialize subsystems.
 	for(var/datum/subsystem/SS in subsystems)
 		SS.Initialize(world.timeofday, zlevel)
 		sleep(0)
-=======
 	createRandomZlevel()	//gate system
 	setup_map_transitions()
 	for(var/i=0, i<max_secret_rooms, i++)
@@ -80,8 +74,6 @@ calculate the longest number of ticks the MC can wait between each cycle without
 	for(var/datum/subsystem/S in subsystems)
 		S.Initialize(world.timeofday, zlevel)
 		sleep(-1)
->>>>>>> refs/remotes/HippieStationCode/master
-
 
 	world << "<span class='boldannounce'>Initializations complete</span>"
 

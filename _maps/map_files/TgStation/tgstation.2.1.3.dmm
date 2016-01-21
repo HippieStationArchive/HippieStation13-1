@@ -1386,11 +1386,8 @@
 "aAH" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/obj/structure/disposalpipe/segment,/obj/machinery/atmospherics/pipe/simple/supply/hidden,/turf/simulated/floor/carpet,/area/lawoffice)
 "aAI" = (/obj/machinery/vending/sustenance,/turf/simulated/floor/plating,/area/maintenance/fsmaint2)
 "aAJ" = (/obj/machinery/computer/crew,/obj/machinery/light/small{dir = 4},/turf/simulated/floor/plating,/area/maintenance/fsmaint2)
-<<<<<<< HEAD
 "aAK" = (/obj/machinery/door/airlock{name = "Law Office"; req_access_txt = "42"},/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/floor/plasteel{icon_state = "grimy"},/area/lawoffice)
-=======
 "aAK" = (/obj/machinery/door/airlock{name = "Law Office"; req_access_txt = "38"},/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/floor/plasteel{icon_state = "grimy"},/area/lawoffice)
->>>>>>> refs/remotes/HippieStationCode/master
 "aAL" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 5},/obj/structure/disposalpipe/junction{dir = 8; icon_state = "pipe-j1"; tag = "icon-pipe-j1 (EAST)"},/turf/simulated/floor/plasteel{icon_state = "grimy"},/area/lawoffice)
 "aAM" = (/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/floor/plasteel{icon_state = "grimy"},/area/lawoffice)
 "aAN" = (/obj/structure/disposalpipe/segment{dir = 4},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/floor/plasteel{icon_state = "grimy"},/area/lawoffice)
@@ -1414,11 +1411,8 @@
 "aBf" = (/obj/structure/cable{d1 = 1; d2 = 8; icon_state = "1-8"},/turf/simulated/floor/plasteel{icon_state = "grimy"},/area/lawoffice)
 "aBg" = (/obj/structure/table,/obj/effect/spawner/lootdrop/maintenance{lootcount = 2; name = "2maintenance loot spawner"},/turf/simulated/floor/plating,/area/maintenance/fsmaint)
 "aBh" = (/turf/simulated/wall,/area/crew_quarters)
-<<<<<<< HEAD
 "aBi" = (/obj/machinery/door/airlock/maintenance{name = "Law Office Maintenance"; req_access_txt = "42"},/turf/simulated/floor/plating,/area/lawoffice)
-=======
 "aBi" = (/obj/machinery/door/airlock/maintenance{name = "Law Office Maintenance"; req_access_txt = "38"},/turf/simulated/floor/plating,/area/lawoffice)
->>>>>>> refs/remotes/HippieStationCode/master
 "aBj" = (/obj/structure/grille,/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/crew_quarters/pool)
 "aBk" = (/obj/structure/grille,/obj/effect/landmark{name = "Syndicate Breach Area"},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/crew_quarters/pool)
 "aBl" = (/obj/structure/grille,/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 10},/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/crew_quarters/pool)
@@ -1970,11 +1964,8 @@
 "aLL" = (/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{tag = "icon-manifold-r-f (WEST)"; dir = 8},/turf/simulated/floor/plating,/area/maintenance/fpmaint)
 "aLM" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0; tag = ""},/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/floor/plating,/area/maintenance/fpmaint)
 "aLN" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0; tag = ""},/obj/machinery/atmospherics/pipe/manifold/supply/hidden,/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/floor/plating,/area/maintenance/fpmaint)
-<<<<<<< HEAD
 "aLO" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0; tag = ""},/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/obj/structure/disposalpipe/segment{dir = 4},/obj/machinery/door/airlock/maintenance{req_access_txt = "12"},/turf/simulated/floor/plating,/area/maintenance/fpmaint)
-=======
 "aLO" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/turf/simulated/floor/plasteel{icon_state = "warningcorner"; dir = 2},/area/hallway/secondary/entry)
->>>>>>> refs/remotes/HippieStationCode/master
 "aLP" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/turf/simulated/floor/plasteel,/area/hallway/primary/fore)
 "aLQ" = (/obj/structure/cable{d1 = 1; d2 = 8; icon_state = "1-8"},/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"; tag = ""},/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 10},/obj/structure/disposalpipe/segment{dir = 2; icon_state = "pipe-c"},/turf/simulated/floor/plasteel{icon_state = "redcorner"; dir = 1},/area/hallway/primary/fore)
 "aLR" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 9},/obj/structure/disposalpipe/segment{dir = 8; icon_state = "pipe-c"},/mob/living/simple_animal/mouse/white,/turf/simulated/floor/plating,/area/maintenance/fpmaint)
