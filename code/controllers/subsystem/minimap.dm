@@ -171,8 +171,7 @@ var/datum/subsystem/minimap/SSminimap
 	return "data/minimaps/map_[zlevel]"
 
 /datum/subsystem/minimap/proc/sendMinimaps(client/client)
-	for (var/z = 1 to world.maxz)
-		send_asset(client, "minimap_[z].png")
+	send_asset(client, "minimap_1.png")
 
 #ifdef MINIMAP_DEBUG
 #undef MINIMAP_DEBUG
