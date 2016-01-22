@@ -1,7 +1,7 @@
 var/datum/subsystem/npcpool/SSnpc
 
 /datum/subsystem/npcpool
-	name = "NPCPool"
+	name = "NPC Pool"
 	priority = 17
 	display = 6
 
