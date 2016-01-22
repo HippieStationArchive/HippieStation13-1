@@ -1660,6 +1660,10 @@ var/list/teleportlocs = list()
 /area/awaycontent/a30
 	icon_state = "awaycontent30"
 
+//Areas used exclusively by templates
+/area/template/
+	name = "LabShuttle"
+	icon_state = "hydro"
 
 /////////////////////////////////////////////////////////////////////
 /*
