@@ -26,7 +26,7 @@ var/global/list/rad_collectors = list()
 
 /obj/machinery/power/rad_collector/process()
 	if(P)
-		if(!P.air_contents.gases["plasma"][MOLES] <= 0)
+		if(!P.air_contents.gases["plasma"])
 			investigate_log("<font color='red'>out of fuel</font>.","singulo")
 			eject()
 		else
