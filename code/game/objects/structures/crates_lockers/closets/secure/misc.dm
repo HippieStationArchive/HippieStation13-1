@@ -80,7 +80,7 @@
 	new /obj/item/clothing/shoes/sneakers/mime(src)
 	new /obj/item/clothing/under/rank/mime(src)
 	new /obj/item/weapon/storage/backpack/mime(src)
-	return
+	
 
 /obj/structure/closet/secure_closet/clown
 	name = "Clown closet"
@@ -95,7 +95,7 @@
 	new /obj/item/clothing/shoes/clown_shoes(src)
 	new /obj/item/clothing/mask/gas/clown_hat(src)
 	new /obj/item/weapon/storage/backpack/clown(src)
-	return
+	
 
 
 
