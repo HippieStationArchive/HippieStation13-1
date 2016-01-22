@@ -13,6 +13,9 @@ var/global/datum/controller/master/Master = new()
 	var/subsystem_cost = 0
 	var/last_thing_processed
 
+	// The old fps when we slow it down to prevent lag.
+	var/old_fps
+
 	var/list/subsystems = list()
 
 /datum/controller/master/New()
@@ -96,8 +99,14 @@ calculate the longest number of ticks the MC can wait between each cycle without
 				start_time = world.timeofday
 				var/SubSystemRan = 0
 				for(var/datum/subsystem/SS in subsystems)
+					if(world.cpu >= 100)
+						//if world.cpu gets above 120,
+						//byond will pause most client updates for (about) 1.6 seconds.
+						//(1.6 seconds worth of ticks)
+						//We just stop running subsystems to avoid that.
+						break
 					if(SS.can_fire > 0)
-						if(SS.next_fire <= world.time && SS.last_fire+(SS.wait*0.5) <= world.time)
+						if(SS.next_fire <= world.time && SS.last_fire+(SS.wait*0.75) <= world.time)
 							SubSystemRan = 1
 							timer = world.timeofday
 							last_thing_processed = SS.type
@@ -113,7 +122,9 @@ calculate the longest number of ticks the MC can wait between each cycle without
 								SS.wait = Clamp(NewWait,SS.dwait_lower,SS.dwait_upper)
 								if (oldwait != SS.wait)
 									calculateGCD()
-							SS.next_fire += SS.wait
+								SS.next_fire = world.time + SS.wait
+							else
+								SS.next_fire += SS.wait
 							++SS.times_fired
 							//we caused byond to miss a tick, stop processing for a bit
 							if (startingtick < world.time || start_time+1 < world.timeofday)
@@ -127,8 +138,19 @@ calculate the longest number of ticks the MC can wait between each cycle without
 				if (startingtick < world.time || start_time+1 < world.timeofday)
 					//we caused byond to miss a tick, sleep a bit extra
 					extrasleep += world.tick_lag*2
-				if (world.cpu > 80)
-					extrasleep += extrasleep+processing_interval
+
+				if(world.cpu >= 75)
+					extrasleep += (extrasleep + processing_interval) * ((world.cpu-50)/10)
+
+				if(world.cpu >= 100)
+					if(!old_fps)
+						old_fps = world.fps
+						//byond bug, if we go over 120 fps and world.fps is higher then 10, the bad things that happen are made worst.
+						world.fps = 10
+				else if(old_fps && world.cpu < 75)
+					world.fps = old_fps
+					old_fps = null
+
 				sleep(processing_interval+extrasleep)
 			else
 				sleep(50)
