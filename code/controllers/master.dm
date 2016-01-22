@@ -52,9 +52,6 @@ calculate the longest number of ticks the MC can wait between each cycle without
 		for(var/datum/subsystem/SS in subsystems)
 			SS.Initialize(world.timeofday, zlevel)
 			sleep(0)
-		for(var/datum/subsystem/S in subsystems)
-			S.Initialize(world.timeofday, zlevel)
-			sleep(-1)
 		return
 	world << "<span class='boldannounce'>Initializing Subsystems...</span>"
 
@@ -69,11 +66,6 @@ calculate the longest number of ticks the MC can wait between each cycle without
 	setup_map_transitions()
 	for(var/i=0, i<max_secret_rooms, i++)
 		make_mining_asteroid_secret()
-
-	//Eventually all this other setup stuff should be contained in subsystems and done in subsystem.Initialize()
-	for(var/datum/subsystem/S in subsystems)
-		S.Initialize(world.timeofday, zlevel)
-		sleep(-1)
 
 	world << "<span class='boldannounce'>Initializations complete</span>"
 
