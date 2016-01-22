@@ -74,7 +74,7 @@
 
 /obj/structure/closet/secure_closet/mime/New()
 	..()
-	new /obj/item/toy/crayon/mime
+	new /obj/item/toy/crayon/mime(src)
 	new /obj/item/clothing/head/soft/mime(src)
 	new /obj/item/clothing/mask/gas/mime(src)
 	new /obj/item/clothing/shoes/sneakers/mime(src)
