@@ -147,7 +147,7 @@ calculate the longest number of ticks the MC can wait between each cycle without
 						old_fps = world.fps
 						//byond bug, if we go over 120 fps and world.fps is higher then 10, the bad things that happen are made worst.
 						world.fps = 10
-				else if(old_fps && world.cpu < 75)
+				else if(old_fps && world.cpu < 50)
 					world.fps = old_fps
 					old_fps = null
 
