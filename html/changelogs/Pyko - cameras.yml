@@ -33,7 +33,7 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd "Cameras all around the map, watch out for spying eyes."
+  - rscadd "Added more cameras all around the map, watch out for spying eyes."
   - rscadd "Placed Mime statues to mime office."
   - tweak "Armory cameras are once again all motion detecting."
   - tweak "Moved a potted plant at sec hallway."
