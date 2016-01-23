@@ -1676,8 +1676,6 @@ var/list/teleportlocs = list()
 /area/template/Clown
 	name = "Clownship"
 	icon_state = "clown"
-	luminosity = 1
-	requires_power = 0
 	has_gravity = 1
 	ambloop = 'sound/ambience/loop/space.ogg'
 	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
