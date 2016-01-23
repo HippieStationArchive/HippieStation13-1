@@ -1669,9 +1669,18 @@ var/list/teleportlocs = list()
 	icon_state = "awaycontent30"
 
 //Areas used exclusively by templates
-/area/template/
+/area/template/Labshuttle
 	name = "LabShuttle"
 	icon_state = "hydro"
+
+/area/template/Clown
+	name = "Clownship"
+	icon_state = "clown"
+	luminosity = 1
+	requires_power = 0
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/space.ogg'
+	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
 
 /////////////////////////////////////////////////////////////////////
 /*
