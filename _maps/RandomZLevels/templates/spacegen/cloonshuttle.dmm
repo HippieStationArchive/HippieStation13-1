@@ -16,28 +16,30 @@
 "p" = (/obj/machinery/door/poddoor{id = "cloongunright"; name = "Orbital Bomber Door"},/turf/simulated/floor/plating,/area/template/Clown)
 "q" = (/obj/machinery/door/window/eastleft,/obj/machinery/conveyor/auto{dir = 1},/obj/machinery/portable_atmospherics/canister/toxins,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
 "r" = (/obj/machinery/door/window/westright,/obj/machinery/conveyor/auto{dir = 1},/obj/machinery/portable_atmospherics/canister/toxins,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"s" = (/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 1; layer = 2.9},/obj/machinery/power/emitter/energycannon{dir = 8; req_access = null},/turf/simulated/floor/plating,/area/template/Clown)
-"t" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 8},/mob/living/simple_animal/hostile/retaliate/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"s" = (/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 1; layer = 2.9},/obj/machinery/power/emitter/energycannon{active = 0; dir = 8; req_access = null},/obj/structure/cable{icon_state = "0-4"; d2 = 4},/turf/simulated/floor/plating,/area/template/Clown)
+"t" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 8},/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/mob/living/simple_animal/hostile/retaliate/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
 "u" = (/obj/structure/stool/bed/chair/comfy/lime,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"v" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 4},/mob/living/simple_animal/hostile/retaliate/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"w" = (/obj/structure/window/reinforced{dir = 4; pixel_x = 0},/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 1; layer = 2.9},/obj/machinery/power/emitter/energycannon{dir = 4; req_access = null},/turf/simulated/floor/plating,/area/template/Clown)
-"x" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/snacks/breadslice/banana,/obj/item/weapon/reagent_containers/food/snacks/breadslice/banana,/obj/item/weapon/reagent_containers/food/snacks/grown/banana,/obj/item/weapon/reagent_containers/food/snacks/store/bread/banana,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"y" = (/obj/item/clothing/shoes/clown_shoes/banana_shoes,/obj/item/clothing/gloves/color/rainbow/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"z" = (/obj/structure/statue/bananium/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"A" = (/obj/item/toy/figure/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"B" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 8},/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"C" = (/obj/item/weapon/bikehorn,/obj/item/weapon/cartridge/clown,/obj/item/clothing/mask/gas/clown_hat,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"D" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 4},/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"E" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/clown,/obj/item/weapon/storage/backpack/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"F" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/clown,/obj/item/clothing/under/rank/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"G" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"H" = (/obj/machinery/suit_storage_unit/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"I" = (/obj/item/stack/tile/mineral/bananium{amount = 50},/obj/structure/closet/crate,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"J" = (/obj/item/stack/sheet/mineral/bananium{amount = 25},/obj/structure/closet/crate,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"K" = (/obj/structure/shuttle/engine/heater,/obj/structure/window/reinforced{dir = 1},/turf/simulated/floor/plating,/area/template/Clown)
-"L" = (/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/structure/closet/crate,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"M" = (/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/structure/closet/crate,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
-"N" = (/obj/structure/shuttle/engine/propulsion,/turf/simulated/floor/plating,/area/template/Clown)
+"v" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 4},/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/mob/living/simple_animal/hostile/retaliate/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"w" = (/obj/structure/window/reinforced{dir = 4; pixel_x = 0},/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 1; layer = 2.9},/obj/machinery/power/emitter/energycannon{active = 0; dir = 4; req_access = null},/obj/structure/cable{d2 = 8; icon_state = "0-8"},/turf/simulated/floor/plating,/area/template/Clown)
+"x" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"y" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/snacks/breadslice/banana,/obj/item/weapon/reagent_containers/food/snacks/breadslice/banana,/obj/item/weapon/reagent_containers/food/snacks/grown/banana,/obj/item/weapon/reagent_containers/food/snacks/store/bread/banana,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"z" = (/obj/item/clothing/shoes/clown_shoes/banana_shoes,/obj/item/clothing/gloves/color/rainbow/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"A" = (/obj/structure/statue/bananium/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"B" = (/obj/item/toy/figure/clown,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"C" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 8},/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"D" = (/obj/item/weapon/bikehorn,/obj/item/weapon/cartridge/clown,/obj/item/clothing/mask/gas/clown_hat,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"E" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 4},/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"F" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/clown,/obj/item/weapon/storage/backpack/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"G" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/clown,/obj/item/clothing/under/rank/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"H" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"I" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 8},/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/mob/living/simple_animal/hostile/retaliate/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"J" = (/obj/machinery/suit_storage_unit/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"K" = (/obj/structure/stool/bed/chair/comfy/lime{dir = 4},/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/mob/living/simple_animal/hostile/retaliate/clown,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"L" = (/obj/machinery/power/smes/magical,/obj/structure/cable,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"M" = (/obj/item/stack/sheet/mineral/bananium{amount = 25},/obj/structure/closet/crate,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"N" = (/obj/structure/shuttle/engine/heater,/obj/structure/window/reinforced{dir = 1},/turf/simulated/floor/plating,/area/template/Clown)
+"O" = (/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/item/weapon/coin/clown,/obj/structure/closet/crate,/turf/simulated/floor/plasteel/blueyellow,/area/template/Clown)
+"P" = (/obj/structure/shuttle/engine/propulsion,/turf/simulated/floor/plating,/area/template/Clown)
 
 (1,1,1) = {"
 aaaaabccccbaaaaa
@@ -49,11 +51,11 @@ aaaaabqiirbaaaaa
 aaaaabqiirbaaaaa
 abbbbbbjjbbjbbba
 astibuuiiijibvwa
-abiibxxiyzbbbAba
-asBijiiiiCijiDwa
-abiibEFGGGGbiiba
-astibHHHHHHbivwa
-abIJbbbKKbbbLMba
-abKKbabNNbabKKba
-abNNbaaaaaabNNba
+abxibyyizAbbbBba
+asCijiiiiDijiEwa
+abxibFGHHHHbixba
+asIibJJJJJJbiKwa
+abLMbbbNNbbbOLba
+abNNbabPPbabNNba
+abPPbaaaaaabPPba
 "}
