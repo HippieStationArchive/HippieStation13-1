@@ -1,0 +1,6 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed radiation collectors eject any plasma tank thinking they're empty."
