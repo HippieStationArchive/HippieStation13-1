@@ -71,7 +71,7 @@
 	if(current)					//remove ourself from our old body's mind variable
 		current.mind = null
 
-		SStgui.on_transfer(current, new_character)
+		SSnano.user_transferred(current, new_character)
 
 	if(key)
 		if(new_character.key != key)					//if we're transfering into a body with a key associated which is not ours
@@ -556,13 +556,16 @@
 		istype(current,/mob/living/carbon/human)      )
 
 		text = "Uplink: <a href='?src=\ref[src];common=uplink'>give</a>"
-		var/obj/item/device/uplink/U = find_syndicate_uplink()
-		if(U)
+		var/obj/item/device/uplink/hidden/suplink = find_syndicate_uplink()
+		var/crystals
+		if (suplink)
+			crystals = suplink.uses
+		if (suplink)
 			text += "|<a href='?src=\ref[src];common=takeuplink'>take</a>"
 			if (check_rights(R_FUN, 0))
-				text += ", <a href='?src=\ref[src];common=crystals'>[U.telecrystals]</a> TC"
+				text += ", <a href='?src=\ref[src];common=crystals'>[crystals]</a> crystals"
 			else
-				text += ", [U.telecrystals] TC"
+				text += ", [crystals] crystals"
 		text += "." //hiel grammar
 		out += text
 
@@ -1112,13 +1115,13 @@
 					else
 						temp.equip_scientist(current)
 
-	else if(href_list["monkey"])
+	else if (href_list["monkey"])
 		var/mob/living/L = current
-		if(L.notransform)
+		if (L.notransform)
 			return
 		switch(href_list["monkey"])
 			if("healthy")
-				if(check_rights(R_ADMIN))
+				if (check_rights(R_ADMIN))
 					var/mob/living/carbon/human/H = current
 					var/mob/living/carbon/monkey/M = current
 					if (istype(H))
@@ -1133,7 +1136,7 @@
 							D.cure(0)
 						sleep(0) //because deleting of virus is done through spawn(0)
 			if("infected")
-				if(check_rights(R_ADMIN, 0))
+				if (check_rights(R_ADMIN, 0))
 					var/mob/living/carbon/human/H = current
 					var/mob/living/carbon/monkey/M = current
 					if (istype(H))
@@ -1146,12 +1149,12 @@
 					else if (istype(M))
 						current.ForceContractDisease(new /datum/disease/transformation/jungle_fever)
 			if("human")
-				if(check_rights(R_ADMIN, 0))
+				if (check_rights(R_ADMIN, 0))
 					var/mob/living/carbon/human/H = current
 					var/mob/living/carbon/monkey/M = current
-					if(istype(M))
+					if (istype(M))
 						for(var/datum/disease/D in M.viruses)
-							if(istype(D,/datum/disease/transformation/jungle_fever))
+							if (istype(D,/datum/disease/transformation/jungle_fever))
 								D.cure(0)
 								sleep(0) //because deleting of virus is doing throught spawn(0)
 						log_admin("[key_name(usr)] attempting to humanize [key_name(current)]")
@@ -1160,7 +1163,7 @@
 						if(H)
 							src = H.mind
 
-	else if(href_list["silicon"])
+	else if (href_list["silicon"])
 		switch(href_list["silicon"])
 			if("unmalf")
 				remove_malf()
@@ -1188,7 +1191,7 @@
 					message_admins("[key_name_admin(usr)] has unemag'ed [ai]'s Cyborgs.")
 					log_admin("[key_name(usr)] has unemag'ed [ai]'s Cyborgs.")
 
-	else if(href_list["common"])
+	else if (href_list["common"])
 		switch(href_list["common"])
 			if("undress")
 				for(var/obj/item/W in current)
@@ -1198,12 +1201,15 @@
 				memory = null//Remove any memory they may have had.
 				log_admin("[key_name(usr)] removed [current]'s uplink.")
 			if("crystals")
-				if(check_rights(R_FUN, 0))
-					var/obj/item/device/uplink/U = find_syndicate_uplink()
-					if(U)
-						var/crystals = input("Amount of telecrystals for [key]","Syndicate uplink", U.telecrystals) as null|num
-						if(!isnull(crystals))
-							U.telecrystals = crystals
+				if (check_rights(R_FUN, 0))
+					var/obj/item/device/uplink/hidden/suplink = find_syndicate_uplink()
+					var/crystals
+					if (suplink)
+						crystals = suplink.uses
+					crystals = input("Amount of telecrystals for [key]","Syndicate uplink", crystals) as null|num
+					if (!isnull(crystals))
+						if (suplink)
+							suplink.uses = crystals
 							message_admins("[key_name_admin(usr)] changed [current]'s telecrystal count to [crystals].")
 							log_admin("[key_name(usr)] changed [current]'s telecrystal count to [crystals].")
 			if("uplink")
@@ -1211,7 +1217,7 @@
 					usr << "<span class='danger'>Equipping a syndicate failed!</span>"
 				log_admin("[key_name(usr)] attempted to give [current] an uplink.")
 
-	else if(href_list["obj_announce"])
+	else if (href_list["obj_announce"])
 		var/obj_count = 1
 		current << "<span class='notice'>Your current objectives:</span>"
 		for(var/datum/objective/objective in objectives)
@@ -1222,13 +1228,13 @@
 
 /datum/mind/proc/find_syndicate_uplink()
 	var/list/L = current.get_contents()
-	for(var/obj/item/I in L)
-		if(I.hidden_uplink)
+	for (var/obj/item/I in L)
+		if (I.hidden_uplink)
 			return I.hidden_uplink
 	return null
 
 /datum/mind/proc/take_uplink()
-	var/obj/item/device/uplink/H = find_syndicate_uplink()
+	var/obj/item/device/uplink/hidden/H = find_syndicate_uplink()
 	if(H)
 		qdel(H)
 
@@ -1277,11 +1283,11 @@
 
 		ticker.mode.equip_syndicate(current, telecrystals)
 
-		if(nuke_code)
+		if (nuke_code)
 			store_memory("<B>Syndicate Nuclear Bomb Code</B>: [nuke_code]", 0, 0)
 			current << "The nuclear authorization code is: <B>[nuke_code]</B>"
 
-		if(leader)
+		if (leader)
 			ticker.mode.prepare_syndicate_leader(src,nuke_code)
 		else
 			current.real_name = "[syndicate_name()] Operative #[ticker.mode.syndicates.len-1]"

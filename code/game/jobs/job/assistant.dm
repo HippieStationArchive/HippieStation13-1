@@ -32,9 +32,8 @@ Assistant
 /datum/outfit/job/assistant
 	name = "Assistant"
 
-/datum/outfit/job/assistant/pre_equip(mob/living/carbon/human/H,  visualsOnly = FALSE)
+/datum/outfit/job/assistant/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(visualsOnly)	return
 	if (config.grey_assistants)
 		uniform = /obj/item/clothing/under/color/grey
 	else

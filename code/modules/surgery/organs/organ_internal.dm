@@ -180,20 +180,20 @@
 	origin_tech = "bluespace=5;biotech=4"
 	capacity = 4
 
-/*/obj/item/organ/internal/butt/attackby(var/obj/item/W, mob/user as mob, params) // copypasting bot manufucturing process, im a lazy fuck
+/obj/item/organ/internal/butt/attackby(var/obj/item/W, mob/user as mob, params) // copypasting bot manufucturing process, im a lazy fuck
 
 	if(istype(W, /obj/item/robot_parts/l_arm) || istype(W, /obj/item/robot_parts/r_arm))
 		user.drop_item()
 		qdel(W)
 		var/turf/T = get_turf(src.loc)
-		var/mob/living/simple_animal/bot/buttbot/B = new(T)
+		var/obj/machinery/bot/buttbot/B = new(T)
 		if(istype(src, /obj/item/organ/internal/butt/xeno))
 			B.xeno = 1
 			B.icon_state = "buttbot_xeno"
 			B.speech_list = list("hissing butts", "hiss hiss motherfucker", "nice trophy nerd", "butt", "woop get an alien inspection")
 		user << "<span class='notice'>You add the robot arm to the butt and... What?</span>"
 		user.drop_item(src)
-		qdel(src)*/ // DISABLED TEMPORARILY XENOBUTTBOT
+		qdel(src)
 
 /obj/item/organ/internal/butt/throw_impact(atom/hit_atom)
 	..()

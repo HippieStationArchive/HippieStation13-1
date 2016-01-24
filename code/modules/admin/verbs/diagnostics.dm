@@ -6,17 +6,15 @@
 		return
 
 	var/datum/gas_mixture/GM = target.return_air()
-	var/list/GM_gases
 	var/burning = 0
 	if(istype(target, /turf/simulated))
 		var/turf/simulated/T = target
 		if(T.active_hotspot)
 			burning = 1
 
-	usr << "<span class='adminnotice'>@[target.x],[target.y]: [GM.temperature] Kelvin, [GM.return_pressure()] kPa [(burning)?("\red BURNING"):(null)]</span>"
-	for(var/id in GM_gases)
-		if(id in hardcoded_gases || GM_gases[id][MOLES])
-			usr << "[GM_gases[id][GAS_NAME]]: [GM_gases[id][MOLES]]"
+	usr << "<span class='adminnotice'>@[target.x],[target.y]: O:[GM.oxygen] T:[GM.toxins] N:[GM.nitrogen] C:[GM.carbon_dioxide] w [GM.temperature] Kelvin, [GM.return_pressure()] kPa [(burning)?("\red BURNING"):(null)]</span>"
+	for(var/datum/gas/trace_gas in GM.trace_gases)
+		usr << "[trace_gas.type]: [trace_gas.moles]"
 	feedback_add_details("admin_verb","DAST") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/fix_next_move()
@@ -66,9 +64,9 @@
 		"_default" = "NO_FILTER"
 		)
 	var/output = "<b>Radio Report</b><hr>"
-	for (var/fq in SSradio.frequencies)
+	for (var/fq in radio_controller.frequencies)
 		output += "<b>Freq: [fq]</b><br>"
-		var/list/datum/radio_frequency/fqs = SSradio.frequencies[fq]
+		var/list/datum/radio_frequency/fqs = radio_controller.frequencies[fq]
 		if (!fqs)
 			output += "&nbsp;&nbsp;<b>ERROR</b><br>"
 			continue

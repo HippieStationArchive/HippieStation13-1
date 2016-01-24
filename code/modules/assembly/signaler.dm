@@ -20,8 +20,8 @@
 	return
 
 /obj/item/device/assembly/signaler/Destroy()
-	if(SSradio)
-		SSradio.remove_object(src,frequency)
+	if(radio_controller)
+		radio_controller.remove_object(src,frequency)
 	return ..()
 
 /obj/item/device/assembly/signaler/activate()
@@ -135,13 +135,13 @@ Code:
 
 
 /obj/item/device/assembly/signaler/proc/set_frequency(new_frequency)
-	if(!SSradio)
+	if(!radio_controller)
 		sleep(20)
-	if(!SSradio)
+	if(!radio_controller)
 		return
-	SSradio.remove_object(src, frequency)
+	radio_controller.remove_object(src, frequency)
 	frequency = new_frequency
-	radio_connection = SSradio.add_object(src, frequency, RADIO_CHAT)
+	radio_connection = radio_controller.add_object(src, frequency, RADIO_CHAT)
 	return
 
 // Embedded signaller used in grenade construction.

@@ -2,8 +2,7 @@ var/datum/subsystem/machines/SSmachine
 
 /datum/subsystem/machines
 	name = "Machines"
-	priority = 8
-	display = 3
+	priority = 9
 
 	var/list/processing = list()
 	var/list/powernets = list()

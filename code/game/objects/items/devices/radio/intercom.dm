@@ -19,25 +19,29 @@
 	return ..()
 
 /obj/item/device/radio/intercom/attack_ai(mob/user)
-	interact(user)
+	src.add_fingerprint(user)
+	spawn (0)
+		attack_self(user)
+
+/obj/item/device/radio/intercom/attack_paw(mob/user)
+	return src.attack_hand(user)
+
 
 /obj/item/device/radio/intercom/attack_hand(mob/user)
-	interact(user)
-
-/obj/item/device/radio/intercom/interact(mob/user)
-	..()
-	ui_interact(user, state = default_state)
+	src.add_fingerprint(user)
+	spawn (0)
+		attack_self(user)
 
 /obj/item/device/radio/intercom/receive_range(freq, level)
-	if(!on)
+	if (!on)
 		return -1
-	if(wires.IsIndexCut(WIRE_RECEIVE))
+	if (isWireCut(WIRE_RECEIVE))
 		return -1
 	if(!(0 in level))
 		var/turf/position = get_turf(src)
 		if(isnull(position) || !(position.z in level))
 			return -1
-	if(!src.listening)
+	if (!src.listening)
 		return -1
 	if(freq == SYND_FREQ)
 		if(!(src.syndie))

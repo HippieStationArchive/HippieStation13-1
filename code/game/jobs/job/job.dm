@@ -162,6 +162,7 @@
 /datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
+
 	var/obj/item/weapon/card/id/C = H.wear_id
 	if(istype(C))
 		var/datum/job/J = SSjob.GetJob(H.job) // Not sure the best idea

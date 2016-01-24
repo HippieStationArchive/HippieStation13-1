@@ -365,7 +365,7 @@
 		output += "<option value='[j]'>[j]</option>"
 	for(var/j in nonhuman_positions)
 		output += "<option value='[j]'>[j]</option>"
-	for(var/j in list("traitor","changeling","operative","revolutionary", "gangster","cultist","wizard", "catban"))
+	for(var/j in list("traitor","changeling","operative","revolutionary", "gangster","cultist","wizard"))
 		output += "<option value='[j]'>[j]</option>"
 	output += "</select></td></tr></table>"
 	output += "<b>Reason:<br></b><textarea name='dbbanreason' cols='50'></textarea><br>"

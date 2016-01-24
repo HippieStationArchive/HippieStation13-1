@@ -37,9 +37,9 @@
 				M << "<br>"
 
 	if(botEmagChance)
-		for(var/mob/living/simple_animal/bot/bot in machines)
+		for(var/obj/machinery/bot/bot in machines)
 			if(prob(botEmagChance))
-				bot.emag_act()
+				bot.Emag()
 
 /proc/generate_ion_law(ionMessage)
 	if(ionMessage)

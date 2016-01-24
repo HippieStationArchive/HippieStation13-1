@@ -4,10 +4,10 @@ var/datum/subsystem/ticker/ticker
 
 /datum/subsystem/ticker
 	name = "Ticker"
+	can_fire = 1
 	priority = 0
 
-	can_fire = 1 // This needs to fire before round start.
-
+	var/restart_timeout = 250				//delay when restarting server
 	var/current_state = GAME_STATE_STARTUP	//state of current round (used by process()) Use the defines GAME_STATE_* !
 	var/force_ending = 0					//Round was ended by admin intervention
 
@@ -21,7 +21,7 @@ var/datum/subsystem/ticker/ticker
 
 	var/list/datum/mind/minds = list()		//The characters in the game. Used for objective tracking.
 
-	//These bible variables should be a preference
+		//These bible variables should be a preference
 	var/Bible_icon_state					//icon_state the chaplain has chosen for his bible
 	var/Bible_item_state					//item_state the chaplain has chosen for his bible
 	var/Bible_name							//name of the bible
@@ -36,7 +36,6 @@ var/datum/subsystem/ticker/ticker
 	var/triai = 0							//Global holder for Triumvirate
 	var/tipped = 0							//Did we broadcast the tip of the day yet?
 
-	var/restart_timeout = 250
 	var/timeLeft = 1200						//pregame timer
 
 	var/totalPlayers = 0					//used for pregame stats on statpanel
@@ -48,11 +47,10 @@ var/datum/subsystem/ticker/ticker
 	var/obj/screen/cinematic = null			//used for station explosion cinematic
 
 
-
 /datum/subsystem/ticker/New()
 	NEW_SS_GLOBAL(ticker)
 
-	login_music = pickweight(list('sound/ambience/title2.ogg' = 0, 'sound/ambience/title1.ogg' = 0, 'sound/ambience/title3.ogg' = 0)) // choose title music!
+	login_music = pickweight(list('sound/ambience/title2.ogg' = 0, 'sound/ambience/title1.ogg' = 1, 'sound/ambience/title3.ogg' =0, 'sound/ambience/clown.ogg' = 0)) // choose title music!
 	if(SSevent.holidays && SSevent.holidays[APRIL_FOOLS])
 		login_music = 'sound/ambience/clown.ogg'
 
@@ -68,8 +66,9 @@ var/datum/subsystem/ticker/ticker
 	switch(current_state)
 		if(GAME_STATE_STARTUP)
 			timeLeft = config.lobby_countdown * 10
-			world << "<b><font color='blue'>Welcome to the pre-game lobby!</font></b>"
+			world << "<B><FONT color='blue'>Welcome to the pre-game lobby!</FONT></B>"
 			world << "Please, setup your character and select ready. Game will start in [config.lobby_countdown] seconds"
+			crewmonitor.generateMiniMaps() // start generating minimaps (this is a background process)
 			current_state = GAME_STATE_PREGAME
 
 		if(GAME_STATE_PREGAME)
@@ -178,7 +177,8 @@ var/datum/subsystem/ticker/ticker
 	equip_characters()
 	data_core.manifest()
 
-	Master.RoundStart()
+	master_controller.roundHasStarted()
+
 
 	world << "<FONT color='blue'><B>Welcome to [station_name()], enjoy your stay!</B></FONT>"
 	world << sound('sound/AI/welcome.ogg')
@@ -204,7 +204,7 @@ var/datum/subsystem/ticker/ticker
 	return 1
 
 
-//Plus it provides an easy way to make cinematics for other events. Just use this as a template
+	//Plus it provides an easy way to make cinematics for other events. Just use this as a template
 /datum/subsystem/ticker/proc/station_explosion_cinematic(station_missed=0, override = null)
 	if( cinematic )	return	//already a cinematic in progress!
 
@@ -260,6 +260,8 @@ var/datum/subsystem/ticker/ticker
 		if(2)	//nuke was nowhere nearby	//TODO: a really distant explosion animation
 			sleep(50)
 			world << sound('sound/effects/explosionfar.ogg')
+
+
 		else	//station was destroyed
 			if( mode && !override )
 				override = mode.name
@@ -433,14 +435,6 @@ var/datum/subsystem/ticker/ticker
 	log_game("Antagonists at round end were...")
 	for(var/i in total_antagonists)
 		log_game("[i]s[total_antagonists[i]].")
-
-	//Adds the del() log to world.log in a format condensable by the runtime condenser found in tools
-	if(SSgarbage.didntgc.len)
-		var/dellog = ""
-		for(var/path in SSgarbage.didntgc)
-			dellog += "Path : [path] \n"
-			dellog += "Failures : [SSgarbage.didntgc[path]] \n"
-		world.log << dellog
 
 	return 1
 
