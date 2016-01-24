@@ -55,8 +55,8 @@
 /obj/machinery/ai_slipper/attack_hand(mob/user)
 	if(stat & (NOPOWER|BROKEN))
 		return
-	if ( (get_dist(src, user) > 1 ))
-		if (!(istype(user, /mob/living/silicon) || IsAdminGhost(user)))
+	if((get_dist(src, user) > 1 ))
+		if(!(istype(user, /mob/living/silicon) || IsAdminGhost(user)))
 			user << text("Too far away.")
 			user.unset_machine()
 			user << browse(null, "window=ai_slipper")
@@ -64,9 +64,9 @@
 
 	user.set_machine(src)
 	var/loc = src.loc
-	if (istype(loc, /turf))
+	if(istype(loc, /turf))
 		loc = loc:loc
-	if (!istype(loc, /area))
+	if(!istype(loc, /area))
 		user << text("Turret badly positioned - loc.loc is [].", loc)
 		return
 	var/area/area = loc
