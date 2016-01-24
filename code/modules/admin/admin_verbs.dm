@@ -63,7 +63,6 @@ var/list/admin_verbs_admin = list(
 	/client/proc/cmd_admin_local_narrate,			//sends text to all mobs within view of atmo
 	/client/proc/cmd_admin_create_centcom_report, 	//*Create Centcomm report
 	/client/proc/cmd_admin_create_intercept_report, //*Create intercept report
-	/client/proc/reset_all_tcs,						/*resets all telecomms scripts*/
 	/client/proc/toggle_antag_hud, 					/*toggle display of the admin antag hud*/
 	/client/proc/aooc, 								/*sends a message to all antags on the server*/
 	/client/proc/toggle_AI_interact 				/*toggle admin ability to interact with machines as an AI*/
@@ -216,7 +215,6 @@ var/list/admin_verbs_hideable = list(
 	/proc/possess,
 	/proc/release,
 	/client/proc/reload_admins,
-	/client/proc/reset_all_tcs,
 	/client/proc/panicbunker,
 	/client/proc/admin_change_sec_level,
 	/client/proc/toggle_nuke,
