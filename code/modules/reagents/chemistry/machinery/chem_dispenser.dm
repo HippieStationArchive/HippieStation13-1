@@ -80,15 +80,11 @@
 	if(prob(50))
 		qdel(src)
 
-/obj/machinery/chem_dispenser/interact(mob/user)
-	if(stat & BROKEN)
-		return
-	ui_interact(user)
-
-/obj/machinery/chem_dispenser/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open = force_open)
-	if (!ui)
-		ui = new(user, src, ui_key, "chem_dispenser", name, 412, 600)
+/obj/machinery/chem_dispenser/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
+																		datum/tgui/master_ui = null, datum/ui_state/state = default_state)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "chem_dispenser", name, 550, 550, master_ui, state)
 		ui.open()
 
 /obj/machinery/chem_dispenser/get_ui_data()
@@ -124,16 +120,11 @@
 	return data
 
 /obj/machinery/chem_dispenser/ui_act(action, params)
-	if(..())
-		return
-
 	switch(action)
 		if("amount")
-			amount = round(text2num(params["amount"]), 5) // round to nearest 5
-			if (amount < 0) // Since the user can actually type the commands himself, some sanity checking
-				amount = 0
-			if (amount > 100)
-				amount = 100
+			var/amount = text2num(params["amount"])
+			if(amount in beaker.possible_transfer_amounts)
+				src.amount = amount
 		if("dispense")
 			if(beaker && dispensable_reagents.Find(params["reagent"]))
 				var/datum/reagents/R = beaker.reagents
@@ -179,12 +170,6 @@
 		icon_beaker = image('icons/obj/chemical.dmi', src, "disp_beaker") //randomize beaker overlay position.
 	icon_beaker.pixel_x = rand(-10,5)
 	overlays += icon_beaker
-
-/obj/machinery/chem_dispenser/attack_hand(mob/user)
-	if (!user)
-		return
-	interact(user)
-
 
 /obj/machinery/chem_dispenser/constructable
 	name = "portable chem dispenser"
@@ -307,7 +292,8 @@
 		"sugar",
 		"orangejuice",
 		"limejuice",
-		"tomatojuice"
+		"tomatojuice",
+		"lemonjuice"
 	)
 
 /obj/machinery/chem_dispenser/drinks/attackby(obj/item/I, mob/user)
@@ -338,6 +324,7 @@
 		"sugar",
 		"orangejuice",
 		"limejuice",
+		"lemonjuice",
 		"sodawater",
 		"tonic",
 		"beer",
