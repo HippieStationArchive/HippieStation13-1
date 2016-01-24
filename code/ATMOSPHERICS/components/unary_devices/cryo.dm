@@ -8,12 +8,11 @@
 
 	var/on = 0
 	var/temperature_archived
-	var/obj/item/weapon/reagent_containers/glass/beaker = null
+	var/obj/item/weapon/reagent_containers/beaker = null
 	var/next_trans = 0
 	var/current_heat_capacity = 50
 	state_open = 0
 	var/efficiency
-	var/autoEject = 0
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/New()
 	..()
@@ -43,7 +42,7 @@
 	T.contents += contents
 
 	if(beaker)
-		beaker.loc = get_step(loc, SOUTH) //Beaker is carefully fed from the wreckage of the cryotube
+		beaker.loc = get_step(loc, SOUTH) //Beaker is carefully ejected from the wreckage of the cryotube
 	beaker = null
 	return ..()
 /obj/machinery/atmospherics/components/unary/cryo_cell/process_atmos()
@@ -66,11 +65,16 @@
 	if(!NODE1 || !is_operational())
 		return
 
+	if(!on)
+		updateDialog()
+		return
+
 	if(AIR1)
 		if (occupant)
 			process_occupant()
 		expel_gas()
 
+	updateDialog()
 	return 1
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/MouseDrop_T(mob/target, mob/user)
@@ -115,12 +119,29 @@
 	else
 		user << "Seems empty."
 
-/obj/machinery/atmospherics/components/unary/cryo_cell/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
-																		datum/tgui/master_ui = null, datum/ui_state/state = default_state)
-	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
-	if(!ui)
-		ui = new(user, src, ui_key, "cryo", name, 400, 550, master_ui, state)
-		ui.open()
+/obj/machinery/atmospherics/components/unary/cryo_cell/attack_hand(mob/user)
+	if(..())
+		return
+
+	ui_interact(user)
+
+
+ /**
+  * The ui_interact proc is used to open and update Nano UIs
+  * If ui_interact is not used then the UI will not update correctly
+  * ui_interact is currently defined for /atom/movable
+  *
+  * @param user /mob The mob who is interacting with this ui
+  * @param ui_key string A string key to use for this ui. Allows for multiple unique uis on one obj/mob (defaut value "main")
+  *
+  * @return nothing
+  */
+/obj/machinery/atmospherics/components/unary/cryo_cell/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null)
+	if(user == occupant || user.stat || panel_open)
+		return
+
+	ui = SSnano.push_open_or_new_ui(user, src, ui_key, ui, "cryo.tmpl", "Cryo Cell Control System", 520, 410, 1)
+	//user.set_machine(src)
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/get_ui_data()
 	// this is the data which will be sent to the ui
@@ -157,35 +178,51 @@
 
 	data["isOpen"] = state_open
 	data["cellTemperature"] = round(air_contents.temperature)
+	data["cellTemperatureStatus"] = "good"
+	if(air_contents.temperature > T0C) // if greater than 273.15 kelvin (0 celcius)
+		data["cellTemperatureStatus"] = "bad"
+	else if(air_contents.temperature > 225)
+		data["cellTemperatureStatus"] = "average"
 
 	data["isBeakerLoaded"] = beaker ? 1 : 0
 	var beakerContents[0]
-	if(beaker && beaker.reagents && beaker.reagents.reagent_list.len)
-		for(var/datum/reagent/R in beaker.reagents.reagent_list)
+	if(beaker && beaker:reagents && beaker:reagents.reagent_list.len)
+		for(var/datum/reagent/R in beaker:reagents.reagent_list)
 			beakerContents.Add(list(list("name" = R.name, "volume" = R.volume))) // list in a list because Byond merges the first list...
 	data["beakerContents"] = beakerContents
 	return data
 
-/obj/machinery/atmospherics/components/unary/cryo_cell/ui_act(action, params)
-	switch(action)
-		if("power")
-			if(on)
-				on = FALSE
-			else if(!state_open)
-				on = TRUE
-		if("door")
-			if(state_open)
-				close_machine()
-			else
-				open_machine()
-		if("autoeject")
-			autoEject = !autoEject
-		if("ejectbeaker")
-			if(beaker)
-				beaker.loc = get_step(loc, SOUTH)
-				beaker = null
+/obj/machinery/atmospherics/components/unary/cryo_cell/Topic(href, href_list)
+	if(usr == occupant || panel_open)
+		return 0 // don't update UIs attached to this object
+
+	if(..())
+		return 0 // don't update UIs attached to this object
+
+	if(href_list["switchOn"])
+		if(!state_open)
+			on = 1
+
+	if(href_list["open"])
+		open_machine()
+
+	if(href_list["close"])
+		if(close_machine() == usr)
+			var/datum/nanoui/ui = SSnano.get_open_ui(usr, src, "main")
+			ui.close()
+			on = 1
+	if(href_list["switchOff"])
+		on = 0
+
+	if(href_list["ejectBeaker"])
+		if(beaker)
+			add_logs(usr, src, "removed the beaker from ")
+			var/obj/item/weapon/reagent_containers/glass/B = beaker
+			B.loc = get_step(loc, SOUTH)
+			beaker = null
 	update_icon()
-	return 1
+	add_fingerprint(usr)
+	return 1 // update UIs attached to this object
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/reagent_containers/glass))
@@ -199,8 +236,16 @@
 
 		beaker = I
 		I.loc = src
+		// Start logigng
+		var/list/rbeaker = list()
+		for(var/datum/reagent/R in I.reagents.reagent_list)
+			rbeaker += R.name
+		var/contained = english_list(rbeaker)
+		add_logs(user, src, "placed a new beaker in ", I, addition=" which had [contained]")
+		// Stop logging
 		user.visible_message("[user] places [I] in [src].", \
 							"<span class='notice'>You place [I] in [src].</span>")
+
 
 	if(!(on || occupant || state_open))
 		if(default_deconstruction_screwdriver(user, "cell-o", "cell-off", I))
@@ -265,7 +310,7 @@
 		if(occupant.bodytemperature < T0C)
 //			occupant.sleeping = max(5/efficiency, (1 / occupant.bodytemperature)*2000/efficiency)
 //			occupant.Paralyse(max(5/efficiency, (1 / occupant.bodytemperature)*3000/efficiency))
-			if(air_contents.gases["o2"] && air_contents.gases["o2"][MOLES] > 2)
+			if(air_contents.oxygen > 2)
 				if(occupant.getOxyLoss()) occupant.adjustOxyLoss(-1)
 			else
 				occupant.adjustOxyLoss(-1)

@@ -245,8 +245,6 @@
 #define FACING_EACHOTHER										2
 #define FACING_INIT_FACING_TARGET_TARGET_FACING_PERPENDICULAR	3 //Do I win the most informative but also most stupid define award?
 
-//subtypesof(), typesof() without the parent path
-#define subtypesof(typepath) ( typesof(typepath) - typepath )
 
 //Cache of bloody footprint images
 //Key:
@@ -288,15 +286,3 @@ var/list/bloody_footprints_cache = list()
 #define GHOST_ORBIT_HEXAGON		"hexagon"
 #define GHOST_ORBIT_SQUARE		"square"
 #define GHOST_ORBIT_PENTAGON	"pentagon"
-
-//Bot types
-#define SEC_BOT				1	// Secutritrons (Beepsky) and ED-209s
-#define MULE_BOT			2	// MULEbots
-#define FLOOR_BOT			4	// Floorbots
-#define CLEAN_BOT			8	// Cleanbots
-#define MED_BOT				16	// Medibots
-
-//Sentience types
-#define SENTIENCE_ORGANIC 1
-#define SENTIENCE_ARTIFICIAL 2
-#define SENTIENCE_OTHER 3

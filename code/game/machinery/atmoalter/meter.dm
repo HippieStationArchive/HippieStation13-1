@@ -7,7 +7,7 @@
 	anchored = 1
 	power_channel = ENVIRON
 	var/frequency = 0
-	var/id_tag
+	var/id
 	use_power = 1
 	idle_power_usage = 2
 	active_power_usage = 4
@@ -59,7 +59,7 @@
 		icon_state = "meter4"
 
 	if(frequency)
-		var/datum/radio_frequency/radio_connection = SSradio.return_frequency(frequency)
+		var/datum/radio_frequency/radio_connection = radio_controller.return_frequency(frequency)
 
 		if(!radio_connection) return
 
@@ -67,7 +67,7 @@
 		signal.source = src
 		signal.transmission_method = 1
 		signal.data = list(
-			"id_tag" = id_tag,
+			"tag" = id,
 			"device" = "AM",
 			"pressure" = round(env_pressure),
 			"sigtype" = "status"

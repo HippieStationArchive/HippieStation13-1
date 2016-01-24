@@ -220,10 +220,7 @@
 	var/turf/simulated/floor/T = holder.loc
 	if(istype(T))
 		var/datum/gas_mixture/GM = T.air
-		if(!GM.gases["o2"])
-			return
-		GM.gases["o2"][MOLES] -= severity * holder.energy
-		GM.garbage_collect()
+		GM.oxygen = max(0, GM.oxygen - severity * holder.energy)
 
 /datum/spacevine_mutation/nitro_eater
 	name = "nitrogen consuming"
@@ -235,10 +232,7 @@
 	var/turf/simulated/floor/T = holder.loc
 	if(istype(T))
 		var/datum/gas_mixture/GM = T.air
-		if(!GM.gases["n2"])
-			return
-		GM.gases["n2"][MOLES] -= severity * holder.energy
-		GM.garbage_collect()
+		GM.nitrogen = max(0, GM.nitrogen - severity * holder.energy)
 
 /datum/spacevine_mutation/carbondioxide_eater
 	name = "CO2 consuming"
@@ -250,10 +244,7 @@
 	var/turf/simulated/floor/T = holder.loc
 	if(istype(T))
 		var/datum/gas_mixture/GM = T.air
-		if(!GM.gases["co2"])
-			return
-		GM.gases["co2"][MOLES] -= severity * holder.energy
-		GM.garbage_collect()
+		GM.carbon_dioxide = max(0, GM.carbon_dioxide - severity * holder.energy)
 
 /datum/spacevine_mutation/plasma_eater
 	name = "toxins consuming"
@@ -265,10 +256,7 @@
 	var/turf/simulated/floor/T = holder.loc
 	if(istype(T))
 		var/datum/gas_mixture/GM = T.air
-		if(!GM.gases["plasma"])
-			return
-		GM.gases["plasma"][MOLES] -= severity * holder.energy
-		GM.garbage_collect()
+		GM.toxins = max(0, GM.toxins - severity * holder.energy)
 
 /datum/spacevine_mutation/thorns
 	name = "thorny"
@@ -554,10 +542,9 @@
 		SM.on_spread(src, stepturf)
 		stepturf = get_step(src,direction) //in case turf changes, to make sure no runtimes happen
 	if(!locate(/obj/effect/spacevine, stepturf))
-		if(istype(stepturf, /turf/simulated))
-			if(stepturf.Enter(src))
-				if(master)
-					master.spawn_spacevine_piece(stepturf, src)
+		if(stepturf.Enter(src))
+			if(master)
+				master.spawn_spacevine_piece(stepturf, src)
 
 /*
 /obj/effect/spacevine/proc/Life()

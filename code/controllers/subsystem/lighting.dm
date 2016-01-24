@@ -8,7 +8,6 @@ var/datum/subsystem/lighting/SSlighting
 	priority = 1
 	dynamic_wait = 1
 	dwait_delta = 3
-	display = 5
 
 	var/list/changed_lights = list()		//list of all datum/light_source that need updating
 	var/changed_lights_workload = 0			//stats on the largest number of lights (max changed_lights.len)
@@ -87,7 +86,7 @@ var/datum/subsystem/lighting/SSlighting
 	..()
 
 //Used to strip valid information from an existing instance and transfer it to the replacement. i.e. when a crash occurs
-//It works by using spawn(0) to transfer the data, if there is a runtime the data does not get transfered but the loop
+//It works by using spawn(-1) to transfer the data, if there is a runtime the data does not get transfered but the loop
 //does not crash
 /datum/subsystem/lighting/Recover()
 	if(!istype(SSlighting.changed_turfs))
@@ -97,13 +96,13 @@ var/datum/subsystem/lighting/SSlighting
 
 	for(var/thing in SSlighting.changed_lights)
 		var/datum/light_source/LS = thing
-		spawn(0)			//so we don't crash the loop (inefficient)
+		spawn(-1)			//so we don't crash the loop (inefficient)
 			LS.check()
 
 	for(var/thing in changed_turfs)
 		var/turf/T = thing
 		if(T.lighting_changed)
-			spawn(0)
+			spawn(-1)
 				T.redraw_lighting()
 
 	var/msg = "## DEBUG: [time2text(world.timeofday)] [name] subsystem restarted. Reports:\n"

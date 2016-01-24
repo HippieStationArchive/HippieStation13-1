@@ -138,13 +138,13 @@ Proc for attack log creation, because really why not
 
 /proc/add_logs(mob/user, mob/target, what_done, object=null, addition=null)
 	var/newhealthtxt = ""
-	var/coordinates = ""
 	var/turf/attack_location = get_turf(target)
-	if(attack_location)
-		coordinates = "([attack_location.x],[attack_location.y],[attack_location.z])"
-	if(target && isliving(target))
-		var/mob/living/L = target
-		newhealthtxt = " (NEWHP: [L.health])"
+	var/coordinates = "([attack_location.x],[attack_location.y],[attack_location.z])"
+	if (target)
+		coordinates = "([target.x],[target.y],[target.z])"
+		if(isliving(target))
+			var/mob/living/L = target
+			newhealthtxt = " (NEWHP: [L.health])"
 	if(user && ismob(user))
 		user.attack_log += text("\[[time_stamp()]\] <font color='red'>Has [what_done] [target ? "[target.name][(ismob(target) && target.ckey) ? "([target.ckey])" : ""]" : "NON-EXISTANT SUBJECT"][object ? " with [object]" : " "][addition][newhealthtxt][coordinates]</font>")
 	if(target && ismob(target))

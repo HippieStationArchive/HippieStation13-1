@@ -50,7 +50,7 @@
 	melee_damage_lower = 15
 	melee_damage_upper = 15
 	melee_damage_type = STAMINA
-	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+	ignored_damage_types = list(BRUTE = 0, BURN = 0, TOX = 1, CLONE = 1, STAMINA = 1, OXY = 1)
 	languages = SWARMER
 	environment_smash = 0
 	attacktext = "shocks"
@@ -289,14 +289,7 @@
 					var/turf/simulated/floor/F = random_location
 					if(F.air)
 						var/datum/gas_mixture/A = F.air
-						var/list/A_gases = A.gases
-						var/trace_gases
-						for(var/id in A_gases)
-							if(id in hardcoded_gases)
-								continue
-							trace_gases = TRUE
-							break
-						if((A_gases["o2"] && A_gases["o2"][MOLES] >= 16) && !A_gases["plasma"] && (!A_gases["co2"] || A_gases["co2"][MOLES] < 10) && !trace_gases)//Can most things breathe in this location?
+						if(A.oxygen >= 16 && !A.toxins && A.carbon_dioxide < 10 && !A.trace_gases.len)//Can most things breathe in this location?
 							if((A.temperature > 270) && (A.temperature < 360))//Not too hot, not too cold
 								var/pressure = A.return_pressure()
 								if((pressure > 20) && (pressure < 550))//Account for crushing pressure or vaccuums

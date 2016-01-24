@@ -91,6 +91,7 @@
 				if (O.use(1))
 					src.d_state = 0
 					update_icon()
+					src.icon_state = "r_wall"
 					user << "<span class='notice'>You replace the outer grille.</span>"
 				else
 					user << "<span class='warning'>Report this to a coder: metal stack had less than one sheet in it when trying to repair wall</span>"
@@ -217,9 +218,8 @@
 		smooth = SMOOTH_FALSE
 		clear_smooth_overlays()
 	else
-		icon_state = "r_wall"
 		smooth = SMOOTH_TRUE
-		smooth_icon(src)
+		icon_state = ""
 
 /turf/simulated/wall/r_wall/singularity_pull(S, current_size)
 	if(current_size >= STAGE_FIVE)

@@ -131,10 +131,10 @@ About the new airlock wires panel:
 			user.staminaloss += 50
 			user.stunned += 5
 			return
-	..()
+	..(user)
 
 /obj/machinery/door/airlock/bumpopen(mob/living/simple_animal/user)
-	..()
+	..(user)
 
 /obj/machinery/door/airlock/proc/isElectrified()
 	if(src.secondsElectrified != 0)
@@ -538,7 +538,7 @@ About the new airlock wires panel:
 			sleep(10)
 			//bring up airlock dialog
 			src.aiHacking = 0
-			if(user)
+			if (user)
 				src.attack_ai(user)
 
 
@@ -546,7 +546,7 @@ About the new airlock wires panel:
 	return src.attack_hand(user)
 
 /obj/machinery/door/airlock/attack_hand(mob/user)
-	if(!(istype(user, /mob/living/silicon) || IsAdminGhost(user)))
+	if(!istype(user, /mob/living/silicon))
 		if(src.isElectrified())
 			if(src.shock(user, 100))
 				return
@@ -570,7 +570,7 @@ About the new airlock wires panel:
 	if(src.p_open)
 		wires.Interact(user)
 	else
-		..()
+		..(user)
 	return
 
 /obj/machinery/door/airlock/attack_animal(mob/living/simple_animal/M)
@@ -597,7 +597,7 @@ About the new airlock wires panel:
 	// Otherwise it will runtime with this kind of error: null.Topic()
 	if(!nowindow)
 		..()
-	if((usr.stat || usr.restrained()) && !IsAdminGhost(usr))
+	if(usr.stat || usr.restrained())
 		return
 	add_fingerprint(usr)
 	if(href_list["close"])
@@ -611,7 +611,7 @@ About the new airlock wires panel:
 
 
 
-	if((istype(usr, /mob/living/silicon) && src.canAIControl()) || IsAdminGhost(usr))
+	if(istype(usr, /mob/living/silicon) && src.canAIControl())
 		//AI
 		//aiDisable - 1 idscan, 2 disrupt main power, 3 disrupt backup power, 4 drop door bolts, 5 un-electrify door, 7 close door, 8 door safties, 9 door speed, 11 emergency access
 		//aiEnable - 1 idscan, 4 raise door bolts, 5 electrify door for 30 seconds, 6 electrify door indefinitely, 7 open door,  8 door safties, 9 door speed, 11 emergency access
@@ -816,7 +816,7 @@ About the new airlock wires panel:
 	return
 
 /obj/machinery/door/airlock/attackby(obj/item/C, mob/user, params)
-	if(!(istype(usr, /mob/living/silicon) || IsAdminGhost(user)))
+	if(!istype(usr, /mob/living/silicon))
 		if(src.isElectrified())
 			if(src.shock(user, 75))
 				return
@@ -843,22 +843,6 @@ About the new airlock wires panel:
 					user.visible_message("[user.name] has [welded? "welded shut":"unwelded"] [src].", \
 										"<span class='notice'>You [welded ? "weld the airlock shut":"unweld the airlock"].</span>")
 					update_icon()
-		return
-	else if((istype(C, /obj/item/weapon/melee/energy/sword) && !( src.operating ) && src.density))
-		var/obj/item/weapon/melee/energy/sword/W = C
-		user.visible_message("[user] is [welded ? "unwelding":"welding"] the airlock.", \
-						"<span class='notice'>You begin [welded ? "unwelding":"welding"] the airlock...</span>", \
-						"<span class='italics'>You hear welding.</span>")
-		playsound(loc, 'sound/items/Welder.ogg', 40, 1)
-		if(do_after(user, 70, target = src))
-			if(density && !operating)//Door must be closed to weld.
-				if( !istype(src, /obj/machinery/door/airlock) || !user || !W || !user.loc )
-					return
-				playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
-				welded = !welded
-				user.visible_message("[user.name] has [welded? "welded shut":"unwelded"] [src].", \
-									"<span class='notice'>You [welded ? "weld the airlock shut":"unweld the airlock"].</span>")
-				update_icon()
 		return
 	else if(istype(C, /obj/item/weapon/screwdriver))
 		if(p_open && detonated)
@@ -914,10 +898,10 @@ About the new airlock wires panel:
 					if(!electronics)
 						ae = new/obj/item/weapon/electronics/airlock( src.loc )
 						if(req_one_access)
-							ae.one_access = 1
-							ae.accesses = src.req_one_access
+							ae.use_one_access = 1
+							ae.conf_access = src.req_one_access
 						else
-							ae.accesses = src.req_access
+							ae.conf_access = src.req_access
 					else
 						ae = electronics
 						electronics = null
