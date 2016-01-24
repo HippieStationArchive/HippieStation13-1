@@ -85,6 +85,12 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	surplus = 0
 	include_modes = list(/datum/game_mode/nuclear)
 
+/datum/uplink_item/blastco
+	name = "Blast Co access"
+	desc = "This ID card will let you access the Blast Co equipment room. Inside is enough gear to fully equip a team with explosive based weaponry."
+	item = /obj/item/weapon/card/id/syndicate_blastco
+	cost = 200
+
 /datum/uplink_item/nukeoffer/c20r
 	name = "C-20r bundle"
 	desc = "Old faithful: The classic C-20r, bundled with two magazines, and a (surplus) suppressor at discount price."
