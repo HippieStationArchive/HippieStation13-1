@@ -90,6 +90,7 @@
 	desc = "Perfect for winter in Siberia, da?"
 	icon_state = "ushankadown"
 	item_state = "ushankadown"
+	flags = BLOCKHAIR
 	flags_inv = HIDEEARS
 	var/earflaps = 1
 	cold_protection = HEAD
