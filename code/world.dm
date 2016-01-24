@@ -59,7 +59,7 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 	data_core = new /datum/datacore()
 
 
-	spawn(-1)
+	spawn(0)
 		Master.Setup()
 
 	process_teleport_locs()			//Sets up the wizard teleport locations
@@ -196,6 +196,7 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 	join_motd = file2text("config/motd.txt")
 
 /world/proc/load_configuration()
+	protected_config = new /datum/protected_configuration()
 	config = new /datum/configuration()
 	config.load("config/config.txt")
 	config.load("config/game_options.txt","game_options")

@@ -44,7 +44,7 @@
 	var/melee_damage_lower = 0
 	var/melee_damage_upper = 0
 	var/melee_damage_type = BRUTE //Damage type of a simple mob's melee attack, should it do damage.
-	var/list/ignored_damage_types = list(BRUTE = 0, BURN = 0, TOX = 0, CLONE = 0, STAMINA = 1, OXY = 0) //Set 0 to receive that damage type, 1 to ignore
+	var/list/damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1) // 1 for full damage , 0 for none , -1 for 1:1 heal from that source
 	var/attacktext = "attacks"
 	var/attack_sound = null
 	var/friendly = "nuzzles" //If the mob does no damage with it's attack
@@ -66,6 +66,8 @@
 	var/gold_core_spawnable = 0 //if 1 can be spawned by plasma with gold core, 2 are 'friendlies' spawned with blood
 
 	var/mob/living/simple_animal/hostile/spawner/nest
+
+	var/sentience_type = SENTIENCE_ORGANIC // Sentience type, for slime potions
 
 /mob/living/simple_animal/New()
 	..()
@@ -190,10 +192,15 @@
 		if(istype(T,/turf/simulated))
 			var/turf/simulated/ST = T
 			if(ST.air)
-				var/tox = ST.air.toxins
-				var/oxy = ST.air.oxygen
-				var/n2  = ST.air.nitrogen
-				var/co2 = ST.air.carbon_dioxide
+				var/ST_gases = ST.air.gases
+				ST.air.assert_gases(arglist(hardcoded_gases))
+
+				var/tox = ST_gases["plasma"][MOLES]
+				var/oxy = ST_gases["o2"][MOLES]
+				var/n2  = ST_gases["n2"][MOLES]
+				var/co2 = ST_gases["co2"][MOLES]
+
+				ST.air.garbage_collect()
 
 				if(atmos_requirements["min_oxy"] && oxy < atmos_requirements["min_oxy"])
 					atmos_suitable = 0
@@ -270,24 +277,34 @@
 	Proj.on_hit(src)
 	return 0
 
+/mob/living/simple_animal/proc/adjustHealth(amount)
+	if(status_flags & GODMODE)
+		return 0
+	bruteloss = min(max(bruteloss + amount, 0),(maxHealth*2))
+	handle_regular_status_updates()
+
 /mob/living/simple_animal/adjustBruteLoss(amount)
-	if(!ignored_damage_types[BRUTE])
-		..()
+	if(damage_coeff[BRUTE])
+		adjustHealth(amount*damage_coeff[BRUTE])
 
 /mob/living/simple_animal/adjustFireLoss(amount)
-	if(!ignored_damage_types[BURN])
-		adjustBruteLoss(amount)
+	if(damage_coeff[BURN])
+		adjustHealth(amount*damage_coeff[BRUTE])
 
 /mob/living/simple_animal/adjustToxLoss(amount)
-	if(!ignored_damage_types[TOX])
-		..(amount)
+	if(damage_coeff[TOX])
+		adjustHealth(amount*damage_coeff[BRUTE])
 
 /mob/living/simple_animal/adjustCloneLoss(amount)
-	if(!ignored_damage_types[CLONE])
-		..(amount)
+	if(damage_coeff[CLONE])
+		adjustHealth(amount*damage_coeff[BRUTE])
 
 /mob/living/simple_animal/adjustStaminaLoss(amount)
 	return
+
+/mob/living/simple_animal/adjustOxyLoss(amount)
+	if(damage_coeff[OXY])
+		adjustHealth(amount*damage_coeff[BRUTE])
 
 /mob/living/simple_animal/attack_hand(mob/living/carbon/human/M)
 	..()
@@ -356,7 +373,7 @@
 		return 1
 
 /mob/living/simple_animal/proc/attack_threshold_check(damage, damagetype = BRUTE)
-	if(damage <= force_threshold || ignored_damage_types[damagetype])
+	if(damage <= force_threshold || !damage_coeff[damagetype])
 		visible_message("<span class='warning'>[src] looks unharmed.</span>")
 	else
 		adjustBruteLoss(damage)

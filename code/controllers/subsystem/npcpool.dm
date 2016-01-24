@@ -63,6 +63,8 @@ var/datum/subsystem/npcpool/SSnpc
 				var/mob/living/carbon/human/interactive/candidate = pick(canBeUsed)
 				var/facCount = 0
 				var/helpProb = 0
+				if(!(check.faction || candidate.faction))
+					return
 				for(var/C in check.faction)
 					for(var/D in candidate.faction)
 						if(D == C)
@@ -87,6 +89,8 @@ var/datum/subsystem/npcpool/SSnpc
 				var/mob/living/carbon/human/interactive/candidate = pick(canBeUsed)
 				var/facCount = 0
 				var/helpProb = 0
+				if(!(check.faction || candidate.faction))
+					return
 				for(var/C in check.faction)
 					for(var/D in candidate.faction)
 						if(D == C)
