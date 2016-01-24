@@ -4965,7 +4965,7 @@
 "bRy" = (/obj/machinery/door/firedoor/heavy,/turf/simulated/floor/plasteel{dir = 9; icon_state = "whitehall"},/area/medical/research{name = "Research Division"})
 "bRz" = (/obj/structure/closet,/obj/effect/spawner/lootdrop/maintenance,/turf/simulated/floor/plating,/area/maintenance/asmaint2)
 "bRA" = (/obj/structure/rack,/obj/effect/spawner/lootdrop/maintenance{lootcount = 3; name = "3maintenance loot spawner"},/turf/simulated/floor/plating,/area/maintenance/asmaint2)
-"bRB" = (/obj/structure/lattice/catwalk{step_x = 0; step_y = 0},/turf/space,/area/space)
+"bRB" = (/obj/structure/lattice/catwalk,/turf/space,/area/space)
 "bRC" = (/obj/structure/table,/obj/item/weapon/folder/yellow,/obj/item/weapon/pen,/obj/machinery/requests_console{department = "Mining"; departmentType = 0; pixel_x = -30; pixel_y = 0},/obj/machinery/light{dir = 8},/turf/simulated/floor/plasteel,/area/quartermaster/miningdock)
 "bRD" = (/obj/structure/stool/bed/chair/office/dark{dir = 8},/obj/effect/landmark/start{name = "Shaft Miner"},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/turf/simulated/floor/plasteel,/area/quartermaster/miningdock)
 "bRE" = (/obj/structure/disposalpipe/segment{dir = 1; icon_state = "pipe-c"},/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"},/obj/machinery/atmospherics/pipe/manifold/supply/hidden{tag = "icon-manifold-b-f (WEST)"; dir = 8},/turf/simulated/floor/plasteel,/area/quartermaster/miningdock)
@@ -7387,7 +7387,7 @@
 "cMc" = (/obj/machinery/power/port_gen/pacman,/obj/structure/cable,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/ai_monitored/storage/secure)
 "cMd" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/ai_monitored/storage/secure)
 "cMe" = (/obj/effect/landmark{name = "Syndicate Breach Area"},/obj/structure/lattice,/turf/space,/area/space)
-"cMf" = (/obj/effect/landmark{name = "carpspawn"},/obj/structure/lattice/catwalk{step_x = 0; step_y = 0},/turf/space,/area/space)
+"cMf" = (/obj/effect/landmark{name = "carpspawn"},/obj/structure/lattice/catwalk,/turf/space,/area/space)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
