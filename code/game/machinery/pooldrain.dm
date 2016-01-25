@@ -127,14 +127,14 @@
 		user << "\red You disable \the [src]'s shark filter. Run!" //you better
 		emagged = 1
 		src.icon_state = "filter_b"
-//		spawn(50)
-//			if(prob(50))
-//				new /mob/living/simple_animal/hostile/shark(src.loc)
-//			else
-//				if(prob(50))
-//					new /mob/living/simple_animal/hostile/shark/kawaii(src.loc)
-//				else
-//					new /mob/living/simple_animal/hostile/shark/laser(src.loc)
+		spawn(50)
+			if(prob(50))
+				new /mob/living/simple_animal/hostile/shark(src.loc)
+			else
+				if(prob(50))
+					new /mob/living/simple_animal/hostile/shark/kawaii(src.loc)
+				else
+					new /mob/living/simple_animal/hostile/shark/laser(src.loc)
 
 
 
