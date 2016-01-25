@@ -1539,7 +1539,7 @@
 	amount = 30
 	recharge_delay = 5
 	uiname = "Soda Dispenser"
-	dispensable_reagents = list("water","ice","coffee","cream","tea","icetea","cola","spacemountainwind","dr_gibb","space_up","tonic","sodawater","lemon_lime","sugar","orangejuice","limejuice","tomatojuice", "grapejuice")
+	dispensable_reagents = list("water","ice","coffee","cream","tea","icetea","cola","spacemountainwind","dr_gibb","space_up","tonic","sodawater","lemon_lime","sugar","orangejuice","limejuice","lemonjuice","tomatojuice","grapejuice")
 
 /obj/machinery/chem_dispenser/drinks/attackby(obj/item/O, mob/user)
 
@@ -1569,5 +1569,5 @@
 	icon = 'icons/obj/chemical.dmi'
 	icon_state = "booze_dispenser"
 	uiname = "Booze Dispenser"
-	dispensable_reagents = list("lemon_lime","sugar","orangejuice","limejuice","sodawater","tonic","beer","kahlua","whiskey","wine","vodka","gin","rum","tequila","vermouth","cognac","ale")
+	dispensable_reagents = list("lemon_lime","sugar","orangejuice","limejuice","lemonjuice","sodawater","tonic","beer","kahlua","whiskey","wine","vodka","gin","rum","tequila","vermouth","cognac","ale")
 
