@@ -619,6 +619,14 @@ var/list/teleportlocs = list()
 	name = "\improper Law Office"
 	icon_state = "law"
 
+/area/clown
+	name = "\improper Clown Office"
+	icon_state = "clown"
+
+/area/mime
+	name = "\improper Mime Office"
+	icon_state = "mime"
+
 /area/rec_room
 	name = "\improper Recreation Room"
 	icon_state = "yellow"
@@ -1012,12 +1020,6 @@ var/list/teleportlocs = list()
 /area/hydroponics
 	name = "Hydroponics"
 	icon_state = "hydro"
-
-/area/mime
-	name = "Mime Office"
-
-/area/clown
-	name = "Clown Office"
 
 //Toxins
 
