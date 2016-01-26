@@ -1013,6 +1013,12 @@ var/list/teleportlocs = list()
 	name = "Hydroponics"
 	icon_state = "hydro"
 
+/area/mime
+	name = "Mime Office"
+
+/area/clown
+	name = "Clown Office"
+
 //Toxins
 
 /area/toxins/lab
