@@ -22,7 +22,7 @@
 			if(T.x>world.maxx-8 || T.x<8)	continue	//putting them at the edge is dumb
 			if(T.y>world.maxy-8 || T.y<8)	continue
 			turfs += T
-		visible_message("<span class='danger'> The Meeseeks box collapses in on itself and warps space around it!")
+		visible_message("<span class='danger'> The Meeseeks box colapses on itself and warps space around it!")
 		user.loc = get_turf(pick(turfs)) //randomly teleports the holder of the box
 		qdel(src)
 
@@ -61,7 +61,7 @@
 
 	else
 		usr << "<span class='notice'>A Mr. Meeseeks has already left this box!</span>"
-		switch(alert(user, "Do you wish to send Mr.Meeseeks away? (This will consume your box.)","Mr. Meeseeks dismissal.","Yes","No"))
+		switch(alert(user, "Do you wish to send Mr.Meeseeks away?","Mr. Meeseeks dismissal.","Yes","No"))
 			if("Yes")
 				var/meeseeks_in_view = 0
 				for (var/mob/A in view(7, user))
@@ -79,8 +79,6 @@
 					request = "Nothing"
 					summoned = 0
 					usr << "<span class='notice'>The box makes a weird pop sound and Mr. Meeseeks is gone.</span>"
-					usr << "<span class='notice'>The box crumbles into nothing.</span>"
-					qdel(src)
 				else
 					usr << "<span class='danger'>Mr. Meeseeks is too desperate! He can't go away!</span>"
 			if("No")

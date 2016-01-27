@@ -32,10 +32,10 @@
 	if(req_access.len || req_one_access.len)
 		board = new(src)
 		if(req_access.len)
-			board.accesses = req_access
+			board.conf_access = req_access
 		else
-			board.one_access = 1
-			board.accesses = req_one_access
+			board.use_one_access = 1
+			board.conf_access = req_one_access
 
 	if(id && istype(device, /obj/item/device/assembly/control))
 		var/obj/item/device/assembly/control/A = device
@@ -85,10 +85,10 @@
 				return
 			W.loc = src
 			board = W
-			if(board.one_access)
-				req_one_access = board.accesses
+			if(board.use_one_access)
+				req_one_access = board.conf_access
 			else
-				req_access = board.accesses
+				req_access = board.conf_access
 			user << "<span class='notice'>You add [W] to the button.</span>"
 
 		if(!device && !board && istype(W, /obj/item/weapon/wrench))

@@ -150,9 +150,8 @@ Chef, cook is horrible
 	suit = /obj/item/clothing/suit/toggle/chef
 	head = /obj/item/clothing/head/chefhat
 
-/datum/outfit/job/chef/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/chef/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(visualsOnly)	return
 	var/datum/job/chef/J = SSjob.GetJob(H.job)
 	J.chefs++
 	if(J.chefs>1)//CHEFS GODDAMNIT

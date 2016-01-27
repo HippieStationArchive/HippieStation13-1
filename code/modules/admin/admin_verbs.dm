@@ -1,72 +1,71 @@
 //admin verb groups - They can overlap if you so wish. Only one of each verb will exist in the verbs list regardless
 var/list/admin_verbs_default = list(
-	/client/proc/toggleadminhelpsound,				/*toggles whether we hear a sound when adminhelps/PMs are used*/
-	/client/proc/toggleannouncelogin, 				/*toggles if an admin's login is announced during a round*/
-	/client/proc/deadmin_self,						/*destroys our own admin datum so we can play as a regular player*/
-	/client/proc/cmd_admin_say,						/*admin-only ooc chat*/
-	/client/proc/hide_verbs,						/*hides all our adminverbs*/
-	/client/proc/hide_most_verbs,					/*hides all our hideable adminverbs*/
-	/client/proc/debug_variables,					/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
-	/client/proc/admin_memo,						/*admin memo system. show/delete/write. +SERVER needed to delete admin memos of others*/
-	/client/proc/mentor_memo,						/*memo memo system. show/delete/write. +SERVER needed to delete mentor memos of others*/
-	/client/proc/deadchat,							/*toggles deadchat on/off*/
-	/client/proc/dsay,								/*talk in deadchat using our ckey/fakekey*/
-	/client/proc/toggleprayers,						/*toggles prayers on/off*/
-	/client/verb/toggleprayersounds,				/*Toggles prayer sounds (HALLELUJAH!)*/
-	/client/proc/toggle_hear_radio,					/*toggles whether we hear the radio*/
-	/client/proc/investigate_show,					/*various admintools for investigation. Such as a singulo grief-log*/
+	/client/proc/toggleadminhelpsound,	/*toggles whether we hear a sound when adminhelps/PMs are used*/
+	/client/proc/toggleannouncelogin, /*toggles if an admin's login is announced during a round*/
+	/client/proc/deadmin_self,			/*destroys our own admin datum so we can play as a regular player*/
+	/client/proc/cmd_admin_say,			/*admin-only ooc chat*/
+	/client/proc/hide_verbs,			/*hides all our adminverbs*/
+	/client/proc/hide_most_verbs,		/*hides all our hideable adminverbs*/
+	/client/proc/debug_variables,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
+	/client/proc/admin_memo,			/*admin memo system. show/delete/write. +SERVER needed to delete admin memos of others*/
+	/client/proc/mentor_memo,			/*memo memo system. show/delete/write. +SERVER needed to delete mentor memos of others*/
+	/client/proc/deadchat,				/*toggles deadchat on/off*/
+	/client/proc/dsay,					/*talk in deadchat using our ckey/fakekey*/
+	/client/proc/toggleprayers,			/*toggles prayers on/off*/
+	/client/verb/toggleprayersounds,	/*Toggles prayer sounds (HALLELUJAH!)*/
+	/client/proc/toggle_hear_radio,		/*toggles whether we hear the radio*/
+	/client/proc/investigate_show,		/*various admintools for investigation. Such as a singulo grief-log*/
 	/client/proc/secrets,
 	/client/proc/reload_admins,
 	/client/proc/reload_mentors,
-	/client/proc/reestablish_db_connection,			/*reattempt a connection to the database*/
-	/client/proc/cmd_admin_pm_context,				/*right-click adminPM interface*/
-	/client/proc/cmd_admin_pm_panel,				/*admin-pm list*/
+	/client/proc/reestablish_db_connection,/*reattempt a connection to the database*/
+	/client/proc/cmd_admin_pm_context,	/*right-click adminPM interface*/
+	/client/proc/cmd_admin_pm_panel,		/*admin-pm list*/
 	/client/proc/stop_sounds
 	)
 var/list/admin_verbs_admin = list(
-	/client/proc/player_panel_new,					/*shows an interface for all players, with links to various panels*/
-	/client/proc/invisimin,							/*allows our mob to go invisible/visible*/
-//	/datum/admins/proc/show_traitor_panel,			/*interface which shows a mob's mind*/ -Removed due to rare practical use. Moved to debug verbs ~Errorage
-	/datum/admins/proc/show_player_panel,			/*shows an interface for individual players, with various links (links require additional flags*/
-	/client/proc/game_panel,						/*game panel, allows to change game-mode etc*/
-	/client/proc/check_ai_laws,						/*shows AI and borg laws*/
-	/datum/admins/proc/toggleooc,					/*toggles ooc on/off for everyone*/
-	/datum/admins/proc/toggleoocdead,				/*toggles ooc on/off for everyone who is dead*/
-	/datum/admins/proc/toggleenter,					/*toggles whether people can join the current game*/
-	/datum/admins/proc/toggleguests,				/*toggles whether guests can join the current game*/
-	/datum/admins/proc/announce,					/*priority announce something to all clients.*/
-	/datum/admins/proc/set_admin_notice,			/*announcement all clients see when joining the server.*/
-	/client/proc/admin_ghost,						/*allows us to ghost/reenter body at will*/
-	/client/proc/toggle_view_range,					/*changes how far we can see*/
-	/datum/admins/proc/view_txt_log,				/*shows the server log (diary) for today*/
-	/datum/admins/proc/view_atk_log,				/*shows the server combat-log, doesn't do anything presently*/
-	/client/proc/cmd_admin_subtle_message,			/*send an message to somebody as a 'voice in their head'*/
-	/client/proc/cmd_admin_delete,					/*delete an instance/object/mob/etc*/
-	/client/proc/cmd_admin_check_contents,			/*displays the contents of an instance*/
-	/client/proc/check_antagonists,					/*shows all antags*/
-	/datum/admins/proc/access_news_network,			/*allows access of newscasters*/
-	/client/proc/giveruntimelog,					/*allows us to give access to runtime logs to somebody*/
-	/client/proc/getruntimelog,						/*allows us to access runtime logs to somebody*/
-	/client/proc/getserverlog,						/*allows us to fetch server logs (diary) for other days*/
-	/client/proc/jumptocoord,						/*we ghost and jump to a coordinate*/
-	/client/proc/Getmob,							/*teleports a mob to our location*/
-	/client/proc/Getkey,							/*teleports a mob with a certain ckey to our location*/
-//	/client/proc/sendmob,							/*sends a mob somewhere*/ -Removed due to it needing two sorting procs to work, which were executed every time an admin right-clicked. ~Errorage
+	/client/proc/player_panel_new,		/*shows an interface for all players, with links to various panels*/
+	/client/proc/invisimin,				/*allows our mob to go invisible/visible*/
+//	/datum/admins/proc/show_traitor_panel,	/*interface which shows a mob's mind*/ -Removed due to rare practical use. Moved to debug verbs ~Errorage
+	/datum/admins/proc/show_player_panel,	/*shows an interface for individual players, with various links (links require additional flags*/
+	/client/proc/game_panel,			/*game panel, allows to change game-mode etc*/
+	/client/proc/check_ai_laws,			/*shows AI and borg laws*/
+	/datum/admins/proc/toggleooc,		/*toggles ooc on/off for everyone*/
+	/datum/admins/proc/toggleoocdead,	/*toggles ooc on/off for everyone who is dead*/
+	/datum/admins/proc/toggleenter,		/*toggles whether people can join the current game*/
+	/datum/admins/proc/toggleguests,	/*toggles whether guests can join the current game*/
+	/datum/admins/proc/announce,		/*priority announce something to all clients.*/
+	/datum/admins/proc/set_admin_notice,/*announcement all clients see when joining the server.*/
+	/client/proc/admin_ghost,			/*allows us to ghost/reenter body at will*/
+	/client/proc/toggle_view_range,		/*changes how far we can see*/
+	/datum/admins/proc/view_txt_log,	/*shows the server log (diary) for today*/
+	/datum/admins/proc/view_atk_log,	/*shows the server combat-log, doesn't do anything presently*/
+	/client/proc/cmd_admin_subtle_message,	/*send an message to somebody as a 'voice in their head'*/
+	/client/proc/cmd_admin_delete,		/*delete an instance/object/mob/etc*/
+	/client/proc/cmd_admin_check_contents,	/*displays the contents of an instance*/
+	/client/proc/check_antagonists,		/*shows all antags*/
+	/datum/admins/proc/access_news_network,	/*allows access of newscasters*/
+	/client/proc/giveruntimelog,		/*allows us to give access to runtime logs to somebody*/
+	/client/proc/getruntimelog,			/*allows us to access runtime logs to somebody*/
+	/client/proc/getserverlog,			/*allows us to fetch server logs (diary) for other days*/
+	/client/proc/jumptocoord,			/*we ghost and jump to a coordinate*/
+	/client/proc/Getmob,				/*teleports a mob to our location*/
+	/client/proc/Getkey,				/*teleports a mob with a certain ckey to our location*/
+//	/client/proc/sendmob,				/*sends a mob somewhere*/ -Removed due to it needing two sorting procs to work, which were executed every time an admin right-clicked. ~Errorage
 	/client/proc/jumptoarea,
-	/client/proc/jumptokey,							/*allows us to jump to the location of a mob with a certain ckey*/
-	/client/proc/jumptomob,							/*allows us to jump to a specific mob*/
-	/client/proc/jumptoturf,						/*allows us to jump to a specific turf*/
-	/client/proc/admin_call_shuttle,				/*allows us to call the emergency shuttle*/
-	/client/proc/admin_cancel_shuttle,				/*allows us to cancel the emergency shuttle, sending it back to centcom*/
-	/client/proc/cmd_admin_direct_narrate,			/*send text directly to a player with no padding. Useful for narratives and fluff-text*/
-	/client/proc/cmd_admin_world_narrate,			/*sends text to all players with no padding*/
-	/client/proc/cmd_admin_local_narrate,			//sends text to all mobs within view of atmo
-	/client/proc/cmd_admin_create_centcom_report, 	//*Create Centcomm report
+	/client/proc/jumptokey,				/*allows us to jump to the location of a mob with a certain ckey*/
+	/client/proc/jumptomob,				/*allows us to jump to a specific mob*/
+	/client/proc/jumptoturf,			/*allows us to jump to a specific turf*/
+	/client/proc/admin_call_shuttle,	/*allows us to call the emergency shuttle*/
+	/client/proc/admin_cancel_shuttle,	/*allows us to cancel the emergency shuttle, sending it back to centcom*/
+	/client/proc/cmd_admin_direct_narrate,	/*send text directly to a player with no padding. Useful for narratives and fluff-text*/
+	/client/proc/cmd_admin_world_narrate,	/*sends text to all players with no padding*/
+	/client/proc/cmd_admin_local_narrate,	//sends text to all mobs within view of atmo
+	/client/proc/cmd_admin_create_centcom_report, //*Create Centcomm report
 	/client/proc/cmd_admin_create_intercept_report, //*Create intercept report
-	/client/proc/reset_all_tcs,						/*resets all telecomms scripts*/
-	/client/proc/toggle_antag_hud, 					/*toggle display of the admin antag hud*/
-	/client/proc/aooc, 								/*sends a message to all antags on the server*/
-	/client/proc/toggle_AI_interact 				/*toggle admin ability to interact with machines as an AI*/
+	/client/proc/reset_all_tcs,			/*resets all telecomms scripts*/
+	/client/proc/toggle_antag_hud, 	/*toggle display of the admin antag hud*/
+	/client/proc/aooc /*sends a message to all antags on the server*/
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
@@ -97,8 +96,7 @@ var/list/admin_verbs_fun = list(
 	/client/proc/bluespace_artillery,
 	/client/proc/admin_change_sec_level,
 	/client/proc/cmd_smite,
-	/client/proc/toggle_nuke,
-	/client/proc/TemplatePanel
+	/client/proc/toggle_nuke
 	)
 var/list/admin_verbs_spawn = list(
 	/datum/admins/proc/spawn_atom,		/*allows us to spawn instances*/
@@ -123,6 +121,7 @@ var/list/admin_verbs_debug = list(
 	/client/proc/cmd_admin_list_open_jobs,
 	/client/proc/Debug2,
 	/client/proc/cmd_debug_make_powernets,
+	/client/proc/debug_controller,
 	/client/proc/cmd_debug_mob_lists,
 	/client/proc/cmd_admin_delete,
 	/client/proc/cmd_debug_del_all,
@@ -208,8 +207,8 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/Debug2,
 	/client/proc/reload_admins,
 	/client/proc/cmd_debug_make_powernets,
+	/client/proc/debug_controller,
 	/client/proc/startSinglo,
-	/client/proc/startTesla,
 	/client/proc/cmd_debug_mob_lists,
 	/client/proc/cmd_debug_del_all,
 	/client/proc/enable_debug_verbs,
@@ -278,12 +277,10 @@ var/list/admin_verbs_hideable = list(
 		/client/proc/count_objects_all,
 		/client/proc/cmd_assume_direct_control,
 		/client/proc/startSinglo,
-		/client/proc/startTesla,
 		/client/proc/fps,
 		/client/proc/cmd_admin_grantfullaccess,
 		/client/proc/cmd_admin_areatest,
 		/client/proc/readmin,
-		/client/proc/reload_nanoui_resources
 		)
 	if(holder)
 		verbs.Remove(holder.rank.adds)
@@ -584,7 +581,7 @@ var/list/admin_verbs_hideable = list(
 		var/list/Lines = file2list("config/admins.txt")
 		for(var/line in Lines)
 			var/list/splitline = text2list(line, " = ")
-			if(ckey(splitline[1]) == ckey)
+			if(lowertext(splitline[1]) == ckey)
 				if(splitline.len >= 2)
 					rank = ckeyEx(splitline[2])
 				break
@@ -655,15 +652,6 @@ var/list/admin_verbs_hideable = list(
 
 							testing("Spawned test mob with name \"[mob.name]\" at [tile.x],[tile.y],[tile.z]")
 			while (!area && --j > 0)
-
-/client/proc/toggle_AI_interact()
- 	set name = "Toggle Admin AI Interact"
- 	set category = "Admin"
- 	set desc = "Allows you to interact with most machines as an AI would as a ghost"
-
- 	AI_Interact = !AI_Interact
- 	log_admin("[key_name(usr)] has [AI_Interact ? "activated" : "deactivated"] Admin AI Interact")
- 	message_admins("[key_name_admin(usr)] has [AI_Interact ? "activated" : "deactivated"] their AI interaction")
 //RISK CODE HERE DON'T USE IN LIVE SERVER,ALSO THERE'S NO CHECK FOR ADMINS SO ANYONE CAN USE IT WATCHOUTYO
 //Special proc to set up the server for mapping via screenshots
 /*/client/verb/mapWorld()

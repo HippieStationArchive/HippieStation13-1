@@ -58,7 +58,7 @@ var/intercom_range_display_status = 0
 	set category = "Mapping"
 	set name = "Camera Report"
 
-	if(!Master)
+	if(!master_controller)
 		alert(usr,"Master_controller not found.","Sec Camera Report")
 		return 0
 
@@ -148,7 +148,6 @@ var/intercom_range_display_status = 0
 	src.verbs += /client/proc/count_objects_all
 	src.verbs += /client/proc/cmd_assume_direct_control	//-errorage
 	src.verbs += /client/proc/startSinglo
-	src.verbs += /client/proc/startTesla
 	src.verbs += /client/proc/fps	//allows you to set the ticklag.
 	src.verbs += /client/proc/cmd_admin_grantfullaccess
 	src.verbs += /client/proc/cmd_admin_areatest
@@ -162,7 +161,6 @@ var/intercom_range_display_status = 0
 	src.verbs += /client/proc/cmd_show_at_list
 	src.verbs += /client/proc/cmd_show_at_list
 	src.verbs += /client/proc/manipulate_organs
-	src.verbs += /client/proc/reload_nanoui_resources
 	//src.verbs += /client/proc/cmd_admin_rejuvenate
 
 	feedback_add_details("admin_verb","mDV") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!

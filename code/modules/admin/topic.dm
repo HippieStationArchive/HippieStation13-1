@@ -143,69 +143,6 @@
 			log_admin("[key_name(usr)] has triggered an event. ([E.name])")
 		return
 
-	else if(href_list["template_panel"])
-		if(!check_rights(R_FUN))
-			return 0
-
-		switch(href_list["action"])
-			if("place")
-				var/list/categories = SStemplate.GetCategories(1)
-				var/category = input("Which category?", "Input") as anything in categories + "Cancel"
-				if(category == "Cancel")
-					return 0
-
-				var/list/templates = flist("[config.directory]/[category]/")
-				var/name = input("Which Template?", "Selection") in templates
-				var/path = "[config.directory]/[category]/[name]"
-
-				if(!fexists(path))
-					usr << "<span class='warning'>Template with name '[name]' does not exist.</span>"
-					return 0
-
-				var/turf/location = get_turf(owner.mob)
-
-				SStemplate.placed_templates += SStemplate.PlaceTemplateAt(location, path, name)
-				message_admins("[key_name_admin(usr)] placed template '[name]' at {[location.x], [location.y], [location.z]}")
-
-			if("upload")
-				if(!check_rights(R_FUN))
-					return 0
-
-				var/file = input("Upload a .dmm file as a template", "Upload") as file
-				if(!file || !length(file))
-					return 0
-
-				var/turf/location = get_turf(owner.mob)
-				var/datum/dmm_object_collection/collection = SStemplate.parser.GetCollection(file2list(file))
-
-				collection.Place(location, "uploaded-[owner.ckey]")
-				message_admins("[key_name_admin(usr)] placed an uploaded template at {[location.x], [location.y], [location.z]}")
-				SStemplate.placed_templates += collection
-
-			if("delete")
-				if(!check_rights(R_FUN))
-					return 0
-
-				var/datum/dmm_object_collection/template = locate(href_list["template"])
-				if(!template)
-					return 0
-
-				message_admins("[key_name_admin(usr)] has deleted template '[template.name]' at {[template.location.x], [template.location.y], [template.location.z]}")
-
-				template.Delete(remove_from_list=1)
-
-			if("reset")
-				if(!check_rights(R_FUN))
-					return 0
-
-				var/datum/dmm_object_collection/template = locate(href_list["template"])
-				if(!template)
-					return 0
-
-				message_admins("[key_name_admin(usr)] has reset template '[template.name]' at {[template.location.x], [template.location.y], [template.location.z]}")
-
-				template.Reset()
-
 	else if(href_list["dbsearchckey"] || href_list["dbsearchadmin"] || href_list["dbsearchip"] || href_list["dbsearchcompid"])
 		var/adminckey = href_list["dbsearchadmin"]
 		var/playerckey = href_list["dbsearchckey"]
@@ -1274,7 +1211,6 @@
 		if(master_mode != "secret")
 			return alert(usr, "The game mode has to be secret!", null, null, null, null)
 		secret_force_mode = href_list["f_secret2"]
-		send2irc("Server", "[key_name(usr)] has forced secret to [secret_force_mode] for the round.")
 		log_admin("[key_name(usr)] set the forced secret mode as [secret_force_mode].")
 		message_admins("<span class='adminnotice'>[key_name_admin(usr)] set the forced secret mode as [secret_force_mode].</span>")
 		Game() // updates the main game menu
@@ -2017,7 +1953,7 @@
 		else
 			var/choice = alert("Please confirm Feed channel creation","Network Channel Handler","Confirm","Cancel")
 			if(choice=="Confirm")
-				news_network.CreateFeedChannel(src.admincaster_feed_channel.channel_name, src.admin_signature, src.admincaster_feed_channel.locked, 1)
+				news_network.CreateFeedChannel(src.admincaster_feed_channel.channel_name, src.admincaster_signature, src.admincaster_feed_channel.locked, 1)
 				feedback_inc("newscaster_channels",1)
 				log_admin("[key_name(usr)] created command feed channel: [src.admincaster_feed_channel.channel_name]!")
 				src.admincaster_screen=5
@@ -2040,7 +1976,7 @@
 		if(src.admincaster_feed_message.returnBody(-1) =="" || src.admincaster_feed_message.returnBody(-1) =="\[REDACTED\]" || src.admincaster_feed_channel.channel_name == "" )
 			src.admincaster_screen = 6
 		else
-			news_network.SubmitArticle(src.admincaster_feed_message.returnBody(-1), src.admin_signature, src.admincaster_feed_channel.channel_name, null, 1)
+			news_network.SubmitArticle(src.admincaster_feed_message.returnBody(-1), src.admincaster_signature, src.admincaster_feed_channel.channel_name, null, 1)
 			feedback_inc("newscaster_stories",1)
 			src.admincaster_screen=4
 
@@ -2097,10 +2033,10 @@
 			var/choice = alert("Please confirm Wanted Issue [(input_param==1) ? ("creation.") : ("edit.")]","Network Security Handler","Confirm","Cancel")
 			if(choice=="Confirm")
 				if(input_param==1)          //If input_param == 1 we're submitting a new wanted issue. At 2 we're just editing an existing one. See the else below
-					news_network.submitWanted(admincaster_wanted_message.criminal, admincaster_wanted_message.body, admin_signature, null, 1, 1)
+					news_network.submitWanted(admincaster_wanted_message.criminal, admincaster_wanted_message.body, admincaster_signature, null, 1, 1)
 					src.admincaster_screen = 15
 				else
-					news_network.submitWanted(admincaster_wanted_message.criminal, admincaster_wanted_message.body, admin_signature)
+					news_network.submitWanted(admincaster_wanted_message.criminal, admincaster_wanted_message.body, admincaster_signature)
 					src.admincaster_screen = 19
 				log_admin("[key_name(usr)] issued a Station-wide Wanted Notification for [src.admincaster_wanted_message.criminal]!")
 		src.access_news_network()
@@ -2169,7 +2105,7 @@
 		src.access_news_network()
 
 	else if(href_list["ac_set_signature"])
-		src.admin_signature = adminscrub(input(usr, "Provide your desired signature", "Network Identity Handler", ""))
+		src.admincaster_signature = adminscrub(input(usr, "Provide your desired signature", "Network Identity Handler", ""))
 		src.access_news_network()
 
 	else if(href_list["ac_del_comment"])

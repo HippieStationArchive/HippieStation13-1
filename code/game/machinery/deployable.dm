@@ -62,7 +62,6 @@ for reference:
 	density = 1
 	var/health = 100
 	var/maxhealth = 100
-	burn_state = 0 //Burnable
 
 /obj/structure/barricade/wooden/attack_animal(mob/living/simple_animal/M)
 	M.changeNext_move(CLICK_CD_MELEE)
@@ -92,21 +91,6 @@ obj/structure/barricade/wooden/proc/take_damage(damage, leave_debris=1, message)
 				health = maxhealth
 				W:use(1)
 				visible_message("[user] repairs \the [src]!", "<span class='notice'>You repair \the [src].</span>")
-				return
-	if(istype(W, /obj/item/weapon/hatchet) && user.a_intent == "help")
-		if(health == maxhealth)
-			user << "You begin to carve a hole for a window"
-			if(do_after(user,60/W.toolspeed, target = src))
-				if(!src.loc)
-					return
-				visible_message("<span class='notice'>[user] carves a frame out of [src].</span>","<span class ='notice'>You carve out a window frame from [src].</span>")
-				new /obj/item/stack/sheet/mineral/wood(get_turf(user))
-				new /obj/item/stack/sheet/mineral/wood(get_turf(user))
-				new /obj/structure/barricade/wooden/windowframe(get_turf(src))
-				qdel(src)
-				return
-		else
-			return
 	else
 		user.changeNext_move(CLICK_CD_MELEE)
 		visible_message("<span class='warning'>[user] hits [src] with [W]!</span>", "<span class='warning'>You hit [src] with [W]!</span>")

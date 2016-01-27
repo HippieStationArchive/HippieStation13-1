@@ -24,7 +24,7 @@ Iconnery
 	var/obj/machinery/atmospherics/node = NODE1
 	if(node)
 		node.disconnect(src)
-	NODE1 = null
+	node = null
 	nullifyPipenet(PARENT1)
 	atmosinit()
 	node = NODE1

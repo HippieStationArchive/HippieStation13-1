@@ -11,6 +11,7 @@
 #define MODE_INTERCOM "intercom"
 #define MODE_BINARY "binary"
 #define MODE_WHISPER "whisper"
+#define MODE_SECURE_HEADSET "secure headset"
 #define MODE_DEPARTMENT "department"
 #define MODE_ALIEN "alientalk"
 #define MODE_HOLOPAD "holopad"
@@ -24,7 +25,6 @@
 #define SPAN_PAPYRUS "papyrus"
 #define SPAN_REALLYBIG "reallybig"
 #define SPAN_CLWUNESCAPE "clwunescape"
-#define SPAN_COMMAND "commmand_headset"
 
 //bitflag #defines for return value of the radio() proc.
 #define ITALICS 1

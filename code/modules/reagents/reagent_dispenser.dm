@@ -66,7 +66,7 @@
 				if(i == 3 || i == 7) continue // those aren't directions.
 				var/obj/effect/particle_effect/water/W = new /obj/effect/particle_effect/water(get_turf(src))
 				W.create_reagents(200) // maximum it should hold is 200
-				src.reagents.trans_to(W, volumepereffect)
+				reagents.trans_to(W,volumepereffect)
 				W.color = mix_color_from_reagents(W.reagents.reagent_list)
 				if(i != 11) // 11 is for the effect on the same tile of the src
 					step(W,i)

@@ -1,6 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed lacking rwall smoothing when metal is used on wirecuttered rwalls."

@@ -280,7 +280,7 @@ var/const/SIGNAL_COOLDOWN = 20 // 2 seconds
 				return
 			S.last_signal = world.timeofday
 
-			var/datum/radio_frequency/connection = SSradio.return_frequency(freq)
+			var/datum/radio_frequency/connection = radio_controller.return_frequency(freq)
 
 			if(findtext(num2text(freq), ".")) // if the frequency has been set as a decimal
 				freq *= 10 // shift the decimal one place

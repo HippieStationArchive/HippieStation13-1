@@ -141,7 +141,7 @@
 		ExtinguishMob()
 		return
 	var/datum/gas_mixture/G = loc.return_air() // Check if we're standing in an oxygenless environment
-	if(!G.gases["o2"] || G.gases["o2"][MOLES] < 1)
+	if(G.oxygen < 1)
 		ExtinguishMob() //If there's no oxygen in the tile we're on, put out the fire
 		return
 	var/turf/location = get_turf(src)
@@ -165,7 +165,6 @@
 		L.IgniteMob()
 
 	if(L_old_on_fire) //Only ignite us and gain their stacks if they were onfire before we bumped them
-		add_logs(src, L, " set aflame ")
 		L.fire_stacks /= 2
 		fire_stacks += L.fire_stacks
 		IgniteMob()

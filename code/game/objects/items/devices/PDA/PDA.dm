@@ -264,8 +264,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 	user.set_machine(src)
 
-	if(hidden_uplink && hidden_uplink.active)
-		hidden_uplink.interact(user)
+	if(active_uplink_check(user))
 		return
 
 	setup_chatrooms()
@@ -425,7 +424,6 @@ var/global/list/obj/item/device/pda/PDAs = list()
 					dat += "Unable to obtain a reading.<br>"
 				else
 					var/datum/gas_mixture/environment = T.return_air()
-					var/list/env_gases = environment.gases
 
 					var/pressure = environment.return_pressure()
 					var/total_moles = environment.total_moles()
@@ -433,11 +431,17 @@ var/global/list/obj/item/device/pda/PDAs = list()
 					dat += "Air Pressure: [round(pressure,0.1)] kPa<br>"
 
 					if (total_moles)
-						for(var/id in env_gases)
-							var/gas_level = env_gases[id][MOLES]/total_moles
-							if(id in hardcoded_gases || gas_level > 0.01)
-								dat += "[env_gases[id][GAS_NAME]]: [round(gas_level*100)]%<br>"
-
+						var/o2_level = environment.oxygen/total_moles
+						var/n2_level = environment.nitrogen/total_moles
+						var/co2_level = environment.carbon_dioxide/total_moles
+						var/plasma_level = environment.toxins/total_moles
+						var/unknown_level =  1-(o2_level+n2_level+co2_level+plasma_level)
+						dat += "Nitrogen: [round(n2_level*100)]%<br>"
+						dat += "Oxygen: [round(o2_level*100)]%<br>"
+						dat += "Carbon Dioxide: [round(co2_level*100)]%<br>"
+						dat += "Plasma: [round(plasma_level*100)]%<br>"
+						if(unknown_level > 0.01)
+							dat += "OTHER: [round(unknown_level)]%<br>"
 					dat += "Temperature: [round(environment.temperature-T0C)]&deg;C<br>"
 				dat += "<br>"
 
@@ -584,10 +588,9 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				tnote = null
 			if("Ringtone")
 				var/t = input(U, "Please enter new ringtone", name, ttone) as text
-				if(in_range(src, U) && loc == U)
-					if(t)
-						if(hidden_uplink && (trim(lowertext(t)) == trim(lowertext(lock_code))))
-							hidden_uplink.interact(U)
+				if (in_range(src, U) && loc == U)
+					if (t)
+						if(src.hidden_uplink && hidden_uplink.check_trigger(U, trim(lowertext(t)), trim(lowertext(lock_code))))
 							U << "The PDA softly beeps."
 							U << browse(null, "window=pda")
 							src.mode = 0

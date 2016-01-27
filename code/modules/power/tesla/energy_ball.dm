@@ -48,9 +48,9 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 		tesla_zap(src, 7, the_balls_arent_inert)
 		pixel_x = -32
 		pixel_y = -32
-		energy -= rand(1,3) // ensure that the telsa will now lose energy, instead of gaining. So that way it must constantly be blasted by the PA as a source of energy.
+		energy += rand(1,3) // ensure it generates energy without needing to be blasted by the PA too much due to its size, and that a tesla engine will always get bigger over time
 	else
-		energy = 0 // ensure we don't have miniballs make more miniballs.
+		energy = 0 // ensure we dont have miniballs of miniballs
 	return
 
 /obj/singularity/energy_ball/examine(mob/user)
@@ -67,16 +67,12 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 			loc = get_step(src,move_dir)
 
 /obj/singularity/energy_ball/proc/handle_energy()
-	if(energy <= -100)
-		destroy_ball()
-		energy += 150
 	if(energy >= 300)
 		energy -= 300
 		playsound(src.loc, 'sound/magic/lightning_chargeup.ogg', 100, 1, extrarange = 5)
 		spawn(100)
 			var/obj/singularity/energy_ball/EB = new(loc)
 			orbiting_balls.Add(EB)
-			poi_list.Remove(EB)
 			EB.transform *= pick(0.3,0.4,0.5,0.6,0.7)
 			EB.is_orbiting = 1
 			var/icon/I = icon(icon,icon_state,dir)
@@ -97,18 +93,6 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 	if(istype(A, /mob/living/carbon))
 		var/mob/living/carbon/C = A
 		C.dust()
-	return
-
-/obj/singularity/energy_ball/proc/destroy_ball()
-	if(orbiting_balls.len > 0)
-		for(var/obj/singularity/energy_ball/EB in orbiting_balls)
-			orbiting_balls.Remove(EB)
-			qdel(EB)
-			return
-	else
-		qdel(src)
-
-/obj/singularity/energy_ball/attack_hand(mob/user)
 	return
 
 /proc/get_closest_atom(type, list, source)
