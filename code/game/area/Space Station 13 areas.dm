@@ -876,6 +876,10 @@ var/list/teleportlocs = list()
 	name = "\improper Security Office"
 	icon_state = "security"
 
+/area/security/lockers
+	name = "\improper Security Locker Room"
+	icon_state = "firingrange"
+
 /area/security/sec_lobby
 	name = "\improper Security Lobby"
 	icon_state = "security"
@@ -923,6 +927,10 @@ var/list/teleportlocs = list()
 /area/security/transfer
 	name = "\improper Transfer Centre"
 	icon_state = "armory"
+
+/area/security/arrivalscheckpoint
+	name = "\improper Arrivals Security Checkpoint"
+	icon_state = "security"
 
 /*
 	New()
