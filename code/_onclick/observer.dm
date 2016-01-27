@@ -54,11 +54,8 @@
 
 // Oh by the way this didn't work with old click code which is why clicking shit didn't spam you
 /atom/proc/attack_ghost(mob/dead/observer/user)
-	if(user.client)
-		if(IsAdminGhost(user))
-			attack_ai(user)
-		if(user.client.inquisitive_ghost)
-			user.examinate(src)
+	if(user.client && user.client.inquisitive_ghost)
+		user.examinate(src)
 	return
 
 // ---------------------------------------

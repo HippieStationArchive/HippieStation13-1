@@ -123,7 +123,6 @@
 	else
 		return 0
 
-
 //How much light light_source L should apply to src
 /turf/proc/lumen(datum/light_source/L)
 	var/distance = 0
@@ -242,7 +241,6 @@
 	var/atom/movable/light/lighting_object //Will be null for space turfs and anything in a static lighting area
 	var/list/affecting_lights			//not initialised until used (even empty lists reserve a fair bit of memory)
 
-
 /turf/ChangeTurf(path)
 	if(!path || path == type) //Sucks this is here but it would cause problems otherwise.
 		return ..()
@@ -278,7 +276,6 @@
 
 /turf/proc/update_lumcount(amount)
 	lighting_lumcount += amount
-
 	if(!lighting_changed)
 		SSlighting.changed_turfs += src
 		lighting_changed = 1
@@ -315,6 +312,7 @@
 				newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA-num
 			else //if(lighting_lumcount >= LIGHTING_CAP)
 				newalpha = 0
+
 		if(lighting_object.alpha != newalpha)
 			var/change_time = LIGHTING_TIME
 			if(instantly)

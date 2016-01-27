@@ -37,7 +37,7 @@
 	var/list/stored_data = list()
 	var/current_channel
 
-	var/mob/living/simple_animal/bot/active_bot
+	var/obj/machinery/bot/active_bot
 	var/list/botlist = list()
 
 /obj/item/weapon/cartridge/engineering
@@ -237,18 +237,17 @@
 /obj/item/weapon/cartridge/proc/print_to_host(text)
 	if (!istype(loc, /obj/item/device/pda))
 		return
-	var/obj/item/device/pda/P = loc
-	P.cart = text
+	loc:cart = text
 
 	for (var/mob/M in viewers(1, loc.loc))
 		if (M.client && M.machine == loc)
-			P.attack_self(M)
+			loc:attack_self(M)
 
 	return
 
 /obj/item/weapon/cartridge/proc/post_status(command, data1, data2)
 
-	var/datum/radio_frequency/frequency = SSradio.return_frequency(1435)
+	var/datum/radio_frequency/frequency = radio_controller.return_frequency(1435)
 
 	if(!frequency) return
 
@@ -270,7 +269,6 @@
 /obj/item/weapon/cartridge/proc/generate_menu(mob/user)
 	switch(mode)
 		if(40) //signaller
-			var/obj/item/radio/integrated/signal/S = radio
 			menu = "<h4><img src=pda_signaler.png> Remote Signaling System</h4>"
 
 			menu += {"
@@ -278,14 +276,14 @@
 Frequency:
 <a href='byond://?src=\ref[src];choice=Signal Frequency;sfreq=-10'>-</a>
 <a href='byond://?src=\ref[src];choice=Signal Frequency;sfreq=-2'>-</a>
-[format_frequency(S.frequency)]
+[format_frequency(radio:frequency)]
 <a href='byond://?src=\ref[src];choice=Signal Frequency;sfreq=2'>+</a>
 <a href='byond://?src=\ref[src];choice=Signal Frequency;sfreq=10'>+</a><br>
 <br>
 Code:
 <a href='byond://?src=\ref[src];choice=Signal Code;scode=-5'>-</a>
 <a href='byond://?src=\ref[src];choice=Signal Code;scode=-1'>-</a>
-[S.code]
+[radio:code]
 <a href='byond://?src=\ref[src];choice=Signal Code;scode=1'>+</a>
 <a href='byond://?src=\ref[src];choice=Signal Code;scode=5'>+</a><br>"}
 		if (41) //crew manifest
@@ -550,7 +548,7 @@ Code:
 				menu += "<h4>Located Cleanbots:</h4>"
 
 				ldat = null
-				for (var/mob/living/simple_animal/bot/cleanbot/B in living_mob_list)
+				for (var/obj/machinery/bot/cleanbot/B in SSbot.processing)
 					var/turf/bl = get_turf(B)
 
 					if(bl)
@@ -609,7 +607,7 @@ Code:
 			active1 = find_record("id", href_list["target"], data_core.general)
 			if(active1)
 				active2 = find_record("id", href_list["target"], data_core.medical)
-			pda.mode = 441
+			loc:mode = 441
 			mode = 441
 			if(!active2)
 				active1 = null
@@ -618,28 +616,25 @@ Code:
 			active1 = find_record("id", href_list["target"], data_core.general)
 			if(active1)
 				active3 = find_record("id", href_list["target"], data_core.security)
-			pda.mode = 451
+			loc:mode = 451
 			mode = 451
 			if(!active3)
 				active1 = null
 
 		if("Send Signal")
 			spawn( 0 )
-				var/obj/item/radio/integrated/signal/S = radio
-				S.send_signal("ACTIVATE")
+				radio:send_signal("ACTIVATE")
 				return
 
 		if("Signal Frequency")
-			var/obj/item/radio/integrated/signal/S = radio
-			var/new_frequency = sanitize_frequency(S.frequency + text2num(href_list["sfreq"]))
-			S.set_frequency(new_frequency)
+			var/new_frequency = sanitize_frequency(radio:frequency + text2num(href_list["sfreq"]))
+			radio:set_frequency(new_frequency)
 
 		if("Signal Code")
-			var/obj/item/radio/integrated/signal/S = radio
-			S.code += text2num(href_list["scode"])
-			S.code = round(S.code)
-			S.code = min(100, S.code)
-			S.code = max(1, S.code)
+			radio:code += text2num(href_list["scode"])
+			radio:code = round(radio:code)
+			radio:code = min(100, radio:code)
+			radio:code = max(1, radio:code)
 
 		if("Status")
 			switch(href_list["statdisp"])
@@ -658,7 +653,7 @@ Code:
 		if("Power Select")
 			var/pnum = text2num(href_list["target"])
 			powmonitor = powermonitors[pnum]
-			pda.mode = 433
+			loc:mode = 433
 			mode = 433
 
 		if("Newscaster Access")
@@ -710,7 +705,7 @@ Code:
 /obj/item/weapon/cartridge/proc/bot_control()
 
 
-	var/mob/living/simple_animal/bot/Bot
+	var/obj/machinery/bot/Bot
 
 //	if(!SC)
 //		menu = "Interlink Error - Please reinsert cartridge."
@@ -723,7 +718,7 @@ Code:
 
 		//MULEs!
 		if(active_bot.bot_type == MULE_BOT)
-			var/mob/living/simple_animal/bot/mulebot/MULE = active_bot
+			var/obj/machinery/bot/mulebot/MULE = active_bot
 			var/atom/Load = MULE.load
 			menu += "<BR>Current Load: [ !Load ? "<i>none</i>" : "[Load.name] (<A href='byond://?src=\ref[src];mule=unload'><i>unload</i></A>)" ]<BR>"
 			menu += "Destination: [MULE.destination ? MULE.destination : "<i>None</i>"] (<A href='byond://?src=\ref[src];mule=destination'><i>set</i></A>)<BR>"
@@ -750,7 +745,7 @@ Code:
 		var/turf/current_turf = get_turf(src)
 		var/zlevel = current_turf.z
 		var/botcount = 0
-		for(Bot in living_mob_list) //Git da botz
+		for(Bot in SSbot.processing) //Git da botz
 			if(!Bot.on || Bot.z != zlevel || Bot.remote_disabled || !(bot_access_flags & Bot.bot_type)) //Only non-emagged bots on the same Z-level are detected!
 				continue //Also, the PDA must have access to the bot type.
 			menu += "<A href='byond://?src=\ref[src];op=control;bot=\ref[Bot]'><b>[Bot.name]</b> ([Bot.get_mode()])<BR>"

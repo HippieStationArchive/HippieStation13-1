@@ -102,7 +102,6 @@ BLIND     // can't see anything
 	var/mask_adjusted = 0
 	var/ignore_maskadjust = 1
 	var/adjusted_flags = null
-	var/emagged = 0
 
 //Override this to modify speech like luchador masks.
 /obj/item/clothing/mask/proc/speechModification(message)

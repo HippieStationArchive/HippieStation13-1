@@ -137,7 +137,7 @@
 /obj/item/weapon/grown/novaflower/add_juice()
 	if(..())
 		reagents.add_reagent("nutriment", 1)
-		reagents.add_reagent("ash", round((potency / 2), 1))
+		reagents.add_reagent("capsaicin", round((potency / 3.5), 1))
 		reagents.add_reagent("condensedcapsaicin", round((potency / 4), 1))
 	force = round((5 + potency / 5), 1)
 
@@ -322,8 +322,7 @@
 	var/snap_pops = 1
 
 /obj/item/weapon/grown/snapcorn/add_juice()
-	if(..())
-		reagents.add_reagent("saltpetre", round((potency / 2), 1))
+	..()
 	snap_pops = max(round(potency/8), 1)
 
 /obj/item/weapon/grown/snapcorn/attack_self(mob/user)

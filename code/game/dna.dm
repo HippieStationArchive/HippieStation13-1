@@ -23,14 +23,7 @@
 	destination.dna.features = features
 	destination.dna.real_name = real_name
 	if(transfer_SE)
-		for(var/datum/mutation/human/A in mutations)
-			if(!(A in destination.dna.mutations))
-				A.on_acquiring(destination)
-		for(var/datum/mutation/human/A in destination.dna.mutations)
-			if(!(A in mutations))
-				A.on_losing(destination)
 		destination.dna.struc_enzymes = struc_enzymes
-		destination.dna.mutations = mutations
 
 /datum/dna/proc/copy_dna(datum/dna/new_dna)
 	new_dna.unique_enzymes = unique_enzymes

@@ -619,14 +619,6 @@ var/list/teleportlocs = list()
 	name = "\improper Law Office"
 	icon_state = "law"
 
-/area/clown
-	name = "\improper Clown Office"
-	icon_state = "clown"
-
-/area/mime
-	name = "\improper Mime Office"
-	icon_state = "mime"
-
 /area/rec_room
 	name = "\improper Recreation Room"
 	icon_state = "yellow"
@@ -1668,17 +1660,6 @@ var/list/teleportlocs = list()
 /area/awaycontent/a30
 	icon_state = "awaycontent30"
 
-//Areas used exclusively by templates
-/area/template/Labshuttle
-	name = "LabShuttle"
-	icon_state = "hydro"
-
-/area/template/Clown
-	name = "Clownship"
-	icon_state = "clown"
-	has_gravity = 1
-	ambloop = 'sound/ambience/loop/space.ogg'
-	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
 
 /////////////////////////////////////////////////////////////////////
 /*

@@ -44,10 +44,7 @@
 	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
 		I += M.rating
 
-	if(emagged == 2)
-		injection_chems = list("syndicate_nanites", "stimulants", "bath_salts", "methamphetamine", "fartium", "zombiepowder", "initropidril", "rotatium", "blackpowder")
-	else
-		injection_chems = possible_chems[I]
+	injection_chems = possible_chems[I]
 	efficiency = E
 	min_health = -E * 25
 
@@ -215,41 +212,15 @@
 	if(state_open && !panel_open)
 		..(target)
 
-/obj/machinery/sleeper/emag_act(mob/user)
-	if(!emagged)
-		if(prob(98))
-			playsound(src.loc, 'sound/effects/sparks4.ogg', 75, 1)
-			emagged = 1
-			user << "<span class='notice'>You you disable the overdose prevention system.</span>"
-		else
-			playsound(src.loc, 'sound/effects/sparks4.ogg', 75, 1)
-			emagged = 2
-			user << "<span class='notice'>You manage to completely rewrite the chemical synthesizer subroutine!</span>"
-	RefreshParts()
-
 /obj/machinery/sleeper/proc/inject_chem(mob/user, chem)
 	if(!is_operational())
 		return
 	if(occupant && occupant.reagents)
-		if(emagged > 0)
-			if(chem in injection_chems + "epinephrine")
-				if(occupant.reagents.get_reagent_amount(chem) + 30 <= 30 + 30*efficiency)
-					occupant.reagents.add_reagent(chem, 30)
-				var/units = round(occupant.reagents.get_reagent_amount(chem))
-				user << "<span class='notice'>Occupant now has [units] unit\s of [chemical_reagents_list[chem]] in their bloodstream.</span>"
-		else
-			if(chem in injection_chems + "epinephrine")
-				if(efficiency > 1)
-					if(occupant.reagents.get_reagent_amount(chem) + 11 <= 30) // + 11 so it avoids actually hitting 30 if you spam it. Prevents an annoying overdose message.
-						occupant.reagents.add_reagent(chem, 10)
-					var/units = round(occupant.reagents.get_reagent_amount(chem))
-					user << "<span class='notice'>Occupant now has [units] unit\s of [chemical_reagents_list[chem]] in their bloodstream.</span>"
-				else
-					if(occupant.reagents.get_reagent_amount(chem) + 10 <= 20) // changed from 20 * efficiency
-						occupant.reagents.add_reagent(chem, 10)
-					var/units = round(occupant.reagents.get_reagent_amount(chem))
-					user << "<span class='notice'>Occupant now has [units] unit\s of [chemical_reagents_list[chem]] in their bloodstream.</span>"
-
+		if(chem in injection_chems + "epinephrine")
+			if(occupant.reagents.get_reagent_amount(chem) + 10 <= 20 * efficiency)
+				occupant.reagents.add_reagent(chem, 10)
+			var/units = round(occupant.reagents.get_reagent_amount(chem))
+			user << "<span class='notice'>Occupant now has [units] unit\s of [chemical_reagents_list[chem]] in their bloodstream.</span>"
 
 /obj/machinery/sleeper/update_icon()
 	if(state_open)

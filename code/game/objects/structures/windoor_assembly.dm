@@ -266,10 +266,10 @@
 							windoor.dir = dir
 							windoor.density = 0
 
-							if(electronics.one_access)
-								windoor.req_one_access = electronics.accesses
+							if(electronics.use_one_access)
+								windoor.req_one_access = electronics.conf_access
 							else
-								windoor.req_access = electronics.accesses
+								windoor.req_access = electronics.conf_access
 							windoor.electronics = electronics
 							electronics.loc = windoor
 							if(created_name)
@@ -289,7 +289,7 @@
 							windoor.dir = dir
 							windoor.density = 0
 
-							windoor.req_access = electronics.accesses
+							windoor.req_access = electronics.conf_access
 							windoor.electronics = electronics
 							electronics.loc = windoor
 							if(created_name)

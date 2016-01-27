@@ -661,7 +661,7 @@
 "mK" = (/obj/machinery/washing_machine,/turf/simulated/floor/plasteel/freezer{dir = 2},/area/syndicate_mothership)
 "mL" = (/obj/item/weapon/storage/crayons,/obj/structure/table,/obj/item/weapon/storage/crayons,/turf/simulated/floor/plasteel/freezer{dir = 2},/area/syndicate_mothership)
 "mM" = (/turf/simulated/floor/plating,/area/syndicate_mothership)
-"mN" = (/turf/simulated/floor/plating{dir = 2; icon_state = "warnplate"},/area/syndicate_mothership)
+"mN" = (/turf/simulated/floor/plating{icon_state = "warnplate"},/area/syndicate_mothership)
 "mO" = (/turf/indestructible/riveted{tag = "icon-syndi5"; icon_state = "syndi5"},/area/centcom/supply)
 "mP" = (/obj/structure/shuttle/engine/propulsion{icon_state = "burst_l"},/turf/simulated/floor/plating,/area/shuttle/supply)
 "mQ" = (/obj/structure/shuttle/engine/propulsion,/turf/simulated/floor/plating,/area/shuttle/supply)
@@ -728,7 +728,7 @@
 "nZ" = (/turf/simulated/floor/plasteel/grimy,/area/syndicate_mothership)
 "oa" = (/obj/machinery/door/airlock/centcom{name = "Study"; opacity = 1; req_access_txt = "150"},/turf/simulated/floor/plasteel/freezer,/area/syndicate_mothership)
 "ob" = (/turf/simulated/floor/plasteel/freezer,/area/syndicate_mothership)
-"oc" = (/turf/simulated/floor/plating{icon_state = "warnplate"; dir = 4},/area/syndicate_mothership)
+"oc" = (/turf/simulated/floor/plating{dir = 4; icon_state = "warnplate"; luminosity = 2; nitrogen = 0.01; oxygen = 0.01},/area/syndicate_mothership)
 "od" = (/obj/structure/stool/bed/chair{dir = 4},/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/assault_pod)
 "oe" = (/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/assault_pod)
 "of" = (/obj/structure/stool/bed/chair{dir = 8},/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/assault_pod)
@@ -1462,4 +1462,3 @@ abababababababababababababababababababababababababababababababababababababababab
 ababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab
 ababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab
 "}
-

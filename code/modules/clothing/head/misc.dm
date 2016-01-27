@@ -179,25 +179,19 @@
 
 /obj/item/clothing/head/fedora/attack_self(mob/user)
 	var/mob/living/carbon/human/H = user
-	if(H.spam_flag)
-		return
+	if(user.gender == MALE)
+		user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to girls.</span>")
+		user.say("M'lady.")
+		sleep(10)
+		H.facial_hair_style = "Neckbeard"
+		H.adjustBrainLoss(10)
 	else
-		H.spam_flag = 1
-		spawn(30)
-			H.spam_flag = 0
-		if(user.gender == MALE)
-			user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to girls.</span>")
-			user.say("M'lady.")
-			sleep(10)
-			H.facial_hair_style = "Neckbeard"
-			H.adjustBrainLoss(10)
-		else
-			user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to guys.</span>")
-			user.say("M'lord.")
-			sleep(10)
-			H.facial_hair_style = "Neckbeard"
-			H.adjustBrainLoss(10)
-		return
+		user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to guys.</span>")
+		user.say("M'lord.")
+		sleep(10)
+		H.facial_hair_style = "Neckbeard"
+		H.adjustBrainLoss(10)
+	return
 
 /obj/item/clothing/head/fedora/suicide_act(mob/user)
 	var/mob/living/carbon/human/H = user
