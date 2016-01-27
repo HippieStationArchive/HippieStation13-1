@@ -627,6 +627,7 @@
 		M.adjustFireLoss(-2*REM)
 		M.adjustOxyLoss(-5*REM)
 	M.losebreath = 0
+	..()
 	return
 
 /datum/reagent/medicine/atropine/overdose_process(mob/living/M)
