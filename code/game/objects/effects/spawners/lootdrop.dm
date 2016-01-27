@@ -74,7 +74,7 @@
 				/obj/item/device/assembly/timer = 3,
 				/obj/item/device/flashlight = 4,
 				/obj/item/device/flashlight/pen = 1,
-			//	/obj/item/device/meeseeks_box = 1,
+				/obj/item/device/meeseeks_box = 1,
 				/obj/item/weapon/storage/daki = 3,
 				/obj/item/device/multitool = 2,
 				/obj/item/device/radio/off = 2,
