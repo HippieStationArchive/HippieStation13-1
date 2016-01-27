@@ -7338,7 +7338,7 @@
 "cLf" = (/obj/machinery/alarm{dir = 1; icon_state = "alarm0"; pixel_y = -22},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/turret_protected/ai)
 "cLg" = (/obj/machinery/hologram/holopad,/obj/machinery/power/terminal,/obj/structure/cable{icon_state = "0-4"; d2 = 4},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/turret_protected/ai)
 "cLh" = (/obj/machinery/firealarm{dir = 1; pixel_y = -24},/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/turret_protected/ai)
-"cLi" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/machinery/door/airlock/freezer{desc = "..."; name = "Mime Office"},/turf/simulated/floor/plasteel/white,/area/mime)
+"cLi" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/machinery/door/airlock/freezer{desc = "..."; name = "Mime Office"; req_access_txt = "46"},/turf/simulated/floor/plasteel/white,/area/mime)
 "cLj" = (/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"},/turf/simulated/wall/r_wall,/area/turret_protected/ai)
 "cLk" = (/obj/machinery/power/smes{charge = 5e+006},/obj/structure/cable{d2 = 8; icon_state = "0-8"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/turret_protected/ai)
 "cLl" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/wall/r_wall,/area/turret_protected/ai)
