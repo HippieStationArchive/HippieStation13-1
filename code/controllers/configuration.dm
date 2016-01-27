@@ -177,6 +177,15 @@
 	var/announce_admin_logout = 0
 	var/announce_admin_login = 0
 
+	// Templates
+	var/place_amount_min = 0
+	var/place_amount_max = 0
+	var/list/ignore_types = list()
+	var/list/zs = list()
+	var/list/place_last = list()
+	var/tries = 10
+	var/directory = null
+
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
 	for(var/T in L)
@@ -537,6 +546,18 @@
 					MAX_EX_LIGHT_RANGE = BombCap
 					MAX_EX_FLASH_RANGE = BombCap
 					MAX_EX_FLAME_RANGE = BombCap
+				if("zs")
+					config.zs += text2num(value)
+				if("place_last")
+					config.place_last += value
+				if("tries")
+					config.tries = text2num(value)
+				if("directory")
+					config.directory = value
+				if("place_amount_min")
+					config.place_amount_min = text2num(value)
+				if("place_amount_max")
+					config.place_amount_max = text2num(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
