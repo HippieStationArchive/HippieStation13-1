@@ -264,7 +264,7 @@
 				var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 				s.set_up(5, 1, src)
 				switch(W.damtype)
-					if(FIRE)
+					if(BURN)
 						health -= W.force * fire_dam_coeff
 						s.start()
 					if(BRUTE)

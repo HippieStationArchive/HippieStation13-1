@@ -270,7 +270,7 @@
 	//Welders left on now use up fuel, but lets not have them run out quite that fast
 		if(1)
 			force = 15
-			damtype = FIRE
+			damtype = BURN
 			if(prob(5))
 				remove_fuel(1)
 			update_icon()
@@ -372,7 +372,7 @@
 		if(get_fuel() >= 1)
 			user << "<span class='notice'>You switch [src] on.</span>"
 			force = 15
-			damtype = FIRE
+			damtype = BURN
 			hitsound = 'sound/items/welder.ogg'
 			update_icon()
 			SSobj.processing |= src

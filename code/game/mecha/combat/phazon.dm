@@ -81,9 +81,9 @@
 			P.occupant_message("Your exosuit's hands form into fists.")
 		if(BRUTE)
 			damtype_word = "fire"
-			actual_damtype = FIRE
+			actual_damtype = BURN
 			P.occupant_message("A torch tip extends from your exosuit's hand, glowing red.")
-		if(FIRE)
+		if(BURN)
 			damtype_word = "tox"
 			actual_damtype = TOX
 			P.occupant_message("A bone-chillingly thick plasteel needle protracts from the exosuit's palm.")

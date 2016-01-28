@@ -72,7 +72,7 @@
 	src.onfire = !( src.onfire )
 	if (src.onfire)
 		src.force = 3
-		src.damtype = FIRE
+		src.damtype = BURN
 		src.icon_state = "cake1"
 		SSobj.processing |= src
 	else

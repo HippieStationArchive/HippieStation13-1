@@ -84,7 +84,7 @@
 				Paralyse(1)
 				take_overall_damage(rand(M.force/2, M.force))
 				playsound(src, 'sound/weapons/punch4.ogg', 50, 1)
-			if(FIRE)
+			if(BURN)
 				take_overall_damage(0, rand(M.force/2, M.force))
 				playsound(src, 'sound/items/Welder.ogg', 50, 1)
 			if(TOX)

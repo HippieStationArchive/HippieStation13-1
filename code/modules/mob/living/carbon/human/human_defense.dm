@@ -392,7 +392,7 @@ emp_act
 						Paralyse(1)
 					update |= temp.take_damage(rand(M.force/2, M.force), 0)
 					playsound(src, 'sound/weapons/punch4.ogg', 50, 1)
-				if(FIRE)
+				if(BURN)
 					update |= temp.take_damage(0, rand(M.force/2, M.force))
 					playsound(src, 'sound/items/Welder.ogg', 50, 1)
 				if(TOX)
