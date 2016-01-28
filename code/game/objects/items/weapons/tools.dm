@@ -262,7 +262,7 @@
 	switch(welding)
 		if(0)
 			force = 3
-			damtype = "brute"
+			damtype = BRUTE
 			update_icon()
 			if(!can_off_process)
 				SSobj.processing.Remove(src)
@@ -270,7 +270,7 @@
 	//Welders left on now use up fuel, but lets not have them run out quite that fast
 		if(1)
 			force = 15
-			damtype = "fire"
+			damtype = FIRE
 			if(prob(5))
 				remove_fuel(1)
 			update_icon()
@@ -372,7 +372,7 @@
 		if(get_fuel() >= 1)
 			user << "<span class='notice'>You switch [src] on.</span>"
 			force = 15
-			damtype = "fire"
+			damtype = FIRE
 			hitsound = 'sound/items/welder.ogg'
 			update_icon()
 			SSobj.processing |= src
@@ -385,7 +385,7 @@
 		else
 			user << "<span class='warning'>[src] shuts off!</span>"
 		force = 3
-		damtype = "brute"
+		damtype = BRUTE
 		hitsound = "swing_hit"
 		update_icon()
 

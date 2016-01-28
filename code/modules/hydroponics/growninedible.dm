@@ -106,7 +106,7 @@
 	name = "sunflower"
 	desc = "It's beautiful! A certain person might beat you to death if you trample these."
 	icon_state = "sunflower"
-	damtype = "fire"
+	damtype = FIRE
 	force = 0
 	slot_flags = SLOT_HEAD
 	throwforce = 0
@@ -124,7 +124,7 @@
 	name = "novaflower"
 	desc = "These beautiful flowers have a crisp smokey scent, like a summer bonfire."
 	icon_state = "novaflower"
-	damtype = "fire"
+	damtype = FIRE
 	force = 0
 	slot_flags = SLOT_HEAD
 	throwforce = 0
@@ -168,7 +168,7 @@
 	desc = "It's probably <B>not</B> wise to touch it with bare hands..."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "nettle"
-	damtype = "fire"
+	damtype = FIRE
 	force = 15
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	throwforce = 5
