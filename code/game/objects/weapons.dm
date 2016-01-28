@@ -5,7 +5,7 @@
 /obj/item/weapon/New()
 	..()
 	if(!hitsound)
-		if(damtype == "fire")
+		if(damtype == FIRE)
 			hitsound = 'sound/items/welder.ogg'
-		if(damtype == "brute")
+		if(damtype == BRUTE)
 			hitsound = "swing_hit"

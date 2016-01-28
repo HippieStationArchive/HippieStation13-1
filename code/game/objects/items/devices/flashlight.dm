@@ -256,7 +256,7 @@ obj/item/device/flashlight/lamp/bananalamp
 	if(.)
 		user.visible_message("<span class='notice'>[user] lights \the [src].</span>", "<span class='notice'>You light \the [src]!</span>")
 		force = on_damage
-		damtype = "fire"
+		damtype = FIRE
 		SSobj.processing += src
 
 /obj/item/device/flashlight/flare/is_hot()

@@ -264,10 +264,10 @@
 				var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 				s.set_up(5, 1, src)
 				switch(W.damtype)
-					if("fire")
+					if(FIRE)
 						health -= W.force * fire_dam_coeff
 						s.start()
-					if("brute")
+					if(BRUTE)
 						health -= W.force * brute_dam_coeff
 						s.start()
 				..()

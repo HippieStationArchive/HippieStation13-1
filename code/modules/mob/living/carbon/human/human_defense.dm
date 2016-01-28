@@ -381,21 +381,21 @@ emp_act
 /mob/living/carbon/human/mech_melee_attack(obj/mecha/M)
 
 	if(M.occupant.a_intent == "harm")
-		if(M.damtype == "brute")
+		if(M.damtype == BRUTE)
 			step_away(src,M,15)
 		var/obj/item/organ/limb/temp = get_organ(pick("chest", "chest", "chest", "head"))
 		if(temp)
 			var/update = 0
 			switch(M.damtype)
-				if("brute")
+				if(BRUTE)
 					if(M.force > 20)
 						Paralyse(1)
 					update |= temp.take_damage(rand(M.force/2, M.force), 0)
 					playsound(src, 'sound/weapons/punch4.ogg', 50, 1)
-				if("fire")
+				if(FIRE)
 					update |= temp.take_damage(0, rand(M.force/2, M.force))
 					playsound(src, 'sound/items/Welder.ogg', 50, 1)
-				if("tox")
+				if(TOX)
 					M.mech_toxin_damage(src)
 				else
 					return
@@ -405,6 +405,7 @@ emp_act
 
 		visible_message("<span class='danger'>[M.name] has hit [src]!</span>", \
 								"<span class='userdanger'>[M.name] has hit [src]!</span>")
+		//TODO: Change this to use the damtype word not int
 		add_logs(M.occupant, src, "attacked", M, "(INTENT: [uppertext(M.occupant.a_intent)]) (DAMTYPE: [uppertext(M.damtype)])")
 
 	else
