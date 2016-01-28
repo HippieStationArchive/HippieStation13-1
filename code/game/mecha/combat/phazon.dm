@@ -72,23 +72,19 @@
 	if(!owner || !chassis || chassis.occupant != owner)
 		return
 	var/obj/mecha/combat/phazon/P = chassis
-	var/damtype_word
-	var/actual_damtype
+	var/damtype
 	switch(P.damtype)
 		if(TOX)
-			damtype_word = "brute"
-			actual_damtype = BRUTE
+			damtype = BRUTE
 			P.occupant_message("Your exosuit's hands form into fists.")
 		if(BRUTE)
-			damtype_word = "fire"
-			actual_damtype = BURN
+			damtype = BURN
 			P.occupant_message("A torch tip extends from your exosuit's hand, glowing red.")
 		if(BURN)
-			damtype_word = "tox"
-			actual_damtype = TOX
+			damtype = TOX
 			P.occupant_message("A bone-chillingly thick plasteel needle protracts from the exosuit's palm.")
-	P.damtype = actual_damtype
-	button_icon_state = "mech_damtype_[damtype_word]"
+	P.damtype = damtype
+	button_icon_state = "mech_damtype_[damtype]"
 	playsound(src, 'sound/mecha/mechmove01.ogg', 50, 1)
 
 
