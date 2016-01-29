@@ -327,9 +327,18 @@
 /mob/living/carbon/human/proc/handle_embedded_objects()
 	for(var/obj/item/organ/limb/L in organs)
 		for(var/obj/item/I in L.embedded_objects)
-			if(prob(I.embedded_pain_chance))
-				L.take_damage(I.w_class*I.embedded_pain_multiplier)
-				src << "<span class='userdanger'>\the [I] embedded in your [L.getDisplayName()] hurts!</span>"
+			if(I.loc == src)
+				if(prob(I.embedded_pain_chance))
+					L.take_damage(I.w_class*I.embedded_pain_multiplier)
+					src << "<span class='userdanger'>\the [I] embedded in your [L.getDisplayName()] hurts!</span>"
+			else
+				L.embedded_objects -= I
+				if(I.pinned) //Only the rodgun pins people down currently
+					do_pindown(pinned_to, 0)
+					pinned_to = null
+					anchored = 0
+					update_canmove()
+					I.pinned = null
 
 /mob/living/carbon/human/proc/handle_heart()
 	if(!heart_attack)
