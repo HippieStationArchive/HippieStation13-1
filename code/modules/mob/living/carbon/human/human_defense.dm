@@ -416,11 +416,7 @@ emp_act
 	if(istype(AM, /obj/item))
 		I = AM
 		throwpower = I.throwforce
-	var/shieldcheck = check_shields(throwpower, "\the [AM.name]", AM, 1)
-	if(shieldcheck)
-		if(isliving(shieldcheck))
-			var/mob/living/L = shieldcheck
-			L.hitby(AM, skipcatch, 0, blocked) //hitpush is always 0 so the meatshield doesn't get moved away
+	if(check_shields(throwpower, "\the [AM.name]", AM, 1))
 		hitpush = 0
 		skipcatch = 1
 		blocked = 1
@@ -445,4 +441,4 @@ emp_act
 				visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
 				hitpush = 0
 				skipcatch = 1 //can't catch the now embedded item
-	return ..()
+	return ..(I, skipcatch, hitpush, blocked)
