@@ -464,6 +464,10 @@ var/list/teleportlocs = list()
 	name = "Strange Room"
 	icon_state = "yellow"
 
+/area/maintenance/commiespy
+	name = "Russian Room"
+	icon_state = "yellow"
+
 
 //Hallway
 
