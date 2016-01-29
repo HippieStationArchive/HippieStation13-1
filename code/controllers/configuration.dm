@@ -5,6 +5,11 @@
 #define SECURITY_HAS_MAINT_ACCESS 2
 #define EVERYONE_HAS_MAINT_ACCESS 4
 
+//Not accessible from usual debug controller verb
+/datum/protected_configuration
+	var/autoadmin = 0
+	var/autoadmin_rank = "Game Admin"
+
 /datum/configuration
 	var/server_name = null				// server name (the name of the game window)
 	var/station_name = null				// station name (the name of the station in-game)
@@ -369,6 +374,10 @@
 					config.announce_admin_login = 1
 				if("roundstart_awaymissions")
 					roundstart_awaymissions = 1
+				if("autoadmin")
+					protected_config.autoadmin = 1
+					if(value)
+						protected_config.autoadmin_rank = ckeyEx(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
