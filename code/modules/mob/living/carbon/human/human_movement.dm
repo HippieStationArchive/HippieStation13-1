@@ -1,7 +1,6 @@
 /mob/living/carbon/human/movement_delay()
-
-	. += dna.species.movement_delay(src)
-
+	if(dna)
+		. += dna.species.movement_delay(src)
 	. += ..()
 	. += config.human_delay
 
@@ -46,8 +45,9 @@
 
 /mob/living/carbon/human/Move(NewLoc, direct)
 	. = ..()
-	for(var/datum/mutation/human/HM in dna.mutations)
-		HM.on_move(src, NewLoc)
+	if(dna)
+		for(var/datum/mutation/human/HM in dna.mutations)
+			HM.on_move(src, NewLoc)
 	if(shoes)
 		if(!lying && !buckled)
 			if(loc == NewLoc)

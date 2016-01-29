@@ -104,14 +104,17 @@
 		reagents.metabolize(src, can_overdose=1)
 
 /mob/living/carbon/human/breathe()
-	if(!dna.species.breathe(src))
-		..()
+	if(dna)
+		if(!dna.species.breathe(src))
+			..()
 
 /mob/living/carbon/human/check_breath(datum/gas_mixture/breath)
-	dna.species.check_breath(breath, src)
+	if(dna)
+		dna.species.check_breath(breath, src)
 
 /mob/living/carbon/human/handle_environment(datum/gas_mixture/environment)
-	dna.species.handle_environment(environment, src)
+	if(dna)
+		dna.species.handle_environment(environment, src)
 
 ///FIRE CODE
 /mob/living/carbon/human/handle_fire()
@@ -267,7 +270,8 @@
 
 /mob/living/carbon/human/handle_chemicals_in_body()
 	..()
-	dna.species.handle_chemicals_in_body(src)
+	if(dna)
+		dna.species.handle_chemicals_in_body(src)
 
 /mob/living/carbon/human/handle_vision()
 	client.screen.Remove(global_hud.blurry, global_hud.druggy, global_hud.vimpaired, global_hud.darkMask)
@@ -275,11 +279,12 @@
 		if(!machine.check_eye(src))		reset_view(null)
 	else
 		if(!client.adminobs)			reset_view(null)
-
-	dna.species.handle_vision(src)
+	if(dna)
+		dna.species.handle_vision(src)
 
 /mob/living/carbon/human/handle_hud_icons()
-	dna.species.handle_hud_icons(src)
+	if(dna)
+		dna.species.handle_hud_icons(src)
 
 /mob/living/carbon/human/handle_random_events()
 	// Puke if toxloss is too high
