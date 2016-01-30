@@ -47,4 +47,5 @@ var/global/list/special_roles = list(
 	ROLE_ABDUCTOR = /datum/game_mode/abduction,
 	ROLE_HOG_GOD = /datum/game_mode/hand_of_god,
 	ROLE_HOG_CULTIST = /datum/game_mode/hand_of_god,
+	ROLE_REVENANT,
 )
