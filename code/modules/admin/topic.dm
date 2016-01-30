@@ -1629,9 +1629,9 @@
 		var/client/C = usr.client
 		if(!isobserver(usr))	C.admin_ghost()
 		var/mob/dead/observer/A = C.mob
-		A.ManualFollow(M)
 		log_admin("[key_name(usr)] followed [key_name(M)]")
 		message_admins("[key_name_admin(usr)] followed [key_name_admin(M)]")
+		A.ManualFollow(M)
 
 	else if(href_list["adminplayerobservecoodjump"])
 		if(!isobserver(usr) && !check_rights(R_ADMIN))	return
