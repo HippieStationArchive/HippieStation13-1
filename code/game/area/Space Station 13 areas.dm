@@ -619,6 +619,14 @@ var/list/teleportlocs = list()
 	name = "\improper Law Office"
 	icon_state = "law"
 
+/area/clown
+	name = "\improper Clown Office"
+	icon_state = "clown"
+
+/area/mime
+	name = "\improper Mime Office"
+	icon_state = "mime"
+
 /area/rec_room
 	name = "\improper Recreation Room"
 	icon_state = "yellow"
@@ -868,6 +876,10 @@ var/list/teleportlocs = list()
 	name = "\improper Security Office"
 	icon_state = "security"
 
+/area/security/lockers
+	name = "\improper Security Locker Room"
+	icon_state = "firingrange"
+
 /area/security/sec_lobby
 	name = "\improper Security Lobby"
 	icon_state = "security"
@@ -915,6 +927,10 @@ var/list/teleportlocs = list()
 /area/security/transfer
 	name = "\improper Transfer Centre"
 	icon_state = "armory"
+
+/area/security/arrivalscheckpoint
+	name = "\improper Arrivals Security Checkpoint"
+	icon_state = "security"
 
 /*
 	New()
