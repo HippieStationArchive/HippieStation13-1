@@ -1,0 +1,9 @@
+author: XeonFaux
+
+delete-after: True
+
+changes: 
+  - bugfix: "Tesla gibbing fixed."
+  - tweak: "Tesla damage lowered."
+  - tweak: "Tesla now plays sound further away."
+  - tweak: "Tesla now relies on Particle Accelerator for energy."
