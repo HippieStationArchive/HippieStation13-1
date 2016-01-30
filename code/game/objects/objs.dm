@@ -6,7 +6,7 @@
 	var/throwforce = 0
 	var/in_use = 0 // If we have a user using us, this will be set on. We will check if the user has stopped using us, and thus stop updating and LAGGING EVERYTHING!
 
-	var/damtype = "brute"
+	var/damtype = BRUTE
 	var/force = 0
 
 	var/burn_state = -1 // -1=fireproof | 0=will burn in fires | 1=currently on fire
