@@ -23,6 +23,8 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "userel-uae",
 							"<span class='shadowling'>You remove any equipment which would hinder your hatching and begin regurgitating the resin which will protect you.</span>")
 
 			for(var/obj/item/I in user) //drops all items
+				if (istype(I, /obj/item/weapon/implant) || istype(I, /obj/item/organ))
+					continue
 				user.unEquip(I)
 
 			sleep(50)
