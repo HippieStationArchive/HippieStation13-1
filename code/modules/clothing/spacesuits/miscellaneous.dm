@@ -309,6 +309,37 @@ Contains:
 	slowdown = 1
 	armor = list(melee = 80, bullet = 70, laser = 70, energy = 40, bomb = 80, bio = 100, rad = 100)
 	strip_delay = 200
+/obj/item/clothing/suit/space/mime
+	name = "Miming spacesuit"
+	icon_state = "spacemime"
+	item_state = "spacemime"
+	desc = "A special spacesuit designed for silent baguette munching in hazardous, low pressure environment. Has reinforced plating in case the white flag is not seen."
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+
+/obj/item/clothing/head/helmet/space/mime
+	name = "Miming spacehelmet"
+	icon_state = "hardsuit0-mime"
+	item_state = "hardsuit0-mime"
+	desc = "A special helmet designed for silent baguette munching in hazardous, low pressure environment. Has reinforced plating in case the white flag is not seen."
+	flash_protect = 1
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+
+/obj/item/clothing/suit/space/clown
+	name = "Clowning spacesuit"
+	icon_state = "spaceclown"
+	item_state = "spaceclown"
+	desc = "A special spacesuit designed for HONKing in a hazardous, low pressure environment. Has reinforced plating for assistant encounters."
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+
+/obj/item/clothing/head/helmet/space/clown
+	name = "Clowning spacehelmet"
+	icon_state = "hardsuit0-clown"
+	item_state = "hardsuit0-clown"
+	desc = "A special helmet designed for HONKing in a hazardous, low pressure environment. Has reinforced plating for assistant encounters."
+	flash_protect = 1
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
 
 /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal
 	name = "paranormal response unit helmet"

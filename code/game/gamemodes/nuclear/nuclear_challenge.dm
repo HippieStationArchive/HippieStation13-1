@@ -12,6 +12,8 @@
 
 
 /obj/item/device/nuclear_challenge/attack_self(mob/living/user)
+	if(..())
+		return
 	if(player_list.len < MIN_CHALLENGE_PLAYERS)
 		user << "The enemy crew is too small to be worth declaring war on."
 		return

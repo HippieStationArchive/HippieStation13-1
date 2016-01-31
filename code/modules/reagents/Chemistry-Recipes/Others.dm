@@ -55,19 +55,6 @@
 	required_reagents = list("water" = 1, "sodium" = 1, "chlorine" = 1)
 	result_amount = 3
 
-/datum/chemical_reaction/plasmasolidification
-	name = "Solid Plasma"
-	id = "solidplasma"
-	result = null
-	required_reagents = list("iron" = 5, "frostoil" = 5, "plasma" = 20)
-	result_amount = 1
-	mob_react = 1
-
-/datum/chemical_reaction/plasmasolidification/on_reaction(datum/reagents/holder, created_volume)
-	var/location = get_turf(holder.my_atom)
-	new /obj/item/stack/sheet/mineral/plasma(location)
-	return
-
 /datum/chemical_reaction/capsaicincondensation
 	name = "Capsaicincondensation"
 	id = "capsaicincondensation"
@@ -406,3 +393,96 @@
 	result = "lye"
 	required_reagents = list("sodium" = 1, "hydrogen" = 1, "oxygen" = 3)
 	result_amount = 3
+	
+//////////////////////////////////// Solidification ///////////////////////////////////////////
+
+/datum/chemical_reaction/plasmasolidification
+	name = "Solid Plasma"
+	id = "solidplasma"
+	result = null
+	required_reagents = list("pyrosium" = 10, "cryostylane" = 10, "plasma" = 20)
+	result_amount = 1
+	mob_react = 1
+
+/datum/chemical_reaction/plasmasolidification/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	new /obj/item/stack/sheet/mineral/plasma(location)
+	return
+
+/datum/chemical_reaction/metalsolidification
+	name = "Solid Metal"
+	id = "solidmetal"
+	result = null
+	required_reagents = list("pyrosium" = 10, "cryostylane" = 10, "iron" = 20)
+	result_amount = 1
+	mob_react = 1
+
+/datum/chemical_reaction/metalsolidification/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	new /obj/item/stack/sheet/metal(location)
+	return
+
+/datum/chemical_reaction/glasssolidification
+	name = "Solid Glass"
+	id = "solidglass"
+	result = null
+	required_reagents = list("pyrosium" = 10, "cryostylane" = 10, "silicon" = 20)
+	result_amount = 1
+	mob_react = 1
+
+/datum/chemical_reaction/glasssolidification/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	new /obj/item/stack/sheet/glass(location)
+	return
+
+/datum/chemical_reaction/uraniumsolidification
+	name = "Solid Uranium"
+	id = "soliduranium"
+	result = null
+	required_reagents = list("pyrosium" = 10, "cryostylane" = 10, "uranium" = 20)
+	result_amount = 1
+	mob_react = 1
+
+/datum/chemical_reaction/uraniumsolidification/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	new /obj/item/stack/sheet/mineral/uranium(location)
+	return
+
+/datum/chemical_reaction/bananiumsolidification
+	name = "Solid Bananium"
+	id = "solidbananium"
+	result = null
+	required_reagents = list("pyrosium" = 10, "cryostylane" = 10, "banana" = 20)
+	result_amount = 1
+	mob_react = 1
+
+/datum/chemical_reaction/bananiumsolidification/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	new /obj/item/stack/sheet/mineral/bananium(location)
+	return
+
+/datum/chemical_reaction/silversolidification
+	name = "Solid Silver"
+	id = "solidsilver"
+	result = null
+	required_reagents = list("pyrosium" = 10, "cryostylane" = 10, "silver" = 20)
+	result_amount = 1
+	mob_react = 1
+
+/datum/chemical_reaction/silversolidification/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	new /obj/item/stack/sheet/mineral/silver(location)
+	return
+
+/datum/chemical_reaction/goldsolidification
+	name = "Solid Gold"
+	id = "solidgold"
+	result = null
+	required_reagents = list("pyrosium" = 10, "cryostylane" = 10, "gold" = 20)
+	result_amount = 1
+	mob_react = 1
+
+/datum/chemical_reaction/goldsolidification/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	new /obj/item/stack/sheet/mineral/gold(location)
+	return

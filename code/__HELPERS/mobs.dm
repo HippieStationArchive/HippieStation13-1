@@ -139,7 +139,9 @@ Proc for attack log creation, because really why not
 /proc/add_logs(mob/user, mob/target, what_done, object=null, addition=null)
 	var/newhealthtxt = ""
 	var/turf/attack_location = get_turf(target)
-	var/coordinates = "([attack_location.x],[attack_location.y],[attack_location.z])"
+	var/coordinates = "(invalid target coordinates)"
+	if(attack_location && attack_location.x)
+		coordinates = "([attack_location.x],[attack_location.y],[attack_location.z])"
 	if (target)
 		coordinates = "([target.x],[target.y],[target.z])"
 		if(isliving(target))
