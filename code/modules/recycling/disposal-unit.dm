@@ -527,6 +527,92 @@
 		M.loc = src
 	flush()
 
+
+//Trap Door
+obj/machinery/disposal/trapdoor
+	name = "trapdoor"
+	desc = "A chute for big and small packages alike!"
+	density = 0
+	icon = 'icons/obj/atmospherics/pipes/trapdoor.dmi'
+	icon_state = "closed"
+	mode = 0 // the chute doesn't need charging and always works
+	layer = 2.01
+	var/trap_door_state = 1
+	var/trap_closed = 1
+	var/id = 1
+	var/auto_close = 1200
+	var/sound_open = 'sound/machines/blast_door.ogg'
+	var/sound_close = 'sound/machines/blast_door.ogg'
+	var/operating = 0
+
+
+	process()
+		..()
+		if(trap_door_state != trap_closed)
+			switch(trap_door_state)
+				if(0)
+					open()
+				if(1)
+					close()
+		return
+
+obj/machinery/disposal/trapdoor/proc/open()
+	if(operating)
+		return
+	if(!trap_closed)
+		return
+
+	operating = 1
+	flick("opening", src)
+	icon_state = "open"
+	playsound(src.loc, sound_open, 100, 1)
+	sleep(5)
+	trap_closed = 0
+	sleep(5)
+	operating = 0
+	if(auto_close)
+		spawn(auto_close)
+		close()
+		return 1
+
+
+obj/machinery/disposal/trapdoor/proc/close()
+	if(operating)
+		return
+	if(trap_closed)
+		return
+
+	operating = 1
+	flick("closing", src)
+	icon_state = "closed"
+	playsound(src.loc, sound_open, 100, 1)
+	sleep(5)
+	trap_closed = 1
+	sleep(5)
+	operating = 0
+	trap_door_state = 1
+
+/obj/machinery/disposal/trapdoor/New(loc,var/obj/structure/disposalconstruct/make_from)
+	..()
+	stored.ptype = DISP_END_CHUTE
+	spawn(5)
+		trunk = locate() in loc
+		if(trunk)
+			trunk.linked = src	// link the pipe trunk to self
+
+/obj/machinery/disposal/trapdoor/Crossed(AM as mob)
+	if(trap_closed == 0)
+		if(istype(AM, /mob))
+			var/mob/M = AM
+			M.loc = src
+			flush()
+			close()
+			return
+		return
+
+/obj/machinery/disposal/trapdoor/MouseDrop_T(mob/living/target, mob/living/user)
+	return
+
 /atom/movable/proc/disposalEnterTry()
 	return 1
 
@@ -541,4 +627,3 @@
 
 /obj/machinery/disposal/deliveryChute/newHolderDestination(obj/structure/disposalholder/H)
 	H.destinationTag = 1
-

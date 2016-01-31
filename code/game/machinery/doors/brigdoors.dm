@@ -43,6 +43,10 @@
 			if (G.id == src.id)
 				targets += G
 
+		for(var/obj/machinery/disposal/trapdoor/T in range(20, src))
+			if (T.id == src.id)
+				targets += T
+
 		for(var/obj/machinery/flasher/F in range(20, src))
 			if(F.id == src.id)
 				targets += F
@@ -90,6 +94,9 @@
 	for(var/obj/machinery/door/poddoor/glass/G in targets)
 		G.next_door_state = 1
 
+	for(var/obj/machinery/disposal/trapdoor/T in targets)
+		T.trap_door_state = 1
+
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)	continue
 		if(C.opened && !C.close())	continue
@@ -103,6 +110,9 @@
 
 	for(var/obj/machinery/door/poddoor/glass/G in targets)
 		G.next_door_state = 0
+
+	for(var/obj/machinery/disposal/trapdoor/T in targets)
+		T.trap_door_state = 0
 
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)	continue
@@ -202,6 +212,8 @@
 	else if(href_list["toggle_doors"])
 		for(var/obj/machinery/door/poddoor/glass/G in targets)
 			G.next_door_state = !G.next_door_state
+		for(var/obj/machinery/disposal/trapdoor/T in targets)
+			T.trap_door_state = !T.trap_door_state
 
 	src.add_fingerprint(usr)
 	src.updateUsrDialog()
