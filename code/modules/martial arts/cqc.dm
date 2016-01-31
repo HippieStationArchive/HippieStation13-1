@@ -12,8 +12,9 @@
 	usr << "<span class='notice'>Robust Disarm</span>: Your disarms have no push chance, however, when you disarm someone the weapon is instantly put in your hands."
 	usr << "<span class='notice'>Clinch</span>: Grab. 50% chance to instantly grab your opponent into aggressive. Can be reinforced into neckgrab quickly."
 	usr << "<span class='notice'>Half-wing Choke</span>: Replaces normal choking. Faster to perform, also gives 20 staminaloss to opponent on attempted choke."
+	usr << "<span class='notice'>Legsweep</span>: Harm intent w/ AGGRESSIVE grab in active hand. Cannot be performed on downed opponent. Sweeps the opponent off their feet for a while. Useful if you failed a clinch."
 	usr << "<span class='notice'>Karate Chop</span>: Disarm intent w/ NECK grab in active hand. Cannot be performed on downed opponent. Makes target dizzy, gives them 20 staminaloss."
-	usr << "<span class='notice'>Face Slam</span>: Harm intent w/ NECK grab in active hand. Cannot be performed on downed opponent. Slams opponent into the ground, knocking them unconscious. Stuns you for a bit, only reccomended in 1v1 fights."
+	usr << "<span class='notice'>Face Slam</span>: Harm intent w/ NECK grab in active hand. Cannot be performed on downed opponent. Slams opponent into the ground, knocking them unconscious. Only reccomended in 1v1 fights."
 	usr << "<i>The arts of CQC are most effective as a surprise tactic. They were designed as a martial art that would aid a stealthy approach. Fighting multiple enemies with it would prove difficult.</i>"
 
 /datum/martial_art/cqc
@@ -137,7 +138,7 @@
 	D.grabbedby(A,1)
 	var/obj/item/weapon/grab/G = A.get_active_hand()
 	if(G)
-		if(prob(50))
+		if(A.dir == D.dir || prob(50)) //100% chance to clinch when attacking from behind, otherwise it's 50% chance
 			G.state = GRAB_AGGRESSIVE
 			D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
 									"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
@@ -209,32 +210,49 @@
 			add_logs(A, D, "karate-chopped", addition="(CQC)")
 			playsound(get_turf(A), 'sound/effects/hit_punch.ogg', 30, 1, -2)
 		if("harm")
-			if(G.state < GRAB_NECK)
-				A << "<span class='warning'>You require a better grab to do a slam.</span>"
-				return 1
 			if(D.lying || D.stat)
-				A << "<span class='warning'>Target must be standing up to do a slam.</span>"
+				A << "<span class='warning'>Target must be standing up to do this.</span>"
 				return 1
 			if(D.buckled)
-				A << "<span class='warning'>Target mustn't be buckled to do a slam.</span>"
+				A << "<span class='warning'>Target mustn't be buckled to do this.</span>"
 				return 1
-			D.visible_message("<span class='danger'>[A] face-slams [D] on the ground, knocking them unconscious!</span>", \
-							  "<span class='userdanger'>[A] face-slams you unconscious!</span>")
-			playsound(get_turf(A), pick("swing_hit"), 50, 1, -1)
-			shake_camera(D, 3, 1)
-			add_logs(A, D, "face-slammed", addition="(CQC)")
-			var/obj/item/organ/limb/L = D.get_organ("head")
-			var/armor_block = D.run_armor_check(L, "melee")
-			D.apply_damage(9, damtype, L, armor_block) //Low as fuck brute to compensate for combo potential
-			D.apply_effect(10, PARALYZE, armor_block) //Will be decreased based on head armor, too
-			A.do_bounce_anim_dir(SOUTH, 4, 2, easeout = BOUNCE_EASING)
-			A.set_dir(EAST) //face the victim
-			D.set_dir(SOUTH) //face up
-			spawn(2)
-				D.do_bounce_anim_dir(NORTH, 3, 4, easeout = BOUNCE_EASING)
-			A.changeNext_move(30) //3 seconds delay before next move
-			// A.Stun(3) //Sort of long stun
-			qdel(G)
+
+			if(G.state == GRAB_AGGRESSIVE)
+				D.visible_message("<span class='danger'>[A] legsweeps [D]!</span>", \
+								  "<span class='userdanger'>[A] legsweeps you!</span>")
+				playsound(get_turf(A), 'sound/weapons/judoslam.ogg', 50, 1, -1)
+				shake_camera(D, 3, 1)
+				add_logs(A, D, "legsweeped", addition="(CQC)")
+				var/obj/item/organ/limb/L = D.get_organ("head")
+				var/armor_block = D.run_armor_check(L, "melee")
+				D.apply_damage(11, damtype, L, armor_block) //Slightly higher damage applied to head
+				D.Weaken(3) //Weaken them for 3 ticks. Advantage is it bypasses armor for weaken.
+				A.changeNext_move(20) //2 seconds delay before next move
+				spawn(0) //Fancy animation
+					for(var/i=1, i > -2, i--)
+						A.dir = turn(A.dir, -90 * i)
+						sleep(1)
+				qdel(G)
+			else if(G.state == GRAB_NECK)
+				D.visible_message("<span class='danger'>[A] face-slams [D] on the ground, knocking them unconscious!</span>", \
+								  "<span class='userdanger'>[A] face-slams you unconscious!</span>")
+				playsound(get_turf(A), pick("swing_hit"), 50, 1, -1)
+				shake_camera(D, 3, 1)
+				add_logs(A, D, "face-slammed", addition="(CQC)")
+				var/obj/item/organ/limb/L = D.get_organ("head")
+				var/armor_block = D.run_armor_check(L, "melee")
+				D.apply_damage(9, damtype, L, armor_block) //Low as fuck brute to compensate for combo potential
+				D.apply_effect(10, PARALYZE, armor_block) //Will be decreased based on head armor, too
+				A.do_bounce_anim_dir(SOUTH, 2, 2, easeout = BOUNCE_EASING)
+				A.set_dir(EAST) //face the victim
+				D.set_dir(SOUTH) //face up
+				spawn(2)
+					D.do_bounce_anim_dir(NORTH, 3, 4, easeout = BOUNCE_EASING)
+				A.changeNext_move(30) //3 seconds delay before next move
+				// A.Stun(3) //Sort of long stun
+				qdel(G)
+			else
+				A << "<span class='warning'>You require a better grab to do this.</span>"
 			return 1
 		else
 			return 0

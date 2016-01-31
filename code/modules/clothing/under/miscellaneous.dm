@@ -315,6 +315,17 @@
 	item_color = "pirate"
 	can_adjust = 0
 
+/obj/item/clothing/under/pmc
+	name = "urban-camouflage fatigues"
+	desc = "A set of fatigues in a dark urban camouflage. Manufactured by Ion Incorporated for its private military contractors in need of a robust uniform."
+	icon_state = "pmc"
+	item_state = "black"
+	item_color = "pmc"
+	has_sensor = 0
+	can_adjust = 0
+	armor = list(melee = 10, bullet = 5, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	unacidable = 1
+
 /obj/item/clothing/under/soviet
 	name = "soviet uniform"
 	desc = "For the Motherland!"

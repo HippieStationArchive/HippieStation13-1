@@ -1349,47 +1349,53 @@ B --><-- A
 //orbit() can run without it (swap orbiting for A)
 //but then you can never stop it and that's just silly.
 /atom/movable/var/atom/orbiting = null
-//we raise this each time orbit is called to prevent mutiple calls in a short time frame from breaking things
-/atom/movable/var/orbitid = 0
-
-/atom/movable/proc/orbit(atom/A, radius = 10, clockwise = 1, angle_increment = 15, lockinorbit = 0)
+//A: atom to orbit
+//radius: range to orbit at, radius of the circle formed by orbiting
+//clockwise: whether you orbit clockwise or anti clockwise
+//rotation_speed: how fast to rotate
+//rotation_segments: the resolution of the orbit circle, less = a more block circle, this can be used to produce hexagons (6 segments) triangles (3 segments), and so on, 36 is the best default.
+//pre_rotation: Chooses to rotate src 90 degress towards the orbit dir (clockwise/anticlockwise), useful for things to go "head first" like ghosts
+//lockinorbit: Forces src to always be on A's turf, otherwise the orbit cancels when src gets too far away (eg: ghosts)
+/atom/movable/proc/orbit(atom/A, radius = 10, clockwise = FALSE, rotation_speed = 20, rotation_segments = 36, pre_rotation = TRUE, lockinorbit = FALSE)
 	if(!istype(A))
 		return
-	orbitid++
-	var/myid = orbitid
-	if (orbiting)
+	if(orbiting)
 		stop_orbit()
-		//sadly this is the only way to ensure the original orbit proc stops and resets the atom's transform.
-		sleep(1)
-		if (orbiting || !istype(A) || orbitid != myid) //post sleep re-check
-			return
+
 	orbiting = A
-	var/lastloc = loc
-	var/angle = 0
 	var/matrix/initial_transform = matrix(transform)
-	spawn
-		while(orbiting && orbiting.loc && orbitid == myid && (!lockinorbit || loc == lastloc))
-			loc = get_turf(orbiting.loc)
-			lastloc = loc
-			angle += angle_increment
+	var/lastloc = loc
 
-			var/matrix/shift = matrix(initial_transform)
-			shift.Translate(radius,0)
-			if(clockwise)
-				shift.Turn(angle)
-			else
-				shift.Turn(-angle)
-			animate(src,transform = shift,2)
+	//Head first!
+	if(pre_rotation)
+		var/matrix/M = matrix(transform)
+		var/pre_rot = 90
+		if(!clockwise)
+			pre_rot = -90
+		M.Turn(pre_rot)
+		transform = M
+	var/matrix/shift = matrix(transform)
+	shift.Translate(0,radius)
+	transform = shift
+	SpinAnimation(rotation_speed, -1, clockwise, rotation_segments)
 
-			sleep(0.6) //the effect breaks above 0.6 delay
-		animate(src,transform = initial_transform,2)
+	//we stack the orbits up client side, so we can assign this back to normal server side without it breaking the orbit
+	transform = initial_transform
+	while(orbiting && orbiting == A && A.loc)
+		var/targetloc = get_turf(A)
+		if(!lockinorbit && loc != lastloc && loc != targetloc)
+			break
+		loc = targetloc
+		lastloc = loc
+		sleep(0.6)
+
+	if (orbiting == A)
+		orbiting = null
+	SpinAnimation(0,0)
 
 
 /atom/movable/proc/stop_orbit()
-	if(orbiting)
-		loc = get_turf(orbiting)
-		orbiting = null
-
+	orbiting = null
 
 //Center's an image.
 //Requires:
@@ -1402,26 +1408,20 @@ B --><-- A
 /proc/center_image(var/image/I, x_dimension = 0, y_dimension = 0)
 	if(!I)
 		return
-
 	if(!x_dimension || !y_dimension)
 		return
-
-	//Get out of here, punk ass kids calling procs needlessly
 	if((x_dimension == world.icon_size) && (y_dimension == world.icon_size))
 		return I
-
 	//Offset the image so that it's bottom left corner is shifted this many pixels
 	//This makes it infinitely easier to draw larger inhands/images larger than world.iconsize
 	//but still use them in game
 	var/x_offset = -((x_dimension/world.icon_size)-1)*(world.icon_size*0.5)
 	var/y_offset = -((y_dimension/world.icon_size)-1)*(world.icon_size*0.5)
-
 	//Correct values under world.icon_size
 	if(x_dimension < world.icon_size)
 		x_offset *= -1
 	if(y_dimension < world.icon_size)
 		y_offset *= -1
-
 	I.pixel_x = x_offset
 	I.pixel_y = y_offset
 
@@ -1429,3 +1429,61 @@ B --><-- A
 
 //Reversed direction. Dunno why it's so long.
 var/list/reverse_dir = list(2, 1, 3, 8, 10, 9, 11, 4, 6, 5, 7, 12, 14, 13, 15, 32, 34, 33, 35, 40, 42, 41, 43, 36, 38, 37, 39, 44, 46, 45, 47, 16, 18, 17, 19, 24, 26, 25, 27, 20, 22, 21, 23, 28, 30, 29, 31, 48, 50, 49, 51, 56, 58, 57, 59, 52, 54, 53, 55, 60, 62, 61, 63)
+
+//similar function to range(), but with no limitations on the distance; will search spiralling outwards from the center
+/proc/ultra_range(dist=0, center=usr, orange=0)
+	if(!dist)
+		if(!orange)
+			return list(center)
+		else
+			return list()
+	var/turf/t_center = get_turf(center)
+	if(!t_center)
+		return list()
+	var/list/L = list()
+	var/turf/T
+	var/y
+	var/x
+	var/c_dist = 1
+	if(!orange)
+		L += t_center
+		L += t_center.contents
+	while( c_dist <= dist )
+		y = t_center.y + c_dist
+		x = t_center.x - c_dist + 1
+		for(x in x to t_center.x+c_dist)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+				L += T.contents
+		y = t_center.y + c_dist - 1
+		x = t_center.x + c_dist
+		for(y in t_center.y-c_dist to y)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+				L += T.contents
+		y = t_center.y - c_dist
+		x = t_center.x + c_dist - 1
+		for(x in t_center.x-c_dist to x)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+				L += T.contents
+		y = t_center.y - c_dist + 1
+		x = t_center.x - c_dist
+		for(y in y to t_center.y+c_dist)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+				L += T.contents
+		c_dist++
+	return L
+
+/atom/proc/contains(var/atom/location)
+	if(!location)
+		return 0
+	for(location, location && location != src, location=location.loc); //semicolon is for the empty statement
+		if(location == src)
+			return 1
+		return 0

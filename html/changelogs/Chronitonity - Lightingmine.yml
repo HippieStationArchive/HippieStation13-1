@@ -3,4 +3,4 @@ author: Chronitonity
 delete-after: True
 
 changes: 
-  - tweak: "Low lighting objects now have larger low light effects."
+  - bugfix: "Dental Implants now work correctly."

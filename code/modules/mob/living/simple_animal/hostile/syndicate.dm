@@ -50,7 +50,7 @@
 	attacktext = "slashes"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	status_flags = 0
-
+/*
 /mob/living/simple_animal/hostile/syndicate/melee/attackby(obj/item/O, mob/user, params)
 	if(O.force)
 		if(prob(80))
@@ -68,14 +68,15 @@
 
 
 /mob/living/simple_animal/hostile/syndicate/melee/bullet_act(obj/item/projectile/Proj)
-	if(!Proj)	return
+	if(!Proj)
+		return
 	if(prob(65))
 		if((Proj.damage_type == BRUTE || Proj.damage_type == BURN))
 			src.health -= Proj.damage
 	else
 		visible_message("<span class='danger'>[src] blocks [Proj] with its shield!</span>")
 	return 0
-
+*/
 
 /mob/living/simple_animal/hostile/syndicate/melee/space
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
@@ -114,6 +115,15 @@
 	return
 
 
+/mob/living/simple_animal/hostile/syndicate/civilian
+	minimum_distance = 10
+	retreat_distance = 10
+	environment_smash = 0
+
+/mob/living/simple_animal/hostile/syndicate/civilian/Aggro()
+	..()
+	summon_backup(15)
+	say("GUARDS!!")
 
 /mob/living/simple_animal/hostile/viscerator
 	name = "viscerator"

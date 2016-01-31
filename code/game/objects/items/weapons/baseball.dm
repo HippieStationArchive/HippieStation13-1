@@ -63,9 +63,9 @@
 	throwforce = 5
 	throw_range = 7
 
-// /obj/item/weapon/baseballbat/suicide_act(mob/user)
-// 	user.visible_message("<span class='suicide'>[user] smashes the baseball bat into \his head! It looks like \he's trying to commit suicide..</span>")
-// 	return (BRUTELOSS)
+/obj/item/weapon/baseballbat/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] smashes the baseball bat into \his head! It looks like \he's trying to commit suicide..</span>")
+	return (BRUTELOSS)
 
 /mob/living/carbon/human/hitby(atom/movable/AM, zone)
 	..()

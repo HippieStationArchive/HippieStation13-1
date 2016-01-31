@@ -119,40 +119,77 @@
 	target.equip_to_slot_or_del(new /obj/item/weapon/storage/box(target), slot_in_backpack)
 	target.equip_to_slot_or_del(new /obj/item/weapon/teleportation_scroll/apprentice(target), slot_r_store)
 
-/obj/item/weapon/antag_spawner/borg_tele
-	name = "syndicate cyborg teleporter"
-	desc = "A single-use teleporter designed to deploy a single Syndicate cyborg onto the field."
+
+
+///////////BORGS AND OPERATIVES
+
+
+/obj/item/weapon/antag_spawner/nuke_ops
+	name = "syndicate operative teleporter"
+	desc = "A single-use teleporter designed to quickly reinforce operatives in the field."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "locator"
 	var/TC_cost = 0
 	var/borg_to_spawn
 	var/list/possible_types = list("Assault", "Medical")
 
-/obj/item/weapon/antag_spawner/borg_tele/attack_self(mob/user)
+/obj/item/weapon/antag_spawner/nuke_ops/proc/check_usability(mob/user)
 	if(used)
 		user << "<span class='warning'>[src] is out of power!</span>"
-		return
+		return 0
 	if(!(user.mind in ticker.mode.syndicates))
 		user << "<span class='danger'>AUTHENTICATION FAILURE. ACCESS DENIED.</span>"
 		return 0
-	borg_to_spawn = input("What type?", "Cyborg Type", type) as null|anything in possible_types
-	if(!borg_to_spawn)
+	if(user.z != ZLEVEL_CENTCOM)
+		user << "<span class='warning'>[src] is out of range! It can only be used at your base!</span>"
+		return 0
+	return 1
+
+
+/obj/item/weapon/antag_spawner/nuke_ops/attack_self(mob/user)
+	if(!(check_usability(user)))
 		return
-	var/list/borg_candicates = get_candidates(BE_OPERATIVE)
-	if(borg_candicates.len > 0)
+
+	var/list/nuke_candidates = get_candidates(BE_OPERATIVE, 3000, "operative")
+	if(nuke_candidates.len > 0)
 		used = 1
-		var/client/C = pick(borg_candicates)
+		var/client/C = pick(nuke_candidates)
 		spawn_antag(C, get_turf(src.loc), "syndieborg")
+		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+		s.set_up(4, 1, src)
+		s.start()
 	else
 		user << "<span class='warning'>Unable to connect to Syndicate command. Please wait and try again later or use the teleporter on your uplink to get your points refunded.</span>"
 
-/obj/item/weapon/antag_spawner/borg_tele/spawn_antag(client/C, turf/T, type = "")
-	if(!borg_to_spawn) //If there's no type at all, let it still be used but don't do anything
-		used = 0
+/obj/item/weapon/antag_spawner/nuke_ops/spawn_antag(client/C, turf/T)
+	var/nuke_code = "Ask your leader!"
+	var/mob/living/carbon/human/M = new/mob/living/carbon/human(T)
+	C.prefs.copy_to(M)
+	M.key = C.key
+	var/obj/machinery/nuclearbomb/nuke = locate("syndienuke") in nuke_list
+	if(nuke)
+		nuke.r_code = nuke_code
+	M.mind.make_Nuke(T, nuke_code, 0, FALSE)
+
+
+
+
+//////SYNDICATE BORG
+
+/obj/item/weapon/antag_spawner/nuke_ops/borg_tele
+	name = "syndicate cyborg teleporter"
+	desc = "A single-use teleporter designed to quickly reinforce operatives in the field.."
+	icon = 'icons/obj/device.dmi'
+	icon_state = "locator"
+
+
+/obj/item/weapon/antag_spawner/nuke_ops/borg_tele/attack_self(mob/user)
+	borg_to_spawn = input("What type?", "Cyborg Type", type) as null|anything in possible_types
+	if(!borg_to_spawn)
 		return
-	var/datum/effect/effect/system/spark_spread/S = new /datum/effect/effect/system/spark_spread
-	S.set_up(4, 1, src)
-	S.start()
+	..()
+
+/obj/item/weapon/antag_spawner/nuke_ops/borg_tele/spawn_antag(client/C, turf/T)
 	var/mob/living/silicon/robot/R
 	switch(borg_to_spawn)
 		if("Medical")
@@ -166,28 +203,11 @@
 	R.faction = list("syndicate")
 
 
-/obj/item/weapon/antag_spawner/slaughter_demon //Warning edgiest item in the game
-	name = "vial of blood"
-	desc = "A magically infused bottle of blood, distilled from countless murder victims. Used in unholy rituals to attract horrifying creatures."
-	icon = 'icons/obj/wizard.dmi'
-	icon_state = "vial"
 
 
-/obj/item/weapon/antag_spawner/slaughter_demon/attack_self(mob/user)
-	var/list/demon_candidates = get_candidates(BE_ALIEN)
-	if(user.z != 1)
-		user << "<span class='notice'>You should probably wait until you reach the station.</span>"
-		return
-	if(demon_candidates.len > 0)
-		used = 1
-		var/client/C = pick(demon_candidates)
-		spawn_antag(C, get_turf(src.loc), "Slaughter Demon")
-		user << "<span class='notice'>You shatter the bottle, no turning back now!</span>"
-		user << "<span class='notice'>You sense a dark presence lurking just beyond the veil...</span>"
-		playsound(user.loc, 'sound/effects/Glassbr1.ogg', 100, 1)
-		qdel(src)
-	else
-		user << "<span class='notice'>You can't seem to work up the nerve to shatter the bottle. Perhaps you should try again later.</span>"
+
+
+///////////SLAUGHTER DEMON
 
 
 /obj/item/weapon/antag_spawner/slaughter_demon/spawn_antag(client/C, turf/T, type = "")

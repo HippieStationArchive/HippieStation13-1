@@ -1,0 +1,7 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "Nuke Ops can now buy a medbeam gun to heal their allies. ERT Medics start with one."
+  - rscadd: "Space Vines now can produce Venus Human traps which will consume any humans in their path."

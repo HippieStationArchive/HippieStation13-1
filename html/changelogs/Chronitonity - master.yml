@@ -1,0 +1,10 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "Gun Renovation for Nuke Ops!."
+  - rscadd: "Nuke Op guns are now cheaper to compensate for not starting with shotguns."
+  - rscadd: "Nuke Ops can now buy special offer bundles that have their chosen gun and some ammo in bulk."
+  - rscadd: "Bioterror Foam grenades have been added for 5 TC. Anyone caught in them will be having a terrible day."
+  - rscadd: "The L6 Saw requires a free hand to fire now, but is much cheaper and has new ammo choices."

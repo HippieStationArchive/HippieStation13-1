@@ -414,28 +414,27 @@
 //ION PMC
 
 /datum/outfit/ion_corp/
-	name = "ION Incorp. PMC"
-	uniform = /obj/item/clothing/under/color/black
+	name = "Ion Inc. PMC Field Technician"
+	uniform = /obj/item/clothing/under/pmc
 	suit = /obj/item/clothing/suit/armor/bulletproof
-	head = /obj/item/clothing/head/soft/black
+	head = /obj/item/clothing/head/helmet/swat/pmc
 	shoes = /obj/item/clothing/shoes/combat
-	gloves = /obj/item/clothing/gloves/fingerless
-	back = /obj/item/weapon/storage/backpack
+	gloves = /obj/item/clothing/gloves/combat
+	back = /obj/item/weapon/storage/backpack/security
 	l_pocket = /obj/item/device/assembly/flash
 	r_pocket = /obj/item/weapon/restraints/handcuffs/cable/zipties
 	suit_store = /obj/item/weapon/gun/projectile/automatic/proto
-	belt = /obj/item/weapon/storage/belt/security
+	belt = /obj/item/weapon/storage/belt/utility/full
 	id = /obj/item/weapon/card/id
+	mask = /obj/item/clothing/mask/gas/welding
 	ears = /obj/item/device/radio/headset/headset_sec/alt
 	r_hand = /obj/item/weapon/paper/pmc_contract
-	l_hand = /obj/item/weapon/storage/box/zipties
-	mask = /obj/item/clothing/mask/balaclava
-	glasses = /obj/item/clothing/glasses/hud/security/night
+	glasses = /obj/item/clothing/glasses/meson/engine
 
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
 		/obj/item/ammo_box/magazine/smgm9mm=3,\
-		/obj/item/weapon/storage/firstaid/regular=1,\
-		/obj/item/device/flashlight/seclite=1,\
+		/obj/item/weapon/storage/box/zipties=1,\
+		/obj/item/weapon/c4=3,\
 		/obj/item/weapon/gun/energy/stunrevolver=1)
 
 /datum/outfit/ion_corp/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
@@ -446,6 +445,32 @@
 	W.assignment = "ION Incorp. PMC"
 	W.registered_name = H.real_name
 	W.update_label()
+
+
+/datum/outfit/ion_corp/rifleman
+	name = "Ion Inc. PMC Rifleman"
+	uniform = /obj/item/clothing/under/pmc
+	suit = /obj/item/clothing/suit/armor/heavycombat
+	head = /obj/item/clothing/head/helmet/swat/pmc
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/combat
+	back = /obj/item/weapon/storage/backpack/security
+	l_pocket = /obj/item/device/assembly/flash
+	r_pocket = /obj/item/weapon/restraints/handcuffs/cable/zipties
+	suit_store = /obj/item/weapon/gun/projectile/automatic/xmg80
+	belt = /obj/item/weapon/storage/belt/military/black
+	id = /obj/item/weapon/card/id
+	ears = /obj/item/device/radio/headset/headset_sec/alt
+	r_hand = /obj/item/weapon/paper/pmc_contract
+	mask = /obj/item/clothing/mask/gas
+	glasses = /obj/item/clothing/glasses/hud/security/night
+
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/ammo_box/magazine/xmg80=5,\
+		/obj/item/weapon/storage/box/zipties=1,\
+		/obj/item/weapon/storage/box/flashbangs=1,\
+		/obj/item/weapon/storage/firstaid/regular=1,\
+		/obj/item/weapon/gun/energy/stunrevolver=1)
 
 //ASS Operative
 

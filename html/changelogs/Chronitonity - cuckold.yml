@@ -1,0 +1,7 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "Nuclear Operative leaders can now buy an item that announces that they're invading the station."
+  - rscadd: "This postpones the Op shuttle by 15 minutes, and gives them a large amount of TC to spend."

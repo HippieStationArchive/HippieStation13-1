@@ -472,9 +472,46 @@
 	name = "Long Ponytail"
 	icon_state = "hair_longstraightponytail"
 
-/datum/sprite_accessory/hair/sidepartlongalt
-	name = "Long Side Part"
+/datum/sprite_accessory/hair/birdnest
+	name = "Birdnest"
+	icon_state = "hair_birdnest"
+
+/datum/sprite_accessory/hair/unkept
+	name = "Unkept"
+	icon_state = "hair_unkept"
+
+/datum/sprite_accessory/hair/duelist
+	name = "Duelist"
+	icon_state = "hair_duelist"
+
+/datum/sprite_accessory/hair/fastline
+	name = "Fastline"
+	icon_state = "hair_fastline"
+
+/datum/sprite_accessory/hair/modern
+	name = "Modern"
 	icon_state = "hair_longsidepart"
+
+/datum/sprite_accessory/hair/quadcurls	//weaboo supreme
+	name = "Quadcurls"
+	icon_state = "hair_quadcurls"
+
+/datum/sprite_accessory/hair/rapunzel
+	name = "Rapunzel"
+	icon_state = "hair_rapunzel"
+
+/datum/sprite_accessory/hair/unshaven_mohawk
+	name = "Unshaven Mohawk"
+	icon_state = "hair_unshavenmohawk"
+
+/datum/sprite_accessory/hair/twincurl
+	name = "Twincurls"
+	icon_state = "hair_twincurl"
+
+/datum/sprite_accessory/hair/twincurl_alt
+	name = "Upper Twincurls"
+	icon_state = "hair_twincurl2"
+
 
 /////////////////////////////
 // Facial Hair Definitions //
@@ -559,6 +596,26 @@
 /datum/sprite_accessory/facial_hair/fu
 	name = "Fu Manchu"
 	icon_state = "facial_fumanchu"
+
+/datum/sprite_accessory/facial_hair/britstache
+	name = "Britstache"
+	icon_state = "facial_britstache"
+
+/datum/sprite_accessory/facial_hair/martial_artist
+	name = "Martial Artist"
+	icon_state = "facial_martialartist"
+
+/datum/sprite_accessory/facial_hair/moonshiner
+	name = "Moonshiner"
+	icon_state = "facial_moonshiner"
+
+/datum/sprite_accessory/facial_hair/tribeard
+	name = "Tri-Beard"
+	icon_state = "facial_tribeard"
+
+/datum/sprite_accessory/facial_hair/unshaven
+	name = "Unshaven"
+	icon_state = "facial_unshaven"
 
 ///////////////////////////
 // Underwear Definitions //

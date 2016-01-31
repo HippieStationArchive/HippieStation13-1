@@ -50,6 +50,7 @@
 	var/coldmod = 1		// multiplier for cold damage
 	var/heatmod = 1		// multiplier for heat damage
 	var/punchmod = 0	// adds to the punch damage
+	var/siemens_coeff = 1 //base electrocution coefficient
 
 	var/invis_sight = SEE_INVISIBLE_LIVING
 	var/darksight = 2
@@ -869,6 +870,10 @@
 				mspeed += H.shoes.slowdown
 			if(H.back)
 				mspeed += H.back.slowdown
+			if(H.l_hand)
+				mspeed += H.l_hand.slowdown
+			if(H.r_hand)
+				mspeed += H.r_hand.slowdown
 
 			if((H.disabilities & FAT))
 				mspeed += 1.5
@@ -896,7 +901,7 @@
 	if(!istype(M)) //sanity check for drones.
 		return
 	var/shieldcheck = H.check_shields(0, M.name)
-	if((M != H) && shieldcheck)
+	if((M != H) && M.a_intent != "help" && H.check_shields(0, M.name))
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
 		if(isliving(shieldcheck))

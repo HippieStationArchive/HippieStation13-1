@@ -105,6 +105,14 @@
 	flags = STOPSPRESSUREDMAGE
 	strip_delay = 80
 
+/obj/item/clothing/head/helmet/swat/pmc
+	name = "\improper MK7 Heavy Combat Helmet"
+	desc = "A combat helmet made out of goliath hide plates infused with ablative materials in a dark urban camouflage."
+	icon_state = "swat_pmc"
+	item_state = "swat_pmc"
+	armor = list(melee = 65, bullet = 70, laser = 40, energy = 25, bomb = 75, bio = 0, rad = 30)
+	unacidable = 1
+
 /obj/item/clothing/head/helmet/swat2
 	name = "\improper Nanotrasen SWAT helmet"
 	desc = "An extremely robust, space-worthy helmet with the Nanotrasen logo emblazoned on top."

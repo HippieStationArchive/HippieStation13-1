@@ -1,0 +1,11 @@
+author: Chronitonity
+
+delete-after: True
+
+changes: 
+  - rscadd: "You can now buy reinforcement syndicates from your uplink at 25 TC a pop. These syndicates get no hardsuit or TC to spend."
+  - rscdel: "Syndicates can no longer buy a teleporter board and teleport to the station. Instead they can buy:"
+  - rscadd: "An Assault Pod Targetting Device for 25 TC, which will let them sync up to the new assault pod in their hanger and choose a location to send it."
+  - rscadd: "This pod is a one way trip! So make sure to take everything you need including the Nuke, or leave an operative or two behind to take the shuttle."
+  - rscdel: "Bulldog shotguns no longer spawn in the shuttle locker. You now need to buy your weapons from the uplink again."
+  - tweak: "Syndicate weapons have been slightly lowered in price. This is subject to change again with community feedback, either for cheaper or more expensive weapons."

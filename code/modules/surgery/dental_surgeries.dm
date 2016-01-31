@@ -76,55 +76,35 @@
 	implements = list(/obj/item/weapon/reagent_containers/pill = 100)
 	time = 16
 
-/datum/surgery_step/insert_pill/preop(mob/user, mob/living/carbon/human/target, target_zone, obj/item/pill, datum/surgery/surgery)
-	var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in target.organs
-	if(!O)
-		user.visible_message("<span class='notice'>What the... [target] has no head!</span>")
-		return -1
-	if(!O.get_teeth())
-		user.visible_message("<span class='notice'>[target] has no teeth to speak of!</span>")
-		return -1
-	if(O.dentals.len >= O.get_teeth() / 4) //8 max pills for 32-toothed people seems reasonable enough.
-		user.visible_message("<span class='notice'>There's no room for more implants in [target]'s teeth!</span>")
-		return -1
-	user.visible_message("[user] begins to wedge [pill] in [target]'s [parse_zone(target_zone)].", "<span class='notice'>You begin to wedge [pill] in [target]'s [parse_zone(target_zone)]...</span>")
+/datum/surgery_step/insert_pill/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+	user.visible_message("[user] begins to wedge \the [tool] in [target]'s [parse_zone(target_zone)].", "<span class='notice'>You begin to wedge [tool] in [target]'s [parse_zone(target_zone)]...</span>")
 
-/datum/surgery_step/insert_pill/success(mob/user, mob/living/carbon/human/target, target_zone, var/obj/item/weapon/reagent_containers/pill/pill, datum/surgery/surgery)
-	if(!istype(pill))
+/datum/surgery_step/insert_pill/success(mob/user, mob/living/carbon/target, target_zone, var/obj/item/weapon/reagent_containers/pill/tool, datum/surgery/surgery)
+	if(!istype(tool))
 		return 0
-	var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in target.organs
-	if(!O)
-		user.visible_message("<span class='notice'>What the... [target] has no head!</span>")
-		return -1
-	if(!O.get_teeth())
-		user.visible_message("<span class='notice'>[target] has no teeth to speak of!</span>")
-		return -1
-	if(O.dentals.len >= O.get_teeth() / 4) //8 max pills seems reasonable enough.
-		user.visible_message("<span class='notice'>There's no room for more implants in [target]'s teeth!</span>")
-		return -1
 
 	user.drop_item()
-	O.dentals += pill
-	pill.loc = O
+	target.internal_organs += tool
+	tool.loc = target
 
-	pill.action_button_is_hands_free = 1
-	pill.action_button_name = "burst [pill]"
-	target.give_action_button(pill)
-	pill.action.button_icon_state = pill.icon_state
+	var/datum/action/item_action/hands_free/activate_pill/P = new
+	P.button_icon_state = tool.icon_state
+	P.target = tool
+	P.Grant(target)
 
-	user.visible_message("[user] wedges [pill] into [target]'s [parse_zone(target_zone)]!", "<span class='notice'>You wedge [pill] into [target]'s [parse_zone(target_zone)].</span>")
+	user.visible_message("[user] wedges \the [tool] into [target]'s [parse_zone(target_zone)]!", "<span class='notice'>You wedge [tool] into [target]'s [parse_zone(target_zone)].</span>")
 	return 1
 
-/obj/item/weapon/reagent_containers/pill/ui_action_click()
-	if(ishuman(usr))
-		var/mob/living/carbon/human/H = usr
-		var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
-		if(!O || !O.get_teeth())
-			H << "<span class='caution'>You have no teeth to burst \the [src]!</span>"
-			return
-		H << "<span class='caution'>You grit your teeth and burst the implanted [src]!</span>"
-		add_logs(usr, object=src, what_done="bursted the implanted", addition=src.reagentlist(src))
-		if(reagents && reagents.total_volume)
-			reagents.reaction(H, INGEST)
-			reagents.trans_to(H, reagents.total_volume)
-		qdel(src)
+/datum/action/item_action/hands_free/activate_pill
+	name = "activate pill"
+
+/datum/action/item_action/hands_free/activate_pill/Trigger()
+	if(!..() || CheckRemoval(owner))
+		return 0
+	owner << "<span class='caution'>You grit your teeth and burst the implanted [target]!</span>"
+	add_logs(owner, null, "swallowed an implanted pill", target)
+	if(target.reagents.total_volume)
+		target.reagents.reaction(owner, INGEST)
+		target.reagents.trans_to(owner, target.reagents.total_volume)
+	qdel(target)
+	return 1

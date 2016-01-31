@@ -26,6 +26,11 @@
 	caliber = ".44"
 	projectile_type = /obj/item/projectile/bullet/heavybullet2
 
+/obj/item/ammo_casing/caseless/a68
+	desc = "A 6.8x43mm cartridge."
+	caliber = "6.8"
+	projectile_type = /obj/item/projectile/bullet/heavybullet3
+
 /obj/item/ammo_casing/c9mm
 	desc = "A 9mm cartridge."
 	caliber = "9mm"
@@ -207,12 +212,6 @@
 	..()
 	reagents.add_reagent("neurotoxin", 6)
 	reagents.add_reagent("lexorin", 6)
-
-/obj/item/ammo_casing/a762
-	desc = "A 7.62x51mm cartridge."
-	icon_state = "762-casing"
-	caliber = "a762"
-	projectile_type = /obj/item/projectile/bullet
 
 /obj/item/ammo_casing/a545
 	desc = "A 5.45x39mm cartridge."
