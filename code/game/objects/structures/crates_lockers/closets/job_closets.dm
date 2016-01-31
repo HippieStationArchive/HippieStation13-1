@@ -119,11 +119,11 @@
 	burn_state = 0 //Burnable
 	burntime = 20
 
-/obj/structure/closet/wardrobe/red
+/obj/structure/closet/wardrobe/sec
 	name = "security wardrobe"
 	icon_door = "red"
 
-/obj/structure/closet/wardrobe/red/New()
+/obj/structure/closet/wardrobe/sec/New()
 	..()
 	contents = list()
 	new /obj/item/clothing/suit/hooded/wintercoat/security(src)
