@@ -26,7 +26,7 @@
 
 /mob/living/proc/attacked_by(obj/item/I, mob/living/user, def_zone)
 	apply_damage(I.force, I.damtype, def_zone)
-	if(I.damtype == "brute")
+	if(I.damtype == BRUTE)
 		if(prob(33) && I.force)
 			var/turf/location = src.loc
 			if(istype(location, /turf/simulated))
@@ -88,7 +88,7 @@
 	//	M.lastattacker = null
 	/////////////////////////
 	M.attacked_by(src, user, def_zone)
-
+	//TODO: Change this to use the damtype word not int
 	add_logs(user, M, "attacked", src.name, "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)
 

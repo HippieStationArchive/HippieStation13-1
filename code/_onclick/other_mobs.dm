@@ -14,9 +14,9 @@
 		return
 
 	var/override = 0
-
-	for(var/datum/mutation/human/HM in dna.mutations)
-		override += HM.on_attack_hand(src, A)
+	if(dna)
+		for(var/datum/mutation/human/HM in dna.mutations)
+			override += HM.on_attack_hand(src, A)
 
 	if(override)	return
 
@@ -38,9 +38,9 @@
 		var/obj/item/clothing/gloves/G = gloves
 		if(istype(G) && G.Touch(A,0)) // for magic gloves
 			return
-
-	for(var/datum/mutation/human/HM in dna.mutations)
-		HM.on_ranged_attack(src, A)
+	if(dna)
+		for(var/datum/mutation/human/HM in dna.mutations)
+			HM.on_ranged_attack(src, A)
 
 	var/turf/T = A
 	if(istype(T) && get_dist(src,T) <= 1)
