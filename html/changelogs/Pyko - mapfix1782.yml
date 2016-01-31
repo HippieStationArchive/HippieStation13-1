@@ -35,3 +35,4 @@ delete-after: True
 changes: 
   - bugfix: "Fixed the improper access on hidden airlock next to commie spy and on the door leading to chapel back room."
   - bugfix: "Fixed sec holding cell disposal going through holodeck, as well law office disposals being connected to it."
+  - bugfix: "Fixed sec escape pod having visible space tile under some walls during transit."
