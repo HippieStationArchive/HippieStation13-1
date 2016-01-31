@@ -36,6 +36,7 @@
 
 /obj/mecha/combat/phazon/get_stats_part()
 	var/output = ..()
+	//TODO: Change this to use the damtype word not int
 	output += {"<b>Phasing:</b> [phasing?"on":"off"]<br>
 				<b>Damage Type:</b> [damtype]
 					"}
@@ -71,19 +72,19 @@
 	if(!owner || !chassis || chassis.occupant != owner)
 		return
 	var/obj/mecha/combat/phazon/P = chassis
-	var/new_damtype
+	var/damtype
 	switch(P.damtype)
-		if("tox")
-			new_damtype = "brute"
+		if(TOX)
+			damtype = BRUTE
 			P.occupant_message("Your exosuit's hands form into fists.")
-		if("brute")
-			new_damtype = "fire"
+		if(BRUTE)
+			damtype = BURN
 			P.occupant_message("A torch tip extends from your exosuit's hand, glowing red.")
-		if("fire")
-			new_damtype = "tox"
+		if(BURN)
+			damtype = TOX
 			P.occupant_message("A bone-chillingly thick plasteel needle protracts from the exosuit's palm.")
-	P.damtype = new_damtype.
-	button_icon_state = "mech_damtype_[new_damtype]"
+	P.damtype = damtype
+	button_icon_state = "mech_damtype_[damtype]"
 	playsound(src, 'sound/mecha/mechmove01.ogg', 50, 1)
 
 

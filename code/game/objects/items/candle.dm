@@ -58,7 +58,6 @@
 /obj/item/candle/proc/light(var/flavor_text = "<span class='danger'>[usr] lights the [name].</span>")
 	if(!src.lit)
 		src.lit = 1
-		//src.damtype = "fire"
 		for(var/mob/O in viewers(usr, null))
 			O.show_message(flavor_text, 1)
 		SetLuminosity(CANDLE_LUMINOSITY)
