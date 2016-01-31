@@ -1,0 +1,64 @@
+"a" = (/turf/space,/area/space)
+"b" = (/obj/item/weapon/shard{icon_state = "medium"},/turf/space,/area/space)
+"c" = (/turf/simulated/wall/r_wall/rust,/area/space)
+"d" = (/obj/item/stack/rods{amount = 2},/turf/space,/area/space)
+"e" = (/obj/structure/cable{icon_state = "0-4"; d2 = 4},/obj/structure/cable{d2 = 8; icon_state = "0-8"},/obj/machinery/power/smes,/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"f" = (/obj/structure/table_frame,/obj/item/weapon/flamethrower,/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"g" = (/obj/structure/table,/obj/item/stack/sheet/metal,/obj/item/stack/sheet/glass,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"h" = (/mob/living/simple_animal/hostile/viscerator,/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"i" = (/obj/machinery/power/terminal{icon_state = "term"; dir = 1},/obj/structure/cable{icon_state = "0-2"; d2 = 2},/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"j" = (/obj/effect/decal/remains/human,/obj/item/clothing/suit/armor/reactive/fire,/obj/effect/decal/cleanable/ash,/obj/effect/decal/cleanable/ash,/obj/effect/decal/cleanable/ash,/obj/effect/decal/cleanable/ash,/obj/effect/decal/cleanable/dirt,/obj/item/weapon/grenade/chem_grenade/clf3,/turf/simulated/floor/plasteel/airless{icon_state = "damaged2"},/area/space)
+"k" = (/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"l" = (/obj/structure/table,/obj/item/stack/cable_coil,/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"m" = (/obj/item/weapon/shard,/turf/space,/area/space)
+"n" = (/turf/simulated/wall/rust,/area/space)
+"o" = (/obj/effect/spawner/structure/window/reinforced,/turf/simulated/floor/plating,/area/space)
+"p" = (/obj/machinery/power/port_gen/pacman,/obj/structure/cable,/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"q" = (/obj/structure/table,/obj/item/weapon/book/manual/wiki/engineering_construction,/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"r" = (/turf/simulated/floor/plasteel/airless{icon_state = "damaged2"},/area/space)
+"s" = (/obj/structure/grille,/turf/simulated/floor/plating/airless,/area/space)
+"t" = (/obj/structure/lattice,/turf/space,/area/space)
+"u" = (/obj/structure/reagent_dispensers/watertank,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/space)
+"v" = (/obj/item/trash/deadmouse,/obj/item/trash/raisins,/obj/item/weapon/mop,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"w" = (/obj/structure/rack{dir = 8; layer = 2.9},/obj/item/weapon/storage/toolbox/electrical{pixel_x = 1; pixel_y = 6},/obj/item/weapon/storage/toolbox/mechanical{pixel_x = -2; pixel_y = -1},/obj/item/clothing/head/welding{pixel_x = -3; pixel_y = 5},/obj/item/clothing/glasses/welding,/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"x" = (/obj/item/weapon/grenade/chem_grenade/incendiary,/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"y" = (/obj/structure/table_frame,/turf/simulated/floor/plasteel/airless{icon_state = "floorscorched1"},/area/space)
+"z" = (/turf/simulated/floor/plating/airless{tag = "icon-platingdmg1"; icon_state = "platingdmg1"},/area/space)
+"A" = (/obj/structure/reagent_dispensers/fueltank,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/space)
+"B" = (/obj/structure/extinguisher_cabinet{pixel_x = 32},/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"C" = (/obj/structure/table,/obj/item/weapon/tank/internals/plasma/full,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"D" = (/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"E" = (/mob/living/simple_animal/hostile/asteroid/basilisk,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"F" = (/obj/machinery/door/firedoor,/obj/machinery/door/airlock/engineering{name = "Engineering"; req_access_txt = "10"},/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/space)
+"G" = (/obj/structure/table,/obj/item/clothing/head/welding,/obj/item/weapon/stock_parts/cell/high{charge = 100; maxcharge = 15000},/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/space)
+"H" = (/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"I" = (/obj/structure/sign/securearea,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"J" = (/obj/structure/sign/nosmoking_2,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"K" = (/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plating/airless{tag = "icon-platingdmg1"; icon_state = "platingdmg1"},/area/space)
+"L" = (/obj/structure/table,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"M" = (/obj/effect/decal/cleanable/vomit/old,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/space)
+"N" = (/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plating/airless{tag = "icon-platingdmg2"; icon_state = "platingdmg2"},/area/space)
+"O" = (/obj/structure/closet/crate/bin,/obj/item/weapon/grenade/clusterbuster/inferno,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/space)
+"P" = (/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plating/airless,/area/space)
+"Q" = (/obj/machinery/door/airlock/external{name = "Arrival Airlock"},/turf/simulated/floor/plating,/area/space)
+"R" = (/obj/effect/spawner/structure/window/reinforced,/obj/structure/sign/securearea{name = "EXTERNAL AIRLOCK"; desc = "A warning sign which reads 'EXTERNAL AIRLOCK'"; icon_state = "space"; layer = 4; pixel_x = 0; pixel_y = 32},/turf/simulated/floor/plating,/area/space)
+"S" = (/obj/structure/barricade/wooden,/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plating,/area/space)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaa
+aaaaaaaaaaaabaaa
+aaaacccccaaaaada
+aaaccefgccaaaaaa
+aaachijklcadaaam
+nnockpkkqrstaaaa
+nuvcwxkkyzttaama
+oABcckkkctdtdaaa
+oCDEccFcczaaaada
+oGDHDIDJDKzttaaa
+oLDDMDDDNtzDsdaa
+nDHDDDOHzPDDnama
+nnoQRnnosoonnaaa
+aaoSoaaaaaaaaaaa
+aaoQoaaamaaaaaaa
+aaaaaaaaaaaaaaaa
+"}

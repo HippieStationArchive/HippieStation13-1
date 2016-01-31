@@ -464,6 +464,10 @@ var/list/teleportlocs = list()
 	name = "Strange Room"
 	icon_state = "yellow"
 
+/area/maintenance/commiespy
+	name = "Russian Room"
+	icon_state = "yellow"
+
 
 //Hallway
 
@@ -1676,7 +1680,17 @@ var/list/teleportlocs = list()
 /area/awaycontent/a30
 	icon_state = "awaycontent30"
 
+// Template Code
+/area/template/Labshuttle
+ 	name = "LabShuttle"
+ 	icon_state = "hydro"
 
+/area/template/Clown
+	name = "Clownship"
+	icon_state = "clown"
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/space.ogg'
+	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
 /////////////////////////////////////////////////////////////////////
 /*
  Lists of areas to be used with is_type_in_list.
