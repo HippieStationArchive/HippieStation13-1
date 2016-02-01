@@ -544,15 +544,15 @@
 	var/sound_close = 'sound/machines/blast_door.ogg'
 	var/operating = 0
 
-obj/machinery/disposal/trapdoor/proc/process()
-	..()
-	if(trap_door_state != trap_closed)
-		switch(trap_door_state)
-			if(0)
-				open()
-			if(1)
-				close()
-		return
+	process()
+		..()
+		if(trap_door_state != trap_closed)
+			switch(trap_door_state)
+				if(0)
+					open()
+				if(1)
+					close()
+			return
 
 obj/machinery/disposal/trapdoor/proc/open()
 	if(operating)
