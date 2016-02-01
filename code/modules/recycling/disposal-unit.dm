@@ -606,6 +606,7 @@ obj/machinery/disposal/trapdoor/proc/close()
 			var/mob/M = AM
 			M.loc = src
 			flush()
+			sleep(50)
 			close()
 			return
 		return
