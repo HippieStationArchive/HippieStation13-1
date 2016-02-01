@@ -527,9 +527,8 @@
 		M.loc = src
 	flush()
 
-
 //Trap Door
-obj/machinery/disposal/trapdoor
+/obj/machinery/disposal/trapdoor
 	name = "trapdoor"
 	desc = "A chute for big and small packages alike!"
 	density = 0
@@ -545,15 +544,14 @@ obj/machinery/disposal/trapdoor
 	var/sound_close = 'sound/machines/blast_door.ogg'
 	var/operating = 0
 
-
-	process()
-		..()
-		if(trap_door_state != trap_closed)
-			switch(trap_door_state)
-				if(0)
-					open()
-				if(1)
-					close()
+obj/machinery/disposal/trapdoor/proc/process()
+	..()
+	if(trap_door_state != trap_closed)
+		switch(trap_door_state)
+			if(0)
+				open()
+			if(1)
+				close()
 		return
 
 obj/machinery/disposal/trapdoor/proc/open()
