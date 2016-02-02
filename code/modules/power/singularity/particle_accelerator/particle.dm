@@ -38,7 +38,7 @@
 	if (A)
 		if(ismob(A))
 			toxmob(A)
-		if((istype(A,/obj/machinery/the_singularitygen))||(istype(A,/obj/singularity/)))
+		if((istype(A,/obj/machinery/the_singularitygen)) || (istype(A,/obj/singularity/)) || (istype(A,/obj/singularity/energy_ball)))
 			A:energy += energy
 	return
 
