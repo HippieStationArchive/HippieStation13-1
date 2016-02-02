@@ -84,21 +84,21 @@
 
 
 //this is all part of one item set
-/obj/item/clothing/suit/armor/plate/crusader
-	name = "Crusader's Armour"
-	icon_state = "crusader"
+/obj/item/clothing/suit/armor/plate/advocate
+	name = "Advocate's Armour"
+	icon_state = "advocate"
 	w_class = 4 //bulky
 	slowdown = 2.0 //gotta pretend we're balanced.
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	armor = list(melee = 50, bullet = 50, laser = 50, energy = 40, bomb = 60, bio = 0, rad = 0)
 
-/obj/item/clothing/suit/armor/plate/crusader/red
-	icon_state = "crusader-red"
+/obj/item/clothing/suit/armor/plate/advocate/red
+	icon_state = "advocate-red"
 
-/obj/item/clothing/suit/armor/plate/crusader/blue
-	icon_state = "crusader-blue"
+/obj/item/clothing/suit/armor/plate/advocate/blue
+	icon_state = "advocate-blue"
 
-/obj/item/clothing/suit/armor/plate/crusader/examine(mob/user)
+/obj/item/clothing/suit/armor/plate/advocate/examine(mob/user)
 	..()
 	if(!is_handofgod_cultist(user))
 		user << "Armour that's comprised of metal and cloth."
@@ -106,21 +106,21 @@
 		user << "Armour that was used to protect from backstabs, gunshots, explosives, and lasers.  The original wearers of this type of armour were trying to avoid being murdered.  Since they're not around anymore, you're not sure if they were successful or not."
 
 
-/obj/item/clothing/head/helmet/plate/crusader
-	name = "Crusader's Hood"
-	icon_state = "crusader"
+/obj/item/clothing/head/helmet/plate/advocate
+	name = "Advocate's Hood"
+	icon_state = "advocate"
 	w_class = 3 //normal
 	flags = BLOCKHAIR
 	armor = list(melee = 50, bullet = 50, laser = 50, energy = 40, bomb = 60, bio = 0, rad = 0)
 
-/obj/item/clothing/head/helmet/plate/crusader/blue
-	icon_state = "crusader-blue"
+/obj/item/clothing/head/helmet/plate/advocate/blue
+	icon_state = "advocate-blue"
 
-/obj/item/clothing/head/helmet/plate/crusader/red
-	icon_state = "crusader-red"
+/obj/item/clothing/head/helmet/plate/advocate/red
+	icon_state = "advocate-red"
 
 
-/obj/item/clothing/head/helmet/plate/crusader/examine(mob/user)
+/obj/item/clothing/head/helmet/plate/advocate/examine(mob/user)
 	..()
 	if(!is_handofgod_cultist(user))
 		user << "A brownish hood."
@@ -130,7 +130,7 @@
 
 
 //Prophet helmet
-/obj/item/clothing/head/helmet/plate/crusader/prophet
+/obj/item/clothing/head/helmet/plate/advocate/prophet
 	name = "Prophet's Hat"
 	icon_state = "prophet-blue"
 	flags = 0
@@ -138,7 +138,7 @@
 	var/datum/action/innate/godspeak/speak2god
 
 
-/obj/item/clothing/head/helmet/plate/crusader/prophet/proc/assign_deity(mob/camera/god/G)
+/obj/item/clothing/head/helmet/plate/advocate/prophet/proc/assign_deity(mob/camera/god/G)
 	if(speak2god)
 		if(speak2god.owner)
 			speak2god.Remove(speak2god.owner)
@@ -147,29 +147,29 @@
 	speak2god.god = G
 
 
-/obj/item/clothing/head/helmet/plate/crusader/prophet/equipped(mob/user, slot)
+/obj/item/clothing/head/helmet/plate/advocate/prophet/equipped(mob/user, slot)
 	if(slot == slot_head)
 		if(speak2god)
 			speak2god.Grant(user)
 			user << "<span class='boldnotice'>You gain the ability to speak to the god this hat belongs to!</span>"
 
 
-/obj/item/clothing/head/helmet/plate/crusader/prophet/dropped(mob/user)
+/obj/item/clothing/head/helmet/plate/advocate/prophet/dropped(mob/user)
 	if(speak2god)
 		if(speak2god.owner == user)
 			speak2god.Remove(user)
 			user << "<span class='boldnotice'>You lose the ability to speak to the god this hat belongs to!</span>"
 
 
-/obj/item/clothing/head/helmet/plate/crusader/prophet/red
+/obj/item/clothing/head/helmet/plate/advocate/prophet/red
 	icon_state = "prophet-red"
 
 
-/obj/item/clothing/head/helmet/plate/crusader/prophet/blue
+/obj/item/clothing/head/helmet/plate/advocate/prophet/blue
 	icon_state = "prophet-blue"
 
 
-/obj/item/clothing/head/helmet/plate/crusader/prophet/examine(mob/user)
+/obj/item/clothing/head/helmet/plate/advocate/prophet/examine(mob/user)
 	..()
 	if(!is_handofgod_cultist(user))
 		user << "A brownish, religious-looking hat."
@@ -204,7 +204,7 @@
 
 /obj/item/clothing/gloves/plate
 	name = "Plate Gauntlets"
-	icon_state = "crusader"
+	icon_state = "advocate"
 	siemens_coefficient = 0
 	cold_protection = HANDS
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
@@ -213,10 +213,10 @@
 
 
 /obj/item/clothing/gloves/plate/red
-	icon_state = "crusader-red"
+	icon_state = "advocate-red"
 
 /obj/item/clothing/gloves/plate/blue
-	icon_state = "crusader-blue"
+	icon_state = "advocate-blue"
 
 
 /obj/item/clothing/gloves/plate/examine(mob/user)
@@ -229,7 +229,7 @@
 
 /obj/item/clothing/shoes/plate
 	name = "Plate Boots"
-	icon_state = "crusader"
+	icon_state = "advocate"
 	w_class = 3 //normal
 	armor = list(melee = 50, bullet = 50, laser = 50, energy = 40, bomb = 60, bio = 0, rad = 0) //does this even do anything on boots?
 	flags = NOSLIP
@@ -240,10 +240,10 @@
 
 
 /obj/item/clothing/shoes/plate/red
-	icon_state = "crusader-red"
+	icon_state = "advocate-red"
 
 /obj/item/clothing/shoes/plate/blue
-	icon_state = "crusader-blue"
+	icon_state = "advocate-blue"
 
 
 /obj/item/clothing/shoes/plate/examine(mob/user)
@@ -254,27 +254,27 @@
 		usr << "Heavy boots that are blessed for sure footing.  You'll be safe from being taken down by the heresy that is the banana peel."
 
 
-/obj/item/weapon/storage/box/itemset/crusader
-	name = "Crusader's Armour Set" //i can't into ck2 references
+/obj/item/weapon/storage/box/itemset/advocate
+	name = "Advocate's Armour Set" //i can't into ck2 references
 	desc = "This armour is said to be based on the armor of kings on another world thousands of years ago, who tended to assassinate, conspire, and plot against everyone who tried to do the same to them.  Some things never change."
 
 
-/obj/item/weapon/storage/box/itemset/crusader/blue/New()
+/obj/item/weapon/storage/box/itemset/advocate/blue/New()
 	..()
 	contents = list()
 	sleep(1)
-	new /obj/item/clothing/suit/armor/plate/crusader/blue(src)
-	new /obj/item/clothing/head/helmet/plate/crusader/blue(src)
+	new /obj/item/clothing/suit/armor/plate/advocate/blue(src)
+	new /obj/item/clothing/head/helmet/plate/advocate/blue(src)
 	new /obj/item/clothing/gloves/plate/blue(src)
 	new /obj/item/clothing/shoes/plate/blue(src)
 
 
-/obj/item/weapon/storage/box/itemset/crusader/red/New()
+/obj/item/weapon/storage/box/itemset/advocate/red/New()
 	..()
 	contents = list()
 	sleep(1)
-	new /obj/item/clothing/suit/armor/plate/crusader/red(src)
-	new /obj/item/clothing/head/helmet/plate/crusader/red(src)
+	new /obj/item/clothing/suit/armor/plate/advocate/red(src)
+	new /obj/item/clothing/head/helmet/plate/advocate/red(src)
 	new /obj/item/clothing/gloves/plate/red(src)
 	new /obj/item/clothing/shoes/plate/red(src)
 

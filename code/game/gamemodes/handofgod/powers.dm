@@ -123,14 +123,14 @@
 
 		switch(side)
 			if("red")
-				popehat = /obj/item/clothing/head/helmet/plate/crusader/prophet/red
+				popehat = /obj/item/clothing/head/helmet/plate/advocate/prophet/red
 				popestick = /obj/item/weapon/godstaff/red
 			if("blue")
-				popehat = /obj/item/clothing/head/helmet/plate/crusader/prophet/blue
+				popehat = /obj/item/clothing/head/helmet/plate/advocate/prophet/blue
 				popestick = /obj/item/weapon/godstaff/blue
 
 		if(popehat)
-			var/obj/item/clothing/head/helmet/plate/crusader/prophet/P = new popehat()
+			var/obj/item/clothing/head/helmet/plate/advocate/prophet/P = new popehat()
 			P.assign_deity(src)
 
 			H.unEquip(H.head)
@@ -167,6 +167,7 @@
 	var/mob/choice = input("Choose who you wish to talk to", "Talk to ANYONE") as null|anything in mob_list
 	if(choice)
 		var/original = msg
+		log_say("Hand of God: [capitalize(src.side)] God/[key_name(src)] > [choice] : [msg]")
 		msg = "<B>You hear a voice coming from everywhere and nowhere... <i>[msg]</i></B>"
 		choice << msg
 		src << "You say the following to [choice], [original]"
@@ -284,12 +285,12 @@
 	if(side == "red")
 		item_types["red banner"] = /obj/item/weapon/banner/red
 		item_types["red bannerbackpack"] = /obj/item/weapon/storage/backpack/bannerpack/red
-		item_types["red armour"] = /obj/item/weapon/storage/box/itemset/crusader/red
+		item_types["red armour"] = /obj/item/weapon/storage/box/itemset/advocate/red
 
 	else if(side == "blue")
 		item_types["blue banner"] = /obj/item/weapon/banner/blue
 		item_types["blue bannerbackpack"] = /obj/item/weapon/storage/backpack/bannerpack/blue
-		item_types["blue armour"] = /obj/item/weapon/storage/box/itemset/crusader/blue
+		item_types["blue armour"] = /obj/item/weapon/storage/box/itemset/advocate/blue
 
 
 	var/item = input("Choose what you wish to create.", "Divine Items") as null|anything in item_types
