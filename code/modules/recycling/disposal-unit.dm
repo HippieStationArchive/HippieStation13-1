@@ -530,7 +530,7 @@
 //Trap Door
 /obj/machinery/disposal/trapdoor
 	name = "trapdoor"
-	desc = "A chute for big and small packages alike!"
+	desc = "Almost like a door, but on floor."
 	density = 0
 	icon = 'icons/obj/atmospherics/pipes/trapdoor.dmi'
 	icon_state = "closed"
@@ -544,17 +544,17 @@
 	var/sound_close = 'sound/machines/blast_door.ogg'
 	var/operating = 0
 
-	process()
-		..()
-		if(trap_door_state != trap_closed)
-			switch(trap_door_state)
-				if(0)
-					open()
-				if(1)
-					close()
-			return
+/obj/machinery/disposal/trapdoor/process()
+	..()
+	if(trap_door_state != trap_closed)
+		switch(trap_door_state)
+			if(0)
+				open()
+			if(1)
+				trap_flush()
+		return
 
-obj/machinery/disposal/trapdoor/proc/open()
+/obj/machinery/disposal/trapdoor/proc/open()
 	if(operating)
 		return
 	if(!trap_closed)
@@ -570,11 +570,11 @@ obj/machinery/disposal/trapdoor/proc/open()
 	operating = 0
 	if(auto_close)
 		spawn(auto_close)
-		close()
+		trap_flush()
 		return 1
 
 
-obj/machinery/disposal/trapdoor/proc/close()
+/obj/machinery/disposal/trapdoor/proc/close()
 	if(operating)
 		return
 	if(trap_closed)
@@ -598,19 +598,76 @@ obj/machinery/disposal/trapdoor/proc/close()
 		if(trunk)
 			trunk.linked = src	// link the pipe trunk to self
 
-/obj/machinery/disposal/trapdoor/Crossed(AM as mob)
+/obj/machinery/disposal/trapdoor/Crossed(AM as mob|obj)
 	if(trap_closed == 0)
 		if(istype(AM, /mob))
 			var/mob/M = AM
 			M.loc = src
-			flush()
-			sleep(50)
-			close()
+			trap_flush()
 			return
-		return
+		if(istype(AM, /obj))
+			var/obj/O = AM
+			sleep (5)
+			if(O.loc == src.loc)
+				O.loc = src
+				return 1
 
 /obj/machinery/disposal/trapdoor/MouseDrop_T(mob/living/target, mob/living/user)
-	return
+	if(istype(target) && user == target)
+		if (trap_closed == 0)
+			push_mob_in(target, user)
+			return 1
+
+/obj/machinery/disposal/trapdoor/proc/push_mob_in(mob/living/target, mob/living/user)
+	if(target.buckled)
+		return
+	if(target.mob_size > MOB_SIZE_HUMAN)
+		user << "<span class='warning'>[target] doesn't fit inside [src]!</span>"
+		return
+	add_fingerprint(user)
+	if(user == target)
+		user.visible_message("[user] is attempting to dive into [src].", \
+								"<span class='notice'>You start diving into [src]...</span>")
+	else
+		target.visible_message("<span class='danger'>[user] starts pushing [target] into [src].</span>", \
+								"<span class='userdanger'>[user] starts pushing you into [src]!</span>")
+	if(do_mob(user, target, 10))
+		if (!loc)
+			return
+		if (target.client)
+			target.client.perspective = EYE_PERSPECTIVE
+			target.client.eye = src
+		target.loc = src
+		if(user == target)
+			user.visible_message("[user] dives into [src].", \
+									"<span class='notice'>You dive into [src].</span>")
+		else
+			target.visible_message("<span class='danger'>[user] has pushed [target] in [src].</span>", \
+									"<span class='userdanger'>[user] has pushedd [target] in [src].</span>")
+			add_logs(user, target, "pushed", addition="into [src]")
+		update()
+		sleep(5)
+		trap_flush()
+
+/obj/machinery/disposal/trapdoor/proc/trap_flush()
+	flushing = 1
+	flushAnimation()
+	sleep(10)
+	if(last_sound < world.time + 1)
+		playsound(src, 'sound/machines/disposalflush.ogg', 50, 0, 0)
+		last_sound = world.time
+	sleep(5)
+	if(gc_destroyed)
+		return
+	var/obj/structure/disposalholder/H = new()
+	newHolderDestination(H)
+	H.init(src)
+	air_contents = new()
+	H.start(src)
+	flushing = 0
+	flush = 0
+	sleep(5)
+	close()
 
 /atom/movable/proc/disposalEnterTry()
 	return 1
