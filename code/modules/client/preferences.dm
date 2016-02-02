@@ -38,7 +38,6 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	var/ooccolor = null
 	var/be_special = 0					//Special role selection
 	var/UI_style = "Midnight"
-	var/nanoui_fancy = TRUE
 	var/toggles = TOGGLES_DEFAULT
 	var/chat_toggles = TOGGLES_DEFAULT_CHAT
 	var/ghost_form = "ghost"
@@ -340,7 +339,6 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
 			dat += "<h2>General Settings</h2>"
 			dat += "<b>UI Style:</b> <a href='?_src_=prefs;preference=ui'>[UI_style]</a><br>"
-			dat += "<b>Fancy NanoUI:</b> <a href='?_src_=prefs;preference=nanoui'>[(nanoui_fancy) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Play admin midis:</b> <a href='?_src_=prefs;preference=hear_midis'>[(toggles & SOUND_MIDI) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Play lobby music:</b> <a href='?_src_=prefs;preference=lobby_music'>[(toggles & SOUND_LOBBY) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Ghost ears:</b> <a href='?_src_=prefs;preference=ghost_ears'>[(chat_toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</a><br>"
@@ -1002,9 +1000,6 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 					socks = random_socks(gender)
 					facial_hair_style = random_facial_hair_style(gender)
 					hair_style = random_hair_style(gender)
-
-				if("nanoui")
-					nanoui_fancy = !nanoui_fancy
 
 				if("hear_adminhelps")
 					toggles ^= SOUND_ADMINHELP

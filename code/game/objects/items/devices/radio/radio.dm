@@ -176,10 +176,10 @@
 
 /obj/item/device/radio/Topic(href, href_list)
 	//..()
-	if ((usr.stat && !IsAdminGhost(usr)) || !on)
+	if (usr.stat || !on)
 		return
 
-	if (!(issilicon(usr) || IsAdminGhost(usr) || (usr.contents.Find(src) || ( in_range(src, usr) && istype(loc, /turf) ))))
+	if (!(issilicon(usr) || (usr.contents.Find(src) || ( in_range(src, usr) && istype(loc, /turf) ))))
 		usr << browse(null, "window=radio")
 		return
 	usr.set_machine(src)

@@ -704,7 +704,7 @@ var/global/list/g_fancy_list_of_types = null
 		for(var/obj/machinery/the_singularitygen/G in world)
 			if(G.anchored)
 				var/obj/singularity/S = new /obj/singularity(get_turf(G), 50)
-				//qdel(G)
+//				qdel(G)
 				S.energy = 1750
 				S.current_size = 7
 				S.icon = 'icons/effects/224x224.dmi'
@@ -729,39 +729,6 @@ var/global/list/g_fancy_list_of_types = null
 
 			if(!Rad.active)
 				Rad.toggle_power()
-
-	for(var/obj/machinery/power/smes/SMES in world)
-		if(SMES.anchored)
-			SMES.input_attempt = 1
-
-/client/proc/startTesla()
-
-	set category = "Debug"
-	set name = "Start Tesla"
-	set desc = "Sets up the Tesla and all machines to get power flowing through the station"
-
-	if(alert("Are you sure? This will start up the engine. Should only be used during debug!",,"Yes","No") != "Yes")
-		return
-
-	for(var/obj/machinery/power/emitter/E in world)
-		if(E.anchored)
-			E.active = 1
-
-	for(var/obj/machinery/field/generator/F in world)
-		if(F.anchored)
-			F.Varedit_start = 1
-	for(var/obj/machinery/power/tesla_coil/F in world)
-		F.anchored = 1
-	spawn(30)
-		for(var/obj/machinery/the_singularitygen/tesla/G in world)
-			if(G.anchored)
-				var/obj/singularity/energy_ball/S = new /obj/singularity/energy_ball(get_turf(G), 50)
-				//qdel(G)
-				S.energy = 1750
-				S.icon = 'icons/obj/tesla_engine/energy_ball.dmi'
-				S.icon_state = "energy_ball"
-				S.pixel_x = -32
-				S.pixel_y = -32
 
 	for(var/obj/machinery/power/smes/SMES in world)
 		if(SMES.anchored)
@@ -811,15 +778,3 @@ var/global/list/g_fancy_list_of_types = null
 
 	if(!holder)	return
 	debug_variables(huds[i])
-
-/client/proc/reload_nanoui_resources()
-	set category = "Debug"
-	set name = "Reload NanoUI Resources"
-	set desc = "Force the client to redownload NanoUI Resources"
-
-	// Close open NanoUIs.
-	SSnano.close_user_uis(usr)
-
-
-	// Clear the user's cache so they get resent.
-	usr.client.cache = list()

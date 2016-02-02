@@ -372,7 +372,6 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	var/list/names = list()
 	var/list/pois = list()
 	var/list/namecounts = list()
-
 	for(var/mob/M in mobs)
 		var/name = M.name
 		if (name in names)

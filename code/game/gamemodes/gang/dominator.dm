@@ -210,7 +210,7 @@
 	healthcheck(M.melee_damage_upper)
 
 /obj/machinery/dominator/mech_melee_attack(obj/mecha/M)
-	if(M.damtype == "brute")
+	if(M.damtype == BRUTE)
 		playsound(src, 'sound/effects/bang.ogg', 50, 1)
 		visible_message("<span class='danger'>[M.name] has hit [src].</span>")
 		healthcheck(M.force)

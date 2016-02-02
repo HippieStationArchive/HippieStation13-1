@@ -329,5 +329,28 @@
 		cooldown = 1
 		spawn(30) cooldown = 0
 
+/obj/machinery/blastco_antiburglar
+	name = "BlastCo Anti-burglar payload"
+	desc = "A powerful secondary explosive of syndicate design and unknown composition, it should be stable under normal conditions..."
+	icon = 'icons/obj/assemblies.dmi'
+	icon_state = "bombcore"
+	burn_state = 0 //Burnable (but the casing isn't)
+	var/adminlog = null
+	anchored = 1
+	density = 0
+	layer = MOB_LAYER - 0.2
+	unacidable = 1
 
+/obj/machinery/blastco_antiburglar/ex_act(severity, target) //Little boom can chain a big boom
+	src.detonate()
 
+/obj/machinery/blastco_antiburglar/burn()
+	src.detonate()
+	..()
+
+/obj/machinery/blastco_antiburglar/proc/detonate()
+	if(adminlog)
+		message_admins(adminlog)
+		log_game(adminlog)
+	explosion(get_turf(src),20,20,20, flame_range = 20)
+	qdel(src)

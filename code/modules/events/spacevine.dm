@@ -542,10 +542,9 @@
 		SM.on_spread(src, stepturf)
 		stepturf = get_step(src,direction) //in case turf changes, to make sure no runtimes happen
 	if(!locate(/obj/effect/spacevine, stepturf))
-		if(istype(stepturf, /turf/simulated))
-			if(stepturf.Enter(src))
-				if(master)
-					master.spawn_spacevine_piece(stepturf, src)
+		if(stepturf.Enter(src))
+			if(master)
+				master.spawn_spacevine_piece(stepturf, src)
 
 /*
 /obj/effect/spacevine/proc/Life()
