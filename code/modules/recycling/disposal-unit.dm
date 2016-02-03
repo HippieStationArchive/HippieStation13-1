@@ -534,10 +534,11 @@
 	density = 0
 	icon = 'icons/obj/atmospherics/pipes/trapdoor.dmi'
 	icon_state = "closed"
-	mode = 0 // the trapdoor doesn't need charging and always works
+	mode = 0
 	layer = 2.01
 	var/id = 1
 	var/auto_close = 1200
+	var/auto_close_on_mob = 100
 	var/sound_open = 'sound/machines/blast_door.ogg'
 	var/sound_close = 'sound/machines/blast_door.ogg'
 	var/open = FALSE
@@ -555,11 +556,17 @@
 		if(!M.floating)
 			M.loc = src
 			trap_flush()
+			if(auto_close_on_mob)
+				spawn(auto_close_on_mob)
+					close()
 	for(var/obj/item/O in loc)
 		if(!O.throwing || !O.anchored)
 			O.loc = src
 			trap_flush()
 	open = TRUE
+	if(auto_close)
+		spawn(auto_close)
+			close()
 	return 1
 
 
@@ -577,7 +584,7 @@
 	spawn(5)
 		trunk = locate() in loc
 		if(trunk)
-			trunk.linked = src        // link the pipe trunk to self
+			trunk.linked = src
 
 /obj/machinery/disposal/trapdoor/Crossed(AM as mob|obj)
 	if(open)
@@ -587,13 +594,16 @@
 				return
 			M.loc = src
 			trap_flush()
+			if(auto_close_on_mob)
+				spawn(auto_close_on_mob)
+					close()
 			return
 		if(istype(AM, /obj/item))
 			var/obj/item/O = AM
-			spawn(5)	// attempt to fix the comment below. Actually quite nice as the items do the little landing spin and then get sucked in.
-				if(O.throwing || O.anchored)	// does not seem to take in items even if they land
+			spawn(5)
+				if(O.throwing || O.anchored)
 					return
-				else if(O.loc == src.loc)	// attempt to fix the comment above
+				else if(O.loc == src.loc)
 					O.loc = src
 					trap_flush()
 
@@ -621,6 +631,9 @@
 				update()
 				sleep(5)
 				trap_flush()
+				if(auto_close_on_mob)
+					spawn(auto_close_on_mob)
+						close()
 		else
 			user.visible_message("[user] is attempting to step on the edge of [src].", \
 				"<span class='notice'>You start attempting to step on the edge of [src]...</span>")
