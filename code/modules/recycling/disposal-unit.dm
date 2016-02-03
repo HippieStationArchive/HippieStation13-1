@@ -590,10 +590,10 @@
 			return
 		if(istype(AM, /obj/item))
 			var/obj/item/O = AM
-			spawn(5)							// attempt to fix the comment below. Actually quite nice as the items do the little landing spin and then get sucked in.
+			spawn(5)	// attempt to fix the comment below. Actually quite nice as the items do the little landing spin and then get sucked in.
 				if(O.throwing || O.anchored)	// does not seem to take in items even if they land
 					return
-				else if(O.loc == src.loc)		// attempt to fix the comment above
+				else if(O.loc == src.loc)	// attempt to fix the comment above
 					O.loc = src
 					trap_flush()
 
@@ -625,12 +625,12 @@
 			user.visible_message("[user] is attempting to step on the edge of [src].", \
 				"<span class='notice'>You start attempting to step on the edge of [src]...</span>")
 			if(do_mob(target, user, 30))		//Add 25% chance of failing "You slip and fall in to [src], 75% if clumsy "You step.. nope too funny you backwards flip in to [src], HONK!", 75% if braindamaged "You close your eyes so [src] cant detect you, and boldly step forward.", 100% if wet floor (noslip/galosh check) "You slip, and fall in to [src]."
-				if (!loc)						//Chance of getting damaged on failure? "You slip and land face first on the edge, knocking X teeths off."
+				if (!loc)	//Chance of getting damaged on failure? "You slip and land face first on the edge, knocking X teeths off."
 					return
 				target.loc = src.loc
 				user.visible_message("[user] steps on the edge of [src].", \
 					"<span class='notice'>You step on the edge of [src].</span>")
-				update()						//Does not seem to work even at parent, maybe use grab and showe in instead?
+				update()	//Does not seem to work even at parent, maybe use grab and showe in instead?
 	if(user != target)
 		target.visible_message("<span class='danger'>[user] starts pushing [target] into [src].</span>", \
 			"<span class='userdanger'>[user] starts pushing you into [src]!</span>")
@@ -664,6 +664,9 @@
 	H.start(src)
 	flushing = FALSE
 	sleep(5)
+
+/obj/machinery/disposal/trapdoor/attackby()
+	return
 
 /atom/movable/proc/disposalEnterTry()
 	return 1
