@@ -95,7 +95,7 @@
 		G.next_door_state = 1
 
 	for(var/obj/machinery/disposal/trapdoor/T in targets)
-		T.trap_door_state = 1
+		T.close()
 
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)	continue
@@ -112,7 +112,7 @@
 		G.next_door_state = 0
 
 	for(var/obj/machinery/disposal/trapdoor/T in targets)
-		T.trap_door_state = 0
+		T.open()
 
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)	continue
@@ -213,7 +213,10 @@
 		for(var/obj/machinery/door/poddoor/glass/G in targets)
 			G.next_door_state = !G.next_door_state
 		for(var/obj/machinery/disposal/trapdoor/T in targets)
-			T.trap_door_state = !T.trap_door_state
+			if(T.open)
+				T.close()
+			else
+				T.open()
 
 	src.add_fingerprint(usr)
 	src.updateUsrDialog()

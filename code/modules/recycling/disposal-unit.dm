@@ -541,7 +541,6 @@
 	var/sound_open = 'sound/machines/blast_door.ogg'
 	var/sound_close = 'sound/machines/blast_door.ogg'
 	var/open = FALSE
-	var/trap_door_state = 0
 
 /obj/machinery/disposal/trapdoor/proc/open()
 	if(flushing)
@@ -601,28 +600,42 @@
 		return
 	add_fingerprint(user)
 	if(user == target)
-		user.visible_message("[user] is attempting to dive into [src].", \
-			"<span class='notice'>You start diving into [src]...</span>")
-	else
+		if(target.floating)
+			user.visible_message("[user] is attempting to dive into [src].", \
+				"<span class='notice'>You start diving into [src]...</span>")
+			if(do_mob(target, user, 10))
+				if (!loc)
+					return
+				target.loc = src
+				user.visible_message("[user] dives into [src].", \
+					"<span class='notice'>You dive into [src].</span>")
+				update()
+				sleep(5)
+				trap_flush()
+		else
+			user.visible_message("[user] is attempting to step on the edge of [src].", \
+				"<span class='notice'>You start attempting to step on the edge of [src]...</span>")
+			if(do_mob(target, user, 30))
+				if (!loc)
+					return
+				target.loc = src.loc
+				user.visible_message("[user] steps on the edge of [src].", \
+					"<span class='notice'>You step on the edge of [src].</span>")
+				update()
+	if(user != target)
 		target.visible_message("<span class='danger'>[user] starts pushing [target] into [src].</span>", \
 			"<span class='userdanger'>[user] starts pushing you into [src]!</span>")
-	if(do_mob(user, target, 10))
-		if (!loc)
-			return
-		if (target.client)
-			target.client.perspective = EYE_PERSPECTIVE
-			target.client.eye = src
-		target.loc = src
-		if(user == target)
-			user.visible_message("[user] dives into [src].", \
-				"<span class='notice'>You dive into [src].</span>")
-		else
+		user.visible_message("<span class='notice'>You start pushing [target] into [src]...</span>")
+		if(do_mob(target, user, 10))
+			if (!loc)
+				return
+			target.loc = src
 			target.visible_message("<span class='danger'>[user] has pushed [target] in [src].</span>", \
 				"<span class='userdanger'>[user] has pushedd [target] in [src].</span>")
 			add_logs(user, target, "pushed", addition="into [src]")
-		update()
-		sleep(5)
-		trap_flush()
+			update()
+			sleep(5)
+			trap_flush()
 
 /obj/machinery/disposal/trapdoor/proc/trap_flush()
 	if(flushing)
