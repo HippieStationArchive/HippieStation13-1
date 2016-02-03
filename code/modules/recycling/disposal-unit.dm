@@ -548,22 +548,21 @@
 		return
 	if(open)
 		return
+	open = TRUE
+	trap_flush()
 	flick("opening", src)
 	playsound(src.loc, sound_open, 100, 1)
 	icon_state = "open"
 	spawn(5)
-	for(var/mob/living/M in loc)
-		if(!M.floating)
-			M.loc = src
-			trap_flush()
-			if(auto_close_on_mob)
-				spawn(auto_close_on_mob)
-					close()
-	for(var/obj/item/O in loc)
-		if(!O.throwing || !O.anchored)
-			O.loc = src
-			trap_flush()
-	open = TRUE
+		for(var/mob/living/M in loc)
+			if(!M.floating)
+				M.loc = src
+				if(auto_close_on_mob)
+					spawn(auto_close_on_mob)
+						close()
+		for(var/obj/item/O in loc)
+			if(!O.throwing || !O.anchored)
+				O.loc = src
 	if(auto_close)
 		spawn(auto_close)
 			close()
@@ -610,7 +609,7 @@
 /obj/machinery/disposal/trapdoor/MouseDrop_T(mob/living/target, mob/living/user)
 	if (!open)
 		return
-	if(istype(target) && user == target)
+	if(istype(target))
 		push_mob_in(target, user)
 		return 1
 
@@ -628,7 +627,6 @@
 				target.loc = src
 				user.visible_message("[user] dives into [src].", \
 					"<span class='notice'>You dive into [src].</span>")
-				update()
 				sleep(5)
 				trap_flush()
 				if(auto_close_on_mob)
@@ -637,13 +635,32 @@
 		else
 			user.visible_message("[user] is attempting to step on the edge of [src].", \
 				"<span class='notice'>You start attempting to step on the edge of [src]...</span>")
-			if(do_mob(target, user, 30))		//Add 25% chance of failing "You slip and fall in to [src], 75% if clumsy "You step.. nope too funny you backwards flip in to [src], HONK!", 75% if braindamaged "You close your eyes so [src] cant detect you, and boldly step forward.", 100% if wet floor (noslip/galosh check) "You slip, and fall in to [src]."
-				if (!loc)	//Chance of getting damaged on failure? "You slip and land face first on the edge, knocking X teeths off."
-					return
-				target.loc = src.loc
-				user.visible_message("[user] steps on the edge of [src].", \
-					"<span class='notice'>You step on the edge of [src].</span>")
-				update()	//Does not seem to work even at parent, maybe use grab and showe in instead?
+			if(do_mob(target, user, 30))
+				return
+			var/chance = 25 // normal chance, 25% to fall inside
+			var/turf/T = get_turf(src) // to check if turf's wet | T: variable defined but not used
+			var/M = "fall inside"
+			var/U = "falls inside"
+			if(user.disabilities & CLUMSY)
+				chance = 80
+				M = "accidentally do a backward flip, falling inside"
+				U = "accidentally does a backward flip, falling inside"
+			else if(user.getBrainLoss() >= 50)
+				chance = 70
+				M = "close your eyes and boldly step forward"
+				U = "closes his eyes and boldly steps forward"
+			else if(T.wet && isobj(user.shoes) && user.shoes.flags&NOSLIP) //user.shoes: undefined var | user.shoes.flags: undefined var | T.wet: undefined var
+				chance = 60
+				M = "slip and fall inside"
+				U = "slips and falls inside"
+			if(prob(chance))
+				user.visible_message("[U] \the [src]!", "You [M] \the [src]!")
+				user.loc = loc
+				user.Stun(10)
+			target.loc = src.loc
+			user.visible_message("[user] steps on the edge of [src].", \
+				"<span class='notice'>You step on the edge of [src].</span>")
+
 	if(user != target)
 		target.visible_message("<span class='danger'>[user] starts pushing [target] into [src].</span>", \
 			"<span class='userdanger'>[user] starts pushing you into [src]!</span>")
@@ -652,8 +669,8 @@
 			if (!loc)
 				return
 			target.loc = src
-			target.visible_message("<span class='danger'>[user] has pushed [target] in [src].</span>", \
-				"<span class='userdanger'>[user] has pushedd [target] in [src].</span>")
+			target.visible_message("<span class='danger'>[user] has pushed [target] in \the [src].</span>", \
+				"<span class='userdanger'>[user] has pushedd [target] in \the [src].</span>")
 			add_logs(user, target, "pushed", addition="into [src]")
 			update()
 			sleep(5)
