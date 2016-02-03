@@ -8,6 +8,7 @@ Mineral Sheets
 		- Gold
 		- Silver
 		- Clown
+		- Mime
 	Others:
 		- Adamantine
 		- Mythril
@@ -237,6 +238,33 @@ var/global/list/datum/stack_recipe/clown_recipes = list ( \
 	pixel_y = rand(0,4)-4
 	..()
 
+/*
+ * Mimeium
+ */
+/obj/item/stack/sheet/mineral/silencium
+	name = "silencium"
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "empty"
+	singular_name = "silencium sheet"
+	force = 5
+	throwforce = 5
+	w_class = 3
+	throw_speed = 1
+	throw_range = 3
+	origin_tech = "materials=4"
+	sheettype = "mime"
+	materials = list(MAT_SILENCIUM=MINERAL_MATERIAL_AMOUNT)
+
+var/global/list/datum/stack_recipe/mime_recipes = list ( \
+	new/datum/stack_recipe("silencium tile", /obj/item/stack/tile/mineral/silencium, 1, 4, 20), \
+	new/datum/stack_recipe("Mime Statue", /obj/structure/showcase/mimestatue, 5, one_per_turf = 1, on_floor = 1), \
+	)
+
+/obj/item/stack/sheet/mineral/silencium/New(var/loc, var/amount=null)
+	recipes = mime_recipes
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+	..()
 
 /****************************** Others ****************************/
 

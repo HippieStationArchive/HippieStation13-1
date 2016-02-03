@@ -6,6 +6,7 @@
  * Bananium floor
  * Diamond floor
  * Uranium floor
+ * Silencium floor
  */
 
 /turf/simulated/floor/mineral
@@ -119,6 +120,13 @@
 	oxygen = 0.01
 	nitrogen = 0.01
 	temperature = TCMB
+
+//SILENCIUM
+
+/turf/simulated/floor/mineral/silencium
+	name = "silencium floor"
+	icon_state = "plating"
+	floor_tile = /obj/item/stack/tile/mineral/silencium
 
 //DIAMOND
 

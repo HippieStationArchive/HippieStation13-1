@@ -967,6 +967,7 @@
 				/obj/item/stack/sheet/rglass = list("silicon" = 20, "iron" = 20),
 				/obj/item/stack/sheet/mineral/uranium = list("uranium" = 20),
 				/obj/item/stack/sheet/mineral/bananium = list("banana" = 20),
+				/obj/item/stack/sheet/mineral/silencium = list("nothing" = 20),
 				/obj/item/stack/sheet/mineral/silver = list("silver" = 20),
 				/obj/item/stack/sheet/mineral/gold = list("gold" = 20),
 				/obj/item/weapon/grown/nettle/basic = list("sacid" = 0),
@@ -1003,7 +1004,7 @@
 				//All types that you can put into the grinder to transfer the reagents to the beaker. !Put all recipes above this.!
 				/obj/item/weapon/reagent_containers/pill = list(),
 				/obj/item/weapon/reagent_containers/food = list(),
-				
+
 				//Random Meme-tier stuff!!
 				/obj/item/weapon/screwdriver = list("screwdrivercocktail" = 30)
 		)
