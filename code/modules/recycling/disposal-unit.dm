@@ -548,8 +548,17 @@
 	if(open)
 		return
 	flick("opening", src)
-	icon_state = "open"
 	playsound(src.loc, sound_open, 100, 1)
+	icon_state = "open"
+	spawn(5)
+	for(var/mob/living/M in loc)
+		if(!M.floating)
+			M.loc = src
+			trap_flush()
+	for(var/obj/item/O in loc)
+		if(!O.throwing || !O.anchored)
+			O.loc = src
+			trap_flush()
 	open = TRUE
 	return 1
 
@@ -615,13 +624,13 @@
 		else
 			user.visible_message("[user] is attempting to step on the edge of [src].", \
 				"<span class='notice'>You start attempting to step on the edge of [src]...</span>")
-			if(do_mob(target, user, 30))
-				if (!loc)
+			if(do_mob(target, user, 30))		//Add 25% chance of failing "You slip and fall in to [src], 75% if clumsy "You step.. nope too funny you backwards flip in to [src], HONK!", 75% if braindamaged "You close your eyes so [src] cant detect you, and boldly step forward.", 100% if wet floor (noslip/galosh check) "You slip, and fall in to [src]."
+				if (!loc)						//Chance of getting damaged on failure? "You slip and land face first on the edge, knocking X teeths off."
 					return
 				target.loc = src.loc
 				user.visible_message("[user] steps on the edge of [src].", \
 					"<span class='notice'>You step on the edge of [src].</span>")
-				update()
+				update()						//Does not seem to work even at parent, maybe use grab and showe in instead?
 	if(user != target)
 		target.visible_message("<span class='danger'>[user] starts pushing [target] into [src].</span>", \
 			"<span class='userdanger'>[user] starts pushing you into [src]!</span>")
