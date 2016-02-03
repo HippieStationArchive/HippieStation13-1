@@ -534,61 +534,34 @@
 	density = 0
 	icon = 'icons/obj/atmospherics/pipes/trapdoor.dmi'
 	icon_state = "closed"
-	mode = 0 // the chute doesn't need charging and always works
+	mode = 0 // the trapdoor doesn't need charging and always works
 	layer = 2.01
-	var/trap_door_state = 1
-	var/trap_closed = 1
 	var/id = 1
 	var/auto_close = 1200
 	var/sound_open = 'sound/machines/blast_door.ogg'
 	var/sound_close = 'sound/machines/blast_door.ogg'
-	var/operating = 0
-
-/obj/machinery/disposal/trapdoor/process()
-	..()
-	if(trap_door_state != trap_closed)
-		switch(trap_door_state)
-			if(0)
-				open()
-			if(1)
-				trap_flush()
-		return
+	var/open = FALSE
+	var/trap_door_state = 0
 
 /obj/machinery/disposal/trapdoor/proc/open()
-	if(operating)
+	if(flushing)
 		return
-	if(!trap_closed)
+	if(open)
 		return
-
-	operating = 1
 	flick("opening", src)
 	icon_state = "open"
 	playsound(src.loc, sound_open, 100, 1)
-	sleep(5)
-	trap_closed = 0
-	sleep(5)
-	operating = 0
-	if(auto_close)
-		spawn(auto_close)
-		trap_flush()
-		return 1
+	open = TRUE
+	return 1
 
 
 /obj/machinery/disposal/trapdoor/proc/close()
-	if(operating)
-		return
-	if(trap_closed)
-		return
-
-	operating = 1
-	flick("closing", src)
-	icon_state = "closed"
-	playsound(src.loc, sound_open, 100, 1)
-	sleep(5)
-	trap_closed = 1
-	sleep(5)
-	operating = 0
-	trap_door_state = 1
+	if(open)
+		flick("closing", src)
+		icon_state = "closed"
+		playsound(src.loc, sound_open, 100, 1)
+		open = FALSE
+		return 1
 
 /obj/machinery/disposal/trapdoor/New(loc,var/obj/structure/disposalconstruct/make_from)
 	..()
@@ -596,41 +569,43 @@
 	spawn(5)
 		trunk = locate() in loc
 		if(trunk)
-			trunk.linked = src	// link the pipe trunk to self
+			trunk.linked = src        // link the pipe trunk to self
 
 /obj/machinery/disposal/trapdoor/Crossed(AM as mob|obj)
-	if(trap_closed == 0)
-		if(istype(AM, /mob))
-			var/mob/M = AM
+	if(open)
+		if(istype(AM, /mob/living/))
+			var/mob/living/M = AM
+			if(M.floating)
+				return
 			M.loc = src
 			trap_flush()
 			return
-		if(istype(AM, /obj))
-			var/obj/O = AM
-			sleep (5)
-			if(O.loc == src.loc)
-				O.loc = src
-				return 1
+		if(istype(AM, /obj/item))
+			var/obj/item/O = AM
+			spawn(5)							// attempt to fix the comment below. Actually quite nice as the items do the little landing spin and then get sucked in.
+				if(O.throwing || O.anchored)	// does not seem to take in items even if they land
+					return
+				else if(O.loc == src.loc)		// attempt to fix the comment above
+					O.loc = src
+					trap_flush()
 
 /obj/machinery/disposal/trapdoor/MouseDrop_T(mob/living/target, mob/living/user)
+	if (!open)
+		return
 	if(istype(target) && user == target)
-		if (trap_closed == 0)
-			push_mob_in(target, user)
-			return 1
+		push_mob_in(target, user)
+		return 1
 
 /obj/machinery/disposal/trapdoor/proc/push_mob_in(mob/living/target, mob/living/user)
 	if(target.buckled)
 		return
-	if(target.mob_size > MOB_SIZE_HUMAN)
-		user << "<span class='warning'>[target] doesn't fit inside [src]!</span>"
-		return
 	add_fingerprint(user)
 	if(user == target)
 		user.visible_message("[user] is attempting to dive into [src].", \
-								"<span class='notice'>You start diving into [src]...</span>")
+			"<span class='notice'>You start diving into [src]...</span>")
 	else
 		target.visible_message("<span class='danger'>[user] starts pushing [target] into [src].</span>", \
-								"<span class='userdanger'>[user] starts pushing you into [src]!</span>")
+			"<span class='userdanger'>[user] starts pushing you into [src]!</span>")
 	if(do_mob(user, target, 10))
 		if (!loc)
 			return
@@ -640,19 +615,20 @@
 		target.loc = src
 		if(user == target)
 			user.visible_message("[user] dives into [src].", \
-									"<span class='notice'>You dive into [src].</span>")
+				"<span class='notice'>You dive into [src].</span>")
 		else
 			target.visible_message("<span class='danger'>[user] has pushed [target] in [src].</span>", \
-									"<span class='userdanger'>[user] has pushedd [target] in [src].</span>")
+				"<span class='userdanger'>[user] has pushedd [target] in [src].</span>")
 			add_logs(user, target, "pushed", addition="into [src]")
 		update()
 		sleep(5)
 		trap_flush()
 
 /obj/machinery/disposal/trapdoor/proc/trap_flush()
-	flushing = 1
-	flushAnimation()
-	sleep(10)
+	if(flushing)
+		return
+
+	flushing = TRUE
 	if(last_sound < world.time + 1)
 		playsound(src, 'sound/machines/disposalflush.ogg', 50, 0, 0)
 		last_sound = world.time
@@ -664,10 +640,8 @@
 	H.init(src)
 	air_contents = new()
 	H.start(src)
-	flushing = 0
-	flush = 0
+	flushing = FALSE
 	sleep(5)
-	close()
 
 /atom/movable/proc/disposalEnterTry()
 	return 1
