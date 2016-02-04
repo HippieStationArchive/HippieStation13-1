@@ -549,7 +549,6 @@
 	if(open)
 		return
 	open = TRUE
-	trap_flush()
 	flick("opening", src)
 	playsound(src.loc, sound_open, 100, 1)
 	icon_state = "open"
@@ -557,12 +556,14 @@
 		for(var/mob/living/M in loc)
 			if(!M.floating)
 				M.loc = src
+				trap_flush()
 				if(auto_close_on_mob)
 					spawn(auto_close_on_mob)
 						close()
 		for(var/obj/item/O in loc)
 			if(!O.throwing || !O.anchored)
 				O.loc = src
+					trap_flush()
 	if(auto_close)
 		spawn(auto_close)
 			close()
@@ -621,24 +622,23 @@
 		if(target.floating)
 			user.visible_message("[user] is attempting to dive into [src].", \
 				"<span class='notice'>You start diving into [src]...</span>")
-			if(do_mob(target, user, 10))
-				if (!loc)
-					return
-				target.loc = src
-				user.visible_message("[user] dives into [src].", \
-					"<span class='notice'>You dive into [src].</span>")
-				sleep(5)
-				trap_flush()
-				if(auto_close_on_mob)
-					spawn(auto_close_on_mob)
-						close()
+			if(!do_mob(target, user, 10))
+				return
+			target.loc = src
+			user.visible_message("[user] dives into [src].", \
+				"<span class='notice'>You dive into [src].</span>")
+			sleep(5)
+			trap_flush()
+			if(auto_close_on_mob)
+				spawn(auto_close_on_mob)
+					close()
 		else
 			user.visible_message("[user] is attempting to step on the edge of [src].", \
 				"<span class='notice'>You start attempting to step on the edge of [src]...</span>")
-			if(do_mob(target, user, 30))
+			if(!do_mob(target, user, 30))
 				return
 			var/chance = 25 // normal chance, 25% to fall inside
-			var/turf/simulated/T = get_turf(src) // to check if turf's wet | T: variable defined but not used
+			var/turf/simulated/T = get_turf(src)
 			var/M = "fall inside"
 			var/U = "falls inside"
 			if(user.disabilities & CLUMSY)
@@ -655,8 +655,12 @@
 				U = "slips and falls inside"
 			if(prob(chance))
 				user.visible_message("[U] \the [src]!", "You [M] \the [src]!")
-				user.loc = loc
+				user.loc = src
+				trap_flush()
 				user.Stun(10)
+				if(auto_close_on_mob)
+					spawn(auto_close_on_mob)
+						close()
 			else
 				target.loc = src.loc
 				user.visible_message("[user] steps on the edge of [src].", \
