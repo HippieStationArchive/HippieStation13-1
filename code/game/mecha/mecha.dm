@@ -139,7 +139,7 @@
 			qdel(cell)
 		if(internal_tank)
 			qdel(internal_tank)
-	SSobj.processing -= src
+	SSobj.processing.Remove(src)
 	poi_list.Remove(src)
 	equipment.Cut()
 	cell = null
