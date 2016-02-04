@@ -247,7 +247,7 @@
 
 /obj/structure/falsewall/mime
 	name = "silencium wall"
-	desc = "A wall with silencium plating. Honk!"
+	desc = "A wall with silencium plating."
 	color = "#87878715"
 	opacity = 0
 	icon = 'icons/turf/walls/wall.dmi'
