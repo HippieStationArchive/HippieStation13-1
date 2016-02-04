@@ -72,6 +72,14 @@
 	activate_descriptor = "hunger"
 	rend_desc = "Reverberates with the sound of ten thousand moos."
 
+/obj/item/weapon/veilrender/lesserveilrender
+	name = "lesser veil render"
+	desc = "A wicked curved blade of alien origin, recovered from the ruins of ancient temple."
+	spawn_type = /mob/living/simple_animal/hostile/faithless
+	spawn_amt = 8
+	activate_descriptor = "reality"
+	rend_desc = "Reverberates with the sound of despair."
+
 /obj/item/weapon/veilrender/honkrender
 	name = "honk render"
 	desc = "A wicked curved blade of alien origin, recovered from the ruins of a vast circus."

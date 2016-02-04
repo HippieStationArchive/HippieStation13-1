@@ -22,7 +22,7 @@
 "v" = (/obj/structure/cult/tome,/turf/simulated/floor/plasteel/cult,/area/space)
 "w" = (/obj/structure/table/wood,/obj/item/candle/infinite{icon_state = "candle3_lit"; lit = 1; luminosity = 2},/turf/simulated/floor/plasteel/cult,/area/space)
 "x" = (/obj/item/weapon/tome,/obj/structure/table/wood,/turf/simulated/floor/plasteel/cult,/area/space)
-"y" = (/obj/effect/rune/narsie,/obj/effect/gibspawner/human,/obj/item/weapon/veilrender,/mob/living/simple_animal/hostile/faithless,/turf/simulated/floor/plasteel/cult,/area/space)
+"y" = (/obj/effect/rune/narsie,/obj/effect/gibspawner/human,/obj/item/weapon/veilrender/lesserveilrender,/mob/living/simple_animal/hostile/faithless,/turf/simulated/floor/plasteel/cult,/area/space)
 "z" = (/obj/effect/rune/wall{density = 1; dir = 8; icon = 'icons/effects/blood.dmi'; icon_state = "tracks"},/turf/simulated/floor/plasteel/cult/airless,/area/space)
 
 (1,1,1) = {"
