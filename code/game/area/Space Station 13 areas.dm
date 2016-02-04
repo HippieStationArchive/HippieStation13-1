@@ -1692,6 +1692,13 @@ var/list/teleportlocs = list()
 	ambloop = 'sound/ambience/loop/space.ogg'
 	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
 
+/area/template/OriginalClown
+	name = "Clownship"
+	icon_state = "clown"
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/space.ogg'
+	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
+
 /area/template/Mimeship
 	name = "Broken Mimeship"
 	icon_state = "mime"
