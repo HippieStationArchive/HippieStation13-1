@@ -11,7 +11,7 @@
 "k" = (/turf/simulated/floor/plasteel/cult/airless,/turf/simulated/wall/cult,/area/template/TempleGeometer)
 "l" = (/turf/simulated/floor/plating/lava/deadly,/area/template/TempleGeometer)
 "m" = (/turf/simulated/floor/plasteel/cult,/turf/simulated/wall/cult,/area/template/TempleGeometer)
-"n" = (/obj/structure/mineral_door/sandstone,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"n" = (/obj/structure/mineral_door/runed_metal,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
 "o" = (/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
 "p" = (/obj/effect/rune/manifest,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
 "q" = (/obj/structure/cult/forge,/turf/simulated/floor/plating/lava/deadly,/area/template/TempleGeometer)
