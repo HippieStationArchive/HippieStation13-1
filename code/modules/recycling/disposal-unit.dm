@@ -613,7 +613,7 @@
 		push_mob_in(target, user)
 		return 1
 
-/obj/machinery/disposal/trapdoor/proc/push_mob_in(mob/living/target, mob/living/user)
+/obj/machinery/disposal/trapdoor/proc/push_mob_in(mob/living/target, mob/living/carbon/human/user)
 	if(target.buckled)
 		return
 	add_fingerprint(user)
@@ -638,7 +638,7 @@
 			if(do_mob(target, user, 30))
 				return
 			var/chance = 25 // normal chance, 25% to fall inside
-			var/turf/T = get_turf(src) // to check if turf's wet | T: variable defined but not used
+			var/turf/simulated/T = get_turf(src) // to check if turf's wet | T: variable defined but not used
 			var/M = "fall inside"
 			var/U = "falls inside"
 			if(user.disabilities & CLUMSY)
@@ -649,7 +649,7 @@
 				chance = 70
 				M = "close your eyes and boldly step forward"
 				U = "closes his eyes and boldly steps forward"
-			else if(T.wet && isobj(user.shoes) && user.shoes.flags&NOSLIP) //user.shoes: undefined var | user.shoes.flags: undefined var | T.wet: undefined var
+			else if(istype(T) && T.wet && isobj(user.shoes) && user.shoes.flags&NOSLIP)
 				chance = 60
 				M = "slip and fall inside"
 				U = "slips and falls inside"
@@ -657,9 +657,10 @@
 				user.visible_message("[U] \the [src]!", "You [M] \the [src]!")
 				user.loc = loc
 				user.Stun(10)
-			target.loc = src.loc
-			user.visible_message("[user] steps on the edge of [src].", \
-				"<span class='notice'>You step on the edge of [src].</span>")
+			else
+				target.loc = src.loc
+				user.visible_message("[user] steps on the edge of [src].", \
+					"<span class='notice'>You step on the edge of [src].</span>")
 
 	if(user != target)
 		target.visible_message("<span class='danger'>[user] starts pushing [target] into [src].</span>", \
@@ -672,7 +673,6 @@
 			target.visible_message("<span class='danger'>[user] has pushed [target] in \the [src].</span>", \
 				"<span class='userdanger'>[user] has pushedd [target] in \the [src].</span>")
 			add_logs(user, target, "pushed", addition="into [src]")
-			update()
 			sleep(5)
 			trap_flush()
 
