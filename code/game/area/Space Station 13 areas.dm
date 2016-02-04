@@ -1691,6 +1691,12 @@ var/list/teleportlocs = list()
 	has_gravity = 1
 	ambloop = 'sound/ambience/loop/space.ogg'
 	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
+
+/area/template/Mimeship
+	name = "Broken Mimeship"
+	icon_state = "mime"
+	has_gravity = 1
+
 /////////////////////////////////////////////////////////////////////
 /*
  Lists of areas to be used with is_type_in_list.
