@@ -1,7 +1,7 @@
 /datum/atom_hud/antag
 	hud_icons = list(ANTAG_HUD)
 
-/datum/atom_hud/antag/proc/join_hud(mob/living/M)
+/datum/atom_hud/antag/proc/join_hud(mob/M)
 	if(!istype(M))
 		CRASH("join_hud(): [M] ([M.type]) is not a living mob!")
 	if(M.mind.antag_hud) //note: please let this runtime if a mob has no mind, as mindless mobs shouldn't be getting antagged
@@ -10,9 +10,9 @@
 	add_hud_to(M)
 	M.mind.antag_hud = src
 
-/datum/atom_hud/antag/proc/leave_hud(mob/living/M)
+/datum/atom_hud/antag/proc/leave_hud(mob/M)
 	if(!istype(M))
-		CRASH("leave_hud(): [M] ([M.type]) is not a living mob!")
+		CRASH("leave_hud(): [M] ([M.type]) is not a mob!")
 	remove_from_hud(M)
 	remove_hud_from(M)
 	if(M.mind)
@@ -21,9 +21,9 @@
 
 //GAME_MODE PROCS
 //called to set a mob's antag icon state
-/datum/game_mode/proc/set_antag_hud(mob/living/M, new_icon_state)
+/datum/game_mode/proc/set_antag_hud(mob/M, new_icon_state)
 	if(!istype(M))
-		CRASH("set_antag_hud(): [M] ([M.type]) is not a living mob!")
+		CRASH("set_antag_hud(): [M] ([M.type]) is not a mob!")
 	var/image/holder = M.hud_list[ANTAG_HUD]
 	holder.icon_state = new_icon_state
 	if(M.mind || new_icon_state) //in mindless mobs, only null is acceptable, otherwise we're antagging a mindless mob, meaning we should runtime

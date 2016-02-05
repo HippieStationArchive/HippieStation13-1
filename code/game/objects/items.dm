@@ -148,7 +148,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 							"<span class='suicide'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>")
 		user.visible_message(pick(flavortext))
 		playsound(loc, hitsound, 30, 1, -1)
-		return damtype
+		return BRUTELOSS
 	return
 
 /obj/item/verb/move_to_top()

@@ -1,14 +1,13 @@
 /obj/structure/divine/trap
 	name = "IT'S A TARP"
 	desc = "stepping on me is a guaranteed bad day"
-	icon = 'icons/obj/hand_of_god_structures.dmi'
 	icon_state = "trap"
 	density = 0
 	alpha = 30 //initially quite hidden when not "recharging"
-	var/health = 20
-	var/maxhealth = 20
-	var/trap = TRUE
-	var/autocolours = FALSE
+	health = 20
+	maxhealth = 20
+	trap = TRUE
+	autocolours = FALSE
 	var/last_trigger = 0
 	var/time_between_triggers = 600 //takes a minute to recharge
 
@@ -48,7 +47,7 @@
 	L << "<span class='danger'><B>You are paralyzed from the intense shock!</B></span>"
 	L.Weaken(5)
 	var/turf/Lturf = get_turf(L)
-	new /datum/effect_system/spark_spread(Lturf)
+	new /obj/effect/particle_effect/sparks/electricity(Lturf)
 	new /obj/effect/particle_effect/sparks(Lturf)
 
 
