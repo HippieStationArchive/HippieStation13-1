@@ -1718,6 +1718,13 @@ var/list/teleportlocs = list()
 	requires_power = 0
 	has_gravity = 1
 
+/area/template/abandoned_abductor_ship
+	name = "\improper Abandoned Abductor Ship"
+	icon_state = "yellow"
+	requires_power = 0
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/opressivehum.ogg'
+
 /////////////////////////////////////////////////////////////////////
 /*
  Lists of areas to be used with is_type_in_list.
