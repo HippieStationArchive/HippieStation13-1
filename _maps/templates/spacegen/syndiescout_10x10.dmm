@@ -7,19 +7,19 @@
 "g" = (/obj/structure/stool/bed/chair/comfy/black{dir = 1; icon_state = "comfychair"; name = "pilot's chair"; tag = "icon-comfychair (NORTH)"},/mob/living/simple_animal/hostile/syndicate/melee/space,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
 "h" = (/obj/structure/stool/bed/chair/comfy/black{dir = 1; icon_state = "comfychair"; name = "pilot's chair"; tag = "icon-comfychair (NORTH)"},/mob/living/simple_animal/hostile/syndicate/ranged/space,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
 "i" = (/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/obj/structure/sign/nosmoking_1{pixel_x = 6; pixel_y = 6},/turf/simulated/wall/shuttle{icon_state = "diagonalWall3"},/area/template/syndicate_scout_ship)
-"j" = (/turf/simulated/wall/shuttle{icon_state = "wall3"},/area/template/syndicate_scout_ship)
-"k" = (/obj/machinery/teleport/hub,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"l" = (/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"m" = (/obj/machinery/computer/med_data,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"n" = (/obj/machinery/teleport/station,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"o" = (/obj/structure/table/abductor,/obj/item/weapon/gun/energy/laser/retro/sc_retro,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"p" = (/obj/structure/table/abductor,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"q" = (/obj/machinery/computer/crew,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"r" = (/obj/machinery/computer/teleporter,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"s" = (/obj/structure/table/abductor,/obj/item/weapon/storage/toolbox/syndicate,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"t" = (/obj/machinery/computer/security,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
-"u" = (/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/turf/simulated/wall/shuttle{dir = 4; icon_state = "diagonalWall3"},/area/template/syndicate_scout_ship)
-"v" = (/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/turf/simulated/wall/shuttle{icon_state = "diagonalWall3"},/area/template/syndicate_scout_ship)
+"j" = (/obj/machinery/teleport/hub,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"k" = (/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"l" = (/obj/machinery/computer/med_data,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"m" = (/obj/machinery/teleport/station,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"n" = (/obj/structure/table/abductor,/obj/item/weapon/gun/energy/laser/retro/sc_retro,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"o" = (/obj/structure/table/abductor,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"p" = (/obj/machinery/computer/crew,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"q" = (/obj/machinery/computer/teleporter,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"r" = (/obj/structure/table/abductor,/obj/item/weapon/storage/toolbox/syndicate,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"s" = (/obj/machinery/computer/security,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
+"t" = (/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/turf/simulated/wall/shuttle{dir = 4; icon_state = "diagonalWall3"},/area/template/syndicate_scout_ship)
+"u" = (/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/turf/simulated/wall/shuttle{icon_state = "diagonalWall3"},/area/template/syndicate_scout_ship)
+"v" = (/turf/simulated/wall/shuttle{icon_state = "wall3"},/area/template/syndicate_scout_ship)
 "w" = (/obj/machinery/button/door{id = "syndiscouttemplate"; name = "remote shutter control"; pixel_x = -25; pixel_y = 25; req_access_txt = "0"},/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
 "x" = (/obj/structure/dispenser/oxygen,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
 "y" = (/obj/machinery/suit_storage_unit/empty_open,/turf/simulated/floor/plasteel/shuttle/red{name = "Shuttle floor"},/area/template/syndicate_scout_ship)
@@ -38,12 +38,12 @@
 (1,1,1) = {"
 aabccccdaa
 abefghfida
-ajkllllmja
-acnloplqca
-acrlpsltca
-bullllllvd
-jwlxyyzlAj
-jBjCDDEjBj
-jFjGHHIjJj
-jBjaaaajBj
+acjkkkklca
+acmknokpca
+acqkorksca
+btkkkkkkud
+vwkxyyzkAv
+vBvCDDEvBv
+vFvGHHIvJv
+vBvaaaavBv
 "}
