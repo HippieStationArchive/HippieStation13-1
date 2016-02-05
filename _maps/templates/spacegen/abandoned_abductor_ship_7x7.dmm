@@ -14,7 +14,7 @@
 "n" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien14"},/area/template/abandoned_abductor_ship)
 "o" = (/obj/machinery/computer/camera_advanced/abductor{team = 2},/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
 "p" = (/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
-"q" = (/obj/effect/landmark/corpse/skeleton,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"q" = (/obj/effect/decal/remains/human{desc = "They dont look like human remains..."},/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
 "r" = (/obj/structure/closet/abductor,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
 "s" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien15"},/area/template/abandoned_abductor_ship)
 "t" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien12"},/area/template/abandoned_abductor_ship)
