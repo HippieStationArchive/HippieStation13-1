@@ -4,7 +4,7 @@
 /datum/game_mode/zombie
 	name = "zombie"
 	config_tag = "zombie"
-	// antag_flag = BE_MONKEY
+	// antag_flag = ROLE_MONKEY
 
 	required_players = 20
 	required_enemies = 1
