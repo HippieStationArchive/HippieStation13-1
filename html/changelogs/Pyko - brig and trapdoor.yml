@@ -33,7 +33,7 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Coded/Sprited Trapdoor disposals machinery. Special thanks to CarbonHell for his BIG help with coding."
+  - rscadd: "Added Trapdoor disposals machinery. Special thanks to CarbonHell for his BIG help with coding."
   - tweak: "Made the brig cells use the said machinery for ejectign prisoners."
   - tweak: "Made brig cells slighly larger (2x3 instead of 2x2)."
   - tweak: "Made Sec Office hallway leading to courtroom/evidence locker wider (2 tiles instead of 1)."
