@@ -536,6 +536,28 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	cost = 25
 	containername = "particle accelerator crate"
 
+/datum/supply_packs/engineering/engine/tesla_gen
+	name = "Tesla Generator Crate"
+	contains = list(/obj/machinery/the_singularitygen/tesla)
+	cost = 10
+	containername = "tesla generator crate"
+
+/datum/supply_packs/engineering/engine/tesla_coil
+	name = "Tesla Coil Crate"
+	contains = list(/obj/machinery/power/tesla_coil,
+					/obj/machinery/power/tesla_coil,
+					/obj/machinery/power/tesla_coil,
+					/obj/machinery/power/tesla_coil)
+	cost = 15
+	containername = "tesla coil crate"
+
+/datum/supply_packs/engineering/engine/grnd_rod
+	name = "Grounding Rod Crate"
+	contains = list(/obj/machinery/power/grounding_rod,
+					/obj/machinery/power/grounding_rod)
+	cost = 20
+	containername = "grounding rod crate"
+
 /datum/supply_packs/engineering/engine/spacesuit
 	name = "Space Suit Crate"
 	contains = list(/obj/item/clothing/suit/space,

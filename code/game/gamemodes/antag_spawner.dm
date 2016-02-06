@@ -53,7 +53,7 @@
 			if (used)
 				H << "You already used this contract!"
 				return
-			var/list/candidates = get_candidates(BE_WIZARD)
+			var/list/candidates = get_candidates(ROLE_WIZARD)
 			if(candidates.len)
 				src.used = 1
 				var/client/C = pick(candidates)
@@ -150,7 +150,7 @@
 	if(!(check_usability(user)))
 		return
 
-	var/list/nuke_candidates = get_candidates(BE_OPERATIVE, 3000, "operative")
+	var/list/nuke_candidates = get_candidates(ROLE_OPERATIVE, 3000, "operative")
 	if(nuke_candidates.len > 0)
 		used = 1
 		var/client/C = pick(nuke_candidates)

@@ -8,9 +8,24 @@
 	new /obj/item/clothing/under/color/blue(src)
 	new /obj/item/clothing/under/color/blue(src)
 	new /obj/item/clothing/under/color/blue(src)
-	new /obj/item/clothing/shoes/sneakers/brown(src)
-	new /obj/item/clothing/shoes/sneakers/brown(src)
-	new /obj/item/clothing/shoes/sneakers/brown(src)
+	new /obj/item/clothing/shoes/sneakers/blue(src)
+	new /obj/item/clothing/shoes/sneakers/blue(src)
+	new /obj/item/clothing/shoes/sneakers/blue(src)
+	return
+
+/obj/structure/closet/wardrobe/blue
+	name = "wardrobe"
+	desc = "It's a storage unit for standard-issue Nanotrasen attire."
+	icon_door = "blue"
+
+/obj/structure/closet/wardrobe/blue/New()
+	..()
+	new /obj/item/clothing/under/color/blue(src)
+	new /obj/item/clothing/under/color/blue(src)
+	new /obj/item/clothing/under/color/blue(src)
+	new /obj/item/clothing/shoes/sneakers/blue(src)
+	new /obj/item/clothing/shoes/sneakers/blue(src)
+	new /obj/item/clothing/shoes/sneakers/blue(src)
 	return
 
 /obj/structure/closet/wardrobe/pink
@@ -68,9 +83,9 @@
 	new /obj/item/clothing/under/color/green(src)
 	new /obj/item/clothing/under/color/green(src)
 	new /obj/item/clothing/under/color/green(src)
-	new /obj/item/clothing/shoes/sneakers/black(src)
-	new /obj/item/clothing/shoes/sneakers/black(src)
-	new /obj/item/clothing/shoes/sneakers/black(src)
+	new /obj/item/clothing/shoes/sneakers/green(src)
+	new /obj/item/clothing/shoes/sneakers/green(src)
+	new /obj/item/clothing/shoes/sneakers/green(src)
 	new /obj/item/clothing/mask/bandana/green(src)
 	new /obj/item/clothing/mask/bandana/green(src)
 	return
@@ -92,6 +107,24 @@
 	new /obj/item/clothing/shoes/sneakers/orange(src)
 	return
 
+obj/structure/closet/wardrobe/red
+	name = "red wardrobe"
+	icon_door = "red"
+
+/obj/structure/closet/wardrobe/red/New()
+	..()
+	contents = list()
+	new /obj/item/clothing/shoes/sneakers/red(src)
+	new /obj/item/clothing/shoes/sneakers/red(src)
+	new /obj/item/clothing/shoes/sneakers/red(src)
+	new /obj/item/clothing/mask/bandana/red(src)
+	new /obj/item/clothing/mask/bandana/red(src)
+	new /obj/item/clothing/under/color/lightred(src)
+	new /obj/item/clothing/under/color/lightred(src)
+	new /obj/item/clothing/under/color/lightred(src)
+	return
+
+
 
 /obj/structure/closet/wardrobe/yellow
 	name = "yellow wardrobe"
@@ -103,9 +136,9 @@
 	new /obj/item/clothing/under/color/yellow(src)
 	new /obj/item/clothing/under/color/yellow(src)
 	new /obj/item/clothing/under/color/yellow(src)
-	new /obj/item/clothing/shoes/sneakers/orange(src)
-	new /obj/item/clothing/shoes/sneakers/orange(src)
-	new /obj/item/clothing/shoes/sneakers/orange(src)
+	new /obj/item/clothing/shoes/sneakers/yellow(src)
+	new /obj/item/clothing/shoes/sneakers/yellow(src)
+	new /obj/item/clothing/shoes/sneakers/yellow(src)
 	new /obj/item/clothing/mask/bandana/gold(src)
 	new /obj/item/clothing/mask/bandana/gold(src)
 	return
