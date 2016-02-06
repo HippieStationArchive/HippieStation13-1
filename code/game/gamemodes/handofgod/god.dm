@@ -4,7 +4,7 @@
 	real_name = "deity"
 	icon = 'icons/mob/mob.dmi'
 	icon_state = "marker"
-	invisibility = 60
+	invisibility = INVISIBILITY_OBSERVER
 	see_in_dark = 0
 	sight = SEE_TURFS | SEE_MOBS | SEE_OBJS | SEE_SELF
 	languages = HUMAN | MONKEY | ALIEN | ROBOT | SLIME | DRONE | SWARMER
@@ -97,14 +97,6 @@
 	src << "The first thing you should do after placing your nexus is to <b>appoint a prophet</b>.  Only prophets can hear you talk, unless you use an expensive power."
 	update_health_hud()
 
-	var/area/A = get_area(src)
-	if(A)
-		var/areaname = A.name
-		var/list/followers = get_my_followers()
-		for(var/datum/mind/F in followers)
-			if(F.current)
-				F.current << "<span class='boldnotice'>Your god's nexus is in \the [areaname]</span>"
-
 /mob/camera/god/proc/update_health_hud()
 	if(god_nexus && hud_used && hud_used.deity_health_display)
 		hud_used.deity_health_display.maptext = "<div align='center' valign='middle' style='position:relative; top:0px; left:6px'> <font color='lime'>[god_nexus.health]   </font></div>"
@@ -127,6 +119,11 @@
 	god_nexus = N
 	nexus_required = TRUE
 	verbs -= /mob/camera/god/verb/constructnexus
+	var/list/followers = get_my_followers()
+	var/area/A = get_area(src)
+	for(var/datum/mind/F in followers)
+		if(F.current)
+			F.current << "<span class='boldnotice'>Your god's nexus is in \the [A.name]</span>"
 	//verbs += /mob/camera/god/verb/movenexus //Translocators have no sprite
 	update_health_hud()
 
@@ -262,7 +259,6 @@
 			var/obj/structure/divine/trap/T = global_handofgod_traptypes[t]
 			dat += "<center><B>[capitalize(t)]</B></center><BR>"
 			var/icon/I = icon('icons/obj/hand_of_god_structures.dmi',"[initial(T.icon_state)]")
-			world << I
 			var/img_component = lowertext(t)
 			user << browse_rsc(I,"hog_trap-[img_component].png")
 			dat += "<center><img src='hog_trap-[img_component].png' height=64 width=64></center>"

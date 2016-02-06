@@ -57,11 +57,11 @@ var/global/list/global_handofgod_structuretypes = list()
 
 	while(unassigned_followers.len > (required_enemies / 2))
 		var/datum/mind/chosen = pick_n_take(unassigned_followers)
-		add_hog_follower(chosen,"red")
+		assigned_to_red += chosen
 
 	while(unassigned_followers.len)
 		var/datum/mind/chosen = pick_n_take(unassigned_followers)
-		add_hog_follower(chosen,"blue")
+		assigned_to_blue += chosen
 
 	return 1
 
@@ -98,6 +98,13 @@ var/global/list/global_handofgod_structuretypes = list()
 		blue_god.current.become_god("blue")
 		remove_hog_follower(blue_god,0)
 		add_god(blue_god,"blue")
+
+	for(var/datum/mind/redcultist in assigned_to_red)
+		add_hog_follower(redcultist, "red")
+
+	for(var/datum/mind/bluecultist in assigned_to_blue)
+		add_hog_follower(bluecultist, "blue")
+
 	..()
 
 	//Forge objectives
@@ -165,8 +172,10 @@ var/global/list/global_handofgod_structuretypes = list()
 /datum/game_mode/proc/greet_hog_follower(datum/mind/follower_mind,colour)
 	if(follower_mind in blue_deity_prophets || follower_mind in red_deity_prophets)
 		follower_mind.current << "<span class='danger'><B>You have been appointed as the prophet of the [colour] deity! You are the only one who can communicate with your deity at will. Guide your followers, but be wary, for many will want you dead.</span>"
+		follower_mind.store_memory("You have been appointed as the prophet of the [colour] deity! You are the only one who can communicate with your deity at will. Guide your followers, but be wary, for many will want you dead.")
 	else if(colour)
 		follower_mind.current << "<span class='danger'><B>You are a follower of the [colour] cult's deity!</span>"
+		follower_mind.store_memory("You are a follower of the [colour] cult's deity!")
 	else
 		follower_mind.current << "<span class='danger'><B>You are a follower of a cult's deity!</span>"
 
@@ -193,8 +202,9 @@ var/global/list/global_handofgod_structuretypes = list()
 	if(colour == "blue")
 		blue_deity_followers += follower_mind
 
-	H.faction |= "[colour] god"
+	H.faction += "[colour] god"
 	follower_mind.current << "<span class='danger'><FONT size = 3>You are now a follower of the [colour] deity! Follow your deity's prophet in order to complete your deity's objectives. Convert crewmembers to your cause by using your deity's nexus. And remember - there is no you, there is only the cult.</FONT></span>"
+	follower_mind.store_memory("You are now a follower of the [colour] deity! Follow your deity's prophet in order to complete your deity's objectives. Convert crewmembers to your cause by using your deity's nexus. And remember - there is no you, there is only the cult.")
 	update_hog_icons_added(follower_mind, colour)
 	follower_mind.special_role = "Hand of God: [capitalize(colour)] Follower"
 	follower_mind.current.attack_log += "\[[time_stamp()]\] <font color='red'>Has been converted to the [colour] follower cult!</font>"
@@ -217,13 +227,17 @@ var/global/list/global_handofgod_structuretypes = list()
 
 /datum/game_mode/proc/remove_hog_follower(datum/mind/follower_mind, announce = 1)//deconverts both
 	follower_mind.remove_hog_follower_prophet()
-	update_hog_icons_removed(follower_mind,"red")
-	update_hog_icons_removed(follower_mind,"blue")
-
 	if(follower_mind.current)
 		var/mob/living/carbon/human/H = follower_mind.current
-		H.faction -= "red god"
-		H.faction -= "blue god"
+		switch(is_handofgod_cultist(follower_mind.current))
+			if(1)
+				update_hog_icons_removed(follower_mind,"red")
+				H.faction -= "red god"
+			if(2)
+				update_hog_icons_removed(follower_mind,"blue")
+				H.faction -= "blue god"
+			else
+				return
 
 	if(announce)
 		follower_mind.current.attack_log += "\[[time_stamp()]\] <font color='red'>Has been deconverted from a deity's cult!</font>"
@@ -284,7 +298,7 @@ var/global/list/global_handofgod_structuretypes = list()
 	if(is_handofgod_redcultist(A))
 		return 1
 	if(is_handofgod_bluecultist(A))
-		return 1
+		return 2
 	return 0
 
 
@@ -443,7 +457,8 @@ var/global/list/global_handofgod_structuretypes = list()
 	if(hud_key)
 		var/datum/atom_hud/antag/hog_hud = huds[hud_key]
 		hog_hud.join_hud(hog_mind.current)
-		set_antag_hud(hog_mind.current, "hog-[side]-[rank]")
+		if(rank != 2)
+			set_antag_hud(hog_mind.current, "hog-[side]-[rank]")
 
 
 /datum/game_mode/proc/update_hog_icons_removed(datum/mind/hog_mind,side)
