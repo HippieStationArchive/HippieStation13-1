@@ -455,7 +455,6 @@
 	..()
 	pylon_gun = new()
 	pylon_gun.base = src
-	pylon_gun.faction = list("[side] god")
 
 
 /obj/structure/divine/defensepylon/Destroy()
@@ -470,7 +469,11 @@
 
 /obj/structure/divine/defensepylon/assign_deity(mob/camera/god/new_deity, alert_old_deity = TRUE)
 	if(..() && pylon_gun)
-		pylon_gun.faction = list("[side] god")
+		if("red god" in pylon_gun.faction)
+			pylon_gun.faction -= "red god"
+		else if("blue god" in pylon_gun.faction)
+			pylon_gun.faction -= "blue god"
+		pylon_gun.faction += "[side] god"
 		pylon_gun.side = side
 
 /obj/structure/divine/defensepylon/attack_god(mob/camera/god/user)
@@ -482,13 +485,12 @@
 //This sits inside the defensepylon, to avoid copypasta
 /obj/machinery/gun_turret/defensepylon_internal_turret
 	name = "defense pylon"
-	desc = "A plyon which is blessed to withstand many blows, and fire strong bolts at nonbelievers."
+	desc = "A pylon which is blessed to withstand many blows, and fire strong bolts at nonbelievers."
 	icon = 'icons/obj/hand_of_god_structures.dmi'
 	icon_state = "defensepylon"
 	health = 200
 	base_icon_state = "defensepylon"
 	scan_range = 7
-	faction = null
 	projectile_type = /obj/item/projectile/beam/pylon_bolt
 	fire_sound = 'sound/weapons/emitter2.ogg'
 	var/side = "neutral"
@@ -502,27 +504,6 @@
 	var/obj/item/projectile/A = ..()
 	if(A)
 		A.color = side
-
-/obj/machinery/gun_turret/defensepylon_internal_turret/validate_target(atom/target)
-	. = ..()
-	if(.)
-		if(ishuman(target))
-			var/mob/living/carbon/human/H = target
-			if(H.handcuffed) //dishonourable to kill somebody who might be converted.
-				return 0
-		var/badtarget = 0
-		switch(side)
-			if("blue")
-				badtarget = is_handofgod_bluecultist(target)
-			if("red")
-				badtarget = is_handofgod_redcultist(target)
-			else
-				badtarget = 1
-		if(badtarget)
-			return 0
-
-
-
 
 /obj/item/projectile/beam/pylon_bolt
 	name = "divine bolt"

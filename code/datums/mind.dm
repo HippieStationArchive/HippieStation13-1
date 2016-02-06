@@ -251,8 +251,11 @@
 		"changeling",
 		"nuclear",
 		"traitor", // "traitorchan",
+		"shadowling",
+		"abductor",
 		"monkey",
 		"malfunction",
+		"follower"
 	)
 	var/text = ""
 
@@ -545,6 +548,38 @@
 
 		sections["malfunction"] = text
 
+	/** HAND OF GOD **/
+	text = "hand of god"
+	if(ticker.mode.config_tag == "handofgod")
+		text = uppertext(text)
+	text = "<i><b>[text]</b></i>: "
+	if(src in ticker.mode.red_deity_prophets)
+		text += "<b>RED PROPHET</b>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
+	else if (src in ticker.mode.red_deity_followers)
+		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<b>RED FOLLOWER</b>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
+	else if (src in ticker.mode.blue_deity_followers)
+		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|BLUE FOLLOWER|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a></a>"
+	else if (src in ticker.mode.blue_deity_prophets)
+		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|BLUE PROPHET|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
+	else if (src in ticker.mode.red_deities)
+		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|RED GOD|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
+	else if (src in ticker.mode.blue_deities)
+		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|BLUE GOD"
+	else
+		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<b>EMPLOYEE</b>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
+
+	if(current && current.client && (ROLE_HOG_GOD in current.client.prefs.be_special))
+		text += "|HOG God Enabled in Prefs"
+	else
+		text += "|HOG God Disabled in Prefs"
+
+	if(current && current.client && (ROLE_HOG_CULTIST in current.client.prefs.be_special))
+		text += "|HOG Cultist Enabled in Prefs"
+	else
+		text += "|HOG Disabled in Prefs"
+
+	sections["follower"] = text
+
 	if (ticker.mode.config_tag == "traitorchan")
 		if (sections["traitor"])
 			out += sections["traitor"]+"<br>"
@@ -598,38 +633,6 @@
 	out += "<a href='?src=\ref[src];obj_announce=1'>Announce objectives</a><br><br>"
 
 	usr << browse(out, "window=edit_memory[src];size=500x600")
-
-	/** HAND OF GOD **/
-	text = "hand of god"
-	if(ticker.mode.config_tag == "handofgod")
-		text = uppertext(text)
-	text = "<i><b>[text]</b></i>: "
-	if(src in ticker.mode.red_deity_prophets)
-		text += "<b>RED PROPHET</b>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
-	else if (src in ticker.mode.red_deity_followers)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<b>RED FOLLOWER</b>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
-	else if (src in ticker.mode.blue_deity_followers)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|BLUE FOLLOWER|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a></a>"
-	else if (src in ticker.mode.blue_deity_prophets)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|BLUE PROPHET|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
-	else if (src in ticker.mode.red_deities)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|RED GOD|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
-	else if (src in ticker.mode.blue_deities)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|BLUE GOD"
-	else
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<b>EMPLOYEE</b>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
-
-	if(current && current.client && (ROLE_HOG_GOD in current.client.prefs.be_special))
-		text += "|HOG God Enabled in Prefs"
-	else
-		text += "|HOG God Disabled in Prefs"
-
-	if(current && current.client && (ROLE_HOG_CULTIST in current.client.prefs.be_special))
-		text += "|HOG Cultist Enabled in Prefs"
-	else
-		text += "|HOG Disabled in Prefs"
-
-	sections["follower"] = text
 
 /datum/mind/Topic(href, href_list)
 	if(!check_rights(R_ADMIN))	return
@@ -1684,7 +1687,8 @@
 
 /mob/proc/sync_mind()
 	mind_initialize()	//updates the mind (or creates and initializes one if one doesn't exist)
-	mind.active = 1		//indicates that the mind is currently synced with a client
+	if(mind)
+		mind.active = 1		//indicates that the mind is currently synced with a client
 
 //Initialisation procs
 /mob/proc/mind_initialize()
