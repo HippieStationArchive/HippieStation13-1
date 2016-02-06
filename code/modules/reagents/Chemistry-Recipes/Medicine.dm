@@ -57,14 +57,14 @@
 	result = "salglu_solution"
 	required_reagents = list("sodiumchloride" = 1, "water" = 1, "sugar" = 1)
 	result_amount = 3
-	
+
 /datum/chemical_reaction/mine_salve
 	name = "Miner's Salve"
 	id = "mine_salve"
 	result = "mine_salve"
 	required_reagents = list("oil" = 1, "water" = 1, "iron" = 1)
 	result_amount = 3
-	
+
 /datum/chemical_reaction/mine_salve2
 	name = "Miner's Salve"
 	id = "mine_salve"
@@ -214,4 +214,9 @@
 	result_amount = 3
 
 
-
+/datum/chemical_reaction/nutriment
+	name = "Nutriment"
+	id = "nutriment"
+	result = "nutriment"
+	required_reagents = list("sugar" = 1, "sodiumchloride" = 1)
+	result_amount = 2
