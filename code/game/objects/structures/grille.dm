@@ -6,7 +6,6 @@
 	density = 1
 	anchored = 1
 	flags = CONDUCT
-	var/hasShocked = 0 //Prevents multiple shocks from happening
 	pressure_resistance = 5*ONE_ATMOSPHERE
 	layer = 2.9
 	var/health = 10
@@ -234,16 +233,11 @@
 		return 0
 	if(!in_range(src, user))//To prevent TK and mech users from getting shocked
 		return 0
-	if(hasShocked)
-		return 0	//Already shocked someone recently?
 	var/turf/T = get_turf(src)
 	var/obj/structure/cable/C = T.get_cable_node()
 	if(C)
 		if(electrocute_mob(user, C, src))
 			var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
-			hasShocked = 1
-			spawn(10)
-				hasShocked = 0
 			s.set_up(3, 1, src)
 			s.start()
 			return 1
