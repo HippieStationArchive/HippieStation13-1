@@ -861,7 +861,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 					/obj/item/weapon/reagent_containers/food/snacks/donut = 14,/obj/item/weapon/storage/box/evidence = 6,/obj/item/device/flashlight/seclite = 6)
 	contraband = list(/obj/item/clothing/glasses/sunglasses = 2,/obj/item/weapon/storage/fancy/donut_box = 2)
 	premium = list(/obj/item/weapon/coin/antagtoken = 1)
-	special = list(/obj/item/weapon/gun/energy/laser = 10, /obj/item/weapon/pneumatic_cannon = 10, /obj/item/weapon/grenade/clusterbuster = 10, /obj/item/weapon/gun/energy/ionrifle = 10)
+	special = list(/obj/item/weapon/gun/energy/laser = 2, /obj/item/weapon/gun/energy/gun/advtaser = 2, /obj/item/weapon/gun/energy/disabler = 2)
 	//very high amount for special items, because the amount of cats/xenos already limits obtaining them
 
 /obj/machinery/vending/hydronutrients
@@ -969,7 +969,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 					/obj/item/weapon/wrench = 5,/obj/item/device/analyzer = 5,/obj/item/device/t_scanner = 5,/obj/item/weapon/screwdriver = 5)
 	contraband = list(/obj/item/weapon/weldingtool/hugetank = 2,/obj/item/clothing/gloves/color/fyellow = 2)
 	premium = list(/obj/item/clothing/gloves/color/yellow = 2)
-	special = list(/obj/item/clothing/gloves/color/yellow = 10, /obj/item/weapon/gun/energy/laser/retro = 10, /obj/item/weapon/switchblade = 10, /obj/item/weapon/card/id/captains_spare = 10, /obj/item/weapon/twohanded/fireaxe = 10, /obj/item/weapon/gun/energy/disabler = 10)
+	special = list(/obj/item/clothing/gloves/color/yellow = 5, /obj/item/weapon/gun/energy/laser/retro = 2, /obj/item/weapon/switchblade = 2, /obj/item/weapon/melee/classic_baton/telescopic = 2, /obj/item/projectile/bullet/reusable/foam_dart/riot = 5)
 
 /obj/machinery/vending/engivend
 	name = "\improper Engi-Vend"
