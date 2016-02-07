@@ -12,8 +12,8 @@
 	throw_range = 7
 	w_class = 4
 
-	var/charges = list(0, 0, 0)	//how many restocking "charges" the refill has for standard/contraband/coin products
-	var/init_charges = list(0, 0, 0)
+	var/charges = list(0, 0, 0, 0)	//how many restocking "charges" the refill has for standard/contraband/coin/special coin products
+	var/init_charges = list(0, 0, 0, 0)
 
 
 /obj/item/weapon/vending_refill/New(amt = -1)
@@ -34,40 +34,40 @@
 /obj/item/weapon/vending_refill/boozeomat
 	machine_name = "Booze-O-Mat"
 	icon_state = "refill_booze"
-	charges = list(52, 4, 0)//of 156 standard, 12 contraband
-	init_charges = list(52, 4, 0)
+	charges = list(52, 4, 0, 0)//of 156 standard, 12 contraband
+	init_charges = list(52, 4, 0, 0)
 
 /obj/item/weapon/vending_refill/coffee
 	machine_name = "Solar's Best Hot Drinks"
 	icon_state = "refill_joe"
-	charges = list(25, 4, 0)//of 75 standard, 12 contraband
-	init_charges = list(25, 4, 0)
+	charges = list(25, 4, 0, 0)//of 75 standard, 12 contraband
+	init_charges = list(25, 4, 0, 0)
 
 /obj/item/weapon/vending_refill/snack
 	machine_name = "Getmore Chocolate Corp"
-	charges = list(12, 2, 0)//of 36 standard, 6 contraband
-	init_charges = list(12, 2, 0)
+	charges = list(12, 2, 0, 0)//of 36 standard, 6 contraband
+	init_charges = list(12, 2, 0, 0)
 
 /obj/item/weapon/vending_refill/cola
 	machine_name = "Robust Softdrinks"
 	icon_state = "refill_cola"
-	charges = list(20, 2, 0)//of 60 standard, 6 contraband
-	init_charges = list(20, 2, 0)
+	charges = list(20, 2, 0, 0)//of 60 standard, 6 contraband
+	init_charges = list(20, 2, 0, 0)
 
 /obj/item/weapon/vending_refill/cigarette
 	machine_name = "ShadyCigs Deluxe"
 	icon_state = "refill_smoke"
-	charges = list(12, 1, 2)// of 36 standard, 3 contraband, 6 premium
-	init_charges = list(12, 1, 2)
+	charges = list(12, 1, 2, 0)// of 36 standard, 3 contraband, 6 premium
+	init_charges = list(12, 1, 2, 0)
 
 /obj/item/weapon/vending_refill/autodrobe
 	machine_name = "AutoDrobe"
 	icon_state = "refill_costume"
-	charges = list(25, 2, 3)// of 75 standard, 6 contraband, 9 premium
-	init_charges = list(25, 2, 3)
+	charges = list(25, 2, 3, 0)// of 75 standard, 6 contraband, 9 premium
+	init_charges = list(25, 2, 3, 0)
 
 /obj/item/weapon/vending_refill/clothing
 	machine_name = "ClothesMate"
 	icon_state = "refill_clothes"
-	charges = list(29, 2, 2)// of 85 standard, 6 contraband, 6 premium
-	init_charges = list(29, 2, 2)
+	charges = list(29, 2, 2, 0)// of 85 standard, 6 contraband, 6 premium
+	init_charges = list(29, 2, 2, 0)

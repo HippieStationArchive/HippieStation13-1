@@ -1,6 +1,7 @@
 #define STANDARD_CHARGE 1
 #define CONTRABAND_CHARGE 2
 #define COIN_CHARGE 3
+#define SPECIAL_CHARGE 4
 
 /datum/data/vending_product
 	var/product_name = "generic"
@@ -29,12 +30,14 @@
 	var/list/products	= list()	//For each, use the following pattern:
 	var/list/contraband	= list()	//list(/type/path = amount,/type/path2 = amount2)
 	var/list/premium 	= list()	//No specified amount = only one in stock
+	var/list/special = list()
 
 	var/product_slogans = ""	//String of slogans separated by semicolons, optional
 	var/product_ads = ""		//String of small ad messages in the vending screen - random chance
 	var/list/product_records = list()
 	var/list/hidden_records = list()
 	var/list/coin_records = list()
+	var/list/special_records = list()
 	var/list/slogan_list = list()
 	var/list/small_ads = list()	//Small ad messages in the vending screen - random chance of popping up whenever you open it
 	var/vend_reply				//Thank you for shopping!
@@ -49,6 +52,7 @@
 	var/extended_inventory = 0	//can we access the hidden inventory?
 	var/scan_id = 1
 	var/obj/item/weapon/coin/coin
+	var/obj/item/weapon/coin/special_coin
 	var/datum/wires/vending/wires = null
 
 	var/dish_quants = list()  //used by the snack machine's custom compartment to count dishes.
@@ -71,6 +75,7 @@
 		build_inventory(products)
 		build_inventory(contraband, 1)
 		build_inventory(premium, 0, 1)
+		build_inventory(special, 0, 0, 1)
 
 	slogan_list = text2list(product_slogans, ";")
 	// So not all machines speak at the exact same time.
@@ -84,6 +89,8 @@
 	wires = null
 	qdel(coin)
 	coin = null
+	qdel(special_coin)
+	special_coin = null
 	return ..()
 
 /obj/machinery/vending/snack/Destroy()
@@ -98,13 +105,16 @@
 		product_records = list()
 		hidden_records = list()
 		coin_records = list()
+		special_records = list()
 		build_inventory(products, start_empty = 1)
 		build_inventory(contraband, 1, start_empty = 1)
 		build_inventory(premium, 0, 1, start_empty = 1)
+		build_inventory(special, 0, 0, 1, start_empty = 1)
 		for(var/obj/item/weapon/vending_refill/VR in component_parts)
 			refill_inventory(VR, product_records, STANDARD_CHARGE)
 			refill_inventory(VR, coin_records, COIN_CHARGE)
 			refill_inventory(VR, hidden_records, CONTRABAND_CHARGE)
+			refill_inventory(VR, special_records, SPECIAL_CHARGE)
 
 /obj/machinery/vending/ex_act(severity, target)
 	..()
@@ -119,7 +129,7 @@
 		qdel(src)
 
 
-/obj/machinery/vending/proc/build_inventory(list/productlist, hidden=0, req_coin=0, start_empty = null)
+/obj/machinery/vending/proc/build_inventory(list/productlist, hidden=0, req_coin=0, req_special=0, start_empty = null)
 	for(var/typepath in productlist)
 		var/amount = productlist[typepath]
 		if(isnull(amount))
@@ -138,6 +148,8 @@
 			hidden_records += R
 		else if(req_coin)
 			coin_records += R
+		else if (req_special)
+			special_records += R
 		else
 			product_records += R
 
@@ -255,13 +267,21 @@
 		if(panel_open)
 			attack_hand(user)
 		return
-	else if(istype(W, /obj/item/weapon/coin) && premium.len > 0)
+	else if(istype(W, /obj/item/weapon/coin) && premium.len > 0 && !istype(W, /obj/item/weapon/coin/cat) && !istype(W, /obj/item/weapon/coin/xeno))
 		if(!user.drop_item())
 			return
 		W.loc = src
 		coin = W
 		user << "<span class='notice'>You insert [W] into [src].</span>"
 		return
+	else if (istype(W, /obj/item/weapon/coin/cat) || istype(W, /obj/item/weapon/coin/xeno))
+		if (special.len > 0)
+			if (!user.drop_item())
+				return
+			W.loc = src
+			special_coin = W
+			user << "<span class='notice'>You insert [W] into [src].</span>"
+			return
 	else if(istype(W, refill_canister) && refill_canister != null)
 		if(stat & (BROKEN|NOPOWER))
 			user << "<span class='notice'>It does nothing.</span>"
@@ -331,12 +351,22 @@
 			dat += "<font color = 'red'>No product loaded!</font>"
 		else
 			var/list/display_records = product_records
+
 			if(extended_inventory)
 				display_records = product_records + hidden_records
+
+			if (special_coin)
+				display_records = product_records + special_records
+
+			if (special_coin && extended_inventory)
+				display_records = product_records + hidden_records + special_records
+
 			if(coin)
 				display_records = product_records + coin_records
+
 			if(coin && extended_inventory)
 				display_records = product_records + hidden_records + coin_records
+
 			dat += "<ul>"
 			for (var/datum/data/vending_product/R in display_records)
 				dat += "<li>"
@@ -349,10 +379,11 @@
 				dat += "</li>"
 			dat += "</ul>"
 		dat += "</div>"
-		if(premium.len > 0)
+		if(premium.len > 0 || special.len > 0)
 			dat += "<b>Coin slot:</b> "
-			if (coin)
-				dat += "[coin]&nbsp;&nbsp;<a href='byond://?src=\ref[src];remove_coin=1'>Remove</a>"
+			if (coin || special_coin)
+				var/coin_name = coin ? coin.name : special_coin.name
+				dat += "[coin_name]&nbsp;&nbsp;<a href='byond://?src=\ref[src];remove_coin=1'>Remove</a>"
 			else
 				dat += "<i>No coin</i>&nbsp;&nbsp;<span class='linkOff'>Remove</span>"
 		if(istype(src, /obj/machinery/vending/snack))
@@ -398,15 +429,30 @@
 			return
 
 	if(href_list["remove_coin"])
-		if(!coin)
+		if(!coin && !special_coin)
 			usr << "<span class='notice'>There is no coin in this machine.</span>"
 			return
 
-		coin.loc = loc
-		if(!usr.get_active_hand())
+		if (coin)
+			coin.loc = loc
+		if (special_coin)
+			special_coin.loc = loc
+		if(!usr.get_active_hand() && coin)
 			usr.put_in_hands(coin)
-		usr << "<span class='notice'>You remove [coin] from [src].</span>"
-		coin = null
+
+		if (!usr.get_active_hand() && special_coin)
+			usr.put_in_hands(special_coin)
+
+		var/coin_name = "the coin"
+
+		if (coin || special_coin)
+			coin_name = coin ? coin.name : special_coin.name
+
+		usr << "<span class='notice'>You remove [coin_name] from [src].</span>"
+		if (coin)
+			coin = null
+		if (special_coin)
+			special_coin = null
 
 
 	usr.set_machine(src)
@@ -449,6 +495,18 @@
 			if(!extended_inventory)
 				vend_ready = 1
 				return
+
+		else if(R in special_records)
+			if (!special_coin)
+				usr << "<span class='warning'>You need to insert a special coin to get this item!</span>"
+				vend_ready = 1
+				return
+
+				//no pulling out special coins
+			else
+				qdel(special_coin)
+				special_coin = null
+
 		else if(R in coin_records)
 			if(!coin)
 				usr << "<span class='warning'>You need to insert a coin to get this item!</span>"
@@ -803,6 +861,8 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 					/obj/item/weapon/reagent_containers/food/snacks/donut = 14,/obj/item/weapon/storage/box/evidence = 6,/obj/item/device/flashlight/seclite = 6)
 	contraband = list(/obj/item/clothing/glasses/sunglasses = 2,/obj/item/weapon/storage/fancy/donut_box = 2)
 	premium = list(/obj/item/weapon/coin/antagtoken = 1)
+	special = list(/obj/item/weapon/gun/energy/laser/captain/scattershot = 10, /obj/item/weapon/claymore = 10, /obj/item/weapon/katana = 10, /obj/item/weapon/gun/energy/laser/captain = 10)
+	//very high amount for special items, because the amount of cats/xenos already limits obtaining them
 
 /obj/machinery/vending/hydronutrients
 	name = "\improper NutriMax"
@@ -909,6 +969,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 					/obj/item/weapon/wrench = 5,/obj/item/device/analyzer = 5,/obj/item/device/t_scanner = 5,/obj/item/weapon/screwdriver = 5)
 	contraband = list(/obj/item/weapon/weldingtool/hugetank = 2,/obj/item/clothing/gloves/color/fyellow = 2)
 	premium = list(/obj/item/clothing/gloves/color/yellow = 2)
+	special = list(/obj/item/clothing/gloves/color/yellow = 10, /obj/item/weapon/gun/energy/laser/retro = 10, /obj/item/weapon/switchblade = 10)
 
 /obj/machinery/vending/engivend
 	name = "\improper Engi-Vend"
@@ -987,3 +1048,4 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 #undef STANDARD_CHARGE
 #undef CONTRABAND_CHARGE
 #undef COIN_CHARGE
+#undef SPECIAL_CHARGE

@@ -112,6 +112,19 @@
 	icon_state = "teeth_xeno"
 	max_amount = 48
 
+/obj/item/stack/teeth/attackby(obj/item/I, mob/user, params)
+	if (istype(src, /obj/item/stack/teeth/xeno) || istype(src, /obj/item/stack/teeth/cat))
+		if (amount == max_amount && istype(I, /obj/item/weapon/weldingtool))//48 or 32 teeth, respectively
+			var/obj/item/weapon/weldingtool/WT = I
+			if (WT.remove_fuel(1, user))
+				if (istype(src, /obj/item/stack/teeth/xeno))
+					new/obj/item/weapon/coin/xeno(user.loc)
+				if (istype(src, /obj/item/stack/teeth/cat))
+					new/obj/item/weapon/coin/cat(user.loc)
+				user << "<span class='notice'>You weld the [src.name] together into a coin shape.</span>"
+				qdel(src)
+
+
 /obj/item/organ/limb/head
 	name = "head"
 	desc = "what a way to get a head in life..."
