@@ -156,7 +156,7 @@
 /datum/game_mode/vampire //I know this is in a bad spot - gamemode code is archaic - but there's no better place for it.
 	name = "vampire"
 	config_tag = "vampire"
-	antag_flag = BE_TRAITOR //Side-antagonist
+	antag_flag = ROLE_TRAITOR //Side-antagonist
 	required_players = 1 //They're non-lethal
 	required_enemies = 1
 	recommended_enemies = 2
