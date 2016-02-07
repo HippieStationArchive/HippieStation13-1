@@ -121,7 +121,8 @@
 					new/obj/item/weapon/coin/xeno(user.loc)
 				if (istype(src, /obj/item/stack/teeth/cat))
 					new/obj/item/weapon/coin/cat(user.loc)
-				user << "<span class='notice'>You weld the [src.name] together into a coin shape.</span>"
+				user.visible_message("[user] welds the [src.name] together into a coin shape.", "<span class='notice'>You weld the [src.name] together into a coin shape.</span>", "<span class='italics'>You hear welding.</span>")
+				playsound(src.loc, 'sound/items/Welder2.ogg', 50, 1)
 				qdel(src)
 
 
