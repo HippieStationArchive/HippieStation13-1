@@ -80,12 +80,12 @@
 	max_syringes = 6
 
 /obj/item/weapon/gun/syringe/syndicate
-	name = "dart pistol"
-	desc = "A small spring-loaded sidearm that functions identically to a syringe gun."
-	icon_state = "syringe_pistol"
+	name = "Mk22"
+	desc = "A small spring-loaded 9mm tranquilizer sidearm."
+	icon_state = "mk22"
 	item_state = "gun" //Smaller inhand
 	w_class = 2
-	origin_tech = "combat=2;syndicate=2"
+	origin_tech = "combat=3;syndicate=3"
 	force = 2 //Also very weak because it's smaller
 	suppressed = 1 //Softer fire sound
 	can_unsuppress = 0 //Permanently silenced
