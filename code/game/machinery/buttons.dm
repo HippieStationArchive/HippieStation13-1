@@ -210,6 +210,48 @@
 	req_access = list(access_crematorium)
 	id = 1
 
+/obj/machinery/button/gibian_button
+	name = "Ian Gibber"
+	desc = "Honk."
+	req_access = list(access_heads)
+
+/obj/machinery/button/gibian_button/attack_paw(mob/user)
+	return attack_hand(user)
+
+/obj/machinery/button/gibian_button/attackby(obj/item/W, mob/user, params)
+	return
+
+/obj/machinery/button/gibian_button/attack_ai(mob/user)
+	return attack_hand(user)
+
+/obj/machinery/button/gibian_button/attack_hand(mob/user)
+
+	src.add_fingerprint(user)
+
+	if((stat & (NOPOWER|BROKEN)))
+		return
+
+	if(device && device.cooldown)
+		return
+
+	if(!allowed(user))
+		user << "<span class='danger'>Access Denied</span>"
+		flick("[skin]-denied", src)
+		return
+
+	use_power(2)
+	icon_state = "[skin]1"
+
+	if(device)
+		device.pulsed()
+
+	spawn(15)
+		update_icon()
+
+	var/mob/living/simple_animal/pet/dog/corgi/Ian/i = locate() in mob_list
+	if (i)
+		i.gib()
+
 /obj/machinery/emagproof_button
 	name = "emag-proof button"
 	desc = "A remote control switch."
