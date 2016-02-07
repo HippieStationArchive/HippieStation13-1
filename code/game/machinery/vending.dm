@@ -30,7 +30,7 @@
 	var/list/products	= list()	//For each, use the following pattern:
 	var/list/contraband	= list()	//list(/type/path = amount,/type/path2 = amount2)
 	var/list/premium 	= list()	//No specified amount = only one in stock
-	var/list/special = list()
+	var/list/special 	= list()
 
 	var/product_slogans = ""	//String of slogans separated by semicolons, optional
 	var/product_ads = ""		//String of small ad messages in the vending screen - random chance
