@@ -352,16 +352,16 @@
 		else
 			var/list/display_records = product_records
 
-			if(extended_inventory)
+			if(extended_inventory && !coin && !special_coin)
 				display_records = product_records + hidden_records
 
-			if (special_coin)
+			if (special_coin && !extended_inventory)
 				display_records = product_records + special_records
 
 			if (special_coin && extended_inventory)
 				display_records = product_records + hidden_records + special_records
 
-			if(coin)
+			if(coin && !extended_inventory)
 				display_records = product_records + coin_records
 
 			if(coin && extended_inventory)
