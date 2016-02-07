@@ -1,0 +1,7 @@
+author: XeonFaux
+
+delete-after: True
+
+changes: 
+  - rscadd: "Autoimplanter for nuke ops. Comes in the Syndicate Cyberimplant bundle, or buyable alone. Self-explanatory."
+  - rscadd: "Nuke ops declaring war now sets the station alert, to red."
