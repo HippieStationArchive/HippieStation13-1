@@ -1093,9 +1093,15 @@ var/list/uplink_items = list()
 	item = /obj/item/organ/internal/cyberimp/chest/reviver
 	cost = 8
 
+/datum/uplink_item/cyber_implants/autoimplanter
+	name = "Autoimplanter"
+	desc = "A device that automatically injects a cyber-implant into the user without the hassle of extensive surgery. It has a slot to insert implants and a screwdriver slot for removing accidentally added implants."
+	item = /obj/item/device/autoimplanter
+	cost = 4
+
 /datum/uplink_item/cyber_implants/bundle
 	name = "Cybernetic Implants Bundle"
-	desc = "A random selection of cybernetic implants. Guaranteed 5 high quality implants. They must be implanted via surgery."
+	desc = "A random selection of cybernetic implants. Guaranteed 5 high quality implants. They come with an autoimplanter to implant them for you!"
 	item = /obj/item/weapon/storage/box/cyber_implants
 	cost = 40
 
