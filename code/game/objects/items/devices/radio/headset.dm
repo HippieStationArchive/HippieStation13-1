@@ -9,6 +9,7 @@
 
 	slot_flags = SLOT_EARS
 	var/obj/item/device/encryptionkey/keyslot2 = null
+	maxf = 1489
 
 /obj/item/device/radio/headset/New()
 	..()
@@ -45,10 +46,6 @@
 	origin_tech = "syndicate=3"
 	icon_state = "syndie_headset"
 	item_state = "syndie_headset"
-
-/obj/item/device/radio/headset/syndicate/alt/leader
-	name = "team leader headset"
-	command = TRUE
 
 /obj/item/device/radio/headset/syndicate/New()
 	..()
@@ -117,9 +114,6 @@
 	icon_state = "com_headset"
 	item_state = "headset"
 	keyslot = new /obj/item/device/encryptionkey/headset_com
-
-/obj/item/device/radio/headset/heads
-	command = TRUE
 
 /obj/item/device/radio/headset/heads/captain
 	name = "\proper the captain's headset"
@@ -228,7 +222,7 @@
 
 
 			for(var/ch_name in channels)
-				SSradio.remove_object(src, radiochannels[ch_name])
+				radio_controller.remove_object(src, radiochannels[ch_name])
 				secure_radio_connections[ch_name] = null
 
 

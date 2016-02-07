@@ -18,11 +18,6 @@
 	tag = "mob_[next_mob_id++]"
 	mob_list += src
 
-	if(length(newplayer_start))
-		loc = pick(newplayer_start)
-	else
-		loc = locate(1,1,1)
-
 /mob/new_player/proc/new_player_panel()
 
 	var/output = "<center><p><a href='byond://?src=\ref[src];show_preferences=1'>Setup Character</A></p>"

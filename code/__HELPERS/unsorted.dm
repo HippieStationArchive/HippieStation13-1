@@ -182,6 +182,22 @@ Turf and target are seperate in case you want to teleport some distance from a t
 			return 0
 	return 1
 
+//Ensure the frequency is within bounds of what it should be sending/recieving at
+/proc/sanitize_frequency(f)
+	f = round(f)
+	f = max(1441, f) // 144.1
+	f = min(1489, f) // 148.9
+	if ((f % 2) == 0) //Ensure the last digit is an odd number
+		f += 1
+	return f
+
+//Turns 1479 into 147.9
+/proc/format_frequency(f)
+	f = text2num(f)
+	return "[round(f / 10)].[f % 10]"
+
+
+
 //This will update a mob's name, real_name, mind.name, data_core records, pda, id and traitor text
 //Calling this proc without an oldname will only update the mob and skip updating the pda, id and records ~Carn
 /mob/proc/fully_replace_character_name(oldname,newname)
@@ -274,6 +290,8 @@ Turf and target are seperate in case you want to teleport some distance from a t
 					newname = pick(mime_names)
 				if("ai")
 					newname = pick(ai_names)
+				if("deity")
+					newname = pick(clown_names|ai_names|mime_names) //pick any old name
 				else
 					return
 
@@ -356,7 +374,6 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	var/list/names = list()
 	var/list/pois = list()
 	var/list/namecounts = list()
-
 	for(var/mob/M in mobs)
 		var/name = M.name
 		if (name in names)
@@ -1197,15 +1214,20 @@ var/list/WALLITEMS_INVERSE = list(
 
 	user << "<span class='notice'>Results of analysis of \icon[icon] [target].</span>"
 	if(total_moles>0)
+		var/o2_concentration = air_contents.oxygen/total_moles
+		var/n2_concentration = air_contents.nitrogen/total_moles
+		var/co2_concentration = air_contents.carbon_dioxide/total_moles
+		var/plasma_concentration = air_contents.toxins/total_moles
+
+		var/unknown_concentration =  1-(o2_concentration+n2_concentration+co2_concentration+plasma_concentration)
+
 		user << "<span class='notice'>Pressure: [round(pressure,0.1)] kPa</span>"
-
-		var/list/cached_gases = air_contents.gases
-
-		for(var/id in cached_gases)
-			var/gas_concentration = cached_gases[id][MOLES]/total_moles
-			if(id in hardcoded_gases || gas_concentration > 0.01) //ensures the four primary gases are always shown.
-				user << "<span class='notice'>[cached_gases[id][GAS_NAME]]: [round(gas_concentration*100)] %</span>"
-
+		user << "<span class='notice'>Nitrogen: [round(n2_concentration*100)] %</span>"
+		user << "<span class='notice'>Oxygen: [round(o2_concentration*100)] %</span>"
+		user << "<span class='notice'>CO2: [round(co2_concentration*100)] %</span>"
+		user << "<span class='notice'>Plasma: [round(plasma_concentration*100)] %</span>"
+		if(unknown_concentration>0.01)
+			user << "<span class='danger'>Unknown: [round(unknown_concentration*100)] %</span>"
 		user << "<span class='notice'>Temperature: [round(air_contents.temperature-T0C)] &deg;C</span>"
 	else
 		user << "<span class='notice'>[target] is empty!</span>"
@@ -1460,9 +1482,10 @@ var/list/reverse_dir = list(2, 1, 3, 8, 10, 9, 11, 4, 6, 5, 7, 12, 14, 13, 15, 3
 		c_dist++
 	return L
 
-/atom/proc/contains(var/atom/A)
-	if(!A)
+/atom/proc/contains(var/atom/location)
+	if(!location)
 		return 0
-	for(var/atom/location = A.loc, location, location = location.loc)
+	for(location, location && location != src, location=location.loc); //semicolon is for the empty statement
 		if(location == src)
 			return 1
+		return 0

@@ -52,7 +52,7 @@
 
 /datum/table_recipe/ed209
 	name = "ED209"
-	result = /mob/living/simple_animal/bot/ed209
+	result = /obj/machinery/bot/ed209
 	reqs = list(/obj/item/robot_parts/robot_suit = 1,
 				/obj/item/clothing/head/helmet = 1,
 				/obj/item/clothing/suit/armor/vest = 1,
@@ -70,7 +70,7 @@
 
 /datum/table_recipe/secbot
 	name = "Secbot"
-	result = /mob/living/simple_animal/bot/secbot
+	result = /obj/machinery/bot/secbot
 	reqs = list(/obj/item/device/assembly/signaler = 1,
 				/obj/item/clothing/head/helmet/sec = 1,
 				/obj/item/weapon/melee/baton = 1,
@@ -82,7 +82,7 @@
 
 /datum/table_recipe/cleanbot
 	name = "Cleanbot"
-	result = /mob/living/simple_animal/bot/cleanbot
+	result = /obj/machinery/bot/cleanbot
 	reqs = list(/obj/item/weapon/reagent_containers/glass/bucket = 1,
 				/obj/item/device/assembly/prox_sensor = 1,
 				/obj/item/robot_parts/r_arm = 1)
@@ -91,7 +91,7 @@
 
 /datum/table_recipe/floorbot
 	name = "Floorbot"
-	result = /mob/living/simple_animal/bot/floorbot
+	result = /obj/machinery/bot/floorbot
 	reqs = list(/obj/item/weapon/storage/toolbox/mechanical = 1,
 				/obj/item/stack/tile/plasteel = 1,
 				/obj/item/device/assembly/prox_sensor = 1,
@@ -101,7 +101,7 @@
 
 /datum/table_recipe/medbot
 	name = "Medbot"
-	result = /mob/living/simple_animal/bot/medbot
+	result = /obj/machinery/bot/medbot
 	reqs = list(/obj/item/device/healthanalyzer = 1,
 				/obj/item/weapon/storage/firstaid = 1,
 				/obj/item/device/assembly/prox_sensor = 1,
@@ -247,13 +247,4 @@
 	tools = list(/obj/item/weapon/weldingtool)
 	reqs = list(/obj/item/stack/sheet/metal = 2)
 	time = 120
-	category = CAT_WEAPON
-
-/datum/table_recipe/tooth_hatchet //For teeth hatchet
-	name = "Tooth hatchet"
-	result = /obj/item/weapon/hatchet/tooth
-	reqs = list(/obj/item/stack/rods = 1,
-				/obj/item/stack/cable_coil = 10,
-				/obj/item/stack/teeth = 3)
-	time = 80
 	category = CAT_WEAPON

@@ -150,11 +150,11 @@
 		return
 	for(var/turf/T in targets)
 		spawn(0)
-			for(var/mob/living/simple_animal/bot/bot in T.contents)
+			for(var/obj/machinery/bot/bot in T.contents)
 				if(!bot.emagged)
 					bot.locked = 0
 					bot.open = 1
-					bot.emag_act()
+					bot.Emag(null)
 			for(var/obj/machinery/mach in T.contents)
 				if(istype(mach, /obj/machinery/dominator) || istype(mach, /obj/machinery/power/apc)) //Doesn't work on dominators and APCs, to prevent kekkery
 					continue

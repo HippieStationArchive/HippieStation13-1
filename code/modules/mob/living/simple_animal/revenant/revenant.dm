@@ -23,7 +23,6 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 	response_harm   = "punches through"
 	unsuitable_atmos_damage = 0
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
-	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0) //I don't know how you'd apply those, but revenants no-sell them anyway.
 	minbodytemp = 0
 	maxbodytemp = INFINITY
 	harm_intent_damage = 0
@@ -395,7 +394,7 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 				break
 		message_admins("The new revenant's old client either could not be found or is in a new, living mob - grabbing a random candidate instead...")
 	else
-		var/list/candidates = get_candidates(BE_REVENANT)
+		var/list/candidates = get_candidates(ROLE_REVENANT)
 		if(!candidates.len)
 			message_admins("No candidates were found for the new revenant. Oh well!")
 			return 0

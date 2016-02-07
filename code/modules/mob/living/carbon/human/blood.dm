@@ -44,9 +44,9 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 
 // Takes care blood loss and regeneration
 /mob/living/carbon/human/handle_blood()
-
-	if(NOBLOOD in dna.species.specflags)
-		return
+	if(dna)
+		if(NOBLOOD in dna.species.specflags)
+			return
 
 	if(stat != DEAD && bodytemperature >= 170)	//Dead or cryosleep people do not pump the blood.
 

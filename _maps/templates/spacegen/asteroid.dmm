@@ -1,0 +1,28 @@
+"a" = (/turf/space,/area/space)
+"b" = (/turf/simulated/mineral,/area/space)
+"c" = (/turf/simulated/wall/mineral/clown,/area/space)
+"d" = (/turf/simulated/wall/mineral/plasma,/area/space)
+"e" = (/obj/item/device/meeseeks_box,/turf/simulated/floor/plating/asteroid/airless,/area/space)
+"f" = (/turf/simulated/floor/plating/asteroid/airless,/area/space)
+"g" = (/obj/machinery/door/airlock/clown,/turf/simulated/floor/plating/asteroid/airless,/area/space)
+"h" = (/obj/item/device/wormhole_jaunter,/turf/simulated/floor/plating/asteroid/airless,/area/space)
+"i" = (/mob/living/simple_animal/hostile/carp,/turf/simulated/floor/plating/asteroid/airless,/area/space)
+
+(1,1,1) = {"
+aaaaabbbbbbaaaaa
+abbbbbbbbbbaaaaa
+bbcddcbbbbbaaaaa
+bbdefgfffbbbaaaa
+bbdhfgfffibbbaaa
+bbcddcfffbbbbaaa
+bbbbbbffffbbbbaa
+abifffffffbbbbaa
+abbffffffibbbbaa
+abbbbbbffbbbbbaa
+abbbbfffbbbbbbaa
+abbfbffbbbbbaaaa
+abbfffbbbbbaaaaa
+abbffbbbaaaaaaaa
+abfffbaaaaaaaaaa
+aaaffbaaaaaaaaaa
+"}

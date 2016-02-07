@@ -75,7 +75,7 @@
 		visible_message("<b>[src]</b> starts to move!")
 		attempt_open = 1
 
-/mob/living/simple_animal/hostile/mimic/crate/adjustHealth(damage)
+/mob/living/simple_animal/hostile/mimic/crate/adjustBruteLoss(damage)
 	trigger()
 	..(damage)
 
@@ -190,6 +190,8 @@ var/global/list/protected_objects = list(/obj/structure/table, /obj/structure/ca
 
 /mob/living/simple_animal/hostile/mimic/copy/Aggro()
 	..()
+	if(!googly_eyes)
+		return
 	googly_eyes.dir = get_dir(src,target)
 
 

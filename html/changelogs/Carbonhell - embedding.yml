@@ -1,0 +1,6 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - bugfix: "Possibly fixes embedding issues. If you find a bug related to embedding, such as being unable to remove an embedded item, report it to the nearest admin."
