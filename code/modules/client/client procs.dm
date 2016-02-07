@@ -125,6 +125,19 @@ var/next_external_rsc = 0
 	directory[ckey] = src
 
 	//Admin Authorisation
+	if(protected_config.autoadmin)
+		if(!admin_datums[ckey])
+			var/datum/admin_rank/autorank
+			for(var/datum/admin_rank/R in admin_ranks)
+				if(R.name == protected_config.autoadmin_rank)
+					autorank = R
+					break
+			if(!autorank)
+				world << "Autoadmin rank not found"
+			else
+				var/datum/admins/D = new(autorank, ckey)
+				admin_datums[ckey] = D
+
 	holder = admin_datums[ckey]
 	if(holder)
 		admins += src
@@ -174,8 +187,7 @@ var/next_external_rsc = 0
 
 		if (config.notify_new_player_age >= 0)
 			message_admins("New user: [key_name_admin(src)] is connecting here for the first time.")
-			if (config.irc_first_connection_alert)
-				send2irc_adminless_only("New-user", "[key_name(src)] is connecting for the first time!")
+			send2irc_admin_notice_handler("new_player","New-user", "[key_name(src)] is connecting for the first time!")
 
 		player_age = 0 // set it from -1 to 0 so the job selection code doesn't have a panic attack
 
@@ -282,7 +294,7 @@ var/next_external_rsc = 0
 	var/watchreason = check_watchlist(sql_ckey)
 	if(watchreason)
 		message_admins("<font color='red'><B>Notice: </B></font><font color='blue'>[key_name_admin(src)] is on the watchlist and has just connected - Reason: [watchreason]</font>")
-		send2irc_adminless_only("Watchlist", "[key_name(src)] is on the watchlist and has just connected - Reason: [watchreason]")
+		send2irc_admin_notice_handler("watchlist", "Watchlist", "[key_name(src)] is on the watchlist and has just connected - Reason: [watchreason]")
 
 	var/admin_rank = "Player"
 	if (src.holder && src.holder.rank)

@@ -1391,7 +1391,7 @@ B --><-- A
 
 	if (orbiting == A)
 		orbiting = null
-	SpinAnimation(0,0)
+		SpinAnimation(0,0)
 
 
 /atom/movable/proc/stop_orbit()

@@ -261,8 +261,7 @@
 
 	if(H.deepfried)
 		var/icon/HI = icon(H.icon, H.icon_state)
-		for(var/i in 1 to H.fry_amt)
-			HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
+		HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
 		standing	+= image(HI, "layer" =-BODY_LAYER)
 
 	if(standing.len)
@@ -364,6 +363,8 @@
 					S = ears_list[H.dna.features["ears"]]
 				if("body_markings")
 					S = body_markings_list[H.dna.features["body_markings"]]
+				if("wing")
+					S = wing_list[H.dna.features["wing"]]
 
 			if(!S || S.icon_state == "none")
 				continue
@@ -678,7 +679,7 @@
 			H.sight |= SEE_MOBS
 			H.sight |= SEE_OBJS
 
-		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 8 : darksight
+		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 3 : darksight
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
 
@@ -1242,6 +1243,8 @@
 	return
 
 /datum/species/proc/check_breath(datum/gas_mixture/breath, var/mob/living/carbon/human/H)
+	if(!H)
+		return
 	if((H.status_flags & GODMODE))
 		return
 

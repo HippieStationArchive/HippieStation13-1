@@ -375,7 +375,7 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris/add_juice()
 	..()
-	reagents.add_reagent("space_drugs", 1 + round(potency / 8, 1))
+	reagents.add_reagent("space_drugs", 1 + round(potency / 6, 1))
 	reagents.add_reagent("salglu_solution", 1 + round(potency / 8, 1))
 	reagents.add_reagent("salglu_solution", 1 + round(potency / 10, 1))
 	reagents.add_reagent("toxin", 1 + round(potency / 10, 1))
@@ -393,7 +393,7 @@
 	..()
 	reagents.add_reagent("omnizine", 1 + round(potency / 8, 1))
 	reagents.add_reagent("synaptizine", 1 + round(potency / 8, 1))
-	reagents.add_reagent("space_drugs", 1 + round(potency / 10, 1))
+	reagents.add_reagent("space_drugs", 1 + round(potency / 5, 1))
 	reagents.add_reagent("vitamin", 1 + round((potency / 25), 1))
 
 
@@ -415,7 +415,7 @@
 /obj/item/weapon/reagent_containers/food/snacks/grown/apple/poisoned
 	seed = /obj/item/seeds/poisonedappleseed
 	name = "apple"
-	desc = "It's a little piece of Eden."
+	desc = "It's a little piece of Eden?"
 	icon_state = "apple"
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/apple/poisoned/add_juice()

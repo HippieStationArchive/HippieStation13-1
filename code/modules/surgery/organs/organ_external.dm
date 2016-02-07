@@ -31,7 +31,7 @@
 /obj/item/stack/teeth
 	name = "teeth"
 	singular_name = "tooth"
-	w_class = 2
+	w_class = 1
 	throwforce = 2
 	max_amount = 32
 	// gender = PLURAL

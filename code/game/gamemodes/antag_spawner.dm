@@ -64,7 +64,7 @@
 				H << "Unable to reach your apprentice! You can either attack the spellbook with the contract to refund your points, or wait and try again later."
 
 /obj/item/weapon/antag_spawner/contract/spawn_antag(client/C, turf/T, type = "")
-	PoolOrNew(/obj/effect/effect/smoke, T)
+	PoolOrNew(/obj/effect/particle_effect/smoke, T)
 	var/mob/living/carbon/human/M = new/mob/living/carbon/human(T)
 	C.prefs.copy_to(M)
 	M.key = C.key
@@ -155,7 +155,7 @@
 		used = 1
 		var/client/C = pick(nuke_candidates)
 		spawn_antag(C, get_turf(src.loc), "syndieborg")
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(4, 1, src)
 		s.start()
 	else

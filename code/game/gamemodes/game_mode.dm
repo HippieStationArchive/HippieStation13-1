@@ -248,7 +248,10 @@
 		feedback_set("escaped_human",escaped_humans)
 	if(escaped_total > 0)
 		feedback_set("escaped_total",escaped_total)
-	send2irc("Server", "Round just ended.")
+	var/mode_to_display = "[ticker.mode]"
+	if(master_mode == "secret")
+		mode_to_display = "secret ([ticker.mode])"
+	send2irc("Server", "A round of [mode_to_display] just ended with [surviving_total] survivors and [ghosts] observers.")
 	return 0
 
 

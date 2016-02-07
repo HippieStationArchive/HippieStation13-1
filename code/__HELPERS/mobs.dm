@@ -53,9 +53,11 @@
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/spines, spines_list)
 	if(!body_markings_list.len)
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/body_markings, body_markings_list)
+	if(!wing_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/wing, wing_list)
 
 	//For now we will always return none for tail_human and ears.
-	return(list("mcolor" = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F"), "tail_lizard" = pick(tails_list_lizard), "tail_human" = "None", "snout" = pick(snouts_list), "horns" = pick(horns_list), "ears" = "None", "frills" = pick(frills_list), "spines" = pick(spines_list), "body_markings" = pick(body_markings_list)))
+	return(list("mcolor" = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F"), "tail_lizard" = pick(tails_list_lizard), "tail_human" = "None", "snout" = pick(snouts_list), "horns" = pick(horns_list), "ears" = "None", "frills" = pick(frills_list), "spines" = pick(spines_list), "body_markings" = pick(body_markings_list), "wing" = pick(wing_list)))
 
 /proc/random_hair_style(gender)
 	switch(gender)
@@ -80,6 +82,13 @@
 /proc/random_unique_lizard_name(gender, attempts_to_find_unique_name=10)
 	for(var/i=1, i<=attempts_to_find_unique_name, i++)
 		. = capitalize(lizard_name(gender))
+
+		if(i != attempts_to_find_unique_name && !findname(.))
+			break
+
+/proc/random_unique_moth_name(gender, attempts_to_find_unique_name=10)
+	for(var/i=1, i<=attempts_to_find_unique_name, i++)
+		. = capitalize(moth_name(gender))
 
 		if(i != attempts_to_find_unique_name && !findname(.))
 			break
@@ -130,7 +139,9 @@ Proc for attack log creation, because really why not
 /proc/add_logs(mob/user, mob/target, what_done, object=null, addition=null)
 	var/newhealthtxt = ""
 	var/turf/attack_location = get_turf(target)
-	var/coordinates = "([attack_location.x],[attack_location.y],[attack_location.z])"
+	var/coordinates = "(invalid target coordinates)"
+	if(attack_location && attack_location.x)
+		coordinates = "([attack_location.x],[attack_location.y],[attack_location.z])"
 	if (target)
 		coordinates = "([target.x],[target.y],[target.z])"
 		if(isliving(target))

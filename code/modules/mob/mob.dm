@@ -511,6 +511,7 @@ var/list/slot_equipment_priority = list( \
 	set name = "Changelog"
 	set category = "OOC"
 	getFiles(
+		'html/tg-ports.png',
 		'html/88x31.png',
 		'html/bug-minus.png',
 		'html/cross-circle.png',

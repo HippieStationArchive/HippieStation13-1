@@ -115,8 +115,8 @@
 /obj/singularity/proc/admin_investigate_setup()
 	last_warning = world.time
 	var/count = locate(/obj/machinery/field/containment) in orange(30, src)
-	if(!count)	message_admins("A singulo has been created without containment fields active ([x],[y],[z])",1)
-	investigate_log("was created. [count?"":"<font color='red'>No containment fields were active</font>"]","singulo")
+	if(!count)	message_admins("\The [src] has been created without containment fields active ([x],[y],[z])",1)
+	investigate_log("was created. [count?"":"<font color='red'>No containment fields were active</font>"]","[src]")
 
 /obj/singularity/proc/dissipate()
 	if(!dissipate)

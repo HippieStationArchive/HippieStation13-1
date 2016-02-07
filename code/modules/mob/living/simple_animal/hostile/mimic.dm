@@ -151,8 +151,8 @@ var/global/list/protected_objects = list(/obj/structure/table, /obj/structure/ca
 		icon_state = O.icon_state
 		icon_living = icon_state
 		overlays = O.overlays
-		googly_eyes = image('icons/mob/mob.dmi',"googly_eyes")
-		overlays += googly_eyes
+/*		googly_eyes = image('icons/mob/mob.dmi',"googly_eyes")
+		overlays += googly_eyes */
 		if(istype(O, /obj/structure) || istype(O, /obj/machinery))
 			health = (anchored * 50) + 50
 			destroy_objects = 1
@@ -190,6 +190,8 @@ var/global/list/protected_objects = list(/obj/structure/table, /obj/structure/ca
 
 /mob/living/simple_animal/hostile/mimic/copy/Aggro()
 	..()
+	if(!googly_eyes)
+		return
 	googly_eyes.dir = get_dir(src,target)
 
 

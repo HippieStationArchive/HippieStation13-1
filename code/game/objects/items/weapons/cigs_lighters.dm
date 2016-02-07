@@ -44,7 +44,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(lit == 0)
 		lit = 1
 		icon_state = "match_lit"
-		damtype = "fire"
+		damtype = BURN
 		force = 3
 		hitsound = 'sound/items/welder.ogg'
 		item_state = "cigon"
@@ -58,7 +58,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/weapon/match/proc/matchburnout()
 	if(lit == 1)
 		lit = -1
-		damtype = "brute"
+		damtype = BRUTE
 		force = initial(force)
 		icon_state = "match_burnt"
 		item_state = "cigoff"
@@ -174,10 +174,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		name = "lit [name]"
 		attack_verb = list("burnt", "singed")
 		hitsound = 'sound/items/welder.ogg'
-		damtype = "fire"
+		damtype = BURN
 		force = 4
 		if(reagents.get_reagent_amount("plasma")) // the plasma explodes when exposed to fire
-			var/datum/effect/effect/system/reagents_explosion/e = new()
+			var/datum/effect_system/reagents_explosion/e = new()
 			e.set_up(round(reagents.get_reagent_amount("plasma") / 2.5, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
@@ -186,7 +186,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			qdel(src)
 			return
 		if(reagents.get_reagent_amount("welding_fuel")) // the fuel explodes, too, but much less violently
-			var/datum/effect/effect/system/reagents_explosion/e = new()
+			var/datum/effect_system/reagents_explosion/e = new()
 			e.set_up(round(reagents.get_reagent_amount("welding_fuel") / 5, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
@@ -494,7 +494,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			playsound(src, sound_toggleON, 30, 1, -1)
 			update_icon()
 			force = 5
-			damtype = "fire"
+			damtype = BURN
 			hitsound = 'sound/items/welder.ogg'
 			attack_verb = list("burnt", "singed")
 			if(!istype(src, /obj/item/weapon/lighter/greyscale))

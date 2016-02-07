@@ -97,6 +97,33 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	if(H)
 		H.endTailWag()
 
+//MOTH PEOPLE
+/datum/species/moth
+	// WHO THE FUCK?
+	name = "Mothmen"
+	id = "moth"
+	say_mod = "flutters"
+	default_color = "00FF00"
+	roundstart = 1
+	specflags = list(LIPS)
+	mutant_bodyparts = list("wing")
+	default_features = list("wing" = "Plain")
+	attack_verb = "slash"
+	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/moth
+	teeth_type = /obj/item/stack/teeth/lizard
+
+/datum/species/moth/random_name(gender,unique,lastname)
+	if(unique)
+		return random_unique_moth_name(gender)
+
+	var/randname = moth_name(gender)
+
+	return randname
+
+/datum/species/moth/qualifies_for_rank(rank, list/features)
+	if(rank in command_positions)
+		return 0
+	return 1
 
 /datum/species/bird
 	// flappy bird
@@ -596,7 +623,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	say_mod = "rattles"
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
-	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,PIERCEIMMUNE)
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE,VIRUSIMMUNE)
 	var/list/myspan = null
 
 /datum/species/skeleton/playable

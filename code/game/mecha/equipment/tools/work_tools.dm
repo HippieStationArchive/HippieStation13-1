@@ -62,6 +62,7 @@
 			target.visible_message("<span class='danger'>[chassis] squeezes [target].</span>", \
 								"<span class='userdanger'>[chassis] squeezes [target].</span>",\
 								"<span class='italics'>You hear something crack.</span>")
+			//TODO: Change this to use the damtype word not int
 			add_logs(chassis.occupant, M, "attacked", "[name]", "(INTENT: [uppertext(chassis.occupant.a_intent)]) (DAMTYE: [uppertext(damtype)])")
 		else
 			step_away(M,chassis)
@@ -149,7 +150,7 @@
 			var/list/the_targets = list(T,T1,T2)
 			spawn(0)
 				for(var/a=0, a<5, a++)
-					var/obj/effect/effect/water/W = PoolOrNew(/obj/effect/effect/water, get_turf(chassis))
+					var/obj/effect/particle_effect/water/W = PoolOrNew(/obj/effect/particle_effect/water, get_turf(chassis))
 					if(!W)
 						return
 					var/turf/my_target = pick(the_targets)

@@ -25,7 +25,8 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/frills, frills_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/spines, spines_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/spines_animated, animated_spines_list)
-
+	//MOTHERFUCKIN MOTHS
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/wing, wing_list)
 
 	//Species
 	for(var/spath in typesof(/datum/species))

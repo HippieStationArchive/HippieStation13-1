@@ -5,6 +5,11 @@
 #define SECURITY_HAS_MAINT_ACCESS 2
 #define EVERYONE_HAS_MAINT_ACCESS 4
 
+//Not accessible from usual debug controller verb
+/datum/protected_configuration
+	var/autoadmin = 0
+	var/autoadmin_rank = "Game Admin"
+
 /datum/configuration
 	var/server_name = null				// server name (the name of the game window)
 	var/station_name = null				// station name (the name of the station in-game)
@@ -70,6 +75,9 @@
 	var/ban_legacy_system = 0	//Defines whether the server uses the legacy banning system with the files in /data or the SQL system. Config option in config.txt
 	var/use_age_restriction_for_jobs = 0 //Do jobs use account age restrictions? --requires database
 	var/see_own_notes = 0 //Can players see their own admin notes (read-only)? Config option in config.txt
+
+	var/announce_watchlist = 0
+	var/announce_adminhelps = 0
 
 	//Population cap vars
 	var/soft_popcap				= 0
@@ -174,6 +182,15 @@
 	var/announce_admin_logout = 0
 	var/announce_admin_login = 0
 
+	// Templates
+	var/place_amount_min = 0
+	var/place_amount_max = 0
+	var/list/ignore_types = list()
+	var/list/zs = list()
+	var/list/place_last = list()
+	var/tries = 10
+	var/directory = null
+
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
 	for(var/T in L)
@@ -259,6 +276,8 @@
 					config.allow_admin_ooccolor = 1
 				if("allow_vote_restart")
 					config.allow_vote_restart = 1
+				if("announce_adminhelps")
+					config.announce_adminhelps = 1
 				if("allow_vote_mode")
 					config.allow_vote_mode = 1
 				if("no_dead_vote")
@@ -364,6 +383,10 @@
 					config.announce_admin_login = 1
 				if("roundstart_awaymissions")
 					roundstart_awaymissions = 1
+				if("autoadmin")
+					protected_config.autoadmin = 1
+					if(value)
+						protected_config.autoadmin_rank = ckeyEx(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
@@ -532,6 +555,18 @@
 					MAX_EX_LIGHT_RANGE = BombCap
 					MAX_EX_FLASH_RANGE = BombCap
 					MAX_EX_FLAME_RANGE = BombCap
+				if("zs")
+					config.zs += text2num(value)
+				if("place_last")
+					config.place_last += value
+				if("tries")
+					config.tries = text2num(value)
+				if("directory")
+					config.directory = value
+				if("place_amount_min")
+					config.place_amount_min = text2num(value)
+				if("place_amount_max")
+					config.place_amount_max = text2num(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 

@@ -8,12 +8,12 @@
 	usr << "<span class='notice'><B>TORNADO COMBO!</B> Harm, Harm, Disarm (HHD)</span>"
 	usr << "<span class='notice'><B>THROWBACK PUNCH!</B> Disarm, Harm, Disarm (DHD)</span>"
 	usr << "<span class='notice'><B>KNOCKOUT KICK!</B> Grab, Grab, Harm (GGH)</span>"
-	usr << "<span class='notice'><B>THE ULTIMATE PLASMA FIST TECHNIQUE! Grab, Harm, Disarm, Grab, Harm, Disarm, Harm (GHDGHDH)</span>"
+	usr << "<span class='notice'><B>THE ULTIMATE PLASMA FIST TECHNIQUE! Harm, Disarm, Disarm, Disarm, Harm (HDDDH)</span>"
 
 #define TORNADO_COMBO "HHD"
 #define THROWBACK_COMBO "DHD"
 #define KNOCKOUT_COMBO "GGH"
-#define PLASMA_COMBO "GHDGHDH"
+#define PLASMA_COMBO "HDDDH"
 
 /datum/martial_art/plasma_fist
 	name = "Plasma Fist"

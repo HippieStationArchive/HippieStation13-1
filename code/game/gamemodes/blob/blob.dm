@@ -4,7 +4,7 @@
 var/list/blobs = list()
 var/list/blob_cores = list()
 var/list/blob_nodes = list()
-
+var/list/blobs_legit = list()
 
 /datum/game_mode/blob
 	name = "blob"
@@ -20,6 +20,7 @@ var/list/blob_nodes = list()
 
 	var/declared = 0
 	var/burst = 0
+
 
 	var/cores_to_spawn = 1
 	var/players_per_core = 30

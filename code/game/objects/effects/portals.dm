@@ -1,3 +1,5 @@
+/obj/effect
+
 /obj/effect/portal
 	name = "portal"
 	desc = "Looks unstable. Best to test it with the clown."
