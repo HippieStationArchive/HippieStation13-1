@@ -12,6 +12,8 @@
 
 
 /obj/item/device/nuclear_challenge/attack_self(mob/living/user)
+	if(..())
+		return
 	if(player_list.len < MIN_CHALLENGE_PLAYERS)
 		user << "The enemy crew is too small to be worth declaring war on."
 		return
@@ -30,6 +32,7 @@
 
 	var/war_declaration = "[user.real_name] has declared his intent to utterly destroy [station_name()] with a nuclear device, and dares the crew to try and stop them."
 	priority_announce(war_declaration, title = "Declaration of War", sound = 'sound/machines/Alarm.ogg')
+	set_security_level(SEC_LEVEL_RED)
 	user << "You've attracted the attention of powerful forces within the syndicate. A bonus bundle of telecrystals has been granted to your team. Great things await you if you complete the mission."
 
 	for(var/obj/machinery/computer/shuttle/syndicate/S in machines)

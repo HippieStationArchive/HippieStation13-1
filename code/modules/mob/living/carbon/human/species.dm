@@ -1243,6 +1243,8 @@
 	return
 
 /datum/species/proc/check_breath(datum/gas_mixture/breath, var/mob/living/carbon/human/H)
+	if(!H)
+		return
 	if((H.status_flags & GODMODE))
 		return
 

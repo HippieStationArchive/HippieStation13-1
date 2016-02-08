@@ -6,7 +6,6 @@ var/datum/subsystem/air/SSair
 	wait = 5
 	dynamic_wait = 1
 	dwait_upper = 50
-	display =1
 
 	var/cost_turfs = 0
 	var/cost_groups = 0

@@ -209,13 +209,6 @@ Class Procs:
 	add_fingerprint(usr)
 	return 0
 
-/obj/machinery/ui_act(action, params)
-	..()
-	if(!can_be_used_by(usr))
-		return 1
-	add_fingerprint(usr)
-	return 0
-
 /obj/machinery/proc/can_be_used_by(mob/user)
 	if(!interact_offline && stat & (NOPOWER|BROKEN))
 		return 0
@@ -294,9 +287,9 @@ Class Procs:
 
 //set_machine must be 0 if clicking the machinery doesn't bring up a dialog
 /obj/machinery/attack_hand(mob/user, check_power = 1, set_machine = 1)
-	if((user.lying || user.stat) && !IsAdminGhost(user))
+	if(user.lying || user.stat)
 		return 1
-	if(!user.IsAdvancedToolUser() && !IsAdminGhost(user))
+	if(!user.IsAdvancedToolUser())
 		usr << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return 1
 	if (ishuman(user))
@@ -437,8 +430,8 @@ Class Procs:
 
 // Hook for html_interface module to prevent updates to clients who don't have this as their active machine.
 /obj/machinery/proc/hiIsValidClient(datum/html_interface_client/hclient, datum/html_interface/hi)
-	if (hclient.client.mob && (hclient.client.mob.stat == 0 || IsAdminGhost(hclient.client.mob)))
-		if (isAI(hclient.client.mob) || IsAdminGhost(hclient.client.mob)) return TRUE
+	if (hclient.client.mob && hclient.client.mob.stat == 0)
+		if (isAI(hclient.client.mob)) return TRUE
 		else                          return hclient.client.mob.machine == src && src.Adjacent(hclient.client.mob)
 	else
 		return FALSE

@@ -96,10 +96,10 @@
 	return 1
 
 /datum/action/item_action/hands_free/activate_pill
-	name = "Activate Pill"
+	name = "activate pill"
 
 /datum/action/item_action/hands_free/activate_pill/Trigger()
-	if(CheckRemoval(owner))
+	if(!..() || CheckRemoval(owner))
 		return 0
 	owner << "<span class='caution'>You grit your teeth and burst the implanted [target]!</span>"
 	add_logs(owner, null, "swallowed an implanted pill", target)

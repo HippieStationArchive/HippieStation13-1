@@ -96,7 +96,8 @@ var/list/admin_verbs_fun = list(
 	/client/proc/bluespace_artillery,
 	/client/proc/admin_change_sec_level,
 	/client/proc/cmd_smite,
-	/client/proc/toggle_nuke
+	/client/proc/toggle_nuke,
+	/client/proc/TemplatePanel
 	)
 var/list/admin_verbs_spawn = list(
 	/datum/admins/proc/spawn_atom,		/*allows us to spawn instances*/
@@ -121,6 +122,7 @@ var/list/admin_verbs_debug = list(
 	/client/proc/cmd_admin_list_open_jobs,
 	/client/proc/Debug2,
 	/client/proc/cmd_debug_make_powernets,
+	/client/proc/debug_controller,
 	/client/proc/cmd_debug_mob_lists,
 	/client/proc/cmd_admin_delete,
 	/client/proc/cmd_debug_del_all,
@@ -206,8 +208,8 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/Debug2,
 	/client/proc/reload_admins,
 	/client/proc/cmd_debug_make_powernets,
+	/client/proc/debug_controller,
 	/client/proc/startSinglo,
-	/client/proc/startTesla,
 	/client/proc/cmd_debug_mob_lists,
 	/client/proc/cmd_debug_del_all,
 	/client/proc/enable_debug_verbs,
@@ -276,12 +278,10 @@ var/list/admin_verbs_hideable = list(
 		/client/proc/count_objects_all,
 		/client/proc/cmd_assume_direct_control,
 		/client/proc/startSinglo,
-		/client/proc/startTesla,
 		/client/proc/fps,
 		/client/proc/cmd_admin_grantfullaccess,
 		/client/proc/cmd_admin_areatest,
 		/client/proc/readmin,
-		/client/proc/reload_nanoui_resources
 		)
 	if(holder)
 		verbs.Remove(holder.rank.adds)
@@ -582,7 +582,7 @@ var/list/admin_verbs_hideable = list(
 		var/list/Lines = file2list("config/admins.txt")
 		for(var/line in Lines)
 			var/list/splitline = text2list(line, " = ")
-			if(lowertext(splitline[1]) == ckey)
+			if(ckey(splitline[1]) == ckey)
 				if(splitline.len >= 2)
 					rank = ckeyEx(splitline[2])
 				break

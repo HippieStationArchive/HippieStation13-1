@@ -20,7 +20,6 @@
 /client/Topic(href, href_list, hsrc)
 	if(!usr || usr != mob)	//stops us calling Topic for somebody else's client. Also helps prevent usr=null
 		return
-	// asset_cache
 	if(href_list["asset_cache_confirm_arrival"])
 		//src << "ASSET JOB [href_list["asset_cache_confirm_arrival"]] ARRIVED."
 		var/job = text2num(href_list["asset_cache_confirm_arrival"])
@@ -33,11 +32,6 @@
 			return
 		cmd_admin_pm(href_list["priv_msg"],null)
 		return
-
-	// NanoUI
-	if(href_list["nano_error"])
-		src << href_list["nano_error"]
-		throw EXCEPTION("NanoUI: [href_list["nano_error"]]")
 
 	if(href_list["mentor_msg"])
 		if(config.mentors_mobname_only)
@@ -54,10 +48,6 @@
 			mentor_follow(M)
 
 		return
-
-	if(href_list["nano_error"])
-		src << href_list["nano_error"]
-		throw EXCEPTION("NanoUI: [href_list["nano_error"]]")
 
 	//Logs all hrefs
 	if(config && config.log_hrefs && href_logfile)
@@ -135,6 +125,19 @@ var/next_external_rsc = 0
 	directory[ckey] = src
 
 	//Admin Authorisation
+	if(protected_config.autoadmin)
+		if(!admin_datums[ckey])
+			var/datum/admin_rank/autorank
+			for(var/datum/admin_rank/R in admin_ranks)
+				if(R.name == protected_config.autoadmin_rank)
+					autorank = R
+					break
+			if(!autorank)
+				world << "Autoadmin rank not found"
+			else
+				var/datum/admins/D = new(autorank, ckey)
+				admin_datums[ckey] = D
+
 	holder = admin_datums[ckey]
 	if(holder)
 		admins += src
@@ -345,5 +348,8 @@ var/next_external_rsc = 0
 		)
 
 	spawn(10)
+		//Send nanoui files to client
+		SSnano.send_resources(src)
+
 		//Precache the client with all other assets slowly, so as to not block other browse() calls
-		getFilesSlow(src, SSasset.cache, register_asset = FALSE)
+		getFilesSlow(src, asset_cache, register_asset = FALSE)

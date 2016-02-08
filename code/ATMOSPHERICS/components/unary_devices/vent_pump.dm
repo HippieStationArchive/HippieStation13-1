@@ -63,8 +63,8 @@
 		id_tag = num2text(uid)
 
 /obj/machinery/atmospherics/components/unary/vent_pump/Destroy()
-	if(SSradio)
-		SSradio.remove_object(src,frequency)
+	if(radio_controller)
+		radio_controller.remove_object(src,frequency)
 	radio_connection = null
 	if(initial_loc)
 		initial_loc.air_vent_info -= id_tag
@@ -157,10 +157,10 @@
 //Radio remote control
 
 /obj/machinery/atmospherics/components/unary/vent_pump/proc/set_frequency(new_frequency)
-	SSradio.remove_object(src, frequency)
+	radio_controller.remove_object(src, frequency)
 	frequency = new_frequency
 	if(frequency)
-		radio_connection = SSradio.add_object(src, frequency,radio_filter_in)
+		radio_connection = radio_controller.add_object(src, frequency,radio_filter_in)
 
 /obj/machinery/atmospherics/components/unary/vent_pump/proc/broadcast_status()
 	if(!radio_connection)

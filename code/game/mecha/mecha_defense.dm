@@ -333,13 +333,14 @@
 	return
 
 /obj/mecha/mech_melee_attack(obj/mecha/M)
-	if(M.damtype =="brute")
+	if(M.damtype == BRUTE)
 		playsound(src, 'sound/weapons/punch4.ogg', 50, 1)
-	else if(M.damtype == "fire")
+	else if(M.damtype == BURN)
 		playsound(src, 'sound/items/Welder.ogg', 50, 1)
 	else
 		return
 	visible_message("<span class='danger'>[M.name] has hit [src].</span>")
 	take_damage(M.force, damtype)
+	//TODO: Change this to use the damtype word not int
 	add_logs(M.occupant, src, "attacked", M, "(INTENT: [uppertext(M.occupant.a_intent)]) (DAMTYPE: [uppertext(M.damtype)])")
 	return

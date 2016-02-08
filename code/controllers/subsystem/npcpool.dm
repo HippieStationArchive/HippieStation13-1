@@ -1,9 +1,8 @@
-var/datum/subsystem/npcpool/SSnpc
+var/datum/subsystem/npcpool/SSbp
 
 /datum/subsystem/npcpool
 	name = "NPCPool"
-	priority = 17
-	display = 6
+	priority = 100
 
 	var/list/canBeUsed = list()
 	var/list/canBeUsed_non = list()
@@ -18,7 +17,7 @@ var/datum/subsystem/npcpool/SSnpc
 		botPool_l |= toInsert
 
 /datum/subsystem/npcpool/New()
-	NEW_SS_GLOBAL(SSnpc)
+	NEW_SS_GLOBAL(SSbp)
 
 /datum/subsystem/npcpool/stat_entry()
 	..("T:[botPool_l.len + botPool_l_non.len]|D:[needsDelegate.len]|A:[needsAssistant.len + needsHelp_non.len]|U:[canBeUsed.len + canBeUsed_non.len]")
