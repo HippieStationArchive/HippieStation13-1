@@ -1254,7 +1254,8 @@
 		if(H.health >= config.health_threshold_crit)
 			if(NOBREATH in specflags)	return 1
 			H.adjustOxyLoss(HUMAN_MAX_OXYLOSS)
-			H.failed_last_breath = 1
+			if(H && H.failed_last_breath) // check.
+				H.failed_last_breath = 1
 		else
 			H.adjustOxyLoss(HUMAN_CRIT_MAX_OXYLOSS)
 			H.failed_last_breath = 1
