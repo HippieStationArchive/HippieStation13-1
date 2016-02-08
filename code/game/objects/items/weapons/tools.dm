@@ -288,7 +288,7 @@
 		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
 		if((air_contents.toxins > 0.01) && !(spam_check))
 		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
-			if (spam_level == 0 || spam_level == 1 || spam_level == 2)
+			if (spam_level > 3)
 				spam_check = 1
 				spawn(50)
 					spam_level++
@@ -333,7 +333,7 @@
 		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
 		if((air_contents.toxins > 0) && !(spam_check))
 		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
-			if (spam_level == 0 || spam_level == 1 || spam_level == 2)
+			if (spam_level > 3)
 				spam_check = 1
 				spawn(50)
 					spam_level++
