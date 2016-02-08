@@ -21,7 +21,7 @@
 #   tgs (TG-ported fixes?)
 #################################
 
-# Your name.
+# Your name.  
 author: Blobbernaut
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
@@ -38,3 +38,4 @@ changes:
   - rscadd: "The emag option also has a 2% chance to change the list of injectables to a completely different set of a few 'fun' chemicals."
   - rscdel: "Temporarily removes meeseeks boxes from the spawn pool"
   - experiment: "Superfart damage changed to 50"
+  
