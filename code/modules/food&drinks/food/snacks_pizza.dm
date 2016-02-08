@@ -156,7 +156,8 @@
 			overlays += pizzaimg
 
 		if(has_c4)
-			overlays += obj/item/weapon/c4/image_overlay
+			var/image/c4img = image('icons/obj/assemblies.dmi', "plastic-explosive2")
+			overlays += c4img
 		return
 	else
 		// Stupid code because byondcode sucks
@@ -175,7 +176,8 @@
 			overlays += tagimg
 
 		if(has_c4)
-			overlays += obj/item/weapon/c4/image_overlay
+			var/image/c4img = image('icons/obj/assemblies.dmi', "plastic-explosive2")
+			overlays += c4img
 	icon_state = "pizzabox[boxes.len+1]"
 
 
