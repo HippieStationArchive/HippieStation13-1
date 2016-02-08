@@ -464,7 +464,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	name = "Adamantine Golem"
 	id = "adamantine"
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/golem/adamantine
-	specflags = list(NOBREATH,VIRUSIMMUNE,NOBLOOD,PIERCEIMMUNE,COLDRES, HEATRES, NOFIRE, NOGUNS)
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOFIRE,NOGUNS,NOBLOOD,VIRUSIMMUNE,PIERCEIMMUNE)
 
 /*
  Mr. Meeseeks
