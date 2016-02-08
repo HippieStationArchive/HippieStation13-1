@@ -464,6 +464,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	name = "Adamantine Golem"
 	id = "adamantine"
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/golem/adamantine
+	specflags = list(NOBREATH,VIRUSIMMUNE,NOBLOOD,RADIMMUNE,PIERCEIMMUNE)
 
 /*
  Mr. Meeseeks
@@ -484,7 +485,6 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	no_equip = list(slot_wear_mask, slot_wear_suit, slot_gloves, slot_shoes, slot_head, slot_w_uniform)
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/meeseeks
 	nojumpsuit = 1
-	meat = null
 	exotic_blood = null //insert white blood later
 	say_mod = "yells"
 	var/stage = 1 //stage to control Meeseeks desperation
