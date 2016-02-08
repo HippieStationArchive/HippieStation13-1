@@ -728,8 +728,8 @@ var/list/uplink_items = list()
 	surplus = 50
 
 /datum/uplink_item/stealthy_weapons/dart_pistol
-	name = "Dart Pistol"
-	desc = "A miniaturized version of a normal syringe gun. It is very quiet when fired and can fit into any space a small item can."
+	name = "Mk22"
+	desc = "A compact semi-automatic tranquilizer pistol "
 	item = /obj/item/weapon/gun/syringe/syndicate
 	cost = 4
 	surplus = 50 //High chance of surplus due to poison kit also having a high chance
