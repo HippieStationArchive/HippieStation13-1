@@ -285,7 +285,7 @@
 	if(isturf(location))
 		var/datum/gas_mixture/air_contents = location.return_air()
 		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
-		if((air_contents.toxins > 0) && !(spam_check))
+		if((air_contents.toxins > 1) && !(spam_check))
 		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
 			spam_check = 1
 			spawn(50)
@@ -323,7 +323,7 @@
 		var/turf/location = get_turf(user)
 		var/datum/gas_mixture/air_contents = location.return_air()
 		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
-		if((air_contents.toxins > 0) && !(spam_check))
+		if((air_contents.toxins > 1) && !(spam_check))
 		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
 			spam_check = 1
 			spawn(50)
