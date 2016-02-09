@@ -196,6 +196,7 @@
 	var/can_off_process = 0
 	var/light_intensity = 2 //how powerful the emitted light is when used.
 	var/spam_check = 0
+	var/spam_level = 0
 	heat = 3800
 
 /obj/item/weapon/weldingtool/New()
