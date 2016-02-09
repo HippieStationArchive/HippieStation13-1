@@ -52,9 +52,19 @@
 			sleep(50)
 		F.loc = src.loc
 		for(var/obj/item/O in F.contents)
-			var/icon/OI = icon(O.icon, O.icon_state)
-			OI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
-			O.icon = OI
+			switch(O.fry_amt)
+				if(0)
+					O.color = "#7A5230"
+				if(1)
+					O.color = "#553921"
+				if(2)
+					O.color = "#302013"
+				if(3)
+					O.color = "#181009"
+				if(4)
+					O.color = "#0c0804"
+				else
+					O.color = "#000000"
 			O.fry_amt = O.fry_amt + 1
 			if(!(findtext(O.name, "deep fried"))) O.name = "deep fried [O.name]"
 		if(ishuman(F))
