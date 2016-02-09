@@ -195,6 +195,7 @@
 	var/change_icons = 1
 	var/can_off_process = 0
 	var/light_intensity = 2 //how powerful the emitted light is when used.
+	var/spam_check = 0
 	heat = 3800
 
 /obj/item/weapon/weldingtool/New()
@@ -282,6 +283,15 @@
 		if(M.l_hand == src || M.r_hand == src)
 			location = get_turf(M)
 	if(isturf(location))
+		var/datum/gas_mixture/air_contents = location.return_air()
+		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
+		if((air_contents.toxins > 0) && !(spam_check))
+		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
+			spam_check = 1
+			spawn(50)
+				spam_check = 0
+			message_admins("Plasma at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[location.x];Y=[location.y];Z=[location.z]'>(JMP)</a>. triggered by welder, last touched by [key_name_admin(last)]<A HREF='?_src_=holder;adminmoreinfo=\ref[last]'>(?)</A> (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[last]'>FLW</A>).")
+			investigate_log("Plasma at: X=[location.x];Y=[location.y];Z=[location.z];, trigger by welder last touched by [key_name_admin(last)]", "atmos")
 		location.hotspot_expose(700, 5)
 
 
@@ -311,6 +321,15 @@
 	if(welding)
 		remove_fuel(1)
 		var/turf/location = get_turf(user)
+		var/datum/gas_mixture/air_contents = location.return_air()
+		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
+		if((air_contents.toxins > 0) && !(spam_check))
+		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
+			spam_check = 1
+			spawn(50)
+				spam_check = 0
+			message_admins("Plasma at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[location.x];Y=[location.y];Z=[location.z]'>(JMP)</a>. triggered by welder, last touched by [key_name_admin(last)]<A HREF='?_src_=holder;adminmoreinfo=\ref[last]'>(?)</A> (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[last]'>FLW</A>).")
+			investigate_log("Plasma at: X=[location.x];Y=[location.y];Z=[location.z];, trigger by welder last touched by [key_name_admin(last)]", "atmos")
 		location.hotspot_expose(700, 50, 1)
 
 		if(isliving(O))
