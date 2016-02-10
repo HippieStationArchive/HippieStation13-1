@@ -74,7 +74,7 @@
 
 /obj/item/weapon/veilrender/lesserveilrender
 	name = "lesser veil render"
-	desc = "A wicked curved blade of alien origin, recovered from the ruins of ancient temple."
+	desc = "A wicked curved blade of alien origin, recovered from the ruins of an ancient temple."
 	spawn_type = /mob/living/simple_animal/hostile/faithless
 	spawn_amt = 8
 	activate_descriptor = "reality"
