@@ -142,7 +142,7 @@ Proc for attack log creation, because really why not
 	var/coordinates = "(invalid target coordinates)"
 	if(attack_location && attack_location.x)
 		coordinates = "([attack_location.x],[attack_location.y],[attack_location.z])"
-	if (target)
+	if(target)
 		coordinates = "([target.x],[target.y],[target.z])"
 		if(isliving(target))
 			var/mob/living/L = target

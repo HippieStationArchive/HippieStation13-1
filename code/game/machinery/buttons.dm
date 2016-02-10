@@ -308,6 +308,11 @@
 		flick("[skin]-denied", src)
 		return
 
+	if(istype(user, /mob/living/silicon))
+		user << "<span class='danger'>Access Denied</span>"
+		flick("[skin]-denied", src)
+		return
+
 	use_power(5)
 	icon_state = "[skin]1"
 

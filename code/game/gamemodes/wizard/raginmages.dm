@@ -57,19 +57,19 @@
 				wizard.current.stat = 2
 			continue
 		wizards_alive++
-	if(!time_checked) 
+	if(!time_checked)
 		time_checked = world.time
 	if(bullshit_mode)
 		if(world.time > time_checked + time_check)
 			max_mages = INFINITY
 			time_checked = world.time
-			make_more_mages()	
+			make_more_mages()
 			return ..()
 	if (wizards_alive)
 		if(world.time > time_checked + time_check && (mages_made < max_mages))
 			time_checked = world.time
 			make_more_mages()
-		
+
 	else
 		if(mages_made >= max_mages)
 			finished = 1
@@ -91,15 +91,15 @@
 	spawn(rand(spawn_delay_min, spawn_delay_max))
 		message_admins("SWF is still pissed, sending another wizard - [max_mages - mages_made] left.")
 		for(var/mob/dead/observer/G in player_list)
-			if(G.client && !G.client.holder && !G.client.is_afk() && G.client.prefs.be_special & BE_WIZARD)
-				if(!jobban_isbanned(G, "wizard") && !jobban_isbanned(G, "Syndicate"))
+			if(G.client && !G.client.holder && !G.client.is_afk() && (ROLE_WIZARD in G.client.prefs.be_special))
+				if(!jobban_isbanned(G, ROLE_WIZARD) && !jobban_isbanned(G, "Syndicate"))
 					if(age_check(G.client))
 						candidates += G
 		if(!candidates.len)
 			message_admins("No applicable ghosts for the next ragin' mage, asking ghosts instead.")
 			var/time_passed = world.time
 			for(var/mob/dead/observer/G in player_list)
-				if(!jobban_isbanned(G, "wizard") && !jobban_isbanned(G, "Syndicate"))
+				if(!jobban_isbanned(G, ROLE_WIZARD) && !jobban_isbanned(G, "Syndicate"))
 					if(age_check(G.client))
 						spawn(0)
 							switch(alert(G, "Do you wish to be considered for the position of Space Wizard Foundation 'diplomat'?","Please answer in 30 seconds!","Yes","No"))
