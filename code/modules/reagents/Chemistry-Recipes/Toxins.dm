@@ -124,5 +124,5 @@
 	name = "Bleach"
 	id = "bleach"
 	result = "bleach"
-	required_reagents = list("cleaner" = 1, "sodium" = 1, "chlorine" = 1)
-	result_amount = 3
+	required_reagents = list("oxygen" = 1, "sodium" = 1, "chlorine" = 1, "water" = 1)
+	result_amount = 4
