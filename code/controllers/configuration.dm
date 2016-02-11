@@ -11,7 +11,6 @@
 	var/autoadmin_rank = "Game Admin"
 
 /datum/configuration
-	var/name = "Configuration"			// datum name
 	var/server_name = null				// server name (the name of the game window)
 	var/station_name = null				// station name (the name of the station in-game)
 	var/server_suffix = 0				// generate numeric suffix based on server port
@@ -79,7 +78,6 @@
 
 	var/announce_watchlist = 0
 	var/announce_adminhelps = 0
-	var/announce_adminhelp_exchanges = 0
 
 	//Population cap vars
 	var/soft_popcap				= 0
@@ -183,8 +181,7 @@
 
 	var/announce_admin_logout = 0
 	var/announce_admin_login = 0
-	// The object used for the clickable stat() button.
-	var/obj/effect/statclick/statclick
+
 	// Templates
 	var/place_amount_min = 0
 	var/place_amount_max = 0
@@ -384,8 +381,6 @@
 					config.announce_admin_logout = 1
 				if("announce_admin_login")
 					config.announce_admin_login = 1
-				if("announce_adminhelp_exchanges")
-					config.announce_adminhelp_exchanges = 1
 				if("roundstart_awaymissions")
 					roundstart_awaymissions = 1
 				if("autoadmin")
@@ -660,9 +655,3 @@
 		if(M.required_players <= crew)
 			runnable_modes[M] = probabilities[M.config_tag]
 	return runnable_modes
-
-/datum/configuration/proc/stat_entry()
-	if(!statclick)
-		statclick = new/obj/effect/statclick/debug("Edit", src)
-
-	stat("[name]:", statclick)

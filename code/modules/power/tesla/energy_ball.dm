@@ -44,13 +44,13 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 		move_the_basket_ball(amount_to_move)
 		pixel_x = 0
 		pixel_y = 0
-		playsound(src.loc, 'sound/magic/lightningbolt.ogg', 100, 1, extrarange = 5)
+		playsound(src.loc, 'sound/magic/lightningbolt.ogg', 100, 1, extrarange = 15)
 		tesla_zap(src, 7, the_balls_arent_inert)
 		pixel_x = -32
 		pixel_y = -32
 		energy -= rand(1,3) // ensure that the telsa will now lose energy, instead of gaining. So that way it must constantly be blasted by the PA as a source of energy.
 	else
-		energy = 0 // ensure we don't have miniballs make more miniballs.
+		energy = 0 // ensure we dont have miniballs of miniballs
 	return
 
 /obj/singularity/energy_ball/examine(mob/user)
@@ -70,13 +70,12 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 	if(energy <= -100)
 		destroy_ball()
 		energy += 150
-	if(energy >= 300)
+	else if(energy >= 300)
 		energy -= 300
-		playsound(src.loc, 'sound/magic/lightning_chargeup.ogg', 100, 1, extrarange = 5)
+		playsound(src.loc, 'sound/magic/lightning_chargeup.ogg', 100, 1, extrarange = 15)
 		spawn(100)
 			var/obj/singularity/energy_ball/EB = new(loc)
 			orbiting_balls.Add(EB)
-			poi_list.Remove(EB)
 			EB.transform *= pick(0.3,0.4,0.5,0.6,0.7)
 			EB.is_orbiting = 1
 			var/icon/I = icon(icon,icon_state,dir)
@@ -93,6 +92,9 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 /obj/singularity/energy_ball/Bumped(atom/A)
 	dust_mobs(A)
 
+/obj/singularity/energy_ball/attack_hand(mob/user)
+	return
+
 /obj/singularity/energy_ball/proc/dust_mobs(atom/A)
 	if(istype(A, /mob/living/carbon))
 		var/mob/living/carbon/C = A
@@ -101,14 +103,11 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 
 /obj/singularity/energy_ball/proc/destroy_ball()
 	if(orbiting_balls.len > 0)
-		for(var/obj/singularity/energy_ball/EB in orbiting_balls)
-			orbiting_balls.Remove(EB)
-			qdel(EB)
-			return
+		var/ball_remove = pick(orbiting_balls)
+		orbiting_balls.Remove(ball_remove)
+		qdel(ball_remove)
 	else
 		qdel(src)
-
-/obj/singularity/energy_ball/attack_hand(mob/user)
 	return
 
 /proc/get_closest_atom(type, list, source)
@@ -128,7 +127,7 @@ var/list/blacklisted_tesla_types = list(/obj/machinery/atmospherics,
 	return closest_atom
 
 /proc/tesla_zap(var/atom/source, zap_range = 3, power)
-	if(power < 500)
+	if(power < 1000)
 		return
 	var/list/tesla_coils = list()
 	var/list/grounding_rods = list()

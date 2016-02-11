@@ -3,7 +3,6 @@ var/datum/subsystem/mobs/SSmob
 /datum/subsystem/mobs
 	name = "Mobs"
 	priority = 4
-	display = 4
 
 
 /datum/subsystem/mobs/New()

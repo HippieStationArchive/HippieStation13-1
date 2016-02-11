@@ -464,6 +464,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	name = "Adamantine Golem"
 	id = "adamantine"
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/golem/adamantine
+	specflags = list(NOBREATH,HEATRES,COLDRES,NOFIRE,NOGUNS,NOBLOOD,VIRUSIMMUNE,PIERCEIMMUNE)
 
 /*
  Mr. Meeseeks
@@ -484,7 +485,6 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	no_equip = list(slot_wear_mask, slot_wear_suit, slot_gloves, slot_shoes, slot_head, slot_w_uniform)
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/meeseeks
 	nojumpsuit = 1
-	meat = null
 	exotic_blood = null //insert white blood later
 	say_mod = "yells"
 	var/stage = 1 //stage to control Meeseeks desperation
@@ -745,7 +745,7 @@ var/global/image/plasmaman_on_fire = image("icon"='icons/mob/OnFire.dmi', "icon_
 		if(environment)
 			var/total_moles = environment.total_moles()
 			if(total_moles)
-				if(environment.gases["o2"] && (environment.gases["o2"][MOLES] /total_moles) >= 0.01)
+				if((environment.oxygen /total_moles) >= 0.01)
 					if(!H.on_fire)
 						H.visible_message("<span class='danger'>[H]'s body reacts with the atmosphere and bursts into flames!</span>","<span class='userdanger'>Your body reacts with the atmosphere and bursts into flame!</span>")
 					H.adjust_fire_stacks(0.5)

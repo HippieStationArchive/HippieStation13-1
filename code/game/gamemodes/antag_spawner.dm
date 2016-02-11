@@ -53,7 +53,7 @@
 			if (used)
 				H << "You already used this contract!"
 				return
-			var/list/candidates = get_candidates(BE_WIZARD)
+			var/list/candidates = get_candidates(ROLE_WIZARD)
 			if(candidates.len)
 				src.used = 1
 				var/client/C = pick(candidates)
@@ -129,6 +129,7 @@
 	desc = "A single-use teleporter designed to quickly reinforce operatives in the field."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "locator"
+	var/TC_cost = 0
 	var/borg_to_spawn
 	var/list/possible_types = list("Assault", "Medical")
 
@@ -149,7 +150,7 @@
 	if(!(check_usability(user)))
 		return
 
-	var/list/nuke_candidates = get_candidates(BE_OPERATIVE, 3000, "operative")
+	var/list/nuke_candidates = get_candidates(ROLE_OPERATIVE, 3000, "operative")
 	if(nuke_candidates.len > 0)
 		used = 1
 		var/client/C = pick(nuke_candidates)
@@ -157,7 +158,6 @@
 		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(4, 1, src)
 		s.start()
-		qdel(src)
 	else
 		user << "<span class='warning'>Unable to connect to Syndicate command. Please wait and try again later or use the teleporter on your uplink to get your points refunded.</span>"
 

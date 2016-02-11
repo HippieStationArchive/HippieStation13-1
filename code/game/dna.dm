@@ -23,14 +23,7 @@
 	destination.dna.features = features
 	destination.dna.real_name = real_name
 	if(transfer_SE)
-		for(var/datum/mutation/human/A in mutations)
-			if(!(A in destination.dna.mutations))
-				A.on_acquiring(destination)
-		for(var/datum/mutation/human/A in destination.dna.mutations)
-			if(!(A in mutations))
-				A.on_losing(destination)
 		destination.dna.struc_enzymes = struc_enzymes
-		destination.dna.mutations = mutations
 
 /datum/dna/proc/copy_dna(datum/dna/new_dna)
 	new_dna.unique_enzymes = unique_enzymes
@@ -147,9 +140,10 @@
 	return spans
 
 /datum/dna/proc/is_same_as(datum/dna/D)
-	if(uni_identity == D.uni_identity && struc_enzymes == D.struc_enzymes && real_name == D.real_name)
-		if(species.type == D.species.type && features == D.features && blood_type == D.blood_type)
-			return 1
+	if(D.uni_identity)
+		if(uni_identity == D.uni_identity && struc_enzymes == D.struc_enzymes && real_name == D.real_name)
+			if(species.type == D.species.type && features == D.features && blood_type == D.blood_type)
+				return 1
 	return 0
 
 //used to update dna UI, UE, and dna.real_name.

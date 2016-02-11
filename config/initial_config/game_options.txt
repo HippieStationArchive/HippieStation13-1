@@ -313,6 +313,7 @@ zs 7
 ## These objects will be placed last
 
 place_last /obj/machinery/power/apc
+place_last /obj/structure/cable
 place_last /obj/machinery/light_switch
 place_last /obj/machinery/disposal
 place_last /obj/machinery/atmospherics/unary/vent_pump
@@ -326,5 +327,6 @@ tries 10
 
 ## Directory for template files
 
-directory _maps\RandomZLevels\templates
+directory _maps\templates
+
 

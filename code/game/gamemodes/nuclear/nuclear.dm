@@ -8,7 +8,7 @@
 	required_players = 20 // 20 players - 5 players to be the nuke ops = 15 players remaining
 	required_enemies = 5
 	recommended_enemies = 5
-	antag_flag = BE_OPERATIVE
+	antag_flag = ROLE_OPERATIVE
 	enemy_minimum_age = 14
 
 	var/const/agents_possible = 5 //If we ever need more syndicate agents.
@@ -87,10 +87,6 @@
 		greet_syndicate(synd_mind)
 		equip_syndicate(synd_mind.current)
 
-		var/obj/item/device/radio/headset/syndicate/alt/A = locate() in synd_mind.current
-		if(A)
-			A.command = TRUE
-
 		if (nuke_code)
 			synd_mind.store_memory("<B>Syndicate Nuclear Bomb Code</B>: [nuke_code]", 0, 0)
 			synd_mind.current << "The nuclear authorization code is: <B>[nuke_code]</B>"
@@ -161,6 +157,11 @@
 		obj_count++
 	return
 
+
+/datum/game_mode/proc/random_radio_frequency()
+	return 1337 // WHY??? -- Doohl
+
+
 /datum/game_mode/proc/equip_syndicate(mob/living/carbon/human/synd_mob, telecrystals = TRUE)
 	if(telecrystals)
 		synd_mob.equipOutfit(/datum/outfit/syndicate)
@@ -172,6 +173,7 @@
 	if (nukes_left == 0)
 		return 1
 	return ..()
+
 
 /datum/game_mode/proc/are_operatives_dead()
 	for(var/datum/mind/operative_mind in syndicates)
@@ -229,7 +231,7 @@
 		world << "<FONT size = 3><B>Crew Major Victory!</B></FONT>"
 		world << "<B>The Research Staff has saved the disc and killed the [syndicate_name()] Operatives</B>"
 
-	else if (disk_rescued)
+	else if ( disk_rescued )
 		feedback_set_details("round_end_result","loss - evacuation - disk secured")
 		world << "<FONT size = 3><B>Crew Major Victory</B></FONT>"
 		world << "<B>The Research Staff has saved the disc and stopped the [syndicate_name()] Operatives!</B>"
@@ -260,13 +262,13 @@
 		var/TC_uses = 0
 		for(var/datum/mind/syndicate in syndicates)
 			text += printplayer(syndicate)
-			for(var/obj/item/device/uplink/H in uplinks)
-				if(H && H.owner && H.owner == syndicate.key)
-					TC_uses += H.spent_telecrystals
+			for(var/obj/item/device/uplink/H in world_uplinks)
+				if(H && H.uplink_owner && H.uplink_owner==syndicate.key)
+					TC_uses += H.used_TC
 					purchases += H.purchase_log
 		text += "<br>"
 		text += "(Syndicates used [TC_uses] TC) [purchases]"
-		if(TC_uses == 0 && station_was_nuked && !are_operatives_dead())
+		if(TC_uses==0 && station_was_nuked && !are_operatives_dead())
 			text += "<BIG><IMG CLASS=icon SRC=\ref['icons/BadAss.dmi'] ICONSTATE='badass'></BIG>"
 		world << text
 	return 1
@@ -316,9 +318,10 @@
 	R.freqlock = 1
 
 	if(tc)
-		var/obj/item/device/radio/uplink/nuclear/U = new(H)
-		U.hidden_uplink.owner = "[H.key]"
-		U.hidden_uplink.telecrystals = tc
+		var/obj/item/device/radio/uplink/U = new /obj/item/device/radio/uplink(H)
+		U.hidden_uplink.uplink_owner="[H.key]"
+		U.hidden_uplink.uses = tc
+		U.hidden_uplink.mode_override = /datum/game_mode/nuclear //Goodies
 		H.equip_to_slot_or_del(U, slot_in_backpack)
 
 	var/obj/item/weapon/implant/weapons_auth/W = new/obj/item/weapon/implant/weapons_auth(H)
@@ -340,6 +343,7 @@
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
 		/obj/item/weapon/tank/jetpack/oxygen/harness=1,\
 		/obj/item/weapon/pinpointer/nukeop=1)
+	tc = 30
 /datum/outfit/syndicate/full/post_equip(mob/living/carbon/human/H)
 	..()
 

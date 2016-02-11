@@ -43,7 +43,7 @@
 		return
 	if(!isturf(user.loc))
 		return
-	if(!AStar(user, target.loc, /turf/proc/Distance, user.mind.changeling.sting_range, simulated_only = 0))
+	if(!AStar(user.loc, target.loc, null, /turf/proc/Distance, user.mind.changeling.sting_range))
 		return
 	if(standing_req && target.lying)
 		user << "<span class='warning'>We can only use this sting on standing targets!</span>"

@@ -1,17 +1,20 @@
-#define CHALLENGE_TELECRYSTALS 280
-#define CHALLENGE_MIN_PLAYERS 50
 #define CHALLENGE_TIME_LIMIT 3000
+#define MIN_CHALLENGE_PLAYERS 50
 
 /obj/item/device/nuclear_challenge
 	name = "Declaration of War (Challenge Mode)"
 	icon_state = "gangtool-red"
 	item_state = "walkietalkie"
 	desc = "Use to send a declaration of hostilities to the target, delaying your shuttle departure for 20 minutes while they prepare for your assault.  \
-			Such a brazen move will attract the attention of powerful benefactors within the Syndicate, who will supply your team with a massive amount of bonus telecrystals.  \
-			Must be used within five minutes, or your benefactors will lose interest."
+	Such a brazen move will attract the attention of powerful benefactors within the Syndicate, who will supply your team with a massive amount of bonus telecrystals.  \
+	Must be used within five minutes, or your benefactors will lose interest."
+
+
 
 /obj/item/device/nuclear_challenge/attack_self(mob/living/user)
-	if(player_list.len < CHALLENGE_MIN_PLAYERS)
+	if(..())
+		return
+	if(player_list.len < MIN_CHALLENGE_PLAYERS)
 		user << "The enemy crew is too small to be worth declaring war on."
 		return
 	if(user.z != ZLEVEL_CENTCOM)
@@ -29,17 +32,18 @@
 
 	var/war_declaration = "[user.real_name] has declared his intent to utterly destroy [station_name()] with a nuclear device, and dares the crew to try and stop them."
 	priority_announce(war_declaration, title = "Declaration of War", sound = 'sound/machines/Alarm.ogg')
+	set_security_level(SEC_LEVEL_RED)
 	user << "You've attracted the attention of powerful forces within the syndicate. A bonus bundle of telecrystals has been granted to your team. Great things await you if you complete the mission."
 
 	for(var/obj/machinery/computer/shuttle/syndicate/S in machines)
 		S.challenge = TRUE
 
-	var/obj/item/device/radio/uplink/nuclear/U = new(get_turf(user))
-	U.hidden_uplink.owner = "[user.key]"
-	U.hidden_uplink.telecrystals = CHALLENGE_TELECRYSTALS
-	U.hidden_uplink.gamemode = /datum/game_mode/nuclear
+	var/obj/item/device/radio/uplink/U = new /obj/item/device/radio/uplink(get_turf(user))
+	U.hidden_uplink.uplink_owner= "[user.key]"
+	U.hidden_uplink.uses = 200
+	U.hidden_uplink.mode_override = /datum/game_mode/nuclear //Maybe we can have a special set of items for the challenge uplink eventually
 	qdel(src)
 
-#undef CHALLENGE_TELECRYSTALS
+
 #undef CHALLENGE_TIME_LIMIT
-#undef CHALLENGE_MIN_PLAYERS
+#undef MIN_CHALLENGE_PLAYERS

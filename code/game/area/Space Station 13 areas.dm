@@ -464,6 +464,10 @@ var/list/teleportlocs = list()
 	name = "Strange Room"
 	icon_state = "yellow"
 
+/area/maintenance/commiespy
+	name = "Russian Room"
+	icon_state = "yellow"
+
 
 //Hallway
 
@@ -876,6 +880,10 @@ var/list/teleportlocs = list()
 	name = "\improper Security Office"
 	icon_state = "security"
 
+/area/security/lockers
+	name = "\improper Security Locker Room"
+	icon_state = "firingrange"
+
 /area/security/sec_lobby
 	name = "\improper Security Lobby"
 	icon_state = "security"
@@ -923,6 +931,10 @@ var/list/teleportlocs = list()
 /area/security/transfer
 	name = "\improper Transfer Centre"
 	icon_state = "armory"
+
+/area/security/arrivalscheckpoint
+	name = "\improper Arrivals Security Checkpoint"
+	icon_state = "security"
 
 /*
 	New()
@@ -1668,10 +1680,50 @@ var/list/teleportlocs = list()
 /area/awaycontent/a30
 	icon_state = "awaycontent30"
 
-//Areas used exclusively by templates
-/area/template/
-	name = "LabShuttle"
-	icon_state = "hydro"
+// Template Code
+/area/template/Labshuttle
+ 	name = "LabShuttle"
+ 	icon_state = "hydro"
+
+/area/template/Clown
+	name = "Clownship"
+	icon_state = "clown"
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/space.ogg'
+	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
+
+/area/template/OriginalClown
+	name = "Clownship"
+	icon_state = "clown"
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/space.ogg'
+	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
+
+/area/template/Mimeship
+	name = "Broken Mimeship"
+	icon_state = "mime"
+	has_gravity = 1
+
+/area/template/TempleGeometer
+	name = "\improper Temple of Unholy Geometer"
+	icon_state = "yellow"
+	requires_power = 0
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/terriblehum.ogg'
+	ambientsounds = list('sound/spookoween/ghost_whisper.ogg','sound/spookoween/girlscream.ogg','sound/hallucinations/behind_you1.ogg','sound/hallucinations/behind_you2.ogg','sound/hallucinations/i_see_you1.ogg','sound/hallucinations/i_see_you2.ogg','sound/hallucinations/wail.ogg','sound/misc/scream_m1.ogg','sound/misc/scream_m2.ogg','sound/misc/scream_f1.ogg')
+
+/area/template/syndicate_scout_ship
+	name = "\improper Syndicate scout ship"
+	icon_state = "syndie-ship"
+	requires_power = 0
+	has_gravity = 1
+
+/area/template/abandoned_abductor_ship
+	name = "\improper Abandoned Abductor Ship"
+	icon_state = "yellow"
+	requires_power = 0
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/opressivehum.ogg'
 
 /////////////////////////////////////////////////////////////////////
 /*

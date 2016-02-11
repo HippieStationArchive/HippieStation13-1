@@ -1,6 +1,6 @@
 /client/proc/TemplatePanel()
 	set name = "Template Panel"
-	set category = "Debug"
+	set category = "Fun"
 
 	// Place
 

@@ -40,7 +40,13 @@
 	if( operating || !src.density )
 		return
 	if (!( ismob(AM) ))
-		if(istype(AM, /obj/mecha))
+		var/obj/machinery/bot/bot = AM
+		if(istype(bot))
+			if(src.check_access(bot.botcard))
+				open_and_close()
+			else
+				flick("[src.base_state]deny", src)
+		else if(istype(AM, /obj/mecha))
 			var/obj/mecha/mecha = AM
 			if(mecha.occupant && src.allowed(mecha.occupant))
 				open_and_close()
@@ -199,7 +205,7 @@
 
 
 /obj/machinery/door/window/mech_melee_attack(obj/mecha/M)
-	if(M.damtype == "brute")
+	if(M.damtype == BRUTE)
 		playsound(src.loc, 'sound/effects/Glasshit.ogg', 75, 1)
 		visible_message("<span class='danger'>[M.name] has hit [src].</span>")
 		take_damage(M.force)
@@ -311,10 +317,10 @@
 					if(!electronics)
 						ae = new/obj/item/weapon/electronics/airlock( src.loc )
 						if(req_one_access)
-							ae.one_access = 1
-							ae.accesses = src.req_one_access
+							ae.use_one_access = 1
+							ae.conf_access = src.req_one_access
 						else
-							ae.accesses = src.req_access
+							ae.conf_access = src.req_access
 					else
 						ae = electronics
 						electronics = null
