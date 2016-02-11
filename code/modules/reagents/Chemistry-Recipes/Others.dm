@@ -336,6 +336,13 @@
 	result = "colorful_reagent"
 	required_reagents = list("stable_plasma" = 1, "radium" = 1, "space_drugs" = 1, "cryoxadone" = 1, "triple_citrus" = 1)
 	result_amount = 5
+	
+/datum/chemical_reaction/red_reagent
+	name = "red_reagent"
+	id = "red_reagent"
+	result = "red_reagent"
+	required_reagents = list("colorful_reagent" = 1, "redcrayonpowder" = 1)
+	result_amount = 2
 
 /datum/chemical_reaction/orange_reagent
 	name = "orange_reagent"
