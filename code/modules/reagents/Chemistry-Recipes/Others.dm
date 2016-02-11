@@ -327,6 +327,8 @@
 	required_reagents = list("oil" = 1)
 	result_amount = 1
 	required_temp = 480
+	
+//////////////////////////////////// Colorant ///////////////////////////////////////////
 
 /datum/chemical_reaction/colorful_reagent
 	name = "colorful_reagent"
@@ -334,6 +336,48 @@
 	result = "colorful_reagent"
 	required_reagents = list("stable_plasma" = 1, "radium" = 1, "space_drugs" = 1, "cryoxadone" = 1, "triple_citrus" = 1)
 	result_amount = 5
+	
+/datum/chemical_reaction/red_reagent
+	name = "red_reagent"
+	id = "red_reagent"
+	result = "red_reagent"
+	required_reagents = list("colorful_reagent" = 1, "redcrayonpowder" = 1)
+	result_amount = 2
+
+/datum/chemical_reaction/orange_reagent
+	name = "orange_reagent"
+	id = "orange_reagent"
+	result = "orange_reagent"
+	required_reagents = list("colorful_reagent" = 1, "orangecrayonpowder" = 1)
+	result_amount = 2
+	
+/datum/chemical_reaction/yellow_reagent
+	name = "yellow_reagent"
+	id = "yellow_reagent"
+	result = "yellow_reagent"
+	required_reagents = list("colorful_reagent" = 1, "yellowcrayonpowder" = 1)
+	result_amount = 2
+	
+/datum/chemical_reaction/green_reagent
+	name = "green_reagent"
+	id = "green_reagent"
+	result = "green_reagent"
+	required_reagents = list("colorful_reagent" = 1, "greencrayonpowder" = 1)
+	result_amount = 2
+	
+/datum/chemical_reaction/blue_reagent
+	name = "blue_reagent"
+	id = "blue_reagent"
+	result = "blue_reagent"
+	required_reagents = list("colorful_reagent" = 1, "bluecrayonpowder" = 1)
+	result_amount = 2
+	
+/datum/chemical_reaction/purple_reagent
+	name = "purple_reagent"
+	id = "purple_reagent"
+	result = "purple_reagent"
+	required_reagents = list("colorful_reagent" = 1, "purplecrayonpowder" = 1)
+	result_amount = 2
 
 /datum/chemical_reaction/life
 	name = "Life"
