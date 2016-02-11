@@ -724,3 +724,29 @@
 		if(H.vessel)
 			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
 	..()
+	
+/datum/reagent/toxin/bleach
+name = "Bleach"
+id = "bleach"
+description = "A powerful stain remover, highly toxic."
+reagent_state = LIQUID
+color = "#FFFFFF"
+toxpwr = 2
+
+/datum/reagent/toxin/bleach/on_mob_life(mob/living/M)
+	if(M && isliving(M) && M.color != initial(M.color))
+		M.color = initial(M.color)
+	..()
+	return
+/datum/reagent/toxin/bleach/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M) && M.color != initial(M.color))
+		M.color = initial(M.color)
+	..()
+/datum/reagent/toxin/bleach/reaction_obj(obj/O, reac_volume)
+	if(O && O.color != initial(O.color))
+		O.color = initial(O.color)
+	..()
+/datum/reagent/toxin/bleach/reaction_turf(turf/T, reac_volume)
+	if(T && T.color != initial(T.color))
+		T.color = initial(T.color)
+	..()

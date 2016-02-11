@@ -972,7 +972,13 @@
 				/obj/item/weapon/grown/nettle/basic = list("sacid" = 0),
 				/obj/item/weapon/grown/nettle/death = list("facid" = 0),
 				/obj/item/weapon/grown/novaflower = list("capsaicin" = 0, "condensedcapsaicin" = 0),
-
+				/obj/item/weapon/coin/gold = list("gold" = 20),
+				/obj/item/weapon/coin/silver = list("silver" = 20),
+				/obj/item/weapon/coin/iron = list("iron" = 20),
+				/obj/item/weapon/coin/plasma = list("plasma" = 20),
+				/obj/item/weapon/coin/uranium = list("uranium" = 20),
+				/obj/item/weapon/coin/clown = list("banana" = 20),
+				
 				//Crayons (for overriding colours)
 				/obj/item/toy/crayon/red = list("redcrayonpowder" = 10),
 				/obj/item/toy/crayon/orange = list("orangecrayonpowder" = 10),
@@ -981,6 +987,7 @@
 				/obj/item/toy/crayon/blue = list("bluecrayonpowder" = 10),
 				/obj/item/toy/crayon/purple = list("purplecrayonpowder" = 10),
 				/obj/item/toy/crayon/mime = list("invisiblecrayonpowder" = 50),
+				/obj/item/toy/crayon/rainbow = list("colorful_reagent" = 50),
 
 				//Blender Stuff
 				/obj/item/weapon/reagent_containers/food/snacks/grown/soybeans = list("soymilk" = 0),
