@@ -728,7 +728,7 @@
 /datum/reagent/toxin/bleach
 name = "Bleach"
 id = "bleach"
-description = "A powerful cleaner, highly toxic."
+description = "A powerful stain remover, highly toxic."
 reagent_state = LIQUID
 color = "#FFFFFF"
 toxpwr = 2
