@@ -724,3 +724,73 @@
 		if(H.vessel)
 			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
 	..()
+	
+/datum/reagent/toxin/bleach
+name = "Bleach"
+id = "bleach"
+description = "A powerful cleaner, highly toxic."
+reagent_state = LIQUID
+color = "#FFFFFF"
+toxpwr = 2
+
+/datum/reagent/toxin/bleach/on_mob_life(mob/living/M)
+	if(M && isliving(M) && M.color != initial(M.color))
+		M.color = initial(M.color)
+	if(method==INGEST || PATCH || INJECT)
+		M.adjustBrainLoss(1*REM)
+	..()
+	return
+/datum/reagent/toxin/bleach/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M) && M.color != initial(M.color))
+		M.color = initial(M.color)
+	if(method == TOUCH || VAPOR)
+		if(iscarbon(M))
+			var/mob/living/carbon/C = M
+			if(istype(M,/mob/living/carbon/human))
+				var/mob/living/carbon/human/H = M
+				if(H.lip_style)
+					H.lip_style = null
+					H.update_body()
+			if(C.r_hand)
+				C.r_hand.clean_blood()
+			if(C.l_hand)
+				C.l_hand.clean_blood()
+			if(C.wear_mask)
+				if(C.wear_mask.clean_blood())
+					C.update_inv_wear_mask()
+			if(ishuman(M))
+				var/mob/living/carbon/human/H = C
+				if(H.head)
+					if(H.head.clean_blood())
+						H.update_inv_head()
+				if(H.wear_suit)
+					if(H.wear_suit.clean_blood())
+						H.update_inv_wear_suit()
+				else if(H.w_uniform)
+					if(H.w_uniform.clean_blood())
+						H.update_inv_w_uniform()
+				if(H.shoes)
+					if(H.shoes.clean_blood())
+						H.update_inv_shoes()
+			M.clean_blood()
+
+	..()
+/datum/reagent/toxin/bleach/reaction_obj(obj/O, reac_volume)
+	if(O && O.color != initial(O.color))
+		O.color = initial(O.color)
+	if(istype(O,/obj/effect/decal/cleanable))
+		qdel(O)
+	else
+		if(O)
+			O.clean_blood()
+	..()
+/datum/reagent/toxin/bleach/reaction_turf(turf/T, reac_volume)
+	if(T && T.color != initial(T.color))
+		T.color = initial(T.color)
+	if(reac_volume >= 1)
+		T.clean_blood()
+		for(var/obj/effect/decal/cleanable/C in T)
+			qdel(C)
+		for(var/mob/living/simple_animal/slime/M in T)
+			M.adjustToxLoss(rand(10,20))
+	..()
