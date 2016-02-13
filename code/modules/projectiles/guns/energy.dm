@@ -3,15 +3,16 @@
 	name = "energy gun"
 	desc = "A basic energy-based gun."
 	icon = 'icons/obj/guns/energy.dmi'
-
 	var/obj/item/weapon/stock_parts/cell/power_supply //What type of power cell this uses
 	var/cell_type = /obj/item/weapon/stock_parts/cell
 	var/modifystate = 0
 	var/list/ammo_type = list(/obj/item/ammo_casing/energy)
+	var weapon = /obj/item/weapon/gun/energy/gun/advtaser
 	var/select = 1 //The state of the select fire switch. Determines from the ammo_type list what kind of shot is fired next.
 	var/can_charge = 1 //Can it be charged in a recharger?
 	ammo_x_offset = 2
 	var/shaded_charge = 0 //if this gun uses a stateful charge bar for more detail
+	var/overlay_ammo = 4 //number of sprite cartridges visible. Used on guns to switch sprites
 
 /obj/item/weapon/gun/energy/emp_act(severity)
 	power_supply.use(round(power_supply.charge / severity))
@@ -57,7 +58,7 @@
 /obj/item/weapon/gun/energy/process_chamber()
 	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
 		var/obj/item/ammo_casing/energy/shot = chambered
-		power_supply.use(shot.e_cost)//... drain the power_supply cell
+		power_supply.use(shot.e_cost)//... drain the power_supply cell			
 	chambered = null //either way, released the prepared shot
 	return
 
@@ -73,27 +74,36 @@
 	update_icon()
 	return
 
-/obj/item/weapon/gun/energy/update_icon()
+/obj/item/weapon/gun/energy/update_icon(mob/user = usr)
 	overlays.Cut()
-	var/ratio = Ceiling((power_supply.charge / power_supply.maxcharge) * 4)
+	var/charge = -1 // charge for weapons that don't use shaded_charge
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
-	var/iconState = "[icon_state]_charge"
+	var/ammo_left = round(power_supply.charge / shot.e_cost)
+	var/max_ammo = power_supply.maxcharge / shot.e_cost
+	var/overlay_ammo_increments = max_ammo / src.overlay_ammo //so we know when to change the overlay sprites on the weapon
+	var/overlay_counter = round(ammo_left / overlay_ammo_increments) //number of overlay sprites for the current ammo in the weapon
+	user << "<span class='notice'>power supply charge is now [power_supply.charge].</span>"
+	user << "<span class='notice'>ammo_left is now set to [ammo_left].</span>"
 	var/itemState = null
+	var/iconState = "[icon_state]_charge"
 	if(!initial(item_state))
 		itemState = icon_state
-	if (modifystate)
-		overlays += "[icon_state]_[shot.select_name]"
+	if (modifystate) 
+		overlays += "[icon_state]_[shot.select_name]"// if weapon has at least 1 ammo, add overlay with ammo in chamber
 		iconState += "_[shot.select_name]"
 		if(itemState)
 			itemState += "[shot.select_name]"
 	if(power_supply.charge < shot.e_cost)
 		overlays += "[icon_state]_empty"
 	else
-		if(!shaded_charge)
-			for(var/i = ratio, i >= 1, i--)
+		if(!shaded_charge && ammo_left > 1)
+			user << "<span class='notice'>overlay_counter = [overlay_counter].</span>"
+			for(var/i = overlay_counter;i > 0;i--)
+				user << "<span class='notice'>looped [i] times.</span>"
 				overlays += image(icon = icon, icon_state = iconState, pixel_x = ammo_x_offset * (i -1))
-		else
-			overlays += image(icon = icon, icon_state = "[icon_state]_charge[ratio]")
+		else 
+			charge = Ceiling((power_supply.charge / power_supply.maxcharge) * 4)
+			overlays += image(icon = icon, icon_state = "[icon_state]_charge[charge]")
 	if(F)
 		var/iconF = "flight"
 		if(F.on)
@@ -102,9 +112,16 @@
 	if(knife)
 		var/iconK = "knife"
 		overlays += image(icon = 'icons/obj/guns/attachments.dmi', icon_state = iconK, pixel_x = knife_x_offset, pixel_y = knife_y_offset)
-	if(itemState)
-		itemState += "[ratio]"
-		item_state = itemState
+	if(itemState) //I'm not sure where the sprite's are for the itemState, it appears there is a sprite missing for when there is only 1 bullet in the weapon chambered. Code below is a work around in that the itemState wont change to show just 1 bullet.
+		if(charge != -1)//lasers are separate
+			itemState += "[charge]"
+			item_state = itemState
+		else
+			if(overlay_counter < 1 && ammo_left != 0)
+				itemState += "1"
+			else
+				itemState += "[overlay_counter]"
+			item_state = itemState
 
 /obj/item/weapon/gun/energy/ui_action_click()
 	toggle_gunlight()

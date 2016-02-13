@@ -5,6 +5,7 @@
 	item_state = null	//so the human update icon uses the icon_state instead.
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode)
 	ammo_x_offset = 3
+	overlay_ammo = 4 //number of sprite cartridges visible. Used in energy.dm to switch sprites
 
 /obj/item/weapon/gun/energy/stunrevolver
 	name = "stun revolver"
@@ -14,6 +15,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode/gun)
 	can_flashlight = 0
 	ammo_x_offset = 1
+	overlay_ammo = 1
 
 /obj/item/weapon/gun/energy/gun/advtaser
 	name = "hybrid taser"
@@ -22,6 +24,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/disabler)
 	origin_tech = null
 	ammo_x_offset = 2
+	overlay_ammo = 4
 
 /obj/item/weapon/gun/energy/gun/advtaser/cyborg
 	name = "cyborg taser"
@@ -63,6 +66,7 @@
 	item_state = null
 	ammo_type = list(/obj/item/ammo_casing/energy/disabler)
 	ammo_x_offset = 3
+	overlay_ammo = 4
 
 /obj/item/weapon/gun/energy/disabler/cyborg
 	name = "cyborg disabler"
