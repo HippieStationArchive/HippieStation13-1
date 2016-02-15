@@ -74,7 +74,7 @@
 	update_icon()
 	return
 
-/obj/item/weapon/gun/energy/update_icon(mob/user = usr)
+/obj/item/weapon/gun/energy/update_icon()
 	overlays.Cut()
 	var/charge = -1 // charge for weapons that use shaded_charge
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
