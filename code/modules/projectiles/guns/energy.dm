@@ -76,14 +76,12 @@
 
 /obj/item/weapon/gun/energy/update_icon(mob/user = usr)
 	overlays.Cut()
-	var/charge = -1 // charge for weapons that don't use shaded_charge
+	var/charge = -1 // charge for weapons that use shaded_charge
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
 	var/ammo_left = round(power_supply.charge / shot.e_cost)
 	var/max_ammo = power_supply.maxcharge / shot.e_cost
 	var/overlay_ammo_increments = max_ammo / src.overlay_ammo //so we know when to change the overlay sprites on the weapon
 	var/overlay_counter = round(ammo_left / overlay_ammo_increments) //number of overlay sprites for the current ammo in the weapon
-	user << "<span class='notice'>power supply charge is now [power_supply.charge].</span>"
-	user << "<span class='notice'>ammo_left is now set to [ammo_left].</span>"
 	var/itemState = null
 	var/iconState = "[icon_state]_charge"
 	if(!initial(item_state))
@@ -97,9 +95,7 @@
 		overlays += "[icon_state]_empty"
 	else
 		if(!shaded_charge && ammo_left > 1)
-			user << "<span class='notice'>overlay_counter = [overlay_counter].</span>"
 			for(var/i = overlay_counter;i > 0;i--)
-				user << "<span class='notice'>looped [i] times.</span>"
 				overlays += image(icon = icon, icon_state = iconState, pixel_x = ammo_x_offset * (i -1))
 		else 
 			charge = Ceiling((power_supply.charge / power_supply.maxcharge) * 4)
@@ -112,7 +108,7 @@
 	if(knife)
 		var/iconK = "knife"
 		overlays += image(icon = 'icons/obj/guns/attachments.dmi', icon_state = iconK, pixel_x = knife_x_offset, pixel_y = knife_y_offset)
-	if(itemState) //I'm not sure where the sprite's are for the itemState, it appears there is a sprite missing for when there is only 1 bullet in the weapon chambered. Code below is a work around in that the itemState wont change to show just 1 bullet.
+	if(itemState) //I'm not sure where the sprite's are for the itemState, it appears that there is a sprite missing for when there is only 1 bullet in the weapon chambered. Code below is a work around in that the itemState wont change to show just 1 bullet.
 		if(charge != -1)//lasers are separate
 			itemState += "[charge]"
 			item_state = itemState
