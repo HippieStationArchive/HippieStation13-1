@@ -331,7 +331,7 @@
 	origin_tech = "combat=3;materials=4;powerstorage=3;magnets=2"
 	ammo_type = list(/obj/item/ammo_casing/energy/temp, /obj/item/ammo_casing/energy/temp/hot)
 	cell_type = "/obj/item/weapon/stock_parts/cell/high"
-	overlay_ammo = 5 //number of sprite cartridges visible. Used in energy.dm to switch sprites
+	overlay_ammo = 4 //number of sprite cartridges visible. Used in energy.dm to switch sprites
 
 /obj/item/weapon/gun/energy/temperature/attack_self(mob/living/user)
 	select_fire(user)
