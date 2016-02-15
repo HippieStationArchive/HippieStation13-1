@@ -10,7 +10,7 @@
 	icon_state = "elecarm"
 
 /obj/item/borg/stun/attack(mob/living/M, mob/living/silicon/robot/user)
-	if(!user.cell.use(30)) return
+	if(!user.cell.use(300)) return
 
 	M.Weaken(5)
 	M.apply_effect(STUTTER, 5)
