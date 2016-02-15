@@ -244,6 +244,16 @@
 	state = 1
 	mineral = "bananium"
 
+/obj/structure/door_assembly/door_assembly_mime
+	name = "silencium airlock assembly"
+	desc = "..."
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "empty"
+	airlock_type = /obj/machinery/door/airlock/mime
+	anchored = 1
+	state = 1
+	mineral = "silencium"
+
 /obj/structure/door_assembly/door_assembly_sandstone
 	name = "sandstone airlock assembly"
 	icon = 'icons/obj/doors/airlocks/station/sandstone.dmi'

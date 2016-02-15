@@ -393,7 +393,7 @@
 	result = "lye"
 	required_reagents = list("sodium" = 1, "hydrogen" = 1, "oxygen" = 3)
 	result_amount = 3
-	
+
 //////////////////////////////////// Solidification ///////////////////////////////////////////
 
 /datum/chemical_reaction/plasmasolidification
@@ -460,6 +460,20 @@
 	var/location = get_turf(holder.my_atom)
 	new /obj/item/stack/sheet/mineral/bananium(location)
 	return
+
+/datum/chemical_reaction/silenciumsolidification
+	name = "Solid Silencium"
+	id = "solidsilencium"
+	result = null
+	required_reagents = list("pyrosium" = 10, "cryostylane" = 10, "nothing" = 20)
+	result_amount = 1
+	mob_react = 1
+
+/datum/chemical_reaction/silenciumsolidification/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	new /obj/item/stack/sheet/mineral/silencium(location)
+	return
+
 
 /datum/chemical_reaction/silversolidification
 	name = "Solid Silver"

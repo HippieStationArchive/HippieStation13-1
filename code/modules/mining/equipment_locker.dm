@@ -19,7 +19,7 @@
 	var/ore_pickup_rate = 15
 	var/sheet_per_ore = 1
 	var/point_upgrade = 1
-	var/list/ore_values = list(("sand" = 1), ("iron" = 1), ("gold" = 20), ("silver" = 20), ("uranium" = 20), ("bananium" = 30), ("diamond" = 40), ("plasma" = 40))
+	var/list/ore_values = list(("sand" = 1), ("iron" = 1), ("gold" = 20), ("silver" = 20), ("uranium" = 20), ("bananium" = 30), ("silencium" = 30), ("diamond" = 40), ("plasma" = 40))
 
 /obj/machinery/mineral/ore_redemption/New()
 	..()
@@ -619,7 +619,7 @@
 	speak_emote = list("states")
 	wanted_objects = list(/obj/item/weapon/ore/diamond, /obj/item/weapon/ore/gold, /obj/item/weapon/ore/silver,
 						  /obj/item/weapon/ore/plasma,  /obj/item/weapon/ore/uranium,    /obj/item/weapon/ore/iron,
-						  /obj/item/weapon/ore/bananium)
+						  /obj/item/weapon/ore/bananium, /obj/item/weapon/ore/silencium)
 
 /mob/living/simple_animal/hostile/mining_drone/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/weldingtool))
