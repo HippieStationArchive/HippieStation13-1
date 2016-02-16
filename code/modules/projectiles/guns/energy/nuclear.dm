@@ -25,6 +25,7 @@
 	force = 10
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode/hos, /obj/item/ammo_casing/energy/laser/hos, /obj/item/ammo_casing/energy/disabler)
 	ammo_x_offset = 4
+	overlay_ammo = 4 //number of sprite cartridges visible. Used in energy.dm to switch sprites
 
 /obj/item/weapon/gun/energy/gun/dragnet
 	name = "\improper DRAGnet"
@@ -47,6 +48,7 @@
 	can_flashlight = 0
 	trigger_guard = 0
 	ammo_x_offset = 2
+	overlay_ammo = 4 //number of sprite cartridges visible. Used in energy.dm to switch sprites
 
 /obj/item/weapon/gun/energy/gun/nuclear
 	name = "advanced energy gun"

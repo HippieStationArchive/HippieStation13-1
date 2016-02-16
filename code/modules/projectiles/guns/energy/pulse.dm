@@ -9,6 +9,7 @@
 	slot_flags = SLOT_BACK
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/pulse, /obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)
 	cell_type = "/obj/item/weapon/stock_parts/cell/pulse"
+	overlay_ammo = 4 //number of sprite cartridges visible. Used in energy.dm to switch sprites
 
 /obj/item/weapon/gun/energy/pulse/attack_self(mob/living/user)
 	select_fire(user)
@@ -32,6 +33,7 @@
 	can_knife = 1
 	knife_x_offset = 18
 	knife_y_offset = 12
+	overlay_ammo = 4
 
 /obj/item/weapon/gun/energy/pulse/carbine/loyalpin
 
@@ -44,6 +46,7 @@
 	item_state = "gun"
 	cell_type = "/obj/item/weapon/stock_parts/cell/pulse/pistol"
 	can_charge = 0
+	overlay_ammo = 4
 
 /obj/item/weapon/gun/energy/pulse/pistol/loyalpin
 
@@ -53,6 +56,7 @@
 	desc = "A heavy-duty energy rifle built for pure destruction."
 	cell_type = "/obj/item/weapon/stock_parts/cell/infinite"
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/pulse)
+	overlay_ammo = 4
 
 /obj/item/weapon/gun/energy/pulse/destroyer/attack_self(mob/living/user)
 	user << "<span class='danger'>[src.name] has three settings, and they are all DESTROY.</span>"
@@ -63,3 +67,4 @@
 	icon_state = "m1911"
 	item_state = "gun"
 	cell_type = "/obj/item/weapon/stock_parts/cell/infinite"
+	overlay_ammo = 4

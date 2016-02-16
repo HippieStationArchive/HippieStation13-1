@@ -66,6 +66,7 @@ obj/item/weapon/gun/energy/laser/retro/sc_retro
 	desc = "An older model of the basic lasergun, no longer used by Nanotrasen's security or military forces."
 //	projectile_type = "/obj/item/projectile/practice"
 	clumsy_check = 0 //No sense in having a harmless gun blow up in the clowns face
+	overlay_ammo = 4 //number of sprite cartridges visible. Used in energy.dm to switch sprites
 
 //Syndicate sub-machine guns.
 /obj/item/weapon/gun/projectile/automatic/c20r/sc_c20r
@@ -90,6 +91,7 @@ obj/item/weapon/gun/energy/laser/retro/sc_retro
 	name = "Old laser"
 	desc = "A once potent weapon, years of dust have collected in the chamber and lens of this weapon, weakening the beam significantly."
 	clumsy_check = 0
+	overlay_ammo = 4 //number of sprite cartridges visible. Used in energy.dm to switch sprites
 
 /*
  * Safe code hints
