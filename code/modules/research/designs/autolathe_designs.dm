@@ -459,6 +459,14 @@
 	build_path = /obj/item/weapon/rcd
 	category = list("hacked", "Construction")
 
+/datum/design/beartrap
+	name = "Bear trap"
+	id = "beartrap"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 15000)
+	build_path = /obj/item/weapon/restraints/legcuffs/beartrap
+	category = list("hacked", "Misc")
+
 /datum/design/electropack
 	name = "Electropack"
 	id = "electropack"
