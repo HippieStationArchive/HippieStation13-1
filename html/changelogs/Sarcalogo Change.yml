@@ -1,7 +1,0 @@
- 
-author: Sarcalogo
-
-delete-after: True
-
-changes: 
-  - rscdel: "Removes the reactive teleport armor from the RD's office."
