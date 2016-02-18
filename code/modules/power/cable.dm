@@ -520,8 +520,8 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			var/obj/structure/noose/N = new(get_turf(user.loc))
 			N.buckle_mob(user)
 			var/obj/item/organ/limb/affecting = null
-			if(user.floating)
-				if(ishuman(user.gravity == 1))
+			if(user.gravity)
+				if(ishuman(user))
 					var/mob/living/carbon/human/H = user
 					affecting = H.get_organ("head")
 				user.say("--Hrnk!!")
