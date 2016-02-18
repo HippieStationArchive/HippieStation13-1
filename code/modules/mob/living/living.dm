@@ -715,10 +715,11 @@ Sorry Giacom. Please don't be mad :(
 	if(anchored || (buckled && buckled.anchored))
 		fixed = 1
 	if(on && !floating && !fixed)
-		animate(src, pixel_y = pixel_y + 2, float_y + 2, time = 10, loop = -1)
+		animate(src, pixel_y = pixel_y + 2, time = 10, loop = -1)
 		floating = 1
 	else if(((!on || fixed) && floating))
-		animate(src, pixel_y - float_y, time = 10, float_y = 0)
+		var/final_pixel_y = get_standard_pixel_y_offset(lying)
+		animate(src, pixel_y = final_pixel_y, time = 10)
 		floating = 0
 
 //called when the mob receives a bright flash
