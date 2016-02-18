@@ -554,7 +554,7 @@
 	icon_state = "open"
 	spawn(5)
 		for(var/mob/living/M in loc)
-			if(!M.floating)
+			if(!M.gravity)
 				M.loc = src
 				trap_flush()
 				if(auto_close_on_mob)
@@ -590,7 +590,7 @@
 	if(open)
 		if(istype(AM, /mob/living/))
 			var/mob/living/M = AM
-			if(M.floating)
+			if(M.gravity)
 				return
 			M.loc = src
 			trap_flush()
@@ -619,7 +619,7 @@
 		return
 	add_fingerprint(user)
 	if(user == target)
-		if(target.floating)
+		if(target.gravity)
 			user.visible_message("[user] is attempting to dive into [src].", \
 				"<span class='notice'>You start diving into [src]...</span>")
 			if(!do_mob(target, user, 10))

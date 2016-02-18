@@ -702,23 +702,29 @@ Sorry Giacom. Please don't be mad :(
 		return
 	if(has_gravity)
 		clear_alert("weightless")
+		gravity = 1
 	else
 		throw_alert("weightless", /obj/screen/alert/weightless)
+		gravity = 0
 	float(!has_gravity)
 
 /mob/living/proc/float(on)
 	if(throwing)
 		return
 	var/fixed = 0
+	var/float_y = 0
 	if(anchored || (buckled && buckled.anchored))
 		fixed = 1
 	if(on && !floating && !fixed)
-		animate(src, pixel_y = pixel_y + 2, time = 10, loop = -1)
+		animate(src, pixel_y = pixel_y + 2, float_y - 2, time = 10, loop = -1)
 		floating = 1
 	else if(((!on || fixed) && floating))
 		var/final_pixel_y = get_standard_pixel_y_offset(lying)
-		animate(src, pixel_y = final_pixel_y, time = 10)
-		floating = 0
+		if(final_pixel_y == pixel_y)
+			floating = 0
+		else
+			animate(src, pixel_y + float_y, time = 10)
+			floating = 0
 
 //called when the mob receives a bright flash
 /mob/living/proc/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0, noflash = 0)
