@@ -1,5 +1,5 @@
 //In this file: C4 and Syndicate Bombs
-/atom/movable/
+/atom/
 	var/has_c4 = FALSE //If the item has c4 planted on it.
 
 /obj/item/weapon/c4
