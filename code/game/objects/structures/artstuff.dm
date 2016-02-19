@@ -15,6 +15,8 @@
 	icon = 'icons/obj/artstuff.dmi'
 	icon_state = "easel"
 	density = 1
+	burn_state = 0 //Burnable
+	burntime = 15
 	var/obj/item/weapon/canvas/painting = null
 
 
@@ -56,6 +58,7 @@ var/global/list/globalBlankCanvases[AMT_OF_CANVASES]
 	desc = "Draw out your soul on this canvas! Instructions: Only crayons can draw on it. Examine it to focus on the canvas. You can name, sign and write a description if you have a pen."
 	icon = 'icons/obj/artstuff.dmi'
 	icon_state = "11x11"
+	burn_state = 0 //Burnable
 	var/whichGlobalBackup = 1 //List index
 	var/offset_pixel_y = 3 //Used by frames/paintings. What pixel offset to apply to the photocopied painting?
 	var/offset_pixel_x = 0 //Most of the paintings only have to change y offset.
@@ -303,6 +306,7 @@ var/global/list/globalBlankCanvases[AMT_OF_CANVASES]
 	desc = "Screw crayons, this is how real artists paint!"
 	icon = 'icons/obj/artstuff.dmi'
 	icon_state = "brush"
+	burn_state = 0 //Burnable
 	var/colour = "" //If this variable is not empty the brush will have a fancy overlay added to it!
 	var/paintstyle = "pixel" //What kind of paint style does this brush have?
 	var/line_ox //Selected pixel for linedraw
@@ -338,6 +342,7 @@ var/global/list/globalBlankCanvases[AMT_OF_CANVASES]
 	desc = "This color palette supports up to 8 colors!"
 	icon = 'icons/obj/artstuff.dmi'
 	icon_state = "palette"
+	burn_state = 0 //Burnable
 	var/list/colorpalette[8] //Crayon colors
 	var/dat
 
