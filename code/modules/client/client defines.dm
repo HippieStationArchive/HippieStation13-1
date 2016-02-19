@@ -48,3 +48,5 @@
 	//datum that controls the displaying and hiding of tooltips
 	var/datum/tooltip/tooltips
 
+	var/reset_stretch = 0 //Used by things that fiddle with client's stretch-to-fit.
+	var/list/prev_screen = list()
