@@ -680,6 +680,8 @@
 			H.sight |= SEE_OBJS
 
 		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 3 : darksight
+		if(is_shadow_or_thrall(H))  //Check if the mob is a shadowling or thrall, to make sure their vision range doesn't create odd artifacts.
+			H.see_in_dark = 8
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
 
