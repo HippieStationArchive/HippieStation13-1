@@ -126,32 +126,41 @@
 		icon_state = "cutters-y"
 		item_state = "cutters_yellow"
 
-/obj/item/weapon/wirecutters/attack(mob/living/carbon/C, mob/user)
+/obj/item/weapon/wirecutters/attack(mob/living/carbon/C, mob/living/user)
 	if(ishuman(C) && user.zone_sel.selecting == "mouth")
 		var/mob/living/carbon/human/H = C
 		var/obj/item/organ/limb/head/O = locate() in H.organs
 		if(!O || !O.get_teeth())
 			user << "<span class='notice'>[H] doesn't have any teeth left!</span>"
 			return
-		H.visible_message("<span class='danger'>[user] tries to tear off [H]'s tooth with [src]!</span>",
-							"<span class='userdanger'>[user] tries to tear off your tooth with [src]!</span>")
-		if(do_after(user, 50, target = H))
-			if(!O || !O.get_teeth()) return
-			var/obj/item/stack/teeth/E = pick(O.teeth_list)
-			if(!E || E.zero_amount()) return
-			var/obj/item/stack/teeth/T = new E.type(H.loc, 1)
-			T.copy_evidences(E)
-			E.use(1)
-			T.add_blood(H)
-			E.zero_amount() //Try to delete the teeth
-			add_logs(user, H, "torn out the tooth from", src)
-			H.visible_message("<span class='danger'>[user] tears off [H]'s tooth with [src]!</span>",
-							"<span class='userdanger'>[user] tears off your tooth with [src]!</span>")
-			var/armor = H.run_armor_check(O, "melee")
-			H.apply_damage(rand(1,5), BRUTE, O, armor)
-			playsound(H, 'sound/misc/tear.ogg', 40, 1, -1) //RIP AND TEAR. RIP AND TEAR.
-			H.emote("scream")
+		if(!user.doing_something)
+			user.doing_something = 1
+			H.visible_message("<span class='danger'>[user] tries to tear off [H]'s tooth with [src]!</span>",
+								"<span class='userdanger'>[user] tries to tear off your tooth with [src]!</span>")
+			if(do_after(user, 50, target = H))
+				if(!O || !O.get_teeth()) return
+				var/obj/item/stack/teeth/E = pick(O.teeth_list)
+				if(!E || E.zero_amount()) return
+				var/obj/item/stack/teeth/T = new E.type(H.loc, 1)
+				T.copy_evidences(E)
+				E.use(1)
+				T.add_blood(H)
+				E.zero_amount() //Try to delete the teeth
+				add_logs(user, H, "torn out the tooth from", src)
+				H.visible_message("<span class='danger'>[user] tears off [H]'s tooth with [src]!</span>",
+								"<span class='userdanger'>[user] tears off your tooth with [src]!</span>")
+				var/armor = H.run_armor_check(O, "melee")
+				H.apply_damage(rand(1,5), BRUTE, O, armor)
+				playsound(H, 'sound/misc/tear.ogg', 40, 1, -1) //RIP AND TEAR. RIP AND TEAR.
+				H.emote("scream")
+				user.doing_something = 0
+			else
+				user << "<span class='notice'>Your attempt to pull out a teeth fails...</span>"
+				user.doing_something = 0
 			return
+		else if(user.doing_something)
+			user << "<span class='notice'>You are already trying to pull out a teeth!</span>"
+		return
 	if(istype(C) && C.handcuffed && istype(C.handcuffed, /obj/item/weapon/restraints/handcuffs/cable))
 		user.visible_message("<span class='notice'>[user] cuts [C]'s restraints with [src]!</span>")
 		qdel(C.handcuffed)
