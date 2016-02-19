@@ -554,11 +554,10 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 /obj/structure/noose/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/weapon/wirecutters))
 		user.visible_message("[user] cuts the noose.", "<span class='notice'>You cut the noose.</span>")
-		if(buckled_mob)
+		if(buckled_mob && buckled_mob.gravity)
 			buckled_mob.visible_message("<span class='danger'>[buckled_mob] falls over and hits the ground!</span>",\
 										"<span class='userdanger'>You fall over and hit the ground!</span>")
-			if(buckled_mob.gravity)
-				buckled_mob.adjustBruteLoss(10)
+			buckled_mob.adjustBruteLoss(10)
 		var/obj/item/stack/cable_coil/C = new(get_turf(src))
 		C.amount = 25
 		qdel(src)
