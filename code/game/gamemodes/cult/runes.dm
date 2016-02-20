@@ -707,6 +707,11 @@ var/list/teleport_other_runes = list()
 		var/mob/living/carbon/C = user
 		C.apply_damage(2, BRUTE, pick("l_arm", "r_arm"))
 
+/obj/effect/rune/wall/blood_trail
+	icon = 'icons/effects/blood.dmi'
+	icon_state = "tracks"
+	color = null
+	density = 1
 
 //Rite of the Unheard Whisper:  Deafens all non-cultists nearby.
 /obj/effect/rune/deafen

@@ -380,6 +380,8 @@
 							sound = "sound/misc/caw.ogg"
 						if("skeleton")
 							sound = "sound/misc/skeleton.ogg"
+						if ("moth")
+							sound = "sound/misc/moth.ogg"
 						else
 							if(gender == FEMALE)
 								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')

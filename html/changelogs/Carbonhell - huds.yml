@@ -1,0 +1,6 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixes losing rev hud when transforming back from bat form as a vampire."
