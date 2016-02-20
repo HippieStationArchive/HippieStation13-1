@@ -32,6 +32,3 @@
 #define ANTAG_HUD_WIZ		9
 #define ANTAG_HUD_SHADOW    10
 #define ANTAG_HUD_ZOMBIE    11
-
-#define ANTAG_HUD_HOG_BLUE 12
-#define ANTAG_HUD_HOG_RED 13
