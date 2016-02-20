@@ -1260,14 +1260,14 @@
 
 		else if(href_list["handofgod"] in teams)
 			make_Handofgod_follower(href_list["handofgod"])
-			message_admins("[key_name_admin(usr)] has red follower'ed [current].")
-			log_admin("[key_name(usr)] has red follower'ed [current].")
+			message_admins("[key_name_admin(usr)] has added [current] to the [href_list["handofgod"]] hand of god team.")
+			log_admin("[key_name(usr)] has added [current] to the [href_list["handofgod"]] hand of god team.")
 
 		else if(href_list["handofgod"] == "follower")
 			if(what_rank(src) != 3)
 				make_Handofgod_follower(current.faction["team"]) // this is safe because this option will only appear if this fellow mind is in a team
-				message_admins("[key_name_admin(usr)] has follower'ed [current].")
-				log_admin("[key_name(usr)] has follower'ed [current].")
+				message_admins("[key_name_admin(usr)] has made [current] into a follower.")
+				log_admin("[key_name(usr)] has made [current] into a follower.")
 			else
 				usr << "<span class='danger'>Can't transform a god into a follower!Humanize him first.</span>"
 
