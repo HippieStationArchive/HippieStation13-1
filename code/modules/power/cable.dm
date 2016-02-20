@@ -520,7 +520,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			var/obj/structure/noose/N = new(get_turf(user.loc))
 			N.buckle_mob(user)
 			var/obj/item/organ/limb/affecting = null
-			if(user.gravity)
+			if(!user.floating)
 				if(ishuman(user))
 					var/mob/living/carbon/human/H = user
 					affecting = H.get_organ("head")
@@ -554,7 +554,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 /obj/structure/noose/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/weapon/wirecutters))
 		user.visible_message("[user] cuts the noose.", "<span class='notice'>You cut the noose.</span>")
-		if(buckled_mob && buckled_mob.gravity)
+		if(buckled_mob && !buckled_mob.floating)
 			buckled_mob.visible_message("<span class='danger'>[buckled_mob] falls over and hits the ground!</span>",\
 										"<span class='userdanger'>You fall over and hit the ground!</span>")
 			buckled_mob.adjustBruteLoss(10)
@@ -673,7 +673,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 		if(3) //Every third tick it plays a sound and RNG's a flavor text
 			pixel_x += 1
 			buckled_mob.pixel_x += 1
-			if(buckled_mob.gravity)
+			if(!buckled_mob.floating)
 				if(prob(50))
 					var/flavor_text = list("<span class='suicide'>[buckled_mob]'s legs flail for anything to stand on.</span>",\
 											"<span class='suicide'>[buckled_mob]'s hands are desperately clutching the noose.</span>",\
@@ -687,7 +687,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			pixel_x = initial(pixel_x)
 			buckled_mob.pixel_x = initial(buckled_mob.pixel_x)
 			ticks = 0
-	if(buckled_mob.gravity)
+	if(!buckled_mob.floating)
 		buckled_mob.adjustOxyLoss(5)
 		buckled_mob.emote("gasp")
 

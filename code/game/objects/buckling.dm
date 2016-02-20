@@ -40,8 +40,6 @@
 
 	M.buckled = src
 	M.dir = dir
-	M.floating = 0
-	animate(M, M.pixel_y = M.get_standard_pixel_y_offset(M.lying), time = 1)
 	buckled_mob = M
 	M.update_canmove()
 	post_buckle_mob(M)
