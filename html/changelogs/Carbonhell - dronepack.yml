@@ -1,6 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed not being able to remove watertank backpacks from a drone storage slot as a drone."
