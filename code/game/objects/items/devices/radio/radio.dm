@@ -231,9 +231,6 @@
 		var/mob/living/C = M
 		if(C.client)
 			var/cooldown = 0.8
-			//world << "Last talk time (world time): [C.client.last_radio_talk_time]"
-			world << "Cooldown time (time to not go over!): [C.client.last_radio_talk_time + cooldown]"
-			world << "Current world time: [world.time]"
 			if(C.client.prefs && C.client.prefs.muted)
 				return
 
