@@ -37,7 +37,6 @@
 	var/bloodcrawl = 0 //0 No blood crawling, BLOODCRAWL for bloodcrawling, BLOODCRAWL_EAT for crawling+mob devour
 	var/holder = null //The holder for blood crawling
 	var/ventcrawler = 0 //0 No vent crawling, 1 vent crawling in the nude, 2 vent crawling always
-	var/gravity = 1
 	var/floating = 0
 	var/mob_size = MOB_SIZE_HUMAN
 	var/metabolism_efficiency = 1 //more or less efficiency to metabolize helpful/harmful reagents and regulate body temperature..
@@ -56,3 +55,7 @@
 	var/unique_name = 0 //if a mob's name should be appended with an id when created e.g. Mob (666)
 
 	var/list/butcher_results = null
+
+	var/mob_has_gravity = 1
+	var/float_y = 0
+	var/float_ticks = 0
