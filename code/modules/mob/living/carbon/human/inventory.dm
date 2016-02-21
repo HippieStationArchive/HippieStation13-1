@@ -160,7 +160,6 @@
 
 	I.screen_loc = null // will get moved if inventory is visible
 	I.loc = src
-	I.equipped(src, slot)
 	I.layer = 20
 
 	switch(slot)
@@ -236,6 +235,7 @@
 		else
 			src << "<span class='danger'>You are trying to equip this item to an unsupported inventory slot. Report this to a coder!</span>"
 			return
+	I.equipped(src, slot) // moved this here so mob overlays can be edited too!
 
 //Cycles through all clothing slots and tests them for destruction
 /mob/living/carbon/human/proc/shred_clothing(bomb,shock)

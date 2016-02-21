@@ -490,7 +490,7 @@
 	A.yo = targloc.y - curloc.y
 	A.xo = targloc.x - curloc.x
 	A.fire()
-	return
+	return A
 
 
 ////////////////////////
