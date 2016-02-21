@@ -719,10 +719,10 @@ Sorry Giacom. Please don't be mad :(
 		float_ticks++
 		switch(float_ticks)
 			if(1)
-				animate(src, pixel_y += 2, time = 10)
+				animate(src, pixel_y = pixel_y + 2, time = 10)
 				float_y += 2
 			if(2)
-				animate(src, pixel_y -= 2), time = 10)
+				animate(src, pixel_y = pixel_y - 2, time = 10)
 				float_y -= 2
 				float_ticks = 0
 		floating = 1
