@@ -702,8 +702,10 @@ Sorry Giacom. Please don't be mad :(
 		return
 	if(has_gravity)
 		clear_alert("weightless")
+		gravity = 1
 	else
 		throw_alert("weightless", /obj/screen/alert/weightless)
+		gravity = 0
 	float(!has_gravity)
 
 /mob/living/proc/float(on)

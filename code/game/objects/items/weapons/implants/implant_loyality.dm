@@ -32,9 +32,9 @@
 			return -1
 		if(target.mind in ticker.mode.revolutionaries)
 			ticker.mode.remove_revolutionary(target.mind)
-		if(target.mind in ticker.mode.red_deity_followers|ticker.mode.blue_deity_followers)
+		if(what_rank(target.mind) == 1) // aka guy's a follower
 			ticker.mode.remove_hog_follower(target.mind)
-		if((target.mind in ticker.mode.cult) || (target.mind in ticker.mode.blue_deity_prophets|ticker.mode.red_deity_prophets))
+		if((target.mind in ticker.mode.cult) || what_rank(target.mind) == 2) // a cultist or a prophet
 			target << "<span class='warning'>You feel the corporate tendrils of Nanotrasen try to invade your mind!</span>"
 		else
 			target << "<span class='notice'>You feel a surge of loyalty towards Nanotrasen.</span>"
