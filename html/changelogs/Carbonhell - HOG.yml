@@ -1,0 +1,7 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fully rewrites Hand of God gamemode, making it hopefully fully playable."
+  - imageadd: "Huge thanks to Fury for all the icons he provided for Hand of God!"
