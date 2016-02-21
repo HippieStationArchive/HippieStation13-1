@@ -225,6 +225,27 @@
 	//  Fix for permacell radios, but kinda eh about actually fixing them.
 	if(!M || !message) return
 
+	//Radio specific mute system. Talking faster than once per second ten times will result in a mute. Shouldn't be possible to legitimately talk faster
+	//than that unless you're attempting to spam in some form.
+	if(isliving(M))
+		var/mob/living/C = M
+		if(C.client)
+			var/cooldown = 0.8
+			//world << "Last talk time (world time): [C.client.last_radio_talk_time]"
+			world << "Cooldown time (time to not go over!): [C.client.last_radio_talk_time + cooldown]"
+			world << "Current world time: [world.time]"
+			if(C.client.prefs && C.client.prefs.muted)
+				return
+
+			if(C.client.last_radio_talk_time + cooldown > world.time)
+				C.client.radio_mute_strikes += 1
+
+			if(C.client.radio_mute_strikes >= SPAM_TRIGGER_AUTOMUTE)
+				C << "<span class='danger'>You have exceeded the spam limit for radio messages. An auto-mute was applied.</span>"
+				cmd_admin_mute(C.client, MUTE_IC, 1)
+				C.client.radio_mute_strikes = 0
+				return
+
 	//  Uncommenting this. To the above comment:
 	// 	The permacell radios aren't suppose to be able to transmit, this isn't a bug and this "fix" is just making radio wires useless. -Giacom
 	if(isWireCut(WIRE_TRANSMIT)) // The device has to have all its wires and shit intact

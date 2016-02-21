@@ -82,6 +82,12 @@
 		message = Gibberish(message, compression + 40)
 
 	// --- Broadcast only to intercom devices ---
+	if(isliving(AM))
+		var/mob/living/C = AM
+		if(C.client)
+			C.client.last_radio_talk_time = world.time
+			if(C.client.prefs && C.client.prefs.muted)
+				return
 
 	if(data == 1)
 		for(var/obj/item/device/radio/intercom/R in all_radios["[freq]"])
