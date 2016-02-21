@@ -48,7 +48,7 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 		log_game("[follower.key] (ckey) has been selected as a follower, however teams have not been decided yet.")
 //hud creation
 	for(var/i in 1 to teams.len)
-		teams[i] += huds
+		huds += teams[i]
 		huds[teams[i]] = new/datum/atom_hud/antag()
 	return 1
 
