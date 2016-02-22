@@ -714,6 +714,9 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	feedback_add_details("admin_verb","TRE") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
+
+
+
 /client/proc/reset_all_tcs()
 	set category = "Admin"
 	set name = "Reset Telecomms Scripts"
@@ -977,3 +980,64 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 	message_admins("[key_name_admin(usr)] toggled their admin antag HUD [adding_hud ? "ON" : "OFF"].")
 	log_admin("[key_name(usr)] toggled their admin antag HUD [adding_hud ? "ON" : "OFF"].")
 	feedback_add_details("admin_verb","TAH") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+
+/client/proc/reset_atmos()
+	set name = "Clean Air"
+	set category = "Special Verbs"
+	set desc = "Cleans the air in a radius of harmful gasses like plasma and n2o "
+	var/size = input("How big?", "Input") in list(5, 10, 20, "Cancel")
+	if(size == "Cancel")
+		return 0
+	for(var/turf/simulated/T in range(size))
+		if(T.air)
+			var/datum/gas_mixture/A = T.air
+			T.overlays.Cut()
+			if(A)
+				A.trace_gases.Cut()
+				A.toxins = 0
+				A.oxygen = 21.8366
+				A.nitrogen = 82.1472
+				A.temperature = T20C
+	message_admins("[key_name(src)] cleaned air within [size] tiles.")
+	log_game("[key_name(src)] cleaned air within [size] tiles.")
+
+/client/proc/reenable_gravity_gen()
+	set name = "Turn on Gravity Generator"
+	set category = "Special Verbs"
+	set desc = "Use this to turn on the gravity generator"
+	for(var/obj/machinery/gravity_generator/main/grav in world)
+		if(grav.z == 1)
+			grav.breaker = 1
+			grav.charge_count = 100
+			grav.set_state(1)
+			if(grav.middle)
+				grav.middle.overlays.Cut()
+				grav.middle.overlays += "activated"
+				grav.current_overlay = "activated"
+			break
+	message_admins("[key_name(src)] admin revived the gravity generator")
+	log_game("[key_name(src)] admin revived the gravity generator")
+
+/client/proc/fill_breach()
+	set name = "Fill Hull Breach"
+	set category = "Special Verbs"
+	set desc = "Spawns plating over space breachs"
+	var/size = input("How big?", "Input") in list(5, 10, "Cancel")
+	if(size == "Cancel")
+		return 0
+	for(var/turf/space/T in range(size))
+		T.ChangeTurf(/turf/simulated/floor/plating)
+	spawn(1)
+	for(var/turf/simulated/T in range(size))
+		if(T.air)
+			var/datum/gas_mixture/A = T.air
+			T.overlays.Cut()
+			if(A)
+				A.trace_gases.Cut()
+				A.toxins = 0
+				A.oxygen = 21.8366
+				A.nitrogen = 82.1472
+				A.temperature = T20C
+	message_admins("[key_name(src)] filled the hullbreachs in [size] tiles.")
+	log_game("[key_name(src)] filled the hullbreachs in [size] tiles.")
