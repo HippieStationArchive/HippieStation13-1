@@ -308,6 +308,19 @@
 	sideslist = list("valid", "salad")
 	value = 20
 
+/obj/item/weapon/coin/cat
+	name = "Cat Coin"
+	icon_state = "coin_cat_heads"
+	cmineral = "cat"
+	desc = "A very valuable coin made from cat teeth."
+
+/obj/item/weapon/coin/xeno
+	name = "Xeno Coin"
+	icon_state = "coin_xeno_heads"
+	cmineral = "xeno"
+	desc = "An extremely valuable coin made from Xenomorph teeth. Ayylmao."
+
+
 /obj/item/weapon/coin/antagtoken/New()
 	return
 
