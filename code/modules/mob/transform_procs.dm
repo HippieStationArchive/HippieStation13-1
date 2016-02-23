@@ -423,9 +423,9 @@
 	. = new_slime
 	qdel(src)
 
-/mob/proc/become_god(var/side_colour)
-	var/mob/camera/god/G = new /mob/camera/god(loc)
-	G.side = side_colour
+/mob/proc/become_god(side_colour)
+	var/mob/camera/god/G = new /mob/camera/god(loc, side_colour)
+	mind.special_role = "God"
 	if(mind)
 		mind.transfer_to(G)
 	else
