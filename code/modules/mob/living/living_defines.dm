@@ -56,4 +56,7 @@
 
 	var/list/butcher_results = null
 
+	var/mob_has_gravity = 1
+	var/float_y = 0
+	var/float_ticks = 0
 	var/doing_something = 0 //Doing something? pulling out a teeth?
