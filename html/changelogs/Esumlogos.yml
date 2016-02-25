@@ -1,0 +1,4 @@
+author: Esumlogos
+delete-after: True
+changes: 
+  - tweak: "The reactive teleport armor now has a slowdown effect and activates only twenty five percent of the time instead of fifty. "
