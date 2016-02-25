@@ -136,7 +136,7 @@
 
 /mob/camera/god/proc/update_followers()
 	alive_followers = 0
-	var/list/all_followers = get_my_followers()
+	var/list/all_followers = get_my_followers() + get_my_prophet() // prophets are people too!
 
 	for(var/datum/mind/F in all_followers)
 		if(F && F.current && F.current.stat != DEAD)
@@ -179,9 +179,9 @@
 	msg = say_quote(msg, get_spans())
 	var/rendered = "<font color='#045FB4'><i><span class='game say'>Divine Telepathy, <span class='name'>[name]</span> <span class='message'>[msg]</span></span></i></font>"
 
-	var/list/myfollowers = get_my_followers()
+	var/datum/mind/myprop = get_my_prophet()
 	for(var/mob/M in mob_list)
-		if(isobserver(M) || (M.mind && M.mind in myfollowers && what_rank(M.mind) == "Prophet"))//if the mob is a ghost, or if the mob is my team's prophet
+		if(isobserver(M) || (M.mind && M.mind == myprop))//if the mob is a ghost, or if the mob is my team's prophet
 			M.show_message(rendered, 2)
 	src << rendered
 

@@ -109,7 +109,7 @@
 		var/datum/faction/HOG/M = choice.mind.faction
 		if(M)//should never fail
 			M.members[choice.mind] = "Prophet"
-		var/datum/action/innate/godspeak/action = new
+		var/datum/action/innate/godspeak/action = new /datum/action/innate/godspeak()
 		action.gods.Add(src)
 		action.Grant(choice)
 
@@ -146,6 +146,7 @@
 				H << "<span class='boldnotice'>A powerful staff has been bestowed upon you, you can use this to convert the false god's structures!</span>"
 				H << "<span class=boldnotice'>[success]</span>"
 		//end prophet gear
+		ticker.mode.update_hog_icons_added(choice.mind, side)
 
 		add_faith(-100)
 

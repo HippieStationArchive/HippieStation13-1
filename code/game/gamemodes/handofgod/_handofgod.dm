@@ -260,11 +260,11 @@ var/global/list/teams = list("red" = 0, "blue" = 0) //so it can be accessed by m
 	return godlist
 
 /proc/get_team_players(team = "")
-	var/list/players = list()
+	var/list/mypeople = list()
 	for(var/datum/faction/HOG/H in ticker.factions)
 		if(H.side == team)
-			players = H.members
-	return players
+			mypeople = H.members.Copy()
+	return mypeople
 
 /proc/get_team_followers(team = "") // team is a text var like "blue"
 	var/list/players = get_team_players(team)

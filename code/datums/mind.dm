@@ -1551,7 +1551,10 @@
 	ticker.mode.update_hog_icons_added(src,team)
 
 	var/datum/action/innate/godspeak/A = new /datum/action/innate/godspeak()
-	A.gods.Add(get_team_gods(team))
+	var/list/gods = get_team_gods(team)
+	for(var/datum/mind/god in gods)
+		if(god.current)
+			A.gods.Add(god.current)
 	A.Grant(current)
 	current << "<span class='boldnotice'>You gain the ability to speak with your god!</span>"
 
