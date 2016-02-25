@@ -1,9 +1,6 @@
 /datum/atom_hud/antag
 	hud_icons = list(ANTAG_HUD)
 
-/datum/atom_hud/antag/HOG
-	var/side
-
 /datum/atom_hud/antag/proc/join_hud(mob/M)
 	if(!istype(M))
 		CRASH("join_hud(): [M] ([M.type]) is not a living mob!")
