@@ -65,7 +65,11 @@
 	set category = "Deity"
 	set name = "Jump to Follower"
 	set desc = "Teleports you to one of your followers."
-	var/list/following = get_my_followers()
+	var/list/followerminds = get_my_followers()
+	var/list/following = list()
+	for(var/datum/mind/A in followerminds)
+		if(A.current)
+			following += A.current
 	if(!following.len)
 		src << "You are unaligned, and thus do not have followers"
 		return
@@ -80,23 +84,34 @@
 	set name = "Appoint Prophet (100)"
 	set desc = "Appoint one of your followers as your Prophet, who can hear your words"
 
-	var/list/followers = get_my_followers()
+	var/list/followersmind = get_my_followers()
+	var/list/followersmob = list()
 
 	if(!ability_cost(100))
 		return
 	if(!side)
 		src << "You are unalligned, and thus do not have prophets"
 		return
-	var/mob/old_proph = get_my_prophet()
+	var/datum/mind/old_proph = get_my_prophet()
 
-	if(old_proph && old_proph.stat != DEAD)
+	if(old_proph && old_proph.current && old_proph.current.stat != DEAD)
 		src << "You can only have one prophet alive at a time."
 		return
 
-	var/mob/choice = input("Choose a follower to make into your prophet","Prophet Uplifting") as null|anything in followers
-	if(choice && choice.stat != DEAD)
+	for(var/datum/mind/A in followersmind)
+		if(A.current)
+			followersmob += A.current
+
+	var/mob/choice = input("Choose a follower to make into your prophet","Prophet Uplifting") as null|anything in followersmob
+	if(choice && choice.stat != DEAD && choice.mind)
 		src << "You choose [choice] as your prophet."
 		choice.mind.special_role = "Prophet"
+		var/datum/faction/HOG/M = choice.mind.faction
+		if(M)//should never fail
+			M.members[choice.mind] = "Prophet"
+		var/datum/action/innate/godspeak/action = new
+		action.gods.Add(src)
+		action.Grant(choice)
 
 
 		//Prophet gear
@@ -164,11 +179,11 @@
 
 	var/has_smitten = 0 //Hast thou been smitten, infidel?
 	for(var/mob/living/L in get_turf(src))
-		if(is_in_any_team(L) == side)
+		if(L.mind && is_in_any_team(L.mind) == side)
 			return
-		L.adjustFireLoss(20)
-		L.adjustBruteLoss(20)
-		L.Weaken(2)
+		L.adjustFireLoss(5)
+		L.adjustBruteLoss(5)
+		L.Weaken(10)
 		L << "<span class='danger'><B>You feel the wrath of [name]!<B></span>"
 		has_smitten = 1
 	if(has_smitten)
@@ -195,7 +210,7 @@
 	set name = "Construct Nexus"
 	set desc = "Instantly creates your nexus, You can only do this once, make sure you're happy with it!"
 
-	if(!ability_cost(structures == 1))
+	if(!ability_cost(structures = 1))
 		return
 
 	place_nexus()

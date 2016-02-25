@@ -206,7 +206,7 @@ var/datum/global_hud/global_hud = new()
 		swarmer_hud()
 	else if(isguardian(mymob))
 		guardian_hud()
-	else if(what_rank(mymob.mind) == 3)
+	else if(what_rank(mymob.mind) == "God")
 		hoggod_hud()
 
 //Version denotes which style should be displayed. blank or 0 means "next version"
