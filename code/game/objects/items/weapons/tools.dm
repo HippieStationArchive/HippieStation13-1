@@ -158,7 +158,7 @@
 				user << "<span class='notice'>Your attempt to pull out a teeth fails...</span>"
 				user.doing_something = 0
 			return
-		else if(user.doing_something)
+		else
 			user << "<span class='notice'>You are already trying to pull out a teeth!</span>"
 		return
 	if(istype(C) && C.handcuffed && istype(C.handcuffed, /obj/item/weapon/restraints/handcuffs/cable))
