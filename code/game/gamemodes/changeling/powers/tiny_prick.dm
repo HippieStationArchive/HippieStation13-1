@@ -309,7 +309,7 @@
 	name = "Comatose Sting"
 	desc = "We inject a human with a powerful toxin, stopping all motor nerve function. The target will be unable to move or speak."
 	helptext = "They will immediately be notified of their impending fate, not that it will do them much good. "
-	sting_icon = "null"
+	sting_icon = "sting_coma"
 	chemical_cost = 50
 	evopoints_cost = 7
 	req_dna = 9 //Tier 4
@@ -317,7 +317,6 @@
 
 /obj/effect/proc_holder/changeling/sting/comatose/sting_action(mob/user, mob/living/target)
 	add_logs(user, target, "stung", "comatosesting")
-	user << "<span class='notice'>We stealthily sting [target.name].</span>"
 	target << "<span class='warning'>You feel a small prick and a burning sensation.</span>"
 	spawn(1)
 		if(target && !target.lying)
