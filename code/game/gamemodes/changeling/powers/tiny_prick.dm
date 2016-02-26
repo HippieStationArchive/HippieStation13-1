@@ -304,3 +304,25 @@
 	if(target.reagents)
 		target.reagents.add_reagent("wasting_toxin", 10)
 	return 1
+
+/obj/effect/proc_holder/changeling/sting/comatose
+	name = "Comatose Sting"
+	desc = "We inject a human with a powerful toxin, stopping all motor nerve function. The target will be unable to move or speak."
+	helptext = "They will immediately be notified of their impending fate, not that it will do them much good. "
+	sting_icon = "null"
+	chemical_cost = 50
+	evopoints_cost = 7
+	req_dna = 9 //Tier 4
+	standing_req = 1
+
+/obj/effect/proc_holder/changeling/sting/comatose/sting_action(mob/user, mob/living/target)
+	add_logs(user, target, "stung", "comatosesting")
+	user << "<span class='notice'>We stealthily sting [target.name].</span>"
+	target << "<span class='warning'>You feel a small prick and a burning sensation.</span>"
+	spawn(1)
+		if(target && !target.lying)
+			target.Weaken(60)
+			target.Stun(60)
+			target.reagents.add_reagent("mutetoxin", 20)
+	feedback_add_details("changeling_powers", "KS")
+	return 1	
