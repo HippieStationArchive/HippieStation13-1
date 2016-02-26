@@ -274,3 +274,13 @@
 	materials = list(MAT_METAL = 2000, MAT_SILVER = 500)
 	build_path = /obj/item/weapon/suppressor
 	category = list("Weapons")
+
+/datum/design/armor/reactive  
+	name = "Reactive Teleport Armor"  
+	desc= "Someone seperated our Research Director from his own head!"  
+	id = "reactive"  
+	req_tech = list("materials" = 7, "combat" = 6, "powerstorage" = 6, "magnets" = 6, "programming" = 6, "bluespace" = 7)  
+	build_type = PROTOLATHE  
+	materials = list(MAT_METAL = 25000, MAT_GLASS = 10000, MAT_SILVER = 20000, MAT_GOLD = 20000, MAT_PLASMA = 6000, MAT_DIAMOND = 2000)  
+	build_path = /obj/item/clothing/suit/armor/reactive  
+	category = list("Weapons")  
