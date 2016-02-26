@@ -1549,6 +1549,9 @@
 	if(H)//should never fail,again
 		H.members[src] = "Prophet"
 	ticker.mode.update_hog_icons_added(src,team)
+	if(istype(ticker.mode, /datum/game_mode/hand_of_god))
+		var/datum/game_mode/hand_of_god/mygamemode = ticker.mode
+		mygamemode.prophets |= src // add only if not already in,we don't want double minds in our list
 
 	var/datum/action/innate/godspeak/A = new /datum/action/innate/godspeak()
 	var/list/gods = get_team_gods(team)

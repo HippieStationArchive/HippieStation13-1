@@ -266,6 +266,7 @@
 		deity.add_faith(faith_regen_rate + (powerpylons.len / 5) + (deity.alive_followers / 3))
 		deity.max_faith = initial(deity.max_faith) + (deity.alive_followers*10) //10 followers = 100 max faith, so disaster() at around 20 followers
 		deity.check_death()
+		deity.check_prophet()
 
 
 /obj/structure/divine/nexus/Destroy()

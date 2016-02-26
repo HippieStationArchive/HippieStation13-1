@@ -17,6 +17,7 @@ var/global/list/teams = list("red" = 0, "blue" = 0) //so it can be accessed by m
 
 
 	var/list/datum/mind/followers = list()
+	var/list/datum/mind/prophets = list() // used only in declare completion text
 	var/list/datum/mind/gods = list()
 
 
@@ -301,7 +302,7 @@ var/global/list/teams = list("red" = 0, "blue" = 0) //so it can be accessed by m
 	for(var/hogteam in teams)
 		var/i = 1 //need this for prophet number
 		var/list/datum/mind/mygods = get_team_gods(hogteam) // from here we define various vars which we'll need
-		var/list/datum/mind/mypeople = get_team_followers(hogteam)
+		var/list/datum/mind/mypeople = prophets.Copy()
 		var/list/datum/mind/myprophets = get_team_prophets(hogteam)
 		var/objectives = ""
 		var/win = 1   //did this team do all their objectives? defaults to yes, turns to no if an objective fails

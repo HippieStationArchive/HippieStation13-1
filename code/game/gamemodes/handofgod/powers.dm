@@ -112,6 +112,10 @@
 		var/datum/action/innate/godspeak/action = new /datum/action/innate/godspeak()
 		action.gods.Add(src)
 		action.Grant(choice)
+		//endround text thingy
+		if(istype(ticker.mode, /datum/game_mode/hand_of_god))
+			var/datum/game_mode/hand_of_god/mygamemode = ticker.mode
+			mygamemode.prophets |= choice.mind // add only if not already in,we don't want double minds in our list
 
 
 		//Prophet gear

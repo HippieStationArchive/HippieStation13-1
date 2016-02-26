@@ -45,6 +45,15 @@
 			prophet = A
 	return prophet
 
+/mob/camera/god/proc/check_prophet()
+	var/list/myprophets = get_team_prophets(side)
+	if(myprophets.len > 1) // if there's more than one prophet shit's gonna break,we only want1 prophet
+		var/datum/mind/proptoremove = pick_n_take(myprophets)
+		var/datum/faction/HOG/myfac = proptoremove.faction // should always exist
+		myfac.members[proptoremove] = "Follower"
+		proptoremove.current << "<span class='notice'>A prophet already exist, you're now a normal follower!</span>"
+		ticker.mode.update_hog_icons_added(proptoremove, side)
+
 /mob/camera/god/Destroy()
 	var/list/followers = get_my_followers()
 	for(var/datum/mind/F in followers)
