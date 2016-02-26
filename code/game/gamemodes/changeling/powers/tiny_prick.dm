@@ -308,7 +308,7 @@
 /obj/effect/proc_holder/changeling/sting/comatose
 	name = "Comatose Sting"
 	desc = "We inject a human with a powerful toxin, stopping all motor nerve function. The target will be unable to move or speak."
-	helptext = "They will immediately be notified of their impending fate, not that it will do them much good. The target will be stunned and silenced for approximately one minute."
+	helptext = "The target will be stunned and silenced for approximately one minute."
 	sting_icon = "sting_coma"
 	chemical_cost = 50
 	evopoints_cost = 7
