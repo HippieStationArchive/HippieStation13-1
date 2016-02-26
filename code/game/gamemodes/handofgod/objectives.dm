@@ -66,7 +66,7 @@
 	martyr_compatible = 1
 
 /datum/objective/follower_block/check_completion()
-	var/side = is_in_any_team(owner.current)
+	var/side = is_in_any_team(owner)
 	if(!side)
 		return 0
 
@@ -93,7 +93,7 @@
 /datum/objective/escape_followers/check_completion()
 	var/escaped = 0
 	var/list/followers = list()
-	if(what_rank(owner) == 3)
+	if(what_rank(owner) == "God")
 		var/mob/camera/god/G = owner.current
 		followers = G.get_my_followers()
 		for(var/mob/F in followers)

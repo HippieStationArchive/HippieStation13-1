@@ -17,7 +17,7 @@
 	alpha = 30
 	if(isliving(AM))
 		var/mob/living/L = AM
-		if(is_in_any_team(L) == side)
+		if(L.mind && is_in_any_team(L.mind) == side)
 			return
 		last_trigger = world.time
 		alpha = 200

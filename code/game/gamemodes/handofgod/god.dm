@@ -34,24 +34,32 @@
 	addtimer(src,"forceplacenexus",1200)
 
 /mob/camera/god/proc/get_my_followers()
-	var/list/myfollowers = list()
-	for(var/mob/A in mob_list)
-		if(is_in_any_team(A) == side) //if the side's the same of the god
-			myfollowers += A // add it to our followers list
+	var/list/myfollowers = get_team_followers(side)
 	return myfollowers
 
 /mob/camera/god/proc/get_my_prophet()
-	var/list/myfollowers = get_my_followers()
-	var/mob/prophet = ""
-	for(var/mob/A in myfollowers)
-		if(what_rank(A.mind) == 2)
+	var/datum/mind/prophet
+	var/list/myprophets = get_team_prophets(side)
+	for(var/datum/mind/A in myprophets)
+		if(A.current && A.current.stat != DEAD)
 			prophet = A
 	return prophet
 
+/mob/camera/god/proc/check_prophet()
+	var/list/myprophets = get_team_prophets(side)
+	if(myprophets.len > 1) // if there's more than one prophet shit's gonna break,we only want1 prophet
+		var/datum/mind/proptoremove = pick_n_take(myprophets)
+		var/datum/faction/HOG/myfac = proptoremove.faction // should always exist
+		myfac.members[proptoremove] = "Follower"
+		proptoremove.current << "<span class='notice'>A prophet already exist, you're now a normal follower!</span>"
+		ticker.mode.update_hog_icons_added(proptoremove, side)
+
 /mob/camera/god/Destroy()
 	var/list/followers = get_my_followers()
-	for(var/mob/F in followers)
-		F << "<span class='danger'>Your god is DEAD!</span>"
+	for(var/datum/mind/F in followers)
+		if(F.current)
+			F.current << "<span class='danger'>Your god is DEAD!</span>"
+			ticker.mode.remove_hog_follower(F)
 	ghost_darkness_images -= ghostimage
 	updateallghostimages()
 	return ..()
@@ -109,6 +117,8 @@
 /mob/camera/god/proc/place_nexus()
 	if(god_nexus || (z != 1))
 		return 0
+	if(!ability_cost(structures = 1))
+		return 0
 
 	var/obj/structure/divine/nexus/N = new(get_turf(src))
 	N.assign_deity(src)
@@ -117,9 +127,10 @@
 	verbs -= /mob/camera/god/verb/constructnexus
 	var/list/followers = get_my_followers()
 	var/area/A = get_area(src)
-	for(var/mob/F in followers)
-		F << "<span class='boldnotice'>Your god's nexus is in \the [A.name]</span>"
-	//verbs += /mob/camera/god/verb/movenexus //Translocators have no sprite
+	for(var/datum/mind/F in followers)
+		if(F.current)
+			F.current << "<span class='boldnotice'>Your god's nexus is in \the [A.name]</span>"
+	verbs += /mob/camera/god/verb/movenexus
 	update_health_hud()
 
 /mob/camera/god/verb/freeturret()
@@ -134,10 +145,10 @@
 
 /mob/camera/god/proc/update_followers()
 	alive_followers = 0
-	var/list/all_followers = get_my_followers()
+	var/list/all_followers = get_my_followers() + get_my_prophet() // prophets are people too!
 
-	for(var/mob/F in all_followers)
-		if(F && F.stat != DEAD)
+	for(var/datum/mind/F in all_followers)
+		if(F && F.current && F.current.stat != DEAD)
 			alive_followers++
 
 	if(hud_used && hud_used.deity_follower_display)
@@ -177,9 +188,9 @@
 	msg = say_quote(msg, get_spans())
 	var/rendered = "<font color='#045FB4'><i><span class='game say'>Divine Telepathy, <span class='name'>[name]</span> <span class='message'>[msg]</span></span></i></font>"
 
-	var/list/myfollowers = get_my_followers()
+	var/datum/mind/myprop = get_my_prophet()
 	for(var/mob/M in mob_list)
-		if(isobserver(M) || (M in myfollowers && what_rank(M.mind) == 2))//if the mob is a ghost, or if the mob is my team's prophet
+		if(isobserver(M) || (M.mind && M.mind == myprop))//if the mob is a ghost, or if the mob is my team's prophet
 			M.show_message(rendered, 2)
 	src << rendered
 

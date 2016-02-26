@@ -433,7 +433,8 @@
 	if(href_list["remove_mat"] && href_list["material"])
 		var/amount = text2num(href_list["remove_mat"])
 		var/material = href_list["material"]
-		if(amount < 0 || amount > resources[material]) //href protection
+		amount = round(amount)
+		if(amount <= 0 || amount > resources[material]) //href protection
 			return
 
 		var/removed = remove_material(material,amount)

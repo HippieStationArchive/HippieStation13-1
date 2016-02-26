@@ -1,7 +1,7 @@
 /* HUD DATUMS */
 
 //GLOBAL HUD LIST
-var/datum/atom_hud/huds = list( \
+var/list/datum/atom_hud/huds = list( \
 	DATA_HUD_SECURITY_BASIC = new/datum/atom_hud/data/human/security/basic(), \
 	DATA_HUD_SECURITY_ADVANCED = new/datum/atom_hud/data/human/security/advanced(), \
 	DATA_HUD_MEDICAL_BASIC = new/datum/atom_hud/data/human/medical/basic(), \
