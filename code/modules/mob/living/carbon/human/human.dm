@@ -339,6 +339,7 @@
 				if(!I || !L || I.loc != src || !(I in L.embedded_objects))
 					return
 				L.embedded_objects -= I
+				add_logs(usr, src, "un-embedded of [I] ")
 				L.take_damage(I.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
 				if(I.pinned) //Only the rodgun pins people down currently
 					do_pindown(src.pinned_to, 0)
