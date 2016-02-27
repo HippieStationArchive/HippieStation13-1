@@ -297,7 +297,7 @@
 	sting_icon = "sting_poison"
 	req_dna = 9 //Tier 3
 	chemical_cost = 75 //A guaranteed death is nothing to laugh at
-	evopoints_cost = 7 //Hefty price for the DEATH STING.
+	evopoints_cost = 10 //Hefty price for the DEATH STING.
 
 /obj/effect/proc_holder/changeling/sting/death/sting_action(mob/user, mob/target)
 	add_logs(user, target, "stung", "death sting")
@@ -313,7 +313,7 @@
 	sting_icon = "sting_coma"
 	chemical_cost = 50
 	evopoints_cost = 5
-	req_dna = 6 //Tier 3
+	req_dna = 9 //Tier 4
 	standing_req = 1
 
 /obj/effect/proc_holder/changeling/sting/comatose/sting_action(mob/user, mob/living/target)
