@@ -3573,7 +3573,7 @@
 "bqK" = (/obj/structure/disposalpipe/segment{dir = 2; icon_state = "pipe-c"},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/turf/simulated/floor/plasteel,/area/hallway/secondary/exit)
 "bqL" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 10},/turf/simulated/floor/plasteel,/area/hallway/secondary/exit)
 "bqM" = (/obj/machinery/door/airlock/external{name = "Cargo Escape Airlock"},/turf/simulated/floor/plating,/area/hallway/secondary/exit)
-"bqN" = (/obj/structure/window{tag = "icon-window (NORTH)"; icon_state = "window"; dir = 1},/obj/structure/table/wood,/obj/item/weapon/canvas/twentythreeXtwentythree,/obj/item/weapon/canvas/twentythreeXtwentythree,/turf/simulated/floor/carpet,/area/rec_room)
+"bqN" = (/obj/structure/window{tag = "icon-window (NORTH)"; icon_state = "window"; dir = 1},/obj/structure/table/wood,/obj/item/weapon/canvas/twentythreeXtwentythree,/obj/item/weapon/canvas/twentythreeXtwentythree,/obj/item/weapon/paintbrush/broadbrush,/obj/item/weapon/paintbrush,/obj/item/weapon/palette,/turf/simulated/floor/carpet,/area/rec_room)
 "bqO" = (/obj/structure/window{tag = "icon-window (NORTH)"; icon_state = "window"; dir = 1},/obj/structure/table/wood,/obj/item/weapon/storage/crayons,/obj/item/weapon/pen,/turf/simulated/floor/carpet,/area/rec_room)
 "bqP" = (/obj/structure/window{tag = "icon-window (NORTH)"; icon_state = "window"; dir = 1},/obj/machinery/computer/arcade,/turf/simulated/floor/carpet,/area/rec_room)
 "bqQ" = (/turf/simulated/wall,/area/maintenance/disposal)
