@@ -509,4 +509,4 @@
 	ticker.mode.remove_cultist(newborgie, 1)
 	ticker.mode.remove_revolutionary(newborgie, 1)
 	ticker.mode.remove_gangster(newborgie, 1, remove_bosses=1)
-	ticker.mode.remove_hog_follower(newborgie, 1)
+	ticker.mode.remove_hog_follower(newborgie, 0)
