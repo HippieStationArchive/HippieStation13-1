@@ -191,6 +191,11 @@
 	var/tries = 10
 	var/directory = null
 
+	//proxykick
+	var/proxykick = 0 // disabled by default
+	var/proxykickemail = ""
+	var/proxykicklimit = 1 // ranges from 0 to 1
+
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
 	for(var/T in L)
@@ -387,6 +392,12 @@
 					protected_config.autoadmin = 1
 					if(value)
 						protected_config.autoadmin_rank = ckeyEx(value)
+				if("proxykick")
+					proxykick = 1
+				if("proxykickemail")
+					proxykickemail = value
+				if("proxykicklimit")
+					proxykicklimit = value
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 

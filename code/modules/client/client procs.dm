@@ -178,6 +178,53 @@ var/next_external_rsc = 0
 	set_client_age_from_db()
 
 	if (isnum(player_age) && player_age == -1) //first connection
+		if(config.proxykick) // proxyban's enabled
+			var/danger = proxycheck()
+			if(danger >= config.proxykicklimit)
+				log_access("Failed Login: [key] - New account attempting to connect with a proxy([danger*100]% possibility to be a proxy.)")
+				message_admins("<span class='adminnotice'>Failed Login: [key] - with a proxy([danger*100]% possibility to be a proxy.</span>")
+				src << "Sorry but you're not allowed to connect to the server through a proxy. Disable it and reconnect if you want to play."
+				del(src)
+				return 0
+			else if(danger < 0) // means an issue popped up
+				switch(danger)
+					if(-1)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -1, IP-less client. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -1, IP-less client ( [address] )")
+					if(-2)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -2, IP invalid. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -2, IP invalid ( [address] )")
+					if(-3)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -3, private address detected. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -3, private address detected. ( [address] )")
+					if(-4)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -4, ProxyChecker not working, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -4, ProxyChecker not working, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+					if(-5)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -5, ProxyChecker stopped working! Server banned from the system. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -5, ProxyChecker stopped working! Server banned from the system. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+					if(-6)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -6, ProxyChecker stopped working! PROXYBANEMAIL config option is invalid. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -6, ProxyChecker stopped working! PROXYBANEMAIL config option is invalid. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+					if(-7)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -7, ProxyChecker stopped working! Number of queries possible per minute exceeded, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -7, ProxyChecker stopped working! Server banned from the system. Number of queries possible per minute exceeded, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+					else
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -8, ProxyChecker stopped working! HTTP error code [danger], [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -8, ProxyChecker stopped working! HTTP error code [danger], [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+				src << "The Proxy Checker has encountered an error and your connection has been refused. Go on the forum ([config.forumurl]) and report this, along with the issue code [danger]."
+				del(src)
+				return 0
 		if (config.panic_bunker && !holder && !(ckey in deadmins))
 			log_access("Failed Login: [key] - New account attempting to connect during panic bunker")
 			message_admins("<span class='adminnotice'>Failed Login: [key] - New account attempting to connect during panic bunker</span>")
@@ -232,6 +279,19 @@ var/next_external_rsc = 0
 	if(!tooltips)
 		tooltips = new /datum/tooltip(src)
 
+/client/proc/proxycheck()
+	var/list/httpstuff = world.Export("http://check.getipintel.net/check.php?ip=[address]&contact=[config.proxykickemail]&flags=b")
+	if(!httpstuff)
+		return -50 //error code
+	var/n = httpstuff["CONTENT"]
+	var/httpcode = httpstuff["STATUS"]
+	if(httpcode == 429)
+		return -7 // exceeded number of queries
+	if(httpcode != 200)//something went wrong,fuck
+		return -httpcode
+	if(n)
+		n = file2text(n)
+	return n
 
 //////////////
 //DISCONNECT//
