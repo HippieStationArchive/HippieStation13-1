@@ -523,7 +523,7 @@
 		user << "<span class='notice'>The fountain appears to be empty.</span>"
 		return
 	last_process = world.time
-	if((!is_in_any_team(user.mind) != side)  && cult_only)// if it's a nonbeliever/an enemy,why the fuck could enemies heal with this?
+	if((is_in_any_team(user.mind) != side)  && cult_only)// if it's a nonbeliever/an enemy,why the fuck could enemies heal with this?
 		user << "<span class='danger'><B>The water burns!</b></spam>"
 		user.reagents.add_reagent("hell_water",20)
 	else
