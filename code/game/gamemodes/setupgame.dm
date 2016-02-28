@@ -28,3 +28,8 @@
 	// Populate the syndicate coalition:
 	for(var/datum/faction/syndicate/S in factions)
 		syndicate_coalition.Add(S)
+	// Populate the HoG teams
+	for(var/i in 1 to teams.len)
+		var/datum/faction/HOG/H = new /datum/faction/HOG()
+		H.side = teams[i]
+		factions.Add(H) // i prefer to make a datum for each team instead of 1 changeable datum, no clue why, it feels better

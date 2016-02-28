@@ -531,13 +531,22 @@
 			for(var/i in teams)
 				dat += "<br><table cellspacing=5><tr><td><B>[capitalize(i)] Team</B></td><td></td></tr>"
 				for(var/mob/camera/god/G in deities)
-					dat += "<tr><td>[capitalize(i)] Deity: <a href='?_src_=holder;adminplayeropts=\ref[G]'>[G.real_name]</a>[G.client ? "" : " <i>(ghost)</i>"][G.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+					if(G.side == i)
+						dat += "<tr><td>[capitalize(i)] Deity: <a href='?_src_=holder;adminplayeropts=\ref[G]'>[G.real_name]</a>[G.client ? "" : " <i>(ghost)</i>"][G.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
 				var/list/prophets = get_team_prophets(i)
-				for(var/mob/A in prophets)
-					dat += "<tr><td>[capitalize(i)] Prophet: <a href='?_src_=holder;adminplayeropts=\ref[A]'>[A.real_name]</a>[A.client ? "" : " <i>(ghost)</i>"][A.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+				for(var/datum/mind/A in prophets)
+					var/mob/J = A.current
+					if(J)
+						dat += "<tr><td>[capitalize(i)] Prophet: <a href='?_src_=holder;adminplayeropts=\ref[J]'>[J.real_name]</a>[J.client ? "" : " <i>(ghost)</i>"][J.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+					else
+						dat += "<tr><td><i>Prophet not found!</i></td></tr>"
 				var/list/followers = get_team_followers(i)
-				for(var/mob/A in followers)
-					dat += "<tr><td>[capitalize(i)] Follower: <a href='?_src_=holder;adminplayeropts=\ref[A]'>[A.real_name]</a>[A.client ? "" : " <i>(ghost)</i>"][A.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+				for(var/datum/mind/A in followers)
+					var/mob/K = A.current
+					if(K)
+						dat += "<tr><td>[capitalize(i)] Follower: <a href='?_src_=holder;adminplayeropts=\ref[K]'>[K.real_name]</a>[K.client ? "" : " <i>(ghost)</i>"][K.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+					else
+						dat += "<tr><td><i>Follower not found!</i></td></tr>"
 			dat += "</table>"
 
 

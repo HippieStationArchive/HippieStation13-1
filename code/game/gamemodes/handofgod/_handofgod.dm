@@ -3,7 +3,7 @@
 var/global/list/global_handofgod_traptypes = list()
 var/global/list/global_handofgod_structuretypes = list()
 var/global/list/global_handofgod_itemtypes = list(/obj/item/weapon/banner, /obj/item/weapon/storage/backpack/bannerpack, /obj/item/clothing/suit/armor/plate/advocate, /obj/item/clothing/head/helmet/plate/advocate, /obj/item/clothing/gloves/plate, /obj/item/clothing/shoes/plate, /obj/item/weapon/claymore/hog)
-var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
+var/global/list/teams = list("red" = 0, "blue" = 0) //so it can be accessed by mind.dm. The 0 means that huds don't exist yet, it'll be set to its position in huds list once they exist.
 
 /datum/game_mode/hand_of_god
 	name = "hand of god"
@@ -17,6 +17,7 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 
 
 	var/list/datum/mind/followers = list()
+	var/list/datum/mind/prophets = list() // used only in declare completion text
 	var/list/datum/mind/gods = list()
 
 
@@ -47,9 +48,12 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 		follower.restricted_roles = restricted_jobs
 		log_game("[follower.key] (ckey) has been selected as a follower, however teams have not been decided yet.")
 //hud creation
-	for(var/i in 1 to teams.len)
-		huds += teams[i]
-		huds[teams[i]] = new/datum/atom_hud/antag()
+	for(var/i in teams)
+		if(teams[i] == 0)//alert!hud doesn't exist yet
+			var/t = huds.len + 1 // so it'll be always ok
+			huds.Add(t)
+			huds[t] = new/datum/atom_hud/antag()
+			teams[i] = t
 	return 1
 
 //////////////
@@ -143,7 +147,7 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 ///////////////
 
 /datum/game_mode/proc/greet_hog_follower(datum/mind/follower_mind)
-	var/text = "You are a follower of the [is_in_any_team(follower_mind.current)] cult's deity!"
+	var/text = "You are a follower of the [is_in_any_team(follower_mind)] cult's deity!"
 	follower_mind.current << "<span class='danger'><B>[text]</B></span>"
 	follower_mind.store_memory(text)
 
@@ -165,10 +169,16 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 		H.visible_message("<span class='danger'>A mysterious force prevents [H] to be converted!</span>", "<span class='userdanger'>Your null rod prevented the [team] deity from brainwashing you.</span>")
 		return 0
 
-	H.faction["team"] = "[team]"
+	var/datum/faction/HOG/myfaction
+	for(var/datum/faction/HOG/P in ticker.factions)
+		if(P.side == team)
+			myfaction = P
 	follower_mind.current << "<span class='danger'><FONT size = 3>You are now a follower of the [team] deity! Follow your deity's prophet in order to complete your deity's objectives. Convert crewmembers to your cause by using your deity's nexus. And remember - there is no you, there is only the cult.</FONT></span>"
 	follower_mind.store_memory("You are now a follower of the [team] deity! Follow your deity's prophet in order to complete your deity's objectives. Convert crewmembers to your cause by using your deity's nexus. And remember - there is no you, there is only the cult.")
 	follower_mind.special_role = "Follower"
+	follower_mind.faction = myfaction
+	myfaction.members += follower_mind
+	myfaction.members[follower_mind] = "Follower" // pratically an associative list with member = his rank
 	update_hog_icons_added(follower_mind, team) // watch out fam, this has to be after special_role gets set to work properly or hud image won't show up
 	follower_mind.current.attack_log += "\[[time_stamp()]\] <font color='red'>Has been converted to the [team] follower cult!</font>"
 	return 1
@@ -185,11 +195,18 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 	text += "<BR>Your <b>Faith</b> is used to interact with the world.  This will regenerate on its own, and it goes faster when you have more followers and power pylons."
 	text += "<BR>The first thing you should do after placing your nexus is to <b>appoint a prophet</b>.  Only prophets can hear you talk, unless you use an expensive power."
 	god_mind.current << text
-	god_mind.store_memory(text)
-	god_mind.current.attack_log += "\[[time_stamp()]\] <font color='red'>Has been made into a [team] deity!</font>"
 	god_mind.special_role = "God"
+	var/datum/faction/HOG/myfaction
+	for(var/datum/faction/HOG/H in ticker.factions)
+		if(H.side == team)
+			myfaction = H
+	god_mind.faction = myfaction
+	myfaction.members += god_mind
+	myfaction.members[god_mind] = "God"
 	if(god_mind.current)
 		god_mind.current.become_god(team)
+	god_mind.store_memory(text)
+	god_mind.current.attack_log += "\[[time_stamp()]\] <font color='red'>Has been made into a [team] deity!</font>"
 	update_hog_icons_added(god_mind, team)
 
 //////////////////
@@ -198,12 +215,16 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 
 /datum/game_mode/proc/remove_hog_follower(datum/mind/follower_mind, announce = 1)//deconverts both
 	follower_mind.special_role = null
-	if(follower_mind.current)
-		var/mob/living/carbon/human/H = follower_mind.current
-		var/side = is_in_any_team(H)
-		if(side)
-			update_hog_icons_removed(follower_mind,side)
-			H.faction["team"] = null
+	var/side = is_in_any_team(follower_mind)
+	var/rank = what_rank(follower_mind)
+	if(side)
+		var/datum/faction/HOG/myfaction = follower_mind.faction
+		myfaction.members -= follower_mind
+		follower_mind.faction = null
+		if(rank == "Prophet" && follower_mind.current) // if we're removing a prophet we want its god speak spell to be removed,aswell
+			for(var/datum/action/innate/godspeak/J in follower_mind.current.actions)
+				J.Remove(follower_mind.current) // removes spell on deconvert.
+	update_hog_icons_removed(follower_mind,side)
 
 	if(announce)
 		follower_mind.current.attack_log += "\[[time_stamp()]\] <font color='red'>Has been deconverted from a deity's cult!</font>"
@@ -213,54 +234,63 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 //Mobhelper proc//
 //////////////////
 
-/proc/is_in_any_team(mob/A)
-	if("team" in A.faction)
-		var/side = A.faction["team"]
+/proc/is_in_any_team(datum/mind/A)
+	if(!A)
+		return 0
+	if(A.faction && istype(A.faction, /datum/faction/HOG))
+		var/datum/faction/HOG/H = A.faction
+		var/side = H.side
 		return side
 	else
 		return 0
 
-/proc/get_gods()
+/proc/what_rank(datum/mind/A)
+	if(!A)
+		return 0
+	if(A.faction && istype(A.faction, /datum/faction/HOG))
+		var/datum/faction/HOG/H = A.faction
+		var/rank = H.members[A]
+		return rank
+	else
+		return 0
+
+/proc/get_gods() //mostly used when the camera itself is needed
 	var/list/godlist = list()
 	for(var/mob/camera/god/G in mob_list)
 		godlist += G
 	return godlist
 
-/proc/get_team_god(team)
-	var/mob/camera/god/mygod
-	var/list/gods = get_gods()
-	for(var/mob/camera/god/G in gods)
-		if(G.faction["team"] == team)
-			mygod = G
-			break
-	return mygod
+/proc/get_team_players(team = "")
+	var/list/mypeople = list()
+	for(var/datum/faction/HOG/H in ticker.factions)
+		if(H.side == team)
+			mypeople = H.members.Copy()
+	return mypeople
 
 /proc/get_team_followers(team = "") // team is a text var like "blue"
+	var/list/players = get_team_players(team)
 	var/list/followers = list()
-	for(var/mob/A in mob_list)
-		if(is_in_any_team(A) == team)
-			if(what_rank(A.mind) == 1)
-				followers += A
+	for(var/datum/mind/A in players)
+		if(what_rank(A) == "Follower")
+			followers += A
 	return followers
 
 /proc/get_team_prophets(team = "")
-	var/list/followers = get_team_followers(team)
+	var/list/players = get_team_players(team)
 	var/list/prophets = list()
-	for(var/mob/A in followers)
-		if(what_rank(A.mind) == 2)
+	for(var/datum/mind/A in players)
+		if(what_rank(A) == "Prophet")
 			prophets += A
 	return prophets
 
-/proc/what_rank(datum/mind/A)
-	switch(A.special_role)
-		if("Follower")
-			return 1
-		if("Prophet")
-			return 2
-		if("God")
-			return 3
-		else
-			return 0
+/proc/get_team_gods(team = "")
+	var/list/players = get_team_players(team)
+	var/list/gods = list()
+	for(var/datum/mind/A in players)
+		if(what_rank(A) == "God")
+			gods += A
+	return gods
+
 
 //////////////////////
 //Roundend Reporting//
@@ -271,33 +301,23 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 	var/text = ""
 	for(var/hogteam in teams)
 		var/i = 1 //need this for prophet number
-		var/datum/mind/god // from here we define various vars which we'll need
-		var/list/datum/mind/mypeople = list()
-		var/list/datum/mind/myprophets = list()
+		var/list/datum/mind/mygods = get_team_gods(hogteam) // from here we define various vars which we'll need
+		var/list/datum/mind/mypeople = prophets.Copy()
+		var/list/datum/mind/myprophets = get_team_prophets(hogteam)
 		var/objectives = ""
 		var/win = 1   //did this team do all their objectives? defaults to yes, turns to no if an objective fails
 
-		for(var/datum/mind/G in gods) //here we assign values to said vars
-			if(G.faction["team"] == hogteam)
-				god = G
-		for(var/datum/mind/A in followers)
-			if(A.current.faction["team"] == hogteam)
-				mypeople += A
-		for(var/datum/mind/A in mypeople)
-			if(A.special_role == "Prophet")
-				myprophets += A
-				mypeople -= A // so we will only have normal followers in mypeople list,for later follower listing
-
 		text += "<BR><font size=3 color='red'><B>The [hogteam] cult:</b></font>" //from here we actually used the vars made up here
-		text += "<BR><B>[god.key]</B> was the [hogteam] deity, <B>[god.name]</B> ("
-		if(god.current)
-			if(god.current.stat == DEAD)
-				text += "died"
+		for(var/datum/mind/god in mygods)
+			text += "<BR><B>[god.key]</B> was the [hogteam] deity, <B>[god.name]</B> ("
+			if(god.current)
+				if(god.current.stat == DEAD)
+					text += "died"
+				else
+					text += "survived"
 			else
-				text += "survived"
-		else
-			text += "ceased existing"
-		text += ")"
+				text += "ceased existing"
+			text += ")"
 		for(var/datum/mind/prophet in myprophets)
 			text += "<BR>The [i]/th [hogteam] prophet was <B>[prophet.name]</B> (<B>[prophet.key]</B>) (" // /th is used to make it appear like 1st, 2nd etc, thanks antur i love you
 			if(prophet)
@@ -313,17 +333,18 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 		text += "<BR><B>[hogteam] followers:</B>"
 		for(var/datum/mind/player in mypeople)
 			text += "[player.name] ([player.key])"
-		if(god.objectives.len)
-			var/count = 1
-			for(var/datum/objective/O in god.objectives)
-				if(O.check_completion())
-					objectives += "<BR><B>Objective #[count]</B>: [O.explanation_text] <font color='green'><B>Success!</B></font>"
-					feedback_add_details("god_objective","[O.type]|SUCCESS")
-				else
-					objectives += "<BR><B>Objective #[count]</B>: [O.explanation_text] <font color='red'><B>Fail.</B></font>"
-					feedback_add_details("god_objective","[O.type]|FAIL")
-					win = 0 // looseeeer
-				count++
+		for(var/datum/mind/mygod in mygods)
+			if(mygod.objectives.len)
+				var/count = 1
+				for(var/datum/objective/O in mygod.objectives)
+					if(O.check_completion())
+						objectives += "<BR><B>Objective #[count]</B>: [O.explanation_text] <font color='green'><B>Success!</B></font>"
+						feedback_add_details("god_objective","[O.type]|SUCCESS")
+					else
+						objectives += "<BR><B>Objective #[count]</B>: [O.explanation_text] <font color='red'><B>Fail.</B></font>"
+						feedback_add_details("god_objective","[O.type]|FAIL")
+						win = 0 // looseeeer
+					count++
 		text += objectives
 		if(win)
 			text += "<BR><font color='green'><B>The [hogteam] cult and deity were successful!</B></font>"
@@ -341,35 +362,36 @@ var/global/list/teams = list("red", "blue") //so it can be accessed by mind.dm
 ///////////////
 
 /datum/game_mode/proc/update_hog_icons_added(datum/mind/hog_mind,side)
-	var/hud_key = side
+	if(!side)
+		return
+	var/hud_key = teams[side]
 	var/rank = what_rank(hog_mind)
-	switch(rank)
-		if(1)
-			rank = "Follower"
-		if(2)
-			rank = "Prophet"
-		if(3)
-			rank = "God"
-		else
-			rank = 0
-	if(hud_key)
-		if(!huds[hud_key])
-			for(var/i in 1 to teams.len)
-				huds += teams[i]
-				huds[teams[i]] = new/datum/atom_hud/antag()
-		var/datum/atom_hud/antag/hog_hud = huds[hud_key]
-		hog_hud.join_hud(hog_mind.current)
-		if(rank != "God")
-			set_antag_hud(hog_mind.current, "hog-[rank]")
-			var/image/holder = new // code used to color our grey hud to the side we want
-			var/image/myhud = hog_mind.current.hud_list[ANTAG_HUD]
-			holder.appearance = myhud.appearance
-			holder.color = "[side]"
-			myhud.appearance = holder.appearance
+	if(hud_key == 0)//alert!huds don't exist yet!
+		for(var/i in teams)//alert!hud doesn't exist yet
+			var/t = huds.len + 1 // so it'll be always ok
+			huds.Add(t)
+			huds[t] = new/datum/atom_hud/antag()
+			teams[i] = t
+		hud_key = teams[side] // cause a new value got assigned to it
+	var/datum/atom_hud/antag/hog_hud = huds[hud_key]
+	hog_hud.join_hud(hog_mind.current)
+	if(!rank || rank == "God")
+		return
+	set_antag_hud(hog_mind.current, "hog-[rank]")
+	var/image/myhud = hog_mind.current.hud_list[ANTAG_HUD]// code used to color our grey hud to the side we want
+	myhud.color = side
 
 /datum/game_mode/proc/update_hog_icons_removed(datum/mind/hog_mind,side)
-	var/hud_key = side
-	if(hud_key)
-		var/datum/atom_hud/antag/hog_hud = huds[hud_key]
-		hog_hud.leave_hud(hog_mind.current)
-		set_antag_hud(hog_mind.current,null)
+	if(!side)
+		return
+	var/hud_key = teams[side] // huds might not exist yet for example making hog players in a nonhog gamemode
+	if(hud_key == 0)//alert!huds don't exist yet!
+		for(var/i in teams)//alert!hud doesn't exist yet
+			var/t = huds.len + 1 // so it'll be always ok
+			huds.Add(t)
+			huds[t] = new/datum/atom_hud/antag()
+			teams[i] = t
+		hud_key = teams[side] // cause a new value got assigned to it
+	var/datum/atom_hud/antag/hog_hud = huds[hud_key]
+	hog_hud.leave_hud(hog_mind.current)
+	set_antag_hud(hog_mind.current,null)

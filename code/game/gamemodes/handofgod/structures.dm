@@ -42,7 +42,7 @@
 	if(overlay)
 		overlays.Cut()
 		if(side) //if it has an overlay that needs to be applied
-			overlay.color = "[side]"
+			overlay.color = side
 			overlays += overlay
 
 
@@ -64,7 +64,7 @@
 
 	//Structure conversion/capture
 	if(istype(I, /obj/item/weapon/godstaff))
-		if(!is_in_any_team(user))
+		if(!is_in_any_team(user.mind))
 			user << "<span class='notice'>You're not quite sure what the hell you're even doing.</span>"
 			return
 		var/obj/item/weapon/godstaff/G = I
@@ -266,6 +266,7 @@
 		deity.add_faith(faith_regen_rate + (powerpylons.len / 5) + (deity.alive_followers / 3))
 		deity.max_faith = initial(deity.max_faith) + (deity.alive_followers*10) //10 followers = 100 max faith, so disaster() at around 20 followers
 		deity.check_death()
+		deity.check_prophet()
 
 
 /obj/structure/divine/nexus/Destroy()
@@ -309,7 +310,7 @@
 	materials = new(src, list(MAT_METAL=1, MAT_GLASS=1), 225000)
 
 /obj/structure/divine/forge/attack_hand(mob/living/user)
-	if(is_in_any_team(user) == side)
+	if(is_in_any_team(user.mind) == side)
 		interact(user)
 	else
 		user << "<span class='danger'>You try to interact with the weird machine, but you burn your hand on its engraved panel!</span>"
@@ -425,7 +426,7 @@
 /obj/structure/divine/convertaltar/attack_hand(mob/living/user)
 	..()
 	var/mob/living/carbon/human/H = locate() in get_turf(src)
-	if(!is_in_any_team(user))
+	if(!is_in_any_team(user.mind))
 		user << "<span class='notice'>You try to use it, but unfortunately you don't know any rituals.</span>"
 		return
 	if(!H)
@@ -433,7 +434,7 @@
 	if(!H.mind)
 		user << "<span class='danger'>Only sentients may serve your deity.</span>"
 		return
-	if(is_in_any_team(user) == side)
+	if(is_in_any_team(user.mind) == side)
 		user << "<span class='notice'>You invoke the conversion ritual.</span>"
 		ticker.mode.add_hog_follower(H.mind, side)
 	else
@@ -454,13 +455,15 @@
 /obj/structure/divine/sacrificealtar/attack_hand(mob/living/user)
 	..()
 	var/mob/living/L = locate() in get_turf(src)
-	if(!is_in_any_team(user))
+	if(!is_in_any_team(user.mind))
 		user << "<span class='notice'>You try to use it, but unfortunately you don't know any rituals.</span>"
 		return
 	if(!L)
 		return
-	if(is_in_any_team(user) == side)
-		if(is_in_any_team(L) == side)
+	if(!L.mind)
+		return
+	if(is_in_any_team(user.mind) == side)
+		if(is_in_any_team(L.mind) == side)
 			user << "<span class='danger'>You cannot sacrifice a fellow cultist.</span>"
 			return
 		user << "<span class='notice'>You attempt to sacrifice [L] by invoking the sacrificial ritual.</span>"
@@ -483,10 +486,10 @@
 			var/mob/living/carbon/human/H = L
 
 			//Sacrifice altars can't teamkill
-			if(is_in_any_team(H) == side)
+			if(!H.mind || is_in_any_team(H.mind) == side)
 				return
 
-			if(what_rank(H.mind) == 2)
+			if(what_rank(H.mind) == "Prophet")
 				new /obj/item/stack/sheet/greatergem(get_turf(src))
 				if(deity)
 					deity.prophets_sacrificed_in_name++
@@ -520,7 +523,7 @@
 		user << "<span class='notice'>The fountain appears to be empty.</span>"
 		return
 	last_process = world.time
-	if((!is_in_any_team(user) && cult_only) || (is_in_any_team(user) != side)) // if it's a nonbeliever/an enemy,why the fuck could enemies heal with this?
+	if((is_in_any_team(user.mind) != side)  && cult_only)// if it's a nonbeliever/an enemy,why the fuck could enemies heal with this?
 		user << "<span class='danger'><B>The water burns!</b></spam>"
 		user.reagents.add_reagent("hell_water",20)
 	else
@@ -617,9 +620,8 @@
 /obj/machinery/gun_turret/defensepylon_internal_turret/should_target(atom/target)
 	if(ismob(target))
 		var/mob/M = target
-		if(!M.stat && !M.nearcrit && ("team" in M.faction))
-			if(M.faction["team"] != faction)
-				return 1
+		if(!M.stat && !M.nearcrit && (!M.mind || is_in_any_team(M.mind) != faction))
+			return 1
 	else if(istype(target, /obj/mecha))
 		var/obj/mecha/M = target
 		if(M.occupant && should_target(M.occupant))
@@ -645,7 +647,7 @@
 /obj/item/projectile/beam/pylon_bolt/Bump(atom/A, yes)
 	if(ismob(A))
 		var/mob/B = A
-		if(B.faction["team"] == side)
+		if(B.mind && (is_in_any_team(B.mind) == side))
 			return 0
 	if(istype(A, /obj/structure/divine))
 		var/obj/structure/divine/D = A
@@ -697,13 +699,13 @@
 
 /obj/structure/divine/lazarusaltar/attack_hand(mob/living/user)
 	var/mob/living/L = locate() in get_turf(src)
-	if(!is_in_any_team(user))
+	if(!is_in_any_team(user.mind))
 		user << "<span class='notice'>You try to use it, but unfortunately you don't know any rituals.</span>"
 		return
 	if(!L)
 		return
 
-	if(is_in_any_team(user) == side)
+	if(is_in_any_team(user.mind) == side)
 		user << "<span class='notice'>You attempt to revive [L] by invoking the rebirth ritual.</span>"
 		L.revive()
 		L.adjustCloneLoss(50)

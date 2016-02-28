@@ -11,13 +11,14 @@
 
 /obj/item/weapon/banner/New(location, team = "")
 	..()
-	color = "[team]"
-	side = "[team]"
+	color = team
+	side = team
 
 /obj/item/weapon/banner/attack_self(mob/living/carbon/human/user)
 	if(moralecooldown + moralewait > world.time)
 		return
-	side = is_in_any_team(user)
+	if(user.mind)
+		side = is_in_any_team(user.mind)
 
 	if(!side)
 		return
@@ -25,7 +26,7 @@
 	moralecooldown = world.time
 
 	for(var/mob/living/carbon/human/H in range(4,get_turf(src)))
-		if(is_in_any_team(H) == side)
+		if(is_in_any_team(H.mind) == side)
 			H << "<span class='notice'>Your morale is increased by [user]'s banner!</span>"
 			H.adjustBruteLoss(-15)
 			H.adjustFireLoss(-15)
@@ -37,9 +38,9 @@
 	..()
 	if(!side)
 		return // it's a normal banner in this case
-	if(!is_in_any_team(user))
+	if(!is_in_any_team(user.mind))
 		return // a non antag is examining this
-	if(is_in_any_team(user) == side)
+	if(is_in_any_team(user.mind) == side)
 		user << "A banner representing our might against the heretics. We may use it to increase the morale of our fellow members!"
 	else
 		user << "A heretical banner that should be destroyed posthaste."
@@ -54,7 +55,7 @@
 
 /obj/item/weapon/storage/backpack/bannerpack/New(location, team = "")
 	..()
-	color = "[team]"
+	color = team
 //weapons
 
 /obj/item/weapon/claymore/hog
@@ -111,7 +112,7 @@
 
 /obj/item/clothing/suit/armor/plate/advocate/examine(mob/user)
 	..()
-	if(!is_in_any_team(user)) //normal guy examining
+	if(!is_in_any_team(user.mind)) //normal guy examining
 		user << "Armour that's comprised of metal and cloth."
 	else //HoG player
 		user << "Armour that was used to protect from backstabs, gunshots, explosives, and lasers.  The original wearers of this type of armour were trying to avoid being murdered.  Since they're not around anymore, you're not sure if they were successful or not."
@@ -131,7 +132,7 @@
 
 /obj/item/clothing/head/helmet/plate/advocate/examine(mob/user)
 	..()
-	if(!is_in_any_team(user))
+	if(!is_in_any_team(user.mind))
 		user << "A brownish hood."
 	else
 		user << "A hood that's very protective, despite being made of cloth.  Due to the tendency of the wearer to be targeted for assassinations, being protected from being shot in the face was very important.."
@@ -141,19 +142,19 @@
 //Prophet helmet
 /obj/item/clothing/head/helmet/plate/advocate/prophet
 	name = "Prophet's Hat"
-	icon_state = "prophet-frame"
+	icon_state = "hogprophet-frame"
 	flags = 0
 	armor = list(melee = 60, bullet = 60, laser = 60, energy = 50, bomb = 70, bio = 50, rad = 50) //religion protects you from disease and radiation, honk.
 
 /obj/item/clothing/head/helmet/plate/advocate/prophet/New(location, side)
 	..()
-	var/image/overlay = image(icon, "prophet-overlay")
+	var/image/overlay = image(icon, "hogprophet-overlay")
 	overlay.color = side
 	overlays += overlay
 
 /obj/item/clothing/head/helmet/plate/advocate/prophet/examine(mob/user)
 	..()
-	if(!is_in_any_team(user))
+	if(!is_in_any_team(user.mind))
 		user << "A brownish, religious-looking hat."
 	else
 		user << "A hat bestowed upon a prophet of gods and demigods."
@@ -172,7 +173,7 @@
 
 /obj/item/weapon/godstaff/examine(mob/user)
 	..()
-	if(!is_in_any_team(user))
+	if(!is_in_any_team(user.mind))
 		user << "It's a stick..?"
 	else
 		user << "A powerful staff capable of changing the allegiance of god/demigod structures."
@@ -196,7 +197,7 @@
 
 /obj/item/clothing/gloves/plate/examine(mob/user)
 	..()
-	if(!is_in_any_team(user))
+	if(!is_in_any_team(user.mind))
 		user << "They're like gloves, but made of metal."
 	else
 		user << "Protective gloves that are also blessed to protect from heat and shock."
@@ -222,22 +223,8 @@
 
 /obj/item/clothing/shoes/plate/examine(mob/user)
 	..()
-	if(!is_in_any_team(user))
-		usr << "Metal boots, they look heavy."
+	if(!is_in_any_team(user.mind))
+		user << "Metal boots, they look heavy."
 	else
-		usr << "Heavy boots that are blessed for sure footing.  You'll be safe from being taken down by the heresy that is the banana peel."
+		user << "Heavy boots that are blessed for sure footing.  You'll be safe from being taken down by the heresy that is the banana peel."
 
-
-/obj/item/weapon/storage/box/itemset/advocate
-	name = "Advocate's Armour Set" //i can't into ck2 references
-	desc = "This armour is said to be based on the armor of kings on another world thousands of years ago, who tended to assassinate, conspire, and plot against everyone who tried to do the same to them.  Some things never change."
-
-
-/obj/item/weapon/storage/box/itemset/advocate/blue/New()
-	..()
-	contents = list()
-	sleep(1)
-	new /obj/item/clothing/suit/armor/plate/advocate(src)
-	new /obj/item/clothing/head/helmet/plate/advocate(src)
-	new /obj/item/clothing/gloves/plate(src)
-	new /obj/item/clothing/shoes/plate(src)
