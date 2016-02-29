@@ -305,8 +305,11 @@ var/datum/subsystem/ticker/ticker
 	//If its actually the end of the round, wait for it to end.
 	//Otherwise if its a verb it will continue on afterwards.
 	spawn(300)
-		if(cinematic)	qdel(cinematic)		//end the cinematic
-		if(temp_buckle)	qdel(temp_buckle)	//release everybody
+		if(cinematic)
+			qdel(cinematic)
+			cinematic = null
+		if(temp_buckle)
+			qdel(temp_buckle)
 	return
 
 
@@ -435,6 +438,14 @@ var/datum/subsystem/ticker/ticker
 	log_game("Antagonists at round end were...")
 	for(var/i in total_antagonists)
 		log_game("[i]s[total_antagonists[i]].")
+
+	//Adds the del() log to world.log in a format condensable by the runtime condenser found in tools
+	if(SSgarbage.didntgc.len)
+		var/dellog = ""
+		for(var/path in SSgarbage.didntgc)
+			dellog += "Path : [path] \n"
+			dellog += "Failures : [SSgarbage.didntgc[path]] \n"
+		world.log << dellog
 
 	return 1
 

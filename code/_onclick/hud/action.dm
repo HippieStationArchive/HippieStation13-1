@@ -294,6 +294,7 @@
 	owner << "<span class='notice'> Research analyzer deactivated.</span>"
 
 /datum/action/scan_mode/Grant(mob/living/T)
+	devices += 1
 	..(T)
 
 /datum/action/scan_mode/CheckRemoval(mob/living/user)

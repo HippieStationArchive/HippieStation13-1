@@ -160,6 +160,16 @@ var/next_external_rsc = 0
 
 	. = ..()	//calls mob.Login()
 
+	if (connection == "web")
+		if (!config.allowwebclient)
+			src << "Web client is disabled"
+			del(src)
+			return 0
+		if (config.webclientmembersonly && !IsByondMember())
+			src << "Sorry, but the web client is restricted to byond members only."
+			del(src)
+			return 0
+
 	if( (world.address == address || !address) && !host )
 		host = key
 		world.update_status()
