@@ -42,7 +42,6 @@
 	var/metabolism_efficiency = 1 //more or less efficiency to metabolize helpful/harmful reagents and regulate body temperature..
 	var/list/image/staticOverlays = list()
 	var/has_limbs = 0 //does the mob have distinct limbs?(arms,legs, chest,head)
-	var/list/datum/action/actions = list()
 	var/spam_flag = 0 //Spamflag for emotes.
 
 	var/list/pipes_shown = list()
@@ -56,3 +55,7 @@
 	var/unique_name = 0 //if a mob's name should be appended with an id when created e.g. Mob (666)
 
 	var/list/butcher_results = null
+
+	var/mob_has_gravity = 1
+	var/float_y = 0
+	var/float_ticks = 0

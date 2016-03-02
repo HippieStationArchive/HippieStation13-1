@@ -290,6 +290,8 @@ Turf and target are seperate in case you want to teleport some distance from a t
 					newname = pick(mime_names)
 				if("ai")
 					newname = pick(ai_names)
+				if("deity")
+					newname = pick(clown_names|ai_names|mime_names) //pick any old name
 				else
 					return
 
@@ -372,7 +374,6 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	var/list/names = list()
 	var/list/pois = list()
 	var/list/namecounts = list()
-
 	for(var/mob/M in mobs)
 		var/name = M.name
 		if (name in names)

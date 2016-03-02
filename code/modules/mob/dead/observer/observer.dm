@@ -390,7 +390,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		if(href_list["reenter"])
 			reenter_corpse()
 
-/mob/dead/observer/canUseTopic()
-	if(check_rights(R_ADMIN, 0))
-		return 1
+//We don't want to update the current var
+//But we will still carry a mind.
+/mob/dead/observer/mind_initialize()
 	return

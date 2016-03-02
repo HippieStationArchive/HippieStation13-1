@@ -137,6 +137,7 @@
 	flags_inv = HIDEJUMPSUIT
 	strip_delay = 80
 	put_on_delay = 60
+	slowdown = 1
 
 /obj/item/clothing/suit/armor/bulletproof
 	name = "bulletproof armor"

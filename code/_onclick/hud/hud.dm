@@ -107,6 +107,10 @@ var/datum/global_hud/global_hud = new()
 	var/obj/screen/move_intent
 	var/obj/screen/combo/combo_object
 
+	var/obj/screen/deity_health_display
+	var/obj/screen/deity_power_display
+	var/obj/screen/deity_follower_display
+
 	var/list/adding
 	var/list/other
 	var/list/obj/screen/hotkeybuttons
@@ -202,6 +206,8 @@ var/datum/global_hud/global_hud = new()
 		swarmer_hud()
 	else if(isguardian(mymob))
 		guardian_hud()
+	else if(what_rank(mymob.mind) == 3)
+		hoggod_hud()
 
 //Version denotes which style should be displayed. blank or 0 means "next version"
 /datum/hud/proc/show_hud(version = 0)

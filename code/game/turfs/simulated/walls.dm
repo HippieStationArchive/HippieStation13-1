@@ -87,7 +87,7 @@
 		dismantle_wall()
 
 /turf/simulated/wall/mech_melee_attack(obj/mecha/M)
-	if(M.damtype == "brute")
+	if(M.damtype == BRUTE)
 		playsound(src, 'sound/weapons/punch4.ogg', 50, 1)
 		visible_message("<span class='danger'>[M.name] has hit [src]!</span>")
 		if(prob(5) && M.force > 20)
@@ -193,17 +193,6 @@
 		user << "<span class='notice'>You begin slicing through the outer plating...</span>"
 		playsound(src, 'sound/items/Welder.ogg', 100, 1)
 		if(do_after(user, slicing_duration*0.6, target = src))  // plasma cutter is faster than welding tool
-			if( !istype(src, /turf/simulated/wall) || !user || !W || !T )
-				return 1
-			if( user.loc == T && user.get_active_hand() == W )
-				user << "<span class='notice'>You remove the outer plating.</span>"
-				dismantle_wall()
-				visible_message("The wall was sliced apart by [user]!", "<span class='italics'>You hear metal being sliced apart.</span>")
-				return 1
-	else if(istype(W, /obj/item/weapon/melee/energy/sword))
-		user << "<span class='notice'>You begin slicing through the outer plating...</span>"
-		playsound(src, 'sound/items/Welder.ogg', 100, 1)
-		if(do_after(user, slicing_duration*0.7, target = src))
 			if( !istype(src, /turf/simulated/wall) || !user || !W || !T )
 				return 1
 			if( user.loc == T && user.get_active_hand() == W )

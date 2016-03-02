@@ -1,0 +1,54 @@
+"a" = (/turf/space,/area/space)
+"b" = (/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+"c" = (/obj/effect/rune/wall/blood_trail{dir = 9},/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+"d" = (/obj/effect/rune/wall/blood_trail{dir = 4},/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+"e" = (/obj/effect/rune/wall/blood_trail{dir = 5},/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+"f" = (/obj/effect/rune/wall/blood_trail,/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+"g" = (/obj/effect/rune/wall/blood_trail{dir = 1},/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+"h" = (/obj/effect/gibspawner/human,/obj/effect/rune/narsie,/mob/living/simple_animal/hostile/faithless,/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+"i" = (/obj/effect/rune/wall/blood_trail{dir = 6},/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+"j" = (/obj/effect/rune/wall/blood_trail{dir = 10},/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+"k" = (/turf/simulated/floor/plasteel/cult/airless,/turf/simulated/wall/cult,/area/template/TempleGeometer)
+"l" = (/turf/simulated/floor/plating/lava/deadly,/area/template/TempleGeometer)
+"m" = (/turf/simulated/floor/plasteel/cult,/turf/simulated/wall/cult,/area/template/TempleGeometer)
+"n" = (/obj/structure/mineral_door/runed_metal,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"o" = (/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"p" = (/obj/effect/rune/manifest,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"q" = (/obj/structure/cult/forge,/turf/simulated/floor/plating/lava/deadly,/area/template/TempleGeometer)
+"r" = (/obj/effect/rune/raise_dead,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"s" = (/obj/structure/cult/pylon,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"t" = (/obj/structure/cult/talisman,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"u" = (/obj/effect/rune/sacrifice,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"v" = (/obj/structure/cult/tome,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"w" = (/obj/structure/table/wood,/obj/item/candle/infinite{icon_state = "candle3_lit"; lit = 1; luminosity = 2},/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"x" = (/obj/item/weapon/tome,/obj/structure/table/wood,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"y" = (/obj/effect/rune/narsie,/obj/effect/gibspawner/human,/obj/item/weapon/veilrender/lesserveilrender,/turf/simulated/floor/plasteel/cult,/area/template/TempleGeometer)
+"z" = (/obj/effect/rune/wall/blood_trail{dir = 8},/turf/simulated/floor/plasteel/cult/airless,/area/template/TempleGeometer)
+
+(1,1,1) = {"
+aaaaaaaabbcdddebbaaaaaaaa
+aaaaaaabbbfbbbgbbbaaaaaaa
+aaaaaabbbbfbhbgbbbbaaaaaa
+aaaaabbbbbfbbbgbbbbbaaaaa
+aaaacdddddibbbjdddddeaaaa
+aaabfkkkkkkkbkkkkkkkgbaaa
+aabbfklllllmnmlllllkgbbaa
+abbbfklllmoopoomlllkgbbba
+bbbbfkllqoorsrooqllkgbbbb
+bbbbfklmootouovoomlkgbbbb
+cdddikloovmwxwmtoolkjddde
+fbbbbkmorowoooworomkbbbbg
+fbhbbbnpsuxoyoxuspnbbbhbg
+fbbbbkmorowoooworomkbbbbg
+jzzzeklootmwxwmvoolkczzzi
+bbbbfklooovouotoomlkgbbbb
+bbbbfkllqoorsrooqllkgbbbb
+abbbfklllmoopoomlllkgbbba
+aabbfklllllmnmlllllkgbbaa
+aaabfkkkkkkkbkkkkkkkgbaaa
+aaaajzzzzzebbbczzzzziaaaa
+aaaaabbbbbfbbbgbbbbbaaaaa
+aaaaaabbbbfbhbgbbbbaaaaaa
+aaaaaaabbbfbbbgbbbaaaaaaa
+aaaaaaaabbjzzzibbaaaaaaaa
+"}

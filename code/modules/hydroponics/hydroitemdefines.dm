@@ -86,7 +86,7 @@
 	return (TOXLOSS)
 
 /obj/item/weapon/cultivator
-	name = "mini-hoe"
+	name = "cultivator"
 	desc = "It's used for removing weeds or scratching your back."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "cultivator"

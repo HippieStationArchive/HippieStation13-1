@@ -526,6 +526,20 @@
 					dat += "<tr><td><i>Monkey not found!</i></td></tr>"
 			dat += "</table>"
 
+		var/list/deities = get_gods()
+		if(deities.len)
+			for(var/i in teams)
+				dat += "<br><table cellspacing=5><tr><td><B>[capitalize(i)] Team</B></td><td></td></tr>"
+				for(var/mob/camera/god/G in deities)
+					dat += "<tr><td>[capitalize(i)] Deity: <a href='?_src_=holder;adminplayeropts=\ref[G]'>[G.real_name]</a>[G.client ? "" : " <i>(ghost)</i>"][G.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+				var/list/prophets = get_team_prophets(i)
+				for(var/mob/A in prophets)
+					dat += "<tr><td>[capitalize(i)] Prophet: <a href='?_src_=holder;adminplayeropts=\ref[A]'>[A.real_name]</a>[A.client ? "" : " <i>(ghost)</i>"][A.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+				var/list/followers = get_team_followers(i)
+				for(var/mob/A in followers)
+					dat += "<tr><td>[capitalize(i)] Follower: <a href='?_src_=holder;adminplayeropts=\ref[A]'>[A.real_name]</a>[A.client ? "" : " <i>(ghost)</i>"][A.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+			dat += "</table>"
+
 
 		dat += "</body></html>"
 		usr << browse(dat, "window=roundstatus;size=420x500")

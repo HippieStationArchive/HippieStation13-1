@@ -6,6 +6,7 @@
 	hud_possible = list(ANTAG_HUD)
 	pressure_resistance = 8
 	var/datum/mind/mind
+	var/list/datum/action/actions = list()
 
 	var/stat = 0 //Whether a mob is alive or dead. TODO: Move this to living - Nodrak
 
@@ -113,7 +114,7 @@
 
 	var/voice_name = "unidentifiable voice"
 
-	var/list/faction = list("neutral") //A list of factions that this mob is currently in, for hostile mob targetting, amongst other things
+	var/list/faction = list("neutral", "team") //A list of factions that this mob is currently in, for hostile mob targetting, amongst other things
 	var/move_on_shuttle = 1 // Can move on the shuttle.
 
 //The last mob/living/carbon to push/drag/grab this mob (mostly used by slimes friend recognition)

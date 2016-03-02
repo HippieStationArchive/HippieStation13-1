@@ -195,6 +195,8 @@
 	var/change_icons = 1
 	var/can_off_process = 0
 	var/light_intensity = 2 //how powerful the emitted light is when used.
+	var/spam_check = 0
+	var/spam_level = 0
 	heat = 3800
 
 /obj/item/weapon/weldingtool/New()
@@ -262,7 +264,7 @@
 	switch(welding)
 		if(0)
 			force = 3
-			damtype = "brute"
+			damtype = BRUTE
 			update_icon()
 			if(!can_off_process)
 				SSobj.processing.Remove(src)
@@ -270,7 +272,7 @@
 	//Welders left on now use up fuel, but lets not have them run out quite that fast
 		if(1)
 			force = 15
-			damtype = "fire"
+			damtype = BURN
 			if(prob(5))
 				remove_fuel(1)
 			update_icon()
@@ -282,6 +284,15 @@
 		if(M.l_hand == src || M.r_hand == src)
 			location = get_turf(M)
 	if(isturf(location))
+		var/datum/gas_mixture/air_contents = location.return_air()
+		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
+		if((air_contents.toxins > 1) && !(spam_check))
+		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
+			spam_check = 1 //There is no reason to message is a multitude of times in such a short period
+			spawn(600)
+				spam_check = 0 //Greater delay, this is so one welding tool isn't later totally masked from detection of fire sparking.
+			message_admins("Plasma at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[location.x];Y=[location.y];Z=[location.z]'>(JMP)</a>. triggered by welder, last touched by [key_name_admin(last)]<A HREF='?_src_=holder;adminmoreinfo=\ref[last]'>(?)</A> (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[last]'>FLW</A>).")
+			investigate_log("Plasma at: X=[location.x];Y=[location.y];Z=[location.z];, trigger by welder last touched by [key_name_admin(last)]", "atmos")
 		location.hotspot_expose(700, 5)
 
 
@@ -311,6 +322,22 @@
 	if(welding)
 		remove_fuel(1)
 		var/turf/location = get_turf(user)
+		var/datum/gas_mixture/air_contents = location.return_air()
+		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
+		if((air_contents.toxins > 1) && !(spam_check))
+		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
+			if (spam_level > 3)
+				spam_check = 1
+				spawn(50)
+					spam_level++
+					spam_check = 0
+			if (spam_level == 3)
+				spam_check = 1
+				spawn(600)
+					spam_level = 0
+					spam_check = 0
+			message_admins("Plasma at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[location.x];Y=[location.y];Z=[location.z]'>(JMP)</a>. triggered by welder, last touched by [key_name_admin(last)]<A HREF='?_src_=holder;adminmoreinfo=\ref[last]'>(?)</A> (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[last]'>FLW</A>).")
+			investigate_log("Plasma at: X=[location.x];Y=[location.y];Z=[location.z];, trigger by welder last touched by [key_name_admin(last)]", "atmos")
 		location.hotspot_expose(700, 50, 1)
 
 		if(isliving(O))
@@ -372,7 +399,7 @@
 		if(get_fuel() >= 1)
 			user << "<span class='notice'>You switch [src] on.</span>"
 			force = 15
-			damtype = "fire"
+			damtype = BURN
 			hitsound = 'sound/items/welder.ogg'
 			update_icon()
 			SSobj.processing |= src
@@ -385,7 +412,7 @@
 		else
 			user << "<span class='warning'>[src] shuts off!</span>"
 		force = 3
-		damtype = "brute"
+		damtype = BRUTE
 		hitsound = "swing_hit"
 		update_icon()
 

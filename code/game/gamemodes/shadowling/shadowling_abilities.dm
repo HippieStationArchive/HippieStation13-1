@@ -722,13 +722,12 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	active = !active
 	if(active)
 		user << "<span class='notice'>You shift the nerves in your eyes, allowing you to see in the dark.</span>"
-		user.see_in_dark = 8
 		user.dna.species.invis_sight = SEE_INVISIBLE_MINIMUM
+		user.see_in_dark = 8
 	else
 		user << "<span class='notice'>You return your vision to normal.</span>"
-		user.see_in_dark = 0
 		user.dna.species.invis_sight = initial(user.dna.species.invis_sight)
-
+		user.see_in_dark = initial(user.see_in_dark)
 
 /obj/effect/proc_holder/spell/self/lesser_shadowling_hivemind //Lets a thrall talk with their allies
 	name = "Lesser Commune"
@@ -833,18 +832,18 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	action_icon_state = "shadow_walk"
 
 /obj/effect/proc_holder/spell/self/shadowling_phase_shift/cast(list/targets,mob/living/simple_animal/ascendant_shadowling/user = usr)
-	for(user in targets)
-		user.phasing = !user.phasing
-		if(user.phasing)
-			user.visible_message("<span class='danger'>[user] suddenly vanishes!</span>", \
-			"<span class='shadowling'>You begin phasing through planes of existence. Use the ability again to return.</span>")
-			user.incorporeal_move = 1
-			user.alpha = 0
-		else
-			user.visible_message("<span class='danger'>[user] suddenly appears from nowhere!</span>", \
-			"<span class='shadowling'>You return from the space between worlds.</span>")
-			user.incorporeal_move = 0
-			user.alpha = 255
+	if(!user.phasing)
+		user.visible_message("<span class='danger'>[user] suddenly vanishes!</span>", \
+		"<span class='shadowling'>You begin phasing through planes of existence. Use the ability again to return.</span>")
+		user.incorporeal_move = 1
+		user.alpha = 0
+		user.phasing = 1
+	else
+		user.visible_message("<span class='danger'>[user] suddenly appears from nowhere!</span>", \
+		"<span class='shadowling'>You return from the space between worlds.</span>")
+		user.incorporeal_move = 0
+		user.alpha = 255
+		user.phasing = 0
 
 
 /obj/effect/proc_holder/spell/aoe_turf/ascendant_storm //Releases bolts of lightning to everyone nearby

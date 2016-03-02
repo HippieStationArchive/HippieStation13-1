@@ -68,6 +68,7 @@ var/datum/subsystem/ticker/ticker
 			timeLeft = config.lobby_countdown * 10
 			world << "<B><FONT color='blue'>Welcome to the pre-game lobby!</FONT></B>"
 			world << "Please, setup your character and select ready. Game will start in [config.lobby_countdown] seconds"
+			crewmonitor.generateMiniMaps() // start generating minimaps (this is a background process)
 			current_state = GAME_STATE_PREGAME
 
 		if(GAME_STATE_PREGAME)
@@ -176,7 +177,7 @@ var/datum/subsystem/ticker/ticker
 	equip_characters()
 	data_core.manifest()
 
-	Master.RoundStart()
+	master_controller.roundHasStarted()
 
 
 	world << "<FONT color='blue'><B>Welcome to [station_name()], enjoy your stay!</B></FONT>"
