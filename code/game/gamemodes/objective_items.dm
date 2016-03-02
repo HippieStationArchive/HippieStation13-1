@@ -90,7 +90,6 @@
 /datum/objective_item/steal/nuke_core/New()
 	special_equipment += /obj/item/weapon/storage/box/syndie_kit/nuke
 
-
 //Items with special checks!
 /datum/objective_item/steal/plasma
 	name = "28 moles of plasma (full tank)"
