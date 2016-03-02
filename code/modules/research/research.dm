@@ -316,5 +316,5 @@ research holder datum.
 	name = "Gooncode disk"
 	desc = "A disk containing Goonstation source code for further research."
 	icon = 'icons/obj/items.dmi'
-	icon_state = "nucleardisk"
+	icon_state = "gooncode"
 	stored = new/datum/tech/programming{level = 4}
