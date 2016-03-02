@@ -311,3 +311,10 @@ research holder datum.
 /obj/item/weapon/disk/tech_disk/New()
 	src.pixel_x = rand(-5, 5)
 	src.pixel_y = rand(-5, 5)
+
+/obj/item/weapon/disk/tech_disk/gooncode
+	name = "Gooncode disk"
+	desc = "A disk containing Goonstation source code for further research."
+	icon = 'icons/obj/items.dmi'
+	icon_state = "gooncode"
+	stored = new/datum/tech/programming{level = 4}
