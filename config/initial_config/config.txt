@@ -221,3 +221,13 @@ ANNOUNCE_ADMINHELPS
 
 ##Uncomment to set anyone that joins to the specified rank
 #AUTOADMIN Game Admin
+
+##Uncomment to enable the ProxyBan system.
+PROXYKICK
+
+##Email used in proxyban,incase an issue happens with the proxy checker ( http://getipintel.net/ ) you will be emailed.
+PROXYKICKEMAIL myemail@myprovider.com
+
+##Set the limit you want to use for proxybans(Ranges from 0 to 1, but you should never put 0 really.), 1 means that the new player will be kicked from the game if his ip
+##is in the proxy manual list, while a range from 0 to 1 is dealt by getipintel's magic. A suggested value is either 0.99 or 1, but it depends on you.
+PROXYKICKLIMIT 0.99

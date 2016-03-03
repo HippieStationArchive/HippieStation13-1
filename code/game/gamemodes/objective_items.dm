@@ -59,6 +59,12 @@
 	difficulty = 5
 	excludefromjob = list("Captain")
 
+/datum/objective_item/steal/gooncodedisk
+	name = "the Gooncode disk"
+	targetitem = /obj/item/weapon/disk/tech_disk/gooncode
+	difficulty = 5
+	excludefromjob = list("Research Director")
+
 /datum/objective_item/steal/ablative
 	name = "an ablative armor vest"
 	targetitem = /obj/item/clothing/suit/armor/laserproof
