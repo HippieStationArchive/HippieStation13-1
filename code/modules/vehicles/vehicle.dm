@@ -22,7 +22,7 @@ but i'll port it back to Arctic station if we get back to it
 	var/occupants = 0 //The driver is technically not an occupant
 	var/mob/living/carbon/human/driver //Driver of said vehicle, take his inputs
 	var/mass = 500 // Mass of the vehicle, used for movement calculations and collision
-	var/max_mass = 500
+	var/max_mass = 500 //Max mass, so you can't load up like 500 engines for no raisen.
 	var/locked = 0 //Can you add/remove parts?
 	var/active = 0 //Is the vehicle's engine active?
 
@@ -49,15 +49,19 @@ but i'll port it back to Arctic station if we get back to it
 	overlays.Cut()
 	var/obj/item/vehicle_parts/chassis/C = locate() in parts
 	var/obj/item/vehicle_parts/propulsion/P = locate() in parts
-	if(P)
+	if(P) //Needs better unique sprites. Formatting should just end up being part_chassis
+		//overlays += "[P.icon_state]_[C.icon_state]
 		overlays += P.icon_state
 	if(C)
+		//overlays += "[P.icon_state]_[C.icon_state]
 		overlays += C.icon_state
 
 /obj/vehicle/attackby(var/obj/item/I, mob/user, params)
 	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
 	var/obj/item/weapon/stock_parts/cell/C = locate() in parts
-
+	for(I in blacklist)
+		user << "<span class='notice'>You can't attach [i] to [src]!</span>"
+		return
 	if(istype(I,/obj/item/weapon/weldingtool) && user.a_intent != "harm")
 		var/obj/item/weapon/weldingtool/WT = I
 		user.changeNext_move(CLICK_CD_MELEE)
@@ -70,7 +74,6 @@ but i'll port it back to Arctic station if we get back to it
 				user << "<span class='notice'>[src] is at full health</span>"
 		else
 			user << "<span class='notice'>The [WT] must be on!</span>"
-
 	if(istype(I,/obj/item/weapon/reagent_containers/fueltank) || istype(I,/obj/item/vehicle_parts))
 		var/obj/item/vehicle_parts/O = I
 		if(compareParts(O))
@@ -145,6 +148,7 @@ but i'll port it back to Arctic station if we get back to it
 				take_damage(I.force,I.damtype)
 				user.visible_message("<span class='danger'>[user] attacks [src] with the [I.name]!</span>", \
 					"<span class='danger'>You hit [src] with the [I.name]</span>")
+
 
 
 /obj/vehicle/proc/compareParts(var/obj/item/vehicle_parts/input) //Meant for checking parts and whether there is already one installed or not.
