@@ -295,16 +295,16 @@
 	desc = "We inject a small amount of deadly poison that will kill the victim over a long period of time."
 	helptext = "Our target will know immediately of their plight. The toxin metabolization is very fast, our victim will be dead within the next minute."
 	sting_icon = "sting_poison"
-	req_dna = 9 //Tier 3
+	req_dna = 9 //Tier 4
 	chemical_cost = 75 //A guaranteed death is nothing to laugh at
 	evopoints_cost = 10 //Hefty price for the DEATH STING.
 
 /obj/effect/proc_holder/changeling/sting/death/sting_action(mob/user, mob/target)
-	add_logs(user, target, "stung", "death sting")
-	spawn(150)
-	if(target.reagents)
+		add_logs(user, target, "stung", "death sting")
+		if(target.reagents)
 		target.reagents.add_reagent("venom", 40)
-	return 1
+		feedback_add_details("changeling_powers", "DS")
+		return 1
 
 /obj/effect/proc_holder/changeling/sting/comatose
 	name = "Comatose Sting"
@@ -319,10 +319,8 @@
 /obj/effect/proc_holder/changeling/sting/comatose/sting_action(mob/user, mob/living/target)
 	add_logs(user, target, "stung", "comatosesting")
 	target << "<span class='warning'>You feel a small prick and a burning sensation.</span>"
-	spawn(1)
-		if(target && !target.lying)
-			target.Weaken(60)
-			target.Stun(60)
-			target.reagents.add_reagent("mutetoxin", 20)
+	target.Weaken(60)
+	target.Stun(60)
+	target.reagents.add_reagent("mutetoxin", 20)
 	feedback_add_details("changeling_powers", "KS")
 	return 1	
