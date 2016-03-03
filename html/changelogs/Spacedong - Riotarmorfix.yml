@@ -22,7 +22,7 @@
 #################################
 
 # Your name.  
-author: Kilm
+author: Spacedong
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
@@ -33,6 +33,5 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - tweak: "Jiggled some power cables and APC's about in the Brig to give it more redundancy."
-  - tweak: "Fixed the Mime and Clown office as per the Issues thread raised."
-  - tweak: "Fixed some minor flasher issues."
+  - tweak: "Riot armor now slows you down again. No more running at topspeed with 90% melee resistance."
+

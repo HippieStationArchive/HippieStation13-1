@@ -33,7 +33,6 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - bugfix: "Fixed the improper access on hidden airlock next to commie spy and on the door leading to chapel back room."
-  - bugfix: "Fixed sec holding cell disposal going through holodeck, as well law office disposals being connected to it."
-  - bugfix: "Fixed sec escape pod having visible space tile under some walls during transit."
-  - bugfix: "Fixed Roundstart AT at hidden airlock."
+  - rscadd: "Added vents to the massdrivers on z1 that did not already have one."
+  - tweak: "reinforced the bomb test area, and removed indestructible wall from there"
+  - tweak: "Made the thrash ejection room slightly larger, and added 2 sptos for hard workign assistants."

@@ -390,7 +390,7 @@
 	var/list/heads = list()
 	for(var/mob/living/carbon/human/player in mob_list)
 		if(player.stat!=2 && player.mind && (player.mind.assigned_role in command_positions))
-			heads += player.mind
+			heads |= player.mind
 	return heads
 
 
@@ -401,7 +401,7 @@
 	var/list/heads = list()
 	for(var/mob/player in mob_list)
 		if(player.mind && (player.mind.assigned_role in command_positions))
-			heads += player.mind
+			heads |= player.mind
 	return heads
 
 //////////////////////////
@@ -509,4 +509,4 @@
 	ticker.mode.remove_cultist(newborgie, 1)
 	ticker.mode.remove_revolutionary(newborgie, 1)
 	ticker.mode.remove_gangster(newborgie, 1, remove_bosses=1)
-	ticker.mode.remove_hog_follower(newborgie, 1)
+	ticker.mode.remove_hog_follower(newborgie, 0)

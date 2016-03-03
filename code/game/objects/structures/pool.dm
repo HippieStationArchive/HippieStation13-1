@@ -23,6 +23,8 @@
 	var/turf/loc = get_turf(usr)
 	if(loc.name == "Drained Pool")
 		return
+	if(isobserver(usr))
+		return
 	if(user.stat || user.lying || !Adjacent(user) || !M.Adjacent(user)|| !iscarbon(M))
 		if(isrobot(M))
 			M.visible_message("<span class='notice'>[user] begins to float.", \

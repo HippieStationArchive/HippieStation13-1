@@ -1,0 +1,105 @@
+"aa" = (/turf/simulated/wall/mineral/silver,/area/template/Mimeship)
+"ab" = (/obj/structure/shuttle/engine/propulsion{icon_state = "propulsion_r"; dir = 1},/turf/simulated/floor/plating/airless,/area/template/Mimeship)
+"ac" = (/obj/structure/shuttle/engine/propulsion{icon_state = "propulsion"; dir = 1},/turf/simulated/floor/plating/airless,/area/template/Mimeship)
+"ad" = (/obj/structure/shuttle/engine/propulsion{icon_state = "propulsion_l"; dir = 1},/turf/simulated/floor/plating/airless,/area/template/Mimeship)
+"ae" = (/turf/space,/area/space)
+"af" = (/obj/structure/shuttle/engine/heater{icon_state = "heater"; dir = 1},/obj/structure/window/reinforced,/turf/simulated/floor/plating/airless,/area/template/Mimeship)
+"ag" = (/mob/living/simple_animal/hostile/retaliate/clown,/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"ah" = (/obj/effect/decal/remains/human,/obj/item/clothing/mask/gas/clown_hat,/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"ai" = (/obj/structure/girder,/turf/simulated/floor/plating,/area/template/Mimeship)
+"aj" = (/obj/structure/closet/secure_closet/mime,/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"ak" = (/obj/structure/closet/secure_closet/mime,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"al" = (/obj/machinery/door/airlock/glass_security{id_tag = "innerbrig"; name = "Brig"; req_access_txt = "63"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"am" = (/obj/machinery/power/terminal{dir = 4},/obj/structure/cable{icon_state = "0-2"; d2 = 2},/turf/simulated/wall/mineral/silver,/area/template/Mimeship)
+"an" = (/obj/machinery/power/smes{charge = 5e+006},/obj/structure/cable{icon_state = "0-4"; d2 = 4},/obj/structure/cable{icon_state = "0-2"; d2 = 2},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"ao" = (/obj/machinery/suit_storage_unit/mime,/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"ap" = (/obj/structure/dispenser/oxygen,/obj/machinery/light{dir = 4; icon_state = "tube1"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aq" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/mime,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"ar" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/mime,/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"as" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/mime,/obj/machinery/light{dir = 4; icon_state = "tube1"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"at" = (/turf/simulated/floor/plasteel{icon_state = "white"; temperature = 2931.5},/area/template/Mimeship)
+"au" = (/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"av" = (/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"aw" = (/obj/structure/optable,/obj/effect/landmark/corpse/clown,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"ax" = (/obj/structure/table,/obj/item/weapon/surgical_drapes,/obj/item/weapon/surgicaldrill,/obj/item/weapon/circular_saw,/obj/item/weapon/scalpel,/obj/item/weapon/hemostat,/obj/item/weapon/retractor,/obj/item/weapon/cautery,/obj/machinery/light{dir = 4; icon_state = "tube1"},/obj/item/clothing/tie/stethoscope,/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"ay" = (/obj/structure/girder,/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"; tag = "90Curve"},/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"az" = (/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"; tag = "90Curve"},/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"aA" = (/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"aB" = (/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"aC" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/mime,/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"aD" = (/turf/simulated/floor/plating{tag = "icon-platingdmg3"; icon_state = "platingdmg3"},/area/template/Mimeship)
+"aE" = (/obj/item/clothing/mask/gas/mime,/obj/item/clothing/shoes/sneakers/mime,/obj/item/clothing/under/rank/mime,/obj/item/weapon/storage/backpack/mime,/obj/item/toy/crayon/mime,/obj/item/clothing/gloves/color/white,/obj/effect/decal/cleanable/ash,/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"aF" = (/obj/machinery/door/airlock/silver,/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"aG" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"aH" = (/obj/structure/stool/bed/chair/comfy/black,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aI" = (/obj/structure/stool/bed/chair/comfy/black,/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"aJ" = (/obj/structure/stool/bed/chair/comfy/black,/turf/simulated/floor/plating{tag = "icon-platingdmg3"; icon_state = "platingdmg3"},/area/template/Mimeship)
+"aK" = (/obj/machinery/door/airlock/glass_security{id_tag = "innerbrig"; name = "Brig"; req_access_txt = "63"},/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"aL" = (/obj/item/clothing/shoes/sneakers/mime,/obj/item/weapon/storage/backpack/mime,/obj/item/clothing/mask/gas/sexymime,/obj/item/clothing/under/sexymime,/obj/item/toy/crayon/mime,/obj/item/weapon/cartridge/mime,/obj/item/clothing/gloves/color/white,/obj/effect/decal/cleanable/ash,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aM" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/snacks/burger/clown,/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"aN" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/snacks/burger/clown,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aO" = (/obj/effect/decal/remains/human,/obj/item/clothing/mask/gas/clown_hat,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aP" = (/mob/living/simple_animal/hostile/retaliate/clown,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aQ" = (/obj/structure/stool/bed/chair/comfy/black{tag = "icon-comfychair (NORTH)"; icon_state = "comfychair"; dir = 1},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aR" = (/obj/structure/stool/bed/chair/comfy/black{tag = "icon-comfychair (NORTH)"; icon_state = "comfychair"; dir = 1},/turf/simulated/floor/plating{tag = "icon-platingdmg3"; icon_state = "platingdmg3"},/area/template/Mimeship)
+"aS" = (/obj/machinery/light{icon_state = "tube1"; dir = 8},/turf/simulated/floor/plating{tag = "icon-platingdmg3"; icon_state = "platingdmg3"},/area/template/Mimeship)
+"aT" = (/obj/item/clothing/shoes/sneakers/mime,/obj/item/weapon/storage/backpack/mime,/obj/item/clothing/mask/gas/sexymime,/obj/item/clothing/under/sexymime,/obj/item/toy/crayon/mime,/obj/item/weapon/cartridge/mime,/obj/item/clothing/gloves/color/white,/obj/effect/decal/cleanable/ash,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aU" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"aV" = (/obj/machinery/teleport/hub,/obj/structure/showcase{desc = "A link to the mime's world. Currently not working."; icon_state = "portal1"; name = "Unstable Portal"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aW" = (/obj/machinery/light{icon_state = "tube1"; dir = 8},/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"aX" = (/obj/machinery/door/airlock/silver,/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"aY" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"aZ" = (/obj/item/clothing/mask/gas/mime,/obj/item/clothing/shoes/sneakers/mime,/obj/item/clothing/under/rank/mime,/obj/item/weapon/storage/backpack/mime,/obj/item/toy/crayon/mime,/obj/effect/decal/cleanable/ash,/obj/item/clothing/gloves/color/white,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"ba" = (/turf/simulated/floor/plating,/area/template/Mimeship)
+"bb" = (/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"bc" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"bd" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"be" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/wall/mineral/silver,/area/template/Mimeship)
+"bf" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"bg" = (/obj/structure/girder,/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plating,/area/template/Mimeship)
+"bh" = (/obj/structure/closet/crate,/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"bi" = (/obj/structure/closet/crate,/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"bj" = (/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/turf/simulated/floor/plating{tag = "icon-platingdmg3"; icon_state = "platingdmg3"},/area/template/Mimeship)
+"bk" = (/obj/machinery/power/emitter/energycannon{active = 0},/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/structure/cable,/turf/simulated/floor/plating,/area/template/Mimeship)
+"bl" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"; tag = "90Curve"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"bm" = (/obj/machinery/power/apc{dir = 4; name = "Silence IV APC"; pixel_x = 24; pixel_y = 0},/obj/structure/cable{d2 = 8; icon_state = "0-8"},/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"bn" = (/obj/item/clothing/mask/gas/mime,/obj/item/clothing/shoes/sneakers/mime,/obj/item/clothing/under/rank/mime,/obj/item/weapon/storage/backpack/mime,/obj/item/toy/crayon/mime,/obj/item/clothing/gloves/color/white,/obj/effect/decal/cleanable/ash,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"bo" = (/obj/machinery/light{dir = 4; icon_state = "tube1"},/turf/simulated/floor/plating{tag = "icon-platingdmg3"; icon_state = "platingdmg3"},/area/template/Mimeship)
+"bp" = (/obj/item/weapon/storage/toolbox/syndicate,/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"bq" = (/obj/structure/girder,/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"br" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/snacks/burger/clown,/obj/machinery/light{icon_state = "tube1"; dir = 8},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"bs" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/mime,/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"bt" = (/obj/structure/cable{d1 = 1; d2 = 4; icon_state = "1-4"},/obj/structure/cable{d1 = 1; d2 = 8; icon_state = "1-8"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"bu" = (/obj/item/clothing/mask/gas/mime,/obj/item/clothing/shoes/sneakers/mime,/obj/item/clothing/under/rank/mime,/obj/item/weapon/storage/backpack/mime,/obj/item/toy/crayon/mime,/obj/item/weapon/cartridge/mime,/obj/item/clothing/gloves/color/white,/obj/effect/decal/cleanable/ash,/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"bv" = (/obj/structure/stool/bed,/obj/item/weapon/bedsheet/mime,/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/template/Mimeship)
+"bw" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/snacks/burger/clown,/obj/machinery/light{dir = 4; icon_state = "tube1"},/obj/structure/cable{d1 = 2; d2 = 8; icon_state = "2-8"},/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"bx" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/space,/area/template/Mimeship)
+"by" = (/obj/structure/stool/bed/chair/comfy/black{tag = "icon-comfychair (NORTH)"; icon_state = "comfychair"; dir = 1},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"bz" = (/obj/item/clothing/mask/gas/mime,/obj/item/clothing/shoes/sneakers/mime,/obj/item/clothing/under/rank/mime,/obj/item/weapon/storage/backpack/mime,/obj/item/toy/crayon/mime,/obj/item/clothing/gloves/color/white,/obj/effect/decal/cleanable/ash,/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+"bA" = (/obj/structure/computerframe{anchored = 1; desc = "What do you mean, you can't see the screen?"; name = "Mime's computer"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/template/Mimeship)
+"bB" = (/obj/structure/computerframe{anchored = 1; desc = "What do you mean, you can't see the screen?"; name = "Mime's computer"},/turf/simulated/floor/plasteel{icon_state = "white"},/area/template/Mimeship)
+
+(1,1,1) = {"
+aaabacadaaaeaeaeaeaeaeaeaaabacadaa
+aaafafafaaaeaaabacadaaaeaaafafafaa
+aaagaaahaaaeaaafafafaiaeaaajakajai
+aaalaaalaaaaamanaoapaaaaaiaqarasaa
+aaatauavawaxayazaAaBaiaCaqaBavaDai
+aaauaBavavaEaFavaGavaFauaBaHaIaJai
+aaaKaaaKaaaKaaaBaGavaDaDaLaMaNaMaD
+aaaOaaaPaaauaiavaGaDaiaDavaQaRaRai
+aaaaaaaaaaaiaiaSaTaBaiaaaaaiaiaiai
+aeaeaaauaBavaiaDaUauaiauavaVaiaeae
+aeaeaaaWavavaXavaYaBavavaZaDbaaeae
+aeaeaabbbcbdbebdbfbcbgbhbibjaiaeae
+aeaeaabkaaaaaaaBblbmaaaaaibkaiaeae
+aeaeaeaeaeaeaaauaUavaDaeaeaeaeaeae
+aeaeaeaeaeaeaaaBbnaDbaaeaeaeaeaeae
+aeaeaeaeaeaeaaauaGboaiaeaeaeaeaeae
+aeaeaeaeaeaeaabpaGavaiaeaeaeaeaeae
+aeaeaeaeaaaaaaavaGbqbqaiaDaeaeaeae
+aeaeaeaeaabrbsbcbtbubvbwaiaeaeaeae
+aeaeaeaebxbybzaHavaIaBbybxaeaeaeae
+aeaeaeaebxaUbAbBbAbBbAaUbxaeaeaeae
+aeaeaeaeaabkbxbxbxbxbxbkaaaeaeaeae
+"}

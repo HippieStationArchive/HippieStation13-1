@@ -3,6 +3,7 @@
 	desc = "Injects things."
 	icon_state = "reagents"
 	origin_tech = "materials=3;biotech=4"
+	activated = 0
 	flags = OPENCONTAINER
 
 /obj/item/weapon/implant/chem/get_data()

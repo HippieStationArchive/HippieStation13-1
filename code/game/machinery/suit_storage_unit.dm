@@ -143,6 +143,9 @@
 	MASK_TYPE = /obj/item/clothing/mask/gas/mime
 	STORAGE_TYPE = /obj/item/weapon/reagent_containers/food/snacks/baguette
 
+/obj/machinery/suit_storage_unit/empty_open
+	icon_state = "open"
+
 /obj/machinery/suit_storage_unit/New()
 	src.update_icon()
 	if(SUIT_TYPE)

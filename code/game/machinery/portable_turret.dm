@@ -520,7 +520,8 @@
 	flick("popdown", cover)
 	sleep(10)
 	raising = 0
-	cover.icon_state = "turretCover"
+	if(cover) // unfinished turrets?
+		cover.icon_state = "turretCover"
 	raised = 0
 	invisibility = 2
 	icon_state = "[lasercolor]grey_target_prism"

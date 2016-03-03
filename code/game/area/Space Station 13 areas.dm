@@ -1691,6 +1691,40 @@ var/list/teleportlocs = list()
 	has_gravity = 1
 	ambloop = 'sound/ambience/loop/space.ogg'
 	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
+
+/area/template/OriginalClown
+	name = "Clownship"
+	icon_state = "clown"
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/space.ogg'
+	ambientsounds = list('sound/ambience/clown.ogg','sound/misc/slip.ogg','sound/items/bikehorn.ogg')
+
+/area/template/Mimeship
+	name = "Broken Mimeship"
+	icon_state = "mime"
+	has_gravity = 1
+
+/area/template/TempleGeometer
+	name = "\improper Temple of Unholy Geometer"
+	icon_state = "yellow"
+	requires_power = 0
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/terriblehum.ogg'
+	ambientsounds = list('sound/spookoween/ghost_whisper.ogg','sound/spookoween/girlscream.ogg','sound/hallucinations/behind_you1.ogg','sound/hallucinations/behind_you2.ogg','sound/hallucinations/i_see_you1.ogg','sound/hallucinations/i_see_you2.ogg','sound/hallucinations/wail.ogg','sound/misc/scream_m1.ogg','sound/misc/scream_m2.ogg','sound/misc/scream_f1.ogg')
+
+/area/template/syndicate_scout_ship
+	name = "\improper Syndicate scout ship"
+	icon_state = "syndie-ship"
+	requires_power = 0
+	has_gravity = 1
+
+/area/template/abandoned_abductor_ship
+	name = "\improper Abandoned Abductor Ship"
+	icon_state = "yellow"
+	requires_power = 0
+	has_gravity = 1
+	ambloop = 'sound/ambience/loop/opressivehum.ogg'
+
 /////////////////////////////////////////////////////////////////////
 /*
  Lists of areas to be used with is_type_in_list.
