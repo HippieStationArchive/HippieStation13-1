@@ -54,6 +54,7 @@ Head of Security
 	backpack = /obj/item/weapon/storage/backpack/security
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
 	duffle = /obj/item/weapon/storage/backpack/dufflebag/sec
+	box = /obj/item/weapon/storage/box/security
 
 /datum/outfit/job/hos/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
