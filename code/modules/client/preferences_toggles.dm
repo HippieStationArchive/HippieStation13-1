@@ -254,3 +254,11 @@ var/global/list/ghost_orbits = list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 	set desc = "Allows you to access the Setup Character screen. Changes to your character won't take effect until next round, but other changes will."
 	prefs.current_tab = 1
 	prefs.ShowChoices(usr)
+
+/client/verb/toggle_vox()
+ 	set name = "Enable/disable Vox"
+ 	set category = "Preferences"
+ 	set desc = "Toggles whether or not you will hear Vox messages."
+ 	prefs.toggles ^= SOUND_VOX
+ 	prefs.save_preferences()
+ 	src << "You will [(prefs.toggles & SOUND_VOX) ? "no longer" : "now"] hear Vox." 
