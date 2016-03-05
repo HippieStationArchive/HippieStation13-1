@@ -295,6 +295,8 @@ var/next_external_rsc = 0
 		return -50 //error code
 	var/n = httpstuff["CONTENT"]
 	var/httpcode = httpstuff["STATUS"]
+	for(var/i in httpstuff)
+		message_admins("[i] = [httpstuff[i]]")
 	if(httpcode == 429)
 		return -7 // exceeded number of queries
 	if(httpcode != 200)//something went wrong,fuck
