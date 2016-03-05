@@ -300,11 +300,11 @@
 	evopoints_cost = 10 //Hefty price for the DEATH STING.
 
 /obj/effect/proc_holder/changeling/sting/death/sting_action(mob/user, mob/target)
-		add_logs(user, target, "stung", "death sting")
-		if(target.reagents)
+	add_logs(user, target, "stung", "death sting")
+	if(target.reagents)
 		target.reagents.add_reagent("venom", 40)
 		feedback_add_details("changeling_powers", "DS")
-		return 1
+	return 1
 
 /obj/effect/proc_holder/changeling/sting/comatose
 	name = "Comatose Sting"
@@ -323,4 +323,4 @@
 	target.Stun(60)
 	target.reagents.add_reagent("mutetoxin", 20)
 	feedback_add_details("changeling_powers", "KS")
-	return 1	
+	return 1
