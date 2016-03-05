@@ -30,4 +30,7 @@
 	user.med_hud_set_health()
 	feedback_add_details("changeling_powers","CR")
 	user.stat = CONSCIOUS
+	user.regenerate_icons()
+	user.ExtinguishMob()
+	user.fire_stacks = 0
 	return 1
