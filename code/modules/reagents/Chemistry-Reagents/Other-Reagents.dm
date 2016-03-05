@@ -573,8 +573,10 @@
 /datum/reagent/radium/reaction_turf(turf/T, reac_volume)
 	if(reac_volume >= 3)
 		if(!istype(T, /turf/space))
-			var/obj/effect/decal/cleanable/reagentdecal = new/obj/effect/decal/cleanable/greenglow(T)
-			reagentdecal.reagents.add_reagent("radium", reac_volume)
+			var/obj/effect/decal/cleanable/greenglow/GG = locate() in T.contents
+			if(!GG)
+				GG = new/obj/effect/decal/cleanable/greenglow(T)
+			GG.reagents.add_reagent("radium", reac_volume)
 
 /datum/reagent/sterilizine
 	name = "Sterilizine"
