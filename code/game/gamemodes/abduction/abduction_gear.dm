@@ -581,7 +581,7 @@ Congratulations! You are now trained for xenobiology research!"}
 	can_buckle = 1
 	buckle_lying = 1
 
-/obj/structure/stool/bed/abductor
+/obj/structure/bed/abductor
 	name = "resting contraption"
 	desc = "This looks similar to contraptions from earth. Could aliens be stealing our technology?"
 	icon = 'icons/obj/abductor.dmi'

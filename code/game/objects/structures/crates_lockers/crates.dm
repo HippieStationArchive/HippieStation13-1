@@ -187,10 +187,8 @@
 	else
 		return 0
 
-	if(istype(AM, /obj/structure/stool/bed)) //This is only necessary because of rollerbeds and swivel chairs.
-		var/obj/structure/stool/bed/B = AM
-		if(B.buckled_mob)
-			return 0
+	if(AM.buckled_mob)//buckled_mob is an atom/movale var, so.
+		return 0
 
 	AM.loc = src
 	return 1
