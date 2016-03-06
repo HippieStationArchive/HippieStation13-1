@@ -1063,7 +1063,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/implants/mindslave
 	name = "Mindslave Implant"
-	desc = "An implant injected into another body, forcing the vitcim to obey any command by the user for a limited time."
+	desc = "An implant injected into another body, forcing the vitcim to obey any command by the user for around 15 to 20 mintues."
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_mindslave
 	cost = 9
 	surplus = 20

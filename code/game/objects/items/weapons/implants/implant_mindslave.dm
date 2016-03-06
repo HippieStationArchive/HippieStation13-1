@@ -1,6 +1,6 @@
 /obj/item/weapon/implant/mindslave
 	name = "mindslave implant"
-	desc = "Now YOU too can have your very own mindslave! Pop this implant into anybody and they'll obey any command you give for a limited time."
+	desc = "Now YOU too can have your very own mindslave! Pop this implant into anybody and they'll obey any command you give for around 15 to 20 minutes."
 	origin_tech = "materials=2;biotech=4;programming=4"
 	activated = 0
 	var/timerid
@@ -24,8 +24,8 @@
 		return 0
 	if(..())
 		target << "<span class='notice'>You feel a surge of loyalty towards [user].</span>"
-		target << "\red You MUST obey any command given to you by your master(that doesn't violate any rules). You are an antag while mindslaved."
-		target << "\red You CANNOT harm your master."
+		target << "<span class='userdanger'> You MUST obey any command given to you by your master(that doesn't violate any rules). You are an antag while mindslaved.</span>"
+		target << "<span class='danger'>You CANNOT harm your master.</span>"
 		var/time = 9000 + rand(60,300)
 		timerid = addtimer(src,"remove_mindslave",time)
 		target.mind.special_role = "Mindslave"
@@ -47,7 +47,7 @@
 /obj/item/weapon/implant/mindslave/proc/remove_mindslave()
 	if(imp_in)
 		imp_in.mind.special_role = ""
-		imp_in << "\red You feel your free will come back to you! REMEMBER THAT YOU ARE NOW NO LONGER AN ANTAG, BUT YOU NO LONGER HAVE TO LISTEN TO YOUR MASTER."
+		imp_in << "<span class='danger'>You feel your free will come back to you! REMEMBER THAT YOU ARE NOW NO LONGER AN ANTAG, BUT YOU NO LONGER HAVE TO LISTEN TO YOUR MASTER.</span>"
 		imp_in.memory -= slavememory
 
 /obj/item/weapon/implanter/mindslave
@@ -57,22 +57,3 @@
 	imp = new /obj/item/weapon/implant/mindslave(src)
 	..()
 	update_icon()
-
-/* Backup code
-/datum/uplink_item/implants/mindslave
-	name = "Mindslave Implant"
-	desc = "An implant injected into another body, forcing the vitcim to obey any command by the user for a limited time."
-	item = /obj/item/weapon/storage/box/syndie_kit/imp_mindslave
-	cost = 9
-	surplus = 20
-
-/obj/item/weapon/storage/box/syndie_kit/imp_mindslave
-	name = "Mindslave Implant (with injector)"
-
-/obj/item/weapon/storage/box/syndie_kit/imp_mindslave/New()
-	var/obj/item/weapon/implanter/O = new(src)
-	O.imp = new /obj/item/weapon/implant/mindslave(O)
-	O.update_icon()
-	..()
-	return
-*/
