@@ -115,6 +115,7 @@ Warden
 	backpack = /obj/item/weapon/storage/backpack/security
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
 	duffle = /obj/item/weapon/storage/backpack/dufflebag/sec
+	box = box = /obj/item/weapon/storage/box/security
 
 /datum/outfit/job/warden/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
