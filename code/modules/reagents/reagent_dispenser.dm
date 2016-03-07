@@ -135,7 +135,7 @@
 				return
 			if(Proj.firer)//safety
 				var/mob/shooter = Proj.firer
-				message_admins("[key_name_admin(shooter)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>).")
+				message_admins("[key_name_admin(shooter)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>.")
 				log_game("[key_name(shooter)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"].")
 				shooter.attack_log += text("\[[time_stamp()]\] <font color='red'>Has detonated a chem tank @ [src ? "[x],[y],[z]" : "UNKNOWN LOCATION"]</font>")
 			boom()
