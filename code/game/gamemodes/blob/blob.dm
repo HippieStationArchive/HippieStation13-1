@@ -18,7 +18,6 @@ var/list/blobs_legit = list()
 	round_ends_with_antag_death = 1
 	restricted_jobs = list("Cyborg", "AI")
 
-	var/declared = 0
 	var/burst = 0
 
 
@@ -192,7 +191,6 @@ var/list/blobs_legit = list()
 	switch(stage)
 		if (0)
 			send_intercept(1)
-			declared = 1
 
 		if (1)
 			priority_announce("Confirmed outbreak of level 5 biohazard aboard [station_name()]. All personnel must contain the outbreak.", "Biohazard Alert", 'sound/AI/outbreak5.ogg')

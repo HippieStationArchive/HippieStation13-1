@@ -160,6 +160,16 @@ var/next_external_rsc = 0
 
 	. = ..()	//calls mob.Login()
 
+	if (connection == "web")
+		if (!config.allowwebclient)
+			src << "Web client is disabled"
+			del(src)
+			return 0
+		if (config.webclientmembersonly && !IsByondMember())
+			src << "Sorry, but the web client is restricted to byond members only."
+			del(src)
+			return 0
+
 	if( (world.address == address || !address) && !host )
 		host = key
 		world.update_status()
@@ -285,6 +295,7 @@ var/next_external_rsc = 0
 		return -50 //error code
 	var/n = httpstuff["CONTENT"]
 	var/httpcode = httpstuff["STATUS"]
+	httpcode = text2num(copytext(httpcode, 1,3)) // gets only the error number code, without suffixes such as "OK"
 	if(httpcode == 429)
 		return -7 // exceeded number of queries
 	if(httpcode != 200)//something went wrong,fuck

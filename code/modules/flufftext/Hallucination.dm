@@ -143,7 +143,6 @@ Gunshots/explosions/opening doors/less rare audio (done)
 			return
 		Expand()
 		next_expand = world.time + FAKE_FLOOD_EXPAND_TIME
-	return
 
 /obj/effect/hallucination/fake_flood/proc/Expand()
 
