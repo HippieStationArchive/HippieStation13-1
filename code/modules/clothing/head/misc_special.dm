@@ -78,7 +78,7 @@
 		icon_state = "cake1"
 		SSobj.processing |= src
 	else
-		src.force = 0
+		force = 0
 		AddLuminosity(brightness_on)
 		damtype = BRUTE
 		icon_state = "cake0"
