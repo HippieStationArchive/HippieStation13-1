@@ -29,7 +29,7 @@
 	if(..())
 		target << "<span class='notice'>You feel a surge of loyalty towards [user].</span>"
 		target << "<span class='userdanger'> You MUST obey any command given to you by your master(that doesn't violate any rules). You are an antag while mindslaved.</span>"
-		target << "<span class='danger'>You CANNOT harm your master.</span>"
+		target << "<span class='danger'>You CANNOT harm your master. Check your memory ( with the notes verb) if you forget who your master is.</span>"
 		var/time = 9000 + rand(60,3000)
 		timerid = addtimer(src,"remove_mindslave",time)
 		target.mind.special_role = "Mindslave"
