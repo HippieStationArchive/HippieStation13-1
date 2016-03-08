@@ -328,7 +328,7 @@ emp_act
 /mob/living/carbon/human/attack_animal(mob/living/simple_animal/M)
 	if(..())
 		var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
-		var/shieldcheck = check_shields(damage, "the [M.name]")
+		var/shieldcheck = check_shields(damage, "the [M.name]", "", "", M.armour_penetration)
 		if(shieldcheck)
 			if(isliving(shieldcheck))
 				var/mob/living/L = shieldcheck
@@ -337,7 +337,7 @@ emp_act
 		var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
 		var/obj/item/organ/limb/affecting = get_organ(ran_zone(dam_zone))
 		var/armor = run_armor_check(affecting, "melee")
-		apply_damage(damage, M.melee_damage_type, affecting, armor)
+		apply_damage(damage, M.melee_damage_type, affecting, armor, "", "", M.armour_penetration)
 		updatehealth()
 
 
