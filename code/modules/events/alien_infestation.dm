@@ -1,8 +1,9 @@
 /datum/round_event_control/alien_infestation
 	name = "Alien Infestation"
 	typepath = /datum/round_event/alien_infestation
-	weight = 5
-	max_occurrences = 1
+	earliest_start = 8000
+	weight = 15
+	max_occurrences = 2//aliens don't have much time to reproduce on short Hippie rounds
 
 /datum/round_event/alien_infestation
 	announceWhen	= 400
@@ -13,7 +14,7 @@
 
 /datum/round_event/alien_infestation/setup()
 	announceWhen = rand(announceWhen, announceWhen + 50)
-	spawncount = rand(1, 2)
+	spawncount = rand(2, 3)
 
 /datum/round_event/alien_infestation/kill()
 	if(!successSpawn && control)
