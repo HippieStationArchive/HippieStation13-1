@@ -22,6 +22,10 @@
 	if(target == user)
 		target <<"<span class='notice'>You can't implant yourself!</span>"
 		return 0
+	if(isloyal(target))
+		target <<"<span class='danger'>Your loyalty implant rejects [user]'s mindslave!</span>"
+		user <<"<span class='danger'>[target] somehow rejects the mindslave implant!</span>"
+		return 0
 	if(..())
 		target << "<span class='notice'>You feel a surge of loyalty towards [user].</span>"
 		target << "<span class='userdanger'> You MUST obey any command given to you by your master(that doesn't violate any rules). You are an antag while mindslaved.</span>"
