@@ -130,8 +130,9 @@
 	icon = 'icons/obj/device.dmi'
 	icon_state = "locator"
 	var/TC_cost = 0
-	var/borg_to_spawn
+	var/reinforcement_to_spawn
 	var/list/possible_types = list("Assault", "Medical")
+
 
 /obj/item/weapon/antag_spawner/nuke_ops/proc/check_usability(mob/user)
 	if(used)
@@ -147,6 +148,11 @@
 
 
 /obj/item/weapon/antag_spawner/nuke_ops/attack_self(mob/user)
+
+	reinforcement_to_spawn = input("What type?", "Reinforcement Type", type) as null|anything in possible_types
+	if(!reinforcement_to_spawn)
+		return
+
 	if(!(check_usability(user)))
 		return
 
@@ -170,6 +176,11 @@
 	if(nuke)
 		nuke.r_code = nuke_code
 	M.mind.make_Nuke(T, nuke_code, 0, FALSE)
+	switch(reinforcement_to_spawn)
+		if("Medical")
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/med/medicalbundle(M), slot_r_hand)
+		else
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/bulldogbundle(M), slot_r_hand)
 
 
 
@@ -182,16 +193,9 @@
 	icon = 'icons/obj/device.dmi'
 	icon_state = "locator"
 
-
-/obj/item/weapon/antag_spawner/nuke_ops/borg_tele/attack_self(mob/user)
-	borg_to_spawn = input("What type?", "Cyborg Type", type) as null|anything in possible_types
-	if(!borg_to_spawn)
-		return
-	..()
-
 /obj/item/weapon/antag_spawner/nuke_ops/borg_tele/spawn_antag(client/C, turf/T)
 	var/mob/living/silicon/robot/R
-	switch(borg_to_spawn)
+	switch(reinforcement_to_spawn)
 		if("Medical")
 			R = new /mob/living/silicon/robot/syndicate/medical(T)
 		else
