@@ -11,7 +11,7 @@
 	if(istype(A) && A.checkpass(PASSGLASS))
 		return prob(60)
 
-	if (A.buckled_mob || A.density)//if someone is buckled, it will not pass
+	if (!istype(A, /obj/machinery/bot/mulebot) && A.can_buckle && (A.buckled_mob || A.density))//if someone is buckled, it will not pass
 		return 0
 
 	else if(istype(A, /mob/living)) // You Shall Not Pass!
