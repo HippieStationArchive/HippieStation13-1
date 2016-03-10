@@ -179,8 +179,10 @@
 	switch(reinforcement_to_spawn)
 		if("Medical")
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/med/medicalbundle(M), slot_r_hand)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/box/syndie_kit/space(M), slot_l_hand)
 		else
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/bulldogbundle(M), slot_r_hand)
+	M.back.contents
 
 
 
