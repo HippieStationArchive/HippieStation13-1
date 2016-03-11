@@ -178,13 +178,9 @@
 	M.mind.make_Nuke(T, nuke_code, 0, FALSE)
 	switch(reinforcement_to_spawn)
 		if("Medical")
-			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/med/medicalbundle(M), slot_r_hand)
-			M.equip_to_slot_or_del(new /obj/item/weapon/storage/box/syndie_kit/space(M), slot_l_hand)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/medic_reinforcement(M), slot_r_hand)
 		else
-			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/bulldogbundle(M), slot_r_hand)
-	M.back.contents
-
-
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement(M), slot_r_hand)
 
 
 //////SYNDICATE BORG

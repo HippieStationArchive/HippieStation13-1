@@ -441,7 +441,6 @@
 	new /obj/item/ammo_box/foambox/riot(src)
 	return
 
-
 /obj/item/weapon/storage/backpack/dufflebag/syndie/med/bioterrorbundle
 	desc = "A large dufflebag containing a deadly chemicals, a chemical spray, chemical grenade, a Donksoft assault rifle, riot grade darts, a minature syringe gun, and a box of syringes"
 
@@ -455,6 +454,34 @@
 	new /obj/item/weapon/storage/box/syringes(src)
 	new /obj/item/ammo_box/foambox/riot(src)
 	new /obj/item/weapon/grenade/chem_grenade/bioterrorfoam(src)
+	return
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie/medic_reinforcement
+	desc = "A large dufflebag containing gear needed by syndicate combat medic."
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie/medic_reinforcement/New()
+	..()
+	contents = list()
+	new /obj/item/clothing/shoes/magboots/syndie(src)
+	new /obj/item/weapon/gun/medbeam(src)
+	new /obj/item/weapon/gun/projectile/automatic/l6_saw/toy(src)
+	new /obj/item/ammo_box/foambox/riot(src)
+	new /obj/item/clothing/suit/space/syndicate/black/red(src)
+	new /obj/item/clothing/head/helmet/space/syndicate/black/red(src)
+	return
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement
+	desc = "A large dufflebag containing a gear needed by syndicate assault trooper."
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement/New()
+	..()
+	contents = list()
+	new /obj/item/clothing/suit/space/hardsuit/syndi/elite(src)
+	new /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog(src)
+	new /obj/item/ammo_box/magazine/m12g/buckshot(src)
+	new /obj/item/ammo_box/magazine/m12g(src)
+	new /obj/item/ammo_box/magazine/m12g/stun(src)
+	new /obj/item/ammo_box/magazine/m12g/dragon(src)
 	return
 
 /obj/item/weapon/storage/backpack/dufflebag/captain
