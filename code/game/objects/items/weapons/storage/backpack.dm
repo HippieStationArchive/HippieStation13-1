@@ -493,10 +493,8 @@
 	contents = list()
 	new /obj/item/weapon/aiModule/syndicate
 	new /obj/item/weapon/card/emag
-	new /obj/item/weapon/c4
 	new /obj/item/device/multitool/ai_detect
 	new /obj/item/weapon/gun/projectile/automatic/pistol
-	new /obj/item/ammo_box/magazine/m10mm
 	new /obj/item/ammo_box/magazine/m10mm
 	new /obj/item/clothing/suit/space/syndicate/black/red(src)
 	new /obj/item/clothing/head/helmet/space/syndicate/black/red(src)
