@@ -131,7 +131,7 @@
 	icon_state = "locator"
 	var/TC_cost = 0
 	var/reinforcement_to_spawn
-	var/list/possible_types = list("Assault", "Medical")
+	var/list/possible_types = list("Assault", "Medical", "Hacker")
 
 
 /obj/item/weapon/antag_spawner/nuke_ops/proc/check_usability(mob/user)
@@ -179,6 +179,8 @@
 	switch(reinforcement_to_spawn)
 		if("Medical")
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/medic_reinforcement(M), slot_r_hand)
+		if("Hacker")
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/hacker_reinforcement(M), slot_r_hand)
 		else
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement(M), slot_r_hand)
 
@@ -190,6 +192,7 @@
 	desc = "A single-use teleporter designed to quickly reinforce operatives in the field.."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "locator"
+	list/possible_types = list("Assault", "Medical")
 
 /obj/item/weapon/antag_spawner/nuke_ops/borg_tele/spawn_antag(client/C, turf/T)
 	var/mob/living/silicon/robot/R

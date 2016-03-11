@@ -456,6 +456,21 @@
 	new /obj/item/weapon/grenade/chem_grenade/bioterrorfoam(src)
 	return
 
+/obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement
+	desc = "A large dufflebag containing a gear needed by syndicate assault trooper."
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement/New()
+	..()
+	contents = list()
+	new /obj/item/clothing/suit/space/hardsuit/syndi/elite(src)
+	new /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog(src)
+	new /obj/item/ammo_box/magazine/m12g/buckshot(src)
+	new /obj/item/ammo_box/magazine/m12g(src)
+	new /obj/item/ammo_box/magazine/m12g/stun(src)
+	new /obj/item/ammo_box/magazine/m12g/dragon(src)
+	return
+
+
 /obj/item/weapon/storage/backpack/dufflebag/syndie/medic_reinforcement
 	desc = "A large dufflebag containing gear needed by syndicate combat medic."
 
@@ -470,19 +485,24 @@
 	new /obj/item/clothing/head/helmet/space/syndicate/black/red(src)
 	return
 
-/obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement
-	desc = "A large dufflebag containing a gear needed by syndicate assault trooper."
+/obj/item/weapon/storage/backpack/dufflebag/syndie/hacker_reinforcement
+	desc = "A large dufflebag containing gear needed by syndicate hacker."
 
-/obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement/New()
+/obj/item/weapon/storage/backpack/dufflebag/syndie/hacker_reinforcement/New()
 	..()
 	contents = list()
-	new /obj/item/clothing/suit/space/hardsuit/syndi/elite(src)
-	new /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog(src)
-	new /obj/item/ammo_box/magazine/m12g/buckshot(src)
-	new /obj/item/ammo_box/magazine/m12g(src)
-	new /obj/item/ammo_box/magazine/m12g/stun(src)
-	new /obj/item/ammo_box/magazine/m12g/dragon(src)
+	new /obj/item/weapon/aiModule/syndicate
+	new /obj/item/weapon/card/emag
+	new /obj/item/weapon/c4
+	new /obj/item/device/multitool/ai_detect
+	new /obj/item/weapon/gun/projectile/automatic/pistol
+	new /obj/item/ammo_box/magazine/m10mm
+	new /obj/item/ammo_box/magazine/m10mm
+	new /obj/item/clothing/suit/space/syndicate/black/red(src)
+	new /obj/item/clothing/head/helmet/space/syndicate/black/red(src)
+	new /obj/item/device/encryptionkey/binary
 	return
+
 
 /obj/item/weapon/storage/backpack/dufflebag/captain
 	name = "captain's dufflebag"
