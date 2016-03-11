@@ -131,7 +131,7 @@
 	icon_state = "locator"
 	var/TC_cost = 0
 	var/reinforcement_to_spawn
-	var/list/possible_types = list("Assault", "Medical", "Hacker")
+	var/list/possible_types = list("Assault", "Hacker", "Infiltrator" ,"Medical")
 
 
 /obj/item/weapon/antag_spawner/nuke_ops/proc/check_usability(mob/user)
@@ -181,6 +181,8 @@
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/medic_reinforcement(M), slot_r_hand)
 		if("Hacker")
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/hacker_reinforcement(M), slot_r_hand)
+		if("Infiltrator")
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/infiltrator_reinforcement(M), slot_r_hand)
 		else
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement(M), slot_r_hand)
 

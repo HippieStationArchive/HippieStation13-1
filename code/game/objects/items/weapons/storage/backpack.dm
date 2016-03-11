@@ -501,6 +501,24 @@
 	new /obj/item/device/encryptionkey/binary
 	return
 
+/obj/item/weapon/storage/backpack/dufflebag/syndie/infiltrator_reinforcement
+	desc = "A large dufflebag containing gear needed by syndicate infiltrator."
+
+/obj/item/weapon/storage/backpack/dufflebag/syndie/infiltrator_reinforcement/New()
+	..()
+	contents = list()
+	new /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow
+	new /obj/item/clothing/under/chameleon
+	new /obj/item/clothing/shoes/sneakers/syndigaloshes
+	new /obj/item/weapon/card/id/syndicate
+	new /obj/item/clothing/mask/gas/voice
+	new /obj/item/clothing/gloves/color/yellow
+	new /obj/item/weapon/storage/belt/utility/full
+	new /obj/item/clothing/suit/space/syndicate/black/red(src)
+	new /obj/item/clothing/head/helmet/space/syndicate/black/red(src)
+	return
+
+
 
 /obj/item/weapon/storage/backpack/dufflebag/captain
 	name = "captain's dufflebag"
