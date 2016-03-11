@@ -72,6 +72,12 @@ var/list/ventcrawl_machinery = list(/obj/machinery/atmospherics/components/unary
 	else
 		src << "<span class='warning'>This ventilation duct is not connected to anything!</span>"
 
+/mob/living/simple_animal/slime/handle_ventcrawl(atom/A)
+	if(buckled)
+		src << "<i>I can't vent crawl while feeding...</i>"
+		return
+	..()
+
 
 /mob/living/proc/add_ventcrawl(obj/machinery/atmospherics/starting_machine)
 	if(!istype(starting_machine))
