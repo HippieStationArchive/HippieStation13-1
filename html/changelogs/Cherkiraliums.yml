@@ -33,4 +33,8 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - tweak: "Made aliens more likely to spawn and in greater numbers."
+  - tweak: "Made aliens spawn in numbers of 2-3 instead of 1-2"
+  - tweak: "Made aliens spawn only during the middle of the round but more often during that time period"
+  - tweak: "Made starting aliens spawn with maximum growth"
+  - tweak: "Nerfs alien tackle and disarm chance"
+  - tweak: "Made alien eggs grow a bit faster"

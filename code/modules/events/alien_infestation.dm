@@ -1,9 +1,9 @@
 /datum/round_event_control/alien_infestation
 	name = "Alien Infestation"
 	typepath = /datum/round_event/alien_infestation
-	earliest_start = 8000
-	weight = 15
-	max_occurrences = 2//aliens don't have much time to reproduce on short Hippie rounds
+	latest_start = 15000//ayylmaos will now spawn every 20 to 25 minutes. As this is a range of 5 minutes as opposed to around
+	//30 before(round length of 50 minutes - 20 minimum start time), weight is increased by 6x the default 5 to 30 to supplement this.
+	weight = 30
 
 /datum/round_event/alien_infestation
 	announceWhen	= 400
@@ -27,6 +27,7 @@
 
 
 /datum/round_event/alien_infestation/start()
+
 	var/list/vents = list()
 	for(var/obj/machinery/atmospherics/components/unary/vent_pump/temp_vent in machines)
 		if(qdeleted(temp_vent))
@@ -44,6 +45,7 @@
 
 		var/mob/living/carbon/alien/larva/new_xeno = new(vent.loc)
 		new_xeno.key = C.key
+		new_xeno.amount_grown = new_xeno.max_grown
 
 		spawncount--
 		successSpawn = 1

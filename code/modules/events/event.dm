@@ -8,7 +8,7 @@
 								//10 is the default weight. 20 is twice more likely; 5 is half as likely as this default.
 
 	var/earliest_start = 12000	//The earliest world.time that an event can start (round-duration in deciseconds) default: 20 mins
-
+	var/latest_start = 0		//The latest world.time that an event can start. 0 means no limit.
 	var/occurrences = 0			//How many times this event has occured
 	var/max_occurrences = 20		//The maximum number of times this event can occur (naturally), it can still be forced.
 								//By setting this to 0 you can effectively disable an event.
