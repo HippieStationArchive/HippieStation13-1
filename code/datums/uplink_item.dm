@@ -461,7 +461,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/dangerous/reinforcement
 	name = "Reinforcements"
-	desc = "Call in an additional team member. They come with medical or assault gear, but you might want to save some telecrystals to arm them better."
+	desc = "Call in an additional team member. They come with predefined gear sets, but you might want to save some telecrystals to arm them better."
 	item = /obj/item/weapon/antag_spawner/nuke_ops
 	cost = 35
 	gamemodes = list(/datum/game_mode/nuclear)
