@@ -178,14 +178,33 @@
 	M.mind.make_Nuke(T, nuke_code, 0, FALSE)
 	switch(reinforcement_to_spawn)
 		if("Medical")
-			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/medic_reinforcement(M), slot_r_hand)
-		if("Hacker")
-			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/hacker_reinforcement(M), slot_r_hand)
-		if("Infiltrator")
-			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/infiltrator_reinforcement(M), slot_r_hand)
-		else
-			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag/syndie/assault_reinforcement(M), slot_r_hand)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/space/syndicate/black/red(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/syndicate/black/red(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack{contents = list(new /obj/item/weapon/storage/box/engineer=1, new /obj/item/clothing/shoes/magboots/syndie, new /obj/item/ammo_box/foambox/riot)}(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/medbeam(M), slot_r_hand)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/automatic/l6_saw/toy(M), slot_l_hand)
 
+		if("Hacker")
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/space/syndicate/black/red(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/syndicate/black/red(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack{contents = list(/obj/item/weapon/storage/box/engineer=1, new /obj/item/weapon/aiModule/syndicate, new /obj/item/weapon/card/emag, new /obj/item/device/multitool/ai_detect, new /obj/item/device/encryptionkey/binary, new /obj/item/ammo_box/magazine/m10mm)}(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/automatic/pistol(M), slot_r_hand)
+
+		if("Infiltrator")
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/space/syndicate/black/red(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/space/syndicate/black/red(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/chameleon(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/syndigaloshes(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/voice(M), slot_wear_mask)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/color/yellow(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack{contents = list(/obj/item/weapon/storage/box/engineer=1, /obj/item/weapon/card/id/syndicate, new /obj/item/weapon/storage/belt/utility/full)}(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow(M), slot_r_hand)
+
+
+		else
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/space/hardsuit/syndi/elite(src),slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog(src),slot_r_hand)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack{contents = list(/obj/item/weapon/storage/box/engineer=1, new /obj/item/ammo_box/magazine/m12g/buckshot, new /obj/item/ammo_box/magazine/m12g, new /obj/item/ammo_box/magazine/m12g/stun, new /obj/item/ammo_box/magazine/m12g/dragon)}(M), slot_back)
 
 //////SYNDICATE BORG
 
