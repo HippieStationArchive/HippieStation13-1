@@ -441,6 +441,7 @@
 	new /obj/item/ammo_box/foambox/riot(src)
 	return
 
+
 /obj/item/weapon/storage/backpack/dufflebag/syndie/med/bioterrorbundle
 	desc = "A large dufflebag containing a deadly chemicals, a chemical spray, chemical grenade, a Donksoft assault rifle, riot grade darts, a minature syringe gun, and a box of syringes"
 
