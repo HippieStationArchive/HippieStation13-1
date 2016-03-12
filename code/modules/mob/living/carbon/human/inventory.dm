@@ -189,7 +189,7 @@
 		if(internals)
 			internals.icon_state = "internal0"
 		internal = null
-	sec_hud_set_ID()
+	sec_hud_set_security_status()
 	..()
 
 /mob/living/carbon/human/head_update(obj/item/I)
@@ -199,6 +199,7 @@
 		update_inv_glasses()
 	if(I.flags_inv & HIDEEARS)
 		update_body()
+	sec_hud_set_security_status()
 	..()
 
 //Cycles through all clothing slots and tests them for destruction

@@ -172,23 +172,23 @@
 	icon_state = "switchblade"
 	desc = "A sharp, concealable, spring-loaded knife."
 	flags = CONDUCT
-	force = 15
+	force = 3
 	w_class = 2
-	throwforce = 15
+	throwforce = 5
 	throw_speed = 3
 	throw_range = 6
 	materials = list(MAT_METAL=12000)
 	origin_tech = "materials=1"
 	hitsound = 'sound/weapons/Genhit.ogg'
 	attack_verb = list("stubbed", "poked")
-	var/extended
+	var/extended = 0
 
 /obj/item/weapon/switchblade/attack_self(mob/user)
 	extended = !extended
 	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
 	if(extended)
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
-		force = 15
+		force = 20
 		w_class = 3
 		throwforce = 15
 		icon_state = "switchblade_ext"
@@ -196,7 +196,7 @@
 		hitsound = 'sound/weapons/bladeslice.ogg'
 	else
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
-		force = 1
+		force = 3
 		w_class = 2
 		throwforce = 5
 		icon_state = "switchblade"
