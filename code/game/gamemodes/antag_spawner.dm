@@ -149,11 +149,11 @@
 
 /obj/item/weapon/antag_spawner/nuke_ops/attack_self(mob/user)
 
-	reinforcement_to_spawn = input("What type?", "Reinforcement Type", type) as null|anything in possible_types
-	if(!reinforcement_to_spawn)
+	if(!(check_usability(user)))
 		return
 
-	if(!(check_usability(user)))
+	reinforcement_to_spawn = input("What type?", "Reinforcement Type", type) as null|anything in possible_types
+	if(!reinforcement_to_spawn)
 		return
 
 	var/list/nuke_candidates = get_candidates(ROLE_OPERATIVE, 3000, "operative")
