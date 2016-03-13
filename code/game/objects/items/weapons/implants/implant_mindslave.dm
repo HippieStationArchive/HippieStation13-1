@@ -37,9 +37,9 @@
 		protect_objective = new /datum/objective/protect
 		protect_objective.owner = target.mind
 		protect_objective.target = user.mind
-		protect_objective.explanation_text = "Protect [user], your mindslave master. Obey any command he gives."
+		protect_objective.explanation_text = "Protect [user], your mindslave master. Obey any command given by them."
 		target.mind.objectives += protect_objective
-		log_admin("[user]([user.ckey]) made a mindslave out of [target]([target.ckey]).")
+		message_admins("[user]/([user.ckey]) made a mindslave out of [target]/([target.ckey]).")
 		return 1
 	return 0
 
@@ -59,8 +59,8 @@
 			imp_in.mind.special_role = ""
 		imp_in << "<span class='userdanger'>You feel your free will come back to you! You no longer have to obey your master!</span>"
 		imp_in << "<span class='userdanger'>If you were not an antagonist BEFORE being mindslave, then you no longer are one.</span>"
-		protect_objective = null
-		log_admin("[imp_in]([imp_in.ckey]) is no longer a mindslave.")
+		qdel(protect_objective)
+		message_admins("[imp_in]/([imp_in.ckey]) is no longer a mindslave.")
 
 /obj/item/weapon/implanter/mindslave
 	name = "implanter (mind slave)"
