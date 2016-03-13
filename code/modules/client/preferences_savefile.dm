@@ -259,6 +259,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["backbag"]			>> backbag
 	S["feature_mcolor"]					>> features["mcolor"]
 	S["feature_lizard_tail"]			>> features["tail_lizard"]
+	S["feature_shark_tail"]			>> features["shark_lizard"]
 	S["feature_lizard_snout"]			>> features["snout"]
 	S["feature_lizard_horns"]			>> features["horns"]
 	S["feature_lizard_frills"]			>> features["frills"]
@@ -325,6 +326,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 3, 0)
 	features["tail_lizard"]	= sanitize_inlist(features["tail_lizard"], tails_list_lizard)
 	features["tail_human"] 	= sanitize_inlist(features["tail_human"], tails_list_human, "None")
+	features["tail_shark"]	= sanitize_inlist(features["tail_shark"], tails_list_shark)
 	features["snout"]	= sanitize_inlist(features["snout"], snouts_list)
 	features["horns"] 	= sanitize_inlist(features["horns"], horns_list)
 	features["ears"]	= sanitize_inlist(features["ears"], ears_list, "None")
@@ -375,6 +377,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_mcolor"]					<< features["mcolor"]
 	S["feature_lizard_tail"]			<< features["tail_lizard"]
 	S["feature_human_tail"]				<< features["tail_human"]
+	S["feature_shark_tail"]				<< features["tail_shark"]
 	S["feature_lizard_snout"]			<< features["snout"]
 	S["feature_lizard_horns"]			<< features["horns"]
 	S["feature_human_ears"]				<< features["ears"]

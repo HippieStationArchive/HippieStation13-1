@@ -297,6 +297,10 @@
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
 			bodyparts_to_add -= "tail_human"
 
+	if ("tail_shark" in mutant_bodyparts)
+		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
+			bodyparts_to_add -= "tail_shark"
+
 
 	if("waggingtail_human" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
@@ -347,6 +351,8 @@
 					S.= animated_tails_list_lizard[H.dna.features["tail_lizard"]]
 				if("tail_human")
 					S = tails_list_human[H.dna.features["tail_human"]]
+				if ("tail_shark")
+					S = tails_list_shark[H.dna.features["tail_shark"]]
 				if("waggingtail_human")
 					S.= animated_tails_list_human[H.dna.features["tail_human"]]
 				if("spines")
@@ -370,7 +376,7 @@
 				continue
 
 			//A little rename so we don't have to use tail_lizard or tail_human when naming the sprites.
-			if(bodypart == "tail_lizard" || bodypart == "tail_human")
+			if(bodypart == "tail_lizard" || bodypart == "tail_human" || bodypart == "tail_shark")
 				bodypart = "tail"
 			else if(bodypart == "waggingtail_lizard" || bodypart == "waggingtail_human")
 				bodypart = "waggingtail"

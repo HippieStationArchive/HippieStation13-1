@@ -8,7 +8,7 @@
 	var/datum/species/species = new /datum/species/human() //The type of mutant race the player is if applicable (i.e. potato-man)
 	var/list/features = list("FFF") //first value is mutant color
 	var/real_name //Stores the real name of the person who originally got this dna datum. Used primarely for changelings,
-	var/list/mutations = list()   //All mutations are from now on here
+	var/list/mutations = list()   //All Fmutations are from now on here
 	var/mob/living/carbon/holder
 
 /datum/dna/New(mob/living/carbon/new_holder)

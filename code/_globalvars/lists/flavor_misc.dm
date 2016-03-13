@@ -18,10 +18,11 @@ var/global/list/undershirt_f = list()	 //stores only undershirt name
 var/global/list/socks_list = list()		//stores /datum/sprite_accessory/socks indexed by name
 var/global/list/socks_m = list()	 //stores only socks name
 var/global/list/socks_f = list()	 //stores only socks name
-	//Lizard Bits (all datum lists indexed by name)
+	//Lizard Bits + tails (all datum lists indexed by name)
 var/global/list/body_markings_list = list()
 var/global/list/tails_list_lizard = list()
 var/global/list/tails_list_human = list()
+var/global/list/tails_list_shark = list()
 var/global/list/animated_tails_list_lizard = list()
 var/global/list/animated_tails_list_human = list()
 var/global/list/snouts_list = list()
