@@ -4,7 +4,7 @@
 	origin_tech = "materials=2;biotech=4;programming=4"
 	activated = 0
 	var/timerid
-	var/slavememory
+	var/datum/objective/protect/protect_objective
 
 /obj/item/weapon/implant/mindslave/get_data()
 	var/dat = {"<b>Implant Specifications:</b><BR>
@@ -32,9 +32,13 @@
 		target << "<span class='danger'>You CANNOT harm your master. Check your memory ( with the notes verb) if you forget who your master is.</span>"
 		var/time = 9000 + rand(60,3000)
 		timerid = addtimer(src,"remove_mindslave",time)
-		target.mind.special_role = "Mindslave"
-		slavememory = "<b>Your mindslave master is</b>: [user]. Obey any command they give you!"
-		target.mind.store_memory(slavememory)
+		if(!target.mind.special_role)
+			target.mind.special_role = "Mindslave"
+		protect_objective = new /datum/objective/protect
+		protect_objective.owner = target.mind
+		protect_objective.target = user.mind
+		protect_objective.explanation_text = "Protect [user], your mindslave master. Obey any command he gives."
+		target.mind.objectives += protect_objective
 		return 1
 	return 0
 
@@ -50,9 +54,11 @@
 
 /obj/item/weapon/implant/mindslave/proc/remove_mindslave()
 	if(imp_in)
-		imp_in.mind.special_role = ""
-		imp_in << "<span class='userdanger'>You feel your free will come back to you! REMEMBER THAT YOU ARE NOW NO LONGER AN ANTAG, BUT YOU NO LONGER HAVE TO LISTEN TO YOUR MASTER.</span>"
-		imp_in.memory -= slavememory
+		if(imp_in.mind.special_role == "Mindslave")
+			imp_in.mind.special_role = ""
+		imp_in << "<span class='userdanger'>You feel your free will come back to you! You no longer have to obey your master!</span>"
+		imp_in << "<span class='userdanger'>If you were not an antagonist BEFORE being mindslave, then you no longer are one.</span>"
+		protect_objective = null
 
 /obj/item/weapon/implanter/mindslave
 	name = "implanter (mind slave)"
