@@ -19,28 +19,31 @@
 	return dat
 
 /obj/item/weapon/implant/mindslave/implant(mob/target,mob/user)
-	if(target == user)
-		target <<"<span class='notice'>You can't implant yourself!</span>"
-		return 0
-	if(isloyal(target))
-		target <<"<span class='danger'>Your loyalty implant rejects [user]'s mindslave!</span>"
-		user <<"<span class='danger'>[target] somehow rejects the mindslave implant!</span>"
-		return 0
-	if(..())
-		target << "<span class='notice'>You feel a surge of loyalty towards [user].</span>"
-		target << "<span class='userdanger'> You MUST obey any command given to you by your master(that doesn't violate any rules). You are an antag while mindslaved.</span>"
-		target << "<span class='danger'>You CANNOT harm your master. Check your memory ( with the notes verb) if you forget who your master is.</span>"
-		var/time = 9000 + rand(60,3000)
-		timerid = addtimer(src,"remove_mindslave",time)
-		if(!target.mind.special_role)
-			target.mind.special_role = "Mindslave"
-		protect_objective = new /datum/objective/protect
-		protect_objective.owner = target.mind
-		protect_objective.target = user.mind
-		protect_objective.explanation_text = "Protect [user], your mindslave master. Obey any command given by them."
-		target.mind.objectives += protect_objective
-		message_admins("[user]/([user.ckey]) made a mindslave out of [target]/([target.ckey]).")
-		return 1
+	if(target.mind)
+		if(target == user)
+			target <<"<span class='notice'>You can't implant yourself!</span>"
+			return 0
+		if(isloyal(target))
+			target <<"<span class='danger'>Your loyalty implant rejects [user]'s mindslave!</span>"
+			user <<"<span class='danger'>[target] somehow rejects the mindslave implant!</span>"
+			return 0
+		if(..())
+			target << "<span class='notice'>You feel a surge of loyalty towards [user].</span>"
+			target << "<span class='userdanger'> You MUST obey any command given to you by your master(that doesn't violate any rules). You are an antag while mindslaved.</span>"
+			target << "<span class='danger'>You CANNOT harm your master. Check your memory ( with the notes verb) if you forget who your master is.</span>"
+			var/time = 9000 + rand(60,3000)
+			timerid = addtimer(src,"remove_mindslave",time)
+			if(!target.mind.special_role)
+				target.mind.special_role = "Mindslave"
+				ticker.mode.traitors |= target.mind
+			protect_objective = new /datum/objective/protect
+			protect_objective.owner = target.mind
+			protect_objective.target = user.mind
+			protect_objective.explanation_text = "Protect [user], your mindslave master. Obey any command given by them."
+			target.mind.objectives += protect_objective
+			message_admins("[user]/([user.ckey]) made a mindslave out of [target]/([target.ckey]).")
+			return 1
+	user <<"<span class='notice'>[target] has no mind!</span>"
 	return 0
 
 /obj/item/weapon/implant/mindslave/removed(mob/source)
@@ -57,6 +60,7 @@
 	if(imp_in)
 		if(imp_in.mind.special_role == "Mindslave")
 			imp_in.mind.special_role = ""
+			ticker.mode.traitors -= imp_in.mind
 		imp_in << "<span class='userdanger'>You feel your free will come back to you! You no longer have to obey your master!</span>"
 		imp_in << "<span class='userdanger'>If you were not an antagonist BEFORE being mindslave, then you no longer are one.</span>"
 		qdel(protect_objective)
