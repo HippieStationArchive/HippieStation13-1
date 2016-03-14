@@ -1203,6 +1203,10 @@
 /datum/sprite_accessory/tails_animated
 	icon = 'icons/mob/mutant_bodyparts.dmi'
 
+/datum/sprite_accessory/tails/shark/default
+	name = "Default"
+	icon_state = "default"
+
 /datum/sprite_accessory/tails/lizard/smooth
 	name = "Smooth"
 	icon_state = "smooth"

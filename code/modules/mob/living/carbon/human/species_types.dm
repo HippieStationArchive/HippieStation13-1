@@ -192,7 +192,20 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	if(rank in command_positions)
 		return 0
 	return 1
+
+/datum/species/shark
+	name = "Sharkman"
+	id = "shark"
+	say_mod = "growls"
+	roundstart = 1
+	specflags = list(MUTCOLORS)
+	mutant_bodyparts = list("tail_shark")
+	default_features = list("tail" = "Default")
+	attack_verb = "bit"//apparently this causes the output "biteed" if set to bite
+	attack_sound = 'sound/weapons/bite.ogg'
+	miss_sound = 'sound/weapons/slashmiss.ogg'
 /*
+
  PODPEOPLE
 */
 
