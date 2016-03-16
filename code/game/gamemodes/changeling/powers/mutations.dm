@@ -130,7 +130,7 @@
 	name = "Arm Blade"
 	desc = "We reform one of our arms into a deadly blade."
 	helptext = "We may retract our armblade in the same manner as we form it. Cannot be used while in lesser form."
-	chemical_cost = 35 
+	chemical_cost = 35
 	evopoints_cost = 5
 	req_dna = 3 //Tier 2
 	genetic_damage = 10
@@ -151,6 +151,7 @@
 	throwforce = 0 //Just to be on the safe side
 	throw_range = 0
 	throw_speed = 0
+	sharpness = IS_SHARP
 	hitsound = 'sound/weapons/bladeslice2.ogg'
 
 /obj/item/weapon/melee/arm_blade/New(location,silent)
