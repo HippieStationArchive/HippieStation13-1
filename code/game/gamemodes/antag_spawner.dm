@@ -130,8 +130,9 @@
 	icon = 'icons/obj/device.dmi'
 	icon_state = "locator"
 	var/TC_cost = 0
-	var/borg_to_spawn
-	var/list/possible_types = list("Assault", "Medical")
+	var/reinforcement_to_spawn
+	var/list/possible_types = list("Assault", "Hacker", "Infiltrator" ,"Medical")
+
 
 /obj/item/weapon/antag_spawner/nuke_ops/proc/check_usability(mob/user)
 	if(used)
@@ -147,7 +148,12 @@
 
 
 /obj/item/weapon/antag_spawner/nuke_ops/attack_self(mob/user)
+
 	if(!(check_usability(user)))
+		return
+
+	reinforcement_to_spawn = input("What type?", "Reinforcement Type", type) as null|anything in possible_types
+	if(!reinforcement_to_spawn)
 		return
 
 	var/list/nuke_candidates = get_candidates(ROLE_OPERATIVE, 3000, "operative")
@@ -169,10 +175,7 @@
 	var/obj/machinery/nuclearbomb/nuke = locate("syndienuke") in nuke_list
 	if(nuke)
 		nuke.r_code = nuke_code
-	M.mind.make_Nuke(T, nuke_code, 0, FALSE)
-
-
-
+	M.mind.make_Nuke(T, nuke_code, 0, FALSE, reinforcement_to_spawn)
 
 //////SYNDICATE BORG
 
@@ -181,17 +184,11 @@
 	desc = "A single-use teleporter designed to quickly reinforce operatives in the field.."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "locator"
-
-
-/obj/item/weapon/antag_spawner/nuke_ops/borg_tele/attack_self(mob/user)
-	borg_to_spawn = input("What type?", "Cyborg Type", type) as null|anything in possible_types
-	if(!borg_to_spawn)
-		return
-	..()
+	possible_types = list("Assault", "Medical")
 
 /obj/item/weapon/antag_spawner/nuke_ops/borg_tele/spawn_antag(client/C, turf/T)
 	var/mob/living/silicon/robot/R
-	switch(borg_to_spawn)
+	switch(reinforcement_to_spawn)
 		if("Medical")
 			R = new /mob/living/silicon/robot/syndicate/medical(T)
 		else

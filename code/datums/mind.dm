@@ -411,7 +411,7 @@
 			text += "<b>OPERATIVE</b>|<a href='?src=\ref[src];nuclear=clear'>nanotrasen</a>"
 			text += "<br><a href='?src=\ref[src];nuclear=lair'>To shuttle</a>, <a href='?src=\ref[src];common=undress'>undress</a>, <a href='?src=\ref[src];nuclear=dressup'>dress up</a>."
 			var/code
-			for (var/obj/machinery/nuclearbomb/bombue in world)
+			for (var/obj/machinery/nuclearbomb/bombue in machines)
 				if (length(bombue.r_code) <= 5 && bombue.r_code != "LOLNO" && bombue.r_code != "ADMIN")
 					code = bombue.r_code
 					break
@@ -1082,7 +1082,7 @@
 					usr << "<span class='danger'>Equipping a syndicate failed!</span>"
 			if("tellcode")
 				var/code
-				for (var/obj/machinery/nuclearbomb/bombue in world)
+				for (var/obj/machinery/nuclearbomb/bombue in machines)
 					if (length(bombue.r_code) <= 5 && bombue.r_code != "LOLNO" && bombue.r_code != "ADMIN")
 						code = bombue.r_code
 						break
@@ -1352,7 +1352,7 @@
 		ticker.mode.finalize_traitor(src)
 		ticker.mode.greet_traitor(src)
 
-/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0, telecrystals = TRUE)
+/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0, telecrystals = TRUE, reinforcement_to_spawn)
 	if(!(src in ticker.mode.syndicates))
 		ticker.mode.syndicates += src
 		ticker.mode.update_synd_icons_added(src)
@@ -1373,7 +1373,7 @@
 		qdel(H.wear_suit)
 		qdel(H.w_uniform)
 
-		ticker.mode.equip_syndicate(current, telecrystals)
+		ticker.mode.equip_syndicate(current, telecrystals, reinforcement_to_spawn)
 
 		if (nuke_code)
 			store_memory("<B>Syndicate Nuclear Bomb Code</B>: [nuke_code]", 0, 0)
@@ -1636,9 +1636,13 @@
 	mind.special_role = "Alien"
 	mind.assigned_role = "Alien"
 	//XENO HUMANOID
-/mob/living/carbon/alien/humanoid/queen/mind_initialize()
+/mob/living/carbon/alien/humanoid/royal/queen/mind_initialize()
 	..()
 	mind.special_role = "Queen"
+
+/mob/living/carbon/alien/humanoid/royal/praetorian/mind_initialize()
+	..()
+	mind.special_role = "Praetorian"
 
 /mob/living/carbon/alien/humanoid/hunter/mind_initialize()
 	..()

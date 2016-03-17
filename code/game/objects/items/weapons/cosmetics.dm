@@ -123,6 +123,9 @@
 
 		var/location = user.zone_sel.selecting
 		if(location == "mouth")
+			if(!(H.dna.species.specflags & FACEHAIR))
+				user << "<span class='warning'>There is no facial hair to shave!</span>"
+				return
 			if(!get_location_accessible(H, location))
 				user << "<span class='warning'>The mask is in the way!</span>"
 				return
@@ -148,6 +151,9 @@
 						shave(H, location)
 
 		else if(location == "head")
+			if(!(H.dna.species.specflags & HAIR))
+				user << "<span class='warning'>There is no hair to shave!</span>"
+				return
 			if(!get_location_accessible(H, location))
 				user << "<span class='warning'>The headgear is in the way!</span>"
 				return

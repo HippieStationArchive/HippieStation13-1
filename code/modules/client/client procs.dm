@@ -160,6 +160,16 @@ var/next_external_rsc = 0
 
 	. = ..()	//calls mob.Login()
 
+	if (connection == "web")
+		if (!config.allowwebclient)
+			src << "Web client is disabled"
+			del(src)
+			return 0
+		if (config.webclientmembersonly && !IsByondMember())
+			src << "Sorry, but the web client is restricted to byond members only."
+			del(src)
+			return 0
+
 	if( (world.address == address || !address) && !host )
 		host = key
 		world.update_status()
@@ -180,7 +190,7 @@ var/next_external_rsc = 0
 	if (isnum(player_age) && player_age == -1) //first connection
 		if(config.proxykick) // proxyban's enabled
 			var/danger = proxycheck()
-			if(danger >= config.proxykicklimit)
+			if(danger >= text2num(config.proxykicklimit))
 				log_access("Failed Login: [key] - New account attempting to connect with a proxy([danger*100]% possibility to be a proxy.)")
 				message_admins("<span class='adminnotice'>Failed Login: [key] - with a proxy([danger*100]% possibility to be a proxy.</span>")
 				src << "Sorry but you're not allowed to connect to the server through a proxy. Disable it and reconnect if you want to play."
@@ -285,6 +295,7 @@ var/next_external_rsc = 0
 		return -50 //error code
 	var/n = httpstuff["CONTENT"]
 	var/httpcode = httpstuff["STATUS"]
+	httpcode = text2num(httpcode) // gets only the error number code, without suffixes such as "OK"
 	if(httpcode == 429)
 		return -7 // exceeded number of queries
 	if(httpcode != 200)//something went wrong,fuck

@@ -120,7 +120,6 @@
 
 	if(user.a_intent != "harm")
 		if(status)
-			user.do_attack_animation(L)
 			if(baton_stun(L, user))
 				user.do_attack_animation(L)
 				return
