@@ -212,14 +212,6 @@
 					visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
 				else
 					src.nutrition -= rand(5, 25)
-				/*for(var/mob/living/M in range(0))
-					if(M != src)
-						if(lose_butt)
-							visible_message("\red <b>[src]</b>'s ass hits <b>[M]</b> in the face!", "\red Your ass smacks <b>[M]</b> in the face!")
-							M.apply_damage(15,"brute","head")
-							add_logs(src, M, "farted on", object=null, addition=" (DAMAGE DEALT: 15)")
-						else
-							visible_message("\red <b>[src]</b> farts in <b>[M]</b>'s face!")*/
 
 		if ("flap","flaps")
 			if (!src.restrained())
