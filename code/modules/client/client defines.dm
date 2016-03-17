@@ -9,6 +9,9 @@
 	var/last_message	= "" //Contains the last message sent by this client - used to protect against copy-paste spamming.
 	var/last_message_count = 0 //contins a number of how many times a message identical to last_message was sent.
 
+	var/last_radio_talk_time = 0
+	var/radio_mute_strikes = 0
+
 		/////////
 		//OTHER//
 		/////////
@@ -48,3 +51,5 @@
 	//datum that controls the displaying and hiding of tooltips
 	var/datum/tooltip/tooltips
 
+	var/reset_stretch = 0 //Used by things that fiddle with client's stretch-to-fit.
+	var/list/prev_screen = list()

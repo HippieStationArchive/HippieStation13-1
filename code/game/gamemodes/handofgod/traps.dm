@@ -7,7 +7,6 @@
 	health = 20
 	maxhealth = 20
 	trap = TRUE
-	autocolours = FALSE
 	var/last_trigger = 0
 	var/time_between_triggers = 600 //takes a minute to recharge
 
@@ -18,9 +17,8 @@
 	alpha = 30
 	if(isliving(AM))
 		var/mob/living/L = AM
-		if(is_handofgod_cultist(L))
-			if((side == "red" && is_handofgod_cultist(L) == 1) || (side == "blue" && is_handofgod_cultist(L) == 2))
-				return
+		if(L.mind && is_in_any_team(L.mind) == side)
+			return
 		last_trigger = world.time
 		alpha = 200
 		trap_effect(L)

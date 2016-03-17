@@ -130,9 +130,9 @@
 	name = "Arm Blade"
 	desc = "We reform one of our arms into a deadly blade."
 	helptext = "We may retract our armblade in the same manner as we form it. Cannot be used while in lesser form."
-	chemical_cost = 35 //Expensive chemical cost
-	evopoints_cost = 6 //Rather high DNA cost so armblade murderbone comes later into the round
-	req_dna = 9 //Tier 4
+	chemical_cost = 35 
+	evopoints_cost = 5
+	req_dna = 3 //Tier 2
 	genetic_damage = 10
 	req_human = 1
 	max_genetic_damage = 20

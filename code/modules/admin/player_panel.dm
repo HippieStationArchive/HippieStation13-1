@@ -83,7 +83,7 @@
 					body += "<a href='?_src_=holder;subtlemessage="+ref+"'>SM</a> - "
 					body += "<a href='?_src_=holder;adminplayerobservefollow="+ref+"'>FLW</a><br>"
 					if(antagonist > 0)
-						body += "<font size='2'><a href='?_src_=holder;secretsadmin=check_antagonist'><font color='red'><b>Antagonist</b></font></a></font>";
+						body += "<font size='2'><a href='?_src_=holder;secrets=check_antagonist'><font color='red'><b>Antagonist</b></font></a></font>";
 
 					body += "</td></tr></table>";
 
@@ -526,53 +526,29 @@
 					dat += "<tr><td><i>Monkey not found!</i></td></tr>"
 			dat += "</table>"
 
-		if(ticker.mode.red_deities.len || ticker.mode.red_deity_prophets.len || ticker.mode.blue_deity_prophets.len || ticker.mode.red_deity_followers.len || ticker.mode.blue_deity_followers.len)
-			dat += "<br><table cellspacing=5><tr><td><B>Red Deity</B></td><td></td></tr>"
-			for(var/datum/mind/N in ticker.mode.red_deities)
-				var/mob/M = N.current
-				if(M)
-					dat += "<tr><td>Red Deity: <a href='?_src_=holder;adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(ghost)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+		var/list/deities = get_gods()
+		if(deities.len)
+			for(var/i in teams)
+				dat += "<br><table cellspacing=5><tr><td><B>[capitalize(i)] Team</B></td><td></td></tr>"
+				for(var/mob/camera/god/G in deities)
+					if(G.side == i)
+						dat += "<tr><td>[capitalize(i)] Deity: <a href='?_src_=holder;adminplayeropts=\ref[G]'>[G.real_name]</a>[G.client ? "" : " <i>(ghost)</i>"][G.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+				var/list/prophets = get_team_prophets(i)
+				for(var/datum/mind/A in prophets)
+					var/mob/J = A.current
+					if(J)
+						dat += "<tr><td>[capitalize(i)] Prophet: <a href='?_src_=holder;adminplayeropts=\ref[J]'>[J.real_name]</a>[J.client ? "" : " <i>(ghost)</i>"][J.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+					else
+						dat += "<tr><td><i>Prophet not found!</i></td></tr>"
+				var/list/followers = get_team_followers(i)
+				for(var/datum/mind/A in followers)
+					var/mob/K = A.current
+					if(K)
+						dat += "<tr><td>[capitalize(i)] Follower: <a href='?_src_=holder;adminplayeropts=\ref[K]'>[K.real_name]</a>[K.client ? "" : " <i>(ghost)</i>"][K.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+					else
+						dat += "<tr><td><i>Follower not found!</i></td></tr>"
 			dat += "</table>"
 
-		if(ticker.mode.blue_deities.len)
-			dat += "<br><table cellspacing=5><tr><td><B>Blue Deity</B></td><td></td></tr>"
-			for(var/datum/mind/N in ticker.mode.blue_deities)
-				var/mob/M = N.current
-				if(M)
-					dat += "<tr><td>Blue Deity: <a href='?_src_=holder;adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(ghost)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-			dat += "</table>"
-
-		if(ticker.mode.red_deity_prophets.len)
-			dat += "<br><table cellspacing=5><tr><td><B>Red Deity Prophets</B></td><td></td></tr>"
-			for(var/datum/mind/N in ticker.mode.red_deity_prophets)
-				var/mob/M = N.current
-				if(M)
-					dat += "<tr><td>Red Deity Prophet: <a href='?_src_=holder;adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(ghost)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-			dat += "</table>"
-
-		if(ticker.mode.blue_deity_prophets.len)
-			dat += "<br><table cellspacing=5><tr><td><B>Blue Deity Prophets</B></td><td></td></tr>"
-			for(var/datum/mind/N in ticker.mode.blue_deity_prophets)
-				var/mob/M = N.current
-				if(M)
-					dat += "<tr><td>Blue Deity Prophet: <a href='?_src_=holder;adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(ghost)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-			dat += "</table>"
-
-		if(ticker.mode.red_deity_followers.len)
-			dat += "<br><table cellspacing=5><tr><td><B>Red Deity Followers</B></td><td></td></tr>"
-			for(var/datum/mind/N in ticker.mode.red_deity_followers)
-				var/mob/M = N.current
-				if(M)
-					dat += "<tr><td>Red Deity Followers: <a href='?_src_=holder;adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(ghost)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-			dat += "</table>"
-
-		if(ticker.mode.blue_deity_followers.len)
-			dat += "<br><table cellspacing=5><tr><td><B>Blue Deity Followers</B></td><td></td></tr>"
-			for(var/datum/mind/N in ticker.mode.blue_deity_followers)
-				var/mob/M = N.current
-				if(M)
-					dat += "<tr><td>Blue Deity Followers: <a href='?_src_=holder;adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(ghost)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-			dat += "</table>"
 
 		dat += "</body></html>"
 		usr << browse(dat, "window=roundstatus;size=420x500")

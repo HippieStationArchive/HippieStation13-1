@@ -349,3 +349,10 @@
 	while(L.Remove(null))
 		continue
 	return L
+
+//checks if the values associated to the elements of the first list are all bigger or equal than the ones of the second(Only works with lists with number values!)
+/proc/compareAllValues(list/A, list/B)
+	for(var/i in (A & B))
+		if(A[i] < B[i])
+			return FALSE
+	. = TRUE

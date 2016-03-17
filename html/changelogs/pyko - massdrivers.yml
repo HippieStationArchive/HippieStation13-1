@@ -22,7 +22,7 @@
 #################################
 
 # Your name.  
-author: Kilm
+author: Pyko
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
@@ -33,9 +33,6 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscdel: "Deleted the laser and shotgun cabinets, replaced with secure lockers that require appropriate level to open"
-  - rscadd: "Redesigned the Armoury, Riot Gear Room and Security Lockeroom. Now slightly bigger, better appointed and more appropriate for the amount of traffic they were getting during a round - generally trying to give Sec a better playing experience"
-  - rscadd: "Turned a bit of space in Engineering into a materials room, just to give it a bit more neatness and purpose. Tried using vendors for the materials but it spits out in single sheets, not feasible."
-  - rscadd: "Stuck a changing room above the sec locker room for the guys to hang out in towels, hi-five and generally be homo-erotic."
-  - rscadd: "Stuck in Sec spawn points at Arrivals and the Core Sec office so there's someone on hand straight away - kit is available from lockers. This is just a trial."
-
+  - rscadd: "Added vents to the massdrivers on z1 that did not already have one."
+  - tweak: "reinforced the bomb test area, and removed indestructible wall from there"
+  - tweak: "Made the thrash ejection room slightly larger, and added 2 sptos for hard workign assistants."

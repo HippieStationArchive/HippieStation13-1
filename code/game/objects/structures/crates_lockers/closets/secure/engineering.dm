@@ -90,3 +90,4 @@
 	new /obj/item/weapon/watertank/atmos(src)
 	new /obj/item/clothing/suit/fire/atmos(src)
 	new /obj/item/clothing/glasses/meson/engine/tray(src)
+	new /obj/item/clothing/head/hardhat/atmos(src)

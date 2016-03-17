@@ -315,7 +315,7 @@
 			bodyparts_to_add -= "waggingspines"
 
 	if("snout" in mutant_bodyparts) //Take a closer look at that snout!
-		if(H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE))
+		if((H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE)) || (H.head && (H.head.flags_inv & HIDEFACE)))
 			bodyparts_to_add -= "snout"
 
 	if("frills" in mutant_bodyparts)
@@ -680,6 +680,8 @@
 			H.sight |= SEE_OBJS
 
 		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 3 : darksight
+		if(is_shadow_or_thrall(H))  //Check if the mob is a shadowling or thrall, to make sure their vision range doesn't create odd artifacts.
+			H.see_in_dark = 8
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
 

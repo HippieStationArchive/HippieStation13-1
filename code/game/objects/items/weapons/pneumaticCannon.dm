@@ -71,11 +71,20 @@
 		return
 
 
-/obj/item/weapon/pneumatic_cannon/afterattack(atom/target as mob|obj|turf, mob/living/carbon/human/user as mob|obj, flag, params)
+/obj/item/weapon/pneumatic_cannon/afterattack(atom/target, mob/living/carbon/human/user, flag, params)
+	if(istype(target, /obj/item/weapon/storage) || istype(target, /obj/structure/rack) || istype(target, /obj/structure/closet)) //So you can store it in backpacks,closets and racks
+		return ..()
+	if(!istype(user))
+		return ..()
 	if(target in user.contents) // to avoid shooting yourself by putting this thing in the backpack
 		return
 	if(user.a_intent == "harm" || !ishuman(user))
 		return ..()
+	Fire(user, target)
+
+/obj/item/weapon/pneumatic_cannon/proc/Fire(mob/living/carbon/human/user, atom/target)
+	if(!istype(user) && !target)
+		return
 	if(!loadedItems || !loadedWeightClass)
 		user << "<span class='warning'>\The [src] has nothing loaded.</span>"
 		return
@@ -97,7 +106,7 @@
 			ITD.loc = get_turf(src)
 			ITD.throw_at(target, pressureSetting * 5, pressureSetting * 2)
 	if(pressureSetting >= 3)
-		user << "<span class='boldannounce'>\The [src]'s recoil knocks you down!</span>"
+		user.visible_message("<span class='warning'>[user] is thrown down by the force of the cannon!</span>", "<span class='userdanger'>[src] slams into your shoulder, knocking you down!")
 		user.Weaken(2)
 
 

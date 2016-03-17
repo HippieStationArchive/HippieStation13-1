@@ -189,12 +189,7 @@
 	remove_antag_equip()
 
 /datum/mind/proc/remove_hog_follower_prophet()
-	ticker.mode.red_deity_followers -= src
-	ticker.mode.red_deity_prophets -= src
-	ticker.mode.blue_deity_prophets -= src
-	ticker.mode.blue_deity_followers -= src
-	ticker.mode.update_hog_icons_removed(src, "red")
-	ticker.mode.update_hog_icons_removed(src, "blue")
+	ticker.mode.remove_hog_follower(src)
 
 /datum/mind/proc/remove_antag_equip()
 	var/list/Mob_Contents = current.get_contents()
@@ -255,7 +250,7 @@
 		"abductor",
 		"monkey",
 		"malfunction",
-		"follower"
+		"hog"
 	)
 	var/text = ""
 
@@ -416,7 +411,7 @@
 			text += "<b>OPERATIVE</b>|<a href='?src=\ref[src];nuclear=clear'>nanotrasen</a>"
 			text += "<br><a href='?src=\ref[src];nuclear=lair'>To shuttle</a>, <a href='?src=\ref[src];common=undress'>undress</a>, <a href='?src=\ref[src];nuclear=dressup'>dress up</a>."
 			var/code
-			for (var/obj/machinery/nuclearbomb/bombue in world)
+			for (var/obj/machinery/nuclearbomb/bombue in machines)
 				if (length(bombue.r_code) <= 5 && bombue.r_code != "LOLNO" && bombue.r_code != "ADMIN")
 					code = bombue.r_code
 					break
@@ -552,21 +547,24 @@
 	text = "hand of god"
 	if(ticker.mode.config_tag == "handofgod")
 		text = uppertext(text)
-	text = "<i><b>[text]</b></i>: "
-	if(src in ticker.mode.red_deity_prophets)
-		text += "<b>RED PROPHET</b>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
-	else if (src in ticker.mode.red_deity_followers)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<b>RED FOLLOWER</b>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
-	else if (src in ticker.mode.blue_deity_followers)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|BLUE FOLLOWER|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a></a>"
-	else if (src in ticker.mode.blue_deity_prophets)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|BLUE PROPHET|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
-	else if (src in ticker.mode.red_deities)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|RED GOD|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
-	else if (src in ticker.mode.blue_deities)
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<a href='?src=\ref[src];handofgod=clear'>employee</a>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|BLUE GOD"
+	text = "<i><b>[text]</b></i>: <a href='?src=\ref[src];handofgod=clear'>|CLEAR|</a> Teams:<br>"
+	var/list/ranks = list("Follower","Prophet","God")
+	if(current)
+		for(var/i in teams)
+			var/theside = i
+			if(is_in_any_team(src) == i)
+				text += "<b>[capitalize(i)]</b>"
+				for(var/rank in ranks)
+					var/r = what_rank(src)
+					if(r == rank)
+						text += "|<b>[rank]</b>"
+					else
+						text += "<a href='?src=\ref[src];handofgod=[rank]'>|[capitalize(rank)]</a>"
+			else
+				text += "<a href='?src=\ref[src];handofgod=[i]'>[theside]</a>"
+			text += "<br>"
 	else
-		text += "<a href='?src=\ref[src];handofgod=red prophet'>red prophet</a>|<a href='?src=\ref[src];handofgod=red follower'>red follower</a>|<b>EMPLOYEE</b>|<a href='?src=\ref[src];handofgod=blue follower'>blue follower</a>|<a href='?src=\ref[src];handofgod=blue prophet'>blue prophet</a>|<a href='?src=\ref[src];handofgod=red god'>red god</a>|<a href='?src=\ref[src];handofgod=blue god'>blue god</a>"
+		text += "No mob found, can't HOG-ify." //i wasn't able to think about a correct phrase to use
 
 	if(current && current.client && (ROLE_HOG_GOD in current.client.prefs.be_special))
 		text += "|HOG God Enabled in Prefs"
@@ -578,7 +576,7 @@
 	else
 		text += "|HOG Disabled in Prefs"
 
-	sections["follower"] = text
+	sections["hog"] = text
 
 	if (ticker.mode.config_tag == "traitorchan")
 		if (sections["traitor"])
@@ -1084,7 +1082,7 @@
 					usr << "<span class='danger'>Equipping a syndicate failed!</span>"
 			if("tellcode")
 				var/code
-				for (var/obj/machinery/nuclearbomb/bombue in world)
+				for (var/obj/machinery/nuclearbomb/bombue in machines)
 					if (length(bombue.r_code) <= 5 && bombue.r_code != "LOLNO" && bombue.r_code != "ADMIN")
 						code = bombue.r_code
 						break
@@ -1253,43 +1251,37 @@
 					log_admin("[key_name(usr)] has unemag'ed [ai]'s Cyborgs.")
 
 	else if (href_list["handofgod"])
-		switch(href_list["handofgod"])
-			if("clear") //wipe handofgod status
-				if((src in ticker.mode.red_deity_followers) || (src in ticker.mode.blue_deity_followers) || (src in ticker.mode.red_deity_prophets) || (src in ticker.mode.blue_deity_prophets))
-					remove_hog_follower_prophet()
-					current << "<span class='danger'><B>You have been brainwashed... again! Your faith is no more!</B></span>"
-					message_admins("[key_name_admin(usr)] has de-hand of god'ed [current].")
-					log_admin("[key_name(usr)] has de-hand of god'ed [current].")
+		if(href_list["handofgod"] == "clear") //wipe handofgod status
+			ticker.mode.remove_hog_follower(src, 0)
+			current << "<span class='danger'><B>You have been brainwashed... again! Your faith is no more!</B></span>"
+			message_admins("[key_name_admin(usr)] has de-hand of god'ed [current].")
+			log_admin("[key_name(usr)] has de-hand of god'ed [current].")
 
-			if("red follower")
-				make_Handofgod_follower("red")
-				message_admins("[key_name_admin(usr)] has red follower'ed [current].")
-				log_admin("[key_name(usr)] has red follower'ed [current].")
+		else if(href_list["handofgod"] in teams)
+			make_Handofgod_follower(href_list["handofgod"])
+			message_admins("[key_name_admin(usr)] has added [current] to the [href_list["handofgod"]] hand of god team.")
+			log_admin("[key_name(usr)] has added [current] to the [href_list["handofgod"]] hand of god team.")
 
-			if("red prophet")
-				make_Handofgod_prophet("red")
-				message_admins("[key_name_admin(usr)] has red prophet'ed [current].")
-				log_admin("[key_name(usr)] has red prophet'ed [current].")
+		else if(href_list["handofgod"] == "Follower")
+			if(what_rank(src) != "God")
+				make_Handofgod_follower(is_in_any_team(src)) // this is safe because this option will only appear if this fellow mind is in a team
+				message_admins("[key_name_admin(usr)] has made [current] into a follower.")
+				log_admin("[key_name(usr)] has made [current] into a follower.")
+			else
+				usr << "<span class='danger'>Can't transform a god into a follower!Humanize him first.</span>"
 
-			if("blue follower")
-				make_Handofgod_follower("blue")
-				message_admins("[key_name_admin(usr)] has blue follower'ed [current].")
-				log_admin("[key_name(usr)] has blue follower'ed [current].")
+		else if(href_list["handofgod"] == "Prophet")
+			if(what_rank(src) != "God")
+				make_Handofgod_prophet(is_in_any_team(src))
+				message_admins("[key_name_admin(usr)] has prophet'ed [current].")
+				log_admin("[key_name(usr)] has prophet'ed [current].")
+			else
+				usr << "<span class='danger'>Can't transform a god into a follower!Humanize him first.</span>"
 
-			if("blue prophet")
-				make_Handofgod_prophet("blue")
-				message_admins("[key_name_admin(usr)] has blue prophet'ed [current].")
-				log_admin("[key_name(usr)] has blue prophet'ed [current].")
-
-			if("red god")
-				make_Handofgod_god("red")
-				message_admins("[key_name_admin(usr)] has red god'ed [current].")
-				log_admin("[key_name(usr)] has red god'ed [current].")
-
-			if("blue god")
-				make_Handofgod_god("blue")
-				message_admins("[key_name_admin(usr)] has blue god'ed [current].")
-				log_admin("[key_name(usr)] has blue god'ed [current].")
+		else if(href_list["handofgod"] == "God")
+			make_Handofgod_god(is_in_any_team(src))
+			message_admins("[key_name_admin(usr)] has god'ed [current].")
+			log_admin("[key_name(usr)] has god'ed [current].")
 
 	else if (href_list["common"])
 		switch(href_list["common"])
@@ -1544,116 +1536,34 @@
 				L = agent_landmarks[team]
 				H.loc = L.loc
 
-/datum/mind/proc/make_Handofgod_follower(colour)
+/datum/mind/proc/make_Handofgod_follower(team)
 	. = 0
-	switch(colour)
-		if("red")
-			//Remove old allegiances
-			if(src in ticker.mode.blue_deity_followers || src in ticker.mode.blue_deity_prophets)
-				current << "<span class='danger'><B>You are no longer a member of the Blue cult!<B></span>"
+	ticker.mode.remove_hog_follower(src, 0)
+	if(ticker.mode.add_hog_follower(src, team))
+		return 1
 
-			ticker.mode.blue_deity_followers -= src
-			ticker.mode.blue_deity_prophets -= src
-			current.faction |= "red god"
-			current.faction -= "blue god"
+/datum/mind/proc/make_Handofgod_prophet(team)
+	. = 1
+	make_Handofgod_follower(team)
+	var/datum/faction/HOG/H = faction
+	if(H)//should never fail,again
+		H.members[src] = "Prophet"
+	ticker.mode.update_hog_icons_added(src,team)
+	if(istype(ticker.mode, /datum/game_mode/hand_of_god))
+		var/datum/game_mode/hand_of_god/mygamemode = ticker.mode
+		mygamemode.prophets |= src // add only if not already in,we don't want double minds in our list
 
-			if(src in ticker.mode.red_deity_prophets)
-				current << "<span class='danger'><B>You have lost the connection with your deity, but you still believe in their grand design, You are no longer a prophet!</b></span>"
-				ticker.mode.red_deity_prophets -= src
-
-			ticker.mode.red_deity_followers |= src
-			current << "<span class='danger'><B>You are now a follower of the red cult's god!</b></span>"
-
-			special_role = "Hand of God: Red Follower"
-			. = 1
-		if("blue")
-			//Remove old allegiances
-			if(src in ticker.mode.red_deity_followers || src in ticker.mode.red_deity_prophets)
-				current << "<span class='danger'><B>You are no longer a member of the Red cult!<B></span>"
-
-			ticker.mode.red_deity_followers -= src
-			ticker.mode.red_deity_prophets -= src
-			current.faction -= "red god"
-			current.faction |= "blue god"
-
-			if(src in ticker.mode.blue_deity_prophets)
-				current << "<span class='danger'><B>You have lost the connection with your deity, but you still believe in their grand design, You are no longer a prophet!</b></span>"
-				ticker.mode.blue_deity_prophets -= src
-
-			ticker.mode.blue_deity_followers |= src
-			current << "<span class='danger'><B>You are now a follower of the blue cult's god!</b></span>"
-
-			special_role = "Hand of God: Blue Follower"
-			. = 1
-		else
-			return 0
-
-	ticker.mode.update_hog_icons_removed(src,"red")
-	ticker.mode.update_hog_icons_removed(src,"blue")
-	//ticker.mode.greet_hog_follower(src,colour)
-	ticker.mode.update_hog_icons_added(src, colour)
-
-/datum/mind/proc/make_Handofgod_prophet(colour)
-	. = 0
-	switch(colour)
-		if("red")
-			//Remove old allegiances
-
-			if(src in ticker.mode.blue_deity_followers || src in ticker.mode.blue_deity_prophets)
-				current << "<span class='danger'><B>You are no longer a member of the Blue cult!<B></span>"
-				current.faction -= "blue god"
-			current.faction |= "red god"
-
-			ticker.mode.blue_deity_followers -= src
-			ticker.mode.blue_deity_prophets -= src
-			ticker.mode.red_deity_followers -= src
-
-			ticker.mode.red_deity_prophets |= src
-			current << "<span class='danger'><B>You are now a prophet of the red cult's god!</b></span>"
-
-			special_role = "Hand of God: Red Prophet"
-			. = 1
-		if("blue")
-			//Remove old allegiances
-
-			if(src in ticker.mode.red_deity_followers || src in ticker.mode.red_deity_prophets)
-				current << "<span class='danger'><B>You are no longer a member of the Red cult!<B></span>"
-				current.faction -= "red god"
-			current.faction |= "blue god"
-
-			ticker.mode.red_deity_followers -= src
-			ticker.mode.red_deity_prophets -= src
-			ticker.mode.blue_deity_followers -= src
-
-			ticker.mode.blue_deity_prophets |= src
-			current << "<span class='danger'><B>You are now a prophet of the blue cult's god!</b></span>"
-
-			special_role = "Hand of God: Blue Prophet"
-			. = 1
-
-		else
-			return 0
-
-	ticker.mode.update_hog_icons_removed(src,"red")
-	ticker.mode.update_hog_icons_removed(src,"blue")
-	ticker.mode.greet_hog_follower(src,colour)
-	ticker.mode.update_hog_icons_added(src, colour)
-
+	var/datum/action/innate/godspeak/A = new /datum/action/innate/godspeak()
+	var/list/gods = get_team_gods(team)
+	for(var/datum/mind/god in gods)
+		if(god.current)
+			A.gods.Add(god.current)
+	A.Grant(current)
+	current << "<span class='boldnotice'>You gain the ability to speak with your god!</span>"
 
 /datum/mind/proc/make_Handofgod_god(colour)
-	switch(colour)
-		if("red")
-			current.become_god("red")
-			ticker.mode.add_god(src,"red")
-		if("blue")
-			current.become_god("blue")
-			ticker.mode.add_god(src,"blue")
-		else
-			return 0
+	ticker.mode.add_god(src, colour)
 	ticker.mode.forge_deity_objectives(src)
-	ticker.mode.remove_hog_follower(src,0)
-	ticker.mode.update_hog_icons_added(src, colour)
-//	ticker.mode.greet_hog_follower(src,colour)
 	return 1
 
 /datum/mind/proc/AddSpell(obj/effect/proc_holder/spell/spell)
@@ -1726,9 +1636,13 @@
 	mind.special_role = "Alien"
 	mind.assigned_role = "Alien"
 	//XENO HUMANOID
-/mob/living/carbon/alien/humanoid/queen/mind_initialize()
+/mob/living/carbon/alien/humanoid/royal/queen/mind_initialize()
 	..()
 	mind.special_role = "Queen"
+
+/mob/living/carbon/alien/humanoid/royal/praetorian/mind_initialize()
+	..()
+	mind.special_role = "Praetorian"
 
 /mob/living/carbon/alien/humanoid/hunter/mind_initialize()
 	..()
