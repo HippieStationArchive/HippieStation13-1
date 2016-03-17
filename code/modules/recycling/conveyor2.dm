@@ -207,6 +207,8 @@
 		for(var/obj/machinery/conveyor/C in machines)
 			if(C.id == id)
 				conveyors += C
+		spawn(5)
+			operated = 1
 
 // update the icon depending on the position
 

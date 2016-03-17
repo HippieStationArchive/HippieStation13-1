@@ -250,7 +250,7 @@
 		var/datum/sprite_accessory/undershirt/U2 = undershirt_list[H.undershirt]
 		if(U2)
 			if(H.dna.species.sexes && H.gender == FEMALE)
-				standing	+=	H.wear_female_version(U2.icon_state, U2.icon, BODY_LAYER)
+				standing	+=	wear_female_version("[U2.icon_state]_s", U2.icon, BODY_LAYER)
 			else
 				standing	+= image("icon"=U2.icon, "icon_state"="[U2.icon_state]_s", "layer"=-BODY_LAYER)
 
@@ -693,7 +693,10 @@
 				var/obj/item/clothing/glasses/G = H.glasses
 				H.sight |= G.vision_flags
 				H.see_in_dark = G.darkness_view
-				H.see_invisible = min(G.invis_view, H.see_invisible)
+				if(G.invis_override)
+					H.see_invisible = G.invis_override
+				else
+					H.see_invisible = min(G.invis_view, H.see_invisible)
 		if(H.druggy)	//Override for druggy
 			H.see_invisible = see_temp
 

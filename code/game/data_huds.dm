@@ -157,10 +157,9 @@
 				holder.icon_state = "hud_imp_chem"
 
 /mob/living/carbon/human/proc/sec_hud_set_security_status()
-	var/image/holder
+	var/image/holder = hud_list[WANTED_HUD]
 	var/perpname = get_face_name(get_id_name())
 	var/datum/data/record/R = find_record("name", perpname, data_core.security)
-	holder = hud_list[WANTED_HUD]
 	if(R)
 		switch(R.fields["criminal"])
 			if("*Arrest*")		holder.icon_state = "hudwanted"

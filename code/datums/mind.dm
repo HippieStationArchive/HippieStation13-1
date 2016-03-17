@@ -1352,7 +1352,7 @@
 		ticker.mode.finalize_traitor(src)
 		ticker.mode.greet_traitor(src)
 
-/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0, telecrystals = TRUE)
+/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0, telecrystals = TRUE, reinforcement_to_spawn)
 	if(!(src in ticker.mode.syndicates))
 		ticker.mode.syndicates += src
 		ticker.mode.update_synd_icons_added(src)
@@ -1373,7 +1373,7 @@
 		qdel(H.wear_suit)
 		qdel(H.w_uniform)
 
-		ticker.mode.equip_syndicate(current, telecrystals)
+		ticker.mode.equip_syndicate(current, telecrystals, reinforcement_to_spawn)
 
 		if (nuke_code)
 			store_memory("<B>Syndicate Nuclear Bomb Code</B>: [nuke_code]", 0, 0)

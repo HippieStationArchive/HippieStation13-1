@@ -1,0 +1,6 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - tgs: "Slimes now attaches themselves to mobs via buckling."

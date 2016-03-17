@@ -169,6 +169,13 @@
 		return 1
 
 /obj/proc/burn()
+	if(istype(src, /obj/item/weapon/storage))
+		var/obj/item/weapon/storage/S = src
+		for(var/obj/Item in contents)
+			Item.mouse_opacity = initial(Item.mouse_opacity)
+		S.close_all()
+		qdel(S.boxes)
+		qdel(S.closer)
 	for(var/obj/item/Item in contents) //Empty out the contents
 		Item.loc = src.loc
 		Item.fire_act() //Set them on fire, too
