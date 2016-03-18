@@ -1,0 +1,6 @@
+author: Memendia
+
+delete-after: True
+
+changes: 
+  - tweak: "Removes Loyalty Implant boxes from Cargo."
