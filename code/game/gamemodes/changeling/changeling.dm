@@ -366,11 +366,12 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 
 	var/datum/changelingprofile/prof = new()
 
-	H.dna.real_name = H.real_name //Set this again, just to be sure that it's properly set.
+	H.name = H.dna.real_name //Set this again, just to be sure that it's properly set.
 	var/datum/dna/new_dna = new H.dna.type
 	H.dna.copy_dna(new_dna)
 	prof.dna = new_dna
-	prof.name = H.real_name
+	prof.dna.real_name = H.name
+	prof.name = H.name
 	prof.protected = protect
 
 	prof.underwear = H.underwear

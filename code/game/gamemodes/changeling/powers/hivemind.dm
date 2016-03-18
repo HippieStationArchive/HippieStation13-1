@@ -71,9 +71,10 @@ var/list/datum/dna/hivemind_bank = list()
 /obj/effect/proc_holder/changeling/hivemind_download/sting_action(mob/user)
 	var/datum/changeling/changeling = user.mind.changeling
 	var/list/names = list()
-	for(var/datum/changelingprofile/prof in hivemind_bank)
-		if(!(prof in changeling.stored_profiles))
-			names[prof.name] = prof
+	for(var/datum/changelingprofile/hivemind_prof in hivemind_bank)
+		for(var/datum/changelingprofile/stored_prof in changeling.stored_profiles)
+			if(stored_prof.name != hivemind_prof.name)
+				names[hivemind_prof.name] = hivemind_prof
 
 	if(names.len <= 0)
 		user << "<span class='notice'>There's no new DNA to absorb from the air.</span>"
@@ -81,11 +82,18 @@ var/list/datum/dna/hivemind_bank = list()
 
 	var/S = input("Select a DNA absorb from the air: ", "Absorb DNA", null) as null|anything in names
 	if(!S)	return
+
 	var/datum/changelingprofile/chosen_prof = names[S]
 	if(!chosen_prof)
 		return
 
+	for(var/datum/changelingprofile/stored_prof in changeling.stored_profiles)
+		if(chosen_prof.name == stored_prof.name)
+			user << "<span class='notice'>We already have that DNA!</span>"
+			return
+	
 	changeling.add_profile(chosen_prof, user)
-	user << "<span class='notice'>We absorb the DNA of [S] from the air.</span>"
+
+	user << "<span class='notice'>We absorb the DNA of [chosen_prof] from the air.</span>"
 	feedback_add_details("changeling_powers","HD")
 	return 1

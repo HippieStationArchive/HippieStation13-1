@@ -27,7 +27,13 @@
 
 
 /datum/round_event/alien_infestation/start()
+<<<<<<< HEAD
 
+=======
+	get_alien()
+
+/datum/round_event/alien_infestation/proc/get_alien(end_if_fail = 0)
+>>>>>>> 6be452b5a1a916493e55a23286905be2323adfdd
 	var/list/vents = list()
 	for(var/obj/machinery/atmospherics/components/unary/vent_pump/temp_vent in machines)
 		if(qdeleted(temp_vent))
@@ -37,7 +43,15 @@
 			if(temp_vent_parent.other_atmosmch.len > 20)	//Stops Aliens getting stuck in small networks. See: Security, Virology
 				vents += temp_vent
 
-	var/list/candidates = get_candidates(ROLE_ALIEN, ALIEN_AFK_BRACKET)
+	if(!vents.len)
+		message_admins("An event attempted to spawn an alien but no suitable vents were found. Shutting down.")
+		return kill()
+
+	var/list/candidates = get_candidates(ROLE_ALIEN, ALIEN_AFK_BRACKET, "alien candidate")
+	if(!candidates.len)
+		if(end_if_fail)
+			return 0
+		return find_alien()
 
 	while(spawncount > 0 && vents.len && candidates.len)
 		var/obj/vent = pick_n_take(vents)
@@ -49,3 +63,16 @@
 
 		spawncount--
 		successSpawn = 1
+		message_admins("[new_xeno.key] has been made into an alien by an event.")
+		log_game("[new_xeno.key] was spawned as an alien by an event.")
+	if(successSpawn)
+		return 1
+
+/datum/round_event/alien_infestation/proc/find_alien()
+	message_admins("Event attempted to spawn an alien but no candidates were available. Will try again momentarily...")
+	spawn(50)
+		if(get_alien(1))
+			message_admins("Situation has been resolved")
+			return 0
+		message_admins("Unfortunately, no candidates were available for becoming an alien. Shutting down.")
+	return kill()
