@@ -9,7 +9,7 @@ var/datum/subsystem/template/SStemplate
 	parser = new()
 
 /datum/subsystem/template/Initialize()
-		//PlaceTemplates()
+		PlaceTemplates()
 		..()
 
 /datum/subsystem/template/proc/PlaceTemplateAt(var/turf/location, var/path, var/name)

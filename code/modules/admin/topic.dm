@@ -293,6 +293,12 @@
 				message_admins("[key_name_admin(usr)] has reset template '[template.name]' at {[template.location.x], [template.location.y], [template.location.z]}")
 
 				template.Reset()
+			if("generate")
+				if(!check_rights(R_FUN))
+					return 0
+				if(alert(usr, "This will generate MORE structures, are you sure?", "Confirmation", "Yes", "No") == "Yes")
+					SStemplate.PlaceTemplates()
+					message_admins("[key_name_admin(usr)] has generated MORE templates!")
 
 	else if(href_list["editrights"])
 		edit_rights_topic(href_list)
