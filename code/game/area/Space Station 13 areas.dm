@@ -1267,7 +1267,7 @@ var/list/teleportlocs = list()
 	icon_state = "red"
 
 /area/derelict/russian
-	name = "Cheeki Breeki"
+	name = "Russian Hideaway"
 	icon_state = "red"
 
 //Construction
