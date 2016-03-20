@@ -56,6 +56,7 @@
 
 /obj/structure/closet/jcloset/New()
 	..()
+	new /obj/item/pornmag
 	new /obj/item/clothing/under/rank/janitor(src)
 	new /obj/item/weapon/cartridge/janitor(src)
 	new /obj/item/clothing/gloves/color/black(src)

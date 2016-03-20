@@ -11,6 +11,11 @@
 /datum/proc/check_special_completion() //for objectives with special checks (is that slime extract unused? does that intellicard have an ai in it? etcetc)
 	return 1
 
+datum/objective_item/steal/pornmag
+	name = "janitor's porno magazine"
+	targetitem = /obj/item/pornmag
+	difficulty = 3
+
 /datum/objective_item/steal/caplaser
 	name = "the captain's antique laser gun"
 	targetitem = /obj/item/weapon/gun/energy/laser/captain
