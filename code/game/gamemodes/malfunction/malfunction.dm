@@ -81,7 +81,7 @@
 	return
 
 /datum/game_mode/malfunction/process(seconds)
-	/*var/timer_paused
+	var/timer_paused
 
 	for(var/datum/mind/AI_mind in malf_ai)
 		if(timer_paused)
