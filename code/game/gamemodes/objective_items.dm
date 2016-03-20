@@ -15,6 +15,7 @@ datum/objective_item/steal/pornmag
 	name = "janitor's porno magazine"
 	targetitem = /obj/item/pornmag
 	difficulty = 3
+	excludefromjob = list("Janitor")
 
 /datum/objective_item/steal/caplaser
 	name = "the captain's antique laser gun"
