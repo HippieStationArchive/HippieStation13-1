@@ -75,7 +75,7 @@
 	name = "porn mag"
 	desc = "Look at those pixels, man!"
 	w_class = 1.0
-	user.changeNext_move(CLICK_CD_MELEE)
+	var/cooldown = 0
 
 /obj/item/pornmag/attack_self(mob/user)
 	if(cooldown < world.time - 20)
