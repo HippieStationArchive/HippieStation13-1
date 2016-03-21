@@ -7589,7 +7589,7 @@
 "cPW" = (/obj/structure/disposalpipe/junction{dir = 8; icon_state = "pipe-j1"; tag = "icon-pipe-j1 (EAST)"},/turf/simulated/floor/plasteel{icon_state = "redcorner"; dir = 4},/area/hallway/primary/fore)
 "cPX" = (/obj/machinery/light{dir = 1},/obj/structure/disposalpipe/junction{dir = 8; icon_state = "pipe-j1"; tag = "icon-pipe-j1 (EAST)"},/turf/simulated/floor/plasteel{icon_state = "redcorner"; dir = 4},/area/hallway/primary/fore)
 "cPY" = (/obj/structure/disposalpipe/segment{dir = 8; icon_state = "pipe-c"},/turf/simulated/floor/plasteel{icon_state = "redcorner"; dir = 4},/area/hallway/primary/fore)
-"cPZ" = (/obj/machinery/door/airlock{name = "Law Office"; req_access_txt = "42"},/turf/simulated/floor/plasteel{icon_state = "grimy"},/area/lawoffice)
+"cPZ" = (/obj/machinery/door/airlock{name = "Law Office"; req_access_txt = "42"},/turf/simulated/floor/wood,/area/lawoffice)
 "cQa" = (/obj/structure/disposalpipe/segment{dir = 4},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 5},/turf/simulated/floor/plasteel,/area/security/brig)
 "cQb" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/obj/machinery/door/poddoor/shutters/preopen{id = "Privacy Shutters"; name = "Privacy Shutters"},/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/floor/plating,/area/lawoffice)
 "cQc" = (/obj/structure/disposalpipe/segment{dir = 4},/obj/structure/flora/kirbyplants,/turf/simulated/floor/plasteel{dir = 2; icon_state = "redcorner"},/area/hallway/primary/fore)
