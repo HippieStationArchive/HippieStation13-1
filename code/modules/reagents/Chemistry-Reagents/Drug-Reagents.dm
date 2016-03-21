@@ -147,7 +147,7 @@
 	description = "Reduces stun times by about 300%, speeds the user up, and allows the user to quickly recover stamina while dealing a small amount of Brain damage. If overdosed the subject will move randomly, laugh randomly, drop items and suffer from Toxin and Brain damage. If addicted the subject will constantly jitter and drool, before becoming dizzy and losing motor control and eventually suffer heavy toxin damage."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
-	overdose_threshold = 20
+	overdose_threshold = 15
 	addiction_threshold = 10
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 
@@ -161,10 +161,18 @@
 	M.adjustStaminaLoss(-2)
 	M.status_flags |= GOTTAGOREALLYFAST
 	M.Jitter(2)
-	M.adjustBrainLoss(0.25)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
 	..()
+	return
+	
+/datum/reagent/drug/methamphetamine/on_mob_delete(mob/living/M)
+	M.visible_message("<span class='danger'>[M] collapses in exhaustion!</span>")
+	M.adjustToxLoss(current_cycle*1*REM)
+	M.adjustBrainLoss(current_cycle*0.25*REM)
+	M.AdjustWeakened(5*REM)
+	M.AdjustStunned(5*REM)
+	M.adjustStaminaLoss(50*REM)
 	return
 
 /datum/reagent/drug/methamphetamine/overdose_process(mob/living/M)
@@ -224,7 +232,7 @@
 	description = "Makes you nearly impervious to stuns and grants a stamina regeneration buff, but you will be a nearly uncontrollable tramp-bearded raving lunatic."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
-	overdose_threshold = 20
+	overdose_threshold = 15
 	addiction_threshold = 10
 
 
@@ -232,17 +240,25 @@
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
-	M.AdjustParalysis(-3)
-	M.AdjustStunned(-3)
-	M.AdjustWeakened(-3)
-	M.adjustStaminaLoss(-5)
-	M.adjustBrainLoss(0.5)
+	M.AdjustParalysis(-6)
+	M.AdjustStunned(-6)
+	M.AdjustWeakened(-6)
+	M.adjustStaminaLoss(-10)
 	M.adjustToxLoss(0.1)
 	M.hallucination += 10
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		step(M, pick(cardinal))
 		step(M, pick(cardinal))
 	..()
+	return
+	
+/datum/reagent/drug/bath_salts/on_mob_delete(mob/living/M)
+	M.visible_message("<span class='danger'>[M] goes pale and collapses!</span>")
+	M.adjustToxLoss(current_cycle*1.5*REM)
+	M.adjustBrainLoss(current_cycle*0.5*REM)
+	M.AdjustWeakened(8*REM)
+	M.AdjustStunned(8*REM)
+	M.adjustStaminaLoss(50*REM)
 	return
 
 /datum/reagent/drug/bath_salts/overdose_process(mob/living/M)
