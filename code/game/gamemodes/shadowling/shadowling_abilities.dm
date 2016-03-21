@@ -1,6 +1,9 @@
 #define EMPOWERED_THRALL_LIMIT 5
 
 /obj/effect/proc_holder/spell/proc/shadowling_check(var/mob/living/carbon/human/H)
+	if(H.incorporeal_move == 2)
+		usr << "<span class='warning'>You cannot do this while in another dimension!</span>"
+		return
 	if(!H || !istype(H)) return
 	if(H.dna.species.id == "shadowling" && is_shadow(H)) return 1
 	if(H.dna.species.id == "l_shadowling" && is_thrall(H)) return 1
@@ -14,7 +17,7 @@
 	name = "Glare"
 	desc = "Stuns and mutes a target for a decent duration."
 	panel = "Shadowling Abilities"
-	charge_max = 300
+	charge_max = 350
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "glare"
@@ -43,15 +46,19 @@
 			target << "<span class='userdanger'>Your gaze is forcibly drawn into [user]'s eyes, and you are mesmerized by the heavenly lights...</span>"
 		else //Only alludes to the shadowling if the target is close by
 			target << "<span class='userdanger'>Red lights suddenly dance in your vision, and you are mesmerized by their heavenly beauty...</span>"
-		target.Stun(10)
-		M.silent += 10
+		if(M.check_eye_prot() <= 0) // no eye protection? Too bad
+			target.Stun(10)
+			M.silent += 10
+		else
+			target.Stun(7)
+			M.silent += 10
 
 
 /obj/effect/proc_holder/spell/aoe_turf/veil //Puts out most nearby lights except for flares and yellow slime cores
 	name = "Veil"
 	desc = "Extinguishes most nearby light sources."
 	panel = "Shadowling Abilities"
-	charge_max = 150 //Short cooldown because people can just turn the lights back on
+	charge_max = 200 //Short cooldown because people can just turn the lights back on
 	human_req = 1
 	clothes_req = 0
 	range = 5
@@ -95,9 +102,6 @@
 		for(var/obj/machinery/computer/C in T.contents)
 			C.SetLuminosity(0)
 			C.visible_message("<span class='warning'>[C] grows dim, its screen barely readable.</span>")
-		for(var/obj/effect/glowshroom/G in orange(7, user)) //High radius because glowshroom spam wrecks shadowlings
-			G.visible_message("<span class='warning'>[G] withers away!</span>")
-			qdel(G)
 		for(var/mob/living/H in T.contents)
 			extinguishMob(H)
 		for(var/mob/living/silicon/robot/borgie in T.contents)
@@ -108,7 +112,7 @@
 	name = "Shadow Walk"
 	desc = "Phases you into the space between worlds for a short time, allowing movement through walls and invisbility."
 	panel = "Shadowling Abilities"
-	charge_max = 300 //Used to be twice this, buffed
+	charge_max = 350 //Used to be twice this, buffed
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "shadow_walk"
@@ -121,7 +125,7 @@
 	user.visible_message("<span class='warning'>[user] vanishes in a puff of black mist!</span>", "<span class='shadowling'>You enter the space between worlds as a tunnel.</span>")
 	user.SetStunned(0)
 	user.SetWeakened(0)
-	user.incorporeal_move = 1
+	user.incorporeal_move = 2 //This makes the shadow-walk MUCH faster, but leaves a trail visible to humans.
 	user.alpha = 0
 	if(user.buckled)
 		user.buckled.unbuckle_mob()
@@ -136,11 +140,12 @@
 	desc = "Instantly freezes the blood of nearby people, stunning them and causing burn damage."
 	panel = "Shadowling Abilities"
 	range = 5
-	charge_max = 250
+	charge_max = 350
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "icy_veins"
 	sound = 'sound/effects/ghost2.ogg'
+	var/suits = list(/obj/item/clothing/suit/space) //Apparently dosen't work if not in a list?
 
 /obj/effect/proc_holder/spell/aoe_turf/flashfreeze/cast(list/targets,mob/user = usr)
 	if(!shadowling_check(user))
@@ -148,20 +153,21 @@
 		return
 	user << "<span class='shadowling'>You freeze the nearby air.</span>"
 	for(var/turf/T in targets)
-		for(var/mob/living/carbon/M in T.contents)
+		for(var/mob/living/carbon/human/M in T.contents)
 			if(is_shadow_or_thrall(M))
 				if(M == user) //No message for the user, of course
 					continue
 				else
 					M << "<span class='danger'>You feel a blast of paralyzingly cold air wrap around you and flow past, but you are unaffected!</span>"
 					continue
-			M << "<span class='userdanger'>A wave of shockingly cold air engulfs you!</span>"
-			M.Stun(2)
-			M.apply_damage(10, BURN)
-			if(M.bodytemperature)
-				M.bodytemperature -= 200 //Extreme amount of initial cold
-			if(M.reagents)
-				M.reagents.add_reagent("frostoil", 15) //Half of a cryosting
+			if(istype(M.wear_suit))
+				if(M.wear_suit.type in suits)
+					continue
+			else
+				M << "<span class='userdanger'>A wave of shockingly cold air engulfs you!</span>"
+				M.Stun(1)
+				if(M.bodytemperature)
+					M.bodytemperature -= 400  //Normal temp is 307, we reduce this to -100, dealing 15 damage. Colder than total entropy
 
 
 /obj/effect/proc_holder/spell/targeted/enthrall //Turns a target into the shadowling's slave. This overrides all previous loyalties
@@ -419,7 +425,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 		M.eye_blind = 5
 		if(prob(25))
 			M.visible_message("<b>[M]</b> claws at their eyes!")
-			M.Stun(3)
+			M.Stun(2)
 	else
 		M << "<span class='notice'><b>You breathe in the black smoke, and you feel revitalized!</b></span>"
 		M.heal_organ_damage(2,2)
@@ -434,7 +440,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	desc = "Deafens, stuns, and confuses nearby people. Also shatters windows."
 	panel = "Shadowling Abilities"
 	range = 7
-	charge_max = 300
+	charge_max = 600
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "screech"
@@ -455,7 +461,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			if(iscarbon(target))
 				var/mob/living/carbon/M = target
 				M << "<span class='danger'><b>A spike of pain drives into your head and scrambles your thoughts!</b></span>"
-				M.confused += 10
+				M.confused += 8
 				M.setEarDamage(M.ear_damage + 3)
 			else if(issilicon(target))
 				var/mob/living/silicon/S = target
@@ -661,7 +667,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	name = "Lesser Glare"
 	desc = "Stuns and mutes a target for a short duration."
 	panel = "Thrall Abilities"
-	charge_max = 450
+	charge_max = 500
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "glare"
@@ -669,7 +675,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 /obj/effect/proc_holder/spell/targeted/lesser_glare/cast(list/targets,mob/user = usr)
 	for(var/mob/living/target in targets)
 		if(!ishuman(target) || !target)
-			user << "<span class='warning'>You nay only glare at humans!</span>"
+			user << "<span class='warning'>You may only glare at humans!</span>"
 			revert_cast()
 			return
 		if(target.stat)
@@ -681,6 +687,10 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			revert_cast()
 			return
 		var/mob/living/carbon/human/M = target
+		if((get_dist(user, target) >= 3 )) //hacky hacky
+			user << "<span class='warning'>You need to get closer!</span>"
+			revert_cast()
+			return
 		user.visible_message("<span class='warning'><b>[user]'s eyes flash a bright red!</b></span>")
 		target.visible_message("<span class='danger'>[target] freezes in place, their eyes clouding...</span>")
 		if(in_range(target, user))
