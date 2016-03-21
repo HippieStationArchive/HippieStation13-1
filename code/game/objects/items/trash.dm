@@ -75,9 +75,9 @@
 	name = "porn mag"
 	desc = "Look at those pixels, man!"
 	w_class = 1.0
-	var/cooldown = 0
+	user.changeNext_move(CLICK_CD_MELEE)
 
-/obj/item/pornmag/attack_self(mob/user as mob)
+/obj/item/pornmag/attack_self(mob/user)
 	if(cooldown < world.time - 20)
 		playsound(src.loc, "pageturn", 50, 1)
 		user.visible_message("<span class='notice'>[user] skims through the pages of the [src] and giggles like a schoolgirl.</span>",\
