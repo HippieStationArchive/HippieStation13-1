@@ -474,7 +474,7 @@
 		var/obj/item/I = M.get_active_hand()
 		if(I)
 			M.drop_item()
-			M.visible_message("<span class='danger'>[M] shudders and drops something on the floor!</span>")
+			M.visible_message("<span class='danger'>[M] shudders and drops [I] on the floor!</span>")
 	..()
 	return
 
