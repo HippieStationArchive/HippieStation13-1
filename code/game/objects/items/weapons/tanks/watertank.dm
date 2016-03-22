@@ -178,7 +178,7 @@
 
 /obj/item/weapon/watertank/janitor/New()
 	..()
-	reagents.add_reagent("cleaner", 500)
+	reagents.add_reagent("cleaner", 700)
 
 /obj/item/weapon/reagent_containers/spray/mister/janitor
 	name = "janitor spray nozzle"
