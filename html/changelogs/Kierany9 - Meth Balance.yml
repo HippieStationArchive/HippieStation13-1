@@ -33,5 +33,7 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - tweak: "Methamphetamine and Bath Salts now stun and deal toxin damage once they wear off."
+  - tweak: "General Stimulant balancing:"
+  - tweak: "Methamphetamine, Crank, Bath Salts and Ephedrine now deal stun and varying degrees of toxin damage damage once they wear off."
+  - tweak: "Reduced Meth's and Bath Salt's overdose threshold from 20 to 15 and Ephedrine's fom 45 to 30"
   - tweak: "Removed Enzyme from the Bath Salts recepie to prevent it from creating moonshine."
