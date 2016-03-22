@@ -35,5 +35,6 @@ delete-after: True
 changes: 
   - tweak: "General Stimulant balancing:"
   - tweak: "Methamphetamine, Crank, Bath Salts and Ephedrine now deal stun and varying degrees of toxin damage damage once they wear off."
-  - tweak: "Reduced Meth's and Bath Salt's overdose threshold from 20 to 15 and Ephedrine's fom 45 to 30"
+  - tweak: "Reduced Meth's and Bath Salt's overdose threshold from 20 to 15 and Ephedrine's fom 45 to 30."
+  - tweak: "Ephedrine now causes you to drop items on overdose."
   - tweak: "Removed Enzyme from the Bath Salts recepie to prevent it from creating moonshine."
