@@ -65,6 +65,14 @@
 	M.AdjustStunned(-1)
 	M.AdjustWeakened(-1)
 	..()
+	
+/datum/reagent/drug/crank/on_mob_delete(mob/living/M)
+	M.visible_message("<span class='danger'>[M] staggers and falls!</span>")
+	M.adjustToxLoss(current_cycle*0.1*REM)
+	M.AdjustWeakened(5*REM)
+	M.AdjustStunned(5*REM)
+	M.adjustStaminaLoss(25*REM)
+	return
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
 	M.adjustBrainLoss(2*REM)
@@ -245,7 +253,7 @@
 	M.AdjustWeakened(-6)
 	M.adjustStaminaLoss(-10)
 	M.adjustToxLoss(0.1)
-	M.hallucination += 10
+	M.hallucination += 7.5
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		step(M, pick(cardinal))
 		step(M, pick(cardinal))
