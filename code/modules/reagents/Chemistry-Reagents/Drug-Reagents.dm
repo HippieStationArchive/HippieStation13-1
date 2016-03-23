@@ -72,9 +72,9 @@
 		M.visible_message("<span class='danger'>[M] staggers and falls!</span>")
 		M.AdjustWeakened(5*REM)
 		M.AdjustStunned(5*REM)
-		M.adjustStaminaLoss(25*REM)
+		M.adjustStaminaLoss(20*REM)
 	else
-		M.adjustStaminaLoss(current_cycle*5*REM)
+		M.adjustStaminaLoss(current_cycle*4*REM)
 	return
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
@@ -184,9 +184,9 @@
 		M.visible_message("<span class='danger'>[M] collapses in exhaustion!</span>")
 		M.AdjustWeakened(5*REM)
 		M.AdjustStunned(5*REM)
-		M.adjustStaminaLoss(25*REM)
+		M.adjustStaminaLoss(35*REM)
 	else
-		M.adjustStaminaLoss(current_cycle*5*REM)
+		M.adjustStaminaLoss(current_cycle*7*REM)
 	return
 
 /datum/reagent/drug/methamphetamine/overdose_process(mob/living/M)
