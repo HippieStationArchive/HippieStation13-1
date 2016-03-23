@@ -463,8 +463,11 @@
 	return
 
 /datum/reagent/medicine/ephedrine/on_mob_delete(mob/living/M)
-	M.visible_message("<span class='danger'>[M] suddenly runs out of breath!</span>")
-	M.adjustStaminaLoss(50*REM)
+	if(current_cycle >= 10)
+		M.visible_message("<span class='danger'>[M] suddenly runs out of breath!</span>")
+		M.adjustStaminaLoss(50*REM)
+	else
+		M.adjustStaminaLoss(current_cycle*5*REM)
 
 /datum/reagent/medicine/ephedrine/overdose_process(mob/living/M)
 	if(prob(33))
