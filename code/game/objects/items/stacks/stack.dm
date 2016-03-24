@@ -236,7 +236,7 @@
 	return
 
 /obj/item/stack/attackby(obj/item/W, mob/user, params)
-	if(istype(W, src.type) || (istype(W, /obj/item/stack/cable_coil) && istype(src, /obj/item/stack/cable_coil)))
+	if(istype(W, src.type))
 		var/obj/item/stack/S = W
 
 		if(S.amount >= S.max_amount && !isrobot(user))

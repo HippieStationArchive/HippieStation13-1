@@ -33,5 +33,6 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - bugfix: "Now checking for the correct type when stacking cables if different kinds (normal, random, cyborg)"
+  - rscdel: "Removed the 'random' type of cable coil and added a pick() to the constructor so if a colour isn't specified it will pick one at random"
+  - tweak: "Changed instances of '.../cable_coil/random' to just '.../cable_coil'"
   - rscadd: "Added a message to show non-robots when they try to add items to an already full stack"
