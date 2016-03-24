@@ -21,7 +21,7 @@
 		user.next_move_modifier = initial(user.next_move_modifier)
 		changeling.chem_recharge_slowdown -= changeling.chem_recharge_rate//Restore the slowdown to normal
 		chemical_cost = 30
-		user << "<span class='notice'>We return to normal.</span>"
+		user << "<span class='notice'>We return to normal.</span>"//Please let this merge git
 		return
 
 	feedback_add_details("changeling_powers","SE")
