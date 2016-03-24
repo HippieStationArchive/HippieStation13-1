@@ -10,11 +10,11 @@
 /obj/effect/proc_holder/changeling/synaptic_enhancement/sting_action(mob/user)
 	var/datum/changeling/changeling=user.mind.changeling
 	if(!active)
-		if(chemical_cost <= 30) //Hardcoded chem cost
+		if(changeling.chem_charges < 30) //Hardcoded chem cost
 			user << "<span class='warning'>We require at least 30 units to do that!</span>"
 			return
 		active = 1
-		changeling.chem_storage -= 30
+		changeling.chem_charges -= 30
 		user.next_move_modifier = 0.5
 		changeling.chem_recharge_slowdown += changeling.chem_recharge_rate //Reduces chemical always, regardless of glands
 		user << "<span class='notice'>We quicken our mind, this will completely halt chemical regeneration when active.</span>"
