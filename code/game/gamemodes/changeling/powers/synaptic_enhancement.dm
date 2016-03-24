@@ -5,27 +5,27 @@
 	evopoints_cost = 8 //This is a VERY powerful lil piece of shit, especially if you use it in conjunction with a high-damage weapon.
 	req_dna = 6 //Tier 3
 	chemical_cost = 30
-	var/active = FALSE
+	var/active = 0
 
 /obj/effect/proc_holder/changeling/synaptic_enhancement/sting_action(mob/user)
 	var/datum/changeling/changeling=user.mind.changeling
 	if(!active)
-		active = 1
-		user.next_move_modifier = 0.5
-		chemical_cost = 0
-		changeling.chem_recharge_slowdown += changeling.chem_recharge_rate //Reduces chemical always, regardless of glands
 		user << "<span class='notice'>We quicken our mind, this will completely halt chemical regeneration when active.</span>"
 		user << "<span class='notice'>Use this power again to return to our original voice and return chemical production to normal levels.</span>"
+		active = 1
+		changeling.chem_recharge_slowdown += changeling.chem_recharge_rate
+		user.next_move_modifier /= 2
 	else
 		active = 0
 		user.next_move_modifier = initial(user.next_move_modifier)
 		changeling.chem_recharge_slowdown -= changeling.chem_recharge_rate//Restore the slowdown to normal
-		chemical_cost = 30
 		user << "<span class='notice'>We return to normal.</span>"
-		return
-
 	feedback_add_details("changeling_powers","SE")
 	return 1
 
-/obj/effect/proc_holder/changeling/synaptic_enhancement/on_refund(mob/user)
-	user.next_move_modifier = initial(user.next_move_modifier)
+/obj/effect/proc_holder/changeling/synaptic_enhancement/take_chemical_cost(datum/changeling/changeling)
+	..() //They've already paid
+	if(active) //Refund is hardly working
+		chemical_cost = 0
+	else
+		chemical_cost = 30
