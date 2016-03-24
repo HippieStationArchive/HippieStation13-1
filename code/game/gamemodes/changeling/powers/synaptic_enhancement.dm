@@ -15,12 +15,12 @@
 		active = 1
 		changeling.chem_recharge_slowdown += changeling.chem_recharge_rate
 		user.next_move_modifier /= 2
+		feedback_add_details("changeling_powers","SE")
 	else
 		active = 0
 		user.next_move_modifier = initial(user.next_move_modifier)
 		changeling.chem_recharge_slowdown -= changeling.chem_recharge_rate//Restore the slowdown to normal
 		user << "<span class='notice'>We return to normal.</span>"
-	feedback_add_details("changeling_powers","SE")
 	return 1
 
 /obj/effect/proc_holder/changeling/synaptic_enhancement/take_chemical_cost(datum/changeling/changeling)
@@ -29,3 +29,12 @@
 		chemical_cost = 0
 	else
 		chemical_cost = 30
+
+
+/obj/effect/proc_holder/changeling/synaptic_enhancement/on_refund(mob/user)
+	var/datum/changeling/changeling = user.mind.changeling
+	user.next_move_modifier = initial(user.next_move_modifier)
+	if(active)
+		changeling.chem_recharge_slowdown -= changeling.chem_recharge_rate
+	else
+		changeling.chem_recharge_slowdown += changeling.chem_recharge_rate
