@@ -30,7 +30,6 @@
 	else
 		chemical_cost = 30
 
-
 /obj/effect/proc_holder/changeling/synaptic_enhancement/on_refund(mob/user)
 	var/datum/changeling/changeling = user.mind.changeling
 	user.next_move_modifier = initial(user.next_move_modifier)
