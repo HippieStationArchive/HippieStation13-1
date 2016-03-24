@@ -36,5 +36,3 @@
 	user.next_move_modifier = initial(user.next_move_modifier)
 	if(active)
 		changeling.chem_recharge_slowdown -= changeling.chem_recharge_rate
-	else
-		changeling.chem_recharge_slowdown += changeling.chem_recharge_rate
