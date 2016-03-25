@@ -19,6 +19,8 @@
 	var/junkiness = 0  //for junk food. used to lower human satiety.
 	var/list/bonus_reagents = list() //the amount of reagents (usually nutriment and vitamin) added to crafted/cooked snacks, on top of the ingredients reagents.
 	var/customfoodfilling = 1 // whether it can be used as filling in custom food
+	var/deepfried = 0
+	var/filling_color = "#FFFFFF"
 
 	//Placeholder for effect that trigger on eating that aren't tied to reagents.
 /obj/item/weapon/reagent_containers/food/snacks/proc/On_Consume()
