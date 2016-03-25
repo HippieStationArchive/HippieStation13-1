@@ -67,11 +67,14 @@
 	..()
 	
 /datum/reagent/drug/crank/on_mob_delete(mob/living/M)
-	M.visible_message("<span class='danger'>[M] staggers and falls!</span>")
 	M.adjustToxLoss(current_cycle*0.1*REM)
-	M.AdjustWeakened(5*REM)
-	M.AdjustStunned(5*REM)
-	M.adjustStaminaLoss(25*REM)
+	if(current_cycle >= 5)
+		M.visible_message("<span class='danger'>[M] staggers and falls!</span>")
+		M.AdjustWeakened(5*REM)
+		M.AdjustStunned(5*REM)
+		M.adjustStaminaLoss(20*REM)
+	else
+		M.adjustStaminaLoss(current_cycle*4*REM)
 	return
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
@@ -175,12 +178,15 @@
 	return
 	
 /datum/reagent/drug/methamphetamine/on_mob_delete(mob/living/M)
-	M.visible_message("<span class='danger'>[M] collapses in exhaustion!</span>")
 	M.adjustToxLoss(current_cycle*1*REM)
 	M.adjustBrainLoss(current_cycle*0.25*REM)
-	M.AdjustWeakened(5*REM)
-	M.AdjustStunned(5*REM)
-	M.adjustStaminaLoss(50*REM)
+	if(current_cycle >= 5)
+		M.visible_message("<span class='danger'>[M] collapses in exhaustion!</span>")
+		M.AdjustWeakened(5*REM)
+		M.AdjustStunned(5*REM)
+		M.adjustStaminaLoss(35*REM)
+	else
+		M.adjustStaminaLoss(current_cycle*7*REM)
 	return
 
 /datum/reagent/drug/methamphetamine/overdose_process(mob/living/M)
@@ -261,12 +267,15 @@
 	return
 	
 /datum/reagent/drug/bath_salts/on_mob_delete(mob/living/M)
-	M.visible_message("<span class='danger'>[M] goes pale and collapses!</span>")
 	M.adjustToxLoss(current_cycle*1.5*REM)
 	M.adjustBrainLoss(current_cycle*0.5*REM)
-	M.AdjustWeakened(8*REM)
-	M.AdjustStunned(8*REM)
-	M.adjustStaminaLoss(50*REM)
+	if(current_cycle >= 5)
+		M.visible_message("<span class='danger'>[M] goes pale and collapses!</span>")
+		M.AdjustWeakened(8*REM)
+		M.AdjustStunned(8*REM)
+		M.adjustStaminaLoss(50*REM)
+	else
+		M.adjustStaminaLoss(current_cycle*10*REM)
 	return
 
 /datum/reagent/drug/bath_salts/overdose_process(mob/living/M)
