@@ -1,0 +1,6 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes: 
+  - rscadd: "The wizard staves can now be used on yourself instantly instead of having to put the staff in your mouth"
