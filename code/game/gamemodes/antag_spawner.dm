@@ -228,7 +228,7 @@
 	if(wizard_candidates.len > 0)
 		used = 1
 		var/client/C = pick(wizard_candidates)
-		spawn_antag(C, get_turf(loc), "Slaughter Demon")
+		spawn_antag(C, get_turf(src), "Slaughter Demon")
 		playsound(loc, 'sound/effects/Glassbr2.ogg', 25, 1)
 		user << "<font size=3><span class='danger'><b>The bottle sizzles and shatters as the contents splatter over the floor, only to burn away moments later. You feel a sense of dread wash over you as the contents dissapear without trace.</font></span>"
 		qdel(src)
