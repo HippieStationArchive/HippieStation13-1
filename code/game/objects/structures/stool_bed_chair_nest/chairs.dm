@@ -147,27 +147,27 @@
 	step(src, direction)
 	if(buckled_mob)
 		buckled_mob.dir = dir
-		switch(buckled_mob.dir)
-			if(NORTH)
-				buckled_mob.dir = SOUTH
-			if(WEST)
-				buckled_mob.dir = EAST
-			if(SOUTH)
-				buckled_mob.dir = NORTH
-			if(EAST)
-				buckled_mob.dir = WEST
+		if(!istype(src, /obj/structure/bed/chair/withwheels/wheelchair))
+			switch(buckled_mob.dir)
+				if(NORTH)
+					buckled_mob.dir = SOUTH
+				if(WEST)
+					buckled_mob.dir = EAST
+				if(SOUTH)
+					buckled_mob.dir = NORTH
+				if(EAST)
+					buckled_mob.dir = WEST
 		dir = buckled_mob.dir
 	handle_rotation()
 	handle_layer()
 	cooldown = 1
-	spawn(10)
+	spawn(istype(src, /obj/structure/bed/chair/withwheels/wheelchair) ? 4 : 10)
 		cooldown = 0
 
 /obj/structure/bed/chair/withwheels/office
 	anchored = 0
 
-	//Wheelchair
-
+//Wheelchair
 /obj/structure/bed/chair/withwheels/wheelchair
 	name = "wheelchair"
 	desc = "Chances are you don't really need this."
