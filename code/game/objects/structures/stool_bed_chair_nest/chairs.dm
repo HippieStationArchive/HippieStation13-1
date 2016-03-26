@@ -163,7 +163,7 @@
 	handle_rotation()
 	handle_layer()
 	cooldown = 1
-	spawn(delay ? delay : 10)
+	spawn(delay)
 		cooldown = 0
 
 /obj/structure/bed/chair/withwheels/office
