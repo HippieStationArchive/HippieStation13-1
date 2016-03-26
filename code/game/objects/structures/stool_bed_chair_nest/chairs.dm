@@ -143,13 +143,13 @@
 	var/cooldown = 0
 	var/reverse_direction = 1
 
-/obj/structure/bed/chair/withwheels/relaymove(mob/user, direction, delay=10)
+/obj/structure/bed/chair/withwheels/relaymove(mob/user, direction)
 	if((!Process_Spacemove(direction)) || (!has_gravity(src.loc)) || (cooldown) || user.stat || user.stunned || user.weakened || user.paralysis || (user.restrained()))
 		return
 	step(src, direction)
 	if(buckled_mob)
 		buckled_mob.dir = direction
-		if(src.reverse_direction)
+		if(reverse_direction)
 			switch(direction)
 				if(NORTH)
 					buckled_mob.dir = SOUTH
@@ -163,7 +163,7 @@
 	handle_rotation()
 	handle_layer()
 	cooldown = 1
-	spawn(src.delay ? src.delay : delay)
+	spawn(delay ? delay : 10)
 		cooldown = 0
 
 /obj/structure/bed/chair/withwheels/office
