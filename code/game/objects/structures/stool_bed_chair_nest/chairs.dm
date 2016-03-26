@@ -139,16 +139,18 @@
 	color = rgb(255,251,0)
 
 /obj/structure/bed/chair/withwheels
+	var/delay = 10
 	var/cooldown = 0
+	var/reverse_direction = 1
 
-/obj/structure/bed/chair/withwheels/relaymove(mob/user, direction)
+/obj/structure/bed/chair/withwheels/relaymove(mob/user, direction, delay=10)
 	if((!Process_Spacemove(direction)) || (!has_gravity(src.loc)) || (cooldown) || user.stat || user.stunned || user.weakened || user.paralysis || (user.restrained()))
 		return
 	step(src, direction)
 	if(buckled_mob)
-		buckled_mob.dir = dir
-		if(!istype(src, /obj/structure/bed/chair/withwheels/wheelchair))
-			switch(buckled_mob.dir)
+		buckled_mob.dir = direction
+		if(src.reverse_direction)
+			switch(direction)
 				if(NORTH)
 					buckled_mob.dir = SOUTH
 				if(WEST)
@@ -161,7 +163,7 @@
 	handle_rotation()
 	handle_layer()
 	cooldown = 1
-	spawn(istype(src, /obj/structure/bed/chair/withwheels/wheelchair) ? 4 : 10)
+	spawn(src.delay ? src.delay : delay)
 		cooldown = 0
 
 /obj/structure/bed/chair/withwheels/office
@@ -173,6 +175,8 @@
 	desc = "Chances are you don't really need this."
 	icon_state = "wheelchair"
 	anchored = 0
+	delay = 4
+	reverse_direction = 0
 
 /obj/structure/bed/chair/withwheels/wheelchair/handle_rotation()
 	overlays = null
