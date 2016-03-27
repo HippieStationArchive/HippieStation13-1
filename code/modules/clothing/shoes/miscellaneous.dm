@@ -92,11 +92,7 @@
 	burn_state = -1
 
 /obj/item/clothing/shoes/clown_shoes/step_action()
-	if(footstep > 1)
-		playsound(src, "clownstep", 50, 1)
-		footstep = 0
-	else
-		footstep++
+	playsound(src, "clownstep", 50, 1)
 
 /obj/item/clothing/shoes/jackboots
 	name = "jackboots"
