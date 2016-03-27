@@ -65,13 +65,14 @@
 			for(var/obj/item/clothing/I in contents)
 				I.color = wash_color //Simply recolor the items.
 
-				var/colors = list("light brown", "brown", "yellowgreen", "darkred", "lightred", "maroon", "red", "orange", "rainbow", "lightgreen", "green", "lightpurple", "purple", "gold", "darkblue", "lightblue", "aqua", "blue", "yellow", "black", "grey", "gray", "white", "latex", "nitrile", "budget insulated", "insulated", "captain's")
-				
+				var/colors = list("light brown", "brown", "cyan", "fingerless", "combat", "tactical", "yellowgreen", "darkred", "lightred", "maroon", "red", "orange", "rainbow", "lightgreen", "green", "lightpurple", "purple", "gold", "darkblue", "lightblue", "aqua", "blue", "yellow", "black", "grey", "gray", "white", "latex", "nitrile", "budget insulated", "insulated", "captain's")
+			
 				for(var/old_color in colors)
-					if(old_color != wash_color)
+					if(findtext(I.name, old_color))
 						I.name = n_replace(I.name, old_color, wash_color)
-						//I.desc = n_replace(I.desc, old_color, wash_color) // Leaving this commented out because it could be a way to distinguish "fake" clothing and "real"
-						I.icon_state = n_replace(I.icon_state, old_color, wash_color)
+						I.desc = I.desc + (length(I.desc) > 0 ? " " : "") + "It looks soaked in color tincture."
+						//I.icon_state = n_replace(I.icon_state, old_color, wash_color) // This would cause issues with non-existant icons
+						break
 		qdel(crayon)
 		crayon = null
 
