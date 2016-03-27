@@ -519,7 +519,7 @@
 "jY" = (/obj/structure/table,/obj/item/weapon/paper_bin,/obj/item/weapon/pen,/turf/simulated/floor/plasteel/black,/area/centcom/control)
 "jZ" = (/turf/simulated/floor/plasteel/black,/area/centcom/control)
 "ka" = (/obj/structure/table,/turf/simulated/floor/plasteel/black,/area/centcom/control)
-"kb" = (/obj/structure/window/reinforced,/obj/machinery/vending/liberationstation,/turf/simulated/floor/vault,/area/centcom/evac)
+"kb" = (/obj/machinery/vending/liberationstation,/turf/simulated/floor/vault,/area/centcom/evac)
 "kc" = (/obj/machinery/door/airlock/glass_security,/turf/simulated/floor/plasteel,/area/centcom/evac)
 "kd" = (/turf/simulated/wall/shuttle{icon_state = "swall7"; dir = 2},/area/shuttle/escape)
 "ke" = (/turf/simulated/wall/shuttle{icon_state = "swallc4"; dir = 2},/area/shuttle/escape)
