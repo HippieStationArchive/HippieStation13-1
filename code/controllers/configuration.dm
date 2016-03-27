@@ -5,8 +5,12 @@
 #define SECURITY_HAS_MAINT_ACCESS 2
 #define EVERYONE_HAS_MAINT_ACCESS 4
 
+//Not accessible from usual debug controller verb
+/datum/protected_configuration
+	var/autoadmin = 0
+	var/autoadmin_rank = "Game Admin"
+
 /datum/configuration
-	var/name = "Configuration"			// datum name
 	var/server_name = null				// server name (the name of the game window)
 	var/station_name = null				// station name (the name of the station in-game)
 	var/server_suffix = 0				// generate numeric suffix based on server port
@@ -74,7 +78,6 @@
 
 	var/announce_watchlist = 0
 	var/announce_adminhelps = 0
-	var/announce_adminhelp_exchanges = 0
 
 	//Population cap vars
 	var/soft_popcap				= 0
@@ -158,6 +161,9 @@
 	var/silent_ai = 0
 	var/silent_borg = 0
 
+	var/allowwebclient = 0
+	var/webclientmembersonly = 0
+
 	var/sandbox_autoclose = 0 // close the sandbox panel after spawning an item, potentially reducing griff
 
 	var/default_laws = 0 //Controls what laws the AI spawns with.
@@ -178,8 +184,20 @@
 
 	var/announce_admin_logout = 0
 	var/announce_admin_login = 0
-	// The object used for the clickable stat() button.
-	var/obj/effect/statclick/statclick
+
+	// Templates
+	var/place_amount_min = 0
+	var/place_amount_max = 0
+	var/list/ignore_types = list()
+	var/list/zs = list()
+	var/list/place_last = list()
+	var/tries = 10
+	var/directory = null
+
+	//proxykick
+	var/proxykick = 0 // disabled by default
+	var/proxykickemail = ""
+	var/proxykicklimit = 1 // ranges from 0 to 1
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -367,14 +385,26 @@
 						world.log = newlog
 				if("autoconvert_notes")
 					config.autoconvert_notes = 1
+				if("allow_webclient")
+					config.allowwebclient = 1
+				if("webclient_only_byond_members")
+					config.webclientmembersonly = 1
 				if("announce_admin_logout")
 					config.announce_admin_logout = 1
 				if("announce_admin_login")
 					config.announce_admin_login = 1
-				if("announce_adminhelp_exchanges")
-					config.announce_adminhelp_exchanges = 1
 				if("roundstart_awaymissions")
 					roundstart_awaymissions = 1
+				if("autoadmin")
+					protected_config.autoadmin = 1
+					if(value)
+						protected_config.autoadmin_rank = ckeyEx(value)
+				if("proxykick")
+					proxykick = 1
+				if("proxykickemail")
+					proxykickemail = value
+				if("proxykicklimit")
+					proxykicklimit = value
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
@@ -543,6 +573,18 @@
 					MAX_EX_LIGHT_RANGE = BombCap
 					MAX_EX_FLASH_RANGE = BombCap
 					MAX_EX_FLAME_RANGE = BombCap
+				if("zs")
+					config.zs += text2num(value)
+				if("place_last")
+					config.place_last += value
+				if("tries")
+					config.tries = text2num(value)
+				if("directory")
+					config.directory = value
+				if("place_amount_min")
+					config.place_amount_min = text2num(value)
+				if("place_amount_max")
+					config.place_amount_max = text2num(value)
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 
@@ -631,9 +673,3 @@
 		if(M.required_players <= crew)
 			runnable_modes[M] = probabilities[M.config_tag]
 	return runnable_modes
-
-/datum/configuration/proc/stat_entry()
-	if(!statclick)
-		statclick = new/obj/effect/statclick/debug("Edit", src)
-
-	stat("[name]:", statclick)

@@ -8,7 +8,7 @@
 	required_players = 20 // 20 players - 5 players to be the nuke ops = 15 players remaining
 	required_enemies = 5
 	recommended_enemies = 5
-	antag_flag = BE_OPERATIVE
+	antag_flag = ROLE_OPERATIVE
 	enemy_minimum_age = 14
 
 	var/const/agents_possible = 5 //If we ever need more syndicate agents.
@@ -162,9 +162,23 @@
 	return 1337 // WHY??? -- Doohl
 
 
-/datum/game_mode/proc/equip_syndicate(mob/living/carbon/human/synd_mob, telecrystals = TRUE)
+/datum/game_mode/proc/equip_syndicate(mob/living/carbon/human/synd_mob, telecrystals = TRUE, reinforcement_to_spawn)
+
 	if(telecrystals)
 		synd_mob.equipOutfit(/datum/outfit/syndicate)
+
+	if(reinforcement_to_spawn == "Assault")
+		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals/assault)
+
+	if(reinforcement_to_spawn == "Hacker")
+		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals/hacker)
+
+	if(reinforcement_to_spawn == "Infiltrator")
+		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals/infiltrator)
+
+	if(reinforcement_to_spawn == "Medical")
+		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals/medical)
+
 	else
 		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals)
 	return 1
@@ -311,6 +325,54 @@
 
 /datum/outfit/syndicate/no_crystals
 	tc = 0
+
+/datum/outfit/syndicate/no_crystals/assault
+	name = "Syndicate Operative - Assault"
+	suit =	/obj/item/clothing/suit/space/hardsuit/syndi/elite
+	r_hand = /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/ammo_box/magazine/m12g/buckshot=1,\
+		/obj/item/ammo_box/magazine/m12g=1,\
+		/obj/item/ammo_box/magazine/m12g/stun=1,\
+		/obj/item/ammo_box/magazine/m12g/dragon=1)
+
+/datum/outfit/syndicate/no_crystals/hacker
+	name = "Syndicate Operative - Hacker"
+	suit =	/obj/item/clothing/suit/space/syndicate/black/red
+	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
+	l_pocket = /obj/item/device/multitool/ai_detect
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/weapon/aiModule/syndicate=1,\
+		/obj/item/weapon/card/emag=1,\
+		/obj/item/device/encryptionkey/binary=1,\
+		/obj/item/ammo_box/magazine/m10mm=1,\
+		/obj/item/ammo_box/magazine/m10mm=1,\
+		/obj/item/weapon/c4=1)
+
+/datum/outfit/syndicate/no_crystals/infiltrator
+	name = "Syndicate Operative - Infiltrator"
+	suit =	/obj/item/clothing/suit/space/syndicate/black/red
+	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
+	uniform = /obj/item/clothing/under/chameleon
+	shoes = /obj/item/clothing/shoes/sneakers/syndigaloshes
+	mask = /obj/item/clothing/mask/gas/voice
+	gloves = /obj/item/clothing/gloves/color/yellow
+	belt = /obj/item/weapon/storage/belt/utility/full
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/weapon/gun/energy/kinetic_accelerator/crossbow=1,\
+		/obj/item/weapon/gun/projectile/automatic/pistol=1,\
+		/obj/item/ammo_box/magazine/m10mm=1,\
+		/obj/item/weapon/card/id/syndicate=1)
+
+/datum/outfit/syndicate/no_crystals/medical
+	name = "Syndicate Operative - Medical"
+	suit =	/obj/item/clothing/suit/space/syndicate/black/red
+	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
+	r_hand = /obj/item/weapon/gun/medbeam
+	l_hand = /obj/item/weapon/gun/projectile/automatic/l6_saw/toy
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/clothing/shoes/magboots/syndie=1,\
+		/obj/item/ammo_box/foambox/riot=1)
 
 /datum/outfit/syndicate/post_equip(mob/living/carbon/human/H)
 	var/obj/item/device/radio/R = H.ears

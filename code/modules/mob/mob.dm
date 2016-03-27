@@ -664,21 +664,16 @@ var/list/slot_equipment_priority = list( \
 			stat("Location:","([x], [y], [z])")
 			stat("CPU:","[world.cpu]")
 			stat("Instances:","[world.contents.len]")
-			config.stat_entry()
-			if(Master)
-				Master.stat_entry()
+
+			if(master_controller)
+				stat("MasterController:","[round(master_controller.cost,0.001)]ds (Interval:[master_controller.processing_interval] | Iteration:[master_controller.iteration])")
+				stat("Subsystem cost per second:","[round(master_controller.SSCostPerSecond,0.001)]ds")
+				for(var/datum/subsystem/SS in master_controller.subsystems)
+					if(SS.can_fire)
+						SS.stat_entry()
 			else
-				stat("Master Controller:", "ERROR")
-			if(Failsafe)
-				Failsafe.stat_entry()
-			else
-				stat("Failsafe Controller:", "ERROR")
-			if(Master)
-				stat("Subsystems:", "[round(Master.subsystem_cost, 0.001)]ds")
-				stat(null)
-				for(var/datum/subsystem/SS in Master.subsystems)
-					SS.stat_entry()
-			cameranet.stat_entry()
+				stat("MasterController:","ERROR")
+
 	if(listed_turf && client)
 		if(!TurfAdjacent(listed_turf))
 			listed_turf = null
@@ -944,7 +939,7 @@ var/list/slot_equipment_priority = list( \
 	dir = angle2dir(rotation+dir2angle(dir))
 
 //You can buckle on mobs if you're next to them since most are dense
-/mob/buckle_mob(mob/living/M)
+/mob/buckle_mob(mob/living/M, force = 0)
 	if(M.buckled)
 		return 0
 	var/turf/T = get_turf(src)
@@ -960,13 +955,27 @@ var/list/slot_equipment_priority = list( \
 //Default buckling shift visual for mobs
 /mob/post_buckle_mob(mob/living/M)
 	if(M == buckled_mob) //post buckling
-		M.pixel_y = initial(M.pixel_y) + 9
+		var/height = M.get_mob_buckling_height(src)
+		M.pixel_y = initial(M.pixel_y) + height
 		if(M.layer < layer)
 			M.layer = layer + 0.1
 	else //post unbuckling
 		M.layer = initial(M.layer)
 		M.pixel_y = initial(M.pixel_y)
 
+//returns the height in pixel the mob should have when buckled to another mob.
+/mob/proc/get_mob_buckling_height(mob/seat)
+	if(isliving(seat))
+		var/mob/living/L = seat
+		if(L.mob_size <= MOB_SIZE_SMALL) //being on top of a small mob doesn't put you very high.
+			return 0
+	return 9
+
+//can the mob be buckled to something by default?
+/mob/proc/can_buckle()
+	return 1
+
+//can the mob be unbuckled from something by default?
 /mob/proc/can_unbuckle(mob/user)
 	return 1
 

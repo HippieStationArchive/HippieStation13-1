@@ -43,9 +43,6 @@
 			src << "<span class='danger'>Your summoner has died!</span>"
 			visible_message("<span class='danger'><B>The [src] dies along with its user!</B></span>")
 			summoner.visible_message("<span class='danger'><B>[summoner]'s body is completely consumed by the strain of sustaining [src]!</B></span>")
-			for(var/obj/item/W in summoner)
-				if(!summoner.unEquip(W))
-					qdel(W)
 			summoner.gib()
 			ghostize()
 			qdel(src)
@@ -175,9 +172,10 @@
 	set name = "Reset Guardian Player (One Use)"
 	set category = "Guardian"
 	set desc = "Re-rolls which ghost will control your Guardian. One use."
+	src.verbs -= /mob/living/proc/guardian_reset
 	for(var/mob/living/simple_animal/hostile/guardian/G in mob_list)
 		if(G.summoner == src)
-			var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as [G.real_name]?", "pAI", null, FALSE, 100)
+			var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as [G.real_name]?", ROLE_PAI, null, FALSE, 100)
 			var/mob/dead/observer/new_stand = null
 			if(candidates.len)
 				new_stand = pick(candidates)
@@ -186,9 +184,10 @@
 				message_admins("[key_name_admin(new_stand)] has taken control of ([key_name_admin(G)])")
 				G.ghostize()
 				G.key = new_stand.key
-				src.verbs -= /mob/living/proc/guardian_reset
 			else
 				src << "There were no ghosts willing to take control. Looks like you're stuck with your Guardian for now."
+				verbs += /mob/living/proc/guardian_reset
+
 
 
 

@@ -681,6 +681,76 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	refill_canister = /obj/item/weapon/vending_refill/snack
 	var/chef_compartment_access = "28"
 
+/obj/machinery/vending/snack/kitchen
+	name = "\improper Kitchen Takeaway Dinner"
+	desc = "A vendo-freezer guaranteed to preserve anything the chef has made edible for up to 72 hours. Unless it was unedible to begin with. "
+	product_slogans = "Best food on the station. You either eat it or don't eat at all!;Fresh and Delicious! (Any attempts to claim otherwise is a Class-D violation. Nanotrasen retains the right to call any food products fresh that has not been Cryo-Frozen for over 100 years.  This includes any and all food products that have not Cyro-Frozen at all."
+	product_ads = "Eat today, die tomorrow.;Contains at least 1% kitchen inspector protein!;One pie a day, keeps the traitor-clown away.;Deepfried and bloated;Healthy choice one time a year!;Is that REAL Meat?;Nutriment & Vitamins, Integrated in edible autoinjector system!"
+	icon_state = "smartfridge"
+	products = list()
+	contraband = list()
+
+/obj/machinery/vending/snack/kitchen/attackby(obj/item/weapon/W, mob/user, params)
+	if(istype(W, /obj/item/weapon/reagent_containers/food/snacks))
+		if(!compartment_access_check(user))
+			return
+		if(junk_check(W))
+			if(!iscompartmentfull(user))
+				if(!user.drop_item())
+					return
+				W.loc = src
+				food_load(W)
+				user << "<span class='notice'>You insert [W] into [src]'s chef compartment.</span>"
+		else
+			user << "<span class='notice'>[src]'s chef compartment does not accept junk food.</span>"
+		return
+
+	if(istype(W, /obj/item/weapon/storage/bag/tray))
+		if(!compartment_access_check(user))
+			return
+		var/obj/item/weapon/storage/T = W
+		var/loaded = 0
+		var/denied_items = 0
+		for(var/obj/item/weapon/reagent_containers/food/snacks/S in T.contents)
+			if(iscompartmentfull(user))
+				break
+			if(junk_check(S))
+				T.remove_from_storage(S, src)
+				food_load(S)
+				loaded++
+			else
+				denied_items++
+		if(denied_items)
+			user << "<span class='notice'>[src] refuses some items.</span>"
+		if(loaded)
+			user << "<span class='notice'>You insert [loaded] dishes into [src]'s chef compartment.</span>"
+		updateUsrDialog()
+		return
+
+/obj/machinery/vending/snack/kitchen/attack_hand(mob/user)
+	var/dat = ""
+	if(stat & (BROKEN|NOPOWER))
+		return
+	dat += "<h3>Chef's Food Selection</h3>"
+	dat += "<div class='statusDisplay'>"
+	for (var/O in dish_quants)
+		if(dish_quants[O] > 0)
+			var/N = dish_quants[O]
+			dat += "<a href='byond://?src=\ref[src];dispense=[sanitize(O)]'>Dispense</A> "
+			dat += "<B>[capitalize(O)]: [N]</B><br>"
+	dat += "</div>"
+
+	//user << browse(dat, "window=vending")
+	//onclose(user, "")
+	var/datum/browser/popup = new(user, "vending", (name))
+	popup.set_content(dat)
+	popup.set_title_image(user.browse_rsc_icon(src.icon, src.icon_state))
+	popup.open()
+
+
+
+
+
 /obj/machinery/vending/sustenance
 	name = "\improper Sustenance Vendor"
 	desc = "A vending machine which vends food, as required by section 47-C of the NT's Prisoner Ethical Treatment Agreement."
@@ -983,6 +1053,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	contraband = list(/obj/item/clothing/under/syndicate/tacticool=1,/obj/item/clothing/mask/balaclava=1,/obj/item/clothing/head/ushanka=1,/obj/item/clothing/under/soviet=1,/obj/item/weapon/storage/belt/fannypack/black=2)
 	premium = list(/obj/item/clothing/under/suit_jacket/checkered=1,/obj/item/clothing/head/mailman=1,/obj/item/clothing/under/rank/mailman=1,/obj/item/clothing/suit/jacket/leather=1,/obj/item/clothing/suit/jacket/leather/overcoat=1,/obj/item/clothing/under/pants/mustangjeans=1)
 	refill_canister = /obj/item/weapon/vending_refill/clothing
+
 
 #undef STANDARD_CHARGE
 #undef CONTRABAND_CHARGE

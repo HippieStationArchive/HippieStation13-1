@@ -1,0 +1,12 @@
+"a" = (/turf/space,/area/space)
+"b" = (/turf/simulated/mineral/random,/area/space)
+"c" = (/turf/simulated/mineral/random/high_chance,/area/space)
+"d" = (/turf/simulated/floor/plating/asteroid/airless,/area/space)
+
+(1,1,1) = {"
+abbba
+bcccb
+bccdb
+bccdd
+abbda
+"}

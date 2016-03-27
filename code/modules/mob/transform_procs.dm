@@ -423,6 +423,29 @@
 	. = new_slime
 	qdel(src)
 
+/mob/proc/become_god(side_colour)
+	if(!mind)//we don't want to make mindless gods otherwise their team&rank will fuck up
+		return 0
+	var/mob/camera/god/G = new /mob/camera/god(loc, side_colour)
+	if(is_in_any_team(mind))
+		ticker.mode.remove_hog_follower(mind, 0) // for hud purposes
+	mind.special_role = "God"
+	var/datum/faction/HOG/myfaction
+	for(var/datum/faction/HOG/H in ticker.factions)
+		if(H.side == side_colour)
+			myfaction = H
+	myfaction.members += mind
+	myfaction.members[mind] = "God"
+	mind.faction = myfaction
+	mind.transfer_to(G)
+
+	G.job = "Deity"
+	G.rename_self("deity", 0)
+	G.update_icons()
+
+	. = G
+	qdel(src)
+
 /mob/living/carbon/human/proc/Blobize()
 	if (notransform)
 		return

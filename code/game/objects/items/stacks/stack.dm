@@ -116,6 +116,7 @@
 		var/multiplier = text2num(href_list["multiplier"])
 		if (!multiplier ||(multiplier <= 0)) //href protection
 			return
+		multiplier = round(multiplier) //fixes an exploit
 		if(!building_checks(R, multiplier))
 			return
 		if (R.time)

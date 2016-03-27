@@ -86,7 +86,7 @@ Sorry Giacom. Please don't be mad :(
 
 	//BubbleWrap: Should stop you pushing a restrained person out of the way
 	if(istype(M, /mob/living))
-		for(var/mob/MM in range(M, 1))
+		for(var/mob/MM in range(1, M))
 			if( ((MM.pulling == M && ( M.restrained() && !( MM.restrained() ) && MM.stat == CONSCIOUS)) || locate(/obj/item/weapon/grab, M.grabbed_by.len)) )
 				if ( !(world.time % 5) )
 					src << "<span class='warning'>[M] is restrained, you cannot push past.</span>"
@@ -205,6 +205,28 @@ Sorry Giacom. Please don't be mad :(
 //affects them once clothing is factored in. ~Errorage
 /mob/living/proc/calculate_affecting_pressure(pressure)
 	return pressure
+
+
+//sort of a legacy burn method for /electrocute, /shock, and the e_chair
+/mob/living/proc/burn_skin(burn_amount)
+	if(istype(src, /mob/living/carbon/human))
+		//world << "DEBUG: burn_skin(), mutations=[mutations]"
+		var/mob/living/carbon/human/H = src	//make this damage method divide the damage to be done among all the body parts, then burn each body part for that much damage. will have better effect then just randomly picking a body part
+		var/divided_damage = (burn_amount)/(H.organs.len)
+		var/extradam = 0	//added to when organ is at max dam
+		for(var/obj/item/organ/limb/affecting in H.organs)
+			if(!affecting)	continue
+			if(affecting.take_damage(0, divided_damage+extradam))	//TODO: fix the extradam stuff. Or, ebtter yet...rewrite this entire proc ~Carn
+				H.update_damage_overlays(0)
+		H.updatehealth()
+		return 1
+	else if(istype(src, /mob/living/carbon/monkey))
+		var/mob/living/carbon/monkey/M = src
+		M.adjustFireLoss(burn_amount)
+		M.updatehealth()
+		return 1
+	else if(istype(src, /mob/living/silicon/ai))
+		return 0
 
 /mob/living/proc/adjustBodyTemp(actual, desired, incrementboost)
 	var/temperature = actual
@@ -495,7 +517,7 @@ Sorry Giacom. Please don't be mad :(
 
 	var/cuff_dragged = 0
 	if (restrained())
-		for(var/mob/living/M in range(src, 1))
+		for(var/mob/living/M in range(1, src))
 			if (M.pulling == src && !M.incapacitated())
 				cuff_dragged = 1
 	if (!cuff_dragged && pulling && !throwing && (get_dist(src, pulling) <= 1 || pulling.loc == loc))
@@ -555,10 +577,9 @@ Sorry Giacom. Please don't be mad :(
 		// It's ugly. But everything related to inventory/storage is. -- c0
 		s_active.close(src)
 
-	for(var/mob/living/simple_animal/slime/M in oview(1,src))
-		M.UpdateFeed(src)
-
 /mob/living/proc/makeTrail(turf/T, mob/living/M)
+	if(!has_gravity(M))
+		return
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if((NOBLOOD in H.dna.species.specflags) || (!H.blood_max) || (H.bleedsuppress))
@@ -680,8 +701,10 @@ Sorry Giacom. Please don't be mad :(
 		return
 	if(has_gravity)
 		clear_alert("weightless")
+		mob_has_gravity = 1
 	else
 		throw_alert("weightless", /obj/screen/alert/weightless)
+		mob_has_gravity = 0
 	float(!has_gravity)
 
 /mob/living/proc/float(on)
@@ -690,13 +713,24 @@ Sorry Giacom. Please don't be mad :(
 	var/fixed = 0
 	if(anchored || (buckled && buckled.anchored))
 		fixed = 1
-	if(on && !floating && !fixed)
-		animate(src, pixel_y = pixel_y + 2, time = 10, loop = -1)
+	if(on && !fixed)
+		floating = 1
+		float_ticks++
+		switch(float_ticks)
+			if(1)
+				animate(src, pixel_y = pixel_y + 2, time = 10)
+				float_y += 2
+			if(2)
+				animate(src, pixel_y = pixel_y - 2, time = 10)
+				float_y -= 2
+				float_ticks = 0
 		floating = 1
 	else if(((!on || fixed) && floating))
-		var/final_pixel_y = get_standard_pixel_y_offset(lying)
-		animate(src, pixel_y = final_pixel_y, time = 10)
+		if(pixel_y == float_y)
+			pixel_y = pixel_y - float_y
+		float_y = initial(float_y)
 		floating = 0
+		float_ticks = 0
 
 //called when the mob receives a bright flash
 /mob/living/proc/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0, noflash = 0)

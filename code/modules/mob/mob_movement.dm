@@ -94,6 +94,17 @@
 /client/Move(n, direct)
 	if(!mob)
 		return 0
+	if(viewingCanvas)
+		view = world.view //Reset the view
+		// perspective = MOB_PERSPECTIVE
+		// eye = mob //Reset the eye
+		winset(src, "mapwindow.map", "icon-size=[src.reset_stretch]")
+		viewingCanvas = 0
+		// screen = prev_screen
+		mob.hud_used.instantiate() //HOPEFULLY this fixes everything.
+		if(ishuman(mob))
+			var/mob/living/carbon/human/H = mob
+			H.update_hud()
 	if(mob.notransform)
 		return 0	//This is sota the goto stop mobs from moving var
 	if(mob.control_object)
@@ -147,7 +158,7 @@
 		move_delay += T.slowdown
 
 		if(mob.restrained())	//Why being pulled while cuffed prevents you from moving
-			for(var/mob/M in range(mob, 1))
+			for(var/mob/M in range(1, mob))
 				if(M.pulling == mob)
 					if(!M.incapacitated() && mob.Adjacent(M))
 						src << "<span class='warning'>You're restrained! You can't move!</span>"

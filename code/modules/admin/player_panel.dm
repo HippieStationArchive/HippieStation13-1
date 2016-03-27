@@ -83,7 +83,7 @@
 					body += "<a href='?_src_=holder;subtlemessage="+ref+"'>SM</a> - "
 					body += "<a href='?_src_=holder;adminplayerobservefollow="+ref+"'>FLW</a><br>"
 					if(antagonist > 0)
-						body += "<font size='2'><a href='?_src_=holder;secretsadmin=check_antagonist'><font color='red'><b>Antagonist</b></font></a></font>";
+						body += "<font size='2'><a href='?_src_=holder;secrets=check_antagonist'><font color='red'><b>Antagonist</b></font></a></font>";
 
 					body += "</td></tr></table>";
 
@@ -524,6 +524,29 @@
 					dat += "<td><A href='?priv_msg=[M.ckey]'>PM</A></td>"
 				else
 					dat += "<tr><td><i>Monkey not found!</i></td></tr>"
+			dat += "</table>"
+
+		var/list/deities = get_gods()
+		if(deities.len)
+			for(var/i in teams)
+				dat += "<br><table cellspacing=5><tr><td><B>[capitalize(i)] Team</B></td><td></td></tr>"
+				for(var/mob/camera/god/G in deities)
+					if(G.side == i)
+						dat += "<tr><td>[capitalize(i)] Deity: <a href='?_src_=holder;adminplayeropts=\ref[G]'>[G.real_name]</a>[G.client ? "" : " <i>(ghost)</i>"][G.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+				var/list/prophets = get_team_prophets(i)
+				for(var/datum/mind/A in prophets)
+					var/mob/J = A.current
+					if(J)
+						dat += "<tr><td>[capitalize(i)] Prophet: <a href='?_src_=holder;adminplayeropts=\ref[J]'>[J.real_name]</a>[J.client ? "" : " <i>(ghost)</i>"][J.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+					else
+						dat += "<tr><td><i>Prophet not found!</i></td></tr>"
+				var/list/followers = get_team_followers(i)
+				for(var/datum/mind/A in followers)
+					var/mob/K = A.current
+					if(K)
+						dat += "<tr><td>[capitalize(i)] Follower: <a href='?_src_=holder;adminplayeropts=\ref[K]'>[K.real_name]</a>[K.client ? "" : " <i>(ghost)</i>"][K.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+					else
+						dat += "<tr><td><i>Follower not found!</i></td></tr>"
 			dat += "</table>"
 
 

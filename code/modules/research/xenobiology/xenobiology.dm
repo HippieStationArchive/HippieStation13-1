@@ -176,7 +176,7 @@
 	user << "<span class='notice'>You offer the sentience potion to [M]...</span>"
 	being_used = 1
 
-	var/list/candidates = get_candidates(BE_ALIEN, ALIEN_AFK_BRACKET)
+	var/list/candidates = get_candidates(ROLE_ALIEN, ALIEN_AFK_BRACKET)
 
 	shuffle(candidates)
 
@@ -384,9 +384,9 @@
 	unacidable = 1
 	layer = TURF_LAYER
 
-	New()
-		..()
-		SSobj.processing |= src
+/obj/effect/golemrune/New()
+	..()
+	SSobj.processing |= src
 
 /obj/effect/golemrune/process()
 	var/mob/dead/observer/ghost
@@ -414,6 +414,7 @@
 	G.set_species(/datum/species/golem/adamantine)
 	G.set_cloned_appearance()
 	G.real_name = "Adamantine Golem ([rand(1, 1000)])"
+	G.name = G.real_name
 	G.dna.unique_enzymes = G.dna.generate_unique_enzymes()
 	G.dna.species.auto_equip(G)
 	G.loc = src.loc
@@ -524,6 +525,7 @@
 	pixel_x = -64
 	pixel_y = -64
 	unacidable = 1
+	mouse_opacity = 0 //it's an effect,you shouldn't click it
 	var/mob/living/immune = list() // the one who creates the timestop is immune
 	var/freezerange = 2
 	var/duration = 140

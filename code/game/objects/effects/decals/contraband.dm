@@ -181,9 +181,11 @@ list(name = "- Carbon Dioxide", desc = " This informational poster teaches the v
 	var/official = 0
 	var/placespeed = 37 // don't change this, otherwise the animation will not sync to the progress bar
 
-/obj/structure/sign/poster/New(serial,rolled_official)
+/obj/structure/sign/poster/official_poster
+	official = 1
+
+/obj/structure/sign/poster/New(serial)
 	serial_number = serial
-	official = rolled_official
 	if(serial_number == loc)
 		if(!official)
 			serial_number = rand(1, NUM_OF_POSTER_DESIGNS)	//This is for the mappers that want individual posters without having to use rolled posters.

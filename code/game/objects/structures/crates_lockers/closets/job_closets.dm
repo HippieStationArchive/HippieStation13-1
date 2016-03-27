@@ -56,6 +56,7 @@
 
 /obj/structure/closet/jcloset/New()
 	..()
+	new /obj/item/pornmag(src)
 	new /obj/item/clothing/under/rank/janitor(src)
 	new /obj/item/weapon/cartridge/janitor(src)
 	new /obj/item/clothing/gloves/color/black(src)
@@ -119,11 +120,94 @@
 	burn_state = 0 //Burnable
 	burntime = 20
 
-/obj/structure/closet/wardrobe/red
+/obj/structure/closet/coffin/update_icon()
+	overlays.Cut()
+	if(!opened)
+		if(icon_door)
+			overlays += "[icon_door]_door"
+		else
+			overlays += "[icon_state]_door"
+		if(welded)
+			overlays += "nailed"
+		if(secure)
+			if(!broken)
+				if(locked)
+					overlays += "locked"
+				else
+					overlays += "unlocked"
+			else
+				overlays += "off"
+
+	else
+		if(icon_door_override)
+			overlays += "[icon_door]_open"
+		else
+			overlays += "[icon_state]_open"
+
+/obj/structure/closet/coffin/attackby(obj/item/weapon/W, mob/user, params)
+	if(user.loc == src)
+		return
+	if(opened)
+		if(istype(W, /obj/item/weapon/grab))
+			if(large)
+				var/obj/item/weapon/grab/G = W
+				MouseDrop_T(G.affecting, user)	//act like they were dragged onto the closet
+				user.drop_item()
+			else
+				user << "<span class='notice'>\the [src] is too small to stuff [W] into!</span>"
+			return
+		if(istype(W,/obj/item/tk_grab))
+			return 0
+		if(isrobot(user))
+			return
+		if(user.drop_item())
+			W.Move(loc)
+	else
+		if(istype(W, /obj/item/stack/packageWrap))
+			return
+		if(istype(W, /obj/item/weapon/staplegun) && !welded)
+			var/obj/item/weapon/staplegun/WS = W
+			if(WS.ammo >= 10)
+				user << "<span class='notice'>You begin stapling \the [src]...</span>"
+				playsound(loc, 'sound/weapons/staplegun.ogg', 50, 1)
+				if(do_after(user,40,5,1, target = src))
+					if(opened || !istype(src, /obj/structure/closet) || !user || !WS || !user.loc )
+						return
+					playsound(loc, 'sound/weapons/staplegun.ogg', 50, 1)
+					welded = 1
+					user << "<span class='notice'>You staple [src] shut.</span>"
+					update_icon()
+					user.visible_message("[user.name] has stapled [src] shut with \the [WS].", "<span class='warning'>You staple [src] shut.</span>")
+					WS.ammo = WS.ammo-10
+				return
+		if(istype(W, /obj/item/weapon/crowbar) && welded)
+			user << "<span class='notice'>You begin prying out staples from \the [src]...</span>"
+			playsound(loc, 'sound/items/crowbar.ogg', 50, 1)
+			if(do_after(user,80,5,1, target = src))
+				if(opened || !istype(src, /obj/structure/closet) || !user || !W || !user.loc )
+					return
+				playsound(loc, 'sound/items/crowbar.ogg', 50, 1)
+				welded = 0
+				user << "<span class='notice'>You pry off the staples keeping [src] shut.</span>"
+				update_icon()
+				user.visible_message("[user.name] has pried out the staples keeping [src] shut.", "<span class='warning'>You pry out staples keeping [src] shut.</span>")
+				new/obj/item/stack/staples(src.loc)
+				new/obj/item/stack/staples(src.loc)
+				new/obj/item/stack/staples(src.loc)
+				new/obj/item/stack/staples(src.loc)
+				new/obj/item/stack/staples(src.loc)
+				new/obj/item/stack/staples(src.loc)
+				new/obj/item/stack/staples(src.loc)
+				new/obj/item/stack/staples(src.loc)
+				new/obj/item/stack/staples(src.loc)
+				new/obj/item/stack/staples(src.loc)
+			return
+
+/obj/structure/closet/wardrobe/sec
 	name = "security wardrobe"
 	icon_door = "red"
 
-/obj/structure/closet/wardrobe/red/New()
+/obj/structure/closet/wardrobe/sec/New()
 	..()
 	contents = list()
 	new /obj/item/clothing/suit/hooded/wintercoat/security(src)
@@ -189,9 +273,6 @@
 	new /obj/item/clothing/shoes/sneakers/black(src)
 	new /obj/item/clothing/shoes/sneakers/black(src)
 	new /obj/item/clothing/shoes/sneakers/black(src)
-	new /obj/item/clothing/head/hardhat/atmos(src)
-	new /obj/item/clothing/head/hardhat/atmos(src)
-	new /obj/item/clothing/head/hardhat/atmos(src)
 	return
 
 /obj/structure/closet/wardrobe/engineering_yellow

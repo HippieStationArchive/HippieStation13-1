@@ -328,7 +328,7 @@ emp_act
 /mob/living/carbon/human/attack_animal(mob/living/simple_animal/M)
 	if(..())
 		var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
-		var/shieldcheck = check_shields(damage, "the [M.name]")
+		var/shieldcheck = check_shields(damage, "the [M.name]", "", "", M.armour_penetration)
 		if(shieldcheck)
 			if(isliving(shieldcheck))
 				var/mob/living/L = shieldcheck
@@ -337,7 +337,7 @@ emp_act
 		var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
 		var/obj/item/organ/limb/affecting = get_organ(ran_zone(dam_zone))
 		var/armor = run_armor_check(affecting, "melee")
-		apply_damage(damage, M.melee_damage_type, affecting, armor)
+		apply_damage(damage, M.melee_damage_type, affecting, armor, "", "", M.armour_penetration)
 		updatehealth()
 
 
@@ -381,21 +381,21 @@ emp_act
 /mob/living/carbon/human/mech_melee_attack(obj/mecha/M)
 
 	if(M.occupant.a_intent == "harm")
-		if(M.damtype == "brute")
+		if(M.damtype == BRUTE)
 			step_away(src,M,15)
 		var/obj/item/organ/limb/temp = get_organ(pick("chest", "chest", "chest", "head"))
 		if(temp)
 			var/update = 0
 			switch(M.damtype)
-				if("brute")
+				if(BRUTE)
 					if(M.force > 20)
 						Paralyse(1)
 					update |= temp.take_damage(rand(M.force/2, M.force), 0)
 					playsound(src, 'sound/weapons/punch4.ogg', 50, 1)
-				if("fire")
+				if(BURN)
 					update |= temp.take_damage(0, rand(M.force/2, M.force))
 					playsound(src, 'sound/items/Welder.ogg', 50, 1)
-				if("tox")
+				if(TOX)
 					M.mech_toxin_damage(src)
 				else
 					return
@@ -405,6 +405,7 @@ emp_act
 
 		visible_message("<span class='danger'>[M.name] has hit [src]!</span>", \
 								"<span class='userdanger'>[M.name] has hit [src]!</span>")
+		//TODO: Change this to use the damtype word not int
 		add_logs(M.occupant, src, "attacked", M, "(INTENT: [uppertext(M.occupant.a_intent)]) (DAMTYPE: [uppertext(M.damtype)])")
 
 	else
@@ -416,11 +417,7 @@ emp_act
 	if(istype(AM, /obj/item))
 		I = AM
 		throwpower = I.throwforce
-	var/shieldcheck = check_shields(throwpower, "\the [AM.name]", AM, 1)
-	if(shieldcheck)
-		if(isliving(shieldcheck))
-			var/mob/living/L = shieldcheck
-			L.hitby(AM, skipcatch, 0, blocked) //hitpush is always 0 so the meatshield doesn't get moved away
+	if(check_shields(throwpower, "\the [AM.name]", AM, 1))
 		hitpush = 0
 		skipcatch = 1
 		blocked = 1
@@ -445,4 +442,4 @@ emp_act
 				visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
 				hitpush = 0
 				skipcatch = 1 //can't catch the now embedded item
-	return ..()
+	return ..(I, skipcatch, hitpush, blocked)

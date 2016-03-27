@@ -104,6 +104,8 @@
 			throwing = 0
 			throw_impact(A)
 			. = 1
+			if(!A || qdeleted(A))
+				return
 		A.Bumped(src)
 
 
@@ -159,7 +161,7 @@
 	return hit_atom.hitby(src)
 
 /atom/movable/hitby(atom/movable/AM, skipcatch, hitpush = 1, blocked)
-	if(!anchored && hitpush)
+	if(!anchored && hitpush && AM)
 		step(src, AM.dir)
 	..()
 

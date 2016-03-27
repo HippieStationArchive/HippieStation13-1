@@ -33,25 +33,25 @@
 			else
 				occupant_message("<span class='danger'>[target] is too durable to drill through.</span>")
 		else if(istype(target, /turf/simulated/mineral))
-			for(var/turf/simulated/mineral/M in range(chassis,1))
+			for(var/turf/simulated/mineral/M in range(1,chassis))
 				if(get_dir(chassis,M)&chassis.dir)
 					M.gets_drilled(chassis.occupant)
 			log_message("Drilled through [target]")
 			if(locate(/obj/item/mecha_parts/mecha_equipment/hydraulic_clamp) in chassis.equipment)
 				var/obj/structure/ore_box/ore_box = locate(/obj/structure/ore_box) in chassis:cargo
 				if(ore_box)
-					for(var/obj/item/weapon/ore/ore in range(chassis,1))
+					for(var/obj/item/weapon/ore/ore in range(1,chassis))
 						if(get_dir(chassis,ore)&chassis.dir)
 							ore.Move(ore_box)
 		else if(istype(target, /turf/simulated/floor/plating/asteroid))
-			for(var/turf/simulated/floor/plating/asteroid/M in range(chassis,1))
+			for(var/turf/simulated/floor/plating/asteroid/M in range(1,chassis))
 				if(get_dir(chassis,M)&chassis.dir)
 					M.gets_dug()
 			log_message("Drilled through [target]")
 			if(locate(/obj/item/mecha_parts/mecha_equipment/hydraulic_clamp) in chassis.equipment)
 				var/obj/structure/ore_box/ore_box = locate(/obj/structure/ore_box) in chassis:cargo
 				if(ore_box)
-					for(var/obj/item/weapon/ore/ore in range(chassis,1))
+					for(var/obj/item/weapon/ore/ore in range(1,chassis))
 						if(get_dir(chassis,ore)&chassis.dir)
 							ore.Move(ore_box)
 		else
@@ -74,6 +74,7 @@
 /obj/item/mecha_parts/mecha_equipment/drill/proc/drill_mob(mob/living/target, mob/user, var/drill_damage=80)
 	target.visible_message("<span class='danger'>[chassis] drills [target] with [src].</span>", \
 						"<span class='userdanger'>[chassis] drills [target] with [src].</span>")
+	//TODO: Change this to use the damtype word not int
 	add_logs(user, target, "attacked", "[name]", "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target

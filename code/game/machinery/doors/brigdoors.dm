@@ -39,15 +39,19 @@
 	Radio.listening = 0
 
 	spawn(20)
-		for(var/obj/machinery/door/poddoor/glass/G in range(20, src))
+		for(var/obj/machinery/door/poddoor/glass/G in ultra_range(20, src))
 			if (G.id == src.id)
 				targets += G
 
-		for(var/obj/machinery/flasher/F in range(20, src))
+		for(var/obj/machinery/disposal/trapdoor/T in ultra_range(20, src))
+			if (T.id == src.id)
+				targets += T
+
+		for(var/obj/machinery/flasher/F in ultra_range(20, src))
 			if(F.id == src.id)
 				targets += F
 
-		for(var/obj/structure/closet/secure_closet/brig/C in range(20, src))
+		for(var/obj/structure/closet/secure_closet/brig/C in ultra_range(20, src))
 			if(C.id == src.id)
 				targets += C
 
@@ -90,6 +94,9 @@
 	for(var/obj/machinery/door/poddoor/glass/G in targets)
 		G.next_door_state = 1
 
+	for(var/obj/machinery/disposal/trapdoor/T in targets)
+		T.close()
+
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)	continue
 		if(C.opened && !C.close())	continue
@@ -103,6 +110,9 @@
 
 	for(var/obj/machinery/door/poddoor/glass/G in targets)
 		G.next_door_state = 0
+
+	for(var/obj/machinery/disposal/trapdoor/T in targets)
+		T.open()
 
 	for(var/obj/structure/closet/secure_closet/brig/C in targets)
 		if(C.broken)	continue
@@ -202,6 +212,11 @@
 	else if(href_list["toggle_doors"])
 		for(var/obj/machinery/door/poddoor/glass/G in targets)
 			G.next_door_state = !G.next_door_state
+		for(var/obj/machinery/disposal/trapdoor/T in targets)
+			if(T.open)
+				T.close()
+			else
+				T.open()
 
 	src.add_fingerprint(usr)
 	src.updateUsrDialog()

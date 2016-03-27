@@ -126,32 +126,41 @@
 		icon_state = "cutters-y"
 		item_state = "cutters_yellow"
 
-/obj/item/weapon/wirecutters/attack(mob/living/carbon/C, mob/user)
+/obj/item/weapon/wirecutters/attack(mob/living/carbon/C, mob/living/user)
 	if(ishuman(C) && user.zone_sel.selecting == "mouth")
 		var/mob/living/carbon/human/H = C
 		var/obj/item/organ/limb/head/O = locate() in H.organs
 		if(!O || !O.get_teeth())
 			user << "<span class='notice'>[H] doesn't have any teeth left!</span>"
 			return
-		H.visible_message("<span class='danger'>[user] tries to tear off [H]'s tooth with [src]!</span>",
-							"<span class='userdanger'>[user] tries to tear off your tooth with [src]!</span>")
-		if(do_after(user, 50, target = H))
-			if(!O || !O.get_teeth()) return
-			var/obj/item/stack/teeth/E = pick(O.teeth_list)
-			if(!E || E.zero_amount()) return
-			var/obj/item/stack/teeth/T = new E.type(H.loc, 1)
-			T.copy_evidences(E)
-			E.use(1)
-			T.add_blood(H)
-			E.zero_amount() //Try to delete the teeth
-			add_logs(user, H, "torn out the tooth from", src)
-			H.visible_message("<span class='danger'>[user] tears off [H]'s tooth with [src]!</span>",
-							"<span class='userdanger'>[user] tears off your tooth with [src]!</span>")
-			var/armor = H.run_armor_check(O, "melee")
-			H.apply_damage(rand(1,5), BRUTE, O, armor)
-			playsound(H, 'sound/misc/tear.ogg', 40, 1, -1) //RIP AND TEAR. RIP AND TEAR.
-			H.emote("scream")
+		if(!user.doing_something)
+			user.doing_something = 1
+			H.visible_message("<span class='danger'>[user] tries to tear off [H]'s tooth with [src]!</span>",
+								"<span class='userdanger'>[user] tries to tear off your tooth with [src]!</span>")
+			if(do_after(user, 50, target = H))
+				if(!O || !O.get_teeth()) return
+				var/obj/item/stack/teeth/E = pick(O.teeth_list)
+				if(!E || E.zero_amount()) return
+				var/obj/item/stack/teeth/T = new E.type(H.loc, 1)
+				T.copy_evidences(E)
+				E.use(1)
+				T.add_blood(H)
+				E.zero_amount() //Try to delete the teeth
+				add_logs(user, H, "torn out the tooth from", src)
+				H.visible_message("<span class='danger'>[user] tears off [H]'s tooth with [src]!</span>",
+								"<span class='userdanger'>[user] tears off your tooth with [src]!</span>")
+				var/armor = H.run_armor_check(O, "melee")
+				H.apply_damage(rand(1,5), BRUTE, O, armor)
+				playsound(H, 'sound/misc/tear.ogg', 40, 1, -1) //RIP AND TEAR. RIP AND TEAR.
+				H.emote("scream")
+				user.doing_something = 0
+			else
+				user << "<span class='notice'>Your attempt to pull out a teeth fails...</span>"
+				user.doing_something = 0
 			return
+		else
+			user << "<span class='notice'>You are already trying to pull out a teeth!</span>"
+		return
 	if(istype(C) && C.handcuffed && istype(C.handcuffed, /obj/item/weapon/restraints/handcuffs/cable))
 		user.visible_message("<span class='notice'>[user] cuts [C]'s restraints with [src]!</span>")
 		qdel(C.handcuffed)
@@ -195,6 +204,8 @@
 	var/change_icons = 1
 	var/can_off_process = 0
 	var/light_intensity = 2 //how powerful the emitted light is when used.
+	var/spam_check = 0
+	var/spam_level = 0
 	heat = 3800
 
 /obj/item/weapon/weldingtool/New()
@@ -262,7 +273,7 @@
 	switch(welding)
 		if(0)
 			force = 3
-			damtype = "brute"
+			damtype = BRUTE
 			update_icon()
 			if(!can_off_process)
 				SSobj.processing.Remove(src)
@@ -270,7 +281,7 @@
 	//Welders left on now use up fuel, but lets not have them run out quite that fast
 		if(1)
 			force = 15
-			damtype = "fire"
+			damtype = BURN
 			if(prob(5))
 				remove_fuel(1)
 			update_icon()
@@ -282,6 +293,15 @@
 		if(M.l_hand == src || M.r_hand == src)
 			location = get_turf(M)
 	if(isturf(location))
+		var/datum/gas_mixture/air_contents = location.return_air()
+		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
+		if((air_contents.toxins > 1) && !(spam_check))
+		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
+			spam_check = 1 //There is no reason to message is a multitude of times in such a short period
+			spawn(600)
+				spam_check = 0 //Greater delay, this is so one welding tool isn't later totally masked from detection of fire sparking.
+			message_admins("Plasma at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[location.x];Y=[location.y];Z=[location.z]'>(JMP)</a>. triggered by welder, last touched by [key_name_admin(last)]<A HREF='?_src_=holder;adminmoreinfo=\ref[last]'>(?)</A> (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[last]'>FLW</A>).")
+			investigate_log("Plasma at: X=[location.x];Y=[location.y];Z=[location.z];, trigger by welder last touched by [key_name_admin(last)]", "atmos")
 		location.hotspot_expose(700, 5)
 
 
@@ -311,6 +331,22 @@
 	if(welding)
 		remove_fuel(1)
 		var/turf/location = get_turf(user)
+		var/datum/gas_mixture/air_contents = location.return_air()
+		var/mob/last = get_mob_by_ckey(src.fingerprintslast)
+		if((air_contents.toxins > 1) && !(spam_check))
+		//if((air_contents.toxins > 0) && !(location.contents.Find(/obj/effect/hotspot))) This would be better combined with spam_check.
+			if (spam_level > 3)
+				spam_check = 1
+				spawn(50)
+					spam_level++
+					spam_check = 0
+			if (spam_level == 3)
+				spam_check = 1
+				spawn(600)
+					spam_level = 0
+					spam_check = 0
+			message_admins("Plasma at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[location.x];Y=[location.y];Z=[location.z]'>(JMP)</a>. triggered by welder, last touched by [key_name_admin(last)]<A HREF='?_src_=holder;adminmoreinfo=\ref[last]'>(?)</A> (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[last]'>FLW</A>).")
+			investigate_log("Plasma at: X=[location.x];Y=[location.y];Z=[location.z];, trigger by welder last touched by [key_name_admin(last)]", "atmos")
 		location.hotspot_expose(700, 50, 1)
 
 		if(isliving(O))
@@ -372,7 +408,7 @@
 		if(get_fuel() >= 1)
 			user << "<span class='notice'>You switch [src] on.</span>"
 			force = 15
-			damtype = "fire"
+			damtype = BURN
 			hitsound = 'sound/items/welder.ogg'
 			update_icon()
 			SSobj.processing |= src
@@ -385,7 +421,7 @@
 		else
 			user << "<span class='warning'>[src] shuts off!</span>"
 		force = 3
-		damtype = "brute"
+		damtype = BRUTE
 		hitsound = "swing_hit"
 		update_icon()
 

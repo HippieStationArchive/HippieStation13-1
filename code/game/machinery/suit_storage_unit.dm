@@ -131,6 +131,21 @@
 	MASK_TYPE = /obj/item/clothing/mask/breath
 	STORAGE_TYPE = /obj/item/weapon/tank/internals/emergency_oxygen/double
 
+/obj/machinery/suit_storage_unit/clown
+	SUIT_TYPE = /obj/item/clothing/suit/space/clown
+	HELMET_TYPE = /obj/item/clothing/head/helmet/space/clown
+	MASK_TYPE = /obj/item/clothing/mask/gas/clown_hat
+	STORAGE_TYPE = /obj/item/weapon/bikehorn
+
+/obj/machinery/suit_storage_unit/mime
+	SUIT_TYPE = /obj/item/clothing/suit/space/mime
+	HELMET_TYPE = /obj/item/clothing/head/helmet/space/mime
+	MASK_TYPE = /obj/item/clothing/mask/gas/mime
+	STORAGE_TYPE = /obj/item/weapon/reagent_containers/food/snacks/baguette
+
+/obj/machinery/suit_storage_unit/empty_open
+	icon_state = "open"
+
 /obj/machinery/suit_storage_unit/New()
 	src.update_icon()
 	if(SUIT_TYPE)

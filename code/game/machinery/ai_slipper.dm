@@ -46,8 +46,6 @@
 					src.attack_hand(usr)
 		else
 			user << "<span class='danger'>Access denied.</span>"
-			return
-	return
 
 /obj/machinery/ai_slipper/attack_ai(mob/user)
 	return attack_hand(user)
@@ -56,7 +54,7 @@
 	if(stat & (NOPOWER|BROKEN))
 		return
 	if ( (get_dist(src, user) > 1 ))
-		if (!(istype(user, /mob/living/silicon) || IsAdminGhost(user)))
+		if (!istype(user, /mob/living/silicon))
 			user << text("Too far away.")
 			user.unset_machine()
 			user << browse(null, "window=ai_slipper")
@@ -72,7 +70,7 @@
 	var/area/area = loc
 	var/t = "<TT><B>AI Liquid Dispenser</B> ([format_text(area.name)])<HR>"
 
-	if(src.locked && (!(istype(user, /mob/living/silicon) || IsAdminGhost(user))))
+	if(src.locked && (!istype(user, /mob/living/silicon)))
 		t += "<I>(Swipe ID card to unlock control panel.)</I><BR>"
 	else
 		t += text("Dispenser [] - <A href='?src=\ref[];toggleOn=1'>[]?</a><br>\n", src.disabled?"deactivated":"activated", src, src.disabled?"Enable":"Disable")
@@ -86,7 +84,7 @@
 	if(..())
 		return
 	if (src.locked)
-		if (!(istype(usr, /mob/living/silicon)|| IsAdminGhost(usr)))
+		if (!istype(usr, /mob/living/silicon))
 			usr << "Control panel is locked!"
 			return
 	if (href_list["toggleOn"])

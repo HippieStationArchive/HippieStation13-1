@@ -86,7 +86,7 @@
 	return (TOXLOSS)
 
 /obj/item/weapon/cultivator
-	name = "mini-hoe"
+	name = "cultivator"
 	desc = "It's used for removing weeds or scratching your back."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "cultivator"
@@ -115,35 +115,11 @@
 	attack_verb = list("chopped", "torn", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	sharpness = IS_SHARP
-	toolspeed =2
 
 /obj/item/weapon/hatchet/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is chopping at \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
 	playsound(loc, 'sound/weapons/bladeslice.ogg', 50, 1, -1)
 	return (BRUTELOSS)
-
-/obj/item/weapon/hatchet/tooth
-	name = "tooth hatchet"
-	icon_state = "hatchett"
-	item_state = "hatchett"
-	force = 11
-	toolspeed = 1
-	throwforce = 13
-	materials = list(MAT_METAL=1000)
-	var/use = 40
-/obj/item/weapon/hatchet/New()
-	..()
-	desc = pick("A crudely fashioned hatchet made out of teeth, wire, and rod.","Take a bite out of your enemies", "Make sure to brush the blood off your hatchet to prevent cavities.")
-
-
-/obj/item/weapon/hatchet/tooth/afterattack()
-	..()
-	use--
-	if(use == 0)
-		visible_message("<span notice='danger'>[src] breaks apart!</span>", "<span notice='danger'>[src] breaks in your hands!</span>")
-		new /obj/item/stack/cable_coil(get_turf(src), 1)
-		new /obj/item/stack/rods(get_turf(src), 1)
-		qdel(src)
 
 /obj/item/weapon/scythe
 	icon_state = "scythe0"

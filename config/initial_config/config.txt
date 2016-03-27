@@ -108,6 +108,14 @@ HOSTEDBY Admiral Hippie
 ## Uncomment this to stop people connecting to your server without a registered ckey. (i.e. guest-* are all blocked from connecting)
 GUEST_BAN
 
+## Uncomment to allow web client connections
+#ALLOW_WEBCLIENT
+
+## Uncomment to restrict web client connections to byond members
+## This makes for a nice pay gate to cut down on ban evading, as the webclient's cid system isn't that great
+## byond membership starts at $10 for 3 months, so to use the webclient to evade, they would have sink 10 bucks in each evade.
+#WEBCLIENT_ONLY_BYOND_MEMBERS
+
 ## Set to jobban everyone who's key is not listed in data/whitelist.txt from Captain, HoS, HoP, CE, RD, CMO, Warden, Security, Detective, and AI positions.
 ## Uncomment to 1 to jobban, leave commented out to allow these positions for everyone (but see GUEST_JOBBAN above and regular jobbans)
 # USEWHITELIST
@@ -219,5 +227,15 @@ ANNOUNCE_ADMIN_LOGOUT
 ##Uncomment to always send a notification to IRC whenever someone adminhelps. When commented, only sends a message if all admins are AFK or no admins are present
 ANNOUNCE_ADMINHELPS
 
-##Uncomment for all admin PM conversations to be sent to IRC/Slack
-#ANNOUNCE_ADMINHELP_EXCHANGES
+##Uncomment to set anyone that joins to the specified rank
+#AUTOADMIN Game Admin
+
+##Uncomment to enable the ProxyBan system.
+PROXYKICK
+
+##Email used in proxyban,incase an issue happens with the proxy checker ( http://getipintel.net/ ) you will be emailed.
+PROXYKICKEMAIL myemail@myprovider.com
+
+##Set the limit you want to use for proxybans(Ranges from 0 to 1, but you should never put 0 really.), 1 means that the new player will be kicked from the game if his ip
+##is in the proxy manual list, while a range from 0 to 1 is dealt by getipintel's magic. A suggested value is either 0.99 or 1, but it depends on you.
+PROXYKICKLIMIT 0.99
