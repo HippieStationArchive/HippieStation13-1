@@ -1447,7 +1447,7 @@
 
 /datum/sprite_accessory/wing/Lovers
 	name = "Lovers"
-	icon_state = "Lovers"
+	icon_state = "lovers"
 
 /datum/sprite_accessory/wing/whitefly
 	name = "White fly"
