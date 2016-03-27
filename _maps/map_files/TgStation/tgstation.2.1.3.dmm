@@ -1620,7 +1620,7 @@
 "aFh" = (/obj/machinery/computer/crew,/obj/machinery/light/small{dir = 4},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/turf/simulated/floor/plasteel{icon_state = "vault"; dir = 5},/area/maintenance/commiespy)
 "aFi" = (/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/floor/wood,/area/lawoffice)
 "aFj" = (/obj/machinery/door/window/brigdoor/southleft{id = "Cell 4"; req_access_txt = "2"},/obj/machinery/atmospherics/pipe/simple/supply/hidden,/turf/simulated/floor/plasteel{dir = 1; icon_state = "loadingarea"},/area/security/brig)
-"aFk" = (/obj/structure/rack,/obj/effect/spawner/lootdrop/maintenance,/obj/structure/disposalpipe/junction,/turf/simulated/floor/plating,/area/maintenance/fsmaint)
+"aFk" = (/obj/structure/rack,/obj/effect/spawner/lootdrop/maintenance,/obj/structure/disposalpipe/junction{icon_state = "pipe-j2"; dir = 1},/turf/simulated/floor/plating,/area/maintenance/fsmaint)
 "aFl" = (/obj/structure/disposalpipe/segment{dir = 4},/turf/simulated/wall,/area/lawoffice)
 "aFm" = (/obj/structure/disposalpipe/segment,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/crew_quarters/courtroom)
 "aFn" = (/obj/structure/rack,/obj/effect/spawner/lootdrop/maintenance,/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/structure/disposalpipe/segment,/turf/simulated/floor/plating,/area/maintenance/fsmaint)
