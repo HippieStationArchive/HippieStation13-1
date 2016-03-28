@@ -327,7 +327,7 @@
 	smooth = SMOOTH_TRUE
 
 /turf/indestructible/wall/shuttle
-	smooth = FALSE
+	smooth = SMOOTH_FALSE
 	icon = 'icons/turf/shuttle.dmi'
 	icon_state = "wall3"
 
