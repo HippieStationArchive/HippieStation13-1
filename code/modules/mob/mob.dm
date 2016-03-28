@@ -248,13 +248,6 @@ var/next_mob_id = 0
 
 	return 0
 
-/mob/proc/put_in_any_hand_if_possible(obj/item/W, qdel_on_fail = 0, disable_warning = 1, redraw_mob = 1)
-	if(equip_to_slot_if_possible(W, slot_l_hand, qdel_on_fail, disable_warning, redraw_mob))
-		return 1
-	else if(equip_to_slot_if_possible(W, slot_r_hand, qdel_on_fail, disable_warning, redraw_mob))
-		return 1
-	return 0
-
 //This is a SAFE proc. Use this instead of equip_to_splot()!
 //set qdel_on_fail to have it delete W if it fails to equip
 //set disable_warning to disable the 'you are unable to equip that' warning.
@@ -661,18 +654,25 @@ var/list/slot_equipment_priority = list( \
 
 	if(client && client.holder)
 		if(statpanel("MC"))
-			stat("Location:","([x], [y], [z])")
-			stat("CPU:","[world.cpu]")
-			stat("Instances:","[world.contents.len]")
-
-			if(master_controller)
-				stat("MasterController:","[round(master_controller.cost,0.001)]ds (Interval:[master_controller.processing_interval] | Iteration:[master_controller.iteration])")
-				stat("Subsystem cost per second:","[round(master_controller.SSCostPerSecond,0.001)]ds")
-				for(var/datum/subsystem/SS in master_controller.subsystems)
-					if(SS.can_fire)
-						SS.stat_entry()
+			stat("Location:", "([x], [y], [z])")
+			stat("CPU:", "[world.cpu]")
+			stat("Instances:", "[world.contents.len]")
+			config.stat_entry()
+			stat(null)
+			if(Master)
+				Master.stat_entry()
 			else
-				stat("MasterController:","ERROR")
+				stat("Master Controller:", "ERROR")
+			if(Failsafe)
+				Failsafe.stat_entry()
+			else
+				stat("Failsafe Controller:", "ERROR")
+			if(Master)
+				stat("Subsystems:", "[round(Master.subsystem_cost, 0.001)]ds")
+				stat(null)
+				for(var/datum/subsystem/SS in Master.subsystems)
+					SS.stat_entry()
+			cameranet.stat_entry()
 
 	if(listed_turf && client)
 		if(!TurfAdjacent(listed_turf))
@@ -757,6 +757,7 @@ var/list/slot_equipment_priority = list( \
 		if(layer == MOB_LAYER - 0.2)
 			layer = initial(layer)
 	update_transform()
+	update_action_buttons_icon()
 	lying_prev = lying
 	return canmove
 
@@ -921,18 +922,9 @@ var/list/slot_equipment_priority = list( \
 /mob/proc/setEarDamage()
 	return
 
-/mob/proc/AddSpell(obj/effect/proc_holder/spell/spell)
-	mob_spell_list += spell
-	if(!spell.action)
-		spell.action = new/datum/action/spell_action
-		spell.action.target = spell
-		spell.action.name = spell.name
-		spell.action.button_icon = spell.action_icon
-		spell.action.button_icon_state = spell.action_icon_state
-		spell.action.background_icon_state = spell.action_background_icon_state
-	if(isliving(src))
-		spell.action.Grant(src)
-	return
+/mob/proc/AddSpell(obj/effect/proc_holder/spell/S)
+	mob_spell_list += S
+	S.action.Grant(src)
 
 //override to avoid rotating pixel_xy on mobs
 /mob/shuttleRotate(rotation)

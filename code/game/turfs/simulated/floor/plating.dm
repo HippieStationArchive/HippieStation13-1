@@ -119,6 +119,18 @@
 			if(prob(50))
 				make_plating(1)
 
+/turf/simulated/floor/engine/n2o
+	name = "n2o floor"
+
+/turf/simulated/floor/engine/n2o/New()
+	..()
+
+	var/datum/gas_mixture/adding = new
+	adding.assert_gas("n2o")
+	adding.gases["n2o"][MOLES] = 6000
+	adding.temperature = T20C
+
+	assume_air(adding)
 
 /turf/simulated/floor/engine/cult
 	name = "engraved floor"
@@ -126,17 +138,6 @@
 
 /turf/simulated/floor/engine/cult/narsie_act()
 	return
-
-/turf/simulated/floor/engine/n20/New()
-	..()
-	var/datum/gas_mixture/adding = new
-	var/datum/gas/sleeping_agent/trace_gas = new
-
-	trace_gas.moles = 6000
-	adding.trace_gases += trace_gas
-	adding.temperature = T20C
-
-	assume_air(adding)
 
 /turf/simulated/floor/engine/singularity_pull(S, current_size)
 	if(current_size >= STAGE_FIVE)
@@ -167,8 +168,6 @@
 	..()
 	icon_state = "alienpod[rand(1,9)]"
 
-
-
 /turf/simulated/floor/plating/basalt
 	name = "basalt floor"
 	icon_state = "basalt1"
@@ -183,9 +182,7 @@
 /turf/simulated/floor/plating/basalt/ex_act()
 	return ..()
 
-
 ///LAVA
-
 
 /turf/simulated/floor/plating/lava
 	name = "lava"

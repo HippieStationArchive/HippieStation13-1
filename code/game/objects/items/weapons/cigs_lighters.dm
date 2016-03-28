@@ -552,6 +552,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	return
 
 /obj/item/weapon/lighter/pickup(mob/user)
+	..()
 	if(lit)
 		SetLuminosity(0)
 		user.AddLuminosity(1)
@@ -559,6 +560,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 
 /obj/item/weapon/lighter/dropped(mob/user)
+	..()
 	if(lit)
 		if(user)
 			user.AddLuminosity(-1)

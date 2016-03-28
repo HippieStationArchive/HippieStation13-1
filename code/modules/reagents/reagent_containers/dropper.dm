@@ -16,7 +16,7 @@
 			user << "<span class='notice'>[target] is full.</span>"
 			return
 
-		if((!target.is_open_container() && !target.is_inject_only()) && !ismob(target) && !istype(target,/obj/item/weapon/reagent_containers/food) && !istype(target, /obj/item/clothing/mask/cigarette)) //You can inject humans and food but you cant remove the shit.
+		if(!target.is_open_container() && !ismob(target) && !istype(target,/obj/item/weapon/reagent_containers/food) && !istype(target, /obj/item/clothing/mask/cigarette)) //You can inject humans and food but you cant remove the shit.
 			user << "<span class='warning'>You cannot directly fill [target]!</span>"
 			return
 

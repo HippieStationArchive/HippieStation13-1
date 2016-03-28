@@ -47,7 +47,7 @@
 	implant_color = "#DE7E00"
 	slot = "brain_antidrop"
 	origin_tech = "materials=5;programming=4;biotech=4"
-	organ_action_name = "Toggle Anti-Drop"
+	actions_types = list(/datum/action/item_action/organ_action)
 
 /obj/item/organ/internal/cyberimp/brain/anti_drop/ui_action_click()
 	active = !active

@@ -52,7 +52,7 @@
 	icon_state = "labcoat"
 	item_state = "labcoat"
 	desc = "A reinforced labcoat that protects against much more than a minor chemical spill. Has a small dial inside it."
-	action_button_name = "Change"
+	actions_types = list(/datum/action/item_action/change)
 	origin_tech = "syndicate=2"
 	armor = list(melee = 35, bullet = 15, laser = 15, energy = 0, bomb = 0, bio = 50, rad = 0) //real armor is still better
 	var/list/clothing_choices = list()

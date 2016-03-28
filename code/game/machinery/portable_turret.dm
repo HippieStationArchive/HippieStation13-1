@@ -448,7 +448,7 @@
 
 	if(check_anomalies)	//if it's set to check for xenos/simpleanimals
 		for(var/mob/living/simple_animal/SA in turretview)
-			if(!SA.stat && (!SA.has_unlimited_silicon_privilege || !(faction in SA.faction)) ) //don't target dead animals or NT maint drones.
+			if(!SA.stat && (!SA.has_unlimited_silicon_privilege || !(faction in SA.faction))) //don't target dead animals or NT maint drones.
 				targets += SA
 
 	for(var/mob/living/carbon/C in turretview)	//loops through all carbon-based lifeforms in view(7)
@@ -1098,14 +1098,14 @@ Status: []<BR>"},
 			src.attack_hand(user)
 
 /obj/machinery/turretid/attack_ai(mob/user)
-	if(!ailock)
+	if(!ailock || IsAdminGhost(user))
 		return attack_hand(user)
 	else
 		user << "<span class='notice'>There seems to be a firewall preventing you from accessing this device.</span>"
 
 /obj/machinery/turretid/attack_hand(mob/user as mob)
 	if ( get_dist(src, user) > 0 )
-		if ( !issilicon(user) )
+		if ( !(issilicon(user) || IsAdminGhost(user)) )
 			user << "<span class='notice'>You are too far away.</span>"
 			user.unset_machine()
 			user << browse(null, "window=turretid")
@@ -1121,10 +1121,10 @@ Status: []<BR>"},
 	var/area/area = loc
 	var/t = ""
 
-	if(src.locked && (!istype(user, /mob/living/silicon)))
+	if(locked && (!(istype(user, /mob/living/silicon) || IsAdminGhost(user))))
 		t += "<div class='notice icon'>Swipe ID card to unlock interface</div>"
 	else
-		if (!istype(user, /mob/living/silicon))
+		if (!istype(user, /mob/living/silicon) && !IsAdminGhost(user))
 			t += "<div class='notice icon'>Swipe ID card to lock interface</div>"
 		t += text("Turrets [] - <A href='?src=\ref[];toggleOn=1'>[]?</a><br>\n", src.enabled?"activated":"deactivated", src, src.enabled?"Disable":"Enable")
 		t += text("Currently set for [] - <A href='?src=\ref[];toggleLethal=1'>Change to []?</a><br>\n", src.lethal?"lethal":"stun repeatedly", src,  src.lethal?"Stun repeatedly":"Lethal")
@@ -1139,8 +1139,8 @@ Status: []<BR>"},
 /obj/machinery/turretid/Topic(href, href_list)
 	if(..())
 		return
-	if (src.locked)
-		if (!istype(usr, /mob/living/silicon))
+	if (locked)
+		if (!(istype(usr, /mob/living/silicon) || IsAdminGhost(usr)))
 			usr << "Control panel is locked!"
 			return
 	if (href_list["toggleOn"])

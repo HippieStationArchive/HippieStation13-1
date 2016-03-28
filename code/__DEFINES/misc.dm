@@ -120,9 +120,11 @@
 //some arbitrary defines to be used by self-pruning global lists. (see master_controller)
 #define PROCESS_KILL 26	//Used to trigger removal from a processing list
 
-#define MANIFEST_ERROR_NAME		1
-#define MANIFEST_ERROR_COUNT	2
-#define MANIFEST_ERROR_ITEM		4
+// Cargo-related stuff.
+#define MANIFEST_ERROR_CHANCE		5
+#define MANIFEST_ERROR_NAME			1
+#define MANIFEST_ERROR_CONTENTS		2
+#define MANIFEST_ERROR_ITEM			4
 
 #define TRANSITIONEDGE			7 //Distance from edge to move to another z-level
 
@@ -163,6 +165,9 @@
 #define MOB_SIZE_HUMAN 2
 #define MOB_SIZE_LARGE 3
 
+//Slime evolution threshold. Controls how fast slimes can split/grow
+#define SLIME_EVOLUTION_THRESHOLD 10
+
 //singularity defines
 #define STAGE_ONE 1
 #define STAGE_TWO 3
@@ -178,6 +183,8 @@
 #define ZLEVEL_ABANDONNEDTSAT 3
 #define ZLEVEL_CENTCOM 2
 #define ZLEVEL_STATION 1
+#define ZLEVEL_LAVALAND 5
+#define ZLEVEL_UNDERGROUND 6
 
 //ticker.current_state values
 #define GAME_STATE_STARTUP		0
@@ -214,12 +221,19 @@
 #define TRAIT_FRIENDLY 64
 #define TRAIT_THIEVING 128
 
-//defines
+//SNPC defines
 #define MAX_RANGE_FIND 32
 #define MIN_RANGE_FIND 16
 #define FUZZY_CHANCE_HIGH 85
 #define FUZZY_CHANCE_LOW 50
 #define CHANCE_TALK 15
+
+#define SNPC_BRUTE 1
+#define SNPC_STEALTH 2
+#define SNPC_MARTYR 3
+#define SNPC_PSYCHO 4
+
+
 #define MAXCOIL 30
 #define RESIZE_DEFAULT_SIZE 1
 
@@ -268,11 +282,18 @@ var/list/bloody_footprints_cache = list()
 #define TURF_DRY		0
 #define TURF_WET_WATER	1
 #define TURF_WET_LUBE	2
+#define TURF_WET_ICE	3
 
 //Object/Item sharpness
 #define IS_BLUNT			0
 #define IS_SHARP			1
 #define IS_SHARP_ACCURATE	2
+
+//unmagic-strings for types of polls
+#define POLLTYPE_OPTION		"OPTION"
+#define POLLTYPE_TEXT		"TEXT"
+#define POLLTYPE_RATING		"NUMVAL"
+#define POLLTYPE_MULTI		"MULTICHOICE"
 
 //lighting area defines
 #define DYNAMIC_LIGHTING_DISABLED 0 //dynamic lighting disabled (area stays at full brightness)
@@ -280,9 +301,89 @@ var/list/bloody_footprints_cache = list()
 #define DYNAMIC_LIGHTING_IFSTARLIGHT 2 //dynamic lighting enabled only if starlight is.
 #define IS_DYNAMIC_LIGHTING(A) ( A.lighting_use_dynamic == DYNAMIC_LIGHTING_IFSTARLIGHT ? config.starlight : A.lighting_use_dynamic )
 
+//subtypesof(), typesof() without the parent path
+#define subtypesof(typepath) ( typesof(typepath) - typepath )
+
+//Bot types
+#define SEC_BOT				1	// Secutritrons (Beepsky) and ED-209s
+#define MULE_BOT			2	// MULEbots
+#define FLOOR_BOT			4	// Floorbots
+#define CLEAN_BOT			8	// Cleanbots
+#define MED_BOT				16	// Medibots
+
+//Sentience types
+#define SENTIENCE_ORGANIC 1
+#define SENTIENCE_ARTIFICIAL 2
+#define SENTIENCE_OTHER 3
+
+//Fire stuff, for burn_state
+#define LAVA_PROOF -2
+#define FIRE_PROOF -1
+#define FLAMMABLE 0
+#define ON_FIRE 1
+
+
 //Ghost orbit types:
 #define GHOST_ORBIT_CIRCLE		"circle"
 #define GHOST_ORBIT_TRIANGLE	"triangle"
 #define GHOST_ORBIT_HEXAGON		"hexagon"
 #define GHOST_ORBIT_SQUARE		"square"
 #define GHOST_ORBIT_PENTAGON	"pentagon"
+
+//Bloodcrawling
+#define BLOODCRAWL 1
+#define BLOODCRAWL_EAT 2
+
+//Color Defines
+#define OOC_COLOR  "#002eb8"
+
+/////////////////////////////////////
+// atom.appearence_flags shortcuts //
+/////////////////////////////////////
+//this was added midway thru 510, so it might not exist in some versions, but we can't check by minor verison
+#ifndef TILE_BOUND
+#if DM_VERSION >= 510
+#warn this version of 510 is too old, You should use byond 510.1332 or later when using 510.
+#endif
+#define TILE_BOUND 256
+#endif
+
+// Disabling certain features
+#define APPEARANCE_IGNORE_TRANSFORM			RESET_TRANSFORM
+#define APPEARANCE_IGNORE_COLOUR			RESET_COLOR
+#define	APPEARANCE_IGNORE_CLIENT_COLOUR		NO_CLIENT_COLOR
+#define APPEARANCE_IGNORE_COLOURING			RESET_COLOR|NO_CLIENT_COLOR
+#define APPEARANCE_IGNORE_ALPHA				RESET_ALPHA
+#define APPEARANCE_NORMAL_GLIDE				~LONG_GLIDE
+
+// Enabling certain features
+#define APPEARANCE_CONSIDER_TRANSFORM		~RESET_TRANSFORM
+#define APPEARANCE_CONSIDER_COLOUR			~RESET_COLOUR
+#define APPEARANCE_CONSIDER_CLIENT_COLOUR	~NO_CLIENT_COLOR
+#define APPEARANCE_CONSIDER_COLOURING		~RESET_COLOR|~NO_CLIENT_COLOR
+#define APPEARANCE_CONSIDER_ALPHA			~RESET_ALPHA
+#define APPEARANCE_LONG_GLIDE				LONG_GLIDE
+
+// Consider these images/atoms as part of the UI/HUD
+#define APPEARANCE_UI_IGNORE_ALPHA			RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR|RESET_ALPHA
+#define APPEARANCE_UI						RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR
+
+//Launching Shuttles to Centcomm
+#define NOLAUNCH -1
+#define UNLAUNCHED 0
+#define ENDGAME_LAUNCHED 1
+#define EARLY_LAUNCHED 2
+
+//Just space
+#define SPACE_ICON_STATE	"[((x + y) ^ ~(x * y) + z) % 25]"
+
+//Gun trigger guards
+#define TRIGGER_GUARD_ALLOW_ALL -1
+#define TRIGGER_GUARD_NONE 0
+#define TRIGGER_GUARD_NORMAL 1
+
+// Plant types
+#define PLANT_NORMAL 0
+#define PLANT_WEED 1
+#define PLANT_MUSHROOM 2
+#define PLANT_ALIEN 3

@@ -17,7 +17,6 @@
 	var/misted = 0 //Used to check for mist.
 //herpderp	var/beaker = null
 //herpderp	var/cur_reagent = "pooladone" //Yes, it does exist now.
-	var/datum/wires/poolcontroller/wires = null
 	var/drainable = 0
 	var/drained = 0
 	var/bloody = 0
@@ -28,7 +27,7 @@
 	var/seconds_electrified = 0//Shocks morons, like an airlock.
 
 /obj/machinery/poolcontroller/New() //This proc automatically happens on world start
-	wires = new(src)
+	wires = new /datum/wires/poolcontroller(src)
 //	beaker = new /obj/item/weapon/reagent_containers/glass/beaker/large/pooladone(src)
 	for(var/turf/simulated/pool/water/W in range(srange,src)) //Search for /turf/simulated/beach/water in the range of var/srange
 		src.linkedturfs += W

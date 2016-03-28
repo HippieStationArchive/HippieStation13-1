@@ -423,4 +423,4 @@ var/next_external_rsc = 0
 		SSnano.send_resources(src)
 
 		//Precache the client with all other assets slowly, so as to not block other browse() calls
-		getFilesSlow(src, asset_cache, register_asset = FALSE)
+		getFilesSlow(src, SSasset.cache, register_asset = FALSE)

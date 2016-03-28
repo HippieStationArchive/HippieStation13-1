@@ -52,9 +52,10 @@
 	if(world.time <= next_click)
 		return
 	next_click = world.time + 1
-	if(client.buildmode)
-		build_click(src, client.buildmode, params, A)
-		return
+
+	if(client.click_intercept)
+		if(call(client.click_intercept, "InterceptClickOn")(src, params, A))
+			return
 
 	var/list/modifiers = params2list(params)
 	if(modifiers["shift"] && modifiers["ctrl"])
@@ -73,7 +74,7 @@
 		CtrlClickOn(A)
 		return
 
-	if(stat || paralysis || stunned || weakened)
+	if(stat || paralysis || stunned || weakened || sleeping)
 		return
 
 	face_atom(A)
@@ -83,7 +84,7 @@
 
 	if(istype(loc,/obj/mecha))
 		var/obj/mecha/M = loc
-		return M.click_action(A,src,params)
+		return M.click_action(A,src)
 
 	if(restrained())
 		changeNext_move(CLICK_CD_HANDCUFFED)   //Doing shit in cuffs shall be vey slow
@@ -221,12 +222,11 @@
 /mob/proc/CtrlClickOn(atom/A)
 	A.CtrlClick(src)
 	return
-/atom/proc/CtrlClick(mob/user)
-	return
 
-/atom/movable/CtrlClick(mob/user)
-	if(Adjacent(user))
-		user.start_pulling(src)
+/atom/proc/CtrlClick(mob/user)
+	var/mob/living/ML = user
+	if(istype(ML))
+		ML.pulled(src)
 
 /*
 	Alt click
@@ -294,36 +294,38 @@
 	LE.xo = U.x - T.x
 	LE.fire()
 
-/mob/living/carbon/human/LaserEyes()
-	if(nutrition>0)
-		..()
-		nutrition = max(nutrition - rand(1,5),0)
-	else
-		src << "<span class='danger'>You're out of energy!  You need food!</span>"
-
 // Simple helper to face what you clicked on, in case it should be needed in more than one place
 /mob/proc/face_atom(atom/A)
-	if( buckled || stat != CONSCIOUS || !A || !x || !y || !A.x || !A.y ) return
+	if( buckled || stat != CONSCIOUS || !A || !x || !y || !A.x || !A.y )
+		return
 	var/dx = A.x - x
 	var/dy = A.y - y
 	if(!dx && !dy) // Wall items are graphically shifted but on the floor
-		if(A.pixel_y > 16)		dir = NORTH
-		else if(A.pixel_y < -16)dir = SOUTH
-		else if(A.pixel_x > 16)	dir = EAST
-		else if(A.pixel_x < -16)dir = WEST
+		if(A.pixel_y > 16)
+			dir = NORTH
+		else if(A.pixel_y < -16)
+			dir = SOUTH
+		else if(A.pixel_x > 16)
+			dir = EAST
+		else if(A.pixel_x < -16)
+			dir = WEST
 		return
 
 	if(abs(dx) < abs(dy))
-		if(dy > 0)	dir = NORTH
-		else		dir = SOUTH
+		if(dy > 0)
+			dir = NORTH
+		else
+			dir = SOUTH
 	else
-		if(dx > 0)	dir = EAST
-		else		dir = WEST
+		if(dx > 0)
+			dir = EAST
+		else
+			dir = WEST
 
 /obj/screen/click_catcher
 	icon = 'icons/mob/screen_full.dmi'
 	icon_state = "passage0"
-	layer = 0
+	plane = CLICKCATCHER_PLANE
 	mouse_opacity = 2
 	screen_loc = "CENTER-7,CENTER-7"
 

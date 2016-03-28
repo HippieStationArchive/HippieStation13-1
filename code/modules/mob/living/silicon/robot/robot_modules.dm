@@ -99,7 +99,10 @@
 			var/obj/item/weapon/melee/baton/B = I
 			if(B.bcell)
 				B.bcell.charge = B.bcell.maxcharge
-	return
+		if(istype(I, /obj/item/weapon/tank/jetpack))
+			var/obj/item/weapon/tank/jetpack/J = I
+			J.air_contents.assert_gas("co2")
+			J.air_contents.gases["co2"][MOLES] = (6 * ONE_ATMOSPHERE) * J.volume / (R_IDEAL_GAS_EQUATION * T20C)
 
 /obj/item/weapon/robot_module/proc/rebuild()//Rebuilds the list so it's possible to add/remove items from the module
 	var/list/temp_list = modules

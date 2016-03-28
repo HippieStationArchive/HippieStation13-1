@@ -9,7 +9,7 @@
 	w_class = 2
 	gas_transfer_coefficient = 0.10
 	permeability_coefficient = 0.50
-	action_button_name = "Adjust Breath Mask"
+	actions_types = list(/datum/action/item_action/adjust)
 	ignore_maskadjust = 0
 	flags_cover = MASKCOVERSMOUTH
 	burn_state = -1 //Won't burn in fires

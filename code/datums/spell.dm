@@ -156,6 +156,7 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 
 /obj/effect/proc_holder/spell/New()
 	..()
+	action = new(src)
 
 	still_recharging_msg = "<span class='notice'>[name] is still recharging.</span>"
 	charge_counter = charge_max
@@ -172,6 +173,8 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 	while(charge_counter < charge_max && isnull(gc_destroyed))
 		sleep(1)
 		charge_counter++
+	if(action)
+		action.UpdateButtonIcon()
 
 /obj/effect/proc_holder/spell/proc/perform(list/targets, recharge = 1, mob/user = usr) //if recharge is started is important for the trigger spells
 	before_cast(targets)

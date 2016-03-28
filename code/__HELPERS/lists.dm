@@ -33,7 +33,7 @@
 //Returns list element or null. Should prevent "index out of bounds" error.
 /proc/listgetindex(list/L, index)
 	if(istype(L))
-		if(isnum(index))
+		if(isnum(index) && IsInteger(index))
 			if(IsInRange(index,1,L.len))
 				return L[index]
 		else if(index in L)
@@ -344,10 +344,3 @@
 	while(L.Remove(null))
 		continue
 	return L
-
-//checks if the values associated to the elements of the first list are all bigger or equal than the ones of the second(Only works with lists with number values!)
-/proc/compareAllValues(list/A, list/B)
-	for(var/i in (A & B))
-		if(A[i] < B[i])
-			return FALSE
-	. = TRUE

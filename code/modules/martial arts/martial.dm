@@ -38,7 +38,7 @@
 
 /datum/martial_art/proc/basic_hit(mob/living/carbon/human/A,mob/living/carbon/human/D)
 	A.do_attack_animation(D)
-	var/damage = rand(0,9) + A.dna.species.punchmod
+	var/damage = rand(A.dna.species.punchdamagelow, A.dna.species.punchdamagehigh)
 	var/atk_verb = A.dna.species.attack_verb
 	if(D.lying)
 		atk_verb = "kick"

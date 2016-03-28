@@ -182,7 +182,7 @@
 	if(TRAITS & TRAIT_THIEVING)
 		slyness = 75
 
-	SSbp.insertBot(src)
+	SSnpc.insertBot(src)
 
 
 /mob/living/carbon/human/interactive/attack_hand(mob/living/carbon/human/M)
@@ -395,17 +395,17 @@
 		doing |= TRAVEL
 		if(nearby.len > 4)
 			//i'm crowded, time to leave
-			TARGET = pick(target_filter(ultra_range(MAX_RANGE_FIND,src,1)))
+			TARGET = pick(target_filter(spiral_range(MAX_RANGE_FIND,src,1)))
 		else if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			//chance to chase an item
-			TARGET = locate(/obj/item) in ultra_range(MIN_RANGE_FIND,src,1)
+			TARGET = locate(/obj/item) in spiral_range(MIN_RANGE_FIND,src,1)
 		else if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			//chance to leave
-			TARGET = locate(/obj/machinery/door) in ultra_range(MIN_RANGE_FIND,src,1) // this is a sort of fix for the current pathing.
+			TARGET = locate(/obj/machinery/door) in spiral_range(MIN_RANGE_FIND,src,1) // this is a sort of fix for the current pathing.
 		else
 			//else, target whatever, or go to our department
 			if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
-				TARGET = pick(target_filter(ultra_range(MIN_RANGE_FIND,src,1)))
+				TARGET = pick(target_filter(spiral_range(MIN_RANGE_FIND,src,1)))
 			else
 				TARGET = pick(get_area_turfs(job2area(myjob)))
 		tryWalk(TARGET)

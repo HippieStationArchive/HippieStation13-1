@@ -1,5 +1,4 @@
-#pretending we're C because otherwise ruby will initialize, even with "language: dm".
-language: c
+language: generic
 sudo: false
 
 env:
@@ -11,6 +10,7 @@ env:
   
 cache:
   directories:
+    - tgui/node_modules
     - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
   
 addons:
@@ -23,10 +23,13 @@ addons:
       - python-pip
   
 install:
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
+  - npm install -g gulp-cli
   - pip install --user PyYaml -q
   - pip install --user beautifulsoup4 -q
 
 before_script:
+  - cd tgui && npm install && cd ..
   - chmod +x tools/check_filedirs.sh
   - chmod +x ./install-byond.sh
   - ./install-byond.sh
@@ -39,6 +42,7 @@ script:
   - (! grep 'step_[xy]' _maps/**/*.dmm)
   - md5sum -c - <<< "29d5a6e23d172846354505e60ecfe7e7 *html/changelogs/example.yml"
   - tools/check_filedirs.sh tgstation.dme
+  - cd tgui && gulp && cd ..
   - python tools/ss13_genchangelog.py html/changelog.html html/changelogs
   - source $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/byondsetup
   - bash dm.sh -M${DM_MAPFILE} tgstation.dme

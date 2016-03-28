@@ -182,19 +182,12 @@
 
 /mob/living/carbon/proc/get_breath_from_internal(volume_needed)
 	if(internal)
-		if (!contents.Find(internal))
+		if(internal.loc != src)
 			internal = null
-		if (!wear_mask || !(wear_mask.flags & MASKINTERNALS) )
-			internal = null
-		if(internal)
-			if (internals)
-				internals.icon_state = "internal1"
-			return internal.remove_air_volume(volume_needed)
+			update_internals_hud_icon(0)
 		else
-			if (internals)
-				internals.icon_state = "internal0"
-	return
-
+			update_internals_hud_icon(1)
+			return internal.remove_air_volume(volume_needed)
 
 /mob/living/carbon/proc/handle_changeling()
 	return
@@ -532,9 +525,3 @@
 		if(360.15 to INFINITY) //360.15 is 310.15 + 50, the temperature where you start to feel effects.
 			//We totally need a sweat system cause it totally makes sense...~
 			bodytemperature += min((body_temperature_difference / BODYTEMP_AUTORECOVERY_DIVISOR), -BODYTEMP_AUTORECOVERY_MINIMUM)	//We're dealing with negative numbers
-
-
-/mob/living/carbon/handle_actions()
-	..()
-	for(var/obj/item/I in internal_organs)
-		give_action_button(I, 1)

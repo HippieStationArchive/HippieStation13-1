@@ -14,6 +14,7 @@
 	burn_state = -1 //Won't burn in fires
 	flags_cover = HEADCOVERSEYES
 	can_be_washed = 0
+	actions_types = list(/datum/action/item_action/toggle)
 
 
 /obj/item/clothing/head/helmet/New()
@@ -44,7 +45,6 @@
 	armor = list(melee = 82, bullet = 15, laser = 5,energy = 5, bomb = 5, bio = 2, rad = 0)
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 	strip_delay = 80
-	action_button_name = "Toggle Helmet Visor"
 	visor_flags_inv = HIDEMASK|HIDEEYES|HIDEFACE
 	toggle_cooldown = 0
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
@@ -73,10 +73,10 @@
 	icon_state = "justice"
 	toggle_message = "You turn off the lights on"
 	alt_toggle_message = "You turn on the lights on"
-	action_button_name = "Toggle Justice Lights"
 	can_toggle = 1
 	toggle_cooldown = 20
 	active_sound = 'sound/items/WEEOO1.ogg'
+	actions_types = list(/datum/action/item_action/toggle_helmet_light)
 
 /obj/item/clothing/head/helmet/justice/escape
 	name = "alarm helmet"
@@ -84,7 +84,6 @@
 	icon_state = "justice2"
 	toggle_message = "You turn off the light on"
 	alt_toggle_message = "You turn on the light on"
-	action_button_name = "Toggle Alarm Lights"
 
 /obj/item/clothing/head/helmet/swat
 	name = "\improper Syndicate SWAT helmet"
@@ -260,28 +259,33 @@
 
 	return
 
-/obj/item/clothing/head/helmet/ui_action_click()
-	toggle_helmlight()
-	..()
+/obj/item/clothing/head/helmet/ui_action_click(mob/user, actiontype)
+	if(actiontype == /datum/action/item_action/toggle_helmet_flashlight)
+		toggle_helmlight()
+	else
+		..()
 
-/obj/item/clothing/head/helmet/attackby(obj/item/A, mob/user, params)
-	if(istype(A, /obj/item/device/flashlight/seclite))
-		var/obj/item/device/flashlight/seclite/S = A
+/obj/item/clothing/head/helmet/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/device/flashlight/seclite))
+		var/obj/item/device/flashlight/seclite/S = I
 		if(can_flashlight)
 			if(!F)
-				if(!user.unEquip(A))
+				if(!user.unEquip(S))
 					return
 				user << "<span class='notice'>You click [S] into place on [src].</span>"
 				if(S.on)
 					SetLuminosity(0)
 				F = S
-				A.loc = src
+				S.loc = src
 				update_icon()
 				update_helmlight(user)
 				verbs += /obj/item/clothing/head/helmet/proc/toggle_helmlight
+				var/datum/action/A = new /datum/action/item_action/toggle_helmet_flashlight(src)
+				if(loc == user)
+					A.Grant(user)
 		return
 
-	if(istype(A, /obj/item/weapon/screwdriver))
+	if(istype(I, /obj/item/weapon/screwdriver))
 		if(F)
 			for(var/obj/item/device/flashlight/seclite/S in src)
 				user << "<span class='notice'>You unscrew the seclite from [src].</span>"
@@ -290,8 +294,10 @@
 				update_helmlight(user)
 				S.update_brightness(user)
 				update_icon()
-				usr.update_inv_head()
+				user.update_inv_head()
 				verbs -= /obj/item/clothing/head/helmet/proc/toggle_helmlight
+				for(var/datum/action/item_action/toggle_helmet_flashlight/THL in actions)
+				qdel(THL)
 			return
 
 	..()
@@ -319,7 +325,6 @@
 
 /obj/item/clothing/head/helmet/proc/update_helmlight(mob/user = null)
 	if(F)
-		action_button_name = "Toggle Helmetlight"
 		if(F.on)
 			if(loc == user)
 				user.AddLuminosity(F.brightness_on)
@@ -332,14 +337,16 @@
 				SetLuminosity(0)
 		update_icon()
 	else
-		action_button_name = null
 		if(loc == user)
 			user.AddLuminosity(-5)
 		else if(isturf(loc))
 			SetLuminosity(0)
-		return
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon()
 
 /obj/item/clothing/head/helmet/pickup(mob/user)
+	..()
 	if(F)
 		if(F.on)
 			user.AddLuminosity(F.brightness_on)
@@ -347,6 +354,7 @@
 
 
 /obj/item/clothing/head/helmet/dropped(mob/user)
+	..()
 	if(F)
 		if(F.on)
 			user.AddLuminosity(-F.brightness_on)

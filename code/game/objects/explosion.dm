@@ -101,8 +101,12 @@
 				for(var/obj/effect/blob/B in T)
 					cached_exp_block[T] += B.explosion_block
 
-		for(var/turf/T in affected_turfs)
+				CHECK_TICK
 
+		for(var/turf/T in affected_turfs)
+			CHECK_TICK
+			if (!T)
+				continue
 			var/dist = cheap_hypotenuse(T.x, T.y, x0, y0)
 
 			if(config.reactionary_explosions)

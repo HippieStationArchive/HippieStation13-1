@@ -550,6 +550,7 @@
 	return
 
 /obj/item/weapon/guardian_bomb/pickup(mob/living/user)
+	..()
 	detonate(user)
 	return
 

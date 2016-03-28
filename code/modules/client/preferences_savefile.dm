@@ -8,14 +8,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	This proc checks if the current directory of the savefile S needs updating
 	It is to be used by the load_character and load_preferences procs.
 	(S.cd=="/" is preferences, S.cd=="/character[integer]" is a character slot, etc)
-
 	if the current directory's version is below SAVEFILE_VERSION_MIN it will simply wipe everything in that directory
 	(if we're at root "/" then it'll just wipe the entire savefile, for instance.)
-
 	if its version is below SAVEFILE_VERSION_MAX but above the minimum, it will load data but later call the
 	respective update_preferences() or update_character() proc.
 	Those procs allow coders to specify format changes so users do not lose their setups and have to redo them again.
-
 	Failing all that, the standard sanity checks are performed. They simply check the data is suitable, reverting to
 	initial() values if necessary.
 */
@@ -29,6 +26,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(savefile_version < SAVEFILE_VERSION_MAX)
 		return savefile_version
 	return -1
+
 
 /datum/preferences/proc/update_antagchoices(current_version)
 	if((!islist(be_special) || old_be_special ) && current_version < 12)
@@ -91,12 +89,15 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 					if(32768)
 						be_special += ROLE_REVENANT
 
+
 /datum/preferences/proc/update_preferences(current_version)
 	if(current_version < 10)
 		toggles |= MEMBER_PUBLIC
-	if(current_version < 12)
+	if(current_version < 11)
 		chat_toggles = TOGGLES_DEFAULT_CHAT
 		toggles = TOGGLES_DEFAULT
+	if(current_version < 12)
+		ignoring = list()
 
 //should this proc get fairly long (say 3 versions long),
 //just increase SAVEFILE_VERSION_MIN so it's not as far behind
@@ -160,19 +161,24 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["ooccolor"]			>> ooccolor
 	S["lastchangelog"]		>> lastchangelog
 	S["UI_style"]			>> UI_style
-	S["be_special"]			>> be_special
+	S["tgui_fancy"]			>> tgui_fancy
+	S["tgui_lock"]			>> tgui_lock
 
 	if(islist(S["be_special"]))
-		S["be_special"] >> be_special
+		S["be_special"] 	>> be_special
 	else //force update and store the old bitflag version of be_special
 		needs_update = 11
-		S["be_special"] >> old_be_special
+		S["be_special"] 	>> old_be_special
 
 	S["default_slot"]		>> default_slot
 	S["chat_toggles"]		>> chat_toggles
 	S["toggles"]			>> toggles
 	S["ghost_form"]			>> ghost_form
 	S["ghost_orbit"]		>> ghost_orbit
+	S["preferred_map"]		>> preferred_map
+	S["ignoring"]			>> ignoring
+	S["ghost_hud"]			>> ghost_hud
+	S["inquisitive_ghost"]	>> inquisitive_ghost
 
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
@@ -183,6 +189,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	ooccolor		= sanitize_ooccolor(sanitize_hexcolor(ooccolor, 6, 1, initial(ooccolor)))
 	lastchangelog	= sanitize_text(lastchangelog, initial(lastchangelog))
 	UI_style		= sanitize_inlist(UI_style, list("Midnight", "Plasmafire", "Retro"), initial(UI_style))
+	tgui_fancy		= sanitize_integer(tgui_fancy, 0, 1, initial(tgui_fancy))
+	tgui_lock		= sanitize_integer(tgui_lock, 0, 1, initial(tgui_lock))
 	default_slot	= sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
 	toggles			= sanitize_integer(toggles, 0, 65535, initial(toggles))
 	ghost_form		= sanitize_inlist(ghost_form, ghost_forms, initial(ghost_form))
@@ -202,12 +210,18 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["ooccolor"]			<< ooccolor
 	S["lastchangelog"]		<< lastchangelog
 	S["UI_style"]			<< UI_style
+	S["tgui_fancy"]			<< tgui_fancy
+	S["tgui_lock"]			<< tgui_lock
 	S["be_special"]			<< be_special
 	S["default_slot"]		<< default_slot
 	S["toggles"]			<< toggles
 	S["chat_toggles"]		<< chat_toggles
 	S["ghost_form"]			<< ghost_form
 	S["ghost_orbit"]		<< ghost_orbit
+	S["preferred_map"]		<< preferred_map
+	S["ignoring"]			<< ignoring
+	S["ghost_hud"]			<< ghost_hud
+	S["inquisitive_ghost"]	<< inquisitive_ghost
 
 	return 1
 
@@ -229,17 +243,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		return 0
 
 	//Species
-	var/species_name
-	S["species"]			>> species_name
-	if(config.mutant_races && species_name && (species_name in roundstart_species))
-		var/newtype = roundstart_species[species_name]
+	var/species_id
+	S["species"]			>> species_id
+	if(config.mutant_races && species_id && (species_id in roundstart_species))
+		var/newtype = roundstart_species[species_id]
 		pref_species = new newtype()
 	else
 		pref_species = new /datum/species/human()
 
 	if(!S["features["mcolor"]"] || S["features["mcolor"]"] == "#000")
 		S["features["mcolor"]"]	<< "#FFF"
-
 	//Character
 	S["OOC_Notes"]			>> metadata
 	S["real_name"]			>> real_name
@@ -264,7 +277,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_lizard_frills"]			>> features["frills"]
 	S["feature_lizard_spines"]			>> features["spines"]
 	S["feature_lizard_body_markings"]	>> features["body_markings"]
-	S["feature_moth_wings"]				>> features["wing"]
 	if(!config.mutant_humans)
 		features["tail_human"] = "none"
 		features["ears"] = "none"
@@ -277,7 +289,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["cyborg_name"]		>> custom_names["cyborg"]
 	S["religion_name"]		>> custom_names["religion"]
 	S["deity_name"]			>> custom_names["deity"]
-
 	//Jobs
 	S["userandomjob"]		>> userandomjob
 	S["job_civilian_high"]	>> job_civilian_high
@@ -289,11 +300,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["job_engsec_high"]	>> job_engsec_high
 	S["job_engsec_med"]		>> job_engsec_med
 	S["job_engsec_low"]		>> job_engsec_low
-
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
 		update_character(needs_update)		//needs_update == savefile_version if we need an update (positive integer)
-
 	//Sanitize
 	metadata		= sanitize_text(metadata, initial(metadata))
 	real_name		= reject_bad_name(real_name)
@@ -308,14 +317,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		facial_hair_style			= sanitize_inlist(facial_hair_style, facial_hair_styles_male_list)
 		underwear		= sanitize_inlist(underwear, underwear_m)
 		undershirt 		= sanitize_inlist(undershirt, undershirt_m)
-		socks			= sanitize_inlist(socks, socks_m)
 	else
 		hair_style			= sanitize_inlist(hair_style, hair_styles_female_list)
 		facial_hair_style			= sanitize_inlist(facial_hair_style, facial_hair_styles_female_list)
 		underwear		= sanitize_inlist(underwear, underwear_f)
 		undershirt		= sanitize_inlist(undershirt, undershirt_f)
-		socks			= sanitize_inlist(socks, socks_f)
-
+	socks			= sanitize_inlist(socks, socks_list)
 	age				= sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
 	hair_color			= sanitize_hexcolor(hair_color, 3, 0)
 	facial_hair_color			= sanitize_hexcolor(facial_hair_color, 3, 0)
@@ -331,8 +338,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["frills"] 	= sanitize_inlist(features["frills"], frills_list)
 	features["spines"] 	= sanitize_inlist(features["spines"], spines_list)
 	features["body_markings"] 	= sanitize_inlist(features["body_markings"], body_markings_list)
-	features["wing"] 	= sanitize_inlist(features["wing"], wing_list)
-
 	userandomjob	= sanitize_integer(userandomjob, 0, 1, initial(userandomjob))
 	job_civilian_high = sanitize_integer(job_civilian_high, 0, 65535, initial(job_civilian_high))
 	job_civilian_med = sanitize_integer(job_civilian_med, 0, 65535, initial(job_civilian_med))
@@ -343,17 +348,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	job_engsec_high = sanitize_integer(job_engsec_high, 0, 65535, initial(job_engsec_high))
 	job_engsec_med = sanitize_integer(job_engsec_med, 0, 65535, initial(job_engsec_med))
 	job_engsec_low = sanitize_integer(job_engsec_low, 0, 65535, initial(job_engsec_low))
-
 	return 1
-
 /datum/preferences/proc/save_character()
 	if(!path)				return 0
 	var/savefile/S = new /savefile(path)
 	if(!S)					return 0
 	S.cd = "/character[default_slot]"
-
 	S["version"]			<< SAVEFILE_VERSION_MAX	//load_character will sanitize any bad data, so assume up-to-date.
-
 	//Character
 	S["OOC_Notes"]			<< metadata
 	S["real_name"]			<< real_name
@@ -371,7 +372,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["undershirt"]			<< undershirt
 	S["socks"]				<< socks
 	S["backbag"]			<< backbag
-	S["species"]			<< pref_species.name
+	S["species"]			<< pref_species.id
 	S["feature_mcolor"]					<< features["mcolor"]
 	S["feature_lizard_tail"]			<< features["tail_lizard"]
 	S["feature_human_tail"]				<< features["tail_human"]
@@ -381,14 +382,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["feature_lizard_frills"]			<< features["frills"]
 	S["feature_lizard_spines"]			<< features["spines"]
 	S["feature_lizard_body_markings"]	<< features["body_markings"]
-	S["feature_moth_wings"]				<< features["wing"]
 	S["clown_name"]			<< custom_names["clown"]
 	S["mime_name"]			<< custom_names["mime"]
 	S["ai_name"]			<< custom_names["ai"]
 	S["cyborg_name"]		<< custom_names["cyborg"]
 	S["religion_name"]		<< custom_names["religion"]
 	S["deity_name"]			<< custom_names["deity"]
-
 	//Jobs
 	S["userandomjob"]		<< userandomjob
 	S["job_civilian_high"]	<< job_civilian_high
@@ -400,10 +399,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["job_engsec_high"]	<< job_engsec_high
 	S["job_engsec_med"]		<< job_engsec_med
 	S["job_engsec_low"]		<< job_engsec_low
-
 	return 1
-
-
 #undef SAVEFILE_VERSION_MAX
 #undef SAVEFILE_VERSION_MIN
 /*

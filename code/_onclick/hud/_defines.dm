@@ -21,8 +21,8 @@
 #define ui_inventory "WEST:6,SOUTH:5"
 
 //Middle left indicators
-#define ui_lingchemdisplay "WEST,CENTER-1:15"
-#define ui_lingstingdisplay "WEST,CENTER-3:11"
+#define ui_lingchemdisplay "WEST:6,CENTER-1:15"
+#define ui_lingstingdisplay "WEST:6,CENTER-3:11"
 
 //Lower center, persistant menu
 #define ui_sstore1 "CENTER-5:10,SOUTH:5"
@@ -39,6 +39,7 @@
 
 #define ui_borg_sensor "CENTER-3:16, SOUTH:5"	//borgs
 #define ui_borg_lamp "CENTER-4:16, SOUTH:5"		//borgies
+#define ui_borg_thrusters "CENTER-5:16, SOUTH:5"//borgies
 #define ui_inv1 "CENTER-2:16,SOUTH:5"			//borgs
 #define ui_inv2 "CENTER-1  :16,SOUTH:5"			//borgs
 #define ui_inv3 "CENTER  :16,SOUTH:5"			//borgs
@@ -65,7 +66,6 @@
 #define ui_pull_resist "EAST-2:26,SOUTH+1:7"
 #define ui_movi "EAST-2:26,SOUTH:5"
 #define ui_acti "EAST-3:24,SOUTH:5"
-#define ui_combo "EAST-4:24,SOUTH+1:7" //Right above act_intent, display combo counter for martial arts
 #define ui_zonesel "EAST-1:28,SOUTH:5"
 #define ui_acti_alt "EAST-1:28,SOUTH:5"	//alternative intent switcher for when the interface is hidden (F12)
 
@@ -123,6 +123,13 @@
 #define ui_ears "WEST+2:10,SOUTH+2:9"
 
 #define ui_head "WEST+1:8,SOUTH+3:11"
+
+//Ghosts
+
+#define ui_ghost_jumptomob "SOUTH:6,CENTER-2:16"
+#define ui_ghost_orbit "SOUTH:6,CENTER-1:16"
+#define ui_ghost_reenter_corpse "SOUTH:6,CENTER:16"
+#define ui_ghost_teleport "SOUTH:6,CENTER+1:16"
 
 //Hand of God, god
 

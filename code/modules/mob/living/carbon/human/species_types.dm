@@ -299,13 +299,25 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	burnmod = 0.5
 	coldmod = 2
 	heatmod = 0.5
+	var/datum/action/innate/split_body/slime_split
+	var/datum/action/innate/swap_body/callforward
+	var/datum/action/innate/swap_body/callback
+
+/datum/species/jelly/slime/on_species_loss(mob/living/carbon/C)
+	if(slime_split)
+		slime_split.Remove(C)
+	if(callforward)
+		callforward.Remove(C)
+	if(callback)
+		callback.Remove(C)
+	..()
 
 /datum/species/slime/spec_life(mob/living/carbon/human/H)
 	if(!H.reagents.get_reagent_amount("slimejelly"))
 		if(recently_changed)
 			H.reagents.add_reagent("slimejelly", 80)
-			var/datum/action/split_body/S = new
-			S.Grant(H)
+			slime_split = new
+			slime_split.Grant(H)
 			recently_changed = 0
 		else
 			H.reagents.add_reagent("slimejelly", 5)
@@ -336,8 +348,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 
 /datum/action/split_body
 	name = "Split Body"
-	action_type = AB_INNATE
-	check_flags = AB_CHECK_ALIVE
+	check_flags = AB_CHECK_CONSCIOUS
 	button_icon_state = "split"
 	background_icon_state = "bg_alien"
 
@@ -363,12 +374,13 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 			spare.Move(get_step(H.loc, pick(NORTH,SOUTH,EAST,WEST)))
 			S.volume = 80
 			H.notransform = 0
-			var/datum/action/swap_body/callforward = new /datum/action/swap_body()
-			var/datum/action/swap_body/callback = new /datum/action/swap_body()
-			callforward.body = spare
-			callforward.Grant(H)
-			callback.body = H
-			callback.Grant(spare)
+			var/datum/species/jelly/slime/SS = H.dna.species
+			SS.callforward = new
+			SS.callforward.body = spare
+			SS.callforward.Grant(H)
+			SS.callback = new
+			SS.callback.body = H
+			SS.callback.Grant(spare)
 			H.mind.transfer_to(spare)
 			spare << "<span class='notice'>...and after a moment of disorentation, you're besides yourself!</span>"
 			return
@@ -378,8 +390,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 
 /datum/action/swap_body
 	name = "Swap Body"
-	action_type = AB_INNATE
-	check_flags = AB_CHECK_ALIVE
+	check_flags = AB_CHECK_CONSCIOUS
 	button_icon_state = "slimeswap"
 	background_icon_state = "bg_alien"
 	var/mob/living/carbon/human/body
@@ -442,7 +453,8 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	specflags = list(NOBREATH,HEATRES,COLDRES,NOGUNS,NOBLOOD,RADIMMUNE,VIRUSIMMUNE,PIERCEIMMUNE)
 	speedmod = 3
 	armor = 55
-	punchmod = 5
+	punchdamagelow = 5
+	punchdamagehigh = 14
 	no_equip = list(slot_wear_mask, slot_wear_suit, slot_gloves, slot_shoes, slot_head, slot_w_uniform)
 	nojumpsuit = 1
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/golem
@@ -473,7 +485,8 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	burnmod = 0
 	coldmod = 0
 	heatmod = 0
-	punchmod = 1
+	punchdamagelow = 1
+	punchdamagehigh = 2
 	no_equip = list(slot_wear_mask, slot_wear_suit, slot_gloves, slot_shoes, slot_head, slot_w_uniform)
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/meeseeks
 	nojumpsuit = 1

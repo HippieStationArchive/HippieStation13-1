@@ -16,23 +16,6 @@
 /mob/living/carbon/human/death(gibbed)
 	if(stat == DEAD)
 		return
-	if(is_vampire(src))
-		var/datum/vampire/V = get_vampire()
-		var/rekt = 0
-		if(getFireLoss() > 200) //If they have 200 burn, they die as normal
-			src << "<span class='userdanger'>Your life slips away as the burns on your body take their toll...</span>"
-			rekt = 1 //Makes it ignore the proc below
-		if(!rekt && !reagents.has_reagent("holywater") && V.use_blood(1, 1)) //Vampires are incapable of death if they have clean blood (but can still die if they have holy water in their body)
-			adjustBruteLoss(-5)
-			adjustFireLoss(-5)
-			adjustToxLoss(-5)
-			adjustOxyLoss(-5)
-			adjustCloneLoss(-5)
-			adjustStaminaLoss(-5)
-			src << "<span class='warning'>The clean blood in your body protects you from death.</span>"
-			return 0
-	if(healths)
-		healths.icon_state = "health5"
 	stat = DEAD
 	dizziness = 0
 	jitteriness = 0
@@ -46,15 +29,9 @@
 	if(!gibbed)
 		emote("deathgasp") //let the world KNOW WE ARE DEAD
 
-		update_canmove()
-		if(client) blind.layer = 0
+	dna.species.spec_death(gibbed, src)
 
-	dna.species.spec_death(gibbed,src)
-
-	tod = worldtime2text()		//weasellos time of death patch
-	if(mind)	mind.store_memory("Time of death: [tod]", 0)
 	if(ticker && ticker.mode)
-//		world.log << "k"
 		sql_report_death(src)
 		ticker.mode.check_win()		//Calls the rounds wincheck, mainly for wizard, malf, and changeling now
 	return ..(gibbed)
@@ -65,7 +42,8 @@
 	return 1
 
 /mob/living/carbon/proc/ChangeToHusk()
-	if(disabilities & HUSK)	return
+	if(disabilities & HUSK)
+		return
 	disabilities |= HUSK
 	status_flags |= DISFIGURED	//makes them unknown without fucking up other stuff like admintools
 	return 1

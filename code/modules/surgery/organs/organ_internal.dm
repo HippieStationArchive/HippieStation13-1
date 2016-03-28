@@ -6,7 +6,6 @@
 	var/zone = "chest"
 	var/slot
 	var/vital = 0
-	var/organ_action_name = null
 
 /obj/item/organ/internal/proc/Insert(mob/living/carbon/M, special = 0)
 	if(!iscarbon(M) || owner == M)
@@ -19,9 +18,9 @@
 	owner = M
 	M.internal_organs |= src
 	loc = M
-	if(organ_action_name)
-		action_button_name = organ_action_name
-
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.Grant(src)
 
 /obj/item/organ/internal/proc/Remove(mob/living/carbon/M, special = 0)
 	owner = null
@@ -30,8 +29,9 @@
 		if(vital && !special)
 			M.death()
 
-	if(organ_action_name)
-		action_button_name = null
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.Remove(M)
 
 /obj/item/organ/internal/proc/on_find(mob/living/finder)
 	return
@@ -75,6 +75,9 @@
 				qdel(src)
 	else
 		..()
+
+/obj/item/organ/internal/item_action_slot_check(slot,mob/user)
+	return //so we don't grant the organ's action to mobs who pick up the organ.
 
 //Looking for brains?
 //Try code/modules/mob/living/carbon/brain/brain_item.dm

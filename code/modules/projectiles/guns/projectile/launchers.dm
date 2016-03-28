@@ -47,7 +47,7 @@
 	mag_type = /obj/item/ammo_box/magazine/m75
 	burst_size = 1
 	fire_delay = 0
-	action_button_name = null
+	actions_types = list()
 
 /obj/item/weapon/gun/projectile/automatic/gyropistol/process_chamber(eject_casing = 0, empty_chamber = 1)
 	..()
@@ -70,7 +70,7 @@
 	burst_size = 1
 	fire_delay = 0
 	select = 0
-	action_button_name = null
+	actions_types = list()
 	mag_load_sound = null
 	mag_unload_sound = null
 	chamber_sound = null

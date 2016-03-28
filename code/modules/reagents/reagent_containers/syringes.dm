@@ -124,7 +124,7 @@
 				user << "<span class='notice'>[src] is empty.</span>"
 				return
 
-			if((!target.is_open_container() && !target.is_inject_only()) && !ismob(target) && !istype(target, /obj/item/weapon/reagent_containers/food) && !istype(target, /obj/item/slime_extract) && !istype(target, /obj/item/clothing/mask/cigarette) && !istype(target, /obj/item/weapon/storage/fancy/cigarettes))
+			if(!target.is_open_container() && !ismob(target) && !istype(target, /obj/item/weapon/reagent_containers/food) && !istype(target, /obj/item/slime_extract) && !istype(target, /obj/item/clothing/mask/cigarette) && !istype(target, /obj/item/weapon/storage/fancy/cigarettes))
 				user << "<span class='warning'>You cannot directly fill [target]!</span>"
 				return
 			if(target.reagents.total_volume >= target.reagents.maximum_volume)
@@ -181,7 +181,7 @@
 
 
 /obj/item/weapon/reagent_containers/syringe/update_icon()
-	var/rounded_vol = min(max(round(reagents.total_volume,5),5),15)
+	var/rounded_vol = Clamp(round(reagents.total_volume,5), 0, 15)
 	overlays.Cut()
 	if(ismob(loc))
 		var/injoverlay
@@ -242,9 +242,15 @@
 	list_reagents = list("chloralhydrate" = 50)
 
 /obj/item/weapon/reagent_containers/syringe/mulligan
-	name = "Randomizer"
+	name = "Mulligan"
 	desc = "A syringe used to completely change the users identity."
 	amount_per_transfer_from_this = 1
 	volume = 1
 	list_reagents = list("mulligan" = 1)
 
+/obj/item/weapon/reagent_containers/syringe/gluttony
+	name = "Gluttony's Blessing"
+	desc = "A syringe recovered from a dread place. It probably isn't wise to use."
+	amount_per_transfer_from_this = 1
+	volume = 1
+	list_reagents = list("gluttonytoxin" = 1)

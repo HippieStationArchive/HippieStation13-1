@@ -22,7 +22,7 @@
 	tint = 2
 	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
 	origin_tech = "materials=2;engineering=2"
-	action_button_name = "Toggle Welding Mask"
+	actions_types = list(/datum/action/item_action/toggle)
 	flags_cover = MASKCOVERSEYES
 	visor_flags_inv = HIDEEYES
 
@@ -59,7 +59,7 @@
 	var/voice = "Unknown"
 	var/vchange = 0//This didn't do anything before. It now checks if the mask has special functions/N
 	origin_tech = "syndicate=4"
-	action_button_name = "Toggle mask"
+	actions_types = list(/datum/action/item_action/toggle)
 
 /obj/item/clothing/mask/gas/voice/attack_self(mob/user)
 	vchange = !vchange

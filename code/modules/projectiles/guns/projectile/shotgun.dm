@@ -366,7 +366,7 @@
 	mag_load_sound = 'sound/effects/wep_magazines/bulldog_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/bulldog_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/bulldog_chamber.ogg'
-	action_button_name = null
+	actions_types = list()
 	can_flashlight = 1
 	flight_x_offset = 18
 	flight_y_offset = 12

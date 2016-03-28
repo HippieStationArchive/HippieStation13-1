@@ -38,8 +38,6 @@
 
 #define isclown(A) (istype(A, /mob/living/simple_animal/hostile/retaliate/clown))
 
-#define isguardian(A) (istype(A, /mob/living/simple_animal/hostile/guardian))
-
 #define isAI(A) (istype(A, /mob/living/silicon/ai))
 
 #define ispAI(A) (istype(A, /mob/living/silicon/pai))
@@ -60,7 +58,13 @@
 
 #define isswarmer(A) (istype(A, /mob/living/simple_animal/hostile/swarmer))
 
+#define isguardian(A) (istype(A, /mob/living/simple_animal/hostile/guardian))
+
 #define islimb(A) (istype(A, /obj/item/organ/limb))
+
+#define isbot(A) (istype(A, /mob/living/simple_animal/bot))
+
+#define ismovableatom(A) (istype(A, /atom/movable))
 
 // ASSEMBLY HELPERS
 

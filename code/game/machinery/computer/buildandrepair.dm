@@ -28,10 +28,6 @@
 	var/list/records = null
 	var/frame_desc = null
 
-/obj/item/weapon/circuitboard/large_tank_control
-	name = "circuit board (Large Tank Control)"
-	build_path = /obj/machinery/computer/general_air_control/large_tank_control
-	origin_tech = "programming=2;engineering=3;materials=2"
 /obj/item/weapon/circuitboard/turbine_computer
 	name = "circuit board (Turbine Computer)"
 	build_path = /obj/machinery/computer/turbine_computer
@@ -104,12 +100,13 @@
 /*/obj/item/weapon/circuitboard/atmospheresiphonswitch
 	name = "circuit board (Atmosphere siphon control)"
 	build_path = /obj/machinery/computer/atmosphere/siphonswitch*/
-/obj/item/weapon/circuitboard/air_management
-	name = "circuit board (Atmospheric monitor)"
-	build_path = /obj/machinery/computer/general_air_control
-/obj/item/weapon/circuitboard/injector_control
-	name = "circuit board (Injector control)"
-	build_path = /obj/machinery/computer/general_air_control/fuel_injection
+/obj/item/weapon/circuitboard/atmos_control
+	name = "circuit board (Atmospheric Monitor)"
+	build_path = /obj/machinery/computer/atmos_control
+/obj/item/weapon/circuitboard/atmos_control/tank
+	name = "circuit board (Tank Control)"
+	build_path = /obj/machinery/computer/atmos_control/tank
+	origin_tech = "programming=2;engineering=3;materials=2"
 /obj/item/weapon/circuitboard/atmos_alert
 	name = "circuit board (Atmospheric Alert)"
 	build_path = /obj/machinery/computer/atmos_alert
@@ -170,14 +167,14 @@
 	name = "circuit board (Mech Bay Power Control Console)"
 	build_path = /obj/machinery/computer/mech_bay_power_console
 	origin_tech = "programming=2;powerstorage=3"
-/obj/item/weapon/circuitboard/ordercomp
-	name = "circuit board (Supply Ordering Console)"
-	build_path = /obj/machinery/computer/ordercomp
-/obj/item/weapon/circuitboard/supplycomp
-	name = "circuit board (Supply shuttle console)"
-	build_path = /obj/machinery/computer/supplycomp
+/obj/item/weapon/circuitboard/cargo
+	name = "circuit board (Supply Console)"
+	build_path = /obj/machinery/computer/cargo
 	origin_tech = "programming=3"
-	var/contraband_enabled = 0
+	var/contraband = 0
+/obj/item/weapon/circuitboard/cargo/request
+	name = "circuit board (Supply Request Console)"
+	build_path = /obj/machinery/computer/cargo/request
 /obj/item/weapon/circuitboard/operating
 	name = "circuit board (Operating Computer)"
 	build_path = /obj/machinery/computer/operating
@@ -234,9 +231,6 @@
 	name = "circuit board (AI Integrity Restorer)"
 	build_path = /obj/machinery/computer/aifixer
 	origin_tech = "programming=3;biotech=2"
-/obj/item/weapon/circuitboard/area_atmos
-	name = "circuit board (Area Air Control)"
-	build_path = /obj/machinery/computer/area_atmos
 /*/obj/item/weapon/circuitboard/prison_shuttle
 	name = "circuit board (Prison Shuttle)"
 	build_path = /obj/machinery/computer/prison_shuttle*/
@@ -257,27 +251,10 @@
 			target_dept = dept_list.Find(choice)
 	return
 
-/obj/item/weapon/circuitboard/supplycomp/attackby(obj/item/I, mob/user, params)
+/obj/item/weapon/circuitboard/cargo/attackby(obj/item/I, mob/user, params)
 	if(istype(I,/obj/item/device/multitool))
-		var/catastasis = src.contraband_enabled
-		var/opposite_catastasis
-		if(catastasis)
-			opposite_catastasis = "STANDARD"
-			catastasis = "BROAD"
-		else
-			opposite_catastasis = "BROAD"
-			catastasis = "STANDARD"
-
-		switch( alert("Current receiver spectrum is set to: [catastasis]","Multitool-Circuitboard interface","Switch to [opposite_catastasis]","Cancel") )
-		//switch( alert("Current receiver spectrum is set to: " {(src.contraband_enabled) ? ("BROAD") : ("STANDARD")} , "Multitool-Circuitboard interface" , "Switch to " {(src.contraband_enabled) ? ("STANDARD") : ("BROAD")}, "Cancel") )
-			if("Switch to STANDARD","Switch to BROAD")
-				src.contraband_enabled = !src.contraband_enabled
-
-			if("Cancel")
-				return
-			else
-				user << "DERP! BUG! Report this (And what you were doing to cause it) to Agouri"
-	return
+		contraband = !contraband
+		user << "Receiver spectrum set to [contraband ? "Broad" : "Standard"]."
 
 /obj/item/weapon/circuitboard/rdconsole/attackby(obj/item/I, mob/user, params)
 	if(istype(I,/obj/item/weapon/screwdriver))

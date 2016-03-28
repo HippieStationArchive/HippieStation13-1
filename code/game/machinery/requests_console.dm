@@ -122,7 +122,7 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 	Radio.listening = 0
 
 /obj/machinery/requests_console/attack_hand(mob/user)
-	if(..(user))
+	if(..())
 		return
 	var/dat = ""
 	if(!open)
@@ -211,7 +211,7 @@ var/list/obj/machinery/requests_console/allConsoles = list()
 					dat += "<div class='notice'>Swipe your card to authenticate yourself</div><BR>"
 				dat += "<b>Message: </b>[message ? message : "<i>No Message</i>"]<BR>"
 				dat += "<A href='?src=\ref[src];writeAnnouncement=1'>[message ? "Edit" : "Write"] Message</A><BR><BR>"
-				if (announceAuth && message)
+				if ((announceAuth || IsAdminGhost(user)) && message)
 					dat += "<A href='?src=\ref[src];sendAnnouncement=1'>Announce Message</A><BR>"
 				else
 					dat += "<span class='linkOff'>Announce Message</span><BR>"

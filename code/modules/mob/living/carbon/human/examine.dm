@@ -1,9 +1,7 @@
 /mob/living/carbon/human/examine(mob/user)
 
 	var/list/obscured = check_obscured_slots()
-	var/skipface = 0
-	if(wear_mask)
-		skipface |= wear_mask.flags_inv & HIDEFACE
+	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
 
 	// crappy hacks because you can't do \his[src] etc. I'm sorry this proc is so unreadable, blame the text macros :<
 	var/t_He = "It" //capitalised for use at the start of each line.
@@ -14,15 +12,13 @@
 
 	var/msg = "<span class='info'>*---------*\nThis is "
 
-	if( slot_w_uniform in obscured && skipface ) //big suits/masks/helmets make it hard to tell their gender
+	if( (slot_w_uniform in obscured) && skipface ) //big suits/masks/helmets make it hard to tell their gender
 		t_He = "They"
 		t_his = "their"
 		t_him = "them"
 		t_has = "have"
 		t_is = "are"
 	else
-		if(icon)
-			msg += "\icon[src] " //note, should we ever go back to runtime-generated icons (please don't), you will need to change this to \icon[icon] to prevent crashes.
 		switch(gender)
 			if(MALE)
 				t_He = "He"
@@ -219,7 +215,7 @@
 
 	for(var/obj/item/organ/limb/L in organs)
 		for(var/obj/item/I in L.embedded_objects)
-			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L.getDisplayName()]!</B>[I.pinned ? "It [t_has] pinned [t_him] down to \the [I.pinned]!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[src];read_embedded=\ref[I]'>Read</a>)" : ""]\n"
+			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L.getDisplayName()]!</B>\n"
 
 
 	if(fire_stacks > 0)
@@ -236,20 +232,8 @@
 		else
 			msg += "[t_He] [t_is] quite chubby.\n"
 
-	if(pale && !is_vampire(user))
+	if(pale)
 		msg += "[t_He] [t_has] pale skin.\n"
-
-	if(!is_vampire(src) && is_vampire(user) && vessel) //Vampires can see exact blood levels at a glance
-		var/datum/reagent/blood/B = locate() in vessel.reagent_list
-		var/usable_blood = B.volume - (BLOOD_VOLUME_OKAY + 25)
-		usable_blood = Clamp(usable_blood, 0, INFINITY)
-		msg += "[t_He] [t_has] [B.volume]cl of blood, [usable_blood]cl of which is drinkable without harming [t_him].\n"
-
-	if(is_vampire(src) && is_vampire(user))
-		msg += "You recognize Lilith's blessing. [t_He], like you, is a vampire.\n"
-
-	if(is_vampire(src) && src.mind && src.mind.vampire && src.mind.vampire.clean_blood <= 10) //If they're a vampire with less than 10 units of CLEAN blood, give a unique examine text
-		msg += "[t_He] has deathly pale skin.\n"
 
 	if(bleedsuppress)
 		msg += "[t_He] [t_is] bandaged with something.\n"
@@ -267,8 +251,6 @@
 	if(!appears_dead)
 		if(stat == UNCONSCIOUS)
 			msg += "[t_He] [t_is]n't responding to anything around [t_him] and seems to be asleep.\n"
-		else if(nearcrit)
-			msg += "[t_He] appears to be incapacitated and is struggling to breathe.\n"
 		else if(getBrainLoss() >= 60)
 			msg += "[t_He] [t_has] a stupid expression on [t_his] face.\n"
 
@@ -280,15 +262,11 @@
 			else if(!client)
 				msg += "[t_He] [t_has] a vacant, braindead stare...\n"
 
-		// if(digitalcamo)
-		// 	msg += "[t_He] [t_is] moving [t_his] body in an unnatural and blatantly inhuman manner.\n"
+		if(digitalcamo)
+			msg += "[t_He] [t_is] moving [t_his] body in an unnatural and blatantly inhuman manner.\n"
 
-	if(!wear_mask && is_thrall(src) && in_range(user,src))
+	if(!skipface && is_thrall(src) && in_range(user,src))
 		msg += "Their features seem unnaturally tight and drawn.\n"
-
-	var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in organs
-	if(O && O.get_teeth() < O.max_teeth)
-		msg += "[O.get_teeth() <= 0 ? "All" : "[O.max_teeth - O.get_teeth()]"] of [t_his] teeth are missing!\n"
 
 	if(istype(user, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user
