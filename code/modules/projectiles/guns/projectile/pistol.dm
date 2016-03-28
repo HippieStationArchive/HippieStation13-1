@@ -12,7 +12,7 @@
 	mag_unload_sound = 'sound/effects/wep_magazines/handgun_generic_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/generic_chamber.ogg'
 	fire_sound = "gunshot"
-	action_button_name = null
+	actions_types = list()
 	can_flashlight = 1
 	flight_x_offset = 15
 	flight_y_offset = 12

@@ -12,7 +12,7 @@
 	var/on = 0
 	var/obj/item/clothing/suit/space/hardsuit/suit
 	item_color = "engineering" //Determines used sprites: hardsuit[on]-[color] and hardsuit[on]-[color]2 (lying down sprite)
-	action_button_name = "Toggle Helmet Light"
+	actions_types = list(/datum/action/item_action/toggle_helmet_light)
 	flags = BLOCKHAIR | STOPSPRESSUREDMAGE | THICKMATERIAL | NODROP
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 
@@ -27,17 +27,26 @@
 
 	if(on)	user.AddLuminosity(brightness_on)
 	else	user.AddLuminosity(-brightness_on)
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon()
 
 
 /obj/item/clothing/head/helmet/space/hardsuit/pickup(mob/user)
+	..()
 	if(on)
 		user.AddLuminosity(brightness_on)
 		SetLuminosity(0)
 
 /obj/item/clothing/head/helmet/space/hardsuit/dropped(mob/user)
+	..()
 	if(on)
 		user.AddLuminosity(-brightness_on)
 		SetLuminosity(brightness_on)
+
+/obj/item/clothing/head/helmet/space/hardsuit/item_action_slot_check(slot)
+	if(slot == slot_head)
+		return 1
 
 /obj/item/clothing/head/helmet/space/hardsuit/proc/display_visor_message(var/msg)
 	var/mob/wearer = loc
@@ -63,19 +72,19 @@
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals,/obj/item/device/t_scanner, /obj/item/weapon/rcd)
 	siemens_coefficient = 0
 	var/obj/item/clothing/head/helmet/space/hardsuit/helmet
-	action_button_name = "Toggle Helmet"
+	actions_types = list(/datum/action/item_action/toggle_helmet)
 	var/helmettype = /obj/item/clothing/head/helmet/space/hardsuit
 	var/obj/item/weapon/tank/jetpack/suit/jetpack = null
 
-/obj/item/clothing/suit/space/hardsuit/verb/Jetpack()
-	set name = "Toggle Inbuilt Jetpack"
-	set category = "Object"
-	jetpack.toggle()
+/obj/item/clothing/suit/space/hardsuit/equipped(mob/user, slot)
+	..()
+	if(slot == slot_wear_suit && jetpack)
+		jetpack.cycle_action.Grant(user)
 
-/obj/item/clothing/suit/space/hardsuit/verb/Jetpack_Rockets()
-	set name = "Toggle Inbuilt Jetpack Stabilization"
-	set category = "Object"
-	jetpack.toggle_rockets()
+/obj/item/clothing/suit/space/hardsuit/dropped(mob/user)
+	..()
+	if(jetpack)
+		jetpack.cycle_action.Remove(user)
 
 	//Engineering
 /obj/item/clothing/head/helmet/space/hardsuit/engine
@@ -177,7 +186,6 @@
 	armor = list(melee = 60, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
 	on = 0
 	var/obj/item/clothing/suit/space/hardsuit/syndi/linkedsuit = null
-	action_button_name = "Toggle Helmet Mode"
 	flags = BLOCKHAIR | STOPSPRESSUREDMAGE | THICKMATERIAL | NODROP
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 
@@ -246,7 +254,6 @@
 	item_state = "syndie_hardsuit"
 	item_color = "syndi"
 	w_class = 3
-	action_button_name = "Toggle Helmet"
 	armor = list(melee = 60, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword/saber,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi
@@ -405,15 +412,14 @@
 	armor = list(melee = 15, bullet = 5, laser = 10, energy = 5, bomb = 100, bio = 100, rad = 70)
 	scan_reagents = 1
 	var/obj/machinery/doppler_array/integrated/bomb_radar
+	actions_types = list(/datum/action/item_action/toggle_helmet_light, /datum/action/item_action/toggle_research_scanner)
 
 /obj/item/clothing/head/helmet/space/hardsuit/rd/New()
 	..()
 	bomb_radar = new /obj/machinery/doppler_array/integrated(src)
 
 /obj/item/clothing/head/helmet/space/hardsuit/rd/equipped(mob/living/carbon/human/user, slot)
-	..(user, slot)
-	user.scanner.Grant(user)
-	user.scanner.devices += 1
+	..()
 	if(user.glasses && istype(user.glasses, /obj/item/clothing/glasses/hud/diagnostic))
 		user << ("<span class='warning'>Your [user.glasses] prevents you using [src]'s diagnostic visor HUD.</span>")
 	else
@@ -422,8 +428,7 @@
 		DHUD.add_hud_to(user)
 
 /obj/item/clothing/head/helmet/space/hardsuit/rd/dropped(mob/living/carbon/human/user)
-	..(user)
-	user.scanner.devices = max(0, user.scanner.devices - 1)
+	..()
 	if(onboard_hud_enabled && !(user.glasses && istype(user.glasses, /obj/item/clothing/glasses/hud/diagnostic)))
 		var/datum/atom_hud/DHUD = huds[DATA_HUD_DIAGNOSTIC]
 		DHUD.remove_hud_from(user)

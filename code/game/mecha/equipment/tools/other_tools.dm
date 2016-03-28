@@ -37,7 +37,7 @@
 /obj/item/mecha_parts/mecha_equipment/wormhole_generator/action(atom/target)
 	if(!action_checks(target) || src.loc.z == ZLEVEL_CENTCOM) return
 	var/list/theareas = list()
-	for(var/area/AR in ultra_range(100, chassis, 1))
+	for(var/area/AR in spiral_range(100, chassis, 1))
 		if(AR in theareas) continue
 		theareas += AR
 	if(!theareas.len)
@@ -437,12 +437,12 @@
 		return
 	var/datum/gas_mixture/GM = new
 	if(prob(10))
-		GM.toxins += 100
+		GM.gases["plasma"][MOLES] += 100
 		GM.temperature = 1500+T0C //should be enough to start a fire
 		T.visible_message("The [src] suddenly disgorges a cloud of heated plasma.")
 		qdel(src)
 	else
-		GM.toxins += 5
+		GM.gases["plasma"][MOLES] += 5
 		GM.temperature = istype(T) ? T.air.return_temperature() : T20C
 		T.visible_message("The [src] suddenly disgorges a cloud of plasma.")
 	T.assume_air(GM)

@@ -76,9 +76,12 @@
 //If both fail it drops it on the floor and returns 0.
 //This is probably the main one you need to know :)
 /mob/proc/put_in_hands(obj/item/W)
-	if(!W)		return 0
-	if(put_in_active_hand(W))			return 1
-	else if(put_in_inactive_hand(W))	return 1
+	if(!W)
+		return 0
+	if(put_in_active_hand(W))
+		return 1
+	else if(put_in_inactive_hand(W))
+		return 1
 	else
 		W.loc = get_turf(src)
 		W.layer = initial(W.layer)
@@ -174,3 +177,10 @@
 	//if(hasvar(src,"r_hand")) if(src:r_hand) items += src:r_hand
 
 	return items
+
+//used in code for items usable by both carbon and drones, this gives the proper back slot for each mob.(defibrillator, backpack watertank, ...)
+/mob/proc/getBackSlot()
+	return slot_back
+
+/mob/proc/getBeltSlot()
+	return slot_belt

@@ -138,3 +138,9 @@
 		equip_to_slot(I, slot_drone_storage)
 	else
 		usr << "<span class='warning'>You are unable to equip that!</span>"
+
+/mob/living/simple_animal/drone/getBackSlot()
+	return slot_drone_storage
+
+/mob/living/simple_animal/drone/getBeltSlot()
+	return slot_drone_storage

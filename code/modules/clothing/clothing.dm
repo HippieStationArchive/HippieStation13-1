@@ -152,7 +152,10 @@ BLIND     // can't see anything
 			src.mask_adjusted = 1
 			if(adjusted_flags)
 				slot_flags = adjusted_flags
-		usr.update_inv_wear_mask()
+		user.wear_mask_update(src, toggle_off = mask_adjusted)
+		for(var/X in actions)
+			var/datum/action/A = X
+			A.UpdateButtonIcon()
 
 
 

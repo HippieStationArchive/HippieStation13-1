@@ -9,12 +9,12 @@
 
 /atom/movable/attackby(obj/item/W, mob/living/user, params)
 	user.do_attack_animation(src)
-	if(W && !(W.flags&NOBLUDGEON))
+	if(W && !(W.flags & NOBLUDGEON))
 		visible_message("<span class='danger'>[user] has hit [src] with [W]!</span>")
 
 /mob/living/attackby(obj/item/I, mob/user, params)
 	user.changeNext_move(CLICK_CD_MELEE)
-	if(butcher_results && stat == DEAD) //can we butcher it?
+	if(user.a_intent == "harm" && stat == DEAD && butcher_results) //can we butcher it?
 		var/sharpness = I.is_sharp()
 		if(sharpness)
 			user << "<span class='notice'>You begin to butcher [src]...</span>"
@@ -26,7 +26,7 @@
 
 /mob/living/proc/attacked_by(obj/item/I, mob/living/user, def_zone)
 	apply_damage(I.force, I.damtype, def_zone)
-	if(I.damtype == BRUTE)
+	if(I.damtype == "brute")
 		if(prob(33) && I.force)
 			var/turf/location = src.loc
 			if(istype(location, /turf/simulated))
@@ -77,9 +77,9 @@
 		return
 
 	if (hitsound && force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
-		playsound(loc, hitsound, get_clamped_volume(), 1, hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
+		playsound(loc, hitsound, get_clamped_volume(), 1, -1) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
 	else if (force == 0)//Otherwise, if the item's force is zero...
-		playsound(loc, 'sound/weapons/tap.ogg', get_clamped_volume(), 1, hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
+		playsound(loc, 'sound/weapons/tap.ogg', get_clamped_volume(), 1, -1)//...play tap.ogg at get_clamped_volume()
 	/////////////////////////
 	user.lastattacked = M
 	M.lastattacker = user
@@ -88,7 +88,7 @@
 	//	M.lastattacker = null
 	/////////////////////////
 	M.attacked_by(src, user, def_zone)
-	//TODO: Change this to use the damtype word not int
+
 	add_logs(user, M, "attacked", src.name, "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)
 

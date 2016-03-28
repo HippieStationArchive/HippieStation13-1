@@ -8,7 +8,7 @@
 	item_color = "yellow" //Determines used sprites: hardhat[on]_[item_color] and hardhat[on]_[item_color]2 (lying down sprite)
 	armor = list(melee = 15, bullet = 5, laser = 20,energy = 10, bomb = 20, bio = 10, rad = 20)
 	flags_inv = 0
-	action_button_name = "Toggle Helmet Light"
+	actions_types = list(/datum/action/item_action/toggle_helmet_light)
 	burn_state = -1 //Won't burn in fires
 
 	attack_self(mob/user)
@@ -22,14 +22,19 @@
 
 		if(on)	user.AddLuminosity(brightness_on)
 		else	user.AddLuminosity(-brightness_on)
+		for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon()
 
 	pickup(mob/user)
+		..()
 		if(on)
 			user.AddLuminosity(brightness_on)
 //			user.UpdateLuminosity()	//TODO: Carn
 			SetLuminosity(0)
 
 	dropped(mob/user)
+		..()
 		if(on)
 			user.AddLuminosity(-brightness_on)
 //			user.UpdateLuminosity()

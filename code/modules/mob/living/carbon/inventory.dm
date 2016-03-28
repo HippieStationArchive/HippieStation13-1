@@ -39,7 +39,7 @@
 			update_inv_back()
 		if(slot_wear_mask)
 			wear_mask = I
-			wear_mask_update(I, unequip=0)
+			wear_mask_update(I, toggle_off=0)
 		if(slot_head)
 			head = I
 			head_update(I)
@@ -75,7 +75,7 @@
 		update_inv_back()
 	else if(I == wear_mask)
 		wear_mask = null
-		wear_mask_update(I, unequip=1)
+		wear_mask_update(I, toggle_off=1)
 	else if(I == handcuffed)
 		handcuffed = null
 		if(buckled && buckled.buckle_requires_restraints)
@@ -86,7 +86,7 @@
 		update_inv_legcuffed()
 
 //handle stuff to update when a mob equips/unequips a mask.
-/mob/living/carbon/proc/wear_mask_update(obj/item/I, unequip = 1)
+/mob/living/proc/wear_mask_update(obj/item/clothing/C, toggle_off = 1)
 	update_inv_wear_mask()
 
 //handle stuff to update when a mob equips/unequips a headgear.

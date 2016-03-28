@@ -394,3 +394,8 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 	else
 		return
 
+/proc/IsAdminGhost(var/mob/user)
+	if(check_rights_for(user.client, R_ADMIN) && istype(user, /mob/dead/observer) && user.client.AI_Interact)
+		return 1
+	else
+		return 0

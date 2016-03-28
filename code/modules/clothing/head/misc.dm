@@ -176,7 +176,7 @@
 	icon_state = "fedora"
 	item_state = "fedora"
 	desc = "A really cool hat if you're a mobster. A really lame hat if you're not."
-	action_button_name = "Tip Fedora"
+	actions_types = list(/datum/action/item_action/hands_free/activate)
 
 /obj/item/clothing/head/fedora/attack_self(mob/user)
 	var/mob/living/carbon/human/H = user
@@ -199,6 +199,10 @@
 			H.facial_hair_style = "Neckbeard"
 			H.adjustBrainLoss(10)
 		return
+
+/obj/item/clothing/head/fedora/item_action_slot_check(slot, mob/user)
+	if(slot == slot_head)
+		return 1
 
 /obj/item/clothing/head/fedora/suicide_act(mob/user)
 	var/mob/living/carbon/human/H = user

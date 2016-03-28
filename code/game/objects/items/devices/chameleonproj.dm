@@ -18,6 +18,7 @@
 	var/saved_underlays = null
 
 /obj/item/device/chameleon/dropped()
+	..()
 	disrupt()
 
 /obj/item/device/chameleon/equipped()

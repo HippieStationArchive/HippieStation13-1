@@ -71,11 +71,11 @@
 	var/melee_cooldown = 10
 	var/melee_can_hit = 1
 
-	var/datum/action/mecha/mech_eject/eject_action = new
-	var/datum/action/mecha/mech_toggle_internals/internals_action = new
-	var/datum/action/mecha/mech_cycle_equip/cycle_action = new
-	var/datum/action/mecha/mech_toggle_lights/lights_action = new
-	var/datum/action/mecha/mech_view_stats/stats_action = new
+	var/datum/action/innate/mecha/mech_eject/eject_action = new
+	var/datum/action/innate/mecha/mech_toggle_internals/internals_action = new
+	var/datum/action/innate/mecha/mech_cycle_equip/cycle_action = new
+	var/datum/action/innate/mecha/mech_toggle_lights/lights_action = new
+	var/datum/action/innate/mecha/mech_view_stats/stats_action = new
 
 	hud_possible = list (DIAG_STAT_HUD, DIAG_BATT_HUD, DIAG_MECH_HUD)
 
@@ -177,8 +177,9 @@
 	cabin_air = new
 	cabin_air.temperature = T20C
 	cabin_air.volume = 200
-	cabin_air.oxygen = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
-	cabin_air.nitrogen = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+	cabin_air.assert_gases("o2","n2")
+	cabin_air.gases["o2"][MOLES] = O2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
+	cabin_air.gases["n2"][MOLES] = N2STANDARD*cabin_air.volume/(R_IDEAL_GAS_EQUATION*cabin_air.temperature)
 	return cabin_air
 
 /obj/mecha/proc/add_radio()
@@ -221,20 +222,17 @@
 
 //processing internal damage, temperature, air regulation, alert updates, lights power use.
 /obj/mecha/process()
-
 	var/internal_temp_regulation = 1
 
 	if(internal_damage)
-
 		if(internal_damage & MECHA_INT_FIRE)
 			if(!(internal_damage & MECHA_INT_TEMP_CONTROL) && prob(5))
 				clearInternalDamage(MECHA_INT_FIRE)
 			if(internal_tank)
-				if(internal_tank.return_pressure() > internal_tank.maximum_pressure && !(internal_damage & MECHA_INT_TANK_BREACH))
-					setInternalDamage(MECHA_INT_TANK_BREACH)
 				var/datum/gas_mixture/int_tank_air = internal_tank.return_air()
-				if(int_tank_air && int_tank_air.return_volume()>0) //heat the air_contents
-					int_tank_air.temperature = min(6000+T0C, int_tank_air.temperature+rand(10,15))
+				if(int_tank_air.return_pressure() > internal_tank.maximum_pressure && !(internal_damage & MECHA_INT_TANK_BREACH))
+					setInternalDamage(MECHA_INT_TANK_BREACH)
+				if(int_tank_air && int_tank_air.return_volume() > 0) //heat the air_contents
 			if(cabin_air && cabin_air.return_volume()>0)
 				cabin_air.temperature = min(6000+T0C, cabin_air.return_temperature()+rand(10,15))
 				if(cabin_air.return_temperature() > max_temperature/2)
@@ -557,6 +555,7 @@
 			AI.control_disabled = 1
 			AI.radio_enabled = 0
 			AI.loc = card
+			card.AI = AI
 			occupant = null
 			AI.controlled_mech = null
 			AI.remote_control = null
@@ -573,7 +572,7 @@
 			ai_enter_mech(AI, interaction)
 
 		if(AI_TRANS_FROM_CARD) //Using an AI card to upload to a mech.
-			AI = locate(/mob/living/silicon/ai) in card
+			AI = card.AI
 			if(!AI)
 				user << "<span class='warning'>There is no AI currently installed on this device.</span>"
 				return
@@ -586,6 +585,7 @@
 			AI.control_disabled = 0
 			AI.radio_enabled = 1
 			user << "<span class='boldnotice'>Transfer successful</span>: [AI.name] ([rand(1000,9999)].exe) installed and executed successfully. Local copy has been removed."
+			card.AI = null
 			ai_enter_mech(AI, interaction)
 
 //Hack and From Card interactions share some code, so leave that here for both to use.
@@ -928,17 +928,19 @@ var/year_integer = text2num(year) // = 2013???
 	stats_action.Remove(user)
 
 
-/datum/action/mecha
-	check_flags = AB_CHECK_RESTRAINED | AB_CHECK_STUNNED | AB_CHECK_ALIVE
-	action_type = AB_INNATE
+/datum/action/innate/mecha
+	check_flags = AB_CHECK_RESTRAINED | AB_CHECK_STUNNED | AB_CHECK_CONSCIOUS
 	var/obj/mecha/chassis
 
+/datum/action/innate/mecha/Destroy()
+	chassis = null
+	return ..()
 
-/datum/action/mecha/mech_eject
+/datum/action/innate/mecha/mech_eject
 	name = "Eject From Mech"
 	button_icon_state = "mech_eject"
 
-/datum/action/mecha/mech_eject/Activate()
+/datum/action/innate/mecha/mech_eject/Activate()
 	if(!owner || !iscarbon(owner))
 		return
 	if(!chassis || chassis.occupant != owner)
@@ -946,11 +948,11 @@ var/year_integer = text2num(year) // = 2013???
 	chassis.go_out()
 
 
-/datum/action/mecha/mech_toggle_internals
+/datum/action/innate/mecha/mech_toggle_internals
 	name = "Toggle Internal Airtank Usage"
 	button_icon_state = "mech_internals_off"
 
-/datum/action/mecha/mech_toggle_internals/Activate()
+/datum/action/innate/mecha/mech_toggle_internals/Activate()
 	if(!owner || !chassis || chassis.occupant != owner)
 		return
 	chassis.use_internal_tank = !chassis.use_internal_tank
@@ -959,11 +961,11 @@ var/year_integer = text2num(year) // = 2013???
 	chassis.log_message("Now taking air from [chassis.use_internal_tank?"internal airtank":"environment"].")
 
 
-/datum/action/mecha/mech_cycle_equip
+/datum/action/innate/mecha/mech_cycle_equip
 	name = "Cycle Equipment"
 	button_icon_state = "mech_cycle_equip_off"
 
-/datum/action/mecha/mech_cycle_equip/Activate()
+/datum/action/innate/mecha/mech_cycle_equip/Activate()
 	if(!owner || !chassis || chassis.occupant != owner)
 		return
 	if(chassis.equipment.len == 0)
@@ -991,11 +993,11 @@ var/year_integer = text2num(year) // = 2013???
 			return
 
 
-/datum/action/mecha/mech_toggle_lights
+/datum/action/innate/mecha/mech_toggle_lights
 	name = "Toggle Lights"
 	button_icon_state = "mech_lights_off"
 
-/datum/action/mecha/mech_toggle_lights/Activate()
+/datum/action/innate/mecha/mech_toggle_lights/Activate()
 	if(!owner || !chassis || chassis.occupant != owner)
 		return
 	chassis.lights = !chassis.lights
@@ -1009,11 +1011,11 @@ var/year_integer = text2num(year) // = 2013???
 	chassis.log_message("Toggled lights [chassis.lights?"on":"off"].")
 
 
-/datum/action/mecha/mech_view_stats
+/datum/action/innate/mecha/mech_view_stats
 	name = "View Stats"
 	button_icon_state = "mech_view_stats"
 
-/datum/action/mecha/mech_view_stats/Activate()
+/datum/action/innate/mecha/mech_view_stats/Activate()
 	if(!owner || !chassis || chassis.occupant != owner)
 		return
 	chassis.occupant << browse(chassis.get_stats_html(), "window=exosuit")

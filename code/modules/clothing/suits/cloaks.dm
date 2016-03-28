@@ -53,7 +53,7 @@
 	name = "cloak of invisibility"
 	desc = "A tattered old thing that apparently gifts the wearer with near-invisibility."
 	armor = list(melee = 10, bullet = 10, laser = 10, energy = 10, bomb = 10, bio = 10, rad = 10)
-	action_button_name = "Flaunt Cloak"
+	actions_types = list() // same of suicide bomb suit
 	var/invisible = 0
 
 /obj/item/clothing/cloak/wizard/ui_action_click()

@@ -4,10 +4,10 @@ var/datum/subsystem/ticker/ticker
 
 /datum/subsystem/ticker
 	name = "Ticker"
-	can_fire = 1
 	priority = 0
 
-	var/restart_timeout = 250				//delay when restarting server
+	can_fire = 1 // This needs to fire before round start.
+
 	var/current_state = GAME_STATE_STARTUP	//state of current round (used by process()) Use the defines GAME_STATE_* !
 	var/force_ending = 0					//Round was ended by admin intervention
 
@@ -21,7 +21,7 @@ var/datum/subsystem/ticker/ticker
 
 	var/list/datum/mind/minds = list()		//The characters in the game. Used for objective tracking.
 
-		//These bible variables should be a preference
+	//These bible variables should be a preference
 	var/Bible_icon_state					//icon_state the chaplain has chosen for his bible
 	var/Bible_item_state					//item_state the chaplain has chosen for his bible
 	var/Bible_name							//name of the bible
@@ -46,19 +46,23 @@ var/datum/subsystem/ticker/ticker
 
 	var/obj/screen/cinematic = null			//used for station explosion cinematic
 
+	var/maprotatechecked = 0
+
 
 /datum/subsystem/ticker/New()
 	NEW_SS_GLOBAL(ticker)
 
-	login_music = pickweight(list('sound/ambience/title2.ogg' = 0, 'sound/ambience/title1.ogg' = 1, 'sound/ambience/title3.ogg' =0, 'sound/ambience/clown.ogg' = 0)) // choose title music!
+	login_music = pickweight(list('sound/ambience/title2.ogg' = 31, 'sound/ambience/title1.ogg' = 31, 'sound/ambience/title3.ogg' =31, 'sound/ambience/clown.ogg' = 7)) // choose title music!
 	if(SSevent.holidays && SSevent.holidays[APRIL_FOOLS])
 		login_music = 'sound/ambience/clown.ogg'
 
 /datum/subsystem/ticker/Initialize(timeofday, zlevel)
 	if (zlevel)
 		return ..()
-	if(!syndicate_code_phrase)		syndicate_code_phrase	= generate_code_phrase()
-	if(!syndicate_code_response)	syndicate_code_response	= generate_code_phrase()
+	if(!syndicate_code_phrase)
+		syndicate_code_phrase	= generate_code_phrase()
+	if(!syndicate_code_response)
+		syndicate_code_response	= generate_code_phrase()
 	setupFactions()
 	..()
 
@@ -66,9 +70,8 @@ var/datum/subsystem/ticker/ticker
 	switch(current_state)
 		if(GAME_STATE_STARTUP)
 			timeLeft = config.lobby_countdown * 10
-			world << "<B><FONT color='blue'>Welcome to the pre-game lobby!</FONT></B>"
+			world << "<b><font color='blue'>Welcome to the pre-game lobby!</font></b>"
 			world << "Please, setup your character and select ready. Game will start in [config.lobby_countdown] seconds"
-			crewmonitor.generateMiniMaps() // start generating minimaps (this is a background process)
 			current_state = GAME_STATE_PREGAME
 
 		if(GAME_STATE_PREGAME)
@@ -100,6 +103,7 @@ var/datum/subsystem/ticker/ticker
 		if(GAME_STATE_PLAYING)
 			mode.process(wait * 0.1)
 			check_queue()
+			check_maprotate()
 
 			if(!mode.explosion_in_progress && mode.check_finished() || force_ending)
 				current_state = GAME_STATE_FINISHED
@@ -177,8 +181,7 @@ var/datum/subsystem/ticker/ticker
 	equip_characters()
 	data_core.manifest()
 
-	master_controller.roundHasStarted()
-
+	Master.RoundStart()
 
 	world << "<FONT color='blue'><B>Welcome to [station_name()], enjoy your stay!</B></FONT>"
 	world << sound('sound/AI/welcome.ogg')
@@ -198,20 +201,21 @@ var/datum/subsystem/ticker/ticker
 			if(S.name != "AI")
 				qdel(S)
 
-		if(!admins.len)
-			send2irc("Server", "Round just started with no admins online!")
+		var/list/adm = get_admin_counts()
+		if(!adm["present"])
+			send2irc("Server", "Round just started with no active admins online!")
 
 	return 1
 
-
-	//Plus it provides an easy way to make cinematics for other events. Just use this as a template
+//Plus it provides an easy way to make cinematics for other events. Just use this as a template
 /datum/subsystem/ticker/proc/station_explosion_cinematic(station_missed=0, override = null)
-	if( cinematic )	return	//already a cinematic in progress!
+	if( cinematic )
+		return	//already a cinematic in progress!
 
 	for (var/datum/html_interface/hi in html_interfaces)
 		hi.closeAll()
 	//initialise our cinematic screen object
-	cinematic = new /obj/screen{icon='icons/effects/station_explosion.dmi';icon_state="station_intact";layer=20;mouse_opacity=0;screen_loc="1,0";}(src)
+	cinematic = new /obj/screen{icon='icons/effects/station_explosion.dmi';icon_state="station_intact";layer=21;mouse_opacity=0;screen_loc="1,0";}(src)
 
 	var/obj/structure/bed/temp_buckle = new(src)
 	if(station_missed)
@@ -260,8 +264,6 @@ var/datum/subsystem/ticker/ticker
 		if(2)	//nuke was nowhere nearby	//TODO: a really distant explosion animation
 			sleep(50)
 			world << sound('sound/effects/explosionfar.ogg')
-
-
 		else	//station was destroyed
 			if( mode && !override )
 				override = mode.name
@@ -306,10 +308,9 @@ var/datum/subsystem/ticker/ticker
 	//Otherwise if its a verb it will continue on afterwards.
 	spawn(300)
 		if(cinematic)
-			qdel(cinematic)
-			cinematic = null
+			qdel(cinematic)		//end the cinematic
 		if(temp_buckle)
-			qdel(temp_buckle)
+			qdel(temp_buckle)	//release everybody
 	return
 
 
@@ -475,3 +476,19 @@ var/datum/subsystem/ticker/ticker
 			next_in_line << "<span class='danger'>No response recieved. You have been removed from the line.</span>"
 			queued_players -= next_in_line
 			queue_delay = 0
+
+/datum/subsystem/ticker/proc/check_maprotate()
+	if (!config.maprotation || !SERVERTOOLS)
+		return
+	if (SSshuttle.emergency.mode != SHUTTLE_ESCAPE || SSshuttle.canRecall())
+		return
+	if (maprotatechecked)
+		return
+
+	maprotatechecked = 1
+
+	//map rotate chance defaults to 75% of the length of the round (in minutes)
+	if (!prob((world.time/600)*config.maprotatechancedelta))
+		return
+	spawn(0) //compiling a map can lock up the mc for 30 to 60 seconds if we don't spawn
+		maprotate()

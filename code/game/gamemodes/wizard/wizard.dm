@@ -114,7 +114,7 @@
 
 /datum/game_mode/proc/greet_wizard(datum/mind/wizard, you_are=1)
 	if (you_are)
-		wizard.current << "<span class='boldannounce'>You are the Space Wizard!</span>"
+		wizard.current << "<span class='boldannounce'>You are the Space Wizard!If you need help, check <a href='[config.wikiurl]/index.php?title=Wizard'>here</a></span>"
 	wizard.current << "<B>The Space Wizards Federation has given you the following tasks:</B>"
 
 	var/obj_count = 1

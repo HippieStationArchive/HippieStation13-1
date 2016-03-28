@@ -8,7 +8,7 @@
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	materials = list(MAT_METAL=50, MAT_GLASS=20)
-	action_button_name = "Toggle Light"
+	actions_types = list(/datum/action/item_action/toggle_light)
 	var/on = 0
 	var/brightness_on = 4 //luminosity when on
 	var/sound_toggleON = 'sound/items/flashlight_on.ogg'
@@ -42,6 +42,9 @@
 		user << "<span class='warning'>You cannot turn the light on while in this [user.loc]!</span>" //To prevent some lighting anomalities.
 		return 0
 	on = !on
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon()
 	if(on && sound_toggleON)
 		playsound(loc, sound_toggleON, 30, 1, -1)
 	else if(!on && sound_toggleOFF)
@@ -94,12 +97,14 @@
 
 
 /obj/item/device/flashlight/pickup(mob/user)
+	..()
 	if(on)
 		user.AddLuminosity(brightness_on)
 		SetLuminosity(0)
 
 
 /obj/item/device/flashlight/dropped(mob/user)
+	..()
 	if(on)
 		user.AddLuminosity(-brightness_on)
 		SetLuminosity(brightness_on)
@@ -201,7 +206,7 @@ obj/item/device/flashlight/lamp/bananalamp
 	brightness_on = 7 // Pretty bright.
 	icon_state = "flare"
 	item_state = "flare"
-	action_button_name = null	//just pull it manually, neckbeard.
+	actions_types = list()
 	var/fuel = 0
 	var/on_damage = 7
 	var/produce_heat = 1500

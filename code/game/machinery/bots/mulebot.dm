@@ -72,11 +72,10 @@ var/global/mulebot_count = 0
 	cell.charge = 2000
 	cell.maxcharge = 2000
 
-	spawn(5)	// must wait for map loading to finish
+	spawn(10)	// must wait for map loading to finish
 		mulebot_count += 1
 		if(!suffix)
-			suffix = "#[mulebot_count]"
-		name = "\improper Mulebot ([suffix])"
+			set_suffix("#[mulebot_count]")
 
 /obj/machinery/bot/mulebot/Destroy()
 	unload(0)
@@ -84,43 +83,52 @@ var/global/mulebot_count = 0
 	wires = null
 	return ..()
 
+/obj/machinery/bot/mulebot/proc/set_suffix(suffix)
+	src.suffix = suffix
+	name = "\improper MULEbot ([suffix])"
+
 /obj/machinery/bot/mulebot/bot_reset()
 	..()
 	reached_target = 0
 
-// attack by item
-// emag : lock/unlock,
-// screwdriver: open/close hatch
-// cell: insert it
-// other: chance to knock rider off bot
 /obj/machinery/bot/mulebot/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/card/id) || istype(I, /obj/item/device/pda))
 		if(toggle_lock(user))
 			user << "<span class='notice'>Controls [(locked ? "locked" : "unlocked")].</span>"
 
+	if(istype(I, /obj/item/weapon/screwdriver))
+		..()
+		if(open)
+			on = FALSE
+			icon_state="mulebot-hatch"
+		else
+			icon_state = "mulebot0"
 	else if(istype(I,/obj/item/weapon/stock_parts/cell) && open && !cell)
 		if(!user.drop_item())
 			return
 		var/obj/item/weapon/stock_parts/cell/C = I
 		C.loc = src
 		cell = C
-		updateDialog()
-	else if(istype(I,/obj/item/weapon/screwdriver))
-		if(locked)
-			user << "<span class='warning'>The maintenance hatch cannot be opened or closed while the controls are locked!</span>"
-			return
-
-		open = !open
-		if(open)
-			visible_message("[user] opens the maintenance hatch of [src]", "<span class='notice'>You open [src]'s maintenance hatch.</span>")
-			on = 0
-			icon_state="mulebot-hatch"
+		visible_message("[user] inserts a cell into [src].",
+						"<span class='notice'>You insert the new cell into [src].</span>")
+	else if(istype(I, /obj/item/weapon/crowbar) && open && cell)
+		cell.add_fingerprint(usr)
+		cell.loc = loc
+		cell = null
+		visible_message("[user] crowbars out the power cell from [src].",
+						"<span class='notice'>You pry the powercell out of [src].</span>")
+	else if(wires.IsInteractionTool(I) && open)
+		return attack_hand(user)
+	else if(load && ismob(load))  // chance to knock off rider
+		if(prob(1 + I.force * 2))
+			unload(0)
+			user.visible_message("<span class='danger'>[user] knocks [load] off [src] with \the [I]!</span>",
+									"<span class='danger'>You knock [load] off [src] with \the [I]!</span>")
 		else
-			visible_message("[user] closes the maintenance hatch of [src]", "<span class='notice'>You close [src]'s maintenance hatch.</span>")
-			icon_state = "mulebot0"
+			user << "<span class='warning'>You hit [src] with \the [I] but to no effect!</span>"
+			..()
 
-		updateDialog()
-	else if (istype(I, /obj/item/weapon/wrench))
+	else if(istype(I, /obj/item/weapon/wrench))
 		if (health < maxhealth)
 			health = min(maxhealth, health+25)
 			user.visible_message(
@@ -129,15 +137,6 @@ var/global/mulebot_count = 0
 			)
 		else
 			user << "<span class='warning'>[src] does not need a repair!</span>"
-	else if(istype(I, /obj/item/device/multitool) || istype(I, /obj/item/weapon/wirecutters))
-		if(open)
-			attack_hand(usr)
-	else if(load && ismob(load))  // chance to knock off rider
-		if(prob(1+I.force * 2))
-			unload(0)
-			user.visible_message("<span class='danger'>[user] knocks [load] off [src] with \the [I]!</span>", "<span class='danger'>You knock [load] off [src] with \the [I]!</span>")
-		else
-			user << "<span class='warning'>You hit [src] with \the [I] but to no effect!</span>"
 	else
 		..()
 	return
@@ -210,7 +209,7 @@ var/global/mulebot_count = 0
 		dat += "<b>Destination:</b> [!destination ? "<i>none</i>" : destination]<BR>"
 		dat += "<b>Power level:</b> [cell ? cell.percent() : 0]%"
 
-		if(locked && !ai)
+		if(locked && !ai && !IsAdminGhost(user))
 			dat += "&nbsp;<br /><div class='notice'>Controls are locked</div><A href='byond://?src=\ref[src];op=unlock'>Unlock Controls</A>"
 		else
 			dat += "&nbsp;<br /><div class='notice'>Controls are unlocked</div><A href='byond://?src=\ref[src];op=lock'>Lock Controls</A><BR><BR>"
@@ -262,7 +261,7 @@ var/global/mulebot_count = 0
 		return
 	if (usr.stat)
 		return
-	if ((in_range(src, usr) && istype(loc, /turf)) || (istype(usr, /mob/living/silicon)))
+	if((in_range(src, usr) && istype(loc, /turf)) || (istype(usr, /mob/living/silicon)) || IsAdminGhost(usr))
 		usr.set_machine(src)
 
 		switch(href_list["op"])
@@ -667,7 +666,7 @@ var/global/mulebot_count = 0
 // calculates a path to the current destination
 // given an optional turf to avoid
 /obj/machinery/bot/mulebot/calc_path(turf/avoid = null)
-	path = get_path_to(loc, target, src, /turf/proc/Distance_cardinal, 0, 250, id=botcard, exclude=avoid)
+	path = get_path_to(src, target, /turf/proc/Distance_cardinal, 0, 250, id=access_card, exclude=avoid)
 
 
 // sets the current destination

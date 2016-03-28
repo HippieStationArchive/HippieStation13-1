@@ -26,6 +26,7 @@
 	..()
 
 /obj/item/weapon/melee/cultblade/pickup(mob/living/user)
+	..()
 	if(!iscultist(user))
 		user << "<span class='cult'>\"I wouldn't advise that.\"</span>"
 		user << "<span class='warning'>An overwhelming sense of nausea overpowers you!</span>"

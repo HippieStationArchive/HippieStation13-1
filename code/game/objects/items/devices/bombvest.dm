@@ -27,7 +27,7 @@
 	..()
 
 /obj/item/device/bombvest/proc/action_button_detonate(mob/user = null)
-	action_button_name = "Detonate Bomb Vest"
+	actions_types = list()//too lazy to fix this, just find a proper action to set
 	user.visible_message("<span class='italics'>[user] pushes a button on the [src]! Now seems to be a good time to run!</span>")
 	user.emote("scream")
 	spawn(10)

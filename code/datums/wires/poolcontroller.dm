@@ -1,61 +1,59 @@
 /datum/wires/poolcontroller
-	random = 4
 	holder_type = /obj/machinery/poolcontroller
-	wire_count = 4
+	randomize = TRUE
 
-var/const/POOL_WIRE_DRAIN = 1
-var/const/POOL_WIRE_EMAG = 2
-var/const/POOL_WIRE_ELECTRIFY = 4
+/datum/wires/poolcontroller/New()
+	wires = list(
+			WIRE_POOLDRAIN,
+			WIRE_SAFETY,
+			WIRE_SHOCK)
+	..()
 
-/datum/wires/poolcontroller/CanUse(var/mob/living/L)
+/datum/wires/poolcontroller/interactable(mob/user)
 	var/obj/machinery/poolcontroller/P = holder
 	if(!istype(L, /mob/living/silicon))
 		if(P.seconds_electrified)
 			if(P.shock(L, 100))
-				return 0
+				return FALSE
 	if(P.panel_open)
-		return 1
-	return 0
+		return TRUE
+	return FALSE
 
-/datum/wires/poolcontroller/Interact(var/mob/living/user)
-	if(CanUse(user))
-		var/obj/machinery/poolcontroller/P = holder
-		P.attack_hand(user)
-
-/datum/wires/poolcontroller/GetInteractWindow()
+/datum/wires/poolcontroller/get_status()
 	var/obj/machinery/poolcontroller/P = holder
-	. += ..()
-	. += "<BR>The orange light is [P.drainable ? "blinking" : "off"].<BR>"
-	. += "The blue light is [P.emagged ? "flashing" : "off"].<BR>"
-	. += "The red light is [P.seconds_electrified ? "on" : "off"].<BR>"
+	var/list/status = list()
+	status += "<BR>The orange light is [P.drainable ? "blinking" : "off"].<BR>"
+	status += "The blue light is [P.emagged ? "flashing" : "off"].<BR>"
+	status += "The red light is [P.seconds_electrified ? "on" : "off"].<BR>"
+	return status
 
-/datum/wires/poolcontroller/UpdatePulsed(var/index)
+/datum/wires/poolcontroller/on_pulsed(wire)
 	var/obj/machinery/poolcontroller/P = holder
-	switch(index)
-		if(POOL_WIRE_DRAIN)
+	switch(wire)
+		if(WIRE_POOLDRAIN)
 			P.drainable = 0
-		if(POOL_WIRE_EMAG)
+		if(WIRE_SAFETY)
 			if(P.emagged)
 				P.emagged = 0
 			if(!P.emagged)
 				P.emagged = 1
-		if(POOL_WIRE_ELECTRIFY)
+		if(WIRE_SHOCK)
 			P.seconds_electrified = 30
 
 
-/datum/wires/poolcontroller/UpdateCut(var/index, var/mended)
+/datum/wires/poolcontroller/on_cut(wire, mend)
 	var/obj/machinery/poolcontroller/P = holder
-	switch(index)
-		if(POOL_WIRE_DRAIN)
-			if(mended)
+	switch(wire)
+		if(WIRE_POOLDRAIN)
+			if(mend)
 				P.drainable = 0
 			else
 				P.drainable = 1
-		if(POOL_WIRE_EMAG)
-			if(mended)
+		if(WIRE_SAFETY)
+			if(mend)
 				P.emagged = 0
-		if(POOL_WIRE_ELECTRIFY)
-			if(mended)
+		if(WIRE_SHOCK)
+			if(mend)
 				P.seconds_electrified = 0
 			else
 				P.seconds_electrified = -1

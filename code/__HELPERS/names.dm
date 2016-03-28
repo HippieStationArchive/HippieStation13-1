@@ -4,11 +4,6 @@
 	else
 		return "[pick(lizard_names_female)]-[pick(lizard_names_female)]"
 
-/proc/moth_name(gender)
-	if(gender == MALE)
-		return "[pick(moth_names_male)]"
-	else
-		return "[pick(moth_names_female)]"
 
 var/church_name = null
 /proc/church_name()
@@ -56,7 +51,7 @@ var/religion_name = null
 	return capitalize(name)
 
 /proc/station_name()
-	if (station_name)
+	if(station_name)
 		return station_name
 
 	if(config && config.station_name)
@@ -64,7 +59,7 @@ var/religion_name = null
 	else
 		station_name = new_station_name()
 
-	if (config && config.server_name)
+	if(config && config.server_name)
 		world.name = "[config.server_name][config.server_name==station_name ? "" : ": [station_name]"]"
 	else
 		world.name = station_name

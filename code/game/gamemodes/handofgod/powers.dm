@@ -137,7 +137,7 @@
 			var/obj/item/weapon/godstaff/G = new popestick(side = src.side)
 			G.god = src
 			var/success = ""
-			if(!H.put_in_any_hand_if_possible(G, qdel_on_fail = 0, disable_warning = 1, redraw_mob = 1))
+			if(!H.put_in_hands(G))
 				if(!H.equip_to_slot_if_possible(G,slot_in_backpack,0,1,1))
 					G.loc = get_turf(H)
 					success = "It is on the floor..."
@@ -148,7 +148,7 @@
 
 			if(success)
 				H << "<span class='boldnotice'>A powerful staff has been bestowed upon you, you can use this to convert the false god's structures!</span>"
-				H << "<span class=boldnotice'>[success]</span>"
+				H << "<span class='boldnotice'>[success]</span>"
 		//end prophet gear
 		ticker.mode.update_hog_icons_added(choice.mind, side)
 

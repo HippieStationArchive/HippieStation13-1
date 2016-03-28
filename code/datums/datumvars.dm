@@ -1,5 +1,8 @@
 // reference: /client/proc/modify_variables(var/atom/O, var/param_var_name = null, var/autodetect_class = 0)
 
+datum/proc/on_varedit(modified_var) //called whenever a var is edited
+	return
+
 /client/proc/debug_variables(datum/D in world)
 	set category = "Debug"
 	set name = "View Variables"
@@ -35,11 +38,9 @@
 	title = "[D] (\ref[D]) = [D.type]"
 
 	body += {"<script type="text/javascript">
-
 				function updateSearch(){
 					var filter_text = document.getElementById('filter');
 					var filter = filter_text.value.toLowerCase();
-
 					if(event.keyCode == 13){	//Enter / return
 						var vars_ol = document.getElementById('vars');
 						var lis = vars_ol.getElementsByTagName("li");
@@ -58,7 +59,6 @@
 						}
 						return
 					}
-
 					if(event.keyCode == 38){	//Up arrow
 						var vars_ol = document.getElementById('vars');
 						var lis = vars_ol.getElementsByTagName("li");
@@ -79,7 +79,6 @@
 						}
 						return
 					}
-
 					if(event.keyCode == 40){	//Down arrow
 						var vars_ol = document.getElementById('vars');
 						var lis = vars_ol.getElementsByTagName("li");
@@ -100,19 +99,16 @@
 						}
 						return
 					}
-
 					//This part here resets everything to how it was at the start so the filter is applied to the complete list. Screw efficiency, it's client-side anyway and it only looks through 200 or so variables at maximum anyway (mobs).
 					if(complete_list != null && complete_list != ""){
 						var vars_ol1 = document.getElementById("vars");
 						vars_ol1.innerHTML = complete_list
 					}
-
 					if(filter.value == ""){
 						return;
 					}else{
 						var vars_ol = document.getElementById('vars');
 						var lis = vars_ol.getElementsByTagName("li");
-
 						for ( var i = 0; i < lis.length; ++i )
 						{
 							try{
@@ -136,24 +132,16 @@
 						}
 					}
 				}
-
-
-
 				function selectTextField(){
 					var filter_text = document.getElementById('filter');
 					filter_text.focus();
 					filter_text.select();
-
 				}
-
 				function loadPage(list) {
-
 					if(list.options\[list.selectedIndex\].value == ""){
 						return;
 					}
-
 					location.href=list.options\[list.selectedIndex\].value;
-
 				}
 			</script> "}
 
@@ -186,8 +174,6 @@
 			BRAIN:<font size='1'><a href='?_src_=vars;mobToDamage=\ref[D];adjustDamage=brain'>[M.getBrainLoss()]</a>
 			STAMINA:<font size='1'><a href='?_src_=vars;mobToDamage=\ref[D];adjustDamage=stamina'>[M.getStaminaLoss()]</a>
 			</font>
-
-
 			"}
 		else
 			body += "<a href='?_src_=vars;datumedit=\ref[D];varnameedit=name'><b>[D]</b></a>"
@@ -240,6 +226,12 @@
 	body += "<option value='?_src_=vars;proc_call=\ref[D]'>Call Proc</option>"
 	if(ismob(D))
 		body += "<option value='?_src_=vars;mob_player_panel=\ref[D]'>Show player panel</option>"
+	if(istype(D, /atom/movable))
+		body += "<option value='?_src_=holder;adminplayerobservefollow=\ref[D]'>Follow</option>"
+	else
+		var/atom/A = D
+		if(istype(A))
+			body += "<option value='?_src_=holder;adminplayerobservecoodjump=1;X=[A.x];Y=[A.y];Z=[A.z]'>Jump to</option>"
 
 	body += "<option value>---</option>"
 
@@ -339,7 +331,7 @@ body
 		html += "[name] = <span class='value'>null</span>"
 
 	else if (istext(value))
-		html += "[name] = <span class='value'>\"[value]\"</span>"
+		html += "[name] = <span class='value'>\"[html_encode(value)]\"</span>"
 
 	else if (isicon(value))
 		#ifdef VARSICON
@@ -356,7 +348,6 @@ body
 		#ifdef VARSICON
 		var/rnd = rand(1, 10000)
 		var/image/I = value
-
 		src << browse_rsc(I.icon, "tmp\ref[value][rnd].png")
 		html += "[name] = <img src=\"tmp\ref[value][rnd].png\">"
 		#else
@@ -396,7 +387,7 @@ body
 				html += "</ul>"
 
 	else
-		html += "[name] = <span class='value'>[value]</span>"
+		html += "[name] = <span class='value'>[html_encode(value)]</span>"
 
 	html += "</li>"
 
@@ -603,14 +594,19 @@ body
 			M << "Control of your mob has been offered to dead players."
 			log_admin("[key_name(usr)] has offered control of ([key_name(M)]) to ghosts.")
 			message_admins("[key_name_admin(usr)] has offered control of ([key_name_admin(M)]) to ghosts")
-			var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as [M.real_name]?", "pAI", null, FALSE, 100)
+			var/poll_message = "Do you want to play as [M.real_name]?"
+			if(M.mind && M.mind.assigned_role)
+				poll_message = "[poll_message] Job:[M.mind.assigned_role]."
+			if(M.mind && M.mind.special_role)
+				poll_message = "[poll_message] Status:[M.mind.special_role]."
+			var/list/mob/dead/observer/candidates = pollCandidates(poll_message, "pAI", null, FALSE, 100)
 			var/mob/dead/observer/theghost = null
 
 			if(candidates.len)
 				theghost = pick(candidates)
 				M << "Your mob has been taken over by a ghost!"
 				message_admins("[key_name_admin(theghost)] has taken control of ([key_name_admin(M)])")
-				M.ghostize()
+				M.ghostize(0)
 				M.key = theghost.key
 			else
 				M << "There were no ghosts willing to take control."
@@ -837,13 +833,16 @@ body
 
 			if(result)
 				var/newtype = species_list[result]
+				var/datum/species/old_species = H.dna.species
 				H.set_species(newtype)
+				H.dna.species.admin_set_species(H,old_species)
+
 
 		else if(href_list["purrbation"])
 			if(!check_rights(R_SPAWN))	return
 
 			var/mob/living/carbon/human/H = locate(href_list["purrbation"])
-			if(!istype(H) || H.dna.species.id == "IPC" || H.dna.species.id == "tajaran" || H.dna.species.id == "avian"|| H.dna.species.id == "lizard")
+			if(!istype(H))
 				usr << "This can only be done to instances of type /mob/living/carbon/human"
 				return
 
@@ -854,20 +853,18 @@ body
 			if(H.dna.species.id == "human")
 				if(H.dna.features["tail_human"] == "None" || H.dna.features["ears"] == "None")
 					usr << "Put [H] on purrbation."
-					H << "You suddenly feel valid."
+					H << "Something is nya~t right."
 					log_admin("[key_name(usr)] has put [key_name(H)] on purrbation.")
 					message_admins("<span class='notice'>[key_name(usr)] has put [key_name(H)] on purrbation.</span>")
 					H.dna.features["tail_human"] = "Cat"
 					H.dna.features["ears"] = "Cat"
-					H.set_species(/datum/species/cat)
 				else
 					usr << "Removed [H] from purrbation."
-					H << "You suddenly don't feel valid anymore."
+					H << "You are no longer a cat."
 					log_admin("[key_name(usr)] has removed [key_name(H)] from purrbation.")
 					message_admins("<span class='notice'>[key_name(usr)] has removed [key_name(H)] from purrbation.</span>")
 					H.dna.features["tail_human"] = "None"
 					H.dna.features["ears"] = "None"
-					H.set_species(/datum/species/human)
 				H.regenerate_icons()
 				return
 
@@ -906,4 +903,3 @@ body
 
 
 	return
-

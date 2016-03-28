@@ -1,10 +1,6 @@
 /mob/living/carbon/human/attack_alien(mob/living/carbon/alien/humanoid/M)
-	var/shieldcheck = check_shields(0, M.name)
-	if(shieldcheck)
+	if(check_shields(0, M.name))
 		visible_message("<span class='danger'>[M] attempted to touch [src]!</span>")
-		if(isliving(shieldcheck))
-			var/mob/living/L = shieldcheck
-			L.attack_alien(M)
 		return 0
 
 	if(..())
@@ -17,7 +13,7 @@
 				visible_message("<span class='danger'>[M] has lunged at [src]!</span>", \
 					"<span class='userdanger'>[M] has lunged at [src]!</span>")
 				return 0
-			var/obj/item/organ/limb/affecting = get_organ(ran_zone(M.zone_sel.selecting))
+			var/obj/item/organ/limb/affecting = get_organ(ran_zone(M.zone_selected))
 			var/armor_block = run_armor_check(affecting, "melee","","",10)
 
 			playsound(loc, 'sound/weapons/slice.ogg', 25, 1, -1)

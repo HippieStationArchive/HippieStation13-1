@@ -2,7 +2,7 @@
 	name = "Godspeak"
 	button_icon_state = "godspeak"
 	action_type = AB_INNATE
-	check_flags = AB_CHECK_ALIVE
+	check_flags = AB_CHECK_CONSCIOUS
 	var/list/datum/mind/gods = list()
 
 /datum/action/innate/godspeak/IsAvailable()
@@ -21,3 +21,7 @@
 		god << "<span class='notice'><B>[owner]:</B> [msg]</span>"
 	owner << "You say: [msg]"
 	active = 0
+
+/datum/action/innate/godspeak/Destroy()
+	god = null
+	return ..()

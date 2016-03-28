@@ -41,13 +41,10 @@
 
 // Adds the adjacent turfs to the current atmos processing
 /turf/Del()
-	for(var/direction in cardinal)
-		if(atmos_adjacent_turfs & direction)
-			var/turf/simulated/T = get_step(src, direction)
-			if(istype(T))
-				SSair.add_to_active(T)
-	if(src.pinned)
-		var/mob/living/carbon/human/H = src.pinned
+	for(var/turf/simulated/T in atmos_adjacent_turfs)
+		SSair.add_to_active(T)
+	if(pinned)
+		var/mob/living/carbon/human/H = pinned
 		if(istype(H))
 			H.anchored = 0
 			H.pinned_to = null

@@ -29,9 +29,7 @@
 
 /mob/living/simple_animal/drone/syndrone/New()
 	..()
-	if(internal_storage && internal_storage.hidden_uplink)
-		internal_storage.hidden_uplink.uses = (initial(internal_storage.hidden_uplink.uses) / 2)
-		internal_storage.name = "syndicate uplink"
+	internal_storage.hidden_uplink.telecrystals = 10
 
 
 /mob/living/simple_animal/drone/syndrone/Login()

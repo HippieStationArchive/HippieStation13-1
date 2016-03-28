@@ -272,31 +272,34 @@
 	else
 		return
 
-/obj/item/weapon/gun/attackby(obj/item/A, mob/user, params)
-	if(istype(A, /obj/item/device/flashlight/seclite))
-		var/obj/item/device/flashlight/seclite/S = A
+/obj/item/weapon/gun/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/device/flashlight/seclite))
+		var/obj/item/device/flashlight/seclite/S = I
 		if(can_flashlight)
 			if(!F && !knife && !suppressed)
-				if(!user.unEquip(A))
+				if(!user.unEquip(I))
 					return
 				user << "<span class='notice'>You click [S] into place on [src].</span>"
 				if(S.on)
 					SetLuminosity(0)
 				F = S
-				A.loc = src
+				I.loc = src
 				update_icon()
 				update_gunlight(user)
 				verbs += /obj/item/weapon/gun/proc/toggle_gunlight
+				var/datum/action/A = new /datum/action/item_action/toggle_gunlight(src)
+				if(loc == user)
+					A.Grant(user)
 
-	if(istype(A, /obj/item/weapon/melee/combatknife))
-		var/obj/item/weapon/melee/combatknife/C = A
+	if(istype(I, /obj/item/weapon/melee/combatknife))
+		var/obj/item/weapon/melee/combatknife/C = I
 		if(can_knife)
 			if(!F && !knife && !suppressed)
-				if(!user.unEquip(A))
+				if(!user.unEquip(I))
 					return
 				user << "<span class='notice'>You click [C] into place on [src].</span>"
 				knife = C
-				A.loc = src
+				I.loc = src
 				update_icon()
 				hitsound = knife.hitsound
 				force = knife.force
@@ -311,6 +314,8 @@
 				S.update_brightness(user)
 				update_icon()
 				verbs -= /obj/item/weapon/gun/proc/toggle_gunlight
+			for(var/datum/action/item_action/toggle_gunlight/TGL in actions)
+				qdel(TGL)
 		if(knife)
 			for(var/obj/item/weapon/melee/combatknife/S in src)
 				user << "<span class='notice'>You unscrew [S] from [src].</span>"
@@ -321,11 +326,9 @@
 				force = initial(force)
 
 	if(unique_rename)
-		if(istype(A, /obj/item/weapon/pen))
+		if(istype(I, /obj/item/weapon/pen))
 			rename_gun(user)
-
 	..()
-	return
 
 /obj/item/weapon/gun/proc/toggle_gunlight()
 	set name = "Toggle Gunlight"
@@ -347,7 +350,6 @@
 
 /obj/item/weapon/gun/proc/update_gunlight(mob/user = null)
 	if(F)
-		action_button_name = "Toggle Gunlight"
 		if(F.on)
 			if(loc == user)
 				user.AddLuminosity(F.brightness_on)
@@ -360,14 +362,16 @@
 				SetLuminosity(0)
 		update_icon()
 	else
-		action_button_name = null
 		if(loc == user)
 			user.AddLuminosity(-5)
 		else if(isturf(loc))
 			SetLuminosity(0)
-		return
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon()
 
 /obj/item/weapon/gun/pickup(mob/user)
+	..()
 	if(F)
 		if(F.on)
 			user.AddLuminosity(F.brightness_on)
@@ -377,6 +381,7 @@
 		azoom.Grant(user)
 
 /obj/item/weapon/gun/dropped(mob/user)
+	..()
 	if(F)
 		if(F.on)
 			user.AddLuminosity(-F.brightness_on)
@@ -459,7 +464,7 @@
 
 /datum/action/toggle_scope_zoom
 	name = "Toggle Scope"
-	check_flags = AB_CHECK_ALIVE|AB_CHECK_RESTRAINED|AB_CHECK_STUNNED|AB_CHECK_LYING
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_RESTRAINED|AB_CHECK_STUNNED|AB_CHECK_LYING
 	button_icon_state = "sniper_zoom"
 	var/obj/item/weapon/gun/gun = null
 
