@@ -26,6 +26,10 @@
 	radio_frequency = SEC_FREQ //Security channel
 	bot_type = SEC_BOT
 	model = "Securitron"
+	var/fast = 0            // 0 is off, 1 is on, 2 is cooldown
+	var/fast_delaymod = 0.4 // This is how much we want the delay to be reduced to (e.g. 40% of original)
+	var/fast_length = 5     // in seconds
+	var/fast_cooldown = 35  // in seconds
 
 /obj/machinery/bot/secbot/beepsky
 	name = "Officer Beep O'sky"
@@ -242,7 +246,7 @@ Auto Patrol: []"},
 
 				else								// not next to perp
 					var/turf/olddist = get_dist(src, target)
-					walk_to(src, target,1,4)
+					walk_to(src, target, 1, 4 * (fast == 1 ? fast_delaymod : 1))
 					if((get_dist(src, target)) >= (olddist))
 						frustration++
 					else
@@ -349,6 +353,13 @@ Auto Patrol: []"},
 			mode = BOT_HUNT
 			spawn(0)
 				bot_process()	// ensure bot quickly responds to a perp
+			if(fast == 0)
+				fast = 1
+				spawn(fast_length * 10)
+					fast = 2
+
+				spawn(fast_cooldown * 10)
+					fast = 0
 			break
 		else
 			continue
