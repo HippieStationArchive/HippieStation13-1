@@ -214,7 +214,7 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 			src << "<b>You are invincible and invisible to everyone but other ghosts. Most abilities will reveal you, rendering you vulnerable.</b>"
 			src << "<b>To function, you are to drain the life essence from humans. This essence is a resource, as well as your health, and will power all of your abilities.</b>"
 			src << "<b><i>You do not remember anything of your past lives, nor will you remember anything about this one after your death.</i></b>"
-			src << "<b>Be sure to read the wiki page at https://tgstation13.org/wiki/Revenant to learn more.</b>"
+			src << "<b>Be sure to read the wiki page at http://wiki.hippiestation.com/index.php?title=Revenant to learn more.</b>"
 			var/datum/objective/revenant/objective = new
 			objective.owner = src.mind
 			src.mind.objectives += objective

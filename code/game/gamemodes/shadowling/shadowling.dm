@@ -116,8 +116,7 @@ Made by Xhuis
 	shadow.current << "<b>Currently, you are disguised as an employee aboard [station_name()]].</b>"
 	shadow.current << "<b>In your limited state, you have three abilities: Enthrall, Hatch, and Hivemind Commune.</b>"
 	shadow.current << "<b>Any other shadowlings are your allies. You must assist them as they shall assist you.</b>"
-	shadow.current << "<b>If you are new to shadowling, or want to read about abilities, check the wiki page at https://tgstation13.org/wiki/Shadowling</b><br>"
-
+	shadow.current << "<b>If you are new to shadowling, or want to read about abilities, check the wiki page at http://wiki.hippiestation.com/index.php?title=Shadowling</b><br>"
 
 /datum/game_mode/proc/process_shadow_objectives(datum/mind/shadow_mind)
 	var/objective = "enthrall" //may be devour later, but for now it seems murderbone-y
