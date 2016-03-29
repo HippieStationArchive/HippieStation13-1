@@ -461,3 +461,9 @@
 	materials = list(MAT_GLASS = 1000, "sacid" = 20)
 	build_path = /obj/item/weapon/circuitboard/grounding_rod
 	category = list ("Misc. Machinery")
+
+/datum/design/bot_upgrade_boost
+	name = "Bot Upgrade: Boost"
+	desc = "The circuit board for giving a speed boost to bots"
+	id = "bot_upgrade_boost"
+	req_tech = list("programming" = 2, "engineering" = 2)

@@ -47,6 +47,8 @@
 
 	var/beacon_freq = 1445		// navigation beacon frequency
 
+	var/list/upgrades = list()
+
 	var/model = "" //The type of bot it is.
 	var/bot_type = 0 //The type of bot it is, for radio control.
 	#define SEC_BOT				1	// Secutritrons (Beepsky) and ED-209s
@@ -272,6 +274,15 @@
 						s.start()
 				..()
 				healthcheck()
+
+	if(istype(W, /obj/item/weapon/circuitboard/bot_upgrade_boost))
+		if(!open)
+			user << "<span class='warning'>You cannot upgrade [src] with the maintenance panel closed!</span>"
+			return
+		if(!locate(/obj/item/weapon/circuitboard/bot_upgrade_boost) in upgrades)
+			user << "<span class='notice'>You put the [W] into [src]'s upgrade slot.</span>"
+			upgrades += W
+			return
 
 /obj/machinery/bot/emag_act(mob/user)
 	if(emagged < 2)

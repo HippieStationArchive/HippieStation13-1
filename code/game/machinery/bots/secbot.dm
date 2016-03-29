@@ -26,14 +26,13 @@
 	radio_frequency = SEC_FREQ //Security channel
 	bot_type = SEC_BOT
 	model = "Securitron"
-	var/fast = 0            // 0 is off, 1 is on, 2 is cooldown
-	var/fast_delaymod = 0.4 // This is how much we want the delay to be reduced to (e.g. 40% of original)
-	var/fast_length = 5     // in seconds
-	var/fast_cooldown = 35  // in seconds
+	var/movement_delay = 4
+
+	#define BOT_MOVEMENT_DELAY 4 // This will be the default movement delay
 
 /obj/machinery/bot/secbot/beepsky
-	name = "Officer Beep O'sky"
-	desc = "It's Officer Beep O'sky! Powered by a potato and a shot of whiskey."
+	name = "Officer Beep O'Sky"
+	desc = "It's Officer Beep O'Sky! Powered by a potato and a shot of whiskey."
 	idcheck = 0
 	weaponscheck = 0
 	auto_patrol = 1
@@ -51,7 +50,6 @@
 	item_state = "helmet"
 	var/build_step = 0
 	var/created_name = "Securitron" //To preserve the name if it's a unique securitron I guess
-
 
 
 /obj/machinery/bot/secbot/New()
@@ -246,7 +244,7 @@ Auto Patrol: []"},
 
 				else								// not next to perp
 					var/turf/olddist = get_dist(src, target)
-					walk_to(src, target, 1, 4 * (fast == 1 ? fast_delaymod : 1))
+					walk_to(src, target, 1, movement_delay)
 					if((get_dist(src, target)) >= (olddist))
 						frustration++
 					else
@@ -330,6 +328,31 @@ Auto Patrol: []"},
 		bot_process() //ensure bot quickly responds
 // look for a criminal in view of the bot
 
+/obj/machinery/bot/secbot/proc/can_boost()
+	var/obj/item/weapon/circuitboard/bot_upgrade_boost/B = locate(/obj/item/weapon/circuitboard/bot_upgrade_boost) in upgrades
+
+	if(B)
+		return !B.boost
+
+/obj/machinery/bot/secbot/proc/activate_boost()
+	var/obj/item/weapon/circuitboard/bot_upgrade_boost/B = locate(/obj/item/weapon/circuitboard/bot_upgrade_boost) in upgrades
+	
+	if(B)
+		B.boost = 1
+		movement_delay = B.boost_delay
+		
+		spawn(B.boost_length * 10)
+			deactivate_boost()
+
+/obj/machinery/bot/secbot/proc/deactivate_boost()
+	movement_delay = BOT_MOVEMENT_DELAY
+
+	var/obj/item/weapon/circuitboard/bot_upgrade_boost/B = locate(/obj/item/weapon/circuitboard/bot_upgrade_boost) in upgrades
+	
+	if(B)
+		spawn(B.boost_cooldown * 10)
+			B.boost = 0
+
 /obj/machinery/bot/secbot/proc/look_for_perp()
 	anchored = 0
 	for (var/mob/living/carbon/C in view(7,src)) //Let's find us a criminal
@@ -353,13 +376,10 @@ Auto Patrol: []"},
 			mode = BOT_HUNT
 			spawn(0)
 				bot_process()	// ensure bot quickly responds to a perp
-			if(fast == 0)
-				fast = 1
-				spawn(fast_length * 10)
-					fast = 2
+			
+			if(can_boost())
+				activate_boost()
 
-				spawn(fast_cooldown * 10)
-					fast = 0
 			break
 		else
 			continue
