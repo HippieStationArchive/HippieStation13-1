@@ -1,6 +1,6 @@
-author: John Ginnae
+author: John Ginnane
 
 delete-after: True
 
 changes: 
-  - rscadd: "Buffed Beepsky/Pingsky so they now have a short 5 second boost when they first find a criminal. This will then be on cooldown for 30 seconds."
+  - rscadd: "Added a new type of circuit board that allows you to upgrade securitrons by adding a speed boost for when they're chasing criminals."
