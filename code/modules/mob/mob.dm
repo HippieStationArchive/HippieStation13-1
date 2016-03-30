@@ -742,12 +742,12 @@ var/list/slot_equipment_priority = list( \
 	else if(pinned_to)
 		lying = 0
 	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead
-		lying = 90*(nearcrit || stat || (status_flags & FAKEDEATH))
+		lying = 90*((status_flags & NEARCRIT ? 1 : 0) || stat || (status_flags & FAKEDEATH))
 	else
 		if((ko || resting) && !lying)
 			fall(ko)
 	canmove = !(ko || resting || stunned || buckled || pinned_to)
-	if(nearcrit && !stat)
+	if((status_flags & NEARCRIT) && !stat)
 		canmove = !(stunned || buckled || pinned_to)
 	density = !lying
 	if(lying)
