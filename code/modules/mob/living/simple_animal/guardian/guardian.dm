@@ -600,6 +600,8 @@
 				if(world.time < time_limit)
 					if(length(guardianNewName) > 0)
 						G.name = guardianNewName
+					else
+						user << "<span class='danger'>Sorry, you can't have a null name!</span>"
 				else
 					user << "<span class='danger'>Sorry, you didn't give a new name in time!</span>"
 	else
