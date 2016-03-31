@@ -120,6 +120,7 @@
 	body_part = HEAD
 	var/list/teeth_list = list() //Teeth are added in carbon/human/New()
 	var/max_teeth = 32 //Changed based on teeth type the species spawns with
+	var/max_dentals = 1
 	var/list/dentals = list() //Dentals - pills inserted into teeth. I'd die trying to keep track of these for every single tooth.
 
 /obj/item/organ/limb/head/proc/get_teeth() //returns collective amount of teeth

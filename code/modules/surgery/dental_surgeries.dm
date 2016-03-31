@@ -83,6 +83,11 @@
 	if(!istype(tool))
 		return 0
 
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		var/obj/item/organ/limb/head/organ = locate(/obj/item/organ/limb/head) in H.organs
+		organ.dentals += tool
+
 	user.drop_item()
 	target.internal_organs += tool
 	tool.loc = target
@@ -106,5 +111,10 @@
 	if(target.reagents.total_volume)
 		target.reagents.reaction(owner, INGEST)
 		target.reagents.trans_to(owner, target.reagents.total_volume)
+
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			var/obj/item/organ/limb/head/organ = locate(/obj/item/organ/limb/head) in H.organs
+			organ.dentals -= target
 	qdel(target)
 	return 1

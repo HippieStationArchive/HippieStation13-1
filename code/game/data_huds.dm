@@ -110,12 +110,12 @@
 	var/turf/T = get_turf(src)
 	if (T) crewmonitor.queueUpdate(T.z)
 
-//called when a carbon changes stat, virus or XENO_HOST
+//called when a carbon changes stat, virus or has a xeno baby
 /mob/living/carbon/proc/med_hud_set_status()
 	var/image/holder = hud_list[STATUS_HUD]
 	if(stat == 2)
 		holder.icon_state = "huddead"
-	else if(status_flags & XENO_HOST)
+	else if(getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
 		holder.icon_state = "hudxeno"
 	else if(check_virus())
 		holder.icon_state = "hudill"

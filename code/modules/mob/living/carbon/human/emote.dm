@@ -61,7 +61,7 @@
 					if(gender == FEMALE)
 						sound = pick('sound/misc/cough_f1.ogg', 'sound/misc/cough_f2.ogg', 'sound/misc/cough_f3.ogg')
 					playsound(src.loc, sound, 50, 1, 5)
-					if(nearcrit)
+					if(status_flags & NEARCRIT)
 						message = "<B>[src]</B> coughs painfuly!"
 					else
 						message = "<B>[src]</B> coughs!"

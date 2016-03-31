@@ -60,3 +60,7 @@
 	var/float_y = 0
 	var/float_ticks = 0
 	var/doing_something = 0 //Doing something? pulling out a teeth?
+
+	var/crit_can_crawl = 0 //whether or not the mob can crawl in crit
+	var/crit_crawl_damage = 0 //No damage by default
+	var/crit_crawl_damage_type = OXY
