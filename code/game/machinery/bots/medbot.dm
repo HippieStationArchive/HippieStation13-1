@@ -346,6 +346,9 @@
 			soft_reset()
 
 	if(path.len > 0 && patient)
+		if(can_boost())
+			activate_boost()
+		
 		if(!bot_move(patient))
 			oldpatient = patient
 			soft_reset()
@@ -362,6 +365,31 @@
 			bot_patrol()
 
 	return
+
+/obj/machinery/bot/medbot/proc/can_boost()
+	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
+
+	if(B)
+		return !B.boost
+
+/obj/machinery/bot/medbot/proc/activate_boost()
+	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
+	
+	if(B)
+		B.boost = TRUE
+		speed = B.medbot_boost_delay
+		
+		spawn(B.boost_length)
+			deactivate_boost()
+
+/obj/machinery/bot/medbot/proc/deactivate_boost()
+	speed = initial(speed)
+
+	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
+	
+	if(B)
+		spawn(B.boost_cooldown)
+			B.boost = FALSE
 
 /obj/machinery/bot/medbot/proc/assess_patient(mob/living/carbon/C)
 	//Time to see if they need medical help!
@@ -504,6 +532,8 @@
 
 /obj/machinery/bot/medbot/explode()
 	on = 0
+	var/death_message = pick("I only wanted... to heal", "Good bye, cruel world!")
+	speak(death_message)
 	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/turf/Tsec = get_turf(src)
 

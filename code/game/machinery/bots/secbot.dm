@@ -337,7 +337,7 @@ Auto Patrol: []"},
 	
 	if(B)
 		B.boost = TRUE
-		movement_delay = B.boost_delay
+		movement_delay = B.secbot_boost_delay
 		
 		spawn(B.boost_length)
 			deactivate_boost()

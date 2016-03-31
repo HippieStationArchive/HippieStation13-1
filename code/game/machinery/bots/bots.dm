@@ -282,9 +282,12 @@
 		else if(locate(/obj/item/weapon/bot_upgrade/boost) in upgrades)
 			user << "<span class='warning'>[src] already has that upgrade installed!</span>"
 		else
-			user << "<span class='notice'>You put the [W] into [src]'s upgrade slot.</span>"
+			if(!user.drop_item())
+				return
+
+			W.loc = src
 			upgrades += W
-			qdel(W)
+			user << "<span class='notice'>You put the [W] into [src]'s upgrade slot.</span>"
 			return
 
 /obj/machinery/bot/emag_act(mob/user)
