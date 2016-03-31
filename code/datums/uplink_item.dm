@@ -1063,12 +1063,17 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/implants/mindslave
 	name = "Mindslave Implant"
-	desc = "An implant injected into another body, forcing the vitcim to obey any command by the user for around 15 to 20 mintues."
+	desc = "An implant injected into another body, forcing the victim to obey any command by the user for around 15 to 20 mintues."
 	excludefrom = list(/datum/game_mode/nuclear)
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_mindslave
 	cost = 9
 	surplus = 20
-
+	
+/datum/uplink_item/implants/greatermindslave
+	name = "Greater Mindslave Implant"
+	desc = "An implant injected into another body, forcing the victim to obey any command by the user, it does not expire like a regular mindslave implant."
+	item = /obj/item/weapon/storage/box/syndie_kit/imp_gmindslave
+	cost = 16
 
 //CYBERNETIC IMPLANTS
 
