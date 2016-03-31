@@ -248,13 +248,6 @@
 	name = "circuit board (Library Visitor Console)"
 	build_path = /obj/machinery/computer/libraryconsole
 	origin_tech = "programming=1"
-/obj/item/weapon/circuitboard/bot_upgrade_boost
-	name = "circuit board (Bot Upgrade: Boost)"
-	origin_tech = "programming=2;engineering=2"
-	var/boost = 0            // 0 is off, 1 is on
-	var/boost_delay = 1.6
-	var/boost_length = 5     // in seconds
-	var/boost_cooldown = 30  // in seconds
 
 /obj/item/weapon/circuitboard/card/minor/attackby(obj/item/I, mob/user, params)
 	if(istype(I,/obj/item/device/multitool))

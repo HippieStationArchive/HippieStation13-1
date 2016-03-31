@@ -275,13 +275,16 @@
 				..()
 				healthcheck()
 
-	if(istype(W, /obj/item/weapon/circuitboard/bot_upgrade_boost))
+	if(istype(W, /obj/item/weapon/bot_upgrade/boost))
 		if(!open)
 			user << "<span class='warning'>You cannot upgrade [src] with the maintenance panel closed!</span>"
 			return
-		if(!locate(/obj/item/weapon/circuitboard/bot_upgrade_boost) in upgrades)
+		else if(locate(/obj/item/weapon/bot_upgrade/boost) in upgrades)
+			user << "<span class='warning'>[src] already has that upgrade installed!</span>"
+		else
 			user << "<span class='notice'>You put the [W] into [src]'s upgrade slot.</span>"
 			upgrades += W
+			qdel(W)
 			return
 
 /obj/machinery/bot/emag_act(mob/user)

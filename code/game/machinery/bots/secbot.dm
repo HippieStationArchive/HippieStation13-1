@@ -28,8 +28,6 @@
 	model = "Securitron"
 	var/movement_delay = 4
 
-	#define BOT_MOVEMENT_DELAY 4 // This will be the default movement delay
-
 /obj/machinery/bot/secbot/beepsky
 	name = "Officer Beep O'Sky"
 	desc = "It's Officer Beep O'Sky! Powered by a potato and a shot of whiskey."
@@ -329,29 +327,29 @@ Auto Patrol: []"},
 // look for a criminal in view of the bot
 
 /obj/machinery/bot/secbot/proc/can_boost()
-	var/obj/item/weapon/circuitboard/bot_upgrade_boost/B = locate(/obj/item/weapon/circuitboard/bot_upgrade_boost) in upgrades
+	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
 
 	if(B)
 		return !B.boost
 
 /obj/machinery/bot/secbot/proc/activate_boost()
-	var/obj/item/weapon/circuitboard/bot_upgrade_boost/B = locate(/obj/item/weapon/circuitboard/bot_upgrade_boost) in upgrades
+	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
 	
 	if(B)
-		B.boost = 1
+		B.boost = TRUE
 		movement_delay = B.boost_delay
 		
-		spawn(B.boost_length * 10)
+		spawn(B.boost_length)
 			deactivate_boost()
 
 /obj/machinery/bot/secbot/proc/deactivate_boost()
-	movement_delay = BOT_MOVEMENT_DELAY
+	movement_delay = initial(movement_delay)
 
-	var/obj/item/weapon/circuitboard/bot_upgrade_boost/B = locate(/obj/item/weapon/circuitboard/bot_upgrade_boost) in upgrades
+	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
 	
 	if(B)
-		spawn(B.boost_cooldown * 10)
-			B.boost = 0
+		spawn(B.boost_cooldown)
+			B.boost = FALSE
 
 /obj/machinery/bot/secbot/proc/look_for_perp()
 	anchored = 0
