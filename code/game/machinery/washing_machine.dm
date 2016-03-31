@@ -65,6 +65,13 @@
 			for(var/obj/item/clothing/I in contents)
 				I.color = wash_color //Simply recolor the items.
 
+				var/list/colors = list("light brown", "brown", "cyan", "fingerless", "combat", "tactical", "yellowgreen", "darkred", "lightred", "maroon", "red", "orange", "rainbow", "lightgreen", "green", "lightpurple", "purple", "gold", "darkblue", "lightblue", "aqua", "blue", "yellow", "black", "grey", "gray", "white", "latex", "nitrile", "budget insulated", "insulated", "captain's")
+			
+				for(var/old_color in colors)
+					if(findtext(I.name, old_color))
+						I.name = n_replace(I.name, old_color, wash_color)
+						I.desc = I.desc + (length(I.desc) > 0 ? " " : "") + "It looks soaked in [wash_color] tincture."
+						break
 		qdel(crayon)
 		crayon = null
 

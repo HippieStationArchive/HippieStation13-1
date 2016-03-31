@@ -326,6 +326,11 @@
 /turf/indestructible/wall
 	smooth = SMOOTH_TRUE
 
+/turf/indestructible/wall/shuttle
+	smooth = SMOOTH_FALSE
+	icon = 'icons/turf/shuttle.dmi'
+	icon_state = "wall3"
+
 /turf/indestructible/floor/plating
 	name = "plating"
 	icon = 'icons/turf/floors.dmi'

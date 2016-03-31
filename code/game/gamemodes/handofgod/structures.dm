@@ -620,7 +620,7 @@
 /obj/machinery/gun_turret/defensepylon_internal_turret/should_target(atom/target)
 	if(ismob(target))
 		var/mob/M = target
-		if(!M.stat && !M.nearcrit && (!M.mind || is_in_any_team(M.mind) != faction))
+		if(!M.stat && !(M.status_flags & NEARCRIT) && (!M.mind || is_in_any_team(M.mind) != faction))
 			return 1
 	else if(istype(target, /obj/mecha))
 		var/obj/mecha/M = target
