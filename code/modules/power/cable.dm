@@ -484,8 +484,13 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 /obj/item/stack/cable_coil/New(loc, amount = MAXCOIL, var/param_color = null)
 	..()
 	src.amount = amount
+
 	if(param_color)
 		item_color = param_color
+	else
+		item_color = pick("red","yellow","green","blue","pink")
+
+	icon_state = "coil_[item_color]"
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	update_icon()
@@ -990,8 +995,3 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 /obj/item/stack/cable_coil/white
 	item_color = "white"
 	icon_state = "coil_white"
-
-/obj/item/stack/cable_coil/random/New()
-	item_color = pick("red","yellow","green","blue","pink")
-	icon_state = "coil_[item_color]"
-	..()

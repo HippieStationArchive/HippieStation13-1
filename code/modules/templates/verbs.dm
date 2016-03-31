@@ -12,6 +12,7 @@
 	if(check_rights(R_FUN))
 		dat += "<a href='?_src_=holder;template_panel=1;action=place'>Place</a>"
 		dat += " | <a href='?_src_=holder;template_panel=1;action=upload'>Upload and Place</a>"
+		dat += " | <a href='?_src_=holder;template_panel=1;action=generate'>Generate</a>"
 
 	dat += "</span><br><br>"
 

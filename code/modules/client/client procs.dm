@@ -301,7 +301,7 @@ var/next_external_rsc = 0
 	if(httpcode != 200)//something went wrong,fuck
 		return -httpcode
 	if(n)
-		n = file2text(n)
+		n = text2num(file2text(n))
 	return n
 
 //////////////
