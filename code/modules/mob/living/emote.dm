@@ -79,7 +79,7 @@
 
 		if ("faint","faints")
 			message = "<B>[src]</B> faints."
-			if(src.sleeping || src.nearcrit)
+			if(sleeping || (status_flags & NEARCRIT))
 				return //Can't faint while asleep
 			src.sleeping += 10 //Short-short nap
 			m_type = 1
