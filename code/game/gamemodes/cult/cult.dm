@@ -132,6 +132,7 @@
 		equip_cultist(cult_mind.current)
 		update_cult_icons_added(cult_mind)
 		cult_mind.current << "<span class='userdanger'>You are a member of the cult!</span>"
+		cult_mind.current << "<a href=[config.wikiurl]/index.php?title=Cult_Basics>First time cultist? Click here to be linked to the wiki guide on cultists.</a>"
 		memorize_cult_objectives(cult_mind)
 	..()
 

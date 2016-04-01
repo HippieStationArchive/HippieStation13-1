@@ -151,6 +151,7 @@
 /datum/game_mode/proc/greet_syndicate(datum/mind/syndicate, you_are=1)
 	if (you_are)
 		syndicate.current << "<span class='notice'>You are a [syndicate_name()] agent!</span>"
+		syndicate.current << "<a href=[config.wikiurl]/index.php?title=Syndicate_guide>New to the Syndicate? Click here to be linked to the wiki guide on Nuclear Operatives.</a>"
 	var/obj_count = 1
 	for(var/datum/objective/objective in syndicate.objectives)
 		syndicate.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
