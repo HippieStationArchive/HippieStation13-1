@@ -193,8 +193,8 @@ var/global/biblename
 /obj/item/weapon/storage/book/bible/afterattack(atom/A, mob/user, proximity)
 	if(!proximity)
 		return
-	if(!relicmode)
-		if(user.mind && (user.mind.assigned_role == "Chaplain"))
+	if(user.mind && (user.mind.assigned_role == "Chaplain"))
+		if(!relicmode)
 			if (istype(A, /turf/simulated/floor))
 				user << "<span class='notice'>You hit the floor with the bible.</span>"
 				for(var/obj/effect/rune/R in orange(2,user))
@@ -210,15 +210,15 @@ var/global/biblename
 				var/unholy2clean = A.reagents.get_reagent_amount("unholywater")
 				A.reagents.del_reagent("unholywater")
 				A.reagents.add_reagent("holywater",unholy2clean)
-	else // choose your relic
-		if(istype(A, /obj/item))
-			new /obj/item/relic(get_turf(src), A, src)
-			PoolOrNew(/obj/effect/particle_effect/sparks, get_turf(src))
-			playsound(get_turf(src), "sparks", 50, 1)
-			user << "<span class='notice'>You pray towards \the [A] and, after a moment, a relic appears under you!</span>"
-			relicmode = FALSE
-		else
-			user << "<span class='danger'>Your holy relic must be an item!</span>"
+		else // choose your relic
+			if(istype(A, /obj/item))
+				new /obj/item/relic(get_turf(src), A, src)
+				PoolOrNew(/obj/effect/particle_effect/sparks, get_turf(src))
+				playsound(get_turf(src), "sparks", 50, 1)
+				user << "<span class='notice'>You pray towards \the [A] and, after a moment, a relic appears under you!</span>"
+				relicmode = FALSE
+			else
+				user << "<span class='danger'>Your holy relic must be an item!</span>"
 
 /obj/item/weapon/storage/book/bible/attackby(obj/item/weapon/W, mob/user, params)
 	playsound(loc, "rustle", 50, 1, -5)
