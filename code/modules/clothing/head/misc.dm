@@ -71,6 +71,7 @@
 	icon_state = "cardborg_h"
 	item_state = "cardborg_h"
 	flags_cover = HEADCOVERSEYES
+	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 
 /obj/item/clothing/head/justice

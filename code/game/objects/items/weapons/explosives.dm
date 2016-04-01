@@ -1,4 +1,6 @@
 //In this file: C4 and Syndicate Bombs
+/atom/
+	var/has_c4 = FALSE //If the item has c4 planted on it.
 
 /obj/item/weapon/c4
 	name = "C-4"
@@ -87,9 +89,11 @@
 		log_game("[key_name(user)] planted [src.name] on [target.name] at ([target.x],[target.y],[target.z]) with [timer] second fuse")
 
 		target.overlays += image_overlay
+		target.has_c4 = TRUE
 		user << "<span class='notice'>You plant the bomb. Timer counting down from [timer].</span>"
 		spawn(timer*10)
 			if(target && !target.gc_destroyed)
+				target.has_c4 = TRUE
 				explode(get_turf(target))
 			else
 				qdel(src)

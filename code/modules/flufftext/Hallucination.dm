@@ -128,7 +128,7 @@ Gunshots/explosions/opening doors/less rare audio (done)
 		if(!U.welded)
 			src.loc = U.loc
 			break
-	image_state = pick("plasma","nitrous_oxide")
+	image_state = pick("plasma","sleeping_agent")
 	flood_images += image(image_icon,src,image_state,MOB_LAYER)
 	flood_turfs += get_turf(src.loc)
 	if(target.client) target.client.images |= flood_images
@@ -143,7 +143,6 @@ Gunshots/explosions/opening doors/less rare audio (done)
 			return
 		Expand()
 		next_expand = world.time + FAKE_FLOOD_EXPAND_TIME
-	return
 
 /obj/effect/hallucination/fake_flood/proc/Expand()
 
@@ -486,7 +485,7 @@ var/list/non_fakeattack_weapons = list(/obj/item/weapon/gun/projectile, /obj/ite
 	target = T
 	var/image/I = null
 	var/count = 0
-	for(var/obj/machinery/door/airlock/A in range(target,7))
+	for(var/obj/machinery/door/airlock/A in range(7,target))
 		if(count>door_number && door_number>0)
 			break
 		count++

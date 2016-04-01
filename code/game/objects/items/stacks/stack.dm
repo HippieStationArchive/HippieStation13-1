@@ -116,6 +116,7 @@
 		var/multiplier = text2num(href_list["multiplier"])
 		if (!multiplier ||(multiplier <= 0)) //href protection
 			return
+		multiplier = round(multiplier) //fixes an exploit
 		if(!building_checks(R, multiplier))
 			return
 		if (R.time)
@@ -237,6 +238,11 @@
 /obj/item/stack/attackby(obj/item/W, mob/user, params)
 	if(istype(W, src.type))
 		var/obj/item/stack/S = W
+
+		if(S.amount >= S.max_amount && !isrobot(user))
+			user << "<span class='notice'>The [S.name] stack is already at max capacity!</span>"
+			return
+
 		merge(S)
 		user << "<span class='notice'>Your [S.name] stack now contains [S.get_amount()] [S.singular_name]\s.</span>"
 	else

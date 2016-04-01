@@ -82,12 +82,12 @@
 /datum/teleport/proc/playSpecials(atom/location,datum/effect_system/effect,sound)
 	if(location)
 		if(effect)
-			spawn(0)
+			spawn(-1)
 				src = null
 				effect.attach(location)
 				effect.start()
 		if(sound)
-			spawn(0)
+			spawn(-1)
 				src = null
 				playsound(location,sound,60,1)
 	return
@@ -125,6 +125,8 @@
 		var/mob/living/L = teleatom
 		if(L.buckled)
 			L.buckled.unbuckle_mob()
+		if(L.buckled_mob)
+			L.unbuckle_mob(force=1)
 
 	destarea.Entered(teleatom)
 

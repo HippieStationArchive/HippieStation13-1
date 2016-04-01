@@ -73,10 +73,10 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 
 /datum/supply_packs/emergency/evac
 	name = "Emergency equipment"
-	contains = list(/mob/living/simple_animal/bot/floorbot,
-					/mob/living/simple_animal/bot/floorbot,
-					/mob/living/simple_animal/bot/medbot,
-					/mob/living/simple_animal/bot/medbot,
+	contains = list(/obj/machinery/bot/floorbot,
+					/obj/machinery/bot/floorbot,
+					/obj/machinery/bot/medbot,
+					/obj/machinery/bot/medbot,
 					/obj/item/weapon/tank/internals/air,
 					/obj/item/weapon/tank/internals/air,
 					/obj/item/weapon/tank/internals/air,
@@ -1046,7 +1046,7 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 
 /datum/supply_packs/misc/mule
 	name = "MULEbot Crate"
-	contains = list(/mob/living/simple_animal/bot/mulebot)
+	contains = list(/obj/machinery/bot/mulebot)
 	cost = 20
 	containertype = /obj/structure/largecrate/mule
 	containername = "\improper MULEbot Crate"

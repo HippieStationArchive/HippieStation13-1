@@ -6,7 +6,7 @@
 	var/throwforce = 0
 	var/in_use = 0 // If we have a user using us, this will be set on. We will check if the user has stopped using us, and thus stop updating and LAGGING EVERYTHING!
 
-	var/damtype = "brute"
+	var/damtype = BRUTE
 	var/force = 0
 
 	var/burn_state = -1 // -1=fireproof | 0=will burn in fires | 1=currently on fire
@@ -17,7 +17,6 @@
 /obj/Destroy()
 	if(!istype(src, /obj/machinery))
 		SSobj.processing.Remove(src) // TODO: Have a processing bitflag to reduce on unnecessary loops through the processing lists
-	SStgui.close_uis(src)
 	return ..()
 
 /obj/assume_air(datum/gas_mixture/giver)
@@ -62,7 +61,7 @@
 			if ((M.client && M.machine == src))
 				is_in_use = 1
 				src.attack_hand(M)
-		if (istype(usr, /mob/living/silicon/ai) || istype(usr, /mob/living/silicon/robot) || IsAdminGhost(usr))
+		if (istype(usr, /mob/living/silicon/ai) || istype(usr, /mob/living/silicon/robot))
 			if (!(usr in nearby))
 				if (usr.client && usr.machine==src) // && M.machine == src is omitted because if we triggered this by using the dialog, it doesn't matter if our machine changed in between triggering it and this - the dialog is probably still supposed to refresh.
 					is_in_use = 1
@@ -93,10 +92,8 @@
 		if(!ai_in_use && !is_in_use)
 			in_use = 0
 
-/obj/attack_ghost(mob/user)
-	if(ui_interact(user) != -1)
-		return
-	..()
+/obj/proc/interact(mob/user)
+	return
 
 /obj/proc/container_resist()
 	return
@@ -172,6 +169,13 @@
 		return 1
 
 /obj/proc/burn()
+	if(istype(src, /obj/item/weapon/storage))
+		var/obj/item/weapon/storage/S = src
+		for(var/obj/Item in contents)
+			Item.mouse_opacity = initial(Item.mouse_opacity)
+		S.close_all()
+		qdel(S.boxes)
+		qdel(S.closer)
 	for(var/obj/item/Item in contents) //Empty out the contents
 		Item.loc = src.loc
 		Item.fire_act() //Set them on fire, too
@@ -195,6 +199,3 @@
 	tesla_zap(src, 3, power_bounced)
 	spawn(10)
 		being_shocked = 0
-
-/obj/proc/CanAStarPass()
-	. = !density

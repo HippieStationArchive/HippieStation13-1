@@ -2,27 +2,6 @@
 
 var/list/preferences_datums = list()
 
-var/global/list/special_roles = list( //keep synced with the defines BE_* in setup.dm
-//some autodetection here.
-	"traitor" = /datum/game_mode/traitor,			//0
-	"operative" = /datum/game_mode/nuclear,			//1
-	"changeling" = /datum/game_mode/changeling,		//2
-	"wizard" = /datum/game_mode/wizard,				//3
-	"malf AI" = /datum/game_mode/malfunction,		//4
-	"revolutionary" = /datum/game_mode/revolution,	//5
-	"alien",										//6
-	"pAI/posibrain",								//7
-	"cultist" = /datum/game_mode/cult,				//8
-	"blob" = /datum/game_mode/blob,					//9
-	"ninja",										//10
-	"monkey" = /datum/game_mode/monkey,				//11
-	"gangster" = /datum/game_mode/gang,				//12
-	"shadowling" = /datum/game_mode/shadowling,		//13
-	"abductor" = /datum/game_mode/abduction,			//14
-	"revenant"										//15
-)
-
-
 /datum/preferences
 	//doohickeys for savefiles
 	var/path
@@ -37,15 +16,18 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	//game-preferences
 	var/lastchangelog = ""				//Saved changlog filesize to detect if there was a change
 	var/ooccolor = null
-	var/be_special = 0					//Special role selection
 	var/UI_style = "Midnight"
-	var/tgui_fancy = TRUE
-	var/tgui_lock = TRUE
 	var/toggles = TOGGLES_DEFAULT
 	var/chat_toggles = TOGGLES_DEFAULT_CHAT
 	var/ghost_form = "ghost"
 	var/ghost_orbit = GHOST_ORBIT_CIRCLE
 	var/allow_midround_antag = 1
+
+	//Antag preferences
+	var/list/be_special = list()		//Special role selection
+	var/tmp/old_be_special = 0			//Bitflag version of be_special, used to update old savefiles and nothing more
+										//If it's 0, that's good, if it's anything but 0, the owner of this prefs file's antag choices were,
+										//autocorrected this round, not that you'd need to check that.
 
 	//character preferences
 	var/real_name						//our character's name
@@ -342,8 +324,6 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
 			dat += "<h2>General Settings</h2>"
 			dat += "<b>UI Style:</b> <a href='?_src_=prefs;preference=ui'>[UI_style]</a><br>"
-			dat += "<b>tgui Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(tgui_fancy) ? "Fancy" : "No Frills"]</a><br>"
-			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
 			dat += "<b>Play admin midis:</b> <a href='?_src_=prefs;preference=hear_midis'>[(toggles & SOUND_MIDI) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Play lobby music:</b> <a href='?_src_=prefs;preference=lobby_music'>[(toggles & SOUND_LOBBY) ? "Yes" : "No"]</a><br>"
 			dat += "<b>Ghost ears:</b> <a href='?_src_=prefs;preference=ghost_ears'>[(chat_toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</a><br>"
@@ -371,18 +351,17 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 
 			dat += "</td><td width='300px' height='300px' valign='top'>"
 
-			dat += "<h2>Antagonist Settings</h2>"
+			dat += "<h2>Special Role Settings</h2>"
 
 			if(jobban_isbanned(user, "Syndicate"))
 				dat += "<font color=red><b>You are banned from antagonist roles.</b></font>"
-				src.be_special = 0
-			var/n = 0
+				src.be_special = list()
 			for (var/i in special_roles)
 				if(jobban_isbanned(user, "catban"))
-					dat += "<b>Be [i]:</b> <font color=red>CAT-BANNED</font><br>"
+					dat += "<b>Be [capitalize(i)]:</b> <font color=red>CAT-BANNED</font><br>"
 				else
 					if(jobban_isbanned(user, i))
-						dat += "<b>Be [i]:</b> <a href='?_src_=prefs;jobbancheck=[i]'>BANNED</a><br>"
+						dat += "<b>Be [capitalize(i)]:</b> <a href='?_src_=prefs;jobbancheck=[i]'>BANNED</a><br>"
 					else
 						var/days_remaining = null
 						if(config.use_age_restriction_for_jobs && ispath(special_roles[i])) //If it's a game mode antag, check if the player meets the minimum age
@@ -391,10 +370,9 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 							days_remaining = temp_mode.get_remaining_days(user.client)
 
 						if(days_remaining)
-							dat += "<b>Be [i]:</b> <font color=red> \[IN [days_remaining] DAYS]</font><br>"
+							dat += "<b>Be [capitalize(i)]:</b> <font color=red> \[IN [days_remaining] DAYS]</font><br>"
 						else
-							dat += "<b>Be [i]:</b> <a href='?_src_=prefs;preference=be_special;num=[n]'>[src.be_special&(1<<n) ? "Yes" : "No"]</a><br>"
-				n++
+							dat += "<b>Be [capitalize(i)]:</b> <a href='?_src_=prefs;preference=be_special;be_special_type=[i]'>[(i in be_special) ? "Yes" : "No"]</a><br>"
 			dat += "</td></tr></table>"
 
 	dat += "<hr><center>"
@@ -1005,16 +983,6 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 					socks = random_socks(gender)
 					facial_hair_style = random_facial_hair_style(gender)
 					hair_style = random_hair_style(gender)
-
-				if("tgui_fancy")
-					tgui_fancy = !tgui_fancy
-				if("tgui_lock")
-					tgui_lock  =!tgui_lock
-				if("hear_adminhelps")
-					toggles ^= SOUND_ADMINHELP
-				if("announce_login")
-					toggles ^= ANNOUNCE_LOGIN
-
 				if("ui")
 					switch(UI_style)
 						if("Midnight")
@@ -1023,66 +991,56 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 							UI_style = "Retro"
 						else
 							UI_style = "Midnight"
-
+				if("hear_adminhelps")
+					toggles ^= SOUND_ADMINHELP
+				if("announce_login")
+					toggles ^= ANNOUNCE_LOGIN
 				if("be_special")
-					var/num = text2num(href_list["num"])
-					be_special ^= (1<<num)
-
+					var/be_special_type = href_list["be_special_type"]
+					if(be_special_type in be_special)
+						be_special -= be_special_type
+					else
+						be_special += be_special_type
 				if("name")
 					be_random_name = !be_random_name
-
 				if("all")
 					be_random_body = !be_random_body
-
 				if("hear_midis")
 					toggles ^= SOUND_MIDI
-
 				if("lobby_music")
 					toggles ^= SOUND_LOBBY
 					if(toggles & SOUND_LOBBY)
 						user << sound(ticker.login_music, repeat = 0, wait = 0, volume = 85, channel = 1)
 					else
 						user.stopLobbySound()
-
 				if("ghost_ears")
 					chat_toggles ^= CHAT_GHOSTEARS
-
 				if("ghost_sight")
 					chat_toggles ^= CHAT_GHOSTSIGHT
-
 				if("ghost_whispers")
 					chat_toggles ^= CHAT_GHOSTWHISPER
-
 				if("ghost_radio")
 					chat_toggles ^= CHAT_GHOSTRADIO
-
 				if("ghost_pda")
 					chat_toggles ^= CHAT_GHOSTPDA
-
 				if("pull_requests")
 					chat_toggles ^= CHAT_PULLR
-
 				if("allow_midround_antag")
 					toggles ^= MIDROUND_ANTAG
-
 				if("save")
 					save_preferences()
 					save_character()
-
 				if("load")
 					load_preferences()
 					load_character()
-
 				if("changeslot")
 					if(!load_character(text2num(href_list["num"])))
 						random_character()
 						real_name = random_unique_name(gender)
 						save_character()
-
 				if("tab")
 					if (href_list["tab"])
 						current_tab = text2num(href_list["tab"])
-
 	ShowChoices(user)
 	return 1
 

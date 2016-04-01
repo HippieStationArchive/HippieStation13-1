@@ -72,6 +72,14 @@
 	activate_descriptor = "hunger"
 	rend_desc = "Reverberates with the sound of ten thousand moos."
 
+/obj/item/weapon/veilrender/lesserveilrender
+	name = "lesser veil render"
+	desc = "A wicked curved blade of alien origin, recovered from the ruins of an ancient temple."
+	spawn_type = /mob/living/simple_animal/hostile/faithless
+	spawn_amt = 8
+	activate_descriptor = "reality"
+	rend_desc = "Reverberates with the sound of despair."
+
 /obj/item/weapon/veilrender/honkrender
 	name = "honk render"
 	desc = "A wicked curved blade of alien origin, recovered from the ruins of a vast circus."
@@ -258,7 +266,7 @@ var/global/list/multiverse = list()
 					usr.mind.special_role = "[usr.real_name] Prime"
 					evil = FALSE
 		else
-			var/list/candidates = get_candidates(BE_WIZARD)
+			var/list/candidates = get_candidates(ROLE_WIZARD)
 			if(candidates.len)
 				var/client/C = pick(candidates)
 				spawn_copy(C, get_turf(user.loc), user)
@@ -557,7 +565,7 @@ var/global/list/multiverse = list()
 			if("r_arm","l_arm")
 				//use active hand on random nearby mob
 				var/list/nearby_mobs = list()
-				for(var/mob/living/L in range(target,1))
+				for(var/mob/living/L in range(1,target))
 					if(L!=target)
 						nearby_mobs |= L
 				if(nearby_mobs.len)

@@ -250,7 +250,7 @@
 		var/datum/sprite_accessory/undershirt/U2 = undershirt_list[H.undershirt]
 		if(U2)
 			if(H.dna.species.sexes && H.gender == FEMALE)
-				standing	+=	H.wear_female_version(U2.icon_state, U2.icon, BODY_LAYER)
+				standing	+=	wear_female_version("[U2.icon_state]_s", U2.icon, BODY_LAYER)
 			else
 				standing	+= image("icon"=U2.icon, "icon_state"="[U2.icon_state]_s", "layer"=-BODY_LAYER)
 
@@ -315,7 +315,7 @@
 			bodyparts_to_add -= "waggingspines"
 
 	if("snout" in mutant_bodyparts) //Take a closer look at that snout!
-		if(H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE))
+		if((H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE)) || (H.head && (H.head.flags_inv & HIDEFACE)))
 			bodyparts_to_add -= "snout"
 
 	if("frills" in mutant_bodyparts)
@@ -680,6 +680,8 @@
 			H.sight |= SEE_OBJS
 
 		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 3 : darksight
+		if(is_shadow_or_thrall(H))  //Check if the mob is a shadowling or thrall, to make sure their vision range doesn't create odd artifacts.
+			H.see_in_dark = 8
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
 
@@ -691,7 +693,10 @@
 				var/obj/item/clothing/glasses/G = H.glasses
 				H.sight |= G.vision_flags
 				H.see_in_dark = G.darkness_view
-				H.see_invisible = min(G.invis_view, H.see_invisible)
+				if(G.invis_override)
+					H.see_invisible = G.invis_override
+				else
+					H.see_invisible = min(G.invis_view, H.see_invisible)
 		if(H.druggy)	//Override for druggy
 			H.see_invisible = see_temp
 
@@ -880,7 +885,7 @@
 				mspeed += 1.5
 			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
 				mspeed += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
-			if(H.nearcrit) //This is for crawling
+			if(H.status_flags & NEARCRIT) //This is for crawling
 				mspeed += 30 //Can crawl only every 3 seconds pretty much
 
 			mspeed += speedmod
@@ -1243,6 +1248,8 @@
 	return
 
 /datum/species/proc/check_breath(datum/gas_mixture/breath, var/mob/living/carbon/human/H)
+	if(!H)
+		return
 	if((H.status_flags & GODMODE))
 		return
 
@@ -1252,7 +1259,8 @@
 		if(H.health >= config.health_threshold_crit)
 			if(NOBREATH in specflags)	return 1
 			H.adjustOxyLoss(HUMAN_MAX_OXYLOSS)
-			H.failed_last_breath = 1
+			if(H && H.failed_last_breath) // check.
+				H.failed_last_breath = 1
 		else
 			H.adjustOxyLoss(HUMAN_CRIT_MAX_OXYLOSS)
 			H.failed_last_breath = 1
@@ -1262,20 +1270,19 @@
 		return 0
 
 	var/gas_breathed = 0
-	var/list/breath_gases = breath.gases
-	breath.assert_gases("o2", "plasma", "co2", "n2o")
 
 	//Partial pressures in our breath
-	var/O2_pp = breath.get_breath_partial_pressure(breath_gases["o2"][MOLES])
-	var/Toxins_pp = breath.get_breath_partial_pressure(breath_gases["plasma"][MOLES])
-	var/CO2_pp = breath.get_breath_partial_pressure(breath_gases["co2"][MOLES])
+	var/O2_pp = breath.get_breath_partial_pressure(breath.oxygen)
+	var/Toxins_pp = breath.get_breath_partial_pressure(breath.toxins)
+	var/CO2_pp = breath.get_breath_partial_pressure(breath.carbon_dioxide)
+
 
 	//-- OXY --//
 
 	//Too much oxygen! //Yes, some species may not like it.
 	if(safe_oxygen_max)
 		if(O2_pp > safe_oxygen_max && !(NOBREATH in specflags))
-			var/ratio = (breath_gases["o2"][MOLES]/safe_oxygen_max) * 10
+			var/ratio = (breath.oxygen/safe_oxygen_max) * 10
 			H.adjustOxyLoss(Clamp(ratio,oxy_breath_dam_min,oxy_breath_dam_max))
 			H.throw_alert("too_much_oxy", /obj/screen/alert/too_much_oxy)
 		else
@@ -1284,17 +1291,17 @@
 	//Too little oxygen!
 	if(safe_oxygen_min)
 		if(O2_pp < safe_oxygen_min)
-			gas_breathed = handle_too_little_breath(H,O2_pp,safe_oxygen_min,breath_gases["o2"][MOLES])
+			gas_breathed = handle_too_little_breath(H,O2_pp,safe_oxygen_min,breath.oxygen)
 			H.throw_alert("oxy", /obj/screen/alert/oxy)
 		else
 			H.failed_last_breath = 0
 			H.adjustOxyLoss(-5)
-			gas_breathed = breath_gases["o2"][MOLES]/6
+			gas_breathed = breath.oxygen/6
 			H.clear_alert("oxy")
 
 	//Exhale
-	breath_gases["o2"][MOLES] -= gas_breathed
-	breath_gases["co2"][MOLES] += gas_breathed
+	breath.oxygen -= gas_breathed
+	breath.carbon_dioxide += gas_breathed
 	gas_breathed = 0
 
 
@@ -1321,17 +1328,17 @@
 	//Too little CO2!
 	if(safe_co2_min)
 		if(CO2_pp < safe_co2_min)
-			gas_breathed = handle_too_little_breath(H,CO2_pp, safe_co2_min,breath_gases["co2"][MOLES])
+			gas_breathed = handle_too_little_breath(H,CO2_pp, safe_co2_min,breath.carbon_dioxide)
 			H.throw_alert("not_enough_co2", /obj/screen/alert/not_enough_co2)
 		else
 			H.failed_last_breath = 0
 			H.adjustOxyLoss(-5)
-			gas_breathed = breath_gases["co2"][MOLES]/6
+			gas_breathed = breath.carbon_dioxide/6
 			H.clear_alert("not_enough_co2")
 
 	//Exhale
-	breath_gases["co2"][MOLES] -= gas_breathed
-	breath_gases["o2"][MOLES] += gas_breathed
+	breath.carbon_dioxide -= gas_breathed
+	breath.oxygen += gas_breathed
 	gas_breathed = 0
 
 
@@ -1340,7 +1347,7 @@
 	//Too much toxins!
 	if(safe_toxins_max)
 		if(Toxins_pp > safe_toxins_max && !(NOBREATH in specflags))
-			var/ratio = (breath.gases["plasma"][MOLES]/safe_toxins_max) * 10
+			var/ratio = (breath.toxins/safe_toxins_max) * 10
 			if(H.reagents)
 				H.reagents.add_reagent("plasma", Clamp(ratio, tox_breath_dam_min, tox_breath_dam_max))
 			H.throw_alert("tox_in_air", /obj/screen/alert/tox_in_air)
@@ -1351,35 +1358,34 @@
 	//Too little toxins!
 	if(safe_toxins_min)
 		if(Toxins_pp < safe_toxins_min && !(NOBREATH in specflags))
-			gas_breathed = handle_too_little_breath(H,Toxins_pp, safe_toxins_min, breath.gases["plasma"][MOLES])
+			gas_breathed = handle_too_little_breath(H,Toxins_pp, safe_toxins_min, breath.toxins)
 			H.throw_alert("not_enough_tox", /obj/screen/alert/not_enough_tox)
 		else
 			H.failed_last_breath = 0
 			H.adjustOxyLoss(-5)
-			gas_breathed = breath.gases["plasma"][MOLES]/6
+			gas_breathed = breath.toxins/6
 			H.clear_alert("not_enough_tox")
 
 	//Exhale
-	breath.gases["plasma"][MOLES] -= gas_breathed
-	breath.gases["co2"][MOLES] += gas_breathed
+	breath.toxins -= gas_breathed
+	breath.carbon_dioxide += gas_breathed
 	gas_breathed = 0
 
 
 	//-- TRACES --//
 
-	if(breath && !(NOBREATH in specflags))	// If there's some other shit in the air lets deal with it here.
-		var/SA_pp = breath.get_breath_partial_pressure(breath.gases["n2o"][MOLES])
-		if(SA_pp > SA_para_min) // Enough to make us paralysed for a bit
-			H.Paralyse(3) // 3 gives them one second to wake up and run away a bit!
-			if(SA_pp > SA_sleep_min) // Enough to make us sleep as well
-				H.sleeping = max(H.sleeping+2, 10)
-		else if(SA_pp > 0.01)	// There is sleeping gas in their lungs, but only a little, so give them a bit of a warning
-			if(prob(20))
-				spawn(0)
-					H.emote(pick("giggle", "laugh"))
+	if(breath.trace_gases.len && !(NOBREATH in specflags))	// If there's some other shit in the air lets deal with it here.
+		for(var/datum/gas/sleeping_agent/SA in breath.trace_gases)
+			var/SA_pp = breath.get_breath_partial_pressure(SA.moles)
+			if(SA_pp > SA_para_min) // Enough to make us paralysed for a bit
+				H.Paralyse(3) // 3 gives them one second to wake up and run away a bit!
+				if(SA_pp > SA_sleep_min) // Enough to make us sleep as well
+					H.sleeping = max(H.sleeping+2, 10)
+			else if(SA_pp > 0.01)	// There is sleeping gas in their lungs, but only a little, so give them a bit of a warning
+				if(prob(20))
+					spawn(0) H.emote(pick("giggle", "laugh"))
 
 	handle_breath_temperature(breath, H)
-	breath.garbage_collect()
 
 	return 1
 

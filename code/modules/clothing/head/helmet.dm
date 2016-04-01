@@ -49,29 +49,23 @@
 	toggle_cooldown = 0
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 
-/obj/item/clothing/head/helmet/attack_self()
-	if(usr.canmove && !usr.stat && !usr.restrained() && can_toggle)
+/obj/item/clothing/head/helmet/attack_self(mob/user)
+	if(can_toggle && !user.incapacitated())
 		if(world.time > cooldown + toggle_cooldown)
 			cooldown = world.time
 			up = !up
-			if(up)
-				flags &= ~(visor_flags)
-				flags_inv &= ~(visor_flags_inv)
-				flags_cover &= 0
-				icon_state = "[initial(icon_state)]up"
-				usr << "[alt_toggle_message] \the [src]"
-				usr.update_inv_head()
-				if(active_sound)
-					while(up)
-						playsound(src.loc, "[active_sound]", 100, 0, 4)
-						sleep(15)
-			else
-				flags |= (visor_flags)
-				flags_inv |= (visor_flags_inv)
-				flags_cover = initial(flags_cover)
-				icon_state = initial(icon_state)
-				usr << "[toggle_message] \the [src]."
-				usr.update_inv_head()
+			flags ^= visor_flags
+			flags_inv ^= visor_flags_inv
+			flags_cover ^= initial(flags_cover)
+			icon_state = "[initial(icon_state)][up ? "up" : ""]"
+			user << "[up ? alt_toggle_message : toggle_message] \the [src]"
+
+			user.update_inv_head()
+
+			if(active_sound)
+				while(up)
+					playsound(src.loc, "[active_sound]", 100, 0, 4)
+					sleep(15)
 
 /obj/item/clothing/head/helmet/justice
 	name = "helmet of justice"
@@ -311,7 +305,9 @@
 	if(!F)
 		return
 
-	var/mob/living/carbon/human/user = usr
+	var/mob/user = usr
+	if(user.incapacitated())
+		return
 	if(!isturf(user.loc))
 		user << "<span class='warning'>You cannot turn the light on while in this [user.loc]!</span>"
 	F.on = !F.on

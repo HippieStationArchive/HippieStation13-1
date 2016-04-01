@@ -64,14 +64,14 @@
 
 
 /datum/mind/proc/transfer_to(mob/living/new_character)
-	if(!istype(new_character))
+	/*if(!istype(new_character))
 		throw EXCEPTION("transfer_to(): new_character must be mob/living")
-		return
+		return*/
 
 	if(current)					//remove ourself from our old body's mind variable
 		current.mind = null
 
-		SStgui.on_transfer(current, new_character)
+		SSnano.user_transferred(current, new_character)
 
 	if(key)
 		if(new_character.key != key)					//if we're transfering into a body with a key associated which is not ours
@@ -82,9 +82,11 @@
 	if(new_character.mind)								//disassociate any mind currently in our new body's mind variable
 		new_character.mind.current = null
 
+	var/datum/atom_hud/antag/hud_to_transfer = antag_hud//we need this because leave_hud() will clear this list
+	leave_all_huds()
 	current = new_character								//associate ourself with our new body
 	new_character.mind = src							//and associate our new body with ourself
-	transfer_antag_huds(new_character)					//inherit the antag HUDs from this mind (TODO: move this to a possible antag datum)
+	transfer_antag_huds(hud_to_transfer)					//inherit the antag HUD
 	transfer_actions(new_character)
 
 	if(active)
@@ -186,6 +188,9 @@
 	remove_objectives()
 	remove_antag_equip()
 
+/datum/mind/proc/remove_hog_follower_prophet()
+	ticker.mode.remove_hog_follower(src)
+
 /datum/mind/proc/remove_antag_equip()
 	var/list/Mob_Contents = current.get_contents()
 	for(var/obj/item/I in Mob_Contents)
@@ -206,6 +211,7 @@
 	remove_rev()
 	remove_malf()
 	remove_gang()
+	remove_hog_follower_prophet()
 
 /datum/mind/proc/show_memory(mob/recipient, window=1)
 	if(!recipient)
@@ -240,8 +246,11 @@
 		"changeling",
 		"nuclear",
 		"traitor", // "traitorchan",
+		"shadowling",
+		"abductor",
 		"monkey",
 		"malfunction",
+		"hog"
 	)
 	var/text = ""
 
@@ -277,7 +286,7 @@
 		else
 			text += "head|loyal|<b>EMPLOYEE</b>|<a href='?src=\ref[src];revolution=headrev'>headrev</a>|<a href='?src=\ref[src];revolution=rev'>rev</a>"
 
-		if(current && current.client && current.client.prefs.be_special & BE_REV)
+		if(current && current.client && (ROLE_REV in current.client && current.client.prefs.be_special))
 			text += "|Enabled in Prefs"
 		else
 			text += "|Disabled in Prefs"
@@ -295,7 +304,7 @@
 		else
 			text += "<B>NONE</B>"
 
-		if(current && current.client && current.client.prefs.be_special & BE_GANG)
+		if(current && current.client && (ROLE_GANG in current.client && current.client.prefs.be_special))
 			text += "|Enabled in Prefs<BR>"
 		else
 			text += "|Disabled in Prefs<BR>"
@@ -342,7 +351,7 @@
 		else
 			text += "loyal|<b>EMPLOYEE</b>|<a href='?src=\ref[src];cult=cultist'>cultist</a>"
 
-		if(current && current.client && current.client.prefs.be_special & BE_CULTIST)
+		if(current && current.client && (ROLE_CULTIST in current.client && current.client.prefs.be_special))
 			text += "|Enabled in Prefs"
 		else
 			text += "|Disabled in Prefs"
@@ -362,7 +371,7 @@
 		else
 			text += "<a href='?src=\ref[src];wizard=wizard'>yes</a>|<b>NO</b>"
 
-		if(current && current.client && current.client.prefs.be_special & BE_WIZARD)
+		if(current && current.client && (ROLE_WIZARD in current.client && current.client.prefs.be_special))
 			text += "|Enabled in Prefs"
 		else
 			text += "|Disabled in Prefs"
@@ -386,7 +395,7 @@
 //			if (istype(changeling) && changeling.changelingdeath)
 //				text += "<br>All the changelings are dead! Restart in [round((changeling.TIME_TO_GET_REVIVED-(world.time-changeling.changelingdeathtime))/10)] seconds."
 
-		if(current && current.client && current.client.prefs.be_special & BE_CHANGELING)
+		if(current && current.client && (ROLE_CHANGELING in current.client && current.client.prefs.be_special))
 			text += "|Enabled in Prefs"
 		else
 			text += "|Disabled in Prefs"
@@ -402,7 +411,7 @@
 			text += "<b>OPERATIVE</b>|<a href='?src=\ref[src];nuclear=clear'>nanotrasen</a>"
 			text += "<br><a href='?src=\ref[src];nuclear=lair'>To shuttle</a>, <a href='?src=\ref[src];common=undress'>undress</a>, <a href='?src=\ref[src];nuclear=dressup'>dress up</a>."
 			var/code
-			for (var/obj/machinery/nuclearbomb/bombue in world)
+			for (var/obj/machinery/nuclearbomb/bombue in machines)
 				if (length(bombue.r_code) <= 5 && bombue.r_code != "LOLNO" && bombue.r_code != "ADMIN")
 					code = bombue.r_code
 					break
@@ -411,7 +420,7 @@
 		else
 			text += "<a href='?src=\ref[src];nuclear=nuclear'>operative</a>|<b>NANOTRASEN</b>"
 
-		if(current && current.client && current.client.prefs.be_special & BE_OPERATIVE)
+		if(current && current.client && (ROLE_OPERATIVE in current.client && current.client.prefs.be_special))
 			text += "|Enabled in Prefs"
 		else
 			text += "|Disabled in Prefs"
@@ -430,7 +439,7 @@
 	else
 		text += "<a href='?src=\ref[src];traitor=traitor'>traitor</a>|<b>LOYAL</b>"
 
-	if(current && current.client && current.client.prefs.be_special & BE_TRAITOR)
+	if(current && current.client && (ROLE_TRAITOR in current.client && current.client.prefs.be_special))
 		text += "|Enabled in Prefs"
 	else
 		text += "|Disabled in Prefs"
@@ -449,7 +458,7 @@
 	else
 		text += "<a href='?src=\ref[src];shadowling=shadowling'>shadowling</a>|<a href='?src=\ref[src];shadowling=thrall'>thrall</a>|<b>HUMAN</b>"
 
-	if(current && current.client && current.client.prefs.be_special & BE_SHADOWLING)
+	if(current && current.client && (ROLE_SHADOWLING in current.client && current.client.prefs.be_special))
 		text += "|Enabled in Prefs"
 	else
 		text += "|Disabled in Prefs"
@@ -468,7 +477,7 @@
 	else
 		text += "<a href='?src=\ref[src];abductor=abductor'>Abductor</a>|<b>human</b>"
 
-	if(current && current.client && current.client.prefs.be_special & BE_ABDUCTOR)
+	if(current && current.client && (ROLE_ABDUCTOR in current.client && current.client.prefs.be_special))
 		text += "|Enabled in Prefs"
 	else
 		text += "|Disabled in Prefs"
@@ -496,7 +505,7 @@
 		else
 			text += "healthy|infected|human|<b>OTHER</b>"
 
-		if(current && current.client && current.client.prefs.be_special & BE_MONKEY)
+		if(current && current.client && (ROLE_MONKEY in current.client && current.client.prefs.be_special))
 			text += "|Enabled in Prefs"
 		else
 			text += "|Disabled in Prefs"
@@ -527,12 +536,47 @@
 					n_e_robots++
 			text += "<br>[n_e_robots] of [ai.connected_robots.len] slaved cyborgs are emagged. <a href='?src=\ref[src];silicon=unemagcyborgs'>Unemag</a>"
 
-		if(current && current.client && current.client.prefs.be_special & BE_MALF)
+		if(current && current.client && (ROLE_MALF in current.client && current.client.prefs.be_special))
 			text += "|Enabled in Prefs"
 		else
 			text += "|Disabled in Prefs"
 
 		sections["malfunction"] = text
+
+	/** HAND OF GOD **/
+	text = "hand of god"
+	if(ticker.mode.config_tag == "handofgod")
+		text = uppertext(text)
+	text = "<i><b>[text]</b></i>: <a href='?src=\ref[src];handofgod=clear'>|CLEAR|</a> Teams:<br>"
+	var/list/ranks = list("Follower","Prophet","God")
+	if(current)
+		for(var/i in teams)
+			var/theside = i
+			if(is_in_any_team(src) == i)
+				text += "<b>[capitalize(i)]</b>"
+				for(var/rank in ranks)
+					var/r = what_rank(src)
+					if(r == rank)
+						text += "|<b>[rank]</b>"
+					else
+						text += "<a href='?src=\ref[src];handofgod=[rank]'>|[capitalize(rank)]</a>"
+			else
+				text += "<a href='?src=\ref[src];handofgod=[i]'>[theside]</a>"
+			text += "<br>"
+	else
+		text += "No mob found, can't HOG-ify." //i wasn't able to think about a correct phrase to use
+
+	if(current && current.client && (ROLE_HOG_GOD in current.client.prefs.be_special))
+		text += "|HOG God Enabled in Prefs"
+	else
+		text += "|HOG God Disabled in Prefs"
+
+	if(current && current.client && (ROLE_HOG_CULTIST in current.client.prefs.be_special))
+		text += "|HOG Cultist Enabled in Prefs"
+	else
+		text += "|HOG Disabled in Prefs"
+
+	sections["hog"] = text
 
 	if (ticker.mode.config_tag == "traitorchan")
 		if (sections["traitor"])
@@ -556,13 +600,16 @@
 		istype(current,/mob/living/carbon/human)      )
 
 		text = "Uplink: <a href='?src=\ref[src];common=uplink'>give</a>"
-		var/obj/item/device/uplink/U = find_syndicate_uplink()
-		if(U)
+		var/obj/item/device/uplink/hidden/suplink = find_syndicate_uplink()
+		var/crystals
+		if (suplink)
+			crystals = suplink.uses
+		if (suplink)
 			text += "|<a href='?src=\ref[src];common=takeuplink'>take</a>"
 			if (check_rights(R_FUN, 0))
-				text += ", <a href='?src=\ref[src];common=crystals'>[U.telecrystals]</a> TC"
+				text += ", <a href='?src=\ref[src];common=crystals'>[crystals]</a> crystals"
 			else
-				text += ", [U.telecrystals] TC"
+				text += ", [crystals] crystals"
 		text += "." //hiel grammar
 		out += text
 
@@ -584,7 +631,6 @@
 	out += "<a href='?src=\ref[src];obj_announce=1'>Announce objectives</a><br><br>"
 
 	usr << browse(out, "window=edit_memory[src];size=500x600")
-
 
 /datum/mind/Topic(href, href_list)
 	if(!check_rights(R_ADMIN))	return
@@ -615,7 +661,7 @@
 			if(!def_value)//If it's a custom objective, it will be an empty string.
 				def_value = "custom"
 
-		var/new_obj_type = input("Select objective type:", "Objective type", def_value) as null|anything in list("assassinate", "maroon", "debrain", "protect", "destroy", "prevent", "hijack", "escape", "survive", "martyr", "steal", "download", "nuclear", "capture", "absorb", "custom")
+		var/new_obj_type = input("Select objective type:", "Objective type", def_value) as null|anything in list("assassinate", "maroon", "debrain", "protect", "destroy", "prevent", "hijack", "escape", "survive", "martyr", "steal", "download", "nuclear", "capture", "absorb","follower block (HOG)","build (HOG)","deicide (HOG)", "follower escape (HOG)", "sacrifice prophet (HOG)", "custom")
 		if (!new_obj_type) return
 
 		var/datum/objective/new_objective = null
@@ -714,6 +760,22 @@
 						new_objective.explanation_text = "Absorb [target_number] compatible genomes."
 				new_objective.owner = src
 				new_objective.target_amount = target_number
+
+			if("follower block (HOG)")
+				new_objective = new /datum/objective/follower_block
+				new_objective.owner = src
+			if("build (HOG)")
+				new_objective = new /datum/objective/build
+				new_objective.owner = src
+			if("deicide (HOG)")
+				new_objective = new /datum/objective/deicide
+				new_objective.owner = src
+			if("follower escape (HOG)")
+				new_objective = new /datum/objective/escape_followers
+				new_objective.owner = src
+			if("sacrifice prophet (HOG)")
+				new_objective = new /datum/objective/sacrifice_prophet
+				new_objective.owner = src
 
 			if ("custom")
 				var/expl = stripped_input(usr, "Custom objective:", "Objective", objective ? objective.explanation_text : "")
@@ -1020,7 +1082,7 @@
 					usr << "<span class='danger'>Equipping a syndicate failed!</span>"
 			if("tellcode")
 				var/code
-				for (var/obj/machinery/nuclearbomb/bombue in world)
+				for (var/obj/machinery/nuclearbomb/bombue in machines)
 					if (length(bombue.r_code) <= 5 && bombue.r_code != "LOLNO" && bombue.r_code != "ADMIN")
 						code = bombue.r_code
 						break
@@ -1112,13 +1174,13 @@
 					else
 						temp.equip_scientist(current)
 
-	else if(href_list["monkey"])
+	else if (href_list["monkey"])
 		var/mob/living/L = current
-		if(L.notransform)
+		if (L.notransform)
 			return
 		switch(href_list["monkey"])
 			if("healthy")
-				if(check_rights(R_ADMIN))
+				if (check_rights(R_ADMIN))
 					var/mob/living/carbon/human/H = current
 					var/mob/living/carbon/monkey/M = current
 					if (istype(H))
@@ -1133,7 +1195,7 @@
 							D.cure(0)
 						sleep(0) //because deleting of virus is done through spawn(0)
 			if("infected")
-				if(check_rights(R_ADMIN, 0))
+				if (check_rights(R_ADMIN, 0))
 					var/mob/living/carbon/human/H = current
 					var/mob/living/carbon/monkey/M = current
 					if (istype(H))
@@ -1146,12 +1208,12 @@
 					else if (istype(M))
 						current.ForceContractDisease(new /datum/disease/transformation/jungle_fever)
 			if("human")
-				if(check_rights(R_ADMIN, 0))
+				if (check_rights(R_ADMIN, 0))
 					var/mob/living/carbon/human/H = current
 					var/mob/living/carbon/monkey/M = current
-					if(istype(M))
+					if (istype(M))
 						for(var/datum/disease/D in M.viruses)
-							if(istype(D,/datum/disease/transformation/jungle_fever))
+							if (istype(D,/datum/disease/transformation/jungle_fever))
 								D.cure(0)
 								sleep(0) //because deleting of virus is doing throught spawn(0)
 						log_admin("[key_name(usr)] attempting to humanize [key_name(current)]")
@@ -1160,7 +1222,7 @@
 						if(H)
 							src = H.mind
 
-	else if(href_list["silicon"])
+	else if (href_list["silicon"])
 		switch(href_list["silicon"])
 			if("unmalf")
 				remove_malf()
@@ -1188,7 +1250,40 @@
 					message_admins("[key_name_admin(usr)] has unemag'ed [ai]'s Cyborgs.")
 					log_admin("[key_name(usr)] has unemag'ed [ai]'s Cyborgs.")
 
-	else if(href_list["common"])
+	else if (href_list["handofgod"])
+		if(href_list["handofgod"] == "clear") //wipe handofgod status
+			ticker.mode.remove_hog_follower(src, 0)
+			current << "<span class='danger'><B>You have been brainwashed... again! Your faith is no more!</B></span>"
+			message_admins("[key_name_admin(usr)] has de-hand of god'ed [current].")
+			log_admin("[key_name(usr)] has de-hand of god'ed [current].")
+
+		else if(href_list["handofgod"] in teams)
+			make_Handofgod_follower(href_list["handofgod"])
+			message_admins("[key_name_admin(usr)] has added [current] to the [href_list["handofgod"]] hand of god team.")
+			log_admin("[key_name(usr)] has added [current] to the [href_list["handofgod"]] hand of god team.")
+
+		else if(href_list["handofgod"] == "Follower")
+			if(what_rank(src) != "God")
+				make_Handofgod_follower(is_in_any_team(src)) // this is safe because this option will only appear if this fellow mind is in a team
+				message_admins("[key_name_admin(usr)] has made [current] into a follower.")
+				log_admin("[key_name(usr)] has made [current] into a follower.")
+			else
+				usr << "<span class='danger'>Can't transform a god into a follower!Humanize him first.</span>"
+
+		else if(href_list["handofgod"] == "Prophet")
+			if(what_rank(src) != "God")
+				make_Handofgod_prophet(is_in_any_team(src))
+				message_admins("[key_name_admin(usr)] has prophet'ed [current].")
+				log_admin("[key_name(usr)] has prophet'ed [current].")
+			else
+				usr << "<span class='danger'>Can't transform a god into a follower!Humanize him first.</span>"
+
+		else if(href_list["handofgod"] == "God")
+			make_Handofgod_god(is_in_any_team(src))
+			message_admins("[key_name_admin(usr)] has god'ed [current].")
+			log_admin("[key_name(usr)] has god'ed [current].")
+
+	else if (href_list["common"])
 		switch(href_list["common"])
 			if("undress")
 				for(var/obj/item/W in current)
@@ -1198,12 +1293,15 @@
 				memory = null//Remove any memory they may have had.
 				log_admin("[key_name(usr)] removed [current]'s uplink.")
 			if("crystals")
-				if(check_rights(R_FUN, 0))
-					var/obj/item/device/uplink/U = find_syndicate_uplink()
-					if(U)
-						var/crystals = input("Amount of telecrystals for [key]","Syndicate uplink", U.telecrystals) as null|num
-						if(!isnull(crystals))
-							U.telecrystals = crystals
+				if (check_rights(R_FUN, 0))
+					var/obj/item/device/uplink/hidden/suplink = find_syndicate_uplink()
+					var/crystals
+					if (suplink)
+						crystals = suplink.uses
+					crystals = input("Amount of telecrystals for [key]","Syndicate uplink", crystals) as null|num
+					if (!isnull(crystals))
+						if (suplink)
+							suplink.uses = crystals
 							message_admins("[key_name_admin(usr)] changed [current]'s telecrystal count to [crystals].")
 							log_admin("[key_name(usr)] changed [current]'s telecrystal count to [crystals].")
 			if("uplink")
@@ -1211,7 +1309,7 @@
 					usr << "<span class='danger'>Equipping a syndicate failed!</span>"
 				log_admin("[key_name(usr)] attempted to give [current] an uplink.")
 
-	else if(href_list["obj_announce"])
+	else if (href_list["obj_announce"])
 		var/obj_count = 1
 		current << "<span class='notice'>Your current objectives:</span>"
 		for(var/datum/objective/objective in objectives)
@@ -1222,13 +1320,13 @@
 
 /datum/mind/proc/find_syndicate_uplink()
 	var/list/L = current.get_contents()
-	for(var/obj/item/I in L)
-		if(I.hidden_uplink)
+	for (var/obj/item/I in L)
+		if (I.hidden_uplink)
 			return I.hidden_uplink
 	return null
 
 /datum/mind/proc/take_uplink()
-	var/obj/item/device/uplink/H = find_syndicate_uplink()
+	var/obj/item/device/uplink/hidden/H = find_syndicate_uplink()
 	if(H)
 		qdel(H)
 
@@ -1254,7 +1352,7 @@
 		ticker.mode.finalize_traitor(src)
 		ticker.mode.greet_traitor(src)
 
-/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0, telecrystals = TRUE)
+/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0, telecrystals = TRUE, reinforcement_to_spawn)
 	if(!(src in ticker.mode.syndicates))
 		ticker.mode.syndicates += src
 		ticker.mode.update_synd_icons_added(src)
@@ -1275,13 +1373,13 @@
 		qdel(H.wear_suit)
 		qdel(H.w_uniform)
 
-		ticker.mode.equip_syndicate(current, telecrystals)
+		ticker.mode.equip_syndicate(current, telecrystals, reinforcement_to_spawn)
 
-		if(nuke_code)
+		if (nuke_code)
 			store_memory("<B>Syndicate Nuclear Bomb Code</B>: [nuke_code]", 0, 0)
 			current << "The nuclear authorization code is: <B>[nuke_code]</B>"
 
-		if(leader)
+		if (leader)
 			ticker.mode.prepare_syndicate_leader(src,nuke_code)
 		else
 			current.real_name = "[syndicate_name()] Operative #[ticker.mode.syndicates.len-1]"
@@ -1438,7 +1536,35 @@
 				L = agent_landmarks[team]
 				H.loc = L.loc
 
+/datum/mind/proc/make_Handofgod_follower(team)
+	. = 0
+	ticker.mode.remove_hog_follower(src, 0)
+	if(ticker.mode.add_hog_follower(src, team))
+		return 1
 
+/datum/mind/proc/make_Handofgod_prophet(team)
+	. = 1
+	make_Handofgod_follower(team)
+	var/datum/faction/HOG/H = faction
+	if(H)//should never fail,again
+		H.members[src] = "Prophet"
+	ticker.mode.update_hog_icons_added(src,team)
+	if(istype(ticker.mode, /datum/game_mode/hand_of_god))
+		var/datum/game_mode/hand_of_god/mygamemode = ticker.mode
+		mygamemode.prophets |= src // add only if not already in,we don't want double minds in our list
+
+	var/datum/action/innate/godspeak/A = new /datum/action/innate/godspeak()
+	var/list/gods = get_team_gods(team)
+	for(var/datum/mind/god in gods)
+		if(god.current)
+			A.gods.Add(god.current)
+	A.Grant(current)
+	current << "<span class='boldnotice'>You gain the ability to speak with your god!</span>"
+
+/datum/mind/proc/make_Handofgod_god(colour)
+	ticker.mode.add_god(src, colour)
+	ticker.mode.forge_deity_objectives(src)
+	return 1
 
 /datum/mind/proc/AddSpell(obj/effect/proc_holder/spell/spell)
 	spell_list += spell
@@ -1471,7 +1597,8 @@
 
 /mob/proc/sync_mind()
 	mind_initialize()	//updates the mind (or creates and initializes one if one doesn't exist)
-	mind.active = 1		//indicates that the mind is currently synced with a client
+	if(mind)
+		mind.active = 1		//indicates that the mind is currently synced with a client
 
 //Initialisation procs
 /mob/proc/mind_initialize()
@@ -1509,9 +1636,13 @@
 	mind.special_role = "Alien"
 	mind.assigned_role = "Alien"
 	//XENO HUMANOID
-/mob/living/carbon/alien/humanoid/queen/mind_initialize()
+/mob/living/carbon/alien/humanoid/royal/queen/mind_initialize()
 	..()
 	mind.special_role = "Queen"
+
+/mob/living/carbon/alien/humanoid/royal/praetorian/mind_initialize()
+	..()
+	mind.special_role = "Praetorian"
 
 /mob/living/carbon/alien/humanoid/hunter/mind_initialize()
 	..()

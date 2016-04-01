@@ -349,12 +349,6 @@
 	log_name = "PF"
 	cost = 1
 
-/datum/spellbook_entry/item/moonlightsword
-	name = "Moonlight Greatsword"
-	desc = "A sword that shines like the brilliant rays of the moon, unleashing its energy causes the blade to extend in a very wide slash. Acts as a magic catalyst. Must be charged through the life essence of a relatively healthy, advanced organism."
-	item_path = /obj/item/weapon/gun/magic/staff/moonlight_greatsword
-	log_name = "MS"
-
 /datum/spellbook_entry/item/bloodbottle
 	name = "Bottle of Blood"
 	desc = "A bottle of magically infused blood, the smell of which will attract extradimensional beings when broken. Be careful though, the kinds of creatures summoned by blood magic are indiscriminate in their killing, and you yourself may become a victim."
@@ -483,7 +477,6 @@
 	user << "<span class='notice'>You have triggerd a multiverse war!</span>"
 	return 1
 */
-
 /obj/item/weapon/spellbook
 	name = "spell book"
 	desc = "An unearthly tome that glows with power."

@@ -7,8 +7,12 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	var/righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 
-	//Dimensions of the lefthand_file and righthand_file vars
-	//eg: 32x32 sprite, 64x64 sprite, etc.
+	//Dimensions of the icon file used when this item is worn, eg: hats.dmi
+  	//eg: 32x32 sprite, 64x64 sprite, etc.
+	//allows inhands/worn sprites to be of any size, but still centered on a mob properly
+	var/worn_x_dimension = 32
+	var/worn_y_dimension = 32
+	//Same as above but for inhands, uses the lefthand_ and righthand_ file vars
 	var/inhand_x_dimension = 32
 	var/inhand_y_dimension = 32
 
@@ -48,7 +52,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/list/armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
 	var/armour_penetration = 0 //percentage of armour effectiveness to remove
 	var/list/allowed = null //suit storage stuff.
-	var/obj/item/device/uplink/hidden_uplink = null
+	var/obj/item/device/uplink/hidden/hidden_uplink = null // All items can have an uplink hidden inside, just remember to add the triggers.
 	var/strip_delay = 40
 	var/put_on_delay = 20
 	var/list/materials = list()
@@ -216,19 +220,9 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		msg += "*--------*"
 		user << msg
 
-/obj/item/attack_self(mob/user)
-	interact(user)
-
-/obj/item/interact(mob/user)
-	if(hidden_uplink && hidden_uplink.active)
-		hidden_uplink.interact(user)
-		return 1
-	add_fingerprint(user)
-	ui_interact(user)
 
 /obj/item/attack_hand(mob/user)
-	if(!user)
-		return
+	if (!user) return
 
 	if(burn_state == 1)
 		var/mob/living/carbon/human/H = user
@@ -246,13 +240,13 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		else
 			extinguish()
 
-	if(istype(src.loc, /obj/item/weapon/storage))
+	if (istype(src.loc, /obj/item/weapon/storage))
 		//If the item is in a storage item, take it out
 		var/obj/item/weapon/storage/S = src.loc
 		S.remove_from_storage(src, user.loc)
 
 	src.throwing = 0
-	if(loc == user)
+	if (loc == user)
 		if(!user.unEquip(src))
 			return
 
@@ -266,13 +260,13 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 /obj/item/attack_paw(mob/user)
 	var/picked_up = 0
 
-	if(istype(src.loc, /obj/item/weapon/storage))
+	if (istype(src.loc, /obj/item/weapon/storage))
 		for(var/mob/M in range(1, src.loc))
-			if(M.s_active == src.loc)
+			if (M.s_active == src.loc)
 				if (M.client)
 					M.client.screen -= src
 	src.throwing = 0
-	if(src.loc == user)
+	if (src.loc == user)
 		if(!user.unEquip(src))
 			return
 	else
@@ -297,7 +291,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	attack_paw(A)
 
 /obj/item/attack_ai(mob/user)
-	if(istype(src.loc, /obj/item/weapon/robot_module))
+	if (istype(src.loc, /obj/item/weapon/robot_module))
 		//If the item is part of a cyborg module, equip it
 		if(!isrobot(user)) return
 		var/mob/living/silicon/robot/R = user
@@ -388,6 +382,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 	return M.can_equip(src, slot, disable_warning)
 
+
 /obj/item/verb/verb_pickup()
 	set src in oview(1)
 	set category = "Object"
@@ -396,17 +391,8 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	if(usr.stat || usr.restrained() || !Adjacent(usr) || usr.stunned || usr.weakened || usr.lying)
 		return
 
-	if(ishuman(usr) || ismonkey(usr) || isdrone(usr))
-		if(usr.get_active_hand() == null)
-			usr.UnarmedAttack(src) // Let me know if this has any problems -Giacom | Actually let me know now.  -Sayu
-		/*
-		if(usr.get_active_hand() == null)
-			src.attack_hand(usr)
-		else
-			usr << "\red You already have something in your hand."
-		*/
-	else
-		usr << "<span class='warning'>This mob type can't use this verb!</span>"
+	if(usr.get_active_hand() == null)
+		usr.UnarmedAttack(src) // Let me know if this has any problems -Giacom | Actually let me know now.  -Sayu
 
 //This proc is executed when someone clicks the on-screen UI button. To make the UI button show, set the 'action_button_name'.
 //The default action is attack_self().

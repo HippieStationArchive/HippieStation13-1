@@ -1,4 +1,5 @@
 /datum/game_mode
+	// this includes admin-appointed traitors and multitraitors. Easy!
 	var/traitor_name = "traitor"
 	var/list/datum/mind/traitors = list()
 
@@ -8,7 +9,7 @@
 /datum/game_mode/traitor
 	name = "traitor"
 	config_tag = "traitor"
-	antag_flag = BE_TRAITOR
+	antag_flag = ROLE_TRAITOR
 	restricted_jobs = list("Cyborg")//They are part of the AI if he is traitor so are they, they use to get double chances
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel")//AI", Currently out of the list as malf does not work for shit
 	required_players = 0
@@ -73,8 +74,8 @@
 	if(ticker.mode.traitors.len >= traitorcap) //Upper cap for number of latejoin antagonists
 		return
 	if(ticker.mode.traitors.len <= (traitorcap - 2) || prob(100 / (config.traitor_scaling_coeff * 2)))
-		if(character.client.prefs.be_special & BE_TRAITOR)
-			if(!jobban_isbanned(character.client, "traitor") && !jobban_isbanned(character.client, "Syndicate"))
+		if(ROLE_TRAITOR in character.client.prefs.be_special)
+			if(!jobban_isbanned(character.client, ROLE_TRAITOR) && !jobban_isbanned(character.client, "Syndicate"))
 				if(age_check(character.client))
 					if(!(character.job in restricted_jobs))
 						add_latejoin_traitor(character.mind)
@@ -222,10 +223,10 @@
 			var/TC_uses = 0
 			var/uplink_true = 0
 			var/purchases = ""
-			for(var/obj/item/device/uplink/H in uplinks)
-				if(H && H.owner && H.owner == traitor.key)
-					TC_uses += H.spent_telecrystals
-					uplink_true = 1
+			for(var/obj/item/device/uplink/H in world_uplinks)
+				if(H && H.uplink_owner && H.uplink_owner==traitor.key)
+					TC_uses += H.used_TC
+					uplink_true=1
 					purchases += H.purchase_log
 
 			var/objectives = ""
@@ -280,32 +281,48 @@
 			traitor_mob << "Your training has allowed you to overcome your clownish nature, allowing you to wield weapons without harming yourself."
 			traitor_mob.dna.remove_mutation(CLOWNMUT)
 
+	// find a radio! toolbox(es), backpack, belt, headset
 	var/loc = ""
-	var/obj/item/I = locate(/obj/item/device/pda) in traitor_mob.contents //Hide the uplink in a PDA if available, otherwise radio
-	if(!I)
-		I = locate(/obj/item/device/radio) in traitor_mob.contents
+	var/obj/item/R = locate(/obj/item/device/pda) in traitor_mob.contents //Hide the uplink in a PDA if available, otherwise radio
+	if(!R)
+		R = locate(/obj/item/device/radio) in traitor_mob.contents
 
-	if(!I)
+	if (!R)
 		traitor_mob << "Unfortunately, the Syndicate wasn't able to get you a radio."
 		. = 0
 	else
-		var/obj/item/device/uplink/U = new(I)
-		U.owner = "[traitor_mob.key]"
-		I.hidden_uplink = U
+		if (istype(R, /obj/item/device/radio))
+			// generate list of radio freqs
+			var/obj/item/device/radio/target_radio = R
+			var/freq = 1441
+			var/list/freqlist = list()
+			while (freq <= 1489)
+				if (freq < 1451 || freq > 1459)
+					freqlist += freq
+				freq += 2
+				if ((freq % 2) == 0)
+					freq += 1
+			freq = freqlist[rand(1, freqlist.len)]
 
-		if(istype(I, /obj/item/device/radio))
-			var/obj/item/device/radio/R = I
-			R.traitor_frequency = sanitize_frequency(rand(MIN_FREQ, MAX_FREQ))
+			var/obj/item/device/uplink/hidden/T = new(R)
+			target_radio.hidden_uplink = T
+			T.uplink_owner = "[traitor_mob.key]"
+			target_radio.traitor_frequency = freq
+			traitor_mob << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [format_frequency(freq)] to unlock its hidden features."
+			traitor_mob.mind.store_memory("<B>Radio Freq:</B> [format_frequency(freq)] ([R.name] [loc]).")
+		else if (istype(R, /obj/item/device/pda))
+			// generate a passcode if the uplink is hidden in a PDA
+			var/pda_pass = "[rand(100,999)] [pick("Alpha","Bravo","Delta","Omega")]"
 
-			traitor_mob << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply dial the frequency [format_frequency(R.traitor_frequency)] to unlock its hidden features."
-			traitor_mob.mind.store_memory("<B>Radio Frequency:</B> [format_frequency(R.traitor_frequency)] ([R.name] [loc]).")
-		else if(istype(I, /obj/item/device/pda))
-			var/obj/item/device/pda/P = I
-			P.lock_code = "[rand(100,999)] [pick("Alpha","Bravo","Delta","Omega")]"
+			var/obj/item/device/uplink/hidden/T = new(R)
+			R.hidden_uplink = T
+			T.uplink_owner = "[traitor_mob.key]"
+			var/obj/item/device/pda/P = R
+			P.lock_code = pda_pass
 
-			traitor_mob << "The Syndicate have cunningly disguised a Syndicate Uplink as your [P.name] [loc]. Simply enter the code \"[P.lock_code]\" into the ringtone select to unlock its hidden features."
-			traitor_mob.mind.store_memory("<B>Uplink Passcode:</B> [P.lock_code] ([P.name] [loc]).")
-	if(!safety) // If they are not a rev. Can be added on to.
+			traitor_mob << "The Syndicate have cunningly disguised a Syndicate Uplink as your [R.name] [loc]. Simply enter the code \"[pda_pass]\" into the ringtone select to unlock its hidden features."
+			traitor_mob.mind.store_memory("<B>Uplink Passcode:</B> [pda_pass] ([R.name] [loc]).")
+	if(!safety)//If they are not a rev. Can be added on to.
 		give_codewords(traitor_mob)
 
 /datum/game_mode/proc/assign_exchange_role(datum/mind/owner)

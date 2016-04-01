@@ -309,7 +309,6 @@ Contains:
 	slowdown = 1
 	armor = list(melee = 80, bullet = 70, laser = 70, energy = 40, bomb = 80, bio = 100, rad = 100)
 	strip_delay = 200
-
 /obj/item/clothing/suit/space/mime
 	name = "Miming spacesuit"
 	icon_state = "spacemime"

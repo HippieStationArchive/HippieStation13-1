@@ -220,10 +220,7 @@
 	var/turf/simulated/floor/T = holder.loc
 	if(istype(T))
 		var/datum/gas_mixture/GM = T.air
-		if(!GM.gases["o2"])
-			return
-		GM.gases["o2"][MOLES] -= severity * holder.energy
-		GM.garbage_collect()
+		GM.oxygen = max(0, GM.oxygen - severity * holder.energy)
 
 /datum/spacevine_mutation/nitro_eater
 	name = "nitrogen consuming"
@@ -235,10 +232,7 @@
 	var/turf/simulated/floor/T = holder.loc
 	if(istype(T))
 		var/datum/gas_mixture/GM = T.air
-		if(!GM.gases["n2"])
-			return
-		GM.gases["n2"][MOLES] -= severity * holder.energy
-		GM.garbage_collect()
+		GM.nitrogen = max(0, GM.nitrogen - severity * holder.energy)
 
 /datum/spacevine_mutation/carbondioxide_eater
 	name = "CO2 consuming"
@@ -250,10 +244,7 @@
 	var/turf/simulated/floor/T = holder.loc
 	if(istype(T))
 		var/datum/gas_mixture/GM = T.air
-		if(!GM.gases["co2"])
-			return
-		GM.gases["co2"][MOLES] -= severity * holder.energy
-		GM.garbage_collect()
+		GM.carbon_dioxide = max(0, GM.carbon_dioxide - severity * holder.energy)
 
 /datum/spacevine_mutation/plasma_eater
 	name = "toxins consuming"
@@ -265,10 +256,7 @@
 	var/turf/simulated/floor/T = holder.loc
 	if(istype(T))
 		var/datum/gas_mixture/GM = T.air
-		if(!GM.gases["plasma"])
-			return
-		GM.gases["plasma"][MOLES] -= severity * holder.energy
-		GM.garbage_collect()
+		GM.toxins = max(0, GM.toxins - severity * holder.energy)
 
 /datum/spacevine_mutation/thorns
 	name = "thorny"
@@ -390,7 +378,7 @@
 		return
 
 	if(istype(W, /obj/item/weapon/scythe))
-		for(var/obj/effect/spacevine/B in orange(src,1))
+		for(var/obj/effect/spacevine/B in orange(1,src))
 			if(prob(80))
 				qdel(B)
 		qdel(src)
@@ -506,7 +494,7 @@
 			if(prob(20))
 				SV.grow()
 		else //If tile is fully grown
-			SV.buckle_mob()
+			SV.entangle_mob()
 
 		//if(prob(25))
 		SV.spread()
@@ -530,12 +518,12 @@
 	for(var/datum/spacevine_mutation/SM in mutations)
 		SM.on_grow(src)
 
-/obj/effect/spacevine/buckle_mob()
+/obj/effect/spacevine/proc/entangle_mob()
 	if(!buckled_mob && prob(25))
 		for(var/mob/living/V in src.loc)
 			entangle(V)
 			if(buckled_mob)
-				..(V)
+				buckle_mob(V)
 				break //only capture one mob at a time
 
 /obj/effect/spacevine/proc/entangle(mob/living/V)

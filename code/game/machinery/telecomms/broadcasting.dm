@@ -82,6 +82,12 @@
 		message = Gibberish(message, compression + 40)
 
 	// --- Broadcast only to intercom devices ---
+	if(isliving(AM))
+		var/mob/living/C = AM
+		if(C.client)
+			C.client.last_radio_talk_time = world.time
+			if(C.client.prefs && C.client.prefs.muted)
+				return
 
 	if(data == 1)
 		for(var/obj/item/device/radio/intercom/R in all_radios["[freq]"])
@@ -179,7 +185,7 @@
 		var/mob/living/carbon/human/H = new
 		M = H
 
-	var/datum/radio_frequency/connection = SSradio.return_frequency(frequency)
+	var/datum/radio_frequency/connection = radio_controller.return_frequency(frequency)
 
 	var/display_freq = connection.frequency
 
@@ -209,7 +215,7 @@
 	// --- Broadcast to syndicate radio! ---
 
 	else if(data == 3)
-		var/datum/radio_frequency/syndicateconnection = SSradio.return_frequency(SYND_FREQ)
+		var/datum/radio_frequency/syndicateconnection = radio_controller.return_frequency(SYND_FREQ)
 
 		for (var/obj/item/device/radio/R in syndicateconnection.devices["[RADIO_CHAT]"])
 			var/turf/position = get_turf(R)

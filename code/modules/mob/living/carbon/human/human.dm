@@ -187,16 +187,6 @@
 	..()
 
 /mob/living/carbon/human/blob_act()
-	if(dna.species.id == "meeseeks_1")
-		if(health > -10)
-			show_message("<span class='userdanger'>The blob attacks you!</span>")
-			adjustBruteLoss(25)
-			updatehealth()
-			return 1
-		else
-			show_message("<span class='userdanger'>You've failed your mission and dissapeared!</span>")
-			qdel(src)
-			return 1
 	if(stat == DEAD)	return
 	show_message("<span class='userdanger'>The blob attacks you!</span>")
 	var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
@@ -295,7 +285,7 @@
 // called when something steps onto a human
 // this could be made more general, but for now just handle mulebot
 /mob/living/carbon/human/Crossed(atom/movable/AM)
-	var/mob/living/simple_animal/bot/mulebot/MB = AM
+	var/obj/machinery/bot/mulebot/MB = AM
 	if(istype(MB))
 		MB.RunOver(src)
 
@@ -349,15 +339,15 @@
 				if(!I || !L || I.loc != src || !(I in L.embedded_objects))
 					return
 				L.embedded_objects -= I
+				add_logs(usr, src, "un-embedded of [I] ")
 				L.take_damage(I.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
-				I.loc = get_turf(usr)
 				if(I.pinned) //Only the rodgun pins people down currently
 					do_pindown(src.pinned_to, 0)
 					src.pinned_to = null
 					src.anchored = 0
 					update_canmove()
 					I.pinned = null
-				I.loc = get_turf(usr)
+				I.loc = get_turf(src)
 				I.add_fingerprint(usr)
 				src.emote("scream")
 				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
@@ -641,8 +631,8 @@
 	else
 		return null
 
-/mob/living/carbon/human/assess_threat(mob/living/simple_animal/bot/secbot/judgebot, lasercolor)
-	if(judgebot.emagged == 1)
+/mob/living/carbon/human/assess_threat(obj/machinery/bot/secbot/judgebot, lasercolor)
+	if(judgebot.emagged == 2)
 		return 10 //Everyone is a criminal!
 
 	var/threatcount = 0

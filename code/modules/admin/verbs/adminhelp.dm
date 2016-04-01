@@ -165,9 +165,6 @@
 						send2irc(source, irc_message_afk)
 					else
 						send2irc(source, irc_message_normal)
-		if("exchange")
-			if(config.announce_adminhelp_exchanges)
-				send2irc(source, msg)
 		if("watchlist")
 			if(config.announce_watchlist)
 				send2irc(source, irc_message_normal)

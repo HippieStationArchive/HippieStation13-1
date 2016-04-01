@@ -142,6 +142,7 @@ var/const/VOX_DELAY = 600
 				M << "<b><font size = 3><font color = red>AI announcement:</font color> [message]</font size></b>"
 
 
+
 /proc/play_vox_word(word, z_level, mob/only_listener)
 
 	word = lowertext(word)

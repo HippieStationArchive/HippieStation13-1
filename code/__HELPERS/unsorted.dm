@@ -182,6 +182,22 @@ Turf and target are seperate in case you want to teleport some distance from a t
 			return 0
 	return 1
 
+//Ensure the frequency is within bounds of what it should be sending/recieving at
+/proc/sanitize_frequency(f)
+	f = round(f)
+	f = max(1441, f) // 144.1
+	f = min(1489, f) // 148.9
+	if ((f % 2) == 0) //Ensure the last digit is an odd number
+		f += 1
+	return f
+
+//Turns 1479 into 147.9
+/proc/format_frequency(f)
+	f = text2num(f)
+	return "[round(f / 10)].[f % 10]"
+
+
+
 //This will update a mob's name, real_name, mind.name, data_core records, pda, id and traitor text
 //Calling this proc without an oldname will only update the mob and skip updating the pda, id and records ~Carn
 /mob/proc/fully_replace_character_name(oldname,newname)
@@ -274,6 +290,8 @@ Turf and target are seperate in case you want to teleport some distance from a t
 					newname = pick(mime_names)
 				if("ai")
 					newname = pick(ai_names)
+				if("deity")
+					newname = pick(clown_names|ai_names|mime_names) //pick any old name
 				else
 					return
 
@@ -356,7 +374,6 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	var/list/names = list()
 	var/list/pois = list()
 	var/list/namecounts = list()
-
 	for(var/mob/M in mobs)
 		var/name = M.name
 		if (name in names)
@@ -680,23 +697,21 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	var/holding = user.get_active_hand()
 	var/timefraction = round(time/numticks)
 	var/image/progbar
+	var/continue_looping = 1
 	for(var/i = 1 to numticks)
 		if(user.client && progress)
 			progbar = make_progress_bar(i, numticks, target)
-			user.client.images |= progbar
+			assign_progress_bar(user, progbar)
 		sleep(timefraction)
 		if(!user || !target)
-			if(user && user.client)
-				user.client.images -= progbar
+			continue_looping = 0
+		if (continue_looping && !uninterruptible && (user.loc != user_loc || target.loc != target_loc || user.get_active_hand() != holding || user.incapacitated() || user.lying ))
+			continue_looping = 0
+
+		cancel_progress_bar(user, progbar)//Clear the way for the next progbar image
+		if(!continue_looping)
 			return 0
-		if (!uninterruptible && (user.loc != user_loc || target.loc != target_loc || user.get_active_hand() != holding || user.incapacitated() || user.lying ))
-			if(user && user.client)
-				user.client.images -= progbar
-			return 0
-		if(user && user.client)
-			user.client.images -= progbar
-	if(user && user.client)
-		user.client.images -= progbar
+	cancel_progress_bar(user, progbar)
 	return 1
 
 /proc/make_progress_bar(current_number, goal_number, atom/target)
@@ -706,6 +721,14 @@ Turf and target are seperate in case you want to teleport some distance from a t
 		progbar.icon_state = "prog_bar_[round(((current_number / goal_number) * 100), 10)]"
 		progbar.pixel_y = 32
 		return progbar
+
+/proc/cancel_progress_bar(mob/user, image/progbar)
+	if(user && user.client && progbar)
+		user.client.images -= progbar
+
+/proc/assign_progress_bar(mob/user, image/progbar)
+	if(user && user.client && progbar)
+		user.client.images |= progbar
 
 /proc/do_after(mob/user, delay, numticks = 5, needhand = 1, atom/target = null, progress = 1)
 	if(!user)
@@ -719,46 +742,42 @@ Turf and target are seperate in case you want to teleport some distance from a t
 		Tloc = target.loc
 
 	var/delayfraction = round(delay/numticks)
+
 	var/atom/Uloc = user.loc
+
 	var/holding = user.get_active_hand()
 	var/holdingnull = 1 //User is not holding anything
 	if(holding)
 		holdingnull = 0 //User is holding a tool of some kind
+
 	var/image/progbar
+
+	var/continue_looping = 1
 	for (var/i = 1 to numticks)
 		if(user.client && progress)
 			progbar = make_progress_bar(i, numticks, target)
-			if(progbar)
-				user.client.images |= progbar
+			assign_progress_bar(user, progbar)
 		sleep(delayfraction)
 		if(!user || user.stat || user.weakened || user.stunned  || !(user.loc == Uloc))
-			if(user && user.client && progbar)
-				user.client.images -= progbar
-			return 0
+			continue_looping = 0
 
-		if(Tloc && (!target || Tloc != target.loc)) //Tloc not set when we don't want to track target
-			if(user && user.client && progbar)
-				user.client.images -= progbar
-			return 0 // Target no longer exists or has moved
+		if(continue_looping && Tloc && (!target || Tloc != target.loc)) //Tloc not set when we don't want to track target
+			continue_looping = 0
 
-		if(needhand)
+		if(continue_looping && needhand)
 			//This might seem like an odd check, but you can still need a hand even when it's empty
 			//i.e the hand is used to insert some item/tool into the construction
 			if(!holdingnull)
 				if(!holding)
-					if(user && user.client && progbar)
-						user.client.images -= progbar
-					return 0
-			if(user.get_active_hand() != holding)
-				if(user && user.client && progbar)
-					user.client.images -= progbar
-				return 0
-			if(user && user.client && progbar)
-				user.client.images -= progbar
-		if(user && user.client && progbar)
-			user.client.images -= progbar
-	if(user && user.client && progbar)
-		user.client.images -= progbar
+					continue_looping = 0
+			if(continue_looping && user.get_active_hand() != holding)
+				continue_looping = 0
+
+		cancel_progress_bar(user, progbar)//Clear the way for the next progbar image
+		if(!continue_looping)
+			return 0
+
+	cancel_progress_bar(user,progbar)
 	return 1
 
 //Takes: Anything that could possibly have variables and a varname to check.
@@ -1197,15 +1216,20 @@ var/list/WALLITEMS_INVERSE = list(
 
 	user << "<span class='notice'>Results of analysis of \icon[icon] [target].</span>"
 	if(total_moles>0)
+		var/o2_concentration = air_contents.oxygen/total_moles
+		var/n2_concentration = air_contents.nitrogen/total_moles
+		var/co2_concentration = air_contents.carbon_dioxide/total_moles
+		var/plasma_concentration = air_contents.toxins/total_moles
+
+		var/unknown_concentration =  1-(o2_concentration+n2_concentration+co2_concentration+plasma_concentration)
+
 		user << "<span class='notice'>Pressure: [round(pressure,0.1)] kPa</span>"
-
-		var/list/cached_gases = air_contents.gases
-
-		for(var/id in cached_gases)
-			var/gas_concentration = cached_gases[id][MOLES]/total_moles
-			if(id in hardcoded_gases || gas_concentration > 0.01) //ensures the four primary gases are always shown.
-				user << "<span class='notice'>[cached_gases[id][GAS_NAME]]: [round(gas_concentration*100)] %</span>"
-
+		user << "<span class='notice'>Nitrogen: [round(n2_concentration*100)] %</span>"
+		user << "<span class='notice'>Oxygen: [round(o2_concentration*100)] %</span>"
+		user << "<span class='notice'>CO2: [round(co2_concentration*100)] %</span>"
+		user << "<span class='notice'>Plasma: [round(plasma_concentration*100)] %</span>"
+		if(unknown_concentration>0.01)
+			user << "<span class='danger'>Unknown: [round(unknown_concentration*100)] %</span>"
 		user << "<span class='notice'>Temperature: [round(air_contents.temperature-T0C)] &deg;C</span>"
 	else
 		user << "<span class='notice'>[target] is empty!</span>"
@@ -1460,9 +1484,10 @@ var/list/reverse_dir = list(2, 1, 3, 8, 10, 9, 11, 4, 6, 5, 7, 12, 14, 13, 15, 3
 		c_dist++
 	return L
 
-/atom/proc/contains(var/atom/A)
-	if(!A)
+/atom/proc/contains(var/atom/location)
+	if(!location)
 		return 0
-	for(var/atom/location = A.loc, location, location = location.loc)
+	for(location, location && location != src, location=location.loc); //semicolon is for the empty statement
 		if(location == src)
 			return 1
+		return 0

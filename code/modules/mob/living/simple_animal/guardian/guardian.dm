@@ -41,23 +41,23 @@
 	if(summoner)
 		if(summoner.stat == DEAD)
 			src << "<span class='danger'>Your summoner has died!</span>"
-			summoner.visible_message("<span class='danger'><B>[summoner]'s body is completely consumed by the strain of sustaining [src]!</B></span>")
 			visible_message("<span class='danger'><B>The [src] dies along with its user!</B></span>")
+			summoner.visible_message("<span class='danger'><B>[summoner]'s body is completely consumed by the strain of sustaining [src]!</B></span>")
+			summoner.gib()
 			ghostize()
 			qdel(src)
-			summoner.gib()
-
+	else
+		src << "<span class='danger'>Your summoner has died!</span>"
+		visible_message("<span class='danger'><B>The [src] dies along with its user!</B></span>")
+		ghostize()
+		qdel(src)
+	if(summoner)
 		if (get_dist(get_turf(summoner),get_turf(src)) <= range)
 			return
 		else
 			src << "You moved out of range, and were pulled back! You can only move [range] meters from [summoner.real_name]"
 			visible_message("<span class='danger'>The [src] jumps back to its user.</span>")
 			loc = get_turf(summoner)
-	else
-		src << "<span class='danger'>Your summoner has died!</span>"
-		visible_message("<span class='danger'><B>The [src] dies along with its user!</B></span>")
-		ghostize()
-		qdel(src)
 
 /mob/living/simple_animal/hostile/guardian/Move() //Returns to summoner if they move out of range
 	..()
@@ -74,11 +74,10 @@
 
 /mob/living/simple_animal/hostile/guardian/death()
 	..()
-	if(summoner)
-		summoner << "<span class='danger'><B>Your [name] died somehow!</span></B>"
-		summoner.death()
+	summoner << "<span class='danger'><B>Your [name] died somehow!</span></B>"
+	summoner.death()
 
-/mob/living/simple_animal/hostile/guardian/adjustHealth(amount) //The spirit is invincible, but passes on damage to the summoner
+/mob/living/simple_animal/hostile/guardian/adjustBruteLoss(amount) //The spirit is invincible, but passes on damage to the summoner
 	var/damage = amount * damage_transfer
 	if (summoner)
 		if(loc == summoner)
@@ -173,9 +172,10 @@
 	set name = "Reset Guardian Player (One Use)"
 	set category = "Guardian"
 	set desc = "Re-rolls which ghost will control your Guardian. One use."
+	src.verbs -= /mob/living/proc/guardian_reset
 	for(var/mob/living/simple_animal/hostile/guardian/G in mob_list)
 		if(G.summoner == src)
-			var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as [G.real_name]?", "pAI", null, FALSE, 100)
+			var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as [G.real_name]?", ROLE_PAI, null, FALSE, 100)
 			var/mob/dead/observer/new_stand = null
 			if(candidates.len)
 				new_stand = pick(candidates)
@@ -184,9 +184,10 @@
 				message_admins("[key_name_admin(new_stand)] has taken control of ([key_name_admin(G)])")
 				G.ghostize()
 				G.key = new_stand.key
-				src.verbs -= /mob/living/proc/guardian_reset
 			else
 				src << "There were no ghosts willing to take control. Looks like you're stuck with your Guardian for now."
+				verbs += /mob/living/proc/guardian_reset
+
 
 
 
@@ -383,14 +384,7 @@
 			if(src.beacon) //Check that the beacon still exists and is in a safe place. No instant kills.
 				if(beacon.air)
 					var/datum/gas_mixture/Z = beacon.air
-					var/list/Z_gases = Z.gases
-					var/trace_gases
-					for(var/id in Z_gases)
-						if(id in hardcoded_gases)
-							continue
-							trace_gases = TRUE
-							break
-					if((Z_gases["o2"] && Z_gases["o2"][MOLES] >= 16) && !Z_gases["plasma"] && (!Z_gases["co2"] || Z_gases["co2"][MOLES] < 10) && !trace_gases)//Can most things breathe in this location?
+					if(Z.oxygen >= 16 && !Z.toxins && Z.carbon_dioxide < 10 && !Z.trace_gases.len)
 						if((Z.temperature > 270) && (Z.temperature < 360))
 							var/pressure = Z.return_pressure()
 							if((pressure > 20) && (pressure < 550))

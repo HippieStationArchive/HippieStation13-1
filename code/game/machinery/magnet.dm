@@ -36,15 +36,15 @@
 	center = T
 
 	spawn(10)	// must wait for map loading to finish
-		if(SSradio)
-			SSradio.add_object(src, freq, RADIO_MAGNETS)
+		if(radio_controller)
+			radio_controller.add_object(src, freq, RADIO_MAGNETS)
 
 	spawn()
 		magnetic_process()
 
 /obj/machinery/magnetic_module/Destroy()
-	if(SSradio)
-		SSradio.remove_object(src, freq)
+	if(radio_controller)
+		radio_controller.remove_object(src, freq)
 	. = ..()
 	center = null
 
@@ -228,29 +228,29 @@
 	..()
 
 	if(autolink)
-		for(var/obj/machinery/magnetic_module/M in world)
+		for(var/obj/machinery/magnetic_module/M in machines)
 			if(M.freq == frequency && M.code == code)
 				magnets.Add(M)
 
 
 	spawn(45)	// must wait for map loading to finish
-		if(SSradio)
-			radio_connection = SSradio.add_object(src, frequency, RADIO_MAGNETS)
+		if(radio_controller)
+			radio_connection = radio_controller.add_object(src, frequency, RADIO_MAGNETS)
 
 
 	if(path) // check for default path
 		filter_path() // renders rpath
 
 /obj/machinery/magnetic_controller/Destroy()
-	if(SSradio)
-		SSradio.remove_object(src, frequency)
+	if(radio_controller)
+		radio_controller.remove_object(src, frequency)
 	. = ..()
 	magnets = null
 	rpath = null
 
 /obj/machinery/magnetic_controller/process()
 	if(magnets.len == 0 && autolink)
-		for(var/obj/machinery/magnetic_module/M in world)
+		for(var/obj/machinery/magnetic_module/M in machines)
 			if(M.freq == frequency && M.code == code)
 				magnets.Add(M)
 

@@ -256,9 +256,9 @@ var/global/list/ghost_orbits = list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 	prefs.ShowChoices(usr)
 
 /client/verb/toggle_vox()
-	set name = "Enable/disable Vox"
-	set category = "Preferences"
-	set desc = "Toggles whether or not you will hear Vox messages."
-	prefs.toggles ^= SOUND_VOX
-	prefs.save_preferences()
-	src << "You will [(prefs.toggles & SOUND_VOX) ? "no longer" : "now"] hear Vox."
+ 	set name = "Enable/disable Vox"
+ 	set category = "Preferences"
+ 	set desc = "Toggles whether or not you will hear Vox messages."
+ 	prefs.toggles ^= SOUND_VOX
+ 	prefs.save_preferences()
+ 	src << "You will [(prefs.toggles & SOUND_VOX) ? "no longer" : "now"] hear Vox." 

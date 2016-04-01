@@ -66,13 +66,15 @@
 
 /obj/structure/closet/crate/freezer/return_air()
 	var/datum/gas_mixture/gas = (..())
-	if(!gas)
-		return null
+	if(!gas)	return null
 	var/datum/gas_mixture/newgas = new/datum/gas_mixture()
-	newgas.copy_from(gas)
-
-	if(newgas.temperature <= target_temp)
-		return
+	newgas.oxygen = gas.oxygen
+	newgas.carbon_dioxide = gas.carbon_dioxide
+	newgas.nitrogen = gas.nitrogen
+	newgas.toxins = gas.toxins
+	newgas.volume = gas.volume
+	newgas.temperature = gas.temperature
+	if(newgas.temperature <= target_temp)	return
 
 	if((newgas.temperature - cooling_power) > target_temp)
 		newgas.temperature -= cooling_power
@@ -185,10 +187,8 @@
 	else
 		return 0
 
-	if(istype(AM, /obj/structure/stool/bed)) //This is only necessary because of rollerbeds and swivel chairs.
-		var/obj/structure/stool/bed/B = AM
-		if(B.buckled_mob)
-			return 0
+	if(AM.buckled_mob)//buckled_mob is an atom/movale var, so.
+		return 0
 
 	AM.loc = src
 	return 1

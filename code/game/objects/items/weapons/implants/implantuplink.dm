@@ -7,24 +7,24 @@
 
 /obj/item/weapon/implant/uplink/New()
 	hidden_uplink = new(src)
-	hidden_uplink.telecrystals = 10
+	hidden_uplink.uses = 10
 	..()
 
-/obj/item/weapon/implant/uplink/implant(mob/user)
-	var/obj/item/weapon/implant/imp_e = locate(src.type) in user
+/obj/item/weapon/implant/uplink/implant(mob/source)
+	var/obj/item/weapon/implant/imp_e = locate(src.type) in source
 	if(imp_e && imp_e != src)
-		imp_e.hidden_uplink.telecrystals += hidden_uplink.telecrystals
+		imp_e.hidden_uplink.uses += hidden_uplink.uses
 		qdel(src)
 		return 1
 
 	if(..())
-		hidden_uplink.owner="[user.key]"
+		hidden_uplink.uplink_owner="[source.key]"
 		return 1
 	return 0
 
 /obj/item/weapon/implant/uplink/activate()
 	if(hidden_uplink)
-		hidden_uplink.interact(usr)
+		hidden_uplink.check_trigger(imp_in)
 
 
 /obj/item/weapon/implanter/uplink

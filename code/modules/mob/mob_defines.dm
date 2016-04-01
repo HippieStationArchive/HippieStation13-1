@@ -6,6 +6,7 @@
 	hud_possible = list(ANTAG_HUD)
 	pressure_resistance = 8
 	var/datum/mind/mind
+	var/list/datum/action/actions = list()
 
 	var/stat = 0 //Whether a mob is alive or dead. TODO: Move this to living - Nodrak
 
@@ -158,8 +159,3 @@
 	var/permanent_sight_flags = 0
 
 	var/resize = 1 //Badminnery resize
-
-	var/nearcrit = 0 //for newcrit
-	var/crit_can_crawl = 0 //whether or not the mob can crawl in crit
-	var/crit_crawl_damage = 0 //No damage by default
-	var/crit_crawl_damage_type = OXY

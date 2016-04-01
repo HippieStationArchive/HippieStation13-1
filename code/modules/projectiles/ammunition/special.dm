@@ -31,20 +31,6 @@
 	projectile_type = pick(typesof(/obj/item/projectile/magic))
 	..()
 
-/obj/item/ammo_casing/magic/pellet
-	projectile_type = /obj/item/projectile/magic/pellet
-	pellets = 1
-
-/obj/item/ammo_casing/magic/pelletstrong
-	projectile_type = /obj/item/projectile/magic/pellet/bleed
-	pellets = 4
-	variance = 30
-
-/obj/item/ammo_casing/magic/pelletstronk
-	projectile_type = /obj/item/projectile/magic/pellet/bleed
-	pellets = 7
-	variance = 45
-
 /obj/item/ammo_casing/syringegun
 	name = "syringe gun spring"
 	desc = "A high-power spring that throws syringes."
