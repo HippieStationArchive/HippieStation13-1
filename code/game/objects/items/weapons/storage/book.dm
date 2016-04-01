@@ -152,7 +152,7 @@ var/global/biblename
 	if (!user.IsAdvancedToolUser())
 		user << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return
-	if(user.mind && (user.mind.assigned_role == "Chaplain"))
+	if(user.mind && (user.mind.assigned_role != "Chaplain"))
 		user << "<span class='danger'>The book sizzles in your hands.</span>"
 		user.take_organ_damage(0,10)
 		return
