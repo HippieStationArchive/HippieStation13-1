@@ -309,6 +309,12 @@ var/list/slot_equipment_priority = list( \
 
 	return 0
 
+//Tries to put the item in a mob's slot. On fail,it puts it in one of his hands. If even this fails,it'll just put the item on the floor under the mob.
+/mob/proc/equip_or_drop(obj/item/I)
+	if(!equip_to_appropriate_slot(I))
+		if(!put_in_any_hand_if_possible(I))
+			I.forceMove(get_turf(src))
+
 /mob/proc/reset_view(atom/A)
 	if (client)
 		if (istype(A, /atom/movable))
