@@ -601,6 +601,7 @@
 			if(world.time > timelimit)//Check time limit
 				if(!isnull(guardianNewName))
 					G.name = guardianNewName
+					return
 				else
 					if(i > 0)
 						user << "<span class='danger'>That's an invalid name! You have [i] more [i > 1 ? "attempts" : "attempt"].</span>"
