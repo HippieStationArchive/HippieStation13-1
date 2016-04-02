@@ -356,7 +356,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(40, damtype, affecting, armor_block)
 	D.emote("scream")
-	D.apply_effect(7, WEAKEN)//, armor_block) //You got FUCKED UP.
+	D.apply_effect(7, PARALYZE) //If you let yourself tombstoned you don't deserve a chance to fight back with superfart.
 	for(var/mob/M in range(4, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 3, 1)
@@ -388,7 +388,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(35, damtype, affecting, armor_block)
 	D.emote("scream")
-	D.apply_effect(7, WEAKEN)//, armor_block)
+	D.apply_effect(7, PARALYZE) //You get fucking ELBOW DROPPED right on your temple from a fucking table, you better be KO'd (this is a measure to prevent superfart retaliation)
 	playsound(D, pick("swing_hit"), 60, 1)
 	add_logs(A, D, "corkscrew elbow dropped", addition="(Wrassling)")
 	for(var/mob/M in range(3, D)) //Shaky camera effect
@@ -424,7 +424,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(25, damtype, affecting, armor_block)
 	D.emote("scream")
-	D.apply_effect(7, WEAKEN)//, armor_block)
+	D.apply_effect(7, PARALYZE) //Special, hard-to-perform move. Victim needs to stay KO'd to prevent a cheap superfart.
 	playsound(D, pick("swing_hit"), 60, 1)
 	add_logs(A, D, "RKO'd", addition="(Wrassling)")
 	for(var/mob/M in range(3, D)) //Shaky camera effect
@@ -457,7 +457,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	D.apply_damage(15, damtype, affecting, armor_block) //Doesn't do too much damage compared to other moves
 	D.apply_damage(30, STAMINA, affecting, armor_block) //Still does stamina damage to compensate (to the victim)
 	D.do_bounce_anim_dir(NORTH, 2, 4, easein = BACK_EASING, easeout = BOUNCE_EASING)
-	D.apply_effect(7, WEAKEN)//, armor_block)
+	D.apply_effect(7, WEAKEN) //Special, hard-to-perform move. Victim needs to stay KO'd to prevent a cheap superfart.
 	playsound(D, 'sound/weapons/push_hard.ogg', 60, 1) //Sound signalises that this is not a high-damage attack
 	add_logs(A, D, "moonsaulted", addition="(Wrassling)")
 	for(var/mob/M in range(2, D)) //Shaky camera effect
