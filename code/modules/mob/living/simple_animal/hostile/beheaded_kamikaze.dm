@@ -1,9 +1,10 @@
 /mob/living/simple_animal/hostile/beheaded_kamikaze
 	name = "beheaded kamikaze"
 	desc = "You can't be serious."
-	icon_state = "clown" //placeholder
-	icon_living = "clown" //placeholder
+	icon_state = "headlesskamikaze"
+	icon_living = "headlesskamikaze"
 	speak_chance = 80
+	speak = list("AAAAAAAAAAAAAAAAA", "AAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAAAAAAA")
 	emote_taunt = list("screams", "yells")
 	taunt_chance = 80
 	speed = 0
@@ -14,16 +15,6 @@
 	vision_range = 7
 	aggro_vision_range = 7
 	idle_vision_range = 7
-
-	var/taunt_length = 10
-	taunt_length = taunt_length + rand(10,20)
-	var/taunt = "AAAAA"
-
-	for(var/i=1; i<=taunt_length; i++)
-		taunt += 'A'
-
-	taunt += 'GH!!!'
-	speak = list(taunt)
 
 /mob/living/simple_animal/hostile/beheaded_kamikaze/Move()
 	playsound(src, 'sound/voice/attackkamikaze.ogg', 80)
