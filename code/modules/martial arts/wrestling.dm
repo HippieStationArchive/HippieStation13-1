@@ -188,8 +188,8 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(5, WEAKEN)//, armor_block)
-	A.SpinAnimation(6,1, easeout = ELASTIC_EASING)
-	D.SpinAnimation(6,1, easeout = ELASTIC_EASING)
+	A.SpinAnimation(6,1)
+	D.SpinAnimation(6,1)
 	sleep(3)
 	if(!A || A.stat || !D || !A.Adjacent(D)) return
 	D.forceMove(A.loc)
@@ -352,7 +352,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(5, WEAKEN)//, armor_block)
-	A.apply_damage(40, STAMINA, affecting, armor_block) //This move will take lots of your stamina as a balancing measure
 	affecting = D.get_organ("head")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(40, damtype, affecting, armor_block)
@@ -385,7 +384,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(5, WEAKEN)//, armor_block)
-	A.apply_damage(30, STAMINA, affecting, armor_block)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(35, damtype, affecting, armor_block)
@@ -422,7 +420,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(5, WEAKEN)//, armor_block)
-	A.apply_damage(30, STAMINA, affecting, armor_block)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(25, damtype, affecting, armor_block)
@@ -454,12 +451,11 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(5, WEAKEN)//, armor_block)
-	A.apply_damage(10, STAMINA, affecting, armor_block)
 	A.do_bounce_anim_dir(NORTH, 2, 6, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(15, damtype, affecting, armor_block) //Doesn't do too much damage compared to other moves
-	D.apply_damage(30, STAMINA, affecting, armor_block) //Still does stamina damage to compensate
+	D.apply_damage(30, STAMINA, affecting, armor_block) //Still does stamina damage to compensate (to the victim)
 	D.do_bounce_anim_dir(NORTH, 2, 4, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	D.apply_effect(7, WEAKEN)//, armor_block)
 	playsound(D, 'sound/weapons/push_hard.ogg', 60, 1) //Sound signalises that this is not a high-damage attack

@@ -1,0 +1,9 @@
+author: Crystalwarrior160
+
+delete-after: True
+
+changes: 
+  - tweak: "Made CQC gloves have 100% clinch chance"
+  - tweak: "Removed stamina damage applied to attacker for Wrestling Belt"
+  - rscadd: "Wrestling Belt is now an uplink item! Costs 12 TC, same as CQC gloves"
+  - bugfix: "Fixed runtime error with Wrestling Belt"

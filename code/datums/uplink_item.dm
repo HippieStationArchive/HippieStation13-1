@@ -459,6 +459,12 @@ var/list/uplink_items = list()
 	item = /obj/item/clothing/gloves/cqc
 	cost = 12
 
+/datum/uplink_item/dangerous/wrestling
+	name = "Wrestling Belt"
+	desc = "A powerful wrestling moveset given to you via championship belt."
+	item = /obj/item/weapon/storage/belt/champion/wrestling
+	cost = 12
+
 /datum/uplink_item/dangerous/reinforcement
 	name = "Reinforcements"
 	desc = "Call in an additional team member. They come with predefined gear sets, but you might want to save some telecrystals to arm them better."
