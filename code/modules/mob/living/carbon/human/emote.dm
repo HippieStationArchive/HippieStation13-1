@@ -530,8 +530,8 @@
 						for(var/mob/living/M in range(0))
 							if(M != src)
 								visible_message("\red <b>[src]</b>'s ass blasts <b>[M]</b> in the face!", "\red You ass blast <b>[M]</b>!")
-								M.apply_damage(75,"brute","head")
-								add_logs(src, M, "superfarted on", object=null, addition=" (DAMAGE DEALT: 75)")
+								M.apply_damage(40,"brute","head")
+								add_logs(src, M, "superfarted on", object=null, addition=" (DAMAGE DEALT: 40)")
 
 						visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
 
