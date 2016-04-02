@@ -595,15 +595,23 @@
 	if(candidates.len)
 		theghost = pick(candidates)
 		var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(user, theghost.key)
-		var/time_limit = world.time + 300
-		var/guardianNewName = stripped_input(G.summoner, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
-		if(world.time < time_limit)
-			if(length(guardianNewName) > 0)
-				G.name = guardianNewName
+		var/timelimit = world.time + 600//1 min to rename the stand
+		//Give the stand user 3 chances to rename their stand
+		for(var/i = 2, i >= 0,i--)
+			var/guardianNewName = stripped_input(user, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
+			guardianNewName = reject_bad_name(guardianNewName, 1)
+			if(world.time >= timelimit)//Check time limit
+				if(!isnull(guardianNewName))
+					G.name = guardianNewName
+					return
+				else
+					if(i > 0)
+						user << "<span class='danger'>That's an invalid name! You have [i] more [i > 1 ? "attempts" : "attempt"].</span>"
+					else
+						user << "<span class='danger'>Sorry, you've ran out of attempts! Looks like you're stuck with [G.name]!</span>"
 			else
-				user << "<span class='danger'>Sorry, you can't have a null name!</span>"
-		else
-			user << "<span class='danger'>Sorry, you didn't give a new name in time!</span>"
+				user << "<span class='danger'>Sorry, you've ran out of time! Looks like you're stuck with [G.name]!</span>"
+				return
 	else
 		user << "[failure_message]"
 		used = FALSE
@@ -665,7 +673,7 @@
 			user << "[G.bio_fluff_string]."
 			G.attacktext = "swarms"
 			G.speak_emote = list("chitters")
-			return G
+	return G
 
 /obj/item/weapon/guardiancreator/choose
 	random = FALSE
