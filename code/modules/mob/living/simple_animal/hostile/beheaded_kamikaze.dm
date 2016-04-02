@@ -4,7 +4,6 @@
 	icon_state = "headlesskamikaze"
 	icon_living = "headlesskamikaze"
 	speak_chance = 80
-	speak = list("AAAAAAAAAAAAAAAAA", "AAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAAAAAAA")
 	emote_taunt = list("screams", "yells")
 	taunt_chance = 80
 	speed = 0
@@ -15,6 +14,18 @@
 	vision_range = 7
 	aggro_vision_range = 7
 	idle_vision_range = 7
+	var/taunt = "AAAAA"
+
+/mob/living/simple_animal/hostile/beheaded_kamikaze/New()
+	..()
+	var/taunt_length = rand(10,20)
+	for(var/n in 1 to 5)
+		taunt_length = rand(10,20)
+		for(var/i in 1 to taunt_length)
+			taunt += "A"
+		taunt += "AA!!!"
+		speak += list(taunt)
+
 
 /mob/living/simple_animal/hostile/beheaded_kamikaze/Move()
 	playsound(src, 'sound/voice/attackkamikaze.ogg', 80)
