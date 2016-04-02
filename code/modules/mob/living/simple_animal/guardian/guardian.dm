@@ -593,22 +593,22 @@
 	if(candidates.len)
 		theghost = pick(candidates)
 		var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(user, theghost.key)
+		var/timelimit = world.time + 600//1 min to rename the stand
 		//Give the stand user 3 chances to rename their stand
 		for(var/i = 2, i >= 0,i--)
 			var/guardianNewName = stripped_input(user, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
 			guardianNewName = reject_bad_name(guardianNewName, 1)
-			if(!isnull(guardianNewName))
-				//Valid name, set it and break loop
-				G.name = guardianNewName
-				return
-			else
-				if(i > 1)
-					user << "<span class='danger'>That's an invalid name! You have [i] more attempts.</span>"
-				else if(i == 1)
-					user << "<span class='danger'>That's an invalid name! You have [i] more attempt.</span>"
+			if(world.time > timelimit)//Check time limit
+				if(!isnull(guardianNewName))
+					G.name = guardianNewName
 				else
-					user << "<span class='danger'>Sorry, you've ran out of attempts! Looks like you're stuck with [G.name]!</span>"
-
+					if(i > 0)
+						user << "<span class='danger'>That's an invalid name! You have [i] more [i > 1 ? "attempts" : "attempt"].</span>"
+					else
+						user << "<span class='danger'>Sorry, you've ran out of attempts! Looks like you're stuck with [G.name]!</span>"
+			else
+				user << "<span class='danger'>Sorry, you've ran out of time! Looks like you're stuck with [G.name]!</span>"
+				return
 	else
 		user << "[failure_message]"
 		used = FALSE

@@ -33,4 +33,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - bugfix: "Fixed holoparasites and guardians not renaming on creation. The user now has 3 chances to rename their guardian or it defaults to the normal name. Bad names get rejected."
+  - bugfix: "Fixed holoparasites and guardians not renaming on creation. The user now has 1 minute to have 3 attempts to rename their guardian or it defaults to the normal name. Bad names get rejected."
