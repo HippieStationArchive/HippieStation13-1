@@ -20,6 +20,7 @@
 	..()
 	var/taunt_length = rand(10,20)
 	for(var/n in 1 to 5)
+		taunt = initial(taunt)
 		taunt_length = rand(10,20)
 		for(var/i in 1 to taunt_length)
 			taunt += "A"
@@ -36,6 +37,6 @@
 
 /mob/living/simple_animal/hostile/beheaded_kamikaze/death()
 	new /obj/effect/gibspawner/human(get_turf(src))
-	explosion(src, 0, 0, 2, 1)
+	explosion(src, 0, 0, 3, 0)
 	..(1)
 	qdel(src)
