@@ -124,6 +124,7 @@
 /obj/machinery/bot/medbot/proc/soft_reset() //Allows the medibot to still actively perform its medical duties without being completely halted as a hard reset does.
 	path = list()
 	patient = null
+	walk_to(src, 0)
 	mode = BOT_IDLE
 	last_found = world.time
 	updateicon()
@@ -309,7 +310,7 @@
 			stunned = 0
 		return
 
-	if(frustration > 8)
+	if(frustration >= 8)
 		oldpatient = patient
 		soft_reset()
 
@@ -349,12 +350,16 @@
 		if(can_boost())
 			activate_boost()
 		
-		if(!bot_move(patient))
-			oldpatient = patient
-			soft_reset()
+		var/turf/olddist = get_dist(src, patient)
+		walk_to(src, patient, 1, movement_delay)
+
+		if((get_dist(src, patient)) >= (olddist))
+			frustration++
+		else
+			frustration = 0
 		return
 
-	if(path.len > 8 && patient)
+	if(path.len >= 8 && patient)
 		frustration++
 
 	if(auto_patrol && !stationary_mode && !patient)
@@ -365,31 +370,6 @@
 			bot_patrol()
 
 	return
-
-/obj/machinery/bot/medbot/proc/can_boost()
-	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
-
-	if(B)
-		return !B.boost
-
-/obj/machinery/bot/medbot/proc/activate_boost()
-	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
-	
-	if(B)
-		B.boost = TRUE
-		speed = B.medbot_boost_delay
-		
-		spawn(B.boost_length)
-			deactivate_boost()
-
-/obj/machinery/bot/medbot/proc/deactivate_boost()
-	speed = initial(speed)
-
-	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
-	
-	if(B)
-		spawn(B.boost_cooldown)
-			B.boost = FALSE
 
 /obj/machinery/bot/medbot/proc/assess_patient(mob/living/carbon/C)
 	//Time to see if they need medical help!
@@ -514,6 +494,7 @@
 						reagent_glass.reagents.trans_to(patient,injection_amount) //Inject from beaker instead.
 				else
 					patient.reagents.add_reagent(reagent_id,injection_amount)
+
 				C.visible_message("<span class='danger'>[src] injects [patient] with its syringe!</span>", \
 					"<span class='userdanger'>[src] injects you with its syringe!</span>")
 			else

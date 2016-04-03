@@ -36,8 +36,7 @@
 	name = "Bot Upgrade: Boost"
 	desc = "An upgrade for bots which provide them with a speed boost."
 	origin_tech = "programming=2;engineering=2"
-	var/boost = 0            // 0 is off, 1 is on
+	var/boost = FALSE
 	var/boost_length = 50     // in deciseconds
 	var/boost_cooldown = 300  // in deciseconds
-	var/secbot_boost_delay = 1.6
-	var/medbot_boost_delay = 4
+	var/boost_multiplier = 2.5
