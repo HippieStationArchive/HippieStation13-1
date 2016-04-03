@@ -11,7 +11,7 @@
 	id = "bot_upgrade_boost"
 	req_tech = list("programming" = 2, "engineering" = 2)
 	build_type = MECHFAB
-	materials = list(MAT_GLASS = 500)
+	materials = list(MAT_GLASS = 2000, MAT_METAL = 4000)
 	build_path = /obj/item/weapon/bot_upgrade/boost
 	category = list("Misc")
 	construction_time = 100
@@ -29,7 +29,7 @@
 	icon_state = "id_mod"
 	item_state = "electronic"
 	origin_tech = "programming=2"
-	materials = list(MAT_GLASS=500)
+	materials = list(MAT_GLASS = 2000, MAT_METAL = 4000)
 	var/board_type = "computer"
 
 /obj/item/weapon/bot_upgrade/boost
