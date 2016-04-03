@@ -20,7 +20,7 @@
 // CIRCUIT BOARD ITEM //
 ////////////////////////
 
-/obj/item/weapon/bot_upgrade/
+/obj/item/weapon/bot_upgrade
 	density = 0
 	anchored = 0
 	w_class = 2
