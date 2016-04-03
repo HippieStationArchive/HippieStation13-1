@@ -3,6 +3,10 @@
 ///////////////////
 
 /datum/design/bot_upgrade
+	build_type = MECHFAB
+	materials = list(MAT_GLASS = 2000, MAT_METAL = 4000)
+	category = list("Misc")
+	construction_time = 100
 	// Should not be acquirable
 
 /datum/design/bot_upgrade/boost
@@ -10,11 +14,7 @@
 	desc = "The circuit board for giving a speed boost to bots"
 	id = "bot_upgrade_boost"
 	req_tech = list("programming" = 2, "engineering" = 2)
-	build_type = MECHFAB
-	materials = list(MAT_GLASS = 2000, MAT_METAL = 4000)
 	build_path = /obj/item/weapon/bot_upgrade/boost
-	category = list("Misc")
-	construction_time = 100
 
 ////////////////////////
 // CIRCUIT BOARD ITEM //
