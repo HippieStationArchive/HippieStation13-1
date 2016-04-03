@@ -369,26 +369,29 @@
 				if (miming)
 					message = "<B>[src]</B> acts out a scream!"
 				else
-					var/DNA = src.dna.species.id
 					var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
-					switch(DNA)
-						if("IPC")
-							sound = "sound/voice/screamsilicon.ogg"
-						if("tarajan")
-							sound = "sound/misc/cat.ogg"
-						if("lizard")
-							sound = "sound/misc/lizard.ogg"
-						if("avian")
-							sound = "sound/misc/caw.ogg"
-						if("skeleton")
-							sound = "sound/misc/skeleton.ogg"
-						if ("moth")
-							sound = "sound/misc/moth.ogg"
-						else
-							if(gender == FEMALE)
-								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
-							if(isalien(src))
-								sound = pick('sound/voice/hiss6.ogg')
+					if(istype(src.w_uniform, /obj/item/clothing/under/cosby))
+						sound = pick('sound/voice/cosby1.ogg','sound/voice/cosby2.ogg','sound/voice/cosby3.ogg','sound/voice/cosby4.ogg','sound/voice/cosby5.ogg')
+					else
+						var/DNA = src.dna.species.id
+						switch(DNA)
+							if("IPC")
+								sound = "sound/voice/screamsilicon.ogg"
+							if("tarajan")
+								sound = "sound/misc/cat.ogg"
+							if("lizard")
+								sound = "sound/misc/lizard.ogg"
+							if("avian")
+								sound = "sound/misc/caw.ogg"
+							if("skeleton")
+								sound = "sound/misc/skeleton.ogg"
+							if ("moth")
+								sound = "sound/misc/moth.ogg"
+							else
+								if(gender == FEMALE)
+									sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
+								if(isalien(src))
+									sound = pick('sound/voice/hiss6.ogg')
 
 					playsound(src.loc, sound, 50, 1, 4, 1.2)
 					message = "<B>[src]</B> screams!"

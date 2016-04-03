@@ -29,8 +29,6 @@
 	item_state = "r_suit" //bleh
 	item_color = "cosby"
 	can_adjust = 0
-	force = 0.001 	//TG doesn't have the forcehitsound that Hippie has at the moment, so this is just a hacky solution until or unless we figure something out -DerptheStewpidGoat
-	hitsound = list('sound/voice/cosby1.ogg','sound/voice/cosby2.ogg','sound/voice/cosby3.ogg','sound/voice/cosby4.ogg','sound/voice/cosby5.ogg')
 	burn_state = -1
 
 /obj/item/clothing/under/sl_suit
