@@ -30,7 +30,7 @@
 
 /mob/living/simple_animal/hostile/beheaded_kamikaze/Move()
 	playsound(src, 'sound/voice/attackkamikaze.ogg', 80)
-	for (var/mob/M in orange(2,usr))
+	for (var/mob/living/M in orange(2,usr))
 		if(!istype(M, /mob/living/simple_animal/hostile/beheaded_kamikaze))
 			death()
 	..()
