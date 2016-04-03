@@ -782,6 +782,7 @@ var/global/mulebot_count = 0
 	B.add_blood_list(H)
 	add_blood_list(H)
 	bloodiness += 4
+	add_logs(src, H, "ran over")
 
 // player on mulebot attempted to move
 /obj/machinery/bot/mulebot/relaymove(mob/user)

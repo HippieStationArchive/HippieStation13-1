@@ -1,0 +1,7 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - rscadd: "Ports Facepunch bibles and relics. Chaplains can use their bible in hand to choose a relic. Only one relic can exist at time."
+  - rscadd: "To choose a relic,click Assign Holy Relic. The bible will then glow, hit an item with it and a relic will spawn. Its effect will be random,it's up to you to find it."

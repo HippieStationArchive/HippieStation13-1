@@ -62,7 +62,7 @@
 	name = "head of security cap"
 	desc = "The robust standard-issue cap of the Head of Security. For showing the officers who's in charge."
 	icon_state = "hoscap"
-	armor = list(melee = 80, bullet = 60, laser = 50, energy = 10, bomb = 25, bio = 10, rad = 0)
+	armor = list(melee = 60, bullet = 30, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
 	strip_delay = 80
 
 ///obj/item/clothing/head/HoS/dermal

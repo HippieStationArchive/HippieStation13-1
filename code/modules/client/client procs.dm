@@ -191,6 +191,7 @@ var/next_external_rsc = 0
 		if(config.proxykick) // proxyban's enabled
 			var/danger = proxycheck()
 			if(danger >= text2num(config.proxykicklimit))
+				add_note(ckey, "[danger*100]% chance to be a proxy user", null, "Proxycheck", 0)
 				log_access("Failed Login: [key] - New account attempting to connect with a proxy([danger*100]% possibility to be a proxy.)")
 				message_admins("<span class='adminnotice'>Failed Login: [key] - with a proxy([danger*100]% possibility to be a proxy.</span>")
 				src << "Sorry but you're not allowed to connect to the server through a proxy. Disable it and reconnect if you want to play."

@@ -91,6 +91,7 @@ var/list/gang_colors_pool = list("red","orange","yellow","green","blue","purple"
 		boss_mind.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
 		obj_count++
 
+	boss_mind.current << "<a href=[config.wikiurl]/index.php?title=Gang_War>New owner of your very own gang? Click here to be linked to the wiki guide on Gang War.</a>"
 ///////////////////////////////////////////////////////////////////////////
 //This equips the bosses with their gear, and makes the clown not clumsy//
 ///////////////////////////////////////////////////////////////////////////
@@ -173,6 +174,7 @@ var/list/gang_colors_pool = list("red","orange","yellow","green","blue","purple"
 	gangster_mind.current << "<font color='red'>You can identify your bosses by their <b>red \[G\] icon</b>.</font>"
 	gangster_mind.current.attack_log += "\[[time_stamp()]\] <font color='red'>Has been converted to the [G.name] Gang!</font>"
 	gangster_mind.special_role = "[G.name] Gangster"
+	gangster_mind.current << "<a href=[config.wikiurl]/index.php?title=Gang_War>First time being involved with a gang? Click here to be linked to the wiki guide on Gang Wars.</a>"
 	G.add_gang_hud(gangster_mind)
 	return 2
 ////////////////////////////////////////////////////////////////////
