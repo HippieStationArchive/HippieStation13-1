@@ -369,32 +369,7 @@
 				if (miming)
 					message = "<B>[src]</B> acts out a scream!"
 				else
-					var/DNA = src.dna.species.id
-					var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
-					switch(DNA)
-						if("IPC")
-							sound = "sound/voice/screamsilicon.ogg"
-						if("tarajan")
-							sound = "sound/misc/cat.ogg"
-						if("lizard")
-							sound = "sound/misc/lizard.ogg"
-						if("avian")
-							sound = "sound/misc/caw.ogg"
-						if("skeleton")
-							sound = "sound/misc/skeleton.ogg"
-						if ("moth")
-							sound = "sound/misc/moth.ogg"
-						else
-							if(gender == FEMALE)
-								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
-							if(isalien(src))
-								sound = pick('sound/voice/hiss6.ogg')
-
-					playsound(src.loc, sound, 50, 1, 4, 1.2)
-					message = "<B>[src]</B> screams!"
-					src.adjustOxyLoss(5)
-					m_type = 2
-			delay = 15
+					..(act)
 
 		if ("vomit")
 			if(src.nutrition >= 50)
