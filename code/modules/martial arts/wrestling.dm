@@ -199,7 +199,11 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(4, WEAKEN)//, armor_block)
 	add_logs(A, D, "suplexed", addition="(Wrassling)")
-	playsound(D, pick("swing_hit","sound/weapons/subaluwa.ogg"), 40, 1)
+	if(prob(50))
+		playsound(D, pick("swing_hit"), 40, 1)
+	else
+		playsound(D,'sound/weapons/subaluwa.ogg', 60, 0) //No pitch differeneces here!
+
 	for(var/mob/M in range(2, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 3, 1)
@@ -384,6 +388,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(5, WEAKEN)//, armor_block)
+	A.apply_damage(30, STAMINA, affecting, armor_block)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(35, damtype, affecting, armor_block)
@@ -420,6 +425,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(5, WEAKEN)//, armor_block)
+	A.apply_damage(30, STAMINA, affecting, armor_block)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(25, damtype, affecting, armor_block)
@@ -451,13 +457,14 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = A.get_organ("chest")
 	var/armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(5, WEAKEN)//, armor_block)
+	A.apply_damage(10, STAMINA, affecting, armor_block)
 	A.do_bounce_anim_dir(NORTH, 2, 6, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	affecting = D.get_organ("chest")
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(15, damtype, affecting, armor_block) //Doesn't do too much damage compared to other moves
-	D.apply_damage(30, STAMINA, affecting, armor_block) //Still does stamina damage to compensate (to the victim)
+	D.apply_damage(30, STAMINA, affecting, armor_block) //Still does stamina damage to compensate
 	D.do_bounce_anim_dir(NORTH, 2, 4, easein = BACK_EASING, easeout = BOUNCE_EASING)
-	D.apply_effect(7, WEAKEN) //Special, hard-to-perform move. Victim needs to stay KO'd to prevent a cheap superfart.
+	D.apply_effect(7, WEAKEN)//, armor_block)
 	playsound(D, 'sound/weapons/push_hard.ogg', 60, 1) //Sound signalises that this is not a high-damage attack
 	add_logs(A, D, "moonsaulted", addition="(Wrassling)")
 	for(var/mob/M in range(2, D)) //Shaky camera effect
