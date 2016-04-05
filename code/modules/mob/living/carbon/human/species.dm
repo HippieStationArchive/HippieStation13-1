@@ -250,7 +250,7 @@
 		var/datum/sprite_accessory/undershirt/U2 = undershirt_list[H.undershirt]
 		if(U2)
 			if(H.dna.species.sexes && H.gender == FEMALE)
-				standing	+=	H.wear_female_version(U2.icon_state, U2.icon, BODY_LAYER)
+				standing	+=	wear_female_version("[U2.icon_state]_s", U2.icon, BODY_LAYER)
 			else
 				standing	+= image("icon"=U2.icon, "icon_state"="[U2.icon_state]_s", "layer"=-BODY_LAYER)
 
@@ -315,7 +315,7 @@
 			bodyparts_to_add -= "waggingspines"
 
 	if("snout" in mutant_bodyparts) //Take a closer look at that snout!
-		if(H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE))
+		if((H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE)) || (H.head && (H.head.flags_inv & HIDEFACE)))
 			bodyparts_to_add -= "snout"
 
 	if("frills" in mutant_bodyparts)
@@ -680,6 +680,8 @@
 			H.sight |= SEE_OBJS
 
 		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 3 : darksight
+		if(is_shadow_or_thrall(H))  //Check if the mob is a shadowling or thrall, to make sure their vision range doesn't create odd artifacts.
+			H.see_in_dark = 8
 		var/see_temp = H.see_invisible
 		H.see_invisible = invis_sight
 
@@ -691,7 +693,10 @@
 				var/obj/item/clothing/glasses/G = H.glasses
 				H.sight |= G.vision_flags
 				H.see_in_dark = G.darkness_view
-				H.see_invisible = min(G.invis_view, H.see_invisible)
+				if(G.invis_override)
+					H.see_invisible = G.invis_override
+				else
+					H.see_invisible = min(G.invis_view, H.see_invisible)
 		if(H.druggy)	//Override for druggy
 			H.see_invisible = see_temp
 
@@ -880,7 +885,7 @@
 				mspeed += 1.5
 			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
 				mspeed += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
-			if(H.nearcrit) //This is for crawling
+			if(H.status_flags & NEARCRIT) //This is for crawling
 				mspeed += 30 //Can crawl only every 3 seconds pretty much
 
 			mspeed += speedmod
@@ -1254,7 +1259,8 @@
 		if(H.health >= config.health_threshold_crit)
 			if(NOBREATH in specflags)	return 1
 			H.adjustOxyLoss(HUMAN_MAX_OXYLOSS)
-			H.failed_last_breath = 1
+			if(H && H.failed_last_breath) // check.
+				H.failed_last_breath = 1
 		else
 			H.adjustOxyLoss(HUMAN_CRIT_MAX_OXYLOSS)
 			H.failed_last_breath = 1

@@ -110,12 +110,12 @@
 	var/turf/T = get_turf(src)
 	if (T) crewmonitor.queueUpdate(T.z)
 
-//called when a carbon changes stat, virus or XENO_HOST
+//called when a carbon changes stat, virus or has a xeno baby
 /mob/living/carbon/proc/med_hud_set_status()
 	var/image/holder = hud_list[STATUS_HUD]
 	if(stat == 2)
 		holder.icon_state = "huddead"
-	else if(status_flags & XENO_HOST)
+	else if(getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
 		holder.icon_state = "hudxeno"
 	else if(check_virus())
 		holder.icon_state = "hudill"
@@ -157,10 +157,9 @@
 				holder.icon_state = "hud_imp_chem"
 
 /mob/living/carbon/human/proc/sec_hud_set_security_status()
-	var/image/holder
+	var/image/holder = hud_list[WANTED_HUD]
 	var/perpname = get_face_name(get_id_name())
 	var/datum/data/record/R = find_record("name", perpname, data_core.security)
-	holder = hud_list[WANTED_HUD]
 	if(R)
 		switch(R.fields["criminal"])
 			if("*Arrest*")		holder.icon_state = "hudwanted"
@@ -230,7 +229,7 @@
 
 /obj/mecha/proc/diag_hud_set_mechcell()
 	var/image/holder = hud_list[DIAG_BATT_HUD]
-	if (cell)
+	if (cell && (cell.charge > 0) && (cell.maxcharge > 0))
 		var/chargelvl = cell.charge/cell.maxcharge
 		holder.icon_state = "hudbatt[RoundDiagBar(chargelvl)]"
 	else

@@ -1,0 +1,6 @@
+author: John Ginnane
+
+delete-after: True
+
+changes: 
+  - tweak: "Fixed the washing machine not washing hoods and other contents inside of clothes and hardsuits"

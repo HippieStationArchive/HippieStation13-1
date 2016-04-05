@@ -61,7 +61,7 @@
 					if(gender == FEMALE)
 						sound = pick('sound/misc/cough_f1.ogg', 'sound/misc/cough_f2.ogg', 'sound/misc/cough_f3.ogg')
 					playsound(src.loc, sound, 50, 1, 5)
-					if(nearcrit)
+					if(status_flags & NEARCRIT)
 						message = "<B>[src]</B> coughs painfuly!"
 					else
 						message = "<B>[src]</B> coughs!"
@@ -142,16 +142,26 @@
 				src << "\red You don't have a butt!"
 				return
 			var/lose_butt = prob(6)
-			message = "<B>[src]</B> [pick(
-				  "rears up and lets loose a fart of tremendous magnitude!",
-				  "farts!",
-				  "toots.",
-				  "harvests methane from uranus at mach 3!",
-				  "assists global warming!",
-				  "farts and waves their hand dismissively.",
-				  "farts and pretends nothing happened.",
-				  "is a <b>farting</b> motherfucker!",
-				  "<B><font color='red'>f</font><font color='blue'>a</font><font color='red'>r</font><font color='blue'>t</font><font color='red'>s</font></B>")]"
+			for(var/mob/living/M in get_turf(src))
+				if(M == src)
+					continue
+				if(lose_butt)
+					message = "<span class='danger'><b>[src]</b>'s ass hits <b>[M]</b> in the face!</span>"
+					M.apply_damage(15,"brute","head")
+					add_logs(src, M, "farted on", object=null, addition=" (DAMAGE DEALT: 15)")
+				else
+					message = "<span class='danger'><b>[src]</b> farts in <b>[M]</b>'s face!</span>"
+			if(!message)
+				message = "<B>[src]</B> [pick(
+					"rears up and lets loose a fart of tremendous magnitude!",
+					"farts!",
+					"toots.",
+					"harvests methane from uranus at mach 3!",
+					"assists global warming!",
+					"farts and waves their hand dismissively.",
+					"farts and pretends nothing happened.",
+					"is a <b>farting</b> motherfucker!",
+					"<B><font color='red'>f</font><font color='blue'>a</font><font color='red'>r</font><font color='blue'>t</font><font color='red'>s</font></B>")]"
 			spawn(0)
 				spawn(1)
 					for(var/obj/item/weapon/storage/book/bible/Y in range(0))
@@ -202,14 +212,6 @@
 					visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
 				else
 					src.nutrition -= rand(5, 25)
-				for(var/mob/living/M in range(0))
-					if(M != src)
-						if(lose_butt)
-							visible_message("\red <b>[src]</b>'s ass hits <b>[M]</b> in the face!", "\red Your ass smacks <b>[M]</b> in the face!")
-							M.apply_damage(15,"brute","head")
-							add_logs(src, M, "farted on", object=null, addition=" (DAMAGE DEALT: 15)")
-						else
-							visible_message("\red <b>[src]</b> farts in <b>[M]</b>'s face!")
 
 		if ("flap","flaps")
 			if (!src.restrained())
@@ -380,6 +382,8 @@
 							sound = "sound/misc/caw.ogg"
 						if("skeleton")
 							sound = "sound/misc/skeleton.ogg"
+						if ("moth")
+							sound = "sound/misc/moth.ogg"
 						else
 							if(gender == FEMALE)
 								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')

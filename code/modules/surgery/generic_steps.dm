@@ -95,6 +95,18 @@
 	time = 30
 
 /datum/surgery_step/drill/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		var/obj/item/organ/limb/head/organ = locate(/obj/item/organ/limb/head) in H.organs
+
+		if(!organ)
+			user.visible_message("<span class='notice'>What the... [target] has no head!")
+			return -1
+		else
+			if(organ.dentals.len >= organ.max_dentals)
+				user.visible_message("<span class='notice'>[target]'s mouth is already full of dental implants!</span>")
+				return -1
+
 	user.visible_message("[user] begins to drill into the bone in [target]'s [parse_zone(target_zone)].", "<span class='notice'>You begin to drill into the bone in [target]'s [parse_zone(target_zone)]...</span>")
 
 /datum/surgery_step/drill/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)

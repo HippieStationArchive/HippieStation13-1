@@ -8,9 +8,14 @@
 	var/status = 0 //1 is drained, 0 is full.
 	var/timer = 0
 	var/cooldown
+	var/obj/machinery/poolcontroller/poolcontrol = null
+
+/obj/machinery/drain/initialize()
+	for(var/obj/machinery/poolcontroller/control in range(5,src))
+		src.poolcontrol += control
 
 /obj/machinery/drain/process()
-	if(status == 0) //don't drain an empty pool.
+	if(!status) //don't drain an empty pool.
 		for(var/obj/item/absorbo in orange(1,src))
 			if(absorbo.w_class == 1)
 				step_towards(absorbo, src)
@@ -39,8 +44,12 @@
 					undrained2.icon_state = "overlay"
 				for(var/obj/effect/effect/waterspout/undrained3 in range(1,src))
 					qdel(undrained3)
-				for(var/obj/machinery/poolcontroller/undrained4 in range(5,src))
-					undrained4.drained = 0
+				poolcontrol.drained = 0
+				if(poolcontrol.bloody < 1000)
+					poolcontrol.bloody /= 2
+				if(poolcontrol.bloody > 1000)
+					poolcontrol.bloody /= 4
+				poolcontrol.changecolor()
 				status = 0
 				active = 0
 			return
@@ -54,9 +63,9 @@
 						step_towards(whirlo,src)
 				for(var/mob/living/carbon/human/whirlm in orange(2,src))
 					step_towards(whirlm,src)
-					if(prob(10))
-						whirlm.Weaken(1)
-					for(var/i in list(1,2,4,8,4,2,1)) //swril!
+					if(prob(20))
+						whirlm.Weaken(2)
+					for(var/i in list(1,2,4,8,4,2,1)) //swirl!
 						whirlm.dir = i
 						sleep(1)
 					if(whirlm.loc == src.loc)
@@ -127,19 +136,18 @@
 		user << "\red You disable \the [src]'s shark filter. Run!" //you better
 		emagged = 1
 		src.icon_state = "filter_b"
-//		spawn(50)
-//			if(prob(50))
-//				new /mob/living/simple_animal/hostile/shark(src.loc)
-//			else
-//				if(prob(50))
-//					new /mob/living/simple_animal/hostile/shark/kawaii(src.loc)
-//				else
-//					new /mob/living/simple_animal/hostile/shark/laser(src.loc)
+		spawn(50)
+			if(prob(50))
+				new /mob/living/simple_animal/hostile/shark(src.loc)
+			else
+				if(prob(50))
+					new /mob/living/simple_animal/hostile/shark/kawaii(src.loc)
+				else
+					new /mob/living/simple_animal/hostile/shark/laser(src.loc)
 
 
 
-/obj/machinery/poolfilter/attackby(obj/item/weapon/W, mob/user)
-	if(istype(W, /obj/item/weapon/crowbar) && anchored)
-		user << "You search the filter."
-		for(var/obj/O in contents)
-			O.loc = src.loc
+/obj/machinery/poolfilter/attack_hand(mob/user)
+	user << "You search the filter."
+	for(var/obj/O in contents)
+		O.loc = src.loc

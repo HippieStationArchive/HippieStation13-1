@@ -106,7 +106,7 @@
 /obj/machinery/disposal/proc/stuff_mob_in(mob/living/target, mob/living/user)
 	if(!iscarbon(user) && !user.ventcrawler) //only carbon and ventcrawlers can climb into disposal by themselves.
 		return
-	if(target.buckled)
+	if(target.buckled || target.buckled_mob)
 		return
 	if(target.mob_size > MOB_SIZE_HUMAN)
 		user << "<span class='warning'>[target] doesn't fit inside [src]!</span>"
@@ -554,7 +554,7 @@
 	icon_state = "open"
 	spawn(5)
 		for(var/mob/living/M in loc)
-			if(!M.floating)
+			if(M.mob_has_gravity && (!M.anchored || (!M.buckled && M.buckled.anchored)))
 				M.loc = src
 				trap_flush()
 				if(auto_close_on_mob)
@@ -590,7 +590,7 @@
 	if(open)
 		if(istype(AM, /mob/living/))
 			var/mob/living/M = AM
-			if(M.floating)
+			if(!M.mob_has_gravity || M.anchored || (M.buckled && M.buckled.anchored))
 				return
 			M.loc = src
 			trap_flush()
@@ -615,11 +615,11 @@
 		return 1
 
 /obj/machinery/disposal/trapdoor/proc/push_mob_in(mob/living/target, mob/living/carbon/human/user)
-	if(target.buckled)
+	if(target.buckled || target.anchored)
 		return
 	add_fingerprint(user)
 	if(user == target)
-		if(target.floating)
+		if(!target.mob_has_gravity)
 			user.visible_message("[user] is attempting to dive into [src].", \
 				"<span class='notice'>You start diving into [src]...</span>")
 			if(!do_mob(target, user, 10))

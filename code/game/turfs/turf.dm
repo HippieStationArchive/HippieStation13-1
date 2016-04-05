@@ -323,6 +323,25 @@
 	opacity = 1
 	explosion_block = 50
 
+/turf/indestructible/wall
+	smooth = SMOOTH_TRUE
+
+/turf/indestructible/wall/shuttle
+	smooth = SMOOTH_FALSE
+	icon = 'icons/turf/shuttle.dmi'
+	icon_state = "wall3"
+
+/turf/indestructible/floor/plating
+	name = "plating"
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "plating"
+	density = 0
+	blocks_air = 0
+	opacity = 0
+	oxygen = 0
+	nitrogen = 0
+	temperature = TCMB
+
 /turf/indestructible/splashscreen
 	name = "Space Station 13"
 	icon = 'icons/misc/fullscreen.dmi'

@@ -166,6 +166,7 @@
 		L.IgniteMob()
 
 	if(L_old_on_fire) //Only ignite us and gain their stacks if they were onfire before we bumped them
+		add_logs(src, L, " set aflame ")
 		L.fire_stacks /= 2
 		fire_stacks += L.fire_stacks
 		IgniteMob()
@@ -202,8 +203,9 @@
 		M << "You cannot attack people before the game has started."
 		return
 
-	if(M.Victim)
-		return // can't attack while eating!
+	if(M.buckled)
+		if(M == buckled_mob)
+			M.Feedstop()
 
 	if (stat != DEAD)
 		add_logs(M, src, "attacked")

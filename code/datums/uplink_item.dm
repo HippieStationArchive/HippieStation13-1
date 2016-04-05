@@ -461,9 +461,9 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/dangerous/reinforcement
 	name = "Reinforcements"
-	desc = "Call in an additional team member. They won't come with any gear, so you'll have to save some telecrystals to arm them as well."
+	desc = "Call in an additional team member. They come with predefined gear sets, but you might want to save some telecrystals to arm them better."
 	item = /obj/item/weapon/antag_spawner/nuke_ops
-	cost = 25
+	cost = 35
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -1060,6 +1060,14 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_microbomb
 	cost = 2
 	surplus = 30
+
+/datum/uplink_item/implants/mindslave
+	name = "Mindslave Implant"
+	desc = "An implant injected into another body, forcing the vitcim to obey any command by the user for around 15 to 20 mintues."
+	excludefrom = list(/datum/game_mode/nuclear)
+	item = /obj/item/weapon/storage/box/syndie_kit/imp_mindslave
+	cost = 9
+	surplus = 20
 
 
 //CYBERNETIC IMPLANTS

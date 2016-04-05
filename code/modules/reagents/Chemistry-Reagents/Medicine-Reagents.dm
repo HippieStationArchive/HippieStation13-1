@@ -11,7 +11,7 @@
 
 /datum/reagent/medicine/on_mob_life(mob/living/M)
 	current_cycle++
-	if(M.metabolism_efficiency)
+	if(M && M.metabolism_efficiency)
 		holder.remove_reagent(src.id, metabolization_rate / M.metabolism_efficiency) //medicine reagents stay longer if you have a better metabolism
 
 /datum/reagent/medicine/leporazine
@@ -450,22 +450,34 @@
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = 45
+	overdose_threshold = 30
 	addiction_threshold = 30
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
 	M.status_flags |= GOTTAGOFAST
-	M.AdjustParalysis(-1)
-	M.AdjustStunned(-1)
-	M.AdjustWeakened(-1)
-	M.adjustStaminaLoss(-1*REM)
+	M.AdjustParalysis(-0.4)
+	M.AdjustStunned(-0.4)
+	M.AdjustWeakened(-0.4)
+	M.adjustStaminaLoss(-0.5*REM)
 	..()
 	return
+
+/datum/reagent/medicine/ephedrine/on_mob_delete(mob/living/M)
+	if(current_cycle >= 10)
+		M.visible_message("<span class='danger'>[M] suddenly runs out of breath!</span>")
+		M.adjustStaminaLoss(50*REM)
+	else
+		M.adjustStaminaLoss(current_cycle*5*REM)
 
 /datum/reagent/medicine/ephedrine/overdose_process(mob/living/M)
 	if(prob(33))
 		M.adjustToxLoss(0.5*REM)
 		M.losebreath++
+	if(prob(12))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+			M.visible_message("<span class='danger'>[M] shudders and drops [I] on the floor!</span>")
 	..()
 	return
 

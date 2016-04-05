@@ -26,7 +26,7 @@
 	var/datum/wires/autolathe/wires = null
 
 	var/datum/design/being_built
-	var/datum/research/files
+	var/datum/research/files = /datum/research/autolathe
 	var/list/datum/design/matching_designs
 	var/selected_category
 	var/screen = 1
@@ -63,7 +63,7 @@
 	RefreshParts()
 
 	wires = new(src)
-	files = new /datum/research/autolathe(src)
+	files = new files(src)
 	matching_designs = list()
 
 /obj/machinery/autolathe/Destroy()
@@ -402,3 +402,4 @@
 	maintpanel = "mechfabt"
 	categories = list("Atmos")
 	board = /obj/item/weapon/circuitboard/atmoslathe
+	files = /datum/research/autolathe/atmoslathe

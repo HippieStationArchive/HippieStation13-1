@@ -199,7 +199,7 @@
 	if(data >= 75 && prob(33))	// 30 units, 135 seconds
 		if (!M.confused) M.confused = 1
 		M.confused += 3
-		if(iscultist(M) || (is_handofgod_cultist(M) && !is_handofgod_prophet(M)))
+		if(iscultist(M) || (is_in_any_team(M.mind) && (what_rank(M.mind) != 2)))
 			ticker.mode.remove_cultist(M.mind)
 			ticker.mode.remove_hog_follower(M.mind)
 			holder.remove_reagent(src.id, src.volume)	// maybe this is a little too perfect and a max() cap on the statuses would be better??
@@ -573,8 +573,10 @@
 /datum/reagent/radium/reaction_turf(turf/T, reac_volume)
 	if(reac_volume >= 3)
 		if(!istype(T, /turf/space))
-			var/obj/effect/decal/cleanable/reagentdecal = new/obj/effect/decal/cleanable/greenglow(T)
-			reagentdecal.reagents.add_reagent("radium", reac_volume)
+			var/obj/effect/decal/cleanable/greenglow/GG = locate() in T.contents
+			if(!GG)
+				GG = new/obj/effect/decal/cleanable/greenglow(T)
+			GG.reagents.add_reagent("radium", reac_volume)
 
 /datum/reagent/sterilizine
 	name = "Sterilizine"

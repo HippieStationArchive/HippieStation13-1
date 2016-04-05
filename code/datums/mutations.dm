@@ -253,7 +253,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_gain_indication = "<span class='danger'>You feel strange.</span>"
 
 /datum/mutation/human/bad_dna/on_acquiring(mob/living/carbon/human/owner)
-	owner << text_gain_indication
+	if(..())
+		return
 	var/mob/new_mob
 	if(prob(95))
 		if(prob(50))
@@ -288,13 +289,15 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_lose_indication = "<span class='notice'>Everything around you seems to shrink..</span>"
 
 /datum/mutation/human/dwarfism/on_acquiring(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.resize = 0.8
 	owner.ventcrawler = 1
 	owner.visible_message("<span class='danger'>[owner] suddenly shrinks!</span>")
 
 /datum/mutation/human/dwarfism/on_losing(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.resize = 1.25
 	owner.ventcrawler = 0
 	owner.visible_message("<span class='danger'>[owner] suddenly grows!</span>")
@@ -306,7 +309,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_gain_indication = "<span class='danger'>You feel lightheaded.</span>"
 
 /datum/mutation/human/clumsy/on_acquiring(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.disabilities |= CLUMSY
 
 /datum/mutation/human/clumsy/on_losing(mob/living/carbon/human/owner)
@@ -352,7 +356,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_gain_indication = "<span class='danger'>You can't seem to hear anything.</span>"
 
 /datum/mutation/human/deaf/on_acquiring(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.disabilities |= DEAF
 
 /datum/mutation/human/deaf/on_losing(mob/living/carbon/human/owner)
@@ -367,7 +372,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_gain_indication = "<span class='danger'>You can't seem to see anything.</span>"
 
 /datum/mutation/human/blind/on_acquiring(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.disabilities |= BLIND
 
 /datum/mutation/human/blind/on_losing(mob/living/carbon/human/owner)

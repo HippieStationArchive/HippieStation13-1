@@ -83,6 +83,11 @@
 	if(!istype(tool))
 		return 0
 
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		var/obj/item/organ/limb/head/organ = locate(/obj/item/organ/limb/head) in H.organs
+		organ.dentals += tool
+
 	user.drop_item()
 	target.internal_organs += tool
 	tool.loc = target
@@ -96,15 +101,20 @@
 	return 1
 
 /datum/action/item_action/hands_free/activate_pill
-	name = "activate pill"
+	name = "Activate Pill"
 
 /datum/action/item_action/hands_free/activate_pill/Trigger()
-	if(!..() || CheckRemoval(owner))
+	if(..() || CheckRemoval(owner))
 		return 0
 	owner << "<span class='caution'>You grit your teeth and burst the implanted [target]!</span>"
 	add_logs(owner, null, "swallowed an implanted pill", target)
 	if(target.reagents.total_volume)
 		target.reagents.reaction(owner, INGEST)
 		target.reagents.trans_to(owner, target.reagents.total_volume)
+
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			var/obj/item/organ/limb/head/organ = locate(/obj/item/organ/limb/head) in H.organs
+			organ.dentals -= target
 	qdel(target)
 	return 1

@@ -161,6 +161,9 @@
 	var/silent_ai = 0
 	var/silent_borg = 0
 
+	var/allowwebclient = 0
+	var/webclientmembersonly = 0
+
 	var/sandbox_autoclose = 0 // close the sandbox panel after spawning an item, potentially reducing griff
 
 	var/default_laws = 0 //Controls what laws the AI spawns with.
@@ -190,6 +193,11 @@
 	var/list/place_last = list()
 	var/tries = 10
 	var/directory = null
+
+	//proxykick
+	var/proxykick = 0 // disabled by default
+	var/proxykickemail = ""
+	var/proxykicklimit = 1 // ranges from 0 to 1
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -377,6 +385,10 @@
 						world.log = newlog
 				if("autoconvert_notes")
 					config.autoconvert_notes = 1
+				if("allow_webclient")
+					config.allowwebclient = 1
+				if("webclient_only_byond_members")
+					config.webclientmembersonly = 1
 				if("announce_admin_logout")
 					config.announce_admin_logout = 1
 				if("announce_admin_login")
@@ -387,6 +399,12 @@
 					protected_config.autoadmin = 1
 					if(value)
 						protected_config.autoadmin_rank = ckeyEx(value)
+				if("proxykick")
+					proxykick = 1
+				if("proxykickemail")
+					proxykickemail = value
+				if("proxykicklimit")
+					proxykicklimit = value
 				else
 					diary << "Unknown setting in configuration: '[name]'"
 

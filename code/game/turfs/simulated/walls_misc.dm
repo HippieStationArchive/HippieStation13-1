@@ -38,6 +38,36 @@
 	walltype = "rrust"
 	hardness = 15
 
+/turf/simulated/wall/abductor
+	name = "alien wall"
+	icon = 'icons/turf/shuttle.dmi'
+	icon_state = "alien1"
+	smooth = SMOOTH_FALSE
+
+/turf/simulated/wall/abductor/interior/copyTurf(turf/T)
+	if(T.type != type)
+		T.ChangeTurf(type)
+		if(underlays.len)
+			T.underlays = underlays
+	if(T.icon_state != icon_state)
+		T.icon_state = icon_state
+	if(T.icon != icon)
+		T.icon = icon
+	if(T.color != color)
+		T.color = color
+	if(T.dir != dir)
+		T.dir = dir
+	T.transform = transform
+	return T
+
+/turf/simulated/wall/abductor/copyTurf(turf/T)
+	. = ..()
+	T.transform = transform
+
+/turf/simulated/wall/abductor/shuttleRotate(rotation)
+	var/matrix/M = transform
+	M.Turn(rotation)
+	transform = M
 
 
 /turf/simulated/wall/shuttle

@@ -20,8 +20,7 @@
 
 //Put people out of the water
 /turf/simulated/floor/MouseDrop_T(mob/M as mob, mob/user as mob)
-	var/turf/loc = get_turf(usr)
-	if(loc.name == "Drained Pool")
+	if(isobserver(usr))
 		return
 	if(user.stat || user.lying || !Adjacent(user) || !M.Adjacent(user)|| !iscarbon(M))
 		if(isrobot(M))
@@ -32,7 +31,6 @@
 				T.Exited(M)
 				M.forceMove(src)
 				user << "<span class='notice'>You get out of the pool.</span>"
-				playsound(src, 'sound/effects/water_exit.ogg', 20, 1)
 		return ..()
 	if(!M.swimming) //can't put yourself up if you are not swimming
 		return ..()
@@ -45,7 +43,6 @@
 			T.Exited(M)
 			M.forceMove(src)
 			user << "<span class='notice'>You get out of the pool.</span>"
-			playsound(src, 'sound/effects/water_exit.ogg', 20, 1)
 	else
 		user.visible_message("<span class='notice'>[M] is being pulled to the poolborder by [user].</span>", \
 						"<span class='notice'>You start getting [M] out of the pool.")
@@ -68,6 +65,15 @@
 		if(istype(get_turf(A), /turf/simulated/pool/water) && !istype(T, /turf/simulated/pool/water)) //!(locate(/obj/structure/pool/ladder) in get_turf(A).loc)
 			return 0
 	return ..()
+
+/turf/simulated/pool/water/Exited(mob/M)
+	..()
+	var/turf/T = get_turf(M)
+	if(istype(M) && istype(watereffect) && istype(T) && src.y != T.y) //We're checking for y variable here so layering isn't fucked when you move horizontally
+		watereffect.layer = M.layer - 0.1 //Always a step behind!
+		spawn(3)
+			watereffect.layer = initial(watereffect.layer)
+
 
 /obj/overlay/water
 	name = "Water"
@@ -92,14 +98,43 @@
 	watereffect = new /obj/overlay/water(src)
 
 
-/turf/simulated/pool/water/ChangeTurf(var/path)
-	. = ..()
-	if(. != src)
-		qdel(watereffect) //Remove the water overlay so it doesn't hang around
+/turf/simulated/pool/water/ex_act(severity, target)
+	..()
+	switch(severity)
+		if(1)
+			src.ReplaceWithLattice()
+		if(2)
+			src.ChangeTurf(/turf/simulated/floor/plating)
+		if(3)
+			return
+
+/turf/simulated/pool/water/Exited(mob/M)
+	..()
+	var/turf/T = get_turf(M)
+	if(istype(M) && istype(watereffect) && istype(T) && src.y != T.y) //We're checking for y variable here so layering isn't fucked when you move horizontally
+		watereffect.layer = M.layer - 0.1 //Always a step behind!
+		spawn(3)
+			watereffect.layer = initial(watereffect.layer)
+
+
+/turf/simulated/pool/water/ChangeTurf(path)
+	if(!path)			return
+	if(path == type)	return src
+
+	SSair.remove_from_active(src)
+	src.watereffect = null
+	var/turf/W = new path(src)
+	if(istype(W, /turf/simulated))
+		W:Assimilate_Air()
+		W.RemoveLattice()
+	W.levelupdate()
+	W.CalculateAdjacentTurfs()
+
+
 
 //put people in water, including you
 /turf/simulated/pool/water/MouseDrop_T(mob/M as mob, mob/user as mob)
-	if(drained || !has_gravity(src))
+	if(!has_gravity(src))
 		return
 	if(user.stat || user.lying || !Adjacent(user) || !M.Adjacent(user)|| !iscarbon(M))
 		return
@@ -130,7 +165,6 @@
 	if(!has_gravity(src)) //Fairly important
 		return
 	else if(drained) //KATHUNKS
-
 		if(ishuman(A))
 			var/mob/living/carbon/human/H = A
 			if(H.swimming == 0)
@@ -191,14 +225,6 @@
 					playsound(src, 'sound/effects/splash.ogg', 60, 1, 1)
 					H.Weaken(3)
 					H.swimming = 1
-
-/turf/simulated/pool/water/Exited(mob/M)
-	..()
-	var/turf/T = get_turf(M)
-	if(istype(M) && istype(watereffect) && istype(T) && src.y != T.y) //We're checking for y variable here so layering isn't fucked when you move horizontally
-		watereffect.layer = M.layer - 0.1 //Always a step behind!
-		spawn(3)
-			watereffect.layer = initial(watereffect.layer)
 
 /obj/structure/pool
 	name = "pool"
@@ -361,11 +387,11 @@
 			playsound(src, 'sound/effects/watersplash.ogg', 8, 1, 1)
 			src.splashed = 1
 			var/obj/effect/splash/S = new /obj/effect/splash(user.loc)
-			animate(S, alpha = 40,  time = 7)
+			animate(S, alpha = 0,  time = 8)
 			S.Move(src)
-			spawn(25)
+			spawn(20)
 				qdel(S)
-				spawn(12)
+				spawn(5)
 					src.splashed = 0 //Otherwise, infinite splash party.
 
 			for(var/mob/living/carbon/human/L in src)

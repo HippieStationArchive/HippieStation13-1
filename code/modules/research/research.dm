@@ -166,20 +166,25 @@ research holder datum.
 
 
 //Autolathe files
+/datum/research/autolathe
+	var/machinetype = AUTOLATHE
+
 /datum/research/autolathe/New()
 	for(var/T in (typesof(/datum/tech) - /datum/tech))
 		possible_tech += new T(src)
 	for(var/path in typesof(/datum/design) - /datum/design)
 		var/datum/design/D = new path(src)
 		possible_designs += D
-		if((D.build_type & AUTOLATHE) && ("initial" in D.category))  //autolathe starts without hacked designs
+		if((D.build_type & machinetype) && ("initial" in D.category))  //autolathe starts without hacked designs
 			AddDesign2Known(D)
 
 /datum/research/autolathe/AddDesign2Known(datum/design/D)
-	if(!(D.build_type & AUTOLATHE))
+	if(!(D.build_type & machinetype))
 		return
 	..()
 
+/datum/research/autolathe/atmoslathe
+	machinetype = ATMOSLATHE
 /***************************************************************
 **						Technology Datums					  **
 **	Includes all the various technoliges and what they make.  **
@@ -311,3 +316,10 @@ research holder datum.
 /obj/item/weapon/disk/tech_disk/New()
 	src.pixel_x = rand(-5, 5)
 	src.pixel_y = rand(-5, 5)
+
+/obj/item/weapon/disk/tech_disk/gooncode
+	name = "Gooncode disk"
+	desc = "A disk containing Goonstation source code for further research."
+	icon = 'icons/obj/items.dmi'
+	icon_state = "gooncode"
+	stored = new/datum/tech/programming{level = 4}
