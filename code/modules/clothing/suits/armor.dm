@@ -381,10 +381,10 @@
 		add_fingerprint(user)
 	return
 
-/obj/item/clothing/suit/armor/riot/knight/templar/holy/hit_reaction(mob/living/carbon/human/owner, attack_text)
+/obj/item/clothing/suit/armor/riot/knight/templar/holy/hit_reaction(mob/living/carbon/human/owner, attack_text, damage)
 	if(!active)
 		return
-	if(prob(hit_reaction_chance))
+	if(prob(hit_reaction_chance) && damage)
 		owner.visible_message("<span class='danger'>The [src] blocks the [attack_text], sending out arcs of holy lightning!</span>")
 		for(var/mob/living/M in view(3, owner))
 			if(M == owner)
