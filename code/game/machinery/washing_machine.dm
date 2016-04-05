@@ -37,9 +37,14 @@
 	else
 		state = 5
 	update_icon()
+
 	sleep(200)
+
 	for(var/atom/A in contents)
 		A.clean_blood()
+
+		for(var/atom/B in A.contents)
+			B.clean_blood()
 
 	//Tanning!
 	for(var/obj/item/stack/sheet/hairlesshide/HH in contents)
@@ -64,14 +69,23 @@
 		if(wash_color)
 			for(var/obj/item/clothing/I in contents)
 				I.color = wash_color //Simply recolor the items.
+				I.desc = I.desc + (length(I.desc) > 0 ? " " : "") + "It looks soaked in [wash_color] tincture."
 
 				var/list/colors = list("light brown", "brown", "cyan", "fingerless", "combat", "tactical", "yellowgreen", "darkred", "lightred", "maroon", "red", "orange", "rainbow", "lightgreen", "green", "lightpurple", "purple", "gold", "darkblue", "lightblue", "aqua", "blue", "yellow", "black", "grey", "gray", "white", "latex", "nitrile", "budget insulated", "insulated", "captain's")
 			
 				for(var/old_color in colors)
 					if(findtext(I.name, old_color))
 						I.name = n_replace(I.name, old_color, wash_color)
-						I.desc = I.desc + (length(I.desc) > 0 ? " " : "") + "It looks soaked in [wash_color] tincture."
 						break
+
+				for(var/obj/item/clothing/J in I.contents)
+					J.color = wash_color
+					J.desc = J.desc + (length(J.desc) > 0 ? " " : "") + "It looks soaked in [wash_color] tincture."
+
+					for(var/old_color in colors)
+						if(findtext(J.name, old_color))
+							J.name = n_replace(J.name, old_color, wash_color)
+							break
 		qdel(crayon)
 		crayon = null
 

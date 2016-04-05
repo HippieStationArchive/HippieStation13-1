@@ -189,7 +189,7 @@
 	hits = 1
 	hitpwr = 3
 	meteorsound = 'sound/weapons/throwtap.ogg'
-	meteordrop = /obj/item/weapon/ore/glass
+	meteordrop = /obj/item/weapon/ore/sand
 
 //Medium-sized
 /obj/effect/meteor/medium
