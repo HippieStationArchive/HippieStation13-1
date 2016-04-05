@@ -157,7 +157,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	icon = 'icons/obj/clothing/belts.dmi'
 	slot_flags = SLOT_BELT
 	attack_verb = list("whipped", "lashed", "disciplined")
-	var/datum/martial_art/wrestling/stamina/style = new 
+	var/datum/martial_art/wrestling/stamina/style = new
 
 /obj/item/weapon/holodeck/wrestling/New()
 	..()
@@ -199,7 +199,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(4, WEAKEN)//, armor_block)
 	add_logs(A, D, "suplexed", addition="(Wrassling)")
-	playsound(D, pick("swing_hit"), 40, 1)
+	playsound(D, pick("swing_hit","sound/weapons/subaluwa.ogg"), 40, 1)
 	for(var/mob/M in range(2, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 3, 1)
