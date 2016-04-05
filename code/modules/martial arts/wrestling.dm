@@ -461,7 +461,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	D.apply_damage(15, damtype, affecting, armor_block) //Doesn't do too much damage compared to other moves
 	D.apply_damage(30, STAMINA, affecting, armor_block) //Still does stamina damage to compensate (to the victim)
 	D.do_bounce_anim_dir(NORTH, 2, 4, easein = BACK_EASING, easeout = BOUNCE_EASING)
-	D.apply_effect(7, WEAKEN)
+	D.apply_effect(7, WEAKEN) //Special, hard-to-perform move. Victim needs to stay KO'd to prevent a cheap superfart.
 	playsound(D, 'sound/weapons/push_hard.ogg', 60, 1) //Sound signalises that this is not a high-damage attack
 	add_logs(A, D, "moonsaulted", addition="(Wrassling)")
 	for(var/mob/M in range(2, D)) //Shaky camera effect
