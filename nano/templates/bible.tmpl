@@ -1,0 +1,47 @@
+<div class="item">
+	<div class="itemLabel">
+		The 
+	</div>
+	<div class="itemContent">
+		{{:biblename}}
+	</div>
+</div>
+
+<div class="item">
+	<div class="itemLabel">
+		Proclaimed by the blessed  
+	</div>
+	<div class="itemContent">
+		{{:god}}
+	</div>
+</div>
+
+<div class="item">
+	<div class="itemLabel">
+		Relic:
+	</div>
+	<div class="itemContent">
+		{{if relic}}
+			{{:relic}}, {{:area}}:
+			{{if x}}
+				{{:x}}, {{:y}}, {{:z}}.
+			{{else}}
+				Unknown coordinates.
+			{{/if}}
+		{{else}}
+			N/A
+		{{/if}}
+	</div>
+</div>
+
+<div class="item">
+	<div class="itemContent">
+		{{:~link('Assign Holy Relic', 'pencil', {'effect' : 1})}}
+	</div>
+</div>
+
+<div class="item">
+	<div class="itemContent">
+		{{:~link('Add Chant/Prayer', 'bookmark', {'addprayer' : 1})}}
+	</div>
+</div>

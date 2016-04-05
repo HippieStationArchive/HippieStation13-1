@@ -1,0 +1,7 @@
+author: Zadeon
+
+delete-after: True
+
+changes: 
+  - rscadd: "Added wiki links to greetings for antagonists."
+  - bugfix: "Fixed wiki manuals not linking to correct pages."

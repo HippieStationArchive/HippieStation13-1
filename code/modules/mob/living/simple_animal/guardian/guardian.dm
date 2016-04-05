@@ -594,7 +594,16 @@
 
 	if(candidates.len)
 		theghost = pick(candidates)
-		spawn_guardian(user, theghost.key)
+		var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(user, theghost.key)
+		var/time_limit = world.time + 300
+		var/guardianNewName = stripped_input(G.summoner, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
+		if(world.time < time_limit)
+			if(length(guardianNewName) > 0)
+				G.name = guardianNewName
+			else
+				user << "<span class='danger'>Sorry, you can't have a null name!</span>"
+		else
+			user << "<span class='danger'>Sorry, you didn't give a new name in time!</span>"
 	else
 		user << "[failure_message]"
 		used = FALSE
@@ -656,6 +665,7 @@
 			user << "[G.bio_fluff_string]."
 			G.attacktext = "swarms"
 			G.speak_emote = list("chitters")
+			return G
 
 /obj/item/weapon/guardiancreator/choose
 	random = FALSE
