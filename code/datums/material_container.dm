@@ -203,6 +203,9 @@
 		material_amount += I.materials[MAT]
 	return material_amount
 
+//returns the name of the material
+/datum/material_container/proc/material2name(ID)
+	return copytext(ID,2)
 
 /datum/material
 	var/amount = 0

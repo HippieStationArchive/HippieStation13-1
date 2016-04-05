@@ -364,16 +364,26 @@
 	hit_reaction_chance = 50
 	action_button_name = "Toggle Blessing"
 
-/obj/item/clothing/suit/armor/riot/knight/templar/holy/attack_self(mob/user) //this is copypaste garbage but w.e.
-	src.active = !( src.active )
-	if (src.active)
+/obj/item/clothing/suit/armor/riot/knight/templar/holy/equipped(mob/user, slot)
+	if(slot == slot_wear_suit)
+		flags |= NODROP
+
+/obj/item/clothing/suit/armor/riot/knight/templar/holy/dropped(mob/user)
+	if(flags & NODROP)
+		flags |= ~NODROP
+
+/obj/item/clothing/suit/armor/riot/knight/templar/holy/attack_self(mob/user)
+	active = !active
+	if(active)
 		user << "<span class='notice'>[src] has been blessed.</span>"
 	else
 		user << "<span class='notice'>[src] has been unblessed.</span>"
-		src.add_fingerprint(user)
+		add_fingerprint(user)
 	return
 
 /obj/item/clothing/suit/armor/riot/knight/templar/holy/hit_reaction(mob/living/carbon/human/owner, attack_text)
+	if(!active)
+		return
 	if(prob(hit_reaction_chance))
 		owner.visible_message("<span class='danger'>The [src] blocks the [attack_text], sending out arcs of holy lightning!</span>")
 		for(var/mob/living/M in view(3, owner))

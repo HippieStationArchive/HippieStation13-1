@@ -13,6 +13,7 @@ var/list/datum/atom_hud/huds = list( \
 	ANTAG_HUD_WIZ = new/datum/atom_hud/antag(), \
 	ANTAG_HUD_SHADOW = new/datum/atom_hud/antag(), \
 	ANTAG_HUD_ZOMBIE = new/datum/atom_hud/antag(), \
+	ANTAG_HUD_ADMIN = new/datum/atom_hud/data/admin(), \
 	)
 
 /datum/atom_hud
