@@ -1,0 +1,18 @@
+author: Crystalwarrior160
+
+delete-after: True
+
+changes: 
+  - experimental: "YOU CAN NOW CRAWL WHEN WEAKENED/RESTING! Experimental change, Stun values are subject to change!"
+  - tweak: "Weaken() and Rest now let the user crawl around
+  - tweak: "Crawl delay tweaked"
+  - tweak: "Removed crawl visible message so it doesn't spam chat"
+  - tweak: "Made tazer electrodes only Stun() you on second hit (first hit is weaken - this means you can crawl after being stunned once)"
+  - tweak: "adds Stun() to compliment many of the Weaken()'s"
+  - tweak: "Slime shock now stuns for half the duration of [power] - this lets you try to crawl away from slimes after a bit."
+  - tweak: "Flashbang stun lasts a tiny bit longer than its' weaken"
+  - tweak: "Stunbaton stun lasts a tiny bit shorter than the weaken it has"
+  - tweak: "Flasher stun lasts half as long as it's weaken (unless you have weak eyes)"
+  - tweak: "Code tweak - made holodecks use tablepush proc instead of overwriting"
+  - tweak: "Airlock headbutting when retarded stun is 1 tick shorter"
+  - tweak: "Stun() reworked to prevent crawling"
