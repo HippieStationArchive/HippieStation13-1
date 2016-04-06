@@ -1,0 +1,10 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - tweak: "Chaplain holy armor's button now works,therefore the armor can be enabled or disabled at will. Also force-less items won't trigger it anymore."
+  - bugfix: "Flowey and Floweygrin AI statuses fixed."
+  - bugfix: "Cyborgs can no longer become cultists."
+  - bugfix: "Admin antag HUD fixed."
+  - bugfix: "Atmos lathe can now return resources, and the autolathe along with this now return resources like exosuit fabricator."
