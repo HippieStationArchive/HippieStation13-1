@@ -228,6 +228,7 @@
 				var/armor_block = D.run_armor_check(L, "melee")
 				D.apply_damage(11, damtype, L, armor_block) //Slightly higher damage applied to head
 				D.Weaken(3) //Weaken them for 3 ticks. Advantage is it bypasses armor for weaken.
+				D.Stun(3) //No crawling
 				A.changeNext_move(20) //2 seconds delay before next move
 				spawn(0) //Fancy animation
 					for(var/i=1, i > -2, i--)

@@ -148,6 +148,7 @@
 	M.status_flags |= FAKEDEATH
 	M.adjustOxyLoss(0.5*REM)
 	M.Weaken(5)
+	M.Stun(5)
 	M.silent = max(M.silent, 5)
 	M.tod = worldtime2text()
 	..()
@@ -605,6 +606,7 @@
 /datum/reagent/toxin/curare/on_mob_life(mob/living/M)
 	if(current_cycle >= 11)
 		M.Weaken(3)
+		M.Stun(3)
 	M.adjustOxyLoss(1*REM)
 	..()
 

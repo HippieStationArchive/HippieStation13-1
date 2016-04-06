@@ -556,7 +556,7 @@ About the new airlock wires panel:
 				H.visible_message("<span class='danger'>[user] headbutts the airlock.</span>", \
 									"<span class='userdanger'>You headbutt the airlock!</span>")
 				var/obj/item/organ/limb/affecting = H.get_organ("head")
-				H.Stun(5)
+				H.Stun(4)
 				H.Weaken(5)
 				if(affecting.take_damage(10, 0))
 					H.update_damage_overlays(0)

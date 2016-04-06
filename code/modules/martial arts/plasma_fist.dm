@@ -118,6 +118,7 @@
 	playsound(D.loc, 'sound/weapons/punch1.ogg', 50, 1)
 	D.adjustBruteLoss(6) //Decentish damage. It racks up to 16 if the victim hits a wall.
 	D.Weaken(2)
+	D.Stun(2) //Stun them, too
 	var/atom/throw_target = get_edge_target_turf(D, get_dir(D, get_step_away(D, A)))
 	D.throw_at(throw_target, 2, 2)
 	A.say("PLASMA KICK!")

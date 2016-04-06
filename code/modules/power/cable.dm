@@ -620,6 +620,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 				"<span class='warning'>[M] unties the noose over their neck!</span>",\
 				"<span class='notice'>You untie the noose over your neck!</span>")
 			M.Weaken(3)
+			M.Stun(3)
 		unbuckle_mob()
 		add_fingerprint(user)
 

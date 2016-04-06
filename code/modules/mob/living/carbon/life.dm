@@ -280,6 +280,7 @@
 		if(total_health <= config.health_threshold_crit && !stat)
 			src << "<span class='notice'>You're too exhausted to keep going...</span>"
 			Weaken(5)
+			Stun(5) //You're EXHAUSTED. That probably means you're in no shape to crawl.
 			setStaminaLoss(health - 2)
 			return
 		setStaminaLoss(max((staminaloss - 2), 0))

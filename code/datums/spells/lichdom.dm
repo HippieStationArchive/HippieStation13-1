@@ -81,6 +81,7 @@
 			var/turf/body_turf = get_turf(old_body)
 			current_body = lich
 			lich.Weaken(10+10*resurrections)
+			lich.Stun(10+10*resurrections)
 			++resurrections
 			if(old_body && old_body.loc)
 				if(iscarbon(old_body))

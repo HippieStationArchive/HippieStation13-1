@@ -824,6 +824,7 @@
 	..()
 	user <<"<span class='warning'>You're knocked down!</span>"
 	user.Weaken(20)
+	user.Stun(10)
 
 /obj/item/weapon/spellbook/oneuse/barnyard
 	spell = /obj/effect/proc_holder/spell/targeted/barnyardcurse

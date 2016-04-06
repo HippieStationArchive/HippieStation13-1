@@ -84,6 +84,7 @@
 					dir = get_dir(src,L) //staaaare
 					step(L,get_dir(L,src)) //reel them in
 					L.Weaken(3) //you can't get away now~
+					L.Stun(3)
 
 		if(grasping.len < max_grasps)
 			for(var/mob/living/L in range(grasp_range,src))
