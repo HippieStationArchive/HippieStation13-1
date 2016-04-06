@@ -4,7 +4,7 @@ delete-after: True
 
 changes: 
   - experimental: "YOU CAN NOW CRAWL WHEN WEAKENED/RESTING! Experimental change, Stun values are subject to change!"
-  - tweak: "Weaken() and Rest now let the user crawl around
+  - tweak: "Weaken() and Rest now let the user crawl around"
   - tweak: "Crawl delay tweaked"
   - tweak: "Removed crawl visible message so it doesn't spam chat"
   - tweak: "Made tazer electrodes only Stun() you on second hit (first hit is weaken - this means you can crawl after being stunned once)"
