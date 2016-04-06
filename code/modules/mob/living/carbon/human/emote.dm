@@ -163,16 +163,15 @@
 					"is a <b>farting</b> motherfucker!",
 					"<B><font color='red'>f</font><font color='blue'>a</font><font color='red'>r</font><font color='blue'>t</font><font color='red'>s</font></B>")]"
 			spawn(0)
-				spawn(1)
-					for(var/obj/item/weapon/storage/book/bible/Y in range(0))
-						var/obj/effect/lightning/L = new /obj/effect/lightning(get_turf(src.loc))
-						L.layer = 16
-						L.start()
-						playsound(Y,'sound/effects/thunder.ogg', 90, 1)
+				var/obj/item/weapon/storage/book/bible/Y = locate() in get_turf(src.loc)
+				if(istype(Y))
+					var/obj/effect/lightning/L = new /obj/effect/lightning(get_turf(src.loc))
+					L.layer = 16
+					L.start()
+					playsound(Y,'sound/effects/thunder.ogg', 90, 1)
+					spawn(10)
+						src.gib()
 
-						spawn(10)
-							src.gib()
-						break //This is to prevent multi-gibbening
 				B = locate() in src.internal_organs
 				if(B.contents.len)
 					var/obj/item/O = pick(B.contents)
