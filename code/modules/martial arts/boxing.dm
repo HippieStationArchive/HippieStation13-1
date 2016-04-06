@@ -38,8 +38,8 @@
 		if((D.stat != DEAD) && prob(knockout_prob))
 			D.visible_message("<span class='danger'>[A] has knocked [D] out with a haymaker!</span>", \
 								"<span class='userdanger'>[A] has knocked [D] out with a haymaker!</span>")
+			D.apply_effect(5,PARALYZE,armor_block)
 			D.apply_effect(10,WEAKEN,armor_block)
-			D.SetSleeping(5)
 			D.forcesay(hit_appends)
 		else if(D.lying)
 			D.forcesay(hit_appends)

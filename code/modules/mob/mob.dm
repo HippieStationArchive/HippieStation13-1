@@ -751,7 +751,7 @@ var/list/slot_equipment_priority = list( \
 		lying = 90*((status_flags & NEARCRIT ? 1 : 0) || stat || (status_flags & FAKEDEATH))
 	else
 		if((ko || weakened || resting) && !lying)
-			fall(ko)
+			fall(ko || weakened)
 	canmove = !(ko || stunned || buckled || pinned_to)
 	if((status_flags & NEARCRIT) && !stat)
 		canmove = !(stunned || buckled || pinned_to)
