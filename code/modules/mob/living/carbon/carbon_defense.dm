@@ -15,7 +15,12 @@
 	. = ..()
 	if(hit_atom.density && isturf(hit_atom)) //Bash them into the wall
 		Weaken(1)
-		take_organ_damage(10)
+		var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
+		var/obj/item/organ/limb/affecting = null
+		if(ishuman(src))
+			affecting = src:get_organ(ran_zone(dam_zone))
+		var/armor = run_armor_check(affecting, "melee")
+		apply_damage(10, BRUTE, affecting, armor)
 		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
 		visible_message("<span class='danger'>[src] slams into \the [hit_atom]!</span>", \
 						"<span class='userdanger'>You slam into \the [hit_atom]!</span>")
