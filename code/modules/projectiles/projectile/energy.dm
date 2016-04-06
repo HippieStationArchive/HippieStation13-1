@@ -126,6 +126,7 @@
 	icon_state = "toxin"
 	damage = 5
 	damage_type = TOX
+	stun = 5
 	weaken = 5
 	range = 7
 
@@ -135,6 +136,7 @@
 	damage = 15
 	damage_type = TOX
 	nodamage = 0
+	stun = 5
 	weaken = 5
 	stutter = 5
 

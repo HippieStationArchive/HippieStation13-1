@@ -16,6 +16,7 @@
 /obj/item/projectile/bullet/weakbullet2 //detective revolver instastuns, but multiple shots are better for keeping punks down
 	damage = 15
 	weaken = 3
+	stun = 3
 	stamina = 50
 
 /obj/item/projectile/bullet/weakbullet3
@@ -112,7 +113,7 @@
 	icon_state = "dust"
 	damage = 30
 	weaken = 8
-	stun = 8
+	stun = 5
 	hitsound = 'sound/effects/meteorimpact.ogg'
 
 /obj/item/projectile/bullet/meteorshot/on_hit(atom/target, blocked = 0)
@@ -183,10 +184,12 @@
 	icon_state = "neurotoxin"
 	damage = 5
 	damage_type = TOX
+	stun = 5
 	weaken = 5
 
 /obj/item/projectile/bullet/neurotoxin/on_hit(atom/target, blocked = 0)
 	if(isalien(target))
 		weaken = 0
+		stun = 0
 		nodamage = 1
 	. = ..() // Execute the rest of the code.
