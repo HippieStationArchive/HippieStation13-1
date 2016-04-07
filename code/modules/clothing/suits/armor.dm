@@ -364,21 +364,31 @@
 	hit_reaction_chance = 50
 	action_button_name = "Toggle Blessing"
 
-/obj/item/clothing/suit/armor/riot/knight/templar/holy/equipped(mob/user, slot)
-	if(slot == slot_wear_suit)
-		flags |= NODROP
+/obj/item/clothing/suit/armor/riot/knight/templar/holy/New()
+	..()
+	SSobj.processing.Add(src)
 
-/obj/item/clothing/suit/armor/riot/knight/templar/holy/dropped(mob/user)
-	if(flags & NODROP)
-		flags |= ~NODROP
+/obj/item/clothing/suit/armor/riot/knight/templar/holy/Destroy()
+	..()
+	SSobj.processing.Remove(src)
+
+/obj/item/clothing/suit/armor/riot/knight/templar/holy/process()
+	if(active)
+		if(ishuman(loc))
+			var/mob/living/carbon/human/H = loc
+			if(H.stat == DEAD)
+				active = !active
+				flags &= ~NODROP
 
 /obj/item/clothing/suit/armor/riot/knight/templar/holy/attack_self(mob/user)
 	active = !active
 	if(active)
 		user << "<span class='notice'>[src] has been blessed.</span>"
+		flags |= NODROP
 	else
 		user << "<span class='notice'>[src] has been unblessed.</span>"
-		add_fingerprint(user)
+		flags &= ~NODROP
+	add_fingerprint(user)
 	return
 
 /obj/item/clothing/suit/armor/riot/knight/templar/holy/hit_reaction(mob/living/carbon/human/owner, attack_text, damage)
