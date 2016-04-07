@@ -1,0 +1,6 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed 4 walls being destructible on the Syndicate Shuttle"
