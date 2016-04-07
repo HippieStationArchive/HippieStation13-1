@@ -189,6 +189,7 @@
 		L.adjustFireLoss(5)
 		L.adjustBruteLoss(5)
 		L.Weaken(10)
+		L.Stun(5)
 		L << "<span class='danger'><B>You feel the wrath of [name]!<B></span>"
 		has_smitten = 1
 	if(has_smitten)

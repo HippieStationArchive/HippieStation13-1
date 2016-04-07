@@ -16,7 +16,7 @@
 			D.visible_message("<span class='danger'>[A] has knocked [D] out with a haymaker!</span>", \
 								"<span class='userdanger'>[A] has knocked [D] out with a haymaker!</span>")
 			D.apply_effect(10,WEAKEN)
-			D.SetSleeping(5)
+			D.apply_effect(5, PARALYZE)
 			D.forcesay(hit_appends)
 		else if(D.lying)
 			D.forcesay(hit_appends)

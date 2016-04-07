@@ -53,6 +53,7 @@
 						  "<span class='userdanger'>[A] kicks you in the back, making you stumble and fall!</span>")
 		step_to(D,get_step(D,D.dir),1)
 		D.Weaken(4)
+		D.Stun(2) //Faster stun than weaken so they can try crawling away
 		playsound(get_turf(D), 'sound/weapons/punch1.ogg', 50, 1, -1)
 		return 1
 	return basic_hit(A,D)
