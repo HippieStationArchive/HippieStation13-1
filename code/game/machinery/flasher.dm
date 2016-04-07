@@ -92,7 +92,7 @@
 
 		if(L.flash_eyes(affect_silicon = 1))
 			L.Weaken(strength)
-			L.Stun(strength * 0.5)
+			L.Stun(strength * 0.8)
 			if(L.weakeyes)
 				L.Weaken(strength * 1.5)
 				L.Stun(strength)
