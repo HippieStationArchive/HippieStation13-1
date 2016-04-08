@@ -135,6 +135,14 @@ var/list/uplink_items = list()
 	cost = 4
 	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Research Director", "Scientist", "Roboticist") //all the labcoat jobs
 
+//MEDICAL
+/datum/uplink_item/job_specific/voodoo
+	name = "Voodoo Doll"
+	desc = "An artifact provided by the Wizard Federation, it allows you to attach any item to it and manipulate anyone who has ever touched said item, be it from moving them around, making them say stuff and stabbing them with objects. The Wizard Federation has notified us that the victim will be made alert of the user's general location if used too aggresively."
+	item = /obj/item/voodoo
+	cost = 10
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist")
+
 //SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
