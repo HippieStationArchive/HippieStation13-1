@@ -518,7 +518,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	return ..()
 
 /obj/item/stack/cable_coil/suicide_act(mob/living/user)
-	if((locate(/obj/structure/stool) in user.loc) || !(locate(/obj/structure/bed) in usr.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
+	if((locate(/obj/structure/stool) in user.loc) || (locate(/obj/structure/bed) in usr.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
 		user.visible_message("<span class='suicide'>[user] is making a noose with the [src]! It looks like \he's trying to commit suicide.</span>")
 		if(do_after(user, 20, target = user.loc))
 			qdel(src)
