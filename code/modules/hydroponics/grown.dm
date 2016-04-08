@@ -880,8 +880,8 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/tomato/blue/Crossed(AM as mob|obj)
 	if (istype(AM, /mob/living/carbon))
 		var/mob/living/carbon/M = AM
-		var/stun = Clamp(potency / 20, 0.5, 5)
-		var/weaken = Clamp(potency / 10, 1, 10)
+		var/stun = Clamp(potency / 10, 1, 10)
+		var/weaken = Clamp(potency / 20, 0.5, 5)
 		M.slip(stun, weaken, src)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/tomato/blue/bluespace

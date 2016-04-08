@@ -98,7 +98,6 @@
 			add_logs(A, D, "pinned down", addition="(Krav Maga)")
 			G.force_down = 1
 			D.Weaken(3)
-			D.Stun(3) //So they can't crawl away
 			// step_towards(A,D)) //We're already on top, though, so this may be unneccesary.
 			A.set_dir(EAST) //face the victim
 			D.set_dir(SOUTH) //face up
@@ -139,7 +138,6 @@
 			add_logs(A, D, "pinned down", addition="(Krav Maga)")
 			G.force_down = 1
 			D.Weaken(3) //update_canmove is called so prior density setting won't affect much
-			D.Stun(3) //So they can't crawl away
 			A.set_dir(EAST) //face the victim
 			D.set_dir(SOUTH) //face up
 			G.state = GRAB_AGGRESSIVE
@@ -163,7 +161,6 @@
 				G.force_down = 0
 			else
 				D.Weaken(3)
-				D.Stun(3)
 	return 0
 
 /obj/item/clothing/gloves/krav_maga

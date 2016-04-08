@@ -23,7 +23,6 @@
 	if (radiation)
 		if (radiation > 100)
 			Weaken(10)
-			Stun(5)
 			src << "<span class='danger'>You feel weak.</span>"
 			emote("collapse")
 

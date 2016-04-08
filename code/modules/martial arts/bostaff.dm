@@ -58,7 +58,6 @@
 				H.visible_message("<span class='warning'>[H] collapses!</span>", \
 									   "<span class='userdanger'>Your legs give out!</span>")
 				H.Weaken(4)
-				H.Stun(3)
 			if(H.staminaloss && !H.sleeping)
 				var/total_health = (H.health - H.staminaloss)
 				if(total_health <= config.health_threshold_crit && !H.stat)

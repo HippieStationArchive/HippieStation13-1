@@ -11,9 +11,8 @@
 	icon_state = "spark"
 	color = "#FFFF00"
 	nodamage = 1
-	//These two effects are done manually in on_hit
-	// weaken = 0
-	// stun = 0
+	stun = 5
+	weaken = 5
 	stutter = 5
 	jitter = 20
 	hitsound = 'sound/weapons/taserhit.ogg'
@@ -27,12 +26,9 @@
 		sparks.start()
 	else if(iscarbon(target))
 		var/mob/living/carbon/C = target
-		if(C.status_flags & CANSTUN && C.lying) //Victim is on the floor, stun them so they can't crawl!
-			C.apply_effect(4, STUN, blocked)
 		if(C.dna && C.dna.check_mutation(HULK))
 			C.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ))
 		else if(C.status_flags & CANWEAKEN)
-			C.apply_effect(5, WEAKEN, blocked)
 			spawn(5)
 				C.do_jitter_animation(jitter)
 
@@ -126,7 +122,6 @@
 	icon_state = "toxin"
 	damage = 5
 	damage_type = TOX
-	stun = 5
 	weaken = 5
 	range = 7
 
@@ -136,7 +131,6 @@
 	damage = 15
 	damage_type = TOX
 	nodamage = 0
-	stun = 5
 	weaken = 5
 	stutter = 5
 

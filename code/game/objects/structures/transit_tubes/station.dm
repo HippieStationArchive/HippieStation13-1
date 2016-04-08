@@ -75,7 +75,7 @@
 									if(ismob(AM))
 										var/mob/M = AM
 										M.Weaken(5)
-										M.Stun(3)
+
 					else
 						close_animation()
 			break
@@ -90,7 +90,6 @@
 				pod.visible_message("<span class='warning'>[user] starts putting [GM] into the [pod]!</span>")
 				if(do_after(user, 15, target = src) && GM && G && G.affecting == GM)
 					GM.Weaken(5)
-					GM.Stun(5)
 					src.Bumped(GM)
 					qdel(G)
 				break

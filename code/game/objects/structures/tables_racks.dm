@@ -82,7 +82,6 @@
 	user.changeNext_move(CLICK_CD_MELEE)
 	if(tableclimber && tableclimber != user)
 		tableclimber.Weaken(2)
-		tableclimber.Stun(2)
 		tableclimber.visible_message("<span class='warning'>[tableclimber.name] has been knocked off the table", "You're knocked off the table!", "You see [tableclimber.name] get knocked off the table</span>")
 
 
@@ -133,7 +132,6 @@
 			return 0
 		G.affecting.loc = src.loc
 		G.affecting.Weaken(2)
-		G.affecting.Stun(2)
 		G.affecting.visible_message("<span class='danger'>[G.assailant] pushes [G.affecting] onto [src].</span>", \
 									"<span class='userdanger'>[G.assailant] pushes [G.affecting] onto [src].</span>")
 		
@@ -309,7 +307,6 @@
 		new /obj/item/weapon/shard(src.loc)
 		qdel(src)
 		user.Weaken(5)
-		user.Stun(3)
 
 /*
  * Wooden tables
