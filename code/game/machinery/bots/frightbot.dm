@@ -9,7 +9,7 @@
 	throw_range = 5
 	w_class = 3.0
 
-/obj/item/weapon/frightbot_chasis/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/frightbot_chasis/attackby(obj/item/weapon/W, mob/user)
 	..()
 	if(istype(W, /obj/item/device/radio))
 		user << "<span class='notice'>You complete the Frightbot! KEEEEEEEEEEE!!!</span>"
@@ -49,9 +49,9 @@
 	s.start()
 
 	new /obj/effect/decal/cleanable/oil(loc)
-	qdel(src)
+	..() //qdels us and removes us from processing objects
 
-/obj/machinery/bot/frightbot/emag_act(mob/user as mob)
+/obj/machinery/bot/frightbot/emag_act(mob/user)
 	if(!emagged)
 		emagged = 1
 		user << "<span class='warning'>The frightbot will now tell stories so spooky that people will be affected by them physically!</span>"
@@ -88,17 +88,7 @@
 					visible_message("<span class='danger'><b>[src]</b> told such a gruesome and disgusting story that you can't help but puke!</span>")
 					for(var/mob/living/carbon/human/M in viewers(src))
 						M.Stun(5)
-
-						M.visible_message("<span class='danger'>[M] throws up!</span>", \
-								"<span class='userdanger'>[M] throws up!</span>")
-						playsound(M.loc, 'sound/effects/splat.ogg', 50, 1)
-
-						var/turf/location = M.loc
-						if (istype(location, /turf/simulated))
-							location.add_vomit_floor(M, 1)
-
-						M.nutrition -= 20
-						M.adjustToxLoss(-3)
+						M.emote("vomit")
 				if("scream")
 					visible_message("<span class='danger'><b>[src]</b> told a startling story with a jumpscare at the end!</span>")
 					for(var/mob/living/M in viewers(src))

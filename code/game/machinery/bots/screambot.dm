@@ -10,7 +10,7 @@
 	w_class = 3.0
 	var/build_step = 0
 
-/obj/item/weapon/screambot_chasis/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/screambot_chasis/attackby(obj/item/weapon/W, mob/user)
 	..()
 	if(istype(W, /obj/item/weapon/weldingtool) && build_step <= 0)
 		var/obj/item/weapon/weldingtool/WT = W
@@ -54,7 +54,7 @@
 	s.start()
 
 	new /obj/effect/decal/cleanable/oil(loc)
-	qdel(src)
+	..() //qdels us and removes us from processing objects
 
 /obj/machinery/bot/screambot/New()
 	..()
@@ -72,7 +72,7 @@
 	if (!..())
 		return
 
-	if(isturf(src.loc))
+	if(isturf(loc))
 		var/anydir = pick(cardinal)
 		if(Process_Spacemove(anydir))
 			Move(get_step(src, anydir), anydir)
@@ -84,7 +84,7 @@
 		flick("screambot_scream", src)
 		visible_message("<span class='danger'><b>[src]</b> screams!</span>")
 
-/obj/machinery/bot/screambot/emag_act(mob/user as mob)
+/obj/machinery/bot/screambot/emag_act(mob/user)
 	if(!emagged)
 		emagged = 1
 		speedup = 10
@@ -93,7 +93,7 @@
 
 //MENU
 
-/obj/machinery/bot/screambot/attack_hand(mob/user as mob)
+/obj/machinery/bot/screambot/attack_hand(mob/user)
 	var/dat = "<div class='statusDisplay'>"
 	dat += "Human scream: <A href='?src=\ref[src];action=toggle;scream=human'>[('sound/misc/scream_f1.ogg' in sounds) ? "On" : "Off"]</A><BR>"
 	dat += "Synthesized scream: <A href='?src=\ref[src];action=toggle;scream=silicon'>[('sound/voice/screamsilicon.ogg' in sounds) ? "On" : "Off"]</A><BR>"

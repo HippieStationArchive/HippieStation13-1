@@ -458,8 +458,7 @@ obj/machinery/bot/floorbot/process_scan(scan_target)
 	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
-	qdel(src)
-	return
+	..() //qdels us and removes us from processing objects
 
 
 /obj/item/weapon/storage/toolbox/mechanical/attackby(obj/item/stack/tile/plasteel/T, mob/user, params)

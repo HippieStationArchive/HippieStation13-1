@@ -378,7 +378,7 @@ Auto Patrol: []"},
 	s.start()
 
 	new /obj/effect/decal/cleanable/oil(loc)
-	qdel(src)
+	..() //qdels us and removes us from processing objects
 
 /obj/machinery/bot/secbot/attack_alien(var/mob/living/carbon/alien/user as mob)
 	..()
