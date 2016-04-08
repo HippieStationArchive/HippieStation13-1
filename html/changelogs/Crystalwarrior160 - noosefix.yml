@@ -1,6 +1,0 @@
-author: Crystalwarrior160
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed noose suicide not detecting chairs properly"
