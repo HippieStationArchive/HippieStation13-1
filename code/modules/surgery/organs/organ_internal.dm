@@ -203,7 +203,6 @@
 		M.apply_damage(5, STAMINA)
 		if(prob(5))
 			M.Weaken(3)
-			M.Stun(3)
 			visible_message("<span class='danger'>The [src.name] smacks [M] right in the face!</span>", 3)
 
 /obj/item/organ/internal/shadowtumor

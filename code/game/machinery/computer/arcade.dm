@@ -515,7 +515,6 @@
 					if(ORION_TRAIL_FLUX)
 						if(prob(75))
 							M.Weaken(3)
-							M.Stun(1)
 							say("A sudden gust of powerful wind slams [M] into the floor!")
 							M.take_organ_damage(25)
 							playsound(src.loc, 'sound/weapons/Genhit.ogg', 100, 1)

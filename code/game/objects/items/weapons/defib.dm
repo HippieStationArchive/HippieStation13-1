@@ -383,7 +383,6 @@
 					"<span class='userdanger'>[user] has touched [H.name] with [src]!</span>")
 			H.adjustStaminaLoss(50)
 			H.Weaken(5)
-			H.Stun(5)
 			H.updatehealth() //forces health update before next life tick
 			playsound(get_turf(src), 'sound/machines/defib_zap.ogg', 50, 1, -1)
 			H.emote("gasp")
@@ -441,7 +440,6 @@
 						HU.apply_damage(50, BURN, "chest")
 						add_logs(user, M, "overloaded the heart of", defib)
 						M.Weaken(5)
-						M.Stun(5)
 						M.Jitter(100)
 						if(req_defib)
 							defib.deductcharge(revivecost)

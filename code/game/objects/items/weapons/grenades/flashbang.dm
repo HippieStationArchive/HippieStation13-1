@@ -34,7 +34,7 @@
 		M.eye_stat += 8
 
 	if(M.flash_eyes(affect_silicon = 1))
-		M.Stun(max(9/distance, 3))
+		M.Stun(max(10/distance, 3))
 		M.Weaken(max(10/distance, 3))
 
 
@@ -43,7 +43,7 @@
 		M.Stun(10)
 		M.Weaken(10)
 	if(!ear_safety)
-		M.Stun(max(9/distance, 3))
+		M.Stun(max(10/distance, 3))
 		M.Weaken(max(10/distance, 3))
 		M.setEarDamage(M.ear_damage + rand(0, 5), max(M.ear_deaf,15))
 		if (M.ear_damage >= 15)

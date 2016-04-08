@@ -39,8 +39,7 @@
 		add_fingerprint(user)
 		if((CLUMSY in user.disabilities) && prob(50))
 			user << "<span class ='danger'>You club yourself over the head.</span>"
-			user.Weaken(3)
-			user.Stun(3)
+			user.Weaken(3 * force)
 			if(ishuman(user))
 				var/mob/living/carbon/human/H = user
 				H.apply_damage(2*force, BRUTE, "head")
@@ -59,7 +58,6 @@
 			if(cooldown <= 0)
 				playsound(get_turf(src), 'sound/effects/woodhit.ogg', 75, 1, -1)
 				target.Weaken(3)
-				target.Stun(3)
 				add_logs(user, target, "stunned", src)
 				src.add_fingerprint(user)
 				target.visible_message("<span class ='danger'>[user] has knocked down [target] with \the [src]!</span>", \

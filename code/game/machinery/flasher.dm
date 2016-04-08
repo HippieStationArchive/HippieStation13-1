@@ -92,10 +92,8 @@
 
 		if(L.flash_eyes(affect_silicon = 1))
 			L.Weaken(strength)
-			L.Stun(strength * 0.5)
 			if(L.weakeyes)
 				L.Weaken(strength * 1.5)
-				L.Stun(strength)
 				L.visible_message("<span class='disarm'><b>[L]</b> gasps and shields their eyes!</span>")
 
 	return 1

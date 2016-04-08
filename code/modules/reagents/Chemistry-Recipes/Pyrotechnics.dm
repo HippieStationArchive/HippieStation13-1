@@ -187,7 +187,6 @@
 		if(C.flash_eyes())
 			if(get_dist(C, location) < 4)
 				C.Weaken(5)
-				C.Stun(3)
 			else
 				C.Stun(5)
 	holder.remove_reagent("flash_powder", created_volume)

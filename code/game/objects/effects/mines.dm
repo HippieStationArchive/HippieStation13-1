@@ -49,7 +49,6 @@
 /obj/effect/mine/stun/mineEffect(mob/victim)
 	if(isliving(victim))
 		victim.Weaken(stun_time)
-		victim.Stun(stun_time)
 
 /obj/effect/mine/kickmine
 	name = "kick mine"

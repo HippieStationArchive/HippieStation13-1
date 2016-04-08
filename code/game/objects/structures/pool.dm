@@ -176,7 +176,6 @@
 												"<span class='userdanger'>You fall in the drained pool!</span>")
 					H.adjustBruteLoss(7)
 					H.Weaken(4)
-					H.Stun(4)
 					H.swimming = 1
 					playsound(src, 'sound/effects/woodhit.ogg', 60, 1, 1)
 				else
@@ -184,7 +183,7 @@
 												"<span class='userdanger'>You fall in the drained pool, and crack your skull!</span>")
 					var/obj/item/organ/limb/O = H.get_organ("head") //NT makes the most dangerous pools : they aim for the head.
 					H.apply_damage(15, BRUTE, O)
-					H.Paralyse(10) // You literally cracked your fuckin skull, ofcourse you'll be unconscious
+					H.Weaken(10) // This should hurt. And it does.
 					H.adjustBrainLoss(30) //herp
 					H.swimming = 1
 					playsound(src, 'sound/effects/woodhit.ogg', 60, 1, 1)
@@ -225,7 +224,6 @@
 										"<span class='userdanger'>You fall in and swallow some water!</span>")
 					playsound(src, 'sound/effects/splash.ogg', 60, 1, 1)
 					H.Weaken(3)
-					H.Stun(3)
 					H.swimming = 1
 
 /obj/structure/pool
@@ -353,7 +351,6 @@
 								var/atom/throw_target = get_edge_target_turf(src, dir)
 								jumper.throw_at(throw_target, 0, 1)
 								jumper.Weaken(5)
-								jumper.Stun(5)
 								jumper.adjustBruteLoss(10)
 
 							if(91 to 100)

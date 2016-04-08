@@ -12,7 +12,7 @@
 	type_of_meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/monkey
 	gib_type = /obj/effect/decal/cleanable/blood/gibs
 	unique_name = 1
-	can_crawl = 1 //Can crawl in crit
+	crit_can_crawl = 1 //Can crawl in crit
 	crit_crawl_damage = 1 //Crawling in crit should apply 1 oxyloss
 	crit_crawl_damage_type = OXY //Just in case
 
@@ -154,7 +154,6 @@
 			playsound(loc, 'sound/weapons/pierce.ogg', 25, 1, -1)
 			if(prob(95))
 				Weaken(10)
-				Stun(10)
 				visible_message("<span class='danger'>[M] has tackled down [name]!</span>", \
 						"<span class='userdanger'>[M] has tackled down [name]!</span>")
 			else

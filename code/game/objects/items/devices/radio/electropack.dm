@@ -116,7 +116,6 @@
 		s.start()
 
 		M.Weaken(5)
-		M.Stun(3)
 
 	if(master)
 		master.receive_signal()

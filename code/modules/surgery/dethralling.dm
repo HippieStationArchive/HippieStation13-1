@@ -27,7 +27,6 @@
 		if(iscarbon(user))
 			var/mob/living/carbon/C = user
 			C.Weaken(6)
-			C.Stun(6)
 			C.apply_damage(20, "brute", "chest")
 		else if(issilicon(user))
 			var/mob/living/silicon/S = user
