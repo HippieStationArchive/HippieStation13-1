@@ -1,8 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Datumized HoG sides/ranks. That means you won't experience a loss of hud on rejoin/cloning anymore."
-  - bugfix: "Nerfed god's smite, it now stuns instead of dealing huge damage."
-  - bugfix: "The bugs of the last test round should've been all fixed, hopefully."

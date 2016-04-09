@@ -284,7 +284,7 @@
 
 		newtonian_move(get_dir(target, src))
 
-		item.throw_at(target, range, throw_speed)
+		item.throw_at(target, range, throw_speed, def_zone = zone_sel.selecting)
 
 /mob/living/carbon/restrained()
 	if (handcuffed)

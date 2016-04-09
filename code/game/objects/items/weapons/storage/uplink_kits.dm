@@ -161,6 +161,16 @@
 	O.update_icon()
 	return
 
+/obj/item/weapon/storage/box/syndie_kit/imp_gmindslave
+	name = "Greater Mindslave Implant (with injector)"
+
+/obj/item/weapon/storage/box/syndie_kit/imp_gmindslave/New()
+	..()
+	var/obj/item/weapon/implanter/O = new(src)
+	O.imp = new /obj/item/weapon/implant/gmindslave(O)
+	O.update_icon()
+	return
+
 
 /obj/item/weapon/storage/box/syndie_kit/caneshotgun
 

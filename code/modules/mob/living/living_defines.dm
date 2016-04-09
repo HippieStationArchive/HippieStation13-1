@@ -1,6 +1,7 @@
 /mob/living
 	see_invisible = SEE_INVISIBLE_LIVING
 	languages = HUMAN
+	hud_possible = list(ANTAG_HUD, ANTAG_HUD_ADMIN)
 
 	//Health and life related vars
 	var/maxHealth = 100 //Maximum health that should be possible.

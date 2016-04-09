@@ -523,8 +523,7 @@
 	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
-	qdel(src)
-	return
+	..() //qdels us and removes us from processing objects
 
 /obj/machinery/bot/medbot/proc/declare(crit_patient)
 	if(declare_cooldown)

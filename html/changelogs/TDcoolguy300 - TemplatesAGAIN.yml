@@ -1,8 +1,0 @@
-author: TDcoolguy300
-
-delete-after: True
-
-changes: 
-  - bugfix: "After spamming the Template controller on a private server, bad templates were removed and random gen has been renabled"
-  - rscadd: "Added a generate-templates button to the panel for admins with logging"
-  - imageadd: "http://puu.sh/nJkdd/c9a089979e.png Proof"
