@@ -456,7 +456,7 @@
 			targets += C
 			continue
 
-		if(C.stat || C.handcuffed || C.lying)	//if the perp is handcuffed or lying or dead/dying, no need to bother really
+		if(C.stat || C.handcuffed || C.stunned)	//if the perp is handcuffed or stunned or dead/dying, no need to bother really
 			continue
 
 		if(ai)	//If it's set to attack all nonsilicons, target them!

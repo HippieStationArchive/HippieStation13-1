@@ -8,4 +8,5 @@ changes:
   - rscremove: "Removed crawl visible message so it doesn't spam chat"
   - tweak: "Slime shock now stuns for half the original duration - this lets you try to crawl away from slimes after a bit."
   - tweak: "Airlock headbutting when retarded stun is 1 tick shorter"
+  - tweak: "AI turrets no longer ignore resting players. Instead, the turrets will check if you are stunned to shoot you. That means if you can start crawling they'll try to shoot you down."
   - experiment: "FOR THE FULL LIST OF AFFECTED ITEMS/STUNS PLEASE VISIT https://github.com/HippieStationCode/HippieStation13/pull/2142"
