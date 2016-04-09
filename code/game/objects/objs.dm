@@ -14,8 +14,6 @@
 	var/burn_world_time //What world time the object will burn up completely
 	var/being_shocked = 0
 
-	var/alternate_screams = list() // This is used to add alternate scream sounds to mobs when equipped
-
 /obj/Destroy()
 	if(!istype(src, /obj/machinery))
 		SSobj.processing.Remove(src) // TODO: Have a processing bitflag to reduce on unnecessary loops through the processing lists

@@ -39,9 +39,9 @@
 	else
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
-			H.remove_screams(src.alternate_screams) // Use the more robust version
+			H.reindex_screams() // Use the more robust version
 		else
-			user.remove_screams(src.alternate_screams)
+			user.reindex_screams()
 
 	return ..()
 

@@ -601,15 +601,10 @@ var/const/GALOSHES_DONT_HELP = 4
 	add_abilities_to_panel()
 
 /mob/living/carbon/proc/add_screams(var/list/screams)
-	if(!alternate_screams)
-		alternate_screams = list()
-
 	if(!screams || screams.len == 0)
 		return
 
-	for(var/S in screams)
-		if(!locate(S) in alternate_screams)
-			alternate_screams += S
+	alternate_screams |= S
 
 /mob/living/carbon/proc/reindex_screams()
 	src.alternate_screams = list()
@@ -621,13 +616,3 @@ var/const/GALOSHES_DONT_HELP = 4
 		add_screams(wear_mask.alternate_screams)
 	if(back)
 		add_screams(back.alternate_screams)
-
-/mob/living/carbon/proc/remove_screams(var/list/screams)
-	if(!alternate_screams)
-		alternate_screams = list()
-
-	for(var/S in screams)
-		if(locate(S) in alternate_screams)
-			alternate_screams -= S
-
-	reindex_screams()
