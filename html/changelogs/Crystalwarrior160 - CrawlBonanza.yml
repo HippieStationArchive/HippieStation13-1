@@ -6,7 +6,6 @@ changes:
   - experiment: "YOU CAN NOW CRAWL WHEN WEAKENED/RESTING! Experimental change, Stun values are subject to change!"
   - rscadd: "You can now crawl while resting"
   - rscremove: "Removed crawl visible message so it doesn't spam chat"
-  - tweak: "Made tazer electrodes only Stun() you on second hit (first hit is weaken - this means you can crawl after being stunned once after a short delay)"
   - tweak: "Slime shock now stuns for half the original duration - this lets you try to crawl away from slimes after a bit."
   - tweak: "Airlock headbutting when retarded stun is 1 tick shorter"
   - experiment: "FOR THE FULL LIST OF AFFECTED ITEMS/STUNS PLEASE VISIT https://github.com/HippieStationCode/HippieStation13/pull/2142"

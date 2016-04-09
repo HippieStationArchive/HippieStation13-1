@@ -34,7 +34,7 @@
 
 		var/stunned = FALSE
 		if(M.status_flags & CANSTUN)
-			M.apply_effect(M.lying ? 5 : 2, STUN, blocked) //2 ticks stun on first stun, more than enough to follow up with a second shot
+			M.apply_effect(4, STUN, blocked)
 			stunned = TRUE
 		if(M.status_flags & CANWEAKEN)
 			M.apply_effect(5, WEAKEN, blocked)
