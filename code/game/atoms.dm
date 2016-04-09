@@ -198,7 +198,7 @@
 /atom/proc/fire_act()
 	return
 
-/atom/proc/hitby(atom/movable/AM, skipcatch, hitpush, blocked)
+/atom/proc/hitby(atom/movable/AM, skipcatch, hitpush, blocked, def_zone)
 	if(AM && density && !has_gravity(AM)) //thrown stuff bounces off dense stuff in no grav.
 		spawn(2)
 			step(AM,  turn(AM.dir, 180))

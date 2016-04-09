@@ -3,6 +3,7 @@
 	var/last_move = null
 	var/anchored = 0
 	var/throwing = 0
+	var/throwing_def_zone = ""
 	var/throw_speed = 2
 	var/throw_range = 7
 	var/mob/pulledby = null
@@ -102,7 +103,7 @@
 	if((A && yes))
 		if(throwing)
 			throwing = 0
-			throw_impact(A)
+			throw_impact(A, throwing_def_zone)
 			. = 1
 			if(!A || qdeleted(A))
 				return
@@ -157,19 +158,20 @@
 /atom/movable/proc/checkpass(passflag)
 	return pass_flags&passflag
 
-/atom/movable/proc/throw_impact(atom/hit_atom)
-	return hit_atom.hitby(src)
+/atom/movable/proc/throw_impact(atom/hit_atom, def_zone)
+	return hit_atom.hitby(src, def_zone=def_zone)
 
 /atom/movable/hitby(atom/movable/AM, skipcatch, hitpush = 1, blocked)
 	if(!anchored && hitpush && AM)
 		step(src, AM.dir)
 	..()
 
-/atom/movable/proc/throw_at(atom/target, range, speed, spin=1, diagonals_first = 0)
+/atom/movable/proc/throw_at(atom/target, range, speed, spin=1, diagonals_first = 0, def_zone)
 	if(!target || !src || (flags & NODROP))	return 0
 	//use a modified version of Bresenham's algorithm to get from the atom's current position to that of the target
 
 	throwing = 1
+	throwing_def_zone = def_zone
 	if(spin) //if we don't want the /atom/movable to spin.
 		SpinAnimation(5, 1)
 
@@ -229,7 +231,7 @@
 			dist_since_sleep = 0
 			sleep(1)
 
-		if(!dist_since_sleep && hitcheck()) //to catch sneaky things moving on our tile during our sleep(1)
+		if(!dist_since_sleep && hitcheck(def_zone)) //to catch sneaky things moving on our tile during our sleep(1)
 			hit = 1
 			break
 
@@ -239,19 +241,19 @@
 		for(var/atom/A in get_turf(src)) //looking for our target on the turf we land on.
 			if(A == target)
 				hit = 1
-				throw_impact(A)
+				throw_impact(A, def_zone)
 				return 1
 
-		throw_impact(get_turf(src))  // we haven't hit something yet and we still must, let's hit the ground.
+		throw_impact(get_turf(src), def_zone)  // we haven't hit something yet and we still must, let's hit the ground.
 	return 1
 
-/atom/movable/proc/hitcheck()
+/atom/movable/proc/hitcheck(def_zone)
 	for(var/atom/movable/AM in get_turf(src))
 		if(AM == src)
 			continue
 		if(AM.density && !(AM.pass_flags & LETPASSTHROW) && !(AM.flags & ON_BORDER))
 			throwing = 0
-			throw_impact(AM)
+			throw_impact(AM,def_zone)
 			return 1
 
 //Overlays

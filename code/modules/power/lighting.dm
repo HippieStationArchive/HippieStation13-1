@@ -588,7 +588,7 @@
 	materials = list(MAT_GLASS=100)
 	brightness = 4
 
-/obj/item/weapon/light/throw_impact(atom/hit_atom)
+/obj/item/weapon/light/throw_impact(atom/hit_atom, def_zone)
 	..()
 	shatter()
 
