@@ -101,6 +101,7 @@
 	if(user && targeted)
 		if(M.weakeyes)
 			M.Weaken(3) //quick weaken bypasses eye protection but has no eye flash
+			H.Stun(3)
 		if(M.flash_eyes(1, 1))
 			M.confused += power
 			terrible_conversion_proc(M, user)

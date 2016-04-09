@@ -85,6 +85,7 @@
 		H << "<span class='userdanger'>You step on the D4!</span>"
 		H.apply_damage(4,BRUTE,(pick("l_leg", "r_leg")))
 		H.Weaken(3)
+		H.Stun(3)
 
 /obj/item/weapon/dice/update_icon()
 	overlays.Cut()

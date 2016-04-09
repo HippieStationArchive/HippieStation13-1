@@ -424,6 +424,7 @@
 		loc = get_turf(hit_atom) //drop at the target's feet
 		if(prob(5))
 			M.Weaken(3)
+			M.Stun(2)
 			visible_message("<span class='danger'>[M] is knocked right off \his feet!</span>", 3)
 
 /obj/structure/holohoop

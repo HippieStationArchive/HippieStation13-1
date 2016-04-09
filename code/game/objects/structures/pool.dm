@@ -193,6 +193,7 @@
 				H.visible_message("<span class='danger'>[H] falls in the drained pool, but had an helmet!</span>",
 									"<span class='userdanger'>You fall in the drained pool, but you had an helmet!</span>")
 				H.Weaken(2)
+				H.Stun(2)
 				H.swimming = 1
 				playsound(src, 'sound/effects/woodhit.ogg', 60, 1, 1)
 
@@ -215,6 +216,7 @@
 										"<span class='userdanger'>You fall in the water!</span>")
 					playsound(src, 'sound/effects/splash.ogg', 60, 1, 1)
 					H.Weaken(1)
+					H.Stun(1)
 					H.swimming = 1
 					return
 				else

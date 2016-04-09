@@ -481,6 +481,7 @@
 			if(isliving(M))
 				var/mob/living/L = M
 				L.Weaken(3)
+				L.Stun(3)
 				if(ishuman(L))
 					shake_camera(L, 20, 1)
 					spawn(20)

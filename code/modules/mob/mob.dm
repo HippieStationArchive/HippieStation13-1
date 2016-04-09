@@ -734,7 +734,7 @@ var/list/slot_equipment_priority = list( \
 	var/buckle_lying = !(buckled && !buckled.buckle_lying)
 	var/grabbed = 0 //Search for grabs within src
 	for(var/obj/item/weapon/grab/G in grabbed_by)
-		if(G.assailant && G.state >= GRAB_NECK && G.affecting == src)
+		if(G.assailant && G.state == GRAB_NECK && G.affecting == src)
 			grabbed = 1
 			break
 	if(ko || weakened || resting || stunned)

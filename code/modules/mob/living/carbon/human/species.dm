@@ -841,7 +841,7 @@
 	var/mspeed = 0
 
 	if(H.lying) //This is done outside of "IGNORESLOWDOWN" checks so meth heads aren't super sanic crawlers
-		mspeed += 15 + (H.status_flags & NEARCRIT ? 10 : 0) //1.5 seconds crawl + take into account the rest of slowdown applied
+		mspeed += 15 + (H.status_flags & NEARCRIT ? 10 : 0) //1.5 seconds crawl + take into account the rest of slowdown applied (unless injected with epipherine/meth)
 
 	if(!(H.status_flags & IGNORESLOWDOWN))
 
