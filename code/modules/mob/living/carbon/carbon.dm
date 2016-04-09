@@ -604,7 +604,8 @@ var/const/GALOSHES_DONT_HELP = 4
 	if(!screams || screams.len == 0)
 		return
 
-	alternate_screams |= S
+	for(var/S in screams)
+		alternate_screams |= S
 
 /mob/living/carbon/proc/reindex_screams()
 	src.alternate_screams = list()
