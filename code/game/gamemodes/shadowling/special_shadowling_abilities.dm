@@ -148,6 +148,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "userel-uae",
 				sleep(1)
 				for(var/mob/living/M in orange(7, user))
 					M.Weaken(10)
+					M.Stun(5)
 					M << "<span class='userdanger'>An immense pressure slams you onto the ground!</span>"
 				world << "<font size=5><span class='shadowling'><b>\"VYSuserA NERADA YEKuserEZET U'RUU!!\"</font></span>"
 				world << 'sound/hallucinations/veryfar_noise.ogg'

@@ -43,6 +43,7 @@
 				target << "<span class='userdanger'>You feel a sharp stabbing pain!</span>"
 				target.take_overall_damage(40)
 				target.Weaken(10) //Long enough for you to absorb them
+				target.Stun(10) //Stun to prevent crawl
 
 		feedback_add_details("changeling_powers","A[stage]")
 		if(!do_mob(user, target, 130)) //13 seconds per stage

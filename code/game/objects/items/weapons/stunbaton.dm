@@ -107,6 +107,7 @@
 		user.visible_message("<span class='danger'>[user] accidentally hits themself with [src]!</span>", \
 							"<span class='userdanger'>You accidentally hit yourself with [src]!</span>")
 		user.Weaken(stunforce*3)
+		user.Stun(stunforce*3)
 		deductcharge(hitcost)
 		return
 
@@ -149,7 +150,7 @@
 	user.lastattacked = L
 	L.lastattacker = user
 
-	L.Stun(stunforce)
+	L.Stun(stunforce * 0.75) //Stun lasts a little shorter so the victim can crawl after a bit
 	L.Weaken(stunforce)
 	L.apply_effect(STUTTER, stunforce)
 

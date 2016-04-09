@@ -209,6 +209,7 @@
 			victim.confused = max(M.confused, 3)
 			victim.damageoverlaytemp = 60
 			victim.Weaken(3)
+			victim.Stun(2)
 			victim.drop_item()
 			return
 		else if ( eyes_covered ) // Eye cover is better than mouth cover
@@ -223,6 +224,7 @@
 			victim.confused = max(M.confused, 6)
 			victim.damageoverlaytemp = 75
 			victim.Weaken(5)
+			victim.Stun(3)
 			victim.drop_item()
 
 /datum/reagent/consumable/condensedcapsaicin/on_mob_life(mob/living/M)

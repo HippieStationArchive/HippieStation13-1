@@ -3,6 +3,7 @@
 		..(user, 1)
 		adjustBruteLoss(5)
 		Weaken(4)
+		Stun(2)
 
 /mob/living/carbon/human/attack_hand(mob/living/carbon/human/M)
 	if(..())	//to allow surgery to return properly.

@@ -92,7 +92,7 @@
 				Weaken(power)
 				if(stuttering < power)
 					stuttering = power
-				Stun(power)
+				Stun(power*0.5) //Slight nerf to slimes- can now crawl away after half as "power" ticks
 				if (prob(stunprob) && M.powerlevel >= 8)
 					adjustFireLoss(M.powerlevel * rand(6,10))
 					updatehealth()

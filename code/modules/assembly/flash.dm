@@ -104,7 +104,7 @@
 		if(M.flash_eyes(1, 1))
 			M.confused += power
 			terrible_conversion_proc(M, user)
-			M.Stun(1)
+			M.Stun(2)
 			M.Weaken(5)
 			visible_message("<span class='disarm'>[user] blinds [M] with the flash!</span>")
 			user << "<span class='danger'>You blind [M] with the flash!</span>"

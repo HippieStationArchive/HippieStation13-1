@@ -121,6 +121,7 @@
 	stored_changeling.loc = get_turf(src)
 	mind.transfer_to(stored_changeling)
 	stored_changeling.Weaken(10)
+	stored_changeling.Stun(10)
 	stored_changeling.status_flags &= ~GODMODE
 	qdel(usr)
 	return 1
