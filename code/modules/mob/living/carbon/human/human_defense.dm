@@ -411,12 +411,13 @@ emp_act
 	else
 		..()
 
-/mob/living/carbon/human/hitby(atom/movable/AM, skipcatch = 0, hitpush = 1, blocked = 0)
+/mob/living/carbon/human/hitby(atom/movable/AM, skipcatch = 0, hitpush = 1, blocked = 0, zone)
 	var/obj/item/I
 	var/throwpower = 30
 	if(istype(AM, /obj/item))
 		I = AM
 		throwpower = I.throwforce
+		zone = ran_zone(I.throwing_def_zone, 65)
 	if(check_shields(throwpower, "\the [AM.name]", AM, 1))
 		hitpush = 0
 		skipcatch = 1
@@ -434,12 +435,13 @@ emp_act
 		if(can_embed(I) || I.assthrown)
 			if((!in_throw_mode || get_active_hand()) && (prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
 				throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
-				var/obj/item/organ/limb/L = pick(organs)
-				L.embedded_objects |= I
-				I.add_blood(src)//it embedded itself in you, of course it's bloody!
-				I.loc = src
-				L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
-				visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
-				hitpush = 0
-				skipcatch = 1 //can't catch the now embedded item
-	return ..(I, skipcatch, hitpush, blocked)
+				var/obj/item/organ/limb/L = get_organ(check_zone(zone))
+				if(istype(L))
+					L.embedded_objects |= I
+					I.add_blood(src)//it embedded itself in you, of course it's bloody!
+					I.loc = src
+					L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
+					visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
+					hitpush = 0
+					skipcatch = 1 //can't catch the now embedded item
+	return ..(I, skipcatch, hitpush, blocked, zone)
