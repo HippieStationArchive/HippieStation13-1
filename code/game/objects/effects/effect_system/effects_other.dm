@@ -115,9 +115,9 @@
 		for(var/mob/M in viewers(1, location))
 			if (prob (50 * amount))
 				M << "<span class='danger'>The explosion knocks you down.</span>"
-				var/rand = rand(1,5)
-				M.Weaken(rand)
-				M.Stun(rand)
+				var/rng = rand(1,5)
+				M.Weaken(rng)
+				M.Stun(rng)
 		return
 	else
 		var/devastation = -1
