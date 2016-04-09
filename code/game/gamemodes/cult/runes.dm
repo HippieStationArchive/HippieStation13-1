@@ -442,7 +442,7 @@ var/list/teleport_other_runes = list()
 					if(M.reagents)
 						M.reagents.add_reagent("hell_water", 10)
 					M.Weaken(5)
-					M.Stun(3)
+					M.Stun(4)
 			fail_invoke()
 			log_game("Summon Nar-Sie rune failed - improper objective")
 			return

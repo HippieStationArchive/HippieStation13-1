@@ -29,6 +29,7 @@
 
 /obj/effect/proc_holder/spell/targeted/inflict_handler/magic_missile
 	amt_weakened = 3
+	amt_stunned = 3
 	amt_dam_fire = 10
 	sound = "sound/magic/MM_Hit.ogg"
 

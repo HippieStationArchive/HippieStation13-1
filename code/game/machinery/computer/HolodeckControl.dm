@@ -442,7 +442,7 @@
 			return
 		G.affecting.loc = src.loc
 		G.affecting.Weaken(5)
-		G.affecting.Stun(3)
+		G.affecting.Stun(4)
 		visible_message("<span class='danger'>[G.assailant] dunks [G.affecting] into \the [src]!</span>", 3)
 		qdel(W)
 		return

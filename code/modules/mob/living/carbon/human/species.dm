@@ -840,6 +840,9 @@
 /datum/species/proc/movement_delay(mob/living/carbon/human/H)
 	var/mspeed = 0
 
+	if(H.lying) //This is done outside of "IGNORESLOWDOWN" checks so meth heads aren't super sanic crawlers
+		mspeed += 15 + (H.status_flags & NEARCRIT ? 10 : 0) //1.5 seconds crawl + take into account the rest of slowdown applied
+
 	if(!(H.status_flags & IGNORESLOWDOWN))
 
 		var/grav = has_gravity(H)
@@ -886,8 +889,6 @@
 				mspeed += 1.5
 			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
 				mspeed += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
-			if(H.lying) //This is for crawling
-				mspeed += 15 + (H.status_flags & NEARCRIT ? 10 : 0) //2 seconds crawl + take into account the rest of slowdown applied
 
 			mspeed += speedmod
 

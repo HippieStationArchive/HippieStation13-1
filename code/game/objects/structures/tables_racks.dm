@@ -309,7 +309,7 @@
 		new /obj/item/weapon/shard(src.loc)
 		qdel(src)
 		user.Weaken(5)
-		user.Stun(3)
+		user.Stun(4)
 
 /*
  * Wooden tables

@@ -75,7 +75,7 @@
 									if(ismob(AM))
 										var/mob/M = AM
 										M.Weaken(5)
-										M.Stun(3)
+										M.Stun(4)
 					else
 						close_animation()
 			break
