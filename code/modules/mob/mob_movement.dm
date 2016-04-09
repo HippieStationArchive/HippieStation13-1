@@ -176,20 +176,20 @@
 				move_delay += config.walk_speed
 		move_delay += mob.movement_delay()
 
-		if(mob.nearcrit && mob.crit_can_crawl) //You can only crawl in nearcrit
-			if(istype(mob, /mob/living))
-				var/mob/living/L = mob
-				if(mob.crit_crawl_damage != 0) // let 'em have their negative values
-					L.apply_damage(mob.crit_crawl_damage, mob.crit_crawl_damage_type)
-			if(mob.dir == WEST)
-				mob.lying = 270
-				mob.update_canmove()
-			else if(mob.dir == EAST)
-				mob.lying = 90
-				mob.update_canmove()
-			playsound(mob.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -4) //Crawling is VERY quiet
-			mob.visible_message("<span class='danger'>[mob] crawls forward!</span>", \
-								"<span class='userdanger'>You crawl forward at the expense of some of your strength.</span>")
+		if(isliving(mob))
+			var/mob/living/L = mob
+			if((L.status_flags & NEARCRIT) && L.crit_can_crawl) //You can only crawl in nearcrit
+				if(L.crit_crawl_damage != 0) // let 'em have their negative values
+					L.apply_damage(L.crit_crawl_damage, L.crit_crawl_damage_type)
+				if(L.dir == WEST)
+					L.lying = 270
+					L.update_canmove()
+				else if(L.dir == EAST)
+					L.lying = 90
+					L.update_canmove()
+				playsound(L.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 20, 1, -4) //Crawling is VERY quiet
+				L.visible_message("<span class='danger'>[L] crawls forward!</span>", \
+									"<span class='userdanger'>You crawl forward at the expense of some of your strength.</span>")
 
 		if(config.Tickcomp)
 			move_delay -= 1.3

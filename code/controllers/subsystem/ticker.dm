@@ -21,12 +21,6 @@ var/datum/subsystem/ticker/ticker
 
 	var/list/datum/mind/minds = list()		//The characters in the game. Used for objective tracking.
 
-		//These bible variables should be a preference
-	var/Bible_icon_state					//icon_state the chaplain has chosen for his bible
-	var/Bible_item_state					//item_state the chaplain has chosen for his bible
-	var/Bible_name							//name of the bible
-	var/Bible_deity_name					//name of chaplin's deity
-
 	var/list/syndicate_coalition = list()	//list of traitor-compatible factions
 	var/list/factions = list()				//list of all factions
 	var/list/availablefactions = list()		//list of factions with openings
