@@ -266,7 +266,7 @@
 "ff" = (/obj/machinery/computer/monitor,/obj/effect/decal/cleanable/blood/gibs,/turf/simulated/floor/plasteel/shuttle,/area/gammaderelict/bridge)
 "fg" = (/obj/machinery/firealarm{dir = 1; pixel_y = -24},/turf/simulated/floor/plasteel/shuttle/white,/area/gammaderelict/grav)
 "fh" = (/obj/machinery/light{dir = 4},/obj/machinery/power/apc{cell_type = 11111; dir = 2; name = "Gamma Derelict Gravity Generator APC"; pixel_x = 1; pixel_y = -24},/obj/structure/cable,/turf/simulated/floor/plating{tag = "icon-panelscorched"; icon_state = "panelscorched"},/area/gammaderelict/grav)
-"fi" = (/obj/structure/sign/radiation,/obj/effect/decal/cleanable/blood/gibs,/obj/effect/anomaly/grav,/turf/simulated/wall/r_wall/rust,/area/gammaderelict/grav)
+"fi" = (/obj/structure/sign/radiation,/obj/effect/decal/cleanable/blood/gibs,/turf/simulated/wall/r_wall/rust,/area/gammaderelict/grav)
 "fj" = (/obj/machinery/computer/teleporter,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/gammaderelict/miscsci)
 "fk" = (/obj/machinery/teleport/station,/obj/machinery/light,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/gammaderelict/miscsci)
 "fl" = (/obj/effect/decal/cleanable/blood/gibs,/obj/machinery/teleport/hub,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/gammaderelict/miscsci)
