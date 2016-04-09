@@ -1,8 +1,0 @@
-author: Esumlogos
-delete-after: True
-changes: 
-  - rscdel: "The reactive teleport armor has been removed from the Research Director's locker. "
-  - rscdel: "The reactive teleport armor is no longer a theft objective for traitors. "
-  - rscadd: "The reactive teleport armor is now researchable at R&D requiring very high research levels. "
-  - rscadd: "The prototype hardsuit is now a a theft objective for traitors.. "
-  - tweak:  "The reactive teleport armor now has a slowdown effect and activates only twenty five percent of the time instead of fifty. "

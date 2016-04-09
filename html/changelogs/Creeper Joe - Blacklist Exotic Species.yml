@@ -1,7 +1,0 @@
-author: Creeper Joe
-
-delete-after: True
-
-changes: 
-  - rscdel: "The following species can no longer be picked trough the Wizard's Magic Mirror: Shadowlings, Thralls, Shadowpeople, Podpeople, Plantpeople, Adamantite Golems, Slimes, Skeletons, Golems, Meeseeks, Zombies, Abductors and Plasamen"
-  - rscdel: "This was done due to certain species having several exploits and unexpected synergies attached to them."

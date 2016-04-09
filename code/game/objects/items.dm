@@ -337,7 +337,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 // afterattack() and attack() prototypes moved to _onclick/item_attack.dm for consistency
 
-/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0)
+/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0, damage = 0)
 	if(prob(final_block_chance))
 		owner.visible_message("<span class='danger'>[owner] blocks [attack_text] with [src]!</span>")
 		return 1
@@ -534,10 +534,11 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	A.hitby(src, 0, itempush)
 	if(mult)
 		throwforce = initial(throwforce)
+		throwing_def_zone = ""
 		mult = 0
 	return
 
-/obj/item/throw_at(atom/target, range, speed, spin=1)
+/obj/item/throw_at(atom/target, range, speed, spin=1, diagonals_first, def_zone)
 	. = ..()
 	throw_speed = initial(throw_speed) //explosions change this.
 

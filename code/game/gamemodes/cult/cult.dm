@@ -17,6 +17,7 @@
 
 /proc/is_convertable_to_cult(datum/mind/mind)
 	if(!istype(mind))	return 0
+	if(!istype(mind.current, /mob/living/carbon)) return 0
 	if(istype(mind.current, /mob/living/carbon/human) && (mind.assigned_role in list("Captain", "Chaplain")))	return 0
 	if(jobban_isbanned(mind.current, "catban")) return 0
 	if(isloyal(mind.current))
@@ -191,6 +192,7 @@
 		cult_mind.current.Paralyse(5)
 		cult += cult_mind
 		cult_mind.current.cult_add_comm()
+		cult_mind.special_role = "Cultist"
 		update_cult_icons_added(cult_mind)
 		cult_mind.current.attack_log += "\[[time_stamp()]\] <span class='danger'>Has been converted to the cult!</span>"
 		return 1

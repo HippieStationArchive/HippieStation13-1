@@ -1,6 +1,0 @@
-author: Creeper Joe
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed the bottle of blood, previously didn't exist"
