@@ -150,7 +150,7 @@
 	user.lastattacked = L
 	L.lastattacker = user
 
-	L.Stun(stunforce * 0.8) //Stun lasts a little shorter so the victim can crawl after a bit
+	L.Stun(stunforce)
 	L.Weaken(stunforce)
 	L.apply_effect(STUTTER, stunforce)
 
