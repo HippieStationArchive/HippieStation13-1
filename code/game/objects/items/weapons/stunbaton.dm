@@ -131,7 +131,7 @@
 			baton_stun(L, user)
 		..()
 
-/obj/item/weapon/melee/baton/throw_impact(atom/A, def_zone)
+/obj/item/weapon/melee/baton/throw_impact(atom/A)
 	..()
 	if(iscarbon(A) && src.loc != A) //This checks if the stun baton's location isn't in the dude's hands or inside him
 		var/mob/living/carbon/H = A

@@ -44,10 +44,10 @@
 		else
 				return 0
 
-/mob/living/hitby(atom/movable/AM, skipcatch, hitpush = 1, blocked = 0, def_zone="chest")
+/mob/living/hitby(atom/movable/AM, skipcatch, hitpush = 1, blocked = 0)
 	if(istype(AM, /obj/item))
 		var/obj/item/I = AM
-		var/zone = ran_zone(def_zone, 65)//Hits a random part of the body, geared towards the def_zone
+		var/zone = ran_zone("chest", 65)//Hits a random part of the body, geared towards the chest
 		var/dtype = BRUTE
 		var/volume = vol_by_throwforce_and_or_w_class(I)
 		if(istype(I,/obj/item/weapon)) //If the item is a weapon...

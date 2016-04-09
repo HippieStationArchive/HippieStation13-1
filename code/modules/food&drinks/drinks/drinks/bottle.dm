@@ -11,10 +11,10 @@
 	var/const/duration = 13 //Directly relates to the 'weaken' duration. Lowered by armor (i.e. helmets)
 	var/isGlass = 1 //Whether the 'bottle' is made of glass or not so that milk cartons dont shatter when someone gets hit by it
 
-/obj/item/weapon/reagent_containers/food/drinks/bottle/throw_impact(atom/target, def_zone)
-	..(target)
+/obj/item/weapon/reagent_containers/food/drinks/bottle/throw_impact(atom/target,mob/thrower)
+	..(target,thrower)
 	SplashReagents(target)
-	smash(target,1)
+	smash(target,thrower,1)
 	return
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/proc/smash(mob/living/target, mob/living/user, ranged = 0)
@@ -25,9 +25,8 @@
 	if(ranged)
 		B.loc = new_location
 	else
-		if(user)
-			user.drop_item()
-			user.put_in_active_hand(B)
+		user.drop_item()
+		user.put_in_active_hand(B)
 	B.icon_state = src.icon_state
 
 	var/icon/I = new('icons/obj/drinks.dmi', src.icon_state)
@@ -287,7 +286,7 @@
 			isGlass = 0
 	return
 
-/obj/item/weapon/reagent_containers/food/drinks/bottle/molotov/throw_impact(atom/target,def_zone)
+/obj/item/weapon/reagent_containers/food/drinks/bottle/molotov/throw_impact(atom/target,mob/thrower)
 	var/firestarter = 0
 	for(var/datum/reagent/R in reagents.reagent_list)
 		for(var/A in accelerants)

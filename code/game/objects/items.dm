@@ -527,17 +527,17 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		if(!findtext(desc, "it looks slightly melted...")) //it looks slightly melted... it looks slightly melted... it looks slightly melted... etc.
 			desc += " it looks slightly melted..." //needs a space at the start, formatting
 
-/obj/item/throw_impact(atom/A, def_zone)
+/obj/item/throw_impact(atom/A)
 	var/itempush = 1
 	if(w_class < 4)
 		itempush = 0 //too light to push anything
-	A.hitby(src, 0, itempush, def_zone=def_zone)
+	A.hitby(src, 0, itempush)
 	if(mult)
 		throwforce = initial(throwforce)
 		mult = 0
 	return
 
-/obj/item/throw_at(atom/target, range, speed, spin=1, def_zone)
+/obj/item/throw_at(atom/target, range, speed, spin=1)
 	. = ..()
 	throw_speed = initial(throw_speed) //explosions change this.
 

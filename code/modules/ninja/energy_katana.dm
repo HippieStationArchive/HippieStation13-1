@@ -24,7 +24,7 @@
 //If we hit the Ninja who owns this Katana, they catch it.
 //Works for if the Ninja throws it or it throws itself or someone tries
 //To throw it at the ninja
-/obj/item/weapon/katana/energy/throw_impact(atom/hit_atom, def_zone)
+/obj/item/weapon/katana/energy/throw_impact(atom/hit_atom)
 	if(ishuman(hit_atom))
 		var/mob/living/carbon/human/H = hit_atom
 		if(istype(H.wear_suit, /obj/item/clothing/suit/space/space_ninja))
