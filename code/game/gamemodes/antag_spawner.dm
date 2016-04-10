@@ -153,11 +153,16 @@
 		return
 
 	reinforcement_to_spawn = input("What type?", "Reinforcement Type", type) as null|anything in possible_types
+	
 	if(!reinforcement_to_spawn)
 		return
 
 	var/list/nuke_candidates = get_candidates(ROLE_OPERATIVE, 3000, "operative")
 	if(nuke_candidates.len > 0)
+		// Check again to make sure!
+		if(!(check_usability(user)))
+			return
+
 		used = 1
 		var/client/C = pick(nuke_candidates)
 		spawn_antag(C, get_turf(src.loc), "syndieborg")
