@@ -166,12 +166,12 @@
 		step(src, AM.dir)
 	..()
 
-/atom/movable/proc/throw_at(atom/target, range, speed, spin=1, diagonals_first = 0, def_zone)
+/atom/movable/proc/throw_at(atom/target, range, speed, spin=1, diagonals_first = 0, zone)
 	if(!target || !src || (flags & NODROP))	return 0
 	//use a modified version of Bresenham's algorithm to get from the atom's current position to that of the target
 
 	throwing = 1
-	throwing_def_zone = def_zone
+	throwing_def_zone = zone
 	if(spin) //if we don't want the /atom/movable to spin.
 		SpinAnimation(5, 1)
 
