@@ -28,6 +28,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 /datum/martial_art/wrestling
 	name = "Wrestling"
 	var/damtype = BRUTE
+	var/cooldown = 0
 
 /datum/martial_art/wrestling/stamina //The safer type of wrassling
 	damtype = STAMINA
@@ -188,6 +189,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(5, WEAKEN)//, armor_block)
+	D.Stun(5)
 	A.SpinAnimation(6,1)
 	D.SpinAnimation(6,1)
 	sleep(3)
@@ -210,6 +212,9 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	return
 
 /datum/martial_art/wrestling/proc/BackhandChop(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
+	if(world.time <= cooldown) //Cannot spam backhand chop
+		return
+	cooldown = world.time + 20
 	D.visible_message("<span class='danger'>[A] backhand chops [D]!</span>", \
 								"<span class='userdanger'>[A] backhand chops [D]!</span>")
 	D.Move(get_step(D,A.dir))
@@ -217,7 +222,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(null, "melee")
 	D.apply_damage(5, damtype, affecting, armor_block)
-	A.changeNext_move(20) //So it's not as spammable
 	playsound(D, 'sound/weapons/push_hard.ogg', 50, 1)
 	add_logs(A, D, "backhand chopped", addition="(Wrassling)")
 	shake_camera(D, 2, 1)
@@ -280,6 +284,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	A.forceMove(D.loc)
 	var/obj/item/organ/limb/affecting = D.get_organ("head")
 	var/armor_block = D.run_armor_check(affecting, "melee")
+	D.Stun(2)
 	D.apply_effect(3, WEAKEN)//, armor_block)
 	D.apply_damage(10, damtype, affecting, armor_block)
 	shake_camera(D, 3, 1) //Chokeslammed into the ground
@@ -315,6 +320,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(5, WEAKEN)//, armor_block)
+	D.Stun(2)
 	D.apply_damage(30, damtype, affecting, armor_block)
 	D.emote("scream")
 	shake_camera(D, 3, 3) //His BACK got broken, shake the fuck out of his screen.
@@ -326,9 +332,9 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 /datum/martial_art/wrestling/proc/TombstonePiledriver(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
 	D.visible_message("<span class='danger'>[A] performs a TOMBSTONE PILEDRIVER on [D]!</span>", \
 								"<span class='userdanger'>[A] performs a TOMBSTONE PILEDRIVER on [D]!</span>")
-	A.AdjustStunned(2) //Keeps the attacker in place. 2 ticks should be enough for us
+	A.Stun(2) //Keeps the attacker in place. 2 ticks should be enough for us
 	A.do_bounce_anim_dir(NORTH, 2, 7, easein = CUBIC_EASING)
-	D.AdjustStunned(2) //Keeps the attacked in place
+	D.Stun(2) //Keeps the attacked in place
 	A.dir = SOUTH
 	D.dir = SOUTH
 	D.forceMove(A.loc)
@@ -360,7 +366,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_damage(40, damtype, affecting, armor_block)
 	D.emote("scream")
-	D.apply_effect(7, PARALYZE) //If you let yourself tombstoned you don't deserve a chance to fight back with superfart.
+	D.apply_effect(7, PARALYZE) //If you let yourself tombstoned you don't deserve a chance to fight back with superfart :^)
 	for(var/mob/M in range(4, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
 			shake_camera(M, 3, 1)
@@ -373,9 +379,9 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 /datum/martial_art/wrestling/proc/CorkscrewElbowDrop(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
 	D.visible_message("<span class='danger'>[A] performs a CORKSCREW ELBOW DROP on [D]!</span>", \
 								"<span class='userdanger'>[A] performs a CORKSCREW ELBOW DROP on [D]!</span>")
-	A.AdjustWeakened(2)
+	A.Weaken(2)
 	A.do_bounce_anim_dir(NORTH, 6, 16, easein = BACK_EASING, easeout = BOUNCE_EASING)
-	D.AdjustStunned(2) //Keeps the attacked in place
+	D.Stun(2) //Keeps the attacked in place
 	for(var/i in list(NORTH, EAST, SOUTH, WEST))
 		if(!A) break
 		A.dir = i
@@ -403,11 +409,11 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 /datum/martial_art/wrestling/proc/Cutter(var/mob/living/carbon/human/A, var/mob/living/carbon/human/D)
 	D.visible_message("<span class='danger'>[A] performs an RKO on [D]!</span>", \
 								"<span class='userdanger'>[A] performs an RKO on [D]!</span>")
-	A.AdjustWeakened(2)
+	A.Weaken(2)
 	A.lying = 270
 	A.pixel_x -= 6
 	A.do_bounce_anim_dir(NORTH, 4, 16, easeout = BOUNCE_EASING)
-	D.AdjustWeakened(2) //Keeps the attacked in place
+	D.Weaken(2) //Keeps the attacked in place
 	D.lying = 90
 	D.pixel_x += 6
 	D.do_bounce_anim_dir(NORTH, 5, 16, easeout = BOUNCE_EASING)
@@ -476,7 +482,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 						"<span class='userdanger'>[A] powerbombs [D] on the [T]!</span>")
 	A.stunned = 999
 	A.do_bounce_anim_dir(NORTH, 4, 10, easein = BACK_EASING, easeout = BOUNCE_EASING)
-	D.AdjustStunned(2)
+	D.Stun(2)
 	D.forceMove(A.loc)
 	D.do_bounce_anim_dir(NORTH, 4, 16, easein = BACK_EASING, easeout = BOUNCE_EASING)
 	playsound(D, 'sound/weapons/raise.ogg', 30, 0, -1)
@@ -488,6 +494,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(6, WEAKEN)//, armor_block)
+	D.Stun(3) //Decent stun
 	D.apply_damage(25, damtype, affecting, armor_block)
 	// D.do_bounce_anim_dir(SOUTH, 4, 2, easein = BOUNCE_EASING)
 	// A.do_bounce_anim_dir(SOUTH, 4, 2, easein = BOUNCE_EASING)
