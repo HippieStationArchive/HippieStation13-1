@@ -35,7 +35,7 @@
 	s.start()
 
 	// new /obj/effect/decal/cleanable/blood/oil(loc)
-	qdel(src)
+	..() //qdels us and removes us from processing objects
 
 /obj/machinery/bot/buttbot/bot_process()
 	if (!..())

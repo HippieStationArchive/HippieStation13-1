@@ -534,10 +534,11 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	A.hitby(src, 0, itempush)
 	if(mult)
 		throwforce = initial(throwforce)
+		throwing_def_zone = ""
 		mult = 0
 	return
 
-/obj/item/throw_at(atom/target, range, speed, spin=1)
+/obj/item/throw_at(atom/target, range, speed, spin=1, diagonals_first, def_zone)
 	. = ..()
 	throw_speed = initial(throw_speed) //explosions change this.
 
