@@ -538,7 +538,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		mult = 0
 	return
 
-/obj/item/throw_at(atom/target, range, speed, spin=1, diagonals_first, def_zone)
+/obj/item/throw_at(atom/target, range, speed, spin=1, diagonals_first, zone)
 	. = ..()
 	throw_speed = initial(throw_speed) //explosions change this.
 
