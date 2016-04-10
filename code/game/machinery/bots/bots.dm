@@ -282,6 +282,7 @@
 			return
 		else if(locate(/obj/item/weapon/bot_upgrade/boost) in upgrades)
 			user << "<span class='warning'>[src] already has that upgrade installed!</span>"
+			return
 		else
 			if(!user.drop_item())
 				return
