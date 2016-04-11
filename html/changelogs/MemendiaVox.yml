@@ -1,7 +1,0 @@
-author: Memendia
-
-delete-after: True
-
-changes: 
-  - rscadd: "readds AI Vox Toggling."
-  - tweak: "If you want to toggle the AI Vox just head to preferences and hit the 'Toggle AI Vox' button."

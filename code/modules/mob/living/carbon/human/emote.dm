@@ -2,7 +2,7 @@
 	var/param = null
 	var/delay = 5
 	var/exception = null
-	if(src.spam_flag == 1)
+	if(spam_flag == 1)
 		return
 	if (findtext(act, "-", 1, null))
 		var/t1 = findtext(act, "-", 1, null)
@@ -21,11 +21,11 @@
 	if(mind)
 		miming=mind.miming
 
-	if(src.stat == 2 && (act != "deathgasp"))
+	if(stat == 2 && (act != "deathgasp"))
 		return
 	switch(act) //Please keep this alphabetically ordered when adding or changing emotes.
 		if ("aflap") //Any emote on human that uses miming must be left in, oh well.
-			if (!src.restrained())
+			if (!restrained())
 				message = "<B>[src]</B> flaps \his wings ANGRILY!"
 				m_type = 2
 
@@ -42,7 +42,7 @@
 				..(act)
 
 		if ("clap","claps")
-			if (!src.restrained())
+			if (!restrained())
 				message = "<B>[src]</B> claps."
 				m_type = 2
 
@@ -60,7 +60,7 @@
 					var/sound = pick('sound/misc/cough1.ogg', 'sound/misc/cough2.ogg', 'sound/misc/cough3.ogg', 'sound/misc/cough4.ogg')
 					if(gender == FEMALE)
 						sound = pick('sound/misc/cough_f1.ogg', 'sound/misc/cough_f2.ogg', 'sound/misc/cough_f3.ogg')
-					playsound(src.loc, sound, 50, 1, 5)
+					playsound(loc, sound, 50, 1, 5)
 					if(status_flags & NEARCRIT)
 						message = "<B>[src]</B> coughs painfuly!"
 					else
@@ -85,7 +85,7 @@
 			if(jobban_isbanned(src, "emote"))
 				src << "You cannot send custom emotes (banned)"
 				return
-			if(src.client)
+			if(client)
 				if(client.prefs.muted & MUTE_IC)
 					src << "You cannot send IC messages (muted)."
 					return
@@ -119,7 +119,7 @@
 
 		if ("dap","daps")
 			m_type = 1
-			if (!src.restrained())
+			if (!restrained())
 				var/M = null
 				if (param)
 					for (var/mob/A in view(1, src))
@@ -137,7 +137,7 @@
 
 		if ("fart")
 			exception = 1
-			var/obj/item/organ/internal/butt/B = locate() in src.internal_organs
+			var/obj/item/organ/internal/butt/B = locate() in internal_organs
 			if(!B)
 				src << "\red You don't have a butt!"
 				return
@@ -163,17 +163,15 @@
 					"is a <b>farting</b> motherfucker!",
 					"<B><font color='red'>f</font><font color='blue'>a</font><font color='red'>r</font><font color='blue'>t</font><font color='red'>s</font></B>")]"
 			spawn(0)
-				spawn(1)
-					for(var/obj/item/weapon/storage/book/bible/Y in range(0))
-						var/obj/effect/lightning/L = new /obj/effect/lightning(get_turf(src.loc))
-						L.layer = 16
-						L.start()
-						playsound(Y,'sound/effects/thunder.ogg', 90, 1)
+				var/obj/item/weapon/storage/book/bible/Y = locate() in get_turf(loc)
+				if(istype(Y))
+					var/obj/effect/lightning/L = new(get_turf(loc))
+					L.start()
+					playsound(Y,'sound/effects/thunder.ogg', 90, 1)
+					spawn(10)
+						gib()
 
-						spawn(10)
-							src.gib()
-						break //This is to prevent multi-gibbening
-				B = locate() in src.internal_organs
+				B = locate() in internal_organs
 				if(B.contents.len)
 					var/obj/item/O = pick(B.contents)
 					var/turf/location = get_turf(B)
@@ -207,14 +205,14 @@
 						B.stored -= O.itemstorevalue
 					B.Remove(src)
 					B.loc = get_turf(src)
-					new /obj/effect/decal/cleanable/blood(src.loc)
-					src.nutrition -= rand(15, 30)
+					new /obj/effect/decal/cleanable/blood(loc)
+					nutrition -= rand(15, 30)
 					visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
 				else
-					src.nutrition -= rand(5, 25)
+					nutrition -= rand(5, 25)
 
 		if ("flap","flaps")
-			if (!src.restrained())
+			if (!restrained())
 				message = "<B>[src]</B> flaps \his wings."
 				m_type = 2
 
@@ -250,7 +248,7 @@
 
 		if ("handshake")
 			m_type = 1
-			if (!src.restrained() && !src.r_hand)
+			if (!restrained() && !r_hand)
 				var/mob/M = null
 				if (param)
 					for (var/mob/A in view(1, src))
@@ -267,7 +265,7 @@
 
 		if ("hug","hugs")
 			m_type = 1
-			if (!src.restrained())
+			if (!restrained())
 				var/M = null
 				if (param)
 					for (var/mob/A in view(1, src))
@@ -291,7 +289,7 @@
 				if(miming)
 					message = "<B>[src]</B> takes a drag from a cigarette and blows \"[M]\" out in smoke."
 				else
-					message = "<B>[src]</B> says, \"[M], please. He had a family.\" [src.name] takes a drag from a cigarette and blows \his name out in smoke."
+					message = "<B>[src]</B> says, \"[M], please. He had a family.\" [name] takes a drag from a cigarette and blows \his name out in smoke."
 					m_type = 2
 
 		if ("me")
@@ -300,11 +298,11 @@
 			if(jobban_isbanned(src, "emote"))
 				src << "You cannot send custom emotes (banned)"
 				return
-			if (src.client)
+			if (client)
 				if (client.prefs.muted & MUTE_IC)
 					src << "<span class='danger'>You cannot send IC messages (muted).</span>"
 					return
-				if (src.client.handle_spam_prevention(message,MUTE_IC))
+				if (client.handle_spam_prevention(message,MUTE_IC))
 					return
 			if (stat)
 				return
@@ -341,12 +339,12 @@
 			m_type = 1
 
 		if ("raise")
-			if (!src.restrained())
+			if (!restrained())
 				message = "<B>[src]</B> raises a hand."
 			m_type = 1
 
 		if ("salute","salutes")
-			if (!src.buckled)
+			if (!buckled)
 				var/M = null
 				if (param)
 					for (var/mob/A in view(1, src))
@@ -369,49 +367,24 @@
 				if (miming)
 					message = "<B>[src]</B> acts out a scream!"
 				else
-					var/DNA = src.dna.species.id
-					var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
-					switch(DNA)
-						if("IPC")
-							sound = "sound/voice/screamsilicon.ogg"
-						if("tarajan")
-							sound = "sound/misc/cat.ogg"
-						if("lizard")
-							sound = "sound/misc/lizard.ogg"
-						if("avian")
-							sound = "sound/misc/caw.ogg"
-						if("skeleton")
-							sound = "sound/misc/skeleton.ogg"
-						if ("moth")
-							sound = "sound/misc/moth.ogg"
-						else
-							if(gender == FEMALE)
-								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
-							if(isalien(src))
-								sound = pick('sound/voice/hiss6.ogg')
-
-					playsound(src.loc, sound, 50, 1, 4, 1.2)
-					message = "<B>[src]</B> screams!"
-					src.adjustOxyLoss(5)
-					m_type = 2
-			delay = 15
+					..(act)
 
 		if ("vomit")
-			if(src.nutrition >= 50)
+			if(nutrition >= 50)
 				message = "<span class='danger'>[src] vomits!</span>"
-				src.nutrition -= 40
-				src.adjustToxLoss(-3)
-				src.adjustBruteLoss(5)
+				nutrition -= 40
+				adjustToxLoss(-3)
+				adjustBruteLoss(5)
 				var/turf/T = get_turf(src)
 				T.add_vomit_floor(src)
 				playsound(src, 'sound/effects/splat.ogg', 50, 1)
 			else
 				message = "<span class='danger'>[src] dry heaves violently!</span>"
-				src.adjustBruteLoss(8)
+				adjustBruteLoss(8)
 				var/sound = pick('sound/misc/cough1.ogg', 'sound/misc/cough2.ogg', 'sound/misc/cough3.ogg', 'sound/misc/cough4.ogg')
 				if(gender == FEMALE)
 					sound = pick('sound/misc/cough_f1.ogg', 'sound/misc/cough_f2.ogg', 'sound/misc/cough_f3.ogg')
-				playsound(src.loc, sound, 50, 1, 5)
+				playsound(loc, sound, 50, 1, 5)
 			m_type = 1
 			delay = 30
 
@@ -430,12 +403,12 @@
 				..(act)
 
 		if ("signal","signals")
-			if (!src.restrained())
+			if (!restrained())
 				var/t1 = round(text2num(param))
 				if (isnum(t1))
-					if (t1 <= 5 && (!src.r_hand || !src.l_hand))
+					if (t1 <= 5 && (!r_hand || !l_hand))
 						message = "<B>[src]</B> raises [t1] finger\s."
-					else if (t1 <= 10 && (!src.r_hand && !src.l_hand))
+					else if (t1 <= 10 && (!r_hand && !l_hand))
 						message = "<B>[src]</B> raises [t1] finger\s."
 			m_type = 1
 
@@ -449,7 +422,7 @@
 					var/sound = pick('sound/misc/malesneeze01.ogg', 'sound/misc/malesneeze02.ogg', 'sound/misc/malesneeze03.ogg')
 					if(gender == FEMALE)
 						sound = pick('sound/misc/femsneeze01.ogg', 'sound/misc/femsneeze02.ogg')
-					playsound(src.loc, sound, 50, 1, 5)
+					playsound(loc, sound, 50, 1, 5)
 					message = "<B>[src]</B> sneezes."
 				m_type = 2
 				..(act)
@@ -466,7 +439,7 @@
 
 		if ("superfart") //how to remove ass
 			exception = 1
-			var/obj/item/organ/internal/butt/B = locate() in src.internal_organs
+			var/obj/item/organ/internal/butt/B = locate() in internal_organs
 			if(!B)
 				src << "\red You don't have a butt!"
 				return
@@ -484,12 +457,11 @@
 			spawn(0)
 				spawn(1)
 					for(var/obj/item/weapon/storage/book/bible/Y in range(0))
-						var/obj/effect/lightning/L = new /obj/effect/lightning(get_turf(src.loc))
-						L.layer = 16
+						var/obj/effect/lightning/L = new(get_turf(loc))
 						L.start()
 						playsound(Y,'sound/effects/thunder.ogg', 90, 1)
 						spawn(10)
-							src.gib()
+							gib()
 						break //This is to prevent multi-gibbening
 				sleep(4)
 				for(var/i = 1, i <= 10, i++)
@@ -525,22 +497,22 @@
 				B.Remove(src)
 				B.loc = get_turf(src)
 				if(B.loose) B.loose = 0
-				new /obj/effect/decal/cleanable/blood(src.loc)
-				src.nutrition -= 500
+				new /obj/effect/decal/cleanable/blood(loc)
+				nutrition -= 500
 				switch(fart_type)
 					if(1)
 						for(var/mob/living/M in range(0))
 							if(M != src)
 								visible_message("\red <b>[src]</b>'s ass blasts <b>[M]</b> in the face!", "\red You ass blast <b>[M]</b>!")
-								M.apply_damage(75,"brute","head")
-								add_logs(src, M, "superfarted on", object=null, addition=" (DAMAGE DEALT: 75)")
+								M.apply_damage(50,"brute","head")
+								add_logs(src, M, "superfarted on", object=null, addition=" (DAMAGE DEALT: 50)")
 
 						visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
 
 					if(2)
 						visible_message("\red <b>[src]</b> rips their ass apart in a massive explosion!", "\red Holy shit, your butt goes supernova!")
-						explosion(src.loc, 0, 1, 3, adminlog = 0, flame_range = 3)
-						src.gib()
+						explosion(loc, 0, 1, 3, adminlog = 0, flame_range = 3)
+						gib()
 
 					if(3)
 						var/startx = 0
@@ -551,29 +523,29 @@
 
 						switch(startside)
 							if(NORTH)
-								starty = src.loc
-								startx = src.loc
+								starty = loc
+								startx = loc
 								endy = 38
 								endx = rand(41, 199)
 							if(EAST)
-								starty = src.loc
-								startx = src.loc
+								starty = loc
+								startx = loc
 								endy = rand(38, 187)
 								endx = 41
 							if(SOUTH)
-								starty = src.loc
-								startx = src.loc
+								starty = loc
+								startx = loc
 								endy = 187
 								endx = rand(41, 199)
 							else
-								starty = src.loc
-								startx = src.loc
+								starty = loc
+								startx = loc
 								endy = rand(38, 187)
 								endx = 199
 
 						//ASS BLAST USA
 						visible_message("\red <b>[src]</b> blows their ass off with such force, they explode!", "\red Holy shit, your butt flies off into the galaxy!")
-						src.gib() //can you belive I forgot to put this here?? yeah you need to see the message BEFORE you gib
+						gib() //can you belive I forgot to put this here?? yeah you need to see the message BEFORE you gib
 						new /obj/effect/immovablerod/butt(locate(startx, starty, 1), locate(endx, endy, 1))
 						priority_announce("What the fuck was that?!", "General Alert")
 
@@ -616,9 +588,9 @@
 	if (message)
 		log_emote("[name]/[key] : [message]")
 		if(!exception)
-			src.spam_flag = 1
+			spam_flag = 1
 			spawn(delay)
-				src.spam_flag = 0
+				spam_flag = 0
 
  //Hearing gasp and such every five seconds is not good emotes were not global for a reason.
  // Maybe some people are okay with that.

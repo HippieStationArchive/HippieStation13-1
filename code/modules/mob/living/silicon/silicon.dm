@@ -14,7 +14,7 @@
 	var/designation = ""
 	var/radiomod = "" //Radio character used before state laws/arrivals announce to allow department transmissions, default, or none at all.
 	var/obj/item/device/camera/siliconcam/aicamera = null //photography
-	hud_possible = list(ANTAG_HUD, DIAG_STAT_HUD, DIAG_HUD)
+	hud_possible = list(ANTAG_HUD, DIAG_STAT_HUD, DIAG_HUD, ANTAG_HUD_ADMIN)
 
 	var/obj/item/device/radio/borg/radio = null //AIs dont use this but this is at the silicon level to advoid copypasta in say()
 
