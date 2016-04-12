@@ -220,7 +220,7 @@
 
 /datum/reagent/medicine/styptic_powder/on_mob_life(mob/living/M)
 	M.adjustBruteLoss(-2*REM)
-	M.adjustBloodLoss(-1*REM)
+	M.adjustBloodLoss(-0.01*REM)
 	..()
 
 /datum/reagent/medicine/salglu_solution
@@ -261,7 +261,6 @@
 		var/mob/living/carbon/N = M
 		N.hal_screwyhud = 5
 	M.adjustBruteLoss(-0.25*REM)
-	M.adjustBloodLoss(-0.05*REM)
 	M.adjustFireLoss(-0.25*REM)
 	..()
 
@@ -330,7 +329,7 @@
 	M.adjustToxLoss(-0.5*REM)
 	M.adjustOxyLoss(-0.5*REM)
 	M.adjustBruteLoss(-0.5*REM)
-	M.adjustBloodLoss(-0.1*REM)
+	M.adjustBloodLoss(-0.01*REM)
 	M.adjustFireLoss(-0.5*REM)
 	..()
 	return
@@ -644,7 +643,6 @@
 	if(M.health < 0)
 		M.adjustToxLoss(-2*REM)
 		M.adjustBruteLoss(-2*REM)
-		M.adjustBloodLoss(-1*REM)
 		M.adjustFireLoss(-2*REM)
 		M.adjustOxyLoss(-5*REM)
 	M.losebreath = 0
@@ -671,7 +669,6 @@
 	if(M.health < 0)
 		M.adjustToxLoss(-0.5*REM)
 		M.adjustBruteLoss(-0.5*REM)
-		M.adjustBloodLoss(-0.1*REM)
 		M.adjustFireLoss(-0.5*REM)
 	if(M.oxyloss > 35)
 		M.setOxyLoss(35)
