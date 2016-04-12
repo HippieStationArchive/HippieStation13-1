@@ -16,7 +16,7 @@
 	user.SetStunned(0)
 	user.SetWeakened(0)
 	user.radiation = 0
-	user.heal_overall_damage(user.getBruteLoss(), user.getFireLoss())
+	user.heal_overall_damage(user.getBruteLoss(), user.getFireLoss(), user.getBloodLoss())
 	user.reagents.clear_reagents()
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
