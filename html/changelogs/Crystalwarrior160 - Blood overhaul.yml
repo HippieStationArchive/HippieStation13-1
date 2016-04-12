@@ -12,3 +12,4 @@ changes:
   - tweak: "IV drips have been sped up slightly to restore 15u of blood instead of 10u every tick"
   - tweak: "If your limb has 0 brute damage it will no longer have bloodloss"
   - tweak: "Cautery and Welding Tool both can close up bleeding wounds. Completely healing the brute damage on a limb will also remove bloodloss."
+  - rscadd: "Added +1 of each bloodpack to surgery so you don't run out so fucking quickly"
