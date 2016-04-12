@@ -44,19 +44,19 @@
 	var/list/randomcards = list()
 	while (randomcards.len < decksize)
 		randomcards += pick_n_take(possiblecards)
-	for(var/i=1 to randomcards.len)
+	for(var/i in 1 to randomcards.len)
 		var/cardtext = randomcards[i]
 		cards += "[cardtext]"
 	if(!blanks)
 		return
-	for(var/x=1 to blanks)
+	for(var/x in 1 to blanks)
 		cards += "Blank Card"
 
 /obj/item/toy/cards/deck/cas/attack_hand(mob/user)
 	if(user.lying)
 		return
 	var/choice = null
-	if(cards.len == 0)
+	if(!cards.len)
 		user << "<span class='warning'>There are no more cards to draw!</span>"
 		return
 	var/obj/item/toy/cards/singlecard/cas/H = new/obj/item/toy/cards/singlecard/cas(user.loc)
@@ -69,7 +69,7 @@
 		H.blank = 1
 	H.parentdeck = src
 	H.icon_state = "singlecard_[deckstyle]"
-	src.cards -= choice
+	cards -= choice
 	H.pickup(user)
 	user.put_in_hands(H)
 	user.visible_message("[user] draws a card from the deck.", "<span class='notice'>You draw a card from the deck.</span>")
@@ -78,6 +78,8 @@
 /obj/item/toy/cards/deck/cas/update_icon()
 	if(cards.len < 26)
 		icon_state = "deck_[deckstyle]_low"
+	else if(!cards.len)
+		icon_state = "deck_[deckstyle]_empty"
 
 /obj/item/toy/cards/singlecard/cas
 	name = "CAS card"
@@ -88,7 +90,7 @@
 /obj/item/toy/cards/singlecard/cas/examine(mob/user)
 	if(ishuman(user))
 		if(in_range(user, src))
-			user << "<span class='notice'>The card reads: [src.cardname]</span>"
+			user << "<span class='notice'>The card reads: [cardname]</span>"
 		else
 			user << "<span class='warning'>You need to get closer to check the card!</span>"
 
@@ -100,7 +102,7 @@
 		if(!blank)
 			user << "You cannot write on that card."
 			return
-		var/cardtext = sanitize(input(user, "What do you wish to write on the card?", "Card Writing") as text|null, 50)
+		var/cardtext = stripped_input(user, "What do you wish to write on the card?", "Card Writing", "", 50)
 		if(!cardtext)
 			return
 		cardname = cardtext

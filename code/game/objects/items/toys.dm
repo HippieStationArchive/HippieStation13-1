@@ -791,7 +791,7 @@
 		icon_state = "deck_[deckstyle]_half"
 	else if(cards.len > 0)
 		icon_state = "deck_[deckstyle]_low"
-	else if(cards.len == 0)
+	else if(!cards.len)
 		icon_state = "deck_[deckstyle]_empty"
 
 /obj/item/toy/cards/deck/attack_self(mob/user)
