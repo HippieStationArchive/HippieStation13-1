@@ -156,7 +156,7 @@ MASS SPECTROMETER
 											<font color='green'>[round(tox_loss, 0.1)]</font>\t\
 											<font color='blue'>[round(oxy_loss, 0.1)]</font></i></span>"
 			for(var/obj/item/organ/limb/org in damaged)
-				user << "\t<span class='info'>[capitalize(org.getDisplayName())]:\t[length(org.name <= 7 ? "\t":""]\
+				user << "\t<span class='info'>[capitalize(org.getDisplayName())]:\t[length(org.getDisplayName()) <= 7 ? "\t":""]\
 					[(org.brute_dam > 0) ? "<font color='red'>[round(org.brute_dam, 0.1)]</font>" : "<font color='red'>0</font>"]\t\
 					[(org.bloodloss > 0) ? "<font color='#FF6464'>[round(org.bloodloss, 0.1)]</font>" : "<font color='#FF6464'>0</font>"]\t\
 					[(org.burn_dam > 0) ? "<font color='#FF8000'>[round(org.burn_dam, 0.1)]</font>" : "<font color='#FF8000'>0</font>"]</span>"
