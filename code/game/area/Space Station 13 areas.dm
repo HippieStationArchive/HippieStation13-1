@@ -1013,6 +1013,10 @@ var/list/teleportlocs = list()
 	name = "Quartermaster's Office"
 	icon_state = "quart"
 
+/area/outpost/main
+	name = "Outpost Main Hall"	
+	icon_state = "outpmain"
+	
 /area/quartermaster/miningdock
 	name = "Mining Dock"
 	icon_state = "mining"
