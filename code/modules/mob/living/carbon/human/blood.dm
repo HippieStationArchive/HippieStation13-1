@@ -63,17 +63,17 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 							break
 
 				if(!is_vampire(src)) //Vampires do not regenerate their own blood!
-					B.volume += 0.1 //Normal humans -regenerate blood VERY slowly
+					B.volume += 0.2 //Normal humans -regenerate blood VERY slowly
 					if (reagents.has_reagent("nutriment"))	//Getting food speeds it up
 						B.volume += 0.4
 						reagents.remove_reagent("nutriment", 0.1)
 					if (reagents.has_reagent("iron"))	//Hematogen candy anyone?
-						B.volume += 0.4
+						B.volume += 0.6
 						reagents.remove_reagent("iron", 0.1)
 
 		//Effects of bloodloss
 		switch(blood_volume)
-			if(BLOOD_VOLUME_SAFE to 10000)
+			if(BLOOD_VOLUME_SAFE to INFINITY)
 				if(pale)
 					pale = 0
 					update_body()
@@ -108,18 +108,20 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 		//Bleeding out
 		blood_max = 0
 		for(var/obj/item/organ/limb/org in organs)
-			var/brutedamage = org.brute_dam
+			// var/brutedamage = org.brute_dam
+			blood_max += org.bloodloss //Check every organ that's bleeding
 
 			//We want an accurate reading of .len
 			listclearnulls(org.embedded_objects)
 			blood_max += 0.5*org.embedded_objects.len
 
-			if(brutedamage > 30)
-				blood_max += 0.5
-			if(brutedamage > 50)
-				blood_max += 1
-			if(brutedamage > 70)
-				blood_max += 2
+			//Things like this and more are done in organ damage procs instead
+			// if(brutedamage > 30)
+			// 	blood_max += 0.5
+			// if(brutedamage > 50)
+			// 	blood_max += 1
+			// if(brutedamage > 70)
+			// 	blood_max += 2
 		var/obj/item/organ/internal/butt/B = getorgan(/obj/item/organ/internal/butt)
 		if(B in internal_organs)
 			if(B.contents.len)
