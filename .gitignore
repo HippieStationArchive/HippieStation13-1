@@ -2,6 +2,7 @@
 
 #Ignore everything in datafolder and subdirectories
 /data/**/*
+/config/**/*
 
 #Ignore compiled files and other files generated during compilation.
 *.dmb
@@ -9,6 +10,5 @@
 *.lk
 *.int
 *.backup
-*.txt
 *.int
 *.db
