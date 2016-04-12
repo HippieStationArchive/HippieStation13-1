@@ -114,8 +114,8 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 			blood_max += org.bloodloss //Check every organ that's bleeding
 
 			//We want an accurate reading of .len
-			listclearnulls(org.embedded_objects)
-			blood_max += 0.5*org.embedded_objects.len
+			// listclearnulls(org.embedded_objects)
+			// blood_max += 0.5*org.embedded_objects.len //Let's instead add bloodloss where pain is handled.
 
 			//Things like this and more are done in organ damage procs instead
 			// if(brutedamage > 30)

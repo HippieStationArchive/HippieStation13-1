@@ -333,6 +333,8 @@
 	for(var/obj/item/organ/limb/L in organs)
 		for(var/obj/item/I in L.embedded_objects)
 			if(I.loc == src)
+				if(prob(35)) //decent probability to get increased bleeding
+					L.take_damage(bleed=0.1)
 				if(prob(I.embedded_pain_chance))
 					L.take_damage(I.w_class*I.embedded_pain_multiplier)
 					src << "<span class='userdanger'>\the [I] embedded in your [L.getDisplayName()] hurts!</span>"
