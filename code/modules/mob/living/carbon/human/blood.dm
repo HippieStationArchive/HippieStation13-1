@@ -63,7 +63,7 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 							break
 
 				if(!is_vampire(src)) //Vampires do not regenerate their own blood!
-					B.volume += 0.2 //Normal humans -regenerate blood VERY slowly
+					B.volume += 0.1 //Normal humans -regenerate blood VERY slowly
 					if (reagents.has_reagent("nutriment"))	//Getting food speeds it up
 						B.volume += 0.4
 						reagents.remove_reagent("nutriment", 0.1)
@@ -109,6 +109,8 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 		blood_max = 0
 		for(var/obj/item/organ/limb/org in organs)
 			// var/brutedamage = org.brute_dam
+			if(org.brute_dam <= 0) //Let's close up the bleeding wounds if the organ doesn't have any brute damage
+				org.bloodloss = 0 //Doing this here is quite hacky but eh
 			blood_max += org.bloodloss //Check every organ that's bleeding
 
 			//We want an accurate reading of .len

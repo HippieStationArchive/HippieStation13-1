@@ -257,17 +257,24 @@
 
 	var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
 
-	if(affecting.status == ORGAN_ROBOTIC && user.a_intent != "harm")
-		if(src.remove_fuel(1))
-			playsound(loc, 'sound/items/Welder.ogg', 50, 1)
-			user.visible_message("<span class='notice'>[user] starts to fix some of the dents on [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You start fixing some of the dents on [H]'s [affecting.getDisplayName()].</span>")
-			if(!do_mob(user, H, 50))	return
-			item_heal_robotic(H, user, 5, 0)
+	if(user.a_intent != "harm")
+		if(affecting.status == ORGAN_ORGANIC && affecting.bloodloss > 0)
+			if(src.remove_fuel(1))
+				playsound(loc, 'sound/items/Welder.ogg', 50, 1)
+				user.visible_message("<span class='notice'>[user] starts to close up wounds on [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You start closing up wounds on [H]'s [affecting.getDisplayName()].</span>")
+				if(!do_mob(user, H, 50))	return
+				user.visible_message("<span class='notice'>[user] has closed up wounds [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You closed up wounds on [H]'s [affecting.getDisplayName()].</span>")
+				affecting.heal_damage(bleed=affecting.bloodloss)
+				affecting.take_damage(burn=10) //Quite harsh tradeoff
 			return
-		else
-			return
-	else
-		return ..()
+		else if(affecting.status == ORGAN_ROBOTIC && affecting.get_damage() > 0)
+			if(src.remove_fuel(1))
+				playsound(loc, 'sound/items/Welder.ogg', 50, 1)
+				user.visible_message("<span class='notice'>[user] starts to fix some of the dents on [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You start fixing some of the dents on [H]'s [affecting.getDisplayName()].</span>")
+				if(!do_mob(user, H, 50))	return
+				item_heal_robotic(H, user, 5, 0)
+			return //It's neither organic or robotic... ...then what the hell is it!?
+	return ..()
 
 /obj/item/weapon/weldingtool/process()
 	switch(welding)

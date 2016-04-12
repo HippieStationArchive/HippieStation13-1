@@ -386,7 +386,7 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 			affecting.heal_damage(brute,burn,robotic=1)
 			H.update_damage_overlays(0)
 			H.updatehealth()
-			user.visible_message("[user] has fixed some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting.getDisplayName()].", "<span class='notice'>You fix some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting.getDisplayName()].</span>")
+			user.visible_message("<span class='notice'>[user] has fixed some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You fix some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting.getDisplayName()].</span>")
 			return
 		else
 			user << "<span class='warning'>[H]'s [affecting.getDisplayName()] is already in good condition!</span>"
