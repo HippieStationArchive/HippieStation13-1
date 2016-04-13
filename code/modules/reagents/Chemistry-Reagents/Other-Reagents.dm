@@ -131,7 +131,7 @@
 	var/CT = cooling_temperature
 	if(reac_volume >= 10)
 		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
-		T.MakeSlippery(1, time)
+		T.MakeSlippery(TURF_WET_WATER, time)
 
 	for(var/mob/living/simple_animal/slime/M in T)
 		M.apply_water()
@@ -267,7 +267,7 @@
 	if (!istype(T)) return
 	if(reac_volume >= 10)
 		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
-		T.MakeSlippery(2, time)
+		T.MakeSlippery(TURF_WET_LUBE, time)
 
 /datum/reagent/spraytan
 	name = "Spray Tan"
