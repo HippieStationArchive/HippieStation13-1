@@ -1,0 +1,7 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes:
+  - tweak: "The Plasma Fist scroll now costs 2 instead of 1."
+  - tweak: "The Wizard's Lightning Bolt charges twice as fast."
