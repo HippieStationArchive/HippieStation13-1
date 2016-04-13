@@ -78,6 +78,7 @@
 	malf.current << "The process takes one minute per APC, during which you cannot interface with any other station objects."
 	malf.current << "Remember: only APCs that are on the station can help you take it over. APCs on other areas, like Mining, will not."
 	malf.current << "When you feel you have enough APCs under your control, you may begin the takeover attempt."
+	malf.current << "<a href=[config.wikiurl]/index.php?title=Guide_to_malfunction>New to malfunction? Click here to be linked to the wiki guide on Malfunction.</a>"
 	return
 
 /datum/game_mode/malfunction/process(seconds)

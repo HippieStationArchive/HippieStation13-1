@@ -351,3 +351,11 @@
 		if(A[i] < B[i])
 			return FALSE
 	. = TRUE
+
+//Deletes all datums in the list and returns amount of deletions.
+/proc/deleteAllInList(list/L)
+	var/dels = 0
+	for(var/datum/i in L)
+		qdel(i)
+		dels++
+	return dels

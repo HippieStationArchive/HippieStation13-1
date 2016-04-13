@@ -1414,6 +1414,55 @@ var/list/teleportlocs = list()
 	icon_state = "storage"
 
 
+// Gamma Vessel
+
+/area/gammaderelict/bridge
+	name = "Gamma Derelict Bridge"
+	icon_state = "bridge"
+
+/area/gammaderelict/captains
+	name = "Gamma Derelict Captains Office"
+	icon_state = "captain"
+
+/area/gammaderelict/comms
+	name = "Gamma Derelict Comms Relay"
+	icon_state = "tcomsatcham"
+
+/area/gammaderelict/command
+	name = "Gamma Derelict Command Deck"
+	icon_state = "meeting"
+
+/area/gammaderelict/central
+	name = "Gamma Derelict Central Hallway"
+	icon_state = "hallC"
+
+/area/gammaderelict/medical
+	name = "Gamma Derelict Medbay"
+	icon_state = "medresearch"
+
+/area/gammaderelict/research
+	name = "Gamma Derelict Research Center"
+	icon_state = "medresearch"
+
+/area/gammaderelict/aft
+	name = "Gamma Derelict Aft Hallway"
+	icon_state = "hallA"
+
+/area/gammaderelict/engine
+	name = "Gamma Derelict Engine Room"
+	icon_state = "engine_smes"
+
+/area/gammaderelict/engistorage
+	name = "Gamma Derelict Engineering Storage"
+	icon_state = "engine"
+
+/area/gammaderelict/miscsci
+	name = "Gamma Derelict Misc Science"
+	icon_state = "medresearch"
+
+/area/gammaderelict/grav
+	name = "Gamma Derelict Gravity Generator"
+	icon_state = "red"
 
 // Telecommunications Satellite
 

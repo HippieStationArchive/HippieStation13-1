@@ -248,37 +248,7 @@
 		return
 
 	if(mode==1)	// AI emoticon
-		switch(emotion)
-			if("Very Happy")
-				set_picture("ai_veryhappy")
-			if("Happy")
-				set_picture("ai_happy")
-			if("Neutral")
-				set_picture("ai_neutral")
-			if("Unsure")
-				set_picture("ai_unsure")
-			if("Confused")
-				set_picture("ai_confused")
-			if("Sad")
-				set_picture("ai_sad")
-			if("BSOD")
-				set_picture("ai_bsod")
-			if("Blank")
-				set_picture("ai_off")
-			if("Problems?")
-				set_picture("ai_trollface")
-			if("Awesome")
-				set_picture("ai_awesome")
-			if("Dorfy")
-				set_picture("ai_urist")
-			if("Facepalm")
-				set_picture("ai_facepalm")
-			if("Friend Computer")
-				set_picture("ai_friend")
-			if("Blue Glow")
-				set_picture("ai_sal")
-			if("Red Glow")
-				set_picture("ai_hal")
+		set_picture("ai_[emotion]")
 
 		return
 

@@ -1,7 +1,0 @@
-author: Carbonhell
-
-delete-after: True
-
-changes: 
-  - bugfix: "Ports a few TG prs,from number 12184 to 12287, most of it is refractoring/bugfixing."
-  - rscadd: "Ports Praetorians from TG, now queens can promote aliens to Praetorians."

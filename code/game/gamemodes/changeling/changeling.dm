@@ -211,6 +211,8 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	for(var/datum/objective/objective in changeling.objectives)
 		changeling.current << "<b>Objective #[obj_count]</b>: [objective.explanation_text]"
 		obj_count++
+
+	changeling.current << "<a href=[config.wikiurl]/index.php?title=Changeling>New to changeling? Click here to be linked to the wiki guide on changelings.</a>"
 	return
 
 /*/datum/game_mode/changeling/check_finished()

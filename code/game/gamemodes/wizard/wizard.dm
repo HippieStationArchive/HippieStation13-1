@@ -121,6 +121,7 @@
 	for(var/datum/objective/objective in wizard.objectives)
 		wizard.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
 		obj_count++
+
 	return
 
 
@@ -166,6 +167,7 @@
 	wizard_mob << "The spellbook is bound to you, and others cannot use it."
 	wizard_mob << "In your pockets you will find a teleport scroll. Use it as needed."
 	wizard_mob.mind.store_memory("<B>Remember:</B> do not forget to prepare your spells.")
+	wizard_mob << "<a href=[config.wikiurl]/index.php?title=Wizard>New to the Wizard Federation? Click here to be linked to the wiki guide on wizards.</a>"
 	wizard_mob.update_icons()
 	return 1
 

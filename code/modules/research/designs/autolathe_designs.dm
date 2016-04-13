@@ -154,30 +154,6 @@
 	build_path = /obj/item/device/pipe_painter
 	category = list("initial", "Misc")
 
-/datum/design/metal
-	name = "Metal"
-	id = "metal"
-	build_type = AUTOLATHE
-	materials = list(MAT_METAL = MINERAL_MATERIAL_AMOUNT)
-	build_path = /obj/item/stack/sheet/metal
-	category = list("initial","Construction")
-
-/datum/design/glass
-	name = "Glass"
-	id = "glass"
-	build_type = AUTOLATHE
-	materials = list(MAT_GLASS = MINERAL_MATERIAL_AMOUNT)
-	build_path = /obj/item/stack/sheet/glass
-	category = list("initial","Construction")
-
-/datum/design/rglass
-	name = "Reinforced glass"
-	id = "rglass"
-	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 1000, MAT_GLASS = MINERAL_MATERIAL_AMOUNT)
-	build_path = /obj/item/stack/sheet/rglass
-	category = list("initial","Construction")
-
 /datum/design/rods
 	name = "Metal rod"
 	id = "rods"

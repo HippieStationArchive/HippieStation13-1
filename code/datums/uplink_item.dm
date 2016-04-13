@@ -135,6 +135,14 @@ var/list/uplink_items = list()
 	cost = 4
 	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Research Director", "Scientist", "Roboticist") //all the labcoat jobs
 
+//MEDICAL
+/datum/uplink_item/job_specific/voodoo
+	name = "Voodoo Doll"
+	desc = "An artifact provided by the Wizard Federation, it allows you to attach any item to it and manipulate anyone who has ever touched said item, be it from moving them around, making them say stuff and stabbing them with objects. The Wizard Federation has notified us that the victim will be made alert of the user's general location if used too aggresively."
+	item = /obj/item/weapon/storage/box/syndie_kit/voodoo
+	cost = 10
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist")
+
 //SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
@@ -457,6 +465,12 @@ var/list/uplink_items = list()
 	name = "Tactical Gloves"
 	desc = "Comfortable grey gloves with the CQC martial art inside."
 	item = /obj/item/clothing/gloves/cqc
+	cost = 12
+
+/datum/uplink_item/dangerous/wrestling
+	name = "Wrestling Belt"
+	desc = "A powerful wrestling moveset given to you via championship belt."
+	item = /obj/item/weapon/storage/belt/champion/wrestling
 	cost = 12
 
 /datum/uplink_item/dangerous/reinforcement
@@ -1063,12 +1077,17 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/implants/mindslave
 	name = "Mindslave Implant"
-	desc = "An implant injected into another body, forcing the vitcim to obey any command by the user for around 15 to 20 mintues."
+	desc = "An implant injected into another body, forcing the victim to obey any command by the user for around 15 to 20 mintues."
 	excludefrom = list(/datum/game_mode/nuclear)
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_mindslave
 	cost = 9
 	surplus = 20
-
+	
+/datum/uplink_item/implants/greatermindslave
+	name = "Greater Mindslave Implant"
+	desc = "An implant injected into another body, forcing the victim to obey any command by the user, it does not expire like a regular mindslave implant."
+	item = /obj/item/weapon/storage/box/syndie_kit/imp_gmindslave
+	cost = 16
 
 //CYBERNETIC IMPLANTS
 

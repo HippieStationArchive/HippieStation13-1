@@ -36,8 +36,8 @@
 	if(..())
 		return
 	if(istype(C, /obj/item/weapon/shovel))
-		new /obj/item/weapon/ore/glass(src)
-		new /obj/item/weapon/ore/glass(src) //Make some sand if you shovel grass
+		new /obj/item/weapon/ore/sand(src)
+		new /obj/item/weapon/ore/sand(src) //Make some sand if you shovel grass
 		user << "<span class='notice'>You shovel the grass.</span>"
 		make_plating()
 

@@ -121,7 +121,7 @@
 	var/output
 	for(var/c in D.materials)
 		if(c in materials.materials)
-			output += "[i?" | ":null][get_resource_cost_w_coeff(D,c)] [material2name(c)]"
+			output += "[i?" | ":null][get_resource_cost_w_coeff(D,c)] [materials.material2name(c)]"
 			i++
 	return output
 
@@ -129,7 +129,7 @@
 	var/output
 	for(var/resource in materials.materials)
 		var/amount = materials.amount(resource)
-		output += "<span class=\"res_name\">[material2name(resource)]: </span>[amount] cm&sup3;"
+		output += "<span class=\"res_name\">[materials.material2name(resource)]: </span>[amount] cm&sup3;"
 		if(amount>0)
 			output += "<span style='font-size:80%;'>- Remove \[<a href='?src=\ref[src];remove_mat=1;material=[resource]'>1</a>\] | \[<a href='?src=\ref[src];remove_mat=10;material=[resource]'>10</a>\] | \[<a href='?src=\ref[src];remove_mat=50;material=[resource]'>All</a>\]</span>"
 		output += "<br/>"
@@ -417,9 +417,9 @@
 
 		var/removed = materials.retrieve_sheets(amount, material)
 		if(!removed)
-			temp = "Not enough [material2name(material)] to produce a sheet."
+			temp = "Not enough [materials.material2name(material)] to produce a sheet."
 		else
-			temp = "Ejected [removed] of [material2name(material)]"
+			temp = "Ejected [removed] of [materials.material2name(material)]"
 		temp += "<br><a href='?src=\ref[src];clear_temp=1'>Return</a>"
 
 	updateUsrDialog()
@@ -459,9 +459,6 @@
 		updateUsrDialog()
 		overlays -= "fab-load-[sname]" //No matter what the overlay shall still be deleted
 		return
-
-/obj/machinery/mecha_part_fabricator/proc/material2name(ID)
-	return copytext(ID,2)
 
 /obj/machinery/mecha_part_fabricator/emag_act()
 	emag()
