@@ -11,11 +11,14 @@
 	if(!user)
 		return 0
 	if(!password)
-		var/pass = stripped_input(user,"Please input a new password for this keypad.","Set Password", max_length = 6)
+		var/pass = input(user,"Please input a new password for this keypad.","Set Password") as null|num
 		if(!pass)
 			return
 		if(!isnum(pass))
 			user << "<span class='warning>The password must be a number!</span>"
+			return
+		if(length(pass) > 6)
+			user << "<span class='warning>The password cannot be longer than 6 digits!</span>"
 			return
 		password = pass
 		user << "<span class='notice'>You have set \the [src]'s password to [password].</span>"
