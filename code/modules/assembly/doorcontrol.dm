@@ -1,3 +1,5 @@
+var/global/list/restricted_ids = list() //List of IDs that cannot be custom-set to - the list is added to in buttons.dm
+
 /obj/item/device/assembly/control
 	name = "blast door controller"
 	desc = "A small electronic device able to control a blast door remotely."

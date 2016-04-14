@@ -12,7 +12,7 @@
 
 /obj/item/device/assembly/timer/New()
 	..()
-	SSobj.processing |= src
+	SSobj.processing.Add(src)
 
 /obj/item/device/assembly/timer/describe()
 	if(timing)
@@ -30,7 +30,7 @@
 /obj/item/device/assembly/timer/toggle_secure()
 	secured = !secured
 	if(secured)
-		SSobj.processing |= src
+		SSobj.processing.Add(src)
 	else
 		timing = 0
 		SSobj.processing.Remove(src)
@@ -51,7 +51,8 @@
 
 /obj/item/device/assembly/timer/process()
 	if(timing)
-		time--
+		playsound(get_turf(src), 'sound/items/timer.ogg', 40, 0)
+		time -= 2 //since ticks take 2 seconds
 		if(time <= 0)
 			timing = 0
 			timer_end()
