@@ -6,7 +6,7 @@ var/global/list/restricted_ids = list() //List of IDs that cannot be custom-set 
 	icon_state = "control"
 	origin_tech = "magnets=1;programming=2"
 	attachable = 1
-	var/id = null
+	var/id = "generic"
 	var/can_change_id = 0
 
 /obj/item/device/assembly/control/examine(mob/user)
@@ -14,6 +14,16 @@ var/global/list/restricted_ids = list() //List of IDs that cannot be custom-set 
 	if(id)
 		user << "It's channel ID is '[id]'."
 
+/obj/item/device/assembly/control/interact(mob/user)
+	if(is_secured(user) && can_change_id)
+		var/new_id = stripped_input(user,"Please input a new ID for this assembly.","Set ID", max_length = MAX_NAME_LEN) as null|text
+		if(!new_id)
+			return
+		for(var/t in restricted_ids)
+			if(id == t)
+				user << "<span class='warning'>WARNING: Selected ID is restricted!</span>"
+				return
+		id = new_id
 
 /obj/item/device/assembly/control/activate()
 	cooldown = 1
@@ -34,7 +44,7 @@ var/global/list/restricted_ids = list() //List of IDs that cannot be custom-set 
 /obj/item/device/assembly/control/airlock
 	name = "airlock controller"
 	desc = "A small electronic device able to control an airlock remotely."
-	id = "badmin" // Set it to null for MEGAFUN.
+	id = "generic" // Set it to null for MEGAFUN.
 	var/specialfunctions = OPEN
 	/*
 	Bitflag, 	1= open (OPEN)

@@ -311,13 +311,10 @@
 		return
 
 	use_power(5)
-	icon_state = "[skin]1"
+	flick("[skin]1", src)
 
 	if(device)
 		device.pulsed()
-
-	spawn(15)
-		update_icon()
 
 /obj/machinery/emagproof_button/power_change()
 	..()

@@ -41,7 +41,7 @@
 	..()
 
 /obj/item/device/assembly/health/HasProximity(mob/living/M)
-	if(!secured || !scanning || cooldown > 0) return
+	if(!secured || !scanning || cooldown > 0)
 		return
 	if(!istype(M))
 		return
