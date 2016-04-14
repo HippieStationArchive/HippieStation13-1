@@ -1,0 +1,6 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - bugfix: "Readapting no longer breaks hivemind chat."
