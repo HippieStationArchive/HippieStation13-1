@@ -12,7 +12,7 @@
 
 /obj/item/device/assembly/timer/New()
 	..()
-	SSobj.processing.Add(src)
+	SSobj.processing |= src
 
 /obj/item/device/assembly/timer/describe()
 	if(timing)
@@ -30,7 +30,7 @@
 /obj/item/device/assembly/timer/toggle_secure()
 	secured = !secured
 	if(secured)
-		SSobj.processing.Add(src)
+		SSobj.processing |= src
 	else
 		timing = 0
 		SSobj.processing.Remove(src)

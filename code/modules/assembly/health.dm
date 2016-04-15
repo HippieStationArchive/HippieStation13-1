@@ -21,7 +21,7 @@
 /obj/item/device/assembly/health/toggle_secure()
 	secured = !secured
 	if(secured && scanning)
-		SSobj.processing.Add(src)
+		SSobj.processing |= src
 	else
 		scanning = 0
 		SSobj.processing.Remove(src)
@@ -31,12 +31,6 @@
 /obj/item/device/assembly/health/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(istype(W, /obj/item/device/multitool))
 		alarm_health = Clamp(input(user,"Input health variable to detect from -90 to 80 (0 is crit state, 80 is hurt, -90 is death)",src,0) as num, -90, 80)
-		// if(alarm_health == 0)
-		// 	alarm_health = -90
-		// 	user.show_message("You toggle [src] to \"detect death\" mode.")
-		// else
-		// 	alarm_health = 0
-		// 	user.show_message("You toggle [src] to \"detect critical state\" mode.")
 		return
 	..()
 

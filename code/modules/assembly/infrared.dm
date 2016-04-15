@@ -13,7 +13,7 @@
 
 /obj/item/device/assembly/infra/New()
 	..()
-	SSobj.processing.Add(src)
+	SSobj.processing |= src
 
 /obj/item/device/assembly/infra/Destroy()
 	if(first)
@@ -32,7 +32,7 @@
 /obj/item/device/assembly/infra/toggle_secure()
 	secured = !secured
 	if(secured)
-		SSobj.processing.Add(src)
+		SSobj.processing |= src
 	else
 		on = 0
 		if(first)
