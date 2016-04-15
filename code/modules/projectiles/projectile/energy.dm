@@ -11,8 +11,9 @@
 	icon_state = "spark"
 	color = "#FFFF00"
 	nodamage = 1
-	stun = 5
-	weaken = 5
+	//These two effects are done manually in on_hit
+	// weaken = 0
+	// stun = 0
 	stutter = 5
 	jitter = 20
 	hitsound = 'sound/weapons/taserhit.ogg'
@@ -24,13 +25,23 @@
 		var/datum/effect_system/spark_spread/sparks = new /datum/effect_system/spark_spread
 		sparks.set_up(1, 1, src)
 		sparks.start()
-	else if(iscarbon(target))
-		var/mob/living/carbon/C = target
-		if(C.dna && C.dna.check_mutation(HULK))
-			C.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ))
-		else if(C.status_flags & CANWEAKEN)
+	else
+		var/mob/living/M = target
+		if(iscarbon(M))
+			var/mob/living/carbon/C = M
+			if(C.dna && C.dna.check_mutation(HULK))
+				C.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ))
+
+		var/stunned = FALSE
+		if(M.status_flags & CANSTUN)
+			M.apply_effect(4, STUN, blocked)
+			stunned = TRUE
+		if(M.status_flags & CANWEAKEN)
+			M.apply_effect(5, WEAKEN, blocked)
+			stunned = TRUE
+		if(stunned)
 			spawn(5)
-				C.do_jitter_animation(jitter)
+				M.do_jitter_animation(jitter)
 
 /obj/item/projectile/energy/electrode/on_range() //to ensure the bolt sparks when it reaches the end of its range if it didn't hit a target yet
 	var/datum/effect_system/spark_spread/sparks = new /datum/effect_system/spark_spread
@@ -122,6 +133,7 @@
 	icon_state = "toxin"
 	damage = 5
 	damage_type = TOX
+	stun = 5
 	weaken = 5
 	range = 7
 
@@ -131,6 +143,7 @@
 	damage = 15
 	damage_type = TOX
 	nodamage = 0
+	stun = 5
 	weaken = 5
 	stutter = 5
 

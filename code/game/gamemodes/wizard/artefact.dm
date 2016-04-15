@@ -509,6 +509,7 @@ var/global/list/multiverse = list()
 		else if(is_pointed(I))
 			target << "<span class='userdanger'>You feel a stabbing pain in [parse_zone(user.zone_sel.selecting)]!</span>"
 			target.Weaken(2)
+			target.Stun(2)
 			GiveHint(target)
 		else if(istype(I,/obj/item/weapon/bikehorn))
 			target << "<span class='userdanger'>HONK</span>"

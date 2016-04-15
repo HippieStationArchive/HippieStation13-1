@@ -224,6 +224,7 @@
 					user.visible_message("<span class='warning'>[user]'s palms flare a bright red against [target]'s temples!</span>")
 					target << "<span class='danger'>A terrible red light floods your mind. You collapse as conscious thought is wiped away.</span>"
 					target.Weaken(12)
+					target.Stun(12)
 					sleep(20)
 					if(isloyal(target))
 						user << "<span class='notice'>They are enslaved by Nanotrasen. You begin to shut down the nanobot implant - this will take some time.</span>"
@@ -561,6 +562,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 				playsound(thrallToRevive, 'sound/machines/defib_zap.ogg', 50, 1)
 				user.Beam(thrallToRevive,icon_state="red_lightning",icon='icons/effects/effects.dmi',time=1)
 				thrallToRevive.Weaken(5)
+				thrallToRevive.Stun(5)
 				thrallToRevive.visible_message("<span class='warning'><b>[thrallToRevive] collapses, their skin and face distorting!</span>", \
 											   "<span class='userdanger'><i>AAAAAAAAAAAAAAAAAAAGH-</i></span>")
 				sleep(20)
@@ -598,6 +600,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 				thrallToRevive.visible_message("<span class='boldannounce'>[thrallToRevive] heaves in breath, dim red light shining in their eyes.</span>", \
 											   "<span class='shadowling'><b><i>You have returned. One of your masters has brought you from the darkness beyond.</b></i></span>")
 				thrallToRevive.Weaken(4)
+				thrallToRevive.Stun(4)
 				thrallToRevive.emote("gasp")
 				playsound(thrallToRevive, "bodyfall", 50, 1)
 			else
@@ -871,6 +874,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			target << "<span class='userdanger'>You are struck by a bolt of lightning!</span>"
 			playsound(target, 'sound/magic/LightningShock.ogg', 50, 1)
 			target.Weaken(8)
+			target.Stun(6)
 			target.take_organ_damage(0,50)
 			user.Beam(target,icon_state="red_lightning",icon='icons/effects/effects.dmi',time=1)
 

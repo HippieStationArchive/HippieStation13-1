@@ -179,6 +179,7 @@ Gunshots/explosions/opening doors/less rare audio (done)
 	update_icon("alienh_pounce")
 	if(A == target)
 		target.Weaken(5)
+		target.Stun(5)
 		target.visible_message("<span class='danger'>[target] flails around wildly.</span>","<span class ='userdanger'>[name] pounces on you!</span>")
 
 /obj/effect/hallucination/xeno_attack

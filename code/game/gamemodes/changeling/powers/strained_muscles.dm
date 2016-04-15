@@ -21,6 +21,7 @@
 		if(stacks >= 10)
 			user << "<span class='danger'>We collapse in exhaustion.</span>"
 			user.Weaken(3)
+			user.Stun(3)
 			user.emote("gasp")
 
 	while(active)
@@ -29,6 +30,7 @@
 			active = !active
 			user << "<span class='notice'>Our muscles relax without the energy to strengthen them.</span>"
 			user.Weaken(2)
+			user.Stun(2)
 			user.status_flags -= GOTTAGOFAST
 			break
 

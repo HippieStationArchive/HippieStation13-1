@@ -324,15 +324,8 @@
 
 
 /obj/structure/table/holotable/attackby(obj/item/weapon/W, mob/user, params)
-	if (istype(W, /obj/item/weapon/grab) && get_dist(src,user)<2)
-		var/obj/item/weapon/grab/G = W
-		if(G.state < GRAB_AGGRESSIVE)
-			user << "<span class='warning'>You need a better grip to do that!</span>"
-			return
-		G.affecting.loc = src.loc
-		G.affecting.Weaken(5)
-		visible_message("<span class='danger'>[G.assailant] puts [G.affecting] on the table.</span>")
-		qdel(W)
+	if (istype(W, /obj/item/weapon/grab))
+		tablepush(W, user)
 		return
 
 	if (istype(W, /obj/item/weapon/wrench))
@@ -431,6 +424,7 @@
 		loc = get_turf(hit_atom) //drop at the target's feet
 		if(prob(5))
 			M.Weaken(3)
+			M.Stun(2)
 			visible_message("<span class='danger'>[M] is knocked right off \his feet!</span>", 3)
 
 /obj/structure/holohoop
@@ -449,6 +443,7 @@
 			return
 		G.affecting.loc = src.loc
 		G.affecting.Weaken(5)
+		G.affecting.Stun(4)
 		visible_message("<span class='danger'>[G.assailant] dunks [G.affecting] into \the [src]!</span>", 3)
 		qdel(W)
 		return

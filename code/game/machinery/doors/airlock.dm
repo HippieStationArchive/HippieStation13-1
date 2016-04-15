@@ -556,7 +556,7 @@ About the new airlock wires panel:
 				H.visible_message("<span class='danger'>[user] headbutts the airlock.</span>", \
 									"<span class='userdanger'>You headbutt the airlock!</span>")
 				var/obj/item/organ/limb/affecting = H.get_organ("head")
-				H.Stun(5)
+				H.Stun(4)
 				H.Weaken(5)
 				if(affecting.take_damage(10, 0))
 					H.update_damage_overlays(0)
@@ -866,6 +866,7 @@ About the new airlock wires panel:
 				user << "<span class='warning'>You slip and [charge] detonates!</span>"
 				charge.ex_act(1)
 				user.Weaken(3)
+				user.Stun(3)
 				return
 			user.visible_message("<span class='notice'>[user] removes [charge] from [src].</span>", \
 								 "<span class='notice'>You gently pry out [charge] from [src] and unhook its wires.</span>")

@@ -107,6 +107,7 @@
 		user.visible_message("<span class='danger'>[user] accidentally hits themself with [src]!</span>", \
 							"<span class='userdanger'>You accidentally hit yourself with [src]!</span>")
 		user.Weaken(stunforce*3)
+		user.Stun(stunforce*3)
 		deductcharge(hitcost)
 		return
 

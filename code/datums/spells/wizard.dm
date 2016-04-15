@@ -29,6 +29,7 @@
 
 /obj/effect/proc_holder/spell/targeted/inflict_handler/magic_missile
 	amt_weakened = 3
+	amt_stunned = 3
 	amt_dam_fire = 10
 	sound = "sound/magic/MM_Hit.ogg"
 
@@ -327,6 +328,7 @@
 			if(istype(AM, /mob/living))
 				var/mob/living/M = AM
 				M.Weaken(5)
+				M.Stun(3)
 				M.adjustBruteLoss(5)
 				M << "<span class='userdanger'>You're slammed into the floor by [user]!</span>"
 		else

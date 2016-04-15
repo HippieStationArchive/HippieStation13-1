@@ -247,8 +247,8 @@
 
 		M.eye_blurry += force/7
 		if(prob(20))
-			M.Paralyse(force / 6)
-			M.Weaken(force / 15)
+			M.Paralyse(force / 15)
+			M.Weaken(force / 6)
 		M.drop_item()
 
 
@@ -271,8 +271,8 @@
 /obj/item/weapon/grown/bananapeel/Crossed(AM as mob|obj)
 	if (istype(AM, /mob/living/carbon))
 		var/mob/living/carbon/M = AM
-		var/stun = Clamp(potency / 10, 1, 10)
-		var/weaken = Clamp(potency / 20, 0.5, 5)
+		var/stun = Clamp(potency / 20, 0.5, 5)
+		var/weaken = Clamp(potency / 10, 1, 10)
 		M.slip(stun, weaken, src)
 		return 1
 

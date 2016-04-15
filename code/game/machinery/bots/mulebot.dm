@@ -755,8 +755,8 @@ var/global/mulebot_count = 0
 			else
 				visible_message("<span class='danger'>[src] knocks over [M]!</span>")
 				M.stop_pulling()
-				M.Stun(8)
-				M.Weaken(5)
+				M.Stun(5)
+				M.Weaken(8)
 	return ..()
 
 /obj/machinery/bot/mulebot/alter_health()

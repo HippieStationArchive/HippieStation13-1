@@ -289,7 +289,7 @@
 				break
 			playsound(D, 'sound/effects/drain_blood.ogg', 10, 0)
 			D.drip(4) //Blood droplets on the floor - signifies where it happened
-			D.Stun(1.1) //The .1 is to make sure they don't have a split second of no stun
+			D.Stun(2)
 			if(!D.silent)
 				D.silent += 1
 			if(D.mind && D.client && !(D.stat == DEAD))

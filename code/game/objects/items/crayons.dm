@@ -197,6 +197,7 @@
 					if(C.check_eye_prot() <= 0) // no eye protection? ARGH IT BURNS.
 						C.confused = max(C.confused, 3)
 						C.Weaken(3)
+						C.Stun(3)
 				if(ishuman(C))
 					var/mob/living/carbon/human/H = C
 					H.lip_style = "spray_face"

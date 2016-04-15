@@ -247,10 +247,12 @@
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
 			L.emote("scream")
 			L.Weaken(5)
+			L.Stun(2)
 			playsound(L.loc, 'sound/misc/crunch.ogg', 70, 1)
 		else if(ismonkey(L)) //For monkeys
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
 			L.Weaken(5)
+			L.Stun(2)
 			playsound(L.loc, 'sound/misc/crunch.ogg', 70, 1)
 		else //for simple_animals & borgs
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)

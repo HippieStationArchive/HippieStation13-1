@@ -15,6 +15,7 @@
 	. = ..()
 	if(hit_atom.density && isturf(hit_atom)) //Bash them into the wall
 		Weaken(1)
+		Stun(1)
 		take_organ_damage(10)
 		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
 		visible_message("<span class='danger'>[src] slams into \the [hit_atom]!</span>", \
@@ -92,7 +93,7 @@
 				Weaken(power)
 				if(stuttering < power)
 					stuttering = power
-				Stun(power)
+				Stun(power*0.5) //Slight nerf to slimes- can now crawl away after half as "power" ticks
 				if (prob(stunprob) && M.powerlevel >= 8)
 					adjustFireLoss(M.powerlevel * rand(6,10))
 					updatehealth()

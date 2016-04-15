@@ -805,6 +805,7 @@
 		if(H.radiation)
 			if (H.radiation > 100)
 				H.Weaken(10)
+				H.Stun(5)
 				H << "<span class='danger'>You feel weak.</span>"
 				H.emote("collapse")
 
@@ -838,6 +839,9 @@
 
 /datum/species/proc/movement_delay(mob/living/carbon/human/H)
 	var/mspeed = 0
+
+	if(H.lying) //This is done outside of "IGNORESLOWDOWN" checks so meth heads aren't super sanic crawlers
+		mspeed += 15 + (H.status_flags & NEARCRIT ? 10 : 0) //1.5 seconds crawl + take into account the rest of slowdown applied (unless injected with epipherine/meth)
 
 	if(!(H.status_flags & IGNORESLOWDOWN))
 
@@ -885,8 +889,6 @@
 				mspeed += 1.5
 			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
 				mspeed += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
-			if(H.status_flags & NEARCRIT) //This is for crawling
-				mspeed += 30 //Can crawl only every 3 seconds pretty much
 
 			mspeed += speedmod
 

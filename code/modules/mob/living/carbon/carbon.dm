@@ -40,6 +40,9 @@
 	. = 0
 	if(legcuffed)
 		. += legcuffed.slowdown
+	if(!ishuman(src) && src.lying) //A check so it doesn't conflict with species-based movement delay
+		. += 15 //Crawl delay
+
 
 /mob/living/carbon/relaymove(mob/user, direction)
 	if(user in src.stomach_contents)
@@ -413,6 +416,7 @@ var/const/GALOSHES_DONT_HELP = 4
 /mob/living/carbon/resist_fire()
 	fire_stacks -= 5
 	Weaken(3,1)
+	Stun(3)
 	spin(32,2)
 	visible_message("<span class='danger'>[src] rolls on the floor, trying to put themselves out!</span>", \
 		"<span class='notice'>You stop, drop, and roll!</span>")

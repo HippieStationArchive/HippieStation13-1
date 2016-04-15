@@ -442,6 +442,7 @@ var/list/teleport_other_runes = list()
 					if(M.reagents)
 						M.reagents.add_reagent("hell_water", 10)
 					M.Weaken(5)
+					M.Stun(4)
 			fail_invoke()
 			log_game("Summon Nar-Sie rune failed - improper objective")
 			return
@@ -666,6 +667,7 @@ var/list/teleport_other_runes = list()
 								 "<span class='danger'>You are re-united with your physical form. [src] releases its hold over you.</span>")
 			user.color = initial(user.color)
 			user.Weaken(3)
+			user.Stun(2)
 			rune_in_use = 0
 			affecting = null
 			return
