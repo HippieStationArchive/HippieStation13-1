@@ -182,7 +182,7 @@
 				if(M.stat == CONSCIOUS)
 					M.mind_initialize() //give them a mind datum if they don't have one.
 					var/resisted
-					if(!isloyal(M))
+					if(!isloyal(M) && !jobban_isbanned(M, "catban"))
 						if(user.mind in ticker.mode.head_revolutionaries)
 							if(ticker.mode.add_revolutionary(M.mind))
 								times_used -- //Flashes less likely to burn out for headrevs when used for conversion

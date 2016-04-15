@@ -12,11 +12,18 @@
 		return 0
 	if(!password)
 		var/pass = input(user,"Please input a new password for this keypad.","Set Password") as null|num
-		if(!pass)
+		if(!in_range(src, user) && loc != user)
 			return
+		if(!user.canUseTopic(src))
+			return
+		if(!pass)
+			user << "<span class='warning>Invaid password!</span>"
+			return
+		pass = round(pass)
 		if(!isnum(pass))
 			user << "<span class='warning>The password must be a number!</span>"
 			return
+		pass = num2text(pass)
 		if(length(pass) > 6)
 			user << "<span class='warning>The password cannot be longer than 6 digits!</span>"
 			return
@@ -65,7 +72,8 @@
 	var/input = ""
 	var/output = "" //what to display in place of input
 	var/max_digits = 6
-	var/obj/item/device/assembly/device
+	var/obj/item/device/assembly/device //Device pulsed on input success
+	var/obj/item/device/assembly/device2 //Device pulsed on bad password input
 	var/device_type = null
 	var/id = null
 	var/wired = 1
@@ -96,6 +104,8 @@
 			overlays += "keypad-wired"
 		if(device)
 			overlays += "keypad-device"
+		if(device2)
+			overlays += "keypad-device2"
 	else
 		if(stat & (NOPOWER|BROKEN|MAINT))
 			icon_state = "[skin]-p"
@@ -127,13 +137,34 @@
 					stat &= ~MAINT
 					user << "<span class='notice'>You add cables to \the [src] frame.</span>"
 					update_icon()
-		if(!device && istype(W, /obj/item/device/assembly))
-			if(!user.unEquip(W))
-				user << "<span class='warning'>\The [W] is stuck to you!</span>"
+		if((!device || !device2) && istype(W, /obj/item/device/assembly))
+			var/list/choices = list()
+			if(!device)
+				choices += "Code Input Success"
+			if(!device2)
+				choices += "Code Input Failure"
+			var/get_input = input("On what condition would this assembly be pulsed?","Device") as null|anything in choices
+			if(!in_range(src, user))
 				return
-			W.loc = src
-			device = W
-			user << "<span class='notice'>You add [W] to \the [src].</span>"
+			if(!user.canUseTopic(src))
+				return
+			if(!get_input)
+				return
+			switch(get_input)
+				if("Code Input Success")
+					if(!user.unEquip(W))
+						user << "<span class='warning'>\The [W] is stuck to you!</span>"
+						return
+					W.loc = src
+					device = W
+					user << "<span class='notice'>You add [W] to \the [src] as a success state.</span>"
+				if("Code Input Failure")
+					if(!user.unEquip(W))
+						user << "<span class='warning'>\The [W] is stuck to you!</span>"
+						return
+					W.loc = src
+					device2 = W
+					user << "<span class='notice'>You add [W] to \the [src] as a failure state.</span>"
 
 		if(wired && istype(W, /obj/item/weapon/wirecutters))
 			var/obj/item/stack/cable_coil/C = new /obj/item/stack/cable_coil(loc)
@@ -143,7 +174,7 @@
 			wired = 0
 			update_icon()
 
-		if(!device && !wired && istype(W, /obj/item/weapon/wrench))
+		if(!device && !device2 && !wired && istype(W, /obj/item/weapon/wrench))
 			user << "<span class='notice'>You start unsecuring \the [src] frame...</span>"
 			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
 			if(do_after(user, 40/W.toolspeed, target = src))
@@ -171,18 +202,20 @@
 /obj/machinery/keypad/attack_hand(mob/user)
 	add_fingerprint(user)
 	if(panel_open)
-		if(device)
+		if(device || device2)
 			if(device)
 				device.loc = get_turf(src)
 				device = null
+			if(device2)
+				device2.loc = get_turf(src)
+				req_access = list()
+				req_one_access = list()
+				device2 = null
 			update_icon()
 			user << "<span class='notice'>You remove electronics from \the [src] frame.</span>"
 		return
 
 	if((stat & (NOPOWER|BROKEN|MAINT)))
-		return
-
-	if(device && device.cooldown)
 		return
 
 	var/dat
@@ -216,17 +249,30 @@
 		else if(href_list["num"] == "E")
 			if(input != password)
 				output = "ERROR"
+				use_power(2)
 				flick("[skin]-denied", src)
+
+				if(device2)
+					device2.pulsed()
 			else
-				input = ""
+				if(device && device.cooldown)
+					usr << "<span class='warning'>Recalibrating device, please try again...</span>"
+					return
 				use_power(2)
 				flick("[skin]1", src)
 
 				if(device)
 					device.pulsed()
+			input = ""
 		else
+			var/lastentered = text("[]", href_list["num"])
+			if (text2num(lastentered) == null)
+				var/turf/LOC = get_turf(usr)
+				message_admins("[key_name_admin(usr)] (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[usr]'>FLW</A>) tried to exploit a keypad by entering non-numerical codes: <a href='?_src_=vars;Vars=\ref[src]'>[lastentered]</a> ! ([LOC ? "<a href='?_src_=holder;adminplayerobservecoodjump=1;X=[LOC.x];Y=[LOC.y];Z=[LOC.z]'>JMP</a>" : "null"])", 0)
+				log_admin("EXPLOIT : [key_name(usr)] tried to exploit a keypad by entering non-numerical codes: [lastentered] !")
+				return
 			if(length(input) < max_digits)
-				input = input+"[href_list["num"]]"
+				input = input+lastentered
 
 	updateUsrDialog()
 	output = ""

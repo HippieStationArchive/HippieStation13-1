@@ -132,7 +132,7 @@
 		if(first)
 			first.vis_spread(visible)
 	if(href_list["turn"])
-		var/setdir = input("Select the infrared laser direction:") as null|anything in list("north","east","south","west","disable")
+		var/setdir = input("Select the infrared laser direction:") as null|anything in list("north","east","south","west")
 		switch(setdir)
 			if("north")
 				dir = NORTH
