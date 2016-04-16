@@ -296,7 +296,6 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	var/purchasedpowers = list()
 	var/mimicing = ""
 	var/canrespec = 0
-	var/changeling_speak = 0
 	var/datum/dna/chosen_dna
 	var/obj/effect/proc_holder/changeling/sting/chosen_sting
 
