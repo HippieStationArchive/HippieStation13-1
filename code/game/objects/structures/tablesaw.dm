@@ -26,6 +26,8 @@
 			sawer.images -= plate.zoom
 
 /obj/structure/tablesaw/attackby(obj/item/I, mob/user)
+	if(default_unfasten_wrench(user, I))
+		return
 	if(istype(I, /obj/item/stack/sheet/mineral/wood))
 		var/obj/item/stack/sheet/mineral/wood/W = I
 		W.use(1)
