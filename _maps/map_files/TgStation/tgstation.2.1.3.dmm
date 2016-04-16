@@ -2542,7 +2542,7 @@
 "aWT" = (/obj/structure/disposalpipe/segment,/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{tag = "icon-manifold-r-f (EAST)"; dir = 4},/turf/simulated/floor/plasteel{icon_state = "hydrofloor"},/area/hydroponics)
 "aWU" = (/obj/structure/closet/wardrobe/botanist,/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/machinery/light_switch{pixel_y = 28},/turf/simulated/floor/plasteel{icon_state = "hydrofloor"},/area/hydroponics)
 "aWV" = (/obj/structure/closet/secure_closet/hydroponics,/turf/simulated/floor/plasteel{icon_state = "hydrofloor"},/area/hydroponics)
-"aWW" = (/obj/machinery/alarm{pixel_y = 24},/obj/machinery/camera{c_tag = "Hydroponics Storage"},/obj/machinery/light/small{dir = 1},/turf/simulated/floor/plasteel{icon_state = "hydrofloor"},/area/hydroponics)
+"aWW" = (/obj/machinery/alarm{pixel_y = 24},/obj/machinery/camera{c_tag = "Hydroponics Storage"},/obj/machinery/light/small{dir = 1},/obj/structure/tablesaw,/obj/item/weapon/paper/tablesaw,/turf/simulated/floor/plasteel{icon_state = "hydrofloor"},/area/hydroponics)
 "aWX" = (/obj/machinery/atmospherics/components/unary/vent_pump{on = 1},/turf/simulated/floor/plasteel{icon_state = "hydrofloor"},/area/hydroponics)
 "aWY" = (/obj/structure/table,/obj/item/weapon/reagent_containers/spray/plantbgone{pixel_x = 0; pixel_y = 3},/obj/item/weapon/reagent_containers/spray/plantbgone{pixel_x = 8; pixel_y = 8},/obj/item/weapon/reagent_containers/spray/plantbgone{pixel_x = 13; pixel_y = 5},/obj/item/weapon/watertank,/turf/simulated/floor/plasteel{icon_state = "hydrofloor"},/area/hydroponics)
 "aWZ" = (/obj/machinery/alarm{dir = 4; icon_state = "alarm0"; pixel_x = -22},/turf/simulated/floor/wood,/area/library)
