@@ -1,0 +1,6 @@
+author: John Ginnane
+
+delete-after: True
+
+changes: 
+  - rscdel: "You can no longer attach items to your belt if you're not wearing any jumpsuit/uniform."
