@@ -478,12 +478,6 @@
 			if( !(I.slot_flags & SLOT_FEET) )
 				return 0
 			return 1
-		if(slot_belt)
-			if(H.belt)
-				return 0
-			if( !(I.slot_flags & SLOT_BELT) )
-				return
-			return 1
 		if(slot_glasses)
 			if(H.glasses)
 				return 0
@@ -516,6 +510,16 @@
 					H << "<span class='warning'>You need a jumpsuit before you can attach this [I.name]!</span>"
 				return 0
 			if( !(I.slot_flags & SLOT_ID) )
+				return 0
+			return 1
+		if(slot_belt)
+			if(H.belt)
+				return 0
+			if(!H.w_uniform && !nojumpsuit)
+				if(!disable_warning)
+					H << "<span class='warning'>You need a jumpsuit before you can attach this [I.name]!</span>"
+				return 0
+			if( !(I.slot_flags & SLOT_BELT) )
 				return 0
 			return 1
 		if(slot_l_store)
