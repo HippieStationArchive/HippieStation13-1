@@ -108,6 +108,8 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 	var/block_chance = 0
 	var/hit_reaction_chance = 0 //If you want to have something unrelated to blocking/armour piercing etc. Maybe not needed, but trying to think ahead/allow more freedom
+	
+	var/alternate_screams = list() // This is used to add alternate scream sounds to mobs when equipped
 
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
 	if(((src in target) && !target_self) || ((!istype(target.loc, /turf)) && (!istype(target, /turf)) && (not_inside)) || is_type_in_list(target, can_be_placed_into))
@@ -538,7 +540,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		mult = 0
 	return
 
-/obj/item/throw_at(atom/target, range, speed, spin=1, diagonals_first, def_zone)
+/obj/item/throw_at(atom/target, range, speed, spin=1, diagonals_first, zone)
 	. = ..()
 	throw_speed = initial(throw_speed) //explosions change this.
 
