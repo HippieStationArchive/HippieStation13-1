@@ -481,12 +481,9 @@ BLIND     // can't see anything
 			flash_protect = 0
 			tint = 0
 
-	if(istype(src, /obj/item/clothing/head))			//makes the mob-overlays update
-		usr.update_inv_head()
-	if(istype(src, /obj/item/clothing/glasses))
-		usr.update_inv_glasses()
-	if(istype(src, /obj/item/clothing/mask))
-		usr.update_inv_wear_mask()
+	usr.update_inv_head()
+	usr.update_inv_glasses()
+	usr.update_inv_wear_mask()
 
 /obj/item/clothing/proc/can_use(mob/user)
 	if(user && ismob(user))
