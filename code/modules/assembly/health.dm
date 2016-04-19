@@ -51,7 +51,7 @@
 	if(!secured)	return 0
 	scanning = !scanning
 	if(scanning)
-		SSobj.processing.Add(src)
+		SSobj.processing |= src
 	else
 		SSobj.processing.Remove(src)
 		health_scan = null
