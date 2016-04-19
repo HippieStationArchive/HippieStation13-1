@@ -43,6 +43,7 @@
 		transfer_fingerprints_to(O)
 
 	qdel(src)
+	return O
 
 
 /obj/item/wallframe/attackby(obj/item/weapon/W, mob/user, params)

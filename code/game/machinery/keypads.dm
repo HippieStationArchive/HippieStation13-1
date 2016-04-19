@@ -17,15 +17,15 @@
 		if(!user.canUseTopic(src))
 			return
 		if(!pass)
-			user << "<span class='warning>Invaid password!</span>"
+			user << "<span class='warning'>Invalid password!</span>"
 			return
 		pass = round(pass)
 		if(!isnum(pass))
-			user << "<span class='warning>The password must be a number!</span>"
+			user << "<span class='warning'>The password must be a number!</span>"
 			return
 		pass = num2text(pass)
 		if(length(pass) > 6)
-			user << "<span class='warning>The password cannot be longer than 6 digits!</span>"
+			user << "<span class='warning'>The password cannot be longer than 6 digits!</span>"
 			return
 		password = pass
 		user << "<span class='notice'>You have set \the [src]'s password to [password].</span>"
@@ -35,39 +35,27 @@
 
 /obj/item/wallframe/keypad/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/device/multitool))
-		user.visible_message("<span class='warning'>[user.name] starts resetting the password on \the [src].</span>", \
+		user.visible_message("<span class='warning'>[user] starts resetting the password on \the [src].</span>", \
 							"<span class='notice'>You start resetting the password on \the [src] frame...</span>")
-		playsound(src.loc, 'sound/effects/pop.ogg', 50, 1)
+		playsound(loc, 'sound/effects/pop.ogg', 50, 1)
 		if(do_after(user, 20, target = src))
-			user.visible_message("<span class='warning'>[user.name] resets the password on \the [src]!</span>", \
+			user.visible_message("<span class='warning'>[user] resets the password on \the [src]!</span>", \
 								"<span class='notice'>You reset the password on \the [src] frame!</span>")
-			playsound(src.loc, 'sound/items/Screwdriver2.ogg', 50, 1)
+			playsound(loc, 'sound/items/Screwdriver2.ogg', 50, 1)
 			password = ""
 		return
 	..()
 
 /obj/item/wallframe/keypad/attach(turf/on_wall) //I hate how I have to copy-paste code just to prevent the wallframe from being deleted before actually transferring variables.
-	if(result_path)
-		playsound(src.loc, 'sound/machines/click.ogg', 75, 1)
-		usr.visible_message("[usr.name] attaches [src] to the wall.",
-			"<span class='notice'>You attach [src] to the wall.</span>",
-			"<span class='italics'>You hear clicking.</span>")
-		var/ndir = get_dir(on_wall,usr)
-		if(inverse)
-			ndir = turn(ndir, 180)
-
-		var/obj/machinery/keypad/O = new result_path(get_turf(usr), ndir, 1)
-		transfer_fingerprints_to(O)
-		O.password = password
-
-	qdel(src)
+	var/pass = password
+	var/obj/machinery/keypad/O = ..()
+	O.password = pass
 
 //Machinery
 /obj/machinery/keypad
 	name = "keypad"
 	desc = "A remote control switch requiring a code input."
 	icon_state = "keypad"
-	var/skin = "keypad"
 	var/password = ""
 	var/input = ""
 	var/output = "" //what to display in place of input
@@ -108,16 +96,16 @@
 			overlays += "keypad-device2"
 	else
 		if(stat & (NOPOWER|BROKEN|MAINT))
-			icon_state = "[skin]-p"
+			icon_state = "[initial(icon_state)]-p"
 		else
-			icon_state = skin
+			icon_state = initial(icon_state)
 
 /obj/machinery/keypad/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/device/detective_scanner))
 		return
 
 	if(istype(W, /obj/item/weapon/screwdriver))
-		default_deconstruction_screwdriver(user, "keypad-open", "[skin]",W)
+		default_deconstruction_screwdriver(user, "keypad-open", "[initial(icon_state)]",W)
 		update_icon()
 		return
 
@@ -127,9 +115,9 @@
 			if(C.get_amount() < 5)
 				user << "<span class='warning'>You need five lengths of cable for \the [src]!</span>"
 				return
-			user.visible_message("<span class='warning'>[user.name] adds cables to \the [src] frame.</span>", \
+			user.visible_message("<span class='warning'>[user] adds cables to \the [src] frame.</span>", \
 								"<span class='notice'>You start adding cables to \the [src] frame...</span>")
-			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
+			playsound(loc, 'sound/items/Deconstruct.ogg', 50, 1)
 			if(do_after(user, 20, target = src))
 				if (C.amount >= 5)
 					C.use(5)
@@ -250,7 +238,7 @@
 			if(input != password)
 				output = "ERROR"
 				use_power(2)
-				flick("[skin]-denied", src)
+				flick("[initial(icon_state)]-denied", src)
 
 				if(device2)
 					device2.pulsed()
@@ -259,7 +247,7 @@
 					usr << "<span class='warning'>Recalibrating device, please try again...</span>"
 					return
 				use_power(2)
-				flick("[skin]1", src)
+				flick("[initial(icon_state)]1", src)
 
 				if(device)
 					device.pulsed()
