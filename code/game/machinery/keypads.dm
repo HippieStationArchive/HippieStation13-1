@@ -49,7 +49,8 @@
 /obj/item/wallframe/keypad/attach(turf/on_wall) //I hate how I have to copy-paste code just to prevent the wallframe from being deleted before actually transferring variables.
 	var/pass = password
 	var/obj/machinery/keypad/O = ..()
-	O.password = pass
+	if(istype(O))
+		O.password = pass
 
 //Machinery
 /obj/machinery/keypad
