@@ -437,6 +437,7 @@
 #include "code\game\machinery\hologram.dm"
 #include "code\game\machinery\igniter.dm"
 #include "code\game\machinery\iv_drip.dm"
+#include "code\game\machinery\keypads.dm"
 #include "code\game\machinery\lightswitch.dm"
 #include "code\game\machinery\machinery.dm"
 #include "code\game\machinery\magnet.dm"
