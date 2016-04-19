@@ -108,22 +108,10 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 		//Bleeding out
 		blood_max = 0
 		for(var/obj/item/organ/limb/org in organs)
-			// var/brutedamage = org.brute_dam
 			if(org.brute_dam <= 0) //Let's close up the bleeding wounds if the organ doesn't have any brute damage
 				org.bloodloss = 0 //Doing this here is quite hacky but eh
 			blood_max += org.bloodloss //Check every organ that's bleeding
 
-			//We want an accurate reading of .len
-			// listclearnulls(org.embedded_objects)
-			// blood_max += 0.5*org.embedded_objects.len //Let's instead add bloodloss where pain is handled.
-
-			//Things like this and more are done in organ damage procs instead
-			// if(brutedamage > 30)
-			// 	blood_max += 0.5
-			// if(brutedamage > 50)
-			// 	blood_max += 1
-			// if(brutedamage > 70)
-			// 	blood_max += 2
 		var/obj/item/organ/internal/butt/B = getorgan(/obj/item/organ/internal/butt)
 		if(B in internal_organs)
 			if(B.contents.len)
