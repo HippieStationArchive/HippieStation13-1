@@ -1120,10 +1120,16 @@
 	apply_damage(I.force, I.damtype, affecting, armor_block, H)
 
 	var/bloody = 0
-	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2))))
+	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2)))) //45% on toolboxes (10 force)
 		if(affecting.status == ORGAN_ORGANIC)
 			I.add_blood(H)	//Make the weapon bloody, not the person.
-			if(prob(I.force * 2))	//blood spatter!
+
+			//Probability for bloodloss:
+			//TOOLBOXES (blunt, 10 force): 10% chance on 0-damaged limb, 60% chance on 50-damaged limb, etc.
+			//GAR GLASSES (sharp, 10 force): 20% chance on 0-damaged limb, 70% chance on 50-damaged limb, etc.
+			//KITCHEN KNIVES (sharp_accurate, 10 force): 30% chance on 0-damaged limb, 80% chance on 50-damaged limb, etc.
+			if(prob(I.force * max(I.sharpness+1, 1) + affecting.brute_dam/2)) //Bloodsplatter and bloodloss handled by same probability check
+				affecting.take_damage(0,0,0.5) //Apply 0.5 bloodloss of 2 max per limb
 				bloody = 1
 				var/turf/location = H.loc
 				if(prob(50))	//Spawn a bloodsplatter effect
@@ -1151,7 +1157,6 @@
 						else
 							M.add_blood(H)
 							M.update_inv_gloves()	//updates on-mob overlays for bloody hands and/or bloody gloves
-
 
 		switch(hit_area)
 			if("head")	//Causes dizzness, brain damage and forces the target to drop their items

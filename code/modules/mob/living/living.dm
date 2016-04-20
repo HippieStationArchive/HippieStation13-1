@@ -258,6 +258,12 @@ Sorry Giacom. Please don't be mad :(
 	bruteloss = min(max(bruteloss + amount, 0),(maxHealth*2))
 	handle_regular_status_updates() //we update our health right away.
 
+/mob/living/proc/getBloodLoss()
+	return 0
+
+/mob/living/proc/adjustBloodLoss(amount)
+	return 0 //Most mobs don't bleed (only exception is humans)
+
 /mob/living/proc/getOxyLoss()
 	return oxyloss
 
@@ -458,7 +464,7 @@ Sorry Giacom. Please don't be mad :(
 	eye_blurry = 0
 	ear_deaf = 0
 	ear_damage = 0
-	heal_overall_damage(1000, 1000)
+	heal_overall_damage(1000, 1000, 1000)
 	ExtinguishMob()
 	fire_stacks = 0
 	suiciding = 0
