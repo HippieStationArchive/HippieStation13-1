@@ -13,6 +13,10 @@
 	if(proximity && istype(G) && G.Touch(A,1))
 		return
 
+	if(!has_active_hand())
+		src << "<span class='notice'>You look at your stump and sigh.</span>"
+		return
+
 	var/override = 0
 	if(dna)
 		for(var/datum/mutation/human/HM in dna.mutations)

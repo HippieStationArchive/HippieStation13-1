@@ -109,54 +109,6 @@
 /datum/species/proc/qualifies_for_rank(rank, list/features)
 	return 1
 
-/datum/species/proc/update_base_icon_state(mob/living/carbon/human/H)
-	if(H.disabilities & HUSK)
-		H.remove_overlay(SPECIES_LAYER) // races lose their color
-		return "husk"
-	else if(sexes)
-		if(use_skintones)
-			return "[H.skin_tone]_[(H.gender == FEMALE) ? "f" : "m"]"
-		else
-			return "[id]_[(H.gender == FEMALE) ? "f" : "m"]"
-	else
-		return "[id]"
-
-/datum/species/proc/update_color(mob/living/carbon/human/H, forced_colour)
-	H.remove_overlay(SPECIES_LAYER)
-
-	var/image/standing
-
-	var/g = (H.gender == FEMALE) ? "f" : "m"
-
-	if((MUTCOLORS in specflags) || use_skintones)
-		var/image/spec_base
-		var/icon_state_string = "[id]_"
-
-		if(use_skintones)
-			if(sexes)
-				icon_state_string = "[H.skin_tone]_[g]_s"
-			else
-				icon_state_string = "[H.skin_tone]_s"
-		else
-			if(sexes)
-				icon_state_string += "[g]_s"
-			else
-				icon_state_string += "_s"
-
-		spec_base = image("icon" = 'icons/mob/human.dmi', "icon_state" = icon_state_string, "layer" = -SPECIES_LAYER)
-
-		if(!forced_colour && !use_skintones)
-			spec_base.color = "#[H.dna.features["mcolor"]]"
-		else
-			spec_base.color = forced_colour
-
-		standing = spec_base
-
-	if(standing)
-		H.overlays_standing[SPECIES_LAYER]	+= standing
-
-	H.apply_overlay(SPECIES_LAYER)
-
 /datum/species/proc/handle_hair(mob/living/carbon/human/H, forced_colour)
 	H.remove_overlay(HAIR_LAYER)
 
@@ -439,13 +391,21 @@
 		if(!(type in I.species_exception))
 			return 0
 
+	var/obj/item/organ/limb/r_arm/R = H.get_organ("r_arm")
+	var/obj/item/organ/limb/l_arm/L = H.get_organ("l_arm")
+	var/num_arms = H.get_num_arms()
+	var/num_legs = H.get_num_legs()
 	switch(slot)
 		if(slot_l_hand)
 			if(H.l_hand)
 				return 0
+			if(L.state_flags & ORGAN_REMOVED)
+				return 0
 			return 1
 		if(slot_r_hand)
 			if(H.r_hand)
+				return 0
+			if(R.state_flags & ORGAN_REMOVED)
 				return 0
 			return 1
 		if(slot_wear_mask)
@@ -471,11 +431,15 @@
 				return 0
 			if( !(I.slot_flags & SLOT_GLOVES) )
 				return 0
+			if(num_arms < 2)
+				return 0
 			return 1
 		if(slot_shoes)
 			if(H.shoes)
 				return 0
 			if( !(I.slot_flags & SLOT_FEET) )
+				return 0
+			if(num_legs < 2)
 				return 0
 			return 1
 		if(slot_belt)
@@ -570,11 +534,15 @@
 				return 0
 			if(!istype(I, /obj/item/weapon/restraints/handcuffs))
 				return 0
+			if(num_arms < 2)
+				return 0
 			return 1
 		if(slot_legcuffed)
 			if(H.legcuffed)
 				return 0
 			if(!istype(I, /obj/item/weapon/restraints/legcuffs))
+				return 0
+			if(num_legs < 2)
 				return 0
 			return 1
 		if(slot_in_backpack)
@@ -837,8 +805,6 @@
 ////////////////
 
 /datum/species/proc/movement_delay(mob/living/carbon/human/H)
-	var/mspeed = 0
-
 	if(!(H.status_flags & IGNORESLOWDOWN))
 
 		var/grav = has_gravity(H)
@@ -859,45 +825,47 @@
 				if(P.allow_thrust(0.01, H))
 					hasjetpack = 1
 
-			mspeed = -1 - hasjetpack
+			. = -1 - hasjetpack
 
 		if(grav || !hasjetpack)
 			var/health_deficiency = (100 - H.health + H.staminaloss)
 			if(health_deficiency >= 40)
-				mspeed += (health_deficiency / 25)
+				. += (health_deficiency / 25)
 
 			var/hungry = (500 - H.nutrition) / 5	//So overeat would be 100 and default level would be 80
 			if(hungry >= 70)
-				mspeed += hungry / 50
+				. += hungry / 50
 
 			if(H.wear_suit)
-				mspeed += H.wear_suit.slowdown
+				. += H.wear_suit.slowdown
 			if(H.shoes)
-				mspeed += H.shoes.slowdown
+				. += H.shoes.slowdown
 			if(H.back)
-				mspeed += H.back.slowdown
+				. += H.back.slowdown
 			if(H.l_hand)
-				mspeed += H.l_hand.slowdown
+				. += H.l_hand.slowdown
 			if(H.r_hand)
-				mspeed += H.r_hand.slowdown
+				. += H.r_hand.slowdown
 
 			if((H.disabilities & FAT))
-				mspeed += 1.5
+				. += 1.5
 			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
-				mspeed += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
-			if(H.status_flags & NEARCRIT) //This is for crawling
-				mspeed += 30 //Can crawl only every 3 seconds pretty much
+				. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
 
-			mspeed += speedmod
+			if(H.get_num_legs() < 2)
+				. += 1
+
+			if(H.status_flags & NEARCRIT) //This is for crawling
+				. += 30 //Can crawl only every 3 seconds pretty much
+
+			. += speedmod
 
 		if(grav)
 			if(H.status_flags & GOTTAGOFAST)
-				mspeed -= 1
+				. -= 1
 
 			if(H.status_flags & GOTTAGOREALLYFAST)
-				mspeed -= 2
-
-	return mspeed
+				. -= 2
 
 //////////////////
 // ATTACK PROCS //
@@ -1033,6 +1001,15 @@
 	return
 
 /datum/species/proc/spec_attacked_by(obj/item/I, mob/living/user, def_zone, obj/item/organ/limb/affecting, hit_area, intent, obj/item/organ/limb/target_limb, target_area, mob/living/carbon/human/H)
+	if((target_limb.state_flags & ORGAN_REMOVED) || (target_limb.state_flags & ORGAN_AUGMENTABLE))
+		if(istype(I, /obj/item/robot_parts))
+			var/obj/item/robot_parts/RP = I
+			if(RP.limb_part == target_limb.body_part)
+				target_limb.augment(RP,user)
+			else
+				user << "<span class='notice'>[RP] doesn't go there!</span>"
+		return 0
+
 	// Allows you to put in item-specific reactions based on species
 	if(user != H)
 		user.do_attack_animation(H)
@@ -1119,6 +1096,10 @@
 
 	apply_damage(I.force, I.damtype, affecting, armor_block, H)
 
+	if(affecting.brute_dam >= affecting.max_damage)
+		if(I.is_sharp() && prob(Iforce*2))
+			affecting.dismember(I)
+
 	var/bloody = 0
 	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2))))
 		if(affecting.status == ORGAN_ORGANIC)
@@ -1201,7 +1182,7 @@
 			H.forcesay(hit_appends)	//forcesay checks stat already.
 		return
 
-/datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H)
+/datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, override=0)
 	blocked = (100-(blocked+armor))/100
 	if(!damage || blocked <= 0)	return 0
 
@@ -1218,11 +1199,11 @@
 	switch(damagetype)
 		if(BRUTE)
 			H.damageoverlaytemp = 20
-			if(organ.take_damage(damage*brutemod, 0))
+			if(organ.take_damage(damage*brutemod, 0, override))
 				H.update_damage_overlays(0)
 		if(BURN)
 			H.damageoverlaytemp = 20
-			if(organ.take_damage(0, damage*burnmod))
+			if(organ.take_damage(0, damage*burnmod, override))
 				H.update_damage_overlays(0)
 		if(TOX)
 			H.adjustToxLoss(damage * blocked)

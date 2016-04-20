@@ -300,7 +300,7 @@ var/global/list/multiverse = list()
 		M.set_species(pick(all_species), icon_update=0)
 	M.update_body()
 	M.update_hair()
-	M.update_mutcolor()
+	M.update_body_parts()
 	M.dna.update_dna_identity()
 	equip_copy(M)
 
@@ -357,21 +357,8 @@ var/global/list/multiverse = list()
 			M.equip_to_slot_or_del(new /obj/item/clothing/head/wizard/red(M), slot_head)
 			M.equip_to_slot_or_del(sword, slot_r_hand)
 		if("cyborg")
-			var/obj/item/organ/limb/chest/C = locate(/obj/item/organ/limb/chest) in M.organs
-			qdel(C)
-			M.organs += new /obj/item/organ/limb/robot/chest
-			var/obj/item/organ/limb/r_arm/R = locate(/obj/item/organ/limb/r_arm) in M.organs
-			qdel(R)
-			M.organs += new /obj/item/organ/limb/robot/r_arm
-			var/obj/item/organ/limb/l_arm/L = locate(/obj/item/organ/limb/l_arm) in M.organs
-			qdel(L)
-			M.organs += new /obj/item/organ/limb/robot/l_arm
-			var/obj/item/organ/limb/l_leg/LL = locate(/obj/item/organ/limb/l_leg) in M.organs
-			qdel(LL)
-			M.organs += new /obj/item/organ/limb/robot/l_leg
-			var/obj/item/organ/limb/r_leg/RL = locate(/obj/item/organ/limb/r_leg) in M.organs
-			qdel(RL)
-			M.organs += new /obj/item/organ/limb/robot/r_leg
+			for(var/obj/item/organ/limb/affecting in M.organs)
+				affecting.change_organ(ORGAN_ROBOTIC)
 			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/thermal/eyepatch(M), slot_glasses)
 			M.equip_to_slot_or_del(sword, slot_r_hand)
 
@@ -475,7 +462,6 @@ var/global/list/multiverse = list()
 			return
 
 	M.update_icons()
-	M.update_augments()
 
 	var/obj/item/weapon/card/id/W = new /obj/item/weapon/card/id
 	W.icon_state = "centcom"

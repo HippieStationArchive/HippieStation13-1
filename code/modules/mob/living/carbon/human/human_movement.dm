@@ -4,6 +4,14 @@
 	. += ..()
 	. += config.human_delay
 
+/mob/living/carbon/human/update_canmove()
+	..()
+
+	if(!get_num_legs())
+		canmove = 0
+
+	return canmove
+
 /mob/living/carbon/human/Process_Spacemove(movement_dir = 0)
 
 	if(..())

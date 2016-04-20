@@ -168,7 +168,11 @@
 				Paralyse(10)
 
 	var/update = 0
+	var/dismember_chance = 50/severity //50, 25, 17~
 	for(var/obj/item/organ/limb/temp in organs)
+		if(prob(dismember_chance))
+			temp.dismember()
+			continue // don't damage this limb further
 		switch(temp.name)
 			if("head")
 				update |= temp.take_damage(b_loss * 0.2, f_loss * 0.2)
@@ -865,14 +869,14 @@
 	if(dna && dna.species)
 		dna.species.handle_mutant_bodyparts(src,"black")
 		dna.species.handle_hair(src,"black")
-		dna.species.update_color(src,"black")
+		//dna.species.update_color(src,"black")
 		overlays += "electrocuted_base"
 		spawn(anim_duration)
 			if(src)
 				if(dna && dna.species)
 					dna.species.handle_mutant_bodyparts(src)
 					dna.species.handle_hair(src)
-					dna.species.update_color(src)
+					//dna.species.update_color(src)
 				overlays -= "electrocuted_base"
 
 	else //or just do a generic animation
@@ -904,3 +908,18 @@
 		add_screams(s_store.alternate_screams)
 	if(wear_id)
 		add_screams(wear_id.alternate_screams)
+
+//I'm not even sure where this function went in our code... It's in RR's PR so ???
+// /mob/living/carbon/human/can_use_hands()
+// 	if(!..())
+// 		return 0
+// 	if(!has_active_hand())
+// 		return 0
+// 	return 1
+
+
+/mob/living/carbon/human/revive()
+	for(var/obj/item/organ/limb/L in organs)
+		L.change_organ(L.status)
+	..()
+	return

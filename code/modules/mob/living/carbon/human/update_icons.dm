@@ -52,11 +52,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 //Carn can sometimes be hard to reach now. However IRC is still your best bet for getting help.
 */
 
-/mob/living/carbon/human/proc/update_base_icon_state()
-	base_icon_state = dna.species.update_base_icon_state(src)
-	icon_state = "[base_icon_state]_s"
-
-
 //DAMAGE OVERLAYS
 //constructs damage icon for each organ from mask * damage field and saves it in our overlays_ lists
 /mob/living/carbon/human/update_damage_overlays()
@@ -66,6 +61,8 @@ Please contact me on #coderbus IRC. ~Carnie x
 	overlays_standing[DAMAGE_LAYER]	= standing
 
 	for(var/obj/item/organ/limb/O in organs)
+		if(O.state_flags & ORGAN_REMOVED)
+			continue
 		if(O.brutestate)
 			standing.overlays	+= "[O.icon_state]_[O.brutestate]0"	//we're adding icon_states of the base image as overlays
 		if(O.burnstate)
@@ -87,10 +84,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 	dna.species.handle_hair(src)
 
-/mob/living/carbon/human/proc/update_mutcolor()
-	if(!(disabilities & HUSK))
-		dna.species.update_color(src)
-
 //used when putting/removing clothes that hide certain mutant body parts to just update those and not update the whole body.
 /mob/living/carbon/human/proc/update_mutant_bodyparts()
 	dna.species.handle_mutant_bodyparts(src)
@@ -98,7 +91,7 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 /mob/living/carbon/human/proc/update_body()
 	remove_overlay(BODY_LAYER)
-	update_base_icon_state()
+	update_body_parts()
 	dna.species.handle_body(src)
 
 /mob/living/carbon/human/update_fire()
@@ -142,33 +135,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 	update_inv_shoes()
 	update_inv_head()
 
-/mob/living/carbon/human/proc/update_augments()
-	remove_overlay(BODYPARTS_LAYER)
-
-	var/list/standing	= list()
-	var/g = (gender == FEMALE) ? "f" : "m"
-
-
-	if(getlimb(/obj/item/organ/limb/robot/r_arm))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="r_arm_s", "layer"=-BODYPARTS_LAYER)
-	if(getlimb(/obj/item/organ/limb/robot/l_arm))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="l_arm_s", "layer"=-BODYPARTS_LAYER)
-
-	if(getlimb(/obj/item/organ/limb/robot/r_leg))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="r_leg_s", "layer"=-BODYPARTS_LAYER)
-	if(getlimb(/obj/item/organ/limb/robot/l_leg))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="l_leg_s", "layer"=-BODYPARTS_LAYER)
-
-	if(getlimb(/obj/item/organ/limb/robot/chest))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="chest_[g]_s", "layer"=-BODYPARTS_LAYER)
-	if(getlimb(/obj/item/organ/limb/robot/head))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="head_s", "layer"=-BODYPARTS_LAYER)
-
-	if(standing.len)
-		overlays_standing[BODYPARTS_LAYER]	= standing
-
-	apply_overlay(BODYPARTS_LAYER)
-
 /* --------------------------------------- */
 //For legacy support.
 /mob/living/carbon/human/regenerate_icons()
@@ -193,8 +159,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 		update_transform()
 		//Hud Stuff
 		update_hud()
-		// Mutantrace colors
-		update_mutcolor()
 		//mutations
 		update_mutations_overlay()
 
@@ -257,6 +221,10 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 /mob/living/carbon/human/update_inv_gloves()
 	remove_overlay(GLOVES_LAYER)
+
+	if(get_num_arms() <2)
+		return
+
 	if(gloves)
 		if(client && hud_used && hud_used.hud_shown)
 			if(hud_used.inventory_shown)			//if the inventory is open ...
@@ -318,6 +286,9 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 /mob/living/carbon/human/update_inv_shoes()
 	remove_overlay(SHOES_LAYER)
+
+	if(get_num_legs() < 2)
+		return
 
 	if(shoes)
 		if(client && hud_used && hud_used.hud_shown)
