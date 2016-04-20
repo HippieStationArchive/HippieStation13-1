@@ -10,10 +10,9 @@
 	throwforce = 5
 	hitsound = 'sound/items/squishy.ogg'
 	attack_verb = list("slapped")
-	embedchance = 0 //No chance to stick..  ~Nexendia
 
 /obj/item/dragon/suicide_act(mob/user)
-	user.visible_message(pick("<span class='suicide'>[user] is shoving [src.name] down \his throat! It looks like they're trying to commit suicide.</span>"))
+	user.visible_message("<span class='suicide'>[user] is shoving [src.name] down \his throat! It looks like they're trying to commit suicide.</span>"))
 	return(BRUTELOSS)
 
 /obj/item/dragon/sea
@@ -44,7 +43,5 @@
 	icon_state = "shelf2"
 
 /obj/structure/statue/dragon/shelf/alt
-	name = "Dragon Dildo Shelf"
-	desc = "A shelf for all your fucking oversized Dildos.."
 	icon_state = "shelf1"
 
