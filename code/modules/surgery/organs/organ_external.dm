@@ -3,7 +3,7 @@
 	icon = 'icons/obj/surgery.dmi'
 	var/mob/living/carbon/owner = null
 	var/status = ORGAN_ORGANIC
-
+	var/state_flags = ORGAN_FINE
 
 //Old Datum Limbs:
 // code/modules/unused/limbs.dm

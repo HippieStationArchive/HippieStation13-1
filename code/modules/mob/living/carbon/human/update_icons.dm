@@ -104,33 +104,70 @@ Please contact me on #coderbus IRC. ~Carnie x
 /mob/living/carbon/human/update_fire()
 	..("Standing")
 
+/mob/living/carbon/human/proc/update_body_parts()
+	icon_state = ""//Reset here as apposed to having a null one due to some getFlatIcon calls at roundstart.
+
+	//CHECK FOR UPDATE
+	var/oldkey = icon_render_key
+	icon_render_key = generate_icon_render_key()
+	if(oldkey == icon_render_key)
+		return
+
+	remove_overlay(BODYPARTS_LAYER)
+
+	//LOAD ICONS
+	if(limb_icon_cache[icon_render_key])
+		load_limb_from_cache()
+		update_damage_overlays()
+		update_inv_gloves()
+		update_inv_shoes()
+		update_inv_head()
+		update_hair()
+		return
+
+	//GENERATE NEW LIMBS
+	var/list/new_limbs = list()
+	for(var/obj/item/organ/limb/L in organs)
+		var/image/temp = generate_limb_icon(L)
+		if(temp)
+			new_limbs += temp
+
+	if(new_limbs.len)
+		overlays_standing[BODYPARTS_LAYER] = new_limbs
+		limb_icon_cache[icon_render_key] = new_limbs
+
+	apply_overlay(BODYPARTS_LAYER)
+	update_damage_overlays()
+	update_inv_gloves()
+	update_inv_shoes()
+	update_inv_head()
 
 /mob/living/carbon/human/proc/update_augments()
-	remove_overlay(AUGMENTS_LAYER)
+	remove_overlay(BODYPARTS_LAYER)
 
 	var/list/standing	= list()
 	var/g = (gender == FEMALE) ? "f" : "m"
 
 
 	if(getlimb(/obj/item/organ/limb/robot/r_arm))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="r_arm_s", "layer"=-AUGMENTS_LAYER)
+		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="r_arm_s", "layer"=-BODYPARTS_LAYER)
 	if(getlimb(/obj/item/organ/limb/robot/l_arm))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="l_arm_s", "layer"=-AUGMENTS_LAYER)
+		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="l_arm_s", "layer"=-BODYPARTS_LAYER)
 
 	if(getlimb(/obj/item/organ/limb/robot/r_leg))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="r_leg_s", "layer"=-AUGMENTS_LAYER)
+		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="r_leg_s", "layer"=-BODYPARTS_LAYER)
 	if(getlimb(/obj/item/organ/limb/robot/l_leg))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="l_leg_s", "layer"=-AUGMENTS_LAYER)
+		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="l_leg_s", "layer"=-BODYPARTS_LAYER)
 
 	if(getlimb(/obj/item/organ/limb/robot/chest))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="chest_[g]_s", "layer"=-AUGMENTS_LAYER)
+		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="chest_[g]_s", "layer"=-BODYPARTS_LAYER)
 	if(getlimb(/obj/item/organ/limb/robot/head))
-		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="head_s", "layer"=-AUGMENTS_LAYER)
+		standing	+= image("icon"='icons/mob/augments.dmi', "icon_state"="head_s", "layer"=-BODYPARTS_LAYER)
 
 	if(standing.len)
-		overlays_standing[AUGMENTS_LAYER]	= standing
+		overlays_standing[BODYPARTS_LAYER]	= standing
 
-	apply_overlay(AUGMENTS_LAYER)
+	apply_overlay(BODYPARTS_LAYER)
 
 /* --------------------------------------- */
 //For legacy support.
@@ -138,6 +175,7 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 	if(!..())
 		update_body()
+		update_body_parts()
 		update_hair()
 		update_inv_w_uniform()
 		update_inv_wear_id()
@@ -498,3 +536,150 @@ generate/load female uniform sprites matching all previously decided variables
 	standing.color = color
 
 	return standing
+
+
+/////////////////////
+// Limb Icon Cache //
+/////////////////////
+/*
+	Called from update_body_parts() these procs handle the limb icon cache.
+	the limb icon cache adds an icon_render_key to a human mob, it represents:
+	- skin_tone (if applicable)
+	- gender
+	- limbs (stores as the limb name and whether it is removed/fine, organic/robotic)
+	These procs only store limbs as to increase the number of matching icon_render_keys
+	This cache exists because drawing 6/7 icons for humans constantly is quite a waste
+
+	See RemieRichards on irc.rizon.net #coderbus
+*/
+
+var/global/list/limb_icon_cache = list()
+
+/mob/living/carbon/human
+	var/icon_render_key = ""
+
+
+//produces a key based on the human's limbs
+/mob/living/carbon/human/proc/generate_icon_render_key()
+	var/datum/species/species = dna.species
+
+	. = "[species.id]"
+
+	if(species.use_skintones || dna.features["mcolor"])
+		. = "-coloured-[skin_tone]"
+	else
+		. = "-not_coloured"
+
+	. = "-[gender]"
+
+	for(var/obj/item/organ/limb/L in organs)
+		. = "-[initial(L.name)]"
+		if(L.state_flags & ORGAN_REMOVED)
+			. = "-removed"
+		else
+			. = "-fine"
+			if(L.status == ORGAN_ORGANIC)
+				. = "-organic"
+			else
+				. = "-robotic"
+
+
+//change the human's icon to the one matching it's key
+/mob/living/carbon/human/proc/load_limb_from_cache()
+	if(limb_icon_cache[icon_render_key])
+		remove_overlay(BODYPARTS_LAYER)
+		overlays_standing[BODYPARTS_LAYER] = limb_icon_cache[icon_render_key]
+		apply_overlay(BODYPARTS_LAYER)
+
+
+//draws an icon from a limb
+/mob/living/carbon/human/proc/generate_limb_icon(var/obj/item/organ/limb/affecting)
+	if(affecting.state_flags & ORGAN_REMOVED)
+		return 0
+
+	var/image/I
+	var/should_draw_gender = FALSE
+	var/icon_gender = (gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
+	var/datum/species/species = dna.species
+	var/should_draw_greyscale = FALSE
+
+	if((affecting.body_part == HEAD || affecting.body_part == CHEST) && species.sexes)
+		should_draw_gender = TRUE
+
+	if((MUTCOLORS in species.specflags) || species.use_skintones)
+		should_draw_greyscale = TRUE
+
+
+	if(affecting.status == ORGAN_ORGANIC)
+		if(should_draw_greyscale)
+			if(should_draw_gender)
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species.id]_[affecting.name]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
+			else
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species.id]_[affecting.name]_s", "layer"=-BODYPARTS_LAYER)
+		else
+			if(should_draw_gender)
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species.id]_[affecting.name]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
+			else
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species.id]_[affecting.name]_s", "layer"=-BODYPARTS_LAYER)
+	else
+		if(should_draw_gender)
+			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[affecting.name]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
+		else
+			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[affecting.name]_s", "layer"=-BODYPARTS_LAYER)
+		if(I)
+			return I
+		return 0
+
+
+	if(!should_draw_greyscale)
+		if(I)
+			return I //We're done here
+		return 0
+
+
+	//Greyscale Colouring
+	var/draw_color
+
+	if(species)
+		if(species.use_skintones)
+			draw_color = skintone2hex(skin_tone)
+		else
+			if(MUTCOLORS in species.specflags)
+				draw_color = dna.features["mcolor"]
+
+	if(draw_color)
+		I.color = "#[draw_color]"
+	//End Greyscale Colouring
+
+	if(I)
+		return I
+	return 0
+
+
+/proc/skintone2hex(var/skin_tone)
+	. = 0
+	switch(skin_tone)
+		if("caucasian1")
+			. = "ffe0d1"
+		if("caucasian2")
+			. = "fcccb3"
+		if("caucasian3")
+			. = "e8b59b"
+		if("latino")
+			. = "d9ae96"
+		if("mediterranean")
+			. = "c79b8b"
+		if("asian1")
+			. = "ffdeb3"
+		if("asian2")
+			. = "e3ba84"
+		if("arab")
+			. = "c4915e"
+		if("indian")
+			. = "b87840"
+		if("african1")
+			. = "754523"
+		if("african2")
+			. = "471c18"
+		if("albino")
+			. = "fff4e6"
