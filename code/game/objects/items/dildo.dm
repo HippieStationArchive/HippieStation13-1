@@ -6,7 +6,7 @@
 	icon = 'icons/obj/dicks.dmi'
 	icon_state = null
 	force = 5
-	w_class = 1
+	w_class = 3
 	throwforce = 5
 	hitsound = 'sound/items/squishy.ogg'
 	attack_verb = list("slapped")
@@ -19,13 +19,11 @@
 	name = "sea dragon dildo"
 	desc = "A sea dragon dildo, why this is on a spacestation we will never know..."
 	icon_state = "seadragon"
-	w_class = 3
 
 /obj/item/dragon/canine
 	name = "canine dildo"
 	desc = "A canine dildo, why this is on a spacestation we will never know..."
 	icon_state = "canine"
-	w_class = 3
 	throwforce = 7
 
 /obj/item/dragon/equine
