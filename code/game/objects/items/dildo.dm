@@ -17,20 +17,20 @@
 
 /obj/item/dragon/sea
 	name = "sea dragon dildo"
-	desc = "A Sea Dragon Dildo, Why this is on a SpaceStation we will never know..."
+	desc = "A sea dragon dildo, why this is on a spacestation we will never know..."
 	icon_state = "seadragon"
 	w_class = 3
 
 /obj/item/dragon/canine
 	name = "canine dildo"
-	desc = "A Canine Dildo, Why this is on a SpaceStation we will never know..."
+	desc = "A canine dildo, why this is on a spacestation we will never know..."
 	icon_state = "canine"
 	w_class = 3
 	throwforce = 7
 
 /obj/item/dragon/equine
 	name = "equine dildo"
-	desc = "A fucking Horse Cock!?  WHY!  Why do we have this shit on a Space Station..."
+	desc = "A equine dildo, why do we have this shit on a spacestation?"
 	icon_state = "equine"
 	force = 11
 	w_class = 4
@@ -38,7 +38,7 @@
 
 /obj/structure/statue/dragon/shelf
 	name = "dragon dildo shelf"
-	desc = "A shelf for all your fucking oversized Dildos.."
+	desc = "A shelf for all your fucking oversized dildos.."
 	icon = 'icons/obj/dicks.dmi'
 	icon_state = "shelf2"
 
