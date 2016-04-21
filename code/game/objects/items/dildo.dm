@@ -16,20 +16,20 @@
 	return(BRUTELOSS)
 
 /obj/item/dragon/sea
-	name = "Sea Dragon Dildo"
+	name = "sea dragon dildo"
 	desc = "A Sea Dragon Dildo, Why this is on a SpaceStation we will never know..."
 	icon_state = "seadragon"
 	w_class = 3
 
 /obj/item/dragon/canine
-	name = "Canine Dildo"
+	name = "canine dildo"
 	desc = "A Canine Dildo, Why this is on a SpaceStation we will never know..."
 	icon_state = "canine"
 	w_class = 3
 	throwforce = 7
 
 /obj/item/dragon/equine
-	name = "Equine Dildo"
+	name = "equine dildo"
 	desc = "A fucking Horse Cock!?  WHY!  Why do we have this shit on a Space Station..."
 	icon_state = "equine"
 	force = 11
@@ -37,7 +37,7 @@
 	throwforce = 9
 
 /obj/structure/statue/dragon/shelf
-	name = "Dragon Dildo Shelf"
+	name = "Dragon Dildo Shelf" //Caps for this cause I like it.
 	desc = "A shelf for all your fucking oversized Dildos.."
 	icon = 'icons/obj/dicks.dmi'
 	icon_state = "shelf2"
