@@ -1,7 +1,7 @@
 //Coded by Nexendia~
 
 /obj/item/dragon
-	name = "Bad Dragon"
+	name = "bad dragon"
 	desc = "You really shouldn't see this.. but if you do... Huzzah.. you found a bug.. please scream at Nexendia!"
 	icon = 'icons/obj/dicks.dmi'
 	icon_state = null
@@ -37,7 +37,7 @@
 	throwforce = 9
 
 /obj/structure/statue/dragon/shelf
-	name = "Dragon Dildo Shelf" //Caps for this cause I like it.
+	name = "dragon dildo shelf"
 	desc = "A shelf for all your fucking oversized Dildos.."
 	icon = 'icons/obj/dicks.dmi'
 	icon_state = "shelf2"
