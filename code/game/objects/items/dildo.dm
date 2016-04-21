@@ -28,7 +28,7 @@
 
 /obj/item/dragon/equine
 	name = "equine dildo"
-	desc = "A equine dildo, why do we have this shit on a spacestation?"
+	desc = "An equine dildo, why do we have this shit on a spacestation?"
 	icon_state = "equine"
 	force = 11
 	w_class = 4
