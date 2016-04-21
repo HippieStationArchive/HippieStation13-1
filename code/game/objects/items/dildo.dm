@@ -12,8 +12,8 @@
 	attack_verb = list("slapped")
 
 /obj/item/dragon/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is shoving [src.name] down \his throat! It looks like they're trying to commit suicide.</span>"))
-	return(BRUTELOSS)
+	user.visible_message("<span class='suicide'>[user] is shoving [src.name] down \his throat! It looks like they're trying to commit suicide.</span>")
+	return (BRUTELOSS)
 
 /obj/item/dragon/sea
 	name = "sea dragon dildo"
