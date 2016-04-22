@@ -46,9 +46,17 @@
 				open_and_close()
 			else
 				flick("[src.base_state]deny", src)
+
 		else if(istype(AM, /obj/mecha))
 			var/obj/mecha/mecha = AM
 			if(mecha.occupant && src.allowed(mecha.occupant))
+				open_and_close()
+			else
+				flick("[src.base_state]deny", src)
+
+		else if(istype(AM, /obj/mecha))
+			var/obj/vehicle/vehicle = AM
+			if(vehicle.driver && src.allowed(vehicle.driver))
 				open_and_close()
 			else
 				flick("[src.base_state]deny", src)
