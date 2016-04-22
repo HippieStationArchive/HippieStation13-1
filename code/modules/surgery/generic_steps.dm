@@ -45,7 +45,6 @@
 /datum/surgery_step/close/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	user.visible_message("[user] begins to mend the incision in [target]'s [parse_zone(target_zone)].", "<span class='notice'>You begin to mend the incision in [target]'s [parse_zone(target_zone)]...</span>")
 
-
 /datum/surgery_step/close/tool_check(mob/user, obj/item/tool)
 	if(istype(tool, /obj/item/weapon/cautery))
 		return 1
@@ -67,6 +66,9 @@
 /datum/surgery_step/close/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	if(locate(/datum/surgery_step/saw) in surgery.steps)
 		target.heal_organ_damage(45,0)
+	if(istype(surgery.organ, /obj/item/organ/limb))
+		var/obj/item/organ/limb/L
+		L.heal_damage(bleed=L.bloodloss) //you mend the incision, don't you?
 	return ..()
 
 

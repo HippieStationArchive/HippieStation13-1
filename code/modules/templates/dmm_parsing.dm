@@ -35,6 +35,9 @@
 		for(var/atom/movable/M in T)
 			M.initialize()
 
+		for(var/obj/machinery/power/apc/A in T)
+			A.reassign_area()
+
 /datum/dmm_object_collection/proc/Place(var/turf/origin, var/template_name)
 	name = template_name
 
@@ -59,8 +62,6 @@
 			turfs += object.Instantiate(locate(origin.x + x, origin.y + y, origin.z), ((!object.HasArea()) && (!object.GetSubByType(/turf/space, 0))) ? A : null)
 			x++
 
-	HandleEdgeCases()
-
 	spawn(10)
 		for(var/turf/T in place_last_turfs)
 			var/datum/dmm_sub_object/sub = place_last_objects[place_last_turfs.Find(T)]
@@ -69,6 +70,8 @@
 				last.vars[or] = sub.var_overrides[or]
 
 	location = origin
+
+	HandleEdgeCases()
 
 	return 1
 

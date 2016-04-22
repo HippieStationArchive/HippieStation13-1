@@ -44,6 +44,7 @@ var/global/list/datum/stack_recipe/metal_recipes = list ( \
 	new/datum/stack_recipe("air alarm frame", /obj/item/wallframe/alarm, 2), \
 	new/datum/stack_recipe("fire alarm frame", /obj/item/wallframe/firealarm, 2), \
 	new/datum/stack_recipe("button frame", /obj/item/wallframe/button, 1), \
+	new/datum/stack_recipe("keypad frame", /obj/item/wallframe/keypad, 1), \
 	new/datum/stack_recipe("extinguisher cabinet frame", /obj/item/wallframe/extinguishercabinet, 1), \
 	null, \
 	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20, one_per_turf = 1, on_floor = 1), \

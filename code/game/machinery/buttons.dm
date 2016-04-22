@@ -40,6 +40,7 @@
 	if(id && istype(device, /obj/item/device/assembly/control))
 		var/obj/item/device/assembly/control/A = device
 		A.id = id
+		restricted_ids.Add(id)
 
 
 /obj/machinery/button/update_icon()
@@ -77,7 +78,7 @@
 				return
 			W.loc = src
 			device = W
-			user << "<span class='notice'>You add [W] to the button.</span>"
+			user << "<span class='notice'>You add [W] to \the [src].</span>"
 
 		if(!board && istype(W, /obj/item/weapon/electronics/airlock))
 			if(!user.unEquip(W))
@@ -89,13 +90,13 @@
 				req_one_access = board.conf_access
 			else
 				req_access = board.conf_access
-			user << "<span class='notice'>You add [W] to the button.</span>"
+			user << "<span class='notice'>You add [W] to \the [src].</span>"
 
 		if(!device && !board && istype(W, /obj/item/weapon/wrench))
-			user << "<span class='notice'>You start unsecuring the button frame...</span>"
+			user << "<span class='notice'>You start unsecuring \the [src] frame...</span>"
 			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
 			if(do_after(user, 40/W.toolspeed, target = src))
-				user << "<span class='notice'>You unsecure the button frame.</span>"
+				user << "<span class='notice'>You unsecure \the [src] frame.</span>"
 				transfer_fingerprints_to(new /obj/item/wallframe/button(get_turf(src)))
 				playsound(loc, 'sound/items/Deconstruct.ogg', 50, 1)
 				qdel(src)
@@ -127,14 +128,14 @@
 				req_one_access = list()
 				board = null
 			update_icon()
-			user << "<span class='notice'>You remove electronics from the button frame.</span>"
+			user << "<span class='notice'>You remove electronics from \the [src] frame.</span>"
 
 		else
 			if(skin == "doorctrl")
 				skin = "launcher"
 			else
 				skin = "doorctrl"
-			user << "<span class='notice'>You change the button frame's front panel.</span>"
+			user << "<span class='notice'>You change \the [src] frame's front panel.</span>"
 		return
 
 	if((stat & (NOPOWER|BROKEN)))
@@ -149,13 +150,9 @@
 		return
 
 	use_power(5)
-	icon_state = "[skin]1"
-
+	flick("[skin]1", src)
 	if(device)
 		device.pulsed()
-
-	spawn(15)
-		update_icon()
 
 /obj/machinery/button/power_change()
 	..()
@@ -287,14 +284,14 @@
 				req_one_access = list()
 				board = null
 			update_icon()
-			user << "<span class='notice'>You remove electronics from the button frame.</span>"
+			user << "<span class='notice'>You remove electronics from \the [src] frame.</span>"
 
 		else
 			if(skin == "doorctrl")
 				skin = "launcher"
 			else
 				skin = "doorctrl"
-			user << "<span class='notice'>You change the button frame's front panel.</span>"
+			user << "<span class='notice'>You change \the [src] frame's front panel.</span>"
 		return
 
 	if((stat & (NOPOWER|BROKEN)))
@@ -314,13 +311,10 @@
 		return
 
 	use_power(5)
-	icon_state = "[skin]1"
+	flick("[skin]1", src)
 
 	if(device)
 		device.pulsed()
-
-	spawn(15)
-		update_icon()
 
 /obj/machinery/emagproof_button/power_change()
 	..()

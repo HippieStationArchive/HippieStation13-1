@@ -11,6 +11,7 @@
 	burntime = 5
 	var/heal_brute = 0
 	var/heal_burn = 0
+	var/heal_bleeding = 0
 	var/stop_bleeding = 0
 
 /obj/item/stack/medical/attack(mob/living/M, mob/user)
@@ -76,7 +77,7 @@
 			if(!H.bleedsuppress) //so you can't stack bleed suppression
 				H.suppress_bloodloss(stop_bleeding)
 		if(affecting.status == ORGAN_ORGANIC) //Limb must be organic to be healed - RR
-			if(affecting.heal_damage(src.heal_brute, src.heal_burn, 0))
+			if(affecting.heal_damage(heal_brute, heal_burn, heal_bleeding))
 				H.update_damage_overlays(0)
 
 			M.updatehealth()
@@ -96,6 +97,7 @@
 	desc = "A theraputic gel pack and bandages designed to treat blunt-force trauma."
 	icon_state = "brutepack"
 	heal_brute = 40
+	heal_bleeding = 1 //Chances are it'll stop most of the bleeding.
 	origin_tech = "biotech=1"
 
 /obj/item/stack/medical/gauze

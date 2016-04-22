@@ -221,7 +221,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 		if(H.nutrition > NUTRITION_LEVEL_FULL)
 			H.nutrition = NUTRITION_LEVEL_FULL
 		if(light_amount > 2) //if there's enough light, heal
-			H.heal_overall_damage(1,1)
+			H.heal_overall_damage(1,1,0.02)
 			H.adjustToxLoss(-1)
 			H.adjustOxyLoss(-1)
 
@@ -276,7 +276,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 		if(light_amount > 2) //if there's enough light, start dying
 			H.take_overall_damage(1,1)
 		else if (light_amount < 2) //heal in the dark
-			H.heal_overall_damage(1,1)
+			H.heal_overall_damage(1,1,0.02)
 
 /*
  SLIMEPEOPLE

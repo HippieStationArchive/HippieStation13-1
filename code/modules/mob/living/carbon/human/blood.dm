@@ -68,12 +68,12 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 						B.volume += 0.4
 						reagents.remove_reagent("nutriment", 0.1)
 					if (reagents.has_reagent("iron"))	//Hematogen candy anyone?
-						B.volume += 0.4
+						B.volume += 0.6
 						reagents.remove_reagent("iron", 0.1)
 
 		//Effects of bloodloss
 		switch(blood_volume)
-			if(BLOOD_VOLUME_SAFE to 10000)
+			if(BLOOD_VOLUME_SAFE to INFINITY)
 				if(pale)
 					pale = 0
 					update_body()
@@ -108,18 +108,10 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 		//Bleeding out
 		blood_max = 0
 		for(var/obj/item/organ/limb/org in organs)
-			var/brutedamage = org.brute_dam
+			if(org.brute_dam <= 0) //Let's close up the bleeding wounds if the organ doesn't have any brute damage
+				org.bloodloss = 0 //Doing this here is quite hacky but eh
+			blood_max += org.bloodloss //Check every organ that's bleeding
 
-			//We want an accurate reading of .len
-			listclearnulls(org.embedded_objects)
-			blood_max += 0.5*org.embedded_objects.len
-
-			if(brutedamage > 30)
-				blood_max += 0.5
-			if(brutedamage > 50)
-				blood_max += 1
-			if(brutedamage > 70)
-				blood_max += 2
 		var/obj/item/organ/internal/butt/B = getorgan(/obj/item/organ/internal/butt)
 		if(B in internal_organs)
 			if(B.contents.len)

@@ -602,3 +602,36 @@ var/global/list/multiverse = list()
 		target.IgniteMob()
 		GiveHint(target,1)
 	return ..()
+
+// Syndicate Voodoo Item box
+/obj/item/weapon/paper/voodoo
+	name = "Voodoo Guide"
+	icon_state = "alienpaper_words"
+	info = {"Greetings muggle! The Wizard Federation likes to congratulate you on your purchase! Note that the Wizard Federation does not accept refunds of any sorts and that all purchases are final.<br>
+ <br>
+ <b>How to use</b><br>
+ <br>
+ First, you need to acquire an item touched by the person you want to control. Their fingerprints need to be on it, meaning that glove-wearers are likely to not leave any fingerprints at all. In addition, the item needs to be classified as a tiny or small item, otherwise you cannot attach it to the doll.<br>
+ When you do get your hands onto an item with their fingerprints however, simply attach the item to the doll then activate it within your hand. Select the name of the person you want to manipulate and you'll bind their soul to the voodoo doll. The linked item can be removed by simply targetting the chest and activating it in your hand.
+ <br><br>
+ <b>Torture 101</b><br>
+ <br>
+ You can torment your victim in various way, but note that some of the more aggresive methods will notify the target of your general direction (and even the room you are currently in if they are lucky). Make sure that if you are being aggresive that you are always on the move or he may track you down.<br>
+ <br>
+ One of the most common ways of tormenting the victim is by simply using your empty hand. By selecting any body part besides the chest you will trigger various effects. By targetting the mouth you can force people to say things whatever you please, by targetting the eyes you can see the world trough your victims eyes and by targetting the legs you can move them in a random direction. All of these do not give a warning.<br>
+ By selecting the head you can make your victim dizzy for a while, as well as giving them a small message notifying them of the pain they are going trough. In addition, selecting the arms makes them use the item they are currently holding on the target (with the selected intent). These 2 actions do reveal your directions.<br>
+ Alternatively, you can use various items on them. Stabbing them with a pointy object weakens them for a period of time, using a "hot" item (typically lighters) on the doll increases his body temprature and using a bike horn (or air horn) causes a very loud horn to honk in their ears, damaging their ears as well as being incredibly annoying. All 3 of these actions reveal your direction.<br>
+ If you feel like you will have no more purpose for the voodoo doll, you can set it ablaze, setting your target on fire as well. It will be incredibly hard extinguishing the doll before it burns up, so it is generally best to save this for last
+"}
+
+/obj/item/weapon/paper/voodoo/update_icon()
+	return
+
+/obj/item/weapon/storage/box/syndie_kit/voodoo
+	name = "voodoo kit"
+
+/obj/item/weapon/storage/box/syndie_kit/voodoo/New()
+	..()
+	new /obj/item/voodoo(src)
+	new /obj/item/weapon/paper/voodoo(src)
+	return
