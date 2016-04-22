@@ -8,6 +8,7 @@
 	var/obj/item/weapon/woodenplate/plate 	//the wooden plate
 	var/client/sawer	 	//the guy sawing the plate
 	var/oldloc 								//the loc the sawer was on when he started sawing,to remove the image in case of movement
+	var/cooldown //Used to prevent the MULTISAWING OF DEATH!
 
 /obj/structure/tablesaw/New()
 	..()
@@ -52,8 +53,12 @@
 		return
 	if(istype(I, /obj/item/weapon/grab))//shamelessly copied from meatspike
 		var/obj/item/weapon/grab/G = I
+		if(cooldown)
+			user << "<span class='notice'>Someone is already being sawn!</span>"
+			return
 		if(isliving(G.affecting))
 			user.visible_message("<span class='danger'>[user] starts slaming [G.affecting] onto \the [name]...</span>")
+			cooldown = 1
 			if(do_mob(user, src, 120))
 				if(G.affecting.buckled)
 					return
@@ -73,6 +78,9 @@
 						HU.organs -= delimb
 						HU.visible_message("<span class='danger'>[HU]'s [parse_zone(target_zone)] flies off!</span>", "<span class='userdanger'>Your [parse_zone(target_zone)] flies off!</span>")
 				H.adjustBruteLoss(50)
+				cooldown = 0
+			else
+				cooldown = 0
 
 /obj/structure/tablesaw/attack_hand(mob/user)
 	if(plate)

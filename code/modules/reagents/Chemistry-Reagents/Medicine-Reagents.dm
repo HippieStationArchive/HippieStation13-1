@@ -38,7 +38,7 @@
 	M.setCloneLoss(0)
 	M.setOxyLoss(0)
 	M.radiation = 0
-	M.heal_organ_damage(5,5)
+	M.heal_organ_damage(5,5,2)
 	M.adjustToxLoss(-5)
 	M.hallucination = 0
 	M.setBrainLoss(0)
@@ -112,6 +112,7 @@
 		M.adjustCloneLoss(-4)
 		M.adjustOxyLoss(-10)
 		M.adjustBruteLoss(-3)
+		M.adjustBloodLoss(-0.02)
 		M.adjustFireLoss(-3)
 		M.adjustToxLoss(-3)
 		M.status_flags &= ~DISFIGURED
@@ -128,7 +129,7 @@
 
 /datum/reagent/medicine/rezadone/on_mob_life(mob/living/M)
 	M.setCloneLoss(0) //Rezadone is almost never used in favor of cryoxadone. Hopefully this will change that.
-	M.heal_organ_damage(1,1)
+	M.heal_organ_damage(1,1,0.01)
 	M.status_flags &= ~DISFIGURED
 	..()
 	return
@@ -211,6 +212,7 @@
 				M << "<span class='warning'>You don't feel so good...</span>"
 		else if(M.getBruteLoss())
 			M.adjustBruteLoss(-reac_volume)
+			M.adjustBloodLoss(-reac_volume/10)
 			if(show_message)
 				M << "<span class='danger'>You feel your wounds knitting back together!</span>"
 			M.emote("scream")
@@ -218,6 +220,7 @@
 
 /datum/reagent/medicine/styptic_powder/on_mob_life(mob/living/M)
 	M.adjustBruteLoss(-2*REM)
+	M.adjustBloodLoss(-0.01*REM)
 	..()
 
 /datum/reagent/medicine/salglu_solution
@@ -231,6 +234,7 @@
 /datum/reagent/medicine/salglu_solution/on_mob_life(mob/living/M)
 	if(prob(33))
 		M.adjustBruteLoss(-0.5*REM)
+		M.adjustBloodLoss(-0.1*REM)
 		M.adjustFireLoss(-0.5*REM)
 	..()
 
@@ -281,7 +285,7 @@
 /datum/reagent/medicine/synthflesh
 	name = "Synthflesh"
 	id = "synthflesh"
-	description = "Has a 100% chance of instantly healing brute and burn damage. One unit of the chemical will heal one point of damage. Touch application only."
+	description = "Has a 100% chance of instantly healing brute and burn damage. One unit of the chemical will heal one point of damage. Also heals bloodloss completely. Touch application only."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 
@@ -289,6 +293,7 @@
 	if(iscarbon(M) && M.stat != DEAD)
 		if(method in list(PATCH, TOUCH))
 			M.adjustBruteLoss(-1.25 * reac_volume)
+			M.adjustBloodLoss(-M.getBloodLoss()) //Heal bloodloss completely
 			M.adjustFireLoss(-1.25 * reac_volume)
 			if(show_message)
 				M << "<span class='danger'>You feel your burns healing and your flesh knitting together!</span>"
@@ -324,6 +329,7 @@
 	M.adjustToxLoss(-0.5*REM)
 	M.adjustOxyLoss(-0.5*REM)
 	M.adjustBruteLoss(-0.5*REM)
+	M.adjustBloodLoss(-0.01*REM)
 	M.adjustFireLoss(-0.5*REM)
 	..()
 	return
@@ -777,6 +783,7 @@
 		M.adjustOxyLoss(-1*REM)
 		M.adjustToxLoss(-1*REM)
 		M.adjustBruteLoss(-1*REM)
+		M.adjustBloodLoss(-0.1*REM)
 		M.adjustFireLoss(-1*REM)
 	M.AdjustParalysis(-3)
 	M.AdjustStunned(-3)
@@ -932,6 +939,7 @@ datum/reagent/medicine/syndicate_nanites //Used exclusively by Syndicate medical
 
 datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	M.adjustBruteLoss(-5*REM) //A ton of healing - this is a 50 telecrystal investment.
+	M.adjustBloodLoss(-2*REM) //Great bloodloss healing
 	M.adjustFireLoss(-5*REM)
 	M.adjustOxyLoss(-15)
 	M.adjustToxLoss(-5*REM)

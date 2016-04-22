@@ -7,6 +7,7 @@ var/datum/subsystem/template/SStemplate
 /datum/subsystem/template/New()
 	NEW_SS_GLOBAL(SStemplate)
 	parser = new()
+	priority = -2
 
 /datum/subsystem/template/Initialize()
 		PlaceTemplates()

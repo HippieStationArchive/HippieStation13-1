@@ -144,7 +144,7 @@ var/global/biblename
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		for(var/obj/item/organ/limb/affecting in H.organs)
-			if(affecting.heal_damage(heal_amt, heal_amt, 0))
+			if(affecting.heal_damage(heal_amt, heal_amt, heal_amt/10))
 				H.update_damage_overlays(0)
 				. = TRUE
 
@@ -416,6 +416,7 @@ var/global/biblename
 		visible_message("<span class='notice'>\The [name] emits an holy light!</span>")
 		for(var/mob/living/carbon/human/M in affectedmobs)
 			M.adjustBruteLoss(-healamt)
+			M.adjustBloodLoss(-healamt/10)
 			M << "<span class='notice'>You feel your wounds knitting together!</span>"
 		return 1
 

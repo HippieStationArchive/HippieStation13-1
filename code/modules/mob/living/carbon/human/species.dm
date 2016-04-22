@@ -1120,10 +1120,16 @@
 	apply_damage(I.force, I.damtype, affecting, armor_block, H)
 
 	var/bloody = 0
-	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2))))
+	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2)))) //45% on toolboxes (10 force)
 		if(affecting.status == ORGAN_ORGANIC)
 			I.add_blood(H)	//Make the weapon bloody, not the person.
-			if(prob(I.force * 2))	//blood spatter!
+
+			//Probability for bloodloss:
+			//TOOLBOXES (blunt, 10 force): 10% chance on 0-damaged limb, 60% chance on 50-damaged limb, etc.
+			//GAR GLASSES (sharp, 10 force): 20% chance on 0-damaged limb, 70% chance on 50-damaged limb, etc.
+			//KITCHEN KNIVES (sharp_accurate, 10 force): 30% chance on 0-damaged limb, 80% chance on 50-damaged limb, etc.
+			if(prob(I.force * max(I.sharpness+1, 1) + affecting.brute_dam/2)) //Bloodsplatter and bloodloss handled by same probability check
+				affecting.take_damage(0,0,0.5) //Apply 0.5 bloodloss of 2 max per limb
 				bloody = 1
 				var/turf/location = H.loc
 				if(prob(50))	//Spawn a bloodsplatter effect
@@ -1152,14 +1158,15 @@
 							M.add_blood(H)
 							M.update_inv_gloves()	//updates on-mob overlays for bloody hands and/or bloody gloves
 
-
 		switch(hit_area)
-			if("head")	//Harder to score a stun but if you do it lasts a bit longer
+			if("head")	//Causes dizzness, brain damage and forces the target to drop their items
 				if(H.stat == CONSCIOUS && armor_block < 50)
-					if(prob(I.force))
-						H.visible_message("<span class='danger'>[H] has been knocked unconscious!</span>", \
-										"<span class='userdanger'>[H] has been knocked unconscious!</span>")
-						H.apply_effect(20, PARALYZE, armor_block)
+					if(prob(min(I.force, 25)))
+						H.visible_message("<span class='danger'>[H] has received a concussion!</span>", \
+										"<span class='userdanger'>[H] has received a concussion!</span>")
+						H.confused += 10
+						H.apply_effect(0.5, WEAKEN, armor_block)
+						H.adjustBrainLoss(max(10, I.force/2))
 					var/role = lowertext(user.mind.special_role)
 					if(role != "revolutionary" && role != "head revolutionary")
 						if(prob(I.force + ((100 - H.health)/2)) && H != user && I.damtype == BRUTE)
@@ -1180,11 +1187,12 @@
 						H.glasses.add_blood(H)
 						H.update_inv_glasses()
 
-			if("chest")	//Easier to score a stun but lasts less time
-				if(H.stat == CONSCIOUS && I.force && prob(I.force + 10))
-					H.visible_message("<span class='danger'>[H] has been knocked down!</span>", \
-									"<span class='userdanger'>[H] has been knocked down!</span>")
-					H.apply_effect(5, WEAKEN, armor_block)
+			if("chest")	//Causes weakness and forces the target to drop their items
+				if(H.stat == CONSCIOUS && I.force && prob(min(I.force, 35)))
+					H.visible_message("<span class='danger'>[H] recoils and stumbles from the attack!</span>", \
+									"<span class='userdanger'>[H] recoils and stumbles from the attack!</span>")
+					H.apply_effect(0.5, WEAKEN, armor_block)
+					H.adjustStaminaLoss(20)
 
 				if(bloody)
 					if(H.wear_suit)

@@ -63,6 +63,7 @@
 /obj/item/organ/internal/gland/heals/activate()
 	owner << "<span class='notice'>You feel curiously revitalized.</span>"
 	owner.adjustBruteLoss(-20)
+	owner.adjustBloodLoss(-2)
 	owner.adjustOxyLoss(-20)
 	owner.adjustFireLoss(-20)
 

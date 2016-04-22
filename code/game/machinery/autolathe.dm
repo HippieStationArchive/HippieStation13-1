@@ -47,6 +47,7 @@
 							"Security",
 							"Machinery",
 							"Medical",
+							"Assembly",
 							"Misc"
 							)
 
