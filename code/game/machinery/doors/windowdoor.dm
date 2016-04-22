@@ -52,13 +52,13 @@
 				open_and_close()
 			else
 				flick("[src.base_state]deny", src)
-		return
-	 	else if(istype(AM, /obj/vehicle))
+		else if(istype(AM, /obj/vehicle))
 			var/obj/vehicle/vehicle = AM
 			if(vehicle.driver && src.allowed(vehicle.driver))
 				open_and_close()
 			else
 				flick("[src.base_state]deny", src)
+		return
 
 	if (!( ticker ))
 		return

@@ -60,7 +60,7 @@ but i'll port it back to Arctic station if we get back to it
 	var/obj/item/weapon/reagent_containers/fueltank/F = locate() in parts
 	var/obj/item/weapon/stock_parts/cell/C = locate() in parts
 	for(I in blacklist)
-		user << "<span class='notice'>You can't attach [i] to [src]!</span>"
+		user << "<span class='notice'>You can't attach [I] to [src]!</span>"
 		return
 	if(istype(I,/obj/item/weapon/weldingtool) && user.a_intent != "harm")
 		var/obj/item/weapon/weldingtool/WT = I
@@ -365,10 +365,9 @@ but i'll port it back to Arctic station if we get back to it
 	if(occupants >= occupants_max && driver)
 		user << "<span class='warning'>The [src.name] is full!</span>"
 		return
-	for(var/mob/living/simple_animal/slime/S in range(1,user))
-		if(S.Victim == user)
-			user << "<span class='warning'>You're too busy getting your life sucked out of you!</span>"
-			return
+	if(user.buckled_mob)
+		user << "<span class='warning'>You can't enter the exosuit with [user.buckled_mob] attached to you!</span>"
+		return
 
 	visible_message("[user] starts to climb into [src].")
 
