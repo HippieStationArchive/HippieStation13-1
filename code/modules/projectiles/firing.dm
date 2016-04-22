@@ -40,6 +40,8 @@
 
 /obj/item/ammo_casing/proc/throw_proj(atom/target, turf/targloc, mob/living/user, params, spread)
 	var/turf/curloc = user.loc
+	if(istype(user.loc,/obj/vehicle))
+		curloc = get_turf(user.loc)
 	if (!istype(targloc) || !istype(curloc) || !BB)
 		return 0
 	if(targloc == curloc)
