@@ -211,6 +211,8 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	for(var/datum/objective/objective in changeling.objectives)
 		changeling.current << "<b>Objective #[obj_count]</b>: [objective.explanation_text]"
 		obj_count++
+
+	changeling.current << "<a href=[config.wikiurl]/index.php?title=Changeling>New to changeling? Click here to be linked to the wiki guide on changelings.</a>"
 	return
 
 /*/datum/game_mode/changeling/check_finished()
@@ -294,7 +296,6 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	var/purchasedpowers = list()
 	var/mimicing = ""
 	var/canrespec = 0
-	var/changeling_speak = 0
 	var/datum/dna/chosen_dna
 	var/obj/effect/proc_holder/changeling/sting/chosen_sting
 
@@ -366,11 +367,12 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 
 	var/datum/changelingprofile/prof = new()
 
-	H.dna.real_name = H.real_name //Set this again, just to be sure that it's properly set.
+	H.name = H.dna.real_name //Set this again, just to be sure that it's properly set.
 	var/datum/dna/new_dna = new H.dna.type
 	H.dna.copy_dna(new_dna)
 	prof.dna = new_dna
-	prof.name = H.real_name
+	prof.dna.real_name = H.name
+	prof.name = H.name
 	prof.protected = protect
 
 	prof.underwear = H.underwear
@@ -423,7 +425,6 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	user.underwear = chosen_prof.underwear
 	user.undershirt = chosen_prof.undershirt
 	user.socks = chosen_prof.socks
-	user.dna = chosen_dna //Should fix the whole "ERM MEH GERD I TURNED INTO A HUMAN INSTEAD OF ROBIT"
 
 	chosen_dna.transfer_identity(user, 1)
 	user.updateappearance(mutcolor_update=1)

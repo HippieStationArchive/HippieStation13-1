@@ -770,26 +770,29 @@
 		return
 	var/choice = null
 	if(cards.len == 0)
-		src.icon_state = "deck_[deckstyle]_empty"
 		user << "<span class='warning'>There are no more cards to draw!</span>"
 		return
 	var/obj/item/toy/cards/singlecard/H = new/obj/item/toy/cards/singlecard(user.loc)
 	choice = cards[1]
 	H.cardname = choice
 	H.parentdeck = src
-	H.add_fingerprint(user)
 	var/O = src
 	H.apply_card_vars(H,O)
 	src.cards -= choice
 	H.pickup(user)
-	user.put_in_active_hand(H)
+	user.put_in_hands(H)
 	user.visible_message("[user] draws a card from the deck.", "<span class='notice'>You draw a card from the deck.</span>")
+	update_icon()
+
+/obj/item/toy/cards/deck/update_icon()
 	if(cards.len > 26)
-		src.icon_state = "deck_[deckstyle]_full"
+		icon_state = "deck_[deckstyle]_full"
 	else if(cards.len > 10)
-		src.icon_state = "deck_[deckstyle]_half"
-	else if(cards.len > 1)
-		src.icon_state = "deck_[deckstyle]_low"
+		icon_state = "deck_[deckstyle]_half"
+	else if(cards.len > 0)
+		icon_state = "deck_[deckstyle]_low"
+	else if(!cards.len)
+		icon_state = "deck_[deckstyle]_empty"
 
 /obj/item/toy/cards/deck/attack_self(mob/user)
 	if(cooldown < world.time - 50)
@@ -798,9 +801,10 @@
 		user.visible_message("[user] shuffles the deck.", "<span class='notice'>You shuffle the deck.</span>")
 		cooldown = world.time
 
-/obj/item/toy/cards/deck/attackby(obj/item/toy/cards/singlecard/C, mob/living/user, params)
+/obj/item/toy/cards/deck/attackby(obj/item/toy/cards/I, mob/living/user, params)
 	..()
-	if(istype(C))
+	if(istype(I, /obj/item/toy/cards/singlecard))
+		var/obj/item/toy/cards/singlecard/C = I
 		if(C.parentdeck == src)
 			if(!user.unEquip(C))
 				user << "<span class='warning'>The card is stuck to your hand, you can't add it to the deck!</span>"
@@ -810,17 +814,8 @@
 			qdel(C)
 		else
 			user << "<span class='warning'>You can't mix cards from other decks!</span>"
-		if(cards.len > 26)
-			src.icon_state = "deck_[deckstyle]_full"
-		else if(cards.len > 10)
-			src.icon_state = "deck_[deckstyle]_half"
-		else if(cards.len > 1)
-			src.icon_state = "deck_[deckstyle]_low"
-
-
-/obj/item/toy/cards/deck/attackby(obj/item/toy/cards/cardhand/C, mob/living/user, params)
-	..()
-	if(istype(C))
+	if(istype(I, /obj/item/toy/cards/cardhand))
+		var/obj/item/toy/cards/cardhand/C = I
 		if(C.parentdeck == src)
 			if(!user.unEquip(C))
 				user << "<span class='warning'>The hand of cards is stuck to your hand, you can't add it to the deck!</span>"
@@ -830,12 +825,7 @@
 			qdel(C)
 		else
 			user << "<span class='warning'>You can't mix cards from other decks!</span>"
-		if(cards.len > 26)
-			src.icon_state = "deck_[deckstyle]_full"
-		else if(cards.len > 10)
-			src.icon_state = "deck_[deckstyle]_half"
-		else if(cards.len > 1)
-			src.icon_state = "deck_[deckstyle]_low"
+	update_icon()
 
 /obj/item/toy/cards/deck/MouseDrop(atom/over_object)
 	var/mob/M = usr
@@ -1117,7 +1107,7 @@
 /obj/item/toy/minimeteor/throw_impact(atom/hit_atom)
 	if(!..())
 		playsound(src, 'sound/effects/meteorimpact.ogg', 40, 1)
-		for(var/mob/M in range(10, src))
+		for(var/mob/M in ultra_range(10, src))
 			if(!M.stat && !istype(M, /mob/living/silicon/ai))\
 				shake_camera(M, 3, 1)
 		qdel(src)
@@ -1162,7 +1152,7 @@
 		cooldown = (world.time + 300) // Sets cooldown at 30 seconds
 		user.visible_message("<span class='warning'>[user] presses the big red button.</span>", "<span class='notice'>You press the button, it plays a loud noise!</span>", "<span class='italics'>The button clicks loudly.</span>")
 		playsound(src, 'sound/effects/explosionfar.ogg', 50, 0, surround = 0)
-		for(var/mob/M in range(10, src)) // Checks range
+		for(var/mob/M in ultra_range(10, src)) // Checks range
 			if(!M.stat && !istype(M, /mob/living/silicon/ai)) // Checks to make sure whoever's getting shaken is alive/not the AI
 				sleep(8) // Short delay to match up with the explosion sound
 				shake_camera(M, 2, 1) // Shakes player camera 2 squares for 1 second.

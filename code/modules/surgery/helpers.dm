@@ -56,6 +56,8 @@
 					qdel(current_surgery)
 				else if(istype(user.get_inactive_hand(), /obj/item/weapon/cautery) && current_surgery.can_cancel)
 					M.surgeries -= current_surgery
+					if(affecting)
+						affecting.heal_damage(bleed=affecting.bloodloss) //you mend the incision, don't you?
 					user.visible_message("[user] mends the incision and removes the drapes from [M]'s [parse_zone(selected_zone)].", \
 						"<span class='notice'>You mend the incision and remove the drapes from [M]'s [parse_zone(selected_zone)].</span>")
 					qdel(current_surgery)
@@ -74,7 +76,7 @@ proc/get_location_modifier(mob/M)
 		return 1
 	else if(locate(/obj/structure/table, T))
 		return 0.8
-	else if(locate(/obj/structure/stool/bed, T))
+	else if(locate(/obj/structure/bed, T))
 		return 0.7
 	else
 		return 0.5

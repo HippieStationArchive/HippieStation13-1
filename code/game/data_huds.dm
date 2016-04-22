@@ -47,6 +47,9 @@
 /datum/atom_hud/data/diagnostic
 	hud_icons = list (DIAG_HUD, DIAG_STAT_HUD, DIAG_BATT_HUD, DIAG_MECH_HUD)
 
+/datum/atom_hud/data/admin
+	hud_icons = list(ANTAG_HUD_ADMIN)
+
 /* MED/SEC/DIAG HUD HOOKS */
 
 /*
@@ -110,12 +113,12 @@
 	var/turf/T = get_turf(src)
 	if (T) crewmonitor.queueUpdate(T.z)
 
-//called when a carbon changes stat, virus or XENO_HOST
+//called when a carbon changes stat, virus or has a xeno baby
 /mob/living/carbon/proc/med_hud_set_status()
 	var/image/holder = hud_list[STATUS_HUD]
 	if(stat == 2)
 		holder.icon_state = "huddead"
-	else if(status_flags & XENO_HOST)
+	else if(getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
 		holder.icon_state = "hudxeno"
 	else if(check_virus())
 		holder.icon_state = "hudill"
@@ -157,10 +160,9 @@
 				holder.icon_state = "hud_imp_chem"
 
 /mob/living/carbon/human/proc/sec_hud_set_security_status()
-	var/image/holder
+	var/image/holder = hud_list[WANTED_HUD]
 	var/perpname = get_face_name(get_id_name())
 	var/datum/data/record/R = find_record("name", perpname, data_core.security)
-	holder = hud_list[WANTED_HUD]
 	if(R)
 		switch(R.fields["criminal"])
 			if("*Arrest*")		holder.icon_state = "hudwanted"
@@ -242,3 +244,24 @@
 	holder.icon_state = null
 	if(internal_damage)
 		holder.icon_state = "hudwarn"
+
+//Admin HUD assess target
+/mob/living/proc/assess_target_adminhud()
+	var/image/holder = hud_list[ANTAG_HUD_ADMIN]
+	var/datum/atom_hud/data/admin/admin = huds[ANTAG_HUD_ADMIN]
+	if(mind)
+		if(mind.special_role)
+			holder.icon_state = mind.special_role
+			admin.add_to_hud(src)
+		else
+			holder.icon_state = null
+			if(src in admin.hudatoms)
+				admin.remove_from_hud(src)
+		if(findtext(mind.special_role, "Gang Boss"))//fucking snowflakey shit
+			holder.icon_state = "Gang Boss"
+			if(mind.gang_datum)
+				holder.color = mind.gang_datum.color
+		if(findtext(mind.special_role, "Gangster"))//fuck you again
+			holder.icon_state = "Gang"
+			if(mind.gang_datum)
+				holder.color = mind.gang_datum.color

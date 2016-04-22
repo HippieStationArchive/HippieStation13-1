@@ -28,9 +28,7 @@ var/const/WIRE_EXPLODE = 1
 
 /datum/wires/explosive/c4/explode()
 	var/obj/item/weapon/c4/P = holder
-	P.explode(get_turf(P))
-
-
+	P.explode()
 
 /datum/wires/explosive/gibtonite
 	holder_type = /obj/item/weapon/twohanded/required/gibtonite

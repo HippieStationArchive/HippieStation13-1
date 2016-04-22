@@ -114,7 +114,7 @@
 
 	var/voice_name = "unidentifiable voice"
 
-	var/list/faction = list("neutral", "team") //A list of factions that this mob is currently in, for hostile mob targetting, amongst other things
+	var/list/faction = list("neutral") //A list of factions that this mob is currently in, for hostile mob targetting, amongst other things
 	var/move_on_shuttle = 1 // Can move on the shuttle.
 
 //The last mob/living/carbon to push/drag/grab this mob (mostly used by slimes friend recognition)
@@ -159,8 +159,3 @@
 	var/permanent_sight_flags = 0
 
 	var/resize = 1 //Badminnery resize
-
-	var/nearcrit = 0 //for newcrit
-	var/crit_can_crawl = 0 //whether or not the mob can crawl in crit
-	var/crit_crawl_damage = 0 //No damage by default
-	var/crit_crawl_damage_type = OXY

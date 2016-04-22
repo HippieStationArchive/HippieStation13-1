@@ -13,17 +13,7 @@
 	var/resource_coeff = 1
 	var/time_coeff_tech = 1
 	var/resource_coeff_tech = 1
-	var/list/resources = list(
-								MAT_METAL=0,
-								MAT_GLASS=0,
-								MAT_BANANIUM=0,
-								MAT_DIAMOND=0,
-								MAT_GOLD=0,
-								MAT_PLASMA=0,
-								MAT_SILVER=0,
-								MAT_URANIUM=0
-								)
-	var/res_max_amount = 200000
+	var/datum/material_container/materials
 	var/datum/research/files
 	var/id
 	var/sync = 0
@@ -56,16 +46,18 @@
 	component_parts += new /obj/item/weapon/stock_parts/manipulator(null)
 	component_parts += new /obj/item/weapon/stock_parts/micro_laser(null)
 	component_parts += new /obj/item/weapon/stock_parts/console_screen(null)
+	materials = new(src, list(MAT_METAL=1, MAT_GLASS=1, MAT_SILVER=1, MAT_GOLD=1, MAT_DIAMOND=1, MAT_PLASMA=1, MAT_URANIUM=1, MAT_BANANIUM=1))
 	RefreshParts()
 	files = new /datum/research(src) //Setup the research data holder.
 
 /obj/machinery/mecha_part_fabricator/RefreshParts()
 	var/T = 0
 
-	//maximum stocking amount (max 412000)
+	//maximum stocking amount (min 150.000, max 600.000 with the bluespace matter bins)
 	for(var/obj/item/weapon/stock_parts/matter_bin/M in component_parts)
 		T += M.rating
-	res_max_amount = (187000+(T * 37500))
+	T *= 50000
+	materials.max_amount = T * 3
 
 	//ressources adjustment coefficient (1 -> 0.88 -> 0.75)
 	T = -1
@@ -116,7 +108,7 @@
 		if(D.build_type & MECHFAB)
 			if(!(set_name in D.category))
 				continue
-			var/resources_available = check_resources(D)
+			var/resources_available = materials.has_materials(D.materials)
 			output += "<div class='part'>[output_part_info(D)]<br>\[[resources_available?"<a href='?src=\ref[src];part=[D.id]'>Build</a> | ":null]<a href='?src=\ref[src];add_to_queue=[D.id]'>Add to queue</a>\]\[<a href='?src=\ref[src];part_desc=[D.id]'>?</a>\]</div>"
 	return output
 
@@ -128,39 +120,25 @@
 	var/i = 0
 	var/output
 	for(var/c in D.materials)
-		if(c in resources)
-			output += "[i?" | ":null][get_resource_cost_w_coeff(D,c)] [material2name(c)]"
+		if(c in materials.materials)
+			output += "[i?" | ":null][get_resource_cost_w_coeff(D,c)] [materials.material2name(c)]"
 			i++
 	return output
 
 /obj/machinery/mecha_part_fabricator/proc/output_available_resources()
 	var/output
-	for(var/resource in resources)
-		var/amount = min(res_max_amount, resources[resource])
-		output += "<span class=\"res_name\">[material2name(resource)]: </span>[amount] cm&sup3;"
+	for(var/resource in materials.materials)
+		var/amount = materials.amount(resource)
+		output += "<span class=\"res_name\">[materials.material2name(resource)]: </span>[amount] cm&sup3;"
 		if(amount>0)
-			output += "<span style='font-size:80%;'>- Remove \[<a href='?src=\ref[src];remove_mat=1;material=[resource]'>1</a>\] | \[<a href='?src=\ref[src];remove_mat=10;material=[resource]'>10</a>\] | \[<a href='?src=\ref[src];remove_mat=[resources[resource] / MINERAL_MATERIAL_AMOUNT];material=[resource]'>All</a>\]</span>"
+			output += "<span style='font-size:80%;'>- Remove \[<a href='?src=\ref[src];remove_mat=1;material=[resource]'>1</a>\] | \[<a href='?src=\ref[src];remove_mat=10;material=[resource]'>10</a>\] | \[<a href='?src=\ref[src];remove_mat=50;material=[resource]'>All</a>\]</span>"
 		output += "<br/>"
 	return output
-
-/obj/machinery/mecha_part_fabricator/proc/remove_resources(datum/design/D)
-	for(var/resource in D.materials)
-		if(resource in resources)
-			resources[resource] -= get_resource_cost_w_coeff(D,resource)
-
-/obj/machinery/mecha_part_fabricator/proc/check_resources(datum/design/D)
-	for(var/R in D.materials)
-		if(R in resources)
-			if(resources[R] < get_resource_cost_w_coeff(D, R))
-				return 0
-		else
-			return 0
-	return 1
 
 /obj/machinery/mecha_part_fabricator/proc/build_part(datum/design/D)
 	being_built = D
 	desc = "It's building \a [initial(D.name)]."
-	remove_resources(D)
+	materials.use_amount(D.materials)
 	overlays += "fab-active"
 	use_power = 2
 	updateUsrDialog()
@@ -171,8 +149,8 @@
 
 	var/location = get_step(src,(dir))
 	var/obj/item/I = new D.build_path(location)
-	I.materials[MAT_METAL] = get_resource_cost_w_coeff(D,MAT_METAL)
-	I.materials[MAT_GLASS] = get_resource_cost_w_coeff(D,MAT_GLASS)
+	for(var/mat in I.materials)
+		I.materials[mat] = get_resource_cost_w_coeff(D, mat)
 	visible_message("\icon[src] <b>\The [src]</b> beeps, \"\The [I] is complete.\"")
 	being_built = null
 
@@ -215,7 +193,7 @@
 	while(D)
 		if(stat&(NOPOWER|BROKEN))
 			return 0
-		if(!check_resources(D))
+		if(!materials.has_materials(D.materials))
 			visible_message("\icon[src] <b>\The [src]</b> beeps, \"Not enough resources. Queue processing stopped.\"")
 			temp = {"<span class='alert'>Not enough resources to build next part.</span><br>
 						<a href='?src=\ref[src];process_queue=1'>Try again</a> | <a href='?src=\ref[src];clear_temp=1'>Return</a><a>"}
@@ -235,7 +213,7 @@
 		for(var/datum/design/D in queue)
 			i++
 			var/obj/part = D.build_path
-			output += "<li[!check_resources(D)?" style='color: #f00;'":null]>[initial(part.name)] - [i>1?"<a href='?src=\ref[src];queue_move=-1;index=[i]' class='arrow'>&uarr;</a>":null] [i<queue.len?"<a href='?src=\ref[src];queue_move=+1;index=[i]' class='arrow'>&darr;</a>":null] <a href='?src=\ref[src];remove_from_queue=[i]'>Remove</a></li>"
+			output += "<li[!materials.has_materials(D.materials)?" style='color: #f00;'":null]>[initial(part.name)] - [i>1?"<a href='?src=\ref[src];queue_move=-1;index=[i]' class='arrow'>&uarr;</a>":null] [i<queue.len?"<a href='?src=\ref[src];queue_move=+1;index=[i]' class='arrow'>&darr;</a>":null] <a href='?src=\ref[src];remove_from_queue=[i]'>Remove</a></li>"
 
 		output += "</ol>"
 		output += "\[<a href='?src=\ref[src];process_queue=1'>Process queue</a> | <a href='?src=\ref[src];clear_queue=1'>Clear queue</a>\]"
@@ -433,58 +411,19 @@
 	if(href_list["remove_mat"] && href_list["material"])
 		var/amount = text2num(href_list["remove_mat"])
 		var/material = href_list["material"]
-		if(amount < 0 || amount > resources[material]) //href protection
+		amount = round(amount, 1)
+		if(amount <= 0 || amount > materials.amount(material)) //href protection
 			return
 
-		var/removed = remove_material(material,amount)
-		if(removed == -1)
-			temp = "Not enough [material2name(material)] to produce a sheet."
+		var/removed = materials.retrieve_sheets(amount, material)
+		if(!removed)
+			temp = "Not enough [materials.material2name(material)] to produce a sheet."
 		else
-			temp = "Ejected [removed] of [material2name(material)]"
+			temp = "Ejected [removed] of [materials.material2name(material)]"
 		temp += "<br><a href='?src=\ref[src];clear_temp=1'>Return</a>"
 
 	updateUsrDialog()
 	return
-
-/obj/machinery/mecha_part_fabricator/proc/remove_material(mat_string, amount)
-	if(resources[mat_string] < MINERAL_MATERIAL_AMOUNT) //not enough mineral for a sheet
-		return -1
-	var/type
-	switch(mat_string)
-		if(MAT_METAL)
-			type = /obj/item/stack/sheet/metal
-		if(MAT_GLASS)
-			type = /obj/item/stack/sheet/glass
-		if(MAT_GOLD)
-			type = /obj/item/stack/sheet/mineral/gold
-		if(MAT_SILVER)
-			type = /obj/item/stack/sheet/mineral/silver
-		if(MAT_DIAMOND)
-			type = /obj/item/stack/sheet/mineral/diamond
-		if(MAT_PLASMA)
-			type = /obj/item/stack/sheet/mineral/plasma
-		if(MAT_URANIUM)
-			type = /obj/item/stack/sheet/mineral/uranium
-		if(MAT_BANANIUM)
-			type = /obj/item/stack/sheet/mineral/bananium
-		else
-			return 0
-	var/result = 0
-
-	while(amount > 50)
-		new type(get_turf(src),50)
-		amount -= 50
-		result += 50
-		resources[mat_string] -= 50 * MINERAL_MATERIAL_AMOUNT
-
-	var/total_amount = round(resources[mat_string]/MINERAL_MATERIAL_AMOUNT)
-	if(total_amount)//if there's still enough material for sheets
-		var/obj/item/stack/sheet/res = new type(get_turf(src),min(amount,total_amount))
-		resources[mat_string] -= res.amount*MINERAL_MATERIAL_AMOUNT
-		result += res.amount
-
-	return result
-
 
 /obj/machinery/mecha_part_fabricator/attackby(obj/W, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "fab-o", "fab-idle", W))
@@ -495,8 +434,7 @@
 
 	if(panel_open)
 		if(istype(W, /obj/item/weapon/crowbar))
-			for(var/material in resources)
-				remove_material(material, resources[material]/MINERAL_MATERIAL_AMOUNT)
+			materials.retrieve_all()
 			default_deconstruction_crowbar(W)
 			return 1
 		else
@@ -504,51 +442,23 @@
 			return 1
 
 	if(istype(W, /obj/item/stack))
-		var/material
-		switch(W.type)
-			if(/obj/item/stack/sheet/mineral/gold)
-				material = MAT_GOLD
-			if(/obj/item/stack/sheet/mineral/silver)
-				material = MAT_SILVER
-			if(/obj/item/stack/sheet/mineral/diamond)
-				material = MAT_DIAMOND
-			if(/obj/item/stack/sheet/mineral/plasma)
-				material = MAT_PLASMA
-			if(/obj/item/stack/sheet/metal)
-				material = MAT_METAL
-			if(/obj/item/stack/sheet/glass)
-				material = MAT_GLASS
-			if(/obj/item/stack/sheet/mineral/bananium)
-				material = MAT_BANANIUM
-			if(/obj/item/stack/sheet/mineral/uranium)
-				material = MAT_URANIUM
-			else
-				return ..()
 
+		var/obj/item/stack/sheet/stack = W
 		if(being_built)
 			user << "<span class='warning'>\The [src] is currently processing! Please wait until completion.</span>"
 			return
-		if(res_max_amount - resources[material] < MINERAL_MATERIAL_AMOUNT) //overstuffing the fabricator
-			user << "<span class='warning'>\The [src] [material2name(material)] storage is full!</span>"
+		if(!materials.has_space(stack.amount)) //overstuffing the fabricator
+			user << "<span class='warning'>\The [src] material storage is full!</span>"
 			return
-		var/obj/item/stack/sheet/stack = W
 		var/sname = "[stack.name]"
-		if(resources[material] < res_max_amount)
-			overlays += "fab-load-[material2name(material)]"//loading animation is now an overlay based on material type. No more spontaneous conversion of all ores to metal. -vey
+		overlays += "fab-load-[sname]"
 
-			var/transfer_amount = min(stack.amount, round((res_max_amount - resources[material])/MINERAL_MATERIAL_AMOUNT,1))
-			resources[material] += transfer_amount * MINERAL_MATERIAL_AMOUNT
-			stack.use(transfer_amount)
-			user << "<span class='notice'>You insert [transfer_amount] [sname] sheet\s into \the [src].</span>"
-			sleep(10)
-			updateUsrDialog()
-			overlays -= "fab-load-[material2name(material)]" //No matter what the overlay shall still be deleted
-		else
-			user << "<span class='warning'>\The [src] cannot hold any more [sname] sheet\s!</span>"
+		var/transfer_amount = materials.insert_stack(stack, stack.amount)
+		user << "<span class='notice'>You insert [transfer_amount] [sname] sheet\s into \the [src].</span>"
+		sleep(10)
+		updateUsrDialog()
+		overlays -= "fab-load-[sname]" //No matter what the overlay shall still be deleted
 		return
-
-/obj/machinery/mecha_part_fabricator/proc/material2name(ID)
-	return copytext(ID,2)
 
 /obj/machinery/mecha_part_fabricator/emag_act()
 	emag()

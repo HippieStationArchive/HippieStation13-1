@@ -139,6 +139,11 @@
 		spawn(5)
 			src.update()
 
+/obj/machinery/power/apc/proc/reassign_area(turf/loc)
+	if(auto_name)
+		name = "[get_area(src)] APC"
+	area = src.loc.loc:master
+
 /obj/machinery/power/apc/Destroy()
 	apcs_list -= src
 
@@ -557,22 +562,16 @@
 				opened = 1
 			update_icon()
 	else
-		if (	((stat & BROKEN) || malfhack) \
-				&& !opened \
-				&& W.force >= 5 \
-				&& W.w_class >= 3 \
-				&& prob(20) )
+		if((!opened && wiresexposed && wires.IsInteractionTool(W)) || (issilicon(user) && !(stat & BROKEN) &&!malfhack))
+			return attack_hand(user)
+
+		..()
+		if( ((stat & BROKEN) || malfhack) && !opened && W.force >= 5 && W.w_class >= 3 && prob(20) )
 			opened = 2
 			user.visible_message("<span class='warning'>[user.name] has knocked down the APC cover  with the [W.name].</span>", \
 				"<span class='danger'>You knock down the APC cover with your [W.name]!</span>", \
 				"<span class='italics'>You hear bang.</span>")
 			update_icon()
-		else
-			if (istype(user, /mob/living/silicon))
-				return src.attack_hand(user)
-			if (!opened && wiresexposed && wires.IsInteractionTool(W))
-				return src.attack_hand(user)
-			..()
 
 /obj/machinery/power/apc/emag_act(mob/user)
 	if(!emagged && !malfhack)

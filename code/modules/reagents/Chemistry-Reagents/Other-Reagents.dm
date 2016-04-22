@@ -131,7 +131,7 @@
 	var/CT = cooling_temperature
 	if(reac_volume >= 10)
 		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
-		T.MakeSlippery(1, time)
+		T.MakeSlippery(TURF_WET_WATER, time)
 
 	for(var/mob/living/simple_animal/slime/M in T)
 		M.apply_water()
@@ -199,7 +199,7 @@
 	if(data >= 75 && prob(33))	// 30 units, 135 seconds
 		if (!M.confused) M.confused = 1
 		M.confused += 3
-		if(iscultist(M) || (is_in_any_team(M) && (what_rank(M.mind) != 2)))
+		if(iscultist(M) || (is_in_any_team(M.mind) && (what_rank(M.mind) != 2)))
 			ticker.mode.remove_cultist(M.mind)
 			ticker.mode.remove_hog_follower(M.mind)
 			holder.remove_reagent(src.id, src.volume)	// maybe this is a little too perfect and a max() cap on the statuses would be better??
@@ -267,7 +267,7 @@
 	if (!istype(T)) return
 	if(reac_volume >= 10)
 		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
-		T.MakeSlippery(2, time)
+		T.MakeSlippery(TURF_WET_LUBE, time)
 
 /datum/reagent/spraytan
 	name = "Spray Tan"
@@ -573,8 +573,10 @@
 /datum/reagent/radium/reaction_turf(turf/T, reac_volume)
 	if(reac_volume >= 3)
 		if(!istype(T, /turf/space))
-			var/obj/effect/decal/cleanable/reagentdecal = new/obj/effect/decal/cleanable/greenglow(T)
-			reagentdecal.reagents.add_reagent("radium", reac_volume)
+			var/obj/effect/decal/cleanable/greenglow/GG = locate() in T.contents
+			if(!GG)
+				GG = new/obj/effect/decal/cleanable/greenglow(T)
+			GG.reagents.add_reagent("radium", reac_volume)
 
 /datum/reagent/sterilizine
 	name = "Sterilizine"

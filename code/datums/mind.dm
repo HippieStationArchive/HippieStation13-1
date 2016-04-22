@@ -411,7 +411,7 @@
 			text += "<b>OPERATIVE</b>|<a href='?src=\ref[src];nuclear=clear'>nanotrasen</a>"
 			text += "<br><a href='?src=\ref[src];nuclear=lair'>To shuttle</a>, <a href='?src=\ref[src];common=undress'>undress</a>, <a href='?src=\ref[src];nuclear=dressup'>dress up</a>."
 			var/code
-			for (var/obj/machinery/nuclearbomb/bombue in world)
+			for (var/obj/machinery/nuclearbomb/bombue in machines)
 				if (length(bombue.r_code) <= 5 && bombue.r_code != "LOLNO" && bombue.r_code != "ADMIN")
 					code = bombue.r_code
 					break
@@ -548,21 +548,20 @@
 	if(ticker.mode.config_tag == "handofgod")
 		text = uppertext(text)
 	text = "<i><b>[text]</b></i>: <a href='?src=\ref[src];handofgod=clear'>|CLEAR|</a> Teams:<br>"
-	var/list/ranks = list("follower","prophet","god")
+	var/list/ranks = list("Follower","Prophet","God")
 	if(current)
 		for(var/i in teams)
 			var/theside = i
-			if(is_in_any_team(current) == i)
+			if(is_in_any_team(src) == i)
 				text += "<b>[capitalize(i)]</b>"
-			else
-				text += "<a href='?src=\ref[src];handofgod=[i]'>[theside]</a>"
-			if(is_in_any_team(current) == i)
 				for(var/rank in ranks)
 					var/r = what_rank(src)
-					if((r == 1 && rank == "follower") || (r == 2 && rank == "prophet") || (r == 3 && rank == "god"))
+					if(r == rank)
 						text += "|<b>[rank]</b>"
 					else
 						text += "<a href='?src=\ref[src];handofgod=[rank]'>|[capitalize(rank)]</a>"
+			else
+				text += "<a href='?src=\ref[src];handofgod=[i]'>[theside]</a>"
 			text += "<br>"
 	else
 		text += "No mob found, can't HOG-ify." //i wasn't able to think about a correct phrase to use
@@ -1083,7 +1082,7 @@
 					usr << "<span class='danger'>Equipping a syndicate failed!</span>"
 			if("tellcode")
 				var/code
-				for (var/obj/machinery/nuclearbomb/bombue in world)
+				for (var/obj/machinery/nuclearbomb/bombue in machines)
 					if (length(bombue.r_code) <= 5 && bombue.r_code != "LOLNO" && bombue.r_code != "ADMIN")
 						code = bombue.r_code
 						break
@@ -1263,24 +1262,24 @@
 			message_admins("[key_name_admin(usr)] has added [current] to the [href_list["handofgod"]] hand of god team.")
 			log_admin("[key_name(usr)] has added [current] to the [href_list["handofgod"]] hand of god team.")
 
-		else if(href_list["handofgod"] == "follower")
-			if(what_rank(src) != 3)
-				make_Handofgod_follower(current.faction["team"]) // this is safe because this option will only appear if this fellow mind is in a team
+		else if(href_list["handofgod"] == "Follower")
+			if(what_rank(src) != "God")
+				make_Handofgod_follower(is_in_any_team(src)) // this is safe because this option will only appear if this fellow mind is in a team
 				message_admins("[key_name_admin(usr)] has made [current] into a follower.")
 				log_admin("[key_name(usr)] has made [current] into a follower.")
 			else
 				usr << "<span class='danger'>Can't transform a god into a follower!Humanize him first.</span>"
 
-		else if(href_list["handofgod"] == "prophet")
-			if(what_rank(src) != 3)
-				make_Handofgod_prophet(current.faction["team"])
+		else if(href_list["handofgod"] == "Prophet")
+			if(what_rank(src) != "God")
+				make_Handofgod_prophet(is_in_any_team(src))
 				message_admins("[key_name_admin(usr)] has prophet'ed [current].")
 				log_admin("[key_name(usr)] has prophet'ed [current].")
 			else
 				usr << "<span class='danger'>Can't transform a god into a follower!Humanize him first.</span>"
 
-		else if(href_list["handofgod"] == "god")
-			make_Handofgod_god(current.faction["team"])
+		else if(href_list["handofgod"] == "God")
+			make_Handofgod_god(is_in_any_team(src))
 			message_admins("[key_name_admin(usr)] has god'ed [current].")
 			log_admin("[key_name(usr)] has god'ed [current].")
 
@@ -1353,7 +1352,7 @@
 		ticker.mode.finalize_traitor(src)
 		ticker.mode.greet_traitor(src)
 
-/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0, telecrystals = TRUE)
+/datum/mind/proc/make_Nuke(turf/spawnloc,nuke_code,leader=0, telecrystals = TRUE, reinforcement_to_spawn)
 	if(!(src in ticker.mode.syndicates))
 		ticker.mode.syndicates += src
 		ticker.mode.update_synd_icons_added(src)
@@ -1374,7 +1373,7 @@
 		qdel(H.wear_suit)
 		qdel(H.w_uniform)
 
-		ticker.mode.equip_syndicate(current, telecrystals)
+		ticker.mode.equip_syndicate(current, telecrystals, reinforcement_to_spawn)
 
 		if (nuke_code)
 			store_memory("<B>Syndicate Nuclear Bomb Code</B>: [nuke_code]", 0, 0)
@@ -1539,22 +1538,30 @@
 
 /datum/mind/proc/make_Handofgod_follower(team)
 	. = 0
-	ticker.mode.remove_hog_follower(src)
+	ticker.mode.remove_hog_follower(src, 0)
 	if(ticker.mode.add_hog_follower(src, team))
 		return 1
 
 /datum/mind/proc/make_Handofgod_prophet(team)
 	. = 1
 	make_Handofgod_follower(team)
-	special_role = "Prophet"
+	var/datum/faction/HOG/H = faction
+	if(H)//should never fail,again
+		H.members[src] = "Prophet"
+	ticker.mode.update_hog_icons_added(src,team)
+	if(istype(ticker.mode, /datum/game_mode/hand_of_god))
+		var/datum/game_mode/hand_of_god/mygamemode = ticker.mode
+		mygamemode.prophets |= src // add only if not already in,we don't want double minds in our list
 
 	var/datum/action/innate/godspeak/A = new /datum/action/innate/godspeak()
-	A.god = get_team_god(team)
+	var/list/gods = get_team_gods(team)
+	for(var/datum/mind/god in gods)
+		if(god.current)
+			A.gods.Add(god.current)
 	A.Grant(current)
 	current << "<span class='boldnotice'>You gain the ability to speak with your god!</span>"
 
 /datum/mind/proc/make_Handofgod_god(colour)
-	ticker.mode.remove_hog_follower(src)
 	ticker.mode.add_god(src, colour)
 	ticker.mode.forge_deity_objectives(src)
 	return 1
@@ -1629,9 +1636,13 @@
 	mind.special_role = "Alien"
 	mind.assigned_role = "Alien"
 	//XENO HUMANOID
-/mob/living/carbon/alien/humanoid/queen/mind_initialize()
+/mob/living/carbon/alien/humanoid/royal/queen/mind_initialize()
 	..()
 	mind.special_role = "Queen"
+
+/mob/living/carbon/alien/humanoid/royal/praetorian/mind_initialize()
+	..()
+	mind.special_role = "Praetorian"
 
 /mob/living/carbon/alien/humanoid/hunter/mind_initialize()
 	..()

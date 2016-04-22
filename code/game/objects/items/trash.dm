@@ -68,3 +68,18 @@
 
 /obj/item/trash/attack(mob/M, mob/living/user)
 	return
+
+/obj/item/pornmag
+	icon = 'icons/obj/library.dmi'
+	icon_state = "pornmag"
+	name = "porn mag"
+	desc = "Look at those pixels, man!"
+	w_class = 1.0
+	var/cooldown = 0
+
+/obj/item/pornmag/attack_self(mob/user)
+	if(cooldown < world.time - 20)
+		playsound(src.loc, "pageturn", 50, 1)
+		user.visible_message("<span class='notice'>[user] skims through the pages of the [src] and giggles like a schoolgirl.</span>",\
+							"<span class='notice'>You skim through the pages of the pornmag. Lewd.</span>")
+		cooldown = world.time

@@ -11,6 +11,12 @@
 /datum/proc/check_special_completion() //for objectives with special checks (is that slime extract unused? does that intellicard have an ai in it? etcetc)
 	return 1
 
+datum/objective_item/steal/pornmag
+	name = "janitor's porno magazine"
+	targetitem = /obj/item/pornmag
+	difficulty = 3
+	excludefromjob = list("Janitor")
+
 /datum/objective_item/steal/caplaser
 	name = "the captain's antique laser gun"
 	targetitem = /obj/item/weapon/gun/energy/laser/captain
@@ -59,15 +65,21 @@
 	difficulty = 5
 	excludefromjob = list("Captain")
 
+/datum/objective_item/steal/gooncodedisk
+	name = "the Gooncode disk"
+	targetitem = /obj/item/weapon/disk/tech_disk/gooncode
+	difficulty = 5
+	excludefromjob = list("Research Director")
+
 /datum/objective_item/steal/ablative
 	name = "an ablative armor vest"
 	targetitem = /obj/item/clothing/suit/armor/laserproof
 	difficulty = 3
 	excludefromjob = list("Head of Security", "Warden")
 
-/datum/objective_item/steal/reactive
-	name = "the reactive teleport armor"
-	targetitem = /obj/item/clothing/suit/armor/reactive
+/datum/objective_item/steal/prototype
+	name = "the prototype hardsuit"
+	targetitem = /obj/item/clothing/suit/space/hardsuit/rd
 	difficulty = 5
 	excludefromjob = list("Research Director")
 

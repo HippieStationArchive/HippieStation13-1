@@ -10,7 +10,7 @@
 	usr << "<b><i>You remember the training from your former mentor...</i></b>"
 	usr << "<span class='notice'>Roundhouse Kick</span>: Punch 5 times. Knocks the opponent unconscious."
 	usr << "<span class='notice'>Robust Disarm</span>: Your disarms have no push chance, however, when you disarm someone the weapon is instantly put in your hands."
-	usr << "<span class='notice'>Clinch</span>: Grab. 50% chance to instantly grab your opponent into aggressive. Can be reinforced into neckgrab quickly."
+	usr << "<span class='notice'>Clinch</span>: Grab. 100% chance to instantly grab your opponent into aggressive. Can be reinforced into neckgrab quickly."
 	usr << "<span class='notice'>Half-wing Choke</span>: Replaces normal choking. Faster to perform, also gives 20 staminaloss to opponent on attempted choke."
 	usr << "<span class='notice'>Legsweep</span>: Harm intent w/ AGGRESSIVE grab in active hand. Cannot be performed on downed opponent. Sweeps the opponent off their feet for a while. Useful if you failed a clinch."
 	usr << "<span class='notice'>Karate Chop</span>: Disarm intent w/ NECK grab in active hand. Cannot be performed on downed opponent. Makes target dizzy, gives them 20 staminaloss."
@@ -138,15 +138,16 @@
 	D.grabbedby(A,1)
 	var/obj/item/weapon/grab/G = A.get_active_hand()
 	if(G)
-		if(A.dir == D.dir || prob(50)) //100% chance to clinch when attacking from behind, otherwise it's 50% chance
-			G.state = GRAB_AGGRESSIVE
-			D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
-									"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
-			add_logs(A, D, "aggro-grabbed", addition="(CQC)")
-		else
-			D.visible_message("<span class='danger'>[A] holds [D] down! (Passive Grab)</span>", \
-										"<span class='userdanger'>[A] holds [D] down (Passive Grab)!</span>")
-			add_logs(A, D, "grabbed", addition="(CQC)")
+		// if(A.dir == D.dir || prob(50)) //~100% chance to clinch when attacking from behind, otherwise it's 50% chance~
+		//100% grab chance due to CQC gloves being too awkward and finicky otherwise. Much needed buff IMO.
+		G.state = GRAB_AGGRESSIVE
+		D.visible_message("<span class='danger'>[A] has [D] in a clinch! (Aggressive Grab)</span>", \
+								"<span class='userdanger'>[A] has [D] in a clinch! (Aggressive Grab)</span>")
+		add_logs(A, D, "aggro-grabbed", addition="(CQC)")
+		// else
+		// 	D.visible_message("<span class='danger'>[A] holds [D] down! (Passive Grab)</span>", \
+		// 								"<span class='userdanger'>[A] holds [D] down (Passive Grab)!</span>")
+		// 	add_logs(A, D, "grabbed", addition="(CQC)")
 	return 1
 
 /datum/martial_art/cqc/grab_reinforce_act(obj/item/weapon/grab/G, mob/living/carbon/human/A, mob/living/carbon/human/D)

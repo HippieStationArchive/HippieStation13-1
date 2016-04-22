@@ -193,13 +193,13 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 		return 0
 	return 1
 /*
- PLANTPEOPLE
+ PODPEOPLE
 */
 
-/datum/species/plant
-	// Creatures made of leaves and plant matter.
-	name = "Plant"
-	id = "plant"
+/datum/species/pod
+	// A mutation caused by a human being ressurected in a revival pod. These regain health in light, and begin to wither in darkness.
+	name = "Podperson"
+	id = "pod"
 	default_color = "59CE00"
 	specflags = list(MUTCOLORS,EYECOLOR)
 	attack_verb = "slash"
@@ -209,13 +209,32 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	heatmod = 1.5
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/plant
 
-/datum/species/plant/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
+/datum/species/pod/spec_life(mob/living/carbon/human/H)
+	var/light_amount = 0 //how much light there is in the place, affects receiving nutrition and healing
+	if(isturf(H.loc)) //else, there's considered to be no light
+		var/turf/T = H.loc
+		var/area/A = T.loc
+		if(A)
+			if(A.lighting_use_dynamic)	light_amount = min(10,T.lighting_lumcount) - 5
+			else						light_amount =  5
+		H.nutrition += light_amount
+		if(H.nutrition > NUTRITION_LEVEL_FULL)
+			H.nutrition = NUTRITION_LEVEL_FULL
+		if(light_amount > 2) //if there's enough light, heal
+			H.heal_overall_damage(1,1,0.02)
+			H.adjustToxLoss(-1)
+			H.adjustOxyLoss(-1)
+
+	if(H.nutrition < NUTRITION_LEVEL_STARVING + 50)
+		H.take_overall_damage(2,0)
+
+/datum/species/pod/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(chem.id == "plantbgone")
 		H.adjustToxLoss(3)
 		H.reagents.remove_reagent(chem.id, REAGENTS_METABOLISM)
 		return 1
 
-/datum/species/plant/on_hit(proj_type, mob/living/carbon/human/H)
+/datum/species/pod/on_hit(proj_type, mob/living/carbon/human/H)
 	switch(proj_type)
 		if(/obj/item/projectile/energy/floramut)
 			if(prob(15))
@@ -233,33 +252,6 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 		if(/obj/item/projectile/energy/florayield)
 			H.nutrition = min(H.nutrition+30, NUTRITION_LEVEL_FULL)
 	return
-
-
-/*
- PODPEOPLE
-*/
-
-/datum/species/plant/pod
-	// A mutation caused by a human being ressurected in a revival pod. These regain health in light, and begin to wither in darkness.
-	name = "Podperson"
-	id = "pod"
-	specflags = list(MUTCOLORS,EYECOLOR)
-
-/datum/species/plant/pod/spec_life(mob/living/carbon/human/H)
-	var/light_amount = 0 //how much light there is in the place, affects receiving nutrition and healing
-	if(isturf(H.loc)) //else, there's considered to be no light
-		var/turf/T = H.loc
-		light_amount = min(10,T.get_lumcount()) - 5
-		H.nutrition += light_amount
-		if(H.nutrition > NUTRITION_LEVEL_FULL)
-			H.nutrition = NUTRITION_LEVEL_FULL
-		if(light_amount > 2) //if there's enough light, heal
-			H.heal_overall_damage(1,1)
-			H.adjustToxLoss(-1)
-			H.adjustOxyLoss(-1)
-
-	if(H.nutrition < NUTRITION_LEVEL_STARVING + 50)
-		H.take_overall_damage(2,0)
 
 /*
  SHADOWPEOPLE
@@ -284,7 +276,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 		if(light_amount > 2) //if there's enough light, start dying
 			H.take_overall_damage(1,1)
 		else if (light_amount < 2) //heal in the dark
-			H.heal_overall_damage(1,1)
+			H.heal_overall_damage(1,1,0.02)
 
 /*
  SLIMEPEOPLE

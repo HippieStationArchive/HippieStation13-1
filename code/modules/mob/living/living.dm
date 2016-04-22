@@ -86,7 +86,7 @@ Sorry Giacom. Please don't be mad :(
 
 	//BubbleWrap: Should stop you pushing a restrained person out of the way
 	if(istype(M, /mob/living))
-		for(var/mob/MM in range(M, 1))
+		for(var/mob/MM in range(1, M))
 			if( ((MM.pulling == M && ( M.restrained() && !( MM.restrained() ) && MM.stat == CONSCIOUS)) || locate(/obj/item/weapon/grab, M.grabbed_by.len)) )
 				if ( !(world.time % 5) )
 					src << "<span class='warning'>[M] is restrained, you cannot push past.</span>"
@@ -257,6 +257,12 @@ Sorry Giacom. Please don't be mad :(
 	if(status_flags & GODMODE)	return 0
 	bruteloss = min(max(bruteloss + amount, 0),(maxHealth*2))
 	handle_regular_status_updates() //we update our health right away.
+
+/mob/living/proc/getBloodLoss()
+	return 0
+
+/mob/living/proc/adjustBloodLoss(amount)
+	return 0 //Most mobs don't bleed (only exception is humans)
 
 /mob/living/proc/getOxyLoss()
 	return oxyloss
@@ -458,7 +464,7 @@ Sorry Giacom. Please don't be mad :(
 	eye_blurry = 0
 	ear_deaf = 0
 	ear_damage = 0
-	heal_overall_damage(1000, 1000)
+	heal_overall_damage(1000, 1000, 1000)
 	ExtinguishMob()
 	fire_stacks = 0
 	suiciding = 0
@@ -517,7 +523,7 @@ Sorry Giacom. Please don't be mad :(
 
 	var/cuff_dragged = 0
 	if (restrained())
-		for(var/mob/living/M in range(src, 1))
+		for(var/mob/living/M in range(1, src))
 			if (M.pulling == src && !M.incapacitated())
 				cuff_dragged = 1
 	if (!cuff_dragged && pulling && !throwing && (get_dist(src, pulling) <= 1 || pulling.loc == loc))
@@ -577,10 +583,9 @@ Sorry Giacom. Please don't be mad :(
 		// It's ugly. But everything related to inventory/storage is. -- c0
 		s_active.close(src)
 
-	for(var/mob/living/simple_animal/slime/M in oview(1,src))
-		M.UpdateFeed(src)
-
 /mob/living/proc/makeTrail(turf/T, mob/living/M)
+	if(!has_gravity(M))
+		return
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if((NOBLOOD in H.dna.species.specflags) || (!H.blood_max) || (H.bleedsuppress))

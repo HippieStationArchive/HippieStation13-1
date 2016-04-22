@@ -111,33 +111,30 @@ About the new airlock wires panel:
 	qdel(wires)
 	wires = null
 	if(id_tag)
-		for(var/obj/machinery/doorButtons/D in world)
+		for(var/obj/machinery/doorButtons/D in machines)
 			D.removeMe(src)
 	return ..()
 
 /obj/machinery/door/airlock/bumpopen(mob/living/user) //Airlocks now zap you when you 'bump' them open when they're electrified. --NeoFite
-	if(!issilicon(usr))
-		if(src.isElectrified())
-			if(!src.justzap)
-				if(src.shock(user, 100))
+	if(!issilicon(user))
+		if(isElectrified())
+			if(!justzap)
+				if(shock(user, 100))
 					src.justzap = 1
 					spawn (10)
-						src.justzap = 0
+						justzap = 0
 					return
 			else /*if(src.justzap)*/
 				return
-		else if(user.hallucination > 50 && prob(10) && src.operating == 0)
+		else if(user.hallucination > 50 && prob(10) && operating == 0)
 			user << "<span class='userdanger'>You feel a powerful shock course through your body!</span>"
 			user.staminaloss += 50
 			user.stunned += 5
 			return
 	..(user)
 
-/obj/machinery/door/airlock/bumpopen(mob/living/simple_animal/user)
-	..(user)
-
 /obj/machinery/door/airlock/proc/isElectrified()
-	if(src.secondsElectrified != 0)
+	if(secondsElectrified != 0)
 		return 1
 	return 0
 
@@ -204,7 +201,7 @@ About the new airlock wires panel:
 	if(src.secondsBackupPowerLost > 0)
 		src.secondsBackupPowerLost = 0
 
-// shock user with probability prb (if all connections & power are working)
+// shock user with probability prob (if all connections & power are working)
 // returns 1 if shocked, 0 otherwise
 // The preceding comment was borrowed from the grille's shock script
 /obj/machinery/door/airlock/proc/shock(mob/user, prb)
@@ -217,10 +214,10 @@ About the new airlock wires panel:
 	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(5, 1, src)
 	s.start() //sparks always.
+	hasShocked = 1
+	spawn(10)
+		hasShocked = 0
 	if(electrocute_mob(user, get_area(src), src))
-		hasShocked = 1
-		spawn(10)
-			hasShocked = 0
 		return 1
 	else
 		return 0

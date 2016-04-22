@@ -320,7 +320,8 @@
 					occupant.adjustToxLoss(max(-efficiency, (-20*(efficiency ** 2)) / occupant.getToxLoss()))
 				var/heal_brute = occupant.getBruteLoss() ? min(efficiency, 20*(efficiency**2) / occupant.getBruteLoss()) : 0
 				var/heal_fire = occupant.getFireLoss() ? min(efficiency, 20*(efficiency**2) / occupant.getFireLoss()) : 0
-				occupant.heal_organ_damage(heal_brute,heal_fire)
+				var/heal_bloodloss = occupant.getBloodLoss() ? min(efficiency, 2*efficiency / occupant.getBloodLoss()) : 0
+				occupant.heal_organ_damage(heal_brute,heal_fire,heal_bloodloss)
 		if(beaker && next_trans == 0)
 			beaker.reagents.trans_to(occupant, 1, 10)
 			beaker.reagents.reaction(occupant, VAPOR)

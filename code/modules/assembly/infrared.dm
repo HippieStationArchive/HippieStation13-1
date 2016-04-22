@@ -1,6 +1,6 @@
 /obj/item/device/assembly/infra
 	name = "infrared emitter"
-	desc = "Emits a visible or invisible beam and is triggered when the beam is interrupted.\n<span class='notice'>Alt-click to rotate it clockwise.</span>"
+	desc = "Emits a visible or invisible beam and is triggered when the beam is interrupted.</span>"
 	icon_state = "infrared"
 	materials = list(MAT_METAL=1000, MAT_GLASS=500)
 	origin_tech = "magnets=2"
@@ -59,6 +59,8 @@
 		return
 	if(!secured)
 		return
+	if(ismob(loc)) //Probably still in-hand
+		return
 	if(first && last)
 		last.process()
 		return
@@ -95,7 +97,7 @@
 	return 1
 
 /obj/item/device/assembly/infra/proc/trigger_beam()
-	if((!secured)||(!on)||(cooldown > 0))
+	if(!secured || !on || cooldown > 0)
 		return 0
 	pulse(0)
 	audible_message("\icon[src] *beep* *beep*", null, 3)
@@ -107,7 +109,9 @@
 /obj/item/device/assembly/infra/interact(mob/user)//TODO: change this this to the wire control panel
 	if(is_secured(user))
 		user.set_machine(src)
-		var/dat = "<TT><B>Infrared Laser</B>\n<B>Status</B>: [on ? "<A href='?src=\ref[src];state=0'>On</A>" : "<A href='?src=\ref[src];state=1'>Off</A>"]<BR>\n<B>Visibility</B>: [visible ? "<A href='?src=\ref[src];visible=0'>Visible</A>" : "<A href='?src=\ref[src];visible=1'>Invisible</A>"]<BR>\n</TT>"
+		var/dat = "<TT><B>Infrared Laser</B>\n<B>Status</B>: [on ? "<A href='?src=\ref[src];state=0'>On</A>" : "<A href='?src=\ref[src];state=1'>Off</A>"]<BR>\
+					\n<B>Visibility</B>: [visible ? "<A href='?src=\ref[src];visible=0'>Visible</A>" : "<A href='?src=\ref[src];visible=1'>Invisible</A>"]<BR>\
+					\n<B>Direction</B>: <A href='?src=\ref[src];turn=1'>[dir2text(dir)]</A></TT>"
 		dat += "<BR><BR><A href='?src=\ref[src];refresh=1'>Refresh</A>"
 		dat += "<BR><BR><A href='?src=\ref[src];close=1'>Close</A>"
 		user << browse(dat, "window=infra")
@@ -127,33 +131,23 @@
 		visible = !(visible)
 		if(first)
 			first.vis_spread(visible)
+	if(href_list["turn"])
+		var/setdir = input("Select the infrared laser direction:") as null|anything in list("north","east","south","west")
+		switch(setdir)
+			if("north")
+				dir = NORTH
+			if("south")
+				dir = SOUTH
+			if("east")
+				dir = EAST
+			if("west")
+				dir = WEST
+		qdel(first)
 	if(href_list["close"])
 		usr << browse(null, "window=infra")
 		return
 	if(usr)
 		attack_self(usr)
-
-/obj/item/device/assembly/infra/verb/rotate()//This could likely be better
-	set name = "Rotate Infrared Laser"
-	set category = "Object"
-	set src in usr
-
-	if(usr.incapacitated())
-		return
-
-	dir = turn(dir, 90)
-	return
-
-/obj/item/device/assembly/infra/AltClick(mob/user)
-	..()
-	if(!user.canUseTopic(user))
-		user << "<span class='warning'>You can't do that right now!</span>"
-		return
-	if(!in_range(src, user))
-		return
-	else
-		rotate()
-
 
 
 /***************************IBeam*********************************/
@@ -167,7 +161,6 @@
 	var/obj/item/device/assembly/infra/master = null
 	var/limit = null
 	var/visible = 0
-	var/left = null
 	anchored = 1
 
 
@@ -184,16 +177,12 @@
 
 
 /obj/effect/beam/i_beam/process()
-	if((loc.density || !(master)))
+	if(loc.density || !master)
 		qdel(src)
 		return
-	if(left > 0)
-		left--
-	if(left < 1)
-		if(!(visible))
-			invisibility = 101
-		else
-			invisibility = 0
+
+	if(!visible)
+		invisibility = 101
 	else
 		invisibility = 0
 

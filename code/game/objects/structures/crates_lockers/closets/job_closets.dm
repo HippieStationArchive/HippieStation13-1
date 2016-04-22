@@ -56,6 +56,7 @@
 
 /obj/structure/closet/jcloset/New()
 	..()
+	new /obj/item/pornmag(src)
 	new /obj/item/clothing/under/rank/janitor(src)
 	new /obj/item/weapon/cartridge/janitor(src)
 	new /obj/item/clothing/gloves/color/black(src)
@@ -272,9 +273,6 @@
 	new /obj/item/clothing/shoes/sneakers/black(src)
 	new /obj/item/clothing/shoes/sneakers/black(src)
 	new /obj/item/clothing/shoes/sneakers/black(src)
-	new /obj/item/clothing/head/hardhat/atmos(src)
-	new /obj/item/clothing/head/hardhat/atmos(src)
-	new /obj/item/clothing/head/hardhat/atmos(src)
 	return
 
 /obj/structure/closet/wardrobe/engineering_yellow

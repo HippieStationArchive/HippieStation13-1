@@ -1,7 +1,7 @@
 /* HUD DATUMS */
 
 //GLOBAL HUD LIST
-var/datum/atom_hud/huds = list( \
+var/list/datum/atom_hud/huds = list( \
 	DATA_HUD_SECURITY_BASIC = new/datum/atom_hud/data/human/security/basic(), \
 	DATA_HUD_SECURITY_ADVANCED = new/datum/atom_hud/data/human/security/advanced(), \
 	DATA_HUD_MEDICAL_BASIC = new/datum/atom_hud/data/human/medical/basic(), \
@@ -13,6 +13,7 @@ var/datum/atom_hud/huds = list( \
 	ANTAG_HUD_WIZ = new/datum/atom_hud/antag(), \
 	ANTAG_HUD_SHADOW = new/datum/atom_hud/antag(), \
 	ANTAG_HUD_ZOMBIE = new/datum/atom_hud/antag(), \
+	ANTAG_HUD_ADMIN = new/datum/atom_hud/data/admin(), \
 	)
 
 /datum/atom_hud

@@ -152,6 +152,9 @@
 	update_icon()
 	..()
 
+/obj/item/weapon/defibrillator/dropped(mob/user)
+	remove_paddles(user)
+
 /obj/item/weapon/defibrillator/proc/toggle_paddles()
 	set name = "Toggle Paddles"
 	set category = "Object"

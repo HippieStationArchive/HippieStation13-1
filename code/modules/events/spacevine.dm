@@ -378,7 +378,7 @@
 		return
 
 	if(istype(W, /obj/item/weapon/scythe))
-		for(var/obj/effect/spacevine/B in orange(src,1))
+		for(var/obj/effect/spacevine/B in orange(1,src))
 			if(prob(80))
 				qdel(B)
 		qdel(src)
@@ -494,7 +494,7 @@
 			if(prob(20))
 				SV.grow()
 		else //If tile is fully grown
-			SV.buckle_mob()
+			SV.entangle_mob()
 
 		//if(prob(25))
 		SV.spread()
@@ -518,12 +518,12 @@
 	for(var/datum/spacevine_mutation/SM in mutations)
 		SM.on_grow(src)
 
-/obj/effect/spacevine/buckle_mob()
+/obj/effect/spacevine/proc/entangle_mob()
 	if(!buckled_mob && prob(25))
 		for(var/mob/living/V in src.loc)
 			entangle(V)
 			if(buckled_mob)
-				..(V)
+				buckle_mob(V)
 				break //only capture one mob at a time
 
 /obj/effect/spacevine/proc/entangle(mob/living/V)

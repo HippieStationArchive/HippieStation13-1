@@ -71,6 +71,7 @@ Word definitions:
 	return
 
 /obj/effect/rune/attack_hand(mob/living/user)
+	user.changeNext_move(CLICK_CD_MELEE)
 	if(!iscultist(user))
 		user << "<span class='warning'>You aren't able to understand the words of [src].</span>"
 		return
@@ -929,6 +930,7 @@ var/list/teleport_other_runes = list()
 	var/drained_amount = rand(5,25)
 	target.apply_damage(drained_amount, BRUTE, "chest")
 	user.adjustBruteLoss(-drained_amount)
+	user.adjustBloodLoss(-drained_amount/10)
 	target << "<span class='warning'>You feel extremely weak.</span>"
 	user.visible_message("<span class='warning'>Blood flows from the rune into [user]!</span>", \
 						 "<span class='danger'>[target]'s blood flows into you, healing your wounds and revitalizing your spirit.</span>")

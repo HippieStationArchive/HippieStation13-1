@@ -51,7 +51,8 @@
 
 /obj/item/device/assembly/timer/process()
 	if(timing)
-		time--
+		playsound(get_turf(src), 'sound/items/timer.ogg', 40, 0)
+		time -= 2 //since ticks take 2 seconds
 		if(time <= 0)
 			timing = 0
 			timer_end()

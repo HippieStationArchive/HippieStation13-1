@@ -282,17 +282,27 @@
 		C.Stun(s_amount)
 		C.Weaken(w_amount)
 		C.stop_pulling()
+		if(C.lying != oldlying) //did we actually fall?
+			var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
+			C.apply_damage(2, BRUTE, dam_zone)
+
 		if(buckled_obj)
 			buckled_obj.unbuckle_mob()
 			step(buckled_obj, olddir)
 		else if(lube&SLIDE)
-			for(var/i=1, i<5, i++)
-				spawn (i)
-					step(C, olddir)
+			var/i = 1
+			var/l = 0
+			while(i < 5 && l < 64) //Only 64 loops are allowed max to prevent infinite looping
+				l++
+				if(l%5==0)
 					C.spin(1,1)
-		if(C.lying != oldlying) //did we actually fall?
-			var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
-			C.apply_damage(2, BRUTE, dam_zone)
+				var/turf/simulated/T = get_turf(C)
+				if(!istype(T) || T.wet != TURF_WET_LUBE)
+					i++
+				step(C, olddir)
+				if(get_turf(C) == T) //We haven't moved an inch...
+					break //Probably hit an obstacle, our sliding was interrupted.
+				sleep (i)
 		return 1
 
 /turf/singularity_act()
@@ -322,6 +332,25 @@
 	blocks_air = 1
 	opacity = 1
 	explosion_block = 50
+
+/turf/indestructible/wall
+	smooth = SMOOTH_TRUE
+
+/turf/indestructible/wall/shuttle
+	smooth = SMOOTH_FALSE
+	icon = 'icons/turf/shuttle.dmi'
+	icon_state = "wall3"
+
+/turf/indestructible/floor/plating
+	name = "plating"
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "plating"
+	density = 0
+	blocks_air = 0
+	opacity = 0
+	oxygen = 0
+	nitrogen = 0
+	temperature = TCMB
 
 /turf/indestructible/splashscreen
 	name = "Space Station 13"

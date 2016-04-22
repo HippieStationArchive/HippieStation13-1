@@ -174,3 +174,12 @@
 			attempts of communication with other life forms is completely incomprehensible. Members of this alien race are capable of broadcasting subspace transmissions from their bodies. \
 			The religious leaders of the Tiger Cooperative claim to have the technology to decypher and interpret their messages, which have been confirmed as religious propaganda. Their motives are unknown \
 			but they are otherwise not considered much of a threat to anyone. They are virtually indestructable because of their nonphysical composition, and have the frighetning ability to make anything stop existing in a second."
+
+
+// Hand of god Faction
+/datum/faction/HOG
+	name = "Hand of the God"
+	desc = "History tells us that there were once several gods, all of them interested in one field of human's knowledge, be it Science, Medical, Religion or anything else. \
+			But then, humans tried to fight for one knowledge to prevail over all the others, and the fight between the Gods started. This conflict will never end as long as \
+			the human race continues existing."
+	var/side = ""

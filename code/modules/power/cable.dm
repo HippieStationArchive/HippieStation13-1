@@ -484,8 +484,13 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 /obj/item/stack/cable_coil/New(loc, amount = MAXCOIL, var/param_color = null)
 	..()
 	src.amount = amount
+
 	if(param_color)
 		item_color = param_color
+	else
+		item_color = pick("red","yellow","green","blue","pink")
+
+	icon_state = "coil_[item_color]"
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	update_icon()
@@ -507,13 +512,13 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 
 /obj/item/stack/cable_coil/building_checks(datum/stack_recipe/R, multiplier)
 	if(R.title == "noose")
-		if(!(locate(/obj/structure/stool) in usr.loc) && !(locate(/obj/structure/table) in usr.loc) && !(locate(/obj/structure/toilet) in usr.loc))
+		if(!(locate(/obj/structure/stool) in usr.loc) && !(locate(/obj/structure/bed) in usr.loc) && !(locate(/obj/structure/table) in usr.loc) && !(locate(/obj/structure/toilet) in usr.loc))
 			usr << "<span class='warning'>You have to be standing on top of a chair/table/toilet to make a noose!</span>"
 			return 0
 	return ..()
 
 /obj/item/stack/cable_coil/suicide_act(mob/living/user)
-	if((locate(/obj/structure/stool) in user.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
+	if((locate(/obj/structure/stool) in user.loc) || (locate(/obj/structure/bed) in usr.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
 		user.visible_message("<span class='suicide'>[user] is making a noose with the [src]! It looks like \he's trying to commit suicide.</span>")
 		if(do_after(user, 20, target = user.loc))
 			qdel(src)
@@ -990,8 +995,3 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 /obj/item/stack/cable_coil/white
 	item_color = "white"
 	icon_state = "coil_white"
-
-/obj/item/stack/cable_coil/random/New()
-	item_color = pick("red","yellow","green","blue","pink")
-	icon_state = "coil_[item_color]"
-	..()

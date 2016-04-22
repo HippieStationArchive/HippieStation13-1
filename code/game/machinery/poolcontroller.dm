@@ -1,3 +1,4 @@
+
 //Originally stolen from paradise. Credits to tigercat2000.
 //Modified a lot by Kokojo.
 /obj/machinery/poolcontroller
@@ -11,7 +12,7 @@
 	idle_power_usage = 75
 	var/list/linkedturfs = list() //List contains all of the linked pool turfs to this controller, assignment happens on New()
 	var/temperature = "normal" //The temperature of the pool, starts off on normal, which has no effects.
-	var/srange = 5 //The range of the search for pool turfs, change this for bigger or smaller pools.
+	var/srange = 6 //The range of the search for pool turfs, change this for bigger or smaller pools.
 	var/linkedmist = list() //Used to keep track of created mist
 	var/misted = 0 //Used to check for mist.
 //herpderp	var/beaker = null
@@ -19,6 +20,9 @@
 	var/datum/wires/poolcontroller/wires = null
 	var/drainable = 0
 	var/drained = 0
+	var/bloody = 0
+	var/lastbloody = 99
+	var/obj/machinery/drain/linkeddrain = null
 	var/timer = 0 //we need a cooldown on that shit.
 	var/reagenttimer = 0 //We need 2.
 	var/seconds_electrified = 0//Shocks morons, like an airlock.
@@ -27,7 +31,9 @@
 	wires = new(src)
 //	beaker = new /obj/item/weapon/reagent_containers/glass/beaker/large/pooladone(src)
 	for(var/turf/simulated/pool/water/W in range(srange,src)) //Search for /turf/simulated/beach/water in the range of var/srange
-		src.linkedturfs += W //Add found pool turfs to the central list.
+		src.linkedturfs += W
+	for(var/obj/machinery/drain/pooldrain in range(srange,src))
+		src.linkeddrain += pooldrain
 	..() //Always call your parents when you're a new thing.
 
 /obj/machinery/poolcontroller/emag_act(user as mob) //Emag_act, this is called when it is hit with a cryptographic sequencer.
@@ -156,15 +162,68 @@
 						drownee << "<span class='danger'>You're quickly drowning!</span>"
 					else
 						if(!drownee.internal)
-							drownee.adjustOxyLoss(5)
+							drownee.adjustOxyLoss(4)
 							if(prob(35))
 								drownee << "<span class='danger'>You're lacking air!</span>"
 
 			for(var/obj/effect/decal/cleanable/decal in W)
-				animate(decal, alpha = 10, time = 20)
-				spawn(25)
-					qdel(decal)
+				if(bloody < 800)
+					animate(decal, alpha = 10, time = 20)
+					spawn(25)
+						qdel(decal)
+				if(istype(decal,/obj/effect/decal/cleanable/blood) || istype(decal, /obj/effect/decal/cleanable/trail_holder))
+					bloody++
+					if(bloody > lastbloody)
+						changecolor()
 
+/obj/machinery/poolcontroller/proc/changecolor()
+	lastbloody = bloody+99
+	switch(bloody)
+		if(0 to 99)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FFFFFF"
+				color1.watereffect.color = "#FFFFFF"
+		if(100 to 199)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FFDDDD"
+				color1.watereffect.color = "#FFDDDD"
+		if(100 to 199)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FFCCCC"
+				color1.watereffect.color = "#FFCCCC"
+		if(200 to 299)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FFBBBB"
+				color1.watereffect.color = "#FFBBBB"
+		if(300 to 399)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FFAAAA"
+				color1.watereffect.color = "#FFAAAA"
+		if(400 to 499)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FF9999"
+				color1.watereffect.color = "#FF9999"
+		if(500 to 599)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FF8888"
+				color1.watereffect.color = "#FF8888"
+		if(600 to 699)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FF7777"
+				color1.watereffect.color = "#FF7777"
+		if(700 to 799)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FF7777"
+				color1.watereffect.color = "#FF7777"
+		if(800 to 899)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FF6666"
+				color1.watereffect.color = "#FF6666"
+		if(900 to INFINITY)
+			for(var/turf/simulated/pool/water/color1 in linkedturfs)
+				color1.color = "#FF5555"
+				color1.watereffect.color = "#FF5555"
+				src.bloody = 1000
 
 /obj/machinery/poolcontroller/proc/miston() //Spawn /obj/effect/mist (from the shower) on all linked pool tiles
 	for(var/turf/simulated/pool/water/W in linkedturfs)
@@ -225,7 +284,7 @@
 			dat += "<a href='?src=\ref[src];Activate Drain=1'>Drain Pool</a><br>"
 		if(drainable && drained && !timer)
 			dat += "<a href='?src=\ref[src];Activate Drain=1'>Fill Pool</a><br>"
-			dat += "<a href='?src=\ref[src];Activate Drain=1'>Drain Pool</a><br>"
+
 
 
 
@@ -277,23 +336,22 @@
 			message_admins("[key_name_admin(usr)] is trying to use href exploits with the poolcontroller")
 	if(href_list["Activate Drain"])
 		if(drainable) //Drain is activated
-			for(var/obj/machinery/drain/drain in range(6, src))
-				if(drain.active == 1)
-					return
-				if(timer > 0)
-					return
-				else
-					mistoff()
-					drain.active = 1
-					drain.timer = 15
-					timer = 60
-					if(drain.status == 0)
-						new /obj/effect/whirlpool(drain.loc)
-						src.temperature = "None"
-						src.icon_state = "poolcnorm"
-					if(drain.status == 1)
-						new /obj/effect/effect/waterspout(drain.loc)
-						src.temperature = "Normal"
+			if(linkeddrain.active == 1)
+				return
+			if(timer > 0)
+				return
+			else
+				mistoff()
+				linkeddrain.active = 1
+				linkeddrain.timer = 15
+				timer = 60
+				if(linkeddrain.status == 0)
+					new /obj/effect/whirlpool(linkeddrain.loc)
+					temperature = "None"
+					icon_state = "poolcnorm"
+				if(linkeddrain.status == 1)
+					new /obj/effect/effect/waterspout(linkeddrain.loc)
+					temperature = "Normal"
 		if(!drainable)
 			message_admins("[key_name_admin(usr)] is trying to use href exploits with the poolcontroller")
 	update_icon()

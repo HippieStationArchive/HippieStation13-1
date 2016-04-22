@@ -38,6 +38,7 @@
 	var/new_destination		// pending new destination (waiting for beacon response)
 	var/destination			// destination description tag
 	var/next_destination	// the next destination in the patrol route
+	var/movement_delay = 4  // This is the lag when the bot is moving towards a target
 
 	var/blockcount = 0		//number of times retried a blocked path
 	var/awaiting_beacon	= 0	// count of pticks awaiting a beacon response
@@ -46,6 +47,8 @@
 	var/turf/nearest_beacon_loc	// the nearest beacon's location
 
 	var/beacon_freq = 1445		// navigation beacon frequency
+
+	var/list/upgrades = list()
 
 	var/model = "" //The type of bot it is.
 	var/bot_type = 0 //The type of bot it is, for radio control.
@@ -273,6 +276,22 @@
 				..()
 				healthcheck()
 
+	if(istype(W, /obj/item/weapon/bot_upgrade/boost))
+		if(!open)
+			user << "<span class='warning'>You cannot upgrade [src] with the maintenance panel closed!</span>"
+			return
+		else if(locate(/obj/item/weapon/bot_upgrade/boost) in upgrades)
+			user << "<span class='warning'>[src] already has that upgrade installed!</span>"
+			return
+		else
+			if(!user.drop_item())
+				return
+
+			W.loc = src
+			upgrades += W
+			user << "<span class='notice'>You put the [W] into [src]'s upgrade slot.</span>"
+			return
+
 /obj/machinery/bot/emag_act(mob/user)
 	if(emagged < 2)
 		Emag(user)
@@ -493,9 +512,29 @@ obj/machinery/bot/proc/bot_reset()
 	tries = 0
 	mode = BOT_IDLE
 
+/obj/machinery/bot/proc/can_boost()
+	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
 
+	if(B)
+		return !B.boost
 
+/obj/machinery/bot/proc/activate_boost()
+	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
+	
+	if(B)
+		B.boost = TRUE
+		movement_delay /= B.boost_multiplier
+		
+		spawn(B.boost_length)
+			deactivate_boost()
 
+/obj/machinery/bot/proc/deactivate_boost()
+	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
+	
+	if(B)
+		movement_delay *= B.boost_multiplier
+		spawn(B.boost_cooldown)
+			B.boost = FALSE
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Patrol and summon code!

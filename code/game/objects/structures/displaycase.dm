@@ -123,7 +123,7 @@
 			user <<  "<span class='notice'>You [open ? "close":"open"] the [src]</span>"
 			open = !open
 			update_icon()
-	else if(open)
+	else if(open && !showpiece)
 		if(user.unEquip(W))
 			W.loc = src
 			showpiece = W
