@@ -96,6 +96,7 @@
 
 /obj/item/weapon/gun/medbeam/proc/on_beam_tick(var/mob/living/target)
 	target.adjustBruteLoss(-4)
+	target.adjustBloodLoss(-0.02)
 	target.adjustFireLoss(-4)
 	return
 

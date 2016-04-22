@@ -46,7 +46,7 @@ Bonus
 			return
 
 		for(var/obj/item/organ/limb/L in parts)
-			L.heal_damage(get_damage, get_damage, 0)
+			L.heal_damage(get_damage, get_damage)
 
 	else
 		if(M.getFireLoss() > 0 || M.getBruteLoss() > 0)

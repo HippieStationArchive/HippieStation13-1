@@ -218,7 +218,7 @@
 	hitsound = 'sound/weapons/knife.ogg'
 	hitsound_extrarange = -3 //Sorta more sneaky beaky like
 	//Embedding
-	sharpness = IS_SHARP
+	sharpness = IS_SHARP_ACCURATE
 	embed_chance = 70 //Makes it an awesome throwing weapon.
 	embedded_impact_pain_multiplier = 30 //w_class is multiplied into this to determine damage applied on embed.
 	embedded_pain_multiplier = 6 //6 force applied when "it hurts"

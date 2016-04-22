@@ -15,6 +15,8 @@
 	var/brutestate = 0
 	var/burnstate = 0
 	var/brute_dam = 0
+	var/bloodloss = 0
+	var/max_bloodloss = 2
 	var/burn_dam = 0
 	var/max_damage = 0
 	var/list/embedded_objects = list()
@@ -189,18 +191,19 @@
 //Applies brute and burn damage to the organ. Returns 1 if the damage-icon states changed at all.
 //Damage will not exceed max_damage using this proc
 //Cannot apply negative damage
-/obj/item/organ/limb/proc/take_damage(brute, burn, override=0)
-	if(owner && (owner.status_flags & GODMODE))	return 0	//godmode
-
+/obj/item/organ/limb/proc/take_damage(brute, burn, bleed, override=0)
+	if(owner && (owner.status_flags & GODMODE))	return 0
 	if((state_flags & ORGAN_REMOVED) && !override)
 		return 0
-
 	brute	= max(brute,0)
 	burn	= max(burn,0)
+	bleed = max(bleed,0)
 	if(status == ORGAN_ROBOTIC) //This makes robolimbs not damageable by chems and makes it stronger
 		brute = max(0, brute - 5)
 		burn = max(0, burn - 4)
+		bleed = 0 //Robotic limbs don't bleed, stupid!
 
+	bloodloss = min(bloodloss + bleed, max_bloodloss)
 	var/can_inflict = max_damage - (brute_dam + burn_dam)
 	if(!can_inflict)	return 0
 
@@ -227,7 +230,7 @@
 //Heals brute and burn damage for the organ. Returns 1 if the damage-icon states changed at all.
 //Damage cannot go below zero.
 //Cannot remove negative damage (i.e. apply damage)
-/obj/item/organ/limb/proc/heal_damage(brute, burn, robotic)
+/obj/item/organ/limb/proc/heal_damage(brute, burn, bleed, robotic)
 
 	if(robotic && status != ORGAN_ROBOTIC) // This makes organic limbs not heal when the proc is in Robotic mode.
 		brute = max(0, brute - 3)
@@ -239,6 +242,7 @@
 
 	brute_dam	= max(brute_dam - brute, 0)
 	burn_dam	= max(burn_dam - burn, 0)
+	bloodloss	= max(bloodloss - bleed, 0)
 	return update_organ_icon()
 
 

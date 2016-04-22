@@ -343,7 +343,7 @@
 					return
 				L.embedded_objects -= I
 				add_logs(usr, src, "un-embedded of [I] ")
-				L.take_damage(I.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
+				L.take_damage(I.embedded_unsafe_removal_pain_multiplier*I.w_class,bleed=1)//It hurts to rip it out, get surgery you dingus.
 				if(I.pinned) //Only the rodgun pins people down currently
 					do_pindown(src.pinned_to, 0)
 					src.pinned_to = null

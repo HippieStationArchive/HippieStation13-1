@@ -422,7 +422,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			M.Stun(3)
 	else
 		M << "<span class='notice'><b>You breathe in the black smoke, and you feel revitalized!</b></span>"
-		M.heal_organ_damage(2,2)
+		M.heal_organ_damage(2,2,0.5)
 		M.adjustOxyLoss(-2)
 		M.adjustToxLoss(-2)
 	..()
@@ -498,7 +498,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 		user << "<span class='warning'>There were no nearby humans for you to drain.</span>"
 		return
 	for(var/mob/living/carbon/M in nearbyTargets)
-		user.heal_organ_damage(10, 10)
+		user.heal_organ_damage(10, 10, 1)
 		user.adjustToxLoss(-10)
 		user.adjustOxyLoss(-10)
 		user.adjustStaminaLoss(-20)
