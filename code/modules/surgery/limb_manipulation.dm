@@ -13,6 +13,7 @@
 	var/implements_mend = list(/obj/item/weapon/cautery = 100, /obj/item/weapon/weldingtool = 70, /obj/item/weapon/lighter = 45, /obj/item/weapon/match = 20)
 	var/current_type
 	var/obj/item/organ/limb/I = null
+	var/obj/item/robot_parts/RP = null
 
 /datum/surgery_step/manipulate_limbs/New()
 	..()
@@ -37,21 +38,33 @@
 /datum/surgery_step/manipulate_limbs/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	I = null
 	target_zone = check_zone(target_zone)
+	time = initial(time)
 	if(islimb(tool))
 		current_type = "insert"
 		I = tool
 		if(target_zone != Bodypart2name(I))
 			user << "<span class='notice'>There is already a limb in [target]'s [parse_zone(target_zone)]!</span>"
 			return -1
-
+		time = 10 //Much shorter to insert something
 		user.visible_message("[user] begins to insert [tool] into [target]'s stump.",
 			"<span class='notice'>You begin to insert [tool] into [target]'s stump...</span>")
+
+	else if(istype(tool, /obj/item/robot_parts))
+		current_type = "insert"
+		RP = tool
+		if(target_zone != Bodypart2name(RP.body_pat))
+			user << "<span class='notice'>There is already a limb in [target]'s [parse_zone(target_zone)]!</span>"
+			return -1
+		time = 10 //Much shorter to insert something
+		user.visible_message("[user] begins to insert [tool] into [target]'s stump.",
+			"<span class='notice'>You begin to insert [tool] into [target]'s stump...</span>")
+
 
 	else if(implement_type in implements_detach)
 		current_type = "extract"
 		if(ishuman(target))
 			var/mob/living/carbon/human/H = target
-			var/obj/item/organ/limb/I = H.get_organ(target_zone)
+			I = H.get_organ(target_zone)
 			if(!istype(I))
 				user << "<span class='notice'>There is no removeable limb in [target]'s [parse_zone(target_zone)]!</span>"
 				return -1
@@ -61,6 +74,7 @@
 
 	else if(implement_type in implements_mend)
 		current_type = "mend"
+		time = 10
 		user.visible_message("[user] begins to mend the incision in [target]'s [parse_zone(target_zone)].",
 			"<span class='notice'>You begin to mend the incision in [target]'s [parse_zone(target_zone)]...</span>")
 
@@ -74,14 +88,18 @@
 			L.state_flags = ORGAN_FINE
 		return 1
 	else if(current_type == "insert")
-		I = tool
-		user.drop_item()
 		if(ishuman(target))
 			var/mob/living/carbon/human/H = target
-			H.attachLimb(I, user)
-
-		user.visible_message("[user] inserts [tool] into [target]'s [parse_zone(target_zone)]!",
-			"<span class='notice'>You insert [tool] into [target]'s [parse_zone(target_zone)].</span>")
+			user.drop_item()
+			if(istype(I))
+				H.attachLimb(I, user)
+			else if(istype(RP))
+				var/obj/item/organ/limb/targeted_limb = H.get_organ(target_zone)
+				if(!istype(target_limb))
+					target_limb = newBodyPart(zone)
+					target_limb.loc = H
+					H.organs += target_limb
+				target_limb.augment(RP,user)
 
 	else if(current_type == "extract")
 		if(I && I.owner == target)

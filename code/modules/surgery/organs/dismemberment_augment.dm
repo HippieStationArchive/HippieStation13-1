@@ -14,16 +14,23 @@
 
 //Drop the limb
 /obj/item/organ/limb/proc/drop_limb()
+	var/turf/T = get_turf(src.loc)
 	if(owner && ishuman(owner))
+		T = get_turf(owner)
 		var/mob/living/carbon/human/H = owner
 		if(!updated)
 			update_limb(H)
 		H.organs -= src
 		owner = null
 
+	brute_dam = brute_dam / 3
+	burn_dam = burn_dam / 3
 	bloodloss = 0
 
-	var/turf/T = get_turf(src)
+	for(var/obj/item/I in embedded_objects)
+		embedded_objects -= I
+		I.loc = T
+
 	src.loc = T
 
 //Augment a limb
@@ -98,46 +105,49 @@
 /obj/item/organ/limb/chest/drop_limb()
 	return
 
-/obj/item/organ/limb/r_arm/dismember()
+/obj/item/organ/limb/r_arm/drop_limb()
+	if(owner)
+		if(owner.handcuffed)
+			owner.handcuffed.loc = get_turf(owner)
+			owner.handcuffed = null
+			owner.update_inv_handcuffed(0)
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			H.unequip(owner.gloves)
 	..()
 
-	if(!owner)
-		return
-	if(owner.handcuffed)
-		owner.handcuffed.loc = get_turf(owner)
-		owner.handcuffed = null
-		owner.update_inv_handcuffed(0)
-
-/obj/item/organ/limb/l_arm/dismember()
+/obj/item/organ/limb/l_arm/drop_limb()
+	if(owner)
+		if(owner.handcuffed)
+			owner.handcuffed.loc = get_turf(owner)
+			owner.handcuffed = null
+			owner.update_inv_handcuffed(0)
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			H.unequip(owner.gloves)
 	..()
 
-	if(!owner)
-		return
-	if(owner.handcuffed)
-		owner.handcuffed.loc = get_turf(owner)
-		owner.handcuffed = null
-		owner.update_inv_handcuffed(0)
-
-/obj/item/organ/limb/r_leg/dismember()
+/obj/item/organ/limb/r_leg/drop_limb()
+	if(owner)
+		if(owner.legcuffed)
+			owner.legcuffed.loc = get_turf(owner)
+			owner.legcuffed = null
+			owner.update_inv_legcuffed(0)
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			H.unequip(owner.shoes)
 	..()
 
-	if(!owner)
-		return
-	if(owner.legcuffed)
-		owner.legcuffed.loc = get_turf(owner)
-		owner.legcuffed = null
-		owner.update_inv_legcuffed(0)
-
-/obj/item/organ/limb/l_leg/dismember()
+/obj/item/organ/limb/l_leg/drop_limb()
+	if(owner)
+		if(owner.legcuffed)
+			owner.legcuffed.loc = get_turf(owner)
+			owner.legcuffed = null
+			owner.update_inv_legcuffed(0)
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			H.unequip(owner.shoes)
 	..()
-
-	if(!owner)
-		return
-	if(owner.legcuffed)
-		owner.legcuffed.loc = get_turf(owner)
-		owner.legcuffed = null
-		owner.update_inv_legcuffed(0)
-
 
 //Attach a limb (the limb still keeps all the flags and stuff, so it's probably unusable unless you do surgery to fix up augment wounds)
 /mob/living/carbon/human/proc/attachLimb(var/obj/item/organ/limb/L, var/mob/user)

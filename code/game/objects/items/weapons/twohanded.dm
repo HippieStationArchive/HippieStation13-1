@@ -56,6 +56,9 @@
 	if(user.get_inactive_hand())
 		user << "<span class='warning'>You need your other hand to be empty!</span>"
 		return
+	if(get_num_arms() < 2)
+		user << "<span class='warning'>You don't have enough hands.</span>"
+		return
 	wielded = 1
 	force = force_wielded
 	name = "[name] (Wielded)"

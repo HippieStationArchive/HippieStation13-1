@@ -91,7 +91,10 @@
 		var/armor = H.run_armor_check(O, "melee")
 		if(armor <= 40)
 			H.throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
-			var/obj/item/organ/limb/L = pick(H.organs)
+			var/obj/item/organ/limb/L = H.getrandomorgan()
+			if(!istype(L))
+				user << "<span class='danger'>[H] has no limbs!</span>"
+				return 0
 			if(istype(P)) //If the staplegun contains paper...
 				P.loc = H
 				P.update_icon()

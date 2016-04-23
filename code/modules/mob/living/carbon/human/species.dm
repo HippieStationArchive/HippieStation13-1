@@ -999,25 +999,6 @@
 	return
 
 /datum/species/proc/spec_attacked_by(obj/item/I, mob/living/user, def_zone, obj/item/organ/limb/affecting, hit_area, intent, obj/item/organ/limb/target_limb, target_area, mob/living/carbon/human/H)
-	if(!target_limb || (target_limb.state_flags & ORGAN_AUGMENTABLE))
-		var/zone = check_zone(user.zone_sel.selecting)
-		if(istype(I, /obj/item/robot_parts))
-			var/obj/item/robot_parts/RP = I
-			if(Bodypart2name(RP.body_part) == zone)
-				if(!istype(target_limb))
-					target_limb = newBodyPart(zone)
-				target_limb.augment(RP,user)
-			else
-				user << "<span class='notice'>[RP] doesn't go there!</span>"
-			return 0
-		if(istype(I, /obj/item/organ/limb))
-			var/obj/item/organ/limb/L = I
-			if(Bodypart2name(L) == zone)
-				H.attachLimb(L,user)
-			else
-				user << "<span class='notice'>[L] doesn't go there!</span>"
-			return 0
-
 	// Allows you to put in item-specific reactions based on species
 	if(user != H)
 		user.do_attack_animation(H)

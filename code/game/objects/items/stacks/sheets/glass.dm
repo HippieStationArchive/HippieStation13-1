@@ -333,6 +333,8 @@
 				var/check = H.lying ? H.w_uniform : H.shoes
 				if(!check)
 					var/obj/item/organ/limb/O = H.get_organ(pick("l_leg", "r_leg"))
+					if(!istype(O))
+						return
 					H.apply_damage(5, BRUTE, O)
 					if(!H.lying) H.Weaken(3)
 					if(prob(embed_chance))

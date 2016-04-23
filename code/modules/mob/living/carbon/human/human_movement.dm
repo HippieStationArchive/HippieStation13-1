@@ -6,7 +6,7 @@
 
 /mob/living/carbon/human/update_canmove()
 	if(!get_num_legs(1)) //get a number of USABLE legs (ignores limbs w/ AUGMENTABLE flag)
-		lying = 90
+		weakened += 1 //Kind of a hack but w/e
 
 	..()
 
