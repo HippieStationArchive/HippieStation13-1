@@ -730,7 +730,7 @@ var/list/slot_equipment_priority = list( \
 //Updates canmove, lying and icons. Could perhaps do with a rename but I can't think of anything to describe it.
 //Robots, animals and brains have their own version so don't worry about them
 /mob/proc/update_canmove()
-	var/ko = weakened || paralysis || stat || (status_flags & FAKEDEATH) || (status_flags & CRAWLING)
+	var/ko = weakened || paralysis || stat || (status_flags & FAKEDEATH)
 	var/buckle_lying = !(buckled && !buckled.buckle_lying)
 	var/grabbed = 0 //Search for grabs within src
 	for(var/obj/item/weapon/grab/G in grabbed_by)
@@ -747,13 +747,13 @@ var/list/slot_equipment_priority = list( \
 		lying = 90*buckle_lying
 	else if(pinned_to)
 		lying = 0
-	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead
-		lying = 90*((status_flags & CRAWLING ? 1 : 0) || stat || (status_flags & FAKEDEATH))
+	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead/legless
+		lying = 90*((status_flags & NEARCRIT ? 1 : 0) || !get_num_legs(1) || stat || (status_flags & FAKEDEATH))
 	else
 		if((ko || resting) && !lying)
 			fall(ko)
 	canmove = !(ko || resting || stunned || buckled || pinned_to)
-	if((status_flags & CRAWLING) && !stat)
+	if(((status_flags & NEARCRIT) || !get_num_legs(1)) && !stat)
 		canmove = !(stunned || buckled || pinned_to)
 	density = !lying
 	if(lying)

@@ -152,6 +152,8 @@ Please contact me on #coderbus IRC. ~Carnie x
 		update_hud()
 		//mutations
 		update_mutations_overlay()
+		//damage overlays
+		update_damage_overlays()
 
 /* --------------------------------------- */
 //vvvvvv UPDATE_INV PROCS vvvvvv

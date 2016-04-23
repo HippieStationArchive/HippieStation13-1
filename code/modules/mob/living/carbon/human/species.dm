@@ -206,7 +206,7 @@
 			else
 				standing	+= image("icon"=U2.icon, "icon_state"="[U2.icon_state]_s", "layer"=-BODY_LAYER)
 
-	if(H.socks)
+	if(H.socks && H.get_num_legs() >= 2)
 		var/datum/sprite_accessory/socks/U3 = socks_list[H.socks]
 		if(U3)
 			standing	+= image("icon"=U3.icon, "icon_state"="[U3.icon_state]_s", "layer"=-BODY_LAYER)
@@ -855,7 +855,7 @@
 			if(H.get_num_legs() < 2)
 				. += 1
 
-			if(H.status_flags & CRAWLING) //This is for crawling
+			if(H.lying) //This is for crawling
 				. += 30 //Can crawl only every 3 seconds pretty much
 
 			. += speedmod
@@ -1010,7 +1010,7 @@
 			else
 				user << "<span class='notice'>[RP] doesn't go there!</span>"
 			return 0
-		if(istype(I, /obj/item/organ/limb) && !target_limb)
+		if(istype(I, /obj/item/organ/limb))
 			var/obj/item/organ/limb/L = I
 			if(Bodypart2name(L) == zone)
 				H.attachLimb(L,user)
@@ -1100,7 +1100,7 @@
 		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
 		return 0
 
-	if(islist(I.attack_verb))
+	if(islist(I.attack_verb) && I.attack_verb.len)
 		H.visible_message("<span class='danger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>", \
 						"<span class='userdanger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>")
 	else if(I.force)

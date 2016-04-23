@@ -29,6 +29,7 @@
 	var/should_draw_gender = FALSE
 	var/should_draw_greyscale = FALSE
 	var/species_color = ""
+	var/updated = 0
 
 /obj/item/organ/limb/examine(mob/user)
 	..()
@@ -62,6 +63,7 @@
 			species_color = H.dna.features["mcolor"]
 			should_draw_greyscale = TRUE
 		should_draw_gender = S.sexes
+	updated = 1
 	update_icon()
 
 //Similar to human's update_icon proc
@@ -264,6 +266,8 @@
 		var/tburn	= round( (burn_dam/max_damage)*3, 1 )
 		if((tbrute != brutestate) || (tburn != burnstate))
 			brutestate = tbrute
+			if(state_flags & ORGAN_AUGMENTABLE) //Severed muscles make the limb look fucked up
+				brutestate = 1
 			burnstate = tburn
 			return 1
 		return 0
