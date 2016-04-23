@@ -113,7 +113,7 @@
 			owner.update_inv_handcuffed(0)
 		if(ishuman(owner))
 			var/mob/living/carbon/human/H = owner
-			H.unequip(owner.gloves)
+			H.unEquip(H.gloves)
 	..()
 
 /obj/item/organ/limb/l_arm/drop_limb()
@@ -124,7 +124,7 @@
 			owner.update_inv_handcuffed(0)
 		if(ishuman(owner))
 			var/mob/living/carbon/human/H = owner
-			H.unequip(owner.gloves)
+			H.unEquip(H.gloves)
 	..()
 
 /obj/item/organ/limb/r_leg/drop_limb()
@@ -135,7 +135,7 @@
 			owner.update_inv_legcuffed(0)
 		if(ishuman(owner))
 			var/mob/living/carbon/human/H = owner
-			H.unequip(owner.shoes)
+			H.unEquip(H.shoes)
 	..()
 
 /obj/item/organ/limb/l_leg/drop_limb()
@@ -146,7 +146,7 @@
 			owner.update_inv_legcuffed(0)
 		if(ishuman(owner))
 			var/mob/living/carbon/human/H = owner
-			H.unequip(owner.shoes)
+			H.unEquip(H.shoes)
 	..()
 
 //Attach a limb (the limb still keeps all the flags and stuff, so it's probably unusable unless you do surgery to fix up augment wounds)

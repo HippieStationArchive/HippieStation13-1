@@ -871,7 +871,13 @@ body
 					new_type = ORGAN_ORGANIC
 
 			if(limb == "All")
-				for(var/obj/item/organ/limb/LI in H.organs)
+				var/list/full = list("head", "chest", "r_arm", "l_arm", "r_leg", "l_leg")
+				for(var/t in full)
+					var/obj/item/organ/limb/LI = H.get_organ(t)
+					if(!LI in H.organs)
+						LI = newBodyPart(t)
+						LI.loc = H
+						H.organs += LI
 					LI.change_organ(new_type)
 			else
 				L.change_organ(new_type)

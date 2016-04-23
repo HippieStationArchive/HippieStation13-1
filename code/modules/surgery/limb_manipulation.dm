@@ -52,7 +52,7 @@
 	else if(istype(tool, /obj/item/robot_parts))
 		current_type = "insert"
 		RP = tool
-		if(target_zone != Bodypart2name(RP.body_pat))
+		if(target_zone != Bodypart2name(RP.body_part))
 			user << "<span class='notice'>There is already a limb in [target]'s [parse_zone(target_zone)]!</span>"
 			return -1
 		time = 10 //Much shorter to insert something
@@ -94,9 +94,9 @@
 			if(istype(I))
 				H.attachLimb(I, user)
 			else if(istype(RP))
-				var/obj/item/organ/limb/targeted_limb = H.get_organ(target_zone)
+				var/obj/item/organ/limb/target_limb = H.get_organ(target_zone)
 				if(!istype(target_limb))
-					target_limb = newBodyPart(zone)
+					target_limb = newBodyPart(target_zone)
 					target_limb.loc = H
 					H.organs += target_limb
 				target_limb.augment(RP,user)
