@@ -5,6 +5,8 @@
 
 	state_flags = ORGAN_REMOVED|ORGAN_AUGMENTABLE
 	drop_limb()
+	var/direction = pick(cardinal)
+	step(src,direction)
 	brutestate = 0
 	burnstate = 0
 
@@ -15,6 +17,8 @@
 		owner.drop_l_hand()
 		owner.update_canmove()
 		owner.regenerate_icons()
+		owner.emote("scream")
+		playsound(get_turf(owner), pick('sound/misc/splat.ogg', 'sound/misc/splort.ogg'), 80, 1)
 
 /obj/item/organ/limb/head/dismember()
 	state_flags = ORGAN_AUGMENTABLE
@@ -155,8 +159,9 @@
 
 	if(L)
 		L.name = "[owner]'s [getDisplayName()]"
-		var/direction = pick(cardinal)
-		step(L,direction)
+		var/obj/item/organ/limb/O = L
+		if(istype(O))
+			O.update_limb(owner)
 
 
 //Helper for cleaner code, used above in drop_limb()

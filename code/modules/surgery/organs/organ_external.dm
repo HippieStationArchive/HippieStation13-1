@@ -21,7 +21,96 @@
 	var/max_damage = 0
 	var/list/embedded_objects = list()
 
+	//Coloring and proper item icon update
+	var/skin_tone = ""
+	var/human_gender = ""
+	var/species_id = ""
+	var/should_draw_gender = FALSE
+	var/should_draw_greyscale = FALSE
+	var/species_color = ""
 
+/obj/item/organ/limb/proc/update_limb(mob/reference as mob)
+	if(!istype(reference))
+		var/mob/living/carbon/human/H = loc
+		if(istype(H) && locate(src) in H.organs)
+			reference = H
+	var/mob/living/carbon/human/H = reference
+	if(skin_tone == "")
+		if(istype(H))
+			skin_tone = H.skin_tone
+		else
+			skin_tone = "caucasian1"
+		should_draw_greyscale = TRUE
+	if(human_gender == "")
+		should_draw_gender = TRUE
+		if(istype(H))
+			human_gender = H.gender
+		else
+			human_gender = MALE
+	if(istype(H) && H.dna && H.dna.species)
+		var/datum/species/S = H.dna.species
+		species_id = S.id
+		if(MUTCOLORS in S.specflags)
+			species_color = H.dna.features["mcolor"]
+			should_draw_greyscale = TRUE
+		should_draw_gender = S.sexes
+	update_icon()
+
+//Similar to human's update_icon proc
+/obj/item/organ/limb/update_icon()
+	overlays.Cut()
+	var/image/I
+
+	if((body_part == HEAD || body_part == CHEST))
+		should_draw_gender = TRUE
+	else
+		should_draw_gender = FALSE
+
+	if(status == ORGAN_ORGANIC)
+		if(should_draw_greyscale)
+			if(should_draw_gender)
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species_id]_[name]_[human_gender]_s", "layer"=-BODYPARTS_LAYER)
+			else
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species_id]_[name]_s", "layer"=-BODYPARTS_LAYER)
+		else
+			if(should_draw_gender)
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species_id]_[name]_[human_gender]_s", "layer"=-BODYPARTS_LAYER)
+			else
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species_id]_[name]_s", "layer"=-BODYPARTS_LAYER)
+	else
+		if(should_draw_gender)
+			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[name]_[human_gender]_s", "layer"=-BODYPARTS_LAYER)
+		else
+			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[name]_s", "layer"=-BODYPARTS_LAYER)
+		if(I)
+			overlays += I
+			return I
+		return 0
+
+
+	if(!should_draw_greyscale)
+		if(I)
+			overlays += I
+			return I //We're done here
+		return 0
+
+
+	//Greyscale Colouring
+	var/draw_color
+
+	if(skin_tone) //Limb has skin color variable defined, use it
+		draw_color = skintone2hex(skin_tone)
+	if(species_color)
+		draw_color = species_color
+
+	if(draw_color)
+		I.color = "#[draw_color]"
+	//End Greyscale Colouring
+
+	if(I)
+		overlays += I
+		return I
+	return 0
 
 /obj/item/organ/limb/chest
 	name = "chest"

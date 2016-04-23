@@ -47,6 +47,7 @@
 		I.Insert(src)
 
 	make_blood()
+	update_body()
 
 	..()
 

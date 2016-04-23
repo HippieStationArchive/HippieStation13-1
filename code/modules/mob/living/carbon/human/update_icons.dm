@@ -90,8 +90,8 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 
 /mob/living/carbon/human/proc/update_body()
-	remove_overlay(BODY_LAYER)
 	update_body_parts()
+	remove_overlay(BODY_LAYER)
 	dna.species.handle_body(src)
 
 /mob/living/carbon/human/update_fire()
@@ -112,9 +112,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 	if(limb_icon_cache[icon_render_key])
 		load_limb_from_cache()
 		update_damage_overlays()
-		update_inv_gloves()
-		update_inv_shoes()
-		update_inv_head()
 		update_hair()
 		return
 
@@ -131,9 +128,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 	apply_overlay(BODYPARTS_LAYER)
 	update_damage_overlays()
-	update_inv_gloves()
-	update_inv_shoes()
-	update_inv_head()
 
 /* --------------------------------------- */
 //For legacy support.
@@ -532,27 +526,25 @@ var/global/list/limb_icon_cache = list()
 
 //produces a key based on the human's limbs
 /mob/living/carbon/human/proc/generate_icon_render_key()
-	var/datum/species/species = dna.species
+	. = "[dna.species.id]"
 
-	. = "[species.id]"
-
-	if(species.use_skintones || dna.features["mcolor"])
-		. = "-coloured-[skin_tone]"
+	if(dna.species.use_skintones || dna.features["mcolor"])
+		. += "-coloured-[skin_tone]"
 	else
-		. = "-not_coloured"
+		. += "-not_coloured"
 
-	. = "-[gender]"
+	. += "-[gender]"
 
 	for(var/obj/item/organ/limb/L in organs)
-		. = "-[initial(L.name)]"
+		. += "-[initial(L.name)]"
 		if(L.state_flags & ORGAN_REMOVED)
-			. = "-removed"
+			. += "-removed"
 		else
-			. = "-fine"
+			. += "-fine"
 			if(L.status == ORGAN_ORGANIC)
-				. = "-organic"
+				. += "-organic"
 			else
-				. = "-robotic"
+				. += "-robotic"
 
 
 //change the human's icon to the one matching it's key
@@ -577,7 +569,7 @@ var/global/list/limb_icon_cache = list()
 	if((affecting.body_part == HEAD || affecting.body_part == CHEST) && species.sexes)
 		should_draw_gender = TRUE
 
-	if((MUTCOLORS in species.specflags) || species.use_skintones)
+	if((MUTCOLORS in species.specflags) || species.use_skintones || affecting.skin_tone)
 		should_draw_greyscale = TRUE
 
 
@@ -617,6 +609,11 @@ var/global/list/limb_icon_cache = list()
 		else
 			if(MUTCOLORS in species.specflags)
 				draw_color = dna.features["mcolor"]
+
+	if(affecting.skin_tone) //Limb has skin color variable defined, use it
+		draw_color = skintone2hex(affecting.skin_tone)
+	if(affecting.species_color)
+		draw_color = affecting.species_color
 
 	if(draw_color)
 		I.color = "#[draw_color]"
