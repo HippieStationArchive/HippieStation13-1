@@ -119,8 +119,8 @@ emp_act
 
 	var/obj/item/organ/limb/target_limb = get_organ(check_zone(user.zone_sel.selecting))
 	var/obj/item/organ/limb/affecting = get_organ(ran_zone(user.zone_sel.selecting))
-	var/hit_area = parse_zone(affecting.name)
-	var/target_area = parse_zone(target_limb.name)
+	var/hit_area = parse_zone(Bodypart2name(affecting))
+	var/target_area = parse_zone(Bodypart2name(target_limb))
 	feedback_add_details("item_used_for_combat","[I.type]|[I.force]")
 	feedback_add_details("zone_targeted","[target_area]")
 
@@ -258,7 +258,7 @@ emp_act
 	for(var/obj/item/organ/limb/affecting in damaged)
 		affecting.take_damage(acidity, 2*acidity)
 
-		if(affecting.name == "head")
+		if(Bodypart2name(affecting.body_part) == "head")
 			if(prob(min(acidpwr*acid_volume/10, 90))) //Applies disfigurement
 				affecting.take_damage(acidity, 2*acidity)
 				emote("scream")

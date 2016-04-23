@@ -70,19 +70,19 @@
 	if(status == ORGAN_ORGANIC)
 		if(should_draw_greyscale)
 			if(should_draw_gender)
-				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species_id]_[name]_[human_gender]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species_id]_[Bodypart2name(body_part)]_[human_gender]_s", "layer"=-BODYPARTS_LAYER)
 			else
-				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species_id]_[name]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species_id]_[Bodypart2name(body_part)]_s", "layer"=-BODYPARTS_LAYER)
 		else
 			if(should_draw_gender)
-				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species_id]_[name]_[human_gender]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species_id]_[Bodypart2name(body_part)]_[human_gender]_s", "layer"=-BODYPARTS_LAYER)
 			else
-				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species_id]_[name]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species_id]_[Bodypart2name(body_part)]_s", "layer"=-BODYPARTS_LAYER)
 	else
 		if(should_draw_gender)
-			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[name]_[human_gender]_s", "layer"=-BODYPARTS_LAYER)
+			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[Bodypart2name(body_part)]_[human_gender]_s", "layer"=-BODYPARTS_LAYER)
 		else
-			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[name]_s", "layer"=-BODYPARTS_LAYER)
+			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[Bodypart2name(body_part)]_s", "layer"=-BODYPARTS_LAYER)
 		if(I)
 			overlays += I
 			return I
@@ -162,28 +162,28 @@
 	return done
 
 /obj/item/organ/limb/l_arm
-	name = "l_arm"
+	name = "left arm"
 	icon_state = "l_arm"
 	max_damage = 75
 	body_part = ARM_LEFT
 
 
 /obj/item/organ/limb/l_leg
-	name = "l_leg"
+	name = "left leg"
 	icon_state = "l_leg"
 	max_damage = 75
 	body_part = LEG_LEFT
 
 
 /obj/item/organ/limb/r_arm
-	name = "r_arm"
+	name = "right arm"
 	icon_state = "r_arm"
 	max_damage = 75
 	body_part = ARM_RIGHT
 
 
 /obj/item/organ/limb/r_leg
-	name = "r_leg"
+	name = "right leg"
 	icon_state = "r_leg"
 	max_damage = 75
 	body_part = LEG_RIGHT

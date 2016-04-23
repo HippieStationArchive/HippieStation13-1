@@ -83,7 +83,7 @@
 
 
 //Augment a limb
-/obj/item/organ/limb/proc/augment(var/obj/item/I, var/mob/user)
+/obj/item/organ/limb/proc/attach(var/obj/item/I, var/mob/user)
 	if(!(state_flags & ORGAN_REMOVED) && !(state_flags & ORGAN_AUGMENTABLE))
 		return
 
@@ -95,7 +95,10 @@
 		who = "their"
 
 	owner.visible_message("<span class='notice'>[user] has attatched [who] new limb!</span>")
-	change_organ(ORGAN_ROBOTIC)
+	if(istype(I, /obj/item/organ))
+		change_organ(ORGAN_ORGANIC)
+	else
+		change_organ(ORGAN_ROBOTIC)
 	user.drop_item()
 	qdel(I)
 	owner.update_canmove()

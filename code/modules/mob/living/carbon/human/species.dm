@@ -748,7 +748,7 @@
 				if(H.hal_screwyhud == 5)
 					icon_num = 0
 				if(icon_num)
-					H.healthdoll.overlays += image('icons/mob/screen_gen.dmi',"[L.name][icon_num]")
+					H.healthdoll.overlays += image('icons/mob/screen_gen.dmi',"[Bodypart2name(L)][icon_num]")
 
 	switch(H.nutrition)
 		if(NUTRITION_LEVEL_FULL to INFINITY)
@@ -1098,7 +1098,13 @@
 	if(!dmgcheck) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
+		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
 		return 0
+
+	if (I.hitsound && I.force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
+		playsound(H, I.hitsound, I.get_clamped_volume(), 1, I.hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
+	else if (I.force == 0)//Otherwise, if the item's force is zero...
+		playsound(H, 'sound/weapons/tap.ogg', I.get_clamped_volume(), 1, I.hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
 
 	if(affecting.brute_dam >= affecting.max_damage)
 		if(I.is_sharp() && prob(Iforce*2))

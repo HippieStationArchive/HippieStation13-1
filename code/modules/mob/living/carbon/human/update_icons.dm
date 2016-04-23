@@ -536,7 +536,7 @@ var/global/list/limb_icon_cache = list()
 	. += "-[gender]"
 
 	for(var/obj/item/organ/limb/L in organs)
-		. += "-[initial(L.name)]"
+		. += "-[Bodypart2name(L)]"
 		if(L.state_flags & ORGAN_REMOVED)
 			. += "-removed"
 		else
@@ -576,19 +576,19 @@ var/global/list/limb_icon_cache = list()
 	if(affecting.status == ORGAN_ORGANIC)
 		if(should_draw_greyscale)
 			if(should_draw_gender)
-				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species.id]_[affecting.name]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species.id]_[Bodypart2name(affecting)]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
 			else
-				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species.id]_[affecting.name]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species.id]_[Bodypart2name(affecting)]_s", "layer"=-BODYPARTS_LAYER)
 		else
 			if(should_draw_gender)
-				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species.id]_[affecting.name]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species.id]_[Bodypart2name(affecting)]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
 			else
-				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species.id]_[affecting.name]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species.id]_[Bodypart2name(affecting)]_s", "layer"=-BODYPARTS_LAYER)
 	else
 		if(should_draw_gender)
-			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[affecting.name]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
+			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[Bodypart2name(affecting)]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
 		else
-			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[affecting.name]_s", "layer"=-BODYPARTS_LAYER)
+			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[Bodypart2name(affecting)]_s", "layer"=-BODYPARTS_LAYER)
 		if(I)
 			return I
 		return 0

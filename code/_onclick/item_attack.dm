@@ -32,9 +32,9 @@
 		return 0
 
 	if (I.hitsound && I.force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
-		playsound(loc, I.hitsound, I.get_clamped_volume(), 1, I.hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
+		playsound(get_turf(src), I.hitsound, I.get_clamped_volume(), 1, I.hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
 	else if (I.force == 0)//Otherwise, if the item's force is zero...
-		playsound(loc, 'sound/weapons/tap.ogg', I.get_clamped_volume(), 1, I.hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
+		playsound(get_turf(src), 'sound/weapons/tap.ogg', I.get_clamped_volume(), 1, I.hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
 
 	if(I.damtype == BRUTE)
 		if(prob(33) && I.force)

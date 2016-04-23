@@ -171,7 +171,7 @@
 /mob/living/carbon/human/proc/get_organ(zone)
 	if(!zone)	zone = "chest"
 	for(var/obj/item/organ/limb/O in organs)
-		if(O.name == zone)
+		if(Bodypart2name(O) == zone)
 			return O
 	return null
 
