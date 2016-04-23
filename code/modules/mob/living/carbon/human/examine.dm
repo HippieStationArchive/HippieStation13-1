@@ -216,11 +216,19 @@
 		else
 			msg += "<B>[t_He] [t_has] severe cellular damage.</B>\n"
 
-
+	var/list/missing = list("head", "chest", "l_arm", "r_arm", "l_leg", "r_leg")
+	var/list/augmentable = list()
 	for(var/obj/item/organ/limb/L in organs)
+		missing -= Bodypart2name(L)
+		if(L.state_flags & ORGAN_AUGMENTABLE)
+			augmentable += Bodypart2name(L)
 		for(var/obj/item/I in L.embedded_objects)
 			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L]!</B>[I.pinned ? "It [t_has] pinned [t_him] down to \the [I.pinned]!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[src];read_embedded=\ref[I]'>Read</a>)" : ""]\n"
 
+	for(var/t in missing)
+		msg += "<B>Their [parse_zone(t)] is missing!</B>\n"
+	for(var/t in augmentable)
+		msg += "<B>Their [parse_zone(t)] has severed muscles!</B>\n"
 
 	if(fire_stacks > 0)
 		msg += "[t_He] [t_is] covered in something flammable.\n"

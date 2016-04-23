@@ -178,7 +178,7 @@
 
 		if(isliving(mob))
 			var/mob/living/L = mob
-			if((L.status_flags & NEARCRIT) && L.crit_can_crawl) //You can only crawl in nearcrit
+			if((L.status_flags & CRAWLING) && L.crit_can_crawl) //You can only crawl in nearcrit or without legs
 				if(L.crit_crawl_damage != 0) // let 'em have their negative values
 					L.apply_damage(L.crit_crawl_damage, L.crit_crawl_damage_type)
 				if(L.dir == WEST)

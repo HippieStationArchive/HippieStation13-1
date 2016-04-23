@@ -1626,6 +1626,7 @@
 #include "code\modules\surgery\generic_steps.dm"
 #include "code\modules\surgery\helpers.dm"
 #include "code\modules\surgery\implant_removal.dm"
+#include "code\modules\surgery\limb_manipulation.dm"
 #include "code\modules\surgery\lipoplasty.dm"
 #include "code\modules\surgery\lobotomy.dm"
 #include "code\modules\surgery\organ_manipulation.dm"

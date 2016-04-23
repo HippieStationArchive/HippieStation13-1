@@ -33,10 +33,10 @@
 			return O
 
 /mob/living/carbon/human/getrandomorgan(zone, prob) //This is the same as get_organ(ran_zone) but it also makes sure that organ is actually attached/exists
-	var/list/exceptions = list()
+	var/list/exceptions = list("head", "chest", "l_arm", "r_arm", "l_leg", "r_leg")
 	for(var/obj/item/organ/limb/L in organs)
-		if(L.state_flags & ORGAN_REMOVED)
-			exceptions.Add(L)
+		if(Bodypart2name(L) in exceptions)
+			exceptions -= L
 	return get_organ(ran_zone(zone, prob, exceptions))
 
 /mob/proc/getlimb()

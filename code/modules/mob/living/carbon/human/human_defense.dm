@@ -62,7 +62,7 @@ emp_act
 			return -1 // complete projectile permutation
 
 	var/obj/item/organ/limb/affecting = get_organ(check_zone(def_zone))
-	if(affecting && affecting.state_flags & ORGAN_REMOVED)
+	if(!affecting)
 		visible_message("<span class='danger'>\a [P] wizzes past [src]!</span>", "<span class='userdanger'>\a [P] wizzes past you!</span>")
 		return -1 //No arm, no hit
 

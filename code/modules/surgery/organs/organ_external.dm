@@ -30,6 +30,13 @@
 	var/should_draw_greyscale = FALSE
 	var/species_color = ""
 
+/obj/item/organ/limb/examine(mob/user)
+	..()
+	if(brute_dam > 0)
+		user << "<span class='warning'>This limb has [brute_dam > 30 ? "severe" : "minor"] bruising.</span>"
+	if(burn_dam > 0)
+		user << "<span class='warning'>This limb has [burn_dam > 30 ? "severe" : "minor"] bruising.</span>"
+
 /obj/item/organ/limb/proc/update_limb(mob/reference as mob)
 	if(!istype(reference))
 		var/mob/living/carbon/human/H = loc

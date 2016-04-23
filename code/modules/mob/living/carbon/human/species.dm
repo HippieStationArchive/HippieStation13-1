@@ -399,13 +399,13 @@
 		if(slot_l_hand)
 			if(H.l_hand)
 				return 0
-			if(L.state_flags & ORGAN_REMOVED)
+			if(!L || (L.state_flags & ORGAN_AUGMENTABLE))
 				return 0
 			return 1
 		if(slot_r_hand)
 			if(H.r_hand)
 				return 0
-			if(R.state_flags & ORGAN_REMOVED)
+			if(!R || (L.state_flags & ORGAN_AUGMENTABLE))
 				return 0
 			return 1
 		if(slot_wear_mask)
@@ -855,7 +855,7 @@
 			if(H.get_num_legs() < 2)
 				. += 1
 
-			if(H.status_flags & NEARCRIT) //This is for crawling
+			if(H.status_flags & CRAWLING) //This is for crawling
 				. += 30 //Can crawl only every 3 seconds pretty much
 
 			. += speedmod
@@ -999,16 +999,24 @@
 	return
 
 /datum/species/proc/spec_attacked_by(obj/item/I, mob/living/user, def_zone, obj/item/organ/limb/affecting, hit_area, intent, obj/item/organ/limb/target_limb, target_area, mob/living/carbon/human/H)
-	if((target_limb.state_flags & ORGAN_REMOVED) || (target_limb.state_flags & ORGAN_AUGMENTABLE))
+	if(!target_limb || (target_limb.state_flags & ORGAN_AUGMENTABLE))
+		var/zone = check_zone(user.zone_sel.selecting)
 		if(istype(I, /obj/item/robot_parts))
 			var/obj/item/robot_parts/RP = I
-			if(RP.limb_part == target_limb.body_part)
+			if(Bodypart2name(RP.body_part) == zone)
+				if(!istype(target_limb))
+					target_limb = newBodyPart(zone)
 				target_limb.augment(RP,user)
 			else
 				user << "<span class='notice'>[RP] doesn't go there!</span>"
-
-	if((target_limb.state_flags & ORGAN_REMOVED))
-		return 0
+			return 0
+		if(istype(I, /obj/item/organ/limb) && !target_limb)
+			var/obj/item/organ/limb/L = I
+			if(Bodypart2name(L) == zone)
+				H.attachLimb(L,user)
+			else
+				user << "<span class='notice'>[L] doesn't go there!</span>"
+			return 0
 
 	// Allows you to put in item-specific reactions based on species
 	if(user != H)
@@ -1086,6 +1094,12 @@
 
 	var/dmgcheck = apply_damage(I.force, I.damtype, affecting, armor_block, H)
 
+	if(!dmgcheck && I.force != 0) //Something went wrong. Maybe the limb is missing?
+		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
+						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
+		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
+		return 0
+
 	if(islist(I.attack_verb))
 		H.visible_message("<span class='danger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>", \
 						"<span class='userdanger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>")
@@ -1095,22 +1109,20 @@
 	else
 		return 0
 
-	if(!dmgcheck) //Something went wrong. Maybe the limb is missing?
-		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
-						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
-		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
-		return 0
-
 	if (I.hitsound && I.force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
 		playsound(H, I.hitsound, I.get_clamped_volume(), 1, I.hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
 	else if (I.force == 0)//Otherwise, if the item's force is zero...
 		playsound(H, 'sound/weapons/tap.ogg', I.get_clamped_volume(), 1, I.hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
+		return
 
 	if(affecting.brute_dam >= affecting.max_damage)
-		if(I.is_sharp() && prob(Iforce*2))
+		if(I.is_sharp() && prob(I.force*2))
 			I.add_blood(H)
 			affecting.dismember(I)
 			affecting.add_blood(H)
+			var/turf/location = H.loc
+			if(istype(location, /turf/simulated))
+				location.add_blood(H)
 			return
 
 	var/bloody = 0

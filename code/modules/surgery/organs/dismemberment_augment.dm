@@ -1,17 +1,16 @@
 //Dismember a limb
 /obj/item/organ/limb/proc/dismember()
-	if(state_flags & ORGAN_REMOVED)
-		return
-
-	state_flags = ORGAN_REMOVED|ORGAN_AUGMENTABLE
+	state_flags = ORGAN_AUGMENTABLE
 	drop_limb()
 	var/direction = pick(cardinal)
 	step(src,direction)
-	brutestate = 0
-	burnstate = 0
 
 	if(owner)
-		owner.apply_damage(30, BRUTE, "[src]")
+		owner.apply_damage(30, BRUTE, "chest") //Chest houses most of the limbs, sooo..
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			var/obj/item/organ/limb/affecting = H.get_organ("chest")
+			affecting.take_damage(0,0,1) //Your arm's off, ofcourse you're gonna bleed!
 		owner.visible_message("<span class='danger'><B>[owner]'s [src] has been violently dismembered!</B></span>")
 		owner.drop_r_hand()
 		owner.drop_l_hand()
@@ -83,8 +82,8 @@
 
 
 //Augment a limb
-/obj/item/organ/limb/proc/attach(var/obj/item/I, var/mob/user)
-	if(!(state_flags & ORGAN_REMOVED) && !(state_flags & ORGAN_AUGMENTABLE))
+/obj/item/organ/limb/proc/augment(var/obj/item/I, var/mob/user)
+	if(!(state_flags & ORGAN_AUGMENTABLE))
 		return
 
 	if(!owner)
@@ -95,37 +94,54 @@
 		who = "their"
 
 	owner.visible_message("<span class='notice'>[user] has attatched [who] new limb!</span>")
-	if(istype(I, /obj/item/organ))
-		change_organ(ORGAN_ORGANIC)
-	else
-		change_organ(ORGAN_ROBOTIC)
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		if(istype(I, /obj/item/robot_parts))
+			var/obj/item/robot_parts/RP = I
+			var/obj/item/organ/limb/L = H.get_organ(Bodypart2name(RP.body_part))
+			if(istype(L))
+				L.drop_limb()
+	change_organ(ORGAN_ROBOTIC)
 	user.drop_item()
 	qdel(I)
 	owner.update_canmove()
 
+//Attach a limb (the limb still keeps all the flags and stuff, so it's probably unusable unless you do surgery to fix up augment wounds)
+/mob/living/carbon/human/proc/attachLimb(var/obj/item/organ/limb/L, var/mob/user)
+	if(locate(L.type) in organs)
+		return
+
+	user.drop_item()
+	L.loc = src
+	organs += L
+
+	var/who = "[src]'s"
+	if(user == src)
+		who = "their"
+
+	visible_message("<span class='notice'>[user] has attatched [who] new limb!</span>")
+	update_canmove()
 
 //Limb numbers
-/mob/living/carbon/human/proc/get_num_arms()
+/mob/living/carbon/human/proc/get_num_arms(var/usable=0)
 	. = 0
 	for(var/obj/item/organ/limb/affecting in organs)
-		if(affecting.state_flags & ORGAN_REMOVED)
-			continue
-		switch(affecting.body_part)
-			if(ARM_RIGHT)
-				.++
-			if(ARM_LEFT)
-				.++
+		var/pass = usable ? !(affecting.state_flags & ORGAN_AUGMENTABLE) : 1
+		var/part = affecting.body_part
+		if(part == ARM_RIGHT && pass)
+			.++
+		if(part == ARM_LEFT && pass)
+			.++
 
-/mob/living/carbon/human/proc/get_num_legs()
+/mob/living/carbon/human/proc/get_num_legs(var/usable=0)
 	. = 0
 	for(var/obj/item/organ/limb/affecting in organs)
-		if(affecting.state_flags & ORGAN_REMOVED)
-			continue
-		switch(affecting.body_part)
-			if(LEG_RIGHT)
-				.++
-			if(LEG_LEFT)
-				.++
+		var/pass = usable ? !(affecting.state_flags & ORGAN_AUGMENTABLE) : 1
+		var/part = affecting.body_part
+		if(part == LEG_RIGHT && pass)
+			.++
+		if(part == LEG_LEFT && pass)
+			.++
 
 //Change organ status
 /obj/item/organ/limb/proc/change_organ(var/type)
@@ -145,31 +161,22 @@
 /obj/item/organ/limb/proc/drop_limb()
 	if(!owner)
 		return
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		update_limb(H)
+		H.organs -= src
+
+	bloodloss = 0
 
 	var/turf/T = get_turf(owner)
-	var/_path = null
+	src.loc = T
 
-	switch(status)
-		if(ORGAN_ORGANIC)
-			_path = text2path("/obj/item/organ/limb/[Bodypart2name(body_part)]")
-		if(ORGAN_ROBOTIC)
-			_path = text2path("/obj/item/robot_parts/[Bodypart2name(body_part)]")
-
-	if(!_path||!ispath(_path))
-		return
-
-	var/obj/item/L = new _path (T)
-
-	if(L)
-		L.name = "[owner]'s [src]"
-		var/obj/item/organ/limb/O = L
-		if(istype(O))
-			O.update_limb(owner)
-
-
-//Helper for cleaner code, used above in drop_limb()
+//Helper for cleaner code, used in lots of places to substitute for limb.name stuffs
 /proc/Bodypart2name(var/part)
 	. = 0
+	if(islimb(part))
+		var/obj/item/organ/limb/L = part
+		part = L.body_part
 	switch(part)
 		if(CHEST)
 			. = "chest"
@@ -184,6 +191,14 @@
 		if(LEG_LEFT)
 			. = "l_leg"
 
+//Helper for quickly creating a new limb - used by augment code in species.dm spec_attacked_by
+/proc/newBodyPart(var/type)
+	var/_path = text2path("/obj/item/organ/limb/[type]")
+	if(!_path||!ispath(_path))
+		return
+
+	var/obj/item/L = new _path
+	return L
 
 //Mob has their active hand
 /mob/proc/has_active_hand()
@@ -195,7 +210,6 @@
 		L = get_organ("l_arm")
 	else
 		L = get_organ("r_arm")
-	if(L)
-		if(L.state_flags & ORGAN_REMOVED)
-			return 0
+	if(!L)
+		return 0
 	return 1

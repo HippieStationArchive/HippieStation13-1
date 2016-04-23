@@ -61,8 +61,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 	overlays_standing[DAMAGE_LAYER]	= standing
 
 	for(var/obj/item/organ/limb/O in organs)
-		if(O.state_flags & ORGAN_REMOVED)
-			continue
 		if(O.brutestate)
 			standing.overlays	+= "[O.icon_state]_[O.brutestate]0"	//we're adding icon_states of the base image as overlays
 		if(O.burnstate)
@@ -121,7 +119,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 		var/image/temp = generate_limb_icon(L)
 		if(temp)
 			new_limbs += temp
-
 	if(new_limbs.len)
 		overlays_standing[BODYPARTS_LAYER] = new_limbs
 		limb_icon_cache[icon_render_key] = new_limbs
@@ -536,15 +533,13 @@ var/global/list/limb_icon_cache = list()
 	. += "-[gender]"
 
 	for(var/obj/item/organ/limb/L in organs)
-		. += "-[Bodypart2name(L)]"
-		if(L.state_flags & ORGAN_REMOVED)
-			. += "-removed"
+		var/limbname = Bodypart2name(L)
+		. += "-[limbname]"
+		. += "-fine"
+		if(L.status == ORGAN_ORGANIC)
+			. += "-organic"
 		else
-			. += "-fine"
-			if(L.status == ORGAN_ORGANIC)
-				. += "-organic"
-			else
-				. += "-robotic"
+			. += "-robotic"
 
 
 //change the human's icon to the one matching it's key
@@ -557,9 +552,8 @@ var/global/list/limb_icon_cache = list()
 
 //draws an icon from a limb
 /mob/living/carbon/human/proc/generate_limb_icon(var/obj/item/organ/limb/affecting)
-	if(affecting.state_flags & ORGAN_REMOVED)
+	if(!affecting)
 		return 0
-
 	var/image/I
 	var/should_draw_gender = FALSE
 	var/icon_gender = (gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
