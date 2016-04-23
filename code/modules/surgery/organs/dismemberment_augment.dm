@@ -11,8 +11,8 @@
 	burnstate = 0
 
 	if(owner)
-		owner.apply_damage(30, "brute", "[src]")
-		owner.visible_message("<span class='danger'><B>[owner]'s [getDisplayName()] has been violently dismembered!</B></span>")
+		owner.apply_damage(30, BRUTE, "[src]")
+		owner.visible_message("<span class='danger'><B>[owner]'s [src] has been violently dismembered!</B></span>")
 		owner.drop_r_hand()
 		owner.drop_l_hand()
 		owner.update_canmove()
@@ -158,7 +158,7 @@
 	var/obj/item/L = new _path (T)
 
 	if(L)
-		L.name = "[owner]'s [getDisplayName()]"
+		L.name = "[owner]'s [src]"
 		var/obj/item/organ/limb/O = L
 		if(istype(O))
 			O.update_limb(owner)

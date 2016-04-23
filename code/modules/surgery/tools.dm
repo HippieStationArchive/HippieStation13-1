@@ -39,9 +39,9 @@
 	var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
 
 	if(user.a_intent != "harm" && affecting.status == ORGAN_ORGANIC && affecting.bloodloss > 0)
-		user.visible_message("<span class='notice'>[user] starts to close up wounds on [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You start closing up wounds on [H]'s [affecting.getDisplayName()].</span>")
+		user.visible_message("<span class='notice'>[user] starts to close up wounds on [H]'s [affecting].</span>", "<span class='notice'>You start closing up wounds on [H]'s [affecting].</span>")
 		if(!do_mob(user, H, 30)) return
-		user.visible_message("<span class='notice'>[user] has closed up wounds [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You closed up wounds on [H]'s [affecting.getDisplayName()].</span>")
+		user.visible_message("<span class='notice'>[user] has closed up wounds [H]'s [affecting].</span>", "<span class='notice'>You closed up wounds on [H]'s [affecting].</span>")
 		affecting.heal_damage(bleed=affecting.bloodloss)
 		affecting.take_damage(burn=5) //Compared to welding the wounds this is nothing
 		return

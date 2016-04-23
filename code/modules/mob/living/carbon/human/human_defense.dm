@@ -13,7 +13,7 @@ emp_act
 	if(def_zone)
 		if(islimb(def_zone))
 			return checkarmor(def_zone, type)
-		var/obj/item/organ/limb/affecting = get_organ(ran_zone(def_zone))
+		var/obj/item/organ/limb/affecting = getrandomorgan(def_zone)
 		return checkarmor(affecting, type)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
@@ -446,7 +446,7 @@ emp_act
 					I.add_blood(src)//it embedded itself in you, of course it's bloody!
 					I.loc = src
 					L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
-					visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
+					visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L]!</span>")
 					hitpush = 0
 					skipcatch = 1 //can't catch the now embedded item
 	return ..(I, skipcatch, hitpush, blocked, zone)

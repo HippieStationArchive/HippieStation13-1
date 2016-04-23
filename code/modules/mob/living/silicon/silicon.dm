@@ -140,7 +140,7 @@
 	src << "<span class='danger'>Warning: Electromagnetic pulse detected.</span>"
 	..()
 
-/mob/living/silicon/apply_damage(damage = 0,damagetype = BRUTE, def_zone = null, blocked = 0, override=0)
+/mob/living/silicon/apply_damage(damage = 0,damagetype = BRUTE, def_zone = null, blocked = 0)
 	blocked = (100-blocked)/100
 	if(!damage || (blocked <= 0))	return 0
 	switch(damagetype)

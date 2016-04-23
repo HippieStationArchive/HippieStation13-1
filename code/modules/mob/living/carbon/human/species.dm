@@ -914,21 +914,19 @@
 
 				var/damage = rand(0, 9) + M.dna.species.punchmod
 
-				if(!damage)
+				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
+				var/armor_block = H.run_armor_check(affecting, "melee")
+				var/dmgcheck = H.apply_damage(damage, BRUTE, affecting, armor_block)
+				if(!damage || !istype(affecting) || !dmgcheck)
 					playsound(H.loc, M.dna.species.miss_sound, 25, 1, -1)
 					H.visible_message("<span class='warning'>[M] has attempted to [atk_verb] [H]!</span>")
 					return 0
-
-
-				var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
-				var/armor_block = H.run_armor_check(affecting, "melee")
 
 				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
 
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
-				H.apply_damage(damage, BRUTE, affecting, armor_block)
 				add_logs(M, H, "punched")
 				if((H.stat != DEAD) && damage >= 9)
 					H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
@@ -951,7 +949,7 @@
 
 				if(H.w_uniform)
 					H.w_uniform.add_fingerprint(M)
-				var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
+				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/randn = rand(1, 100)
 				if(randn <= 25)
 					playsound(H, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
@@ -1008,6 +1006,8 @@
 				target_limb.augment(RP,user)
 			else
 				user << "<span class='notice'>[RP] doesn't go there!</span>"
+
+	if((target_limb.state_flags & ORGAN_REMOVED))
 		return 0
 
 	// Allows you to put in item-specific reactions based on species
@@ -1081,7 +1081,12 @@
 					user << "<span class='warning'>[H] has no butt!</span>"
 				return 0
 
-	if(I.attack_verb && I.attack_verb.len)
+	var/armor_block = H.run_armor_check(affecting, "melee", "<span class='notice'>Your armor has protected your [hit_area].</span>", "<span class='notice'>Your armor has softened a hit to your [hit_area].</span>",I.armour_penetration)
+	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
+
+	var/dmgcheck = apply_damage(I.force, I.damtype, affecting, armor_block, H)
+
+	if(islist(I.attack_verb))
 		H.visible_message("<span class='danger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>", \
 						"<span class='userdanger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>")
 	else if(I.force)
@@ -1090,15 +1095,17 @@
 	else
 		return 0
 
-	var/armor_block = H.run_armor_check(affecting, "melee", "<span class='notice'>Your armor has protected your [hit_area].</span>", "<span class='notice'>Your armor has softened a hit to your [hit_area].</span>",I.armour_penetration)
-	armor_block = min(90,armor_block) //cap damage reduction at 90%
-	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
-
-	apply_damage(I.force, I.damtype, affecting, armor_block, H)
+	if(!dmgcheck) //Something went wrong. Maybe the limb is missing?
+		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
+						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
+		return 0
 
 	if(affecting.brute_dam >= affecting.max_damage)
 		if(I.is_sharp() && prob(Iforce*2))
+			I.add_blood(H)
 			affecting.dismember(I)
+			affecting.add_blood(H)
+			return
 
 	var/bloody = 0
 	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2)))) //45% on toolboxes (10 force)
@@ -1146,12 +1153,12 @@
 						H.visible_message("<span class='danger'>[H] has received a concussion!</span>", \
 										"<span class='userdanger'>[H] has received a concussion!</span>")
 						H.confused += 10
-						H.apply_effect(0.5, WEAKEN, armor_block)
+						H.apply_effect(1, WEAKEN, armor_block)
 						H.adjustBrainLoss(max(10, I.force/2))
-					var/role = lowertext(user.mind.special_role)
-					if(role != "revolutionary" && role != "head revolutionary")
-						if(prob(I.force + ((100 - H.health)/2)) && H != user && I.damtype == BRUTE)
-							ticker.mode.remove_revolutionary(H.mind)
+						var/role = lowertext(user.mind.special_role)
+						if(role != "revolutionary" && role != "head revolutionary")
+							if(H != user && I.damtype == BRUTE) //Receiving a concussion is a 100% chance to be deconverted
+								ticker.mode.remove_revolutionary(H.mind)
 				var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
 				if(prob(I.force * (def_zone == "mouth" ? 3 : 1)) && O) //Will the teeth fly out?
 					if(O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force*1.5)/100))))
@@ -1172,7 +1179,7 @@
 				if(H.stat == CONSCIOUS && I.force && prob(min(I.force, 35)))
 					H.visible_message("<span class='danger'>[H] recoils and stumbles from the attack!</span>", \
 									"<span class='userdanger'>[H] recoils and stumbles from the attack!</span>")
-					H.apply_effect(0.5, WEAKEN, armor_block)
+					H.apply_effect(1, WEAKEN, armor_block)
 					H.adjustStaminaLoss(20)
 
 				if(bloody)
@@ -1187,7 +1194,7 @@
 			H.forcesay(hit_appends)	//forcesay checks stat already.
 		return
 
-/datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, override=0)
+/datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H)
 	blocked = (100-(blocked+armor))/100
 	if(!damage || blocked <= 0)	return 0
 
@@ -1195,7 +1202,7 @@
 	if(islimb(def_zone))
 		organ = def_zone
 	else
-		if(!def_zone)	def_zone = ran_zone(def_zone)
+		if(!def_zone)	def_zone = H.getrandomorgan(def_zone)
 		organ = H.get_organ(check_zone(def_zone))
 	if(!organ)	return 0
 
@@ -1204,11 +1211,11 @@
 	switch(damagetype)
 		if(BRUTE)
 			H.damageoverlaytemp = 20
-			if(organ.take_damage(damage*brutemod, 0, override))
+			if(organ.take_damage(damage*brutemod, 0))
 				H.update_damage_overlays(0)
 		if(BURN)
 			H.damageoverlaytemp = 20
-			if(organ.take_damage(0, damage*burnmod, override))
+			if(organ.take_damage(0, damage*burnmod))
 				H.update_damage_overlays(0)
 		if(TOX)
 			H.adjustToxLoss(damage * blocked)

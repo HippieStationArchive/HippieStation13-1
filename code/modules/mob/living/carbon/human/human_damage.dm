@@ -56,6 +56,7 @@
 	else
 		heal_overall_damage(0, 0, -amount)
 
+//this is an unused proc, would be nice if it was used somewhere tho.
 /mob/living/carbon/human/proc/hat_fall_prob()
 	var/multiplier = 1
 	var/obj/item/clothing/head/H = head
@@ -175,6 +176,6 @@
 	return null
 
 
-/mob/living/carbon/human/apply_damage(damage = 0,damagetype = BRUTE, def_zone = null, blocked = 0, override=0)
+/mob/living/carbon/human/apply_damage(damage = 0,damagetype = BRUTE, def_zone = null, blocked = 0)
 	// depending on the species, it will run the corresponding apply_damage code there
-	return dna.species.apply_damage(damage, damagetype, def_zone, blocked, src, override)
+	return dna.species.apply_damage(damage, damagetype, def_zone, blocked, src)

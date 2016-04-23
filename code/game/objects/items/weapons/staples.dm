@@ -111,11 +111,11 @@
 
 			usr.attack_log += "\[[time_stamp()]\] <font color='red'>Has stapled [target.name]([target.ckey]) @ [usr.x],[usr.y],[usr.z]</font>"
 
-			visible_message("<span class='danger'>[user] has stapled [target] in the [O.getDisplayName()]!</span>",
-							"<span class='userdanger'>[user] has stapled [target] in the [O.getDisplayName()]!</span>")
+			visible_message("<span class='danger'>[user] has stapled [target] in the [O]!</span>",
+							"<span class='userdanger'>[user] has stapled [target] in the [O]!</span>")
 		else
-			visible_message("<span class='danger'>[user] has attempted to staple [target] in the [O.getDisplayName()]!</span>",
-				"<span class='userdanger'>[user] has attempted to staple [target] in the [O.getDisplayName()]!</span>")
+			visible_message("<span class='danger'>[user] has attempted to staple [target] in the [O]!</span>",
+				"<span class='userdanger'>[user] has attempted to staple [target] in the [O]!</span>")
 	else
 		target.adjustBruteLoss(5) //Just harm 'em
 

@@ -340,8 +340,8 @@
 						O.embedded_objects |= src
 						src.add_blood(H)//it embedded itself in you, of course it's bloody!
 						src.loc = H
-						H.visible_message("<span class='warning'>\The [src] has embedded into [H]'s [O.getDisplayName()]!</span>",
-										"<span class='userdanger'>You feel [src] lodge into your [O.getDisplayName()]!</span>")
+						H.visible_message("<span class='warning'>\The [src] has embedded into [H]'s [O]!</span>",
+										"<span class='userdanger'>You feel [src] lodge into your [O]!</span>")
 						H.update_damage_overlays() //Update the fancy embeds
 						H.emote("scream")
 					if(cooldown < world.time - 10) //cooldown to avoid message spam. Too bad this cooldown is only for the shard itself.
