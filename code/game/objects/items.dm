@@ -559,3 +559,6 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 /obj/item/proc/is_sharp()
 	return sharpness
+
+/obj/item/proc/can_dismember()
+	return sharpness && w_class >= 3

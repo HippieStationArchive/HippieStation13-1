@@ -65,8 +65,14 @@
 	var/brutedam = brute_dam //brute damage before we drop the limb
 	drop_limb()
 	var/direction = pick(cardinal)
-	step(src,direction)
-
+	var/turf/target = get_turf(owner.loc)
+	var/range = rand(2,throw_range)
+	for(var/i = 1; i < range; i++)
+		var/turf/new_turf = get_step(target, direction)
+		target = new_turf
+		if(new_turf.density)
+			break
+	throw_at(target,throw_range,throw_speed)
 	if(istype(H))
 		var/obj/item/organ/limb/affecting = H.get_organ("chest")
 		affecting.take_damage(Clamp(brutedam/2, 15, 50),0,1) //Damage the chest based on limb's existing damage (note that you get -10 max health per every missing limb anyway)

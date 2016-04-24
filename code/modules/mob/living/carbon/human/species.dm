@@ -1119,8 +1119,9 @@
 		return 0
 
 	if(affecting.brute_dam >= affecting.max_damage)
-		if(I.is_sharp() && prob(I.force*2))
+		if(I.can_dismember() && prob(I.force*(w_class-1)))
 			I.add_blood(H)
+			playsound(get_turf(H), pick('sound/misc/desceration-01.ogg', 'sound/misc/desceration-02.ogg', 'sound/misc/desceration-03.ogg', 'sound/misc/desceration-04.ogg'), 80, 1)
 			affecting.dismember(I)
 			affecting.add_blood(H)
 			var/turf/location = H.loc
