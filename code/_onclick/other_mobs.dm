@@ -6,7 +6,7 @@
 */
 /mob/living/carbon/human/UnarmedAttack(atom/A, proximity)
 	if(!has_active_hand()) //Check for active hand before we do any glove thingies (Though, if you're missing an arm chances are you won't have any gloves anyway)
-		src << "<span class='notice'>You look at your stump and sigh.</span>"
+		src << "<span class='notice'>You look at your arm and sigh.</span>"
 		return
 
 	var/obj/item/clothing/gloves/G = gloves // not typecast specifically enough in defines

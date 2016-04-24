@@ -226,9 +226,9 @@
 			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L]!</B>[I.pinned ? "It [t_has] pinned [t_him] down to \the [I.pinned]!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[src];read_embedded=\ref[I]'>Read</a>)" : ""]\n"
 
 	for(var/t in missing)
-		msg += "<B>Their [parse_zone(t)] is missing!</B>\n"
+		msg += "<B>[capitalize(t_his)] [parse_zone(t)] is missing!</B>\n"
 	for(var/t in augmentable)
-		msg += "<B>Their [parse_zone(t)] has severed muscles!</B>\n"
+		msg += "<B>[capitalize(t_his)] [parse_zone(t)] has severed muscles!</B>\n"
 
 	if(fire_stacks > 0)
 		msg += "[t_He] [t_is] covered in something flammable.\n"

@@ -92,7 +92,7 @@
 		pixel_y = rand(0, 16)
 	return
 
-/obj/item/weapon/screwdriver/attack(mob/living/carbon/M, mob/living/carbon/user)
+/obj/item/weapon/screwdriver/attack(mob/living/carbon/M, mob/living/carbon/user, def_zone)
 	if(!istype(M))	return ..()
 	if(user.zone_sel.selecting != "eyes" && user.zone_sel.selecting != "head")
 		return ..()
@@ -126,7 +126,7 @@
 		icon_state = "cutters-y"
 		item_state = "cutters_yellow"
 
-/obj/item/weapon/wirecutters/attack(mob/living/carbon/C, mob/living/user)
+/obj/item/weapon/wirecutters/attack(mob/living/carbon/C, mob/living/user, def_zone)
 	if(ishuman(C) && user.zone_sel.selecting == "mouth")
 		var/mob/living/carbon/human/H = C
 		var/obj/item/organ/limb/head/O = locate() in H.organs
@@ -251,7 +251,7 @@
 	..()
 
 
-/obj/item/weapon/weldingtool/attack(mob/living/carbon/human/H, mob/user)
+/obj/item/weapon/weldingtool/attack(mob/living/carbon/human/H, mob/user, def_zone)
 	if(!istype(H))
 		return ..()
 

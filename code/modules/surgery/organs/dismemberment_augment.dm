@@ -62,14 +62,14 @@
 /obj/item/organ/limb/proc/dismember()
 	state_flags = ORGAN_AUGMENTABLE
 	var/mob/living/carbon/human/H = owner
+	var/brutedam = brute_dam //brute damage before we drop the limb
 	drop_limb()
 	var/direction = pick(cardinal)
 	step(src,direction)
 
 	if(istype(H))
-		H.apply_damage(30, BRUTE, "chest") //Chest houses most of the limbs, sooo..
 		var/obj/item/organ/limb/affecting = H.get_organ("chest")
-		affecting.take_damage(0,0,1) //Your arm's off, ofcourse you're gonna bleed!
+		affecting.take_damage(Clamp(brutedam/2, 15, 50),0,1) //Damage the chest based on limb's existing damage (note that you get -10 max health per every missing limb anyway)
 		H.visible_message("<span class='danger'><B>[H]'s [src] has been violently dismembered!</B></span>")
 		H.drop_r_hand()
 		H.drop_l_hand()
@@ -82,6 +82,11 @@
 	state_flags = ORGAN_AUGMENTABLE
 	if(!owner)
 		return
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		H.facial_hair_style = "Shaved"
+		H.hair_style = "Bald"
+		H.update_hair()
 	owner.visible_message("<span class='danger'><B>[owner] doesn't look too good...</B></span>")
 	return
 
@@ -129,6 +134,7 @@
 
 /obj/item/organ/limb/r_leg/drop_limb()
 	if(owner)
+		owner.Weaken(2)
 		if(owner.legcuffed)
 			owner.legcuffed.loc = get_turf(owner)
 			owner.legcuffed = null
@@ -140,6 +146,7 @@
 
 /obj/item/organ/limb/l_leg/drop_limb()
 	if(owner)
+		owner.Weaken(2)
 		if(owner.legcuffed)
 			owner.legcuffed.loc = get_turf(owner)
 			owner.legcuffed = null
@@ -228,12 +235,12 @@
 /mob/proc/has_active_hand()
 	return 1
 
-/mob/living/carbon/human/has_active_hand()
+/mob/living/carbon/human/has_active_hand(var/usable=0)
 	var/obj/item/organ/limb/L
 	if(hand)
 		L = get_organ("l_arm")
 	else
 		L = get_organ("r_arm")
-	if(!L)
+	if(!L || (usable && L.state_flags & ORGAN_AUGMENTABLE))
 		return 0
 	return 1

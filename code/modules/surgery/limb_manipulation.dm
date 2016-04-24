@@ -1,17 +1,57 @@
 /datum/surgery/limb_manipulation
 	name = "limb manipulation"
-	steps = list(/datum/surgery_step/incise, /datum/surgery_step/retract_skin, /datum/surgery_step/clamp_bleeders, /datum/surgery_step/manipulate_limbs)
+	steps = list(/datum/surgery_step/incise_or_mend, /datum/surgery_step/retract_skin, /datum/surgery_step/clamp_bleeders, /datum/surgery_step/manipulate_limbs)
 	species = list(/mob/living/carbon/human)
 	possible_locs = list("chest", "head", "r_leg", "l_leg", "r_arm", "l_arm")
 	requires_organic_bodypart = 0
 
+/datum/surgery_step/incise_or_mend
+	name = "make incision or mend the muscles"
+	implements = list()
+	var/implements_incise = list(/obj/item/weapon/scalpel = 100, /obj/item/weapon/melee/energy/sword = 75, /obj/item/weapon/kitchen/knife = 65, /obj/item/weapon/shard = 45)
+	var/implements_mend = list(/obj/item/weapon/cautery = 100, /obj/item/weapon/weldingtool = 70, /obj/item/weapon/lighter = 45, /obj/item/weapon/match = 20)
+	var/current_type = ""
+	time = 16
+
+/datum/surgery_step/incise_or_mend/New()
+	..()
+	implements = implements + implements_incise + implements_mend
+
+/datum/surgery_step/incise_or_mend/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+	target_zone = check_zone(target_zone)
+	time = initial(time)
+	if(implement_type in implements_incise)
+		user.visible_message("[user] begins to make an incision in [target]'s [parse_zone(target_zone)].", "<span class='notice'>You begin to make an incision in [target]'s [parse_zone(target_zone)]...</span>")
+	else
+		current_type = "mend"
+		time = 10
+		user.visible_message("[user] begins to mend the muscles in [target]'s [parse_zone(target_zone)].",
+			"<span class='notice'>You begin to mend the muscles in [target]'s [parse_zone(target_zone)]...</span>")
+
+/datum/surgery_step/incise_or_mend/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+	if(current_type == "mend")
+		user.visible_message("[user] mends the muscles in [target]'s [parse_zone(target_zone)]!",
+			"<span class='notice'>You mend the muscles in [target]'s [parse_zone(target_zone)]!</span>")
+		var/obj/item/organ/limb/I
+		if(ishuman(target))
+			var/mob/living/carbon/human/H = target
+			I = H.get_organ(target_zone)
+		if(istype(I))
+			I.state_flags = ORGAN_FINE
+			target.update_canmove()
+			target.regenerate_icons()
+		surgery.complete(target)
+	else
+		user.visible_message("[user] succeeds!", "<span class='notice'>You succeed.</span>")
+	return 1
+
 /datum/surgery_step/manipulate_limbs
 	time = 64
 	name = "manipulate limbs"
-	implements = list(/obj/item/organ/limb = 100)
+	implements = list()
 	var/implements_detach = list(/obj/item/weapon/circular_saw = 100, /obj/item/weapon/melee/energy/sword/cyborg/saw = 100, /obj/item/weapon/melee/arm_blade = 75, /obj/item/weapon/twohanded/fireaxe = 50, /obj/item/weapon/hatchet = 35, /obj/item/weapon/kitchen/knife/butcher = 25)
 	var/implements_mend = list(/obj/item/weapon/cautery = 100, /obj/item/weapon/weldingtool = 70, /obj/item/weapon/lighter = 45, /obj/item/weapon/match = 20)
-	var/current_type
+	var/current_type = ""
 	var/obj/item/organ/limb/I = null
 	var/obj/item/robot_parts/RP = null
 
@@ -39,28 +79,7 @@
 	I = null
 	target_zone = check_zone(target_zone)
 	time = initial(time)
-	if(islimb(tool))
-		current_type = "insert"
-		I = tool
-		if(target_zone != Bodypart2name(I))
-			user << "<span class='notice'>There is already a limb in [target]'s [parse_zone(target_zone)]!</span>"
-			return -1
-		time = 10 //Much shorter to insert something
-		user.visible_message("[user] begins to insert [tool] into [target]'s stump.",
-			"<span class='notice'>You begin to insert [tool] into [target]'s stump...</span>")
-
-	else if(istype(tool, /obj/item/robot_parts))
-		current_type = "insert"
-		RP = tool
-		if(target_zone != Bodypart2name(RP.body_part))
-			user << "<span class='notice'>There is already a limb in [target]'s [parse_zone(target_zone)]!</span>"
-			return -1
-		time = 10 //Much shorter to insert something
-		user.visible_message("[user] begins to insert [tool] into [target]'s stump.",
-			"<span class='notice'>You begin to insert [tool] into [target]'s stump...</span>")
-
-
-	else if(implement_type in implements_detach)
+	if(implement_type in implements_detach)
 		current_type = "extract"
 		if(ishuman(target))
 			var/mob/living/carbon/human/H = target
@@ -83,24 +102,14 @@
 	if(current_type == "mend")
 		user.visible_message("[user] mends the incision in [target]'s [parse_zone(target_zone)].",
 			"<span class='notice'>You mend the incision in [target]'s [parse_zone(target_zone)].</span>")
-		if(islimb(surgery.organ))
-			var/obj/item/organ/limb/L = surgery.organ
-			L.state_flags = ORGAN_FINE
-		return 1
-	else if(current_type == "insert")
 		if(ishuman(target))
 			var/mob/living/carbon/human/H = target
-			user.drop_item()
-			if(istype(I))
-				H.attachLimb(I, user)
-			else if(istype(RP))
-				var/obj/item/organ/limb/target_limb = H.get_organ(target_zone)
-				if(!istype(target_limb))
-					target_limb = newBodyPart(target_zone)
-					target_limb.loc = H
-					H.organs += target_limb
-				target_limb.augment(RP,user)
-
+			I = H.get_organ(target_zone)
+		if(istype(I))
+			I.state_flags = ORGAN_FINE
+			target.update_canmove()
+			target.regenerate_icons()
+		return 1
 	else if(current_type == "extract")
 		if(I && I.owner == target)
 			target.apply_damage(20,BRUTE,"chest")

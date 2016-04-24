@@ -267,7 +267,7 @@
 		if((tbrute != brutestate) || (tburn != burnstate))
 			brutestate = tbrute
 			if(state_flags & ORGAN_AUGMENTABLE) //Severed muscles make the limb look fucked up
-				brutestate = 1
+				brutestate = 3
 			burnstate = tburn
 			return 1
 		return 0

@@ -560,6 +560,7 @@ var/global/list/limb_icon_cache = list()
 	var/should_draw_gender = FALSE
 	var/icon_gender = (gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
 	var/datum/species/species = dna.species
+	var/species_id = species.id
 	var/should_draw_greyscale = FALSE
 
 	if((affecting.body_part == HEAD || affecting.body_part == CHEST) && species.sexes)
@@ -568,18 +569,27 @@ var/global/list/limb_icon_cache = list()
 	if((MUTCOLORS in species.specflags) || species.use_skintones || affecting.skin_tone)
 		should_draw_greyscale = TRUE
 
+	//Some overrides present on limb (This is great for frankenstein monsters :D)
+	if(affecting.human_gender)
+		icon_gender = affecting.human_gender
+	if(affecting.species_id)
+		species_id = affecting.species_id
+	if(affecting.should_draw_gender)
+		should_draw_gender = affecting.should_draw_gender
+	if(affecting.should_draw_greyscale)
+		should_draw_greyscale = affecting.should_draw_greyscale
 
 	if(affecting.status == ORGAN_ORGANIC)
 		if(should_draw_greyscale)
 			if(should_draw_gender)
-				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species.id]_[Bodypart2name(affecting)]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species_id]_[Bodypart2name(affecting)]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
 			else
-				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species.id]_[Bodypart2name(affecting)]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts_greyscale.dmi', "icon_state"="[species_id]_[Bodypart2name(affecting)]_s", "layer"=-BODYPARTS_LAYER)
 		else
 			if(should_draw_gender)
-				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species.id]_[Bodypart2name(affecting)]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species_id]_[Bodypart2name(affecting)]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)
 			else
-				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species.id]_[Bodypart2name(affecting)]_s", "layer"=-BODYPARTS_LAYER)
+				I = image("icon"='icons/mob/human_parts.dmi', "icon_state"="[species_id]_[Bodypart2name(affecting)]_s", "layer"=-BODYPARTS_LAYER)
 	else
 		if(should_draw_gender)
 			I = image("icon"='icons/mob/augments.dmi', "icon_state"="[Bodypart2name(affecting)]_[icon_gender]_s", "layer"=-BODYPARTS_LAYER)

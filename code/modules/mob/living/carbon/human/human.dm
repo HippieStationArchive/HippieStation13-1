@@ -912,7 +912,6 @@
 
 
 /mob/living/carbon/human/revive()
-	for(var/obj/item/organ/limb/L in organs)
-		L.change_organ(L.status)
+	regenerate_limbs()
 	..()
 	return

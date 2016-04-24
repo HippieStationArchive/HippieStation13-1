@@ -4,12 +4,6 @@
 	. += ..()
 	. += config.human_delay
 
-/mob/living/carbon/human/update_canmove()
-	if(!get_num_legs(1)) //get a number of USABLE legs (ignores limbs w/ AUGMENTABLE flag)
-		weakened += 1 //Kind of a hack but w/e
-
-	..()
-
 /mob/living/carbon/human/Process_Spacemove(movement_dir = 0)
 
 	if(..())

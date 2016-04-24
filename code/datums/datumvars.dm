@@ -862,6 +862,9 @@ body
 
 			if(!istype(L))
 				L = newBodyPart(limb)
+				L.owner = H
+				L.loc = H
+				H.organs += L
 
 			var/new_type
 			switch(new_limb)
@@ -871,14 +874,7 @@ body
 					new_type = ORGAN_ORGANIC
 
 			if(limb == "All")
-				var/list/full = list("head", "chest", "r_arm", "l_arm", "r_leg", "l_leg")
-				for(var/t in full)
-					var/obj/item/organ/limb/LI = H.get_organ(t)
-					if(!LI in H.organs)
-						LI = newBodyPart(t)
-						LI.loc = H
-						H.organs += LI
-					LI.change_organ(new_type)
+				H.regenerate_limbs(new_type)
 			else
 				L.change_organ(new_type)
 

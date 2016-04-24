@@ -10,6 +10,11 @@
 /mob/proc/getrandomorgan(zone, prob)
 	return
 
+/mob/proc/regenerate_limbs()
+	return
+
+/mob/proc/get_missing_limbs()
+
 /mob/living/carbon/getorgan(typepath)
 	return (locate(typepath) in internal_organs)
 
@@ -38,6 +43,29 @@
 		if(Bodypart2name(L) in exceptions)
 			exceptions -= L
 	return get_organ(ran_zone(zone, prob, exceptions))
+
+//Regenerates all limbs. Returns amount of limbs regenerated
+/mob/living/carbon/human/regenerate_limbs(new_type = ORGAN_ORGANIC)
+	. = 0
+	var/list/full = list("head", "chest", "r_arm", "l_arm", "r_leg", "l_leg")
+	for(var/t in full)
+		var/obj/item/organ/limb/L = get_organ(t)
+		if(!(L in organs))
+			L = newBodyPart(t)
+			L.loc = src
+			L.owner = src
+			organs += L
+			.++
+		L.change_organ(new_type)
+	return .
+
+/mob/living/carbon/human/get_missing_limbs()
+	var/list/full = list("head", "chest", "r_arm", "l_arm", "r_leg", "l_leg")
+	for(var/t in full)
+		var/obj/item/organ/limb/L = get_organ(t)
+		if(L in organs)
+			full -= t
+	return full
 
 /mob/proc/getlimb()
 	return

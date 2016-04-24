@@ -10,6 +10,9 @@
 		total_brute	+= O.brute_dam
 		total_burn	+= O.burn_dam
 	health = maxHealth - getOxyLoss() - getToxLoss() - getCloneLoss() - total_burn - total_brute
+
+	var/list/missing_limbs = get_missing_limbs() //Get missing limbs yo
+	health -= missing_limbs.len * 10 //-10 max health for every missing limb
 	if( ((maxHealth - total_burn) < config.health_threshold_dead) && stat == DEAD )
 		ChangeToHusk()
 		if(on_fire)

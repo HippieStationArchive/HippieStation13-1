@@ -856,7 +856,9 @@
 				. += 1
 
 			if(H.lying) //This is for crawling
-				. += 30 //Can crawl only every 3 seconds pretty much
+				. += 10
+				if(H.status_flags & NEARCRIT)//Can crawl only every 3 seconds if nearcrit, otherwise it's 1
+					. += 20
 
 			. += speedmod
 
@@ -873,6 +875,8 @@
 
 /datum/species/proc/spec_attack_hand(mob/living/carbon/human/M, mob/living/carbon/human/H)
 	if(!istype(M)) //sanity check for drones.
+		return
+	if(M.lying) //Can't believe nobody checked for this before.
 		return
 	var/shieldcheck = H.check_shields(0, M.name)
 	if((M != H) && M.a_intent != "help" && H.check_shields(0, M.name))
@@ -1100,6 +1104,11 @@
 		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
 		return 0
 
+	if (I.hitsound && I.force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
+		playsound(H, I.hitsound, I.get_clamped_volume(), 1, I.hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
+	else if (I.force == 0)//Otherwise, if the item's force is zero...
+		playsound(H, 'sound/weapons/tap.ogg', I.get_clamped_volume(), 1, I.hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
+
 	if(islist(I.attack_verb) && I.attack_verb.len)
 		H.visible_message("<span class='danger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>", \
 						"<span class='userdanger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>")
@@ -1108,12 +1117,6 @@
 						"<span class='userdanger'>[user] has attacked [H] in the [hit_area] with [I]!</span>")
 	else
 		return 0
-
-	if (I.hitsound && I.force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
-		playsound(H, I.hitsound, I.get_clamped_volume(), 1, I.hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
-	else if (I.force == 0)//Otherwise, if the item's force is zero...
-		playsound(H, 'sound/weapons/tap.ogg', I.get_clamped_volume(), 1, I.hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
-		return
 
 	if(affecting.brute_dam >= affecting.max_damage)
 		if(I.is_sharp() && prob(I.force*2))

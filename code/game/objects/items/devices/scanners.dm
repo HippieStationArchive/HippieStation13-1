@@ -107,6 +107,7 @@ MASS SPECTROMETER
 	var/tox_loss = M.getToxLoss()
 	var/fire_loss = M.getFireLoss()
 	var/brute_loss = M.getBruteLoss()
+	var/list/missing_limbs = M.get_missing_limbs()
 	var/mob_status = (M.stat > 1 ? "<span class='alert'><b>Deceased</b></span>" : "<b>[round(M.health,0.1)] % healthy</b>")
 	if(M.status_flags & FAKEDEATH)
 		mob_status = "<span class='alert'>Deceased</span>"
@@ -116,6 +117,8 @@ MASS SPECTROMETER
 		if(H.heart_attack)
 			user << "<span class='danger'>Subject suffering from heart attack: Apply defibrillator immediately!</span>"
 	user << "<span class='info'>Analyzing results for [M]:\nOverall status: [mob_status]</span>"
+	if(missing_limbs.len)
+		user << "\t<span class='alert'>Subject appears to be missing limbs, their health will be affected.</span>"
 	// Damage descriptions
 	if(brute_loss > 10)
 		user << "\t<span class='alert'>[brute_loss > 50 ? "Severe" : "Minor"] tissue damage detected.</span>"
