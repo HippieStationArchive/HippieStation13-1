@@ -1016,6 +1016,66 @@ var/list/teleportlocs = list()
 /area/outpost/main
 	name = "Outpost Main Hall"	
 	icon_state = "outpmain"
+	has_gravity = 1
+
+/area/outpost/solars
+	name = "Outpost Solars"	
+	icon_state = "outpsolars"
+	
+/area/outpost/botany
+	name = "Outpost Botany"	
+	icon_state = "outpbotany"
+	has_gravity = 1				
+
+/area/outpost/chemistry
+	name = "Outpost Chemistry"	
+	icon_state = "outpchem"
+	has_gravity = 1				
+
+/area/outpost/research
+	name = "Outpost Research"	
+	icon_state = "outpresearch"
+	has_gravity = 1
+	
+/area/outpost/dorms
+	name = "Outpost Dorms"	
+	icon_state = "outpdorms"
+	has_gravity = 1
+
+/area/outpost/breakr
+	name = "Outpost Break Room"	
+	icon_state = "outpbreak"
+	has_gravity = 1					
+	
+/area/outpost/xeno
+	name = "Outpost Xenobiology"	
+	icon_state = "outpxeno"
+	has_gravity = 1		
+	
+/area/outpost/arrivals
+	name = "Outpost Arrivals"	
+	icon_state = "outpbreak"
+	has_gravity = 1		
+	
+/area/outpost/departures
+	name = "Outpost Departures"	
+	icon_state = "outpdepart"
+	has_gravity = 1	
+	
+/area/outpost/virology
+	name = "Outpost Virology"	
+	icon_state = "outpviro"
+	has_gravity = 1	
+
+/area/outpost/engineering
+	name = "Outpost Engineering"	
+	icon_state = "outpengin"
+	has_gravity = 1	
+
+/area/outpost/bathroom
+	name = "Outpost Bathroom"	
+	icon_state = "outpbath"
+	has_gravity = 1		
 	
 /area/quartermaster/miningdock
 	name = "Mining Dock"
