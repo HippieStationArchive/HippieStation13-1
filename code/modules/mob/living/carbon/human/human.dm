@@ -910,14 +910,6 @@
 	if(wear_id)
 		add_screams(wear_id.alternate_screams)
 
-//I'm not even sure where this function went in our code... It's in RR's PR so ???
-// /mob/living/carbon/human/can_use_hands()
-// 	if(!..())
-// 		return 0
-// 	if(!has_active_hand())
-// 		return 0
-// 	return 1
-
 
 /mob/living/carbon/human/revive()
 	for(var/obj/item/organ/limb/L in organs)

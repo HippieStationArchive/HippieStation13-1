@@ -5,16 +5,16 @@
 	Otherwise pretty standard.
 */
 /mob/living/carbon/human/UnarmedAttack(atom/A, proximity)
+	if(!has_active_hand()) //Check for active hand before we do any glove thingies (Though, if you're missing an arm chances are you won't have any gloves anyway)
+		src << "<span class='notice'>You look at your stump and sigh.</span>"
+		return
+
 	var/obj/item/clothing/gloves/G = gloves // not typecast specifically enough in defines
 
 	// Special glove functions:
 	// If the gloves do anything, have them return 1 to stop
 	// normal attack_hand() here.
 	if(proximity && istype(G) && G.Touch(A,1))
-		return
-
-	if(!has_active_hand())
-		src << "<span class='notice'>You look at your stump and sigh.</span>"
 		return
 
 	var/override = 0
@@ -28,11 +28,6 @@
 
 /atom/proc/attack_hand(mob/user)
 	return
-
-/*
-/mob/living/carbon/human/RestrainedClickOn(var/atom/A) ---carbons will handle this
-	return
-*/
 
 /mob/living/carbon/RestrainedClickOn(atom/A)
 	return 0
