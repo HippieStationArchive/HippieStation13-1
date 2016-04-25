@@ -864,6 +864,10 @@
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=catban;jobban4=\ref[M]'><font color=red>[replacetext("Cat Ban", " ", "&nbsp")]</font></a></td>"
 		else
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=catban;jobban4=\ref[M]'>[replacetext("Cat Ban", " ", "&nbsp")]</a></td>"
+		if(jobban_isbanned(M, "cluwneban"))
+			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=cluwneban;jobban4=\ref[M]'><font color=red>[replacetext("Cluwne Ban", " ", "&nbsp")]</font></a></td>"
+		else
+			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=cluwneban;jobban4=\ref[M]'>[replacetext("Cluwne Ban", " ", "&nbsp")]</a></td>"
 /*		//Malfunctioning AI	//Removed Malf-bans because they're a pain to impliment
 		if(jobban_isbanned(M, "malf AI") || isbanned_dept)
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=malf AI;jobban4=\ref[M]'><font color=red>[replacetext("Malf AI", " ", "&nbsp")]</font></a></td>"
