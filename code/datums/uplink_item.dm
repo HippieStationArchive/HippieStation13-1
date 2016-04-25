@@ -819,7 +819,7 @@ var/list/uplink_items = list()
 	name = "Pickpocket Gloves"
 	desc = "Gloves that allow you to quickly and stealthily remove items from people and puts them straight into your hands."
 	item = /obj/item/clothing/gloves/pickpocket
-	cost = 3
+	cost = 4
 
 /datum/uplink_item/stealthy_tools/voice_changer
 	name = "Voice Changer"
