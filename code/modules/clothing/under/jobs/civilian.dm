@@ -82,6 +82,9 @@
 
 	return ..()
 
+/obj/item/clothing/under/rank/clown/cluwne/dropped(mob/user)
+	qdel(src)
+
 /obj/item/clothing/under/rank/head_of_personnel
 	desc = "It's a jumpsuit worn by someone who works in the position of \"Head of Personnel\"."
 	name = "head of personnel's jumpsuit"
