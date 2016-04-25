@@ -400,12 +400,12 @@
 						usr.unEquip(place_item)
 						equip_to_slot_if_possible(place_item, pocket_id, 0, 1)
 
-					// Update strip window
-					if(usr.machine == src && in_range(src, usr))
-						show_inv(usr)
-					else
-						// Display a warning if the user mocks up
-						src << "<span class='warning'>You feel your [pocket_side] pocket being fumbled with!</span>"
+				// Update strip window
+				if(usr.machine == src && in_range(src, usr))
+					show_inv(usr)
+				else
+					// Display a warning if the user mocks up
+					src << "<span class='warning'>You feel your [pocket_side] pocket being fumbled with!</span>"
 
 		..()
 
