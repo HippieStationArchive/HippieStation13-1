@@ -389,7 +389,7 @@
 				if(pocket_item)
 					if(pocket_item == (pocket_id == slot_r_store ? r_store : l_store)) //item still in the pocket we search
 						unEquip(pocket_item)
-						if(has_pickpocket == 1)
+						if(has_pickpocket)
 							var/mob/living/carbon/human/H = usr
 							if(H.hand) //left active hand
 								H.equip_to_slot_if_possible(pocket_item, slot_l_hand, 0, 1)
