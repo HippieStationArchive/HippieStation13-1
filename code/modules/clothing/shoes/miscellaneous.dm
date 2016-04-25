@@ -1,4 +1,4 @@
-/obj/item/clothing/shoes/proc/step_action() //this was made to rewrite clown shoes squeaking
+//obj/item/clothing/shoes/proc/step_action() //this was made to rewrite clown shoes squeaking
 
 /obj/item/clothing/shoes/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is bashing their own head in with [src]! Ain't that a kick in the head?</span>")
@@ -97,6 +97,13 @@
 		footstep = 0
 	else
 		footstep++
+
+/obj/item/clothing/shoes/clown_shoes/cluwne
+	icon_state = "cluwne"
+	item_state = "cluwne"
+	unacidable = 1
+	burn_state = -1
+	flags = NODROP
 
 /obj/item/clothing/shoes/jackboots
 	name = "jackboots"
