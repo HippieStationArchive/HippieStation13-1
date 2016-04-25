@@ -13,7 +13,7 @@
 
 
 //Drop the limb
-/obj/item/organ/limb/proc/drop_limb()
+/obj/item/organ/limb/proc/drop_limb(var/special=0)
 	var/turf/T = get_turf(src.loc)
 	if(owner && ishuman(owner))
 		T = get_turf(owner)
@@ -52,7 +52,7 @@
 			var/obj/item/robot_parts/RP = I
 			var/obj/item/organ/limb/L = H.get_organ(Bodypart2name(RP.body_part))
 			if(istype(L))
-				L.drop_limb()
+				L.drop_limb(1)
 	change_organ(ORGAN_ROBOTIC)
 	user.drop_item()
 	qdel(I)
@@ -84,20 +84,33 @@
 		H.regenerate_icons()
 		H.emote("scream")
 
-/obj/item/organ/limb/head/dismember()
-	state_flags = ORGAN_AUGMENTABLE
-	if(!owner)
-		return
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		H.facial_hair_style = "Shaved"
-		H.hair_style = "Bald"
-		H.update_hair()
-	owner.visible_message("<span class='danger'><B>[owner] doesn't look too good...</B></span>")
-	return
+/obj/item/organ/limb/head/drop_limb(var/special=0)
+	if(special)
+		return ..()
+	var/mob/living/carbon/human/H = owner
+	..()
+	if(istype(H))
+		//Drop all worn head items
+		for(var/obj/item/I in list(H.glasses, H.ears, H.wear_mask, H.head))
+			if(!H.unEquip(I))
+				qdel(I)
 
-/obj/item/organ/limb/head/drop_limb()
-	return
+		//Brain fuckery
+		var/obj/item/organ/internal/brain/B = H.getorgan(/obj/item/organ/internal/brain)
+		B.Remove(H)
+
+		brainmob = B.brainmob
+		B.brainmob = null
+		brainmob.loc = src
+		brainmob.container = src
+		brainmob.stat = 0
+
+		B.loc = src //P-put your brain in it
+		brain = B
+
+		name = "[H]'s head"
+		update_icon()
+		//Brain fuckery END
 
 /obj/item/organ/limb/chest/dismember()
 	state_flags = ORGAN_AUGMENTABLE
@@ -113,11 +126,11 @@
 		playsound(get_turf(owner), pick('sound/misc/splat.ogg', 'sound/misc/splort.ogg'), 80, 1)
 	return
 
-/obj/item/organ/limb/chest/drop_limb()
+/obj/item/organ/limb/chest/drop_limb(var/special=0)
 	return
 
-/obj/item/organ/limb/r_arm/drop_limb()
-	if(owner)
+/obj/item/organ/limb/r_arm/drop_limb(var/special=0)
+	if(owner && !special)
 		if(owner.handcuffed)
 			owner.handcuffed.loc = get_turf(owner)
 			owner.handcuffed = null
@@ -127,8 +140,8 @@
 			H.unEquip(H.gloves)
 	..()
 
-/obj/item/organ/limb/l_arm/drop_limb()
-	if(owner)
+/obj/item/organ/limb/l_arm/drop_limb(var/special=0)
+	if(owner && !special)
 		if(owner.handcuffed)
 			owner.handcuffed.loc = get_turf(owner)
 			owner.handcuffed = null
@@ -138,8 +151,8 @@
 			H.unEquip(H.gloves)
 	..()
 
-/obj/item/organ/limb/r_leg/drop_limb()
-	if(owner)
+/obj/item/organ/limb/r_leg/drop_limb(var/special=0)
+	if(owner && !special)
 		owner.Weaken(2)
 		if(owner.legcuffed)
 			owner.legcuffed.loc = get_turf(owner)
@@ -150,8 +163,8 @@
 			H.unEquip(H.shoes)
 	..()
 
-/obj/item/organ/limb/l_leg/drop_limb()
-	if(owner)
+/obj/item/organ/limb/l_leg/drop_limb(var/special=0)
+	if(owner && !special)
 		owner.Weaken(2)
 		if(owner.legcuffed)
 			owner.legcuffed.loc = get_turf(owner)
@@ -166,12 +179,34 @@
 /mob/living/carbon/human/proc/attachLimb(var/obj/item/organ/limb/L, var/mob/user)
 	var/obj/item/organ/limb/O = locate(L.type) in organs
 	if(istype(O))
-		O.drop_limb()
+		O.drop_limb(1)
 
 	user.drop_item()
 	L.loc = src
 	L.owner = src
 	organs += L
+	if(istype(L, /obj/item/organ/limb/head)) //Transfer some head appearance vars over
+		var/obj/item/organ/limb/head/U = L
+		var/obj/item/organ/internal/brain/B = U.brain
+		if(istype(B)) //Brain exists, do brain fuckery
+			U.brainmob.container = null //Reset brainmob head var.
+			U.brainmob.loc = U.brain //Throw mob into brain.
+			U.brain.brainmob = U.brainmob //Set the brain to use the brainmob
+			U.brainmob = null //Set head brainmob var to null
+			U.brain = null //No more brain in here
+			B.Insert(src) //Now insert the brain proper
+
+		hair_color = U.hair_color
+		hair_style = U.hair_style
+		facial_hair_color = U.facial_hair_color
+		facial_hair_style = U.facial_hair_style
+		eye_color = U.eye_color
+		lip_style = U.lip_style
+		lip_color = U.lip_color
+		if(U.real_name)
+			real_name = U.real_name
+		U.real_name = ""
+		U.name = initial(U.name)
 
 	var/who = "[src]'s"
 	if(user == src)
@@ -247,6 +282,19 @@
 		L = get_organ("l_arm")
 	else
 		L = get_organ("r_arm")
+	if(!L || (usable && L.state_flags & ORGAN_AUGMENTABLE))
+		return 0
+	return 1
+
+/mob/living/carbon/human/proc/has_left_hand(var/usable=0)
+	var/obj/item/organ/limb/L
+	L = get_organ("l_arm")
+	if(!L || (usable && L.state_flags & ORGAN_AUGMENTABLE))
+		return 0
+	return 1
+/mob/living/carbon/human/proc/has_right_hand(var/usable=0)
+	var/obj/item/organ/limb/L
+	L = get_organ("r_arm")
 	if(!L || (usable && L.state_flags & ORGAN_AUGMENTABLE))
 		return 0
 	return 1

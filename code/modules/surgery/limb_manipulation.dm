@@ -51,13 +51,14 @@
 	implements = list()
 	var/implements_detach = list(/obj/item/weapon/circular_saw = 100, /obj/item/weapon/melee/energy/sword/cyborg/saw = 100, /obj/item/weapon/melee/arm_blade = 75, /obj/item/weapon/twohanded/fireaxe = 50, /obj/item/weapon/hatchet = 35, /obj/item/weapon/kitchen/knife/butcher = 25)
 	var/implements_mend = list(/obj/item/weapon/cautery = 100, /obj/item/weapon/weldingtool = 70, /obj/item/weapon/lighter = 45, /obj/item/weapon/match = 20)
+	var/implements_sever = list(/obj/item/weapon/scalpel = 100, /obj/item/weapon/melee/energy/sword = 75, /obj/item/weapon/kitchen/knife = 65, /obj/item/weapon/shard = 45)
 	var/current_type = ""
 	var/obj/item/organ/limb/I = null
 	var/obj/item/robot_parts/RP = null
 
 /datum/surgery_step/manipulate_limbs/New()
 	..()
-	implements = implements + implements_detach + implements_mend
+	implements = implements + implements_detach + implements_mend + implements_sever
 
 /datum/surgery_step/manipulate_limbs/tool_check(mob/user, obj/item/tool)
 	if(istype(tool, /obj/item/weapon/weldingtool))
@@ -90,12 +91,16 @@
 
 			user.visible_message("[user] begins to detach [target]'s [I].",
 				"<span class='notice'>You begin to detach [target]'s [I]...</span>")
-
 	else if(implement_type in implements_mend)
 		current_type = "mend"
 		time = 10
 		user.visible_message("[user] begins to mend the incision in [target]'s [parse_zone(target_zone)].",
 			"<span class='notice'>You begin to mend the incision in [target]'s [parse_zone(target_zone)]...</span>")
+	else if(implement_type in implements_sever)
+		current_type = "sever"
+		time = 30
+		user.visible_message("[user] begins to sever the muscles in [target]'s [parse_zone(target_zone)].",
+			"<span class='notice'>You begin to sever the muscles in [target]'s [parse_zone(target_zone)]...</span>")
 
 
 /datum/surgery_step/manipulate_limbs/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
@@ -109,7 +114,16 @@
 			I.state_flags = ORGAN_FINE
 			I.update_organ_icon()
 			target.update_canmove()
-		return 1
+	else if(current_type == "sever")
+		user.visible_message("[user] severs the muscles in [target]'s [parse_zone(target_zone)].",
+			"<span class='notice'>You severs the muscles in [target]'s [parse_zone(target_zone)].</span>")
+		if(ishuman(target))
+			var/mob/living/carbon/human/H = target
+			I = H.get_organ(target_zone)
+		if(istype(I))
+			I.state_flags = ORGAN_AUGMENTABLE
+			I.update_organ_icon()
+			target.update_canmove()
 	else if(current_type == "extract")
 		if(I && I.owner == target)
 			target.apply_damage(20,BRUTE,"chest")
@@ -123,4 +137,4 @@
 		else
 			user.visible_message("[user] can't seem to detach [parse_zone(target_zone)] from [target]!",
 				"<span class='notice'>You can't detach [parse_zone(target_zone)] from [target]!</span>")
-	return 0
+	return 1

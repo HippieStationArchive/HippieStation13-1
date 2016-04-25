@@ -112,15 +112,16 @@
 /datum/species/proc/handle_hair(mob/living/carbon/human/H, forced_colour)
 	H.remove_overlay(HAIR_LAYER)
 
+	if(!H.get_organ("head")) //Decapitated
+		return
+
 	var/datum/sprite_accessory/S
 	var/list/standing	= list()
 
 	if(H.facial_hair_style && FACEHAIR in specflags)
 		S = facial_hair_styles_list[H.facial_hair_style]
 		if(S)
-			var/image/img_facial_s
-
-			img_facial_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
+			var/image/img_facial_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
 
 			if(!forced_colour)
 				if(hair_color)
@@ -137,9 +138,6 @@
 
 			standing	+= img_facial_s
 
-	//Applies the debrained overlay if there is no brain
-	if(!H.getorgan(/obj/item/organ/internal/brain))
-		standing	+= image("icon"='icons/mob/human_face.dmi', "icon_state" = "debrained_s", "layer" = -HAIR_LAYER)
 
 	if((H.wear_suit) && (H.wear_suit.hooded) && (H.wear_suit.suittoggled == 1))
 		if(standing.len)
@@ -147,32 +145,34 @@
 		H.apply_overlay(HAIR_LAYER)
 		return
 
-	else if(H.hair_style && HAIR in specflags)
-		S = hair_styles_list[H.hair_style]
-		if(S)
-			var/image/img_hair_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
+	//Applies the debrained overlay if there is no brain
+	if(!H.getorgan(/obj/item/organ/internal/brain))
+		standing	+= image("icon"='icons/mob/human_face.dmi', "icon_state" = "debrained_s", "layer" = -HAIR_LAYER)
+	else
+		if(H.hair_style && HAIR in specflags)
+			S = hair_styles_list[H.hair_style]
+			if(S)
+				var/image/img_hair_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
 
-			img_hair_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
-
-			if(!forced_colour)
-				if(hair_color)
-					if(hair_color == "mutcolor")
-						img_hair_s.color = "#" + H.dna.features["mcolor"]
+				if(!forced_colour)
+					if(hair_color)
+						if(hair_color == "mutcolor")
+							img_hair_s.color = "#" + H.dna.features["mcolor"]
+						else
+							img_hair_s.color = "#" + hair_color
 					else
-						img_hair_s.color = "#" + hair_color
+						img_hair_s.color = "#" + H.hair_color
 				else
-					img_hair_s.color = "#" + H.hair_color
-			else
-				img_hair_s.color = forced_colour
-			img_hair_s.alpha = hair_alpha
+					img_hair_s.color = forced_colour
+				img_hair_s.alpha = hair_alpha
 
-			standing	+= img_hair_s
+				standing	+= img_hair_s
 
 	if(standing.len)
 		H.overlays_standing[HAIR_LAYER]	= standing
 
 	H.apply_overlay(HAIR_LAYER)
-	return
+	return standing
 
 /datum/species/proc/handle_body(mob/living/carbon/human/H)
 	H.remove_overlay(BODY_LAYER)
@@ -181,13 +181,13 @@
 	handle_mutant_bodyparts(H)
 
 	// lipstick
-	if(H.lip_style && LIPS in specflags)
+	if(H.lip_style && LIPS in specflags && H.get_organ("head"))
 		var/image/lips = image("icon"='icons/mob/human_face.dmi', "icon_state"="lips_[H.lip_style]_s", "layer" = -BODY_LAYER)
 		lips.color = H.lip_color
 		standing	+= lips
 
 	// eyes
-	if(EYECOLOR in specflags)
+	if(EYECOLOR in specflags && H.get_organ("head"))
 		var/image/img_eyes_s = image("icon" = 'icons/mob/human_face.dmi', "icon_state" = "[eyes]_s", "layer" = -BODY_LAYER)
 		img_eyes_s.color = "#" + H.eye_color
 		standing	+= img_eyes_s
@@ -267,7 +267,7 @@
 			bodyparts_to_add -= "waggingspines"
 
 	if("snout" in mutant_bodyparts) //Take a closer look at that snout!
-		if((H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE)) || (H.head && (H.head.flags_inv & HIDEFACE)))
+		if((H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE)) || (H.head && (H.head.flags_inv & HIDEFACE)) || !H.get_organ("head"))
 			bodyparts_to_add -= "snout"
 
 	if("frills" in mutant_bodyparts)
@@ -275,11 +275,11 @@
 			bodyparts_to_add -= "frills"
 
 	if("horns" in mutant_bodyparts)
-		if(!H.dna.features["horns"] || H.dna.features["horns"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)))
+		if(!H.dna.features["horns"] || H.dna.features["horns"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)) || !H.get_organ("head"))
 			bodyparts_to_add -= "horns"
 
 	if("ears" in mutant_bodyparts)
-		if(!H.dna.features["ears"] || H.dna.features["ears"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)))
+		if(!H.dna.features["ears"] || H.dna.features["ears"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)) || !H.get_organ("head"))
 			bodyparts_to_add -= "ears"
 
 	if(!bodyparts_to_add)
@@ -391,27 +391,29 @@
 		if(!(type in I.species_exception))
 			return 0
 
-	var/obj/item/organ/limb/r_arm/R = H.get_organ("r_arm")
-	var/obj/item/organ/limb/l_arm/L = H.get_organ("l_arm")
+	var/R = H.has_right_hand(1)
+	var/L = H.has_left_hand(1)
 	var/num_arms = H.get_num_arms()
 	var/num_legs = H.get_num_legs()
 	switch(slot)
 		if(slot_l_hand)
 			if(H.l_hand)
 				return 0
-			if(!L || (L.state_flags & ORGAN_AUGMENTABLE))
+			if(!L)
 				return 0
 			return 1
 		if(slot_r_hand)
 			if(H.r_hand)
 				return 0
-			if(!R || (L.state_flags & ORGAN_AUGMENTABLE))
+			if(!R)
 				return 0
 			return 1
 		if(slot_wear_mask)
 			if(H.wear_mask)
 				return 0
 			if( !(I.slot_flags & SLOT_MASK) )
+				return 0
+			if(!H.get_organ("head"))
 				return 0
 			return 1
 		if(slot_back)
@@ -453,17 +455,23 @@
 				return 0
 			if( !(I.slot_flags & SLOT_EYES) )
 				return 0
+			if(!H.get_organ("head"))
+				return 0
 			return 1
 		if(slot_head)
 			if(H.head)
 				return 0
 			if( !(I.slot_flags & SLOT_HEAD) )
 				return 0
+			if(!H.get_organ("head"))
+				return 0
 			return 1
 		if(slot_ears)
 			if(H.ears)
 				return 0
 			if( !(I.slot_flags & SLOT_EARS) )
+				return 0
+			if(!H.get_organ("head"))
 				return 0
 			return 1
 		if(slot_w_uniform)
@@ -759,12 +767,14 @@
 		var/obj/screen/inventory/R = hud_used.r_hand_hud_object
 		var/obj/screen/inventory/L = hud_used.l_hand_hud_object
 		var/image/block = image("icon"='icons/mob/screen_gen.dmi', "icon_state"="blocked")
-		if(!H.get_organ("r_arm") && !(locate(block) in R.overlays))
-			R.overlays += block
+		if(!H.has_right_hand(1))
+			if(!(locate(block) in R.overlays))
+				R.overlays += block
 		else
 			R.overlays = null
-		if(!H.get_organ("l_arm") && !(locate(block) in L.overlays))
-			L.overlays += block
+		if(!H.has_left_hand(1))
+			if(!(locate(block) in L.overlays))
+				L.overlays += block
 		else
 			L.overlays = null
 

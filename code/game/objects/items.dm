@@ -252,6 +252,8 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		if(!user.unEquip(src))
 			return
 
+	dir = SOUTH //Reset the item direction to SOUTH so directional items appear proper in-hand
+
 	pickup(user)
 	add_fingerprint(user)
 	if(!user.put_in_active_hand(src))

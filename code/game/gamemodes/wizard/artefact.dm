@@ -215,6 +215,7 @@ var/global/list/multiverse = list()
 	throwforce = 10
 	w_class = 2
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	sharpness = IS_SHARP_ACCURATE
 	var/faction = list("unassigned")
 	var/cooldown = 0
 	var/assigned = "unassigned"

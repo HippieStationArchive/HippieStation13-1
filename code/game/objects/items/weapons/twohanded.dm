@@ -354,6 +354,9 @@
 		wield_cooldown = world.time
 	..()
 
+/obj/item/weapon/twohanded/chainsaw/can_dismember()
+	return wielded
+
 /obj/item/weapon/twohanded/chainsaw/attack(mob/target as mob, mob/living/user as mob)
 	if(wielded)
 		//incredibly loud; you ain't goin' for stealth with this thing. Credit goes to where Hotline Miami 2 got the chainsaw sounds from.

@@ -80,7 +80,10 @@ Please contact me on #coderbus IRC. ~Carnie x
 	if((wear_suit) && (wear_suit.hooded) && (wear_suit.suittoggled == 1))
 		return
 
-	dna.species.handle_hair(src)
+	if(!get_organ("head")) //Decapitated
+		return
+
+	return dna.species.handle_hair(src)
 
 //used when putting/removing clothes that hide certain mutant body parts to just update those and not update the whole body.
 /mob/living/carbon/human/proc/update_mutant_bodyparts()
@@ -244,6 +247,9 @@ Please contact me on #coderbus IRC. ~Carnie x
 /mob/living/carbon/human/update_inv_glasses()
 	remove_overlay(GLASSES_LAYER)
 
+	if(!get_organ("head")) //Decpaitated
+		return
+
 	if(glasses)
 		if(client && hud_used && hud_used.hud_shown)
 			if(hud_used.inventory_shown)			//if the inventory is open ...
@@ -261,6 +267,9 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 /mob/living/carbon/human/update_inv_ears()
 	remove_overlay(EARS_LAYER)
+
+	if(!get_organ("head")) //Decpaitated
+		return
 
 	if(ears)
 		if(client && hud_used && hud_used.hud_shown)
@@ -317,6 +326,9 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 
 /mob/living/carbon/human/update_inv_head()
+	if(!get_organ("head")) //Decpaitated
+		return
+
 	var/obj/item/H = ..()
 	if(H)
 		if(client && hud_used && hud_used.hud_shown)
@@ -387,6 +399,9 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 
 /mob/living/carbon/human/update_inv_wear_mask()
+	if(!get_organ("head")) //Decpaitated
+		return
+
 	var/obj/item/clothing/mask/M = ..()
 	if(M)
 		if(client && hud_used && hud_used.hud_shown)
@@ -537,7 +552,6 @@ var/global/list/limb_icon_cache = list()
 	for(var/obj/item/organ/limb/L in organs)
 		var/limbname = Bodypart2name(L)
 		. += "-[limbname]"
-		. += "-fine"
 		if(L.status == ORGAN_ORGANIC)
 			. += "-organic"
 		else
@@ -571,7 +585,7 @@ var/global/list/limb_icon_cache = list()
 
 	//Some overrides present on limb (This is great for frankenstein monsters :D)
 	if(affecting.human_gender)
-		icon_gender = affecting.human_gender
+		icon_gender = (affecting.human_gender == FEMALE) ? "f" : "m"
 	if(affecting.species_id)
 		species_id = affecting.species_id
 	if(affecting.should_draw_gender)
@@ -598,7 +612,6 @@ var/global/list/limb_icon_cache = list()
 		if(I)
 			return I
 		return 0
-
 
 	if(!should_draw_greyscale)
 		if(I)

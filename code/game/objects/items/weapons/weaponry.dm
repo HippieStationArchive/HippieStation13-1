@@ -47,6 +47,7 @@
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/sord/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is impaling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -65,6 +66,7 @@
 	w_class = 3
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	block_chance = 50
+	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/claymore/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is falling on the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -83,6 +85,7 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	block_chance = 50
+	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/katana/cursed
 	slot_flags = null
@@ -191,6 +194,7 @@
 		force = 20
 		w_class = 3
 		throwforce = 15
+		sharpness = IS_SHARP_ACCURATE
 		icon_state = "switchblade_ext"
 		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 		hitsound = 'sound/weapons/bladeslice.ogg'
@@ -199,6 +203,7 @@
 		force = 3
 		w_class = 2
 		throwforce = 5
+		sharpness = IS_BLUNT
 		icon_state = "switchblade"
 		attack_verb = list("stubbed", "poked")
 		hitsound = 'sound/weapons/Genhit.ogg'
