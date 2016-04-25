@@ -51,17 +51,17 @@
 
 /obj/effect/proc_holder/spell/targeted/cluwnecurse
 	name = "Curse of the Cluwne"
-	desc = "This spell dooms the fate of any unlucky soul to the speech and facial attributes of a barnyard animal"
+	desc = "This spell dooms the fate of any unlucky soul to the live of a pitiful cluwne, a terrible creature that is hunted for fun."
 	school = "transmutation"
 	charge_type = "recharge"
 	charge_max	= 600
 	charge_counter = 0
-	clothes_req = 0
+	clothes_req = 1
 	stat_allowed = 0
 	invocation = "CLU WO'NIS CA'TE'BEST'IS MAXIMUS!"
 	invocation_type = "shout"
 	range = 7
-	cooldown_min = 120
+	cooldown_min = 90
 	selection_type = "range"
 	var/list/compatible_mobs = list(/mob/living/carbon/human)
 
