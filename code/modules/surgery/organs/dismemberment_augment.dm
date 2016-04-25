@@ -65,14 +65,15 @@
 	var/brutedam = brute_dam //brute damage before we drop the limb
 	drop_limb()
 	var/direction = pick(cardinal)
-	var/turf/target = get_turf(owner.loc)
-	var/range = rand(2,throw_range)
-	for(var/i = 1; i < range; i++)
-		var/turf/new_turf = get_step(target, direction)
-		target = new_turf
-		if(new_turf.density)
-			break
-	throw_at(target,throw_range,throw_speed)
+	var/turf/target = get_turf(H.loc)
+	var/range = rand(2,max(throw_range/2, 2))
+	spawn()
+		for(var/i = 1; i < range; i++)
+			var/turf/new_turf = get_step(target, direction)
+			target = new_turf
+			if(new_turf.density)
+				break
+		throw_at(target,throw_range,throw_speed)
 	if(istype(H))
 		var/obj/item/organ/limb/affecting = H.get_organ("chest")
 		affecting.take_damage(Clamp(brutedam/2, 15, 50),0,1) //Damage the chest based on limb's existing damage (note that you get -10 max health per every missing limb anyway)
@@ -82,7 +83,6 @@
 		H.update_canmove()
 		H.regenerate_icons()
 		H.emote("scream")
-		playsound(get_turf(H), pick('sound/misc/splat.ogg', 'sound/misc/splort.ogg'), 80, 1)
 
 /obj/item/organ/limb/head/dismember()
 	state_flags = ORGAN_AUGMENTABLE

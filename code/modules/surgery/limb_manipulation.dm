@@ -38,8 +38,8 @@
 			I = H.get_organ(target_zone)
 		if(istype(I))
 			I.state_flags = ORGAN_FINE
+			I.update_organ_icon()
 			target.update_canmove()
-			target.regenerate_icons()
 		surgery.complete(target)
 	else
 		user.visible_message("[user] succeeds!", "<span class='notice'>You succeed.</span>")
@@ -107,8 +107,8 @@
 			I = H.get_organ(target_zone)
 		if(istype(I))
 			I.state_flags = ORGAN_FINE
+			I.update_organ_icon()
 			target.update_canmove()
-			target.regenerate_icons()
 		return 1
 	else if(current_type == "extract")
 		if(I && I.owner == target)

@@ -745,10 +745,28 @@
 					icon_num = 4
 				if(damage > (comparison*4))
 					icon_num = 5
+				if(L.state_flags & ORGAN_AUGMENTABLE) //No muscles = unusable limb
+					icon_num = 5
 				if(H.hal_screwyhud == 5)
 					icon_num = 0
 				if(icon_num)
 					H.healthdoll.overlays += image('icons/mob/screen_gen.dmi',"[Bodypart2name(L)][icon_num]")
+			for(var/t in H.get_missing_limbs()) //Missing limbs
+				H.healthdoll.overlays += image('icons/mob/screen_gen.dmi',"[t]6")
+
+	var/datum/hud/hud_used = H.hud_used
+	if(hud_used)	//hud missing arm "block" icons
+		var/obj/screen/inventory/R = hud_used.r_hand_hud_object
+		var/obj/screen/inventory/L = hud_used.l_hand_hud_object
+		var/image/block = image("icon"='icons/mob/screen_gen.dmi', "icon_state"="blocked")
+		if(!H.get_organ("r_arm") && !(locate(block) in R.overlays))
+			R.overlays += block
+		else
+			R.overlays = null
+		if(!H.get_organ("l_arm") && !(locate(block) in L.overlays))
+			L.overlays += block
+		else
+			L.overlays = null
 
 	switch(H.nutrition)
 		if(NUTRITION_LEVEL_FULL to INFINITY)
@@ -852,7 +870,7 @@
 			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
 				. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
 
-			if(H.get_num_legs() < 2)
+			if(H.get_num_legs(1) < 2)
 				. += 1
 
 			if(H.lying) //This is for crawling
@@ -1119,7 +1137,7 @@
 		return 0
 
 	if(affecting.brute_dam >= affecting.max_damage)
-		if(I.can_dismember() && prob(I.force*(w_class-1)))
+		if(I.can_dismember() && prob(I.force*(I.w_class-1)))
 			I.add_blood(H)
 			playsound(get_turf(H), pick('sound/misc/desceration-01.ogg', 'sound/misc/desceration-02.ogg', 'sound/misc/desceration-03.ogg', 'sound/misc/desceration-04.ogg'), 80, 1)
 			affecting.dismember(I)
@@ -1146,6 +1164,7 @@
 					spawn()
 						var/obj/effect/decal/cleanable/blood/hitsplatter/B = new(H)
 						B.blood_source = H
+						playsound(location, pick('sound/misc/splash1.ogg', 'sound/misc/splash2.ogg', 'sound/misc/splash3.ogg', 'sound/misc/splash4.ogg'), 40, 1, -1)
 						var/n = rand(1,3)
 						var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
 						B.GoTo(targ, n)

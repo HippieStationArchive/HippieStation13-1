@@ -31,6 +31,10 @@
 	var/species_color = ""
 	var/updated = 0
 
+/obj/item/organ/limb/throw_impact(atom/hit_atom)
+	..()
+	playsound(get_turf(src), pick('sound/misc/splat.ogg', 'sound/misc/splort.ogg'), 50, 1, -1)
+
 /obj/item/organ/limb/examine(mob/user)
 	..()
 	if(brute_dam > 0)
