@@ -106,6 +106,9 @@
 		H.dna.add_mutation(CLUWNEMUT)
 	return
 
+/obj/item/clothing/under/rank/clown/cluwne/dropped(mob/user)
+	qdel(src)
+
 /obj/item/clothing/mask/gas/sexyclown
 	name = "sexy-clown wig and mask"
 	desc = "A feminine clown mask for the dabbling crossdressers or female entertainers."
