@@ -10,4 +10,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Added pickpocket gloves to the Traitor Uplink for 3 TC. These gloves let you remove items from people much faster and won't alert them to your theivery, as well as placing the item straight into your hand."
+  - rscadd: "Added pickpocket gloves to the Traitor Uplink for 4 TC. These gloves let you remove items from people much faster and won't alert them to your theivery, as well as placing the item straight into your hand."
