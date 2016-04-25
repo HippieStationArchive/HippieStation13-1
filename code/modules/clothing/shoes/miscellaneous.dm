@@ -105,6 +105,9 @@
 	burn_state = -1
 	flags = NODROP
 
+/obj/item/clothing/shoes/clown_shoes/cluwne/dropped(mob/user)
+	qdel(src)
+
 /obj/item/clothing/shoes/jackboots
 	name = "jackboots"
 	desc = "Nanotrasen-issue Security combat boots for combat scenarios or combat situations. All combat, all the time."
