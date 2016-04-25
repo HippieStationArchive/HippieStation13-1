@@ -135,8 +135,10 @@
 	var/list/antag_canadates = list()
 
 	for(var/mob/living/carbon/human/H in living_crew)
-		if(H.client && H.client.prefs.allow_midround_antag && !jobban_isbanned(H, "catban"))
-			antag_canadates += H
+		if(H.client && H.client.prefs.allow_midround_antag)
+			if(!jobban_isbanned(H, "catban"))
+				if(!jobban_isbanned(H, "cluwneban"))
+					antag_canadates += H
 
 	if(!antag_canadates)
 		message_admins("Convert_roundtype failed due to no antag canadates.")
