@@ -99,6 +99,10 @@ Please contact me on #coderbus IRC. ~Carnie x
 	..("Standing")
 
 /mob/living/carbon/human/proc/update_body_parts()
+	if(!dna.species:has_dismemberment) //Species don't have no dismemberment going for 'em!
+		remove_overlay(BODYPARTS_LAYER)
+		return
+
 	icon_state = ""//Reset here as apposed to having a null one due to some getFlatIcon calls at roundstart.
 
 	//CHECK FOR UPDATE

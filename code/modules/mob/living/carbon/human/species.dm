@@ -65,6 +65,8 @@
 
 	var/mob/living/list/ignored_by = list()	// list of mobs that will ignore this species
 
+	var/has_dismemberment = 1 //Whether or not this species uses dismemberment for its limbs
+
 	//Breathing!
 	var/safe_oxygen_min = 16 // Minimum safe partial pressure of O2, in kPa
 	var/safe_oxygen_max = 0
@@ -177,6 +179,20 @@
 /datum/species/proc/handle_body(mob/living/carbon/human/H)
 	H.remove_overlay(BODY_LAYER)
 	var/list/standing	= list()
+
+	if(!has_dismemberment) //Legacy support
+		if(H.disabilities & HUSK)
+			H.remove_overlay(SPECIES_LAYER) // races lose their color
+			H.icon_state = "husk"
+		else if(sexes)
+			if(use_skintones)
+				H.icon_state = "[H.skin_tone]_[(H.gender == FEMALE) ? "f" : "m"]"
+			else
+				H.icon_state = "[id]_[(H.gender == FEMALE) ? "f" : "m"]"
+		else
+			H.icon_state = "[id]"
+		H.icon_state += "_s"
+
 
 	handle_mutant_bodyparts(H)
 
@@ -1144,11 +1160,11 @@
 	else
 		return 0
 
-	if(affecting.brute_dam >= affecting.max_damage)
+	if(affecting.brute_dam >= affecting.max_damage && H.dna.species:has_dismemberment)
 		if(I.can_dismember() && prob(I.force*(I.w_class-1)))
 			I.add_blood(H)
 			playsound(get_turf(H), pick('sound/misc/desceration-01.ogg', 'sound/misc/desceration-02.ogg', 'sound/misc/desceration-03.ogg', 'sound/misc/desceration-04.ogg'), 80, 1)
-			affecting.dismember(I)
+			affecting.dismember()
 			affecting.add_blood(H)
 			var/turf/location = H.loc
 			if(istype(location, /turf/simulated))
