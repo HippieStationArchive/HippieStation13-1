@@ -6,7 +6,7 @@
 	brute_dam = 0
 	brutestate = 0
 	burnstate = 0
-
+	update_organ_icon()
 	if(owner)
 		owner.updatehealth()
 		owner.regenerate_icons()
@@ -34,11 +34,11 @@
 	src.loc = T
 
 //Augment a limb
-/obj/item/organ/limb/proc/augment(var/obj/item/I, var/mob/user)
+/obj/item/organ/limb/proc/augment(var/obj/item/I, var/def_zone, var/mob/user)
 	if(!(state_flags & ORGAN_AUGMENTABLE))
 		return
 
-	if(!owner)
+	if(!owner || !def_zone)
 		return
 
 	var/who = "[owner]'s"
@@ -46,17 +46,17 @@
 		who = "their"
 
 	owner.visible_message("<span class='notice'>[user] has attatched [who] new limb!</span>")
+	var/mob/living/carbon/C = owner //We do this because owner might be null-ed during drop_limb
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		if(istype(I, /obj/item/robot_parts))
-			var/obj/item/robot_parts/RP = I
-			var/obj/item/organ/limb/L = H.get_organ(Bodypart2name(RP.body_part))
-			if(istype(L))
-				L.drop_limb(1)
+		var/obj/item/organ/limb/L = H.get_organ(def_zone)
+		if(istype(L))
+			L.drop_limb(1)
+			L = newBodyPart(def_zone)
 	change_organ(ORGAN_ROBOTIC)
 	user.drop_item()
 	qdel(I)
-	owner.update_canmove()
+	C.update_canmove()
 
 //Dismember a limb
 /obj/item/organ/limb/proc/dismember()
@@ -86,7 +86,7 @@
 
 /obj/item/organ/limb/head/drop_limb(var/special=0)
 	if(special)
-		return ..()
+		return //Head doesn't drop :v
 	var/mob/living/carbon/human/H = owner
 	..()
 	if(istype(H))
@@ -114,7 +114,7 @@
 
 /obj/item/organ/limb/chest/dismember()
 	state_flags = ORGAN_AUGMENTABLE
-
+	update_organ_icon()
 	if(!owner)
 		return
 	owner.visible_message("<span class='danger'><B>[owner]'s internal organs spill out onto the floor!</B></span>")
@@ -178,6 +178,9 @@
 //Attach a limb (the limb still keeps all the flags and stuff, so it's probably unusable unless you do surgery to fix up augment wounds)
 /mob/living/carbon/human/proc/attachLimb(var/obj/item/organ/limb/L, var/mob/user)
 	var/obj/item/organ/limb/O = locate(L.type) in organs
+	if(istype(O, /obj/item/organ/limb/head)) //If you want to perform head switcharoo you must decapitate them and transfer brains.
+		user << "<span class='warning'>You cannot attach [L] to [src]!</span>"
+		return
 	if(istype(O))
 		O.drop_limb(1)
 
@@ -185,6 +188,7 @@
 	L.loc = src
 	L.owner = src
 	organs += L
+	L.update_organ_icon()
 	if(istype(L, /obj/item/organ/limb/head)) //Transfer some head appearance vars over
 		var/obj/item/organ/limb/head/U = L
 		var/obj/item/organ/internal/brain/B = U.brain

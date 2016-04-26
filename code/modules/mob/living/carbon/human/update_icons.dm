@@ -326,6 +326,7 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 
 /mob/living/carbon/human/update_inv_head()
+	remove_overlay(HEAD_LAYER)
 	if(!get_organ("head")) //Decpaitated
 		return
 
