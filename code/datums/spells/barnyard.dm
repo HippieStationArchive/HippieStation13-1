@@ -10,7 +10,7 @@
 	invocation = "KN'A FTAGHU, PUCK 'BTHNK!"
 	invocation_type = "shout"
 	range = 7
-	cooldown_min = 30
+	cooldown_min = 25
 	selection_type = "range"
 	var/list/compatible_mobs = list(/mob/living/carbon/human,/mob/living/carbon/monkey)
 
