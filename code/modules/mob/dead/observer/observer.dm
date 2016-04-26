@@ -96,6 +96,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Ghost"
 	set desc = "Relinquish your life and enter the land of the dead."
 
+	var/mob/living/carbon/H = src
+
 	if(stat != DEAD)
 		succumb()
 	if(stat == DEAD)
