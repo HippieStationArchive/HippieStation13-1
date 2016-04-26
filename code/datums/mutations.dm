@@ -362,8 +362,6 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 				owner.Jitter(500)
 
 /datum/mutation/human/cluwne/on_losing(mob/living/carbon/human/owner)
-	if(..())
-		return
 	owner.adjust_fire_stacks(1)
 	owner.IgniteMob()
 	owner.dna.add_mutation(CLUWNEMUT)
