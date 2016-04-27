@@ -32,7 +32,7 @@
 		embedded_objects -= I
 		I.loc = T
 	if(H && !H.has_embedded_objects())
-		clear_alert("embeddedobject")
+		H.clear_alert("embeddedobject")
 	src.loc = T
 
 //Augment a limb

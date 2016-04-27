@@ -33,7 +33,7 @@
 			H.remove_all_embedded_objects()
 			if(H.get_missing_limbs())
 				playsound(get_turf(H), 'sound/effects/blobattack.ogg', 30, 1)
-				target.visible_message("<span class='warning'>[user]'s missing limbs reform, making a loud, grotesque sound!</span>", "<span class='userdanger'>Your limbs regrow, making a loud, crunchy sound and giving you great pain!</span>", "<span class='italics'>You hear organic matter ripping and tearing!</span>")
+				H.visible_message("<span class='warning'>[user]'s missing limbs reform, making a loud, grotesque sound!</span>", "<span class='userdanger'>Your limbs regrow, making a loud, crunchy sound and giving you great pain!</span>", "<span class='italics'>You hear organic matter ripping and tearing!</span>")
 				H.emote("scream")
 				H.regenerate_limbs(ORGAN_ORGANIC)
 
