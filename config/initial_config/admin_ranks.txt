@@ -28,9 +28,9 @@
 # +EVERYTHING (or +HOST or +ALL) = Simply gives you everything without having to type every flag
 
 Admin Observer
-Moderator		= +ADMIN
+Moderator		= +ADMIN +BAN
 Admin Candidate	= +@
-Trial Admin		= +@ +SPAWN +REJUV +VAREDIT +BAN
+Trial Admin		= +@ +SPAWN +REJUV +VAREDIT
 Badmin			= +@ +POSSESS +BUILDMODE +SERVER +FUN
 Game Admin		= +@ +STEALTH +SOUNDS +DEBUG
 Game Master		= +EVERYTHING
