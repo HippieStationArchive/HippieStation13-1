@@ -9,12 +9,19 @@
 		src << "<span class='notice'>You look at your arm and sigh.</span>"
 		return
 
-	var/obj/item/clothing/gloves/G = gloves // not typecast specifically enough in defines
-
 	// Special glove functions:
 	// If the gloves do anything, have them return 1 to stop
 	// normal attack_hand() here.
+	var/obj/item/clothing/gloves/G = gloves // not typecast specifically enough in defines
 	if(proximity && istype(G) && G.Touch(A,1))
+		return
+
+	//Special limb functions:
+	//Similar to gloves, but this one's for limbs
+	var/obj/item/organ/limb/L
+	if(hand)	L = get_organ("l_hand")
+	else		L = get_organ("r_hand")
+	if(proximity && istype(L) && L.Touch(A,1))
 		return
 
 	var/override = 0
@@ -32,11 +39,18 @@
 /mob/living/carbon/RestrainedClickOn(atom/A)
 	return 0
 
-/mob/living/carbon/human/RangedAttack(atom/A)
+/mob/living/carbon/human/RangedAttack(atom/A, params)
 	if(gloves)
 		var/obj/item/clothing/gloves/G = gloves
-		if(istype(G) && G.Touch(A,0)) // for magic gloves
+		if(istype(G) && G.Touch(A,0,params)) // for magic gloves
 			return
+
+	var/obj/item/organ/limb/L
+	if(hand)	L = get_organ("l_hand")
+	else		L = get_organ("r_hand")
+	if(istype(L) && L.Touch(A,0,params)) //For arms with special fun
+		return
+
 	if(dna)
 		for(var/datum/mutation/human/HM in dna.mutations)
 			HM.on_ranged_attack(src, A)

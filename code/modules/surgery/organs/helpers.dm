@@ -45,7 +45,7 @@
 	return get_organ(ran_zone(zone, prob, exceptions))
 
 //Regenerates all limbs. Returns amount of limbs regenerated
-/mob/living/carbon/human/regenerate_limbs(new_type = ORGAN_ORGANIC)
+/mob/living/carbon/human/regenerate_limbs(new_type)
 	. = 0
 	var/list/full = list("head", "chest", "r_arm", "l_arm", "r_leg", "l_leg")
 	for(var/t in full)
@@ -56,7 +56,7 @@
 			L.owner = src
 			organs += L
 			.++
-		L.change_organ(new_type)
+		L.change_organ(new_type ? new_type : L.status)
 	return .
 
 /mob/living/carbon/human/get_missing_limbs()

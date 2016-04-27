@@ -293,9 +293,16 @@
 	burn_state = 0
 	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
 
+/obj/item/weapon/cane/update_slowdown(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/slow = 0
+	if(istype(H))
+		slow = (H.get_num_legs(1) < 2) ? -1 : 0 //Negates slowdown caused by lack of a leg
+	return slow
+
 /obj/item/weapon/staff
 	name = "wizards staff"
-	desc = "Apparently a staff used by the wizard."
+	desc = "Apparently a staff used by the wizard. Can be used as a crutch."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "staff"
 	force = 3
@@ -307,15 +314,22 @@
 	attack_verb = list("bludgeoned", "whacked", "disciplined")
 	burn_state = 0 //Burnable
 
+/obj/item/weapon/staff/update_slowdown(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/slow = 0
+	if(istype(H))
+		slow = (H.get_num_legs(1) < 2) ? -1 : 0 //Negates slowdown caused by lack of a leg
+	return slow
+
 /obj/item/weapon/staff/broom
 	name = "broom"
-	desc = "Used for sweeping, and flying into the night while cackling. Black cat not included."
+	desc = "Used for sweeping, and flying into the night while cackling. Black cat not included. Can be used as a crutch."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "broom"
 
 /obj/item/weapon/staff/stick
 	name = "stick"
-	desc = "A great tool to drag someone else's drinks across the bar."
+	desc = "A great tool to drag someone else's drinks across the bar. Can be used as a crutch."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "stick"
 	item_state = "stick"
@@ -361,7 +375,7 @@
 
 /obj/item/weapon/cane/pimpstick
 	name = "pimp stick"
-	desc = "A gold-rimmed cane, with a gleaming diamond set at the top. Great for bashing in kneecaps."
+	desc = "A gold-rimmed cane, with a gleaming diamond set at the top. Great for bashing in kneecaps. Can be used as a crutch."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "pimpstick"
 	item_state = "pimpstick"
@@ -370,5 +384,3 @@
 	w_class = 3
 	flags = NOSHIELD
 	attack_verb = list("pimped", "smacked", "disciplined", "busted", "capped", "decked")
-
-

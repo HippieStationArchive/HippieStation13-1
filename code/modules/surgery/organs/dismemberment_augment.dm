@@ -15,9 +15,10 @@
 //Drop the limb
 /obj/item/organ/limb/proc/drop_limb(var/special=0)
 	var/turf/T = get_turf(src.loc)
+	var/mob/living/carbon/human/H 
 	if(owner && ishuman(owner))
 		T = get_turf(owner)
-		var/mob/living/carbon/human/H = owner
+		H = owner
 		if(!updated)
 			update_limb(H)
 		H.organs -= src
@@ -30,7 +31,8 @@
 	for(var/obj/item/I in embedded_objects)
 		embedded_objects -= I
 		I.loc = T
-
+	if(H && !H.has_embedded_objects())
+		clear_alert("embeddedobject")
 	src.loc = T
 
 //Augment a limb
@@ -60,8 +62,11 @@
 
 //Dismember a limb
 /obj/item/organ/limb/proc/dismember()
-	state_flags = ORGAN_AUGMENTABLE
 	var/mob/living/carbon/human/H = owner
+	if(istype(H) && !H.dna.species:has_dismemberment) //human's species don't allow dismemberment
+		return 0
+
+	state_flags = ORGAN_AUGMENTABLE
 	var/brutedam = brute_dam //brute damage before we drop the limb
 	drop_limb()
 	var/direction = pick(cardinal)
@@ -83,6 +88,7 @@
 		H.update_canmove()
 		H.regenerate_icons()
 		H.emote("scream")
+	return 1
 
 /obj/item/organ/limb/head/drop_limb(var/special=0)
 	if(special)
@@ -113,6 +119,9 @@
 		//Brain fuckery END
 
 /obj/item/organ/limb/chest/dismember()
+	var/mob/living/carbon/human/H = owner
+	if(istype(H) && !H.dna.species:has_dismemberment) //human's species don't allow dismemberment
+		return 0
 	state_flags = ORGAN_AUGMENTABLE
 	update_organ_icon()
 	if(!owner)

@@ -139,6 +139,11 @@
 		return I
 	return 0
 
+//Checked in UnarmedAttack(). Return 1 to prevent normal click action (useful for SAW ARMS, etc.)
+//Remember to check for proximity unless you're doing ranged actions for this!
+/obj/item/organ/limb/proc/Touch(atom/A,proximity,params)
+	return 0
+
 /obj/item/organ/limb/chest
 	name = "chest"
 	icon_state = "chest"
@@ -155,14 +160,6 @@
 	px_x = -6
 	px_y = 0
 
-/obj/item/organ/limb/l_leg
-	name = "left leg"
-	icon_state = "l_leg"
-	max_damage = 75
-	body_part = LEG_LEFT
-	px_x = -2
-	px_y = 12
-
 /obj/item/organ/limb/r_arm
 	name = "right arm"
 	icon_state = "r_arm"
@@ -170,6 +167,14 @@
 	body_part = ARM_RIGHT
 	px_x = 6
 	px_y = 0
+
+/obj/item/organ/limb/l_leg
+	name = "left leg"
+	icon_state = "l_leg"
+	max_damage = 75
+	body_part = LEG_LEFT
+	px_x = -2
+	px_y = 12
 
 /obj/item/organ/limb/r_leg
 	name = "right leg"

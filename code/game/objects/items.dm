@@ -564,3 +564,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 /obj/item/proc/can_dismember()
 	return sharpness && w_class >= 3
+
+//Proc used to determine item's slowdown - will be REALLY useful for specific things like crutches and stuff
+/obj/item/proc/update_slowdown(mob/user)
+	return slowdown

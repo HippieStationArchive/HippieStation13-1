@@ -881,15 +881,15 @@
 				. += hungry / 50
 
 			if(H.wear_suit)
-				. += H.wear_suit.slowdown
+				. += H.wear_suit:update_slowdown(H)
 			if(H.shoes)
-				. += H.shoes.slowdown
+				. += H.shoes:update_slowdown(H)
 			if(H.back)
-				. += H.back.slowdown
+				. += H.back:update_slowdown(H)
 			if(H.l_hand)
-				. += H.l_hand.slowdown
+				. += H.l_hand:update_slowdown(H)
 			if(H.r_hand)
-				. += H.r_hand.slowdown
+				. += H.r_hand:update_slowdown(H)
 
 			if((H.disabilities & FAT))
 				. += 1.5
@@ -1162,14 +1162,14 @@
 
 	if(affecting.brute_dam >= affecting.max_damage && H.dna.species:has_dismemberment)
 		if(I.can_dismember() && prob(I.force*(I.w_class-1)))
-			I.add_blood(H)
-			playsound(get_turf(H), pick('sound/misc/desceration-01.ogg', 'sound/misc/desceration-02.ogg', 'sound/misc/desceration-03.ogg', 'sound/misc/desceration-04.ogg'), 80, 1)
-			affecting.dismember()
-			affecting.add_blood(H)
-			var/turf/location = H.loc
-			if(istype(location, /turf/simulated))
-				location.add_blood(H)
-			return
+			if(affecting.dismember())
+				I.add_blood(H)
+				playsound(get_turf(H), pick('sound/misc/desceration-01.ogg', 'sound/misc/desceration-02.ogg', 'sound/misc/desceration-03.ogg', 'sound/misc/desceration-04.ogg'), 80, 1)
+				affecting.add_blood(H)
+				var/turf/location = H.loc
+				if(istype(location, /turf/simulated))
+					location.add_blood(H)
+				return
 
 	var/bloody = 0
 	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2)))) //45% on toolboxes (10 force)

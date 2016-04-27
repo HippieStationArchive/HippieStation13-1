@@ -171,8 +171,7 @@
 	var/update = 0
 	var/dismember_chance = 50/severity //50, 25, 17~
 	for(var/obj/item/organ/limb/temp in organs)
-		if(prob(dismember_chance) && dna.species:has_dismemberment)
-			temp.dismember()
+		if(prob(dismember_chance) && temp.dismember())
 			continue // don't damage this limb further
 		switch(temp.body_part)
 			if(HEAD)

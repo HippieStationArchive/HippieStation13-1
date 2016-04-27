@@ -336,7 +336,6 @@
 					if(!istype(O))
 						return
 					H.apply_damage(5, BRUTE, O)
-					if(!H.lying) H.Weaken(3)
 					if(prob(embed_chance))
 						H.throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
 						O.embedded_objects |= src
@@ -350,3 +349,4 @@
 						H.visible_message("<span class='danger'>[H] [H.lying ? "lays" : "steps"] in the broken glass!</span>", \
 								"<span class='userdanger'>You [H.lying ? "lay" : "step"] in the broken glass!</span>")
 						cooldown = world.time
+					if(!H.lying) H.Weaken(3)

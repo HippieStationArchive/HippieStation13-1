@@ -856,7 +856,7 @@ body
 
 			var/obj/item/organ/limb/L = H.get_organ(limb)
 
-			var/new_limb = input("Please choose a new type for this limb", "Limb type", null) as null|anything in list("Robotic","Organic")
+			var/new_limb = input("Please choose a new type for this limb", "Limb type", null) as null|anything in list("Robotic","Organic","Keep")
 			if(!new_limb)
 				return
 
@@ -876,7 +876,7 @@ body
 			if(limb == "All")
 				H.regenerate_limbs(new_type)
 			else
-				L.change_organ(new_type)
+				L.change_organ(new_type ? new_type : L.status)
 
 		else if(href_list["purrbation"])
 			if(!check_rights(R_SPAWN))	return
