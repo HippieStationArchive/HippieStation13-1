@@ -4,7 +4,7 @@
 	icon_state = null
 	pixel_y = -32
 	pixel_x = -100
-
+	layer = 16
 
 	proc/start()
 		icon_state = "lightning" //i'm sure there's a more elegant way to do this.
@@ -27,7 +27,6 @@
 	var/dam = input(src, "How much damage?", "THE LIGHT SHALL BURN YOU") as num
 	var/obj/effect/lightning/L = new /obj/effect/lightning()
 	L.loc = get_turf(M.loc)
-	L.layer = 16 //i want it to display over clothing
 	L.start()
 	playsound(M,'sound/effects/thunder.ogg',50,1)
 	switch(damtype_word)

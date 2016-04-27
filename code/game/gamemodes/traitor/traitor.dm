@@ -108,7 +108,7 @@
 		var/is_hijacker = prob(10)
 		var/martyr_chance = prob(20)
 		var/objective_count = is_hijacker 			//Hijacking counts towards number of objectives
-		if(!exchange_blue && traitors.len >= 8) 	//Set up an exchange if there are enough traitors
+		if(!exchange_blue && traitors.len >= 2) 	//Set up an exchange if there are enough traitors
 			if(!exchange_red)
 				exchange_red = traitor
 			else
@@ -175,6 +175,7 @@
 	for(var/datum/objective/objective in traitor.objectives)
 		traitor.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
 		obj_count++
+	traitor.current << "<a href=[config.wikiurl]/index.php?title=Traitor>New to the Syndicate? Click here to be linked to the wiki guide on traitors.</a>"
 	return
 
 

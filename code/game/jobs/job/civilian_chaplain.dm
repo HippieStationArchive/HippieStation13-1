@@ -37,17 +37,17 @@ Chaplain
 
 	switch(lowertext(new_religion))
 		if("christianity")
-			B.name = pick("The Holy Bible","The Dead Sea Scrolls")
+			B.name = pick("Holy Bible","Dead Sea Scrolls")
 		if("satanism")
-			B.name = "The Unholy Bible"
+			B.name = "Unholy Bible"
 		if("cthulu")
-			B.name = "The Necronomicon"
+			B.name = "Necronomicon"
 		if("islam")
 			B.name = "Quran"
 		if("scientology")
-			B.name = pick("The Biography of L. Ron Hubbard","Dianetics")
+			B.name = pick("Biography of L. Ron Hubbard","Dianetics")
 		if("chaos")
-			B.name = "The Book of Lorgar"
+			B.name = "Book of Lorgar"
 		if("imperium")
 			B.name = "Uplifting Primer"
 		if("toolboxia")
@@ -58,18 +58,14 @@ Chaplain
 			B.name = pick("Woodys Got Wood: The Aftermath", "War of the Cocks", "Sweet Bro and Hella Jef: Expanded Edition")
 			H.setBrainLoss(100) // starts off retarded as fuck
 		if("science")
-			B.name = pick("Principle of Relativity", "Quantum Enigma: Physics Encounters Consciousness", "Programming the Universe", "Quantum Physics and Theology", "String Theory for Dummies", "How To: Build Your Own Warp Drive", "The Mysteries of Bluespace", "Playing God: Collector's Edition")
+			B.name = pick("Principle of Relativity", "Quantum Enigma: Physics Encounters Consciousness", "Programming the Universe", "Quantum Physics and Theology", "String Theory for Dummies", "How To: Build Your Own Warp Drive", "Mysteries of Bluespace", "Playing God: Collector's Edition")
 		else
-			B.name = "The Holy Book of [new_religion]"
+			B.name = "Holy Book of [new_religion]"
 	feedback_set_details("religion_name","[new_religion]")
-	ticker.Bible_name = B.name
 
 	var/new_deity = "Space Jesus"
 	if(H.client && H.client.prefs.custom_names["deity"])
 		new_deity = H.client.prefs.custom_names["deity"]
-	B.deity_name = new_deity
-
-	if(ticker)
-		ticker.Bible_deity_name = B.deity_name
-	feedback_set_details("religion_deity","[new_deity]")
+	deity_name = new_deity
+	biblename = B.name
 	H.equip_to_slot_or_del(B, slot_in_backpack)

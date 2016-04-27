@@ -459,6 +459,12 @@ var/list/uplink_items = list()
 	item = /obj/item/clothing/gloves/cqc
 	cost = 12
 
+/datum/uplink_item/dangerous/wrestling
+	name = "Wrestling Belt"
+	desc = "A powerful wrestling moveset given to you via championship belt."
+	item = /obj/item/weapon/storage/belt/champion/wrestling
+	cost = 12
+
 /datum/uplink_item/dangerous/reinforcement
 	name = "Reinforcements"
 	desc = "Call in an additional team member. They come with predefined gear sets, but you might want to save some telecrystals to arm them better."
@@ -1063,12 +1069,17 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/implants/mindslave
 	name = "Mindslave Implant"
-	desc = "An implant injected into another body, forcing the vitcim to obey any command by the user for around 15 to 20 mintues."
+	desc = "An implant injected into another body, forcing the victim to obey any command by the user for around 15 to 20 mintues."
 	excludefrom = list(/datum/game_mode/nuclear)
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_mindslave
 	cost = 9
 	surplus = 20
-
+	
+/datum/uplink_item/implants/greatermindslave
+	name = "Greater Mindslave Implant"
+	desc = "An implant injected into another body, forcing the victim to obey any command by the user, it does not expire like a regular mindslave implant."
+	item = /obj/item/weapon/storage/box/syndie_kit/imp_gmindslave
+	cost = 16
 
 //CYBERNETIC IMPLANTS
 

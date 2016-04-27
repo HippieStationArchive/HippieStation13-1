@@ -361,7 +361,7 @@
 				ore_iron++;
 				O.loc = null
 				continue
-			if (istype(O,/obj/item/weapon/ore/glass))
+			if (istype(O,/obj/item/weapon/ore/sand))
 				ore_glass++;
 				O.loc = null
 				continue

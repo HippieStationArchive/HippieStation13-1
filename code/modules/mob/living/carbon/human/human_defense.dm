@@ -93,19 +93,19 @@ emp_act
 			return 0
 	if(l_hand && !istype(l_hand, /obj/item/clothing))
 		var/final_block_chance = l_hand.block_chance - (Clamp((armour_penetration-l_hand.armour_penetration)/2,0,100)) + block_chance_modifier //So armour piercing blades can still be parried by other blades, for example
-		if(l_hand.hit_reaction(src, attack_text, final_block_chance))
+		if(l_hand.hit_reaction(src, attack_text, final_block_chance, damage))
 			return 1
 	if(r_hand && !istype(r_hand, /obj/item/clothing))
 		var/final_block_chance = r_hand.block_chance - (Clamp((armour_penetration-r_hand.armour_penetration)/2,0,100)) + block_chance_modifier //Need to reset the var so it doesn't carry over modifications between attempts
-		if(r_hand.hit_reaction(src, attack_text, final_block_chance))
+		if(r_hand.hit_reaction(src, attack_text, final_block_chance, damage))
 			return 1
 	if(wear_suit)
 		var/final_block_chance = wear_suit.block_chance - (Clamp((armour_penetration-wear_suit.armour_penetration)/2,0,100)) + block_chance_modifier
-		if(wear_suit.hit_reaction(src, attack_text, final_block_chance))
+		if(wear_suit.hit_reaction(src, attack_text, final_block_chance, damage))
 			return 1
 	if(w_uniform)
 		var/final_block_chance = w_uniform.block_chance - (Clamp((armour_penetration-w_uniform.armour_penetration)/2,0,100)) + block_chance_modifier
-		if(w_uniform.hit_reaction(src, attack_text, final_block_chance))
+		if(w_uniform.hit_reaction(src, attack_text, final_block_chance, damage))
 			return 1
 	return 0
 
@@ -411,12 +411,13 @@ emp_act
 	else
 		..()
 
-/mob/living/carbon/human/hitby(atom/movable/AM, skipcatch = 0, hitpush = 1, blocked = 0)
+/mob/living/carbon/human/hitby(atom/movable/AM, skipcatch = 0, hitpush = 1, blocked = 0, zone)
 	var/obj/item/I
 	var/throwpower = 30
 	if(istype(AM, /obj/item))
 		I = AM
 		throwpower = I.throwforce
+		zone = ran_zone(I.throwing_def_zone, 65)
 	if(check_shields(throwpower, "\the [AM.name]", AM, 1))
 		hitpush = 0
 		skipcatch = 1
@@ -434,12 +435,13 @@ emp_act
 		if(can_embed(I) || I.assthrown)
 			if((!in_throw_mode || get_active_hand()) && (prob(I.embed_chance) && !(dna && (PIERCEIMMUNE in dna.species.specflags))) || I.assthrown)
 				throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
-				var/obj/item/organ/limb/L = pick(organs)
-				L.embedded_objects |= I
-				I.add_blood(src)//it embedded itself in you, of course it's bloody!
-				I.loc = src
-				L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
-				visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
-				hitpush = 0
-				skipcatch = 1 //can't catch the now embedded item
-	return ..(I, skipcatch, hitpush, blocked)
+				var/obj/item/organ/limb/L = get_organ(check_zone(zone))
+				if(istype(L))
+					L.embedded_objects |= I
+					I.add_blood(src)//it embedded itself in you, of course it's bloody!
+					I.loc = src
+					L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
+					visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
+					hitpush = 0
+					skipcatch = 1 //can't catch the now embedded item
+	return ..(I, skipcatch, hitpush, blocked, zone)

@@ -103,12 +103,13 @@
 			loadedItems.Remove(ITD)
 			loadedWeightClass -= ITD.w_class
 			ITD.throw_speed = pressureSetting * 2
+			ITD.throwforce += 1 //So things like baseballs actually can KO and stuff
 			ITD.loc = get_turf(src)
-			ITD.throw_at(target, pressureSetting * 5, pressureSetting * 2)
+			ITD.throw_at(target, pressureSetting * 5, pressureSetting * 2, zone=user.zone_sel.selecting)
 	if(pressureSetting >= 3)
 		user.visible_message("<span class='warning'>[user] is thrown down by the force of the cannon!</span>", "<span class='userdanger'>[src] slams into your shoulder, knocking you down!")
 		user.Weaken(2)
-
+		user.Stun(2)
 
 /obj/item/weapon/pneumatic_cannon/ghetto //Obtainable by improvised methods; more gas per use, less capacity, but smaller
 	name = "improvised pneumatic cannon"
