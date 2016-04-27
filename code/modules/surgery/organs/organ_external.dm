@@ -76,6 +76,8 @@
 			species_color = H.dna.features["mcolor"]
 			should_draw_greyscale = TRUE
 		should_draw_gender = S.sexes
+	if(species_id == "")
+		species_id = "human"
 	updated = 1
 	update_icon()
 

@@ -1383,13 +1383,19 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 		bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn
-	name = "limbs"
-	desc = "you shouldn't see this"
-	icon_state = "sheet-leather"
+	seed = /obj/item/seeds/limbseed
+	name = "limbplant"
+	desc = "A cluster of limbs sprouting from a stem."
+	icon_state = "limbplant"
 
-/obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn/New()
-	..()
+/obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn/canconsume(mob/eater, mob/user)
+	return 0
+
+/obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn/attack_self(mob/user as mob)
+	if(user)
+		user.unEquip(src)
 	var/obj/item/organ/limb/L = newBodyPart(pick("r_arm", "l_arm", "r_leg", "l_leg"))
 	L.loc = get_turf(src)
+	L.skin_tone = random_skin_tone()
 	L.update_limb()
 	qdel(src)
