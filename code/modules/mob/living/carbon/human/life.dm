@@ -38,7 +38,7 @@
 	if(jobban_isbanned(src, "catban") && src.dna.species.name != "Tarajan")
 		src.set_species(/datum/species/cat, icon_update=1)
 
-	if(jobban_isbanned(src, "cluwneban" && !src.dna.check_mutation(CLUWNEMUT)))
+	if(jobban_isbanned(src, "cluwneban") && !src.dna.check_mutation(CLUWNEMUT))
 		src.dna.add_mutation(CLUWNEMUT)
 
 	tinttotal = tintcheck() //here as both hud updates and status updates call it
