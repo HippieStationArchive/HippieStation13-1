@@ -218,7 +218,8 @@
 		/obj/singularity,
 		/obj/machinery/teleport/station,
 		/obj/machinery/teleport/hub,
-		/obj/machinery/telepad
+		/obj/machinery/telepad,
+		/obj/effect/rune //fuck cult
 	)
 	if(A)
 		if(is_type_in_list(A, blacklist))

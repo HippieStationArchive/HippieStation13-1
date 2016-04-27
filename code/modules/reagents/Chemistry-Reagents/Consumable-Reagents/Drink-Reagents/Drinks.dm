@@ -403,6 +403,7 @@
 
 /datum/reagent/consumable/doctor_delight/on_mob_life(mob/living/M)
 	M.adjustBruteLoss(-0.5)
+	M.adjustBloodLoss(-0.02)
 	M.adjustFireLoss(-0.5)
 	M.adjustToxLoss(-0.5)
 	M.adjustOxyLoss(-0.5)

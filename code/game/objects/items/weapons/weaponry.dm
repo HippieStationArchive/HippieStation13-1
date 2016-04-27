@@ -235,7 +235,7 @@
 	if (active)
 		force = active_force
 		throwforce = 14
-		sharpness = IS_SHARP
+		sharpness = IS_SHARP_ACCURATE
 		hitsound = 'sound/weapons/knife.ogg'
 		attack_verb = list("stabbed", "torn", "cut", "sliced")
 		icon_state = "pocketknife_open"

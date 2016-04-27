@@ -37,12 +37,13 @@
 	return 1
 
 /obj/item/device/assembly/flash/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/weapon/screwdriver))
+	..()
+	if(istype(W, /obj/item/weapon/wirecutters))
 		if(battery_panel)
-			user << "<span class='notice'>You close the battery compartment on the [src].</span>"
+			user << "<span class='notice'>You push in the pin holding the battery compartment in \the [src].</span>"
 			battery_panel = 0
 		else
-			user << "<span class='notice'>You open the battery compartment on the [src].</span>"
+			user << "<span class='notice'>You pull out the pin holding the battery compartment out of \the [src].</span>"
 			battery_panel = 1
 	if(battery_panel && !overcharged)
 		if(istype(W, /obj/item/weapon/stock_parts/cell))
@@ -129,6 +130,12 @@
 		if(overcharged)
 			M.adjust_fire_stacks(6)
 			M.IgniteMob()
+			var/datum/effect_system/spark_spread/s = new
+			s.set_up(2, 1, src)
+			s.start()
+			var/turf/location = get_turf(src)
+			if(isturf(location))
+				location.hotspot_expose(1000,500,1)
 			burn_out()
 		return 1
 
@@ -150,7 +157,14 @@
 	user.visible_message("<span class='disarm'>[user]'s flash emits a blinding light!</span>", "<span class='danger'>Your flash emits a blinding light!</span>")
 	for(var/mob/living/carbon/M in oviewers(3, null))
 		flash_carbon(M, user, 1, 0)
-
+	if(overcharged)
+		var/datum/effect_system/spark_spread/s = new
+		s.set_up(2, 1, src)
+		s.start()
+		var/turf/location = get_turf(src)
+		if(isturf(location))
+			location.hotspot_expose(1000,500,1)
+		burn_out()
 
 /obj/item/device/assembly/flash/emp_act(severity)
 	if(!try_use_flash())
@@ -168,12 +182,17 @@
 				if(M.stat == CONSCIOUS)
 					M.mind_initialize() //give them a mind datum if they don't have one.
 					var/resisted
-					if(!isloyal(M) && !jobban_isbanned(M, "catban"))
-						if(user.mind in ticker.mode.head_revolutionaries)
-							if(ticker.mode.add_revolutionary(M.mind))
-								times_used -- //Flashes less likely to burn out for headrevs when used for conversion
-							else
-								resisted = 1
+					if(!isloyal(M))
+						if(jobban_isbanned(M, "catban"))
+							resisted = 1
+						if(jobban_isbanned(M, "cluwneban"))
+							resisted = 1
+						else
+							if(user.mind in ticker.mode.head_revolutionaries)
+								if(ticker.mode.add_revolutionary(M.mind))
+									times_used -- //Flashes less likely to burn out for headrevs when used for conversion
+								else
+									resisted = 1
 					else
 						resisted = 1
 
@@ -217,4 +236,4 @@
 	icon_state = "memorizer"
 	item_state = "nullrod"
 
-/obj/item/device/assembly/flash/handheld //this is now the regular pocket flashes
+/obj/item/device/assembly/flash/handheld //this is now the regular pocket flashes //what the hell is the point of this?
