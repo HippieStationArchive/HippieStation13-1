@@ -211,6 +211,12 @@
 	name = "Barnyard Curse"
 	spell_type = /obj/effect/proc_holder/spell/targeted/barnyardcurse
 	log_name = "BC"
+	cost = 1
+	
+/datum/spellbook_entry/cluwnecurse
+	name = "Clown Curse"
+	spell_type = /obj/effect/proc_holder/spell/targeted/cluwnecurse
+	log_name = "CC"
 
 /datum/spellbook_entry/charge
 	name = "Charge"

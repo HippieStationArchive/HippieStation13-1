@@ -179,6 +179,7 @@
 	listclearnulls(ticker.mode.thralls)
 	if(!(user.mind in ticker.mode.shadows)) return
 	if(jobban_isbanned(usr, "catban")) return
+	if(jobban_isbanned(usr, "cluwneban")) return
 	if(user.dna.species.id != "shadowling")
 		if(ticker.mode.thralls.len >= 5)
 			revert_cast()

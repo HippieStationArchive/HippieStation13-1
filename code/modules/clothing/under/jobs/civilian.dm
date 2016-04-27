@@ -61,6 +61,30 @@
 	playsound(loc, 'sound/items/bikehorn.ogg', 50, 1, -1)
 	return 0
 
+/obj/item/clothing/under/rank/clown/cluwne
+	alternate_screams = list('sound/voice/cluwnelaugh1.ogg','sound/voice/cluwnelaugh2.ogg','sound/voice/cluwnelaugh3.ogg')
+	icon_state = "cluwne"
+	item_state = "cluwne"
+	item_color = "cluwne"
+	unacidable = 1
+	burn_state = -1
+	flags = NODROP
+
+/obj/item/clothing/under/rank/clown/cluwne/equipped(mob/living/carbon/user, slot)
+	if(slot == slot_w_uniform)
+		user.add_screams(src.alternate_screams) // using src to clarify which list we want
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.reindex_screams() // Use the more robust version
+		else
+			user.reindex_screams()
+
+	return ..()
+
+/obj/item/clothing/under/rank/clown/cluwne/dropped(mob/user)
+	qdel(src)
+
 /obj/item/clothing/under/rank/head_of_personnel
 	desc = "It's a jumpsuit worn by someone who works in the position of \"Head of Personnel\"."
 	name = "head of personnel's jumpsuit"
