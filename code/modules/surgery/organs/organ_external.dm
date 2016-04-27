@@ -11,7 +11,7 @@
 
 /obj/item/organ/limb
 	name = "limb"
-	desc = "This is plenty gruesome isn't it."
+	desc = ""
 
 	force = 5 //Now you can bash someone to death with an arm, you silly bastard.
 	throwforce = 5

@@ -897,7 +897,7 @@
 				. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
 
 			if(H.get_num_legs(1) < 2)
-				. += 1
+				. += 2
 
 			if(H.lying) //This is for crawling
 				. += 10
@@ -1160,7 +1160,7 @@
 	else
 		return 0
 
-	if(affecting.brute_dam >= affecting.max_damage && H.dna.species:has_dismemberment)
+	if(affecting.brute_dam >= affecting.max_damage)
 		if(I.can_dismember() && prob(I.force*(I.w_class-1)))
 			if(affecting.dismember())
 				I.add_blood(H)

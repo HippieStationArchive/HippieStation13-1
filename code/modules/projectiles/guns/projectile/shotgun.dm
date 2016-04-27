@@ -258,7 +258,7 @@
 	var/mob/living/carbon/human/H = user
 	var/slow = 0
 	if(istype(H))
-		slow = (H.get_num_legs(1) < 2) ? -1 : 0 //Negates slowdown caused by lack of a leg
+		slow = (H.get_num_legs(1) < 2) ? -2 : 0 //Negates slowdown caused by lack of a leg
 	return slow
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/attackby(obj/item/A, mob/user, params)

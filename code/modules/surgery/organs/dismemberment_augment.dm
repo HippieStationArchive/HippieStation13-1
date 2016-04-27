@@ -1,11 +1,12 @@
 //Change organ status
-/obj/item/organ/limb/proc/change_organ(var/type)
+/obj/item/organ/limb/proc/change_organ(var/type, var/noheal=0)
 	status = type
 	state_flags = ORGAN_FINE
-	burn_dam = 0
-	brute_dam = 0
-	brutestate = 0
-	burnstate = 0
+	if(!noheal)
+		burn_dam = 0
+		brute_dam = 0
+		brutestate = 0
+		burnstate = 0
 	update_organ_icon()
 	if(owner)
 		owner.updatehealth()

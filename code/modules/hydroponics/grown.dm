@@ -1382,3 +1382,14 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 		reagents.add_reagent("fartium", 1 + round((potency / 10), 1))
 		bitesize = 1 + round(reagents.total_volume / 2, 1)
 
+/obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn
+	name = "limbs"
+	desc = "you shouldn't see this"
+	icon_state = "sheet-leather"
+
+/obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn/New()
+	..()
+	var/obj/item/organ/limb/L = newBodyPart(pick("r_arm", "l_arm", "r_leg", "l_leg"))
+	L.loc = get_turf(src)
+	L.update_limb()
+	qdel(src)

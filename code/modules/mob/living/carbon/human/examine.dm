@@ -22,7 +22,10 @@
 		t_is = "are"
 	else
 		if(icon)
-			msg += "\icon[src] " //note, should we ever go back to runtime-generated icons (please don't), you will need to change this to \icon[icon] to prevent crashes.
+			if(dna && dna.species && dna.species:has_dismemberment && limb_icon_cache[icon_render_key])
+				msg += "\icon[limb_icon_cache[icon_render_key]] "
+			else
+				msg += "\icon[src] " //note, should we ever go back to runtime-generated icons (please don't), you will need to change this to \icon[icon] to prevent crashes.
 		switch(gender)
 			if(MALE)
 				t_He = "He"
@@ -189,8 +192,8 @@
 				if(!foundghost)
 					msg += " and [t_his] soul has departed"
 			msg += "...</span>\n"
-		else//Brain is gone, doesn't matter if they are AFK or present
-			msg += "<span class='deadsay'>It appears that [t_his] [get_organ("head") ? "brain" : "head"] is missing...</span>\n"
+		else if(get_organ("head")) //Brain is gone, doesn't matter if they are AFK or present. Check for head first tho. Decapitation has similar mesasge.
+			msg += "<span class='deadsay'>It appears that [t_his] brain is missing...</span>\n"
 
 	var/temp = getBruteLoss() //no need to calculate each of these twice
 
@@ -206,6 +209,9 @@
 			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L]!</B>[I.pinned ? "It [t_has] pinned [t_him] down to \the [I.pinned]!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[src];read_embedded=\ref[I]'>Read</a>)" : ""]\n"
 
 	for(var/t in missing)
+		if(t=="head")
+			msg += "<span class='deadsay'><B>[capitalize(t_his)] [parse_zone(t)] is missing!</B><span class='warning'>\n"
+			continue
 		msg += "<B>[capitalize(t_his)] [parse_zone(t)] is missing!</B>\n"
 	for(var/t in augmentable)
 		msg += "<B>[capitalize(t_his)] [parse_zone(t)] has severed muscles!</B>\n"
