@@ -252,15 +252,14 @@
 		dat += "<tr><td><font color=grey><B>Uniform:</B></font></td><td><font color=grey>Obscured</font></td></tr>"
 	else
 		dat += "<tr><td><B>Uniform:</B></td><td><A href='?src=\ref[src];item=[slot_w_uniform]'>[(w_uniform && !(w_uniform.flags&ABSTRACT)) ? w_uniform : "<font color=grey>Empty</font>"]</A></td></tr>"
+		dat += "<tr><td>&nbsp;&#8627;<B>Belt:</B></td><td><A href='?src=\ref[src];item=[slot_belt]'>[(belt && !(belt.flags&ABSTRACT)) ? belt : "<font color=grey>Empty</font>"]</A>"
+		if(has_breathable_mask && istype(belt, /obj/item/weapon/tank))
+			dat += "&nbsp;<A href='?src=\ref[src];internal=[slot_belt]'>[internal ? "Disable Internals" : "Set Internals"]</A>"
 
 	if(w_uniform == null || (slot_w_uniform in obscured) || (dna && dna.species.nojumpsuit))
 		dat += "<tr><td><font color=grey>&nbsp;&#8627;<B>Pockets:</B></font></td></tr>"
 		dat += "<tr><td><font color=grey>&nbsp;&#8627;<B>ID:</B></font></td></tr>"
-		dat += "<tr><td><font color=grey>&nbsp;&#8627;<B>Belt:</B></font></td></tr>"
 	else
-		dat += "<tr><td>&nbsp;&#8627;<B>Belt:</B></td><td><A href='?src=\ref[src];item=[slot_belt]'>[(belt && !(belt.flags&ABSTRACT)) ? belt : "<font color=grey>Empty</font>"]</A>"
-		if(has_breathable_mask && istype(belt, /obj/item/weapon/tank))
-			dat += "&nbsp;<A href='?src=\ref[src];internal=[slot_belt]'>[internal ? "Disable Internals" : "Set Internals"]</A>"
 		dat += "</td></tr>"
 		dat += "<tr><td>&nbsp;&#8627;<B>Pockets:</B></td><td><A href='?src=\ref[src];pockets=left'>[(l_store && !(l_store.flags&ABSTRACT)) ? "Left (Full)" : "<font color=grey>Left (Empty)</font>"]</A>"
 		dat += "&nbsp;<A href='?src=\ref[src];pockets=right'>[(r_store && !(r_store.flags&ABSTRACT)) ? "Right (Full)" : "<font color=grey>Right (Empty)</font>"]</A></td></tr>"
@@ -340,7 +339,7 @@
 					return
 				L.embedded_objects -= I
 				add_logs(usr, src, "un-embedded of [I] ")
-				L.take_damage(I.embedded_unsafe_removal_pain_multiplier*I.w_class)//It hurts to rip it out, get surgery you dingus.
+				L.take_damage(I.embedded_unsafe_removal_pain_multiplier*I.w_class,bleed=1)//It hurts to rip it out, get surgery you dingus.
 				if(I.pinned) //Only the rodgun pins people down currently
 					do_pindown(src.pinned_to, 0)
 					src.pinned_to = null
@@ -369,8 +368,13 @@
 			var/pocket_id = (pocket_side == "right" ? slot_r_store : slot_l_store)
 			var/obj/item/pocket_item = (pocket_id == slot_r_store ? r_store : l_store)
 			var/obj/item/place_item = usr.get_active_hand() // Item to place in the pocket, if it's empty
-
 			var/delay_denominator = 1
+			var/has_pickpocket = 0
+			if(ishuman(usr))
+				var/mob/living/carbon/human/H = usr
+				if(H.gloves && istype(H.gloves,/obj/item/clothing/gloves/pickpocket))
+					has_pickpocket = 1
+					delay_denominator = 3
 			if(pocket_item && !(pocket_item.flags&ABSTRACT))
 				if(pocket_item.flags & NODROP)
 					usr << "<span class='warning'>You try to empty [src]'s [pocket_side] pocket, it seems to be stuck!</span>"
@@ -385,6 +389,12 @@
 				if(pocket_item)
 					if(pocket_item == (pocket_id == slot_r_store ? r_store : l_store)) //item still in the pocket we search
 						unEquip(pocket_item)
+						if(has_pickpocket)
+							var/mob/living/carbon/human/H = usr
+							if(H.hand) //left active hand
+								H.equip_to_slot_if_possible(pocket_item, slot_l_hand, 0, 1)
+							else
+								H.equip_to_slot_if_possible(pocket_item, slot_r_hand, 0, 1)
 				else
 					if(place_item)
 						usr.unEquip(place_item)
@@ -393,9 +403,9 @@
 				// Update strip window
 				if(usr.machine == src && in_range(src, usr))
 					show_inv(usr)
-			else
-				// Display a warning if the user mocks up
-				src << "<span class='warning'>You feel your [pocket_side] pocket being fumbled with!</span>"
+				else
+					// Display a warning if the user mocks up
+					src << "<span class='warning'>You feel your [pocket_side] pocket being fumbled with!</span>"
 
 		..()
 
@@ -882,3 +892,26 @@
 			if(M.client)
 				viewing += M.client
 		flick_overlay(image(icon,src,"electrocuted_generic",MOB_LAYER+1), viewing, anim_duration)
+
+/mob/living/carbon/human/reindex_screams()
+	..()
+
+	// Check equipped items for alternate screams
+	if(ears)
+		add_screams(ears.alternate_screams)
+	if(wear_suit)
+		add_screams(wear_suit.alternate_screams)
+	if(w_uniform)
+		add_screams(w_uniform.alternate_screams)
+	if(glasses)
+		add_screams(glasses.alternate_screams)
+	if(gloves)
+		add_screams(gloves.alternate_screams)
+	if(shoes)
+		add_screams(shoes.alternate_screams)
+	if(belt)
+		add_screams(belt.alternate_screams)
+	if(s_store)
+		add_screams(s_store.alternate_screams)
+	if(wear_id)
+		add_screams(wear_id.alternate_screams)

@@ -53,7 +53,11 @@
 		var/image/lid = image('icons/obj/chemtank.dmi', src, "tanklid")
 		overlays += lid
 
-/obj/structure/reagent_dispensers/proc/boom() // detonate and explode were already taken and i hate two procs with the same name
+/obj/structure/reagent_dispensers/proc/boom(mob/user) // detonate and explode were already taken and i hate two procs with the same name
+	if(user)
+		message_admins("[key_name_admin(user)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>.")
+		log_game("[key_name(user)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"].")
+		user.attack_log += text("\[[time_stamp()]\] <font color='red'>Has detonated a chem tank @ [src ? "[x],[y],[z]" : "UNKNOWN LOCATION"]</font>")
 	if(reagents && reagents.reagent_list.len && !exploded)
 		reagents.chem_temp = 1000
 		reagents.handle_reactions()
@@ -133,12 +137,7 @@
 		if((Proj.damage_type == BURN) || (Proj.damage_type == BRUTE))
 			if(Proj.nodamage)
 				return
-			if(Proj.firer)//safety
-				var/mob/shooter = Proj.firer
-				message_admins("[key_name_admin(shooter)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>.")
-				log_game("[key_name(shooter)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"].")
-				shooter.attack_log += text("\[[time_stamp()]\] <font color='red'>Has detonated a chem tank @ [src ? "[x],[y],[z]" : "UNKNOWN LOCATION"]</font>")
-			boom()
+			boom(Proj.firer)
 
 ////Roundstart dispensers
 //watertank

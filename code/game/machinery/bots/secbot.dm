@@ -28,8 +28,8 @@
 	model = "Securitron"
 
 /obj/machinery/bot/secbot/beepsky
-	name = "Officer Beep O'sky"
-	desc = "It's Officer Beep O'sky! Powered by a potato and a shot of whiskey."
+	name = "Officer Beep O'Sky"
+	desc = "It's Officer Beep O'Sky! Powered by a potato and a shot of whiskey."
 	idcheck = 0
 	weaponscheck = 0
 	auto_patrol = 1
@@ -47,7 +47,6 @@
 	item_state = "helmet"
 	var/build_step = 0
 	var/created_name = "Securitron" //To preserve the name if it's a unique securitron I guess
-
 
 
 /obj/machinery/bot/secbot/New()
@@ -242,7 +241,7 @@ Auto Patrol: []"},
 
 				else								// not next to perp
 					var/turf/olddist = get_dist(src, target)
-					walk_to(src, target,1,4)
+					walk_to(src, target, 1, movement_delay)
 					if((get_dist(src, target)) >= (olddist))
 						frustration++
 					else
@@ -349,6 +348,10 @@ Auto Patrol: []"},
 			mode = BOT_HUNT
 			spawn(0)
 				bot_process()	// ensure bot quickly responds to a perp
+			
+			if(can_boost())
+				activate_boost()
+
 			break
 		else
 			continue

@@ -10,12 +10,6 @@
 	var/timing = 0
 	var/time = 10
 
-/obj/item/device/assembly/prox_sensor/proc/toggle_scan()
-
-
-/obj/item/device/assembly/prox_sensor/proc/sense()
-
-
 /obj/item/device/assembly/prox_sensor/New()
 	..()
 	SSobj.processing |= src
@@ -49,19 +43,17 @@
 	sense()
 
 
-/obj/item/device/assembly/prox_sensor/sense()
-	if((!secured)||(!scanning)||(cooldown > 0))	return 0
+/obj/item/device/assembly/prox_sensor/proc/sense()
+	if(!secured || !scanning || cooldown > 0)	return 0
 	pulse(0)
 	audible_message("\icon[src] *beep* *beep*", null, 3)
 	cooldown = 2
 	spawn(10)
 		process_cooldown()
-	return
-
 
 /obj/item/device/assembly/prox_sensor/process()
 	if(timing)
-		time--
+		time -= 2 //Since it's counted in seconds and 1 tick takes 2 seconds
 		if(time <= 0)
 			timing = 0
 			toggle_scan()
@@ -71,15 +63,11 @@
 /obj/item/device/assembly/prox_sensor/dropped()
 	spawn(0)
 		sense()
-		return
-	return
 
-
-/obj/item/device/assembly/prox_sensor/toggle_scan()
+/obj/item/device/assembly/prox_sensor/proc/toggle_scan()
 	if(!secured)	return 0
 	scanning = !scanning
 	update_icon()
-	return
 
 
 /obj/item/device/assembly/prox_sensor/update_icon()
@@ -93,13 +81,11 @@
 		attached_overlays += "prox_scanning"
 	if(holder)
 		holder.update_icon()
-	return
 
 
 /obj/item/device/assembly/prox_sensor/Move()
 	..()
 	sense()
-	return
 
 
 /obj/item/device/assembly/prox_sensor/interact(mob/user)//TODO: Change this to the wires thingy
@@ -112,15 +98,12 @@
 		dat += "<BR><BR><A href='?src=\ref[src];close=1'>Close</A>"
 		user << browse(dat, "window=prox")
 		onclose(user, "prox")
-		return
-
 
 /obj/item/device/assembly/prox_sensor/Topic(href, href_list)
 	..()
 	if(usr.incapacitated() || !in_range(loc, usr))
 		usr << browse(null, "window=prox")
 		onclose(usr, "prox")
-		return
 
 	if(href_list["scanning"])
 		toggle_scan()

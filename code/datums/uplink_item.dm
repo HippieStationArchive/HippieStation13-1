@@ -135,6 +135,14 @@ var/list/uplink_items = list()
 	cost = 4
 	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Research Director", "Scientist", "Roboticist") //all the labcoat jobs
 
+//MEDICAL
+/datum/uplink_item/job_specific/voodoo
+	name = "Voodoo Doll"
+	desc = "An artifact provided by the Wizard Federation, it allows you to attach any item to it and manipulate anyone who has ever touched said item, be it from moving them around, making them say stuff and stabbing them with objects. The Wizard Federation has notified us that the victim will be made alert of the user's general location if used too aggresively."
+	item = /obj/item/weapon/storage/box/syndie_kit/voodoo
+	cost = 10
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist")
+
 //SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
@@ -806,6 +814,12 @@ var/list/uplink_items = list()
 	In addition, they can be forged to display a new assignment and name. This can be done an unlimited amount of times. Some Syndicate areas can only be accessed with these cards."
 	item = /obj/item/weapon/card/id/syndicate
 	cost = 2
+	
+/datum/uplink_item/stealthy_tools/pickpocket_gloves
+	name = "Pickpocket Gloves"
+	desc = "Gloves that allow you to quickly and stealthily remove items from people and puts them straight into your hands."
+	item = /obj/item/clothing/gloves/pickpocket
+	cost = 4
 
 /datum/uplink_item/stealthy_tools/voice_changer
 	name = "Voice Changer"
