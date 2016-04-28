@@ -97,6 +97,7 @@
 	unacidable = 1
 	burn_state = -1
 	flags = NODROP | MASKINTERNALS
+	flags_inv = HIDEEARS|HIDEEYES
 
 /obj/item/clothing/mask/gas/clown_hat/cluwne/equipped(mob/user, slot)
 	if(!ishuman(user))
