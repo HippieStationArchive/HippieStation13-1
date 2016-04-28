@@ -33,7 +33,7 @@
 	icon_state = "[icon_state][active]"
 
 /obj/item/weapon/shield/deployable/attack_self(mob/living/user)
-	var/mob/living/carbon/human/user/H = user
+	var/mob/living/carbon/human/H = user
 	if(istype(H) && H.disabilities & CLUMSY && prob(50))
 		H << "<span class='warning'>You beat yourself in the head with [src].</span>"
 		H.take_organ_damage(force)
@@ -102,7 +102,7 @@
 	return (active)
 
 /obj/item/weapon/shield/deployable/energy/attack_self(mob/user)
-	var/mob/living/carbon/human/user/H = user
+	var/mob/living/carbon/human/H = user
 	if(istype(H) && H.disabilities & CLUMSY && prob(50))
 		H << "<span class='warning'>You beat yourself in the head with [src].</span>"
 		H.take_organ_damage(force)
@@ -149,7 +149,7 @@
 	return 0
 
 /obj/item/weapon/shield/deployable/tele/attack_self(mob/user)
-	var/mob/living/carbon/human/user/H = user
+	var/mob/living/carbon/human/H = user
 	if(istype(H) && H.disabilities & CLUMSY && prob(50))
 		H << "<span class='warning'>You beat yourself in the head with [src].</span>"
 		H.take_organ_damage(force)
