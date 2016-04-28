@@ -9,12 +9,12 @@
 	stat_allowed = 0
 	invocation = "KN'A FTAGHU, PUCK 'BTHNK!"
 	invocation_type = "shout"
-	range = 3
+	range = 7
 	cooldown_min = 30
 	selection_type = "range"
 	var/list/compatible_mobs = list(/mob/living/carbon/human,/mob/living/carbon/monkey)
 
-	action_icon_state = "cluwne"
+	action_icon_state = "barn"
 
 /obj/effect/proc_holder/spell/targeted/barnyardcurse/cast(list/targets, mob/user = usr)
 	if(!targets.len)
@@ -60,12 +60,12 @@
 	stat_allowed = 0
 	invocation = "CLU WO'NIS CA'TE'BEST'IS MAXIMUS!"
 	invocation_type = "shout"
-	range = 7
+	range = 3
 	cooldown_min = 75
 	selection_type = "range"
 	var/list/compatible_mobs = list(/mob/living/carbon/human)
 
-	action_icon_state = "barn"
+	action_icon_state = "cluwne"
 
 /obj/effect/proc_holder/spell/targeted/cluwnecurse/cast(list/targets, mob/user = usr)
 	if(!targets.len)
