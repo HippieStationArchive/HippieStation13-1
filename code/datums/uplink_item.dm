@@ -814,6 +814,12 @@ var/list/uplink_items = list()
 	In addition, they can be forged to display a new assignment and name. This can be done an unlimited amount of times. Some Syndicate areas can only be accessed with these cards."
 	item = /obj/item/weapon/card/id/syndicate
 	cost = 2
+	
+/datum/uplink_item/stealthy_tools/pickpocket_gloves
+	name = "Pickpocket Gloves"
+	desc = "Gloves that allow you to quickly and stealthily remove items from people and puts them straight into your hands."
+	item = /obj/item/clothing/gloves/pickpocket
+	cost = 4
 
 /datum/uplink_item/stealthy_tools/voice_changer
 	name = "Voice Changer"
