@@ -219,7 +219,7 @@
 	item_state = "whitewizard"
 
 /obj/item/clothing/head/wizard/whitewizard
-	name = "white wizard robe"
+	name = "white wizard hat"
 	desc = "The balrog of morgoth!"
 	icon_state = "whitewizard"
 	item_state = "whitewizard"
