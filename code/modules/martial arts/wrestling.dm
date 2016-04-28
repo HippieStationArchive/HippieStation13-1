@@ -198,7 +198,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	D.apply_damage(25, damtype, affecting, armor_block)
 	affecting = A.get_organ("chest")
 	armor_block = A.run_armor_check(affecting, "melee")
-	A.apply_effect(4, WEAKEN)//, armor_block)
+	A.apply_effect(2, WEAKEN)//, armor_block)
 	add_logs(A, D, "suplexed", addition="(Wrassling)")
 	if(prob(50))
 		playsound(D, pick("swing_hit"), 40, 1)
