@@ -45,7 +45,6 @@
 /datum/surgery_step/close/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	user.visible_message("[user] begins to mend the incision in [target]'s [parse_zone(target_zone)].", "<span class='notice'>You begin to mend the incision in [target]'s [parse_zone(target_zone)]...</span>")
 
-
 /datum/surgery_step/close/tool_check(mob/user, obj/item/tool)
 	if(istype(tool, /obj/item/weapon/cautery))
 		return 1
@@ -67,6 +66,9 @@
 /datum/surgery_step/close/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	if(locate(/datum/surgery_step/saw) in surgery.steps)
 		target.heal_organ_damage(45,0)
+	if(istype(surgery.organ, /obj/item/organ/limb))
+		var/obj/item/organ/limb/L
+		L.heal_damage(bleed=L.bloodloss) //you mend the incision, don't you?
 	return ..()
 
 
@@ -95,6 +97,18 @@
 	time = 30
 
 /datum/surgery_step/drill/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		var/obj/item/organ/limb/head/organ = locate(/obj/item/organ/limb/head) in H.organs
+
+		if(!organ)
+			user.visible_message("<span class='notice'>What the... [target] has no head!")
+			return -1
+		else
+			if(organ.dentals.len >= organ.max_dentals)
+				user.visible_message("<span class='notice'>[target]'s mouth is already full of dental implants!</span>")
+				return -1
+
 	user.visible_message("[user] begins to drill into the bone in [target]'s [parse_zone(target_zone)].", "<span class='notice'>You begin to drill into the bone in [target]'s [parse_zone(target_zone)]...</span>")
 
 /datum/surgery_step/drill/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)

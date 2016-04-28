@@ -15,6 +15,8 @@
 #define DIAG_MECH_HUD	"11"// Mech health bar
 //for antag huds. these are used at the /mob level
 #define ANTAG_HUD		"12"
+//admin antag HUD
+#define ANTAG_HUD_ADMIN	"13"
 
 //data HUD (medhud, sechud) defines
 //Don't forget to update human/New() if you change these!

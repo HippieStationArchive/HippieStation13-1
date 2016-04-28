@@ -139,6 +139,11 @@
 		spawn(5)
 			src.update()
 
+/obj/machinery/power/apc/proc/reassign_area(turf/loc)
+	if(auto_name)
+		name = "[get_area(src)] APC"
+	area = src.loc.loc:master
+
 /obj/machinery/power/apc/Destroy()
 	apcs_list -= src
 

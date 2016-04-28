@@ -7,9 +7,11 @@ var/datum/subsystem/template/SStemplate
 /datum/subsystem/template/New()
 	NEW_SS_GLOBAL(SStemplate)
 	parser = new()
+	priority = -2
 
 /datum/subsystem/template/Initialize()
 		PlaceTemplates()
+		SSmachine.makepowernets()
 		..()
 
 /datum/subsystem/template/proc/PlaceTemplateAt(var/turf/location, var/path, var/name)
@@ -17,7 +19,7 @@ var/datum/subsystem/template/SStemplate
 
 	var/datum/dmm_object_collection/collection = parser.GetCollection(file2list(path))
 	collection.Place(location, name)
-
+	SSmachine.makepowernets()
 	return collection
 
 /datum/subsystem/template/proc/PlaceTemplates()

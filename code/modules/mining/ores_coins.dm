@@ -33,7 +33,7 @@
 	materials = list(MAT_METAL=MINERAL_MATERIAL_AMOUNT)
 	refined_type = /obj/item/stack/sheet/metal
 
-/obj/item/weapon/ore/glass
+/obj/item/weapon/ore/sand
 	name = "sand pile"
 	icon_state = "Glass ore"
 	origin_tech = "materials=1"
@@ -41,10 +41,10 @@
 	materials = list(MAT_GLASS=MINERAL_MATERIAL_AMOUNT)
 	refined_type = /obj/item/stack/sheet/glass
 
-/obj/item/weapon/ore/glass/attack_self(mob/living/user)
+/obj/item/weapon/ore/sand/attack_self(mob/living/user)
 	user << "<span class='notice'>You use the sand to make sandstone.</span>"
 	var/sandAmt = 1
-	for(var/obj/item/weapon/ore/glass/G in user.loc) // The sand on the floor
+	for(var/obj/item/weapon/ore/sand/G in user.loc) // The sand on the floor
 		sandAmt += 1
 		qdel(G)
 	while(sandAmt > 0)

@@ -47,6 +47,7 @@
 							"Security",
 							"Machinery",
 							"Medical",
+							"Assembly",
 							"Misc"
 							)
 
@@ -246,10 +247,19 @@
 			for(var/datum/design/D in files.known_designs)
 				if(findtext(D.name,href_list["to_search"]))
 					matching_designs.Add(D)
+
+		if(href_list["remove_mat"] && href_list["material"])
+			var/amount = text2num(href_list["remove_mat"])
+			var/material = href_list["material"]
+			amount = round(amount, 1)
+			if(amount <= 0 || amount > materials.amount(material)) //href protection
+				return
+
+			materials.retrieve_sheets(amount, material)
 	else
 		usr << "<span class=\"alert\">The autolathe is busy. Please wait for completion of previous operation.</span>"
 
-	src.updateUsrDialog()
+	updateUsrDialog()
 
 	return
 
@@ -266,8 +276,7 @@
 /obj/machinery/autolathe/proc/main_win(mob/user)
 	var/dat = "<div class='statusDisplay'><h3>Autolathe Menu:</h3><br>"
 	dat += "<b>Total amount:</b> [materials.total_amount] / [materials.max_amount] cm<sup>3</sup><br>"
-	dat += "<b>Metal amount:</b> [materials.amount(MAT_METAL)] cm<sup>3</sup><br>"
-	dat += "<b>Glass amount:</b> [materials.amount(MAT_GLASS)] cm<sup>3</sup><br>"
+	dat += output_available_resources() + "<br>"
 
 	dat += "<form name='search' action='?src=\ref[src]'>\
 	<input type='hidden' name='src' value='\ref[src]'>\
@@ -390,6 +399,16 @@
 		for(var/datum/design/D in files.known_designs)
 			if("hacked" in D.category)
 				files.known_designs -= D
+
+/obj/machinery/autolathe/proc/output_available_resources()
+	var/output
+	for(var/resource in materials.materials)
+		var/amount = materials.amount(resource)
+		output += "<span class=\"res_name\">[capitalize(materials.material2name(resource))]: </span>[amount] cm&sup3;"
+		if(amount>0)
+			output += "<span style='font-size:80%;'>- Remove \[<a href='?src=\ref[src];remove_mat=1;material=[resource]'>1</a>\] | \[<a href='?src=\ref[src];remove_mat=10;material=[resource]'>10</a>\] | \[<a href='?src=\ref[src];remove_mat=50;material=[resource]'>All</a>\]</span>"
+		output += "<br/>"
+	return output
 
 /obj/machinery/autolathe/atmos
 	name = "atmospheric fabricator"

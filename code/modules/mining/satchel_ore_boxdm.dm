@@ -35,7 +35,7 @@
 	for (var/obj/item/weapon/ore/C in contents)
 		if (istype(C,/obj/item/weapon/ore/diamond))
 			amt_diamond++;
-		if (istype(C,/obj/item/weapon/ore/glass))
+		if (istype(C,/obj/item/weapon/ore/sand))
 			amt_glass++;
 		if (istype(C,/obj/item/weapon/ore/plasma))
 			amt_plasma++;

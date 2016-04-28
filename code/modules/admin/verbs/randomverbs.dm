@@ -35,7 +35,7 @@
 	if(usr)
 		if (usr.client)
 			if(usr.client.holder)
-				M << "<i>You hear [ticker.Bible_deity_name ? "the voice of " + ticker.Bible_deity_name : "a voice"] in your head... <b>[msg]</i></b>"
+				M << "<i>You hear [deity_name ? "the voice of " + deity_name : "a voice"] in your head... <b>[msg]</i></b>"
 
 	log_admin("SubtlePM: [key_name(usr)] -> [key_name(M)] : [msg]")
 	message_admins("<span class='adminnotice'><b> SubtleMessage: [key_name_admin(usr)] -> [key_name_admin(M)] :</b> [msg]</span>")
@@ -971,12 +971,15 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 
 	if(!holder) return
 
-	var/datum/atom_hud/magical = huds[ANTAG_HUD_WIZ]
-	var/adding_hud = (usr in magical.hudusers) ? 0 : 1
+	var/datum/atom_hud/data/admin/admin = huds[ANTAG_HUD_ADMIN]
+	var/adding_hud = (usr in admin.hudusers) ? 0 : 1
 
-	for(var/datum/atom_hud/H in huds)
-		if(istype(H, /datum/atom_hud/antag))
-			(adding_hud) ? H.add_hud_to(usr) : H.remove_hud_from(usr)
+	if(adding_hud)
+		admin.add_hud_to(usr)
+		for(var/mob/living/L in living_mob_list)
+			L.assess_target_adminhud()
+	else
+		admin.remove_hud_from(usr)
 
 	usr << "You toggled your admin antag HUD [adding_hud ? "ON" : "OFF"]."
 	message_admins("[key_name_admin(usr)] toggled their admin antag HUD [adding_hud ? "ON" : "OFF"].")

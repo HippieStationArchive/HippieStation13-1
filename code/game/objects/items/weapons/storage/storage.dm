@@ -112,7 +112,7 @@
 	is_seeing |= user
 
 
-/obj/item/weapon/storage/throw_at(atom/target, range, speed, spin)
+/obj/item/weapon/storage/throw_at(atom/target, range, speed, spin, diagonals_first, zone)
 	close_all()
 	return ..()
 
