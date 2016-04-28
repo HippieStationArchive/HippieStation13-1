@@ -372,8 +372,13 @@
 			var/pocket_id = (pocket_side == "right" ? slot_r_store : slot_l_store)
 			var/obj/item/pocket_item = (pocket_id == slot_r_store ? r_store : l_store)
 			var/obj/item/place_item = usr.get_active_hand() // Item to place in the pocket, if it's empty
-
 			var/delay_denominator = 1
+			var/has_pickpocket = 0
+			if(ishuman(usr))
+				var/mob/living/carbon/human/H = usr
+				if(H.gloves && istype(H.gloves,/obj/item/clothing/gloves/pickpocket))
+					has_pickpocket = 1
+					delay_denominator = 3
 			if(pocket_item && !(pocket_item.flags&ABSTRACT))
 				if(pocket_item.flags & NODROP)
 					usr << "<span class='warning'>You try to empty [src]'s [pocket_side] pocket, it seems to be stuck!</span>"
@@ -388,6 +393,12 @@
 				if(pocket_item)
 					if(pocket_item == (pocket_id == slot_r_store ? r_store : l_store)) //item still in the pocket we search
 						unEquip(pocket_item)
+						if(has_pickpocket)
+							var/mob/living/carbon/human/H = usr
+							if(H.hand) //left active hand
+								H.equip_to_slot_if_possible(pocket_item, slot_l_hand, 0, 1)
+							else
+								H.equip_to_slot_if_possible(pocket_item, slot_r_hand, 0, 1)
 				else
 					if(place_item)
 						usr.unEquip(place_item)
@@ -396,9 +407,9 @@
 				// Update strip window
 				if(usr.machine == src && in_range(src, usr))
 					show_inv(usr)
-			else
-				// Display a warning if the user mocks up
-				src << "<span class='warning'>You feel your [pocket_side] pocket being fumbled with!</span>"
+				else
+					// Display a warning if the user mocks up
+					src << "<span class='warning'>You feel your [pocket_side] pocket being fumbled with!</span>"
 
 		..()
 

@@ -759,12 +759,27 @@ Sorry Giacom. Please don't be mad :(
 	if(what.flags & NODROP)
 		src << "<span class='warning'>You can't remove \the [what.name], it appears to be stuck!</span>"
 		return
-	who.visible_message("<span class='danger'>[src] tries to remove [who]'s [what.name].</span>", \
-					"<span class='userdanger'>[src] tries to remove [who]'s [what.name].</span>")
+		
+	var/has_pickpocket = 0
+	var/delay_denominator = 1
+	if(ishuman(usr))
+		var/mob/living/carbon/human/H = usr
+		if(H.gloves && istype(H.gloves,/obj/item/clothing/gloves/pickpocket))
+			has_pickpocket = 1
+			delay_denominator = 3
+	if(has_pickpocket == 0)
+		who.visible_message("<span class='danger'>[src] tries to remove [who]'s [what.name].</span>", \
+						"<span class='userdanger'>[src] tries to remove [who]'s [what.name].</span>")
 	what.add_fingerprint(src)
-	if(do_mob(src, who, what.strip_delay))
+	if(do_mob(src, who, what.strip_delay/delay_denominator))
 		if(what && what == who.get_item_by_slot(where) && Adjacent(who))
 			who.unEquip(what)
+			if(has_pickpocket == 1)
+				var/mob/living/carbon/human/H = usr
+				if(H.hand) //left active hand
+					H.equip_to_slot_if_possible(what, slot_l_hand, 0, 1)
+				else
+					H.equip_to_slot_if_possible(what, slot_r_hand, 0, 1)
 			add_logs(src, who, "stripped", addition="of [what]")
 
 // The src mob is trying to place an item on someone
