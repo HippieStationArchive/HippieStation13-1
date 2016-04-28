@@ -189,7 +189,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(5, WEAKEN)//, armor_block)
-	D.Stun(5)
 	A.SpinAnimation(6,1)
 	D.SpinAnimation(6,1)
 	sleep(3)
@@ -284,7 +283,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	A.forceMove(D.loc)
 	var/obj/item/organ/limb/affecting = D.get_organ("head")
 	var/armor_block = D.run_armor_check(affecting, "melee")
-	D.Stun(2)
 	D.apply_effect(3, WEAKEN)//, armor_block)
 	D.apply_damage(10, damtype, affecting, armor_block)
 	shake_camera(D, 3, 1) //Chokeslammed into the ground
@@ -320,7 +318,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(5, WEAKEN)//, armor_block)
-	D.Stun(2)
 	D.apply_damage(30, damtype, affecting, armor_block)
 	D.emote("scream")
 	shake_camera(D, 3, 3) //His BACK got broken, shake the fuck out of his screen.
@@ -494,7 +491,6 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	var/obj/item/organ/limb/affecting = D.get_organ("chest")
 	var/armor_block = D.run_armor_check(affecting, "melee")
 	D.apply_effect(6, WEAKEN)//, armor_block)
-	D.Stun(3) //Decent stun
 	D.apply_damage(25, damtype, affecting, armor_block)
 	// D.do_bounce_anim_dir(SOUTH, 4, 2, easein = BOUNCE_EASING)
 	// A.do_bounce_anim_dir(SOUTH, 4, 2, easein = BOUNCE_EASING)
