@@ -201,9 +201,8 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	A.apply_effect(2, WEAKEN)//, armor_block)
 	add_logs(A, D, "suplexed", addition="(Wrassling)")
 	if(prob(50))
-		playsound(D, pick("swing_hit"), 40, 1)
-	else
 		playsound(D,'sound/weapons/subaluwa.ogg', 60, 0) //No pitch differeneces here!
+	playsound(D, pick("swing_hit"), 40, 1)
 
 	for(var/mob/M in range(2, D)) //Shaky camera effect
 		if(!M.stat && !istype(M, /mob/living/silicon/ai))
