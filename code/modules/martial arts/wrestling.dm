@@ -200,7 +200,7 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 	armor_block = A.run_armor_check(affecting, "melee")
 	A.apply_effect(2, WEAKEN)//, armor_block)
 	add_logs(A, D, "suplexed", addition="(Wrassling)")
-	if(prob(50))
+	if(prob(20))
 		playsound(D,'sound/weapons/subaluwa.ogg', 60, 0) //No pitch differeneces here!
 	playsound(D, pick("swing_hit"), 40, 1)
 
