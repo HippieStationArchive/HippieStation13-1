@@ -18,13 +18,12 @@
 	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
 	origin_tech = "materials=2"
 	block_chance = list(melee = 70, bullet = 50, laser = 50, energy = 50) //Skeleton-exclusive atm, sooo
-	slowdown = 1 //Minor slowdown due to effectiveness
 
 //Deployable shields, woo!
 //Basically "defensive stance" for shields like riot, etc.
 /obj/item/weapon/shield/deployable
 	block_chance = list(melee = 0, bullet = 0, laser = 0, energy = 0)
-	var/block_chance_deployed = list(melee = 60, bullet = 50, laser = 40, energy = 30)
+	var/list/block_chance_deployed = list(melee = 60, bullet = 50, laser = 40, energy = 30)
 	var/slowdown_deployed = 0
 	var/force_deployed = 0
 	var/active = 0
@@ -142,6 +141,7 @@
 	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
 	origin_tech = "materials=2"
 	force_deployed = 8
+	block_chance_deployed = list(melee = 50, bullet = 30, laser = 20, energy = 20)
 
 /obj/item/weapon/shield/deployable/tele/hit_reaction(mob/owner, attack_text, final_block_chance)
 	if(active)
