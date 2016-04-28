@@ -229,7 +229,7 @@
 	flags = ABSTRACT | NODROP
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "ling_shield"
-	block_chance = 50
+	block_chance = list(melee = 70, bullet = 50, laser = 40, energy = 30) //Better at melee defence than anything
 
 	var/remaining_uses //Set by the changeling ability.
 

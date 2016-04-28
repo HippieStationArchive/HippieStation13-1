@@ -16,7 +16,7 @@
 		WEAPONS/ITEMS
 */
 
-/obj/item/weapon/shield/riot/trayshield
+/obj/item/weapon/shield/trayshield
 	name = "tray shield"
 	desc = "A makeshift shield that won't last for long."
 	icon = 'icons/obj/weapons.dmi'
@@ -29,8 +29,9 @@
 	w_class = 4
 	origin_tech = "materials=2"
 	attack_verb = list("shoved", "bashed")
+	block_chance = list(melee = 70, bullet = 50, laser = 40, energy = 30) //Great at blocking incoming melee, but then again, it can break...
 
-/obj/item/weapon/shield/riot/trayshield/hit_reaction()
+/obj/item/weapon/shield/trayshield/hit_reaction()
 	if(prob(30))
 		if(ishuman(loc))
 			var/mob/living/carbon/human/H = loc

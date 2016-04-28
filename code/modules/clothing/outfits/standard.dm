@@ -371,7 +371,7 @@
 	glasses = /obj/item/clothing/glasses/hud/toggle/thermal
 	back = /obj/item/weapon/storage/backpack/security
 	l_pocket = /obj/item/weapon/melee/energy/sword/saber
-	r_pocket = /obj/item/weapon/shield/energy
+	r_pocket = /obj/item/weapon/shield/deployable/energy
 	suit_store = /obj/item/weapon/tank/internals/emergency_oxygen
 	belt = /obj/item/weapon/gun/projectile/revolver/mateba
 	r_hand = /obj/item/weapon/gun/energy/pulse/loyalpin
