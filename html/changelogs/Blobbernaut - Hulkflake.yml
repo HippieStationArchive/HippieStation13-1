@@ -1,0 +1,6 @@
+author: Blobbernaut
+
+delete-after: True
+
+changes: 
+  - rscadd: "Removed the species restriction on the Hulk mutation."
