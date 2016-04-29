@@ -3,6 +3,6 @@ author: Creeper Joe
 delete-after: True
 
 changes:
-  - tweak: "Cluwnes have a 50% chance of dropping an item instead of throwing it"
-  - tweak: "Cluwnes have a 40% chance of dropping their current item if they attack someone with it"
-  - tweak: "Cluwnes have a 40% chance of dropping a spray bottle when you spray with it"
+  - tweak: "Cluwnes have a 50% chance of dropping an item instead of throwing it."
+  - tweak: "Cluwnes have a 40% chance of dropping their current item if they attack someone with it."
+  - tweak: "Cluwnes have a 40% chance of dropping a spray bottle when you spray with it."
