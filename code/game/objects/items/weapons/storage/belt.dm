@@ -162,20 +162,8 @@
 		
 /obj/item/weapon/storage/belt/ninja/full/New()
 	..()
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
-	new /obj/item/weapon/throwing_star(src)
+	for(var/i = 0, i < 14, i++)
+		new /obj/item/weapon/throwing_star(src)
 
 /obj/item/weapon/storage/belt/wands
 	name = "wand belt"
