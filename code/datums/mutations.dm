@@ -125,6 +125,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_m_s", "layer"=-MUTATIONS_LAYER)
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_f_s", "layer"=-MUTATIONS_LAYER)
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_m_s", "layer"=-MUTATIONS_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_skeleton_s", "layer"=-MUTATIONS_LAYER)
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-MUTATIONS_LAYER)
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
