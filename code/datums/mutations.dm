@@ -20,6 +20,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	var/layer_used = MUTATIONS_LAYER //which mutation layer to use
 	var/list/species_allowed = list() //to restrict mutation to only certain species
 	var/health_req //minimum health required to acquire the mutation
+	var/naturalcolor //the person's alien color prehulk
 
 /datum/mutation/human/proc/force_give(mob/living/carbon/human/owner)
 	set_block(owner)
@@ -122,18 +123,36 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	..()
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_f_s", "layer"=-MUTATIONS_LAYER)
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_m_s", "layer"=-MUTATIONS_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_f_s", "layer"=-MUTATIONS_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_m_s", "layer"=-MUTATIONS_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-MUTATIONS_LAYER)
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
 		return
 	var/status = CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
 	owner.status_flags &= ~status
+	if(MUTCOLORS in owner.dna.species.specflags)
+		naturalcolor = owner.client.prefs.features["mcolor"]
+		var/new_mutantcolor = "#3DCF13" as color
+		owner.client.prefs.features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
+		owner.regenerate_icons()
 
 /datum/mutation/human/hulk/on_attack_hand(mob/living/carbon/human/owner, atom/target)
 	return target.attack_hulk(owner)
 
 /datum/mutation/human/hulk/get_visual_indicator(mob/living/carbon/human/owner)
-	var/g = (owner.gender == FEMALE) ? 1 : 2
+	var/g = 1
+	var/spec = owner.dna.species.id
+	if(spec == "human")
+		g = (owner.gender == FEMALE) ? 1 : 2
+	else if(spec == "moth")
+		g = (owner.gender == FEMALE) ? 3 : 4
+	else if(spec == "skeleton")
+		g = 5
+	else
+		g = 6
+
 	return visual_indicators[g]
 
 /datum/mutation/human/hulk/on_life(mob/living/carbon/human/owner)
@@ -147,6 +166,9 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	if(..())
 		return
 	owner.status_flags |= CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
+	owner.client.prefs.features["mcolor"] = naturalcolor
+	owner.regenerate_icons()
+
 
 /datum/mutation/human/hulk/say_mod(message)
 	if(message)
