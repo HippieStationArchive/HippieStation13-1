@@ -125,7 +125,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_m_s", "layer"=-MUTATIONS_LAYER)
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_f_s", "layer"=-MUTATIONS_LAYER)
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_m_s", "layer"=-MUTATIONS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_skeleton_s", "layer"=-MUTATIONS_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_skeleton_s", "layer"=-MUTATIONS_LAYER) // god why doesn't this work
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-MUTATIONS_LAYER)
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
@@ -149,8 +149,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 		g = (owner.gender == FEMALE) ? 1 : 2
 	else if(spec == "moth")
 		g = (owner.gender == FEMALE) ? 3 : 4
-	else if(spec == "skeleton")
-		g = 5
+	//else if(spec == "skeleton")
+	//	g = 5 // this doesn't work and i have no idea why so i'm commenting it out until i can make it work.
 	else
 		g = 6
 
