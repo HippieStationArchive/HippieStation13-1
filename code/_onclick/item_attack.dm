@@ -72,6 +72,10 @@
 		return Clamp(src.w_class * 6, 10, 100) // Multiply the item's weight class by 6, then clamp the value between 10 and 100
 
 /obj/item/proc/attack(mob/living/M, mob/living/user, def_zone)
+	if(user.disabilities && CLUWNEMUT && prob(40))
+		user << "<span class='warning'>You accidentally drop the [src] right before you could attack with it!</span>"
+		user.drop_item()
+		return
 
 	if (!istype(M)) // not sure if this is the right thing...
 		return
