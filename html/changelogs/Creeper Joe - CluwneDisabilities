@@ -7,4 +7,5 @@ changes:
   - tweak: "Cluwnes have a 33% chance of dropping their current item if they attack someone with it."
   - tweak: "Cluwnes have a 33% chance of dropping a spray bottle when you spray with it."
   - tweak: "Increase the Cooldown of Curse of the Clown to 100 (up from 60)"
+  - tweak: "Curse of the Cluwne can no longer be upgraded."
   - tweak: "Gave Curse of the Cluwne some QoL changes that stops you from wasting your cooldowns on incompatible mobs."
