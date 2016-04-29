@@ -27,7 +27,7 @@
 /mob/living/proc/attacked_by(obj/item/I, mob/living/user, def_zone)
 	apply_damage(I.force, I.damtype, def_zone)
 	if(I.damtype == BRUTE)
-		if(prob(33) && I.force)
+		if(prob(40) && I.force)
 			var/turf/location = src.loc
 			if(istype(location, /turf/simulated))
 				location.add_blood_floor(src)
@@ -72,6 +72,10 @@
 		return Clamp(src.w_class * 6, 10, 100) // Multiply the item's weight class by 6, then clamp the value between 10 and 100
 
 /obj/item/proc/attack(mob/living/M, mob/living/user, def_zone)
+	if(user.disabilities && CLUWNEMUT && prob(33))
+		user << "<span class='warning'>You accidentally drop the [src] right before you could attack with it!</span>"
+		user.drop_item()
+		return
 
 	if (!istype(M)) // not sure if this is the right thing...
 		return
