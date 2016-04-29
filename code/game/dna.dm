@@ -182,7 +182,7 @@
 
 /mob/living/carbon/human/set_species(datum/species/mrace, icon_update = 1)
 	..()
-	regenerate_limbs() //Fix up missing limbs
+	regenerate_limbs(noheal=1) //Fix up missing limbs
 	var/obj/item/organ/limb/head/U = locate() in organs
 	if(istype(U))
 		U.teeth_list.Cut() //Clear out their mouth of teeth if they had any
