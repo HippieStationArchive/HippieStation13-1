@@ -15,7 +15,7 @@
 			new /obj/item/weapon/reagent_containers/syringe/mulligan(src)
 			new /obj/item/weapon/card/id/syndicate(src)
 			new /obj/item/device/encryptionkey/syndicate(src)
-			new /obj/item/weapon/reagent_containers/syringe/mulligan(src)
+			new /obj/item/weapon/storage/backpack/dufflebag/syndie/surgery(src)
 			new /obj/item/weapon/storage/box/syndie_kit/imp_gmindslave(src)
 			new /obj/item/weapon/storage/box/syndie_kit/imp_gmindslave(src)
 			return
