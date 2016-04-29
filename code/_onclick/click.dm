@@ -85,6 +85,12 @@
 		var/obj/mecha/M = loc
 		return M.click_action(A,src,params)
 
+	if(istype(loc,/obj/vehicle))
+		var/obj/vehicle/V = loc
+		if(A == V)
+			return //Ultimate failsafe
+		V.click_action(A,src,params) //Still want to do other things while inside
+
 	if(restrained())
 		changeNext_move(CLICK_CD_HANDCUFFED)   //Doing shit in cuffs shall be vey slow
 		RestrainedClickOn(A)
