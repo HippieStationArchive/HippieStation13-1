@@ -263,7 +263,7 @@
 		real_name = H.real_name
 
 		//Facial hair
-		if(H.facial_hair_style && FACEHAIR in S.specflags)
+		if(H.facial_hair_style && (FACEHAIR in S.specflags))
 			facial_hair_style = H.facial_hair_style
 			if(S.hair_color)
 				if(S.hair_color == "mutcolor")
@@ -274,7 +274,7 @@
 				facial_hair_color = H.facial_hair_color
 			hair_alpha = S.hair_alpha
 		//Hair
-		if(H.hair_style && HAIR in S.specflags)
+		if(H.hair_style && (HAIR in S.specflags))
 			hair_style = H.hair_style
 			if(S.hair_color)
 				if(S.hair_color == "mutcolor")
@@ -285,7 +285,7 @@
 				hair_color = H.hair_color
 			hair_alpha = S.hair_alpha
 		// lipstick
-		if(H.lip_style && LIPS in S.specflags)
+		if(H.lip_style && (LIPS in S.specflags))
 			lip_style = H.lip_style
 			lip_color = H.lip_color
 		// eyes

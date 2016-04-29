@@ -92,7 +92,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 /mob/living/carbon/human/proc/update_body()
 	update_body_parts()
-	remove_overlay(BODY_LAYER)
 	dna.species.handle_body(src)
 
 /mob/living/carbon/human/update_fire()
