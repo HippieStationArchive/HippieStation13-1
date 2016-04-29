@@ -178,7 +178,7 @@
 
 /obj/item/weapon/watertank/janitor/New()
 	..()
-	reagents.add_reagent("cleaner", 500)
+	reagents.add_reagent("cleaner", 700)
 
 /obj/item/weapon/reagent_containers/spray/mister/janitor
 	name = "janitor spray nozzle"
@@ -186,6 +186,7 @@
 	icon = 'icons/obj/hydroponics/equipment.dmi'
 	icon_state = "misterjani"
 	item_state = "misterjani"
+	volume = 700
 	amount_per_transfer_from_this = 5
 	possible_transfer_amounts = list(5, 10)
 	var/list/allowedchem = list("water", "cleaner")

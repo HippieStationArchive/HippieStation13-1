@@ -107,7 +107,8 @@ MASS SPECTROMETER
 	var/tox_loss = M.getToxLoss()
 	var/fire_loss = M.getFireLoss()
 	var/brute_loss = M.getBruteLoss()
-	var/mob_status = (M.stat > 1 ? "<span class='alert'><b>Deceased</b></span>" : "<b>[M.health] % healthy</b>")
+	var/list/missing_limbs = M.get_missing_limbs()
+	var/mob_status = (M.stat > 1 ? "<span class='alert'><b>Deceased</b></span>" : "<b>[round(M.health,0.1)] % healthy</b>")
 	if(M.status_flags & FAKEDEATH)
 		mob_status = "<span class='alert'>Deceased</span>"
 		oxy_loss = max(rand(1, 40), oxy_loss, (300 - (tox_loss + fire_loss + brute_loss))) // Random oxygen loss
@@ -115,7 +116,9 @@ MASS SPECTROMETER
 		var/mob/living/carbon/human/H = M
 		if(H.heart_attack)
 			user << "<span class='danger'>Subject suffering from heart attack: Apply defibrillator immediately!</span>"
-	user << "<span class='info'>Analyzing results for [M]:\n\tOverall status: [mob_status]</span>"
+	user << "<span class='info'>Analyzing results for [M]:\nOverall status: [mob_status]</span>"
+	if(missing_limbs.len)
+		user << "\t<span class='alert'>Subject appears to be missing limbs, their health will be affected.</span>"
 	// Damage descriptions
 	if(brute_loss > 10)
 		user << "\t<span class='alert'>[brute_loss > 50 ? "Severe" : "Minor"] tissue damage detected.</span>"
@@ -140,11 +143,26 @@ MASS SPECTROMETER
 	// Organ damage report
 	if(ishuman(M) && mode == 1)
 		var/mob/living/carbon/human/H = M
-		var/list/damaged = H.get_damaged_organs(1,1)
+		var/bloodloss = 0
+		if(H.vessel && H.blood_max)
+			bloodloss = H.blood_max
+		var/list/damaged = H.get_damaged_organs(1,1,1)
 		if(length(damaged)>0 || oxy_loss>0 || tox_loss>0 || fire_loss>0)
-			user << "<span class='info'>\tDamage: <span class='info'><font color='red'>Brute</font></span>-<font color='#FF8000'>Burn</font>-<font color='green'>Toxin</font>-<font color='blue'>Suffocation</font>\n\t\tSpecifics: <font color='red'>[brute_loss]</font>-<font color='#FF8000'>[fire_loss]</font>-<font color='green'>[tox_loss]</font>-<font color='blue'>[oxy_loss]</font></span>"
+			user << "<span class='info'>\tDamage:\t<span class='info'><font color='red'>Brute</font>\t\
+											<font color='#FF6464'>Bleed</font></span>\t\
+											<font color='#FF8000'>Burn</font>\t\
+											<font color='green'>Toxin</font>\t\
+											<font color='blue'>Suffocation</font>\n\
+										\t<i>Specifics:\t<font color='red'>[round(brute_loss, 0.1)]</font>\t\
+											<font color='#FF6464'>[round(bloodloss, 0.1)]</font>\t\
+											<font color='#FF8000'>[round(fire_loss, 0.1)]</font>\t\
+											<font color='green'>[round(tox_loss, 0.1)]</font>\t\
+											<font color='blue'>[round(oxy_loss, 0.1)]</font></i></span>"
 			for(var/obj/item/organ/limb/org in damaged)
-				user << "\t\t<span class='info'>[capitalize(org.getDisplayName())]: [(org.brute_dam > 0) ? "<font color='red'>[org.brute_dam]</font></span>" : "<font color='red'>0</font>"]-[(org.burn_dam > 0) ? "<font color='#FF8000'>[org.burn_dam]</font>" : "<font color='#FF8000'>0</font>"]"
+				user << "\t<span class='info'>[capitalize(org.name)]:\t[length(org.name) <= 7 ? "\t":""]\
+					[(org.brute_dam > 0) ? "<font color='red'>[round(org.brute_dam, 0.1)]</font>" : "<font color='red'>0</font>"]\t\
+					[(org.bloodloss > 0) ? "<font color='#FF6464'>[round(org.bloodloss, 0.1)]</font>" : "<font color='#FF6464'>0</font>"]\t\
+					[(org.burn_dam > 0) ? "<font color='#FF8000'>[round(org.burn_dam, 0.1)]</font>" : "<font color='#FF8000'>0</font>"]</span>"
 	// Species and body temperature
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M

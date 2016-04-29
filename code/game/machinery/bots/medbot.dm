@@ -124,6 +124,7 @@
 /obj/machinery/bot/medbot/proc/soft_reset() //Allows the medibot to still actively perform its medical duties without being completely halted as a hard reset does.
 	path = list()
 	patient = null
+	walk_to(src, 0)
 	mode = BOT_IDLE
 	last_found = world.time
 	updateicon()
@@ -309,7 +310,7 @@
 			stunned = 0
 		return
 
-	if(frustration > 8)
+	if(frustration >= 8)
 		oldpatient = patient
 		soft_reset()
 
@@ -346,12 +347,19 @@
 			soft_reset()
 
 	if(path.len > 0 && patient)
-		if(!bot_move(patient))
-			oldpatient = patient
-			soft_reset()
+		if(can_boost())
+			activate_boost()
+		
+		var/turf/olddist = get_dist(src, patient)
+		walk_to(src, patient, 1, movement_delay)
+
+		if((get_dist(src, patient)) >= (olddist))
+			frustration++
+		else
+			frustration = 0
 		return
 
-	if(path.len > 8 && patient)
+	if(path.len >= 8 && patient)
 		frustration++
 
 	if(auto_patrol && !stationary_mode && !patient)
@@ -486,6 +494,7 @@
 						reagent_glass.reagents.trans_to(patient,injection_amount) //Inject from beaker instead.
 				else
 					patient.reagents.add_reagent(reagent_id,injection_amount)
+
 				C.visible_message("<span class='danger'>[src] injects [patient] with its syringe!</span>", \
 					"<span class='userdanger'>[src] injects you with its syringe!</span>")
 			else
@@ -504,6 +513,8 @@
 
 /obj/machinery/bot/medbot/explode()
 	on = 0
+	var/death_message = pick("I only wanted... to heal", "Good bye, cruel world!")
+	speak(death_message)
 	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/turf/Tsec = get_turf(src)
 
@@ -523,8 +534,7 @@
 	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
-	qdel(src)
-	return
+	..() //qdels us and removes us from processing objects
 
 /obj/machinery/bot/medbot/proc/declare(crit_patient)
 	if(declare_cooldown)

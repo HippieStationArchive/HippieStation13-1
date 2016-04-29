@@ -154,30 +154,6 @@
 	build_path = /obj/item/device/pipe_painter
 	category = list("initial", "Misc")
 
-/datum/design/metal
-	name = "Metal"
-	id = "metal"
-	build_type = AUTOLATHE
-	materials = list(MAT_METAL = MINERAL_MATERIAL_AMOUNT)
-	build_path = /obj/item/stack/sheet/metal
-	category = list("initial","Construction")
-
-/datum/design/glass
-	name = "Glass"
-	id = "glass"
-	build_type = AUTOLATHE
-	materials = list(MAT_GLASS = MINERAL_MATERIAL_AMOUNT)
-	build_path = /obj/item/stack/sheet/glass
-	category = list("initial","Construction")
-
-/datum/design/rglass
-	name = "Reinforced glass"
-	id = "rglass"
-	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 1000, MAT_GLASS = MINERAL_MATERIAL_AMOUNT)
-	build_path = /obj/item/stack/sheet/rglass
-	category = list("initial","Construction")
-
 /datum/design/rods
 	name = "Metal rod"
 	id = "rods"
@@ -328,7 +304,7 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 500, MAT_GLASS = 50)
 	build_path = /obj/item/device/assembly/igniter
-	category = list("initial", "Misc")
+	category = list("initial", "Assembly")
 
 /datum/design/signaler
 	name = "Remote signaling device"
@@ -336,7 +312,7 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 400, MAT_GLASS = 120)
 	build_path = /obj/item/device/assembly/signaler
-	category = list("initial", "T-Comm")
+	category = list("initial", "Assembly")
 
 /datum/design/radio_headset
 	name = "Radio headset"
@@ -360,7 +336,7 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 1000, MAT_GLASS = 500)
 	build_path = /obj/item/device/assembly/infra
-	category = list("initial", "Misc")
+	category = list("initial", "Assembly")
 
 /datum/design/health_sensor
 	name = "Health sensor"
@@ -368,7 +344,7 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 800, MAT_GLASS = 200)
 	build_path = /obj/item/device/assembly/health
-	category = list("initial", "Medical")
+	category = list("initial", "Assembly")
 
 /datum/design/timer
 	name = "Timer"
@@ -376,7 +352,7 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 500, MAT_GLASS = 50)
 	build_path = /obj/item/device/assembly/timer
-	category = list("initial", "Misc")
+	category = list("initial", "Assembly")
 
 /datum/design/voice_analyser
 	name = "Voice analyser"
@@ -384,7 +360,7 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 500, MAT_GLASS = 50)
 	build_path = /obj/item/device/assembly/voice
-	category = list("initial", "Misc")
+	category = list("initial", "Assembly")
 
 /datum/design/light_tube
 	name = "Light tube"
@@ -432,7 +408,7 @@
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 800, MAT_GLASS = 200)
 	build_path = /obj/item/device/assembly/prox_sensor
-	category = list("initial", "Misc")
+	category = list("initial", "Assembly")
 
 /datum/design/foam_dart
 	name = "Box of Foam Darts"

@@ -24,12 +24,12 @@
 		if(findtext(raw_message, recorded))
 			spawn(10)
 				pulse(0)
+				audible_message("\icon[src] *beep* *beep*", null, 3)
 
 /obj/item/device/assembly/voice/activate()
-	if(secured)
-		if(!holder)
-			listening = !listening
-			say("[listening ? "Now" : "No longer"] recording input.")
+	if(secured && !holder)
+		listening = !listening
+		say("[listening ? "Now" : "No longer"] recording input.")
 
 /obj/item/device/assembly/voice/attack_self(mob/user)
 	if(!user)

@@ -67,19 +67,26 @@
 	user.visible_message("<span class='suicide'>[user] smashes the baseball bat into \his head! It looks like \he's trying to commit suicide..</span>")
 	return (BRUTELOSS)
 
-/mob/living/carbon/human/hitby(atom/movable/AM, zone)
+/mob/living/carbon/human/hitby(atom/movable/AM, skipcatch, hitpush = 1, blocked = 0, zone)
 	..()
 	var/obj/item/baseball/I = AM
 	if(!istype(I))
 		return
-	if(!zone)
-		zone = ran_zone("chest", 50)
+	if(zone == "")
+		zone = ran_zone("chest", 65)
 	var/armor = getarmor(get_organ(check_zone(zone), "melee"))
 	if(armor >= 100) return
 	if(zone == "head" && I.throwforce >= 6) //This is kind of a terrible way to check if the baseball was batted but whatever
-		if(stat == CONSCIOUS && prob(50) && armor < 40) //High chance to make up for the already-RNG zone picking
-			visible_message("<span class='danger'>[src] has been knocked unconscious!</span>", \
-							"<span class='userdanger'>[src] has been knocked unconscious!</span>")
-			apply_effect(10, PARALYZE, armor) //Since it's ranged, we don't want to make KO too OP
-			ticker.mode.remove_revolutionary(mind)
-			ticker.mode.remove_gangster(mind)
+		if(stat == CONSCIOUS && prob(50)) //decent chance to make up for the already-RNG zone picking
+			if(armor < 40) //It only KO's you if you don't have head armor
+				visible_message("<span class='danger'>[src] has been knocked unconscious!</span>", \
+								"<span class='userdanger'>[src] has been knocked unconscious!</span>")
+				apply_effect(6, PARALYZE, armor) //Since it's ranged, we don't want to make KO too OP
+				if(prob(50))
+					ticker.mode.remove_revolutionary(mind)
+					ticker.mode.remove_gangster(mind)
+			else //Knock them down instead
+				visible_message("<span class='danger'>[src] has been knocked down!</span>", \
+								"<span class='userdanger'>[src] has been knocked down!</span>")
+				apply_effect(5, WEAKEN, armor)
+				apply_effect(3, STUN, armor)

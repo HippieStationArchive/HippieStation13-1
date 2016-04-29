@@ -309,6 +309,12 @@ var/list/slot_equipment_priority = list( \
 
 	return 0
 
+//Tries to put the item in a mob's slot. On fail,it puts it in one of his hands. If even this fails,it'll just put the item on the floor under the mob.
+/mob/proc/equip_or_drop(obj/item/I)
+	if(!equip_to_appropriate_slot(I))
+		if(!put_in_any_hand_if_possible(I))
+			I.forceMove(get_turf(src))
+
 /mob/proc/reset_view(atom/A)
 	if (client)
 		if (istype(A, /atom/movable))
@@ -731,7 +737,7 @@ var/list/slot_equipment_priority = list( \
 		if(G.assailant && G.state >= GRAB_NECK && G.affecting == src)
 			grabbed = 1
 			break
-	if(ko || resting || stunned)
+	if(ko || resting || stunned || (!get_num_legs(1) && !buckled)) //We do this to make sure that you can still use items while in a wheelchair or something
 		drop_r_hand()
 		drop_l_hand()
 	else
@@ -741,13 +747,13 @@ var/list/slot_equipment_priority = list( \
 		lying = 90*buckle_lying
 	else if(pinned_to)
 		lying = 0
-	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead
-		lying = 90*(nearcrit || stat || (status_flags & FAKEDEATH))
+	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead/legless
+		lying = 90*((status_flags & NEARCRIT ? 1 : 0) || !get_num_legs(1) || stat || (status_flags & FAKEDEATH))
 	else
-		if((ko || resting) && !lying)
+		if((ko || resting || !get_num_legs(1)) && !lying)
 			fall(ko)
 	canmove = !(ko || resting || stunned || buckled || pinned_to)
-	if(nearcrit && !stat)
+	if(((status_flags & NEARCRIT) || !get_num_legs(1)) && !stat)
 		canmove = !(stunned || buckled || pinned_to)
 	density = !lying
 	if(lying)

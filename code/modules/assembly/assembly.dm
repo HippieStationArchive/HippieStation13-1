@@ -92,6 +92,7 @@
 	if(isassembly(W))
 		var/obj/item/device/assembly/A = W
 		if((!A.secured) && (!secured))
+			playsound(get_turf(src), 'sound/items/screwdriver2.ogg', 30, 1, -2)
 			holder = new/obj/item/device/assembly_holder(get_turf(src))
 			holder.assemble(src,A,user)
 			user << "<span class='notice'>You attach and secure \the [A] to \the [src]!</span>"
@@ -99,6 +100,7 @@
 			user << "<span class='warning'>Both devices must be in attachable mode to be attached together.</span>"
 		return
 	if(istype(W, /obj/item/weapon/screwdriver))
+		playsound(get_turf(src), 'sound/items/Screwdriver.ogg', 30, 1, -1)
 		if(toggle_secure())
 			user << "<span class='notice'>\The [src] is ready!</span>"
 		else

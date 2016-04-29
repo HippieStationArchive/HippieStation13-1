@@ -191,9 +191,11 @@ var/next_external_rsc = 0
 		if(config.proxykick) // proxyban's enabled
 			var/danger = proxycheck()
 			if(danger >= text2num(config.proxykicklimit))
+				add_note(ckey, "[danger*100]% chance to be a proxy user", null, "Proxycheck", 0)
 				log_access("Failed Login: [key] - New account attempting to connect with a proxy([danger*100]% possibility to be a proxy.)")
 				message_admins("<span class='adminnotice'>Failed Login: [key] - with a proxy([danger*100]% possibility to be a proxy.</span>")
 				src << "Sorry but you're not allowed to connect to the server through a proxy. Disable it and reconnect if you want to play."
+				send2irc_admin_notice_handler("new_player","Proxy-check", "[key_name(src)] tried to log in with a proxy([danger*100]% chance)!")
 				del(src)
 				return 0
 			else if(danger < 0) // means an issue popped up
@@ -218,8 +220,8 @@ var/next_external_rsc = 0
 						if(!config.panic_bunker)
 							panicbunker()
 					if(-6)
-						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -6, ProxyChecker stopped working! PROXYBANEMAIL config option is invalid. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
-						log_access("Failed Login: [key] - ProxyKick errror code -6, ProxyChecker stopped working! PROXYBANEMAIL config option is invalid. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -6, ProxyChecker stopped working! PROXYKICKEMAIL config option is invalid. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -6, ProxyChecker stopped working! PROXYKICKEMAIL config option is invalid. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
 						if(!config.panic_bunker)
 							panicbunker()
 					if(-7)
@@ -232,6 +234,7 @@ var/next_external_rsc = 0
 						log_access("Failed Login: [key] - ProxyKick errror code -8, ProxyChecker stopped working! HTTP error code [danger], [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
 						if(!config.panic_bunker)
 							panicbunker()
+				send2irc_admin_notice_handler("new_player","Proxy-check", "[key_name(src)] tried to log in but the ProxyChecker failed(Error code [danger])")
 				src << "The Proxy Checker has encountered an error and your connection has been refused. Go on the forum ([config.forumurl]) and report this, along with the issue code [danger]."
 				del(src)
 				return 0

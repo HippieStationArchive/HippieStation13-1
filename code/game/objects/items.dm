@@ -108,6 +108,8 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 	var/block_chance = 0
 	var/hit_reaction_chance = 0 //If you want to have something unrelated to blocking/armour piercing etc. Maybe not needed, but trying to think ahead/allow more freedom
+	
+	var/alternate_screams = list() // This is used to add alternate scream sounds to mobs when equipped
 
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
 	if(((src in target) && !target_self) || ((!istype(target.loc, /turf)) && (!istype(target, /turf)) && (not_inside)) || is_type_in_list(target, can_be_placed_into))
@@ -250,6 +252,8 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		if(!user.unEquip(src))
 			return
 
+	dir = SOUTH //Reset the item direction to SOUTH so directional items appear proper in-hand
+
 	pickup(user)
 	add_fingerprint(user)
 	if(!user.put_in_active_hand(src))
@@ -337,7 +341,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 // afterattack() and attack() prototypes moved to _onclick/item_attack.dm for consistency
 
-/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0)
+/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0, damage = 0)
 	if(prob(final_block_chance))
 		owner.visible_message("<span class='danger'>[owner] blocks [attack_text] with [src]!</span>")
 		return 1
@@ -534,10 +538,11 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	A.hitby(src, 0, itempush)
 	if(mult)
 		throwforce = initial(throwforce)
+		throwing_def_zone = ""
 		mult = 0
 	return
 
-/obj/item/throw_at(atom/target, range, speed, spin=1)
+/obj/item/throw_at(atom/target, range, speed, spin=1, diagonals_first, zone)
 	. = ..()
 	throw_speed = initial(throw_speed) //explosions change this.
 
@@ -556,3 +561,10 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 /obj/item/proc/is_sharp()
 	return sharpness
+
+/obj/item/proc/can_dismember()
+	return sharpness && w_class >= 3
+
+//Proc used to determine item's slowdown - will be REALLY useful for specific things like crutches and stuff
+/obj/item/proc/update_slowdown(mob/user)
+	return slowdown

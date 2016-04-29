@@ -123,6 +123,7 @@
 				/obj/item/weapon/wirecutters = 1,
 				/obj/item/weapon/wrench = 4,
 				/obj/item/weapon/relic = 3,
+				/obj/item/clothing/under/cosby = 1,
 				"" = 11
 				)
 
@@ -189,6 +190,7 @@
 				/obj/item/stack/ducttape{amount = 5} = 40,
 				/obj/item/stack/ducttape{amount = 10} = 20,
 				/obj/item/stack/ducttape = 10,
+				/obj/item/clothing/under/cosby = 1,
 				"" = 100
 				)
 

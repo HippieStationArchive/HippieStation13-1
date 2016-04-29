@@ -86,7 +86,7 @@ BLIND     // can't see anything
 			. += image("icon"='icons/effects/blood.dmi', "icon_state"="bloodyhands")
 
 // Called just before an attack_hand(), in mob/UnarmedAttack()
-/obj/item/clothing/gloves/proc/Touch(atom/A, proximity)
+/obj/item/clothing/gloves/proc/Touch(atom/A, proximity, params)
 	return 0 // return 1 to cancel attack_hand()
 
 //Head
@@ -481,12 +481,9 @@ BLIND     // can't see anything
 			flash_protect = 0
 			tint = 0
 
-	if(istype(src, /obj/item/clothing/head))			//makes the mob-overlays update
-		usr.update_inv_head()
-	if(istype(src, /obj/item/clothing/glasses))
-		usr.update_inv_glasses()
-	if(istype(src, /obj/item/clothing/mask))
-		usr.update_inv_wear_mask()
+	usr.update_inv_head()
+	usr.update_inv_glasses()
+	usr.update_inv_wear_mask()
 
 /obj/item/clothing/proc/can_use(mob/user)
 	if(user && ismob(user))

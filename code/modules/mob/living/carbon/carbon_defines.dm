@@ -1,11 +1,13 @@
 /mob/living/carbon
 	gender = MALE
-	hud_possible = list(HEALTH_HUD,STATUS_HUD,ANTAG_HUD)
+	hud_possible = list(HEALTH_HUD,STATUS_HUD,ANTAG_HUD,ANTAG_HUD_ADMIN)
 	var/list/stomach_contents	= list()
 	var/list/internal_organs	= list()	//List of /obj/item/organ/internal in the mob. They don't go in the contents for some reason I don't want to know.
 
 	var/obj/item/handcuffed = null //Whether or not the mob is handcuffed
 	var/obj/item/legcuffed = null  //Same as handcuffs but for legs. Bear traps use this.
+
+	var/list/alternate_screams  = list() //List of other screams a player could use
 
 //inventory slots
 	var/obj/item/back = null

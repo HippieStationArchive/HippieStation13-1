@@ -153,11 +153,16 @@
 		return
 
 	reinforcement_to_spawn = input("What type?", "Reinforcement Type", type) as null|anything in possible_types
+	
 	if(!reinforcement_to_spawn)
 		return
 
 	var/list/nuke_candidates = get_candidates(ROLE_OPERATIVE, 3000, "operative")
 	if(nuke_candidates.len > 0)
+		// Check again to make sure!
+		if(!(check_usability(user)))
+			return
+
 		used = 1
 		var/client/C = pick(nuke_candidates)
 		spawn_antag(C, get_turf(src.loc), "syndieborg")
@@ -205,7 +210,35 @@
 
 
 ///////////SLAUGHTER DEMON
+/obj/item/weapon/antag_spawner/slaughter_demon
+	name = "bottle of blood"
+	desc = "A bottle of magically infused blood, the smell of which will attract extradimensional beings when broken."
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "vial"
+	
+/obj/item/weapon/antag_spawner/slaughter_demon/proc/check_usability(mob/user)
+	if(used)
+		user << "<span class='warning'>Somehow the bottle has already been emptied!</span>" // shouldn't happen as it destroys itself upon succesful summoning
+		return 0
+	if(user.z == ZLEVEL_CENTCOM)
+		user << "<span class='warning'>There are no demons within this realm. Try using the [src] onboard the station.<span>"
+		return 0
+	return 1
 
+/obj/item/weapon/antag_spawner/slaughter_demon/attack_self(mob/user)
+	if(!(check_usability(user)))
+		return
+
+	var/list/wizard_candidates = get_candidates(ROLE_WIZARD, 3000, "slaughter demon") // best pref for slaughter demon, as it isn't a pref on it's own.
+	if(wizard_candidates.len > 0)
+		used = 1
+		var/client/C = pick(wizard_candidates)
+		spawn_antag(C, get_turf(src), "Slaughter Demon")
+		playsound(loc, 'sound/effects/Glassbr2.ogg', 25, 1)
+		user << "<font size=3><span class='danger'><b>The bottle sizzles and shatters as the contents splatter over the floor, only to burn away moments later. You feel a sense of dread wash over you as the contents dissapear without trace.</font></span>"
+		qdel(src)
+	else
+		user << "<span class='warning'>No demons were attracted to the blood. You can either wait, or refund the bottle by using it on your book.</span>"
 
 /obj/item/weapon/antag_spawner/slaughter_demon/spawn_antag(client/C, turf/T, type = "")
 

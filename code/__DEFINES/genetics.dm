@@ -10,6 +10,7 @@
 #define COUGH		"Cough"
 #define DWARFISM	"Dwarfism"
 #define CLOWNMUT	"Clumsiness"
+#define CLUWNEMUT	"Cluwne"
 #define TOURETTES	"Tourettes Syndrome"
 #define DEAFMUT		"Deafness"
 #define BLINDMUT	"Blindness"
@@ -80,6 +81,9 @@
 //Organ stuff, It's here because "Genetics" is the most relevant file for organs
 #define ORGAN_ORGANIC   1
 #define ORGAN_ROBOTIC   2
+
+#define ORGAN_FINE			1 //Attatched
+#define ORGAN_AUGMENTABLE	2 //Attatched + Augmentable 
 
 //Nutrition levels for humans. No idea where else to put it
 #define NUTRITION_LEVEL_FAT 600

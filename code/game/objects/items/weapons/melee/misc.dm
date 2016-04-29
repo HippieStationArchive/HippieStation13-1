@@ -200,6 +200,7 @@
 	armour_penetration = 20
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	hitsound = 'sound/weapons/chainsword.ogg'
+	sharpness = IS_SHARP
 
 //Combat Knife
 /obj/item/weapon/melee/combatknife
@@ -218,7 +219,7 @@
 	hitsound = 'sound/weapons/knife.ogg'
 	hitsound_extrarange = -3 //Sorta more sneaky beaky like
 	//Embedding
-	sharpness = IS_SHARP
+	sharpness = IS_SHARP_ACCURATE
 	embed_chance = 70 //Makes it an awesome throwing weapon.
 	embedded_impact_pain_multiplier = 30 //w_class is multiplied into this to determine damage applied on embed.
 	embedded_pain_multiplier = 6 //6 force applied when "it hurts"

@@ -221,7 +221,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 		if(H.nutrition > NUTRITION_LEVEL_FULL)
 			H.nutrition = NUTRITION_LEVEL_FULL
 		if(light_amount > 2) //if there's enough light, heal
-			H.heal_overall_damage(1,1)
+			H.heal_overall_damage(1,1,0.02)
 			H.adjustToxLoss(-1)
 			H.adjustOxyLoss(-1)
 
@@ -276,7 +276,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 		if(light_amount > 2) //if there's enough light, start dying
 			H.take_overall_damage(1,1)
 		else if (light_amount < 2) //heal in the dark
-			H.heal_overall_damage(1,1)
+			H.heal_overall_damage(1,1,0.02)
 
 /*
  SLIMEPEOPLE
@@ -299,6 +299,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	burnmod = 0.5
 	coldmod = 2
 	heatmod = 0.5
+	has_dismemberment = 0
 
 /datum/species/slime/spec_life(mob/living/carbon/human/H)
 	if(!H.reagents.get_reagent_amount("slimejelly"))
@@ -407,6 +408,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/slime
 	exotic_blood = /datum/reagent/toxin/slimejelly
 	var/recently_changed = 1
+	has_dismemberment = 0
 
 /datum/species/jelly/spec_life(mob/living/carbon/human/H)
 	if(!H.reagents.get_reagent_amount("slimejelly"))
@@ -446,7 +448,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	no_equip = list(slot_wear_mask, slot_wear_suit, slot_gloves, slot_shoes, slot_head, slot_w_uniform)
 	nojumpsuit = 1
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/golem
-
+	has_dismemberment = 0
 
 /*
  ADAMANTINE GOLEMS
@@ -718,17 +720,6 @@ var/global/image/plasmaman_on_fire = image("icon"='icons/mob/OnFire.dmi', "icon_
 	safe_toxins_min = 16 //We breath THIS!
 	safe_toxins_max = 0
 	dangerous_existence = 1 //So so much
-	var/skin = 0
-
-/datum/species/plasmaman/skin
-	name = "Skinbone"
-	skin = 1
-
-/datum/species/plasmaman/update_base_icon_state(mob/living/carbon/human/H)
-	var/base = ..()
-	if(base == id)
-		base = "[base][skin]"
-	return base
 
 /datum/species/plasmaman/spec_life(mob/living/carbon/human/H)
 	var/datum/gas_mixture/environment = H.loc.return_air()

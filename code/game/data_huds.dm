@@ -47,6 +47,9 @@
 /datum/atom_hud/data/diagnostic
 	hud_icons = list (DIAG_HUD, DIAG_STAT_HUD, DIAG_BATT_HUD, DIAG_MECH_HUD)
 
+/datum/atom_hud/data/admin
+	hud_icons = list(ANTAG_HUD_ADMIN)
+
 /* MED/SEC/DIAG HUD HOOKS */
 
 /*
@@ -102,6 +105,7 @@
 //called when a carbon changes health
 /mob/living/carbon/proc/med_hud_set_health()
 	var/image/holder = hud_list[HEALTH_HUD]
+	if(!holder) return
 	if(stat == 2)
 		holder.icon_state = "hudhealth-100"
 	else
@@ -110,12 +114,13 @@
 	var/turf/T = get_turf(src)
 	if (T) crewmonitor.queueUpdate(T.z)
 
-//called when a carbon changes stat, virus or XENO_HOST
+//called when a carbon changes stat, virus or has a xeno baby
 /mob/living/carbon/proc/med_hud_set_status()
 	var/image/holder = hud_list[STATUS_HUD]
+	if(!holder) return
 	if(stat == 2)
 		holder.icon_state = "huddead"
-	else if(status_flags & XENO_HOST)
+	else if(getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
 		holder.icon_state = "hudxeno"
 	else if(check_virus())
 		holder.icon_state = "hudill"
@@ -131,9 +136,10 @@
 
 /mob/living/carbon/human/proc/sec_hud_set_ID()
 	var/image/holder = hud_list[ID_HUD]
-	holder.icon_state = "hudno_id"
-	if(wear_id)
-		holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
+	if(holder)
+		holder.icon_state = "hudno_id"
+		if(wear_id)
+			holder.icon_state = "hud[ckey(wear_id.GetJobName())]"
 	sec_hud_set_security_status()
 
 	var/turf/T = get_turf(src)
@@ -158,6 +164,7 @@
 
 /mob/living/carbon/human/proc/sec_hud_set_security_status()
 	var/image/holder = hud_list[WANTED_HUD]
+	if(!holder) return
 	var/perpname = get_face_name(get_id_name())
 	var/datum/data/record/R = find_record("name", perpname, data_core.security)
 	if(R)
@@ -195,6 +202,7 @@
 //Sillycone hooks
 /mob/living/silicon/proc/diag_hud_set_health()
 	var/image/holder = hud_list[DIAG_HUD]
+	if(!holder) return
 	if(stat == DEAD)
 		holder.icon_state = "huddiagdead"
 	else
@@ -202,6 +210,7 @@
 
 /mob/living/silicon/proc/diag_hud_set_status()
 	var/image/holder = hud_list[DIAG_STAT_HUD]
+	if(!holder) return
 	switch(stat)
 		if(CONSCIOUS)
 			holder.icon_state = "hudstat"
@@ -213,6 +222,7 @@
 //Borgie battery tracking!
 /mob/living/silicon/robot/proc/diag_hud_set_borgcell()
 	var/image/holder = hud_list[DIAG_BATT_HUD]
+	if(!holder) return
 	if (cell)
 		var/chargelvl = (cell.charge/cell.maxcharge)
 		holder.icon_state = "hudbatt[RoundDiagBar(chargelvl)]"
@@ -224,11 +234,13 @@
 ~~~~~~~~~~~~~~~~~~~~~*/
 /obj/mecha/proc/diag_hud_set_mechhealth()
 	var/image/holder = hud_list[DIAG_MECH_HUD]
+	if(!holder) return
 	holder.icon_state = "huddiag[RoundDiagBar(health/initial(health))]"
 
 
 /obj/mecha/proc/diag_hud_set_mechcell()
 	var/image/holder = hud_list[DIAG_BATT_HUD]
+	if(!holder) return
 	if (cell && (cell.charge > 0) && (cell.maxcharge > 0))
 		var/chargelvl = cell.charge/cell.maxcharge
 		holder.icon_state = "hudbatt[RoundDiagBar(chargelvl)]"
@@ -238,6 +250,29 @@
 
 /obj/mecha/proc/diag_hud_set_mechstat()
 	var/image/holder = hud_list[DIAG_STAT_HUD]
+	if(!holder) return
 	holder.icon_state = null
 	if(internal_damage)
 		holder.icon_state = "hudwarn"
+
+//Admin HUD assess target
+/mob/living/proc/assess_target_adminhud()
+	var/image/holder = hud_list[ANTAG_HUD_ADMIN]
+	if(!holder) return
+	var/datum/atom_hud/data/admin/admin = huds[ANTAG_HUD_ADMIN]
+	if(mind)
+		if(mind.special_role)
+			holder.icon_state = mind.special_role
+			admin.add_to_hud(src)
+		else
+			holder.icon_state = null
+			if(src in admin.hudatoms)
+				admin.remove_from_hud(src)
+		if(findtext(mind.special_role, "Gang Boss"))//fucking snowflakey shit
+			holder.icon_state = "Gang Boss"
+			if(mind.gang_datum)
+				holder.color = mind.gang_datum.color
+		if(findtext(mind.special_role, "Gangster"))//fuck you again
+			holder.icon_state = "Gang"
+			if(mind.gang_datum)
+				holder.color = mind.gang_datum.color

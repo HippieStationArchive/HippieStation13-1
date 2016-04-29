@@ -72,7 +72,7 @@
 						if(whirlm.health <= -50) //If very damaged, gib.
 							whirlm.gib()
 						if(whirlm.stat != CONSCIOUS || whirlm.lying) // If
-							whirlm.adjustBruteLoss(-5)
+							whirlm.adjustBruteLoss(5)
 							playsound(src, pick('sound/misc/crack.ogg','sound/misc/crunch.ogg'), 50, 1)
 							whirlm << "<span class='danger'>You're caught in the drain!</span>"
 							continue

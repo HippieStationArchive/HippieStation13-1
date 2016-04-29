@@ -26,19 +26,11 @@ var/appearance_keylist[0]	//to store the keys
 				return "Reason Unspecified"
 	return 0
 
-/*
-DEBUG
-/mob/verb/list_all_appearances()
-	set name = "list all appearances"
-
+//DEBUG
+/proc/list_all_appearances()
 	for(var/s in appearance_keylist)
-		world << s
-
-/mob/verb/reload_appearances()
-	set name = "reload appearances"
-
-	appearance_loadbanfile()
-*/
+		message_admins("[s]")
+// /DEBUG
 
 /proc/appearance_loadbanfile()
 	if(config.ban_legacy_system)
@@ -59,7 +51,7 @@ DEBUG
 			return
 
 		//appearance bans
-		var/DBQuery/query = dbcon.NewQuery("SELECT ckey FROM [format_table_name("ban")] WHERE bantype = 'APPEARANCE_PERMABAN' AND NOT unbanned = 1")
+		var/DBQuery/query = dbcon.NewQuery("SELECT ckey FROM [format_table_name("ban")] WHERE bantype = 'APPEARANCE_PERMABAN' AND isnull(unbanned)")
 		query.Execute()
 
 		while(query.NextRow())

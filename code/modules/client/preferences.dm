@@ -359,6 +359,8 @@ var/list/preferences_datums = list()
 			for (var/i in special_roles)
 				if(jobban_isbanned(user, "catban"))
 					dat += "<b>Be [capitalize(i)]:</b> <font color=red>CAT-BANNED</font><br>"
+				if(jobban_isbanned(user, "cluwneban"))
+					dat += "<b>Be [capitalize(i)]:</b> <font color=red>CLUWNE-BANNED</font><br>"
 				else
 					if(jobban_isbanned(user, i))
 						dat += "<b>Be [capitalize(i)]:</b> <a href='?_src_=prefs;jobbancheck=[i]'>BANNED</a><br>"
@@ -427,8 +429,11 @@ var/list/preferences_datums = list()
 		HTML += "<tr bgcolor='[job.selection_color]'><td width='60%' align='right'>"
 		var/rank = job.title
 		lastJob = job
-		if(jobban_isbanned(user, "catban") && rank != "Assistant")
+		if(jobban_isbanned(user, "catban") && rank != "Assistant") 
 			HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[CAT-BANNED\]</b></font></td></tr>"
+			continue
+		if(jobban_isbanned(user, "cluwneban") && rank != "Assistant") 
+			HTML += "<font color=red>[rank]</font></td><td><font color=red><b> \[CLUWNE-BANNED\]</b></font></td></tr>"
 			continue
 		if(jobban_isbanned(user, rank))
 			HTML += "<font color=red>[rank]</font></td><td><a href='?_src_=prefs;jobbancheck=[rank]'> BANNED</a></td></tr>"
@@ -484,6 +489,8 @@ var/list/preferences_datums = list()
 
 		if(rank == "Assistant")//Assistant is special
 			if(jobban_isbanned(user, "catban"))
+				HTML += "<font color=orange>Mandatory</font>"
+			if(jobban_isbanned(user, "cluwneban"))
 				HTML += "<font color=orange>Mandatory</font>"
 			else
 				if(job_civilian_low & ASSISTANT)
@@ -1091,4 +1098,4 @@ var/list/preferences_datums = list()
 	if(icon_updates)
 		character.update_body()
 		character.update_hair()
-		character.update_mutcolor()
+		character.update_body_parts()

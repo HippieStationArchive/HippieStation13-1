@@ -782,6 +782,7 @@ var/global/mulebot_count = 0
 	B.add_blood_list(H)
 	add_blood_list(H)
 	bloodiness += 4
+	add_logs(src, H, "ran over")
 
 // player on mulebot attempted to move
 /obj/machinery/bot/mulebot/relaymove(mob/user)
@@ -838,7 +839,7 @@ var/global/mulebot_count = 0
 	s.start()
 
 	new /obj/effect/decal/cleanable/oil(loc)
-	qdel(src)
+	..() //qdels us and removes us from processing objects
 
 #undef SIGH
 #undef ANNOYED
