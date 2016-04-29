@@ -13,7 +13,7 @@ emp_act
 	if(def_zone)
 		if(islimb(def_zone))
 			return checkarmor(def_zone, type)
-		var/obj/item/organ/limb/affecting = getrandomorgan(def_zone)
+		var/obj/item/organ/limb/affecting = get_organ(ran_zone(def_zone))
 		return checkarmor(affecting, type)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
@@ -26,7 +26,6 @@ emp_act
 
 /mob/living/carbon/human/proc/checkarmor(obj/item/organ/limb/def_zone, type)
 	if(!type)	return 0
-	if(!istype(def_zone)) return 0
 	var/protection = 0
 	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
@@ -61,11 +60,6 @@ emp_act
 				P.Angle = ""//round(Get_Angle(P,P.original))
 
 			return -1 // complete projectile permutation
-
-	var/obj/item/organ/limb/affecting = get_organ(check_zone(def_zone))
-	if(!affecting)
-		visible_message("<span class='danger'>\a [P] wizzes past [src]!</span>", "<span class='userdanger'>\a [P] wizzes past you!</span>")
-		return -1 //No arm, no hit
 
 	var/shieldcheck = check_shields(P.damage, "the [P.name]", P, 0, P.armour_penetration)
 	if(shieldcheck)
@@ -120,8 +114,8 @@ emp_act
 
 	var/obj/item/organ/limb/target_limb = get_organ(check_zone(user.zone_sel.selecting))
 	var/obj/item/organ/limb/affecting = get_organ(ran_zone(user.zone_sel.selecting))
-	var/hit_area = parse_zone(Bodypart2name(affecting))
-	var/target_area = parse_zone(Bodypart2name(target_limb))
+	var/hit_area = parse_zone(affecting.name)
+	var/target_area = parse_zone(target_limb.name)
 	feedback_add_details("item_used_for_combat","[I.type]|[I.force]")
 	feedback_add_details("zone_targeted","[target_area]")
 
@@ -259,7 +253,7 @@ emp_act
 	for(var/obj/item/organ/limb/affecting in damaged)
 		affecting.take_damage(acidity, 2*acidity)
 
-		if(Bodypart2name(affecting.body_part) == "head")
+		if(affecting.name == "head")
 			if(prob(min(acidpwr*acid_volume/10, 90))) //Applies disfigurement
 				affecting.take_damage(acidity, 2*acidity)
 				emote("scream")
@@ -447,7 +441,7 @@ emp_act
 					I.add_blood(src)//it embedded itself in you, of course it's bloody!
 					I.loc = src
 					L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
-					visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L]!</span>")
+					visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
 					hitpush = 0
 					skipcatch = 1 //can't catch the now embedded item
 	return ..(I, skipcatch, hitpush, blocked, zone)

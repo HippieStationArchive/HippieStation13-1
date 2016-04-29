@@ -130,35 +130,35 @@
 		//arms
 		if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			var/obj/item/organ/limb/r_arm/R = locate(/obj/item/organ/limb/r_arm) in organs
-			if(R)
-				R.change_organ(ORGAN_ROBOTIC)
+			qdel(R)
+			organs += new /obj/item/organ/limb/robot/r_arm
 		else
 			var/obj/item/organ/limb/l_arm/L = locate(/obj/item/organ/limb/l_arm) in organs
-			if(L)
-				L.change_organ(ORGAN_ROBOTIC)
+			qdel(L)
+			organs += new /obj/item/organ/limb/robot/l_arm
 		//legs
 		if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			var/obj/item/organ/limb/r_leg/R = locate(/obj/item/organ/limb/r_leg) in organs
-			if(R)
-				R.change_organ(ORGAN_ROBOTIC)
+			qdel(R)
+			organs += new /obj/item/organ/limb/robot/r_leg
 		else
 			var/obj/item/organ/limb/l_leg/L = locate(/obj/item/organ/limb/l_leg) in organs
-			if(L)
-				L.change_organ(ORGAN_ROBOTIC)
+			qdel(L)
+			organs += new /obj/item/organ/limb/robot/l_leg
 		//chest and head
 		if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			var/obj/item/organ/limb/chest/R = locate(/obj/item/organ/limb/chest) in organs
-			if(R)
-				R.change_organ(ORGAN_ROBOTIC)
+			qdel(R)
+			organs += new /obj/item/organ/limb/robot/chest
 		else
 			var/obj/item/organ/limb/head/L = locate(/obj/item/organ/limb/head) in organs
-			if(L)
-				L.change_organ(ORGAN_ROBOTIC)
+			qdel(L)
+			organs += new /obj/item/organ/limb/robot/head
 		for(var/obj/item/organ/limb/LIMB in organs)
 			LIMB.owner = src
 	update_icons()
 	update_damage_overlays(0)
-	update_body_parts()
+	update_augments()
 
 	hand = 0
 

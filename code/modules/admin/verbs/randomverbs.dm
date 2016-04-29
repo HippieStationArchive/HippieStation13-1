@@ -9,13 +9,7 @@
 	if(confirm != "Yes")
 		return
 
-	var/list/diff = list()
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		diff = H.organs ^ H.internal_organs //Ignore organs and stuff
-
-	var/list/dropstuff = difflist(M.contents, diff)
-	for(var/obj/item/W in dropstuff)
+	for(var/obj/item/W in M)
 		if(!M.unEquip(W))
 			qdel(W)
 			M.regenerate_icons()

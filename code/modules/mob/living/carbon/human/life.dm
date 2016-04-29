@@ -340,7 +340,7 @@
 					L.take_damage(bleed=0.02)
 				if(prob(I.embedded_pain_chance))
 					L.take_damage(I.w_class*I.embedded_pain_multiplier)
-					src << "<span class='userdanger'>\the [I] embedded in your [L] hurts!</span>"
+					src << "<span class='userdanger'>\the [I] embedded in your [L.getDisplayName()] hurts!</span>"
 			else
 				L.embedded_objects -= I
 				if(I.pinned) //Only the rodgun pins people down currently

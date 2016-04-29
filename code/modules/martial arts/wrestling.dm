@@ -508,8 +508,8 @@ You can also climb tables by dragging and dropping yourself on them!<br>
 			S.add_blood(D)//it embedded itself in you, of course it's bloody!
 			S.loc = D
 			D.update_damage_overlays() //Update the fancy embeds
-			D.visible_message("<span class='warning'>The [S] has embedded into [D]'s [O]!</span>",
-							"<span class='userdanger'>You feel [S] lodge into your [O]!</span>")
+			D.visible_message("<span class='warning'>The [S] has embedded into [D]'s [O.getDisplayName()]!</span>",
+							"<span class='userdanger'>You feel [S] lodge into your [O.getDisplayName()]!</span>")
 			D.emote("scream")
 		qdel(T)
 		return

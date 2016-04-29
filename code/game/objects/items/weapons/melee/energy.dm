@@ -73,7 +73,6 @@
 		force = force_on
 		throwforce = throwforce_on
 		hitsound = 'sound/weapons/blade1.ogg'
-		sharpness = IS_SHARP_ACCURATE
 		if(attack_verb_on.len)
 			attack_verb = attack_verb_on
 		if(!item_color)
@@ -86,7 +85,6 @@
 	else
 		force = initial(force)
 		throwforce = initial(throwforce)
-		sharpness = initial(sharpness)
 		hitsound = initial(hitsound)
 		if(attack_verb_on.len)
 			attack_verb = list()
