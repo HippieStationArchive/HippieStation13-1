@@ -54,32 +54,40 @@
 	desc = "This spell dooms the fate of any unlucky soul to the live of a pitiful cluwne, a terrible creature that is hunted for fun."
 	school = "transmutation"
 	charge_type = "recharge"
-	charge_max	= 600
+	charge_max	= 900
 	charge_counter = 0
 	clothes_req = 1
 	stat_allowed = 0
 	invocation = "CLU WO'NIS CA'TE'BEST'IS MAXIMUS!"
 	invocation_type = "shout"
 	range = 3
-	cooldown_min = 75
+	level_max = 0 // spell is too horrifying
+	cooldown_min = 60
 	selection_type = "range"
 	var/list/compatible_mobs = list(/mob/living/carbon/human)
 
 	action_icon_state = "cluwne"
+
+/obj/effect/proc_holder/spell/targeted/cluwnecurse/proc/castfail()
+	charge_counter = 900
+	return
+
 
 /obj/effect/proc_holder/spell/targeted/cluwnecurse/cast(list/targets, mob/user = usr)
 	if(!targets.len)
 		user << "<span class='notice'>No target found in range.</span>"
 		return
 
-	var/mob/living/carbon/target = targets[1]
+	var/mob/living/carbon/human/target = targets[1]
 
 	if(!(target.type in compatible_mobs))
 		user << "<span class='notice'>You are unable to curse [target]!</span>"
+		castfail()
 		return
 
 	if(!(target in oview(range)))
 		user << "<span class='notice'>They are too far away!</span>"
+		castfail()
 		return
 
 // here begins the cluwning
