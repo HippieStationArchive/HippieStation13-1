@@ -91,6 +91,7 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 
 /mob/living/carbon/human/proc/update_body()
+	remove_overlay(BODY_LAYER)
 	update_body_parts()
 	dna.species.handle_body(src)
 

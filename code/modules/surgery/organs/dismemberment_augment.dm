@@ -110,7 +110,7 @@
 		B.brainmob = null
 		brainmob.loc = src
 		brainmob.container = src
-		brainmob.stat = 0
+		brainmob.stat = DEAD
 
 		B.loc = src //P-put your brain in it
 		brain = B
