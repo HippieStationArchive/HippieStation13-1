@@ -262,7 +262,6 @@
 		if(ishuman(D))
 			body += "<option value='?_src_=vars;makemonkey=\ref[D]'>Make monkey</option>"
 			body += "<option value='?_src_=vars;setspecies=\ref[D]'>Set Species</option>"
-			body += "<option value='?_src_=vars;changelimb=\ref[D]'>Set Limbs</option>"
 			body += "<option value='?_src_=vars;makerobot=\ref[D]'>Make cyborg</option>"
 			body += "<option value='?_src_=vars;makealien=\ref[D]'>Make alien</option>"
 			body += "<option value='?_src_=vars;makeslime=\ref[D]'>Make slime</option>"
@@ -842,42 +841,6 @@ body
 			if(result)
 				var/newtype = species_list[result]
 				H.set_species(newtype)
-
-		else if(href_list["changelimb"])
-			if(!check_rights(R_SPAWN)) return
-
-			var/mob/living/carbon/human/H = locate(href_list["changelimb"])
-			if(!istype(H))
-				usr << "This can only be done to instances of type /mob/living/carbon/human"
-				return
-
-			var/limb = input("Please choose a limb to change", "Change Limb", null) as null|anything in list("All", "head", "chest", "r_arm", "l_arm", "r_leg", "l_leg")
-			if(!limb)
-				return
-
-			var/obj/item/organ/limb/L = H.get_organ(limb)
-
-			var/new_limb = input("Please choose a new type for this limb", "Limb type", null) as null|anything in list("Robotic","Organic","Keep")
-			if(!new_limb)
-				return
-
-			if(!istype(L))
-				L = newBodyPart(limb)
-				L.owner = H
-				L.loc = H
-				H.organs += L
-
-			var/new_type
-			switch(new_limb)
-				if("Robotic")
-					new_type = ORGAN_ROBOTIC
-				if("Organic")
-					new_type = ORGAN_ORGANIC
-
-			if(limb == "All")
-				H.regenerate_limbs(new_type)
-			else
-				L.change_organ(new_type ? new_type : L.status)
 
 		else if(href_list["purrbation"])
 			if(!check_rights(R_SPAWN))	return

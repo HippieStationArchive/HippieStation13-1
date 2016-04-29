@@ -47,7 +47,6 @@
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/sord/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is impaling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -66,7 +65,6 @@
 	w_class = 3
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	block_chance = 50
-	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/claymore/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is falling on the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -85,7 +83,6 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	block_chance = 50
-	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/katana/cursed
 	slot_flags = null
@@ -194,7 +191,6 @@
 		force = 20
 		w_class = 3
 		throwforce = 15
-		sharpness = IS_SHARP_ACCURATE
 		icon_state = "switchblade_ext"
 		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 		hitsound = 'sound/weapons/bladeslice.ogg'
@@ -203,7 +199,6 @@
 		force = 3
 		w_class = 2
 		throwforce = 5
-		sharpness = IS_BLUNT
 		icon_state = "switchblade"
 		attack_verb = list("stubbed", "poked")
 		hitsound = 'sound/weapons/Genhit.ogg'
@@ -293,16 +288,9 @@
 	burn_state = 0
 	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
 
-/obj/item/weapon/cane/update_slowdown(mob/user)
-	var/mob/living/carbon/human/H = user
-	var/slow = 0
-	if(istype(H))
-		slow = (H.get_num_legs(1) < 2) ? -2 : 0 //Negates slowdown caused by lack of a leg
-	return slow
-
 /obj/item/weapon/staff
 	name = "wizards staff"
-	desc = "Apparently a staff used by the wizard. Can be used as a crutch."
+	desc = "Apparently a staff used by the wizard."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "staff"
 	force = 3
@@ -314,22 +302,15 @@
 	attack_verb = list("bludgeoned", "whacked", "disciplined")
 	burn_state = 0 //Burnable
 
-/obj/item/weapon/staff/update_slowdown(mob/user)
-	var/mob/living/carbon/human/H = user
-	var/slow = 0
-	if(istype(H))
-		slow = (H.get_num_legs(1) < 2) ? -2 : 0 //Negates slowdown caused by lack of a leg
-	return slow
-
 /obj/item/weapon/staff/broom
 	name = "broom"
-	desc = "Used for sweeping, and flying into the night while cackling. Black cat not included. Can be used as a crutch."
+	desc = "Used for sweeping, and flying into the night while cackling. Black cat not included."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "broom"
 
 /obj/item/weapon/staff/stick
 	name = "stick"
-	desc = "A great tool to drag someone else's drinks across the bar. Can be used as a crutch."
+	desc = "A great tool to drag someone else's drinks across the bar."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "stick"
 	item_state = "stick"
@@ -375,7 +356,7 @@
 
 /obj/item/weapon/cane/pimpstick
 	name = "pimp stick"
-	desc = "A gold-rimmed cane, with a gleaming diamond set at the top. Great for bashing in kneecaps. Can be used as a crutch."
+	desc = "A gold-rimmed cane, with a gleaming diamond set at the top. Great for bashing in kneecaps."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "pimpstick"
 	item_state = "pimpstick"
@@ -384,3 +365,5 @@
 	w_class = 3
 	flags = NOSHIELD
 	attack_verb = list("pimped", "smacked", "disciplined", "busted", "capped", "decked")
+
+

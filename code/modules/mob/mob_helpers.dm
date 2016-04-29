@@ -25,21 +25,22 @@
 	return zone
 
 
-/proc/ran_zone(zone, probability = 80, list/exceptions)
+/proc/ran_zone(zone, probability = 80)
+
 	zone = check_zone(zone)
 
-	if(!islist(exceptions))
-		exceptions = list()
-
-	if(prob(probability) && !locate(zone) in exceptions)
+	if(prob(probability))
 		return zone
 
-	var/list/choices = list("head", "chest", "l_arm", "r_arm", "l_leg", "r_leg")
-	choices = difflist(choices, exceptions) //Strip away zones to ignore
-	if(!choices.len)
-		return 0
+	var/t = rand(1, 18) // randomly pick a different zone, or maybe the same one
+	switch(t)
+		if(1)		 return "head"
+		if(2)		 return "chest"
+		if(3 to 6)	 return "l_arm"
+		if(7 to 10)	 return "r_arm"
+		if(11 to 14) return "l_leg"
+		if(15 to 18) return "r_leg"
 
-	zone = pick(choices) //Pick a random zone
 	return zone
 
 /proc/above_neck(zone)
@@ -385,10 +386,10 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 			affecting.heal_damage(brute,burn,robotic=1)
 			H.update_damage_overlays(0)
 			H.updatehealth()
-			user.visible_message("<span class='notice'>[user] has fixed some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting].</span>", "<span class='notice'>You fix some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting].</span>")
+			user.visible_message("<span class='notice'>[user] has fixed some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You fix some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting.getDisplayName()].</span>")
 			return
 		else
-			user << "<span class='warning'>[H]'s [affecting] is already in good condition!</span>"
+			user << "<span class='warning'>[H]'s [affecting.getDisplayName()] is already in good condition!</span>"
 			return
 	else
 		return

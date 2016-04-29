@@ -178,8 +178,7 @@ var/const/MAX_ACTIVE_TIME = 400
 		Die()
 		icon_state = "[initial(icon_state)]_impregnated"
 
-		var/obj/item/organ/limb/L = target.getlimb(/obj/item/organ/limb/chest)
-		if((L.status == ORGAN_ORGANIC) && !target.getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
+		if(!target.getlimb(/obj/item/organ/limb/robot/chest) && !target.getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
 			new /obj/item/organ/internal/body_egg/alien_embryo(target)
 
 		if(iscorgi(target))
