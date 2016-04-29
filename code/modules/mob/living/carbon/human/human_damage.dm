@@ -10,6 +10,9 @@
 		total_brute	+= O.brute_dam
 		total_burn	+= O.burn_dam
 	health = maxHealth - getOxyLoss() - getToxLoss() - getCloneLoss() - total_burn - total_brute
+
+	var/list/missing_limbs = get_missing_limbs() //Get missing limbs yo
+	health -= missing_limbs.len * 10 //-10 max health for every missing limb
 	if( ((maxHealth - total_burn) < config.health_threshold_dead) && stat == DEAD )
 		ChangeToHusk()
 		if(on_fire)
@@ -56,6 +59,7 @@
 	else
 		heal_overall_damage(0, 0, -amount)
 
+//this is an unused proc, would be nice if it was used somewhere tho.
 /mob/living/carbon/human/proc/hat_fall_prob()
 	var/multiplier = 1
 	var/obj/item/clothing/head/H = head
@@ -170,7 +174,7 @@
 /mob/living/carbon/human/proc/get_organ(zone)
 	if(!zone)	zone = "chest"
 	for(var/obj/item/organ/limb/O in organs)
-		if(O.name == zone)
+		if(Bodypart2name(O) == zone)
 			return O
 	return null
 
