@@ -200,14 +200,12 @@
 	if(H.lip_style && (LIPS in specflags) && H.get_organ("head"))
 		var/image/lips = image("icon"='icons/mob/human_face.dmi', "icon_state"="lips_[H.lip_style]_s", "layer" = -BODY_LAYER)
 		lips.color = H.lip_color
-		world << lips.color
 		standing	+= lips
 
 	// eyes
 	if((EYECOLOR in specflags) && H.get_organ("head"))
 		var/image/img_eyes_s = image("icon" = 'icons/mob/human_face.dmi', "icon_state" = "[eyes]_s", "layer" = -BODY_LAYER)
 		img_eyes_s.color = "#" + H.eye_color
-		world << img_eyes_s.color
 		standing	+= img_eyes_s
 
 	//Underwear, Undershirts & Socks

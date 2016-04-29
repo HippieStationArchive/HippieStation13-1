@@ -335,7 +335,7 @@
 	// lipstick
 	if(lip_style)
 		var/image/lips = image("icon"='icons/mob/human_face.dmi', "icon_state"="lips_[lip_style]_s", "layer" = -BODY_LAYER, "dir"=SOUTH)
-		lips.color = "#" + lip_color
+		lips.color = lip_color
 		standing += lips
 
 	// eyes
