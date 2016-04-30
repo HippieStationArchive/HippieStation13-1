@@ -82,6 +82,9 @@
 #define ORGAN_ORGANIC   1
 #define ORGAN_ROBOTIC   2
 
+#define ORGAN_FINE			1 //Attatched
+#define ORGAN_AUGMENTABLE	2 //Attatched + Augmentable 
+
 //Nutrition levels for humans. No idea where else to put it
 #define NUTRITION_LEVEL_FAT 600
 #define NUTRITION_LEVEL_FULL 550

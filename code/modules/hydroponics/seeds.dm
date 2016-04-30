@@ -1576,3 +1576,20 @@
 	plant_type = 0
 	oneharvest = 1
 	growthstages = 3
+
+/obj/item/seeds/limbseed
+	name = "pack of replica limb seeds"
+	desc = "Replica limbs, like arms and legs. Break a leg!"
+	icon_state = "seed-limb"
+	species = "limb"
+	plantname = "Replica Limb Flower"
+	product = /obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn
+	lifespan = 25
+	endurance = 10
+	maturation = 8
+	production = 6
+	yield = 2
+	potency = 20
+	plant_type = 0
+	oneharvest = 1
+	growthstages = 3

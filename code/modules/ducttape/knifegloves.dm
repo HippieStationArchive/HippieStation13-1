@@ -57,10 +57,14 @@
 
 	playsound(D.loc, list('sound/weapons/knifegloves1.ogg','sound/weapons/knifegloves2.ogg'), 50, 1)
 
+	var/dmgcheck = D.apply_damage(damage, BRUTE, affecting, armor_block)
+	if(!dmgcheck)
+		D.visible_message("<span class='danger'>[A] has attempted to hit [D] with a [atk_verb]!</span>", \
+								"<span class='userdanger'>[A] has attempted to [D] with a [atk_verb]!</span>")
+		return 1
 	D.visible_message("<span class='danger'>[A] has hit [D] with a [atk_verb]!</span>", \
-								"<span class='userdanger'>[A] has hit [D] with a [atk_verb]!</span>")
+							"<span class='userdanger'>[A] has hit [D] with a [atk_verb]!</span>")
 
-	D.apply_damage(damage, BRUTE, affecting, armor_block)
 	if(prob(25))
 		A.gloves.add_blood(D) //Bloodify the gloves
 	add_logs(A, D, "stab-punched", object=A.gloves)

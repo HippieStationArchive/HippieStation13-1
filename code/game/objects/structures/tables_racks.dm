@@ -293,8 +293,8 @@
 					S.add_blood(H)//it embedded itself in you, of course it's bloody!
 					S.loc = H
 					H.update_damage_overlays() //Update the fancy embeds
-					H.visible_message("<span class='warning'>The [S] has embedded into [H]'s [O.getDisplayName()]!</span>",
-									"<span class='userdanger'>You feel [S] lodge into your [O.getDisplayName()]!</span>")
+					H.visible_message("<span class='warning'>The [S] has embedded into [H]'s [O]!</span>",
+									"<span class='userdanger'>You feel [S] lodge into your [O]!</span>")
 					H.emote("scream")
 		qdel(src)
 

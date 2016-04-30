@@ -102,7 +102,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		succumb()
 	if(stat == DEAD)
 		ghostize(1)
-	if((H.dna.check_mutation(CLUWNEMUT)) & !(stat == DEAD))
+	if(istype(H) && (H.dna.check_mutation(CLUWNEMUT)) & !(stat == DEAD))
 		H << "Cluwnes cannot ghost until they've died! Find a natural means of death!"
 		return
 	else
