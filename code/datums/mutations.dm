@@ -123,9 +123,9 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	..()
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_f_s", "layer"=-MUTATIONS_LAYER)
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_m_s", "layer"=-MUTATIONS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_f_s", "layer"=-MUTATIONS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_m_s", "layer"=-MUTATIONS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_skeleton_s", "layer"=-MUTATIONS_LAYER) // god why doesn't this work
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_f_s", "layer"=-BODYPARTS_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_m_s", "layer"=-BODYPARTS_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_skeleton_s", "layer"=-BODYPARTS_LAYER) // god why are skeleton sprites a layer below humans
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-MUTATIONS_LAYER)
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
@@ -135,10 +135,10 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	owner.status_flags &= ~status
 	if(MUTCOLORS in owner.dna.species.specflags)
 		naturalcolor = owner.client.prefs.features["mcolor"]
-		var/new_mutantcolor = "#3DCF13" as color
-		owner.client.prefs.features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
+		var/hulkgreen = sanitize_hexcolor("#3DCF13")
+		owner.client.prefs.features["mcolor"] = sanitize_hexcolor(hulkgreen)
 		owner.regenerate_icons()
-	owner.resize = 1.2
+
 
 /datum/mutation/human/hulk/on_attack_hand(mob/living/carbon/human/owner, atom/target)
 	return target.attack_hulk(owner)
@@ -150,8 +150,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 		g = (owner.gender == FEMALE) ? 1 : 2
 	else if(spec == "moth")
 		g = (owner.gender == FEMALE) ? 3 : 4
-	//else if(spec == "skeleton")
-	//	g = 5 // this doesn't work and i have no idea why so i'm commenting it out until i can make it work.
+	else if(spec == "skeleton")
+		g = 5
 	else
 		g = 6
 
@@ -170,8 +170,6 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	owner.status_flags |= CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
 	owner.client.prefs.features["mcolor"] = naturalcolor
 	owner.regenerate_icons()
-	owner.resize = 1.0
-
 
 /datum/mutation/human/hulk/say_mod(message)
 	if(message)
