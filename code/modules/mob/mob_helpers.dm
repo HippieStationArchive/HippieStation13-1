@@ -380,8 +380,8 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 	else
 		dam = 0
 
-	if(affecting.status == ORGAN_ROBOTIC)
-		if(brute > 0 && affecting.brute_dam > 0 || burn > 0 && affecting.burn_dam > 0)
+	if(affecting && affecting.status == ORGAN_ROBOTIC)
+		if((brute > 0 && affecting.brute_dam > 0) || (burn > 0 && affecting.burn_dam > 0))
 			affecting.heal_damage(brute,burn,robotic=1)
 			H.update_damage_overlays(0)
 			H.updatehealth()

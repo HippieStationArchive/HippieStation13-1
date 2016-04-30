@@ -57,27 +57,30 @@
 			user << "<span class='notice'>Someone is already being sawn!</span>"
 			return
 		if(isliving(G.affecting))
-			user.visible_message("<span class='danger'>[user] starts slaming [G.affecting] onto \the [name]...</span>")
+			user.visible_message("<span class='danger'>[user] starts slamming [G.affecting] onto \the [name]...</span>")
 			cooldown = 1
 			if(do_mob(user, src, 120))
 				if(G.affecting.buckled)
 					return
 				var/mob/living/H = G.affecting
-				playsound(loc, "sound/effects/splat.ogg", 25, 1)
 				H.visible_message("<span class='danger'>[user] slams [G.affecting] onto \the [name]!</span>", "<span class='userdanger'>[user] slams you onto \the [name]!</span>", "<span class='italics'>You hear a squishy wet noise.</span>")
 				H.forceMove(get_turf(src))
 				H.emote("scream")
-				if(istype(H, /mob/living/carbon/human)) //So you don't get human blood when you spike a giant spidere,also disembembering effect woo
+				if(istype(H, /mob/living/carbon/human)) //So you don't get human blood when you spike a giant spider
 					var/mob/living/carbon/human/HU = H
 					var/turf/pos = get_turf(HU)
 					pos.add_blood_floor(HU)
 					var/target_zone = user.zone_sel.selecting
-					var/obj/item/organ/limb/delimb = HU.get_organ(target_zone)
-					if(delimb)
-						delimb.forceMove(pos)
-						HU.organs -= delimb
-						HU.visible_message("<span class='danger'>[HU]'s [parse_zone(target_zone)] flies off!</span>", "<span class='userdanger'>Your [parse_zone(target_zone)] flies off!</span>")
+					var/obj/item/organ/limb/affecting = HU.get_organ(target_zone)
+					if(affecting.dismember())
+						I.add_blood(H)
+						playsound(get_turf(H), pick('sound/misc/desceration-01.ogg', 'sound/misc/desceration-02.ogg', 'sound/misc/desceration-03.ogg', 'sound/misc/desceration-04.ogg'), 80, 1)
+						affecting.add_blood(H)
+						var/turf/location = H.loc
+						if(istype(location, /turf/simulated))
+							location.add_blood(H)
 				H.adjustBruteLoss(50)
+				qdel(G)
 				cooldown = 0
 			else
 				cooldown = 0

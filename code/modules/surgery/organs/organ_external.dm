@@ -62,13 +62,15 @@
 			skin_tone = H.skin_tone
 		else
 			skin_tone = "caucasian1"
+	if(skin_tone)
 		should_draw_greyscale = TRUE
 	if(human_gender == "")
-		should_draw_gender = TRUE
 		if(istype(H))
 			human_gender = H.gender
 		else
 			human_gender = MALE
+	if(human_gender)
+		should_draw_gender = TRUE
 	if(istype(H) && H.dna && H.dna.species)
 		var/datum/species/S = H.dna.species
 		species_id = S.id
@@ -436,7 +438,7 @@
 	return update_organ_icon()
 
 
-//Returns total damage...kinda pointless really
+//Returns total damage
 /obj/item/organ/limb/proc/get_damage()
 	return brute_dam + burn_dam
 
@@ -445,15 +447,18 @@
 //Returns 1 if we need to update overlays. 0 otherwise.
 /obj/item/organ/limb/proc/update_organ_icon()
 	if(status == ORGAN_ORGANIC) //Robotic limbs show no damage - RR
+		var/update = 0
+		if(state_flags & ORGAN_AUGMENTABLE) //Severed muscles make the limb look fucked up
+			brutestate = 3
+			update = 1
 		var/tbrute	= round( (brute_dam/max_damage)*3, 1 )
 		var/tburn	= round( (burn_dam/max_damage)*3, 1 )
 		if((tbrute != brutestate) || (tburn != burnstate))
 			brutestate = tbrute
-			if(state_flags & ORGAN_AUGMENTABLE) //Severed muscles make the limb look fucked up
-				brutestate = 3
 			burnstate = tburn
-			return 1
-		return 0
+			update = 1
+		return update
+	return 0
 
 //Remove all embedded objects from all limbs on the human mob
 /mob/living/carbon/human/proc/remove_all_embedded_objects()
