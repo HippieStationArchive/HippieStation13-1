@@ -56,6 +56,9 @@
 		if(istype(L))
 			L.drop_limb(1)
 			L = newBodyPart(def_zone)
+			L.owner = H
+			L.loc = H
+			H.organs += L
 	change_organ(ORGAN_ROBOTIC)
 	user.drop_item()
 	qdel(I)
@@ -129,9 +132,9 @@
 		return
 	owner.visible_message("<span class='danger'><B>[owner]'s internal organs spill out onto the floor!</B></span>")
 	for(var/obj/item/organ/O in owner.internal_organs)
-		if(istype(O, /obj/item/organ/internal/brain))
+		if(O.zone == "head")
 			continue
-		owner.internal_organs -= O
+		O.Remove(owner)
 		O.loc = get_turf(owner)
 		playsound(get_turf(owner), pick('sound/misc/splat.ogg', 'sound/misc/splort.ogg'), 80, 1)
 	return
@@ -287,7 +290,7 @@
 	return L
 
 //Mob has their active hand
-/mob/proc/has_active_hand()
+/mob/proc/has_active_hand(var/usable=0)
 	return 1
 
 /mob/living/carbon/human/has_active_hand(var/usable=0)

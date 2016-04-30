@@ -628,7 +628,8 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	roundstart = 1
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
-	specflags = list(MUTCOLORS,EYECOLOR)
+	specflags = list(EYECOLOR)
+	attack_sound = 'sound/misc/skeletonhit.ogg'
 
 /datum/species/skeleton/New()
 	..()

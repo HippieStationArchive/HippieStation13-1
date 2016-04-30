@@ -100,8 +100,8 @@
 			msg += "<span class='warning'>[t_He] [t_has] \icon[gloves] [gloves.gender==PLURAL?"some":"a"] blood-stained [gloves.name] on [t_his] hands!</span>\n"
 		else
 			msg += "[t_He] [t_has] \icon[gloves] \a [gloves] on [t_his] hands.\n"
-	else if(blood_DNA)
-		msg += "<span class='warning'>[t_He] [t_has] blood-stained hands!</span>\n"
+	else if(blood_DNA && get_num_arms() > 0)
+		msg += "<span class='warning'>[t_He] [t_has] [get_num_arms() > 1 ? "" : "a"] blood-stained hand[get_num_arms() > 1 ? "s" : ""]!</span>\n"
 
 	//handcuffed?
 

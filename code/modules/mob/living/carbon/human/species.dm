@@ -1059,6 +1059,11 @@
 		if(istype(I, /obj/item/robot_parts))
 			var/obj/item/robot_parts/RP = I
 			if(Bodypart2name(RP.body_part) == zone)
+				if(!target_limb)
+					target_limb = newBodyPart(zone)
+					target_limb.owner = H
+					target_limb.loc = H
+					H.organs += target_limb
 				target_limb.augment(RP, zone, user)
 			else
 				user << "<span class='notice'>[RP] doesn't go there!</span>"

@@ -62,13 +62,15 @@
 			skin_tone = H.skin_tone
 		else
 			skin_tone = "caucasian1"
+	if(skin_tone)
 		should_draw_greyscale = TRUE
 	if(human_gender == "")
-		should_draw_gender = TRUE
 		if(istype(H))
 			human_gender = H.gender
 		else
 			human_gender = MALE
+	if(human_gender)
+		should_draw_gender = TRUE
 	if(istype(H) && H.dna && H.dna.species)
 		var/datum/species/S = H.dna.species
 		species_id = S.id

@@ -39,6 +39,7 @@
 		if(istype(I))
 			I.state_flags = ORGAN_FINE
 			I.update_organ_icon()
+			target.regenerate_icons()
 			target.update_canmove()
 		surgery.complete(target)
 	else
@@ -113,6 +114,7 @@
 		if(istype(I))
 			I.state_flags = ORGAN_FINE
 			I.update_organ_icon()
+			target.regenerate_icons()
 			target.update_canmove()
 	else if(current_type == "sever")
 		user.visible_message("[user] severs the muscles in [target]'s [parse_zone(target_zone)].",
@@ -123,6 +125,7 @@
 		if(istype(I))
 			I.state_flags = ORGAN_AUGMENTABLE
 			I.update_organ_icon()
+			target.regenerate_icons()
 			target.update_canmove()
 	else if(current_type == "extract")
 		if(I && I.owner == target)
