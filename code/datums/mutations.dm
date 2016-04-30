@@ -138,6 +138,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 		var/new_mutantcolor = "#3DCF13" as color
 		owner.client.prefs.features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
 		owner.regenerate_icons()
+	owner.resize = 1.2
 
 /datum/mutation/human/hulk/on_attack_hand(mob/living/carbon/human/owner, atom/target)
 	return target.attack_hulk(owner)
@@ -169,6 +170,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	owner.status_flags |= CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
 	owner.client.prefs.features["mcolor"] = naturalcolor
 	owner.regenerate_icons()
+	owner.resize = 1.0
 
 
 /datum/mutation/human/hulk/say_mod(message)
