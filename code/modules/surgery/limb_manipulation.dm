@@ -134,7 +134,8 @@
 				"<span class='notice'>You successfully detach [target]'s [I].</span>")
 			add_logs(user, target, "surgically removed [I.name] from", addition="INTENT: [uppertext(user.a_intent)]")
 			I.state_flags = ORGAN_AUGMENTABLE
-			I.drop_limb()
+			I.update_organ_icon()
+			I.drop_limb() //If you saw the chest off, well, all you're getting is a whole lot of nothing (severing muscles tho.)
 			target.update_canmove()
 			target.regenerate_icons()
 		else

@@ -50,15 +50,6 @@
 
 	owner.visible_message("<span class='notice'>[user] has attatched [who] new limb!</span>")
 	var/mob/living/carbon/C = owner //We do this because owner might be null-ed during drop_limb
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		var/obj/item/organ/limb/L = H.get_organ(def_zone)
-		if(istype(L))
-			L.drop_limb(1)
-			L = newBodyPart(def_zone)
-			L.owner = H
-			L.loc = H
-			H.organs += L
 	change_organ(ORGAN_ROBOTIC)
 	user.drop_item()
 	qdel(I)
@@ -129,15 +120,15 @@
 	state_flags = ORGAN_AUGMENTABLE
 	update_organ_icon()
 	if(!owner)
-		return
+		return 0
 	owner.visible_message("<span class='danger'><B>[owner]'s internal organs spill out onto the floor!</B></span>")
-	for(var/obj/item/organ/O in owner.internal_organs)
+	for(var/obj/item/organ/internal/O in owner.internal_organs)
 		if(O.zone == "head")
 			continue
 		O.Remove(owner)
 		O.loc = get_turf(owner)
 		playsound(get_turf(owner), pick('sound/misc/splat.ogg', 'sound/misc/splort.ogg'), 80, 1)
-	return
+	H.regenerate_icons()
 
 /obj/item/organ/limb/chest/drop_limb(var/special=0)
 	return
