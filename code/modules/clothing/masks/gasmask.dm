@@ -106,7 +106,7 @@
 		H.dna.add_mutation(CLUWNEMUT)
 	return
 
-/obj/item/clothing/mask/gas/clown_hat/cluwnee/dropped(mob/user)
+/obj/item/clothing/mask/gas/clown_hat/cluwne/dropped(mob/user)
 	qdel(src)
 
 /obj/item/clothing/mask/gas/sexyclown

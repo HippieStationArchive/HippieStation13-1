@@ -1,3 +1,4 @@
+
 ################################
 # Example Changelog File
 #
@@ -22,7 +23,7 @@
 #################################
 
 # Your name.  
-author: Blobbernaut
+author: Kierany9
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
@@ -33,5 +34,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - tweak: "Removed species restriction on hulk mutation."
-
+  - rscadd: "Reworked codewords! All useless words apt for a more serious server have been removed and replaced with common Hippie lingo that can blend into casual conversation and radio chatter."
