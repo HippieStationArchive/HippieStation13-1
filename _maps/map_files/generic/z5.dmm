@@ -311,7 +311,7 @@
 "fY" = (/obj/machinery/light{dir = 1},/turf/simulated/floor/plasteel{icon_state = "white"},/area/outpost/virology)
 "fZ" = (/obj/machinery/smartfridge/chemistry/virology,/turf/simulated/floor/plasteel{icon_state = "white"},/area/outpost/virology)
 "ga" = (/obj/machinery/computer/pandemic,/turf/simulated/floor/plasteel{icon_state = "white"},/area/outpost/virology)
-"gb" = (/obj/machinery/doorButtons/access_button{idDoor = "virology_airlock_interior"; idSelf = "virology_airlock_control"; name = "Virology Access Button"; pixel_x = 8; pixel_y = -28; req_access_txt = "39"},/obj/machinery/camera{c_tag = "Cell 5 Camera"; dir = 4},/turf/simulated/floor/plasteel{dir = 9; icon_state = "warnwhite"},/area/outpost/virology)
+"gb" = (/obj/machinery/doorButtons/access_button{idDoor = "virology_airlock_interior"; idSelf = "virology_airlock_control"; name = "Virology Access Button"; pixel_x = 8; pixel_y = -28; req_access_txt = "0"; req_one_access_txt = "39;67"},/obj/machinery/camera{c_tag = "Cell 5 Camera"; dir = 4},/turf/simulated/floor/plasteel{dir = 9; icon_state = "warnwhite"},/area/outpost/virology)
 "gc" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/obj/machinery/atmospherics/pipe/simple,/turf/simulated/floor/plasteel{icon_state = "warnwhite"; dir = 1},/area/outpost/virology)
 "gd" = (/obj/machinery/light/small{dir = 4},/turf/simulated/floor/plasteel{icon_state = "warnwhite"; dir = 5},/area/outpost/virology)
 "ge" = (/obj/structure/rack,/obj/item/weapon/pickaxe,/turf/simulated/floor/plasteel,/area/outpost/departures)
