@@ -25,7 +25,17 @@
 	I.attack(src, user)
 
 /mob/living/proc/attacked_by(obj/item/I, mob/living/user, def_zone)
-	apply_damage(I.force, I.damtype, def_zone)
+	var/dmgcheck = apply_damage(I.force, I.damtype, def_zone)
+	if(!dmgcheck)
+		visible_message("<span class='danger'>[user] has attempted to attack [src] with [I].</span>",
+		"<span class='userdanger'>[user] has attempted to attack [src] with [I]!</span>")
+		return 0
+
+	if (I.hitsound && I.force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
+		playsound(get_turf(src), I.hitsound, I.get_clamped_volume(), 1, I.hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
+	else if (I.force == 0)//Otherwise, if the item's force is zero...
+		playsound(get_turf(src), 'sound/weapons/tap.ogg', I.get_clamped_volume(), 1, I.hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
+
 	if(I.damtype == BRUTE)
 		if(prob(33) && I.force)
 			var/turf/location = src.loc
@@ -57,13 +67,10 @@
 		visible_message("<span class='warning'>[I] bounces harmlessly off of [src].</span>",\
 					"<span class='warning'>[I] bounces harmlessly off of [src]!</span>")
 
-
-
 // Proximity_flag is 1 if this afterattack was called on something adjacent, in your square, or on your person.
 // Click parameters is the params string from byond Click() code, see that documentation.
 /obj/item/proc/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	return
-
 
 /obj/item/proc/get_clamped_volume()
 	if(src.force && src.w_class)
@@ -72,23 +79,13 @@
 		return Clamp(src.w_class * 6, 10, 100) // Multiply the item's weight class by 6, then clamp the value between 10 and 100
 
 /obj/item/proc/attack(mob/living/M, mob/living/user, def_zone)
-
-	if (!istype(M)) // not sure if this is the right thing...
+	if (!istype(M))
 		return
 
-	if (hitsound && force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
-		playsound(loc, hitsound, get_clamped_volume(), 1, hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
-	else if (force == 0)//Otherwise, if the item's force is zero...
-		playsound(loc, 'sound/weapons/tap.ogg', get_clamped_volume(), 1, hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
-	/////////////////////////
 	user.lastattacked = M
 	M.lastattacker = user
 
-	//spawn(1800)            // this wont work right
-	//	M.lastattacker = null
-	/////////////////////////
 	M.attacked_by(src, user, def_zone)
-	//TODO: Change this to use the damtype word not int
 	add_logs(user, M, "attacked", src.name, "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)
 

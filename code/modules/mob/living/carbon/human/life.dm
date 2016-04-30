@@ -38,6 +38,9 @@
 	if(jobban_isbanned(src, "catban") && src.dna.species.name != "Tarajan")
 		src.set_species(/datum/species/cat, icon_update=1)
 
+	if(jobban_isbanned(src, "cluwneban") && !src.dna.check_mutation(CLUWNEMUT))
+		src.dna.add_mutation(CLUWNEMUT)
+
 	tinttotal = tintcheck() //here as both hud updates and status updates call it
 
 	if(..())
@@ -337,7 +340,7 @@
 					L.take_damage(bleed=0.02)
 				if(prob(I.embedded_pain_chance))
 					L.take_damage(I.w_class*I.embedded_pain_multiplier)
-					src << "<span class='userdanger'>\the [I] embedded in your [L.getDisplayName()] hurts!</span>"
+					src << "<span class='userdanger'>\the [I] embedded in your [L] hurts!</span>"
 			else
 				L.embedded_objects -= I
 				if(I.pinned) //Only the rodgun pins people down currently

@@ -230,7 +230,7 @@
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane
 	name = "cane"
-	desc = "A cane used by a true gentlemen. Or a clown."
+	desc = "A cane used by a true gentlemen. Or a clown. Can be used as a crutch."
 	icon_state = "cane"
 	item_state = "stick"
 	icon = 'icons/obj/weapons.dmi'
@@ -253,6 +253,13 @@
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	var/list/cane_choices = list()
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/update_slowdown(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/slow = 0
+	if(istype(H))
+		slow = (H.get_num_legs(1) < 2) ? -2 : 0 //Negates slowdown caused by lack of a leg
+	return slow
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/attackby(obj/item/A, mob/user, params)
 	..()
