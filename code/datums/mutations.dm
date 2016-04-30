@@ -353,7 +353,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 /datum/mutation/human/cluwne/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
 		return
-	owner.disabilities |= CLUMSY
+	owner.dna.add_mutation(CLOWNMUT)
+	owner.dna.add_mutation(EPILEPSY)
 	owner.adjustBrainLoss(200)
 
 	var/mob/living/carbon/human/H = owner

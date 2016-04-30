@@ -69,7 +69,7 @@
 							return
 						spawn(0)
 							M.Beam(L,icon_state="purple_lightning",icon='icons/effects/effects.dmi',time=5)
-						M.electrocute_act(shock_damage, "[L.name]", safety=1)
+						M.electrocute_act(shock_damage, "[Bodypart2name(L)]", safety=1)
 						var/datum/effect_system/spark_spread/z = new /datum/effect_system/spark_spread
 						z.set_up(4, 1, M)
 						z.start()

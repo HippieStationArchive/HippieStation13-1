@@ -92,7 +92,7 @@
 		pixel_y = rand(0, 16)
 	return
 
-/obj/item/weapon/screwdriver/attack(mob/living/carbon/M, mob/living/carbon/user)
+/obj/item/weapon/screwdriver/attack(mob/living/carbon/M, mob/living/carbon/user, def_zone)
 	if(!istype(M))	return ..()
 	if(user.zone_sel.selecting != "eyes" && user.zone_sel.selecting != "head")
 		return ..()
@@ -126,7 +126,7 @@
 		icon_state = "cutters-y"
 		item_state = "cutters_yellow"
 
-/obj/item/weapon/wirecutters/attack(mob/living/carbon/C, mob/living/user)
+/obj/item/weapon/wirecutters/attack(mob/living/carbon/C, mob/living/user, def_zone)
 	if(ishuman(C) && user.zone_sel.selecting == "mouth")
 		var/mob/living/carbon/human/H = C
 		var/obj/item/organ/limb/head/O = locate() in H.organs
@@ -251,7 +251,7 @@
 	..()
 
 
-/obj/item/weapon/weldingtool/attack(mob/living/carbon/human/H, mob/user)
+/obj/item/weapon/weldingtool/attack(mob/living/carbon/human/H, mob/user, def_zone)
 	if(!istype(H))
 		return ..()
 
@@ -261,16 +261,16 @@
 		if(affecting.status == ORGAN_ORGANIC && affecting.bloodloss > 0)
 			if(remove_fuel(1))
 				playsound(loc, 'sound/items/Welder.ogg', 50, 1)
-				user.visible_message("<span class='notice'>[user] starts to close up wounds on [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You start closing up wounds on [H]'s [affecting.getDisplayName()].</span>")
+				user.visible_message("<span class='notice'>[user] starts to close up wounds on [H]'s [affecting].</span>", "<span class='notice'>You start closing up wounds on [H]'s [affecting].</span>")
 				if(!do_mob(user, H, 50))	return
-				user.visible_message("<span class='notice'>[user] has closed up wounds [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You closed up wounds on [H]'s [affecting.getDisplayName()].</span>")
+				user.visible_message("<span class='notice'>[user] has closed up wounds [H]'s [affecting].</span>", "<span class='notice'>You closed up wounds on [H]'s [affecting].</span>")
 				affecting.heal_damage(bleed=affecting.bloodloss)
 				affecting.take_damage(burn=10) //Quite harsh tradeoff
 			return
 		else if(affecting.status == ORGAN_ROBOTIC && affecting.get_damage() > 0)
 			if(remove_fuel(1))
 				playsound(loc, 'sound/items/Welder.ogg', 50, 1)
-				user.visible_message("<span class='notice'>[user] starts to fix some of the dents on [H]'s [affecting.getDisplayName()].</span>", "<span class='notice'>You start fixing some of the dents on [H]'s [affecting.getDisplayName()].</span>")
+				user.visible_message("<span class='notice'>[user] starts to fix some of the dents on [H]'s [affecting].</span>", "<span class='notice'>You start fixing some of the dents on [H]'s [affecting].</span>")
 				if(!do_mob(user, H, 50))	return
 				item_heal_robotic(H, user, 5, 0)
 			return //It's neither organic or robotic... ...then what the hell is it!?

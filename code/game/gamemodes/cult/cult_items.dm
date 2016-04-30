@@ -9,7 +9,7 @@
 	throwforce = 10
 	hitsound = 'sound/weapons/bladeslice2.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-
+	sharpness = IS_SHARP_ACCURATE
 
 
 /obj/item/weapon/melee/cultblade/attack(mob/living/target, mob/living/carbon/human/user)

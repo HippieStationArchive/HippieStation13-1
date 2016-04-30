@@ -22,7 +22,9 @@
 				for(var/datum/surgery/S in all_surgeries)
 					if(!S.possible_locs.Find(selected_zone))
 						continue
-					if(affecting && S.requires_organic_bodypart && affecting.status == ORGAN_ROBOTIC)
+					if(affecting && (S.requires_organic_bodypart && affecting.status == ORGAN_ROBOTIC))
+						continue
+					if(!affecting)
 						continue
 					if(!S.can_start(user, M))
 						continue
