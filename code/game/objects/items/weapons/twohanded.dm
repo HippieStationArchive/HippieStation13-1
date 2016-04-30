@@ -270,6 +270,9 @@
 		hitsound = "swing_hit"
 		sharpness = IS_BLUNT
 
+/obj/item/weapon/twohanded/dualsaber/can_dismember()
+	return wielded
+
 /obj/item/weapon/twohanded/dualsaber/IsReflect()
 	if(wielded)
 		return 1
