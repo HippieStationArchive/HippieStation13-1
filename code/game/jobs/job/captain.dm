@@ -22,7 +22,6 @@ Captain
 /datum/job/captain/get_access()
 	return get_all_accesses()
 
-
 /datum/outfit/job/captain
 	name = "Captain"
 
