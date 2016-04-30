@@ -121,11 +121,6 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 
 /datum/mutation/human/hulk/New()
 	..()
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_f_s", "layer"=-MUTATIONS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_m_s", "layer"=-MUTATIONS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_f_s", "layer"=-BODYPARTS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_moth_m_s", "layer"=-BODYPARTS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_skeleton_s", "layer"=-BODYPARTS_LAYER) // god why are skeleton sprites a layer below humans
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-MUTATIONS_LAYER)
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
@@ -133,28 +128,21 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 		return
 	var/status = CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
 	owner.status_flags &= ~status
+	/*
 	if(MUTCOLORS in owner.dna.species.specflags)
 		naturalcolor = owner.client.prefs.features["mcolor"]
 		var/hulkgreen = sanitize_hexcolor("#3DCF13")
 		owner.client.prefs.features["mcolor"] = sanitize_hexcolor(hulkgreen)
-		owner.regenerate_icons()
-
+	owner.regenerate_icons()
+	*/
+	owner.resize = 1.25
+	owner.color = "#77dd59"
 
 /datum/mutation/human/hulk/on_attack_hand(mob/living/carbon/human/owner, atom/target)
 	return target.attack_hulk(owner)
 
 /datum/mutation/human/hulk/get_visual_indicator(mob/living/carbon/human/owner)
 	var/g = 1
-	var/spec = owner.dna.species.id
-	if(spec == "human")
-		g = (owner.gender == FEMALE) ? 1 : 2
-	else if(spec == "moth")
-		g = (owner.gender == FEMALE) ? 3 : 4
-	else if(spec == "skeleton")
-		g = 5
-	else
-		g = 6
-
 	return visual_indicators[g]
 
 /datum/mutation/human/hulk/on_life(mob/living/carbon/human/owner)
@@ -168,8 +156,12 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	if(..())
 		return
 	owner.status_flags |= CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
+	/*
 	owner.client.prefs.features["mcolor"] = naturalcolor
 	owner.regenerate_icons()
+	*/
+	owner.color = "#FFFFFF"
+	owner.resize = 0.8
 
 /datum/mutation/human/hulk/say_mod(message)
 	if(message)
