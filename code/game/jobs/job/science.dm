@@ -25,7 +25,7 @@ Research Director
 			            access_tox_storage, access_teleporter, access_sec_doors,
 			            access_research, access_robotics, access_xenobiology, access_ai_upload,
 			            access_RC_announce, access_keycard_auth, access_gateway, access_mineral_storeroom,
-			            access_tech_storage, access_minisat, access_mining, access_mining_station, access_mineral_storeroom, access_mailsorting,access_outpost)
+			            access_tech_storage, access_minisat, access_mining, access_mining_station, access_mineral_storeroom, access_mailsorting, access_outpost)
 
 /datum/outfit/job/rd
 	name = "Research Director"
@@ -69,7 +69,7 @@ Scientist
 
 	outfit = /datum/outfit/job/scientist
 
-	access = list(access_robotics, access_tox, access_tox_storage, access_research, access_xenobiology, access_mineral_storeroom, access_tech_storage, access_genetics)
+	access = list(access_robotics, access_tox, access_tox_storage, access_research, access_xenobiology, access_mineral_storeroom, access_tech_storage, access_genetics, access_outpost)
 	minimal_access = list(access_tox, access_tox_storage, access_research, access_xenobiology, access_mineral_storeroom, access_outpost)
 
 /datum/outfit/job/scientist
