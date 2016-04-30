@@ -1,8 +1,0 @@
-author: KingofSarcaEsumQualmEinGottshanzPart1
-
-delete-after: True
-
-changes: 
-  - rscadd: "Adds the research outpost. The research outpost is an off Z level mini station where mini versions of certain departments reside. It is accessed by a shuttle east of the Experimentor room in Science."
-  - rscadd: "Features: Research and Development, Chemistry, Hydroponics and a mini Kitchen, Xenobiology, Virology, Mining Gear room, a bathroom, a break room, two dorms, two storage closets, a solar array, an Engineering room, and an arrivals area. "
-  - rscadd:"Be careful, the outpost has no communications array of its own, relying on mining's. Bad things can happen on the outpost!"
