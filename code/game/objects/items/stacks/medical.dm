@@ -33,8 +33,10 @@
 		user << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return 1
 
+	var/obj/item/organ/limb/affecting
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
+		affecting = H.get_organ(check_zone(user.zone_sel.selecting))
 		if(stop_bleeding)
 			if(H.bleedsuppress)
 				user << "<span class='warning'>[H]'s bleeding is already bandaged!</span>"
@@ -42,10 +44,9 @@
 			else if(!H.blood_max)
 				user << "<span class='warning'>[H] isn't bleeding!</span>"
 				return
-
-	// if(isliving(M))
-	// 	if(!M.can_inject(user, 1)) //This doesn't make a lick of sense in gameplay prespective and most other medical tools don't do a check for space suits/etc. to heal (patches, gauzes, etc.)
-	// 		return
+		if(!istype(affecting)) //Missing limb?
+			user << "<span class='warning'>[H] doesn't have [parse_zone(user.zone_sel.selecting)]!</span>"
+			return
 
 	if(user)
 		if (M != user)
@@ -72,7 +73,6 @@
 
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
 		if(stop_bleeding)
 			if(!H.bleedsuppress) //so you can't stack bleed suppression
 				H.suppress_bloodloss(stop_bleeding)

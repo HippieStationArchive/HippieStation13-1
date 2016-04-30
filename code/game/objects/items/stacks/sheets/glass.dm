@@ -333,18 +333,20 @@
 				var/check = H.lying ? H.w_uniform : H.shoes
 				if(!check)
 					var/obj/item/organ/limb/O = H.get_organ(pick("l_leg", "r_leg"))
+					if(!istype(O))
+						return
 					H.apply_damage(5, BRUTE, O)
-					if(!H.lying) H.Weaken(3)
 					if(prob(embed_chance))
 						H.throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
 						O.embedded_objects |= src
 						src.add_blood(H)//it embedded itself in you, of course it's bloody!
 						src.loc = H
-						H.visible_message("<span class='warning'>\The [src] has embedded into [H]'s [O.getDisplayName()]!</span>",
-										"<span class='userdanger'>You feel [src] lodge into your [O.getDisplayName()]!</span>")
+						H.visible_message("<span class='warning'>\The [src] has embedded into [H]'s [O]!</span>",
+										"<span class='userdanger'>You feel [src] lodge into your [O]!</span>")
 						H.update_damage_overlays() //Update the fancy embeds
 						H.emote("scream")
 					if(cooldown < world.time - 10) //cooldown to avoid message spam. Too bad this cooldown is only for the shard itself.
 						H.visible_message("<span class='danger'>[H] [H.lying ? "lays" : "steps"] in the broken glass!</span>", \
 								"<span class='userdanger'>You [H.lying ? "lay" : "step"] in the broken glass!</span>")
 						cooldown = world.time
+					if(!H.lying) H.Weaken(3)
