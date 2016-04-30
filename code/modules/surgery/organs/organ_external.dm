@@ -436,7 +436,7 @@
 	return update_organ_icon()
 
 
-//Returns total damage...kinda pointless really
+//Returns total damage
 /obj/item/organ/limb/proc/get_damage()
 	return brute_dam + burn_dam
 
