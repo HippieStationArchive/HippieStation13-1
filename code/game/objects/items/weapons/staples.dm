@@ -89,21 +89,20 @@
 				return 0
 		var/obj/item/organ/limb/O = H.get_organ(ran_zone(check_zone(user.zone_sel.selecting), 65))
 		var/armor = H.run_armor_check(O, "melee")
-		if(armor <= 40)
+		if(armor <= 40 && istype(O))
 			H.throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
-			var/obj/item/organ/limb/L = pick(H.organs)
 			if(istype(P)) //If the staplegun contains paper...
 				P.loc = H
 				P.update_icon()
-				L.embedded_objects |= P
+				O.embedded_objects |= P
 				P.add_blood(H)//it embedded itself in you, of course it's bloody!
-				L.take_damage(P.w_class*P.embedded_impact_pain_multiplier)
+				O.take_damage(P.w_class*P.embedded_impact_pain_multiplier)
 				P = null
 			else
 				var/obj/item/stack/staples/S = new /obj/item/stack/staples(H, 1)
-				L.embedded_objects |= S
+				O.embedded_objects |= S
 				S.add_blood(H)//it embedded itself in you, of course it's bloody!
-				L.take_damage(S.w_class*S.embedded_impact_pain_multiplier)
+				O.take_damage(S.w_class*S.embedded_impact_pain_multiplier)
 			H.apply_damage(2, BRUTE, O, armor)
 			H.update_damage_overlays()
 
@@ -111,11 +110,11 @@
 
 			usr.attack_log += "\[[time_stamp()]\] <font color='red'>Has stapled [target.name]([target.ckey]) @ [usr.x],[usr.y],[usr.z]</font>"
 
-			visible_message("<span class='danger'>[user] has stapled [target] in the [O.getDisplayName()]!</span>",
-							"<span class='userdanger'>[user] has stapled [target] in the [O.getDisplayName()]!</span>")
+			visible_message("<span class='danger'>[user] has stapled [target] in the [O]!</span>",
+							"<span class='userdanger'>[user] has stapled [target] in the [O]!</span>")
 		else
-			visible_message("<span class='danger'>[user] has attempted to staple [target] in the [O.getDisplayName()]!</span>",
-				"<span class='userdanger'>[user] has attempted to staple [target] in the [O.getDisplayName()]!</span>")
+			visible_message("<span class='danger'>[user] has attempted to staple [target] in the [O]!</span>",
+				"<span class='userdanger'>[user] has attempted to staple [target] in the [O]!</span>")
 	else
 		target.adjustBruteLoss(5) //Just harm 'em
 

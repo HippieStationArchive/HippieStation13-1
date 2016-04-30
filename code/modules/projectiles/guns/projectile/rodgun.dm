@@ -35,8 +35,8 @@
 				R.loc = H
 				O.embedded_objects += R //Lodge the object into the limb
 				H.update_damage_overlays() //Update the fancy embeds
-				visible_message("<span class='warning'>The [R] has embedded into [H]'s [O.getDisplayName()]!</span>",
-								"<span class='userdanger'>You feel [R] lodge into your [O.getDisplayName()]!</span>")
+				visible_message("<span class='warning'>The [R] has embedded into [H]'s [O]!</span>",
+								"<span class='userdanger'>You feel [R] lodge into your [O]!</span>")
 				playsound(H, 'sound/weapons/rodgun_pierce.ogg', 50, 1) //For super audible murder
 				H.emote("scream")
 				var/turf/T = get_step(H, dir)

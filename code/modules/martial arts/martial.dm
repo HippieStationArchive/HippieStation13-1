@@ -43,20 +43,18 @@
 	if(D.lying)
 		atk_verb = "kick"
 
-	if(!damage)
+	var/obj/item/organ/limb/affecting = D.get_organ(ran_zone(A.zone_sel.selecting))
+	var/armor_block = D.run_armor_check(affecting, "melee")
+	var/dmgcheck = D.apply_damage(damage, BRUTE, affecting, armor_block)
+	if(!damage || !dmgcheck)
 		playsound(D.loc, A.dna.species.miss_sound, 25, 1, -1)
 		D.visible_message("<span class='warning'>[A] has attempted to [atk_verb] [D]!</span>")
 		add_logs(A, D, "attempted to [atk_verb]")
 		return 0
 
-	var/obj/item/organ/limb/affecting = D.get_organ(ran_zone(A.zone_sel.selecting))
-	var/armor_block = D.run_armor_check(affecting, "melee")
-
 	playsound(D.loc, A.dna.species.attack_sound, 25, 1, -1)
 	D.visible_message("<span class='danger'>[A] has [atk_verb]ed [D]!</span>", \
 								"<span class='userdanger'>[A] has [atk_verb]ed [D]!</span>")
-
-	D.apply_damage(damage, BRUTE, affecting, armor_block)
 
 	add_logs(A, D, "punched")
 

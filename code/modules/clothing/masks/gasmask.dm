@@ -97,6 +97,7 @@
 	unacidable = 1
 	burn_state = -1
 	flags = NODROP | MASKINTERNALS
+	flags_inv = HIDEEARS|HIDEEYES
 
 /obj/item/clothing/mask/gas/clown_hat/cluwne/equipped(mob/user, slot)
 	if(!ishuman(user))
@@ -106,7 +107,7 @@
 		H.dna.add_mutation(CLUWNEMUT)
 	return
 
-/obj/item/clothing/mask/gas/clown_hat/cluwnee/dropped(mob/user)
+/obj/item/clothing/mask/gas/clown_hat/cluwne/dropped(mob/user)
 	qdel(src)
 
 /obj/item/clothing/mask/gas/sexyclown

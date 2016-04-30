@@ -115,7 +115,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	get_chance = 15
 	lowest_value = 256 * 12
 	text_gain_indication = "<span class='notice'>Your muscles hurt!</span>"
-	//species_allowed = list("human") //no skeleton/lizard hulk
+	//species_allowed = list("human") //no skeleton/lizard hulk etc
 	health_req = 25
 
 /datum/mutation/human/hulk/New()
@@ -328,7 +328,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 /datum/mutation/human/cluwne/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
 		return
-	owner.disabilities |= CLUMSY
+	owner.dna.add_mutation(CLOWNMUT)
+	owner.dna.add_mutation(EPILEPSY)
 	owner.adjustBrainLoss(200)
 
 	var/mob/living/carbon/human/H = owner
