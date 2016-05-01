@@ -39,7 +39,8 @@
 		state = 5
 	update_icon()
 	if(locate(/obj/item/weapon/wrench) in contents)
-		flash_color(src, "#FF0000", 2 , 100)
+		flash_and_shake(src, "#FF0000", 2 , 100, xdif = 3, ydif = 3)
+		visible_message("<span class='danger'>[src] begins to shake violently!", "<span class='italics'>You hear various bangs</span>")
 	working = 1
 	spawn(200)
 
