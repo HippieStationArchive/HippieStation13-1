@@ -245,13 +245,13 @@
 			var/obj/item/ammo_casing/AC = chambered
 			if(AC.fire(user, user))
 				playsound(user, fire_sound, 50, 1)
-				var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
-				var/limb_name = affecting.getDisplayName()
-				if(affecting.name == "head" || affecting.name == "eyes" || affecting.name == "mouth")
+				var/zone = check_zone(user.zone_sel.selecting)
+				var/obj/item/organ/limb/affecting = H.get_organ(zone)
+				if(zone == "head" || zone == "eyes" || zone == "mouth")
 					user.apply_damage(300, BRUTE, affecting)
 					user.visible_message("<span class='danger'>[user.name] fires [src] at \his head!</span>", "<span class='userdanger'>You fire [src] at your head!</span>", "<span class='italics'>You hear a gunshot!</span>")
 				else
-					user.visible_message("<span class='danger'>[user.name] cowardly fires [src] at \his [limb_name]!</span>", "<span class='userdanger'>You cowardly fire [src] at your [limb_name]!</span>", "<span class='italics'>You hear a gunshot!</span>")
+					user.visible_message("<span class='danger'>[user.name] cowardly fires [src] at \his [affecting]!</span>", "<span class='userdanger'>You cowardly fire [src] at your [affecting]!</span>", "<span class='italics'>You hear a gunshot!</span>")
 				return
 
 		user.visible_message("<span class='danger'>*click*</span>")

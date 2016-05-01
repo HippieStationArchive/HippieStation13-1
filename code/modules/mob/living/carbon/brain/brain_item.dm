@@ -84,22 +84,23 @@
 		return ..()
 
 	var/mob/living/carbon/human/H = M
-	if(istype(M, /mob/living/carbon/human) && ((H.head && H.head.flags_cover & HEADCOVERSEYES) || (H.wear_mask && H.wear_mask.flags_cover & MASKCOVERSEYES) || (H.glasses && H.glasses.flags & GLASSESCOVERSEYES)))
+	if(istype(H) && ((H.head && H.head.flags_cover & HEADCOVERSEYES) || (H.wear_mask && H.wear_mask.flags_cover & MASKCOVERSEYES) || (H.glasses && H.glasses.flags & GLASSESCOVERSEYES)))
 		user << "<span class='warning'>You're going to need to remove their head cover first!</span>"
 		return
 
 //since these people will be dead M != usr
 
 	if(!M.getorgan(/obj/item/organ/internal/brain))
+		if(istype(H) && !H.get_organ("head"))
+			return
 		user.drop_item()
-		for(var/mob/O in viewers(M, null))
-			if(O == (user || M))
-				continue
-			if(M == user)
-				O << "[user] inserts [src] into \his head!"
-			else
-				O << "[M] has [src] inserted into \his head by [user]."
 
+		var/msg = "[M] has [src] inserted into \his head by [user]."
+		if(M == user)
+			msg = "[user] inserts [src] into \his head!"
+
+		M.visible_message("<span class='danger'>[msg]</span>",
+						"<span class='userdanger'>[msg]</span>")
 		if(M != user)
 			M << "<span class='notice'>[user] inserts [src] into your head.</span>"
 			user << "<span class='notice'>You insert [src] into [M]'s head.</span>"

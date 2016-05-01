@@ -133,6 +133,7 @@
 	nodamage = 0
 	weaken = 5
 	stutter = 5
+	flags = NOSHIELD //Ignores shield to make it actually useful against riot shield dudes
 
 /obj/item/projectile/energy/bolt/large
 	damage = 20

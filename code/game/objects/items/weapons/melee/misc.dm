@@ -200,6 +200,7 @@
 	armour_penetration = 20
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	hitsound = 'sound/weapons/chainsword.ogg'
+	sharpness = IS_SHARP
 
 //Combat Knife
 /obj/item/weapon/melee/combatknife
