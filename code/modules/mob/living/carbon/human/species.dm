@@ -1279,9 +1279,13 @@
 	if(islimb(def_zone))
 		organ = def_zone
 	else
-		if(!def_zone)	def_zone = H.getrandomorgan(def_zone)
-		organ = H.get_organ(check_zone(def_zone))
-	if(!organ)	return 0
+		if(!def_zone)
+			organ = H.getrandomorgan("chest", 50)
+			def_zone = Bodypart2name(organ)
+		else
+			organ = H.get_organ(check_zone(def_zone))
+	if(!organ)
+		return 0
 
 	damage = (damage * blocked)
 
