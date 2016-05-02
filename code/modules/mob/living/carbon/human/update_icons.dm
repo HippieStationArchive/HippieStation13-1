@@ -553,7 +553,8 @@ var/global/list/limb_icon_cache = list()
 		. += "-not_coloured"
 
 	. += "-[gender]"
-
+	if(disabilities & HUSK)
+		. += "-husk"
 	for(var/obj/item/organ/limb/L in organs)
 		var/limbname = Bodypart2name(L)
 		. += "-[limbname]"

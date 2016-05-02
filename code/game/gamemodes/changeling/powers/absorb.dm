@@ -8,22 +8,25 @@
 
 /obj/effect/proc_holder/changeling/absorbDNA/can_sting(mob/living/carbon/user)
 	if(!..())
-		return
+		return 0
 	var/obj/item/weapon/grab/G = user.get_active_hand()
 	if(!istype(G) || (G.state < GRAB_AGGRESSIVE))
 		user << "<span class='warning'>We must have an aggressive grab on creature in our active hand to do this!</span>"
-		return
+		return 0
 	var/datum/changeling/changeling = user.mind.changeling
 	if(changeling.isabsorbing)
 		user << "<span class='warning'>We are already absorbing a creature!</span>"
-		return
+		return 0
 	var/mob/living/carbon/target = G.affecting
 	if((target.disabilities & NOCLONE) || (target.disabilities & HUSK))
 		user << "<span class='warning'>The DNA of [target] is ruined beyond usability!</span>"
-		return
+		return 0
 	if(!ishuman(target))
 		user << "<span class='warning'>[target] is not compatible with this ability.</span>"
-		return
+		return 0
+	if(!target.mind)
+		user << "<span class='warning'>[target] cannot be considered a conscious being!</span>"
+		return 0
 	return 1
 
 /obj/effect/proc_holder/changeling/absorbDNA/sting_action(mob/user)
@@ -61,7 +64,6 @@
 
 	var/target_is_changeling = FALSE
 	if(target.mind)//if the victim has got a mind
-
 		target.mind.show_memory(src, 0) //I can read your mind, kekeke. Output all their notes.
 
 		//Some of target's recent speech, so the changeling can attempt to imitate them better.

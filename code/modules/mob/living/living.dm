@@ -482,6 +482,7 @@ Sorry Giacom. Please don't be mad :(
 	if(stat == DEAD)
 		dead_mob_list -= src
 		living_mob_list += src
+	status_flags &= ~(FAKEDEATH) //So Heal()-ing a changeling doesn't break shit
 	stat = CONSCIOUS
 	if(ishuman(src))
 		var/mob/living/carbon/human/human_mob = src

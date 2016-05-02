@@ -268,7 +268,7 @@
 /obj/effect/proc_holder/changeling/sting/paralysis
 	name = "Paralysis Sting"
 	desc = "We inject a human with a powerful muscular inhibitor, preventing their movement after a short time."
-	helptext = "They will immediately be notified of their impending fate and will still be able to speak while paralyzed. The paralysis will last for around fifteen seconds."
+	helptext = "They will still be able to speak while paralyzed. The paralysis will last for around fifteen seconds."
 	sting_icon = "sting_paralysis"
 	chemical_cost = 30
 	evopoints_cost = 4
@@ -278,7 +278,7 @@
 /obj/effect/proc_holder/changeling/sting/paralysis/sting_action(mob/user, mob/living/target)
 	add_logs(user, target, "stung", "parasting")
 	user << "<span class='notice'>The paralysis will take effect more quickly depending on their wounds.</span>"
-	target << "<span class='warning'>Your body begins throbbing with a painful ache...</span>"
+	// target << "<span class='warning'>Your body begins throbbing with a painful ache...</span>" //No target warning so it can be used as a stealth-sting.
 	var/time_to_wait = target.health
 	time_to_wait += 50 //The target's health, plus five seconds - a fully healed human will take fifteen seconds to begin experiencing the effects
 	time_to_wait = Clamp(time_to_wait, 0, INFINITY)
@@ -293,34 +293,15 @@
 /obj/effect/proc_holder/changeling/sting/death
 	name = "Death Sting"
 	desc = "We inject a small amount of deadly poison that will kill the victim over a long period of time."
-	helptext = "Our target will know immediately of their plight. The toxin metabolization is very fast, our victim will be dead within the next minute."
+	helptext = "Our target will know immediately of their plight. The toxin metabolization is very slow and it will slowly drain blood as well as deal toxin damage to the victim."
 	sting_icon = "sting_poison"
-	req_dna = 9 //Tier 4
-	chemical_cost = 75 //A guaranteed death is nothing to laugh at
-	evopoints_cost = 10 //Hefty price for the DEATH STING.
+	req_dna = 6 //Tier 3
+	chemical_cost = 50 //A potential guaranteed death is nothing to laugh at
+	evopoints_cost = 5 //Hefty price for the DEATH STING.
 
 /obj/effect/proc_holder/changeling/sting/death/sting_action(mob/user, mob/target)
 	add_logs(user, target, "stung", "death sting")
 	if(target.reagents)
-		target.reagents.add_reagent("venom", 40)
+		target.reagents.add_reagent("wasting_toxin", 10)
 		feedback_add_details("changeling_powers", "DS")
-	return 1
-
-/obj/effect/proc_holder/changeling/sting/comatose
-	name = "Comatose Sting"
-	desc = "We inject a human with a powerful toxin, stopping all motor nerve function. The target will be unable to move or speak."
-	helptext = "The target will be stunned and silenced for approximately one minute."
-	sting_icon = "sting_coma"
-	chemical_cost = 50
-	evopoints_cost = 5
-	req_dna = 9 //Tier 4
-	standing_req = 1
-
-/obj/effect/proc_holder/changeling/sting/comatose/sting_action(mob/user, mob/living/target)
-	add_logs(user, target, "stung", "comatosesting")
-	target << "<span class='warning'>You feel a small prick and a burning sensation.</span>"
-	target.Weaken(60)
-	target.Stun(60)
-	target.reagents.add_reagent("mutetoxin", 20)
-	feedback_add_details("changeling_powers", "KS")
 	return 1
