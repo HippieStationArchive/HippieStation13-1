@@ -21,6 +21,7 @@ changes:
   - tweak: "Tweaked changeling regeneration to use revive() proc"
   - tweak: "Increased headslug speed to be the same as humans so you're not a complete joke."
   - tweak: "Tweaked absorbtions to not work on NPC humans (monkey-humans/mind datum-less humans)"
+  - tweak: "Para-sting no longer alerts the victim of being stung until they're stunned"
   - tweak: "Tweaked changeling objectives:"
   - tweak: "   Genomes goal decreased so you have to absorb from 2 to 4 genomes."
   - tweak: "   Tweaked assasinate and maroon objectives to give you changeling's codename if they become your target."
