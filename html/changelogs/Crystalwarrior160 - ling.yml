@@ -21,9 +21,9 @@ changes:
   - tweak: "Tweaked changeling regeneration to use revive() proc"
   - tweak: "Increased headslug speed to be the same as humans so you're not a complete joke."
   - tweak: "Tweaked absorbtions to not work on NPC humans (monkey-humans/mind datum-less humans)"
-  - tweak: "Tweaked changeling objectives:
-  - tweak: "   Genomes goal decreased so you have to absorb from 2 to 4 genomes.
-  - tweak: "   Tweaked assasinate and maroon objectives to give you changeling's codename if they become your target.
+  - tweak: "Tweaked changeling objectives:"
+  - tweak: "   Genomes goal decreased so you have to absorb from 2 to 4 genomes."
+  - tweak: "   Tweaked assasinate and maroon objectives to give you changeling's codename if they become your target."
   - rscdel: "   Removed \"escape with identity\" objective."
   - bugfix: "Fixed husked people not showing up husked"
   - bugfix: "Fixed being able to handcuff people with missing arms"
