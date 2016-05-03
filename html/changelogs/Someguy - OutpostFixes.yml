@@ -1,0 +1,22 @@
+author: KingofSarcaEsumQualmEinGottshanzPart1
+
+delete-after: True
+
+changes:
+  - tweak: "Remove a layer of R-walls around the outpost, it now has only one."
+  - tweak: "Removes the cameras in the outpost dorms and bathrooms. Adds a few more cameras to increase camera coverage."
+  - tweak: "Chemistry now has a reinforced table and window."
+  - tweak: "Changed the locker area on the left side of the station into a locker room akin to the one on main station."
+  - tweak: "Added a grinder to the kitchen and an empty table."
+  - tweak: "Air alarm, APC's, and vent locations slightly changed to make more sense."
+  - tweak: "Made R and D less empty looking."
+  - tweak: "Cautery and Welding Tool both can close up bleeding wounds. Completely healing the brute damage on a limb will also remove bloodloss."
+  - tweak: "Lockers that required access to open now start off unlocked."
+  - bugfix: "Adds an airlock to the Research Shuttle Dock, preventing depressurization. Also fixed the access requirements on the shuttle."
+  - bugfix: "Fixed all duplicate camera ctags."
+  - bugfix: "Fixed roundstart active turfs."
+  - bugfix: "Fixed the stacks of materials being only 1 sheet instead of 50."
+  - bugfix: "Solars now has two walls on the last airlock preventing depressurizations."
+  - bugfix: "All APC's are properly named now."
+  - rscadd: "Added a Genetics Research Room and an empty Construction Area."
+  - rscdel: "Removed the Xenobiology area."
