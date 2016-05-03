@@ -124,7 +124,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 
 /datum/mutation/human/hulk/New()
 	..()
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-ABOVE_HAIR_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-FIRE_LAYER)
 	//Currently this is a blank sprite, if any sort of aura effect is added to hulks, it will replace "hulk_alien_s"
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
