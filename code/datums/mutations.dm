@@ -134,7 +134,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 
 	if(MUTCOLORS in owner.dna.species.specflags)
 	else
-		owner.dna.species.specflags += MUTCOLORS
+		owner.dna.species.specflags += MUTCOLORS  // why are specflags a list, jesus they should be a bitflag like stats_flags up there ^.
 
 	naturalcolor = owner.dna.features["mcolor"]
 	owner.dna.features["mcolor"] = sanitize_hexcolor("#3DCF13")
