@@ -140,7 +140,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	owner.dna.features["mcolor"] = sanitize_hexcolor("#3DCF13")
 
 	owner.regenerate_icons()
-	//owner.resize = 1
+	//owner.resize = 2.0
 
 /datum/mutation/human/hulk/on_attack_hand(mob/living/carbon/human/owner, atom/target)
 	return target.attack_hulk(owner)
