@@ -54,7 +54,7 @@
 	desc = "This spell dooms the fate of any unlucky soul to the live of a pitiful cluwne, a terrible creature that is hunted for fun."
 	school = "transmutation"
 	charge_type = "recharge"
-	charge_max	= 900
+	charge_max	= 600
 	charge_counter = 0
 	clothes_req = 1
 	stat_allowed = 0
