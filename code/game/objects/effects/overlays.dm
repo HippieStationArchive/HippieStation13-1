@@ -51,7 +51,17 @@
 	icon_state = "emp pulse"
 	duration = 20
 	randomdir = 0
+	
+	  
+/obj/effect/overlay/temp/guardian
+	randomdir = 0
 
+/obj/effect/overlay/temp/guardian/phase
+	duration = 5
+	icon_state = "phasein"
+
+/obj/effect/overlay/temp/guardian/phase/out
+	icon_state = "phaseout"
 
 /obj/effect/overlay/palmtree_r
 	name = "Palm tree"
