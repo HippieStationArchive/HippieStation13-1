@@ -117,30 +117,28 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	get_chance = 15
 	lowest_value = 256 * 12
 	text_gain_indication = "<span class='notice'>Your muscles hurt!</span>"
-	//species_allowed = list("human") //no skeleton/lizard hulk etc
+	species_allowed = list("human", "lizard", "moth", "tarajan", "IPC", "pod", "slime", "skeleton")
+	//Excludes fly, plasmamen, abductors, zombies, both golems, meseeks, shadows, and jelly
+	//Some of these, such as the fly, turn invisible because they don't have a greyscale sprite yet.
 	health_req = 25
 
 /datum/mutation/human/hulk/New()
 	..()
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-MUTATIONS_LAYER)
+	//Currently this is a blank sprite, if any sort of aura effect is added to hulks, it will replace "hulk_alien_s"
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
 		return
 	var/status = CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
 	owner.status_flags &= ~status
-
 	oldflags = owner.dna.species.specflags
-
 	if(MUTCOLORS in owner.dna.species.specflags)
 	else
 		owner.dna.species.specflags += MUTCOLORS  // why are specflags a list, jesus they should be a bitflag like stats_flags up there ^.
-
 	naturalcolor = owner.dna.features["mcolor"]
 	owner.dna.features["mcolor"] = sanitize_hexcolor("#3DCF13")
-
 	owner.regenerate_icons()
-	//owner.resize = 2.0
 
 /datum/mutation/human/hulk/on_attack_hand(mob/living/carbon/human/owner, atom/target)
 	return target.attack_hulk(owner)
@@ -160,13 +158,9 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	if(..())
 		return
 	owner.status_flags |= CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
-
 	owner.dna.features["mcolor"] = naturalcolor
-	owner.dna.species.specflags = oldflags
-
+	owner.dna.species.specflags = oldflags // This removes MUTCOLORS from moths and humans, but not from races that start with it.
 	owner.regenerate_icons()
-
-	//owner.resize = 0.8
 
 /datum/mutation/human/hulk/say_mod(message)
 	if(message)
