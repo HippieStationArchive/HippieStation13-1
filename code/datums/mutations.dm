@@ -125,7 +125,6 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 /datum/mutation/human/hulk/New()
 	..()
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-FIRE_LAYER)
-	//Currently this is a blank sprite, if any sort of aura effect is added to hulks, it will replace "hulk_alien_s"
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
@@ -210,14 +209,14 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	get_chance = 25
 	lowest_value = 256 * 12
 	text_gain_indication = "<span class='notice'>The walls suddenly disappear!</span>"
-////////////////
+
 /datum/mutation/human/x_ray/New()
 	..()
 	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="blinkyeyes", "layer"=-FRONT_MUTATIONS_LAYER)
 
 /datum/mutation/human/x_ray/get_visual_indicator(mob/living/carbon/human/owner)
 	return visual_indicators[1]
-//////////////
+
 /datum/mutation/human/x_ray/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
 		return
