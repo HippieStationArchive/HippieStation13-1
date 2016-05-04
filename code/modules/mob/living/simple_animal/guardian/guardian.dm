@@ -65,15 +65,19 @@
 			//loc = get_turf(summoner)
 
 /mob/living/simple_animal/hostile/guardian/Move() //Returns to summoner if they move out of range
-	..()
+	. = ..()
+	snapback()
+			
+/mob/living/simple_animal/hostile/guardian/proc/snapback()
 	if(summoner)
 		if(get_dist(get_turf(summoner),get_turf(src)) <= range)
 			return
 		else
-			src << "You moved out of range, and were pulled back! You can only move [range] meters from [summoner.real_name]"
-			visible_message("<span class='danger'>The [src] jumps back to its user.</span>")
-			loc = get_turf(summoner)
-			PoolOrNew(/obj/effect/overlay/temp/guardian/phase, get_turf(src))
+			src << "<span class='holoparasite'>You moved out of range, and were pulled back! You can only move [range] meters from [summoner.real_name]!</span>"
+			visible_message("<span class='danger'>\The [src] jumps back to its user.</span>")
+			PoolOrNew(/obj/effect/overlay/temp/guardian/phase/out, get_turf(src))
+			forceMove(get_turf(summoner))
+			PoolOrNew(/obj/effect/overlay/temp/guardian/phase, get_turf(src))			
 
 /mob/living/simple_animal/hostile/guardian/canSuicide()
 	return 0
@@ -217,7 +221,6 @@
 
 
 //Fire. Low damage, low resistance, sets mobs on fire when bumping
-
 /mob/living/simple_animal/hostile/guardian/fire
 	a_intent = "help"
 	melee_damage_lower = 10
@@ -249,10 +252,10 @@
 */
 
 /mob/living/simple_animal/hostile/guardian/fire/AttackingTarget()
-	if(..())
-		if(ishuman(target))
-			spawn(0)
-				new /obj/effect/hallucination/delusion(target.loc,target,force_kind="custom",duration=200,skip_nearby=0, custom_icon = src.icon_state, custom_icon_file = src.icon)					
+	..()
+	if(ishuman(target))
+		spawn(0)
+			new /obj/effect/hallucination/delusion(target.loc,target,force_kind="custom",duration=200,skip_nearby=0, custom_icon = src.icon_state, custom_icon_file = src.icon)
 
 /mob/living/simple_animal/hostile/guardian/fire/Crossed(AM as mob|obj)
 	..()
@@ -276,6 +279,7 @@
 /mob/living/simple_animal/hostile/guardian/fire/Bump(AM as mob|obj)
 	..()
 	collision_ignite(AM)
+	
 //Standard
 
 /mob/living/simple_animal/hostile/guardian/punch
@@ -418,8 +422,8 @@
 				src << "<span class='danger'><B>You need a beacon to warp things!</span></B>"
 	else
 		src << "<span class='danger'><B>You need to hold still!</span></B>"
-
-//Beam		
+	
+//Beam
 /obj/effect/ebeam/chain
 	name = "lightning chain"
 	layer = MOB_LAYER - 0.1
@@ -437,46 +441,53 @@
 	tech_fluff_string = "Boot sequence complete. Lightning modules active. Holoparasite swarm online."
 	var/datum/beam/summonerchain
 	var/list/enemychains = list()
+	var/successfulshocks = 0
 
 /mob/living/simple_animal/hostile/guardian/beam/AttackingTarget()
-	if(..())
-		if(isliving(target) && target != src && target != summoner)
-			for(var/chain in enemychains)
-				var/datum/beam/B = chain
-				if(B.target == target)
-					return //oh this guy already HAS a chain, let's not chain again
-			if(enemychains.len > 2)
-				var/datum/beam/C = pick(enemychains)
-				qdel(C)
-				enemychains -= C
-			enemychains += Beam(target,"lightning[rand(1,12)]",'icons/effects/effects.dmi',70, 7,/obj/effect/ebeam/chain)
-
-/mob/living/simple_animal/hostile/guardian/beam/Life()
 	..()
-	if(summoner)
-		if(summonerchain && !qdeleted(summonerchain))
-			chainshock(summonerchain)
-		else
-			summonerchain = Beam(summoner,"lightning[rand(1,12)]",'icons/effects/effects.dmi',INFINITY, INFINITY,/obj/effect/ebeam/chain)
-	if(enemychains.len)
+	if(isliving(target) && target != src && target != summoner)
 		for(var/chain in enemychains)
-			if(!qdeleted(chain))
-				chainshock(chain)
-			else
-				enemychains -= chain
+			var/datum/beam/B = chain
+			if(B.target == target)
+				return //oh this guy already HAS a chain, let's not chain again
+		if(enemychains.len > 2)
+			var/datum/beam/C = pick(enemychains)
+			qdel(C)
+			enemychains -= C
+		enemychains += Beam(target,"lightning[rand(1,12)]",'icons/effects/effects.dmi',70, 7,/obj/effect/ebeam/chain)
 
 /mob/living/simple_animal/hostile/guardian/beam/Destroy()
 	removechains()
 	return ..()
 
 /mob/living/simple_animal/hostile/guardian/beam/Manifest()
-	if(..())
-		if(summoner)
-			summonerchain = Beam(summoner,"lightning[rand(1,12)]",'icons/effects/effects.dmi',INFINITY, INFINITY,/obj/effect/ebeam/chain)
+	..()
+	if(summoner)
+		summonerchain = Beam(summoner,"lightning[rand(1,12)]",'icons/effects/effects.dmi',INFINITY, INFINITY,/obj/effect/ebeam/chain)
+	while(loc != summoner)
+		if(successfulshocks > 5)
+			successfulshocks = 0
+		if(shockallchains())
+			successfulshocks++
+		sleep(3)
 
 /mob/living/simple_animal/hostile/guardian/beam/Recall()
-	if(..())
-		removechains()
+	..()
+	removechains()
+
+/mob/living/simple_animal/hostile/guardian/beam/proc/shockallchains()
+	. = 0
+	if(summoner)
+		if(summonerchain && !qdeleted(summonerchain))
+			. += chainshock(summonerchain)
+		else
+			summonerchain = Beam(summoner,"lightning[rand(1,12)]",'icons/effects/effects.dmi',INFINITY, INFINITY,/obj/effect/ebeam/chain)
+	if(enemychains.len)
+		for(var/chain in enemychains)
+			if(!qdeleted(chain))
+				. += chainshock(chain)
+			else
+				enemychains -= chain
 
 /mob/living/simple_animal/hostile/guardian/beam/proc/removechains()
 	if(summonerchain)
@@ -488,6 +499,7 @@
 		enemychains = list()
 
 /mob/living/simple_animal/hostile/guardian/beam/proc/chainshock(datum/beam/B)
+	. = 0
 	var/list/turfs = list()
 	for(var/E in B.elements)
 		var/obj/effect/ebeam/chainpart = E
@@ -500,24 +512,108 @@
 	for(var/turf in turfs)
 		var/turf/T = turf
 		for(var/mob/living/L in T)
-			if(!L.lying && L != src && L != summoner)
-				if(iscarbon(L))
-					var/mob/living/carbon/C = L
-					if(ishuman(C))
-						var/mob/living/carbon/human/H = C
-						H.electrocution_animation(20)
-					C.jitteriness += 1000
-					C.do_jitter_animation(jitteriness)
-					C.stuttering += 1
-					spawn(20)
-						if(C)
-							C.jitteriness = max(C.jitteriness - 990, 10)
-				L.visible_message(
-					"<span class='danger'>[L] was shocked by the lightning chain!</span>", \
-					"<span class='userdanger'>You are shocked by the lightning chain!</span>", \
-					"<span class='italics'>You hear a heavy electrical crack.</span>" \
-				)
-				L.adjustFireLoss(5) //not actually a ton of damage, but it adds up
+			if(L.stat != DEAD && L != src && L != summoner)
+				if(successfulshocks > 4)
+					if(iscarbon(L))
+						var/mob/living/carbon/C = L
+						if(ishuman(C))
+							var/mob/living/carbon/human/H = C
+							H.electrocution_animation(20)
+						C.jitteriness += 1000
+						C.do_jitter_animation(jitteriness)
+						C.stuttering += 1
+						spawn(20)
+							if(C)
+								C.jitteriness = max(C.jitteriness - 990, 10)
+					L.visible_message(
+						"<span class='danger'>[L] was shocked by the lightning chain!</span>", \
+						"<span class='userdanger'>You are shocked by the lightning chain!</span>", \
+						"<span class='italics'>You hear a heavy electrical crack.</span>" \
+					)
+				L.adjustFireLoss(0.9) //adds up very rapidly
+				. = 1
+
+//Charger
+/mob/living/simple_animal/hostile/guardian/charger
+	melee_damage_lower = 15
+	melee_damage_upper = 15
+	ranged = 1 //technically
+	ranged_message = "charges"
+	ranged_cooldown_cap = 5
+	speed = -1
+	damage_coeff = list(BRUTE = 0.6, BURN = 0.6, TOX = 0.6, CLONE = 0.6, STAMINA = 0, OXY = 0.6)
+	playstyle_string = "As a charger type you do medium damage, have medium damage resistance, move very fast, and can charge at a location, stunning and heavily damaging any target hit."
+	magic_fluff_string = "..And draw the Hunter, an alien master of rapid assault."
+	tech_fluff_string = "Boot sequence complete. Charge modules loaded. Holoparasite swarm online."
+	var/charging = 0
+	var/obj/screen/alert/chargealert
+
+/mob/living/simple_animal/hostile/guardian/charger/Life()
+	..()
+	if(!ranged_cooldown)
+		if(!chargealert)
+			chargealert = throw_alert("charge", /obj/screen/alert/cancharge)
+	else
+		clear_alert("charge")
+		chargealert = null
+
+/mob/living/simple_animal/hostile/guardian/charger/OpenFire(atom/A)
+	if(!charging)
+		visible_message("<span class='danger'><b>[src]</b> [ranged_message] at [A]!</span>")
+		ranged_cooldown = ranged_cooldown_cap
+		clear_alert("charge")
+		chargealert = null
+		Shoot(A)
+
+/mob/living/simple_animal/hostile/guardian/charger/Shoot(atom/targeted_atom)
+	charging = 1
+	throw_at(targeted_atom, range, 1, src, 0)
+	charging = 0
+
+/mob/living/simple_animal/hostile/guardian/charger/Move()
+	if(charging)
+		PoolOrNew(/obj/effect/overlay/temp/decoy, list(loc,src))
+	. = ..()
+
+/mob/living/simple_animal/hostile/guardian/charger/snapback()
+	if(!charging)
+		..()
+
+/mob/living/simple_animal/hostile/guardian/charger/throw_impact(atom/A)
+	if(!charging)
+		return ..()
+
+	else if(A)
+		if(isliving(A) && A != summoner)
+			var/mob/living/L = A
+			if(ishuman(A))
+				var/mob/living/carbon/human/H = A
+				L.visible_message("<span class='danger'>[src] slams into [L]!</span>", "<span class='userdanger'>[src] slams into you!</span>")
+				L.Weaken(2)
+				L.apply_damage(20, BRUTE)
+
+		charging = 0
+		
+//Protector
+/mob/living/simple_animal/hostile/guardian/protector
+	melee_damage_lower = 15
+	melee_damage_upper = 15
+	damage_coeff = list(BRUTE = 0.3, BURN = 0.3, TOX = 0.3, CLONE = 0.3, STAMINA = 0, OXY = 0.3)
+	playstyle_string = "As a protector type you have very high damage resistance, a decent attack, and cause your summoner to leash to you instead of you leashing to them."
+	magic_fluff_string = "..And draw the Guardian, a stalwart protector that never leaves the side of its charge."
+	tech_fluff_string = "Boot sequence complete. Protector modules loaded. Holoparasite swarm online."
+
+/mob/living/simple_animal/hostile/guardian/protector/snapback() //snap to what? snap to the guardian!
+	if(summoner)
+		if(get_dist(get_turf(summoner),get_turf(src)) <= range)
+			return
+		else
+			summoner << "You moved out of range, and were pulled back! You can only move [range] meters from [real_name]!"
+			summoner.visible_message("<span class='danger'>\The [summoner] jumps back to \his protector.</span>")
+			PoolOrNew(/obj/effect/overlay/temp/guardian/phase/out, get_turf(summoner))
+			summoner.forceMove(get_turf(src))
+			PoolOrNew(/obj/effect/overlay/temp/guardian/phase, get_turf(summoner))
+			
 ///////////////////Ranged
 
 /obj/item/projectile/guardian
@@ -615,23 +711,24 @@
 	melee_damage_upper = 15
 	damage_coeff = list(BRUTE = 0.6, BURN = 0.6, TOX = 0.6, CLONE = 0.6, STAMINA = 0, OXY = 0.6)
 	range = 13
-	playstyle_string = "As an explosive type, you have only moderate close combat abilities, but are capable of converting any adjacent item into a disguised bomb via alt click."
+	playstyle_string = "As an explosive type, you have moderate close combat abilities, may explosively teleport targets on attack, and are capable of converting nearby items and objects into disguised bombs via alt click."
 	magic_fluff_string = "..And draw the Scientist, master of explosive death."
 	tech_fluff_string = "Boot sequence complete. Explosive modules active. Holoparasite swarm online."
 	var/bomb_cooldown = 0
-	
+
 /mob/living/simple_animal/hostile/guardian/bomb/AttackingTarget()
-	if(..())
-		if(prob(33))
-			if(istype(target, /atom/movable))
-				var/atom/movable/M = target
-				if(!M.anchored && M != summoner)
-					PoolOrNew(/obj/effect/overlay/temp/guardian/phase/out, get_turf(M))
-					do_teleport(M, M, 10)
-					for(var/mob/living/L in range(1, M))
-						if(L != src && L != summoner)
-							L.apply_damage(15, BRUTE)
-					
+	..()
+	if(prob(33))
+		if(istype(target, /atom/movable))
+			var/atom/movable/M = target
+			if(!M.anchored && M != summoner)
+				PoolOrNew(/obj/effect/overlay/temp/guardian/phase/out, get_turf(M))
+				do_teleport(M, M, 10)
+				for(var/mob/living/L in range(1, M))
+					if(L != src && L != summoner)
+						L.apply_damage(15, BRUTE)
+				PoolOrNew(/obj/effect/overlay/temp/explosion, get_turf(M))
+
 /mob/living/simple_animal/hostile/guardian/bomb/AltClickOn(atom/movable/A)
 	if(!istype(A))
 		return
@@ -644,7 +741,7 @@
 			src << "<span class='danger'><B>Success! Bomb armed!</span></B>"
 			bomb_cooldown = world.time + 200
 			B.spawner = src
-			B.disguise (A)
+			B.disguise(A)
 		else
 			src << "<span class='danger'><B>Your powers are on cooldown! You must wait 20 seconds between bombs.</span></B>"
 
@@ -654,9 +751,11 @@
 	var/obj/stored_obj
 	var/mob/living/spawner
 
+
 /obj/item/weapon/guardian_bomb/proc/disguise(var/obj/A)
 	A.loc = src
 	stored_obj = A
+	opacity = A.opacity
 	anchored = A.anchored
 	density = A.density
 	appearance = A.appearance
@@ -677,13 +776,14 @@
 	if(isliving(A))
 		detonate(A)
 	else
-		..()	
-	
+		..()
+
 /obj/item/weapon/guardian_bomb/attackby(mob/living/user)
 	detonate(user)
 	return
 
 /obj/item/weapon/guardian_bomb/pickup(mob/living/user)
+	..()
 	detonate(user)
 	return
 
@@ -691,7 +791,6 @@
 	stored_obj.examine(user)
 	if(get_dist(user,src)<=2)
 		user << "<span class='notice'>Looks odd!</span>"
-
 
 ////////Creation
 
@@ -707,7 +806,7 @@
 	var/used_message = "All the cards seem to be blank now."
 	var/failure_message = "..And draw a card! It's...blank? Maybe you should try again later."
 	var/ling_failure = "The deck refuses to respond to a souless creature such as you."
-	var/list/possible_guardians = list("Chaos", "Standard", "Ranged", "Support", "Explosive")
+	var/list/possible_guardians = list("Chaos", "Standard", "Ranged", "Support", "Explosive", "Lightning", "Protector", "Charger")
 	var/random = TRUE
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
@@ -757,6 +856,15 @@
 
 		if("Explosive")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/bomb
+		
+		if("Lightning")
+			pickedtype = /mob/living/simple_animal/hostile/guardian/beam
+		
+		if("Charger")
+			pickedtype = /mob/living/simple_animal/hostile/guardian/charger
+		
+		if("Protector")
+			pickedtype = /mob/living/simple_animal/hostile/guardian/protector
 
 	var/mob/living/simple_animal/hostile/guardian/G = new pickedtype(user)
 	G.summoner = user

@@ -63,6 +63,18 @@
 /obj/effect/overlay/temp/guardian/phase/out
 	icon_state = "phaseout"
 
+/obj/effect/overlay/temp/guardian/charge
+	duration = 15
+
+/obj/effect/overlay/temp/decoy/New(loc, atom/mimiced_atom)
+	..()
+	alpha = initial(alpha)
+	if(mimiced_atom)
+		icon = mimiced_atom.icon
+		icon_state = mimiced_atom.icon_state
+		dir = mimiced_atom.dir
+	animate(src, alpha = 0, time = duration)
+
 /obj/effect/overlay/palmtree_r
 	name = "Palm tree"
 	icon = 'icons/misc/beach2.dmi'
@@ -70,6 +82,14 @@
 	density = 1
 	layer = 5
 	anchored = 1
+
+/obj/effect/overlay/temp/explosion
+	name = "explosion"
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "explosion"
+	pixel_x = -32
+	pixel_y = -32
+	duration = 8	
 
 /obj/effect/overlay/palmtree_l
 	name = "Palm tree"
