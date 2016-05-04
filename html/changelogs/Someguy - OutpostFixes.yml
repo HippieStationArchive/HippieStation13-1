@@ -10,7 +10,6 @@ changes:
   - tweak: "Added a grinder to the kitchen and an empty table."
   - tweak: "Air alarm, APC's, and vent locations slightly changed to make more sense."
   - tweak: "Made R and D less empty looking."
-  - tweak: "Cautery and Welding Tool both can close up bleeding wounds. Completely healing the brute damage on a limb will also remove bloodloss."
   - tweak: "Lockers that required access to open now start off unlocked."
   - bugfix: "Adds an airlock to the Research Shuttle Dock, preventing depressurization. Also fixed the access requirements on the shuttle."
   - bugfix: "Fixed all duplicate camera ctags."
