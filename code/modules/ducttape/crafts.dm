@@ -32,7 +32,7 @@
 	block_chance = list(melee = 60, bullet = 50, laser = 40, energy = 30) //Great at blocking incoming melee, but then again, it can break...
 	blocksound = list('sound/items/trayhit1.ogg', 'sound/items/trayhit2.ogg')
 	var/damage_received = 0 //Amount of damage the shield has received
-	var/max_damage = 80 //Amount of max damage the trayshield can withstand
+	var/max_damage = 60 //Amount of max damage the trayshield can withstand
 
 /obj/item/weapon/shield/trayshield/examine(mob/user)
 	..()
