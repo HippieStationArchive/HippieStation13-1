@@ -225,7 +225,7 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	var/chem_storage = 75
 	var/chem_recharge_rate = 1
 	var/chem_recharge_slowdown = 0
-	var/sting_range = 2
+	var/sting_range = 1 //FOR THE LOVE OF GOD KEEP THIS AT 1, we don't want changeling stings to be long-range fuck-you's
 	var/changelingID = "Changeling"
 	var/geneticdamage = 0
 	var/isabsorbing = 0

@@ -16,7 +16,7 @@
 	var/datum/mind/M = user.mind
 	var/list/organs = user.getorganszone("head", 1)
 	if(!isbrain(user))
-		var/sure = alert(user, "Are you sure you want to sarcifice your current body and become a brainslug?", "Are you sure?", "No", "Yes")
+		var/sure = alert(user, "Are you sure you want to sarcifice your current body and become a brainslug?", "Are you sure?", "Yes", "No")
 		if(sure != "Yes")
 			return
 

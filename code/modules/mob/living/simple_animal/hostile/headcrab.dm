@@ -22,6 +22,7 @@
 	var/egg_lain = 0
 	speed = 0 //So you can actually fucking outrun the massive lynchsquad going after you
 	gold_core_spawnable = 0
+	ventcrawl_speed = 5 //It's a tiny lil' piece of shit, he should be able to crawl into vents quick.
 
 /mob/living/simple_animal/hostile/headcrab/proc/Infect(mob/living/carbon/victim)
 	var/obj/item/organ/internal/body_egg/changeling_egg/egg = new(victim)
