@@ -30,6 +30,7 @@
 	origin_tech = "materials=2"
 	attack_verb = list("shoved", "bashed")
 	block_chance = list(melee = 60, bullet = 50, laser = 40, energy = 30) //Great at blocking incoming melee, but then again, it can break...
+	blocksound = list('sound/items/trayhit1.ogg', 'sound/items/trayhit2.ogg')
 	var/damage_received = 0 //Amount of damage the shield has received
 	var/max_damage = 80 //Amount of max damage the trayshield can withstand
 
@@ -44,16 +45,18 @@
 		user << "It's slightly damaged."
 
 /obj/item/weapon/shield/trayshield/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0, damage = 0, type = "melee")
-	damage_received += damage * (100-block_chance[type])/100
-	if(damage_received >= max_damage)
-		if(ishuman(loc))
-			var/mob/living/carbon/human/H = loc
-			visible_message("<span class='danger'>[H]'s shield breaks!</span>", "<span class='userdanger'>Your shield breaks!</span>")
-			playsound(H, 'sound/effects/bang.ogg', 30, 1)
-			H.unEquip(src, 1)
-		spawn(1) //Delay the deletion so the code has time to work with the shield
-			qdel(src)
-	return 1
+	if(..())
+		damage_received += damage * (100-block_chance[type])/100
+		if(damage_received >= max_damage)
+			if(ishuman(loc))
+				var/mob/living/carbon/human/H = loc
+				H.visible_message("<span class='danger'>[H]'s shield breaks!</span>", "<span class='userdanger'>Your shield breaks!</span>")
+				playsound(H, 'sound/effects/bang.ogg', 30, 1)
+				H.unEquip(src, 1)
+			spawn(1) //Delay the deletion so the code has time to work with the shield
+				qdel(src)
+		return 1
+	return 0
 
 /obj/item/weapon/storage/bag/tray/attackby(obj/item/W, mob/user)
 	if(istype(W, /obj/item/stack/ducttape))

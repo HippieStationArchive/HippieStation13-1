@@ -3,6 +3,7 @@
 	icon = 'icons/obj/weapons.dmi'
 	attack_verb = list("shoved", "bashed")
 	block_chance = list(melee = 60, bullet = 50, laser = 40, energy = 30) //defaultorino vars
+	blocksound = 'sound/items/dodgeball.ogg'
 
 /obj/item/weapon/shield/roman
 	name = "roman shield"
