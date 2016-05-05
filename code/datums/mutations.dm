@@ -20,6 +20,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	var/layer_used = MUTATIONS_LAYER //which mutation layer to use
 	var/list/species_allowed = list() //to restrict mutation to only certain species
 	var/health_req //minimum health required to acquire the mutation
+	var/naturalcolor //the person's alien color prehulk
+	var/oldflags
 
 /datum/mutation/human/proc/force_give(mob/living/carbon/human/owner)
 	set_block(owner)
@@ -115,26 +117,32 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	get_chance = 15
 	lowest_value = 256 * 12
 	text_gain_indication = "<span class='notice'>Your muscles hurt!</span>"
-	//species_allowed = list("human") //no skeleton/lizard hulk etc
+	species_allowed = list("human", "lizard", "moth", "tarajan", "IPC", "pod", "slime", "skeleton")
+	//Excludes fly, plasmamen, abductors, zombies, both golems, meseeks, shadows, and jelly
+	//Some of these, such as the fly, turn invisible because they don't have a greyscale sprite yet.
 	health_req = 25
 
 /datum/mutation/human/hulk/New()
 	..()
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_f_s", "layer"=-MUTATIONS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_m_s", "layer"=-MUTATIONS_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-FIRE_LAYER)
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
 		return
 	var/status = CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
 	owner.status_flags &= ~status
+	oldflags = owner.dna.species.specflags
+	if(!(MUTCOLORS in owner.dna.species.specflags))
+		owner.dna.species.specflags += MUTCOLORS  // why are specflags a list, jesus they should be a bitflag like stats_flags up there ^.
+	naturalcolor = owner.dna.features["mcolor"]
+	owner.dna.features["mcolor"] = sanitize_hexcolor("#3DCF13")
+	owner.regenerate_icons()
 
 /datum/mutation/human/hulk/on_attack_hand(mob/living/carbon/human/owner, atom/target)
 	return target.attack_hulk(owner)
 
 /datum/mutation/human/hulk/get_visual_indicator(mob/living/carbon/human/owner)
-	var/g = (owner.gender == FEMALE) ? 1 : 2
-	return visual_indicators[g]
+	return visual_indicators[1]
 
 /datum/mutation/human/hulk/on_life(mob/living/carbon/human/owner)
 	if(owner.health < 25)
@@ -147,6 +155,9 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	if(..())
 		return
 	owner.status_flags |= CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
+	owner.dna.features["mcolor"] = naturalcolor
+	owner.dna.species.specflags = oldflags // This removes MUTCOLORS from moths and humans, but not from races that start with it.
+	owner.regenerate_icons()
 
 /datum/mutation/human/hulk/say_mod(message)
 	if(message)
@@ -198,6 +209,13 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	get_chance = 25
 	lowest_value = 256 * 12
 	text_gain_indication = "<span class='notice'>The walls suddenly disappear!</span>"
+
+/datum/mutation/human/x_ray/New()
+	..()
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="blinkyeyes", "layer"=-FRONT_MUTATIONS_LAYER)
+
+/datum/mutation/human/x_ray/get_visual_indicator(mob/living/carbon/human/owner)
+	return visual_indicators[1]
 
 /datum/mutation/human/x_ray/on_acquiring(mob/living/carbon/human/owner)
 	if(..())

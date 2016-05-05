@@ -92,8 +92,8 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 /mob/living/carbon/human/proc/update_body()
 	remove_overlay(BODY_LAYER)
-	update_body_parts()
 	dna.species.handle_body(src)
+	update_body_parts()
 
 /mob/living/carbon/human/update_fire()
 	..("Standing")
@@ -548,7 +548,7 @@ var/global/list/limb_icon_cache = list()
 	. = "[dna.species.id]"
 
 	if(dna.species.use_skintones || dna.features["mcolor"])
-		. += "-coloured-[skin_tone]"
+		. += "-coloured-[skin_tone]-[dna.features["mcolor"]]"
 	else
 		. += "-not_coloured"
 
@@ -598,6 +598,11 @@ var/global/list/limb_icon_cache = list()
 	if(affecting.should_draw_greyscale)
 		should_draw_greyscale = affecting.should_draw_greyscale
 
+	if(disabilities & HUSK)
+		species_id = "husk"
+		should_draw_gender = FALSE
+		should_draw_greyscale = FALSE
+
 	if(affecting.status == ORGAN_ORGANIC)
 		if(should_draw_greyscale)
 			if(should_draw_gender)
@@ -628,12 +633,10 @@ var/global/list/limb_icon_cache = list()
 	var/draw_color
 
 	if(species)
-		if(species.use_skintones)
+		if(MUTCOLORS in species.specflags)
+			draw_color = dna.features["mcolor"]
+		else if(species.use_skintones)
 			draw_color = skintone2hex(skin_tone)
-		else
-			if(MUTCOLORS in species.specflags)
-				draw_color = dna.features["mcolor"]
-
 	if(affecting.skin_tone) //Limb has skin color variable defined, use it
 		draw_color = skintone2hex(affecting.skin_tone)
 	if(affecting.species_color)

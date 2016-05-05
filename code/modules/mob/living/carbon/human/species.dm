@@ -182,7 +182,6 @@
 
 	if(!has_dismemberment) //Legacy support
 		if(H.disabilities & HUSK)
-			H.remove_overlay(SPECIES_LAYER) // races lose their color
 			H.icon_state = "husk"
 		else if(sexes)
 			if(use_skintones)
@@ -306,6 +305,14 @@
 	var/image/I
 
 	for(var/layer in relevent_layers)
+		var/layer_name = ""
+		switch(layer)
+			if(BODY_BEHIND_LAYER)
+				layer_name = "behind"
+			if(BODY_ADJ_LAYER)
+				layer_name = "adj"
+			if(BODY_FRONT_LAYER)
+				layer_name = "front"
 		for(var/bodypart in bodyparts_to_add)
 			var/datum/sprite_accessory/S
 			switch(bodypart)
@@ -347,9 +354,9 @@
 			var/icon_string
 
 			if(S.gender_specific)
-				icon_string = "[id]_[g]_[bodypart]_[S.icon_state]_[layer]"
+				icon_string = "[id]_[g]_[bodypart]_[S.icon_state]_[layer_name]"
 			else
-				icon_string = "[id]_m_[bodypart]_[S.icon_state]_[layer]"
+				icon_string = "[id]_m_[bodypart]_[S.icon_state]_[layer_name]"
 
 			I = image("icon" = 'icons/mob/mutant_bodyparts.dmi', "icon_state" = icon_string, "layer" =- layer)
 
@@ -375,9 +382,9 @@
 
 			if(S.hasinner)
 				if(S.gender_specific)
-					icon_string = "[id]_[g]_[bodypart]inner_[S.icon_state]_[layer]"
+					icon_string = "[id]_[g]_[bodypart]inner_[S.icon_state]_[layer_name]"
 				else
-					icon_string = "[id]_m_[bodypart]inner_[S.icon_state]_[layer]"
+					icon_string = "[id]_m_[bodypart]inner_[S.icon_state]_[layer_name]"
 				if(H.deepfried)
 					var/icon/HI = icon(H.icon, H.icon_state)
 					HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
@@ -1052,6 +1059,11 @@
 		if(istype(I, /obj/item/robot_parts))
 			var/obj/item/robot_parts/RP = I
 			if(Bodypart2name(RP.body_part) == zone)
+				if(!target_limb)
+					target_limb = newBodyPart(zone)
+					target_limb.owner = H
+					target_limb.loc = H
+					H.organs += target_limb
 				target_limb.augment(RP, zone, user)
 			else
 				user << "<span class='notice'>[RP] doesn't go there!</span>"
@@ -1160,7 +1172,7 @@
 	else
 		return 0
 
-	if(affecting.brute_dam >= affecting.max_damage)
+	if(affecting.get_damage() >= affecting.max_damage)
 		if(I.can_dismember() && prob(I.force*(I.w_class-1)))
 			if(affecting.dismember())
 				I.add_blood(H)
@@ -1267,9 +1279,13 @@
 	if(islimb(def_zone))
 		organ = def_zone
 	else
-		if(!def_zone)	def_zone = H.getrandomorgan(def_zone)
-		organ = H.get_organ(check_zone(def_zone))
-	if(!organ)	return 0
+		if(!def_zone)
+			organ = H.getrandomorgan("chest", 50)
+			def_zone = Bodypart2name(organ)
+		else
+			organ = H.get_organ(check_zone(def_zone))
+	if(!organ)
+		return 0
 
 	damage = (damage * blocked)
 
