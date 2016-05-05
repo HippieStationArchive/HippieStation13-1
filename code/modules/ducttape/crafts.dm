@@ -29,10 +29,23 @@
 	w_class = 4
 	origin_tech = "materials=2"
 	attack_verb = list("shoved", "bashed")
-	block_chance = list(melee = 70, bullet = 50, laser = 40, energy = 30) //Great at blocking incoming melee, but then again, it can break...
+	block_chance = list(melee = 60, bullet = 50, laser = 40, energy = 30) //Great at blocking incoming melee, but then again, it can break...
+	var/damage_received = 0 //Amount of damage the shield has received
+	var/max_damage = 80 //Amount of max damage the trayshield can withstand
 
-/obj/item/weapon/shield/trayshield/hit_reaction()
-	if(prob(30))
+/obj/item/weapon/shield/trayshield/examine(mob/user)
+	..()
+	var/a = max(0, max_damage - damage_received)
+	if(a <= max_damage/4) //20
+		user << "It's falling apart."
+	else if(a <= max_damage/2) //40
+		user << "It's badly damaged."
+	else if(a < max_damage)
+		user << "It's slightly damaged."
+
+/obj/item/weapon/shield/trayshield/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0, damage = 0, type = "melee")
+	damage_received += damage * (100-block_chance[type])/100
+	if(damage_received >= max_damage)
 		if(ishuman(loc))
 			var/mob/living/carbon/human/H = loc
 			visible_message("<span class='danger'>[H]'s shield breaks!</span>", "<span class='userdanger'>Your shield breaks!</span>")

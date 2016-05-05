@@ -17,7 +17,7 @@
 	w_class = 4
 	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
 	origin_tech = "materials=2"
-	block_chance = list(melee = 70, bullet = 50, laser = 50, energy = 50) //Skeleton-exclusive atm, sooo
+	block_chance = list(melee = 60, bullet = 50, laser = 50, energy = 50) //Skeleton-exclusive atm, sooo
 
 //Deployable shields, woo!
 //Basically "defensive stance" for shields like riot, etc.
@@ -65,7 +65,7 @@
 	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
 	origin_tech = "materials=2"
 	slowdown_deployed = 2
-	block_chance_deployed = list(melee = 70, bullet = 60, laser = 40, energy = 30)
+	block_chance_deployed = list(melee = 70, bullet = 60, laser = 40, energy = 30) //Reason why melee value is so high is because the shield applies sizable slowdown to you now. It should be viable to give you an edge in melee combat mostly.
 	var/cooldown = 0
 
 /obj/item/weapon/shield/deployable/riot/attack_self(mob/living/user)
