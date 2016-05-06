@@ -1152,7 +1152,7 @@
 
 	var/dmgcheck = apply_damage(I.force, I.damtype, affecting, armor_block, H)
 
-	if(!dmgcheck && I.force != 0) //Something went wrong. Maybe the limb is missing?
+	if(!dmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
 		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
@@ -1172,7 +1172,7 @@
 	else
 		return 0
 
-	if(affecting.get_damage() >= affecting.max_damage)
+	if(affecting && affecting.get_damage() >= affecting.max_damage)
 		if(I.can_dismember() && prob(I.force*(I.w_class-1)))
 			if(affecting.dismember())
 				I.add_blood(H)
@@ -1279,9 +1279,13 @@
 	if(islimb(def_zone))
 		organ = def_zone
 	else
-		if(!def_zone)	def_zone = H.getrandomorgan(def_zone)
-		organ = H.get_organ(check_zone(def_zone))
-	if(!organ)	return 0
+		if(!def_zone)
+			organ = H.getrandomorgan("chest", 50)
+			def_zone = Bodypart2name(organ)
+		else
+			organ = H.get_organ(check_zone(def_zone))
+	if(!organ)
+		return 0
 
 	damage = (damage * blocked)
 

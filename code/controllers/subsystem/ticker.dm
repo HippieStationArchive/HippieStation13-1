@@ -175,7 +175,7 @@ var/datum/subsystem/ticker/ticker
 
 
 	world << "<FONT color='blue'><B>Welcome to [station_name()], enjoy your stay!</B></FONT>"
-	world << sound('sound/AI/welcome.ogg')
+	world << sound(pick('sound/AI/welcome1.ogg', 'sound/AI/welcome2.ogg'))
 
 	if(SSevent.holidays)
 		world << "<font color='blue'>and...</font>"

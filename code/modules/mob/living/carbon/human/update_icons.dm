@@ -633,12 +633,10 @@ var/global/list/limb_icon_cache = list()
 	var/draw_color
 
 	if(species)
-		if(species.use_skintones)
+		if(MUTCOLORS in species.specflags)
+			draw_color = dna.features["mcolor"]
+		else if(species.use_skintones)
 			draw_color = skintone2hex(skin_tone)
-		else
-			if(MUTCOLORS in species.specflags)
-				draw_color = dna.features["mcolor"]
-
 	if(affecting.skin_tone) //Limb has skin color variable defined, use it
 		draw_color = skintone2hex(affecting.skin_tone)
 	if(affecting.species_color)
