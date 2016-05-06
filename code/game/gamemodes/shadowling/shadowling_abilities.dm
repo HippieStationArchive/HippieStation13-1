@@ -38,7 +38,7 @@
 			return
 		var/mob/living/carbon/human/M = target
 		user.visible_message("<span class='warning'><b>[user]'s eyes flash a blinding red!</b></span>")
-		if((target.disabilities & BLIND) | target.eye_blind)
+		if((target.disabilities & BLIND) || target.eye_blind)
 			return
 		target.visible_message("<span class='danger'>[target] freezes in place, their eyes glazing over...</span>")
 		if(in_range(target, user))
@@ -689,7 +689,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			return
 		var/mob/living/carbon/human/M = target
 		user.visible_message("<span class='warning'><b>[user]'s eyes flash a bright red!</b></span>")
-		if((target.disabilities & BLIND) | target.eye_blind)
+		if((target.disabilities & BLIND) || target.eye_blind)
 			return
 		target.visible_message("<span class='danger'>[target] freezes in place, their eyes clouding...</span>")
 		if(in_range(target, user))
