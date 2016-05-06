@@ -69,11 +69,11 @@
 			new /obj/item/weapon/c4(src)
 			new /obj/item/clothing/under/suit_jacket/really_black(src)
 			new /obj/item/clothing/suit/jacket/leather/overcoat(src)
+			new /obj/item/clothing/glasses/sunglasses(src)
 			return
 
 		if("implant")
 			new /obj/item/weapon/implanter/freedom(src)
-			new /obj/item/weapon/implanter/uplink(src)
 			new /obj/item/weapon/implanter/emp(src)
 			new /obj/item/weapon/implanter/adrenalin(src)
 			new /obj/item/weapon/storage/box/syndie_kit/imp_macrobomb(src)
@@ -84,7 +84,9 @@
 		if("hacker")
 			new /obj/item/weapon/aiModule/syndicate(src)
 			new /obj/item/weapon/c4(src)
-			new /obj/item/weapon/card/id/syndicate/hacker(src)
+			new /obj/item/weapon/card/id/syndicate(src)
+			new /obj/item/clothing/suit/labcoat/chameleon(src)
+			new /obj/item/clothing/under/chameleon(src)
 			new /obj/item/weapon/card/emag(src)
 			new /obj/item/device/encryptionkey/binary(src)
 			new /obj/item/device/camera_bug(src)
@@ -119,8 +121,12 @@
 			return
 
 		if("boom")
-			for(var/i = 0, i < 49, i++)
+			for(var/i = 0, i < 20, i++)
 				new /obj/item/weapon/c4(src)
+			for(var/i = 0, i < 4, i++)
+				new /obj/item/weapon/grenade/syndieminibomb(src)
+			for(var/i = 0, i < 1, i++)
+				new /obj/item/device/sbeacondrop/bomb(src)
 			return
 
 
