@@ -533,7 +533,7 @@
 				L.adjustFireLoss(0.9) //adds up very rapidly
 				. = 1
 
-//Charger
+/*Charger
 /mob/living/simple_animal/hostile/guardian/charger
 	melee_damage_lower = 15
 	melee_damage_upper = 15
@@ -592,7 +592,7 @@
 				L.Weaken(2)
 				L.apply_damage(20, BRUTE)
 
-		charging = 0
+		charging = 0 */
 		
 //Protector
 /mob/living/simple_animal/hostile/guardian/protector
@@ -806,7 +806,7 @@
 	var/used_message = "All the cards seem to be blank now."
 	var/failure_message = "..And draw a card! It's...blank? Maybe you should try again later."
 	var/ling_failure = "The deck refuses to respond to a souless creature such as you."
-	var/list/possible_guardians = list("Chaos", "Standard", "Ranged", "Support", "Explosive", "Lightning", "Protector", "Charger")
+	var/list/possible_guardians = list("Chaos", "Standard", "Ranged", "Support", "Explosive", "Lightning", "Protector")
 	var/random = TRUE
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
@@ -860,9 +860,6 @@
 		if("Lightning")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/beam
 		
-		if("Charger")
-			pickedtype = /mob/living/simple_animal/hostile/guardian/charger
-		
 		if("Protector")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/protector
 
@@ -895,7 +892,8 @@
 	G.icon_living = "[theme][colour]"
 	G.icon_state = "[theme][colour]"
 	G.icon_dead = "[theme][colour]"
-
+	var/guardianNewName = stripped_input(G.summoner, "Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
+	G.name = guardianNewName
 	G.mind.name = "[G.real_name]"
 
 /obj/item/weapon/guardiancreator/choose

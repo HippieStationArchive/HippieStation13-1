@@ -51,16 +51,17 @@
 	icon_state = "emp pulse"
 	duration = 20
 	randomdir = 0
-	
-	  
+		  
 /obj/effect/overlay/temp/guardian
 	randomdir = 0
 
 /obj/effect/overlay/temp/guardian/phase
 	duration = 5
+	icon = 'icons/effects/effects.dmi'
 	icon_state = "phasein"
 
 /obj/effect/overlay/temp/guardian/phase/out
+	icon = 'icons/effects/effects.dmi'
 	icon_state = "phaseout"
 
 /obj/effect/overlay/temp/guardian/charge
@@ -70,8 +71,8 @@
 	..()
 	alpha = initial(alpha)
 	if(mimiced_atom)
-		icon = mimiced_atom.icon
-		icon_state = mimiced_atom.icon_state
+		icon = 'icons/mob/screen_alert.dmi'
+		icon_state = "guardian_charge"
 		dir = mimiced_atom.dir
 	animate(src, alpha = 0, time = duration)
 
