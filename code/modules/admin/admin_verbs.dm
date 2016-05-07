@@ -364,7 +364,7 @@ var/list/admin_verbs_hideable = list(
 	if(holder)
 		holder.player_panel_new()
 		if(!isobserver(usr))
-			message_admins("[key_name_admin(usr)] has opened the player panel.")
+			log_admin("[key_name_admin(usr)] has opened the player panel.")
 	feedback_add_details("admin_verb","PPN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
@@ -374,6 +374,8 @@ var/list/admin_verbs_hideable = list(
 	if(holder)
 		holder.check_antagonists()
 		log_admin("[key_name(usr)] checked antagonists.")	//for tsar~
+		if(!isobserver(usr))
+			message_admins("[key_name_admin(usr)] checked antagonists.")
 	feedback_add_details("admin_verb","CHA") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
