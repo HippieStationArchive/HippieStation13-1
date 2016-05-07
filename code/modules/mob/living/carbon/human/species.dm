@@ -1152,7 +1152,7 @@
 
 	var/dmgcheck = apply_damage(I.force, I.damtype, affecting, armor_block, H)
 
-	if(!dmgcheck && I.force != 0) //Something went wrong. Maybe the limb is missing?
+	if(!dmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
 		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
@@ -1172,7 +1172,7 @@
 	else
 		return 0
 
-	if(affecting.get_damage() >= affecting.max_damage)
+	if(affecting && affecting.get_damage() >= affecting.max_damage)
 		if(I.can_dismember() && prob(I.force*(I.w_class-1)))
 			if(affecting.dismember())
 				I.add_blood(H)
