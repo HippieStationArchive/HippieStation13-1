@@ -190,6 +190,13 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/syndie_kit/caneshotgun
 	cost = 15
 	jobs = list("Clown","Mime")
+//CLOWN
+/datum/uplink_item/job_specific/honkrender
+	name = "Honk Render"
+	desc = "A blade capable of tearing apart the fabric of reality and summoning several clowns from the Clown Planet itself. They're mostly passive, until someone hits one of them, after which they enter a frenzy, attacking any and all in a collective group effort. The blade itself is also useful as a slashing weapon."
+	item = /obj/item/weapon/veilrender/honkrender
+	cost = 7
+	jobs = list("Clown")
 
 //equipment room access
 
