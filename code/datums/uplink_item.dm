@@ -1030,7 +1030,7 @@ var/list/uplink_items = list()
 /datum/uplink_item/device_tools/shield
 	name = "Energy Shield"
 	desc = "An incredibly useful personal shield projector, capable of reflecting energy projectiles and defending against other attacks."
-	item = /obj/item/weapon/shield/energy
+	item = /obj/item/weapon/shield/deployable/energy
 	cost = 16
 	gamemodes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 	surplus = 20

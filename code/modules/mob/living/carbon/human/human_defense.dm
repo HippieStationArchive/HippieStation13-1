@@ -67,7 +67,7 @@ emp_act
 		visible_message("<span class='danger'>\a [P] wizzes past [src]!</span>", "<span class='userdanger'>\a [P] wizzes past you!</span>")
 		return -1 //No arm, no hit
 
-	var/shieldcheck = check_shields(P.damage, "the [P.name]", P, 0, P.armour_penetration)
+	var/shieldcheck = check_shields(P.damage, "the [P.name]", P, 0, P.armour_penetration, P.flag)
 	if(shieldcheck)
 		if(isliving(shieldcheck)) //Meatshield
 			var/mob/living/L = shieldcheck
@@ -92,26 +92,27 @@ emp_act
 
 //End Here
 
-/mob/living/carbon/human/proc/check_shields(damage = 0, attack_text = "the attack", atom/movable/AM, thrown_proj = 0, armour_penetration = 0)
-	var/block_chance_modifier = round(damage / -3) //thrown things are easier to block
+/mob/living/carbon/human/proc/check_shields(damage = 0, attack_text = "the attack", atom/movable/AM, thrown_proj = 0, armour_penetration = 0, type = "melee")
 	if(AM)
 		if(AM.flags & NOSHIELD) //weapon ignores shields altogether
 			return 0
+	if(!type)
+		type = "melee" //otherwise it runtimes
 	if(l_hand && !istype(l_hand, /obj/item/clothing))
-		var/final_block_chance = l_hand.block_chance - (Clamp((armour_penetration-l_hand.armour_penetration)/2,0,100)) + block_chance_modifier //So armour piercing blades can still be parried by other blades, for example
-		if(l_hand.hit_reaction(src, attack_text, final_block_chance, damage))
+		var/final_block_chance = l_hand.block_chance[type] - (Clamp((armour_penetration-l_hand.armour_penetration)/2,0,100)) //So armour piercing blades can still be parried by other blades, for example
+		if(l_hand.hit_reaction(src, attack_text, final_block_chance, damage, type))
 			return 1
 	if(r_hand && !istype(r_hand, /obj/item/clothing))
-		var/final_block_chance = r_hand.block_chance - (Clamp((armour_penetration-r_hand.armour_penetration)/2,0,100)) + block_chance_modifier //Need to reset the var so it doesn't carry over modifications between attempts
-		if(r_hand.hit_reaction(src, attack_text, final_block_chance, damage))
+		var/final_block_chance = r_hand.block_chance[type] - (Clamp((armour_penetration-r_hand.armour_penetration)/2,0,100)) //Need to reset the var so it doesn't carry over modifications between attempts
+		if(r_hand.hit_reaction(src, attack_text, final_block_chance, damage, type))
 			return 1
 	if(wear_suit)
-		var/final_block_chance = wear_suit.block_chance - (Clamp((armour_penetration-wear_suit.armour_penetration)/2,0,100)) + block_chance_modifier
-		if(wear_suit.hit_reaction(src, attack_text, final_block_chance, damage))
+		var/final_block_chance = wear_suit.block_chance[type] - (Clamp((armour_penetration-wear_suit.armour_penetration)/2,0,100))
+		if(wear_suit.hit_reaction(src, attack_text, final_block_chance, damage, type))
 			return 1
 	if(w_uniform)
-		var/final_block_chance = w_uniform.block_chance - (Clamp((armour_penetration-w_uniform.armour_penetration)/2,0,100)) + block_chance_modifier
-		if(w_uniform.hit_reaction(src, attack_text, final_block_chance, damage))
+		var/final_block_chance = w_uniform.block_chance[type] - (Clamp((armour_penetration-w_uniform.armour_penetration)/2,0,100))
+		if(w_uniform.hit_reaction(src, attack_text, final_block_chance, damage, type))
 			return 1
 	return 0
 

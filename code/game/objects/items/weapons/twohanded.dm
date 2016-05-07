@@ -214,7 +214,7 @@
 	origin_tech = "magnets=3;syndicate=4"
 	item_color = "green"
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-	block_chance = 50
+	block_chance = list(melee = 70, bullet = 50, laser = 50, energy = 50) //Well-rounded block chances with emphasis on melee
 	var/hacked = 0
 
 /obj/item/weapon/twohanded/dualsaber/New()

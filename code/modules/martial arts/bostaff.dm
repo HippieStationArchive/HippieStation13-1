@@ -11,7 +11,7 @@
 	attack_verb = list("smashed", "slammed", "whacked", "thwacked")
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "bostaff0"
-	block_chance = 50
+	block_chance = list(melee = 50, bullet = 50, laser = 50, energy = 50) //50% on everything
 
 /obj/item/weapon/twohanded/bostaff/update_icon()
 	icon_state = "bostaff[wielded]"
