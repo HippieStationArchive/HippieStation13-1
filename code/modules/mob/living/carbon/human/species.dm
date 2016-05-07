@@ -930,7 +930,7 @@
 	if(M.lying) //Can't believe nobody checked for this before.
 		return
 	var/shieldcheck = H.check_shields(0, M.name)
-	if((M != H) && M.a_intent != "help" && H.check_shields(0, M.name))
+	if((M != H) && M.a_intent != "help" && shieldcheck)
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
 		if(isliving(shieldcheck))

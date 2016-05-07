@@ -106,10 +106,13 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/sharpness = IS_BLUNT
 	var/toolspeed = 1
 
-	var/block_chance = 0
+	var/list/block_chance = list(melee = 0, bullet = 0, laser = 0, energy = 0) //Same as armor, tho less args
 	var/hit_reaction_chance = 0 //If you want to have something unrelated to blocking/armour piercing etc. Maybe not needed, but trying to think ahead/allow more freedom
-	
+	var/blocksound = null
+
 	var/alternate_screams = list() // This is used to add alternate scream sounds to mobs when equipped
+
+	var/block_push = 0 //Whether or not this item prevents the user from being pushed
 
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
 	if(((src in target) && !target_self) || ((!istype(target.loc, /turf)) && (!istype(target, /turf)) && (not_inside)) || is_type_in_list(target, can_be_placed_into))
@@ -341,8 +344,10 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 // afterattack() and attack() prototypes moved to _onclick/item_attack.dm for consistency
 
-/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0, damage = 0)
+/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0, damage = 0, type = "melee")
 	if(prob(final_block_chance))
+		if(blocksound)
+			playsound(get_turf(src), get_sfx(blocksound), 50, 1, 1)
 		owner.visible_message("<span class='danger'>[owner] blocks [attack_text] with [src]!</span>")
 		return 1
 	return 0

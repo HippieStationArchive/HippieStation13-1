@@ -73,7 +73,7 @@
 		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
 
 	if(istype(W, /obj/item/weapon/storage/bag/tray))
-		var/obj/item/weapon/shield/riot/trayshield/new_item = new(user.loc)
+		var/obj/item/weapon/shield/trayshield/new_item = new(user.loc)
 		user << "<span class='notice'>You strap [src] to the [W].</span>"
 		var/replace = (user.get_inactive_hand()==W)
 		qdel(W)
