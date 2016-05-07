@@ -6,6 +6,10 @@
 	icon_state = "toggle"
 
 /obj/screen/human/toggle/Click()
+	var/mob/living/carbon/human/H = usr
+	if(H.inventory_hotswap())
+		return //Succesful hotswap
+
 	if(usr.hud_used.inventory_shown)
 		usr.hud_used.inventory_shown = 0
 		usr.client.screen -= usr.hud_used.other

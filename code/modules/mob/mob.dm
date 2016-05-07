@@ -283,8 +283,9 @@ var/next_mob_id = 0
 //The list of slots by priority. equip_to_appropriate_slot() uses this list. Doesn't matter if a mob type doesn't have a slot.
 var/list/slot_equipment_priority = list( \
 		slot_back,\
-		slot_wear_id,\
 		slot_w_uniform,\
+		slot_belt,\
+		slot_wear_id,\
 		slot_wear_suit,\
 		slot_wear_mask,\
 		slot_head,\
@@ -292,7 +293,6 @@ var/list/slot_equipment_priority = list( \
 		slot_gloves,\
 		slot_ears,\
 		slot_glasses,\
-		slot_belt,\
 		slot_s_store,\
 		slot_l_store,\
 		slot_r_store\
