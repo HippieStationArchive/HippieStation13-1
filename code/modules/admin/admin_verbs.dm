@@ -342,7 +342,7 @@ var/list/admin_verbs_hideable = list(
 		if(body && !body.key)
 			body.key = "@[key]"	//Haaaaaaaack. But the people have spoken. If it breaks; blame adminbus
 			if(!isobserver(usr))
-				message_admins("[key_name_admin(usr)] has admin ghosted.")
+				log_admin("[key_name_admin(usr)] has admin ghosted.")
 		feedback_add_details("admin_verb","O") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
@@ -374,8 +374,6 @@ var/list/admin_verbs_hideable = list(
 	if(holder)
 		holder.check_antagonists()
 		log_admin("[key_name(usr)] checked antagonists.")	//for tsar~
-		if(!isobserver(usr))
-			message_admins("[key_name_admin(usr)] checked antagonists.")
 	feedback_add_details("admin_verb","CHA") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
