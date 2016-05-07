@@ -150,7 +150,7 @@ var/list/uplink_items = list()
 	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack."
 	item = /obj/item/weapon/twohanded/chainsaw
 	cost = 14
-	jobs = list("Botanist", "Bartender", "Chef")
+	jobs = list("Botanist", "Bartender", "Chef", "Clown")
 
 //LIBRARIAN
 /datum/uplink_item/job_specific/soulstone
