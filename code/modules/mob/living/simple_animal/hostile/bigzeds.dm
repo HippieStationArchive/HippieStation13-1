@@ -1,5 +1,3 @@
-var/scrake_cooldown = 1 //Used to keep from spawn sound stacking if multiple are spawned.
-
 /mob/living/simple_animal/hostile/bigzed
 	ignored_damage_types = list(BRUTE = 0, BURN = 0, TOX = 0, CLONE = 0, STAMINA = 1, OXY = 0)
 	environment_smash = 1
@@ -30,10 +28,10 @@ var/scrake_cooldown = 1 //Used to keep from spawn sound stacking if multiple are
 	melee_damage_upper = 40
 
 /mob/living/simple_animal/hostile/bigzed/Life()
-	if (istype(src, /mob/living/simple_animal/hostile/bigzed/scrake)) //For when I make the fleshpound. They'll both act differently when raged.
-		if (health <= 140)
+	if(istype(src, /mob/living/simple_animal/hostile/bigzed/scrake)) //For when I make the fleshpound. They'll both act differently when raged.
+		if(health <= 140)
 			move_to_delay = 2
-			if (raged == 1)
+			if(raged)
 				var/rageVoices = list('sound/voice/bigzeds/scrakerage1.ogg','sound/voice/bigzeds/scrakerage2.ogg','sound/voice/bigzeds/scrakerage3.ogg', 'sound/voice/bigzeds/scrakerage4.ogg', 'sound/voice/bigzeds/scrakerage5.ogg')
 				playsound(src, pick(rageVoices), 80)
 				visible_message("<span class='userdanger'>The scrake begins to rage! Oh shit.</span>")
@@ -49,10 +47,12 @@ var/scrake_cooldown = 1 //Used to keep from spawn sound stacking if multiple are
 	..()
 
 /mob/living/simple_animal/hostile/bigzed/New()
-	if (istype(src, /mob/living/simple_animal/hostile/bigzed/scrake)) //Both types of bigzeds will have different spawn sounds.
-		if (global.scrake_cooldown == 1)
+	if(istype(src, /mob/living/simple_animal/hostile/bigzed/scrake)) //Both types of bigzeds will have different spawn sounds.
+		if(global.scrake_cooldown == 1)
 			playsound(src, 'sound/voice/bigzeds/scrakespawnroar.ogg', 65, 0, 20)
 			global.scrake_cooldown = 0
 			spawn(100)
 				global.scrake_cooldown = 1
 	..()
+
+var/scrake_cooldown = 1 //Used to keep from spawn sound stacking if multiple are spawned.
