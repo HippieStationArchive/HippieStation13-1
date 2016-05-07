@@ -39,7 +39,7 @@
 	..()
 
 /mob/living/simple_animal/hostile/bigzed/Move()
-	if(move > 1)
+	if(move >= 1)
 		playsound(src, 'sound/mecha/mechstep.ogg', 50, 1)
 		move = 0
 	else
