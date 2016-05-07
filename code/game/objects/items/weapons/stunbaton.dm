@@ -126,7 +126,7 @@
 						"<span class='warning'>[user] has prodded you with [src]. Luckily it was off</span>")
 	else
 		if(status)
-			baton_stun(L, user, stunforce/2)
+			baton_stun(L, user, round(stunforce/2))
 		..()
 
 /obj/item/weapon/melee/baton/throw_impact(atom/A)
@@ -177,7 +177,7 @@
 	desc = "An improvised stun baton."
 	icon_state = "stunprod_nocell"
 	item_state = "prod"
-	force = 3
+	force = 7
 	throwforce = 5
 	stunforce = 5
 	hitcost = 2500
