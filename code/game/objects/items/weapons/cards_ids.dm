@@ -135,12 +135,6 @@ update_label("John Doe", "Clowny")
 	access = list(access_maint_tunnels, access_syndicate)
 	origin_tech = "syndicate=3"
 
-/obj/item/weapon/card/id/syndicate/hacker
-	name = "agent card"
-	desc = "A card used to provide ID and determine access across the station. Comes with access to the telecommunications server console and the research wing."
-	access = list(access_maint_tunnels, access_syndicate, access_research, access_tcomsat)
-	origin_tech = "syndicate=3"
-
 /obj/item/weapon/card/id/syndicate/afterattack(obj/item/weapon/O, mob/user, proximity)
 	if(!proximity) return
 	if(istype(O, /obj/item/weapon/card/id))
