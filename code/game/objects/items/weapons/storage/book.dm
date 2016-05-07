@@ -257,8 +257,7 @@ var/global/biblename
 			"illogical", "very vary", "dan-approved"
 		)
 		chosenrelic.name = pick(nameprefixes) + " " + I.name
-		chosenrelic.icon = I.icon
-		chosenrelic.icon_state = I.icon_state
+		chosenrelic.icon = getFlatIcon(I)
 		qdel(src)
 	else
 		linkedbible = B

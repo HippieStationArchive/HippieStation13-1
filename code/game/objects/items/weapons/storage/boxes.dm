@@ -587,7 +587,7 @@
 	storage_slots=21
 	can_hold = list(/obj/item/weapon/light/tube, /obj/item/weapon/light/bulb)
 	max_combined_w_class = 21
-	use_to_pickup = 1 // for picking up broken bulbs, not that most people will try
+	collection_mode = 1
 
 /obj/item/weapon/storage/box/lights/bulbs/New()
 	..()

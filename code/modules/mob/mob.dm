@@ -283,8 +283,9 @@ var/next_mob_id = 0
 //The list of slots by priority. equip_to_appropriate_slot() uses this list. Doesn't matter if a mob type doesn't have a slot.
 var/list/slot_equipment_priority = list( \
 		slot_back,\
-		slot_wear_id,\
 		slot_w_uniform,\
+		slot_belt,\
+		slot_wear_id,\
 		slot_wear_suit,\
 		slot_wear_mask,\
 		slot_head,\
@@ -292,7 +293,6 @@ var/list/slot_equipment_priority = list( \
 		slot_gloves,\
 		slot_ears,\
 		slot_glasses,\
-		slot_belt,\
 		slot_s_store,\
 		slot_l_store,\
 		slot_r_store\
@@ -434,6 +434,30 @@ var/list/slot_equipment_priority = list( \
 			W.attack_self(src)
 			update_inv_r_hand()
 	return
+
+/mob/verb/attack_inactive_hand()
+	set name = "Attack Inactive Hand"
+	set category = "Object"
+	set src = usr
+
+	if(istype(loc,/obj/mecha)) return
+
+	var/obj/item/W
+	if(hand)
+		W = l_hand
+	else
+		W = r_hand
+
+	var/obj/item/I = get_inactive_hand()
+	if(istype(I))
+		if (istype(W))
+			var/resolved = I.attackby(W,src)
+			if(!resolved && I && W)
+				W.afterattack(I,src,1) // 1 indicates adjacency
+		else
+			UnarmedAttack(I)
+		update_inv_l_hand()
+		update_inv_r_hand()
 
 /*
 /mob/verb/dump_source()
