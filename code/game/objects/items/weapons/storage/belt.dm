@@ -150,6 +150,20 @@
 	desc = "A sturdy black military belt. Can hold small weapons, magazines, or smaller boxes of ammunition."
 	icon_state = "militarybelt_black"
 	item_state = "military_black"
+	
+/obj/item/weapon/storage/belt/ninja
+	name = "ninja belt"
+	desc = "A belt designed to hold throwing stars. Not really that good at doing anything else."
+	icon_state = "militarybelt_black"
+	item_state = "military_black"
+	can_hold = list(
+		/obj/item/weapon/throwing_star
+		)
+		
+/obj/item/weapon/storage/belt/ninja/full/New()
+	..()
+	for(var/i = 0, i < 14, i++)
+		new /obj/item/weapon/throwing_star(src)
 
 /obj/item/weapon/storage/belt/wands
 	name = "wand belt"
