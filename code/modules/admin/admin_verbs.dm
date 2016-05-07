@@ -341,6 +341,7 @@ var/list/admin_verbs_hideable = list(
 		body.ghostize(1)
 		if(body && !body.key)
 			body.key = "@[key]"	//Haaaaaaaack. But the people have spoken. If it breaks; blame adminbus
+			message_admins("[key_name_admin(usr)] has admin ghosted.")
 		feedback_add_details("admin_verb","O") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
@@ -361,6 +362,7 @@ var/list/admin_verbs_hideable = list(
 	set category = "Admin"
 	if(holder)
 		holder.player_panel_new()
+		message_admins("[key_name_admin(usr)] has opened the player panel.")
 	feedback_add_details("admin_verb","PPN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
