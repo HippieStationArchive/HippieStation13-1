@@ -57,6 +57,8 @@
 				unEquip(U)
 				if(!put_in_active_hand(U))
 					U.forceMove(get_turf(src))
+				if(slot == slot_w_uniform) //Changing uniforms takes 2 clicks as opposed to 1
+					return 1
 			equip_to_slot(I, slot, 1) //we do equip_to_slot AFTER unEquipping existing clothing so that id's, pockets, etc. are properly emptied out
 			if(hand)
 				update_inv_l_hand()
