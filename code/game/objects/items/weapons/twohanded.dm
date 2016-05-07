@@ -28,7 +28,7 @@
 	var/unwieldsound = 'sound/weapons/raise.ogg'
 
 /obj/item/weapon/twohanded/proc/unwield(mob/living/carbon/user)
-	if(!wielded || !user) return
+	if(!wielded || !user) return 0
 	wielded = 0
 	force = force_unwielded
 	var/sf = findtext(name," (Wielded)")
@@ -46,19 +46,19 @@
 	var/obj/item/weapon/twohanded/offhand/O = user.get_inactive_hand()
 	if(O && istype(O))
 		O.unwield()
-	return
+	return 1
 
 /obj/item/weapon/twohanded/proc/wield(mob/living/carbon/user)
-	if(wielded) return
+	if(wielded) return 0
 	if(istype(user,/mob/living/carbon/monkey) )
 		user << "<span class='warning'>It's too heavy for you to wield fully.</span>"
-		return
+		return 0
 	if(user.get_inactive_hand())
 		user << "<span class='warning'>You need your other hand to be empty!</span>"
-		return
+		return 0
 	if(user.get_num_arms() < 2)
 		user << "<span class='warning'>You don't have enough hands.</span>"
-		return
+		return 0
 	wielded = 1
 	force = force_wielded
 	name = "[name] (Wielded)"
@@ -73,7 +73,7 @@
 	O.name = "[name] - offhand"
 	O.desc = "Your second grip on the [name]"
 	user.put_in_inactive_hand(O)
-	return
+	return 1
 
 /obj/item/weapon/twohanded/mob_can_equip(mob/M, slot)
 	//Cannot equip wielded items.
@@ -214,7 +214,7 @@
 	origin_tech = "magnets=3;syndicate=4"
 	item_color = "green"
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-	block_chance = 50
+	block_chance = list(melee = 70, bullet = 50, laser = 50, energy = 50) //Well-rounded block chances with emphasis on melee
 	var/hacked = 0
 
 /obj/item/weapon/twohanded/dualsaber/New()
@@ -261,12 +261,17 @@
 		if(M.dna.check_mutation(HULK))
 			M << "<span class='warning'>You lack the grace to wield this!</span>"
 			return
-	..()
-	hitsound = 'sound/weapons/blade1.ogg'
+	if(..())
+		hitsound = 'sound/weapons/blade1.ogg'
+		sharpness = IS_SHARP
 
 /obj/item/weapon/twohanded/dualsaber/unwield() //Specific unwield () to switch hitsounds.
-	..()
-	hitsound = "swing_hit"
+	if(..())
+		hitsound = "swing_hit"
+		sharpness = IS_BLUNT
+
+/obj/item/weapon/twohanded/dualsaber/can_dismember()
+	return wielded
 
 /obj/item/weapon/twohanded/dualsaber/IsReflect()
 	if(wielded)

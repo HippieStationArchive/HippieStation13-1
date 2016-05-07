@@ -1652,6 +1652,7 @@
 #include "code\modules\templates\verbs.dm"
 #include "code\modules\tooltip\tooltip.dm"
 #include "code\modules\trophys\necklaces.dm"
+#include "code\orphaned procs\AnimationIndex.dm"
 #include "code\orphaned procs\AStar.dm"
 #include "code\orphaned procs\dbcore.dm"
 #include "code\orphaned procs\generic.dm"
