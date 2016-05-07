@@ -17,15 +17,15 @@
 			update_inv_r_hand()
 	else if(s_active && s_active.can_be_inserted(I,1))	//if storage active insert there
 		s_active.handle_item_insertion(I)
-	else if(istype(S, /obj/item/weapon/storage) && S.can_be_inserted(I,1))	//see if we have box in other hand
+	else if(istype(S) && S.can_be_inserted(I,1))	//see if we have box in other hand
 		S.handle_item_insertion(I)
 	else
 		S = get_item_by_slot(slot_belt)
-		if(istype(S, /obj/item/weapon/storage) && S.can_be_inserted(I,1))		//else we put in belt
+		if(istype(S) && S.can_be_inserted(I,1))		//else we put in belt
 			S.handle_item_insertion(I)
 		else
 			S = get_item_by_slot(slot_back)	//else we put in backpack
-			if(istype(S, /obj/item/weapon/storage) && S.can_be_inserted(I,1))
+			if(istype(S) && S.can_be_inserted(I,1))
 				S.handle_item_insertion(I)
 				playsound(loc, "rustle", 50, 1, -5)
 			else
@@ -57,8 +57,6 @@
 				unEquip(U)
 				if(!put_in_active_hand(U))
 					U.forceMove(get_turf(src))
-				if(slot == slot_w_uniform) //Changing uniforms takes 2 clicks as opposed to 1
-					return 1
 			equip_to_slot(I, slot, 1) //we do equip_to_slot AFTER unEquipping existing clothing so that id's, pockets, etc. are properly emptied out
 			if(hand)
 				update_inv_l_hand()
