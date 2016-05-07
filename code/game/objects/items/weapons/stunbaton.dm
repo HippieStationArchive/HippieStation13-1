@@ -106,7 +106,7 @@
 	if(status && user.disabilities & CLUMSY && prob(50))
 		user.visible_message("<span class='danger'>[user] accidentally hits themself with [src]!</span>", \
 							"<span class='userdanger'>You accidentally hit yourself with [src]!</span>")
-		baton_stun(L, user, stunforce*2, 1) //disabled warning
+		baton_stun(user, user, stunforce*2, 1) //disabled warning
 		return
 
 	if(isrobot(M))
@@ -137,6 +137,8 @@
 			baton_stun(H, usr)
 
 /obj/item/weapon/melee/baton/proc/baton_stun(mob/living/L, mob/user, sforce = stunforce, disablewarning = 0)
+	if(!istype(L))
+		return 0
 	if(isrobot(loc))
 		var/mob/living/silicon/robot/R = loc
 		if(!R || !R.cell || !R.cell.use(hitcost))

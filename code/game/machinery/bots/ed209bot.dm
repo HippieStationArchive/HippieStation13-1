@@ -118,8 +118,6 @@ Maintenance panel panel is [open ? "opened" : "closed"]<BR>"},
 Arrest Unidentifiable Persons: []<BR>
 Arrest for Unauthorized Weapons: []<BR>
 Arrest for Warrant: []<BR>
-<BR>
-Operating Mode: []<BR>
 Report Arrests[]<BR>
 Auto Patrol[]"},
 
