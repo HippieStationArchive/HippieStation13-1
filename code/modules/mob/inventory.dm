@@ -15,7 +15,7 @@
 
 //Returns if a certain item can be equipped to a certain slot.
 // Currently invalid for two-handed items - call obj/item/mob_can_equip() instead.
-/mob/proc/can_equip(obj/item/I, slot, disable_warning = 0)
+/mob/proc/can_equip(obj/item/I, slot, disable_warning = 0, return_equipped = 0)
 	return 0
 
 //Puts the item into your l_hand if possible and calls all necessary triggers/updates. returns 1 on success.

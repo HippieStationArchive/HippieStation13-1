@@ -158,6 +158,9 @@ var/list/teleportlocs = list()
 						'sound/ambience/ambicha2.ogg', 'sound/ambience/ambicha3.ogg')
 	ambloop = 'sound/ambience/loop/softhum.ogg'
 
+/area/shuttle/outpost
+	name = "Outpost Shuttle"
+
 /area/start
 	name = "start area"
 	icon_state = "start"
@@ -1013,6 +1016,46 @@ var/list/teleportlocs = list()
 	name = "Quartermaster's Office"
 	icon_state = "quart"
 
+//Outpost
+/area/outpost/lobby
+	name = "Outpost Lobby"
+	icon_state = "blue"
+	has_gravity = 1
+
+/area/outpost/engi
+	name = "Outpost Engineering"
+	icon_state = "engine"
+	has_gravity = 1
+
+/area/outpost/staffroom
+	name = "Outpost Staffroom"
+	icon_state = "red"
+	has_gravity = 1
+
+/area/outpost/toxins
+	name = "Outpost Toxins Lab"
+	icon_state = "toxlab"
+	has_gravity = 1
+
+/area/outpost/mining
+	name = "Outpost Mining"
+	icon_state = "mining"
+	has_gravity = 1
+
+/area/outpost/xeno
+	name = "Outpost Xenobiology Lab"
+	icon_state = "toxmisc"
+	has_gravity = 1
+
+/area/outpost/rd
+	name = "Outpost Research Director Office"
+	icon_state = "green"
+	has_gravity = 1
+
+/area/outpost/solars
+	name = "Outpost Solars"
+	icon_state = "red"
+
 /area/quartermaster/miningdock
 	name = "Mining Dock"
 	icon_state = "mining"
@@ -1038,6 +1081,14 @@ var/list/teleportlocs = list()
 /area/toxins/lab
 	name = "Research and Development"
 	icon_state = "toxlab"
+
+/area/toxins/shuttledock
+	name = "Research Shuttle Dock"
+	icon_state = "toxmisc"
+
+/area/toxins/shuttle
+	name = "Research Shuttle"
+	icon_state = "shuttle"
 
 /area/toxins/xenobiology
 	name = "Xenobiology Lab"
@@ -1414,55 +1465,6 @@ var/list/teleportlocs = list()
 	icon_state = "storage"
 
 
-// Gamma Vessel
-
-/area/gammaderelict/bridge
-	name = "Gamma Derelict Bridge"
-	icon_state = "bridge"
-
-/area/gammaderelict/captains
-	name = "Gamma Derelict Captains Office"
-	icon_state = "captain"
-
-/area/gammaderelict/comms
-	name = "Gamma Derelict Comms Relay"
-	icon_state = "tcomsatcham"
-
-/area/gammaderelict/command
-	name = "Gamma Derelict Command Deck"
-	icon_state = "meeting"
-
-/area/gammaderelict/central
-	name = "Gamma Derelict Central Hallway"
-	icon_state = "hallC"
-
-/area/gammaderelict/medical
-	name = "Gamma Derelict Medbay"
-	icon_state = "medresearch"
-
-/area/gammaderelict/research
-	name = "Gamma Derelict Research Center"
-	icon_state = "medresearch"
-
-/area/gammaderelict/aft
-	name = "Gamma Derelict Aft Hallway"
-	icon_state = "hallA"
-
-/area/gammaderelict/engine
-	name = "Gamma Derelict Engine Room"
-	icon_state = "engine_smes"
-
-/area/gammaderelict/engistorage
-	name = "Gamma Derelict Engineering Storage"
-	icon_state = "engine"
-
-/area/gammaderelict/miscsci
-	name = "Gamma Derelict Misc Science"
-	icon_state = "medresearch"
-
-/area/gammaderelict/grav
-	name = "Gamma Derelict Gravity Generator"
-	icon_state = "red"
 
 // Telecommunications Satellite
 
@@ -1777,6 +1779,56 @@ var/list/teleportlocs = list()
 	requires_power = 0
 	has_gravity = 1
 	ambloop = 'sound/ambience/loop/opressivehum.ogg'
+
+//Gamma Vessel
+
+/area/gammaderelict/bridge
+	name = "Gamma Derelict Bridge"
+	icon_state = "bridge"
+
+/area/gammaderelict/captains
+	name = "Gamma Derelict Captains Office"
+	icon_state = "captain"
+
+/area/gammaderelict/comms
+	name = "Gamma Derelict Comms Relay"
+	icon_state = "tcomsatcham"
+
+/area/gammaderelict/command
+	name = "Gamma Derelict Command Deck"
+	icon_state = "meeting"
+
+/area/gammaderelict/central
+	name = "Gamma Derelict Central Hallway"
+	icon_state = "hallC"
+
+/area/gammaderelict/medical
+	name = "Gamma Derelict Medbay"
+	icon_state = "medresearch"
+
+/area/gammaderelict/research
+	name = "Gamma Derelict Research Center"
+	icon_state = "medresearch"
+
+/area/gammaderelict/aft
+	name = "Gamma Derelict Aft Hallway"
+	icon_state = "hallA"
+
+/area/gammaderelict/engine
+	name = "Gamma Derelict Engine Room"
+	icon_state = "engine_smes"
+
+/area/gammaderelict/engistorage
+	name = "Gamma Derelict Engineering Storage"
+	icon_state = "engine"
+
+/area/gammaderelict/miscsci
+	name = "Gamma Derelict Misc Science"
+	icon_state = "medresearch"
+
+/area/gammaderelict/grav
+	name = "Gamma Derelict Gravity Generator"
+	icon_state = "red"
 
 /////////////////////////////////////////////////////////////////////
 /*

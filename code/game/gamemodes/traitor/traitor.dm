@@ -14,7 +14,7 @@
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel")//AI", Currently out of the list as malf does not work for shit
 	required_players = 0
 	required_enemies = 1
-	recommended_enemies = 4
+	recommended_enemies = 2
 	reroll_friendly = 1
 
 	var/traitors_possible = 4 //hard limit on traitors if scaling is turned off
