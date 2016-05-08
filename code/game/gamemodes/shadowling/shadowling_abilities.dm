@@ -133,7 +133,7 @@
 	name = "Shadow Walk"
 	desc = "Phases you into the space between worlds for a short time, allowing movement through walls and invisbility."
 	panel = "Shadowling Abilities"
-	charge_max = 1800 // 3 minutes. This is a get out of jail card, and should have an extreme cooldown. They have a knock ability to open doors now.
+	charge_max = 2100 // 3 minutes. This is a get out of jail card, and should have an extreme cooldown. They have a knock ability to open doors now.
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "shadow_walk"
@@ -693,7 +693,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	desc = "Stuns and mutes a target for a short duration. It is useless against eye protection."
 	panel = "Thrall Abilities"
 	charge_max = 450
-	range = 4 // Counterplay
+	range = 3 // Counterplay
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "glare"
