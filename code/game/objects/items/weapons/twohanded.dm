@@ -338,6 +338,9 @@
 	attack_verb = list("bashed", "smacked")
 	var/wield_cooldown = 0
 
+obj/item/weapon/twohanded/chainsaw/clown
+	icon_state = "chainsaw0clown"
+
 /obj/item/weapon/twohanded/chainsaw/unwield()
 	..()
 	attack_verb = list("bashed", "smacked")
@@ -351,6 +354,12 @@
 		icon_state = "chainsaw[wielded]"
 	else
 		icon_state = "chainsaw0"
+
+/obj/item/weapon/twohanded/chainsaw/clown/update_icon()
+	if(wielded)
+		icon_state = "chainsaw[wielded]clown"
+	else
+		icon_state = "chainsaw0clown"
 
 /obj/item/weapon/twohanded/chainsaw/attack_self(mob/user as mob) //Override to create a cooldown
 	if(wielded)
