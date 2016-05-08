@@ -150,7 +150,7 @@
 	user.alpha = 10 // They are now very slightly visible.
 	if(user.buckled)
 		user.buckled.unbuckle_mob()
-	sleep(35) //3.5 seconds
+	sleep(25) //2.5 seconds
 	user.visible_message("<span class='warning'>[user] suddenly manifests!</span>", "<span class='shadowling'>The rift's pressure forces you back to corporeality.</span>")
 	user.incorporeal_move = 0
 	user.alpha = 255
