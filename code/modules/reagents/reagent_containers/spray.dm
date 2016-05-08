@@ -22,11 +22,6 @@
 	|| istype(A, /obj/item/weapon/reagent_containers) || istype(A, /obj/structure/sink) || istype(A, /obj/structure/janitorialcart) || istype(A, /obj/machinery/hydroponics))
 		return
 
-	if((user.disabilities & CLUWNEMUT) && prob(33))
-		user << "<span class='warning'>You accidentally drop the [src]!</span>"
-		user.drop_item()
-		return
-
 	if(istype(A, /obj/effect/proc_holder/spell))
 		return
 
