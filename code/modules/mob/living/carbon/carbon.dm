@@ -262,7 +262,11 @@
 		unEquip(item)
 	if(src.client)
 		src.client.screen -= item
-
+	if((src.disabilities & CLUWNEMUT) && prob(33))
+		src << "<span class='warning'>You accidentally drop the [src] right before you could throw it!</span>"
+		src.drop_item()
+		return
+	
 	//actually throw it!
 	if(item)
 		var/range = item.throw_range
