@@ -693,7 +693,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	desc = "Stuns and mutes a target for a short duration. It is useless against eye protection."
 	panel = "Thrall Abilities"
 	charge_max = 450
-	range = 3 // Counterplay
+	range = 4 // Counterplay
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "glare"
