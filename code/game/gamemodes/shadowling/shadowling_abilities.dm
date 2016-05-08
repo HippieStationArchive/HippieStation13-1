@@ -133,7 +133,7 @@
 	name = "Shadow Walk"
 	desc = "Phases you into the space between worlds for a short time, allowing movement through walls and invisbility."
 	panel = "Shadowling Abilities"
-	charge_max = 2100 // 3 minutes. This is a get out of jail card, and should have an extreme cooldown. They have a knock ability to open doors now.
+	charge_max = 800
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "shadow_walk"
@@ -150,7 +150,7 @@
 	user.alpha = 10 // They are now very slightly visible.
 	if(user.buckled)
 		user.buckled.unbuckle_mob()
-	sleep(25) //2.5 seconds
+	sleep(30) //3 seconds
 	user.visible_message("<span class='warning'>[user] suddenly manifests!</span>", "<span class='shadowling'>The rift's pressure forces you back to corporeality.</span>")
 	user.incorporeal_move = 0
 	user.alpha = 255
@@ -797,8 +797,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	name = "Annihilate"
 	desc = "Gibs someone instantly."
 	panel = "Ascendant"
-	range = 3
-	charge_max = 0
+	range = 5
+	charge_max = 10
 	clothes_req = 0
 	action_icon_state = "annihilate"
 	sound = 'sound/magic/Staff_Chaos.ogg'
@@ -809,7 +809,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 		revert_cast()
 		return
 	for(var/mob/living/boom in targets)
-		if(is_shadow(boom)) //Used to not work on thralls. Now it does so you can PUNISH THEM LIKE THE WRATHFUL GOD YOU ARE.
+		if(is_shadow_or_thrall(boom)) //Used to not work on thralls. Now it does so you can PUNISH THEM LIKE THE WRATHFUL GOD YOU ARE.
 			user << "<span class='warning'>Making an ally explode seems unwise.<span>"
 			revert_cast()
 			return
