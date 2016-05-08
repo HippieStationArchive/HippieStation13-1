@@ -190,6 +190,13 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/syndie_kit/caneshotgun
 	cost = 15
 	jobs = list("Clown","Mime")
+//CLOWN
+/datum/uplink_item/job_specific/chainsaw/clown
+	name = "Chainsaw"
+	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack."
+	item = /obj/item/weapon/twohanded/chainsaw/clown
+	cost = 14
+	jobs = list("Clown")
 
 //equipment room access
 
