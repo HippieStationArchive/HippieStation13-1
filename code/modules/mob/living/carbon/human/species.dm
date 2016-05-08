@@ -548,12 +548,12 @@
 				if(!disable_warning)
 					H << "<span class='warning'>You need a jumpsuit before you can attach this [I.name]!</span>"
 				return 0
-			if( I.w_class <= 2 || (I.slot_flags & SLOT_POCKET) )
-				return 1
 			if(H.l_store)
 				if(return_equipped)
 					return H.l_store
 				return 0
+			if( I.w_class <= 2 || (I.slot_flags & SLOT_POCKET) )
+				return 1
 		if(slot_r_store)
 			if(I.flags & NODROP)
 				return 0
@@ -563,13 +563,12 @@
 				return 0
 			if(I.slot_flags & SLOT_DENYPOCKET)
 				return 0
-			if( I.w_class <= 2 || (I.slot_flags & SLOT_POCKET) )
-				return 1
 			if(H.r_store)
 				if(return_equipped)
 					return H.r_store
 				return 0
-			return 0
+			if( I.w_class <= 2 || (I.slot_flags & SLOT_POCKET) )
+				return 1
 		if(slot_s_store)
 			if(I.flags & NODROP)
 				return 0
@@ -585,13 +584,13 @@
 				if(!disable_warning)
 					H << "The [I.name] is too big to attach."  //should be src?
 				return 0
-			if( istype(I, /obj/item/device/pda) || istype(I, /obj/item/weapon/pen) || is_type_in_list(I, H.wear_suit.allowed) )
-				return 1
+
 			if(H.s_store)
 				if(return_equipped)
 					return H.s_store
 				return 0
-			return 0
+			if( istype(I, /obj/item/device/pda) || istype(I, /obj/item/weapon/pen) || is_type_in_list(I, H.wear_suit.allowed) )
+				return 1
 		if(slot_handcuffed)
 			if(!istype(I, /obj/item/weapon/restraints/handcuffs))
 				return 0
