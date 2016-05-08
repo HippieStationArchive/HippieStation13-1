@@ -27,13 +27,13 @@ Head of Security
 			            access_research, access_engine, access_mining, access_medical, access_construction, access_mailsorting,
 			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway, access_research,
 			            access_captain, access_genetics, access_tox, access_robotics, access_atmospherics, access_chapel_office,
-			            access_cargo, access_hydroponics, access_bar, access_kitchen)
+			            access_cargo, access_hydroponics, access_bar, access_kitchen, access_outpost)
 	minimal_access = list(access_security, access_sec_doors, access_brig, access_armory, access_court, access_weapons,
 			            access_forensics_lockers, access_morgue, access_maint_tunnels, access_all_personal_lockers,
 			            access_research, access_engine, access_mining, access_medical, access_construction, access_mailsorting,
 			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway, access_captain,
 			            access_research, access_genetics, access_tox, access_robotics, access_atmospherics, access_chapel_office,
-			            access_hydroponics, access_bar, access_kitchen, access_cargo)
+			            access_hydroponics, access_bar, access_kitchen, access_cargo, access_outpost)
 
 /datum/outfit/job/hos
 	name = "Head of Security"

@@ -2,7 +2,7 @@
 	name = "Synaptic Enhancement"
 	desc = "We redirect mental pathways to devote more energy to muscle movement."
 	helptext = "The delay between attacks and actions will be halved. This will halt our chemical regeneration."
-	evopoints_cost = 8 //This is a VERY powerful lil piece of shit, especially if you use it in conjunction with a high-damage weapon.
+	evopoints_cost = 6 //Reduced the cost for it to see more use, 8 points was a tad too much
 	req_dna = 6 //Tier 3
 	chemical_cost = 30
 	var/active = 0

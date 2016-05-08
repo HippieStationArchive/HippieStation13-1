@@ -52,7 +52,7 @@
 	throw_range = 5
 	flags = NOSHIELD
 	origin_tech = "magnets=3;syndicate=4"
-	block_chance = 50
+	block_chance = list(melee = 50, bullet = 40, laser = 50, energy = 30)
 	var/hacked = 0
 
 /obj/item/weapon/melee/energy/sword/New()

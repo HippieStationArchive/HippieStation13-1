@@ -553,7 +553,8 @@ var/global/list/limb_icon_cache = list()
 		. += "-not_coloured"
 
 	. += "-[gender]"
-
+	if(disabilities & HUSK)
+		. += "-husk"
 	for(var/obj/item/organ/limb/L in organs)
 		var/limbname = Bodypart2name(L)
 		. += "-[limbname]"
@@ -633,12 +634,10 @@ var/global/list/limb_icon_cache = list()
 	var/draw_color
 
 	if(species)
-		if(species.use_skintones)
+		if(MUTCOLORS in species.specflags)
+			draw_color = dna.features["mcolor"]
+		else if(species.use_skintones)
 			draw_color = skintone2hex(skin_tone)
-		else
-			if(MUTCOLORS in species.specflags)
-				draw_color = dna.features["mcolor"]
-
 	if(affecting.skin_tone) //Limb has skin color variable defined, use it
 		draw_color = skintone2hex(affecting.skin_tone)
 	if(affecting.species_color)
