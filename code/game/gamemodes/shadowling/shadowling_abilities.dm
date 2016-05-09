@@ -15,6 +15,7 @@
 	desc = "Stuns and mutes a target for a decent duration."
 	panel = "Shadowling Abilities"
 	charge_max = 300
+	range = 4 // Used to be fullscreen
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "glare"
@@ -110,7 +111,7 @@
 	name = "Shadow Walk"
 	desc = "Phases you into the space between worlds for a short time, allowing movement through walls and invisbility."
 	panel = "Shadowling Abilities"
-	charge_max = 300 //Used to be twice this, buffed
+	charge_max = 800
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "shadow_walk"
@@ -121,13 +122,11 @@
 		revert_cast()
 		return
 	user.visible_message("<span class='warning'>[user] vanishes in a puff of black mist!</span>", "<span class='shadowling'>You enter the space between worlds as a tunnel.</span>")
-	user.SetStunned(0)
-	user.SetWeakened(0)
 	user.incorporeal_move = 1
-	user.alpha = 0
+	user.alpha = 102
 	if(user.buckled)
 		user.buckled.unbuckle_mob()
-	sleep(40) //4 seconds
+	sleep(30) //3 seconds
 	user.visible_message("<span class='warning'>[user] suddenly manifests!</span>", "<span class='shadowling'>The rift's pressure forces you back to corporeality.</span>")
 	user.incorporeal_move = 0
 	user.alpha = 255
@@ -137,7 +136,7 @@
 	name = "Icy Veins"
 	desc = "Instantly freezes the blood of nearby people, stunning them and causing burn damage."
 	panel = "Shadowling Abilities"
-	range = 5
+	range = 3
 	charge_max = 250
 	human_req = 1
 	clothes_req = 0
@@ -158,7 +157,6 @@
 					M << "<span class='danger'>You feel a blast of paralyzingly cold air wrap around you and flow past, but you are unaffected!</span>"
 					continue
 			M << "<span class='userdanger'>A wave of shockingly cold air engulfs you!</span>"
-			M.Stun(2)
 			M.apply_damage(10, BURN)
 			if(M.bodytemperature)
 				M.bodytemperature -= 200 //Extreme amount of initial cold
@@ -283,7 +281,7 @@
 	name = "Rapid Re-Hatch"
 	desc = "Re-forms protective chitin that may be lost during cloning or similar processes."
 	panel = "Shadowling Abilities"
-	charge_max = 600
+	charge_max = 1200
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "regen_armor"
@@ -296,6 +294,8 @@
 	user.visible_message("<span class='warning'>[user]'s skin suddenly bubbles and shifts around their body!</span>", \
 						 "<span class='shadowling'>You regenerate your protective armor and cleanse your form of defects.</span>")
 	user.adjustCloneLoss(user.getCloneLoss())
+	user.SetStunned(0)
+	user.SetWeakened(0)
 	user.equip_to_slot_or_del(new /obj/item/clothing/under/shadowling(user), slot_w_uniform)
 	user.equip_to_slot_or_del(new /obj/item/clothing/shoes/shadowling(user), slot_shoes)
 	user.equip_to_slot_or_del(new /obj/item/clothing/suit/space/shadowling(user), slot_wear_suit)
@@ -436,7 +436,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	name = "Sonic Screech"
 	desc = "Deafens, stuns, and confuses nearby people. Also shatters windows."
 	panel = "Shadowling Abilities"
-	range = 7
+	range = 5
 	charge_max = 300
 	human_req = 1
 	clothes_req = 0
@@ -477,8 +477,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	name = "Drain Life"
 	desc = "Damages nearby humans, draining their life and healing your own wounds."
 	panel = "Shadowling Abilities"
-	range = 3
-	charge_max = 100
+	range = 5
+	charge_max = 150
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "drain_life"
@@ -664,8 +664,9 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	name = "Lesser Glare"
 	desc = "Stuns and mutes a target for a short duration. It is useless against eye protection."
 	panel = "Thrall Abilities"
-	charge_max = 450
+	charge_max = 600
 	human_req = 1
+	range = 4
 	clothes_req = 0
 	action_icon_state = "glare"
 
@@ -711,7 +712,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 
 /obj/effect/proc_holder/spell/self/lesser_shadow_walk/cast(mob/living/carbon/human/user)
 	user.visible_message("<span class='warning'>[user] suddenly fades away!</span>", "<span class='shadowling'>You veil yourself in darkness, making you harder to see.</span>")
-	user.alpha = 10
+	user.alpha = 0
 	sleep(40)
 	user.visible_message("<span class='warning'>[user] appears from nowhere!</span>", "<span class='shadowling'>Your shadowy guise slips away.</span>")
 	user.alpha = initial(user.alpha)
@@ -768,8 +769,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	name = "Annihilate"
 	desc = "Gibs someone instantly."
 	panel = "Ascendant"
-	range = 7
-	charge_max = 0
+	range = 6
+	charge_max = 100
 	clothes_req = 0
 	action_icon_state = "annihilate"
 	sound = 'sound/magic/Staff_Chaos.ogg'
@@ -780,7 +781,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 		revert_cast()
 		return
 	for(var/mob/living/boom in targets)
-		if(is_shadow(boom)) //Used to not work on thralls. Now it does so you can PUNISH THEM LIKE THE WRATHFUL GOD YOU ARE.
+		if(is_shadow_or_thrall(boom)) // Christ, why even help the lings if they're just going to gib you?
 			user << "<span class='warning'>Making an ally explode seems unwise.<span>"
 			revert_cast()
 			return

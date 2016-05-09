@@ -15,14 +15,15 @@
 	var/phasing = 0
 	see_in_dark = 8
 	see_invisible = SEE_INVISIBLE_MINIMUM
+	next_move_modifier = 0.2 // They can beat things up 5 times faster than other things.
 
 	response_help   = "pokes"
 	response_disarm = "flails at"
 	response_harm   = "flails at"
 
 	harm_intent_damage = 0
-	melee_damage_lower = 60 //Was 35, buffed
-	melee_damage_upper = 60
+	melee_damage_lower = 30 // Calm your tits, this is so they can actually enjoy the feeling of punching something at lightspeed without it dying on the second hit.
+	melee_damage_upper = 30
 	attacktext = "rends"
 	attack_sound = 'sound/weapons/slash.ogg'
 
@@ -38,8 +39,3 @@
 /mob/living/simple_animal/ascendant_shadowling/get_spans()
 	return ..() | list(SPAN_REALLYBIG, SPAN_YELL) //MAKES THEM SHOUT WHEN THEY TALK
 
-/mob/living/simple_animal/ascendant_shadowling/ex_act(severity)
-	return 0 //You think an ascendant can be hurt by bombs? HA
-
-/mob/living/simple_animal/ascendant_shadowling/singularity_act()
-	return 0 //Well hi, fellow god! How are you today?
