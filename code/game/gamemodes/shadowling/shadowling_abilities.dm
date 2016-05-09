@@ -10,7 +10,7 @@
 	return 0
 
 
-/obj/effect/proc_holder/spell/targeted/glare //Stuns and mutes a human target for 10 seconds
+/obj/effect/proc_holder/spell/targeted/glare //Stuns and mutes a human target for 10 seconds, no range limit
 	name = "Glare"
 	desc = "Stuns and mutes a target for a decent duration."
 	panel = "Shadowling Abilities"
@@ -105,12 +105,35 @@
 		for(var/mob/living/silicon/robot/borgie in T.contents)
 			borgie.update_headlamp(1)
 
+/obj/effect/proc_holder/spell/aoe_turf/shadow_knock //Grants the shadowling invisibility and phasing for 3 seconds
+	name = "Shadow Knock"
+	desc = "Uses your phasing abilities to pick the locks of doors and other barriers."
+	panel = "Shadowling Abilities"
+	charge_max = 100
+	clothes_req = 0
+	range = 3
+	action_icon_state = "knock" // Temporary, I'll make an icon if people like the idea of it.
 
-/obj/effect/proc_holder/spell/self/shadow_walk //Grants the shadowling invisibility and phasing for 4 seconds
+/obj/effect/proc_holder/spell/aoe_turf/shadow_knock/cast(list/targets,mob/user = usr)
+	for(var/turf/T in targets)
+		for(var/obj/machinery/door/door in T.contents)
+			spawn(1)
+				if(istype(door,/obj/machinery/door/airlock))
+					door:locked = 0
+				door.open()
+		for(var/obj/structure/closet/C in T.contents)
+			spawn(1)
+				C.locked = 0
+				C.open()
+
+	return
+
+
+/obj/effect/proc_holder/spell/self/shadow_walk //Grants the shadowling invisibility and phasing for 3 seconds
 	name = "Shadow Walk"
 	desc = "Phases you into the space between worlds for a short time, allowing movement through walls and invisbility."
 	panel = "Shadowling Abilities"
-	charge_max = 300 //Used to be twice this, buffed
+	charge_max = 800
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "shadow_walk"
@@ -124,10 +147,10 @@
 	user.SetStunned(0)
 	user.SetWeakened(0)
 	user.incorporeal_move = 1
-	user.alpha = 0
+	user.alpha = 10 // They are now very slightly visible.
 	if(user.buckled)
 		user.buckled.unbuckle_mob()
-	sleep(40) //4 seconds
+	sleep(30) //3 seconds
 	user.visible_message("<span class='warning'>[user] suddenly manifests!</span>", "<span class='shadowling'>The rift's pressure forces you back to corporeality.</span>")
 	user.incorporeal_move = 0
 	user.alpha = 255
@@ -318,13 +341,14 @@
 	var/screech_acquired
 	var/drainLifeAcquired
 	var/reviveThrallAcquired
+	var/flashFreezeAcquired
 
 /obj/effect/proc_holder/spell/self/collective_mind/cast(mob/living/carbon/human/user)
 	if(!shadowling_check(user))
 		revert_cast()
 		return
 	var/thralls = 0
-	var/victory_threshold = 15
+	var/victory_threshold = 15 // Keep in mind this is split up between all the ling's thralls collectively. 15 is too low.
 	var/mob/M
 
 	user << "<span class='shadowling'><b>You focus your telepathic energies abound, harnessing and drawing together the strength of your thralls.</b></span>"
@@ -354,6 +378,10 @@
 		user << "<span class='shadowling'><i>The power of your thralls has granted you the <b>Drain Life</b> ability. You can now drain the health of nearby humans to heal yourself.</i></span>"
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/drain_life(null))
 
+	if(thralls >= 9 && !flashFreezeAcquired)
+		reviveThrallAcquired = 1
+		user << "<span class='shadowling'><i>The power of your thralls has granted you the <b>Flash Freeze</b> ability. This chills the bones of your enemies, slowing and causing frostbite.</i></span>"
+		user.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/flashfreeze(null))
 
 	if(thralls >= 9 && !reviveThrallAcquired)
 		reviveThrallAcquired = 1
@@ -572,9 +600,9 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 											    darkness but wither slowly in light. In addition, Lesser Glare and Guise have been upgraded into their true forms.</b></span>")
 				thrallToRevive.set_species(/datum/species/shadow/ling/lesser)
 				thrallToRevive.mind.remove_spell(/obj/effect/proc_holder/spell/targeted/lesser_glare)
-				thrallToRevive.mind.remove_spell(/obj/effect/proc_holder/spell/self/lesser_shadow_walk)
 				thrallToRevive.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/glare(null))
 				thrallToRevive.mind.AddSpell(new /obj/effect/proc_holder/spell/self/shadow_walk(null))
+				thrallToRevive.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/shadow_knock(null))
 			if("Revive")
 				if(!is_thrall(thrallToRevive))
 					user << "<span class='warning'>[thrallToRevive] is not a thrall.</span>"
@@ -665,6 +693,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	desc = "Stuns and mutes a target for a short duration. It is useless against eye protection."
 	panel = "Thrall Abilities"
 	charge_max = 450
+	range = 4 // Counterplay
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "glare"
@@ -711,7 +740,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 
 /obj/effect/proc_holder/spell/self/lesser_shadow_walk/cast(mob/living/carbon/human/user)
 	user.visible_message("<span class='warning'>[user] suddenly fades away!</span>", "<span class='shadowling'>You veil yourself in darkness, making you harder to see.</span>")
-	user.alpha = 10
+	user.alpha = 0 // It's useful now
 	sleep(40)
 	user.visible_message("<span class='warning'>[user] appears from nowhere!</span>", "<span class='shadowling'>Your shadowy guise slips away.</span>")
 	user.alpha = initial(user.alpha)
@@ -768,8 +797,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	name = "Annihilate"
 	desc = "Gibs someone instantly."
 	panel = "Ascendant"
-	range = 7
-	charge_max = 0
+	range = 5
+	charge_max = 10
 	clothes_req = 0
 	action_icon_state = "annihilate"
 	sound = 'sound/magic/Staff_Chaos.ogg'
@@ -780,7 +809,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 		revert_cast()
 		return
 	for(var/mob/living/boom in targets)
-		if(is_shadow(boom)) //Used to not work on thralls. Now it does so you can PUNISH THEM LIKE THE WRATHFUL GOD YOU ARE.
+		if(is_shadow_or_thrall(boom)) //Used to not work on thralls. Now it does so you can PUNISH THEM LIKE THE WRATHFUL GOD YOU ARE.
 			user << "<span class='warning'>Making an ally explode seems unwise.<span>"
 			revert_cast()
 			return
@@ -859,7 +888,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	name = "Lightning Storm"
 	desc = "Shocks everyone nearby."
 	panel = "Ascendant"
-	range = 6
+	range = 5
 	charge_max = 100
 	clothes_req = 0
 	action_icon_state = "lightning_storm"
