@@ -348,7 +348,7 @@
 		revert_cast()
 		return
 	var/thralls = 0
-	var/victory_threshold = 20 // Keep in mind this is split up between all the ling's thralls collectively. 15 is too low.
+	var/victory_threshold = 15 // Keep in mind this is split up between all the ling's thralls collectively. 15 is too low.
 	var/mob/M
 
 	user << "<span class='shadowling'><b>You focus your telepathic energies abound, harnessing and drawing together the strength of your thralls.</b></span>"
