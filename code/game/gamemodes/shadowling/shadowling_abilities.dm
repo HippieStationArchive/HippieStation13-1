@@ -1,4 +1,5 @@
 #define EMPOWERED_THRALL_LIMIT 5
+#define VICTORY_THRESHOLD 18
 
 /obj/effect/proc_holder/spell/proc/shadowling_check(var/mob/living/carbon/human/H)
 	if(!H || !istype(H)) return
@@ -105,6 +106,30 @@
 			extinguishMob(H)
 		for(var/mob/living/silicon/robot/borgie in T.contents)
 			borgie.update_headlamp(1)
+
+/obj/effect/proc_holder/spell/aoe_turf/shadow_knock
+	name = "Shadow Knock"
+	desc = "Uses your phasing abilities to pick the locks of doors and other barriers."
+	panel = "Shadowling Abilities"
+	charge_max = 150
+	clothes_req = 0
+	range = 3
+	action_icon_state = "knock" // Temporary, I'll make an icon if people like the idea of it.
+
+/obj/effect/proc_holder/spell/aoe_turf/shadow_knock/cast(list/targets,mob/user = usr)
+	for(var/turf/T in targets)
+		for(var/obj/machinery/door/door in T.contents)
+			spawn(1)
+				if(istype(door,/obj/machinery/door/airlock))
+					door:locked = 0
+				door.open()
+		for(var/obj/structure/closet/C in T.contents)
+			spawn(1)
+				C.locked = 0
+				C.open()
+
+	return
+
 
 
 /obj/effect/proc_holder/spell/self/shadow_walk //Grants the shadowling invisibility and phasing for 4 seconds
@@ -318,13 +343,14 @@
 	var/screech_acquired
 	var/drainLifeAcquired
 	var/reviveThrallAcquired
+	var/flashFreezeAcquired
 
 /obj/effect/proc_holder/spell/self/collective_mind/cast(mob/living/carbon/human/user)
 	if(!shadowling_check(user))
 		revert_cast()
 		return
 	var/thralls = 0
-	var/victory_threshold = 15
+	var/victory_threshold = VICTORY_THRESHOLD
 	var/mob/M
 
 	user << "<span class='shadowling'><b>You focus your telepathic energies abound, harnessing and drawing together the strength of your thralls.</b></span>"
@@ -338,24 +364,28 @@
 		user << "<span class='warning'>Your concentration has been broken. The mental hooks you have sent out now retract into your mind.</span>"
 		return
 
-	if(thralls >= 3 && !screech_acquired)
+	if(thralls >= 2 && !screech_acquired)
 		screech_acquired = 1
 		user << "<span class='shadowling'><i>The power of your thralls has granted you the <b>Sonic Screech</b> ability. This ability will shatter nearby windows and deafen enemies, plus stunning silicon lifeforms.</span>"
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/unearthly_screech(null))
 
-	if(thralls >= 5 && !blind_smoke_acquired)
+	if(thralls >= 4 && !blind_smoke_acquired)
 		blind_smoke_acquired = 1
 		user << "<span class='shadowling'><i>The power of your thralls has granted you the <b>Blinding Smoke</b> ability. It will create a choking cloud that will blind any non-thralls who enter. \
 			</i></span>"
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/self/blindness_smoke(null))
 
-	if(thralls >= 7 && !drainLifeAcquired)
+	if(thralls >= 6 && !drainLifeAcquired)
 		drainLifeAcquired = 1
 		user << "<span class='shadowling'><i>The power of your thralls has granted you the <b>Drain Life</b> ability. You can now drain the health of nearby humans to heal yourself.</i></span>"
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/drain_life(null))
 
+	if(thralls >= 8 && !flashFreezeAcquired)
+		reviveThrallAcquired = 1
+		user << "<span class='shadowling'><i>The power of your thralls has granted you the <b>Flash Freeze</b> ability. This chills the bones of your enemies, slowing and causing frostbite.</i></span>"
+		user.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/flashfreeze(null))
 
-	if(thralls >= 9 && !reviveThrallAcquired)
+	if(thralls >= 10 && !reviveThrallAcquired)
 		reviveThrallAcquired = 1
 		user << "<span class='shadowling'><i>The power of your thralls has granted you the <b>Black Recuperation</b> ability. This will, after a short time, bring a dead thrall completely back to life \
 		with no bodily defects.</i></span>"
@@ -572,9 +602,9 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 											    darkness but wither slowly in light. In addition, Lesser Glare and Guise have been upgraded into their true forms.</b></span>")
 				thrallToRevive.set_species(/datum/species/shadow/ling/lesser)
 				thrallToRevive.mind.remove_spell(/obj/effect/proc_holder/spell/targeted/lesser_glare)
-				thrallToRevive.mind.remove_spell(/obj/effect/proc_holder/spell/self/lesser_shadow_walk)
 				thrallToRevive.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/glare(null))
 				thrallToRevive.mind.AddSpell(new /obj/effect/proc_holder/spell/self/shadow_walk(null))
+				thrallToRevive.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/shadow_knock(null))
 			if("Revive")
 				if(!is_thrall(thrallToRevive))
 					user << "<span class='warning'>[thrallToRevive] is not a thrall.</span>"
