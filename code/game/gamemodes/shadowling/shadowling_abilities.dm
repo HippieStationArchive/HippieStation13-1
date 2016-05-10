@@ -16,7 +16,7 @@
 	desc = "Stuns and mutes a target for a decent duration."
 	panel = "Shadowling Abilities"
 	charge_max = 300
-	range = 4 // Used to be fullscreen
+	range = 3 // Used to be fullscreen
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "glare"
@@ -696,7 +696,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 	panel = "Thrall Abilities"
 	charge_max = 600
 	human_req = 1
-	range = 4
+	range = 3
 	clothes_req = 0
 	action_icon_state = "glare"
 
