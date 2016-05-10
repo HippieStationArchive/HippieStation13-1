@@ -39,7 +39,7 @@
 	icon_state = "omnilaser"
 	damage = 36
 	damage_type = STAMINA
-	flag = "energy"
+	flag = "laser" //Armors and Shields should assume disablers are lasers - makes more sense that way.
 	hitsound = 'sound/weapons/tap.ogg'
 	eyeblur = 0
 

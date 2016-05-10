@@ -66,7 +66,7 @@
 	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
 	origin_tech = "materials=2"
 	slowdown_deployed = 2
-	block_chance_deployed = list(melee = 70, bullet = 60, laser = 40, energy = 30) //Reason why melee value is so high is because the shield applies sizable slowdown to you now. It should be viable to give you an edge in melee combat mostly.
+	block_chance_deployed = list(melee = 70, bullet = 60, laser = 0, energy = 70) //This is good against melee, bullets and energy (disablers & electrodes) but absolutely garbage against lasers
 	var/cooldown = 0
 
 /obj/item/weapon/shield/deployable/riot/attack_self(mob/living/user)
@@ -142,7 +142,7 @@
 	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
 	origin_tech = "materials=2"
 	force_deployed = 8
-	block_chance_deployed = list(melee = 50, bullet = 30, laser = 20, energy = 20)
+	block_chance_deployed = list(melee = 50, bullet = 60, laser = 0, energy = 50)
 
 /obj/item/weapon/shield/deployable/tele/hit_reaction(mob/owner, attack_text, final_block_chance)
 	if(active)
