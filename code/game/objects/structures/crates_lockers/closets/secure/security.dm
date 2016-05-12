@@ -165,7 +165,7 @@
 	new /obj/item/clothing/under/rank/det/grey(src)
 	new /obj/item/clothing/tie/waistcoat(src)
 	new /obj/item/clothing/suit/det_suit/grey(src)
-	new /obj/item/clothing/head/fedora(src)
+	new /obj/item/clothing/head/fedora/detective/alt(src)
 	new /obj/item/clothing/shoes/laceup(src)
 	new /obj/item/weapon/storage/box/evidence(src)
 	new /obj/item/device/radio/headset/headset_sec/alt(src)
