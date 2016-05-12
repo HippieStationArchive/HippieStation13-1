@@ -487,3 +487,17 @@
 	smooth = SMOOTH_TRUE
 	canSmoothWith = null
 	explosion_block = 1
+
+/obj/structure/window/crystalwindow
+	name = "crystal window"
+	desc = "A very strong, air-locked, temperature resistant glass made from some kind of super strong crystal."
+	icon_state = "rwindow"
+	reinf = 1
+	dir = 5
+	maxhealth = 200
+	fulltile = 1
+	pressure_resistance = 32*ONE_ATMOSPHERE
+	temp_resistance = 120000
+	color = "#aa20aa"
+	var/thermal_conductivity = 0.0
+	var/heat_capacity = 312500 * 25 //a little over 5 cm thick , 312500 for 1 m by 2.5 m by 0.25 m plasteel wall
