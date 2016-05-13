@@ -89,6 +89,10 @@
 	rend_desc = "Gently wafting with the sounds of endless laughter."
 	icon_state = "clownrender"
 
+/obj/item/weapon/veilrender/honkrender/attack(mob/living/carbon/M, mob/living/carbon/user)
+	playsound(loc, 'sound/items/bikehorn.ogg', 50, 1, -1) //plays instead of tap.ogg!
+	return ..()
+
 /////////////////////////////////////////Scrying///////////////////
 
 /obj/item/weapon/scrying

@@ -1,38 +1,69 @@
-/mob/living/carbon/human/can_equip(obj/item/I, slot, disable_warning = 0)
-	return dna.species.can_equip(I, slot, disable_warning, src)
+/mob/living/carbon/human/can_equip(obj/item/I, slot, disable_warning = 0, return_equipped = 0)
+	return dna.species.can_equip(I, slot, disable_warning, return_equipped, src)
 
 /mob/living/carbon/human/verb/quick_equip()
 	set name = "quick-equip"
 	set hidden = 1
 
-	if(ishuman(src))
-		var/mob/living/carbon/human/H = src
-		var/obj/item/I = H.get_active_hand()
-		var/obj/item/weapon/storage/S = H.get_inactive_hand()
-		if(!I)
-			H << "<span class='warning'>You are not holding anything to equip!</span>"
-			return
-		if(H.equip_to_appropriate_slot(I))
+	var/obj/item/I = get_active_hand()
+	var/obj/item/weapon/storage/S = get_inactive_hand()
+	if(!I)
+		src << "<span class='warning'>You are not holding anything to equip!</span>"
+		return
+	if(equip_to_appropriate_slot(I))
+		if(hand)
+			update_inv_l_hand()
+		else
+			update_inv_r_hand()
+	else if(s_active && s_active.can_be_inserted(I,1))	//if storage active insert there
+		s_active.handle_item_insertion(I)
+	else if(istype(S) && S.can_be_inserted(I,1))	//see if we have box in other hand
+		S.handle_item_insertion(I)
+	else
+		S = get_item_by_slot(slot_belt)
+		if(istype(S) && S.can_be_inserted(I,1))		//else we put in belt
+			S.handle_item_insertion(I)
+		else
+			S = get_item_by_slot(slot_back)	//else we put in backpack
+			if(istype(S) && S.can_be_inserted(I,1))
+				S.handle_item_insertion(I)
+				playsound(loc, "rustle", 50, 1, -5)
+			else
+				src << "<span class='warning'>You are unable to equip that!</span>"
+
+//Goon-like hotswap for worn clothing
+/mob/living/carbon/human/verb/inventory_hotswap()
+	set name = "clothes-hotswap"
+	set hidden = 1
+
+	var/obj/item/I = get_active_hand()
+	if(!I)
+		return 0
+
+	//List below doesn't include pockets or backpacks because of some complications I can't be assed to figure out.
+	// Example: take box out of the backpack, put something in your pocket, use hotswap. Suddenly the box is swapped with whatever item you put in your backpack...???
+	var/list/search = list(slot_w_uniform, slot_belt, slot_wear_id, slot_wear_suit, slot_wear_mask, slot_head, slot_shoes, slot_gloves, slot_ears, slot_glasses)
+	for(var/slot in search)
+		var/check = I.mob_can_equip(src, slot, 1, 1) //disable_warning = 0; return_equipped = 0
+		if(check)
+			//This is so the items are dropped properly. Comment this snippet out if you want hotswapping to not drop the ID/belt/pockets/etc.
+			if(I == r_hand)
+				r_hand = null
+			else if(I == l_hand)
+				l_hand = null
+			//snippet end
+			if(istype(check, /obj/item))
+				var/obj/item/U = check
+				unEquip(U)
+				if(!put_in_active_hand(U))
+					U.forceMove(get_turf(src))
+			equip_to_slot(I, slot, 1) //we do equip_to_slot AFTER unEquipping existing clothing so that id's, pockets, etc. are properly emptied out
 			if(hand)
 				update_inv_l_hand()
 			else
 				update_inv_r_hand()
-		else if(s_active && s_active.can_be_inserted(I,1))	//if storage active insert there
-			s_active.handle_item_insertion(I)
-		else if(istype(S, /obj/item/weapon/storage) && S.can_be_inserted(I,1))	//see if we have box in other hand
-			S.handle_item_insertion(I)
-		else
-			S = H.get_item_by_slot(slot_belt)
-			if(istype(S, /obj/item/weapon/storage) && S.can_be_inserted(I,1))		//else we put in belt
-				S.handle_item_insertion(I)
-			else
-				S = H.get_item_by_slot(slot_back)	//else we put in backpack
-				if(istype(S, /obj/item/weapon/storage) && S.can_be_inserted(I,1))
-					S.handle_item_insertion(I)
-					playsound(src.loc, "rustle", 50, 1, -5)
-				else
-					H << "<span class='warning'>You are unable to equip that!</span>"
-
+			return 1
+	return 0
 
 /mob/living/carbon/human/proc/equip_in_one_of_slots(obj/item/I, list/slots, qdel_on_fail = 1)
 	for(var/slot in slots)
