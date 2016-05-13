@@ -28,11 +28,11 @@ emp_act
 	if(!type)	return 0
 	if(!istype(def_zone)) return 0
 	var/protection = 1
-	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
-	for(var/bp in body_parts)
-		if(!bp)	continue
-		if(bp && istype(bp ,/obj/item/clothing) || istype(bp ,/obj/item/weapon/storage/backpack))
-			var/obj/item/clothing/C = bp
+	var/list/armor_slots = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
+	for(var/ar in armor_slots)
+		if(!ar)	continue
+		if(ar && istype(ar ,/obj/item/clothing) || istype(ar ,/obj/item/weapon/storage/backpack))
+			var/obj/item/C = ar
 			if(C.body_parts_covered & def_zone.body_part)
 				protection *= ((100-C.armor[type])/100)
 	return ((1-protection)*100)
