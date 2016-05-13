@@ -17,7 +17,7 @@ emp_act
 		return checkarmor(affecting, type)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
-	//If you don't specify a bodypart, it checks ALL your bodyparts for protection, and averages out the values
+	//If you don't specify a bodypart, it checks ALL your organs for protection, and averages out the values
 	for(var/obj/item/organ/limb/organ in organs)
 		armorval += checkarmor(organ, type)
 		organnum++
@@ -27,15 +27,15 @@ emp_act
 /mob/living/carbon/human/proc/checkarmor(obj/item/organ/limb/def_zone, type)
 	if(!type)	return 0
 	if(!istype(def_zone)) return 0
-	var/protection = 0
+	var/protection = 1
 	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
 		if(!bp)	continue
-		if(bp && istype(bp ,/obj/item/clothing))
+		if(bp && istype(bp ,/obj/item/clothing) || istype(bp ,/obj/item/weapon/storage/backpack))
 			var/obj/item/clothing/C = bp
 			if(C.body_parts_covered & def_zone.body_part)
-				protection += C.armor[type]
-	return protection
+				protection *= ((100-C.armor[type])/100)
+	return ((1-protection)*100)
 
 /mob/living/carbon/human/on_hit(proj_type)
 	dna.species.on_hit(proj_type, src)

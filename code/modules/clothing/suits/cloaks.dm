@@ -1,52 +1,95 @@
 //Cloaks. No, not THAT kind of cloak.
 
-/obj/item/clothing/suit/cloak
+/obj/item/weapon/storage/backpack/cloak
 	name = "brown cloak"
 	desc = "Worn by The Owl, an outdated hero who once robusted griffons who threatened the station. Will you take up the mantle?"
 	icon = 'icons/obj/clothing/cloaks.dmi'
 	icon_state = "qmcloak"
-	w_class = 2
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
+	w_class = 4
+	slot_flags = SLOT_BACK
+	armor = list(melee = 5, bullet = 5, laser = 5, energy = 5, bomb = 10, bio = 10, rad = 10)
+	var/armor_exoslot = list(melee = 10, bullet = 10, laser = 10, energy = 10, bomb = 20, bio = 20, rad = 20)
+	var/adjusted_flags = SLOT_OCLOTHING
+	var/adjusted = 0
+	max_w_class = 3
+	max_combined_w_class = 15
+	storage_slots = 15
 
-/obj/item/clothing/cloak/suicide_act(mob/user)
+/obj/item/weapon/storage/backpack/cloak/proc/adjust(mob/user)
+	if(src.adjusted == 1)
+		user << "<span class='notice'>You push \the [src] back into place.</span>"
+		src.adjusted = 0
+		slot_flags = initial(slot_flags)
+		armor = initial(armor)
+		max_w_class = 3
+		max_combined_w_class = 15
+		storage_slots = 15
+	else // Exosuit form
+		src.adjusted = 1
+		slot_flags = adjusted_flags
+		armor = armor_exoslot
+		max_w_class = 2
+		max_combined_w_class = 4
+		storage_slots = 4
+
+/obj/item/weapon/storage/backpack/cloak/attack_self(mob/user)
+	adjust(user)
+
+/obj/item/weapon/storage/backpack/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is strangling themself with [src]! It looks like they're trying to commit suicide.</span>")
 	return(OXYLOSS)
 
-/obj/item/clothing/suit/cloak/hos
+/obj/item/weapon/storage/backpack/cloak/hos
 	name = "head of security's cloak"
 	desc = "Worn by Securistan, ruling the station with an iron fist. Smells robust."
 	icon_state = "hoscloak"
 	armor = list(melee = 30, bullet = 30, laser = 10, energy = 10, bomb = 25, bio = 0, rad = 0)
+	armor_exoslot = list(melee = 30, bullet = 30, laser = 10, energy = 10, bomb = 25, bio = 0, rad = 0)
 
-/obj/item/clothing/suit/cloak/qm
+/obj/item/weapon/storage/backpack/cloak/qm
 	name = "quartermaster's cloak"
 	desc = "Worn by Cargonia, supplying the station with the necessary tools for survival. Smells like failed revolutions."
 
-/obj/item/clothing/suit/cloak/cmo
+/obj/item/weapon/storage/backpack/cloak/cmo
 	name = "chief medical officer's cloak"
 	desc = "Worn by Meditopia, the valiant men and women keeping pestilence at bay. Smells sterile."
 	icon_state = "cmocloak"
-	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 10, rad = 10)
+	permeability_coefficient = 0.2
+	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 70, rad = 20)
+	armor_exoslot = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 70, rad = 20)
 
-/obj/item/clothing/suit/cloak/ce
+/obj/item/weapon/storage/backpack/cloak/ce
 	name = "chief engineer's cloak"
 	desc = "Worn by Engitopia, wielders of an unlimited power. Smells like asbestos and lead."
 	icon_state = "cecloak"
-	armor = list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 10)
+	armor = list(melee = 20, bullet = 0, laser = 30, energy = 0, bomb = 0, bio = 0, rad = 70)
+	armor_exoslot = list(melee = 20, bullet = 0, laser = 30, energy = 0, bomb = 0, bio = 0, rad = 70)
 	burn_state = -1
+	gas_transfer_coefficient = 0.1
+	heat_protection = CHEST|ARMS
+	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
+	cold_protection = CHEST|ARMS
+	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 
-/obj/item/clothing/suit/cloak/rd
+/obj/item/weapon/storage/backpack/cloak/rd
 	name = "research director's cloak."
 	desc = "Worn by Sciencia, thaumaturges and researchers of the universe. Smells like plasma, napalm, and victory."
 	icon_state = "rdcloak"
-	armor = list(melee = 0, bullet = 0, laser = 0, energy = 10, bomb = 10, bio = 0, rad = 10)
+	armor = list(melee = 0, bullet = 0, laser = 0, energy = 45, bomb = 40, bio = 30, rad = 10)
+	armor_exoslot = list(melee = 0, bullet = 0, laser = 0, energy = 45, bomb = 40, bio = 30, rad = 10)
 	burn_state = -1
+	permeability_coefficient = 0.4
+	gas_transfer_coefficient = 0.2
+	heat_protection = CHEST|ARMS
+	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 
-/obj/item/clothing/suit/cloak/cap
+/obj/item/weapon/storage/backpack/cloak/cap
 	name = "captain's cloak"
 	desc = "Worn by the commander of Space Station 13. Smells like failure."
 	icon_state = "capcloak"
-	armor = list(melee = 30, bullet = 30, laser = 30, energy = 10, bomb = 25, bio = 10, rad = 10)
+	armor = list(melee = 40, bullet = 40, laser = 40, energy = 20, bomb = 25, bio = 25, rad = 20)
+	armor_exoslot = list(melee = 20, bullet = 20, laser = 20, energy = 10, bomb = 25, bio = 25, rad = 10)
 
 /* //wip
 /obj/item/clothing/cloak/wizard //Not actually obtainable until proper balancing can be done

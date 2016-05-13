@@ -8,12 +8,14 @@
 	allowed = list(/obj/item/device/analyzer,/obj/item/stack/medical,/obj/item/weapon/dnainjector,/obj/item/weapon/reagent_containers/dropper,/obj/item/weapon/reagent_containers/syringe,/obj/item/weapon/reagent_containers/hypospray,/obj/item/device/healthanalyzer,/obj/item/device/flashlight/pen,/obj/item/weapon/reagent_containers/glass/bottle,/obj/item/weapon/reagent_containers/glass/beaker,/obj/item/weapon/reagent_containers/pill,/obj/item/weapon/storage/pill_bottle,/obj/item/weapon/paper,/obj/item/weapon/melee/classic_baton/telescopic)
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 50, rad = 0)
 	togglename = "buttons"
+	permeability_coefficient = 0.5 //Actually protects against chemicals a bit now!
 
 /obj/item/clothing/suit/toggle/labcoat/cmo
 	name = "chief medical officer's labcoat"
 	desc = "Bluer than the standard model."
 	icon_state = "labcoat_cmo"
 	item_state = "labcoat_cmo"
+	permeability_coefficient = 0.3
 
 /obj/item/clothing/suit/toggle/labcoat/emt
 	name = "EMT's jacket"
@@ -57,6 +59,7 @@
 	armor = list(melee = 35, bullet = 15, laser = 15, energy = 0, bomb = 0, bio = 50, rad = 0) //real armor is still better
 	var/list/clothing_choices = list()
 	burn_state = -1 //Won't burn in fires
+	permeability_coefficient = 0.01 // The aspiring virologist can now release his deadly diseases without a clunky biosuit.
 
 /obj/item/clothing/suit/labcoat/chameleon/New()
 	..()
