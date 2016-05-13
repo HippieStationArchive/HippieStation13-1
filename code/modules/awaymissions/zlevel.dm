@@ -1,4 +1,4 @@
-var/global/list/potentialRandomZlevels = generateMapList(filename = "code/modules/awaymissions/awaymissionconfig.txt")
+var/global/list/potentialRandomZlevels = generateMapList(filename = "config/awaymissionconfig.txt")
 
 /proc/createRandomZlevel()
 	if(awaydestinations.len)	//crude, but it saves another var!
