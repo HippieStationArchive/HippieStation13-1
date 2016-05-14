@@ -50,6 +50,7 @@ var/list/image/ghost_darkness_images = list() //this is a list of images for thi
 				name = random_unique_name(gender)
 
 		mind = body.mind	//we don't transfer the mind but we keep a reference to it.
+		mind.ghost = TRUE
 
 	if(!T)	T = pick(latejoin)			//Safety in case we cannot find the body's position
 	loc = T
@@ -86,6 +87,10 @@ Works together with spawning an observer, noted above.
 			var/mob/dead/observer/ghost = new(src)	//Transfer safety to observer spawning proc.
 			ghost.can_reenter_corpse = can_reenter_corpse
 			ghost.key = key
+
+			if(mind)
+				mind.ghost = TRUE
+
 			return ghost
 
 /*
@@ -155,7 +160,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 /mob/dead/observer/verb/reenter_corpse()
 	set category = "Ghost"
 	set name = "Re-enter Corpse"
-	if(!client)	return
+	if(!client)
+		return
 	if(!(mind && mind.current))
 		src << "<span class='warning'>You have no body.</span>"
 		return
@@ -165,7 +171,12 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
 		usr << "<span class='warning'>Another consciousness is in your body...It is resisting you.</span>"
 		return
+
 	mind.current.key = key
+
+	var/mob/living/L = mind.current
+	L.mind.ghost = FALSE
+
 	return 1
 
 /mob/dead/observer/proc/notify_cloning(var/message, var/sound)
@@ -355,6 +366,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		return 0
 
 	target.key = key
+	mind.ghost = FALSE
+
 	return 1
 
 
