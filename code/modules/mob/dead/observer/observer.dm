@@ -173,9 +173,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	mind.current.key = key
 
 	var/mob/living/L = mind.current
-	L << "[L.name]: [L.mind.ghost]"
 	L.mind.ghost = 0
-	L << "[L.name]: [L.mind.ghost]"
 
 	return 1
 
