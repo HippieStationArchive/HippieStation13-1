@@ -79,8 +79,6 @@
 //Looking for brains?
 //Try code/modules/mob/living/carbon/brain/brain_item.dm
 
-
-
 /obj/item/organ/internal/heart
 	name = "heart"
 	icon_state = "heart-on"

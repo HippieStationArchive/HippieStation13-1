@@ -49,7 +49,6 @@
 		if(brainmob && brainmob.client)
 			brainmob.client.screen.len = null //clear the hud
 
-
 /obj/item/organ/internal/brain/proc/transfer_identity(mob/living/L)
 	name = "[L.name]'s brain"
 	brainmob = new(src)
