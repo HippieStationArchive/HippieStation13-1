@@ -569,17 +569,19 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 
 /obj/machinery/computer/communications/proc/make_announcement(mob/living/user, is_silicon)
 	var/input = stripped_input(user, "Please choose a message to announce to the station crew.", "What?")
-	if(!input || !user.canUseTopic(src) || message_cooldown)
+	if(!input || !user.canUseTopic(src) || (message_cooldown && !is_silicon) || (ai_message_cooldown && is_silicon))
 		return
 	
 	if(is_silicon)
 		minor_announce(input)
+		ai_message_cooldown = 1
+		spawn(600)//One minute cooldown
+			ai_message_cooldown = 0
 	else
 		priority_announce(html_decode(input), null, 'sound/misc/announce.ogg', "Captain")
-
-	ai_message_cooldown = 1
-	spawn(600) //One minute cooldown
-		ai_message_cooldown = 0
+		message_cooldown = 1
+		spawn(600)//One minute cooldown
+			message_cooldown = 0
 
 	log_say("[key_name(user)] has made a priority announcement: [input]")
 	message_admins("[key_name_admin(user)] has made a priority announcement.")
