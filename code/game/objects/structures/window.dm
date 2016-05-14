@@ -16,7 +16,6 @@
 	var/wtype = "glass"
 	var/fulltile = 0
 	var/list/storeditems = list()
-	var/temp_resistance = 800
 //	var/silicate = 0 // number of units of silicate
 //	var/icon/silicateIcon = null // the silicated icon
 	var/image/crack_overlay
@@ -423,7 +422,7 @@
 		overlays += crack_overlay
 
 /obj/structure/window/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	if(exposed_temperature > T0C + temp_resistance)
+	if(exposed_temperature > T0C + (reinf ? 1600 : 800))
 		hit(round(exposed_volume / 100), 0)
 	..()
 
@@ -434,7 +433,6 @@
 	name = "reinforced window"
 	icon_state = "rwindow"
 	reinf = 1
-	temp_resistance = 1600
 	maxhealth = 50
 	explosion_block = 1
 
@@ -489,18 +487,3 @@
 	smooth = SMOOTH_TRUE
 	canSmoothWith = null
 	explosion_block = 1
-	temp_resistance = 1600
-
-/obj/structure/window/crystalwindow
-	name = "crystal window"
-	desc = "A very strong, air-locked, temperature resistant glass made from some kind of super strong crystal."
-	icon_state = "rwindow"
-	reinf = 1
-	dir = 5
-	maxhealth = 200
-	fulltile = 1
-	pressure_resistance = 32*ONE_ATMOSPHERE
-	temp_resistance = 120000
-	color = "#aa20aa"
-	var/thermal_conductivity = 0.0
-	var/heat_capacity = 312500 * 25 //a little over 5 cm thick , 312500 for 1 m by 2.5 m by 0.25 m plasteel wall
