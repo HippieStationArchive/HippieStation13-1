@@ -65,7 +65,7 @@
 	throwforce = 10
 	w_class = 3
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-	block_chance = list(melee = 70, bullet = 30, laser = 0, energy = 0) //How do you even block lasers with a claymore!?
+	block_chance = 50
 	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/claymore/suicide_act(mob/user)
@@ -84,7 +84,7 @@
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-	block_chance = list(melee = 80, bullet = 40, laser = 40, energy = 30) //Decent...ish
+	block_chance = 50
 	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/katana/cursed
