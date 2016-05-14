@@ -38,8 +38,6 @@
 			return
 		var/mob/living/carbon/human/M = target
 		user.visible_message("<span class='warning'><b>[user]'s eyes flash a blinding red!</b></span>")
-		if((target.disabilities & BLIND) || target.eye_blind)
-			return
 		target.visible_message("<span class='danger'>[target] freezes in place, their eyes glazing over...</span>")
 		if(in_range(target, user))
 			target << "<span class='userdanger'>Your gaze is forcibly drawn into [user]'s eyes, and you are mesmerized by the heavenly lights...</span>"
@@ -662,7 +660,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 
 /obj/effect/proc_holder/spell/targeted/lesser_glare //Thrall version of Glare - same effects but for 5 seconds
 	name = "Lesser Glare"
-	desc = "Stuns and mutes a target for a short duration. It is useless against eye protection."
+	desc = "Stuns and mutes a target for a short duration."
 	panel = "Thrall Abilities"
 	charge_max = 450
 	human_req = 1
@@ -683,14 +681,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			user << "<span class='warning'>You cannot glare at allies!</span>"
 			revert_cast()
 			return
-		if(target.check_eye_prot() > 0)
-			user << "<span class='warning'>You can't get a direct gaze on [target]'s eyes!</span>"
-			revert_cast()
-			return
 		var/mob/living/carbon/human/M = target
 		user.visible_message("<span class='warning'><b>[user]'s eyes flash a bright red!</b></span>")
-		if((target.disabilities & BLIND) || target.eye_blind)
-			return
 		target.visible_message("<span class='danger'>[target] freezes in place, their eyes clouding...</span>")
 		if(in_range(target, user))
 			target << "<span class='userdanger'>Your gaze is forcibly drawn into [user]'s eyes, and you are starstruck by the heavenly lights...</span>"
