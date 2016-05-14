@@ -49,7 +49,7 @@
 		if("murder")
 			new /obj/item/weapon/melee/energy/sword/saber(src)
 			new /obj/item/clothing/glasses/thermal/syndi(src)
-			new /obj/item/weapon/shield/energy(src)
+			new /obj/item/weapon/shield/deployable/energy(src)
 			new /obj/item/clothing/shoes/sneakers/syndigaloshes(src)
 			new /obj/item/device/encryptionkey/syndicate(src)
 			return

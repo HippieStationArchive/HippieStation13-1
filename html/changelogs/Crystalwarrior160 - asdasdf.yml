@@ -1,0 +1,6 @@
+author: Crystalwarrior160
+
+delete-after: True
+
+changes:
+  - bugfix: "Fixed fire dealing no damage"
