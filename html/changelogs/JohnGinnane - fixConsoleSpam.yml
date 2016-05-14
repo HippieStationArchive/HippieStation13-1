@@ -1,0 +1,6 @@
+author: John Ginnane
+
+delete-after: True
+
+changes: 
+  - rscadd: "Fixed players being able to spam priority announcements."
