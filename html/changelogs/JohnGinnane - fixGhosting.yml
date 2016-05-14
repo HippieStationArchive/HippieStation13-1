@@ -1,0 +1,7 @@
+author: John Ginnane
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed MMIs sometimes not being able to ghost."
+  - bugfix: "Fixed players being forced back into their old body when the the body is decapitated or debrained."
