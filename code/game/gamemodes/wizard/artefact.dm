@@ -89,10 +89,6 @@
 	rend_desc = "Gently wafting with the sounds of endless laughter."
 	icon_state = "clownrender"
 
-/obj/item/weapon/veilrender/honkrender/attack(mob/living/carbon/M, mob/living/carbon/user)
-	playsound(loc, 'sound/items/bikehorn.ogg', 50, 1, -1) //plays instead of tap.ogg!
-	return ..()
-
 /////////////////////////////////////////Scrying///////////////////
 
 /obj/item/weapon/scrying
@@ -197,7 +193,7 @@
 	H.equip_to_slot_or_del(new hat(H), slot_head)
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/roman(H), slot_w_uniform)
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roman(H), slot_shoes)
-	H.equip_to_slot_or_del(new /obj/item/weapon/shield/roman(H), slot_l_hand)
+	H.equip_to_slot_or_del(new /obj/item/weapon/shield/riot/roman(H), slot_l_hand)
 	H.equip_to_slot_or_del(new /obj/item/weapon/claymore(H), slot_r_hand)
 	H.equip_to_slot_or_del(new /obj/item/weapon/twohanded/spear(H), slot_back)
 
@@ -351,7 +347,7 @@ var/global/list/multiverse = list()
 			M.equip_to_slot_or_del(new hat(M), slot_head)
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/roman(M), slot_w_uniform)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/roman(M), slot_shoes)
-			M.equip_to_slot_or_del(new /obj/item/weapon/shield/roman(M), slot_l_hand)
+			M.equip_to_slot_or_del(new /obj/item/weapon/shield/riot/roman(M), slot_l_hand)
 			M.equip_to_slot_or_del(sword, slot_r_hand)
 
 		if("wizard")

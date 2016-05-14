@@ -2,7 +2,7 @@ var/obj/machinery/gateway/centerstation/the_gateway = null
 
 /obj/machinery/gateway
 	name = "gateway"
-	desc = "A mysterious gateway built by unknown hands, it allows for faster than light travel to far-flung locations."
+	desc = "A mysterious gateway built by unknown hands, it allows for faster than light travel to far-flung locations. Please give us feedback on the map you played: http://hippiestation.com/showthread.php?tid=4012"
 	icon = 'icons/obj/machines/gateway.dmi'
 	icon_state = "off"
 	density = 1
@@ -96,6 +96,7 @@ var/obj/machinery/gateway/centerstation/the_gateway = null
 
 
 /obj/machinery/gateway/centerstation/proc/toggleon(mob/user)
+	user << "<span class='notice'>Good luck! Please give us feedback on the map you played: http://hippiestation.com/showthread.php?tid=4012</span>"
 	if(!ready)
 		return
 	if(linked.len != 8)
@@ -212,6 +213,7 @@ var/obj/machinery/gateway/centerstation/the_gateway = null
 
 
 /obj/machinery/gateway/centeraway/proc/toggleon(mob/user)
+	user << "<span class='notice'>Well done! Please give us feedback on the map you played: http://hippiestation.com/showthread.php?tid=4012</span>"
 	if(!ready)
 		return
 	if(linked.len != 8)
