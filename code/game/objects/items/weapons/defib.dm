@@ -489,9 +489,7 @@
 
 						if (H.suiciding || (H.disabilities & NOCLONE))
 							failed = "<span class='warning'>[req_defib ? "[defib]" : "[src]"] buzzes: Resuscitation failed - Recovery of patient impossible. Further attempts futile.</span>"
-						else if (!H.getorgan(/obj/item/organ/internal/heart))
-							failed = "<span class='warning'>[req_defib ? "[defib]" : "[src]"] buzzes: Resuscitation failed - Unable to locate heart.</span>"
-						else if ((tplus > tlimit))
+						else if ((tplus > tlimit) || !H.getorgan(/obj/item/organ/internal/heart))
 							failed = "<span class='warning'>[req_defib ? "[defib]" : "[src]"] buzzes: Resuscitation failed - Heart tissue damage beyond point of no return. Further attempts futile.</span>"
 						else if(total_burn >= 180 || total_brute >= 180)
 							failed = "<span class='warning'>[req_defib ? "[defib]" : "[src]"] buzzes: Resuscitation failed - Severe tissue damage makes recovery of patient impossible via defibrillator. Further attempts futile.</span>"
@@ -545,7 +543,7 @@
 
 /obj/item/weapon/twohanded/shockpaddles/syndicate
 	name = "syndicate defibrillator paddles"
-	desc = "A pair of paddles used to revive deceased operatives. It possesses both the ability to penetrate armor and to deliver powerful shocks offensively."
+	desc = "A pair of paddles used to revive deceased operatives. It possesses both the ability to penetrate armor and todeliver powerful shocks offensively."
 	combat = 1
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "defibpaddles0"
