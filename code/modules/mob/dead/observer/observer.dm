@@ -103,29 +103,19 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	var/mob/living/carbon/H = src
 
-	var/confirm_ghost = FALSE
-
 	if(stat != DEAD)
 		succumb()
-
 	if(stat == DEAD)
 		ghostize(1)
-
-	if(istype(H) && H.dna)
-		if(H.dna.check_mutation(CLUWNEMUT) & stat != DEAD)
-			H << "Cluwnes cannot ghost until they've died! Find a natural means of death!"
-			return
-		else
-			confirm_ghost = TRUE
+	if(istype(H) && (H.dna.check_mutation(CLUWNEMUT)) & !(stat == DEAD))
+		H << "Cluwnes cannot ghost until they've died! Find a natural means of death!"
+		return
 	else
-		confirm_ghost = TRUE
-
-	if(confirm_ghost)
 		var/response = alert(src, "Are you -sure- you want to ghost?\n(You are alive. If you ghost whilst still alive you may not play again this round! You can't change your mind so choose wisely!!)","Are you sure you want to ghost?","Ghost","Stay in body")
 		if(response != "Ghost")	return	//didn't want to ghost after-all
 		ghostize(0)						//0 parameter is so we can never re-enter our body, "Charlie, you can never come baaaack~" :3
-
 	return
+
 
 /mob/dead/observer/Move(NewLoc, direct)
 	if(NewLoc)
