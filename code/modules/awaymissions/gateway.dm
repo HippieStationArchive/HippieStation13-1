@@ -137,12 +137,18 @@ var/obj/machinery/gateway/centerstation/the_gateway = null
 
 //okay, here's the good teleporting stuff
 /obj/machinery/gateway/centerstation/Bumped(atom/movable/AM)
+	if(ismob(AM))
+		var/mob/M = AM
+		if(M.mind && M.mind.changeling)
+			M << "The ancient builders of this gate seem to have barred our kind from using their technology..."
+			return
 	if(!ready)
 		return
 	if(!active)
 		return
 	if(!awaygate || qdeleted(awaygate))
 		return
+
 
 	if(awaygate.calibrated)
 		AM.forceMove(get_step(awaygate.loc, SOUTH))
