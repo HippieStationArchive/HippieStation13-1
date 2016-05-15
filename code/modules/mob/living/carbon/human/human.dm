@@ -47,6 +47,7 @@
 		I.Insert(src)
 
 	make_blood()
+	update_body()
 
 	..()
 
@@ -168,19 +169,22 @@
 				Paralyse(10)
 
 	var/update = 0
+	var/dismember_chance = 50/severity //50, 25, 17~
 	for(var/obj/item/organ/limb/temp in organs)
-		switch(temp.name)
-			if("head")
+		if(prob(dismember_chance) && temp.body_part != HEAD && temp.body_part != CHEST && temp.dismember())
+			continue // don't damage this limb further
+		switch(temp.body_part)
+			if(HEAD)
 				update |= temp.take_damage(b_loss * 0.2, f_loss * 0.2)
-			if("chest")
+			if(CHEST)
 				update |= temp.take_damage(b_loss * 0.4, f_loss * 0.4)
-			if("l_arm")
+			if(ARM_LEFT)
 				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05)
-			if("r_arm")
+			if(ARM_RIGHT)
 				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05)
-			if("l_leg")
+			if(LEG_LEFT)
 				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05)
-			if("r_leg")
+			if(LEG_RIGHT)
 				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05)
 	if(update)	update_damage_overlays(0)
 
@@ -190,7 +194,7 @@
 	if(stat == DEAD)	return
 	show_message("<span class='userdanger'>The blob attacks you!</span>")
 	var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
-	var/obj/item/organ/limb/affecting = get_organ(ran_zone(dam_zone))
+	var/obj/item/organ/limb/affecting = getrandomorgan(dam_zone)
 	apply_damage(5, BRUTE, affecting, run_armor_check(affecting, "melee"))
 	return
 
@@ -271,7 +275,7 @@
 		dat += "<tr><td><A href='?src=\ref[src];item=[slot_legcuffed]'>Legcuffed</A></td></tr>"
 	for(var/obj/item/organ/limb/O in src.organs)
 		for(var/obj/item/I in O.embedded_objects)
-			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O.getDisplayName()]: [I] [I.pinned ? "(Pinned down)" : ""]</a><br>"
+			dat += "<tr><td><A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[O]'>Embedded in [O]: [I] [I.pinned ? "(Pinned down)" : ""]</a><br>"
 
 	dat += {"</table>
 	<A href='?src=\ref[user];mach_close=mob\ref[src]'>Close</A>
@@ -333,7 +337,7 @@
 			var/time_taken = I.embedded_unsafe_removal_time*I.w_class
 			if(I.pinned) //Only the rodgun pins people down currently
 				time_taken += 10 //Increase time since you're pinned down
-			usr.visible_message("<span class='warning'>[usr] attempts to remove [I] from [usr == src ? "their" : "[src]'s"] [L.getDisplayName()].</span>","<span class='notice'>You attempt to remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()]... (It will take [time_taken/10] seconds.)</span>")
+			usr.visible_message("<span class='warning'>[usr] attempts to remove [I] from [usr == src ? "their" : "[src]'s"] [L].</span>","<span class='notice'>You attempt to remove [I] from [usr == src ? "your" : "[src]'s"] [L]... (It will take [time_taken/10] seconds.)</span>")
 			if(do_after(usr, time_taken, needhand = 1, target = src))
 				if(!I || !L || I.loc != src || !(I in L.embedded_objects))
 					return
@@ -350,7 +354,7 @@
 				I.add_fingerprint(usr)
 				src.emote("scream")
 				playsound(loc, 'sound/misc/tear.ogg', 50, 1, -2) //Naaasty.
-				usr.visible_message("[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L.getDisplayName()]!","<span class='notice'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L.getDisplayName()].</span>")
+				usr.visible_message("[usr] successfully rips [I] out of [usr == src ? "their" : "[src]'s"] [L]!","<span class='notice'>You successfully remove [I] from [usr == src ? "your" : "[src]'s"] [L].</span>")
 				if(!has_embedded_objects())
 					clear_alert("embeddedobject")
 				if(usr.machine == src && in_range(src, usr))
@@ -467,7 +471,7 @@
 										status = "sustained major trauma!"
 										span = "userdanger"
 									if(brutedamage)
-										usr << "<span class='[span]'>The [org.getDisplayName()] appears to have [status]</span>"
+										usr << "<span class='[span]'>The [org] appears to have [status]</span>"
 							if(getFireLoss())
 								usr << "<b>Analysis of skin burns:</b>"
 								for(var/obj/item/organ/limb/org in organs)
@@ -482,7 +486,7 @@
 										status = "major burns!"
 										span = "userdanger"
 									if(burndamage)
-										usr << "<span class='[span]'>The [org.getDisplayName()] appears to have [status]</span>"
+										usr << "<span class='[span]'>The [org] appears to have [status]</span>"
 							if(getOxyLoss())
 								usr << "<span class='danger'>Patient has signs of suffocation, emergency treatment may be required!</span>"
 							if(getToxLoss() > 20)
@@ -786,10 +790,10 @@
 					status += "numb"
 				if(status == "")
 					status = "OK"
-				src << "\t [status == "OK" ? "\blue" : "\red"] Your [org.getDisplayName()] is [status]."
+				src << "\improper\t [status == "OK" ? "\blue" : "\red"] Your [org] is [status]."
 
 				for(var/obj/item/I in org.embedded_objects)
-					src << "\t <A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[org]'>\red There is \a [I] embedded in your [org.getDisplayName()]! </A> [I.pinned ? "It has also pinned you down!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<A href='byond://?src=\ref[org];read_embedded=\ref[I]'>Read</A>)" : ""]"
+					src << "\t <A href='byond://?src=\ref[src];embedded_object=\ref[I];embedded_limb=\ref[org]'>\red There is \a [I] embedded in your [org]! </A> [I.pinned ? "It has also pinned you down!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<A href='byond://?src=\ref[org];read_embedded=\ref[I]'>Read</A>)" : ""]"
 
 			if(blood_max)
 				src << "<span class='danger'>You are bleeding!</span>"
@@ -876,14 +880,14 @@
 	if(dna && dna.species)
 		dna.species.handle_mutant_bodyparts(src,"black")
 		dna.species.handle_hair(src,"black")
-		dna.species.update_color(src,"black")
+		//dna.species.update_color(src,"black")
 		overlays += "electrocuted_base"
 		spawn(anim_duration)
 			if(src)
 				if(dna && dna.species)
 					dna.species.handle_mutant_bodyparts(src)
 					dna.species.handle_hair(src)
-					dna.species.update_color(src)
+					//dna.species.update_color(src)
 				overlays -= "electrocuted_base"
 
 	else //or just do a generic animation
@@ -915,3 +919,9 @@
 		add_screams(s_store.alternate_screams)
 	if(wear_id)
 		add_screams(wear_id.alternate_screams)
+
+
+/mob/living/carbon/human/revive()
+	regenerate_limbs()
+	..()
+	return

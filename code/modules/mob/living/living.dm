@@ -127,9 +127,9 @@ Sorry Giacom. Please don't be mad :(
 	if(!(M.status_flags & CANPUSH))
 		return 1
 	//anti-riot equipment is also anti-push
-	if(M.r_hand && istype(M.r_hand, /obj/item/weapon/shield/riot))
+	if(M.r_hand && M.r_hand:block_push)
 		return 1
-	if(M.l_hand && istype(M.l_hand, /obj/item/weapon/shield/riot))
+	if(M.l_hand && M.l_hand:block_push)
 		return 1
 
 //Called when we bump onto an obj
@@ -408,7 +408,7 @@ Sorry Giacom. Please don't be mad :(
 	var/t = shooter:zone_sel.selecting
 	if ((t in list( "eyes", "mouth" )))
 		t = "head"
-	var/obj/item/organ/limb/def_zone = ran_zone(t)
+	var/def_zone = ran_zone(t)
 	return def_zone
 
 //damage/heal the mob ears and adjust the deaf amount
@@ -482,6 +482,7 @@ Sorry Giacom. Please don't be mad :(
 	if(stat == DEAD)
 		dead_mob_list -= src
 		living_mob_list += src
+	status_flags &= ~(FAKEDEATH) //So Heal()-ing a changeling doesn't break shit
 	stat = CONSCIOUS
 	if(ishuman(src))
 		var/mob/living/carbon/human/human_mob = src

@@ -1,4 +1,4 @@
-#define EGG_INCUBATION_TIME 120
+#define EGG_INCUBATION_TIME 120 //in seconds
 
 /mob/living/simple_animal/hostile/headcrab
 	name = "headslug"
@@ -20,11 +20,14 @@
 	ventcrawler = 2
 	var/datum/mind/origin
 	var/egg_lain = 0
-	gold_core_spawnable = 1 //are you sure about this??
+	speed = 0 //So you can actually fucking outrun the massive lynchsquad going after you
+	gold_core_spawnable = 0
+	ventcrawl_speed = 5 //It's a tiny lil' piece of shit, he should be able to crawl into vents quick.
 
 /mob/living/simple_animal/hostile/headcrab/proc/Infect(mob/living/carbon/victim)
 	var/obj/item/organ/internal/body_egg/changeling_egg/egg = new(victim)
 	egg.Insert(victim)
+	egg.burst_time = world.time + EGG_INCUBATION_TIME*10
 	if(origin)
 		egg.origin = origin
 	else if(mind) // Let's make this a feature
@@ -50,23 +53,21 @@
 			return
 	target.attack_animal(src)
 
-
-
-
 /obj/item/organ/internal/body_egg/changeling_egg
 	name = "changeling egg"
 	desc = "Twitching and disgusting."
 	origin_tech = "biotech=7" // You need to be really lucky to obtain it.
 	var/datum/mind/origin
-	var/time
+	var/burst_time = 0
 
 /obj/item/organ/internal/body_egg/changeling_egg/egg_process()
 	// Changeling eggs grow in dead people
-	time++
-	if(time >= EGG_INCUBATION_TIME)
-		Pop()
-		Remove(owner)
-		qdel(src)
+	if(world.time < burst_time)
+		return
+
+	Pop()
+	Remove(owner)
+	qdel(src)
 
 /obj/item/organ/internal/body_egg/changeling_egg/proc/Pop()
 	var/mob/living/carbon/monkey/M = new(owner)

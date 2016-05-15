@@ -107,6 +107,7 @@ MASS SPECTROMETER
 	var/tox_loss = M.getToxLoss()
 	var/fire_loss = M.getFireLoss()
 	var/brute_loss = M.getBruteLoss()
+	var/list/missing_limbs = M.get_missing_limbs()
 	var/mob_status = (M.stat > 1 ? "<span class='alert'><b>Deceased</b></span>" : "<b>[round(M.health,0.1)] % healthy</b>")
 	if(M.status_flags & FAKEDEATH)
 		mob_status = "<span class='alert'>Deceased</span>"
@@ -116,6 +117,8 @@ MASS SPECTROMETER
 		if(H.heart_attack)
 			user << "<span class='danger'>Subject suffering from heart attack: Apply defibrillator immediately!</span>"
 	user << "<span class='info'>Analyzing results for [M]:\nOverall status: [mob_status]</span>"
+	if(missing_limbs.len)
+		user << "\t<span class='alert'>Subject appears to be missing limbs, their health will be affected.</span>"
 	// Damage descriptions
 	if(brute_loss > 10)
 		user << "\t<span class='alert'>[brute_loss > 50 ? "Severe" : "Minor"] tissue damage detected.</span>"
@@ -156,7 +159,7 @@ MASS SPECTROMETER
 											<font color='green'>[round(tox_loss, 0.1)]</font>\t\
 											<font color='blue'>[round(oxy_loss, 0.1)]</font></i></span>"
 			for(var/obj/item/organ/limb/org in damaged)
-				user << "\t<span class='info'>[capitalize(org.getDisplayName())]:\t[length(org.getDisplayName()) <= 7 ? "\t":""]\
+				user << "\t<span class='info'>[capitalize(org.name)]:\t[length(org.name) <= 7 ? "\t":""]\
 					[(org.brute_dam > 0) ? "<font color='red'>[round(org.brute_dam, 0.1)]</font>" : "<font color='red'>0</font>"]\t\
 					[(org.bloodloss > 0) ? "<font color='#FF6464'>[round(org.bloodloss, 0.1)]</font>" : "<font color='#FF6464'>0</font>"]\t\
 					[(org.burn_dam > 0) ? "<font color='#FF8000'>[round(org.burn_dam, 0.1)]</font>" : "<font color='#FF8000'>0</font>"]</span>"

@@ -65,6 +65,8 @@
 
 	var/mob/living/list/ignored_by = list()	// list of mobs that will ignore this species
 
+	var/has_dismemberment = 1 //Whether or not this species uses dismemberment for its limbs
+
 	//Breathing!
 	var/safe_oxygen_min = 16 // Minimum safe partial pressure of O2, in kPa
 	var/safe_oxygen_max = 0
@@ -109,56 +111,11 @@
 /datum/species/proc/qualifies_for_rank(rank, list/features)
 	return 1
 
-/datum/species/proc/update_base_icon_state(mob/living/carbon/human/H)
-	if(H.disabilities & HUSK)
-		H.remove_overlay(SPECIES_LAYER) // races lose their color
-		return "husk"
-	else if(sexes)
-		if(use_skintones)
-			return "[H.skin_tone]_[(H.gender == FEMALE) ? "f" : "m"]"
-		else
-			return "[id]_[(H.gender == FEMALE) ? "f" : "m"]"
-	else
-		return "[id]"
-
-/datum/species/proc/update_color(mob/living/carbon/human/H, forced_colour)
-	H.remove_overlay(SPECIES_LAYER)
-
-	var/image/standing
-
-	var/g = (H.gender == FEMALE) ? "f" : "m"
-
-	if((MUTCOLORS in specflags) || use_skintones)
-		var/image/spec_base
-		var/icon_state_string = "[id]_"
-
-		if(use_skintones)
-			if(sexes)
-				icon_state_string = "[H.skin_tone]_[g]_s"
-			else
-				icon_state_string = "[H.skin_tone]_s"
-		else
-			if(sexes)
-				icon_state_string += "[g]_s"
-			else
-				icon_state_string += "_s"
-
-		spec_base = image("icon" = 'icons/mob/human.dmi', "icon_state" = icon_state_string, "layer" = -SPECIES_LAYER)
-
-		if(!forced_colour && !use_skintones)
-			spec_base.color = "#[H.dna.features["mcolor"]]"
-		else
-			spec_base.color = forced_colour
-
-		standing = spec_base
-
-	if(standing)
-		H.overlays_standing[SPECIES_LAYER]	+= standing
-
-	H.apply_overlay(SPECIES_LAYER)
-
 /datum/species/proc/handle_hair(mob/living/carbon/human/H, forced_colour)
 	H.remove_overlay(HAIR_LAYER)
+
+	if(!H.get_organ("head")) //Decapitated
+		return
 
 	var/datum/sprite_accessory/S
 	var/list/standing	= list()
@@ -166,9 +123,7 @@
 	if(H.facial_hair_style && FACEHAIR in specflags)
 		S = facial_hair_styles_list[H.facial_hair_style]
 		if(S)
-			var/image/img_facial_s
-
-			img_facial_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
+			var/image/img_facial_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
 
 			if(!forced_colour)
 				if(hair_color)
@@ -185,9 +140,6 @@
 
 			standing	+= img_facial_s
 
-	//Applies the debrained overlay if there is no brain
-	if(!H.getorgan(/obj/item/organ/internal/brain))
-		standing	+= image("icon"='icons/mob/human_face.dmi', "icon_state" = "debrained_s", "layer" = -HAIR_LAYER)
 
 	if((H.wear_suit) && (H.wear_suit.hooded) && (H.wear_suit.suittoggled == 1))
 		if(standing.len)
@@ -195,47 +147,62 @@
 		H.apply_overlay(HAIR_LAYER)
 		return
 
-	else if(H.hair_style && HAIR in specflags)
-		S = hair_styles_list[H.hair_style]
-		if(S)
-			var/image/img_hair_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
+	//Applies the debrained overlay if there is no brain
+	if(!H.getorgan(/obj/item/organ/internal/brain))
+		standing	+= image("icon"='icons/mob/human_face.dmi', "icon_state" = "debrained_s", "layer" = -HAIR_LAYER)
+	else
+		if(H.hair_style && HAIR in specflags)
+			S = hair_styles_list[H.hair_style]
+			if(S)
+				var/image/img_hair_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
 
-			img_hair_s = image("icon" = S.icon, "icon_state" = "[S.icon_state]_s", "layer" = -HAIR_LAYER)
-
-			if(!forced_colour)
-				if(hair_color)
-					if(hair_color == "mutcolor")
-						img_hair_s.color = "#" + H.dna.features["mcolor"]
+				if(!forced_colour)
+					if(hair_color)
+						if(hair_color == "mutcolor")
+							img_hair_s.color = "#" + H.dna.features["mcolor"]
+						else
+							img_hair_s.color = "#" + hair_color
 					else
-						img_hair_s.color = "#" + hair_color
+						img_hair_s.color = "#" + H.hair_color
 				else
-					img_hair_s.color = "#" + H.hair_color
-			else
-				img_hair_s.color = forced_colour
-			img_hair_s.alpha = hair_alpha
+					img_hair_s.color = forced_colour
+				img_hair_s.alpha = hair_alpha
 
-			standing	+= img_hair_s
+				standing	+= img_hair_s
 
 	if(standing.len)
 		H.overlays_standing[HAIR_LAYER]	= standing
 
 	H.apply_overlay(HAIR_LAYER)
-	return
+	return standing
 
 /datum/species/proc/handle_body(mob/living/carbon/human/H)
 	H.remove_overlay(BODY_LAYER)
 	var/list/standing	= list()
 
+	if(!has_dismemberment) //Legacy support
+		if(H.disabilities & HUSK)
+			H.icon_state = "husk"
+		else if(sexes)
+			if(use_skintones)
+				H.icon_state = "[H.skin_tone]_[(H.gender == FEMALE) ? "f" : "m"]"
+			else
+				H.icon_state = "[id]_[(H.gender == FEMALE) ? "f" : "m"]"
+		else
+			H.icon_state = "[id]"
+		H.icon_state += "_s"
+
+
 	handle_mutant_bodyparts(H)
 
 	// lipstick
-	if(H.lip_style && LIPS in specflags)
+	if(H.lip_style && (LIPS in specflags) && H.get_organ("head"))
 		var/image/lips = image("icon"='icons/mob/human_face.dmi', "icon_state"="lips_[H.lip_style]_s", "layer" = -BODY_LAYER)
 		lips.color = H.lip_color
 		standing	+= lips
 
 	// eyes
-	if(EYECOLOR in specflags)
+	if((EYECOLOR in specflags) && H.get_organ("head"))
 		var/image/img_eyes_s = image("icon" = 'icons/mob/human_face.dmi', "icon_state" = "[eyes]_s", "layer" = -BODY_LAYER)
 		img_eyes_s.color = "#" + H.eye_color
 		standing	+= img_eyes_s
@@ -254,7 +221,7 @@
 			else
 				standing	+= image("icon"=U2.icon, "icon_state"="[U2.icon_state]_s", "layer"=-BODY_LAYER)
 
-	if(H.socks)
+	if(H.socks && H.get_num_legs() >= 2)
 		var/datum/sprite_accessory/socks/U3 = socks_list[H.socks]
 		if(U3)
 			standing	+= image("icon"=U3.icon, "icon_state"="[U3.icon_state]_s", "layer"=-BODY_LAYER)
@@ -315,7 +282,7 @@
 			bodyparts_to_add -= "waggingspines"
 
 	if("snout" in mutant_bodyparts) //Take a closer look at that snout!
-		if((H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE)) || (H.head && (H.head.flags_inv & HIDEFACE)))
+		if((H.wear_mask && (H.wear_mask.flags_inv & HIDEFACE)) || (H.head && (H.head.flags_inv & HIDEFACE)) || !H.get_organ("head"))
 			bodyparts_to_add -= "snout"
 
 	if("frills" in mutant_bodyparts)
@@ -323,11 +290,11 @@
 			bodyparts_to_add -= "frills"
 
 	if("horns" in mutant_bodyparts)
-		if(!H.dna.features["horns"] || H.dna.features["horns"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)))
+		if(!H.dna.features["horns"] || H.dna.features["horns"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)) || !H.get_organ("head"))
 			bodyparts_to_add -= "horns"
 
 	if("ears" in mutant_bodyparts)
-		if(!H.dna.features["ears"] || H.dna.features["ears"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)))
+		if(!H.dna.features["ears"] || H.dna.features["ears"] == "None" || H.head && (H.head.flags & BLOCKHAIR) || (H.wear_mask && (H.wear_mask.flags & BLOCKHAIR)) || !H.get_organ("head"))
 			bodyparts_to_add -= "ears"
 
 	if(!bodyparts_to_add)
@@ -338,6 +305,14 @@
 	var/image/I
 
 	for(var/layer in relevent_layers)
+		var/layer_name = ""
+		switch(layer)
+			if(BODY_BEHIND_LAYER)
+				layer_name = "behind"
+			if(BODY_ADJ_LAYER)
+				layer_name = "adj"
+			if(BODY_FRONT_LAYER)
+				layer_name = "front"
 		for(var/bodypart in bodyparts_to_add)
 			var/datum/sprite_accessory/S
 			switch(bodypart)
@@ -379,9 +354,9 @@
 			var/icon_string
 
 			if(S.gender_specific)
-				icon_string = "[id]_[g]_[bodypart]_[S.icon_state]_[layer]"
+				icon_string = "[id]_[g]_[bodypart]_[S.icon_state]_[layer_name]"
 			else
-				icon_string = "[id]_m_[bodypart]_[S.icon_state]_[layer]"
+				icon_string = "[id]_m_[bodypart]_[S.icon_state]_[layer_name]"
 
 			I = image("icon" = 'icons/mob/mutant_bodyparts.dmi', "icon_state" = icon_string, "layer" =- layer)
 
@@ -407,9 +382,9 @@
 
 			if(S.hasinner)
 				if(S.gender_specific)
-					icon_string = "[id]_[g]_[bodypart]inner_[S.icon_state]_[layer]"
+					icon_string = "[id]_[g]_[bodypart]inner_[S.icon_state]_[layer_name]"
 				else
-					icon_string = "[id]_m_[bodypart]inner_[S.icon_state]_[layer]"
+					icon_string = "[id]_m_[bodypart]inner_[S.icon_state]_[layer_name]"
 				if(H.deepfried)
 					var/icon/HI = icon(H.icon, H.icon_state)
 					HI.Blend('icons/effects/overlays.dmi', ICON_MULTIPLY)
@@ -434,121 +409,168 @@
 	// handles the equipping of species-specific gear
 	return
 
-/datum/species/proc/can_equip(obj/item/I, slot, disable_warning, mob/living/carbon/human/H)
+/datum/species/proc/can_equip(obj/item/I, slot, disable_warning, return_equipped, mob/living/carbon/human/H)
 	if(slot in no_equip)
 		if(!(type in I.species_exception))
 			return 0
 
+	var/R = H.has_right_hand(1)
+	var/L = H.has_left_hand(1)
+	var/num_arms = H.get_num_arms()
+	var/num_legs = H.get_num_legs()
 	switch(slot)
 		if(slot_l_hand)
+			if(!L)
+				return 0
 			if(H.l_hand)
+				if(return_equipped)
+					return H.l_hand
 				return 0
 			return 1
 		if(slot_r_hand)
+			if(!R)
+				return 0
 			if(H.r_hand)
+				if(return_equipped)
+					return H.r_hand
 				return 0
 			return 1
 		if(slot_wear_mask)
-			if(H.wear_mask)
-				return 0
 			if( !(I.slot_flags & SLOT_MASK) )
+				return 0
+			if(!H.get_organ("head"))
+				return 0
+			if(H.wear_mask)
+				if(return_equipped)
+					return H.wear_mask
 				return 0
 			return 1
 		if(slot_back)
-			if(H.back)
-				return 0
 			if( !(I.slot_flags & SLOT_BACK) )
+				return 0
+			if(H.back)
+				if(return_equipped)
+					return H.back
 				return 0
 			return 1
 		if(slot_wear_suit)
-			if(H.wear_suit)
-				return 0
 			if( !(I.slot_flags & SLOT_OCLOTHING) )
+				return 0
+			if(H.wear_suit)
+				if(return_equipped)
+					return H.wear_suit
 				return 0
 			return 1
 		if(slot_gloves)
-			if(H.gloves)
-				return 0
 			if( !(I.slot_flags & SLOT_GLOVES) )
+				return 0
+			if(num_arms < 2)
+				return 0
+			if(H.gloves)
+				if(return_equipped)
+					return H.gloves
 				return 0
 			return 1
 		if(slot_shoes)
-			if(H.shoes)
-				return 0
 			if( !(I.slot_flags & SLOT_FEET) )
+				return 0
+			if(num_legs < 2)
+				return 0
+			if(H.shoes)
+				if(return_equipped)
+					return H.shoes
 				return 0
 			return 1
 		if(slot_belt)
-			if(H.belt)
-				return 0
 			if( !(I.slot_flags & SLOT_BELT) )
 				return
+			if(H.belt)
+				if(return_equipped)
+					return H.belt
+				return 0
 			return 1
 		if(slot_glasses)
-			if(H.glasses)
-				return 0
 			if( !(I.slot_flags & SLOT_EYES) )
+				return 0
+			if(!H.get_organ("head"))
+				return 0
+			if(H.glasses)
+				if(return_equipped)
+					return H.glasses
 				return 0
 			return 1
 		if(slot_head)
-			if(H.head)
-				return 0
 			if( !(I.slot_flags & SLOT_HEAD) )
+				return 0
+			if(!H.get_organ("head"))
+				return 0
+			if(H.head)
+				if(return_equipped)
+					return H.head
 				return 0
 			return 1
 		if(slot_ears)
-			if(H.ears)
-				return 0
 			if( !(I.slot_flags & SLOT_EARS) )
+				return 0
+			if(!H.get_organ("head"))
+				return 0
+			if(H.ears)
+				if(return_equipped)
+					return H.ears
 				return 0
 			return 1
 		if(slot_w_uniform)
-			if(H.w_uniform)
-				return 0
 			if( !(I.slot_flags & SLOT_ICLOTHING) )
+				return 0
+			if(H.w_uniform)
+				if(return_equipped)
+					return H.w_uniform
 				return 0
 			return 1
 		if(slot_wear_id)
-			if(H.wear_id)
+			if( !(I.slot_flags & SLOT_ID) )
 				return 0
 			if(!H.w_uniform && !nojumpsuit)
 				if(!disable_warning)
 					H << "<span class='warning'>You need a jumpsuit before you can attach this [I.name]!</span>"
 				return 0
-			if( !(I.slot_flags & SLOT_ID) )
+			if(H.wear_id)
+				if(return_equipped)
+					return H.wear_id
 				return 0
 			return 1
 		if(slot_l_store)
 			if(I.flags & NODROP) //Pockets aren't visible, so you can't move NODROP items into them.
 				return 0
-			if(H.l_store)
+			if(I.slot_flags & SLOT_DENYPOCKET)
 				return 0
 			if(!H.w_uniform && !nojumpsuit)
 				if(!disable_warning)
 					H << "<span class='warning'>You need a jumpsuit before you can attach this [I.name]!</span>"
 				return 0
-			if(I.slot_flags & SLOT_DENYPOCKET)
-				return
+			if(H.l_store)
+				if(return_equipped)
+					return H.l_store
+				return 0
 			if( I.w_class <= 2 || (I.slot_flags & SLOT_POCKET) )
 				return 1
 		if(slot_r_store)
 			if(I.flags & NODROP)
 				return 0
-			if(H.r_store)
-				return 0
 			if(!H.w_uniform && !nojumpsuit)
 				if(!disable_warning)
 					H << "<span class='warning'>You need a jumpsuit before you can attach this [I.name]!</span>"
 				return 0
 			if(I.slot_flags & SLOT_DENYPOCKET)
 				return 0
+			if(H.r_store)
+				if(return_equipped)
+					return H.r_store
+				return 0
 			if( I.w_class <= 2 || (I.slot_flags & SLOT_POCKET) )
 				return 1
-			return 0
 		if(slot_s_store)
 			if(I.flags & NODROP)
-				return 0
-			if(H.s_store)
 				return 0
 			if(!H.wear_suit)
 				if(!disable_warning)
@@ -562,19 +584,31 @@
 				if(!disable_warning)
 					H << "The [I.name] is too big to attach."  //should be src?
 				return 0
+
+			if(H.s_store)
+				if(return_equipped)
+					return H.s_store
+				return 0
 			if( istype(I, /obj/item/device/pda) || istype(I, /obj/item/weapon/pen) || is_type_in_list(I, H.wear_suit.allowed) )
 				return 1
-			return 0
 		if(slot_handcuffed)
-			if(H.handcuffed)
-				return 0
 			if(!istype(I, /obj/item/weapon/restraints/handcuffs))
+				return 0
+			if(num_arms < 2)
+				return 0
+			if(H.handcuffed)
+				if(return_equipped)
+					return H.handcuffed
 				return 0
 			return 1
 		if(slot_legcuffed)
-			if(H.legcuffed)
-				return 0
 			if(!istype(I, /obj/item/weapon/restraints/legcuffs))
+				return 0
+			if(num_legs < 2)
+				return 0
+			if(H.legcuffed)
+				if(return_equipped)
+					return H.legcuffed
 				return 0
 			return 1
 		if(slot_in_backpack)
@@ -777,10 +811,30 @@
 					icon_num = 4
 				if(damage > (comparison*4))
 					icon_num = 5
+				if(L.state_flags & ORGAN_AUGMENTABLE) //No muscles = unusable limb
+					icon_num = 5
 				if(H.hal_screwyhud == 5)
 					icon_num = 0
 				if(icon_num)
-					H.healthdoll.overlays += image('icons/mob/screen_gen.dmi',"[L.name][icon_num]")
+					H.healthdoll.overlays += image('icons/mob/screen_gen.dmi',"[Bodypart2name(L)][icon_num]")
+			for(var/t in H.get_missing_limbs()) //Missing limbs
+				H.healthdoll.overlays += image('icons/mob/screen_gen.dmi',"[t]6")
+
+	var/datum/hud/hud_used = H.hud_used
+	if(hud_used)	//hud missing arm "block" icons
+		var/obj/screen/inventory/R = hud_used.r_hand_hud_object
+		var/obj/screen/inventory/L = hud_used.l_hand_hud_object
+		var/image/block = image("icon"='icons/mob/screen_gen.dmi', "icon_state"="blocked")
+		if(!H.has_right_hand(1))
+			if(!(locate(block) in R.overlays))
+				R.overlays += block
+		else
+			R.overlays = null
+		if(!H.has_left_hand(1))
+			if(!(locate(block) in L.overlays))
+				L.overlays += block
+		else
+			L.overlays = null
 
 	switch(H.nutrition)
 		if(NUTRITION_LEVEL_FULL to INFINITY)
@@ -837,8 +891,6 @@
 ////////////////
 
 /datum/species/proc/movement_delay(mob/living/carbon/human/H)
-	var/mspeed = 0
-
 	if(!(H.status_flags & IGNORESLOWDOWN))
 
 		var/grav = has_gravity(H)
@@ -859,45 +911,49 @@
 				if(P.allow_thrust(0.01, H))
 					hasjetpack = 1
 
-			mspeed = -1 - hasjetpack
+			. = -1 - hasjetpack
 
 		if(grav || !hasjetpack)
 			var/health_deficiency = (100 - H.health + H.staminaloss)
 			if(health_deficiency >= 40)
-				mspeed += (health_deficiency / 25)
+				. += (health_deficiency / 25)
 
 			var/hungry = (500 - H.nutrition) / 5	//So overeat would be 100 and default level would be 80
 			if(hungry >= 70)
-				mspeed += hungry / 50
+				. += hungry / 50
 
 			if(H.wear_suit)
-				mspeed += H.wear_suit.slowdown
+				. += H.wear_suit:update_slowdown(H)
 			if(H.shoes)
-				mspeed += H.shoes.slowdown
+				. += H.shoes:update_slowdown(H)
 			if(H.back)
-				mspeed += H.back.slowdown
+				. += H.back:update_slowdown(H)
 			if(H.l_hand)
-				mspeed += H.l_hand.slowdown
+				. += H.l_hand:update_slowdown(H)
 			if(H.r_hand)
-				mspeed += H.r_hand.slowdown
+				. += H.r_hand:update_slowdown(H)
 
 			if((H.disabilities & FAT))
-				mspeed += 1.5
+				. += 1.5
 			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
-				mspeed += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
-			if(H.status_flags & NEARCRIT) //This is for crawling
-				mspeed += 30 //Can crawl only every 3 seconds pretty much
+				. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
 
-			mspeed += speedmod
+			if(H.get_num_legs(1) < 2)
+				. += 2
+
+			if(H.lying) //This is for crawling
+				. += 10
+				if(H.status_flags & NEARCRIT)//Can crawl only every 3 seconds if nearcrit, otherwise it's 1
+					. += 20
+
+			. += speedmod
 
 		if(grav)
 			if(H.status_flags & GOTTAGOFAST)
-				mspeed -= 1
+				. -= 1
 
 			if(H.status_flags & GOTTAGOREALLYFAST)
-				mspeed -= 2
-
-	return mspeed
+				. -= 2
 
 //////////////////
 // ATTACK PROCS //
@@ -906,8 +962,10 @@
 /datum/species/proc/spec_attack_hand(mob/living/carbon/human/M, mob/living/carbon/human/H)
 	if(!istype(M)) //sanity check for drones.
 		return
+	if(M.lying) //Can't believe nobody checked for this before.
+		return
 	var/shieldcheck = H.check_shields(0, M.name)
-	if((M != H) && M.a_intent != "help" && H.check_shields(0, M.name))
+	if((M != H) && M.a_intent != "help" && shieldcheck)
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
 		if(isliving(shieldcheck))
@@ -946,21 +1004,19 @@
 
 				var/damage = rand(0, 9) + M.dna.species.punchmod
 
-				if(!damage)
+				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
+				var/armor_block = H.run_armor_check(affecting, "melee")
+				var/dmgcheck = H.apply_damage(damage, BRUTE, affecting, armor_block)
+				if(!damage || !istype(affecting) || !dmgcheck)
 					playsound(H.loc, M.dna.species.miss_sound, 25, 1, -1)
 					H.visible_message("<span class='warning'>[M] has attempted to [atk_verb] [H]!</span>")
 					return 0
-
-
-				var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
-				var/armor_block = H.run_armor_check(affecting, "melee")
 
 				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
 
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
-				H.apply_damage(damage, BRUTE, affecting, armor_block)
 				add_logs(M, H, "punched")
 				if((H.stat != DEAD) && damage >= 9)
 					H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
@@ -983,7 +1039,7 @@
 
 				if(H.w_uniform)
 					H.w_uniform.add_fingerprint(M)
-				var/obj/item/organ/limb/affecting = H.get_organ(ran_zone(M.zone_sel.selecting))
+				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/randn = rand(1, 100)
 				if(randn <= 25)
 					playsound(H, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
@@ -1033,6 +1089,28 @@
 	return
 
 /datum/species/proc/spec_attacked_by(obj/item/I, mob/living/user, def_zone, obj/item/organ/limb/affecting, hit_area, intent, obj/item/organ/limb/target_limb, target_area, mob/living/carbon/human/H)
+	if(!target_limb || (target_limb.state_flags & ORGAN_AUGMENTABLE))
+		var/zone = check_zone(user.zone_sel.selecting)
+		if(istype(I, /obj/item/robot_parts))
+			var/obj/item/robot_parts/RP = I
+			if(Bodypart2name(RP.body_part) == zone)
+				if(!target_limb)
+					target_limb = newBodyPart(zone)
+					target_limb.owner = H
+					target_limb.loc = H
+					H.organs += target_limb
+				target_limb.augment(RP, zone, user)
+			else
+				user << "<span class='notice'>[RP] doesn't go there!</span>"
+			return 0
+		if(istype(I, /obj/item/organ/limb) && !target_limb)
+			var/obj/item/organ/limb/L = I
+			if(Bodypart2name(L) == zone)
+				H.attachLimb(L,user)
+			else
+				user << "<span class='notice'>[L] doesn't go there!</span>"
+			return 0
+
 	// Allows you to put in item-specific reactions based on species
 	if(user != H)
 		user.do_attack_animation(H)
@@ -1104,7 +1182,23 @@
 					user << "<span class='warning'>[H] has no butt!</span>"
 				return 0
 
-	if(I.attack_verb && I.attack_verb.len)
+	var/armor_block = H.run_armor_check(affecting, "melee", "<span class='notice'>Your armor has protected your [hit_area].</span>", "<span class='notice'>Your armor has softened a hit to your [hit_area].</span>",I.armour_penetration)
+	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
+
+	var/dmgcheck = apply_damage(I.force, I.damtype, affecting, armor_block, H)
+
+	if(!dmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
+		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
+						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
+		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
+		return 0
+
+	if (I.hitsound && I.force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
+		playsound(H, I.hitsound, I.get_clamped_volume(), 1, I.hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
+	else if (I.force == 0)//Otherwise, if the item's force is zero...
+		playsound(H, 'sound/weapons/tap.ogg', I.get_clamped_volume(), 1, I.hitsound_extrarange)//...play tap.ogg at get_clamped_volume()
+
+	if(islist(I.attack_verb) && I.attack_verb.len)
 		H.visible_message("<span class='danger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>", \
 						"<span class='userdanger'>[user] has [pick(I.attack_verb)] [H] in the [hit_area] with [I]!</span>")
 	else if(I.force)
@@ -1113,11 +1207,16 @@
 	else
 		return 0
 
-	var/armor_block = H.run_armor_check(affecting, "melee", "<span class='notice'>Your armor has protected your [hit_area].</span>", "<span class='notice'>Your armor has softened a hit to your [hit_area].</span>",I.armour_penetration)
-	armor_block = min(90,armor_block) //cap damage reduction at 90%
-	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
-
-	apply_damage(I.force, I.damtype, affecting, armor_block, H)
+	if(affecting && affecting.get_damage() >= affecting.max_damage)
+		if(I.can_dismember() && prob(I.force*(I.w_class-1)))
+			if(affecting.dismember())
+				I.add_blood(H)
+				playsound(get_turf(H), pick('sound/misc/desceration-01.ogg', 'sound/misc/desceration-02.ogg', 'sound/misc/desceration-03.ogg', 'sound/misc/desceration-04.ogg'), 80, 1)
+				affecting.add_blood(H)
+				var/turf/location = H.loc
+				if(istype(location, /turf/simulated))
+					location.add_blood(H)
+				return
 
 	var/bloody = 0
 	if(((I.damtype == BRUTE) && I.force && prob(25 + (I.force * 2)))) //45% on toolboxes (10 force)
@@ -1136,6 +1235,7 @@
 					spawn()
 						var/obj/effect/decal/cleanable/blood/hitsplatter/B = new(H)
 						B.blood_source = H
+						playsound(location, pick('sound/misc/splash1.ogg', 'sound/misc/splash2.ogg', 'sound/misc/splash3.ogg', 'sound/misc/splash4.ogg'), 40, 1, -1)
 						var/n = rand(1,3)
 						var/turf/targ = get_ranged_target_turf(H, get_dir(user, H), n)
 						B.GoTo(targ, n)
@@ -1165,12 +1265,12 @@
 						H.visible_message("<span class='danger'>[H] has received a concussion!</span>", \
 										"<span class='userdanger'>[H] has received a concussion!</span>")
 						H.confused += 10
-						H.apply_effect(0.5, WEAKEN, armor_block)
+						H.apply_effect(1, WEAKEN, armor_block)
 						H.adjustBrainLoss(max(10, I.force/2))
-					var/role = lowertext(user.mind.special_role)
-					if(role != "revolutionary" && role != "head revolutionary")
-						if(prob(I.force + ((100 - H.health)/2)) && H != user && I.damtype == BRUTE)
-							ticker.mode.remove_revolutionary(H.mind)
+						var/role = lowertext(user.mind.special_role)
+						if(role != "revolutionary" && role != "head revolutionary")
+							if(H != user && I.damtype == BRUTE) //Receiving a concussion is a 100% chance to be deconverted
+								ticker.mode.remove_revolutionary(H.mind)
 				var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
 				if(prob(I.force * (def_zone == "mouth" ? 3 : 1)) && O) //Will the teeth fly out?
 					if(O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force*1.5)/100))))
@@ -1191,7 +1291,7 @@
 				if(H.stat == CONSCIOUS && I.force && prob(min(I.force, 35)))
 					H.visible_message("<span class='danger'>[H] recoils and stumbles from the attack!</span>", \
 									"<span class='userdanger'>[H] recoils and stumbles from the attack!</span>")
-					H.apply_effect(0.5, WEAKEN, armor_block)
+					H.apply_effect(1, WEAKEN, armor_block)
 					H.adjustStaminaLoss(20)
 
 				if(bloody)
@@ -1214,9 +1314,13 @@
 	if(islimb(def_zone))
 		organ = def_zone
 	else
-		if(!def_zone)	def_zone = ran_zone(def_zone)
-		organ = H.get_organ(check_zone(def_zone))
-	if(!organ)	return 0
+		if(!def_zone)
+			organ = H.getrandomorgan("chest", 50)
+			def_zone = Bodypart2name(organ)
+		else
+			organ = H.get_organ(check_zone(def_zone))
+	if(!organ)
+		return 0
 
 	damage = (damage * blocked)
 

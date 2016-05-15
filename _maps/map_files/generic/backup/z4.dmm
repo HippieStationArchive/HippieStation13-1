@@ -219,7 +219,7 @@
 "ek" = (/obj/item/ammo_casing,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/derelict/brig)
 "el" = (/obj/item/weapon/paper_bin{pixel_x = 1; pixel_y = 9},/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/derelict/brig)
 "em" = (/obj/item/clothing/head/helmet/riot,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/derelict/brig)
-"en" = (/obj/item/weapon/shield/riot,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/derelict/brig)
+"en" = (/obj/item/weapon/shield/deployable/riot,/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/derelict/brig)
 "eo" = (/obj/structure/disposalpipe/segment{dir = 4},/obj/machinery/door/poddoor/preopen{id = "xenobio1"; name = "containment blast door"},/obj/effect/spawner/structure/window/reinforced,/turf/simulated/floor/engine,/area/derelict/research)
 "ep" = (/obj/machinery/monkey_recycler,/turf/simulated/floor/plasteel/airless{icon_state = "white"},/area/derelict/research)
 "eq" = (/obj/machinery/processor{desc = "A machine used to process slimes and retrieve their extract."; name = "Slime Processor"},/turf/simulated/floor/plasteel/airless{icon_state = "white"},/area/derelict/research)

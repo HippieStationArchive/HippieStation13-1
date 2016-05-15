@@ -435,6 +435,30 @@ var/list/slot_equipment_priority = list( \
 			update_inv_r_hand()
 	return
 
+/mob/verb/attack_inactive_hand()
+	set name = "Attack Inactive Hand"
+	set category = "Object"
+	set src = usr
+
+	if(istype(loc,/obj/mecha)) return
+
+	var/obj/item/W
+	if(hand)
+		W = l_hand
+	else
+		W = r_hand
+
+	var/obj/item/I = get_inactive_hand()
+	if(istype(I))
+		if (istype(W))
+			var/resolved = I.attackby(W,src)
+			if(!resolved && I && W)
+				W.afterattack(I,src,1) // 1 indicates adjacency
+		else
+			UnarmedAttack(I)
+		update_inv_l_hand()
+		update_inv_r_hand()
+
 /*
 /mob/verb/dump_source()
 
@@ -737,7 +761,7 @@ var/list/slot_equipment_priority = list( \
 		if(G.assailant && G.state >= GRAB_NECK && G.affecting == src)
 			grabbed = 1
 			break
-	if(ko || resting || stunned)
+	if(ko || resting || stunned || (!get_num_legs(1) && !buckled)) //We do this to make sure that you can still use items while in a wheelchair or something
 		drop_r_hand()
 		drop_l_hand()
 	else
@@ -747,13 +771,13 @@ var/list/slot_equipment_priority = list( \
 		lying = 90*buckle_lying
 	else if(pinned_to)
 		lying = 0
-	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead
-		lying = 90*((status_flags & NEARCRIT ? 1 : 0) || stat || (status_flags & FAKEDEATH))
+	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead/legless
+		lying = 90*((status_flags & NEARCRIT ? 1 : 0) || !get_num_legs(1) || stat || (status_flags & FAKEDEATH))
 	else
-		if((ko || resting) && !lying)
+		if((ko || resting || !get_num_legs(1)) && !lying)
 			fall(ko)
 	canmove = !(ko || resting || stunned || buckled || pinned_to)
-	if((status_flags & NEARCRIT) && !stat)
+	if(((status_flags & NEARCRIT) || !get_num_legs(1)) && !stat)
 		canmove = !(stunned || buckled || pinned_to)
 	density = !lying
 	if(lying)

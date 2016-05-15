@@ -13,7 +13,7 @@ emp_act
 	if(def_zone)
 		if(islimb(def_zone))
 			return checkarmor(def_zone, type)
-		var/obj/item/organ/limb/affecting = get_organ(ran_zone(def_zone))
+		var/obj/item/organ/limb/affecting = getrandomorgan(def_zone)
 		return checkarmor(affecting, type)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
@@ -26,6 +26,7 @@ emp_act
 
 /mob/living/carbon/human/proc/checkarmor(obj/item/organ/limb/def_zone, type)
 	if(!type)	return 0
+	if(!istype(def_zone)) return 0
 	var/protection = 0
 	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
@@ -61,7 +62,12 @@ emp_act
 
 			return -1 // complete projectile permutation
 
-	var/shieldcheck = check_shields(P.damage, "the [P.name]", P, 0, P.armour_penetration)
+	var/obj/item/organ/limb/affecting = get_organ(check_zone(def_zone))
+	if(!affecting)
+		visible_message("<span class='danger'>\a [P] wizzes past [src]!</span>", "<span class='userdanger'>\a [P] wizzes past you!</span>")
+		return -1 //No arm, no hit
+
+	var/shieldcheck = check_shields(P.damage, "the [P.name]", P, 0, P.armour_penetration, P.flag)
 	if(shieldcheck)
 		if(isliving(shieldcheck)) //Meatshield
 			var/mob/living/L = shieldcheck
@@ -86,26 +92,27 @@ emp_act
 
 //End Here
 
-/mob/living/carbon/human/proc/check_shields(damage = 0, attack_text = "the attack", atom/movable/AM, thrown_proj = 0, armour_penetration = 0)
-	var/block_chance_modifier = round(damage / -3) //thrown things are easier to block
+/mob/living/carbon/human/proc/check_shields(damage = 0, attack_text = "the attack", atom/movable/AM, thrown_proj = 0, armour_penetration = 0, type = "melee")
 	if(AM)
 		if(AM.flags & NOSHIELD) //weapon ignores shields altogether
 			return 0
+	if(!type)
+		type = "melee" //otherwise it runtimes
 	if(l_hand && !istype(l_hand, /obj/item/clothing))
-		var/final_block_chance = l_hand.block_chance - (Clamp((armour_penetration-l_hand.armour_penetration)/2,0,100)) + block_chance_modifier //So armour piercing blades can still be parried by other blades, for example
-		if(l_hand.hit_reaction(src, attack_text, final_block_chance, damage))
+		var/final_block_chance = l_hand.block_chance[type] - (Clamp((armour_penetration-l_hand.armour_penetration)/2,0,100)) //So armour piercing blades can still be parried by other blades, for example
+		if(l_hand.hit_reaction(src, attack_text, final_block_chance, damage, type))
 			return 1
 	if(r_hand && !istype(r_hand, /obj/item/clothing))
-		var/final_block_chance = r_hand.block_chance - (Clamp((armour_penetration-r_hand.armour_penetration)/2,0,100)) + block_chance_modifier //Need to reset the var so it doesn't carry over modifications between attempts
-		if(r_hand.hit_reaction(src, attack_text, final_block_chance, damage))
+		var/final_block_chance = r_hand.block_chance[type] - (Clamp((armour_penetration-r_hand.armour_penetration)/2,0,100)) //Need to reset the var so it doesn't carry over modifications between attempts
+		if(r_hand.hit_reaction(src, attack_text, final_block_chance, damage, type))
 			return 1
 	if(wear_suit)
-		var/final_block_chance = wear_suit.block_chance - (Clamp((armour_penetration-wear_suit.armour_penetration)/2,0,100)) + block_chance_modifier
-		if(wear_suit.hit_reaction(src, attack_text, final_block_chance, damage))
+		var/final_block_chance = wear_suit.block_chance[type] - (Clamp((armour_penetration-wear_suit.armour_penetration)/2,0,100))
+		if(wear_suit.hit_reaction(src, attack_text, final_block_chance, damage, type))
 			return 1
 	if(w_uniform)
-		var/final_block_chance = w_uniform.block_chance - (Clamp((armour_penetration-w_uniform.armour_penetration)/2,0,100)) + block_chance_modifier
-		if(w_uniform.hit_reaction(src, attack_text, final_block_chance, damage))
+		var/final_block_chance = w_uniform.block_chance[type] - (Clamp((armour_penetration-w_uniform.armour_penetration)/2,0,100))
+		if(w_uniform.hit_reaction(src, attack_text, final_block_chance, damage, type))
 			return 1
 	return 0
 
@@ -114,8 +121,8 @@ emp_act
 
 	var/obj/item/organ/limb/target_limb = get_organ(check_zone(user.zone_sel.selecting))
 	var/obj/item/organ/limb/affecting = get_organ(ran_zone(user.zone_sel.selecting))
-	var/hit_area = parse_zone(affecting.name)
-	var/target_area = parse_zone(target_limb.name)
+	var/hit_area = parse_zone(Bodypart2name(affecting))
+	var/target_area = parse_zone(Bodypart2name(target_limb))
 	feedback_add_details("item_used_for_combat","[I.type]|[I.force]")
 	feedback_add_details("zone_targeted","[target_area]")
 
@@ -253,7 +260,7 @@ emp_act
 	for(var/obj/item/organ/limb/affecting in damaged)
 		affecting.take_damage(acidity, 2*acidity)
 
-		if(affecting.name == "head")
+		if(Bodypart2name(affecting.body_part) == "head")
 			if(prob(min(acidpwr*acid_volume/10, 90))) //Applies disfigurement
 				affecting.take_damage(acidity, 2*acidity)
 				emote("scream")
@@ -441,7 +448,7 @@ emp_act
 					I.add_blood(src)//it embedded itself in you, of course it's bloody!
 					I.loc = src
 					L.take_damage(I.w_class*I.embedded_impact_pain_multiplier)
-					visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L.getDisplayName()]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L.getDisplayName()]!</span>")
+					visible_message("<span class='danger'>\The [I.name] embeds itself in [src]'s [L]!</span>","<span class='userdanger'>\The [I.name] embeds itself in your [L]!</span>")
 					hitpush = 0
 					skipcatch = 1 //can't catch the now embedded item
 	return ..(I, skipcatch, hitpush, blocked, zone)

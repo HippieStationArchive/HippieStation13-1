@@ -235,6 +235,10 @@
 		else
 			M << "You just took a candy corn! You should wait a couple minutes, lest you burn through your stash."
 
+/obj/item/clothing/head/fedora/detective/alt //For detective locker
+	icon_state = "fedora"
+	item_state = "fedora"
+
 /obj/item/clothing/head/sombrero
 	name = "sombrero"
 	icon_state = "sombrero"

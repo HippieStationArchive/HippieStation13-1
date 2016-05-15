@@ -13,6 +13,7 @@
 	var/req_dna = 0  //amount of dna needed to use this ability. Changelings always have atleast 1
 	var/req_human = 0 //if you need to be human to use this ability
 	var/req_stat = CONSCIOUS // CONSCIOUS, UNCONSCIOUS or DEAD
+	var/allow_brain = 0 //Whether or not to allow changeling brains to use this power
 	var/genetic_damage = 0 // genetic damage caused by using the sting. Nothing to do with cloneloss.
 	var/max_genetic_damage = 100 // hard counter for spamming abilities. Not used/balanced much yet.
 
@@ -49,9 +50,12 @@
 
 //Fairly important to remember to return 1 on success >.<
 /obj/effect/proc_holder/changeling/proc/can_sting(mob/user, mob/target)
-	if(!ishuman(user) && !ismonkey(user)) //typecast everything from mob to carbon from this point onwards
+	if(!ishuman(user) && !ismonkey(user) && !isbrain(user)) //typecast everything from mob to carbon from this point onwards
 		return 0
 	if(req_human && !ishuman(user))
+		user << "<span class='warning'>We cannot do that in this form!</span>"
+		return 0
+	if(!allow_brain && isbrain(user))
 		user << "<span class='warning'>We cannot do that in this form!</span>"
 		return 0
 	var/datum/changeling/c = user.mind.changeling
@@ -74,7 +78,9 @@
 
 //used in /mob/Stat()
 /obj/effect/proc_holder/changeling/proc/can_be_used_by(mob/user)
-	if(!ishuman(user) && !ismonkey(user))
+	if(!ishuman(user) && !ismonkey(user) && !isbrain(user))
+		return 0
+	if(!allow_brain && isbrain(user))
 		return 0
 	if(req_human && !ishuman(user))
 		return 0

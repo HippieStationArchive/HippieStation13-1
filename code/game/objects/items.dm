@@ -106,10 +106,13 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/sharpness = IS_BLUNT
 	var/toolspeed = 1
 
-	var/block_chance = 0
+	var/list/block_chance = list(melee = 0, bullet = 0, laser = 0, energy = 0) //Same as armor, tho less args
 	var/hit_reaction_chance = 0 //If you want to have something unrelated to blocking/armour piercing etc. Maybe not needed, but trying to think ahead/allow more freedom
-	
+	var/blocksound = null
+
 	var/alternate_screams = list() // This is used to add alternate scream sounds to mobs when equipped
+
+	var/block_push = 0 //Whether or not this item prevents the user from being pushed
 
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
 	if(((src in target) && !target_self) || ((!istype(target.loc, /turf)) && (!istype(target, /turf)) && (not_inside)) || is_type_in_list(target, can_be_placed_into))
@@ -252,6 +255,8 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 		if(!user.unEquip(src))
 			return
 
+	dir = SOUTH //Reset the item direction to SOUTH so directional items appear proper in-hand
+
 	pickup(user)
 	add_fingerprint(user)
 	if(!user.put_in_active_hand(src))
@@ -339,8 +344,10 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 // afterattack() and attack() prototypes moved to _onclick/item_attack.dm for consistency
 
-/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0, damage = 0)
+/obj/item/proc/hit_reaction(mob/living/carbon/human/owner, attack_text = "the attack", final_block_chance = 0, damage = 0, type = "melee")
 	if(prob(final_block_chance))
+		if(blocksound)
+			playsound(get_turf(src), get_sfx(blocksound), 50, 1, 1)
 		owner.visible_message("<span class='danger'>[owner] blocks [attack_text] with [src]!</span>")
 		return 1
 	return 0
@@ -378,11 +385,11 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 //the mob M is attempting to equip this item into the slot passed through as 'slot'. Return 1 if it can do this and 0 if it can't.
 //If you are making custom procs but would like to retain partial or complete functionality of this one, include a 'return ..()' to where you want this to happen.
 //Set disable_warning to 1 if you wish it to not give you outputs.
-/obj/item/proc/mob_can_equip(mob/M, slot, disable_warning = 0)
+/obj/item/proc/mob_can_equip(mob/M, slot, disable_warning = 0, return_equipped = 0)
 	if(!M)
 		return 0
 
-	return M.can_equip(src, slot, disable_warning)
+	return M.can_equip(src, slot, disable_warning, return_equipped)
 
 
 /obj/item/verb/verb_pickup()
@@ -559,3 +566,10 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 
 /obj/item/proc/is_sharp()
 	return sharpness
+
+/obj/item/proc/can_dismember()
+	return sharpness && w_class >= 3
+
+//Proc used to determine item's slowdown - will be REALLY useful for specific things like crutches and stuff
+/obj/item/proc/update_slowdown(mob/user)
+	return slowdown

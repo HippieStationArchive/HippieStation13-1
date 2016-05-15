@@ -56,6 +56,13 @@
 	shuttleId = "mining"
 	possible_destinations = "mining_home;mining_away"
 
+/obj/machinery/computer/shuttle/outpost
+	name = "Outpost Shuttle Console"
+	desc = "Used to call and send the research outpost shuttle."
+	circuit = /obj/item/weapon/circuitboard/outpost_shuttle
+	shuttleId = "outpost"
+	possible_destinations = "outpost_home;outpost_away"
+
 /*********************Pickaxe & Drills**************************/
 
 /obj/item/weapon/pickaxe
