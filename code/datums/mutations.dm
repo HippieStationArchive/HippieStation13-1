@@ -503,12 +503,13 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	owner.mouse_opacity = initial(owner.mouse_opacity)
 
 /datum/mutation/human/chameleon/on_life(mob/living/carbon/human/owner)
-	owner.alpha = max(0, owner.alpha - 50)
+	if(owner.alpha > 0)
+		animate(owner, alpha = max(0, owner.alpha - 85), time = 20) //-85 alpha every tick means it takes 3 seconds to become completely invisible
 	if(owner.alpha <= 0)
 		owner.mouse_opacity = 0 //So you are completely invisible and cannot be "scanned" by player's mouse movements.
 
 /datum/mutation/human/chameleon/on_move(mob/living/carbon/human/owner)
-	owner.alpha = CHAMELEON_MUTATION_DEFAULT_TRANSPARENCY
+	animate(owner, alpha = CHAMELEON_MUTATION_DEFAULT_TRANSPARENCY, time = 3)
 	owner.mouse_opacity = initial(owner.mouse_opacity)
 
 /datum/mutation/human/chameleon/on_losing(mob/living/carbon/human/owner)

@@ -15,6 +15,7 @@
 	user.update_canmove()
 	if(user.stat != DEAD)
 		user.emote("deathgasp")
+		user.death(0) //Actually die
 		user.tod = worldtime2text()
 	spawn(LING_FAKEDEATH_TIME)
 		if(user && user.mind && user.mind.changeling && user.mind.changeling.purchasedpowers)
@@ -30,7 +31,7 @@
 	if(user.status_flags & FAKEDEATH)
 		user << "<span class='warning'>We are already regenerating.</span>"
 		return
-	if(!user.stat) //Confirmation for living changelings if they want to fake their death
+	if(user.stat != DEAD) //Confirmation for living changelings if they want to fake their death
 		switch(alert("Are we sure we wish to fake our own death?",,"Yes", "No"))
 			if("No")
 				return

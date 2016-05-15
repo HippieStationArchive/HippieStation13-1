@@ -35,6 +35,7 @@
 	next_move_modifier = 0.5 //Faster attacks
 	butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human = 15) //It's a pretty big dude. Actually killing one is a feat.
 	gold_core_spawnable = 0 //Should stay exclusive to changelings tbh, otherwise makes it much less significant to sight one
+	ventcrawl_speed = 10 //Despite their size they can climb into vents relatively quick. It's important to make them a little more mobile than they are right now
 	var/transformed_time = 0
 	var/playstyle_string = "<b><font size=3 color='red'>We have entered our true form!</font> We are unbelievably powerful, and regenerate life at a steady rate. However, most of \
 	our abilities are useless in this form, and we must utilise the abilities that we have gained as a result of our transformation. Currently, we are incapable of returning to a human. \
@@ -157,7 +158,7 @@
 		return 0
 	T.devouring = FALSE
 	var/fat = lunch.disabilities & FAT
-	if(lunch.getBruteLoss() >= 300)
+	if(lunch.getBruteLoss() + lunch.getFireLoss() >= 200) //Overall physical damage, basically
 		T.visible_message("<span class='warning'>[lunch] is completely devoured by [T]!</span>", \
 						"<span class='danger'>You completely devour [lunch]!</span>")
 		lunch.gib()

@@ -266,9 +266,9 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 
 /datum/supply_packs/security/armory/riotshields
 	name = "Riot Shields Crate"
-	contains = list(/obj/item/weapon/shield/riot,
-					/obj/item/weapon/shield/riot,
-					/obj/item/weapon/shield/riot)
+	contains = list(/obj/item/weapon/shield/deployable/riot,
+					/obj/item/weapon/shield/deployable/riot,
+					/obj/item/weapon/shield/deployable/riot)
 	cost = 20
 	containername = "riot shields crate"
 

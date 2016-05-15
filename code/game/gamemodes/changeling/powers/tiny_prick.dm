@@ -161,46 +161,26 @@
 		user << "<span class='notice'>Our genes cry out as we sting [target.name]!</span>"
 
 	var/obj/item/weapon/melee/arm_blade/false/blade = new(target,1)
-	target.put_in_hands(blade)
-	target.visible_message("<span class='warning'>A grotesque blade forms around [target.name]\'s arm!</span>", "<span class='userdanger'>Your arm twists and mutates, transforming into a horrific monstrosity!</span>", "<span class='italics'>You hear organic matter ripping and tearing!</span>")
-	playsound(target, 'sound/effects/blobattack.ogg', 30, 1)
-
-	spawn(600)
+	if(target.put_in_hands(blade))
+		target.visible_message("<span class='warning'>A grotesque blade forms around [target.name]\'s arm!</span>", "<span class='userdanger'>Your arm twists and mutates, transforming into a horrific monstrosity!</span>", "<span class='italics'>You hear organic matter ripping and tearing!</span>")
 		playsound(target, 'sound/effects/blobattack.ogg', 30, 1)
-		target.visible_message("<span class='warning'>With a sickening crunch, [target] reforms their [blade.name] into an arm!</span>", "<span class='warning'>[blade] reforms back to normal.</span>", "<span class='italics>You hear organic matter ripping and tearing!</span>")
-		qdel(blade)
-		user.update_inv_l_hand()
-		user.update_inv_r_hand()
+
+		spawn(600)
+			playsound(target, 'sound/effects/blobattack.ogg', 30, 1)
+			target.visible_message("<span class='warning'>With a sickening crunch, [target] reforms their [blade.name] into an arm!</span>", "<span class='warning'>[blade] reforms back to normal.</span>", "<span class='italics>You hear organic matter ripping and tearing!</span>")
+			qdel(blade)
+			user.update_inv_l_hand()
+			user.update_inv_r_hand()
 
 	feedback_add_details("changeling_powers","AS")
 	return 1
-
-
-/*/obj/effect/proc_holder/changeling/sting/extract_dna
-	name = "Extract DNA Sting"
-	desc = "We stealthily sting a target and extract their DNA."
-	helptext = "Will give you the DNA of your target, allowing you to transform into them."
-	sting_icon = "sting_extract"
-	chemical_cost = 25
-	evopoints_cost = 0
-
-/obj/effect/proc_holder/changeling/sting/extract_dna/can_sting(mob/user, mob/target)
-	if(..())
-		return user.mind.changeling.can_absorb_dna(user, target)
-
-/obj/effect/proc_holder/changeling/sting/extract_dna/sting_action(mob/user, mob/living/carbon/human/target)
-	add_logs(user, target, "stung", "extraction sting")
-	if(!(user.mind.changeling.has_dna(target.dna)))
-		user.mind.changeling.add_profile(target, user)
-	feedback_add_details("changeling_powers","ED")
-	return 1*/
 
 /obj/effect/proc_holder/changeling/sting/mute
 	name = "Mute Sting"
 	desc = "We silently sting a human, completely silencing them for a short time."
 	helptext = "Our target will not be alerted to their silence until they attempt to speak and cannot."
 	sting_icon = "sting_mute"
-	chemical_cost = 20
+	chemical_cost = 30
 	evopoints_cost = 3
 
 /obj/effect/proc_holder/changeling/sting/mute/sting_action(mob/user, mob/living/carbon/target)
@@ -239,14 +219,15 @@
 	add_logs(user, target, "stung", "LSD sting")
 	spawn(rand(300,600))
 		if(target)
-			target.hallucination = max(400, target.hallucination)
+			if(target.reagents)
+				target.reagents.add_reagent("mindbreaker", 25)
 	feedback_add_details("changeling_powers","HS")
 	return 1
 
 /obj/effect/proc_holder/changeling/sting/cryo
 	name = "Cryogenic Sting"
 	desc = "We silently sting a human with a cocktail of chemicals that freeze them."
-	helptext = "This will provide an ambiguous warning to the victim after a short time."
+	helptext = "This will provide an ambiguous warning to the victim after a short time. Reccomended to be used more than once on the same victim."
 	sting_icon = "sting_cryo"
 	chemical_cost = 25
 	evopoints_cost = 3
@@ -268,7 +249,7 @@
 /obj/effect/proc_holder/changeling/sting/paralysis
 	name = "Paralysis Sting"
 	desc = "We inject a human with a powerful muscular inhibitor, preventing their movement after a short time."
-	helptext = "They will immediately be notified of their impending fate and will still be able to speak while paralyzed. The paralysis will last for around fifteen seconds."
+	helptext = "They will still be able to speak while paralyzed. The paralysis will last for around fifteen seconds."
 	sting_icon = "sting_paralysis"
 	chemical_cost = 30
 	evopoints_cost = 4
@@ -278,7 +259,7 @@
 /obj/effect/proc_holder/changeling/sting/paralysis/sting_action(mob/user, mob/living/target)
 	add_logs(user, target, "stung", "parasting")
 	user << "<span class='notice'>The paralysis will take effect more quickly depending on their wounds.</span>"
-	target << "<span class='warning'>Your body begins throbbing with a painful ache...</span>"
+	// target << "<span class='warning'>Your body begins throbbing with a painful ache...</span>" //No target warning so it can be used as a stealth-sting.
 	var/time_to_wait = target.health
 	time_to_wait += 50 //The target's health, plus five seconds - a fully healed human will take fifteen seconds to begin experiencing the effects
 	time_to_wait = Clamp(time_to_wait, 0, INFINITY)
@@ -290,37 +271,18 @@
 	feedback_add_details("changeling_powers", "PS")
 	return 1
 
-/obj/effect/proc_holder/changeling/sting/death
-	name = "Death Sting"
-	desc = "We inject a small amount of deadly poison that will kill the victim over a long period of time."
-	helptext = "Our target will know immediately of their plight. The toxin metabolization is very fast, our victim will be dead within the next minute."
+/obj/effect/proc_holder/changeling/sting/purge
+	name = "Purge Sting"
+	desc = "We inject calomel into our victim to completely purge all of their chemicals and cause some toxin damage."
+	helptext = "Our victim will have all of their chemicals removed from the body. It also deals toxin damage to victims in good condition."
 	sting_icon = "sting_poison"
-	req_dna = 9 //Tier 4
-	chemical_cost = 75 //A guaranteed death is nothing to laugh at
-	evopoints_cost = 10 //Hefty price for the DEATH STING.
+	req_dna = 3 //Tier 2
+	chemical_cost = 20
+	evopoints_cost = 3 //Purgin' is good ok?
 
-/obj/effect/proc_holder/changeling/sting/death/sting_action(mob/user, mob/target)
-	add_logs(user, target, "stung", "death sting")
+/obj/effect/proc_holder/changeling/sting/purge/sting_action(mob/user, mob/target)
+	add_logs(user, target, "stung", "purge sting")
 	if(target.reagents)
-		target.reagents.add_reagent("venom", 40)
-		feedback_add_details("changeling_powers", "DS")
-	return 1
-
-/obj/effect/proc_holder/changeling/sting/comatose
-	name = "Comatose Sting"
-	desc = "We inject a human with a powerful toxin, stopping all motor nerve function. The target will be unable to move or speak."
-	helptext = "The target will be stunned and silenced for approximately one minute."
-	sting_icon = "sting_coma"
-	chemical_cost = 50
-	evopoints_cost = 5
-	req_dna = 9 //Tier 4
-	standing_req = 1
-
-/obj/effect/proc_holder/changeling/sting/comatose/sting_action(mob/user, mob/living/target)
-	add_logs(user, target, "stung", "comatosesting")
-	target << "<span class='warning'>You feel a small prick and a burning sensation.</span>"
-	target.Weaken(60)
-	target.Stun(60)
-	target.reagents.add_reagent("mutetoxin", 20)
-	feedback_add_details("changeling_powers", "KS")
+		target.reagents.add_reagent("calomel", 15)
+		feedback_add_details("changeling_powers", "PS")
 	return 1

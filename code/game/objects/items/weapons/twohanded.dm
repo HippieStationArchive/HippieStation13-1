@@ -75,7 +75,7 @@
 	user.put_in_inactive_hand(O)
 	return 1
 
-/obj/item/weapon/twohanded/mob_can_equip(mob/M, slot)
+/obj/item/weapon/twohanded/mob_can_equip(mob/M, slot, disable_warning = 0, return_equipped = 0)
 	//Cannot equip wielded items.
 	if(wielded)
 		M << "<span class='warning'>Unwield the [name] first!</span>"
@@ -132,7 +132,7 @@
 /obj/item/weapon/twohanded/required/attack_self()
 	return
 
-/obj/item/weapon/twohanded/required/mob_can_equip(mob/M, slot)
+/obj/item/weapon/twohanded/required/mob_can_equip(mob/M, slot, disable_warning = 0, return_equipped = 0)
 	if(wielded)
 		M << "<span class='warning'>[src.name] is too cumbersome to carry with anything but your hands!</span>"
 		return 0
@@ -214,7 +214,7 @@
 	origin_tech = "magnets=3;syndicate=4"
 	item_color = "green"
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-	block_chance = 50
+	block_chance = list(melee = 70, bullet = 50, laser = 50, energy = 50) //Well-rounded block chances with emphasis on melee
 	var/hacked = 0
 
 /obj/item/weapon/twohanded/dualsaber/New()
