@@ -137,18 +137,17 @@ var/obj/machinery/gateway/centerstation/the_gateway = null
 
 //okay, here's the good teleporting stuff
 /obj/machinery/gateway/centerstation/Bumped(atom/movable/AM)
-	if(ismob(AM))
-		var/mob/M = AM
-		if(M.mind && M.mind.changeling)
-			M << "The ancient builders of this gate seem to have barred our kind from using their technology..."
-			return
 	if(!ready)
 		return
 	if(!active)
 		return
 	if(!awaygate || qdeleted(awaygate))
 		return
-
+	if(ismob(AM))
+		var/mob/M = AM
+		if(M.mind && M.mind.changeling)
+			M << "The ancient builders of this gate seem to have barred our kind from using their technology..."
+			return
 
 	if(awaygate.calibrated)
 		AM.forceMove(get_step(awaygate.loc, SOUTH))
@@ -260,6 +259,11 @@ var/obj/machinery/gateway/centerstation/the_gateway = null
 		return
 	if(!stationgate || qdeleted(stationgate))
 		return
+	if(ismob(AM))
+		var/mob/M = AM
+		if(M.mind && M.mind.changeling)
+			M << "The ancient builders of this gate seem to have barred our kind from using their technology..."
+			return
 	if(istype(AM, /mob/living/carbon))
 		for(var/obj/item/weapon/implant/exile/E in AM)//Checking that there is an exile implant in the contents
 			if(E.imp_in == AM)//Checking that it's actually implanted vs just in their pocket
