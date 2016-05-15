@@ -29,11 +29,7 @@
 "aC" = (/obj/effect/decal/cleanable/blood/tracks,/turf/simulated/floor/plasteel/whitegreen,/area/awaycontent/a1)
 "aD" = (/turf/simulated/floor/plasteel/whitegreen,/area/awaycontent/a1)
 "aE" = (/obj/machinery/door/airlock/highsecurity,/turf/simulated/floor/plasteel,/area/awaycontent/a1)
-<<<<<<< HEAD
 "aF" = (/obj/structure/table,/obj/item/clothing/suit/space/chronos,/obj/item/clothing/head/helmet/space/chronos,/turf/simulated/floor/plasteel/whiteblue,/area/awaycontent/a1)
-=======
-"aF" = (/obj/structure/table,/obj/item/clothing/suit/space/chronos,/obj/item/clothing/head/helmet/space/chronos,/obj/item/weapon/chrono_eraser,/turf/simulated/floor/plasteel/whiteblue,/area/awaycontent/a1)
->>>>>>> refs/remotes/HippieStationCode/master
 "aG" = (/obj/structure/table/wood,/turf/simulated/floor/carpet,/area/awaycontent/a1)
 "aH" = (/obj/structure/table/wood,/obj/item/device/flashlight/lamp,/turf/simulated/floor/carpet,/area/awaycontent/a1)
 "aI" = (/obj/structure/table/wood,/obj/effect/decal/cleanable/blood,/turf/simulated/floor/carpet,/area/awaycontent/a1)
