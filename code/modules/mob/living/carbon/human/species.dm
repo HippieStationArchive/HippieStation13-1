@@ -409,7 +409,7 @@
 	// handles the equipping of species-specific gear
 	return
 
-/datum/species/proc/can_equip(obj/item/I, slot, disable_warning, mob/living/carbon/human/H)
+/datum/species/proc/can_equip(obj/item/I, slot, disable_warning, return_equipped, mob/living/carbon/human/H)
 	if(slot in no_equip)
 		if(!(type in I.species_exception))
 			return 0
@@ -420,130 +420,157 @@
 	var/num_legs = H.get_num_legs()
 	switch(slot)
 		if(slot_l_hand)
-			if(H.l_hand)
-				return 0
 			if(!L)
+				return 0
+			if(H.l_hand)
+				if(return_equipped)
+					return H.l_hand
 				return 0
 			return 1
 		if(slot_r_hand)
-			if(H.r_hand)
-				return 0
 			if(!R)
+				return 0
+			if(H.r_hand)
+				if(return_equipped)
+					return H.r_hand
 				return 0
 			return 1
 		if(slot_wear_mask)
-			if(H.wear_mask)
-				return 0
 			if( !(I.slot_flags & SLOT_MASK) )
 				return 0
 			if(!H.get_organ("head"))
 				return 0
+			if(H.wear_mask)
+				if(return_equipped)
+					return H.wear_mask
+				return 0
 			return 1
 		if(slot_back)
-			if(H.back)
-				return 0
 			if( !(I.slot_flags & SLOT_BACK) )
+				return 0
+			if(H.back)
+				if(return_equipped)
+					return H.back
 				return 0
 			return 1
 		if(slot_wear_suit)
-			if(H.wear_suit)
-				return 0
 			if( !(I.slot_flags & SLOT_OCLOTHING) )
+				return 0
+			if(H.wear_suit)
+				if(return_equipped)
+					return H.wear_suit
 				return 0
 			return 1
 		if(slot_gloves)
-			if(H.gloves)
-				return 0
 			if( !(I.slot_flags & SLOT_GLOVES) )
 				return 0
 			if(num_arms < 2)
 				return 0
+			if(H.gloves)
+				if(return_equipped)
+					return H.gloves
+				return 0
 			return 1
 		if(slot_shoes)
-			if(H.shoes)
-				return 0
 			if( !(I.slot_flags & SLOT_FEET) )
 				return 0
 			if(num_legs < 2)
 				return 0
+			if(H.shoes)
+				if(return_equipped)
+					return H.shoes
+				return 0
 			return 1
 		if(slot_belt)
-			if(H.belt)
-				return 0
 			if( !(I.slot_flags & SLOT_BELT) )
 				return
+			if(H.belt)
+				if(return_equipped)
+					return H.belt
+				return 0
 			return 1
 		if(slot_glasses)
-			if(H.glasses)
-				return 0
 			if( !(I.slot_flags & SLOT_EYES) )
 				return 0
 			if(!H.get_organ("head"))
 				return 0
+			if(H.glasses)
+				if(return_equipped)
+					return H.glasses
+				return 0
 			return 1
 		if(slot_head)
-			if(H.head)
-				return 0
 			if( !(I.slot_flags & SLOT_HEAD) )
 				return 0
 			if(!H.get_organ("head"))
 				return 0
+			if(H.head)
+				if(return_equipped)
+					return H.head
+				return 0
 			return 1
 		if(slot_ears)
-			if(H.ears)
-				return 0
 			if( !(I.slot_flags & SLOT_EARS) )
 				return 0
 			if(!H.get_organ("head"))
 				return 0
+			if(H.ears)
+				if(return_equipped)
+					return H.ears
+				return 0
 			return 1
 		if(slot_w_uniform)
-			if(H.w_uniform)
-				return 0
 			if( !(I.slot_flags & SLOT_ICLOTHING) )
+				return 0
+			if(H.w_uniform)
+				if(return_equipped)
+					return H.w_uniform
 				return 0
 			return 1
 		if(slot_wear_id)
-			if(H.wear_id)
+			if( !(I.slot_flags & SLOT_ID) )
 				return 0
 			if(!H.w_uniform && !nojumpsuit)
 				if(!disable_warning)
 					H << "<span class='warning'>You need a jumpsuit before you can attach this [I.name]!</span>"
 				return 0
-			if( !(I.slot_flags & SLOT_ID) )
+			if(H.wear_id)
+				if(return_equipped)
+					return H.wear_id
 				return 0
 			return 1
 		if(slot_l_store)
 			if(I.flags & NODROP) //Pockets aren't visible, so you can't move NODROP items into them.
 				return 0
-			if(H.l_store)
+			if(I.slot_flags & SLOT_DENYPOCKET)
 				return 0
 			if(!H.w_uniform && !nojumpsuit)
 				if(!disable_warning)
 					H << "<span class='warning'>You need a jumpsuit before you can attach this [I.name]!</span>"
 				return 0
-			if(I.slot_flags & SLOT_DENYPOCKET)
-				return
+			if(H.l_store)
+				if(return_equipped)
+					return H.l_store
+				return 0
 			if( I.w_class <= 2 || (I.slot_flags & SLOT_POCKET) )
 				return 1
 		if(slot_r_store)
 			if(I.flags & NODROP)
 				return 0
-			if(H.r_store)
-				return 0
 			if(!H.w_uniform && !nojumpsuit)
 				if(!disable_warning)
 					H << "<span class='warning'>You need a jumpsuit before you can attach this [I.name]!</span>"
 				return 0
 			if(I.slot_flags & SLOT_DENYPOCKET)
 				return 0
+			if(H.r_store)
+				if(return_equipped)
+					return H.r_store
+				return 0
 			if( I.w_class <= 2 || (I.slot_flags & SLOT_POCKET) )
 				return 1
-			return 0
 		if(slot_s_store)
 			if(I.flags & NODROP)
-				return 0
-			if(H.s_store)
 				return 0
 			if(!H.wear_suit)
 				if(!disable_warning)
@@ -557,23 +584,31 @@
 				if(!disable_warning)
 					H << "The [I.name] is too big to attach."  //should be src?
 				return 0
+
+			if(H.s_store)
+				if(return_equipped)
+					return H.s_store
+				return 0
 			if( istype(I, /obj/item/device/pda) || istype(I, /obj/item/weapon/pen) || is_type_in_list(I, H.wear_suit.allowed) )
 				return 1
-			return 0
 		if(slot_handcuffed)
-			if(H.handcuffed)
-				return 0
 			if(!istype(I, /obj/item/weapon/restraints/handcuffs))
 				return 0
 			if(num_arms < 2)
 				return 0
+			if(H.handcuffed)
+				if(return_equipped)
+					return H.handcuffed
+				return 0
 			return 1
 		if(slot_legcuffed)
-			if(H.legcuffed)
-				return 0
 			if(!istype(I, /obj/item/weapon/restraints/legcuffs))
 				return 0
 			if(num_legs < 2)
+				return 0
+			if(H.legcuffed)
+				if(return_equipped)
+					return H.legcuffed
 				return 0
 			return 1
 		if(slot_in_backpack)
@@ -930,7 +965,7 @@
 	if(M.lying) //Can't believe nobody checked for this before.
 		return
 	var/shieldcheck = H.check_shields(0, M.name)
-	if((M != H) && M.a_intent != "help" && H.check_shields(0, M.name))
+	if((M != H) && M.a_intent != "help" && shieldcheck)
 		add_logs(M, H, "attempted to touch")
 		H.visible_message("<span class='warning'>[M] attempted to touch [H]!</span>")
 		if(isliving(shieldcheck))

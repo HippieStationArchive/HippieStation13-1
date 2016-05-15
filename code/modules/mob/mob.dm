@@ -435,6 +435,30 @@ var/list/slot_equipment_priority = list( \
 			update_inv_r_hand()
 	return
 
+/mob/verb/attack_inactive_hand()
+	set name = "Attack Inactive Hand"
+	set category = "Object"
+	set src = usr
+
+	if(istype(loc,/obj/mecha)) return
+
+	var/obj/item/W
+	if(hand)
+		W = l_hand
+	else
+		W = r_hand
+
+	var/obj/item/I = get_inactive_hand()
+	if(istype(I))
+		if (istype(W))
+			var/resolved = I.attackby(W,src)
+			if(!resolved && I && W)
+				W.afterattack(I,src,1) // 1 indicates adjacency
+		else
+			UnarmedAttack(I)
+		update_inv_l_hand()
+		update_inv_r_hand()
+
 /*
 /mob/verb/dump_source()
 

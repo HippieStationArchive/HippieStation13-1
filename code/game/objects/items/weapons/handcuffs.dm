@@ -31,6 +31,9 @@
 		return
 
 	if(!C.handcuffed)
+		if(C.get_num_arms() < 2)//Can only apply handcuffs on people with both arms)
+			user << "<span class='warning'>You cannot handcuff [C], they need to have two arms for that!</span>"
+			return
 		C.visible_message("<span class='danger'>[user] is trying to put [src.name] on [C]!</span>", \
 							"<span class='userdanger'>[user] is trying to put [src.name] on [C]!</span>")
 
@@ -225,6 +228,8 @@
 			var/def_zone = "chest"
 			if(iscarbon(L))
 				var/mob/living/carbon/C = L
+				if(C.get_num_legs() < 2) //Not enough legs :(
+					return
 				snap = 1
 				if(!C.lying)
 					def_zone = pick("l_leg", "r_leg")

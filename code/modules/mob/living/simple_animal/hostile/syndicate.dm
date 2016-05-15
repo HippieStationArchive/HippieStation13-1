@@ -46,7 +46,7 @@
 	icon_state = "syndicatemelee"
 	icon_living = "syndicatemelee"
 	weapon1 = /obj/item/weapon/melee/energy/sword/saber/red
-	weapon2 = /obj/item/weapon/shield/energy
+	weapon2 = /obj/item/weapon/shield/deployable/energy
 	attacktext = "slashes"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	status_flags = 0
