@@ -15,12 +15,19 @@
 	var/disassembled = 0
 	var/wtype = "glass"
 	var/fulltile = 0
+	var/heat_proof = 0
 	var/list/storeditems = list()
 	var/temp_resistance = 800
 //	var/silicate = 0 // number of units of silicate
 //	var/icon/silicateIcon = null // the silicated icon
 	var/image/crack_overlay
 	can_be_unanchored = 1
+
+/obj/structure/window/BlockSuperconductivity()
+    if(heat_proof)
+        return 1
+    return 0
+
 
 /obj/structure/window/examine(mob/user)
 	..()
@@ -502,5 +509,6 @@
 	pressure_resistance = 32*ONE_ATMOSPHERE
 	temp_resistance = 120000
 	color = "#aa20aa"
+	heat_proof = 1
 	var/thermal_conductivity = 0.0
 	var/heat_capacity = 312500 * 25 //a little over 5 cm thick , 312500 for 1 m by 2.5 m by 0.25 m plasteel wall
