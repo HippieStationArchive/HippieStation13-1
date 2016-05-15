@@ -369,7 +369,7 @@ Please contact me on #coderbus IRC. ~Carnie x
 /mob/living/carbon/human/update_inv_wear_suit()
 	remove_overlay(SUIT_LAYER)
 
-	if(istype(wear_suit, /obj/item/clothing/suit))
+	if(istype(wear_suit, /obj/item/clothing/suit) || istype(wear_suit, /obj/item/weapon/storage/backpack/cloak)) // This whole section doesn't play well with items that want to be in multiple slots.
 		if(client && hud_used && hud_used.hud_shown)
 			if(hud_used.inventory_shown)					//if the inventory is open ...
 				wear_suit.screen_loc = ui_oclothing	//TODO	//...draw the item in the inventory screen

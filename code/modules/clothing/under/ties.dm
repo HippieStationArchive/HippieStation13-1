@@ -86,6 +86,7 @@
 	item_color = "bronze"
 	materials = list(MAT_METAL=1000)
 	burn_state = -1 //Won't burn in fires
+	armor = list(melee = 0, bullet = 10, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0) //what fucking movie was this from?
 
 //Pinning medals on people
 /obj/item/clothing/tie/medal/attack(mob/living/carbon/human/M, mob/living/user)
