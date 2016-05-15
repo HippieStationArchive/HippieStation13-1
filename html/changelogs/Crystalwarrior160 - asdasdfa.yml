@@ -1,9 +1,0 @@
-author: Crystalwarrior160
-
-delete-after: True
-
-changes:
-  - tweak: "Removes detain mode due to it existing solely for that stunlock (which is actually useless 99% of the time and only exists to be a cunt to people)"
-  - tweak: "Reduces stun duration for harmbatoning"
-  - tweak: "Updated cattleprod force to be 7 (from 3) so it's on par with crowbar/wrench"
-  - bugfix: "Adds 'alternative detective fedora' which replaces the purely cosmetic one in det's locker (which was confusing, stupid, dumb and stupid)"

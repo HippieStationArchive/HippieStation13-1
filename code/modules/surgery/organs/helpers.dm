@@ -61,12 +61,11 @@
 
 /mob/living/carbon/human/get_missing_limbs()
 	var/list/full = list("head", "chest", "r_arm", "l_arm", "r_leg", "l_leg")
-	var/list/missing = list()
 	for(var/t in full)
 		var/obj/item/organ/limb/L = get_organ(t)
-		if(!(L in organs))
-			missing += L
-	return missing
+		if(L in organs)
+			full -= t
+	return full
 
 /mob/proc/getlimb()
 	return

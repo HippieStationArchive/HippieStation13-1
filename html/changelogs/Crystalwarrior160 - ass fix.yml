@@ -1,6 +1,0 @@
-author: Crystalwarrior160
-
-delete-after: True
-#jk this fixes dismemberment weapon attack issues
-changes:
-  - bugfix: "Fixed missing limbs when attacking someone causing the game to freak out"
