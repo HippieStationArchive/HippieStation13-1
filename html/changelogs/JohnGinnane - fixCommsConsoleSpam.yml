@@ -3,4 +3,4 @@ author: John Ginnane
 delete-after: True
 
 changes: 
-  - rscadd: "Fixed users being able to spam priority announcements."
+  - bugfix: "Fixed users being able to spam priority announcements."
