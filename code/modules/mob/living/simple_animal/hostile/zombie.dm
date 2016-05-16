@@ -92,7 +92,7 @@
 	..()
 	UpdateInfectionImage()
 	if(mind)
-		ticker.mode.update_zombie_icons_added(mind)
+		ticker.mode.add_zombie(mind)
 	src << "<b><font size = 3><font color = red>You have transformed into a Zombie. You exist only for one purpose: to spread the infection.</font color></font size></b>"
 	src << "Clicking on the doors will let you <b>force-open</b> them. Time taken depends on if the door is bolted, welded or both."
 	src << "Clicking on animal corpses will make you <b>feast</b> on them, restoring your health."
