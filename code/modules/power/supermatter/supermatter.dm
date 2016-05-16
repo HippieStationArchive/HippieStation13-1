@@ -24,6 +24,7 @@
 	density = 1
 	anchored = 0
 	luminosity = 4
+	pressure_resistance = 82500
 
 
 	var/gasefficency = 0.125
