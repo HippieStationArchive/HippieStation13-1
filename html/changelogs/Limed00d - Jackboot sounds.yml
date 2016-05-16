@@ -1,0 +1,6 @@
+author: Limed00d
+
+delete-after: True
+
+changes: 
+  - rscadd: "Jackboots now make sounds every other step. Pick up that can."

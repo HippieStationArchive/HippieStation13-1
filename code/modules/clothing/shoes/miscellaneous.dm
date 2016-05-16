@@ -116,7 +116,15 @@
 	item_color = "hosred"
 	strip_delay = 50
 	put_on_delay = 50
+	var/footstep = 1 //used for making the metrocop shuffle sounds
 	burn_state = -1 //Won't burn in fires
+
+/obj/item/clothing/shoes/jackboots/step_action()
+	if(footstep > 2) //Because there's no slowdown, it's best if greater than 3 or 4.otherwise total security
+		playsound(src, pick('sound/effects/secstep1.ogg', 'sound/effects/secstep2.ogg', 'sound/effects/secstep3.ogg', 'sound/effects/secstep4.ogg', 'sound/effects/secstep5.ogg', 'sound/effects/secstep6.ogg'), 50, 1)
+		footstep = 0
+	else
+		footstep++
 
 /obj/item/clothing/shoes/winterboots
 	name = "winter boots"
