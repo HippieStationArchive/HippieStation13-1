@@ -146,31 +146,30 @@
 
 		if (2)
 			b_loss += 60
-
 			f_loss += 60
-			if (getarmor(null, "bomb"))
-				b_loss = max(b_loss-0.6*bombarmor, 20)
-				f_loss = max(f_loss-0.6*bombarmor, 20)
-				shred_clothing(1,25)
+			if (bombarmor)
+				b_loss = max(b_loss-0.6*bombarmor, 15) // If you're this close, still always take damgae
+				f_loss = max(f_loss-0.6*bombarmor, 15)
+				shred_clothing(1,25-(bombarmor/8))
 			else
 				shred_clothing(1,50)
 
 			if (!istype(ears, /obj/item/clothing/ears/earmuffs))
 				adjustEarDamage(30, 120)
-			if (prob(max(70-bombarmor, 0)))
+			if (prob(70-(bombarmor/2)) // Still a 20% chance even with a bomb suit
 				Paralyse(10)
 
 		if(3)
 			b_loss += 30
-			if (getarmor(null, "bomb"))
-				b_loss = b_loss-0.6*bombarmor
+			if (bombarmor)
+				b_loss = max(b_loss-0.6*bombarmor, 10)
 			if (!istype(ears, /obj/item/clothing/ears/earmuffs))
 				adjustEarDamage(15,60)
-			if (prob(max(50-bombarmor, 0)))
+			if (prob(max(50-(bombarmor/1.5),0)))
 				Paralyse(10)
 
 	var/update = 0
-	var/dismember_chance = 50/severity //50, 25, 17~
+	var/dismember_chance = (50/severity)-(bombarmor/4) //50, 25, 17~
 	for(var/obj/item/organ/limb/temp in organs)
 		if(prob(dismember_chance) && temp.body_part != HEAD && temp.body_part != CHEST && temp.dismember())
 			continue // don't damage this limb further
