@@ -91,16 +91,16 @@
 	name = "head of security's cloak"
 	desc = "Worn by Securistan, ruling the station with an iron fist. Smells robust."
 	icon_state = "hoscloak"
-	armor =          list(melee = 25, bullet = 10, laser = 20, energy = 5, bomb = 15, bio = 0, rad = 0)
-	armor_backslot = list(melee = 25, bullet = 10, laser = 20, energy = 5, bomb = 15, bio = 0, rad = 0)
-	armor_exoslot =  list(melee = 50, bullet = 20, laser = 40, energy = 10, bomb = 30, bio = 0, rad = 0) //greatcoat is 50, 30, 50, 10, 25, 0, 0
+	armor =          list(melee = 30, bullet = 13, laser = 25, energy = 8, bomb = 20, bio = 0, rad = 0)
+	armor_backslot = list(melee = 30, bullet = 13, laser = 25, energy = 8, bomb = 20, bio = 0, rad = 0)
+	armor_exoslot =  list(melee = 50, bullet = 20, laser = 40, energy = 12, bomb = 30, bio = 0, rad = 0) //greatcoat is 50, 30, 50, 10, 25, 0, 0
 
 /obj/item/weapon/storage/backpack/cloak/cap
 	name = "captain's cloak"
 	desc = "Worn by the commander of Space Station 13. Smells like failure."
 	icon_state = "capcloak"
-	armor =          list(melee = 20, bullet = 15, laser = 20, energy = 10, bomb = 15, bio = 15, rad = 15)
-	armor_backslot = list(melee = 20, bullet = 15, laser = 20, energy = 10, bomb = 15, bio = 15, rad = 15)
+	armor =          list(melee = 25, bullet = 20, laser = 25, energy = 13, bomb = 20, bio = 20, rad = 20)
+	armor_backslot = list(melee = 25, bullet = 20, laser = 25, energy = 13, bomb = 20, bio = 20, rad = 20)
 	armor_exoslot =  list(melee = 40, bullet = 30, laser = 40, energy = 20, bomb = 30, bio = 30, rad = 30) //carapace is 50, 40, 50, 10, 25, 0, 0
 	cold_protection = CHEST|ARMS
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
