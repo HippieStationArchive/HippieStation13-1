@@ -132,6 +132,7 @@
 /mob/living/carbon/human/ex_act(severity, ex_target)
 	var/b_loss = null
 	var/f_loss = null
+	var/bombarmor = getarmor(null, "bomb")
 	switch (severity)
 		if (1)
 			b_loss += 500
@@ -147,25 +148,25 @@
 			b_loss += 60
 
 			f_loss += 60
-			if (prob(getarmor(null, "bomb")))
-				b_loss = b_loss/1.5
-				f_loss = f_loss/1.5
+			if (getarmor(null, "bomb"))
+				b_loss = max(b_loss-0.6*bombarmor, 20)
+				f_loss = max(f_loss-0.6*bombarmor, 20)
 				shred_clothing(1,25)
 			else
 				shred_clothing(1,50)
 
 			if (!istype(ears, /obj/item/clothing/ears/earmuffs))
 				adjustEarDamage(30, 120)
-			if (prob(70))
+			if (prob(max(70-bombarmor, 0)))
 				Paralyse(10)
 
 		if(3)
 			b_loss += 30
-			if (prob(getarmor(null, "bomb")))
-				b_loss = b_loss/2
+			if (getarmor(null, "bomb"))
+				b_loss = b_loss-0.6*bombarmor
 			if (!istype(ears, /obj/item/clothing/ears/earmuffs))
 				adjustEarDamage(15,60)
-			if (prob(50))
+			if (prob(max(50-bombarmor, 0)))
 				Paralyse(10)
 
 	var/update = 0
