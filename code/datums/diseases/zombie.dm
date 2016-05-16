@@ -62,6 +62,8 @@ var/list/zombie_cure = list()
 				if(prob(2))
 					affected_mob.emote(pick("cough", "sneeze"))
 			if(3)
+				var/mob/living/carbon/human/H = affected_mob
+				H.vessel.remove_reagent("blood",1) //Blood drains
 				if(prob(5))
 					affected_mob.emote(pick("cough", "sneeze"))
 				else if(prob(5))
@@ -70,29 +72,30 @@ var/list/zombie_cure = list()
 				else if(prob(5))
 					affected_mob << "<span class='danger'>You feel a stabbing pain in your head.</span>"
 					affected_mob.confused += 10
-				else if(prob(5) && ishuman(affected_mob))
-					var/mob/living/carbon/human/H = affected_mob
-					H.vessel.remove_reagent("blood",rand(1,2))
+				else if(prob(5))
+					H.vessel.remove_reagent("blood",rand(5,15))
 					affected_mob.visible_message("<span class='warning'>[affected_mob] looks a bit pale...</span>", "<span class='notice'>You look a bit pale...</span>")
 				else if(prob(5))
 					affected_mob << "<span class='notice'>[pick("You feel hungry.", "You crave for food.")]</span>"
 					affected_mob.overeatduration = max(affected_mob.overeatduration - 25, 0)
 					affected_mob.nutrition = max(affected_mob.nutrition - 25, 0)
 			if(4)
+				var/mob/living/carbon/human/H = affected_mob
+				H.vessel.remove_reagent("blood",3) //Final stage blood drain is devastating
 				if(prob(15))
 					affected_mob << "<span class='notice'>[pick("You feel hot.", "You feel like you're burning.")]</span>"
 					if(affected_mob.bodytemperature < BODYTEMP_HEAT_DAMAGE_LIMIT)
-						affected_mob.bodytemperature = min(affected_mob.bodytemperature + (20 * stage), BODYTEMP_HEAT_DAMAGE_LIMIT - 1)
+						affected_mob.bodytemperature = min(affected_mob.bodytemperature + 200, BODYTEMP_HEAT_DAMAGE_LIMIT - 1)
 				else if(prob(3))
 					affected_mob << "<span class='danger'>You feel faint...</span>"
+					H.vessel.remove_reagent("blood",rand(5,10))
 					affected_mob.emote("faint")
 				else if(prob(12))
 					affected_mob << "<span class='notice'>[pick("You feel hungry.", "You crave for food.")]</span>"
 					affected_mob.overeatduration = max(affected_mob.overeatduration - 25, 0)
 					affected_mob.nutrition = max(affected_mob.nutrition - 25, 0)
-				else if(prob(5) && ishuman(affected_mob))
-					var/mob/living/carbon/human/H = affected_mob
-					H.vessel.remove_reagent("blood",rand(1,4))
+				else if(prob(10))
+					H.vessel.remove_reagent("blood",rand(10,30))
 					affected_mob.visible_message("<span class='warning'>[affected_mob] looks very pale...</span>", "<span class='notice'>You look very pale...</span>")
 				else if(prob(10))
 					affected_mob.emote(pick("cough", "sneeze", "groan", "gasp"))
@@ -103,4 +106,4 @@ var/list/zombie_cure = list()
 			H.Zombify()
 			return
 		if(stage_prob <= initial(stage_prob))
-			stage_prob *= 2
+			stage_prob *= 3
