@@ -102,5 +102,5 @@ var/list/zombie_cure = list()
 			H.Zombify()
 			cure()
 			return
-		if(prob(stage_prob)) //Faster transformation that way
-			stage = min(stage+1, max_stages)
+		if(stage_prob <= initial(stage_prob))
+			stage_prob *= 2
