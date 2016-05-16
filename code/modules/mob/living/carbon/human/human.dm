@@ -156,7 +156,7 @@
 
 			if (!istype(ears, /obj/item/clothing/ears/earmuffs))
 				adjustEarDamage(30, 120)
-			if (prob(70-(bombarmor/2)) // Still a 20% chance even with a bomb suit
+			if (prob(70-(bombarmor/2))) // Still a 20% chance even with a bomb suit
 				Paralyse(10)
 
 		if(3)

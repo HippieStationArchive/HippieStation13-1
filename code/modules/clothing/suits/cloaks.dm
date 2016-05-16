@@ -58,7 +58,7 @@
 	armor =          list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 40, rad = 15)
 	armor_backslot = list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 40, rad = 15)
 	armor_exoslot =  list(melee = 20, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 80, rad = 30)
-	flags |= THICKMATERIAL
+	flags = THICKMATERIAL
 
 /obj/item/weapon/storage/backpack/cloak/ce
 	name = "chief engineer's cloak"
@@ -99,9 +99,9 @@
 	name = "captain's cloak"
 	desc = "Worn by the commander of Space Station 13. Smells like failure."
 	icon_state = "capcloak"
-	armor =          list(melee = 15, bullet = 15, laser = 15, energy = 15, bomb = 15, bio = 15, rad = 15)
-	armor_backslot = list(melee = 15, bullet = 15, laser = 15, energy = 15, bomb = 15, bio = 15, rad = 15)
-	armor_exoslot =  list(melee = 30, bullet = 30, laser = 30, energy = 30, bomb = 30, bio = 30, rad = 30) //carapace is 50, 40, 50, 10, 25, 0, 0
+	armor =          list(melee = 20, bullet = 15, laser = 20, energy = 10, bomb = 15, bio = 15, rad = 15)
+	armor_backslot = list(melee = 20, bullet = 15, laser = 20, energy = 10, bomb = 15, bio = 15, rad = 15)
+	armor_exoslot =  list(melee = 40, bullet = 30, laser = 40, energy = 20, bomb = 30, bio = 30, rad = 30) //carapace is 50, 40, 50, 10, 25, 0, 0
 	cold_protection = CHEST|ARMS
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	permeability_coefficient = 0.4
