@@ -461,6 +461,13 @@ BLIND     // can't see anything
 		hastie.pixel_y += 8
 		hastie.layer = initial(hastie.layer)
 		overlays = null
+		armor["melee"] -= hastie.armor["melee"]
+		armor["bullet"] -= hastie.armor["bullet"]
+		armor["laser"] -= hastie.armor["laser"]
+		armor["energy"] -= hastie.armor["energy"]
+		armor["bomb"] -= hastie.armor["bomb"]
+		armor["bio"] -= hastie.armor["bio"]
+		armor["rad"] -= hastie.armor["rad"]
 		usr.put_in_hands(hastie)
 		hastie = null
 

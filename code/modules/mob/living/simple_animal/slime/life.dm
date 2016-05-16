@@ -183,6 +183,7 @@
 		var/mob/living/carbon/C = M
 		var/blocking = 0
 		if(ishuman(C))
+			var/armor_val = C.getarmor(null, "bio")
 			blocking = armor_val
 			C.apply_damage(4,CLONE,null,armor_val)
 			C.apply_damage(2,TOX,null,armor_val/2)
