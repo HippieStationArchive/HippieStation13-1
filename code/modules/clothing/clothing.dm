@@ -324,6 +324,14 @@ BLIND     // can't see anything
 				var/mob/living/carbon/human/H = loc
 				H.update_inv_w_uniform()
 
+			armor["melee"] += hastie.armor["melee"]
+			armor["bullet"] += hastie.armor["bullet"]
+			armor["laser"] += hastie.armor["laser"]
+			armor["energy"] += hastie.armor["energy"]
+			armor["bomb"] += hastie.armor["bomb"]
+			armor["bio"] += hastie.armor["bio"]
+			armor["rad"] += hastie.armor["rad"]
+
 			return 1
 
 

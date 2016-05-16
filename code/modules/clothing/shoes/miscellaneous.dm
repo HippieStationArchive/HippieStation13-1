@@ -116,6 +116,10 @@
 	item_color = "hosred"
 	strip_delay = 50
 	put_on_delay = 50
+	cold_protection = FEET //Regular black shoes have this, workboots should too.
+	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
+	heat_protection = FEET
+	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
 	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/shoes/winterboots
@@ -135,6 +139,10 @@
 	item_state = "jackboots"
 	strip_delay = 40
 	put_on_delay = 40
+	cold_protection = FEET //Regular black shoes have this, workboots should too.
+	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
+	heat_protection = FEET
+	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
 	burn_state = -1
 
 /obj/item/clothing/shoes/cult
