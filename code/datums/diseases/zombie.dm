@@ -1,3 +1,4 @@
+/*
 var/list/possible_z_cures = list("spaceacillin", "leporazine", "synaptizine", "lipolicide")//, "silver", "gold")
 var/list/zombie_cure = list()
 
@@ -104,3 +105,4 @@ var/list/zombie_cure = list()
 			return
 		if(prob(stage_prob)) //Faster transformation that way
 			stage = min(stage+1, max_stages)
+*/
