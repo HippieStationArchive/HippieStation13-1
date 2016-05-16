@@ -3,4 +3,4 @@ author: John Ginnane
 delete-after: True
 
 changes: 
-  - bugfix: "Fixed humans being able to sometimes hold items with hands they don't hate."
+  - bugfix: "Fixed humans being able to sometimes hold items with hands they don't have."
