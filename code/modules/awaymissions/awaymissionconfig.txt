@@ -9,6 +9,6 @@
 
 #_maps/RandomZLevels/wildwest.dmm
 #_maps/RandomZLevels/challenge.dmm
-#_maps/RandomZLevels/moonoutpost19.dmm
+_maps/RandomZLevels/moonoutpost19.dmm
 #_maps/RandomZLevels/caves.dmm
 #_maps/RandomZLevels/gateway-abandonedstation.dmm
