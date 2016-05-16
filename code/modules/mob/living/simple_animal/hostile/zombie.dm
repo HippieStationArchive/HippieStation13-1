@@ -1,184 +1,153 @@
 /mob/living/simple_animal/hostile/zombie
 	name = "zombie"
-	desc = "A horrifying, shambling carcass of what once resembled a human being."
+	desc = "When Observe is full, the dead shall walk the station."
 	icon = 'icons/mob/human.dmi'
 	icon_state = "zombie_s"
 	icon_living = "zombie_s"
 	icon_dead = "zombie_dead"
 	turns_per_move = 5
-	emote_see = list("groans", "roars")
+	speak_emote = list("groans")
+	emote_see = list("groans")
 	a_intent = "harm"
 	maxHealth = 120
 	health = 120
 	speed = 2
-	move_to_delay = 5
 	harm_intent_damage = 8
-	melee_damage_lower = 9
+	melee_damage_lower = 20
 	melee_damage_upper = 20
 	attacktext = "claws"
-	attack_sound = list('sound/weapons/claw_strike1.ogg','sound/weapons/claw_strike2.ogg','sound/weapons/claw_strike3.ogg')
+	attack_sound = 'sound/hallucinations/growl1.ogg'
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
-	ignored_damage_types = list(BRUTE = 0, BURN = 0, TOX = 1, CLONE = 1, STAMINA = 1, OXY = 1)
 	minbodytemp = 0
 	maxbodytemp = 350
 	unsuitable_atmos_damage = 10
-	environment_smash = 1 //Can smash tables and lockers, etc.
-	can_force_doors = 1 //Can force doors open like a champ
+	environment_smash = 1
 	robust_searching = 1
-	stat_attack = 1 //Can attack unconscious players
-	gold_core_spawnable = 0 //No.
+	stat_attack = 2
+	gold_core_spawnable = 1
 	faction = list("zombie")
-	languages = ZOMBIE
-
-	var/infection = 25 //Chance of infecting the victim.
 	var/mob/living/carbon/human/stored_corpse = null
-	var/original_corpse_ckey = null
-
-	var/list/z_armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
-
 	butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie = 3)
 	see_invisible = SEE_INVISIBLE_MINIMUM
-	see_in_dark = 5
+	see_in_dark = 8
+	layer = MOB_LAYER - 0.1
+	var/removingairlock = 0
 
-/mob/living/simple_animal/hostile/zombie/attack_threshold_check(damage, damagetype = BRUTE)
-	var/picked_zone = ran_zone("chest", 65)
-	var/armor = run_armor_check(picked_zone, damagetype)
-	apply_damage(damage, damagetype, picked_zone, armor)
+/mob/living/simple_animal/hostile/zombie/darkholme //BOY♂NEXT♂RUIN
+	desc = "This guy seems to have gotten lost on his way to the leather club."
 
-/mob/living/simple_animal/hostile/zombie/getarmor(def_zone, type)
-	return z_armor[type]
-
-/mob/living/simple_animal/hostile/zombie/bullet_act(obj/item/projectile/P, def_zone) //Copy-pasted mob/living/bullet_act so armor works
-	var/armor = run_armor_check(def_zone, P.flag, "","",P.armour_penetration)
-	if(!P.nodamage)
-		apply_damage(P.damage, P.damage_type, def_zone, armor)
-	return P.on_hit(src, armor, def_zone)
-
-/mob/living/simple_animal/hostile/zombie/New(turf/loc, provided_key)
-	if(!provided_key || !client)
-		notify_ghosts("A new NPC zombie has risen in [get_area(src)]! <a href=?src=\ref[src];ghostjoin=1>(Click to take control)</a>")
+/mob/living/simple_animal/hostile/zombie/darkholme/New()
 	..()
+	name = pick("Leatherman","Leatherhead")
 
-/mob/living/simple_animal/hostile/zombie/Topic(href, href_list)
-	if(href_list["ghostjoin"])
-		var/mob/dead/observer/ghost = usr
-		if(istype(ghost))
-			attack_ghost(ghost)
+mob/living/simple_animal/hostile/zombie/gymboss
+	name = "boss of this gym"
+	desc = "There seems to be something shiny embedded in his waist."
+	butcher_results = list(/obj/item/weapon/storage/belt/champion/wrestling = 1)
+	attacktext = "spanks"
 
-/mob/living/simple_animal/hostile/zombie/attack_ghost(mob/user)
-	if(ckey && client)
-		user << "The zombie is already controlled by a player."
-		return
-	if(stat)
-		user << "The zombie is dead!"
-		return
-	var/be_zombie = alert("Become a zombie? (Warning, You can no longer be cloned!)",,"Yes","No")
-	if(be_zombie == "No")
-		return
-	if(ckey && client)
-		user << "The zombie is already controlled by a player."
-		return
-	if(stat)
-		user << "The zombie is dead!"
-		return
-	key = user.key
-
-/mob/living/simple_animal/hostile/zombie/Login()
-	..()
-	UpdateInfectionImage()
-	if(mind)
-		ticker.mode.update_zombie_icons_added(mind)
-	src << "<b><font size = 3><font color = red>You have transformed into a Zombie. You exist only for one purpose: to spread the infection.</font color></font size></b>"
-	src << "Clicking on the doors will let you <b>force-open</b> them. Time taken depends on if the door is bolted, welded or both."
-	src << "Clicking on animal corpses will make you <b>feast</b> on them, restoring your health."
-	src << "You will spread the infection through <b>bites</b>. they have a random chance of happening when you attack a human being."
-	src << "The zombie disease will make zombies <b>even out of dead humans</b>. Therefore it's better to kill your victims as soon as possible."
-
-/mob/living/simple_animal/hostile/zombie/Logout()
-	..()
-	if(mind)
-		ticker.mode.update_zombie_icons_removed(mind)
-	UpdateInfectionImage()
 
 /mob/living/simple_animal/hostile/zombie/AttackingTarget()
-	if(istype(target, /mob/living))
+	..()
+	if(isliving(target))
 		var/mob/living/L = target
-		if(ishuman(L))
-			if(prob(infection))
-				var/mob/living/carbon/human/H = L
-				attacktext = "bites"
-				attack_sound = list('sound/weapons/bite.ogg')
-				var/datum/disease/zombie/Z = new()
-				if(H.ContractDisease(Z)) //This does checks for bioclothes, etc.
-					src << "<span class='userdanger'>You have succesfully infected [H]!</span>"
-					UpdateInfectionImage()
-				else
-					if(H.HasDisease(Z))
-						src << "<span class='userdanger'>[H] is already infected!</span>"
-					else
-						src << "<span class='userdanger'>You couldn't quite bite into [H].</span>"
-		else if (L.stat) //Not human, feast!
-			playsound(loc, 'sound/weapons/slice.ogg', 50, 1, -1)
-			visible_message("<span class='danger'>[src] begins consuming [L]!</span>",\
-							"<span class='userdanger'>You begin feasting on [L]...</span>")
-			if(do_mob(src, L, 60))
-				visible_message("<span class='danger'>[src] tears [L] to pieces!</span>",\
-								"<span class='userdanger'>You feast on [L], restoring your health!</span>")
-				L.gib()
-				src.revive()
-			return
+		if(ishuman(L) && L.stat)
+			var/mob/living/carbon/human/H = L
+			for(var/mob/living/simple_animal/hostile/zombie/holder/Z in H) //No instant heals for people who are already zombies
+				src << "<span class='userdanger'>They'll be getting up on their own, just give them a minute!</span>"
+				Z.faction = src.faction //Just in case zombies somehow ended up on different "teams"
+				H.faction = src.faction
+				return
+			Zombify(H)
 
-	target.attack_animal(src)
-	attacktext = "claws"
-	attack_sound = list('sound/weapons/claw_strike1.ogg','sound/weapons/claw_strike2.ogg','sound/weapons/claw_strike3.ogg')
+	if(istype(target, /obj/machinery/door/airlock))
+		if(!removingairlock)
+			var/obj/machinery/door/airlock/A = target
+			removingairlock = 1
+			src << "<span class='notice'>You start tearing apart the airlock... It will take some time...</span>"
+			playsound(src.loc, 'sound/machines/airlockzombieforce.ogg', 100, 1)
+			spawn(120)
+				playsound(src.loc, 'sound/hallucinations/growl3.ogg', 50, 1)
+				playsound(src.loc, 'sound/hallucinations/far_noise.ogg', 50, 1)
+				playsound(src.loc, 'sound/machines/airlockforced.ogg', 50, 1)
+				var/obj/structure/door_assembly/door = new A.doortype(get_turf(A))
+				door.density = 0
+				door.anchored = 1
+				door.name = "ravaged airlock"
+				door.desc = "An airlock that has been torn apart. Looks like it won't be keeping much out now."
+				qdel(A)
+			removingairlock = 0
+		else
+			src << "<span class='notice'>You are already tearing an airlock apart!</span>"
 
 /mob/living/simple_animal/hostile/zombie/death()
 	..()
 	if(stored_corpse)
-		stored_corpse.loc = get_turf(src)
-		if(mind)
-			mind.transfer_to(stored_corpse)
-		else
-			stored_corpse.key = key
+		stored_corpse.loc = loc
+		if(ckey)
+			stored_corpse.ckey = src.ckey
+			stored_corpse << "<span class='userdanger'>You're down, but not quite out. You'll be back on your feet within a minute or two.</span>"
+			var/mob/living/simple_animal/hostile/zombie/holder/D = new/mob/living/simple_animal/hostile/zombie/holder(stored_corpse)
+			D.faction = src.faction
 		qdel(src)
+		return
+	src << "<span class='userdanger'>You're down, but not quite out. You'll be back on your feet within a minute or two.</span>"
+	spawn(rand(300,400))
+		if(src)
+			for(var/mob/dead/observer/ghost in player_list)
+				if(src.real_name == ghost.real_name)
+					ghost.reenter_corpse()
+					break
+			visible_message("<span class='danger'>[src] staggers to their feet!</span>")
+			revive(full_heal = 1)
 
-/mob/living/carbon/human/proc/Zombify()
-	// if(istype(loc, /mob/living/simple_animal/hostile/zombie)) return
-	set_species(/datum/species/zombie)
-	var/mob/living/simple_animal/hostile/zombie/Z = new /mob/living/simple_animal/hostile/zombie(loc, ckey)
-	if(wear_suit)
-		var/obj/item/clothing/suit/armor/A = wear_suit
-		if(A.armor)
-			Z.z_armor = A.armor //Set zombie's armor to that
-	Z.health = Z.maxHealth
-	Z.faction = list("zombie")
-	Z.appearance = appearance
+/mob/living/simple_animal/hostile/zombie/proc/Zombify(mob/living/carbon/human/H)
+	H.set_species(/datum/species/zombie)
+	if(H.head) //So people can see they're a zombie
+		var/obj/item/clothing/helmet = H.head
+		if(!H.unEquip(helmet))
+			qdel(helmet)
+	if(H.wear_mask)
+		var/obj/item/clothing/mask = H.wear_mask
+		if(!H.unEquip(mask))
+			qdel(mask)
+	var/mob/living/simple_animal/hostile/zombie/Z = new /mob/living/simple_animal/hostile/zombie(H.loc)
+	Z.faction = src.faction
+	Z.appearance = H.appearance
 	Z.transform = matrix()
 	Z.pixel_y = 0
-	if(stat != DEAD)
-		death(0)
-	loc = Z
 	for(var/mob/dead/observer/ghost in player_list)
-		if(real_name == ghost.real_name)
+		if(H.real_name == ghost.real_name)
 			ghost.reenter_corpse()
 			break
-	if(mind)
-		mind.transfer_to(Z)
-	else
-		Z.key = key
-	Z.stored_corpse = src
-	ticker.mode.add_zombie(Z.mind)
-	playsound(Z.loc, pick('sound/effects/bodyscrape-01.ogg', 'sound/effects/bodyscrape-02.ogg'), 40, 1, -2)
-	Z.visible_message("<span class='danger'>[Z] staggers to their feet!</span>")
+	Z.ckey = H.ckey
+	H.stat = DEAD
+	H.butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie = 3) //So now you can carve them up when you kill them. Maybe not a good idea for the human versions.
+	H.loc = Z
+	Z.stored_corpse = H
+	for(var/mob/living/simple_animal/hostile/zombie/holder/D in H) //Dont want to revive them twice
+		qdel(D)
+	visible_message("<span class='danger'>[Z] staggers to their feet!</span>")
+	Z << "<span class='userdanger'>You are now a zombie! Follow your creators lead!</span>"
 
-/mob/living/simple_animal/hostile/zombie/proc/UpdateInfectionImage()
-	if (client)
-		for(var/image/I in client.images)
-			if(dd_hasprefix_case(I.icon_state, "zvirus"))
-				qdel(I)
-		for (var/mob/living/carbon/human/H in mob_list)
-			if(H.HasDisease(/datum/disease/zombie))
-				var/datum/disease/zombie/Z = locate() in H.viruses
-				if(Z)
-					var/I = image('icons/mob/zombie.dmi', loc = H, icon_state = "zvirus[Z.stage]")
-					client.images += I
+/mob/living/simple_animal/hostile/zombie/holder
+	name = "infection holder"
+	icon_state = "none"
+	icon_living = "none"
+	icon_dead = "none"
+	desc = "You shouldn't be seeing this."
+	invisibility = INVISIBILITY_ABSTRACT
+	unsuitable_atmos_damage = 0
+	stat_attack = 2
+	gold_core_spawnable = 0
+	AIStatus = AI_OFF
+	stop_automated_movement = 1
+	density = 0
+
+/mob/living/simple_animal/hostile/zombie/holder/New()
+	..()
+	spawn(rand(800,1200))
+		if(src && istype(loc, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = loc
+			Zombify(H)
+		qdel(src)
