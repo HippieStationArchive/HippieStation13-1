@@ -99,8 +99,8 @@ var/list/zombie_cure = list()
 	else
 		if(stage >= max_stages && ishuman(affected_mob))
 			var/mob/living/carbon/human/H = affected_mob
-			H.Zombify()
 			cure()
+			H.Zombify()
 			return
 		if(stage_prob <= initial(stage_prob))
 			stage_prob *= 2
