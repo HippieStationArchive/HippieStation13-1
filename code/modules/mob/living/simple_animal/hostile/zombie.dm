@@ -1,4 +1,4 @@
- /mob/living/simple_animal/hostile/zombie
+/mob/living/simple_animal/hostile/zombie
 	name = "zombie"
 	desc = "A horrifying, shambling carcass of what once resembled a human being."
 	icon = 'icons/mob/human.dmi'
