@@ -1,4 +1,4 @@
-/mob/living/simple_animal/hostile/zombie
+ /mob/living/simple_animal/hostile/zombie
 	name = "zombie"
 	desc = "A horrifying, shambling carcass of what once resembled a human being."
 	icon = 'icons/mob/human.dmi'
@@ -29,7 +29,7 @@
 	gold_core_spawnable = 0 //No.
 	faction = list("zombie")
 	languages = ZOMBIE
-
+/*
 	var/infection = 25 //Chance of infecting the victim.
 	var/mob/living/carbon/human/stored_corpse = null
 	var/original_corpse_ckey = null
@@ -188,3 +188,4 @@
 				if(Z)
 					var/I = image('icons/mob/zombie.dmi', loc = H, icon_state = "zvirus[Z.stage]")
 					client.images += I
+					*/
