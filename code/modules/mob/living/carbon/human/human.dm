@@ -133,6 +133,7 @@
 	var/b_loss = null
 	var/f_loss = null
 	var/bombarmor = getarmor(null, "bomb")*(6/10) + getarmor("head", "bomb")*(1/10) + getarmor("chest", "bomb")*(3/10) // Head and chest armor count extra
+	switch (severity)
 		if (1)
 			b_loss += 500
 			if (prob(bombarmor))
@@ -160,7 +161,7 @@
 				Paralyse(10)
 
 	var/update = 0
-	var/dismember_chance = max((50/severity)-(bombarmor/3), 0) //50, 25, 17~
+	var/dismember_chance = (50/severity)*(1-(bombarmor/100)) //50, 25, 17~
 	for(var/obj/item/organ/limb/temp in organs)
 		if(prob(dismember_chance) && temp.body_part != HEAD && temp.body_part != CHEST && temp.dismember())
 			continue // don't damage this limb further
