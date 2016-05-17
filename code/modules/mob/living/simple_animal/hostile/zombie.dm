@@ -36,6 +36,8 @@
 
 	var/list/z_armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
 
+	var/can_possess = 1 //Whether or not this zombie can be possessed by ghosts
+
 	butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie = 3)
 	see_invisible = SEE_INVISIBLE_MINIMUM
 	see_in_dark = 5
@@ -55,17 +57,20 @@
 	return P.on_hit(src, armor, def_zone)
 
 /mob/living/simple_animal/hostile/zombie/New(turf/loc, provided_key)
-	if(!provided_key || !client)
+	if(can_possess && (!provided_key || !client))
 		notify_ghosts("A new NPC zombie has risen in [get_area(src)]! <a href=?src=\ref[src];ghostjoin=1>(Click to take control)</a>")
 	..()
 
 /mob/living/simple_animal/hostile/zombie/Topic(href, href_list)
-	if(href_list["ghostjoin"])
+	if(href_list["ghostjoin"] && can_possess)
 		var/mob/dead/observer/ghost = usr
 		if(istype(ghost))
 			attack_ghost(ghost)
 
 /mob/living/simple_animal/hostile/zombie/attack_ghost(mob/user)
+	if(!can_possess)
+		user << "This zombie cannot be possessed!"
+		return
 	if(ckey && client)
 		user << "The zombie is already controlled by a player."
 		return
@@ -87,7 +92,7 @@
 	..()
 	UpdateInfectionImage()
 	if(mind)
-		ticker.mode.update_zombie_icons_added(mind)
+		ticker.mode.add_zombie(mind)
 	src << "<b><font size = 3><font color = red>You have transformed into a Zombie. You exist only for one purpose: to spread the infection.</font color></font size></b>"
 	src << "Clicking on the doors will let you <b>force-open</b> them. Time taken depends on if the door is bolted, welded or both."
 	src << "Clicking on animal corpses will make you <b>feast</b> on them, restoring your health."
@@ -117,6 +122,7 @@
 						src << "<span class='userdanger'>[H] is already infected!</span>"
 					else
 						src << "<span class='userdanger'>You couldn't quite bite into [H].</span>"
+					qdel(Z) //Delete the disease due to contract failure. Otherwise controller might shit itself.
 		else if (L.stat) //Not human, feast!
 			playsound(loc, 'sound/weapons/slice.ogg', 50, 1, -1)
 			visible_message("<span class='danger'>[src] begins consuming [L]!</span>",\
@@ -125,7 +131,7 @@
 				visible_message("<span class='danger'>[src] tears [L] to pieces!</span>",\
 								"<span class='userdanger'>You feast on [L], restoring your health!</span>")
 				L.gib()
-				src.revive()
+				revive()
 			return
 
 	target.attack_animal(src)
