@@ -133,6 +133,7 @@
 	var/b_loss = null
 	var/f_loss = null
 	var/bombarmor = getarmor(null, "bomb")*(6/10) + getarmor("head", "bomb")*(1/10) + getarmor("chest", "bomb")*(3/10) // Head and chest armor count extra
+	var/def = (1-(bombarmor/100))
 	switch (severity)
 		if (1)
 			b_loss += 500
@@ -144,8 +145,8 @@
 				gib()
 				return
 		if (2)
-			b_loss = rand(35,50) * (1-(bombarmor/100)) + 10
-			f_loss = rand(35,50) * (1-(bombarmor/100)) + 10
+			b_loss = rand(35,50) * def + 10
+			f_loss = rand(35,50) * def + 10
 			shred_clothing(1,max(40-bombarmor,1))
 			if (!istype(ears, /obj/item/clothing/ears/earmuffs))
 				adjustEarDamage(30, 120)
@@ -153,15 +154,15 @@
 				Paralyse(10)
 
 		if(3)
-			b_loss = rand(12,16) * (1-(bombarmor/100))
-			f_loss = rand(12,16) * (1-(bombarmor/100))
+			b_loss = rand(12,16) * def
+			f_loss = rand(12,16) * def
 			if (!istype(ears, /obj/item/clothing/ears/earmuffs))
 				adjustEarDamage(15,60)
 			if (prob(max(50-bombarmor,0)))
 				Paralyse(10)
 
 	var/update = 0
-	var/dismember_chance = (50/severity)*(1-(bombarmor/100)) //50, 25, 17~
+	var/dismember_chance = (50/severity) * def //50, 25, 17~
 	for(var/obj/item/organ/limb/temp in organs)
 		if(prob(dismember_chance) && temp.body_part != HEAD && temp.body_part != CHEST && temp.dismember())
 			continue // don't damage this limb further
