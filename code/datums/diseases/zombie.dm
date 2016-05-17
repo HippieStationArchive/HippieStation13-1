@@ -1,4 +1,4 @@
-/*var/list/possible_z_cures = list("spaceacillin", "leporazine", "synaptizine", "lipolicide")//, "silver", "gold")
+var/list/possible_z_cures = list("spaceacillin", "leporazine", "synaptizine", "lipolicide")//, "silver", "gold")
 var/list/zombie_cure = list()
 
 /datum/disease/zombie
@@ -104,4 +104,3 @@ var/list/zombie_cure = list()
 			return
 		if(stage_prob <= initial(stage_prob))
 			stage_prob *= 2
-			*/
