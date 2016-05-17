@@ -7240,7 +7240,7 @@
 "cJl" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/obj/structure/cable/yellow{d1 = 2; d2 = 4; icon_state = "2-4"},/turf/simulated/floor/plasteel,/area/engine/engineering)
 "cJm" = (/obj/structure/table,/obj/item/weapon/paper_bin{pixel_x = -3; pixel_y = 7},/obj/item/weapon/pen,/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/obj/item/weapon/book/manual/wiki/engineering_hacking{pixel_x = 3; pixel_y = 3},/obj/item/weapon/book/manual/wiki/engineering_construction,/turf/simulated/floor/plasteel,/area/engine/engineering)
 "cJn" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/structure/cable/yellow{d1 = 2; d2 = 8; icon_state = "2-8"},/turf/simulated/floor/plasteel,/area/engine/engineering)
-"cJo" = (/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{tag = "icon-manifold-r-f (EAST)"; dir = 4},/turf/simulated/floor/plasteel,/area/engine/engineering)
+"cJo" = (/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{tag = "icon-manifold-r-f (EAST)"; dir = 4},/obj/structure/cable/yellow{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plasteel,/area/engine/engineering)
 "cJp" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/engine/supermatter)
 "cJq" = (/obj/structure/sign/securearea{desc = "A warning sign which reads 'RADIOACTIVE AREA'"; icon_state = "radiation"; name = "RADIOACTIVE AREA"; pixel_x = 0; pixel_y = 0},/turf/simulated/wall/r_wall,/area/engine/supermatter)
 "cJr" = (/obj/machinery/door/firedoor,/obj/machinery/door/airlock/glass_engineering{name = "Supermatter Control Room"; req_access_txt = "32"},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/engine/supermatter)
