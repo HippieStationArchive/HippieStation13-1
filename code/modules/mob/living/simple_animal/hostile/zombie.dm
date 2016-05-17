@@ -188,3 +188,4 @@
 				if(Z)
 					var/I = image('icons/mob/zombie.dmi', loc = H, icon_state = "zvirus[Z.stage]")
 					client.images += I
+
