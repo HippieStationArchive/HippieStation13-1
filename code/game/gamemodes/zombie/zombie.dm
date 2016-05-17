@@ -1,4 +1,4 @@
-/* /datum/game_mode
+/datum/game_mode
 	var/list/zombie_infectees = list()
 
 /datum/game_mode/zombie
@@ -122,4 +122,3 @@
 	var/datum/atom_hud/antag/zombie_hud = huds[ANTAG_HUD_ZOMBIE]
 	zombie_hud.leave_hud(zombie_mind.current)
 	set_antag_hud(zombie_mind.current, null)
-	*/
