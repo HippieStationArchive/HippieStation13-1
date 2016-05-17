@@ -55,18 +55,18 @@
 	desc = "Worn by Meditopia, the valiant men and women keeping pestilence at bay. Smells sterile."
 	icon_state = "cmocloak"
 	permeability_coefficient = 0.05
-	armor =          list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 40, rad = 15)
-	armor_backslot = list(melee = 10, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 40, rad = 15)
-	armor_exoslot =  list(melee = 20, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 80, rad = 30)
+	armor =          list(melee = 20, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 40, rad = 15)
+	armor_backslot = list(melee = 20, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 40, rad = 15)
+	armor_exoslot =  list(melee = 40, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 80, rad = 30)
 	flags = THICKMATERIAL
 
 /obj/item/weapon/storage/backpack/cloak/ce
 	name = "chief engineer's cloak"
 	desc = "Worn by Engitopia, wielders of an unlimited power. Smells like asbestos and lead."
 	icon_state = "cecloak"
-	armor =          list(melee = 10, bullet = 0, laser = 10, energy = 10, bomb = 15, bio = 0, rad = 40)
-	armor_backslot = list(melee = 10, bullet = 0, laser = 10, energy = 10, bomb = 15, bio = 0, rad = 40)
-	armor_exoslot =  list(melee = 20, bullet = 0, laser = 20, energy = 20, bomb = 30, bio = 0, rad = 80)
+	armor =          list(melee = 20, bullet = 0, laser = 10, energy = 10, bomb = 15, bio = 0, rad = 40)
+	armor_backslot = list(melee = 20, bullet = 0, laser = 10, energy = 10, bomb = 15, bio = 0, rad = 40)
+	armor_exoslot =  list(melee = 40, bullet = 0, laser = 20, energy = 20, bomb = 30, bio = 0, rad = 80)
 	burn_state = -1
 	gas_transfer_coefficient = 0.1
 	heat_protection = CHEST|ARMS
