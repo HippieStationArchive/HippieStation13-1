@@ -153,13 +153,25 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 		world << "<span class='boldannounce'>An admin has delayed the round end.</span>"
 		return
 	world << "<span class='boldannounce'>Rebooting World in [delay/10] [delay > 10 ? "seconds" : "second"]. [reason]</span>"
+	world << "test 1"
 	sleep(delay)
+	world << "ticker is [ticker ? "defined" : "not defined"]"
+
 	if(blackbox)
 		blackbox.save_all_data_to_sql()
+
+	world << "test 2"
+
 	if(ticker.delay_end)
 		world << "<span class='boldannounce'>Reboot was cancelled by an admin.</span>"
 		return
+
+	world << "test 3"
+
 	feedback_set_details("[feedback_c]","[feedback_r]")
+
+	world << "test 4"
+
 	log_game("<span class='boldannounce'>Rebooting World. [reason]</span>")
 	//kick_clients_in_lobby("<span class='boldannounce'>The round came to an end with you in the lobby.</span>", 1) //second parameter ensures only afk clients are kicked
 	#ifdef dellogging
