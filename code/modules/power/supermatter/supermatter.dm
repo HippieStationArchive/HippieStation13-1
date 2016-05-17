@@ -60,11 +60,11 @@
 	var/emergency_color = "#D9D900"
 
 	var/grav_pulling = 0
-	var/pull_radius = 14
+	var/pull_radius = 6
 	// Time in ticks between delamination ('exploding') and exploding (as in the actual boom)
 	var/pull_time = 400
 	var/pull_ticks = 4
-	var/explosion_power = 3
+	var/explosion_power = 6
 
 	var/emergency_issued = 0
 
@@ -124,6 +124,10 @@
 //		l_color = clr
 //	if(luminosity != lum)
 //		SetLuminosity(lum)
+
+/obj/machinery/power/supermatter/throw_impact(atom/hit_atom)
+	if(!..())
+		explode()
 
 /obj/machinery/power/supermatter/proc/announce_warning()
 	var/integrity = damage / explosion_point
