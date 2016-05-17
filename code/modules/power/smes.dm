@@ -220,8 +220,11 @@
 			overlays += smesImageCache[SMES_INPUT_ATTEMPT]
 
 	var/clevel = chargedisplay()
+
 	if(clevel>0)
+		clevel = min(clevel, smesImageCache.len)
 		overlays += smesImageCache[clevel]
+
 	return
 
 
