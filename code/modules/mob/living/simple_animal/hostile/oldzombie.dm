@@ -124,6 +124,7 @@
 	D.infected = 0
 	D.startinfected = 0
 	D.faction = list("human")
+	D.adjustBruteLoss(200)
 	for(var/mob/dead/observer/ghost in player_list)
 		if(src.real_name == ghost.real_name)
 			ghost.reenter_corpse()
