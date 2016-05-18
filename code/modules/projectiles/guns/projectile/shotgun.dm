@@ -22,7 +22,8 @@
 		playsound(loc, 'sound/effects/wep_magazines/insertShotgun.ogg', 80)
 		A.update_icon()
 		update_icon()
-
+		return
+	..()
 /obj/item/weapon/gun/projectile/shotgun/process_chamber()
 	return ..(0, 0)
 
@@ -41,7 +42,6 @@
 	spawn(10)
 		recentpump = 0
 	return
-
 
 /obj/item/weapon/gun/projectile/shotgun/proc/pump(mob/M)
 	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
@@ -100,6 +100,9 @@
 	sawn_desc = "A NUU CHEEKI BREEKI I V DAMKE."
 	fire_sound = 'sound/weapons/handcannon.ogg'
 	var/bolt_open = 0
+	can_knife = 1
+	knife_x_offset = 17
+	knife_y_offset = 13
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction/pump(mob/M)
 	if(bolt_open)
@@ -112,11 +115,6 @@
 	update_icon()	//I.E. fix the desc
 	return 1
 
-/obj/item/weapon/gun/projectile/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
-	if(!bolt_open)
-		user << "<span class='notice'>The bolt is closed!</span>"
-		return
-	. = ..()
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction/examine(mob/user)
 	..()
@@ -124,6 +122,9 @@
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
 	..()
+	if(!bolt_open)
+		user << "<span class='notice'>The bolt is closed!</span>"
+		return
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
 		chamber_round()
 		playsound(loc, 'sound/effects/wep_magazines/rifle_load.ogg', 80)
@@ -210,6 +211,7 @@
 	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
 	chamber_sound = null
 
+
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/attackby(obj/item/A, mob/user, params)
 	..()
 	if(istype(A, /obj/item/stack/cable_coil) && !sawn_state)
@@ -222,6 +224,89 @@
 		else
 			user << "<span class='warning'>You need at least ten lengths of cable if you want to make a sling!</span>"
 			return
+
+// CANE SHOTGUN //
+
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane
+	name = "cane"
+	desc = "A cane used by a true gentlemen. Or a clown. Can be used as a crutch."
+	icon_state = "cane"
+	item_state = "stick"
+	icon = 'icons/obj/weapons.dmi'
+	sawn_state = SAWN_OFF
+	w_class = 2
+	force = 10
+	can_unsuppress = 0
+	slot_flags = null
+	origin_tech = "" // NO GIVAWAYS
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/improvised
+	fire_sound = 'sound/weapons/shotgun.ogg'
+	sawn_desc = "I'm sorry, but why did you saw your cane in the first place?"
+	unique_reskin = 1
+	mag_load_sound = null
+	mag_unload_sound = null
+	chamber_sound = null
+	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
+	fire_sound = 'sound/weapons/Gunshot_silenced.ogg'
+	suppressed = 1
+	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
+	var/list/cane_choices = list()
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/update_slowdown(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/slow = 0
+	if(istype(H))
+		slow = (H.get_num_legs(1) < 2) ? -2 : 0 //Negates slowdown caused by lack of a leg
+	return slow
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/attackby(obj/item/A, mob/user, params)
+	..()
+	if(istype(A, /obj/item/stack/cable_coil))
+		return
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/examine(mob/user) // HAD TO REPEAT EXAMINE CODE BECAUSE GUN CODE DOESNT STEALTH
+	var/f_name = "\a [src]."
+	if(src.blood_DNA && !istype(src, /obj/effect/decal))
+		if(gender == PLURAL)
+			f_name = "some "
+		else
+			f_name = "a "
+		f_name += "<span class='danger'>blood-stained</span> [name]!"
+
+	user << "\icon[src] That's [f_name]"
+
+	if(desc)
+		user << desc
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/New()
+	..()
+	for(var/U in typesof(/obj/item/weapon/cane))
+		var/obj/item/weapon/cane/V = new U
+		src.cane_choices += V
+	return
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/verb/Change()
+
+	set src in usr
+
+	var/obj/item/weapon/cane/A
+	A = input("Select Design to change it to", "BOOYEA", A) in cane_choices
+	if(!A)
+		return
+
+	if(usr.stat != CONSCIOUS)
+		return
+
+	desc = null
+
+	desc = A.desc
+	name = A.name
+	attack_verb = A.attack_verb
+	icon_state = A.icon_state
+	item_state = A.item_state
+	usr.update_inv_l_hand()
+	usr.update_inv_r_hand()
+
 
 // Sawing guns related procs //
 
@@ -289,23 +374,23 @@
 	mag_unload_sound = 'sound/effects/wep_magazines/bulldog_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/bulldog_chamber.ogg'
 	action_button_name = null
-
-/obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/unrestricted
+	can_flashlight = 1
+	flight_x_offset = 18
+	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/New()
 	..()
 	update_icon()
 	return
 
-/obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/proc/update_magazine()
-	if(magazine)
-		src.overlays = 0
-		overlays += "[magazine.icon_state]"
-		return
-
 /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/update_icon()
-	src.overlays = 0
-	update_magazine()
+	..()
+	if(magazine)
+		overlays.Cut()
+		overlays += "[magazine.icon_state]"
 	icon_state = "bulldog[chambered ? "" : "-e"]"
 	return
 
@@ -348,6 +433,7 @@
 
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/abzats/update_icon()
+	..()
 	icon_state = "abzats[cover_open ? "open" : "closed"][magazine ? Ceiling(get_ammo(0)/12.5)*25 : "-empty"]"
 
 
@@ -392,3 +478,51 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
 	fire_sound = 'sound/weapons/shotgun.ogg'
 	w_class = 5
+
+// Triple Threat //
+
+/obj/item/weapon/gun/projectile/revolver/triplebarrel // for biker bar
+	name = "triple-barreled shotgun"
+	desc = "A modded version of a true classic."
+	icon_state = "triplethreat"
+	item_state = "triplethreat"
+	w_class = 4
+	force = 10
+	flags = CONDUCT
+	slot_flags = SLOT_BACK
+	origin_tech = "combat=4;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/triple
+	fire_sound = 'sound/weapons/shotgun.ogg'
+
+// Lever Action //
+
+/obj/item/weapon/gun/projectile/shotgun/leveraction //for biker bar
+	name = "lever-action shotgun"
+	desc = "A short shotgun with a small magazine and a carved grip."
+	icon_state = "leveraction"
+	item_state = "gun"
+	slot_flags = SLOT_BELT
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/lever
+	fire_sound = 'sound/weapons/shotgun.ogg'
+	w_class = 3
+
+
+// breechloader
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/musket
+	name = "breech-loading musket"
+	desc = "This thing looks old!"
+	icon_state = "musket"
+	item_state = "musket"
+	w_class = 4
+	force = 10
+	slot_flags = SLOT_BACK
+	origin_tech = "combat=2;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/musket
+	fire_sound = 'sound/weapons/handcannon.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/rifle_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
+	chamber_sound = null
+	spread = 7
+	unique_rename = 0
+	unique_reskin = 0

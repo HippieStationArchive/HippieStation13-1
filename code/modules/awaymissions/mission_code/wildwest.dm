@@ -145,7 +145,7 @@
 		call(src,triggerproc)(M)
 
 /obj/effect/meatgrinder/proc/triggerrad1(mob)
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	for(var/mob/O in viewers(world.view, src.loc))
 		s.set_up(3, 1, src)
 		s.start()
@@ -183,7 +183,7 @@
 		C.SetStunned(0)
 		C.SetWeakened(0)
 		C.radiation = 0
-		C.heal_overall_damage(C.getBruteLoss(), C.getFireLoss())
+		C.heal_overall_damage(C.getBruteLoss(), C.getFireLoss(), C.getBloodLoss())
 		C.reagents.clear_reagents()
 		C << "<span class='notice'>You have regenerated.</span>"
 		C.visible_message("<span class='warning'>[usr] appears to wake from the dead, having healed all wounds.</span>")

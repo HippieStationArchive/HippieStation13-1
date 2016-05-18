@@ -28,8 +28,8 @@
 	model = "Securitron"
 
 /obj/machinery/bot/secbot/beepsky
-	name = "Officer Beep O'sky"
-	desc = "It's Officer Beep O'sky! Powered by a potato and a shot of whiskey."
+	name = "Officer Beep O'Sky"
+	desc = "It's Officer Beep O'Sky! Powered by a potato and a shot of whiskey."
 	idcheck = 0
 	weaponscheck = 0
 	auto_patrol = 1
@@ -47,7 +47,6 @@
 	item_state = "helmet"
 	var/build_step = 0
 	var/created_name = "Securitron" //To preserve the name if it's a unique securitron I guess
-
 
 
 /obj/machinery/bot/secbot/New()
@@ -107,14 +106,12 @@ Maintenance panel panel is [open ? "opened" : "closed"]"},
 Arrest Unidentifiable Persons: []<BR>
 Arrest for Unauthorized Weapons: []<BR>
 Arrest for Warrant: []<BR>
-Operating Mode: []<BR>
 Report Arrests[]<BR>
 Auto Patrol: []"},
 
 "<A href='?src=\ref[src];operation=idcheck'>[idcheck ? "Yes" : "No"]</A>",
 "<A href='?src=\ref[src];operation=weaponscheck'>[weaponscheck ? "Yes" : "No"]</A>",
 "<A href='?src=\ref[src];operation=ignorerec'>[check_records ? "Yes" : "No"]</A>",
-"<A href='?src=\ref[src];operation=switchmode'>[arrest_type ? "Detain" : "Arrest"]</A>",
 "<A href='?src=\ref[src];operation=declarearrests'>[declare_arrests ? "Yes" : "No"]</A>",
 "<A href='?src=\ref[src];operation=patrol'>[auto_patrol ? "On" : "Off"]</A>" )
 
@@ -136,9 +133,6 @@ Auto Patrol: []"},
 			updateUsrDialog()
 		if("ignorerec")
 			check_records = !check_records
-			updateUsrDialog()
-		if("switchmode")
-			arrest_type = !arrest_type
 			updateUsrDialog()
 		if("declarearrests")
 			declare_arrests = !declare_arrests
@@ -242,7 +236,7 @@ Auto Patrol: []"},
 
 				else								// not next to perp
 					var/turf/olddist = get_dist(src, target)
-					walk_to(src, target,1,4)
+					walk_to(src, target, 1, movement_delay)
 					if((get_dist(src, target)) >= (olddist))
 						frustration++
 					else
@@ -349,6 +343,10 @@ Auto Patrol: []"},
 			mode = BOT_HUNT
 			spawn(0)
 				bot_process()	// ensure bot quickly responds to a perp
+			
+			if(can_boost())
+				activate_boost()
+
 			break
 		else
 			continue
@@ -373,12 +371,12 @@ Auto Patrol: []"},
 	if(prob(50))
 		new /obj/item/robot_parts/l_arm(Tsec)
 
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
 
 	new /obj/effect/decal/cleanable/oil(loc)
-	qdel(src)
+	..() //qdels us and removes us from processing objects
 
 /obj/machinery/bot/secbot/attack_alien(var/mob/living/carbon/alien/user as mob)
 	..()

@@ -158,8 +158,8 @@
 /obj/item/weapon/reagent_containers/food/snacks/donkpocket/warm
 	name = "warm Donk-pocket"
 	desc = "The heated food of choice for the seasoned traitor."
-	bonus_reagents = list("omnizine" = 3)
-	list_reagents = list("nutriment" = 4, "omnizine" = 3)
+	bonus_reagents = list("tricordrazine" = 3)
+	list_reagents = list("nutriment" = 4, "tricordrazine" = 3)
 
 /obj/item/weapon/reagent_containers/food/snacks/fortunecookie
 	name = "fortune cookie"

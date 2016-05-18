@@ -6,6 +6,10 @@
 	icon_state = "toggle"
 
 /obj/screen/human/toggle/Click()
+	var/mob/living/carbon/human/H = usr
+	if(H.inventory_hotswap())
+		return //Succesful hotswap
+
 	if(usr.hud_used.inventory_shown)
 		usr.hud_used.inventory_shown = 0
 		usr.client.screen -= usr.hud_used.other
@@ -53,6 +57,12 @@
 	using.screen_loc = ui_acti
 	adding += using
 	action_intent = using
+
+	using = new /obj/screen/combo() //For martial arts
+	using.icon_state = ""
+	using.screen_loc = ui_combo
+	adding += using
+	combo_object = using
 
 	using = new /obj/screen/mov_intent()
 	using.icon = ui_style
@@ -300,6 +310,7 @@
 	mymob.flash.blend_mode = BLEND_ADD
 	mymob.flash.screen_loc = "WEST,SOUTH to EAST,NORTH"
 	mymob.flash.layer = 17
+	mymob.flash.mouse_opacity = 0
 
 	mymob.zone_sel = new /obj/screen/zone_sel()
 	mymob.zone_sel.icon = ui_style

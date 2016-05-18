@@ -1,6 +1,0 @@
-author: Crystalwarrior160
-
-delete-after: True
-
-changes: 
-  - bugfix: "Changed the wirecutters torture method so aiming at mouth won't cut the restraints first."

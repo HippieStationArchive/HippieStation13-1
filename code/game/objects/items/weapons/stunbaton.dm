@@ -14,7 +14,7 @@
 	var/obj/item/weapon/stock_parts/cell/high/bcell = null
 	var/hitcost = 1000
 
-/obj/item/weapon/melee/baton/suicide_act(mob/user)
+/obj/item/weapon/melee/baton/suicide_act(mob/user) //TODO: Make this suicide less lame
 	user.visible_message("<span class='suicide'>[user] is putting the live [name] in \his mouth! It looks like \he's trying to commit suicide.</span>")
 	return (FIRELOSS)
 
@@ -106,8 +106,7 @@
 	if(status && user.disabilities & CLUMSY && prob(50))
 		user.visible_message("<span class='danger'>[user] accidentally hits themself with [src]!</span>", \
 							"<span class='userdanger'>You accidentally hit yourself with [src]!</span>")
-		user.Weaken(stunforce*3)
-		deductcharge(hitcost)
+		baton_stun(user, user, stunforce*2, 1) //disabled warning
 		return
 
 	if(isrobot(M))
@@ -120,7 +119,6 @@
 
 	if(user.a_intent != "harm")
 		if(status)
-			user.do_attack_animation(L)
 			if(baton_stun(L, user))
 				user.do_attack_animation(L)
 				return
@@ -128,7 +126,7 @@
 						"<span class='warning'>[user] has prodded you with [src]. Luckily it was off</span>")
 	else
 		if(status)
-			baton_stun(L, user)
+			baton_stun(L, user, round(stunforce/2))
 		..()
 
 /obj/item/weapon/melee/baton/throw_impact(atom/A)
@@ -138,7 +136,9 @@
 		if(prob(50) && status)
 			baton_stun(H, usr)
 
-/obj/item/weapon/melee/baton/proc/baton_stun(mob/living/L, mob/user)
+/obj/item/weapon/melee/baton/proc/baton_stun(mob/living/L, mob/user, sforce = stunforce, disablewarning = 0)
+	if(!istype(L))
+		return 0
 	if(isrobot(loc))
 		var/mob/living/silicon/robot/R = loc
 		if(!R || !R.cell || !R.cell.use(hitcost))
@@ -150,12 +150,12 @@
 	user.lastattacked = L
 	L.lastattacker = user
 
-	L.Stun(stunforce)
-	L.Weaken(stunforce)
-	L.apply_effect(STUTTER, stunforce)
-
-	L.visible_message("<span class='danger'>[user] has stunned [L] with [src]!</span>", \
-							"<span class='userdanger'>[user] has stunned you with [src]!</span>")
+	L.Stun(sforce)
+	L.Weaken(sforce)
+	L.apply_effect(STUTTER, sforce)
+	if(!disablewarning)
+		L.visible_message("<span class='danger'>[user] has stunned [L] with [src]!</span>", \
+								"<span class='userdanger'>[user] has stunned you with [src]!</span>")
 	playsound(loc, 'sound/weapons/Egloves.ogg', 50, 1, -1)
 
 	if(ishuman(L))
@@ -177,7 +177,7 @@
 	desc = "An improvised stun baton."
 	icon_state = "stunprod_nocell"
 	item_state = "prod"
-	force = 3
+	force = 7
 	throwforce = 5
 	stunforce = 5
 	hitcost = 2500

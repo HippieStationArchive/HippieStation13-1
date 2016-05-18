@@ -4,7 +4,7 @@
 /datum/game_mode/monkey
 	name = "monkey"
 	config_tag = "monkey"
-	antag_flag = BE_MONKEY
+	antag_flag = ROLE_MONKEY
 
 	required_players = 20
 	required_enemies = 1
@@ -75,10 +75,9 @@
 			if(monkey_mind.current && monkey_mind.current.stat != DEAD)
 				return 0
 
-		var/datum/disease/D = new /datum/disease/transformation/jungle_fever() //ugly but unfortunately needed
 		for(var/mob/living/carbon/human/H in living_mob_list)
 			if(H.mind && H.stat != DEAD)
-				if(H.HasDisease(D))
+				if(H.HasDisease(/datum/disease/transformation/jungle_fever))
 					return 0
 
 	..()
@@ -86,9 +85,8 @@
 /datum/game_mode/monkey/proc/check_monkey_victory()
 	if(SSshuttle.emergency.mode != SHUTTLE_ENDGAME)
 		return 0
-	var/datum/disease/D = new /datum/disease/transformation/jungle_fever()
 	for(var/mob/living/carbon/monkey/M in living_mob_list)
-		if (M.HasDisease(D))
+		if (M.HasDisease(/datum/disease/transformation/jungle_fever))
 			if(M.onCentcom() || M.onSyndieBase())
 				escaped_monkeys++
 	if(escaped_monkeys >= monkeys_to_win)

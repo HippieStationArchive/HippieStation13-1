@@ -375,7 +375,7 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris/add_juice()
 	..()
-	reagents.add_reagent("space_drugs", 1 + round(potency / 8, 1))
+	reagents.add_reagent("space_drugs", 1 + round(potency / 6, 1))
 	reagents.add_reagent("salglu_solution", 1 + round(potency / 8, 1))
 	reagents.add_reagent("salglu_solution", 1 + round(potency / 10, 1))
 	reagents.add_reagent("toxin", 1 + round(potency / 10, 1))
@@ -393,7 +393,7 @@
 	..()
 	reagents.add_reagent("omnizine", 1 + round(potency / 8, 1))
 	reagents.add_reagent("synaptizine", 1 + round(potency / 8, 1))
-	reagents.add_reagent("space_drugs", 1 + round(potency / 10, 1))
+	reagents.add_reagent("space_drugs", 1 + round(potency / 5, 1))
 	reagents.add_reagent("vitamin", 1 + round((potency / 25), 1))
 
 
@@ -415,7 +415,7 @@
 /obj/item/weapon/reagent_containers/food/snacks/grown/apple/poisoned
 	seed = /obj/item/seeds/poisonedappleseed
 	name = "apple"
-	desc = "It's a little piece of Eden."
+	desc = "It's a little piece of Eden?"
 	icon_state = "apple"
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/apple/poisoned/add_juice()
@@ -1172,6 +1172,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 	desc = "<I>Mycena Bregprox</I>: This species of mushroom glows in the dark."
 	icon_state = "glowshroom"
 	filling_color = "#00FA9A"
+	var/effect_path = /obj/effect/glowshroom
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/glowshroom/New(var/loc, var/new_potency = 10)
 	..()
@@ -1197,13 +1198,13 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/glowshroom/attack_self(mob/user)
 	if(istype(user.loc,/turf/space))
 		return
-	var/obj/effect/glowshroom/planted = new /obj/effect/glowshroom(user.loc)
+	var/obj/effect/glowshroom/planted = new effect_path(user.loc)
 	planted.delay = planted.delay - production * 100 //So the delay goes DOWN with better stats instead of up. :I
 	planted.endurance = endurance
 	planted.yield = yield
 	planted.potency = potency
+	user << "<span class='notice'>You plant [src].</span>"
 	qdel(src)
-	user << "<span class='notice'>You plant the glowshroom.</span>"
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/glowshroom/Destroy()
 	if(istype(loc,/mob))
@@ -1218,6 +1219,28 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 	user.AddLuminosity(round(-potency / 10,1))
 	SetLuminosity(round(potency / 10,1))
 
+/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/glowshroom/glowcap
+	seed = /obj/item/seeds/glowcap
+	name = "glowcap cluster"
+	desc = "<I>Mycena Ruthenia</I>: This species of mushroom glows in the dark, but aren't bioluminescent. They're warm to the touch..."
+	icon_state = "glowcap"
+	filling_color = "#00FA9A"
+	effect_path = /obj/effect/glowshroom/glowcap
+
+/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/glowshroom/glowcap/On_Consume()
+	if(!reagents.total_volume)
+		var/batteries_recharged = 0
+		for(var/obj/item/weapon/stock_parts/cell/C in usr.GetAllContents())
+			var/newcharge = (potency*0.01)*C.maxcharge
+			if(C.charge < newcharge)
+				C.charge = newcharge
+				if(isobj(C.loc))
+					var/obj/O = C.loc
+					O.update_icon() //update power meters and such
+				batteries_recharged = 1
+		if(batteries_recharged)
+			usr << "<span class='notice'>Battery has recovered.</span>"
+	..()
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/shell/moneyfruit
 	seed = /obj/item/seeds/cashseed
@@ -1359,3 +1382,20 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 		reagents.add_reagent("fartium", 1 + round((potency / 10), 1))
 		bitesize = 1 + round(reagents.total_volume / 2, 1)
 
+/obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn
+	seed = /obj/item/seeds/limbseed
+	name = "limbplant"
+	desc = "A cluster of limbs sprouting from a stem."
+	icon_state = "limbplant"
+
+/obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn/canconsume(mob/eater, mob/user)
+	return 0
+
+/obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn/attack_self(mob/user as mob)
+	if(user)
+		user.unEquip(src)
+	var/obj/item/organ/limb/L = newBodyPart(pick("r_arm", "l_arm", "r_leg", "l_leg"))
+	L.loc = get_turf(src)
+	L.skin_tone = random_skin_tone()
+	L.update_limb()
+	qdel(src)

@@ -91,6 +91,25 @@
 		M << "Your Clown Mask has now morphed into [choice], all praise the Honk Mother!"
 		return 1
 
+/obj/item/clothing/mask/gas/clown_hat/cluwne
+	icon_state = "cluwne"
+	item_state = "cluwne"
+	unacidable = 1
+	burn_state = -1
+	flags = NODROP | MASKINTERNALS
+	flags_inv = HIDEEARS|HIDEEYES
+
+/obj/item/clothing/mask/gas/clown_hat/cluwne/equipped(mob/user, slot)
+	if(!ishuman(user))
+		return
+	if(slot == slot_wear_mask)
+		var/mob/living/carbon/human/H = user
+		H.dna.add_mutation(CLUWNEMUT)
+	return
+
+/obj/item/clothing/mask/gas/clown_hat/cluwne/dropped(mob/user)
+	qdel(src)
+
 /obj/item/clothing/mask/gas/sexyclown
 	name = "sexy-clown wig and mask"
 	desc = "A feminine clown mask for the dabbling crossdressers or female entertainers."

@@ -20,6 +20,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	var/layer_used = MUTATIONS_LAYER //which mutation layer to use
 	var/list/species_allowed = list() //to restrict mutation to only certain species
 	var/health_req //minimum health required to acquire the mutation
+	var/naturalcolor //the person's alien color prehulk
+	var/oldflags
 
 /datum/mutation/human/proc/force_give(mob/living/carbon/human/owner)
 	set_block(owner)
@@ -115,26 +117,32 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	get_chance = 15
 	lowest_value = 256 * 12
 	text_gain_indication = "<span class='notice'>Your muscles hurt!</span>"
-	species_allowed = list("human") //no skeleton/lizard hulk
+	species_allowed = list("human", "lizard", "moth", "tarajan", "IPC", "pod", "slime", "skeleton")
+	//Excludes fly, plasmamen, abductors, zombies, both golems, meseeks, shadows, and jelly
+	//Some of these, such as the fly, turn invisible because they don't have a greyscale sprite yet.
 	health_req = 25
 
 /datum/mutation/human/hulk/New()
 	..()
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_f_s", "layer"=-MUTATIONS_LAYER)
-	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_m_s", "layer"=-MUTATIONS_LAYER)
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="hulk_alien_s", "layer"=-FIRE_LAYER)
 
 /datum/mutation/human/hulk/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
 		return
 	var/status = CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
 	owner.status_flags &= ~status
+	oldflags = owner.dna.species.specflags
+	if(!(MUTCOLORS in owner.dna.species.specflags))
+		owner.dna.species.specflags += MUTCOLORS  // why are specflags a list, jesus they should be a bitflag like stats_flags up there ^.
+	naturalcolor = owner.dna.features["mcolor"]
+	owner.dna.features["mcolor"] = sanitize_hexcolor("#3DCF13")
+	owner.regenerate_icons()
 
 /datum/mutation/human/hulk/on_attack_hand(mob/living/carbon/human/owner, atom/target)
 	return target.attack_hulk(owner)
 
 /datum/mutation/human/hulk/get_visual_indicator(mob/living/carbon/human/owner)
-	var/g = (owner.gender == FEMALE) ? 1 : 2
-	return visual_indicators[g]
+	return visual_indicators[1]
 
 /datum/mutation/human/hulk/on_life(mob/living/carbon/human/owner)
 	if(owner.health < 25)
@@ -147,6 +155,9 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	if(..())
 		return
 	owner.status_flags |= CANSTUN | CANWEAKEN | CANPARALYSE | CANPUSH
+	owner.dna.features["mcolor"] = naturalcolor
+	owner.dna.species.specflags = oldflags // This removes MUTCOLORS from moths and humans, but not from races that start with it.
+	owner.regenerate_icons()
 
 /datum/mutation/human/hulk/say_mod(message)
 	if(message)
@@ -198,6 +209,13 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	get_chance = 25
 	lowest_value = 256 * 12
 	text_gain_indication = "<span class='notice'>The walls suddenly disappear!</span>"
+
+/datum/mutation/human/x_ray/New()
+	..()
+	visual_indicators |= image("icon"='icons/effects/genetics.dmi', "icon_state"="blinkyeyes", "layer"=-FRONT_MUTATIONS_LAYER)
+
+/datum/mutation/human/x_ray/get_visual_indicator(mob/living/carbon/human/owner)
+	return visual_indicators[1]
 
 /datum/mutation/human/x_ray/on_acquiring(mob/living/carbon/human/owner)
 	if(..())
@@ -253,7 +271,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_gain_indication = "<span class='danger'>You feel strange.</span>"
 
 /datum/mutation/human/bad_dna/on_acquiring(mob/living/carbon/human/owner)
-	owner << text_gain_indication
+	if(..())
+		return
 	var/mob/new_mob
 	if(prob(95))
 		if(prob(50))
@@ -288,13 +307,15 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_lose_indication = "<span class='notice'>Everything around you seems to shrink..</span>"
 
 /datum/mutation/human/dwarfism/on_acquiring(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.resize = 0.8
 	owner.ventcrawler = 1
 	owner.visible_message("<span class='danger'>[owner] suddenly shrinks!</span>")
 
 /datum/mutation/human/dwarfism/on_losing(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.resize = 1.25
 	owner.ventcrawler = 0
 	owner.visible_message("<span class='danger'>[owner] suddenly grows!</span>")
@@ -306,13 +327,64 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_gain_indication = "<span class='danger'>You feel lightheaded.</span>"
 
 /datum/mutation/human/clumsy/on_acquiring(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.disabilities |= CLUMSY
 
 /datum/mutation/human/clumsy/on_losing(mob/living/carbon/human/owner)
 	if(..())
 		return
 	owner.disabilities &= ~CLUMSY
+
+/datum/mutation/human/cluwne
+
+	name = "Cluwne"
+	quality = NEGATIVE
+	dna_block = NON_SCANNABLE
+	text_gain_indication = "<span class='danger'>You feel like your brain is tearing itself apart.</span>"
+
+/datum/mutation/human/cluwne/on_acquiring(mob/living/carbon/human/owner)
+	if(..())
+		return
+	owner.dna.add_mutation(CLOWNMUT)
+	owner.dna.add_mutation(EPILEPSY)
+	owner.adjustBrainLoss(200)
+
+	var/mob/living/carbon/human/H = owner
+
+	if(!istype(H.wear_mask, /obj/item/clothing/mask/gas/clown_hat/cluwne))
+		if(!H.unEquip(H.wear_mask))
+			qdel(H.wear_mask)
+		H.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/clown_hat/cluwne(H), slot_wear_mask)
+	if(!istype(H.wear_mask, /obj/item/clothing/under/rank/clown/cluwne))
+		if(!H.unEquip(H.w_uniform))
+			qdel(H.w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/clown/cluwne(H), slot_w_uniform)
+	if(!istype(H.shoes, /obj/item/clothing/shoes/clown_shoes/cluwne))
+		if(!H.unEquip(H.shoes))
+			qdel(H.shoes)
+		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/clown_shoes/cluwne(H), slot_shoes)
+
+	owner.equip_to_slot_or_del(new /obj/item/clothing/gloves/color/white(owner), slot_gloves) // this is purely for cosmetic purposes incase they aren't wearing anything in that slot
+	owner.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/clown(owner), slot_back) // ditto
+
+/datum/mutation/human/cluwne/on_life(mob/living/carbon/human/owner)
+	if((prob(15) && owner.paralysis <= 1))
+		owner.adjustBrainLoss(200) // don't want to code special manitol snowflake interactions
+		switch(rand(1, 6))
+			if(1)
+				owner.say("HONK")
+			if(2 to 5)
+				owner.emote("scream")
+			if(6)
+				owner.Stun(1)
+				owner.Weaken(1)
+				owner.Jitter(500)
+
+/datum/mutation/human/cluwne/on_losing(mob/living/carbon/human/owner)
+	owner.adjust_fire_stacks(1)
+	owner.IgniteMob()
+	owner.dna.add_mutation(CLUWNEMUT)
 
 /datum/mutation/human/tourettes
 
@@ -352,7 +424,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_gain_indication = "<span class='danger'>You can't seem to hear anything.</span>"
 
 /datum/mutation/human/deaf/on_acquiring(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.disabilities |= DEAF
 
 /datum/mutation/human/deaf/on_losing(mob/living/carbon/human/owner)
@@ -367,7 +440,8 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	text_gain_indication = "<span class='danger'>You can't seem to see anything.</span>"
 
 /datum/mutation/human/blind/on_acquiring(mob/living/carbon/human/owner)
-	if(..())	return
+	if(..())
+		return
 	owner.disabilities |= BLIND
 
 /datum/mutation/human/blind/on_losing(mob/living/carbon/human/owner)
@@ -426,17 +500,23 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	if(..())
 		return
 	owner.alpha = CHAMELEON_MUTATION_DEFAULT_TRANSPARENCY
+	owner.mouse_opacity = initial(owner.mouse_opacity)
 
 /datum/mutation/human/chameleon/on_life(mob/living/carbon/human/owner)
-	owner.alpha = max(0, owner.alpha - 25)
+	if(owner.alpha > 0)
+		animate(owner, alpha = max(0, owner.alpha - 85), time = 20) //-85 alpha every tick means it takes 3 seconds to become completely invisible
+	if(owner.alpha <= 0)
+		owner.mouse_opacity = 0 //So you are completely invisible and cannot be "scanned" by player's mouse movements.
 
 /datum/mutation/human/chameleon/on_move(mob/living/carbon/human/owner)
-	owner.alpha = CHAMELEON_MUTATION_DEFAULT_TRANSPARENCY
+	animate(owner, alpha = CHAMELEON_MUTATION_DEFAULT_TRANSPARENCY, time = 3)
+	owner.mouse_opacity = initial(owner.mouse_opacity)
 
 /datum/mutation/human/chameleon/on_losing(mob/living/carbon/human/owner)
 	if(..())
 		return
 	owner.alpha = 255
+	owner.mouse_opacity = initial(owner.mouse_opacity)
 
 /datum/mutation/human/wacky
 	name = "Wacky"

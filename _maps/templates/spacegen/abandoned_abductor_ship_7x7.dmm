@@ -1,0 +1,49 @@
+"a" = (/turf/space,/area/space)
+"b" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien20"},/area/template/abandoned_abductor_ship)
+"c" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien21"},/area/template/abandoned_abductor_ship)
+"d" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien22"},/area/template/abandoned_abductor_ship)
+"e" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien23"},/area/template/abandoned_abductor_ship)
+"f" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien24"},/area/template/abandoned_abductor_ship)
+"g" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien16"},/area/template/abandoned_abductor_ship)
+"h" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien17"},/area/template/abandoned_abductor_ship)
+"i" = (/obj/machinery/abductor/experiment{team = 2},/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"j" = (/obj/structure/table/abductor,/obj/item/weapon/abductor_baton,/obj/item/weapon/gun/energy/alien,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"k" = (/obj/machinery/abductor/pad{team = 2},/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"l" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien18"},/area/template/abandoned_abductor_ship)
+"m" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien19"},/area/template/abandoned_abductor_ship)
+"n" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien14"},/area/template/abandoned_abductor_ship)
+"o" = (/obj/machinery/computer/camera_advanced/abductor{team = 2},/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"p" = (/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"q" = (/obj/effect/decal/remains/human{desc = "They dont look like human remains..."},/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"r" = (/obj/structure/closet/abductor,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"s" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien15"},/area/template/abandoned_abductor_ship)
+"t" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien12"},/area/template/abandoned_abductor_ship)
+"u" = (/obj/item/weapon/retractor/alien,/obj/item/weapon/hemostat/alien,/obj/structure/table/abductor,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"v" = (/obj/structure/optable/abductor,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"w" = (/obj/structure/table/abductor,/obj/item/weapon/storage/box/alienhandcuffs,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"x" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien13"},/area/template/abandoned_abductor_ship)
+"y" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien10"},/area/template/abandoned_abductor_ship)
+"z" = (/obj/item/weapon/surgical_drapes,/obj/item/weapon/paper/abductor,/obj/item/weapon/scalpel/alien,/obj/structure/table/abductor,/obj/item/weapon/cautery/alien,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"A" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien11"},/area/template/abandoned_abductor_ship)
+"B" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien6"},/area/template/abandoned_abductor_ship)
+"C" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien7"},/area/template/abandoned_abductor_ship)
+"D" = (/obj/machinery/abductor/gland_dispenser,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"E" = (/obj/structure/table/abductor,/obj/item/weapon/surgicaldrill/alien,/obj/item/weapon/circular_saw/alien,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"F" = (/obj/structure/bed/abductor,/turf/simulated/floor/plating/abductor,/area/template/abandoned_abductor_ship)
+"G" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien8"},/area/template/abandoned_abductor_ship)
+"H" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien9"},/area/template/abandoned_abductor_ship)
+"I" = (/turf/space,/turf/simulated/wall/abductor,/area/template/abandoned_abductor_ship)
+"J" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien2"},/area/template/abandoned_abductor_ship)
+"K" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien3"},/area/template/abandoned_abductor_ship)
+"L" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien4"},/area/template/abandoned_abductor_ship)
+"M" = (/turf/space,/turf/simulated/wall/abductor{icon_state = "alien5"},/area/template/abandoned_abductor_ship)
+
+(1,1,1) = {"
+abcdefa
+ghijklm
+nopqprs
+tupvpwx
+yzppprA
+BCDEFGH
+aIJKLMa
+"}

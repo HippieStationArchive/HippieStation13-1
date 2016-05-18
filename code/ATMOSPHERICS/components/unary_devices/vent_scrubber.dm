@@ -297,18 +297,18 @@
 		if(WT.remove_fuel(0,user))
 			playsound(loc, 'sound/items/Welder.ogg', 40, 1)
 			user << "<span class='notice'>Now welding the scrubber.</span>"
-			if(do_after(user, 20, target = src))
+			if(do_after(user, 20/W.toolspeed, target = src))
 				if(!src || !WT.isOn())
 					return
 				playsound(src.loc, 'sound/items/Welder2.ogg', 50, 1)
 				if(!welded)
 					user.visible_message("[user] welds the scrubber shut.","You weld the scrubber shut.", "You hear welding.")
 					welded = 1
-					update_icon()
 				else
 					user.visible_message("[user] unwelds the scrubber.", "You unweld the scrubber.", "You hear welding.")
 					welded = 0
-					update_icon()
+				update_icon()
+				pipe_vision_img = image(src, loc, layer = 20, dir = dir)
 			return 1
 	if (!istype(W, /obj/item/weapon/wrench))
 		return ..()

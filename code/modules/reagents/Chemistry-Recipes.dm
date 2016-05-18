@@ -17,17 +17,20 @@
 	var/required_temp = 0
 	var/mix_message = "The solution begins to bubble."
 
+	var/list/chemical_mob_spawn_meancritters = list() // list of possible hostile mobs
+	var/list/chemical_mob_spawn_nicecritters = list() // and possible friendly mobs
+
 /datum/chemical_reaction/proc/on_reaction(datum/reagents/holder, created_volume)
 	return
 	//I recommend you set the result amount to the total volume of all components.
 
-var/list/chemical_mob_spawn_meancritters = list() // list of possible hostile mobs
-var/list/chemical_mob_spawn_nicecritters = list() // and possible friendly mobs
 /datum/chemical_reaction/proc/chemical_mob_spawn(datum/reagents/holder, amount_to_spawn, reaction_name, mob_faction = "chemicalsummon")
 	if(holder && holder.my_atom)
 		if (chemical_mob_spawn_meancritters.len <= 0 || chemical_mob_spawn_nicecritters.len <= 0)
 			for (var/T in typesof(/mob/living/simple_animal))
 				var/mob/living/simple_animal/SA = T
+				if(istype(T,/mob/living/simple_animal/hostile/headcrab))
+					continue //Prevents headslugs from the golden slimes
 				switch(initial(SA.gold_core_spawnable))
 					if(1)
 						chemical_mob_spawn_meancritters += T

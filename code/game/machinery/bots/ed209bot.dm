@@ -118,15 +118,12 @@ Maintenance panel panel is [open ? "opened" : "closed"]<BR>"},
 Arrest Unidentifiable Persons: []<BR>
 Arrest for Unauthorized Weapons: []<BR>
 Arrest for Warrant: []<BR>
-<BR>
-Operating Mode: []<BR>
 Report Arrests[]<BR>
 Auto Patrol[]"},
 
 "<A href='?src=\ref[src];operation=idcheck'>[idcheck ? "Yes" : "No"]</A>",
 "<A href='?src=\ref[src];operation=weaponscheck'>[weaponscheck ? "Yes" : "No"]</A>",
 "<A href='?src=\ref[src];operation=ignorerec'>[check_records ? "Yes" : "No"]</A>",
-"<A href='?src=\ref[src];operation=switchmode'>[arrest_type ? "Detain" : "Arrest"]</A>",
 "<A href='?src=\ref[src];operation=declarearrests'>[declare_arrests ? "Yes" : "No"]</A>",
 "<A href='?src=\ref[src];operation=patrol'>[auto_patrol ? "On" : "Off"]</A>" )
 	var/datum/browser/popup = new(user, "autoed209", "Automatic Security Unit v2.6")
@@ -151,9 +148,6 @@ Auto Patrol[]"},
 			updateUsrDialog()
 		if ("ignorerec")
 			check_records = !check_records
-			updateUsrDialog()
-		if ("switchmode")
-			arrest_type = !arrest_type
 			updateUsrDialog()
 		if("declarearrests")
 			declare_arrests = !declare_arrests
@@ -438,12 +432,12 @@ Auto Patrol[]"},
 			if(lasercolor == "r")
 				new /obj/item/clothing/suit/redtag(Tsec)
 
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
 
 	new /obj/effect/decal/cleanable/oil(loc)
-	qdel(src)
+	..() //qdels us and removes us from processing objects
 
 /obj/machinery/bot/ed209/proc/set_weapon()  //used to update the projectile type and firing sound
 	shoot_sound = 'sound/weapons/laser.ogg'

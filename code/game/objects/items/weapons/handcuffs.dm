@@ -31,6 +31,9 @@
 		return
 
 	if(!C.handcuffed)
+		if(C.get_num_arms() < 2)//Can only apply handcuffs on people with both arms)
+			user << "<span class='warning'>You cannot handcuff [C], they need to have two arms for that!</span>"
+			return
 		C.visible_message("<span class='danger'>[user] is trying to put [src.name] on [C]!</span>", \
 							"<span class='userdanger'>[user] is trying to put [src.name] on [C]!</span>")
 
@@ -165,6 +168,10 @@
 	breakouttime = 450 //Deciseconds = 45s
 	trashtype = /obj/item/weapon/restraints/handcuffs/cable/zipties/used
 
+/obj/item/weapon/restraints/handcuffs/cable/zipties/attack_self(mob/user)
+	user << "<span class='warning'>You can not untie [src]. </span>"
+	return
+
 /obj/item/weapon/restraints/handcuffs/cable/zipties/used
 	desc = "A pair of broken zipties."
 	icon_state = "cuff_white_used"
@@ -221,6 +228,8 @@
 			var/def_zone = "chest"
 			if(iscarbon(L))
 				var/mob/living/carbon/C = L
+				if(C.get_num_legs() < 2) //Not enough legs :(
+					return
 				snap = 1
 				if(!C.lying)
 					def_zone = pick("l_leg", "r_leg")
@@ -252,7 +261,7 @@
 	..()
 	spawn(100)
 		if(!istype(loc, /mob))
-			var/datum/effect/effect/system/spark_spread/sparks = new /datum/effect/effect/system/spark_spread
+			var/datum/effect_system/spark_spread/sparks = new /datum/effect_system/spark_spread
 			sparks.set_up(1, 1, src)
 			sparks.start()
 			qdel(src)

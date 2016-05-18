@@ -303,6 +303,26 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/clothing/glasses/hud/security/night
 	category = list("Equipment")
 
+datum/design/diagnostic_hud
+	name = "Diagnostic HUD"
+	desc = "A HUD used to analyze and determine faults within robotic machinery."
+	id = "dianostic_hud"
+	req_tech = list("magnets" = 3, "engineering" = 3, "powerstorage" = 2)
+	build_type = PROTOLATHE
+	materials = list("$metal" = 50, "$glass" = 50)
+	build_path = /obj/item/clothing/glasses/hud/diagnostic
+	category = list("Equipment")
+
+datum/design/diagnostic_hud_night
+	name = "Night Vision Diagnostic HUD"
+	desc = "Upgraded version of the diagnostic HUD designed to function during a power failure."
+	id = "dianostic_hud_night"
+	req_tech = list("magnets" = 5, "engineering" = 4, "powerstorage" = 4)
+	build_type = PROTOLATHE
+	materials = list("$metal" = 200, "$glass" = 200, "$uranium" = 1000, "$plasma" = 300)
+	build_path = /obj/item/clothing/glasses/hud/diagnostic/night
+	category = list("Equipment")
+
 /////////////////////////////////////////
 //////////////////Test///////////////////
 /////////////////////////////////////////
@@ -415,9 +435,9 @@ other types of metals and chemistry for reagents).
 	name = "H.E.V Suit"
 	desc = "An advanced suit designed for scientists out in the field needing protection from just about any danger, including but not limited to angry military grunts."
 	id = "hev_suit"
-	req_tech = list("materials" = 5, "engineering" = 5, "combat" = 5, "biotech" = 4)
+	req_tech = list("materials" = 4, "engineering" = 4, "combat" = 3, "biotech" = 3)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 4500, MAT_GOLD = 3000, MAT_PLASMA = 1000, MAT_URANIUM = 1500)
+	materials = list(MAT_METAL = 3500, MAT_GOLD = 2500, MAT_PLASMA = 700, MAT_URANIUM = 1000)
 	build_path = /obj/item/clothing/suit/armor/hev_suit
 	category = list("Equipment")
 
@@ -425,9 +445,9 @@ other types of metals and chemistry for reagents).
 	name = "H.E.V Helmet"
 	desc = "An advanced helmet designed for scientists out in the field needing protection from just about any danger, including but not limited to angry military grunts."
 	id = "hev_helmet"
-	req_tech = list("materials" = 5, "engineering" = 5, "combat" = 5, "biotech" = 4)
+	req_tech = list("materials" = 4, "engineering" = 4, "combat" = 3, "biotech" = 3)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 2500, MAT_GLASS = 3000, MAT_GOLD = 1500, MAT_PLASMA = 2000, MAT_DIAMOND = 1000)
+	materials = list(MAT_METAL = 2000, MAT_GLASS = 1000, MAT_GOLD = 1000, MAT_PLASMA = 500, MAT_DIAMOND = 500)
 	build_path = /obj/item/clothing/head/helmet/hev_helmet
 	category = list("Equipment")
 

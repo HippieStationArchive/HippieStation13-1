@@ -1,6 +1,7 @@
 /mob/living
 	see_invisible = SEE_INVISIBLE_LIVING
 	languages = HUMAN
+	hud_possible = list(ANTAG_HUD, ANTAG_HUD_ADMIN)
 
 	//Health and life related vars
 	var/maxHealth = 100 //Maximum health that should be possible.
@@ -42,7 +43,6 @@
 	var/metabolism_efficiency = 1 //more or less efficiency to metabolize helpful/harmful reagents and regulate body temperature..
 	var/list/image/staticOverlays = list()
 	var/has_limbs = 0 //does the mob have distinct limbs?(arms,legs, chest,head)
-	var/list/datum/action/actions = list()
 	var/spam_flag = 0 //Spamflag for emotes.
 
 	var/list/pipes_shown = list()
@@ -56,3 +56,14 @@
 	var/unique_name = 0 //if a mob's name should be appended with an id when created e.g. Mob (666)
 
 	var/list/butcher_results = null
+
+	var/mob_has_gravity = 1
+	var/float_y = 0
+	var/float_ticks = 0
+	var/doing_something = 0 //Doing something? pulling out a teeth?
+
+	var/crit_can_crawl = 0 //whether or not the mob can crawl in crit
+	var/crit_crawl_damage = 0 //No damage by default
+	var/crit_crawl_damage_type = OXY
+
+	var/ventcrawl_speed = 25 //How long it takes for this mob to crawl into the vent

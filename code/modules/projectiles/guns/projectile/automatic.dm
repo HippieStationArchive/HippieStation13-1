@@ -22,8 +22,7 @@
 /obj/item/weapon/gun/projectile/automatic/proto/unrestricted
 
 /obj/item/weapon/gun/projectile/automatic/update_icon()
-	..()
-	overlays.Cut()
+	..() //overlays.Cut() is called in parent
 	if(!select)
 		overlays += "[initial(icon_state)]semi"
 	if(select == 1)
@@ -155,6 +154,12 @@
 	fire_delay = 1
 	burst_size = 3
 	spread = 6
+	can_flashlight = 1
+	flight_x_offset = 18
+	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
 	mag_load_sound = 'sound/effects/wep_magazines/ak922_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ak922_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ak922_chamber.ogg'
@@ -179,76 +184,13 @@
 	icon_state = "ak922gold[magazine ? "-[Ceiling(get_ammo(0)/5)*5]" : ""][chambered ? "" : "-e"]"
 	return
 
-/obj/item/weapon/gun/projectile/automatic/l6_saw
-	name = "L6 SAW LMG"
-	desc = "A heavily modified 7.62 light machine gun, designated 'L6 SAW'. Has 'Aussec Armoury - 2531' engraved on the receiver below the designation."
-	icon_state = "l6closed100"
-	item_state = "l6closedmag"
-	w_class = 5
-	slot_flags = 0
-	origin_tech = "combat=5;materials=1;syndicate=2"
-	mag_type = /obj/item/ammo_box/magazine/m762
-	fire_sound = 'sound/weapons/gunshot_saw.ogg'
-	var/cover_open = 0
-	can_suppress = 0
-	burst_size = 5
-	fire_delay = 3
-	spread = 8
-	mag_load_sound = 'sound/effects/wep_magazines/lmg_load.ogg'
-	mag_unload_sound = null
-	chamber_sound = null 	//Can't chamber like other guns
-
-/obj/item/weapon/gun/projectile/automatic/l6_saw/unrestricted
-
-
-/obj/item/weapon/gun/projectile/automatic/l6_saw/attack_self(mob/user)
-	cover_open = !cover_open
-	user << "<span class='notice'>You [cover_open ? "open" : "close"] [src]'s cover.</span>"
-	update_icon()
-
-
-/obj/item/weapon/gun/projectile/automatic/l6_saw/update_icon()
-	icon_state = "l6[cover_open ? "open" : "closed"][magazine ? Ceiling(get_ammo(0)/12.5)*25 : "-empty"]"
-
-
-/obj/item/weapon/gun/projectile/automatic/l6_saw/afterattack(atom/target as mob|obj|turf, mob/living/user as mob|obj, flag, params) //what I tried to do here is just add a check to see if the cover is open or not and add an icon_state change because I can't figure out how c-20rs do it with overlays
-	if(cover_open)
-		user << "<span class='warning'>[src]'s cover is open! Close it before firing!</span>"
-	else
-		..()
-		update_icon()
-
-
-/obj/item/weapon/gun/projectile/automatic/l6_saw/attack_hand(mob/user)
-	if(loc != user)
-		..()
-		return	//let them pick it up
-	if(!cover_open || (cover_open && !magazine))
-		..()
-	else if(cover_open && magazine)
-		//drop the mag
-		magazine.update_icon()
-		magazine.loc = get_turf(src.loc)
-		user.put_in_hands(magazine)
-		magazine = null
-		update_icon()
-		playsound(loc, 'sound/effects/wep_magazines/lmg_unload.ogg', 80)
-		user << "<span class='notice'>You remove the magazine from [src].</span>"
-
-
-/obj/item/weapon/gun/projectile/automatic/l6_saw/attackby(obj/item/A, mob/user, params)
-	if(!cover_open)
-		user << "<span class='warning'>[src]'s cover is closed! You can't insert a new mag.</span>"
-		return
-	..()
-
 /obj/item/weapon/gun/projectile/automatic/c90
 	name = "Syndicate Carbine"
-	desc = "A three-round burst 5.56 toploading carbine, designated 'C-90'. Has an attached underbarrel grenade launcher which can be toggled on and off."
+	desc = "A three-round burst 5.56x45mm toploading carbine, designated 'C-90'. Has an attached underbarrel grenade launcher which can be toggled on and off."
 	icon_state = "c90"
 	item_state = "c90"
 	origin_tech = "combat=5;materials=2;syndicate=8"
-	mag_type = /obj/item/ammo_box/magazine/m545
+	mag_type = /obj/item/ammo_box/magazine/m556
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
 	can_suppress = 0
 	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/underbarrel
@@ -258,6 +200,12 @@
 	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+	can_flashlight = 1
+	flight_x_offset = 18
+	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
 
 /obj/item/weapon/gun/projectile/automatic/c90/New()
 	..()
@@ -269,7 +217,7 @@
 
 /obj/item/weapon/gun/projectile/automatic/c90/unrestricted/New()
 	..()
-	underbarrel = new /obj/item/weapon/gun/projectile/revolver/grenadelauncher/unrestricted(src)
+	underbarrel = new /obj/item/weapon/gun/projectile/revolver/grenadelauncher(src)
 	update_icon()
 	return
 
@@ -323,13 +271,13 @@
 	desc = "Based on the classic 'Chicago Typewriter'."
 	icon_state = "tommygun"
 	item_state = "shotgun"
-	w_class = 5
+	w_class = 3
 	slot_flags = 0
 	origin_tech = "combat=5;materials=1;syndicate=2"
 	mag_type = /obj/item/ammo_box/magazine/tommygunm45
 	fire_sound = 'sound/weapons/tommygun_shoot.ogg'
 	can_suppress = 0
-	burst_size = 4
+	burst_size = 3
 	fire_delay = 1
 	spread = 7
 	mag_load_sound = 'sound/effects/wep_magazines/bulldog_load.ogg'
@@ -352,3 +300,99 @@
 	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
 	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+	can_flashlight = 1
+	flight_x_offset = 18
+	flight_y_offset = 12
+	can_knife = 1
+	knife_x_offset = 18
+	knife_y_offset = 12
+
+/obj/item/weapon/gun/projectile/automatic/pistol/mac10
+	name = "Mac-10 SMG"
+	desc = "An old SMG, these used to be easily and cheaply mass-produced firearms. Their small size also made them great for concealing, however, the accuracy is anything but decent."
+	icon_state = "mac10"
+	mag_type = /obj/item/ammo_box/magazine/mac10
+	can_suppress = 0
+	w_class = 2
+	spread = 10
+	burst_size = 3
+	fire_delay = 1
+	fire_sound = 'sound/weapons/gunshot_smg.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/pistol/mac10/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+
+/obj/item/weapon/gun/projectile/automatic/alc
+	name = "Automatic Laser Carbine"
+	desc = "This modern, state-of-the-art energy weapon uses specialized disposable plasma cartridges in a small magazine similar to ballistic firearms. Advanced cooling technology allows for the ALC to be fired in short bursts. However, the unusual method of loading results in some inaccuracy compared to traditional energy weapons."
+	icon_state = "alc"
+	item_state = "alc"
+	mag_type = /obj/item/ammo_box/magazine/alc
+	can_suppress = 0
+	w_class = 3
+	spread = 4
+	burst_size = 3
+	fire_delay = 1.5
+	fire_sound = 'sound/weapons/laser.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/alc/process_chamber(eject_casing = 0, empty_chamber = 1)
+	..()
+
+/obj/item/weapon/gun/projectile/automatic/alc/afterattack()
+	..()
+	empty_alarm()
+	return
+
+/obj/item/weapon/gun/projectile/automatic/alc/update_icon()
+	..()
+	icon_state = "alc[magazine ? "-[Ceiling(get_ammo(0)/9)*8]" : ""][chambered ? "" : "-e"]"
+	return
+
+/obj/item/weapon/gun/projectile/automatic/aks74
+	name = "AKS-740U"
+	desc = "An earlier model of the AK platform, this fires a lower caliber cartridge and is a lighter weight than its AK-922 counterpart. Remains quite deadly regardless and functions similarly."
+	icon_state = "aks74"
+	item_state = "ak922"
+	mag_type = /obj/item/ammo_box/magazine/aks74
+	can_suppress = 0
+	w_class = 3
+	spread = 6
+	burst_size = 3
+	fire_delay = 1
+	fire_sound = 'sound/weapons/tommygun_shoot.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/ak922_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ak922_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ak922_chamber.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/aks74/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+
+/obj/item/weapon/gun/projectile/automatic/xmg80
+	name = "AA-XMG80"
+	desc = "A state-of-the-art, high-tech assault rifle manufactured by Aussec Armory. Comes with a 2x red dot sight. Utilizes the uncommon 6.8x43mm caseless ammunition, which is light while still allowing for superior armor-piercing capability and high velocity. Often called 'The Shredder' for its immense damage potential, which also results in this firearm being banned in NanoTrasen-controlled sectors for being 'too messy' and expensive."
+	icon_state = "xmg80"
+	item_state = "c20r"
+	mag_type = /obj/item/ammo_box/magazine/xmg80
+	can_suppress = 0
+	w_class = 3
+	spread = 2
+	burst_size = 4
+	fire_delay = 1
+	force = 10 //melee damage
+	origin_tech = "combat=6;materials=4;syndicate=8"
+	fire_sound = 'sound/weapons/gunshot_g36.ogg'
+	mag_load_sound = 'sound/effects/wep_magazines/ar_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/ar_unload.ogg'
+	chamber_sound = 'sound/effects/wep_magazines/ar_chamber.ogg'
+
+/obj/item/weapon/gun/projectile/automatic/xmg80/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+
+/obj/item/weapon/gun/projectile/automatic/xmg80/process_chamber(eject_casing = 0, empty_chamber = 1)
+	..()

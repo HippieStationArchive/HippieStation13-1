@@ -26,7 +26,7 @@
 	var/datum/wires/autolathe/wires = null
 
 	var/datum/design/being_built
-	var/datum/research/files
+	var/datum/research/files = /datum/research/autolathe
 	var/list/datum/design/matching_designs
 	var/selected_category
 	var/screen = 1
@@ -47,6 +47,7 @@
 							"Security",
 							"Machinery",
 							"Medical",
+							"Assembly",
 							"Misc"
 							)
 
@@ -63,7 +64,7 @@
 	RefreshParts()
 
 	wires = new(src)
-	files = new /datum/research/autolathe(src)
+	files = new files(src)
 	matching_designs = list()
 
 /obj/machinery/autolathe/Destroy()
@@ -236,8 +237,7 @@
 						else
 							new_item = new being_built.build_path(T)
 						new_item.autolathe_crafted(src)
-						new_item.materials[MAT_METAL] /= coeff
-						new_item.materials[MAT_GLASS] /= coeff
+						new_item.materials = materials_used.Copy()
 					busy = 0
 					src.updateUsrDialog()
 
@@ -247,10 +247,19 @@
 			for(var/datum/design/D in files.known_designs)
 				if(findtext(D.name,href_list["to_search"]))
 					matching_designs.Add(D)
+
+		if(href_list["remove_mat"] && href_list["material"])
+			var/amount = text2num(href_list["remove_mat"])
+			var/material = href_list["material"]
+			amount = round(amount, 1)
+			if(amount <= 0 || amount > materials.amount(material)) //href protection
+				return
+
+			materials.retrieve_sheets(amount, material)
 	else
 		usr << "<span class=\"alert\">The autolathe is busy. Please wait for completion of previous operation.</span>"
 
-	src.updateUsrDialog()
+	updateUsrDialog()
 
 	return
 
@@ -267,8 +276,7 @@
 /obj/machinery/autolathe/proc/main_win(mob/user)
 	var/dat = "<div class='statusDisplay'><h3>Autolathe Menu:</h3><br>"
 	dat += "<b>Total amount:</b> [materials.total_amount] / [materials.max_amount] cm<sup>3</sup><br>"
-	dat += "<b>Metal amount:</b> [materials.amount(MAT_METAL)] cm<sup>3</sup><br>"
-	dat += "<b>Glass amount:</b> [materials.amount(MAT_GLASS)] cm<sup>3</sup><br>"
+	dat += output_available_resources() + "<br>"
 
 	dat += "<form name='search' action='?src=\ref[src]'>\
 	<input type='hidden' name='src' value='\ref[src]'>\
@@ -372,7 +380,7 @@
 		return 0
 	if(!prob(prb))
 		return 0
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(5, 1, src)
 	s.start()
 	if (electrocute_mob(user, get_area(src), src, 0.7))
@@ -392,6 +400,16 @@
 			if("hacked" in D.category)
 				files.known_designs -= D
 
+/obj/machinery/autolathe/proc/output_available_resources()
+	var/output
+	for(var/resource in materials.materials)
+		var/amount = materials.amount(resource)
+		output += "<span class=\"res_name\">[capitalize(materials.material2name(resource))]: </span>[amount] cm&sup3;"
+		if(amount>0)
+			output += "<span style='font-size:80%;'>- Remove \[<a href='?src=\ref[src];remove_mat=1;material=[resource]'>1</a>\] | \[<a href='?src=\ref[src];remove_mat=10;material=[resource]'>10</a>\] | \[<a href='?src=\ref[src];remove_mat=50;material=[resource]'>All</a>\]</span>"
+		output += "<br/>"
+	return output
+
 /obj/machinery/autolathe/atmos
 	name = "atmospheric fabricator"
 	desc = "It produces atmospheric related items using metal and glass."
@@ -403,3 +421,4 @@
 	maintpanel = "mechfabt"
 	categories = list("Atmos")
 	board = /obj/item/weapon/circuitboard/atmoslathe
+	files = /datum/research/autolathe/atmoslathe

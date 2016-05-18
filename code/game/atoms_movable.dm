@@ -3,6 +3,7 @@
 	var/last_move = null
 	var/anchored = 0
 	var/throwing = 0
+	var/throwing_def_zone = ""
 	var/throw_speed = 2
 	var/throw_range = 7
 	var/mob/pulledby = null
@@ -104,6 +105,8 @@
 			throwing = 0
 			throw_impact(A)
 			. = 1
+			if(!A || qdeleted(A))
+				return
 		A.Bumped(src)
 
 
@@ -159,15 +162,16 @@
 	return hit_atom.hitby(src)
 
 /atom/movable/hitby(atom/movable/AM, skipcatch, hitpush = 1, blocked)
-	if(!anchored && hitpush)
+	if(!anchored && hitpush && AM)
 		step(src, AM.dir)
 	..()
 
-/atom/movable/proc/throw_at(atom/target, range, speed, spin=1, diagonals_first = 0)
+/atom/movable/proc/throw_at(atom/target, range, speed, spin=1, diagonals_first = 0, zone)
 	if(!target || !src || (flags & NODROP))	return 0
 	//use a modified version of Bresenham's algorithm to get from the atom's current position to that of the target
 
 	throwing = 1
+	throwing_def_zone = zone
 	if(spin) //if we don't want the /atom/movable to spin.
 		SpinAnimation(5, 1)
 

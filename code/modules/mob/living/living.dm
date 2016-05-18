@@ -86,7 +86,7 @@ Sorry Giacom. Please don't be mad :(
 
 	//BubbleWrap: Should stop you pushing a restrained person out of the way
 	if(istype(M, /mob/living))
-		for(var/mob/MM in range(M, 1))
+		for(var/mob/MM in range(1, M))
 			if( ((MM.pulling == M && ( M.restrained() && !( MM.restrained() ) && MM.stat == CONSCIOUS)) || locate(/obj/item/weapon/grab, M.grabbed_by.len)) )
 				if ( !(world.time % 5) )
 					src << "<span class='warning'>[M] is restrained, you cannot push past.</span>"
@@ -127,9 +127,9 @@ Sorry Giacom. Please don't be mad :(
 	if(!(M.status_flags & CANPUSH))
 		return 1
 	//anti-riot equipment is also anti-push
-	if(M.r_hand && istype(M.r_hand, /obj/item/weapon/shield/riot))
+	if(M.r_hand && M.r_hand:block_push)
 		return 1
-	if(M.l_hand && istype(M.l_hand, /obj/item/weapon/shield/riot))
+	if(M.l_hand && M.l_hand:block_push)
 		return 1
 
 //Called when we bump onto an obj
@@ -258,6 +258,12 @@ Sorry Giacom. Please don't be mad :(
 	bruteloss = min(max(bruteloss + amount, 0),(maxHealth*2))
 	handle_regular_status_updates() //we update our health right away.
 
+/mob/living/proc/getBloodLoss()
+	return 0
+
+/mob/living/proc/adjustBloodLoss(amount)
+	return 0 //Most mobs don't bleed (only exception is humans)
+
 /mob/living/proc/getOxyLoss()
 	return oxyloss
 
@@ -385,7 +391,7 @@ Sorry Giacom. Please don't be mad :(
 	return 0
 
 
-/mob/living/proc/electrocute_act(shock_damage, obj/source, siemens_coeff = 1, safety = 0)
+/mob/living/proc/electrocute_act(shock_damage, obj/source, siemens_coeff = 1, safety = 0, tesla_shock = 0)
 	  return 0 //only carbon liveforms have this proc
 
 /mob/living/emp_act(severity)
@@ -402,7 +408,7 @@ Sorry Giacom. Please don't be mad :(
 	var/t = shooter:zone_sel.selecting
 	if ((t in list( "eyes", "mouth" )))
 		t = "head"
-	var/obj/item/organ/limb/def_zone = ran_zone(t)
+	var/def_zone = ran_zone(t)
 	return def_zone
 
 //damage/heal the mob ears and adjust the deaf amount
@@ -458,7 +464,7 @@ Sorry Giacom. Please don't be mad :(
 	eye_blurry = 0
 	ear_deaf = 0
 	ear_damage = 0
-	heal_overall_damage(1000, 1000)
+	heal_overall_damage(1000, 1000, 1000)
 	ExtinguishMob()
 	fire_stacks = 0
 	suiciding = 0
@@ -476,6 +482,7 @@ Sorry Giacom. Please don't be mad :(
 	if(stat == DEAD)
 		dead_mob_list -= src
 		living_mob_list += src
+	status_flags &= ~(FAKEDEATH) //So Heal()-ing a changeling doesn't break shit
 	stat = CONSCIOUS
 	if(ishuman(src))
 		var/mob/living/carbon/human/human_mob = src
@@ -517,7 +524,7 @@ Sorry Giacom. Please don't be mad :(
 
 	var/cuff_dragged = 0
 	if (restrained())
-		for(var/mob/living/M in range(src, 1))
+		for(var/mob/living/M in range(1, src))
 			if (M.pulling == src && !M.incapacitated())
 				cuff_dragged = 1
 	if (!cuff_dragged && pulling && !throwing && (get_dist(src, pulling) <= 1 || pulling.loc == loc))
@@ -577,10 +584,9 @@ Sorry Giacom. Please don't be mad :(
 		// It's ugly. But everything related to inventory/storage is. -- c0
 		s_active.close(src)
 
-	for(var/mob/living/simple_animal/slime/M in oview(1,src))
-		M.UpdateFeed(src)
-
 /mob/living/proc/makeTrail(turf/T, mob/living/M)
+	if(!has_gravity(M))
+		return
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if((NOBLOOD in H.dna.species.specflags) || (!H.blood_max) || (H.bleedsuppress))
@@ -647,6 +653,7 @@ Sorry Giacom. Please don't be mad :(
 							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip, tumbling him down!</span>", \
 														"<span class='userdanger'>You tumble to the ground after [src] resists out of your pindown!</span>")
 							G.assailant.Weaken(3)
+							G.affecting.AdjustWeakened(-1) //Reduce victim's weakened a bit so they'll always get up faster
 							step_away(G.assailant,src)
 						else
 							G.assailant.visible_message("<span class='danger'>[src] has broken free of [G.assailant]'s grip!</span>", \
@@ -662,7 +669,7 @@ Sorry Giacom. Please don't be mad :(
 						G.assailant.Stun(2) //Temporarily stun the assailant to give the victim some fighting chance
 						qdel(G)
 			if(resisting)
-				last_special = world.time + CLICK_CD_BREAKOUT //Additional cooldown
+				last_special = world.time + 50 //5-second cooldown
 				visible_message("<span class='warning'>[src] tries to resist!</span>")
 		else
 			src << "<span class='warning'>You have to wait [round(last_special - world.time)/10] seconds to attempt another resist!</span>"
@@ -701,8 +708,10 @@ Sorry Giacom. Please don't be mad :(
 		return
 	if(has_gravity)
 		clear_alert("weightless")
+		mob_has_gravity = 1
 	else
 		throw_alert("weightless", /obj/screen/alert/weightless)
+		mob_has_gravity = 0
 	float(!has_gravity)
 
 /mob/living/proc/float(on)
@@ -711,13 +720,24 @@ Sorry Giacom. Please don't be mad :(
 	var/fixed = 0
 	if(anchored || (buckled && buckled.anchored))
 		fixed = 1
-	if(on && !floating && !fixed)
-		animate(src, pixel_y = pixel_y + 2, time = 10, loop = -1)
+	if(on && !fixed)
+		floating = 1
+		float_ticks++
+		switch(float_ticks)
+			if(1)
+				animate(src, pixel_y = pixel_y + 2, time = 10)
+				float_y += 2
+			if(2)
+				animate(src, pixel_y = pixel_y - 2, time = 10)
+				float_y -= 2
+				float_ticks = 0
 		floating = 1
 	else if(((!on || fixed) && floating))
-		var/final_pixel_y = get_standard_pixel_y_offset(lying)
-		animate(src, pixel_y = final_pixel_y, time = 10)
+		if(pixel_y == float_y)
+			pixel_y = pixel_y - float_y
+		float_y = initial(float_y)
 		floating = 0
+		float_ticks = 0
 
 //called when the mob receives a bright flash
 /mob/living/proc/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0, noflash = 0)
@@ -740,12 +760,27 @@ Sorry Giacom. Please don't be mad :(
 	if(what.flags & NODROP)
 		src << "<span class='warning'>You can't remove \the [what.name], it appears to be stuck!</span>"
 		return
-	who.visible_message("<span class='danger'>[src] tries to remove [who]'s [what.name].</span>", \
-					"<span class='userdanger'>[src] tries to remove [who]'s [what.name].</span>")
+		
+	var/has_pickpocket = 0
+	var/delay_denominator = 1
+	if(ishuman(usr))
+		var/mob/living/carbon/human/H = usr
+		if(H.gloves && istype(H.gloves,/obj/item/clothing/gloves/pickpocket))
+			has_pickpocket = 1
+			delay_denominator = 3
+	if(has_pickpocket == 0)
+		who.visible_message("<span class='danger'>[src] tries to remove [who]'s [what.name].</span>", \
+						"<span class='userdanger'>[src] tries to remove [who]'s [what.name].</span>")
 	what.add_fingerprint(src)
-	if(do_mob(src, who, what.strip_delay))
+	if(do_mob(src, who, what.strip_delay/delay_denominator))
 		if(what && what == who.get_item_by_slot(where) && Adjacent(who))
 			who.unEquip(what)
+			if(has_pickpocket == 1)
+				var/mob/living/carbon/human/H = usr
+				if(H.hand) //left active hand
+					H.equip_to_slot_if_possible(what, slot_l_hand, 0, 1)
+				else
+					H.equip_to_slot_if_possible(what, slot_r_hand, 0, 1)
 			add_logs(src, who, "stripped", addition="of [what]")
 
 // The src mob is trying to place an item on someone
@@ -784,12 +819,15 @@ Sorry Giacom. Please don't be mad :(
 
 
 /atom/movable/proc/do_attack_animation(atom/A, end_pixel_y)
+	var/direction = get_dir(src, A)
+	do_bounce_anim_dir(direction, 2, end_pixel_y=end_pixel_y)
+
+/atom/movable/proc/do_bounce_anim_dir(direction, wait, strength=8, easein=0, easeout=0, end_pixel_y)
 	var/pixel_x_diff = 0
 	var/pixel_y_diff = 0
 	var/final_pixel_y = initial(pixel_y)
 	if(end_pixel_y)
 		final_pixel_y = end_pixel_y
-	var/direction = get_dir(src, A)
 	switch(direction)
 		if(NORTH)
 			pixel_y_diff = 8
@@ -812,13 +850,12 @@ Sorry Giacom. Please don't be mad :(
 			pixel_x_diff = -8
 			pixel_y_diff = -8
 
-	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = 2)
-	animate(pixel_x = initial(pixel_x), pixel_y = final_pixel_y, time = 2)
+	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = wait, easing = easein)
+	animate(pixel_x = initial(pixel_x), pixel_y = final_pixel_y, time = wait, easing = easeout)
 
-
-/mob/living/do_attack_animation(atom/A)
+/mob/living/do_bounce_anim_dir(direction, wait, strength=8, easein=0, easeout=0, end_pixel_y)
 	var/final_pixel_y = get_standard_pixel_y_offset(lying)
-	..(A, final_pixel_y)
+	..(direction, wait, strength, easein, easeout, final_pixel_y)
 	floating = 0 // If we were without gravity, the bouncing animation got stopped, so we make sure to restart it in next life().
 
 /mob/living/proc/do_jitter_animation(jitteriness)
@@ -890,7 +927,7 @@ Sorry Giacom. Please don't be mad :(
 		return 0
 	if(invisibility || alpha == 0)//cloaked
 		return 0
-	if(digitalcamo || digitalinvis)
+	if(digitalcamo)
 		return 0
 
 	// Now, are they viewable by a camera? (This is last because it's the most intensive check)

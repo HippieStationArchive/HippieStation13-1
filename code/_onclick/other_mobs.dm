@@ -5,18 +5,29 @@
 	Otherwise pretty standard.
 */
 /mob/living/carbon/human/UnarmedAttack(atom/A, proximity)
-	var/obj/item/clothing/gloves/G = gloves // not typecast specifically enough in defines
+	if(!has_active_hand(1)) //Check for active hand before we do any glove thingies (Though, if you're missing an arm chances are you won't have any gloves anyway)
+		src << "<span class='notice'>You look at your arm and sigh.</span>"
+		return
 
 	// Special glove functions:
 	// If the gloves do anything, have them return 1 to stop
 	// normal attack_hand() here.
+	var/obj/item/clothing/gloves/G = gloves // not typecast specifically enough in defines
 	if(proximity && istype(G) && G.Touch(A,1))
 		return
 
-	var/override = 0
+	//Special limb functions:
+	//Similar to gloves, but this one's for limbs
+	var/obj/item/organ/limb/L
+	if(hand)	L = get_organ("l_hand")
+	else		L = get_organ("r_hand")
+	if(proximity && istype(L) && L.Touch(A,1))
+		return
 
-	for(var/datum/mutation/human/HM in dna.mutations)
-		override += HM.on_attack_hand(src, A)
+	var/override = 0
+	if(dna)
+		for(var/datum/mutation/human/HM in dna.mutations)
+			override += HM.on_attack_hand(src, A)
 
 	if(override)	return
 
@@ -25,22 +36,24 @@
 /atom/proc/attack_hand(mob/user)
 	return
 
-/*
-/mob/living/carbon/human/RestrainedClickOn(var/atom/A) ---carbons will handle this
-	return
-*/
-
 /mob/living/carbon/RestrainedClickOn(atom/A)
 	return 0
 
-/mob/living/carbon/human/RangedAttack(atom/A)
+/mob/living/carbon/human/RangedAttack(atom/A, params)
 	if(gloves)
 		var/obj/item/clothing/gloves/G = gloves
-		if(istype(G) && G.Touch(A,0)) // for magic gloves
+		if(istype(G) && G.Touch(A,0,params)) // for magic gloves
 			return
 
-	for(var/datum/mutation/human/HM in dna.mutations)
-		HM.on_ranged_attack(src, A)
+	var/obj/item/organ/limb/L
+	if(hand)	L = get_organ("l_hand")
+	else		L = get_organ("r_hand")
+	if(istype(L) && L.Touch(A,0,params)) //For arms with special fun
+		return
+
+	if(dna)
+		for(var/datum/mutation/human/HM in dna.mutations)
+			HM.on_ranged_attack(src, A)
 
 	var/turf/T = A
 	if(istype(T) && get_dist(src,T) <= 1)
@@ -88,8 +101,7 @@
 	if(ishuman(ML)) // why the hell is this not more general
 		affecting = ML:get_organ(ran_zone(dam_zone))
 	var/armor = ML.run_armor_check(affecting, "melee")
-	if(prob(75))
-		ML.apply_damage(rand(1,3), BRUTE, affecting, armor)
+	if(prob(75) && ML.apply_damage(rand(1,3), BRUTE, affecting, armor))
 		ML.visible_message("<span class='danger'>[name] bites [ML]!</span>", \
 						"<span class='userdanger'>[name] bites [ML]!</span>")
 		if(armor >= 2) return

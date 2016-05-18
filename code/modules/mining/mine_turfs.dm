@@ -399,7 +399,7 @@ var/global/list/rockTurfEdgeCache
 	if(prob(30))
 		if(istype(loc, /area/mine/explored))
 			return
-		for(var/atom/A in range(15,T))//Lowers chance of mob clumps
+		for(var/atom/A in ultra_range(15,T))//Lowers chance of mob clumps
 			if(istype(A, /mob/living/simple_animal/hostile/asteroid))
 				return
 		var/randumb = pickweight(mob_spawn_list)
@@ -509,6 +509,7 @@ var/global/list/rockTurfEdgeCache
 	icon_state = "asteroid"
 	icon_plating = "asteroid"
 	var/dug = 0       //0 = has not yet been dug, 1 = has already been dug
+	var/obj/effect/overlay/sandpile/pile = null //Sandpile associated with this turf
 
 /turf/simulated/floor/plating/asteroid/airless
 	oxygen = 0.01
@@ -589,18 +590,82 @@ var/global/list/rockTurfEdgeCache
 			F.state = L.state
 		playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
 
+/obj/effect/overlay/sandpile
+	name = "sand pile"
+	icon = 'icons/turf/mining.dmi'
+	icon_state = "buried"
+	mouse_opacity = 0 //So we don't have to copy-paste digging code for the pile too
+	var/atom/movable/buried //Did we bury something in this pile?
+	var/turf/simulated/floor/plating/asteroid/owner
+
+/obj/effect/overlay/sandpile/Destroy()
+	if (istype(buried))
+		buried.forceMove(owner) //So that objects that are inside us aren't destroyed :p
+	if (istype(owner))
+		owner.pile = null
+	return ..()
+
+/obj/effect/overlay/sandpile/container_resist()
+	var/mob/living/user = usr
+	user.changeNext_move(CLICK_CD_BREAKOUT)
+	user.last_special = world.time + CLICK_CD_BREAKOUT
+	user << "<span class='notice'>You start violently digging your way out of the sand pile!</span>"
+	if(do_after(user, 600, target = src))
+		user << "<span class='notice'>You manage to dig your way out!</span>"
+		if (istype(owner))
+			user.forceMove(owner)
+			buried = null
+			owner.gets_dug()
+		else
+			qdel(src) //Failsafe
+
 /turf/simulated/floor/plating/asteroid/proc/gets_dug()
 	if(dug)
 		return
-	new/obj/item/weapon/ore/glass(src)
-	new/obj/item/weapon/ore/glass(src)
-	new/obj/item/weapon/ore/glass(src)
-	new/obj/item/weapon/ore/glass(src)
-	new/obj/item/weapon/ore/glass(src)
+	if(istype(pile))
+		qdel(pile)
+		pile = null
+
+	new/obj/item/weapon/ore/sand(src)
+	new/obj/item/weapon/ore/sand(src)
+	new/obj/item/weapon/ore/sand(src)
+	new/obj/item/weapon/ore/sand(src)
+	new/obj/item/weapon/ore/sand(src)
 	dug = 1
 	icon_plating = "asteroid_dug"
 	icon_state = "asteroid_dug"
 	return
+
+/turf/simulated/floor/plating/asteroid/MouseDrop_T(atom/movable/target, mob/user)
+	if(!dug)
+		return
+	if(user.stat || user.lying || !Adjacent(user) || !target.Adjacent(user))
+		return
+	var/list/found_sand = list()
+	for(var/obj/item/weapon/ore/sand/S in contents)
+		if(found_sand.len < 5)
+			found_sand += S
+		else
+			break
+	if (!iscarbon(target) && !istype(target, /obj/item))
+		user << "<span class ='warning'>[target] must either be an item or a person!</span>"
+		return
+
+	if(found_sand.len >= 5)
+		visible_message("<span class='danger'>[user] is burying [target] in the sand!</span>")
+		if(do_after(user, 50, target = src))
+			deleteAllInList(found_sand)
+			visible_message("<span class='danger'>[user] has buried [target] in the sand!</span>")
+			icon_plating = "asteroid"
+			icon_state = "asteroid"
+			dug = 0
+			var/obj/effect/overlay/sandpile/P = new(src)
+			pile = P
+			P.owner = src
+			P.buried = target
+			target.loc = P
+	else
+		user << "<span class ='warning'>There needs to be 5 pieces of sand on this tile to bury [target]!</span>"
 
 /turf/simulated/floor/plating/asteroid/singularity_act()
 	return
@@ -621,6 +686,9 @@ var/global/list/rockTurfEdgeCache
 		src.overlays += rockTurfEdgeCache[WEST_EDGING]
 
 /turf/simulated/mineral/updateMineralOverlays()
+	return
+
+/turf/simulated/wall/updateMineralOverlays()
 	return
 
 /turf/proc/fullUpdateMineralOverlays()

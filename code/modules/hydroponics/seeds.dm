@@ -754,6 +754,25 @@
 	growthstages = 4
 	plant_type = 2
 	rarity = 20
+	mutatelist = list(/obj/item/seeds/glowcap)
+
+/obj/item/seeds/glowcap
+	name = "pack of glowcap mycelium"
+	desc = "This mycelium -powers- into mushrooms!"
+	icon_state = "mycelium-glowcap"
+	species = "glowcap"
+	plantname = "Glowcaps"
+	product = /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/glowshroom/glowcap
+	lifespan = 120 //ten times that is the delay
+	endurance = 30
+	maturation = 15
+	production = 1
+	yield = 3 //-> spread
+	potency = 30 //-> brightness
+	oneharvest = 1
+	growthstages = 4
+	plant_type = 2
+	rarity = 20
 
 /obj/item/seeds/plumpmycelium
 	name = "pack of plump-helmet mycelium"
@@ -928,11 +947,11 @@
 	potency = 10
 	plant_type = 0
 	growthstages = 6
-	mutatelist = list(/obj/item/seeds/goldappleseed)
+	mutatelist = list(/obj/item/seeds/goldappleseed, /obj/item/seeds/poisonedappleseed)
 
 /obj/item/seeds/poisonedappleseed
 	name = "pack of apple seeds"
-	desc = "These seeds grow into apple trees."
+	desc = "These seeds grow into apple trees?"
 	icon_state = "seed-apple"
 	species = "apple"
 	plantname = "Apple Tree"
@@ -1553,6 +1572,23 @@
 	maturation = 8
 	production = 6
 	yield = 1
+	potency = 20
+	plant_type = 0
+	oneharvest = 1
+	growthstages = 3
+
+/obj/item/seeds/limbseed
+	name = "pack of replica limb seeds"
+	desc = "Replica limbs, like arms and legs. Break a leg!"
+	icon_state = "seed-limb"
+	species = "limb"
+	plantname = "Replica Limb Flower"
+	product = /obj/item/weapon/reagent_containers/food/snacks/grown/limb_spawn
+	lifespan = 25
+	endurance = 10
+	maturation = 8
+	production = 6
+	yield = 2
 	potency = 20
 	plant_type = 0
 	oneharvest = 1

@@ -106,6 +106,11 @@
 	MASK_TYPE = /obj/item/clothing/mask/gas/syndicate
 	STORAGE_TYPE = /obj/item/weapon/tank/jetpack/oxygen/harness
 
+/obj/machinery/suit_storage_unit/syndicate/blastco
+	SUIT_TYPE = /obj/item/clothing/suit/space/hardsuit/syndi/blastco
+	MASK_TYPE = /obj/item/clothing/mask/gas/syndicate
+	STORAGE_TYPE = /obj/item/weapon/tank/internals/oxygen/red
+
 /obj/machinery/suit_storage_unit/ertCom
 	SUIT_TYPE = /obj/item/clothing/suit/space/hardsuit/ert
 	MASK_TYPE = /obj/item/clothing/mask/breath
@@ -125,6 +130,21 @@
 	SUIT_TYPE = /obj/item/clothing/suit/space/hardsuit/ert/med
 	MASK_TYPE = /obj/item/clothing/mask/breath
 	STORAGE_TYPE = /obj/item/weapon/tank/internals/emergency_oxygen/double
+
+/obj/machinery/suit_storage_unit/clown
+	SUIT_TYPE = /obj/item/clothing/suit/space/clown
+	HELMET_TYPE = /obj/item/clothing/head/helmet/space/clown
+	MASK_TYPE = /obj/item/clothing/mask/gas/clown_hat
+	STORAGE_TYPE = /obj/item/weapon/bikehorn
+
+/obj/machinery/suit_storage_unit/mime
+	SUIT_TYPE = /obj/item/clothing/suit/space/mime
+	HELMET_TYPE = /obj/item/clothing/head/helmet/space/mime
+	MASK_TYPE = /obj/item/clothing/mask/gas/mime
+	STORAGE_TYPE = /obj/item/weapon/reagent_containers/food/snacks/baguette
+
+/obj/machinery/suit_storage_unit/empty_open
+	icon_state = "open"
 
 /obj/machinery/suit_storage_unit/New()
 	src.update_icon()
@@ -539,7 +559,7 @@
 			user.visible_message("<span class='notice'>[user] begins replacing [src] wires.</span>", \
 								 "<span class='notice'>You begin rewiring [src]...</span>")
 			playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
-			if(!do_after(user, 30, target = src))
+			if(!do_after(user, 30/I.toolspeed, target = src))
 				return
 			user.visible_message("<span class='notice'>[user] adds wires to [src].</span>", \
 								 "<span class='notice'>You rewire [src].</span>")
@@ -554,7 +574,7 @@
 			user.visible_message("<span class='notice'>[user] starts removing [src]'s broken interior plating.</span>", \
 								 "<span class='notice'>You begin removing the damaged interior plating from [src]...</span>")
 			playsound(src, 'sound/items/Crowbar.ogg', 50, 1)
-			if(!do_after(user, 30, target = src))
+			if(!do_after(user, 30/I.toolspeed, target = src))
 				return
 			user.visible_message("<span class='notice'>[user] removes the damaged interior plating from [src].</span>", \
 								 "<spna class='notice'>You remove the damaged interior plating from [src].</span>")

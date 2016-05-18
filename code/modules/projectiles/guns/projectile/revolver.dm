@@ -110,6 +110,7 @@
 	options["Black Panther"] = "detective_panther"
 	options["Gold Trim"] = "detective_gold"
 	options["The Peacemaker"] = "detective_peacemaker"
+	options["Blue Sliver"] = "detective_bluesilver"
 	options["Cancel"] = null
 
 /obj/item/weapon/gun/projectile/revolver/detective/process_fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, message = 1, params, zone_override = "")
@@ -131,7 +132,7 @@
 				afterattack(user, user)	//you know the drill
 				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='userdanger'>[src] goes off in your face!</span>")
 				return
-			if(do_after(user, 30, target = src))
+			if(do_after(user, 30/A.toolspeed, target = src))
 				if(magazine.ammo_count())
 					user << "<span class='warning'>You can't modify it!</span>"
 					return
@@ -144,7 +145,7 @@
 				afterattack(user, user)	//and again
 				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='userdanger'>[src] goes off in your face!</span>")
 				return
-			if(do_after(user, 30, target = src))
+			if(do_after(user, 30/A.toolspeed, target = src))
 				if(magazine.ammo_count())
 					user << "<span class='warning'>You can't modify it!</span>"
 					return
@@ -244,14 +245,59 @@
 			var/obj/item/ammo_casing/AC = chambered
 			if(AC.fire(user, user))
 				playsound(user, fire_sound, 50, 1)
-				var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
-				var/limb_name = affecting.getDisplayName()
-				if(affecting.name == "head" || affecting.name == "eyes" || affecting.name == "mouth")
+				var/zone = check_zone(user.zone_sel.selecting)
+				var/obj/item/organ/limb/affecting = H.get_organ(zone)
+				if(zone == "head" || zone == "eyes" || zone == "mouth")
 					user.apply_damage(300, BRUTE, affecting)
 					user.visible_message("<span class='danger'>[user.name] fires [src] at \his head!</span>", "<span class='userdanger'>You fire [src] at your head!</span>", "<span class='italics'>You hear a gunshot!</span>")
 				else
-					user.visible_message("<span class='danger'>[user.name] cowardly fires [src] at \his [limb_name]!</span>", "<span class='userdanger'>You cowardly fire [src] at your [limb_name]!</span>", "<span class='italics'>You hear a gunshot!</span>")
+					user.visible_message("<span class='danger'>[user.name] cowardly fires [src] at \his [affecting]!</span>", "<span class='userdanger'>You cowardly fire [src] at your [affecting]!</span>", "<span class='italics'>You hear a gunshot!</span>")
 				return
 
 		user.visible_message("<span class='danger'>*click*</span>")
 		playsound(user, 'sound/weapons/empty.ogg', 100, 1)
+
+
+/obj/item/weapon/gun/projectile/revolver/rigatoni
+	name = "italian revolver"
+	desc = "A black snubnosed .38 revolver. Very italian."
+	icon_state = "rigavolver"
+	item_state = "rigavolver"
+	origin_tech = "combat=2;materials=2"
+	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rev38
+
+/obj/item/weapon/gun/energy/revolver/cyborg
+	name = "cyborg revolver"
+	desc = "An autorevolver that fires 3d-printed flachettes slowly regenerated using a cyborg's internal power source."
+	item_state = "mateba"
+	cell_type = "/obj/item/weapon/stock_parts/cell/secborg"
+	ammo_type = list(/obj/item/ammo_casing/energy/c3dbullet)
+	var/charge_tick = 0
+	var/recharge_time = 10
+
+/obj/item/weapon/gun/energy/revolver/cyborg/update_icon()
+	return
+
+/obj/item/weapon/gun/energy/revolver/cyborg/New()
+	..()
+	SSobj.processing += src
+
+
+/obj/item/weapon/gun/energy/revolver/cyborg/Destroy()
+	SSobj.processing += src
+	..()
+
+/obj/item/weapon/gun/energy/revolver/cyborg/process()
+	charge_tick++
+	if(charge_tick < recharge_time) return 0
+	charge_tick = 0
+
+	if(!power_supply) return 0 //sanity
+	if(isrobot(src.loc))
+		var/mob/living/silicon/robot/R = src.loc
+		if(R && R.cell)
+			var/obj/item/ammo_casing/energy/shot = ammo_type[select] //Necessary to find cost of shot
+			if(R.cell.use(shot.e_cost)) 		//Take power from the borg...
+				power_supply.give(shot.e_cost)	//...to recharge the shot
+
+	return 1

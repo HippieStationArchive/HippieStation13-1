@@ -131,7 +131,7 @@
 	var/CT = cooling_temperature
 	if(reac_volume >= 10)
 		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
-		T.MakeSlippery(1, time)
+		T.MakeSlippery(TURF_WET_WATER, time)
 
 	for(var/mob/living/simple_animal/slime/M in T)
 		M.apply_water()
@@ -199,8 +199,9 @@
 	if(data >= 75 && prob(33))	// 30 units, 135 seconds
 		if (!M.confused) M.confused = 1
 		M.confused += 3
-		if(iscultist(M))
+		if(iscultist(M) || (is_in_any_team(M.mind) && (what_rank(M.mind) != 2)))
 			ticker.mode.remove_cultist(M.mind)
+			ticker.mode.remove_hog_follower(M.mind)
 			holder.remove_reagent(src.id, src.volume)	// maybe this is a little too perfect and a max() cap on the statuses would be better??
 			M.jitteriness = 0
 			M.stuttering = 0
@@ -250,6 +251,12 @@
 	M.adjustBrainLoss(5)
 	holder.remove_reagent(src.id, 1)
 
+/datum/reagent/medicine/omnizine/godblood
+	name = "Godblood"
+	id = "godblood"
+	description = "Slowly heals all damage types. Has a rather high overdose threshold. Glows with mysterious power."
+	overdose_threshold = 150
+
 /datum/reagent/lube
 	name = "Space Lube"
 	id = "lube"
@@ -260,7 +267,7 @@
 	if (!istype(T)) return
 	if(reac_volume >= 10)
 		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
-		T.MakeSlippery(2, time)
+		T.MakeSlippery(TURF_WET_LUBE, time)
 
 /datum/reagent/spraytan
 	name = "Spray Tan"
@@ -383,6 +390,21 @@
 	else
 		H << "<span class='danger'>The pain vanishes suddenly. You feel no different.</span>"
 	return 1
+
+/datum/reagent/mulligan
+	name = "Randomizer Toxin"
+	id = "mulligan"
+	description = "This toxin will rapidly change the DNA of human beings. Commonly used by Syndicate spies and assassins in need of an emergency ID change."
+	color = "#5EFF3B" //RGB: 94, 255, 59
+	metabolization_rate = INFINITY
+
+/datum/reagent/mulligan/on_mob_life(mob/living/carbon/human/H)
+	..()
+	H << "<span class='warning'><b>You grit your teeth in pain as your body rapidly mutates!</b></span>"
+	H.visible_message("<b>[H]</b> suddenly transforms!")
+	randomize_human(H)
+	return 1
+
 
 /datum/reagent/aslimetoxin
 	name = "Advanced Mutation Toxin"
@@ -551,8 +573,10 @@
 /datum/reagent/radium/reaction_turf(turf/T, reac_volume)
 	if(reac_volume >= 3)
 		if(!istype(T, /turf/space))
-			var/obj/effect/decal/cleanable/reagentdecal = new/obj/effect/decal/cleanable/greenglow(T)
-			reagentdecal.reagents.add_reagent("radium", reac_volume)
+			var/obj/effect/decal/cleanable/greenglow/GG = locate() in T.contents
+			if(!GG)
+				GG = new/obj/effect/decal/cleanable/greenglow(T)
+			GG.reagents.add_reagent("radium", reac_volume)
 
 /datum/reagent/sterilizine
 	name = "Sterilizine"
@@ -643,7 +667,7 @@
 /datum/chemical_reaction/fuel_explosion/on_reaction(datum/reagents/holder, created_volume)
 	var/location = get_turf(holder.my_atom)
 	if(!holder.my_atom.is_open_container()) // fuel's in a closed space, let's make it go boom and jazz
-		var/datum/effect/effect/system/reagents_explosion/e = new()
+		var/datum/effect_system/reagents_explosion/e = new()
 		e.set_up(min(1 + round(created_volume/15, 1), 17), location, 0, 0)
 		e.start()
 	else // let's just make fire

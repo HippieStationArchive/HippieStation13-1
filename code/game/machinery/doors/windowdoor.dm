@@ -205,7 +205,7 @@
 
 
 /obj/machinery/door/window/mech_melee_attack(obj/mecha/M)
-	if(M.damtype == "brute")
+	if(M.damtype == BRUTE)
 		playsound(src.loc, 'sound/effects/Glasshit.ogg', 75, 1)
 		visible_message("<span class='danger'>[M.name] has hit [src].</span>")
 		take_damage(M.force)
@@ -285,7 +285,7 @@
 			playsound(src.loc, 'sound/items/Crowbar.ogg', 100, 1)
 			user.visible_message("[user] removes the electronics from the [src.name].", \
 								 "<span class='notice'>You start to remove electronics from the [src.name]...</span>")
-			if(do_after(user,40, target = src))
+			if(do_after(user,40/I.toolspeed, target = src))
 				if(src.p_open && !src.density && !src.operating && src.loc)
 					var/obj/structure/windoor_assembly/WA = new /obj/structure/windoor_assembly(src.loc)
 					switch(base_state)

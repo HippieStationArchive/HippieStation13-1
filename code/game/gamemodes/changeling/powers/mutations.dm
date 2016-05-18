@@ -14,9 +14,9 @@
 	desc = "Go tell a coder if you see this"
 	helptext = "Yell at Miauw and/or Perakp"
 	chemical_cost = 1000
-	dna_cost = -1
+	evopoints_cost = -1
 	genetic_damage = 1000
-
+	req_dna = 6 //Tier 3
 	var/weapon_type
 	var/weapon_name_simple
 
@@ -57,9 +57,9 @@
 	desc = "Go tell a coder if you see this"
 	helptext = "Yell at Miauw and/or Perakp"
 	chemical_cost = 1000
-	dna_cost = -1
+	evopoints_cost = -1
 	genetic_damage = 1000
-
+	req_dna = 6 //Tier 3
 	var/helmet_type = /obj/item
 	var/suit_type = /obj/item
 	var/suit_name_simple = "    "
@@ -130,8 +130,9 @@
 	name = "Arm Blade"
 	desc = "We reform one of our arms into a deadly blade."
 	helptext = "We may retract our armblade in the same manner as we form it. Cannot be used while in lesser form."
-	chemical_cost = 20
-	dna_cost = 2
+	chemical_cost = 35
+	evopoints_cost = 5
+	req_dna = 3 //Tier 2
 	genetic_damage = 10
 	req_human = 1
 	max_genetic_damage = 20
@@ -150,6 +151,7 @@
 	throwforce = 0 //Just to be on the safe side
 	throw_range = 0
 	throw_speed = 0
+	sharpness = IS_SHARP
 	hitsound = 'sound/weapons/bladeslice2.ogg'
 
 /obj/item/weapon/melee/arm_blade/New(location,silent)
@@ -199,18 +201,18 @@
 /***************************************\
 |****************SHIELD*****************|
 \***************************************/
-/obj/effect/proc_holder/changeling/weapon/shield
+/*/obj/effect/proc_holder/changeling/weapon/shield
 	name = "Organic Shield"
 	desc = "We reform one of our arms into a hard shield."
 	helptext = "Organic tissue cannot resist damage forever; the shield will break after it is hit too much. The more genomes we absorb, the stronger it is. Cannot be used while in lesser form."
 	chemical_cost = 20
-	dna_cost = 1
+	evopoints_cost = 5 //Less DNA required than armblade due to it being a shield, a less-offensive type of weapon
 	genetic_damage = 12
 	req_human = 1
 	max_genetic_damage = 20
 
 	weapon_type = /obj/item/weapon/shield/changeling
-	weapon_name_simple = "shield"
+	weapon_name_simple = "shield"*/
 
 /obj/effect/proc_holder/changeling/weapon/shield/sting_action(mob/user)
 	var/datum/changeling/changeling = user.mind.changeling //So we can read the absorbedcount.
@@ -227,6 +229,7 @@
 	flags = ABSTRACT | NODROP
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "ling_shield"
+	block_chance = list(melee = 60, bullet = 50, laser = 40, energy = 30) //Best at melee, worst at energy
 
 	var/remaining_uses //Set by the changeling ability.
 
@@ -238,7 +241,7 @@
 /obj/item/clothing/head/helmet/space/changeling/dropped()
 	qdel(src)
 
-/obj/item/weapon/shield/changeling/IsShield()
+/obj/item/weapon/shield/changeling/hit_reaction()
 	if(remaining_uses < 1)
 		if(ishuman(loc))
 			var/mob/living/carbon/human/H = loc
@@ -248,7 +251,7 @@
 		return 0
 	else
 		remaining_uses--
-		return 1
+		return ..()
 
 
 /***************************************\
@@ -259,7 +262,7 @@
 	desc = "We grow an organic suit to protect ourselves from space exposure."
 	helptext = "We must constantly repair our form to make it space-proof, reducing chemical production while we are protected. Retreating the suit damages our genomes. Cannot be used in lesser form."
 	chemical_cost = 20
-	dna_cost = 2
+	evopoints_cost = 3
 	genetic_damage = 8
 	req_human = 1
 	max_genetic_damage = 20
@@ -308,12 +311,12 @@
 /***************************************\
 |*****************ARMOR*****************|
 \***************************************/
-/obj/effect/proc_holder/changeling/suit/armor
+/*/obj/effect/proc_holder/changeling/suit/armor
 	name = "Chitinous Armor"
 	desc = "We turn our skin into tough chitin to protect us from damage."
 	helptext = "Upkeep of the armor requires a low expenditure of chemicals. The armor is strong against brute force, but does not provide much protection from lasers. Retreating the armor damages our genomes. Cannot be used in lesser form."
-	chemical_cost = 20
-	dna_cost = 1
+	chemical_cost = 25 //More chems than spess suit
+	evopoints_cost = 6 //Cooler than just a shield therefore 6 DNA required
 	genetic_damage = 11
 	req_human = 1
 	max_genetic_damage = 20
@@ -323,7 +326,7 @@
 	helmet_type = /obj/item/clothing/head/helmet/changeling
 	suit_name_simple = "armor"
 	helmet_name_simple = "helmet"
-
+*/
 /obj/item/clothing/suit/armor/changeling
 	name = "chitinous mass"
 	desc = "A tough, hard covering of black chitin."

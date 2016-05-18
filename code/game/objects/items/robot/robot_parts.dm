@@ -5,31 +5,37 @@
 	icon_state = "blank"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
+	var/body_part = 0
 
 /obj/item/robot_parts/l_arm
 	name = "cyborg left arm"
 	desc = "A skeletal limb wrapped in pseudomuscles, with a low-conductivity case."
 	icon_state = "l_arm"
+	body_part = ARM_LEFT
 
 /obj/item/robot_parts/r_arm
 	name = "cyborg right arm"
 	desc = "A skeletal limb wrapped in pseudomuscles, with a low-conductivity case."
 	icon_state = "r_arm"
+	body_part = ARM_RIGHT
 
 /obj/item/robot_parts/l_leg
 	name = "cyborg left leg"
 	desc = "A skeletal limb wrapped in pseudomuscles, with a low-conductivity case."
 	icon_state = "l_leg"
+	body_part = LEG_LEFT
 
 /obj/item/robot_parts/r_leg
 	name = "cyborg right leg"
 	desc = "A skeletal limb wrapped in pseudomuscles, with a low-conductivity case."
 	icon_state = "r_leg"
+	body_part = LEG_RIGHT
 
 /obj/item/robot_parts/chest
 	name = "cyborg torso"
 	desc = "A heavily reinforced case containing cyborg logic boards, with space for a standard power cell."
 	icon_state = "chest"
+	body_part = CHEST
 	var/wires = 0
 	var/obj/item/weapon/stock_parts/cell/cell = null
 
@@ -37,6 +43,7 @@
 	name = "cyborg head"
 	desc = "A standard reinforced braincase, with spine-plugged neural socket and sensor gimbals."
 	icon_state = "head"
+	body_part = HEAD
 	var/obj/item/device/assembly/flash/handheld/flash1 = null
 	var/obj/item/device/assembly/flash/handheld/flash2 = null
 
@@ -218,9 +225,7 @@
 				if(ticker.mode.config_tag == "malfunction") //Don't let humans get a cyborg on their side during malf, for balance reasons.
 					O.set_zeroth_law("<span class='danger'>ERROR ER0RR $R0RRO$!R41.%%!!(%$^^__+ @#F0E4'STATION OVERRUN, ASSUME CONTROL TO CONTAIN OUTBREAK#*�&110010</span>")
 
-			ticker.mode.remove_cultist(BM.mind, 1)
-			ticker.mode.remove_revolutionary(BM.mind, 1)
-			ticker.mode.remove_gangster(BM.mind, 1, remove_bosses=1)
+			ticker.mode.remove_antag_for_borging(BM.mind)
 			BM.mind.transfer_to(O)
 
 			if(O.mind && O.mind.special_role)

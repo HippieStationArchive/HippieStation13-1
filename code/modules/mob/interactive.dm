@@ -130,35 +130,35 @@
 		//arms
 		if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			var/obj/item/organ/limb/r_arm/R = locate(/obj/item/organ/limb/r_arm) in organs
-			qdel(R)
-			organs += new /obj/item/organ/limb/robot/r_arm
+			if(R)
+				R.change_organ(ORGAN_ROBOTIC)
 		else
 			var/obj/item/organ/limb/l_arm/L = locate(/obj/item/organ/limb/l_arm) in organs
-			qdel(L)
-			organs += new /obj/item/organ/limb/robot/l_arm
+			if(L)
+				L.change_organ(ORGAN_ROBOTIC)
 		//legs
 		if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			var/obj/item/organ/limb/r_leg/R = locate(/obj/item/organ/limb/r_leg) in organs
-			qdel(R)
-			organs += new /obj/item/organ/limb/robot/r_leg
+			if(R)
+				R.change_organ(ORGAN_ROBOTIC)
 		else
 			var/obj/item/organ/limb/l_leg/L = locate(/obj/item/organ/limb/l_leg) in organs
-			qdel(L)
-			organs += new /obj/item/organ/limb/robot/l_leg
+			if(L)
+				L.change_organ(ORGAN_ROBOTIC)
 		//chest and head
 		if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			var/obj/item/organ/limb/chest/R = locate(/obj/item/organ/limb/chest) in organs
-			qdel(R)
-			organs += new /obj/item/organ/limb/robot/chest
+			if(R)
+				R.change_organ(ORGAN_ROBOTIC)
 		else
 			var/obj/item/organ/limb/head/L = locate(/obj/item/organ/limb/head) in organs
-			qdel(L)
-			organs += new /obj/item/organ/limb/robot/head
+			if(L)
+				L.change_organ(ORGAN_ROBOTIC)
 		for(var/obj/item/organ/limb/LIMB in organs)
 			LIMB.owner = src
 	update_icons()
 	update_damage_overlays(0)
-	update_augments()
+	update_body_parts()
 
 	hand = 0
 
@@ -395,17 +395,17 @@
 		doing |= TRAVEL
 		if(nearby.len > 4)
 			//i'm crowded, time to leave
-			TARGET = pick(target_filter(orange(MAX_RANGE_FIND,src)))
+			TARGET = pick(target_filter(ultra_range(MAX_RANGE_FIND,src,1)))
 		else if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			//chance to chase an item
-			TARGET = locate(/obj/item) in orange(MIN_RANGE_FIND,src)
+			TARGET = locate(/obj/item) in ultra_range(MIN_RANGE_FIND,src,1)
 		else if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
 			//chance to leave
-			TARGET = locate(/obj/machinery/door) in orange(MIN_RANGE_FIND,src) // this is a sort of fix for the current pathing.
+			TARGET = locate(/obj/machinery/door) in ultra_range(MIN_RANGE_FIND,src,1) // this is a sort of fix for the current pathing.
 		else
 			//else, target whatever, or go to our department
 			if(prob((FUZZY_CHANCE_LOW+FUZZY_CHANCE_HIGH)/2))
-				TARGET = pick(target_filter(orange(MIN_RANGE_FIND,src)))
+				TARGET = pick(target_filter(ultra_range(MIN_RANGE_FIND,src,1)))
 			else
 				TARGET = pick(get_area_turfs(job2area(myjob)))
 		tryWalk(TARGET)

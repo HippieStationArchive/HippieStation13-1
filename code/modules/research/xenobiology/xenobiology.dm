@@ -176,7 +176,7 @@
 	user << "<span class='notice'>You offer the sentience potion to [M]...</span>"
 	being_used = 1
 
-	var/list/candidates = get_candidates(BE_ALIEN, ALIEN_AFK_BRACKET)
+	var/list/candidates = get_candidates(ROLE_ALIEN, ALIEN_AFK_BRACKET)
 
 	shuffle(candidates)
 
@@ -384,9 +384,9 @@
 	unacidable = 1
 	layer = TURF_LAYER
 
-	New()
-		..()
-		SSobj.processing |= src
+/obj/effect/golemrune/New()
+	..()
+	SSobj.processing |= src
 
 /obj/effect/golemrune/process()
 	var/mob/dead/observer/ghost
@@ -414,6 +414,7 @@
 	G.set_species(/datum/species/golem/adamantine)
 	G.set_cloned_appearance()
 	G.real_name = "Adamantine Golem ([rand(1, 1000)])"
+	G.name = G.real_name
 	G.dna.unique_enzymes = G.dna.generate_unique_enzymes()
 	G.dna.species.auto_equip(G)
 	G.loc = src.loc
@@ -425,7 +426,93 @@
 	log_game("[G.real_name] ([G.key]) was made a golem by [user.real_name]([user.key]).")
 	qdel(src)
 
+//Ghost-to-Human rune for badmins
 
+/obj/effect/golemrune/humanrune		//Summons humans instead of golems - for admins exclusively
+	name = "Admin Rune"
+	desc = "A rune used by badmins to turn ghosts into humans. Oh boy."
+
+	New()
+		..()
+		SSobj.processing |= src
+
+/obj/effect/golemrune/humanrune/process()
+	var/mob/dead/observer/ghost
+	for(var/mob/dead/observer/O in src.loc)
+		if(!O.client)	continue
+		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+		ghost = O
+		break
+	if(ghost)
+		icon_state = "golem2"
+	else
+		icon_state = "golem"
+
+/obj/effect/golemrune/humanrune/attack_hand(mob/living/user)
+	var/mob/dead/observer/ghost
+	for(var/mob/dead/observer/O in src.loc)
+		if(!O.client)	continue
+		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+		ghost = O
+		break
+	if(!ghost)
+		user << "<span class='warning'>The rune fizzles uselessly! There is no spirit nearby.</span>"
+		return
+	var/mob/living/carbon/human/G = new /mob/living/carbon/human
+	G.set_species(/datum/species/human)
+	G.set_cloned_appearance()
+	G.real_name = G.dna.species.random_name(G.gender,1)
+	G.dna.unique_enzymes = G.dna.generate_unique_enzymes()
+	G.dna.species.auto_equip(G)
+	G.loc = src.loc
+	G.key = ghost.key
+	G << "You are a human most likely summoned by an admin. Have a good time shitlord. Also please listen to [user], and do what they tell you to do."
+	G.mind.store_memory("<b>Serve [user.real_name], your creator.</b>")
+	if(user.mind.special_role)
+		message_admins("[G.real_name] has been summoned by [user.real_name], an antagonist.")
+	log_game("[G.real_name] ([G.key]) was made a human by [user.real_name]([user.key] using a human-rune).")
+	qdel(src)
+
+
+/obj/effect/golemrune/temmie
+	name = "Temmie Rune"
+	desc = "A million greetings echo through this rune."
+
+	New()
+		..()
+		SSobj.processing |= src
+
+/obj/effect/golemrune/temmie/process()
+	var/mob/dead/observer/ghost
+	for(var/mob/dead/observer/O in src.loc)
+		if(!O.client)	continue
+		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+		ghost = O
+		break
+	if(ghost)
+		icon_state = "golem2"
+	else
+		icon_state = "golem"
+
+/obj/effect/golemrune/temmie/attack_hand(mob/living/user)
+	var/mob/dead/observer/ghost
+	for(var/mob/dead/observer/O in src.loc)
+		if(!O.client)	continue
+		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+		ghost = O
+		break
+	if(!ghost)
+		user << "<span class='warning'>The rune fizzles uselessly! There is no spirit nearby.</span>"
+		return
+	var/mob/living/simple_animal/hostile/temmie/G = new /mob/living/simple_animal/hostile/temmie
+	G.set_species(/mob/living/simple_animal/hostile/temmie)
+	G.loc = src.loc
+	G.key = ghost.key
+	G << "Hoi!"
+	if(user.mind.special_role)
+		message_admins("[G.real_name] has been summoned by [user.real_name], an antagonist.")
+	log_game("[G.real_name] ([G.key]) was made Temmie by [user.real_name]([user.key] using a Temmie-rune).")
+	qdel(src)
 
 
 /obj/effect/timestop
@@ -438,6 +525,7 @@
 	pixel_x = -64
 	pixel_y = -64
 	unacidable = 1
+	mouse_opacity = 0 //it's an effect,you shouldn't click it
 	var/mob/living/immune = list() // the one who creates the timestop is immune
 	var/freezerange = 2
 	var/duration = 140

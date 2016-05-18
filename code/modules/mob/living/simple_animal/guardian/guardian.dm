@@ -9,6 +9,7 @@
 	icon = 'icons/mob/mob.dmi'
 	icon_state = "stand"
 	icon_living = "stand"
+	icon_dead = "stand"
 	speed = 0
 	a_intent = "harm"
 	stop_automated_movement = 1
@@ -42,9 +43,6 @@
 			src << "<span class='danger'>Your summoner has died!</span>"
 			visible_message("<span class='danger'><B>The [src] dies along with its user!</B></span>")
 			summoner.visible_message("<span class='danger'><B>[summoner]'s body is completely consumed by the strain of sustaining [src]!</B></span>")
-			for(var/obj/item/W in summoner)
-				if(!summoner.unEquip(W))
-					qdel(W)
 			summoner.gib()
 			ghostize()
 			qdel(src)
@@ -71,6 +69,13 @@
 			visible_message("<span class='danger'>The [src] jumps back to its user.</span>")
 			loc = get_turf(summoner)
 
+/mob/living/mob/living/simple_animal/hostile/guardian/canSuicide()
+	return 0
+
+/mob/living/simple_animal/hostile/guardian/death()
+	..()
+	summoner << "<span class='danger'><B>Your [name] died somehow!</span></B>"
+	summoner.death()
 
 /mob/living/simple_animal/hostile/guardian/adjustBruteLoss(amount) //The spirit is invincible, but passes on damage to the summoner
 	var/damage = amount * damage_transfer
@@ -154,6 +159,36 @@
 			M << "<span class='boldannounce'><i>[src]:</i> [input]</span>"
 	src << "<span class='boldannounce'><i>[src]:</i> [input]</span>"
 	log_say("[src.real_name]/[src.key] : [text]")
+
+/mob/living/proc/guardian_recall()
+	set name = "Recall Guardian"
+	set category = "Guardian"
+	set desc = "Forcibly recall your guardian."
+	for(var/mob/living/simple_animal/hostile/guardian/G in mob_list)
+		if(G.summoner == src)
+			G.Recall()
+
+/mob/living/proc/guardian_reset()
+	set name = "Reset Guardian Player (One Use)"
+	set category = "Guardian"
+	set desc = "Re-rolls which ghost will control your Guardian. One use."
+	src.verbs -= /mob/living/proc/guardian_reset
+	for(var/mob/living/simple_animal/hostile/guardian/G in mob_list)
+		if(G.summoner == src)
+			var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as [G.real_name]?", ROLE_PAI, null, FALSE, 100)
+			var/mob/dead/observer/new_stand = null
+			if(candidates.len)
+				new_stand = pick(candidates)
+				G << "Your user reset you, and your body was taken over by a ghost. Looks like they weren't happy with your performance."
+				src << "Your guardian has been successfully reset."
+				message_admins("[key_name_admin(new_stand)] has taken control of ([key_name_admin(G)])")
+				G.ghostize()
+				G.key = new_stand.key
+			else
+				src << "There were no ghosts willing to take control. Looks like you're stuck with your Guardian for now."
+				verbs += /mob/living/proc/guardian_reset
+
+
 
 
 /mob/living/simple_animal/hostile/guardian/proc/ToggleLight()
@@ -559,7 +594,24 @@
 
 	if(candidates.len)
 		theghost = pick(candidates)
-		spawn_guardian(user, theghost.key)
+		var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(user, theghost.key)
+		var/timelimit = world.time + 600//1 min to rename the stand
+		//Give the stand user 3 chances to rename their stand
+		for(var/i = 2, i >= 0,i--)
+			var/guardianNewName = stripped_input(user, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
+			guardianNewName = reject_bad_name(guardianNewName, 1)
+			if(world.time >= timelimit)//Check time limit
+				if(!isnull(guardianNewName))
+					G.name = guardianNewName
+					return
+				else
+					if(i > 0)
+						user << "<span class='danger'>That's an invalid name! You have [i] more [i > 1 ? "attempts" : "attempt"].</span>"
+					else
+						user << "<span class='danger'>Sorry, you've ran out of attempts! Looks like you're stuck with [G.name]!</span>"
+			else
+				user << "<span class='danger'>Sorry, you've ran out of time! Looks like you're stuck with [G.name]!</span>"
+				return
 	else
 		user << "[failure_message]"
 		used = FALSE
@@ -597,7 +649,10 @@
 	G << "You are capable of manifesting or recalling to your master with verbs in the Guardian tab. You will also find a verb to communicate with them privately there."
 	G << "While personally invincible, you will die if [user.real_name] does, and any damage dealt to you will have a portion passed on to them as you feed upon them to sustain yourself."
 	G << "[G.playstyle_string]"
+	G.faction = user.faction
 	user.verbs += /mob/living/proc/guardian_comm
+	user.verbs += /mob/living/proc/guardian_recall
+	user.verbs += /mob/living/proc/guardian_reset
 	switch (theme)
 		if("magic")
 			G.name = "[mob_name] [capitalize(picked_color)]"
@@ -610,6 +665,7 @@
 			G.real_name = "[mob_name] [capitalize(colour)]"
 			G.icon_living = "parasite[colour]"
 			G.icon_state = "parasite[colour]"
+			G.icon_dead = "parasite[colour]"
 			G.animated_manifest = TRUE
 			user << "[G.tech_fluff_string]."
 			G.speak_emote = list("states")
@@ -617,6 +673,7 @@
 			user << "[G.bio_fluff_string]."
 			G.attacktext = "swarms"
 			G.speak_emote = list("chitters")
+	return G
 
 /obj/item/weapon/guardiancreator/choose
 	random = FALSE

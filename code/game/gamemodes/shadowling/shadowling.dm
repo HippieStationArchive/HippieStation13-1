@@ -67,7 +67,7 @@ Made by Xhuis
 /datum/game_mode/shadowling
 	name = "shadowling"
 	config_tag = "shadowling"
-	antag_flag = BE_SHADOWLING
+	antag_flag = ROLE_SHADOWLING
 	required_players = 30
 	required_enemies = 2
 	recommended_enemies = 2
@@ -116,8 +116,7 @@ Made by Xhuis
 	shadow.current << "<b>Currently, you are disguised as an employee aboard [station_name()]].</b>"
 	shadow.current << "<b>In your limited state, you have three abilities: Enthrall, Hatch, and Hivemind Commune.</b>"
 	shadow.current << "<b>Any other shadowlings are your allies. You must assist them as they shall assist you.</b>"
-	shadow.current << "<b>If you are new to shadowling, or want to read about abilities, check the wiki page at https://tgstation13.org/wiki/Shadowling</b><br>"
-
+	shadow.current << "<a href=[config.wikiurl]/index.php?title=Shadowling>New to your dark powers? Click here to be linked to the wiki guide on Shadowlings.</a>"
 
 /datum/game_mode/proc/process_shadow_objectives(datum/mind/shadow_mind)
 	var/objective = "enthrall" //may be devour later, but for now it seems murderbone-y
@@ -131,9 +130,8 @@ Made by Xhuis
 
 /datum/game_mode/proc/finalize_shadowling(datum/mind/shadow_mind)
 	var/mob/living/carbon/human/S = shadow_mind.current
-	shadow_mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_hatch(null))
-	shadow_mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/enthrall(null))
-	shadow_mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/shadowling_hivemind(null))
+	shadow_mind.AddSpell(new /obj/effect/proc_holder/spell/self/shadowling_hatch(null))
+	shadow_mind.AddSpell(new /obj/effect/proc_holder/spell/self/shadowling_hivemind(null))
 	spawn(0)
 		update_shadow_icons_added(shadow_mind)
 		if(shadow_mind.assigned_role == "Clown")
@@ -148,10 +146,10 @@ Made by Xhuis
 		thralls += new_thrall_mind
 		new_thrall_mind.special_role = "thrall"
 		new_thrall_mind.current.attack_log += "\[[time_stamp()]\] <span class='danger'>Became a thrall</span>"
-		new_thrall_mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/lesser_shadowling_hivemind(null))
+		new_thrall_mind.AddSpell(new /obj/effect/proc_holder/spell/self/lesser_shadowling_hivemind(null))
 		new_thrall_mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/lesser_glare(null))
-		new_thrall_mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/lesser_shadow_walk(null))
-		new_thrall_mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/thrall_vision(null))
+		new_thrall_mind.AddSpell(new /obj/effect/proc_holder/spell/self/lesser_shadow_walk(null))
+		new_thrall_mind.AddSpell(new /obj/effect/proc_holder/spell/self/thrall_vision(null))
 		new_thrall_mind.current << "<span class='shadowling'><b>You see the truth. Reality has been torn away and you realize what a fool you've been.</b></span>"
 		new_thrall_mind.current << "<span class='shadowling'><b>The shadowlings are your masters.</b> Serve them above all else and ensure they complete their goals.</span>"
 		new_thrall_mind.current << "<span class='shadowling'>You may not harm other thralls or the shadowlings. However, you do not need to obey other thralls.</span>"
@@ -256,6 +254,7 @@ Made by Xhuis
 	specflags = list(NOBREATH,NOBLOOD,RADIMMUNE,NOGUNS) //Can't use guns due to muzzle flash
 	burnmod = 1.5 //1.5x burn damage, 2x is excessive
 	heatmod = 1.5
+	has_dismemberment = 0
 
 /datum/species/shadow/ling/spec_life(mob/living/carbon/human/H)
 	if(!H.weakeyes) H.weakeyes = 1 //Makes them more vulnerable to flashes and flashbangs
@@ -269,9 +268,8 @@ Made by Xhuis
 			if(H.stat != DEAD)
 				H << "<span class='userdanger'>The light burns you!</span>" //Message spam to say "GET THE FUCK OUT"
 				H << 'sound/weapons/sear.ogg'
-			H << 'sound/weapons/sear.ogg'
 		else if (light_amount < LIGHT_HEAL_THRESHOLD)
-			H.heal_overall_damage(5,5)
+			H.heal_overall_damage(5,5,0.5)
 			H.adjustToxLoss(-5)
 			H.adjustBrainLoss(-25) //Shad O. Ling gibbers, "CAN U BE MY THRALL?!!"
 			H.adjustCloneLoss(-1)
@@ -296,7 +294,7 @@ Made by Xhuis
 		if(light_amount > LIGHT_DAM_THRESHOLD && !H.incorporeal_move)
 			H.take_overall_damage(0, LIGHT_DAMAGE_TAKEN/2)
 		else if (light_amount < LIGHT_HEAL_THRESHOLD)
-			H.heal_overall_damage(2,2)
+			H.heal_overall_damage(2,2,0.1)
 			H.adjustToxLoss(-5)
 			H.adjustBrainLoss(-25)
 			H.adjustCloneLoss(-1)
@@ -310,12 +308,3 @@ Made by Xhuis
 	var/datum/atom_hud/antag/shadow_hud = huds[ANTAG_HUD_SHADOW]
 	shadow_hud.leave_hud(shadow_mind.current)
 	set_antag_hud(shadow_mind.current, null)
-
-/turf/proc/get_lumcount()
-	var/light_amount
-	if(!src || !istype(src)) return
-	var/area/A = src.loc
-	if(!A || !istype(src)) return
-	if(A.lighting_use_dynamic) light_amount = src.lighting_lumcount
-	else light_amount =  10
-	return light_amount

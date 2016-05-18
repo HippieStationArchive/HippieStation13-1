@@ -88,7 +88,7 @@ var/const/MAX_ACTIVE_TIME = 400
 		return Attach(AM)
 	return 0
 
-/obj/item/clothing/mask/facehugger/throw_at(atom/target, range, speed, spin)
+/obj/item/clothing/mask/facehugger/throw_at(atom/target, range, speed, spin, diagonals_first, zone)
 	if(!..())
 		return
 	if(stat == CONSCIOUS)
@@ -178,7 +178,8 @@ var/const/MAX_ACTIVE_TIME = 400
 		Die()
 		icon_state = "[initial(icon_state)]_impregnated"
 
-		if(!target.getlimb(/obj/item/organ/limb/robot/chest) && !target.getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
+		var/obj/item/organ/limb/L = target.getlimb(/obj/item/organ/limb/chest)
+		if((L.status == ORGAN_ORGANIC) && !target.getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
 			new /obj/item/organ/internal/body_egg/alien_embryo(target)
 
 		if(iscorgi(target))

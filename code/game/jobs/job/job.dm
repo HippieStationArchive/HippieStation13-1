@@ -45,17 +45,18 @@
 /datum/job/proc/equip_items(mob/living/carbon/human/H)
 
 //But don't override this
-/datum/job/proc/equip(mob/living/carbon/human/H)
+/datum/job/proc/equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(!H)
 		return 0
 
 	//Equip the rest of the gear
-	H.dna.species.before_equip_job(src, H)
+	H.dna.species.before_equip_job(src, H, visualsOnly)
+
 
 	if(outfit)
-		H.equipOutfit(outfit)
+		H.equipOutfit(outfit, visualsOnly)
 
-	H.dna.species.after_equip_job(src, H)
+	H.dna.species.after_equip_job(src, H, visualsOnly)
 
 /datum/job/proc/apply_fingerprints(mob/living/carbon/human/H)
 	if(!istype(H))
@@ -147,7 +148,7 @@
 
 	var/pda_slot = slot_belt
 
-/datum/outfit/job/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(H.backbag != 5) // if guy has a backpack
 		switch(H.backbag)
 			if(1) back = backpack
@@ -158,22 +159,27 @@
 		backpack_contents[box] = 1
 	else H.equip_to_slot_or_del(new box(H), slot_l_hand)
 
-/datum/outfit/job/post_equip(mob/living/carbon/human/H)
+/datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
 	var/obj/item/weapon/card/id/C = H.wear_id
-	var/datum/job/J = SSjob.GetJob(H.job) // Not sure the best idea
-	C.access = J.get_access()
-	C.registered_name = H.real_name
-	C.assignment = H.job
-	C.update_label()
-	H.sec_hud_set_ID()
+	if(istype(C))
+		var/datum/job/J = SSjob.GetJob(H.job) // Not sure the best idea
+		C.access = J.get_access()
+		C.registered_name = H.real_name
+		C.assignment = H.job
+		C.update_label()
+		H.sec_hud_set_ID()
 
 	var/obj/item/device/pda/PDA = H.get_item_by_slot(pda_slot)
-	PDA.owner = H.real_name
-	PDA.ownjob = H.job
-	PDA.update_label()
+	if(istype(PDA))
+		PDA.owner = H.real_name
+		PDA.ownjob = H.job
+		PDA.update_label()
 
 /datum/outfit/job/proc/announce_head(var/mob/living/carbon/human/H, var/channels) //tells the given channel that the given mob is the new department head. See communications.dm for valid channels.
 	spawn(4) //to allow some initialization
-		if(announcement_systems.len)
+		if(H && announcement_systems.len)
 			var/obj/machinery/announcement_system/announcer = pick(announcement_systems)
 			announcer.announce("NEWHEAD", H.real_name, H.job, channels)

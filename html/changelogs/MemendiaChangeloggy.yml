@@ -1,9 +1,0 @@
-author: Memendia
-
-delete-after: True
-
-changes: 
-   - rscadd: "You can now make the drink 'Screwdriver' by grinding a screwdriver."
-   - rscadd: "Admins are now able to ban Players from OOC."
-   - rscadd: "Added a new Traitor Item for Miners."
-   - experiment: "Readded Halloween with a few of the more annoying events removed."

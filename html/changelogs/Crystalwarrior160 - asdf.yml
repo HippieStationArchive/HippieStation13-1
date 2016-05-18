@@ -1,0 +1,8 @@
+author: Crystalwarrior160
+
+delete-after: True
+
+changes:
+  - tweak: "Wrestling Backhand Chop no longer prevents you from doing anything else to the victim"
+  - tweak: "Reduced stun duration on suplex for the wrestler"
+  - tweak: "Energy Crossbows now pierce shields"

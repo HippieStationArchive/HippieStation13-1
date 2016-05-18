@@ -52,7 +52,7 @@
 	req_tech = list("combat" = 4, "materials" = 3, "engineering" = 3)
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 4000, MAT_GLASS = 5000, MAT_SILVER = 300)
-	build_path = /obj/item/weapon/shield/riot/tele
+	build_path = /obj/item/weapon/shield/deployable/tele
 	locked = 1
 	category = list("Weapons")
 
@@ -64,6 +64,17 @@
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_DIAMOND = 2000)
 	build_path = /obj/item/weapon/gun/energy/lasercannon
+	locked = 1
+	category = list("Weapons")
+
+/datum/design/autolaser
+	name = "Automatic Laser Carbine"
+	desc = "An advanced laser carbine which utilizes magazines and advanced cooling techniques to allow for burst-firing. The magazines use specialized plasma cartridges."
+	id = "autolaser"
+	req_tech = list("combat" = 6, "materials" = 5, "powerstorage" = 4, "plasmatech" = 3)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_DIAMOND = 2000, MAT_PLASMA = 3000)
+	build_path = /obj/item/weapon/gun/projectile/automatic/alc
 	locked = 1
 	category = list("Weapons")
 
@@ -125,7 +136,7 @@
 
 /datum/design/large_grenade
 	name = "Large Grenade"
-	desc = "A grenade that affects a larger area and use larger containers."
+	desc = "A grenade that affects a larger area and uses larger containers."
 	id = "large_Grenade"
 	req_tech = list("combat" = 3, "materials" = 2)
 	build_type = PROTOLATHE
@@ -147,7 +158,7 @@
 
 /datum/design/xray
 	name = "Xray Laser Gun"
-	desc = "Not quite as menacing as it sounds"
+	desc = "Not quite as menacing as it sounds"		//Because laser beams that go through walls aren't menacing at all apparently? What.
 	id = "xray"
 	req_tech = list("combat" = 6, "materials" = 5, "biotech" = 5, "powerstorage" = 4)
 	build_type = PROTOLATHE
@@ -178,13 +189,13 @@
 	locked = 1
 	category = list("Weapons")
 
-/datum/design/reciever
+/datum/design/reciever		//The amount of research needed and the fact that silver was needed to make this which was ONLY used for the improvised shotgun was awful.
 	name = "Modular Receiver"
-	desc = "A prototype modular receiver and trigger assembly for a variety of firearms."
+	desc = "A modular receiver and trigger assembly for a variety of firearms."
 	id = "reciever"
-	req_tech = list("combat" = 5, "materials" = 4)
+	req_tech = list("combat" = 2, "materials" = 3)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 6500, MAT_SILVER = 500)
+	materials = list(MAT_METAL = 1500)
 	build_path = /obj/item/weaponcrafting/reciever
 	category = list("Weapons")
 
@@ -224,6 +235,16 @@
 	build_path = /obj/item/ammo_box/magazine/smgm9mm/toxin
 	locked = 1
 
+/datum/design/magazine_autolaser
+	name = "Automatic Laser Carbine magazine (plasma)"
+	desc = "A 24-round magazine which utilizes unique, specialized caseless plasma ammunition. For use with the Automatic Laser Carbine."
+	id = "magazineautolaser"
+	req_tech = list("combat" = 4, "materials" = 3, "plasmatech" = 3)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 2500, MAT_PLASMA = 400)
+	build_path = /obj/item/ammo_box/magazine/alc
+	category = list("Ammo")
+
 /datum/design/stunshell
 	name = "Stun Shell"
 	desc = "A stunning shell for a shotgun."
@@ -253,3 +274,13 @@
 	materials = list(MAT_METAL = 2000, MAT_SILVER = 500)
 	build_path = /obj/item/weapon/suppressor
 	category = list("Weapons")
+
+/datum/design/armor/reactive  
+	name = "Reactive Teleport Armor"  
+	desc= "Someone seperated our Research Director from his own head!"  
+	id = "reactive"  
+	req_tech = list("materials" = 7, "combat" = 6, "powerstorage" = 6, "magnets" = 6, "programming" = 6, "bluespace" = 7)  
+	build_type = PROTOLATHE  
+	materials = list(MAT_METAL = 25000, MAT_GLASS = 10000, MAT_SILVER = 20000, MAT_GOLD = 20000, MAT_PLASMA = 6000, MAT_DIAMOND = 2000)  
+	build_path = /obj/item/clothing/suit/armor/reactive  
+	category = list("Weapons")  

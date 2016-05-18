@@ -1,145 +1,4 @@
-
-// fun if you want to typecast humans/monkeys/etc without writing long path-filled lines.
-/proc/ishuman(A)
-	if(istype(A, /mob/living/carbon/human))
-		return 1
-	return 0
-
-/proc/ismonkey(A)
-	if(A && istype(A, /mob/living/carbon/monkey))
-		return 1
-	return 0
-
-/proc/isbrain(A)
-	if(A && istype(A, /mob/living/carbon/brain))
-		return 1
-	return 0
-
-/proc/isalien(A)
-	if(istype(A, /mob/living/carbon/alien))
-		return 1
-	return 0
-
-/proc/isalienadult(A)
-	if(istype(A, /mob/living/carbon/alien/humanoid))
-		return 1
-	return 0
-
-/proc/islarva(A)
-	if(istype(A, /mob/living/carbon/alien/larva))
-		return 1
-	return 0
-
-/proc/isslime(A)
-	if(istype(A, /mob/living/simple_animal/slime))
-		return 1
-	return 0
-
-/proc/isrobot(A)
-	if(istype(A, /mob/living/silicon/robot))
-		return 1
-	return 0
-
-/proc/isanimal(A)
-	if(istype(A, /mob/living/simple_animal))
-		return 1
-	return 0
-
-/proc/iscorgi(A)
-	if(istype(A, /mob/living/simple_animal/pet/dog/corgi))
-		return 1
-	return 0
-
-/proc/iscrab(A)
-	if(istype(A, /mob/living/simple_animal/crab))
-		return 1
-	return 0
-
-/proc/iscat(A)
-	if(istype(A, /mob/living/simple_animal/pet/cat))
-		return 1
-	return 0
-
-/proc/ismouse(A)
-	if(istype(A, /mob/living/simple_animal/mouse))
-		return 1
-	return 0
-
-/proc/isbear(A)
-	if(istype(A, /mob/living/simple_animal/hostile/bear))
-		return 1
-	return 0
-
-/proc/iscarp(A)
-	if(istype(A, /mob/living/simple_animal/hostile/carp))
-		return 1
-	return 0
-
-/proc/isclown(A)
-	if(istype(A, /mob/living/simple_animal/hostile/retaliate/clown))
-		return 1
-	return 0
-
-/proc/isAI(A)
-	if(istype(A, /mob/living/silicon/ai))
-		return 1
-	return 0
-
-/proc/ispAI(A)
-	if(istype(A, /mob/living/silicon/pai))
-		return 1
-	return 0
-
-/proc/iscarbon(A)
-	if(istype(A, /mob/living/carbon))
-		return 1
-	return 0
-
-/proc/issilicon(A)
-	if(istype(A, /mob/living/silicon))
-		return 1
-	return 0
-
-/proc/isliving(A)
-	if(istype(A, /mob/living))
-		return 1
-	return 0
-
-/proc/isobserver(A)
-	if(istype(A, /mob/dead/observer))
-		return 1
-	return 0
-
-/proc/isnewplayer(A)
-	if(istype(A, /mob/new_player))
-		return 1
-	return 0
-
-/proc/isovermind(A)
-	if(istype(A, /mob/camera/blob))
-		return 1
-	return 0
-
-/proc/isdrone(A)
-	if(istype(A, /mob/living/simple_animal/drone))
-		return 1
-	return 0
-
-/proc/isswarmer(A)
-	if(istype(A, /mob/living/simple_animal/hostile/swarmer))
-		return 1
-	return 0
-
-/proc/isguardian(A)
-	if(istype(A, /mob/living/simple_animal/hostile/guardian))
-		return 1
-	return 0
-
-/proc/islimb(A)
-	if(istype(A, /obj/item/organ/limb))
-		return 1
-	return 0
-
+// see _DEFINES/is_helpers.dm for mob type checks
 /proc/isloyal(A) //Checks to see if the person contains a loyalty implant, then checks that the implant is actually inside of them
 	for(var/obj/item/weapon/implant/loyalty/L in A)
 		if(L && L.implanted)
@@ -166,22 +25,21 @@
 	return zone
 
 
-/proc/ran_zone(zone, probability = 80)
-
+/proc/ran_zone(zone, probability = 80, list/exceptions)
 	zone = check_zone(zone)
 
-	if(prob(probability))
+	if(!islist(exceptions))
+		exceptions = list()
+
+	if(prob(probability) && !locate(zone) in exceptions)
 		return zone
 
-	var/t = rand(1, 18) // randomly pick a different zone, or maybe the same one
-	switch(t)
-		if(1)		 return "head"
-		if(2)		 return "chest"
-		if(3 to 6)	 return "l_arm"
-		if(7 to 10)	 return "r_arm"
-		if(11 to 14) return "l_leg"
-		if(15 to 18) return "r_leg"
+	var/list/choices = list("head", "chest", "l_arm", "r_arm", "l_leg", "r_leg")
+	choices = difflist(choices, exceptions) //Strip away zones to ignore
+	if(!choices.len)
+		return 0
 
+	zone = pick(choices) //Pick a random zone
 	return zone
 
 /proc/above_neck(zone)
@@ -413,6 +271,36 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 			else
 				hud_used.action_intent.icon_state = "help"
 
+/mob/verb/target_zone_change(input as text)
+	set name = "target-zone"
+	set hidden = 1
+
+	if(src.zone_sel)
+		var/obj/screen/zone_sel/Target = src.zone_sel
+		var/old_selecting = Target.selecting
+		switch(input)
+			if("r_leg")
+				Target.selecting = "r_leg"
+			if("l_leg")
+				Target.selecting = "l_leg"
+			if("r_arm")
+				Target.selecting = "r_arm"
+			if("l_arm")
+				Target.selecting = "l_arm"
+			if("chest")
+				Target.selecting = "chest"
+			if("groin")
+				Target.selecting = "groin"
+			if("head")
+				Target.selecting = "head"
+			if("eyes")
+				Target.selecting = "eyes"
+			if("mouth")
+				Target.selecting = "mouth"
+
+		if(old_selecting != Target.selecting)
+			Target.update_icon()
+
 /proc/is_blind(A)
 	if(ismob(A))
 		var/mob/B = A
@@ -492,15 +380,15 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 	else
 		dam = 0
 
-	if(affecting.status == ORGAN_ROBOTIC)
-		if(brute > 0 && affecting.brute_dam > 0 || burn > 0 && affecting.burn_dam > 0)
-			affecting.heal_damage(brute,burn,1)
+	if(affecting && affecting.status == ORGAN_ROBOTIC)
+		if((brute > 0 && affecting.brute_dam > 0) || (burn > 0 && affecting.burn_dam > 0))
+			affecting.heal_damage(brute,burn,robotic=1)
 			H.update_damage_overlays(0)
 			H.updatehealth()
-			user.visible_message("[user] has fixed some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting.getDisplayName()].", "<span class='notice'>You fix some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting.getDisplayName()].</span>")
+			user.visible_message("<span class='notice'>[user] has fixed some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting].</span>", "<span class='notice'>You fix some of the [dam ? "dents on" : "burnt wires in"] [H]'s [affecting].</span>")
 			return
 		else
-			user << "<span class='warning'>[H]'s [affecting.getDisplayName()] is already in good condition!</span>"
+			user << "<span class='warning'>[H]'s [affecting] is already in good condition!</span>"
 			return
 	else
 		return

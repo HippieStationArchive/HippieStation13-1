@@ -24,7 +24,7 @@ var/next_mob_id = 0
 	prepare_huds()
 	..()
 
-/mob/proc/prepare_huds()
+/atom/proc/prepare_huds()
 	for(var/hud in hud_possible)
 		hud_list[hud] = image('icons/mob/hud.dmi', src, "")
 
@@ -309,6 +309,12 @@ var/list/slot_equipment_priority = list( \
 
 	return 0
 
+//Tries to put the item in a mob's slot. On fail,it puts it in one of his hands. If even this fails,it'll just put the item on the floor under the mob.
+/mob/proc/equip_or_drop(obj/item/I)
+	if(!equip_to_appropriate_slot(I))
+		if(!put_in_any_hand_if_possible(I))
+			I.forceMove(get_turf(src))
+
 /mob/proc/reset_view(atom/A)
 	if (client)
 		if (istype(A, /atom/movable))
@@ -429,6 +435,30 @@ var/list/slot_equipment_priority = list( \
 			update_inv_r_hand()
 	return
 
+/mob/verb/attack_inactive_hand()
+	set name = "Attack Inactive Hand"
+	set category = "Object"
+	set src = usr
+
+	if(istype(loc,/obj/mecha)) return
+
+	var/obj/item/W
+	if(hand)
+		W = l_hand
+	else
+		W = r_hand
+
+	var/obj/item/I = get_inactive_hand()
+	if(istype(I))
+		if (istype(W))
+			var/resolved = I.attackby(W,src)
+			if(!resolved && I && W)
+				W.afterattack(I,src,1) // 1 indicates adjacency
+		else
+			UnarmedAttack(I)
+		update_inv_l_hand()
+		update_inv_r_hand()
+
 /*
 /mob/verb/dump_source()
 
@@ -511,6 +541,7 @@ var/list/slot_equipment_priority = list( \
 	set name = "Changelog"
 	set category = "OOC"
 	getFiles(
+		'html/tg-ports.png',
 		'html/88x31.png',
 		'html/bug-minus.png',
 		'html/cross-circle.png',
@@ -549,55 +580,7 @@ var/list/slot_equipment_priority = list( \
 	if(is_admin && stat == DEAD)
 		is_admin = 0
 
-	var/list/names = list()
-	var/list/namecounts = list()
-	var/list/creatures = list()
-
-	for(var/obj/O in world)				//EWWWWWWWWWWWWWWWWWWWWWWWW ~needs to be optimised
-		if(!O.loc)
-			continue
-		if(istype(O, /obj/item/weapon/disk/nuclear))
-			var/name = "Nuclear Disk"
-			if (names.Find(name))
-				namecounts[name]++
-				name = "[name] ([namecounts[name]])"
-			else
-				names.Add(name)
-				namecounts[name] = 1
-			creatures[name] = O
-
-		if(istype(O, /obj/singularity))
-			var/name = "Singularity"
-			if (names.Find(name))
-				namecounts[name]++
-				name = "[name] ([namecounts[name]])"
-			else
-				names.Add(name)
-				namecounts[name] = 1
-			creatures[name] = O
-
-		if(istype(O, /obj/machinery/bot))
-			var/name = "BOT: [O.name]"
-			if (names.Find(name))
-				namecounts[name]++
-				name = "[name] ([namecounts[name]])"
-			else
-				names.Add(name)
-				namecounts[name] = 1
-			creatures[name] = O
-
-
-	for(var/mob/M in sortNames(mob_list))
-		var/name = M.name
-		if (names.Find(name))
-			namecounts[name]++
-			name = "[name] ([namecounts[name]])"
-		else
-			names.Add(name)
-			namecounts[name] = 1
-
-		creatures[name] = M
-
+	var/list/creatures = getpois()
 
 	client.perspective = EYE_PERSPECTIVE
 
@@ -667,9 +650,6 @@ var/list/slot_equipment_priority = list( \
 	if(!Adjacent(usr))	return
 	if(istype(M, /mob/living/silicon/ai))	return
 	show_inv(usr)
-
-/mob/proc/can_use_hands()
-	return
 
 /mob/proc/is_active()
 	return (0 >= usr.stat)
@@ -781,7 +761,7 @@ var/list/slot_equipment_priority = list( \
 		if(G.assailant && G.state >= GRAB_NECK && G.affecting == src)
 			grabbed = 1
 			break
-	if(ko || resting || stunned)
+	if(ko || resting || stunned || (!get_num_legs(1) && !buckled)) //We do this to make sure that you can still use items while in a wheelchair or something
 		drop_r_hand()
 		drop_l_hand()
 	else
@@ -791,13 +771,13 @@ var/list/slot_equipment_priority = list( \
 		lying = 90*buckle_lying
 	else if(pinned_to)
 		lying = 0
-	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead
-		lying = 90*(nearcrit || stat || (status_flags & FAKEDEATH))
+	else if(grabbed) //Hostage hold -- the meatshield will only fall down if they're incapacitated/unconscious/dead/legless
+		lying = 90*((status_flags & NEARCRIT ? 1 : 0) || !get_num_legs(1) || stat || (status_flags & FAKEDEATH))
 	else
-		if((ko || resting) && !lying)
+		if((ko || resting || !get_num_legs(1)) && !lying)
 			fall(ko)
 	canmove = !(ko || resting || stunned || buckled || pinned_to)
-	if(nearcrit && !stat)
+	if(((status_flags & NEARCRIT) || !get_num_legs(1)) && !stat)
 		canmove = !(stunned || buckled || pinned_to)
 	density = !lying
 	if(lying)
@@ -989,7 +969,7 @@ var/list/slot_equipment_priority = list( \
 	dir = angle2dir(rotation+dir2angle(dir))
 
 //You can buckle on mobs if you're next to them since most are dense
-/mob/buckle_mob(mob/living/M)
+/mob/buckle_mob(mob/living/M, force = 0)
 	if(M.buckled)
 		return 0
 	var/turf/T = get_turf(src)
@@ -1005,13 +985,27 @@ var/list/slot_equipment_priority = list( \
 //Default buckling shift visual for mobs
 /mob/post_buckle_mob(mob/living/M)
 	if(M == buckled_mob) //post buckling
-		M.pixel_y = initial(M.pixel_y) + 9
+		var/height = M.get_mob_buckling_height(src)
+		M.pixel_y = initial(M.pixel_y) + height
 		if(M.layer < layer)
 			M.layer = layer + 0.1
 	else //post unbuckling
 		M.layer = initial(M.layer)
 		M.pixel_y = initial(M.pixel_y)
 
+//returns the height in pixel the mob should have when buckled to another mob.
+/mob/proc/get_mob_buckling_height(mob/seat)
+	if(isliving(seat))
+		var/mob/living/L = seat
+		if(L.mob_size <= MOB_SIZE_SMALL) //being on top of a small mob doesn't put you very high.
+			return 0
+	return 9
+
+//can the mob be buckled to something by default?
+/mob/proc/can_buckle()
+	return 1
+
+//can the mob be unbuckled from something by default?
 /mob/proc/can_unbuckle(mob/user)
 	return 1
 

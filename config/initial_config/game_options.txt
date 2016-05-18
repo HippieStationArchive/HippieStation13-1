@@ -296,5 +296,37 @@ BOMBCAP 16
 ## LagHell (7,14,28)
 #BOMBCAP 28
 
+### Template Configuration
+
+##The min and max amount of potential space objects
+
+place_amount_min 1
+
+place_amount_max 3
+
+## The Z-levels used for Z-level generation
+
+zs 6
+
+zs 7
+
+## These objects will be placed last
+
+place_last /obj/machinery/power/apc
+place_last /obj/structure/cable
+place_last /obj/machinery/light_switch
+place_last /obj/machinery/disposal
+place_last /obj/machinery/atmospherics/unary/vent_pump
+place_last /obj/machinery/atmospherics/unary/vent_scrubber
+place_last /obj/machinery/disposalpipe/segment
+place_last /obj/structure/lattice
+
+## number of attempts when placing a structure
+
+tries 10
+
+## Directory for template files
+
+directory _maps\templates
 
 

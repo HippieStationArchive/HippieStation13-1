@@ -1,13 +1,17 @@
-
-/mob/proc/HasDisease(datum/disease/D)
+//Provide an actual disease datum if you don't want advance diseases to be differentiated or something.
+/mob/proc/HasDisease(D)
 	for(var/datum/disease/DD in viruses)
-		if(D.IsSame(DD))
+		if(istype(D, /datum/disease)) //Were we provided a disease?
+			var/datum/disease/I = D
+			if(I.IsSame(DD))
+				return 1
+		else if(DD.type == D) //Were we provided a type?
 			return 1
 	return 0
 
 
 /mob/proc/CanContractDisease(datum/disease/D)
-	if(stat == DEAD)
+	if(stat == DEAD && !D.undead)
 		return 0
 
 	if(D.GetDiseaseID() in resistances)
@@ -29,7 +33,7 @@
 	if(!CanContractDisease(D))
 		return 0
 	AddDisease(D)
-
+	return 1
 
 /mob/proc/AddDisease(datum/disease/D)
 	var/datum/disease/DD = new D.type(1, D, 0)
@@ -75,10 +79,10 @@
 		feet_ch = 100
 
 	if(prob(15/D.permeability_mod))
-		return
+		return 0
 
 	if(satiety>0 && prob(satiety/10)) // positive satiety makes it harder to contract the disease.
-		return
+		return 0
 
 	var/target_zone = pick(head_ch;1,body_ch;2,hands_ch;3,feet_ch;4)
 
@@ -130,14 +134,14 @@
 
 	if(passed)
 		AddDisease(D)
-
+		return 1
+	return 0
 
 //Same as ContractDisease, except never overidden clothes checks
 /mob/proc/ForceContractDisease(datum/disease/D)
 	if(!CanContractDisease(D))
 		return 0
 	AddDisease(D)
-
 
 /mob/living/carbon/human/CanContractDisease(datum/disease/D)
 	if(dna && VIRUSIMMUNE in dna.species.specflags)

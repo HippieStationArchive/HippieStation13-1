@@ -51,14 +51,15 @@
 	var/status = 0
 	var/fire_resist = T0C+1300	//this is the max temp it can stand before you start to cook. although it might not burn away, you take damage
 	var/processing = 0 //I dont think this is used anywhere.
+	var/brightness_on = 1 // luminosity when lit
 	burn_state = -1
 
-/obj/item/clothing/head/cakehat/process()
+/obj/item/clothing/head/cakehat/process()//is this really needed,meh
 	if(!onfire)
 		SSobj.processing.Remove(src)
 		return
 
-	var/turf/location = src.loc
+	var/turf/location = loc
 	if(istype(location, /mob/))
 		var/mob/living/carbon/human/M = location
 		if(M.l_hand == src || M.r_hand == src || M.head == src)
@@ -69,16 +70,18 @@
 
 /obj/item/clothing/head/cakehat/attack_self(mob/user)
 	if(status > 1)	return
-	src.onfire = !( src.onfire )
-	if (src.onfire)
-		src.force = 3
-		src.damtype = "fire"
-		src.icon_state = "cake1"
+	onfire = !onfire
+	if (onfire)
+		force = 3
+		AddLuminosity(brightness_on)
+		damtype = BURN
+		icon_state = "cake1"
 		SSobj.processing |= src
 	else
-		src.force = null
-		src.damtype = "brute"
-		src.icon_state = "cake0"
+		force = 0
+		AddLuminosity(brightness_on)
+		damtype = BRUTE
+		icon_state = "cake0"
 	return
 
 
@@ -90,6 +93,7 @@
 	desc = "Perfect for winter in Siberia, da?"
 	icon_state = "ushankadown"
 	item_state = "ushankadown"
+	flags = BLOCKHAIR
 	flags_inv = HIDEEARS
 	var/earflaps = 1
 	cold_protection = HEAD

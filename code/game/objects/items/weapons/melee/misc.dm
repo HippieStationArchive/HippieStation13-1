@@ -16,8 +16,8 @@
 	hitsound = 'sound/weapons/chainofcommand.ogg'
 
 /obj/item/weapon/melee/chainofcommand/suicide_act(mob/user)
-		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-		return (OXYLOSS)
+	user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (OXYLOSS)
 
 
 
@@ -135,6 +135,7 @@
 	desc = "A large mechanically powered fist made out of plasteel which can deliver a massive blow to any target with the ability to throw them across a room. The power fist needs approximately a second in between each punch before it is powered again."
 	icon_state = "powerfist"
 	item_state = "powerfist"
+	flags = CONDUCT
 	force = 30
 	throwforce = 10
 	throw_range = 7
@@ -144,7 +145,7 @@
 	var/click_delay = 1.3
 
 /obj/item/weapon/melee/powerfist/attack(mob/living/target, mob/living/user)		//Keep this to powerfist/attack and NOT powerfist/afterattack , powerfist/afterattack gives this thing INFINITE range without further checks.
-	var/datum/effect/effect/system/lightning_spread/s = new /datum/effect/effect/system/lightning_spread
+	var/datum/effect_system/lightning_spread/s = new /datum/effect_system/lightning_spread
 	s.set_up(5, 1, target.loc)
 	s.start()	//Executes these speshul effects on the hit target AKA victim.
 
@@ -185,3 +186,45 @@
 				new /obj/item/weapon/shard( W.loc )
 				if(W.reinf) new /obj/item/stack/rods( W.loc)
 		qdel(A)
+
+//Bloodraven Chainsword from Facepunch
+
+/obj/item/weapon/melee/chainsword
+	name = "Chain Sword"
+	desc = "An imperium sword with motorized teeth that run along the blade. These monomolecure edged reazor sharp teeth make an angry buzzing sound as they spin and are capable of cutting through any foe."
+	icon_state = "chainsword_bloodravens"
+	item_state = "chainsword_bloodravens"
+	flags = CONDUCT
+	force = 40
+	w_class = 3
+	armour_penetration = 20
+	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	hitsound = 'sound/weapons/chainsword.ogg'
+	sharpness = IS_SHARP
+
+//Combat Knife
+/obj/item/weapon/melee/combatknife
+	name = "combat knife"
+	desc = "An extremely sharp military combat knife favored by syndicate agents."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "buckknife"
+	flags = CONDUCT
+	force = 17.0 //Reduced force to put bigger emphasis on bleeding
+	w_class = 1.0
+	slot_flags = SLOT_BELT
+	throwforce = 20.0 //Robust, but not as robust as it could be if it succesfully embeds
+	throw_speed = 3
+	throw_range = 8
+	attack_verb = list("stabbed", "torn", "cut", "sliced")
+	hitsound = 'sound/weapons/knife.ogg'
+	hitsound_extrarange = -3 //Sorta more sneaky beaky like
+	//Embedding
+	sharpness = IS_SHARP_ACCURATE
+	embed_chance = 70 //Makes it an awesome throwing weapon.
+	embedded_impact_pain_multiplier = 30 //w_class is multiplied into this to determine damage applied on embed.
+	embedded_pain_multiplier = 6 //6 force applied when "it hurts"
+	embedded_pain_chance = 25 //25% chance to be pained by the knife
+
+/obj/item/weapon/melee/combatknife/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)

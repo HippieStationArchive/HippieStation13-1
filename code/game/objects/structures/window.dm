@@ -15,11 +15,19 @@
 	var/disassembled = 0
 	var/wtype = "glass"
 	var/fulltile = 0
+	var/heat_proof = 0
 	var/list/storeditems = list()
+	var/temp_resistance = 800
 //	var/silicate = 0 // number of units of silicate
 //	var/icon/silicateIcon = null // the silicated icon
 	var/image/crack_overlay
 	can_be_unanchored = 1
+
+/obj/structure/window/BlockSuperconductivity()
+    if(heat_proof)
+        return 1
+    return 0
+
 
 /obj/structure/window/examine(mob/user)
 	..()
@@ -200,7 +208,7 @@
 		else if(!reinf)
 			user << (anchored ? "<span class='notice'>You begin to unscrew the window from the floor...</span>" : "<span class='notice'>You begin to screw the window to the floor...</span>")
 
-		if(do_after(user, 5, target = src))
+		if(do_after(user, 5/I.toolspeed, target = src))
 			if(reinf && (state == 1 || state == 2))
 				//If state was unfastened, fasten it, else do the reverse
 				state = (state == 1 ? 2 : 1)
@@ -217,7 +225,7 @@
 	else if (istype(I, /obj/item/weapon/crowbar) && reinf && (state == 0 || state == 1))
 		user << (state == 0 ? "<span class='notice'>You begin to lever the window into the frame...</span>" : "<span class='notice'>You begin to lever the window out of the frame...</span>")
 		playsound(loc, 'sound/items/Crowbar.ogg', 75, 1)
-		if(do_after(user, 5, target = src))
+		if(do_after(user, 5/I.toolspeed, target = src))
 			//If state was out of frame, put into frame, else do the reverse
 			state = (state == 0 ? 1 : 0)
 			user << (state == 1 ? "<span class='notice'>You pry the window into the frame.</span>" : "<span class='notice'>You pry the window out of the frame.</span>")
@@ -228,7 +236,7 @@
 			if(WT.remove_fuel(0,user))
 				user << "<span class='notice'>You begin repairing [src]...</span>"
 				playsound(loc, 'sound/items/Welder.ogg', 5, 1)
-				if(do_after(user, 5, target = src))
+				if(do_after(user, 5/I.toolspeed, target = src))
 					health = maxhealth
 					playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
 		else
@@ -239,7 +247,7 @@
 	else if(istype(I, /obj/item/weapon/wrench) && !anchored)
 		playsound(loc, 'sound/items/Ratchet.ogg', 75, 1)
 		user << "<span class='notice'> You begin to disassemble [src]...</span>"
-		if(do_after(user, 5, target = src))
+		if(do_after(user, 5/I.toolspeed, target = src))
 			if(disassembled)
 				return //Prevents multiple deconstruction attempts
 
@@ -422,7 +430,7 @@
 		overlays += crack_overlay
 
 /obj/structure/window/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	if(exposed_temperature > T0C + (reinf ? 1600 : 800))
+	if(exposed_temperature > T0C + temp_resistance)
 		hit(round(exposed_volume / 100), 0)
 	..()
 
@@ -433,6 +441,7 @@
 	name = "reinforced window"
 	icon_state = "rwindow"
 	reinf = 1
+	temp_resistance = 1600
 	maxhealth = 50
 	explosion_block = 1
 
@@ -487,3 +496,19 @@
 	smooth = SMOOTH_TRUE
 	canSmoothWith = null
 	explosion_block = 1
+	temp_resistance = 1600
+
+/obj/structure/window/crystalwindow
+	name = "crystal window"
+	desc = "A very strong, air-locked, temperature resistant glass made from some kind of super strong crystal."
+	icon_state = "rwindow"
+	reinf = 1
+	dir = 5
+	maxhealth = 200
+	fulltile = 1
+	pressure_resistance = 32*ONE_ATMOSPHERE
+	temp_resistance = 120000
+	color = "#aa20aa"
+	heat_proof = 1
+	var/thermal_conductivity = 0.0
+	var/heat_capacity = 312500 * 25 //a little over 5 cm thick , 312500 for 1 m by 2.5 m by 0.25 m plasteel wall

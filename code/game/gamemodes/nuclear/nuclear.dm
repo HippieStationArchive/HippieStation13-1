@@ -8,7 +8,7 @@
 	required_players = 20 // 20 players - 5 players to be the nuke ops = 15 players remaining
 	required_enemies = 5
 	recommended_enemies = 5
-	antag_flag = BE_OPERATIVE
+	antag_flag = ROLE_OPERATIVE
 	enemy_minimum_age = 14
 
 	var/const/agents_possible = 5 //If we ever need more syndicate agents.
@@ -116,6 +116,10 @@
 	synd_mind.current.real_name = "[syndicate_name()] [leader_title]"
 	synd_mind.current << "<B>You are the Syndicate [leader_title] for this mission. You are responsible for the distribution of telecrystals and your ID is the only one who can open the launch bay doors.</B>"
 	synd_mind.current << "<B>If you feel you are not up to this task, give your ID to another operative.</B>"
+	synd_mind.current << "<B>In your hand you will find a special item capable of triggering a greater challenge for your team. Examine it carefully and consult with your fellow operatives before activating it.</B>"
+
+	var/obj/item/device/nuclear_challenge/challenge = new /obj/item/device/nuclear_challenge
+	synd_mind.current.equip_to_slot_or_del(challenge, slot_r_hand)
 
 	var/list/foundIDs = synd_mind.current.search_contents_for(/obj/item/weapon/card/id)
 	if(foundIDs.len)
@@ -147,6 +151,7 @@
 /datum/game_mode/proc/greet_syndicate(datum/mind/syndicate, you_are=1)
 	if (you_are)
 		syndicate.current << "<span class='notice'>You are a [syndicate_name()] agent!</span>"
+		syndicate.current << "<a href=[config.wikiurl]/index.php?title=Syndicate_guide>New to the Syndicate? Click here to be linked to the wiki guide on Nuclear Operatives.</a>"
 	var/obj_count = 1
 	for(var/datum/objective/objective in syndicate.objectives)
 		syndicate.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
@@ -158,8 +163,25 @@
 	return 1337 // WHY??? -- Doohl
 
 
-/datum/game_mode/proc/equip_syndicate(mob/living/carbon/human/synd_mob)
-	synd_mob.equipOutfit(/datum/outfit/syndicate)
+/datum/game_mode/proc/equip_syndicate(mob/living/carbon/human/synd_mob, telecrystals = TRUE, reinforcement_to_spawn)
+
+	if(telecrystals)
+		synd_mob.equipOutfit(/datum/outfit/syndicate)
+
+	if(reinforcement_to_spawn == "Assault")
+		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals/assault)
+
+	if(reinforcement_to_spawn == "Hacker")
+		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals/hacker)
+
+	if(reinforcement_to_spawn == "Infiltrator")
+		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals/infiltrator)
+
+	if(reinforcement_to_spawn == "Medical")
+		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals/medical)
+
+	else
+		synd_mob.equipOutfit(/datum/outfit/syndicate/no_crystals)
 	return 1
 
 /datum/game_mode/nuclear/check_win()
@@ -186,7 +208,7 @@
 
 /datum/game_mode/nuclear/declare_completion()
 	var/disk_rescued = 1
-	for(var/obj/item/weapon/disk/nuclear/D in world)
+	for(var/obj/item/weapon/disk/nuclear/D in poi_list)
 		if(!D.onCentcom())
 			disk_rescued = 0
 			break
@@ -287,6 +309,7 @@
 		synd_mind.name = H.dna.species.random_name(H.gender,0,lastname)
 		synd_mind.current.real_name = synd_mind.name
 	return
+
 /datum/outfit/syndicate
 	name = "Syndicate Operative - Basic"
 	uniform = /obj/item/clothing/under/syndicate
@@ -297,16 +320,72 @@
 	id = /obj/item/weapon/card/id/syndicate
 	belt = /obj/item/weapon/gun/projectile/automatic/pistol
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1)
+	r_pocket = /obj/item/weapon/melee/combatknife
+
 	var/tc = 20
+
+/datum/outfit/syndicate/no_crystals
+	tc = 0
+
+/datum/outfit/syndicate/no_crystals/assault
+	name = "Syndicate Operative - Assault"
+	suit =	/obj/item/clothing/suit/space/hardsuit/syndi/elite
+	r_hand = /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/ammo_box/magazine/m12g/buckshot=1,\
+		/obj/item/ammo_box/magazine/m12g=1,\
+		/obj/item/ammo_box/magazine/m12g/stun=1,\
+		/obj/item/ammo_box/magazine/m12g/dragon=1)
+
+/datum/outfit/syndicate/no_crystals/hacker
+	name = "Syndicate Operative - Hacker"
+	suit =	/obj/item/clothing/suit/space/syndicate/black/red
+	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
+	l_pocket = /obj/item/device/multitool/ai_detect
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/weapon/aiModule/syndicate=1,\
+		/obj/item/weapon/card/emag=1,\
+		/obj/item/device/encryptionkey/binary=1,\
+		/obj/item/ammo_box/magazine/m10mm=1,\
+		/obj/item/ammo_box/magazine/m10mm=1,\
+		/obj/item/weapon/c4=1)
+
+/datum/outfit/syndicate/no_crystals/infiltrator
+	name = "Syndicate Operative - Infiltrator"
+	suit =	/obj/item/clothing/suit/space/syndicate/black/red
+	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
+	uniform = /obj/item/clothing/under/chameleon
+	shoes = /obj/item/clothing/shoes/sneakers/syndigaloshes
+	mask = /obj/item/clothing/mask/gas/voice
+	gloves = /obj/item/clothing/gloves/color/yellow
+	belt = /obj/item/weapon/storage/belt/utility/full
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/weapon/gun/energy/kinetic_accelerator/crossbow=1,\
+		/obj/item/weapon/gun/projectile/automatic/pistol=1,\
+		/obj/item/ammo_box/magazine/m10mm=1,\
+		/obj/item/weapon/card/id/syndicate=1)
+
+/datum/outfit/syndicate/no_crystals/medical
+	name = "Syndicate Operative - Medical"
+	suit =	/obj/item/clothing/suit/space/syndicate/black/red
+	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
+	r_hand = /obj/item/weapon/gun/medbeam
+	l_hand = /obj/item/weapon/gun/projectile/automatic/l6_saw/toy
+	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+		/obj/item/clothing/shoes/magboots/syndie=1,\
+		/obj/item/ammo_box/foambox/riot=1)
+
 /datum/outfit/syndicate/post_equip(mob/living/carbon/human/H)
 	var/obj/item/device/radio/R = H.ears
 	R.set_frequency(SYND_FREQ)
 	R.freqlock = 1
-	var/obj/item/device/radio/uplink/U = new /obj/item/device/radio/uplink(H)
-	U.hidden_uplink.uplink_owner="[H.key]"
-	U.hidden_uplink.uses = tc
-	U.hidden_uplink.mode_override = /datum/game_mode/nuclear //Goodies
-	H.equip_to_slot_or_del(U, slot_in_backpack)
+
+	if(tc)
+		var/obj/item/device/radio/uplink/U = new /obj/item/device/radio/uplink(H)
+		U.hidden_uplink.uplink_owner="[H.key]"
+		U.hidden_uplink.uses = tc
+		U.hidden_uplink.mode_override = /datum/game_mode/nuclear //Goodies
+		H.equip_to_slot_or_del(U, slot_in_backpack)
 
 	var/obj/item/weapon/implant/weapons_auth/W = new/obj/item/weapon/implant/weapons_auth(H)
 	W.implant(H)
@@ -323,6 +402,7 @@
 	r_pocket = /obj/item/weapon/gun/projectile/automatic/pistol
 	belt = /obj/item/weapon/storage/belt/military
 	r_hand = /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog
+	l_hand = /obj/item/weapon/melee/combatknife
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
 		/obj/item/weapon/tank/jetpack/oxygen/harness=1,\
 		/obj/item/weapon/pinpointer/nukeop=1)

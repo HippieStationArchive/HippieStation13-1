@@ -3,7 +3,7 @@
 	desc = "Expels impurifications from our form; curing diseases, removing parasites, toxins and radiation, and resetting our genetic code completely."
 	helptext = "Can be used while unconscious."
 	chemical_cost = 20
-	dna_cost = 1
+	evopoints_cost = 2
 	req_stat = UNCONSCIOUS
 
 //Heals the things that the other regenerative abilities don't.

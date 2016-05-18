@@ -31,8 +31,8 @@
 /obj/item/weapon/watertank/verb/toggle_mister()
 	set name = "Toggle Mister"
 	set category = "Object"
-	if (usr.get_item_by_slot(slot_back) != src)
-		usr << "<span class='warning'>The watertank needs to be on your back to use!</span>"
+	if (usr.get_item_by_slot(usr.getWatertankSlot()) != src)
+		usr << "<span class='warning'>The watertank must be worn properly to use!</span>"
 		return
 	if(usr.incapacitated())
 		return
@@ -81,7 +81,8 @@
 	..()
 
 /obj/item/weapon/watertank/MouseDrop(obj/over_object)
-	if(ishuman(src.loc))
+	var/mob/M = src.loc
+	if(istype(M))
 		var/mob/living/carbon/human/H = src.loc
 		switch(over_object.name)
 			if("r_hand")
@@ -110,6 +111,12 @@
 			visible_message("<span class='warning'>[src] refuses to be refilled with [R.name]!</span>", "<span class='warning'>[src] refuses to be refilled with [R.name]!</span>")
 			reagents.del_reagent(R.id)
 	return
+
+/mob/proc/getWatertankSlot()
+	return slot_back
+
+/mob/living/simple_animal/drone/getWatertankSlot()
+	return slot_drone_storage
 
 // This mister item is intended as an extension of the watertank and always attached to it.
 // Therefore, it's designed to be "locked" to the player's hands or extended back onto
@@ -171,7 +178,7 @@
 
 /obj/item/weapon/watertank/janitor/New()
 	..()
-	reagents.add_reagent("cleaner", 500)
+	reagents.add_reagent("cleaner", 700)
 
 /obj/item/weapon/reagent_containers/spray/mister/janitor
 	name = "janitor spray nozzle"
@@ -179,6 +186,7 @@
 	icon = 'icons/obj/hydroponics/equipment.dmi'
 	icon_state = "misterjani"
 	item_state = "misterjani"
+	volume = 700
 	amount_per_transfer_from_this = 5
 	possible_transfer_amounts = list(5, 10)
 	var/list/allowedchem = list("water", "cleaner")
@@ -303,7 +311,7 @@
 		if(!Adj|| !istype(target, /turf))
 			return
 		if(metal_synthesis_cooldown < 5)
-			var/obj/effect/effect/foam/metal/F = PoolOrNew(/obj/effect/effect/foam/metal, get_turf(target))
+			var/obj/effect/particle_effect/foam/metal/F = PoolOrNew(/obj/effect/particle_effect/foam/metal, get_turf(target))
 			F.amount = 0
 			metal_synthesis_cooldown++
 			spawn(100)
@@ -321,7 +329,7 @@
 	pass_flags = PASSTABLE
 
 /obj/effect/nanofrost_container/proc/Smoke()
-	var/datum/effect/effect/system/smoke_spread/freezing/S = new
+	var/datum/effect_system/smoke_spread/freezing/S = new
 	S.set_up(2, src.loc, blasting=1)
 	S.start()
 	var/obj/effect/decal/cleanable/flour/F = new /obj/effect/decal/cleanable/flour(src.loc)

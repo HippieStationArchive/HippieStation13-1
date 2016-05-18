@@ -35,6 +35,12 @@
 	if (notransform)
 		return
 
+	if(jobban_isbanned(src, "catban") && src.dna.species.name != "Tarajan")
+		src.set_species(/datum/species/cat, icon_update=1)
+
+	if(jobban_isbanned(src, "cluwneban") && !src.dna.check_mutation(CLUWNEMUT))
+		src.dna.add_mutation(CLUWNEMUT)
+
 	tinttotal = tintcheck() //here as both hud updates and status updates call it
 
 	if(..())
@@ -50,11 +56,13 @@
 	name = get_visible_name()
 
 	dna.species.spec_life(src) // for mutantraces
-
+	if(hud_used && hud_used.combo_object && hud_used.combo_object.cooldown < world.time)
+		hud_used.combo_object.update_icon()
 	//If they're a vampire, do vampire-specific thingies
 	if(is_vampire(src))
 		handle_vampirism()
 
+	handle_inventory()
 
 /mob/living/carbon/human/calculate_affecting_pressure(pressure)
 	if((wear_suit && (wear_suit.flags & STOPSPRESSUREDMAGE)) && (head && (head.flags & STOPSPRESSUREDMAGE)))
@@ -88,7 +96,7 @@
 				if(4)
 					emote("drool")
 				if(5)
-					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY","DILDOS!!1!"))
+					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY","DILDOS!!1!","hun~"))
 
 
 /mob/living/carbon/human/handle_mutations_and_radiation()
@@ -100,14 +108,17 @@
 		reagents.metabolize(src, can_overdose=1)
 
 /mob/living/carbon/human/breathe()
-	if(!dna.species.breathe(src))
-		..()
+	if(dna)
+		if(!dna.species.breathe(src))
+			..()
 
 /mob/living/carbon/human/check_breath(datum/gas_mixture/breath)
-	dna.species.check_breath(breath, src)
+	if(dna)
+		dna.species.check_breath(breath, src)
 
 /mob/living/carbon/human/handle_environment(datum/gas_mixture/environment)
-	dna.species.handle_environment(environment, src)
+	if(dna)
+		dna.species.handle_environment(environment, src)
 
 ///FIRE CODE
 /mob/living/carbon/human/handle_fire()
@@ -263,7 +274,8 @@
 
 /mob/living/carbon/human/handle_chemicals_in_body()
 	..()
-	dna.species.handle_chemicals_in_body(src)
+	if(dna)
+		dna.species.handle_chemicals_in_body(src)
 
 /mob/living/carbon/human/handle_vision()
 	client.screen.Remove(global_hud.blurry, global_hud.druggy, global_hud.vimpaired, global_hud.darkMask)
@@ -271,11 +283,12 @@
 		if(!machine.check_eye(src))		reset_view(null)
 	else
 		if(!client.adminobs)			reset_view(null)
-
-	dna.species.handle_vision(src)
+	if(dna)
+		dna.species.handle_vision(src)
 
 /mob/living/carbon/human/handle_hud_icons()
-	dna.species.handle_hud_icons(src)
+	if(dna)
+		dna.species.handle_hud_icons(src)
 
 /mob/living/carbon/human/handle_random_events()
 	// Puke if toxloss is too high
@@ -323,15 +336,27 @@
 /mob/living/carbon/human/proc/handle_embedded_objects()
 	for(var/obj/item/organ/limb/L in organs)
 		for(var/obj/item/I in L.embedded_objects)
-			if(prob(I.embedded_pain_chance))
-				L.take_damage(I.w_class*I.embedded_pain_multiplier)
-				src << "<span class='userdanger'>\the [I] embedded in your [L.getDisplayName()] hurts!</span>"
+			if(I.loc == src)
+				if(prob(35) && L.bloodloss < 0.5) //decent probability to get increased bleeding, though so it doesn't stack up to ridiculous values
+					L.take_damage(bleed=0.02)
+				if(prob(I.embedded_pain_chance))
+					L.take_damage(I.w_class*I.embedded_pain_multiplier)
+					src << "<span class='userdanger'>\the [I] embedded in your [L] hurts!</span>"
+			else
+				L.embedded_objects -= I
+				if(I.pinned) //Only the rodgun pins people down currently
+					do_pindown(pinned_to, 0)
+					pinned_to = null
+					anchored = 0
+					update_canmove()
+					I.pinned = null
 
 /mob/living/carbon/human/proc/handle_heart()
 	if(!heart_attack)
 		return
 	else
-		losebreath += 5
+		if(losebreath < 5)
+			losebreath += 2
 		adjustOxyLoss(5)
 		adjustBruteLoss(1)
 

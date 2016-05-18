@@ -30,6 +30,7 @@
 	return 1
 
 /obj/item/wallframe/proc/attach(turf/on_wall)
+	var/obj/O
 	if(result_path)
 		playsound(src.loc, 'sound/machines/click.ogg', 75, 1)
 		usr.visible_message("[usr.name] attaches [src] to the wall.",
@@ -39,10 +40,11 @@
 		if(inverse)
 			ndir = turn(ndir, 180)
 
-		var/obj/O = new result_path(get_turf(usr), ndir, 1)
+		O = new result_path(get_turf(usr), ndir, 1)
 		transfer_fingerprints_to(O)
 
 	qdel(src)
+	return O
 
 
 /obj/item/wallframe/attackby(obj/item/weapon/W, mob/user, params)

@@ -17,7 +17,10 @@
 
 /proc/is_convertable_to_cult(datum/mind/mind)
 	if(!istype(mind))	return 0
+	if(!istype(mind.current, /mob/living/carbon)) return 0
 	if(istype(mind.current, /mob/living/carbon/human) && (mind.assigned_role in list("Captain", "Chaplain")))	return 0
+	if(jobban_isbanned(mind.current, "catban")) return 0
+	if(jobban_isbanned(mind.current, "cluwneban")) return 0
 	if(isloyal(mind.current))
 		return 0
 	if (ticker.mode.name == "cult")		//redundent?
@@ -51,7 +54,7 @@
 /datum/game_mode/cult
 	name = "cult"
 	config_tag = "cult"
-	antag_flag = BE_CULTIST
+	antag_flag = ROLE_CULTIST
 	restricted_jobs = list("Chaplain","AI", "Cyborg", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel")
 	protected_jobs = list()
 	required_players = 20
@@ -131,6 +134,7 @@
 		equip_cultist(cult_mind.current)
 		update_cult_icons_added(cult_mind)
 		cult_mind.current << "<span class='userdanger'>You are a member of the cult!</span>"
+		cult_mind.current << "<a href=[config.wikiurl]/index.php?title=Cult_Basics>First time cultist? Click here to be linked to the wiki guide on cultists.</a>"
 		memorize_cult_objectives(cult_mind)
 	..()
 
@@ -189,6 +193,7 @@
 		cult_mind.current.Paralyse(5)
 		cult += cult_mind
 		cult_mind.current.cult_add_comm()
+		cult_mind.special_role = "Cultist"
 		update_cult_icons_added(cult_mind)
 		cult_mind.current.attack_log += "\[[time_stamp()]\] <span class='danger'>Has been converted to the cult!</span>"
 		return 1

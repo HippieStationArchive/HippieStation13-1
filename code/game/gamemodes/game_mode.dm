@@ -136,7 +136,9 @@
 
 	for(var/mob/living/carbon/human/H in living_crew)
 		if(H.client && H.client.prefs.allow_midround_antag)
-			antag_canadates += H
+			if(!jobban_isbanned(H, "catban"))
+				if(!jobban_isbanned(H, "cluwneban"))
+					antag_canadates += H
 
 	if(!antag_canadates)
 		message_admins("Convert_roundtype failed due to no antag canadates.")
@@ -248,7 +250,10 @@
 		feedback_set("escaped_human",escaped_humans)
 	if(escaped_total > 0)
 		feedback_set("escaped_total",escaped_total)
-	send2irc("Server", "Round just ended.")
+	var/mode_to_display = "[ticker.mode]"
+	if(master_mode == "secret")
+		mode_to_display = "secret ([ticker.mode])"
+	send2irc("Server", "A round of [mode_to_display] just ended with [surviving_total] survivors and [ghosts] observers.")
 	return 0
 
 
@@ -292,22 +297,9 @@
 	var/list/drafted = list()
 	var/datum/mind/applicant = null
 
-	var/roletext
-	switch(role)
-		if(BE_CHANGELING)	roletext="changeling"
-		if(BE_TRAITOR)		roletext="traitor"
-		if(BE_OPERATIVE)	roletext="operative"
-		if(BE_WIZARD)		roletext="wizard"
-		if(BE_REV)			roletext="revolutionary"
-		if(BE_GANG)			roletext="gangster"
-		if(BE_CULTIST)		roletext="cultist"
-		if(BE_MONKEY)		roletext="monkey"
-		if(BE_ABDUCTOR)		roletext="abductor"
-
-
 	// Ultimate randomizing code right here
 	for(var/mob/new_player/player in player_list)
-		if(player.client && player.ready)
+		if(player.client && player.ready && !jobban_isbanned(player, "catban"))
 			players += player
 
 	// Shuffling, the players list is now ping-independent!!!
@@ -316,8 +308,8 @@
 
 	for(var/mob/new_player/player in players)
 		if(player.client && player.ready)
-			if(player.client.prefs.be_special & role)
-				if(!jobban_isbanned(player, "Syndicate") && !jobban_isbanned(player, roletext)) //Nodrak/Carn: Antag Job-bans
+			if(role in player.client.prefs.be_special)
+				if(!jobban_isbanned(player, "Syndicate") && !jobban_isbanned(player, role)) //Nodrak/Carn: Antag Job-bans
 					if(age_check(player.client)) //Must be older than the minimum age
 						candidates += player.mind				// Get a list of all the people who want to be the antagonist for this round
 
@@ -330,8 +322,8 @@
 	if(candidates.len < recommended_enemies)
 		for(var/mob/new_player/player in players)
 			if(player.client && player.ready)
-				if(!(player.client.prefs.be_special & role)) // We don't have enough people who want to be antagonist, make a seperate list of people who don't want to be one
-					if(!jobban_isbanned(player, "Syndicate") && !jobban_isbanned(player, roletext)) //Nodrak/Carn: Antag Job-bans
+				if(!(role in player.client.prefs.be_special)) // We don't have enough people who want to be antagonist, make a seperate list of people who don't want to be one
+					if(!jobban_isbanned(player, "Syndicate") && !jobban_isbanned(player, role)) //Nodrak/Carn: Antag Job-bans
 						drafted += player.mind
 
 	if(restricted_jobs)
@@ -400,7 +392,7 @@
 	var/list/heads = list()
 	for(var/mob/living/carbon/human/player in mob_list)
 		if(player.stat!=2 && player.mind && (player.mind.assigned_role in command_positions))
-			heads += player.mind
+			heads |= player.mind
 	return heads
 
 
@@ -411,7 +403,7 @@
 	var/list/heads = list()
 	for(var/mob/player in mob_list)
 		if(player.mind && (player.mind.assigned_role in command_positions))
-			heads += player.mind
+			heads |= player.mind
 	return heads
 
 //////////////////////////
@@ -514,3 +506,9 @@
 		return 0
 
 	return max(0, enemy_minimum_age - C.player_age)
+
+/datum/game_mode/proc/remove_antag_for_borging(datum/mind/newborgie)
+	ticker.mode.remove_cultist(newborgie, 1)
+	ticker.mode.remove_revolutionary(newborgie, 1)
+	ticker.mode.remove_gangster(newborgie, 1, remove_bosses=1)
+	ticker.mode.remove_hog_follower(newborgie, 0)

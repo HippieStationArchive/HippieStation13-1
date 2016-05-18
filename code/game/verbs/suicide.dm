@@ -35,23 +35,22 @@
 
 				//Do 175 damage divided by the number of damage types applied.
 				if(damagetype & BRUTELOSS)
-					adjustBruteLoss(200/damage_mod)
+					adjustBruteLoss(175/damage_mod)
 
 				if(damagetype & FIRELOSS)
-					adjustFireLoss(200/damage_mod)
+					adjustFireLoss(175/damage_mod)
 
 				if(damagetype & TOXLOSS)
-					adjustToxLoss(200/damage_mod)
+					adjustToxLoss(175/damage_mod)
 
 				if(damagetype & OXYLOSS)
-					adjustOxyLoss(200/damage_mod)
+					adjustOxyLoss(175/damage_mod)
 
 				//If something went wrong, just do normal oxyloss
 				if(!(damagetype | BRUTELOSS) && !(damagetype | FIRELOSS) && !(damagetype | TOXLOSS) && !(damagetype | OXYLOSS))
-					adjustOxyLoss(max(200 - getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
+					adjustOxyLoss(max(175 - getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
 
 				updatehealth()
-				death(0)
 				return
 
 		var/suicide_message = pick("[src] is attempting to bite \his tongue off! It looks like \he's trying to commit suicide.", \
@@ -59,11 +58,10 @@
 							"[src] is twisting \his own neck! It looks like \he's trying to commit suicide.", \
 							"[src] is holding \his breath! It looks like \he's trying to commit suicide.")
 
-		visible_message("<span class='danger'>[suicide_message]</span>", "<span class='userdanger'>[suicide_message]</span>")
+		visible_message("<span class='suicide'>[suicide_message]</span>", "<span class='suicide'>[suicide_message]</span>")
 
-		adjustOxyLoss(max(200 - getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
+		adjustOxyLoss(max(175 - getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
 		updatehealth()
-		death(0)
 
 /mob/living/carbon/brain/verb/suicide()
 	set hidden = 1
@@ -179,6 +177,8 @@
 		src << "You're already dead!"
 	else if(stat == UNCONSCIOUS)
 		src << "You need to be conscious to suicide!"
+	else if(suiciding)
+		src << "You are already suiciding!"
 	return
 
 /mob/living/carbon/canSuicide()
@@ -186,5 +186,8 @@
 		return
 	if(!canmove || restrained())	//just while I finish up the new 'fun' suiciding verb. This is to prevent metagaming via suicide
 		src << "You can't commit suicide whilst restrained! ((You can type Ghost instead however.))"
+		return
+	if((src.dna.check_mutation(CLUWNEMUT)))
+		src << "Cluwnes cannot suicide! Find a natural means of death!"
 		return
 	return 1

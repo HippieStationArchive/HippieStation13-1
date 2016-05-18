@@ -44,10 +44,11 @@
 		else
 				return 0
 
-/mob/living/hitby(atom/movable/AM, skipcatch, hitpush = 1, blocked = 0)
+/mob/living/hitby(atom/movable/AM, skipcatch, hitpush = 1, blocked = 0, zone)
 	if(istype(AM, /obj/item))
 		var/obj/item/I = AM
-		var/zone = ran_zone("chest", 65)//Hits a random part of the body, geared towards the chest
+		if(zone == "")
+			zone = ran_zone(I.throwing_def_zone, 65)//Hits a random part of the body, geared towards the item's throwing_def_zone
 		var/dtype = BRUTE
 		var/volume = vol_by_throwforce_and_or_w_class(I)
 		if(istype(I,/obj/item/weapon)) //If the item is a weapon...
@@ -67,33 +68,34 @@
 		if(!I.throwforce)// Otherwise, if the item's throwforce is 0...
 			playsound(loc, 'sound/weapons/throwtap.ogg', 1, volume, -1)//...play throwtap.ogg.
 		if(!blocked)
-			visible_message("<span class='danger'>[src] has been hit by [I].</span>", \
-							"<span class='userdanger'>[src] has been hit by [I].</span>")
+			visible_message("<span class='danger'>[src] has been hit by [I] in \the [parse_zone(zone)].</span>", \
+							"<span class='userdanger'>[src] has been hit by [I] in \the [parse_zone(zone)].</span>")
 			var/armor = run_armor_check(zone, "melee", "Your armor has protected your [parse_zone(zone)].", "Your armor has softened hit to your [parse_zone(zone)].",I.armour_penetration)
 			apply_damage(I.throwforce, dtype, zone, armor, I)
 	else
 		playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
-	..()
+	..(AM, skipcatch, hitpush, blocked, zone)
 
 /mob/living/mech_melee_attack(obj/mecha/M)
 	if(M.occupant.a_intent == "harm")
-		if(M.damtype == "brute")
+		if(M.damtype == BRUTE)
 			step_away(src,M,15)
 		switch(M.damtype)
-			if("brute")
+			if(BRUTE)
 				Paralyse(1)
 				take_overall_damage(rand(M.force/2, M.force))
 				playsound(src, 'sound/weapons/punch4.ogg', 50, 1)
-			if("fire")
+			if(BURN)
 				take_overall_damage(0, rand(M.force/2, M.force))
 				playsound(src, 'sound/items/Welder.ogg', 50, 1)
-			if("tox")
+			if(TOX)
 				M.mech_toxin_damage(src)
 			else
 				return
 		updatehealth()
 		visible_message("<span class='danger'>[M.name] has hit [src]!</span>", \
 						"<span class='userdanger'>[M.name] has hit [src]!</span>")
+		//TODO: Change this to use the damtype word not int
 		add_logs(M.occupant, src, "attacked", M, "(INTENT: [uppertext(M.occupant.a_intent)]) (DAMTYPE: [uppertext(M.damtype)])")
 	else
 		step_away(src,M)
@@ -165,6 +167,7 @@
 		L.IgniteMob()
 
 	if(L_old_on_fire) //Only ignite us and gain their stacks if they were onfire before we bumped them
+		add_logs(src, L, " set aflame ")
 		L.fire_stacks /= 2
 		fire_stacks += L.fire_stacks
 		IgniteMob()
@@ -201,8 +204,9 @@
 		M << "You cannot attack people before the game has started."
 		return
 
-	if(M.Victim)
-		return // can't attack while eating!
+	if(M.buckled)
+		if(M == buckled_mob)
+			M.Feedstop()
 
 	if (stat != DEAD)
 		add_logs(M, src, "attacked")

@@ -4,7 +4,7 @@
 	weight = 5
 	max_occurrences = 1
 
-	earliest_start = 180000 // 30 min
+	earliest_start = 18000 // Actually 30 min
 
 	gamemode_blacklist = list("nuclear","wizard","revolution","abduction")
 
@@ -18,8 +18,8 @@
 			makeAbductorTeam()
 
 /datum/round_event/abductor/proc/makeAbductorTeam()
-	var/list/mob/dead/observer/candidates = pollCandidates("Do you wish to be considered for an Abductor Team?", "abductor", null)
-	
+	var/list/mob/dead/observer/candidates = pollCandidates("Do you wish to be considered for an Abductor Team?", "abductor", null, ROLE_ABDUCTOR)
+
 	if(candidates.len >= 2)
 		//Oh god why we can't have static functions
 		var/number =  ticker.mode.abductor_teams + 1

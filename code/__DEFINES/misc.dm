@@ -26,9 +26,9 @@
 #define SPECIES_LAYER			27		// mutantrace colors... these are on a seperate layer in order to prvent
 #define MUTATIONS_LAYER			26		//mutations. Hulk, Tk headglows, etc
 #define BODY_BEHIND_LAYER		25
-#define BODY_LAYER				24		//underwear, undershirts, socks, eyes, lips(makeup)
-#define BODY_ADJ_LAYER			23
-#define AUGMENTS_LAYER			22
+#define BODYPARTS_LAYER			24		//Initially "AUGMENTS", this was repurposed to be a catch-all bodyparts flag
+#define BODY_LAYER				23		//underwear, undershirts, socks, eyes, lips(makeup)
+#define BODY_ADJ_LAYER			22
 #define FRONT_MUTATIONS_LAYER	21		//mutations that should appear above body and augments layer (e.g. laser eyes)
 #define DAMAGE_LAYER			20		//damage indicators (cuts and burns)
 #define UNIFORM_LAYER			19
@@ -60,7 +60,7 @@
 #define UNDER_BODY_LAYER			BODY_LAYER+1
 #define UNDER_BODY_ADJ_LAYER		BODY_ADJ_LAYER+1
 #define UNDER_MUTATIONS_LAYER		MUTATIONS_LAYER+1
-#define UNDER_AUGMENTS_LAYER		AUGMENTS_LAYER+1
+#define UNDER_BODYPARTS_LAYER		BODYPARTS_LAYER+1
 #define UNDER_DAMAGE_LAYER			DAMAGE_LAYER+1
 #define UNDER_UNIFORM_LAYER			UNIFORM_LAYER+1
 #define UNDER_ID_LAYER				ID_LAYER+1
@@ -88,7 +88,7 @@
 #define ABOVE_BODY_LAYER			BODY_LAYER-1
 #define ABOVE_BODY_ADJ_LAYER		BODY_ADJ_LAYER-1
 #define ABOVE_MUTATIONS_LAYER		MUTATIONS_LAYER-1
-#define ABOVE_AUGMENTS_LAYER		AUGMENTS_LAYER-1
+#define ABOVE_BODYPARTS_LAYER		BODYPARTS_LAYER-1
 #define ABOVE_DAMAGE_LAYER			DAMAGE_LAYER-1
 #define ABOVE_UNIFORM_LAYER			UNIFORM_LAYER-1
 #define ABOVE_ID_LAYER				ID_LAYER-1
@@ -273,3 +273,16 @@ var/list/bloody_footprints_cache = list()
 #define IS_BLUNT			0
 #define IS_SHARP			1
 #define IS_SHARP_ACCURATE	2
+
+//lighting area defines
+#define DYNAMIC_LIGHTING_DISABLED 0 //dynamic lighting disabled (area stays at full brightness)
+#define DYNAMIC_LIGHTING_ENABLED 1 //dynamic lighting enabled
+#define DYNAMIC_LIGHTING_IFSTARLIGHT 2 //dynamic lighting enabled only if starlight is.
+#define IS_DYNAMIC_LIGHTING(A) ( A.lighting_use_dynamic == DYNAMIC_LIGHTING_IFSTARLIGHT ? config.starlight : A.lighting_use_dynamic )
+
+//Ghost orbit types:
+#define GHOST_ORBIT_CIRCLE		"circle"
+#define GHOST_ORBIT_TRIANGLE	"triangle"
+#define GHOST_ORBIT_HEXAGON		"hexagon"
+#define GHOST_ORBIT_SQUARE		"square"
+#define GHOST_ORBIT_PENTAGON	"pentagon"

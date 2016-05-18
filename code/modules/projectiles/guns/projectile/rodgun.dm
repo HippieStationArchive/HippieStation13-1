@@ -23,6 +23,7 @@
 	projectile_type = /obj/item/projectile/rod
 
 /obj/item/projectile/rod/on_hit(atom/target, blocked = 0, hit_zone)
+	..()
 	if(ismob(target))
 		playsound(target, 'sound/weapons/rodgun_pierce.ogg', 50, 1)
 		if(ishuman(target))
@@ -34,8 +35,8 @@
 				R.loc = H
 				O.embedded_objects += R //Lodge the object into the limb
 				H.update_damage_overlays() //Update the fancy embeds
-				visible_message("<span class='warning'>The [R] has embedded into [H]'s [O.getDisplayName()]!</span>",
-								"<span class='userdanger'>You feel [R] lodge into your [O.getDisplayName()]!</span>")
+				visible_message("<span class='warning'>The [R] has embedded into [H]'s [O]!</span>",
+								"<span class='userdanger'>You feel [R] lodge into your [O]!</span>")
 				playsound(H, 'sound/weapons/rodgun_pierce.ogg', 50, 1) //For super audible murder
 				H.emote("scream")
 				var/turf/T = get_step(H, dir)
@@ -73,8 +74,7 @@
 	var/maxrods = 3
 //Info
 /obj/item/weapon/gun/rodgun/update_icon()
-	..()
-	overlays.Cut()
+	..() //overlays.Cut() is called in parent
 	if(rods > 0)
 		overlays += "rg_loaded"
 /obj/item/weapon/gun/rodgun/examine(mob/user)

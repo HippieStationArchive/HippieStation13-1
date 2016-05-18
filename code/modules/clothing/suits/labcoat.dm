@@ -46,3 +46,40 @@
 	name = "scientist labcoat"
 	desc = "A suit that protects against minor chemical spills. Has a purple stripe on the shoulder."
 	icon_state = "labcoat_tox"
+
+/obj/item/clothing/suit/labcoat/chameleon //For some reason the button up button was appearing where the action button should be for this, so until someone works that out this thing cant be buttoned up I guess
+	name = "labcoat"
+	icon_state = "labcoat"
+	item_state = "labcoat"
+	desc = "A reinforced labcoat that protects against much more than a minor chemical spill. Has a small dial inside it."
+	action_button_name = "Change"
+	origin_tech = "syndicate=2"
+	armor = list(melee = 35, bullet = 15, laser = 15, energy = 0, bomb = 0, bio = 50, rad = 0) //real armor is still better
+	var/list/clothing_choices = list()
+	burn_state = -1 //Won't burn in fires
+
+/obj/item/clothing/suit/labcoat/chameleon/New()
+	..()
+	for(var/U in typesof(/obj/item/clothing/suit/toggle/labcoat)-(/obj/item/clothing/suit/toggle/labcoat))
+		var/obj/item/clothing/suit/toggle/V = new U
+		src.clothing_choices += V
+	return
+
+/obj/item/clothing/suit/labcoat/chameleon/attack_self()
+	set src in usr
+
+	var/obj/item/clothing/suit/toggle/labcoat/A
+	A = input("Select Design to change it to", "BOOYEA", A) in clothing_choices
+	if(!A)
+		return
+
+	if(usr.stat != CONSCIOUS)
+		return
+
+	desc = null
+
+	desc = A.desc
+	name = A.name
+	icon_state = A.icon_state
+	item_state = A.item_state
+	usr.update_inv_wear_suit()	//so our overlays update.

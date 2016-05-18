@@ -13,9 +13,12 @@
 
 /mob/living/carbon/throw_impact(atom/hit_atom)
 	. = ..()
-	if(hit_atom.density && isturf(hit_atom))
+	if(hit_atom.density && isturf(hit_atom)) //Bash them into the wall
 		Weaken(1)
 		take_organ_damage(10)
+		playsound(src.loc, 'sound/weapons/Genhit.ogg', 50, 1)
+		visible_message("<span class='danger'>[src] slams into \the [hit_atom]!</span>", \
+						"<span class='userdanger'>You slam into \the [hit_atom]!</span>")
 
 /mob/living/carbon/attackby(obj/item/I, mob/user, params)
 	if(lying || user == src)
@@ -82,7 +85,7 @@
 				visible_message("<span class='danger'>The [M.name] has shocked [src]!</span>", \
 				"<span class='userdanger'>The [M.name] has shocked [src]!</span>")
 
-				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+				var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 				s.set_up(5, 1, src)
 				s.start()
 				var/power = M.powerlevel + rand(0,3)

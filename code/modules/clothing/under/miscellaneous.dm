@@ -30,8 +30,20 @@
 	item_color = "cosby"
 	can_adjust = 0
 	force = 0.001 	//TG doesn't have the forcehitsound that Hippie has at the moment, so this is just a hacky solution until or unless we figure something out -DerptheStewpidGoat
-	hitsound = list('sound/voice/cosby1.ogg','sound/voice/cosby2.ogg','sound/voice/cosby3.ogg','sound/voice/cosby4.ogg','sound/voice/cosby5.ogg')
+	alternate_screams = list('sound/voice/cosby1.ogg','sound/voice/cosby2.ogg','sound/voice/cosby3.ogg','sound/voice/cosby4.ogg','sound/voice/cosby5.ogg')
 	burn_state = -1
+
+/obj/item/clothing/under/cosby/equipped(mob/living/carbon/user, slot)
+	if(slot == slot_w_uniform)
+		user.add_screams(src.alternate_screams) // using src to clarify which list we want
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.reindex_screams() // Use the more robust version
+		else
+			user.reindex_screams()
+
+	return ..()
 
 /obj/item/clothing/under/sl_suit
 	desc = "It's a very amish looking suit."
@@ -168,6 +180,12 @@
 	icon_state = "cloud"
 	item_color = "cloud"
 	can_adjust = 0
+
+/obj/item/clothing/under/gimmick/ass
+	name = "ASS Jumpsuit"
+	desc = "Assault System Specialist Combat Heavy Enhanced Energetic Kenitic Suit."
+	icon_state = "black"
+	item_color = "black"
 
 /obj/item/clothing/under/gimmick/rank/captain/suit
 	name = "captain's suit"
@@ -308,6 +326,17 @@
 	item_state = "pirate"
 	item_color = "pirate"
 	can_adjust = 0
+
+/obj/item/clothing/under/pmc
+	name = "urban-camouflage fatigues"
+	desc = "A set of fatigues in a dark urban camouflage. Manufactured by Ion Incorporated for its private military contractors in need of a robust uniform."
+	icon_state = "pmc"
+	item_state = "black"
+	item_color = "pmc"
+	has_sensor = 0
+	can_adjust = 0
+	armor = list(melee = 10, bullet = 5, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	unacidable = 1
 
 /obj/item/clothing/under/soviet
 	name = "soviet uniform"
@@ -517,3 +546,19 @@
 	icon_state = "tracksuit"
 	item_state = "tracksuit"
 	item_color = "tracksuit"
+
+/obj/item/clothing/under/zootsuit
+	name = "zoot suit"
+	desc = "A snazzy purple zoot suit. The name 'Big Papa' is stitched on the inside of the collar."
+	icon_state = "zootsuit"
+	item_state = "zootsuit"
+	item_color = "zootsuit"
+	can_adjust = 0
+
+/obj/item/clothing/under/telvis
+	name = "snazzy jumpsuit"
+	desc = "A swingin' white jumpsuit studded with rhinestones. The name 'Telvis' is stitched on the inside of the collar."
+	icon_state = "telvis"
+	item_state = "telvis"
+	item_color = "telvis"
+	can_adjust = 0

@@ -21,6 +21,9 @@
 	dat += "<A href='?src=\ref[src];boxingcourt=1'>((Dodgeball Arena)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];basketball=1'>((Basketball Court)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];thunderdomecourt=1'>((Thunderdome Court)</font>)</A><BR>"
+	dat += "<A href='?src=\ref[src];wrestling=1'>((Wrestling Arena)</font>)</A><BR>"
+	dat += "<A href='?src=\ref[src];cqc=1'>((CQC VR Training)</font>)</A><BR>"
+	dat += "<A href='?src=\ref[src];krav_maga=1'>((Krav Maga Training)</font>)</A><BR>"
 	dat += "<A href='?src=\ref[src];beach=1'>((Beach)</font>)</A><BR>"
 //	dat += "<A href='?src=\ref[src];turnoff=1'>((Shutdown System)</font>)</A><BR>"
 
@@ -74,6 +77,21 @@
 
 		else if(href_list["thunderdomecourt"])
 			target = locate(/area/holodeck/source_thunderdomecourt)
+			if(target)
+				loadProgram(target)
+
+		else if(href_list["wrestling"])
+			target = locate(/area/holodeck/source_wrestling)
+			if(target)
+				loadProgram(target)
+
+		else if(href_list["cqc"])
+			target = locate(/area/holodeck/source_cqc)
+			if(target)
+				loadProgram(target)
+
+		else if(href_list["krav_maga"])
+			target = locate(/area/holodeck/source_krav_maga)
 			if(target)
 				loadProgram(target)
 
@@ -165,13 +183,13 @@
 			if(target)
 				loadProgram(target)
 			active = 0
-			for(var/mob/M in range(10,src))
+			for(var/mob/M in ultra_range(10,src))
 				M.show_message("The holodeck overloads!")
 
 
 			for(var/turf/T in linkedholodeck)
 				if(prob(30))
-					var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+					var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 					s.set_up(2, 1, T)
 					s.start()
 				T.ex_act(3)
@@ -240,7 +258,7 @@
 				spawn(20)
 					if(istype(target,/area/holodeck/source_burntest))
 						var/turf/T = get_turf(L)
-						var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+						var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 						s.set_up(2, 1, T)
 						s.start()
 						if(T)
@@ -360,9 +378,9 @@
 	New()
 		item_color = "red"
 
-/obj/item/weapon/holo/esword/IsShield()
+/obj/item/weapon/holo/esword/hit_reaction(mob/living/carbon/human/owner, attack_text, final_block_chance)
 	if(active)
-		return 1
+		return ..()
 	return 0
 
 /obj/item/weapon/holo/esword/attack(mob/target, mob/user)

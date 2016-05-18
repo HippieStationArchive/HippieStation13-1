@@ -268,3 +268,96 @@ Contains:
 	armor = list(melee = -20, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 100, rad = 75) //As whimpy whimpy whoo
 	allowed = list(/obj/item/weapon/tank/internals, /obj/item/weapon/gun/projectile/automatic/speargun)	//I'm giving you a hint here
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/carp
+
+//Facepunch ASS armor
+
+/obj/item/clothing/suit/space/ass
+	name = "ASS Armor"
+	desc = "Assault System Specialist Combat Suit. Highly resistant to pressure and all forms of damage."
+	icon_state = "tcom"
+	item_state = "tcom"
+	flags_inv = null
+	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
+	armor = list(melee = 80, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 100, rad = 100)
+	slowdown = 0.5
+	strip_delay = 130
+
+/obj/item/clothing/head/helmet/space/ass
+	name = "ass helmet"
+	desc = "Assault System Specialist Combat Helmet. Highly resistant to pressure and all forms of damage."
+	icon_state = "tcom"
+	item_state = "tcom"
+	armor = list(melee = 80, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 100, rad = 100)
+	strip_delay = 130
+
+//Space Marine Power Armor from Facepunch
+
+/obj/item/clothing/head/helmet/space/imperium
+	name = "Mark VII Aquila Helmet"
+	desc = "The Mark VII Helmet corresponding to it's parent Power Armour."
+	icon_state = "bloodraven_helmet"
+	item_state = "bloodraven_helmet"
+	armor = list(melee = 80, bullet = 70, laser = 70, energy = 40, bomb = 80, bio = 100, rad = 100)
+	strip_delay = 200
+
+/obj/item/clothing/suit/space/imperium
+	name = "Mark VII Aquila Power Armour"
+	desc = "Mark VII armour was developed during the Horus Heresy, and remains in use as the most common form of power armour."
+	icon_state = "bloodraven_suit"
+	item_state = "bloodraven_suit"
+	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
+	slowdown = 1
+	armor = list(melee = 80, bullet = 70, laser = 70, energy = 40, bomb = 80, bio = 100, rad = 100)
+	strip_delay = 200
+/obj/item/clothing/suit/space/mime
+	name = "Miming spacesuit"
+	icon_state = "spacemime"
+	item_state = "spacemime"
+	desc = "A special spacesuit designed for silent baguette munching in hazardous, low pressure environment. Has reinforced plating in case the white flag is not seen."
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+
+/obj/item/clothing/head/helmet/space/mime
+	name = "Miming spacehelmet"
+	icon_state = "hardsuit0-mime"
+	item_state = "hardsuit0-mime"
+	desc = "A special helmet designed for silent baguette munching in hazardous, low pressure environment. Has reinforced plating in case the white flag is not seen."
+	flash_protect = 1
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+
+/obj/item/clothing/suit/space/clown
+	name = "Clowning spacesuit"
+	icon_state = "spaceclown"
+	item_state = "spaceclown"
+	desc = "A special spacesuit designed for HONKing in a hazardous, low pressure environment. Has reinforced plating for assistant encounters."
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+
+/obj/item/clothing/head/helmet/space/clown
+	name = "Clowning spacehelmet"
+	icon_state = "hardsuit0-clown"
+	item_state = "hardsuit0-clown"
+	desc = "A special helmet designed for HONKing in a hazardous, low pressure environment. Has reinforced plating for assistant encounters."
+	flash_protect = 1
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
+	armor = list(melee = 10, bullet = 5, laser = 10, energy = 5, bomb = 10, bio = 100, rad = 50)
+
+/obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal
+	name = "paranormal response unit helmet"
+	desc = "A helmet worn by those who deal with paranormal threats for a living."
+	icon_state = "hardsuit0-prt"
+	item_state = "hardsuit0-prt"
+	item_color = "knight_grey"
+	max_heat_protection_temperature = FIRE_IMMUNITY_HELM_MAX_TEMP_PROTECT
+
+/obj/item/clothing/suit/space/hardsuit/ert/paranormal
+	name = "paranormal response team suit"
+	desc = "Powerful wards are built into this hardsuit, protecting the user from all manner of paranormal threats."
+	icon_state = "knight_grey"
+	item_state = "knight_grey"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal
+	max_heat_protection_temperature = FIRE_IMMUNITY_SUIT_MAX_TEMP_PROTECT
+
+
+/obj/item/clothing/suit/space/hardsuit/ert/paranormal/New()
+	..()
+	new /obj/item/weapon/nullrod(src)

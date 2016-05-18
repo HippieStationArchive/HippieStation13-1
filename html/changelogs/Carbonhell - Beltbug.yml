@@ -1,0 +1,6 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed not being able to strip people's belt slot if they have no jumpsuit."

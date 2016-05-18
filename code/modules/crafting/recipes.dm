@@ -228,3 +228,23 @@
 				/obj/item/stack/rods = 1,)
 	time = 120
 	category = CAT_WEAPON
+
+/datum/table_recipe/paper_cartridge//for duh breechloadin ryefull
+	name = "Black Powder Cartridge"
+	result = /obj/item/ammo_casing/musket
+	tools = list(/obj/item/weapon/screwdriver)
+	reqs = list(/obj/item/ammo_casing/minieball = 1,
+				/obj/item/stack/ducttape = 2,
+				/obj/item/weapon/paper = 1,
+				/datum/reagent/blackpowder = 15)
+	time = 300
+	category = CAT_AMMO
+
+
+/datum/table_recipe/minieball //for paper cartridge craftin'
+	name = "Minieball"
+	result = /obj/item/ammo_casing/minieball
+	tools = list(/obj/item/weapon/weldingtool)
+	reqs = list(/obj/item/stack/sheet/metal = 2)
+	time = 120
+	category = CAT_WEAPON

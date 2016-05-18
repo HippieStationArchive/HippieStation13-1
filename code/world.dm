@@ -5,6 +5,8 @@
 	view = "15x15"
 	cache_lifespan = 7
 
+var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
+
 /world/New()
 	map_ready = 1
 
@@ -101,7 +103,11 @@
 		s["host"] = host ? host : null
 
 		var/admins = 0
+		var/mentors = 0
 		for(var/client/C in clients)
+			var/mentor = mentor_datums[C.ckey]
+			if(mentor)
+				mentors++
 			if(C.holder)
 				if(C.holder.fakekey)
 					continue	//so stealthmins aren't revealed by the hub
@@ -112,6 +118,7 @@
 		s["revision"] = revdata.revision
 		s["revision_date"] = revdata.date
 		s["admins"] = admins
+		s["mentors"] = mentors
 		s["gamestate"] = 1
 		if(ticker)
 			s["gamestate"] = ticker.current_state
@@ -189,6 +196,7 @@
 	join_motd = file2text("config/motd.txt")
 
 /world/proc/load_configuration()
+	protected_config = new /datum/protected_configuration()
 	config = new /datum/configuration()
 	config.load("config/config.txt")
 	config.load("config/game_options.txt","game_options")
@@ -203,7 +211,7 @@
 	if (config && config.server_name)
 		s += "<b>[config.server_name]</b> &#8212; "
 
-	s += "<h2><b><a href=\"http://hippie-station-13.com\">[station_name()]</a></b></h2>"
+	s += "<h2><b><a href=\"[config.forumurl]\">[station_name()]</a></b></h2>"
 
 	var/list/features = list()
 

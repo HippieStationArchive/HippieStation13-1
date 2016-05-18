@@ -1,6 +1,6 @@
 /**
  * Multitool -- A multitool is used for hacking electronic devices.
- * TO-DO -- Using it as a power measurement tool for cables etc. Nannek.
+ *
  *
  */
 
@@ -17,7 +17,7 @@
 	origin_tech = "magnets=1;engineering=1"
 	var/obj/machinery/telecomms/buffer // simple machine buffer for device linkage
 	hitsound = 'sound/weapons/tap.ogg'
-
+	toolspeed = 1
 
 // Syndicate device disguised as a multitool; it will turn red when an AI camera is nearby.
 

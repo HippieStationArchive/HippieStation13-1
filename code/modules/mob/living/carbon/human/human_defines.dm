@@ -1,6 +1,10 @@
 /mob/living/carbon/human
 	languages = HUMAN
-	hud_possible = list(HEALTH_HUD,STATUS_HUD,ID_HUD,WANTED_HUD,IMPLOYAL_HUD,IMPCHEM_HUD,IMPTRACK_HUD,ANTAG_HUD)
+	hud_possible = list(HEALTH_HUD,STATUS_HUD,ID_HUD,WANTED_HUD,IMPLOYAL_HUD,IMPCHEM_HUD,IMPTRACK_HUD,ANTAG_HUD,ANTAG_HUD_ADMIN)
+
+	crit_can_crawl = 1
+	crit_crawl_damage = 1 //Crawling in crit should apply 1 oxyloss
+	crit_crawl_damage_type = OXY //Just in case
 	//Hair colour and style
 	var/hair_color = "000"
 	var/hair_style = "Bald"
@@ -37,8 +41,6 @@
 	var/obj/item/l_store = null
 	var/obj/item/s_store = null
 
-	var/icon/base_icon_state = "caucasian1_m"
-
 	var/special_voice = "" // For changing our voice. Used by a symptom.
 
 	var/gender_ambiguous = 0 //if something goes wrong during gender reassignment this generates a line in examine
@@ -49,6 +51,7 @@
 	var/list/organs = list() //Gets filled up in the constructor (human.dm, New() proc.
 
 	var/datum/martial_art/martial_art = null
+	var/datum/martial_art/martial_art_base = null //Permament martial art
 
 	var/name_override //For temporary visible name changes
 

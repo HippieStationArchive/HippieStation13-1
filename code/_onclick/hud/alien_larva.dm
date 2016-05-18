@@ -46,6 +46,7 @@
 	mymob.flash.name = "flash"
 	mymob.flash.screen_loc = "WEST,SOUTH to EAST,NORTH"
 	mymob.flash.layer = 17
+	mymob.flash.mouse_opacity = 0
 
 	mymob.zone_sel = new /obj/screen/zone_sel/alien()
 	mymob.zone_sel.icon = 'icons/mob/screen_alien.dmi'

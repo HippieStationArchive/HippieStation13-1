@@ -175,7 +175,7 @@
 		if(W.attack_verb.len)
 			averb = pick(W.attack_verb)
 		if(W.force == 0 || amount <= 0 || damage_resistance == -1)
-			visible_message("\red <b>\The [src] has been [averb] with \the [W][(user ? " by [user]" : "")] to no affect!</b>")
+			visible_message("\red <b>\The [src] has been [averb] with \the [W][(user ? " by [user]" : "")] to no effect!</b>")
 			return
 		else
 			visible_message("\red <b>\The [src] has been [averb] with \the [W][(user ? " by [user]!" : "!")]</b>")

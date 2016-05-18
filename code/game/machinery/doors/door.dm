@@ -161,7 +161,7 @@
 /obj/machinery/door/ex_act(severity, target)
 	if(severity == 3)
 		if(prob(80))
-			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+			var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 			s.set_up(2, 1, src)
 			s.start()
 		return
@@ -255,6 +255,7 @@
 		else //for simple_animals & borgs
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
 			playsound(L.loc, 'sound/effects/bang.ogg', 60, 1)
+		add_logs(src, L, "crushed")
 		var/turf/location = src.loc
 		if(istype(location, /turf/simulated)) //add_blood doesn't work for borgs/xenos, but add_blood_floor does.
 			location.add_blood_floor(L)

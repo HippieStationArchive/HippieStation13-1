@@ -70,10 +70,10 @@
 	max_ammo = 40
 
 /obj/item/ammo_box/a40mm
-	name = "ammo box (40mm grenades)"
+	name = "ammo box (40mm HE grenades)"
 	icon_state = "40mm"
 	ammo_type = /obj/item/ammo_casing/a40mm
-	max_ammo = 4
+	max_ammo = 6
 	multiple_sprites = 1
 
 /obj/item/ammo_box/a762

@@ -4,7 +4,7 @@
 	icon_state = null
 	pixel_y = -32
 	pixel_x = -100
-
+	layer = 16
 
 	proc/start()
 		icon_state = "lightning" //i'm sure there's a more elegant way to do this.
@@ -22,14 +22,14 @@
 	confirm = input(src, "Really smite [M.name]([M.ckey])?", "Divine Retribution") in list("Yeah", "Nah")
 	if(confirm == "Nah")
 		return
-	var/damtype = input(src, "What kind of damage?", "PUT YOUR FAITH IN THE LIGHT") in list("burn","brute","oxy","tox","clone","heal","gib")
+	// Changed so that the damtype isn't used where it shouldn't be used. damtype_word is the word... damtype is an int.
+	var/damtype_word = input(src, "What kind of damage?", "PUT YOUR FAITH IN THE LIGHT") in list("burn","brute","oxy","tox","clone","heal","gib")
 	var/dam = input(src, "How much damage?", "THE LIGHT SHALL BURN YOU") as num
 	var/obj/effect/lightning/L = new /obj/effect/lightning()
 	L.loc = get_turf(M.loc)
-	L.layer = 16 //i want it to display over clothing
 	L.start()
 	playsound(M,'sound/effects/thunder.ogg',50,1)
-	switch(damtype)
+	switch(damtype_word)
 		if("burn")
 			M.adjustFireLoss(dam)
 		if("brute")
@@ -44,5 +44,5 @@
 			spawn(10) // adding this because it looks a LOT better with this ~ds
 				M.gib()
 
-	log_admin("[src]([src.ckey]) smote [M] ([M.ckey]) in [damtype] for [dam] damage.")
-	message_admins("[src]([src.ckey]) smote [M] ([M.ckey]) in [damtype] for [dam] damage.")
+	log_admin("[src]([src.ckey]) smote [M] ([M.ckey]) in [damtype_word] for [dam] damage.")
+	message_admins("[src]([src.ckey]) smote [M] ([M.ckey]) in [damtype_word] for [dam] damage.")

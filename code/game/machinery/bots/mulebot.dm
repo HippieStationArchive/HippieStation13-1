@@ -464,7 +464,7 @@ var/global/mulebot_count = 0
 	load= AM
 	mode = BOT_IDLE
 
-/obj/machinery/bot/mulebot/buckle_mob(mob/living/M)
+/obj/machinery/bot/mulebot/buckle_mob(mob/living/M, force = 0)
 	if(M.buckled)
 		return 0
 	var/turf/T = get_turf(src)
@@ -782,6 +782,7 @@ var/global/mulebot_count = 0
 	B.add_blood_list(H)
 	add_blood_list(H)
 	bloodiness += 4
+	add_logs(src, H, "ran over")
 
 // player on mulebot attempted to move
 /obj/machinery/bot/mulebot/relaymove(mob/user)
@@ -833,12 +834,12 @@ var/global/mulebot_count = 0
 		cell.update_icon()
 		cell = null
 
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
 
 	new /obj/effect/decal/cleanable/oil(loc)
-	qdel(src)
+	..() //qdels us and removes us from processing objects
 
 #undef SIGH
 #undef ANNOYED

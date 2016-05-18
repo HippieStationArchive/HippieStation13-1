@@ -22,13 +22,13 @@
 
 /obj/effect/proc_holder/spell/dumbfire/choose_targets(mob/user = usr)
 
-	var/turf/T = get_turf(usr)
+	var/turf/T = get_turf(user)
 	for(var/i = 1; i < range; i++)
-		var/turf/new_turf = get_step(T, usr.dir)
+		var/turf/new_turf = get_step(T, user.dir)
 		if(new_turf.density)
 			break
 		T = new_turf
-	perform(list(T))
+	perform(list(T),user = user)
 
 /obj/effect/proc_holder/spell/dumbfire/cast(list/targets, mob/user = usr)
 	playMagSound()
@@ -46,7 +46,7 @@
 			projectile.dir = get_dir(projectile, target)
 			projectile.name = proj_name
 
-			var/current_loc = usr.loc
+			var/current_loc = user.loc
 
 			projectile.loc = current_loc
 
@@ -60,12 +60,12 @@
 					step(projectile, projectile.dir)
 
 				if(projectile.loc == current_loc || i == proj_lifespan)
-					projectile.cast(current_loc)
+					projectile.cast(current_loc,user=user)
 					break
 
-				var/mob/living/L = locate(/mob/living) in range(projectile, proj_trigger_range) - usr
+				var/mob/living/L = locate(/mob/living) in range(projectile, proj_trigger_range) - user
 				if(L && L.stat != DEAD)
-					projectile.cast(L.loc)
+					projectile.cast(L.loc,user=user)
 					break
 
 				if(proj_trail && projectile)
@@ -79,9 +79,6 @@
 								qdel(trail)
 
 				current_loc = projectile.loc
-				var/matrix/M = new//matrix(transform)
-				M.Turn(dir2angle(projectile.dir))
-				projectile.transform = M //From this point on you won't need direction icons for projectiles.
 
 				sleep(proj_step_delay)
 

@@ -40,11 +40,6 @@
 			return L[index]
 	return
 
-/proc/islist(list/L)
-	if(istype(L))
-		return 1
-	return 0
-
 //Return either pick(list) or null if list is not of type /list or is empty
 /proc/safepick(list/L)
 	if(istype(L) && L.len)
@@ -349,3 +344,18 @@
 	while(L.Remove(null))
 		continue
 	return L
+
+//checks if the values associated to the elements of the first list are all bigger or equal than the ones of the second(Only works with lists with number values!)
+/proc/compareAllValues(list/A, list/B)
+	for(var/i in (A & B))
+		if(A[i] < B[i])
+			return FALSE
+	. = TRUE
+
+//Deletes all datums in the list and returns amount of deletions.
+/proc/deleteAllInList(list/L)
+	var/dels = 0
+	for(var/datum/i in L)
+		qdel(i)
+		dels++
+	return dels

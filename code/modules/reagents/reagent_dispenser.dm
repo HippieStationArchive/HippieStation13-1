@@ -13,6 +13,7 @@
 		"water_cooler",
 		"beerkeg",
 		"virusfoodtank",
+		"honk_cooler",
 	)
 
 /obj/structure/reagent_dispensers/on_reagent_change()
@@ -52,8 +53,15 @@
 		var/image/lid = image('icons/obj/chemtank.dmi', src, "tanklid")
 		overlays += lid
 
-/obj/structure/reagent_dispensers/proc/boom() // detonate and explode were already taken and i hate two procs with the same name
+/obj/structure/reagent_dispensers/proc/boom(mob/user) // detonate and explode were already taken and i hate two procs with the same name
+	if(user)
+		message_admins("[key_name_admin(user)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>.")
+		log_game("[key_name(user)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"].")
+		user.attack_log += text("\[[time_stamp()]\] <font color='red'>Has detonated a chem tank @ [src ? "[x],[y],[z]" : "UNKNOWN LOCATION"]</font>")
 	if(reagents && reagents.reagent_list.len && !exploded)
+		reagents.chem_temp = 1000
+		reagents.handle_reactions()
+		if(!src) return 1// safety check,explosion could've deleted it!
 		exploded = 1
 		var/volumepereffect = reagents.total_volume / 9
 		var/list/effectlist = list()
@@ -61,7 +69,7 @@
 		spawn(-1)
 			for(var/i in 1 to 11) // i will be later used for direction. i'm a smart man am i not?admit it fucker
 				if(i == 3 || i == 7) continue // those aren't directions.
-				var/obj/effect/effect/water/W = new /obj/effect/effect/water(get_turf(src))
+				var/obj/effect/particle_effect/water/W = new /obj/effect/particle_effect/water(get_turf(src))
 				W.create_reagents(200) // maximum it should hold is 200
 				reagents.trans_to(W,volumepereffect)
 				W.color = mix_color_from_reagents(W.reagents.reagent_list)
@@ -97,6 +105,9 @@
 	return
 
 /obj/structure/reagent_dispensers/blob_act()
+	boom()
+
+/obj/structure/reagent_dispensers/fire_act()
 	if(prob(50))
 		boom()
 
@@ -126,9 +137,7 @@
 		if((Proj.damage_type == BURN) || (Proj.damage_type == BRUTE))
 			if(Proj.nodamage)
 				return
-			if(boom())
-				message_admins("[key_name_admin(Proj.firer)] triggered a chemtank explosion.")
-				log_game("[key_name(Proj.firer)] triggered a chemtank explosion.")
+			boom(Proj.firer)
 
 ////Roundstart dispensers
 //watertank
@@ -274,3 +283,57 @@
 	else
 		user << "<span class='notice'>This is too broken to be helpful!Fix it with a welder.</span>"
 	return
+
+//honkcooler
+/obj/structure/reagent_dispensers/honk_cooler
+	name = "Honk-Cooler"
+	desc = "A machine filled with the clown's thick juice! NICE!"
+	icon = 'icons/obj/vending.dmi'
+	icon_state = "honk_cooler"
+	anchored = 1
+	var/cups = 50
+	brokenvars = list("honk-cooler", "honk_cooler", /obj/structure/reagent_dispensers/honk_cooler)
+
+/obj/structure/reagent_dispensers/honk_cooler/New(loc, empty = 0)
+	..()
+	if(!empty) reagents.add_reagent("banana",500)
+
+/obj/structure/reagent_dispensers/honk_cooler/attack_hand(mob/living/carbon/human/user)
+	if((!istype(user)) || (user.stat))
+		return
+	if(cups <= 0)
+		user << "<span class='warning'>What? No cups?</span>"
+		return
+	cups--
+	user.put_in_hands(new /obj/item/weapon/reagent_containers/food/drinks/sillycup)
+	user.visible_message("[user] gets a cup from [src].","<span class='notice'>You get a cup from [src].</span>")
+
+/obj/structure/reagent_dispensers/honk_cooler/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/weapon/paper))
+		if(!user.drop_item())
+			return
+		qdel(I)
+		cups++
+		return
+
+	if (istype(I, /obj/item/weapon/wrench))
+		if (!anchored && !isinspace())
+			playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+			user << "<span class='notice'> You begin to tighten \the [src] to the floor...</span>"
+			if (do_after(user, 20, target = src))
+				user.visible_message( \
+					"[user] tightens \the [src]'s casters.", \
+					"<span class='notice'>You tighten \the [src]'s casters. Anchoring it down.</span>", \
+					"<span class='italics'>You hear ratchet.</span>")
+				anchored = 1
+		else if(anchored)
+			playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+			user << "<span class='notice'> You begin to loosen \the [src]'s casters...</span>"
+			if (do_after(user, 40, target = src))
+				user.visible_message( \
+					"[user] loosens \the [src]'s casters.", \
+					"<span class='notice'>You loosen \the [src]. Now it can be pulled somewhere else.</span>", \
+					"<span class='italics'>You hear ratchet.</span>")
+				anchored = 0
+	else
+		..()

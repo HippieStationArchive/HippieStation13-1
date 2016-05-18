@@ -15,35 +15,15 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 /datum/game_mode/changeling
 	name = "changeling"
 	config_tag = "changeling"
-	antag_flag = BE_CHANGELING
+	antag_flag = ROLE_CHANGELING
 	restricted_jobs = list("AI", "Cyborg")
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel")
 	required_players = 15
 	required_enemies = 1
-	recommended_enemies = 4
+	recommended_enemies = 2
 	reroll_friendly = 1
 
-
-	var/const/prob_int_murder_target = 50 // intercept names the assassination target half the time
-	var/const/prob_right_murder_target_l = 25 // lower bound on probability of naming right assassination target
-	var/const/prob_right_murder_target_h = 50 // upper bound on probability of naimg the right assassination target
-
-	var/const/prob_int_item = 50 // intercept names the theft target half the time
-	var/const/prob_right_item_l = 25 // lower bound on probability of naming right theft target
-	var/const/prob_right_item_h = 50 // upper bound on probability of naming the right theft target
-
-	var/const/prob_int_sab_target = 50 // intercept names the sabotage target half the time
-	var/const/prob_right_sab_target_l = 25 // lower bound on probability of naming right sabotage target
-	var/const/prob_right_sab_target_h = 50 // upper bound on probability of naming right sabotage target
-
-	var/const/prob_right_killer_l = 25 //lower bound on probability of naming the right operative
-	var/const/prob_right_killer_h = 50 //upper bound on probability of naming the right operative
-	var/const/prob_right_objective_l = 25 //lower bound on probability of determining the objective correctly
-	var/const/prob_right_objective_h = 50 //upper bound on probability of determining the objective correctly
-
 	var/const/changeling_amount = 4 //hard limit on changelings if scaling is turned off
-
-	var/changeling_team_objective_type = null //If this is not null, we hand our this objective to all lings
 
 /datum/game_mode/changeling/announce()
 	world << "<b>The current game mode is - Changeling!</b>"
@@ -77,20 +57,6 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 		return 0
 
 /datum/game_mode/changeling/post_setup()
-
-	//Decide if it's ok for the lings to have a team objective
-	//And then set it up to be handed out in forge_changeling_objectives
-	var/list/team_objectives = typesof(/datum/objective/changeling_team_objective) - /datum/objective/changeling_team_objective
-	var/list/possible_team_objectives = list()
-	for(var/T in team_objectives)
-		var/datum/objective/changeling_team_objective/CTO = T
-
-		if(changelings.len >= initial(CTO.min_lings))
-			possible_team_objectives += T
-
-	if(possible_team_objectives.len && prob(20*changelings.len))
-		changeling_team_objective_type = pick(possible_team_objectives)
-
 	for(var/datum/mind/changeling in changelings)
 		log_game("[changeling.key] (ckey) has been selected as a changeling")
 		changeling.current.make_changeling()
@@ -105,13 +71,13 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	if(ticker.mode.changelings.len >= changelingcap) //Caps number of latejoin antagonists
 		return
 	if(ticker.mode.changelings.len <= (changelingcap - 2) || prob(100 - (config.changeling_scaling_coeff*2)))
-		if(character.client.prefs.be_special & BE_CHANGELING)
-			if(!jobban_isbanned(character.client, "changeling") && !jobban_isbanned(character.client, "Syndicate"))
+		if(ROLE_CHANGELING in character.client.prefs.be_special)
+			if(!jobban_isbanned(character.client, ROLE_CHANGELING) && !jobban_isbanned(character.client, "Syndicate"))
 				if(age_check(character.client))
 					if(!(character.job in restricted_jobs))
 						character.mind.make_Changling()
 
-/datum/game_mode/proc/forge_changeling_objectives(datum/mind/changeling, var/team_mode = 0)
+/datum/game_mode/proc/forge_changeling_objectives(datum/mind/changeling)
 	//OBJECTIVES - random traitor objectives. Unique objectives "steal brain" and "identity theft".
 	//No escape alone because changelings aren't suited for it and it'd probably just lead to rampant robusting
 	//If it seems like they'd be able to do it in play, add a 10% chance to have to escape alone
@@ -126,7 +92,7 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 
 	var/datum/objective/absorb/absorb_objective = new
 	absorb_objective.owner = changeling
-	absorb_objective.gen_amount_goal(6, 8)
+	absorb_objective.gen_amount_goal(2, 4)
 	changeling.objectives += absorb_objective
 
 	if(prob(60))
@@ -145,55 +111,27 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 		if(prob(70))
 			var/datum/objective/assassinate/kill_objective = new
 			kill_objective.owner = changeling
-			if(team_mode) //No backstabbing while in a team
-				kill_objective.find_target_by_role(role = "Changeling", role_type = 1, invert = 1)
-			else
-				kill_objective.find_target()
+			kill_objective.find_target()
+			var/datum/mind/M = kill_objective.target
+			if(istype(M) && istype(M.changeling))
+				var/datum/changeling/C = M.changeling
+				kill_objective.explanation_text = "Discover the identity of and assassinate [C.changelingID], the changeling."
 			changeling.objectives += kill_objective
 		else
 			var/datum/objective/maroon/maroon_objective = new
 			maroon_objective.owner = changeling
-			if(team_mode)
-				maroon_objective.find_target_by_role(role = "Changeling", role_type = 1, invert = 1)
-			else
-				maroon_objective.find_target()
+			maroon_objective.find_target()
+			var/datum/mind/M = maroon_objective.target
+			if(istype(M) && istype(M.changeling))
+				var/datum/changeling/C = M.changeling
+				maroon_objective.explanation_text = "Prevent [C.changelingID], the changeling, from escaping alive."
 			changeling.objectives += maroon_objective
 
-			if (!(locate(/datum/objective/escape) in changeling.objectives) && escape_objective_possible)
-				var/datum/objective/escape/escape_with_identity/identity_theft = new
-				identity_theft.owner = changeling
-				identity_theft.target = maroon_objective.target
-				identity_theft.update_explanation_text()
-				changeling.objectives += identity_theft
-				escape_objective_possible = FALSE
-
 	if (!(locate(/datum/objective/escape) in changeling.objectives) && escape_objective_possible)
-		if(prob(50))
-			var/datum/objective/escape/escape_objective = new
-			escape_objective.owner = changeling
-			changeling.objectives += escape_objective
-		else
-			var/datum/objective/escape/escape_with_identity/identity_theft = new
-			identity_theft.owner = changeling
-			if(team_mode)
-				identity_theft.find_target_by_role(role = "Changeling", role_type = 1, invert = 1)
-			else
-				identity_theft.find_target()
-			changeling.objectives += identity_theft
+		var/datum/objective/escape/escape_objective = new
+		escape_objective.owner = changeling
+		changeling.objectives += escape_objective
 		escape_objective_possible = FALSE
-
-
-
-/datum/game_mode/changeling/forge_changeling_objectives(datum/mind/changeling)
-	if(changeling_team_objective_type)
-		var/datum/objective/changeling_team_objective/team_objective = new changeling_team_objective_type
-		team_objective.owner = changeling
-		changeling.objectives += team_objective
-
-		..(changeling,1)
-	else
-		..(changeling,0)
-
 
 /datum/game_mode/proc/greet_changeling(datum/mind/changeling, you_are=1)
 	if (you_are)
@@ -211,6 +149,8 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	for(var/datum/objective/objective in changeling.objectives)
 		changeling.current << "<b>Objective #[obj_count]</b>: [objective.explanation_text]"
 		obj_count++
+
+	changeling.current << "<a href=[config.wikiurl]/index.php?title=Changeling>New to changeling? Click here to be linked to the wiki guide on changelings.</a>"
 	return
 
 /*/datum/game_mode/changeling/check_finished()
@@ -279,21 +219,21 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	var/datum/changelingprofile/first_prof = null
 	//var/list/absorbed_dna = list()
 	//var/list/protected_dna = list() //dna that is not lost when capacity is otherwise full
-	var/dna_max = 6 //How many extra DNA strands the changeling can store for transformation.
+	var/dna_max = INFINITY //How many extra DNA strands the changeling can store for transformation.
 	var/absorbedcount = 0
 	var/chem_charges = 20
 	var/chem_storage = 75
 	var/chem_recharge_rate = 1
 	var/chem_recharge_slowdown = 0
-	var/sting_range = 2
+	var/sting_range = 1 //FOR THE LOVE OF GOD KEEP THIS AT 1, we don't want changeling stings to be long-range fuck-you's
 	var/changelingID = "Changeling"
 	var/geneticdamage = 0
 	var/isabsorbing = 0
-	var/geneticpoints = 10
+	var/geneticpoints = 5
+	var/total_genetic_points = 5 //How many genetic points the changeling has absorbed overall
 	var/purchasedpowers = list()
 	var/mimicing = ""
 	var/canrespec = 0
-	var/changeling_speak = 0
 	var/datum/dna/chosen_dna
 	var/obj/effect/proc_holder/changeling/sting/chosen_sting
 
@@ -365,10 +305,12 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 
 	var/datum/changelingprofile/prof = new()
 
+	H.name = H.dna.real_name //Set this again, just to be sure that it's properly set.
 	var/datum/dna/new_dna = new H.dna.type
 	H.dna.copy_dna(new_dna)
 	prof.dna = new_dna
-	prof.name = H.dna.real_name
+	prof.dna.real_name = H.name
+	prof.name = H.name
 	prof.protected = protect
 
 	prof.underwear = H.underwear
@@ -421,14 +363,15 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	user.underwear = chosen_prof.underwear
 	user.undershirt = chosen_prof.undershirt
 	user.socks = chosen_prof.socks
-	user.dna = chosen_dna //Should fix the whole "ERM MEH GERD I TURNED INTO A HUMAN INSTEAD OF ROBIT"
+
 	chosen_dna.transfer_identity(user, 1)
 	user.updateappearance(mutcolor_update=1)
 	user.update_body()
 	user.domutcheck()
-/* //Seriously, why was this even added?
+
 	//vars hackery. not pretty, but better than the alternative.
-	for(var/slot in slots)
+	//This creates new "flesh" duplicate items based on what the victim was wearing during absorbtions. There are many, many reasons why this is retarded.
+/*	for(var/slot in slots)
 		if(istype(user.vars[slot], slot2type[slot]) && !(chosen_prof.exists_list[slot])) //remove unnecessary flesh items
 			qdel(user.vars[slot])
 			continue
@@ -452,8 +395,7 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 		C.item_color = chosen_prof.item_color_list[slot]
 		C.item_state = chosen_prof.item_state_list[slot]
 		if(equip)
-			user.equip_to_slot_or_del(C, slot2slot[slot])
-*/
+			user.equip_to_slot_or_del(C, slot2slot[slot])*/
 
 	user.regenerate_icons()
 

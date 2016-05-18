@@ -256,14 +256,14 @@
 			return
 
 		if(health <= config.health_threshold_crit)
-			nearcrit = 1
-			if(stat != DEAD)
+			status_flags |= NEARCRIT
+			if(stat != DEAD && !(status_flags & FAKEDEATH))
 				Weaken(3)
 				if(prob(15))
 					spawn(0)
 						emote(pick("moan", "cough", "groan", "whimper"))
 		else
-			nearcrit = 0
+			status_flags &= ~NEARCRIT
 
 		if(getOxyLoss() > 50 || health <= -50)
 			Paralyse(3)

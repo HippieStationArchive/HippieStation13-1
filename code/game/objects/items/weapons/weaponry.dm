@@ -47,6 +47,7 @@
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/sord/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is impaling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -64,9 +65,8 @@
 	throwforce = 10
 	w_class = 3
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-
-/obj/item/weapon/claymore/IsShield()
-	return 1
+	block_chance = list(melee = 70, bullet = 30, laser = 0, energy = 0) //How do you even block lasers with a claymore!?
+	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/claymore/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is falling on the [src.name]! It looks like \he's trying to commit suicide.</span>")
@@ -84,6 +84,8 @@
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
+	block_chance = list(melee = 80, bullet = 40, laser = 40, energy = 30) //Decent...ish
+	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/katana/cursed
 	slot_flags = null
@@ -91,9 +93,6 @@
 /obj/item/weapon/katana/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>")
 	return(BRUTELOSS)
-
-/obj/item/weapon/katana/IsShield()
-		return 1
 
 /obj/item/weapon/wirerod
 	name = "wired rod"
@@ -176,33 +175,35 @@
 	icon_state = "switchblade"
 	desc = "A sharp, concealable, spring-loaded knife."
 	flags = CONDUCT
-	force = 15
+	force = 3
 	w_class = 2
-	throwforce = 15
+	throwforce = 5
 	throw_speed = 3
 	throw_range = 6
 	materials = list(MAT_METAL=12000)
 	origin_tech = "materials=1"
 	hitsound = 'sound/weapons/Genhit.ogg'
 	attack_verb = list("stubbed", "poked")
-	var/extended
+	var/extended = 0
 
 /obj/item/weapon/switchblade/attack_self(mob/user)
 	extended = !extended
 	playsound(src.loc, 'sound/weapons/batonextend.ogg', 50, 1)
 	if(extended)
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
-		force = 15
+		force = 20
 		w_class = 3
 		throwforce = 15
+		sharpness = IS_SHARP_ACCURATE
 		icon_state = "switchblade_ext"
 		attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 		hitsound = 'sound/weapons/bladeslice.ogg'
 	else
 		playsound(user, 'sound/weapons/raise.ogg', 20, 1, -4)
-		force = 1
+		force = 3
 		w_class = 2
 		throwforce = 5
+		sharpness = IS_BLUNT
 		icon_state = "switchblade"
 		attack_verb = list("stubbed", "poked")
 		hitsound = 'sound/weapons/Genhit.ogg'
@@ -210,6 +211,54 @@
 /obj/item/weapon/switchblade/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
 	return (BRUTELOSS)
+
+/obj/item/weapon/pocketknife
+	name = "pocket knife"
+	desc = "Small, concealable blade that fits in the pocket nicely."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "pocketknife"
+	force = 3
+	throwforce = 3
+	hitsound = "swing_hit" //it starts deactivated
+	throw_speed = 3
+	throw_range = 8
+	var/active = 0
+	var/active_force = 12
+	var/deactive_force = 3
+	w_class = 1 //note to self: weight class
+	sharpness = IS_BLUNT
+
+/obj/item/weapon/pocketknife/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is slitting \his own throat with the [src.name]! It looks like \he's trying to commit suicide.</span>")
+	return (BRUTELOSS)
+
+/obj/item/weapon/pocketknife/attack_self(mob/living/user)
+	if (user.disabilities & CLUMSY && prob(50))
+		user << "<span class='warning'>You accidentally cut yourself with [src], like a doofus!</span>"
+		user.take_organ_damage(5,0)
+	active = !active
+	if (active)
+		force = active_force
+		throwforce = 14
+		sharpness = IS_SHARP_ACCURATE
+		hitsound = 'sound/weapons/knife.ogg'
+		attack_verb = list("stabbed", "torn", "cut", "sliced")
+		icon_state = "pocketknife_open"
+		w_class = 3
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
+		user << "<span class='notice'>[src] is now open.</span>"
+	else
+		force = deactive_force
+		throwforce = 3
+		sharpness = IS_BLUNT
+		hitsound = "swing_hit"
+		attack_verb = null
+		icon_state = "pocketknife"
+		w_class = 1
+		playsound(user, 'sound/weapons/raise.ogg', 20, 1)
+		user << "<span class='notice'>[src] is now closed.</span>"
+	add_fingerprint(user)
+	return
 
 /obj/item/weapon/phone
 	name = "red phone"
@@ -224,7 +273,7 @@
 	attack_verb = list("called", "rang")
 	hitsound = 'sound/weapons/ring.ogg'
 
-/obj/item/weapon/phone/suicide_act(mob/user)
+/obj/item/weapon/phone/suicide_act(mob/user) //TODO: Make noosing work for this one like the cables
 	if(locate(/obj/structure/stool) in user.loc)
 		user.visible_message("<span class='notice'>[user] begins to tie a noose with the [src.name]'s cord! It looks like \he's trying to commit suicide.</span>")
 	else
@@ -244,9 +293,16 @@
 	burn_state = 0
 	attack_verb = list("bludgeoned", "whacked", "disciplined", "thrashed")
 
+/obj/item/weapon/cane/update_slowdown(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/slow = 0
+	if(istype(H))
+		slow = (H.get_num_legs(1) < 2) ? -2 : 0 //Negates slowdown caused by lack of a leg
+	return slow
+
 /obj/item/weapon/staff
 	name = "wizards staff"
-	desc = "Apparently a staff used by the wizard."
+	desc = "Apparently a staff used by the wizard. Can be used as a crutch."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "staff"
 	force = 3
@@ -258,15 +314,22 @@
 	attack_verb = list("bludgeoned", "whacked", "disciplined")
 	burn_state = 0 //Burnable
 
+/obj/item/weapon/staff/update_slowdown(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/slow = 0
+	if(istype(H))
+		slow = (H.get_num_legs(1) < 2) ? -2 : 0 //Negates slowdown caused by lack of a leg
+	return slow
+
 /obj/item/weapon/staff/broom
 	name = "broom"
-	desc = "Used for sweeping, and flying into the night while cackling. Black cat not included."
+	desc = "Used for sweeping, and flying into the night while cackling. Black cat not included. Can be used as a crutch."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "broom"
 
 /obj/item/weapon/staff/stick
 	name = "stick"
-	desc = "A great tool to drag someone else's drinks across the bar."
+	desc = "A great tool to drag someone else's drinks across the bar. Can be used as a crutch."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "stick"
 	item_state = "stick"
@@ -309,3 +372,15 @@
 	if(user.disabilities & CLUMSY && prob(50))
 		M = user
 	return eyestab(M,user)
+
+/obj/item/weapon/cane/pimpstick
+	name = "pimp stick"
+	desc = "A gold-rimmed cane, with a gleaming diamond set at the top. Great for bashing in kneecaps. Can be used as a crutch."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "pimpstick"
+	item_state = "pimpstick"
+	force = 10
+	throwforce = 7
+	w_class = 3
+	flags = NOSHIELD
+	attack_verb = list("pimped", "smacked", "disciplined", "busted", "capped", "decked")

@@ -120,6 +120,11 @@
 		if(G.affecting.buckled)
 			user << "<span class='warning'>[G.affecting] is buckled to [G.affecting.buckled]!</span>"
 			return 0
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			var/datum/martial_art/attacker_style = H.martial_art
+			if(attacker_style && attacker_style.tablepush_act(user, G.affecting, G, src))
+				return 0
 		if(G.state < GRAB_AGGRESSIVE)
 			user << "<span class='warning'>You need a better grip to do that!</span>"
 			return 0
@@ -129,11 +134,12 @@
 		G.affecting.Weaken(2)
 		G.affecting.visible_message("<span class='danger'>[G.assailant] pushes [G.affecting] onto [src].</span>", \
 									"<span class='userdanger'>[G.assailant] pushes [G.affecting] onto [src].</span>")
+		
 		playsound(src.loc, 'sound/weapons/push_hard.ogg', 50, 1)
-		add_logs(G.assailant, G.affecting, "pushed")
+		add_logs(G.assailant, G.affecting, "tabled")
+		var/mob/M = G.affecting
 		qdel(I)
-		return 1
-	qdel(I)
+		return M
 
 /obj/structure/table/attackby(obj/item/I, mob/user, params)
 	if (istype(I, /obj/item/weapon/grab))
@@ -270,11 +276,26 @@
 	canSmoothWith = null
 
 /obj/structure/table/glass/tablepush(obj/item/I, mob/user)
-	if(..())
+	. = ..()
+	if(.)
 		visible_message("<span class='warning'>[src] breaks!</span>")
 		playsound(src.loc, "shatter", 50, 1)
 		new frame(src.loc)
-		new /obj/item/weapon/shard(src.loc)
+		var/obj/item/weapon/shard/S = new(src.loc)
+		if(ishuman(.))
+			var/mob/living/carbon/human/H = .
+			H.adjustBruteLoss(5)
+			if(prob(50))
+				var/obj/item/organ/limb/O = H.get_organ(ran_zone())
+				if(istype(O))
+					H.throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
+					O.embedded_objects |= S
+					S.add_blood(H)//it embedded itself in you, of course it's bloody!
+					S.loc = H
+					H.update_damage_overlays() //Update the fancy embeds
+					H.visible_message("<span class='warning'>The [S] has embedded into [H]'s [O]!</span>",
+									"<span class='userdanger'>You feel [S] lodge into your [O]!</span>")
+					H.emote("scream")
 		qdel(src)
 
 
@@ -330,7 +351,7 @@
 			if(src.status == 2)
 				user << "<span class='notice'>You start weakening the reinforced table...</span>"
 				playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
-				if (do_after(user, 50, target = src))
+				if (do_after(user, 50/W.toolspeed, target = src))
 					if(!src || !WT.isOn()) return
 					user << "<span class='notice'>You weaken the table.</span>"
 					src.status = 1

@@ -11,6 +11,7 @@ var/list/image/ghost_darkness_images = list() //this is a list of images for thi
 	anchored = 1	//  don't get pushed around
 	invisibility = INVISIBILITY_OBSERVER
 	languages = ALL
+	hud_possible = list(ANTAG_HUD_ADMIN)
 	var/can_reenter_corpse
 	var/datum/hud/living/carbon/hud = null // hud
 	var/bootime = 0
@@ -22,6 +23,7 @@ var/list/image/ghost_darkness_images = list() //this is a list of images for thi
 	var/image/ghostimage = null //this mobs ghost image, for deleting and stuff
 	var/ghostvision = 1 //is the ghost able to see things humans can't?
 	var/seedarkness = 0
+	var/ghost_orbit = GHOST_ORBIT_CIRCLE
 
 /mob/dead/observer/New(mob/body)
 	sight |= SEE_TURFS | SEE_MOBS | SEE_OBJS | SEE_SELF
@@ -47,6 +49,7 @@ var/list/image/ghost_darkness_images = list() //this is a list of images for thi
 			else
 				name = random_unique_name(gender)
 
+		body.mind.ghost = TRUE
 		mind = body.mind	//we don't transfer the mind but we keep a reference to it.
 
 	if(!T)	T = pick(latejoin)			//Safety in case we cannot find the body's position
@@ -94,20 +97,36 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Ghost"
 	set desc = "Relinquish your life and enter the land of the dead."
 
+	var/mob/living/carbon/H = src
+
+	var/confirm_ghost = FALSE
+
 	if(stat != DEAD)
 		succumb()
+
 	if(stat == DEAD)
 		ghostize(1)
+
+	if(istype(H) && H.dna)
+		if(H.dna.check_mutation(CLUWNEMUT) && stat != DEAD)
+			H << "Cluwnes cannot ghost until they've died! Find a natural means of death!"
+			return
+		else
+			confirm_ghost = TRUE
 	else
+		confirm_ghost = TRUE
+
+	if(confirm_ghost)
 		var/response = alert(src, "Are you -sure- you want to ghost?\n(You are alive. If you ghost whilst still alive you may not play again this round! You can't change your mind so choose wisely!!)","Are you sure you want to ghost?","Ghost","Stay in body")
-		if(response != "Ghost")	return	//didn't want to ghost after-all
+
+		if(response != "Ghost")	
+			return	//didn't want to ghost after-all
+
 		ghostize(0)						//0 parameter is so we can never re-enter our body, "Charlie, you can never come baaaack~" :3
+
 	return
 
-
 /mob/dead/observer/Move(NewLoc, direct)
-	if (orbiting)
-		stop_orbit()
 	if(NewLoc)
 		loc = NewLoc
 		for(var/obj/effect/step_trigger/S in NewLoc)
@@ -127,8 +146,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	for(var/obj/effect/step_trigger/S in locate(x, y, z))	//<-- this is dumb
 		S.Crossed(src)
 
-/mob/dead/observer/can_use_hands()	return 0
-/mob/dead/observer/is_active()		return 0
+/mob/dead/observer/is_active()
+	return 0
 
 /mob/dead/observer/Stat()
 	..()
@@ -150,17 +169,27 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 /mob/dead/observer/verb/reenter_corpse()
 	set category = "Ghost"
 	set name = "Re-enter Corpse"
-	if(!client)	return
+
+	if(!client)	
+		return
+
 	if(!(mind && mind.current))
 		src << "<span class='warning'>You have no body.</span>"
 		return
+
 	if(!can_reenter_corpse)
 		src << "<span class='warning'>You cannot re-enter your body.</span>"
 		return
+
 	if(mind.current.key && copytext(mind.current.key,1,2)!="@")	//makes sure we don't accidentally kick any clients
 		usr << "<span class='warning'>Another consciousness is in your body...It is resisting you.</span>"
 		return
+
 	mind.current.key = key
+
+	var/mob/living/L = mind.current
+	L.mind.ghost = FALSE
+
 	return 1
 
 /mob/dead/observer/proc/notify_cloning(var/message, var/sound)
@@ -199,19 +228,47 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Orbit" // "Haunt"
 	set desc = "Follow and orbit a mob."
 
-	var/list/mobs = getmobs()
+	var/list/mobs = getpois()
 	var/input = input("Please, select a mob!", "Haunt", null, null) as null|anything in mobs
 	var/mob/target = mobs[input]
 	ManualFollow(target)
 
 // This is the ghost's follow verb with an argument
 /mob/dead/observer/proc/ManualFollow(atom/movable/target)
-	if(target && target != src)
-		if(orbiting && orbiting == target)
-			return
-		src << "<span class='notice'>Now orbiting [target].</span>"
-		orbit(target,24,0)
+	if (!istype(target))
+		return
 
+	var/icon/I = icon(target.icon,target.icon_state,target.dir)
+
+	var/orbitsize = (I.Width()+I.Height())*0.5
+	orbitsize -= (orbitsize/world.icon_size)*(world.icon_size*0.25)
+
+	if(orbiting != target)
+		src << "<span class='notice'>Now orbiting [target].</span>"
+
+	var/rot_seg
+
+	switch(ghost_orbit)
+		if(GHOST_ORBIT_TRIANGLE)
+			rot_seg = 3
+		if(GHOST_ORBIT_SQUARE)
+			rot_seg = 4
+		if(GHOST_ORBIT_PENTAGON)
+			rot_seg = 5
+		if(GHOST_ORBIT_HEXAGON)
+			rot_seg = 6
+		else //Circular
+			rot_seg = 36 //360/10 bby, smooth enough aproximation of a circle
+
+	orbit(target,orbitsize, FALSE, 20, rot_seg)
+
+/mob/dead/observer/orbit()
+	..()
+	//restart our floating animation after orbit is done.
+	sleep 2  //orbit sets up a 2ds animation when it finishes, so we wait for that to end
+	if (!orbiting) //make sure another orbit hasn't started
+		pixel_y = 0
+		animate(src, pixel_y = 2, time = 10, loop = -1)
 
 /mob/dead/observer/verb/jumptomob() //Moves the ghost instead of just changing the ghosts's eye -Nodrak
 	set category = "Ghost"
@@ -224,7 +281,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		var/list/dest = list() //List of possible destinations (mobs)
 		var/target = null	   //Chosen target.
 
-		dest += getmobs() //Fill list, prompt user with list
+		dest += getpois(mobs_only=1) //Fill list, prompt user with list
 		target = input("Please, select a player!", "Jump to Mob", null, null) as null|anything in dest
 
 		if (!target)//Make sure we actually have a target
@@ -322,6 +379,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		return 0
 
 	target.key = key
+	mind.ghost = FALSE
+	
 	return 1
 
 
@@ -362,3 +421,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 				ManualFollow(target)
 		if(href_list["reenter"])
 			reenter_corpse()
+
+//We don't want to update the current var
+//But we will still carry a mind.
+/mob/dead/observer/mind_initialize()
+	return

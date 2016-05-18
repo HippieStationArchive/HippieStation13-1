@@ -23,7 +23,7 @@
 
 /obj/item/clothing/head/canada
 	name = "striped red tophat"
-	desc = " It feels sticky, like maple syrup - <i>il se sent collante, comme le sirop d'érable</i>"
+	desc = " It feels sticky, like maple syrup - <i>il se sent collante, comme le sirop d'Ã©rable</i>"
 	icon_state = "canada"
 	item_state = "canada"
 
@@ -71,6 +71,7 @@
 	icon_state = "cardborg_h"
 	item_state = "cardborg_h"
 	flags_cover = HEADCOVERSEYES
+	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 
 /obj/item/clothing/head/justice
@@ -175,16 +176,68 @@
 	icon_state = "fedora"
 	item_state = "fedora"
 	desc = "A really cool hat if you're a mobster. A really lame hat if you're not."
+	action_button_name = "Tip Fedora"
+
+/obj/item/clothing/head/fedora/attack_self(mob/user)
+	var/mob/living/carbon/human/H = user
+	if(H.spam_flag)
+		return
+	else
+		H.spam_flag = 1
+		spawn(30)
+			H.spam_flag = 0
+		if(user.gender == MALE)
+			user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to girls.</span>")
+			user.say("M'lady.")
+			sleep(10)
+			H.facial_hair_style = "Neckbeard"
+			H.adjustBrainLoss(10)
+		else
+			user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to guys.</span>")
+			user.say("M'lord.")
+			sleep(10)
+			H.facial_hair_style = "Neckbeard"
+			H.adjustBrainLoss(10)
+		return
 
 /obj/item/clothing/head/fedora/suicide_act(mob/user)
-	if(user.gender == FEMALE)
-		return 0
 	var/mob/living/carbon/human/H = user
-	user.visible_message("<span class='suicide'>[user] is donning [src]! It looks like they're trying to be nice to girls.</span>")
-	user.say("M'lady.")
-	sleep(10)
-	H.facial_hair_style = "Neckbeard"
-	return(BRUTELOSS)
+	if(user.gender == MALE)
+		user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to girls.</span>")
+		user.say("M'lady.")
+		sleep(10)
+		H.facial_hair_style = "Neckbeard"
+		H.adjustBrainLoss(10)
+	else
+		user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to guys.</span>")
+		user.say("M'lord.")
+		sleep(10)
+		H.facial_hair_style = "Neckbeard"
+		H.adjustBrainLoss(10)
+	return
+
+/obj/item/clothing/head/fedora/detective
+	name = "detective's fedora"
+	desc = "There's only one man who can sniff out the dirty stench of crime, and he's likely wearing this hat."
+	icon_state = "detective"
+	armor = list(melee = 50, bullet = 5, laser = 25, energy = 10, bomb = 0, bio = 0, rad = 0)
+	var/candy_cooldown = 0
+
+/obj/item/clothing/head/fedora/detective/AltClick()
+	..()
+	if(ismob(loc))
+		var/mob/M = loc
+		if(candy_cooldown < world.time)
+			var/obj/item/weapon/reagent_containers/food/snacks/candy_corn/CC = new /obj/item/weapon/reagent_containers/food/snacks/candy_corn(src)
+			M.put_in_hands(CC)
+			M << "You slip a candy corn from your hat."
+			candy_cooldown = world.time+1200
+		else
+			M << "You just took a candy corn! You should wait a couple minutes, lest you burn through your stash."
+
+/obj/item/clothing/head/fedora/detective/alt //For detective locker
+	icon_state = "fedora"
+	item_state = "fedora"
 
 /obj/item/clothing/head/sombrero
 	name = "sombrero"
@@ -236,3 +289,9 @@
 	name = "rice hat"
 	desc = "Welcome to the rice fields, motherfucker."
 	icon_state = "rice_hat"
+
+/obj/item/clothing/head/zoothat
+	name = "zoot suit hat"
+	desc = "What's swingin', toots?"
+	icon_state = "zoothat"
+	item_state = "zoothat"

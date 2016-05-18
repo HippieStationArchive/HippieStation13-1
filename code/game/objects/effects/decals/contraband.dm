@@ -54,7 +54,7 @@ list(name = "- Punch Shit", desc = " Fight things for no reason, like a man!"),
 list(name = "- The Griffin", desc = " The Griffin commands you to be the worst you can be. Will you?"),
 list(name = "- Lizard", desc = " This lewd poster depicts a lizard preparing to mate."),
 list(name = "- Free Drone", desc = " This poster commemorates the bravery of the rogue drone banned by CentComm."),
-list(name = "- Busty Backdoor Xeno Babes 6", desc = " Get a load, or give, of these all natural Xenos!") )
+list(name = "- The Guy From Boston", desc = "HEY ITS THE GUY FROM  BOSTON BABY AND IM FUCKING PISSED OFF!") )
 
 // LEGIT
 
@@ -181,9 +181,11 @@ list(name = "- Carbon Dioxide", desc = " This informational poster teaches the v
 	var/official = 0
 	var/placespeed = 37 // don't change this, otherwise the animation will not sync to the progress bar
 
-/obj/structure/sign/poster/New(serial,rolled_official)
+/obj/structure/sign/poster/official_poster
+	official = 1
+
+/obj/structure/sign/poster/New(serial)
 	serial_number = serial
-	official = rolled_official
 	if(serial_number == loc)
 		if(!official)
 			serial_number = rand(1, NUM_OF_POSTER_DESIGNS)	//This is for the mappers that want individual posters without having to use rolled posters.

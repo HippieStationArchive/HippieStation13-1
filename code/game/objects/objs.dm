@@ -6,12 +6,13 @@
 	var/throwforce = 0
 	var/in_use = 0 // If we have a user using us, this will be set on. We will check if the user has stopped using us, and thus stop updating and LAGGING EVERYTHING!
 
-	var/damtype = "brute"
+	var/damtype = BRUTE
 	var/force = 0
 
 	var/burn_state = -1 // -1=fireproof | 0=will burn in fires | 1=currently on fire
 	var/burntime = 10 //How long it takes to burn to ashes, in seconds
 	var/burn_world_time //What world time the object will burn up completely
+	var/being_shocked = 0
 
 /obj/Destroy()
 	if(!istype(src, /obj/machinery))
@@ -168,6 +169,13 @@
 		return 1
 
 /obj/proc/burn()
+	if(istype(src, /obj/item/weapon/storage))
+		var/obj/item/weapon/storage/S = src
+		for(var/obj/Item in contents)
+			Item.mouse_opacity = initial(Item.mouse_opacity)
+		S.close_all()
+		qdel(S.boxes)
+		qdel(S.closer)
 	for(var/obj/item/Item in contents) //Empty out the contents
 		Item.loc = src.loc
 		Item.fire_act() //Set them on fire, too
@@ -184,3 +192,10 @@
 
 /obj/proc/autolathe_crafted(obj/machinery/autolathe/A)
 	return
+
+/obj/proc/tesla_act(var/power)
+	being_shocked = 1
+	var/power_bounced = power / 2
+	tesla_zap(src, 3, power_bounced)
+	spawn(10)
+		being_shocked = 0

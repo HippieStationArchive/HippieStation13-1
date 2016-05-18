@@ -56,6 +56,13 @@
 	shuttleId = "mining"
 	possible_destinations = "mining_home;mining_away"
 
+/obj/machinery/computer/shuttle/outpost
+	name = "Outpost Shuttle Console"
+	desc = "Used to call and send the research outpost shuttle."
+	circuit = /obj/item/weapon/circuitboard/outpost_shuttle
+	shuttleId = "outpost"
+	possible_destinations = "outpost_home;outpost_away"
+
 /*********************Pickaxe & Drills**************************/
 
 /obj/item/weapon/pickaxe
@@ -73,6 +80,11 @@
 	var/list/digsound = list('sound/effects/picaxe1.ogg','sound/effects/picaxe2.ogg','sound/effects/picaxe3.ogg')
 	origin_tech = "materials=1;engineering=1"
 	attack_verb = list("hit", "pierced", "sliced", "attacked")
+
+// /obj/item/weapon/pickaxe/suicide_act(mob/user)
+	//Edgy flavortext to-do
+	//"User slams down the head of the pickaxe into Victim's chest!" "You hear bones crunching!" "Victim screams!" "User pulls back the pickaxe, and Victim's heart is popped out, along with bits of bones and other viscera!"
+	// return(BRUTELOSS)
 
 /obj/item/weapon/pickaxe/proc/playDigSound()
 	playsound(src, pick(digsound),50,1)
@@ -170,8 +182,8 @@
 /obj/item/weapon/survivalcapsule
 	name = "bluespace shelter capsule"
 	desc = "An emergency shelter stored within a pocket of bluespace."
-	icon_state = "pill3"
-	icon = 'icons/obj/chemical.dmi'
+	icon_state = "capsule"
+	icon = 'icons/obj/mining.dmi'
 	w_class = 1
 	var/used = FALSE
 
@@ -181,7 +193,7 @@
 		used = TRUE
 		sleep(50)
 		playsound(get_turf(src), 'sound/effects/phasein.ogg', 100, 1)
-		PoolOrNew(/obj/effect/effect/smoke, src.loc)
+		PoolOrNew(/obj/effect/particle_effect/smoke, src.loc)
 		load()
 		qdel(src)
 
@@ -210,11 +222,11 @@
 	new /obj/item/weapon/storage/pill_bottle/dice(cur_turf)
 
 	cur_turf = locate(start_turf.x+1, start_turf.y-1, start_turf.z)
-	var/obj/structure/stool/bed/chair/comfy/C = new /obj/structure/stool/bed/chair/comfy(cur_turf)
+	var/obj/structure/bed/chair/comfy/C = new /obj/structure/bed/chair/comfy(cur_turf)
 	C.dir = 1
 
 	cur_turf = locate(start_turf.x+1, start_turf.y+1, start_turf.z)
-	new /obj/structure/stool/bed/chair/comfy(cur_turf)
+	new /obj/structure/bed/chair/comfy(cur_turf)
 
 	cur_turf = locate(start_turf.x-1, start_turf.y-1, start_turf.z)
 	var/obj/machinery/sleeper/S = new /obj/machinery/sleeper(cur_turf)

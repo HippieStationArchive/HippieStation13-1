@@ -296,6 +296,23 @@
 			qdel(holder)
 	return 1
 
+/datum/spacevine_mutation/flowering
+	name = "flowering"
+	hue = "#0A480D"
+	quality = NEGATIVE
+	severity = 10
+
+
+/datum/spacevine_mutation/flowering/on_grow(obj/effect/spacevine/holder)
+	if(holder.energy == 2 && prob(severity) && !locate(/obj/structure/alien/resin/flower_bud_enemy) in range(5,holder))
+		var/obj/structure/alien/resin/flower_bud_enemy/FBE = new /obj/structure/alien/resin/flower_bud_enemy (get_turf(holder))
+		FBE.layer = holder.layer+0.1
+
+
+/datum/spacevine_mutation/flowering/on_cross(obj/effect/spacevine/holder, mob/living/crosser)
+	holder.entangle(crosser)
+
+
 
 // SPACE VINES (Note that this code is very similar to Biomass code)
 /obj/effect/spacevine
@@ -361,7 +378,7 @@
 		return
 
 	if(istype(W, /obj/item/weapon/scythe))
-		for(var/obj/effect/spacevine/B in orange(src,1))
+		for(var/obj/effect/spacevine/B in orange(1,src))
 			if(prob(80))
 				qdel(B)
 		qdel(src)
@@ -477,7 +494,7 @@
 			if(prob(20))
 				SV.grow()
 		else //If tile is fully grown
-			SV.buckle_mob()
+			SV.entangle_mob()
 
 		//if(prob(25))
 		SV.spread()
@@ -501,15 +518,22 @@
 	for(var/datum/spacevine_mutation/SM in mutations)
 		SM.on_grow(src)
 
-/obj/effect/spacevine/buckle_mob()
+/obj/effect/spacevine/proc/entangle_mob()
 	if(!buckled_mob && prob(25))
-		for(var/mob/living/carbon/V in src.loc)
-			for(var/datum/spacevine_mutation/SM in mutations)
-				SM.on_buckle(src, V)
-			if((V.stat != DEAD) && (V.buckled != src)) //not dead or captured
-				V << "<span class='danger'>The vines [pick("wind", "tangle", "tighten")] around you!</span>"
-				..(V)
+		for(var/mob/living/V in src.loc)
+			entangle(V)
+			if(buckled_mob)
+				buckle_mob(V)
 				break //only capture one mob at a time
+
+/obj/effect/spacevine/proc/entangle(mob/living/V)
+	if(!V)
+		return
+	for(var/datum/spacevine_mutation/SM in mutations)
+		SM.on_buckle(src, V)
+	if((V.stat != DEAD) && (V.buckled != src)) //not dead or captured
+		V << "<span class='danger'>The vines [pick("wind", "tangle", "tighten")] around you!</span>"
+		buckle_mob(V)
 
 /obj/effect/spacevine/proc/spread()
 	var/direction = pick(cardinal)
@@ -518,9 +542,10 @@
 		SM.on_spread(src, stepturf)
 		stepturf = get_step(src,direction) //in case turf changes, to make sure no runtimes happen
 	if(!locate(/obj/effect/spacevine, stepturf))
-		if(stepturf.Enter(src))
-			if(master)
-				master.spawn_spacevine_piece(stepturf, src)
+		if(istype(stepturf, /turf/simulated))
+			if(stepturf.Enter(src))
+				if(master)
+					master.spawn_spacevine_piece(stepturf, src)
 
 /*
 /obj/effect/spacevine/proc/Life()

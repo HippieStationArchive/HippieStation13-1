@@ -1,4 +1,6 @@
 //In this file: C4 and Syndicate Bombs
+/atom/
+	var/obj/item/weapon/c4/has_c4 = null //If the item has c4 planted on it.
 
 /obj/item/weapon/c4
 	name = "C-4"
@@ -68,11 +70,14 @@
 		user << "Timer set for [timer] seconds."
 
 /obj/item/weapon/c4/afterattack(atom/movable/target, mob/user, flag)
-	if (!flag)
+	if(!flag)
 		return
-	if (ismob(target) || istype(target, /obj/item/weapon/storage/))
+	if(istype(target, /obj/item/weapon/storage/))
 		return
 	if(loc == target)
+		return
+	if(target.has_c4)
+		user << "<span class='notice'>[target] already has C4 attached!</span>"
 		return
 
 	user << "<span class='notice'>You start planting the bomb...</span>"
@@ -80,25 +85,27 @@
 	if(do_after(user, 50, target = target) && in_range(user, target))
 		if(!user.unEquip(src))
 			return
-		src.target = target
-		loc = null
-
 		message_admins("[key_name_admin(user)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[user]'>FLW</A>) planted [src.name] on [target.name] at ([target.x],[target.y],[target.z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[target.x];Y=[target.y];Z=[target.z]'>JMP</a>) with [timer] second fuse",0,1)
 		log_game("[key_name(user)] planted [src.name] on [target.name] at ([target.x],[target.y],[target.z]) with [timer] second fuse")
 
+		src.target = target
+		loc = target
 		target.overlays += image_overlay
+		target.has_c4 = src
 		user << "<span class='notice'>You plant the bomb. Timer counting down from [timer].</span>"
 		spawn(timer*10)
-			if(target && !target.gc_destroyed)
-				explode(get_turf(target))
+			if(target && !target.gc_destroyed && target.has_c4 == src)
+				explode()
 			else
 				qdel(src)
 
-/obj/item/weapon/c4/proc/explode(turf/location)
-	location.ex_act(2, target)
-	explosion(location,0,0,3)
-	if(target)
-		target.overlays -= image_overlay
+/obj/item/weapon/c4/proc/explode()
+	var/turf/location = get_turf(loc)
+	if(location)
+		location.ex_act(2, target)
+		explosion(location,0,0,3)
+		if(target)
+			target.overlays -= image_overlay
 	qdel(src)
 
 /obj/item/weapon/c4/attack(mob/M, mob/user, def_zone)

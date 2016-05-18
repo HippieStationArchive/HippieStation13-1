@@ -108,12 +108,12 @@
 	src << "<span class='adminnotice'>PM to-<b>Admins</b>: [original_msg]</span>"
 
 	//send it to irc if nobody is on and tell us how many were on
-	var/admin_number_present = send2irc_adminless_only(ckey,original_msg)
+	var/admin_number_present = send2irc_admin_notice_handler("adminhelp", ckey, original_msg)
 	log_admin("ADMINHELP: [key_name(src)]: [original_msg] - heard by [admin_number_present] non-AFK admins who have +BAN.")
 	feedback_add_details("admin_verb","AH") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
-/proc/send2irc_adminless_only(source, msg, requiredflags = R_BAN)
+/proc/calculate_admins(type, requiredflags = R_BAN)
 	var/admin_number_total = 0		//Total number of admins
 	var/admin_number_afk = 0		//Holds the number of admins who are afk
 	var/admin_number_ignored = 0	//Holds the number of admins without +BAN (so admins who are not really admins)
@@ -132,15 +132,64 @@
 			invalid = 1
 		if(invalid)
 			admin_number_decrease++
-	var/admin_number_present = admin_number_total - admin_number_decrease	//Number of admins who are neither afk nor invalid
-	if(admin_number_present <= 0)
-		if(!admin_number_afk && !admin_number_ignored)
-			send2irc(source, "[msg] - No admins online")
-		else
-			send2irc(source, "[msg] - All admins AFK ([admin_number_afk]/[admin_number_total]) or skipped ([admin_number_ignored]/[admin_number_total])")
+	switch(type)
+		if("ignored")
+			return admin_number_ignored
+		if("total")
+			return admin_number_total
+		if("away")
+			return admin_number_afk
+		if("present")
+			return admin_number_total - admin_number_decrease
+	return 0
+
+
+/proc/send2irc_admin_notice_handler(type, source, msg)
+	var/afk_admins = calculate_admins("away")
+	var/total_admins = calculate_admins("total")
+	var/ignored_admins = calculate_admins("ignored")
+	var/admin_number_present = calculate_admins("present")	//Number of admins who are neither afk nor invalid
+	var/irc_message_afk = "[msg] - All admins AFK ([afk_admins]/[total_admins]) or skipped ([ignored_admins]/[total_admins])"
+	var/irc_message_normal = "[msg] - heard by [admin_number_present] non-AFK admins who have +BAN."
+	var/irc_message_adminless = "[msg] - No admins online"
+
+	switch(type)
+		if("adminhelp")
+			if(config.announce_adminhelps)
+				send2irc(source, irc_message_normal)
+			else
+				if(admin_number_present <= 0)
+					if(!afk_admins && !ignored_admins)
+						send2irc(source, irc_message_adminless)
+					else if(afk_admins >= 1)
+						send2irc(source, irc_message_afk)
+					else
+						send2irc(source, irc_message_normal)
+		if("watchlist")
+			if(config.announce_watchlist)
+				send2irc(source, irc_message_normal)
+			else
+				if(admin_number_present <= 0)
+					if(!afk_admins && !ignored_admins)
+						send2irc(source, irc_message_adminless)
+					else if(afk_admins >= 1)
+						send2irc(source, irc_message_afk)
+					else
+						send2irc(source, irc_message_normal)
+		if("new_player")
+			if(config.irc_first_connection_alert)
+				send2irc(source, irc_message_normal)
+			else
+				if(admin_number_present <= 0)
+					if(!afk_admins && !ignored_admins)
+						send2irc(source, irc_message_adminless)
+					else if(afk_admins >= 1)
+						send2irc(source, irc_message_afk)
+					else
+						send2irc(source, irc_message_normal)
 	return admin_number_present
 
 /proc/send2irc(msg,msg2)
 	if(config.useircbot)
-		shell("python nudge.py [msg] [msg2]")
+		shell("python nudge.py [msg] \"[msg2]\"")
 	return

@@ -12,6 +12,9 @@
 	var/operating = 0	//-1=broken, 0=standby, 1=takeover
 	var/warned = 0	//if this device has set off the warning at <3 minutes yet
 
+/obj/machinery/dominator/tesla_act()
+	qdel(src)
+
 /obj/machinery/dominator/New()
 	..()
 	SetLuminosity(2)
@@ -54,7 +57,7 @@
 		iconname += "-[gang.color]"
 		SetLuminosity(3)
 
-	var/datum/effect/effect/system/spark_spread/sparks = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/sparks = new /datum/effect_system/spark_spread
 
 	health -= damage
 
@@ -207,7 +210,7 @@
 	healthcheck(M.melee_damage_upper)
 
 /obj/machinery/dominator/mech_melee_attack(obj/mecha/M)
-	if(M.damtype == "brute")
+	if(M.damtype == BRUTE)
 		playsound(src, 'sound/effects/bang.ogg', 50, 1)
 		visible_message("<span class='danger'>[M.name] has hit [src].</span>")
 		healthcheck(M.force)

@@ -59,6 +59,14 @@
 /obj/item/projectile/bullet/heavybullet
 	damage = 35
 
+/obj/item/projectile/bullet/heavybullet2	//This is used in the automag .44 handgun exclusively available to the nuke op leader. The AP is because this is meant to be used on heavily-armored opponents.
+	damage = 85
+	armour_penetration = 10
+
+/obj/item/projectile/bullet/heavybullet3
+	damage = 40
+	armour_penetration = 15
+
 /obj/item/projectile/bullet/rpellet
 	damage = 3
 	stamina = 25

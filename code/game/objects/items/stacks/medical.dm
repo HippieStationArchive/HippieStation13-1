@@ -11,6 +11,7 @@
 	burntime = 5
 	var/heal_brute = 0
 	var/heal_burn = 0
+	var/heal_bleeding = 0
 	var/stop_bleeding = 0
 
 /obj/item/stack/medical/attack(mob/living/M, mob/user)
@@ -32,8 +33,10 @@
 		user << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return 1
 
+	var/obj/item/organ/limb/affecting
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
+		affecting = H.get_organ(check_zone(user.zone_sel.selecting))
 		if(stop_bleeding)
 			if(H.bleedsuppress)
 				user << "<span class='warning'>[H]'s bleeding is already bandaged!</span>"
@@ -41,9 +44,8 @@
 			else if(!H.blood_max)
 				user << "<span class='warning'>[H] isn't bleeding!</span>"
 				return
-
-	if(isliving(M))
-		if(!M.can_inject(user, 1))
+		if(!istype(affecting)) //Missing limb?
+			user << "<span class='warning'>[H] doesn't have [parse_zone(user.zone_sel.selecting)]!</span>"
 			return
 
 	if(user)
@@ -71,12 +73,11 @@
 
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
 		if(stop_bleeding)
 			if(!H.bleedsuppress) //so you can't stack bleed suppression
 				H.suppress_bloodloss(stop_bleeding)
 		if(affecting.status == ORGAN_ORGANIC) //Limb must be organic to be healed - RR
-			if(affecting.heal_damage(src.heal_brute, src.heal_burn, 0))
+			if(affecting.heal_damage(heal_brute, heal_burn, heal_bleeding))
 				H.update_damage_overlays(0)
 
 			M.updatehealth()
@@ -96,6 +97,7 @@
 	desc = "A theraputic gel pack and bandages designed to treat blunt-force trauma."
 	icon_state = "brutepack"
 	heal_brute = 40
+	heal_bleeding = 1 //Chances are it'll stop most of the bleeding.
 	origin_tech = "biotech=1"
 
 /obj/item/stack/medical/gauze
@@ -104,13 +106,13 @@
 	gender = PLURAL
 	singular_name = "medical gauze"
 	icon_state = "gauze"
-	stop_bleeding = 1800
+	stop_bleeding = 3000 //5 mins
 
 /obj/item/stack/medical/gauze/improvised
 	name = "improvised gauze"
 	singular_name = "improvised gauze"
 	desc = "A roll of cloth roughly cut from something that can stop bleeding, but does not heal wounds."
-	stop_bleeding = 900
+	stop_bleeding = 1500 // 2.5 mins
 
 /obj/item/stack/medical/gauze/cyborg/
 	materials = list()

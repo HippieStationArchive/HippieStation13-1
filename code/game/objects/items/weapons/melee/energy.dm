@@ -52,15 +52,16 @@
 	throw_range = 5
 	flags = NOSHIELD
 	origin_tech = "magnets=3;syndicate=4"
+	block_chance = list(melee = 50, bullet = 40, laser = 50, energy = 30)
 	var/hacked = 0
 
 /obj/item/weapon/melee/energy/sword/New()
 	if(item_color == null)
 		item_color = pick("red", "blue", "green", "purple")
 
-/obj/item/weapon/melee/energy/sword/IsShield()
+/obj/item/weapon/melee/energy/sword/hit_reaction(mob/living/carbon/human/owner, attack_text, final_block_chance)
 	if(active)
-		return 1
+		return ..()
 	return 0
 
 /obj/item/weapon/melee/energy/attack_self(mob/living/carbon/user)
@@ -72,6 +73,7 @@
 		force = force_on
 		throwforce = throwforce_on
 		hitsound = 'sound/weapons/blade1.ogg'
+		sharpness = IS_SHARP_ACCURATE
 		if(attack_verb_on.len)
 			attack_verb = attack_verb_on
 		if(!item_color)
@@ -84,6 +86,7 @@
 	else
 		force = initial(force)
 		throwforce = initial(throwforce)
+		sharpness = initial(sharpness)
 		hitsound = initial(hitsound)
 		if(attack_verb_on.len)
 			attack_verb = list()
@@ -131,7 +134,7 @@
 	icon_state = "esaw_0"
 	item_color = null
 
-/obj/item/weapon/melee/energy/sword/cyborg/saw/IsShield()
+/obj/item/weapon/melee/energy/sword/cyborg/saw/hit_reaction()
 	return 0
 
 /obj/item/weapon/melee/energy/sword/saber
@@ -205,11 +208,11 @@
 	throw_range = 1
 	w_class = 4//So you can't hide it in your pocket or some such.
 	flags = NOSHIELD
-	var/datum/effect/effect/system/spark_spread/spark_system
+	var/datum/effect_system/spark_spread/spark_system
 
 //Most of the other special functions are handled in their own files. aka special snowflake code so kewl
 /obj/item/weapon/melee/energy/blade/New()
-	spark_system = new /datum/effect/effect/system/spark_spread()
+	spark_system = new /datum/effect_system/spark_spread()
 	spark_system.set_up(5, 0, src)
 	spark_system.attach(src)
 

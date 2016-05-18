@@ -4,14 +4,17 @@
 	icon_state = "ionrifle"
 	item_state = null	//so the human update icon uses the icon_state instead.
 	origin_tech = "combat=2;magnets=4"
-	can_flashlight = 1
 	w_class = 5
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
 	ammo_type = list(/obj/item/ammo_casing/energy/ion)
 	ammo_x_offset = 3
+	can_flashlight = 1
 	flight_x_offset = 17
 	flight_y_offset = 9
+	can_knife = 1
+	knife_x_offset = 17
+	knife_y_offset = 9
 
 /obj/item/weapon/gun/energy/ionrifle/emp_act(severity)
 	return

@@ -3,34 +3,43 @@
 	set category = "OOC"
 
 	var/list/Lines = list()
-	var/msg = ""
+	var/msg = "--------\n"
 
 	if(length(admins) > 0)
 		Lines += "<b>Admins:</b>"
 		for(var/client/C in sortList(admins))
 			if(C.holder)
 				if(!C.holder.fakekey)
-					Lines += "\t <font color='#FF0000'>[C.key]</font>[show_info(C)]"
+					Lines += "<font color='#FF0000'>[C.key]</font>[show_info(C)]"
 
 	if(length(mentors) > 0)
 		Lines += "<b>Mentors:</b>"
 		for(var/client/C in sortList(clients))
 			var/mentor = mentor_datums[C.ckey]
 			if(mentor)
-				Lines += "\t <font color='#0033CC'>[C.key]</font>[show_info(C)]"
+				Lines += "<font color='#0033CC'>[C.key]</font>[show_info(C)]"
 
-	Lines += "<b>Players:</b>"
+
+	var/player_text = ""
+	var/display_count = 0 //Used to detect as to whether or not we should display the players list
 	for(var/client/C in sortList(clients))
 		if(C.holder)
 			if(C.holder.fakekey)
-				Lines += "\t [C.holder.fakekey][show_info(C)]"
+				display_count++
+				player_text += "[C.holder.fakekey][show_info(C)]\n"
 		else if(!check_mentor_other(C))
-			Lines += "\t [C.key][show_info(C)]"
+			display_count++
+			player_text += "[C.key][show_info(C)]\n"
+
+	if(display_count > 0)
+		Lines += "<b>Players:</b>"
+		Lines += player_text
 
 	for(var/line in Lines)
 		msg += "[line]\n"
 
-	msg += "<b>Total Players: [length(clients)]</b>"
+	msg += "<b>Total Players: [length(clients)]</b>\n"
+	msg += "--------"
 	src << msg
 
 /client/proc/show_info(var/client/C)

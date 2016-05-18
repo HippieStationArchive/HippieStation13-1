@@ -63,6 +63,7 @@
 /obj/item/organ/internal/gland/heals/activate()
 	owner << "<span class='notice'>You feel curiously revitalized.</span>"
 	owner.adjustBruteLoss(-20)
+	owner.adjustBloodLoss(-2)
 	owner.adjustOxyLoss(-20)
 	owner.adjustFireLoss(-20)
 
@@ -119,7 +120,7 @@
 
 /obj/item/organ/internal/gland/pop/activate()
 	owner << "<span class='notice'>You feel unlike yourself.</span>"
-	var/species = pick(list(/datum/species/lizard,/datum/species/slime,/datum/species/plant/pod,/datum/species/fly))
+	var/species = pick(list(/datum/species/lizard,/datum/species/slime,/datum/species/pod,/datum/species/fly))
 	owner.set_species(species)
 
 /obj/item/organ/internal/gland/ventcrawling

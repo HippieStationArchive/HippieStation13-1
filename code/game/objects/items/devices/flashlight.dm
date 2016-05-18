@@ -256,7 +256,7 @@ obj/item/device/flashlight/lamp/bananalamp
 	if(.)
 		user.visible_message("<span class='notice'>[user] lights \the [src].</span>", "<span class='notice'>You light \the [src]!</span>")
 		force = on_damage
-		damtype = "fire"
+		damtype = BURN
 		SSobj.processing += src
 
 /obj/item/device/flashlight/flare/is_hot()
@@ -323,6 +323,8 @@ obj/item/device/flashlight/lamp/bananalamp
 
 /obj/item/device/flashlight/emp/afterattack(atom/A as mob|obj, mob/user, proximity)
 	if(!proximity) return
+	if(istype(A, /obj/item/weapon/storage/) && A.loc == user)
+		return
 	if (emp_cur_charges > 0)
 		emp_cur_charges -= 1
 		A.visible_message("<span class='danger'>[user] blinks \the [src] at \the [A].", \

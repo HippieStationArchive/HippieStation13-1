@@ -18,11 +18,11 @@
 	var/storage_slots = 7 //The number of storage slots in this container.
 	var/obj/screen/storage/boxes = null
 	var/obj/screen/close/closer = null
-	var/use_to_pickup	//Set this to make it possible to use this item in an inverse way, so you can have the item in your hand and click items on the floor to pick them up.
-	var/display_contents_with_number	//Set this to make the storage item group contents of the same type and display them as a number.
-	var/allow_quick_empty	//Set this variable to allow the object to have the 'empty' verb, which dumps all the contents on the floor.
-	var/allow_quick_gather	//Set this variable to allow the object to have the 'toggle mode' verb, which quickly collects all items from a tile.
-	var/collection_mode = 1;  //0 = pick one at a time, 1 = pick all on tile, 2 = pick all of a type
+	var/use_to_pickup = 1	//Set this to make it possible to use this item in an inverse way, so you can have the item in your hand and click items on the floor to pick them up.
+	var/display_contents_with_number = 0	//Set this to make the storage item group contents of the same type and display them as a number.
+	var/allow_quick_empty = 0	//Set this variable to allow the object to have the 'empty' verb, which dumps all the contents on the floor.
+	var/allow_quick_gather = 0	//Set this variable to allow the object to have the 'toggle mode' verb, which quickly collects all items from a tile.
+	var/collection_mode = 0	//0 = pick one at a time, 1 = pick all on tile, 2 = pick all of a type
 	var/preposition = "in" // You put things 'in' a bag, but trays need 'on'.
 	burn_state = -1 //Shit won't burn by default.
 
@@ -62,6 +62,15 @@
 						return
 					M.put_in_l_hand(src)
 			add_fingerprint(usr)
+
+/obj/item/weapon/storage/AltClick() //Altclick is a shortcut to open the bag so you don't have to constantly drag&drop backpacks to check them w/o picking them up
+	..()
+	var/mob/M = usr
+	if(Adjacent(M))
+		orient2hud(M)
+		if(M.s_active)
+			M.s_active.close(M)
+		show_to(M)
 
 //Check if this storage can dump the items
 /obj/item/weapon/storage/proc/content_can_dump(atom/dest_object, mob/user)
@@ -112,7 +121,7 @@
 	is_seeing |= user
 
 
-/obj/item/weapon/storage/throw_at(atom/target, range, speed, spin)
+/obj/item/weapon/storage/throw_at(atom/target, range, speed, spin, diagonals_first, zone)
 	close_all()
 	return ..()
 

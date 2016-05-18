@@ -9,7 +9,13 @@
 	if(confirm != "Yes")
 		return
 
-	for(var/obj/item/W in M)
+	var/list/diff = list()
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		diff = H.organs ^ H.internal_organs //Ignore organs and stuff
+
+	var/list/dropstuff = difflist(M.contents, diff)
+	for(var/obj/item/W in dropstuff)
 		if(!M.unEquip(W))
 			qdel(W)
 			M.regenerate_icons()
@@ -35,7 +41,7 @@
 	if(usr)
 		if (usr.client)
 			if(usr.client.holder)
-				M << "<i>You hear [ticker.Bible_deity_name ? "the voice of " + ticker.Bible_deity_name : "a voice"] in your head... <b>[msg]</i></b>"
+				M << "<i>You hear [deity_name ? "the voice of " + deity_name : "a voice"] in your head... <b>[msg]</i></b>"
 
 	log_admin("SubtlePM: [key_name(usr)] -> [key_name(M)] : [msg]")
 	message_admins("<span class='adminnotice'><b> SubtleMessage: [key_name_admin(usr)] -> [key_name_admin(M)] :</b> [msg]</span>")
@@ -97,7 +103,7 @@
 	var/msg = input("Message:", text("Enter the text you wish to appear to everyone within view:")) as text
 	if (!msg)
 		return
-	for(var/mob/living/M in view(range,A))
+	for(var/mob/M in view(range,A))
 		M << msg
 
 	log_admin("LocalNarrate: [key_name(usr)] at ([get_area(A)]): [msg]")
@@ -198,7 +204,7 @@
 		var/list/candidates = list()
 		for(var/mob/M in player_list)
 			if(M.stat != DEAD)		continue	//we are not dead!
-			if(!M.client.prefs.be_special & BE_ALIEN)	continue	//we don't want to be an alium
+			if(!(ROLE_ALIEN in M.client.prefs.be_special))	continue	//we don't want to be an alium
 			if(M.client.is_afk())	continue	//we are afk
 			if(M.mind && M.mind.current && M.mind.current.stat != DEAD)	continue	//we have a live body we are tied to
 			candidates += M.ckey
@@ -208,16 +214,17 @@
 			usr << "<font color='red'>Error: create_xeno(): no suitable candidates.</font>"
 	if(!istext(ckey))	return 0
 
-	var/alien_caste = input(usr, "Please choose which caste to spawn.","Pick a caste",null) as null|anything in list("Queen","Hunter","Sentinel","Drone","Larva")
+	var/alien_caste = input(usr, "Please choose which caste to spawn.","Pick a caste",null) as null|anything in list("Queen","Praetorian","Hunter","Sentinel","Drone","Larva")
 	var/obj/effect/landmark/spawn_here = xeno_spawn.len ? pick(xeno_spawn) : pick(latejoin)
 	var/mob/living/carbon/alien/new_xeno
 	switch(alien_caste)
-		if("Queen")		new_xeno = new /mob/living/carbon/alien/humanoid/queen(spawn_here)
-		if("Hunter")	new_xeno = new /mob/living/carbon/alien/humanoid/hunter(spawn_here)
-		if("Sentinel")	new_xeno = new /mob/living/carbon/alien/humanoid/sentinel(spawn_here)
-		if("Drone")		new_xeno = new /mob/living/carbon/alien/humanoid/drone(spawn_here)
-		if("Larva")		new_xeno = new /mob/living/carbon/alien/larva(spawn_here)
-		else			return 0
+		if("Queen")				new_xeno = new /mob/living/carbon/alien/humanoid/royal/queen(spawn_here)
+		if("Praetorian")		new_xeno = new /mob/living/carbon/alien/humanoid/royal/praetorian(spawn_here)
+		if("Hunter")			new_xeno = new /mob/living/carbon/alien/humanoid/hunter(spawn_here)
+		if("Sentinel")			new_xeno = new /mob/living/carbon/alien/humanoid/sentinel(spawn_here)
+		if("Drone")				new_xeno = new /mob/living/carbon/alien/humanoid/drone(spawn_here)
+		if("Larva")				new_xeno = new /mob/living/carbon/alien/larva(spawn_here)
+		else					return 0
 
 	new_xeno.ckey = ckey
 	message_admins("<span class='notice'>[key_name_admin(usr)] has spawned [ckey] as a filthy xeno [alien_caste].</span>")
@@ -259,10 +266,11 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 				var/mob/living/carbon/alien/new_xeno
 				switch(G_found.mind.special_role)//If they have a mind, we can determine which caste they were.
-					if("Hunter")	new_xeno = new /mob/living/carbon/alien/humanoid/hunter(T)
-					if("Sentinel")	new_xeno = new /mob/living/carbon/alien/humanoid/sentinel(T)
-					if("Drone")		new_xeno = new /mob/living/carbon/alien/humanoid/drone(T)
-					if("Queen")		new_xeno = new /mob/living/carbon/alien/humanoid/queen(T)
+					if("Hunter")		new_xeno = new /mob/living/carbon/alien/humanoid/hunter(T)
+					if("Sentinel")		new_xeno = new /mob/living/carbon/alien/humanoid/sentinel(T)
+					if("Drone")			new_xeno = new /mob/living/carbon/alien/humanoid/drone(T)
+					if("Praetorian")	new_xeno = new /mob/living/carbon/alien/humanoid/royal/praetorian(T)
+					if("Queen")			new_xeno = new /mob/living/carbon/alien/humanoid/royal/queen(T)
 					else//If we don't know what special role they have, for whatever reason, or they're a larva.
 						create_xeno(G_found.ckey)
 						return
@@ -714,6 +722,9 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	feedback_add_details("admin_verb","TRE") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
+
+
+
 /client/proc/reset_all_tcs()
 	set category = "Admin"
 	set name = "Reset Telecomms Scripts"
@@ -966,14 +977,61 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 
 	if(!holder) return
 
-	var/datum/atom_hud/magical = huds[ANTAG_HUD_WIZ]
-	var/adding_hud = (usr in magical.hudusers) ? 0 : 1
+	var/datum/atom_hud/data/admin/admin = huds[ANTAG_HUD_ADMIN]
+	var/adding_hud = (usr in admin.hudusers) ? 0 : 1
 
-	for(var/datum/atom_hud/H in huds)
-		if(istype(H, /datum/atom_hud/antag))
-			(adding_hud) ? H.add_hud_to(usr) : H.remove_hud_from(usr)
+	if(adding_hud)
+		admin.add_hud_to(usr)
+		for(var/mob/living/L in living_mob_list)
+			L.assess_target_adminhud()
+	else
+		admin.remove_hud_from(usr)
 
 	usr << "You toggled your admin antag HUD [adding_hud ? "ON" : "OFF"]."
 	message_admins("[key_name_admin(usr)] toggled their admin antag HUD [adding_hud ? "ON" : "OFF"].")
 	log_admin("[key_name(usr)] toggled their admin antag HUD [adding_hud ? "ON" : "OFF"].")
 	feedback_add_details("admin_verb","TAH") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+
+/client/proc/reset_atmos()
+	set name = "Clean Air"
+	set category = "Special Verbs"
+	set desc = "Cleans the air in a radius of harmful gasses like plasma and n2o "
+	var/size = input("How big?", "Input") in list(5, 10, 20, "Cancel")
+	if(size == "Cancel")
+		return 0
+	for(var/turf/simulated/T in range(size))
+		if(T.air)
+			var/datum/gas_mixture/A = T.air
+			T.overlays.Cut()
+			if(A)
+				A.trace_gases.Cut()
+				A.toxins = 0
+				A.oxygen = 21.8366
+				A.nitrogen = 82.1472
+				A.temperature = T20C
+	message_admins("[key_name(src)] cleaned air within [size] tiles.")
+	log_game("[key_name(src)] cleaned air within [size] tiles.")
+
+/client/proc/fill_breach()
+	set name = "Fill Hull Breach"
+	set category = "Special Verbs"
+	set desc = "Spawns plating over space breachs"
+	var/size = input("How big?", "Input") in list(5, 10, "Cancel")
+	if(size == "Cancel")
+		return 0
+	for(var/turf/space/T in range(size))
+		T.ChangeTurf(/turf/simulated/floor/plating)
+	spawn(1)
+	for(var/turf/simulated/T in range(size))
+		if(T.air)
+			var/datum/gas_mixture/A = T.air
+			T.overlays.Cut()
+			if(A)
+				A.trace_gases.Cut()
+				A.toxins = 0
+				A.oxygen = 21.8366
+				A.nitrogen = 82.1472
+				A.temperature = T20C
+	message_admins("[key_name(src)] filled the hullbreachs in [size] tiles.")
+	log_game("[key_name(src)] filled the hullbreachs in [size] tiles.")

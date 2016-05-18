@@ -288,7 +288,7 @@
 	origin_tech = null
 	attack_verb = list("attacked", "struck", "hit")
 
-/obj/item/weapon/twohanded/dualsaber/toy/IsShield()
+/obj/item/weapon/twohanded/dualsaber/toy/hit_reaction()
 	return 0
 
 /obj/item/weapon/twohanded/dualsaber/toy/IsReflect()//Stops Toy Dualsabers from reflecting energy projectiles
@@ -321,8 +321,9 @@
 	attack_verb = list("attacked", "coloured")
 	var/colour = "#FF0000" //RGB
 	var/drawtype = "rune"
-	var/list/graffiti = list("amyjon","face","matt","revolution","engie","guy","end","dwarf","uboa","body","cyka","arrow","poseur tag")
+	var/list/graffiti = list("amyjon","face","matt","revolution","engie","guy","end","dwarf","uboa","body","cyka","arrow","star","poseur tag")
 	var/list/letters = list("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z")
+	var/list/numerals = list("0","1","2","3","4","5","6","7","8","9")
 	var/list/oriented = list("arrow","body") // These turn to face the same way as the drawer
 	var/uses = 30 //0 for unlimited uses
 	var/instant = 0
@@ -355,7 +356,7 @@
 
 /obj/item/toy/crayon/proc/update_window(mob/living/user)
 	dat += "<center><h2>Currently selected: [drawtype]</h2><br>"
-	dat += "<a href='?src=\ref[src];type=random_letter'>Random letter</a><a href='?src=\ref[src];type=letter'>Pick letter</a>"
+	dat += "<a href='?src=\ref[src];type=random_letter'>Random letter</a><a href='?src=\ref[src];type=letter'>Pick letter/number</a>"
 	dat += "<hr>"
 	dat += "<h3>Runes:</h3><br>"
 	dat += "<a href='?src=\ref[src];type=random_rune'>Random rune</a>"
@@ -386,7 +387,7 @@
 		if("random_letter")
 			temp = pick(letters)
 		if("letter")
-			temp = input("Choose the letter.", "Scribbles") in letters
+			temp = input("Choose what to write.", "Scribbles") in (letters|numerals)
 		if("random_rune")
 			temp = "rune[rand(1,6)]"
 		if("random_graffiti")
@@ -413,6 +414,8 @@
 			temp = "letter"
 		else if(graffiti.Find(drawtype))
 			temp = "graffiti"
+		else if(numerals.Find(drawtype))
+			temp = "number"
 
 		////////////////////////// GANG FUNCTIONS
 		var/area/territory
@@ -468,7 +471,7 @@
 			else
 				new /obj/effect/decal/cleanable/crayon(target,colour,drawtype,temp,graf_rot)
 
-			user << "<span class='notice'>You finish [instant ? "spraying" : "drawing"] [temp].</span>"
+			user << "<span class='notice'>You finish [instant ? "spraying" : "drawing"] \the [temp].</span>"
 			if(instant<0)
 				playsound(user.loc, 'sound/effects/spray.ogg', 5, 1, 5)
 			if(uses < 0)
@@ -516,7 +519,7 @@
 	w_class = 1
 
 /obj/item/toy/snappop/proc/pop_burst()
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
 	new /obj/effect/decal/cleanable/ash(loc)
@@ -539,7 +542,7 @@
 		if(M.m_intent == "run")
 			M << "<span class='danger'>You step on the snap pop!</span>"
 
-			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+			var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 			s.set_up(2, 0, src)
 			s.start()
 			new /obj/effect/decal/cleanable/ash(src.loc)
@@ -767,26 +770,29 @@
 		return
 	var/choice = null
 	if(cards.len == 0)
-		src.icon_state = "deck_[deckstyle]_empty"
 		user << "<span class='warning'>There are no more cards to draw!</span>"
 		return
 	var/obj/item/toy/cards/singlecard/H = new/obj/item/toy/cards/singlecard(user.loc)
 	choice = cards[1]
 	H.cardname = choice
 	H.parentdeck = src
-	H.add_fingerprint(user)
 	var/O = src
 	H.apply_card_vars(H,O)
 	src.cards -= choice
 	H.pickup(user)
-	user.put_in_active_hand(H)
+	user.put_in_hands(H)
 	user.visible_message("[user] draws a card from the deck.", "<span class='notice'>You draw a card from the deck.</span>")
+	update_icon()
+
+/obj/item/toy/cards/deck/update_icon()
 	if(cards.len > 26)
-		src.icon_state = "deck_[deckstyle]_full"
+		icon_state = "deck_[deckstyle]_full"
 	else if(cards.len > 10)
-		src.icon_state = "deck_[deckstyle]_half"
-	else if(cards.len > 1)
-		src.icon_state = "deck_[deckstyle]_low"
+		icon_state = "deck_[deckstyle]_half"
+	else if(cards.len > 0)
+		icon_state = "deck_[deckstyle]_low"
+	else if(!cards.len)
+		icon_state = "deck_[deckstyle]_empty"
 
 /obj/item/toy/cards/deck/attack_self(mob/user)
 	if(cooldown < world.time - 50)
@@ -795,9 +801,10 @@
 		user.visible_message("[user] shuffles the deck.", "<span class='notice'>You shuffle the deck.</span>")
 		cooldown = world.time
 
-/obj/item/toy/cards/deck/attackby(obj/item/toy/cards/singlecard/C, mob/living/user, params)
+/obj/item/toy/cards/deck/attackby(obj/item/toy/cards/I, mob/living/user, params)
 	..()
-	if(istype(C))
+	if(istype(I, /obj/item/toy/cards/singlecard))
+		var/obj/item/toy/cards/singlecard/C = I
 		if(C.parentdeck == src)
 			if(!user.unEquip(C))
 				user << "<span class='warning'>The card is stuck to your hand, you can't add it to the deck!</span>"
@@ -807,17 +814,8 @@
 			qdel(C)
 		else
 			user << "<span class='warning'>You can't mix cards from other decks!</span>"
-		if(cards.len > 26)
-			src.icon_state = "deck_[deckstyle]_full"
-		else if(cards.len > 10)
-			src.icon_state = "deck_[deckstyle]_half"
-		else if(cards.len > 1)
-			src.icon_state = "deck_[deckstyle]_low"
-
-
-/obj/item/toy/cards/deck/attackby(obj/item/toy/cards/cardhand/C, mob/living/user, params)
-	..()
-	if(istype(C))
+	if(istype(I, /obj/item/toy/cards/cardhand))
+		var/obj/item/toy/cards/cardhand/C = I
 		if(C.parentdeck == src)
 			if(!user.unEquip(C))
 				user << "<span class='warning'>The hand of cards is stuck to your hand, you can't add it to the deck!</span>"
@@ -827,12 +825,7 @@
 			qdel(C)
 		else
 			user << "<span class='warning'>You can't mix cards from other decks!</span>"
-		if(cards.len > 26)
-			src.icon_state = "deck_[deckstyle]_full"
-		else if(cards.len > 10)
-			src.icon_state = "deck_[deckstyle]_half"
-		else if(cards.len > 1)
-			src.icon_state = "deck_[deckstyle]_low"
+	update_icon()
 
 /obj/item/toy/cards/deck/MouseDrop(atom/over_object)
 	var/mob/M = usr
@@ -1114,7 +1107,7 @@
 /obj/item/toy/minimeteor/throw_impact(atom/hit_atom)
 	if(!..())
 		playsound(src, 'sound/effects/meteorimpact.ogg', 40, 1)
-		for(var/mob/M in range(10, src))
+		for(var/mob/M in ultra_range(10, src))
 			if(!M.stat && !istype(M, /mob/living/silicon/ai))\
 				shake_camera(M, 3, 1)
 		qdel(src)
@@ -1159,7 +1152,7 @@
 		cooldown = (world.time + 300) // Sets cooldown at 30 seconds
 		user.visible_message("<span class='warning'>[user] presses the big red button.</span>", "<span class='notice'>You press the button, it plays a loud noise!</span>", "<span class='italics'>The button clicks loudly.</span>")
 		playsound(src, 'sound/effects/explosionfar.ogg', 50, 0, surround = 0)
-		for(var/mob/M in range(10, src)) // Checks range
+		for(var/mob/M in ultra_range(10, src)) // Checks range
 			if(!M.stat && !istype(M, /mob/living/silicon/ai)) // Checks to make sure whoever's getting shaken is alive/not the AI
 				sleep(8) // Short delay to match up with the explosion sound
 				shake_camera(M, 2, 1) // Shakes player camera 2 squares for 1 second.
@@ -1453,3 +1446,45 @@
 	desc = "A \"Space Life\" brand Warden action figure."
 	icon_state = "warden"
 	toysay = "Execute him for breaking in!"
+
+
+//Pool noodles
+
+/obj/item/toy/poolnoodle
+	icon = 'icons/obj/toy.dmi'
+	icon_state = "noodle"
+	name = "Pool noodle"
+	desc = "A strange, bulky, bendable toy that can annoy people."
+	force = 0
+	color = "#000000"
+	w_class = 2.0
+	throwforce = 1
+	throw_speed = 10 //weeee
+	hitsound = 'sound/weapons/tap.ogg'
+	attack_verb = list("flogged", "poked", "jabbed", "slapped", "annoyed")
+
+/obj/item/toy/poolnoodle/attack(target as mob, mob/living/user as mob)
+	..()
+	spawn(0)
+		for(var/i in list(1,2,4,8,4,2,1,2,4,8,4,2))
+			user.dir = i
+			sleep(1)
+
+/obj/item/toy/poolnoodle/red
+	New()
+		color = "#FF0000"
+		icon_state = "noodle"
+		item_state = "noodlered"
+
+/obj/item/toy/poolnoodle/blue
+	New()
+		color = "#0000FF"
+		icon_state = "noodle"
+		item_state = "noodleblue"
+	item_state = "balloon-empty"
+
+/obj/item/toy/poolnoodle/yellow
+	New()
+		color = "#FFFF00"
+		icon_state = "noodle"
+		item_state = "noodleyellow"

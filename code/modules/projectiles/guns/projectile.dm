@@ -20,6 +20,17 @@
 	update_icon()
 	return
 
+/obj/item/weapon/gun/projectile/update_icon()
+	overlays.Cut()
+	if(F)
+		var/iconF = "flight"
+		if(F.on)
+			iconF = "flight_on"
+		overlays += image(icon = 'icons/obj/guns/attachments.dmi', icon_state = iconF, pixel_x = flight_x_offset, pixel_y = flight_y_offset)
+	if(knife)
+		var/iconK = "knife"
+		overlays += image(icon = 'icons/obj/guns/attachments.dmi', icon_state = iconK, pixel_x = knife_x_offset, pixel_y = knife_y_offset)
+
 /obj/item/weapon/gun/projectile/process_chamber(eject_casing = 1, empty_chamber = 1)
 //	if(in_chamber)
 //		return 1
@@ -66,42 +77,35 @@
 		else if (magazine)
 			user << "<span class='notice'>There's already a magazine in \the [src].</span>"
 	if(istype(A, /obj/item/weapon/suppressor))
-		var/obj/item/weapon/suppressor/S = A
 		if(can_suppress)
-			if(!suppressed)
-				if(user.l_hand != src && user.r_hand != src)
-					user << "<span class='notice'>You'll need [src] in your hands to do that.</span>"
-					return
+			if(!suppressed && !knife && !F)
 				if(!user.unEquip(A))
 					return
-				user << "<span class='notice'>You screw [S] onto [src].</span>"
+				user << "<span class='notice'>You screw [A] onto [src].</span>"
 				suppressed = A
-				S.oldsound = fire_sound
-				S.initial_w_class = w_class
 				fire_sound = 'sound/weapons/Gunshot_silenced.ogg'
-				w_class = 3 //so pistols do not fit in pockets when suppressed
+				w_class += 1 //so pistols do not fit in pockets when suppressed
 				A.loc = src
 				update_icon()
 				return
 			else
-				user << "<span class='warning'>[src] already has a suppressor!</span>"
+				user << "<span class='warning'>[src] already has an attachment!</span>"
 				return
 		else
-			user << "<span class='warning'>You can't seem to figure out how to fit [S] on [src]!</span>"
+			user << "<span class='warning'>You can't seem to figure out how to fit [A] on [src]!</span>"
 			return
 	return 0
 
 /obj/item/weapon/gun/projectile/attack_hand(mob/user)
 	if(loc == user)
 		if(suppressed && can_unsuppress)
-			var/obj/item/weapon/suppressor/S = suppressed
 			if(user.l_hand != src && user.r_hand != src)
 				..()
 				return
 			user << "<span class='notice'>You unscrew [suppressed] from [src].</span>"
 			user.put_in_hands(suppressed)
-			fire_sound = S.oldsound
-			w_class = S.initial_w_class
+			fire_sound = initial(fire_sound)
+			w_class = initial(w_class)
 			suppressed = 0
 			update_icon()
 			return
@@ -162,5 +166,3 @@
 	icon = 'icons/obj/guns/projectile.dmi'
 	icon_state = "suppressor"
 	w_class = 2
-	var/oldsound = null
-	var/initial_w_class = null

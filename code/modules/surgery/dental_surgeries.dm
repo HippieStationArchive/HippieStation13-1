@@ -76,63 +76,50 @@
 	implements = list(/obj/item/weapon/reagent_containers/pill = 100)
 	time = 16
 
-/datum/surgery_step/insert_pill/preop(mob/user, mob/living/carbon/human/target, target_zone, obj/item/pill, datum/surgery/surgery)
-	var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in target.organs
-	if(!O)
-		user.visible_message("<span class='notice'>What the... [target] has no head!</span>")
+/datum/surgery_step/insert_pill/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+	if(tool.type == /obj/item/weapon/reagent_containers/pill)
+		user.visible_message("[user] begins to wedge \the [tool] in [target]'s [parse_zone(target_zone)].", "<span class='notice'>You begin to wedge [tool] in [target]'s [parse_zone(target_zone)]...</span>")
+		return 1
+	else
+		user << "<span class='warning'>You cannot insert the [tool] into " + (user == target ? "your" : "[target]'s") + " tooth!<span>"
 		return -1
-	if(!O.get_teeth())
-		user.visible_message("<span class='notice'>[target] has no teeth to speak of!</span>")
-		return -1
-	if(O.dentals.len >= O.get_teeth() / 4) //8 max pills for 32-toothed people seems reasonable enough.
-		user.visible_message("<span class='notice'>There's no room for more implants in [target]'s teeth!</span>")
-		return -1
-	user.visible_message("[user] begins to wedge [pill] in [target]'s [parse_zone(target_zone)].", "<span class='notice'>You begin to wedge [pill] in [target]'s [parse_zone(target_zone)]...</span>")
 
-/datum/surgery_step/insert_pill/success(mob/user, mob/living/carbon/human/target, target_zone, var/obj/item/weapon/reagent_containers/pill/pill, datum/surgery/surgery)
-	if(!istype(pill))
+/datum/surgery_step/insert_pill/success(mob/user, mob/living/carbon/target, target_zone, var/obj/item/weapon/reagent_containers/pill/tool, datum/surgery/surgery)
+	if(!istype(tool))
 		return 0
-	var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in target.organs
-	if(!O)
-		user.visible_message("<span class='notice'>What the... [target] has no head!</span>")
-		return -1
-	if(!O.get_teeth())
-		user.visible_message("<span class='notice'>[target] has no teeth to speak of!</span>")
-		return -1
-	if(O.dentals.len >= O.get_teeth() / 4) //8 max pills seems reasonable enough.
-		user.visible_message("<span class='notice'>There's no room for more implants in [target]'s teeth!</span>")
-		return -1
+
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		var/obj/item/organ/limb/head/organ = locate(/obj/item/organ/limb/head) in H.organs
+		organ.dentals += tool
 
 	user.drop_item()
-	O.dentals += pill
-	pill.loc = O
+	target.internal_organs += tool
+	tool.loc = target
 
 	var/datum/action/item_action/hands_free/activate_pill/P = new
-	P.button_icon_state = pill.icon_state
-	P.target = pill
+	P.button_icon_state = tool.icon_state
+	P.target = tool
 	P.Grant(target)
 
-	user.visible_message("[user] wedges [pill] into [target]'s [parse_zone(target_zone)]!", "<span class='notice'>You wedge [pill] into [target]'s [parse_zone(target_zone)].</span>")
+	user.visible_message("[user] wedges \the [tool] into [target]'s [parse_zone(target_zone)]!", "<span class='notice'>You wedge [tool] into [target]'s [parse_zone(target_zone)].</span>")
 	return 1
 
 /datum/action/item_action/hands_free/activate_pill
-	name = "activate pill"
+	name = "Activate Pill"
 
 /datum/action/item_action/hands_free/activate_pill/Trigger()
-	if(CheckRemoval(owner))
+	if(..() || CheckRemoval(owner))
 		return 0
-	var/obj/item/weapon/reagent_containers/food/drinks/P = target //Pill
-	if(ishuman(owner) && istype(P))
-		var/mob/living/carbon/human/H = owner
-		var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
-		if(!O || !O.get_teeth())
-			H << "<span class='caution'>You have no teeth to burst \the [P]!</span>"
-			return 0
-		H << "<span class='caution'>You grit your teeth and burst the implanted [P]!</span>"
-		add_logs(owner, H, "bursted the implanted", P.reagentlist(P))
-		if(P.reagents.total_volume)
-			P.reagents.reaction(H, INGEST)
-			P.reagents.trans_to(H, P.reagents.total_volume)
-		qdel(P)
-		return 1
-	return 0
+	owner << "<span class='caution'>You grit your teeth and burst the implanted [target]!</span>"
+	add_logs(owner, null, "swallowed an implanted pill", target)
+	if(target.reagents.total_volume)
+		target.reagents.reaction(owner, INGEST)
+		target.reagents.trans_to(owner, target.reagents.total_volume)
+
+		if(ishuman(owner))
+			var/mob/living/carbon/human/H = owner
+			var/obj/item/organ/limb/head/organ = locate(/obj/item/organ/limb/head) in H.organs
+			organ.dentals -= target
+	qdel(target)
+	return 1

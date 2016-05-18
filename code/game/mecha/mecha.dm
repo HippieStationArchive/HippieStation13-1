@@ -19,6 +19,7 @@
 	layer = MOB_LAYER - 0.2//icon draw layer
 	infra_luminosity = 15 //byond implementation is bugged.
 	force = 5
+	flags = HEAR
 	var/can_move = 1
 	var/mob/living/carbon/occupant = null
 	var/step_in = 10 //make a step in step_in/10 sec.
@@ -36,7 +37,7 @@
 	var/maint_access = 0
 	var/dna_lock//dna-locking the mech
 	var/list/proc_res = list() //stores proc owners, like proc_res["functionname"] = owner reference
-	var/datum/effect/effect/system/spark_spread/spark_system = new
+	var/datum/effect_system/spark_spread/spark_system = new
 	var/lights = 0
 	var/lights_power = 6
 	var/last_user_hud = 1 // used to show/hide the mecha hud while preserving previous preference
@@ -76,6 +77,7 @@
 	var/datum/action/mecha/mech_toggle_lights/lights_action = new
 	var/datum/action/mecha/mech_view_stats/stats_action = new
 
+	hud_possible = list (DIAG_STAT_HUD, DIAG_BATT_HUD, DIAG_MECH_HUD)
 
 /obj/mecha/New()
 	..()
@@ -88,8 +90,16 @@
 	spark_system.attach(src)
 	add_cell()
 	SSobj.processing |= src
+	poi_list |= src
 	log_message("[src.name] created.")
 	mechas_list += src //global mech list
+	prepare_huds()
+	var/datum/atom_hud/data/diagnostic/diag_hud = huds[DATA_HUD_DIAGNOSTIC]
+	diag_hud.add_to_hud(src)
+	diag_hud_set_mechhealth()
+	diag_hud_set_mechcell()
+	diag_hud_set_mechstat()
+
 	return
 
 /obj/mecha/Destroy()
@@ -130,6 +140,7 @@
 		if(internal_tank)
 			qdel(internal_tank)
 	SSobj.processing.Remove(src)
+	poi_list.Remove(src)
 	equipment.Cut()
 	cell = null
 	internal_tank = null
@@ -314,16 +325,26 @@
 		var/lights_energy_drain = 2
 		use_power(lights_energy_drain)
 
-
+//Diagnostic HUD updates
+	diag_hud_set_mechhealth()
+	diag_hud_set_mechcell()
+	diag_hud_set_mechstat()
 
 
 /obj/mecha/proc/drop_item()//Derpfix, but may be useful in future for engineering exosuits.
 	return
 
 /obj/mecha/Hear(message, atom/movable/speaker, message_langs, raw_message, radio_freq, list/spans)
-	if(speaker == occupant && radio.broadcasting)
-		radio.talk_into(speaker, text, , spans)
-	return
+	if(speaker == occupant)
+		if(radio.broadcasting)
+			radio.talk_into(speaker, text, , spans)
+		//flick speech bubble
+		var/list/speech_bubble_recipients = list()
+		for(var/mob/M in get_hearers_in_view(7,src))
+			if(M.client)
+				speech_bubble_recipients.Add(M.client)
+		spawn(0)
+			flick_overlay(image('icons/mob/talk.dmi', src, "hR[say_test(raw_message)]",MOB_LAYER+1), speech_bubble_recipients, 30)
 
 ////////////////////////////
 ///// Action processing ////
@@ -482,6 +503,7 @@
 	internal_damage |= int_dam_flag
 	log_append_to_last("Internal damage of type [int_dam_flag].",1)
 	occupant << sound('sound/machines/warning-buzzer.ogg',wait=0)
+	diag_hud_set_mechstat()
 	return
 
 /obj/mecha/proc/clearInternalDamage(int_dam_flag)
@@ -495,6 +517,7 @@
 				occupant_message("<span class='boldnotice'>Damaged internal tank has been sealed.</span>")
 	internal_damage &= ~int_dam_flag
 
+	diag_hud_set_mechstat()
 
 /////////////////////////////////////
 //////////// AI piloting ////////////
@@ -668,10 +691,9 @@
 		user << "<span class='warning'>You are currently buckled and cannot move.</span>"
 		log_append_to_last("Permission denied.")
 		return
-	for(var/mob/living/simple_animal/slime/S in range(1,user))
-		if(S.Victim == user)
-			user << "<span class='warning'>You're too busy getting your life sucked out of you!</span>"
-			return
+	if(user.buckled_mob) //mob attached to us
+		user << "<span class='warning'>You can't enter the exosuit with [user.buckled_mob] attached to you!</span>"
+		return
 
 	visible_message("[user] starts to climb into [src.name].")
 

@@ -12,6 +12,9 @@
 	type_of_meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/monkey
 	gib_type = /obj/effect/decal/cleanable/blood/gibs
 	unique_name = 1
+	crit_can_crawl = 1 //Can crawl in crit
+	crit_crawl_damage = 1 //Crawling in crit should apply 1 oxyloss
+	crit_crawl_damage_type = OXY //Just in case
 
 /mob/living/carbon/monkey/New()
 	verbs += /mob/living/proc/mob_sleep
@@ -40,7 +43,7 @@
 	//Prepare our med HUD...
 	..()
 	//...and display it.
-	for(var/datum/atom_hud/data/medical/hud in huds)
+	for(var/datum/atom_hud/data/human/medical/hud in huds)
 		hud.add_to_hud(src)
 
 /mob/living/carbon/monkey/movement_delay()

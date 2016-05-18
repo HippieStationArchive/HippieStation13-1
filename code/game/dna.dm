@@ -23,7 +23,14 @@
 	destination.dna.features = features
 	destination.dna.real_name = real_name
 	if(transfer_SE)
+		for(var/datum/mutation/human/A in mutations)
+			if(!(A in destination.dna.mutations))
+				A.on_acquiring(destination)
+		for(var/datum/mutation/human/A in destination.dna.mutations)
+			if(!(A in mutations))
+				A.on_losing(destination)
 		destination.dna.struc_enzymes = struc_enzymes
+		destination.dna.mutations = mutations
 
 /datum/dna/proc/copy_dna(datum/dna/new_dna)
 	new_dna.unique_enzymes = unique_enzymes
@@ -140,9 +147,10 @@
 	return spans
 
 /datum/dna/proc/is_same_as(datum/dna/D)
-	if(uni_identity == D.uni_identity && struc_enzymes == D.struc_enzymes && real_name == D.real_name)
-		if(species.type == D.species.type && features == D.features && blood_type == D.blood_type)
-			return 1
+	if(D.uni_identity)
+		if(uni_identity == D.uni_identity && struc_enzymes == D.struc_enzymes && real_name == D.real_name)
+			if(species.type == D.species.type && features == D.features && blood_type == D.blood_type)
+				return 1
 	return 0
 
 //used to update dna UI, UE, and dna.real_name.
@@ -174,10 +182,19 @@
 
 /mob/living/carbon/human/set_species(datum/species/mrace, icon_update = 1)
 	..()
+	regenerate_limbs(noheal=1) //Fix up missing limbs
+	var/obj/item/organ/limb/head/U = locate() in organs
+	if(istype(U))
+		U.teeth_list.Cut() //Clear out their mouth of teeth if they had any
+		var/obj/item/stack/teeth/T = new dna.species.teeth_type
+		T.loc = U
+		U.max_teeth = T.max_amount //Set max teeth for the head based on teeth spawntype
+		T.amount = T.max_amount
+		U.teeth_list += T
 	if(icon_update)
 		update_body()
 		update_hair()
-		update_mutcolor()
+		update_body_parts()
 		update_mutations_overlay()// no lizard with human hulk overlay please.
 
 
@@ -214,7 +231,7 @@
 	if(mrace || newfeatures || ui)
 		update_body()
 		update_hair()
-		update_mutcolor()
+		update_body_parts()
 		update_mutations_overlay()
 
 
@@ -242,7 +259,7 @@ mob/living/carbon/human/updateappearance(icon_update=1, mutcolor_update=0, mutat
 		update_body()
 		update_hair()
 		if(mutcolor_update)
-			update_mutcolor()
+			update_body_parts()
 		if(mutations_overlay_update)
 			update_mutations_overlay()
 

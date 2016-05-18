@@ -4,12 +4,12 @@
 var/list/blobs = list()
 var/list/blob_cores = list()
 var/list/blob_nodes = list()
-
+var/list/blobs_legit = list()
 
 /datum/game_mode/blob
 	name = "blob"
 	config_tag = "blob"
-	antag_flag = BE_BLOB
+	antag_flag = ROLE_BLOB
 
 	required_players = 30
 	required_enemies = 1
@@ -18,8 +18,8 @@ var/list/blob_nodes = list()
 	round_ends_with_antag_death = 1
 	restricted_jobs = list("Cyborg", "AI")
 
-	var/declared = 0
 	var/burst = 0
+
 
 	var/cores_to_spawn = 1
 	var/players_per_core = 30
@@ -53,7 +53,7 @@ var/list/blob_nodes = list()
 /datum/game_mode/blob/proc/get_blob_candidates()
 	var/list/candidates = list()
 	for(var/mob/living/carbon/human/player in player_list)
-		if(!player.stat && player.mind && !player.mind.special_role && !jobban_isbanned(player, "Syndicate") && (player.client.prefs.be_special & BE_BLOB))
+		if(!player.stat && player.mind && !player.mind.special_role && !jobban_isbanned(player, "Syndicate") && (ROLE_BLOB in player.client.prefs.be_special))
 			if(age_check(player.client))
 				candidates += player
 	return candidates
@@ -191,7 +191,6 @@ var/list/blob_nodes = list()
 	switch(stage)
 		if (0)
 			send_intercept(1)
-			declared = 1
 
 		if (1)
 			priority_announce("Confirmed outbreak of level 5 biohazard aboard [station_name()]. All personnel must contain the outbreak.", "Biohazard Alert", 'sound/AI/outbreak5.ogg')

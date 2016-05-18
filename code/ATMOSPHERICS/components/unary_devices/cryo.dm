@@ -78,7 +78,7 @@
 	return 1
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/MouseDrop_T(mob/target, mob/user)
-	if(user.stat || user.lying || !Adjacent(user) || !target.Adjacent(user) || !iscarbon(target))
+	if(user.stat || user.lying || !Adjacent(user) || !target.Adjacent(user) || !iscarbon(target) || user.buckled)
 		return
 	close_machine(target)
 
@@ -216,7 +216,7 @@
 
 	if(href_list["ejectBeaker"])
 		if(beaker)
-			add_logs(usr, src,"removed the beaker from ")
+			add_logs(usr, src, "removed the beaker from ")
 			var/obj/item/weapon/reagent_containers/glass/B = beaker
 			B.loc = get_step(loc, SOUTH)
 			beaker = null
@@ -241,7 +241,7 @@
 		for(var/datum/reagent/R in I.reagents.reagent_list)
 			rbeaker += R.name
 		var/contained = english_list(rbeaker)
-		add_logs(user, src,"placed a new beaker in ", I, addition=" which had [contained]")
+		add_logs(user, src, "placed a new beaker in ", I, addition=" which had [contained]")
 		// Stop logging
 		user.visible_message("[user] places [I] in [src].", \
 							"<span class='notice'>You place [I] in [src].</span>")
@@ -320,7 +320,8 @@
 					occupant.adjustToxLoss(max(-efficiency, (-20*(efficiency ** 2)) / occupant.getToxLoss()))
 				var/heal_brute = occupant.getBruteLoss() ? min(efficiency, 20*(efficiency**2) / occupant.getBruteLoss()) : 0
 				var/heal_fire = occupant.getFireLoss() ? min(efficiency, 20*(efficiency**2) / occupant.getFireLoss()) : 0
-				occupant.heal_organ_damage(heal_brute,heal_fire)
+				var/heal_bloodloss = occupant.getBloodLoss() ? min(efficiency, 2*efficiency / occupant.getBloodLoss()) : 0
+				occupant.heal_organ_damage(heal_brute,heal_fire,heal_bloodloss)
 		if(beaker && next_trans == 0)
 			beaker.reagents.trans_to(occupant, 1, 10)
 			beaker.reagents.reaction(occupant, VAPOR)

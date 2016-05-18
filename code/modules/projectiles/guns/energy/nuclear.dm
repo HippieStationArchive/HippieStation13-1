@@ -6,10 +6,13 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)
 	origin_tech = "combat=3;magnets=2"
 	modifystate = 2
-	can_flashlight = 1
 	ammo_x_offset = 3
+	can_flashlight = 1
 	flight_x_offset = 15
 	flight_y_offset = 10
+	can_knife = 1
+	knife_x_offset = 15
+	knife_y_offset = 10
 
 /obj/item/weapon/gun/energy/gun/attack_self(mob/living/user)
 	select_fire(user)

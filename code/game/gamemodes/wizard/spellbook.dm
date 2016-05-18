@@ -3,7 +3,7 @@
 
 	var/spell_type = null
 	var/desc = ""
-	var/category = "Offensive Spells"
+	var/category = "Offensive"
 	var/log_name = "XX" //What it shows up as in logs
 	var/cost = 2
 	var/refundable = 1
@@ -102,6 +102,7 @@
 	name = "Magic Missile"
 	spell_type = /obj/effect/proc_holder/spell/targeted/projectile/magic_missile
 	log_name = "MM"
+	category = "Defensive"
 
 /datum/spellbook_entry/disintegrate
 	name = "Disintegrate"
@@ -112,24 +113,26 @@
 	name = "Disable Tech"
 	spell_type = /obj/effect/proc_holder/spell/targeted/emplosion/disable_tech
 	log_name = "DT"
-	category = "Utility Spells"
+	category = "Defensive"
 	cost = 1
 
 /datum/spellbook_entry/repulse
 	name = "Repulse"
 	spell_type = /obj/effect/proc_holder/spell/aoe_turf/repulse
 	log_name = "RP"
+	category = "Defensive"
 
 /datum/spellbook_entry/timestop
 	name = "Time Stop"
 	spell_type = /obj/effect/proc_holder/spell/aoe_turf/conjure/timestop
 	log_name = "TS"
+	category = "Defensive"
 
 /datum/spellbook_entry/smoke
 	name = "Smoke"
 	spell_type = /obj/effect/proc_holder/spell/targeted/smoke
 	log_name = "SM"
-	category = "Utility Spells"
+	category = "Defensive"
 	cost = 1
 
 /datum/spellbook_entry/blind
@@ -142,44 +145,43 @@
 	name = "Mindswap"
 	spell_type = /obj/effect/proc_holder/spell/targeted/mind_transfer
 	log_name = "MT"
-	category = "Utility Spells"
+	category = "Mobility"
 
 /datum/spellbook_entry/forcewall
 	name = "Force Wall"
 	spell_type = /obj/effect/proc_holder/spell/aoe_turf/conjure/forcewall
 	log_name = "FW"
-	category = "Utility Spells"
+	category = "Defensive"
 	cost = 1
 
 /datum/spellbook_entry/blink
 	name = "Blink"
 	spell_type = /obj/effect/proc_holder/spell/targeted/turf_teleport/blink
 	log_name = "BL"
-	category = "Utility Spells"
+	category = "Mobility"
 
 /datum/spellbook_entry/teleport
 	name = "Teleport"
 	spell_type = /obj/effect/proc_holder/spell/targeted/area_teleport/teleport
 	log_name = "TP"
-	category = "Utility Spells"
+	category = "Mobility"
 
 /datum/spellbook_entry/mutate
 	name = "Mutate"
 	spell_type = /obj/effect/proc_holder/spell/targeted/genetic/mutate
 	log_name = "MU"
-	category = "Utility Spells"
 
 /datum/spellbook_entry/jaunt
 	name = "Ethereal Jaunt"
 	spell_type = /obj/effect/proc_holder/spell/targeted/ethereal_jaunt
 	log_name = "EJ"
-	category = "Utility Spells"
+	category = "Mobility"
 
 /datum/spellbook_entry/knock
 	name = "Knock"
 	spell_type = /obj/effect/proc_holder/spell/aoe_turf/knock
 	log_name = "KN"
-	category = "Utility Spells"
+	category = "Mobility"
 	cost = 1
 
 /datum/spellbook_entry/fleshtostone
@@ -191,28 +193,47 @@
 	name = "Summon Item"
 	spell_type = /obj/effect/proc_holder/spell/targeted/summonitem
 	log_name = "IS"
-	category = "Utility Spells"
+	category = "Assistance"
 	cost = 1
 
 /datum/spellbook_entry/lichdom
 	name = "Bind Soul"
 	spell_type = /obj/effect/proc_holder/spell/targeted/lichdom
 	log_name = "LD"
+	category = "Defensive"
 
 /datum/spellbook_entry/lightningbolt
 	name = "Lightning Bolt"
 	spell_type = /obj/effect/proc_holder/spell/targeted/lightning
 	log_name = "LB"
-	cost = 2
 
 /datum/spellbook_entry/barnyard
 	name = "Barnyard Curse"
 	spell_type = /obj/effect/proc_holder/spell/targeted/barnyardcurse
 	log_name = "BC"
+	cost = 1
+	
+/datum/spellbook_entry/cluwnecurse
+	name = "Clown Curse"
+	spell_type = /obj/effect/proc_holder/spell/targeted/cluwnecurse
+	log_name = "CC"
 
+/datum/spellbook_entry/charge
+	name = "Charge"
+	spell_type = /obj/effect/proc_holder/spell/targeted/charge
+	log_name = "CH"
+	category = "Assistance"
+	cost = 1
+/*
+/datum/spellbook_entry/shapeshift
+	name = "Wild Shapeshift"
+	spell_type = /obj/effect/proc_holder/spell/targeted/shapeshift/wild
+	log_name = "WS"
+	category = "Assistance"
+	cost = 1
+*/
 /datum/spellbook_entry/item
 	name = "Buy Item"
-	category = "Artifacts"
 	refundable = 0
 	buy_word = "Summon"
 	var/item_path= null
@@ -243,6 +264,7 @@
 	desc = "An arcane staff capable of shooting bolts of eldritch energy which cause inanimate objects to come to life. This magic doesn't affect machines."
 	item_path = /obj/item/weapon/gun/magic/staff/animate
 	log_name = "SA"
+	category = "Assistance"
 
 /datum/spellbook_entry/item/staffchaos
 	name = "Staff of Chaos"
@@ -252,16 +274,26 @@
 
 /datum/spellbook_entry/item/staffdoor
 	name = "Staff of Door Creation"
-	desc = "A particular staff that can mold solid metal into ornate wooden doors. Useful for getting around in the absence of other transportation. Does not work on glass."
+	desc = "A particular staff that can mold solid metal into ornate doors. Useful for getting around in the absence of other transportation. Does not work on glass."
 	item_path = /obj/item/weapon/gun/magic/staff/door
 	log_name = "SD"
 	cost = 1
+	category = "Mobility"
+
+/datum/spellbook_entry/item/staffhealing
+	name = "Staff of Healing"
+	desc = "An altruistic staff that can heal the lame and raise the dead."
+	item_path = /obj/item/weapon/gun/magic/staff/healing
+	log_name = "SH"
+	cost = 1
+	category = "Defensive"
 
 /datum/spellbook_entry/item/scryingorb
 	name = "Scrying Orb"
 	desc = "An incandescent orb of crackling energy, using it will allow you to ghost while alive, allowing you to spy upon the station with ease. In addition, buying it will permanently grant you x-ray vision."
 	item_path = /obj/item/weapon/scrying
 	log_name = "SO"
+	category = "Defensive"
 
 /datum/spellbook_entry/item/scryingorb/Buy(mob/living/carbon/human/user,obj/item/weapon/spellbook/book)
 	if(..())
@@ -274,6 +306,7 @@
 	desc = "Soul Stone Shards are ancient tools capable of capturing and harnessing the spirits of the dead and dying. The spell Artificer allows you to create arcane machines for the captured souls to pilot."
 	item_path = /obj/item/weapon/storage/belt/soulstone/full
 	log_name = "SS"
+	category = "Assistance"
 
 /datum/spellbook_entry/item/soulstones/Buy(mob/living/carbon/human/user,obj/item/weapon/spellbook/book)
 	. =..()
@@ -286,18 +319,21 @@
 	desc = "A Necromantic stone is able to resurrect three dead individuals as skeletal thralls for you to command."
 	item_path = /obj/item/device/necromantic_stone
 	log_name = "NS"
+	category = "Assistance"
 
 /datum/spellbook_entry/item/wands
 	name = "Wand Assortment"
-	desc = "A collection of wands that allow for a wide variety of utility. Wands do not recharge, so be conservative in use. Comes in a handy belt."
+	desc = "A collection of wands that allow for a wide variety of utility. Wands have a limited number of charges, so be conservative in use. Comes in a handy belt."
 	item_path = /obj/item/weapon/storage/belt/wands/full
 	log_name = "WA"
+	category = "Defensive"
 
 /datum/spellbook_entry/item/armor
 	name = "Mastercrafted Armor Set"
 	desc = "An artefact suit of armor that allows you to cast spells while providing more protection against attacks and the void of space."
 	item_path = /obj/item/clothing/suit/space/hardsuit/wizard
 	log_name = "HS"
+	category = "Defensive"
 
 /datum/spellbook_entry/item/armor/Buy(mob/living/carbon/human/user,obj/item/weapon/spellbook/book)
 	. = ..()
@@ -310,6 +346,14 @@
 	desc = "A magical contract binding an apprentice wizard to your service, using it will summon them to your side."
 	item_path = /obj/item/weapon/antag_spawner/contract
 	log_name = "CT"
+	category = "Assistance"
+
+/datum/spellbook_entry/item/plasma_fist
+	name = "Plasma Fist Scroll"
+	desc = "Consider this more of a \"Spell Bundle\". This artifact is NOT reccomended for weaklings. An ancient scroll that will teach you the art of Plasma Fist. With it's various combos you can knock people down in the area around you, light them on fire and finally perform the PLASMA FIST that will gib your target."
+	item_path = /obj/item/weapon/plasma_fist_scroll
+	log_name = "PF"
+	cost = 1
 
 /datum/spellbook_entry/item/bloodbottle
 	name = "Bottle of Blood"
@@ -317,6 +361,19 @@
 	item_path = /obj/item/weapon/antag_spawner/slaughter_demon
 	log_name = "BB"
 	limit = 3
+	category = "Assistance"
+
+/datum/spellbook_entry/item/mjolnir
+	name = "Mjolnir"
+	desc = "A mighty hammer on loan from Thor, God of Thunder. It crackles with barely contained power."
+	item_path = /obj/item/weapon/twohanded/mjollnir
+	log_name = "MJ"
+
+/datum/spellbook_entry/item/singularity_hammer
+	name = "Singularity Hammer"
+	desc = "A hammer that creates an intensely powerful field of gravity where it strikes, pulling everthing nearby to the point of impact."
+	item_path = /obj/item/weapon/twohanded/singularityhammer
+	log_name = "SI"
 
 /datum/spellbook_entry/summon
 	name = "Summon Stuff"
@@ -404,12 +461,31 @@
 	if(times>0)
 		. += "You cast it [times] times.<br>"
 	return .
+/*
+/datum/spellbook_entry/summon/multisword
+	name = "Multiverse War"
+	category = "Rituals"
+	desc = "Triggers a multiverse war in which the crew (and you) must summon copies of yourself from alternate realities to do battle and hijack the emergency shuttle. Automatically triggers a shuttle call on purchase."
+	log_name = "MW"
+	cost = 8
 
+/datum/spellbook_entry/summon/multisword/IsAvailible()
+	if(!ticker.mode) // In case spellbook is placed on map
+		return 0
+	return (ticker.mode.name != "ragin' mages" && !config.no_summon_magic)
 
-
+/datum/spellbook_entry/summon/multisword/Buy(mob/living/carbon/human/user,obj/item/weapon/spellbook/book)
+	feedback_add_details("wizard_spell_learned",log_name)
+	only_me()
+	new /obj/item/weapon/multisword(get_turf(user)) //Because the proc skips special roles
+	SSshuttle.emergency.request()
+	playsound(get_turf(user),"sound/magic/CastSummon.ogg",50,1)
+	user << "<span class='notice'>You have triggerd a multiverse war!</span>"
+	return 1
+*/
 /obj/item/weapon/spellbook
 	name = "spell book"
-	desc = "The legendary book of spells of the wizard."
+	desc = "An unearthly tome that glows with power."
 	icon = 'icons/obj/library.dmi'
 	icon_state ="book"
 	throw_speed = 2
@@ -469,17 +545,26 @@
 /obj/item/weapon/spellbook/proc/GetCategoryHeader(category)
 	var/dat = ""
 	switch(category)
-		if("Offensive Spells")
-			dat += "Spells that can be reused endlessly.<BR>"
-			dat += "The number after the spell name is the cooldown time.<BR>"
+		if("Offensive")
+			dat += "Spells and items geared towards debilitating and destroying.<BR><BR>"
+			dat += "Items are not bound to you and can be stolen. Additionaly they cannot typically be returned once purchased.<BR>"
+			dat += "For spells: the number after the spell name is the cooldown time.<BR>"
 			dat += "You can reduce this number by spending more points on the spell.<BR>"
-		if("Utility Spells")
-			dat += "Spells that can be reused endlessly.<BR>"
-			dat += "The number after the spell name is the cooldown time.<BR>"
+		if("Defensive")
+			dat += "Spells and items geared towards improving your survivabilty or reducing foes ability to attack.<BR><BR>"
+			dat += "Items are not bound to you and can be stolen. Additionaly they cannot typically be returned once purchased.<BR>"
+			dat += "For spells: the number after the spell name is the cooldown time.<BR>"
 			dat += "You can reduce this number by spending more points on the spell.<BR>"
-		if("Artifacts")
-			dat += "Powerful items imbued with eldritch magics. Summoning one will count towards your maximum number of uses.<BR>"
-			dat += "These items are not bound to you and can be stolen. Additionaly they cannot typically be returned once purchased.<BR>"
+		if("Mobility")
+			dat += "Spells and items geared towards improving your ability to move. It is a good idea to take at least one.<BR><BR>"
+			dat += "Items are not bound to you and can be stolen. Additionaly they cannot typically be returned once purchased.<BR>"
+			dat += "For spells: the number after the spell name is the cooldown time.<BR>"
+			dat += "You can reduce this number by spending more points on the spell.<BR>"
+		if("Assistance")
+			dat += "Spells and items geared towards bringing in outside forces to aid you or improving upon your other items and abilties.<BR><BR>"
+			dat += "Items are not bound to you and can be stolen. Additionaly they cannot typically be returned once purchased.<BR>"
+			dat += "For spells: the number after the spell name is the cooldown time.<BR>"
+			dat += "You can reduce this number by spending more points on the spell.<BR>"
 		if("Challenges")
 			dat += "The Wizard Federation typically has hard limits on the potency and number of spells brought to the station based on risk.<BR>"
 			dat += "Arming the station against you will increases the risk, but will grant you one more charge for your spellbook.<BR>"
@@ -524,7 +609,7 @@
 		cat_dat[category] = "<hr>"
 		dat += "<li><a [tab==category?"class=selected":""] href='byond://?src=\ref[src];page=[category]'>[category]</a></li>"
 
-	dat += "<li><a><b>Uses remaining : [uses]</b></a></li>"
+	dat += "<li><a><b>Points remaining : [uses]</b></a></li>"
 	dat += "</ul>"
 
 	var/datum/spellbook_entry/E
@@ -548,7 +633,7 @@
 		dat += cat_dat[category]
 		dat += "</div>"
 
-	user << browse(wrap(dat), "window=spellbook;size=600x300")
+	user << browse(wrap(dat), "window=spellbook;size=700x500")
 	onclose(user, "spellbook")
 	return
 
@@ -636,7 +721,7 @@
 /obj/item/weapon/spellbook/oneuse/fireball
 	spell = /obj/effect/proc_holder/spell/dumbfire/fireball
 	spellname = "fireball"
-	icon_state = "bookfireball"
+	icon_state ="bookfireball"
 	desc = "This book feels warm to the touch."
 
 /obj/item/weapon/spellbook/oneuse/fireball/recoil(mob/user)
@@ -647,7 +732,7 @@
 /obj/item/weapon/spellbook/oneuse/smoke
 	spell = /obj/effect/proc_holder/spell/targeted/smoke
 	spellname = "smoke"
-	icon_state = "booksmoke"
+	icon_state ="booksmoke"
 	desc = "This book is overflowing with the dank arts."
 
 /obj/item/weapon/spellbook/oneuse/smoke/recoil(mob/user)
@@ -661,7 +746,7 @@
 /obj/item/weapon/spellbook/oneuse/blind
 	spell = /obj/effect/proc_holder/spell/targeted/trigger/blind
 	spellname = "blind"
-	icon_state = "bookblind"
+	icon_state ="bookblind"
 	desc = "This book looks blurry, no matter how you look at it."
 
 /obj/item/weapon/spellbook/oneuse/blind/recoil(mob/user)
@@ -672,7 +757,7 @@
 /obj/item/weapon/spellbook/oneuse/mindswap
 	spell = /obj/effect/proc_holder/spell/targeted/mind_transfer
 	spellname = "mindswap"
-	icon_state = "bookmindswap"
+	icon_state ="bookmindswap"
 	desc = "This book's cover is pristine, though its pages look ragged and torn."
 	var/mob/stored_swap = null //Used in used book recoils to store an identity for mindswaps
 
@@ -724,7 +809,7 @@
 /obj/item/weapon/spellbook/oneuse/forcewall
 	spell = /obj/effect/proc_holder/spell/aoe_turf/conjure/forcewall
 	spellname = "forcewall"
-	icon_state = "bookforcewall"
+	icon_state ="bookforcewall"
 	desc = "This book has a dedication to mimes everywhere inside the front cover."
 
 /obj/item/weapon/spellbook/oneuse/forcewall/recoil(mob/user)
@@ -738,7 +823,7 @@
 /obj/item/weapon/spellbook/oneuse/knock
 	spell = /obj/effect/proc_holder/spell/aoe_turf/knock
 	spellname = "knock"
-	icon_state = "bookknock"
+	icon_state ="bookknock"
 	desc = "This book is hard to hold closed properly."
 
 /obj/item/weapon/spellbook/oneuse/knock/recoil(mob/user)
@@ -749,7 +834,7 @@
 /obj/item/weapon/spellbook/oneuse/barnyard
 	spell = /obj/effect/proc_holder/spell/targeted/barnyardcurse
 	spellname = "barnyard"
-	icon_state = "bookhorses"
+	icon_state ="bookhorses"
 	desc = "This book is more horse than your mind has room for."
 
 /obj/item/weapon/spellbook/oneuse/barnyard/recoil(mob/living/carbon/user)
@@ -769,7 +854,7 @@
 /obj/item/weapon/spellbook/oneuse/charge
 	spell = /obj/effect/proc_holder/spell/targeted/charge
 	spellname = "charging"
-	icon_state = "bookcharge"
+	icon_state ="bookcharge"
 	desc = "This book is made of 100% post-consumer wizard."
 
 /obj/item/weapon/spellbook/oneuse/charge/recoil(mob/user)
@@ -780,10 +865,15 @@
 /obj/item/weapon/spellbook/oneuse/summonitem
 	spell = /obj/effect/proc_holder/spell/targeted/summonitem
 	spellname = "instant summons"
-	icon_state = "booksummons"
+	icon_state ="booksummons"
 	desc = "This book is bright and garish, very hard to miss."
 
 /obj/item/weapon/spellbook/oneuse/summonitem/recoil(mob/user)
 	..()
 	user <<"<span class='warning'>[src] suddenly vanishes!</span>"
+	qdel(src)
+
+/obj/item/weapon/spellbook/oneuse/random/New()
+	var/real_type = pick(typesof(/obj/item/weapon/spellbook/oneuse))
+	new real_type(loc)
 	qdel(src)

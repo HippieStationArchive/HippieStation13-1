@@ -21,12 +21,6 @@ var/datum/subsystem/ticker/ticker
 
 	var/list/datum/mind/minds = list()		//The characters in the game. Used for objective tracking.
 
-		//These bible variables should be a preference
-	var/Bible_icon_state					//icon_state the chaplain has chosen for his bible
-	var/Bible_item_state					//item_state the chaplain has chosen for his bible
-	var/Bible_name							//name of the bible
-	var/Bible_deity_name					//name of chaplin's deity
-
 	var/list/syndicate_coalition = list()	//list of traitor-compatible factions
 	var/list/factions = list()				//list of all factions
 	var/list/availablefactions = list()		//list of factions with openings
@@ -50,7 +44,7 @@ var/datum/subsystem/ticker/ticker
 /datum/subsystem/ticker/New()
 	NEW_SS_GLOBAL(ticker)
 
-	login_music = pickweight(list('sound/ambience/title2.ogg' = 31, 'sound/ambience/title1.ogg' = 31, 'sound/ambience/title3.ogg' =31, 'sound/ambience/clown.ogg' = 7)) // choose title music!
+	login_music = pickweight(list('sound/ambience/title2.ogg' = 0, 'sound/ambience/title1.ogg' = 1, 'sound/ambience/title3.ogg' =0, 'sound/ambience/clown.ogg' = 0)) // choose title music!
 	if(SSevent.holidays && SSevent.holidays[APRIL_FOOLS])
 		login_music = 'sound/ambience/clown.ogg'
 
@@ -181,7 +175,7 @@ var/datum/subsystem/ticker/ticker
 
 
 	world << "<FONT color='blue'><B>Welcome to [station_name()], enjoy your stay!</B></FONT>"
-	world << sound('sound/AI/welcome.ogg')
+	world << sound(pick('sound/AI/welcome1.ogg', 'sound/AI/welcome2.ogg'))
 
 	if(SSevent.holidays)
 		world << "<font color='blue'>and...</font>"
@@ -213,7 +207,7 @@ var/datum/subsystem/ticker/ticker
 	//initialise our cinematic screen object
 	cinematic = new /obj/screen{icon='icons/effects/station_explosion.dmi';icon_state="station_intact";layer=20;mouse_opacity=0;screen_loc="1,0";}(src)
 
-	var/obj/structure/stool/bed/temp_buckle = new(src)
+	var/obj/structure/bed/temp_buckle = new(src)
 	if(station_missed)
 		for(var/mob/M in mob_list)
 			M.buckled = temp_buckle				//buckles the mob so it can't do anything
@@ -305,8 +299,11 @@ var/datum/subsystem/ticker/ticker
 	//If its actually the end of the round, wait for it to end.
 	//Otherwise if its a verb it will continue on afterwards.
 	spawn(300)
-		if(cinematic)	qdel(cinematic)		//end the cinematic
-		if(temp_buckle)	qdel(temp_buckle)	//release everybody
+		if(cinematic)
+			qdel(cinematic)
+			cinematic = null
+		if(temp_buckle)
+			qdel(temp_buckle)
 	return
 
 
@@ -435,6 +432,14 @@ var/datum/subsystem/ticker/ticker
 	log_game("Antagonists at round end were...")
 	for(var/i in total_antagonists)
 		log_game("[i]s[total_antagonists[i]].")
+
+	//Adds the del() log to world.log in a format condensable by the runtime condenser found in tools
+	if(SSgarbage.didntgc.len)
+		var/dellog = ""
+		for(var/path in SSgarbage.didntgc)
+			dellog += "Path : [path] \n"
+			dellog += "Failures : [SSgarbage.didntgc[path]] \n"
+		world.log << dellog
 
 	return 1
 

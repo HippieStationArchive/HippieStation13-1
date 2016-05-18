@@ -2,25 +2,24 @@
 
 /obj/item/weapon/storage/box/syndicate/New()
 	..()
-	switch (pickweight(list("bloodyspai" = 1, "stealth" = 1, "bond" = 1, "screwed" = 1, "guns" = 1, "murder" = 1, "implant" = 1, "hacker" = 1, "lordsingulo" = 1, "darklord" = 1)))
-		if("bloodyspai")
+	switch (pickweight(list("spy" = 1, "boom" = 1, "bond" = 1, "screwed" = 1, "guns" = 1, "murder" = 1, "implant" = 1, "hacker" = 1, "psycho" = 1, "darklord" = 1)))
+		if("spy")
 			new /obj/item/clothing/under/chameleon(src)
 			new /obj/item/clothing/mask/gas/voice(src)
 			new /obj/item/weapon/card/id/syndicate(src)
-			new /obj/item/weapon/card/id/syndicate(src)
 			new /obj/item/clothing/shoes/sneakers/syndigaloshes(src)
 			new /obj/item/device/camera_bug(src)
-			return
-
-		if("stealth")
-			new /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow(src)
-			new /obj/item/weapon/pen/sleepy(src)
-			new /obj/item/device/chameleon(src)
+			new /obj/item/device/multitool/ai_detect(src)
+			new /obj/item/device/encryptionkey/syndicate(src)
+			new /obj/item/weapon/reagent_containers/syringe/mulligan(src)
+			new /obj/item/weapon/switchblade(src)
+			new /obj/item/clothing/glasses/thermal/syndi(src)
 			return
 
 		if("bond")
 			new /obj/item/weapon/gun/projectile/automatic/pistol(src)
 			new /obj/item/weapon/suppressor(src)
+			new /obj/item/ammo_box/magazine/m10mm(src)
 			new /obj/item/ammo_box/magazine/m10mm(src)
 			new /obj/item/ammo_box/magazine/m10mm(src)
 			new /obj/item/clothing/under/chameleon(src)
@@ -30,9 +29,10 @@
 		if("screwed")
 			new /obj/item/device/sbeacondrop/bomb(src)
 			new /obj/item/weapon/grenade/syndieminibomb(src)
-			new /obj/item/device/powersink(src)
-			new /obj/item/clothing/suit/space/syndicate/black/red(src)
-			new /obj/item/clothing/head/helmet/space/syndicate/black/red(src)
+			new /obj/item/device/sbeacondrop/powersink(src)
+			new /obj/item/device/sbeacondrop(src)
+			new /obj/item/clothing/suit/space/hardsuit/syndi(src)
+			new /obj/item/device/encryptionkey/syndicate(src)
 			return
 
 		if("guns")
@@ -43,13 +43,15 @@
 			new /obj/item/clothing/gloves/color/latex/nitrile(src)
 			new /obj/item/clothing/mask/gas/clown_hat(src)
 			new /obj/item/clothing/under/suit_jacket/really_black(src)
+			new /obj/item/clothing/suit/jacket/leather/overcoat(src)
 			return
 
 		if("murder")
 			new /obj/item/weapon/melee/energy/sword/saber(src)
 			new /obj/item/clothing/glasses/thermal/syndi(src)
-			new /obj/item/weapon/card/emag(src)
+			new /obj/item/weapon/shield/deployable/energy(src)
 			new /obj/item/clothing/shoes/sneakers/syndigaloshes(src)
+			new /obj/item/device/encryptionkey/syndicate(src)
 			return
 
 		if("implant")
@@ -66,13 +68,7 @@
 			new /obj/item/weapon/card/emag(src)
 			new /obj/item/device/encryptionkey/binary(src)
 			new /obj/item/weapon/aiModule/toyAI(src)
-			return
-
-		if("lordsingulo")
-			new /obj/item/device/sbeacondrop(src)
-			new /obj/item/clothing/suit/space/syndicate/black/red(src)
-			new /obj/item/clothing/head/helmet/space/syndicate/black/red(src)
-			new /obj/item/weapon/card/emag(src)
+			new /obj/item/device/multitool/ai_detect(src)
 			return
 
 		if("darklord")
@@ -81,6 +77,23 @@
 			new /obj/item/weapon/dnainjector/telemut/darkbundle(src)
 			new /obj/item/clothing/suit/hooded/chaplain_hoodie(src)
 			new /obj/item/weapon/card/id/syndicate(src)
+			return
+
+		if("psycho")
+			new /obj/item/clothing/suit/raincoat(src)
+			new /obj/item/weapon/newspaper(src)
+			new /obj/item/weapon/twohanded/fireaxe(src)
+			new /obj/item/weapon/storage/fancy/cigarettes/cigpack_syndicate(src)
+			new /obj/item/clothing/shoes/sneakers/syndigaloshes(src)
+			new /obj/item/weapon/soap/syndie(src)
+			return
+
+		if("boom")
+			new /obj/item/weapon/grenade/syndieminibomb(src)
+			new /obj/item/weapon/grenade/syndieminibomb(src)
+			new /obj/item/device/sbeacondrop/bomb(src)
+			new /obj/item/device/sbeacondrop/bomb(src)
+			new /obj/item/weapon/storage/box/syndie_kit/imp_microbomb(src)
 			return
 
 /obj/item/weapon/storage/box/syndie_kit
@@ -136,6 +149,40 @@
 	O.imp = new /obj/item/weapon/implant/uplink(O)
 	O.update_icon()
 	return
+
+
+/obj/item/weapon/storage/box/syndie_kit/imp_mindslave
+	name = "Mindslave Implant (with injector)"
+
+/obj/item/weapon/storage/box/syndie_kit/imp_mindslave/New()
+	..()
+	var/obj/item/weapon/implanter/O = new(src)
+	O.imp = new /obj/item/weapon/implant/mindslave(O)
+	O.update_icon()
+	return
+
+/obj/item/weapon/storage/box/syndie_kit/imp_gmindslave
+	name = "Greater Mindslave Implant (with injector)"
+
+/obj/item/weapon/storage/box/syndie_kit/imp_gmindslave/New()
+	..()
+	var/obj/item/weapon/implanter/O = new(src)
+	O.imp = new /obj/item/weapon/implant/gmindslave(O)
+	O.update_icon()
+	return
+
+
+/obj/item/weapon/storage/box/syndie_kit/caneshotgun
+
+/obj/item/weapon/storage/box/syndie_kit/caneshotgun/New()
+	..()
+	new /obj/item/ammo_casing/shotgun/dart/assassination(src)
+	new /obj/item/ammo_casing/shotgun/dart/assassination(src)
+	new /obj/item/ammo_casing/shotgun/dart/assassination(src)
+	new /obj/item/ammo_casing/shotgun/dart/assassination(src)
+	new /obj/item/ammo_casing/shotgun/dart/assassination(src)
+	new /obj/item/ammo_casing/shotgun/dart/assassination(src)
+	new /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane(src)
 
 /obj/item/weapon/storage/box/syndie_kit/bioterror
 	name = "bioterror syringe box"

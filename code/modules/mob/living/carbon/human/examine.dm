@@ -22,7 +22,10 @@
 		t_is = "are"
 	else
 		if(icon)
-			msg += "\icon[src] " //note, should we ever go back to runtime-generated icons (please don't), you will need to change this to \icon[icon] to prevent crashes.
+			if(dna && dna.species && dna.species:has_dismemberment && limb_icon_cache[icon_render_key])
+				msg += "\icon[limb_icon_cache[icon_render_key]] "
+			else
+				msg += "\icon[src] " //note, should we ever go back to runtime-generated icons (please don't), you will need to change this to \icon[icon] to prevent crashes.
 		switch(gender)
 			if(MALE)
 				t_He = "He"
@@ -97,8 +100,8 @@
 			msg += "<span class='warning'>[t_He] [t_has] \icon[gloves] [gloves.gender==PLURAL?"some":"a"] blood-stained [gloves.name] on [t_his] hands!</span>\n"
 		else
 			msg += "[t_He] [t_has] \icon[gloves] \a [gloves] on [t_his] hands.\n"
-	else if(blood_DNA)
-		msg += "<span class='warning'>[t_He] [t_has] blood-stained hands!</span>\n"
+	else if(blood_DNA && get_num_arms() > 0)
+		msg += "<span class='warning'>[t_He] [t_has] [get_num_arms() > 1 ? "" : "a"] blood-stained hand[get_num_arms() > 1 ? "s" : ""]!</span>\n"
 
 	//handcuffed?
 
@@ -189,12 +192,29 @@
 				if(!foundghost)
 					msg += " and [t_his] soul has departed"
 			msg += "...</span>\n"
-		else//Brain is gone, doesn't matter if they are AFK or present
+		else if(get_organ("head")) //Brain is gone, doesn't matter if they are AFK or present. Check for head first tho. Decapitation has similar mesasge.
 			msg += "<span class='deadsay'>It appears that [t_his] brain is missing...</span>\n"
 
 	var/temp = getBruteLoss() //no need to calculate each of these twice
 
 	msg += "<span class='warning'>"
+
+	var/list/missing = list("head", "chest", "l_arm", "r_arm", "l_leg", "r_leg")
+	var/list/augmentable = list()
+	for(var/obj/item/organ/limb/L in organs)
+		missing -= Bodypart2name(L)
+		if(L.state_flags & ORGAN_AUGMENTABLE)
+			augmentable += Bodypart2name(L)
+		for(var/obj/item/I in L.embedded_objects)
+			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L]!</B>[I.pinned ? "It [t_has] pinned [t_him] down to \the [I.pinned]!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[src];read_embedded=\ref[I]'>Read</a>)" : ""]\n"
+
+	for(var/t in missing)
+		if(t=="head")
+			msg += "<span class='deadsay'><B>[capitalize(t_his)] [parse_zone(t)] is missing!</B><span class='warning'>\n"
+			continue
+		msg += "<B>[capitalize(t_his)] [parse_zone(t)] is missing!</B>\n"
+	for(var/t in augmentable)
+		msg += "<B>[capitalize(t_his)] [parse_zone(t)] has severed muscles!</B>\n"
 
 	if(temp)
 		if(temp < 30)
@@ -215,12 +235,6 @@
 			msg += "[t_He] [t_has] minor cellular damage.\n"
 		else
 			msg += "<B>[t_He] [t_has] severe cellular damage.</B>\n"
-
-
-	for(var/obj/item/organ/limb/L in organs)
-		for(var/obj/item/I in L.embedded_objects)
-			msg += "<B>[t_He] [t_has] \a \icon[I] [I] embedded in [t_his] [L.getDisplayName()]!</B>[I.pinned ? "It [t_has] pinned [t_him] down to \the [I.pinned]!" : ""] [istype(I, /obj/item/weapon/paper) ? "(<a href='byond://?src=\ref[src];read_embedded=\ref[I]'>Read</a>)" : ""]\n"
-
 
 	if(fire_stacks > 0)
 		msg += "[t_He] [t_is] covered in something flammable.\n"
@@ -253,15 +267,21 @@
 
 	if(bleedsuppress)
 		msg += "[t_He] [t_is] bandaged with something.\n"
-	else if(blood_max)
-		msg += "<B>[t_He] [t_is] bleeding!</B>\n"
+	if(blood_max)
+		if(reagents.has_reagent("heparin"))
+			msg += "<b>[t_He] [t_is] bleeding uncontrollably!</b>\n"
+		else
+			msg += "<B>[t_He] [t_is] bleeding!</B>\n"
+
+	if(reagents.has_reagent("teslium"))
+		msg += "[t_He] is emitting a gentle blue glow!\n"
 
 	msg += "</span>"
 
 	if(!appears_dead)
 		if(stat == UNCONSCIOUS)
 			msg += "[t_He] [t_is]n't responding to anything around [t_him] and seems to be asleep.\n"
-		else if(nearcrit)
+		else if(status_flags & NEARCRIT)
 			msg += "[t_He] appears to be incapacitated and is struggling to breathe.\n"
 		else if(getBrainLoss() >= 60)
 			msg += "[t_He] [t_has] a stupid expression on [t_his] face.\n"
@@ -274,8 +294,8 @@
 			else if(!client)
 				msg += "[t_He] [t_has] a vacant, braindead stare...\n"
 
-		if(digitalcamo)
-			msg += "[t_He] [t_is] moving [t_his] body in an unnatural and blatantly inhuman manner.\n"
+		// if(digitalcamo)
+		// 	msg += "[t_He] [t_is] moving [t_his] body in an unnatural and blatantly inhuman manner.\n"
 
 	if(!wear_mask && is_thrall(src) && in_range(user,src))
 		msg += "Their features seem unnaturally tight and drawn.\n"

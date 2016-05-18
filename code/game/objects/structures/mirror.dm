@@ -70,7 +70,7 @@
 			if(WT.remove_fuel(0, user))
 				user << "<span class='notice'>You begin repairing [src]...</span>"
 				playsound(src, 'sound/items/Welder.ogg', 100, 1)
-				if(do_after(user, 10, target = src))
+				if(do_after(user, 10/I.toolspeed, target = src))
 					if(!user || !WT || !WT.isOn())
 						return
 					user << "<span class='notice'>You repair [src].</span>"
@@ -126,7 +126,7 @@
 	name = "magic mirror"
 	desc = "Turn and face the strange... face."
 	icon_state = "magic_mirror"
-	var/list/races_blacklist = list("skeleton")
+	var/list/races_blacklist = list("l_shadowling", "shadowling", "shadow", "pod", "plant", "adamantine", "slime", "skeleton", "golem", "meeseeks_1", "zombie", "abductor", "plasmaman")
 	var/list/choosable_races = list()
 
 /obj/structure/mirror/magic/New()
@@ -193,7 +193,7 @@
 
 			H.update_body()
 			H.update_hair()
-			H.update_mutcolor()
+			H.update_body_parts()
 			H.update_mutations_overlay() // no hulk lizard
 
 		if("gender")

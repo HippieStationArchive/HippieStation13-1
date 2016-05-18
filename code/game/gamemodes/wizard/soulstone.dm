@@ -29,6 +29,9 @@
 		return ..()
 	if(istype(M, /mob/living/carbon/human/dummy))
 		return..()
+	if(iscultist(M))
+		user << "<span class='cultlarge'>You shouldn't do that.</span>"
+		return
 	add_logs(user, M, "captured [M.name]'s soul", src)
 
 	transfer_soul("VICTIM", M, user)
@@ -237,7 +240,7 @@
 
 
 /obj/item/device/soulstone/proc/getCultGhost(obj/item/device/soulstone/C, mob/living/carbon/human/T, mob/U)
-	var/list/candidates = get_candidates(BE_CULTIST)
+	var/list/candidates = get_candidates(ROLE_CULTIST)
 
 	shuffle(candidates)
 
