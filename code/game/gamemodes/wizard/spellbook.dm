@@ -108,6 +108,7 @@
 	name = "Disintegrate"
 	spell_type = /obj/effect/proc_holder/spell/targeted/touch/disintegrate
 	log_name = "DG"
+	cost = 2
 
 /datum/spellbook_entry/disabletech
 	name = "Disable Tech"
@@ -353,7 +354,7 @@
 	desc = "Consider this more of a \"Spell Bundle\". This artifact is NOT reccomended for weaklings. An ancient scroll that will teach you the art of Plasma Fist. With it's various combos you can knock people down in the area around you, light them on fire and finally perform the PLASMA FIST that will gib your target."
 	item_path = /obj/item/weapon/plasma_fist_scroll
 	log_name = "PF"
-	cost = 1
+	cost = 2
 
 /datum/spellbook_entry/item/bloodbottle
 	name = "Bottle of Blood"
