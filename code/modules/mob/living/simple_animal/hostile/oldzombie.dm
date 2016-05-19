@@ -55,13 +55,13 @@
 				if(infectchance == 2)
 					if(H.startinfected == 1)
 						src.health = src.health + 50
-						src << "You just infected <b>[L]</b> for the first time! You have gained 50 HP! And gained <b>2</b> additional infection points!"
-						src.numinfected = src.numinfected + 2
+						src << "You just infected <b>[L]</b> for the first time! You have gained 50 HP! And gained <b>3</b> additional infection points!"
+						src.numinfected = src.numinfected + 3
 					src << "You infect <b>[L]!</b> Gaining 20 HP!"
 					visible_message("<span class='danger'>[src] bites [L]!</span>")
 					playsound(src.loc, 'sound/weapons/bite.ogg', 50, 1)
 					H.infected = 1
-					H << "That bite felt sore as hell! Its getting worse..."
+					H << "<color='blue'>That bite felt sore as hell! It's getting worse...</color>"
 					H.oldInfect(H)
 					src.numinfected = src.numinfected + 1
 					src << "You gain <b>1</b> infection point!"
@@ -74,6 +74,7 @@
 				visible_message("<span class='danger'>[src] tears [L] to pieces!</span>")
 				src << "You feast on <b>[L]</b>, restoring your health by <b>50</b>!"
 				src << "You gain <b>1</b> infection point for feasting on <b>[L]</b>!"
+				src.numinfected = src.numinfected + 1
 				L.gib()
 				src.health = src.health + 50
 
@@ -106,101 +107,119 @@
 	set category = "Zombie"
 
 	var/mob/living/simple_animal/hostile/oldzombie/target = usr
-	if(target.speed <= -2)
-		target << "Maxed out!"
+	if(target.superform == 1)
+		target << "You can't do this while in superform!"
 	else
-		if(target.numinfected > 0)
-			target.speed = target.speed - 0.1
-			target.numinfected = target.numinfected - 1
-			target << "You increased your speed by 0.1, speed now at <b>[target.speed]</b>!"
-			target << "You now have <b>[target.numinfected]</b> infection points!"
+		if(target.speed <= -2)
+			target << "Maxed out!"
 		else
-			target << "You don't have enough infection points! You need <b>1</b> more!"
+			if(target.numinfected > 0)
+				target.speed = target.speed - 0.1
+				target.numinfected = target.numinfected - 1
+				target << "You increased your speed by 0.1, speed now at <b>[target.speed]</b>!"
+				target << "You now have <b>[target.numinfected]</b> infection points!"
+			else
+				target << "You don't have enough infection points! You need <b>1</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/levelupattack()
 	set name = "Evolve Attack(Cost: 1)"
 	set category = "Zombie"
 
 	var/mob/living/simple_animal/hostile/oldzombie/target = usr
-	if(target.melee_damage_upper >= 60)
-		target << "Maxed out!"
+	if(target.superform == 1)
+		target << "You can't do this while in superform!"
 	else
-		if(target.numinfected > 0)
-			target.melee_damage_lower = target.melee_damage_lower + 2
-			target.melee_damage_upper = target.melee_damage_upper + 2
-			target.numinfected = target.numinfected - 1
-			target << "You increased your attack by 2, attack lower now at <b>[target.melee_damage_lower]</b> and upper now at <b>[target.melee_damage_upper]</b>!"
-			target << "You now have <b>[target.numinfected]</b> infection points!"
+		if(target.melee_damage_upper >= 60)
+			target << "Maxed out!"
 		else
-			target << "You don't have enough infection points! You need <b>1</b> more!"
+			if(target.numinfected > 0)
+				target.melee_damage_lower = target.melee_damage_lower + 2
+				target.melee_damage_upper = target.melee_damage_upper + 2
+				target.numinfected = target.numinfected - 1
+				target << "You increased your attack by 2, attack lower now at <b>[target.melee_damage_lower]</b> and upper now at <b>[target.melee_damage_upper]</b>!"
+				target << "You now have <b>[target.numinfected]</b> infection points!"
+			else
+				target << "You don't have enough infection points! You need <b>1</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/leveluphealth()
 	set name = "Evolve Health(Cost: 1)"
 	set category = "Zombie"
 
 	var/mob/living/simple_animal/hostile/oldzombie/target = usr
-	if(target.maxHealth >= 300)
-		target << "Maxed out!"
+	if(target.superform == 1)
+		target << "You can't do this while in superform!"
 	else
-		if(target.numinfected > 0)
-			target.maxHealth = target.maxHealth + 10
-			target.health = target.health + 10
-			target.numinfected = target.numinfected - 1
-			target << "You increased your health by 10, max health now at <b>[target.maxHealth]</b>!"
-			target << "You now have <b>[target.numinfected]</b> infection points!"
+		if(target.maxHealth >= 300)
+			target << "Maxed out!"
 		else
-			target << "You don't have enough infection points! You need <b>1</b> more!"
+			if(target.numinfected > 0)
+				target.maxHealth = target.maxHealth + 10
+				target.health = target.health + 10
+				target.numinfected = target.numinfected - 1
+				target << "You increased your health by 10, max health now at <b>[target.maxHealth]</b>!"
+				target << "You now have <b>[target.numinfected]</b> infection points!"
+			else
+				target << "You don't have enough infection points! You need <b>1</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/selfrevive()
 	set name = "Self Revive(Cost: 7)"
 	set category = "Zombie"
 
 	var/mob/living/simple_animal/hostile/oldzombie/target = usr
-	if(target.selfrevive == 1)
-		target << "Already purchased!"
+	if(target.superform == 1)
+		target << "You can't do this while in superform!"
 	else
-		if(target.numinfected >= 7)
-			target.selfrevive = 1
-			target.numinfected = numinfected - 7
-			target << "You will now self revive after a short amount of time! Only once though!"
-			target << "You now have <b>[target.numinfected]</b> infection points!"
+		if(target.selfrevive == 1)
+			target << "Already purchased!"
 		else
-			target << "You don't have enough infection points! You need <b>[7 - target.numinfected]</b> more!"
+			if(target.numinfected >= 7)
+				target.selfrevive = 1
+				target.numinfected = numinfected - 7
+				target << "You will now self revive after a short amount of time! Only once though!"
+				target << "You now have <b>[target.numinfected]</b> infection points!"
+			else
+				target << "You don't have enough infection points! You need <b>[7 - target.numinfected]</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/forcedoor()
 	set name = "Force Doors(Cost: 3)"
 	set category = "Zombie"
 
 	var/mob/living/simple_animal/hostile/oldzombie/target = usr
-	if(target.forcedoor == 1)
-		target << "Already purchased!"
+	if(target.superform == 1)
+		target << "You can't do this while in superform!"
 	else
-		if(target.numinfected >= 3)
-			target.forcedoor = 1
-			target.numinfected = numinfected - 3
-			target << "You are now able to force open doors! Click on one to open it!"
-			target << "You now have <b>[target.numinfected]</b> infection points!"
+		if(target.forcedoor == 1)
+			target << "Already purchased!"
 		else
-			target << "You don't have enough infection points! You need <b>[3 - target.numinfected]</b> more!"
+			if(target.numinfected >= 3)
+				target.forcedoor = 1
+				target.numinfected = numinfected - 3
+				target << "You are now able to force open doors! Click on one to open it!"
+				target << "You now have <b>[target.numinfected]</b> infection points!"
+			else
+				target << "You don't have enough infection points! You need <b>[3 - target.numinfected]</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/airlockfaster()
 	set name = "Airlock Force Time(Cost: 1)"
 	set category = "Zombie"
 
 	var/mob/living/simple_animal/hostile/oldzombie/target = usr
-	if(target.forcedoor == 1)
-		if(target.airlocktime <= 20)
-			target << "Maxed out!"
-		else
-			if(target.numinfected > 0)
-				target.airlocktime = target.airlocktime - 10
-				target.numinfected = numinfected - 1
-				target << "You will now open doors in <b>[target.airlocktime / 10]</b> seconds!"
-				target << "You now have <b>[target.numinfected]</b> infection points!"
-			else
-				target << "You don't have enough infection points! You need <b>1</b> more!"
+	if(target.superform == 1)
+		target << "You can't do this while in superform!"
 	else
-		target << "You have not purchaed <b>force doors</b> yet!"
+		if(target.forcedoor == 1)
+			if(target.airlocktime <= 20)
+				target << "Maxed out!"
+			else
+				if(target.numinfected > 0)
+					target.airlocktime = target.airlocktime - 10
+					target.numinfected = numinfected - 1
+					target << "You will now open doors in <b>[target.airlocktime / 10]</b> seconds!"
+					target << "You now have <b>[target.numinfected]</b> infection points!"
+				else
+					target << "You don't have enough infection points! You need <b>1</b> more!"
+		else
+			target << "You have not purchaed <b>force doors</b> yet!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/superform()
 	set name = "Super Form(Cost: 10)"
