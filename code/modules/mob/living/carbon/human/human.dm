@@ -5,15 +5,19 @@
 	icon = 'icons/mob/human.dmi'
 	icon_state = "caucasian1_m_s"
 	var/infected = 0
+	var/infection = 0
 	var/startinfected = 1
-
+	var/zombification = 0
+	var/numinfectedh = 0
 
 /mob/living/carbon/human/dummy
 	real_name = "Test Dummy"
 	status_flags = GODMODE|CANPUSH
 
 /mob/living/carbon/human/proc/oldInfect(mob/living/carbon/human/H)
-	if(H.startinfected == 1)
+	if(H.startinfected == 1 && H.infection == 0)
+		H.infected = 1
+		H.infection = 1
 		H.faction = list("zombie")
 		H << "You feel slightly ill..."
 		spawn(rand(300, 470))
@@ -43,50 +47,61 @@
 						H.Stun(5)
 						oldZombify(H)
 						H.startinfected = 0
-	else
+						H.infection = 0
+	else if(H.infection == 0)
 		oldZombify(H)
+		H.infection = 1
 
 /mob/living/carbon/human/proc/oldZombify(mob/living/carbon/human/H)
-	visible_message("<span class='danger'>[H] looks a bit odd.. their skin is basically blue..</span>")
-	H << "<span class='userdanger'>You dont feel right! Somethings wrong!</span>"
-	H.faction = list("zombie")
-	spawn(rand(100, 200))
-		H.stat = DEAD
-		spawn(rand(200,300))
-			H.set_species(/datum/species/zombie)
-			if(H.head) //So people can see they're a zombie
-				var/obj/item/clothing/helmet = H.head
-				if(!H.unEquip(helmet))
-					qdel(helmet)
-			if(H.wear_mask)
-				var/obj/item/clothing/mask = H.wear_mask
-				if(!H.unEquip(mask))
-					qdel(mask)
-			var/mob/living/simple_animal/hostile/oldzombie/Z = new /mob/living/simple_animal/hostile/oldzombie(H.loc)
-			Z.faction = src.faction
-			Z.appearance = H.appearance
-			Z.transform = matrix()
-			Z.pixel_y = 0
-			for(var/mob/dead/observer/ghost in player_list)
-				if(H.real_name == ghost.real_name)
-					ghost.reenter_corpse()
-					break
-			Z.ckey = H.ckey
-			//H.stat = DEAD
-			H.butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie = 3) //So now you can carve them up when you kill them. Maybe not a good idea for the human versions.
-			H.loc = Z
-			Z.stored_corpse = H
-			for(var/mob/living/simple_animal/hostile/oldzombie/holder/D in H) //Dont want to revive them twice
-				qdel(D)
-			Z << "<b><font size = 3><font color = red>You have transformed into a Zombie. You exist only for one purpose: to spread the infection.</font color></font size></b>"
-			Z << "Clicking on the doors will let you <b>force-open</b> them."
-			Z << "Clicking on animal corpses will make you <b>feast</b> on them, restoring your health."
-			Z << "You will spread the infection through <b>bites</b>, if you manage to infect someone for the first time you gain HP!"
-			Z << "People will come back after you <b>bite</b> them. This has a random chance of happening when you attack someone."
-			Z << "You can revive other zombies by <b>attacking</b> them if they are dead!"
-			H.infected = 0
-			visible_message("<span class='danger'>[Z] staggers to their feet!</span>")
-			playsound(src.loc, 'sound/hallucinations/far_noise.ogg', 50, 1)
+	if(zombification == 0)
+		H.zombification = 1
+		visible_message("<span class='danger'>[H] looks a bit odd.. their skin is basically blue..</span>")
+		H << "<span class='userdanger'>You dont feel right! Somethings wrong!</span>"
+		H.faction = list("zombie")
+		spawn(rand(100, 200))
+			H.stat = DEAD
+			spawn(rand(200,300))
+				H.set_species(/datum/species/zombie)
+				if(H.head) //So people can see they're a zombie
+					var/obj/item/clothing/helmet = H.head
+					if(!H.unEquip(helmet))
+						qdel(helmet)
+				if(H.wear_mask)
+					var/obj/item/clothing/mask = H.wear_mask
+					if(!H.unEquip(mask))
+						qdel(mask)
+				var/mob/living/simple_animal/hostile/oldzombie/Z = new /mob/living/simple_animal/hostile/oldzombie(H.loc)
+				Z.faction = src.faction
+				Z.appearance = H.appearance
+				Z.transform = matrix()
+				Z.pixel_y = 0
+				for(var/mob/dead/observer/ghost in player_list)
+					if(H.real_name == ghost.real_name)
+						ghost.reenter_corpse()
+						break
+				Z.ckey = H.ckey
+				//H.stat = DEAD
+				H.butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie = 3) //So now you can carve them up when you kill them. Maybe not a good idea for the human versions.
+				H.loc = Z
+				Z.stored_corpse = H
+				for(var/mob/living/simple_animal/hostile/oldzombie/holder/D in H) //Dont want to revive them twice
+					qdel(D)
+				Z << "<b><font size = 3><font color = red>You have transformed into a Zombie. You exist only for one purpose: to spread the infection.</font color></font size></b>"
+				Z << "Once you have purchased the force doors ability you can click on them to force them open!"
+				Z << "Clicking on animal corpses will make you <b>feast</b> on them, restoring your health."
+				Z << "You will spread the infection through <b>bites</b>, if you manage to infect someone for the first time you gain HP!"
+				Z << "People will come back after you <b>bite</b> them. This has a random chance of happening when you attack someone."
+				Z << "You can revive other zombies by <b>attacking</b> them if they are dead!"
+				Z << "You can upgrade your stats via the Zombie tab! Every person you infect you gain <b>1</b> infection point, if they were infected for the first time you gain <b>3</b>!"
+				Z << "You can purchase the self revive ability to revive once you die! This only works once, and your stats get wiped when you die."
+				H.infected = 0
+				visible_message("<span class='danger'>[Z] staggers to their feet!</span>")
+				playsound(src.loc, 'sound/hallucinations/far_noise.ogg', 50, 1)
+				if(H.numinfectedh < 5)
+					Z.numinfected = 5
+				else
+					Z.numinfected = H.numinfectedh
+				H.zombification = 0
 
 /mob/living/carbon/human/New()
 	verbs += /mob/living/proc/mob_sleep
