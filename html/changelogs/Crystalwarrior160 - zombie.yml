@@ -1,6 +1,0 @@
-author: Crystalwarrior160
-
-delete-after: True
-
-changes:
-  - bugfix: "Possibly fixed zombies causing server lag"
