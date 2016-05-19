@@ -157,44 +157,57 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 
 	message_admins("test 1")
 
-	sleep(delay)
+	spawn(delay)
+		message_admins("test 2")
 
-	message_admins("ticker is [ticker ? "defined" : "not defined"]")
+		message_admins("ticker is [ticker ? "defined" : "not defined"]")
 
-	if(blackbox)
-		blackbox.save_all_data_to_sql()
+		if(blackbox)
+			blackbox.save_all_data_to_sql()
 
-	message_admins("test 2")
 
-	if(ticker.delay_end)
-		world << "<span class='boldannounce'>Reboot was cancelled by an admin.</span>"
-		return
+		message_admins("test 3")
 
-	message_admins("test 3")
+		if(ticker.delay_end)
+			world << "<span class='boldannounce'>Reboot was cancelled by an admin.</span>"
+			return
 
-	feedback_set_details("[feedback_c]","[feedback_r]")
+		message_admins("test 4")
 
-	message_admins("test 4")
+		feedback_set_details("[feedback_c]","[feedback_r]")
 
-	log_game("<span class='boldannounce'>Rebooting World. [reason]</span>")
-	//kick_clients_in_lobby("<span class='boldannounce'>The round came to an end with you in the lobby.</span>", 1) //second parameter ensures only afk clients are kicked
-	#ifdef dellogging
-	var/log = file("data/logs/del.log")
-	log << time2text(world.realtime)
-	for(var/index in del_counter)
-		var/count = del_counter[index]
-		if(count > 10)
-			log << "#[count]\t[index]"
-#endif
-	spawn(0)
-		if(ticker && ticker.round_end_sound)
-			world << sound(ticker.round_end_sound)
-		else
-			world << sound(pick('sound/AI/newroundsexy.ogg','sound/misc/endround1.ogg','sound/misc/endround2.ogg','sound/misc/endround3.ogg')) // random end sounds!! - LastyBatsy
-	for(var/client/C in clients)
-		if(config.server)	//if you set a server location in config.txt, it sends you there instead of trying to reconnect to the same world address. -- NeoFite
-			C << link("byond://[config.server]")
-	..(0)
+		message_admins("test 5")
+
+		log_game("<span class='boldannounce'>Rebooting World. [reason]</span>")
+
+		#ifdef dellogging
+		var/log = file("data/logs/del.log")
+		log << time2text(world.realtime)
+		for(var/index in del_counter)
+			var/count = del_counter[index]
+			if(count > 10)
+				log << "#[count]\t[index]"
+		#endif
+
+		message_admins("test 6")
+
+		spawn(0)
+			message_admins("test 7")
+			
+			if(ticker && ticker.round_end_sound)
+				world << sound(ticker.round_end_sound)
+			else
+				world << sound(pick('sound/AI/newroundsexy.ogg','sound/misc/endround1.ogg','sound/misc/endround2.ogg','sound/misc/endround3.ogg')) // random end sounds!! - LastyBatsy
+
+			message_admins("test 8")
+
+			for(var/client/C in clients)
+				if(config.server)	//if you set a server location in config.txt, it sends you there instead of trying to reconnect to the same world address. -- NeoFite
+					C << link("byond://[config.server]")
+
+		message_admins("test 9")
+
+		..(0)
 
 /world/proc/load_mode()
 	var/list/Lines = file2list("data/mode.txt")
