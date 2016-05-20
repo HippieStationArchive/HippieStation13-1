@@ -1,6 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - experiment: "Potentially fixed server crashing during Reboot() proc."
