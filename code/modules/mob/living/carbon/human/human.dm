@@ -56,7 +56,7 @@
 	if(zombification == 0)
 		H.zombification = 1
 		visible_message("<span class='danger'>[H] looks a bit odd.. their skin is basically blue..</span>")
-		H << "<span class='userdanger'>You dont feel right! Something is wrong!</span>"
+		H << "<span class='userdanger'>You don't feel right! Something is wrong!</span>"
 		H.faction = list("zombie")
 		spawn(rand(100, 200))
 			H.stat = DEAD
