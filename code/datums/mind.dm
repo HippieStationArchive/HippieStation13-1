@@ -59,6 +59,8 @@
 
 	var/datum/vampire/vampire //The vampire data stored in the mind
 
+	var/ghost = FALSE // This is used to determine if the mind if ghosting or not
+
 /datum/mind/New(var/key)
 	src.key = key
 
@@ -89,7 +91,7 @@
 	transfer_antag_huds(hud_to_transfer)					//inherit the antag HUD
 	transfer_actions(new_character)
 
-	if(active)
+	if(active && !ghost)
 		new_character.key = key		//now transfer the key to link the client to our new body
 
 /datum/mind/proc/store_memory(new_text)
