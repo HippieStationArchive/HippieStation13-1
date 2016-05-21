@@ -264,10 +264,6 @@
 	shadowblend.player_lock = 0
 	AddSpell(shadowblend)
 
-
-	say("So this is what has become of you? A pity.")
-	playsound(get_turf(src), 'sound/voice/timelostphase2start.ogg', 100, 0, 0)
-
 /mob/living/simple_animal/hostile/timelost_multiverse/handle_automated_action()
 	. = ..()
 	if(target && next_cast < world.time)
