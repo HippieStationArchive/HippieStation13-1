@@ -31,7 +31,7 @@
 				var/mob/living/simple_animal/SA = T
 				if(istype(T,/mob/living/simple_animal/hostile/headcrab))
 					continue //Prevents headslugs from the golden slimes
-				if(istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster) || istype(T,/mob/living/simple_animal/hostile/timelost_reflection) || istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster_multiverse_phase || istype(T,/mob/living/simple_animal/hostile/timelost_multiverse) || istype(T,/mob/living/simple_animal/hostile/timelost_illusion) || istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster_final_phase))
+				if(istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster) || istype(T,/mob/living/simple_animal/hostile/timelost_reflection) || istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster_multiverse_phase) || istype(T,/mob/living/simple_animal/hostile/timelost_multiverse) || istype(T,/mob/living/simple_animal/hostile/timelost_illusion) || istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster_final_phase))
 					continue //no boss mobs
 				switch(initial(SA.gold_core_spawnable))
 					if(1)
