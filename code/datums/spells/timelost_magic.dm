@@ -4,7 +4,7 @@
 	charge_max = 400
 	cast_sound = "sound/magic/CastSummon.ogg"
 
-	summon_type = list(/mob/living/simple_animal/hostile/timelost_reflection)
+	summon_type = list(/mob/living/simple_animal/hostile/boss/timelost_reflection)
 	summon_amt = 4
 	summon_lifespan = 300 //aka you can't have more than 4 at any time without cooldown reductions
 	range = 2
@@ -101,7 +101,7 @@
 	charge_max = 800
 	cast_sound = "sound/magic/CastSummon.ogg"
 
-	summon_type = list(/mob/living/simple_animal/hostile/timelost_multiverse)
+	summon_type = list(/mob/living/simple_animal/hostile/boss/timelost_multiverse)
 	summon_amt = 1
 	summon_lifespan = 600
 	range = 1
@@ -135,7 +135,7 @@
 	charge_max = 400
 	cast_sound = "sound/magic/CastSummon.ogg"
 
-	summon_type = list(/mob/living/simple_animal/hostile/timelost_illusion)
+	summon_type = list(/mob/living/simple_animal/hostile/boss/timelost_illusion)
 	summon_amt = 8
 	summon_lifespan = 200
 	summon_ignore_prev_spawn_points = 1
