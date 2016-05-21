@@ -65,7 +65,7 @@
 
 /mob/living/simple_animal/hostile/boss/timelost_spellcaster/death()
 	visible_message("<span class='userdanger'><font color ='green'>The [src] unsheathes his multiverse sword!</span>")
-	new /mob/living/simple_animal/hostile/timelost_spellcaster_multiverse_phase(src.loc)
+	new /mob/living/simple_animal/hostile/boss/timelost_spellcaster_multiverse_phase(src.loc)
 	qdel(src)
 
 /mob/living/simple_animal/hostile/boss/timelost_spellcaster/handle_automated_action()
