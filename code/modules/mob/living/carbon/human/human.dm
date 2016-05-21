@@ -21,12 +21,12 @@
 		H.faction = list("zombie")
 		H << "You feel slightly ill..."
 		spawn(rand(700, 800))
-			H << "<span class='userdanger'>Something really is not right..</span>"
+			H << "<span class='userdanger'>Something really is not right....</span>"
 			visible_message("<b>[H]</b> looks very pale...")
 			H.adjustOxyLoss(20)
 			H.stuttering = 10
 			spawn(rand(800, 900))
-				H << "<span class='userdanger'>You feel like you could die at any moment...</span>"
+				H << "<span class='userdanger'>You feel like you could die at any moment....</span>"
 				visible_message("<b>[H]</b> begins sweating uncontrollably!")
 				H.adjustOxyLoss(60)
 				H.stuttering = 20
@@ -38,7 +38,7 @@
 					H.adjustOxyLoss(70)
 					H.adjustBloodLoss(20)
 					spawn(rand(800, 900))
-						H << "<span class='userdanger'>Please just end the pain!</span>"
+						H << "<span class='userdanger'>Please... just end the pain!</span>"
 						visible_message("<b>[H]</b> begins making crunching noises, their skin looks almost blue!")
 						H.adjustBloodLoss(50)
 						H.adjustBruteLoss(40)
@@ -55,7 +55,7 @@
 /mob/living/carbon/human/proc/oldZombify(mob/living/carbon/human/H)
 	if(zombification == 0)
 		H.zombification = 1
-		visible_message("<span class='danger'>[H] looks a bit odd.. their skin is basically blue..</span>")
+		visible_message("<span class='danger'>[H] looks a bit odd... their skin is basically blue....</span>")
 		H << "<span class='userdanger'>You don't feel right! Something is wrong!</span>"
 		H.faction = list("zombie")
 		spawn(rand(100, 200))

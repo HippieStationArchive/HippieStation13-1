@@ -55,13 +55,13 @@
 				if(infectchance == 2)
 					if(H.startinfected == 1)
 						src.health = src.health + 50
-						src << "You just infected <b>[L]</b> for the first time! You have gained 50 HP! And gained <b>3</b> additional infection points!"
+						src << "You just infected <b>[L]</b> for the first time! You have restored 50 HP! And gained <b>3</b> additional infection points!"
 						src.numinfected = src.numinfected + 3
-					src << "You infect <b>[L]!</b> Gaining 20 HP!"
+					src << "You infect <b>[L]!</b> restoring 20 HP!"
 					visible_message("<span class='danger'>[src] bites [L]!</span>")
 					playsound(src.loc, 'sound/weapons/bite.ogg', 50, 1)
 					H.infected = 1
-					H << "That bite felt sore as hell! It's getting worse..."
+					H << "<span class='danger'>That bite felt sore as hell! It's getting worse....</span>"
 					H.oldInfect(H)
 					src.numinfected = src.numinfected + 1
 					src << "You gain <b>1</b> infection point!"
