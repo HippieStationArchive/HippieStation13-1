@@ -31,7 +31,7 @@
 				var/mob/living/simple_animal/SA = T
 				if(istype(T,/mob/living/simple_animal/hostile/boss))
 					continue //stops boss mobs from spawning
-				ifistype(T,/mob/living/simple_animal/hostile/headcrab))
+				if(istype(T,/mob/living/simple_animal/hostile/headcrab))
 					continue //Prevents headslugs from the golden slimes
 				switch(initial(SA.gold_core_spawnable))
 					if(1)
