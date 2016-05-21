@@ -29,7 +29,7 @@
 		if (chemical_mob_spawn_meancritters.len <= 0 || chemical_mob_spawn_nicecritters.len <= 0)
 			for (var/T in typesof(/mob/living/simple_animal))
 				var/mob/living/simple_animal/SA = T
-				if(istype(T,/mob/living/simple_animal/hostile/headcrab) || istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster) || istype(T,/mob/living/simple_animal/hostile/timelost_reflection) || istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster_multiverse_phase) || istype(T,/mob/living/simple_animal/hostile/timelost_multiverse) || istype(T,/mob/living/simple_animal/hostile/timelost_illusion) || istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster_final_phase))
+				if(istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster) || istype(T,/mob/living/simple_animal/hostile/timelost_reflection) || istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster_multiverse_phase) || istype(T,/mob/living/simple_animal/hostile/timelost_multiverse) || istype(T,/mob/living/simple_animal/hostile/timelost_illusion) || istype(T,/mob/living/simple_animal/hostile/timelost_spellcaster_final_phase) || istype(T,/mob/living/simple_animal/hostile/headcrab))
 					continue //Prevents headslugs from the golden slimes, also stops boss mobs from spawning
 				switch(initial(SA.gold_core_spawnable))
 					if(1)
