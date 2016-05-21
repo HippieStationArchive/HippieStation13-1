@@ -321,7 +321,6 @@
 	melee_damage_upper = 30
 
 	var/obj/effect/proc_holder/spell/aoe_turf/repulse/repulse = null
-	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestorm/timestorm = null
 	var/obj/effect/proc_holder/spell/aoe_turf/conjure/multiversetimelost/multiverse = null
 	var/obj/effect/proc_holder/spell/aoe_turf/conjure/forceofwill/willofforce = null
 	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timebomb/timebomb = null
