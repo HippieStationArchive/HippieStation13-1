@@ -1,6 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - experiment: "Temporarily added some world messages after the round ends to debug why the server won't restart."
