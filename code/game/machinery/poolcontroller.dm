@@ -112,7 +112,6 @@
 			if(beaker && cur_reagent)
 				swimee.reagents.add_reagent(cur_reagent, 1)
 				reagenttimer = 5
-			world << "got [cur_reagent]"
 
 /obj/machinery/poolcontroller/process()
 	updatePool() //Call the mob affecting proc)
@@ -295,12 +294,10 @@
 	if(!isliving(usr))
 		return
 	if(href_list["beaker"])
-		world << "button pressed"
 		if(beaker)
 			var/obj/item/weapon/reagent_containers/glass/B = beaker
 			B.loc = loc
 			beaker = null
-			world << "beaker removed"
 	if(href_list["Scalding"])
 		if(emagged)
 			timer = 10
