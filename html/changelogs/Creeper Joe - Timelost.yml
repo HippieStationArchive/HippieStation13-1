@@ -1,0 +1,8 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes: 
+  - rscadd: "Added Timelost Spellcasters."
+  - rscadd: "Timelost Spellcasters are a boss mob with a combined health of 1000, several very destructive abilities and incredibly fighting potential. Shouldn't be faced alone."
+  - rscadd: "Cannot be acquired trough life reagent/gold slimes."
