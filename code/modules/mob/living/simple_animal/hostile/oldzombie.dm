@@ -226,7 +226,7 @@
 				target << "You are now able to pierce through hardsuits and bio suits!"
 				target << "You now have <b>[target.numinfected]</b> infection points!"
 			else
-				target << "You don't have enough infection points! You need <b>[5 - target.numinfected]</b> more!"
+				target << "You don't have enough infection points! You need <b>[3 - target.numinfected]</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/airlockfaster()
 	set name = "Airlock Force Time(Cost: 1)"
@@ -258,18 +258,20 @@
 	if(target.superform == 1)
 		target << "Already in superform!"
 	else
-		if(alert(target, "Are you sure? This can't be undone.", "Confirm","Yes", "No") == "Yes")
-			var/mob/living/simple_animal/hostile/bigzed/scrake/S = new/mob/living/simple_animal/hostile/bigzed/scrake
-			S.loc = target.loc
-			S.move_to_delay = 4
-			S.maxHealth = 500
-			S.health = 500
-			S.ckey = target.ckey
-			S.faction = list("zombie")
-			visible_message("<span class = 'userdanger'>[target] mutates! Forming a large chansaw like arm! AHHH!</span>")
-			playsound(S.loc, 'sound/voice/bigzeds/scrakerage5.ogg', 50, 1)
-			S << "<span class='userdanger'>You are on the zombies team! Fight with them!</span>"
-			qdel(target)
+		if(target.numinfected >= 15)
+			if(alert(target, "Are you sure? This can't be undone.", "Confirm","Yes", "No") == "Yes")
+				var/mob/living/simple_animal/hostile/bigzed/scrake/S = new/mob/living/simple_animal/hostile/bigzed/scrake
+				S.loc = target.loc
+				S.move_to_delay = 4
+				S.maxHealth = 500
+				S.health = 500
+				S.ckey = target.ckey
+				S.faction = list("zombie")
+				visible_message("<span class = 'userdanger'>[target] mutates! Forming a large chansaw like arm! AHHH!</span>")
+				playsound(S.loc, 'sound/voice/bigzeds/scrakerage5.ogg', 50, 1)
+				S << "<span class='userdanger'>You are on the zombies team! Fight with them!</span>"
+				qdel(target)
+		else target << "You don't have enough infection points! You need <b>[15 - target.numinfected]</b> more!"
 /*
 /mob/living/simple_animal/hostile/oldzombie/verb/superform()
 	set name = "Super Form(Cost: 10)"
