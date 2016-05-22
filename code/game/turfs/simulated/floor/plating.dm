@@ -232,8 +232,6 @@
 			O.fire_act()
 		else if (istype(AM, /mob/living))
 			var/mob/living/L = AM
-			if(!L)
-				return //Kill it if L ceases existing before this
 			L.adjustFireLoss(20)
 			L.adjust_fire_stacks(20)
 			L.IgniteMob()
