@@ -393,6 +393,7 @@
 	for(var/mob/dead/observer/O in src.loc)
 		if(!O.client)	continue
 		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+		if(!(jobban_isbanned(O, "catban") || jobban_isbanned(O, "cluwneban")))	continue
 		ghost = O
 		break
 	if(ghost)
@@ -404,7 +405,8 @@
 	var/mob/dead/observer/ghost
 	for(var/mob/dead/observer/O in src.loc)
 		if(!O.client)	continue
-		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+		if(O.mind && O.mind.current  && O.mind.current.stat != DEAD)	continue
+		if(!(jobban_isbanned(O, "catban") || jobban_isbanned(O, "cluwneban")))	continue
 		ghost = O
 		break
 	if(!ghost)

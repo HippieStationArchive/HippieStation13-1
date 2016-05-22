@@ -112,7 +112,8 @@
 				var/mob/living/carbon/human/H = mob
 				H.hallucination += max(0, min(300, DETONATION_HALLUCINATION * sqrt(1 / (get_dist(mob, src) + 1)) ) )
 			var/rads = DETONATION_RADS * sqrt( 1 / (get_dist(mob, src) + 1) )
-			mob.apply_effect(rads, IRRADIATE)
+			var/blocked = mob.run_armor_check(null, "rad", "Your clothes feel warm.", "Your clothes feel warm.")
+			mob.apply_effect(rads, IRRADIATE, blocked)
 	spawn(pull_time)
 		explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 4, explosion_power * 6, 1, 1)
 		del src
@@ -248,7 +249,8 @@
 
 	for(var/mob/living/l in range(src, round((power / 100) ** 0.5)))
 		var/rads = (power / 5) * sqrt( 1 / max(get_dist(l, src),1) )
-		l.apply_effect(rads, IRRADIATE)
+		var/blocked = l.run_armor_check(null, "rad", "Your clothes feel warm.", "Your clothes feel warm.")
+		l.apply_effect(rads, IRRADIATE, blocked)
 
 	power -= (power/500)**3
 
@@ -316,8 +318,8 @@
 			"<span class=\"warning\">Everything suddenly goes silent.</span>")
 
 		playsound(get_turf(src), 'sound/effects/supermatter.ogg', 50, 1)
-
-		user.apply_effect(150, IRRADIATE)
+		var/blocked = user.run_armor_check(null, "rad", "Your clothes feel warm.", "Your clothes feel warm.")
+		user.apply_effect(150, IRRADIATE, blocked)
 
 
 /obj/machinery/power/supermatter/Bumped(atom/AM as mob|obj)
@@ -349,7 +351,8 @@
 		else
 			l.show_message("<span class=\"warning\">You hear an uneartly ringing and notice your skin is covered in fresh radiation burns.</span>", 2)
 		var/rads = 500 * sqrt( 1 / (get_dist(l, src) + 1) )
-		l.apply_effect(rads, IRRADIATE)
+		var/blocked = l.run_armor_check(null, "rad", "Your clothes feel warm.", "Your clothes feel warm.")
+		l.apply_effect(rads, IRRADIATE, blocked)
 
 
 /obj/machinery/power/supermatter/proc/supermatter_pull()
