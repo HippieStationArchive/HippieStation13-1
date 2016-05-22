@@ -392,7 +392,7 @@
 	var/mob/dead/observer/ghost
 	for(var/mob/dead/observer/O in src.loc)
 		if(!O.client)	continue
-		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+		if(O.mind && O.mind.current && !jobban_isbanned(O, "catban") && !jobban_isbanned(O, "cluwneban") && O.mind.current.stat != DEAD)	continue
 		ghost = O
 		break
 	if(ghost)
@@ -403,8 +403,8 @@
 /obj/effect/golemrune/attack_hand(mob/living/user)
 	var/mob/dead/observer/ghost
 	for(var/mob/dead/observer/O in src.loc)
-		if(!O.client && !jobban_isbanned(O, "catban"))	continue
-		if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+		if(!O.client)	continue
+		if(O.mind && O.mind.current && !jobban_isbanned(O, "catban") && !jobban_isbanned(O, "cluwneban") && O.mind.current.stat != DEAD)	continue
 		ghost = O
 		break
 	if(!ghost)
