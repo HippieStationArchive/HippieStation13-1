@@ -1,0 +1,6 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - bugfix: "Port from Pizzacode, code by Zaers: SMES units now charge even if the load available is less than the input charge rate."
