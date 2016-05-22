@@ -194,16 +194,16 @@
 		if(shadowblend.cast_check(0,src))
 			shadowblend.choose_targets(src)
 			next_cast = world.time + 10
-			return
+			return .
 		if(delude.cast_check(0,src))
 			delude.choose_targets(src)
 			next_cast = world.time + 10
-			return
+			return .
 		if((get_dir(src,target) in list(SOUTH,EAST,WEST,NORTH)) && bladedash.cast_check(0,src)) //far enough that blade dash gets you closer to them
 			src.dir = get_dir(src,target)
 			bladedash.choose_targets(src)
 			next_cast = world.time + 10 
-			return
+			return .
 
 /mob/living/simple_animal/hostile/boss/timelost_spellcaster_multiverse_phase/death()
 	visible_message("<span class='userdanger'><font color ='green'>The timelost spellcaster starts evaporating into time!</span>")
@@ -270,12 +270,12 @@
 		if(shadowblend.cast_check(0,src))
 			shadowblend.choose_targets(src)
 			next_cast = world.time + 10 
-			return
+			return . 
 		if((get_dir(src,target) in list(SOUTH,EAST,WEST,NORTH)) && bladedash.cast_check(0,src)) //far enough that blade dash gets you closer to them
 			src.dir = get_dir(src,target)
 			bladedash.choose_targets(src)
 			next_cast = world.time + 10 
-			return
+			return .
 
 /mob/living/simple_animal/hostile/boss/timelost_multiverse/death()
 	qdel(src)
@@ -384,7 +384,7 @@
 		if(shadowblend.cast_check(0,src))
 			shadowblend.choose_targets(src)
 			next_cast = world.time + 10
-			return
+			return .
 		if(repulse.cast_check(0,src))
 			repulse.choose_targets(src)
 			next_cast = world.time + 10
