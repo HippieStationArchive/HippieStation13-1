@@ -9,9 +9,9 @@
 	speak_emote = list("groans")
 	emote_see = list("groans")
 	a_intent = "harm"
-	maxHealth = 100
-	health = 100
-	speed = 3
+	maxHealth = 230
+	health = 230
+	speed = 2
 	harm_intent_damage = 2
 	melee_damage_lower = 10
 	melee_damage_upper = 15
@@ -34,7 +34,7 @@
 	var/can_possess = 1
 	var/startinfected = 1 //to check if they have ever been infected before.
 	var/spam_flag_z = 0
-	var/numinfected = 5
+	var/numinfected = 10
 	var/selfrevive = 0
 	var/forcedoor = 0
 	var/airlocktime = 200
@@ -73,7 +73,7 @@
 						H.infected = 1
 						H << "<span class='danger'>That bite felt sore as hell! It's getting worse....</span>"
 						H.oldInfect(H)
-						src.numinfected = src.numinfected + 1
+						src.numinfected = src.numinfected + 2
 						src << "You gain <b>1</b> infection point!"
 						src << "You now have <b>[src.numinfected]</b> infection points!"
 						src << "<span class='userdanger'>They'll be getting up on their own, just give them a minute!</span>"
@@ -84,7 +84,7 @@
 				visible_message("<span class='danger'>[src] tears [L] to pieces!</span>")
 				src << "You feast on <b>[L]</b>, restoring your health by <b>50</b>!"
 				src << "You gain <b>1</b> infection point for feasting on <b>[L]</b>!"
-				src.numinfected = src.numinfected + 1
+				src.numinfected = src.numinfected + 2
 				L.gib()
 				src.health = src.health + 50
 
@@ -251,18 +251,18 @@
 			target << "You have not purchaed <b>force doors</b> yet!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/superform()
-	set name = "Ultimate Form(Cost: 15)"
+	set name = "Ultimate Form(Cost: 25)"
 	set category = "Zombie"
 
 	var/mob/living/simple_animal/hostile/oldzombie/target = usr
 	if(target.superform == 1)
 		target << "Already in superform!"
 	else
-		if(target.numinfected >= 15)
+		if(target.numinfected >= 25)
 			if(alert(target, "Are you sure? This can't be undone.", "Confirm","Yes", "No") == "Yes")
 				var/mob/living/simple_animal/hostile/bigzed/scrake/S = new/mob/living/simple_animal/hostile/bigzed/scrake
 				S.loc = target.loc
-				S.move_to_delay = 4
+				S.move_to_delay = 3
 				S.maxHealth = 500
 				S.health = 500
 				S.ckey = target.ckey
