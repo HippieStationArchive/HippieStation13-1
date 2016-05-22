@@ -285,6 +285,11 @@
 /mob/living/simple_animal/hostile/guardian/punch
 	melee_damage_lower = 20
 	melee_damage_upper = 20
+	next_move_modifier = 0.8
+	damage_coeff = list(BRUTE = 0.3, BURN = 0.3, TOX = 0.3, CLONE = 0.3, STAMINA = 0, OXY = 0.3)
+	playstyle_string = "As a protector type you have very high damage resistance, a decent attack, and cause your summoner to leash to you instead of you leashing to them."
+	magic_fluff_string = "..And draw the Guardian, a stalwart protector that never leaves the side of its charge."
+	tech_fluff_string = "Boot sequence complete. Protector modules loaded. Holoparasite swarm online."
 	playstyle_string = "As a standard type you have no special abilities, but have a high damage resistance and a powerful attack capable of smashing through walls."
 	environment_smash = 2
 	magic_fluff_string = "..And draw the Assistant, faceless and generic, but never to be underestimated."
@@ -598,21 +603,123 @@
 /mob/living/simple_animal/hostile/guardian/protector
 	melee_damage_lower = 15
 	melee_damage_upper = 15
-	damage_coeff = list(BRUTE = 0.3, BURN = 0.3, TOX = 0.3, CLONE = 0.3, STAMINA = 0, OXY = 0.3)
-	playstyle_string = "As a protector type you have very high damage resistance, a decent attack, and cause your summoner to leash to you instead of you leashing to them."
-	magic_fluff_string = "..And draw the Guardian, a stalwart protector that never leaves the side of its charge."
-	tech_fluff_string = "Boot sequence complete. Protector modules loaded. Holoparasite swarm online."
+	range = 15 //worse for it due to how it leashes
+	damage_coeff = list(BRUTE = 0.4, BURN = 0.4, TOX = 0.4, CLONE = 0.4, STAMINA = 0, OXY = 0.4)
+	playstyle_string = "<span class='holoparasite'>As a <b>protector</b> type you cause your summoner to leash to you instead of you leashing to them and have two modes; Combat Mode, where you do and take medium damage, and Protection Mode, where you do and take almost no damage, but move slightly slower.</span>"
+	magic_fluff_string = "<span class='holoparasite'>..And draw the Guardian, a stalwart protector that never leaves the side of its charge.</span>"
+	tech_fluff_string = "<span class='holoparasite'>Boot sequence complete. Protector modules loaded. Holoparasite swarm online.</span>"
+	var/toggle = FALSE
+
+/mob/living/simple_animal/hostile/guardian/protector/ex_act(severity)
+	if(severity == 1)
+		adjustBruteLoss(400) //if in protector mode, will do 20 damage and not actually necessarily kill the summoner
+	else
+		..()
+	if(toggle)
+		visible_message("<span class='danger'>The explosion glances off [src]'s energy shielding!</span>")
+
+/mob/living/simple_animal/hostile/guardian/protector/ToggleMode()
+	if(cooldown > world.time)
+		return 0
+	cooldown = world.time + 10
+	if(toggle)
+		overlays.Cut()
+		melee_damage_lower = initial(melee_damage_lower)
+		melee_damage_upper = initial(melee_damage_upper)
+		speed = initial(speed)
+		damage_coeff = list(BRUTE = 0.4, BURN = 0.4, TOX = 0.4, CLONE = 0.4, STAMINA = 0, OXY = 0.4)
+		src << "<span class='danger'><B>You switch to combat mode.</span></B>"
+		toggle = FALSE
+	else
+		var/image/I = new('icons/effects/effects.dmi', "shield-grey")
+		overlays += I
+		melee_damage_lower = 2
+		melee_damage_upper = 2
+		speed = 1
+		damage_coeff = list(BRUTE = 0.05, BURN = 0.05, TOX = 0.05, CLONE = 0.05, STAMINA = 0, OXY = 0.05) //damage? what's damage?
+		src << "<span class='danger'><B>You switch to protection mode.</span></B>"
+		toggle = TRUE
 
 /mob/living/simple_animal/hostile/guardian/protector/snapback() //snap to what? snap to the guardian!
 	if(summoner)
 		if(get_dist(get_turf(summoner),get_turf(src)) <= range)
 			return
 		else
-			summoner << "You moved out of range, and were pulled back! You can only move [range] meters from [real_name]!"
+			src << "<span class='holoparasite'>You moved out of range, and were pulled back! You can only move [range] meters from [summoner.real_name]!</span>"
 			summoner.visible_message("<span class='danger'>\The [summoner] jumps back to \his protector.</span>")
 			PoolOrNew(/obj/effect/overlay/temp/guardian/phase/out, get_turf(summoner))
 			summoner.forceMove(get_turf(src))
 			PoolOrNew(/obj/effect/overlay/temp/guardian/phase, get_turf(summoner))
+
+//Assassin
+/mob/living/simple_animal/hostile/guardian/assassin
+	melee_damage_lower = 13
+	melee_damage_upper = 13
+	attacktext = "slashes"
+	attack_sound = 'sound/weapons/bladeslice.ogg'
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
+	playstyle_string = "As an assassin type you do low damage and have no damage resistance, but can enter stealth, massively increasing the damage of your next attack and causing it to ignore armor. Stealth is broken when you attack or take damage."
+	magic_fluff_string = "..And draw the Space Ninja, a lethal, invisible assassin."
+	tech_fluff_string = "Boot sequence complete. Assassin modules loaded. Holoparasite swarm online."
+	var/toggle = FALSE
+	var/stealthcooldown = 200
+	var/obj/screen/alert/canstealthalert
+	var/obj/screen/alert/instealthalert
+
+/mob/living/simple_animal/hostile/guardian/assassin/New()
+	..()
+	stealthcooldown = 0
+
+/mob/living/simple_animal/hostile/guardian/assassin/Stat()
+	..()
+	if(statpanel("Status"))
+		if(stealthcooldown >= world.time)
+			stat(null, "Stealth Cooldown Remaining: [max(round((stealthcooldown - world.time)*0.1, 0.1), 0)] seconds")
+
+/mob/living/simple_animal/hostile/guardian/assassin/AttackingTarget()
+	if(..())
+		if(toggle && (isliving(target) || istype(target, /obj/structure/window) || istype(target, /obj/structure/grille)))
+			ToggleMode(1)
+
+/mob/living/simple_animal/hostile/guardian/assassin/adjustHealth(amount)
+	. = ..()
+	if(. && toggle)
+		ToggleMode(1)
+
+/mob/living/simple_animal/hostile/guardian/assassin/Recall()
+	if(..() && toggle)
+		ToggleMode(0)
+
+/mob/living/simple_animal/hostile/guardian/assassin/ToggleMode(forced = 0)
+	if(src.loc != summoner)
+		if(toggle)
+			melee_damage_lower = initial(melee_damage_lower)
+			melee_damage_upper = initial(melee_damage_upper)
+			armour_penetration = initial(armour_penetration)
+			environment_smash = initial(environment_smash)
+			alpha = initial(alpha)
+			if(!forced)
+				src << "<span class='danger'><B>You exit stealth.</span></B>"
+			else
+				visible_message("<span class='danger'>\The [src] suddenly appears!</span>")
+				stealthcooldown = world.time + initial(stealthcooldown) //we were forced out of stealth and go on cooldown
+				cooldown = world.time + 50 //can't recall for 5 seconds
+			toggle = FALSE
+		else if(stealthcooldown <= world.time)
+			melee_damage_lower = 50
+			melee_damage_upper = 50
+			armour_penetration = 100
+			environment_smash = 0
+			PoolOrNew(/obj/effect/overlay/temp/guardian/phase/out, get_turf(src))
+			alpha = 15
+			if(!forced)
+				src << "<span class='danger'><B>You enter stealth, empowering your next attack.</span></B>"
+			toggle = TRUE
+		else if(!forced)
+			src << "<span class='danger'><B>You cannot yet enter stealth, wait another [max(round((stealthcooldown - world.time)*0.1, 0.1), 0)] seconds!</span></B>"
+	else if(!forced)
+		src << "<span class='danger'><B>You have to be deployed to enter stealth!</span></B>"
+
 			
 ///////////////////Ranged
 
@@ -637,6 +744,7 @@
 	playstyle_string = "As a ranged type, you have only light damage resistance, but are capable of spraying shards of crystal at incredibly high speed. You can also deploy surveillance snares to monitor enemy movement. Finally, you can switch to scout mode, in which you can't attack, but can move without limit."
 	magic_fluff_string = "..And draw the Sentinel, an alien master of ranged combat."
 	tech_fluff_string = "Boot sequence complete. Ranged combat modules active. Holoparasite swarm online."
+	see_invisible = SEE_INVISIBLE_LIVING
 	var/list/snares = list()
 	var/toggle = FALSE
 
@@ -806,7 +914,7 @@
 	var/used_message = "All the cards seem to be blank now."
 	var/failure_message = "..And draw a card! It's...blank? Maybe you should try again later."
 	var/ling_failure = "The deck refuses to respond to a souless creature such as you."
-	var/list/possible_guardians = list("Chaos", "Standard", "Ranged", "Support", "Explosive", "Lightning", "Protector")
+	var/list/possible_guardians = list("Chaos", "Standard", "Ranged", "Support", "Explosive", "Lightning", "Protector", "Assassin")
 	var/random = TRUE
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
@@ -862,6 +970,9 @@
 		
 		if("Protector")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/protector
+			
+		if("Assassin")
+			pickedtype = /mob/living/simple_animal/hostile/guardian/assassin	
 
 	var/mob/living/simple_animal/hostile/guardian/G = new pickedtype(user)
 	G.summoner = user
