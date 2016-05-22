@@ -267,7 +267,7 @@
 			S.ckey = target.ckey
 			S.faction = list("zombie")
 			visible_message("<span class = 'userdanger'>[target] mutates! Forming a large chansaw like arm! AHHH!</span>")
-			playsound(Z.loc, 'sound/voice/bigzeds/scrakerage5.ogg', 50, 1)
+			playsound(S.loc, 'sound/voice/bigzeds/scrakerage5.ogg', 50, 1)
 			S << "<span class='userdanger'>You are on the zombies team! Fight with them!</span>"
 			qdel(target)
 /*
