@@ -432,18 +432,14 @@
 		/obj/item/weapon/melee/baton/loaded,\
 		
 	
-/datum/outfit/cappy/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/powergamer/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
 
-	/* var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)//Here you go Deuryn
+	 var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)//Here you go Deuryn
 	L.imp_in = H
 	L.implanted = 1
 	H.sec_hud_set_implants()
-	*/
-	var/obj/item/weapon/implant/adrenalin/L = new/obj/item/weapon/implant/adrenalin(H)
-	L.imp_in = H
-	L.implanted = 1
 	
 /datum/outfit/death_commando/officer
 	name = "Death Commando Officer"
