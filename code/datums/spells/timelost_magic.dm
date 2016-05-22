@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/aoe_turf/conjure/lostreflection //used only by Timelost spellcasters.
 	name = "Timelost Reflection"
-	desc = "Summon several reflections of your past to attack your enmies. Will also attack you if you aren't lost in time."
+	desc = "Summon several reflections of your past to attack your enemies. Will also attack you if you aren't lost in time."
 	charge_max = 400
 	cast_sound = "sound/magic/CastSummon.ogg"
 
@@ -24,7 +24,7 @@
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/timebomb //used only by Timelost spellcasters.
 	name = "Time Bomb"
-	desc = "Summon a time bombs within your vision range that explodes after a short delay, then summons another one at a random location which does the exact same thing! Repeats itself 6 times."
+	desc = "Summon 6 time bombs within your vision range that explodes after a short delay, then summons another one at a random location which does the exact same thing! Repeats itself 6 times."
 	charge_max = 600
 	cast_sound = "sound/magic/WandODeath.ogg"
 
@@ -47,12 +47,12 @@
 
 /obj/effect/proc_holder/spell/self/time_shield/cast(mob/living/carbon/human/user)
 	user.visible_message("<span class='warning'>[user] fades into time and becomes immune to all damage!</span>", "<span class='notice'>You shield yourself within time!</span>")
-	user.status_flags ^= GODMODE
+	user.status_flags += GODMODE
 	user.icon_state = "lost_spellcaster_shielded"
 	spawn (100)
 		user.icon_state = "lost_spellcaster"
 		user.visible_message("<span class='warning'>[user] fades out of time and becomes vulnerable to damage!</span>", "<span class='notice'>Your shield vanishes!</span>")
-		user.status_flags ^= GODMODE
+		user.status_flags -= GODMODE
 
 
 
@@ -65,7 +65,7 @@
 //PHASE 2 SHIT
 /obj/effect/proc_holder/spell/self/bladedash
 	name = "Bladedash"
-	desc = "Dashes 3 tiles forward, ignoring any obstructions and dealing 30 damage should your destination have somebody standing on it."
+	desc = "Dashes 3 tiles forward, ignoring any obstructions and dealing 30 damage to anyone at your destination."
 	human_req = 1
 	clothes_req = 0
 	charge_max = 50
@@ -108,7 +108,7 @@
 
 /obj/effect/proc_holder/spell/self/shadowblend
 	name = "Shadowblend"
-	desc = "Blend with the shadows, making you immune to all attacks as well as causing all projectiles to pass trough you!"
+	desc = "Blend with the shadows, making you immune to all attacks as well as making you capable of walking trough projectiles, humans and other objects!"
 	human_req = 1
 	clothes_req = 0
 	charge_max = 600
@@ -120,12 +120,12 @@
 
 /obj/effect/proc_holder/spell/self/shadowblend/cast(mob/living/carbon/human/user)
 	user.visible_message("<span class='warning'>[user] blends into the shadows and becomes immune to all damage!</span>", "<span class='notice'>You blend with the shadows!</span>")
-	user.status_flags ^= GODMODE
+	user.status_flags += GODMODE
 	user.alpha = 125
 	user.density = 0
 	spawn (100)
 		user.visible_message("<span class='warning'>[user] reappears from the shadows and becomes vulnerable to damage!</span>", "<span class='notice'>You blend out of the shadows!</span>")
-		user.status_flags ^= GODMODE
+		user.status_flags -= GODMODE
 		user.alpha = 255
 		user.density = 1
 
