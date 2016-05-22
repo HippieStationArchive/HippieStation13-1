@@ -112,7 +112,7 @@
 				var/mob/living/carbon/human/H = mob
 				H.hallucination += max(0, min(300, DETONATION_HALLUCINATION * sqrt(1 / (get_dist(mob, src) + 1)) ) )
 			var/rads = DETONATION_RADS * sqrt( 1 / (get_dist(mob, src) + 1) )
-			ar/blocked = mob.run_armor_check(null, "rad", "Your clothes feel warm.", "Your clothes feel warm.")
+			var/blocked = mob.run_armor_check(null, "rad", "Your clothes feel warm.", "Your clothes feel warm.")
 			mob.apply_effect(rads, IRRADIATE, blocked)
 	spawn(pull_time)
 		explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 4, explosion_power * 6, 1, 1)
