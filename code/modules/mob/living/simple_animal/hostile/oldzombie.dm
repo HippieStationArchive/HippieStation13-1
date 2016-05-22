@@ -210,7 +210,7 @@
 				target << "You don't have enough infection points! You need <b>[3 - target.numinfected]</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/piercingteeth()
-	set name = "Piercing Teeth(Cost: 5)"
+	set name = "Piercing Teeth(Cost: 3)"
 	set category = "Zombie"
 
 	var/mob/living/simple_animal/hostile/oldzombie/target = usr
@@ -220,7 +220,7 @@
 		if(target.canpierce == 1)
 			target << "Already purchased!"
 		else
-			if(target.numinfected >= 5)
+			if(target.numinfected >= 3)
 				target.canpierce = 1
 				target.numinfected = numinfected - 3
 				target << "You are now able to pierce through hardsuits and bio suits!"
