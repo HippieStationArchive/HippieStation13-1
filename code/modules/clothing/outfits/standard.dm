@@ -407,6 +407,44 @@
 	W.registered_name = H.real_name
 	W.update_label(W.registered_name, W.assignment)
 
+/datum/outfit/powergamer
+	name = "Powergamer"
+
+	uniform = /obj/item/clothing/under/rank/captain
+	suit = /obj/item/clothing/suit/armor/hos
+	shoes = /obj/item/clothing/shoes/sneakers/brown/captain
+	gloves = /obj/item/clothing/gloves/color/captain
+	glasses = /obj/item/clothing/glasses/hud/security/sunglasses/eyepatch
+	back = /obj/item/weapon/storage/backpack/satchel_cap
+	head = /obj/item/clothing/head/HoS
+	l_pocket = /obj/item/weapon/hand_tele
+	r_pocket = /obj/item/weapon/restraints/handcuffs/
+	suit_store = /obj/item/weapon/gun/energy/laser/captain
+	r_hand = /obj/item/weapon/gun/energy/gun
+	l_hand = /obj/item/weapon/shield/riot
+	belt = /obj/item/weapon/storage/belt/security
+	id = /obj/item/weapon/card/id/captains_spare
+	ears = /obj/item/device/radio/headset/heads/captain/alt
+
+	backpack_contents = list(/obj/item/weapon/storage/box=1,\
+		/obj/item/weapon/gun/energy/gun/advtaser,\
+		/obj/item/weapon/gun/energy/gun/advtaser,\
+		/obj/item/weapon/melee/baton/loaded,\
+		
+	
+/datum/outfit/cappy/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	/* var/obj/item/weapon/implant/loyalty/L = new/obj/item/weapon/implant/loyalty(H)//Here you go Deuryn
+	L.imp_in = H
+	L.implanted = 1
+	H.sec_hud_set_implants()
+	*/
+	var/obj/item/weapon/implant/adrenalin/L = new/obj/item/weapon/implant/adrenalin(H)
+	L.imp_in = H
+	L.implanted = 1
+	
 /datum/outfit/death_commando/officer
 	name = "Death Commando Officer"
 	head = /obj/item/clothing/head/helmet/space/beret
