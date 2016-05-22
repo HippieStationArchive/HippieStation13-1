@@ -79,10 +79,10 @@
 	mouse_opacity = 1
 	var/timeout = 0 //If set to a number, this alert will clear itself after that many deciseconds
 	var/severity = 0
-
+	var/alerttooltipstyle = ""
 
 /obj/screen/alert/MouseEntered(location,control,params)
-	openToolTip(usr,params,title = name,content = desc)
+	openToolTip(usr,src,params,title = name,content = desc,theme = alerttooltipstyle)
 
 
 /obj/screen/alert/MouseExited()
@@ -218,7 +218,13 @@ or shoot a gun to move around via Newton's 3rd Law of motion."
 	desc = "It's too hot! Flee to space or at least away from the flames. Standing on weeds will heal you up."
 	icon_state = "alien_fire"
 
+//GUARDIANS
 
+/obj/screen/alert/cancharge
+	name = "Charge Ready"
+	desc = "You are ready to charge at a location!"
+	icon_state = "guardian_charge"
+	
 //SILICONS
 
 /obj/screen/alert/nocell

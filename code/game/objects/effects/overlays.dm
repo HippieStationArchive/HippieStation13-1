@@ -51,7 +51,30 @@
 	icon_state = "emp pulse"
 	duration = 20
 	randomdir = 0
+		  
+/obj/effect/overlay/temp/guardian
+	randomdir = 0
 
+/obj/effect/overlay/temp/guardian/phase
+	duration = 5
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "phasein"
+
+/obj/effect/overlay/temp/guardian/phase/out
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "phaseout"
+
+/obj/effect/overlay/temp/guardian/charge
+	duration = 15
+
+/obj/effect/overlay/temp/decoy/New(loc, atom/mimiced_atom)
+	..()
+	alpha = initial(alpha)
+	if(mimiced_atom)
+		icon = 'icons/mob/screen_alert.dmi'
+		icon_state = "guardian_charge"
+		dir = mimiced_atom.dir
+	animate(src, alpha = 0, time = duration)
 
 /obj/effect/overlay/palmtree_r
 	name = "Palm tree"
@@ -60,6 +83,14 @@
 	density = 1
 	layer = 5
 	anchored = 1
+
+/obj/effect/overlay/temp/explosion
+	name = "explosion"
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "explosion"
+	pixel_x = -32
+	pixel_y = -32
+	duration = 8	
 
 /obj/effect/overlay/palmtree_l
 	name = "Palm tree"
