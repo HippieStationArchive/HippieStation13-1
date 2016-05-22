@@ -15,24 +15,24 @@
 	status_flags = GODMODE|CANPUSH
 
 /mob/living/carbon/human/proc/oldInfect(mob/living/carbon/human/H)
-	if(H.startinfected == 1 && H.infection == 0)
+	if(!H.stat == DEAD && H.infection == 0)
 		H.infected = 1
 		H.infection = 1
 		H.faction = list("zombie")
 		H << "You feel slightly ill..."
-		spawn(rand(700, 800))
+		spawn(rand(500, 600))
 			H << "<span class='userdanger'>Something really is not right....</span>"
 			visible_message("<b>[H]</b> looks very pale...")
 			H.adjustOxyLoss(20)
 			H.stuttering = 10
-			spawn(rand(800, 900))
+			spawn(rand(500, 600))
 				H << "<span class='userdanger'>You feel like you could die at any moment....</span>"
 				visible_message("<b>[H]</b> begins sweating uncontrollably!")
 				H.adjustOxyLoss(60)
 				H.stuttering = 20
 				H.Weaken(10)
 				H.Stun(5)
-				spawn(rand(800, 900))
+				spawn(rand(500, 600))
 					H << "<span class='userdanger'>You are about to pass out!</span>"
 					visible_message("<b>[H]</b> begins bleeding uncontrollably!")
 					H.adjustOxyLoss(70)

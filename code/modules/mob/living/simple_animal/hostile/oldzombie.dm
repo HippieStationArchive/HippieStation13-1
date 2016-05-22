@@ -40,6 +40,7 @@
 	var/airlocktime = 200
 	var/superform = 0
 	var/superformtime = 100
+	var/canpierce = 0
 	languages = ZOMBIE
 
 /mob/living/simple_animal/hostile/oldzombie/AttackingTarget()
@@ -53,20 +54,29 @@
 			else
 				var/infectchance = rand(1,3)
 				if(infectchance == 2)
-					if(H.startinfected == 1)
-						src.health = src.health + 50
-						src << "You just infected <b>[L]</b> for the first time! You have restored 50 HP! And gained <b>3</b> additional infection points!"
-						src.numinfected = src.numinfected + 3
-					src << "You infect <b>[L]!</b> restoring 20 HP!"
-					visible_message("<span class='danger'>[src] bites [L]!</span>")
-					playsound(src.loc, 'sound/weapons/bite.ogg', 50, 1)
-					H.infected = 1
-					H << "<span class='danger'>That bite felt sore as hell! It's getting worse....</span>"
-					H.oldInfect(H)
-					src.numinfected = src.numinfected + 1
-					src << "You gain <b>1</b> infection point!"
-					src << "You now have <b>[src.numinfected]</b> infection points!"
-					src << "<span class='userdanger'>They'll be getting up on their own, just give them a minute!</span>"
+					. = 1 // Default to returning true.
+					if(H.dna && PIERCEIMMUNE in H.dna.species.specflags)
+						. = 0
+					if(H.wear_suit && H.wear_suit.flags & THICKMATERIAL)
+						. = 0
+					if(!. && src && canpierce == 0)
+						// Might need re-wording.
+						src << "<span class='alert'>There is no exposed flesh or thin material that you are able to pierce, you can purchase Piercing Teeth in the upgrades tab however.</span>"
+					else
+						if(H.startinfected == 1)
+							src.health = src.health + 50
+							src << "You just infected <b>[L]</b> for the first time! You have restored 50 HP! And gained <b>3</b> additional infection points!"
+							src.numinfected = src.numinfected + 3
+						src << "You infect <b>[L]!</b> restoring 20 HP!"
+						visible_message("<span class='danger'>[src] bites [L]!</span>")
+						playsound(src.loc, 'sound/weapons/bite.ogg', 50, 1)
+						H.infected = 1
+						H << "<span class='danger'>That bite felt sore as hell! It's getting worse....</span>"
+						H.oldInfect(H)
+						src.numinfected = src.numinfected + 1
+						src << "You gain <b>1</b> infection point!"
+						src << "You now have <b>[src.numinfected]</b> infection points!"
+						src << "<span class='userdanger'>They'll be getting up on their own, just give them a minute!</span>"
 		else if (L.stat) //So they don't get stuck hitting a corpse
 			visible_message("<span class='danger'>[src] begins tearing [L] apart!</span>")
 			src << "<span class='danger'>You begin feasting on [L]...</span>"
@@ -199,6 +209,25 @@
 			else
 				target << "You don't have enough infection points! You need <b>[3 - target.numinfected]</b> more!"
 
+/mob/living/simple_animal/hostile/oldzombie/verb/piercingteeth()
+	set name = "Piercing Teeth(Cost: 5)"
+	set category = "Zombie"
+
+	var/mob/living/simple_animal/hostile/oldzombie/target = usr
+	if(target.superform == 1)
+		target << "You can't do this while in superform!"
+	else
+		if(target.canpierce == 1)
+			target << "Already purchased!"
+		else
+			if(target.numinfected >= 5)
+				target.canpierce = 1
+				target.numinfected = numinfected - 3
+				target << "You are now able to pierce through hardsuits and bio suits!"
+				target << "You now have <b>[target.numinfected]</b> infection points!"
+			else
+				target << "You don't have enough infection points! You need <b>[5 - target.numinfected]</b> more!"
+
 /mob/living/simple_animal/hostile/oldzombie/verb/airlockfaster()
 	set name = "Airlock Force Time(Cost: 1)"
 	set category = "Zombie"
@@ -222,6 +251,27 @@
 			target << "You have not purchaed <b>force doors</b> yet!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/superform()
+	set name = "Ultimate Form(Cost: 15)"
+	set category = "Zombie"
+
+	var/mob/living/simple_animal/hostile/oldzombie/target = usr
+	if(target.superform == 1)
+		target << "Already in superform!"
+	else
+		if(alert(target, "Are you sure? This can't be undone.", "Confirm","Yes", "No") == "Yes")
+			var/mob/living/simple_animal/hostile/bigzed/scrake/S = new/mob/living/simple_animal/hostile/bigzed/scrake
+			S.loc = target.loc
+			S.move_to_delay = 4
+			S.maxHealth = 500
+			S.health = 500
+			S.ckey = target.ckey
+			S.faction = list("zombie")
+			visible_message("<span class = 'userdanger'>[target] mutates! Forming a large chansaw like arm! AHHH!</span>")
+			playsound(Z.loc, 'sound/voice/bigzeds/scrakerage5.ogg', 50, 1)
+			S << "<span class='userdanger'>You are on the zombies team! Fight with them!</span>"
+			qdel(target)
+/*
+/mob/living/simple_animal/hostile/oldzombie/verb/superform()
 	set name = "Super Form(Cost: 10)"
 	set category = "Zombie"
 
@@ -236,7 +286,8 @@
 			takesuperform(target)
 		else
 			target << "You don't have enough infection points! You need <b>[10 - target.numinfected]</b> more!"
-
+*/
+/*
 /mob/living/simple_animal/hostile/oldzombie/verb/upgradesuperform()
 	set name = "Upgrade Super Form(Cost: 2)"
 	set category = "Zombie"
@@ -252,7 +303,8 @@
 			target << "You now have <b>[target.numinfected]</b> infection points!"
 		else
 			target << "You don't have enough infection points! You need <b>[2 - target.numinfected]</b> more!"
-
+*/
+/*
 /mob/living/simple_animal/hostile/oldzombie/proc/takesuperform(mob/living/simple_animal/hostile/oldzombie/Z)
 	var/oldmaxhealth = Z.maxHealth
 	var/oldhealth = Z.health
@@ -282,7 +334,7 @@
 		Z.airlocktime = oldairlocktime
 		Z.speed = oldspeed
 		Z.superform = 0
-
+*/
 /mob/living/simple_animal/hostile/oldzombie/Stat()
 	..()
 	if(statpanel("Status"))
