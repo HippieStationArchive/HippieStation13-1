@@ -1,0 +1,16 @@
+author: KingofSarcaEsumQualmEinGottshanzPart1
+
+delete-after: True
+
+changes: 
+  - rscadd: "Ports over a lot of Holoparasite content from /tg/station made by ChangelingRain."
+  - rscadd: "Adds three new Holoparasite types: Electric, Protector, and Assassin. "
+  - rscadd: "Lightning parasites have a lightning chain attached to their summoner that shocks anyone who crosses it. Their attacks have a chance to shock and stun for a brief period of time."
+  - rscadd: "Protector parasites chain the user to them, instead of being chained to the user. Can toggle between defense mode and offense mode. The parasite does terrible damage in defense mode, but is almost immune to all damage."
+  - rscadd: "Assassin holoparasites can turn almost completely invisible. If they attack someone from behind in this state they do a lot of damage that ignores armor. If they are attacked in this state they take a lot of damage and cannot be recalled for a bit." 
+  - rscadd: "Adds new sprites and colors for holoparasites."
+  - rscadd: "Holoparasites get a new HUD. They can see their user's health at any time. Values below 50% mean the user is in crit."
+  - tweak: "Chaos Holoparasites no longer teleport on attack. Instead, they cause the victim to hallucinate every person on screen as the Holoparasite" 
+  - tweak: "Explosive Holoparasites now teleport on attack, with a chance to explosively teleport for bonus damage."
+  - tweak: "Standard Holoparasites can now attack a bit faster."
+  - bugfix: "You can now name Holoparasites."

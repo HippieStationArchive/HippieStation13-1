@@ -287,9 +287,10 @@
 	melee_damage_upper = 20
 	next_move_modifier = 0.8
 	damage_coeff = list(BRUTE = 0.3, BURN = 0.3, TOX = 0.3, CLONE = 0.3, STAMINA = 0, OXY = 0.3)
-	playstyle_string = "As a protector type you have very high damage resistance, a decent attack, and cause your summoner to leash to you instead of you leashing to them."
-	magic_fluff_string = "..And draw the Guardian, a stalwart protector that never leaves the side of its charge."
-	tech_fluff_string = "Boot sequence complete. Protector modules loaded. Holoparasite swarm online."
+	playstyle_string = "As a standard type you have no special abilities, but have a high damage resistance and a powerful attack capable of smashing through walls."
+	environment_smash = 2
+	magic_fluff_string = "..And draw the Assistant, faceless and generic, but never to be underestimated."
+	tech_fluff_string = "Boot sequence complete. Standard combat modules loaded. Holoparasite swarm online."
 	playstyle_string = "As a standard type you have no special abilities, but have a high damage resistance and a powerful attack capable of smashing through walls."
 	environment_smash = 2
 	magic_fluff_string = "..And draw the Assistant, faceless and generic, but never to be underestimated."
@@ -303,8 +304,6 @@
 	var/input = stripped_input(src,"What do you want your battlecry to be? Max length of 5 characters.", ,"", 6)
 	if(input)
 		battlecry = input
-
-
 
 /mob/living/simple_animal/hostile/guardian/punch/AttackingTarget()
 	..()
@@ -631,7 +630,7 @@
 		src << "<span class='danger'><B>You switch to combat mode.</span></B>"
 		toggle = FALSE
 	else
-		var/image/I = new('icons/effects/effects.dmi', "shield-grey")
+		var/image/I = new('icons/effects/effects.dmi', "at_shield1")
 		overlays += I
 		melee_damage_lower = 2
 		melee_damage_upper = 2
