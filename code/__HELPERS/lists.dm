@@ -59,6 +59,11 @@
 		generate_type_list_cache(L)
 	return L[A.type]
 
+/proc/generate_type_list_cache(L)
+	for(var/type in L)
+		for(var/T in typesof(type))
+			L[T] = 1
+
 //Empties the list by setting the length to 0. Hopefully the elements get garbage collected
 /proc/clearlist(list/list)
 	if(istype(list))
