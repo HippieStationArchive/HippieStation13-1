@@ -459,6 +459,10 @@ var/list/teleportlocs = list()
 	name = "Electrical Maintenance"
 	icon_state = "yellow"
 
+/area/maintenance/secelectrical
+	name = "Security Electrical Maintenance"
+	icon_state = "yellow"
+
 /area/maintenance/isomaint
 	name = "Isolation Maintenance"
 	icon_state = "yellow"
@@ -718,6 +722,18 @@ var/list/teleportlocs = list()
 /area/engine/gravity_generator
 	name = "Gravity Generator Room"
 	icon_state = "blue"
+
+/area/engine/supermatter
+	name = "Supermatter"
+	icon_state = "red"
+
+/area/engine/heat_exchange
+	name = "Filtering Room"
+	icon_state = "yellow"
+
+/area/engine/port_engineering
+	name = "Port Engineering"
+	icon_state = "green"
 
 //Solars
 
