@@ -558,7 +558,7 @@
 				dat += "<td><A href='?priv_msg=[M.ckey]'>PM</A></td>"
 			else if(istype(M, /mob/living/simple_animal/hostile/retaliate/bat/vampiric) && M.contents)
 				var/mob/living/carbon/human/V = locate(/mob/living/carbon/human, M.contents)
-				dat += "<tr><td><a href='?_src_=holder;adminplayeropts=\ref[M]'>[V.real_name] as [M.real_name]</a>[M.client ? "" : " <i>(ghost)</i>"]</td>"
+				dat += "<tr><td><a href='?_src_=holder;adminplayeropts=\ref[M]'>[V.real_name] </a> as [M.real_name] [M.client ? "" : " <i>(ghost)</i>"]</td>"
 				dat += "<td><A href='?priv_msg=[M.ckey]'>PM</A></td>"
 			else
 				dat += "<tr><td><i>Vampire not found!</i></td></tr>"
