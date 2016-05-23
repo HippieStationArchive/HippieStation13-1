@@ -62,7 +62,6 @@
 	if(is_vampire(src))
 		handle_vampirism()
 
-	handle_inventory()
 
 /mob/living/carbon/human/calculate_affecting_pressure(pressure)
 	if((wear_suit && (wear_suit.flags & STOPSPRESSUREDMAGE)) && (head && (head.flags & STOPSPRESSUREDMAGE)))
