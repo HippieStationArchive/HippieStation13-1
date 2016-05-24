@@ -28,9 +28,6 @@
 
 	var/next_cast = 0
 
-/mob/living/simple_animal/hostile/boss/timelost_spellcaster/ex_act(severity)
-	return 0 //bombs? ha. Also used to make sure he can't hurt himself with timebomb.
-
 /mob/living/simple_animal/hostile/boss/timelost_spellcaster/New()
 	..()
 	lostreflection = new /obj/effect/proc_holder/spell/aoe_turf/conjure/lostreflection
@@ -110,9 +107,6 @@
 	melee_damage_lower = 5
 	melee_damage_upper = 5
 
-/mob/living/simple_animal/hostile/boss/timelost_reflection/ex_act(severity)
-	return 0 //so that they don't get blown up by timebombs
-
 /mob/living/simple_animal/hostile/boss/timelost_reflection/death()
 	qdel(src)
 
@@ -157,9 +151,6 @@
 	var/obj/effect/proc_holder/spell/aoe_turf/conjure/delude/delude = null
 
 	var/next_cast = 0
-
-/mob/living/simple_animal/hostile/boss/timelost_spellcaster_multiverse_phase/ex_act(severity)
-	return 0 //still no cheese
 
 /mob/living/simple_animal/hostile/boss/timelost_spellcaster_multiverse_phase/New()
 	..()
@@ -248,9 +239,6 @@
 	var/obj/effect/proc_holder/spell/self/shadowblend/shadowblend
 
 	var/next_cast = 0
-
-/mob/living/simple_animal/hostile/boss/timelost_multiverse/ex_act(severity)
-	return 0 //so that phase3 doesn't blow him up
 
 /mob/living/simple_animal/hostile/boss/timelost_multiverse/New()
 	..()
