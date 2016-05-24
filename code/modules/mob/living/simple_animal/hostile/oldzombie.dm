@@ -64,12 +64,13 @@
 						src << "<span class='alert'>There is no exposed flesh or thin material that you are able to pierce, you can purchase Piercing Teeth in the upgrades tab however.</span>"
 					else
 						if(H.startinfected == 1)
-							src.health = src.health + 50
+							src.adjustBruteLoss(-50)
 							src << "You just infected <b>[L]</b> for the first time! You have restored 50 HP! And gained <b>3</b> additional infection points!"
 							src.numinfected = src.numinfected + 3
 						src << "You infect <b>[L]!</b> restoring 20 HP!"
 						visible_message("<span class='danger'>[src] bites [L]!</span>")
 						playsound(src.loc, 'sound/weapons/bite.ogg', 50, 1)
+						src.adjustBruteLoss(-20)
 						H.infected = 1
 						H << "<span class='danger'>That bite felt sore as hell! It's getting worse....</span>"
 						H.oldInfect(H)
@@ -86,7 +87,7 @@
 				src << "You gain <b>1</b> infection point for feasting on <b>[L]</b>!"
 				src.numinfected = src.numinfected + 2
 				L.gib()
-				src.health = src.health + 50
+				src.adjustBruteLoss(-50)
 
 	if(istype(target, /obj/machinery/door/airlock))
 		if(src.forcedoor == 1 || removingairlock == 1)
@@ -164,7 +165,7 @@
 		else
 			if(target.numinfected > 0)
 				target.maxHealth = target.maxHealth + 10
-				target.health = target.health + 10
+				target.adjustBruteLoss(-10)
 				target.numinfected = target.numinfected - 1
 				target << "You increased your health by 10, max health now at <b>[target.maxHealth]</b>!"
 				target << "You now have <b>[target.numinfected]</b> infection points!"
@@ -184,7 +185,7 @@
 		else
 			if(target.numinfected >= 7)
 				target.selfrevive = 1
-				target.numinfected = numinfected - 7
+				target.numinfected = target.numinfected - 7
 				target << "You will now self revive after a short amount of time! Only once though!"
 				target << "You now have <b>[target.numinfected]</b> infection points!"
 			else
@@ -203,7 +204,7 @@
 		else
 			if(target.numinfected >= 3)
 				target.forcedoor = 1
-				target.numinfected = numinfected - 3
+				target.numinfected = target.numinfected - 3
 				target << "You are now able to force open doors! Click on one to open it!"
 				target << "You now have <b>[target.numinfected]</b> infection points!"
 			else
@@ -222,11 +223,27 @@
 		else
 			if(target.numinfected >= 3)
 				target.canpierce = 1
-				target.numinfected = numinfected - 3
+				target.numinfected = target.numinfected - 3
 				target << "You are now able to pierce through hardsuits and bio suits!"
 				target << "You now have <b>[target.numinfected]</b> infection points!"
 			else
 				target << "You don't have enough infection points! You need <b>[3 - target.numinfected]</b> more!"
+
+/mob/living/simple_animal/hostile/oldzombie/verb/restorehealth()
+	set name = "Regen Health(Cost: 4)"
+	set category = "Zombie"
+
+	var/mob/living/simple_animal/hostile/oldzombie/target = usr
+	if(target.superform == 1)
+		target << "You can't do this while in superform!"
+	else
+		if(target.numinfected >= 4)
+			target.adjustBruteLoss(-target.health)
+			target << "You regenerate, restoring your health!"
+			target.numinfected = target.numinfected - 4
+			target << "You now have <b>[target.numinfected]</b> infection points!"
+		else
+			target << "You don't have enough infection points! You need <b>[4 - target.numinfected]</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/airlockfaster()
 	set name = "Airlock Force Time(Cost: 1)"
@@ -242,7 +259,7 @@
 			else
 				if(target.numinfected > 0)
 					target.airlocktime = target.airlocktime - 10
-					target.numinfected = numinfected - 1
+					target.numinfected = target.numinfected - 1
 					target << "You will now open doors in <b>[target.airlocktime / 10]</b> seconds!"
 					target << "You now have <b>[target.numinfected]</b> infection points!"
 				else

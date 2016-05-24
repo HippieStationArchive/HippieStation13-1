@@ -15,7 +15,10 @@
 	status_flags = GODMODE|CANPUSH
 
 /mob/living/carbon/human/proc/oldInfect(mob/living/carbon/human/H)
-	if(!H.stat == DEAD && H.infection == 0)
+	if(H.stat == DEAD && H.infection == 0)
+		oldZombify(H)
+		H.infection = 1
+	else if(H.infection == 0)
 		H.infected = 1
 		H.infection = 1
 		H.faction = list("zombie")
@@ -48,9 +51,7 @@
 						oldZombify(H)
 						H.startinfected = 0
 						H.infection = 0
-	else if(H.infection == 0)
-		oldZombify(H)
-		H.infection = 1
+
 
 /mob/living/carbon/human/proc/oldZombify(mob/living/carbon/human/H)
 	if(zombification == 0)
@@ -81,7 +82,7 @@
 						break
 				Z.ckey = H.ckey
 				//H.stat = DEAD
-				H.butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie = 3) //So now you can carve them up when you kill them. Maybe not a good idea for the human versions.
+				//H.butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie = 3) //So now you can carve them up when you kill them. Maybe not a good idea for the human versions.
 				H.loc = Z
 				Z.stored_corpse = H
 				for(var/mob/living/simple_animal/hostile/oldzombie/holder/D in H) //Dont want to revive them twice
