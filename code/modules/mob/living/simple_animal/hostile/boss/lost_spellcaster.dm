@@ -60,10 +60,13 @@
 	timebomb.player_lock = 0
 	AddSpell(timebomb)
 
-/mob/living/simple_animal/hostile/boss/timelost_spellcaster/death()
-	visible_message("<span class='userdanger'><font color ='green'>The [src] unsheathes his multiverse sword!</span>")
-	new /mob/living/simple_animal/hostile/boss/timelost_spellcaster_multiverse_phase(src.loc)
-	qdel(src)
+/mob/living/simple_animal/hostile/boss/timelost_spellcaster/death(gibbed)
+	if(health > 0)
+		return
+	else
+		visible_message("<span class='userdanger'><font color ='green'>The [src] unsheathes his multiverse sword!</span>")
+		new /mob/living/simple_animal/hostile/boss/timelost_spellcaster_multiverse_phase(src.loc)
+		qdel(src)
 
 /mob/living/simple_animal/hostile/boss/timelost_spellcaster/handle_automated_action()
 	. = ..()
@@ -197,9 +200,12 @@
 			return .
 
 /mob/living/simple_animal/hostile/boss/timelost_spellcaster_multiverse_phase/death()
-	visible_message("<span class='userdanger'><font color ='green'>The timelost spellcaster starts evaporating into time!</span>")
-	new /obj/effect/timelost_transition(src.loc)
-	qdel(src)
+	if(health > 0)
+		return
+	else
+		visible_message("<span class='userdanger'><font color ='green'>The timelost spellcaster starts evaporating into time!</span>")
+		new /obj/effect/timelost_transition(src.loc)
+		qdel(src)
 
 /obj/effect/timelost_transition
 	anchored = 1
@@ -355,8 +361,11 @@
 	AddSpell(shadowblend)
 
 /mob/living/simple_animal/hostile/boss/timelost_spellcaster_final_phase/death()
-	visible_message("<span class='userdanger'><font color ='red'>[src] is erased from time itself!</span>")
-	qdel(src)
+	if(health > 0)
+		return
+	else
+		visible_message("<span class='userdanger'><font color ='red'>[src] is erased from time itself!</span>")
+		qdel(src)
 
 /mob/living/simple_animal/hostile/boss/timelost_spellcaster_final_phase/handle_automated_action()
 	. = ..()
