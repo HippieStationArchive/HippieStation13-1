@@ -106,7 +106,6 @@
 
 /obj/item/weapon/storage/belt/security/full/New()
 	..()
-	new /obj/item/device/flashlight/seclite(src)
 
 /obj/item/weapon/storage/belt/soulstone
 	name = "soul stone belt"

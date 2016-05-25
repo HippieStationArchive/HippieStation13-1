@@ -10,6 +10,7 @@
 		new /obj/item/weapon/storage/backpack/captain(src)
 	else
 		new /obj/item/weapon/storage/backpack/satchel_cap(src)
+	new /obj/item/weapon/storage/daki(src)
 	new /obj/item/clothing/suit/cloak/cap(src)
 	new /obj/item/weapon/storage/backpack/dufflebag/captain(src)
 	new /obj/item/clothing/suit/captunic(src)
@@ -21,10 +22,9 @@
 	new /obj/item/clothing/shoes/sneakers/brown(src)
 	new /obj/item/device/radio/headset/heads/captain/alt(src)
 	new /obj/item/clothing/glasses/sunglasses/gar/supergar(src)
-	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
-	new /obj/item/clothing/gloves/color/captain(src)
 	new /obj/item/weapon/gun/energy/gun(src)
-	new /obj/item/weapon/storage/daki(src)
+	new /obj/item/clothing/gloves/color/captain(src)
+	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
 
 /obj/structure/closet/secure_closet/hop
 	name = "\proper head of personnel's locker"
@@ -42,12 +42,12 @@
 	new /obj/item/weapon/storage/box/ids(src)
 	new /obj/item/device/megaphone/command(src)
 	new /obj/item/clothing/suit/armor/vest(src)
-	new /obj/item/device/assembly/flash/handheld(src)
-	new /obj/item/clothing/glasses/sunglasses(src)
 	new /obj/item/weapon/mining_voucher(src)
-	new /obj/item/weapon/gun/energy/gun(src)
 	new /obj/item/clothing/tie/petcollar(src)
-
+	new /obj/item/device/assembly/flash/handheld(src)
+	new /obj/item/weapon/gun/energy/gun(src)
+	new /obj/item/clothing/glasses/sunglasses(src)
+	
 /obj/structure/closet/secure_closet/hos
 	name = "\proper head of security's locker"
 	req_access = list(access_hos)
@@ -66,13 +66,13 @@
 	new /obj/item/clothing/head/HoS(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses/eyepatch(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses/gars/supergars(src)
-	new /obj/item/weapon/storage/lockbox/loyalty(src)
 	new /obj/item/weapon/storage/box/flashbangs(src)
 	new /obj/item/device/megaphone/sec(src)
 	new /obj/item/tapeproj/security(src)
 	new /obj/item/clothing/mask/gas/sechailer/swat(src)
+	new /obj/item/weapon/storage/lockbox/loyalty(src)
 	new /obj/item/weapon/shield/deployable/tele(src)
-	new /obj/item/weapon/melee/baton/loaded(src)
+	new /obj/item/weapon/melee/classic_baton/telescopic(src)
 	new /obj/item/weapon/storage/belt/security/full(src)
 	new /obj/item/weapon/gun/energy/gun/hos(src)
 
@@ -94,8 +94,6 @@
 	new /obj/item/weapon/storage/box/flashbangs(src)
 	new /obj/item/weapon/storage/box/zipties(src)
 	new /obj/item/tapeproj/security(src)
-	new /obj/item/weapon/reagent_containers/spray/pepper(src)
-	new /obj/item/weapon/melee/baton/loaded(src)
 	new /obj/item/weapon/storage/belt/security/full(src)
 
 /obj/structure/closet/secure_closet/security
@@ -107,19 +105,15 @@
 	..()
 	new /obj/item/clothing/suit/armor/vest(src)
 	new /obj/item/device/radio/headset/headset_sec(src)
-	new /obj/item/device/radio/headset/headset_sec/alt(src)
-	new /obj/item/weapon/reagent_containers/spray/pepper(src)
-	new /obj/item/device/assembly/flash/handheld(src)
-	new /obj/item/weapon/grenade/flashbang(src)
+	new /obj/item/device/radio/headset/headset_sec/alt(src) 
+	new /obj/item/clothing/head/helmet/sec(src)
 	new /obj/item/weapon/storage/belt/security/full(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
-	new /obj/item/clothing/head/helmet/sec(src)
 
 /obj/structure/closet/secure_closet/security/sec
 
 /obj/structure/closet/secure_closet/security/sec/New()
 	..()
-	new /obj/item/weapon/melee/baton/loaded(src)
 
 /obj/structure/closet/secure_closet/security/cargo
 
