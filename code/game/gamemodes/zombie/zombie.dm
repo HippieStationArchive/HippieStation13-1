@@ -51,12 +51,11 @@
 /datum/game_mode/zombie/post_setup()
 	for(var/datum/mind/carriermind in carriers)
 		zombie_infectees += carriermind
+		var/mob/living/carbon/human/H = carriermind
+		H.oldInfect(H)
+		H.infected = 1
 
-		var/datum/disease/D = new /datum/disease/zombie
-		// D.visibility_flags = HIDDEN_SCANNER|HIDDEN_PANDEMIC
-		D.holder = carriermind.current
-		D.affected_mob = carriermind.current
-		carriermind.current.viruses += D
+
 	..()
 
 /datum/game_mode/zombie/check_finished()
@@ -71,7 +70,7 @@
 
 		for(var/mob/living/carbon/human/H in living_mob_list)
 			if(H.mind)
-				if(H.HasDisease(/datum/disease/zombie))
+				if(H.infected == 1)
 					return 0
 
 	..()
@@ -80,9 +79,9 @@
 	if(SSshuttle.emergency.mode != SHUTTLE_ENDGAME)
 		return 0
 	for(var/mob/living/carbon/human/H in living_mob_list)
-		if (H.HasDisease(/datum/disease/zombie))
+		if (H.infected == 1)
 			live_zombies++
-	for(var/mob/living/simple_animal/hostile/zombie/Z in mob_list)
+	for(var/mob/living/simple_animal/hostile/oldzombie/Z in mob_list)
 		if(Z.stat != DEAD)
 			live_zombies++
 	if(live_zombies >= (num_players() * 0.8)) //80% of the crew infected
