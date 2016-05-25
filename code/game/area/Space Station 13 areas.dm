@@ -1460,21 +1460,40 @@ var/list/teleportlocs = list()
 
 
 
-/area/wreck/ai
-	name = "AI Chamber"
+/area/wreck
+	name = "\improper Spacewreck"
+	icon_state = "centcom"
+	has_gravity = 1
+	ambientsounds = list('sound/ambience/ambieng1.ogg', 'sound/ambience/ambimine.ogg')
+	// ambloop = 'sound/ambience/loop/softhum.ogg'
+
+/area/wreck/living
+	name = "\improper Prototype living area"
 	icon_state = "ai"
 
 /area/wreck/main
-	name = "Wreck"
+	name = "\improper Prototype Main Hall"
 	icon_state = "storage"
 
 /area/wreck/engineering
-	name = "Power Room"
+	name = "\improper Prototype Power Room"
 	icon_state = "engine"
 
 /area/wreck/bridge
-	name = "Bridge"
+	name = "\improper Prototype Bridge"
 	icon_state = "bridge"
+
+/area/wreck/botany
+	name = "\improper Prototype Botany"
+	icon_state = "hydro"
+
+/area/wreck/solars
+	name = "\improper Prototype Solars"
+	icon_state = "engine"
+	requires_power = 0
+	luminosity = 1
+	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 /area/generic
 	name = "Unknown"
