@@ -1,4 +1,5 @@
 #define EMPOWERED_THRALL_LIMIT 5
+var/in_jaunt = 0
 
 /obj/effect/proc_holder/spell/proc/shadowling_check(var/mob/living/carbon/human/H)
 	if(!H || !istype(H)) return
@@ -34,6 +35,9 @@
 			return
 		if(is_shadow_or_thrall(target))
 			user << "<span class='warning'>You cannot glare at allies!</span>"
+			revert_cast()
+			return
+		if (in_jaunt)
 			revert_cast()
 			return
 		var/mob/living/carbon/human/M = target
@@ -110,7 +114,7 @@
 	name = "Shadow Walk"
 	desc = "Phases you into the space between worlds for a short time, allowing movement through walls and invisbility."
 	panel = "Shadowling Abilities"
-	charge_max = 300 //Used to be twice this, buffed
+	charge_max = 450
 	human_req = 1
 	clothes_req = 0
 	action_icon_state = "shadow_walk"
@@ -120,18 +124,20 @@
 	if(!shadowling_check(user))
 		revert_cast()
 		return
+	if(usr.stunned)
+		revert_cast()
+		return
 	user.visible_message("<span class='warning'>[user] vanishes in a puff of black mist!</span>", "<span class='shadowling'>You enter the space between worlds as a tunnel.</span>")
-	user.SetStunned(0)
-	user.SetWeakened(0)
 	user.incorporeal_move = 1
 	user.alpha = 0
 	if(user.buckled)
 		user.buckled.unbuckle_mob()
+	in_jaunt = 1
 	sleep(40) //4 seconds
 	user.visible_message("<span class='warning'>[user] suddenly manifests!</span>", "<span class='shadowling'>The rift's pressure forces you back to corporeality.</span>")
 	user.incorporeal_move = 0
 	user.alpha = 255
-
+	in_jaunt = 0
 
 /obj/effect/proc_holder/spell/aoe_turf/flashfreeze //Stuns and freezes nearby people - a bit more effective than a changeling's cryosting
 	name = "Icy Veins"
@@ -324,7 +330,7 @@
 		revert_cast()
 		return
 	var/thralls = 0
-	var/victory_threshold = 15
+	var/victory_threshold = 20
 	var/mob/M
 
 	user << "<span class='shadowling'><b>You focus your telepathic energies abound, harnessing and drawing together the strength of your thralls.</b></span>"
@@ -608,6 +614,7 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 				return
 
 
+/*
 /obj/effect/proc_holder/spell/targeted/shadowling_extend_shuttle
 	name = "Destroy Engines"
 	desc = "Extends the time of the emergency shuttle's arrival by fifteen minutes. This can only be used once."
@@ -655,6 +662,8 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 			SSshuttle.emergency.setTimer(timer)
 		user.mind.spell_list.Remove(src) //Can only be used once!
 		qdel(src)
+		
+		*/
 
 
 // THRALL ABILITIES BEYOND THIS POINT //
