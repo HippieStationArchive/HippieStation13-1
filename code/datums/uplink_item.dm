@@ -711,6 +711,13 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/throwing_stars
 	cost = 4
 	excludefrom = list(/datum/game_mode/nuclear)
+	
+/datum/uplink_item/stealthy_weapons/caltrops
+	name = "Box of Caltrops"
+	desc = "A box of caltrops, small spiked traps that impale themselves within the feet of whoever walks over them."
+	item = /obj/item/weapon/storage/box/caltrop
+	cost = 5
+	excludefrom = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/stealthy_weapons/edagger
 	name = "Energy Dagger"
