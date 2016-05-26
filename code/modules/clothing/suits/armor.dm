@@ -1,7 +1,7 @@
 
 /obj/item/clothing/suit/armor/banecoat
     name = "banecoat"
-    desc = "When Gotham is in ashes,then you have my permission to die."
+    desc = "When Gotham is in ashes, then you have my permission to die."
     icon_state = "banecoat"
     item_state = "banecoat"
     body_parts_covered = CHEST|GROIN|ARMS|LEGS
