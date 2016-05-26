@@ -1,7 +1,7 @@
 
 /obj/item/clothing/under/banearmour
     name = "banearmour"
-    desc = "You merely adopted the darknes,I was born in it.."
+    desc = "You merely adopted the darkness,I was born in it"
     icon_state = "banearmour"
     item_state = "banearmour"
     armor = list(melee = 20, bullet = 25, laser = 10)
