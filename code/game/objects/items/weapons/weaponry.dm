@@ -170,6 +170,20 @@
 	new /obj/item/weapon/throwing_star(src)
 	new /obj/item/weapon/throwing_star(src)
 
+/obj/item/weapon/caltrop
+	name = "caltrop"
+	desc = "Small, spiked traps designed to hamper pursuers when left on the ground."
+	icon_state = "caltrop"
+	item_state = "caltrop"
+	force = 5
+	throwforce = 10
+	throw_speed = 4
+	embedded_pain_multiplier = 4
+	w_class = 2
+	embed_chance = 35
+	sharpness = IS_SHARP
+	attack_verb = list("stabbed", "impaled")
+
 /obj/item/weapon/caltrop/Crossed(AM as mob|obj)
 	if (istype(AM, /mob/living/carbon/human))
 		var/mob/living/carbon/M = AM
