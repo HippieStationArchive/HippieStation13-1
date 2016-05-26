@@ -167,8 +167,39 @@
 	new /obj/item/weapon/throwing_star(src)
 	new /obj/item/weapon/throwing_star(src)
 	new /obj/item/weapon/throwing_star(src)
+	new /obj/item/weapon/throwing_star(src)
+	new /obj/item/weapon/throwing_star(src)
 
+/obj/item/weapon/caltrop/Crossed(AM as mob|obj)
+	if (istype(AM, /mob/living/carbon/human))
+		var/mob/living/carbon/M = AM
+		M.adjustStaminaLoss(8)
+		var/mob/living/carbon/human/H = AM
+		if(!(PIERCEIMMUNE in H.dna.species.specflags))
+			var/obj/item/organ/limb/O = H.get_organ(pick("l_leg", "r_leg"))
+			H.apply_damage(10, BRUTE, O)
+			if(prob(embed_chance)*2)
+				H.throw_alert("embeddedobject", /obj/screen/alert/embeddedobject)
+				O.embedded_objects |= src
+				src.add_blood(H)//it embedded itself in you, of course it's bloody!
+				src.loc = H
+				H.visible_message("<span class='warning'>\The [src] has embedded into [H]'s [O.getDisplayName()]!</span>",
+								"<span class='userdanger'>You feel [src] lodge into your [O.getDisplayName()]!</span>")
+				H.update_damage_overlays() //Update the fancy embeds
+				H.emote("scream")
+		return 1
 
+obj/item/weapon/storage/box/caltrop
+	name = "box"
+
+obj/item/weapon/storage/box/caltrop/New()
+	..()
+	contents = list()
+	new /obj/item/weapon/caltrop(src)
+	new /obj/item/weapon/caltrop(src)
+	new /obj/item/weapon/caltrop(src)
+	new /obj/item/weapon/caltrop(src)
+	new /obj/item/weapon/caltrop(src)
 
 /obj/item/weapon/switchblade
 	name = "switchblade"
