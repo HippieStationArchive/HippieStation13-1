@@ -28,7 +28,6 @@ author: Kierany9
 delete-after: True
 
 changes: 
-  - rscadd: "Added a box of Caltrops to the Syndicate Uplink for 5 TC. The perfect way to get overconfident Security off your tail!"
   - rscadd: "Reworked and buffed Syndicate Kits to better compete with crates!"
   - rscadd: "Spy Bundle comes with two greater mindslave implants for you to recruit henchmen with."
   - rscadd: "Snake Bundle comes with a large ammount of military gear designed for sneaking around high security areas."
