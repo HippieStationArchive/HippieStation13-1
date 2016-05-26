@@ -158,8 +158,8 @@
 		terminal.dismantle(user)
 
 	//crowbarring it !
-	default_deconstruction_crowbar(I)
-	message_admins("[src] has been deconstructed by [key_name_admin(user)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[user]'>FLW</A>) in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
+	if(default_deconstruction_crowbar(I))
+		message_admins("[src] has been deconstructed by [key_name_admin(user)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[user]'>FLW</A>) in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
 	log_game("[src] has been deconstructed by [key_name(user)]")
 	investigate_log("SMES deconstructed by [key_name(user)]","singulo")
 
@@ -220,8 +220,11 @@
 			overlays += smesImageCache[SMES_INPUT_ATTEMPT]
 
 	var/clevel = chargedisplay()
+
 	if(clevel>0)
+		clevel = min(clevel, smesImageCache.len)
 		overlays += smesImageCache[clevel]
+
 	return
 
 

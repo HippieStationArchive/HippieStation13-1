@@ -158,6 +158,9 @@ var/list/teleportlocs = list()
 						'sound/ambience/ambicha2.ogg', 'sound/ambience/ambicha3.ogg')
 	ambloop = 'sound/ambience/loop/softhum.ogg'
 
+/area/shuttle/outpost
+	name = "Outpost Shuttle"
+
 /area/start
 	name = "start area"
 	icon_state = "start"
@@ -456,6 +459,10 @@ var/list/teleportlocs = list()
 	name = "Electrical Maintenance"
 	icon_state = "yellow"
 
+/area/maintenance/secelectrical
+	name = "Security Electrical Maintenance"
+	icon_state = "yellow"
+
 /area/maintenance/isomaint
 	name = "Isolation Maintenance"
 	icon_state = "yellow"
@@ -715,6 +722,18 @@ var/list/teleportlocs = list()
 /area/engine/gravity_generator
 	name = "Gravity Generator Room"
 	icon_state = "blue"
+
+/area/engine/supermatter
+	name = "Supermatter"
+	icon_state = "red"
+
+/area/engine/heat_exchange
+	name = "Filtering Room"
+	icon_state = "yellow"
+
+/area/engine/port_engineering
+	name = "Port Engineering"
+	icon_state = "green"
 
 //Solars
 
@@ -1013,70 +1032,46 @@ var/list/teleportlocs = list()
 	name = "Quartermaster's Office"
 	icon_state = "quart"
 
-/area/outpost/main
-	name = "Outpost Main Hall"	
-	icon_state = "outpmain"
+//Outpost
+/area/outpost/lobby
+	name = "Outpost Lobby"
+	icon_state = "blue"
+	has_gravity = 1
+
+/area/outpost/engi
+	name = "Outpost Engineering"
+	icon_state = "engine"
+	has_gravity = 1
+
+/area/outpost/staffroom
+	name = "Outpost Staffroom"
+	icon_state = "red"
+	has_gravity = 1
+
+/area/outpost/toxins
+	name = "Outpost Toxins Lab"
+	icon_state = "toxlab"
+	has_gravity = 1
+
+/area/outpost/mining
+	name = "Outpost Mining"
+	icon_state = "mining"
+	has_gravity = 1
+
+/area/outpost/xeno
+	name = "Outpost Xenobiology Lab"
+	icon_state = "toxmisc"
+	has_gravity = 1
+
+/area/outpost/rd
+	name = "Outpost Research Director Office"
+	icon_state = "green"
 	has_gravity = 1
 
 /area/outpost/solars
-	name = "Outpost Solars"	
-	icon_state = "outpsolars"
-	
-/area/outpost/botany
-	name = "Outpost Botany"	
-	icon_state = "outpbotany"
-	has_gravity = 1				
+	name = "Outpost Solars"
+	icon_state = "red"
 
-/area/outpost/chemistry
-	name = "Outpost Chemistry"	
-	icon_state = "outpchem"
-	has_gravity = 1				
-
-/area/outpost/research
-	name = "Outpost Research"	
-	icon_state = "outpresearch"
-	has_gravity = 1
-	
-/area/outpost/dorms
-	name = "Outpost Dorms"	
-	icon_state = "outpdorms"
-	has_gravity = 1
-
-/area/outpost/breakr
-	name = "Outpost Break Room"	
-	icon_state = "outpbreak"
-	has_gravity = 1					
-	
-/area/outpost/xeno
-	name = "Outpost Xenobiology"	
-	icon_state = "outpxeno"
-	has_gravity = 1		
-	
-/area/outpost/arrivals
-	name = "Outpost Arrivals"	
-	icon_state = "outpbreak"
-	has_gravity = 1		
-	
-/area/outpost/departures
-	name = "Outpost Departures"	
-	icon_state = "outpdepart"
-	has_gravity = 1	
-	
-/area/outpost/virology
-	name = "Outpost Virology"	
-	icon_state = "outpviro"
-	has_gravity = 1	
-
-/area/outpost/engineering
-	name = "Outpost Engineering"	
-	icon_state = "outpengin"
-	has_gravity = 1	
-
-/area/outpost/bathroom
-	name = "Outpost Bathroom"	
-	icon_state = "outpbath"
-	has_gravity = 1		
-	
 /area/quartermaster/miningdock
 	name = "Mining Dock"
 	icon_state = "mining"
@@ -1102,10 +1097,14 @@ var/list/teleportlocs = list()
 /area/toxins/lab
 	name = "Research and Development"
 	icon_state = "toxlab"
-	
+
+/area/toxins/shuttledock
+	name = "Research Shuttle Dock"
+	icon_state = "toxmisc"
+
 /area/toxins/shuttle
 	name = "Research Shuttle"
-	icon_state = "reshuttle"	
+	icon_state = "shuttle"
 
 /area/toxins/xenobiology
 	name = "Xenobiology Lab"
@@ -1796,56 +1795,56 @@ var/list/teleportlocs = list()
 	requires_power = 0
 	has_gravity = 1
 	ambloop = 'sound/ambience/loop/opressivehum.ogg'
-	
-//Gamma Vessel 
- 
-/area/gammaderelict/bridge  
-	name = "Gamma Derelict Bridge"  
-	icon_state = "bridge"  
- 
-/area/gammaderelict/captains  
-	name = "Gamma Derelict Captains Office"  
-	icon_state = "captain"  
 
-/area/gammaderelict/comms  
-	name = "Gamma Derelict Comms Relay"  
-	icon_state = "tcomsatcham"  
+//Gamma Vessel
 
-/area/gammaderelict/command  
-	name = "Gamma Derelict Command Deck"  
-	icon_state = "meeting"  
+/area/gammaderelict/bridge
+	name = "Gamma Derelict Bridge"
+	icon_state = "bridge"
 
-/area/gammaderelict/central  
-	name = "Gamma Derelict Central Hallway"  
-	icon_state = "hallC"  
+/area/gammaderelict/captains
+	name = "Gamma Derelict Captains Office"
+	icon_state = "captain"
 
-/area/gammaderelict/medical  
-	name = "Gamma Derelict Medbay"  
-	icon_state = "medresearch"  
+/area/gammaderelict/comms
+	name = "Gamma Derelict Comms Relay"
+	icon_state = "tcomsatcham"
 
-/area/gammaderelict/research  
-	name = "Gamma Derelict Research Center"  
-	icon_state = "medresearch"  
+/area/gammaderelict/command
+	name = "Gamma Derelict Command Deck"
+	icon_state = "meeting"
 
-/area/gammaderelict/aft  
-	name = "Gamma Derelict Aft Hallway"  
-	icon_state = "hallA"  
- 
-/area/gammaderelict/engine  
-	name = "Gamma Derelict Engine Room"  
-	icon_state = "engine_smes"  
+/area/gammaderelict/central
+	name = "Gamma Derelict Central Hallway"
+	icon_state = "hallC"
 
-/area/gammaderelict/engistorage  
-	name = "Gamma Derelict Engineering Storage"  
-	icon_state = "engine"  
- 
-/area/gammaderelict/miscsci  
-	name = "Gamma Derelict Misc Science"  
-	icon_state = "medresearch"  
+/area/gammaderelict/medical
+	name = "Gamma Derelict Medbay"
+	icon_state = "medresearch"
 
-/area/gammaderelict/grav  
-	name = "Gamma Derelict Gravity Generator"  
-	icon_state = "red"  
+/area/gammaderelict/research
+	name = "Gamma Derelict Research Center"
+	icon_state = "medresearch"
+
+/area/gammaderelict/aft
+	name = "Gamma Derelict Aft Hallway"
+	icon_state = "hallA"
+
+/area/gammaderelict/engine
+	name = "Gamma Derelict Engine Room"
+	icon_state = "engine_smes"
+
+/area/gammaderelict/engistorage
+	name = "Gamma Derelict Engineering Storage"
+	icon_state = "engine"
+
+/area/gammaderelict/miscsci
+	name = "Gamma Derelict Misc Science"
+	icon_state = "medresearch"
+
+/area/gammaderelict/grav
+	name = "Gamma Derelict Gravity Generator"
+	icon_state = "red"
 
 /////////////////////////////////////////////////////////////////////
 /*
