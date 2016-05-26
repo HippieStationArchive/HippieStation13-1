@@ -11,6 +11,8 @@
 	var/mag_load_sound = 'sound/effects/wep_magazines/handgun_generic_load.ogg'
 	var/mag_unload_sound = 'sound/effects/wep_magazines/handgun_generic_unload.ogg'
 	var/chamber_sound = 'sound/effects/wep_magazines/generic_chamber.ogg'
+	
+	var/can_sawn = FALSE
 
 /obj/item/weapon/gun/projectile/New()
 	..()
