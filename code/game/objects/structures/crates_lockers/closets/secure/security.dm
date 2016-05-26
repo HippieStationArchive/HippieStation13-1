@@ -41,11 +41,11 @@
 	new /obj/item/weapon/storage/box/ids(src)
 	new /obj/item/weapon/storage/box/ids(src)
 	new /obj/item/device/megaphone/command(src)
-	new /obj/item/clothing/suit/armor/vest(src)
 	new /obj/item/weapon/mining_voucher(src)
 	new /obj/item/clothing/tie/petcollar(src)
 	new /obj/item/device/assembly/flash/handheld(src)
 	new /obj/item/weapon/gun/energy/gun(src)
+	new /obj/item/clothing/suit/armor/vest(src)
 	new /obj/item/clothing/glasses/sunglasses(src)
 	
 /obj/structure/closet/secure_closet/hos
