@@ -1,3 +1,16 @@
+
+/obj/item/clothing/suit/armor/banecoat
+    name = "banecoat"
+    desc = "When Gotham is ashes, you have my permission to die."
+    icon_state = "banecoat"
+    item_state = "banecoat"
+    body_parts_covered = CHEST|GROIN|ARMS|LEGS
+    armor = list(melee = 20, bullet = 25, laser = 10)
+    flags_inv = HIDEJUMPSUIT
+    cold_protection = CHEST|GROIN|LEGS|ARMS
+    heat_protection = CHEST|GROIN|LEGS|ARMS
+    strip_delay = 80
+
 /obj/item/clothing/suit/armor
 	allowed = list(/obj/item/weapon/gun/energy,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/device/flashlight/seclite,/obj/item/weapon/melee/classic_baton/telescopic)
 	body_parts_covered = CHEST
