@@ -214,6 +214,9 @@ obj/item/projectile/kinetic/New()
 		if(pressure < 30)
 			name = "full strength plasma blast"
 			damage *= 3
+			sharpness = IS_SHARP
+
+
 	..()
 
 /obj/item/projectile/plasma/on_hit(atom/target)
