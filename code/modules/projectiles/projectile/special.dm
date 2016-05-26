@@ -215,7 +215,7 @@ obj/item/projectile/kinetic/New()
 			name = "full strength plasma blast"
 			damage *= 3
 			sharpness = IS_SHARP
-		    sharpness = IS_SHARP_ACCURATE
+
 
 	..()
 
