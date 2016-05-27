@@ -915,8 +915,8 @@ var/list/teleportlocs = list()
 	name = "Prison Wing"
 	icon_state = "sec_prison"
 
-/area/security/perma
-	name = "Perma Prison"
+/area/security/trainingroom
+	name = "Training Room"
 	icon_state = "sec_prison"
 
 /area/security/isolation
