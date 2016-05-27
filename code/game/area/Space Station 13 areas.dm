@@ -463,8 +463,8 @@ var/list/teleportlocs = list()
 	name = "Security Electrical Maintenance"
 	icon_state = "yellow"
 
-/area/maintenance/isomaint
-	name = "Isolation Maintenance"
+/area/maintenance/brigwest
+	name = "Brig West Wing Maintenance"
 	icon_state = "yellow"
 
 /area/maintenance/strangeroom
@@ -912,19 +912,21 @@ var/list/teleportlocs = list()
 	icon_state = "brig"
 
 /area/security/prison
-	name = "Prison Wing"
+	name = "Brig West Wing"
 	icon_state = "sec_prison"
 
 /area/security/trainingroom
 	name = "Training Room"
 	icon_state = "sec_prison"
+	color = "yellow"
 
 /area/security/isolation
-	name = "High Risk Isolation"
+	name = "Brig Medbay"
 	icon_state = "sec_prison"
+	color = "blue"
 
 /area/security/processing
-	name = "Labor Shuttle Dock"
+	name = "Prison Shuttle Dock"
 	icon_state = "sec_prison"
 
 /area/security/warden
