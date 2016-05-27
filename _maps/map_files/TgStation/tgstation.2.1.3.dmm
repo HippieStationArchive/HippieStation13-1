@@ -490,7 +490,7 @@
 "ajv" = (/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden,/obj/structure/bed/chair,/turf/simulated/floor/plasteel,/area/security/brig)
 "ajw" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/obj/structure/bed/chair,/turf/simulated/floor/plasteel,/area/security/brig)
 "ajx" = (/obj/machinery/light/small,/obj/structure/closet/crate/trashcart,/obj/item/ammo_casing/a357,/obj/item/ammo_casing/a357,/obj/item/ammo_casing/a357,/obj/item/ammo_casing/a357,/obj/item/ammo_casing/a357,/obj/item/ammo_casing/a357,/obj/item/trash/candy,/obj/item/trash/sosjerky,/obj/item/trash/raisins,/turf/simulated/floor/plating,/area/maintenance/fpmaint2)
-"ajy" = (/obj/machinery/chem_dispenser/constructable,/turf/simulated/floor/plating,/area/maintenance/fpmaint2)
+"ajy" = (/obj/structure/table,/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human{name = "Cappy-meat"},/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human{name = "Cappy-meat"},/turf/simulated/floor/plating,/area/maintenance/fpmaint2)
 "ajz" = (/obj/structure/table,/obj/effect/spawner/lootdrop/contraband,/turf/simulated/floor/plating,/area/maintenance/fpmaint2)
 "ajA" = (/obj/machinery/button/flasher{id = "gulagshuttleflasher"; name = "Flash Control"; pixel_x = 0; pixel_y = -26; req_access_txt = "1"},/obj/structure/bed/chair/withwheels/office/dark{dir = 1},/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/labor)
 "ajB" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/turf/simulated/floor/plasteel,/area/security/prison)
