@@ -24,13 +24,12 @@
 		for(var/obj/item/organ/internal/I in organs)
 			I.Remove(user, 1)
 
-	//explosion(get_turf(user),0,0,2,0,silent=1) As long as light explosions blow off limbs, this is not ok.
 	for(var/mob/living/carbon/human/H in view(7,user))
 		H << "<span class='userdanger'>You are blinded by a shower of blood!</span>"
-		H.Stun(6)
+		H.apply_effect(5, PARALYZE)
 		H.eye_blurry = 20
-		H.eye_stat += 6
-		H.confused += 6
+		H.eye_stat += 10
+		H.confused += 10
 	for(var/mob/living/silicon/S in view(7,user))
 		S << "<span class='userdanger'>Your sensors are disabled by a shower of blood!</span>"
 		S.Weaken(3)
