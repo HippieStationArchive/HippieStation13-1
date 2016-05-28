@@ -217,6 +217,7 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	cost = 15
 	containername = "laser crate"
 
+/*
 /datum/supply_packs/security/taser
 	name = "Stun Guns Crate"
 	contains = list(/obj/item/weapon/gun/energy/gun/advtaser,
@@ -232,6 +233,8 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 					/obj/item/weapon/gun/energy/disabler)
 	cost = 10
 	containername = "disabler crate"
+	
+	*/
 
 /datum/supply_packs/security/forensics
 	name = "Forensics Crate"
@@ -266,9 +269,9 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 
 /datum/supply_packs/security/armory/riotshields
 	name = "Riot Shields Crate"
-	contains = list(/obj/item/weapon/shield/deployable/riot,
-					/obj/item/weapon/shield/deployable/riot,
-					/obj/item/weapon/shield/deployable/riot)
+	contains = list(/obj/item/weapon/shield/riot,
+					/obj/item/weapon/shield/riot,
+					/obj/item/weapon/shield/riot)
 	cost = 20
 	containername = "riot shields crate"
 
@@ -314,13 +317,14 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	cost = 20
 	containername = "combat shotgun crate"
 
-/datum/supply_packs/security/armory/expenergy
+/* /datum/supply_packs/security/armory/expenergy
 	name = "Energy Guns Crate"
 	contains = list(/obj/item/weapon/gun/energy/gun,
 					/obj/item/weapon/gun/energy/gun)			// Only two guns to keep costs down
 	cost = 25
 	containertype = /obj/structure/closet/crate/secure/plasma
 	containername = "energy gun crate"
+*/
 
 /datum/supply_packs/security/armory/eweapons
 	name = "Incendiary Weapons Crate"
