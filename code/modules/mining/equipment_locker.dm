@@ -280,34 +280,27 @@
 		new /datum/data/mining_equipment("Point Transfer Card", /obj/item/weapon/card/mining_point_card,               			   500),
 		)
 
-/obj/machinery/mineral/prison_equipment_vendor
-	name = "mining equipment vendor"
-	desc = "An equipment vendor for miners, points collected at an ore redemption machine can be spent here. Wait, who was the brainiac that stocked this damn thing?"
+/obj/machinery/mineral/equipment_vendor/prison
+	name = "prison mining equipment vendor"
+	desc = "An equipment vendor for prisoners, points collected at an ore redemption machine can be spent here."
 	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "mining"
-	density = 1
-	anchored = 1
-	var/obj/item/weapon/card/id/inserted_id
-	var/list/prize_list = list(
+	prize_list = list(
 		new /datum/data/mining_equipment("Stimpack",			/obj/item/weapon/reagent_containers/hypospray/medipen/stimpack,	    50),
+		new /datum/data/mining_equipment("Coffee",              /obj/item/weapon/reagent_containers/food/drinks/coffee,             50),
+		new /datum/data/mining_equipment("Brute Patch",         /obj/item/weapon/reagent_containers/pill/patch/styptic,             75),
+		new /datum/data/mining_equipment("Burn Patch",          /obj/item/weapon/reagent_containers/pill/patch/silver_sulf,         75),
 		new /datum/data/mining_equipment("Whiskey",             /obj/item/weapon/reagent_containers/food/drinks/bottle/whiskey,    100),
-		new /datum/data/mining_equipment("Zippo Lighter",       /obj/item/weapon/lighter,                                           50),
-		new /datum/data/mining_equipment("Bruise Pack",         /obj/item/stack/medical/bruise_pack,                               200),
-		new /datum/data/mining_equipment("Ointment",            /obj/item/stack/medical/ointment,                                  200),
-		new /datum/data/mining_equipment("Syndicakes",          /obj/item/weapon/reagent_containers/food/snacks/syndicake,         125),
 		new /datum/data/mining_equipment("Cigar",               /obj/item/clothing/mask/cigarette/cigar/havana,                    150),
 		new /datum/data/mining_equipment("Soap",                /obj/item/weapon/soap/nanotrasen, 						           200),
-		new /datum/data/mining_equipment("Jaunter",             /obj/item/device/wormhole_jaunter,                               10000),
-		new /datum/data/mining_equipment("Laser Pointer",       /obj/item/device/laser_pointer, 				                   300),
-		new /datum/data/mining_equipment("Alien Toy",           /obj/item/clothing/mask/facehugger/toy, 		                   300),
+		new /datum/data/mining_equipment("Leather Satchel",     /obj/item/weapon/storage/backpack/satchel, 						   300),
 		new /datum/data/mining_equipment("Advanced Scanner",	/obj/item/device/t_scanner/adv_mining_scanner,                     400),
+		new /datum/data/mining_equipment("Firesuit",	        /obj/item/clothing/suit/fire/atmos,                                700),
+		new /datum/data/mining_equipment("Firesuit Helmet",	    /obj/item/clothing/head/hardhat/atmos,                             300),
 		new /datum/data/mining_equipment("Mining Drone",        /mob/living/simple_animal/hostile/mining_drone,                    500),
-		new /datum/data/mining_equipment("GAR mesons",			/obj/item/clothing/glasses/meson/gar,							   500),
 		new /datum/data/mining_equipment("Kinetic Accelerator", /obj/item/weapon/gun/energy/kinetic_accelerator,               	   750),
-		new /datum/data/mining_equipment("Resonator",           /obj/item/weapon/resonator,                                    	   800),
 		new /datum/data/mining_equipment("Lazarus Injector",    /obj/item/weapon/lazarus_injector,                                1000),
 		new /datum/data/mining_equipment("Diamond Pickaxe",		/obj/item/weapon/pickaxe/diamond,				                  1200),
-		new /datum/data/mining_equipment("Point Transfer Card", /obj/item/weapon/card/mining_point_card,               			   500),
 		)
 
 /datum/data/mining_equipment/
