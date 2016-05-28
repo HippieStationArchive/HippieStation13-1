@@ -22,7 +22,7 @@
 	build_path = /obj/item/device/firing_pin/implant/loyalty
 	category = list("Firing Pins")
 
-/datum/design/stunrevolver
+/* /datum/design/stunrevolver
 	name = "Stun Revolver"
 	desc = "A high-tech revolver that fires internal, reusable taser cartridges in a revolving cylinder. The cartridges can be recharged using conventional rechargers."
 	id = "stunrevolver"
@@ -32,6 +32,7 @@
 	build_path = /obj/item/weapon/gun/energy/stunrevolver
 	locked = 1
 	category = list("Weapons")
+	*/
 
 /datum/design/nuclear_gun
 	name = "Advanced Energy Gun"

@@ -42,7 +42,7 @@
 	item_state = "turretlaser"
 	slot_flags = null
 	w_class = 5
-	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)
+	ammo_type = list(/obj/item/ammo_casing/energy/laser)
 	heavy_weapon = 1
 	can_flashlight = 0
 	trigger_guard = 0
@@ -59,7 +59,7 @@
 	var/charge_delay = 5
 	can_charge = 0
 	ammo_x_offset = 1
-	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
+	ammo_type = list(/obj/item/ammo_casing/energy/laser)
 
 /obj/item/weapon/gun/energy/gun/nuclear/New()
 	..()
