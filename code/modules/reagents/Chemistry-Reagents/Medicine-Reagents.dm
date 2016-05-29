@@ -74,7 +74,7 @@
 /datum/reagent/medicine/synaptizine
 	name = "Synaptizine"
 	id = "synaptizine"
-	description = "Helps cure hallucinations and reduces drowsyness. Has a chance to shorten stuns."
+	description = "Helps cure hallucinations and reduces drowsiness. Has a chance to shorten stuns."
 	color = "#C8A5DC" // rgb: 200, 165, 220
 
 /datum/reagent/medicine/synaptizine/on_mob_life(mob/living/M)
