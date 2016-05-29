@@ -192,7 +192,7 @@
 	return
 	
 /datum/reagent/drug/methamphetamine/on_mob_delete(mob/living/M)
-	M.adjustToxLoss(min(current_cycle*1*REM,75))
+	M.adjustToxLoss(min(current_cycle*1*REM,95))
 	M.adjustBrainLoss(current_cycle*0.5*REM)
 	if(current_cycle >= 5)
 		M.visible_message("<span class='danger'>[M] collapses in exhaustion!</span>")
