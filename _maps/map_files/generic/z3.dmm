@@ -511,8 +511,8 @@
 "jQ" = (/turf/simulated/wall/shuttle{icon_state = "swall_s5"; dir = 2},/area/wreck/living)
 "jR" = (/obj/structure/table/glass,/turf/simulated/floor/plasteel/airless{icon_state = "damaged4"},/area/wreck/bridge)
 "jS" = (/obj/structure/table,/obj/item/weapon/circuitboard/crew,/turf/simulated/floor/plasteel/airless{icon_state = "damaged2"},/area/wreck/bridge)
-"jT" = (/obj/structure/grille{density = 0; icon_state = "brokengrille"},/turf/simulated/floor/plating,/area/wreck/bridge)
-"jU" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/wreck/bridge)
+"jT" = (/obj/structure/grille{density = 0; icon_state = "brokengrille"},/turf/simulated/floor/plating/airless,/area/wreck/bridge)
+"jU" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating/airless,/area/wreck/bridge)
 "jV" = (/turf/simulated/wall/shuttle{icon_state = "swall_s9"; dir = 2},/area/wreck/bridge)
 
 (1,1,1) = {"
