@@ -70,6 +70,7 @@
 		if(prob(15))
 			M << "<span class='notice'>[tolerance_message]</span>"
 		M.adjustStaminaLoss(2)
+	M.Jitter(1)
 	..()
 	
 /datum/reagent/drug/crank/on_mob_delete(mob/living/M)
@@ -192,7 +193,7 @@
 	
 /datum/reagent/drug/methamphetamine/on_mob_delete(mob/living/M)
 	M.adjustToxLoss(min(current_cycle*1*REM,75))
-	M.adjustBrainLoss(current_cycle*0.25*REM)
+	M.adjustBrainLoss(current_cycle*0.5*REM)
 	if(current_cycle >= 5)
 		M.visible_message("<span class='danger'>[M] collapses in exhaustion!</span>")
 		M.AdjustWeakened(5)
@@ -267,14 +268,16 @@
 	var/high_message = pick("You feel your grip on reality loosening.", "You feel like your heart is beating out of control.", "You feel as if you're about to die.")
 	if(prob(15))
 		M << "<span class='notice'>[high_message]</span>"
-	M.AdjustParalysis(-6)
-	M.AdjustStunned(-6)
-	M.AdjustWeakened(-6)
-	M.adjustStaminaLoss(-10)
+	if(current_cycle >= 5)
+		M.AdjustParalysis(-6)
+		M.AdjustStunned(-6)
+		M.AdjustWeakened(-6)
+		M.adjustStaminaLoss(-10)
 	M.adjustBrainLoss(0.2)
 	M.adjustToxLoss(min(0.1+(current_cycle/50),1))
 	M.status_flags |= GOTTAGOFAST
 	M.hallucination += 7.5
+	M.Jitter(4)
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		step(M, pick(cardinal))
 		step(M, pick(cardinal))
@@ -283,7 +286,7 @@
 	
 /datum/reagent/drug/bath_salts/on_mob_delete(mob/living/M)
 	M.adjustToxLoss(min(current_cycle*1.5*REM,195))
-	M.adjustBrainLoss(current_cycle*0.5*REM)
+	M.adjustBrainLoss(current_cycle*0.8*REM)
 	if(current_cycle >= 5)
 		M.visible_message("<span class='danger'>[M] goes pale and collapses!</span>")
 		M.AdjustWeakened(8)
