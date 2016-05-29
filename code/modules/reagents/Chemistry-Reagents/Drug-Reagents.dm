@@ -273,7 +273,7 @@
 		M.AdjustStunned(-6)
 		M.AdjustWeakened(-6)
 		M.adjustStaminaLoss(-10)
-	if(holder.has_reagent("synaptizine))
+	if(holder.has_reagent("synaptizine"))
 		holder.remove_reagent("synaptizine", 5)
 		M.hallucination += 5
 	M.adjustBrainLoss(0.2)
