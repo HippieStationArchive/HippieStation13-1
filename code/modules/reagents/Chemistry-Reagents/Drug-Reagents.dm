@@ -273,6 +273,8 @@
 		M.AdjustStunned(-6)
 		M.AdjustWeakened(-6)
 		M.adjustStaminaLoss(-10)
+	if(holder.has_reagent("synaptizine))
+		holder.remove_reagent("synaptizine", 5)
 	M.adjustBrainLoss(0.2)
 	M.adjustToxLoss(min(0.1+(current_cycle/50),1))
 	M.status_flags |= GOTTAGOFAST
