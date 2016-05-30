@@ -305,7 +305,7 @@
 
 /obj/item/clothing/head/panzer
 	name = "Panzer Cap"
-	desc = "Ein Hut passen nur für die größten Tanks."
+	desc = "Ein Hut passen nur für die groBten Tanks."
 	icon_state = "panzercap"
 	item_state = "panzercap"
 

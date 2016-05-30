@@ -569,7 +569,6 @@
 	icon_state = "soldieruniform"
 	item_state = "soldieruniform"
 	item_color = "soldieruniform"
-	armor = list(melee = 10, bullet = 5, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
 	strip_delay = 50
 
 /obj/item/clothing/under/nsoldier/officer
@@ -578,5 +577,4 @@
 	icon_state = "officeruniform"
 	item_state = "officeruniform"
 	item_color = "officeruniform"
-	armor = list(melee = 15, bullet = 10, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
 	strip_delay = 60
