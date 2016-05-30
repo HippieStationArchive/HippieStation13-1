@@ -1002,32 +1002,34 @@
 				if(H.lying)
 					atk_verb = "kick"
 
-				var/damage = rand(0, 9) + M.dna.species.punchmod
+				var/hitcheck = rand(0, 9)
+				var/damage = pick(0.5, 0.75, 1, 1.25, 1.5, 1.75, 2) + M.dna.species.punchmod
 
 				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/armor_block = H.run_armor_check(affecting, "melee")
-				var/dmgcheck = H.apply_damage(damage, BRUTE, affecting, armor_block)
-				if(!damage || !istype(affecting) || !dmgcheck)
+				var/dmgcheck = apply_damage(damage, BRUTE, affecting, armor_block, H)
+
+				if(hitcheck == 0 || !dmgcheck)
 					playsound(H.loc, M.dna.species.miss_sound, 25, 1, -1)
 					H.visible_message("<span class='warning'>[M] has attempted to [atk_verb] [H]!</span>")
 					return 0
 
 				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
-
+				H.apply_damage(damage*2+1, STAMINA, affecting, armor_block)
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
 				add_logs(M, H, "punched")
-				if((H.stat != DEAD) && damage >= 9)
+				if((H.stat != DEAD) && hitcheck >= 9)
 					H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
 									"<span class='userdanger'>[M] has weakened [H]!</span>")
-					H.apply_effect(4, WEAKEN, armor_block)
+					H.apply_effect(2, WEAKEN, armor_block)
 					H.forcesay(hit_appends)
 				else if(H.lying)
 					H.forcesay(hit_appends)
-				if(istype(affecting, /obj/item/organ/limb/head) && prob(damage * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
+				if(istype(affecting, /obj/item/organ/limb/head) && prob(hitcheck * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
 					var/obj/item/organ/limb/head/U = affecting
-					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((damage*2)/100))))
+					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((hitcheck*2)/100))))
 						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
 										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 		if("disarm")

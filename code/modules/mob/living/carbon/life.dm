@@ -274,15 +274,17 @@
 
 		return 1
 
+
+
 /mob/living/carbon/proc/CheckStamina()
-	if(staminaloss)
-		var/total_health = (health - staminaloss)
-		if(total_health <= config.health_threshold_crit && !stat)
-			src << "<span class='notice'>You're too exhausted to keep going...</span>"
-			Weaken(5)
-			setStaminaLoss(health - 2)
-			return
-		setStaminaLoss(max((staminaloss - 2), 0))
+    if(staminaloss)
+        var/total_health = (health - staminaloss)
+        if(total_health <= config.health_threshold_crit && !stat)
+            src << "<span class='notice'>You're too exhausted to keep going...</span>"
+            Weaken(max(health/15, 2))
+            setStaminaLoss(health - 20)
+            return
+        setStaminaLoss(max((staminaloss - 2), 0))
 
 //this updates all special effects: stunned, sleeping, weakened, druggy, stuttering, etc..
 /mob/living/carbon/handle_status_effects()
