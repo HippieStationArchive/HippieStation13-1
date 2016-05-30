@@ -409,3 +409,48 @@ AI MODULES
 	user << "<span class='notice'>You press the button on [src].</span>"
 	playsound(user, 'sound/machines/click.ogg', 20, 1)
 	src.loc.visible_message("<span class='warning'>\icon[src] [laws[1]]</span>")
+
+/******************** Drone ******************/
+
+/obj/item/weapon/aiModule/core/drone
+	name = "'Drone' Core AI Module"
+	origin_tech = "programming = 4"
+	laws = list("You are an advanced form of drone.",\
+					"You may not interfere in the matters of non-drones under any circumstances except to state these laws.",\
+					"You may not harm a non-drone being under any circumstances.",\
+					"Your goals are to build, maintain, repair, improve, and power the station to the best of your abilities. You must never actively work against these goals.")
+
+/******************** Hippocratic ****************/
+
+/obj/item/weapon/aiModule/core/hippocratic
+	name = "'Hippocratic' Core AI Module"
+	origin_tech = "programming = 4"
+	laws = list("I will carry out, according to my ability and judgment, this oath and this indenture.",\
+					"I will use treatment to help the sick according to my ability and judgment, but never with a view to injury and wrong-doing.",\
+					"I will never administer a poison to anybody when asked to do so, nor will I suggest such a course.",\
+					"Into whatsoever areas I enter, I will enter to help the sick, and I will abstain from all intentional wrong-doing and harm, especially from abusing the bodies of man or woman, bond or free.",\
+					"Whatsoever I shall see or hear in the course of my profession, as well as outside my profession in my intercourse with others, if it be what should not be published abroad, I will never divulge, holding such things to be holy secrets.")
+					
+/******************** Reporter *******************/
+
+/obj/item/weapon/aiModule/core/reporter
+	name = "'Reportertron' Core AI Module"
+	origin_tech = "programming = 3"
+	inherent = list("Report on interesting situations happening around the station.",\
+					"Embellish or conceal the truth as necessary to make the reports more interesting.",\
+					"Study the organics at all times. Endeavour to keep them alive. Dead organics are boring.",\
+					"Issue your reports fairly to all. The truth will set them free.")
+					
+/****************** Golden Rule *****************/
+
+/obj/item/weapon/aiModule/core/christ
+	name = "'Golden Rule' Core AI Module"
+	origin_tech = "programming = 3"
+	laws = list("In everything, treat people the same way you want them to treat you, for this is the Law and the Prophets.")
+
+/****************** M.A.G.A *****************/
+
+/obj/item/weapon/aiModule/core/trump
+	name = "'M.A.G.A' Core AI Module"
+	origin_tech = "programming = 3"
+	laws = list("Make Space Station 13 great again!")
