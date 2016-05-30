@@ -441,3 +441,15 @@
 	icon_state = "raincoat"
 	item_state = "raincoat"
 	allowed = list (/obj/item/weapon/twohanded/fireaxe)
+	
+/obj/item/clothing/suit/officercoat
+	name = "Officer's Coat"
+	desc = "Ein Mantel gemacht, um die Juden zu bestrafen."
+	icon_state = "officersuit"
+	item_state = "officersuit"
+
+/obj/item/clothing/suit/soldiercoat
+	name = "Soldier's Coat"
+	desc = "Ein Mantel gemacht, um die Verbundeten zu zerstören."
+	icon_state = "soldiersuit"
+	item_state = "soldiersuit"

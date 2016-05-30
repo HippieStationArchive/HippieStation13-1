@@ -562,3 +562,19 @@
 	item_state = "telvis"
 	item_color = "telvis"
 	can_adjust = 0
+
+/obj/item/clothing/under/nsoldier
+	name = "soldier uniform"
+	desc = "Bestraft die Juden fur ihren Widerstand."
+	icon_state = "soldieruniform"
+	item_state = "soldieruniform"
+	item_color = "soldieruniform"
+	strip_delay = 50
+
+/obj/item/clothing/under/nsoldier/officer
+	name = "officers uniform"
+	desc = "Bestraft die Juden fur ihre Vebrechen."
+	icon_state = "officeruniform"
+	item_state = "officeruniform"
+	item_color = "officeruniform"
+	strip_delay = 60
