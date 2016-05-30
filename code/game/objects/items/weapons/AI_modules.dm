@@ -425,7 +425,7 @@ AI MODULES
 /obj/item/weapon/aiModule/core/hippocratic
 	name = "'Hippocratic' Core AI Module"
 	origin_tech = "programming = 4"
-	inherent = list("I will carry out, according to my ability and judgment, this oath and this indenture.",\
+	laws = list("I will carry out, according to my ability and judgment, this oath and this indenture.",\
 					"I will use treatment to help the sick according to my ability and judgment, never with a view to injury and wrong-doing.",\
 					"I will never administer a poison to anybody, nor will I suggest such a course.",\
 					"Into whatsoever areas I enter, I will enter to help the sick, and I will abstain from all intentional wrong-doing and harm.",\
