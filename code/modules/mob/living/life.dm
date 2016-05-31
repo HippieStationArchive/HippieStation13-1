@@ -222,6 +222,7 @@
 		if (!( machine.check_eye(src) ))
 			reset_view(null)
 	else
+		if(!client.adminobs)
 			reset_view(null)
 
 /mob/living/proc/update_sight()
