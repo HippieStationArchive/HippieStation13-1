@@ -154,27 +154,17 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 		return
 	
 	world << "<span class='boldannounce'>Rebooting World in [delay/10] [delay > 10 ? "seconds" : "second"]. [reason]</span>"
-
-	message_admins("test 1")
-
+	
 	sleep(delay)
-
-	message_admins("ticker is [ticker ? "defined" : "not defined"]")
 
 	if(blackbox)
 		blackbox.save_all_data_to_sql()
-
-	message_admins("test 2")
 
 	if(ticker.delay_end)
 		world << "<span class='boldannounce'>Reboot was cancelled by an admin.</span>"
 		return
 
-	message_admins("test 3")
-
 	feedback_set_details("[feedback_c]","[feedback_r]")
-
-	message_admins("test 4")
 
 	log_game("<span class='boldannounce'>Rebooting World. [reason]</span>")
 	//kick_clients_in_lobby("<span class='boldannounce'>The round came to an end with you in the lobby.</span>", 1) //second parameter ensures only afk clients are kicked

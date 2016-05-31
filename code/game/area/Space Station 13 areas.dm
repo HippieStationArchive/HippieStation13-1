@@ -459,8 +459,12 @@ var/list/teleportlocs = list()
 	name = "Electrical Maintenance"
 	icon_state = "yellow"
 
-/area/maintenance/isomaint
-	name = "Isolation Maintenance"
+/area/maintenance/secelectrical
+	name = "Security Electrical Maintenance"
+	icon_state = "yellow"
+
+/area/maintenance/brigwest
+	name = "Brig West Wing Maintenance"
 	icon_state = "yellow"
 
 /area/maintenance/strangeroom
@@ -719,6 +723,18 @@ var/list/teleportlocs = list()
 	name = "Gravity Generator Room"
 	icon_state = "blue"
 
+/area/engine/supermatter
+	name = "Supermatter"
+	icon_state = "red"
+
+/area/engine/heat_exchange
+	name = "Filtering Room"
+	icon_state = "yellow"
+
+/area/engine/port_engineering
+	name = "Port Engineering"
+	icon_state = "green"
+
 //Solars
 
 /area/solar
@@ -896,19 +912,21 @@ var/list/teleportlocs = list()
 	icon_state = "brig"
 
 /area/security/prison
-	name = "Prison Wing"
+	name = "Brig West Wing"
 	icon_state = "sec_prison"
 
-/area/security/perma
-	name = "Perma Prison"
+/area/security/trainingroom
+	name = "Training Room"
 	icon_state = "sec_prison"
+	color = "yellow"
 
 /area/security/isolation
-	name = "High Risk Isolation"
+	name = "Brig Medbay"
 	icon_state = "sec_prison"
+	color = "blue"
 
 /area/security/processing
-	name = "Labor Shuttle Dock"
+	name = "Prison Shuttle Dock"
 	icon_state = "sec_prison"
 
 /area/security/warden
@@ -1444,21 +1462,40 @@ var/list/teleportlocs = list()
 
 
 
-/area/wreck/ai
-	name = "AI Chamber"
+/area/wreck
+	name = "\improper Spacewreck"
+	icon_state = "centcom"
+	has_gravity = 1
+	ambientsounds = list('sound/ambience/ambieng1.ogg', 'sound/ambience/ambimine.ogg')
+	// ambloop = 'sound/ambience/loop/softhum.ogg'
+
+/area/wreck/living
+	name = "\improper Prototype living area"
 	icon_state = "ai"
 
 /area/wreck/main
-	name = "Wreck"
+	name = "\improper Prototype Main Hall"
 	icon_state = "storage"
 
 /area/wreck/engineering
-	name = "Power Room"
+	name = "\improper Prototype Power Room"
 	icon_state = "engine"
 
 /area/wreck/bridge
-	name = "Bridge"
+	name = "\improper Prototype Bridge"
 	icon_state = "bridge"
+
+/area/wreck/botany
+	name = "\improper Prototype Botany"
+	icon_state = "hydro"
+
+/area/wreck/solars
+	name = "\improper Prototype Solars"
+	icon_state = "engine"
+	requires_power = 0
+	luminosity = 1
+	lighting_use_dynamic = 0
+	ambloop = 'sound/ambience/loop/hallow.ogg'
 
 /area/generic
 	name = "Unknown"

@@ -1,0 +1,6 @@
+author: John Ginnane
+
+delete-after: True
+
+changes: 
+  - experiment: "Removed the debugging messages after the round ends."

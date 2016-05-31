@@ -13,6 +13,12 @@
 	var/state = GIRDER_NORMAL
 	var/girderpasschance = 20 // percentage chance that a projectile passes through the girder.
 
+/obj/structure/girder/attack_animal(mob/living/simple_animal/user)
+	if(user.environment_smash >= 2)
+		playsound(src, 'sound/effects/meteorimpact.ogg', 50, 1)
+		new /obj/item/stack/sheet/metal(src.loc)
+		qdel(src)
+
 /obj/structure/girder/attackby(obj/item/W, mob/user, params)
 	add_fingerprint(user)
 	if(istype(W, /obj/item/weapon/screwdriver))

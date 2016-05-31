@@ -1,3 +1,18 @@
+
+/obj/item/clothing/mask/banemask
+    name = "banemask"
+    desc = "Nobody cared who I was until I put on the mask."
+    icon_state = "banemask"
+    item_state = "banemask"
+    strip_delay = 60
+    ignore_maskadjust = 0
+    flags =MASKINTERNALS
+    flags_inv = HIDEFACE
+    w_class = 2
+    visor_flags =MASKINTERNALS
+    visor_flags_inv = HIDEFACE
+    flags_cover = MASKCOVERSMOUTH
+
 /obj/item/clothing/mask/muzzle
 	name = "muzzle"
 	desc = "To stop that awful noise."
