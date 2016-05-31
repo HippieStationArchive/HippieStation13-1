@@ -31,7 +31,7 @@ proc
 
 
 	dd_replaceText(text, search_string, replacement_string)
-		var/list/textList = dd_text2list(text, search_string)
+		var/list/textList = dd_text2List(text, search_string)
 		return dd_list2text(textList, replacement_string)
 
 
