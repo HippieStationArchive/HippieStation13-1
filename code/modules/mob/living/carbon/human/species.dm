@@ -782,7 +782,7 @@
 				if(2)	H.healths.icon_state = "health7"
 				if(5)	H.healths.icon_state = "health0"
 				else
-					switch(H.health - H.staminaloss)
+					switch(H.health)
 						if(100 to INFINITY)		H.healths.icon_state = "health0"
 						if(80 to 100)			H.healths.icon_state = "health1"
 						if(60 to 80)			H.healths.icon_state = "health2"
@@ -790,7 +790,20 @@
 						if(20 to 40)			H.healths.icon_state = "health4"
 						if(0 to 20)				H.healths.icon_state = "health5"
 						else					H.healths.icon_state = "health6"
-
+	
+	if(H.staminas)
+		if(H.stat == DEAD)
+			H.staminas.icon_state = "stamina 6"
+		else
+			switch(H.health - H.staminaloss)
+				if(100 to INFINITY)		H.staminas.icon_state = "stamina0"
+				if(80 to 100)			H.staminas.icon_state = "stamina1"
+				if(60 to 80)			H.staminas.icon_state = "stamina2"
+				if(40 to 60)			H.staminas.icon_state = "stamina3"
+				if(20 to 40)			H.staminas.icon_state = "stamina4"
+				if(0 to 20)				H.staminas.icon_state = "stamina5"
+				else					H.staminas.icon_state = "stamina6"
+							
 	if(H.healthdoll)
 		H.healthdoll.overlays.Cut()
 		if(H.stat == DEAD)
@@ -1003,7 +1016,7 @@
 					atk_verb = "kick"
 
 				var/hitcheck = rand(0, 9)
-				var/damage = pick(0.5, 0.75, 1, 1.25, 1.5, 1.75, 2) + M.dna.species.punchmod
+				var/damage = rand(1, 3) + M.dna.species.punchmod
 
 				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/armor_block = H.run_armor_check(affecting, "melee")
@@ -1015,7 +1028,7 @@
 					return 0
 
 				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
-				H.apply_damage(damage*2+1, STAMINA, affecting, armor_block)
+				H.apply_damage(damage*2, STAMINA, affecting, armor_block)
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
