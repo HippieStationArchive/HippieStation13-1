@@ -490,7 +490,7 @@ for(var/t in test_times)
 
 		t_string = replacetext(t_string,"\[","\[ ")//Necessary to resolve "word[var_name]" scenarios
 		var/list/list_value = splittext(t_string,"\[")
-		var/intermediate_stage = jointext(list_value)
+		var/intermediate_stage = jointext(list_value, null)
 
 		list_value = splittext(intermediate_stage," ")
 		for(var/value in list_value)

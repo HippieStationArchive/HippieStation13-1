@@ -152,9 +152,9 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 	if(ticker.delay_end)
 		world << "<span class='boldannounce'>An admin has delayed the round end.</span>"
 		return
-	
+
 	world << "<span class='boldannounce'>Rebooting World in [delay/10] [delay > 10 ? "seconds" : "second"]. [reason]</span>"
-	
+
 	sleep(delay)
 
 	if(blackbox)
@@ -258,7 +258,7 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 		features += "hosted by <b>[config.hostedby]</b>"
 
 	if (features)
-		s += ": [list2text(features, ", ")]"
+		s += ": [jointext(features, ", ")]"
 
 	/* does this help? I do not know */
 	if (src.status != s)
