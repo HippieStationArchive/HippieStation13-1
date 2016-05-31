@@ -192,10 +192,11 @@
 			mymob.client.screen -= mymob.internals
 			mymob.client.screen -= lingstingdisplay
 			mymob.client.screen -= lingchemdisplay
-		hidden_inventory_update()
-		persistant_inventory_update()
-		mymob.update_action_buttons()
-		reorganize_alerts()
+	hidden_inventory_update()
+	persistant_inventory_update()
+	mymob.update_action_buttons()
+	reorganize_alerts()
+
 	hud_version = display_hud_version
 
 //Triggered when F12 is pressed (Unless someone changed something in the DMF)
