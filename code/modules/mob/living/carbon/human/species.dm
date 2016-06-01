@@ -1281,7 +1281,7 @@
 		switch(hit_area)
 			if("head")	//Causes dizzness, brain damage and forces the target to drop their items
 				if(H.stat == CONSCIOUS && armor_block < 50)
-					if(prob(min(I.force, 25)))
+					if(prob(min(I.force+I.fakeforce, 25)))
 						H.visible_message("<span class='danger'>[H] has received a concussion!</span>", \
 										"<span class='userdanger'>[H] has received a concussion!</span>")
 						H.confused += 10
