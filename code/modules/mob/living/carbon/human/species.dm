@@ -795,7 +795,7 @@
 
 	if(H.staminas)
 		if(H.stat == DEAD)
-			H.staminas.icon_state = "stamina 6"
+			H.staminas.icon_state = "stamina6"
 		else if(H.stunned || H.weakened)
 			H.staminas.icon_state = "stamina6"
 		else
