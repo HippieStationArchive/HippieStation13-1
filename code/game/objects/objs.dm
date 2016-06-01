@@ -8,6 +8,8 @@
 
 	var/damtype = BRUTE
 	var/force = 0
+	var/fakedamtype = STAMINA
+	var/fakeforce = 0
 
 	var/burn_state = -1 // -1=fireproof | 0=will burn in fires | 1=currently on fire
 	var/burntime = 10 //How long it takes to burn to ashes, in seconds

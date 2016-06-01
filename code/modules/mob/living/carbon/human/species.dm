@@ -1016,7 +1016,7 @@
 					atk_verb = "kick"
 
 				var/hitcheck = rand(0, 9)
-				var/damage = rand(1, 3) + M.dna.species.punchmod
+				var/damage = rand(0, 2) + M.dna.species.punchmod
 
 				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/armor_block = H.run_armor_check(affecting, "melee")
@@ -1028,7 +1028,7 @@
 					return 0
 
 				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
-				H.apply_damage(damage*2, STAMINA, affecting, armor_block)
+				H.apply_damage(damage*3+2, STAMINA, affecting, armor_block)
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
@@ -1201,8 +1201,9 @@
 	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
 
 	var/dmgcheck = apply_damage(I.force, I.damtype, affecting, armor_block, H)
+	var/fakedmgcheck = apply_damage(I.fakeforce, I.fakedamtype, affecting, armor_block, H)
 
-	if(!dmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
+	if(!dmgcheck && !fakedmgcheck && I.force && I.fakeforce != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
 		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
