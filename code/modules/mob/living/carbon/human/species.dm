@@ -791,19 +791,23 @@
 						if(0 to 20)				H.healths.icon_state = "health5"
 						else					H.healths.icon_state = "health6"
 	
+
+
 	if(H.staminas)
 		if(H.stat == DEAD)
 			H.staminas.icon_state = "stamina 6"
+		else if(H.stunned || H.weakened)
+			H.staminas.icon_state = "stamina6"
 		else
 			switch(H.health - H.staminaloss)
-				if(100 to INFINITY)		H.staminas.icon_state = "stamina0"
-				if(80 to 100)			H.staminas.icon_state = "stamina1"
-				if(60 to 80)			H.staminas.icon_state = "stamina2"
-				if(40 to 60)			H.staminas.icon_state = "stamina3"
-				if(20 to 40)			H.staminas.icon_state = "stamina4"
-				if(0 to 20)				H.staminas.icon_state = "stamina5"
-				else					H.staminas.icon_state = "stamina6"
-							
+				if(100 to INFINITY)     H.staminas.icon_state = "stamina0"
+				if(80 to 100)           H.staminas.icon_state = "stamina1"
+				if(60 to 80)            H.staminas.icon_state = "stamina2"
+				if(40 to 60)            H.staminas.icon_state = "stamina3"
+				if(20 to 40)            H.staminas.icon_state = "stamina4"
+				if(0 to 20)             H.staminas.icon_state = "stamina5"
+				else                    H.staminas.icon_state = "stamina6"
+
 	if(H.healthdoll)
 		H.healthdoll.overlays.Cut()
 		if(H.stat == DEAD)
@@ -1016,7 +1020,7 @@
 					atk_verb = "kick"
 
 				var/hitcheck = rand(0, 9)
-				var/damage = rand(0, 2) + M.dna.species.punchmod
+				var/damage = pick(0.5, 1, 1.5, 2) + M.dna.species.punchmod
 
 				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/armor_block = H.run_armor_check(affecting, "melee")
