@@ -14,7 +14,7 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	w_class = 3
 	force = 3
 	fakeforce = 6
-	throwforce = 6 
+	throwforce = 4
 	throw_speed = 3
 	throw_range = 7
 	materials = list(MAT_METAL=1000)
