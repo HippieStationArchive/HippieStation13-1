@@ -1286,14 +1286,14 @@
 										"<span class='userdanger'>[H] has received a concussion!</span>")
 						H.confused += 10
 						H.apply_effect(1, WEAKEN, armor_block)
-						H.adjustBrainLoss(max(10, I.force/2))
+						H.adjustBrainLoss(max(10, I.force+I.fakeforce/2))
 						var/role = lowertext(user.mind.special_role)
 						if(role != "revolutionary" && role != "head revolutionary")
 							if(H != user && I.damtype == BRUTE) //Receiving a concussion is a 100% chance to be deconverted
 								ticker.mode.remove_revolutionary(H.mind)
 				var/obj/item/organ/limb/head/O = locate(/obj/item/organ/limb/head) in H.organs
-				if(prob(I.force * (def_zone == "mouth" ? 3 : 1)) && O) //Will the teeth fly out?
-					if(O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force*1.5)/100))))
+				if(prob(I.force+I.fakeforce * (def_zone == "mouth" ? 3 : 1)) && O) //Will the teeth fly out?
+					if(O.knock_out_teeth(get_dir(user, H), round(rand(28, 38) * ((I.force+I.fakeforce*1.5)/100))))
 						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
 										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 				if(bloody)	//Apply blood
@@ -1308,7 +1308,7 @@
 						H.update_inv_glasses()
 
 			if("chest")	//Causes weakness and forces the target to drop their items
-				if(H.stat == CONSCIOUS && I.force && prob(min(I.force, 35)))
+				if(H.stat == CONSCIOUS && I.force+I.fakeforce && prob(min(I.force, 35)))
 					H.visible_message("<span class='danger'>[H] recoils and stumbles from the attack!</span>", \
 									"<span class='userdanger'>[H] recoils and stumbles from the attack!</span>")
 					H.apply_effect(1, WEAKEN, armor_block)
