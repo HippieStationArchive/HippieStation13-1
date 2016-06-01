@@ -13,8 +13,9 @@ RCD
 	density = 0
 	anchored = 0
 	flags = CONDUCT
-	force = 10
-	throwforce = 10
+	force = 5
+	fakeforce = 5
+	throwforce = 5
 	throw_speed = 3
 	throw_range = 5
 	w_class = 3

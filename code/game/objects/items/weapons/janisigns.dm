@@ -4,7 +4,8 @@
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "signmaker"
 	item_state = "electronic"
-	force = 5
+	force = 1
+	fakeforce = 4
 	w_class = 2
 	throwforce = 0
 	throw_speed = 3
@@ -55,8 +56,9 @@
 	name = "wet floor sign"
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "caution"
-	force = 1
-	throwforce = 3
+	force = 0
+	fakeforce = 1
+	throwforce = 2
 	throw_speed = 2
 	throw_range = 5
 	w_class = 2

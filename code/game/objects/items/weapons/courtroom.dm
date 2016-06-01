@@ -7,8 +7,9 @@
 	desc = "Order, order! No bombs in my courthouse."
 	icon = 'icons/obj/items.dmi'
 	icon_state = "gavelhammer"
-	force = 5
-	throwforce = 6
+	force = 1
+	fakeforce = 4     //Gavels are good whalloping implements, but not an effective murder tool
+	throwforce = 2
 	w_class = 2
 	attack_verb = list("bashed", "battered", "judged", "whacked")
 	burn_state = 0 //Burnable
@@ -23,8 +24,9 @@
 	desc = "Smack it with a gavel hammer when the assistants get rowdy."
 	icon = 'icons/obj/items.dmi'
 	icon_state = "gavelblock"
-	force = 2
-	throwforce = 2
+	force = 1
+	fakeforce = 1
+	throwforce = 1
 	w_class = 1
 	burn_state = 0 //Burnable
 

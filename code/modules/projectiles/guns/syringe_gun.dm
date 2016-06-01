@@ -6,7 +6,8 @@
 	w_class = 3
 	throw_speed = 3
 	throw_range = 7
-	force = 4
+	force = 1
+	fakeforce = 3
 	materials = list(MAT_METAL=2000)
 	clumsy_check = 0
 	fire_sound = 'sound/items/syringeproj.ogg'

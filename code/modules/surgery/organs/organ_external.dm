@@ -13,7 +13,8 @@
 	name = "limb"
 	desc = ""
 
-	force = 5 //Now you can bash someone to death with an arm, you silly bastard.
+	force = 2 //Now you can bash someone to death with an arm, you silly bastard.
+	fakeforce = 3
 	throwforce = 5
 
 	hitsound = "swing_hit"

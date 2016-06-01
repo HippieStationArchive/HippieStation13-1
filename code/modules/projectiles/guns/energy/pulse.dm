@@ -4,7 +4,8 @@
 	icon_state = "pulse"
 	item_state = "pulse"
 	w_class = 4
-	force = 10
+	force = 7
+	fakeforce = 3
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/pulse, /obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)

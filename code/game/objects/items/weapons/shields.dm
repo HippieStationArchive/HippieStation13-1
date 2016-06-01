@@ -11,8 +11,9 @@
 	icon_state = "roman_shield"
 	item_state = "roman_shield"
 	slot_flags = SLOT_BACK
-	force = 8
-	throwforce = 5
+	force = 4
+	fakeforce = 4
+	throwforce = 1
 	throw_speed = 2
 	throw_range = 3
 	w_class = 4
@@ -58,8 +59,9 @@
 	desc = "A shield adept at blocking blunt objects and bullets from connecting with the body of the shield wielder."
 	icon_state = "riot"
 	slot_flags = SLOT_BACK
-	force = 8
-	throwforce = 5
+	force = 4
+	fakeforce = 4
+	throwforce = 1
 	throw_speed = 2
 	throw_range = 3
 	w_class = 4
@@ -134,14 +136,15 @@
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "teleriot0"
 	slot_flags = null
-	force = 3
+	force = 3  //Eh, compressed or expanded it'll hurt about the same
+	fakeforce = 4
 	throwforce = 3
 	throw_speed = 3
 	throw_range = 4
 	w_class = 3
 	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
 	origin_tech = "materials=2"
-	force_deployed = 8
+	force_deployed = 4
 	block_chance_deployed = list(melee = 50, bullet = 30, laser = 20, energy = 20)
 
 /obj/item/weapon/shield/deployable/tele/hit_reaction(mob/owner, attack_text, final_block_chance)
@@ -162,7 +165,7 @@
 		block_chance = block_chance_deployed
 		slowdown = slowdown_deployed
 		force = force_deployed
-		throwforce = 5
+		throwforce = 3
 		throw_speed = 2
 		w_class = 4
 		slot_flags = SLOT_BACK

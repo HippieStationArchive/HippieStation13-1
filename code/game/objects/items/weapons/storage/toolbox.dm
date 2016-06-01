@@ -5,8 +5,9 @@
 	icon_state = "red"
 	item_state = "toolbox_red"
 	flags = CONDUCT
-	force = 10
-	throwforce = 10
+	force = 6
+	fakeforce = 4 //It's big and metal, would hurt quite a bit
+	throwforce = 6
 	throw_speed = 2
 	throw_range = 7
 	w_class = 4

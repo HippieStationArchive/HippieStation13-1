@@ -275,7 +275,7 @@
 	else
 		if(I.damtype == BRUTE || I.damtype == BURN)
 			user.changeNext_move(CLICK_CD_MELEE)
-			hit(I.force)
+			hit(I.force + I.fakeforce)
 		else
 			playsound(loc, 'sound/effects/Glasshit.ogg', 75, 1)
 		..()

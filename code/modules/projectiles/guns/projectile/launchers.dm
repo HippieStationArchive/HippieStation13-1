@@ -63,7 +63,8 @@
 	icon_state = "speargun"
 	item_state = "speargun"
 	w_class = 4
-	force = 10
+	force = 7
+	fakeforce = 3
 	can_suppress = 0
 	mag_type = /obj/item/ammo_box/magazine/internal/speargun
 	fire_sound = 'sound/weapons/grenadelaunch.ogg'
@@ -100,7 +101,7 @@
 	w_class = 3.0
 	throw_speed = 2
 	throw_range = 7
-	force = 5.0
+	force = 5
 	var/obj/item/organ/internal/butt/contained
 	var/screwdrivered
 	materials = list(MAT_METAL = 2000)

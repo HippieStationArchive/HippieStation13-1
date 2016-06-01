@@ -149,7 +149,8 @@
 	icon_state = "secure"
 	item_state = "sec-case"
 	desc = "A large briefcase with a digital locking system."
-	force = 8
+	force = 4
+	fakeforce = 4
 	hitsound = "swing_hit"
 	throw_speed = 2
 	throw_range = 4

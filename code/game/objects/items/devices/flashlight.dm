@@ -152,7 +152,8 @@
 	desc = "A robust flashlight used by security."
 	icon_state = "seclite"
 	item_state = "seclite"
-	force = 9 // Not as good as a stun baton.
+	force = 7 // Not as good as a stun baton.
+	fakeforce = 2 //Big metal flashlight, ouch
 	brightness_on = 5 // A little better than the standard flashlight.
 	hitsound = 'sound/weapons/genhit1.ogg'
 

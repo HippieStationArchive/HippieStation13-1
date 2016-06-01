@@ -2,7 +2,8 @@
 	name = "pneumatic cannon"
 	desc = "A gas-powered cannon that can fire any object loaded into it."
 	w_class = 4
-	force = 8 //Very heavy
+	force = 4 //Very heavy
+	fakeforce = 4
 	attack_verb = list("bludgeoned", "smashed", "beaten")
 	icon = 'icons/obj/pneumaticCannon.dmi'
 	icon_state = "pneumaticCannon"
@@ -114,7 +115,7 @@
 /obj/item/weapon/pneumatic_cannon/ghetto //Obtainable by improvised methods; more gas per use, less capacity, but smaller
 	name = "improvised pneumatic cannon"
 	desc = "A gas-powered, object-firing cannon made out of common parts."
-	force = 5
+	force = 4
 	w_class = 3
 	maxWeightClass = 10
 	gasPerThrow = 5

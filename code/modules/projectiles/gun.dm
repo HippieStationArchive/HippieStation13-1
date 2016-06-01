@@ -15,7 +15,8 @@
 	throwforce = 5
 	throw_speed = 3
 	throw_range = 5
-	force = 5
+	force = 1
+	fakeforce = 4  //Pistolwhippin fun
 	origin_tech = "combat=1"
 	needs_permit = 1
 	attack_verb = list("struck", "hit", "bashed")

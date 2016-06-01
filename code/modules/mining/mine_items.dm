@@ -143,9 +143,10 @@
 	icon_state = "shovel"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
-	force = 8
+	force = 4
+	fakeforce = 4
 	var/digspeed = 20
-	throwforce = 4
+	throwforce = 1
 	item_state = "shovel"
 	w_class = 3
 	materials = list(MAT_METAL=50)
@@ -158,8 +159,9 @@
 	desc = "A small tool for digging and moving dirt."
 	icon_state = "spade"
 	item_state = "spade"
-	force = 5
-	throwforce = 7
+	force = 3
+	fakeforce = 2
+	throwforce = 5
 	w_class = 2
 
 

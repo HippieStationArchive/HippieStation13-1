@@ -46,7 +46,8 @@
 	icon = 'icons/obj/musician.dmi'
 	icon_state = "violin"
 	item_state = "violin"
-	force = 10
+	force = 5
+	fakeforce = 5
 	hitsound = "swing_hit"
 	instrumentId = "violin"
 
@@ -56,7 +57,8 @@
 	icon = 'icons/obj/musician.dmi'
 	icon_state = "guitar"
 	item_state = "guitar"
-	force = 10
+	force = 5
+	fakeforce = 5
 	attack_verb = list("played metal on", "serenaded", "crashed", "smashed")
 	hitsound = 'sound/weapons/stringsmash.ogg'
 	instrumentId = "guitar"

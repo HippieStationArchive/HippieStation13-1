@@ -3,7 +3,8 @@
 	desc = "It's made of AUTHENTIC faux-leather and has a price-tag still attached. Its owner must be a real professional."
 	icon_state = "briefcase"
 	flags = CONDUCT
-	force = 8
+	force = 4
+	fakeforce = 4
 	hitsound = "swing_hit"
 	throw_speed = 2
 	throw_range = 4

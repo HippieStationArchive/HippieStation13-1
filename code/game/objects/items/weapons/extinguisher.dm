@@ -6,11 +6,12 @@
 	item_state = "fire_extinguisher"
 	hitsound = 'sound/weapons/smash.ogg'
 	flags = CONDUCT
-	throwforce = 10
+	throwforce = 5
 	w_class = 3
 	throw_speed = 2
 	throw_range = 7
-	force = 10
+	force = 5
+	fakeforce = 5
 	materials = list(MAT_METAL=500)
 	attack_verb = list("slammed", "whacked", "bashed", "thunked", "battered", "bludgeoned", "thrashed")
 	var/max_chem = 50
@@ -27,9 +28,10 @@
 	desc = "A light and compact fibreglass-framed model fire extinguisher."
 	icon_state = "miniFE0"
 	item_state = "miniFE"
-	throwforce = 2
+	throwforce = 1
 	w_class = 2
-	force = 3
+	force = 1
+	fakeforce = 2
 	materials = list()
 	max_chem = 30
 	sprite_name = "miniFE"
