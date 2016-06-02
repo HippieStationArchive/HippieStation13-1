@@ -11,7 +11,7 @@
 "ak" = (/obj/structure/window/reinforced/fulltile,/obj/structure/grille,/obj/machinery/door/poddoor/preopen{id = "outpostlockdown"; name = "Outpost Emergency Blast Door"},/turf/simulated/floor/plating,/area/outpost/workshop)
 "al" = (/obj/structure/table,/obj/item/weapon/storage/toolbox/mechanical,/obj/item/clothing/glasses/welding,/turf/simulated/floor/plasteel{dir = 2; icon_state = "warning"},/area/outpost/workshop)
 "am" = (/obj/structure/table,/obj/item/device/camera,/turf/simulated/floor/plasteel{dir = 2; icon_state = "warning"},/area/outpost/workshop)
-"an" = (/obj/machinery/autolathe,/turf/simulated/floor/plasteel{dir = 2; icon_state = "warning"},/area/outpost/workshop)
+"an" = (/obj/structure/table,/obj/item/stack/rods,/obj/item/device/t_scanner,/turf/simulated/floor/plasteel{dir = 2; icon_state = "warning"},/area/outpost/workshop)
 "ao" = (/obj/structure/table,/obj/item/device/paicard,/turf/simulated/floor/plasteel{dir = 1; icon_state = "warning"},/area/outpost/workshop)
 "ap" = (/obj/item/weapon/folder/white,/obj/structure/table,/obj/item/weapon/disk/tech_disk{pixel_x = 0; pixel_y = 0},/obj/item/weapon/disk/tech_disk{pixel_x = 0; pixel_y = 0},/obj/item/weapon/disk/design_disk,/obj/item/weapon/disk/design_disk,/obj/machinery/light{dir = 1; icon_state = "tube1"},/turf/simulated/floor/plasteel{dir = 1; icon_state = "warning"},/area/outpost/workshop)
 "aq" = (/obj/structure/table,/obj/machinery/cell_charger,/obj/item/weapon/stock_parts/cell/high{charge = 100; maxcharge = 15000},/obj/item/weapon/stock_parts/cell/high{charge = 100; maxcharge = 15000},/turf/simulated/floor/plasteel{dir = 5; icon_state = "warning"},/area/outpost/workshop)
