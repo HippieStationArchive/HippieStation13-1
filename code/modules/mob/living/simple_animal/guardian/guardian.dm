@@ -57,7 +57,7 @@
 		if (get_dist(get_turf(summoner),get_turf(src)) <= range)
 			return
 		else
-			src << "You moved out of range, and were pulled back! You can only move [range] meters from [summoner.real_name]"
+			src << "<span class='holoparasite'>You moved out of range, and were pulled back! You can only move [range] meters from [summoner.real_name]!</span>"
 			visible_message("<span class='danger'>The [src] jumps back to its user.</span>")
 			PoolOrNew(/obj/effect/overlay/temp/guardian/phase/out, get_turf(src))
 			forceMove(get_turf(summoner))
@@ -640,7 +640,7 @@
 		if(get_dist(get_turf(summoner),get_turf(src)) <= range)
 			return
 		else
-			src << "<span class='holoparasite'>You moved out of range, and were pulled back! You can only move [range] meters from [summoner.real_name]!</span>"
+			src << "<span class='holoparasite'>You moved out of range, your summoner was pulled to you! You can only move [range] meters from [summoner.real_name]!</span>"
 			summoner.visible_message("<span class='danger'>\The [summoner] jumps back to \his protector.</span>")
 			PoolOrNew(/obj/effect/overlay/temp/guardian/phase/out, get_turf(summoner))
 			summoner.forceMove(get_turf(src))
