@@ -1074,6 +1074,11 @@ var/list/teleportlocs = list()
 	name = "Outpost Solars"
 	icon_state = "red"
 
+/area/outpost/workshop
+	name = "Outpost Workshop"
+	icon_state = "toxmisc"
+	has_gravity = 1
+
 /area/quartermaster/miningdock
 	name = "Mining Dock"
 	icon_state = "mining"
