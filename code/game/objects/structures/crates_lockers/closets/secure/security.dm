@@ -110,11 +110,6 @@
 	new /obj/item/weapon/storage/belt/security/full(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
 
-/obj/structure/closet/secure_closet/security/sec
-
-/obj/structure/closet/secure_closet/security/sec/New()
-	..()
-
 /obj/structure/closet/secure_closet/security/cargo
 
 /obj/structure/closet/secure_closet/security/cargo/New()
