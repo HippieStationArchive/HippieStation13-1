@@ -74,7 +74,7 @@
 
 /obj/item/clothing/head/HoS/beret
 	name = "head of security beret"
-	desc = "A robust beret for the Head of Security, for looking stylish while not sacrificing protection."
+	desc = "A robust beret for the Head of Security, for looking stylish."
 	icon_state = "hosberetblack"
 
 /obj/item/clothing/head/warden
