@@ -15,8 +15,8 @@
 	var/srange = 6 //The range of the search for pool turfs, change this for bigger or smaller pools.
 	var/linkedmist = list() //Used to keep track of created mist
 	var/misted = 0 //Used to check for mist.
-//herpderp	var/beaker = null
-//herpderp	var/cur_reagent = "pooladone" //Yes, it does exist now.
+	var/beaker = null
+	var/cur_reagent = "water"
 	var/datum/wires/poolcontroller/wires = null
 	var/drainable = 0
 	var/drained = 0
@@ -29,7 +29,7 @@
 
 /obj/machinery/poolcontroller/New() //This proc automatically happens on world start
 	wires = new(src)
-//	beaker = new /obj/item/weapon/reagent_containers/glass/beaker/large/pooladone(src)
+	beaker = null
 	for(var/turf/simulated/pool/water/W in range(srange,src)) //Search for /turf/simulated/beach/water in the range of var/srange
 		src.linkedturfs += W
 	for(var/obj/machinery/drain/pooldrain in range(srange,src))
@@ -57,33 +57,32 @@
 		updateUsrDialog()
 		return
 
-//herpderp	else
-//herpderp		if(stat & (NOPOWER|BROKEN))
-//herpderp			return
-//herpderp		if (istype(W,/obj/item/weapon/reagent_containers/glass/beaker/large))
-//herpderp			if(src.beaker)
-//herpderp				user << "A beaker is already loaded into the machine."
-//herpderp				return
+	else
+		if(stat & (NOPOWER|BROKEN))
+			return
+		if (istype(W,/obj/item/weapon/reagent_containers/glass/beaker/large))
+			if(src.beaker)
+				user << "A beaker is already loaded into the machine."
+				return
 
-//herpderp			if(isrobot(user))
-//herpderp				return
+			if(isrobot(user))
+				return
 
-//herpderp			if(W.reagents.total_volume >= 100 && W.reagents.reagent_list.len == 1) //check if full and allow one reageant only.
-//herpderp				src.beaker =  W
-//herpderp				user.drop_item()
-//herpderp				W.loc = src
-//herpderp				user << "You add the beaker to the machine!"
-//herpderp				updateUsrDialog()
-//herpderp				for(var/datum/reagent/R in W.reagents.reagent_list)
-//herpderp					src.cur_reagent = R.id
-//herpderp					if(adminlog)
-//herpderp						log_say("[key_name(user)] has changed the pool's chems to [R.name]")
-//herpderp						message_admins("[key_name_admin(user)] has changed the pool's chems to [R.name].")
+			if(W.reagents.total_volume >= 100 && W.reagents.reagent_list.len == 1) //check if full and allow one reageant only.
+				src.beaker =  W
+				user.drop_item()
+				W.loc = src
+				user << "You add the beaker to the machine!"
+				updateUsrDialog()
+				for(var/datum/reagent/R in W.reagents.reagent_list)
+					src.cur_reagent = R.id
+					if(adminlog)
+						log_say("[key_name(user)] has changed the pool's chems to [R.name]")
+						message_admins("[key_name_admin(user)] has changed the pool's chems to [R.name].")
 
 
-//herpderp			else
-//herpderp				user << "<span class='notice'>This machine only accepts full beakers of one reagent.</span>"
-//herpderp		else
+			else
+				user << "<span class='notice'>This machine only accepts full beakers of one reagent.</span>"
 
 
 
@@ -107,25 +106,24 @@
 /obj/machinery/poolcontroller/proc/wires()
 	return wires.GetInteractWindow()
 
-//herpderp	/obj/machinery/poolcontroller/proc/poolreagent()
-//herpderp		for(var/turf/simulated/pool/water/W in linkedturfs)
-//herpderp			for(var/mob/living/carbon/human/swimee in W)
-//herpderp				if(beaker && cur_reagent)
-//herpderp					swimee.reagents.add_reagent(cur_reagent, 1)
-//herpderp					reagenttimer = 5
-//				world << "got [cur_reagent]"
+/obj/machinery/poolcontroller/proc/poolreagent()
+	for(var/turf/simulated/pool/water/W in linkedturfs)
+		for(var/mob/living/carbon/human/swimee in W)
+			if(beaker && cur_reagent)
+				swimee.reagents.add_reagent(cur_reagent, 1)
+				reagenttimer = 5
 
 /obj/machinery/poolcontroller/process()
 	updatePool() //Call the mob affecting proc)
 	if(timer > 0)
 		timer--
 		updateUsrDialog()
-//herpderp	if(reagenttimer > 0)
-//herpderp		reagenttimer--
+	if(reagenttimer > 0)
+		reagenttimer--
 	if(stat & (NOPOWER|BROKEN))
 		return
-//herpderp	else if(reagenttimer == 0)
-//herpderp		poolreagent()
+	else if(reagenttimer == 0)
+		poolreagent()
 
 /obj/machinery/poolcontroller/proc/updatePool()
 	if(!drained)
@@ -248,17 +246,15 @@
 		if(panel_open)
 			dat += wires()
 
-
 		dat += text({"
-					<BR><TT><B>Pool Controller Panel</B></TT><BR><BR>
-					<B>Current temperature :</B> [temperature]<BR>
-					</B>Drain is [drainable ? "active" : "unactive"]</B> <BR>"})
-
-//herpderp			if(beaker)
-//herpderp				dat += "<a href='?src=\ref[src];beaker=1'>Remove Beaker</a><br>"
-//herpderp				dat += "<B><span class='good'>Duplicator filled with [cur_reagent].</span></B><BR><BR><BR>"
-//herpderp			if(!beaker)
-//herpderp				dat += "<B><span class='bad'>No beaker loaded</span></B><BR><BR><BR>"
+			<BR><TT><B>Pool Controller Panel</B></TT><BR><BR>
+			<B>Current temperature :</B> [temperature]<BR>
+			<BR><B>Drain is [drainable ? "active" : "unactive"]</B> <BR>"})
+		if(beaker)
+			dat += "<a href='?src=\ref[src];beaker=1'>Remove Beaker</a><br>"
+			dat += "<B><span class='good'>Duplicator filled with [cur_reagent].</span></B><BR><BR><BR>"
+		if(!beaker)
+			dat += "<B><span class='bad'>No beaker loaded</span></B><BR><BR><BR>"
 
 		dat += text({"<B>Pool status :</B>      "})
 		if(timer < 45)
@@ -297,11 +293,11 @@
 		return
 	if(!isliving(usr))
 		return
-//herpderp		if(href_list["beaker"])
-//herpderp			if(beaker)
-//herpderp				var/obj/item/weapon/reagent_containers/glass/B = beaker
-//herpderp				B.loc = loc
-//herpderp				beaker = null
+	if(href_list["beaker"])
+		if(beaker)
+			var/obj/item/weapon/reagent_containers/glass/B = beaker
+			B.loc = loc
+			beaker = null
 	if(href_list["Scalding"])
 		if(emagged)
 			timer = 10
