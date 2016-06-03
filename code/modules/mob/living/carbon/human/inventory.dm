@@ -349,15 +349,17 @@
 			handcuffed.dropped(src)
 			handcuffed = null
 
-			if(buckled && buckled.buckle_requires_restraints)
-				buckled.unbuckle_mob()
+			if(buckled)
+				if(buckled.buckle_requires_restraints)
+					buckled.unbuckle_mob()
+
 			update_inv_handcuffed()
 
 	if(!get_organ("head"))
 		for(var/obj/item/I in list(glasses, ears, wear_mask, head))
 			unEquip(I)
-	
-	if(!get_organ("l_leg") || !get_organ("r_leg"))
+
+	if(!get_organ("l_leg") || !get_organ("r_arm"))
 		unEquip(shoes)
 
 		if(legcuffed)

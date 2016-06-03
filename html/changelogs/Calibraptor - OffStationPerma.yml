@@ -22,7 +22,7 @@
 #################################
 
 # Your name.  
-author: TDcoolguy300
+author: Calibraptor
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
@@ -33,5 +33,7 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - bugfix: "Reverts back to a May 12th build"
-  - rscdel: "Shit got fucked in the Repo, we lost the gateways and other patches done after may 12th"
+  - tweak: "The permabrig has been moved off-station! It's been constructed where the labor camp once was."
+  - rscadd: "Where the permabrig used to be on the station is now a training room for security officers. Complete with a firing range, testing bombs, and live targets!"
+  - rscadd: "The brig now has it's own medbay equipped with a single sleeper, basic medical supplies, and a mini morgue. You can find it where the isolation cell used to be."
+  - rscadd: "There is now maintenance connecting to the west wing of the brig. Security breaches have never been easier!"

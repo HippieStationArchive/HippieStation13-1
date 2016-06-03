@@ -107,12 +107,13 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(stat == DEAD)
 		ghostize(1)
 
-	if(istype(H) && H.dna)
-		if(H.dna.check_mutation(CLUWNEMUT) && stat != DEAD)
-			H << "Cluwnes cannot ghost until they've died! Find a natural means of death!"
-			return
-		else
-			confirm_ghost = TRUE
+	if(istype(H))
+		if(H.dna)
+			if(H.dna.check_mutation(CLUWNEMUT) && stat != DEAD)
+				H << "Cluwnes cannot ghost until they've died! Find a natural means of death!"
+				return
+			else
+				confirm_ghost = TRUE
 	else
 		confirm_ghost = TRUE
 
@@ -122,7 +123,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		if(response != "Ghost")	
 			return	//didn't want to ghost after-all
 
-		ghostize(0)						//0 parameter is so we can never re-enter our body, "Charlie, you can never come baaaack~" :3
+		ghostize(0)	//0 parameter is so we can never re-enter our body, "Charlie, you can never come baaaack~" :3
 
 	return
 

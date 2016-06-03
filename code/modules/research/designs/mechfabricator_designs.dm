@@ -567,20 +567,11 @@
 	construction_time = 100
 	category = list("Exosuit Equipment")
 
-/datum/design/mech_disabler
-	name = "Exosuit Weapon (RTC \"Detainer\" repeating disabler)"
-	id = "mech_disabler"
+/datum/design/mech_lmg
+	name = "Exosuit Weapon (\"Ultra AC 2\" LMG)"
+	id = "mech_lmg"
 	build_type = MECHFAB
-	build_path = /obj/item/mecha_parts/mecha_equipment/weapon/energy/disabler
-	materials = list(MAT_METAL=10000)
-	construction_time = 100
-	category = list("Exosuit Equipment")
-
-/datum/design/mech_laser
-	name = "Exosuit Weapon (CH-PS \"Immolator\" laser)"
-	id = "mech_laser"
-	build_type = MECHFAB
-	build_path = /obj/item/mecha_parts/mecha_equipment/weapon/energy/laser
+	build_path = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg
 	materials = list(MAT_METAL=10000)
 	construction_time = 100
 	category = list("Exosuit Equipment")

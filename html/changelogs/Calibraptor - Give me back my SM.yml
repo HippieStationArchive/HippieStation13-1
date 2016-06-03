@@ -33,6 +33,6 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Re-added the supermatter! The singularity has been relocated to the new west wing of engineering!"
-  - rscadd: "Atmos techs now have access to the supermatter dedicated section of engineering. All electrical related equipment has been moved to the west wing."
-  - rscadd: "Crystal windows are now in-game and functional! They are immune to silly things like heat and pressure. You can find them at the supermatter, the brig execution chamber, and toxins!"
+  - rscadd: "The supermatter is back! Again."
+  - rscadd: "New electrical maintenance near security."
+  - rscadd: "Fixed some wonky wiring in the security wing."

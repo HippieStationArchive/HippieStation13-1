@@ -59,7 +59,7 @@
 
 	var/datum/vampire/vampire //The vampire data stored in the mind
 
-	var/ghost = FALSE // This is used to determine if the mind is ghosting or not
+	var/ghost = FALSE // This is used to determine if the mind if ghosting or not
 
 /datum/mind/New(var/key)
 	src.key = key
