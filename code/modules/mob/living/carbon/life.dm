@@ -280,7 +280,7 @@
 		if(total_health <= config.health_threshold_crit && !stat)
 			src << "<span class='notice'>You're too exhausted to keep going...</span>"
 			emote("excollapse")
-			Weaken(max(health/12, 3))
+			Weaken(max(health/15, 4))
 			setStaminaLoss(health - 20)
 			return
 		setStaminaLoss(max((staminaloss - 2), 0))
