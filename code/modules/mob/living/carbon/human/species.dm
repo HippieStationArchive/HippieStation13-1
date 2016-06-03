@@ -782,7 +782,7 @@
 				if(2)	H.healths.icon_state = "health7"
 				if(5)	H.healths.icon_state = "health0"
 				else
-					switch(H.health - H.staminaloss)
+					switch(H.health)
 						if(100 to INFINITY)		H.healths.icon_state = "health0"
 						if(80 to 100)			H.healths.icon_state = "health1"
 						if(60 to 80)			H.healths.icon_state = "health2"
@@ -790,6 +790,23 @@
 						if(20 to 40)			H.healths.icon_state = "health4"
 						if(0 to 20)				H.healths.icon_state = "health5"
 						else					H.healths.icon_state = "health6"
+	
+
+
+	if(H.staminas)
+		if(H.stat == DEAD)
+			H.staminas.icon_state = "stamina6"
+		else if(H.stunned || H.weakened)
+			H.staminas.icon_state = "stamina6"
+		else
+			switch(H.health - H.staminaloss)
+				if(100 to INFINITY)     H.staminas.icon_state = "stamina0"
+				if(80 to 100)           H.staminas.icon_state = "stamina1"
+				if(60 to 80)            H.staminas.icon_state = "stamina2"
+				if(40 to 60)            H.staminas.icon_state = "stamina3"
+				if(20 to 40)            H.staminas.icon_state = "stamina4"
+				if(0 to 20)             H.staminas.icon_state = "stamina5"
+				else                    H.staminas.icon_state = "stamina6"
 
 	if(H.healthdoll)
 		H.healthdoll.overlays.Cut()
@@ -1002,32 +1019,34 @@
 				if(H.lying)
 					atk_verb = "kick"
 
-				var/damage = rand(0, 9) + M.dna.species.punchmod
+				var/hitcheck = rand(0, 9)
+				var/damage = pick(0.5, 1, 1.5, 2) + M.dna.species.punchmod
 
 				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/armor_block = H.run_armor_check(affecting, "melee")
-				var/dmgcheck = H.apply_damage(damage, BRUTE, affecting, armor_block)
-				if(!damage || !istype(affecting) || !dmgcheck)
+				var/dmgcheck = apply_damage(damage, BRUTE, affecting, armor_block, H)
+
+				if(hitcheck == 0 || !dmgcheck)
 					playsound(H.loc, M.dna.species.miss_sound, 25, 1, -1)
 					H.visible_message("<span class='warning'>[M] has attempted to [atk_verb] [H]!</span>")
 					return 0
 
 				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
-
+				H.apply_damage(damage*3+2, STAMINA, affecting, armor_block)
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
 				add_logs(M, H, "punched")
-				if((H.stat != DEAD) && damage >= 9)
+				if((H.stat != DEAD) && hitcheck >= 9)
 					H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
 									"<span class='userdanger'>[M] has weakened [H]!</span>")
-					H.apply_effect(4, WEAKEN, armor_block)
+					H.apply_effect(2, WEAKEN, armor_block)
 					H.forcesay(hit_appends)
 				else if(H.lying)
 					H.forcesay(hit_appends)
-				if(istype(affecting, /obj/item/organ/limb/head) && prob(damage * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
+				if(istype(affecting, /obj/item/organ/limb/head) && prob(hitcheck * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
 					var/obj/item/organ/limb/head/U = affecting
-					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((damage*2)/100))))
+					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((hitcheck*2)/100))))
 						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
 										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 		if("disarm")
@@ -1184,10 +1203,10 @@
 
 	var/armor_block = H.run_armor_check(affecting, "melee", "<span class='notice'>Your armor has protected your [hit_area].</span>", "<span class='notice'>Your armor has softened a hit to your [hit_area].</span>",I.armour_penetration)
 	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
-
-	var/dmgcheck = apply_damage(I.force, I.damtype, affecting, armor_block, H)
-
-	if(!dmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
+	var/dmgcheck = apply_damage((1-I.stamina_percentage)*I.force, I.damtype, affecting, armor_block, H)
+	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, STAMINA, affecting, armor_block, H)
+	
+	if(!dmgcheck && !staminadmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
 		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)

@@ -4,6 +4,7 @@
 	icon_state = "briefcase"
 	flags = CONDUCT
 	force = 8
+	stamina_percentage = 0.5
 	hitsound = "swing_hit"
 	throw_speed = 2
 	throw_range = 4
