@@ -71,8 +71,8 @@
 			visible_message("<span class='danger'>[src] has been hit by [I] in \the [parse_zone(zone)].</span>", \
 							"<span class='userdanger'>[src] has been hit by [I] in \the [parse_zone(zone)].</span>")
 			var/armor = run_armor_check(zone, "melee", "Your armor has protected your [parse_zone(zone)].", "Your armor has softened hit to your [parse_zone(zone)].",I.armour_penetration)
-			apply_damage(I.throwforce, dtype, zone, armor, I)
-			apply_damage(I.fakeforce, STAMINA, zone, armor, I)
+			apply_damage((1-I.stamina_percentage)*I.throwforce, dtype, zone, armor, I)
+			apply_damage(I.stamina_percentage*I.throwforce, STAMINA, zone, armor, I)
 	else
 		playsound(loc, 'sound/weapons/genhit.ogg', 50, 1, -1)
 	..(AM, skipcatch, hitpush, blocked, zone)

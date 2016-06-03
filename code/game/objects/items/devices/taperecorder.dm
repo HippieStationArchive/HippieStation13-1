@@ -8,8 +8,7 @@
 	slot_flags = SLOT_BELT
 	languages = ALL //this is a translator, after all.
 	materials = list(MAT_METAL=60, MAT_GLASS=30)
-	force = 1
-	fakeforce = 1
+	force = 2
 	throwforce = 0
 	var/recording = 0
 	var/playing = 0

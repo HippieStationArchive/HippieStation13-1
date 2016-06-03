@@ -26,11 +26,11 @@
 	icon_state = "nullrod"
 	item_state = "nullrod"
 	slot_flags = SLOT_BELT
-	force = 3
-	fakeforce = 12  //A long, thin rod that I imagine isn't very heavy. Perfect for disciplining unruly members of the flock.
+	force = 15
+	stamina_percentage = 0.7
 	throw_speed = 3
 	throw_range = 4
-	throwforce = 3
+	throwforce = 10
 	w_class = 1
 
 /obj/item/weapon/nullrod/suicide_act(mob/user)
@@ -44,6 +44,7 @@
 	item_state = "sord"
 	slot_flags = SLOT_BELT
 	force = 2
+	stamina_percentage = 0.95  //Unbelievably shitty sword, can't even fathom killing anyone with it.
 	throwforce = 1
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -101,9 +102,9 @@
 	icon_state = "wiredrod"
 	item_state = "rods"
 	flags = CONDUCT
-	force = 3
-	fakeforce = 6
-	throwforce = 4
+	force = 9
+	stamina_percentage = 0.65
+	throwforce = 10
 	w_class = 3
 	materials = list(MAT_METAL=1000)
 	attack_verb = list("hit", "bludgeoned", "whacked", "bonked")
@@ -312,9 +313,8 @@ obj/item/weapon/storage/box/caltrop/New()
 	desc = "Should anything ever go wrong..."
 	icon = 'icons/obj/items.dmi'
 	icon_state = "red_phone"
-	force = 1
-	fakeforce = 2
-	throwforce = 1
+	force = 3
+	throwforce = 2
 	throw_speed = 3
 	throw_range = 4
 	w_class = 2
@@ -334,9 +334,8 @@ obj/item/weapon/storage/box/caltrop/New()
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "cane"
 	item_state = "stick"
-	force = 1
-	fakeforce = 4
-	throwforce = 1
+	force = 5
+	throwforce = 5
 	w_class = 2
 	materials = list(MAT_METAL=50)
 	burn_state = 0
@@ -354,9 +353,8 @@ obj/item/weapon/storage/box/caltrop/New()
 	desc = "Apparently a staff used by the wizard. Can be used as a crutch."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "staff"
-	force = 1
-	fakeforce = 2
-	throwforce = 3
+	force = 3
+	throwforce = 5
 	throw_speed = 2
 	throw_range = 5
 	w_class = 2
@@ -383,9 +381,8 @@ obj/item/weapon/storage/box/caltrop/New()
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "stick"
 	item_state = "stick"
-	force = 1
-	fakeforce = 2
-	throwforce = 3
+	force = 3
+	throwforce = 5
 	throw_speed = 2
 	throw_range = 5
 	w_class = 2
@@ -430,7 +427,7 @@ obj/item/weapon/storage/box/caltrop/New()
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "pimpstick"
 	item_state = "pimpstick"
-	force = 10  //A true pimp doesn't hold back
+	force = 10
 	throwforce = 7
 	w_class = 3
 	flags = NOSHIELD

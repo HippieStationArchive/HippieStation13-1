@@ -14,9 +14,9 @@
 	icon_state = "bbat"
 	item_state = "bbat"
 	slot_flags = SLOT_BELT //Including the belt sprite to look cool
-	force = 5
-	fakeforce = 5
-	throwforce = 5
+	force = 10
+	stamina_percentage = 0.5
+	throwforce = 10
 	throw_speed = 3
 	throw_range = 4
 	special_throw = 1
@@ -39,9 +39,9 @@
 	desc = "A smooth metal club used in baseball to hit the ball. Or to purify your adversaries."
 	icon_state = "bbat_metal"
 	item_state = "bbat_metal"
-	force = 8 //Buffed again. It's kind of expensive to mass produce it since every 50 metal you can only get 3 bats.
-	fakeforce = 5
-	throwforce = 10
+	force = 15 //Buffed again. It's kind of expensive to mass produce it since every 50 metal you can only get 3 bats.
+	throwforce = 13
+	stamina_percentage = 0.4
 	specthrow_maxwclass = 3 //You can bat normal sized items with metal bat
 	burn_state = -1
 
@@ -50,9 +50,9 @@
 	desc = "A wooden baseball bat with metal spikes crudely attached."
 	icon_state = "bbat_spike"
 	item_state = "bbat_spike"
-	force = 10
-	fakeforce = 3
-	throwforce = 11 // Its got spikes sticking out of it
+	force = 13
+	stamina_percentage = 0.2
+	throwforce = 15 // Its got spikes sticking out of it
 	burn_state = 0
 	armour_penetration = 20
 
@@ -63,8 +63,7 @@
 	icon_state = "bball"
 	w_class = 1.0
 	force = 0
-	fakeforce = 3 //Getting hit by a baseball hurts, but not that much.
-	throwforce = 2
+	throwforce = 5
 	throw_range = 7
 
 /obj/item/weapon/baseballbat/suicide_act(mob/user)

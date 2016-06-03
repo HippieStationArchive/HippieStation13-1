@@ -7,9 +7,8 @@
 	icon_state = "defibunit"
 	item_state = "defibunit"
 	slot_flags = SLOT_BACK
-	force = 4	//Defibrillators are big and heavy, surprised it wasn't given more damage
-	fakeforce = 4
-	throwforce = 2
+	force = 5
+	throwforce = 6
 	w_class = 4
 	origin_tech = "biotech=4"
 	action_button_name = "Toggle Paddles"

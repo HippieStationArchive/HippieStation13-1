@@ -13,8 +13,8 @@
 	name = "limb"
 	desc = ""
 
-	force = 2 //Now you can bash someone to death with an arm, you silly bastard.
-	fakeforce = 3
+	force = 5 //Now you can bash someone to death with an arm, you silly bastard.
+	stamina_percentage = 0.6
 	throwforce = 5
 
 	hitsound = "swing_hit"

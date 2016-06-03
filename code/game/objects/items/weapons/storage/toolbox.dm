@@ -5,9 +5,9 @@
 	icon_state = "red"
 	item_state = "toolbox_red"
 	flags = CONDUCT
-	force = 6
-	fakeforce = 4 //It's big and metal, would hurt quite a bit
-	throwforce = 6
+	force = 10
+	stamina_percentage = 0.4
+	throwforce = 10
 	throw_speed = 2
 	throw_range = 7
 	w_class = 4
@@ -75,6 +75,7 @@
 	origin_tech = "combat=1;syndicate=1"
 	silent = 1
 	force = 15
+	stamina_percentage = 0.3
 	throwforce = 18
 
 /obj/item/weapon/storage/toolbox/syndicate/New()

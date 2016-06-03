@@ -12,9 +12,9 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	item_state = "rods"
 	flags = CONDUCT
 	w_class = 3
-	force = 3
-	fakeforce = 6
-	throwforce = 4
+	force = 9
+	stamina_percentage = 0.65
+	throwforce = 10
 	throw_speed = 3
 	throw_range = 7
 	materials = list(MAT_METAL=1000)

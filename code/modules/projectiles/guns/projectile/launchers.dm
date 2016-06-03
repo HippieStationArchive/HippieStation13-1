@@ -63,8 +63,7 @@
 	icon_state = "speargun"
 	item_state = "speargun"
 	w_class = 4
-	force = 7
-	fakeforce = 3
+	force = 10
 	can_suppress = 0
 	mag_type = /obj/item/ammo_box/magazine/internal/speargun
 	fire_sound = 'sound/weapons/grenadelaunch.ogg'

@@ -26,13 +26,12 @@
 
 /mob/living/proc/attacked_by(obj/item/I, mob/living/user, def_zone)
 	var/dmgcheck = apply_damage(I.force, I.damtype, def_zone)
-	var/fakedmgcheck = apply_damage (I.fakeforce, I.fakedamtype, def_zone)
-	if(!dmgcheck && !fakedmgcheck)
+	if(!dmgcheck)
 		visible_message("<span class='danger'>[user] has attempted to attack [src] with [I].</span>",
 		"<span class='userdanger'>[user] has attempted to attack [src] with [I]!</span>")
 		return 0
 
-	if (I.hitsound && I.force + I.fakeforce > 0) //If an item's hitsound is defined and the item's force is greater than zero...
+	if (I.hitsound && I.force > 0) //If an item's hitsound is defined and the item's force is greater than zero...
 		playsound(get_turf(src), I.hitsound, I.get_clamped_volume(), 1, I.hitsound_extrarange) //...play the item's hitsound at get_clamped_volume() with varying frequency and -1 extra range.
 	else if (I.force == 0)//Otherwise, if the item's force is zero...
 		playsound(get_turf(src), 'sound/weapons/tap.ogg', I.get_clamped_volume(), 1, I.hitsound_extrarange)//...play tap.ogg at get_clamped_volume()

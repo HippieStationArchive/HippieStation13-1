@@ -56,8 +56,7 @@
 		return ..()
 
 
-	force = 10 //Smashing bottles over someoen's head hurts.
-	fakeforce = 5
+	force = 15 //Smashing bottles over someoen's head hurts.
 
 	var/obj/item/organ/limb/affecting = user.zone_sel.selecting //Find what the player is aiming at
 

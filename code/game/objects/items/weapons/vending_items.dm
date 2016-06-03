@@ -6,8 +6,8 @@
 	icon_state = "refill_snack"
 	item_state = "restock_unit"
 	flags = CONDUCT
-	force = 4  //Big metal box full of tasty snacks? Gonna hurt.
-	fakeforce = 3
+	force = 7
+	stamina_percentage = 0.5
 	throwforce = 10
 	throw_speed = 1
 	throw_range = 7

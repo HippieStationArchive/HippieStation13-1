@@ -5,9 +5,9 @@
 	icon_state = "flamethrowerbase"
 	item_state = "flamethrower_0"
 	flags = CONDUCT
-	force = 1
-	fakeforce = 2
-	throwforce = 8
+	force = 3
+	stamina_percentage = 0.4
+	throwforce = 10
 	throw_speed = 1
 	throw_range = 5
 	w_class = 3

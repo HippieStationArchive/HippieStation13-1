@@ -6,8 +6,8 @@
 	w_class = 3
 	throw_speed = 3
 	throw_range = 7
-	force = 1
-	fakeforce = 3
+	force = 4
+	stamina_percentage = 0.6
 	materials = list(MAT_METAL=2000)
 	clumsy_check = 0
 	fire_sound = 'sound/items/syringeproj.ogg'
@@ -88,5 +88,6 @@
 	w_class = 2
 	origin_tech = "combat=2;syndicate=2"
 	force = 2 //Also very weak because it's smaller
+	stamina_percentage = 0.7
 	suppressed = 1 //Softer fire sound
 	can_unsuppress = 0 //Permanently silenced

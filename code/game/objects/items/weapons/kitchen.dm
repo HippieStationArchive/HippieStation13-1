@@ -97,9 +97,9 @@
 	name = "rolling pin"
 	desc = "Used to knock out the Bartender."
 	icon_state = "rolling_pin"
-	force = 4
-	fakeforce = 4
-	throwforce = 1
+	force = 8
+	stamina_percentage = 0.6
+	throwforce = 5
 	throw_speed = 3
 	throw_range = 7
 	w_class = 3
@@ -110,8 +110,7 @@
 	name = "plastic rolling pin"
 	desc = "Lightweight, definitely not usable to knock out the Warden."
 	icon_state = "safety_rolling_pin"
-	force = 1
-	fakeforce = 1
-	throwforce = 0
+	force = 2
+	throwforce = 1
 
 /* Trays  moved to /obj/item/weapon/storage/bag */

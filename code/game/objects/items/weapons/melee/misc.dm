@@ -8,9 +8,9 @@
 	item_state = "chain"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
-	force = 3
-	fakeforce = 7
-	throwforce = 1
+	force = 10
+	stamina_percentage = 0.3
+	throwforce = 7
 	w_class = 3
 	origin_tech = "combat=4"
 	attack_verb = list("flogged", "whipped", "lashed", "disciplined")
@@ -29,8 +29,8 @@
 	icon_state = "baton"
 	item_state = "classic_baton"
 	slot_flags = SLOT_BELT
-	force = 5
-	fakeforce = 7
+	force = 12
+	stamina_percentage = 0.7
 	w_class = 3
 	var/cooldown = 0
 	var/on = 1
@@ -115,8 +115,8 @@
 		icon_state = "telebaton_1"
 		item_state = "nullrod"
 		w_class = 4 //doesnt fit in backpack when its on for balance
-		force = 3
-		fakeforce = 7
+		force = 10 //stunbaton damage
+		stamina_percentage = 0.7
 		attack_verb = list("smacked", "struck", "cracked", "beaten")
 	else
 		user << "<span class ='notice'>You collapse the baton.</span>"

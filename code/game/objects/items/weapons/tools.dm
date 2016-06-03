@@ -21,8 +21,9 @@
 	icon_state = "wrench"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
-	force = 7 //Wrenches HURT.
-	throwforce = 7
+	force = 7
+	stamina_percentage = 0.35 //Big metal wrench, yeowch.
+	throwforce = 10
 	w_class = 2
 	materials = list(MAT_METAL=150)
 	origin_tech = "materials=1;engineering=1"
@@ -536,9 +537,9 @@
 	icon_state = "crowbar"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
-	force = 4
-	fakeforce= 3
-	throwforce = 7
+	force = 7
+	stamina_percentage = 0.6
+	throwforce = 10
 	item_state = "crowbar"
 	w_class = 2
 	materials = list(MAT_METAL=50)
@@ -560,14 +561,14 @@
 /obj/item/weapon/crowbar/red
 	icon_state = "red_crowbar"
 	item_state = "crowbar_red"
-	force = 5
-	fakeforce = 3
+	force = 8
+	stamina_percentage = 0.6
 
 /obj/item/weapon/crowbar/large
 	name = "crowbar"
 	desc = "It's a big crowbar. It doesn't fit in your pockets, because it's big."
-	force = 6
-	fakeforce = 6
+	force = 12
+	stamina_percentage = 0.5
 	w_class = 3
 	throw_speed = 3
 	throw_range = 3

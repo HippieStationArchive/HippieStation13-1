@@ -56,8 +56,8 @@
 	name = "Desert Eagle"
 	desc = "A robust .50 AE handgun."
 	icon_state = "deagle"
-	force = 4
-	fakeforce = 10
+	force = 14
+	stamina_percentage = 0.6
 	mag_type = /obj/item/ammo_box/magazine/m50
 	can_suppress = 0
 	fire_sound = 'sound/weapons/deagle.ogg'
@@ -80,8 +80,8 @@
 	name = "Automag"
 	desc = "A semi-automatic .44 AMP caliber handgun. A rare firearm generally only seen among the highest-ranking NanoTrasen officers. The caliber gives this weapon immense firepower in a fairly small size."
 	icon_state = "automag"
-	force = 5
-	fakeforce = 5
+	force = 10
+	stamina_percentage = 0.6
 	mag_type = /obj/item/ammo_box/magazine/m44
 	can_suppress = 0
 	can_flashlight = 0
