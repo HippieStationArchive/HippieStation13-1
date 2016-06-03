@@ -1204,9 +1204,9 @@
 	var/armor_block = H.run_armor_check(affecting, "melee", "<span class='notice'>Your armor has protected your [hit_area].</span>", "<span class='notice'>Your armor has softened a hit to your [hit_area].</span>",I.armour_penetration)
 	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
 	var/dmgcheck = apply_damage((1-I.stamina_percentage)*I.force, I.damtype, affecting, armor_block, H)
-	var/fakedmgcheck = apply_damage(I.stamina_percentage*I.force, STAMINA, affecting, armor_block, H)
+	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, STAMINA, affecting, armor_block, H)
 	
-	if(!dmgcheck && !fakedmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
+	if(!dmgcheck && !staminadmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
 		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
