@@ -330,7 +330,7 @@ var/in_jaunt = 0
 		revert_cast()
 		return
 	var/thralls = 0
-	var/victory_threshold = 20
+	var/victory_threshold = 15
 	var/mob/M
 
 	user << "<span class='shadowling'><b>You focus your telepathic energies abound, harnessing and drawing together the strength of your thralls.</b></span>"
