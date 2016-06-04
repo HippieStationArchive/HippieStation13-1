@@ -5,6 +5,7 @@
 	item_state = "baton"
 	slot_flags = SLOT_BELT
 	force = 10
+	stamina_percentage = 0.75
 	throwforce = 7
 	w_class = 3
 	origin_tech = "combat=2"
@@ -178,6 +179,7 @@
 	icon_state = "stunprod_nocell"
 	item_state = "prod"
 	force = 7
+	stamina_percentage = 0.4 //It's got sharp bits on it
 	throwforce = 5
 	stunforce = 5
 	hitcost = 2500

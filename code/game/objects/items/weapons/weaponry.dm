@@ -27,6 +27,7 @@
 	item_state = "nullrod"
 	slot_flags = SLOT_BELT
 	force = 15
+	stamina_percentage = 0.7
 	throw_speed = 3
 	throw_range = 4
 	throwforce = 10
@@ -43,6 +44,7 @@
 	item_state = "sord"
 	slot_flags = SLOT_BELT
 	force = 2
+	stamina_percentage = 0.95  //Unbelievably shitty sword, can't even fathom killing anyone with it.
 	throwforce = 1
 	w_class = 3
 	hitsound = 'sound/weapons/bladeslice.ogg'
@@ -101,6 +103,7 @@
 	item_state = "rods"
 	flags = CONDUCT
 	force = 9
+	stamina_percentage = 0.65
 	throwforce = 10
 	w_class = 3
 	materials = list(MAT_METAL=1000)

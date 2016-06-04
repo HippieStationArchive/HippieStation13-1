@@ -13,6 +13,7 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	flags = CONDUCT
 	w_class = 3
 	force = 9
+	stamina_percentage = 0.65
 	throwforce = 10
 	throw_speed = 3
 	throw_range = 7

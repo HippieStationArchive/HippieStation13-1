@@ -98,6 +98,7 @@
 	desc = "Used to knock out the Bartender."
 	icon_state = "rolling_pin"
 	force = 8
+	stamina_percentage = 0.6
 	throwforce = 5
 	throw_speed = 3
 	throw_range = 7
