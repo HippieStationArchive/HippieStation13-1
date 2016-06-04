@@ -68,6 +68,9 @@
 						entry += " - <font color='black'><b>DEAD</b></font>"
 				else
 					entry += " - <font color='black'><b>DEAD</b></font>"
+		if(is_special_character(C.mob))
+			entry += " - <b><font color='red'>Antagonist</font></b>"
+	entry += " (<A HREF='?_src_=holder;adminmoreinfo=\ref[C.mob]'>?</A>)"
 	return entry
 
 /client/verb/adminwho()
