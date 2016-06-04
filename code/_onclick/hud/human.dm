@@ -271,6 +271,11 @@
 	mymob.healths.name = "health"
 	mymob.healths.screen_loc = ui_health
 
+	mymob.staminas = new /obj/screen()
+	mymob.staminas.icon_state = "stamina0"
+	mymob.staminas.name = "stamina"
+	mymob.staminas.screen_loc = ui_stamina
+
 	mymob.healthdoll = new /obj/screen()
 	mymob.healthdoll.name = "health doll"
 	mymob.healthdoll.screen_loc = ui_healthdoll
@@ -293,7 +298,7 @@
 
 	mymob.client.screen = list()
 
-	mymob.client.screen += list(mymob.throw_icon, mymob.zone_sel, mymob.internals, mymob.healths, mymob.healthdoll, mymob.pullin, lingchemdisplay, lingstingdisplay) //, mymob.hands, mymob.rest, mymob.sleep) //, mymob.mach )
+	mymob.client.screen += list(mymob.throw_icon, mymob.zone_sel, mymob.internals, mymob.healths, mymob.staminas, mymob.healthdoll, mymob.pullin, lingchemdisplay, lingstingdisplay) //, mymob.hands, mymob.rest, mymob.sleep) //, mymob.mach )
 	mymob.client.screen += adding + hotkeybuttons
 	mymob.client.screen += mymob.client.void
 	inventory_shown = 0

@@ -153,6 +153,7 @@
 			action_intent.screen_loc = ui_acti //Restore intent selection to the original position
 			mymob.client.screen += mymob.zone_sel				//This one is a special snowflake
 			mymob.client.screen += mymob.healths				//As are the rest of these.
+			mymob.client.screen += mymob.staminas
 			mymob.client.screen += mymob.healthdoll
 			mymob.client.screen += mymob.internals
 			mymob.client.screen += lingstingdisplay
@@ -188,6 +189,7 @@
 			//These ones are not a part of 'adding', 'other' or 'hotkeybuttons' but we want them gone.
 			mymob.client.screen -= mymob.zone_sel	//zone_sel is a mob variable for some reason.
 			mymob.client.screen -= mymob.healths
+			mymob.client.screen -= mymob.staminas
 			mymob.client.screen -= mymob.healthdoll
 			mymob.client.screen -= mymob.internals
 			mymob.client.screen -= lingstingdisplay
