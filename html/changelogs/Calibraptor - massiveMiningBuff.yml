@@ -38,3 +38,4 @@ changes:
   - rscadd: "Three standard issue mining drills have been placed on all Nanotransen mining outposts, miners all over the galaxy have been burning pickaxes in celebration."
   - rscadd: "Shaft miners will find that they'll have much less trouble and spend much less time finding ore than before. Why? Because there's a lot more ore deposits now!"
   - rscadd: "Advanced mining scanners are now standard issue in all mining secure lockers."
+  - rscdel: "Science outpost has all but been removed, however scientists can still use the shuttle to go mining."
