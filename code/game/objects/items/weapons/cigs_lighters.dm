@@ -178,7 +178,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		force = 4
 		if(reagents.get_reagent_amount("plasma")) // the plasma explodes when exposed to fire
 			var/datum/effect_system/reagents_explosion/e = new()
-			e.set_up(round(reagents.get_reagent_amount("plasma") / 2, 1), get_turf(src), 0, 0)
+			e.set_up(round(reagents.get_reagent_amount("plasma") / 2.5, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
 				var/mob/M = loc
@@ -187,7 +187,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			return
 		if(reagents.get_reagent_amount("nitroglycerin")) // nitroglycerin is a ridiculously strong explosive that should explode like plasma when smoked
 			var/datum/effect_system/reagents_explosion/e = new()
-			e.set_up(round(reagents.get_reagent_amount("nitroglycerin") / 2, 1), get_turf(src), 0, 0)
+			e.set_up(round(reagents.get_reagent_amount("nitroglycerin") / 2.5, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
 				var/mob/M = loc
@@ -196,7 +196,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			return
 		if(reagents.get_reagent_amount("blackpowder")) // blackpowder isn't as strong as nitroglycerin but it's stronger than welding fuel
 			var/datum/effect_system/reagents_explosion/e = new()
-			e.set_up(round(reagents.get_reagent_amount("blackpowder") / 3, 1), get_turf(src), 0, 0)
+			e.set_up(round(reagents.get_reagent_amount("blackpowder") / 3.75, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
 				var/mob/M = loc
@@ -205,7 +205,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			return
 		if(reagents.get_reagent_amount("welding_fuel")) // the fuel explodes, too, but much less violently
 			var/datum/effect_system/reagents_explosion/e = new()
-			e.set_up(round(reagents.get_reagent_amount("welding_fuel") / 4, 1), get_turf(src), 0, 0)
+			e.set_up(round(reagents.get_reagent_amount("welding_fuel") / 5, 1), get_turf(src), 0, 0)
 			e.start()
 			if(ismob(loc))
 				var/mob/M = loc
