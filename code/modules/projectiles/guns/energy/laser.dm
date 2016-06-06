@@ -30,6 +30,7 @@
 	item_state = "caplaser"
 	desc = "This is an antique laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding."
 	force = 10
+	stamina_percentage = 0.6
 	origin_tech = null
 	var/charge_tick = 0
 	ammo_x_offset = 3
@@ -99,6 +100,7 @@
 	item_state = "laser"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.4
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=4;materials=3;powerstorage=3"

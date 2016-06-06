@@ -11,6 +11,7 @@
 	pressure_resistance = ONE_ATMOSPHERE*5
 
 	force = 5
+	stamina_percentage = 0.4
 	throwforce = 10
 	throw_speed = 1
 	throw_range = 4

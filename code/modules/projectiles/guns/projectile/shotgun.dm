@@ -5,6 +5,7 @@
 	item_state = "shotgun"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=4;materials=2"
@@ -148,6 +149,7 @@
 	item_state = "shotgun"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	flags = CONDUCT
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=3;materials=1"
@@ -203,6 +205,7 @@
 	item_state = "shotgun"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	slot_flags = null
 	origin_tech = "combat=2;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/improvised
@@ -239,6 +242,7 @@
 	icon = 'icons/obj/weapons.dmi'
 	w_class = 2
 	force = 10
+	stamina_percentage = 0.75
 	can_unsuppress = 0
 	slot_flags = null
 	origin_tech = "" // NO GIVAWAYS
@@ -469,13 +473,14 @@
 
 // Triple Threat //
 
-/obj/item/weapon/gun/projectile/revolver/triplebarrel // for biker bar
+/obj/item/weapon/gun/projectile/revolver/triplebarrel
 	name = "triple-barreled shotgun"
 	desc = "A modded version of a true classic."
 	icon_state = "triplethreat"
 	item_state = "triplethreat"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	flags = CONDUCT
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=4;materials=2"
@@ -505,6 +510,7 @@
 	item_state = "musket"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=2;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/musket

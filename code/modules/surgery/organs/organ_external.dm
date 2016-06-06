@@ -14,6 +14,7 @@
 	desc = ""
 
 	force = 5 //Now you can bash someone to death with an arm, you silly bastard.
+	stamina_percentage = 0.6
 	throwforce = 5
 
 	hitsound = "swing_hit"

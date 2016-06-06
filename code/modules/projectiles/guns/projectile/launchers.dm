@@ -100,7 +100,7 @@
 	w_class = 3.0
 	throw_speed = 2
 	throw_range = 7
-	force = 5.0
+	force = 5
 	var/obj/item/organ/internal/butt/contained
 	var/screwdrivered
 	materials = list(MAT_METAL = 2000)
