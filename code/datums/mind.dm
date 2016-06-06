@@ -65,11 +65,7 @@
 	src.key = key
 
 
-/datum/mind/proc/transfer_to(mob/living/new_character)
-	/*if(!istype(new_character))
-		throw EXCEPTION("transfer_to(): new_character must be mob/living")
-		return*/
-
+/datum/mind/proc/transfer_to(mob/living/new_character, force_from_ghost = FALSE)
 	if(current)					//remove ourself from our old body's mind variable
 		current.mind = null
 
@@ -91,7 +87,8 @@
 	transfer_antag_huds(hud_to_transfer)					//inherit the antag HUD
 	transfer_actions(new_character)
 
-	if(active && !ghost)
+	// Force from ghost means even if the player is ghosting we still transfer their ckey
+	if(active && (!ghost || force_from_ghost))
 		new_character.key = key		//now transfer the key to link the client to our new body
 
 /datum/mind/proc/store_memory(new_text)

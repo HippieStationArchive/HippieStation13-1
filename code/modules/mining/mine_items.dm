@@ -40,7 +40,7 @@
 /obj/structure/closet/secure_closet/miner/New()
 	..()
 	new /obj/item/device/radio/headset/headset_cargo(src)
-	new /obj/item/device/mining_scanner(src)
+	new /obj/item/device/t_scanner/adv_mining_scanner(src)
 	new /obj/item/weapon/storage/bag/ore(src)
 	new /obj/item/weapon/shovel(src)
 	new /obj/item/weapon/pickaxe(src)
@@ -144,8 +144,9 @@
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	force = 8
+	stamina_percentage = 0.3
 	var/digspeed = 20
-	throwforce = 4
+	throwforce = 5
 	item_state = "shovel"
 	w_class = 3
 	materials = list(MAT_METAL=50)
@@ -159,6 +160,7 @@
 	icon_state = "spade"
 	item_state = "spade"
 	force = 5
+	stamina_percentage = 0.3
 	throwforce = 7
 	w_class = 2
 

@@ -2,7 +2,8 @@
 	name = "pneumatic cannon"
 	desc = "A gas-powered cannon that can fire any object loaded into it."
 	w_class = 4
-	force = 8 //Very heavy
+	force = 8
+	stamina_percentage = 0.5
 	attack_verb = list("bludgeoned", "smashed", "beaten")
 	icon = 'icons/obj/pneumaticCannon.dmi'
 	icon_state = "pneumaticCannon"
@@ -115,6 +116,7 @@
 	name = "improvised pneumatic cannon"
 	desc = "A gas-powered, object-firing cannon made out of common parts."
 	force = 5
+	stamina_percentage = 0.5
 	w_class = 3
 	maxWeightClass = 10
 	gasPerThrow = 5

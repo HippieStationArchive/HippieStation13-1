@@ -1035,44 +1035,6 @@ var/list/teleportlocs = list()
 	icon_state = "quart"
 
 //Outpost
-/area/outpost/lobby
-	name = "Outpost Lobby"
-	icon_state = "blue"
-	has_gravity = 1
-
-/area/outpost/engi
-	name = "Outpost Engineering"
-	icon_state = "engine"
-	has_gravity = 1
-
-/area/outpost/staffroom
-	name = "Outpost Staffroom"
-	icon_state = "red"
-	has_gravity = 1
-
-/area/outpost/toxins
-	name = "Outpost Toxins Lab"
-	icon_state = "toxlab"
-	has_gravity = 1
-
-/area/outpost/mining
-	name = "Outpost Mining"
-	icon_state = "mining"
-	has_gravity = 1
-
-/area/outpost/xeno
-	name = "Outpost Xenobiology Lab"
-	icon_state = "toxmisc"
-	has_gravity = 1
-
-/area/outpost/rd
-	name = "Outpost Research Director Office"
-	icon_state = "green"
-	has_gravity = 1
-
-/area/outpost/solars
-	name = "Outpost Solars"
-	icon_state = "red"
 
 /area/quartermaster/miningdock
 	name = "Mining Dock"
