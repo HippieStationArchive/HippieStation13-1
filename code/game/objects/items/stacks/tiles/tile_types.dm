@@ -122,6 +122,7 @@
 	desc = "Those could work as a pretty decent throwing weapon."
 	icon_state = "tile"
 	force = 6
+	stamina_percentage = 0.7  //Sharp edges! Ooh! Ow!
 	materials = list(MAT_METAL=500)
 	throwforce = 10
 	flags = CONDUCT

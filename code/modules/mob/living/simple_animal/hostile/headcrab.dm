@@ -71,6 +71,7 @@
 
 /obj/item/organ/internal/body_egg/changeling_egg/proc/Pop()
 	var/mob/living/carbon/monkey/M = new(owner)
+
 	owner.stomach_contents += M
 
 	for(var/obj/item/organ/internal/I in src)
@@ -88,6 +89,12 @@
 
 		origin.changeling.purchasedpowers += new /obj/effect/proc_holder/changeling/humanform(null)
 		M.key = origin.key
+
+		var/datum/mind/M2 = M.mind
+
+		if(M2)
+			M2.ghost = FALSE
+
 	owner.gib()
 
 #undef EGG_INCUBATION_TIME

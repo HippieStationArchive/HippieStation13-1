@@ -202,6 +202,13 @@
 		if ("wink","winks")
 			message = "<B>[src]</B> winks."
 			m_type = 1
+			
+		if ("excollapse","excollapsed")
+			if (lying)
+				message = "<B>[src]</B> groans in exhaustion."
+			else
+				message = "<B>[src]</B> collapses in exhaustion!"
+			m_type = 1
 
 		if ("yawn","yawns")
 			if (!muzzled)

@@ -804,7 +804,10 @@
 "apx" = (/obj/structure/cable{d1 = 4; d2 = 8; icon_state = "4-8"; pixel_x = 0},/obj/structure/disposalpipe/segment{dir = 4},/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/obj/effect/landmark/start{name = "Shaft Miner"},/turf/simulated/floor/plasteel,/area/quartermaster/miningdock)
 "apy" = (/obj/structure/bed/chair/withwheels/office/dark{dir = 8},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/obj/effect/landmark/start{name = "Shaft Miner"},/turf/simulated/floor/plasteel,/area/quartermaster/miningdock)
 "apz" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,/obj/effect/landmark/start{name = "Shaft Miner"},/turf/simulated/floor/plasteel,/area/quartermaster/miningdock)
+<<<<<<< HEAD
 "apA" = (/obj/machinery/door/airlock/maintenance{name = "Chapel Maintenance"; req_access_txt = "27"},/turf/simulated/floor/plating,/area/maintenance/fsmaint2)
+=======
+>>>>>>> refs/remotes/HippieStationCode/master
 "apC" = (/obj/item/clothing/under/rank/clown,/obj/item/clothing/shoes/clown_shoes,/obj/item/clothing/mask/gas/clown_hat,/obj/effect/landmark{name = "revenantspawn"},/obj/effect/decal/remains/human,/turf/simulated/floor/plating,/area/security/brig)
 "apD" = (/obj/machinery/vending/cigarette,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/security/brig)
 "apE" = (/obj/structure/bed/chair{dir = 4},/turf/simulated/floor/plasteel{icon_state = "dark"},/area/security/brig)

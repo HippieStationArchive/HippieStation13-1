@@ -102,6 +102,7 @@
 	icon_state = "golden_cup"
 	w_class = 4
 	force = 14
+	stamina_percentage = 0.4
 	throwforce = 10
 	amount_per_transfer_from_this = 20
 	materials = list(MAT_GOLD=1000)
