@@ -81,6 +81,22 @@
 	origin_tech = "materials=1;engineering=1"
 	attack_verb = list("hit", "pierced", "sliced", "attacked")
 
+/obj/item/weapon/safetypickaxe
+	name = "safety pickaxe"
+	icon = 'icons/obj/mining.dmi'
+	icon_state = "sapickaxe"
+	flags = CONDUCT
+	slot_flags = SLOT_BELT
+	force = 0
+	throwforce = 0
+	item_state = "pickaxe"
+	w_class = 4
+	materials = list(MAT_METAL=200) //one sheet, but where can you make them?
+	var/digspeed = 40
+	var/list/digsound = list('sound/effects/picaxe1.ogg','sound/effects/picaxe2.ogg','sound/effects/picaxe3.ogg')
+	origin_tech = "materials=1;engineering=1"
+	attack_verb = list("prodded")
+
 // /obj/item/weapon/pickaxe/suicide_act(mob/user)
 	//Edgy flavortext to-do
 	//"User slams down the head of the pickaxe into Victim's chest!" "You hear bones crunching!" "Victim screams!" "User pulls back the pickaxe, and Victim's heart is popped out, along with bits of bones and other viscera!"
