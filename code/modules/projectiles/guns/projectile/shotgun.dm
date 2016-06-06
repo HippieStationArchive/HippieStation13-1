@@ -5,6 +5,7 @@
 	item_state = "shotgun"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=4;materials=2"
@@ -79,6 +80,7 @@
 
 /obj/item/weapon/gun/projectile/shotgun/riot/attackby(obj/item/A, mob/user, params)
 	..()
+
 	if(istype(A, /obj/item/weapon/circular_saw) || istype(A, /obj/item/weapon/gun/energy/plasmacutter))
 		sawoff(user)
 	if(istype(A, /obj/item/weapon/melee/energy))
@@ -103,6 +105,7 @@
 	can_knife = 1
 	knife_x_offset = 17
 	knife_y_offset = 13
+	can_sawn = TRUE
 
 /obj/item/weapon/gun/projectile/shotgun/boltaction/pump(mob/M)
 	if(bolt_open)
@@ -146,6 +149,7 @@
 	item_state = "shotgun"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	flags = CONDUCT
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=3;materials=1"
@@ -154,6 +158,7 @@
 	sawn_desc = "Omar's coming!"
 	unique_rename = 1
 	unique_reskin = 1
+	can_sawn = TRUE
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/New()
 	..()
@@ -200,6 +205,7 @@
 	item_state = "shotgun"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	slot_flags = null
 	origin_tech = "combat=2;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/improvised
@@ -210,7 +216,7 @@
 	mag_load_sound = 'sound/effects/wep_magazines/rifle_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
 	chamber_sound = null
-
+	can_sawn = TRUE
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/attackby(obj/item/A, mob/user, params)
 	..()
@@ -234,9 +240,9 @@
 	icon_state = "cane"
 	item_state = "stick"
 	icon = 'icons/obj/weapons.dmi'
-	sawn_state = SAWN_OFF
 	w_class = 2
 	force = 10
+	stamina_percentage = 0.75
 	can_unsuppress = 0
 	slot_flags = null
 	origin_tech = "" // NO GIVAWAYS
@@ -244,6 +250,7 @@
 	fire_sound = 'sound/weapons/shotgun.ogg'
 	sawn_desc = "I'm sorry, but why did you saw your cane in the first place?"
 	unique_reskin = 1
+	reskinned = 0
 	mag_load_sound = null
 	mag_unload_sound = null
 	chamber_sound = null
@@ -252,7 +259,7 @@
 	suppressed = 1
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
-	var/list/cane_choices = list()
+	can_sawn = FALSE
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/update_slowdown(mob/user)
 	var/mob/living/carbon/human/H = user
@@ -281,32 +288,13 @@
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/New()
 	..()
-	for(var/U in typesof(/obj/item/weapon/cane))
-		var/obj/item/weapon/cane/V = new U
-		src.cane_choices += V
+	
+	options = list()
+	options["Pimp Stick"] = "pimpstick"
+	options["Cane"] = "cane"
+	options["Cancel"] = null
+
 	return
-/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/verb/Change()
-
-	set src in usr
-
-	var/obj/item/weapon/cane/A
-	A = input("Select Design to change it to", "BOOYEA", A) in cane_choices
-	if(!A)
-		return
-
-	if(usr.stat != CONSCIOUS)
-		return
-
-	desc = null
-
-	desc = A.desc
-	name = A.name
-	attack_verb = A.attack_verb
-	icon_state = A.icon_state
-	item_state = A.item_state
-	usr.update_inv_l_hand()
-	usr.update_inv_r_hand()
-
 
 // Sawing guns related procs //
 
@@ -326,6 +314,10 @@
 /obj/item/weapon/gun/projectile/proc/sawoff(mob/user)
 	if(sawn_state == SAWN_OFF)
 		user << "<span class='warning'>\The [src] is already shortened!</span>"
+		return
+
+	if(!can_sawn)
+		user << "<span class='warning'>You're unable to shorten this weapon!</span>"
 		return
 
 	if(sawn_state == SAWN_SAWING)
@@ -481,18 +473,20 @@
 
 // Triple Threat //
 
-/obj/item/weapon/gun/projectile/revolver/triplebarrel // for biker bar
+/obj/item/weapon/gun/projectile/revolver/triplebarrel
 	name = "triple-barreled shotgun"
 	desc = "A modded version of a true classic."
 	icon_state = "triplethreat"
 	item_state = "triplethreat"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	flags = CONDUCT
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=4;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/triple
 	fire_sound = 'sound/weapons/shotgun.ogg'
+	can_sawn = FALSE
 
 // Lever Action //
 
@@ -505,7 +499,7 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/lever
 	fire_sound = 'sound/weapons/shotgun.ogg'
 	w_class = 3
-
+	can_sawn = FALSE
 
 // breechloader
 
@@ -516,6 +510,7 @@
 	item_state = "musket"
 	w_class = 4
 	force = 10
+	stamina_percentage = 0.5
 	slot_flags = SLOT_BACK
 	origin_tech = "combat=2;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/musket
@@ -526,3 +521,4 @@
 	spread = 7
 	unique_rename = 0
 	unique_reskin = 0
+	can_sawn = FALSE

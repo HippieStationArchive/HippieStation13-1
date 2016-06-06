@@ -40,7 +40,7 @@
 /obj/structure/closet/secure_closet/miner/New()
 	..()
 	new /obj/item/device/radio/headset/headset_cargo(src)
-	new /obj/item/device/mining_scanner(src)
+	new /obj/item/device/t_scanner/adv_mining_scanner(src)
 	new /obj/item/weapon/storage/bag/ore(src)
 	new /obj/item/weapon/shovel(src)
 	new /obj/item/weapon/pickaxe(src)
@@ -144,8 +144,9 @@
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	force = 8
+	stamina_percentage = 0.3
 	var/digspeed = 20
-	throwforce = 4
+	throwforce = 5
 	item_state = "shovel"
 	w_class = 3
 	materials = list(MAT_METAL=50)
@@ -159,6 +160,7 @@
 	icon_state = "spade"
 	item_state = "spade"
 	force = 5
+	stamina_percentage = 0.3
 	throwforce = 7
 	w_class = 2
 
@@ -205,11 +207,15 @@
 	var/list/walltypes = list(/turf/simulated/wall)
 	var/floor_type = /turf/simulated/floor/wood
 	var/room
+	var/onshuttle = 0
 
 	//Center the room/spawn it
 	start_turf = locate(start_turf.x -2, start_turf.y - 2, start_turf.z)
 
-	room = spawn_room(start_turf, x_size, y_size, walltypes, floor_type, "Emergency Shelter")
+	var/area/A = get_area(src)
+	if(istype(A, /area/shuttle))
+		onshuttle = 1
+	room = spawn_room(start_turf, x_size, y_size, walltypes, floor_type, "Emergency Shelter", onshuttle)
 
 	start_turf = get_turf(src.loc)
 
@@ -250,23 +256,24 @@
 	threshhold.nitrogen = 82
 	threshhold.carbon_dioxide = 0
 	threshhold.toxins = 0
-	L.contents += threshhold
+	if(!onshuttle)
+		L.contents += threshhold
 	threshhold.overlays.Cut()
 
 	var/list/turfs = room["floors"]
-	for(var/turf/simulated/floor/A in turfs)
-		SSair.remove_from_active(A)
-		A.oxygen = 21
-		A.temperature = 293.15
-		A.nitrogen = 82
-		A.carbon_dioxide = 0
-		A.toxins = 0
-		A.air.oxygen = 21
-		A.air.carbon_dioxide = 0
-		A.air.nitrogen = 82
-		A.air.toxins = 0
-		A.air.temperature = 293.15
-		SSair.add_to_active(A)
-		A.overlays.Cut()
-
-		L.contents += A
+	for(var/turf/simulated/floor/F in turfs)
+		SSair.remove_from_active(F)
+		F.oxygen = 21
+		F.temperature = 293.15
+		F.nitrogen = 82
+		F.carbon_dioxide = 0
+		F.toxins = 0
+		F.air.oxygen = 21
+		F.air.carbon_dioxide = 0
+		F.air.nitrogen = 82
+		F.air.toxins = 0
+		F.air.temperature = 293.15
+		SSair.add_to_active(F)
+		F.overlays.Cut()
+		if(!onshuttle)
+			L.contents += F

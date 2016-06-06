@@ -278,6 +278,10 @@
 	New()
 		..()
 		add_mutations.Add(mutations_list[STEALTH])
+		
+/obj/item/weapon/dnainjector/stealthmut/ninjabundle
+	name = "\improper DNA injector"
+	desc = "Believe it!"
 
 /obj/item/weapon/dnainjector/antichameleon
 	name = "\improper DNA injector (Anti-Chameleon)"

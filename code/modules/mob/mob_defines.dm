@@ -18,6 +18,7 @@
 	var/obj/screen/i_select = null
 	var/obj/screen/m_select = null
 	var/obj/screen/healths = null
+	var/obj/screen/staminas = null
 	var/obj/screen/throw_icon = null
 	var/obj/screen/damageoverlay = null
 	/*A bunch of this stuff really needs to go under their own defines instead of being globally attached to mob.
