@@ -69,15 +69,15 @@
 
 /obj/item/weaponcrafting/ishotgunconstruction3/attackby(obj/item/I, mob/user, params)
 	..()
-	if(istype(I, /obj/item/stack/packageWrap))
+	if(istype(I, /obj/item/stack/ducttape))
 		var/obj/item/stack/packageWrap/C = I
 		if (C.use(5))
 			var/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/W = new /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised
 			user.unEquip(src)
 			user.put_in_hands(W)
-			user << "<span class='notice'>You tie the wrapping paper around the stock and the barrel to secure it.</span>"
+			user << "<span class='notice'>You use the duct tape to secure the stock and the barrel.</span>"
 			qdel(src)
 		else
-			user << "<span class='warning'>You need at least five feet of wrapping paper to secure the stock!</span>"
+			user << "<span class='warning'>You need at least five duct tape to secure the stock!</span>"
 			return
 

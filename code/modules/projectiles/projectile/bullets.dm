@@ -40,10 +40,7 @@
 	damage = 15
 
 /obj/item/projectile/bullet/pellet/weak
-	damage = 3
-
-/obj/item/projectile/bullet/pellet/random/New()
-	damage = rand(10)
+	damage = 5
 
 /obj/item/projectile/bullet/midbullet
 	damage = 20
