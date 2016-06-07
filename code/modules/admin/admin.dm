@@ -169,6 +169,8 @@ var/global/floorIsLava = 0
 	body += "</body></html>"
 
 	usr << browse(body, "window=adminplayeropts-\ref[M];size=550x515")
+	if(!isobserver(usr))
+		log_admin("[key_name_admin(usr)] has shown the player panel of [M].")
 	feedback_add_details("admin_verb","SPP") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
