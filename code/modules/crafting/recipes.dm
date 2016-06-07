@@ -22,10 +22,10 @@
 /datum/table_recipe/modular_reciever
 	name = "Modular Reciever"
 	result = /obj/item/weaponcrafting/reciever
-	reqs = list(/obj/item/stack/rods = 1,
-				/obj/item/stack/sheet/metal = 1)
+	reqs = list(/obj/item/stack/rods = 2,
+				/obj/item/stack/sheet/metal = 2)
 	tools = list(/obj/item/weapon/screwdriver, /obj/item/weapon/wirecutters, /obj/item/weapon/weldingtool)
-	time = 100
+	time = 60
 	category = CAT_WEAPON
 	
 
@@ -195,7 +195,6 @@
 	result = /obj/item/ammo_casing/shotgun/improvised
 	reqs = list(/obj/item/ammo_casing/shotgun/techshell = 1,
 				/obj/item/stack/sheet/metal = 1,
-				/obj/item/stack/cable_coil = 1,
 				/datum/reagent/fuel = 10)
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 5
@@ -203,7 +202,7 @@
 
 /datum/table_recipe/improvisedslugoverload
 	name = "Overload Improvised Shell"
-	result = /obj/item/ammo_casing/shotgun/improvised/overload
+	result = /obj/item/ammo_casing/shotgun/improvised_overload
 	reqs = list(/obj/item/ammo_casing/shotgun/improvised = 1,
 				/datum/reagent/blackpowder = 5)
 	tools = list(/obj/item/weapon/screwdriver)
@@ -253,10 +252,10 @@
 	result = /obj/item/ammo_casing/musket
 	tools = list(/obj/item/weapon/screwdriver)
 	reqs = list(/obj/item/ammo_casing/minieball = 1,
-				/obj/item/stack/ducttape = 2,
+				/obj/item/stack/ducttape = 1,
 				/obj/item/weapon/paper = 1,
-				/datum/reagent/blackpowder = 15)
-	time = 75
+				/datum/reagent/blackpowder = 2)
+	time = 60
 	category = CAT_AMMO
 
 
@@ -266,4 +265,17 @@
 	tools = list(/obj/item/weapon/weldingtool)
 	reqs = list(/obj/item/stack/sheet/metal = 2)
 	time = 60
+	category = CAT_WEAPON
+	
+/datum/table_recipe/smalltaser
+	name = "Improvised Taser"
+	result = /obj/item/weapon/gun/energy/smalltaser
+	tools = list(/obj/item/weapon/wirecutters, /obj/item/weapon/screwdriver, /obj/item/weapon/gun/energy/gun/advtaser)
+	reqs = list(/obj/item/stack/sheet/metal = 2, 
+				/obj/item/stack/sheet/glass = 2,
+				/obj/item/stack/cable_coil = 5,
+				/obj/item/weapon/stock_parts/micro_laser/high = 1,
+				/obj/item/weapon/stock_parts/cell/high = 1,
+				/obj/item/weaponcrafting/reciever = 1)
+	time = 70
 	category = CAT_WEAPON

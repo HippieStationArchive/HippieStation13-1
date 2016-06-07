@@ -93,29 +93,22 @@
 
 /obj/item/ammo_casing/shotgun/improvised
 	name = "improvised shell"
-	desc = "A shotgun shell with multiple small pellets made out of metal shards."
+	desc = "An improvised shotgun shell filled with metal shrapnel and propellant. Not as good as buckshot."
 	icon_state = "improvshell"
 	projectile_type = /obj/item/projectile/bullet/pellet/weak
 	materials = list(MAT_METAL=250)
-	pellets = 10
-	variance = 40
+	pellets = 4
+	variance = 30
 
 
 /obj/item/ammo_casing/shotgun/improvised_overload
 	name = "overloaded improvised shell"
-	desc = "A shotgun shell with multiple small pellets made out of metal shards. This one is loaded with even more propellent and metal shrapnel/
-	and may prove unpredictable when fired. "
+	desc = "An improvised shotgun shell filled with metal shrapnel and even more powerful propellant. Almost as good as buckshot."
 	icon_state = "improvshell"
 	projectile_type = /obj/item/projectile/bullet/pellet/weak
 	materials = list(MAT_METAL=250)
-	pellets = 10
-	variance = 55
-
-/obj/item/ammo_casing/shotgun/improvised/overload/New()
-	..()
-	pellets = rand(10, 17)
-	
-
+	pellets = 7
+	variance = 60
 
 /obj/item/ammo_casing/shotgun/stunslug
 	name = "taser slug"

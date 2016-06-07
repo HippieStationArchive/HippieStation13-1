@@ -70,7 +70,7 @@
 /obj/item/weaponcrafting/ishotgunconstruction3/attackby(obj/item/I, mob/user, params)
 	..()
 	if(istype(I, /obj/item/stack/ducttape))
-		var/obj/item/stack/packageWrap/C = I
+		var/obj/item/stack/ducttape/C = I
 		if (C.use(5))
 			var/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/W = new /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised
 			user.unEquip(src)

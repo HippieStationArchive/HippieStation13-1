@@ -40,7 +40,8 @@
 	damage = 15
 
 /obj/item/projectile/bullet/pellet/weak
-	damage = 5
+	damage = 10
+	name = "metal shrapnel"
 
 /obj/item/projectile/bullet/midbullet
 	damage = 20
