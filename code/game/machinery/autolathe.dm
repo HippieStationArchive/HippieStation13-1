@@ -189,7 +189,7 @@
 			if (multiplier == "custom")
 				multiplier =  min(max( 0,round(input("How many of these would you like to build? (Up to [max_multiplier])")  as num) ),max_multiplier)
 				if(busy || multiplier <= 0)  //The first arg is in case others use the lathe while you're using it.
-					usr << "Lathe is either busy or you inputted 0."
+					usr << "<span class='warning'>Lathe is either busy or invalid input.</span>"
 					return
 			else
 				multiplier = text2num(href_list["multiplier"])

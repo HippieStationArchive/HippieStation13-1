@@ -361,7 +361,7 @@ proc/CallMaterialName(ID)
 					var/maxAmount = min( text2num(href_list["maxAmount"]) , 10 ) // getting the max amount of the stuff we can build from the protolathe screen
 					amount =  min(round(input("How many of these would you like to build? (Up to [maxAmount])") as num),maxAmount)
 					if(linked_lathe.busy || amount <= 0)  //The first arg is in case others use the lathe while you're using it.
-						usr << "Lathe is either busy or you inputted 0." //Just good to have some feedback to the player.
+						usr << "<span class='warning'>Lathe is either busy or invalid input.</span>" //Just good to have some feedback to the player.
 						return
 				else
 					amount = text2num(href_list["amount"])
