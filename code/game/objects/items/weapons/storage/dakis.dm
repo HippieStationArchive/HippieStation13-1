@@ -25,6 +25,7 @@
 
 		"Callie",
 		"Camille",
+		"Cappy",
 		"Casca",
 		"Chaika",
 		"Elisabeth",

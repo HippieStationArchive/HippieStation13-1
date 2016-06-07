@@ -7,6 +7,7 @@
 	item_state = "restock_unit"
 	flags = CONDUCT
 	force = 7
+	stamina_percentage = 0.5
 	throwforce = 10
 	throw_speed = 1
 	throw_range = 7

@@ -15,24 +15,27 @@
 	status_flags = GODMODE|CANPUSH
 
 /mob/living/carbon/human/proc/oldInfect(mob/living/carbon/human/H)
-	if(H.startinfected == 1 && H.infection == 0)
+	if(H.stat == DEAD && H.infection == 0)
+		oldZombify(H)
+		H.infection = 1
+	else if(H.infection == 0)
 		H.infected = 1
 		H.infection = 1
 		H.faction = list("zombie")
 		H << "You feel slightly ill..."
-		spawn(rand(700, 800))
+		spawn(rand(500, 600))
 			H << "<span class='userdanger'>Something really is not right....</span>"
 			visible_message("<b>[H]</b> looks very pale...")
 			H.adjustOxyLoss(20)
 			H.stuttering = 10
-			spawn(rand(800, 900))
+			spawn(rand(500, 600))
 				H << "<span class='userdanger'>You feel like you could die at any moment....</span>"
 				visible_message("<b>[H]</b> begins sweating uncontrollably!")
 				H.adjustOxyLoss(60)
 				H.stuttering = 20
 				H.Weaken(10)
 				H.Stun(5)
-				spawn(rand(800, 900))
+				spawn(rand(500, 600))
 					H << "<span class='userdanger'>You are about to pass out!</span>"
 					visible_message("<b>[H]</b> begins bleeding uncontrollably!")
 					H.adjustOxyLoss(70)
@@ -48,9 +51,7 @@
 						oldZombify(H)
 						H.startinfected = 0
 						H.infection = 0
-	else if(H.infection == 0)
-		oldZombify(H)
-		H.infection = 1
+
 
 /mob/living/carbon/human/proc/oldZombify(mob/living/carbon/human/H)
 	if(zombification == 0)
@@ -81,7 +82,7 @@
 						break
 				Z.ckey = H.ckey
 				//H.stat = DEAD
-				H.butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie = 3) //So now you can carve them up when you kill them. Maybe not a good idea for the human versions.
+				//H.butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/zombie = 3) //So now you can carve them up when you kill them. Maybe not a good idea for the human versions.
 				H.loc = Z
 				Z.stored_corpse = H
 				for(var/mob/living/simple_animal/hostile/oldzombie/holder/D in H) //Dont want to revive them twice
