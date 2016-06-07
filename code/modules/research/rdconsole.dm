@@ -356,9 +356,18 @@ proc/CallMaterialName(ID)
 					break
 			if(being_built)
 				var/power = 2000
-				var/amount=text2num(href_list["amount"])
+				var/amount=href_list["amount"]
+				if(amount == "custom")
+					var/maxAmount = min( text2num(href_list["maxAmount"]) , 10 ) // getting the max amount of the stuff we can build from the protolathe screen
+					amount =  min(round(input("How many of these would you like to build? (Up to [maxAmount])") as num),maxAmount)
+					if(linked_lathe.busy || amount <= 0)  //The first arg is in case others use the lathe while you're using it.
+						usr << "Lathe is either busy or you inputted 0." //Just good to have some feedback to the player.
+						return
+				else
+					amount = text2num(href_list["amount"])
+
 				var/old_screen = screen
-				amount = max(1, min(10, amount))
+				amount = max(0, min(10, amount))
 				for(var/M in being_built.materials)
 					power += round(being_built.materials[M] * amount / 5)
 				power = max(2000, power)
@@ -369,8 +378,6 @@ proc/CallMaterialName(ID)
 				if (!(being_built.build_type & PROTOLATHE))
 					g2g = 0
 					message_admins("Protolathe exploit attempted by [key_name(usr, usr.client)]!")
-
-
 
 				if (g2g) //If input is incorrect, nothing happens
 					var/enough_materials = 1
@@ -402,7 +409,7 @@ proc/CallMaterialName(ID)
 					var/R = being_built.reliability
 					var/O = being_built.locked
 					spawn(32*amount/coeff)
-						if(g2g) //And if we only fail the material requirements, we still spend time and power
+						if(g2g) //And if we only fail the material requirements, we still spend time and power.
 							var/already_logged = 0
 							for(var/i = 0, i<amount, i++)
 								var/obj/item/new_item = new P(src)
@@ -848,10 +855,13 @@ proc/CallMaterialName(ID)
 
 				if (c >= 1)
 					dat += "<A href='?src=\ref[src];build=[D.id];amount=1'>[D.name]</A>"
+					if(c >= 3)
+						dat += "<A href='?src=\ref[src];build=[D.id];amount=3'>x3</A>"
 					if(c >= 5)
 						dat += "<A href='?src=\ref[src];build=[D.id];amount=5'>x5</A>"
 					if(c >= 10)
 						dat += "<A href='?src=\ref[src];build=[D.id];amount=10'>x10</A>"
+					dat += "<A href='?src=\ref[src];build=[D.id];amount=custom;maxAmount=[c]'>Set</A>"
 					dat += "[temp_material]"
 				else
 					dat += "<span class='linkOff'>[D.name]</span>[temp_material]"
@@ -881,10 +891,13 @@ proc/CallMaterialName(ID)
 
 				if (c >= 1)
 					dat += "<A href='?src=\ref[src];build=[D.id];amount=1'>[D.name]</A>"
+					if(c >= 3)
+						dat += "<A href='?src=\ref[src];build=[D.id];amount=3'>x3</A>"
 					if(c >= 5)
 						dat += "<A href='?src=\ref[src];build=[D.id];amount=5'>x5</A>"
 					if(c >= 10)
 						dat += "<A href='?src=\ref[src];build=[D.id];amount=10'>x10</A>"
+					dat += "<A href='?src=\ref[src];build=[D.id];amount=custom;maxAmount=[c]'>Set</A>"
 					dat += "[temp_material]"
 				else
 					dat += "<span class='linkOff'>[D.name]</span>[temp_material]"
