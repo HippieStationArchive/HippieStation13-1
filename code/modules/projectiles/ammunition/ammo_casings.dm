@@ -97,22 +97,24 @@
 	icon_state = "improvshell"
 	projectile_type = /obj/item/projectile/bullet/pellet/weak
 	materials = list(MAT_METAL=250)
-	pellets = 8
-	variance = 25
+	pellets = 10
+	variance = 40
 
 
-/obj/item/ammo_casing/shotgun/improvised/overload
+/obj/item/ammo_casing/shotgun/improvised_overload
 	name = "overloaded improvised shell"
-	desc = "A shotgun shell with multiple small pellets made out of metal shards. This one is loaded with even more propellant and metal shards and may prove unpredictable when fired. "
+	desc = "A shotgun shell with multiple small pellets made out of metal shards. This one is loaded with even more propellent and metal shrapnel/
+	and may prove unpredictable when fired. "
 	icon_state = "improvshell"
 	projectile_type = /obj/item/projectile/bullet/pellet/weak
 	materials = list(MAT_METAL=250)
-	pellets = 8
-	variance = 40
+	pellets = 10
+	variance = 55
 
 /obj/item/ammo_casing/shotgun/improvised/overload/New()
 	..()
-	pellets = rand(6, 15)
+	pellets = rand(10, 17)
+	
 
 
 /obj/item/ammo_casing/shotgun/stunslug
