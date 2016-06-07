@@ -1,5 +1,5 @@
 ## Server name: This appears at the top of the screen in-game. Remove the # infront of SERVERNAME and replace 'tgstation' with the name of your choice
-# SERVERNAME Hippie Station 13
+ SERVERNAME CheesePizza Station
 
 ## Station name: The name of the station as it is referred to in-game. If commented out, the game will generate a random name instead.
 #STATIONNAME Space Station 13
@@ -8,7 +8,7 @@
 LOBBY_COUNTDOWN 180
 
 ## Add a # infront of this if you want to use the SQL based admin system, the legacy system uses admins.txt. You need to set up your database to use the SQL based system.
-#ADMIN_LEGACY_SYSTEM
+ADMIN_LEGACY_SYSTEM
 
 ## Add a # infront of this if you want to use the SQL based banning system. The legacy systems use the files in the data folder. You need to set up your database to use the SQL based system.
 #BAN_LEGACY_SYSTEM
