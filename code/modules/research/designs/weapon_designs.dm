@@ -63,7 +63,62 @@
 	req_tech = list("combat" = 4, "materials" = 3, "powerstorage" = 3)
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_DIAMOND = 2000)
+	build_path = /obj/item/weapon/gun/energy/laser/hypercannon
+	locked = 1
+	category = list("Weapons")
+
+/datum/design/laserhypercannon
+	name = "Laser Hypercannon"
+	desc = "A heavy duty laser cannon that increases in damage the further the target."
+	id = "laserhypercannon"
+	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 6)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_PLASMA = 3000, MAT_URANIUM = 1000)
 	build_path = /obj/item/weapon/gun/energy/lasercannon
+	locked = 1
+	category = list("Weapons")
+
+/datum/design/laserpistol
+	name = "Laser Pistol"
+	desc = "A fairly basic weapon that fires low focus laser beams."
+	id = "laserpistol"
+	req_tech = list("combat" = 5, "materials" = 3, "powerstorage" = 4)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_PLASMA = 1000)
+	build_path = /obj/item/weapon/gun/energy/laser/pistol
+	locked = 1
+	category = list("Weapons")
+
+/datum/design/laserrifle
+	name = "Laser Rifle"
+	desc = "An advanced laser weapon capable of shooting higly focused beams of light."
+	id = "laserrifle"
+	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 4)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_PLASMA = 1000)
+	build_path = /obj/item/weapon/gun/energy/laser/pistol
+	locked = 1
+	category = list("Weapons")
+
+/datum/design/hybridlaser
+	name = "Hybrid Laser Gun"
+	desc = "An advanced laser weapon capable of shooting low focus and high focus beams. Great for non-lethal combat."
+	id = "laserpistol"
+	req_tech = list("combat" = 4, "materials" = 4, "powerstorage" = 3)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000)
+	build_path = /obj/item/weapon/gun/energy/laser/hybrid
+	locked = 1
+	category = list("Weapons")
+
+/datum/design/hybridpistol
+	name = "Hybrid Laser Gun"
+	desc = "A compact laser weapon capable of shooting low focus and high focus beams. Great for non-lethal combat."
+	id = "hybridpistol"
+	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 3)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_DIAMOND = 100)
+	build_path = /obj/item/weapon/gun/energy/laser/hybrid
 	locked = 1
 	category = list("Weapons")
 
@@ -275,12 +330,12 @@
 	build_path = /obj/item/weapon/suppressor
 	category = list("Weapons")
 
-/datum/design/armor/reactive  
-	name = "Reactive Teleport Armor"  
-	desc= "Someone seperated our Research Director from his own head!"  
-	id = "reactive"  
-	req_tech = list("materials" = 7, "combat" = 6, "powerstorage" = 6, "magnets" = 6, "programming" = 6, "bluespace" = 7)  
-	build_type = PROTOLATHE  
-	materials = list(MAT_METAL = 25000, MAT_GLASS = 10000, MAT_SILVER = 20000, MAT_GOLD = 20000, MAT_PLASMA = 6000, MAT_DIAMOND = 2000)  
-	build_path = /obj/item/clothing/suit/armor/reactive  
-	category = list("Weapons")  
+/datum/design/armor/reactive
+	name = "Reactive Teleport Armor"
+	desc= "Someone seperated our Research Director from his own head!"
+	id = "reactive"
+	req_tech = list("materials" = 7, "combat" = 6, "powerstorage" = 6, "magnets" = 6, "programming" = 6, "bluespace" = 7)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 25000, MAT_GLASS = 10000, MAT_SILVER = 20000, MAT_GOLD = 20000, MAT_PLASMA = 6000, MAT_DIAMOND = 2000)
+	build_path = /obj/item/clothing/suit/armor/reactive
+	category = list("Weapons")

@@ -4,8 +4,7 @@
 	icon_state = "taser"
 	item_state = null	//so the human update icon uses the icon_state instead.
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode)
-	shaded_charge = 1
-	ammo_x_offset = 1
+	ammo_x_offset = 3
 
 /obj/item/weapon/gun/energy/stunrevolver
 	name = "stun revolver"
