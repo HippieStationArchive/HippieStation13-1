@@ -16,7 +16,7 @@
 	reqs = list(/obj/item/weapon/gun = 1)
 	parts = list(/obj/item/weapon/gun = 1)
 	tools = list(/obj/item/weapon/screwdriver, /obj/item/weapon/wirecutters)
-	time = 50
+	time = 100
 	category = CAT_WEAPON
 	
 /datum/table_recipe/modular_reciever
@@ -25,7 +25,7 @@
 	reqs = list(/obj/item/stack/rods = 2,
 				/obj/item/stack/sheet/metal = 2)
 	tools = list(/obj/item/weapon/screwdriver, /obj/item/weapon/wirecutters, /obj/item/weapon/weldingtool)
-	time = 60
+	time = 100
 	category = CAT_WEAPON
 	
 
@@ -37,7 +37,7 @@
 				/obj/item/device/assembly/igniter = 1,
 				/obj/item/weapon/reagent_containers/food/drinks/soda_cans = 1)
 	parts = list(/obj/item/weapon/reagent_containers/food/drinks/soda_cans = 1)
-	time = 40
+	time = 80
 	category = CAT_WEAPON
 
 /datum/table_recipe/molotov
@@ -46,7 +46,7 @@
 	reqs = list(/obj/item/weapon/reagent_containers/glass/rag = 1,
 				/obj/item/weapon/reagent_containers/food/drinks/bottle = 1)
 	parts = list(/obj/item/weapon/reagent_containers/food/drinks/bottle = 1)
-	time = 40
+	time = 80
 	category = CAT_WEAPON
 
 /datum/table_recipe/stunprod
@@ -56,7 +56,7 @@
 				/obj/item/stack/rods = 1,
 				/obj/item/weapon/wirecutters = 1,
 				/obj/item/weapon/stock_parts/cell = 1)
-	time = 40
+	time = 80
 	parts = list(/obj/item/weapon/stock_parts/cell = 1)
 	category = CAT_WEAPON
 
@@ -75,7 +75,7 @@
 				/obj/item/device/assembly/prox_sensor = 1,
 				/obj/item/robot_parts/r_arm = 1)
 	tools = list(/obj/item/weapon/weldingtool, /obj/item/weapon/screwdriver)
-	time = 60
+	time = 100
 	category = CAT_ROBOT
 
 /datum/table_recipe/secbot
@@ -227,7 +227,7 @@
 				/obj/item/weaponcrafting/stock = 1,
 				/obj/item/stack/ducttape = 5)
 	tools = list(/obj/item/weapon/screwdriver)
-	time = 60
+	time = 100
 	category = CAT_WEAPON
 
 /datum/table_recipe/spikebat
@@ -235,7 +235,7 @@
 	result = /obj/item/weapon/baseballbat/spike
 	reqs = list(/obj/item/weapon/baseballbat/wood = 1,
 				/obj/item/stack/rods = 4,)
-	time = 60
+	time = 120
 	category = CAT_WEAPON
 
 /datum/table_recipe/garrote_handles //Still need to apply some wires to finish it
@@ -244,7 +244,7 @@
 	tools = list(/obj/item/weapon/weldingtool)
 	reqs = list(/obj/item/stack/cable_coil = 15,
 				/obj/item/stack/rods = 1,)
-	time = 60
+	time = 120
 	category = CAT_WEAPON
 
 /datum/table_recipe/paper_cartridge//for duh breechloadin ryefull
@@ -277,5 +277,5 @@
 				/obj/item/weapon/stock_parts/micro_laser/high = 1,
 				/obj/item/weapon/stock_parts/cell/high = 1,
 				/obj/item/weaponcrafting/reciever = 1)
-	time = 70
+	time = 120
 	category = CAT_WEAPON
