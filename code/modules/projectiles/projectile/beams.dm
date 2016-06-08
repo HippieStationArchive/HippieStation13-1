@@ -25,6 +25,12 @@
 	icon_state = "focused"
 	damage = 45
 
+/obj/item/projectile/beam/laser/accelerator
+	name = "accelerator laser"
+	icon_state = "heavylaser"
+	range = 255
+	damage = 6
+
 /obj/item/projectile/beam/lowlaser
 	name = "low laser"
 	icon_state = "scatterlaser"

@@ -21,16 +21,6 @@
 	origin_tech = "combat=4;materials=3;powerstorage=4"
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/rifle)
 
-/obj/item/weapon/gun/energy/laser/hypercannon
-	name = "laser hypercannon"
-	desc = "A seriously overcharged laser cannon, capable of killing in one hit."
-	icon_state = "laser_hypercannon"
-	item_state = "laser"
-	w_class = 5
-	origin_tech = "combat=6;materials=5;powerstorage=6"
-	ammo_type = list(/obj/item/ammo_casing/energy/laser/hyper)
-	slot_flags = SLOT_BACK
-
 /obj/item/weapon/gun/energy/laser/pistol
 	name = "laser pistol"
 	desc = "A low powered laser weapon that is small and robust. Pocket size."
@@ -78,6 +68,24 @@
 	pin = null
 	ammo_x_offset = 3
 
+/obj/item/weapon/gun/energy/laser/hypercannon
+	name = "laser hypercannon"
+	desc = "An advanced laser cannon that does more damage the farther away the target is."
+	icon_state = "laser_hypercannon"
+	item_state = "alc"
+	w_class = 4
+	force = 10
+	slot_flags = SLOT_BACK
+	fire_sound = 'sound/weapons/lasercannonfire.ogg'
+	origin_tech = "combat=4;materials=3;powerstorage=3"
+	cell_type = "/obj/item/weapon/stock_parts/cell/laser/hypercannon"
+	ammo_type = list(/obj/item/ammo_casing/energy/laser/hyper)
+
+/obj/item/projectile/beam/laser/accelerator/Range()
+	..()
+	damage = min(damage+7, 100)
+	transform *= TransformUsingVariable(20 , 100, 1)
+
 /obj/item/weapon/gun/energy/laser/cyborg
 	icon_state = "cyborg_laser"
 	can_charge = 0
@@ -100,9 +108,9 @@
 
 /obj/item/weapon/gun/energy/laser/hybrid
 	multistate = 1
-	name = "hybrid energy gun"
+	name = "hybrid laser gun"
 	icon_state = "laser_hybrid"
-	item_state = "energystun4"
+	item_state = ""
 	desc = "An advanced laser weapon that is able to increase and decrease its beam for either non-lethal and lethal combat."
 	origin_tech = "combat=4;materials=4;powerstorage=4"
 	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
@@ -114,7 +122,7 @@
 
 /obj/item/weapon/gun/energy/laser/hybrid_pistol
 	multistate = 1
-	name = "hybrid energy pistol"
+	name = "hybrid laser pistol"
 	icon_state = "laser_hybrid_pistol"
 	item_state = "gun"
 	desc = "A compact laser weapon that is able to increase and decrease its beam for either non-lethal and lethal combat."
