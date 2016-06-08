@@ -547,10 +547,8 @@
 	icon_state = "plasmaman"
 	item_state = "plasmaman"
 	item_color = "plasmaman"
-	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 100, rad = 0)
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	can_adjust = 0
-	strip_delay = 80
 
 /obj/item/clothing/under/odgreen
 	name = "olive drab suit"
