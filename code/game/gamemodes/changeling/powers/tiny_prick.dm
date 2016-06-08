@@ -93,8 +93,8 @@
 	if(!selected_dna)
 		return
 	if(NOTRANSSTING in selected_dna.dna.species.specflags)
- 		user << "<span class = 'notice'>That DNA is not compatible with changeling retrovirus!"
- 		return
+		user << "<span class = 'notice'>That DNA is not compatible with changeling retrovirus!"
+		return
 	..()
 
 /obj/effect/proc_holder/changeling/sting/transformation/can_sting(mob/user, mob/target)
