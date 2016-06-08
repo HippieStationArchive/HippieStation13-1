@@ -268,14 +268,15 @@
 	category = CAT_WEAPON
 	
 /datum/table_recipe/smalltaser
-	name = "Improvised Taser"
+	name = "Stun Derringer"
 	result = /obj/item/weapon/gun/energy/smalltaser
 	tools = list(/obj/item/weapon/wirecutters, /obj/item/weapon/screwdriver, /obj/item/weapon/gun/energy/gun/advtaser)
 	reqs = list(/obj/item/stack/sheet/metal = 2, 
-				/obj/item/stack/sheet/glass = 2,
+				/obj/item/stack/sheet/plasteel = 1,
 				/obj/item/stack/cable_coil = 5,
 				/obj/item/weapon/stock_parts/micro_laser/high = 1,
 				/obj/item/weapon/stock_parts/cell/high = 1,
+				/obj/item/weapon/stock_parts/capacitor/adv = 1,
 				/obj/item/weaponcrafting/reciever = 1)
 	time = 120
 	category = CAT_WEAPON

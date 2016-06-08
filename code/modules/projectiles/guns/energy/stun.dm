@@ -7,8 +7,8 @@
 	ammo_x_offset = 3
 
 /obj/item/weapon/gun/energy/smalltaser
-	name = "improvised taser gun"
-	desc = "An extremely low-capacity, improvised stun gun. It can only hold enough charge for one shot. Make it count."
+	name = "stun derringer"
+	desc = "An extremely low-capacity stun gun. It can only hold enough charge for one shot. Make it count."
 	icon_state = "smalltaser"
 	item_state = null	//so the human update icon uses the icon_state instead.
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode/crap)
