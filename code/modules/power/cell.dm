@@ -194,6 +194,10 @@
 	name = "hybrid pistol cell"
 	maxcharge = 500
 
+/obj/item/weapon/stock_parts/cell/laser/hypercannon
+	name = "hypercannon cell"
+	maxcharge = 400
+
 /obj/item/weapon/stock_parts/cell/high/empty/New()
 	..()
 	charge = 0

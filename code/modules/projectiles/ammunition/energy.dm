@@ -19,7 +19,7 @@
 /obj/item/ammo_casing/energy/laser/hyper
 	projectile_type = /obj/item/projectile/beam/hyperlaser
 	select_name = "hyper"
-	e_cost = 120
+	e_cost = 100
 	fire_sound = 'sound/weapons/pulse.ogg'
 
 /obj/item/ammo_casing/energy/lasergun
