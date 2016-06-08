@@ -711,10 +711,12 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 var/global/image/plasmaman_on_fire = image("icon"='icons/mob/OnFire.dmi', "icon_state"="plasmaman")
 
 /datum/species/plasmaman
-	name = "Plasbone"
+	name = "Plasmaman"
 	id = "plasmaman"
 	say_mod = "rattles"
+	attack_sound = 'sound/misc/skeletonhit.ogg'
 	sexes = 0
+	roundstart = 1
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
 	specflags = list(NOBLOOD,RADIMMUNE)
 	safe_oxygen_min = 0 //We don't breath this
@@ -725,7 +727,7 @@ var/global/image/plasmaman_on_fire = image("icon"='icons/mob/OnFire.dmi', "icon_
 /datum/species/plasmaman/spec_life(mob/living/carbon/human/H)
 	var/datum/gas_mixture/environment = H.loc.return_air()
 
-	if(!istype(H.wear_suit, /obj/item/clothing/suit/space/eva/plasmaman) || !istype(H.head, /obj/item/clothing/head/helmet/space/hardsuit/plasmaman))
+	if(!istype(H.wear_suit, /obj/item/clothing/suit/space/eva/plasmaman) && !istype(H.w_uniform, /obj/item/clothing/under/plasmaman) || !istype(H.head, /obj/item/clothing/head/helmet/space/hardsuit/plasmaman))
 		if(environment)
 			var/total_moles = environment.total_moles()
 			if(total_moles)
@@ -734,20 +736,22 @@ var/global/image/plasmaman_on_fire = image("icon"='icons/mob/OnFire.dmi', "icon_
 						H.visible_message("<span class='danger'>[H]'s body reacts with the atmosphere and bursts into flames!</span>","<span class='userdanger'>Your body reacts with the atmosphere and bursts into flame!</span>")
 					H.adjust_fire_stacks(0.5)
 					H.IgniteMob()
-	else
-		if(H.fire_stacks)
-			var/obj/item/clothing/suit/space/eva/plasmaman/P = H.wear_suit
-			if(istype(P))
-				P.Extinguish(H)
-	H.update_fire()
 
-//Heal from plasma
-/datum/species/plasmaman/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
-	if(chem.id == "plasma")
-		H.adjustBruteLoss(-5)
-		H.adjustFireLoss(-5)
-		H.reagents.remove_reagent(chem.id, REAGENTS_METABOLISM)
-		return 1
+/datum/species/plasmaman/before_equip_job(datum/job/J, mob/living/carbon/human/H, visualsOnly = FALSE)
+	var/datum/outfit/plasmaman/O = new /datum/outfit/plasmaman
+	H.equipOutfit(O, visualsOnly)
+	H.internal = H.back
+	H.internals.icon_state = "internal1"
+	return 0
+
+/datum/species/plasmaman/qualifies_for_rank(rank, list/features)
+	if(rank in security_positions)//They're a challenge job, can't have them taking serious job slots.
+		return 0
+	if(rank in command_positions)//Standard Non-human rule.
+		return 0
+	if(rank == "Clown" || rank == "Mime")//Plasma husks aren't funny
+		return 0
+	return ..()
 
 
 
