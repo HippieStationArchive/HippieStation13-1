@@ -10,6 +10,8 @@
 	ammo_x_offset = 1
 	shaded_charge = 1
 
+////////Basic Weapons////////////////
+
 /obj/item/weapon/gun/energy/laser/rifle
 	name = "laser rifle"
 	desc = "A focused laser weapon capable of producing a beam of light that is made for maximum damage and accuracy."
@@ -33,7 +35,7 @@
 	name = "laser pistol"
 	desc = "A low powered laser weapon that is small and robust. Pocket size."
 	icon_state = "laser_pistol"
-	item_state = "laser"
+	item_state = "gun"
 	w_class = 2
 	origin_tech = "combat=2;materials=3;powerstorage=2"
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/pistol)
@@ -51,76 +53,6 @@
 	icon_state = "retro"
 	desc = "An older model of the basic lasergun, no longer used by Nanotrasen's private security or military forces. Nevertheless, it is still quite deadly and easy to maintain, making it a favorite amongst pirates and other outlaws."
 	ammo_x_offset = 3
-
-
-/obj/item/weapon/gun/energy/laser/captain
-	name = "antique laser gun"
-	icon_state = "caplaser"
-	item_state = "caplaser"
-	desc = "This is an antique laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding."
-	force = 10
-	stamina_percentage = 0.6
-	origin_tech = null
-	var/charge_tick = 0
-	ammo_x_offset = 3
-
-/obj/item/weapon/gun/energy/laser/captain/scattershot
-	name = "scatter shot laser rifle"
-	icon_state = "lasercannon"
-	item_state = "laser"
-	desc = "An industrial-grade heavy-duty laser rifle with a modified laser lense to scatter its shot into multiple smaller lasers. The inner-core can self-charge for theorically infinite use."
-	origin_tech = "combat=5;materials=4;powerstorage=4"
-	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/laser/scatter)
-
-/obj/item/weapon/gun/energy/laser/captain/scattershot/attack_self(mob/living/user as mob)
-	select_fire(user)
-	update_icon()
-
-/obj/item/weapon/gun/energy/laser/captain/New()
-	..()
-	SSobj.processing |= src
-
-
-/obj/item/weapon/gun/energy/laser/captain/Destroy()
-	SSobj.processing.Remove(src)
-	return ..()
-
-
-/obj/item/weapon/gun/energy/laser/captain/process()
-	charge_tick++
-	if(charge_tick < 4) return 0
-	charge_tick = 0
-	if(!power_supply) return 0
-	power_supply.give(100)
-	update_icon()
-	return 1
-
-/obj/item/weapon/gun/energy/laser/cyborg
-	can_charge = 0
-	desc = "An energy-based laser gun that draws power from the cyborg's internal energy cell directly. So this is what freedom looks like?"
-
-/obj/item/weapon/gun/energy/laser/cyborg/newshot()
-	if(isrobot(src.loc))
-		var/mob/living/silicon/robot/R = src.loc
-		if(R && R.cell)
-			var/obj/item/ammo_casing/energy/shot = ammo_type[select] //Necessary to find cost of shot
-			if(R.cell.use(shot.e_cost))
-				chambered = shot
-				chambered.newshot()
-	return
-
-/obj/item/weapon/gun/energy/laser/cyborg/emp_act()
-	return
-
-/obj/item/weapon/gun/energy/laser/scatter
-	name = "scatter laser gun"
-	desc = "A laser gun equipped with a refraction kit that spreads bolts."
-	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/laser/scatter)
-
-/obj/item/weapon/gun/energy/laser/scatter/attack_self(mob/living/user as mob)
-	select_fire(user)
-	update_icon()
-
 
 /obj/item/weapon/gun/energy/lasercannon
 	name = "laser cannon"
@@ -145,6 +77,97 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/xray)
 	pin = null
 	ammo_x_offset = 3
+
+/obj/item/weapon/gun/energy/laser/cyborg
+	icon_state = "cyborg_laser"
+	can_charge = 0
+	desc = "An energy-based laser gun that draws power from the cyborg's internal energy cell directly. So this is what freedom looks like?"
+
+/obj/item/weapon/gun/energy/laser/cyborg/newshot()
+	if(isrobot(src.loc))
+		var/mob/living/silicon/robot/R = src.loc
+		if(R && R.cell)
+			var/obj/item/ammo_casing/energy/shot = ammo_type[select] //Necessary to find cost of shot
+			if(R.cell.use(shot.e_cost))
+				chambered = shot
+				chambered.newshot()
+	return
+
+/obj/item/weapon/gun/energy/laser/cyborg/emp_act()
+	return
+
+////////Multistate Weapons///////////
+
+/obj/item/weapon/gun/energy/laser/hybrid
+	multistate = 1
+	name = "hybrid energy gun"
+	icon_state = "laser_hybrid"
+	item_state = "energystun4"
+	desc = "An advanced laser weapon that is able to increase and decrease its beam for either non-lethal and lethal combat."
+	origin_tech = "combat=4;materials=4;powerstorage=4"
+	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
+
+/obj/item/weapon/gun/energy/laser/hybrid/attack_self(mob/living/user as mob) //For multistate processing
+	select_fire(user)
+	multistate_update()
+	update_icon(user)
+
+/obj/item/weapon/gun/energy/laser/hybrid_pistol
+	multistate = 1
+	name = "hybrid energy pistol"
+	icon_state = "laser_hybrid_pistol"
+	item_state = "gun"
+	desc = "A compact laser weapon that is able to increase and decrease its beam for either non-lethal and lethal combat."
+	origin_tech = "combat=4;materials=4;powerstorage=4"
+	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
+	slot_flags = SLOT_POCKET
+	cell_type = "/obj/item/weapon/stock_parts/cell/laser/pistol_hybrid"
+
+/obj/item/weapon/gun/energy/laser/hybrid_pistol/attack_self(mob/living/user as mob)
+	select_fire(user)
+	multistate_update()
+	update_icon(user)
+
+/obj/item/weapon/gun/energy/laser/scatter
+	name = "scatter laser gun"
+	desc = "A laser gun equipped with a refraction kit that spreads bolts."
+	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/laser/scatter)
+
+/obj/item/weapon/gun/energy/laser/scatter/attack_self(mob/living/user as mob)
+	select_fire(user)
+	update_icon()
+
+////////Self Charging Weapons////////
+
+/obj/item/weapon/gun/energy/laser/captain
+	name = "antique laser gun"
+	icon_state = "caplaser"
+	item_state = "caplaser"
+	desc = "This is an antique laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding."
+	force = 10
+	stamina_percentage = 0.6
+	origin_tech = null
+	var/charge_tick = 0
+	ammo_x_offset = 3
+
+/obj/item/weapon/gun/energy/laser/captain/New()
+	..()
+	SSobj.processing |= src
+
+
+/obj/item/weapon/gun/energy/laser/captain/Destroy()
+	SSobj.processing.Remove(src)
+	return ..()
+
+
+/obj/item/weapon/gun/energy/laser/captain/process()
+	charge_tick++
+	if(charge_tick < 4) return 0
+	charge_tick = 0
+	if(!power_supply) return 0
+	power_supply.give(100)
+	update_icon()
+	return 1
 
 ////////Laser Tag////////////////////
 

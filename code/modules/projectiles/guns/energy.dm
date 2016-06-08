@@ -12,6 +12,9 @@
 	var/can_charge = 1 //Can it be charged in a recharger?
 	ammo_x_offset = 2
 	var/shaded_charge = 0 //if this gun uses a stateful charge bar for more detail
+	var/setting = 0
+	var/multistate = 0 //Does it have two states?
+	var/multistateicon = ""
 
 /obj/item/weapon/gun/energy/emp_act(severity)
 	power_supply.use(round(power_supply.charge / severity))
@@ -33,6 +36,7 @@
 	shot = ammo_type[select]
 	fire_sound = shot.fire_sound
 	fire_delay = shot.delay
+	multistate_update()
 	update_icon()
 	return
 
@@ -73,27 +77,43 @@
 	update_icon()
 	return
 
+/obj/item/weapon/gun/energy/proc/multistate_update() //This is the new way of handling things that have more than one setting. Thank fuck.
+	if(multistate)
+		if(setting == 0)
+			setting = 1
+			multistateicon = "[icon_state][setting]"
+		else if(setting == 1)
+			setting = 0
+			multistateicon = "[icon_state][setting]"
+
 /obj/item/weapon/gun/energy/update_icon()
 	overlays.Cut()
 	var/ratio = Ceiling((power_supply.charge / power_supply.maxcharge) * 4)
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
 	var/iconState = "[icon_state]_charge"
 	var/itemState = null
+
 	if(!initial(item_state))
 		itemState = icon_state
+
 	if (modifystate)
 		overlays += "[icon_state]_[shot.select_name]"
 		iconState += "_[shot.select_name]"
 		if(itemState)
 			itemState += "[shot.select_name]"
+
 	if(power_supply.charge < shot.e_cost)
 		overlays += "[icon_state]_empty"
 	else
 		if(!shaded_charge)
 			for(var/i = ratio, i >= 1, i--)
 				overlays += image(icon = icon, icon_state = iconState, pixel_x = ammo_x_offset * (i -1))
+		else if(multistate == 1)
+			overlays += image(icon = icon, icon_state = "[multistateicon]_charge[ratio]")
 		else
 			overlays += image(icon = icon, icon_state = "[icon_state]_charge[ratio]")
+
+
 	if(F)
 		var/iconF = "flight"
 		if(F.on)
