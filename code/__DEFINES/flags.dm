@@ -35,6 +35,7 @@
 
 #define BLOCKHAIR	32768		// temporarily removes the user's hair icon
 
+#define NOTRANSSTING	16384           // Can't be used for trans sting aka plasmamen
 //turf-only flags
 #define NOJAUNT		1
 
