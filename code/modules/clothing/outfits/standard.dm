@@ -356,7 +356,7 @@
 	name = "Plasmaman"
 
 	head = /obj/item/clothing/head/helmet/space/hardsuit/plasmaman
-	suit = /obj/item/clothing/suit/space/eva/plasmaman
+	uniform = /obj/item/clothing/under/plasmaman
 	back = /obj/item/weapon/tank/internals/plasmaman/full
 	mask = /obj/item/clothing/mask/breath
 
