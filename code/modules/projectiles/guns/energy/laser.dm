@@ -10,6 +10,35 @@
 	ammo_x_offset = 1
 	shaded_charge = 1
 
+/obj/item/weapon/gun/energy/laser/rifle
+	name = "laser rifle"
+	desc = "A focused laser weapon capable of producing a beam of light that is made for maximum damage and accuracy."
+	icon_state = "laser_rifle"
+	item_state = "laser"
+	w_class = 4
+	origin_tech = "combat=4;materials=3;powerstorage=4"
+	ammo_type = list(/obj/item/ammo_casing/energy/laser/rifle)
+
+/obj/item/weapon/gun/energy/laser/hypercannon
+	name = "laser hypercannon"
+	desc = "A seriously overcharged laser cannon, capable of killing in one hit."
+	icon_state = "laser_hypercannon"
+	item_state = "laser"
+	w_class = 5
+	origin_tech = "combat=6;materials=5;powerstorage=6"
+	ammo_type = list(/obj/item/ammo_casing/energy/laser/hyper)
+	slot_flags = SLOT_BACK
+
+/obj/item/weapon/gun/energy/laser/pistol
+	name = "laser pistol"
+	desc = "A low powered laser weapon that is small and robust. Pocket size."
+	icon_state = "laser_pistol"
+	item_state = "laser"
+	w_class = 2
+	origin_tech = "combat=2;materials=3;powerstorage=2"
+	ammo_type = list(/obj/item/ammo_casing/energy/laser/pistol)
+	slot_flags = SLOT_POCKET
+
 /obj/item/weapon/gun/energy/laser/practice
 	name = "practice laser gun"
 	desc = "A modified version of the basic laser gun, this one fires less concentrated energy bolts designed for target practice."

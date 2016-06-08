@@ -20,11 +20,25 @@
 	icon_state = "scatterlaser"
 	damage = 5
 
+/obj/item/projectile/beam/focusedlaser
+	name = "focused laser"
+	icon_state = "focused"
+	damage = 45
+
+/obj/item/projectile/beam/lowlaser
+	name = "low laser"
+	icon_state = "scatterlaser"
+	damage = 10
 
 /obj/item/projectile/beam/heavylaser
 	name = "heavy laser"
 	icon_state = "heavylaser"
 	damage = 40
+
+/obj/item/projectile/beam/hyperlaser
+	name = "hyper laser"
+	icon_state = "hyperlaser"
+	damage = 100
 
 /obj/item/projectile/beam/xray
 	name = "xray beam"

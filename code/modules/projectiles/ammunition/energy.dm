@@ -11,6 +11,17 @@
 	projectile_type = /obj/item/projectile/beam
 	select_name = "kill"
 
+/obj/item/ammo_casing/energy/laser/pistol
+	projectile_type = /obj/item/projectile/beam/lowlaser
+	select_name = "kill"
+	e_cost = 50
+
+/obj/item/ammo_casing/energy/laser/hyper
+	projectile_type = /obj/item/projectile/beam/hyperlaser
+	select_name = "hyper"
+	e_cost = 120
+	fire_sound = 'sound/weapons/pulse.ogg'
+
 /obj/item/ammo_casing/energy/lasergun
 	projectile_type = /obj/item/projectile/beam
 	e_cost = 83
@@ -18,6 +29,12 @@
 
 /obj/item/ammo_casing/energy/laser/hos
 	e_cost = 100
+
+/obj/item/ammo_casing/energy/laser/rifle
+	projectile_type = /obj/item/projectile/beam/focusedlaser
+	e_cost = 120
+	fire_sound = 'sound/weapons/laserrifle.ogg'
+	select_name = "focused"
 
 /obj/item/ammo_casing/energy/laser/practice
 	projectile_type = /obj/item/projectile/beam/practice
