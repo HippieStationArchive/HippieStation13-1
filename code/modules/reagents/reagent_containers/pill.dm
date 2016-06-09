@@ -63,13 +63,11 @@
 								i++
 
 							// Safely remove the item we have consumed
-							if(B) {
-								if(B.contents) {
+							if(B)
+								if(B.contents)
 									B.contents -= src
-								}
 
 								B.stored -= itemstorevalue
-							}
 
 							qdel(src)
 
