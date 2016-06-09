@@ -83,8 +83,7 @@
 
 /obj/item/projectile/beam/laser/accelerator/Range()
 	..()
-	damage = min(damage+7, 100)
-	transform *= TransformUsingVariable(20 , 100, 1)
+	damage = min(damage+10, 100)
 
 /obj/item/weapon/gun/energy/laser/cyborg
 	icon_state = "cyborg_laser"
@@ -120,7 +119,7 @@
 	multistate_update()
 	update_icon(user)
 
-/obj/item/weapon/gun/energy/laser/hybrid_pistol
+/obj/item/weapon/gun/energy/laser/hybrid/pistol
 	multistate = 1
 	name = "hybrid laser pistol"
 	icon_state = "laser_hybrid_pistol"
@@ -130,11 +129,6 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
 	slot_flags = SLOT_POCKET
 	cell_type = "/obj/item/weapon/stock_parts/cell/laser/pistol_hybrid"
-
-/obj/item/weapon/gun/energy/laser/hybrid_pistol/attack_self(mob/living/user as mob)
-	select_fire(user)
-	multistate_update()
-	update_icon(user)
 
 /obj/item/weapon/gun/energy/laser/scatter
 	name = "scatter laser gun"
