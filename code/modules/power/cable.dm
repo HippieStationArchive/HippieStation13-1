@@ -761,10 +761,10 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	else
 		user << "<span class='notice'>You cannot do that.</span>"
 
-/obj/item/stack/cable_coil/verb/make_restraint()
+/obj/item/stack/cable_coil/verb/make_restraint(mob/user)
 	set name = "Make Cable Restraints"
 	set category = "Object"
-	makeRestraints(usr)
+	makeRestraints(user)
 	..()
 
 /obj/item/stack/cable_coil/AltClick(mob/user)
