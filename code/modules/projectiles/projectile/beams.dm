@@ -34,7 +34,7 @@
 /obj/item/projectile/beam/lowlaser
 	name = "low laser"
 	icon_state = "scatterlaser"
-	damage = 10
+	damage = 15
 
 /obj/item/projectile/beam/heavylaser
 	name = "heavy laser"
