@@ -29,7 +29,7 @@
 	name = "accelerator laser"
 	icon_state = "hyperlaser"
 	range = 255
-	damage = 6
+	damage = 15
 
 /obj/item/projectile/beam/lowlaser
 	name = "low laser"
