@@ -112,7 +112,7 @@
 	category = list("Weapons")
 
 /datum/design/hybridpistol
-	name = "Hybrid Laser Gun"
+	name = "Hybrid Laser Pistol"
 	desc = "A compact laser weapon capable of shooting low focus and high focus beams. Great for non-lethal combat."
 	id = "hybridpistol"
 	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 3)
