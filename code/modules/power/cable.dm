@@ -634,7 +634,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			hashead = 1
 
 	if(hashead != 1)
-		user << "They don't have a head...."
+		user << "<span class='danger'>They don't have a head....</span>"
 		return 0
 
 	if(M.loc != src.loc) return 0 //Can only noose someone if they're on the same tile as noose
