@@ -123,8 +123,12 @@
 		var/iconK = "knife"
 		overlays += image(icon = 'icons/obj/guns/attachments.dmi', icon_state = iconK, pixel_x = knife_x_offset, pixel_y = knife_y_offset)
 	if(itemState)
-		itemState += "[setting][ratio]"
-		item_state = itemState
+		if(multistate == 1)
+			itemState += "[setting][ratio]"
+			item_state = itemState
+		else if(!shaded_charge)
+			itemState += "[ratio]"
+			item_state = itemState
 
 /obj/item/weapon/gun/energy/ui_action_click()
 	toggle_gunlight()
