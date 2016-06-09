@@ -73,7 +73,7 @@
 	id = "laserhypercannon"
 	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 6)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_PLASMA = 3000, MAT_URANIUM = 1000)
+	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_URANIUM = 1000, MAT_DIAMOND = 1000, MAT_PLASMA = 3000, MAT_GOLD = 3000)
 	build_path = /obj/item/weapon/gun/energy/lasercannon
 	locked = 1
 	category = list("Weapons")
@@ -84,7 +84,7 @@
 	id = "laserpistol"
 	req_tech = list("combat" = 5, "materials" = 3, "powerstorage" = 4)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_PLASMA = 1000)
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 1000, MAT_GOLD = 500)
 	build_path = /obj/item/weapon/gun/energy/laser/pistol
 	locked = 1
 	category = list("Weapons")
@@ -95,7 +95,7 @@
 	id = "laserrifle"
 	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 4)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_PLASMA = 1000)
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_DIAMOND = 1000)
 	build_path = /obj/item/weapon/gun/energy/laser/pistol
 	locked = 1
 	category = list("Weapons")
@@ -106,7 +106,7 @@
 	id = "laserpistol"
 	req_tech = list("combat" = 4, "materials" = 4, "powerstorage" = 3)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000)
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_GOLD = 600, MAT_SILVER = 400)
 	build_path = /obj/item/weapon/gun/energy/laser/hybrid
 	locked = 1
 	category = list("Weapons")
@@ -117,7 +117,7 @@
 	id = "hybridpistol"
 	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 3)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_DIAMOND = 100)
+	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_DIAMOND = 100, MAT_GOLD = 300, MAT_SILVER = 400)
 	build_path = /obj/item/weapon/gun/energy/laser/hybrid
 	locked = 1
 	category = list("Weapons")
