@@ -13,7 +13,7 @@
 	ammo_x_offset = 2
 	var/shaded_charge = 0 //if this gun uses a stateful charge bar for more detail
 	var/setting = 0
-	var/multistate = 0 //Does it have two states?
+	var/multistate = 0 //Does it have two or more states?
 	var/multistateicon = ""
 
 /obj/item/weapon/gun/energy/emp_act(severity)
@@ -107,7 +107,7 @@
 	else
 		if(!shaded_charge)
 			for(var/i = ratio, i >= 1, i--)
-				overlays += image(icon = icon, icon_state = iconState, pixel_x = ammo_x_offset * (i -1))
+				overlays += image(icon = icon, icon_state = iconState, pixel_x = ammo_x_offset * (i -1))//LEGACY SYSTEM
 		else if(multistate == 1)
 			overlays += image(icon = icon, icon_state = "[multistateicon]_charge[ratio]")
 		else
@@ -129,6 +129,8 @@
 		else if(!shaded_charge)
 			itemState += "[ratio]"
 			item_state = itemState
+		else
+			item_state = "laser"
 
 /obj/item/weapon/gun/energy/ui_action_click()
 	toggle_gunlight()
