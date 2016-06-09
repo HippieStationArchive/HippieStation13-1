@@ -19,6 +19,7 @@
 	can_knife = 1
 	knife_x_offset = 15
 	knife_y_offset = 12
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/pistol/ui_action_click()
 	return
@@ -89,6 +90,7 @@
 	can_knife = 0
 	w_class = 3
 	fire_sound = 'sound/weapons/revolver_big.ogg'
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/pistol/automag/update_icon()
 	..()

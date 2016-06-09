@@ -94,6 +94,7 @@
 	fire_delay = 2
 	burst_size = 2
 	pin = /obj/item/device/firing_pin/area/syndicate
+
 /obj/item/weapon/gun/projectile/automatic/c20r/unrestricted
 
 /obj/item/weapon/gun/projectile/automatic/c20r/New()
