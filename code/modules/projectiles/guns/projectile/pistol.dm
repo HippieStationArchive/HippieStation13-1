@@ -37,6 +37,7 @@
 	flight_x_offset = 18
 	knife_x_offset = 18
 	fire_sound = list('sound/weapons/pistol_glock17_1.ogg','sound/weapons/pistol_glock17_2.ogg')
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/pistol/g17/update_icon()
 	..()
