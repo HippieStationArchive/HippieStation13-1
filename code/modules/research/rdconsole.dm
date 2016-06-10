@@ -441,7 +441,7 @@ proc/CallMaterialName(ID)
 						linked_lathe.amount = null // Resetting the amount.
 
 						linked_lathe.busy = 0
-						screen =  screen == 0.3 ? old_screen : screen
+						screen =  screen == 0.3 ? old_screen : screen //Is the user still at the waiting screen? If not, don't change his current screen
 						updateUsrDialog()
 
 	else if(href_list["imprint"]) //Causes the Circuit Imprinter to build something.
@@ -497,8 +497,8 @@ proc/CallMaterialName(ID)
 							feedback_add_details("circuit_printed","[new_item.type]")
 						linked_imprinter.busy = 0
 						screen =  screen == 0.4 ? old_screen : screen
-						updateUsrDialog()
 						linked_imprinter.being_built = null
+						updateUsrDialog()
 
 	else if(href_list["disposeI"] && linked_imprinter)  //Causes the circuit imprinter to dispose of a single reagent (all of it)
 		linked_imprinter.reagents.del_reagent(href_list["disposeI"])
@@ -824,23 +824,23 @@ proc/CallMaterialName(ID)
 				screen = 0.3
 				src.updateUsrDialog()
 				return
-			else
-				dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A> "
-				dat += "<A href='?src=\ref[src];menu=3.2'>Material Storage</A>"
-				dat += "<A href='?src=\ref[src];menu=3.3'>Chemical Storage</A><div class='statusDisplay'>"
-				dat += "<h3>Protolathe Menu:</h3><BR>"
-				dat += "<B>Material Amount:</B> [linked_lathe.materials.total_amount] / [linked_lathe.materials.max_amount]<BR>"
-				dat += "<B>Chemical Volume:</B> [linked_lathe.reagents.total_volume] / [linked_lathe.reagents.maximum_volume]<BR>"
 
-				dat += "<form name='search' action='?src=\ref[src]'>\
-				<input type='hidden' name='src' value='\ref[src]'>\
-				<input type='hidden' name='search' value='to_search'>\
-				<input type='hidden' name='type' value='proto'>\
-				<input type='text' name='to_search'>\
-				<input type='submit' value='Search'>\
-				</form><HR>"
+			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A> "
+			dat += "<A href='?src=\ref[src];menu=3.2'>Material Storage</A>"
+			dat += "<A href='?src=\ref[src];menu=3.3'>Chemical Storage</A><div class='statusDisplay'>"
+			dat += "<h3>Protolathe Menu:</h3><BR>"
+			dat += "<B>Material Amount:</B> [linked_lathe.materials.total_amount] / [linked_lathe.materials.max_amount]<BR>"
+			dat += "<B>Chemical Volume:</B> [linked_lathe.reagents.total_volume] / [linked_lathe.reagents.maximum_volume]<BR>"
 
-				dat += list_categories(linked_lathe.categories, 3.15)
+			dat += "<form name='search' action='?src=\ref[src]'>\
+			<input type='hidden' name='src' value='\ref[src]'>\
+			<input type='hidden' name='search' value='to_search'>\
+			<input type='hidden' name='type' value='proto'>\
+			<input type='text' name='to_search'>\
+			<input type='submit' value='Search'>\
+			</form><HR>"
+
+			dat += list_categories(linked_lathe.categories, 3.15)
 
 		//Grouping designs by categories, to improve readability
 		if(3.15)
