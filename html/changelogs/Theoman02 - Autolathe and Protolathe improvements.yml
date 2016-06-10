@@ -11,3 +11,6 @@ delete-after: True
 changes: 
   - tweak: "Autolathes can now batch build(ala Protolathe) for non-stackable items! x3,x5 and custom input (up to 12) included."
   - tweak: "Added x3 and custom input(up to 10) to Protolathe batch building."
+  - tweak: "R&D Console can now multitask except when using the DA."
+  - tweak: "DA now shows effective destruction threshold(for reliability shenanigans)"
+  - tweak: "Protolathe & Imprinter building screens now show the name of what is being made and its quantity."
