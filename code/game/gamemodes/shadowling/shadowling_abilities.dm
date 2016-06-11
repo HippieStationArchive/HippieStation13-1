@@ -7,6 +7,7 @@
 	if(!is_shadow_or_thrall(usr)) usr << "<span class='warning'>You can't wrap your head around how to do this.</span>"
 	else if(is_thrall(usr)) usr << "<span class='warning'>You aren't powerful enough to do this.</span>"
 	else if(is_shadow(usr)) usr << "<span class='warning'>Your telepathic ability is suppressed. Hatch or use Rapid Re-Hatch first.</span>"
+	return 0
 
 /obj/effect/proc_holder/spell/proc/jaunt_check(var/mob/living/carbon/human/H)
 	if(H.incorporeal_move == 1)
