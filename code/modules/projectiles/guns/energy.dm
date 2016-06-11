@@ -105,7 +105,7 @@
 	if(power_supply.charge < shot.e_cost)
 		overlays += "[icon_state]_empty"
 	else
-		if(!shaded_charge)
+		if(!shaded_charge && multistate == 0)
 			for(var/i = ratio, i >= 1, i--)
 				overlays += image(icon = icon, icon_state = iconState, pixel_x = ammo_x_offset * (i -1))//LEGACY SYSTEM
 		else if(multistate == 1)
