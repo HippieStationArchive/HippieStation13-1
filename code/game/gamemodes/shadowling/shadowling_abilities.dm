@@ -1,5 +1,4 @@
 #define EMPOWERED_THRALL_LIMIT 5
-var/in_jaunt = 0
 
 /obj/effect/proc_holder/spell/proc/shadowling_check(var/mob/living/carbon/human/H)
 	if(!H || !istype(H)) return
@@ -8,7 +7,12 @@ var/in_jaunt = 0
 	if(!is_shadow_or_thrall(usr)) usr << "<span class='warning'>You can't wrap your head around how to do this.</span>"
 	else if(is_thrall(usr)) usr << "<span class='warning'>You aren't powerful enough to do this.</span>"
 	else if(is_shadow(usr)) usr << "<span class='warning'>Your telepathic ability is suppressed. Hatch or use Rapid Re-Hatch first.</span>"
-	return 0
+
+/obj/effect/proc_holder/spell/proc/jaunt_check(var/mob/living/carbon/human/H)
+	if(H.incorporeal_move == 1)
+		return 1
+	else
+		return 0
 
 
 /obj/effect/proc_holder/spell/targeted/glare //Stuns and mutes a human target for 10 seconds
@@ -29,15 +33,16 @@ var/in_jaunt = 0
 		if(!shadowling_check(user))
 			revert_cast()
 			return
+		if(jaunt_check(user))
+			revert_cast()
+			usr << "<span class='warning'>You can't use this spell in the space between dimensions!</span>"
+			return
 		if(target.stat)
 			user << "<span class='warning'>[target] must be conscious!</span>"
 			revert_cast()
 			return
 		if(is_shadow_or_thrall(target))
 			user << "<span class='warning'>You cannot glare at allies!</span>"
-			revert_cast()
-			return
-		if (in_jaunt)
 			revert_cast()
 			return
 		var/mob/living/carbon/human/M = target
@@ -132,13 +137,11 @@ var/in_jaunt = 0
 	user.alpha = 0
 	if(user.buckled)
 		user.buckled.unbuckle_mob()
-	in_jaunt = 1
 	sleep(40) //4 seconds
 	user.visible_message("<span class='warning'>[user] suddenly manifests!</span>", "<span class='shadowling'>The rift's pressure forces you back to corporeality.</span>")
 	user.incorporeal_move = 0
 	user.alpha = 255
-	in_jaunt = 0
-
+	
 /obj/effect/proc_holder/spell/aoe_turf/flashfreeze //Stuns and freezes nearby people - a bit more effective than a changeling's cryosting
 	name = "Icy Veins"
 	desc = "Instantly freezes the blood of nearby people, stunning them and causing burn damage."
@@ -153,6 +156,10 @@ var/in_jaunt = 0
 /obj/effect/proc_holder/spell/aoe_turf/flashfreeze/cast(list/targets,mob/user = usr)
 	if(!shadowling_check(user))
 		revert_cast()
+		return
+	if(jaunt_check(user))
+		revert_cast()
+		usr << "<span class='warning'>You can't use this spell in the space between dimensions!</span>"
 		return
 	user << "<span class='shadowling'>You freeze the nearby air.</span>"
 	for(var/turf/T in targets)
@@ -452,6 +459,10 @@ datum/reagent/shadowling_blindness_smoke //Reagent used for above spell
 /obj/effect/proc_holder/spell/aoe_turf/unearthly_screech/cast(list/targets,mob/user = usr)
 	if(!shadowling_check(user))
 		revert_cast()
+		return
+	if(jaunt_check(user))
+		revert_cast()
+		usr << "<span class='warning'>You can't use this spell in the space between dimensions!</span>"
 		return
 	user.audible_message("<span class='warning'><b>[user] lets out a horrible scream!</b></span>")
 	for(var/turf/T in targets)
