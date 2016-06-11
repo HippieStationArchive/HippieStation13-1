@@ -15,7 +15,8 @@
 	var/setting = 0
 	var/multistate = 0 //Does it have two or more states?
 	var/multistateicon = ""
-
+	var/initial = 1 //start
+	
 /obj/item/weapon/gun/energy/emp_act(severity)
 	power_supply.use(round(power_supply.charge / severity))
 	update_icon()
@@ -78,13 +79,22 @@
 	return
 
 /obj/item/weapon/gun/energy/proc/multistate_update() //This is the new way of handling things that have more than one setting. Thank fuck.
-	if(multistate)
+	multistateicon = "[icon_state][setting]"
+	if(multistate && initial == 0)
 		if(setting == 0)
 			setting = 1
 			multistateicon = "[icon_state][setting]"
 		else if(setting == 1)
+			if(samount > 2)
+				setting = 2
+			else
+				setting = 0
+			multistateicon = "[icon_state][setting]"
+		else if(setting == 2)
 			setting = 0
 			multistateicon = "[icon_state][setting]"
+	else
+		initial = 0
 
 /obj/item/weapon/gun/energy/update_icon()
 	overlays.Cut()
