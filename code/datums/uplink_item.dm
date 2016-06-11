@@ -782,6 +782,12 @@ var/list/uplink_items = list()
 	item = /obj/item/toy/carpplushie/dehy_carp
 	cost = 2
 
+/datum/uplink_item/stealthy_weapons/trick_pin
+	name = "Trick firing pin"
+	desc = "A firing pin that will cause the gun it is put into to explode the next time it is used. Slot it into any firearm to set it up."
+	item = /obj/item/device/firing_pin/trick
+	cost = 3
+
 /datum/uplink_item/stealthy_weapons/door_charge
 	name = "Explosive Airlock Charge"
 	desc = "A small, easily concealable device. It can be applied to an open airlock panel, and the next person to open that airlock will be knocked down in an explosion. The airlock's maintenance panel will also be destroyed by this."
@@ -821,7 +827,7 @@ var/list/uplink_items = list()
 	In addition, they can be forged to display a new assignment and name. This can be done an unlimited amount of times. Some Syndicate areas can only be accessed with these cards."
 	item = /obj/item/weapon/card/id/syndicate
 	cost = 2
-	
+
 /datum/uplink_item/stealthy_tools/pickpocket_gloves
 	name = "Pickpocket Gloves"
 	desc = "Gloves that allow you to quickly and stealthily remove items from people and puts them straight into your hands."
@@ -1095,7 +1101,7 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_mindslave
 	cost = 9
 	surplus = 20
-	
+
 /datum/uplink_item/implants/greatermindslave
 	name = "Greater Mindslave Implant"
 	desc = "An implant injected into another body, forcing the victim to obey any command by the user, it does not expire like a regular mindslave implant."

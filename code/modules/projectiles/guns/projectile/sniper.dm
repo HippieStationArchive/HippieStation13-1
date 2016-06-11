@@ -16,6 +16,7 @@
 	zoom_amt = 7 //Long range, enough to see in front of you, but no tiles behind you.
 	slot_flags = SLOT_BACK
 	fire_sound = 'sound/weapons/shotgun.ogg'
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/sniper_rifle/update_icon()
 	if(magazine)
