@@ -230,6 +230,9 @@
 	var/eye_color = "000"
 	var/lip_style = null	//no lipstick by default- arguably misleading, as it could be used for general makeup
 	var/lip_color = "white"
+	//Old body
+	var/body
+
 
 /obj/item/organ/limb/head/attackby(obj/item/W, mob/user, params)
 	if(!user || !W)
