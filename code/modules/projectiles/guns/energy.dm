@@ -16,6 +16,7 @@
 	var/multistate = 0 //Does it have two or more states?
 	var/multistateicon = ""
 	var/initial = 1 //start
+	var/samount = 2 // amount of settings
 	
 /obj/item/weapon/gun/energy/emp_act(severity)
 	power_supply.use(round(power_supply.charge / severity))
