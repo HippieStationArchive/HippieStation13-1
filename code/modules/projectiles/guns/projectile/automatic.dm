@@ -93,6 +93,7 @@
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
 	fire_delay = 2
 	burst_size = 2
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/c20r/unrestricted
 
@@ -178,6 +179,7 @@
 	icon_state = "ak922gold"
 	item_state = "ak922gold"
 	desc = "Damn son! Now that's a nice gun!"
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/ak922/gold/update_icon()
 	..()
@@ -206,6 +208,7 @@
 	can_knife = 1
 	knife_x_offset = 18
 	knife_y_offset = 12
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/c90/New()
 	..()
