@@ -46,10 +46,10 @@ Head of Security
 	suit = /obj/item/clothing/suit/armor/hos/trenchcoat
 	gloves = /obj/item/clothing/gloves/color/black/hos
 	head = /obj/item/clothing/head/HoS/beret
+	l_pocket = /obj/item/device/assembly/flash/handheld
+	r_pocket = /obj/item/weapon/restraints/handcuffs
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	suit_store = /obj/item/weapon/gun/energy/gun
-	backpack_contents = list(/obj/item/weapon/melee/classic_baton/telescopic=1,\
-		/obj/item/weapon/restraints/handcuffs=1)
 
 	backpack = /obj/item/weapon/storage/backpack/security
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
@@ -109,8 +109,8 @@ Warden
 	head = /obj/item/clothing/head/warden
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	l_pocket = /obj/item/device/assembly/flash/handheld
+	r_pocket = /obj/item/weapon/restraints/handcuffs
 	suit_store = /obj/item/weapon/gun/energy/gun/advtaser
-	backpack_contents = list(/obj/item/weapon/restraints/handcuffs=1)
 
 	backpack = /obj/item/weapon/storage/backpack/security
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
@@ -166,7 +166,6 @@ Detective
 	backpack_contents = list(/obj/item/weapon/storage/box/evidence=1,\
 		/obj/item/device/detective_scanner=1,\
 		/obj/item/weapon/melee/classic_baton/telescopic=1)
-	mask = /obj/item/clothing/mask/cigarette
 
 /datum/outfit/job/detective/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -222,9 +221,8 @@ var/list/sec_departments = list("engineering", "supply", "medical", "science")
 	suit = /obj/item/clothing/suit/armor/vest
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/device/assembly/flash/handheld
+	r_pocket = /obj/item/weapon/restraints/handcuffs
 	suit_store = /obj/item/weapon/gun/energy/gun/advtaser
-	backpack_contents = list(/obj/item/weapon/restraints/handcuffs=1,\
-		/obj/item/weapon/melee/baton/loaded=1)
 
 	backpack = /obj/item/weapon/storage/backpack/security
 	satchel = /obj/item/weapon/storage/backpack/satchel_sec
