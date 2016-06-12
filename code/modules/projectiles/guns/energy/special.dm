@@ -345,6 +345,7 @@
 	desc = "A seriously powerful rifle with an electromagnetic acceleration core, capable of blowing limbs off. It has 50 rods left."
 	ammo_type = list(/obj/item/ammo_casing/energy/gauss_low, /obj/item/ammo_casing/energy/gauss_normal, /obj/item/ammo_casing/energy/gauss_overdrive)
 	cell_type = "/obj/item/weapon/stock_parts/cell/energy/gauss"
+	slot_flags = SLOT_BELT
 
 /obj/item/weapon/gun/energy/gauss/attackby(obj/item/I, mob/user)
 	var/maxrods = 50
