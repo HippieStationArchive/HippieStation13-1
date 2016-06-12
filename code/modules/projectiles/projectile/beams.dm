@@ -33,7 +33,7 @@
 
 /obj/item/projectile/beam/lowlaser
 	name = "low laser"
-	icon_state = "scatterlaser"
+	icon_state = "laser"
 	damage = 15
 
 /obj/item/projectile/beam/heavylaser
@@ -113,3 +113,57 @@
 /obj/item/projectile/lasertag/bluetag
 	icon_state = "bluelaser"
 	suit_types = list(/obj/item/clothing/suit/redtag)
+
+/obj/item/projectile/beam/gauss_low
+	name = "gauss bolt"
+	icon_state = "gauss_silenced"
+	damage = 15
+	damage_type = BRUTE
+	hitsound = 'sound/weapons/pierce.ogg'
+
+/obj/item/projectile/gauss_normal
+	name = "gauss bolt"
+	icon_state = "gauss"
+	damage = 20
+	damage_type = BRUTE
+	hitsound = 'sound/weapons/pierce.ogg'
+
+/obj/item/projectile/gauss_normal/on_hit(atom/target, blocked = 0, hit_zone)
+	if(ismob(target))
+		playsound(target, 'sound/weapons/rodgun_pierce.ogg', 50, 1)
+		var/ichance = rand(1,5)
+		if(ichance == 3)
+			if(ishuman(target))
+				var/mob/living/carbon/human/H = target
+				var/obj/item/organ/limb/O = H.get_organ(hit_zone)
+				var/obj/item/stack/rods/R = new(H.loc)
+				if(istype(O))
+					R.add_blood(H)
+					R.loc = H
+					O.embedded_objects += R //Lodge the object into the limb
+					H.update_damage_overlays() //Update the fancy embeds
+					visible_message("<span class='warning'>The [R] has embedded into [H]'s [O]!</span>",
+									"<span class='userdanger'>You feel [R] lodge into your [O]!</span>")
+					playsound(H, 'sound/weapons/rodgun_pierce.ogg', 50, 1) //For super audible murder
+					H.emote("scream")
+			else
+				playsound(target, 'sound/weapons/pierce.ogg', 50, 1)
+
+/obj/item/projectile/gauss_overdrive
+	name = "overdrive gauss bolt"
+	icon_state = "gauss_overdrive"
+	damage = 40
+	damage_type = BRUTE
+	hitsound = 'sound/weapons/pierce.ogg'
+
+/obj/item/projectile/gauss_overdrive/on_hit(atom/target, blocked = 0, hit_zone)
+	if(ishuman(target))
+		var/dchance = rand(1, 20)
+		if(dchance == 10)
+			var/mob/living/carbon/human/H = target
+			var/obj/item/organ/limb/O = H.get_organ(hit_zone)
+			O.dismember()
+			playsound(H.loc, 'sound/misc/crunch.ogg', 60, 1)
+			playsound(H.loc, 'sound/misc/splat.ogg', 60, 1)
+			var/obj/effect/decal/cleanable/blood/T = new/obj/effect/decal/cleanable/blood
+			T.loc = H.loc

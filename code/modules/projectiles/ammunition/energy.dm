@@ -182,3 +182,25 @@ obj/item/ammo_casing/energy/net
 	projectile_type = /obj/item/projectile/bullet
 	select_name = "execute"
 	fire_sound = "gunshot"
+
+/obj/item/ammo_casing/energy/gauss_low
+	projectile_type = /obj/item/projectile/beam/gauss_low
+	select_name = "gauss bolt"
+	e_cost = 100
+	select_name = "low"
+	fire_sound = 'sound/weapons/plasma_cutter.ogg'
+
+/obj/item/ammo_casing/energy/gauss_normal
+	projectile_type = /obj/item/projectile/gauss_normal
+	select_name = "gauss bolt"
+	e_cost = 200
+	fire_sound = 'sound/weapons/laser3.ogg'
+	select_name = "normal"
+
+/obj/item/ammo_casing/energy/gauss_overdrive
+	projectile_type = /obj/item/projectile/gauss_overdrive
+	select_name = "gauss bolt"
+	e_cost = 300
+	select_name = "overdrive"
+	fire_sound = 'sound/weapons/pulse.ogg'
+

@@ -198,6 +198,10 @@
 	name = "hypercannon cell"
 	maxcharge = 600
 
+/obj/item/weapon/stock_parts/cell/energy/gauss
+	name = "gauss cell"
+	maxcharge = 3000
+
 /obj/item/weapon/stock_parts/cell/high/empty/New()
 	..()
 	charge = 0

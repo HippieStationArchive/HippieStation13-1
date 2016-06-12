@@ -78,6 +78,17 @@
 	locked = 1
 	category = list("Weapons")
 
+/datum/design/gaussrifle
+	name = "Gauss Rifle"
+	desc = "A seriously powerful rifle with an electromagnetic acceleration core, capable of blowing limbs off."
+	id = "gaussrifle"
+	req_tech = list("combat" = 6, "materials" = 6, "powerstorage" = 6)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 20000, MAT_URANIUM = 4000, MAT_DIAMOND = 4000, MAT_PLASMA = 4000, MAT_GOLD = 5000)
+	build_path = /obj/item/weapon/gun/energy/gauss
+	locked = 1
+	category = list("Weapons")
+
 /datum/design/laserpistol
 	name = "Laser Pistol"
 	desc = "A fairly basic weapon that fires low focus laser beams."
