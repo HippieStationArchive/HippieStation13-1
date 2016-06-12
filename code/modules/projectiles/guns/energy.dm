@@ -19,6 +19,7 @@
 	var/samount = 2 // amount of settings
 	var/ammo = 0
 	var/hasammo = 0
+	var/canshoot = 1
 
 /obj/item/weapon/gun/energy/emp_act(severity)
 	power_supply.use(round(power_supply.charge / severity))
@@ -60,11 +61,13 @@
 	if(power_supply.charge >= shot.e_cost) //if there's enough power in the power_supply cell...
 		if(hasammo == 1)
 			if(ammo > 0)
+				if(canshoot == 1)
+					chambered = shot //...prepare a new shot based on the current ammo type selected
+					chambered.newshot()
+		else
+			if(canshoot == 1)
 				chambered = shot //...prepare a new shot based on the current ammo type selected
 				chambered.newshot()
-		else
-			chambered = shot //...prepare a new shot based on the current ammo type selected
-			chambered.newshot()
 	return
 
 /obj/item/weapon/gun/energy/process_chamber()

@@ -85,6 +85,20 @@
 	..()
 	damage = min(damage+10, 100)
 
+/obj/item/weapon/gun/energy/laser/hypercannon/process_chamber()
+	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
+		var/obj/item/ammo_casing/energy/shot = chambered
+		power_supply.use(shot.e_cost)//... drain the power_supply cell
+		if(hasammo ==  1 && ammo >= 0)
+			ammo = ammo - 1
+		canshoot = 0
+		spawn(10)
+			canshoot = 1
+			if(power_supply.charge >= shot.e_cost)
+				playsound(src.loc, 'sound/weapons/kenetic_reload.ogg', 60, 1)
+	chambered = null //either way, released the prepared shot
+	return
+
 /obj/item/weapon/gun/energy/laser/cyborg
 	icon_state = "cyborg_laser"
 	can_charge = 0

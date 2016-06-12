@@ -367,6 +367,7 @@
 		else
 			user << "<span class='notice'>\The [src] is already full!</span>"
 
+
 /obj/item/weapon/gun/energy/gauss/process_chamber()
 	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
 		var/obj/item/ammo_casing/energy/shot = chambered
@@ -375,6 +376,12 @@
 			ammo = ammo - 1
 			if(ammo < 1)
 				playsound(src.loc, 'sound/weapons/smg_empty_alarm.ogg', 60, 1)
+		if(setting == 2)
+			canshoot = 0
+			spawn(10)
+				canshoot = 1
+				if(power_supply.charge >= shot.e_cost && ammo > 0)
+					playsound(src.loc, 'sound/weapons/kenetic_reload.ogg', 60, 1)
 	chambered = null //either way, released the prepared shot
 	src.desc = "A seriously powerful rifle with an electromagnetic acceleration core, capable of blowing limbs off. It has [src.ammo] rods left."
 	return
@@ -384,4 +391,3 @@
 		select_fire(user)
 		multistate_update()
 		update_icon(user)
-
