@@ -293,7 +293,6 @@
 	item_state = "fingerless"
 	item_color = null	//So they don't wash.
 	transfer_prints = TRUE
-	siemens_coefficient = 0
 	permeability_coefficient = 0.05
 	strip_delay = 80
 	put_on_delay = 20
