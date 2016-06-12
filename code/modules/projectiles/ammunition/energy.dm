@@ -33,7 +33,7 @@
 /obj/item/ammo_casing/energy/laser/rifle
 	projectile_type = /obj/item/projectile/beam/focusedlaser
 	e_cost = 120
-	fire_sound = 'sound/weapons/laserrifle.ogg'
+	fire_sound = 'sound/weapons/laser3.ogg'
 	select_name = "focused"
 
 /obj/item/ammo_casing/energy/laser/practice
