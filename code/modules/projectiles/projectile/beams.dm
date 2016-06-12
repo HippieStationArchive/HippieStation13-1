@@ -117,14 +117,14 @@
 /obj/item/projectile/beam/gauss_low
 	name = "gauss bolt"
 	icon_state = "gauss_silenced"
-	damage = 15
+	damage = 20
 	damage_type = BRUTE
 	hitsound = 'sound/weapons/pierce.ogg'
 
 /obj/item/projectile/gauss_normal
 	name = "gauss bolt"
 	icon_state = "gauss"
-	damage = 20
+	damage = 30
 	damage_type = BRUTE
 	hitsound = 'sound/weapons/pierce.ogg'
 
