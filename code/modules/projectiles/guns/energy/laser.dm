@@ -112,7 +112,7 @@
 	item_state = ""
 	desc = "An advanced laser weapon that is able to increase and decrease its beam for either non-lethal and lethal combat."
 	origin_tech = "combat=4;materials=4;powerstorage=4"
-	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
+	ammo_type = list(/obj/item/ammo_casing/energy/disabler, /obj/item/ammo_casing/energy/laser)
 
 /obj/item/weapon/gun/energy/laser/hybrid/attack_self(mob/living/user as mob) //For multistate processing
 	select_fire(user)
@@ -126,7 +126,7 @@
 	item_state = "gun"
 	desc = "A compact laser weapon that is able to increase and decrease its beam for either non-lethal and lethal combat."
 	origin_tech = "combat=4;materials=4;powerstorage=4"
-	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
+	ammo_type = list(/obj/item/ammo_casing/energy/disabler, /obj/item/ammo_casing/energy/laser)
 	slot_flags = SLOT_POCKET
 	cell_type = "/obj/item/weapon/stock_parts/cell/laser/pistol_hybrid"
 
