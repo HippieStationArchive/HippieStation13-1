@@ -158,8 +158,8 @@
 
 /obj/item/projectile/gauss_overdrive/on_hit(atom/target, blocked = 0, hit_zone)
 	if(ishuman(target))
-		var/dchance = rand(1, 3)
-		if(dchance == 2)
+		var/dchance = rand(1, 10)
+		if(dchance == 5)
 			var/mob/living/carbon/human/H = target
 			var/obj/item/organ/limb/O = H.get_organ(hit_zone)
 			if(hit_zone != "chest" && hit_zone != "head")
