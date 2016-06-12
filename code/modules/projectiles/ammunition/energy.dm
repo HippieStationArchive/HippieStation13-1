@@ -193,14 +193,14 @@ obj/item/ammo_casing/energy/net
 /obj/item/ammo_casing/energy/gauss_normal
 	projectile_type = /obj/item/projectile/gauss_normal
 	select_name = "gauss bolt"
-	e_cost = 200
+	e_cost = 150
 	fire_sound = 'sound/weapons/laser3.ogg'
 	select_name = "normal"
 
 /obj/item/ammo_casing/energy/gauss_overdrive
 	projectile_type = /obj/item/projectile/gauss_overdrive
 	select_name = "gauss bolt"
-	e_cost = 300
+	e_cost = 250
 	select_name = "overdrive"
 	fire_sound = 'sound/weapons/pulse.ogg'
 

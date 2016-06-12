@@ -158,12 +158,13 @@
 
 /obj/item/projectile/gauss_overdrive/on_hit(atom/target, blocked = 0, hit_zone)
 	if(ishuman(target))
-		var/dchance = rand(1, 20)
-		if(dchance == 10)
+		var/dchance = rand(1, 3)
+		if(dchance == 2)
 			var/mob/living/carbon/human/H = target
 			var/obj/item/organ/limb/O = H.get_organ(hit_zone)
-			O.dismember()
-			playsound(H.loc, 'sound/misc/crunch.ogg', 60, 1)
-			playsound(H.loc, 'sound/misc/splat.ogg', 60, 1)
-			var/obj/effect/decal/cleanable/blood/T = new/obj/effect/decal/cleanable/blood
-			T.loc = H.loc
+			if(hit_zone != "chest" && hit_zone != "head")
+				O.dismember()
+				playsound(H.loc, 'sound/misc/crunch.ogg', 60, 1)
+				playsound(H.loc, 'sound/misc/splat.ogg', 60, 1)
+				var/obj/effect/decal/cleanable/blood/T = new/obj/effect/decal/cleanable/blood
+				T.loc = H.loc
