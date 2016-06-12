@@ -17,7 +17,9 @@
 	var/multistateicon = ""
 	var/initial = 1 //start
 	var/samount = 2 // amount of settings
-	
+	var/ammo = 0
+	var/hasammo = 0
+
 /obj/item/weapon/gun/energy/emp_act(severity)
 	power_supply.use(round(power_supply.charge / severity))
 	update_icon()
@@ -56,14 +58,21 @@
 		return
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
 	if(power_supply.charge >= shot.e_cost) //if there's enough power in the power_supply cell...
-		chambered = shot //...prepare a new shot based on the current ammo type selected
-		chambered.newshot()
+		if(hasammo == 1)
+			if(ammo > 0)
+				chambered = shot //...prepare a new shot based on the current ammo type selected
+				chambered.newshot()
+		else
+			chambered = shot //...prepare a new shot based on the current ammo type selected
+			chambered.newshot()
 	return
 
 /obj/item/weapon/gun/energy/process_chamber()
 	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
 		var/obj/item/ammo_casing/energy/shot = chambered
 		power_supply.use(shot.e_cost)//... drain the power_supply cell
+		if(hasammo ==  1 && ammo >= 0)
+			ammo = ammo - 1
 	chambered = null //either way, released the prepared shot
 	return
 
