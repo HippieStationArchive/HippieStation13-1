@@ -303,6 +303,9 @@
 	burn_state = -1 //Won't burn in fires
 	var/datum/martial_art/cqc/style = new
 
+/obj/item/clothing/gloves/cqc/attack_self(mob/user)
+	chameleon(user)
+
 /obj/item/clothing/gloves/cqc/holo
 	name = "CQC VR Training Module"
 	desc = "Gloves that let you train in the arts of CQC."

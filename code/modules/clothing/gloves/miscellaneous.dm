@@ -36,10 +36,64 @@
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 	burn_state = -1 //Won't burn in fires
-	
+
 /obj/item/clothing/gloves/pickpocket
 	name = "black gloves"
 	desc = "A pair of gloves, they make you feel sneaky for whatever reason."
 	icon_state = "black"
 	item_state = "bgloves"
 	item_color = null
+
+/obj/item/clothing/gloves/proc/chameleon(var/mob/user)
+	var/input_gloves = input(user, "Choose a piece of gloves to disguise as.", "Choose gloves style.") as null|anything in list("Fingerless", "Botanist", "Combat", "Black", "Insulated", "Latex","Nitrile","White", "Boxing Red", "Boxing Green", "Boxing Blue", "Boxing Yellow")
+
+	if(user && src in user.contents)
+		switch(input_gloves)
+			if("Fingerless")
+				name = "fingerless gloves"
+				icon_state = "fingerless"
+				item_state = "fingerless"
+			if("Botanist")
+				name = "botanist's leather gloves"
+				icon_state = "leather"
+				item_state = "ggloves"
+			if("Combat")
+				name = "combat gloves"
+				icon_state = "black"
+				item_state = "bgloves"
+			if("Black")
+				name = "black gloves"
+				icon_state = "black"
+				item_state = "bgloves"
+			if("Insulated")
+				name = "insulated gloves"
+				icon_state = "yellow"
+				item_state = "ygloves"
+			if("Latex")
+				name = "latex gloves"
+				icon_state = "latex"
+				item_state = "lgloves"
+			if("Nitrile")
+				name = "nitrile gloves"
+				icon_state = "nitrile"
+				item_state = "nitrilegloves"
+			if("White")
+				name = "white gloves"
+				icon_state = "white"
+				item_state = "wgloves"
+			if("Boxing Red")
+				name = "boxing gloves"
+				icon_state = "boxing"
+				item_state = "boxing"
+			if("Boxing Green")
+				name = "boxing gloves"
+				icon_state = "boxinggreen"
+				item_state = "boxingreen"
+			if("Boxing Blue")
+				name = "boxing gloves"
+				icon_state = "boxingblue"
+				item_state = "boxingblue"
+			if("Boxing Yellow")
+				name = "boxing gloves"
+				icon_state = "boxingyellow"
+				item_state = "boxingyellow"
