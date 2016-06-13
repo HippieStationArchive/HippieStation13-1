@@ -339,7 +339,6 @@
 /obj/item/weapon/gun/energy/gauss
 	multistate = 1
 	ammo = 50
-	hasammo = 1
 	samount = 3
 	name = "gauss rifle"
 	icon_state = "gauss"
@@ -374,8 +373,10 @@
 	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
 		var/obj/item/ammo_casing/energy/shot = chambered
 		power_supply.use(shot.e_cost)//... drain the power_supply cell
-		if(hasammo ==  1 && ammo >= 0)
+		if(ammo != -1 && ammo > 0)
 			ammo = ammo - 1
+			if(ammo < 0)
+				ammo = 0 //Just ensuring this never goes below 1 if it has ammo.
 			if(ammo < 1)
 				playsound(src.loc, 'sound/weapons/smg_empty_alarm.ogg', 60, 1)
 		if(setting == 2)

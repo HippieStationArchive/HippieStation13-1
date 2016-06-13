@@ -12,14 +12,13 @@
 	var/can_charge = 1 //Can it be charged in a recharger?
 	ammo_x_offset = 2
 	var/shaded_charge = 0 //if this gun uses a stateful charge bar for more detail
-	var/setting = 0
+	var/setting = -1 //Don't touch this.
 	var/multistate = 0 //Does it have two or more states?
-	var/multistateicon = ""
-	var/initial = 1 //start
-	var/samount = 2 // amount of settings
-	var/ammo = 0
-	var/hasammo = 0
-	var/canshoot = 1
+	var/multistateicon = "" //Dont touch this.
+	var/initial = 1 //Ensure icons are in sync.
+	var/ammo = -1 //How much ammo does this gun take? Set to -1 for no ammo.
+	var/canshoot = 1 //This works better than a delay system as you can dynamically break a gun.
+	var/samount = 2 //The amount of settings this gun has.
 
 /obj/item/weapon/gun/energy/emp_act(severity)
 	power_supply.use(round(power_supply.charge / severity))
@@ -59,14 +58,14 @@
 		return
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
 	if(power_supply.charge >= shot.e_cost) //if there's enough power in the power_supply cell...
-		if(hasammo == 1)
+		if(ammo != -1)
 			if(ammo > 0)
 				if(canshoot == 1)
-					chambered = shot //...prepare a new shot based on the current ammo type selected
+					chambered = shot
 					chambered.newshot()
 		else
 			if(canshoot == 1)
-				chambered = shot //...prepare a new shot based on the current ammo type selected
+				chambered = shot
 				chambered.newshot()
 	return
 
@@ -74,8 +73,10 @@
 	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
 		var/obj/item/ammo_casing/energy/shot = chambered
 		power_supply.use(shot.e_cost)//... drain the power_supply cell
-		if(hasammo ==  1 && ammo >= 0)
+		if(ammo != -1)
 			ammo = ammo - 1
+			if(ammo < 0)
+				ammo = 0 //Just ensuring this never goes below 1 if it has ammo.
 	chambered = null //either way, released the prepared shot
 	return
 
@@ -93,21 +94,22 @@
 
 /obj/item/weapon/gun/energy/proc/multistate_update() //This is the new way of handling things that have more than one setting. Thank fuck.
 	multistateicon = "[icon_state][setting]"
-	if(multistate && initial == 0)
-		if(setting == 0)
+	switch(setting) //To add another setting simply do if(number) and then increment all of the setting's appropriately.
+		if(0)
 			setting = 1
 			multistateicon = "[icon_state][setting]"
-		else if(setting == 1)
+		if(1)
 			if(samount > 2)
 				setting = 2
 			else
 				setting = 0
 			multistateicon = "[icon_state][setting]"
-		else if(setting == 2)
+		if(2)
 			setting = 0
 			multistateicon = "[icon_state][setting]"
-	else
-		initial = 0
+		else
+			setting = 0
+			multistateicon = "[icon_state][setting]"
 
 /obj/item/weapon/gun/energy/update_icon()
 	overlays.Cut()
