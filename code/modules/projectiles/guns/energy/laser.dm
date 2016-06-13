@@ -78,7 +78,7 @@
 	slot_flags = SLOT_BACK
 	fire_sound = 'sound/weapons/lasercannonfire.ogg'
 	origin_tech = "combat=4;materials=3;powerstorage=3"
-	cell_type = "/obj/item/weapon/stock_parts/cell/laser/hypercannon"
+	cell_type = /obj/item/weapon/stock_parts/cell/laser/hypercannon
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/hyper)
 
 /obj/item/projectile/beam/laser/accelerator/Range()
@@ -140,7 +140,7 @@
 	origin_tech = "combat=4;materials=4;powerstorage=4"
 	ammo_type = list(/obj/item/ammo_casing/energy/disabler, /obj/item/ammo_casing/energy/laser)
 	slot_flags = SLOT_POCKET
-	cell_type = "/obj/item/weapon/stock_parts/cell/laser/pistol_hybrid"
+	cell_type = /obj/item/weapon/stock_parts/cell/laser/pistol_hybrid
 
 /obj/item/weapon/gun/energy/laser/scatter
 	name = "scatter laser gun"
