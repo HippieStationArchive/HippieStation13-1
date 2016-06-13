@@ -342,6 +342,7 @@
 	samount = 3
 	name = "gauss rifle"
 	icon_state = "gauss"
+	w_class = 4
 	item_state = "alc"
 	desc = "A seriously powerful rifle with an electromagnetic acceleration core, capable of blowing limbs off. It has 50 rods left."
 	ammo_type = list(/obj/item/ammo_casing/energy/gauss_low, /obj/item/ammo_casing/energy/gauss_normal, /obj/item/ammo_casing/energy/gauss_overdrive)
