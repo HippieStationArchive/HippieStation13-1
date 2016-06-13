@@ -987,34 +987,182 @@
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 
+//////////////////////////////////Coloring///////////////////////////////
+
 /datum/reagent/colorful_reagent
 	name = "Colorful Reagent"
 	id = "colorful_reagent"
-	description = "A solution."
+	description = "A colorful solution."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	var/list/random_color_list = list("#00aedb","#a200ff","#f47835","#d41243","#d11141","#00b159","#00aedb","#f37735","#ffc425","#008744","#0057e7","#d62d20","#ffa700")
-
 
 /datum/reagent/colorful_reagent/on_mob_life(mob/living/M)
 	if(M && isliving(M))
 		M.color = pick(random_color_list)
 	..()
 	return
-
 /datum/reagent/colorful_reagent/reaction_mob(mob/living/M, reac_volume)
 	if(M && isliving(M))
 		M.color = pick(random_color_list)
 	..()
-
 /datum/reagent/colorful_reagent/reaction_obj(obj/O, reac_volume)
 	if(O)
 		O.color = pick(random_color_list)
 	..()
-
 /datum/reagent/colorful_reagent/reaction_turf(turf/T, reac_volume)
 	if(T)
 		T.color = pick(random_color_list)
+	..()
+
+/datum/reagent/red_reagent
+	name = "Red Reagent"
+	id = "red_reagent"
+	description = "A red solution."
+	reagent_state = LIQUID
+	color = "#FF0000"
+
+/datum/reagent/red_reagent/on_mob_life(mob/living/M)
+	if(M && isliving(M))
+		M.color = "#FF0000"
+	..()
+	return
+/datum/reagent/red_reagent/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M))
+		M.color = "#FF0000"
+	..()
+/datum/reagent/red_reagent/reaction_obj(obj/O, reac_volume)
+	if(O)
+		O.color = "#FF0000"
+	..()
+/datum/reagent/red_reagent/reaction_turf(turf/T, reac_volume)
+	if(T)
+		T.color = "#FF0000"
+	..()
+
+/datum/reagent/orange_reagent
+	name = "Orange Reagent"
+	id = "orange_reagent"
+	description = "An orange solution."
+	reagent_state = LIQUID
+	color = "#FF9300"
+
+/datum/reagent/orange_reagent/on_mob_life(mob/living/M)
+	if(M && isliving(M))
+		M.color = "#FF9300"
+	..()
+	return
+/datum/reagent/orange_reagent/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M))
+		M.color = "#FF9300"
+	..()
+/datum/reagent/orange_reagent/reaction_obj(obj/O, reac_volume)
+	if(O)
+		O.color = "#FF9300"
+	..()
+/datum/reagent/orange_reagent/reaction_turf(turf/T, reac_volume)
+	if(T)
+		T.color = "#FF9300"
+	..()
+
+/datum/reagent/yellow_reagent
+	name = "Yellow Reagent"
+	id = "yellow_reagent"
+	description = "A yellow solution."
+	reagent_state = LIQUID
+	color = "#FFF200"
+
+/datum/reagent/yellow_reagent/on_mob_life(mob/living/M)
+	if(M && isliving(M))
+		M.color = "#FFF200"
+	..()
+	return
+/datum/reagent/yellow_reagent/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M))
+		M.color = "#FFF200"
+	..()
+/datum/reagent/yellow_reagent/reaction_obj(obj/O, reac_volume)
+	if(O)
+		O.color = "#FFF200"
+	..()
+/datum/reagent/yellow_reagent/reaction_turf(turf/T, reac_volume)
+	if(T)
+		T.color = "#FFF200"
+	..()
+
+/datum/reagent/green_reagent
+	name = "Green Reagent"
+	id = "green_reagent"
+	description = "A green solution."
+	reagent_state = LIQUID
+	color = "#A8E61D"
+
+/datum/reagent/green_reagent/on_mob_life(mob/living/M)
+	if(M && isliving(M))
+		M.color = "#A8E61D"
+	..()
+	return
+/datum/reagent/green_reagent/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M))
+		M.color = "#A8E61D"
+	..()
+/datum/reagent/green_reagent/reaction_obj(obj/O, reac_volume)
+	if(O)
+		O.color = "#A8E61D"
+	..()
+/datum/reagent/green_reagent/reaction_turf(turf/T, reac_volume)
+	if(T)
+		T.color = "#A8E61D"
+	..()
+
+/datum/reagent/blue_reagent
+	name = "Blue Reagent"
+	id = "blue_reagent"
+	description = "A blue solution."
+	reagent_state = LIQUID
+	color = "#00B7EF"
+
+/datum/reagent/blue_reagent/on_mob_life(mob/living/M)
+	if(M && isliving(M))
+		M.color = "#00B7EF"
+	..()
+	return
+/datum/reagent/blue_reagent/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M))
+		M.color = "#00B7EF"
+	..()
+/datum/reagent/blue_reagent/reaction_obj(obj/O, reac_volume)
+	if(O)
+		O.color = "#00B7EF"
+	..()
+/datum/reagent/blue_reagent/reaction_turf(turf/T, reac_volume)
+	if(T)
+		T.color = "#00B7EF"
+	..()
+
+/datum/reagent/purple_reagent
+	name = "Purple Reagent"
+	id = "purple_reagent"
+	description = "A purple solution."
+	reagent_state = LIQUID
+	color = "#DA00FF"
+
+/datum/reagent/purple_reagent/on_mob_life(mob/living/M)
+	if(M && isliving(M))
+		M.color = "#DA00FF"
+	..()
+	return
+/datum/reagent/purple_reagent/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M))
+		M.color = "#DA00FF"
+	..()
+/datum/reagent/purple_reagent/reaction_obj(obj/O, reac_volume)
+	if(O)
+		O.color = "#DA00FF"
+	..()
+/datum/reagent/purple_reagent/reaction_turf(turf/T, reac_volume)
+	if(T)
+		T.color = "#DA00FF"
 	..()
 
 /datum/reagent/hair_dye
