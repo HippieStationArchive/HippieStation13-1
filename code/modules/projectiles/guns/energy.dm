@@ -15,7 +15,6 @@
 	var/setting = -1 //Don't touch this.
 	var/multistate = 0 //Does it have two or more states?
 	var/multistateicon = "" //Dont touch this.
-	var/initial = 1 //Ensure icons are in sync.
 	var/ammo = -1 //How much ammo does this gun take? Set to -1 for no ammo.
 	var/canshoot = 1 //This works better than a delay system as you can dynamically break a gun.
 	var/samount = 2 //The amount of settings this gun has.
