@@ -11,6 +11,17 @@
 	projectile_type = /obj/item/projectile/beam
 	select_name = "kill"
 
+/obj/item/ammo_casing/energy/laser/pistol
+	projectile_type = /obj/item/projectile/beam/lowlaser
+	select_name = "kill"
+	e_cost = 50
+
+/obj/item/ammo_casing/energy/laser/hyper
+	projectile_type = /obj/item/projectile/beam/laser/accelerator
+	select_name = "hyper"
+	e_cost = 100
+	fire_sound = 'sound/weapons/pulse.ogg'
+
 /obj/item/ammo_casing/energy/lasergun
 	projectile_type = /obj/item/projectile/beam
 	e_cost = 83
@@ -18,6 +29,12 @@
 
 /obj/item/ammo_casing/energy/laser/hos
 	e_cost = 100
+
+/obj/item/ammo_casing/energy/laser/rifle
+	projectile_type = /obj/item/projectile/beam/focusedlaser
+	e_cost = 120
+	fire_sound = 'sound/weapons/laser3.ogg'
+	select_name = "focused"
 
 /obj/item/ammo_casing/energy/laser/practice
 	projectile_type = /obj/item/projectile/beam/practice
@@ -165,3 +182,25 @@ obj/item/ammo_casing/energy/net
 	projectile_type = /obj/item/projectile/bullet
 	select_name = "execute"
 	fire_sound = "gunshot"
+
+/obj/item/ammo_casing/energy/gauss_low
+	projectile_type = /obj/item/projectile/beam/gauss_low
+	select_name = "gauss bolt"
+	e_cost = 100
+	select_name = "low"
+	fire_sound = 'sound/weapons/plasma_cutter.ogg'
+
+/obj/item/ammo_casing/energy/gauss_normal
+	projectile_type = /obj/item/projectile/gauss_normal
+	select_name = "gauss bolt"
+	e_cost = 150
+	fire_sound = 'sound/weapons/laser3.ogg'
+	select_name = "normal"
+
+/obj/item/ammo_casing/energy/gauss_overdrive
+	projectile_type = /obj/item/projectile/gauss_overdrive
+	select_name = "gauss bolt"
+	e_cost = 250
+	select_name = "overdrive"
+	fire_sound = 'sound/weapons/pulse.ogg'
+
