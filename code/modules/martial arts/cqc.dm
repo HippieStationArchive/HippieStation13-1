@@ -287,16 +287,20 @@
 //ITEMS
 
 /obj/item/clothing/gloves/cqc
-	name = "tactical gloves"
+	name = "fingerless gloves"
 	desc = "Something oddly tactical about these gloves..."
 	icon_state = "fingerless"
 	item_state = "fingerless"
 	item_color = null	//So they don't wash.
 	transfer_prints = TRUE
-	strip_delay = 40
+	permeability_coefficient = 0.05
+	strip_delay = 80
 	put_on_delay = 20
 	cold_protection = HANDS
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
+	heat_protection = HANDS
+	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
+	burn_state = -1 //Won't burn in fires
 	var/datum/martial_art/cqc/style = new
 
 /obj/item/clothing/gloves/cqc/holo

@@ -25,7 +25,7 @@
 	fire_sound = 'sound/weapons/grenadelauncher.ogg'
 	w_class = 3
 	slowdown = 1
-	pin = /obj/item/device/firing_pin/generic
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/cyborg
 	desc = "A 6-shot grenade launcher."
@@ -33,7 +33,7 @@
 	icon = 'icons/mecha/mecha_equipment.dmi'
 	icon_state = "mecha_grenadelnchr"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/grenademulti
-	pin = /obj/item/device/firing_pin
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/cyborg/attack_self()
 	return

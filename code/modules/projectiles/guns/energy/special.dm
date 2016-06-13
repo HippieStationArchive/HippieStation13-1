@@ -184,6 +184,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/bolt)
 	unique_rename = 0
 	overheat_time = 20
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow/large
 	name = "energy crossbow"
@@ -293,6 +294,7 @@
 	can_charge = 0
 	var/charge_tick = 0
 	var/recharge_time = 5
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/energy/printer/update_icon()
 	return
