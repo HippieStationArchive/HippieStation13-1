@@ -72,7 +72,7 @@
 	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
 		var/obj/item/ammo_casing/energy/shot = chambered
 		power_supply.use(shot.e_cost)//... drain the power_supply cell
-		if(ammo != -1)
+		if(ammo != -1 && ammo > 0)
 			ammo = ammo - 1
 			if(ammo < 0)
 				ammo = 0 //Just ensuring this never goes below 1 if it has ammo.
