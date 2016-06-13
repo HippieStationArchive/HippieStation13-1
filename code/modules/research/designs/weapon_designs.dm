@@ -254,17 +254,7 @@
 	materials = list(MAT_METAL = 200)
 	build_path = /obj/item/ammo_casing/shotgun/stunslug
 	category = list("Ammo")
-
-/datum/design/techshell
-	name = "Unloaded Technological Shotshell"
-	desc = "A high-tech shotgun shell which can be loaded with materials to produce unique effects."
-	id = "techshotshell"
-	req_tech = list("combat" = 3, "materials" = 3, "powerstorage" = 4, "magnets" = 3)
-	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 1000, MAT_GLASS = 200)
-	build_path = /obj/item/ammo_casing/shotgun/techshell
-	category = list("Ammo")
-
+	
 /datum/design/suppressor
 	name = "Universal Suppressor"
 	desc = "A reverse-engineered universal suppressor that fits on most small arms with threaded barrels."

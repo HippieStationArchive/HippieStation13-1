@@ -15,9 +15,19 @@
 	result = /obj/item/weapon/gun
 	reqs = list(/obj/item/weapon/gun = 1)
 	parts = list(/obj/item/weapon/gun = 1)
-	tools = list(/obj/item/weapon/gun/energy/plasmacutter, /obj/item/weapon/screwdriver, /obj/item/weapon/wirecutters)
+	tools = list(/obj/item/weapon/screwdriver, /obj/item/weapon/wirecutters)
 	time = 100
 	category = CAT_WEAPON
+	
+/datum/table_recipe/modular_reciever
+	name = "Modular Reciever"
+	result = /obj/item/weaponcrafting/reciever
+	reqs = list(/obj/item/stack/rods = 2,
+				/obj/item/stack/sheet/metal = 2)
+	tools = list(/obj/item/weapon/screwdriver, /obj/item/weapon/wirecutters, /obj/item/weapon/weldingtool)
+	time = 100
+	category = CAT_WEAPON
+	
 
 /datum/table_recipe/IED
 	name = "IED"
@@ -65,7 +75,7 @@
 				/obj/item/device/assembly/prox_sensor = 1,
 				/obj/item/robot_parts/r_arm = 1)
 	tools = list(/obj/item/weapon/weldingtool, /obj/item/weapon/screwdriver)
-	time = 120
+	time = 100
 	category = CAT_ROBOT
 
 /datum/table_recipe/secbot
@@ -77,7 +87,7 @@
 				/obj/item/device/assembly/prox_sensor = 1,
 				/obj/item/robot_parts/r_arm = 1)
 	tools = list(/obj/item/weapon/weldingtool)
-	time = 120
+	time = 60
 	category = CAT_ROBOT
 
 /datum/table_recipe/cleanbot
@@ -86,7 +96,7 @@
 	reqs = list(/obj/item/weapon/reagent_containers/glass/bucket = 1,
 				/obj/item/device/assembly/prox_sensor = 1,
 				/obj/item/robot_parts/r_arm = 1)
-	time = 80
+	time = 40
 	category = CAT_ROBOT
 
 /datum/table_recipe/floorbot
@@ -96,7 +106,7 @@
 				/obj/item/stack/tile/plasteel = 1,
 				/obj/item/device/assembly/prox_sensor = 1,
 				/obj/item/robot_parts/r_arm = 1)
-	time = 80
+	time = 40
 	category = CAT_ROBOT
 
 /datum/table_recipe/medbot
@@ -106,7 +116,7 @@
 				/obj/item/weapon/storage/firstaid = 1,
 				/obj/item/device/assembly/prox_sensor = 1,
 				/obj/item/robot_parts/r_arm = 1)
-	time = 80
+	time = 40
 	category = CAT_ROBOT
 
 /datum/table_recipe/flamethrower
@@ -120,6 +130,14 @@
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 20
 	category = CAT_WEAPON
+	
+/datum/table_recipe/techshell
+	name = "Unloaded Shotgun Shell"
+	result = /obj/item/ammo_casing/shotgun/techshell
+	reqs = list(/obj/item/stack/sheet/metal = 1)
+	tools = list(/obj/item/weapon/screwdriver)
+	time = 5
+	category = CAT_AMMO
 
 /datum/table_recipe/meteorshot
 	name = "Meteorshot Shell"
@@ -130,12 +148,12 @@
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 5
 	category = CAT_AMMO
+	
 
 /datum/table_recipe/pulseslug
 	name = "Pulse Slug Shell"
 	result = /obj/item/ammo_casing/shotgun/pulseslug
 	reqs = list(/obj/item/ammo_casing/shotgun/techshell = 1,
-				/obj/item/weapon/stock_parts/capacitor/adv = 2,
 				/obj/item/weapon/stock_parts/micro_laser/ultra = 1)
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 5
@@ -165,8 +183,9 @@
 	name = "Ion Scatter Shell"
 	result = /obj/item/ammo_casing/shotgun/ion
 	reqs = list(/obj/item/ammo_casing/shotgun/techshell = 1,
-				/obj/item/weapon/stock_parts/micro_laser/ultra = 1,
-				/obj/item/weapon/stock_parts/subspace/crystal = 1)
+				/obj/item/stack/sheet/glass = 2,
+				/obj/item/weapon/stock_parts/micro_laser/high = 1,
+				/obj/item/weapon/stock_parts/scanning_module/adv = 1)
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 5
 	category = CAT_AMMO
@@ -174,9 +193,8 @@
 /datum/table_recipe/improvisedslug
 	name = "Improvised Shotgun Shell"
 	result = /obj/item/ammo_casing/shotgun/improvised
-	reqs = list(/obj/item/weapon/grenade/chem_grenade = 1,
+	reqs = list(/obj/item/ammo_casing/shotgun/techshell = 1,
 				/obj/item/stack/sheet/metal = 1,
-				/obj/item/stack/cable_coil = 1,
 				/datum/reagent/fuel = 10)
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 5
@@ -184,7 +202,7 @@
 
 /datum/table_recipe/improvisedslugoverload
 	name = "Overload Improvised Shell"
-	result = /obj/item/ammo_casing/shotgun/improvised/overload
+	result = /obj/item/ammo_casing/shotgun/improvised_overload
 	reqs = list(/obj/item/ammo_casing/shotgun/improvised = 1,
 				/datum/reagent/blackpowder = 5)
 	tools = list(/obj/item/weapon/screwdriver)
@@ -195,8 +213,8 @@
 	name = "Laser Slug Shell"
 	result = /obj/item/ammo_casing/shotgun/laserslug
 	reqs = list(/obj/item/ammo_casing/shotgun/techshell = 1,
-				/obj/item/weapon/stock_parts/capacitor/adv = 1,
-				/obj/item/weapon/stock_parts/micro_laser/high = 1)
+				/obj/item/weapon/stock_parts/capacitor = 1,
+				/obj/item/weapon/stock_parts/micro_laser = 1)
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 5
 	category = CAT_AMMO
@@ -207,9 +225,9 @@
 	reqs = list(/obj/item/weaponcrafting/reciever = 1,
 				/obj/item/pipe = 1,
 				/obj/item/weaponcrafting/stock = 1,
-				/obj/item/stack/packageWrap = 5,)
+				/obj/item/stack/ducttape = 5)
 	tools = list(/obj/item/weapon/screwdriver)
-	time = 200
+	time = 100
 	category = CAT_WEAPON
 
 /datum/table_recipe/spikebat
@@ -234,10 +252,10 @@
 	result = /obj/item/ammo_casing/musket
 	tools = list(/obj/item/weapon/screwdriver)
 	reqs = list(/obj/item/ammo_casing/minieball = 1,
-				/obj/item/stack/ducttape = 2,
+				/obj/item/stack/ducttape = 1,
 				/obj/item/weapon/paper = 1,
-				/datum/reagent/blackpowder = 15)
-	time = 300
+				/datum/reagent/blackpowder = 2)
+	time = 60
 	category = CAT_AMMO
 
 
@@ -246,5 +264,19 @@
 	result = /obj/item/ammo_casing/minieball
 	tools = list(/obj/item/weapon/weldingtool)
 	reqs = list(/obj/item/stack/sheet/metal = 2)
+	time = 60
+	category = CAT_WEAPON
+	
+/datum/table_recipe/smalltaser
+	name = "Stun Derringer"
+	result = /obj/item/weapon/gun/energy/smalltaser
+	tools = list(/obj/item/weapon/wirecutters, /obj/item/weapon/screwdriver, /obj/item/weapon/gun/energy/gun/advtaser)
+	reqs = list(/obj/item/stack/sheet/metal = 2, 
+				/obj/item/stack/sheet/plasteel = 1,
+				/obj/item/stack/cable_coil = 5,
+				/obj/item/weapon/stock_parts/micro_laser/high = 1,
+				/obj/item/weapon/stock_parts/cell/high = 1,
+				/obj/item/weapon/stock_parts/capacitor/adv = 1,
+				/obj/item/weaponcrafting/reciever = 1)
 	time = 120
 	category = CAT_WEAPON

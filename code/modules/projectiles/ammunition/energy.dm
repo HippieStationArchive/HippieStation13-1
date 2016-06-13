@@ -66,6 +66,9 @@
 /obj/item/ammo_casing/energy/electrode/hos
 	e_cost = 200
 
+/obj/item/ammo_casing/energy/electrode/crap
+	e_cost = 1000
+
 /obj/item/ammo_casing/energy/ion
 	projectile_type = /obj/item/projectile/ion
 	select_name = "ion"

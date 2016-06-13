@@ -653,7 +653,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 
 /obj/machinery/vending/assist
 	products = list(	/obj/item/device/assembly/prox_sensor = 5,/obj/item/device/assembly/igniter = 3,/obj/item/device/assembly/signaler = 4,
-						/obj/item/weapon/wirecutters = 1, /obj/item/weapon/cartridge/signal = 4)
+						/obj/item/weapon/wirecutters = 1, /obj/item/weapon/cartridge/signal = 4, /obj/item/stack/ducttape = 3)
 	contraband = list(/obj/item/device/flashlight = 5,/obj/item/device/assembly/timer = 2, /obj/item/device/assembly/voice = 2, /obj/item/device/assembly/health = 2)
 	product_ads = "Only the finest!;Have some tools.;The most robust equipment.;The finest gear in space!"
 
