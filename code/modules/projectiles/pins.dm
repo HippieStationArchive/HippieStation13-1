@@ -61,7 +61,7 @@
 	if(selfdestruct)
 		user.show_message("<span class='danger'>SELF-DESTRUCTING...</span><br>", 1)
 		user << "<span class='userdanger'>[gun] explodes!</span>"
-		explosion(get_turf(gun), -1, 0, 2, 3)
+		explosion(get_turf(gun), -1, 1, 2, 3)
 		if(gun)
 			qdel(gun)
 
@@ -112,6 +112,32 @@
 	icon_state = "firing_pin_pindi"
 	req_implant = /obj/item/weapon/implant/weapons_auth
 
+/obj/item/device/firing_pin/area
+	name = "area-denial pin"
+	desc = "this doesnt matter"
+	fail_message = "<span class='warning'>AREA CHECK FAILED.</span>"
+	var/area/A = null
+
+/obj/item/device/firing_pin/area/pin_auth(mob/living/user)
+	if(istype(get_area(src), A))
+		return 0
+	return 1
+
+/obj/item/device/firing_pin/area/syndicate
+	force_replace = 1
+	A = /area/syndicate_mothership
+	name = "Syndicate firing pin"
+	desc = "This pin will prevent firing whilst at the operative outpost."
+	icon_state = "firing_pin_pindi"
+
+/obj/item/device/firing_pin/trick
+	name = "Generic firing pin"
+	desc = "This pin will detonate the weapon it is put into upon trying to use it"
+	selfdestruct = 1
+	force_replace = 1
+
+/obj/item/device/firing_pin/trick/pin_auth(mob/living/user)
+	return 0
 
 
 // Honk pin, clown's joke item.

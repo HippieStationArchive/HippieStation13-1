@@ -61,7 +61,16 @@
 								sleep(50)
 								reagents.trans_to(M, 1)
 								i++
+
+							// Safely remove the item we have consumed
+							if(B)
+								if(B.contents)
+									B.contents -= src
+
+								B.stored -= itemstorevalue
+
 							qdel(src)
+
 							return 1
 						else
 							if(H == user)
