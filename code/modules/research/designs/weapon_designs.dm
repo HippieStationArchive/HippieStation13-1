@@ -104,10 +104,10 @@
 	name = "Laser Rifle"
 	desc = "An advanced laser weapon capable of shooting higly focused beams of light."
 	id = "laserrifle"
-	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 4)
+	req_tech = list("combat" = 6, "materials" = 5, "powerstorage" = 6)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_DIAMOND = 2000)
-	build_path = /obj/item/weapon/gun/energy/laser/pistol
+	materials = list(MAT_METAL = 5000, MAT_GLASS = 5000, MAT_DIAMOND = 2000, MAT_GOLD = 3000, MAT_SILVER = 4000)
+	build_path = /obj/item/weapon/gun/energy/laser/rifle
 	locked = 1
 	category = list("Weapons")
 
