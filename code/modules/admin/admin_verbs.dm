@@ -65,6 +65,8 @@ var/list/admin_verbs_admin = list(
 	/client/proc/cmd_admin_create_intercept_report, //*Create intercept report
 	/client/proc/reset_all_tcs,			/*resets all telecomms scripts*/
 	/client/proc/toggle_antag_hud, 	/*toggle display of the admin antag hud*/
+	/client/proc/fill_breach,
+	/client/proc/reset_atmos,
 	/client/proc/aooc /*sends a message to all antags on the server*/
 	)
 var/list/admin_verbs_ban = list(
@@ -141,8 +143,6 @@ var/list/admin_verbs_debug = list(
 	/client/proc/cmd_display_del_log,
 	/client/proc/reset_latejoin_spawns,
 	/client/proc/create_outfits,
-	/client/proc/fill_breach,
-	/client/proc/reset_atmos,
 	/client/proc/debug_huds
 	)
 var/list/admin_verbs_possess = list(

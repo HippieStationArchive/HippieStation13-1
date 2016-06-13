@@ -119,3 +119,10 @@
 	result_amount = 3
 	mix_message = "<span class='danger'>After sparks, fire, and the smell of mindbreaker, the mix is constantly spinning with no stop in sight.</span>"
 	required_temp = 400
+
+/datum/chemical_reaction/bleach
+	name = "Bleach"
+	id = "Bleach"
+	result = "bleach"
+	required_reagents = list("cleaner" = 1, "sodium" = 1, "chlorine" = 1)
+	result_amount = 3
