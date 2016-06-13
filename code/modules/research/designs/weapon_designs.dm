@@ -107,7 +107,11 @@
 	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 4)
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 1000, MAT_GLASS = 2000, MAT_DIAMOND = 2000)
+<<<<<<< HEAD
 	build_path = /obj/item/weapon/gun/energy/laser/rifle
+=======
+	build_path = /obj/item/weapon/gun/energy/laser/pistol
+>>>>>>> refs/remotes/HippieStationCode/master
 	locked = 1
 	category = list("Weapons")
 
