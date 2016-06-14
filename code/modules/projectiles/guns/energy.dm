@@ -12,6 +12,12 @@
 	var/can_charge = 1 //Can it be charged in a recharger?
 	ammo_x_offset = 2
 	var/shaded_charge = 0 //if this gun uses a stateful charge bar for more detail
+	var/setting = -1 //Don't touch this.
+	var/multistate = 0 //Does it have two or more states?
+	var/multistateicon = "" //Dont touch this.
+	var/ammo = -1 //How much ammo does this gun take? Set to -1 for no ammo.
+	var/canshoot = 1 //This works better than a delay system as you can dynamically break a gun.
+	var/samount = 2 //The amount of settings this gun has.
 
 /obj/item/weapon/gun/energy/emp_act(severity)
 	power_supply.use(round(power_supply.charge / severity))
@@ -33,6 +39,7 @@
 	shot = ammo_type[select]
 	fire_sound = shot.fire_sound
 	fire_delay = shot.delay
+	multistate_update()
 	update_icon()
 	return
 
@@ -50,14 +57,25 @@
 		return
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
 	if(power_supply.charge >= shot.e_cost) //if there's enough power in the power_supply cell...
-		chambered = shot //...prepare a new shot based on the current ammo type selected
-		chambered.newshot()
+		if(ammo != -1)
+			if(ammo > 0)
+				if(canshoot == 1)
+					chambered = shot
+					chambered.newshot()
+		else
+			if(canshoot == 1)
+				chambered = shot
+				chambered.newshot()
 	return
 
 /obj/item/weapon/gun/energy/process_chamber()
 	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
 		var/obj/item/ammo_casing/energy/shot = chambered
 		power_supply.use(shot.e_cost)//... drain the power_supply cell
+		if(ammo != -1 && ammo > 0)
+			ammo = ammo - 1
+			if(ammo < 0)
+				ammo = 0 //Just ensuring this never goes below 1 if it has ammo.
 	chambered = null //either way, released the prepared shot
 	return
 
@@ -73,27 +91,53 @@
 	update_icon()
 	return
 
+/obj/item/weapon/gun/energy/proc/multistate_update() //This is the new way of handling things that have more than one setting. Thank fuck.
+	multistateicon = "[icon_state][setting]"
+	switch(setting) //To add another setting simply do if(number) and then increment all of the setting's appropriately.
+		if(0)
+			setting = 1
+			multistateicon = "[icon_state][setting]"
+		if(1)
+			if(samount > 2)
+				setting = 2
+			else
+				setting = 0
+			multistateicon = "[icon_state][setting]"
+		if(2)
+			setting = 0
+			multistateicon = "[icon_state][setting]"
+		else
+			setting = 0
+			multistateicon = "[icon_state][setting]"
+
 /obj/item/weapon/gun/energy/update_icon()
 	overlays.Cut()
 	var/ratio = Ceiling((power_supply.charge / power_supply.maxcharge) * 4)
 	var/obj/item/ammo_casing/energy/shot = ammo_type[select]
 	var/iconState = "[icon_state]_charge"
 	var/itemState = null
+
 	if(!initial(item_state))
 		itemState = icon_state
+
 	if (modifystate)
 		overlays += "[icon_state]_[shot.select_name]"
 		iconState += "_[shot.select_name]"
 		if(itemState)
 			itemState += "[shot.select_name]"
+
 	if(power_supply.charge < shot.e_cost)
 		overlays += "[icon_state]_empty"
 	else
-		if(!shaded_charge)
+		if(!shaded_charge && multistate == 0)
 			for(var/i = ratio, i >= 1, i--)
-				overlays += image(icon = icon, icon_state = iconState, pixel_x = ammo_x_offset * (i -1))
+				overlays += image(icon = icon, icon_state = iconState, pixel_x = ammo_x_offset * (i -1))//LEGACY SYSTEM
+		else if(multistate == 1)
+			overlays += image(icon = icon, icon_state = "[multistateicon]_charge[ratio]")
 		else
 			overlays += image(icon = icon, icon_state = "[icon_state]_charge[ratio]")
+
+
 	if(F)
 		var/iconF = "flight"
 		if(F.on)
@@ -103,8 +147,14 @@
 		var/iconK = "knife"
 		overlays += image(icon = 'icons/obj/guns/attachments.dmi', icon_state = iconK, pixel_x = knife_x_offset, pixel_y = knife_y_offset)
 	if(itemState)
-		itemState += "[ratio]"
-		item_state = itemState
+		if(multistate == 1)
+			itemState += "[setting][ratio]"
+			item_state = itemState
+		else if(!shaded_charge)
+			itemState += "[ratio]"
+			item_state = itemState
+		else
+			item_state = "laser"
 
 /obj/item/weapon/gun/energy/ui_action_click()
 	toggle_gunlight()
