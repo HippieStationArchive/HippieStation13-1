@@ -288,7 +288,7 @@
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/cane/New()
 	..()
-	
+
 	options = list()
 	options["Pimp Stick"] = "pimpstick"
 	options["Cane"] = "cane"
@@ -372,6 +372,7 @@
 	can_knife = 1
 	knife_x_offset = 18
 	knife_y_offset = 12
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/New()
 	..()
@@ -413,6 +414,7 @@
 	mag_load_sound = 'sound/effects/wep_magazines/lmg_load.ogg'
 	mag_unload_sound = null
 	chamber_sound = null
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/abzats/burst_select()
 	return

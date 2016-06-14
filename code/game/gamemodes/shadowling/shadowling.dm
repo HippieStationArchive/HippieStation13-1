@@ -273,8 +273,9 @@ Made by Xhuis
 			H.adjustToxLoss(-5)
 			H.adjustBrainLoss(-25) //Shad O. Ling gibbers, "CAN U BE MY THRALL?!!"
 			H.adjustCloneLoss(-1)
-			H.SetWeakened(0)
-			H.SetStunned(0)
+			H.AdjustParalysis(-2)
+			H.AdjustStunned(-2)
+			H.AdjustWeakened(-2)
 
 /datum/species/shadow/ling/lesser //Empowered thralls. Obvious, but powerful
 	name = "Lesser Shadowling"

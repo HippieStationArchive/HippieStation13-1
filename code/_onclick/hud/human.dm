@@ -7,6 +7,7 @@
 
 /obj/screen/human/toggle/Click()
 	var/mob/living/carbon/human/H = usr
+
 	if(H.inventory_hotswap())
 		return //Succesful hotswap
 
@@ -270,7 +271,7 @@
 	mymob.healths.icon_state = "health0"
 	mymob.healths.name = "health"
 	mymob.healths.screen_loc = ui_health
-	
+
 	mymob.staminas = new /obj/screen()
 	mymob.staminas.icon_state = "stamina0"
 	mymob.staminas.name = "stamina"
