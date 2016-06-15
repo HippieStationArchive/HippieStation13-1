@@ -22,7 +22,7 @@
 #################################
 
 # Your name.  
-author: McHatters
+author: Blobbernaut
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
@@ -33,4 +33,5 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - tweak: All security berets no longer have armor values. That includes the HoS' beret. For security officers with class.
+  - rscadd: "Re-adds the armor to berets. The values have not been altered from what they were prior to the nerf."
+
