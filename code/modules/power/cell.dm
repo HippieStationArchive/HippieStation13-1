@@ -165,6 +165,7 @@
 	..()
 	charge = 0
 
+//pulse weaponry
 /obj/item/weapon/stock_parts/cell/pulse //200 pulse shots
 	name = "pulse rifle power cell"
 	maxcharge = 40000
@@ -187,6 +188,19 @@
 	materials = list(MAT_GLASS=60)
 	rating = 3
 	chargerate = 1500
+
+//Energy Weaponry
+/obj/item/weapon/stock_parts/cell/laser/pistol_hybrid
+	name = "hybrid pistol cell"
+	maxcharge = 500
+
+/obj/item/weapon/stock_parts/cell/laser/hypercannon
+	name = "hypercannon cell"
+	maxcharge = 600
+
+/obj/item/weapon/stock_parts/cell/energy/gauss
+	name = "gauss cell"
+	maxcharge = 3000
 
 /obj/item/weapon/stock_parts/cell/high/empty/New()
 	..()
