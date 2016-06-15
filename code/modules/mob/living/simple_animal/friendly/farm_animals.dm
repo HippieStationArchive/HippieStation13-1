@@ -18,7 +18,7 @@
 	response_harm   = "kicks"
 	faction = list("neutral")
 	attack_same = 1
-	attacktext = "kicks"
+	attacktext = "headbutts"
 	attack_sound = 'sound/weapons/punch1.ogg'
 	health = 40
 	melee_damage_lower = 1
