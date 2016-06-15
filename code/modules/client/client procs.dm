@@ -342,6 +342,80 @@ var/next_external_rsc = 0
 	//no match mark it as a first connection for use in client/New()
 	player_age = -1
 
+/proc/calculate_admins(type, requiredflags = R_BAN)
+	var/admin_number_total = 0		//Total number of admins
+	var/admin_number_afk = 0		//Holds the number of admins who are afk
+	var/admin_number_ignored = 0	//Holds the number of admins without +BAN (so admins who are not really admins)
+	var/admin_number_decrease = 0	//Holds the number of admins with are afk, ignored or both
+	for(var/client/X in admins)
+		admin_number_total++;
+		var/invalid = 0
+		if(requiredflags != 0 && !check_rights_for(X, requiredflags))
+			admin_number_ignored++
+			invalid = 1
+		if(X.is_afk())
+			admin_number_afk++
+			invalid = 1
+		if(X.holder.fakekey)
+			admin_number_ignored++
+			invalid = 1
+		if(invalid)
+			admin_number_decrease++
+	switch(type)
+		if("ignored")
+			return admin_number_ignored
+		if("total")
+			return admin_number_total
+		if("away")
+			return admin_number_afk
+		if("present")
+			return admin_number_total - admin_number_decrease
+	return 0
+
+/proc/send2irc_admin_notice_handler(type, source, msg)
+	var/afk_admins = calculate_admins("away")
+	var/total_admins = calculate_admins("total")
+	var/ignored_admins = calculate_admins("ignored")
+	var/admin_number_present = calculate_admins("present")	//Number of admins who are neither afk nor invalid
+	var/irc_message_afk = "[msg] - All admins AFK ([afk_admins]/[total_admins]) or skipped ([ignored_admins]/[total_admins])"
+	var/irc_message_normal = "[msg] - heard by [admin_number_present] non-AFK admins who have +BAN."
+	var/irc_message_adminless = "[msg] - No admins online"
+
+	switch(type)
+		if("adminhelp")
+			if(config.announce_adminhelps)
+				send2irc(source, irc_message_normal)
+			else
+				if(admin_number_present <= 0)
+					if(!afk_admins && !ignored_admins)
+						send2irc(source, irc_message_adminless)
+					else if(afk_admins >= 1)
+						send2irc(source, irc_message_afk)
+					else
+						send2irc(source, irc_message_normal)
+		if("watchlist")
+			if(config.announce_watchlist)
+				send2irc(source, irc_message_normal)
+			else
+				if(admin_number_present <= 0)
+					if(!afk_admins && !ignored_admins)
+						send2irc(source, irc_message_adminless)
+					else if(afk_admins >= 1)
+						send2irc(source, irc_message_afk)
+					else
+						send2irc(source, irc_message_normal)
+		if("new_player")
+			if(config.irc_first_connection_alert)
+				send2irc(source, irc_message_normal)
+			else
+				if(admin_number_present <= 0)
+					if(!afk_admins && !ignored_admins)
+						send2irc(source, irc_message_adminless)
+					else if(afk_admins >= 1)
+						send2irc(source, irc_message_afk)
+					else
+						send2irc(source, irc_message_normal)
+	return admin_number_present
 
 /client/proc/sync_client_with_db()
 	if (IsGuestKey(src.key))

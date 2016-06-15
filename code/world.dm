@@ -1,3 +1,4 @@
+/var/hippie_round_number = 0
 /world
 	mob = /mob/new_player
 	turf = /turf/space
@@ -27,6 +28,15 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 	diary << "\n\nStarting up. [time2text(world.timeofday, "hh:mm.ss")]\n---------------------"
 	diaryofmeanpeople << "\n\nStarting up. [time2text(world.timeofday, "hh:mm.ss")]\n---------------------"
 	changelog_hash = md5('html/changelog.html')					//used for telling if the changelog has changed recently
+
+	var/roundfile = file("data/roundcount.txt")
+	hippie_round_number = text2num(file2text(roundfile))
+	if(hippie_round_number == null || hippie_round_number == "" || hippie_round_number == 0)
+		hippie_round_number = 1
+	else
+		hippie_round_number++
+	fdel(roundfile)
+	text2file(num2text(hippie_round_number), roundfile)
 
 	make_datum_references_lists()	//initialises global lists for referencing frequently used datums (so that we only ever do it once)
 
@@ -152,9 +162,9 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 	if(ticker.delay_end)
 		world << "<span class='boldannounce'>An admin has delayed the round end.</span>"
 		return
-	
+
 	world << "<span class='boldannounce'>Rebooting World in [delay/10] [delay > 10 ? "seconds" : "second"]. [reason]</span>"
-	
+
 	sleep(delay)
 
 	if(blackbox)
