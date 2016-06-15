@@ -8,7 +8,7 @@
 		return
 
 	if(!ticket_title)
-		usr << "<span class='ticket-status'>You did not supply a message for your ticket. Ignoring your request.</span>"
+		usr << "<span class='ticket-status'>You did not supply a message for your Adminhelp. Ignoring your request.</span>"
 		return
 
 	ticket_title = replacetext(ticket_title, "'", "\'")
@@ -34,7 +34,7 @@
 
 /client/verb/view_my_ticket()
 	set category = "Admin"
-	set name = "View My Ticket"
+	set name = "View My Adminhelps"
 	// Firstly, check if we are the owner of a ticket. This should be our first priority.
 	var/hasticket = 0
 	for(var/datum/admin_ticket/T in tickets_list)
@@ -49,7 +49,7 @@
 			hasticket = 1
 		//return
 	if(hasticket == 0)
-		usr << "<span class='ticket-status'>Oops! You do not appear to have a ticket!</span>"
+		usr << "<span class='ticket-status'>Oops! You do not appear to have a Adminhelp!</span>"
 	else
 		hasticket = 0
 		return
@@ -70,11 +70,11 @@
 	if(holder)
 		content += {"<p class='info-bar'>
 			<a href='?user=\ref[src];action=refresh_admin_ticket_list;flag=[flag]'>Refresh List</a>
-			<a href='?user=\ref[src];action=refresh_admin_ticket_list;flag=[(flag | TICKET_FLAG_LIST_ALL) & ~TICKET_FLAG_LIST_MINE & ~TICKET_FLAG_LIST_UNCLAIMED]'>All Tickets</a>
+			<a href='?user=\ref[src];action=refresh_admin_ticket_list;flag=[(flag | TICKET_FLAG_LIST_ALL) & ~TICKET_FLAG_LIST_MINE & ~TICKET_FLAG_LIST_UNCLAIMED]'>All Adminhelps</a>
 
 			<a href='?user=\ref[src];action=refresh_admin_ticket_list;flag=
 				[flag & TICKET_FLAG_LIST_MINE ? "[(flag & ~TICKET_FLAG_LIST_MINE) & ~TICKET_FLAG_LIST_ALL]" : "[(flag | TICKET_FLAG_LIST_MINE) & ~TICKET_FLAG_LIST_ALL]"]
-				'>[flag & TICKET_FLAG_LIST_MINE ? "¤ " : ""]My Tickets</a>
+				'>[flag & TICKET_FLAG_LIST_MINE ? "¤ " : ""]My Adminhelps</a>
 
 			<a href='?user=\ref[src];action=refresh_admin_ticket_list;flag=
 				[flag & TICKET_FLAG_LIST_UNCLAIMED ? "[(flag & ~TICKET_FLAG_LIST_UNCLAIMED) & ~TICKET_FLAG_LIST_ALL]" : "[(flag | TICKET_FLAG_LIST_UNCLAIMED) & ~TICKET_FLAG_LIST_ALL]"]
@@ -121,10 +121,10 @@
 				unresolved.Add(T)
 
 		if(unresolved.len == 0 && resolved.len == 0)
-			content += "<p class='info-bar emboldened'>There are no tickets matching your filter(s)</p>"
+			content += "<p class='info-bar emboldened'>There are no Adminhelps matching your filter(s)</p>"
 
 		if(unresolved.len > 0)
-			content += "<p class='info-bar unresolved emboldened large-font'>Unresolved Tickets ([unresolved.len]/[tickets_list.len]):</p>"
+			content += "<p class='info-bar unresolved emboldened large-font'>Unresolved Adminhelps ([unresolved.len]/[tickets_list.len]):</p>"
 			for(var/datum/admin_ticket/T in unresolved)
 				if(!T.owner)
 					content += {"<p class='ticket-bar'>
@@ -160,7 +160,7 @@
 						</p>"}
 
 		if(resolved.len > 0)
-			content += "<p class='info-bar resolved emboldened large-font'>Resolved Tickets ([resolved.len]/[tickets_list.len]):</p>"
+			content += "<p class='info-bar resolved emboldened large-font'>Resolved Adminhelps ([resolved.len]/[tickets_list.len]):</p>"
 			for(var/datum/admin_ticket/T in resolved)
 				/*if(!T.owner)
 					continue*/
@@ -201,9 +201,9 @@
 		content += "<p class='info-bar'><a href='?user=\ref[src];action=refresh_admin_ticket_list;flag=[flag]'>Refresh List</a></p>"
 
 		if(tickets_list.len == 0)
-			content += "<p class='info-bar emboldened'>There are no tickets in the system</p>"
+			content += "<p class='info-bar emboldened'>There are no Adminhelps in the system</p>"
 		else
-			content += "<p class='info-bar emboldened'>Your tickets:</p>"
+			content += "<p class='info-bar emboldened'>Your Adminhelps:</p>"
 			for(var/datum/admin_ticket/T in tickets_list)
 				if(compare_ckey(T.owner, usr))
 					content += {"<p class='ticket-bar [T.resolved ? "resolved" : "unresolved"]'>
@@ -211,7 +211,7 @@
 						<a href='?src=\ref[T];user=\ref[src];action=view_admin_ticket;ticket=\ref[T]'><img border='0' width='16' height='16' class='uiIcon16 icon-search' /> View</a>
 						</p>"}
 
-	var/html = get_html("Admin Tickets", "", "", content)
+	var/html = get_html("Adminhelp Panel", "", "", content)
 
 	usr << browse(null, "window=ViewTickets")
 	usr << browse(html, "window=ViewTickets")
