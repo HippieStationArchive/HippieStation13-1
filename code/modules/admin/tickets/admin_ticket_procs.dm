@@ -124,7 +124,7 @@
 		log_admin("Ticket #[ticket_id]: [log_item.user] -> Ticket #[ticket_id] - [log_item.text]")
 
 /datum/admin_ticket/proc/get_view_link(var/mob/user)
-	return "<a href='?src=\ref[src];user=\ref[user];action=view_admin_ticket;ticket=\ref[src]'>Ticket #[src.ticket_id]</a>"
+	return "<a href='?src=\ref[src];user=\ref[user];action=view_admin_ticket;ticket=\ref[src]'>Adminhelp #[src.ticket_id]</a>"
 
 /datum/admin_ticket/proc/is_monitor(var/client/C)
 	return (C in monitors) ? 1 : 0
@@ -148,12 +148,12 @@
 	if(!foundMonitor)
 		log_admin("[usr] is now monitoring ticket #[ticket_id]")
 		monitors += get_client(usr)
-		usr << "<span class='ticket-status'>You are now monitoring this ticket</span>"
+		usr << "<span class='ticket-status'>You are now monitoring this Adminhelp</span>"
 		monitoring = 1
 	else
 		log_admin("[usr] is no longer monitoring ticket #[ticket_id]")
 		monitors -= get_client(usr)
-		usr << "<span class='ticket-status'>You are no longer monitoring this ticket</span>"
+		usr << "<span class='ticket-status'>You are no longer monitoring this Adminhelp</span>"
 		monitoring = 0
 
 	var/monitors_text = ""
@@ -194,20 +194,20 @@
 		C << "<span class='ticket-status'>-- [get_view_link(C)] has been set '<b>[resolved ? "resolved" : "unresolved"]</b>' by [key_name_params(usr, is_admin(C), is_admin(C))]</span>"
 
 	if(resolved)
-		log_admin("Ticket #[ticket_id] marked as resolved by [get_fancy_key(usr)].")
-		owner << "<span class='ticket-text-received'>Your ticket has been marked as resolved.</span>"
+		log_admin("Adminhelp #[ticket_id] marked as resolved by [get_fancy_key(usr)].")
+		owner << "<span class='ticket-text-received'>Your Adminhelp has been marked as resolved.</span>"
 	else
-		log_admin("Ticket #[ticket_id] marked as unresolved by [get_fancy_key(usr)].")
-		owner << "<span class='ticket-text-received'>Your ticket has been marked as unresolved.</span>"
+		log_admin("Adminhelp #[ticket_id] marked as unresolved by [get_fancy_key(usr)].")
+		owner << "<span class='ticket-text-received'>Your Adminhelp has been marked as unresolved.</span>"
 	world << output("[resolved]", "ViewTicketLog[ticket_id].browser:set_resolved")
 
 	if(resolved && ticker.delay_end)
 		if(unresolvedCount == 0)
-			if(alert(usr, "You have resolved the last ticket (the server restart is currently delayed!). Would you like to restart the server now?", "Restart Server", "Restart", "Cancel") == "Restart")
+			if(alert(usr, "You have resolved the last Adminhelp (the server restart is currently delayed!). Would you like to restart the server now?", "Restart Server", "Restart", "Cancel") == "Restart")
 				ticker.delay_end = 0
 				world.Reboot("Initiated by [usr.client.holder.fakekey ? "Admin" : usr.key].", "end_proper", "proper completion", 100)
 			else
-				usr << "<span class='ticket-status'>You chose not to restart the server. If you do not have permissions to restart the server normally, you can still do so by making a new ticket and resolving it again.</span>"
+				usr << "<span class='ticket-status'>You chose not to restart the server. If you do not have permissions to restart the server normally, you can still do so by making a new Adminhelp and resolving it again.</span>"
 
 	if(resolved)
 		if(!establish_db_connection())
@@ -315,7 +315,7 @@
 	content += "<p class='control-bar'><a href='#top' name='bottom'>To Top</a> [reply_link] [refresh_link]</p>"
 	content += "<br /></div></body></html>"
 
-	var/html = get_html("Admin Ticket Interface", "", "", content)
+	var/html = get_html("Adminhelp Interface", "", "", content)
 
 	usr << browse(null, "window=ViewTicketLog[ticket_id]")
 	usr << browse(html, "window=ViewTicketLog[ticket_id]")

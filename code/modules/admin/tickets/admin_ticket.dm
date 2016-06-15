@@ -60,7 +60,7 @@ var/ticket_counter_visible_to_everyone = 0
 
 /datum/admin_ticket/New(nowner, ntitle, ntarget)
 	if(compare_ckey(nowner, ntarget))
-		usr << "<span class='ticket-status'>You cannot make a ticket for yourself</span>"
+		usr << "<span class='ticket-status'>You cannot make an Adminhelp for yourself</span>"
 		error = 1
 		return
 
@@ -76,7 +76,7 @@ var/ticket_counter_visible_to_everyone = 0
 	for(var/datum/admin_ticket/T in tickets_list)
 		if(!T.resolved && (compare_ckey(owner_ckey, T.owner_ckey)))
 			error = 1
-			usr << "<span class='ticket-status'>Ticket not created. This user already has a ticket. You can view it here: [T.get_view_link(usr)]</span>"
+			usr << "<span class='ticket-status'>Adminhelp not created. This user already has an Adminhelp. You can view it here: [T.get_view_link(usr)]</span>"
 			return
 
 	if(ntitle)
@@ -94,17 +94,17 @@ var/ticket_counter_visible_to_everyone = 0
 	if(compare_ckey(owner, ntarget))
 		tellAdmins = 0
 		if(!is_admin(owner)) owner << "<span class='ticket-header-recieved'>-- Administrator private message --</span>"
-		owner << "<span class='ticket-text-received'>Ticket created by [is_admin(owner) ? key_name_params(handling_admin, 1, 1, null, src) : key_name_params(handling_admin, 1, 0, null, src)] for you: \"[title]\"</span>"
+		owner << "<span class='ticket-text-received'>Adminhelp created by [is_admin(owner) ? key_name_params(handling_admin, 1, 1, null, src) : key_name_params(handling_admin, 1, 0, null, src)] for you: \"[title]\"</span>"
 		if(!is_admin(owner)) owner << "<span class='ticket-admin-reply'>Click on the administrator's name to reply.</span>"
-		handling_admin << "<span class='ticket-text-sent'>Ticket created by you for [is_admin(handling_admin) ? key_name_params(ntarget, 1, 1, null, src) : key_name_params(ntarget, 1, 0, null, src)]: \"[admin_title]\"</span>"
-		log += new /datum/ticket_log(src, usr, "Ticket created by <b>[handling_admin] for [ntarget]</b>", 0)
+		handling_admin << "<span class='ticket-text-sent'>Adminhelp created by you for [is_admin(handling_admin) ? key_name_params(ntarget, 1, 1, null, src) : key_name_params(ntarget, 1, 0, null, src)]: \"[admin_title]\"</span>"
+		log += new /datum/ticket_log(src, usr, "Adminhelp created by <b>[handling_admin] for [ntarget]</b>", 0)
 		if(has_pref(owner, SOUND_ADMINHELP))
 			owner << 'sound/effects/adminhelp.ogg'
 		if(has_pref(handling_admin, SOUND_ADMINHELP))
 			handling_admin << 'sound/effects/adminhelp.ogg'
 	else
-		log += new /datum/ticket_log(src, usr, "Ticket created by <b>[owner]</b>", 0)
-		owner << "<span class='ticket-status'>Ticket created for Admins: \"[title]\"</span>"
+		log += new /datum/ticket_log(src, usr, "Adminhelp created by <b>[owner]</b>", 0)
+		owner << "<span class='ticket-status'>Adminhelp created for Admins: \"[title]\"</span>"
 		if(has_pref(owner, SOUND_ADMINHELP))
 			owner << 'sound/effects/adminhelp.ogg'
 

@@ -5,17 +5,17 @@
 	var/client/C = usr.client
 
 	if(!C.holder && !M)
-		message_admins("EXPLOIT \[admin_ticket\]: [usr] attempted to operate a ticket, it is missing a src key.")
+		message_admins("EXPLOIT \[admin_ticket\]: [usr] attempted to operate a Adminhelp, it is missing a src key.")
 		return
 
 	if(href_list["action"] == "view_admin_ticket")
 		var/datum/admin_ticket/T = locate(href_list["ticket"])
 		if(!istype(T, /datum/admin_ticket))
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to view a ticket, the ref supplied was not a ticket.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to view a Adminhelp, the ref supplied was not a Adminhelp.")
 			return
 
 		if(!C.holder && !compare_ckey(M, T.owner_ckey))
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to view a ticket, they are not an admin or the owner of the ticket.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to view a Adminhelp, they are not an admin or the owner of the Adminhelp.")
 			return
 
 		T.view_log(C.mob)
@@ -27,15 +27,15 @@
 		var/datum/admin_ticket/T = locate(href_list["ticket"])
 
 		if(!istype(T, /datum/admin_ticket))
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to reply to a ticket, the ref supplied was not a ticket.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to reply to a Adminhelp, the ref supplied was not a Adminhelp.")
 			return
 
 		if(T.resolved && !C.holder)
-			usr << "<span class='ticket-status'>This ticket is marked as resolved. You may not add any more information to it.</span>"
+			usr << "<span class='ticket-status'>This Adminhelp is marked as resolved. You may not add any more information to it.</span>"
 			return
 
 		if(!C.holder && !compare_ckey(M, T.owner_ckey))
-			usr << "<span class='ticket-status'>You are not the owner or primary admin of this ticket. You may not reply to it.</span>"
+			usr << "<span class='ticket-status'>You are not the owner or primary admin of this Adminhelp. You may not reply to it.</span>"
 			return
 
 		var/logtext = input("Please enter your [(!compare_ckey(usr, T.handling_admin) && !compare_ckey(usr, T.owner_ckey) ? "supplimentary comment" : "reply")]:") as text|null
@@ -62,24 +62,24 @@
 	else if(href_list["action"] == "monitor_admin_ticket")
 		// Limited to admins
 		if(!C.holder)
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to monitor a ticket, but the user is not an admin.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to monitor a Adminhelp, but the user is not an admin.")
 			return
 
 		var/datum/admin_ticket/T = locate(href_list["ticket"])
 		if(!istype(T, /datum/admin_ticket))
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to monitor a ticket, the ref supplied was not a ticket.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to monitor a Adminhelp, the ref supplied was not a ticket.")
 			return
 
 		T.toggle_monitor()
 	else if(href_list["action"] == "administer_admin_ticket")
 		var/datum/admin_ticket/T = locate(href_list["ticket"])
 		if(!istype(T, /datum/admin_ticket))
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to administer a ticket, the ref supplied was not a ticket.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to administer a Adminhelp, the ref supplied was not a ticket.")
 			return
 
 		// This is limited to admins
 		if(!C.holder)
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to administer a ticket, but the user is not an admin.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to administer a Adminhelp, but the user is not an admin.")
 			return
 
 		if(!is_admin(T.owner))
@@ -87,7 +87,7 @@
 				X << "<span class='ticket-status'>-- [T.get_view_link(X)] has been claimed by [key_name_params(C, 1, 1)] [T.handling_admin ? "(was previously [key_name_params(T.handling_admin, 1, 1)])" : ""]</span>"
 
 		T.handling_admin = C
-		log_admin("[T.handling_admin] has been assigned to ticket #[T.ticket_id] as primary admin.")
+		log_admin("[T.handling_admin] has been assigned to Adminhelp #[T.ticket_id] as primary admin.")
 
 		world << output("[usr != null ? "[key_name(usr, 1)]" : "Unassigned"]", "ViewTicketLog[T.ticket_id].browser:handling_user")
 
@@ -96,29 +96,29 @@
 	else if(href_list["action"] == "resolve_admin_ticket")
 		var/datum/admin_ticket/T = locate(href_list["ticket"])
 		if(!istype(T, /datum/admin_ticket))
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to resolve a ticket, the ref supplied was not a ticket.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to resolve a Adminhelp, the ref supplied was not a ticket.")
 			return
 
 		// This is limited to admins or ticket owners
 		if(!C.holder && !compare_ckey(M, T.owner_ckey))
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to resolve a ticket, but the user is not an admin or the ticket owner.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to resolve a Adminhelp, but the user is not an admin or the ticket owner.")
 			return
 
 		if(C.holder || (compare_ckey(M, T.owner_ckey) && !T.resolved && !T.admin_started_ticket))
 			T.toggle_resolved()
 		else if(compare_ckey(M, T.owner_ckey) && T.resolved)
-			C << "<span class='ticket-status'>-- Your ticket is already closed. You cannot reopen it.</span>"
+			C << "<span class='ticket-status'>-- Your Adminhelp is already closed. You cannot reopen it.</span>"
 
 		if(href_list["reloadlist"])
 			C.view_tickets()
 	else if(href_list["action"] == "refresh_admin_ticket")
 		var/datum/admin_ticket/T = locate(href_list["ticket"])
 		if(!istype(T, /datum/admin_ticket))
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to refresh a ticket, the ref supplied was not a ticket.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to refresh a Adminhelp, the ref supplied was not a Adminhelp.")
 			return
 
 		if(!C.holder && !compare_ckey(M, T.owner_ckey))
-			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to view a ticket, but the user is not an admin or the ticket owner.")
+			message_admins("EXPLOIT \[admin_ticket\]: [M] attempted to view a Adminhelp, but the user is not an admin or the Adminhelp owner.")
 			return
 
 		T.view_log(C)

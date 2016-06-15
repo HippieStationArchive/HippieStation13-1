@@ -126,7 +126,7 @@
 
 			if(T.handling_admin && !compare_ckey(get_client(src), T.handling_admin) && !compare_ckey(get_client(src), T.owner))
 				if(!holder)
-					usr << "<span class='boldnotice'>You are not the owner or primary admin of this users ticket. You may not reply to it.</span>"
+					usr << "<span class='boldnotice'>You are not the owner or primary admin of this users Adminhelp. You may not reply to it.</span>"
 				return
 
 			if(!T.resolved)
@@ -152,7 +152,7 @@
 				return
 
 	if(has_resolved_ticket)
-		src << "<span class='boldnotice'>Your ticket was closed. Only admins can add finishing comments to it.</span>"
+		src << "<span class='boldnotice'>Your Adminhelp was closed. Only admins can add finishing comments to it.</span>"
 		return
 
 	if(prefs.muted & MUTE_ADMINHELP)
