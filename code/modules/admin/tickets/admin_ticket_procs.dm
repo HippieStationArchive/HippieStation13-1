@@ -234,6 +234,7 @@
 	var/content = ""
 	content += "<p class='control-bar'><a href='#bottom' name='top'>To Bottom</a> [reply_link] [refresh_link]</p>"
 	content += "<p class='title-bar'>[title]</p>"
+	content += "<p class='info-bar'>Primary Admin: <span id='primary-admin'>[handling_admin != null ? (usr.client.holder ? key_name_params(handling_admin, 1, 1, null, src) : "[key_name_params(handling_admin, 1, 0, null, src)]") : "Unassigned"]</span></p>"
 
 	content += "<p id='monitors' class='[monitors.len > 0 ? "shown" : "hidden"]'>Monitors:"
 	for(var/M in monitors)
