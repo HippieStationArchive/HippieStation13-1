@@ -45,7 +45,7 @@ Head of Security
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/armor/hos/trenchcoat
 	gloves = /obj/item/clothing/gloves/color/black/hos
-	head = /obj/item/clothing/head/HoS/beret
+	head = /obj/item/clothing/head/HoS/
 	l_pocket = /obj/item/device/assembly/flash/handheld
 	r_pocket = /obj/item/weapon/restraints/handcuffs
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
@@ -217,7 +217,7 @@ var/list/sec_departments = list("engineering", "supply", "medical", "science")
 	ears = /obj/item/device/radio/headset/headset_sec/alt
 	uniform = /obj/item/clothing/under/rank/security
 	gloves = /obj/item/clothing/gloves/color/black
-	head = /obj/item/clothing/head/beret/sec
+	head = /obj/item/clothing/head/helmet/sec 	
 	suit = /obj/item/clothing/suit/armor/vest
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_pocket = /obj/item/device/assembly/flash/handheld

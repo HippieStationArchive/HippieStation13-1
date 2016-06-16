@@ -1,0 +1,11 @@
+author: Kingofcarrotflowerspt1
+
+delete-after: True
+
+changes: 
+  - rscdel: "Removes flashes, stun batons, pepper spray, and sec light from sec lockers." 
+  - tweak: "Security belts now spawn loaded with handcuffs, a stun baton, flashbang, pepperspray, and a sec light."
+  - tweak: "All security now start with a flash and handcuffs in their left and right pockets."
+  - rscdel: "Security Officers lose the stun baton in their backpack."
+  - rscadd: "Adds three black gloves to the Security wardrobe, there were none before."
+  - tweak: "Changes the order of the items in lockers to make the first item in the locker different. Makes clicking and equipping as fast as possible."

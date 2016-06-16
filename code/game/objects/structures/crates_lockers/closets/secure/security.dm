@@ -70,6 +70,7 @@
 	new /obj/item/device/megaphone/sec(src)
 	new /obj/item/tapeproj/security(src)
 	new /obj/item/clothing/mask/gas/sechailer/swat(src)
+	new /obj/item/clothing/head/HoS/beret
 	new /obj/item/weapon/storage/lockbox/loyalty(src)
 	new /obj/item/weapon/shield/deployable/tele(src)
 	new /obj/item/weapon/melee/classic_baton/telescopic(src)
