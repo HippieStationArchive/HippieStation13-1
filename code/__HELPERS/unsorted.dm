@@ -5,6 +5,65 @@
  */
 
 //Inverts the colour of an HTML string
+
+
+//ticket
+/proc/key_name_params(var/whom, var/include_link = null, var/include_name = 1, var/anchor_params = null, var/datum/admin_ticket/T = null)
+	var/mob/M
+	var/client/C
+	var/key
+	var/ckey
+
+	if(!whom)	return "*null*"
+	if(istype(whom, /client))
+		C = whom
+		M = C.mob
+		key = C.key
+		ckey = C.ckey
+	else if(ismob(whom))
+		M = whom
+		C = M.client
+		key = M.key
+		ckey = M.ckey
+	else if(istext(whom))
+		key = whom
+		ckey = ckey(whom)
+		C = directory[ckey]
+		if(C)
+			M = C.mob
+	else
+		return "*invalid*"
+
+	. = ""
+
+	if(!ckey)
+		include_link = 0
+
+	if(key)
+		if(include_link)
+			. += "<a href='?priv_msg=[T ? "ticket;ticket=\ref[T]" : ckey][anchor_params ? ";[anchor_params]" : ""]'>"
+
+		if(C && C.holder && C.holder.fakekey && !include_name)
+			. += "Administrator"
+		else
+			. += key
+		if(!C)
+			. += "\[DC\]"
+
+		if(include_link)
+			. += "</a>"
+	else
+		. += "*no key*"
+
+	if(include_name && M)
+		if(M.real_name)
+			. += "/([M.real_name])"
+		else if(M.name)
+			. += "/([M.name])"
+
+	return .
+//
+
 /proc/invertHTML(HTMLstring)
 
 	if (!( istext(HTMLstring) ))

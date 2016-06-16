@@ -35,3 +35,8 @@
 #define R_SPAWN			4096
 
 #define R_MAXPERMISSION 4096 //This holds the maximum value for a permission. It is used in iteration, so keep it updated.
+
+//tickets
+#define TICKET_FLAG_LIST_ALL		1
+#define TICKET_FLAG_LIST_MINE		2
+#define TICKET_FLAG_LIST_UNCLAIMED	4

@@ -11,7 +11,189 @@
 		if("amber")		return "fc0"
 		if("albino")	return pick("c","d","e","f") + pick("0","1","2","3","4","5","6","7","8","9") + pick("0","1","2","3","4","5","6","7","8","9")
 		else			return "000"
+/////////////////ADMIN TICKET SYSTEM///////////////////
+/proc/is_admin(var/user)
+	if(ismob(user))
+		var/mob/temp = user
 
+		if(temp && temp.client && temp.client.holder)
+			return 1
+	else if(istype(user, /client))
+		var/client/temp = user
+
+		if(temp && temp.holder)
+			return 1
+
+	return 0
+
+/proc/get_fancy_key(mob/user)
+	if(ismob(user))
+		var/mob/temp = user
+		return temp.key
+	else if(istype(user, /client))
+		var/client/temp = user
+		return temp.key
+
+	return "* Unknown *"
+
+/proc/generate_admin_info(var/msg, key)
+	//explode the input msg into a list
+
+	var/list/adminhelp_ignored_words = list("unknown","the","a","an","of","monkey","alien","as", "i")
+	var/list/msglist = text2list(msg, " ")
+
+	//generate keywords lookup
+	var/list/surnames = list()
+	var/list/forenames = list()
+	var/list/ckeys = list()
+	for(var/mob/M in mob_list)
+		if(!M.mind && !M.client)
+			continue
+
+		var/list/indexing = list(M.real_name, M.name)
+		if(M.mind)	indexing += M.mind.name
+
+		for(var/string in indexing)
+			var/list/L = text2list(string, " ")
+			var/surname_found = 0
+			//surnames
+			for(var/i=L.len, i>=1, i--)
+				var/word = ckey(L[i])
+				if(word)
+					surnames[word] = M
+					surname_found = i
+					break
+			//forenames
+			for(var/i=1, i<surname_found, i++)
+				var/word = ckey(L[i])
+				if(word)
+					forenames[word] = M
+			//ckeys
+			ckeys[M.ckey] = M
+
+	var/list/jobs = list()
+	var/list/job_count = list()
+	for(var/datum/mind/M in ticker.minds)
+		var/T = lowertext(M.assigned_role)
+		jobs[T] = M.current
+		job_count[T]++ //count how many of this job was found so we only show link for singular jobs
+
+	var/ai_found = 0
+	msg = ""
+	var/list/mobs_found = list()
+	for(var/original_word in msglist)
+		var/word = ckey(original_word)
+		if(word)
+			if(!(word in adminhelp_ignored_words))
+				if(word == "ai")
+					ai_found = 1
+				else
+					var/mob/found = ckeys[word]
+					if(!found)
+						found = surnames[word]
+						if(!found)
+							found = forenames[word]
+					if(!found)
+						var/T = lowertext(original_word)
+						if(T == "cap") T = "captain"
+						if(T == "hop") T = "head of personnel"
+						if(T == "cmo") T = "chief medical officer"
+						if(T == "ce")  T = "chief engineer"
+						if(T == "hos") T = "head of security"
+						if(T == "rd")  T = "research director"
+						if(T == "qm")  T = "quartermaster"
+						if(job_count[T] == 1) //skip jobs with multiple results
+							found = jobs[T]
+					if(found)
+						if(!(found in mobs_found))
+							mobs_found += found
+							if(!ai_found && isAI(found))
+								ai_found = 1
+							msg += "<b><font color='black'>[original_word] (<A HREF='?_src_=holder;adminmoreinfo=\ref[found]'>?</A>)</font></b> "
+							continue
+			msg += "[original_word] "
+	return msg
+
+	if(!key)
+		return
+	var/list/mobs = sortmobs()
+	for(var/mob/M in mobs)
+		if(M.ckey == key)
+			return M
+
+/proc/compare_ckey(var/user, var/target)
+	if(!user || !target)
+		return 0
+
+	var/key1 = user
+	var/key2 = target
+
+	if(ismob(user))
+		var/mob/M = user
+		if(M.ckey)
+			key1 = M.ckey
+		else if(M.client && M.client.ckey)
+			key1 = M.client.ckey
+	else if(istype(user, /client))
+		var/client/C = user
+		key1 = C.ckey
+	else
+		key1 = lowertext(key1)
+
+	if(ismob(target))
+		var/mob/M = target
+		if(M.ckey)
+			key2 = M.ckey
+		else if(M.client && M.client.ckey)
+			key2 = M.client.ckey
+	else if(istype(target, /client))
+		var/client/C = target
+		key2 = C.ckey
+	else
+		key2 = lowertext(key2)
+
+
+	if(key1 == key2)
+		return 1
+	else
+		return 0
+
+
+/proc/get_client(var/user)
+	if(istype(user, /client))
+		return user
+	if(ismob(user))
+		var/mob/temp = user
+		return temp.client
+	return user
+
+/proc/get_ckey(var/user)
+	if(ismob(user))
+		var/mob/temp = user
+		return temp.ckey
+	else if(istype(user, /client))
+		var/client/temp = user
+		return temp.ckey
+	else if(istype(user, /datum/mind))
+		var/datum/mind/temp = user
+		return lowertext(replacetext(temp.key, " ", ""))
+
+	return "* Unknown *"
+
+/proc/has_pref(var/user, var/pref)
+	if(ismob(user))
+		var/mob/temp = user
+
+		if(temp && temp.client && temp.client.prefs && temp.client.prefs.toggles & pref)
+			return 1
+	else if(istype(user, /client))
+		var/client/temp = user
+
+		if(temp && temp.prefs && temp.prefs.toggles & pref)
+			return 1
+
+	return 0
+///////////////////////////////////////////////////////
 /proc/random_underwear(gender)
 	if(!underwear_list.len)
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/underwear, underwear_list, underwear_m, underwear_f)
