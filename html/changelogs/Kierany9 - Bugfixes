@@ -2,4 +2,4 @@ author: Kierany9
 delete-after: True
 changes: 
 - bugfix: "Nuke Ops shuttle consoles no longer break after being deconstructed."
-- bugfix: "Stunprods crafted with low-capacity cells will now tell you that you need a higher capacity cell to turn on."
+- bugfix: "Tablecrafting a stunprod no longer allows you to add a cell that is too low-capacity for it to work."
