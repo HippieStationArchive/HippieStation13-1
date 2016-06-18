@@ -67,7 +67,7 @@
 		if(bcell)
 			user << "<span class='notice'>[src] already has a cell.</span>"
 		else
-			if(C.maxcharge < hitcost)
+			if(C.maxcharge <= hitcost)
 				user << "<span class='notice'>[src] requires a higher capacity cell.</span>"
 				return
 			if(!user.unEquip(W))
