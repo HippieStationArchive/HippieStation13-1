@@ -74,19 +74,19 @@
 /datum/reagent/medicine/synaptizine
 	name = "Synaptizine"
 	id = "synaptizine"
-	description = "Increases resistance to stuns as well as reducing drowsiness and hallucinations."
+	description = "Helps cure hallucinations and reduces drowsiness. Has a chance to shorten stuns."
 	color = "#C8A5DC" // rgb: 200, 165, 220
 
 /datum/reagent/medicine/synaptizine/on_mob_life(mob/living/M)
 	M.drowsyness = max(M.drowsyness-5, 0)
-	M.AdjustParalysis(-1)
-	M.AdjustStunned(-1)
-	M.AdjustWeakened(-1)
 	if(holder.has_reagent("mindbreaker"))
 		holder.remove_reagent("mindbreaker", 5)
 	M.hallucination = max(0, M.hallucination - 10)
-	if(prob(30))
-		M.adjustToxLoss(1)
+	if(prob(20))
+		M.adjustToxLoss(2)
+		M.AdjustParalysis(-2)
+		M.AdjustStunned(-2)
+		M.AdjustWeakened(-2)
 	..()
 	return
 
@@ -471,9 +471,9 @@
 /datum/reagent/medicine/ephedrine/on_mob_delete(mob/living/M)
 	if(current_cycle >= 10)
 		M.visible_message("<span class='danger'>[M] suddenly runs out of breath!</span>")
-		M.adjustStaminaLoss(50*REM)
+		M.adjustStaminaLoss(50)
 	else
-		M.adjustStaminaLoss(current_cycle*5*REM)
+		M.adjustStaminaLoss(current_cycle*5)
 
 /datum/reagent/medicine/ephedrine/overdose_process(mob/living/M)
 	if(prob(33))

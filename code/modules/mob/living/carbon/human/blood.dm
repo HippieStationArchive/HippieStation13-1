@@ -113,6 +113,8 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 			blood_max += org.bloodloss //Check every organ that's bleeding
 
 		var/obj/item/organ/internal/butt/B = getorgan(/obj/item/organ/internal/butt)
+		if(!B)
+			return
 		if(B in internal_organs)
 			if(B.contents.len)
 				var/obj/item/A = pick(B.contents)

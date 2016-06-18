@@ -278,7 +278,10 @@ proc/CallMaterialName(ID)
 								screen = 2.3                                                       //Crit fail gives the same design a lot of reliability, like really a lot
 							if(linked_lathe) //Also sends salvaged materials to a linked protolathe, if any.
 								for(var/material in linked_destroy.loaded_item.materials)
-									linked_lathe.materials.insert_amount(min((linked_lathe.materials.max_amount - linked_lathe.materials.total_amount), (linked_destroy.loaded_item.materials[material]*(linked_destroy.decon_mod/10))), material)
+									linked_lathe.materials.insert_amount(min(
+																			(linked_lathe.materials.max_amount - linked_lathe.materials.total_amount),
+																			(linked_destroy.loaded_item.materials[material]*(linked_destroy.decon_mod/10))),
+																			 material)
 								feedback_add_details("item_deconstructed","[linked_destroy.loaded_item.type]")
 							linked_destroy.loaded_item = null
 						else
@@ -353,12 +356,22 @@ proc/CallMaterialName(ID)
 			for(var/datum/design/D in files.known_designs)
 				if(D.id == href_list["build"])
 					being_built = D
+					//href_list["build"] = D.name//Saving this here so we don't use more vars. Used later for the building screen.
 					break
 			if(being_built)
 				var/power = 2000
-				var/amount=text2num(href_list["amount"])
+				var/amount=href_list["amount"]
+				if(amount == "custom")
+					var/maxAmount = min( text2num(href_list["maxAmount"]) , 10 ) // getting the max amount of the stuff we can build from the protolathe screen
+					amount =  min(round(input("How many of these would you like to build? (Up to [maxAmount])") as num),maxAmount)
+					if(linked_lathe.busy || amount <= 0)  //The first arg is in case others use the lathe while you're using it.
+						usr << "<span class='warning'>Lathe is either busy or invalid input.</span>" //Just good to have some feedback to the player.
+						return
+				else
+					amount = text2num(href_list["amount"])
+
 				var/old_screen = screen
-				amount = max(1, min(10, amount))
+				amount = max(0, min(10, amount))
 				for(var/M in being_built.materials)
 					power += round(being_built.materials[M] * amount / 5)
 				power = max(2000, power)
@@ -369,8 +382,6 @@ proc/CallMaterialName(ID)
 				if (!(being_built.build_type & PROTOLATHE))
 					g2g = 0
 					message_admins("Protolathe exploit attempted by [key_name(usr, usr.client)]!")
-
-
 
 				if (g2g) //If input is incorrect, nothing happens
 					var/enough_materials = 1
@@ -401,8 +412,12 @@ proc/CallMaterialName(ID)
 					var/P = being_built.build_path //lets save these values before the spawn() just in case. Nobody likes runtimes.
 					var/R = being_built.reliability
 					var/O = being_built.locked
+
+					linked_lathe.being_built = being_built //Now we're transferring over the design being built to the lathe.
+					linked_lathe.amount = amount //Now we're transferring over the design being built to the lathe.
+
 					spawn(32*amount/coeff)
-						if(g2g) //And if we only fail the material requirements, we still spend time and power
+						if(g2g) //And if we only fail the material requirements, we still spend time and power.
 							var/already_logged = 0
 							for(var/i = 0, i<amount, i++)
 								var/obj/item/new_item = new P(src)
@@ -421,8 +436,12 @@ proc/CallMaterialName(ID)
 								if(!already_logged)
 									feedback_add_details("item_printed","[new_item.type]|[amount]")
 									already_logged = 1
+
+						linked_lathe.being_built = null //We're done so the lathe has no design loaded.
+						linked_lathe.amount = null // Resetting the amount.
+
 						linked_lathe.busy = 0
-						screen = old_screen
+						screen =  screen == 0.3 ? old_screen : screen //Is the user still at the waiting screen? If not, don't change his current screen
 						updateUsrDialog()
 
 	else if(href_list["imprint"]) //Causes the Circuit Imprinter to build something.
@@ -469,6 +488,7 @@ proc/CallMaterialName(ID)
 
 					var/P = being_built.build_path //lets save these values before the spawn() just in case. Nobody likes runtimes.
 					var/R = being_built.reliability
+					linked_imprinter.being_built = being_built
 					spawn(16)
 						if(g2g)
 							var/obj/item/new_item = new P(src)
@@ -476,7 +496,8 @@ proc/CallMaterialName(ID)
 							new_item.loc = linked_imprinter.loc
 							feedback_add_details("circuit_printed","[new_item.type]")
 						linked_imprinter.busy = 0
-						screen = old_screen
+						screen =  screen == 0.4 ? old_screen : screen
+						linked_imprinter.being_built = null
 						updateUsrDialog()
 
 	else if(href_list["disposeI"] && linked_imprinter)  //Causes the circuit imprinter to dispose of a single reagent (all of it)
@@ -626,10 +647,12 @@ proc/CallMaterialName(ID)
 			dat += "<A href='?src=\ref[src];lock=1.6'>Unlock</A>"
 
 		if(0.3)
-			dat += "<div class='statusDisplay'>Constructing Prototype. Please Wait...</div>"
+			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A><HR>"
+			dat += "<div class='statusDisplay'>Constructing Prototype: <b>[linked_lathe.being_built] x[linked_lathe.amount]</b>.<BR>Please Wait...</div>"
 
 		if(0.4)
-			dat += "<div class='statusDisplay'>Imprinting Circuit. Please Wait...</div>"
+			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A><HR>"
+			dat += "<div class='statusDisplay'>Imprinting Circuit: <b>[linked_imprinter.being_built]</b>.<BR>Please Wait...</div>"
 
 		if(1.0) //Main Menu
 			dat += "<div class='statusDisplay'>"
@@ -767,13 +790,14 @@ proc/CallMaterialName(ID)
 
 		if(2.1)
 			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A>"
-			dat += "<div class='statusDisplay'>No Item Loaded. Standing-by...</div>"
+			dat += "<div class='statusDisplay'>Deconstruction Threshold: [99 - 3*linked_destroy.decon_mod] <BR> No Item Loaded. Standing-by...</div>"
 
 		if(2.2)
 			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A><div class='statusDisplay'>"
 			dat += "<h3>Deconstruction Menu</h3><BR>"
 			dat += "Name: [linked_destroy.loaded_item.name]<BR>"
 			dat += "Reliability: [linked_destroy.loaded_item.reliability]<BR>"
+			dat += "Deconstruction Threshold: [99 - 3*linked_destroy.decon_mod]<BR>"
 			dat += "Origin Tech:<BR>"
 			var/list/temp_tech = linked_destroy.ConvertReqString2List(linked_destroy.loaded_item.origin_tech)
 			for(var/T in temp_tech)
@@ -796,6 +820,11 @@ proc/CallMaterialName(ID)
 			dat += "<div class='statusDisplay'>NO PROTOLATHE LINKED TO CONSOLE</div>"
 
 		if(3.1)
+			if (linked_lathe.busy)
+				screen = 0.3
+				src.updateUsrDialog()
+				return
+
 			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A> "
 			dat += "<A href='?src=\ref[src];menu=3.2'>Material Storage</A>"
 			dat += "<A href='?src=\ref[src];menu=3.3'>Chemical Storage</A><div class='statusDisplay'>"
@@ -848,10 +877,15 @@ proc/CallMaterialName(ID)
 
 				if (c >= 1)
 					dat += "<A href='?src=\ref[src];build=[D.id];amount=1'>[D.name]</A>"
+
+					if(c >= 3)
+						dat += "<A href='?src=\ref[src];build=[D.id];amount=3'>x3</A>"
 					if(c >= 5)
 						dat += "<A href='?src=\ref[src];build=[D.id];amount=5'>x5</A>"
 					if(c >= 10)
 						dat += "<A href='?src=\ref[src];build=[D.id];amount=10'>x10</A>"
+
+					dat += "<A href='?src=\ref[src];build=[D.id];amount=custom;maxAmount=[c]'>Set</A>"
 					dat += "[temp_material]"
 				else
 					dat += "<span class='linkOff'>[D.name]</span>[temp_material]"
@@ -881,10 +915,15 @@ proc/CallMaterialName(ID)
 
 				if (c >= 1)
 					dat += "<A href='?src=\ref[src];build=[D.id];amount=1'>[D.name]</A>"
+
+					if(c >= 3)
+						dat += "<A href='?src=\ref[src];build=[D.id];amount=3'>x3</A>"
 					if(c >= 5)
 						dat += "<A href='?src=\ref[src];build=[D.id];amount=5'>x5</A>"
 					if(c >= 10)
 						dat += "<A href='?src=\ref[src];build=[D.id];amount=10'>x10</A>"
+
+					dat += "<A href='?src=\ref[src];build=[D.id];amount=custom;maxAmount=[c]'>Set</A>"
 					dat += "[temp_material]"
 				else
 					dat += "<span class='linkOff'>[D.name]</span>[temp_material]"
@@ -967,6 +1006,11 @@ proc/CallMaterialName(ID)
 			dat += "<div class='statusDisplay'>NO CIRCUIT IMPRINTER LINKED TO CONSOLE</div>"
 
 		if(4.1)
+			if (linked_imprinter.busy)
+				screen = 0.4
+				src.updateUsrDialog()
+				return
+
 			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A>"
 			dat += "<A href='?src=\ref[src];menu=4.3'>Material Storage</A>"
 			dat += "<A href='?src=\ref[src];menu=4.2'>Chemical Storage</A><div class='statusDisplay'>"

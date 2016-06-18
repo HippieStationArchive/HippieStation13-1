@@ -8,6 +8,7 @@
 	icon = 'icons/obj/items.dmi'
 	icon_state = "gavelhammer"
 	force = 5
+	stamina_percentage = 0.5
 	throwforce = 6
 	w_class = 2
 	attack_verb = list("bashed", "battered", "judged", "whacked")
@@ -24,6 +25,7 @@
 	icon = 'icons/obj/items.dmi'
 	icon_state = "gavelblock"
 	force = 2
+	stamina_percentage = 0.5
 	throwforce = 2
 	w_class = 1
 	burn_state = 0 //Burnable

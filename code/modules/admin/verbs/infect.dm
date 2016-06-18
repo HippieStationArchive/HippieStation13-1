@@ -15,7 +15,7 @@
 		return
 
 	if(alert(usr, "Do you want to alert the crew?", "Alert Crew?", "Yes", "No") == "Yes")
-		priority_announce("Warning! Priority alert: Level 10 Viral Biohazard detected aboard [station_name()], all personnel please contain the outbreak. Your station is now under quarantine until further notice. ", "Major Biohazard Alert")
+		priority_announce("Warning! Priority alert: Level 1 Viral Biohazard detected aboard [station_name()], all personnel please contain the outbreak. Your station is now under quarantine until further notice.", "Major Biohazard Alert")
 		world << 'sound/misc/hazdet.ogg'
 
 	if(alert(usr, "Do you want to set the alert level to Delta?", "Confirm Alert Level", "Yes", "No") == "Yes")
