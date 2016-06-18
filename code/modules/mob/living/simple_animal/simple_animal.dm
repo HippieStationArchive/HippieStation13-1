@@ -45,6 +45,7 @@
 	var/melee_damage_upper = 0
 	var/armour_penetration = 0 //How much armour they ignore, as a flat reduction from the targets armour value
 	var/melee_damage_type = BRUTE //Damage type of a simple mob's melee attack, should it do damage.
+	var/list/damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1) // 1 for full damage , 0 for none , -1 for 1:1 heal from that source
 	var/list/ignored_damage_types = list(BRUTE = 0, BURN = 0, TOX = 0, CLONE = 0, STAMINA = 1, OXY = 0) //Set 0 to receive that damage type, 1 to ignore
 	var/attacktext = "attacks"
 	var/attack_sound = null
@@ -271,21 +272,32 @@
 	Proj.on_hit(src)
 	return 0
 
+/mob/living/simple_animal/proc/adjustHealth(amount)
+	if(status_flags & GODMODE)
+		return 0
+	bruteloss = Clamp(bruteloss + amount, 0, maxHealth)
+	updatehealth()
+	return amount	
+	
 /mob/living/simple_animal/adjustBruteLoss(amount)
-	if(!ignored_damage_types[BRUTE])
-		..()
+	if(damage_coeff[BRUTE])
+		. = adjustHealth(amount*damage_coeff[BRUTE])
 
 /mob/living/simple_animal/adjustFireLoss(amount)
-	if(!ignored_damage_types[BURN])
-		adjustBruteLoss(amount)
+	if(damage_coeff[BURN])
+		. = adjustHealth(amount*damage_coeff[BURN])
+
+/mob/living/simple_animal/adjustOxyLoss(amount)
+	if(damage_coeff[OXY])
+		. = adjustHealth(amount*damage_coeff[OXY])
 
 /mob/living/simple_animal/adjustToxLoss(amount)
-	if(!ignored_damage_types[TOX])
-		..(amount)
+	if(damage_coeff[TOX])
+		. = adjustHealth(amount*damage_coeff[TOX])
 
 /mob/living/simple_animal/adjustCloneLoss(amount)
-	if(!ignored_damage_types[CLONE])
-		..(amount)
+	if(damage_coeff[CLONE])
+		. = adjustHealth(amount*damage_coeff[CLONE])
 
 /mob/living/simple_animal/adjustStaminaLoss(amount)
 	return

@@ -17,6 +17,7 @@
 	var/obj/screen/lingstingdisplay
 	var/obj/screen/blobpwrdisplay
 	var/obj/screen/blobhealthdisplay
+	var/obj/screen/guardianhealthdisplay
 	var/obj/screen/alien_plasma_display
 	var/obj/screen/nightvisionicon
 	var/obj/screen/r_hand_hud_object
