@@ -93,7 +93,16 @@
 									var/obj/item/T = trash
 									B.contents += T
 									T.itemstorevalue = itemstorevalue
+
+							// Safely remove the item we have consumed
+							if(B)
+								if(B.contents)
+									B.contents -= src
+
+								B.stored -= itemstorevalue
+							
 							qdel(src)
+
 							if(B.stored > B.capacity) // added this due to a trash item being inserted inside without any check, so stuff won't break,i am unsure on how useful this is
 								var/obj/item/O = pick(B.contents)
 								O.loc = get_turf(src)

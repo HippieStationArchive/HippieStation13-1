@@ -549,6 +549,22 @@
 						dat += "<tr><td><i>Follower not found!</i></td></tr>"
 			dat += "</table>"
 
+		if(ticker.mode.vampires.len)
+			dat += "<br><table cellspacing=5><tr><td><B>Vampires</B></td><td></td></tr>"
+			for(var/datum/mind/vampire in ticker.mode.vampires)
+				var/mob/M = vampire.current
+				if(ishuman(M))
+					dat += "<tr><td><a href='?_src_=holder;adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(ghost)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+					dat += "<td><A href='?priv_msg=[M.ckey]'>PM</A></td>"
+				else if(istype(M, /mob/living/simple_animal/hostile/retaliate/bat/vampiric) && M.contents)
+					var/mob/living/carbon/human/V = locate(/mob/living/carbon/human, M.contents)
+					dat += "<tr><td><a href='?_src_=holder;adminplayeropts=\ref[M]'>[V.real_name] </a> as [M.real_name] [M.client ? "" : " <i>(ghost)</i>"]</td>"
+					dat += "<td><A href='?priv_msg=[M.ckey]'>PM</A></td>"
+				else
+					dat += "<tr><td><i>Vampire not found!</i></td></tr>"
+			dat += "</table>"
+
+
 
 		dat += "</body></html>"
 		usr << browse(dat, "window=roundstatus;size=420x500")

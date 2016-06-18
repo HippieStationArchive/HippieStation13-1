@@ -47,7 +47,7 @@
 	target.equip_to_slot_if_possible(magichead, slot_wear_mask, 1, 1)
 	playsound(get_turf(target), mSounds[randM], 50, 1)
 
-	flick("e_flash", target.flash)
+	target.flash_eyes()
 
 /obj/effect/proc_holder/spell/targeted/cluwnecurse
 	name = "Curse of the Cluwne"
@@ -90,4 +90,4 @@
 	target.visible_message("<span class='danger'>[target]'s body glows green, the glow dissipating only to leave behind a cluwne formerly known as [target]!</span>", \
 		  "<span class='danger'>Your brain feels like it's being torn apart, and after a short while, you notice that you've become a cluwne!</span>")
 
-	flick("e_flash", target.flash)
+	target.flash_eyes()

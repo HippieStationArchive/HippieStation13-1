@@ -623,9 +623,20 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 		unbuckle_mob()
 		add_fingerprint(user)
 
-/obj/structure/noose/user_buckle_mob(mob/living/M, mob/user)
+/obj/structure/noose/user_buckle_mob(mob/living/carbon/human/M, mob/user)
 	if(!in_range(user, src) || user.stat || user.restrained() || !iscarbon(M))
 		return 0
+
+	var/hashead = 0
+
+	for(var/obj/item/organ/limb/temp in M.organs) //Checks if the target has a head.
+		if(temp.body_part == HEAD)
+			hashead = 1
+
+	if(hashead != 1)
+		user << "<span class='danger'>They don't have a head....</span>"
+		return 0
+
 	if(M.loc != src.loc) return 0 //Can only noose someone if they're on the same tile as noose
 
 	add_fingerprint(user)
@@ -750,10 +761,10 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	else
 		user << "<span class='notice'>You cannot do that.</span>"
 
-/obj/item/stack/cable_coil/verb/make_restraint(mob/user)
+/obj/item/stack/cable_coil/verb/make_restraint()
 	set name = "Make Cable Restraints"
 	set category = "Object"
-	makeRestraints(user)
+	makeRestraints(usr)
 	..()
 
 /obj/item/stack/cable_coil/AltClick(mob/user)

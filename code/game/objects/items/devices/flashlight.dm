@@ -68,7 +68,7 @@
 
 		if(M == user)	//they're using it on themselves
 			if(!M.eye_blind)
-				flick("flash", M.flash)
+				M.flash_eyes()
 				M.visible_message("[M] directs [src] to \his eyes.", \
 									 "<span class='notice'>You wave the light in front of your eyes! Trippy!</span>")
 			else
@@ -87,7 +87,7 @@
 				user << "<span class='danger'>[M] pupils give an eerie glow!</span>"
 			else	//they're okay!
 				if(!M.eye_blind)
-					flick("flash", M.flash)	//flash the affected mob
+					M.flash_eyes()
 					user << "<span class='notice'>[M]'s pupils narrow.</span>"
 	else
 		return ..()
@@ -153,6 +153,7 @@
 	icon_state = "seclite"
 	item_state = "seclite"
 	force = 9 // Not as good as a stun baton.
+	stamina_percentage = 0.5
 	brightness_on = 5 // A little better than the standard flashlight.
 	hitsound = 'sound/weapons/genhit1.ogg'
 

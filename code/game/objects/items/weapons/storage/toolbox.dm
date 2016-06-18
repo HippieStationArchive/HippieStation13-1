@@ -6,6 +6,7 @@
 	item_state = "toolbox_red"
 	flags = CONDUCT
 	force = 10
+	stamina_percentage = 0.4
 	throwforce = 10
 	throw_speed = 2
 	throw_range = 7
@@ -74,6 +75,7 @@
 	origin_tech = "combat=1;syndicate=1"
 	silent = 1
 	force = 15
+	stamina_percentage = 0.3
 	throwforce = 18
 
 /obj/item/weapon/storage/toolbox/syndicate/New()

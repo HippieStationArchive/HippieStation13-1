@@ -132,12 +132,12 @@
 //Converts a string to a list
 /proc/n_explode(string, separator = "")
 	if(istext(string) && (istext(separator) || isnull(separator)))
-		return text2list(string, separator)
+		return splittext(string, separator)
 
 //Converts a list to a string
 /proc/n_implode(list/li, separator)
 	if(istype(li) && (istext(separator) || isnull(separator)))
-		return list2text(li, separator)
+		return jointext(li, separator)
 
 //Repeats the string x times
 /proc/n_repeat(string, amount)
