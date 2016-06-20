@@ -86,7 +86,7 @@
 
 	if (getBrainLoss() >= 60 && stat != DEAD)
 		if (prob(3))
-			switch(pick(1,2,3,4,5))
+			switch(pick(1,2,3,4,5,6))
 				if(1)
 					say(pick("IM A PONY NEEEEEEIIIIIIIIIGH", "without oxigen blob don't evoluate?", "CAPTAINS A COMDOM", "[pick("", "that faggot traitor")] [pick("joerge", "george", "gorge", "gdoruge")] [pick("mellens", "melons", "mwrlins")] is grifing me HAL;P!!!", "can u give me [pick("telikesis","halk","eppilapse","kamelien","eksrey","glowey skin")]?", "THe saiyans screwed", "Bi is THE BEST OF BOTH WORLDS>", "I WANNA PET TEH monkeyS", "stop grifing me!!!!", "SOTP IT#", "shiggey diggey!!", "A PIRATE APPEAR"))
 				if(2)
@@ -97,6 +97,8 @@
 					emote("drool")
 				if(5)
 					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY","DILDOS!!1!","hun~"))
+				if(6)
+					say(pick("such beautiful duwang", "chew", "I AM THE FUCKING STRONG!!", "YOU are the super retard!", "QUIT BEING TO FUCKING RETARDED!!1!", "dont be dong...", "your feeling i can feel deeply", "SHOW YOUR BITCH ASS?!?!", "your destinationis the twon of duwang?", ";who in the face are you?", "WHAT YOU SAY THAT FOR? you jealous stupid?", "You really can shit!"
 
 
 /mob/living/carbon/human/handle_mutations_and_radiation()
