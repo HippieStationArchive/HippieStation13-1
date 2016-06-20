@@ -184,6 +184,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/bolt)
 	unique_rename = 0
 	overheat_time = 20
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow/large
 	name = "energy crossbow"
@@ -293,6 +294,7 @@
 	can_charge = 0
 	var/charge_tick = 0
 	var/recharge_time = 5
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/energy/printer/update_icon()
 	return
@@ -333,3 +335,63 @@
 	select_fire(user)
 	update_icon()
 	return
+
+/obj/item/weapon/gun/energy/gauss
+	multistate = 1
+	ammo = 50
+	samount = 3
+	name = "gauss rifle"
+	icon_state = "gauss"
+	w_class = 4
+	item_state = "alc"
+	desc = "A seriously powerful rifle with an electromagnetic acceleration core, capable of blowing limbs off. It has 50 rods left."
+	ammo_type = list(/obj/item/ammo_casing/energy/gauss_low, /obj/item/ammo_casing/energy/gauss_normal, /obj/item/ammo_casing/energy/gauss_overdrive)
+	cell_type = /obj/item/weapon/stock_parts/cell/energy/gauss
+	slot_flags = SLOT_BELT
+
+/obj/item/weapon/gun/energy/gauss/attackby(obj/item/I, mob/user)
+	var/maxrods = 50
+	if(istype(I, /obj/item/stack/rods))
+		if(ammo < maxrods)
+			var/obj/item/stack/rods/R = I
+			var/amt = maxrods - ammo
+			if(R.amount < amt)
+				amt = R.amount
+			R.amount -= amt
+			if (R.amount <= 0)
+				user.unEquip(R, 1)
+				qdel(R)
+			ammo += amt
+			update_icon()
+			playsound(user, 'sound/weapons/rodgun_reload.ogg', 50, 1)
+			user << "<span class='notice'>You insert [amt] rods in \the [src]. Now it contains [ammo] rods."
+			src.desc = "A seriously powerful rifle with an electromagnetic acceleration core, capable of blowing limbs off. It has [ammo] rods left."
+		else
+			user << "<span class='notice'>\The [src] is already full!</span>"
+
+
+/obj/item/weapon/gun/energy/gauss/process_chamber()
+	if(chambered && !chambered.BB) //if BB is null, i.e the shot has been fired...
+		var/obj/item/ammo_casing/energy/shot = chambered
+		power_supply.use(shot.e_cost)//... drain the power_supply cell
+		if(ammo != -1 && ammo > 0)
+			ammo = ammo - 1
+			if(ammo < 0)
+				ammo = 0 //Just ensuring this never goes below 1 if it has ammo.
+			if(ammo < 1)
+				playsound(src.loc, 'sound/weapons/smg_empty_alarm.ogg', 60, 1)
+		if(setting == 2)
+			canshoot = 0
+			spawn(10)
+				canshoot = 1
+				if(power_supply.charge >= shot.e_cost && ammo > 0)
+					playsound(src.loc, 'sound/weapons/kenetic_reload.ogg', 60, 1)
+	chambered = null //either way, released the prepared shot
+	src.desc = "A seriously powerful rifle with an electromagnetic acceleration core, capable of blowing limbs off. It has [src.ammo] rods left."
+	return
+
+/obj/item/weapon/gun/energy/gauss/attack_self(mob/living/user as mob) //For multistate processing
+		playsound(src.loc, 'sound/weapons/kenetic_reload.ogg', 60, 1)
+		select_fire(user)
+		multistate_update()
+		update_icon(user)

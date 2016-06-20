@@ -227,10 +227,10 @@
 	var/list/devices = air_freq.devices["_default"]
 	devices |= gas_freq.devices["_default"]
 	for(var/obj/machinery/atmospherics/components/unary/vent_pump/U in devices)
-		var/list/text = text2list(U.id_tag, "_")
+		var/list/text = splittext(U.id_tag, "_")
 		IO |= text[1]
 	for(var/obj/machinery/atmospherics/components/unary/outlet_injector/U in devices)
-		var/list/text = text2list(U.id, "_")
+		var/list/text = splittext(U.id, "_")
 		IO |= text[1]
 	if(!IO.len)
 		user << "<span class='alert'>No machinery detected.</span>"
@@ -242,7 +242,7 @@
 		var/list/new_devices = gas_freq.devices["4"]
 		new_devices |= air_freq.devices["4"]
 		for(var/obj/machinery/air_sensor/U in new_devices)
-			var/list/text = text2list(U.id_tag, "_")
+			var/list/text = splittext(U.id_tag, "_")
 			if(text[1] == S)
 				sensors = list("[S]_sensor" = "Tank")
 				break

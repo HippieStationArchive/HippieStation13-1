@@ -22,8 +22,6 @@
 	overlays.len = 0
 
 	update_canmove()
-	if(blind)
-		blind.layer = 0
 
 	if(ticker && ticker.mode)
 		ticker.mode.check_win()

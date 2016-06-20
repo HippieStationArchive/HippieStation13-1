@@ -59,22 +59,29 @@
 
 /datum/reagent/drug/crank/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel jittery.", "You feel like you gotta go fast.", "You feel like you need to step it up.")
-	if(prob(5))
-		M << "<span class='notice'>[high_message]</span>"
-	M.AdjustParalysis(-1)
-	M.AdjustStunned(-1)
-	M.AdjustWeakened(-1)
+	var/tolerance_message = pick("You feel uncomfortable.", "You feel like you're too slow.", "You feel like you don't want to go fast anymore.")
+	if(current_cycle <= 100)
+		if(prob(5))
+			M << "<span class='notice'>[high_message]</span>"
+		M.AdjustParalysis(-1)
+		M.AdjustStunned(-1)
+		M.AdjustWeakened(-1)
+	if(current_cycle > 100)
+		if(prob(15))
+			M << "<span class='notice'>[tolerance_message]</span>"
+		M.adjustStaminaLoss(2)
+	M.Jitter(1)
 	..()
 	
 /datum/reagent/drug/crank/on_mob_delete(mob/living/M)
-	M.adjustToxLoss(current_cycle*0.1*REM)
+	M.adjustToxLoss(min(current_cycle*0.1*REM, 50))
 	if(current_cycle >= 5)
 		M.visible_message("<span class='danger'>[M] staggers and falls!</span>")
-		M.AdjustWeakened(5*REM)
-		M.AdjustStunned(5*REM)
-		M.adjustStaminaLoss(20*REM)
+		M.AdjustWeakened(5)
+		M.AdjustStunned(5)
+		M.adjustStaminaLoss(20)
 	else
-		M.adjustStaminaLoss(current_cycle*4*REM)
+		M.adjustStaminaLoss(current_cycle*4)
 	return
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
@@ -164,13 +171,20 @@
 
 /datum/reagent/drug/methamphetamine/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel hyper.", "You feel like you need to go faster.", "You feel like you can run the world.")
-	if(prob(5))
-		M << "<span class='notice'>[high_message]</span>"
-	M.AdjustParalysis(-2)
-	M.AdjustStunned(-2)
-	M.AdjustWeakened(-2)
-	M.adjustStaminaLoss(-2)
-	M.status_flags |= GOTTAGOREALLYFAST
+	var/tolerance_message = pick("You don't feel so good.", "You feel a bit sick.", "You feel like you've had better days.")
+	if(current_cycle <= 50)
+		if(prob(5))
+			M << "<span class='notice'>[high_message]</span>"
+		M.AdjustParalysis(-2)
+		M.AdjustStunned(-2)
+		M.AdjustWeakened(-2)
+		M.adjustStaminaLoss(-2)
+		M.status_flags |= GOTTAGOREALLYFAST
+	if(current_cycle > 50)
+		if(prob(15))
+			M << "<span class='notice'>[tolerance_message]</span>"
+		M.adjustStaminaLoss(3)
+		M.adjustToxLoss(1*REM)
 	M.Jitter(2)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
@@ -178,15 +192,15 @@
 	return
 	
 /datum/reagent/drug/methamphetamine/on_mob_delete(mob/living/M)
-	M.adjustToxLoss(current_cycle*1*REM)
-	M.adjustBrainLoss(current_cycle*0.25*REM)
+	M.adjustToxLoss(min(current_cycle*1*REM,95))
+	M.adjustBrainLoss(current_cycle*0.5*REM)
 	if(current_cycle >= 5)
 		M.visible_message("<span class='danger'>[M] collapses in exhaustion!</span>")
-		M.AdjustWeakened(5*REM)
-		M.AdjustStunned(5*REM)
-		M.adjustStaminaLoss(35*REM)
+		M.AdjustWeakened(5)
+		M.AdjustStunned(5)
+		M.adjustStaminaLoss(35)
 	else
-		M.adjustStaminaLoss(current_cycle*7*REM)
+		M.adjustStaminaLoss(current_cycle*7)
 	return
 
 /datum/reagent/drug/methamphetamine/overdose_process(mob/living/M)
@@ -251,15 +265,22 @@
 
 
 /datum/reagent/drug/bath_salts/on_mob_life(mob/living/M)
-	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
-	if(prob(5))
+	var/high_message = pick("You feel your grip on reality loosening.", "You feel like your heart is beating out of control.", "You feel as if you're about to die.")
+	if(prob(15))
 		M << "<span class='notice'>[high_message]</span>"
-	M.AdjustParalysis(-6)
-	M.AdjustStunned(-6)
-	M.AdjustWeakened(-6)
-	M.adjustStaminaLoss(-10)
-	M.adjustToxLoss(0.1)
+	if(current_cycle >= 5)
+		M.AdjustParalysis(-6)
+		M.AdjustStunned(-6)
+		M.AdjustWeakened(-6)
+		M.adjustStaminaLoss(-10)
+	if(holder.has_reagent("synaptizine"))
+		holder.remove_reagent("synaptizine", 5)
+		M.hallucination += 5
+	M.adjustBrainLoss(0.2)
+	M.adjustToxLoss(min(0.1+(current_cycle/50),1))
+	M.status_flags |= GOTTAGOFAST
 	M.hallucination += 7.5
+	M.Jitter(4)
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		step(M, pick(cardinal))
 		step(M, pick(cardinal))
@@ -267,15 +288,15 @@
 	return
 	
 /datum/reagent/drug/bath_salts/on_mob_delete(mob/living/M)
-	M.adjustToxLoss(current_cycle*1.5*REM)
-	M.adjustBrainLoss(current_cycle*0.5*REM)
+	M.adjustToxLoss(min(current_cycle*1.5*REM,195))
+	M.adjustBrainLoss(current_cycle*0.8*REM)
 	if(current_cycle >= 5)
 		M.visible_message("<span class='danger'>[M] goes pale and collapses!</span>")
-		M.AdjustWeakened(8*REM)
-		M.AdjustStunned(8*REM)
-		M.adjustStaminaLoss(50*REM)
+		M.AdjustWeakened(8)
+		M.AdjustStunned(8)
+		M.adjustStaminaLoss(50)
 	else
-		M.adjustStaminaLoss(current_cycle*10*REM)
+		M.adjustStaminaLoss(current_cycle*10)
 	return
 
 /datum/reagent/drug/bath_salts/overdose_process(mob/living/M)

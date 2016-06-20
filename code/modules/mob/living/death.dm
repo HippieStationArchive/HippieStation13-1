@@ -44,6 +44,8 @@
 	else if(buckled)
 		buckled.unbuckle_mob()
 
+	clear_fullscreens()
+	..()
 
 /mob/living/proc/setup_animation(animation, prev_lying)
 	var/atom/movable/overlay/animate = null

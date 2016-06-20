@@ -17,6 +17,8 @@ using metal and glass, it uses glass and reagents (usually sulfuric acis).
 	var/efficiency_coeff
 	reagents = new(0)
 
+	var/datum/design/being_built // It only made sense to have the design currently processed by the imprinter here.
+
 	var/list/categories = list(
 								"AI Modules",
 								"Computer Boards",

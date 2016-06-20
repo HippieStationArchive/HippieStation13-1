@@ -14,6 +14,7 @@
 	desc = ""
 
 	force = 5 //Now you can bash someone to death with an arm, you silly bastard.
+	stamina_percentage = 0.6
 	throwforce = 5
 
 	hitsound = "swing_hit"
@@ -229,6 +230,9 @@
 	var/eye_color = "000"
 	var/lip_style = null	//no lipstick by default- arguably misleading, as it could be used for general makeup
 	var/lip_color = "white"
+	//Old body
+	var/body
+
 
 /obj/item/organ/limb/head/attackby(obj/item/W, mob/user, params)
 	if(!user || !W)

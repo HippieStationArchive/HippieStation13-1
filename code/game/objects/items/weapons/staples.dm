@@ -8,7 +8,7 @@
 	force = 0
 	throw_speed = 2
 	throw_range = 7
-	throwforce = 10
+	throwforce = 1  //Why the fuck did this have 10 throwforce?
 	w_class = 1
 	materials = list(MAT_METAL = 100)
 	max_amount = 10
@@ -31,6 +31,7 @@
 	icon = 'icons/obj/staples.dmi'
 	icon_state = "staplegun"
 	force = 0
+	stamina_percentage = 0.5
 	throw_speed = 2
 	throw_range = 5
 	throwforce = 5

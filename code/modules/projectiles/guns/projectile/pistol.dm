@@ -19,6 +19,7 @@
 	can_knife = 1
 	knife_x_offset = 15
 	knife_y_offset = 12
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/pistol/ui_action_click()
 	return
@@ -37,6 +38,7 @@
 	flight_x_offset = 18
 	knife_x_offset = 18
 	fire_sound = list('sound/weapons/pistol_glock17_1.ogg','sound/weapons/pistol_glock17_2.ogg')
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/pistol/g17/update_icon()
 	..()
@@ -57,6 +59,7 @@
 	desc = "A robust .50 AE handgun."
 	icon_state = "deagle"
 	force = 14
+	stamina_percentage = 0.6
 	mag_type = /obj/item/ammo_box/magazine/m50
 	can_suppress = 0
 	fire_sound = 'sound/weapons/deagle.ogg'
@@ -80,12 +83,14 @@
 	desc = "A semi-automatic .44 AMP caliber handgun. A rare firearm generally only seen among the highest-ranking NanoTrasen officers. The caliber gives this weapon immense firepower in a fairly small size."
 	icon_state = "automag"
 	force = 10
+	stamina_percentage = 0.6
 	mag_type = /obj/item/ammo_box/magazine/m44
 	can_suppress = 0
 	can_flashlight = 0
 	can_knife = 0
 	w_class = 3
 	fire_sound = 'sound/weapons/revolver_big.ogg'
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/automatic/pistol/automag/update_icon()
 	..()

@@ -18,7 +18,7 @@
 /obj/machinery/deepfryer/examine(mob/user)
 	..()
 	if(contents.len)
-		var/list/frying = list2text(contents, ", ")
+		var/list/frying = jointext(contents, ", ")
 		user << "You can make out [frying] in the oil."
 
 /obj/machinery/deepfryer/proc/mob_fry(mob/living/F, mob/user)

@@ -64,7 +64,7 @@
 /var/const/access_mineral_storeroom = 64
 /var/const/access_minisat = 65
 /var/const/access_weapons = 66 //Weapon authorization for secbots
-/var/const/access_outpost = 67 
+/var/const/access_outpost = 67
 
 	//BEGIN CENTCOM ACCESS
 	/*Should leave plenty of room if we need to add more access levels.
@@ -123,7 +123,7 @@
 	if(!src.req_access)
 		src.req_access = list()
 		if(src.req_access_txt)
-			var/list/req_access_str = text2list(req_access_txt,";")
+			var/list/req_access_str = splittext(req_access_txt,";")
 			for(var/x in req_access_str)
 				var/n = text2num(x)
 				if(n)
@@ -132,7 +132,7 @@
 	if(!src.req_one_access)
 		src.req_one_access = list()
 		if(src.req_one_access_txt)
-			var/list/req_one_access_str = text2list(req_one_access_txt,";")
+			var/list/req_one_access_str = splittext(req_one_access_txt,";")
 			for(var/x in req_one_access_str)
 				var/n = text2num(x)
 				if(n)
