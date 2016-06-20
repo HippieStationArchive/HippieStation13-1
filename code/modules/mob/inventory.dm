@@ -95,23 +95,21 @@
 //Drops the item in our left hand
 /mob/proc/drop_l_hand(var/dismember) //I really fucking wonder why this proc had an argument holy shit.
 	if(!loc.allow_drop())
-	    return
-	
+		return
 	if(dismember)
-	    unEquip(l_hand, 1)
+		unEquip(l_hand, 1)
 	else
-	    unEquip(l_hand)
+		unEquip(l_hand)
 
 
 //Drops the item in our right hand
 /mob/proc/drop_r_hand(var/dismember)
 	if(!loc.allow_drop())
-	    return
-	
+		return
 	if(dismember)
-	    unEquip(r_hand, 1)
+		unEquip(r_hand, 1)
 	else
-	    unEquip(r_hand)
+		unEquip(r_hand)
 
 
 //Drops the item in our active hand.
