@@ -63,7 +63,7 @@
 	req_tech = list("combat" = 4, "materials" = 3, "powerstorage" = 3)
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_DIAMOND = 2000)
-	build_path = /obj/item/weapon/gun/energy/laser/hypercannon
+	build_path = /obj/item/weapon/gun/energy/lasercannon
 	locked = 1
 	category = list("Weapons")
 
