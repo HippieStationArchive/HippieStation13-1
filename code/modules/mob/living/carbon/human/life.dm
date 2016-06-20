@@ -98,7 +98,7 @@
 				if(5)
 					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY","DILDOS!!1!","hun~"))
 				if(6)
-					say(pick("such beautiful duwang", "chew", "I AM THE FUCKING STRONG!!", "YOU are the super retard!", "QUIT BEING TO FUCKING RETARDED!!1!", "dont be dong...", "your feeling i can feel deeply", "SHOW YOUR BITCH ASS?!?!", "your destinationis the twon of duwang?", ";who in the face are you?", "WHAT YOU SAY THAT FOR? you jealous stupid?", "You really can shit!", ";make everyone happy")
+					say(pick("such beautiful duwang", "chew", "I AM THE FUCKING STRONG!!", "YOU are the super retard!", "QUIT BEING TO FUCKING RETARDED!!1!", "dont be dong...", "your feeling i can feel deeply", "SHOW YOUR BITCH ASS?!?!", "your destinationis the twon of duwang?", ";who in the face are you?", "WHAT YOU SAY THAT FOR? you jealous stupid?", "You really can shit!", ";make everyone happy", "dont feel so well"))
 
 
 /mob/living/carbon/human/handle_mutations_and_radiation()
