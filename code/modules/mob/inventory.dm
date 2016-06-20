@@ -93,17 +93,26 @@
 
 
 //Drops the item in our left hand
-/mob/proc/drop_l_hand() //I really fucking wonder why this proc had an argument holy shit.
-	if(!loc.allow_drop())
-		return
-	return unEquip(l_hand) //All needed checks are in unEquip
-
+/mob/proc/drop_l_hand(var/dismember) //I really fucking wonder why this proc had an argument holy shit.
+	if(dismember == 1)
+		if(!loc.allow_drop())
+			return
+		return unEquip(l_hand,1) //All needed checks are in unEquip
+	else
+		if(!loc.allow_drop())
+			return
+		return unEquip(l_hand) //All needed checks are in unEquip
 
 //Drops the item in our right hand
-/mob/proc/drop_r_hand()
-	if(!loc.allow_drop())
-		return
-	return unEquip(r_hand) //Why was this not calling unEquip in the first place jesus fuck.
+/mob/proc/drop_r_hand(var/dismember)
+	if(dismember == 1)
+		if(!loc.allow_drop())
+			return
+		return unEquip(r_hand,1) //All needed checks are in unEquip
+	else
+		if(!loc.allow_drop())
+			return
+		return unEquip(r_hand) //All needed checks are in unEquip
 
 
 //Drops the item in our active hand.
