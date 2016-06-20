@@ -341,11 +341,11 @@
 	var/missing_hands = 0
 
 	if(!get_organ("l_arm"))
-		drop_l_hand()
+		drop_l_hand(1)
 		missing_hands = missing_hands + 1
 
 	if(!get_organ("r_arm"))
-		drop_r_hand()
+		drop_r_hand(1)
 		missing_hands = missing_hands + 1
 
 	if(missing_hands)
