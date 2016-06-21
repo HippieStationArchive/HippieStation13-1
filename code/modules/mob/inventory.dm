@@ -97,9 +97,9 @@
 	if(!loc.allow_drop())
 		return
 	if(dismember)
-		unEquip(l_hand, 1)
+		return unEquip(l_hand, 1)
 	else
-		unEquip(l_hand)
+		return unEquip(l_hand)
 
 
 //Drops the item in our right hand
