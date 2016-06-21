@@ -5,7 +5,7 @@
 	desc = "A wall-mounted flashbulb device."
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "mflash1"
-	var/obj/item/device/assembly/flash/handheld/bulb = null
+	var/obj/item/device/assembly/flash/bulb = null
 	var/id = null
 	var/range = 2 //this is roughly the size of brig cell
 	var/last_flash = 0 //Don't want it getting spammed like regular flashes
@@ -24,7 +24,7 @@
 
 /obj/machinery/flasher/New()
 	..() // ..() is EXTREMELY IMPORTANT, never forget to add it
-	bulb = new /obj/item/device/assembly/flash/handheld(src)
+	bulb = new /obj/item/device/assembly/flash(src)
 
 /obj/machinery/flasher/power_change()
 	if (powered() && anchored && bulb)
@@ -49,7 +49,7 @@
 				bulb = null
 				power_change()
 
-	else if (istype(W, /obj/item/device/assembly/flash/handheld))
+	else if (istype(W, /obj/item/device/assembly/flash))
 		if (!bulb)
 			if(!user.drop_item())
 				return

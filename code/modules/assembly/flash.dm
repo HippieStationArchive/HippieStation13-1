@@ -236,4 +236,4 @@
 	icon_state = "memorizer"
 	item_state = "nullrod"
 
-/obj/item/device/assembly/flash/handheld //this is now the regular pocket flashes //what the hell is the point of this?
+/obj/item/device/assembly/flash //this is now the regular pocket flashes //what the hell is the point of this?

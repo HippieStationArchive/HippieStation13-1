@@ -236,7 +236,7 @@
 "eB" = (/obj/structure/bed/chair{dir = 1},/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/centcom/evac)
 "eC" = (/obj/structure/bed/chair{dir = 4},/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/centcom/evac)
 "eD" = (/obj/structure/table/reinforced,/obj/item/weapon/clipboard,/obj/item/weapon/stamp,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/centcom/evac)
-"eE" = (/obj/structure/table,/obj/item/device/assembly/flash/handheld,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/centcom/evac)
+"eE" = (/obj/structure/table,/obj/item/device/assembly/flash,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/centcom/evac)
 "eF" = (/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/centcom/evac)
 "eG" = (/obj/structure/bed/chair{dir = 4},/turf/simulated/floor/plasteel/shuttle,/area/centcom/evac)
 "eH" = (/obj/structure/table,/obj/item/weapon/storage/box/handcuffs,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/centcom/evac)
