@@ -267,8 +267,8 @@ client/proc/ahelp_count(var/modifier)
 
 	if(count >= 1)
 		usr << "<b>Adminhelp #[ticket.ID]([ticket.uID]) resolved.</b>"
-		message_admins("Adminhelp ID: #[ticket.ID]([ticket.uID]) was resolved by [usr]")
-		ticket.user << "<b>Your adminhelp (#[ticket.ID]) has been resolved by [usr]<b>"
+		message_admins("Adminhelp ID: #[ticket.ID]([ticket.uID]) was resolved by [usr.ckey]")
+		ticket.user << "<b>Your adminhelp (#[ticket.ID]) has been resolved by [usr.ckey]<b>"
 		ticket.user << 'sound/machines/twobeep.ogg'
 		ticket.resolved = "Yes"
 
@@ -306,12 +306,12 @@ client/proc/ahelp_count(var/modifier)
 	if(href_list["resolve"])
 		var/datum/adminticket/T = locate(href_list["resolve"])
 		if(T.resolved == "Yes")
-			message_admins("Adminhelp ID: #[T.ID]([T.uID]) was unresolved by [usr]")
-			T.user << "<b>Your adminhelp (#[T.ID]) has been unresolved by [usr]</b>"
+			message_admins("Adminhelp ID: #[T.ID]([T.uID]) was unresolved by [usr.ckey]")
+			T.user << "<b>Your adminhelp (#[T.ID]) has been unresolved by [usr.ckey]</b>"
 			T.user << 'sound/machines/twobeep.ogg'
 			T.resolved = "No"
 		else
-			message_admins("Adminhelp ID: #[T.ID]([T.uID]) was resolved by [usr]")
-			T.user << "<b>Your adminhelp (#[T.ID]) has been resolved by [usr]</b>"
+			message_admins("Adminhelp ID: #[T.ID]([T.uID]) was resolved by [usr.ckey]")
+			T.user << "<b>Your adminhelp (#[T.ID]) has been resolved by [usr.ckey]</b>"
 			T.user << 'sound/machines/twobeep.ogg'
 			T.resolved = "Yes"

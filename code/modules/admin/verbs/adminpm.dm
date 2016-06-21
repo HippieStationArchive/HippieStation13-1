@@ -57,6 +57,7 @@
 		if(ticket.active == "No" && ticket.replying == 0)
 			message_admins("[key_name_admin(src)] has been assigned to [key_name(C, 0, 0)]'s admin help. This is the first reply. ([ticket.uID])")
 			ticket.replying = 1
+			ticket.user << "<b>[src.ckey] has been assgined to your admin help, please await a reply.</b>"
 		else if(ticket.replying == 1)
 			src << "<b>Error, this ticket is already being replied to!"
 			return
@@ -64,7 +65,7 @@
 			if(ticket.admin != src.ckey)
 				if(alert(src, "This adminhelp already has an admin assigned: [ticket.admin]! Are you sure you wan't to take it over?", "Conflict", "Yes", "No") == "Yes")
 					message_admins("[key_name_admin(src)] has been assigned to [key_name(C, 0, 0)]'s admin help. Override: [ticket.admin]. ([ticket.uID])")
-					ticket.user << "<b>[ticket.admin] has been assgined to your admin help, please await a reply.</b>"
+					ticket.user << "<b>[src.ckey] has been assgined to your admin help, please await a reply.</b>"
 					ticket.replying = 1
 	else
 		message_admins("[key_name_admin(src)] has started replying to [key_name(C, 0, 0)]'s admin help. They did not have an active ahelp.")
@@ -75,7 +76,7 @@
 		if(ticket)
 			if(ticket.admin != src.ckey)
 				message_admins("[key_name_admin(src)] has been unassigned from [key_name(C, 0, 0)]'s admin help. Cancelled reply. ([ticket.uID])")
-				ticket.user << "<b>[ticket.admin] has been unassigned from your admin help. (reply cancelled)</b>"
+				ticket.user << "<b>[src.ckey] has been unassigned from your admin help. (reply cancelled)</b>"
 			ticket.replying = 0
 		else
 			message_admins("[key_name_admin(src)] has cancelled their reply to [key_name(C, 0, 0)]'s admin help. No active ahelp.")

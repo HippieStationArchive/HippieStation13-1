@@ -78,10 +78,15 @@
 		return
 	if(src.handle_spam_prevention(msg,MUTE_ADMINHELP))
 		return
+
 	for(var/datum/adminticket/T in admintickets)
 		if(T.permckey == src.ckey && T.resolved == "No")
-			src << "Error, you already have an active adminhelp open. Please resolve this before continuing."
-			return
+			if(alert(usr,"Is this related to currently active ahelp?", "Adminhelp", "Yes", "No") == "Yes")
+				return
+
+	src.verbs -= /client/verb/adminhelp
+	adminhelptimerid = addtimer(src,"giveadminhelpverb",1200, FALSE)
+
 	//clean the input msg
 	if(!msg)	return
 	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
