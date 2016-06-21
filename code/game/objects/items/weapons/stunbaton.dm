@@ -67,7 +67,7 @@
 		if(bcell)
 			user << "<span class='notice'>[src] already has a cell.</span>"
 		else
-			if(C.maxcharge < hitcost)
+			if(C.maxcharge <= hitcost)
 				user << "<span class='notice'>[src] requires a higher capacity cell.</span>"
 				return
 			if(!user.unEquip(W))
@@ -98,6 +98,8 @@
 		status = 0
 		if(!bcell)
 			user << "<span class='warning'>[src] does not have a power source!</span>"
+		else if (bcell.maxcharge <= hitcost)
+			user << "<span class='warning'>[src] requires a higher capacity cell.</span>"
 		else
 			user << "<span class='warning'>[src] is out of charge.</span>"
 	update_icon()
