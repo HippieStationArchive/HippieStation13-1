@@ -24,9 +24,9 @@ var/list/admin_verbs_default = list(
 	/client/proc/stop_sounds
 	)
 var/list/admin_verbs_admin = list(
+	/client/proc/resolvehandlingahelp,
 	/client/proc/listhandlingahelp,
 	/datum/adminticket/proc/listunresolvedtickets,
-	/client/proc/resolveticket,
 	/datum/adminticket/proc/listtickets,
 	/client/proc/player_panel_new,		/*shows an interface for all players, with links to various panels*/
 	/client/proc/invisimin,				/*allows our mob to go invisible/visible*/

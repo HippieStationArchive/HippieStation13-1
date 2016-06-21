@@ -58,7 +58,7 @@ client/proc/ahelp_count(var/modifier)
 
 
 /datum/adminticket/proc/listtickets()
-	set category = "Admin"
+	set category = "Admin Help"
 	set name = "List Adminhelps"
 	set desc = "List all current adminhelps"
 
@@ -88,7 +88,7 @@ client/proc/ahelp_count(var/modifier)
 			usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Unresolve)</a>"
 
 /datum/adminticket/proc/listunresolvedtickets()
-	set category = "Admin"
+	set category = "Admin Help"
 	set name = "List Unresolved Adminhelps"
 	set desc = "List all current unresolved adminhelps"
 
@@ -120,7 +120,7 @@ client/proc/ahelp_count(var/modifier)
 				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Unresolve)</a>"
 
 /client/proc/listhandlingahelp()
-	set category = "Admin"
+	set category = "Admin Help"
 	set name = "View Handling Ahelps"
 	set desc = "List all current handling ahelps"
 
@@ -149,6 +149,53 @@ client/proc/ahelp_count(var/modifier)
 			else
 				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Unresolve)</a>"
 
+/client/verb/viewmyahelp()
+	set category = "Admin"
+	set name = "View my Ahelps"
+	set desc = "List your ahelps"
+
+	var/count = 0
+
+	for(var/datum/adminticket/T in admintickets)
+		if(T.permckey == src.ckey)
+			count++
+
+	if(count < 1)
+		usr << "<b>You don't have any ahelps!</b>"
+		return
+
+	usr << "<b>Resolved Ahelps</b>"
+
+	var/rpass = 0
+
+	for(var/datum/adminticket/T in admintickets)
+		if(T.permckey == src.ckey && T.resolved == "Yes")
+			rpass = 1
+			usr << "<span class='adminnotice'><b><font color=red>Adminhelp ID: #[T.ID] </font></b></class>"
+			usr << "	<b>Message:</b> [T.msg]"
+			usr << "	<b>Handling Admin:</b> [T.admin]"
+			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
+			usr << "	<b>Resolved:</b> [T.resolved]"
+
+	if(rpass == 0)
+		usr << "	None"
+
+	usr << "<b>Unresolved Ahelps</b>"
+
+	var/upass = 0
+
+	for(var/datum/adminticket/T in admintickets)
+		if(T.permckey == src.ckey && T.resolved == "No")
+			upass = 1
+			usr << "<span class='adminnotice'><b><font color=red>Adminhelp ID: #[T.ID] </font></b></class>"
+			usr << "	<b>Message:</b> [T.msg]"
+			usr << "	<b>Handling Admin:</b> [T.admin]"
+			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
+			usr << "	<b>Resolved:</b> [T.resolved]"
+
+	if(upass == 0)
+		usr << "	None"
+
 /client/proc/createticket(var/player, var/message, var/uckey)
 	var/datum/adminticket/A = new()
 	A.user = player
@@ -157,41 +204,13 @@ client/proc/ahelp_count(var/modifier)
 	A.permckey = uckey
 	A.permuser = A.user
 	admintickets += A
-	A.logs += "ADMINHELP:[A.permckey]([A.permuser]): [A.msg]"
+	A.logs += "<b>ADMINHELP:</b> [A.permckey]([A.permuser]): [A.msg]"
 
 	var/index = 0
 	for(var/datum/adminticket/T in admintickets)
 		index++
 		T.ID = index
 		T.uID = "[T.permckey][T.ID]"
-
-/client/proc/resolveticket(var/NuID)
-	set category = "Admin"
-	set name = "Resolve Adminhelp"
-	set desc = "Resolve an adminhelp"
-
-	if(!check_rights(R_BAN))
-		src << "<font color='red'>Error: Only administrators may use this command.</font>"
-		return
-
-	if(!NuID)
-		var/tickettodelete = input("Please enter the Unique ID of the ticket that you want to resolve.", "Resolve Adminhelp") as text
-		NuID = tickettodelete
-	var/pass = 0
-	var/datum/adminticket/ticket
-
-	for(var/datum/adminticket/T in admintickets)
-		if(T.uID == NuID && T.resolved == "No")
-			T.resolved = "Yes"
-			ticket = T
-			pass = 1
-
-	switch(pass)
-		if(1)
-			src << "<b>Adminhelp Resolved.</b>"
-			message_admins("[src] has resolved [ticket.permckey]'s adminhelp (#[ticket.ID])")
-		if(0)
-			src << "<b>Error, there were no adminhelps found with that UID.</b>"
 
 /client/verb/resolveticketself()
 	set category = "Admin"
@@ -214,16 +233,36 @@ client/proc/ahelp_count(var/modifier)
 		if(0)
 			src << "<b>Error, you do not have any active adminhelps.</b>"
 
-client/verb/vlogs()
-	set category = "Admin"
-	set name = "VLOGS"
+/client/proc/resolvehandlingahelp()
+	set category = "Admin Help"
+	set name = "Resolve Handling Ahelp"
 	set desc = "Resolve my own adminhelp"
 
+	if(!check_rights(R_BAN))
+		src << "<font color='red'>Error: Only administrators may use this command.</font>"
+		return
+
+	var/count = 0
+
+	var/datum/adminticket/ticket
+
 	for(var/datum/adminticket/T in admintickets)
-		T.viewlogs(T.uID, usr)
+		if(T.admin == src.ckey && T.resolved != "Yes")
+			count++
+			ticket = T
+
+	if(count >= 1)
+		usr << "<b>Adminhelp #[ticket.ID]([ticket.uID]) resolved.</b>"
+		message_admins("Adminhelp ID: #[ticket.ID]([ticket.uID]) was resolved by [usr]")
+		ticket.user << "<b>Your adminhelp (#[ticket.ID]) has been resolved by [usr]<b>"
+		ticket.user << 'sound/machines/twobeep.ogg'
+		ticket.resolved = "Yes"
+
+	if(count < 1)
+		usr << "<b>You are not currently handling any adminhelps!</b>"
 
 /datum/adminticket/proc/viewlogs(var/NuID, mob/user)
-	var/dat = "<span class='statusDisplay'><h3>View Logs for ahelp [NuID]</h3>"
+	var/dat = "<h3>View Logs for ahelp [NuID]</h3>"
 	var/datum/adminticket/ticket
 
 	var/pass = 0
@@ -236,10 +275,10 @@ client/verb/vlogs()
 	if(pass == 0)
 		src << "Error, log system not found for [NuID]... "
 		return
-	dat += "<table>"
 
+	dat += "<table>"
 	for(var/text in ticket.logs)
-		dat += "<tr>[text]</tr>"
+		dat += "<tr><td>[text]</td></tr>"
 	dat += "</table>"
 
 	var/datum/browser/popup = new(user, "ahelp logs", ticket.permuser, 500, 500)
@@ -254,7 +293,11 @@ client/verb/vlogs()
 		var/datum/adminticket/T = locate(href_list["resolve"])
 		if(T.resolved == "Yes")
 			message_admins("Adminhelp ID: #[T.ID]([T.uID]) was unresolved by [usr]")
+			T.user << "<b>Your adminhelp (#[T.ID]) has been unresolved by [usr]</b>"
+			T.user << 'sound/machines/twobeep.ogg'
 			T.resolved = "No"
 		else
 			message_admins("Adminhelp ID: #[T.ID]([T.uID]) was resolved by [usr]")
+			T.user << "<b>Your adminhelp (#[T.ID]) has been resolved by [usr]</b>"
+			T.user << 'sound/machines/twobeep.ogg'
 			T.resolved = "Yes"
