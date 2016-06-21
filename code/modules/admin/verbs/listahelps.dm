@@ -31,6 +31,7 @@ client/proc/list_ahelps(var/user, var/resolved)
 				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Resolve)</a>"
 			else
 				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Unresolve)</a>"
+
 	else
 		user << "Current Unresolved Ahelps:"
 		for(var/datum/adminticket/T in admintickets)
