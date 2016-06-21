@@ -56,7 +56,7 @@ var/const/INJECT = 5 //injection
 
 /datum/reagents/Destroy()
 	. = ..()
-	SSobj.processing.Remove(src)
+	SSobj.processing -= src
 	for(var/datum/reagent/R in reagent_list)
 		qdel(R)
 	reagent_list.Cut()
