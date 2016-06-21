@@ -173,7 +173,7 @@ client/proc/ahelp_count(var/modifier)
 		src << "<font color='red'>Error: Only administrators may use this command.</font>"
 		return
 
-	if(NuID == "")
+	if(!NuID)
 		var/tickettodelete = input("Please enter the Unique ID of the ticket that you want to resolve.", "Resolve Adminhelp") as text
 		NuID = tickettodelete
 	var/pass = 0
