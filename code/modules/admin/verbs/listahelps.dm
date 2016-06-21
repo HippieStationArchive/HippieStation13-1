@@ -11,6 +11,7 @@
 	var/active = "No"
 	var/logs = list()
 	var/replying = 0
+	var/mob
 
 client/proc/list_ahelps(var/user, var/resolved)
 	if(!check_rights(R_BAN))
@@ -20,7 +21,9 @@ client/proc/list_ahelps(var/user, var/resolved)
 	if(resolved)
 		user << "Current Ahelps:"
 		for(var/datum/adminticket/T in admintickets)
+			var/ref_mob = "\ref[T.mob]"
 			usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
+			usr << "	<b>Controls:</b> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>)"
 			usr << "	<b>Message:</b> [T.msg]"
 			usr << "	<b>Handling Admin:</b> [T.admin]"
 			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
@@ -32,7 +35,9 @@ client/proc/list_ahelps(var/user, var/resolved)
 		user << "Current Unresolved Ahelps:"
 		for(var/datum/adminticket/T in admintickets)
 			if(T.resolved == "No")
+				var/ref_mob = "\ref[T.mob]"
 				usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
+				usr << "	<b>Controls:</b> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>)"
 				usr << "	<b>Message:</b> [T.msg]"
 				usr << "	<b>Handling Admin:</b> [T.admin]"
 				usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
@@ -78,7 +83,9 @@ client/proc/ahelp_count(var/modifier)
 
 	usr << "<b>Current Ahelps:</b>"
 	for(var/datum/adminticket/T in admintickets)
+		var/ref_mob = "\ref[T.mob]"
 		usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
+		usr << "	<b>Controls:</b> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>)"
 		usr << "	<b>Message:</b> [T.msg]"
 		usr << "	<b>Handling Admin:</b> [T.admin]"
 		usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
@@ -110,7 +117,9 @@ client/proc/ahelp_count(var/modifier)
 	usr << "<b>Current Unresolved Ahelps:</b>"
 	for(var/datum/adminticket/T in admintickets)
 		if(T.resolved == "No")
+			var/ref_mob = "\ref[T.mob]"
 			usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
+			usr << "	<b>Controls:</b> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>)"
 			usr << "	<b>Message:</b> [T.msg]"
 			usr << "	<b>Handling Admin:</b> [T.admin]"
 			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
@@ -138,9 +147,13 @@ client/proc/ahelp_count(var/modifier)
 		usr << "<b>You don't have any ACTIVE ahelps!</b>"
 		return
 
+
+
 	for(var/datum/adminticket/T in admintickets)
 		if(T.resolved == "No" && T.admin == src.ckey)
+			var/ref_mob = "\ref[T.mob]"
 			usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
+			usr << "	<b>Controls:</b> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>)"
 			usr << "	<b>Message:</b> [T.msg]"
 			usr << "	<b>Handling Admin:</b> [T.admin]"
 			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
@@ -196,7 +209,7 @@ client/proc/ahelp_count(var/modifier)
 	if(upass == 0)
 		usr << "	None"
 
-/client/proc/createticket(var/player, var/message, var/uckey)
+/client/proc/createticket(var/player, var/message, var/uckey, var/mob)
 	var/datum/adminticket/A = new()
 	A.user = player
 	A.msg = message
@@ -205,6 +218,7 @@ client/proc/ahelp_count(var/modifier)
 	A.permuser = A.user
 	admintickets += A
 	A.logs += "<b>ADMINHELP:</b> [A.permckey]([A.permuser]): [A.msg]"
+	A.mob = mob
 
 	var/index = 0
 	for(var/datum/adminticket/T in admintickets)
