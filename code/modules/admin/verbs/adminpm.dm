@@ -128,10 +128,16 @@
 
 	if(C.holder)
 		if(holder)	//both are admins
+			for(var/datum/adminticket/T in admintickets)
+				if(T.permckey == C.ckey && T.resolved == "No")
+					T.logs += "[src] TO [C]: [keywordparsedmsg]"
 			C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
 			src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [keywordparsedmsg]</font>"
 
 		else		//recipient is an admin but sender is not
+			for(var/datum/adminticket/T in admintickets)
+				if(T.permckey == C.ckey && T.resolved == "No")
+					T.logs += "[src] TO [C]: [keywordparsedmsg]"
 			C << "<font color='red'>Reply PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
 			src << "<font color='blue'>PM to-<b>Admins</b>: [msg]</font>"
 
@@ -141,6 +147,7 @@
 
 	else
 		if(holder)	//sender is an admin but recipient is not. Do BIG RED TEXT
+
 			C << "<font color='red' size='4'><b>-- Administrator private message --</b></font>"
 			C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 0)]</b>: [msg]</font>"
 			C << "<font color='red'><i>Click on the administrator's name to reply.</i></font>"

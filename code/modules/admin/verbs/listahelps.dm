@@ -23,11 +23,11 @@ client/proc/list_ahelps(var/user, var/resolved)
 			usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
 			usr << "	<b>Message:</b> [T.msg]"
 			usr << "	<b>Handling Admin:</b> [T.admin]"
-			usr << "	<b>Replied To:</b> [T.active]/<b>LOGS</b>"
+			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
 			if(T.resolved == "No")
-				usr << "	<b>Resolved:</b> [T.resolved] (resolve)"
+				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Resolve)</a>"
 			else
-				usr << "	<b>Resolved:</b> [T.resolved] (unresolve)"
+				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Unresolve)</a>"
 	else
 		user << "Current Unresolved Ahelps:"
 		for(var/datum/adminticket/T in admintickets)
@@ -35,11 +35,12 @@ client/proc/list_ahelps(var/user, var/resolved)
 				usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
 				usr << "	<b>Message:</b> [T.msg]"
 				usr << "	<b>Handling Admin:</b> [T.admin]"
-				usr << "	<b>Replied To:</b> [T.active]/<b>LOGS</b>"
+				usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
 				if(T.resolved == "No")
-					usr << "	<b>Resolved:</b> [T.resolved] (resolve)"
+					usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Resolve)</a>"
 				else
-					usr << "	<b>Resolved:</b> [T.resolved] (unresolve)"
+					usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Unresolve)</a>"
+
 client/proc/ahelp_count(var/modifier)
 	var/amount
 	for(var/datum/adminticket/T in admintickets)
@@ -80,11 +81,11 @@ client/proc/ahelp_count(var/modifier)
 		usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
 		usr << "	<b>Message:</b> [T.msg]"
 		usr << "	<b>Handling Admin:</b> [T.admin]"
-		usr << "	<b>Replied To:</b> [T.active]/<b>LOGS</b>"
+		usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
 		if(T.resolved == "No")
-			usr << "	<b>Resolved:</b> [T.resolved] (resolve)"
+			usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Resolve)</a>"
 		else
-			usr << "	<b>Resolved:</b> [T.resolved] (unresolve)"
+			usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Unresolve)</a>"
 
 /datum/adminticket/proc/listunresolvedtickets()
 	set category = "Admin"
@@ -112,11 +113,11 @@ client/proc/ahelp_count(var/modifier)
 			usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
 			usr << "	<b>Message:</b> [T.msg]"
 			usr << "	<b>Handling Admin:</b> [T.admin]"
-			usr << "	<b>Replied To:</b> [T.active]/<b>LOGS</b>"
+			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
 			if(T.resolved == "No")
-				usr << "	<b>Resolved:</b> [T.resolved] (resolve)"
+				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Resolve)</a>"
 			else
-				usr << "	<b>Resolved:</b> [T.resolved] (unresolve)"
+				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Unresolve)</a>"
 
 /client/proc/listhandlingahelp()
 	set category = "Admin"
@@ -142,11 +143,11 @@ client/proc/ahelp_count(var/modifier)
 			usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
 			usr << "	<b>Message:</b> [T.msg]"
 			usr << "	<b>Handling Admin:</b> [T.admin]"
-			usr << "	<b>Replied To:</b> [T.active]/<b>LOGS</b>"
+			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
 			if(T.resolved == "No")
-				usr << "	<b>Resolved:</b> [T.resolved] <A HREF='?change_ahelp=[T.uID];resolve=1'>RESOLVE</A>"
+				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Resolve)</a>"
 			else
-				usr << "	<b>Resolved:</b> [T.resolved] (unresolve)"
+				usr << "	<b>Resolved:</b> [T.resolved] <a href='?src=\ref[T];resolve=\ref[T]'>(Unresolve)</a>"
 
 /client/proc/createticket(var/player, var/message, var/uckey)
 	var/datum/adminticket/A = new()
@@ -156,7 +157,7 @@ client/proc/ahelp_count(var/modifier)
 	A.permckey = uckey
 	A.permuser = A.user
 	admintickets += A
-	A.logs += "ADMINHELP:[A.permckey]([A.permuser]: [A.msg]"
+	A.logs += "ADMINHELP:[A.permckey]([A.permuser]): [A.msg]"
 
 	var/index = 0
 	for(var/datum/adminticket/T in admintickets)
@@ -213,8 +214,16 @@ client/proc/ahelp_count(var/modifier)
 		if(0)
 			src << "<b>Error, you do not have any active adminhelps.</b>"
 
-/datum/adminticket/proc/viewlogs(var/NuID)
-	var/dat = "<h3>View Logs for ahelp [NuID]</h3>"
+client/verb/vlogs()
+	set category = "Admin"
+	set name = "VLOGS"
+	set desc = "Resolve my own adminhelp"
+
+	for(var/datum/adminticket/T in admintickets)
+		T.viewlogs(T.uID, usr)
+
+/datum/adminticket/proc/viewlogs(var/NuID, mob/user)
+	var/dat = "<span class='statusDisplay'><h3>View Logs for ahelp [NuID]</h3>"
 	var/datum/adminticket/ticket
 
 	var/pass = 0
@@ -227,19 +236,25 @@ client/proc/ahelp_count(var/modifier)
 	if(pass == 0)
 		src << "Error, log system not found for [NuID]... "
 		return
+	dat += "<table>"
 
-	dat += ticket.logs
+	for(var/text in ticket.logs)
+		dat += "<tr>[text]</tr>"
+	dat += "</table>"
 
 	var/datum/browser/popup = new(user, "ahelp logs", ticket.permuser, 500, 500)
 	popup.set_content(dat)
 	popup.open()
 
 /datum/adminticket/Topic(href, href_list)
-	message_admins("PENIS")
-	if(href_list["change_ahelp"])
-		message_admins("PENIS")
-		switch(href_list["resolve"])
-			if("1")
-				message_admins("PENIS")
-			else
-				message_admins("WAT")
+	if(href_list["view_logs"])
+		var/datum/adminticket/T = locate(href_list["view_logs"])
+		viewlogs(T.uID, usr)
+	if(href_list["resolve"])
+		var/datum/adminticket/T = locate(href_list["resolve"])
+		if(T.resolved == "Yes")
+			message_admins("Adminhelp ID: #[T.ID]([T.uID]) was unresolved by [usr]")
+			T.resolved = "No"
+		else
+			message_admins("Adminhelp ID: #[T.ID]([T.uID]) was resolved by [usr]")
+			T.resolved = "Yes"
