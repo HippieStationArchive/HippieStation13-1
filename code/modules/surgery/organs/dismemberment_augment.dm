@@ -16,7 +16,7 @@
 //Drop the limb
 /obj/item/organ/limb/proc/drop_limb(var/special=0)
 	var/turf/T = get_turf(src.loc)
-	var/mob/living/carbon/human/H 
+	var/mob/living/carbon/human/H
 	if(owner && ishuman(owner))
 		T = get_turf(owner)
 		H = owner
@@ -78,8 +78,8 @@
 		var/obj/item/organ/limb/affecting = H.get_organ("chest")
 		affecting.take_damage(Clamp(brutedam/2, 15, 50),0,1) //Damage the chest based on limb's existing damage (note that you get -10 max health per every missing limb anyway)
 		H.visible_message("<span class='danger'><B>[H]'s [src] has been violently dismembered!</B></span>")
-		H.drop_r_hand()
-		H.drop_l_hand()
+		H.drop_r_hand(1)
+		H.drop_l_hand(1)
 		H.update_canmove()
 		H.regenerate_icons()
 		H.emote("scream")
