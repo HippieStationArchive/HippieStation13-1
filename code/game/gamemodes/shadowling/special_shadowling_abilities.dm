@@ -171,6 +171,7 @@ var/list/possibleShadowlingNames = list("U'ruan", "Y`shej", "Nex", "userel-uae",
 				sleep(50)
 				if(!ticker.mode.shadowling_ascended)
 					SSshuttle.emergency.request(null, 0.3)
+					SSshuttle.emergencyNoRecall = 1
 				ticker.mode.shadowling_ascended = 1
 				A.mind.remove_spell(src)
 				qdel(user)
