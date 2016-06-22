@@ -678,6 +678,9 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!check_rights(0))	return
 	if(alert(src, "You sure?", "Confirm", "Yes", "No") != "Yes") return
 	message_admins("<span class='adminnotice'>[key_name_admin(usr)] disabled the shuttle.</span>")
+	if(SSshuttle.emergency.mode == SHUTTLE_STRANDED)
+		usr << "Error, shuttle is already disabled."
+		return
 	SSshuttle.emergency.mode = SHUTTLE_STRANDED
 	priority_announce("Warning: Emergency Shuttle uplink failure, shuttle disabled until further notice.", "Emergency Shuttle Uplink Alert", 'sound/misc/announce_dig.ogg')
 
