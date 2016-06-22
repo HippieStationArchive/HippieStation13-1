@@ -673,24 +673,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	return
 
-/client/proc/admin_cancel_shuttle()
-	set category = "Admin"
-	set name = "Cancel Shuttle"
-	if(!check_rights(0))	return
-	if(alert(src, "You sure?", "Confirm", "Yes", "No") != "Yes") return
-
-	if(SSshuttle.emergency.mode >= SHUTTLE_DOCKED)
-		return
-
-	SSshuttle.emergencyNoRecall = 0
-	SSshuttle.emergency.cancel()
-	feedback_add_details("admin_verb","CCSHUT") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-	log_admin("[key_name(usr)] admin-recalled the emergency shuttle.")
-	message_admins("<span class='adminnotice'>[key_name_admin(usr)] admin-recalled the emergency shuttle.</span>")
-
-
-	return
-
 /client/proc/admin_disable_shuttle()
 	set category = "Admin"
 	set name = "Disable Shuttle"
