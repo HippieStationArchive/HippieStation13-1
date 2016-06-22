@@ -37,6 +37,7 @@
 	SSshuttle.emergency.request(null, 0.3) // Cannot recall
 	SSshuttle.emergencyNoRecall = 1
 
+
 /obj/singularity/narsie/large/attack_ghost(mob/dead/observer/user as mob)
 	if(!(src in view()))
 		user << "Your soul is too far away."
