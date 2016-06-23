@@ -70,5 +70,5 @@
 /obj/item/weapon/vending_refill/clothing
 	machine_name = "ClothesMate"
 	icon_state = "refill_clothes"
-	charges = list(29, 2, 2)// of 85 standard, 6 contraband, 7 premium
-	init_charges = list(29, 2, 2)
+	charges = list(30, 2, 2)// of 90 standard, 6 contraband, 7 premium
+	init_charges = list(30, 2, 2)

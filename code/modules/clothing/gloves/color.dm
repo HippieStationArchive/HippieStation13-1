@@ -185,3 +185,4 @@
 	icon_state = "DIO"
 	item_state = "DIOglove"
 	item_color="DIO"
+

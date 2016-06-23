@@ -200,7 +200,7 @@
 
 /obj/item/clothing/shoes/dio
 	name = "metal ringed shoes"
-	desc = "Walk into a room wearing these, everyone freezes."
+	desc = "These help you stand."
 	icon_state = "DIO"
 	item_color = "dio"
 	item_state = "DIOshoes"

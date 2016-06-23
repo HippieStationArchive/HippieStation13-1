@@ -243,7 +243,7 @@
 
 /obj/item/clothing/suit/dio
 	name = "yellow cutoff jacket"
-	desc = "You'll look so good this jacket you'll want to show The World."
+	desc = "So fashionable it's menacing."
 	icon_state = "DIO"
 	item_state = "DIOjacket"
 
