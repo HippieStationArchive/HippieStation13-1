@@ -1,7 +1,7 @@
 /obj/machinery/floodlight
 	name = "floodlight"
 	icon = 'icons/obj/floodlight.dmi'
-	icon_state = "floodlight0_hatchclose"
+	icon_state = "floodlight0_hatchopen0"
 	desc = "An industrial floodlight. It has units of power remaining."
 	density = 1
 	anchored = 0
@@ -11,30 +11,17 @@
 	var/health = 60
 	var/maxhealth = 60
 	var/broken = 0
-	var/cover = 1
-	var/hascell = 1
+	var/cover = 0
+	var/hascell = 0
 	var/brightness_on = 10
-
-/obj/machinery/floodlight/construct
-	icon_state = "floodlight0_hatchopen0"
-	desc = "An industrial floodlight. It has no power source installed!."
-	cover = 0
-	hascell = 0
-	brightness_on = 10
 
 /obj/machinery/floodlight/New()
 	sparks.set_up(2, 0, src)
 	sparks.attach(src)
-	powerpack = new /obj/item/weapon/stock_parts/cell/crap(src)
-	desc = "An industrial floodlight. It has [powerpack.charge] units of power remaining."
-	SSobj.processing |= src
-	..()
-
-/obj/machinery/floodlight/construct/New()
-	sparks.set_up(2, 0, src)
-	sparks.attach(src)
 	powerpack = null
-	desc = "An industrial floodlight. It has [powerpack.charge] units of power remaining."
+	turnoff()
+	update_health()
+	desc = "An industrial floodlight. It has no power source installed!"
 	SSobj.processing |= src
 	..()
 
@@ -47,7 +34,7 @@
 /obj/machinery/floodlight/process()
 	if(broken)
 		return
-	if(powerpack == null)
+	if(hascell == 0)
 		desc = "An industrial floodlight. It has no power source installed!"
 		turnoff()
 		return
@@ -115,6 +102,7 @@
 		return
 
 	if(I.force > 3)
+		user.visible_message("<span class='danger'>[user] hits the light with the [I]!</span>")
 		health = health - I.force
 		playsound(loc, 'sound/weapons/smash.ogg', 50, 1)
 		update_health()
