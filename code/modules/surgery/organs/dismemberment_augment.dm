@@ -121,6 +121,12 @@
 	update_organ_icon()
 	if(!owner)
 		return 0
+	var/pass = 0
+	for(var/obj/item/organ/internal/X in owner.internal_organs)
+		if(X.zone == "chest")
+			pass = 1
+	if(pass != 1)
+		return 0
 	owner.visible_message("<span class='danger'><B>[owner]'s internal organs spill out onto the floor!</B></span>")
 	for(var/obj/item/organ/internal/O in owner.internal_organs)
 		if(O.zone == "head")
