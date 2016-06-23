@@ -640,13 +640,18 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		src << "Only administrators may use this command."
 		return
 
-	var/confirm = alert(src, "You sure?", "Confirm", "Yes", "No")
-	if(confirm != "Yes") return
+	var/confirm = alert(src, "You sure?", "Confirm", "Yes", "Yes (No Recall)", "No")
+	if(confirm == "No") return
+	if(confirm == "Yes (No Recall)")
+		SSshuttle.emergencyNoRecall = 1
 
 	SSshuttle.emergency.request()
 	feedback_add_details("admin_verb","CSHUT") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	log_admin("[key_name(usr)] admin-called the emergency shuttle.")
-	message_admins("<span class='adminnotice'>[key_name_admin(usr)] admin-called the emergency shuttle.</span>")
+	if(confirm == "Yes (No Recall)")
+		message_admins("<span class='adminnotice'>[key_name_admin(usr)] admin-called the emergency shuttle (non-recallable).</span>")
+	else
+		message_admins("<span class='adminnotice'>[key_name_admin(usr)] admin-called the emergency shuttle.</span>")
 	return
 
 /client/proc/admin_cancel_shuttle()
@@ -658,12 +663,38 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(SSshuttle.emergency.mode >= SHUTTLE_DOCKED)
 		return
 
+	SSshuttle.emergencyNoRecall = 0
 	SSshuttle.emergency.cancel()
 	feedback_add_details("admin_verb","CCSHUT") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	log_admin("[key_name(usr)] admin-recalled the emergency shuttle.")
 	message_admins("<span class='adminnotice'>[key_name_admin(usr)] admin-recalled the emergency shuttle.</span>")
 
+
 	return
+
+/client/proc/admin_disable_shuttle()
+	set category = "Admin"
+	set name = "Disable Shuttle"
+	if(!check_rights(0))	return
+	if(alert(src, "You sure?", "Confirm", "Yes", "No") != "Yes") return
+	message_admins("<span class='adminnotice'>[key_name_admin(usr)] disabled the shuttle.</span>")
+	if(SSshuttle.emergency.mode == SHUTTLE_STRANDED)
+		usr << "Error, shuttle is already disabled."
+		return
+	SSshuttle.emergency.mode = SHUTTLE_STRANDED
+	priority_announce("Warning: Emergency Shuttle uplink failure, shuttle disabled until further notice.", "Emergency Shuttle Uplink Alert", 'sound/misc/announce_dig.ogg')
+
+/client/proc/admin_enable_shuttle()
+	set category = "Admin"
+	set name = "Enable Shuttle"
+	if(!check_rights(0))	return
+	if(!SSshuttle.emergency.mode == SHUTTLE_STRANDED)
+		usr << "Error, shuttle not disabled."
+		return
+	if(alert(src, "You sure?", "Confirm", "Yes", "No") != "Yes") return
+	message_admins("<span class='adminnotice'>[key_name_admin(usr)] enabled the emergency shuttle.</span>")
+	SSshuttle.emergency.mode = SHUTTLE_IDLE
+	priority_announce("Warning: Emergency Shuttle uplink reestablished, shuttle enabled.", "Emergency Shuttle Uplink Alert", 'sound/misc/announce_dig.ogg')
 
 /client/proc/cmd_admin_attack_log(mob/M in mob_list)
 	set category = "Special Verbs"
