@@ -16,6 +16,7 @@ var/datum/subsystem/shuttle/SSshuttle
 	var/emergencyEscapeTime = 1200	//time taken for emergency shuttle to reach a safe distance after leaving station (in deciseconds)
 	var/area/emergencyLastCallLoc
 	var/emergencyNoEscape
+	var/emergencyNoRecall = 0
 
 		//supply shuttle stuff
 	var/obj/docking_port/mobile/supply/supply
@@ -136,6 +137,8 @@ var/datum/subsystem/shuttle/SSshuttle
 
 /datum/subsystem/shuttle/proc/canRecall()
 	if(emergency.mode != SHUTTLE_CALL)
+		return
+	if(emergencyNoRecall == 1)
 		return
 	if(ticker.mode.name == "meteor")
 		return
