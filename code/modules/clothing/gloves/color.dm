@@ -178,3 +178,10 @@
 
 /obj/item/clothing/gloves/color/white/redcoat
 	item_color = "redcoat"		//Exists for washing machines. Is not different from white gloves in any way.
+
+/obj/item/clothing/gloves/color/dio
+	name = "metal wristbands"
+	desc = "These wristbands look fabulous, it's useless useless useless to deny."
+	icon_state = "DIO"
+	item_state = "DIOglove"
+	item_color="DIO"
