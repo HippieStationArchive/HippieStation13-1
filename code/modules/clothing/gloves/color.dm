@@ -183,6 +183,6 @@
 	name = "metal wristbands"
 	desc = "These wristbands look fabulous, it's useless useless useless to deny."
 	icon_state = "DIO"
-	item_state = "DIOglove"
+	item_state = "DIO"
 	item_color="DIO"
 

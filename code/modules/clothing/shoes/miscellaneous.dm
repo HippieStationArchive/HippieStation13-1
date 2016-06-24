@@ -202,5 +202,5 @@
 	name = "metal ringed shoes"
 	desc = "These help you stand."
 	icon_state = "DIO"
-	item_color = "dio"
-	item_state = "DIOshoes"
+	item_color = "DIO"
+	item_state = "DIO"

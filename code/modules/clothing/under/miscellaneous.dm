@@ -585,6 +585,6 @@
 	name = "backless vest"
 	desc = "Walk into the room wearing this, everyone stops."
 	icon_state = "DIO"
-	item_state = "DIOjumpsuit"
-	item_color = "dio"
+	item_state = "DIO"
+	item_color = "DIO"
 	can_adjust = 0

@@ -300,4 +300,4 @@
 	name = "headband with a heart"
 	desc = "Why is there a heart on this headband? The World may never know."
 	icon_state = "DIO"
-	item_state = "DIOheadband"
+	item_state = "DIO"
