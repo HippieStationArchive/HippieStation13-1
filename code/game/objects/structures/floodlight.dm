@@ -127,6 +127,7 @@
 	if(istype(I, /obj/item/weapon/wrench))
 
 		if(locked)
+			user << "The bolts are locked, unlock it first!"
 
 		playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
 		if(do_mob(user,	src, 20))
