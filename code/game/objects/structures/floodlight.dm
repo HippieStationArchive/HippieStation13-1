@@ -21,6 +21,8 @@
 	active_power_usage = 40
 	req_access = list(access_engine_equip)
 	var/locked = 0
+	var/charge = 0
+	var/rawcharge = 0
 
 /obj/machinery/power/floodlight/New()
 	sparks.set_up(2, 0, src)
@@ -46,6 +48,9 @@
 	if(status == 0)
 		desc = "An industrial floodlight. Its off."
 		return
+	if(hascell == 1)
+		rawcharge = (powerpack.charge/powerpack.maxcharge * 100)
+		charge = round(rawcharge, 0.1)
 	if(wiredtoground == 1)
 		if(surplus() < 40 && hascell == 0)
 			turnoff()
@@ -54,7 +59,7 @@
 			return
 		else if(surplus() < 40 && hascell == 1)
 			powerpack.use(2)
-			desc = "An industrial floodlight. Its connected to the grid, but is running on backup power due to grid failure! It has [powerpack.charge] units of power remaining."
+			desc = "An industrial floodlight. Its connected to the grid, but is running on backup power due to grid failure! It has	[charge]% charge remaining."
 			if(powerpack.charge <= 0)
 				desc = "An industrial floodlight. Its connected to the grid, but is running on backup power due to grid failure! The cell is empty."
 				turnoff()
@@ -64,7 +69,7 @@
 			desc = "An industrial floodlight. It's wired to the grid and has no internal power source!"
 		else
 			powerpack.give(2)
-			desc = "An industrial floodlight. It's wired to the grid and has an internal power source(Charging: [powerpack.charge])!"
+			desc = "An industrial floodlight. It's wired to the grid and has an internal power source(Charging: [charge]%)!"
 		return
 	if(hascell == 0)
 		desc = "An industrial floodlight. It has no power source installed!"
@@ -72,7 +77,7 @@
 		return
 	if(status == 1)
 		powerpack.use(2)
-		desc = "An industrial floodlight. It has [powerpack.charge] units of power remaining."
+		desc = "An industrial floodlight. It has [charge]% charge remaining."
 		if(powerpack.charge <= 0)
 			desc = "An industrial floodlight. The cell is empty."
 			turnoff()
@@ -85,10 +90,10 @@
 	if(istype(I,/obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/X = I
 		if(X.welding != 1)
-			user << "You know, it needs to be on to work."
+			user << "<span class='danger'>You know, it needs to be on to work.</span>"
 			return
 		if(health == maxhealth)
-			user << "It does not need repairs!"
+			user << "<span class='danger'>It does not need repairs!</span>"
 			return
 		if(do_mob(user, src, 20))
 			playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
@@ -106,7 +111,7 @@
 			user << "<span class='notice'>You [src.locked ? "lock" : "unlock"] the controls.</span>"
 		else
 			if(cover == 0)
-				user << "Close the cover first!"
+				user << "<span class='danger'>Close the cover first!</span>"
 			else
 				user << "<span class='danger'>Access denied.</span>"
 		return
@@ -119,7 +124,7 @@
 			I.forceMove(src)
 			hascell = 1
 			icon_state = "floodlight[status]_hatchopen[hascell]"
-			desc = "An industrial floodlight. It has [powerpack.charge] units of power remaining."
+			desc = "An industrial floodlight. It has [charge]% charge remaining."
 		else
 			user << "<span class='notice'>There is already a cell in the [src]!</span>"
 		return
@@ -127,44 +132,44 @@
 	if(istype(I, /obj/item/weapon/wrench))
 
 		if(locked)
-			user << "The bolts are locked, unlock it first!"
+			user << "<span class='danger'>The bolts are locked, unlock it first!</span>"
 			return
 
 		playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
 		if(do_mob(user,	src, 20))
 			if(anchored == 1)
 				if(!connect_to_network())
-					user << "You undo the ground bolts, freeing the [src]."
+					user << "<span class='notice'>You undo the ground bolts, freeing the [src].</span>"
 					anchored = 0
 					return
-				user << "You undo the ground bolts, freeing the [src]. It is no longer connected to the powernet."
+				user << "<span class='notice'>You undo the ground bolts, freeing the [src]. It is no longer connected to the powernet.</span>"
 				anchored = 0
 				wiredtoground = 0
 				disconnect_from_network()
 				return
 			else
 				if(connect_to_network())
-					user << "You tighiten the ground bolts, bolting down the [src]. It has been connected to the powernet."
+					user << "<span class='notice'>You tighiten the ground bolts, bolting down the [src]. It has been connected to the powernet.</span>"
 					anchored = 1
 					wiredtoground = 1
 					return
-				user << "You tighiten the ground bolts, bolting down the [src]."
+				user << "<span class='notice'>You tighiten the ground bolts, bolting down the [src].</span>"
 				anchored = 1
 			return
 		return
 
 	if(istype(I, /obj/item/weapon/screwdriver))
 		if(locked == 1)
-			user << "The controls are locked!" //to prevent easy kills
+			user << "<span class='danger'>The controls are locked!</span>" //to prevent easy kills
 			return
 		if(cover == 1)
 			playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
-			user << "You open the maintenance hatch."
+			user << "<span class='notice'>You open the maintenance hatch.</span>"
 			icon_state = "floodlight[status]_hatchopen[hascell]"
 			cover = 0
 		else
 			playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
-			user << "You close the maintenance hatch."
+			user << "<span class='notice'>You close the maintenance hatch.</span>"
 			icon_state = "floodlight[status]_hatchclose"
 			cover = 1
 		return
@@ -178,10 +183,10 @@
 	if(istype(I, /obj/item/weapon/crowbar))
 		if(cover == 0)
 			if(hascell == 1)
-				user << "Remove the cell first before deconstructing."
+				user << "<span class='danger'>Remove the cell first before deconstructing!</span>"
 			else
 				playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
-				user << "You begin deconstructing the [src]!"
+				user << "<span class='notice'>You begin deconstructing the [src]!</span>"
 				if(do_mob(user, src, 40))
 					var/obj/item/stack/sheet/metal/S = new
 					S.amount = 15
@@ -199,13 +204,13 @@
 
 /obj/machinery/power/floodlight/attack_hand(mob/user)
 	if(broken)
-		user << "Its broken!"
+		user << "<span class='danger'>Its broken!</span>"
 		return
 	if(locked)
-		user << "The controls are locked!"
+		user << "<span class='danger'>The controls are locked!</span>"
 		return
 	if(wiredtoground == 1 && surplus() < 40 && hascell == 0)
-		user << "There is no power in the connected powernet and no internal power source!"
+		user << "<span class='danger'>There is no power in the connected powernet and no internal power source!</span>"
 		turnoff()
 		return
 	if(cover == 0)
@@ -217,39 +222,39 @@
 		if(wiredtoground == 0)
 			turnoff()
 		icon_state = "floodlight[status]_hatchopen[hascell]"
-		user << "You remove the cell from the [src]"
+		user << "<span class='notice'>You remove the cell from the [src]</span>"
 		return
 	else
 		if(status == 1)
 			turnoff()
-			user << "You turn the [src] off."
+			user << "<span class='notice'>You turn the [src] off.</span>"
 			playsound(loc, 'sound/machines/lightswitch.ogg', 30, 1, -3)
 			icon_state = "floodlight[status]_hatchclose"
 		else
 			if(wiredtoground == 0)
 				if(powerpack != null)
 					if(powerpack.charge <= 0)
-						user << "The [src] has no power!"
+						user << "<span class='danger'>The [src] has no power!</span>"
 						return
 				else
-					user << "The [src] has no power source installed!"
+					user << "<span class='danger'>The [src] has no power source installed!</span>"
 					return
 			else
 				if(surplus() < 40 && hascell == 1)
 					if(powerpack.charge <= 0)
-						user << "The powernet is empty and the power source is drained!"
+						user << "<span class='danger'>The powernet is empty and the power source is drained!</span>"
 						return
 				if(surplus() < 40 && hascell == 0)
-					user << "The powernet is empty and the power source is drained!"
+					user << "<span class='danger'>The powernet is empty and there is no power source!</span>"
 					return
 
-			user << "You turn the [src] on."
+			user << "<span class='notice'>You turn the [src] on.</span>"
 			playsound(loc, 'sound/machines/lightswitch.ogg', 30, 1, -3)
 			turnon()
 			icon_state = "floodlight[status]_hatchclose"
 			return
 	if(cover == 0 && hascell == 0)
-		user << "The maintenance hatch is open!"
+		user << "<span class='danger'>The maintenance hatch is open!</span>"
 		return
 
 /obj/machinery/power/floodlight/proc/turnoff()
