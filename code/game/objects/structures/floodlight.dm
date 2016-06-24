@@ -128,6 +128,7 @@
 
 		if(locked)
 			user << "The bolts are locked, unlock it first!"
+			return
 
 		playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
 		if(do_mob(user,	src, 20))
