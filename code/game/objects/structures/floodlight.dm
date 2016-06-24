@@ -13,7 +13,7 @@
 	var/broken = 0
 	var/cover = 0
 	var/hascell = 0
-	var/brightness_on = 6
+	var/brightness_on = 8
 	var/rigged = 0
 	var/wiredtoground = 0
 	use_power = 0
