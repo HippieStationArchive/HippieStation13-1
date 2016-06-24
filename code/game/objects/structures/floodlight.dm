@@ -19,6 +19,8 @@
 	use_power = 0
 	idle_power_usage = 0
 	active_power_usage = 40
+	req_access = list(access_engine_equip)
+	var/locked = 0
 
 /obj/machinery/power/floodlight/New()
 	sparks.set_up(2, 0, src)
@@ -97,6 +99,18 @@
 	if(broken)
 		user << "Its broken!"
 		return
+
+	if(istype(I, /obj/item/weapon/card/id) || istype(I, /obj/item/device/pda))
+		if(src.allowed(user) && cover != 0)
+			src.locked = !src.locked
+			user << "<span class='notice'>You [src.locked ? "lock" : "unlock"] the controls.</span>"
+		else
+			if(cover == 0)
+				user << "Close the cover first!"
+			else
+				user << "<span class='danger'>Access denied.</span>"
+		return
+
 	if(istype(I, /obj/item/weapon/stock_parts/cell))
 		if(powerpack == null)
 			user << "<span class='notice'>You install [I] into [src]</span>"
@@ -109,7 +123,10 @@
 		else
 			user << "<span class='notice'>There is already a cell in the [src]!</span>"
 		return
+
 	if(istype(I, /obj/item/weapon/wrench))
+
+		if(locked)
 
 		playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
 		if(do_mob(user,	src, 20))
@@ -132,7 +149,11 @@
 				anchored = 1
 			return
 		return
+
 	if(istype(I, /obj/item/weapon/screwdriver))
+		if(locked == 1)
+			user << "The controls are locked!" //to prevent easy kills
+			return
 		if(cover == 1)
 			playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
 			user << "You open the maintenance hatch."
@@ -144,6 +165,7 @@
 			icon_state = "floodlight[status]_hatchclose"
 			cover = 1
 		return
+
 	if(istype(I, /obj/item/weapon/card/emag))
 		message_admins("[user] emagged the floodlight at [src.loc]!")
 		playsound(loc, 'sound/effects/sparks1.ogg', 50, 1)
@@ -165,7 +187,6 @@
 					return
 		return
 
-
 	if(I.force > 3)
 		user.visible_message("<span class='danger'>[user] hits the light with the [I]!</span>")
 		health = health - I.force
@@ -176,6 +197,9 @@
 /obj/machinery/power/floodlight/attack_hand(mob/user)
 	if(broken)
 		user << "Its broken!"
+		return
+	if(locked)
+		user << "The controls are locked!"
 		return
 	if(wiredtoground == 1 && surplus() < 40 && hascell == 0)
 		user << "There is no power in the connected powernet and no internal power source!"
@@ -271,6 +295,7 @@
 		sparks.start()
 		health = 0
 		broken = 1
+		locked = 0
 		icon_state = "floodlight3"
 		desc = "An industrial floodlight. She's dead Jim."
 	if(health == maxhealth)
