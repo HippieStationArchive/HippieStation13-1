@@ -296,6 +296,7 @@
 		sparks.start()
 		health = 0
 		broken = 1
+		anchored = 0
 		locked = 0
 		icon_state = "floodlight3"
 		desc = "An industrial floodlight. She's dead Jim."
