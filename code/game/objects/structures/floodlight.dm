@@ -140,6 +140,7 @@
 				user << "You undo the ground bolts, freeing the [src]. It is no longer connected to the powernet."
 				anchored = 0
 				wiredtoground = 0
+				disconnect_from_network()
 				return
 			else
 				if(connect_to_network())
@@ -298,6 +299,7 @@
 		health = 0
 		broken = 1
 		anchored = 0
+		disconnect_from_network()
 		locked = 0
 		icon_state = "floodlight3"
 		desc = "An industrial floodlight. She's dead Jim."
