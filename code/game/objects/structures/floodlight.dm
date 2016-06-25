@@ -263,8 +263,8 @@
 		for(var/mob/living/carbon/M in range(8, src.loc))
 			M.visible_message("<span class='disarm'><b>[M]</b> screams and collapses!</span>")
 			M << "<span class='userdanger'><font size=3>AAAAGH!</font></span>"
-			M.Weaken(7) //hella stunned
-			M.Stun(7)
+			M.Weaken(4)
+			M.Stun(4)
 			M.eye_stat += 8
 		for(var/mob/living/carbon/X in range(3, src.loc))
 			X.IgniteMob()
@@ -286,8 +286,8 @@
 		for(var/mob/living/carbon/M in range(8, src.loc))
 			M.visible_message("<span class='disarm'><b>[M]</b> screams and collapses!</span>")
 			M << "<span class='userdanger'><font size=3>AAAAGH!</font></span>"
-			M.Weaken(7) //hella stunned
-			M.Stun(7)
+			M.Weaken(4) 
+			M.Stun(4)
 			M.eye_stat += 8
 		for(var/mob/living/carbon/X in range(3, src.loc))
 			X.IgniteMob()
