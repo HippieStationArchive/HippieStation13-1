@@ -51,7 +51,6 @@
 		return 1
 	return 0
 
-//Checks for specific types in a list
 /proc/is_type_in_list(atom/A, list/L) //Thank RemieRichards for writing this
 	for(var/type in L)
 		if(istype(A, type))
