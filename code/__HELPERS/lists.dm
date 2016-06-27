@@ -50,14 +50,12 @@
 	if(!L.len)
 		return 1
 	return 0
-
 //Checks for specific types in a list
-/proc/is_type_in_list(atom/A, list/L) //Thank RemieRichards for writing this
-	if (!L.len)
-		return 0
-	if (!L[L[1]])
-		generate_type_list_cache(L)
-	return L[A.type]
+/proc/is_type_in_list(atom/A, list/L)
+	for(var/type in L)
+		if(istype(A, type))
+			return 1
+ 	return 0
 
 /proc/generate_type_list_cache(L)
 	for(var/type in L)
