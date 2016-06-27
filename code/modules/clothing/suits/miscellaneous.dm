@@ -242,7 +242,7 @@
 	flags = NODROP
 
 /obj/item/clothing/suit/dio
-	name = "yellow cutoff jacket"
+	name = "DIO's yellow jacket"
 	desc = "So fashionable it's menacing."
 	icon_state = "DIO"
 	item_state = "DIO"

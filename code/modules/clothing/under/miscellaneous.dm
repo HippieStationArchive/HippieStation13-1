@@ -582,7 +582,7 @@
 	can_adjust = 0
 
 /obj/item/clothing/under/dio
-	name = "backless vest"
+	name = "DIO's backless vest"
 	desc = "Walk into the room wearing this, everyone stops."
 	icon_state = "DIO"
 	item_state = "DIO"

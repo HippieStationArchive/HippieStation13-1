@@ -199,7 +199,7 @@
 	slowdown = -1
 
 /obj/item/clothing/shoes/dio
-	name = "metal ringed shoes"
+	name = "DIO's ring shoes"
 	desc = "These help you stand."
 	icon_state = "DIO"
 	item_color = "DIO"
