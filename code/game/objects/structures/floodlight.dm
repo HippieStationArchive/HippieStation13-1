@@ -12,7 +12,6 @@
 	var/maxhealth = 60
 	var/broken = 0
 	var/cover = 0
-	var/hascell = 0
 	var/brightness_on = 8
 	var/rigged = 0
 	var/wiredtoground = 0
@@ -43,35 +42,32 @@
 /obj/machinery/power/floodlight/process()
 	if(broken)
 		return
-	if(powerpack == null)
-		hascell = 0
 	if(status == 0)
-		desc = "An industrial floodlight. Its off."
+		desc = "An industrial floodlight. It's off."
 		return
-	if(hascell == 1)
+	if(powerpack)
 		rawcharge = (powerpack.charge/powerpack.maxcharge * 100)
 		charge = round(rawcharge, 0.1)
 	if(wiredtoground == 1)
-		if(surplus() < 40 && hascell == 0)
+		if(surplus() < 40 && !powerpack)
 			turnoff()
 			desc = "An industrial floodlight. It's wired to the grid however the power is out! It has no power source!"
-			hascell = 0
 			return
-		else if(surplus() < 40 && hascell == 1)
+		else if(surplus() < 40 && powerpack)
 			powerpack.use(2)
-			desc = "An industrial floodlight. Its connected to the grid, but is running on backup power due to grid failure! It has	[charge]% charge remaining."
+			desc = "An industrial floodlight. It's connected to the grid, but is running on backup power due to grid failure! It has [charge]% charge remaining."
 			if(powerpack.charge <= 0)
-				desc = "An industrial floodlight. Its connected to the grid, but is running on backup power due to grid failure! The cell is empty."
+				desc = "An industrial floodlight. It's connected to the grid, but is running on backup power due to grid failure! The cell is empty."
 				turnoff()
 				return
 			return
-		if(hascell == 0)
+		if(!powerpack)
 			desc = "An industrial floodlight. It's wired to the grid and has no internal power source!"
 		else
 			powerpack.give(2)
 			desc = "An industrial floodlight. It's wired to the grid and has an internal power source(Charging: [charge]%)!"
 		return
-	if(hascell == 0)
+	if(!powerpack)
 		desc = "An industrial floodlight. It has no power source installed!"
 		turnoff()
 		return
@@ -122,8 +118,7 @@
 			user.drop_item()
 			powerpack = I
 			I.forceMove(src)
-			hascell = 1
-			icon_state = "floodlight[status]_hatchopen[hascell]"
+			icon_state = "floodlight[status]_hatchopen[(powerpack ? 1 : 0)]"
 			desc = "An industrial floodlight. It has [charge]% charge remaining."
 		else
 			user << "<span class='notice'>There is already a cell in the [src]!</span>"
@@ -165,7 +160,7 @@
 		if(cover == 1)
 			playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
 			user << "<span class='notice'>You open the maintenance hatch.</span>"
-			icon_state = "floodlight[status]_hatchopen[hascell]"
+			icon_state = "floodlight[status]_hatchopen[(powerpack ? 1 : 0)]"
 			cover = 0
 		else
 			playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
@@ -182,7 +177,7 @@
 
 	if(istype(I, /obj/item/weapon/crowbar))
 		if(cover == 0)
-			if(hascell == 1)
+			if(powerpack)
 				user << "<span class='danger'>Remove the cell first before deconstructing!</span>"
 			else
 				playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
@@ -209,7 +204,7 @@
 	if(locked)
 		user << "<span class='danger'>The controls are locked!</span>"
 		return
-	if(wiredtoground == 1 && surplus() < 40 && hascell == 0)
+	if(wiredtoground == 1 && surplus() < 40 && !powerpack)
 		user << "<span class='danger'>There is no power in the connected powernet and no internal power source!</span>"
 		turnoff()
 		return
@@ -218,10 +213,9 @@
 			return
 		powerpack.loc = get_turf(user)
 		powerpack = null
-		hascell = 0
 		if(wiredtoground == 0)
 			turnoff()
-		icon_state = "floodlight[status]_hatchopen[hascell]"
+		icon_state = "floodlight[status]_hatchopen[(powerpack ? 1 : 0)]"
 		user << "<span class='notice'>You remove the cell from the [src]</span>"
 		return
 	else
@@ -240,11 +234,11 @@
 					user << "<span class='danger'>The [src] has no power source installed!</span>"
 					return
 			else
-				if(surplus() < 40 && hascell == 1)
+				if(surplus() < 40 && powerpack)
 					if(powerpack.charge <= 0)
 						user << "<span class='danger'>The powernet is empty and the power source is drained!</span>"
 						return
-				if(surplus() < 40 && hascell == 0)
+				if(surplus() < 40 && !powerpack)
 					user << "<span class='danger'>The powernet is empty and there is no power source!</span>"
 					return
 
@@ -253,7 +247,7 @@
 			turnon()
 			icon_state = "floodlight[status]_hatchclose"
 			return
-	if(cover == 0 && hascell == 0)
+	if(cover == 0 && !powerpack)
 		user << "<span class='danger'>The maintenance hatch is open!</span>"
 		return
 
@@ -277,7 +271,7 @@
 	if(cover == 1)
 		icon_state = "floodlight[status]_hatchclose"
 	else
-		icon_state = "floodlight[status]_hatchopen[hascell]"
+		icon_state = "floodlight[status]_hatchopen[(powerpack ? 1 : 0)]"
 	SetLuminosity(0)
 
 /obj/machinery/power/floodlight/proc/turnon()
