@@ -302,6 +302,7 @@
 		locked = 0
 		icon_state = "floodlight3"
 		desc = "An industrial floodlight. She's dead Jim."
+		wiredtoground = 0
 	if(health == maxhealth)
 		broken = 0
 		turnoff()
