@@ -102,12 +102,14 @@
 		return
 
 	if(istype(I, /obj/item/weapon/card/id) || istype(I, /obj/item/device/pda))
-		if(src.allowed(user) && cover != 0)
+		if(src.allowed(user) && cover != 0 && rigged == 0)
 			src.locked = !src.locked
 			user << "<span class='notice'>You [src.locked ? "lock" : "unlock"] the controls.</span>"
 		else
 			if(cover == 0)
 				user << "<span class='danger'>Close the cover first!</span>"
+			else if(rigged == 1)
+				user << "<span class='danger'>The controls are broken!</span>"
 			else
 				user << "<span class='danger'>Access denied.</span>"
 		return
@@ -170,9 +172,10 @@
 		return
 
 	if(istype(I, /obj/item/weapon/card/emag))
-		message_admins("[user] emagged the floodlight at [src.loc]!")
+		message_admins("[user.ckey]([user]) emagged the floodlight at [src.loc]!")
 		playsound(loc, 'sound/effects/sparks1.ogg', 50, 1)
 		user << "<span class='danger'>You rig the floodlight to blow next time it is used!</span>"
+		locked = 0
 		rigged = 1
 
 	if(istype(I, /obj/item/weapon/crowbar))
@@ -280,7 +283,7 @@
 		for(var/mob/living/carbon/M in range(8, src.loc))
 			M.visible_message("<span class='disarm'><b>[M]</b> screams and collapses!</span>")
 			M << "<span class='userdanger'><font size=3>AAAAGH!</font></span>"
-			M.Weaken(4) 
+			M.Weaken(4)
 			M.Stun(4)
 			M.eye_stat += 8
 		for(var/mob/living/carbon/X in range(3, src.loc))
