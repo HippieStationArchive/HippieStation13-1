@@ -179,6 +179,9 @@
 	M.adjustToxLoss(0.4*REM)
 	M.status_flags |= GOTTAGOREALLYFAST
 	M.sleeping = max(0,M.sleeping - 3)
+	if(prob(5))
+		M.emote(pick("twitch", "shiver"))
+	M.Jitter(2)
 	if(M.stunned || M.weakened)
 		holder.remove_reagent("methamphetamine", 0.75 * REAGENTS_METABOLISM)
 	if(holder.has_reagent("heroin"))
