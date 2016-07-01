@@ -77,8 +77,9 @@
 	name = "Mute toxin"
 	id = "mutetoxin"
 	result = "mutetoxin"
-	required_reagents = list("uranium" = 2, "water" = 1, "carbon" = 1)
-	result_amount = 2
+	required_reagents = list("uranium" = 1, "water" = 2, "carbon" = 2)
+	result_amount = 5
+	required_temp = 450
 
 /datum/chemical_reaction/zombiepowder
 	name = "Zombie Powder"
@@ -151,3 +152,18 @@
 	result = "midazolam"
 	required_reagents = list("fluorine" = 1, "chloralhydrate" = 3, "nitrogen" = 1)
 	result_amount = 1
+
+/datum/chemical_reaction/blindtoxin
+	name = "Blind toxin"
+	id = "blindtoxin"
+	result = "blindtoxin"
+	required_reagents = list("uranium" = 1, "water" = 2, "carbon" = 2)
+	result_amount = 5
+	max_temp = 449
+
+/datum/chemical_reaction/cryotoxin
+	name = "Cryoxadin"
+	id = "cryotoxin"
+	result = "cryotoxin"
+	required_reagents = list("clonexadone" = 1, "lexorin" = 1, "formaldehyde" = 1)
+	result_amount = 3
