@@ -217,7 +217,7 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 
 /datum/reagent/drug/heroin/on_mob_life(mob/living/M)
-	var/high_message = pick("You feel numb.", "You feel no pain whatsoever.", "You don't feel your wounds at all.", "You feel like you're in perfect condition")
+	var/high_message = pick("You feel numb.", "You feel no pain whatsoever.", "You don't feel your wounds at all.", "You feel perfect.")
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
 	M.setStaminaLoss(0)
