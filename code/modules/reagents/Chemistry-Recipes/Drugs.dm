@@ -46,3 +46,11 @@
 	result = "aranesp"
 	required_reagents = list("epinephrine" = 1, "atropine" = 1, "morphine" = 1)
 	result_amount = 3
+
+/datum/chemical_reaction/heroin
+	name = "Heroin"
+	id = "heroin"
+	result = "heroin"
+	required_reagents = list("oxycodone" = 2, "cyanide" = 1)
+	result_amount = 3
+	required_temp = 450
