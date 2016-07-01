@@ -776,7 +776,7 @@
 	name = "Sodium Hydroxide"
 	id = "hydroxide"
 	description = "Sodium Hydroxide is a weak base able to nulify certain acids and also used in the creation of soap."
-	color = "#8E18A9" // rgb: 142, 24, 169
+	color = "#FFFFD6" // Same as Lye
 	toxpwr = 0.5
 	acidpwr = 10
 
@@ -791,7 +791,7 @@
 	name = "Sodium Hydride"
 	id = "hydride"
 	description = "Sodium Hydride is an extremely caustic and flammable substance. Handle with care."
-	color = "#8E18A9" // rgb: 142, 24, 169
+	color = "#663366"
 	toxpwr = 0.5
 	acidpwr = 30
 
