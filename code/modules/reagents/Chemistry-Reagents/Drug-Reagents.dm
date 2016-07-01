@@ -162,7 +162,7 @@
 /datum/reagent/drug/methamphetamine
 	name = "Methamphetamine"
 	id = "methamphetamine"
-	description = "Halves the duration of stuns and greatly increases movement speed. However, it drains an ever-increasing ammount of stamina over time and being stunned will force the body to metabolize the drug faster."
+	description = "Halves the duration of stuns and greatly increases movement speed. However, it drains an ever-increasing amount of stamina over time and being stunned will force the body to metabolize the drug faster."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
 	overdose_threshold = 10
