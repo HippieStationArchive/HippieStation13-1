@@ -43,7 +43,7 @@ changes:
   - rscadd: "Hyperzine is back! It will increase movement speed as long as you stay above 60 HP and reduces sleep timers."
   - rscadd: "Midazolam is a new chemical derived from and is a more potent form of Chloral Hydrate."
   - rscadd: "Sleep Toxin is a safe, nontoxic alternative to Chloral Hydrate and replaces Morphine in the sleepers."
-  - rscadd: "Introducing painkillers! Morphine, Oxycodone and Heroin remove all movement speed penalties with varying degrees of effectiveness, durations and side effects."
+  - rscadd: "Introducing painkillers! Morphine, Oxycodone and Heroin remove all movement speed penalties with varying degrees of effectiveness, durations and side effects. They can also be obtained from high-potency poppies."
   - rscadd: "Two new acids (bases?), Sodium Hydroxide(Replaces Lye) and Sodium Hydride. Both are 2/3rds as strong as their sulphuric counterparts but have nastier effects once inside the body."
   - tweak: "Increased the acidic power of Sulphuric (10 -> 15) and Fluorosulphuric (20 -> 45) acids."
   - tweak: "Ephedrine is no longer addictive and no longer increases movement speed or regenerates stamina."
