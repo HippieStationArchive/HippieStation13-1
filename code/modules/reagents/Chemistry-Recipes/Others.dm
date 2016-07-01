@@ -66,7 +66,7 @@
 	name = "Soapification"
 	id = "soapification"
 	result = null
-	required_reagents = list("liquidgibs" = 15, "lye"  = 15) // requires three scooped gib tiles
+	required_reagents = list("liquidgibs" = 15, "hydroxide"  = 15) // requires three scooped gib tiles
 	required_temp = 374
 	result_amount = 1
 	mob_react = 1
@@ -431,13 +431,6 @@
 	required_reagents = list("potassium" = 1, "nitrogen" = 1, "oxygen" = 3)
 	result_amount = 3
 
-/datum/chemical_reaction/lye
-	name = "lye"
-	id = "lye"
-	result = "lye"
-	required_reagents = list("sodium" = 1, "hydrogen" = 1, "oxygen" = 3)
-	result_amount = 3
-	
 //////////////////////////////////// Solidification ///////////////////////////////////////////
 
 /datum/chemical_reaction/plasmasolidification
