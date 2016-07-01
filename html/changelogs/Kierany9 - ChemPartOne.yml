@@ -38,7 +38,7 @@ changes:
   - rscminus: "Removed one of the recipes for Miner's Salve."
   - rscadd: "Amperium is a new chemical that will electrocute everything if not stabilized, and will probably still electrocute you even if it is stabilized."
   - rscadd: "Cryoxadin is a powerful toxin, easily confusable with Cryoxadone in name and appearance, that deals extreme damage in the cold."
-  - rscadd: "Blindness Toxin will temporarily make whoever ingests it go blind for a short period of time."
+  - rscadd: "Blindness Toxin will make whoever ingests it go blind for a short period of time."
   - rscadd: "Ignis is a new chemical that, when ingested, has a small chance of causing spontaneous combustion and will make it twice as hard to extinguish if you're already on fire."
   - rscadd: "Hyperzine is back! It will increase movement speed as long as you stay above 60 HP and reduces sleep timers."
   - rscadd: "Midazolam is a new chemical derived from and is a more potent form of Chloral Hydrate."
