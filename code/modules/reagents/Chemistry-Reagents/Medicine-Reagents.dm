@@ -449,69 +449,6 @@
 	..()
 	return
 
-/datum/reagent/medicine/ephedrine
-	name = "Ephedrine"
-	id = "ephedrine"
-	description = "Increases stun resistance and movement speed. Overdose deals toxin damage and inhibits breathing."
-	reagent_state = LIQUID
-	color = "#C8A5DC"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = 30
-	addiction_threshold = 30
-
-/datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
-	M.status_flags |= GOTTAGOFAST
-	M.AdjustParalysis(-0.4)
-	M.AdjustStunned(-0.4)
-	M.AdjustWeakened(-0.4)
-	M.adjustStaminaLoss(-0.5*REM)
-	..()
-	return
-
-/datum/reagent/medicine/ephedrine/on_mob_delete(mob/living/M)
-	if(current_cycle >= 10)
-		M.visible_message("<span class='danger'>[M] suddenly runs out of breath!</span>")
-		M.adjustStaminaLoss(50)
-	else
-		M.adjustStaminaLoss(current_cycle*5)
-
-/datum/reagent/medicine/ephedrine/overdose_process(mob/living/M)
-	if(prob(33))
-		M.adjustToxLoss(0.5*REM)
-		M.losebreath++
-	if(prob(12))
-		var/obj/item/I = M.get_active_hand()
-		if(I)
-			M.drop_item()
-			M.visible_message("<span class='danger'>[M] shudders and drops [I] on the floor!</span>")
-	..()
-	return
-
-/datum/reagent/medicine/ephedrine/addiction_act_stage1(mob/living/M)
-	if(prob(33))
-		M.adjustToxLoss(2*REM)
-		M.losebreath += 2
-	..()
-	return
-/datum/reagent/medicine/ephedrine/addiction_act_stage2(mob/living/M)
-	if(prob(33))
-		M.adjustToxLoss(3*REM)
-		M.losebreath += 3
-	..()
-	return
-/datum/reagent/medicine/ephedrine/addiction_act_stage3(mob/living/M)
-	if(prob(33))
-		M.adjustToxLoss(4*REM)
-		M.losebreath += 4
-	..()
-	return
-/datum/reagent/medicine/ephedrine/addiction_act_stage4(mob/living/M)
-	if(prob(33))
-		M.adjustToxLoss(5*REM)
-		M.losebreath += 5
-	..()
-	return
-
 /datum/reagent/medicine/diphenhydramine
 	name = "Diphenhydramine"
 	id = "diphenhydramine"
@@ -525,78 +462,6 @@
 		M.drowsyness += 1
 	M.jitteriness -= 1
 	M.reagents.remove_reagent("histamine",3)
-	..()
-	return
-
-/datum/reagent/medicine/morphine
-	name = "Morphine"
-	id = "morphine"
-	description = "A painkiller that allows the patient to move at full speed even in bulky objects. Causes drowsiness and eventually unconsciousness in high doses. Overdose will cause a variety of effects, ranging from minor to lethal."
-	reagent_state = LIQUID
-	color = "#C8A5DC"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = 30
-	addiction_threshold = 25
-
-
-/datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
-	M.status_flags |= IGNORESLOWDOWN
-	if(current_cycle == 11)
-		M << "<span class='warning'>You start to feel tired...</span>" //Warning when the victim is starting to pass out
-	if(current_cycle >= 12 && current_cycle < 24)
-		M.drowsyness += 1
-	else if(current_cycle >= 24)
-		M.sleeping += 1
-	..()
-	return
-
-/datum/reagent/medicine/morphine/overdose_process(mob/living/M)
-	if(prob(33))
-		var/obj/item/I = M.get_active_hand()
-		if(I)
-			M.drop_item()
-		M.Dizzy(2)
-		M.Jitter(2)
-	..()
-	return
-
-/datum/reagent/medicine/morphine/addiction_act_stage1(mob/living/M)
-	if(prob(33))
-		var/obj/item/I = M.get_active_hand()
-		if(I)
-			M.drop_item()
-		M.Dizzy(2)
-		M.Jitter(2)
-	..()
-	return
-/datum/reagent/medicine/morphine/addiction_act_stage2(mob/living/M)
-	if(prob(33))
-		var/obj/item/I = M.get_active_hand()
-		if(I)
-			M.drop_item()
-		M.adjustToxLoss(1*REM)
-		M.Dizzy(3)
-		M.Jitter(3)
-	..()
-	return
-/datum/reagent/medicine/morphine/addiction_act_stage3(mob/living/M)
-	if(prob(33))
-		var/obj/item/I = M.get_active_hand()
-		if(I)
-			M.drop_item()
-		M.adjustToxLoss(2*REM)
-		M.Dizzy(4)
-		M.Jitter(4)
-	..()
-	return
-/datum/reagent/medicine/morphine/addiction_act_stage4(mob/living/M)
-	if(prob(33))
-		var/obj/item/I = M.get_active_hand()
-		if(I)
-			M.drop_item()
-		M.adjustToxLoss(3*REM)
-		M.Dizzy(5)
-		M.Jitter(5)
 	..()
 	return
 
@@ -813,7 +678,176 @@
 	M.reagents.remove_reagent("sugar", 3)
 	..()
 	return
+	
+//NamePendingChem Chems
 
+/datum/reagent/medicine/sleeptoxin //Old Morphine
+	name = "Sleep Toxin"
+	id = "sleeptoxin"
+	description = "A safe way to send a patient to sleep. 8 units is required to send them to sleep."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/medicine/sleeptoxin/on_mob_life(mob/living/carbon/human/M)
+	if(current_cycle == 7)
+		M << "<span class='warning'>You start to feel tired...</span>" //Warning when the victim is starting to pass out
+	if(current_cycle > 15)
+		M.sleeping += 1
+	..()
+	return
+
+/datum/reagent/medicine/ephedrine
+	name = "Ephedrine"
+	id = "ephedrine"
+	description = "Increases stun resistance and regenerates stamina if the user is not seriously injured."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = 30
+
+/datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
+	if(M.health - M.staminaloss > 60)
+		M.AdjustParalysis(-0.4)
+		M.AdjustStunned(-0.4)
+		M.AdjustWeakened(-0.4)
+	M.sleeping = max(0,M.sleeping - 1)
+	..()
+	return
+
+/datum/reagent/medicine/ephedrine/on_mob_delete(mob/living/M)
+	if(current_cycle >= 10)
+		M.visible_message("<span class='danger'>[M] suddenly runs out of breath!</span>")
+		M.adjustStaminaLoss(50)
+	else
+		M.adjustStaminaLoss(current_cycle*5)
+
+/datum/reagent/medicine/ephedrine/overdose_process(mob/living/M)
+	if(prob(33))
+		M.adjustToxLoss(0.5*REM)
+		M.losebreath++
+	if(prob(12))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+			M.visible_message("<span class='danger'>[M] shudders and drops [I] on the floor!</span>")
+			M.Jitter(2)
+	..()
+	return
+
+/datum/reagent/medicine/hyperzine
+	name = "Hyperzine"
+	id = "hyperzine"
+	description = "Increases movement speed if the user is not seriously injured."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = 30
+
+/datum/reagent/medicine/hyperzine/on_mob_life(mob/living/M)
+	if(M.health > 80)
+		M.status_flags |= GOTTAGOREALLYFAST
+	else if(M.health > 60)
+		M.status_flags |= GOTTAGOFAST
+	M.sleeping = max(0,M.sleeping - 2)
+	..()
+	return
+
+/datum/reagent/medicine/hyperzine/on_mob_delete(mob/living/M)
+	if(current_cycle >= 10)
+		M.visible_message("<span class='danger'>[M] suddenly runs out of breath!</span>")
+		M.adjustStaminaLoss(50)
+	else
+		M.adjustStaminaLoss(current_cycle*5)
+
+/datum/reagent/medicine/hyperzine/overdose_process(mob/living/M)
+	if(prob(33))
+		M.adjustToxLoss(0.5*REM)
+		M.losebreath++
+	if(prob(12))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+			M.visible_message("<span class='danger'>[M] shudders and drops [I] on the floor!</span>")
+			M.Jitter(2)
+	..()
+	return
+
+/datum/reagent/medicine/morphine
+	name = "Morphine"
+	id = "morphine"
+	description = "A weak painkiller that allows the user to move at full speed until in a near-critical condition. However, this effect only lasts for a short time. May send to sleep or cause drowsiness once it wears off."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	metabolization_rate = REAGENTS_METABOLISM
+	overdose_threshold = 30
+
+/datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
+	if(current_cycle <= 15 && M.health > 20)
+		M.status_flags |= IGNORESLOWDOWN
+	else
+		M.status_flags &= ~IGNORESLOWDOWN
+	..()
+	return
+
+/datum/reagent/medicine/morphine/on_mob_delete(mob/living/M)
+	if(current_cycle >= 30)
+		if(prob(current_cycle))
+			M.sleeping += min((current_cycle/4), 120)
+		else
+			M.drowsyness += min((current_cycle-15), 120)
+	..()
+	return
+
+/datum/reagent/medicine/morphine/overdose_process(mob/living/M)
+	if(prob(33))
+		M.adjustToxLoss(0.5*REM)
+		M.losebreath++
+	if(prob(12))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+			M.visible_message("<span class='danger'>[M] shudders and drops [I] on the floor!</span>")
+			M.Jitter(2)
+	return
+
+/datum/reagent/medicine/oxycodone
+	name = "Oxycodone"
+	id = "oxycodone"
+	description = "A strong painkiller that allows the user to move at full speed until in critical condition for a decent ammount of time. May send to sleep or cause drowsiness once it wears off."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = 30
+
+/datum/reagent/medicine/oxycodone/on_mob_life(mob/living/M)
+	if(current_cycle <= 30 && M.health > 0)
+		M.status_flags |= IGNORESLOWDOWN
+	else
+		M.status_flags &= ~IGNORESLOWDOWN
+	..()
+	return
+
+/datum/reagent/medicine/oxycodone/on_mob_delete(mob/living/M)
+	if(current_cycle >= 60)
+		if(prob(current_cycle-30))
+			M.sleeping += min((current_cycle/4), 120)
+		else
+			M.drowsyness += min((current_cycle-15), 120)
+	..()
+	return
+
+/datum/reagent/medicine/oxycodone/overdose_process(mob/living/M)
+	if(prob(33))
+		M.adjustToxLoss(0.5*REM)
+		M.losebreath++
+	if(prob(12))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+			M.visible_message("<span class='danger'>[M] shudders and drops [I] on the floor!</span>")
+			M.Jitter(2)
+	return
 //Trek Chems, used primarily by medibots. Only heals a specific damage type, but is very efficient.
 datum/reagent/medicine/bicaridine
 	name = "Bicaridine"
