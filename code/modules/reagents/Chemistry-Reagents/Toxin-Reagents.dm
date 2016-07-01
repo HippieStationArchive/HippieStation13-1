@@ -728,8 +728,54 @@
 		T.color = initial(T.color)
 	..()
 
-//ACID
+//NamePendingChem Chems
 
+/datum/reagent/toxin/blindtoxin
+	name = "Blind Toxin"
+	id = "blindtoxin"
+	description = "A toxin which temporarily damages the optical nerves of the target."
+	color = "#F0F8FF" // rgb: 240, 248, 255
+	toxpwr = 0
+	metabolization_rate = 1.5 * REAGENTS_METABOLISM
+
+/datum/reagent/toxin/blindtoxin/on_mob_life(mob/living/M)
+	M.eye_blurry = min(M.eye_blurry, 40)
+	..()
+	return
+
+/datum/reagent/toxin/blindtoxin/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
+	M.confused += 5
+	M.eye_blind = min(reac_volume, 20)
+	M.eye_blurry = min(reac_volume*2, 40)
+	..()
+	return
+
+/datum/reagent/toxin/cryotoxin
+	name = "Cryoxadin"
+	id = "cryotoxin"
+	description = "An deadly toxin designed to counteract typical cryogenic healing methods by causing heavy cellular damage. It can be confused for Cryoxadone in both name and appearance."
+	color = "#0000C8"
+
+/datum/reagent/toxin/cryotoxin/on_mob_life(mob/living/M)
+	if(M.stat != DEAD && M.bodytemperature < 275)
+		M.adjustCloneLoss(2)
+		M.adjustOxyLoss(2)
+		M.adjustBruteLoss(2)
+		M.adjustBloodLoss(0.05)
+		M.adjustFireLoss(2)
+		M.adjustToxLoss(2)
+		if(current_cycle > 11)
+			M.sleeping += 1
+	else if(M.stat == DEAD && M.bodytemperature < 275)
+		M.status_flags |= DISFIGURED
+	if(holder.has_reagent("cryoxadone"))
+		holder.remove_reagent("cryoxadone", 2*REM)
+
+	..()
+	return
+
+
+//ACID
 
 /datum/reagent/toxin/acid
 	name = "Sulphuric acid"
