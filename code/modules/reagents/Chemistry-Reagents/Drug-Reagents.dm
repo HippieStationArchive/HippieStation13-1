@@ -162,45 +162,29 @@
 /datum/reagent/drug/methamphetamine
 	name = "Methamphetamine"
 	id = "methamphetamine"
-	description = "Reduces stun times by about 300%, speeds the user up, and allows the user to quickly recover stamina while dealing a small amount of Brain damage. If overdosed the subject will move randomly, laugh randomly, drop items and suffer from Toxin and Brain damage. If addicted the subject will constantly jitter and drool, before becoming dizzy and losing motor control and eventually suffer heavy toxin damage."
+	description = "Halves the duration of stuns and greatly increases movement speed. However, it drains an ever-increasing ammount of stamina over time and being stunned will force the body to metabolize the drug faster."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
-	overdose_threshold = 15
-	addiction_threshold = 10
+	overdose_threshold = 10
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 
 /datum/reagent/drug/methamphetamine/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel hyper.", "You feel like you need to go faster.", "You feel like you can run the world.")
-	var/tolerance_message = pick("You don't feel so good.", "You feel a bit sick.", "You feel like you've had better days.")
-	if(current_cycle <= 50)
-		if(prob(5))
-			M << "<span class='notice'>[high_message]</span>"
-		M.AdjustParalysis(-2)
-		M.AdjustStunned(-2)
-		M.AdjustWeakened(-2)
-		M.adjustStaminaLoss(-2)
-		M.status_flags |= GOTTAGOREALLYFAST
-	if(current_cycle > 50)
-		if(prob(15))
-			M << "<span class='notice'>[tolerance_message]</span>"
-		M.adjustStaminaLoss(3)
-		M.adjustToxLoss(1*REM)
-	M.Jitter(2)
 	if(prob(5))
-		M.emote(pick("twitch", "shiver"))
+		M << "<span class='notice'>[high_message]</span>"
+	M.AdjustParalysis(-1)
+	M.AdjustStunned(-1)
+	M.AdjustWeakened(-1)
+	M.adjustStaminaLoss(4) // Is actually -2 per tick, humans regenerate 2 per tick
+	M.adjustToxLoss(0.4*REM)
+	M.status_flags |= GOTTAGOREALLYFAST
+	M.sleeping = max(0,M.sleeping - 3)
+	if(M.stunned || M.weakened)
+		holder.remove_reagent("methamphetamine", 0.75 * REAGENTS_METABOLISM)
+	if(holder.has_reagent("heroin"))
+		holder.remove_reagent("heroin", 2*REM)
+		M.adjustToxLoss(0.6*REM)
 	..()
-	return
-	
-/datum/reagent/drug/methamphetamine/on_mob_delete(mob/living/M)
-	M.adjustToxLoss(min(current_cycle*1*REM,95))
-	M.adjustBrainLoss(current_cycle*0.5*REM)
-	if(current_cycle >= 5)
-		M.visible_message("<span class='danger'>[M] collapses in exhaustion!</span>")
-		M.AdjustWeakened(5)
-		M.AdjustStunned(5)
-		M.adjustStaminaLoss(35)
-	else
-		M.adjustStaminaLoss(current_cycle*7)
 	return
 
 /datum/reagent/drug/methamphetamine/overdose_process(mob/living/M)
@@ -215,42 +199,52 @@
 		if(I)
 			M.drop_item()
 	..()
-	M.adjustToxLoss(1)
-	M.adjustBrainLoss(pick(0.5, 0.6, 0.7, 0.8, 0.9, 1))
+	M.adjustToxLoss(0.6*REM)
+	M.adjustBrainLoss(1*REM)
 	return
 
-/datum/reagent/drug/methamphetamine/addiction_act_stage1(mob/living/M)
-	M.Jitter(5)
+
+/datum/reagent/drug/heroin
+	name = "Heroin"
+	id = "heroin"
+	description = "An extremely potent painkiller which allows you to move at full speed regardless of injuries. However, the duration of all stuns is doubled."
+	reagent_state = LIQUID
+	color = "#60A584" // rgb: 96, 165, 132
+	overdose_threshold = 10
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+/datum/reagent/drug/heroin/on_mob_life(mob/living/M)
+	var/high_message = pick("You feel numb.", "You feel no pain whatsoever.", "You don't feel your wounds at all.", "You feel like you're in perfect condition")
+	if(prob(5))
+		M << "<span class='notice'>[high_message]</span>"
+	M.setStaminaLoss(0)
+	if(M.health > 0)
+		M.status_flags |= IGNORESLOWDOWN
+	else
+		M.status_flags &= ~IGNORESLOWDOWN
+	M.adjustToxLoss(0.4*REM)
+	M.Jitter(2)
+	M.adjustBrainLoss(0.4*REM)
+	if(prob(10))
+		M.emote(pick("twitch", "shiver"))
+	if(M.stunned)
+		M.AdjustStunned(0.5) //Doubles the duration of stuns
+	if(M.weakened)
+		M.AdjustWeakened(0.5) //Doubles the duration of weakens
+	if(holder.has_reagent("methamphetamine"))
+		holder.remove_reagent("methamphetamine", 2*REM)
+		M.adjustBrainLoss(0.6*REM)
+	..()
+	return
+
+/datum/reagent/drug/heroin/overdose_process(mob/living/M)
+	if(current_cycle > 5)
+		M.sleeping += 1
 	if(prob(20))
-		M.emote(pick("twitch","drool","moan"))
-	..()
-	return
-/datum/reagent/drug/methamphetamine/addiction_act_stage2(mob/living/M)
-	M.Jitter(10)
-	M.Dizzy(10)
-	if(prob(30))
-		M.emote(pick("twitch","drool","moan"))
-	..()
-	return
-/datum/reagent/drug/methamphetamine/addiction_act_stage3(mob/living/M)
-	if(M.canmove && !istype(M.loc, /atom/movable))
-		for(var/i = 0, i < 4, i++)
-			step(M, pick(cardinal))
-	M.Jitter(15)
-	M.Dizzy(15)
-	if(prob(40))
-		M.emote(pick("twitch","drool","moan"))
-	..()
-	return
-/datum/reagent/drug/methamphetamine/addiction_act_stage4(mob/living/carbon/human/M)
-	if(M.canmove && !istype(M.loc, /atom/movable))
-		for(var/i = 0, i < 8, i++)
-			step(M, pick(cardinal))
-	M.Jitter(20)
-	M.Dizzy(20)
-	M.adjustToxLoss(5)
-	if(prob(50))
-		M.emote(pick("twitch","drool","moan"))
+		M.emote("yawn")
+	if(prob(12))
+		M.adjustToxLoss(1)
+		M.adjustBrainLoss(2)
 	..()
 	return
 
