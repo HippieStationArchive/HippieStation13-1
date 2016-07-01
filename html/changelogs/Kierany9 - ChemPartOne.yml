@@ -1,0 +1,49 @@
+################################
+# Example Changelog File
+#
+# Note: This file, and files beginning with ".", and files that don't end in ".yml" will not be read. If you change this file, you will look really dumb.
+#
+# Your changelog will be merged with a master changelog. (New stuff added only, and only on the date entry for the day it was merged.)
+# When it is, any changes listed below will disappear.
+#
+# Valid Prefixes: 
+#   bugfix
+#   wip (For works in progress)
+#   tweak
+#   soundadd
+#   sounddel
+#   rscadd (general adding of nice things)
+#   rscdel (general deleting of nice things)
+#   imageadd
+#   imagedel
+#   spellcheck (typo fixes)
+#   experiment
+#   tgs (TG-ported fixes?)
+#################################
+
+# Your name.  
+author: Kierany9
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - wip: "Chemistry update! 9 new chemicals and some tweaking of old ones."
+  - wip: "All new or changed recipes can be found on the wiki guide here: http://wiki.hippiestation.com/index.php?title=Guide_to_chemistry"
+  - rscminus: "Removed one of the recipes for Miner's Salve."
+  - rscadd: "Amperium is a new chemical that will electrocute everything if not stabilized, and will probably still electrocute you even if it is stabilized."
+  - rscadd: "Ignis is a new chemical that, when ingested, has a small chance of causing spontaneous combustion and will make it harder to extinguish if you're already on fire."
+  - rscadd: "Hyperzine is back! It will increase movement speed as long as you stay above 60 HP and reduces sleep timers."
+  - rscadd: "Midazolam is a new chemical derived from and is a more potent form of Chloral Hydrate."
+  - rscadd: "Sleep Toxin is a safe alternative to Chloral Hydrate and replaces Morphine in the sleepers."
+  - rscadd: "Introducing painkillers! Morphine, Oxycodone and Heroin remove all movement speed penalties with varying degrees of effectiveness and durations, with Heroin being the strongest but deadliest."
+  - rscadd: "Two new acids (bases?), Sodium Hydroxide(Replaces Lye) and Sodium Hydride. Both are 2/3rds as strong as their sulphuric counterparts but have nastier effects once inside the body."
+  - tweak: "Increased the acidic power of Sulphuric (10 -> 15) and Fluorosulphuric (20 -> 45) acids."
+  - tweak: "Ephedrine is no longer addictive and no longer increases movement speed or regenerates stamina."
+  - tweak: "Meth has a new recipe, is no longer addictive and most nerfs have been reverted. However, the stun resistance has been reduced and it will constantly drain stamina. Mixing it with heroin is its own punishment."
+  - tweak: "Potassium explosions scale differently. Amounts below 200u will be much more effective than before, but loses effectiveness quickly above 200u."
