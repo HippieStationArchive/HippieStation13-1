@@ -41,7 +41,7 @@
 /datum/chemical_reaction/potassium_explosion/on_reaction(datum/reagents/holder, created_volume)
 	var/location = get_turf(holder.my_atom)
 	var/datum/effect_system/reagents_explosion/e = new()
-	e.set_up(round (created_volume/10, 1), location, 0, 0)
+	e.set_up(round (sqrt(created_volume*2), 1), location, 0, 0)
 	e.start()
 	holder.clear_reagents()
 
@@ -353,3 +353,67 @@
 /datum/chemical_reaction/pyrosium/on_reaction(datum/reagents/holder, created_volume)
 	holder.chem_temp = 20 // also cools the fuck down
 	return
+
+//NamePendingChem Chems
+
+/datum/chemical_reaction/amperium
+	name = "Amperium"
+	id = "amperium"
+	result = "amperium"
+	required_reagents = list("iron" = 1, "aluminium" = 1, "lithium" = 1)
+	result_amount = 3
+
+/datum/chemical_reaction/amperium/on_reaction(datum/reagents/holder, created_volume)
+	if(holder.has_reagent("stabilizing_agent"))
+		return
+	holder.remove_reagent("amperium", created_volume)
+	var/flash_radius = min(7, round(sqrt(created_volume), 1))
+	var/location = get_turf(holder.my_atom)
+	playsound(location, 'sound/machines/defib_zap.ogg', 50, 1, -3)
+	for(var/mob/living/H in view(flash_radius,location))
+		H.Beam(location,icon_state="lightning",icon='icons/effects/effects.dmi',time=5)
+		H.electrocute_act(min(created_volume, 75) / max(get_dist(H, location), 1), "arc flash")
+		playsound(H, 'sound/machines/defib_zap.ogg', 50, 1, -1)
+		if(H.flash_eyes())
+			if(get_dist(H, location) < 4)
+				H.Weaken(3)
+		if(created_volume > 50)
+			empulse(location, 2, 4, 1)
+			if(prob(created_volume/2.5))
+				H.adjust_fire_stacks(1)
+				H.IgniteMob()
+				H.bodytemperature += created_volume
+	return
+
+/datum/chemical_reaction/amperium_flash
+	name = "Arc Flash"
+	id = "amperium_flash"
+	result = null
+	required_reagents = list("amperium" = 1)
+	result_amount = 1
+	required_temp = 374
+
+/datum/chemical_reaction/amperium_flash/on_reaction(datum/reagents/holder, created_volume)
+	var/flash_radius = min(7, round(sqrt(created_volume), 1))
+	var/location = get_turf(holder.my_atom)
+	playsound(location, 'sound/machines/defib_zap.ogg', 50, 1, -3)
+	for(var/mob/living/H in view(flash_radius,location))
+		H.Beam(location,icon_state="lightning",icon='icons/effects/effects.dmi',time=5)
+		H.electrocute_act(min(created_volume, 75) / max(get_dist(H, location), 1), "arc flash")
+		playsound(H, 'sound/machines/defib_zap.ogg', 50, 1, -1)
+		if(H.flash_eyes())
+			if(get_dist(H, location) < 4)
+				H.Weaken(3)
+		if(created_volume > 50)
+			empulse(location, 2, 4, 1)
+			if(prob(created_volume/2.5))
+				H.adjust_fire_stacks(1)
+				H.IgniteMob()
+				H.bodytemperature += created_volume
+
+/datum/chemical_reaction/ignis
+	name = "Ignis"
+	id = "ignis"
+	result = "ignis"
+	required_reagents = list("hydride" = 1, "napalm" = 1, "oxygen" = 1)
+	result_amount = 3
