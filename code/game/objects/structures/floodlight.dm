@@ -292,6 +292,10 @@
 		qdel(src)
 		return
 	status = 1
+	if(cover == 1)
+		icon_state = "floodlight[status]_hatchclose"
+	else
+		icon_state = "floodlight[status]_hatchopen[(powerpack ? 1 : 0)]"
 	SetLuminosity(brightness_on)
 
 /obj/machinery/power/floodlight/proc/update_health()
