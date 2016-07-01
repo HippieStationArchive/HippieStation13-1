@@ -686,6 +686,48 @@
 /datum/reagent/toxin/rotatium/on_mob_delete(mob/living/M)
 	M.client.dir = NORTH
 	..()
+
+/datum/reagent/toxin/wasting_toxin //Used by the changeling death sting.
+	name = "Wasting Toxin"
+	id = "wasting_toxin"
+	description = "An insidious, biologically-produced poison. The body is barely capable of metabolizing it, meaning it will slowly kill them unless help is received."
+	metabolization_rate = 0.3 * REAGENTS_METABOLISM
+	color = rgb(51, 202, 63)
+	toxpwr = 2
+
+/datum/reagent/toxin/wasting_toxin/on_mob_life(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(H.vessel)
+			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
+	..()
+
+/datum/reagent/toxin/bleach
+	name = "Bleach"
+	id = "bleach"
+	description = "A powerful cleaner.Toxic if injested"
+	reagent_state = LIQUID
+	color = "#FFFFFF"
+	toxpwr = 2
+
+/datum/reagent/toxin/bleach/on_mob_life(mob/living/M)
+	if(M && isliving(M) && M.color != initial(M.color))
+		M.color = initial(M.color)
+	..()
+	return
+/datum/reagent/toxin/bleach/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M) && M.color != initial(M.color))
+		M.color = initial(M.color)
+	..()
+/datum/reagent/toxin/bleach/reaction_obj(obj/O, reac_volume)
+	if(O && O.color != initial(O.color))
+		O.color = initial(O.color)
+	..()
+/datum/reagent/toxin/bleach/reaction_turf(turf/T, reac_volume)
+	if(T && T.color != initial(T.color))
+		T.color = initial(T.color)
+	..()
+
 //ACID
 
 
@@ -695,7 +737,7 @@
 	description = "A strong mineral acid with the molecular formula H2SO4."
 	color = "#DB5008" // rgb: 219, 80, 8
 	toxpwr = 1
-	var/acidpwr = 10 //the amount of protection removed from the armour
+	var/acidpwr = 15 //the amount of protection removed from the armour
 
 /datum/reagent/toxin/acid/reaction_mob(mob/living/carbon/C, method=TOUCH, reac_volume)
 	if(!istype(C))
@@ -728,45 +770,45 @@
 	description = "Fluorosulfuric acid is a an extremely corrosive chemical substance."
 	color = "#8E18A9" // rgb: 142, 24, 169
 	toxpwr = 2
-	acidpwr = 20
+	acidpwr = 45
 
-/datum/reagent/toxin/wasting_toxin //Used by the changeling death sting.
-	name = "Wasting Toxin"
-	id = "wasting_toxin"
-	description = "An insidious, biologically-produced poison. The body is barely capable of metabolizing it, meaning it will slowly kill them unless help is received."
-	metabolization_rate = 0.3 * REAGENTS_METABOLISM
-	color = rgb(51, 202, 63)
-	toxpwr = 2
+/datum/reagent/toxin/acid/hydroxide
+	name = "Sodium Hydroxide"
+	id = "hydroxide"
+	description = "Sodium Hydroxide is a weak base able to nulify certain acids and also used in the creation of soap."
+	color = "#8E18A9" // rgb: 142, 24, 169
+	toxpwr = 0.5
+	acidpwr = 10
 
-/datum/reagent/toxin/wasting_toxin/on_mob_life(mob/living/M)
+/datum/reagent/toxin/acid/hydroxide/on_mob_life(mob/living/M)
+	M.adjustFireLoss(0.25*REM)
+	if(prob(2))
+		M.IgniteMob()
+	..()
+	return
+
+/datum/reagent/toxin/acid/hydride
+	name = "Sodium Hydride"
+	id = "hydride"
+	description = "Sodium Hydride is an extremely caustic and flammable substance. Handle with care."
+	color = "#8E18A9" // rgb: 142, 24, 169
+	toxpwr = 0.5
+	acidpwr = 30
+
+/datum/reagent/toxin/acid/hydride/on_mob_life(mob/living/M)
+	M.adjustFireLoss(1*REM)
+	if(prob(5))
+		M.IgniteMob()
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(H.vessel)
-			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
-	..()
-	
-/datum/reagent/toxin/bleach
-	name = "Bleach"
-	id = "bleach"
-	description = "A powerful cleaner.Toxic if injested"
-	reagent_state = LIQUID
-	color = "#FFFFFF"
-	toxpwr = 2
-
-/datum/reagent/toxin/bleach/on_mob_life(mob/living/M)
-	if(M && isliving(M) && M.color != initial(M.color))
-		M.color = initial(M.color)
+			H.vessel.remove_reagent("blood",rand(1, 3))
 	..()
 	return
-/datum/reagent/toxin/bleach/reaction_mob(mob/living/M, reac_volume)
-	if(M && isliving(M) && M.color != initial(M.color))
-		M.color = initial(M.color)
+
+/datum/reagent/acid/hydride/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
+	if(istype(M))
+		if(method != INGEST && method != INJECT)
+			M.adjust_fire_stacks(min(reac_volume/8, 20))
 	..()
-/datum/reagent/toxin/bleach/reaction_obj(obj/O, reac_volume)
-	if(O && O.color != initial(O.color))
-		O.color = initial(O.color)
-	..()
-/datum/reagent/toxin/bleach/reaction_turf(turf/T, reac_volume)
-	if(T && T.color != initial(T.color))
-		T.color = initial(T.color)
-	..()
+	return
