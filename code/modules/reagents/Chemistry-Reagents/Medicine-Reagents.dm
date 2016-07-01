@@ -814,7 +814,7 @@
 /datum/reagent/medicine/oxycodone
 	name = "Oxycodone"
 	id = "oxycodone"
-	description = "A strong painkiller that allows the user to move at full speed until in critical condition for a decent ammount of time. May send to sleep or cause drowsiness once it wears off."
+	description = "A strong painkiller that allows the user to move at full speed until in critical condition for a decent amount of time. May send to sleep or cause drowsiness once it wears off."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
