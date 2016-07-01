@@ -126,3 +126,28 @@
 	result = "bleach"
 	required_reagents = list("cleaner" = 1, "sodium" = 1, "chlorine" = 1)
 	result_amount = 3
+
+//NamePendingChem Chems
+
+/datum/chemical_reaction/hydroxide
+	name = "Sodium Hydroxide"
+	id = "hydroxide"
+	result = "hydroxide"
+	required_reagents = list("sodium" = 1, "hydrogen" = 1, "oxygen" = 1)
+	result_amount = 3
+	required_temp = 450
+
+/datum/chemical_reaction/hydride
+	name = "Sodium Hydride"
+	id = "hydride"
+	result = "hydride"
+	required_reagents = list("carbon" = 2, "hydroxide" = 1)
+	result_amount = 3
+	max_temp = 175
+
+/datum/chemical_reaction/midazolam
+	name = "Midazolam"
+	id = "midazolam"
+	result = "midazolam"
+	required_reagents = list("fluorine" = 1, "chloralhydrate" = 3, "nitrogen" = 1)
+	result_amount = 1
