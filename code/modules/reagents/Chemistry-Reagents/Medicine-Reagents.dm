@@ -702,7 +702,7 @@
 	id = "ephedrine"
 	description = "Increases stun resistance and regenerates stamina if the user is not seriously injured."
 	reagent_state = LIQUID
-	color = "#C8A5DC"
+	color = "#BEBEE6"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 
@@ -740,7 +740,7 @@
 	id = "hyperzine"
 	description = "Increases movement speed if the user is not seriously injured."
 	reagent_state = LIQUID
-	color = "#C8A5DC"
+	color = "#E6E6BE"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 
