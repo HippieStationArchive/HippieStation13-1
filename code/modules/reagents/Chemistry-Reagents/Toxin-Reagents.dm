@@ -260,7 +260,27 @@
 			M.sleeping += 1
 		if(51 to INFINITY)
 			M.sleeping += 1
-			M.adjustToxLoss((current_cycle - 50)*REM)
+			M.adjustToxLoss(max(current_cycle/5 - 10, 4)*REM) // Capped toxin damage and reduced scaling to prevent Chloral from killing stupidly quickly at high doses
+	..()
+	return
+
+/datum/reagent/toxin/midazolam
+	name = "Midazolam"
+	id = "midazolam"
+	description = "An extremely powerful and highly toxic sedative that can put a target to sleep within seconds."
+	reagent_state = SOLID
+	color = "#670000" // rgb: 103, 0, 0
+	toxpwr = 0
+	metabolization_rate = 1.5 * REAGENTS_METABOLISM
+
+/datum/reagent/toxin/midazolam/on_mob_life(mob/living/M)
+	M.adjustStaminaLoss(4) //Drains 2 stamina per tick, people regenerate 2 per tick naturally
+	if(current_cycle == 1)
+		M << "<span class='warning'>Holy shit, you feel exhausted all of a sudden!!</span>"
+	if(current_cycle > 5)
+		M.sleeping += 1
+	if(current_cycle > 15)
+		M.adjustToxLoss(max(current_cycle/5 - 3, 4)*REM)
 	..()
 	return
 
@@ -277,7 +297,7 @@
 			M.sleeping += 1
 		if(51 to INFINITY)
 			M.sleeping += 1
-			M.adjustToxLoss((current_cycle - 50)*REM)
+			M.adjustToxLoss(max(current_cycle/5 - 10, 4)*REM)
 	..()
 	return
 
