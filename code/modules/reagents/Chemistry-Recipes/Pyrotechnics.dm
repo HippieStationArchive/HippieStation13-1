@@ -360,7 +360,7 @@
 	name = "Amperium"
 	id = "amperium"
 	result = "amperium"
-	required_reagents = list("iron" = 1, "aluminium" = 1, "lithium" = 1)
+	required_reagents = list("teslium" = 1, "flash_powder" = 1, "hyperzine" = 1)
 	result_amount = 3
 
 /datum/chemical_reaction/amperium/on_reaction(datum/reagents/holder, created_volume)
@@ -371,7 +371,7 @@
 	var/location = get_turf(holder.my_atom)
 	playsound(location, 'sound/machines/defib_zap.ogg', 50, 1, -3)
 	for(var/mob/living/H in view(flash_radius,location))
-		H.Beam(location,icon_state="lightning",icon='icons/effects/effects.dmi',time=5)
+		H.Beam(location,icon_state="lightning[rand(1,12)]",icon='icons/effects/effects.dmi',time=5)
 		H.electrocute_act(min(created_volume, 75) / max(get_dist(H, location), 1), "arc flash")
 		playsound(H, 'sound/machines/defib_zap.ogg', 50, 1, -1)
 		if(H.flash_eyes())
@@ -398,7 +398,7 @@
 	var/location = get_turf(holder.my_atom)
 	playsound(location, 'sound/machines/defib_zap.ogg', 50, 1, -3)
 	for(var/mob/living/H in view(flash_radius,location))
-		H.Beam(location,icon_state="lightning",icon='icons/effects/effects.dmi',time=5)
+		H.Beam(location,icon_state="lightning[rand(1,12)]",icon='icons/effects/effects.dmi',time=5)
 		H.electrocute_act(min(created_volume, 75) / max(get_dist(H, location), 1), "arc flash")
 		playsound(H, 'sound/machines/defib_zap.ogg', 50, 1, -1)
 		if(H.flash_eyes())
