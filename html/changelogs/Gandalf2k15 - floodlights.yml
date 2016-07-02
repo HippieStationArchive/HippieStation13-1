@@ -33,4 +33,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Adds floodlights! They can be crafted using metal sheets! Go try it. Batteries not included. They can be powered by either a wire(think of emitter) and battery. Will prioritize mains and charge batt. Decon using a crowbar. Emags do fun! No EMPS! They are also fragile. Any cells accepted. Screwdriver to open hatch and insert cell then close. Have fun!"
+  - rscadd: "Adds floodlights! They can be crafted using metal sheets! Go try it. Batteries not included. They can be powered by either a wire(think of emitter) and battery. Will prioritize mains and charge batt. Decon using a crowbar. Emags do fun! No EMPS! They are also fragile. Any cells accepted. Screwdriver to open hatch and insert cell then close. Wrench to disassemble. Have fun!"
