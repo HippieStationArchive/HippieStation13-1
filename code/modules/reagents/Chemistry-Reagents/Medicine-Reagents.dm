@@ -684,7 +684,7 @@
 /datum/reagent/medicine/sleeptoxin //Old Morphine
 	name = "Sleep Toxin"
 	id = "sleeptoxin"
-	description = "A safe way to send a patient to sleep. 8 units is required to send them to sleep."
+	description = "A safe way to send a patient to sleep. 6 units is required to send them to sleep."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = REAGENTS_METABOLISM
@@ -700,17 +700,18 @@
 /datum/reagent/medicine/ephedrine
 	name = "Ephedrine"
 	id = "ephedrine"
-	description = "Increases stun resistance and regenerates stamina if the user is not seriously injured."
+	description = "Increases stun resistance if the user is not seriously injured. Also grants a boost to movement speed."
 	reagent_state = LIQUID
 	color = "#BEBEE6"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
-	if(M.health - M.staminaloss > 60)
+	if(M.health > 60)
 		M.AdjustParalysis(-0.4)
 		M.AdjustStunned(-0.4)
 		M.AdjustWeakened(-0.4)
+	M.status_flags |= GOTTAGOFAST
 	M.sleeping = max(0,M.sleeping - 1)
 	..()
 	return
@@ -738,18 +739,17 @@
 /datum/reagent/medicine/hyperzine
 	name = "Hyperzine"
 	id = "hyperzine"
-	description = "Increases movement speed if the user is not seriously injured."
+	description = "Greatly increases movement speed. Drains stamina if you have major injuries."
 	reagent_state = LIQUID
 	color = "#E6E6BE"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 
 /datum/reagent/medicine/hyperzine/on_mob_life(mob/living/M)
-	if(M.health > 80)
-		M.status_flags |= GOTTAGOREALLYFAST
-	else if(M.health > 60)
-		M.status_flags |= GOTTAGOFAST
+	M.status_flags |= GOTTAGOREALLYFAST
 	M.sleeping = max(0,M.sleeping - 2)
+	if(M.health < 60)
+		M.adjustStaminaLoss(3) //Actually 1 per tick, humans naturally regenerate 2 per tick
 	..()
 	return
 
@@ -785,7 +785,7 @@
 /datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
 	if(current_cycle <= 15 && M.health > 20)
 		M.status_flags |= IGNORESLOWDOWN
-	else
+	else if(current cycle == 16 || M.health <= 20)
 		M.status_flags &= ~IGNORESLOWDOWN
 	..()
 	return
@@ -823,7 +823,7 @@
 /datum/reagent/medicine/oxycodone/on_mob_life(mob/living/M)
 	if(current_cycle <= 30 && M.health > 0)
 		M.status_flags |= IGNORESLOWDOWN
-	else
+	else if(current_cycle == 31 || M.health <= 0)
 		M.status_flags &= ~IGNORESLOWDOWN
 	..()
 	return
