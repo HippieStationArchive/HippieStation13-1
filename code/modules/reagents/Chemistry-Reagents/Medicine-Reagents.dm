@@ -785,7 +785,7 @@
 /datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
 	if(current_cycle <= 15 && M.health > 20)
 		M.status_flags |= IGNORESLOWDOWN
-	else if(current cycle == 16 || M.health <= 20)
+	else if(current_cycle == 16 || M.health <= 20)
 		M.status_flags &= ~IGNORESLOWDOWN
 	..()
 	return
