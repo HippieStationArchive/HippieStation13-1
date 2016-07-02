@@ -165,5 +165,5 @@
 	name = "Cryoxadin"
 	id = "cryotoxin"
 	result = "cryotoxin"
-	required_reagents = list("clonexadone" = 1, "lexorin" = 1, "formaldehyde" = 1)
+	required_reagents = list("cryoxadone" = 1, "lexorin" = 1, "formaldehyde" = 1)
 	result_amount = 3
