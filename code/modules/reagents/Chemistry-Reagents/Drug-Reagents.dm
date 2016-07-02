@@ -182,11 +182,14 @@
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
 	M.Jitter(2)
+
 	if(M.stunned || M.weakened)
-		holder.remove_reagent("methamphetamine", 0.75 * REAGENTS_METABOLISM)
-	if(holder.has_reagent("heroin"))
-		holder.remove_reagent("heroin", 2*REM)
-		M.adjustToxLoss(0.6*REM)
+		metabolization_rate = 1.5 * REAGENTS_METABOLISM
+	else if(holder.has_reagent("heroin"))
+		metabolization_rate = 5 * REAGENTS_METABOLISM
+		M.adjustToxLoss(1.2*REM)
+	else
+		metabolization_rate= 0.75 * REAGENTS_METABOLISM
 	..()
 	return
 
@@ -234,9 +237,12 @@
 		M.AdjustStunned(0.5) //Doubles the duration of stuns
 	if(M.weakened)
 		M.AdjustWeakened(0.5) //Doubles the duration of weakens
+
 	if(holder.has_reagent("methamphetamine"))
-		holder.remove_reagent("methamphetamine", 2*REM)
-		M.adjustBrainLoss(0.6*REM)
+		metabolization_rate = 5 * REAGENTS_METABOLISM
+		M.adjustBrainLoss(1.6*REM)
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	..()
 	return
 
