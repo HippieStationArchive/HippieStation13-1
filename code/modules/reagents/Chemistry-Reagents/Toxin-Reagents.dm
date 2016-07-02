@@ -271,7 +271,7 @@
 	reagent_state = SOLID
 	color = "#670000" // rgb: 103, 0, 0
 	toxpwr = 0
-	metabolization_rate = 1.5 * REAGENTS_METABOLISM
+	metabolization_rate = 2 * REAGENTS_METABOLISM
 
 /datum/reagent/toxin/midazolam/on_mob_life(mob/living/M)
 	M.adjustStaminaLoss(4) //Drains 2 stamina per tick, people regenerate 2 per tick naturally
