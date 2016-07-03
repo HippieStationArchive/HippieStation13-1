@@ -184,7 +184,8 @@
 	M.Jitter(2)
 
 	if(M.stunned || M.weakened)
-		metabolization_rate = 1.5 * REAGENTS_METABOLISM
+		metabolization_rate = 2.25 * REAGENTS_METABOLISM
+		M.adjustStaminaLoss(4) // -6 stamina per tick total
 	else if(holder.has_reagent("heroin"))
 		metabolization_rate = 5 * REAGENTS_METABOLISM
 		M.adjustToxLoss(1.2*REM)
