@@ -41,7 +41,7 @@ changes:
   - rscadd: "Blindness Toxin will make whoever ingests it go blind for a short period of time."
   - rscadd: "Ignis is a new chemical that, when ingested, has a small chance of causing spontaneous combustion and will make it twice as hard to extinguish if you're already on fire."
   - rscadd: "Hyperzine is back! It will increase movement speed and reduces sleep timers but deals stamina damage if injured."
-  - rscadd: "Midazolam is a new chemical derived from and is a more potent form of Chloral Hydrate."
+  - rscadd: "Midazolam is a new chemical derived from and is a more potent form of Chloral Hydrate but metabolizes much more quickly."
   - rscadd: "Sleep Toxin is a safe, nontoxic alternative to Chloral Hydrate and replaces Morphine in the sleepers."
   - rscadd: "Introducing painkillers! Morphine, Oxycodone and Heroin remove all movement speed penalties with varying degrees of effectiveness, durations and side effects. They can also be obtained from high-potency poppies."
   - rscadd: "Two new acids (bases?), Sodium Hydroxide(Replaces Lye) and Sodium Hydride. Both are 2/3rds as strong as their sulphuric counterparts but have nastier effects once inside the body."
