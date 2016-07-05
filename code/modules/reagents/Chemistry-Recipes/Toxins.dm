@@ -150,7 +150,7 @@
 	name = "Midazolam"
 	id = "midazolam"
 	result = "midazolam"
-	required_reagents = list("fluorine" = 1, "chloralhydrate" = 3, "nitrogen" = 1)
+	required_reagents = list("hydride" = 1, "chloralhydrate" = 3, "facid" = 1)
 	result_amount = 1
 
 /datum/chemical_reaction/blindtoxin
