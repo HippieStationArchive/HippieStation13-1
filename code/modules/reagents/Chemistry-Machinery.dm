@@ -1104,7 +1104,7 @@
 				src.updateUsrDialog()
 				return 0
 
-		if (!is_type_in_list(O, blend_items) && !is_type_in_list(O, juice_items) && !istype(O, obj/item/weapon/reagent_containers/food))
+		if (!is_type_in_list(O, blend_items) && !is_type_in_list(O, juice_items) && !istype(O,/obj/item/weapon/reagent_containers/food))
 				user << "<span class='warning'>Cannot refine into a reagent!</span>"
 				return 1
 
