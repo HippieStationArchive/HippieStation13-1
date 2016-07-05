@@ -816,7 +816,7 @@
 	description = "Fluorosulfuric acid is a an extremely corrosive chemical substance."
 	color = "#8E18A9" // rgb: 142, 24, 169
 	toxpwr = 2
-	acidpwr = 45
+	acidpwr = 30
 
 /datum/reagent/toxin/acid/hydroxide
 	name = "Sodium Hydroxide"
@@ -839,7 +839,7 @@
 	description = "Sodium Hydride is an extremely caustic and flammable substance. Handle with care."
 	color = "#663366"
 	toxpwr = 0.5
-	acidpwr = 30
+	acidpwr = 20
 
 /datum/reagent/toxin/acid/hydride/on_mob_life(mob/living/M)
 	M.adjustFireLoss(1*REM)
