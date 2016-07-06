@@ -174,6 +174,12 @@
 		user << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return 0
 
+	if(isdrone(user))
+		var/mob/living/simple_animal/drone/D = user
+		if(!D.can_interfere())
+			D << "<span class='danger'>Your laws prevent you from doing this!</span>"
+			return
+
 	if(!handle_pins(user))
 		return 0
 
