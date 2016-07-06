@@ -94,7 +94,7 @@
 		/obj/item/weapon/grenade/chem_grenade/teargas,
 		/obj/item/weapon/reagent_containers/spray/pepper,
 		/obj/item/weapon/restraints/handcuffs,
-		/obj/item/device/assembly/flash/handheld,
+		/obj/item/device/assembly/flash,
 		/obj/item/clothing/glasses,
 		/obj/item/ammo_casing/shotgun,
 		/obj/item/ammo_box,
@@ -159,7 +159,7 @@
 	can_hold = list(
 		/obj/item/weapon/throwing_star
 		)
-		
+
 /obj/item/weapon/storage/belt/ninja/full/New()
 	..()
 	for(var/i = 0, i < 14, i++)
