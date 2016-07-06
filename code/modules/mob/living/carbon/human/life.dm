@@ -96,7 +96,7 @@
 				if(4)
 					emote("drool")
 				if(5)
-					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY","DILDOS!!1!","hun~"))
+					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY","DILDOS!!1!","hun~", "MY BREAIN HURTS!!1", ";NUUUUUUUURSE!??!?!", "dont be dong...", "SHOW YOUR BITCH ASS?!?!", ";dont feel so well", "YOU ARE THE super retard", "such beautiful duwang"))
 
 
 /mob/living/carbon/human/handle_mutations_and_radiation()
