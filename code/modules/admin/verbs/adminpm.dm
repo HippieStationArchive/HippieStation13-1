@@ -59,11 +59,11 @@
 			ticket.replying = 1
 			ticket.user << "<b>[src.ckey] has been assigned to your admin help, please await a reply.</b>"
 		else if(ticket.replying == 1)
-			src << "<b>Error, this ticket is already being replied to!"
+			src << "<b>Error, this ticket is already being replied to!</b>"
 			return
 		else if(ticket.admin != "N/A" && ticket.replying == 0)
 			if(ticket.admin != src.ckey)
-				if(alert(src, "This adminhelp already has an admin assigned: [ticket.admin]! Are you sure you wan't to take it over?", "Conflict", "Yes", "No") == "Yes")
+				if(alert(src, "This adminhelp already has an admin assigned: [ticket.admin]! Are you sure you want to take it over?", "Conflict", "Yes", "No") == "Yes")
 					message_admins("[key_name_admin(src)] has been assigned to [key_name(C, 0, 0)]'s admin help. Override: [ticket.admin]. ([ticket.uID])")
 					ticket.user << "<b>[src.ckey] has been assigned to your admin help, please await a reply.</b>"
 					ticket.replying = 1
@@ -133,14 +133,14 @@
 		if(holder)	//both are admins
 			for(var/datum/adminticket/T in admintickets)
 				if(T.permckey == C.ckey && T.resolved == "No")
-					T.logs += "[src] TO [C]: [msg] "
+					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
 			C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
 			src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [keywordparsedmsg]</font>"
 
 		else		//recipient is an admin but sender is not
 			for(var/datum/adminticket/T in admintickets)
 				if(T.permckey == C.ckey && T.resolved == "No")
-					T.logs += "[src] TO [C]: [msg] "
+					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
 			C << "<font color='red'>Reply PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
 			src << "<font color='blue'>PM to-<b>Admins</b>: [msg]</font>"
 
@@ -158,7 +158,7 @@
 
 			for(var/datum/adminticket/T in admintickets)
 				if(T.permckey == C.ckey && T.resolved == "No")
-					T.logs += "[src] TO [C]: [msg] "
+					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
 
 			//always play non-admin recipients the adminhelp sound
 			C << 'sound/effects/adminhelp.ogg'
@@ -174,7 +174,7 @@
 							C.cmd_admin_pm(sender,reply)
 							for(var/datum/adminticket/T in admintickets)
 								if(T.permckey == C.ckey && T.resolved == "No")
-									T.logs += "[sendername] TO [C]: [msg] "										//sender is still about, let's reply to them
+									T.logs += "<span class='danger'>[sendername] TO [C]: [msg] </span>"										//sender is still about, let's reply to them
 						else
 							adminhelp(reply)													//sender has left, adminhelp instead
 					return
