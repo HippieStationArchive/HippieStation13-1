@@ -71,10 +71,12 @@
 			if (src:aiRestorePowerRoutine==2)
 				src << "Alert cancelled. Power has been restored without our assistance."
 				src:aiRestorePowerRoutine = 0
+				clear_fullscreen("blind")
 				return
 			else if (src:aiRestorePowerRoutine==3)
 				src << "Alert cancelled. Power has been restored."
 				src:aiRestorePowerRoutine = 0
+				clear_fullscreen("blind")
 				return
 		else
 
