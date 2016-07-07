@@ -163,6 +163,19 @@
 			return
 	..()
 
+/mob/living/simple_animal/drone/safedrone/stripPanelUnequip(obj/item/what, mob/who, where)
+	if(!isdrone(who))
+		src << "<span class='danger'>Your laws prevent you from doing this!</span>"
+		return
+	..(what, who, where, 1)
+
+
+/mob/living/simple_animal/drone/safedrone/stripPanelEquip(obj/item/what, mob/who, where)
+	if(!isdrone(who))
+		src << "<span class='danger'>Your laws prevent you from doing this!</span>"
+		return
+	..(what, who, where, 1)
+
 /obj/item/drone_shell/safedrone
 	drone_type = /mob/living/simple_animal/drone/safedrone
 
