@@ -309,3 +309,4 @@
 		message_admins("Adminhelp ID: #[T.ID]([T.uID]) was [T.resolved == "Yes" ? "unresolved" : "resolved"] by [usr.ckey]")
 		T.user << "<b>Your adminhelp (#[T.ID]) has been [T.resolved == "Yes" ? "unresolved" : "resolved"] by [usr.ckey]</b>"
 		T.user << 'sound/machines/twobeep.ogg'
+		T.resolved = "[T.resolved == "Yes" ? "No" : "Yes"]"
