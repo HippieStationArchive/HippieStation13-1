@@ -185,7 +185,7 @@
 	for(var/datum/adminticket/T in admintickets)
 		if(T.permckey == ckey && T.resolved == "Yes")
 			rpass = 1
-			usr << "<span class='adminnotice'><b><font color=red>Adminhelp ID: #[T.ID] </font></b></class>"
+			usr << "<span class='adminnotice'><b><font color=red>Adminhelp ID: #[T.ID] </font></b></span>"
 			usr << "	<b>Message:</b> [T.msg]"
 			usr << "	<b>Handling Admin:</b> [T.admin]"
 			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
@@ -201,7 +201,7 @@
 	for(var/datum/adminticket/T in admintickets)
 		if(T.permckey == ckey && T.resolved == "No")
 			upass = 1
-			usr << "<span class='adminnotice'><b><font color=red>Adminhelp ID: #[T.ID] </font></b></class>"
+			usr << "<span class='adminnotice'><b><font color=red>Adminhelp ID: #[T.ID] </font></b></span>"
 			usr << "	<b>Message:</b> [T.msg]"
 			usr << "	<b>Handling Admin:</b> [T.admin]"
 			usr << "	<b>Replied To:</b> [T.active]/<b><a href='?src=\ref[T];view_logs=\ref[T]'>(LOGS)</a></b>"
@@ -269,7 +269,7 @@
 	if(count >= 1)
 		usr << "<b>Adminhelp #[ticket.ID]([ticket.uID]) resolved.</b>"
 		message_admins("Adminhelp ID: #[ticket.ID]([ticket.uID]) was resolved by [usr.ckey]")
-		ticket.user << "<b>Your adminhelp (#[ticket.ID]) has been resolved by [usr.ckey]<b>"
+		ticket.user << "<b>Your adminhelp (#[ticket.ID]) has been resolved by [usr.ckey]</b>"
 		ticket.user << 'sound/machines/twobeep.ogg'
 		ticket.resolved = "Yes"
 
