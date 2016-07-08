@@ -1008,12 +1008,12 @@
 				//Random Meme-tier stuff!!
 				/obj/item/weapon/screwdriver = list("screwdrivercocktail" = 30),
 				/obj/item/organ/internal/butt = list("fartium" = 20),
-				/obj/item/clothing/mask/cigarette = list("nicotine" = 15),
 				/obj/item/weapon/storage/book/bible = list("holywater" = 100),
 				
 				//All types that you can put into the grinder to transfer the reagents to the beaker. !Put all recipes above this.!
 				/obj/item/weapon/reagent_containers/pill = list(),
-				/obj/item/weapon/reagent_containers/food = list()
+				/obj/item/weapon/reagent_containers/food = list(),
+				/obj/item/clothing/mask/cigarette = list()
 		)
 
 		var/list/juice_items = list (
@@ -1104,7 +1104,7 @@
 				src.updateUsrDialog()
 				return 0
 
-		if (!is_type_in_list(O, blend_items) && !is_type_in_list(O, juice_items) && !istype(O,/obj/item/weapon/reagent_containers/food))
+		if (!is_type_in_list(O, blend_items) && !is_type_in_list(O, juice_items) && !istype(O, /obj/item/weapon/reagent_containers/food) && !istype(O, /obj/item/weapon/reagent_containers/pill) && !istype(O, /obj/item/clothing/mask/cigarette))
 				user << "<span class='warning'>Cannot refine into a reagent!</span>"
 				return 1
 
