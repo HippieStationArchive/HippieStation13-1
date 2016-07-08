@@ -35,8 +35,8 @@ delete-after: True
 changes: 
   - rscadd: "Adds coin grinding, gives 4u of respective chem"
   - rscadd: "Adds butt grinding, gives 20u of fartium"
-  - rscadd: "Adds cigarette grinding, gives 15u of nicotine"
+  - rscadd: "Adds cigarette grinding, gives all the reagents contained"
   - rscadd: "Adds bible grinding, gives 100u of holy water"
   - rscadd: "Adds rainbow crayon grinding, gives 100u of colorful reagent"
   - tweak: "Increases crayon powder amount via grinding from 10u to 50u"
-  - bugfix: "Fixes grinder being unable to grind food. Finally."
+  - bugfix: "Fixes grinder being unable to grind food and pills. Finally."
