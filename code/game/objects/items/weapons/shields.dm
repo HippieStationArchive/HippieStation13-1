@@ -134,7 +134,7 @@
 	name = "telescopic shield"
 	desc = "An advanced riot shield made of lightweight materials that collapses for easy storage."
 	icon = 'icons/obj/weapons.dmi'
-	icon_state = "teleriot0"
+	icon_state = "teleriot"
 	slot_flags = null
 	force = 3
 	stamina_percentage = 0.75
