@@ -153,7 +153,7 @@
 	for(var/datum/adminticket/T in admintickets)
 		if(T.resolved == "No" && T.admin == ckey)
 			var/ref_mob = "\ref[T.mob]"
-			usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</b></A><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
+			usr << "<span class='adminnotice'><b><font color=red>#[T.ID] By:</font> <A HREF='?priv_msg=[T.permckey];ahelp_reply=1'>[key_name(T.permuser)]</A></b><b> Ckey:</b> [T.permckey] <b>Name:</b> [T.permuser] <b>Unique ID:</b> [T.uID]</span>"
 			usr << "	<b>Controls:</b> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>)"
 			usr << "	<b>Message:</b> [T.msg]"
 			usr << "	<b>Handling Admin:</b> [T.admin]"
