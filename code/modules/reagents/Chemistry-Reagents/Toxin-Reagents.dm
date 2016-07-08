@@ -260,7 +260,27 @@
 			M.sleeping += 1
 		if(51 to INFINITY)
 			M.sleeping += 1
-			M.adjustToxLoss((current_cycle - 50)*REM)
+			M.adjustToxLoss(max(current_cycle/5 - 10, 4)*REM) // Capped toxin damage and reduced scaling to prevent Chloral from killing stupidly quickly at high doses
+	..()
+	return
+
+/datum/reagent/toxin/midazolam
+	name = "Midazolam"
+	id = "midazolam"
+	description = "An extremely powerful and highly toxic sedative that can put a target to sleep within seconds."
+	reagent_state = SOLID
+	color = "#670000" // rgb: 103, 0, 0
+	toxpwr = 0
+	metabolization_rate = 2 * REAGENTS_METABOLISM
+
+/datum/reagent/toxin/midazolam/on_mob_life(mob/living/M)
+	M.adjustStaminaLoss(4) //Drains 2 stamina per tick, people regenerate 2 per tick naturally
+	if(current_cycle == 1)
+		M << "<span class='warning'>Holy shit, you feel exhausted all of a sudden!!</span>"
+	if(current_cycle > 5)
+		M.sleeping += 1
+	if(current_cycle > 15)
+		M.adjustToxLoss(max(current_cycle/5 - 3, 4)*REM)
 	..()
 	return
 
@@ -277,7 +297,7 @@
 			M.sleeping += 1
 		if(51 to INFINITY)
 			M.sleeping += 1
-			M.adjustToxLoss((current_cycle - 50)*REM)
+			M.adjustToxLoss(max(current_cycle/5 - 10, 4)*REM)
 	..()
 	return
 
@@ -666,8 +686,96 @@
 /datum/reagent/toxin/rotatium/on_mob_delete(mob/living/M)
 	M.client.dir = NORTH
 	..()
-//ACID
 
+/datum/reagent/toxin/wasting_toxin //Used by the changeling death sting.
+	name = "Wasting Toxin"
+	id = "wasting_toxin"
+	description = "An insidious, biologically-produced poison. The body is barely capable of metabolizing it, meaning it will slowly kill them unless help is received."
+	metabolization_rate = 0.3 * REAGENTS_METABOLISM
+	color = rgb(51, 202, 63)
+	toxpwr = 2
+
+/datum/reagent/toxin/wasting_toxin/on_mob_life(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(H.vessel)
+			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
+	..()
+
+/datum/reagent/toxin/bleach
+	name = "Bleach"
+	id = "bleach"
+	description = "A powerful cleaner. Toxic if ingested."
+	reagent_state = LIQUID
+	color = "#FFFFFF"
+	toxpwr = 2
+
+/datum/reagent/toxin/bleach/on_mob_life(mob/living/M)
+	if(M && isliving(M) && M.color != initial(M.color))
+		M.color = initial(M.color)
+	..()
+	return
+/datum/reagent/toxin/bleach/reaction_mob(mob/living/M, reac_volume)
+	if(M && isliving(M) && M.color != initial(M.color))
+		M.color = initial(M.color)
+	..()
+/datum/reagent/toxin/bleach/reaction_obj(obj/O, reac_volume)
+	if(O && O.color != initial(O.color))
+		O.color = initial(O.color)
+	..()
+/datum/reagent/toxin/bleach/reaction_turf(turf/T, reac_volume)
+	if(T && T.color != initial(T.color))
+		T.color = initial(T.color)
+	..()
+
+//NamePendingChem Chems
+
+/datum/reagent/toxin/blindtoxin
+	name = "Blind Toxin"
+	id = "blindtoxin"
+	description = "A toxin which temporarily damages the optical nerves of the target."
+	color = "#F0F8FF" // rgb: 240, 248, 255
+	toxpwr = 0
+	metabolization_rate = 1.5 * REAGENTS_METABOLISM
+
+/datum/reagent/toxin/blindtoxin/on_mob_life(mob/living/M)
+	M.eye_blurry = min(M.eye_blurry, 40)
+	..()
+	return
+
+/datum/reagent/toxin/blindtoxin/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
+	M.confused += 5
+	M.eye_blind = min(reac_volume, 20)
+	M.eye_blurry = min(reac_volume*2, 40)
+	..()
+	return
+
+/datum/reagent/toxin/cryotoxin
+	name = "Cryoxadin"
+	id = "cryotoxin"
+	description = "An deadly toxin designed to counteract typical cryogenic healing methods by causing heavy cellular damage. It can be confused for Cryoxadone in both name and appearance."
+	color = "#0000C8"
+
+/datum/reagent/toxin/cryotoxin/on_mob_life(mob/living/M)
+	if(M.stat != DEAD && M.bodytemperature < 275)
+		M.adjustCloneLoss(2)
+		M.adjustOxyLoss(2)
+		M.adjustBruteLoss(2)
+		M.adjustBloodLoss(0.05)
+		M.adjustFireLoss(2)
+		M.adjustToxLoss(2)
+		if(current_cycle > 11)
+			M.sleeping += 1
+	else if(M.stat == DEAD && M.bodytemperature < 275)
+		M.status_flags |= DISFIGURED
+	if(holder.has_reagent("cryoxadone"))
+		holder.remove_reagent("cryoxadone", 2*REM)
+
+	..()
+	return
+
+
+//ACID
 
 /datum/reagent/toxin/acid
 	name = "Sulphuric acid"
@@ -675,7 +783,7 @@
 	description = "A strong mineral acid with the molecular formula H2SO4."
 	color = "#DB5008" // rgb: 219, 80, 8
 	toxpwr = 1
-	var/acidpwr = 10 //the amount of protection removed from the armour
+	var/acidpwr = 15 //the amount of protection removed from the armour
 
 /datum/reagent/toxin/acid/reaction_mob(mob/living/carbon/C, method=TOUCH, reac_volume)
 	if(!istype(C))
@@ -708,45 +816,45 @@
 	description = "Fluorosulfuric acid is a an extremely corrosive chemical substance."
 	color = "#8E18A9" // rgb: 142, 24, 169
 	toxpwr = 2
+	acidpwr = 30
+
+/datum/reagent/toxin/acid/hydroxide
+	name = "Sodium Hydroxide"
+	id = "hydroxide"
+	description = "Sodium Hydroxide is a weak base able to nulify certain acids and also used in the creation of soap."
+	color = "#FFFFD6" // Same as Lye
+	toxpwr = 0.5
+	acidpwr = 10
+
+/datum/reagent/toxin/acid/hydroxide/on_mob_life(mob/living/M)
+	M.adjustFireLoss(0.25*REM)
+	if(prob(2))
+		M.IgniteMob()
+	..()
+	return
+
+/datum/reagent/toxin/acid/hydride
+	name = "Sodium Hydride"
+	id = "hydride"
+	description = "Sodium Hydride is an extremely caustic and flammable substance. Handle with care."
+	color = "#663366"
+	toxpwr = 0.5
 	acidpwr = 20
 
-/datum/reagent/toxin/wasting_toxin //Used by the changeling death sting.
-	name = "Wasting Toxin"
-	id = "wasting_toxin"
-	description = "An insidious, biologically-produced poison. The body is barely capable of metabolizing it, meaning it will slowly kill them unless help is received."
-	metabolization_rate = 0.3 * REAGENTS_METABOLISM
-	color = rgb(51, 202, 63)
-	toxpwr = 2
-
-/datum/reagent/toxin/wasting_toxin/on_mob_life(mob/living/M)
+/datum/reagent/toxin/acid/hydride/on_mob_life(mob/living/M)
+	M.adjustFireLoss(1*REM)
+	if(prob(5))
+		M.IgniteMob()
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(H.vessel)
-			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
-	..()
-	
-/datum/reagent/toxin/bleach
-	name = "Bleach"
-	id = "bleach"
-	description = "A powerful cleaner.Toxic if injested"
-	reagent_state = LIQUID
-	color = "#FFFFFF"
-	toxpwr = 2
-
-/datum/reagent/toxin/bleach/on_mob_life(mob/living/M)
-	if(M && isliving(M) && M.color != initial(M.color))
-		M.color = initial(M.color)
+			H.vessel.remove_reagent("blood",rand(1, 3))
 	..()
 	return
-/datum/reagent/toxin/bleach/reaction_mob(mob/living/M, reac_volume)
-	if(M && isliving(M) && M.color != initial(M.color))
-		M.color = initial(M.color)
+
+/datum/reagent/acid/hydride/reaction_mob(mob/living/M, method=TOUCH, reac_volume)
+	if(istype(M))
+		if(method != INGEST && method != INJECT)
+			M.adjust_fire_stacks(min(reac_volume/8, 20))
 	..()
-/datum/reagent/toxin/bleach/reaction_obj(obj/O, reac_volume)
-	if(O && O.color != initial(O.color))
-		O.color = initial(O.color)
-	..()
-/datum/reagent/toxin/bleach/reaction_turf(turf/T, reac_volume)
-	if(T && T.color != initial(T.color))
-		T.color = initial(T.color)
-	..()
+	return

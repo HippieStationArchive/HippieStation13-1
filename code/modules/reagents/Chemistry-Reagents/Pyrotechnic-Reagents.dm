@@ -200,3 +200,50 @@
 		holder.chem_temp += 10
 		holder.handle_reactions()
 	..()
+
+//NamePendingChem Chems
+
+/datum/reagent/amperium
+	name = "Amperium"
+	id = "amperium"
+	description = "A reaction used to cause arc flashes. Is somewhat unstable even if stabilized and will decay over time, launching lightning bolts at anybody unlucky enough to be close to it."
+	color = "#BCA1E6"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+/datum/reagent/amperium/on_mob_life(mob/living/M)
+	if(prob(3))
+		for(var/mob/living/H in view(3,M))
+			H.Beam(M,icon_state="lightning[rand(1,12)]",icon='icons/effects/effects.dmi',time=5)
+			H.electrocute_act(min(volume/2, 20), M)
+			playsound(H, 'sound/machines/defib_zap.ogg', 50, 1, -1)
+		holder.remove_reagent("amperium", rand(1,5))
+	..()
+	return
+
+/datum/reagent/amperium/on_tick()
+	var/location = get_turf(holder.my_atom)
+	if(prob(8))
+		for(var/mob/living/H in view(3,location))
+			H.Beam(location,icon_state="lightning[rand(1,12)]",icon='icons/effects/effects.dmi',time=5)
+			H.electrocute_act(min(volume/2, 20), "arc flash")
+			playsound(H, 'sound/machines/defib_zap.ogg', 50, 1, -1)
+		holder.remove_reagent("amperium", rand(4,8))
+	..()
+	return
+
+/datum/reagent/ignis
+	name = "Ignis"
+	id = "ignis"
+	description = "A volatile toxin that causes random spontaneous combustion inside of carbon-based life forms."
+	reagent_state = LIQUID
+	color = "#FF9999"
+
+/datum/reagent/ignis/on_mob_life(mob/living/M)
+	var/burndmg = max(0.3*M.fire_stacks, 0.3)
+	M.adjustFireLoss(burndmg)
+	if(prob(max(volume, 8)))
+		if(!M.on_fire)
+			M.IgniteMob()
+			M.adjust_fire_stacks(1)
+		else
+			M.fire_stacks *= 2

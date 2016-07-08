@@ -77,8 +77,9 @@
 	name = "Mute toxin"
 	id = "mutetoxin"
 	result = "mutetoxin"
-	required_reagents = list("uranium" = 2, "water" = 1, "carbon" = 1)
-	result_amount = 2
+	required_reagents = list("uranium" = 1, "water" = 2, "carbon" = 2)
+	result_amount = 5
+	required_temp = 450
 
 /datum/chemical_reaction/zombiepowder
 	name = "Zombie Powder"
@@ -125,4 +126,44 @@
 	id = "Bleach"
 	result = "bleach"
 	required_reagents = list("cleaner" = 1, "sodium" = 1, "chlorine" = 1)
+	result_amount = 3
+
+//NamePendingChem Chems
+
+/datum/chemical_reaction/hydroxide
+	name = "Sodium Hydroxide"
+	id = "hydroxide"
+	result = "hydroxide"
+	required_reagents = list("sodium" = 1, "hydrogen" = 1, "oxygen" = 1)
+	result_amount = 3
+	required_temp = 450
+
+/datum/chemical_reaction/hydride
+	name = "Sodium Hydride"
+	id = "hydride"
+	result = "hydride"
+	required_reagents = list("carbon" = 2, "hydroxide" = 1)
+	result_amount = 3
+	max_temp = 175
+
+/datum/chemical_reaction/midazolam
+	name = "Midazolam"
+	id = "midazolam"
+	result = "midazolam"
+	required_reagents = list("hydride" = 1, "chloralhydrate" = 3, "facid" = 1)
+	result_amount = 1
+
+/datum/chemical_reaction/blindtoxin
+	name = "Blind toxin"
+	id = "blindtoxin"
+	result = "blindtoxin"
+	required_reagents = list("uranium" = 1, "water" = 2, "carbon" = 2)
+	result_amount = 5
+	max_temp = 449
+
+/datum/chemical_reaction/cryotoxin
+	name = "Cryoxadin"
+	id = "cryotoxin"
+	result = "cryotoxin"
+	required_reagents = list("cryoxadone" = 1, "lexorin" = 1, "formaldehyde" = 1)
 	result_amount = 3

@@ -306,6 +306,7 @@ var/const/INJECT = 5 //injection
 				var/matching_other = 0
 				var/list/multipliers = new/list()
 				var/required_temp = C.required_temp
+				var/max_temp = C.max_temp
 
 				for(var/B in C.required_reagents)
 					if(!has_reagent(B, C.required_reagents[B]))	break
@@ -336,8 +337,10 @@ var/const/INJECT = 5 //injection
 				if(required_temp == 0)
 					required_temp = chem_temp
 
+				if(max_temp == 0)
+					max_temp = chem_temp
 
-				if(total_matching_reagents == total_required_reagents && total_matching_catalysts == total_required_catalysts && matching_container && matching_other && chem_temp >= required_temp)
+				if(total_matching_reagents == total_required_reagents && total_matching_catalysts == total_required_catalysts && matching_container && matching_other && chem_temp >= required_temp && chem_temp <= max_temp)
 					var/multiplier = min(multipliers)
 					for(var/B in C.required_reagents)
 						remove_reagent(B, (multiplier * C.required_reagents[B]), safety = 1)

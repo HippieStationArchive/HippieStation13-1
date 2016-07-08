@@ -15,6 +15,7 @@
 	var/mob_react = 0 //Determines if a chemical reaction can occur inside a mob
 
 	var/required_temp = 0
+	var/max_temp = 0 //For things that need cooling
 	var/mix_message = "The solution begins to bubble."
 
 	var/list/chemical_mob_spawn_meancritters = list() // list of possible hostile mobs

@@ -57,14 +57,14 @@
 	result = "salglu_solution"
 	required_reagents = list("sodiumchloride" = 1, "water" = 1, "sugar" = 1)
 	result_amount = 3
-	
+/*
 /datum/chemical_reaction/mine_salve
 	name = "Miner's Salve"
 	id = "mine_salve"
 	result = "mine_salve"
 	required_reagents = list("oil" = 1, "water" = 1, "iron" = 1)
 	result_amount = 3
-	
+*/	
 /datum/chemical_reaction/mine_salve2
 	name = "Miner's Salve"
 	id = "mine_salve"
@@ -241,3 +241,35 @@
 	result = "tricordrazine"
 	required_reagents = list("bicaridine" = 1, "kelotane" = 1, "antitoxin" = 1)
 	result_amount = 3
+
+//NamePendingChem Chems
+
+/datum/chemical_reaction/morphine
+	name = "Morphine"
+	id = "morphine"
+	result = "morphine"
+	required_reagents = list("sleeptoxin" = 1, "nitrogen" = 1)
+	result_amount = 2
+
+/datum/chemical_reaction/oxycodone
+	name = "Oxycodone"
+	id = "oxycodone"
+	result = "oxycodone"
+	required_reagents = list("morphine" = 1, "hydroxide" = 1)
+	required_catalysts = list("plasma" = 5)
+	result_amount = 2
+
+/datum/chemical_reaction/hyperzine
+	name = "Hyperzine"
+	id = "hyperzine"
+	result = "hyperzine"
+	required_reagents = list("sugar" = 1, "phosphorus" = 1, "sacid" = 1)
+	required_catalysts = list("plasma" = 5)
+	result_amount = 3
+
+/datum/chemical_reaction/sleeptoxin
+	name = "Sleep Toxin"
+	id = "sleeptoxin"
+	result = "sleeptoxin"
+	required_reagents = list("chloralhydrate" = 1, "sugar" = 4)
+	result_amount = 5
