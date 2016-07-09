@@ -336,7 +336,7 @@
 
 
 /obj/machinery/power/supermatter/proc/Consume(atom/AM as mob|obj)
-	if(istype(AM,mob/living))
+	if(istype(AM,/mob/living))
 		var/mob/living/user = AM
 		user.dust()
 		power += 200
