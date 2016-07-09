@@ -335,12 +335,13 @@
 	Consume(AM)
 
 
-/obj/machinery/power/supermatter/proc/Consume(var/mob/living/user)
-	if(istype(user))
+/obj/machinery/power/supermatter/proc/Consume(atom/AM as mob|obj)
+	if(istype(AM,/mob/living))
+		var/mob/living/user = AM
 		user.dust()
 		power += 200
 	else
-		del user
+		qdel(AM)
 
 	power += 200
 
