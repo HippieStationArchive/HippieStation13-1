@@ -91,6 +91,8 @@
 	var/mob/living/carbon/human/H = owner
 	..()
 	if(istype(H))
+		if(H.buckled)
+			H.buckled.unbuckle_mob() //Unbuckles when you chop someones head off
 		//Drop all worn head items
 		for(var/obj/item/I in list(H.glasses, H.ears, H.wear_mask, H.head))
 			if(!H.unEquip(I))
