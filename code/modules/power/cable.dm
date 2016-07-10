@@ -597,7 +597,6 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 /obj/structure/noose/user_unbuckle_mob(mob/living/user)
 	if(buckled_mob && buckled_mob.buckled == src)
 		var/mob/living/M = buckled_mob
-
 		if(M != user)
 			user.visible_message("<span class='notice'>[user] begins to untie the noose over [M]'s neck...</span>",\
 								"<span class='notice'>You begin to untie the noose over [M]'s neck...</span>")
@@ -620,6 +619,9 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 				"<span class='warning'>[M] unties the noose over their neck!</span>",\
 				"<span class='notice'>You untie the noose over your neck!</span>")
 			M.Weaken(3)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			H.noosed = 0
 		unbuckle_mob()
 		add_fingerprint(user)
 
@@ -640,6 +642,8 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	if(M.loc != src.loc) return 0 //Can only noose someone if they're on the same tile as noose
 
 	add_fingerprint(user)
+
+	M.noosed = 1
 
 	if(M == user && buckle_mob(M))
 		M.visible_message(\
