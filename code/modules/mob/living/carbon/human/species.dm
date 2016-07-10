@@ -857,7 +857,7 @@
 		if(!H.has_left_hand(1))
 			if(!(locate(block) in L.overlays))
 				L.overlays += block
-		else if(!locate(block) in L.overlays)
+		else if(locate(block) in L.overlays)
 			L.overlays -= block
 
 	switch(H.nutrition)
