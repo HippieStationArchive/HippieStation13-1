@@ -92,6 +92,7 @@
 	..()
 	if(istype(H))
 		if(H.buckled && H.noosed == 1)
+			H.noosed = 0
 			H.buckled.unbuckle_mob() //Unbuckles when you chop someones head off
 		//Drop all worn head items
 		for(var/obj/item/I in list(H.glasses, H.ears, H.wear_mask, H.head))
