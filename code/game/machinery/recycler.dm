@@ -148,10 +148,9 @@ var/const/SAFETY_COOLDOWN = 100
 	else
 		playsound(src.loc, 'sound/effects/splat.ogg', 50, 1)
 
-	var/gib = 1
 	// By default, the emagged recycler will gib both carbons and non-carbons. (human simple animal mobs don't count)
 	if(iscarbon(L))
-		gib
+		gib(L)
 		if(L.stat == CONSCIOUS)
 			L.say("ARRRRRRRRRRRGH!!!")
 		add_blood(L)
