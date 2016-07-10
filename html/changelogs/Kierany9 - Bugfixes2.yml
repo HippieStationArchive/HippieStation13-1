@@ -1,0 +1,5 @@
+author: Kierany9
+
+delete-after: True
+
+  - bugfix: "Fixed a bug that would make the 'handcuffed' HUD icon disappear almost immediately."
