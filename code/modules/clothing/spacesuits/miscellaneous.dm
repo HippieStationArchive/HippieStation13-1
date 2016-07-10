@@ -11,6 +11,7 @@ Contains:
  - EVA spacesuit
  - Freedom's spacesuit (freedom from vacuum's oppression)
  - Carp hardsuit
+ - HEV suit
 */
 
 	//Captain's space suit, not hardsuits because no flashlight!
@@ -357,6 +358,32 @@ Contains:
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/ert/paranormal
 	max_heat_protection_temperature = FIRE_IMMUNITY_SUIT_MAX_TEMP_PROTECT
 
+//HEV
+/obj/item/clothing/suit/space/hev_suit
+	name = "H.E.V Suit"
+	desc = "A highly advanced Hazardous Environment suit, this is the Mk7 version. Able to efficiently protect the user from just about any danger that a true scientist in the field may encounter. Also has some moderate protection from lasers, bullets, and blunt objects, just incase an angry military force decides to attempt to stop the progression of SCIENCE!"
+	icon_state = "hev"
+	item_state = "armor"
+	w_class = 4		//bulky item
+	strip_delay = 120
+	put_on_delay = 70
+	unacidable = 1	//Acids have no effect
+	burn_state = -1 //Not Burnable
+	slowdown = 0 //Fast!
+	armor = list(melee = 40, bullet = 45, laser = 45, energy = 30, bomb = 90, bio = 100, rad = 90)
+
+/obj/item/clothing/head/helmet/space/hev_helmet
+	name = "H.E.V Helmet"
+	icon_state = "hev"
+	desc = "An advanced Hazardous Environment helmet designed to be used in conjunction with the Hazardous Environment Suit. Allows the user to continue the progression of SCIENCE in the field despite nearly any danger they may encounter."
+	flash_protect = 1
+	permeability_coefficient = 0.01
+	flags = BLOCKHAIR | THICKMATERIAL | STOPSPRESSUREDMAGE | HEADBANGPROTECT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	armor = list(melee = 40, bullet = 45, laser = 45, energy = 30, bomb = 90, bio = 100, rad = 90)
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
+	unacidable = 1	//Acids have no effect
+	burn_state = -1 //Not Burnable
 
 /obj/item/clothing/suit/space/hardsuit/ert/paranormal/New()
 	..()

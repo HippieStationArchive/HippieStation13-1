@@ -438,7 +438,7 @@ datum/design/diagnostic_hud_night
 	req_tech = list("materials" = 4, "engineering" = 4, "combat" = 3, "biotech" = 3)
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 3500, MAT_GOLD = 2500, MAT_PLASMA = 700, MAT_URANIUM = 1000)
-	build_path = /obj/item/clothing/suit/armor/hev_suit
+	build_path = /obj/item/clothing/suit/space/hev_suit
 	category = list("Equipment")
 
 /datum/design/hev_helmet
@@ -448,7 +448,7 @@ datum/design/diagnostic_hud_night
 	req_tech = list("materials" = 4, "engineering" = 4, "combat" = 3, "biotech" = 3)
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 2000, MAT_GLASS = 1000, MAT_GOLD = 1000, MAT_PLASMA = 500, MAT_DIAMOND = 500)
-	build_path = /obj/item/clothing/head/helmet/hev_helmet
+	build_path = /obj/item/clothing/head/helmet/space/hev_helmet
 	category = list("Equipment")
 
 /////////////////////////////////////////
