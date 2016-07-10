@@ -643,14 +643,13 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 
 	add_fingerprint(user)
 
-	M.noosed = 1
-
 	if(M == user && buckle_mob(M))
 		M.visible_message(\
 			"<span class='suicide'>[M] ties \the [src] over their neck!</span>",\
 			"<span class='suicide'>You tie \the [src] over your neck!</span>")
 		playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
 		add_logs(user, null, "hanged themselves", src)
+		M.noosed = 1
 		return 1
 	else
 		M.visible_message(\
@@ -664,6 +663,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 					"<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
 				playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
 				add_logs(user, M, "hanged", src)
+				M.noosed = 1
 				return 1
 			else
 				user.visible_message(\
