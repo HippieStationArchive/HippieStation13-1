@@ -150,7 +150,7 @@ var/const/SAFETY_COOLDOWN = 100
 
 	// By default, the emagged recycler will gib both carbons and non-carbons. (human simple animal mobs don't count)
 	if(iscarbon(L))
-		gib(L)
+		L.gib()
 		if(L.stat == CONSCIOUS)
 			L.say("ARRRRRRRRRRRGH!!!")
 		add_blood(L)
