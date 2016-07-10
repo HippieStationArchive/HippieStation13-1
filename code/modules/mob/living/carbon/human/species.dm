@@ -852,13 +852,13 @@
 		if(!H.has_right_hand(1))
 			if(!(locate(block) in R.overlays))
 				R.overlays += block
-		else
-			R.overlays = null
+		else if(locate(block) in R.overlays)
+			R.overlays -= block
 		if(!H.has_left_hand(1))
 			if(!(locate(block) in L.overlays))
 				L.overlays += block
-		else
-			L.overlays = null
+		else if(!locate(block) in L.overlays)
+			L.overlays -= block
 
 	switch(H.nutrition)
 		if(NUTRITION_LEVEL_FULL to INFINITY)
