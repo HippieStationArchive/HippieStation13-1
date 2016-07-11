@@ -1,4 +1,4 @@
-/client/proc/cleanBombs(mob/living/C in mob_list)
+/client/proc/cleanBombs(mob/C in mob_list)
 	set name = "Clean Bombs"
 	set category = "Special Verbs"
 
