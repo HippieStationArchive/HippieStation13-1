@@ -10,6 +10,14 @@
 	var/valve_open = 0
 	var/toggle = 1
 
+/obj/item/device/transfer_valve/New()
+	ttv += src
+	..()
+
+/obj/item/device/transfer_valve/Destroy()
+	ttv -= src
+	..()
+
 /obj/item/device/transfer_valve/IsAssemblyHolder()
 	return 1
 
