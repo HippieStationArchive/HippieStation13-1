@@ -856,7 +856,7 @@
 "aqx" = (/obj/structure/table/wood,/obj/item/weapon/book/manual/wiki/security_space_law,/turf/simulated/floor/plasteel{icon_state = "blue"; dir = 6},/area/crew_quarters/courtroom)
 "aqy" = (/obj/machinery/atmospherics/components/unary/vent_pump{dir = 2; on = 1},/turf/simulated/floor/plasteel{icon_state = "neutral"; dir = 5},/area/crew_quarters/courtroom)
 "aqz" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/maintenance/fsmaint)
-"aqA" = (/obj/machinery/chem_dispenser/constructable,/turf/simulated/floor/wood,/area/maintenance/incinerator)
+"aqA" = (/obj/machinery/chem_dispenser,/turf/simulated/floor/wood,/area/maintenance/incinerator)
 "aqB" = (/obj/machinery/button/door{id = "Singularity"; name = "Shutters Control"; pixel_x = 0; pixel_y = 25; req_access_txt = "11"},/obj/structure/cable/yellow{d1 = 2; d2 = 4; icon_state = "2-4"},/turf/simulated/floor/plating,/area/engine/port_engineering)
 "aqC" = (/obj/item/weapon/bikehorn,/obj/item/weapon/cartridge/clown,/turf/simulated/floor/plating,/area/security/brig)
 "aqD" = (/obj/machinery/vending/cola,/turf/simulated/floor/plasteel{icon_state = "dark"},/area/security/brig)
