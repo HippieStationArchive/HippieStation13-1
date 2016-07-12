@@ -12,6 +12,8 @@
 		return
 
 
+	if(!C.ckey)
+		usr << "<span class='danger'>Error, mob no longer has a ckey.</span>"
 	var/bomber = C.ckey
 	var/count = 0
 	var/tainted = 0
