@@ -28,7 +28,8 @@ Note: Must be placed west/left of and R&D console to function.
 								"Electronics",
 								"Weapons",
 								"Ammo",
-								"Firing Pins"
+								"Firing Pins",
+								"Pod Equipment"
 								)
 
 	reagents = new()
