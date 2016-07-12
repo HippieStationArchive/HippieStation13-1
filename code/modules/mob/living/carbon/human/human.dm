@@ -9,6 +9,7 @@
 	var/startinfected = 1
 	var/zombification = 0
 	var/numinfectedh = 0
+	var/noosed = 0
 
 /mob/living/carbon/human/dummy
 	real_name = "Test Dummy"

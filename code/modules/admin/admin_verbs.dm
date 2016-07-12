@@ -24,6 +24,10 @@ var/list/admin_verbs_default = list(
 	/client/proc/stop_sounds
 	)
 var/list/admin_verbs_admin = list(
+	/client/proc/resolvehandlingahelp,
+	/client/proc/listhandlingahelp,
+	/datum/adminticket/proc/listunresolvedtickets,
+	/datum/adminticket/proc/listtickets,
 	/client/proc/admin_disable_shuttle,
 	/client/proc/admin_enable_shuttle,
 	/client/proc/player_panel_new,		/*shows an interface for all players, with links to various panels*/
