@@ -17,6 +17,7 @@ var/datum/subsystem/shuttle/SSshuttle
 	var/area/emergencyLastCallLoc
 	var/emergencyNoEscape
 	var/emergencyNoRecall = 0
+
 		//supply shuttle stuff
 	var/obj/docking_port/mobile/supply/supply
 	var/ordernum = 1					//order number given to next order

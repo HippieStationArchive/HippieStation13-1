@@ -13,6 +13,4 @@ var/list/IClog = list()
 var/list/OOClog = list()
 var/list/adminlog = list()
 
-var/list/admintickets = list()
-
 var/list/active_turfs_startlist = list()
