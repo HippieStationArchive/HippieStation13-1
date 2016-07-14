@@ -119,7 +119,6 @@
 		if(animated_manifest)
 			var/end_icon = icon_state
 			icon_state = "parasite_forming"
-			spawn(6)
 			icon_state = end_icon
 
 /mob/living/simple_animal/hostile/guardian/proc/Recall()
