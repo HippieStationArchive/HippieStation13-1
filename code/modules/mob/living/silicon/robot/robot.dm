@@ -1113,7 +1113,7 @@
 		new /obj/item/robot_parts/head(T)
 		var/b
 		for(b=0, b!=2, b++)
-			var/obj/item/device/assembly/flash/handheld/F = new /obj/item/device/assembly/flash/handheld(T)
+			var/obj/item/device/assembly/flash/F = new /obj/item/device/assembly/flash(T)
 			F.burn_out()
 	if (cell) //Sanity check.
 		cell.loc = T
