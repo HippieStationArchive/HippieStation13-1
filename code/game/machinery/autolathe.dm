@@ -48,7 +48,8 @@
 							"Machinery",
 							"Medical",
 							"Assembly",
-							"Misc"
+							"Misc",
+							"Pod Equipment"
 							)
 
 /obj/machinery/autolathe/New()

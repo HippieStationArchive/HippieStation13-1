@@ -848,7 +848,6 @@
 #include "code\game\spacepods\construction.dm"
 #include "code\game\spacepods\equipment.dm"
 #include "code\game\spacepods\parts.dm"
-#include "code\game\spacepods\pod_fabricator.dm"
 #include "code\game\spacepods\spacepods.dm"
 #include "code\game\turfs\simulated.dm"
 #include "code\game\turfs\turf.dm"

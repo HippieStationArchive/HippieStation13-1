@@ -95,7 +95,7 @@
 	desc = "Pod-mounted tasers, shoots two projectiles."
 	id = "pod_aft_starboard"
 	req_tech = list("materials" = 2, "combat" = 3)
-	build_type = PROTOLATHE | AUTOLATHE
+	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 1000, MAT_GLASS = 300)
 	construction_time=100
 	build_path = /obj/item/pod_parts/pod_frame/fore_starboard
