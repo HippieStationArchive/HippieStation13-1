@@ -403,6 +403,9 @@
 						return
 
 				if(usrarea.type in gang.territory|gang.territory_new)
+					if(!is_type_in_list(get_area(src), the_station_areas))
+						usr << "<span class='warning'>You can only use this on station areas!</span>"
+						return
 					if(gang.points >= 30)
 						item_type = /obj/machinery/dominator
 						usr << "<span class='notice'>The <b>dominator</b> will secure your gang's dominance over the station. Turn it on when you are ready to defend it.</span>"
