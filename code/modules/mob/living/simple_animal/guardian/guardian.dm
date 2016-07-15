@@ -634,14 +634,14 @@
 
 
 /obj/item/weapon/guardiancreator/proc/spawn_guardian(var/mob/living/user, var/key)
-	var/gaurdiantype = "Standard"
+	var/guardiantype = "Standard"
 	if(random)
-		gaurdiantype = pick(possible_guardians)
+		guardiantype = pick(possible_guardians)
 	else
-		gaurdiantype = input(user, "Pick the type of [mob_name]", "[mob_name] Creation") as null|anything in possible_guardians
+		guardiantype = input(user, "Pick the type of [mob_name]", "[mob_name] Creation") as null|anything in possible_guardians
 	var/pickedtype = /mob/living/simple_animal/hostile/guardian/punch
 	var/picked_color = randomColor(0)
-	switch(gaurdiantype)
+	switch(guardiantype)
 
 		if("Chaos")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/fire
@@ -685,8 +685,8 @@
 			G.animated_manifest = TRUE
 			user << "[G.tech_fluff_string]."
 			G.speak_emote = list("states")
-			if(gaurdiantype == "Ranged")
-				switch(colour)
+			if(guardiantype == "Ranged")
+				switch(colour) //Green is default
 					if("orange")
 						G.projectiletype = /obj/item/projectile/guardian/orange
 					if("neon")
