@@ -408,6 +408,22 @@
 	damage_type = BRUTE
 	armour_penetration = 100
 
+/obj/item/projectile/guardian/red
+	icon_state = "guardianred"
+
+/obj/item/projectile/guardian/blue
+	icon_state = "guardianblue"
+
+/obj/item/projectile/guardian/pink
+	icon_state = "guardianpink"
+
+/obj/item/projectile/guardian/orange
+	icon_state = "guardianorange"
+
+/obj/item/projectile/guardian/neon
+	icon_state = "guardianneon"
+
+
 /mob/living/simple_animal/hostile/guardian/ranged
 	a_intent = "help"
 	friendly = "quietly assesses"
@@ -669,6 +685,18 @@
 			G.animated_manifest = TRUE
 			user << "[G.tech_fluff_string]."
 			G.speak_emote = list("states")
+			if(gaurdiantype == "Ranged")
+				switch(colour)
+					if("orange")
+						G.projectiletype = /obj/item/projectile/guardian/orange
+					if("neon")
+						G.projectiletype = /obj/item/projectile/guardian/neon
+					if("pink")
+						G.projectiletype = /obj/item/projectile/guardian/pink
+					if("red")
+						G.projectiletype = /obj/item/projectile/guardian/red
+					if("blue")
+						G.projectiletype = /obj/item/projectile/guardian/blue
 		if("bio")
 			user << "[G.bio_fluff_string]."
 			G.attacktext = "swarms"
