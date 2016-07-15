@@ -65,17 +65,11 @@
 
 /obj/item/weapon/storage/AltClick() //Altclick is a shortcut to open the bag so you don't have to constantly drag&drop backpacks to check them w/o picking them up
 	..()
-	var/obj/item/weapon/storage/secure/S
 	var/mob/M = usr
 	if(Adjacent(M))
 		orient2hud(M)
 		if(M.s_active)
 			M.s_active.close(M)
-		if(istype(src,/obj/item/weapon/storage/secure))
-			S = src
-		if (S)
-			if (S.locked)
-				return attack_self(M)
 		show_to(M)
 
 //Check if this storage can dump the items
