@@ -439,7 +439,6 @@
 	anchored = 1
 
 /obj/effect/landmark/spacepod/guaranteed/New()
-	sleep(10)
 	new /obj/spacepod/random(get_turf(src))
 	qdel(src)
 
