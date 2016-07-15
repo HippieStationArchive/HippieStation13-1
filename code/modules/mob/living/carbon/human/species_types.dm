@@ -156,7 +156,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
-	mutations_to_have = list(CLUMSY, EPILEPSY, UNINTELLIGABLE, NERVOUS, COUGH)
+	mutations_to_have = list(CLUMSY, EPILEPSY, UNINTELLIGABLE, NERVOUS, COUGH, TOURETTES)
 	teeth_type = /obj/item/stack/teeth/cat
 
 /datum/species/cat/qualifies_for_rank(rank, list/features)
