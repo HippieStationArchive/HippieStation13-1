@@ -204,3 +204,8 @@ obj/item/ammo_casing/energy/net
 	select_name = "overdrive"
 	fire_sound = 'sound/weapons/pulse.ogg'
 
+/obj/item/ammo_casing/energy/shock_revolver
+	fire_sound = 'sound/magic/lightningbolt.ogg'
+	e_cost = 200
+	select_name = "stun"
+	projectile_type = /obj/item/projectile/energy/shock_revolver
