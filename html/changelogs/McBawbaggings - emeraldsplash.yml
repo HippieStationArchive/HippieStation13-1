@@ -3,5 +3,5 @@ author: McBawbaggings
 delete-after: True
 
 changes: 
-  - tweak: "Ranged Tech Holoparasites now have shards for their colours."
+  - tweak: "Holoparasite crystal sprays now use colour."
   - bugfix: "Magical guardian spirits now actually change colour."

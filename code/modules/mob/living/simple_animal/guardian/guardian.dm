@@ -501,15 +501,15 @@
 /proc/techcolor2hex(var/colour)
 	switch(colour)
 		if("orange")
-			return "#FF6600"
+			return "#F87531"
 		if("neon")
 			return "#80FF15"
 		if("pink")
-			return "#FF66FF"
+			return "#FF65FF"
 		if("red")
-			return "#FF0909"
+			return "#EE2C2C"
 		if("blue")
-			return "#33CCFF"
+			return "#00FFFF"
 		if("green")
 			return "#15FF1C"
 		else
