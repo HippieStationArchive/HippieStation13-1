@@ -107,7 +107,7 @@
 	STORAGE_TYPE = /obj/item/weapon/tank/jetpack/oxygen/harness
 
 /obj/machinery/suit_storage_unit/syndicate/blastco
-	SUIT_TYPE = /obj/item/clothing/suit/space/hardsuit/syndi/blastco
+	SUIT_TYPE = /obj/item/clothing/suit/space/hardsuit/shielded/syndi
 	MASK_TYPE = /obj/item/clothing/mask/gas/syndicate
 	STORAGE_TYPE = /obj/item/weapon/tank/internals/oxygen/red
 

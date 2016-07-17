@@ -575,23 +575,21 @@
         . += image(icon = 'icons/effects/effects.dmi', icon_state = "[shield_state]")
 
 /obj/item/clothing/suit/space/hardsuit/shielded/syndi
-	name = "blood-red hardsuit"
+	name = "blastco syndicate hardsuit"
 	desc = "An advanced hardsuit with built in energy shielding."
-	icon_state = "hardsuit1-syndi"
+	icon_state = "hardsuit0-blastco"
 	item_state = "syndie_hardsuit"
-	item_color = "syndi"
-	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
+	item_color = "blastco"
+	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 90, bio = 100, rad = 50)
 	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword/saber,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/shielded/syndi
 	slowdown = 0
 
 
 /obj/item/clothing/head/helmet/space/hardsuit/shielded/syndi
-	name = "blood-red hardsuit helmet"
+	name = "blastco syndicate helmet"
 	desc = "An advanced hardsuit helmet with built in energy shielding."
-	icon_state = "hardsuit1-syndi"
+	icon_state = "hardsuit1-blastco"
 	item_state = "syndie_helm"
-	item_color = "syndi"
-	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 35, bio = 100, rad = 50)
-
-
+	item_color = "blastco"
+	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 90, bio = 100, rad = 50)
