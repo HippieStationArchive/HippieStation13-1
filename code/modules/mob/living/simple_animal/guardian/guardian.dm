@@ -31,6 +31,7 @@
 	var/damage_transfer = 1 //how much damage from each attack we transfer to the owner
 	var/mob/living/summoner
 	var/range = 10 //how far from the user the spirit can be
+	var/guardiancolor = "#85C0E9" //Used for deciding ranged crystal spray color
 	var/playstyle_string = "You are a standard Guardian. You shouldn't exist!"
 	var/magic_fluff_string = " You draw the Coder, symbolizing bugs and errors. This shouldn't happen! Submit a bug report!"
 	var/tech_fluff_string = "BOOT SEQUENCE COMPLETE. ERROR MODULE LOADED. THIS SHOULDN'T HAPPEN. Submit a bug report!"
@@ -407,22 +408,7 @@
 	damage = 5
 	damage_type = BRUTE
 	armour_penetration = 100
-
-/obj/item/projectile/guardian/red
-	icon_state = "guardianred"
-
-/obj/item/projectile/guardian/blue
-	icon_state = "guardianblue"
-
-/obj/item/projectile/guardian/pink
-	icon_state = "guardianpink"
-
-/obj/item/projectile/guardian/orange
-	icon_state = "guardianorange"
-
-/obj/item/projectile/guardian/neon
-	icon_state = "guardianneon"
-
+	mouse_opacity = 1
 
 /mob/living/simple_animal/hostile/guardian/ranged
 	a_intent = "help"
@@ -505,6 +491,29 @@
 				var/mob/living/simple_animal/hostile/guardian/G = spawner
 				if(G.summoner)
 					G.summoner << "<span class='danger'><B>[AM] has crossed your surveillance trap at [get_area(snare_loc)].</span></B>"
+
+/mob/living/simple_animal/hostile/guardian/ranged/Shoot(atom/targeted_atom)
+	var/obj/item/projectile/guardian/shard = ..()
+	if(!shard)
+		return
+	shard.color = guardiancolor
+
+/proc/techcolor2hex(var/colour)
+	switch(colour)
+		if("orange")
+			return "#FF6600"
+		if("neon")
+			return "#80FF15"
+		if("pink")
+			return "#FF66FF"
+		if("red")
+			return "#FF0909"
+		if("blue")
+			return "#33CCFF"
+		if("green")
+			return "#15FF1C"
+		else
+			return "#85C0E9"
 
 ////Bomb
 
@@ -672,6 +681,7 @@
 	switch (theme)
 		if("magic")
 			G.name = "[mob_name] [capitalize(picked_color)]"
+			G.guardiancolor = color2hex(picked_color)
 			G.color = color2hex(picked_color)
 			G.real_name = "[mob_name] [capitalize(picked_color)]"
 			user << "[G.magic_fluff_string]."
@@ -685,23 +695,11 @@
 			G.animated_manifest = TRUE
 			user << "[G.tech_fluff_string]."
 			G.speak_emote = list("states")
-			if(guardiantype == "Ranged")
-				switch(colour) //Green is default
-					if("orange")
-						G.projectiletype = /obj/item/projectile/guardian/orange
-					if("neon")
-						G.projectiletype = /obj/item/projectile/guardian/neon
-					if("pink")
-						G.projectiletype = /obj/item/projectile/guardian/pink
-					if("red")
-						G.projectiletype = /obj/item/projectile/guardian/red
-					if("blue")
-						G.projectiletype = /obj/item/projectile/guardian/blue
+			G.guardiancolor = techcolor2hex(colour)
 		if("bio")
 			user << "[G.bio_fluff_string]."
 			G.attacktext = "swarms"
 			G.speak_emote = list("chitters")
-	return G
 
 /obj/item/weapon/guardiancreator/choose
 	random = FALSE
