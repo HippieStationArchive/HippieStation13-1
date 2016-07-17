@@ -73,7 +73,8 @@ var/list/admin_verbs_admin = list(
 	/client/proc/toggle_antag_hud, 	/*toggle display of the admin antag hud*/
 	/client/proc/fill_breach,
 	/client/proc/reset_atmos,
-	/client/proc/aooc /*sends a message to all antags on the server*/
+	/client/proc/aooc, /*sends a message to all antags on the server*/
+	/client/proc/cleanBombs /*cleans the bombs that the mob has touched*/
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
