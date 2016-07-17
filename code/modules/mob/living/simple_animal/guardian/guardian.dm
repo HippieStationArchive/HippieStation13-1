@@ -408,7 +408,6 @@
 	damage = 5
 	damage_type = BRUTE
 	armour_penetration = 100
-	mouse_opacity = 1
 
 /mob/living/simple_animal/hostile/guardian/ranged
 	a_intent = "help"
@@ -507,7 +506,7 @@
 		if("pink")
 			return "#FF65FF"
 		if("red")
-			return "#EE2C2C"
+			return "#FF252F"
 		if("blue")
 			return "#00FFFF"
 		if("green")
@@ -649,7 +648,7 @@
 	else
 		guardiantype = input(user, "Pick the type of [mob_name]", "[mob_name] Creation") as null|anything in possible_guardians
 	var/pickedtype = /mob/living/simple_animal/hostile/guardian/punch
-	var/picked_color = randomColor(0)
+	var/picked_color = randomColor(1)
 	switch(guardiantype)
 
 		if("Chaos")
