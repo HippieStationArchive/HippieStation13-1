@@ -39,12 +39,6 @@
 	..()
 	src << "<span class='notice'>You can kill and eat other drones to increase your health!</span>" //Inform the evil lil guy
 
-/*
-//Syndrones shouldn't be blocked like regular drones.
-/mob/living/simple_animal/drone/syndrone/ClickOn(atom/A, params)
-	...(A, params)
-*/
-
 /obj/item/drone_shell/syndrone
 	name = "syndrone shell"
 	desc = "A shell of a syndrone, a modified maintenance drone designed to infiltrate and annihilate."
