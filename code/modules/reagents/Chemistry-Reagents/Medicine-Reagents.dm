@@ -915,7 +915,7 @@ datum/reagent/medicine/bromelain
 datum/reagent/medicine/bromelain/on_mob_life(mob/living/M)
 	M.adjustBruteLoss(-2*REM)
 	if(M.getBruteLoss() < 30)
-	metabolization_rate = REAGENTS_METABOLISM
+		metabolization_rate = REAGENTS_METABOLISM
 
 	..()
 	return
