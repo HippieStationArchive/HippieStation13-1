@@ -11,10 +11,10 @@ RCD
 	icon_state = "rcd"
 	opacity = 0
 	density = 0
-	anchored = 0.0
+	anchored = 0
 	flags = CONDUCT
-	force = 10.0
-	throwforce = 10.0
+	force = 10
+	throwforce = 10
 	throw_speed = 3
 	throw_range = 5
 	w_class = 3
