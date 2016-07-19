@@ -107,8 +107,8 @@
 	name = "Pentetic Acid"
 	id = "pen_acid"
 	result = "pen_acid"
-	required_reagents = list("welding_fuel" = 1, "chlorine" = 1, "ammonia" = 1, "formaldehyde" = 1, "sodium" = 1, "cyanide" = 1)
-	result_amount = 6
+	required_reagents = list("potass_iodide" = 1, "cyanide" = 1)
+	result_amount = 3
 
 /datum/chemical_reaction/salbutamol
 	name = "Salbutamol"
