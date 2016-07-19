@@ -240,12 +240,12 @@
 	description = "Heals a small amount of brute and burn damage per cycle. Can be used as a blood substitute on an IV drip."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 
 /datum/reagent/medicine/salglu_solution/on_mob_life(mob/living/M)
-	M.adjustBruteLoss(-0.35*REM)
+	M.adjustBruteLoss(-0.5*REM)
 	M.adjustBloodLoss(-0.1*REM)
-	M.adjustFireLoss(-0.35*REM)
+	M.adjustFireLoss(-0.5*REM)
 	..()
 
 /datum/reagent/medicine/salglu_solution/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
