@@ -239,13 +239,13 @@
 /datum/chemical_reaction/antitoxin //There is literally no reason to make this it's just a shitter charcoal reeeeee
 	name = "Antitoxin"
 	id = "antitoxin"
-	result = "antitoxin"
-	required_reagents = list("nitrogen" = 1, "silicon" = 1, "potassium" = 1)
+	result = "charcoal"
+	required_reagents = list("nitrogen" = 2, "silicon" = 2, "potassium" = 2)
 	result_amount = 3
 
 /datum/chemical_reaction/tricordrazine
 	name = "Tricordrazine"
 	id = "tricordrazine"
 	result = "tricordrazine"
-	required_reagents = list("bicaridine" = 1, "kelotane" = 1, "antitoxin" = 1)
+	required_reagents = list("bicaridine" = 1, "kelotane" = 1, "charcoal" = 1)
 	result_amount = 3
