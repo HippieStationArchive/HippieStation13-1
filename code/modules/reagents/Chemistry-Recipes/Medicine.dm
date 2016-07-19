@@ -155,7 +155,7 @@
 	id = "atropine"
 	result = "atropine"
 	required_reagents = list("epinephrine" = 1, "ephedrine" = 1, "salbutamol" = 1)
-	result_amount = 5
+	result_amount = 3
 
 /datum/chemical_reaction/epinephrine
 	name = "Epinephrine"
