@@ -121,12 +121,12 @@
 
 /datum/reagent/medicine/clonexadone
 	name = "Clonexadone"
-	id = "cryoxadone"
-	description = "A stronger version of Cryoxadone that only metabolizes in extremely low temperatures below 140K."
+	id = "clonexadone"
+	description = "A stronger version of Cryoxadone that only metabolizes in extremely low temperatures below 130K."
 	color = "#0000C8"
 
-/datum/reagent/medicine/cryoxadone/on_mob_life(mob/living/M)
-	if(M.stat != DEAD && M.bodytemperature < 140)
+/datum/reagent/medicine/clonexadone/on_mob_life(mob/living/M)
+	if(M.stat != DEAD && M.bodytemperature < 130)
 		M.adjustCloneLoss(-12)
 		M.adjustOxyLoss(-10)
 		M.adjustBruteLoss(-5)
