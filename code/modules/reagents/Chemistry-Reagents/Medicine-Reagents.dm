@@ -666,6 +666,11 @@
 		M.adjustBruteLoss(-0.5*REM)
 		M.adjustFireLoss(-0.5*REM)
 		M.adjustOxyLoss(-0.5*REM)
+	if(istype(M, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = M
+		if(H.heart_attack && prob(10))
+			H.heart_attack = 0
+H.visible_message("<span class='userdanger'>[H] clutches at their chest as if their heart stopped!</span>")
 	M.losebreath = 0
 	..()
 	return
@@ -701,11 +706,10 @@
 		M.losebreath -= 2
 	if(M.losebreath < 0)
 		M.losebreath = 0
-	M.adjustStaminaLoss(-0.5*REM)
-	if(prob(20))
-		M.AdjustParalysis(-1)
-		M.AdjustStunned(-1)
-		M.AdjustWeakened(-1)
+	if(istype(M, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = M
+		if(H.heart_attack && prob(1))
+			H.heart_attack = 0
 	..()
 	return
 
