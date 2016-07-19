@@ -676,9 +676,13 @@ H.visible_message("<span class='userdanger'>[H] clutches at their chest as if th
 	return
 
 /datum/reagent/medicine/atropine/overdose_process(mob/living/M)
-	M.adjustToxLoss(0.5*REM)
+	M.hallucination = max(0, M.hallucination + 10)
+	M.adjustToxLoss(1.5*REM)
+	M.adjustStaminaLoss(5*REM)
 	M.Dizzy(1)
 	M.Jitter(1)
+	if(prob(10))
+		M.emote("vomit")
 	..()
 	return
 
@@ -714,10 +718,9 @@ H.visible_message("<span class='userdanger'>[H] clutches at their chest as if th
 	return
 
 /datum/reagent/medicine/epinephrine/overdose_process(mob/living/M)
-	if(prob(33))
-		M.adjustStaminaLoss(2.5*REM)
-		M.adjustToxLoss(1*REM)
-		M.losebreath++
+	M.adjustStaminaLoss(2.5*REM)
+	M.adjustToxLoss(1*REM)
+	M.losebreath++
 	..()
 	return
 
