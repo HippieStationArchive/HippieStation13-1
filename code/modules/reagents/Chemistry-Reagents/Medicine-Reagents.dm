@@ -302,9 +302,9 @@
 /datum/reagent/medicine/synthflesh/reaction_mob(mob/living/M, method=TOUCH, reac_volume,show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
 		if(method in list(PATCH, TOUCH))
-			M.adjustBruteLoss(-1.25 * reac_volume)
+			M.adjustBruteLoss(-1 * reac_volume)
 			M.adjustBloodLoss(-M.getBloodLoss()) //Heal bloodloss completely
-			M.adjustFireLoss(-1.25 * reac_volume)
+			M.adjustFireLoss(-1 * reac_volume)
 			if(show_message)
 				M << "<span class='danger'>You feel your burns healing and your flesh knitting together!</span>"
 	..()
@@ -650,11 +650,21 @@
 	overdose_threshold = 35
 
 /datum/reagent/medicine/atropine/on_mob_life(mob/living/M)
-	if(M.health < 0)
+	if(M.health < -60)
+		M.adjustToxLoss(-4*REM)
+		M.adjustBruteLoss(-4*REM)
+		M.adjustFireLoss(-4*REM)
+		M.adjustOxyLoss(-10*REM)
+	else if(M.health < 0)
 		M.adjustToxLoss(-2*REM)
 		M.adjustBruteLoss(-2*REM)
 		M.adjustFireLoss(-2*REM)
 		M.adjustOxyLoss(-5*REM)
+	else if(M.health < 10)
+		M.adjustToxLoss(-0.5*REM)
+		M.adjustBruteLoss(-0.5*REM)
+		M.adjustFireLoss(-0.5*REM)
+		M.adjustOxyLoss(-0.5*REM)
 	M.losebreath = 0
 	..()
 	return
@@ -680,8 +690,12 @@
 		M.adjustToxLoss(-0.5*REM)
 		M.adjustBruteLoss(-0.5*REM)
 		M.adjustFireLoss(-0.5*REM)
+	else if(M.health < 5)
+		M.adjustToxLoss(-0.1*REM)
+		M.adjustBruteLoss(-0.1*REM)
+		M.adjustFireLoss(-0.1*REM)
 	if(M.oxyloss > 35)
-		M.setOxyLoss(35)
+		M.adjustOxyLoss(-6)
 	if(M.losebreath >= 4)
 		M.losebreath -= 2
 	if(M.losebreath < 0)
