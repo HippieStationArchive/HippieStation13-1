@@ -227,6 +227,7 @@
 	id = "bromelain"
 	result = "bromelain"
 	required_reagents = list("styptic_powder" = 1, "bicaridine" = 1, "carbon" = 1)
+	required_catalysts = list("plasma" = 5)
 	result_amount = 2
 
 /datum/chemical_reaction/dermaline
@@ -234,6 +235,7 @@
 	id = "dermaline"
 	result = "dermaline"
 	required_reagents = list("kelotane" = 1, "silver_sulfadiazine" = 1, "phosphorus" = 1)
+	required_catalysts = list("plasma" = 5)
 	result_amount = 2
 
 /datum/chemical_reaction/antitoxin //There is literally no reason to make this it's just a shitter charcoal reeeeee
