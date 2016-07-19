@@ -181,15 +181,12 @@
 			if(show_message)
 				M << "<span class='warning'>You don't feel so good...</span>"
 		else if(M.getFireLoss())
-			M.adjustFireLoss(-reac_volume)
+			M.adjustFireLoss(max(-reac_volume, -30))
 			if(show_message)
 				M << "<span class='danger'>You feel your burns healing! It stings like hell!</span>"
 			M.emote("scream")
 	..()
 
-/datum/reagent/medicine/silver_sulfadiazine/on_mob_life(mob/living/M)
-	M.adjustFireLoss(-2*REM)
-	..()
 
 /datum/reagent/medicine/oxandrolone
 	name = "Oxandrolone"
@@ -229,17 +226,13 @@
 			if(show_message)
 				M << "<span class='warning'>You don't feel so good...</span>"
 		else if(M.getBruteLoss())
-			M.adjustBruteLoss(-reac_volume)
+			M.adjustBruteLoss(max(-reac_volume, -30)))
 			M.adjustBloodLoss(-reac_volume/10)
 			if(show_message)
 				M << "<span class='danger'>You feel your wounds knitting back together!</span>"
 			M.emote("scream")
 	..()
 
-/datum/reagent/medicine/styptic_powder/on_mob_life(mob/living/M)
-	M.adjustBruteLoss(-2*REM)
-	M.adjustBloodLoss(-0.01*REM)
-	..()
 
 /datum/reagent/medicine/salglu_solution
 	name = "Saline-Glucose Solution"
