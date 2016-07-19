@@ -226,7 +226,7 @@
 			if(show_message)
 				M << "<span class='warning'>You don't feel so good...</span>"
 		else if(M.getBruteLoss())
-			M.adjustBruteLoss(max(-reac_volume, -30)))
+			M.adjustBruteLoss(max(-reac_volume, -30))
 			M.adjustBloodLoss(-reac_volume/10)
 			if(show_message)
 				M << "<span class='danger'>You feel your wounds knitting back together!</span>"
