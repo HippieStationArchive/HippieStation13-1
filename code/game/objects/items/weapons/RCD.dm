@@ -33,7 +33,7 @@ RCD
 	var/list/door_accesses_list = list()
 	var/one_access
 	var/locked = 1
-	var/static/list/allowed_door_types = list(/obj/machinery/door/airlock = "Standard",
+	var/list/allowed_door_types = list(/obj/machinery/door/airlock = "Standard",
 		/obj/machinery/door/airlock/command = "Command", /obj/machinery/door/airlock/security = "Security",
 		/obj/machinery/door/airlock/engineering = "Engineering", /obj/machinery/door/airlock/medical = "Medical",
 		/obj/machinery/door/airlock/maintenance = "Maintenance", /obj/machinery/door/airlock/external = "External",
