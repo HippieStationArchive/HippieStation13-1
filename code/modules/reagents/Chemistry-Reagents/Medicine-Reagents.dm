@@ -670,7 +670,6 @@
 		var/mob/living/carbon/human/H = M
 		if(H.heart_attack && prob(10))
 			H.heart_attack = 0
-H.visible_message("<span class='userdanger'>[H] clutches at their chest as if their heart stopped!</span>")
 	M.losebreath = 0
 	..()
 	return
