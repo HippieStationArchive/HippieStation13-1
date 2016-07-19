@@ -233,7 +233,7 @@
 	name = "Dermaline"
 	id = "dermaline"
 	result = "dermaline"
-	required_reagents = list("kelotane" = 1, "silver_sulfadiazine" = 1, "phosphorous" = 1)
+	required_reagents = list("kelotane" = 1, "silver_sulfadiazine" = 1, "phosphorus" = 1)
 	result_amount = 2
 
 /datum/chemical_reaction/antitoxin //There is literally no reason to make this it's just a shitter charcoal reeeeee
