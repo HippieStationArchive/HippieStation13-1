@@ -51,6 +51,7 @@ RCD
 	for(var/access in get_all_accesses())
 		door_accesses_list[++door_accesses_list.len] = list("name" = get_access_desc(access), "id" = access, "enabled" = (access in door_accesses))
 	return
+	..()
 
 /obj/item/weapon/rcd/Destroy()
 	rcd_list -= src
