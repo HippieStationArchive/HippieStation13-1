@@ -39,17 +39,16 @@
 	name = "Charcoal"
 	id = "charcoal"
 	result = "charcoal"
-	required_reagents = list("ash" = 1, "sodiumchloride" = 1)
+	required_reagents = list("oil" = 1, "sodiumchloride" = 1)
 	result_amount = 2
 	mix_message = "The mixture yields a fine black powder."
-	required_temp = 380
 
 /datum/chemical_reaction/silver_sulfadiazine
 	name = "Silver Sulfadiazine"
 	id = "silver_sulfadiazine"
 	result = "silver_sulfadiazine"
-	required_reagents = list("ammonia" = 1, "silver" = 1, "sulfur" = 1, "oxygen" = 1, "chlorine" = 1)
-	result_amount = 5
+	required_reagents = list("silver" = 1, "sulfur" = 1, "oxygen" = 1, "chlorine" = 1)
+	result_amount = 4
 
 /datum/chemical_reaction/salglu_solution
 	name = "Saline-Glucose Solution"
@@ -57,14 +56,16 @@
 	result = "salglu_solution"
 	required_reagents = list("sodiumchloride" = 1, "water" = 1, "sugar" = 1)
 	result_amount = 3
-	
+
+/*	
 /datum/chemical_reaction/mine_salve
 	name = "Miner's Salve"
 	id = "mine_salve"
 	result = "mine_salve"
 	required_reagents = list("oil" = 1, "water" = 1, "iron" = 1)
 	result_amount = 3
-	
+*/
+
 /datum/chemical_reaction/mine_salve2
 	name = "Miner's Salve"
 	id = "mine_salve"
@@ -127,8 +128,8 @@
 	name = "Salbutamol"
 	id = "salbutamol"
 	result = "salbutamol"
-	required_reagents = list("sal_acid" = 1, "lithium" = 1, "aluminium" = 1, "bromine" = 1, "ammonia" = 1)
-	result_amount = 5
+	required_reagents = list("lithium" = 1, "oxygen" = 1, "bromine" = 1)
+	result_amount = 3
 
 /datum/chemical_reaction/perfluorodecalin
 	name = "Perfluorodecalin"
@@ -167,15 +168,15 @@
 	name = "Atropine"
 	id = "atropine"
 	result = "atropine"
-	required_reagents = list("ethanol" = 1, "acetone" = 1, "diethylamine" = 1, "phenol" = 1, "sacid" = 1)
+	required_reagents = list("epinephrine" = 1, "ephedrine" = 1, "salbutamol" = 1)
 	result_amount = 5
 
 /datum/chemical_reaction/epinephrine
 	name = "Epinephrine"
 	id = "epinephrine"
 	result = "epinephrine"
-	required_reagents = list("phenol" = 1, "acetone" = 1, "diethylamine" = 1, "oxygen" = 1, "chlorine" = 1, "hydrogen" = 1)
-	result_amount = 6
+	required_reagents = list("carbon" = 1, "oxygen" = 1, "sugar" = 1)
+	result_amount = 3
 
 /datum/chemical_reaction/strange_reagent
 	name = "Strange Reagent"
@@ -196,8 +197,8 @@
 	name = "Mutadone"
 	id = "mutadone"
 	result = "mutadone"
-	required_reagents = list("mutagen" = 1, "acetone" = 1, "bromine" = 1)
-	result_amount = 3
+	required_reagents = list("radium" = 1, "charcoal" = 1)
+	result_amount = 2
 
 /datum/chemical_reaction/antihol
 	name = "antihol"
@@ -210,15 +211,23 @@
 	name = "Cryoxadone"
 	id = "cryoxadone"
 	result = "cryoxadone"
-	required_reagents = list("stable_plasma" = 1, "acetone" = 1, "mutagen" = 1)
+	required_reagents = list("stable_plasma" = 1, "oil" = 1, "mutagen" = 1)
 	result_amount = 3
+
+/datum/chemical_reaction/clonexadone
+	name = "Clonexadone"
+	id = "clonexadone"
+	result = "clonexadone"
+	required_reagents = list("cryoxadone" = 1, "cryostylane" = 1)
+	required_catalysts = list("plasma" = 5)
+	result_amount = 2
 
 /datum/chemical_reaction/bicaridine
 	name = "Bicaridine"
 	id = "bicaridine"
 	result = "bicaridine"
-	required_reagents = list("carbon" = 1, "oxygen" = 1, "sugar" = 1)
-	result_amount = 3
+	required_reagents = list("epinephrine" = 1, "carbon" = 1)
+	result_amount = 2
 
 /datum/chemical_reaction/kelotane
 	name = "Kelotane"
@@ -227,8 +236,21 @@
 	required_reagents = list("carbon" = 1, "silicon" = 1)
 	result_amount = 2
 
+/datum/chemical_reaction/bromelain
+	name = "Bromelain"
+	id = "bromelain"
+	result = "bromelain"
+	required_reagents = list("styptic_powder" = 1, "bicaridine" = 1, "carbon" = 1)
+	result_amount = 2
 
-/datum/chemical_reaction/antitoxin
+/datum/chemical_reaction/dermaline
+	name = "Dermaline"
+	id = "dermaline"
+	result = "dermaline"
+	required_reagents = list("kelotane" = 1, "silver_sulfadiazine" = 1, "phosphorous" = 1)
+	result_amount = 2
+
+/datum/chemical_reaction/antitoxin //There is literally no reason to make this it's just a shitter charcoal reeeeee
 	name = "Antitoxin"
 	id = "antitoxin"
 	result = "antitoxin"
