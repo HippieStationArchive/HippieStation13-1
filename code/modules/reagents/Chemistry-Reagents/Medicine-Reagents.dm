@@ -305,6 +305,7 @@
 			M.adjustBruteLoss(-1 * reac_volume)
 			M.adjustBloodLoss(-M.getBloodLoss()) //Heal bloodloss completely
 			M.adjustFireLoss(-1 * reac_volume)
+			M.adjustStaminaLoss(1.5 * reac_volume)
 			if(show_message)
 				M << "<span class='danger'>You feel your burns healing and your flesh knitting together!</span>"
 	..()
