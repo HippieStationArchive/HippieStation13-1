@@ -9,3 +9,4 @@ changes:
   - rscadd: "Re-added Clonexadone."
   - tweak: "Removed the Iron/Oxygen/Oil Miner's Salve recipe. It also now deals stamina damage based on volume instead of a stun when ingested."
   - tweak: "Cryoxadone has a slightly lower activation temperature."
+  - tweak: "Atropine and Epinephrine now have a low chance(10% and 1% respectively) to stop cardiac arrest."
