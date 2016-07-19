@@ -104,17 +104,35 @@
 /datum/reagent/medicine/cryoxadone
 	name = "Cryoxadone"
 	id = "cryoxadone"
-	description = "A chemical mixture with almost magical healing powers. Its main limitation is that the patient's body temperature must be under 170K for it to metabolise correctly."
+	description = "A chemical mixture with almost magical healing powers. Its main limitation is that the patient's body temperature must be under 230K for it to metabolise correctly."
 	color = "#0000C8"
 
 /datum/reagent/medicine/cryoxadone/on_mob_life(mob/living/M)
-	if(M.stat != DEAD && M.bodytemperature < 270)
+	if(M.stat != DEAD && M.bodytemperature < 230)
 		M.adjustCloneLoss(-4)
 		M.adjustOxyLoss(-10)
 		M.adjustBruteLoss(-3)
 		M.adjustBloodLoss(-0.02)
 		M.adjustFireLoss(-3)
 		M.adjustToxLoss(-3)
+		M.status_flags &= ~DISFIGURED
+	..()
+	return
+
+/datum/reagent/medicine/clonexadone
+	name = "Clonexadone"
+	id = "cryoxadone"
+	description = "A stronger version of Cryoxadone that only metabolizes in extremely low temperatures below 140K."
+	color = "#0000C8"
+
+/datum/reagent/medicine/cryoxadone/on_mob_life(mob/living/M)
+	if(M.stat != DEAD && M.bodytemperature < 140)
+		M.adjustCloneLoss(-12)
+		M.adjustOxyLoss(-10)
+		M.adjustBruteLoss(-5)
+		M.adjustBloodLoss(-0.02)
+		M.adjustFireLoss(-5)
+		M.adjustToxLoss(-5)
 		M.status_flags &= ~DISFIGURED
 	..()
 	return
@@ -829,7 +847,8 @@ datum/reagent/medicine/bicaridine/on_mob_life(mob/living/M)
 	return
 
 datum/reagent/medicine/bicaridine/overdose_process(mob/living/M)
-	M.adjustBruteLoss(4*REM)
+	M.adjustBruteLoss(3*REM)
+	metabolization_rate = 3 * REAGENTS_METABOLISM
 	..()
 	return
 
@@ -847,7 +866,8 @@ datum/reagent/medicine/dexalin/on_mob_life(mob/living/M)
 	return
 
 datum/reagent/medicine/dexalin/overdose_process(mob/living/M)
-	M.adjustOxyLoss(4*REM)
+	M.adjustOxyLoss(3*REM)
+	metabolization_rate = 3 * REAGENTS_METABOLISM
 	..()
 	return
 
@@ -865,10 +885,56 @@ datum/reagent/medicine/kelotane/on_mob_life(mob/living/M)
 	return
 
 datum/reagent/medicine/kelotane/overdose_process(mob/living/M)
-	M.adjustFireLoss(4*REM)
+	M.adjustFireLoss(3*REM)
+	metabolization_rate = 3 * REAGENTS_METABOLISM
 	..()
 	return
 
+datum/reagent/medicine/bromelain
+	name = "Bromelain"
+	id = "bromelain"
+	description = "Effective at healing severe brusing and very efficient but acts somewhat slowly."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	overdose_threshold = 30
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+datum/reagent/medicine/bromelain/on_mob_life(mob/living/M)
+	M.adjustBruteLoss(-2*REM)
+	if(M.getBruteLoss() < 30)
+	metabolization_rate = REAGENTS_METABOLISM
+
+	..()
+	return
+
+datum/reagent/medicine/bromelain/overdose_process(mob/living/M)
+	M.adjustBruteLoss(3*REM)
+	metabolization_rate = 2 * REAGENTS_METABOLISM
+	..()
+	return
+
+datum/reagent/medicine/dermaline
+	name = "Dermaline"
+	id = "dermaline"
+	description = "Effective at healing severe burns and very efficient but acts somewhat slowly."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	overdose_threshold = 30
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+datum/reagent/medicine/dermaline/on_mob_life(mob/living/M)
+	M.adjustFireLoss(-2*REM)
+	if(M.getFireLoss() < 30)
+		metabolization_rate = REAGENTS_METABOLISM
+
+	..()
+	return
+
+datum/reagent/medicine/dermaline/overdose_process(mob/living/M)
+	M.adjustFireLoss(3*REM)
+	metabolization_rate = 2 * REAGENTS_METABOLISM
+	..()
+	return
 
 datum/reagent/medicine/antitoxin
 	name = "Anti-Toxin"
