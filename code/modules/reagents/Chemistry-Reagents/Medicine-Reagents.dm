@@ -916,6 +916,8 @@ datum/reagent/medicine/bromelain/on_mob_life(mob/living/M)
 	M.adjustBruteLoss(-2*REM)
 	if(M.getBruteLoss() < 30)
 		metabolization_rate = REAGENTS_METABOLISM
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
 
 	..()
 	return
@@ -939,6 +941,8 @@ datum/reagent/medicine/dermaline/on_mob_life(mob/living/M)
 	M.adjustFireLoss(-2*REM)
 	if(M.getFireLoss() < 30)
 		metabolization_rate = REAGENTS_METABOLISM
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
 
 	..()
 	return
