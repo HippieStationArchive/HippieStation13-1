@@ -204,7 +204,7 @@
 	name = "Clonexadone"
 	id = "clonexadone"
 	result = "clonexadone"
-	required_reagents = list("cryoxadone" = 1, "cryostylane" = 1)
+	required_reagents = list("cryoxadone" = 1, "sodium" = 1)
 	required_catalysts = list("plasma" = 5)
 	result_amount = 2
 
