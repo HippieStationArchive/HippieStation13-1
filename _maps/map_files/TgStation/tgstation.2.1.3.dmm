@@ -964,15 +964,12 @@
 "asB" = (/obj/structure/table,/obj/item/device/flashlight{pixel_x = 1; pixel_y = 5},/obj/item/device/flashlight{pixel_x = 1; pixel_y = 5},/obj/item/device/assembly/flash,/obj/item/device/assembly/flash,/obj/machinery/ai_status_display{pixel_x = -32; pixel_y = 0},/turf/simulated/floor/plating,/area/storage/tech)
 "asC" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/obj/structure/cable{icon_state = "0-4"; d2 = 4},/turf/simulated/floor/plating,/area/security/processing)
 "asD" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/obj/structure/cable{icon_state = "0-4"; d2 = 4},/obj/structure/cable{d2 = 8; icon_state = "0-8"},/turf/simulated/floor/plating,/area/security/processing)
-<<<<<<< HEAD
 "asE" = (/obj/structure/closet/crate,/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/turf/simulated/floor/plasteel,/area/atmos)
 "asF" = (/obj/structure/table,/obj/machinery/cell_charger,/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/turf/simulated/floor/plating,/area/engine/port_engineering)
 "asG" = (/obj/structure/table,/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/turf/simulated/floor/plasteel,/area/engine/engineering)
-=======
 "asE" = (/obj/machinery/light_switch{pixel_y = -25},/obj/structure/closet/masks,/turf/simulated/floor/plasteel{icon_state = "neutral"},/area/crew_quarters/sleep)
 "asF" = (/obj/structure/closet/lasertag/blue,/turf/simulated/floor/plasteel{icon_state = "neutral"},/area/crew_quarters/sleep)
 "asG" = (/obj/item/device/radio/intercom{name = "Station Intercom (General)"; pixel_y = -29},/obj/structure/closet/lasertag/red,/turf/simulated/floor/plasteel{icon_state = "neutral"},/area/crew_quarters/sleep)
->>>>>>> refs/remotes/HippieStationCode/master
 "asH" = (/turf/simulated/floor/plasteel,/area/security/processing)
 "asI" = (/obj/structure/table,/obj/item/stack/medical/ointment,/obj/item/stack/medical/ointment{pixel_x = -3; pixel_y = -2},/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/turf/simulated/floor/plasteel,/area/engine/port_engineering)
 "asJ" = (/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/turf/simulated/wall,/area/security/processing)
