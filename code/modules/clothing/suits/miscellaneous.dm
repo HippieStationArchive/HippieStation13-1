@@ -241,6 +241,12 @@
 	//min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	flags = NODROP
 
+/obj/item/clothing/suit/dio
+	name = "DIO's yellow jacket"
+	desc = "So fashionable it's menacing."
+	icon_state = "DIO"
+	item_state = "DIO"
+
 /*
  * Misc
  */
