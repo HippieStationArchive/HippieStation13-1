@@ -108,7 +108,7 @@
 	id = "pen_acid"
 	result = "pen_acid"
 	required_reagents = list("potass_iodide" = 1, "cyanide" = 1)
-	result_amount = 3
+	result_amount = 2
 
 /datum/chemical_reaction/salbutamol
 	name = "Salbutamol"
