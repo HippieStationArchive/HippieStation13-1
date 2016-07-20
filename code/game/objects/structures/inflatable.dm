@@ -124,7 +124,7 @@
 		src.transfer_fingerprints_to(R)
 		qdel(src)
 	else
-		visible_message("<span class='danger'>[src] slowly deflates....</span>")
+		visible_message("<span class='danger'>[src] slowly deflates.</span>")
 		spawn(50)
 			var/obj/item/inflatable/R = new /obj/item/inflatable(loc)
 			src.transfer_fingerprints_to(R)
@@ -244,7 +244,7 @@
 		src.transfer_fingerprints_to(R)
 		qdel(src)
 	else
-		visible_message("<span class='danger'>[src] slowly deflates....</span>")
+		visible_message("<span class='danger'>[src] slowly deflates.</span>")
 		spawn(50)
 			var/obj/item/inflatable/door/R = new /obj/item/inflatable/door(loc)
 			src.transfer_fingerprints_to(R)
@@ -258,8 +258,22 @@
 	icon_state = "folded_wall_torn"
 
 /obj/item/inflatable/torn/attack_self(mob/user)
-	user << "<span class='warning'>The inflatable wall is too torn to be inflated!</span>"
+	user << "<span class='warning'>The inflatable wall is too torn to be inflated, fix it with something!</span>"
 	add_fingerprint(user)
+
+/obj/item/inflatable/torn/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/stack/ducttape))
+		var/obj/item/stack/ducttape/T = I
+		if(T.amount < 3)
+			user << "<span class='danger'>There is not enough tape!</span>"
+			return
+		user << "<span class='notice'>You begin fixing the [src]!</span>"
+		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
+		if(do_mob(user, src, 20))
+			user << "<span class='notice'>You fix the [src] using the ducttape!</span>"
+			T.amount = T.amount - 3
+			new /obj/item/inflatable(user.loc)
+			qdel(src)
 
 /obj/item/inflatable/door/torn
 	name = "torn inflatable door"
@@ -268,8 +282,23 @@
 	icon_state = "folded_door_torn"
 
 /obj/item/inflatable/door/torn/attack_self(mob/user)
-	user << "<span class='warning'>The inflatable door is too torn to be inflated!</span>"
+	user << "<span class='warning'>The inflatable door is too torn to be inflated, fix it with something!</span>"
 	add_fingerprint(user)
+
+
+/obj/item/inflatable/door/torn/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/stack/ducttape))
+		var/obj/item/stack/ducttape/T = I
+		if(T.amount < 4)
+			user << "<span class='danger'>There is not enough tape!</span>"
+			return
+		user << "<span class='notice'>You begin fixing the [src]!</span>"
+		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
+		if(do_mob(user, src, 25))
+			user << "<span class='notice'>You fix the [src] using the ducttape!</span>"
+			T.amount = T.amount - 3
+			new /obj/item/inflatable/door(user.loc)
+			qdel(src)
 
 /obj/item/weapon/storage/inflatable
 	name = "inflatable barrier box"
@@ -281,27 +310,7 @@
 
 /obj/item/weapon/storage/inflatable/New()
 	..()
-	new /obj/item/inflatable/door(src)
-	new /obj/item/inflatable/door(src)
-	new /obj/item/inflatable/door(src)
-	new /obj/item/inflatable/door(src)
-	new /obj/item/inflatable/door(src)
-	new /obj/item/inflatable/door(src)
-	new /obj/item/inflatable/door(src)
-	new /obj/item/inflatable/door(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
-	new /obj/item/inflatable(src)
+	for(var/i = 0, i < 8, i ++)
+		new /obj/item/inflatable/door(src)
+	for(var/i = 0, i < 16, i ++)
+		new /obj/item/inflatable(src)
