@@ -66,8 +66,6 @@ RCD
 		var/obj/item/weapon/rcd_ammo/R = W
 		if(matter >= max_matter)
 			user << "<span class='danger'>The [src] is full!</span>"
-			if(R.ammoamt == 0)
-				qdel(W)
 			return
 		if(R.ammoamt < loadamt && max_matter - matter >= R.ammoamt)
 			loadamt = R.ammoamt
@@ -77,13 +75,9 @@ RCD
 			loadamt = max_matter - matter
 			R.ammoamt -= max_matter - matter
 			R.desc = "Highly compressed matter for the RCD. It currently has [R.ammoamt] units left."
-			if(R.ammoamt == 0)
-				qdel(W)
 		else
 			R.ammoamt -= loadamt
 			R.desc = "Highly compressed matter for the RCD. It currently has [R.ammoamt] units left."
-			if(R.ammoamt == 0)
-				qdel(W)
 		if(R.ammoamt == 0)
 			qdel(W)
 		matter += loadamt
