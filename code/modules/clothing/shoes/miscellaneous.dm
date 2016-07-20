@@ -197,3 +197,10 @@
 	icon_state = "magboots-old1"
 	item_state = "magboots-old1"
 	slowdown = -1
+
+/obj/item/clothing/shoes/dio
+	name = "DIO's ring shoes"
+	desc = "These help you stand."
+	icon_state = "DIO"
+	item_color = "DIO"
+	item_state = "DIO"

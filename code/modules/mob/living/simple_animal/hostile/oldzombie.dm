@@ -9,8 +9,8 @@
 	speak_emote = list("groans")
 	emote_see = list("groans")
 	a_intent = "harm"
-	maxHealth = 230
-	health = 230
+	maxHealth = 150
+	health = 150
 	speed = 2
 	harm_intent_damage = 2
 	melee_damage_lower = 10
@@ -52,8 +52,8 @@
 			if(H.infected == 1)
 				src << "<span class='userdanger'>[L] is already infected! Give them time!</span>"
 			else
-				var/infectchance = rand(1,3)
-				if(infectchance == 2)
+				var/infectchance = rand(1,5)
+				if(infectchance == 2 && H.health < 20)
 					. = 1 // Default to returning true.
 					if(H.dna && PIERCEIMMUNE in H.dna.species.specflags)
 						. = 0
@@ -112,7 +112,7 @@
 				src << "<span class='notice'>You are already tearing an airlock apart!</span>"
 		else
 			src << "You have not unlocked this ability yet! Purchase it in the zombie tab!"
-
+/*
 /mob/living/simple_animal/hostile/oldzombie/verb/levelupspeed()
 	set name = "Evolve Speed(Cost: 1)"
 	set category = "Zombie"
@@ -131,7 +131,8 @@
 				target << "You now have <b>[target.numinfected]</b> infection points!"
 			else
 				target << "You don't have enough infection points! You need <b>1</b> more!"
-
+*/
+/*
 /mob/living/simple_animal/hostile/oldzombie/verb/levelupattack()
 	set name = "Evolve Attack(Cost: 1)"
 	set category = "Zombie"
@@ -151,7 +152,8 @@
 				target << "You now have <b>[target.numinfected]</b> infection points!"
 			else
 				target << "You don't have enough infection points! You need <b>1</b> more!"
-
+*/
+/*
 /mob/living/simple_animal/hostile/oldzombie/verb/leveluphealth()
 	set name = "Evolve Health(Cost: 1)"
 	set category = "Zombie"
@@ -171,7 +173,7 @@
 				target << "You now have <b>[target.numinfected]</b> infection points!"
 			else
 				target << "You don't have enough infection points! You need <b>1</b> more!"
-
+*/
 /mob/living/simple_animal/hostile/oldzombie/verb/selfrevive()
 	set name = "Self Revive(Cost: 7)"
 	set category = "Zombie"
@@ -230,7 +232,7 @@
 				target << "You don't have enough infection points! You need <b>[3 - target.numinfected]</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/restorehealth()
-	set name = "Regen Health(Cost: 4)"
+	set name = "Regen Health(Cost: 6)"
 	set category = "Zombie"
 
 	var/mob/living/simple_animal/hostile/oldzombie/target = usr
@@ -240,10 +242,10 @@
 		if(target.numinfected >= 4)
 			target.adjustBruteLoss(-target.health)
 			target << "You regenerate, restoring your health!"
-			target.numinfected = target.numinfected - 4
+			target.numinfected = target.numinfected - 6
 			target << "You now have <b>[target.numinfected]</b> infection points!"
 		else
-			target << "You don't have enough infection points! You need <b>[4 - target.numinfected]</b> more!"
+			target << "You don't have enough infection points! You need <b>[6 - target.numinfected]</b> more!"
 
 /mob/living/simple_animal/hostile/oldzombie/verb/airlockfaster()
 	set name = "Airlock Force Time(Cost: 1)"
@@ -266,7 +268,7 @@
 					target << "You don't have enough infection points! You need <b>1</b> more!"
 		else
 			target << "You have not purchaed <b>force doors</b> yet!"
-
+/*
 /mob/living/simple_animal/hostile/oldzombie/verb/superform()
 	set name = "Ultimate Form(Cost: 25)"
 	set category = "Zombie"
@@ -289,6 +291,7 @@
 				S << "<span class='userdanger'>You are on the zombies team! Fight with them!</span>"
 				qdel(target)
 		else target << "You don't have enough infection points! You need <b>[15 - target.numinfected]</b> more!"
+*/
 /*
 /mob/living/simple_animal/hostile/oldzombie/verb/superform()
 	set name = "Super Form(Cost: 10)"
@@ -359,10 +362,6 @@
 	if(statpanel("Status"))
 		stat("Infection Points", numinfected)
 		stat("", null)
-		stat("Current Speed", src.speed)
-		stat("Current Max Health", src.maxHealth)
-		stat("Current Health", src.health)
-		stat("Current Max Dam", src.melee_damage_upper)
 		var/sts
 		if(selfrevive == 1)
 			sts = "Yes"

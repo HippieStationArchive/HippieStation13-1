@@ -95,8 +95,8 @@
 	radio = new (src)
 
 
-/obj/machinery/power/supermatter/Del()
-	del radio
+/obj/machinery/power/supermatter/Destroy()
+	qdel(radio)
 	. = ..()
 
 /obj/machinery/power/supermatter/proc/explode()
@@ -116,7 +116,7 @@
 			mob.apply_effect(rads, IRRADIATE, blocked)
 	spawn(pull_time)
 		explosion(get_turf(src), explosion_power, explosion_power * 2, explosion_power * 4, explosion_power * 6, 1, 1)
-		del src
+		qdel(src)
 		return
 
 //Changes color and luminosity of the light to these values if they were not already set
@@ -292,10 +292,14 @@
 /obj/machinery/power/supermatter/attack_ai(mob/user as mob)
 	user << "<span class = \"warning\">You attempt to interface with the control circuits but find they are not connected to your network.  Maybe in a future firmware update.</span>"
 
-/obj/machinery/power/supermatter/attack_hand(mob/user as mob)
-	user.visible_message("<span class=\"warning\">\The [user] reaches out and touches \the [src], inducing a resonance... \his body starts to glow and bursts into flames before flashing into ash.</span>",\
-		"<span class=\"danger\">You reach out and touch \the [src]. Everything starts burning and all you can hear is ringing. Your last thought is \"That was not a wise decision.\"</span>",\
-		"<span class=\"warning\">You hear an uneartly ringing, then what sounds like a shrilling kettle as you are washed with a wave of heat.</span>")
+/obj/machinery/power/supermatter/attack_hand(mob/living/user)
+	if(!istype(user))
+		return
+	user.visible_message("<span class='danger'>\The [user] reaches out and touches \the [src], inducing a resonance... \his body starts to glow and bursts into flames before flashing into ash.</span>",\
+		"<span class='userdanger'>You reach out and touch \the [src]. Everything starts burning and all you can hear is ringing. Your last thought is \"That was not a wise decision.\"</span>",\
+		"<span class='italics'>You hear an unearthly noise as a wave of heat washes over you.</span>")
+
+	playsound(get_turf(src), 'sound/effects/supermatter.ogg', 50, 1)
 
 	Consume(user)
 
@@ -307,43 +311,57 @@
 			R.receive_pulse(power * POWER_FACTOR * (min(3/distance, 1))**2)
 	return
 
-/obj/machinery/power/supermatter/attackby(obj/item/W as obj, mob/living/user as mob)
+/obj/machinery/power/supermatter/attackby(obj/item/W, mob/living/user, params)
 	if(!istype(W) || (W.flags & ABSTRACT) || !istype(user))
 		return
-
 	if(user.drop_item(W))
 		Consume(W)
-		user.visible_message("<span class=\"warning\">As [user] touches \the [src] with \a [W], silence fills the room...</span>",\
-			"<span class=\"danger\">You touch \the [src] with \the [W], and everything suddenly goes silent.\"</span>\n<span class=\"notice\">\The [W] flashes into dust as you flinch away from \the [src].</span>",\
-			"<span class=\"warning\">Everything suddenly goes silent.</span>")
+		user.visible_message("<span class='danger'>As [user] touches \the [src] with \a [W], silence fills the room...</span>",\
+			"<span class='userdanger'>You touch \the [src] with \the [W], and everything suddenly goes silent.\"</span>\n<span class='notice'>\The [W] flashes into dust as you flinch away from \the [src].</span>",\
+			"<span class='italics'>Everything suddenly goes silent.</span>")
 
 		playsound(get_turf(src), 'sound/effects/supermatter.ogg', 50, 1)
 
-		var/blocked = user.run_armor_check(null, "rad", "Your clothes feel warm.", "Your clothes feel warm.")
-		user.apply_effect(150, IRRADIATE, blocked)
+		radiation_pulse(get_turf(src), 1, 1, 150, 1)
 
 
 /obj/machinery/power/supermatter/Bumped(atom/AM as mob|obj)
 	if(istype(AM, /mob/living))
-		AM.visible_message("<span class=\"warning\">\The [AM] slams into \the [src] inducing a resonance... \his body starts to glow and catch flame before flashing into ash.</span>",\
-		"<span class=\"danger\">You slam into \the [src] as your ears are filled with unearthly ringing. Your last thought is \"Oh, fuck.\"</span>",\
-		"<span class=\"warning\">You hear an uneartly ringing, then what sounds like a shrilling kettle as you are washed with a wave of heat.</span>")
-	else if(!grav_pulling) //To prevent spam, detonating supermatter does not indicate non-mobs being destroyed
-		AM.visible_message("<span class=\"warning\">\The [AM] smacks into \the [src] and rapidly flashes to ash.</span>",\
-		"<span class=\"warning\">You hear a loud crack as you are washed with a wave of heat.</span>")
+		AM.visible_message("<span class='danger'>\The [AM] slams into \the [src] inducing a resonance... \his body starts to glow and catch flame before flashing into ash.</span>",\
+		"<span class='userdanger'>You slam into \the [src] as your ears are filled with unearthly ringing. Your last thought is \"Oh, fuck.\"</span>",\
+		"<span class='italics'>You hear an unearthly noise as a wave of heat washes over you.</span>")
+	else if(isobj(AM) && !istype(AM, /obj/effect))
+		AM.visible_message("<span class='danger'>\The [AM] smacks into \the [src] and rapidly flashes to ash.</span>",\
+		"<span class='italics'>You hear a loud crack as you are washed with a wave of heat.</span>")
+	else
+		return
+
+	playsound(get_turf(src), 'sound/effects/supermatter.ogg', 50, 1)
 
 	Consume(AM)
 
 
-/obj/machinery/power/supermatter/proc/Consume(atom/AM as mob|obj)
-	if(istype(AM,/mob/living))
+/obj/machinery/power/supermatter/singularity_act()
+	var/gain = 100
+	investigate_log("Supermatter shard consumed by singularity.","singulo")
+	message_admins("Singularity has consumed a supermatter shard and can now become stage six.")
+	visible_message("<span class='userdanger'>[src] is consumed by the singularity!</span>")
+	for(var/mob/M in mob_list)
+		M << 'sound/effects/supermatter.ogg' //everyone goan know bout this
+		M << "<span class='boldannounce'>A horrible screeching fills your ears, and a wave of dread washes over you...</span>"
+	qdel(src)
+	return(gain)
+
+/obj/machinery/power/supermatter/proc/Consume(atom/movable/AM)
+	if(istype(AM, /mob/living))
 		var/mob/living/user = AM
 		user.dust()
 		power += 200
-	else
+		message_admins("[src] has consumed [key_name_admin(user)]<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A> (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[user]'>FLW</A>) <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>(JMP)</a>.")
+		investigate_log("has consumed [key_name(user)].", "supermatter")
+	else if(isobj(AM) && !istype(AM, /obj/effect))
+		investigate_log("has consumed [AM].", "supermatter")
 		qdel(AM)
-
-	power += 200
 
 		//Some poor sod got eaten, go ahead and irradiate people nearby.
 	for(var/mob/living/l in range(10))
