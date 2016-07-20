@@ -94,7 +94,7 @@
 	user.changeNext_move(CLICK_CD_MELEE)
 	if(!istype(W))
 		return
-	if(W.is_sharp() > 0)
+	if(W.is_sharp())
 		visible_message("<span class='danger'><b>[user] pierces [src] with [W]!</b></span>")
 		deflate(1)
 	if(W.damtype == BRUTE || W.damtype == BURN)
@@ -271,7 +271,7 @@
 		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
 		if(do_mob(user, src, 20))
 			user << "<span class='notice'>You fix the [src] using the ducttape!</span>"
-			T.amount = T.amount - 3
+			T.use(3)
 			new /obj/item/inflatable(user.loc)
 			qdel(src)
 
@@ -296,7 +296,7 @@
 		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
 		if(do_mob(user, src, 25))
 			user << "<span class='notice'>You fix the [src] using the ducttape!</span>"
-			T.amount = T.amount - 3
+			T.use(4)
 			new /obj/item/inflatable/door(user.loc)
 			qdel(src)
 
