@@ -124,7 +124,7 @@
 		src.transfer_fingerprints_to(R)
 		qdel(src)
 	else
-		visible_message("<span class='danger'>[src] slowly deflates.</span>")
+		visible_message("<span class='danger'>[src] slowly deflates....</span>")
 		spawn(50)
 			var/obj/item/inflatable/R = new /obj/item/inflatable(loc)
 			src.transfer_fingerprints_to(R)
@@ -244,7 +244,7 @@
 		src.transfer_fingerprints_to(R)
 		qdel(src)
 	else
-		visible_message("<span class='danger'>[src] slowly deflates.</span>")
+		visible_message("<span class='danger'>[src] slowly deflates....</span>")
 		spawn(50)
 			var/obj/item/inflatable/door/R = new /obj/item/inflatable/door(loc)
 			src.transfer_fingerprints_to(R)
