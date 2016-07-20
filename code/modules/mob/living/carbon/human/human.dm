@@ -225,44 +225,37 @@
 /mob/living/carbon/human/ex_act(severity, ex_target)
 	var/b_loss = null
 	var/f_loss = null
+	var/bombarmor = getarmor(null, "bomb")*(6/10) + getarmor("head", "bomb")*(1/10) + getarmor("chest", "bomb")*(3/10) // Head and chest armor count extra
+	var/def = (1-(bombarmor/100))
 	switch (severity)
 		if (1)
 			b_loss += 500
-			if (prob(getarmor(null, "bomb")))
+			if (prob(bombarmor))
 				shred_clothing(1,150)
 				var/atom/target = get_edge_target_turf(src, get_dir(src, get_step_away(src, src)))
 				throw_at(target, 200, 4)
 			else
 				gib()
 				return
-
 		if (2)
-			b_loss += 60
-
-			f_loss += 60
-			if (prob(getarmor(null, "bomb")))
-				b_loss = b_loss/1.5
-				f_loss = f_loss/1.5
-				shred_clothing(1,25)
-			else
-				shred_clothing(1,50)
-
+			b_loss = rand(35,50) * def + 10
+			f_loss = rand(35,50) * def + 10
+			shred_clothing(1,max(40-bombarmor,1))
 			if (!istype(ears, /obj/item/clothing/ears/earmuffs))
 				adjustEarDamage(30, 120)
-			if (prob(70))
+			if (prob(70-(bombarmor/2))) // Still a 20% chance even with a bomb suit
 				Paralyse(10)
 
 		if(3)
-			b_loss += 30
-			if (prob(getarmor(null, "bomb")))
-				b_loss = b_loss/2
+			b_loss = rand(12,16) * def
+			f_loss = rand(12,16) * def
 			if (!istype(ears, /obj/item/clothing/ears/earmuffs))
 				adjustEarDamage(15,60)
-			if (prob(50))
+			if (prob(max(50-bombarmor,0)))
 				Paralyse(10)
 
 	var/update = 0
-	var/dismember_chance = 50/severity //50, 25, 17~
+	var/dismember_chance = (50/severity) * def //50, 25, 17~
 	for(var/obj/item/organ/limb/temp in organs)
 		if(prob(dismember_chance) && temp.body_part != HEAD && temp.body_part != CHEST && temp.dismember())
 			continue // don't damage this limb further
@@ -272,13 +265,13 @@
 			if(CHEST)
 				update |= temp.take_damage(b_loss * 0.4, f_loss * 0.4)
 			if(ARM_LEFT)
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05)
+				update |= temp.take_damage(b_loss * 0.1, f_loss * 0.1)
 			if(ARM_RIGHT)
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05)
+				update |= temp.take_damage(b_loss * 0.1, f_loss * 0.1)
 			if(LEG_LEFT)
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05)
+				update |= temp.take_damage(b_loss * 0.1, f_loss * 0.1)
 			if(LEG_RIGHT)
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05)
+				update |= temp.take_damage(b_loss * 0.1, f_loss * 0.1)
 	if(update)	update_damage_overlays(0)
 
 	..()

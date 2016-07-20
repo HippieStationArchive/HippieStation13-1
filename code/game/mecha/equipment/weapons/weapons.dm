@@ -73,6 +73,10 @@
 	energy_drain = 30
 	projectile = /obj/item/projectile/beam
 	fire_sound = 'sound/weapons/Laser.ogg'
+	projectiles_per_shot = 2
+	variance = 6 //Small spread
+	randomspread = 1 //Random spread.
+	projectile_delay = 4 //1 decisecond before sending another projectile.
 
 /obj/item/mecha_parts/mecha_equipment/weapon/energy/laser/heavy
 	equip_cooldown = 15
@@ -82,9 +86,13 @@
 	energy_drain = 60
 	projectile = /obj/item/projectile/beam/heavylaser
 	fire_sound = 'sound/weapons/lasercannonfire.ogg'
+	projectiles_per_shot = 2
+	variance = 4 //Small spread
+	randomspread = 1 //Random spread.
+	projectile_delay = 4 //1 decisecond before sending another projectile.
 
 /obj/item/mecha_parts/mecha_equipment/weapon/energy/ion
-	equip_cooldown = 20
+	equip_cooldown = 15
 	name = "\improper MKIV ion heavy cannon"
 	desc = "A weapon for combat exosuits. Shoots technology-disabling ion beams. Don't catch yourself in the blast!"
 	icon_state = "mecha_ion"
@@ -101,6 +109,10 @@
 	origin_tech = "materials=3;combat=6;powerstorage=4"
 	projectile = /obj/item/projectile/beam/pulse/heavy
 	fire_sound = 'sound/weapons/marauder.ogg'
+	projectiles_per_shot = 2
+	variance = 2 //Small spread
+	randomspread = 1 //Random spread.
+	projectile_delay = 4 //1 decisecond before sending another projectile.
 
 /obj/item/mecha_parts/mecha_equipment/weapon/energy/plasma
 	equip_cooldown = 20
@@ -143,7 +155,19 @@
 	equip_cooldown = 8
 	projectile = /obj/item/projectile/energy/electrode
 	fire_sound = 'sound/weapons/Taser.ogg'
-
+	
+/obj/item/mecha_parts/mecha_equipment/weapon/energy/disabler
+	name = "\improper RTC \"Detainer\" repeating disabler"
+	desc = "A weapon for combat exosuits. Shoots a volley of stamina-reducing disabler beams."
+	icon_state = "mecha_taser"
+	energy_drain = 60
+	equip_cooldown = 12
+	projectiles_per_shot = 3
+	variance = 2
+	randomspread = 1
+	projectile_delay = 3
+	projectile = /obj/item/projectile/beam/disabler
+	fire_sound = 'sound/weapons/taser2.ogg'
 
 /obj/item/mecha_parts/mecha_equipment/weapon/honker
 	name = "\improper HoNkER BlAsT 5000"
@@ -257,25 +281,25 @@
 	name = "\improper LBX AC 10 \"Scattershot\""
 	desc = "A weapon for combat exosuits. Shoots a spread of pellets."
 	icon_state = "mecha_scatter"
-	equip_cooldown = 20
+	equip_cooldown = 10
 	projectile = /obj/item/projectile/bullet/midbullet
-	projectiles = 40
+	projectiles = 42
 	projectile_energy_cost = 25
-	projectiles_per_shot = 4
-	variance = 25
+	projectiles_per_shot = 6
+	variance = 20
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg
 	name = "\improper Ultra AC 2"
-	desc = "A weapon for combat exosuits. Shoots a rapid, three shot burst."
+	desc = "A weapon for combat exosuits. Shoots a rapid, six shot burst."
 	icon_state = "mecha_uac2"
-	equip_cooldown = 4
-	projectile = /obj/item/projectile/bullet/weakbullet
+	equip_cooldown = 5
+	projectile = /obj/item/projectile/bullet/weakbullet4
 	projectiles = 300
 	projectile_energy_cost = 20
-	projectiles_per_shot = 3
+	projectiles_per_shot = 6
 	variance = 6 //Small spread
 	randomspread = 1 //Random spread.
-	projectile_delay = 2 //2 deciseconds before sending another projectile.
+	projectile_delay = 1 //1 decisecond before sending another projectile.
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/bulletstorm //Mostly for testing, but it's also pretty as hell.
 	name = "\improper Bulletstorm U.N.Owen-Alpha"
@@ -317,7 +341,7 @@
 	fire_sound = 'sound/weapons/grenadelauncher.ogg'
 	projectiles = 8
 	projectile_energy_cost = 1000
-	equip_cooldown = 60
+	equip_cooldown = 40
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/missile_rack/proj_init(var/obj/item/missile/M)
 	M.primed = 1
