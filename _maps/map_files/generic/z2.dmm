@@ -346,7 +346,7 @@
 "gH" = (/turf/simulated/floor/engine,/turf/simulated/floor/plasteel/warningline{tag = "icon-warningline (SOUTHEAST)"; icon_state = "warningline"; dir = 6},/area/centcom/ferry)
 "gI" = (/obj/structure/closet/secure_closet/ertCom,/turf/simulated/floor/plasteel/freezer{dir = 2},/area/centcom/ferry)
 "gJ" = (/obj/structure/bed/chair/withwheels/office/dark,/turf/simulated/floor/plasteel/freezer{dir = 2},/area/centcom/ferry)
-"gK" = (/obj/structure/table/reinforced,/obj/item/weapon/c4,/obj/item/weapon/c4{pixel_x = 7},/turf/simulated/floor/plasteel/freezer{dir = 2},/area/centcom/ferry)
+"gK" = (/obj/structure/table/reinforced,/obj/item/weapon/c4,/obj/item/weapon/c4{pixel_x = 7},/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/obj/item/weapon/storage/inflatable,/turf/simulated/floor/plasteel/freezer{dir = 2},/area/centcom/ferry)
 "gL" = (/obj/structure/table/reinforced,/obj/item/weapon/storage/box/syringes,/obj/item/weapon/gun/syringe/rapidsyringe,/obj/structure/extinguisher_cabinet{pixel_y = 28},/turf/simulated/floor/plasteel/freezer{dir = 2},/area/centcom/ferry)
 "gM" = (/obj/structure/closet/secure_closet/ertEngi,/turf/simulated/floor/plasteel/freezer{dir = 2},/area/centcom/ferry)
 "gN" = (/obj/structure/table/wood,/obj/item/weapon/reagent_containers/food/drinks/bottle/rum,/obj/item/weapon/reagent_containers/food/drinks/bottle/tequila,/obj/item/weapon/reagent_containers/food/drinks/bottle/vodka{pixel_x = -5},/obj/item/weapon/reagent_containers/food/drinks/bottle/whiskey{pixel_x = 5},/turf/simulated/floor/plasteel/black,/area/centcom/ferry)
