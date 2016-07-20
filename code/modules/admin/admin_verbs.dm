@@ -24,6 +24,12 @@ var/list/admin_verbs_default = list(
 	/client/proc/stop_sounds
 	)
 var/list/admin_verbs_admin = list(
+	/client/proc/resolvehandlingahelp,
+	/client/proc/listhandlingahelp,
+	/datum/adminticket/proc/listunresolvedtickets,
+	/datum/adminticket/proc/listtickets,
+	/client/proc/admin_disable_shuttle,
+	/client/proc/admin_enable_shuttle,
 	/client/proc/player_panel_new,		/*shows an interface for all players, with links to various panels*/
 	/client/proc/invisimin,				/*allows our mob to go invisible/visible*/
 //	/datum/admins/proc/show_traitor_panel,	/*interface which shows a mob's mind*/ -Removed due to rare practical use. Moved to debug verbs ~Errorage
@@ -65,6 +71,8 @@ var/list/admin_verbs_admin = list(
 	/client/proc/cmd_admin_create_intercept_report, //*Create intercept report
 	/client/proc/reset_all_tcs,			/*resets all telecomms scripts*/
 	/client/proc/toggle_antag_hud, 	/*toggle display of the admin antag hud*/
+	/client/proc/fill_breach,
+	/client/proc/reset_atmos,
 	/client/proc/aooc /*sends a message to all antags on the server*/
 	)
 var/list/admin_verbs_ban = list(
@@ -141,8 +149,6 @@ var/list/admin_verbs_debug = list(
 	/client/proc/cmd_display_del_log,
 	/client/proc/reset_latejoin_spawns,
 	/client/proc/create_outfits,
-	/client/proc/fill_breach,
-	/client/proc/reset_atmos,
 	/client/proc/debug_huds
 	)
 var/list/admin_verbs_possess = list(
@@ -342,6 +348,8 @@ var/list/admin_verbs_hideable = list(
 		body.ghostize(1)
 		if(body && !body.key)
 			body.key = "@[key]"	//Haaaaaaaack. But the people have spoken. If it breaks; blame adminbus
+			if(!isobserver(usr))
+				log_admin("[key_name_admin(usr)] has admin ghosted.")
 		feedback_add_details("admin_verb","O") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
@@ -362,6 +370,8 @@ var/list/admin_verbs_hideable = list(
 	set category = "Admin"
 	if(holder)
 		holder.player_panel_new()
+		if(!isobserver(usr))
+			log_admin("[key_name_admin(usr)] has opened the player panel.")
 	feedback_add_details("admin_verb","PPN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
@@ -584,7 +594,7 @@ var/list/admin_verbs_hideable = list(
 		//load text from file
 		var/list/Lines = file2list("config/admins.txt")
 		for(var/line in Lines)
-			var/list/splitline = text2list(line, " = ")
+			var/list/splitline = splittext(line, " = ")
 			if(ckey(splitline[1]) == ckey)
 				if(splitline.len >= 2)
 					rank = ckeyEx(splitline[2])

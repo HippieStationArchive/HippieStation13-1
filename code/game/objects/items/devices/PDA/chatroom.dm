@@ -26,7 +26,7 @@ var/list/chatchannels = list(default_ntrc_chatroom.name = default_ntrc_chatroom)
 	MS.send_chat_message(nick,name,message)
 
 	if(findtext(message,"/",1,2))
-		var/list/cmd=text2list(message, " ")
+		var/list/cmd=splittext(message, " ")
 		switch(cmd[1])
 			if("/register")
 				if(cmd.len == 1)

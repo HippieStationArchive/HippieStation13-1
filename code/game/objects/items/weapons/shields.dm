@@ -12,6 +12,7 @@
 	item_state = "roman_shield"
 	slot_flags = SLOT_BACK
 	force = 8
+	stamina_percentage = 0.75
 	throwforce = 5
 	throw_speed = 2
 	throw_range = 3
@@ -59,6 +60,7 @@
 	icon_state = "riot"
 	slot_flags = SLOT_BACK
 	force = 8
+	stamina_percentage = 0.75
 	throwforce = 5
 	throw_speed = 2
 	throw_range = 3
@@ -132,9 +134,10 @@
 	name = "telescopic shield"
 	desc = "An advanced riot shield made of lightweight materials that collapses for easy storage."
 	icon = 'icons/obj/weapons.dmi'
-	icon_state = "teleriot0"
+	icon_state = "teleriot"
 	slot_flags = null
 	force = 3
+	stamina_percentage = 0.75
 	throwforce = 3
 	throw_speed = 3
 	throw_range = 4
@@ -162,6 +165,7 @@
 		block_chance = block_chance_deployed
 		slowdown = slowdown_deployed
 		force = force_deployed
+		stamina_percentage = 0.75
 		throwforce = 5
 		throw_speed = 2
 		w_class = 4

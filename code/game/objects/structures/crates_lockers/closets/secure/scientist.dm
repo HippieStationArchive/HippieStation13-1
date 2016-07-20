@@ -18,5 +18,5 @@
 	new /obj/item/device/radio/headset/heads/rd(src)
 	new /obj/item/weapon/tank/internals/air(src)
 	new /obj/item/clothing/mask/gas(src)
-	new /obj/item/device/assembly/flash/handheld(src)
+	new /obj/item/device/assembly/flash(src)
 	new /obj/item/device/laser_pointer(src)

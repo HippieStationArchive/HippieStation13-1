@@ -72,7 +72,7 @@
 		build_inventory(contraband, 1)
 		build_inventory(premium, 0, 1)
 
-	slogan_list = text2list(product_slogans, ";")
+	slogan_list = splittext(product_slogans, ";")
 	// So not all machines speak at the exact same time.
 	// The first time this machine says something will be at slogantime + this random value,
 	// so if slogantime is 10 minutes, it will say it at somewhere between 10 and 20 minutes after the machine is crated.
@@ -869,7 +869,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	icon_state = "sec"
 	icon_deny = "sec-deny"
 	req_access_txt = "1"
-	products = list(/obj/item/weapon/restraints/handcuffs = 12,/obj/item/weapon/restraints/handcuffs/cable/zipties = 14,/obj/item/weapon/grenade/flashbang = 4,/obj/item/device/assembly/flash/handheld = 6,
+	products = list(/obj/item/weapon/restraints/handcuffs = 12,/obj/item/weapon/restraints/handcuffs/cable/zipties = 14,/obj/item/weapon/grenade/flashbang = 4,/obj/item/device/assembly/flash = 6,
 					/obj/item/weapon/reagent_containers/food/snacks/donut = 14,/obj/item/weapon/storage/box/evidence = 6,/obj/item/device/flashlight/seclite = 6)
 	contraband = list(/obj/item/clothing/glasses/sunglasses = 2,/obj/item/weapon/storage/fancy/donut_box = 2)
 	premium = list(/obj/item/weapon/coin/antagtoken = 1)
@@ -1013,7 +1013,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	icon_state = "robotics"
 	icon_deny = "robotics-deny"
 	req_access_txt = "29"
-	products = list(/obj/item/clothing/suit/toggle/labcoat = 4,/obj/item/clothing/under/rank/roboticist = 4,/obj/item/stack/cable_coil = 4,/obj/item/device/assembly/flash/handheld = 4,
+	products = list(/obj/item/clothing/suit/toggle/labcoat = 4,/obj/item/clothing/under/rank/roboticist = 4,/obj/item/stack/cable_coil = 4,/obj/item/device/assembly/flash = 4,
 					/obj/item/weapon/stock_parts/cell = 6, /obj/item/device/assembly/prox_sensor = 3,/obj/item/device/assembly/signaler = 3,/obj/item/device/healthanalyzer = 3,
 					/obj/item/weapon/tank/internals/anesthetic = 2,/obj/item/clothing/mask/breath/medical = 5,
 					/obj/item/weapon/screwdriver = 5,/obj/item/weapon/crowbar = 5)

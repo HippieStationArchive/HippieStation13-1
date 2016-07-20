@@ -597,7 +597,6 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 /obj/structure/noose/user_unbuckle_mob(mob/living/user)
 	if(buckled_mob && buckled_mob.buckled == src)
 		var/mob/living/M = buckled_mob
-
 		if(M != user)
 			user.visible_message("<span class='notice'>[user] begins to untie the noose over [M]'s neck...</span>",\
 								"<span class='notice'>You begin to untie the noose over [M]'s neck...</span>")
@@ -620,12 +619,26 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 				"<span class='warning'>[M] unties the noose over their neck!</span>",\
 				"<span class='notice'>You untie the noose over your neck!</span>")
 			M.Weaken(3)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			H.noosed = 0
 		unbuckle_mob()
 		add_fingerprint(user)
 
-/obj/structure/noose/user_buckle_mob(mob/living/M, mob/user)
+/obj/structure/noose/user_buckle_mob(mob/living/carbon/human/M, mob/user)
 	if(!in_range(user, src) || user.stat || user.restrained() || !iscarbon(M))
 		return 0
+
+	var/hashead = 0
+
+	for(var/obj/item/organ/limb/temp in M.organs) //Checks if the target has a head.
+		if(temp.body_part == HEAD)
+			hashead = 1
+
+	if(hashead != 1)
+		user << "<span class='danger'>They don't have a head....</span>"
+		return 0
+
 	if(M.loc != src.loc) return 0 //Can only noose someone if they're on the same tile as noose
 
 	add_fingerprint(user)
@@ -636,6 +649,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 			"<span class='suicide'>You tie \the [src] over your neck!</span>")
 		playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
 		add_logs(user, null, "hanged themselves", src)
+		M.noosed = 1
 		return 1
 	else
 		M.visible_message(\
@@ -649,6 +663,7 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 					"<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
 				playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
 				add_logs(user, M, "hanged", src)
+				M.noosed = 1
 				return 1
 			else
 				user.visible_message(\
@@ -750,10 +765,10 @@ var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
 	else
 		user << "<span class='notice'>You cannot do that.</span>"
 
-/obj/item/stack/cable_coil/verb/make_restraint(mob/user)
+/obj/item/stack/cable_coil/verb/make_restraint()
 	set name = "Make Cable Restraints"
 	set category = "Object"
-	makeRestraints(user)
+	makeRestraints(usr)
 	..()
 
 /obj/item/stack/cable_coil/AltClick(mob/user)

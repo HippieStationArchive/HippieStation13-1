@@ -1,3 +1,13 @@
+
+/obj/item/clothing/under/banearmour
+    name = "banearmour"
+    desc = "You merely adopted the darkness, I was born in it."
+    icon_state = "banearmour"
+    item_state = "banearmour"
+    armor = list(melee = 20, bullet = 25, laser = 10)
+    can_adjust = 0
+
+
 /obj/item/clothing/under/pj/red
 	name = "red pj's"
 	desc = "Sleepwear."

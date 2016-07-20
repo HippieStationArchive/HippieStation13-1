@@ -7,6 +7,7 @@
 	mag_unload_sound = null		//Revolvers already have their own sfx for this kind of stuff
 	chamber_sound = null
 	fire_sound = 'sound/weapons/revolver_shoot.ogg'
+	pin = /obj/item/device/firing_pin/area/syndicate
 
 /obj/item/weapon/gun/projectile/revolver/New()
 	..()
@@ -102,6 +103,7 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rev38
 	unique_rename = 1
 	unique_reskin = 1
+	pin = /obj/item/device/firing_pin/generic
 
 /obj/item/weapon/gun/projectile/revolver/detective/New()
 	..()
@@ -160,12 +162,14 @@
 	icon_state = "mateba"
 	origin_tech = "combat=2;materials=2"
 	fire_sound = 'sound/weapons/revolver_big.ogg'
+	pin = /obj/item/device/firing_pin/generic
 
 /obj/item/weapon/gun/projectile/revolver/nagant
 	name = "\improper Nagant M1895"
 	desc = "A very, very old revolver. It's been modified to shoot .357 ammo."
 	icon_state = "nagant"
 	origin_tech = "combat=2;materials=2"
+	pin = /obj/item/device/firing_pin/generic
 
 // A gun to play Russian Roulette!
 // You can spin the chamber to randomize the position of the bullet.
@@ -176,6 +180,7 @@
 	origin_tech = "combat=2;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/rus357
 	var/spun = 0
+	pin = /obj/item/device/firing_pin/generic
 
 /obj/item/weapon/gun/projectile/revolver/russian/New()
 	..()
@@ -265,6 +270,7 @@
 	item_state = "rigavolver"
 	origin_tech = "combat=2;materials=2"
 	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rev38
+	pin = /obj/item/device/firing_pin/generic
 
 /obj/item/weapon/gun/energy/revolver/cyborg
 	name = "cyborg revolver"
@@ -274,6 +280,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/c3dbullet)
 	var/charge_tick = 0
 	var/recharge_time = 10
+	pin = /obj/item/device/firing_pin/generic
 
 /obj/item/weapon/gun/energy/revolver/cyborg/update_icon()
 	return

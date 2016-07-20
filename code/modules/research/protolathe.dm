@@ -15,6 +15,8 @@ Note: Must be placed west/left of and R&D console to function.
 
 	var/datum/material_container/materials
 	var/efficiency_coeff
+	var/datum/design/being_built // It only made sense to have the design currently processed by the protolathe here.
+	var/amount //Same as above, only for the quantity
 
 	var/list/categories = list(
 								"Power Designs",

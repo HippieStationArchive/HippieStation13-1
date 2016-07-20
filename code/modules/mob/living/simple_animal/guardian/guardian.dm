@@ -600,7 +600,7 @@
 		for(var/i = 2, i >= 0,i--)
 			var/guardianNewName = stripped_input(user, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
 			guardianNewName = reject_bad_name(guardianNewName, 1)
-			if(world.time >= timelimit)//Check time limit
+			if(timelimit >= world.time)
 				if(!isnull(guardianNewName))
 					G.name = guardianNewName
 					return

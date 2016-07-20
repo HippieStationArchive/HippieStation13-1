@@ -696,79 +696,86 @@
 	return
 
 /datum/species/proc/handle_vision(mob/living/carbon/human/H)
-	if( H.stat == DEAD )
+	if(H.stat == DEAD)
 		H.sight |= (SEE_TURFS|SEE_MOBS|SEE_OBJS)
 		H.see_in_dark = 8
-		if(!H.druggy)		H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
-	else
-		if(!(SEE_TURFS & H.permanent_sight_flags))
-			H.sight &= ~SEE_TURFS
-		if(!(SEE_MOBS & H.permanent_sight_flags))
-			H.sight &= ~SEE_MOBS
-		if(!(SEE_OBJS & H.permanent_sight_flags))
-			H.sight &= ~SEE_OBJS
+		if(!H.druggy)
+			H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
+		return
 
-		if(H.remote_view)
-			H.sight |= SEE_TURFS
-			H.sight |= SEE_MOBS
-			H.sight |= SEE_OBJS
+	if(!(SEE_TURFS & H.permanent_sight_flags))
+		H.sight &= ~SEE_TURFS
+	if(!(SEE_MOBS & H.permanent_sight_flags))
+		H.sight &= ~SEE_MOBS
+	if(!(SEE_OBJS & H.permanent_sight_flags))
+		H.sight &= ~SEE_OBJS
 
-		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 3 : darksight
-		if(is_shadow_or_thrall(H))  //Check if the mob is a shadowling or thrall, to make sure their vision range doesn't create odd artifacts.
-			H.see_in_dark = 8
-		var/see_temp = H.see_invisible
-		H.see_invisible = invis_sight
+	if(H.remote_view)
+		H.sight |= SEE_TURFS
+		H.sight |= SEE_MOBS
+		H.sight |= SEE_OBJS
 
-		if(H.seer)
-			H.see_invisible = SEE_INVISIBLE_OBSERVER
+	H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 8 : darksight
+	var/see_temp = H.see_invisible
+	H.see_invisible = invis_sight
 
-		if(H.glasses)
-			if(istype(H.glasses, /obj/item/clothing/glasses))
-				var/obj/item/clothing/glasses/G = H.glasses
-				H.sight |= G.vision_flags
-				H.see_in_dark = G.darkness_view
-				if(G.invis_override)
-					H.see_invisible = G.invis_override
-				else
-					H.see_invisible = min(G.invis_view, H.see_invisible)
-		if(H.druggy)	//Override for druggy
-			H.see_invisible = see_temp
-
-		if(H.see_override)	//Override all
-			H.see_invisible = H.see_override
-
-		//	This checks how much the mob's eyewear impairs their vision
-		if(H.tinttotal >= TINT_IMPAIR)
-			if(tinted_weldhelh)
-				if(H.tinttotal >= TINT_BLIND)
-					H.eye_blind = max(H.eye_blind, 1)
-				if(H.client)
-					H.client.screen += global_hud.darkMask
-
-		if(H.blind)
-			if(H.eye_blind)
-				H.throw_alert("blind", /obj/screen/alert/blind)
-				H.blind.layer = 18
+	if(H.glasses)
+		if(istype(H.glasses, /obj/item/clothing/glasses))
+			var/obj/item/clothing/glasses/G = H.glasses
+			H.sight |= G.vision_flags
+			H.see_in_dark = G.darkness_view
+			if(G.invis_override)
+				H.see_invisible = G.invis_override
 			else
-				H.clear_alert("blind")
-				H.blind.layer = 0
+				H.see_invisible = min(G.invis_view, H.see_invisible)
+	if(H.druggy)	//Override for druggy
+		H.see_invisible = see_temp
 
-		if(!H.client)//no client, no screen to update
-			return 1
+	if(H.see_override)	//Override all
+		H.see_invisible = H.see_override
 
-		if( H.disabilities & NEARSIGHT && !istype(H.glasses, /obj/item/clothing/glasses/regular) )
-			H.client.screen += global_hud.vimpaired
-		if(H.eye_blurry)			H.client.screen += global_hud.blurry
-		if(H.druggy)
-			H.client.screen += global_hud.druggy
-			H.throw_alert("high", /obj/screen/alert/high)
-		else
-			H.clear_alert("high")
+	//	This checks how much the mob's eyewear impairs their vision
+	if(H.tinttotal >= TINT_IMPAIR)
+		if(tinted_weldhelh)
+			H.overlay_fullscreen("tint", /obj/screen/fullscreen/impaired, 2)
+		if(H.tinttotal >= TINT_BLIND)
+			H.eye_blind = max(H.eye_blind, 1)
+	else
+		H.clear_fullscreen("tint")
 
+	if(H.eye_stat > 30)
+		H.overlay_fullscreen("impaired", /obj/screen/fullscreen/impaired, 2)
+	else if(H.eye_stat > 20)
+		H.overlay_fullscreen("impaired", /obj/screen/fullscreen/impaired, 1)
+	else
+		H.clear_fullscreen("impaired")
 
-		if(H.eye_stat > 20)
-			if(H.eye_stat > 30)	H.client.screen += global_hud.darkMask
-			else				H.client.screen += global_hud.vimpaired
+	if(!H.client)//no client, no screen to update
+		return 1
+
+	if(H.eye_blind)
+		H.overlay_fullscreen("blind", /obj/screen/fullscreen/blind)
+		H.throw_alert("blind", /obj/screen/alert/blind)
+	else
+		H.clear_fullscreen("blind")
+		H.clear_alert("blind")
+
+	if(H.disabilities & NEARSIGHT && !istype(H.glasses, /obj/item/clothing/glasses/regular))
+		H.overlay_fullscreen("nearsighted", /obj/screen/fullscreen/impaired, 1)
+	else
+		H.clear_fullscreen("nearsighted")
+
+	if(H.eye_blurry)
+		H.overlay_fullscreen("blurry", /obj/screen/fullscreen/blurry)
+	else
+		H.clear_fullscreen("blurry")
+
+	if(H.druggy)
+		H.overlay_fullscreen("high", /obj/screen/fullscreen/high)
+		H.throw_alert("high", /obj/screen/alert/high)
+	else
+		H.clear_fullscreen("high")
+		H.clear_alert("high")
 
 	return 1
 
@@ -782,7 +789,7 @@
 				if(2)	H.healths.icon_state = "health7"
 				if(5)	H.healths.icon_state = "health0"
 				else
-					switch(H.health - H.staminaloss)
+					switch(H.health)
 						if(100 to INFINITY)		H.healths.icon_state = "health0"
 						if(80 to 100)			H.healths.icon_state = "health1"
 						if(60 to 80)			H.healths.icon_state = "health2"
@@ -790,6 +797,23 @@
 						if(20 to 40)			H.healths.icon_state = "health4"
 						if(0 to 20)				H.healths.icon_state = "health5"
 						else					H.healths.icon_state = "health6"
+	
+
+
+	if(H.staminas)
+		if(H.stat == DEAD)
+			H.staminas.icon_state = "stamina6"
+		else if(H.stunned || H.weakened)
+			H.staminas.icon_state = "stamina6"
+		else
+			switch(H.health - H.staminaloss)
+				if(100 to INFINITY)     H.staminas.icon_state = "stamina0"
+				if(80 to 100)           H.staminas.icon_state = "stamina1"
+				if(60 to 80)            H.staminas.icon_state = "stamina2"
+				if(40 to 60)            H.staminas.icon_state = "stamina3"
+				if(20 to 40)            H.staminas.icon_state = "stamina4"
+				if(0 to 20)             H.staminas.icon_state = "stamina5"
+				else                    H.staminas.icon_state = "stamina6"
 
 	if(H.healthdoll)
 		H.healthdoll.overlays.Cut()
@@ -828,13 +852,13 @@
 		if(!H.has_right_hand(1))
 			if(!(locate(block) in R.overlays))
 				R.overlays += block
-		else
-			R.overlays = null
+		else if(locate(block) in R.overlays)
+			R.overlays -= block
 		if(!H.has_left_hand(1))
 			if(!(locate(block) in L.overlays))
 				L.overlays += block
-		else
-			L.overlays = null
+		else if(locate(block) in L.overlays)
+			L.overlays -= block
 
 	switch(H.nutrition)
 		if(NUTRITION_LEVEL_FULL to INFINITY)
@@ -1002,32 +1026,34 @@
 				if(H.lying)
 					atk_verb = "kick"
 
-				var/damage = rand(0, 9) + M.dna.species.punchmod
+				var/hitcheck = rand(0, 9)
+				var/damage = pick(0.5, 1, 1.5, 2) + M.dna.species.punchmod
 
 				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/armor_block = H.run_armor_check(affecting, "melee")
-				var/dmgcheck = H.apply_damage(damage, BRUTE, affecting, armor_block)
-				if(!damage || !istype(affecting) || !dmgcheck)
+				var/dmgcheck = apply_damage(damage, BRUTE, affecting, armor_block, H)
+
+				if(hitcheck == 0 || !dmgcheck)
 					playsound(H.loc, M.dna.species.miss_sound, 25, 1, -1)
 					H.visible_message("<span class='warning'>[M] has attempted to [atk_verb] [H]!</span>")
 					return 0
 
 				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
-
+				H.apply_damage(damage*3+2, STAMINA, affecting, armor_block)
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
 				add_logs(M, H, "punched")
-				if((H.stat != DEAD) && damage >= 9)
+				if((H.stat != DEAD) && hitcheck >= 9)
 					H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
 									"<span class='userdanger'>[M] has weakened [H]!</span>")
-					H.apply_effect(4, WEAKEN, armor_block)
+					H.apply_effect(2, WEAKEN, armor_block)
 					H.forcesay(hit_appends)
 				else if(H.lying)
 					H.forcesay(hit_appends)
-				if(istype(affecting, /obj/item/organ/limb/head) && prob(damage * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
+				if(istype(affecting, /obj/item/organ/limb/head) && prob(hitcheck * (M.zone_sel.selecting == "mouth" ? 3 : 1))) //MUCH higher chance to knock out teeth if you aim for mouth
 					var/obj/item/organ/limb/head/U = affecting
-					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((damage*2)/100))))
+					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((hitcheck*2)/100))))
 						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
 										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
 		if("disarm")
@@ -1184,10 +1210,10 @@
 
 	var/armor_block = H.run_armor_check(affecting, "melee", "<span class='notice'>Your armor has protected your [hit_area].</span>", "<span class='notice'>Your armor has softened a hit to your [hit_area].</span>",I.armour_penetration)
 	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
-
-	var/dmgcheck = apply_damage(I.force, I.damtype, affecting, armor_block, H)
-
-	if(!dmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
+	var/dmgcheck = apply_damage((1-I.stamina_percentage)*I.force, I.damtype, affecting, armor_block, H)
+	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, STAMINA, affecting, armor_block, H)
+	
+	if(!dmgcheck && !staminadmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
 		playsound(H, 'sound/weapons/punchmiss.ogg', 25, 1, -1)

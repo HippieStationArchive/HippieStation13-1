@@ -24,13 +24,12 @@
 		for(var/obj/item/organ/internal/I in organs)
 			I.Remove(user, 1)
 
-	explosion(get_turf(user),0,0,2,0,silent=1)
 	for(var/mob/living/carbon/human/H in view(7,user))
 		H << "<span class='userdanger'>You are blinded by a shower of blood!</span>"
-		H.Stun(3)
+		H.apply_effect(5, PARALYZE)
 		H.eye_blurry = 20
-		H.eye_stat += 5
-		H.confused += 3
+		H.eye_stat += 10
+		H.confused += 10
 	for(var/mob/living/silicon/S in view(7,user))
 		S << "<span class='userdanger'>Your sensors are disabled by a shower of blood!</span>"
 		S.Weaken(3)
@@ -39,10 +38,14 @@
 		var/mob/living/simple_animal/hostile/headcrab/crab = new(turf)
 		for(var/obj/item/organ/internal/I in organs)
 			I.loc = crab
+
+		if(M)
+			M.ghost = FALSE
+
 		crab.origin = M
 		if(crab.origin)
 			crab.origin.active = 1
-			crab.origin.transfer_to(crab)
+			crab.origin.transfer_to(crab, TRUE) // TRUE means force the player's ghost to transfer
 			crab << "<span class='warning'>You burst out of the remains of your former body in a shower of gore!</span>"
 	user.gib()
 	feedback_add_details("changeling_powers","LR")

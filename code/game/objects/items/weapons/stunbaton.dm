@@ -5,6 +5,7 @@
 	item_state = "baton"
 	slot_flags = SLOT_BELT
 	force = 10
+	stamina_percentage = 0.75
 	throwforce = 7
 	w_class = 3
 	origin_tech = "combat=2"
@@ -66,7 +67,7 @@
 		if(bcell)
 			user << "<span class='notice'>[src] already has a cell.</span>"
 		else
-			if(C.maxcharge < hitcost)
+			if(C.maxcharge <= hitcost)
 				user << "<span class='notice'>[src] requires a higher capacity cell.</span>"
 				return
 			if(!user.unEquip(W))
@@ -97,6 +98,8 @@
 		status = 0
 		if(!bcell)
 			user << "<span class='warning'>[src] does not have a power source!</span>"
+		else if (bcell.maxcharge <= hitcost)
+			user << "<span class='warning'>[src] requires a higher capacity cell.</span>"
 		else
 			user << "<span class='warning'>[src] is out of charge.</span>"
 	update_icon()
@@ -178,6 +181,7 @@
 	icon_state = "stunprod_nocell"
 	item_state = "prod"
 	force = 7
+	stamina_percentage = 0.4 //It's got sharp bits on it
 	throwforce = 5
 	stunforce = 5
 	hitcost = 2500

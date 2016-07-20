@@ -104,16 +104,18 @@ var/const/MAX_ACTIVE_TIME = 400
 		Attach(hit_atom)
 
 /obj/item/clothing/mask/facehugger/proc/Attach(mob/living/M)
-	if(!isliving(M)) return 0
+	if(!isliving(M))
+		return 0
 
 	if((!iscorgi(M) && !iscarbon(M)) || isalien(M))
 		return 0
+
 	if(attached)
 		return 0
 	else
 		attached++
 		spawn(MAX_IMPREGNATION_TIME)
-			attached = 0
+		attached = 0
 
 	if(M.getorgan(/obj/item/organ/internal/alien/hivenode)) return 0
 	if(M.getorgan(/obj/item/organ/internal/body_egg/alien_embryo)) return 0
@@ -178,8 +180,7 @@ var/const/MAX_ACTIVE_TIME = 400
 		Die()
 		icon_state = "[initial(icon_state)]_impregnated"
 
-		var/obj/item/organ/limb/L = target.getlimb(/obj/item/organ/limb/chest)
-		if((L.status == ORGAN_ORGANIC) && !target.getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
+		if(!target.getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
 			new /obj/item/organ/internal/body_egg/alien_embryo(target)
 
 		if(iscorgi(target))
