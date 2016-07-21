@@ -699,6 +699,7 @@
 			user << "[G.bio_fluff_string]."
 			G.attacktext = "swarms"
 			G.speak_emote = list("chitters")
+	return G
 
 /obj/item/weapon/guardiancreator/choose
 	random = FALSE
