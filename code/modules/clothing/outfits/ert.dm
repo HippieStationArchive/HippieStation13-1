@@ -142,7 +142,7 @@
 		/obj/item/weapon/melee/baton/loaded=1,\
 		/obj/item/clothing/mask/gas/sechailer=1,\
 		/obj/item/weapon/gun/energy/gun=1,\
-		/obj/item/weapon/rcd/loaded=1)
+		/obj/item/weapon/rcd/combat=1)
 
 /datum/outfit/ert/engineer/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
