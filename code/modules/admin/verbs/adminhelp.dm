@@ -86,7 +86,7 @@
 				if(T.admin == "N/A")
 					usr << "<b>Due to the fact your Adminhelp had no assigned admin, admins have been pinged.</b>"
 					message_admins("[src.ckey] has bumped their adminhelp #[T.ID], still no assigned admin!")
-					msg = "<span class='adminnotice'><b><font color=red>ADMINHELP: </font><A HREF='?priv_msg=[ckey];ahelp_reply=1'>[key_name(src)]</A> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>):</b> [T.msg]</span>"
+					msg = "<span class='adminnotice'><b><font color=red>ADMINHELP: </font><A HREF='?priv_msg=[ckey];ahelp_reply=1'>[key_name(src)]</A> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>) (<a href='?src=\ref[T];resolve=\ref[T]'>R</a>):</b> [T.msg]</span>"
 					for(var/client/X in admins)
 						if(X.prefs.toggles & SOUND_ADMINHELP)
 							X << 'sound/effects/adminhelp.ogg'
@@ -115,7 +115,13 @@
 
 	createticket(src, msg, src.ckey, mob)
 
-	msg = "<span class='adminnotice'><b><font color=red>ADMINHELP: </font><A HREF='?priv_msg=[ckey];ahelp_reply=1'>[key_name(src)]</A> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>):</b> [msg]</span>"
+	var/datum/adminticket/ticket
+
+	for(var/datum/adminticket/T in admintickets)
+		if(T.permckey == src.ckey)
+			ticket = T
+
+	msg = "<span class='adminnotice'><b><font color=red>ADMINHELP: </font><A HREF='?priv_msg=[ckey];ahelp_reply=1'>[key_name(src)]</A> (<A HREF='?_src_=holder;adminmoreinfo=[ref_mob]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) (<A HREF='?_src_=holder;traitor=[ref_mob]'>TP</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=[ref_mob]'>FLW</A>) (<a href='?src=\ref[ticket];resolve=\ref[ticket]'>R</a>):</b> [msg]</span>"
 
 
 	//send this msg to all admins

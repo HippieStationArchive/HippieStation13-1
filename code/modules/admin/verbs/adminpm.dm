@@ -128,20 +128,33 @@
 
 	msg = emoji_parse(msg)
 	var/keywordparsedmsg = keywords_lookup(msg)
+	var/datum/adminticket/ticket
 
 	if(C.holder)
 		if(holder)	//both are admins
 			for(var/datum/adminticket/T in admintickets)
-				if(T.permckey == C.ckey && T.resolved == "No")
+				if(T.permckey == src.ckey && T.resolved == "No")
 					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
-			C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
-			src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [keywordparsedmsg]</font>"
-
+					ticket = T
+				else if(T.permckey == src.ckey)
+					ticket = T
+			if(ticket && ticket.resolved == "No")
+				C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg] (<a href='?src=\ref[ticket];resolve=\ref[ticket]'>R</a>)</font>"
+				src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [keywordparsedmsg] (<a href='?src=\ref[ticket];resolve=\ref[ticket]'>R</a>)</font>"
+			else
+				C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
+				src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [keywordparsedmsg]</font>"
 		else		//recipient is an admin but sender is not
 			for(var/datum/adminticket/T in admintickets)
-				if(T.permckey == C.ckey && T.resolved == "No")
+				if(T.permckey == src.ckey && T.resolved == "No")
 					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
-			C << "<font color='red'>Reply PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
+					ticket = T
+				else if(T.permckey == src.ckey)
+					ticket = T
+			if(ticket && ticket.resolved == "No")
+				C << "<font color='red'>Reply PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg] (<a href='?src=\ref[ticket];resolve=\ref[ticket]'>R</a>)</font>"
+			else
+				C << "<font color='red'>Reply PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
 			src << "<font color='blue'>PM to-<b>Admins</b>: [msg]</font>"
 
 		//play the recieving admin the adminhelp sound (if they have them enabled)
@@ -150,16 +163,20 @@
 
 	else
 		if(holder)	//sender is an admin but recipient is not. Do BIG RED TEXT
+			for(var/datum/adminticket/T in admintickets)
+				if(T.permckey == C.ckey && T.resolved == "No")
+					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
+					ticket = T
+				else if(T.permckey == C.ckey)
+					ticket = T
 
 			C << "<font color='red' size='4'><b>-- Administrator private message --</b></font>"
 			C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 0)]</b>: [msg]</font>"
 			C << "<font color='red'><i>Click on the administrator's name to reply.</i></font>"
-			src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [msg]</font>"
-
-			for(var/datum/adminticket/T in admintickets)
-				if(T.permckey == C.ckey && T.resolved == "No")
-					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
-
+			if(ticket && ticket.resolved == "No")
+				src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [msg] (<a href='?src=\ref[ticket];resolve=\ref[ticket]'>R</a>)</font>"
+			else
+				src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [msg]</font>"
 			//always play non-admin recipients the adminhelp sound
 			C << 'sound/effects/adminhelp.ogg'
 
