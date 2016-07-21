@@ -264,14 +264,14 @@
 /obj/item/inflatable/torn/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/stack/ducttape))
 		var/obj/item/stack/ducttape/T = I
-		if(T.amount < 3)
+		if(T.amount < 2)
 			user << "<span class='danger'>There is not enough tape!</span>"
 			return
 		user << "<span class='notice'>You begin fixing the [src]!</span>"
 		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
 		if(do_mob(user, src, 20))
 			user << "<span class='notice'>You fix the [src] using the ducttape!</span>"
-			T.use(3)
+			T.use(2)
 			new /obj/item/inflatable(user.loc)
 			qdel(src)
 
@@ -289,14 +289,14 @@
 /obj/item/inflatable/door/torn/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/stack/ducttape))
 		var/obj/item/stack/ducttape/T = I
-		if(T.amount < 4)
+		if(T.amount < 2)
 			user << "<span class='danger'>There is not enough tape!</span>"
 			return
 		user << "<span class='notice'>You begin fixing the [src]!</span>"
 		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
 		if(do_mob(user, src, 25))
 			user << "<span class='notice'>You fix the [src] using the ducttape!</span>"
-			T.use(4)
+			T.use(2)
 			new /obj/item/inflatable/door(user.loc)
 			qdel(src)
 
