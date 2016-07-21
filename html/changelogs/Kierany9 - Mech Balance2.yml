@@ -1,0 +1,8 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - rscadd: "Brought back some mech rebalancing that was reverted by accident. Most mech weapons are now superior in some way to their non-mounted counterparts and mech ballistics are no-longer a complete joke."
+  - rscadd: "Added the RTC \"Detainer\" repeating disabler, a mech-mounted disabler that fires a three-shot burst, enough to keep anybody hit by it on the ground."
+  - tweak: "The CH-PS \"Immolator\" Laser is now the default mech weapon, the Ultra AC 2 LMG has received a significiant buff and placed behind a research wall."

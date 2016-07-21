@@ -109,6 +109,7 @@
 	icon_state = "janitor"
 	item_color = "janitor"
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 10, rad = 0)
+	permeability_coefficient = 0.50 //Diseases and such.
 	burn_state = -1
 
 
