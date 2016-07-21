@@ -78,7 +78,7 @@
 			if (S.locked)
 				return attack_self(M)
 		if(istype(src,/obj/item/weapon/storage/pod))
-				P = src
+			P = src
 		if(P)
 			return attack_self(P)
 		show_to(M)
