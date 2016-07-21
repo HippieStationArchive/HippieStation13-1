@@ -207,7 +207,7 @@
 	list_reagents = list("mutadone" = 50)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/bromelain
-	name = "bromelain acid pill"
+	name = "bromelain pill"
 	desc = "Used to dull pain."
 	icon_state = "pill5"
 	list_reagents = list("bromelain" = 24)
