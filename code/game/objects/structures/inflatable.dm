@@ -314,3 +314,15 @@
 		new /obj/item/inflatable/door(src)
 	for(var/i = 0, i < 16, i ++)
 		new /obj/item/inflatable(src)
+
+/obj/item/inflatable/suicide_act(mob/living/user)
+	visible_message(user, "<span class='danger'>[user] starts shoving the [src] up his ass! It looks like hes going to pull the cord, oh shit!</span>")
+	playsound(user.loc, 'sound/machines/hiss.ogg', 75, 1)
+	new /obj/structure/inflatable(user.loc)
+	user.gib()
+
+/obj/item/inflatable/door/suicide_act(mob/living/user)
+	visible_message(user, "<span class='danger'>[user] starts shoving the [src] up his ass! It looks like hes going to pull the cord, oh shit!</span>")
+	playsound(user.loc, 'sound/machines/hiss.ogg', 75, 1)
+	new /obj/structure/inflatable/door(user.loc)
+	user.gib()
