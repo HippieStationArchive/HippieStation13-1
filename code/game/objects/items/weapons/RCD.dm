@@ -50,8 +50,7 @@ RCD
 	door_accesses_list = list()
 	for(var/access in get_all_accesses())
 		door_accesses_list[++door_accesses_list.len] = list("name" = get_access_desc(access), "id" = access, "enabled" = (access in door_accesses))
-	return
-	..()
+	return ..()
 
 /obj/item/weapon/rcd/Destroy()
 	rcd_list -= src
@@ -65,6 +64,7 @@ RCD
 			loadamt = 30 //makes lyfe easier
 		var/obj/item/weapon/rcd_ammo/R = W
 		if(matter >= max_matter)
+			matter = max_matter
 			user << "<span class='danger'>The [src] is full!</span>"
 			return
 		if(R.ammoamt < loadamt && max_matter - matter >= R.ammoamt)
@@ -78,7 +78,7 @@ RCD
 		else
 			R.ammoamt -= loadamt
 			R.desc = "Highly compressed matter for the RCD. It currently has [R.ammoamt] units left."
-		if(R.ammoamt == 0)
+		if(R.ammoamt <= 0)
 			qdel(W)
 		matter += loadamt
 		user << "<span class='notice'>You load [loadamt] units into the RCD. It now holds [matter]/[max_matter] matter-units.</span>"
@@ -179,7 +179,7 @@ RCD
 
 
 /obj/item/weapon/rcd/afterattack(atom/A, mob/user, proximity)
-	if(!proximity) return
+	if(!proximity) return 0
 	if(istype(A,/area/shuttle)||istype(A,/turf/space/transit))
 		return 0
 	if(!(istype(A, /turf) || istype(A, /obj/machinery/door/airlock) || istype(A, /obj/structure/grille) || istype(A, /obj/structure/window)))
