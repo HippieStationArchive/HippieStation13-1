@@ -127,3 +127,9 @@
 	icon_state = "air_horn"
 	honksound = 'sound/items/AirHorn2.ogg'
 	cooldowntime = 50
+
+/obj/item/weapon/reagent_containers/food/drinks/soda_cans/canned_laughter
+	name = "Canned Laughter"
+	desc = "Just looking at this makes you want to giggle."
+	icon_state = "laughter"
+	list_reagents = list("laughter" = 50)
