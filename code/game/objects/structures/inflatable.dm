@@ -4,11 +4,12 @@
 	icon = 'icons/obj/inflatable.dmi'
 	icon_state = "folded_wall"
 	w_class = 2
+	var/structuretype = /obj/structure/inflatable
 
 /obj/item/inflatable/attack_self(mob/user)
 	playsound(loc, 'sound/items/zip.ogg', 75, 1)
 	user << "<span class='notice'>You inflate [src].</span>"
-	var/obj/structure/inflatable/R = new /obj/structure/inflatable(user.loc)
+	var/obj/structure/inflatable/R = new structuretype(user.loc)
 	transfer_fingerprints_to(R)
 	R.add_fingerprint(user)
 	qdel(src)
@@ -19,12 +20,11 @@
 	density = 1
 	anchored = 1
 	opacity = 0
-
 	icon = 'icons/obj/inflatable.dmi'
 	icon_state = "wall"
-
 	var/health = 50
-	var/brokenpath = /obj/item/inflatable/torn
+	var/torntype = /obj/item/inflatable/torn
+	var/itemtype = /obj/item/inflatable
 
 /obj/structure/inflatable/New(location)
 	..()
@@ -41,11 +41,8 @@
 	return !density
 
 /obj/structure/inflatable/bullet_act(var/obj/item/projectile/Proj)
-	health -= Proj.damage
 	..()
-	if(health <= 0)
-		deflate(1)
-	return
+	hit(Proj.damage)
 
 /obj/structure/inflatable/ex_act(severity)
 	switch(severity)
@@ -63,25 +60,24 @@
 /obj/structure/inflatable/blob_act()
 	deflate(1)
 
-/obj/structure/inflatable/attack_hand(mob/user as mob)
+/obj/structure/inflatable/attack_hand(mob/user)
 	add_fingerprint(user)
 	..()
-	return
 
-/obj/structure/inflatable/proc/attack_generic(mob/user as mob, damage = 0)	//used by attack_alien, attack_animal, and attack_slime
+/obj/structure/inflatable/proc/attack_generic(mob/user, damage as num)
 	health -= damage
 	if(health <= 0)
 		user.visible_message("<span class='danger'>[user] tears open [src]!</span>")
 		deflate(1)
-	else	//for nicer text~
+	else
 		user.visible_message("<span class='danger'>[user] tears at [src]!</span>")
 
-/obj/structure/inflatable/attack_alien(mob/user as mob)
+/obj/structure/inflatable/attack_alien(mob/user)
 	if(islarva(user))
 		return
 	attack_generic(user, 15)
 
-/obj/structure/inflatable/attack_animal(mob/user as mob)
+/obj/structure/inflatable/attack_animal(mob/user)
 	if(!isanimal(user))
 		return
 	var/mob/living/simple_animal/M = user
@@ -89,10 +85,10 @@
 		return
 	attack_generic(M, M.melee_damage_upper)
 
-/obj/structure/inflatable/attack_slime(mob/user as mob)
+/obj/structure/inflatable/attack_slime(mob/user)
 	attack_generic(user, rand(10, 15))
 
-/obj/structure/inflatable/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+/obj/structure/inflatable/attackby(obj/item/weapon/W, mob/user, params)
 	user.changeNext_move(CLICK_CD_MELEE)
 	if(!istype(W))
 		return
@@ -102,9 +98,8 @@
 	if(W.damtype == BRUTE || W.damtype == BURN)
 		hit(W.force)
 		..()
-	return
 
-/obj/structure/inflatable/proc/hit(var/damage, var/sound_effect = 1)
+/obj/structure/inflatable/proc/hit(damage, sound_effect = TRUE)
 	health = max(0, health - damage)
 	if(sound_effect)
 		playsound(loc, 'sound/effects/Glasshit.ogg', 75, 1)
@@ -118,19 +113,19 @@
 		return
 	deflate()
 
-/obj/structure/inflatable/proc/deflate(var/violent=0)
+/obj/structure/inflatable/proc/deflate(violent)
 	playsound(loc, 'sound/machines/hiss.ogg', 75, 1)
+	var/obj/item/inflatable/R
 	if(violent)
 		visible_message("<span class='danger'>[src] rapidly deflates!</span>")
-		var/obj/item/inflatable/torn/R = new /obj/item/inflatable/torn(loc)
-		src.transfer_fingerprints_to(R)
-		qdel(src)
+		R = new torntype(loc)
 	else
 		visible_message("<span class='danger'>[src] slowly deflates.</span>")
-		spawn(50)
-			var/obj/item/inflatable/R = new /obj/item/inflatable(loc)
-			src.transfer_fingerprints_to(R)
-			qdel(src)
+		sleep(50)
+		R = new itemtype(loc)
+	transfer_fingerprints_to(R)
+	density = 0
+	qdel(src)
 
 /obj/structure/inflatable/verb/hand_deflate()
 	set name = "Deflate"
@@ -139,7 +134,6 @@
 
 	if(usr.stat || usr.restrained())
 		return
-
 	deflate()
 
 /obj/item/inflatable/door
@@ -147,35 +141,21 @@
 	desc = "A folded membrane which rapidly expands into a simple door on activation."
 	icon = 'icons/obj/inflatable.dmi'
 	icon_state = "folded_door"
-
-/obj/item/inflatable/door/attack_self(mob/user)
-	playsound(loc, 'sound/items/zip.ogg', 75, 1)
-	user << "<span class='notice'> You inflate [src].</span>"
-	var/obj/structure/inflatable/door/R = new /obj/structure/inflatable/door(user.loc)
-	src.transfer_fingerprints_to(R)
-	R.add_fingerprint(user)
-	qdel(src)
+	structuretype = /obj/structure/inflatable/door
 
 /obj/structure/inflatable/door //Based on mineral door code
 	name = "inflatable door"
 	density = 1
 	anchored = 1
 	opacity = 0
-
 	icon = 'icons/obj/inflatable.dmi'
 	icon_state = "door_closed"
-
+	torntype = /obj/item/inflatable/torn/door
+	itemtype = /obj/item/inflatable/door
 	var/state = 0 //closed, 1 == open
 	var/isSwitchingStates = 0
 
-/obj/structure/inflatable/door/attack_ai(mob/user as mob) //those aren't machinery, they're just big fucking slabs of a mineral
-	if(isAI(user)) //so the AI can't open it
-		return
-	else if(isrobot(user)) //but cyborgs can
-		if(get_dist(user,src) <= 1) //not remotely though
-			return TryToSwitchState(user)
-
-/obj/structure/inflatable/door/attack_hand(mob/user as mob)
+/obj/structure/inflatable/door/attack_hand(mob/user)
 	return TryToSwitchState(user)
 
 /obj/structure/inflatable/door/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
@@ -212,7 +192,6 @@
 
 /obj/structure/inflatable/door/proc/Open()
 	isSwitchingStates = 1
-	//playsound(loc, 'sound/effects/stonedoor_openclose.ogg', 100, 1)
 	flick("door_opening",src)
 	sleep(10)
 	density = 0
@@ -223,7 +202,6 @@
 
 /obj/structure/inflatable/door/proc/Close()
 	isSwitchingStates = 1
-	//playsound(loc, 'sound/effects/stonedoor_openclose.ogg', 100, 1)
 	flick("door_closing",src)
 	sleep(10)
 	density = 1
@@ -238,19 +216,8 @@
 	else
 		icon_state = "door_closed"
 
-/obj/structure/inflatable/door/deflate(var/violent=0)
-	playsound(loc, 'sound/machines/hiss.ogg', 75, 1)
-	if(violent)
-		visible_message("<span class='danger'>[src] rapidly deflates!</span>")
-		var/obj/item/inflatable/door/torn/R = new /obj/item/inflatable/door/torn(loc)
-		src.transfer_fingerprints_to(R)
-		qdel(src)
-	else
-		visible_message("<span class='danger'>[src] slowly deflates.</span>")
-		spawn(50)
-			var/obj/item/inflatable/door/R = new /obj/item/inflatable/door(loc)
-			src.transfer_fingerprints_to(R)
-			qdel(src)
+/obj/structure/inflatable/door/deflate(violent)
+	..()
 	air_update_turf(1)
 
 /obj/item/inflatable/torn
@@ -258,6 +225,7 @@
 	desc = "A folded membrane which rapidly expands into a large cubical shape on activation. It is too torn to be usable."
 	icon = 'icons/obj/inflatable.dmi'
 	icon_state = "folded_wall_torn"
+	var/fixedtype = /obj/item/inflatable
 
 /obj/item/inflatable/torn/attack_self(mob/user)
 	user << "<span class='warning'>The inflatable wall is too torn to be inflated, fix it with something!</span>"
@@ -274,33 +242,15 @@
 		if(do_mob(user, src, 20))
 			user << "<span class='notice'>You fix the [src] using the ducttape!</span>"
 			T.use(2)
-			new /obj/item/inflatable(user.loc)
+			new fixedtype(user.loc)
 			qdel(src)
 
-/obj/item/inflatable/door/torn
+/obj/item/inflatable/torn/door
 	name = "torn inflatable door"
 	desc = "A folded membrane which rapidly expands into a simple door on activation. It is too torn to be usable."
 	icon = 'icons/obj/inflatable.dmi'
 	icon_state = "folded_door_torn"
-
-/obj/item/inflatable/door/torn/attack_self(mob/user)
-	user << "<span class='warning'>The inflatable door is too torn to be inflated, fix it with something!</span>"
-	add_fingerprint(user)
-
-
-/obj/item/inflatable/door/torn/attackby(obj/item/I, mob/user)
-	if(istype(I, /obj/item/stack/ducttape))
-		var/obj/item/stack/ducttape/T = I
-		if(T.amount < 2)
-			user << "<span class='danger'>There is not enough tape!</span>"
-			return
-		user << "<span class='notice'>You begin fixing the [src]!</span>"
-		playsound(user, 'sound/items/ducttape1.ogg', 50, 1)
-		if(do_mob(user, src, 25))
-			user << "<span class='notice'>You fix the [src] using the ducttape!</span>"
-			T.use(2)
-			new /obj/item/inflatable/door(user.loc)
-			qdel(src)
+	fixedtype = /obj/item/inflatable/door
 
 /obj/item/weapon/storage/inflatable
 	name = "inflatable barrier box"
@@ -312,7 +262,7 @@
 
 /obj/item/weapon/storage/inflatable/New()
 	..()
-	for(var/i = 0, i < 8, i ++)
+	for(var/i = 0, i < 8, i++)
 		new /obj/item/inflatable/door(src)
 	for(var/i = 0, i < 16, i ++)
 		new /obj/item/inflatable(src)
@@ -320,6 +270,6 @@
 /obj/item/inflatable/suicide_act(mob/living/user)
 	visible_message(user, "<span class='danger'>[user] starts shoving the [src] up his ass! It looks like hes going to pull the cord, oh shit!</span>")
 	playsound(user.loc, 'sound/machines/hiss.ogg', 75, 1)
-	new type(user.loc)
+	new structuretype(user.loc)
 	user.gib()
 	return BRUTELOSS
