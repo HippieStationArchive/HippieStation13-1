@@ -595,7 +595,7 @@
 	color = "#FF4DD2"
 
 /datum/reagent/consumable/laughter/on_mob_life(mob/living/M)
-	if(prob(10))
+	if(!M.silent && prob(10))
 		M.emote("laugh")
 		var/laughsound = pick('sound/voice/manlaugh1.ogg', 'sound/voice/manlaugh2.ogg')
 		if(M.gender == MALE)
