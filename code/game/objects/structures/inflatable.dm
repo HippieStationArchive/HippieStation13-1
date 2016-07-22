@@ -24,6 +24,7 @@
 	icon_state = "wall"
 
 	var/health = 50
+	var/brokenpath = /obj/item/inflatable/torn
 
 /obj/structure/inflatable/New(location)
 	..()
@@ -64,6 +65,7 @@
 
 /obj/structure/inflatable/attack_hand(mob/user as mob)
 	add_fingerprint(user)
+	..()
 	return
 
 /obj/structure/inflatable/proc/attack_generic(mob/user as mob, damage = 0)	//used by attack_alien, attack_animal, and attack_slime
