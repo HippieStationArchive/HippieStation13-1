@@ -64,8 +64,8 @@
 	item_state = null
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
-	heat_protection = HEAD
-	max_heat_protection_temperature = SPACE_HELM_MAX_TEMP_PROTECT
+	heat_protection = null
+	max_heat_protection_temperature = null
 	origin_tech = null
 	unacidable = 1
 	flags = ABSTRACT | NODROP | STOPSPRESSUREDMAGE
