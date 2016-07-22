@@ -9,7 +9,7 @@
 	playsound(loc, 'sound/items/zip.ogg', 75, 1)
 	user << "<span class='notice'>You inflate [src].</span>"
 	var/obj/structure/inflatable/R = new /obj/structure/inflatable(user.loc)
-	src.transfer_fingerprints_to(R)
+	transfer_fingerprints_to(R)
 	R.add_fingerprint(user)
 	qdel(src)
 
@@ -23,7 +23,7 @@
 	icon = 'icons/obj/inflatable.dmi'
 	icon_state = "wall"
 
-	var/health = 50.0
+	var/health = 50
 
 /obj/structure/inflatable/New(location)
 	..()
@@ -48,13 +48,13 @@
 
 /obj/structure/inflatable/ex_act(severity)
 	switch(severity)
-		if(1.0)
+		if(1)
 			qdel(src)
 			return
-		if(2.0)
+		if(2)
 			deflate(1)
 			return
-		if(3.0)
+		if(3)
 			if(prob(50))
 				deflate(1)
 				return
@@ -326,3 +326,4 @@
 	playsound(user.loc, 'sound/machines/hiss.ogg', 75, 1)
 	new /obj/structure/inflatable/door(user.loc)
 	user.gib()
+	return BRUTELOSS
