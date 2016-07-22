@@ -608,4 +608,4 @@
 		metabolization_rate = 5 * REAGENTS_METABOLISM
 	else
 		metabolization_rate = 0.5 * REAGENTS_METABOLISM
-..()
+	..()
