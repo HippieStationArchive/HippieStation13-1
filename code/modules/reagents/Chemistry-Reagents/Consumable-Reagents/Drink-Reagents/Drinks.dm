@@ -591,19 +591,24 @@
 	name = "Laughter"
 	id = "laughter"
 	description = "Some say that this is the best medicine, but recent studies have proven that to be untrue."
-	metabolization_rate = INFINITY
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	color = "#FF4DD2"
 
 /datum/reagent/consumable/laughter/on_mob_life(mob/living/M)
-	M.emote("laugh")
-	var/laughnum = rand(1,2)
-	if(M.gender == MALE)
-		if(laughnum == 1)
+	if(prob(10))
+		M.emote("laugh")
+		var/laughnum = rand(1,2)
+		if(M.gender == MALE)
+			if(laughnum == 1)
+				playsound(get_turf(M), 'sound/voice/manlaugh1.ogg', 50, 1)
+			if(laughnum == 2)
+				playsound(get_turf(M), 'sound/voice/manlaugh2.ogg', 50, 1)
+		else if(M.gender == FEMALE)
+			playsound(get_turf(M), 'sound/voice/womanlaugh.ogg', 65, 1)
+		else//non-binary gender just sounds like a man
 			playsound(get_turf(M), 'sound/voice/manlaugh1.ogg', 50, 1)
-		if(laughnum == 2)
-			playsound(get_turf(M), 'sound/voice/manlaugh2.ogg', 50, 1)
-	else if(M.gender == FEMALE)
-		playsound(get_turf(M), 'sound/voice/womanlaugh.ogg', 65, 1)
-	else//non-binary gender just sounds like a man
-		playsound(get_turf(M), 'sound/voice/manlaugh1.ogg', 50, 1)
+	if(holder.has_reagent("nothing"))
+		metabolization_rate = 5 * REAGENTS_METABOLISM
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
 ..()
