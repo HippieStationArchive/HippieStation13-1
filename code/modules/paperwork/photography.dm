@@ -390,14 +390,10 @@
 	user << "<span class='notice'>[pictures_left] photos left.</span>"
 	icon_state = "camera_off"
 	on = 0
-	if(!remote)
-		spawn(64)
-			icon_state = "camera"
-			on = 1
-	else
-		spawn(600)
-			icon_state = "camera"
-			on = 1
+	var/time = remote ? 600:64
+	spawn(time)
+		icon_state = "camera"
+		on = 1
 
 /obj/item/device/camera/siliconcam/proc/toggle_camera_mode()
 	if(in_camera_mode)
@@ -464,8 +460,13 @@
 		var/wanted = copytext(sanitize(input(user, "Who would you like to take a photograph of?", "Target name")as text | null),1,26)
 		if(wanted in real_living_players)
 			target = real_living_players[wanted]
+			var/turf/target_turf = get_turf(target)
+			if(target_turf.z == 2)
+				target = user
+				user << "<span class='warning'>The spirit camera cannot reach out into that sector of the cosmos.</span>"
+				return
 		else
 			target = user
 		if(isobj(target.loc))
-			target = target.loc
+			target = get_turf(target)
 	..()
