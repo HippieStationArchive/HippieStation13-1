@@ -381,19 +381,6 @@
 		viewpichelper(Ainfo)
 
 /obj/item/device/camera/afterattack(atom/target, mob/user, flag)
-	if(remote && on && pictures_left)
-		var/list/living_players = living_mob_list
-		var/list/real_living_players = list()
-		for(var/mob/M in living_players)
-			real_living_players += M.real_name
-			real_living_players[M.real_name] = M
-		var/wanted = copytext(sanitize(input(user, "Who would you like to take a photograph of?", "Target name")as text | null),1,26)
-		if(wanted in real_living_players)
-			target = real_living_players[wanted]
-		else
-			target = user
-		if(isobj(target.loc))
-			target = target.loc
 	if(!on || !pictures_left || ismob(target.loc)) return
 	captureimage(target, user, flag)
 
@@ -466,3 +453,19 @@
 			else
 				user << "<span class='notice'>You push a hidden button and activate spirit photography.</span>"
 				remote = 1
+
+/obj/item/device/camera/spiritcam/afterattack(atom/target, mob/user, flag)
+	if(remote && on && pictures_left)
+		var/list/living_players = living_mob_list
+		var/list/real_living_players = list()
+		for(var/mob/M in living_players)
+			real_living_players += M.real_name
+			real_living_players[M.real_name] = M
+		var/wanted = copytext(sanitize(input(user, "Who would you like to take a photograph of?", "Target name")as text | null),1,26)
+		if(wanted in real_living_players)
+			target = real_living_players[wanted]
+		else
+			target = user
+		if(isobj(target.loc))
+			target = target.loc
+	..()
