@@ -42,8 +42,18 @@
 /obj/item/projectile/bullet/pellet/weak
 	damage = 3
 
-/obj/item/projectile/bullet/pellet/random/New()
-	damage = rand(10)
+/obj/item/projectile/bullet/pellet/shrapnel
+	name = "metal shrapnel"
+	damage = 7
+
+/obj/item/projectile/bullet/pellet/coinshot
+	name = "coin pellet"
+	damage = 3
+	stamina = 10
+
+/obj/item/projectile/bullet/pellet/coinshot/overload
+	damage = 5
+	stamina = 15
 
 /obj/item/projectile/bullet/midbullet
 	damage = 20
