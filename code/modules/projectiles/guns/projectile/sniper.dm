@@ -30,7 +30,7 @@
 	icon_state = ".50mag"
 	origin_tech = "combat=6;syndicate=2"
 	ammo_type = /obj/item/ammo_casing/point50
-	max_ammo = 6
+	max_ammo = 5
 	caliber = ".50"
 
 /obj/item/ammo_box/magazine/sniper_rounds/update_icon()
@@ -71,7 +71,7 @@
 	icon_state = "soporific"
 	origin_tech = "combat=6;syndicate=3"
 	ammo_type = /obj/item/ammo_casing/soporific
-	max_ammo = 3
+	max_ammo = 5
 	caliber = ".50"
 
 /obj/item/ammo_casing/soporific
