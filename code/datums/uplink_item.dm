@@ -152,6 +152,14 @@ var/list/uplink_items = list()
 	cost = 14
 	jobs = list("Botanist", "Bartender", "Chef")
 
+//CIVILIAN DIVISION
+/datum/uplink_item/job_specific/spiritcam
+	name = "Spirit Camera"
+	desc = "This special camera allows you to take long-distance photographs of any living person provided you know their name."
+	item = /obj/item/device/camera/spiritcam
+	cost = 4
+	jobs = list("Librarian", "Assistant", "Clown", "Mime", "Lawyer", "Chaplain")
+
 //LIBRARIAN
 /datum/uplink_item/job_specific/soulstone
 	name = "Soulstone"

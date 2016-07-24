@@ -128,7 +128,7 @@ SERVER
 FORUMURL http://www.hippie-station-13.com
 
 ## Wiki address
-WIKIURL http://wiki.hippie-station-13.com
+WIKIURL http://wiki.hippiestation.com
 
 ##Rules address
 RULESURL http://hippie-station-13.com/misc/darules.shtml
