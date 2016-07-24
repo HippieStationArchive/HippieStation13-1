@@ -255,16 +255,6 @@
 	locked = 1
 	category = list("Weapons")
 
-/datum/design/reciever		//The amount of research needed and the fact that silver was needed to make this which was ONLY used for the improvised shotgun was awful.
-	name = "Modular Receiver"
-	desc = "A modular receiver and trigger assembly for a variety of firearms."
-	id = "reciever"
-	req_tech = list("combat" = 2, "materials" = 3)
-	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 1500)
-	build_path = /obj/item/weaponcrafting/reciever
-	category = list("Weapons")
-
 //SABR Mags
 
 /datum/design/mag_smg
