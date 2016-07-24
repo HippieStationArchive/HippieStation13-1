@@ -452,14 +452,17 @@
 
 /obj/item/device/camera/spiritcam/afterattack(atom/target, mob/user, flag)
 	if(remote && on && pictures_left)
-		var/list/living_players = living_mob_list
 		var/list/real_living_players = list()
-		for(var/mob/M in living_players)
+		var/list/wanted_players = list()
+		var/wanted = copytext(sanitize(input(user, "Who would you like to take a photograph of?", "Target name")as text | null),1,26)
+		for(var/mob/M in living_mob_list)
 			real_living_players += M.real_name
 			real_living_players[M.real_name] = M
-		var/wanted = copytext(sanitize(input(user, "Who would you like to take a photograph of?", "Target name")as text | null),1,26)
+			if(M.real_name == wanted)
+				wanted_players += M
+				wanted_players[M.real_name] = M
 		if(wanted in real_living_players)
-			target = real_living_players[wanted]
+			target = input(user, "Who would you like to take a photograph of?", "Target name") as null|anything in wanted_players
 			var/turf/target_turf = get_turf(target)
 			if(target_turf.z == 2)
 				target = user
