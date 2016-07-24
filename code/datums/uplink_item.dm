@@ -652,29 +652,9 @@ var/list/uplink_items = list()
 	name = "Box Magazine - 7.62x51mm"
 	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun. By the time you need to use this, you'll already be on a pile of corpses."
 	item = /obj/item/ammo_box/magazine/m762
-	cost = 6
+	cost = 5
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
-
-/datum/uplink_item/ammo/machinegun/bleeding
-	name = "Box Magazine - Bleeding 7.62x51mm"
-	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun equipped with special properties to induce internal bleeding on targets."
-	item = /obj/item/ammo_box/magazine/m762/bleeding
-
-/datum/uplink_item/ammo/machinegun/hollow
-	name = "Box Magazine - Hollow 7.62x51mm"
-	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun equipped with hollow-tips to help with the unarmored masses of crew."
-	item = /obj/item/ammo_box/magazine/m762/hollow
-
-/datum/uplink_item/ammo/machinegun/ap
-	name = "Box Magazine - Armor Penetrating 7.62x51mm"
-	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun equipped with special properties to puncture even the most durable armor."
-	item = /obj/item/ammo_box/magazine/m762/ap
-
-/datum/uplink_item/ammo/machinegun/incen
-	name = "Box Magazine - Incendiary 7.62x51mm"
-	desc = "A 50-round magazine of 7.62x51mm ammunition for use in the L6 SAW machinegun, tipped with a special flammable mixture that'll ignite anyone struck by the bullet. Some men just want to watch the world burn."
-	item = /obj/item/ammo_box/magazine/m762/incen
 
 /datum/uplink_item/ammo/toydarts //This used to only be for nuke ops, but had the cost lowered and made available to traitors because >a box of foam darts is more expensive than four carbine magazines
 	name = "Box of Riot Darts"
@@ -685,27 +665,28 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/ammo/sniper
 	name = "Sniper Magazine - .50"
-	desc = "An additional 6-round .50 magazine for use in the syndicate sniper rifle."
+	desc = "An additional 5-round .50 magazine for use in the syndicate sniper rifle."
 	item = /obj/item/ammo_box/magazine/sniper_rounds
 	cost = 4 //70dmg rounds are no joke
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/sniper/soporific
 	name = "Sniper Magazine - Soporific Rounds"
-	desc = "A 3-round magazine of soporific ammo designed for use in the syndicate sniper rifle, put your enemies to sleep today!"
+	desc = "A 5-round magazine of soporific ammo designed for use in the syndicate sniper rifle, put your enemies to sleep today!"
 	item = /obj/item/ammo_box/magazine/sniper_rounds/soporific
-	cost = 5
+	cost = 2 //Why are sleep rounds more expensive than standard rounds, especially if it only comes with half the ammo?
 
-/datum/uplink_item/ammo/sniper/haemorrhage
+/datum/uplink_item/ammo/sniper/he
 	name = "Sniper Magazine - Haemorrhage Rounds"
-	desc = "A 5-round magazine of haemorrhage ammo designed for use in the syndicate sniper rifle, causes heavy bleeding in the target."
-	item = /obj/item/ammo_box/magazine/sniper_rounds/haemorrhage
+	desc = "A 5-round magazine of high-explosive ammo designed for use in the syndicate sniper rifle, causes a small explosion on impact."
+	item = /obj/item/ammo_box/magazine/sniper_rounds/he
+	cost = 5
 
 /datum/uplink_item/ammo/sniper/penetrator
 	name = "Sniper Magazine - Penetrator Rounds"
 	desc = "A 5-round magazine of penetrator ammo designed for use in the syndicate sniper rifle. Can pierce walls and multiple enemies."
 	item = /obj/item/ammo_box/magazine/sniper_rounds/penetrator
-	cost = 5
+	cost = 3
 
 // STEALTHY WEAPONS
 
