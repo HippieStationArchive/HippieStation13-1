@@ -255,9 +255,9 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/specoffer/sniper
 	name = "Sniper bundle"
-	desc = "Contains a collapsed sniper rifle in an expensive carrying case, a hollowpoint haemorrhage magazine, a soporific knockout magazine, a free surplus supressor, and a worn out suit and tie."
+	desc = "Contains a collapsed sniper rifle in an expensive carrying case, a high explosive magazine, a soporific knockout magazine, a penetrator magazine, a free surplus supressor, and a worn out suit and tie."
 	item = /obj/item/weapon/storage/briefcase/sniperbundle
-	cost = 20//26 normal cost. suppressor is excluded from price.
+	cost = 22 //29 normal cost. suppressor is excluded from price.
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/specoffer/chemical
@@ -515,7 +515,7 @@ var/list/uplink_items = list()
 	name = "Sniper Rifle"
 	desc = "Ranged fury, syndicate style. Features a scope for precision fire."
 	item = /obj/item/weapon/gun/projectile/sniper_rifle
-	cost = 16
+	cost = 14
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 25
 
@@ -667,26 +667,26 @@ var/list/uplink_items = list()
 	name = "Sniper Magazine - .50"
 	desc = "An additional 5-round .50 magazine for use in the syndicate sniper rifle."
 	item = /obj/item/ammo_box/magazine/sniper_rounds
-	cost = 4 //70dmg rounds are no joke
+	cost = 5 //70dmg rounds are no joke
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/sniper/soporific
 	name = "Sniper Magazine - Soporific Rounds"
 	desc = "A 5-round magazine of soporific ammo designed for use in the syndicate sniper rifle, put your enemies to sleep today!"
 	item = /obj/item/ammo_box/magazine/sniper_rounds/soporific
-	cost = 2 //Why are sleep rounds more expensive than standard rounds, especially if it only comes with half the ammo?
+	cost = 3 //Why are sleep rounds more expensive than standard rounds, especially if it only comes with half the ammo?
 
 /datum/uplink_item/ammo/sniper/he
-	name = "Sniper Magazine - Haemorrhage Rounds"
+	name = "Sniper Magazine - Explosive Rounds"
 	desc = "A 5-round magazine of high-explosive ammo designed for use in the syndicate sniper rifle, causes a small explosion on impact."
 	item = /obj/item/ammo_box/magazine/sniper_rounds/he
-	cost = 5
+	cost = 6
 
 /datum/uplink_item/ammo/sniper/penetrator
 	name = "Sniper Magazine - Penetrator Rounds"
 	desc = "A 5-round magazine of penetrator ammo designed for use in the syndicate sniper rifle. Can pierce walls and multiple enemies."
 	item = /obj/item/ammo_box/magazine/sniper_rounds/penetrator
-	cost = 3
+	cost = 6
 
 // STEALTHY WEAPONS
 
