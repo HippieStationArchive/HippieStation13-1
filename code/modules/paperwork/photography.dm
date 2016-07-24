@@ -463,8 +463,7 @@
 				wanted_players[M.real_name] = M
 		if(wanted in real_living_players)
 			target = input(user, "Who would you like to take a photograph of?", "Target name") as null|anything in wanted_players
-			var/turf/target_turf = get_turf(target)
-			if(target_turf.z == 2)
+			if(target.onCentcom())
 				target = user
 				user << "<span class='warning'>The spirit camera cannot reach out into that sector of the cosmos.</span>"
 				return
