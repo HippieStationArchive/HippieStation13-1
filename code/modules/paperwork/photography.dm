@@ -460,7 +460,7 @@
 			real_living_players[M.real_name] = M
 			if(M.real_name == wanted)
 				wanted_players += M
-				wanted_players[M.real_name] = M
+				wanted_players[M] = M
 		if(wanted in real_living_players)
 			target = input(user, "Who would you like to take a photograph of?", "Target name") as null|anything in wanted_players
 			if(target.onCentcom())
