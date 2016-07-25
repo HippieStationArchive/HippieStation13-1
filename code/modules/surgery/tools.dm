@@ -84,7 +84,7 @@
 	return (BRUTELOSS)
 
 
-/obj/item/weapon/circular_saw/
+/obj/item/weapon/circular_saw
 	name = "circular saw"
 	desc = "For heavy duty cutting."
 	icon = 'icons/obj/surgery.dmi'
