@@ -42,6 +42,7 @@
 	burntime = 20
 
 /obj/item/weapon/storage/briefcase/sniperbundle/New()
+	..()
 	new /obj/item/weapon/gun/projectile/sniper_rifle(src)
 	new /obj/item/clothing/tie/red(src)
 	new /obj/item/clothing/under/syndicate/sniper(src)
