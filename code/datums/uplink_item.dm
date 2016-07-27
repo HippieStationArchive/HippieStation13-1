@@ -355,7 +355,7 @@ var/list/uplink_items = list()
 	name = "Abzats Shotgun Machinegun"
 	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 40-round box magazine of 12 gauge buckshot cartridges."
 	item = /obj/item/weapon/gun/projectile/automatic/shotgun/abzats
-	cost = 30
+	cost = 27
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -592,25 +592,25 @@ var/list/uplink_items = list()
 	cost = 2
 	gamemodes = list(/datum/game_mode/nuclear)
 
-/datum/uplink_item/ammo/box12gbuckshot
+/datum/uplink_item/ammo/box12gbuckshot2 //you couldn't buy this because it had the same name as the box mag, good job whoever coded this
 	name = "40rnd ammo box - 12g Buckshot"
 	desc = "A box of 40 rounds of buckshot ammo, intended for reloading of the Abzats' box magazine."
 	item = /obj/item/ammo_box/box12gbuckshot
-	cost = 8
+	cost = 7
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/box12gbuckshot
 	name = "Abzats Spare Ammo Box - Buckshot"
 	desc = "An ammo box designed for use with the Abzats machine shotgun. Holds up to forty 12 gauge shotgun shells."
 	item = /obj/item/ammo_box/magazine/mbox12g
-	cost = 10
+	cost = 8
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/box12gdragon
 	name = "40rnd ammo box - 12g Dragon's breath"
 	desc = "A box of 40 rounds of dragon's breath ammo, intended for reloading of the Abzats' box magazine."
 	item = /obj/item/ammo_box/box12gdragon
-	cost = 12
+	cost = 9
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/bioterror
