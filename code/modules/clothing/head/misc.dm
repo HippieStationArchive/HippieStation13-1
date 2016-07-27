@@ -183,7 +183,7 @@
 		else
 			user.reindex_screams()
 
-return ..()
+	return ..()
 
 
 /obj/item/clothing/head/fedora
