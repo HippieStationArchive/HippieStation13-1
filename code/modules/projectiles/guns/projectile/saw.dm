@@ -61,7 +61,7 @@
 
 /obj/item/projectile/bullet/saw
 	damage = 60
-	armour_penetration = 40
+	armour_penetration = 10
 
 //magazines//
 
