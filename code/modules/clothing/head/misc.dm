@@ -167,10 +167,11 @@
 	icon_state = "xenos"
 	item_state = "xenos_helm"
 	desc = "A helmet made out of chitinous alien hide."
-	flags = BLOCKHAIR
+	flags = BLOCKHAIR | STOPSPRESSUREDMAGE
+	cold_protection = HEAD
+	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 	alternate_screams = list('sound/voice/hiss1.ogg','sound/voice/hiss2.ogg','sound/voice/hiss3.ogg','sound/voice/hiss4.ogg','sound/voice/hiss5.ogg','sound/voice/hiss6.ogg')
-	flags = STOPSPRESSUREDMAGE
 
 /obj/item/clothing/suit/xenos/equipped(mob/living/carbon/user, slot)
 	if(slot == slot_wear_suit)
