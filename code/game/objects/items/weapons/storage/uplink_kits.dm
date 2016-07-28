@@ -4,7 +4,7 @@
 	..()
 	switch (pickweight(list("spy" = 1, "boom" = 1, "snake" = 1, "screwed" = 1, "guns" = 1, "implant" = 1, "hacker" = 1, "ninja" = 1, "darklord" = 1)))
 		if("spy")
-			new /obj/item/weapon/pen/edagger
+			new /obj/item/weapon/pen/edagger(src)
 			new /obj/item/weapon/reagent_containers/syringe/mulligan(src)
 			new /obj/item/weapon/reagent_containers/syringe/mulligan(src)
 			new /obj/item/weapon/card/id/syndicate(src)
