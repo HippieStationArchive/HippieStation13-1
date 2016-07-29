@@ -24,7 +24,7 @@
 		return
 
 	if(world.time > CHALLENGE_TIME_LIMIT)
-		user << "It's too late to declare hostilities. Your benefactors are already busy with other schemes. You'll have to make  do with what you have on hand."
+		user << "It's too late to declare hostilities. Your benefactors are already busy with other schemes. You'll have to make do with what you have on hand."
 		return
 
 	if(used) //First used check
@@ -49,7 +49,7 @@
 		user << "You don't have enough time to come up with any evil speeches now!"
 
 	if(world.time > CHALLENGE_TIME_LIMIT) //Check the time limit again in case somebody intentionally holds the dialogue box to delay declarations
-		user << "It's too late to declare hostilities. Your benefactors are already busy with other schemes. You'll have to make  do with what you have on hand."
+		user << "It's too late to declare hostilities. Your benefactors are already busy with other schemes. You'll have to make do with what you have on hand."
 		return
 
 	used = 1
