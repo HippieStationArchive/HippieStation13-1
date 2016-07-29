@@ -301,6 +301,9 @@
 			M << "That name is reserved."
 			return nukelastname(M)
 
+	for(var/obj/item/device/nuclear_challenge/C)
+		C.last_name = capitalize(newname)
+
 	return capitalize(newname)
 
 /proc/NukeNameAssign(lastname,list/syndicates)
