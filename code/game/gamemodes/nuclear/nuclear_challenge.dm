@@ -30,7 +30,7 @@
 	if(used) //First used check
 		return
 
-	var/are_you_sure = alert(user, "Consult your team carefully before you declare war on [station_name()]. Are you sure you want to alert the enemy crew? You have [round((CHALLENGE_TIME_LIMIT - world.time)/600)] minutes to decide", "Declare war?", "Yes", "No")
+	var/are_you_sure = alert(user, "Consult your team carefully before you declare war on [station_name()]. Are you sure you want to alert the enemy crew? You have [round((CHALLENGE_TIME_LIMIT - world.time)/10)] seconds to decide", "Declare war?", "Yes", "No")
 	if(are_you_sure == "No")
 		user << "On second thought, the element of surprise isn't so bad after all."
 		return
@@ -42,8 +42,8 @@
 	var/war_declaration = "[user.real_name] has declared his intent to utterly destroy [station_name()] with a nuclear device, and dares the crew to try and stop them."
 	var/custom_threat = alert(user, "Do you want to customize your declaration?", "Customize?", "Yes", "No")
 	if(custom_threat == "Yes" && (world.time < CHALLENGE_TIME_LIMIT-600))
-		war_declaration = sanitize(input(user, "Insert your custom declaration", "Declaration")as text | null)
-		if(war_declaration == null)
+		war_declaration = copytext(sanitize(input(user, "Insert your custom declaration", "Declaration")as text | null), 1, 500)
+		if(war_declaration == null || war_declaration == "")
 			return
 	else if(world.time > CHALLENGE_TIME_LIMIT-600)
 		user << "You don't have enough time to come up with any evil speeches now!"
