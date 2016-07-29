@@ -42,6 +42,8 @@
 	var/custom_threat = alert(user, "Do you want to customize your declaration?", "Customize?", "Yes", "No")
 	if(custom_threat == "Yes" && (world.time < CHALLENGE_TIME_LIMIT-600))
 		war_declaration = sanitize(input(user, "Insert your custom declaration", "Declaration")as text | null)
+		if(war_declaration == null)
+			return
 	else if(world.time > CHALLENGE_TIME_LIMIT-600)
 		user << "You don't have enough time to come up with any evil speeches now!"
 
