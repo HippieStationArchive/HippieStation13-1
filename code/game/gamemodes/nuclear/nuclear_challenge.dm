@@ -54,7 +54,7 @@
 
 	used = 1
 
-	priority_announce(replacetext(war_declaration, "&#39;","'"), title = "Declaration of War by [last_name]", sound = 'sound/machines/Alarm.ogg')
+	priority_announce(replacetext(war_declaration, "&#39;","'"), title = "Declaration of War by the [last_name] family", sound = 'sound/machines/Alarm.ogg')
 	set_security_level(SEC_LEVEL_RED)
 	user << "You've attracted the attention of powerful forces within the syndicate. A bonus bundle of telecrystals has been granted to your team. Great things await you if you complete the mission."
 
