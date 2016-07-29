@@ -16,6 +16,7 @@
 	var/nukes_left = 1 // Call 3714-PRAY right now and order more nukes! Limited offer!
 	var/nuke_off_station = 0 //Used for tracking if the syndies actually haul the nuke to the station
 	var/syndies_didnt_escape = 0 //Used for tracking if the syndies got the shuttle off of the z-level
+	var/last_name = "Syndicate" //Last name of the syndicates, used for war declarations
 
 /datum/game_mode/nuclear/announce()
 	world << "<B>The current game mode is - Nuclear Emergency!</B>"
@@ -301,8 +302,7 @@
 			M << "That name is reserved."
 			return nukelastname(M)
 
-	for(var/obj/item/device/nuclear_challenge/C)
-		C.last_name = capitalize(newname)
+	ticker.mode:last_name = capitalize(newname)
 
 	return capitalize(newname)
 
