@@ -9,6 +9,7 @@
 	Such a brazen move will attract the attention of powerful benefactors within the Syndicate, who will supply your team with a massive amount of bonus telecrystals.  \
 	Must be used within five minutes, or your benefactors will lose interest."
 	var/used = 0
+	var/last_name = "Syndicate"
 
 
 
@@ -29,7 +30,7 @@
 	if(used) //First used check
 		return
 
-	var/are_you_sure = alert(user, "Consult your team carefully before you declare war on [station_name()]]. Are you sure you want to alert the enemy crew? You have [round((CHALLENGE_TIME_LIMIT - world.time)/600)] minutes to decide", "Declare war?", "Yes", "No")
+	var/are_you_sure = alert(user, "Consult your team carefully before you declare war on [station_name()]. Are you sure you want to alert the enemy crew? You have [round((CHALLENGE_TIME_LIMIT - world.time)/600)] minutes to decide", "Declare war?", "Yes", "No")
 	if(are_you_sure == "No")
 		user << "On second thought, the element of surprise isn't so bad after all."
 		return
