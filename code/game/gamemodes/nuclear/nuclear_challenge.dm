@@ -29,7 +29,7 @@
 	if(used) //First used check
 		return
 
-	var/are_you_sure = alert(user, "Consult your team carefully before you declare war on [station_name()]]. Are you sure you want to alert the enemy crew?", "Declare war?", "Yes", "No")
+	var/are_you_sure = alert(user, "Consult your team carefully before you declare war on [station_name()]]. Are you sure you want to alert the enemy crew? You have [round((CHALLENGE_TIME_LIMIT - world.time)/600)] minutes to decide", "Declare war?", "Yes", "No")
 	if(are_you_sure == "No")
 		user << "On second thought, the element of surprise isn't so bad after all."
 		return
@@ -37,10 +37,21 @@
 	if(used) //Second used check incase it's sustained in the dialog
 		user << "You already declared war on the station!"
 		return
+	
+	var/war_declaration = "[user.real_name] has declared his intent to utterly destroy [station_name()] with a nuclear device, and dares the crew to try and stop them."
+	var/custom_threat = alert(user, "Do you want to customize your declaration?", "Customize?", "Yes", "No")
+	if(custom_threat == "Yes" && (world.time < CHALLENGE_TIME_LIMIT-600))
+		war_declaration = sanitize(input(user, "Insert your custom declaration", "Declaration")as text | null)
+	else if(world.time > CHALLENGE_TIME_LIMIT-600)
+		user << "You don't have enough time to come up with any evil speeches now!"
+
+	if(world.time > CHALLENGE_TIME_LIMIT) //Check the time limit again in case somebody intentionally holds the dialogue box to delay declarations
+		user << "It's too late to declare hostilities. Your benefactors are already busy with other schemes. You'll have to make  do with what you have on hand."
+		return
 
 	used = 1
-	var/war_declaration = "[user.real_name] has declared his intent to utterly destroy [station_name()] with a nuclear device, and dares the crew to try and stop them."
-	priority_announce(war_declaration, title = "Declaration of War", sound = 'sound/machines/Alarm.ogg')
+
+	priority_announce(replacetext(war_declaration, "&#39;","'"), title = "Declaration of War by [user.real_name]", sound = 'sound/machines/Alarm.ogg')
 	set_security_level(SEC_LEVEL_RED)
 	user << "You've attracted the attention of powerful forces within the syndicate. A bonus bundle of telecrystals has been granted to your team. Great things await you if you complete the mission."
 
