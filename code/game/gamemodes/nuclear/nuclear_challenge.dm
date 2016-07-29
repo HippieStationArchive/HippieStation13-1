@@ -42,8 +42,8 @@
 	var/war_declaration = "[user.real_name] has declared his intent to utterly destroy [station_name()] with a nuclear device, and dares the crew to try and stop them."
 	var/custom_threat = alert(user, "Do you want to customize your declaration?", "Customize?", "Yes", "No")
 	if(custom_threat == "Yes" && (world.time < CHALLENGE_TIME_LIMIT-600))
-		war_declaration = copytext(sanitize(input(user, "Insert your custom declaration", "Declaration")as text | null), 1, 500)
-		if(war_declaration == null || war_declaration == "")
+		war_declaration = stripped_input(user, "Insert your custom declaration", "Declaration")
+		if(!war_declaration)
 			return
 	else if(world.time > CHALLENGE_TIME_LIMIT-600)
 		user << "You don't have enough time to come up with any evil speeches now!"
