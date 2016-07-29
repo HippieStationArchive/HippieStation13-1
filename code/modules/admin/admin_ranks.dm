@@ -220,6 +220,10 @@ var/list/admin_ranks = list()								//list of all admin_rank datums
 		log_admin("[key_name(usr)] attempted to edit the admin permissions without sufficient rights.")
 		return
 
+	establish_db_connection()
+	if (!dbcon.IsConnected())
+		return
+
 	var/adm_ckey
 	var/task = href_list["editrights"]
 	switch(task)
@@ -322,6 +326,13 @@ var/list/admin_ranks = list()								//list of all admin_rank datums
 	edit_admin_permissions()
 
 /datum/admins/proc/updateranktodb(ckey,newrank)
+	if(config.admin_legacy_system)
+		return
+	if (!check_rights(R_PERMISSIONS))
+		return
+	if(!usr.client)
+		return
+
 	establish_db_connection()
 	if (!dbcon.IsConnected())
 		return
