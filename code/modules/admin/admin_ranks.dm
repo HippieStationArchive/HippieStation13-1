@@ -220,10 +220,6 @@ var/list/admin_ranks = list()								//list of all admin_rank datums
 		log_admin("[key_name(usr)] attempted to edit the admin permissions without sufficient rights.")
 		return
 
-	establish_db_connection()
-	if (!dbcon.IsConnected())
-		return
-
 	var/adm_ckey
 	var/task = href_list["editrights"]
 	switch(task)
