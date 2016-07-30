@@ -318,8 +318,16 @@ research holder datum.
 	src.pixel_y = rand(-5, 5)
 
 /obj/item/weapon/disk/tech_disk/gooncode
+	name = "Gooncode disk"
+	desc = "A disk containing Goonstation source code for further research."
+	icon = 'icons/obj/items.dmi'
+	icon_state = "gooncode"
+	stored = new/datum/tech/programming{level = 4}
+	
+/obj/item/weapon/disk/tech_disk/gooncode
 	name = "Colonial Marines Code disk"
 	desc = "A disk containing Colonial Marines source code for further research."
 	icon = 'icons/obj/items.dmi'
 	icon_state = "cmcode"
-	stored = new/datum/tech/programming{level = 4}
+	embed_chance = 85
+	stored = new/datum/tech/illegal{level = 4}
