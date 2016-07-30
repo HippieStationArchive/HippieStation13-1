@@ -65,8 +65,8 @@ datum/objective_item/steal/pornmag
 	difficulty = 5
 	excludefromjob = list("Captain")
 
-/datum/objective_item/steal/cmcodedisk
-	name = "the Colonial Marines source code disk"
+/datum/objective_item/steal/gooncodedisk
+	name = "the Gooncode disk"
 	targetitem = /obj/item/weapon/disk/tech_disk/gooncode
 	difficulty = 5
 	excludefromjob = list("Research Director")
