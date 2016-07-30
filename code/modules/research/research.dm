@@ -330,4 +330,4 @@ research holder datum.
 	icon = 'icons/obj/items.dmi'
 	icon_state = "cmcode"
 	embed_chance = 85
-	stored = new/datum/tech/illegal{level = 4}
+	stored = new/datum/tech/syndicate{level = 4}
