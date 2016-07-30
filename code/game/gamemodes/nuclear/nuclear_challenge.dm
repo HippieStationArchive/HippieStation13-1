@@ -9,6 +9,7 @@
 	Such a brazen move will attract the attention of powerful benefactors within the Syndicate, who will supply your team with a massive amount of bonus telecrystals.  \
 	Must be used within five minutes, or your benefactors will lose interest."
 	var/used = 0
+	var/ops_mode = ticker.mode
 
 
 
@@ -53,7 +54,7 @@
 
 	used = 1
 
-	priority_announce(replacetext(war_declaration, "&#39;","'"), title = "Declaration of War by the [ticker.mode:last_name] family", sound = 'sound/machines/Alarm.ogg')
+	priority_announce(replacetext(war_declaration, "&#39;","'"), title = "Declaration of War by the [ops_mode.last_name] family", sound = 'sound/machines/Alarm.ogg')
 	set_security_level(SEC_LEVEL_RED)
 	user << "You've attracted the attention of powerful forces within the syndicate. A bonus bundle of telecrystals has been granted to your team. Great things await you if you complete the mission."
 
