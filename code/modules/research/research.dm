@@ -324,7 +324,7 @@ research holder datum.
 	icon_state = "gooncode"
 	stored = new/datum/tech/programming{level = 4}
 	
-/obj/item/weapon/disk/tech_disk/gooncode
+/obj/item/weapon/disk/tech_disk/cmcode
 	name = "Colonial Marines Code disk"
 	desc = "A disk containing Colonial Marines source code for further research."
 	icon = 'icons/obj/items.dmi'
