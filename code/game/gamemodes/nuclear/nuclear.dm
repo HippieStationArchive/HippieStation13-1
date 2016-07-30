@@ -292,6 +292,7 @@
 
 /proc/nukelastname(mob/M) //--All praise goes to NEO|Phyte, all blame goes to DH, and it was Cindi-Kate's idea. Also praise Urist for copypasta ho.
 	var/randomname = pick(last_names)
+	var/datum/game_mode/nuclear/N = ticker.mode 
 	var/newname = copytext(sanitize(input(M,"You are the nuke operative [pick("Czar", "Boss", "Commander", "Chief", "Kingpin", "Director", "Overlord")]. Please choose a last name for your family.", "Name change",randomname)),1,MAX_NAME_LEN)
 
 	if (!newname)
@@ -302,7 +303,8 @@
 			M << "That name is reserved."
 			return nukelastname(M)
 
-	ticker.mode:last_name = capitalize(newname)
+	if(istype(N))
+		N.last_name = capitalize(newname)
 
 	return capitalize(newname)
 
