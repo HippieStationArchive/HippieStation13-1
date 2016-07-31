@@ -372,6 +372,8 @@
 		var/mob/living/carbon/N = M
 		N.hal_screwyhud = 5
 	M.adjustToxLoss(0.3*REM)
+	M.adjustFireLoss(-0.5*REM)
+	M.adjustBruteLoss(-0.5*REM)
 	..()
 	return
 
