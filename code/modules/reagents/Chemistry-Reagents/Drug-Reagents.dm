@@ -44,7 +44,8 @@
 	if(prob(1))
 		var/smoke_message = pick("You feel relaxed.", "You feel calmed.","You feel alert.","You feel rugged.")
 		M << "<span class='notice'>[smoke_message]</span>"
-	M.AdjustStunned(-1)
+	M.AdjustStunned(-0.5)
+	M.AdjustWeakened(-0.5)
 	M.adjustStaminaLoss(-0.5*REM)
 	..()
 
@@ -56,33 +57,29 @@
 	color = "#60A584" // rgb: 96, 165, 132
 	overdose_threshold = 20
 	addiction_threshold = 10
+	metabolization_rate = 0.75* REAGENTS_METABOLISM
 
 /datum/reagent/drug/crank/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel jittery.", "You feel like you gotta go fast.", "You feel like you need to step it up.")
-	var/tolerance_message = pick("You feel uncomfortable.", "You feel like you're too slow.", "You feel like you don't want to go fast anymore.")
-	if(current_cycle <= 100)
-		if(prob(5))
-			M << "<span class='notice'>[high_message]</span>"
-		M.AdjustParalysis(-1)
-		M.AdjustStunned(-1)
-		M.AdjustWeakened(-1)
-	if(current_cycle > 100)
-		if(prob(15))
-			M << "<span class='notice'>[tolerance_message]</span>"
-		M.adjustStaminaLoss(2)
+	if(prob(5))
+		M << "<span class='notice'>[high_message]</span>"
+	if(!(M.stunned || M.weakened || M.paralysis))
+		stun_timer++
+		metabolization_rate = 0.75* REAGENTS_METABOLISM
+	else
+		metabolization_rate = 1.5 * REAGENTS_METABOLISM
+		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
+	if(stun_timer >= 4 && (M.stunned || M.weakened || M.paralysis))
+		for(var/datum/reagent/R in M.reagents.reagent_list)
+			R.stun_timer = 0
+		M.AdjustParalysis(-6)
+		M.AdjustStunned(-6)
+		M.AdjustWeakened(-6)
+	M.adjustToxLoss(0.15*REM)
+	M.status_flags |= GOTTAGOFAST
 	M.Jitter(1)
 	..()
 	
-/datum/reagent/drug/crank/on_mob_delete(mob/living/M)
-	M.adjustToxLoss(min(current_cycle*0.1*REM, 50))
-	if(current_cycle >= 5)
-		M.visible_message("<span class='danger'>[M] staggers and falls!</span>")
-		M.AdjustWeakened(5)
-		M.AdjustStunned(5)
-		M.adjustStaminaLoss(20)
-	else
-		M.adjustStaminaLoss(current_cycle*4)
-	return
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
 	M.adjustBrainLoss(2*REM)
@@ -171,37 +168,29 @@
 
 /datum/reagent/drug/methamphetamine/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel hyper.", "You feel like you need to go faster.", "You feel like you can run the world.")
-	var/tolerance_message = pick("You don't feel so good.", "You feel a bit sick.", "You feel like you've had better days.")
-	if(current_cycle <= 50)
-		if(prob(5))
-			M << "<span class='notice'>[high_message]</span>"
-		M.AdjustParalysis(-2)
-		M.AdjustStunned(-2)
-		M.AdjustWeakened(-2)
-		M.adjustStaminaLoss(-2)
-		M.status_flags |= GOTTAGOREALLYFAST
-	if(current_cycle > 50)
-		if(prob(15))
-			M << "<span class='notice'>[tolerance_message]</span>"
-		M.adjustStaminaLoss(3)
-		M.adjustToxLoss(1*REM)
+
+	if(prob(5))
+		M << "<span class='notice'>[high_message]</span>"
+	if(!(M.stunned || M.weakened || M.paralysis))
+		stun_timer++
+		metabolization_rate = 0.75* REAGENTS_METABOLISM
+	else
+		metabolization_rate = 1.5 * REAGENTS_METABOLISM
+		M.adjustStaminaLoss(6) //Actually 4, humans regenerate 2 per tick
+	if(stun_timer >= 6 && (M.stunned || M.weakened || M.paralysis))
+		for(var/datum/reagent/R in M.reagents.reagent_list)
+			R.stun_timer = 0
+		M.AdjustParalysis(-3)
+		M.AdjustStunned(-6)
+		M.AdjustWeakened(-6)
 	M.Jitter(2)
+	M.adjustToxLoss(0.6*REM)
+	M.status_flags |= GOTTAGOREALLYFAST
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
 	..()
 	return
 	
-/datum/reagent/drug/methamphetamine/on_mob_delete(mob/living/M)
-	M.adjustToxLoss(min(current_cycle*1*REM,95))
-	M.adjustBrainLoss(current_cycle*0.5*REM)
-	if(current_cycle >= 5)
-		M.visible_message("<span class='danger'>[M] collapses in exhaustion!</span>")
-		M.AdjustWeakened(5)
-		M.AdjustStunned(5)
-		M.adjustStaminaLoss(35)
-	else
-		M.adjustStaminaLoss(current_cycle*7)
-	return
 
 /datum/reagent/drug/methamphetamine/overdose_process(mob/living/M)
 	if(M.canmove && !istype(M.loc, /atom/movable))
@@ -268,35 +257,32 @@
 	var/high_message = pick("You feel your grip on reality loosening.", "You feel like your heart is beating out of control.", "You feel as if you're about to die.")
 	if(prob(15))
 		M << "<span class='notice'>[high_message]</span>"
-	if(current_cycle >= 5)
+	if(!(M.stunned || M.weakened || M.paralysis))
+		stun_timer++
+		metabolization_rate = 0.5* REAGENTS_METABOLISM
+		M.adjustStaminaLoss(-4)
+	else
+		metabolization_rate = REAGENTS_METABOLISM
+		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
+	if(stun_timer >= 2 && (M.stunned || M.weakened || M.paralysis))
+		for(var/datum/reagent/R in M.reagents.reagent_list)
+			R.stun_timer = 0
 		M.AdjustParalysis(-6)
-		M.AdjustStunned(-6)
-		M.AdjustWeakened(-6)
-		M.adjustStaminaLoss(-10)
+		M.AdjustStunned(-12)
+		M.AdjustWeakened(-12)
 	if(holder.has_reagent("synaptizine"))
 		holder.remove_reagent("synaptizine", 5)
 		M.hallucination += 5
 	M.adjustBrainLoss(0.2)
-	M.adjustToxLoss(min(0.1+(current_cycle/50),1))
-	M.status_flags |= GOTTAGOFAST
+	M.adjustToxLoss(0.6*REM)
+	M.status_flags |= GOTTAGOREALLYFAST
+	M.status_flags |= IGNORESLOWDOWN
 	M.hallucination += 7.5
 	M.Jitter(4)
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		step(M, pick(cardinal))
 		step(M, pick(cardinal))
 	..()
-	return
-	
-/datum/reagent/drug/bath_salts/on_mob_delete(mob/living/M)
-	M.adjustToxLoss(min(current_cycle*1.5*REM,195))
-	M.adjustBrainLoss(current_cycle*0.8*REM)
-	if(current_cycle >= 5)
-		M.visible_message("<span class='danger'>[M] goes pale and collapses!</span>")
-		M.AdjustWeakened(8)
-		M.AdjustStunned(8)
-		M.adjustStaminaLoss(50)
-	else
-		M.adjustStaminaLoss(current_cycle*10)
 	return
 
 /datum/reagent/drug/bath_salts/overdose_process(mob/living/M)
@@ -359,6 +345,88 @@
 	M.adjustBrainLoss(10)
 	if(prob(50))
 		M.emote(pick("twitch","drool","moan"))
+	..()
+	return
+
+/datum/reagent/drug/heroin
+	name = "Heroin"
+	id = "heroin"
+	description = "An extremely advanced painkiller/narcotic. Heroin allows you to ignore all slowdown and grants you full immunity to stamina damage, but stuns are twice as effective against you. Mildly toxic."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	metabolization_rate = 0.75 * REAGENTS_METABOLISM
+	overdose_threshold = 15
+	addiction_threshold = 10
+
+
+/datum/reagent/drug/heroin/on_mob_life(mob/living/M)
+	M.status_flags |= IGNORESLOWDOWN
+	M.setStaminaLoss(0)
+	if(M.stunned || M.weakened || M.paralysis)
+		M.AdjustStunned(0.5)
+		M.AdjustWeakened(0.5)
+	if(iscarbon(M))
+		var/mob/living/carbon/N = M
+		N.hal_screwyhud = 5
+	M.adjustToxLoss(0.3*REM)
+	..()
+	return
+
+/datum/reagent/drug/heroin/on_mob_delete(mob/living/M)
+	if(iscarbon(M))
+		var/mob/living/carbon/N = M
+		N.hal_screwyhud = 0
+	..()
+
+/datum/reagent/drug/heroin/overdose_process(mob/living/M)
+	if(prob(33))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+		M.Dizzy(2)
+		M.Jitter(2)
+	..()
+	return
+
+/datum/reagent/drug/heroin/addiction_act_stage1(mob/living/M)
+	if(prob(33))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+		M.Dizzy(2)
+		M.Jitter(2)
+	..()
+	return
+/datum/reagent/drug/heroin/addiction_act_stage2(mob/living/M)
+	if(prob(33))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+		M.adjustToxLoss(1*REM)
+		M.Dizzy(3)
+		M.Jitter(3)
+	..()
+	return
+/datum/reagent/drug/heroin/addiction_act_stage3(mob/living/M)
+	if(prob(33))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+		M.adjustToxLoss(2*REM)
+		M.Dizzy(4)
+		M.Jitter(4)
+	M.drowsyness += 1
+	..()
+	return
+/datum/reagent/drug/heroin/addiction_act_stage4(mob/living/M)
+	if(prob(33))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+		M.adjustToxLoss(3*REM)
+		M.Dizzy(5)
+		M.Jitter(5)
+	M.drowsyness += 1
 	..()
 	return
 
