@@ -76,6 +76,7 @@
 		M.AdjustStunned(-6)
 		M.AdjustWeakened(-6)
 	M.adjustToxLoss(0.15*REM)
+	M.sleeping -= 2
 	M.status_flags |= GOTTAGOFAST
 	M.Jitter(1)
 	..()
@@ -186,6 +187,7 @@
 	M.Jitter(2)
 	M.adjustToxLoss(0.6*REM)
 	M.status_flags |= GOTTAGOREALLYFAST
+	M.sleeping -= 2
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
 	..()
@@ -278,6 +280,7 @@
 	M.status_flags |= GOTTAGOREALLYFAST
 	M.status_flags |= IGNORESLOWDOWN
 	M.hallucination += 7.5
+	M.sleeping -= 2
 	M.Jitter(4)
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		step(M, pick(cardinal))
@@ -385,6 +388,8 @@
 			M.drop_item()
 		M.Dizzy(2)
 		M.Jitter(2)
+	if(prob(10))
+		M.sleeping += 7
 	..()
 	return
 
