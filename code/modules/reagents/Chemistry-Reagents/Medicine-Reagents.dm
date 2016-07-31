@@ -481,7 +481,7 @@
 	if(stun_timer >= 6 && (M.stunned || M.weakened || M.paralysis))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
-		M.AdjustParalysis(-4)
+		M.AdjustParalysis(-3)
 		M.AdjustStunned(-4)
 		M.AdjustWeakened(-4)
 	..()
