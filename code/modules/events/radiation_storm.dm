@@ -50,7 +50,8 @@
 		if(istype(C, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = C
 			H.apply_effect((rand(150, 300)), IRRADIATE, 0)
-			H.Jitter(5)
+			H.Jitter(25)
+			H.Weaken(15)
 			if(prob(80))
 				H.apply_effect((rand(300, 900)), IRRADIATE, 0)
 			if(prob(50))
