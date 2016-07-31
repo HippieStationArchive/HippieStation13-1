@@ -134,6 +134,20 @@
 	result_amount = 4
 	mix_message = "The solution fizzes and gives off toxic fumes."
 
+/datum/chemical_reaction/morphine
+	name = "Morphine"
+	id = "morphine"
+	result = "morphine"
+	required_reagents = list("sleeptoxin" = 1, "oil" = 1, "nitrogen" = 1)
+	result_amount = 3
+
+/datum/chemical_reaction/sleeptoxin
+	name = "Sleep Toxin"
+	id = "sleeptoxin"
+	result = "sleeptoxin"
+	required_reagents = list("sugar" = 4, "chloralhydrate" = 1)
+	result_amount = 5
+
 /datum/chemical_reaction/diphenhydramine
 	name = "Diphenhydramine"
 	id = "diphenhydramine"
@@ -154,6 +168,7 @@
 	name = "Atropine"
 	id = "atropine"
 	result = "atropine"
+	required_temp = 370
 	required_reagents = list("epinephrine" = 1, "ephedrine" = 1, "salbutamol" = 1)
 	result_amount = 3
 
@@ -212,6 +227,7 @@
 	name = "Bicaridine"
 	id = "bicaridine"
 	result = "bicaridine"
+	required_temp = 370
 	required_reagents = list("epinephrine" = 1, "carbon" = 1)
 	result_amount = 2
 
@@ -249,5 +265,6 @@
 	name = "Tricordrazine"
 	id = "tricordrazine"
 	result = "tricordrazine"
+	required_temp = 370
 	required_reagents = list("bicaridine" = 1, "kelotane" = 1, "charcoal" = 1)
 	result_amount = 3
