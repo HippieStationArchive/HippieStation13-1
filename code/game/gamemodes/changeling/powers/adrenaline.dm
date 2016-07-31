@@ -41,8 +41,8 @@
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
 		M.AdjustParalysis(-3)
-		M.AdjustStunned(-3)
-		M.AdjustWeakened(-3)
+		M.AdjustStunned(-4)
+		M.AdjustWeakened(-4)
 	..()
 	return
 
