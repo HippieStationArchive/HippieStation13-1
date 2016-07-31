@@ -589,16 +589,15 @@
 		R.stun_timer -= 0.5
 	if(current_cycle >= 10)
 		M.drowsyness += 1
+		if(M.health <= 30)
+			M.sleeping += 1
 	..()
 	return
 
 /datum/reagent/medicine/morphine/on_mob_delete(mob/living/M)
-	if(M.health <= 60 && current_cycle > 5)
-		M.AdjustStunned(5)
-		M.AdjustWeakened(5)
-		M.emote("scream")
-	else if(current_cycle > 5)
-		M.adjustStaminaLoss(60)
+	M.drowsyness += 10
+	if(M.health <= 30)
+		M.sleeping += 5
 	if(iscarbon(M))
 		var/mob/living/carbon/N = M
 		N.hal_screwyhud = 0
