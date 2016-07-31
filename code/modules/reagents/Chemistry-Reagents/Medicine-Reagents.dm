@@ -571,7 +571,7 @@
 	description = "A painkiller that allows the patient to move at full speed, regardless of injury or clothing. However, it will make you drowsy, drains faster on severe injuries and reduces the effectiveness of stun-resisting chemicals. Overdose will cause a variety of effects, ranging from minor to lethal."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
-	metabolization_rate = REAGENTS_METABOLISM
+	metabolization_rate = 1.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 	addiction_threshold = 25
 
@@ -579,7 +579,7 @@
 /datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
 	M.status_flags |= IGNORESLOWDOWN
 	if(M.health <= 60)
-		metabolization_rate = (3-M.health/30) * REAGENTS_METABOLISM // Between 1 and 3 times REAGENTS_METABOLISM depending on your HP.
+		metabolization_rate = (4.5-M.health/20) * REAGENTS_METABOLISM // Between 1.5 and 9.5 times REAGENTS_METABOLISM depending on your HP. 4.5 at 0 HP
 	else
 		metabolization_rate = REAGENTS_METABOLISM
 	if(iscarbon(M))
@@ -593,10 +593,12 @@
 	return
 
 /datum/reagent/medicine/morphine/on_mob_delete(mob/living/M)
-	if(M.health < 30)
+	if(M.health <= 60 && current_cycle > 5)
 		M.AdjustStunned(5)
 		M.AdjustWeakened(5)
 		M.emote("scream")
+	else if(current_cycle > 5)
+		M.adjustStaminaLoss(60)
 	if(iscarbon(M))
 		var/mob/living/carbon/N = M
 		N.hal_screwyhud = 0
