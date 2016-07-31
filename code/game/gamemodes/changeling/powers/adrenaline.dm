@@ -31,10 +31,18 @@
 	overdose_threshold = 30
 
 /datum/reagent/medicine/changelingAdrenaline/on_mob_life(mob/living/M as mob)
-	M.AdjustParalysis(-1)
-	M.AdjustStunned(-1)
-	M.AdjustWeakened(-1)
-	M.adjustStaminaLoss(-1)
+	if(!(M.stunned || M.weakened || M.paralysis))
+		stun_timer++
+		metabolization_rate = REAGENTS_METABOLISM
+	else
+		metabolization_rate = 2 * REAGENTS_METABOLISM
+		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
+	if(stun_timer >= 6 && (M.stunned || M.weakened || M.paralysis))
+		for(var/datum/reagent/R in M.reagents.reagent_list)
+			R.stun_timer = 0
+		M.AdjustParalysis(-3)
+		M.AdjustStunned(-3)
+		M.AdjustWeakened(-3)
 	..()
 	return
 
