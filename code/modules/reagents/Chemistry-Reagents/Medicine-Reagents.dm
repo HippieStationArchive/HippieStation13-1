@@ -481,9 +481,9 @@
 	if(stun_timer >= 6 && (M.stunned || M.weakened || M.paralysis))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
-		M.AdjustParalysis(-3)
-		M.AdjustStunned(-3)
-		M.AdjustWeakened(-3)
+		M.AdjustParalysis(-4)
+		M.AdjustStunned(-4)
+		M.AdjustWeakened(-4)
 	..()
 	return
 
@@ -869,8 +869,8 @@
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
 		M.AdjustParalysis(-3)
-		M.AdjustStunned(-3)
-		M.AdjustWeakened(-3)
+		M.AdjustStunned(-4)
+		M.AdjustWeakened(-4)
 	..()
 
 /datum/reagent/medicine/stimulants/overdose_process(mob/living/M)
