@@ -7,6 +7,9 @@
 	var/structuretype = /obj/structure/inflatable
 
 /obj/item/inflatable/attack_self(mob/user)
+	if(locate(/obj/structure/inflatable) in user.loc)	
+		user << "<span class='warning'>You cannot place inflatable walls upon eachother!</span>"
+		return
 	playsound(loc, 'sound/items/zip.ogg', 75, 1)
 	user << "<span class='notice'>You inflate [src].</span>"
 	var/obj/structure/inflatable/R = new structuretype(user.loc)
