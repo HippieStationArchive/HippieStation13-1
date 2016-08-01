@@ -6,4 +6,3 @@ delete-after: True
 
 changes: 
   - bugfix: "Fixed a runtime error that was causing addictions not to work."
-  - tweak: "Slightly reduced the time addictions last, jesus christ these things are brutal."
