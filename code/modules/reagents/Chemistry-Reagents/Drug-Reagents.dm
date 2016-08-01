@@ -76,7 +76,7 @@
 		M.AdjustStunned(-6)
 		M.AdjustWeakened(-6)
 	M.adjustToxLoss(0.15*REM)
-	M.sleeping -= 2
+	M.sleeping = max(0,M.sleeping - 2)
 	M.status_flags |= GOTTAGOFAST
 	M.Jitter(1)
 	..()
@@ -84,26 +84,27 @@
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
 	M.adjustBrainLoss(2*REM)
-	M.adjustToxLoss(2*REM)
-	M.adjustBruteLoss(2*REM)
+	M.adjustToxLoss(1*REM)
+	M.adjustBruteLoss(1*REM)
+	stun_timer = max(0, stun_timer - 0.5)
 	..()
 
 /datum/reagent/drug/crank/addiction_act_stage1(mob/living/M)
-	M.adjustBrainLoss(5*REM)
+	M.adjustBrainLoss(2*REM)
 	..()
 
 /datum/reagent/drug/crank/addiction_act_stage2(mob/living/M)
-	M.adjustToxLoss(5*REM)
+	M.adjustToxLoss(2*REM)
 	..()
 
 /datum/reagent/drug/crank/addiction_act_stage3(mob/living/M)
-	M.adjustBruteLoss(5*REM)
+	M.adjustBruteLoss(2*REM)
 	..()
 
 /datum/reagent/drug/crank/addiction_act_stage4(mob/living/M)
-	M.adjustBrainLoss(5*REM)
-	M.adjustToxLoss(5*REM)
-	M.adjustBruteLoss(5*REM)
+	M.adjustBrainLoss(2*REM)
+	M.adjustToxLoss(2*REM)
+	M.adjustBruteLoss(2*REM)
 	..()
 
 /datum/reagent/drug/krokodil
@@ -187,7 +188,7 @@
 	M.Jitter(2)
 	M.adjustToxLoss(0.6*REM)
 	M.status_flags |= GOTTAGOREALLYFAST
-	M.sleeping -= 2
+	M.sleeping = max(0,M.sleeping - 2)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
 	..()
@@ -205,6 +206,7 @@
 		var/obj/item/I = M.get_active_hand()
 		if(I)
 			M.drop_item()
+	stun_timer = max(0, stun_timer - 0.5)
 	..()
 	M.adjustToxLoss(1)
 	M.adjustBrainLoss(pick(0.5, 0.6, 0.7, 0.8, 0.9, 1))
@@ -239,7 +241,7 @@
 			step(M, pick(cardinal))
 	M.Jitter(20)
 	M.Dizzy(20)
-	M.adjustToxLoss(5)
+	M.adjustToxLoss(2.5*REM)
 	if(prob(50))
 		M.emote(pick("twitch","drool","moan"))
 	..()
@@ -280,8 +282,10 @@
 	M.status_flags |= GOTTAGOREALLYFAST
 	M.status_flags |= IGNORESLOWDOWN
 	M.hallucination += 7.5
-	M.sleeping -= 2
+	M.sleeping = max(0,M.sleeping - 2)
 	M.Jitter(4)
+	if(prob(20))
+		M.emote(pick("twitch","drool","moan"))
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		step(M, pick(cardinal))
 		step(M, pick(cardinal))
@@ -294,11 +298,12 @@
 		for(var/i = 0, i < 8, i++)
 			step(M, pick(cardinal))
 	if(prob(20))
-		M.emote(pick("twitch","drool","moan"))
+		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
 	if(prob(33))
 		var/obj/item/I = M.get_active_hand()
 		if(I)
 			M.drop_item()
+	stun_timer += 1
 	..()
 	return
 
@@ -309,8 +314,8 @@
 			step(M, pick(cardinal))
 	M.Jitter(5)
 	M.adjustBrainLoss(10)
-	if(prob(20))
-		M.emote(pick("twitch","drool","moan"))
+	if(prob(30))
+		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
 	..()
 	return
 /datum/reagent/drug/bath_salts/addiction_act_stage2(mob/living/M)
@@ -322,7 +327,7 @@
 	M.Dizzy(10)
 	M.adjustBrainLoss(10)
 	if(prob(30))
-		M.emote(pick("twitch","drool","moan"))
+		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
 	..()
 	return
 /datum/reagent/drug/bath_salts/addiction_act_stage3(mob/living/M)
@@ -334,7 +339,7 @@
 	M.Dizzy(15)
 	M.adjustBrainLoss(10)
 	if(prob(40))
-		M.emote(pick("twitch","drool","moan"))
+		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
 	..()
 	return
 /datum/reagent/drug/bath_salts/addiction_act_stage4(mob/living/carbon/human/M)
@@ -344,10 +349,10 @@
 			step(M, pick(cardinal))
 	M.Jitter(50)
 	M.Dizzy(50)
-	M.adjustToxLoss(5)
+	M.adjustToxLoss(4*REM)
 	M.adjustBrainLoss(10)
 	if(prob(50))
-		M.emote(pick("twitch","drool","moan"))
+		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
 	..()
 	return
 
