@@ -34,10 +34,11 @@
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
 		metabolization_rate = REAGENTS_METABOLISM
+		M.adjustStaminaLoss(-1)
 	else
 		metabolization_rate = 2 * REAGENTS_METABOLISM
-		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
-	if(stun_timer >= 6 && (M.stunned || M.weakened || M.paralysis))
+		M.adjustStaminaLoss(6) //Actually 4, humans regenerate 2 per tick
+	if(stun_timer >= 4 && (M.stunned || M.weakened || M.paralysis))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
 		M.AdjustParalysis(-3)
