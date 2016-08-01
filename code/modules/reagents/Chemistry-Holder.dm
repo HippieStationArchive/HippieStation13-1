@@ -247,8 +247,7 @@ var/const/INJECT = 5 //injection
 	if(can_overdose)
 		if(addiction_tick == 6)
 			addiction_tick = 1
-			for(var/A in addiction_list)
-				var/datum/reagent/R = A
+			for(var/datum/reagent/R in addiction_list)
 				if(M && R)
 					if(R.addiction_stage <= 0)
 						R.addiction_stage++
