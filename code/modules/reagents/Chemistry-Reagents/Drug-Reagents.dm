@@ -253,6 +253,7 @@
 	description = "Makes you nearly impervious to stuns and grants a stamina regeneration buff, but you will be a nearly uncontrollable tramp-bearded raving lunatic."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
+	metabolization_rate = 0.5* REAGENTS_METABOLISM
 	overdose_threshold = 15
 	addiction_threshold = 10
 
