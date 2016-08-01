@@ -245,7 +245,7 @@ var/const/INJECT = 5 //injection
 				R.on_mob_life(M)
 
 	if(can_overdose)
-		if(addiction_tick == 6)
+		if(addiction_tick == 4)
 			addiction_tick = 1
 			for(var/datum/reagent/R in addiction_list)
 				if(M && R)
