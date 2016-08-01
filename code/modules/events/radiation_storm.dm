@@ -9,7 +9,7 @@
 
 /datum/round_event/radiation_storm/setup()
 	startWhen = rand(15, 30)
-	endWhen = startWhen + rand(-10, 10)
+	endWhen = startWhen + rand(7,15)
 
 /datum/round_event/radiation_storm/announce()
 	var/eta_timer = (startWhen + rand(-5,5))
@@ -17,14 +17,18 @@
 	for(var/mob/M in player_list)
 		if(!istype(M,/mob/new_player) && !M.ear_deaf)
 			M << sound('sound/AI/radiationstorm.ogg', volume=50)
+	for(var/area/AR in world)
+		if(istype(AR, /area/shuttle) || istype(AR, /area/wizard_station)) continue
+		var/turf/picked = pick(get_area_turfs(AR.type))
+		if (picked.z == ZLEVEL_STATION)
+			AR.radalert()
 
 /datum/round_event/radiation_storm/start()
-
 	for(var/mob/C in mob_list)
 		var/turf/T = get_turf(C)
 		if(!T)			continue
 		if(T.z != 1)	continue
-		
+
 		for(var/mob/M)
 			M << sound('sound/ambience/blowout.ogg', volume=5)
 
@@ -68,3 +72,8 @@
 
 /datum/round_event/radiation_storm/end()
 	priority_announce("The radiation threat has passed. Please return to your workplaces.", "Radiation Storm")
+	for(var/area/AR in world)
+		if(istype(AR, /area/shuttle) || istype(AR, /area/wizard_station)) continue
+		var/turf/picked = pick(get_area_turfs(AR.type))
+		if (picked.z == ZLEVEL_STATION)
+			AR.radclear()
