@@ -2,6 +2,11 @@
 #define LIQUID 2
 #define GAS 3
 
+#define NORMAL			0
+#define FAST			1
+#define VERY_FAST		2
+#define IGNORE_SLOWDOWN	4
+
 #define REM REAGENTS_EFFECT_MULTIPLIER
 
 //Various reagents
@@ -27,6 +32,7 @@
 	var/overdosed = 0 // You fucked up and this is now triggering its overdose effects, purge that shit quick.
 	var/stun_timer = 0 // How many ticks since you last resisted a stun, tracked by stun-resisting reagents.
 	var/stun_threshold = 0 //How many ticks it takes to resist a stun, tracked by stun-resisting chems
+	var/speedboost = NORMAL //Refactor of the terrible old speedboost management system, everything is checked in the check_speedboost proc in the chemistry-holder file. Uses the defines NORMAL, FAST, VERY_FAST and IGNORE_SLOWDOWN.
 
 /datum/reagent/Destroy() // This should only be called by the holder, so it's already handled clearing its references
 	. = ..()
