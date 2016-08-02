@@ -12,3 +12,5 @@ changes:
   - experiment: "Changed the way anti-stun chemicals worked completely. You must spend a short amount of time without being stunned, after that, you gain extreme stun resistance for a single stun, after which you must wait again to regain the resistance. During a stun, stamina is drained and the chemical metabolizes much faster. This makes chemicals much more robust agaist single stuns, but leave you completely vulnerable to repeat attacks and stunlock attempts. Check the wiki for detailed info on each chemical."
   - tweak: "Morphine doubles the amount of time needed to regain stun resistance, as does overdosing on the chemical in question with the exception of Bath Salts."
   - tweak: "Anti-stun chemicals now help wake people up faster."
+  - bugfix: "Fixed a bug where the IGNORESLOWDOWN bitflag would ignore any speedboosts granted."
+  - tweak: "Refactored the code for chemical speed boosts. This won't affect gameplay but will make coding them significantly easier and less buggy."
