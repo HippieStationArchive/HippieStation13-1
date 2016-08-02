@@ -587,7 +587,7 @@
 		var/mob/living/carbon/N = M
 		N.hal_screwyhud = 5
 	for(var/datum/reagent/R in M.reagents.reagent_list)
-		R.stun_timer -= 0.5
+		R.stun_timer = max(0, stun_timer - 0.5)
 	if(current_cycle >= 10)
 		M.drowsyness += 1
 		if(M.health <= 30)
