@@ -575,10 +575,9 @@
 	metabolization_rate = 1.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 	addiction_threshold = 25
-
+	speedboost = IGNORE_SLOWDOWN
 
 /datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
-	M.status_flags |= IGNORESLOWDOWN
 	if(M.health <= 60)
 		metabolization_rate = (4.5-M.health/20) * REAGENTS_METABOLISM // Between 1.5 and 9.5 times REAGENTS_METABOLISM depending on your HP. 4.5 at 0 HP
 	else
