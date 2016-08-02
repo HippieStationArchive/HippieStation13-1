@@ -2,10 +2,10 @@
 #define LIQUID 2
 #define GAS 3
 
-#define NORMAL			0
-#define FAST			1
-#define VERY_FAST		2
-#define IGNORE_SLOWDOWN	4
+#define NORMAL 0
+#define FAST 1
+#define VERY_FAST 2
+#define IGNORE_SLOWDOWN 4
 
 #define REM REAGENTS_EFFECT_MULTIPLIER
 
