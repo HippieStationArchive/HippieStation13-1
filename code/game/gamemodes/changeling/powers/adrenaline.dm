@@ -59,9 +59,9 @@
 	description = "Drastically increases movement speed."
 	color = "#C8A5DC"
 	metabolization_rate = 1
+	speedboost = VERY_FAST
 
 /datum/reagent/medicine/changelingAdrenaline2/on_mob_life(mob/living/M as mob)
-	M.status_flags |= GOTTAGOREALLYFAST
 	M.adjustToxLoss(2)
 	..()
 	return
