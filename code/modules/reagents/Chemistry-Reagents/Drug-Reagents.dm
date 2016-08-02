@@ -58,6 +58,7 @@
 	overdose_threshold = 20
 	addiction_threshold = 10
 	metabolization_rate = 0.75* REAGENTS_METABOLISM
+	stun_threshold = 4
 
 /datum/reagent/drug/crank/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel jittery.", "You feel like you gotta go fast.", "You feel like you need to step it up.")
@@ -69,7 +70,7 @@
 	else
 		metabolization_rate = 1.5 * REAGENTS_METABOLISM
 		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
-	if(stun_timer >= 4 && (M.stunned || M.weakened || M.paralysis))
+	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
 		M.AdjustParalysis(-6)
@@ -167,6 +168,7 @@
 	overdose_threshold = 15
 	addiction_threshold = 10
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
+	stun_threshold = 6
 
 /datum/reagent/drug/methamphetamine/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel hyper.", "You feel like you need to go faster.", "You feel like you can run the world.")
@@ -179,7 +181,7 @@
 	else
 		metabolization_rate = 1.5 * REAGENTS_METABOLISM
 		M.adjustStaminaLoss(6) //Actually 4, humans regenerate 2 per tick
-	if(stun_timer >= 6 && (M.stunned || M.weakened || M.paralysis))
+	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
 		M.AdjustParalysis(-3)
@@ -256,6 +258,7 @@
 	metabolization_rate = 0.5* REAGENTS_METABOLISM
 	overdose_threshold = 15
 	addiction_threshold = 10
+	stun_threshold = 2
 
 
 /datum/reagent/drug/bath_salts/on_mob_life(mob/living/M)
@@ -269,7 +272,7 @@
 	else
 		metabolization_rate = REAGENTS_METABOLISM
 		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
-	if(stun_timer >= 2 && (M.stunned || M.weakened || M.paralysis))
+	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
 		M.AdjustParalysis(-6)
