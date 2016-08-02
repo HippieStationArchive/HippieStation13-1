@@ -226,7 +226,7 @@
 /datum/reagent/fuel/unholywater/on_mob_life(mob/living/M)
 	M.adjustBrainLoss(3)
 	if(iscultist(M))
-		M.status_flags |= GOTTAGOFAST
+		speedboost = FAST
 		M.drowsyness = max(M.drowsyness-5, 0)
 		M.AdjustParalysis(-2)
 		M.AdjustStunned(-2)
