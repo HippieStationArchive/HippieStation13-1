@@ -26,6 +26,7 @@
 	var/addiction_stage = 0
 	var/overdosed = 0 // You fucked up and this is now triggering its overdose effects, purge that shit quick.
 	var/stun_timer = 0 // How many ticks since you last resisted a stun, tracked by stun-resisting reagents.
+	var/stun_threshold = 0 //How many ticks it takes to resist a stun, tracked by stun-resisting chems
 
 /datum/reagent/Destroy() // This should only be called by the holder, so it's already handled clearing its references
 	. = ..()
