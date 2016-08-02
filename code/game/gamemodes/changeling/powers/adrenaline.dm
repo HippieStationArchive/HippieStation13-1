@@ -29,6 +29,7 @@
 	description = "Reduces stun times. Also deals toxin damage at high amounts."
 	color = "#C8A5DC"
 	overdose_threshold = 30
+	stun_threshold = 4
 
 /datum/reagent/medicine/changelingAdrenaline/on_mob_life(mob/living/M as mob)
 	if(!(M.stunned || M.weakened || M.paralysis))
@@ -38,7 +39,7 @@
 	else
 		metabolization_rate = 2 * REAGENTS_METABOLISM
 		M.adjustStaminaLoss(6) //Actually 4, humans regenerate 2 per tick
-	if(stun_timer >= 4 && (M.stunned || M.weakened || M.paralysis))
+	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
 		M.AdjustParalysis(-3)
