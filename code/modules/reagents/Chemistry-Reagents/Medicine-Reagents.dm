@@ -468,6 +468,7 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 	addiction_threshold = 30
+	stun_threshold = 6
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
 	M.status_flags |= GOTTAGOFAST
@@ -478,7 +479,7 @@
 	else
 		metabolization_rate = 2 * REAGENTS_METABOLISM
 		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
-	if(stun_timer >= 6 && (M.stunned || M.weakened || M.paralysis))
+	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
 		M.AdjustParalysis(-3)
@@ -849,6 +850,7 @@
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 60
+	stun_threshold = 4
 
 /datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
 	M.status_flags |= GOTTAGOFAST
@@ -865,7 +867,7 @@
 	else
 		metabolization_rate = REAGENTS_METABOLISM
 		M.adjustStaminaLoss(6) //Actually 4, humans regenerate 2 per tick
-	if(stun_timer >= 4 && (M.stunned || M.weakened || M.paralysis))
+	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			R.stun_timer = 0
 		M.AdjustParalysis(-3)
