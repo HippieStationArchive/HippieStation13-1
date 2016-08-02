@@ -227,7 +227,6 @@
 	name = "Bicaridine"
 	id = "bicaridine"
 	result = "bicaridine"
-	required_temp = 370
 	required_reagents = list("epinephrine" = 1, "carbon" = 1)
 	result_amount = 2
 
