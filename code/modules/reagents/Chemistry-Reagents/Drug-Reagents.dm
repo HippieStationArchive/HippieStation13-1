@@ -59,6 +59,7 @@
 	addiction_threshold = 10
 	metabolization_rate = 0.75* REAGENTS_METABOLISM
 	stun_threshold = 4
+	speedboost = FAST
 
 /datum/reagent/drug/crank/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel jittery.", "You feel like you gotta go fast.", "You feel like you need to step it up.")
@@ -78,7 +79,6 @@
 		M.AdjustWeakened(-6)
 	M.adjustToxLoss(0.15*REM)
 	M.sleeping = max(0,M.sleeping - 2)
-	M.status_flags |= GOTTAGOFAST
 	M.Jitter(1)
 	..()
 	
@@ -169,6 +169,7 @@
 	addiction_threshold = 10
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 	stun_threshold = 6
+	speedboost = VERY_FAST
 
 /datum/reagent/drug/methamphetamine/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel hyper.", "You feel like you need to go faster.", "You feel like you can run the world.")
@@ -189,7 +190,6 @@
 		M.AdjustWeakened(-6)
 	M.Jitter(2)
 	M.adjustToxLoss(0.6*REM)
-	M.status_flags |= GOTTAGOREALLYFAST
 	M.sleeping = max(0,M.sleeping - 2)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
@@ -255,10 +255,11 @@
 	description = "Makes you nearly impervious to stuns and grants a stamina regeneration buff, but you will be a nearly uncontrollable tramp-bearded raving lunatic."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
-	metabolization_rate = 0.5* REAGENTS_METABOLISM
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 15
 	addiction_threshold = 10
 	stun_threshold = 2
+	speedboost = VERY_FAST + IGNORE_SLOWDOWN
 
 
 /datum/reagent/drug/bath_salts/on_mob_life(mob/living/M)
@@ -283,8 +284,6 @@
 		M.hallucination += 5
 	M.adjustBrainLoss(0.2)
 	M.adjustToxLoss(0.6*REM)
-	M.status_flags |= GOTTAGOREALLYFAST
-	M.status_flags |= IGNORESLOWDOWN
 	M.hallucination += 7.5
 	M.sleeping = max(0,M.sleeping - 2)
 	M.Jitter(4)
@@ -369,10 +368,9 @@
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 	overdose_threshold = 15
 	addiction_threshold = 10
-
+	speedboost = IGNORE_SLOWDOWN
 
 /datum/reagent/drug/heroin/on_mob_life(mob/living/M)
-	M.status_flags |= IGNORESLOWDOWN
 	M.setStaminaLoss(0)
 	if(M.stunned || M.weakened || M.paralysis)
 		M.AdjustStunned(0.5)
