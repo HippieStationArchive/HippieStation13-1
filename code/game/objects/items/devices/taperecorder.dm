@@ -257,7 +257,8 @@
 
 
 /obj/item/device/tape/proc/ruin()
-	overlays += "ribbonoverlay"
+	if(!ruined) //only add the ruin overlay once when ruined
+		overlays += "ribbonoverlay"
 	ruined = 1
 
 
