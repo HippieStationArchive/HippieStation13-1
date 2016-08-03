@@ -1183,14 +1183,14 @@
 /datum/construction/reversible/mecha/phazon
 	result = "/obj/mecha/combat/phazon"
 	steps = list(
-					//1
-					list("key"=/obj/item/device/assembly/signaler/anomaly,
-						 "backkey"=null, //Cannot remove the anomaly core once it's in
-						 "desc"="Anomaly core socket is open and awaiting connection."),
+					//1 Nobody can fucking get these
+					//list("key"=/obj/item/device/assembly/signaler/anomaly,
+					//	 "backkey"=null, //Cannot remove the anomaly core once it's in
+					//	 "desc"="Anomaly core socket is open and awaiting connection."),
 
 					//2
 					list("key"=/obj/item/weapon/weldingtool,
-							"backkey"=/obj/item/weapon/wrench,
+							"backkey"=null, //So you can't undo it, like above
 							"desc"="External armor is wrenched."),
 					 //3
 					 list("key"=/obj/item/weapon/wrench,
