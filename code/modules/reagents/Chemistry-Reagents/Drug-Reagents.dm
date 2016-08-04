@@ -296,6 +296,7 @@
 	return
 
 /datum/reagent/drug/bath_salts/overdose_process(mob/living/M)
+	M.adjustToxLoss(0.8*REM)
 	M.hallucination += 10
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		for(var/i = 0, i < 8, i++)
