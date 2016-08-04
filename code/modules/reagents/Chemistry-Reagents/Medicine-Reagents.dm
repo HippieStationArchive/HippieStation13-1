@@ -474,7 +474,7 @@
 	M.status_flags |= GOTTAGOFAST
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
-		metabolization_rate = 0.5* REAGENTS_METABOLISM
+		metabolization_rate = initial(metabolization_rate)
 		M.adjustStaminaLoss(-1)
 	else
 		metabolization_rate = 2 * REAGENTS_METABOLISM
@@ -861,7 +861,7 @@
 		M.adjustFireLoss(-1*REM)
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
-		metabolization_rate = 0.5* REAGENTS_METABOLISM
+		metabolization_rate = initial(metabolization_rate)
 		M.adjustStaminaLoss(-3)
 	else
 		metabolization_rate = REAGENTS_METABOLISM
