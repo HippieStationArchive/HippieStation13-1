@@ -34,7 +34,7 @@
 /datum/reagent/medicine/changelingAdrenaline/on_mob_life(mob/living/M as mob)
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
-		metabolization_rate = REAGENTS_METABOLISM
+		metabolization_rate = initial(metabolization_rate)
 		M.adjustStaminaLoss(-1)
 	else
 		metabolization_rate = 2 * REAGENTS_METABOLISM
