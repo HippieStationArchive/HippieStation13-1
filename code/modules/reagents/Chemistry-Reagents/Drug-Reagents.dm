@@ -67,7 +67,7 @@
 		M << "<span class='notice'>[high_message]</span>"
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
-		metabolization_rate = 0.75* REAGENTS_METABOLISM
+		metabolization_rate = initial(metabolization_rate)
 	else
 		metabolization_rate = 1.5 * REAGENTS_METABOLISM
 		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
@@ -178,7 +178,7 @@
 		M << "<span class='notice'>[high_message]</span>"
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
-		metabolization_rate = 0.75* REAGENTS_METABOLISM
+		metabolization_rate = initial(metabolization_rate)
 	else
 		metabolization_rate = 1.5 * REAGENTS_METABOLISM
 		M.adjustStaminaLoss(6) //Actually 4, humans regenerate 2 per tick
@@ -268,7 +268,7 @@
 		M << "<span class='notice'>[high_message]</span>"
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
-		metabolization_rate = 0.5* REAGENTS_METABOLISM
+		metabolization_rate = initial(metabolization_rate)
 		M.adjustStaminaLoss(-4)
 	else
 		metabolization_rate = REAGENTS_METABOLISM
@@ -372,7 +372,7 @@
 
 /datum/reagent/drug/heroin/on_mob_life(mob/living/M)
 	M.setStaminaLoss(0)
-	if(M.stunned || M.weakened || M.paralysis)
+	if(M.stunned || M.weakened)
 		M.AdjustStunned(0.5)
 		M.AdjustWeakened(0.5)
 	if(iscarbon(M))
@@ -397,7 +397,7 @@
 			M.drop_item()
 		M.Dizzy(2)
 		M.Jitter(2)
-	if(prob(10))
+	if(prob(10) && !(M.sleeping))
 		M.sleeping += 7
 	..()
 	return
