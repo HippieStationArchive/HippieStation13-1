@@ -166,9 +166,9 @@
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/morphine
 	name = "morphine pill"
-	desc = "Commonly used to treat insomnia."
+	desc = "Commonly used to treat insomnia, it is actually far more effective as a painkiller."
 	icon_state = "pill8"
-	list_reagents = list("morphine" = 30)
+	list_reagents = list("morphine" = 10)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/stimulant
 	name = "stimulant pill"
@@ -186,7 +186,7 @@
 	name = "antitoxin pill"
 	desc = "Neutralizes many common toxins."
 	icon_state = "pill17"
-	list_reagents = list("charcoal" = 50)
+	list_reagents = list("charcoal" = 15)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/epinephrine
 	name = "epinephrine pill"
@@ -198,13 +198,13 @@
 	name = "mannitol pill"
 	desc = "Used to treat brain damage."
 	icon_state = "pill17"
-	list_reagents = list("mannitol" = 50)
+	list_reagents = list("mannitol" = 15)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/mutadone
 	name = "mutadone pill"
 	desc = "Used to treat genetic damage."
 	icon_state = "pill20"
-	list_reagents = list("mutadone" = 50)
+	list_reagents = list("mutadone" = 15)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/bromelain
 	name = "bromelain pill"
