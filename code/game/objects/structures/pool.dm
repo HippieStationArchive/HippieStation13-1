@@ -24,13 +24,14 @@
 		return
 	if(user.stat || user.lying || !Adjacent(user) || !M.Adjacent(user)|| !iscarbon(M))
 		if(isrobot(M))
-			M.visible_message("<span class='notice'>[user] begins to float.", \
-				"<span class='notice'>You start your emergency floaters.</span>")
-			if(do_mob(user, M, 20))
-				var/turf/T = get_turf(M)
-				T.Exited(M)
-				M.forceMove(src)
-				user << "<span class='notice'>You get out of the pool.</span>"
+			var/turf/T = get_turf(M)
+			if(istype(T, /turf/simulated/pool))
+				M.visible_message("<span class='notice'>[M] begins to float.", \
+					"<span class='notice'>You start your emergency floaters.</span>")
+				if(do_mob(user, M, 20))
+					T.Exited(M)
+					M.forceMove(src)
+					user << "<span class='notice'>You get out of the pool.</span>"
 		return ..()
 	if(!M.swimming) //can't put yourself up if you are not swimming
 		return ..()
