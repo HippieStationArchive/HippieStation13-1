@@ -15,3 +15,4 @@ changes:
   - bugfix: "Fixed a bug where the IGNORESLOWDOWN bitflag would ignore any speedboosts granted."
   - tweak: "Refactored the code for chemical speed boosts. This won't affect gameplay but will make coding them significantly easier and less buggy."
   - bugfix: "Fixed morphine pills instantly overdosing you, as well as reducing the unnecessarily ridiculous amount of mannitol, mutadone and charcoal in their respective pills from 50 to 15u."
+  - tweak: "Made a couple of medvend items contraband including atropine and diphenhydramine."
