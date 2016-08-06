@@ -15,7 +15,7 @@
 		holder.remove_reagent(src.id, metabolization_rate / M.metabolism_efficiency) //medicine reagents stay longer if you have a better metabolism
 
 /datum/reagent/medicine/leporazine
-	name = "Leporazine"
+	name = "Leporazine"e
 	id = "leporazine"
 	description = "Leporazine will effectively regulate a patient's body temperature, ensuring it never leaves safe levels."
 	color = "#C8A5DC" // rgb: 200, 165, 220
@@ -469,6 +469,7 @@
 	overdose_threshold = 30
 	addiction_threshold = 30
 	stun_threshold = 6
+	stun_resist = 4
 	speedboost = FAST
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
@@ -839,6 +840,7 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 60
 	stun_threshold = 4
+	stun_resist = 4
 	speedboost = FAST
 
 /datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
