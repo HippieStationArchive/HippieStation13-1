@@ -29,6 +29,7 @@
 	description = "Reduces stun times. Also deals toxin damage at high amounts."
 	color = "#C8A5DC"
 	overdose_threshold = 30
+	stun_resist = 4
 	stun_threshold = 4
 
 /datum/reagent/medicine/changelingAdrenaline/on_mob_life(mob/living/M as mob)
