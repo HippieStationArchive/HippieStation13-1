@@ -472,19 +472,8 @@
 	speedboost = FAST
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
-	if(!(M.stunned || M.weakened || M.paralysis))
-		stun_timer++
-		metabolization_rate = initial(metabolization_rate)
-		M.adjustStaminaLoss(-1)
-	else
-		metabolization_rate = 2 * REAGENTS_METABOLISM
-		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
-	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
-		for(var/datum/reagent/R in M.reagents.reagent_list)
-			R.stun_timer = 0
-		M.AdjustParalysis(-3)
-		M.AdjustStunned(-4)
-		M.AdjustWeakened(-4)
+	M.adjustStaminaLoss(-1)
+	stun_resist_act(M)
 	..()
 	return
 
@@ -859,19 +848,8 @@
 		M.adjustBruteLoss(-1*REM)
 		M.adjustBloodLoss(-0.1*REM)
 		M.adjustFireLoss(-1*REM)
-	if(!(M.stunned || M.weakened || M.paralysis))
-		stun_timer++
-		metabolization_rate = initial(metabolization_rate)
-		M.adjustStaminaLoss(-3)
-	else
-		metabolization_rate = REAGENTS_METABOLISM
-		M.adjustStaminaLoss(6) //Actually 4, humans regenerate 2 per tick
-	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
-		for(var/datum/reagent/R in M.reagents.reagent_list)
-			R.stun_timer = 0
-		M.AdjustParalysis(-3)
-		M.AdjustStunned(-4)
-		M.AdjustWeakened(-4)
+	M.adjustStaminaLoss(-3)
+	stun_resist_act(M)
 	..()
 
 /datum/reagent/medicine/stimulants/overdose_process(mob/living/M)
