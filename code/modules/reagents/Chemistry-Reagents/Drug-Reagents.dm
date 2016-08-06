@@ -247,9 +247,6 @@
 	var/high_message = pick("You feel your grip on reality loosening.", "You feel like your heart is beating out of control.", "You feel as if you're about to die.")
 	if(prob(15))
 		M << "<span class='notice'>[high_message]</span>"
-	M.AdjustParalysis(-1)
-	M.AdjustStunned(-1)
-	M.AdjustWeakened(-1)
 	if(holder.has_reagent("synaptizine"))
 		holder.remove_reagent("synaptizine", 5)
 		M.hallucination += 5
