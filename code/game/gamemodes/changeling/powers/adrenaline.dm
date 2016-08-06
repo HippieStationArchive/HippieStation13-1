@@ -32,19 +32,8 @@
 	stun_threshold = 4
 
 /datum/reagent/medicine/changelingAdrenaline/on_mob_life(mob/living/M as mob)
-	if(!(M.stunned || M.weakened || M.paralysis))
-		stun_timer++
-		metabolization_rate = initial(metabolization_rate)
-		M.adjustStaminaLoss(-1)
-	else
-		metabolization_rate = 2 * REAGENTS_METABOLISM
-		M.adjustStaminaLoss(6) //Actually 4, humans regenerate 2 per tick
-	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
-		for(var/datum/reagent/R in M.reagents.reagent_list)
-			R.stun_timer = 0
-		M.AdjustParalysis(-3)
-		M.AdjustStunned(-4)
-		M.AdjustWeakened(-4)
+	M.adjustStaminaLoss(-1)
+	stun_resist_act(M)
 	..()
 	return
 
