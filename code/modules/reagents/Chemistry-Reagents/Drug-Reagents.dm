@@ -59,29 +59,19 @@
 	addiction_threshold = 10
 	metabolization_rate = 0.75* REAGENTS_METABOLISM
 	stun_threshold = 4
+	stun_resist = 6
 	speedboost = FAST
 
 /datum/reagent/drug/crank/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel jittery.", "You feel like you gotta go fast.", "You feel like you need to step it up.")
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
-	if(!(M.stunned || M.weakened || M.paralysis))
-		stun_timer++
-		metabolization_rate = initial(metabolization_rate)
-	else
-		metabolization_rate = 1.5 * REAGENTS_METABOLISM
-		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
-	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
-		for(var/datum/reagent/R in M.reagents.reagent_list)
-			R.stun_timer = 0
-		M.AdjustParalysis(-6)
-		M.AdjustStunned(-6)
-		M.AdjustWeakened(-6)
 	M.adjustToxLoss(0.15*REM)
 	M.sleeping = max(0,M.sleeping - 2)
 	M.Jitter(1)
+	stun_resist_act(M)
 	..()
-	
+
 
 /datum/reagent/drug/crank/overdose_process(mob/living/M)
 	M.adjustBrainLoss(2*REM)
@@ -169,6 +159,7 @@
 	addiction_threshold = 10
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 	stun_threshold = 6
+	stun_resist = 6
 	speedboost = VERY_FAST
 
 /datum/reagent/drug/methamphetamine/on_mob_life(mob/living/M)
@@ -176,26 +167,15 @@
 
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
-	if(!(M.stunned || M.weakened || M.paralysis))
-		stun_timer++
-		metabolization_rate = initial(metabolization_rate)
-	else
-		metabolization_rate = 1.5 * REAGENTS_METABOLISM
-		M.adjustStaminaLoss(6) //Actually 4, humans regenerate 2 per tick
-	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
-		for(var/datum/reagent/R in M.reagents.reagent_list)
-			R.stun_timer = 0
-		M.AdjustParalysis(-3)
-		M.AdjustStunned(-6)
-		M.AdjustWeakened(-6)
 	M.Jitter(2)
 	M.adjustToxLoss(0.6*REM)
 	M.sleeping = max(0,M.sleeping - 2)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
+	stun_resist_act(M)
 	..()
 	return
-	
+
 
 /datum/reagent/drug/methamphetamine/overdose_process(mob/living/M)
 	if(M.canmove && !istype(M.loc, /atom/movable))
@@ -259,6 +239,7 @@
 	overdose_threshold = 15
 	addiction_threshold = 10
 	stun_threshold = 2
+	stun_resist = 12
 	speedboost = VERY_FAST + IGNORE_SLOWDOWN
 
 
@@ -266,19 +247,9 @@
 	var/high_message = pick("You feel your grip on reality loosening.", "You feel like your heart is beating out of control.", "You feel as if you're about to die.")
 	if(prob(15))
 		M << "<span class='notice'>[high_message]</span>"
-	if(!(M.stunned || M.weakened || M.paralysis))
-		stun_timer++
-		metabolization_rate = initial(metabolization_rate)
-		M.adjustStaminaLoss(-4)
-	else
-		metabolization_rate = REAGENTS_METABOLISM
-		M.adjustStaminaLoss(4) //Actually 2, humans regenerate 2 per tick
-	if(stun_timer >= stun_threshold && (M.stunned || M.weakened || M.paralysis))
-		for(var/datum/reagent/R in M.reagents.reagent_list)
-			R.stun_timer = 0
-		M.AdjustParalysis(-6)
-		M.AdjustStunned(-12)
-		M.AdjustWeakened(-12)
+	M.AdjustParalysis(-1)
+	M.AdjustStunned(-1)
+	M.AdjustWeakened(-1)
 	if(holder.has_reagent("synaptizine"))
 		holder.remove_reagent("synaptizine", 5)
 		M.hallucination += 5
@@ -292,6 +263,7 @@
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		step(M, pick(cardinal))
 		step(M, pick(cardinal))
+	stun_resist_act(M)
 	..()
 	return
 
