@@ -469,9 +469,9 @@
 	overdose_threshold = 30
 	addiction_threshold = 30
 	stun_threshold = 6
+	speedboost = FAST
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
-	M.status_flags |= GOTTAGOFAST
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
 		metabolization_rate = initial(metabolization_rate)
