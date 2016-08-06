@@ -134,7 +134,7 @@ datum/reagent/proc/stun_resist_act(mob/living/M)
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			if(R.stun_timer >= R.stun_threshold)
 				if(R.stun_timer >= 2 * R.stun_threshold)
-					R.stun_timer = R.stun_threshold
+					R.stun_timer = R.stun_threshold - 1
 				else
 					R.stun_timer = 0
 				M.AdjustParalysis(-R.stun_resist)
