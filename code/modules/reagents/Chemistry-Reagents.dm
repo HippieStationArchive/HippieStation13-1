@@ -124,7 +124,7 @@
 	return result
 
 datum/reagent/proc/stun_resist_act(mob/living/M)
-	if(stun_timer == (stun_threshold || 2 * stun_threshold))
+	if(stun_timer == (stun_threshold || stun_threshold + 3))
 		M.visible_message("<span class='notice'>You feel the [name] kick in!</span>")
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
@@ -133,7 +133,7 @@ datum/reagent/proc/stun_resist_act(mob/living/M)
 		metabolization_rate = 2 * initial(metabolization_rate)
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			if(R.stun_timer >= R.stun_threshold)
-				if(R.stun_timer >= 2 * R.stun_threshold)
+				if(R.stun_timer >= R.stun_threshold + 3)
 					R.stun_timer = R.stun_threshold - 1
 				else
 					R.stun_timer = 0
