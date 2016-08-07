@@ -169,7 +169,7 @@
 		M << "<span class='notice'>[high_message]</span>"
 	M.Jitter(2)
 	M.adjustToxLoss(0.6*REM)
-	M.AdjustStaminaLoss(-3)
+	M.adjustStaminaLoss(-3)
 	M.sleeping = max(0,M.sleeping - 2)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
@@ -252,7 +252,7 @@
 		holder.remove_reagent("synaptizine", 5)
 		M.hallucination += 5
 	M.adjustBrainLoss(0.2)
-	M.AdjustStaminaLoss(-8)
+	M.adjustStaminaLoss(-8)
 	M.adjustToxLoss(0.6*REM)
 	M.hallucination += 7.5
 	M.sleeping = max(0,M.sleeping - 2)
