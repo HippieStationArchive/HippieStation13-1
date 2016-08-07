@@ -52,7 +52,7 @@
 /datum/reagent/drug/crank
 	name = "Crank"
 	id = "crank"
-	description = "Reduces stun times by about 200%. If overdosed or addicted it will deal significant Toxin, Brute and Brain damage."
+	description = "Grants near-immunity to a single stun after about seven seconds as well as granting a minor speedboost. If overdosed or addicted it will deal significant Toxin, Brute and Brain damage."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
 	overdose_threshold = 20
@@ -152,7 +152,7 @@
 /datum/reagent/drug/methamphetamine
 	name = "Methamphetamine"
 	id = "methamphetamine"
-	description = "Reduces stun times by about 300%, speeds the user up, and allows the user to quickly recover stamina while dealing a small amount of Brain damage. If overdosed the subject will move randomly, laugh randomly, drop items and suffer from Toxin and Brain damage. If addicted the subject will constantly jitter and drool, before becoming dizzy and losing motor control and eventually suffer heavy toxin damage."
+	description = "Grants near-immunity to a single stun after 10 seconds, greatly speeds the user up, and allows the user to quickly recover stamina while dealing a small amount of toxin damage. If overdosed the subject will move randomly, laugh randomly, drop items and suffer from Toxin and Brain damage. If addicted the subject will constantly jitter and drool, before becoming dizzy and losing motor control and eventually suffer heavy toxin damage."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
 	overdose_threshold = 15
@@ -169,6 +169,7 @@
 		M << "<span class='notice'>[high_message]</span>"
 	M.Jitter(2)
 	M.adjustToxLoss(0.6*REM)
+	M.AdjustStaminaLoss(-3)
 	M.sleeping = max(0,M.sleeping - 2)
 	if(prob(5))
 		M.emote(pick("twitch", "shiver"))
@@ -232,7 +233,7 @@
 /datum/reagent/drug/bath_salts
 	name = "Bath Salts"
 	id = "bath_salts"
-	description = "Makes you nearly impervious to stuns and grants a stamina regeneration buff, but you will be a nearly uncontrollable tramp-bearded raving lunatic."
+	description = "Makes you nearly impervious to stuns, grants an extreme stamina regeneration and movement speed buff and lets you ignore slowdown completely, but you will be a nearly uncontrollable tramp-bearded raving lunatic."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
@@ -251,6 +252,7 @@
 		holder.remove_reagent("synaptizine", 5)
 		M.hallucination += 5
 	M.adjustBrainLoss(0.2)
+	M.AdjustStaminaLoss(-8)
 	M.adjustToxLoss(0.6*REM)
 	M.hallucination += 7.5
 	M.sleeping = max(0,M.sleeping - 2)
@@ -267,6 +269,7 @@
 /datum/reagent/drug/bath_salts/overdose_process(mob/living/M)
 	M.adjustToxLoss(0.8*REM)
 	M.hallucination += 10
+	M.druggy = max(M.druggy, 15)
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		for(var/i = 0, i < 8, i++)
 			step(M, pick(cardinal))
@@ -332,7 +335,7 @@
 /datum/reagent/drug/heroin
 	name = "Heroin"
 	id = "heroin"
-	description = "An extremely advanced painkiller/narcotic. Heroin allows you to ignore all slowdown and grants you full immunity to stamina damage, but stuns are twice as effective against you. Mildly toxic."
+	description = "An extremely advanced painkiller/narcotic. Heroin allows you to ignore all slowdown and grants you full immunity to stamina damage, but stuns are twice as effective against you. Mildly toxic. Overdosing will make you periodically fall asleep."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
@@ -366,7 +369,8 @@
 		if(I)
 			M.drop_item()
 		M.Dizzy(2)
-		M.Jitter(2)
+	if(prob(20))
+		M.emote("yawn")
 	if(prob(10) && !(M.sleeping))
 		M.sleeping += 7
 	..()
