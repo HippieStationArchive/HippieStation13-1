@@ -494,13 +494,13 @@ var/list/uplink_items = list()
 	name = "Tactical Gloves"
 	desc = "Comfortable grey gloves with the CQC martial art inside."
 	item = /obj/item/clothing/gloves/cqc
-	cost = 8
+	cost = 12
 
 /datum/uplink_item/dangerous/wrestling
 	name = "Wrestling Belt"
 	desc = "A powerful wrestling moveset given to you via championship belt."
 	item = /obj/item/weapon/storage/belt/champion/wrestling
-	cost = 6
+	cost = 12
 
 /datum/uplink_item/dangerous/reinforcement
 	name = "Reinforcements"
