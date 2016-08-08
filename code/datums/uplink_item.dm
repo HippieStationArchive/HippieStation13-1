@@ -218,11 +218,6 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/pinpointer
 	cost = 2
 
-/datum/uplink_item/king_disk/emag
-	name = "Cryptographic Sequencer"
-	desc = "The cryptographic sequencer, or emag, is a small card that unlocks hidden functions in electronic devices, subverts intended functions, and characteristically breaks security mechanisms."
-	item = /obj/item/weapon/card/emag
-	cost = 8
 
 //equipment room access
 
@@ -895,6 +890,12 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/card/emag
 	cost = 6
 	excludefrom = list(/datum/game_mode/gang,/datum/game_mode/traitor/king_disk)
+
+/datum/uplink_item/device_tools/emag/king_disk
+	name = "Cryptographic Sequencer - KotD"
+	excludefrom = list()
+	gamemodes = list(/datum/game_mode/traitor/king_disk)
+	cost = 8
 
 /datum/uplink_item/device_tools/toolbox
 	name = "Full Syndicate Toolbox"
