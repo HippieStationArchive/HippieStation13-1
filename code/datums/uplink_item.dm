@@ -206,6 +206,24 @@ var/list/uplink_items = list()
 	cost = 7
 	jobs = list("Clown")
 
+//King of the Disk items
+
+/datum/uplink_item/king_disk
+	category = "King of the Disk items"
+	gamemodes = list(/datum/game_mode/traitor/king_disk)
+
+/datum/uplink_item/king_disk/pinpointer
+	name = "Spare Pinpointer"
+	desc = "In case you lose your pinpointer, the Syndicate are willing to provide a spare...for a price."
+	item = /obj/item/weapon/pinpointer
+	cost = 2
+
+/datum/uplink_item/king_disk/emag
+	name = "Cryptographic Sequencer"
+	desc = "The cryptographic sequencer, or emag, is a small card that unlocks hidden functions in electronic devices, subverts intended functions, and characteristically breaks security mechanisms."
+	item = /obj/item/weapon/card/emag
+	cost = 8
+
 //equipment room access
 
 /datum/uplink_item/equipaccess
@@ -292,6 +310,7 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/gun/projectile/revolver
 	cost = 13
 	surplus = 50
+	excludefrom = list(/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/dangerous/smg
 	name = "C-20r Submachine Gun"
@@ -373,7 +392,7 @@ var/list/uplink_items = list()
 	briefly stun targets and cause them to slur as if inebriated. It can produce an infinite amount of bolts, but must be manually recharged with each shot."
 	item = /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow
 	cost = 12
-	excludefrom = list(/datum/game_mode/gang)
+	excludefrom = list(/datum/game_mode/gang,/datum/game_mode/traitor/king_disk)
 	surplus = 50
 
 /datum/uplink_item/dangerous/flamethrower
@@ -480,13 +499,13 @@ var/list/uplink_items = list()
 	name = "Tactical Gloves"
 	desc = "Comfortable grey gloves with the CQC martial art inside."
 	item = /obj/item/clothing/gloves/cqc
-	cost = 12
+	cost = 8
 
 /datum/uplink_item/dangerous/wrestling
 	name = "Wrestling Belt"
 	desc = "A powerful wrestling moveset given to you via championship belt."
 	item = /obj/item/weapon/storage/belt/champion/wrestling
-	cost = 12
+	cost = 6
 
 /datum/uplink_item/dangerous/reinforcement
 	name = "Reinforcements"
@@ -542,6 +561,7 @@ var/list/uplink_items = list()
 	desc = "A speed loader that contains seven additional .357 Magnum rounds for the syndicate revolver. For when you really need a lot of things dead."
 	item = /obj/item/ammo_box/a357
 	cost = 2
+	excludefrom = list(/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/ammo/smg
 	name = "SMG Magazine - .45 ACP"
@@ -874,7 +894,7 @@ var/list/uplink_items = list()
 	desc = "The cryptographic sequencer, or emag, is a small card that unlocks hidden functions in electronic devices, subverts intended functions, and characteristically breaks security mechanisms."
 	item = /obj/item/weapon/card/emag
 	cost = 6
-	excludefrom = list(/datum/game_mode/gang)
+	excludefrom = list(/datum/game_mode/gang,/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/device_tools/toolbox
 	name = "Full Syndicate Toolbox"
@@ -1159,7 +1179,7 @@ var/list/uplink_items = list()
 	desc = "Syndicate Bundles are specialised groups of items that arrive in a plain box. These items are collectively worth more than 20 telecrystals, but you do not know which specialisation you will receive."
 	item = /obj/item/weapon/storage/box/syndicate
 	cost = 20
-	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
+	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang,/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/badass/syndiecards
 	name = "Syndicate Playing Cards"
@@ -1227,7 +1247,7 @@ var/list/uplink_items = list()
 	desc = "A crate containing 50 telecrystals worth of random syndicate leftovers."
 	cost = 20
 	item = /obj/item/weapon/storage/box/syndicate
-	excludefrom = list(/datum/game_mode/nuclear)
+	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/badass/surplus_crate/spawn_item(turf/loc, obj/item/device/uplink/U)
 	var/obj/structure/closet/crate/C = new(loc)
