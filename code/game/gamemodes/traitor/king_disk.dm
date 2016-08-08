@@ -1,14 +1,14 @@
 /datum/game_mode/traitor/king_disk
 	name = "king of the disk"
 	config_tag = "king_disk"
-	required_players = 35
+	required_players = 45
 	required_enemies = 8
 	recommended_enemies = 10
 	reroll_friendly = 0
 	restricted_jobs = list("Cyborg", "AI")
 
 	traitors_possible = 12
-	num_modifier = 8
+	num_modifier = 6
 
 	var/list/target_list = list()
 	var/list/late_joining_list = list()
@@ -19,7 +19,8 @@
 
 /datum/game_mode/traitor/king_disk/equip_traitor(mob/living/carbon/human/traitor_mob, safety = 0)
 	..()
-	for(var/obj/item/device/uplink/U in world_uplinks)
+	var/obj/item/device/uplink/U = traitor_mob.mind.find_syndicate_uplink()
+	if(U)
 		U.uses = 10
 
 /datum/game_mode/traitor/king_disk/forge_traitor_objectives(datum/mind/traitor)
