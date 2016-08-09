@@ -3,4 +3,4 @@ author: Kokojo
 delete-after: True
 
 changes:
-  - rscdel: "Maintenance doors now become all-access when radiation storm hits."
+  - tweak: "Maintenance doors now become all-access when radiation storm hits."
