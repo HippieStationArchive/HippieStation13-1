@@ -414,22 +414,24 @@ This is here to make the tiles around the station mininuke change when it's arme
 	if(istype(ticker.mode,/datum/game_mode/traitor/king_disk))
 		for(var/obj/item/weapon/disk/nuclear/N in poi_list)
 			var/atom/disk_loc2 = N.loc
-			if(istype(disk_loc2, /mob))
+			if(ismob(disk_loc2))
 				var/mob/M = disk_loc2
 				var/datum/mind/traitor = M.mind
-				if(traitor.special_role)
-					if(king_timer >= 60)
-						king_timer = 0
-						var/list/all_items = traitor.current.GetAllContents()
-						if(traitor.special_role == "Mindslave")
-							for(var/datum/objective/protect/P in traitor.objectives)
-								all_items = P.target.current.GetAllContents()
-						for(var/obj/item/device/uplink/U in all_items)
-							U.uses += 1
-							M << "<span class='notice'>Your PDA vibrates softly. The Syndicate have rewarded you with an additional telecrystal for your possession of the disk.</span>"
-					else
-						king_timer += 1	
-					return
+				if(traitor && M.stat != DEAD)
+					if(traitor.special_role)
+						if(king_timer >= 60)
+							king_timer = 0
+							var/list/all_items = traitor.current.GetAllContents()
+							if(traitor.special_role == "Mindslave")
+								for(var/datum/objective/protect/P in traitor.objectives)
+									if(P.target.stat != DEAD)
+									all_items = P.target.current.GetAllContents()
+							for(var/obj/item/device/uplink/U in all_items)
+								U.uses += 1
+								M << "<span class='notice'>Your PDA vibrates softly. The Syndicate have rewarded you with an additional telecrystal for your possession of the disk.</span>"
+						else
+							king_timer += 1	
+						return
 			king_timer = 0				
 
 /obj/item/weapon/disk/nuclear/Destroy()
