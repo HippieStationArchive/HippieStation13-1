@@ -94,6 +94,8 @@
 			break
 
 /proc/random_skin_tone()
+	var/list/valid_skin_tones = skin_tones
+	valid_skin_tones -= "orange"
 	return pick(skin_tones)
 
 var/list/skin_tones = list(
