@@ -15,7 +15,7 @@
 	var/srange = 6 //The range of the search for pool turfs, change this for bigger or smaller pools.
 	var/linkedmist = list() //Used to keep track of created mist
 	var/misted = 0 //Used to check for mist.
-	var/beaker = null
+	var/obj/item/weapon/reagent_containers/beaker = null
 	var/cur_reagent = "water"
 	var/datum/wires/poolcontroller/wires = null
 	var/drainable = 0
@@ -110,8 +110,12 @@
 	for(var/turf/simulated/pool/water/W in linkedturfs)
 		for(var/mob/living/carbon/human/swimee in W)
 			if(beaker && cur_reagent)
-				swimee.reagents.add_reagent(cur_reagent, 1)
-			reagenttimer = 5
+				beaker.reagents.reaction(swimee, VAPOR, 0.01) //1 percent
+				swimee.reagents.add_reagent(cur_reagent, 0.5) //osmosis
+		for(var/obj/objects in W)
+			if(beaker && cur_reagent)
+				beaker.reagents.reaction(objects, VAPOR, 1)
+			reagenttimer = 6
 
 
 /obj/machinery/poolcontroller/process()
