@@ -108,7 +108,8 @@ var/list/skin_tones = list(
 	"arab",
 	"indian",
 	"african1",
-	"african2"
+	"african2",
+	"orange"
 	)
 
 var/global/list/species_list[0]
