@@ -424,7 +424,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 							var/list/all_items = traitor.current.GetAllContents()
 							if(traitor.special_role == "Mindslave")
 								for(var/datum/objective/protect/P in traitor.objectives)
-									if(P.target.stat != DEAD)
+									if(P.target.current.stat != DEAD)
 									all_items = P.target.current.GetAllContents()
 							for(var/obj/item/device/uplink/U in all_items)
 								U.uses += 1
