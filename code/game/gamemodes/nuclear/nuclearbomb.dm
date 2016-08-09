@@ -425,7 +425,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 							if(traitor.special_role == "Mindslave")
 								for(var/datum/objective/protect/P in traitor.objectives)
 									if(P.target.current.stat != DEAD)
-									all_items = P.target.current.GetAllContents()
+										all_items = P.target.current.GetAllContents()
 							for(var/obj/item/device/uplink/U in all_items)
 								U.uses += 1
 								M << "<span class='notice'>Your PDA vibrates softly. The Syndicate have rewarded you with an additional telecrystal for your possession of the disk.</span>"
