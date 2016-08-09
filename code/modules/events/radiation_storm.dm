@@ -14,6 +14,7 @@
 /datum/round_event/radiation_storm/announce()
 	var/eta_timer = (startWhen + rand(-5,5))
 	priority_announce("High levels of radiation detected approaching [station_name]. ETA: [eta_timer] seconds. Proceed to the nearest maintenance tunnel to take cover.", "Radiation Storm", 'sound/AI/radiation.ogg')
+	make_maint_all_access()
 	for(var/mob/M in player_list)
 		if(!istype(M,/mob/new_player) && !M.ear_deaf)
 			M << sound('sound/AI/radiationstorm.ogg', volume=50)
@@ -28,7 +29,6 @@
 		var/turf/T = get_turf(C)
 		if(!T)			continue
 		if(T.z != 1)	continue
-
 		for(var/mob/M)
 			M << sound('sound/ambience/blowout.ogg', volume=5)
 
@@ -77,3 +77,5 @@
 		var/turf/picked = pick(get_area_turfs(AR.type))
 		if (picked.z == ZLEVEL_STATION)
 			AR.radclear()
+	spawn(500)
+		revoke_maint_all_access()
