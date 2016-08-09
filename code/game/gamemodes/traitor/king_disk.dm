@@ -31,12 +31,7 @@
 	traitor.objectives += disk_objective
 
 	// Escape
-	if(issilicon(traitor.current))
-		var/datum/objective/survive/survive_objective = new
-		survive_objective.owner = traitor
-		traitor.objectives += survive_objective
-	else
-		var/datum/objective/escape/escape_objective = new
-		escape_objective.owner = traitor
-		traitor.objectives += escape_objective
+	var/datum/objective/escape/escape_objective = new
+	escape_objective.owner = traitor
+	traitor.objectives += escape_objective
 	return
