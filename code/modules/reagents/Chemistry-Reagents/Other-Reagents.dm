@@ -339,6 +339,7 @@
 		if(istype(M, /mob/living/carbon/human))
 			var/mob/living/carbon/human/N = M
 			if(N.dna.species.id == "human") // If they're human, turn em to the "orange" race, and give em spiky black hair
+				N << "<span class='userdanger'>You feel like you have had too much of [name]!</span>"
 				N.facial_hair_color = "f80"
 				N.skin_tone = "orange"
 				N.hair_style = "Spiky"
