@@ -536,15 +536,16 @@ var/global/list/possible_items_special = list()
 		var/leader = 1
 		var/turf/location = get_turf(owner.current)
 		for(var/mob/living/player in player_list)
-			if(player.mind.special_role && player.mind != owner)
-				if(player.stat != DEAD)
-					if(istype(player, /mob/living/silicon))
-						continue
-					if(player.onCentcom())
-						if(!istype(get_turf(player.mind.current), /turf/simulated/floor/plasteel/shuttle/red))
-							var/obj/item/device/uplink/U = player.mind.find_syndicate_uplink()
-							if(O.uses < U.uses) // Checks to see if anybody has more TC than you and is also on centcom
-								leader = 0
+			if(player.mind)
+				if(player.mind.special_role && player.mind != owner)
+					if(player.stat != DEAD)
+						if(istype(player, /mob/living/silicon))
+							continue
+						if(player.onCentcom())
+							if(!istype(get_turf(player), /turf/simulated/floor/plasteel/shuttle/red))
+								var/obj/item/device/uplink/U = player.mind.find_syndicate_uplink()
+								if(O.uses < U.uses) // Checks to see if anybody has more TC than you and is also on centcom
+									leader = 0
 		if(leader == 1 && location.onCentcom() && !istype(location, /turf/simulated/floor/plasteel/shuttle/red)) // If you have more TC than anybody else and get to centcom, you greentext, otherwise it checks to see if you have the disk.
 			return 1
 	var/list/all_items = owner.current.GetAllContents()
