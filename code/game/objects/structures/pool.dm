@@ -39,8 +39,6 @@
 						"<span class='notice'>You start getting out of the pool.</span>")
 		if(do_mob(user, M, 20))
 			M.swimming = 0
-			var/turf/T = get_turf(M)
-
 			M.forceMove(src)
 			user << "<span class='notice'>You get out of the pool.</span>"
 	else
@@ -48,7 +46,6 @@
 						"<span class='notice'>You start getting [M] out of the pool.")
 		if(do_mob(user, M, 20))
 			M.swimming = 0
-			var/turf/T = get_turf(M)
 			M.forceMove(src)
 			user << "<span class='notice'>You get [M] out of the pool.</span>"
 			return
