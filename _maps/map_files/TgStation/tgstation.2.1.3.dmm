@@ -618,7 +618,7 @@
 "alT" = (/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/turf/simulated/floor/plating,/area/maintenance/fpmaint)
 "alU" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 4},/turf/simulated/wall,/area/maintenance/fsmaint)
 "alV" = (/obj/structure/table,/obj/item/clothing/mask/cigarette/pipe,/obj/item/clothing/glasses/monocle,/turf/simulated/floor/plating,/area/maintenance/fpmaint)
-"alW" = (/obj/effect/decal/cleanable/dirt,/obj/structure/cable{d2 = 8; icon_state = "0-8"},/obj/machinery/power/apc{cell_type = 2500; dir = 4; name = "Detective's Office APC"; pixel_x = 24; pixel_y = 0},/turf/simulated/floor/plating,/area/maintenance/fpmaint)
+"alW" = (/obj/effect/decal/cleanable/dirt,/obj/structure/cable{d2 = 8; icon_state = "0-8"},/obj/machinery/power/apc{cell_type = 2500; dir = 4; name = "Detective's Office APC"; pixel_x = 24; pixel_y = 0},/turf/simulated/floor/plating,/area/security/detectives_office)
 "alX" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/obj/structure/lattice/catwalk,/turf/space,/area/solar/auxstarboard)
 "alY" = (/obj/structure/lattice,/obj/item/stack/cable_coil,/turf/space,/area/space)
 "alZ" = (/obj/structure/bed/chair/withwheels/office/dark,/obj/effect/landmark/start{name = "Detective"},/turf/simulated/floor/carpet,/area/security/detectives_office)
