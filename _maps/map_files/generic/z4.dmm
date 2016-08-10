@@ -557,7 +557,7 @@
 "kK" = (/obj/structure/cable{d2 = 8; icon_state = "0-8"},/obj/machinery/power/apc{auto_name = 1; dir = 4; name = "Worn-out APC: East"; pixel_x = 25; pixel_y = 0},/turf/simulated/floor/plating{icon_state = "warnplate"; dir = 8},/area/derelict)
 "kL" = (/obj/structure/table,/obj/item/stack/sheet/glass{amount = 50},/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/eva)
 "kM" = (/obj/item/drone_shell,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/eva)
-"kN" = (/obj/structure/rack{dir = 8; layer = 2.9},/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/eva)
+"kN" = (/obj/structure/rack{dir = 8; layer = 2.9},/obj/item/stack/cable_coil/blue,/obj/item/stack/cable_coil/pink,/obj/item/stack/cable_coil/cyan,/obj/item/stack/cable_coil/green,/obj/item/stack/cable_coil/orange,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/eva)
 "kO" = (/turf/simulated/floor/plating{icon_state = "warnplatecorner"; dir = 2},/area/derelict)
 "kP" = (/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/medical)
 "kQ" = (/obj/effect/decal/cleanable/blood/old,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/medical)
