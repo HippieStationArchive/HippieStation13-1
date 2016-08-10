@@ -48,7 +48,8 @@
 					var/list/all_items = traitor.current.GetAllContents()
 					if(traitor.special_role == "Mindslave")
 						for(var/datum/objective/protect/P in traitor.objectives)
-							all_items = P.target.current.GetAllContents()
+							if(P.target && P.target.current)
+								all_items = P.target.current.GetAllContents()
 					for(var/obj/item/device/uplink/U in all_items)
 						U.uses += 1
 						M << "<span class='notice'>Your PDA vibrates softly. The Syndicate have rewarded you with an additional telecrystal for your possession of the disk.</span>"
