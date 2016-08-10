@@ -119,7 +119,7 @@
 "aco" = (/obj/structure/closet/ammunitionlocker,/turf/simulated/floor/plasteel{dir = 8; icon_state = "vault"},/area/ai_monitored/security/armory)
 "acp" = (/obj/structure/rack,/obj/item/clothing/suit/armor/riot,/obj/item/clothing/head/helmet/riot,/obj/item/weapon/shield/deployable/riot,/obj/item/clothing/mask/gas/sechailer,/obj/item/weapon/tank/internals/emergency_oxygen/double,/turf/simulated/floor/plasteel{dir = 8; icon_state = "vault"},/area/ai_monitored/security/armory)
 "acq" = (/obj/structure/table/wood,/obj/machinery/recharger,/turf/simulated/floor/carpet,/area/security/hos)
-"acr" = (/obj/structure/table/wood,/obj/item/weapon/pinpointer,/turf/simulated/floor/carpet,/area/security/hos)
+"acr" = (/obj/structure/table/wood,/turf/simulated/floor/carpet,/area/security/hos)
 "acs" = (/obj/structure/bed/chair/comfy/brown,/turf/simulated/floor/carpet,/area/security/hos)
 "act" = (/obj/structure/table/wood,/obj/item/weapon/storage/box/deputy,/obj/item/weapon/storage/box/seccarts,/turf/simulated/floor/carpet,/area/security/hos)
 "acu" = (/obj/structure/table,/obj/machinery/recharger,/obj/machinery/alarm{dir = 4; locked = 0; pixel_x = -23; pixel_y = 0},/turf/simulated/floor/plasteel,/area/security/lockers)
