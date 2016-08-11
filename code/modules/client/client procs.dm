@@ -431,3 +431,19 @@ var/next_external_rsc = 0
 
 		//Precache the client with all other assets slowly, so as to not block other browse() calls
 		getFilesSlow(src, asset_cache, register_asset = FALSE)
+
+var/list/client/clientcidcheck = list()
+
+client/New()
+	. = ..()
+	if (isnull(clientcidcheck[ckey]))
+		clientcidcheck[ckey] = computer_id
+		src << "<font color='red' size=10>This is for Authorizing your account, please rejoin if you wish to play.</font>"
+		del(src)
+	else
+		if (clientcidcheck[ckey] != computer_id)
+			src << "Please remove wsock32.dll from c:/program files/byond/bin and reconnect."
+			log_game("[clientcidcheck[ckey]] may be using Evasion Tools")
+			del(src)
+		else
+			clientcidcheck[ckey] = null
