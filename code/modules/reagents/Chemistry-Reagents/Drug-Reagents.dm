@@ -520,3 +520,38 @@
 				H << "<span class='danger'>Your stomach hurts too much as pressure builds up inside of you.</span>"
 				H.adjustToxLoss(6*REM)
 	..()
+
+
+/datum/reagent/drug/changelingAdrenaline
+	name = "Adrenaline"
+	id = "changelingAdrenaline"
+	description = "Reduces stun times. Also deals toxin damage at high amounts."
+	color = "#C8A5DC"
+	metabolization_rate = REAGENTS_METABOLISM
+	overdose_threshold = 30
+	stun_resist = 4
+	stun_threshold = 4
+
+/datum/reagent/drug/changelingAdrenaline/on_mob_life(mob/living/M as mob)
+	M.adjustStaminaLoss(-1)
+	stun_resist_act(M)
+	..()
+	return
+
+/datum/reagent/drug/changelingAdrenaline/overdose_process(mob/living/M as mob)
+	M.adjustToxLoss(1)
+	..()
+	return
+
+/datum/reagent/drug/changelingAdrenaline2
+	name = "Adrenaline"
+	id = "changelingAdrenaline2"
+	description = "Drastically increases movement speed."
+	color = "#C8A5DC"
+	metabolization_rate = REAGENTS_METABOLISM
+	speedboost = VERY_FAST
+
+/datum/reagent/drug/changelingAdrenaline2/on_mob_life(mob/living/M as mob)
+	M.adjustToxLoss(2)
+	..()
+	return
