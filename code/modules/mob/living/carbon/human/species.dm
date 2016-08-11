@@ -915,69 +915,68 @@
 ////////////////
 
 /datum/species/proc/movement_delay(mob/living/carbon/human/H)
-	if(!(H.status_flags & IGNORESLOWDOWN))
 
-		var/grav = has_gravity(H)
-		var/hasjetpack = 0
-		if(!grav)
-			var/obj/item/weapon/tank/jetpack/J
-			var/obj/item/weapon/tank/jetpack/P
+	var/grav = has_gravity(H)
+	var/hasjetpack = 0
+	if(!grav)
+		var/obj/item/weapon/tank/jetpack/J
+		var/obj/item/weapon/tank/jetpack/P
 
-			if(istype(H.back, /obj/item/weapon/tank/jetpack))
-				J = H.back
-			if(istype(H.wear_suit,/obj/item/clothing/suit/space/hardsuit)) //copypasta but faster implementation currently
-				var/obj/item/clothing/suit/space/hardsuit/C = H.wear_suit
-				P = C.jetpack
-			if(J)
-				if(J.allow_thrust(0.01, H))
-					hasjetpack = 1
-			else if(P)
-				if(P.allow_thrust(0.01, H))
-					hasjetpack = 1
+		if(istype(H.back, /obj/item/weapon/tank/jetpack))
+			J = H.back
+		if(istype(H.wear_suit,/obj/item/clothing/suit/space/hardsuit)) //copypasta but faster implementation currently
+			var/obj/item/clothing/suit/space/hardsuit/C = H.wear_suit
+			P = C.jetpack
+		if(J)
+			if(J.allow_thrust(0.01, H))
+				hasjetpack = 1
+		else if(P)
+			if(P.allow_thrust(0.01, H))
+				hasjetpack = 1
 
-			. = -1 - hasjetpack
+		. = -1 - hasjetpack
 
-		if(grav || !hasjetpack)
-			var/health_deficiency = (100 - H.health + H.staminaloss)
-			if(health_deficiency >= 40)
-				. += (health_deficiency / 25)
+	if((grav || !hasjetpack) && !(H.status_flags & IGNORESLOWDOWN))
+		var/health_deficiency = (100 - H.health + H.staminaloss)
+		if(health_deficiency >= 40)
+			. += (health_deficiency / 25)
 
-			var/hungry = (500 - H.nutrition) / 5	//So overeat would be 100 and default level would be 80
-			if(hungry >= 70)
-				. += hungry / 50
+		var/hungry = (500 - H.nutrition) / 5	//So overeat would be 100 and default level would be 80
+		if(hungry >= 70)
+			. += hungry / 50
 
-			if(H.wear_suit)
-				. += H.wear_suit:update_slowdown(H)
-			if(H.shoes)
-				. += H.shoes:update_slowdown(H)
-			if(H.back)
-				. += H.back:update_slowdown(H)
-			if(H.l_hand)
-				. += H.l_hand:update_slowdown(H)
-			if(H.r_hand)
-				. += H.r_hand:update_slowdown(H)
+		if(H.wear_suit)
+			. += H.wear_suit:update_slowdown(H)
+		if(H.shoes)
+			. += H.shoes:update_slowdown(H)
+		if(H.back)
+			. += H.back:update_slowdown(H)
+		if(H.l_hand)
+			. += H.l_hand:update_slowdown(H)
+		if(H.r_hand)
+			. += H.r_hand:update_slowdown(H)
 
-			if((H.disabilities & FAT))
-				. += 1.5
-			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
-				. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
+		if((H.disabilities & FAT))
+			. += 1.5
+		if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
+			. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
 
-			if(H.get_num_legs(1) < 2)
-				. += 2
+		if(H.get_num_legs(1) < 2)
+			. += 2
 
-			if(H.lying) //This is for crawling
-				. += 10
-				if(H.status_flags & NEARCRIT)//Can crawl only every 3 seconds if nearcrit, otherwise it's 1
-					. += 20
+		if(H.lying) //This is for crawling
+			. += 10
+			if(H.status_flags & NEARCRIT)//Can crawl only every 3 seconds if nearcrit, otherwise it's 1
+				. += 20
 
-			. += speedmod
+		. += speedmod
 
-		if(grav)
-			if(H.status_flags & GOTTAGOFAST)
-				. -= 1
+	if(grav)
+		if(H.status_flags & GOTTAGOFAST)
+			. -= 1
 
-			if(H.status_flags & GOTTAGOREALLYFAST)
-				. -= 2
+		if(H.status_flags & GOTTAGOREALLYFAST)
+			. -= 2
 
 //////////////////
 // ATTACK PROCS //
