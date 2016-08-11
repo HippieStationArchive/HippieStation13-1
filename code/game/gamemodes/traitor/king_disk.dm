@@ -41,19 +41,20 @@
 		var/atom/disk_loc2 = N.loc
 		if(istype(disk_loc2, /mob))
 			var/mob/M = disk_loc2
-			var/datum/mind/traitor = M.mind
-			if(traitor.special_role)
-				if(N.king_timer >= 60)
-					N.king_timer = 0
-					var/list/all_items = traitor.current.GetAllContents()
-					if(traitor.special_role == "Mindslave")
-						for(var/datum/objective/protect/P in traitor.objectives)
-							if(P.target && P.target.current)
-								all_items = P.target.current.GetAllContents()
-					for(var/obj/item/device/uplink/U in all_items)
-						U.uses += 1
-						M << "<span class='notice'>Your PDA vibrates softly. The Syndicate have rewarded you with an additional telecrystal for your possession of the disk.</span>"
-				else
-					N.king_timer += 1
-				return
+			if(M.mind)
+				var/datum/mind/traitor = M.mind
+				if(traitor.special_role)
+					if(N.king_timer >= 60)
+						N.king_timer = 0
+						var/list/all_items = traitor.current.GetAllContents()
+						if(traitor.special_role == "Mindslave")
+							for(var/datum/objective/protect/P in traitor.objectives)
+								if(P.target && P.target.current)
+									all_items = P.target.current.GetAllContents()
+						for(var/obj/item/device/uplink/U in all_items)
+							U.uses += 1
+							M << "<span class='notice'>Your PDA vibrates softly. The Syndicate have rewarded you with an additional telecrystal for your possession of the disk.</span>"
+					else
+						N.king_timer += 1
+					return
 		N.king_timer = 0
