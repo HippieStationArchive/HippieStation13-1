@@ -125,7 +125,7 @@
 
 /datum/reagent/proc/stun_resist_act(mob/living/M)
 	if(stun_timer == (stun_threshold))
-		M << "<span class='notice'>You feel the [name] kick in!</span>")
+		M << "<span class='notice'>You feel the [name] kick in!</span>"
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
 		metabolization_rate = initial(metabolization_rate)
