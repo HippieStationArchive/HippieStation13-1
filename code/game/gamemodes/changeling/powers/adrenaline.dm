@@ -17,7 +17,7 @@
 	user.SetWeakened(0)
 	user.lying = 0
 	user.update_canmove()
-	user.reagents.add_reagent("changelingAdrenaline", 10) //reagents can be found inside the reagents module in drugs.dm
+	user.reagents.add_reagent("changelingAdrenaline", 10) //reagents can be found inside the reagents module in drug-reagents.dm
 	user.reagents.add_reagent("changelingAdrenaline2", 2) //For a really quick burst of speed
 	user.adjustStaminaLoss(-75)
 	feedback_add_details("changeling_powers","UNS")
