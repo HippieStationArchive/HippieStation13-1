@@ -23,7 +23,7 @@
 /obj/item/projectile/beam/focusedlaser
 	name = "focused laser"
 	icon_state = "focused"
-	damage = 45
+	damage = 30
 
 /obj/item/projectile/beam/laser/accelerator
 	name = "accelerator laser"

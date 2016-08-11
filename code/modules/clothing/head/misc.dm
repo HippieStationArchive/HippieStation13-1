@@ -295,3 +295,9 @@
 	desc = "What's swingin', toots?"
 	icon_state = "zoothat"
 	item_state = "zoothat"
+
+/obj/item/clothing/head/dio
+	name = "DIO's heart headband"
+	desc = "Why is there a heart on this headband? The World may never know."
+	icon_state = "DIO"
+	item_state = "DIO"

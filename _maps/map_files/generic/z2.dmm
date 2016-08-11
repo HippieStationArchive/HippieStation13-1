@@ -970,7 +970,7 @@
 "sH" = (/obj/machinery/recharge_station,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
 "sI" = (/obj/machinery/portable_atmospherics/canister/oxygen,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
 "sJ" = (/obj/structure/table,/obj/machinery/cell_charger,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
-"sK" = (/obj/structure/table,/obj/item/stack/medical/ointment,/obj/item/stack/medical/bruise_pack,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
+"sK" = (/obj/structure/table,/obj/item/stack/medical/ointment,/obj/item/stack/medical/bruise_pack,/obj/item/weapon/storage/firstaid/regular,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
 "sL" = (/obj/structure/table,/obj/item/weapon/stock_parts/cell/high{pixel_x = -3; pixel_y = 3},/obj/item/weapon/stock_parts/cell/high,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
 "sM" = (/obj/structure/table,/obj/item/weapon/screwdriver{pixel_y = 9},/obj/item/device/assembly/voice{pixel_y = 3},/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
 "sN" = (/obj/structure/table,/obj/item/weapon/wrench,/obj/item/device/assembly/infra,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor4"},/area/shuttle/syndicate)
