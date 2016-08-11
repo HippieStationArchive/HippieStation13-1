@@ -123,7 +123,7 @@
 
 	return result
 
-datum/reagent/proc/stun_resist_act(mob/living/M)
+/datum/reagent/proc/stun_resist_act(mob/living/M)
 	if(stun_timer == (stun_threshold))
 		M.visible_message("<span class='notice'>You feel the [name] kick in!</span>")
 	if(!(M.stunned || M.weakened || M.paralysis))
