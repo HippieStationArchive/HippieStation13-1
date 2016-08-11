@@ -393,7 +393,7 @@ var/const/INJECT = 5 //injection
 	return 1
 
 /datum/reagents/proc/check_speedboost(mob/M)
-	if(istype(M, /mob))
+	if(istype(M))
 		M.status_flags &= ~GOTTAGOFAST
 		M.status_flags &= ~GOTTAGOREALLYFAST
 		M.status_flags &= ~IGNORESLOWDOWN
