@@ -1,0 +1,18 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - tweak: "Atropine and Tricordizane now have to be heated to 370k to mix. This is to prevent unintentional mixing of these chems."
+  - rscadd: "Adds Sleep Toxin to the sleepers. It sends people to sleep slightly slower than Chloral Hydrate but is completely harmless. It is made with 1 part Chloral 4 parts Sugar."
+  - tweak: "Morphine no longer sends people to sleep unless they are below 30 HP, making it actually worthwhile to use as it completely bypasses all slowdowns from either damage or heavy gear, although you are unable to tell how wounded you are. Sleepers must be upgraded once to dispense morphine."
+  - rscadd: "Morphine can now be created with 1 part Nitrogen 1 part Sleep Toxin 1 part Oil."
+  - rscadd: "Added Heroin. Made by heating Morphine, Cyanide, Epinephrine and Potassium to 420k, it grants full immunity to slowdown just like morphine but also grants infinite stamina as well as healing brute and burn damage. However, it doubles the duration of unresisted stuns."
+  - tweak: "Poppies now contain Morphine instead of Saline, and at higher potencies, Heroin."
+  - experiment: "Changed the way anti-stun chemicals worked completely. You must spend a short amount of time without being stunned, after that, you gain extreme stun resistance for up to two stuns, after which you must wait again to regain the resistance. During a stun, the chemical metabolizes much faster. This makes chemicals much more robust agaist single stuns, but leave you completely vulnerable to repeat attacks and stunlock attempts. Check the wiki for detailed info on each chemical."
+  - tweak: "Morphine doubles the amount of time needed to regain stun resistance, as does overdosing on the chemical in question with the exception of Bath Salts."
+  - tweak: "Anti-stun chemicals now help wake people up faster."
+  - bugfix: "Fixed a bug where the IGNORESLOWDOWN bitflag would ignore any speedboosts granted."
+  - tweak: "Refactored the code for chemical speed boosts. This won't affect gameplay but will make coding them significantly easier and less buggy."
+  - bugfix: "Fixed morphine pills instantly overdosing you, as well as reducing the unnecessarily ridiculous amount of mannitol, mutadone and charcoal in their respective pills from 50 to 15u."
+  - tweak: "Made a couple of medvend items contraband including atropine and diphenhydramine."

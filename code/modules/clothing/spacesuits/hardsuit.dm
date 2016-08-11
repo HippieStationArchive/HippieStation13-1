@@ -325,7 +325,7 @@
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl
 
 /obj/item/clothing/suit/space/hardsuit/syndi/owl/cursed
-	flags = NODROP
+	flags = NODROP | THICKMATERIAL
 
 	//Wizard hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/wizard

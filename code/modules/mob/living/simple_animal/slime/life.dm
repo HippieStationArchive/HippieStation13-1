@@ -157,6 +157,8 @@
 	if(!ismob(buckled))
 		return
 	var/mob/M = buckled
+	var/nutrition = rand(7,15)
+	var/heal = -3
 
 	if(M.stat == DEAD) // our victim died
 		if(!client)
@@ -179,10 +181,19 @@
 
 	if(iscarbon(M))
 		var/mob/living/carbon/C = M
-		C.adjustCloneLoss(rand(2,4))
-		C.adjustToxLoss(rand(1,2))
+		var/blocking = 0
+		if(ishuman(C))
+			var/armor_val = C.getarmor(null, "bio")
+			blocking = armor_val
+			C.apply_damage(4,CLONE,null,armor_val)
+			C.apply_damage(2,TOX,null,armor_val/2)
+			nutrition *= (100-armor_val)/100 //Reduce nutrition and healing if the slime is having trouble eating.
+			heal *= (100-armor_val)/100
+		else //Don't want to change anything for monkies.
+			C.adjustCloneLoss(rand(2,4))
+			C.adjustToxLoss(rand(1,2))
 
-		if(prob(10) && C.client)
+		if(prob(10) && C.client && blocking < 75)
 			C << "<span class='userdanger'>[pick("You can feel your body becoming weak!", \
 			"You feel like you're about to die!", \
 			"You feel every part of your body screaming in agony!", \
@@ -203,10 +214,10 @@
 		Feedstop()
 		return
 
-	add_nutrition(rand(7,15))
+	add_nutrition(nutrition)
 
 	//Heal yourself.
-	adjustBruteLoss(-3)
+	adjustBruteLoss(heal)
 
 
 /mob/living/simple_animal/slime/proc/handle_nutrition()

@@ -112,9 +112,13 @@
 	var/pictures_max = 10
 	var/pictures_left = 10
 	var/on = 1
+	var/remote = 0 //For taking pictures with the spirit camera
 	var/blueprints = 0	//are blueprints visible in the current photo being created?
 	var/list/aipictures = list() //Allows for storage of pictures taken by AI, in a similar manner the datacore stores info. Keeping this here allows us to share some procs w/ regualar camera
 
+/obj/item/device/camera/spiritcam
+	pictures_max = 4
+	pictures_left = 4
 
 /obj/item/device/camera/siliconcam //camera AI can take pictures with
 	name = "silicon photo camera"
@@ -234,7 +238,7 @@
 
 	var/list/turfs = list()
 	for(var/turf/T in range(1, target))
-		if(T in seen)
+		if((T in seen) || remote)
 			if(isAi && !cameranet.checkTurfVis(T))
 				continue
 			else
@@ -386,7 +390,8 @@
 	user << "<span class='notice'>[pictures_left] photos left.</span>"
 	icon_state = "camera_off"
 	on = 0
-	spawn(64)
+	var/time = remote ? 600:64
+	spawn(time)
 		icon_state = "camera"
 		on = 1
 
@@ -434,3 +439,35 @@
 	C.toner -= 20	 //Cyborgs are very ineffeicient at printing an image
 	visible_message("[C.name] spits out a photograph from a narrow slot on it's chassis.")
 	usr << "<span class='notice'>You print a photograph.</span>"
+
+/obj/item/device/camera/spiritcam/attack_self(mob/user)
+	if(istype(user, /mob/living) && user.mind)
+		if(user.mind.special_role && on)
+			if(remote)
+				user << "<span class='notice'>You set the camera back to normal.</span>"
+				remote = 0
+			else
+				user << "<span class='notice'>You push a hidden button and activate spirit photography.</span>"
+				remote = 1
+
+/obj/item/device/camera/spiritcam/afterattack(atom/target, mob/user, flag)
+	if(remote && on && pictures_left)
+		var/list/real_living_players = list()
+		var/list/wanted_players = list()
+		var/wanted = copytext(sanitize(input(user, "Who would you like to take a photograph of?", "Target name")as text | null),1,26)
+		for(var/mob/M in living_mob_list)
+			real_living_players += M.real_name
+			real_living_players[M.real_name] = M
+			if(M.real_name == wanted)
+				wanted_players += M
+		if(wanted in real_living_players)
+			target = input(user, "Who would you like to take a photograph of?", "Target name") as null|anything in wanted_players
+			if(target.onCentcom())
+				target = user
+				user << "<span class='warning'>The spirit camera cannot reach out into that sector of the cosmos.</span>"
+				return
+		else
+			target = user
+		if(isobj(target.loc))
+			target = get_turf(target)
+	..()

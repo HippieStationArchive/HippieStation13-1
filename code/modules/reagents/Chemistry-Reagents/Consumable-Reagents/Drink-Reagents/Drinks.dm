@@ -253,6 +253,7 @@
 	id = "nuka_cola"
 	description = "Cola, cola never changes."
 	color = "#100800" // rgb: 16, 8, 0
+	speedboost = FAST
 
 /datum/reagent/consumable/nuka_cola/on_mob_life(mob/living/M)
 	M.Jitter(20)
@@ -260,7 +261,6 @@
 	M.dizziness +=5
 	M.drowsyness = 0
 	M.sleeping = max(0,M.sleeping-2)
-	M.status_flags |= GOTTAGOFAST
 	if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
 		M.bodytemperature = max(310, M.bodytemperature - (5 * TEMPERATURE_DAMAGE_COEFFICIENT))
 	..()
@@ -586,3 +586,26 @@
 			if(prob(30)) M.adjustToxLoss(2)
 	..()
 	return
+
+/datum/reagent/consumable/laughter
+	name = "Laughter"
+	id = "laughter"
+	description = "Some say that this is the best medicine, but recent studies have proven that to be untrue."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	color = "#FF4DD2"
+
+/datum/reagent/consumable/laughter/on_mob_life(mob/living/M)
+	if(!M.silent && prob(10))
+		M.emote("laugh")
+		var/laughsound = pick('sound/voice/manlaugh1.ogg', 'sound/voice/manlaugh2.ogg')
+		if(M.gender == MALE)
+			playsound(get_turf(M), laughsound, 50, 1)
+		else if(M.gender == FEMALE)
+			playsound(get_turf(M), 'sound/voice/womanlaugh.ogg', 65, 1)
+		else//non-binary gender just sounds like a man
+			playsound(get_turf(M), 'sound/voice/manlaugh1.ogg', 50, 1)
+	if(holder.has_reagent("nothing"))
+		metabolization_rate = 5 * REAGENTS_METABOLISM
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	..()

@@ -398,6 +398,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	icon_state = "nucleardisk"
 	item_state = "card-id"
 	w_class = 1
+	var/king_timer = 0
 
 /obj/item/weapon/disk/nuclear/New()
 	..()
@@ -409,6 +410,7 @@ This is here to make the tiles around the station mininuke change when it's arme
 	if(disk_loc.z > ZLEVEL_CENTCOM)
 		get(src, /mob) << "<span class='danger'>You can't help but feel that you just lost something back there...</span>"
 		qdel(src)
+		
 
 /obj/item/weapon/disk/nuclear/Destroy()
 	if(blobstart.len > 0)
