@@ -149,7 +149,9 @@
 /obj/item/weapon/reagent_containers/food/snacks/grown/poppy/add_juice()
 	if(..())
 		reagents.add_reagent("nutriment", 1 + round((potency / 20), 1))
-		reagents.add_reagent("salglu_solution", 1 + round((potency / 20), 1))
+		reagents.add_reagent("morphine", 1 + round(potency / 10, 1))
+		if(potency > 60)
+			reagents.add_reagent("heroin", round((potency / 5), 1) - 12)
 		bitesize = 1 + round(reagents.total_volume / 3, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/poppy/lily

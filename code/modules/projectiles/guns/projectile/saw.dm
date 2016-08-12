@@ -1,6 +1,6 @@
 /obj/item/weapon/gun/projectile/automatic/l6_saw
 	name = "\improper L6 SAW"
-	desc = "A heavily modified 7.62 light machine gun, designated 'L6 SAW'. Has 'Aussec Armoury - 2531' engraved on the receiver below the designation."
+	desc = "A heavily modified 7.62 light machine gun, designated 'L6 SAW'. Has 'Aussec Armoury - 2531' engraved on the receiver below the designation. It is too heavy to fire properly with one hand, make sure your other hand is empty when shooting it."
 	icon_state = "l6closed100"
 	item_state = "l6closedmag"
 	w_class = 5
@@ -60,37 +60,8 @@
 
 
 /obj/item/projectile/bullet/saw
-	damage = 35
-	armour_penetration = 5
-
-/obj/item/projectile/bullet/saw/bleeding
-	damage = 15
-	armour_penetration = 0
-
-/obj/item/projectile/bullet/saw/bleeding/on_hit(atom/target, blocked = 0, hit_zone)
-	if((blocked != 100) && istype(target, /mob/living/carbon/human))
-		var/mob/living/carbon/human/H = target
-		H.drip(25)
-
-/obj/item/projectile/bullet/saw/hollow
-	damage = 45
-	armour_penetration = 0
-
-/obj/item/projectile/bullet/saw/ap
-	damage = 30
-	armour_penetration = 35
-
-/obj/item/projectile/bullet/saw/incen
-	damage = 5
-	armour_penetration = 0
-
-/obj/item/projectile/bullet/saw/incen/on_hit(atom/target, blocked = 0)
-	. = ..()
-	if(iscarbon(target))
-		var/mob/living/carbon/M = target
-		M.adjust_fire_stacks(1)
-		M.IgniteMob()
-
+	damage = 60
+	armour_penetration = 10
 
 //magazines//
 
@@ -102,26 +73,6 @@
 	ammo_type = /obj/item/ammo_casing/a762
 	caliber = "a762"
 	max_ammo = 50
-
-/obj/item/ammo_box/magazine/m762/bleeding
-	name = "box magazine (Bleeding 7.62mm)"
-	origin_tech = "combat=3"
-	ammo_type = /obj/item/ammo_casing/a762/bleeding
-
-/obj/item/ammo_box/magazine/m762/hollow
-	name = "box magazine (Hollow-Point 7.62mm)"
-	origin_tech = "combat=3"
-	ammo_type = /obj/item/ammo_casing/a762/hollow
-
-/obj/item/ammo_box/magazine/m762/ap
-	name = "box magazine (Armor Penetrating 7.62mm)"
-	origin_tech = "combat=4"
-	ammo_type = /obj/item/ammo_casing/a762/ap
-
-/obj/item/ammo_box/magazine/m762/incen
-	name = "box magazine (Incendiary 7.62mm)"
-	origin_tech = "combat=4"
-	ammo_type = /obj/item/ammo_casing/a762/incen
 
 /obj/item/ammo_box/magazine/m762/update_icon()
 	..()
@@ -136,21 +87,3 @@
 	icon_state = "762-casing"
 	caliber = "a762"
 	projectile_type = /obj/item/projectile/bullet/saw
-
-/obj/item/ammo_casing/a762/bleeding
-	desc = "A 7.62mm bullet casing with specialized inner-casing, that when it makes contact with a target, release tiny shrapnel to induce internal bleeding."
-	icon_state = "762-casing"
-	caliber = "a762"
-	projectile_type = /obj/item/projectile/bullet/saw/bleeding
-
-/obj/item/ammo_casing/a762/hollow
-	desc = "A 7.62mm bullet casing designed to cause more damage to unarmored targets."
-	projectile_type = /obj/item/projectile/bullet/saw/hollow
-
-/obj/item/ammo_casing/a762/ap
-	desc = "A 7.62mm bullet casing designed with a hardened-tipped core to help penetrate armored targets."
-	projectile_type = /obj/item/projectile/bullet/saw/ap
-
-/obj/item/ammo_casing/a762/incen
-	desc = "A 7.62mm bullet casing designed with a chemical-filled capsule on the tip that when bursted, reacts with the atmosphere to produce a fireball, engulfing the target in flames. "
-	projectile_type = /obj/item/projectile/bullet/saw/incen

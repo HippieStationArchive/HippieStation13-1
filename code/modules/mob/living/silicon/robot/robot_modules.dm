@@ -159,15 +159,15 @@
 	add_module(new /obj/item/stack/medical/gauze/cyborg())
 
 	emag = new /obj/item/weapon/reagent_containers/spray(src)
-	emag.reagents.add_reagent("facid", 250)
-	emag.name = "Fluacid spray"
+	emag.reagents.add_reagent("clf3", 250)
+	emag.name = "chlorine trifluoride spray"
 
 	fix_modules()
 
 /obj/item/weapon/robot_module/medical/respawn_consumable(mob/living/silicon/robot/R, coeff = 1)
 	..()
 	if(R.emagged && istype(emag, /obj/item/weapon/reagent_containers/spray))
-		emag.reagents.add_reagent("facid", 2 * coeff)
+		emag.reagents.add_reagent("clf3", 2 * coeff)
 
 
 

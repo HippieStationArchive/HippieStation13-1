@@ -220,7 +220,7 @@ var/list/teleportlocs = list()
 
 /area/asteroid
 	name = "Asteroid"
-	icon_state = "asteroid"
+	icon_state = "green"
 	requires_power = 0
 	has_gravity = 1
 
@@ -232,6 +232,15 @@ var/list/teleportlocs = list()
 /area/asteroid/artifactroom
 	name = "Asteroid - Artifact"
 	icon_state = "cave"
+
+/area/asteroid/crash
+	name = "Asteroid Crash Site"
+	icon_state = "cave"
+	has_gravity = 1
+
+/area/asteroid/crash/New()
+	..()
+	SetDynamicLighting()
 
 /area/asteroid/artifactroom/New()
 	..()
