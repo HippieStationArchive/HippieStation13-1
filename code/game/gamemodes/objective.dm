@@ -954,7 +954,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/research/getslime/update_explanation_text()
 	..()
-	explanation_text = "Produce atleast a single [colorneeded] slime."
+	explanation_text = "Produce at least a single [colorneeded] slime."
 
 //------ Make telesci great again
 
@@ -995,7 +995,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/research/bots/update_explanation_text()
 	..()
-	explanation_text = "Craft atleast [amt] number of [initial(bottype.name)]s and ensure they survive till the shift ends. Roundstart ones don't count, so name them!"
+	explanation_text = "Craft at least [amt] number of [initial(bottype.name)]s and ensure they survive till the shift ends. Roundstart ones don't count, so name them!"
 
 //------ Make x drones, so ghosts can fucking play too, it's a tragedy that there needs to be an objective to remember the roboticist about this
 
@@ -1019,7 +1019,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/research/drones/update_explanation_text()
 	..()
-	explanation_text = "Build atleast [amt] drones, doesn't matter if active or not, but they must be kept intact."
+	explanation_text = "Build at least [amt] drones, doesn't matter if active or not, but they must be kept intact."
 
 //------ Make x borgs and keep them alive till round end
 /datum/objective/crew/research/borgs
@@ -1040,7 +1040,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/research/borgs/update_explanation_text()
 	..()
-	explanation_text = "Have atleast [amt] alive cyborgs at the end of the shift."
+	explanation_text = "Have at least [amt] alive cyborgs at the end of the shift."
 
 //ENGINEERING
 /datum/objective/crew/engineering
@@ -1198,9 +1198,9 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/medical/survivor/update_explanation_text()
 	..()
-	explanation_text = "Reach atleast the [percneeded*10]% of survivors at shift end."
+	explanation_text = "Reach at least the [percneeded*10]% of survivors at shift end."
 
-//------ Revive atleast x people with a defib
+//------ Revive at least x people with a defib
 /datum/objective/crew/medical/defib
 	jobs = "Chief Medical Officer#Medical Doctor"
 	var/peepsneeded = 0
@@ -1223,7 +1223,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/medical/defib/update_explanation_text()
 	..()
-	explanation_text = "Successfully defib atleast [peepsneeded] people."
+	explanation_text = "Successfully defib at least [peepsneeded] people."
 
 //------ End the round with a particular superpower(Xray, hulk, telekinesis, cold resistance)
 
@@ -1247,7 +1247,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	..()
 	explanation_text = "End the shift with [superpower]."
 
-//------ Clone atleast x people
+//------ Clone at least x people
 /datum/objective/crew/medical/clone
 	jobs = "Chief Medical Officer#Medical Doctor#Geneticist"
 	var/peepstoclone = 0
@@ -1265,7 +1265,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/medical/clone/update_explanation_text()
 	..()
-	explanation_text = "Clone atleast [peepstoclone] people."
+	explanation_text = "Clone at least [peepstoclone] people."
 
 //------ Make x amount of y healing chem
 /datum/objective/crew/medical/makechem
@@ -1309,7 +1309,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 /datum/objective/crew/medical/makechem/update_explanation_text()
 	..()
 	var/list/chemlist = splittext(chemid, "#")
-	explanation_text = "Make atleast [round(amount/chemlist.len)] units of each chemical: [chemname]"
+	explanation_text = "Make at least [round(amount/chemlist.len)] units of each chemical: [chemname]"
 
 //------ Have x chem in your bloodstream at round end, a must-have
 /datum/objective/crew/medical/havechem
@@ -1466,7 +1466,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/security/arrestantag/update_explanation_text()
 	..()
-	explanation_text = "Have atleast one human antagonist in the shuttle brig when the shift ends."
+	explanation_text = "Have at least one human antagonist in the shuttle brig when the shift ends."
 
 //------ Be sure your buddy escapes alive!
 /datum/objective/crew/security/buddy
@@ -1550,7 +1550,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/supply/points/update_explanation_text()
 	..()
-	explanation_text = "Have atleast [points] supply points at shift end. You can achieve this by shipping plasma, exotic plants, syndicate secret documents or research saved on disks."
+	explanation_text = "Have at least [points] supply points at shift end. You can achieve this by shipping plasma, exotic plants, syndicate secret documents or research saved on disks."
 
 //------ Have x mining points on your card at roundend
 /datum/objective/crew/supply/miningpoints
@@ -1570,7 +1570,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/supply/miningpoints/update_explanation_text()
 	..()
-	explanation_text = "Have atleast [points] mining points on any ID card in your inventory at shift end."
+	explanation_text = "Have at least [points] mining points on any ID card in your inventory at shift end."
 
 //------ Mine x types of y ore
 /datum/objective/crew/supply/mineore
@@ -1596,7 +1596,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/supply/mineore/update_explanation_text()
 	..()
-	explanation_text = "Mine atleast [oreamt] [initial(oretype.name)]s."
+	explanation_text = "Mine at least [oreamt] [initial(oretype.name)]s."
 
 //------ Ian shall stay alive till round end
 /datum/objective/crew/supply/ianalive
@@ -1704,7 +1704,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/service/collectplants/update_explanation_text()
 	..()
-	explanation_text = "Collect atleast "
+	explanation_text = "Collect at least "
 	for(var/i in 1 to plants.len)
 		var/obj/item/plant = text2path(plants[i])
 		explanation_text += "[plants[plants[i]]] [initial(plant.name)]"
@@ -1784,7 +1784,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	explanation_text = "Don't break your vow ever."
 
 
-//slip atleast x people
+//slip at least x people
 /datum/objective/crew/civilian/slip
 	jobs = "Clown"
 	var/amt = 0
@@ -1804,9 +1804,9 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/civilian/slip/update_explanation_text()
 	..()
-	explanation_text = "Slip the crew atleast [amt] times with your PDA."
+	explanation_text = "Slip the crew at least [amt] times with your PDA."
 
-//write x articles of atleast 100 characters (optional:have a photo attached to it too)
+//write x articles of at least 100 characters (optional:have a photo attached to it too)
 /datum/objective/crew/civilian/reporter
 	jobs = "Librarian"
 	var/articles = 0
@@ -1830,9 +1830,9 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/civilian/reporter/update_explanation_text()
 	..()
-	explanation_text = "Make atleast [articles] articles, they must be atleast [char] characters long."
+	explanation_text = "Make at least [articles] articles, they must be at least [char] characters long."
 
-//get a petition done with atleast x signs
+//get a petition done with at least x signs
 /datum/objective/crew/civilian/petition
 	jobs = "Lawyer"
 	var/amt = 0
