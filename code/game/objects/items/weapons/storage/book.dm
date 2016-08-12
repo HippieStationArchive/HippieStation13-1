@@ -283,6 +283,7 @@ var/global/biblename
 			affectedmobs |= H
 			affectedmobs[H] = conditions(H)
 	if(affectedmobs.len)
+		feedback_inc("relic",1)
 		return 1
 
 /obj/item/relic/proc/conditions(mob/living/carbon/human/H)

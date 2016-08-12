@@ -428,6 +428,40 @@ var/datum/subsystem/ticker/ticker
 				total_antagonists.Add(temprole) //If the role doesnt exist in the list, create it and add the mob
 				total_antagonists[temprole] += ": [Mind.name]([Mind.key])"
 
+	//Shows who completed all the crew objectives
+	var/list/successfulcrew = list()
+	for(var/A in player_list)
+		var/mob/M = A
+		if(M.mind && M.mind.objectives)
+			if(locate(/datum/objective/crew) in M.mind.objectives)
+				var/youdidit = TRUE
+				for(var/datum/objective/crew/C in M.mind.objectives)
+					if(!C.check_completion())
+						youdidit = FALSE
+				if(youdidit)
+					successfulcrew += M.name
+	world << "<font color='green'><b>The following crewmembers managed to complete all their crew objectives: [jointext(successfulcrew, ", ")]</b></font>"
+	var/list/winners = list(departments[deptpoints[1]] = deptpoints[deptpoints[1]])
+	var/winnerdept = "The most efficient department this round "
+	for(var/i in 2 to deptpoints.len)
+		if(deptpoints[deptpoints[i]] > deptpoints[deptpoints[i-1]])
+			winners.Cut()
+			winners += departments[deptpoints[i]]
+			winners[departments[deptpoints[i]]] = deptpoints[deptpoints[i]]
+		else if(deptpoints[deptpoints[i]] == deptpoints[deptpoints[i-1]]) // two departments have the same points
+			if(winners.len)
+				if(deptpoints[deptpoints[i]] < winners[winners[1]])
+					continue
+			winners += departments[deptpoints[i]]
+			winners[departments[deptpoints[i]]] = deptpoints[deptpoints[i]]
+	winnerdept += "[winners.len == 1 ? "was" : "were"]"
+	for(var/i in 1 to  winners.len)
+		winnerdept += " [winners[i]]"
+		if(i != winners.len)
+			winnerdept += " and"
+	winnerdept += " with [winners[winners[1]]] points."
+	world << "<b><font color='green'>[winnerdept]</b></font>"
+
 	//Now print them all into the log!
 	log_game("Antagonists at round end were...")
 	for(var/i in total_antagonists)
