@@ -513,4 +513,5 @@ var/list/datum/objective/crew/trackedcrewobjs = list()
 			noobjyet = FALSE
 		else
 			noobjyet = FALSE
+			. = 0
 	while(noobjyet)

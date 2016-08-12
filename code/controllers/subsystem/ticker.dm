@@ -440,7 +440,7 @@ var/datum/subsystem/ticker/ticker
 						youdidit = FALSE
 				if(youdidit)
 					successfulcrew += M.name
-	world << "<font color='green'><b>The following crewmembers managed to complete all their crew objectives: [jointext(successfulcrew, ", ")]</b></font>"
+	world << "<b>The following crewmembers managed to complete all their crew objectives: <span class='greenannounce'>[jointext(successfulcrew, ", ")]</span></b>"
 	var/list/winners = list(departments[deptpoints[1]] = deptpoints[deptpoints[1]])
 	var/winnerdept = "The most efficient department this round "
 	for(var/i in 2 to deptpoints.len)
@@ -454,13 +454,13 @@ var/datum/subsystem/ticker/ticker
 					continue
 			winners += departments[deptpoints[i]]
 			winners[departments[deptpoints[i]]] = deptpoints[deptpoints[i]]
-	winnerdept += "[winners.len == 1 ? "was" : "were"]"
+	winnerdept += "[winners.len == 1 ? "was" : "were"]<span class='greenannounce'>"
 	for(var/i in 1 to  winners.len)
 		winnerdept += " [winners[i]]"
 		if(i != winners.len)
 			winnerdept += " and"
-	winnerdept += " with [winners[winners[1]]] points."
-	world << "<b><font color='green'>[winnerdept]</b></font>"
+	winnerdept += "</span> with [winners[winners[1]]] [winners[winners[1]] == 1 ? "point" : "points"]."
+	world << "<b>[winnerdept]</b>"
 
 	//Now print them all into the log!
 	log_game("Antagonists at round end were...")
