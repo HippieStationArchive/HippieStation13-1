@@ -1,0 +1,6 @@
+author: Kokojo
+
+delete-after: True
+
+changes: 
+  - bugfix: "Borgs floaters are no longer activable by humans everywhere, just in the pool."

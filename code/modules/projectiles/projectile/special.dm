@@ -39,7 +39,7 @@
 
 /obj/item/projectile/bullet/a40mm/on_hit(atom/target, blocked = 0)
 	..()
-	explosion(target, -1, 3, 2, 4, 0, flame_range = 4)
+	explosion(target, -1, 3, 2, 4, 0, flame_range = 4) //Why is the light impact range smaller than the heavy impact range?
 	return 1
 
 /obj/item/projectile/temp

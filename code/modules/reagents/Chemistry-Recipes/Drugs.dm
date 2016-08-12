@@ -32,6 +32,14 @@
 	result_amount = 4
 	required_temp = 374
 
+/datum/chemical_reaction/heroin
+	name = "Heroin"
+	id = "heroin"
+	result = "heroin"
+	required_reagents = list("morphine" = 1, "cyanide" = 1, "potassium" = 1, "epinephrine" = 1)
+	result_amount = 4
+	required_temp = 420
+
 /datum/chemical_reaction/bath_salts
 	name = "bath_salts"
 	id = "bath_salts"

@@ -17,9 +17,9 @@ emp_act
 		return checkarmor(affecting, type)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
-	//If you don't specify a bodypart, it checks ALL your bodyparts for protection, and averages out the values
-	for(var/obj/item/organ/limb/organ in organs)
-		armorval += checkarmor(organ, type)
+	//If you don't specify a bodypart, it checks ALL your limbs for protection, and averages out the values
+	for(var/obj/item/organ/limb/H in organs)
+		armorval += checkarmor(H, type)
 		organnum++
 	return (armorval/max(organnum, 1))
 
@@ -27,15 +27,15 @@ emp_act
 /mob/living/carbon/human/proc/checkarmor(obj/item/organ/limb/def_zone, type)
 	if(!type)	return 0
 	if(!istype(def_zone)) return 0
-	var/protection = 0
-	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
-	for(var/bp in body_parts)
-		if(!bp)	continue
-		if(bp && istype(bp ,/obj/item/clothing))
-			var/obj/item/clothing/C = bp
+	var/protection = 1 //Avoid divide by zero.
+	var/list/armor_slots = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
+	for(var/ar in armor_slots)
+		if(!ar)	continue
+		if(ar && istype(ar ,/obj/item/clothing) || istype(ar ,/obj/item/weapon/storage/backpack))
+			var/obj/item/C = ar
 			if(C.body_parts_covered & def_zone.body_part)
-				protection += C.armor[type]
-	return protection
+				protection *= (1-(C.armor[type]/100)) //Mutliplicative stacking. (1-(Armor/100)) gives the fraction of damage not deflected by the armor, i.e armor=80, protection *= 0.2
+	return ((1-protection)*100) // After multiplying the fractions of damage not blocked together to get the total fraction of damage not blocked, convert back to percent damage that IS blocked.
 
 /mob/living/carbon/human/on_hit(proj_type)
 	dna.species.on_hit(proj_type, src)

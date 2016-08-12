@@ -1,0 +1,6 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - tweak: "You can now stop pulling objects by control clicking it again."

@@ -1,0 +1,8 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - tweak: "Holoparasite crystal sprays now use colour."
+  - bugfix: "Magical guardian spirits now actually change colour."
+  - tweak: "Magical guardian spirits now no longer use white, black or gray."

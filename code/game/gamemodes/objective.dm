@@ -528,6 +528,39 @@ var/global/list/possible_items_special = list()
 	steal_target = targetinfo.targetitem
 
 
+/datum/objective/steal/disk
+	dangerrating = 15
+	martyr_compatible = 0
+	targetinfo = new/datum/objective_item/steal/nukedisc_special
+	steal_target = /obj/item/weapon/disk/nuclear
+	explanation_text = "Survive the round with the Nuclear Authentication Disk in your possession, or escape with more telecrystals than any other traitor. Holding the disk grants you one additional telecrystal per minute. Be warned, other traitors are also after the disk."
+
+
+/datum/objective/steal/disk/check_completion()
+	var/obj/item/device/uplink/O = owner.find_syndicate_uplink()
+	if(!isliving(owner.current))	return 0
+	if(O)
+		var/leader = 1
+		var/turf/location = get_turf(owner.current)
+		for(var/mob/living/player in player_list)
+			if(player.mind)
+				if(player.mind.special_role && player.mind != owner)
+					if(player.stat != DEAD)
+						if(istype(player, /mob/living/silicon))
+							continue
+						if(player.onCentcom())
+							if(!istype(get_turf(player), /turf/simulated/floor/plasteel/shuttle/red))
+								var/obj/item/device/uplink/U = player.mind.find_syndicate_uplink()
+								if(O.uses < U.uses) // Checks to see if anybody has more TC than you and is also on centcom
+									leader = 0
+		if(leader == 1 && location.onCentcom() && !istype(location, /turf/simulated/floor/plasteel/shuttle/red)) // If you have more TC than anybody else and get to centcom, you greentext, otherwise it checks to see if you have the disk.
+			return 1
+	var/list/all_items = owner.current.GetAllContents()
+	for(var/obj/I in all_items)
+		if(istype(I, steal_target))
+			return 1
+	return 0
+
 /datum/objective/download
 	dangerrating = 10
 
@@ -1286,7 +1319,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/medical/havechem/New(text, themind)
 	..()
-	var/list/blacklist = list(/datum/reagent/drug/fartium)
+	var/list/blacklist = list(/datum/reagent/drug/fartium, /datum/reagent/drug/changelingAdrenaline, /datum/reagent/drug/changelingAdrenaline2)
 	chempath = pick(typesof(/datum/reagent/drug) - /datum/reagent/drug) - blacklist
 	chemid = initial(chempath.id)
 

@@ -1,0 +1,8 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - rscadd: "Nuke Ops can now customize their declaration of war message!"
+  - bugfix: "Fixed a bug where Nuke Ops could declare war after the timer had expired."
+  - bugfix: "The time window to declare war is now actually five minutes instead of three."

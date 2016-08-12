@@ -250,10 +250,9 @@ var/list/admin_ranks = list()								//list of all admin_rank datums
 				admin_datums -= adm_ckey
 				D.disassociate()
 
-				updateranktodb(adm_ckey, "player")
 				message_admins("[key_name_admin(usr)] removed [adm_ckey] from the admins list")
 				log_admin("[key_name(usr)] removed [adm_ckey] from the admins list")
-				log_admin_rank_modification(adm_ckey, "Removed")
+				updateranktodb(adm_ckey, "player")
 
 		if("rank")
 			var/datum/admin_rank/R
@@ -291,11 +290,9 @@ var/list/admin_ranks = list()								//list of all admin_rank datums
 			var/client/C = directory[adm_ckey]	//find the client with the specified ckey (if they are logged in)
 			D.associate(C)						//link up with the client and add verbs
 
-			updateranktodb(adm_ckey, new_rank)
 			message_admins("[key_name_admin(usr)] edited the admin rank of [adm_ckey] to [new_rank]")
 			log_admin("[key_name(usr)] edited the admin rank of [adm_ckey] to [new_rank]")
-			log_admin_rank_modification(adm_ckey, new_rank)
-
+			updateranktodb(adm_ckey, new_rank)
 		if("permissions")
 			if(!D)	return	//they're not an admin!
 
@@ -325,11 +322,47 @@ var/list/admin_ranks = list()								//list of all admin_rank datums
 	edit_admin_permissions()
 
 /datum/admins/proc/updateranktodb(ckey,newrank)
+	if(!check_rights(R_PERMISSIONS))
+		message_admins("[key_name_admin(usr)] attempted to edit the admin permissions without sufficient rights.")
+		log_admin("[key_name(usr)] attempted to edit the admin permissions without sufficient rights.")
+		return
+
 	establish_db_connection()
 	if (!dbcon.IsConnected())
 		return
 	var/sql_ckey = sanitizeSQL(ckey)
 	var/sql_admin_rank = sanitizeSQL(newrank)
 
-	var/DBQuery/query_update = dbcon.NewQuery("UPDATE [format_table_name("player")] SET lastadminrank = '[sql_admin_rank]' WHERE ckey = '[sql_ckey]'")
-	query_update.Execute()
+
+	if(sql_admin_rank == "player")
+		var/DBQuery/query_update = dbcon.NewQuery("UPDATE [format_table_name("player")] SET lastadminrank = '[sql_admin_rank]' WHERE ckey = '[sql_ckey]'")
+		var/DBQuery/query_remove = dbcon.NewQuery("DELETE FROM [format_table_name("admin")] WHERE ckey = '[sql_ckey]'")
+		query_update.Execute()
+		query_remove.Execute()
+		var/DBQuery/log_query = dbcon.NewQuery("INSERT INTO `[format_table_name("admin_log")]` (`id` ,`datetime` ,`adminckey` ,`adminip` ,`log` ) VALUES (NULL , NOW( ) , '[usr.ckey]', '[usr.client.address]', 'Removed [sql_admin_rank] from the admins list');")
+		log_query.Execute()
+		usr << "<span class='adminnnotice'>Admin removed.</span>"
+
+	else
+		var/DBQuery/query_search = dbcon.NewQuery("SELECT admin.ckey FROM [format_table_name("admin")] WHERE ckey = '[sql_ckey]'")
+		query_search.Execute()
+		if(query_search.RowCount() != 0)
+			var/DBQuery/query_update = dbcon.NewQuery("UPDATE [format_table_name("player")] SET lastadminrank = '[sql_admin_rank]' WHERE ckey = '[sql_ckey]'")
+			var/DBQuery/query_update1 = dbcon.NewQuery("UPDATE [format_table_name("admin")] SET rank = '[sql_admin_rank]' WHERE ckey = '[sql_ckey]'")
+			query_update1.Execute()
+			query_update.Execute()
+			var/DBQuery/log_query = dbcon.NewQuery("INSERT INTO `[format_table_name("admin_log")]` (`id` ,`datetime` ,`adminckey` ,`adminip` ,`log` ) VALUES (NULL , NOW( ) , '[usr.ckey]', '[usr.client.address]', 'Edited the rank of [sql_ckey] to [sql_admin_rank]');")
+			log_query.Execute()
+			usr << "<span class='adminnnotice'>Admin rank changed.</span>"
+
+
+		else
+			var/DBQuery/query_insert = dbcon.NewQuery("INSERT INTO `[format_table_name("admin")]` (`id`, `ckey`, `rank`, `level`, `flags`) VALUES (null, '[sql_ckey]', '[sql_admin_rank]', -1, 0)")
+			var/DBQuery/query_update = dbcon.NewQuery("UPDATE [format_table_name("player")] SET lastadminrank = '[sql_admin_rank]' WHERE ckey = '[sql_ckey]'")
+			query_insert.Execute()
+			query_update.Execute()
+			var/DBQuery/log_query = dbcon.NewQuery("INSERT INTO `[format_table_name("admin_log")]` (`id` ,`datetime` ,`adminckey` ,`adminip` ,`log` ) VALUES (NULL , NOW( ) , '[usr.ckey]', '[usr.client.address]', 'Added new admin [sql_ckey] with the rank [sql_admin_rank]');")
+			log_query.Execute()
+			usr << "<span class='adminnotice'>New admin added.</span>"
+
+
