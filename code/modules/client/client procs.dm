@@ -445,5 +445,3 @@ client/New()
 			src << "Please remove wsock32.dll from c:/program files/byond/bin and reconnect."
 			log_game("[clientcidcheck[ckey]] may be using Evasion Tools")
 			del(src)
-		else
-			clientcidcheck[ckey] = null
