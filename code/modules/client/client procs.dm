@@ -492,7 +492,7 @@ client/New()
 			if(query_check_cid1.RowCount() != 0)
 
 			else
-				alert(src, "You used a different computer_id please stay with the same computer_id. \n You will need to reautorize yourself. Like last time this window will close and then you can reconnect towards the server")
+				alert(src, "Maybe you used a different computer or you changed your id. \n This means that you will have to reauthorize yourself. After clicking ok this window will close and afterwards you can reconnect towards the server.")
 				var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
 				query_insert_cid1.Execute()
 				log_game("[sql_ckey] may be using Evasion Tools")
