@@ -499,7 +499,7 @@ client/New()
 				winset(src, null, "command=.quit")
 
 	else
-		alert(src, "Your client will now close, please rejoin the server afterwards")
+		alert(src, "This is a anti-spoofing measure, you will have to rejoin again.\n Ask an admin if you wish to play on more than one computer")
 
 
 		var/DBQuery/query_insert = dbcon.NewQuery("INSERT INTO [format_table_name("spoof_check")] (`id`, `whitelist`, `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3`) VALUES (null,0,'[sql_ckey]','[sql_computerid]',null,null,NOW(),null,null);")
