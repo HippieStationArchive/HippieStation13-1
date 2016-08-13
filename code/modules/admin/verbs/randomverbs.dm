@@ -1146,7 +1146,7 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 		query_check_ckey.Execute()
 
 		if(query_check_ckey.RowCount() != 0)
-			var/DBQuery/query_update_res = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '0', computerid_2 = '0', computerid_3 = '0' WHERE ckey = '[sql_ckey]'")
+			var/DBQuery/query_update_res = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '0', computerid_2 = NULL, computerid_3 = NULL WHERE ckey = '[sql_ckey]'")
 			query_update_res.Execute()
 			log_game("[key_name(src)] reset [sql_ckey] on the watchlist.")
 			message_admins("[key_name(src)] reset [sql_ckey] on the watchlist.")
