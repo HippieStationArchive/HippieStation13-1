@@ -1086,6 +1086,7 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 		if(whitelist== "Cancle")
 			return
 
+		if(whitelist == "Whitelist")
 
 			var/input = ckey(input(src, "Please specify which key will be whitelisted.", "Key", ""))
 			if(!input)
@@ -1147,5 +1148,7 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 		if(query_check_ckey.RowCount() != 0)
 			var/DBQuery/query_update_res = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '0', computerid_2 = '0', computerid_3 = '0' WHERE ckey = '[sql_ckey]'")
 			query_update_res.Execute()
+			log_game("[key_name(src)] reset [sql_ckey] on the watchlist.")
+			message_admins("[key_name(src)] reset [sql_ckey] on the watchlist.")
 		else
 			alert(src, "This ckey does not exist in the DB.")
