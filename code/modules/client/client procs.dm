@@ -480,7 +480,7 @@ client/New()
 							alert(src, "You have used your three computer_id slots. Your first slot will now be changed and you will have to authorize yourself again.")
 							var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
 							query_insert_cid1.Execute()
-							log_game("[sql_ckey] may be using Evasion Tools")
+							//log_game("[sql_ckey] may be using Evasion Tools")
 							winset(src, null, "command=.quit")
 							del(src)
 
