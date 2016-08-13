@@ -38,7 +38,6 @@
 
 				adjustOxyLoss(3)
 				m_type = 2
-
 				delay = 15
 
 		if ("choke","chokes")
