@@ -501,26 +501,14 @@ client/New()
 	else
 		alert(src, "Your client will now close, please rejoin the server afterwards")
 
-		if(check_rights(R_ADMIN))
-			var/DBQuery/query_insert_admin = dbcon.NewQuery("INSERT INTO [format_table_name("spoof_check")] (`id`, `whitelist`, `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3`) VALUES (null,1,'[sql_ckey]','[sql_computerid]',null,null,NOW(),null,null);")
 
-			if(!query_insert_admin.Execute())
-				var/err = query_insert_admin.ErrorMsg()
-				log_game("SQL ERROR while adding a new Client towards spoof_cid. Error : \[[err]\]\n")
-				src << "<span class='warning'>[query_insert_admin.ErrorMsg()]</span>"
+		var/DBQuery/query_insert = dbcon.NewQuery("INSERT INTO [format_table_name("spoof_check")] (`id`, `whitelist`, `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3`) VALUES (null,0,'[sql_ckey]','[sql_computerid]',null,null,NOW(),null,null);")
 
-			else
-				src << "<span class='warning'>Nice</span>"
-				winset(src, null, "command=.quit")
+		if(!query_insert.Execute())
+			var/err = query_insert.ErrorMsg()
+			log_game("SQL ERROR while adding a new Client towards spoof_cid. Error : \[[err]\]\n")
+			src << "<span class='warning'>[query_insert.ErrorMsg()]</span>"
 
 		else
-			var/DBQuery/query_insert = dbcon.NewQuery("INSERT INTO [format_table_name("spoof_check")] (`id`, `whitelist`, `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3`) VALUES (null,0,'[sql_ckey]','[sql_computerid]',null,null,NOW(),null,null);")
-
-			if(!query_insert.Execute())
-				var/err = query_insert.ErrorMsg()
-				log_game("SQL ERROR while adding a new Client towards spoof_cid. Error : \[[err]\]\n")
-				src << "<span class='warning'>[query_insert.ErrorMsg()]</span>"
-
-			else
-				src << "<span class='warning'>Nice</span>"
-				winset(src, null, "command=.quit")
+			src << "<span class='warning'>Nice</span>"
+			winset(src, null, "command=.quit")
