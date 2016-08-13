@@ -38,6 +38,7 @@
 				adjustOxyLoss(3)
 				m_type = 2
 				delay = 15
+
 		if ("choke","chokes")
 			if (miming)
 				message = "<B>[src]</B> clutches \his throat desperately!"
