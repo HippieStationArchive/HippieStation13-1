@@ -1066,3 +1066,86 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 				A.temperature = T20C
 	message_admins("[key_name(src)] filled the hullbreachs in [size] tiles.")
 	log_game("[key_name(src)] filled the hullbreachs in [size] tiles.")
+
+/client/proc/whitelist_cid()
+	set name = "Whitelist-Ckey"
+	set category = "Special Verbs"
+	set desc = "Whitelist Players or delete connected cids"
+
+	if(!holder)
+		return
+
+	var/confirm = alert(src, "Choose:", "Confirm", "Whitelist/De-Whitelist", "Reset", "Cancle")
+
+	if(confirm == "Cancle")
+		return
+
+	if(confirm == "Whitelist/De-Whitelist")
+		var/whitelist = alert(src, "Choose:", "Whitelist", "Whitelist", "De-Whitelist", "Cancle")
+
+		if(whitelist== "Cancle")
+			return
+
+
+			var/input = ckey(input(src, "Please specify which key will be whitelisted.", "Key", ""))
+			if(!input)
+				return
+
+			establish_db_connection()
+			if (!dbcon.IsConnected())
+				return
+
+			var/sql_ckey = sanitizeSQL(input)
+
+			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]'")
+			query_check_ckey.Execute()
+
+			if(query_check_ckey.RowCount() != 0)
+				var/DBQuery/query_update_add = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET whitelist = '1' WHERE ckey = '[sql_ckey]'")
+				query_update_add.Execute()
+				log_game("[key_name(src)] put [sql_ckey] on the whitelist.")
+				message_admins("[key_name(src)] put [sql_ckey] on the whitelist.")
+			else
+				alert(src, "This ckey does not exist in the DB. Maybe the player did not login till now.")
+
+		if(whitelist == "De-Whitelist")
+			var/input = ckey(input(src, "Please specify which key will be de-whitelisted.", "Key", ""))
+			if(!input)
+				return
+
+			establish_db_connection()
+			if (!dbcon.IsConnected())
+				return
+
+			var/sql_ckey = sanitizeSQL(input)
+
+			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '1'")
+			query_check_ckey.Execute()
+
+			if(query_check_ckey.RowCount() != 0)
+				var/DBQuery/query_update_rem = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET whitelist = '0' WHERE ckey = '[sql_ckey]'")
+				query_update_rem.Execute()
+				log_game("[key_name(src)] removed [sql_ckey] from the whitelist.")
+				message_admins("[key_name(src)] removed [sql_ckey] from the whitelist.")
+			else
+				alert(src, "This ckey does not exist in the DB or is not whitelisted.")
+
+	if(confirm == "Reset")
+		var/input = ckey(input(src, "Please specify which key will be reseted", "Key", ""))
+		if(!input)
+			return
+
+		establish_db_connection()
+		if (!dbcon.IsConnected())
+			return
+
+		var/sql_ckey = sanitizeSQL(input)
+
+		var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]'")
+		query_check_ckey.Execute()
+
+		if(query_check_ckey.RowCount() != 0)
+			var/DBQuery/query_update_res = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '0', computerid_2 = '0', computerid_3 = '0' WHERE ckey = '[sql_ckey]'")
+			query_update_res.Execute()
+		else
+			alert(src, "This ckey does not exist in the DB.")
