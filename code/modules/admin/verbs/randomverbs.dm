@@ -1132,7 +1132,7 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 				alert(src, "This ckey does not exist in the DB or is not whitelisted.")
 
 	if(confirm == "Reset")
-		var/input = ckey(input(src, "Please specify which key will be reseted", "Key", ""))
+		var/input = ckey(input(src, "Please specify which key will be reset", "Key", ""))
 		if(!input)
 			return
 

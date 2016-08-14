@@ -475,14 +475,14 @@ client/New()
 						if(query_check_cid3.RowCount() != 0)
 							var/DBQuery/query_insert_cid3 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_3 = '[sql_computerid]', datetime_3 = NOW() WHERE ckey = '[sql_ckey]'")
 							query_insert_cid3.Execute()
-							src << "You have used your third cid slot. This was your last cid slot."
+							src << "You have used your third cid slot. This was your last cid slot. Now your first cid slot will start changing again. Please ask an admin if you want to reset all your slots."
 						else
 							alert(src, "You have used your three computer_id slots. Your first slot will now be changed and you will have to authorize yourself again.")
 							var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
 							query_insert_cid1.Execute()
 							//log_game("[sql_ckey] may be using Evasion Tools")
 							winset(src, null, "command=.quit")
-							del(src)
+
 
 				else
 
@@ -492,14 +492,14 @@ client/New()
 			if(query_check_cid1.RowCount() != 0)
 
 			else
-				alert(src, "Maybe you used a different computer or you changed your id. \n This means that you will have to reauthorize yourself. After clicking ok this window will close and afterwards you can reconnect towards the server.")
+				alert(src, "Maybe you used a different computer or you changed your cid. \n This means that you will have to reauthorize yourself. Like last time your window will close and you will have to rejoin.")
 				var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
 				query_insert_cid1.Execute()
 				log_game("[sql_ckey] may be using Evasion Tools")
 				winset(src, null, "command=.quit")
 
 	else
-		alert(src, "This is a anti-spoofing measure, you will have to rejoin again.\n Ask an admin if you wish to play on more than one computer")
+		alert(src, "This is a anti-spoofing measure, you will have to rejoin again.\n Ask an admin if you wish to play on more than one computer without constantly rejoining.")
 
 
 		var/DBQuery/query_insert = dbcon.NewQuery("INSERT INTO [format_table_name("spoof_check")] (`id`, `whitelist`, `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3`) VALUES (null,0,'[sql_ckey]','[sql_computerid]',null,null,NOW(),null,null);")
