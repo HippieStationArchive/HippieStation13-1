@@ -444,71 +444,79 @@ client/New()
 	var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]'")
 	query_check_ckey.Execute()
 
-	if(query_check_ckey.RowCount() != 0)
+	if(query_check_ckey.RowCount() != 0) //check ckey
 
 		var/DBQuery/query_check_white = dbcon.NewQuery("SELECT whitelist FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '1'")
 		query_check_white.Execute()
 
-		if(query_check_white.RowCount() != 0)
+		if(query_check_white.RowCount() != 0) //Whitelist check
 			var/DBQuery/query_check_whiteextra = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and (computerid_1 = '[sql_computerid]' or computerid_2 = '[sql_computerid]' or computerid_3 = '[sql_computerid]')")
 			query_check_whiteextra.Execute()
 
-			if(query_check_whiteextra.RowCount() != 0)
+			if(query_check_whiteextra.RowCount() != 0)//One of the three slots had the same cid
 
 			else
 				var/DBQuery/query_check_white2 = dbcon.NewQuery("SELECT whitelist FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '1'")
 				query_check_white2.Execute()
 
-				if(query_check_white2.RowCount() != 0)
-					var/DBQuery/query_check_cid2 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_2 IS NULL")
-					query_check_cid2.Execute()
+				if(query_check_white2.RowCount() != 0) // another check.. Well kinda not needed but maybe maybe
+					var/DBQuery/query_check_cid1r = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_1 = 0")
+					query_check_cid1r.Execute()
 
-					if(query_check_cid2.RowCount() != 0)
-						var/DBQuery/query_insert_cid2 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_2 = '[sql_computerid]', datetime_2 = NOW() WHERE ckey = '[sql_ckey]'")
-						query_insert_cid2.Execute()
-						src << "You have used your second cid slot"
+					if(query_check_cid1r.RowCount() != 0) // Check for reset
+						alert(src, "Somebody reset your cid slots.")
+						var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
+						query_insert_cid1.Execute()
 
 					else
-						var/DBQuery/query_check_cid3 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_3 IS NULL")
-						query_check_cid3.Execute()
+						var/DBQuery/query_check_cid2 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_2 IS NULL")
+						query_check_cid2.Execute()
 
-						if(query_check_cid3.RowCount() != 0)
-							var/DBQuery/query_insert_cid3 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_3 = '[sql_computerid]', datetime_3 = NOW() WHERE ckey = '[sql_ckey]'")
-							query_insert_cid3.Execute()
-							src << "You have used your third cid slot. This was your last cid slot. Now your first cid slot will start changing again. Please ask an admin if you want to reset all your slots."
-						else
-							alert(src, "You have used your three computer_id slots. Your first slot will now be changed and you will have to authorize yourself again.")
-							var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
-							query_insert_cid1.Execute()
-							//log_game("[sql_ckey] may be using Evasion Tools")
-							winset(src, null, "command=.quit")
+						if(query_check_cid2.RowCount() != 0) // check if it is NULL, it will only be NULL if it was reset or the person never used the new slot
+							var/DBQuery/query_insert_cid2 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_2 = '[sql_computerid]', datetime_2 = NOW() WHERE ckey = '[sql_ckey]'")
+							query_insert_cid2.Execute()
+							src << "You have used your second cid slot"
+
+						else // check if it is NULL, it will only be NULL if it was reset or the person never used the new slot
+							var/DBQuery/query_check_cid3 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_3 IS NULL")
+							query_check_cid3.Execute()
+
+							if(query_check_cid3.RowCount() != 0)
+								var/DBQuery/query_insert_cid3 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_3 = '[sql_computerid]', datetime_3 = NOW() WHERE ckey = '[sql_ckey]'")
+								query_insert_cid3.Execute()
+								src << "You have used your third cid slot. This was your last cid slot. Now your first cid slot will start changing again. Please ask an admin if you want to reset all your slots."
+							else // Even if you use all slots you will still be able to connect. You will just change your first slot again.
+								alert(src, "You have used your three computer_id slots. Your first slot will now be changed and you will have to authorize yourself again.")
+								var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
+								query_insert_cid1.Execute()
+								//log_game("[sql_ckey] may be using Evasion Tools")
+								winset(src, null, "command=.quit")
 
 
-				else
+				else //Useless but still here
 
 		else
 			var/DBQuery/query_check_cid1 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_1 = '[sql_computerid]'")
 			query_check_cid1.Execute()
 			if(query_check_cid1.RowCount() != 0)
 
-			else
+			else // Cid changed maybe wsock32 maybe a different pc.
 				alert(src, "Maybe you used a different computer or you changed your cid. \n This means that you will have to reauthorize yourself. Like last time your window will close and you will have to rejoin.")
 				var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
 				query_insert_cid1.Execute()
 				log_game("[sql_ckey] may be using Evasion Tools")
 				winset(src, null, "command=.quit")
 
-	else
+	else // ckey does not exist
 		alert(src, "This is a anti-spoofing measure, you will have to rejoin again.\n Ask an admin if you wish to play on more than one computer without constantly rejoining.")
 
 
 		var/DBQuery/query_insert = dbcon.NewQuery("INSERT INTO [format_table_name("spoof_check")] (`id`, `whitelist`, `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3`) VALUES (null,0,'[sql_ckey]','[sql_computerid]',null,null,NOW(),null,null);")
 
-		if(!query_insert.Execute())
+		if(!query_insert.Execute()) //alert if something is going wrong
 			var/err = query_insert.ErrorMsg()
 			log_game("SQL ERROR while adding a new Client towards spoof_cid. Error : \[[err]\]\n")
 			src << "<span class='warning'>[query_insert.ErrorMsg()]</span>"
 
-		else
-			src << "<span class='warning'>Nice</span>"
+		else //everything is okay
 			winset(src, null, "command=.quit")
