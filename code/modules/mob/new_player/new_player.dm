@@ -94,6 +94,10 @@
 		return 1
 
 	if(href_list["ready"])
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return
+
 		if(!ticker || ticker.current_state <= GAME_STATE_PREGAME) // Make sure we don't ready up after the round has started
 			ready = text2num(href_list["ready"])
 		else
@@ -104,6 +108,10 @@
 		new_player_panel()
 
 	if(href_list["observe"])
+
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return 1
 
 		if(alert(src,"Are you sure you wish to observe? You will not be able to play this round!","Player Setup","Yes","No") == "Yes")
 			if(!client)	return 1
@@ -130,6 +138,10 @@
 			return 1
 
 	if(href_list["late_join"])
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return 1
+
 		if(!ticker || ticker.current_state != GAME_STATE_PLAYING)
 			usr << "<span class='danger'>The round is either not ready, or has already finished...</span>"
 			return

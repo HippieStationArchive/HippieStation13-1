@@ -1102,10 +1102,18 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 			query_check_ckey.Execute()
 
 			if(query_check_ckey.RowCount() != 0)
-				var/DBQuery/query_update_add = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET whitelist = '1' WHERE ckey = '[sql_ckey]'")
-				query_update_add.Execute()
-				log_game("[key_name(src)] put [sql_ckey] on the whitelist.")
-				message_admins("[key_name(src)] put [sql_ckey] on the whitelist.")
+				var/DBQuery/query_check_ckeyw = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '0'")
+				query_check_ckeyw.Execute()
+
+				if(query_check_ckeyw.RowCount() != 0)
+
+					var/DBQuery/query_update_add = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET whitelist = '1' WHERE ckey = '[sql_ckey]'")
+					query_update_add.Execute()
+					log_game("[key_name(src)] put [sql_ckey] on the whitelist.")
+					message_admins("[key_name(src)] put [sql_ckey] on the whitelist.")
+
+				else
+					alert(src, "This ckey is already whitelisted.")
 			else
 				alert(src, "This ckey does not exist in the DB. Maybe the player did not login till now.")
 
@@ -1146,9 +1154,11 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 		query_check_ckey.Execute()
 
 		if(query_check_ckey.RowCount() != 0)
+
 			var/DBQuery/query_update_res = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '0', computerid_2 = NULL, computerid_3 = NULL WHERE ckey = '[sql_ckey]'")
 			query_update_res.Execute()
 			log_game("[key_name(src)] reset [sql_ckey] on the watchlist.")
 			message_admins("[key_name(src)] reset [sql_ckey] on the watchlist.")
+
 		else
 			alert(src, "This ckey does not exist in the DB.")
