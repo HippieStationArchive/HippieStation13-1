@@ -1071,7 +1071,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/engineering/fullsmes/update_explanation_text()
 	..()
-	explanation_text = "Get the station's SMESes to a complessive charge of [powerrequired] millions of Watts. Keep in mind that each SMES can hold 3,3 millions of Watts."
+	explanation_text = "Get the station's SMESes to a complessive charge of [powerrequired] millions of Watts. Keep in mind that each SMES can hold 3.3 millions of Watts."
 
 //------ Both engines on
 /datum/objective/crew/engineering/engines
