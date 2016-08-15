@@ -481,6 +481,7 @@ var/list/datum/objective/crew/trackedcrewobjs = list()
 	for(var/A in departments)
 		if(departments[A] == dept)
 			objs = typesof(A) - A
+			break
 	objs -= blacklist
 	for(var/B in objs)
 		var/datum/objective/crew/C = B
