@@ -1223,13 +1223,13 @@
 					 //10
 					 list("key"=/obj/item/bluespace_crystal,
 					 		"backkey"=/obj/item/weapon/screwdriver,
-					 		"desc"="Super capacitor is secured."),
+					 		"desc"="Quadratic capacitor is secured."),
 					 //12
 					 list("key"=/obj/item/weapon/screwdriver,
 					 		"backkey"=/obj/item/weapon/crowbar,
-					 		"desc"="Super capacitor is installed."),
+					 		"desc"="Quadratic capacitor is installed."),
 					 //12
-					 list("key"=/obj/item/weapon/stock_parts/capacitor,
+					 list("key"=/obj/item/weapon/stock_parts/capacitor/quadratic,
 					 		"backkey"=/obj/item/weapon/screwdriver,
 					 		"desc"="Phasic scanner module is secured."),
 					 //13
@@ -1237,7 +1237,7 @@
 					 		"backkey"=/obj/item/weapon/crowbar,
 					 		"desc"="Phasic scanner module is installed."),
 					 //14
-					 list("key"=/obj/item/weapon/stock_parts/scanning_module,
+					 list("key"=/obj/item/weapon/stock_parts/scanning_module/phasic,
 					 		"backkey"=/obj/item/weapon/screwdriver,
 					 		"desc"="Weapon control module is secured."),
 					 //15
