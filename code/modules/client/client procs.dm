@@ -460,7 +460,7 @@ client/New()
 				query_check_white2.Execute()
 
 				if(query_check_white2.RowCount() != 0) // another check.. Well kinda not needed but maybe maybe
-					var/DBQuery/query_check_cid1r = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_1 = 0")
+					var/DBQuery/query_check_cid1r = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_1 = '0'")
 					query_check_cid1r.Execute()
 
 					if(query_check_cid1r.RowCount() != 0) // Check for reset
