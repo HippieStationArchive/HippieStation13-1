@@ -1075,15 +1075,15 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 	if(!holder)
 		return
 
-	var/confirm = alert(src, "Choose:", "Confirm", "Whitelist/De-Whitelist", "Reset", "Cancle")
+	var/confirm = alert(src, "Choose:", "Confirm", "Whitelist/De-Whitelist", "Reset", "Cancel")
 
-	if(confirm == "Cancle")
+	if(confirm == "Cancel")
 		return
 
 	if(confirm == "Whitelist/De-Whitelist")
-		var/whitelist = alert(src, "Choose:", "Whitelist", "Whitelist", "De-Whitelist", "Cancle")
+		var/whitelist = alert(src, "Choose:", "Whitelist", "Whitelist", "De-Whitelist", "Cancel")
 
-		if(whitelist== "Cancle")
+		if(whitelist== "Cancel")
 			return
 
 		if(whitelist == "Whitelist")
