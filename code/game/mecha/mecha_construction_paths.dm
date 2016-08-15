@@ -1221,7 +1221,7 @@
 					 		"backkey"=/obj/item/weapon/crowbar,
 					 		"desc"="The bluespace crystal is installed."),
 					 //10
-					 list("key"=/obj/item/bluespace_crystal,
+					 list("key"=/obj/item/bluespace_crystal && "key"!=/obj/item/bluespace_crystal/artificial,
 					 		"backkey"=/obj/item/weapon/screwdriver,
 					 		"desc"="Quadratic capacitor is secured."),
 					 //12
