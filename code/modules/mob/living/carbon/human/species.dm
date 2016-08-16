@@ -797,7 +797,7 @@
 						if(20 to 40)			H.healths.icon_state = "health4"
 						if(0 to 20)				H.healths.icon_state = "health5"
 						else					H.healths.icon_state = "health6"
-	
+
 
 
 	if(H.staminas)
@@ -1042,7 +1042,6 @@
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
-				add_logs(M, H, "punched")
 				if((H.stat != DEAD) && hitcheck >= 9)
 					H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
 									"<span class='userdanger'>[M] has weakened [H]!</span>")
@@ -1055,6 +1054,7 @@
 					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((hitcheck*2)/100))))
 						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
 										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
+				add_logs(M, H, "punched")
 		if("disarm")
 			if(attacker_style && attacker_style.disarm_act(M,H))
 				return 1
@@ -1211,7 +1211,7 @@
 	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
 	var/dmgcheck = apply_damage((1-I.stamina_percentage)*I.force, I.damtype, affecting, armor_block, H)
 	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, STAMINA, affecting, armor_block, H)
-	
+
 	if(!dmgcheck && !staminadmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")
