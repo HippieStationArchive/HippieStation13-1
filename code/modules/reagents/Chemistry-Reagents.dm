@@ -92,7 +92,7 @@
 	return
 
 /datum/reagent/proc/overdose_start(mob/living/M)
-	M << "<span class='userdanger'>Some [lowertext(name)] would hit the spot.</span>"
+	M << "<span class='userdanger'>You feel like you took too much of [name]!</span>"
 	return
 
 /datum/reagent/proc/addiction_act_stage1(mob/living/M)
