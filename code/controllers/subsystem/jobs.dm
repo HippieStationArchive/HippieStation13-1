@@ -372,12 +372,7 @@ var/list/datum/objective/crew/trackedcrewobjs = list()
 
 	if(H.mind)
 		H.mind.assigned_role = rank
-		if(forge_job_objectives(H.mind, rank))
-			H << "<b>Nanotrasen has given you the following tasks, they will be checked when the shift ends:</b>"
-			var/obj_count = 1
-			for(var/datum/objective/objective in H.mind.objectives)
-				H << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
-				obj_count++
+		forge_job_objectives(H.mind, rank)
 
 
 	H.update_hud() 	// Tmp fix for Github issue 1006. TODO: make all procs in update_icons.dm do client.screen |= equipment no matter what.
@@ -516,3 +511,10 @@ var/list/datum/objective/crew/trackedcrewobjs = list()
 			noobjyet = FALSE
 			. = 0
 	while(noobjyet)
+	if(!.)
+		return
+	M.current << "<b>Nanotrasen has given you the following tasks, they will be checked when the shift ends:</b>"
+	var/obj_count = 1
+	for(var/datum/objective/objective in M.objectives)
+		M.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
+		obj_count++
