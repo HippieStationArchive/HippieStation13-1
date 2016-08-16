@@ -1,0 +1,7 @@
+author: Carbonhell
+delete-after: True
+changes: 
+  - bugfix: "Fixes the chemicals' addiction messages."
+  - bugfix: "Fixes masks overlays staying after an human has been decapitated."
+  - bugfix: "Fixes certain antag types still getting crew objectives."
+  - rscdel: "ERT engineers no longer spawn with a medkit in their hands."
