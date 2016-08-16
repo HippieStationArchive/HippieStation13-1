@@ -1367,7 +1367,8 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	..()
 	explanation_text = "Have the following symptoms anywhere inside your Virology Smartfridge:"
 	for(var/i in 1 to requiredsymptoms.len)
-		explanation_text += " [requiredsymptoms[requiredsymptoms[i]]]"
+		var/datum/symptom/symppath = requiredsymptoms[i]
+		explanation_text += " [initial(symppath.name)]"
 		if(i != requiredsymptoms.len)
 			explanation_text += ", "
 
