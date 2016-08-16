@@ -11,6 +11,7 @@
 			<A href='?src=\ref[src];secrets=admin_log'>Admin Log</A><BR>
 			<A href='?src=\ref[src];secrets=mentor_log'>Mentor Log</A><BR>
 			<A href='?src=\ref[src];secrets=show_admins'>Show Admin List</A><BR>
+			<A href='?src=\ref[src];secrets=show_whitelist'>Show CID Whitelist</A><BR>
 			<BR>
 			"}
 
@@ -144,6 +145,18 @@
 				for(var/ckey in admin_datums)
 					var/datum/admins/D = admin_datums[ckey]
 					dat += "[ckey] - [D.rank.name]<br>"
+				usr << browse(dat, "window=showadmins;size=600x500")
+
+		if("show_whitelist")
+			var/dat = "<B>Current ckeys that are whitelisted:</B><HR>"
+			establish_db_connection()
+			if (!dbcon.IsConnected())
+				return
+
+			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3` FROM [format_table_name("spoof_check")] WHERE whitelist = '1'")
+			if(query_check_ckey.Execute())
+				while(query_check_ckey.NextRow())
+					dat += "ckey:&ensp;[query_check_ckey.item[1]]<br>&emsp;cid_1:&ensp;[query_check_ckey.item[2]]&emsp;date:&ensp;[query_check_ckey.item[5]]<br>&emsp;cid_2:&ensp;[query_check_ckey.item[3]]&emsp;date:&ensp;[query_check_ckey.item[6]]<br>&emsp;cid_3:&ensp;[query_check_ckey.item[4]]&emsp;date:&ensp;[query_check_ckey.item[7]]<br>"
 				usr << browse(dat, "window=showadmins;size=600x500")
 
 		if("tdomereset")
