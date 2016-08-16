@@ -67,6 +67,7 @@
 		antag_candidates += trotsky
 		head_revolutionaries -= trotsky
 		update_rev_icons_removed(trotsky)
+		trotsky.special_role = ""
 		SSjob.forge_job_objectives(trotsky, trotsky.assigned_role)//kinda snowflakey in my opinion,but it works
 
 	for(var/datum/mind/rev_mind in head_revolutionaries)
