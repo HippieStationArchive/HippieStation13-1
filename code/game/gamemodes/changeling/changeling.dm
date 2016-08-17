@@ -76,6 +76,7 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 				if(age_check(character.client))
 					if(!(character.job in restricted_jobs))
 						character.mind.make_Changling()
+						return 1
 
 /datum/game_mode/proc/forge_changeling_objectives(datum/mind/changeling)
 	//OBJECTIVES - random traitor objectives. Unique objectives "steal brain" and "identity theft".

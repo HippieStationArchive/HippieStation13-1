@@ -623,7 +623,7 @@
 	else
 		var/obj_count = 1
 		for(var/datum/objective/objective in objectives)
-			out += "<B>[obj_count]</B>: [objective.explanation_text] <a href='?src=\ref[src];obj_edit=\ref[objective]'>Edit</a> <a href='?src=\ref[src];obj_delete=\ref[objective]'>Delete</a> <a href='?src=\ref[src];obj_completed=\ref[objective]'><font color=[objective.completed ? "green" : "red"]>Toggle Completion</font></a><br>"
+			out += "<B>[obj_count]</B>: [objective.explanation_text] <a href='?src=\ref[src];obj_delete=\ref[objective]'>Delete</a> <a href='?src=\ref[src];obj_completed=\ref[objective]'><font color=[objective.completed ? "green" : "red"]>Toggle Completion</font></a><br>"
 			obj_count++
 	out += "<a href='?src=\ref[src];obj_add=1'>Add objective</a><br><br>"
 
@@ -644,154 +644,33 @@
 		if (isnull(new_memo)) return
 		memory = new_memo
 
-	else if (href_list["obj_edit"] || href_list["obj_add"])
+	else if (href_list["obj_add"])
 		var/datum/objective/objective
-		var/objective_pos
-		var/def_value
 
-		if (href_list["obj_edit"])
-			objective = locate(href_list["obj_edit"])
-			if (!objective) return
-			objective_pos = objectives.Find(objective)
+		var/list/blacklist = list(/datum/objective, /datum/objective/crew, /datum/objective/changeling_team_objective)
+		for(var/i in departments)
+			blacklist += i
+		var/datum/objective/new_objective
+		var/list/possibleobjs = (typesof(/datum/objective) - blacklist) + "custom"
+		var/new_obj_type = input("Select objective type:", "Objective type") as null|anything in possibleobjs
+		if(!new_obj_type) return
 
-			//Text strings are easy to manipulate. Revised for simplicity.
-			var/temp_obj_type = "[objective.type]"//Convert path into a text string.
-			def_value = copytext(temp_obj_type, 19)//Convert last part of path into an objective keyword.
-			if(!def_value)//If it's a custom objective, it will be an empty string.
-				def_value = "custom"
+		if(new_obj_type != "custom")
+			new_objective = new new_obj_type(themind = src)
+			new_objective.select_target()
+			new_objective.update_explanation_text()
+		else
+			var/expl = stripped_input(usr, "Custom objective:", "Objective", objective ? objective.explanation_text : "")
+			if (!expl) return
+			new_objective = new /datum/objective(text = expl, themind = src)
 
-		var/new_obj_type = input("Select objective type:", "Objective type", def_value) as null|anything in list("assassinate", "maroon", "debrain", "protect", "destroy", "prevent", "hijack", "escape", "survive", "martyr", "steal", "download", "nuclear", "capture", "absorb","follower block (HOG)","build (HOG)","deicide (HOG)", "follower escape (HOG)", "sacrifice prophet (HOG)", "custom")
-		if (!new_obj_type) return
+		if(!new_objective) return
 
-		var/datum/objective/new_objective = null
-
-		switch (new_obj_type)
-			if ("assassinate","protect","debrain","maroon")
-				var/list/possible_targets = list("Free objective")
-				for(var/datum/mind/possible_target in ticker.minds)
-					if ((possible_target != src) && istype(possible_target.current, /mob/living/carbon/human))
-						possible_targets += possible_target.current
-
-				var/mob/def_target = null
-				var/objective_list[] = list(/datum/objective/assassinate, /datum/objective/protect, /datum/objective/debrain, /datum/objective/maroon)
-				if (objective&&(objective.type in objective_list) && objective:target)
-					def_target = objective:target.current
-
-				var/new_target = input("Select target:", "Objective target", def_target) as null|anything in possible_targets
-				if (!new_target) return
-
-				var/objective_path = text2path("/datum/objective/[new_obj_type]")
-				if (new_target == "Free objective")
-					new_objective = new objective_path
-					new_objective.owner = src
-					new_objective:target = null
-					new_objective.explanation_text = "Free objective"
-				else
-					new_objective = new objective_path
-					new_objective.owner = src
-					new_objective:target = new_target:mind
-					//Will display as special role if the target is set as MODE. Ninjas/commandos/nuke ops.
-					new_objective.update_explanation_text()
-
-			if ("destroy")
-				var/list/possible_targets = active_ais(1)
-				if(possible_targets.len)
-					var/mob/new_target = input("Select target:", "Objective target") as null|anything in possible_targets
-					new_objective = new /datum/objective/destroy
-					new_objective.target = new_target.mind
-					new_objective.owner = src
-					new_objective.update_explanation_text()
-				else
-					usr << "No active AIs with minds"
-
-			if ("prevent")
-				new_objective = new /datum/objective/block
-				new_objective.owner = src
-
-			if ("hijack")
-				new_objective = new /datum/objective/hijack
-				new_objective.owner = src
-
-			if ("escape")
-				new_objective = new /datum/objective/escape
-				new_objective.owner = src
-
-			if ("survive")
-				new_objective = new /datum/objective/survive
-				new_objective.owner = src
-
-			if("martyr")
-				new_objective = new /datum/objective/martyr
-				new_objective.owner = src
-
-			if ("nuclear")
-				new_objective = new /datum/objective/nuclear
-				new_objective.owner = src
-
-			if ("steal")
-				if (!istype(objective, /datum/objective/steal))
-					new_objective = new /datum/objective/steal
-					new_objective.owner = src
-				else
-					new_objective = objective
-				var/datum/objective/steal/steal = new_objective
-				if (!steal.select_target())
-					return
-
-			if("download","capture","absorb")
-				var/def_num
-				if(objective&&objective.type==text2path("/datum/objective/[new_obj_type]"))
-					def_num = objective.target_amount
-
-				var/target_number = input("Input target number:", "Objective", def_num) as num|null
-				if (isnull(target_number))//Ordinarily, you wouldn't need isnull. In this case, the value may already exist.
-					return
-
-				switch(new_obj_type)
-					if("download")
-						new_objective = new /datum/objective/download
-						new_objective.explanation_text = "Download [target_number] research levels."
-					if("capture")
-						new_objective = new /datum/objective/capture
-						new_objective.explanation_text = "Capture [target_number] lifeforms with an energy net. Live, rare specimens are worth more."
-					if("absorb")
-						new_objective = new /datum/objective/absorb
-						new_objective.explanation_text = "Absorb [target_number] compatible genomes."
-				new_objective.owner = src
-				new_objective.target_amount = target_number
-
-			if("follower block (HOG)")
-				new_objective = new /datum/objective/follower_block
-				new_objective.owner = src
-			if("build (HOG)")
-				new_objective = new /datum/objective/build
-				new_objective.owner = src
-			if("deicide (HOG)")
-				new_objective = new /datum/objective/deicide
-				new_objective.owner = src
-			if("follower escape (HOG)")
-				new_objective = new /datum/objective/escape_followers
-				new_objective.owner = src
-			if("sacrifice prophet (HOG)")
-				new_objective = new /datum/objective/sacrifice_prophet
-				new_objective.owner = src
-
-			if ("custom")
-				var/expl = stripped_input(usr, "Custom objective:", "Objective", objective ? objective.explanation_text : "")
-				if (!expl) return
-				new_objective = new /datum/objective
-				new_objective.owner = src
-				new_objective.explanation_text = expl
-
-		if (!new_objective) return
-
-		if (objective)
+		if(objective)
 			objectives -= objective
-			objectives.Insert(objective_pos, new_objective)
 			message_admins("[key_name_admin(usr)] edited [current]'s objective to [new_objective.explanation_text]")
 			log_admin("[key_name(usr)] edited [current]'s objective to [new_objective.explanation_text]")
 		else
-			objectives += new_objective
 			message_admins("[key_name_admin(usr)] added a new objective for [current]: [new_objective.explanation_text]")
 			log_admin("[key_name(usr)] added a new objective for [current]: [new_objective.explanation_text]")
 

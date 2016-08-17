@@ -7,13 +7,21 @@
 	var/dangerrating = 0				//How hard the objective is, essentially. Used for dishing out objectives and checking overall victory.
 	var/martyr_compatible = 0			//If the objective is compatible with martyr objective, i.e. if you can still do it while dead.
 
-/datum/objective/New(var/text, datum/mind/themind)
+/datum/objective/New(datum/mind/target, text, datum/mind/themind)
 	..()
+	if(target)
+		src.target = target
 	if(text)
 		explanation_text = text
 	if(themind)
 		owner = themind
 		owner.objectives += src
+
+/datum/objective/proc/select_target()//for adminobjadd
+	var/datum/mind/targ = input("Select a target if needed, otherwise hit cancel:", "Objective target") as null|anything in ticker.minds
+	if(targ)
+		target = targ
+	return
 
 /datum/objective/proc/requirements() //proc used for requirements,incase the objective can only exist if something else does.
 	return 1
@@ -96,6 +104,17 @@
 /datum/objective/mutiny
 	var/target_role_type=0
 	martyr_compatible = 1
+	var/static/list/heads = list()
+
+/datum/objective/mutiny/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	if(!heads.len)
+		heads = ticker.mode.get_living_heads()
+
+/datum/objective/mutiny/select_target()
+	var/datum/mind/targ = input("Select a target if needed, otherwise hit cancel:", "Objective target") as null|anything in heads
+	if(targ)
+		target = targ
 
 /datum/objective/mutiny/find_target_by_role(role, role_type=0,invert=0)
 	if(!invert)
@@ -402,7 +421,7 @@ var/global/list/possible_items = list()
 /datum/objective/steal/get_target()
 	return steal_target
 
-/datum/objective/steal/New()
+/datum/objective/steal/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	if(!possible_items.len)//Only need to fill the list when it's needed.
 		init_subtypes(/datum/objective_item/steal,possible_items)
@@ -427,33 +446,47 @@ var/global/list/possible_items = list()
 		explanation_text = "Free objective"
 		return
 
-/datum/objective/steal/proc/select_target() //For admins setting objectives manually.
-	var/list/possible_items_all = possible_items+"custom"
+/datum/objective/steal/select_target() //For admins setting objectives manually.
+	var/list/possible_items_all = possible_items + "custom"
 	var/new_target = input("Select target:", "Objective target", steal_target) as null|anything in possible_items_all
-	if (!new_target) return
+	if(!new_target) return
 
-	if (new_target == "custom") //Can set custom items.
-		var/obj/item/custom_target = input("Select type:","Type") as null|anything in typesof(/obj/item)
+	if(new_target == "custom") //Can set custom items.
+		var/custom_target = input(usr, "Specify the obj type or write 'marked' if you have marked the target object:", "Choose a target") as text|null
 		if (!custom_target) return
-		var/tmp_obj = new custom_target
-		var/custom_name = tmp_obj:name
-		qdel(tmp_obj)
-		custom_name = stripped_input("Enter target name:", "Objective target", custom_name)
-		if (!custom_name) return
-		steal_target = custom_target
-		explanation_text = "Steal [custom_name]."
+		if(custom_target == "marked")
+			if(usr.client)
+				var/client/C = usr.client
+				if(C.holder.marked_datum && istype(C.holder.marked_datum, /obj/item))
+					steal_target = C.holder.marked_datum
+		else if(text2path(custom_target))
+			var/path = text2path(custom_target)
+			if(ispath(path, /obj/item))
+				steal_target = path
+		var/custom_name = ""
+		if(!steal_target)
+			return
+		if(ispath(steal_target))
+			custom_name = initial(steal_target.name)
+		else
+			custom_name = steal_target.name
+		explanation_text = "Steal[ispath(steal_target) ? " \a [custom_name]" : " the [custom_name]"]."
 
 	else
 		set_target(new_target)
 	return steal_target
 
 /datum/objective/steal/check_completion()
-	if(!steal_target)	return 1
+	if(!steal_target)	return 0
 	if(!isliving(owner.current))	return 0
 	var/list/all_items = owner.current.GetAllContents()	//this should get things in cheesewheels, books, etc.
 
 	for(var/obj/I in all_items) //Check for items
-		if(istype(I, steal_target))
+		if(!ispath(steal_target))//if steal target's a marked item
+			var/obj/item/targ = steal_target
+			if(istype(I, targ.type))
+				return 1
+		if(istype(I, steal_target))//otherwise it's a path
 			if(targetinfo && targetinfo.check_special_completion(I))//Returns 1 by default. Items with special checks will return 1 if the conditions are fulfilled.
 				return 1
 			else //If there's no targetinfo, then that means it was a custom objective. At this point, we know you have the item, so return 1.
@@ -483,7 +516,7 @@ var/global/list/possible_items = list()
 var/global/list/possible_items_special = list()
 /datum/objective/steal/special //ninjas are so special they get their own subtype good for them
 
-/datum/objective/steal/special/New()
+/datum/objective/steal/special/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	if(!possible_items_special.len)
 		init_subtypes(/datum/objective_item/special,possible_items)
@@ -497,6 +530,12 @@ var/global/list/possible_items_special = list()
 /datum/objective/steal/exchange
 	dangerrating = 10
 	martyr_compatible = 0
+
+/datum/objective/steal/exchange/select_target()
+	var/fact = input(usr, "What faction should this guy be?", "Faction selecting") as anything in list("red", "blue")
+	var/targ = input(usr, "Who shall the target be?", "Target selecting") as null|anything in ticker.minds
+	set_faction(fact, targ)
+	return
 
 /datum/objective/steal/exchange/proc/set_faction(faction,otheragent)
 	target = otheragent
@@ -535,6 +574,8 @@ var/global/list/possible_items_special = list()
 	steal_target = /obj/item/weapon/disk/nuclear
 	explanation_text = "Survive the round with the Nuclear Authentication Disk in your possession, or escape with more telecrystals than any other traitor. Holding the disk grants you one additional telecrystal per minute. Be warned, other traitors are also after the disk."
 
+/datum/objective/steal/disk/select_target()
+	return
 
 /datum/objective/steal/disk/check_completion()
 	var/obj/item/device/uplink/O = owner.find_syndicate_uplink()
@@ -563,6 +604,9 @@ var/global/list/possible_items_special = list()
 
 /datum/objective/download
 	dangerrating = 10
+
+/datum/objective/download/select_target()
+	return gen_amount_goal()
 
 /datum/objective/download/proc/gen_amount_goal()
 	target_amount = rand(10,20)
@@ -599,6 +643,9 @@ var/global/list/possible_items_special = list()
 
 /datum/objective/capture
 	dangerrating = 10
+
+/datum/objective/capture/select_target()
+	return gen_amount_goal()
 
 /datum/objective/capture/proc/gen_amount_goal()
 		target_amount = rand(5,10)
@@ -640,6 +687,9 @@ var/global/list/possible_items_special = list()
 /datum/objective/absorb
 	dangerrating = 10
 
+/datum/objective/absorb/select_target()
+	return gen_amount_goal()
+
 /datum/objective/absorb/proc/gen_amount_goal(lowbound = 4, highbound = 6)
 	target_amount = rand (lowbound,highbound)
 	if (ticker)
@@ -669,6 +719,9 @@ var/global/list/possible_items_special = list()
 	dangerrating = 10
 	martyr_compatible = 1
 
+/datum/objective/destroy/select_target()
+	return find_target()
+
 /datum/objective/destroy/find_target()
 	var/list/possible_targets = active_ais(1)
 	var/mob/living/silicon/ai/target_ai = pick(possible_targets)
@@ -692,6 +745,9 @@ var/global/list/possible_items_special = list()
 
 /datum/objective/summon_guns
 	explanation_text = "Steal at least five guns!"
+
+/datum/objective/summon_guns/select_target()
+	return
 
 /datum/objective/summon_guns/check_completion()
 	if(!isliving(owner.current))	return 0
@@ -795,7 +851,7 @@ var/global/list/possible_items_special = list()
 		return
 
 
-/datum/objective/changeling_team_objective/impersonate_department/New(var/text)
+/datum/objective/changeling_team_objective/impersonate_department/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	if(command_staff_only)
 		get_heads()
@@ -891,7 +947,10 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/mytag
 	var/jobs = "" //for objectives restricted to a job(ie research level to scientist, roboticists don't deal with that)(MUST BE A TEXT STRING,initial doesn't work on lists.
 
-/datum/objective/crew/New(text, themind)
+/datum/objective/crew/select_target()
+	return
+
+/datum/objective/crew/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	update_explanation_text()
 	if(tracked)
@@ -917,7 +976,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/datum/tech/tech
 	var/wantedlevel
 
-/datum/objective/crew/research/level/New(text, themind)
+/datum/objective/crew/research/level/New(datum/mind/target, text, datum/mind/themind)
 	tech = pick(typesof(/datum/tech) - /datum/tech)
 	wantedlevel = rand(3,6)
 	..()
@@ -942,7 +1001,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Research Director#Scientist"
 	var/colorneeded
 
-/datum/objective/crew/research/getslime/New(text, themind)
+/datum/objective/crew/research/getslime/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	colorneeded = pick("gold", "adamantine", "pink", "oil", "black")
 
@@ -978,7 +1037,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/obj/machinery/bot/bottype
 	var/amt = 0
 
-/datum/objective/crew/research/bots/New(text, themind)
+/datum/objective/crew/research/bots/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	bottype = pick(typesof(/obj/machinery/bot) - /obj/machinery/bot/mulebot)
 	amt = rand(2,4)
@@ -1003,7 +1062,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Research Director#Roboticist"
 	var/amt = 0
 
-/datum/objective/crew/research/drones/New(text, themind)
+/datum/objective/crew/research/drones/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	amt = rand(10,15)
 
@@ -1026,7 +1085,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Research Director#Roboticist"
 	var/amt
 
-/datum/objective/crew/research/borgs/New(text, themind)
+/datum/objective/crew/research/borgs/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	amt = rand(2,3)
 
@@ -1053,7 +1112,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Chief Engineer#Station Engineer"
 	var/powerrequired = 0
 
-/datum/objective/crew/engineering/fullsmes/New(text, themind)
+/datum/objective/crew/engineering/fullsmes/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	powerrequired = rand(7,12)
 
@@ -1117,7 +1176,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Chief Engineer#Atmospheric Technician"
 	var/obj/machinery/computer/station_alert/alert
 
-/datum/objective/crew/engineering/nofire/New(text, themind)
+/datum/objective/crew/engineering/nofire/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	alert = new()
 
@@ -1136,7 +1195,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Chief Engineer#Atmospheric Technician"
 	var/obj/machinery/computer/atmos_alert/check // used for its alert list,
 
-/datum/objective/crew/engineering/airalarm/New(text, themind)
+/datum/objective/crew/engineering/airalarm/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	check = new()
 
@@ -1181,7 +1240,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Chief Medical Officer#Medical Doctor"
 	var/percneeded = 0
 
-/datum/objective/crew/medical/survivor/New(text, themind)
+/datum/objective/crew/medical/survivor/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	percneeded = rand(6,9)
 
@@ -1205,7 +1264,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Chief Medical Officer#Medical Doctor"
 	var/peepsneeded = 0
 
-/datum/objective/crew/medical/defib/New(text, themind)
+/datum/objective/crew/medical/defib/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	peepsneeded = rand(1,3)
 
@@ -1231,7 +1290,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Chief Medical Officer#Geneticist"
 	var/superpower
 
-/datum/objective/crew/medical/power/New(text, themind)
+/datum/objective/crew/medical/power/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	superpower = pick(HULK, XRAY, COLDRES, TK)
 
@@ -1252,7 +1311,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Chief Medical Officer#Medical Doctor#Geneticist"
 	var/peepstoclone = 0
 
-/datum/objective/crew/medical/clone/New(text, themind)
+/datum/objective/crew/medical/clone/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	peepstoclone = rand(2,5)
 
@@ -1274,7 +1333,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/chemid = ""
 	var/chemname = ""
 
-/datum/objective/crew/medical/makechem/New(text, themind)
+/datum/objective/crew/medical/makechem/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	amount = rand(10,20) * 100
 	var/list/blacklist = list(/datum/reagent/medicine, /datum/reagent/medicine/mine_salve, /datum/reagent/medicine/omnizine, /datum/reagent/medicine/stimulants, /datum/reagent/medicine/antitoxin, /datum/reagent/medicine/syndicate_nanites, /datum/reagent/medicine/dexalin) + typesof(/datum/reagent/medicine/adminordrazine)
@@ -1317,10 +1376,10 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/chemid
 	var/datum/reagent/chempath
 
-/datum/objective/crew/medical/havechem/New(text, themind)
+/datum/objective/crew/medical/havechem/New(datum/mind/target, text, datum/mind/themind)
 	..()
-	var/list/blacklist = list(/datum/reagent/drug/fartium, /datum/reagent/drug/changelingAdrenaline, /datum/reagent/drug/changelingAdrenaline2)
-	chempath = pick(typesof(/datum/reagent/drug) - /datum/reagent/drug) - blacklist
+	var/list/blacklist = list(/datum/reagent/drug, /datum/reagent/drug/fartium, /datum/reagent/drug/changelingAdrenaline, /datum/reagent/drug/changelingAdrenaline2)
+	chempath = pick(typesof(/datum/reagent/drug) - blacklist)
 	chemid = initial(chempath.id)
 
 /datum/objective/crew/medical/havechem/check_completion()
@@ -1341,7 +1400,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/list/mergedcontents = list()
 	var/list/requiredsymptoms = list()
 
-/datum/objective/crew/medical/fridgesymp/New(text, themind)
+/datum/objective/crew/medical/fridgesymp/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	var/list/possiblesymptoms = typesof(/datum/symptom) - /datum/symptom
 	for(var/i in 1 to rand(3,5))
@@ -1386,7 +1445,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/ionrifle = 0
 	var/ablative = 0
 
-/datum/objective/crew/security/gunsinarmory/New(text, themind)
+/datum/objective/crew/security/gunsinarmory/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	egunamt = rand(1,3)
 	laseramt = rand(1,3)
@@ -1447,7 +1506,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/security/gunsinarmory/update_explanation_text()
 	..()
-	explanation_text = "Have [egunamt] energy guns, [laseramt] laser guns[(ionrifle || ablative) ? "," : " and"] [shotgunamt] riot shotguns[ablative ? "," : " and"] [ionrifle ? "an ion rifle" : ""][ablative ? "and an ablative armor vest" : ""] in the armory when the shift ends."
+	explanation_text = "Have [egunamt] energy guns, [laseramt] laser guns[(ionrifle || ablative) ? "," : " and"] [shotgunamt] riot shotguns[ablative ? "," : " and"] [ionrifle ? "an ion rifle" : ""][ablative ? " and an ablative armor vest" : ""] in the armory when the shift ends."
 
 //------ Get an arrested antag to centcom
 /datum/objective/crew/security/arrestantag
@@ -1540,7 +1599,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 /datum/objective/crew/supply/points
 	var/points = 0
 
-/datum/objective/crew/supply/points/New(text, themind)
+/datum/objective/crew/supply/points/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	points = rand(1000,2000)
 
@@ -1558,7 +1617,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Shaft Miner"
 	var/points = 0
 
-/datum/objective/crew/supply/miningpoints/New(text, themind)
+/datum/objective/crew/supply/miningpoints/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	points = rand(10000,15000)
 
@@ -1579,7 +1638,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/obj/item/weapon/ore/oretype
 	var/oreamt = 0
 
-/datum/objective/crew/supply/mineore/New(text, themind)
+/datum/objective/crew/supply/mineore/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	var/divider = 1
 	var/list/oretypes = list(/obj/item/weapon/ore/uranium = 2, /obj/item/weapon/ore/diamond = 4, /obj/item/weapon/ore/gold = 3, /obj/item/weapon/ore/silver = 3, /obj/item/weapon/ore/plasma = 1)
@@ -1651,7 +1710,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/drinkname
 	var/datum/reagent/drink
 
-/datum/objective/crew/service/bartender/New(text, themind)
+/datum/objective/crew/service/bartender/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	amt = rand(50,100)
 	var/datum/chemical_reaction/drinkpath = pick(typesof(/datum/chemical_reaction/drink) - /datum/chemical_reaction/drink)
@@ -1679,7 +1738,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/amt = 0
 	var/list/plants = list()
 
-/datum/objective/crew/service/collectplants/New(text, themind)
+/datum/objective/crew/service/collectplants/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	amt = rand(70,100)
 	var/loop = rand(3,5)
@@ -1720,7 +1779,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Janitor"
 	var/list/areas = list()
 
-/datum/objective/crew/service/clean/New(text, themind)
+/datum/objective/crew/service/clean/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	var/list/possibleareas = list()
 	for(var/A in teleportlocs) // a list with all station areas plus space
@@ -1790,7 +1849,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Clown"
 	var/amt = 0
 
-/datum/objective/crew/civilian/slip/New(text, themind)
+/datum/objective/crew/civilian/slip/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	amt = rand(20,40)
 
@@ -1814,7 +1873,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/char = 100
 	var/list/articleschecked = list()
 
-/datum/objective/crew/civilian/reporter/New(text, themind)
+/datum/objective/crew/civilian/reporter/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	articles = rand(2,4)
 
@@ -1839,7 +1898,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	var/amt = 0
 	var/list/signers = list()
 
-/datum/objective/crew/civilian/petition/New(text, themind)
+/datum/objective/crew/civilian/petition/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	amt = round(player_list.len/rand(3,4))
 
@@ -1871,7 +1930,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 	jobs = "Chaplain"
 	var/amt = 0
 
-/datum/objective/crew/civilian/relic/New(text, themind)
+/datum/objective/crew/civilian/relic/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	amt = rand(10,20)
 
