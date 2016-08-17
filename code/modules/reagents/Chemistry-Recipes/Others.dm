@@ -438,6 +438,13 @@
 	required_reagents = list("sodium" = 1, "hydrogen" = 1, "oxygen" = 3)
 	result_amount = 3
 	
+/datum/chemical_reaction/holywater
+	name = "Holy Water"
+	id = "holywater"
+	result = "holywater"
+	required_reagents = list("wine" = 1, "blood" = 1, "water" = 1)
+	result_amount = 3
+	
 //////////////////////////////////// Solidification ///////////////////////////////////////////
 
 /datum/chemical_reaction/plasmasolidification
