@@ -85,7 +85,7 @@ It also contains rune words, which are soon to be removed.
 		var/holy2unholy = A.reagents.get_reagent_amount("holywater")
 		A.reagents.del_reagent("holywater")
 		A.reagents.add_reagent("unholywater",holy2unholy)
-		add_logs(user, M, "smacked", src, " removing the holy water from them")
+		add_logs(user, A, "smacked", src, " removing the holy water from them")
 	
 /obj/item/weapon/tome/attack_self(mob/user)
 	if(!iscultist(user))
