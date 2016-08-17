@@ -1128,16 +1128,23 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 
 			var/sql_ckey = sanitizeSQL(input)
 
-			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '1'")
+			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]'")
 			query_check_ckey.Execute()
 
 			if(query_check_ckey.RowCount() != 0)
-				var/DBQuery/query_update_rem = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET whitelist = '0' WHERE ckey = '[sql_ckey]'")
-				query_update_rem.Execute()
-				log_game("[key_name(src)] removed [sql_ckey] from the whitelist.")
-				message_admins("[key_name(src)] removed [sql_ckey] from the whitelist.")
+
+				var/DBQuery/query_check_ckey2 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '1'")
+				query_check_ckey2.Execute()
+
+				if(query_check_ckey2.RowCount() != 0)
+					var/DBQuery/query_update_rem = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET whitelist = '0' WHERE ckey = '[sql_ckey]'")
+					query_update_rem.Execute()
+					log_game("[key_name(src)] removed [sql_ckey] from the whitelist.")
+					message_admins("[key_name(src)] removed [sql_ckey] from the whitelist.")
+				else
+					alert(src, "This ckey is not whitelisted.")
 			else
-				alert(src, "This ckey does not exist in the DB or is not whitelisted.")
+				alert(src, "This ckey does not exist in the DB. Maybe the player did not login till now.")
 
 	if(confirm == "Reset")
 		var/input = ckey(input(src, "Please specify which key will be reset", "Key", ""))

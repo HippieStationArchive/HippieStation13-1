@@ -90,6 +90,11 @@
 		relevant_cap = max(config.hard_popcap, config.extreme_popcap)
 
 	if(href_list["show_preferences"])
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return
+
+
 		client.prefs.ShowChoices(src)
 		return 1
 
@@ -188,6 +193,10 @@
 		new_player_panel()
 
 	if(href_list["showpoll"])
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return
+
 		handle_player_polling()
 		return
 
