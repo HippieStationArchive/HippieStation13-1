@@ -81,11 +81,11 @@ It also contains rune words, which are soon to be removed.
 	if(!proximity)
 		return
 	if(A.reagents && A.reagents.has_reagent("holywater")) //allows cultists to be rescued from the clutches of ordained religion
-	user << "<span class='notice'>You remove the taint from [A].</span>"
-	var/holy2unholy = A.reagents.get_reagent_amount("holywater")
-	A.reagents.del_reagent("holywater")
-	A.reagents.add_reagent("unholywater",holy2unholy)
-	add_logs(user, M, "smacked", src, " removing the holy water from them")
+		user << "<span class='notice'>You remove the taint from [A].</span>"
+		var/holy2unholy = A.reagents.get_reagent_amount("holywater")
+		A.reagents.del_reagent("holywater")
+		A.reagents.add_reagent("unholywater",holy2unholy)
+		add_logs(user, M, "smacked", src, " removing the holy water from them")
 	
 /obj/item/weapon/tome/attack_self(mob/user)
 	if(!iscultist(user))
