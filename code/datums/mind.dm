@@ -645,8 +645,6 @@
 		memory = new_memo
 
 	else if (href_list["obj_add"])
-		var/datum/objective/objective
-
 		var/list/blacklist = list(/datum/objective, /datum/objective/crew, /datum/objective/changeling_team_objective)
 		for(var/i in departments)
 			blacklist += i
@@ -660,19 +658,14 @@
 			new_objective.select_target()
 			new_objective.update_explanation_text()
 		else
-			var/expl = stripped_input(usr, "Custom objective:", "Objective", objective ? objective.explanation_text : "")
+			var/expl = stripped_input(usr, "Custom objective:", "Objective")
 			if (!expl) return
 			new_objective = new /datum/objective(text = expl, themind = src)
 
 		if(!new_objective) return
 
-		if(objective)
-			objectives -= objective
-			message_admins("[key_name_admin(usr)] edited [current]'s objective to [new_objective.explanation_text]")
-			log_admin("[key_name(usr)] edited [current]'s objective to [new_objective.explanation_text]")
-		else
-			message_admins("[key_name_admin(usr)] added a new objective for [current]: [new_objective.explanation_text]")
-			log_admin("[key_name(usr)] added a new objective for [current]: [new_objective.explanation_text]")
+		message_admins("[key_name_admin(usr)] added a new objective for [current]: [new_objective.explanation_text]")
+		log_admin("[key_name(usr)] added a new objective for [current]: [new_objective.explanation_text]")
 
 	else if (href_list["obj_delete"])
 		var/datum/objective/objective = locate(href_list["obj_delete"])

@@ -306,7 +306,6 @@
 					if(ticker.mode.make_antag_chance(character))
 						antag = TRUE
 	if(!antag && character.mind)
-		world << "fuck"
 		SSjob.forge_job_objectives(character.mind, rank)
 	qdel(src)
 
