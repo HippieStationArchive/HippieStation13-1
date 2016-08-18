@@ -77,6 +77,7 @@
 			<BR>
 			"}
 
+	if(check_rights(R_PERMISSIONS,0))
 		dat += {"
 			<B>Super secret stuff</B><BR>
 			<BR>
