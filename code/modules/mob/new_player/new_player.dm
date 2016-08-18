@@ -295,13 +295,18 @@
 
 	joined_player_list += character.ckey
 
+	var/antag = FALSE
 	if(config.allow_latejoin_antagonists)
 		switch(SSshuttle.emergency.mode)
 			if(SHUTTLE_RECALL, SHUTTLE_IDLE)
-				ticker.mode.make_antag_chance(character)
+				if(ticker.mode.make_antag_chance(character))
+					antag = TRUE
 			if(SHUTTLE_CALL)
 				if(SSshuttle.emergency.timeLeft(1) > initial(SSshuttle.emergencyCallTime)*0.5)
-					ticker.mode.make_antag_chance(character)
+					if(ticker.mode.make_antag_chance(character))
+						antag = TRUE
+	if(!antag && character.mind)
+		SSjob.forge_job_objectives(character.mind, rank)
 	qdel(src)
 
 /mob/new_player/proc/AnnounceArrival(var/mob/living/carbon/human/character, var/rank)
