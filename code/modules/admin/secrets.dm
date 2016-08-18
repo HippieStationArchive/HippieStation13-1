@@ -11,7 +11,6 @@
 			<A href='?src=\ref[src];secrets=admin_log'>Admin Log</A><BR>
 			<A href='?src=\ref[src];secrets=mentor_log'>Mentor Log</A><BR>
 			<A href='?src=\ref[src];secrets=show_admins'>Show Admin List</A><BR>
-			<A href='?src=\ref[src];secrets=show_whitelist'>Show CID Whitelist</A><BR>
 			<BR>
 			"}
 
@@ -75,6 +74,13 @@
 			<A href='?src=\ref[src];secrets=maint_access_engiebrig'>Change all maintenance doors to engie/brig access only</A><BR>
 			<A href='?src=\ref[src];secrets=maint_access_brig'>Change all maintenance doors to brig access only</A><BR>
 			<A href='?src=\ref[src];secrets=infinite_sec'>Remove cap on security officers</A><BR>
+			<BR>
+			"}
+
+		dat += {"
+			<B>Super secret stuff</B><BR>
+			<BR>
+			<A href='?src=\ref[src];secrets=show_whitelist'>Show CID Whitelist</A><BR>
 			<BR>
 			"}
 
@@ -145,18 +151,6 @@
 				for(var/ckey in admin_datums)
 					var/datum/admins/D = admin_datums[ckey]
 					dat += "[ckey] - [D.rank.name]<br>"
-				usr << browse(dat, "window=showadmins;size=600x500")
-
-		if("show_whitelist")
-			var/dat = "<B>Current ckeys that are whitelisted:</B><HR>"
-			establish_db_connection()
-			if (!dbcon.IsConnected())
-				return
-
-			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3` FROM [format_table_name("spoof_check")] WHERE whitelist = '1'")
-			if(query_check_ckey.Execute())
-				while(query_check_ckey.NextRow())
-					dat += "ckey:&ensp;[query_check_ckey.item[1]]<br>&emsp;cid_1:&ensp;[query_check_ckey.item[2]]&emsp;date:&ensp;[query_check_ckey.item[5]]<br>&emsp;cid_2:&ensp;[query_check_ckey.item[3]]&emsp;date:&ensp;[query_check_ckey.item[6]]<br>&emsp;cid_3:&ensp;[query_check_ckey.item[4]]&emsp;date:&ensp;[query_check_ckey.item[7]]<br>"
 				usr << browse(dat, "window=showadmins;size=600x500")
 
 		if("tdomereset")
@@ -609,6 +603,7 @@
 				if (access_maint_tunnels in M.req_access)
 					M.req_access = list(access_brig)
 			message_admins("[key_name_admin(usr)] made all maint doors brig access-only.")
+
 		if("maint_access_engiebrig")
 			if(!check_rights(R_DEBUG))
 				return
@@ -618,6 +613,7 @@
 					M.req_access = list()
 					M.req_one_access = list(access_brig,access_engine)
 			message_admins("[key_name_admin(usr)] made all maint doors engineering and brig access-only.")
+
 		if("infinite_sec")
 			if(!check_rights(R_DEBUG))
 				return
@@ -626,6 +622,20 @@
 			J.total_positions = -1
 			J.spawn_positions = -1
 			message_admins("[key_name_admin(usr)] has removed the cap on security officers.")
+
+		if("show_whitelist")
+			if(!check_rights(R_PERMISSIONS))
+				return
+			establish_db_connection()
+			if (!dbcon.IsConnected())
+				return
+			var/dat = "<B>Current ckeys that are whitelisted:</B><HR>"
+			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3` FROM [format_table_name("spoof_check")] WHERE whitelist = '1'")
+			if(query_check_ckey.Execute())
+				while(query_check_ckey.NextRow())
+					dat += "ckey:&ensp;[query_check_ckey.item[1]]<br>&emsp;cid_1:&ensp;[query_check_ckey.item[2]]&emsp;date:&ensp;[query_check_ckey.item[5]]<br>&emsp;cid_2:&ensp;[query_check_ckey.item[3]]&emsp;date:&ensp;[query_check_ckey.item[6]]<br>&emsp;cid_3:&ensp;[query_check_ckey.item[4]]&emsp;date:&ensp;[query_check_ckey.item[7]]<br>"
+				usr << browse(dat, "window=showwhitelist;size=600x500")
+
 	if(E)
 		E.processing = 0
 		if(E.announceWhen>0)
