@@ -1,0 +1,4 @@
+author: Badmex
+delete-after: True
+changes: 
+  - bugfix: "New cid-system that will check your cid everytime you join with a different cid. To get authorized you will need to rejoin one time."
