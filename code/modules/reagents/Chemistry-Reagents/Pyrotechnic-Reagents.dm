@@ -200,3 +200,38 @@
 		holder.chem_temp += 10
 		holder.handle_reactions()
 	..()
+
+
+/datum/reagent/cryogenic_fluid
+	name = "Cryogenic Fluid"
+	id = "cryogenic_fluid"
+	description = "Extremely cold superfluid used to put out fires that can freeze people solid, chills people when ingested and has a volume dependant freeze reaction on touch."
+	color = "#b3ffff" // rgb: 0, 255, 255
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+/datum/reagent/cryogenic_fluid/on_tick()
+	holder.chem_temp -= 5
+	..()
+/datum/reagent/cryogenic_fluid/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
+	if(iscarbon(M) && M.stat != DEAD)
+		if(method in list(INGEST,INJECT))
+			M.adjust_fire_stacks(-(reac_volume))
+			M.adjustStaminaLoss(1*reac_volume)
+			M.bodytemperature -= 200
+			if(show_message)
+				M << "<span class='warning'>You feel like you are freezing from the inside!</span>"
+		else
+
+			if(show_message)
+				M << "<span class='danger'>You feel your body freezing solid!</span>" //
+
+			if (reac_volume >= 5)
+				M.bodytemperature -= 20*reac_volume
+				M.adjust_fire_stacks(-(3*reac_volume))
+				M.adjustStaminaLoss(20*reac_volume)
+				M.Stun(10)
+
+			else
+			 M.bodytemperature -= 30
+			 M.adjust_fire_stacks(-(2*reac_volume))
+	.	..()

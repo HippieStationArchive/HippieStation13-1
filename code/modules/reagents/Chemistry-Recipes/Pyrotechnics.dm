@@ -353,3 +353,14 @@
 /datum/chemical_reaction/pyrosium/on_reaction(datum/reagents/holder, created_volume)
 	holder.chem_temp = 20 // also cools the fuck down
 	return
+
+/datum/chemical_reaction/cryogenic_fluid
+	name = "cryogenic_fluid"
+	id = "cryogenic_fluid"
+	result = "cryogenic_fluid"
+	required_reagents = list("cryostylane" = 3, "lube" = 1, "pyrosium" = 1)
+	result_amount = 3
+
+/datum/chemical_reaction/cryostylane/on_reaction(datum/reagents/holder, created_volume)
+	holder.chem_temp = 20 // cools the fuck down
+	return
