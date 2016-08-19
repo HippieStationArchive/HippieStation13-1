@@ -435,9 +435,14 @@ var/next_external_rsc = 0
 		getFilesSlow(src, asset_cache, register_asset = FALSE)
 
 /client/proc/cidspoofcheck()
-	. = ..()
 	establish_db_connection()
 	if (!dbcon.IsConnected())
+		cid_check = 1
+		return
+
+	var/DBQuery/query_checkdb = dbcon.NewQuery("SHOW TABLES LIKE 'spoof_check'")
+	if(query_checkdb.RowCount() == 0)
+		cid_check = 1
 		return
 
 	var/sql_ckey = sanitizeSQL(ckey)
