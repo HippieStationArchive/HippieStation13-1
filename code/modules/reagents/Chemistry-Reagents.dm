@@ -97,22 +97,22 @@
 
 /datum/reagent/proc/addiction_act_stage1(mob/living/M)
 	if(prob(30))
-		M << "<span class='notice'>You feel like some [name] right about now.</span>"
+		M << "<span class='notice'>You feel like taking some [lowertext(name)] right about now.</span>"
 	return
 
 /datum/reagent/proc/addiction_act_stage2(mob/living/M)
 	if(prob(30))
-		M << "<span class='notice'>You feel like you need [name]. You just can't get enough.</span>"
+		M << "<span class='notice'>You feel like you need [lowertext(name)]. You just can't get enough.</span>"
 	return
 
 /datum/reagent/proc/addiction_act_stage3(mob/living/M)
 	if(prob(30))
-		M << "<span class='danger'>You have an intense craving for [name].</span>"
+		M << "<span class='danger'>You have an intense craving for [lowertext(name)].</span>"
 	return
 
 /datum/reagent/proc/addiction_act_stage4(mob/living/M)
 	if(prob(30))
-		M << "<span class='boldannounce'>You're not feeling good at all! You really need some [name].</span>"
+		M << "<span class='boldannounce'>You're not feeling good at all! You really need some [lowertext(name)].</span>"
 	return
 
 /proc/pretty_string_from_reagent_list(var/list/reagent_list)
@@ -125,7 +125,7 @@
 
 /datum/reagent/proc/stun_resist_act(mob/living/M)
 	if(stun_timer == (stun_threshold))
-		M << "<span class='notice'>You feel the [name] kick in!</span>"
+		M << "<span class='notice'>You feel the [lowertext(name)] kick in!</span>"
 	if(!(M.stunned || M.weakened || M.paralysis))
 		stun_timer++
 		metabolization_rate = initial(metabolization_rate)

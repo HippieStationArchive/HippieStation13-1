@@ -93,12 +93,15 @@ var/list/supply_positions = list(
 	"Shaft Miner",
 )
 
-
-var/list/civilian_positions = list(
+var/list/service_positions = list(
 	"Bartender",
 	"Botanist",
-	"Chef",
 	"Janitor",
+	"Chef"
+)
+
+var/list/civilian_positions = list(
+	"Captain",
 	"Librarian",
 	"Lawyer",
 	"Chaplain",

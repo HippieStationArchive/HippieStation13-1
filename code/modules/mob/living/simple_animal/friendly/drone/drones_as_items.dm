@@ -5,6 +5,7 @@
 //Drone shells
 //Drones as hats
 
+var/list/existing_shells = list() // for the drone shit objective suggested by who else other than Spacedong
 
 //DRONE SHELL
 /obj/item/drone_shell
@@ -14,6 +15,14 @@
 	icon_state = "drone_maint_hat"//yes reuse the _hat state.
 	origin_tech = "programming=2;biotech=4"
 	var/drone_type = /mob/living/simple_animal/drone //Type of drone that will be spawned
+
+/obj/item/drone_shell/New()
+	..()
+	existing_shells |= src
+
+/obj/item/drone_shell/Destroy()
+	existing_shells -= src
+	..()
 
 /obj/item/drone_shell/attack_ghost(mob/user)
 	if(jobban_isbanned(user,"drone"))
