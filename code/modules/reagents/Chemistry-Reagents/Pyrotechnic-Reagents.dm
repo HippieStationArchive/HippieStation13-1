@@ -217,18 +217,21 @@
 		if(method in list(INGEST,INJECT))
 			M.adjust_fire_stacks(-(reac_volume))
 			M.adjustStaminaLoss(reac_volume)
-			M.bodytemperature -= 200
+			M.adjustFireLoss(reac_volume)
+			M.bodytemperature = max(M.bodytemperature - 50, TCMB)
 			if(show_message)
 				M << "<span class='warning'>You feel like you are freezing from the inside!</span>"
 		else
 			if(show_message)
 				M << "<span class='danger'>You feel your body freezing solid!</span>" //
 			if (reac_volume >= 5)
-				M.bodytemperature -= 20*reac_volume
+				M.bodytemperature = max(M.bodytemperature - 200, TCMB)
 				M.adjust_fire_stacks(-(3*reac_volume))
 				M.adjustStaminaLoss(20*reac_volume)
+				M.adjustFireLoss(0.25*reac_volume)
+				M.adjustOxyLoss(0.75*reac_volume)
 			else
-			 M.bodytemperature -= 30
+			 M.bodytemperature = max(M.bodytemperature - 30, TCMB)
 			 M.adjust_fire_stacks(-(2*reac_volume))
 	 ..()
 
