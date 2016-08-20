@@ -362,5 +362,5 @@
 	result_amount = 4
 
 /datum/chemical_reaction/cryostylane/on_reaction(datum/reagents/holder, created_volume)
-	holder.chem_temp = 20 // cools the fuck down
+	holder.chem_temp = 0 // cools the fuck down
 	return

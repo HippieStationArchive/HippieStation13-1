@@ -229,7 +229,7 @@
 				M.bodytemperature -= 20*reac_volume
 				M.adjust_fire_stacks(-(3*reac_volume))
 				M.adjustStaminaLoss(20*reac_volume)
-				M.Stun(10)
+				M.Stun(2)
 
 			else
 			 M.bodytemperature -= 30
