@@ -33,4 +33,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add neit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Added Cryogenic Fluid an advanced firefighting chemical which can freeze people in place and cause severe stamina damage and cold burns, pretty terrible if ingested though. Made with 3 cryostylane, 1 pyrosium, 1 lube"
+  - rscadd: "Added Cryogenic Fluid an advanced firefighting chemical which can freeze people in place and cause severe stamina damage and cold burns, pretty terrible if ingested though. Made with 4 cryostylane, 1 pyrosium, 1 lube"

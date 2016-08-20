@@ -207,7 +207,7 @@
 	id = "cryogenic_fluid"
 	description = "Extremely cold superfluid used to put out fires that can freeze people solid, chills people when ingested and has a volume dependant freeze reaction on touch."
 	color = "#b3ffff" // rgb: 0, 255, 255
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	metabolization_rate = 2
 
 /datum/reagent/cryogenic_fluid/on_tick()
 	holder.chem_temp -= 5
@@ -234,4 +234,17 @@
 			else
 			 M.bodytemperature -= 30
 			 M.adjust_fire_stacks(-(2*reac_volume))
-	.	..()
+	 ..()
+
+/datum/reagent/cryogenic_fluid/reaction_turf(turf/simulated/T)
+	if (!istype(T)) return
+	var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
+	if(hotspot && !istype(T, /turf/space))
+		if(T.air)
+			var/datum/gas_mixture/G = T.air
+			G.temperature = 0
+			G.react()
+			hotspot.Kill()
+	return
+
+	.
