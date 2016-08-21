@@ -264,9 +264,9 @@ other types of metals and chemistry for reagents).
 	id = "bluefloor"
 	req_tech = list("bluespace" = 5, "materials" = 4)
 	build_type = PROTOLATHE
-	materials = list(MAT_URANIUM = 100, MAT_DIAMOND = 100)
+	materials = list(MAT_URANIUM = 10, MAT_DIAMOND = 10)
 	reliability = 100
-	build_path = /obj/item/stack/tile/bluespace(src, 10)
+	build_path = /obj/item/stack/tile/bluespace
 	category = list("Bluespace Designs")
 	
 /datum/design/sepiafloor
@@ -275,9 +275,9 @@ other types of metals and chemistry for reagents).
 	id = "sepiafloor"
 	req_tech = list("bluespace" = 5, "materials" = 4)
 	build_type = PROTOLATHE
-	materials = list(MAT_GOLD = 100, MAT_SILVER = 100)
+	materials = list(MAT_GOLD = 10, MAT_SILVER = 10)
 	reliability = 100
-	build_path = /obj/item/stack/tile/sepia(src, 10)
+	build_path = /obj/item/stack/tile/sepia
 	category = list("Bluespace Designs")
 
 
