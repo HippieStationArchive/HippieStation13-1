@@ -20,7 +20,7 @@
 
 /obj/item/weapon/storage/daki/attack_self(mob/living/user)
 	var/body_choice
-	if(!custom_name)
+	if(icon_state == "daki_base")
 		body_choice = input("Pick a body.") in list(
 
 		"Callie",
@@ -29,7 +29,7 @@
 		"Casca",
 		"Chaika",
 		"Elisabeth",
-		"Foxy Granpa",
+		"Foxy Grandpa",
 		"Haruko",
 		"Holo",
 		"Hotwheels",
@@ -45,7 +45,7 @@
 		"Reisen",
 		"Naga",
 		"Squid",
-		"Squiggly",
+		"Squigly",
 		"Sue Bowchief",
 		"Tomoko",
 		"Toriel",
@@ -55,11 +55,12 @@
 
 		icon_state = "daki_[body_choice]"
 		custom_name = input("What's her name?") as text
-		if(length(custom_name)>=10)
+		if(length(custom_name) > MAX_NAME_LEN)
 			user << "<span class='danger'>Name is too long!</span>"
 			return
-		name = sanitize(custom_name + " " + name)
-		desc = "A large pillow depicting [custom_name] in a compromising position. Featuring as many dimensions as you."
+		if(custom_name)
+			name = sanitize(custom_name + " " + name)
+			desc = "A large pillow depicting [custom_name] in a compromising position. Featuring as many dimensions as you."
 	else
 		if(!spam_flag)
 			spam_flag = 1
