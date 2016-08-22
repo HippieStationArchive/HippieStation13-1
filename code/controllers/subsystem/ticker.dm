@@ -439,7 +439,7 @@ var/datum/subsystem/ticker/ticker
 					if(!C.check_completion())
 						youdidit = FALSE
 				if(youdidit)
-					successfulcrew += M.name
+					successfulcrew += M.real_name
 	world << "<b>The following crewmembers managed to complete all their crew objectives: <span class='greenannounce'>[jointext(successfulcrew, ", ")]</span></b>"
 	var/list/winners = list(departments[deptpoints[1]] = deptpoints[deptpoints[1]])
 	var/winnerdept = "The most efficient department this round "
