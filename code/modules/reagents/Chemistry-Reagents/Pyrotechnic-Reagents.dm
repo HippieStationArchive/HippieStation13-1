@@ -205,7 +205,7 @@
 /datum/reagent/cryogenic_fluid
 	name = "Cryogenic Fluid"
 	id = "cryogenic_fluid"
-	description = "Extremely cold superfluid used to put out fires that can freeze people solid, chills people when ingested and has a volume dependant freeze reaction on touch which worsens existing brute damage."
+	description = "Extremely cold superfluid used to put out fires that will viciously freeze people on contact causing severe pain and burn damage, weak if ingested."
 	color = "#b3ffff" // rgb: 0, 255, 255
 	metabolization_rate = 2
 
@@ -223,16 +223,17 @@
 				M << "<span class='warning'>You feel like you are freezing from the inside!</span>"
 		else
 			if(show_message)
-				M << "<span class='danger'>You feel your body freezing solid!</span>" //
+				M << "<span class='danger'>You can feel your body freezing up and your metabolism slow DEAR GOD THE PAIN!!</span>" //
 			if (reac_volume >= 5)
-				M.bodytemperature = max(M.bodytemperature - 200, TCMB)
+				M.bodytemperature = max(M.bodytemperature - 10*reac_volume, TCMB)
 				M.adjust_fire_stacks(-(3*reac_volume))
 				M.adjustFireLoss(0.125*reac_volume) //Sorry for snowflakey numbers~
 				M.adjustOxyLoss(0.375*reac_volume)
-				M.adjustBruteLoss(0.5*M.getBruteLoss())
+				M.drowsyness +=3
+				M.confused +=12
 
 			else
-			 M.bodytemperature = max(M.bodytemperature - 30, TCMB)
+			 M.bodytemperature = max(M.bodytemperature - 5, TCMB)
 			 M.adjust_fire_stacks(-(2*reac_volume))
 	 ..()
 
