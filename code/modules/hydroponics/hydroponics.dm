@@ -31,6 +31,7 @@
 	name = "hydroponics tray"
 	icon = 'icons/obj/hydroponics/equipment.dmi'
 	icon_state = "hydrotray3"
+	var/frozen = 0			//Is the plant frozen?
 
 /obj/machinery/hydroponics/constructable/New()
 	..()
@@ -54,6 +55,26 @@
 	nutrilevel = 3
 
 /obj/machinery/hydroponics/constructable/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/device/multitool))
+		if(!anchored)
+			user << "<span class='warning'>Anchor it first!</span>"
+			return
+		if(anchored == 2)
+			user << "<span class='warning'>Unscrew the hoses first!</span>"
+			return
+		if(frozen)
+			SSmachine.processing += src
+		else
+			SSmachine.processing -= src
+		user << "<span class='notice'>You [frozen ? "disable" : "enable"] the cryogenic freezing.</span>"
+		frozen = !frozen
+		update_icon()
+		return
+
+	if(frozen)
+		user << "<span class='warning'>Disable the cryogenic freezing first!</span>"
+		return
+
 	if(default_deconstruction_screwdriver(user, "hydrotray3", "hydrotray3", I))
 		return
 
@@ -68,9 +89,74 @@
 
 	if(istype(I, /obj/item/weapon/crowbar))
 		if(anchored==2)
-			user << "Unscrew the hoses first!"
+			user << "<span class='warning'>Unscrew the hoses first!</span>"
 			return
 		default_deconstruction_crowbar(I, 1)
+
+	..()
+
+/obj/machinery/hydroponics/constructable/UpdateDescription()
+	..()
+	if(frozen)
+		desc += " It is cryogenically frozen."
+
+/obj/machinery/hydroponics/constructable/update_icon()
+
+	//Refreshes the icon and sets the luminosity
+	overlays.Cut()
+
+	var/n = 0
+
+	for(var/Dir in cardinal)
+
+		var/obj/machinery/hydroponics/t = locate() in get_step(src,Dir)
+		if(t && t.anchored == 2 && src.anchored == 2)
+			n += Dir
+
+	icon_state = "hoses-[n]"
+
+	UpdateDescription()
+
+	if(planted)
+		if(istype(myseed,/obj/item/seeds/glowshroom))
+			SetLuminosity(round(myseed.potency / 10))
+		else
+			SetLuminosity(0)
+
+		var/image/I
+		if(dead)
+			I = image('icons/obj/hydroponics/growing.dmi', icon_state = "[myseed.species]-dead")
+		else if(harvest)
+			if(myseed.plant_type == 2) // Shrooms don't have a -harvest graphic
+				I = image('icons/obj/hydroponics/growing.dmi', icon_state = "[myseed.species]-grow[myseed.growthstages]")
+			else
+				I = image('icons/obj/hydroponics/growing.dmi', icon_state = "[myseed.species]-harvest")
+		else if(age < myseed.maturation)
+			var/t_growthstate = ((age / myseed.maturation) * myseed.growthstages ) // Make sure it won't crap out due to HERPDERP 6 stages only
+			I = image('icons/obj/hydroponics/growing.dmi', icon_state = "[myseed.species]-grow[round(t_growthstate)]")
+			lastproduce = age //Cheating by putting this here, it means that it isn't instantly ready to harvest
+		else
+			I = image('icons/obj/hydroponics/growing.dmi', icon_state = "[myseed.species]-grow[myseed.growthstages]") // Same
+		I.layer = MOB_LAYER + 0.1
+		if(frozen)	I.color = "#91D5F9"
+		overlays += I
+		if(frozen)	return
+
+		if(waterlevel <= 10)
+			overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_lowwater3")
+		if(nutrilevel <= 2)
+			overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_lownutri3")
+		if(health <= (myseed.endurance / 2))
+			overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_lowhealth3")
+		if(weedlevel >= 5 || pestlevel >= 5 || toxic >= 40)
+			overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_alert3")
+		if(harvest)
+			overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_harvest3")
+
+/obj/machinery/hydroponics/constructable/attack_hand(mob/user)
+	if(frozen)
+		user << "<span class='warning'>Disable the cryogenic freezing first!</span>"
+		return
 	..()
 
 /obj/machinery/hydroponics/proc/FindConnected()
