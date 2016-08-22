@@ -205,7 +205,7 @@
 /datum/reagent/cryogenic_fluid
 	name = "Cryogenic Fluid"
 	id = "cryogenic_fluid"
-	description = "Extremely cold superfluid used to put out fires that can freeze people solid, chills people when ingested and has a volume dependant freeze reaction on touch."
+	description = "Extremely cold superfluid used to put out fires that can freeze people solid, chills people when ingested and has a volume dependant freeze reaction on touch which worsens existing brute damage."
 	color = "#b3ffff" // rgb: 0, 255, 255
 	metabolization_rate = 2
 
@@ -227,9 +227,11 @@
 			if (reac_volume >= 5)
 				M.bodytemperature = max(M.bodytemperature - 200, TCMB)
 				M.adjust_fire_stacks(-(3*reac_volume))
-				M.adjustStaminaLoss(20*reac_volume)
-				M.adjustFireLoss(0.25*reac_volume)
-				M.adjustOxyLoss(0.75*reac_volume)
+				M.adjustFireLoss(0.125*reac_volume) //Sorry for snowflakey numbers~
+				M.adjustOxyLoss(0.375*reac_volume)
+				var/brutedmg = M.getBruteLoss()
+				M.adjustBruteLoss(brutedmg*0.5)
+
 			else
 			 M.bodytemperature = max(M.bodytemperature - 30, TCMB)
 			 M.adjust_fire_stacks(-(2*reac_volume))
