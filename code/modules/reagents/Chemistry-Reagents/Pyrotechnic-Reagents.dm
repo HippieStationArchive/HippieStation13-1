@@ -229,8 +229,7 @@
 				M.adjust_fire_stacks(-(3*reac_volume))
 				M.adjustFireLoss(0.125*reac_volume) //Sorry for snowflakey numbers~
 				M.adjustOxyLoss(0.375*reac_volume)
-				var/brutedmg = M.getBruteLoss()
-				M.adjustBruteLoss(brutedmg*0.5)
+				M.adjustBruteLoss(0.5*M.getBruteLoss())
 
 			else
 			 M.bodytemperature = max(M.bodytemperature - 30, TCMB)
