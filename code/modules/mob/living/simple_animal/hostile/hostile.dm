@@ -263,6 +263,7 @@
 			newtonian_move(get_dir(targeted_atom, src))
 		P.original = targeted_atom
 		P.fire()
+		return P
 	return
 
 /mob/living/simple_animal/hostile/proc/DestroySurroundings()

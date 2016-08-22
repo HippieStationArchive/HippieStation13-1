@@ -640,13 +640,18 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		src << "Only administrators may use this command."
 		return
 
-	var/confirm = alert(src, "You sure?", "Confirm", "Yes", "No")
-	if(confirm != "Yes") return
+	var/confirm = alert(src, "You sure?", "Confirm", "Yes", "Yes (No Recall)", "No")
+	if(confirm == "No") return
+	if(confirm == "Yes (No Recall)")
+		SSshuttle.emergencyNoRecall = 1
 
 	SSshuttle.emergency.request()
 	feedback_add_details("admin_verb","CSHUT") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	log_admin("[key_name(usr)] admin-called the emergency shuttle.")
-	message_admins("<span class='adminnotice'>[key_name_admin(usr)] admin-called the emergency shuttle.</span>")
+	if(confirm == "Yes (No Recall)")
+		message_admins("<span class='adminnotice'>[key_name_admin(usr)] admin-called the emergency shuttle (non-recallable).</span>")
+	else
+		message_admins("<span class='adminnotice'>[key_name_admin(usr)] admin-called the emergency shuttle.</span>")
 	return
 
 /client/proc/admin_cancel_shuttle()
@@ -658,12 +663,38 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(SSshuttle.emergency.mode >= SHUTTLE_DOCKED)
 		return
 
+	SSshuttle.emergencyNoRecall = 0
 	SSshuttle.emergency.cancel()
 	feedback_add_details("admin_verb","CCSHUT") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	log_admin("[key_name(usr)] admin-recalled the emergency shuttle.")
 	message_admins("<span class='adminnotice'>[key_name_admin(usr)] admin-recalled the emergency shuttle.</span>")
 
+
 	return
+
+/client/proc/admin_disable_shuttle()
+	set category = "Admin"
+	set name = "Disable Shuttle"
+	if(!check_rights(0))	return
+	if(alert(src, "You sure?", "Confirm", "Yes", "No") != "Yes") return
+	message_admins("<span class='adminnotice'>[key_name_admin(usr)] disabled the shuttle.</span>")
+	if(SSshuttle.emergency.mode == SHUTTLE_STRANDED)
+		usr << "Error, shuttle is already disabled."
+		return
+	SSshuttle.emergency.mode = SHUTTLE_STRANDED
+	priority_announce("Warning: Emergency Shuttle uplink failure, shuttle disabled until further notice.", "Emergency Shuttle Uplink Alert", 'sound/misc/announce_dig.ogg')
+
+/client/proc/admin_enable_shuttle()
+	set category = "Admin"
+	set name = "Enable Shuttle"
+	if(!check_rights(0))	return
+	if(!SSshuttle.emergency.mode == SHUTTLE_STRANDED)
+		usr << "Error, shuttle not disabled."
+		return
+	if(alert(src, "You sure?", "Confirm", "Yes", "No") != "Yes") return
+	message_admins("<span class='adminnotice'>[key_name_admin(usr)] enabled the emergency shuttle.</span>")
+	SSshuttle.emergency.mode = SHUTTLE_IDLE
+	priority_announce("Warning: Emergency Shuttle uplink reestablished, shuttle enabled.", "Emergency Shuttle Uplink Alert", 'sound/misc/announce_dig.ogg')
 
 /client/proc/cmd_admin_attack_log(mob/M in mob_list)
 	set category = "Special Verbs"
@@ -1035,3 +1066,106 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 				A.temperature = T20C
 	message_admins("[key_name(src)] filled the hullbreachs in [size] tiles.")
 	log_game("[key_name(src)] filled the hullbreachs in [size] tiles.")
+
+/client/proc/whitelist_cid()
+	set name = "Whitelist-Ckey"
+	set category = "Special Verbs"
+	set desc = "Whitelist Players or delete connected cids"
+
+	if(!holder)
+		return
+
+	var/confirm = alert(src, "Choose:", "Confirm", "Whitelist/De-Whitelist", "Reset", "Cancel")
+
+	if(confirm == "Cancel")
+		return
+
+	if(confirm == "Whitelist/De-Whitelist")
+		var/whitelist = alert(src, "Choose:", "Whitelist", "Whitelist", "De-Whitelist", "Cancel")
+
+		if(whitelist== "Cancel")
+			return
+
+		if(whitelist == "Whitelist")
+
+			var/input = ckey(input(src, "Please specify which key will be whitelisted.", "Key", ""))
+			if(!input)
+				return
+
+			establish_db_connection()
+			if (!dbcon.IsConnected())
+				return
+
+			var/sql_ckey = sanitizeSQL(input)
+
+			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]'")
+			query_check_ckey.Execute()
+
+			if(query_check_ckey.RowCount() != 0)
+				var/DBQuery/query_check_ckeyw = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '0'")
+				query_check_ckeyw.Execute()
+
+				if(query_check_ckeyw.RowCount() != 0)
+
+					var/DBQuery/query_update_add = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET whitelist = '1' WHERE ckey = '[sql_ckey]'")
+					query_update_add.Execute()
+					log_game("[key_name(src)] put [sql_ckey] on the whitelist.")
+					message_admins("[key_name(src)] put [sql_ckey] on the whitelist.")
+
+				else
+					alert(src, "This ckey is already whitelisted.")
+			else
+				alert(src, "This ckey does not exist in the DB. Maybe the player did not login till now.")
+
+		if(whitelist == "De-Whitelist")
+			var/input = ckey(input(src, "Please specify which key will be de-whitelisted.", "Key", ""))
+			if(!input)
+				return
+
+			establish_db_connection()
+			if (!dbcon.IsConnected())
+				return
+
+			var/sql_ckey = sanitizeSQL(input)
+
+			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]'")
+			query_check_ckey.Execute()
+
+			if(query_check_ckey.RowCount() != 0)
+
+				var/DBQuery/query_check_ckey2 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '1'")
+				query_check_ckey2.Execute()
+
+				if(query_check_ckey2.RowCount() != 0)
+					var/DBQuery/query_update_rem = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET whitelist = '0' WHERE ckey = '[sql_ckey]'")
+					query_update_rem.Execute()
+					log_game("[key_name(src)] removed [sql_ckey] from the whitelist.")
+					message_admins("[key_name(src)] removed [sql_ckey] from the whitelist.")
+				else
+					alert(src, "This ckey is not whitelisted.")
+			else
+				alert(src, "This ckey does not exist in the DB. Maybe the player did not login till now.")
+
+	if(confirm == "Reset")
+		var/input = ckey(input(src, "Please specify which key will be reset", "Key", ""))
+		if(!input)
+			return
+
+		establish_db_connection()
+		if (!dbcon.IsConnected())
+			return
+
+		var/sql_ckey = sanitizeSQL(input)
+
+		var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]'")
+		query_check_ckey.Execute()
+
+		if(query_check_ckey.RowCount() != 0)
+
+			var/DBQuery/query_update_res = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '0', computerid_2 = NULL, computerid_3 = NULL WHERE ckey = '[sql_ckey]'")
+			query_update_res.Execute()
+			log_game("[key_name(src)] reset [sql_ckey] on the watchlist.")
+			message_admins("[key_name(src)] reset [sql_ckey] on the watchlist.")
+
+		else
+			alert(src, "This ckey does not exist in the DB.")

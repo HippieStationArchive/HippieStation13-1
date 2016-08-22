@@ -44,13 +44,14 @@
 	if(config.protect_assistant_from_antagonist)
 		restricted_jobs += "Assistant"
 
-	for (var/i=1 to max_headrevs)
+	for (var/i in 1 to max_headrevs)
 		if (antag_candidates.len==0)
 			break
 		var/datum/mind/lenin = pick(antag_candidates)
 		antag_candidates -= lenin
 		head_revolutionaries += lenin
 		lenin.restricted_roles = restricted_jobs
+		lenin.special_role = "Head Revolutionary"
 
 	if(head_revolutionaries.len < required_enemies)
 		return 0
@@ -66,6 +67,8 @@
 		antag_candidates += trotsky
 		head_revolutionaries -= trotsky
 		update_rev_icons_removed(trotsky)
+		trotsky.special_role = ""
+		SSjob.forge_job_objectives(trotsky, trotsky.assigned_role)//kinda snowflakey in my opinion,but it works
 
 	for(var/datum/mind/rev_mind in head_revolutionaries)
 		log_game("[rev_mind.key] (ckey) has been selected as a head rev")
@@ -111,7 +114,6 @@
 		rev_mind.current << "<a href=[config.wikiurl]/index.php?title=Revolution>New to the revolution? Click here to be linked to the wiki guide on Revolution.</a>"
 	for(var/datum/objective/objective in rev_mind.objectives)
 		rev_mind.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
-		rev_mind.special_role = "Head Revolutionary"
 		obj_count++
 
 /////////////////////////////////////////////////////////////////////////////////

@@ -156,7 +156,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
-	mutations_to_have = list(CLUMSY)
+	mutations_to_have = list(CLUMSY, EPILEPSY, UNINTELLIGABLE, NERVOUS, COUGH)
 	teeth_type = /obj/item/stack/teeth/cat
 
 /datum/species/cat/qualifies_for_rank(rank, list/features)
@@ -658,7 +658,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	// specflags = list(NOBREATH,HEATRES,COLDRES,NOBLOOD,RADIMMUNE) //Overpowered, and simple_mobs set the species to this
 
 /datum/species/zombie/handle_speech(message)
-	var/list/message_list = text2list(message, " ")
+	var/list/message_list = splittext(message, " ")
 	var/maxchanges = max(round(message_list.len / 1.5), 2)
 
 	for(var/i = rand(maxchanges / 2, maxchanges), i > 0, i--)
@@ -671,7 +671,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 		if(prob(20) && message_list.len > 3)
 			message_list.Insert(insertpos, "[pick("BRAINS", "Brains", "Braaaiinnnsss", "BRAAAIIINNSSS")]...")
 
-	return list2text(message_list, " ")
+	return jointext(message_list, " ")
 
 /datum/species/cosmetic_zombie
 	name = "Human"

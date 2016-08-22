@@ -1,0 +1,9 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - rscdel: "Medical Cyborgs no longer have bicardine, kelotane, anti-toxin and dexalin."
+  - rscadd: "Medical Cyborgs now have tricordrazine in their place."
+  - tweak: "Medical Cyborgs hypospray now cycle through chemicals rather than bringing up a menu."
+  - tweak: "Emagged Medical Cyborgs now use a Chlorine Trifluoride spray rather than fluorosulfuric acid."

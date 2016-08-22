@@ -40,30 +40,38 @@
 	if(!I)
 		return 0
 
-	//List below doesn't include pockets or backpacks because of some complications I can't be assed to figure out.
-	// Example: take box out of the backpack, put something in your pocket, use hotswap. Suddenly the box is swapped with whatever item you put in your backpack...???
-	var/list/search = list(slot_w_uniform, slot_belt, slot_wear_id, slot_wear_suit, slot_wear_mask, slot_head, slot_shoes, slot_gloves, slot_ears, slot_glasses)
-	for(var/slot in search)
-		var/check = I.mob_can_equip(src, slot, 1, 1) //disable_warning = 0; return_equipped = 0
-		if(check)
-			//This is so the items are dropped properly. Comment this snippet out if you want hotswapping to not drop the ID/belt/pockets/etc.
-			if(I == r_hand)
-				r_hand = null
-			else if(I == l_hand)
-				l_hand = null
-			//snippet end
-			if(istype(check, /obj/item))
-				var/obj/item/U = check
-				unEquip(U)
-				if(!put_in_active_hand(U))
-					U.forceMove(get_turf(src))
-			equip_to_slot(I, slot, 1) //we do equip_to_slot AFTER unEquipping existing clothing so that id's, pockets, etc. are properly emptied out
-			if(hand)
-				update_inv_l_hand()
-			else
-				update_inv_r_hand()
-			return 1
-	return 0
+
+	var/pass = 1 //To check if no drop
+	var/mob/living/carbon/human/H = usr
+	for(var/obj/C in H.contents)
+		if((C.flags & NODROP) == NODROP)
+			pass = 0
+			H << "You can't seem to swap that!"
+	if(pass == 1)
+		//List below doesn't include pockets or backpacks because of some complications I can't be assed to figure out.
+		// Example: take box out of the backpack, put something in your pocket, use hotswap. Suddenly the box is swapped with whatever item you put in your backpack...???
+		var/list/search = list(slot_w_uniform, slot_belt, slot_wear_id, slot_wear_suit, slot_wear_mask, slot_head, slot_shoes, slot_gloves, slot_ears, slot_glasses)
+		for(var/slot in search)
+			var/check = I.mob_can_equip(src, slot, 1, 1) //disable_warning = 0; return_equipped = 0
+			if(check)
+				//This is so the items are dropped properly. Comment this snippet out if you want hotswapping to not drop the ID/belt/pockets/etc.
+				if(I == r_hand)
+					r_hand = null
+				else if(I == l_hand)
+					l_hand = null
+				//snippet end
+				if(istype(check, /obj/item))
+					var/obj/item/U = check
+					unEquip(U)
+					if(!put_in_active_hand(U))
+						U.forceMove(get_turf(src))
+				equip_to_slot(I, slot, 1) //we do equip_to_slot AFTER unEquipping existing clothing so that id's, pockets, etc. are properly emptied out
+				if(hand)
+					update_inv_l_hand()
+				else
+					update_inv_r_hand()
+				return 1
+		return 0
 
 /mob/living/carbon/human/proc/equip_in_one_of_slots(obj/item/I, list/slots, qdel_on_fail = 1)
 	for(var/slot in slots)
@@ -72,7 +80,6 @@
 	if(qdel_on_fail)
 		qdel(I)
 	return null
-
 
 // Return the item currently in the slot ID
 /mob/living/carbon/human/get_item_by_slot(slot_id)
@@ -305,8 +312,6 @@
 			Human.unEquip(src)
 
 		if(bomb)
-			for(var/obj/item/Item in contents) //Empty out the contents
-				Item.loc = src.loc
 			spawn(1) //so the shreds aren't instantly deleted by the explosion
 				var/obj/effect/decal/cleanable/shreds/Shreds = new(loc)
 				Shreds.desc = "The sad remains of what used to be [src.name]."
@@ -334,11 +339,11 @@
 	var/missing_hands = 0
 
 	if(!get_organ("l_arm"))
-		drop_l_hand()
+		drop_l_hand(1)
 		missing_hands = missing_hands + 1
 
 	if(!get_organ("r_arm"))
-		drop_r_hand()
+		drop_r_hand(1)
 		missing_hands = missing_hands + 1
 
 	if(missing_hands)

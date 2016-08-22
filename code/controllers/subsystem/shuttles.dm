@@ -16,7 +16,7 @@ var/datum/subsystem/shuttle/SSshuttle
 	var/emergencyEscapeTime = 1200	//time taken for emergency shuttle to reach a safe distance after leaving station (in deciseconds)
 	var/area/emergencyLastCallLoc
 	var/emergencyNoEscape
-
+	var/emergencyNoRecall = 0
 		//supply shuttle stuff
 	var/obj/docking_port/mobile/supply/supply
 	var/ordernum = 1					//order number given to next order
@@ -137,6 +137,8 @@ var/datum/subsystem/shuttle/SSshuttle
 /datum/subsystem/shuttle/proc/canRecall()
 	if(emergency.mode != SHUTTLE_CALL)
 		return
+	if(emergencyNoRecall == 1)
+		return
 	if(ticker.mode.name == "meteor")
 		return
 	if(seclevel2num(get_security_level()) == SEC_LEVEL_RED)
@@ -220,7 +222,7 @@ var/datum/subsystem/shuttle/SSshuttle
 	reqform.info += "RANK: [orderedbyRank]<br>"
 	reqform.info += "REASON: [comment]<br>"
 	reqform.info += "SUPPLY CRATE TYPE: [object.name]<br>"
-	reqform.info += "ACCESS RESTRICTION: [replacetext(get_access_desc(object.access))]<br>"
+	reqform.info += "ACCESS RESTRICTION: [get_access_desc(object.access)]<br>"
 	reqform.info += "CONTENTS:<br>"
 	reqform.info += object.manifest
 	reqform.info += "<hr>"

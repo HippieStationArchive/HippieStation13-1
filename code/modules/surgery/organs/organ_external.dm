@@ -230,6 +230,9 @@
 	var/eye_color = "000"
 	var/lip_style = null	//no lipstick by default- arguably misleading, as it could be used for general makeup
 	var/lip_color = "white"
+	//Old body
+	var/body
+
 
 /obj/item/organ/limb/head/attackby(obj/item/W, mob/user, params)
 	if(!user || !W)
@@ -237,7 +240,7 @@
 
 	add_fingerprint(user)
 
-	var/list/implements = list(/obj/item/weapon/circular_saw, /obj/item/weapon/melee/energy/sword/cyborg/saw, /obj/item/weapon/melee/arm_blade,\
+	var/list/implements = list(/obj/item/weapon/circular_saw, /obj/item/weapon/circular_saw/bonesaw, /obj/item/weapon/melee/energy/sword/cyborg/saw, /obj/item/weapon/melee/arm_blade,\
 		/obj/item/weapon/twohanded/fireaxe, /obj/item/weapon/hatchet, /obj/item/weapon/kitchen/knife/butcher)
 	if(W.type in implements)
 		if(!istype(brain))

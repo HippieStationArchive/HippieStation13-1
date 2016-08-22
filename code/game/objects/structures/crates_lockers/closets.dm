@@ -297,7 +297,7 @@
 	if(user.lying && get_dist(src, user) > 0)
 		return
 
-	if(!toggle())
+	if(!toggle() && !opened)
 		togglelock(user)
 		return
 

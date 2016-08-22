@@ -7,6 +7,7 @@
 
 /obj/screen/human/toggle/Click()
 	var/mob/living/carbon/human/H = usr
+
 	if(H.inventory_hotswap())
 		return //Succesful hotswap
 
@@ -270,7 +271,7 @@
 	mymob.healths.icon_state = "health0"
 	mymob.healths.name = "health"
 	mymob.healths.screen_loc = ui_health
-	
+
 	mymob.staminas = new /obj/screen()
 	mymob.staminas.icon_state = "stamina0"
 	mymob.staminas.name = "stamina"
@@ -292,41 +293,16 @@
 	lingstingdisplay = new /obj/screen/ling/sting()
 	lingstingdisplay.screen_loc = ui_lingstingdisplay
 
-	mymob.blind = new /obj/screen()
-	mymob.blind.icon = 'icons/mob/screen_full.dmi'
-	mymob.blind.icon_state = "blackimageoverlay"
-	mymob.blind.name = " "
-	mymob.blind.screen_loc = "CENTER-7,CENTER-7"
-	mymob.blind.mouse_opacity = 0
-	mymob.blind.layer = 0
-
-	mymob.damageoverlay = new /obj/screen()
-	mymob.damageoverlay.icon = 'icons/mob/screen_full.dmi'
-	mymob.damageoverlay.icon_state = "oxydamageoverlay0"
-	mymob.damageoverlay.name = "dmg"
-	mymob.damageoverlay.blend_mode = BLEND_MULTIPLY
-	mymob.damageoverlay.screen_loc = "CENTER-7,CENTER-7"
-	mymob.damageoverlay.mouse_opacity = 0
-	mymob.damageoverlay.layer = 18.1 //The black screen overlay sets layer to 18 to display it, this one has to be just on top.
-
-	mymob.flash = new /obj/screen()
-	mymob.flash.icon_state = "blank"
-	mymob.flash.name = "flash"
-	mymob.flash.blend_mode = BLEND_ADD
-	mymob.flash.screen_loc = "WEST,SOUTH to EAST,NORTH"
-	mymob.flash.layer = 17
-	mymob.flash.mouse_opacity = 0
-
 	mymob.zone_sel = new /obj/screen/zone_sel()
 	mymob.zone_sel.icon = ui_style
 	mymob.zone_sel.update_icon()
 
 	mymob.client.screen = list()
 
-	mymob.client.screen += list( mymob.throw_icon, mymob.zone_sel, mymob.internals, mymob.healths, mymob.staminas, mymob.healthdoll, mymob.pullin, mymob.blind, mymob.flash, mymob.damageoverlay, lingchemdisplay, lingstingdisplay) //, mymob.hands, mymob.rest, mymob.sleep) //, mymob.mach )
+	mymob.client.screen += list(mymob.throw_icon, mymob.zone_sel, mymob.internals, mymob.healths, mymob.staminas, mymob.healthdoll, mymob.pullin, lingchemdisplay, lingstingdisplay) //, mymob.hands, mymob.rest, mymob.sleep) //, mymob.mach )
 	mymob.client.screen += adding + hotkeybuttons
 	mymob.client.screen += mymob.client.void
-	inventory_shown = 0;
+	inventory_shown = 0
 
 
 /mob/living/carbon/human/verb/toggle_hotkey_verbs()

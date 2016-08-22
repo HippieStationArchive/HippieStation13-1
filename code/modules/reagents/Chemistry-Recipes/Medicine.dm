@@ -39,17 +39,16 @@
 	name = "Charcoal"
 	id = "charcoal"
 	result = "charcoal"
-	required_reagents = list("ash" = 1, "sodiumchloride" = 1)
+	required_reagents = list("oil" = 1, "sodiumchloride" = 1)
 	result_amount = 2
 	mix_message = "The mixture yields a fine black powder."
-	required_temp = 380
 
 /datum/chemical_reaction/silver_sulfadiazine
 	name = "Silver Sulfadiazine"
 	id = "silver_sulfadiazine"
 	result = "silver_sulfadiazine"
-	required_reagents = list("ammonia" = 1, "silver" = 1, "sulfur" = 1, "oxygen" = 1, "chlorine" = 1)
-	result_amount = 5
+	required_reagents = list("silver" = 1, "sulfur" = 1, "oxygen" = 1, "chlorine" = 1)
+	result_amount = 4
 
 /datum/chemical_reaction/salglu_solution
 	name = "Saline-Glucose Solution"
@@ -57,14 +56,16 @@
 	result = "salglu_solution"
 	required_reagents = list("sodiumchloride" = 1, "water" = 1, "sugar" = 1)
 	result_amount = 3
-	
+
+/*	
 /datum/chemical_reaction/mine_salve
 	name = "Miner's Salve"
 	id = "mine_salve"
 	result = "mine_salve"
 	required_reagents = list("oil" = 1, "water" = 1, "iron" = 1)
 	result_amount = 3
-	
+*/
+
 /datum/chemical_reaction/mine_salve2
 	name = "Miner's Salve"
 	id = "mine_salve"
@@ -106,29 +107,15 @@
 	name = "Pentetic Acid"
 	id = "pen_acid"
 	result = "pen_acid"
-	required_reagents = list("welding_fuel" = 1, "chlorine" = 1, "ammonia" = 1, "formaldehyde" = 1, "sodium" = 1, "cyanide" = 1)
-	result_amount = 6
-
-/datum/chemical_reaction/sal_acid
-	name = "Salicyclic Acid"
-	id = "sal_acid"
-	result = "sal_acid"
-	required_reagents = list("sodium" = 1, "phenol" = 1, "carbon" = 1, "oxygen" = 1, "sacid" = 1)
-	result_amount = 5
-
-/datum/chemical_reaction/oxandrolone
-	name = "Oxandrolone"
-	id = "oxandrolone"
-	result = "oxandrolone"
-	required_reagents = list("carbon" = 3, "phenol" = 1, "hydrogen" = 1, "oxygen" = 1)
-	result_amount = 6
+	required_reagents = list("potass_iodide" = 1, "cyanide" = 1)
+	result_amount = 2
 
 /datum/chemical_reaction/salbutamol
 	name = "Salbutamol"
 	id = "salbutamol"
 	result = "salbutamol"
-	required_reagents = list("sal_acid" = 1, "lithium" = 1, "aluminium" = 1, "bromine" = 1, "ammonia" = 1)
-	result_amount = 5
+	required_reagents = list("lithium" = 1, "oxygen" = 1, "bromine" = 1)
+	result_amount = 3
 
 /datum/chemical_reaction/perfluorodecalin
 	name = "Perfluorodecalin"
@@ -146,6 +133,20 @@
 	required_reagents = list("sugar" = 1, "oil" = 1, "hydrogen" = 1, "diethylamine" = 1)
 	result_amount = 4
 	mix_message = "The solution fizzes and gives off toxic fumes."
+
+/datum/chemical_reaction/morphine
+	name = "Morphine"
+	id = "morphine"
+	result = "morphine"
+	required_reagents = list("sleeptoxin" = 1, "oil" = 1, "nitrogen" = 1)
+	result_amount = 3
+
+/datum/chemical_reaction/sleeptoxin
+	name = "Sleep Toxin"
+	id = "sleeptoxin"
+	result = "sleeptoxin"
+	required_reagents = list("sugar" = 4, "chloralhydrate" = 1)
+	result_amount = 5
 
 /datum/chemical_reaction/diphenhydramine
 	name = "Diphenhydramine"
@@ -167,15 +168,16 @@
 	name = "Atropine"
 	id = "atropine"
 	result = "atropine"
-	required_reagents = list("ethanol" = 1, "acetone" = 1, "diethylamine" = 1, "phenol" = 1, "sacid" = 1)
-	result_amount = 5
+	required_temp = 370
+	required_reagents = list("epinephrine" = 1, "ephedrine" = 1, "salbutamol" = 1)
+	result_amount = 3
 
 /datum/chemical_reaction/epinephrine
 	name = "Epinephrine"
 	id = "epinephrine"
 	result = "epinephrine"
-	required_reagents = list("phenol" = 1, "acetone" = 1, "diethylamine" = 1, "oxygen" = 1, "chlorine" = 1, "hydrogen" = 1)
-	result_amount = 6
+	required_reagents = list("carbon" = 1, "oxygen" = 1, "sugar" = 1)
+	result_amount = 3
 
 /datum/chemical_reaction/strange_reagent
 	name = "Strange Reagent"
@@ -196,8 +198,8 @@
 	name = "Mutadone"
 	id = "mutadone"
 	result = "mutadone"
-	required_reagents = list("mutagen" = 1, "acetone" = 1, "bromine" = 1)
-	result_amount = 3
+	required_reagents = list("radium" = 1, "charcoal" = 1)
+	result_amount = 2
 
 /datum/chemical_reaction/antihol
 	name = "antihol"
@@ -210,15 +212,23 @@
 	name = "Cryoxadone"
 	id = "cryoxadone"
 	result = "cryoxadone"
-	required_reagents = list("stable_plasma" = 1, "acetone" = 1, "mutagen" = 1)
+	required_reagents = list("stable_plasma" = 1, "oil" = 1, "mutagen" = 1)
 	result_amount = 3
+
+/datum/chemical_reaction/clonexadone
+	name = "Clonexadone"
+	id = "clonexadone"
+	result = "clonexadone"
+	required_reagents = list("cryoxadone" = 1, "sodium" = 1)
+	required_catalysts = list("plasma" = 5)
+	result_amount = 2
 
 /datum/chemical_reaction/bicaridine
 	name = "Bicaridine"
 	id = "bicaridine"
 	result = "bicaridine"
-	required_reagents = list("carbon" = 1, "oxygen" = 1, "sugar" = 1)
-	result_amount = 3
+	required_reagents = list("epinephrine" = 1, "carbon" = 1)
+	result_amount = 2
 
 /datum/chemical_reaction/kelotane
 	name = "Kelotane"
@@ -227,17 +237,33 @@
 	required_reagents = list("carbon" = 1, "silicon" = 1)
 	result_amount = 2
 
+/datum/chemical_reaction/bromelain
+	name = "Bromelain"
+	id = "bromelain"
+	result = "bromelain"
+	required_reagents = list("styptic_powder" = 1, "bicaridine" = 1, "carbon" = 1)
+	required_catalysts = list("plasma" = 5)
+	result_amount = 2
 
-/datum/chemical_reaction/antitoxin
+/datum/chemical_reaction/dermaline
+	name = "Dermaline"
+	id = "dermaline"
+	result = "dermaline"
+	required_reagents = list("kelotane" = 1, "silver_sulfadiazine" = 1, "phosphorus" = 1)
+	required_catalysts = list("plasma" = 5)
+	result_amount = 2
+
+/datum/chemical_reaction/antitoxin //There is literally no reason to make this it's just a shitter charcoal reeeeee
 	name = "Antitoxin"
 	id = "antitoxin"
-	result = "antitoxin"
-	required_reagents = list("nitrogen" = 1, "silicon" = 1, "potassium" = 1)
+	result = "charcoal"
+	required_reagents = list("nitrogen" = 2, "silicon" = 2, "potassium" = 2)
 	result_amount = 3
 
 /datum/chemical_reaction/tricordrazine
 	name = "Tricordrazine"
 	id = "tricordrazine"
 	result = "tricordrazine"
-	required_reagents = list("bicaridine" = 1, "kelotane" = 1, "antitoxin" = 1)
+	required_temp = 370
+	required_reagents = list("bicaridine" = 1, "kelotane" = 1, "charcoal" = 1)
 	result_amount = 3

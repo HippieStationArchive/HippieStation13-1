@@ -15,6 +15,7 @@
 	var/phasing = 0
 	see_in_dark = 8
 	see_invisible = SEE_INVISIBLE_MINIMUM
+	next_move_modifier = 0.2 // because why not
 
 	response_help   = "pokes"
 	response_disarm = "flails at"

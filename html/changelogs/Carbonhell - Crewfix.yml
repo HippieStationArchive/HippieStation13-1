@@ -1,0 +1,6 @@
+author: Carbonhell
+delete-after: True
+changes: 
+  - tweak: "Admins can now give any objective and set the target easily."
+  - bugfix: "Fixed latejoiner antags having crew objectives."
+  - bugfix: "Fixed the have x chemical inside at roundend objective not actually requiring any chem."

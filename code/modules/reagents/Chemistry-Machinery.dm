@@ -969,18 +969,25 @@
 				/obj/item/stack/sheet/mineral/bananium = list("banana" = 20),
 				/obj/item/stack/sheet/mineral/silver = list("silver" = 20),
 				/obj/item/stack/sheet/mineral/gold = list("gold" = 20),
+				/obj/item/weapon/coin/gold = list("gold" = 4),
+				/obj/item/weapon/coin/silver = list("silver" = 4),
+				/obj/item/weapon/coin/iron = list("iron" = 4),
+				/obj/item/weapon/coin/plasma = list("plasma" = 4),
+				/obj/item/weapon/coin/uranium = list("uranium" = 4),
+				/obj/item/weapon/coin/clown = list("banana" = 4),
 				/obj/item/weapon/grown/nettle/basic = list("sacid" = 0),
 				/obj/item/weapon/grown/nettle/death = list("facid" = 0),
 				/obj/item/weapon/grown/novaflower = list("capsaicin" = 0, "condensedcapsaicin" = 0),
 
 				//Crayons (for overriding colours)
-				/obj/item/toy/crayon/red = list("redcrayonpowder" = 10),
-				/obj/item/toy/crayon/orange = list("orangecrayonpowder" = 10),
-				/obj/item/toy/crayon/yellow = list("yellowcrayonpowder" = 10),
-				/obj/item/toy/crayon/green = list("greencrayonpowder" = 10),
-				/obj/item/toy/crayon/blue = list("bluecrayonpowder" = 10),
-				/obj/item/toy/crayon/purple = list("purplecrayonpowder" = 10),
+				/obj/item/toy/crayon/red = list("redcrayonpowder" = 50),
+				/obj/item/toy/crayon/orange = list("orangecrayonpowder" = 50),
+				/obj/item/toy/crayon/yellow = list("yellowcrayonpowder" = 50),
+				/obj/item/toy/crayon/green = list("greencrayonpowder" = 50),
+				/obj/item/toy/crayon/blue = list("bluecrayonpowder" = 50),
+				/obj/item/toy/crayon/purple = list("purplecrayonpowder" = 50),
 				/obj/item/toy/crayon/mime = list("invisiblecrayonpowder" = 50),
+				/obj/item/toy/crayon/rainbow = list("colorful_reagent" = 100),
 
 				//Blender Stuff
 				/obj/item/weapon/reagent_containers/food/snacks/grown/soybeans = list("soymilk" = 0),
@@ -998,14 +1005,15 @@
 				/obj/item/weapon/reagent_containers/food/snacks/grown/tea/aspera = list("teapowder" = 0),
 				/obj/item/weapon/reagent_containers/food/snacks/grown/tea/astra = list("teapowder" = 0, "salglu_solution" = 0),
 
-
-
+				//Random Meme-tier stuff!!
+				/obj/item/weapon/screwdriver = list("screwdrivercocktail" = 30),
+				/obj/item/organ/internal/butt = list("fartium" = 20),
+				/obj/item/weapon/storage/book/bible = list("holywater" = 100),
+				
 				//All types that you can put into the grinder to transfer the reagents to the beaker. !Put all recipes above this.!
 				/obj/item/weapon/reagent_containers/pill = list(),
 				/obj/item/weapon/reagent_containers/food = list(),
-
-				//Random Meme-tier stuff!!
-				/obj/item/weapon/screwdriver = list("screwdrivercocktail" = 30)
+				/obj/item/clothing/mask/cigarette = list()
 		)
 
 		var/list/juice_items = list (
@@ -1096,7 +1104,7 @@
 				src.updateUsrDialog()
 				return 0
 
-		if (!is_type_in_list(O, blend_items) && !is_type_in_list(O, juice_items))
+		if (!is_type_in_list(O, blend_items) && !is_type_in_list(O, juice_items) && !istype(O, /obj/item/weapon/reagent_containers/food) && !istype(O, /obj/item/weapon/reagent_containers/pill) && !istype(O, /obj/item/clothing/mask/cigarette))
 				user << "<span class='warning'>Cannot refine into a reagent!</span>"
 				return 1
 

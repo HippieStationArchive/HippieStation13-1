@@ -16,6 +16,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 
 /area
 	var/fire = null
+	var/radstorm = null
 	var/atmos = 1
 	var/atmosalm = 0
 	var/poweralm = 1
@@ -219,7 +220,7 @@ var/list/teleportlocs = list()
 
 /area/asteroid
 	name = "Asteroid"
-	icon_state = "asteroid"
+	icon_state = "green"
 	requires_power = 0
 	has_gravity = 1
 
@@ -231,6 +232,15 @@ var/list/teleportlocs = list()
 /area/asteroid/artifactroom
 	name = "Asteroid - Artifact"
 	icon_state = "cave"
+
+/area/asteroid/crash
+	name = "Asteroid Crash Site"
+	icon_state = "cave"
+	has_gravity = 1
+
+/area/asteroid/crash/New()
+	..()
+	SetDynamicLighting()
 
 /area/asteroid/artifactroom/New()
 	..()
@@ -1035,44 +1045,6 @@ var/list/teleportlocs = list()
 	icon_state = "quart"
 
 //Outpost
-/area/outpost/lobby
-	name = "Outpost Lobby"
-	icon_state = "blue"
-	has_gravity = 1
-
-/area/outpost/engi
-	name = "Outpost Engineering"
-	icon_state = "engine"
-	has_gravity = 1
-
-/area/outpost/staffroom
-	name = "Outpost Staffroom"
-	icon_state = "red"
-	has_gravity = 1
-
-/area/outpost/toxins
-	name = "Outpost Toxins Lab"
-	icon_state = "toxlab"
-	has_gravity = 1
-
-/area/outpost/mining
-	name = "Outpost Mining"
-	icon_state = "mining"
-	has_gravity = 1
-
-/area/outpost/xeno
-	name = "Outpost Xenobiology Lab"
-	icon_state = "toxmisc"
-	has_gravity = 1
-
-/area/outpost/rd
-	name = "Outpost Research Director Office"
-	icon_state = "green"
-	has_gravity = 1
-
-/area/outpost/solars
-	name = "Outpost Solars"
-	icon_state = "red"
 
 /area/quartermaster/miningdock
 	name = "Mining Dock"
@@ -1898,6 +1870,7 @@ var/list/the_station_areas = list (
 	/area/storage,
 	/area/construction,
 	/area/ai_monitored/storage/eva, //do not try to simplify to "/area/ai_monitored" --rastaf0
+	/area/ai_monitored/security, // why wasn't armory in the list of ss13 areas
 //	/area/ai_monitored/storage/secure,	//not present on map
 //	/area/ai_monitored/storage/emergency,	//not present on map
 	/area/turret_protected/ai_upload, //do not try to simplify to "/area/turret_protected" --rastaf0

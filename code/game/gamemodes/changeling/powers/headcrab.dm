@@ -38,10 +38,14 @@
 		var/mob/living/simple_animal/hostile/headcrab/crab = new(turf)
 		for(var/obj/item/organ/internal/I in organs)
 			I.loc = crab
+
+		if(M)
+			M.ghost = FALSE
+
 		crab.origin = M
 		if(crab.origin)
 			crab.origin.active = 1
-			crab.origin.transfer_to(crab)
+			crab.origin.transfer_to(crab, TRUE) // TRUE means force the player's ghost to transfer
 			crab << "<span class='warning'>You burst out of the remains of your former body in a shower of gore!</span>"
 	user.gib()
 	feedback_add_details("changeling_powers","LR")

@@ -1,0 +1,4 @@
+author: Carbonhell
+delete-after: True
+changes: 
+  - bugfix: "You will no longer see items on the floor where clicking the entire turf would pick them up."

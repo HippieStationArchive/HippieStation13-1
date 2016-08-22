@@ -1,0 +1,6 @@
+author: Kokojo
+
+delete-after: True
+
+changes: 
+  - tweak: "Inflatable barriers HP lowered to 20 from 50, and now require a (very)small delay to deploy."
