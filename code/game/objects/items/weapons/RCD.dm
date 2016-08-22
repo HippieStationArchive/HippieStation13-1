@@ -20,7 +20,7 @@ RCD
 	w_class = 3
 	materials = list(MAT_METAL=100000)
 	origin_tech = "engineering=4;materials=2"
-	var/max_matter = 160
+	var/max_matter = 200
 	var/matter = 0
 	var/working = 0
 	var/mode = 1
