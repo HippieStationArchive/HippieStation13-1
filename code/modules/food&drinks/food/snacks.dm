@@ -9,6 +9,7 @@
 	var/slice_path    // for sliceable food. path of the item resulting from the slicing
 	var/slices_num
 	var/eatverb
+	var/toybonus = 0
 	var/wrapped = 0
 	var/dried_type = null
 	var/potency = null
@@ -25,7 +26,10 @@
 	if(!usr)	return
 	if(!reagents.total_volume)
 		usr.unEquip(src)	//so icons update :[
-
+		if(toybonus = 1)
+			var/toyshit = pick(typesof(/obj/item/toy/prize) - /obj/item/toy/prize)
+			new toyshit(src)
+			usr.put_in_hands(toyshit)
 		if(trash)
 			if(ispath(trash,/obj/item/weapon/grown))
 				var/obj/item/TrashItem = new trash(usr,src.potency)
