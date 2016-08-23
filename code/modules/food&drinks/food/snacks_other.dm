@@ -318,5 +318,5 @@
 	icon_state = "cappymeal"
 	trash = pick(typesof(/obj/item/toy/prize) - /obj/item/toy/prize)
 	junkiness = 50
-	list_reagents = list("nutriment" = 40, "badfood" = 10)
+	list_reagents = list("nutriment" = 40, "????" = 10)
 	w_class = 3
