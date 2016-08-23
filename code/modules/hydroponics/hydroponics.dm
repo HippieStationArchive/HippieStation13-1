@@ -74,7 +74,7 @@
 		return
 
 	if(istype(I, /obj/item/weapon/crowbar))
-		if(anchored == 2)
+		if(anchored == 2 && allowsHoses)
 			user << "<span class='warning'>Unscrew the hoses first!</span>"
 			return
 		default_deconstruction_crowbar(I, 1)
@@ -255,7 +255,7 @@
 		for(var/Dir in cardinal)
 
 			var/obj/machinery/hydroponics/t = locate() in get_step(src,Dir)
-			if(t && t.anchored == 2 && src.anchored == 2)
+			if(t && t.anchored == 2 && t.allowsHoses && src.anchored == 2 && src.allowsHoses)
 				n += Dir
 		if(n)
 			icon_state = "[initial(icon_state)]_hoses-[n]"
@@ -644,7 +644,7 @@
 		if(!anchored)
 			user << "<span class='warning'>Anchor it first!</span>"
 			return
-		if(anchored == 2)
+		if(anchored == 2 && allowsHoses)
 			user << "<span class='warning'>Unscrew the hoses first!</span>"
 			return
 		if(frozen == -1)
@@ -703,7 +703,7 @@
 				playsound(loc, 'sound/effects/slosh.ogg', 25, 1)
 
 		// anchored == 2 means the hoses are screwed in place
-		if(irrigate && reagent_source.amount_per_transfer_from_this > 30 && reagent_source.reagents.total_volume >= 30 && anchored == 2)
+		if(irrigate && reagent_source.amount_per_transfer_from_this > 30 && reagent_source.reagents.total_volume >= 30 && anchored == 2 && allowsHoses)
 			trays = FindConnected()
 			if (trays.len > 1)
 				visi_msg += ", setting off the irrigation system"
@@ -794,7 +794,7 @@
 			S.handle_item_insertion(G, 1)
 
 	else if(istype(O, /obj/item/weapon/wrench) && unwrenchable)
-		if(anchored == 2)
+		if(anchored == 2 && allowsHoses)
 			user << "<span class='warning'>Unscrew the hoses first!</span>"
 			return
 
