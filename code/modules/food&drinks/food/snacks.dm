@@ -26,7 +26,7 @@
 	if(!usr)	return
 	if(!reagents.total_volume)
 		usr.unEquip(src)	//so icons update :[
-		if(toybonus = 1)
+		if(toybonus == 1)
 			var/toyshit = pick(typesof(/obj/item/toy/prize) - /obj/item/toy/prize)
 			new toyshit(src)
 			usr.put_in_hands(toyshit)
