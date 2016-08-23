@@ -316,8 +316,7 @@
 	name = "Cappy Meal Box"
 	desc = "A 'nutritious' edible cardboard box, made by McHackole's. Written on the front are the words 'I'm Validin' It!'. It's not very good for you, but it's cheap. Don't swallow the toy inside!"
 	icon_state = "cappymeal"
-	var/mealboxspawn = pick(typesof(/obj/item/toy/prize) - /obj/item/toy/prize)
-	trash = mealboxspawn
+	toybonus = 1
 	junkiness = 50
 	list_reagents = list("nutriment" = 40, "????" = 10)
 	w_class = 3
