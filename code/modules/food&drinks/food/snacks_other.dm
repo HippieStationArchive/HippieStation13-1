@@ -320,3 +320,7 @@
 	junkiness = 50
 	list_reagents = list("nutriment" = 40, "????" = 10)
 	w_class = 3
+	
+/obj/item/weapon/reagent_containers/food/snacks/cappymeal/proc/On_Consume()
+	var/prize = pick(typesof(/obj/item/toy/prize) - /obj/item/toy/prize)
+	new prize(src)
