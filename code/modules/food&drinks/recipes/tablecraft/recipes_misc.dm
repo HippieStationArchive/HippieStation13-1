@@ -245,8 +245,5 @@
 	reqs = list(/obj/item/weapon/reagent_containers/food/snacks/badrecipe = 1,
 		/obj/item/weapon/storage/box = 1
 	)
-	parts =	list(
-		pick(typesof(/obj/item/toy/prize) - /obj/item/toy/prize)
-	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/cappymeal
 	category = CAT_FOOD
