@@ -26,7 +26,7 @@
 	var/unwrenchable = 1
 	var/frozen = -1			//Is the plant frozen? -1 is used to define trays that can't be frozen. 0 is unfrozen and 1 is frozen.
 	var/plantOverlay		//Current plant image to be used.
-	var/machineOverlays = 0			//If health, water and nutriment overlays are to be used.
+	var/list/machineryOverlays = list() //Overlays used for your hydrotray. Define how it handles them in handleHUDOverlay()
 	var/allowsHoses = 0 	//Used to see if that type of tray can have hoses.
 
 	pixel_y=8
@@ -37,7 +37,6 @@
 	icon_state = "hydrotray3"
 	frozen = 0
 	allowsHoses = 1
-	machineOverlays = 1
 
 /obj/machinery/hydroponics/constructable/New()
 	..()
@@ -48,6 +47,14 @@
 	component_parts += new /obj/item/weapon/stock_parts/manipulator(null)
 	component_parts += new /obj/item/weapon/stock_parts/console_screen(null)
 	RefreshParts()
+	machineryOverlays = list(
+								image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_lowwater3"),
+								image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_lownutri3"),
+								image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_lowhealth3"),
+								image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_alert3"),
+								image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_harvest3"),
+								image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_frozen3")
+							)
 
 /obj/machinery/hydroponics/constructable/RefreshParts()
 	var/tmp_capacity = 0
@@ -81,6 +88,21 @@
 
 	..()
 
+/obj/machinery/hydroponics/constructable/handleHUDOverlays()
+	if(..())
+		if(waterlevel <= 10)
+			overlays += machineryOverlays[1]
+		if(nutrilevel <= 2)
+			overlays += machineryOverlays[2]
+		if(health <= (myseed.endurance / 2))
+			overlays += machineryOverlays[3]
+		if(weedlevel >= 5 || pestlevel >= 5 || toxic >= 40)
+			overlays += machineryOverlays[4]
+		if(harvest && !frozen) //Frozen and harvest use the same "spot" and I can't be arsed respriting the whole thing
+			overlays += machineryOverlays[5]
+		if(frozen)
+			overlays += machineryOverlays[6]
+
 /obj/machinery/hydroponics/proc/FindConnected()
 
 	var/list/connected = list()
@@ -102,6 +124,11 @@
 	return connected
 
 
+/obj/machinery/hydroponics/proc/handleHUDOverlays() //Override this if your hydrotray uses overlays.
+	if(!machineryOverlays)
+		return
+	return 1
+
 /obj/machinery/hydroponics/bullet_act(obj/item/projectile/Proj) //Works with the Somatoray to modify plant variables.
 	if(!planted)
 		..()
@@ -120,6 +147,8 @@
 		return
 
 /obj/machinery/hydroponics/process()
+	if(frozen == 1)
+		return
 
 	var/needs_update = 0 // Checks if the icon needs updating so we don't redraw empty trays every time
 
@@ -285,18 +314,7 @@
 			I.color = "#91D5F9"
 		overlays += I
 
-
-		if(machineOverlays)
-			if(waterlevel <= 10)
-				overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_lowwater3")
-			if(nutrilevel <= 2)
-				overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_lownutri3")
-			if(health <= (myseed.endurance / 2))
-				overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_lowhealth3")
-			if(weedlevel >= 5 || pestlevel >= 5 || toxic >= 40)
-				overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_alert3")
-			if(harvest)
-				overlays += image('icons/obj/hydroponics/equipment.dmi', icon_state = "over_harvest3")
+		handleHUDOverlays()
 
 	if(istype(myseed,/obj/item/seeds/glowshroom))
 		SetLuminosity(round(myseed.potency / 10))
@@ -649,14 +667,34 @@
 			return
 		if(frozen == -1)
 			return
-		if(frozen == 0)
-			SSmachine.processing += src
-		else
-			SSmachine.processing -= src
 		user << "<span class='notice'>You [frozen ? "disable" : "enable"] the cryogenic freezing.</span>"
 		frozen = !frozen
-		machineOverlays = !machineOverlays
 		update_icon()
+		return
+
+	else if(istype(O, /obj/item/device/analyzer/plant_analyzer))
+		if(planted && myseed)
+			user << "*** <B>[myseed.plantname]</B> ***" //Carn: now reports the plants growing, not the seeds.
+			user << "-Plant Age: <span class='notice'>[age]</span>"
+			user << "-Plant Endurance: <span class='notice'>[myseed.endurance]</span>"
+			user << "-Plant Lifespan: <span class='notice'>[myseed.lifespan]</span>"
+			if(myseed.yield != -1)
+				user << "-Plant Yield: <span class='notice'>[myseed.yield]</span>"
+			user << "-Plant Production: <span class='notice'>[myseed.production]</span>"
+			if(myseed.potency != -1)
+				user << "-Plant Potency: <span class='notice'>[myseed.potency]</span>"
+			var/list/text_strings = myseed.get_analyzer_text()
+			if(text_strings)
+				for(var/string in text_strings)
+					user << string
+		else
+			user << "<B>No plant found.</B>"
+		user << "-Weed level: <span class='notice'>[weedlevel] / 10</span>"
+		user << "-Pest level: <span class='notice'>[pestlevel] / 10</span>"
+		user << "-Toxicity level: <span class='notice'>[toxic] / 100</span>"
+		user << "-Water level: <span class='notice'>[waterlevel] / [maxwater]</span>"
+		user << "-Nutrition level: <span class='notice'>[nutrilevel] / [maxnutri]</span>"
+		user << ""
 		return
 
 	if(frozen == 1)
@@ -753,30 +791,6 @@
 		else
 			user << "<span class='warning'>[src] already has seeds in it!</span>"
 
-	else if(istype(O, /obj/item/device/analyzer/plant_analyzer))
-		if(planted && myseed)
-			user << "*** <B>[myseed.plantname]</B> ***" //Carn: now reports the plants growing, not the seeds.
-			user << "-Plant Age: <span class='notice'>[age]</span>"
-			user << "-Plant Endurance: <span class='notice'>[myseed.endurance]</span>"
-			user << "-Plant Lifespan: <span class='notice'>[myseed.lifespan]</span>"
-			if(myseed.yield != -1)
-				user << "-Plant Yield: <span class='notice'>[myseed.yield]</span>"
-			user << "-Plant Production: <span class='notice'>[myseed.production]</span>"
-			if(myseed.potency != -1)
-				user << "-Plant Potency: <span class='notice'>[myseed.potency]</span>"
-			var/list/text_strings = myseed.get_analyzer_text()
-			if(text_strings)
-				for(var/string in text_strings)
-					user << string
-		else
-			user << "<B>No plant found.</B>"
-		user << "-Weed level: <span class='notice'>[weedlevel] / 10</span>"
-		user << "-Pest level: <span class='notice'>[pestlevel] / 10</span>"
-		user << "-Toxicity level: <span class='notice'>[toxic] / 100</span>"
-		user << "-Water level: <span class='notice'>[waterlevel] / [maxwater]</span>"
-		user << "-Nutrition level: <span class='notice'>[nutrilevel] / [maxnutri]</span>"
-		user << ""
-
 	else if(istype(O, /obj/item/weapon/cultivator))
 		if(weedlevel > 0)
 			user.visible_message("[user] uproots the weeds.", "<span class='notice'>You remove the weeds from [src].</span>")
@@ -819,7 +833,7 @@
 				user.visible_message("[user] unwrenches [src].", \
 									"<span class='notice'>You unwrench [src].</span>")
 
-	else if(istype(O, /obj/item/weapon/wirecutters) && allowsHoses) //THIS NEED TO BE DONE DIFFERENTLY, SOMEONE REFACTOR THE TRAY CODE ALREADY - 23/08/16 update, I think this should suffice.
+	else if(istype(O, /obj/item/weapon/wirecutters) && allowsHoses) //THIS NEED TO BE DONE DIFFERENTLY, SOMEONE REFACTOR THE TRAY CODE ALREADY
 		if(anchored)
 			if(anchored == 2)
 				playsound(src.loc, 'sound/items/Wirecutter.ogg', 50, 1)
