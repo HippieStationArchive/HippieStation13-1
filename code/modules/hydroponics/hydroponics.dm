@@ -25,7 +25,6 @@
 	var/rating = 1
 	var/unwrenchable = 1
 	var/frozen = -1			//Is the plant frozen? -1 is used to define trays that can't be frozen. 0 is unfrozen and 1 is frozen.
-	var/plantOverlay		//Current plant image to be used.
 	var/list/machineryOverlays = list() //Overlays used for your hydrotray. Define how it handles them in handleHUDOverlay()
 	var/allowsHoses = 0 	//Used to see if that type of tray can have hoses.
 
