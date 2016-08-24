@@ -90,17 +90,18 @@
 
 /obj/machinery/hydroponics/constructable/handleHUDOverlays()
 	if(..())
-		if(waterlevel <= 10)
-			overlays += machineryOverlays[1]
-		if(nutrilevel <= 2)
-			overlays += machineryOverlays[2]
-		if(health <= (myseed.endurance / 2))
-			overlays += machineryOverlays[3]
-		if(weedlevel >= 5 || pestlevel >= 5 || toxic >= 40)
-			overlays += machineryOverlays[4]
-		if(harvest && !frozen) //Frozen and harvest use the same "spot" and I can't be arsed respriting the whole thing
-			overlays += machineryOverlays[5]
-		if(frozen)
+		if(myseed)
+			if(waterlevel <= 10)
+				overlays += machineryOverlays[1]
+			if(nutrilevel <= 2)
+				overlays += machineryOverlays[2]
+			if(health <= (myseed.endurance / 2))
+				overlays += machineryOverlays[3]
+			if(weedlevel >= 5 || pestlevel >= 5 || toxic >= 40)
+				overlays += machineryOverlays[4]
+			if(harvest && !frozen) //Frozen and harvest use the same "spot" and I can't be arsed respriting the whole thing
+				overlays += machineryOverlays[5]
+		if(frozen) //Frozen should appear regardless if there is a plant present
 			overlays += machineryOverlays[6]
 
 /obj/machinery/hydroponics/proc/FindConnected()
@@ -314,7 +315,7 @@
 			I.color = "#91D5F9"
 		overlays += I
 
-		handleHUDOverlays()
+	handleHUDOverlays()
 
 	if(istype(myseed,/obj/item/seeds/glowshroom))
 		SetLuminosity(round(myseed.potency / 10))
