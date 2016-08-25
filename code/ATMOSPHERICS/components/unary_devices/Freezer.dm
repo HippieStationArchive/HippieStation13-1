@@ -7,6 +7,7 @@
 	anchored = 1
 	use_power = 1
 	current_heat_capacity = 1000
+	idle_power_usage = 100
 
 /obj/machinery/atmospherics/components/unary/cold_sink/freezer/New()
 	..()
@@ -129,6 +130,7 @@
 	density = 1
 	var/max_temperature = 0
 	anchored = 1
+	idle_power_usage = 100
 
 	current_heat_capacity = 1000
 
