@@ -1,13 +1,4 @@
-# Your name.  
-author: N3X15
-
-# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+author: Kierany9
 delete-after: True
-
-# Any changes you've made.  See valid prefix list above.
-# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
-# SCREW THIS UP AND IT WON'T WORK.
-# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
-# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - bugfix: "Freezers no longer have such absurd power drain when upgraded."
+  - bugfix: "We have recently noticed that the Syndicate, in collaboration Wizards Federation, have sabotaged all NanoTrasen brand freezers by adding miniature power sinks inside of them. We have replaced these defective units, they will no longer instantly drain APCs, nor cause gases to defy the third law of thermodynamics, when upgraded."
