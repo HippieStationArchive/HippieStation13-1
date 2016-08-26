@@ -222,9 +222,9 @@
 			if(show_message)
 				M << "<span class='warning'>You feel like you are freezing from the inside!</span>"
 		else
-			if(show_message)
-				M << "<span class='danger'>You can feel your body freezing up and your metabolism slow DEAR GOD THE PAIN!!</span>" //
 			if (reac_volume >= 5)
+				if(show_message)
+					M << "<span class='danger'>You can feel your body freezing up and your metabolism slow DEAR GOD THE PAIN!!</span>"
 				M.bodytemperature = max(M.bodytemperature - 10*reac_volume, TCMB)
 				M.adjust_fire_stacks(-(3*reac_volume))
 				M.adjustFireLoss(0.125*reac_volume) //Sorry for snowflakey numbers~
