@@ -351,7 +351,7 @@
 	result_amount = 3
 
 /datum/chemical_reaction/pyrosium/on_reaction(datum/reagents/holder, created_volume)
-	holder.chem_temp = 20 // also cools the fuck down
+	holder.chem_temp = 500 // also heats the fuck up because coders make no sense
 	return
 
 /datum/chemical_reaction/cryogenic_fluid
