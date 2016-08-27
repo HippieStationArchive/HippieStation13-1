@@ -26,6 +26,9 @@
 /datum/martial_art/proc/tablepush_act(mob/living/carbon/human/A, mob/living/carbon/human/D) //Called when you tablepush someone
 	return 0
 
+/datum/martial_art/proc/bump_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	return 0
+
 /datum/martial_art/proc/add_to_streak(element,mob/living/carbon/human/A,mob/living/carbon/human/D)
 	if(istype(D) && D != current_target)
 		current_target = D
