@@ -167,7 +167,7 @@
 /datum/martial_art/krav_maga/bump_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(A.a_intent == "harm" && A.m_intent=="run" && A.slowdown <= 0 && !A.l_hand && !A.r_hand && A.get_num_arms() == 2)
 		if(A.canmove && A.pulling != D && D.pulling != A && !D.buckled)
-			if(!(D.status_flags & CANPUSH) || (D.l_hand && D.l_hand:block_push) || (D.r_hand && D.r_hand:block_push))
+			if(!(D.status_flags & CANPUSH) || (D.l_hand && D.l_hand.block_push) || (D.r_hand && D.r_hand.block_push))
 				A.Stun(3)
 				A.Weaken(3)
 				A.adjustStaminaLoss(60)
