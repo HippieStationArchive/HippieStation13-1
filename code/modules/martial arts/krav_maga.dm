@@ -183,6 +183,8 @@
 				A.adjustStaminaLoss(60)
 				shake_camera(A, 3, 1)
 				shake_camera(D, 3, 1)
+				for(var/datum/reagent/R in A.reagents.reagent_list)
+					R.stun_timer = 0
 				if(!A.stat && A.Adjacent(D))
 					A.forceMove(D.loc)
 				playsound(D, 'sound/effects/bang.ogg', 50, 1)
