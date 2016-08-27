@@ -84,6 +84,12 @@ Sorry Giacom. Please don't be mad :(
 	if(now_pushing)
 		return 1
 
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		var/datum/martial_art/attacker_style = H.martial_art
+		if(attacker_style && attacker_style.bump_act(H,M))
+			return 1
+
 	//BubbleWrap: Should stop you pushing a restrained person out of the way
 	if(istype(M, /mob/living))
 		for(var/mob/MM in range(1, M))
