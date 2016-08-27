@@ -978,6 +978,8 @@
 		if(H.status_flags & GOTTAGOREALLYFAST)
 			. -= 2
 
+	H.slowdown = .
+
 //////////////////
 // ATTACK PROCS //
 //////////////////
