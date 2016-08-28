@@ -239,3 +239,11 @@
 	parts = list(/obj/item/weapon/reagent_containers/food/drinks/bottle/vodka = 1)
 	result = /obj/item/weapon/reagent_containers/food/snacks/melonkeg
 	category = CAT_FOOD
+	
+/datum/table_recipe/cappymeal
+	name = "Cappy Meal Box"
+	reqs = list(/obj/item/weapon/reagent_containers/food/snacks/badrecipe = 1,
+		/obj/item/weapon/storage/box = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/cappymeal
+	category = CAT_FOOD
