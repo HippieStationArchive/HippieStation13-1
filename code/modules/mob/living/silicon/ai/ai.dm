@@ -121,19 +121,20 @@ var/list/ai_list = list()
 				B.brainmob.mind.transfer_to(src)
 				if(mind.special_role)
 					mind.store_memory("As an AI, you must obey your silicon laws above all else. Your objectives will consider you to be dead.")
-					src << "<span class='userdanger'>You have been installed as an AI! </span>"
+					src << "<span class='userdanger'>You have been installed as an AI!</span>"
 					src << "<span class='danger'>You must obey your silicon laws above all else. Your objectives will consider you to be dead.</span>"
 
-			src << "<B>You are playing the station's AI. The AI cannot move, but can interact with many objects while viewing them (through cameras).</B>"
-			src << "<B>To look at other parts of the station, click on yourself to get a camera menu.</B>"
-			src << "<B>While observing through a camera, you can use most (networked) devices which you can see, such as computers, APCs, intercoms, doors, etc.</B>"
-			src << "To use something, simply click on it."
-			src << "Use say :b to speak to your cyborgs through binary."
+			src << "<B>You are playing the station's AI. The AI cannot physically move, but can interact with many objects while viewing them through cameras.</B>"
+			src << "<B>To look at other parts of the station, use the HUD to view cameras, players, and rooms. You may also use the movement keys to look around.</B>"
+			src << "<B>You can manipulate almost any device that you can see, such as computers, APCs, intercoms, and doors.</B>"
+			src << "To use something, simply click on it. Abuse of station property may lead to your laws being reset."
+			src << "Failure to follow your laws, or poorly interpreting them, may lead to your immediate termination."
+			src << "Use 'say :b' to speak to your cyborgs privately."
 			src << "For department channels, use the following say commands:"
 			src << ":o - AI Private, :c - Command, :s - Security, :e - Engineering, :u - Supply, :v - Service, :m - Medical, :n - Science."
 			if (!(ticker && ticker.mode && (mind in ticker.mode.malf_ai)))
 				show_laws()
-				src << "<b>These laws may be changed by other players, or by you being the traitor.</b>"
+				src << "<b>These laws may be changed by other players through the AI Upload room, or by you being the traitor.</b>"
 
 			job = "AI"
 	ai_list += src
