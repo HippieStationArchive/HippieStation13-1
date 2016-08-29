@@ -43,12 +43,7 @@
 		"Reisen",
 		"Naga",
 		"Squid",
-<<<<<<< HEAD
 		"Squigly",
-		"Sue Bowchief",
-=======
-		"Squiggly",
->>>>>>> f6aa1700d40afa5bb6e5d4396676596e2ccff809
 		"Tomoko",
 		"Toriel",
 		"Umaru",
