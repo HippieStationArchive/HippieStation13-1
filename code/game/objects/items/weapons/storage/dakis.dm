@@ -24,8 +24,6 @@
 		body_choice = input("Pick a body.") in list(
 
 		"Callie",
-		"Camille",
-		"Cappy",
 		"Casca",
 		"Chaika",
 		"Elisabeth",
@@ -46,7 +44,6 @@
 		"Naga",
 		"Squid",
 		"Squiggly",
-		"Sue Bowchief",
 		"Tomoko",
 		"Toriel",
 		"Umaru",
