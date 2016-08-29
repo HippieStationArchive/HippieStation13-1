@@ -227,13 +227,13 @@
 	stun_resist = 6
 
 /datum/reagent/fuel/unholywater/on_mob_life(mob/living/M)
-	M.adjustBrainLoss(3)
 	if(iscultist(M))
 		speedboost = FAST
 		M.drowsyness = max(M.drowsyness-5, 0)
 		stun_resist_act(M)
 	else
 		speedboost = NORMAL
+		M.adjustBrainLoss(3)
 		M.adjustToxLoss(2)
 		M.adjustFireLoss(2)
 		M.adjustOxyLoss(2)

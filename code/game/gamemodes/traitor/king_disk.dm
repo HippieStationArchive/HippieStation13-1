@@ -1,7 +1,7 @@
 /datum/game_mode/traitor/king_disk
 	name = "king of the disk"
 	config_tag = "king_disk"
-	required_players = 45
+	required_players = 35 // We aren't even hitting 45 players unfortunately.
 	required_enemies = 8
 	recommended_enemies = 10
 	reroll_friendly = 0

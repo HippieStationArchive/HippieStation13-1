@@ -370,7 +370,7 @@ var/list/datum/objective/crew/trackedcrewobjs = list()
 	if(config.minimal_access_threshold)
 		H << "<FONT color='blue'><B>As this station was initially staffed with a [config.jobs_have_minimal_access ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B></font>"
 
-	if(H.mind)
+	if(H.mind && !joined_late)
 		H.mind.assigned_role = rank
 		forge_job_objectives(H.mind, rank)
 
