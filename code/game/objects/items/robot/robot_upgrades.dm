@@ -106,38 +106,6 @@
 	R.speed--
 	return 1
 
-
-/obj/item/borg/upgrade/disablercooler
-	name = "cyborg rapid disabler cooling module"
-	desc = "Used to cool a mounted disabler, increasing the potential current in it and thus its recharge rate."
-	icon_state = "cyborg_upgrade3"
-	require_module = 1
-	module_type = /obj/item/weapon/robot_module/security
-	origin_tech = "engineering=4;powerstorage=4"
-
-/obj/item/borg/upgrade/disablercooler/action(mob/living/silicon/robot/R)
-	if(..()) return 0
-
-	var/obj/item/weapon/gun/energy/disabler/cyborg/T = locate() in R.module
-	if(!T)
-		T = locate() in R.module.contents
-	if(!T)
-		T = locate() in R.module.modules
-	if(!T)
-		usr << "This cyborg has had its disabler removed!"
-		return 0
-
-	if(T.recharge_time <= 2)
-		R << "Maximum cooling achieved for this hardpoint!"
-		usr << "There's no room for another cooling unit!"
-		return 0
-
-	else
-		T.recharge_time = max(2 , T.recharge_time - 4)
-
-	return 1
-
-
 /obj/item/borg/upgrade/jetpack
 	name = "mining cyborg jetpack"
 	desc = "A carbon dioxide jetpack suitable for low-gravity mining operations."
