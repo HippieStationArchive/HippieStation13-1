@@ -57,8 +57,8 @@
  * ID CARDS
  */
 /obj/item/weapon/card/emag
-	desc = "It's a card with a magnetic strip attached to some circuitry."
-	name = "cryptographic sequencer"
+	desc = "An inconspicuous card with a magnetic strip attached to some circuitry. Tends to break whatever it touches."
+	name = "electromagnetic sequencer"
 	icon_state = "emag"
 	item_state = "card-id"
 	origin_tech = "magnets=2;syndicate=2"
