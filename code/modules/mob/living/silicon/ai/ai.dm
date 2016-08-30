@@ -134,7 +134,7 @@ var/list/ai_list = list()
 			src << ":o - AI Private, :c - Command, :s - Security, :e - Engineering, :u - Supply, :v - Service, :m - Medical, :n - Science."
 			if (!(ticker && ticker.mode && (mind in ticker.mode.malf_ai)))
 				show_laws()
-				src << "<b>These laws may be changed through the AI Upload chamber by other players, or by you being the traitor.</b>"
+				src << "<b>These laws may be changed by other players, or by you being the traitor, typically through the AI Upload Chamber.</b>"
 
 			job = "AI"
 	ai_list += src
