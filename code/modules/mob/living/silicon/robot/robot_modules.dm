@@ -205,32 +205,6 @@
 	fix_modules()
 
 
-
-/obj/item/weapon/robot_module/security
-	name = "security robot module"
-
-/obj/item/weapon/robot_module/security/New()
-	..()
-	modules += new /obj/item/weapon/restraints/handcuffs/cable/zipties/cyborg(src)
-	modules += new /obj/item/weapon/melee/baton/loaded(src)
-	modules += new /obj/item/weapon/gun/energy/disabler/cyborg(src)
-	modules += new /obj/item/clothing/mask/gas/sechailer/cyborg(src)
-	emag = new /obj/item/weapon/gun/energy/laser/cyborg(src)
-	fix_modules()
-
-/obj/item/weapon/robot_module/security/respawn_consumable(mob/living/silicon/robot/R, coeff = 1)
-	..()
-	var/obj/item/weapon/gun/energy/gun/advtaser/cyborg/T = locate(/obj/item/weapon/gun/energy/gun/advtaser/cyborg) in get_usable_modules()
-	if(T)
-		if(T.power_supply.charge < T.power_supply.maxcharge)
-			var/obj/item/ammo_casing/energy/S = T.ammo_type[T.select]
-			T.power_supply.give(S.e_cost * coeff)
-			T.update_icon()
-		else
-			T.charge_tick = 0
-
-
-
 /obj/item/weapon/robot_module/janitor
 	name = "janitorial robot module"
 
@@ -382,15 +356,3 @@
 	recharge_rate = 250
 	name = "Medical Synthesizer"
 
-/obj/item/weapon/robot_module/detective
-	name = "detective robot module"
-
-obj/item/weapon/robot_module/detective/New()
-	..()
-	modules += new /obj/item/weapon/restraints/handcuffs/cable/zipties/cyborg(src)
-	modules += new /obj/item/weapon/gun/energy/disabler/cyborg(src)
-	modules += new /obj/item/clothing/mask/gas/sechailer/cyborg(src)
-	modules += new /obj/item/device/detective_scanner(src)
-	emag = new /obj/item/weapon/gun/energy/revolver/cyborg(src)
-
-	fix_modules()
