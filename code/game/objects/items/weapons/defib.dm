@@ -131,10 +131,10 @@
 /obj/item/weapon/defibrillator/emag_act(mob/user)
 	if(safety)
 		safety = 0
-		user << "<span class='warning'>You silently disable [src]'s safety protocols with the cryptographic sequencer."
+		user << "<span class='warning'>You silently disable [src]'s safety protocols with the electromagnetic sequencer."
 	else
 		safety = 1
-		user << "<span class='notice'>You silently enable [src]'s safety protocols with the cryptographic sequencer."
+		user << "<span class='notice'>You silently enable [src]'s safety protocols with the electromagnetic sequencer."
 
 /obj/item/weapon/defibrillator/emp_act(severity)
 	if(bcell)
