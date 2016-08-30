@@ -100,6 +100,9 @@
 	if((target.disabilities & HUSK) || !target.has_dna())
 		user << "<span class='warning'>Our sting appears ineffective against its DNA.</span>"
 		return 0
+	if(!istype(selected_dna.dna.species, /datum/species/human))
+		user << "<span class='warning'>You cannot transform others to different species!</span>"
+		return 0
 	return 1
 
 /obj/effect/proc_holder/changeling/sting/transformation/sting_action(mob/user, mob/target)
