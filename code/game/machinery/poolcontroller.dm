@@ -36,7 +36,7 @@
 		src.linkeddrain += pooldrain
 	..() //Always call your parents when you're a new thing.
 
-/obj/machinery/poolcontroller/emag_act(user as mob) //Emag_act, this is called when it is hit with a cryptographic sequencer.
+/obj/machinery/poolcontroller/emag_act(user as mob) //Emag_act, this is called when it is hit with an electromagnetic sequencer.
 	if(!emagged) //If it is not already emagged, emag it.
 		user << "\red You disable \the [src]'s temperature safeguards." //Inform the mob of what emagging does.
 		emagged = 1 //Set the emag var to true.
