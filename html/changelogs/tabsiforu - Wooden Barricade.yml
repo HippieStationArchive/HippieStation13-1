@@ -2,4 +2,4 @@ author: tabsiforu
 
 delete-after: True
 
--  tweak: "Wooden barricade costs 6 wood planks to build, up from 5, in order to be consistent with spritework."
+  -tweak: "Wooden barricade costs 6 wood planks to build, up from 5, in order to be consistent with spritework."
