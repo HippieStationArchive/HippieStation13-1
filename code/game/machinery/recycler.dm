@@ -74,7 +74,7 @@ var/const/SAFETY_COOLDOWN = 100
 			safety_mode = 0
 			update_icon()
 		playsound(src.loc, "sparks", 75, 1, -1)
-		user << "<span class='notice'>You use the cryptographic sequencer on the [src.name].</span>"
+		user << "<span class='notice'>You use the electromagnetic sequencer on the [src.name].</span>"
 
 /obj/machinery/recycler/update_icon()
 	..()
