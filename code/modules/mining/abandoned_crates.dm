@@ -143,7 +143,7 @@
 		if(96)
 			new /obj/item/weapon/hand_tele(src)
 		if(97)
-			new /obj/item/clothing/mask/balaclava
+			new /obj/item/clothing/mask/balaclava(src)
 			new /obj/item/weapon/gun/projectile/automatic/pistol(src)
 			new /obj/item/ammo_box/magazine/m10mm(src)
 		if(98)
@@ -155,7 +155,7 @@
 			new /obj/item/clothing/head/bearpelt(src)
 		if(101 to 106)
 			new /obj/item/clothing/suit/space/hardsuit/powerarmour(src)
-			new /obj/item/weapon/melee/powerfist
+			new /obj/item/weapon/melee/powerfist(src)
 
 /obj/structure/closet/crate/secure/loot/attack_hand(mob/user)
 	if(locked)
