@@ -128,7 +128,7 @@ var/list/ai_list = list()
 			src << "<B>To look at other parts of the station, use the HUD to access cameras and follow players, or use the movement keys to change your field of view.</B>"
 			src << "<B>You can use almost any device which you can see, such as computers, APCs, intercoms, and doors.</B>"
 			src << "To use something, simply click on it.  Abuse of station property may lead to your immediate termination."
-			src << "Interpret and follow your laws to the best of your ability. Failure to follow your laws may lead to your reprogramming."
+			src << "Interpret and follow your laws to the best of your ability. Failure to follow your laws may lead to your banishment."
 			src << "Type 'say :b' to speak to your cyborgs privately. Type 'say :h' to speak through a holographic projection."
 			src << "For department channels, use the following say commands:"
 			src << ":o - AI Private, :c - Command, :s - Security, :e - Engineering, :u - Supply, :v - Service, :m - Medical, :n - Science."
