@@ -113,7 +113,9 @@
 		if(href_list["drive"])
 			for(var/obj/machinery/mass_driver/M in range(range, src))
 				if(M.id == id)
-					ticker.mode.podlaunch = 1
+					if(istype(ticker.mode, /datum/game_mode/nuclear))
+						var/datum/game_mode/nuclear/nukemode = ticker.mode
+						nukemode.podlaunch = 1
 					M.power = connected.power
 					M.drive()
 		updateUsrDialog()
