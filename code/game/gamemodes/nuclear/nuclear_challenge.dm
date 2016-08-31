@@ -9,7 +9,6 @@
 	Such a brazen move will attract the attention of powerful benefactors within the Syndicate, who will supply your team with a massive amount of bonus telecrystals.  \
 	Must be used within five minutes, or your benefactors will lose interest."
 	var/used = 0
-	var/podlaunching = 0
 	var/challenge_time = CHALLENGE_TIME_LIMIT
 	var/datum/game_mode/nuclear/N
 
@@ -21,7 +20,7 @@
 		return
 	if(..())
 		return
-	if(podlaunching)
+	if(N.podlaunch)
 		user << "You can't declare war once you've starting launching the pod!"
 		return
 	if(player_list.len < MIN_CHALLENGE_PLAYERS)
