@@ -1,0 +1,4 @@
+author: Zach
+delete-after: True
+changes:
+  - bugfix: "Containers holding explosives now drop their contents and are removed when the explosive detonates."
