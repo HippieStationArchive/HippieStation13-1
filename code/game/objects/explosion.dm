@@ -14,9 +14,11 @@
 
 
 /proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = 1, ignorecap = 0, flame_range = 0 ,silent = 0)
+	var/obj/item/S = src
+
 	var/obj/item/weapon/storage/explosion_container = null
-	if(istype(src.loc, /obj/item/weapon/storage))
-		explosion_container = src.loc
+	if(istype(S.loc, /obj/item/weapon/storage))
+		explosion_container = S.loc
 
 	if(explosion_container)
 		explosion_container.do_quick_empty()
