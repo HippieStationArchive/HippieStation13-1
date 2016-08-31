@@ -42,11 +42,11 @@
 		"Rei",
 		"Reisen",
 		"Naga",
+		"Spacedong",
 		"Squid",
 		"Squiggly",
 		"Tomoko",
 		"Toriel",
-		"Umaru",
 		"Yaranaika",
 		"Yoko")
 
