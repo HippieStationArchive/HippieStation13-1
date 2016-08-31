@@ -11,4 +11,4 @@ delete-after: True
 
 changes: 
 
-  - tweak: "Changed changeling stings to no longer be able to transform players into monkeys or other non-humans."
+  - tweak: "Changed changeling stings to no longer add the monkey disability when changing people into monkeys."
