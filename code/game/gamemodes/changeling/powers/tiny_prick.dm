@@ -68,7 +68,6 @@
 		target << "<span class='warning'>You feel a tiny prick.</span>"
 	return 1
 
-
 /obj/effect/proc_holder/changeling/sting/transformation
 	name = "Transformation Sting"
 	desc = "We silently sting a human, injecting a retrovirus that forces them to transform."
@@ -100,9 +99,6 @@
 	if((target.disabilities & HUSK) || !target.has_dna())
 		user << "<span class='warning'>Our sting appears ineffective against its DNA.</span>"
 		return 0
-	if(!istype(selected_dna.dna.species, /datum/species/human))
-		user << "<span class='warning'>You cannot transform others to different species!</span>"
-		return 0
 	return 1
 
 /obj/effect/proc_holder/changeling/sting/transformation/sting_action(mob/user, mob/target)
@@ -121,6 +117,8 @@
 		spawn(10)
 			user.real_name = NewDNA.real_name
 			NewDNA.transfer_identity(C, transfer_SE=1)
+			if(istype(selected_dna.dna.species, /datum/species/monkey))
+				C.humanize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPORGANS | TR_KEEPDAMAGE | TR_KEEPVIRUS | TR_KEEPSE) //To keep lingstings from adding the monkey disability.
 			C.updateappearance(mutcolor_update=1)
 			C.domutcheck()
 	feedback_add_details("changeling_powers","TS")
