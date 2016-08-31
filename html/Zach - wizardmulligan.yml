@@ -1,0 +1,4 @@
+author: Zach
+delete-after: True
+changes:
+  - tweak: "The server now mulligans when the wizard dies, rather than just being a boring pseudo-extended round."
