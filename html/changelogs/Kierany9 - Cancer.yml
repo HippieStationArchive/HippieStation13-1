@@ -1,0 +1,7 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - rscdel: "Removed all .357 revolvers from space and replaced them with other items."
+  - tweak: "Ranged russians now exclusively carry mosins, and melee russians now carry combat knives."
