@@ -9,6 +9,7 @@
 	Such a brazen move will attract the attention of powerful benefactors within the Syndicate, who will supply your team with a massive amount of bonus telecrystals.  \
 	Must be used within five minutes, or your benefactors will lose interest."
 	var/used = 0
+	var/podlaunching = 0
 	var/challenge_time = CHALLENGE_TIME_LIMIT
 	var/datum/game_mode/nuclear/N
 
@@ -19,6 +20,9 @@
 	if(!istype(N))
 		return
 	if(..())
+		return
+	if(podlaunching)
+		user << "You can't declare war once you've starting launching the pod!"
 		return
 	if(player_list.len < MIN_CHALLENGE_PLAYERS)
 		user << "The enemy crew is too small to be worth declaring war on."
@@ -42,7 +46,7 @@
 	if(used) //Second used check incase it's sustained in the dialog
 		user << "You already declared war on the station!"
 		return
-	
+
 	var/war_declaration = "[user.real_name] has declared his intent to utterly destroy [station_name()] with a nuclear device, and dares the crew to try and stop them."
 	var/custom_threat = alert(user, "Do you want to customize your declaration?", "Customize?", "Yes", "No")
 	if(custom_threat == "Yes" && (world.time < challenge_time-600))

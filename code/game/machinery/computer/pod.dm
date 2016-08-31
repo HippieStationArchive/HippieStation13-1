@@ -113,6 +113,7 @@
 		if(href_list["drive"])
 			for(var/obj/machinery/mass_driver/M in range(range, src))
 				if(M.id == id)
+					ticker.mode.challenge.podlaunching = 1
 					M.power = connected.power
 					M.drive()
 		updateUsrDialog()
