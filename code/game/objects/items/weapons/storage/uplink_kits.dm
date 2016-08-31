@@ -23,7 +23,7 @@
 				new /obj/item/weapon/storage/box/syndie_kit/imp_gmindslave(src)
 				new /obj/item/weapon/storage/box/syndie_kit/imp_gmindslave(src)
 				return
-	
+
 			if("snake")
 				new /obj/item/weapon/melee/combatknife(src)
 				new /obj/item/weapon/gun/projectile/automatic/pistol(src)
@@ -41,7 +41,7 @@
 				new /obj/item/clothing/gloves/cqc(src)
 				new /obj/item/weapon/card/id/syndicate(src)
 				return
-	
+
 			if("screwed")
 				new /obj/item/device/sbeacondrop/bomb(src)
 				new /obj/item/device/sbeacondrop/powersink(src)
@@ -55,7 +55,7 @@
 				new /obj/item/ammo_box/magazine/m10mm(src)
 				new /obj/item/ammo_box/magazine/m10mm(src)
 				return
-	
+
 			if("guns")
 				new /obj/item/weapon/gun/projectile/revolver(src)
 				new /obj/item/ammo_box/a357(src)
@@ -76,7 +76,7 @@
 				new /obj/item/clothing/suit/jacket/leather/overcoat(src)
 				new /obj/item/clothing/glasses/sunglasses(src)
 				return
-	
+
 			if("implant")
 				new /obj/item/weapon/implanter/freedom(src)
 				new /obj/item/weapon/implanter/emp(src)
@@ -85,7 +85,7 @@
 				new /obj/item/weapon/implanter/storage(src)
 				new /obj/item/weapon/storage/box/syndie_kit/imp_mindslave(src)
 				return
-	
+
 			if("hacker")
 				new /obj/item/weapon/aiModule/syndicate(src)
 				new /obj/item/weapon/c4(src)
@@ -99,7 +99,7 @@
 				new /obj/item/weapon/aiModule/toyAI(src)
 				new /obj/item/device/multitool/ai_detect(src)
 				return
-	
+
 			if("darklord")
 				new /obj/item/weapon/melee/energy/sword/saber(src)
 				new /obj/item/weapon/melee/energy/sword/saber(src)
@@ -110,7 +110,7 @@
 				new /obj/item/weapon/card/id/syndicate(src)
 				new /obj/item/weapon/spellbook/oneuse/summonitem(src)
 				return
-	
+
 			if("ninja")
 				new /obj/item/weapon/melee/energy/sword/saber(src)
 				new /obj/item/weapon/storage/belt/ninja/full(src)
@@ -124,7 +124,7 @@
 				new /obj/item/device/doorCharge(src)
 				new /obj/item/weapon/storage/box/caltrop(src)
 				return
-	
+
 			if("boom")
 				for(var/i = 0, i < 20, i++)
 					new /obj/item/weapon/c4(src)
@@ -309,3 +309,16 @@
 	new /obj/item/weapon/screwdriver/nuke(src)
 	new /obj/item/nuke_core_container(src)
 	new /obj/item/weapon/paper/nuke_instructions(src)
+
+obj/item/weapon/storage/box/syndie_kit/shotguntender
+	name = "shotgun ammo kit"
+
+/obj/item/weapon/storage/box/syndie_kit/shotguntender/New()
+	..()
+	new /obj/item/ammo_casing/shotgun/buckshot(src)
+	new /obj/item/ammo_casing/shotgun/buckshot(src)
+	new /obj/item/ammo_casing/shotgun/stunslug(src)
+	new /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath(src)
+	new /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath(src)
+	new /obj/item/ammo_casing/shotgun/dart/bioterror(src)
+	return
