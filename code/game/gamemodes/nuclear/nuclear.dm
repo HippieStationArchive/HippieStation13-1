@@ -1,7 +1,6 @@
 /datum/game_mode
 	var/list/datum/mind/syndicates = list()
 
-
 /datum/game_mode/nuclear
 	name = "nuclear emergency"
 	config_tag = "nuclear"
@@ -13,6 +12,7 @@
 
 	var/const/agents_possible = 5 //If we ever need more syndicate agents.
 
+	var/podlaunch = 0
 	var/nukes_left = 1 // Call 3714-PRAY right now and order more nukes! Limited offer!
 	var/nuke_off_station = 0 //Used for tracking if the syndies actually haul the nuke to the station
 	var/syndies_didnt_escape = 0 //Used for tracking if the syndies got the shuttle off of the z-level
@@ -292,7 +292,7 @@
 
 /proc/nukelastname(mob/M) //--All praise goes to NEO|Phyte, all blame goes to DH, and it was Cindi-Kate's idea. Also praise Urist for copypasta ho.
 	var/randomname = pick(last_names)
-	var/datum/game_mode/nuclear/N = ticker.mode 
+	var/datum/game_mode/nuclear/N = ticker.mode
 	var/newname = copytext(sanitize(input(M,"You are the nuke operative [pick("Czar", "Boss", "Commander", "Chief", "Kingpin", "Director", "Overlord")]. Please choose a last name for your family.", "Name change",randomname)),1,MAX_NAME_LEN)
 
 	if (!newname)
