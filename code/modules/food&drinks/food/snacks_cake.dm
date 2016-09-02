@@ -17,7 +17,6 @@
 	name = "vanilla cake"
 	desc = "A plain cake, not a lie."
 	icon_state = "plaincake"
-	custom_food_type = /obj/item/weapon/reagent_containers/food/snacks/customizable/cake
 	bonus_reagents = list("nutriment" = 10, "vitamin" = 2)
 
 /obj/item/weapon/reagent_containers/food/snacks/cakeslice/plain

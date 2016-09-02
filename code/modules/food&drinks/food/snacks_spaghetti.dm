@@ -16,7 +16,6 @@
 	trash = /obj/item/trash/plate
 	bonus_reagents = list("nutriment" = 2)
 	list_reagents = list("nutriment" = 2, "vitamin" = 1)
-	custom_food_type = /obj/item/weapon/reagent_containers/food/snacks/customizable/pasta
 	filling_color = "#F0E68C"
 
 /obj/item/weapon/reagent_containers/food/snacks/pastatomato
@@ -75,5 +74,5 @@
 	desc = "Nutritious, beefy and noodly."
 	icon = 'icons/obj/food/pizzaspaghetti.dmi'
 	icon_state = "beefnoodle"
-	trash = /obj/item/weapon/reagent_containers/glass/bowl
+	trash = /obj/item/trash/snack_bowl
 	bonus_reagents = list("nutriment" = 5, "vitamin" = 6)

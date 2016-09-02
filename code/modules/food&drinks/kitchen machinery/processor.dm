@@ -57,10 +57,6 @@
 	input = /obj/item/weapon/reagent_containers/food/snacks/grown/soybeans
 	output = /obj/item/weapon/reagent_containers/food/snacks/soydope
 
-/datum/food_processor_process/spaghetti
-	input = /obj/item/weapon/reagent_containers/food/snacks/doughslice
-	output = /obj/item/weapon/reagent_containers/food/snacks/spaghetti
-
 /datum/food_processor_process/corn
 	input = /obj/item/weapon/reagent_containers/food/snacks/grown/corn
 	output = /obj/item/weapon/reagent_containers/food/snacks/tortilla

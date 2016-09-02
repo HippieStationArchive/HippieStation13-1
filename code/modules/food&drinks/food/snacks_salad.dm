@@ -2,7 +2,7 @@
 ////////////////////////////////////////////SALAD////////////////////////////////////////////
 /obj/item/weapon/reagent_containers/food/snacks/salad
 	icon = 'icons/obj/food/soupsalad.dmi'
-	trash = /obj/item/weapon/reagent_containers/glass/bowl
+	trash = /obj/item/trash/snack_bowl
 	bitesize = 3
 	w_class = 3
 	list_reagents = list("nutriment" = 7, "vitamin" = 2)
