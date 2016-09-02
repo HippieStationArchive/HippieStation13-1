@@ -14,6 +14,12 @@
 
 
 /proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = 1, ignorecap = 0, flame_range = 0 ,silent = 0)
+	var/obj/item/S = src
+
+	if(istype(S.loc, /obj/structure/bigDelivery) || istype(S.loc, /obj/item/smallDelivery))
+		qdel(S.loc)
+
+
 	src = null	//so we don't abort once src is deleted
 	epicenter = get_turf(epicenter)
 
@@ -237,5 +243,3 @@
 	for(var/turf/T in wipe_colours)
 		T.color = null
 		T.maptext = ""
-
-

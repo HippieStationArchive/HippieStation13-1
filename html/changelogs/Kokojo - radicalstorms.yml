@@ -1,0 +1,6 @@
+author: Kokojo
+
+delete-after: True
+
+changes:
+  - tweak: "Maintenance doors now become all-access when radiation storm hits."

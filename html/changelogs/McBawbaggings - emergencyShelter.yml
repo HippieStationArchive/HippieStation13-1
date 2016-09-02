@@ -1,0 +1,6 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - rscdel: "Removed bluespace shelter capsule."

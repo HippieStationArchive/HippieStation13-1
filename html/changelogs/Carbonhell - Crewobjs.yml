@@ -1,0 +1,6 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - rscadd: "Adds crew objectives. When joining, all jobs excluding silicons and antags will get an objective related to their job to accomplish. At roundend, the successful crewmembers are listed along, and the department with the most successful crewmembers is also listed. Obviously, those objectives do NOT make you an antagonist."

@@ -287,7 +287,7 @@ var/next_external_rsc = 0
 	if(!winexists(src, "asset_cache_browser")) // The client is using a custom skin, tell them.
 		src << "<span class='warning'>Unable to access asset cache browser, if you are using a custom skin file, please allow DS to download the updated version, if you are not, then make a bug report. This is not a critical issue but can cause issues with resource downloading, as it is impossible to know when extra resources arrived to you.</span>"
 
-	if(!check_rights(R_BAN))
+	if(check_rights(R_BAN))
 		if(ahelp_count(0) > 0)
 			list_ahelps(src, 0)
 
@@ -295,6 +295,8 @@ var/next_external_rsc = 0
 	//This is down here because of the browse() calls in tooltip/New()
 	if(!tooltips)
 		tooltips = new /datum/tooltip(src)
+
+	cidspoofcheck()
 
 /client/proc/proxycheck()
 	var/list/httpstuff = world.Export("http://check.getipintel.net/check.php?ip=[address]&contact=[config.proxykickemail]&flags=b")
@@ -431,3 +433,90 @@ var/next_external_rsc = 0
 
 		//Precache the client with all other assets slowly, so as to not block other browse() calls
 		getFilesSlow(src, asset_cache, register_asset = FALSE)
+
+/client/proc/cidspoofcheck()
+	establish_db_connection()
+	if (!dbcon.IsConnected())
+		cid_check = 1
+		return
+
+	var/DBQuery/query_checkdb = dbcon.NewQuery("SHOW TABLES LIKE 'spoof_check'")
+	if(query_checkdb.RowCount() == 0)
+		cid_check = 1
+		return
+
+	var/sql_ckey = sanitizeSQL(ckey)
+	var/sql_computerid = sanitizeSQL(computer_id)
+
+	var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]'")
+	query_check_ckey.Execute()
+
+	if(query_check_ckey.RowCount() != 0) //check ckey
+
+		var/DBQuery/query_check_white = dbcon.NewQuery("SELECT whitelist FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '1'")
+		query_check_white.Execute()
+
+		if(query_check_white.RowCount() != 0) //Whitelist check
+			var/DBQuery/query_check_whiteextra = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and (computerid_1 = '[sql_computerid]' or computerid_2 = '[sql_computerid]' or computerid_3 = '[sql_computerid]')")
+			query_check_whiteextra.Execute()
+
+			if(query_check_whiteextra.RowCount() != 0)//One of the three slots had the same cid
+				cid_check = 1
+			else
+				var/DBQuery/query_check_cid1r = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_1 = '0'")
+				query_check_cid1r.Execute()
+
+				if(query_check_cid1r.RowCount() != 0) // Check for reset
+					alert(src, "Somebody reset your cid slots.")
+					var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
+					query_insert_cid1.Execute()
+
+				else
+					var/DBQuery/query_check_cid2 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_2 IS NULL")
+					query_check_cid2.Execute()
+
+					if(query_check_cid2.RowCount() != 0) // check if it is NULL, it will only be NULL if it was reset or the person never used the new slot
+						var/DBQuery/query_insert_cid2 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_2 = '[sql_computerid]', datetime_2 = NOW() WHERE ckey = '[sql_ckey]'")
+						query_insert_cid2.Execute()
+						src << "You have used your second cid slot"
+						cid_check = 1
+
+					else // check if it is NULL, it will only be NULL if it was reset or the person never used the new slot
+						var/DBQuery/query_check_cid3 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_3 IS NULL")
+						query_check_cid3.Execute()
+
+						if(query_check_cid3.RowCount() != 0)
+							var/DBQuery/query_insert_cid3 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_3 = '[sql_computerid]', datetime_3 = NOW() WHERE ckey = '[sql_ckey]'")
+							query_insert_cid3.Execute()
+							src << "You have used your third cid slot. This was your last cid slot. Now your first cid slot will start changing again. Please ask an admin if you want to reset all your slots."
+							cid_check = 1
+						else // Even if you use all slots you will still be able to connect. You will just change your first slot again.
+							alert(src, "You have used your three computer_id slots. Your first slot will now be changed and you will have to authorize yourself again.")
+							var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
+							query_insert_cid1.Execute()
+							log_game("[sql_ckey] may be using Evasion Tools")
+							winset(src, null, "command=.quit")
+		else
+			var/DBQuery/query_check_cid1 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_1 = '[sql_computerid]'")
+			query_check_cid1.Execute()
+			if(query_check_cid1.RowCount() != 0)
+				cid_check = 1
+			else // Cid changed maybe wsock32 maybe a different pc.
+				alert(src, "Maybe you used a different computer or you changed your cid. \nThis means that you will have to reauthorize yourself. Like last time your window will close and you will have to rejoin.")
+				var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
+				query_insert_cid1.Execute()
+				log_game("[sql_ckey] may be using Evasion Tools")
+				winset(src, null, "command=.quit")
+
+	else // ckey does not exist
+		alert(src, "This is a anti-spoofing measure, you will have to rejoin again.\nAsk an admin if you wish to play on more than one computer without constantly rejoining.")
+
+		var/DBQuery/query_insert = dbcon.NewQuery("INSERT INTO [format_table_name("spoof_check")] (`id`, `whitelist`, `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3`) VALUES (null,0,'[sql_ckey]','[sql_computerid]',null,null,NOW(),null,null);")
+
+		if(!query_insert.Execute()) //alert if something is going wrong
+			var/err = query_insert.ErrorMsg()
+			log_game("SQL ERROR while adding a new Client towards spoof_cid. Error : \[[err]\]\n")
+			src << "<span class='warning'>[query_insert.ErrorMsg()]</span>"
+
+		else //everything is okay
+			winset(src, null, "command=.quit")

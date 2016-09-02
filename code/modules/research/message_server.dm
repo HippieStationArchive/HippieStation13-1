@@ -383,3 +383,24 @@ var/obj/machinery/blackbox_recorder/blackbox
 	if (!FV) return
 
 	FV.add_details(details)
+
+/proc/details2list(variable, elementlimiter, valuelimiter)
+	var/datum/feedback_variable/F = blackbox.find_feedback_datum(variable)
+	var/detstring = F.details
+	var/list/firstlist = splittext(detstring, elementlimiter)//will have element1|value1 element2|value2 element3|value3 etc etc.
+	var/list/secondlist = list()//will have element with a value associated to it
+	for(var/i in firstlist) //(element#value), (element#value) ...
+		var/list/templist = splittext(i, valuelimiter) // templist will only have 2 elements, the first being an element and the second the value
+		var/value = text2num(templist[2])
+		if(templist[1] in secondlist)
+			if(isnum(value))
+				secondlist[templist[1]] += value
+			else
+				secondlist[templist[1]]++
+		else //pratically makes the entry
+			secondlist.Add(templist[1])
+			if(isnum(value))
+				secondlist[templist[1]] = value
+			else
+				secondlist[templist[1]] = 1
+	return secondlist

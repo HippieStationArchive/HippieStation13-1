@@ -119,6 +119,9 @@
 		return
 
 	var/mob/living/L = M
+	if(L.mind)
+		var/datum/mind/mind = L.mind
+		feedback_add_details("stuns", "[mind.key]|[type]")
 
 	if(user.a_intent != "harm")
 		if(status)

@@ -1,0 +1,8 @@
+author: Kierany9 -NEW GAMEMODE-
+
+delete-after: True
+
+changes: 
+  - rscadd: "The brand new Hippie-exclusive gamemode, KING OF THE DISK is here! Check the wiki for more information."
+  - wip: "In King of the Disk, all the traitors are given a pinpointer and tasked with stealing the nuke disk. For every minute a traitor spends with the nuke disk in his possession, he gains an extra telecrystal. Escape with either the disk or the most TC out of all traitors to win."
+  - wip: "The traitor uplink is somewhat limited in this mode, you start with 10 TC and the Ebow, Revolver, Bundles and Surplus Crates are not available. The Emag also costs 8 TC instead of 6 in this gamemode."

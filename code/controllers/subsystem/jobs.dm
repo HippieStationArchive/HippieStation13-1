@@ -1,4 +1,5 @@
 var/datum/subsystem/job/SSjob
+var/list/datum/objective/crew/trackedcrewobjs = list()
 
 /datum/subsystem/job
 	name = "Jobs"
@@ -20,7 +21,6 @@ var/datum/subsystem/job/SSjob
 	if(config.load_jobs_from_txt)
 		LoadJobs()
 	..()
-
 
 /datum/subsystem/job/proc/SetupOccupations(faction = "Station")
 	occupations = list()
@@ -355,8 +355,6 @@ var/datum/subsystem/job/SSjob
 		if(istype(S, /obj/effect/landmark) && istype(S.loc, /turf))
 			H.loc = S.loc
 
-	if(H.mind)
-		H.mind.assigned_role = rank
 
 	if(job)
 		var/new_mob = job.equip(H)
@@ -371,6 +369,11 @@ var/datum/subsystem/job/SSjob
 		H << "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>"
 	if(config.minimal_access_threshold)
 		H << "<FONT color='blue'><B>As this station was initially staffed with a [config.jobs_have_minimal_access ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B></font>"
+
+	if(H.mind && !joined_late)
+		H.mind.assigned_role = rank
+		forge_job_objectives(H.mind, rank)
+
 
 	H.update_hud() 	// Tmp fix for Github issue 1006. TODO: make all procs in update_icons.dm do client.screen |= equipment no matter what.
 	return 1
@@ -447,3 +450,71 @@ var/datum/subsystem/job/SSjob
 	player << "<b>You have failed to qualify for any job you desired.</b>"
 	unassigned -= player
 	player.ready = 0
+
+/datum/subsystem/job/proc/job2dept(rank)
+	if(rank in engineering_positions)
+		return "Engineering"
+	else if(rank in medical_positions)
+		return "Medical"
+	else if(rank in science_positions)
+		return "R&D"
+	else if(rank in supply_positions)
+		return "Supply"
+	else if(rank in service_positions)
+		return "Service"
+	else if(rank in civilian_positions)
+		return "Civilian"
+	else if(rank in security_positions)
+		return "Security"
+	else
+		return
+
+/datum/subsystem/job/proc/job2obj(rank, blacklist)
+	var/list/objs = list()
+	var/list/acceptableobjs = list()
+	var/dept = job2dept(rank)
+	for(var/A in departments)
+		if(departments[A] == dept)
+			objs = typesof(A) - A
+			break
+	objs -= blacklist
+	for(var/B in objs)
+		var/datum/objective/crew/C = B
+		var/list/okjobs = splittext(initial(C.jobs),"#")
+		if(rank in okjobs)
+			acceptableobjs += B
+	return acceptableobjs
+
+/datum/subsystem/job/proc/forge_job_objectives(datum/mind/M, rank)
+	if(M.special_role)//no crew objs to antags
+		return
+	if(M.current && !ishuman(M.current))//nor for silicons
+		return
+	. = 1
+	//for(var/i in 1 to rand(1,3))    //for now just 1 objective since there are like 3 objectives per rank
+	var/noobjyet = TRUE
+	var/list/blacklist = list()
+	do
+		var/list/objs = job2obj(rank, blacklist)
+		var/obj = pick_n_take(objs)
+		if(obj)
+			var/datum/objective/crew/C = new obj(themind = M)
+			if(!C.requirements())
+				M.objectives -= C
+				C.owner = null
+				blacklist += C.type
+				qdel(C)
+				continue
+			C.update_explanation_text()
+			noobjyet = FALSE
+		else
+			noobjyet = FALSE
+			. = 0
+	while(noobjyet)
+	if(!.)
+		return
+	M.current << "<b>Nanotrasen has given you the following tasks, they will be checked when the shift ends:</b>"
+	var/obj_count = 1
+	for(var/datum/objective/objective in M.objectives)
+		M.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
+		obj_count++

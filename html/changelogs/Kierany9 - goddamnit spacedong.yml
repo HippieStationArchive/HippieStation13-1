@@ -1,0 +1,6 @@
+author: Kierany9
+delete-after: True
+changes: 
+  - bugfix: "Canned laughter now actually metabolizes properly."
+  - bugfix: "Reduced the rate at which canned laughter causes laughter so it doesn't constantly make noise and flood the chat."
+  - rscadd: "The Mime's bottle of Nothing now works as an antidote to canned laughter."

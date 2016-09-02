@@ -45,8 +45,8 @@
 	new /obj/item/weapon/reagent_containers/pill/patch/silver_sulf(src)
 	new /obj/item/weapon/reagent_containers/pill/patch/silver_sulf(src)
 	new /obj/item/weapon/reagent_containers/pill/patch/silver_sulf(src)
-	new /obj/item/weapon/reagent_containers/pill/oxandrolone(src)
-	new /obj/item/weapon/reagent_containers/pill/oxandrolone(src)
+	new /obj/item/weapon/reagent_containers/pill/dermaline(src)
+	new /obj/item/weapon/reagent_containers/pill/dermaline(src)
 	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)
 	new /obj/item/device/healthanalyzer(src)
 	return
@@ -100,10 +100,27 @@
 	new /obj/item/weapon/reagent_containers/pill/patch/styptic(src)
 	new /obj/item/weapon/reagent_containers/pill/patch/styptic(src)
 	new /obj/item/weapon/reagent_containers/pill/patch/styptic(src)
-	new /obj/item/weapon/reagent_containers/pill/patch/styptic(src)
+	new /obj/item/weapon/reagent_containers/pill/bromelain(src)
 	new /obj/item/stack/medical/gauze(src)
 	new /obj/item/stack/medical/gauze(src)
 	new /obj/item/device/healthanalyzer(src)
+	return
+	
+/obj/item/weapon/storage/firstaid/surgery
+	name = "surgery kit"
+	desc = "Handy for when the greytide loot surgery."
+	icon_state = "purplefirstaid"
+	item_state = "firstaid-surgery"
+	
+/obj/item/weapon/storage/firstaid/surgery/New()
+	..()
+	if(empty) return
+	new /obj/item/weapon/circular_saw/bonesaw(src)
+	new /obj/item/weapon/scalpel(src)
+	new /obj/item/weapon/hemostat(src)
+	new /obj/item/weapon/retractor(src)
+	new /obj/item/weapon/cautery(src)
+	new /obj/item/weapon/surgical_drapes(src)
 	return
 
 /obj/item/weapon/storage/firstaid/tactical
