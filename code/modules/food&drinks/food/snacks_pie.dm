@@ -7,9 +7,9 @@
 	volume = 80
 	list_reagents = list("nutriment" = 10, "vitamin" = 2)
 
-/obj/item/weapon/reagent_containers/food/snacks/pie/plain
-	name = "plain pie"
-	desc = "A simple pie, still delicious."
+/obj/item/weapon/reagent_containers/food/snacks/pie/meat
+	name = "meat pie"
+	desc = "Imported from space Australia"
 	icon_state = "pie"
 	bonus_reagents = list("nutriment" = 8, "vitamin" = 1)
 

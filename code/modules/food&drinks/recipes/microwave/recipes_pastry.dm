@@ -6,7 +6,7 @@
 	items = list(
 		/obj/item/weapon/reagent_containers/food/snacks/egg
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/donut/normal
+	result = /obj/item/weapon/reagent_containers/food/snacks/donut
 
 /datum/recipe/donut/jelly
 	reagents = list("berryjuice" = 5, "flour" = 5)
@@ -17,11 +17,11 @@
 
 /datum/recipe/donut/jelly/slime
 	reagents = list("slimejelly" = 5, "flour" = 5)
-	result = /obj/item/weapon/reagent_containers/food/snacks/donut/slimejelly
+	result = /obj/item/weapon/reagent_containers/food/snacks/donut/jelly/slimejelly
 
 /datum/recipe/donut/jelly/cherry
 	reagents = list("cherryjelly" = 5, "flour" = 5)
-	result = /obj/item/weapon/reagent_containers/food/snacks/donut/cherryjelly
+	result = /obj/item/weapon/reagent_containers/food/snacks/donut/jelly/cherryjelly
 
 /datum/recipe/chaosdonut
 	reagents = list("frostoil" = 5, "capsaicin" = 5, "flour" = 5)
@@ -52,8 +52,8 @@
 /datum/recipe/waffles/soylentgreen
 	reagents = list("flour" = 15)
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat/human,
-		/obj/item/weapon/reagent_containers/food/snacks/meat/human,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soylentgreen
 
@@ -68,7 +68,7 @@
 
 ////////////////////////////////////////////////DONKPOCCKETS////////////////////////////////////////////////
 
-/datum/recipe/donkpocket
+/*/datum/recipe/donkpocket
 	reagents = list("flour" = 5)
 	items = list(
 		/obj/item/weapon/reagent_containers/food/snacks/faggot,
@@ -99,7 +99,7 @@
 		if(being_cooked && !being_cooked.warm)
 			warm_up(being_cooked)
 		return being_cooked
-
+*/
 
 ////////////////////////////////////////////////MUFFINS////////////////////////////////////////////////
 
@@ -197,7 +197,9 @@
 		/obj/item/weapon/reagent_containers/food/snacks/egg,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/apple/gold,
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/appletart
+	result = /obj/item/weapon/reagent_containers/food/snacks/pie/appletart
+
+//TODO: Add the other tarts
 
 /datum/recipe/cracker
 	reagents = list("flour" = 5, "sodiumchloride" = 1)

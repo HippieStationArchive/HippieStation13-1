@@ -7,7 +7,7 @@
 	make_food(var/obj/container as obj)
 		var/human_name
 		var/human_job
-		for (var/obj/item/weapon/reagent_containers/food/snacks/meat/human/HM in container)
+		for (var/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/HM in container)
 			if (!HM.subjectname)
 				continue
 			human_name = HM.subjectname
@@ -24,7 +24,7 @@
 
 	reagents = list("flour" = 5)
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat/human
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/burger/human
 
@@ -38,21 +38,21 @@
 /datum/recipe/burger/appendix
 	reagents = list("flour" = 5)
 	items = list(
-		/obj/item/organ/appendix
+		/obj/item/organ/internal/appendix
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/burger/appendix
 
 /datum/recipe/burger/brain
 	reagents = list("flour" = 5)
 	items = list(
-		/obj/item/organ/brain
+		/obj/item/organ/internal/brain
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/burger/brain
 
 /datum/recipe/burger/xeno
 	reagents = list("flour" = 5)
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/xenomeat
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/xeno
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/burger/xeno
 
