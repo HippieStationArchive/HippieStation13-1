@@ -87,6 +87,7 @@
 	materials = list(MAT_METAL=1000)
 	burn_state = -1 //Won't burn in fires
 
+
 //Pinning medals on people
 /obj/item/clothing/tie/medal/attack(mob/living/carbon/human/M, mob/living/user)
 	if(ishuman(M) && (user.a_intent == "help"))
@@ -146,6 +147,7 @@
 /obj/item/clothing/tie/medal/gold/captain
 	name = "medal of captaincy"
 	desc = "A golden medal awarded exclusively to those promoted to the rank of captain. It signifies the codified responsibilities of a captain to Nanotrasen, and their undisputable authority over their crew."
+	armor = list(melee = 5, bullet = 5, laser = 5, energy = 5, bomb = 5, bio = 5, rad = 5) //Intended mostly as a proof of concept.
 
 /obj/item/clothing/tie/medal/gold/heroism
 	name = "medal of exceptional heroism"

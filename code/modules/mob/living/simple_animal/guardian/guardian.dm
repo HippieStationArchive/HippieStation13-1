@@ -31,6 +31,7 @@
 	var/damage_transfer = 1 //how much damage from each attack we transfer to the owner
 	var/mob/living/summoner
 	var/range = 10 //how far from the user the spirit can be
+	var/guardiancolor = "#85C0E9" //Used for deciding ranged crystal spray color
 	var/playstyle_string = "You are a standard Guardian. You shouldn't exist!"
 	var/magic_fluff_string = " You draw the Coder, symbolizing bugs and errors. This shouldn't happen! Submit a bug report!"
 	var/tech_fluff_string = "BOOT SEQUENCE COMPLETE. ERROR MODULE LOADED. THIS SHOULDN'T HAPPEN. Submit a bug report!"
@@ -119,7 +120,6 @@
 		if(animated_manifest)
 			var/end_icon = icon_state
 			icon_state = "parasite_forming"
-			spawn(6)
 			icon_state = end_icon
 
 /mob/living/simple_animal/hostile/guardian/proc/Recall()
@@ -490,6 +490,29 @@
 				if(G.summoner)
 					G.summoner << "<span class='danger'><B>[AM] has crossed your surveillance trap at [get_area(snare_loc)].</span></B>"
 
+/mob/living/simple_animal/hostile/guardian/ranged/Shoot(atom/targeted_atom)
+	var/obj/item/projectile/guardian/shard = ..()
+	if(!shard)
+		return
+	shard.color = guardiancolor
+
+/proc/techcolor2hex(var/colour)
+	switch(colour)
+		if("orange")
+			return "#F87531"
+		if("neon")
+			return "#80FF15"
+		if("pink")
+			return "#FF65FF"
+		if("red")
+			return "#FF252F"
+		if("blue")
+			return "#00FFFF"
+		if("green")
+			return "#15FF1C"
+		else
+			return "#85C0E9"
+
 ////Bomb
 
 /mob/living/simple_animal/hostile/guardian/bomb
@@ -600,7 +623,7 @@
 		for(var/i = 2, i >= 0,i--)
 			var/guardianNewName = stripped_input(user, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
 			guardianNewName = reject_bad_name(guardianNewName, 1)
-			if(world.time >= timelimit)//Check time limit
+			if(timelimit >= world.time)
 				if(!isnull(guardianNewName))
 					G.name = guardianNewName
 					return
@@ -618,14 +641,14 @@
 
 
 /obj/item/weapon/guardiancreator/proc/spawn_guardian(var/mob/living/user, var/key)
-	var/gaurdiantype = "Standard"
+	var/guardiantype = "Standard"
 	if(random)
-		gaurdiantype = pick(possible_guardians)
+		guardiantype = pick(possible_guardians)
 	else
-		gaurdiantype = input(user, "Pick the type of [mob_name]", "[mob_name] Creation") as null|anything in possible_guardians
+		guardiantype = input(user, "Pick the type of [mob_name]", "[mob_name] Creation") as null|anything in possible_guardians
 	var/pickedtype = /mob/living/simple_animal/hostile/guardian/punch
-	var/picked_color = randomColor(0)
-	switch(gaurdiantype)
+	var/picked_color = randomColor(1)
+	switch(guardiantype)
 
 		if("Chaos")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/fire
@@ -656,6 +679,7 @@
 	switch (theme)
 		if("magic")
 			G.name = "[mob_name] [capitalize(picked_color)]"
+			G.guardiancolor = color2hex(picked_color)
 			G.color = color2hex(picked_color)
 			G.real_name = "[mob_name] [capitalize(picked_color)]"
 			user << "[G.magic_fluff_string]."
@@ -669,6 +693,7 @@
 			G.animated_manifest = TRUE
 			user << "[G.tech_fluff_string]."
 			G.speak_emote = list("states")
+			G.guardiancolor = techcolor2hex(colour)
 		if("bio")
 			user << "[G.bio_fluff_string]."
 			G.attacktext = "swarms"

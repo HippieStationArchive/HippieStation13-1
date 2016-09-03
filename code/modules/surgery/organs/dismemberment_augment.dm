@@ -16,7 +16,7 @@
 //Drop the limb
 /obj/item/organ/limb/proc/drop_limb(var/special=0)
 	var/turf/T = get_turf(src.loc)
-	var/mob/living/carbon/human/H 
+	var/mob/living/carbon/human/H
 	if(owner && ishuman(owner))
 		T = get_turf(owner)
 		H = owner
@@ -78,8 +78,8 @@
 		var/obj/item/organ/limb/affecting = H.get_organ("chest")
 		affecting.take_damage(Clamp(brutedam/2, 15, 50),0,1) //Damage the chest based on limb's existing damage (note that you get -10 max health per every missing limb anyway)
 		H.visible_message("<span class='danger'><B>[H]'s [src] has been violently dismembered!</B></span>")
-		H.drop_r_hand()
-		H.drop_l_hand()
+		H.drop_r_hand(1)
+		H.drop_l_hand(1)
 		H.update_canmove()
 		H.regenerate_icons()
 		H.emote("scream")
@@ -91,6 +91,9 @@
 	var/mob/living/carbon/human/H = owner
 	..()
 	if(istype(H))
+		if(H.buckled && H.noosed == 1)
+			H.noosed = 0
+			H.buckled.unbuckle_mob() //Unbuckles when you chop someones head off
 		//Drop all worn head items
 		for(var/obj/item/I in list(H.glasses, H.ears, H.wear_mask, H.head))
 			if(!H.unEquip(I))
@@ -120,6 +123,12 @@
 	state_flags = ORGAN_AUGMENTABLE
 	update_organ_icon()
 	if(!owner)
+		return 0
+	var/pass = 0
+	for(var/obj/item/organ/internal/X in owner.internal_organs)
+		if(X.zone == "chest")
+			pass = 1
+	if(pass != 1)
 		return 0
 	owner.visible_message("<span class='danger'><B>[owner]'s internal organs spill out onto the floor!</B></span>")
 	for(var/obj/item/organ/internal/O in owner.internal_organs)

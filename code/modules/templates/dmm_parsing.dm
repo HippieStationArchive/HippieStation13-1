@@ -170,7 +170,7 @@
 			value = replacetext(value, "\"", "")
 
 			if(copytext(value, 1, 9) == "newlist(")
-				var_overrides[key] = text2list(copytext(value, 9, findtext(value, ")")), ",")
+				var_overrides[key] = splittext(copytext(value, 9, findtext(value, ")")), ",")
 				continue
 
 		else if(text2num(value) != null)

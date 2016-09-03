@@ -692,7 +692,7 @@
 
 /mob/living/silicon/robot/attack_slime(mob/living/simple_animal/slime/M)
 	if(..()) //successful slime shock
-		flick("noise", flash)
+		flash_eyes()
 		var/stunprob = M.powerlevel * 7 + 10
 		if(prob(stunprob) && M.powerlevel >= 8)
 			adjustBruteLoss(M.powerlevel * rand(6,10))
@@ -1113,7 +1113,7 @@
 		new /obj/item/robot_parts/head(T)
 		var/b
 		for(b=0, b!=2, b++)
-			var/obj/item/device/assembly/flash/handheld/F = new /obj/item/device/assembly/flash/handheld(T)
+			var/obj/item/device/assembly/flash/F = new /obj/item/device/assembly/flash(T)
 			F.burn_out()
 	if (cell) //Sanity check.
 		cell.loc = T

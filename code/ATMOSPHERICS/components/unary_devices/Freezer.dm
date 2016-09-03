@@ -7,6 +7,7 @@
 	anchored = 1
 	use_power = 1
 	current_heat_capacity = 1000
+	idle_power_usage = 100
 
 /obj/machinery/atmospherics/components/unary/cold_sink/freezer/New()
 	..()
@@ -31,7 +32,7 @@
 		H += M.rating
 	for(var/obj/item/weapon/stock_parts/micro_laser/M in component_parts)
 		T += M.rating
-	min_temperature = T0C - (170 + (T*15))
+	min_temperature = max(0,T0C - (170 + (T*15)))
 	current_heat_capacity = 1000 * ((H - 1) ** 2)
 
 /obj/machinery/atmospherics/components/unary/cold_sink/freezer/attackby(obj/item/I, mob/user, params)
@@ -107,7 +108,7 @@
 			src.current_temperature = min(T20C, src.current_temperature+amount)
 		else
 			src.current_temperature = max(min_temperature, src.current_temperature+amount)
-		active_power_usage = (current_heat_capacity * (T20C - current_temperature) / 100) + idle_power_usage
+		active_power_usage = (sqrt(current_heat_capacity) * (T20C - current_temperature) / 100) + idle_power_usage
 	src.updateUsrDialog()
 
 /obj/machinery/atmospherics/components/unary/cold_sink/freezer/process()
@@ -129,6 +130,7 @@
 	density = 1
 	var/max_temperature = 0
 	anchored = 1
+	idle_power_usage = 100
 
 	current_heat_capacity = 1000
 
@@ -236,7 +238,7 @@
 			src.current_temperature = min((max_temperature), src.current_temperature+amount)
 		else
 			src.current_temperature = max(T20C, src.current_temperature+amount)
-		active_power_usage = (current_heat_capacity * (current_temperature - T20C) / 100) + idle_power_usage
+		active_power_usage = (sqrt(current_heat_capacity) * (current_temperature - T20C) / 100) + idle_power_usage
 	src.updateUsrDialog()
 	src.add_fingerprint(usr)
 	return

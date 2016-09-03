@@ -190,8 +190,7 @@ Sorry Giacom. Please don't be mad :(
 
 /mob/living/ex_act(severity, target)
 	..()
-	if(client && !eye_blind)
-		flick("flash", src.flash)
+	flash_eyes()
 
 /mob/living/proc/updatehealth()
 	if(status_flags & GODMODE)
@@ -740,10 +739,11 @@ Sorry Giacom. Please don't be mad :(
 		float_ticks = 0
 
 //called when the mob receives a bright flash
-/mob/living/proc/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0, noflash = 0)
+/mob/living/proc/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0,visual = 0, type = /obj/screen/fullscreen/flash, noflash = 0)
 	if(check_eye_prot() < intensity && (override_blindness_check || !(disabilities & BLIND)))
 		if(!noflash)
-			flick("e_flash", flash)
+			overlay_fullscreen("flash", type)
+			addtimer(src, "clear_fullscreen", 25, FALSE, "flash", 25)
 		return 1
 
 //this returns the mob's protection against eye damage (number between -1 and 2)
@@ -760,7 +760,7 @@ Sorry Giacom. Please don't be mad :(
 	if(what.flags & NODROP)
 		src << "<span class='warning'>You can't remove \the [what.name], it appears to be stuck!</span>"
 		return
-		
+
 	var/has_pickpocket = 0
 	var/delay_denominator = 1
 	if(ishuman(usr))

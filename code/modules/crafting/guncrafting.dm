@@ -3,7 +3,7 @@
 
 // PARTS //
 
-/obj/item/weaponcrafting/reciever
+/obj/item/weaponcrafting/receiver
 	name = "modular receiver"
 	desc = "A prototype modular receiver and trigger assembly for a firearm."
 	icon = 'icons/obj/improvised.dmi'
@@ -18,7 +18,7 @@
 
 // CRAFTING //
 
-/obj/item/weaponcrafting/reciever/attackby(obj/item/W, mob/user, params)
+/obj/item/weaponcrafting/receiver/attackby(obj/item/W, mob/user, params)
 	if(istype(W,/obj/item/pipe))
 		user << "<span class='notice'>You attach the shotgun barrel to the receiver. The pins seem loose.</span>"
 		var/obj/item/weaponcrafting/ishotgunconstruction/I = new /obj/item/weaponcrafting/ishotgunconstruction
@@ -69,15 +69,15 @@
 
 /obj/item/weaponcrafting/ishotgunconstruction3/attackby(obj/item/I, mob/user, params)
 	..()
-	if(istype(I, /obj/item/stack/packageWrap))
+	if(istype(I, /obj/item/stack/ducttape))
 		var/obj/item/stack/packageWrap/C = I
 		if (C.use(5))
 			var/obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised/W = new /obj/item/weapon/gun/projectile/revolver/doublebarrel/improvised
 			user.unEquip(src)
 			user.put_in_hands(W)
-			user << "<span class='notice'>You tie the wrapping paper around the stock and the barrel to secure it.</span>"
+			user << "<span class='notice'>You secure the stock and barrel with duct tape.</span>"
 			qdel(src)
 		else
-			user << "<span class='warning'>You need at least five feet of wrapping paper to secure the stock!</span>"
+			user << "<span class='warning'>You need at least five strips of duct tape to secure the stock!</span>"
 			return
 

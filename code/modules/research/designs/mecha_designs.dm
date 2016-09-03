@@ -199,14 +199,14 @@
 	construction_time = 100
 	category = list("Exosuit Equipment")
 
-/datum/design/mech_laser
-	name = "Exosuit Weapon (CH-PS \"Immolator\" Laser)"
-	desc = "Allows for the construction of CH-PS Laser."
-	id = "mech_laser"
+/datum/design/mech_lmg
+	name = "Exosuit Weapon (Ultra AC 2)"
+	desc = "Allows for the construction of Ultra AC 2 LMG."
+	id = "mech_lmg"
 	build_type = MECHFAB
-	req_tech = list("combat" = 3, "magnets" = 3)
-	build_path = /obj/item/mecha_parts/mecha_equipment/weapon/energy/laser
-	materials = list(MAT_METAL=10000)
+	req_tech = list("combat" = 5)
+	build_path = /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg
+	materials = list(MAT_METAL=10000,MAT_SILVER=8000)
 	construction_time = 100
 	category = list("Exosuit Equipment")
 

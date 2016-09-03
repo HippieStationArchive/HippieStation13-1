@@ -20,7 +20,7 @@
 	attack_sound = 'sound/weapons/punch1.ogg'
 	a_intent = "harm"
 	var/corpse = /obj/effect/landmark/mobcorpse/russian
-	var/weapon1 = /obj/item/weapon/kitchen/knife
+	var/weapon1 = /obj/item/weapon/melee/combatknife
 	atmos_requirements = list("min_oxy" = 5, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 1, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
 	unsuitable_atmos_damage = 15
 	faction = list("russian")
@@ -31,18 +31,12 @@
 	icon_state = "russianranged"
 	icon_living = "russianranged"
 	corpse = /obj/effect/landmark/mobcorpse/russian/ranged
-	weapon1 = /obj/item/weapon/gun/projectile/revolver/mateba
+	weapon1 = /obj/item/weapon/gun/projectile/shotgun/boltaction
 	ranged = 1
 	retreat_distance = 5
 	minimum_distance = 5
 	projectilesound = 'sound/weapons/Gunshot.ogg'
-	casingtype = /obj/item/ammo_casing/a357
-
-/mob/living/simple_animal/hostile/russian/ranged/New()
-	if(prob(50) && ispath(weapon1,/obj/item/weapon/gun/projectile/revolver/mateba)) //to preserve varedits
-		weapon1 = /obj/item/weapon/gun/projectile/shotgun/boltaction
-		casingtype = /obj/item/ammo_casing/a762
-	..()
+	casingtype = /obj/item/ammo_casing/a762
 
 /mob/living/simple_animal/hostile/russian/death(gibbed)
 	..(1)

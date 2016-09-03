@@ -71,4 +71,5 @@
 				if(age_check(character.client))
 					if(!(character.job in restricted_jobs))
 						character.mind.make_Changling()
+						return 1
 	..()

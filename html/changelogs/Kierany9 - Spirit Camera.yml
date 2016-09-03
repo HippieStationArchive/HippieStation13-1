@@ -1,0 +1,6 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - rscadd: "Added the Spirit Camera as an item for all civilian traitors for 4 TC. When activated, input the name of your target and it will return a photo of them in their current location. If the person is dead or doesn't exist, you will get a photo of yourself."

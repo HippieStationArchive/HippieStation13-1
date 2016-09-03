@@ -141,6 +141,10 @@
 	else //Bot is unlocked, but the maint panel has not been opened with a screwdriver yet.
 		user << "<span class='warning'>You need to open maintenance panel first!</span>"
 
+/obj/machinery/bot/initialize()
+	..()
+	SSbot.roundstartbots |= src
+
 /obj/machinery/bot/examine(mob/user)
 	..()
 	if (health < maxhealth)
@@ -520,17 +524,17 @@ obj/machinery/bot/proc/bot_reset()
 
 /obj/machinery/bot/proc/activate_boost()
 	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
-	
+
 	if(B)
 		B.boost = TRUE
 		movement_delay /= B.boost_multiplier
-		
+
 		spawn(B.boost_length)
 			deactivate_boost()
 
 /obj/machinery/bot/proc/deactivate_boost()
 	var/obj/item/weapon/bot_upgrade/boost/B = locate(/obj/item/weapon/bot_upgrade/boost) in upgrades
-	
+
 	if(B)
 		movement_delay *= B.boost_multiplier
 		spawn(B.boost_cooldown)

@@ -696,79 +696,86 @@
 	return
 
 /datum/species/proc/handle_vision(mob/living/carbon/human/H)
-	if( H.stat == DEAD )
+	if(H.stat == DEAD)
 		H.sight |= (SEE_TURFS|SEE_MOBS|SEE_OBJS)
 		H.see_in_dark = 8
-		if(!H.druggy)		H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
-	else
-		if(!(SEE_TURFS & H.permanent_sight_flags))
-			H.sight &= ~SEE_TURFS
-		if(!(SEE_MOBS & H.permanent_sight_flags))
-			H.sight &= ~SEE_MOBS
-		if(!(SEE_OBJS & H.permanent_sight_flags))
-			H.sight &= ~SEE_OBJS
+		if(!H.druggy)
+			H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
+		return
 
-		if(H.remote_view)
-			H.sight |= SEE_TURFS
-			H.sight |= SEE_MOBS
-			H.sight |= SEE_OBJS
+	if(!(SEE_TURFS & H.permanent_sight_flags))
+		H.sight &= ~SEE_TURFS
+	if(!(SEE_MOBS & H.permanent_sight_flags))
+		H.sight &= ~SEE_MOBS
+	if(!(SEE_OBJS & H.permanent_sight_flags))
+		H.sight &= ~SEE_OBJS
 
-		H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 3 : darksight
-		if(is_shadow_or_thrall(H))  //Check if the mob is a shadowling or thrall, to make sure their vision range doesn't create odd artifacts.
-			H.see_in_dark = 8
-		var/see_temp = H.see_invisible
-		H.see_invisible = invis_sight
+	if(H.remote_view)
+		H.sight |= SEE_TURFS
+		H.sight |= SEE_MOBS
+		H.sight |= SEE_OBJS
 
-		if(H.seer)
-			H.see_invisible = SEE_INVISIBLE_OBSERVER
+	H.see_in_dark = (H.sight == SEE_TURFS|SEE_MOBS|SEE_OBJS) ? 8 : darksight
+	var/see_temp = H.see_invisible
+	H.see_invisible = invis_sight
 
-		if(H.glasses)
-			if(istype(H.glasses, /obj/item/clothing/glasses))
-				var/obj/item/clothing/glasses/G = H.glasses
-				H.sight |= G.vision_flags
-				H.see_in_dark = G.darkness_view
-				if(G.invis_override)
-					H.see_invisible = G.invis_override
-				else
-					H.see_invisible = min(G.invis_view, H.see_invisible)
-		if(H.druggy)	//Override for druggy
-			H.see_invisible = see_temp
-
-		if(H.see_override)	//Override all
-			H.see_invisible = H.see_override
-
-		//	This checks how much the mob's eyewear impairs their vision
-		if(H.tinttotal >= TINT_IMPAIR)
-			if(tinted_weldhelh)
-				if(H.tinttotal >= TINT_BLIND)
-					H.eye_blind = max(H.eye_blind, 1)
-				if(H.client)
-					H.client.screen += global_hud.darkMask
-
-		if(H.blind)
-			if(H.eye_blind)
-				H.throw_alert("blind", /obj/screen/alert/blind)
-				H.blind.layer = 18
+	if(H.glasses)
+		if(istype(H.glasses, /obj/item/clothing/glasses))
+			var/obj/item/clothing/glasses/G = H.glasses
+			H.sight |= G.vision_flags
+			H.see_in_dark = G.darkness_view
+			if(G.invis_override)
+				H.see_invisible = G.invis_override
 			else
-				H.clear_alert("blind")
-				H.blind.layer = 0
+				H.see_invisible = min(G.invis_view, H.see_invisible)
+	if(H.druggy)	//Override for druggy
+		H.see_invisible = see_temp
 
-		if(!H.client)//no client, no screen to update
-			return 1
+	if(H.see_override)	//Override all
+		H.see_invisible = H.see_override
 
-		if( H.disabilities & NEARSIGHT && !istype(H.glasses, /obj/item/clothing/glasses/regular) )
-			H.client.screen += global_hud.vimpaired
-		if(H.eye_blurry)			H.client.screen += global_hud.blurry
-		if(H.druggy)
-			H.client.screen += global_hud.druggy
-			H.throw_alert("high", /obj/screen/alert/high)
-		else
-			H.clear_alert("high")
+	//	This checks how much the mob's eyewear impairs their vision
+	if(H.tinttotal >= TINT_IMPAIR)
+		if(tinted_weldhelh)
+			H.overlay_fullscreen("tint", /obj/screen/fullscreen/impaired, 2)
+		if(H.tinttotal >= TINT_BLIND)
+			H.eye_blind = max(H.eye_blind, 1)
+	else
+		H.clear_fullscreen("tint")
 
+	if(H.eye_stat > 30)
+		H.overlay_fullscreen("impaired", /obj/screen/fullscreen/impaired, 2)
+	else if(H.eye_stat > 20)
+		H.overlay_fullscreen("impaired", /obj/screen/fullscreen/impaired, 1)
+	else
+		H.clear_fullscreen("impaired")
 
-		if(H.eye_stat > 20)
-			if(H.eye_stat > 30)	H.client.screen += global_hud.darkMask
-			else				H.client.screen += global_hud.vimpaired
+	if(!H.client)//no client, no screen to update
+		return 1
+
+	if(H.eye_blind)
+		H.overlay_fullscreen("blind", /obj/screen/fullscreen/blind)
+		H.throw_alert("blind", /obj/screen/alert/blind)
+	else
+		H.clear_fullscreen("blind")
+		H.clear_alert("blind")
+
+	if(H.disabilities & NEARSIGHT && !istype(H.glasses, /obj/item/clothing/glasses/regular))
+		H.overlay_fullscreen("nearsighted", /obj/screen/fullscreen/impaired, 1)
+	else
+		H.clear_fullscreen("nearsighted")
+
+	if(H.eye_blurry)
+		H.overlay_fullscreen("blurry", /obj/screen/fullscreen/blurry)
+	else
+		H.clear_fullscreen("blurry")
+
+	if(H.druggy)
+		H.overlay_fullscreen("high", /obj/screen/fullscreen/high)
+		H.throw_alert("high", /obj/screen/alert/high)
+	else
+		H.clear_fullscreen("high")
+		H.clear_alert("high")
 
 	return 1
 
@@ -790,7 +797,7 @@
 						if(20 to 40)			H.healths.icon_state = "health4"
 						if(0 to 20)				H.healths.icon_state = "health5"
 						else					H.healths.icon_state = "health6"
-	
+
 
 
 	if(H.staminas)
@@ -845,13 +852,13 @@
 		if(!H.has_right_hand(1))
 			if(!(locate(block) in R.overlays))
 				R.overlays += block
-		else
-			R.overlays = null
+		else if(locate(block) in R.overlays)
+			R.overlays -= block
 		if(!H.has_left_hand(1))
 			if(!(locate(block) in L.overlays))
 				L.overlays += block
-		else
-			L.overlays = null
+		else if(locate(block) in L.overlays)
+			L.overlays -= block
 
 	switch(H.nutrition)
 		if(NUTRITION_LEVEL_FULL to INFINITY)
@@ -908,69 +915,68 @@
 ////////////////
 
 /datum/species/proc/movement_delay(mob/living/carbon/human/H)
-	if(!(H.status_flags & IGNORESLOWDOWN))
 
-		var/grav = has_gravity(H)
-		var/hasjetpack = 0
-		if(!grav)
-			var/obj/item/weapon/tank/jetpack/J
-			var/obj/item/weapon/tank/jetpack/P
+	var/grav = has_gravity(H)
+	var/hasjetpack = 0
+	if(!grav)
+		var/obj/item/weapon/tank/jetpack/J
+		var/obj/item/weapon/tank/jetpack/P
 
-			if(istype(H.back, /obj/item/weapon/tank/jetpack))
-				J = H.back
-			if(istype(H.wear_suit,/obj/item/clothing/suit/space/hardsuit)) //copypasta but faster implementation currently
-				var/obj/item/clothing/suit/space/hardsuit/C = H.wear_suit
-				P = C.jetpack
-			if(J)
-				if(J.allow_thrust(0.01, H))
-					hasjetpack = 1
-			else if(P)
-				if(P.allow_thrust(0.01, H))
-					hasjetpack = 1
+		if(istype(H.back, /obj/item/weapon/tank/jetpack))
+			J = H.back
+		if(istype(H.wear_suit,/obj/item/clothing/suit/space/hardsuit)) //copypasta but faster implementation currently
+			var/obj/item/clothing/suit/space/hardsuit/C = H.wear_suit
+			P = C.jetpack
+		if(J)
+			if(J.allow_thrust(0.01, H))
+				hasjetpack = 1
+		else if(P)
+			if(P.allow_thrust(0.01, H))
+				hasjetpack = 1
 
-			. = -1 - hasjetpack
+		. = -1 - hasjetpack
 
-		if(grav || !hasjetpack)
-			var/health_deficiency = (100 - H.health + H.staminaloss)
-			if(health_deficiency >= 40)
-				. += (health_deficiency / 25)
+	if((grav || !hasjetpack) && !(H.status_flags & IGNORESLOWDOWN))
+		var/health_deficiency = (100 - H.health + H.staminaloss)
+		if(health_deficiency >= 40)
+			. += (health_deficiency / 25)
 
-			var/hungry = (500 - H.nutrition) / 5	//So overeat would be 100 and default level would be 80
-			if(hungry >= 70)
-				. += hungry / 50
+		var/hungry = (500 - H.nutrition) / 5	//So overeat would be 100 and default level would be 80
+		if(hungry >= 70)
+			. += hungry / 50
 
-			if(H.wear_suit)
-				. += H.wear_suit:update_slowdown(H)
-			if(H.shoes)
-				. += H.shoes:update_slowdown(H)
-			if(H.back)
-				. += H.back:update_slowdown(H)
-			if(H.l_hand)
-				. += H.l_hand:update_slowdown(H)
-			if(H.r_hand)
-				. += H.r_hand:update_slowdown(H)
+		if(H.wear_suit)
+			. += H.wear_suit:update_slowdown(H)
+		if(H.shoes)
+			. += H.shoes:update_slowdown(H)
+		if(H.back)
+			. += H.back:update_slowdown(H)
+		if(H.l_hand)
+			. += H.l_hand:update_slowdown(H)
+		if(H.r_hand)
+			. += H.r_hand:update_slowdown(H)
 
-			if((H.disabilities & FAT))
-				. += 1.5
-			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
-				. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
+		if((H.disabilities & FAT))
+			. += 1.5
+		if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
+			. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
 
-			if(H.get_num_legs(1) < 2)
-				. += 2
+		if(H.get_num_legs(1) < 2)
+			. += 2
 
-			if(H.lying) //This is for crawling
-				. += 10
-				if(H.status_flags & NEARCRIT)//Can crawl only every 3 seconds if nearcrit, otherwise it's 1
-					. += 20
+		if(H.lying) //This is for crawling
+			. += 10
+			if(H.status_flags & NEARCRIT)//Can crawl only every 3 seconds if nearcrit, otherwise it's 1
+				. += 20
 
-			. += speedmod
+		. += speedmod
 
-		if(grav)
-			if(H.status_flags & GOTTAGOFAST)
-				. -= 1
+	if(grav)
+		if(H.status_flags & GOTTAGOFAST)
+			. -= 1
 
-			if(H.status_flags & GOTTAGOREALLYFAST)
-				. -= 2
+		if(H.status_flags & GOTTAGOREALLYFAST)
+			. -= 2
 
 //////////////////
 // ATTACK PROCS //
@@ -1036,7 +1042,6 @@
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
-				add_logs(M, H, "punched")
 				if((H.stat != DEAD) && hitcheck >= 9)
 					H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
 									"<span class='userdanger'>[M] has weakened [H]!</span>")
@@ -1049,6 +1054,7 @@
 					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((hitcheck*2)/100))))
 						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
 										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
+				add_logs(M, H, "punched")
 		if("disarm")
 			if(attacker_style && attacker_style.disarm_act(M,H))
 				return 1
@@ -1205,7 +1211,7 @@
 	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
 	var/dmgcheck = apply_damage((1-I.stamina_percentage)*I.force, I.damtype, affecting, armor_block, H)
 	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, STAMINA, affecting, armor_block, H)
-	
+
 	if(!dmgcheck && !staminadmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")

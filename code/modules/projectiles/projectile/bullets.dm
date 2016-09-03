@@ -42,8 +42,18 @@
 /obj/item/projectile/bullet/pellet/weak
 	damage = 3
 
-/obj/item/projectile/bullet/pellet/random/New()
-	damage = rand(10)
+/obj/item/projectile/bullet/pellet/shrapnel
+	name = "metal shrapnel"
+	damage = 7
+
+/obj/item/projectile/bullet/pellet/coinshot
+	name = "coin pellet"
+	damage = 3
+	stamina = 10
+
+/obj/item/projectile/bullet/pellet/coinshot/overload
+	damage = 5
+	stamina = 15
 
 /obj/item/projectile/bullet/midbullet
 	damage = 20
@@ -181,9 +191,10 @@
 /obj/item/projectile/bullet/neurotoxin
 	name = "neurotoxin spit"
 	icon_state = "neurotoxin"
-	damage = 5
+	damage = 6
 	damage_type = TOX
-	weaken = 5
+	weaken = 6
+	flag = "bio" //changed from the default of bullet
 
 /obj/item/projectile/bullet/neurotoxin/on_hit(atom/target, blocked = 0)
 	if(isalien(target))
