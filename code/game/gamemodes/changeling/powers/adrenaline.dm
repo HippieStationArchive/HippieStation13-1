@@ -6,10 +6,13 @@
 	evopoints_cost = 4
 	req_dna = 3 //Tier 2
 	req_human = 1
+	var/cooldown = 0
 	req_stat = UNCONSCIOUS
 
 //Recover from stuns.
 /obj/effect/proc_holder/changeling/adrenaline/sting_action(mob/living/user)
+	if(cooldown > world.time)
+		return 0
 	user << "<span class='notice'>Energy rushes through us.[user.lying ? " We arise." : ""]</span>"
 	user.stat = 0
 	user.SetParalysis(0)
@@ -21,4 +24,5 @@
 	user.reagents.add_reagent("changelingAdrenaline2", 2) //For a really quick burst of speed
 	user.adjustStaminaLoss(-75)
 	feedback_add_details("changeling_powers","UNS")
+	cooldown = world.time + 100
 	return 1
