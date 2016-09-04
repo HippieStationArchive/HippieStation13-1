@@ -33,7 +33,7 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Cooking Update!"
+  - rscadd: "Cooking Update! Most of it by Mcbawbaggings."
   - rscadd: "Old cooking from pre-rebase has been added. It now uses microwave cooking instead of tablecrafting. Goodbye loading bars!"
   - rscadd: "Check the wiki for more details on how to cook now. It will be updated with all the recipes eventually."
   - rscadd: "New animations for the gibber."
