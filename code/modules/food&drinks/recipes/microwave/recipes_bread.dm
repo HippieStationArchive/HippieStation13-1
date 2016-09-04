@@ -5,8 +5,7 @@
 
 /datum/recipe/bread
 	reagents = list("flour" = 15)
-	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread
-	// result = /obj/item/weapon/reagent_containers/food/snacks/customizable/cook/bread //Unneccesary
+	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/plain
 
 /datum/recipe/bread/meat
 	reagents = list("flour" = 15)

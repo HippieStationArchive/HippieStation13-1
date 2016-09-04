@@ -8,10 +8,6 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/apple,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/salad/herbsalad
-	/*make_food(var/obj/container as obj)
-		var/obj/item/weapon/reagent_containers/food/snacks/herbsalad/being_cooked = ..(container)
-		being_cooked.reagents.del_reagent("toxin")
-		return being_cooked*/
 
 /datum/recipe/salad/aesir
 	items = list(
@@ -31,7 +27,38 @@
 		/obj/item/weapon/reagent_containers/food/snacks/faggot,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/salad/validsalad
-	/*make_food(var/obj/container as obj)
-		var/obj/item/weapon/reagent_containers/food/snacks/validsalad/being_cooked = ..(container)
-		being_cooked.reagents.del_reagent("toxin")
-		return being_cooked*/
+
+/datum/recipe/salad/oatmeal
+	reagents = list("milk" = 10)
+	items = list(
+		/obj/item/weapon/reagent_containers/glass/bowl = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/grown/oat = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/salad/oatmeal
+
+/datum/recipe/salad/fruitsalad
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/grown/citrus/orange = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/grown/apple = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/grown/grapes = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/watermelonslice = 2
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/salad/fruit
+
+/datum/recipe/salad/junglesalad
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/grown/apple = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/grown/grapes = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/grown/banana = 2,
+		/obj/item/weapon/reagent_containers/food/snacks/watermelonslice = 2
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/salad/jungle
+
+/datum/recipe/salad/citrusdelight
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/grown/citrus/lime = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/grown/citrus/lemon = 1,
+		/obj/item/weapon/reagent_containers/food/snacks/grown/citrus/orange = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/salad/citrusdelight
+

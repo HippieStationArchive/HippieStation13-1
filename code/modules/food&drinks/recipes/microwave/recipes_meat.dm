@@ -1,13 +1,6 @@
 
 ////////////////////////////////////////////////KEBABS NO REMOVE////////////////////////////////////////////////
 
-/datum/recipe/kebab/human
-	items = list(
-		/obj/item/stack/rods,
-		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
-		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
-	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human
 
 /datum/recipe/kebab/monkey
 	items = list(
@@ -17,7 +10,54 @@
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/monkey
 
-	//TODO: Add snowflake kebabs
+/datum/recipe/kebab/lizard
+	items = list(
+		/obj/item/stack/rods,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/lizard,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human/lizard
+
+/datum/recipe/kebab/bird
+	items = list(
+		/obj/item/stack/rods,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/bird
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human/lizard
+
+/datum/recipe/kebab/robo
+	items = list(
+		/obj/item/stack/rods,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/robo
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human/robo
+
+/datum/recipe/kebab/cat
+	items = list(
+		/obj/item/stack/rods,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human/cat
+
+/datum/recipe/kebab/moth
+	items = list(
+		/obj/item/stack/rods,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/moth,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/moth
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human/moth
+
+//Put this AFTER snowflake races or else all species make the same kebab.
+/datum/recipe/kebab/human
+	items = list(
+		/obj/item/stack/rods,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/human
 
 /datum/recipe/kebab/tofu
 	items = list(
@@ -26,6 +66,22 @@
 		/obj/item/weapon/reagent_containers/food/snacks/tofu,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/tofu
+
+/datum/recipe/kebab/rat
+	items = list(
+		/obj/item/stack/rods = 1,
+		/obj/item/trash/deadmouse = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/rat
+
+/datum/recipe/kebab/doublerat
+	items = list(
+		/obj/item/stack/rods = 1,
+		/obj/item/trash/deadmouse = 1,
+		/obj/item/trash/deadmouse = 1
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/kebab/doublerat
+
 
 ////////////////////////////////////////////////FISH////////////////////////////////////////////////
 
@@ -98,7 +154,7 @@
 /datum/recipe/meatsteak
 	reagents = list("sodiumchloride" = 1, "blackpepper" = 1)
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human
 

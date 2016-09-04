@@ -165,10 +165,6 @@
 	var/offset = prob(50) ? -2 : 2
 	animate(src, pixel_x = pixel_x + offset, time = 0.2, loop = 200) //start shaking
 	var/sourcename = src.occupant.real_name
-	var/sourcejob
-	if(ishuman(occupant))
-		var/mob/living/carbon/human/gibee = occupant
-		sourcejob = gibee.job
 	var/sourcenutriment = src.occupant.nutrition / 15
 	var/sourcetotalreagents = src.occupant.reagents.total_volume
 	var/gibtype = /obj/effect/decal/cleanable/blood/gibs
@@ -190,8 +186,6 @@
 		var/obj/item/weapon/reagent_containers/food/snacks/meat/slab/newmeat = new typeofmeat
 		newmeat.name = sourcename + newmeat.name
 		newmeat.subjectname = sourcename
-		if(sourcejob)
-			newmeat.subjectjob = sourcejob
 		newmeat.reagents.add_reagent ("nutriment", sourcenutriment / meat_produced) // Thehehe. Fat guys go first
 		src.occupant.reagents.trans_to (newmeat, round (sourcetotalreagents / meat_produced, 1)) // Transfer all the reagents from the
 		allmeat[i] = newmeat
