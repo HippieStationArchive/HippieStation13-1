@@ -34,7 +34,7 @@
 /datum/recipe/egg/benedict
 	items = list(
 		/obj/item/weapon/reagent_containers/food/snacks/friedegg,
-		/obj/item/weapon/reagent_containers/food/snacks/meatsteak,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain,
 		/obj/item/weapon/reagent_containers/food/snacks/breadslice,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/benedict

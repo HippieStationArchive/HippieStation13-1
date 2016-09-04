@@ -10,7 +10,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/tomato,
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/sliceable/pizza/margherita
+	result = /obj/item/weapon/reagent_containers/food/snacks/pizza/margherita
 
 /datum/recipe/pizza/meat
 	reagents = list("flour" = 10)
@@ -21,7 +21,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/tomato,
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/sliceable/pizza/meatpizza
+	result = /obj/item/weapon/reagent_containers/food/snacks/pizza/meat
 
 /datum/recipe/pizza/mushroom
 	reagents = list("flour" = 10)
@@ -32,7 +32,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom,
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/sliceable/pizza/mushroompizza
+	result = /obj/item/weapon/reagent_containers/food/snacks/pizza/mushroom
 
 /datum/recipe/pizza/vegetable
 	reagents = list("flour" = 10)
@@ -42,6 +42,6 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/corn,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/tomato,
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/sliceable/pizza/vegetablepizza
+	result = /obj/item/weapon/reagent_containers/food/snacks/pizza/vegetable
 
 

@@ -5,7 +5,6 @@
 	icon = 'icons/obj/food/pizzaspaghetti.dmi'
 	icon_state = "spaghetti"
 	list_reagents = list("nutriment" = 1, "vitamin" = 1)
-	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/boiledspaghetti
 	filling_color = "#F0E68C"
 
 /obj/item/weapon/reagent_containers/food/snacks/boiledspaghetti

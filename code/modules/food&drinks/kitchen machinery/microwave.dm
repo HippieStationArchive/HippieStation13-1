@@ -107,7 +107,7 @@
 		var/obj/item/weapon/reagent_containers/spray/clean_spray = O
 		if(clean_spray.reagents.has_reagent("cleaner",clean_spray.amount_per_transfer_from_this))
 			clean_spray.reagents.remove_reagent("cleaner",clean_spray.amount_per_transfer_from_this,1)
-			playsound(loc, 'sound/effects/spray3.ogg', 50, 1, -6)
+			playsound(loc, 'sound/effects/spray3.ogg', 50, 1)
 			user.visible_message( \
 				"<span class='notice'>[user]  has cleaned  the microwave.</span>", \
 				"<span class='notice'>You have cleaned the microwave.</span>" \
@@ -350,7 +350,7 @@
 	src.updateUsrDialog()
 
 /obj/machinery/microwave/proc/stop()
-	playsound(src.loc, 'sound/machines/ding.ogg', 50, 1, -7)
+	playsound(src.loc, 'sound/machines/ding.ogg', 50, 1)
 	src.operating = 0 // Turn it off again aferwards
 	src.icon_state = "mw"
 	src.updateUsrDialog()
@@ -369,7 +369,7 @@
 	src.icon_state = "mwbloody1" // Make it look dirty!!
 
 /obj/machinery/microwave/proc/muck_finish()
-	playsound(src.loc, 'sound/machines/ding.ogg', 50, 1, -7)
+	playsound(src.loc, 'sound/machines/ding.ogg', 50, 1)
 	src.visible_message("<span class='danger'>The microwave gets covered in muck!</span>")
 	src.dirty = 100 // Make it dirty so it can't be used util cleaned
 	src.flags = null //So you can't add condiments

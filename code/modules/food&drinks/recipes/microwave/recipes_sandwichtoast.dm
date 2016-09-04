@@ -5,7 +5,7 @@
 
 /datum/recipe/sandwich
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meatsteak,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/steak,
 		/obj/item/weapon/reagent_containers/food/snacks/breadslice,
 		/obj/item/weapon/reagent_containers/food/snacks/breadslice,
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
