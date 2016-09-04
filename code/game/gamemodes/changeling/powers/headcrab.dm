@@ -25,7 +25,7 @@
 			I.Remove(user, 1)
 
 	for(var/mob/living/carbon/human/H in view(1,user))
-		if(!target.check_eye_prot())
+		if(!H.check_eye_prot())
 			H << "<span class='userdanger'>You are blinded by a shower of blood!</span>"
 			H.apply_effect(3, PARALYZE)
 			H.eye_blurry = 20
