@@ -12,6 +12,7 @@
 //Recover from stuns.
 /obj/effect/proc_holder/changeling/adrenaline/sting_action(mob/living/user)
 	if(cooldown > world.time)
+		user << "<span class='notice'>We must wait [round((cooldown - world.time)/10)] seconds before using our adrenaline sacs again.</span>"
 		return 0
 	user << "<span class='notice'>Energy rushes through us.[user.lying ? " We arise." : ""]</span>"
 	user.stat = 0
