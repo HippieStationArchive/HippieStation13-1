@@ -24,13 +24,14 @@
 		for(var/obj/item/organ/internal/I in organs)
 			I.Remove(user, 1)
 
-	for(var/mob/living/carbon/human/H in view(7,user))
-		H << "<span class='userdanger'>You are blinded by a shower of blood!</span>"
-		H.apply_effect(5, PARALYZE)
-		H.eye_blurry = 20
-		H.eye_stat += 10
-		H.confused += 10
-	for(var/mob/living/silicon/S in view(7,user))
+	for(var/mob/living/carbon/human/H in view(2,user))
+		if(!target.check_eye_prot())
+			H << "<span class='userdanger'>You are blinded by a shower of blood!</span>"
+			H.apply_effect(2, PARALYZE)
+			H.eye_blurry = 20
+			H.eye_stat += 10
+			H.confused += 5
+	for(var/mob/living/silicon/S in view(2,user))
 		S << "<span class='userdanger'>Your sensors are disabled by a shower of blood!</span>"
 		S.Weaken(3)
 	var/turf = get_turf(user)
