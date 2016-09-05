@@ -1,4 +1,3 @@
-
 //////////////////////////////////////////FOOD MIXTURES////////////////////////////////////
 
 /datum/chemical_reaction/tofu
@@ -131,51 +130,6 @@
 
 /datum/chemical_reaction/imitationcarpmeat/on_reaction(datum/reagents/holder)
 	var/obj/item/weapon/reagent_containers/food/snacks/S = new /obj/item/weapon/reagent_containers/food/snacks/carpmeat/imitation
-	S.loc = get_turf(holder.my_atom)
-	if(holder && holder.my_atom)
-		qdel(holder.my_atom)
-
-/datum/chemical_reaction/dough
-	name = "Dough"
-	id = "dough"
-	result = null
-	required_reagents = list("water" = 10, "flour" = 15)
-	result_amount = 1
-	mix_message = "The ingredients form a dough."
-
-/datum/chemical_reaction/dough/on_reaction(datum/reagents/holder, created_volume)
-	var/location = get_turf(holder.my_atom)
-	for(var/i = 1, i <= created_volume, i++)
-		new /obj/item/weapon/reagent_containers/food/snacks/dough(location)
-
-/datum/chemical_reaction/cakebatter
-	name = "Cake Batter"
-	id = "cakebatter"
-	result = null
-	required_reagents = list("eggyolk" = 15, "flour" = 15, "sugar" = 5)
-	result_amount = 1
-	mix_message = "The ingredients form a cake batter."
-
-/datum/chemical_reaction/cakebatter/on_reaction(datum/reagents/holder, created_volume)
-	var/location = get_turf(holder.my_atom)
-	for(var/i = 1, i <= created_volume, i++)
-		new /obj/item/weapon/reagent_containers/food/snacks/cakebatter(location)
-
-/datum/chemical_reaction/cakebatter/vegan
-	id = "vegancakebatter"
-	required_reagents = list("soymilk" = 15, "flour" = 15, "sugar" = 5)
-
-/datum/chemical_reaction/ricebowl
-	name = "Rice Bowl"
-	id = "ricebowl"
-	result = null
-	required_reagents = list("rice" = 10, "water" = 10)
-	result_amount = 1
-	required_container = /obj/item/weapon/reagent_containers/glass/bowl
-	mix_message = "The rice absorbs the water."
-
-/datum/chemical_reaction/ricebowl/on_reaction(datum/reagents/holder)
-	var/obj/item/weapon/reagent_containers/food/snacks/S = new /obj/item/weapon/reagent_containers/food/snacks/salad/ricebowl
 	S.loc = get_turf(holder.my_atom)
 	if(holder && holder.my_atom)
 		qdel(holder.my_atom)

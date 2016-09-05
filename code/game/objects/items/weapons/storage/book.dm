@@ -485,5 +485,4 @@ var/global/biblename
 		/obj/item/weapon/reagent_containers/food/snacks/grown,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom,
 		)
-	blocked |= typesof(/obj/item/weapon/reagent_containers/food/snacks/customizable)
 	possiblespawns += typesof(/obj/item/weapon/reagent_containers/food/snacks) - blocked
