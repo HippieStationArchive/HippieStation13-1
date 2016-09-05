@@ -14,7 +14,7 @@
 	var/meat_produced = 0
 	var/ignore_clothing = 0
 	var/locked = 0 //Used to prevent mobs from breaking the feedin anim
-	var/bloodToUse = "red" //Either use green xenomorph blood or red human blood.
+	var/bloodToUse = "#A10808" //Either use green xenomorph blood or red human blood. Default red is #A10808
 	use_power = 1
 	idle_power_usage = 2
 	active_power_usage = 500
@@ -226,7 +226,7 @@
 	if(isalien(occupant))
 		bloodToUse = "green"
 	else
-		bloodToUse = "red"
+		bloodToUse = "#A10808"
 	update_icon()
 	var/image/blood = new('icons/obj/kitchen.dmi', "grinding")
 	blood.color = bloodToUse
@@ -270,7 +270,7 @@
 			var/obj/item/meatslab = allmeat[i]
 			meatslab.loc = src.loc
 			meatslab.throw_at(pick(nearby_turfs),i,3)
-		if(bloodToUse == "red")
+		if(bloodToUse == "#A10808")
 			new /obj/effect/gibspawner/human(loc)
 		else
 			new /obj/effect/gibspawner/xeno(loc)
