@@ -73,8 +73,8 @@
 	if(default_deconstruction_crowbar(O))
 		return
 
-	if(src.broken > 0)
-		if(src.broken == 2 && istype(O, /obj/item/weapon/wirecutters)) // If it's broken and they're using a screwdriver
+	if(broken > 0)
+		if(broken == 2 && istype(O, /obj/item/weapon/wirecutters)) // If it's broken and they're using wirecutters
 			user.visible_message( \
 				"<span class='notice'>[user] starts to fix part of the microwave.</span>", \
 				"<span class='notice'>You start to fix part of the microwave.</span>" \
@@ -84,8 +84,8 @@
 					"<span class='notice'>[user] fixes part of the microwave.</span>", \
 					"<span class='notice'>You have fixed part of the microwave.</span>" \
 				)
-				src.broken = 1 // Fix it a bit
-		else if(src.broken == 1 && istype(O, /obj/item/weapon/weldingtool)) // If it's broken and they're doing the wrench
+				broken = 1 // Fix it a bit
+		else if(broken == 1 && istype(O, /obj/item/weapon/weldingtool)) // If it's broken and they're using a welding tool
 			user.visible_message( \
 				"<span class='notice'>[user] starts to fix part of the microwave.</span>", \
 				"<span class='notice'>You start to fix part of the microwave.</span>" \
@@ -95,10 +95,10 @@
 					"<span class='notice'>[user] fixes the microwave.</span>", \
 					"<span class='notice'>You have fixed the microwave.</span>" \
 				)
-				src.icon_state = "mw"
-				src.broken = 0 // Fix it!
-				src.dirty = 0 // just to be sure
-				src.flags = OPENCONTAINER
+				icon_state = "mw"
+				broken = 0 // Fix it!
+				dirty = 0 // just to be sure
+				flags = OPENCONTAINER
 				return 0 //to use some fuel
 		else
 			user << "<span class='danger'>It's broken!</span>"
@@ -112,11 +112,11 @@
 				"<span class='notice'>[user]  has cleaned  the microwave.</span>", \
 				"<span class='notice'>You have cleaned the microwave.</span>" \
 			)
-			src.dirty = 0 // It's clean!
-			src.broken = 0 // just to be sure
-			src.icon_state = "mw"
-			src.flags = OPENCONTAINER
-			src.updateUsrDialog()
+			dirty = 0 // It's clean!
+			broken = 0 // just to be sure
+			icon_state = "mw"
+			flags = OPENCONTAINER
+			updateUsrDialog()
 			return 1 // Disables the after-attack so we don't spray the floor/user.
 		else
 			user << "<span class='danger'>You need more space cleaner!<span>"
@@ -133,11 +133,11 @@
 				"<span class='notice'>[user]  has cleaned  the microwave.</span>", \
 				"<span class='notice'>You have cleaned the microwave.</span>" \
 			)
-			src.dirty = 0 // It's clean!
-			src.broken = 0 // just to be sure
-			src.icon_state = "mw"
-			src.flags = OPENCONTAINER
-	else if(src.dirty==100) // The microwave is all dirty so can't be used!
+			dirty = 0 // It's clean!
+			broken = 0 // just to be sure
+			icon_state = "mw"
+			flags = OPENCONTAINER
+	else if(dirty==100) // The microwave is all dirty so can't be used!
 		user << "<span class='danger'>It's dirty!</span>"
 		return 1
 	else if(is_type_in_list(O,acceptable_items))
@@ -177,10 +177,10 @@
 	else
 		user << "<span class='danger'>You have no idea what you can cook with this.</span>"
 		return 1
-	src.updateUsrDialog()
+	updateUsrDialog()
 
 /obj/machinery/microwave/attack_paw(mob/user as mob)
-	return src.attack_hand(user)
+	return attack_hand(user)
 
 /obj/machinery/microwave/attack_ai(mob/user as mob)
 	return 0
@@ -199,11 +199,11 @@
 	if(panel_open || !anchored)
 		return
 	var/dat = "<div class='statusDisplay'>"
-	if(src.broken > 0)
+	if(broken > 0)
 		dat += "ERROR: 09734014-A2379-D18746 --Bad memory<BR>Contact your operator or use command line to rebase memory ///git checkout {HEAD} -a commit pull --rebase push {*NEW HEAD*}</div>"    //Thats how all the git fiddling looks to me
-	else if(src.operating)
+	else if(operating)
 		dat += "Microwaving in progress!<BR>Please wait...!</div>"
-	else if(src.dirty==100)
+	else if(dirty==100)
 		dat += "ERROR: >> 0 --Responce input zero<BR>Contact your operator of the device manifactor support.</div>"
 	else
 		var/list/items_counts = new
@@ -285,7 +285,7 @@
 			wzhzhzh(4)
 			muck_finish()
 			cooked = fail()
-			cooked.loc = src.loc
+			cooked.loc = loc
 			return
 		else if (has_extra_item())
 			if (!wzhzhzh(4))
@@ -293,7 +293,7 @@
 				return
 			broke()
 			cooked = fail()
-			cooked.loc = src.loc
+			cooked.loc = loc
 			return
 		else
 			if (!wzhzhzh(10))
@@ -301,7 +301,7 @@
 				return
 			stop()
 			cooked = fail()
-			cooked.loc = src.loc
+			cooked.loc = loc
 			return
 	else
 		var/halftime = round(recipe.time/10/2)
@@ -311,7 +311,7 @@
 		if (!wzhzhzh(halftime))
 			abort()
 			cooked = fail()
-			cooked.loc = src.loc
+			cooked.loc = loc
 			return
 		cooked = recipe.make_food(src)
 		stop()
@@ -339,54 +339,54 @@
 	return 0
 
 /obj/machinery/microwave/proc/start()
-	src.visible_message("<span class='notice'>The microwave turns on.</span>", "<span class='notice'>You hear a microwave.</span>")
-	src.operating = 1
-	src.icon_state = "mw1"
-	src.updateUsrDialog()
+	visible_message("<span class='notice'>The microwave turns on.</span>", "<span class='notice'>You hear a microwave.</span>")
+	operating = 1
+	icon_state = "mw1"
+	updateUsrDialog()
 
 /obj/machinery/microwave/proc/abort()
-	src.operating = 0 // Turn it off again aferwards
-	src.icon_state = "mw"
-	src.updateUsrDialog()
+	operating = 0 // Turn it off again aferwards
+	icon_state = "mw"
+	updateUsrDialog()
 
 /obj/machinery/microwave/proc/stop()
-	playsound(src.loc, 'sound/machines/ding.ogg', 50, 1)
-	src.operating = 0 // Turn it off again aferwards
-	src.icon_state = "mw"
-	src.updateUsrDialog()
+	playsound(loc, 'sound/machines/ding.ogg', 50, 1)
+	operating = 0 // Turn it off again aferwards
+	icon_state = "mw"
+	updateUsrDialog()
 
 /obj/machinery/microwave/proc/dispose()
 	for (var/obj/O in contents)
 		O.loc = src.loc
-	if (src.reagents.total_volume)
-		src.dirty++
-	src.reagents.clear_reagents()
+	if (reagents.total_volume)
+		dirty++
+	reagents.clear_reagents()
 	usr << "<span class='notice'>You dispose of the microwave contents.</span>"
-	src.updateUsrDialog()
+	updateUsrDialog()
 
 /obj/machinery/microwave/proc/muck_start()
-	playsound(src.loc, 'sound/effects/splat.ogg', 50, 1) // Play a splat sound
-	src.icon_state = "mwbloody1" // Make it look dirty!!
+	playsound(loc, 'sound/effects/splat.ogg', 50, 1) // Play a splat sound
+	icon_state = "mwbloody1" // Make it look dirty!!
 
 /obj/machinery/microwave/proc/muck_finish()
-	playsound(src.loc, 'sound/machines/ding.ogg', 50, 1)
-	src.visible_message("<span class='danger'>The microwave gets covered in muck!</span>")
-	src.dirty = 100 // Make it dirty so it can't be used util cleaned
-	src.flags = null //So you can't add condiments
-	src.icon_state = "mwbloody" // Make it look dirty too
-	src.operating = 0 // Turn it off again aferwards
-	src.updateUsrDialog()
+	playsound(loc, 'sound/machines/ding.ogg', 50, 1)
+	visible_message("<span class='danger'>The microwave gets covered in muck!</span>")
+	dirty = 100 // Make it dirty so it can't be used util cleaned
+	flags = null //So you can't add condiments
+	icon_state = "mwbloody" // Make it look dirty too
+	operating = 0 // Turn it off again aferwards
+	updateUsrDialog()
 
 /obj/machinery/microwave/proc/broke()
-	var/datum/effect_system/spark_spread/s
-	s.set_up(2, 1, src)
-	s.start()
-	src.icon_state = "mwb" // Make it look all busted up and shit
-	src.visible_message("<span class='danger'>The microwave breaks!</span>") //Let them know they're stupid
-	src.broken = 2 // Make it broken so it can't be used util fixed
-	src.flags = null //So you can't add condiments
-	src.operating = 0 // Turn it off again aferwards
-	src.updateUsrDialog()
+	var/turf/T = get_turf(src)
+	PoolOrNew(/obj/effect/particle_effect/sparks, T)
+	playsound(src.loc, "sparks", 50, 1)
+	icon_state = "mwb" // Make it look all busted up and shit
+	visible_message("<span class='danger'>The microwave breaks!</span>") //Let them know they're stupid
+	broken = 2 // Make it broken so it can't be used util fixed
+	flags = null //So you can't add condiments
+	operating = 0 // Turn it off again aferwards
+	updateUsrDialog()
 
 /obj/machinery/microwave/proc/fail()
 	var/obj/item/weapon/reagent_containers/food/snacks/badrecipe/ffuu = new(src)
@@ -398,7 +398,7 @@
 			if (id)
 				amount+=O.reagents.get_reagent_amount(id)
 		qdel(O)
-	src.reagents.clear_reagents()
+	reagents.clear_reagents()
 	ffuu.reagents.add_reagent("carbon", amount)
 	ffuu.reagents.add_reagent("toxin", amount/10)
 	return ffuu
@@ -408,7 +408,7 @@
 		return
 
 	usr.set_machine(src)
-	if(src.operating)
+	if(operating)
 		updateUsrDialog()
 		return
 

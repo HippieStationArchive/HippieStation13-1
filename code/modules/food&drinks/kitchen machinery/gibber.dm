@@ -120,7 +120,9 @@
 		if(C.abiotic(1) && !ignore_clothing)
 			user << "<span class='danger'>Subject may not have abiotic items on.</span>"
 			return
-
+		if(occupant)
+			user << "<span class='warning'>There's already something inside!</span>"
+			return
 		user.visible_message("<span class='danger'>[user] starts to put [G.affecting] into the gibber!</span>")
 		src.add_fingerprint(user)
 		if(do_after(user, gibtime, target = src) && G && G.affecting && G.affecting == C && !C.buckled && !C.buckled_mob && !occupant)
@@ -266,10 +268,11 @@
 		playsound(src.loc, 'sound/effects/splat.ogg', 50, 1)
 		operating = 0
 		for (var/i=1 to meat_produced)
-			var/list/nearby_turfs = orange(3, get_turf(src))
 			var/obj/item/meatslab = allmeat[i]
+			var/turf/Tx = locate(x - rand(1,3), y, z)
 			meatslab.loc = src.loc
-			meatslab.throw_at(pick(nearby_turfs),i,3)
+			if(Tx) //Honestly I don't think someone would build a gibber at the edge of the z-level but hey
+				meatslab.throw_at(Tx,i,3)
 		if(bloodToUse == "#A10808")
 			new /obj/effect/gibspawner/human(loc)
 		else
