@@ -35,3 +35,4 @@ delete-after: True
 changes: 
   - rscadd: "There is now a Key Authentication Device (KAD) in the Head of Security office."
   - rscadd: "There is also a Request Console (RC) in the Head of Security office."
+  - rscadd: "Finally, a Security newscaster was also added in the Head of Security office."
