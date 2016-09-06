@@ -917,7 +917,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 /obj/item/device/pda/verb/verb_toggle_light()
 	set category = "Object"
-	set name = "Toggle Flashlight"
+	set name = "Toggle PDA Flashlight"
 	set src in usr
 
 	if(issilicon(usr))
