@@ -750,14 +750,14 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			id.loc = get_turf(src)
 		id = null
 
-/obj/item/device/pda/proc/flashlight_toggle()
+/obj/item/device/pda/proc/flashlight_toggle() //more consistent to have it as a function imo.
 	var/mob/living/U = usr
 	if(fon)
-		fon = 0 // when it's off
+		fon = 0
 		if(src in U.contents)	U.AddLuminosity(-f_lum)
 		else					SetLuminosity(0)
 	else
-		fon = 1//when it's on
+		fon = 1
 		if(src in U.contents)	U.AddLuminosity(f_lum)
 		else					SetLuminosity(f_lum)
 
