@@ -50,7 +50,6 @@
 	permeability_coefficient = 0.01
 	flags = NOSLIP
 	armor = list(melee = 40, bullet = 30, laser = 25, energy = 25, bomb = 50, bio = 30, rad = 30)
-	stomp = 1
 
 /obj/item/clothing/shoes/combat/camo //camo boots for ruskies
 	name = "camoflage combat boots"
@@ -60,7 +59,6 @@
 	permeability_coefficient = 0.01
 	flags = NOSLIP
 	armor = list(melee = 50, bullet = 60, laser = 50, energy = 30, bomb = 20, bio = 10, rad = 15)
-	stomp = 1
 
 /obj/item/clothing/shoes/sandal
 	desc = "A pair of rather plain, wooden sandals."
