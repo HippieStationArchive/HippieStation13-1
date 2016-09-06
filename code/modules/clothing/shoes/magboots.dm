@@ -10,6 +10,7 @@
 	put_on_delay = 70
 	burn_state = -1 //Won't burn in fires
 	origin_tech = "magnets=2"
+	stomp = 2
 
 /obj/item/clothing/shoes/magboots/verb/toggle()
 	set name = "Toggle Magboots"
