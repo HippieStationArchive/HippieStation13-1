@@ -1039,7 +1039,7 @@
 							if(do_mob(M, H, 40) && H.lying)
 								playsound(H, 'sound/misc/splort.ogg', 70, 1)
 								H.emote("scream")
-								H.apply_damage(30, BRUTE, affecting, armor_block)
+								H.apply_damage(45, BRUTE, affecting, armor_block)
 								H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H] with their [S.name]!</span>", \
 												"<span class='userdanger'>[M] has [atk_verb]ed [H] with their [S.name]!</span>")
 							else
@@ -1232,7 +1232,7 @@
 	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
 	var/dmgtype = STAMINA
 	if(H.lying)
-		dmgtype = BRUTE
+		dmgtype = I.damtype
 	var/dmgcheck = apply_damage((1-I.stamina_percentage)*I.force, I.damtype, affecting, armor_block, H)
 	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, dmgtype, affecting, armor_block, H)
 
