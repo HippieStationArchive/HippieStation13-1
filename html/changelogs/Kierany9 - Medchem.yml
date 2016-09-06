@@ -1,0 +1,13 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - rscadd: "Greatly simplified many medical recipes to make medicines actually worth making. Check the full recipe changes on the PR here: https://github.com/HippieStationCode/HippieStation13/pull/2644"
+  - tweak: "Basic brute/burn patches can only heal a maximum of 30 HP and do not heal damage over time. Synthflesh patches deal stamina damage based on volume."
+  - tweak: "Replaced Oxandrolone and Salicyclic Acid with Dermaline and Bromelain, more efficient versions of Kelotane and Bicariadine respectively."
+  - tweak: "Saline-Glucose Solution's healing is no longer RNG based."
+  - rscadd: "Re-added Clonexadone."
+  - tweak: "Removed the Iron/Oxygen/Oil Miner's Salve recipe. It also now deals stamina damage based on volume instead of a stun when ingested."
+  - tweak: "Cryoxadone has a slightly lower activation temperature."
+  - tweak: "Atropine and Epinephrine now have a low chance(10% and 1% respectively) to stop cardiac arrest."

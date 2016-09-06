@@ -1,0 +1,11 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - rscadd: "Nuke Ops Sniper Rifles can now remove targeted limbs if they're using standard or HE ammunition!"
+  - rscadd: "Replaced hemorrhage sniper rounds with high-explosive rounds. These do 40 damage and explode in a 1-tile radius. Like standard rounds, these can break walls and delimb on hit as well, potentially removing multiple limbs."
+  - tweak: "Reverted the L6 SAW's damage from 35 back to 60, along with 10 armour penetration."
+  - rscdel: "Removed additional ammo types for the L6 SAW."
+  - tweak: "Adjusted several prices for Nuke Ops items, including sniper ammunition and the Abzats."
+  - bugfix: "Fixed a bug where buckshot ammo boxes didn't show up on the uplink."

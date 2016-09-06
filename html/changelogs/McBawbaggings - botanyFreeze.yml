@@ -1,0 +1,6 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - rscadd: "You can now toggle freezing botany trays with the multitool. This will prevent the plant from growing, using resources, weeds taking over and other general interaction with it. You can still use plant scanners while frozen."

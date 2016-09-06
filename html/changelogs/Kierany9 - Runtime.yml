@@ -1,0 +1,8 @@
+# Your name.  
+author: Kierany9
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed a runtime error that was causing addictions not to work."

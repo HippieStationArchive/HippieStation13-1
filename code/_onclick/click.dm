@@ -226,7 +226,10 @@
 
 /atom/movable/CtrlClick(mob/user)
 	if(Adjacent(user))
-		user.start_pulling(src)
+		if(user.pulling == src)
+			user.stop_pulling(src)
+		else
+			user.start_pulling(src)
 
 /*
 	Alt click
@@ -323,7 +326,7 @@
 /obj/screen/click_catcher
 	icon = 'icons/mob/screen_full.dmi'
 	icon_state = "passage0"
-	layer = 0
+	plane = CLICKCATCHER_PLANE
 	mouse_opacity = 2
 	screen_loc = "CENTER-7,CENTER-7"
 

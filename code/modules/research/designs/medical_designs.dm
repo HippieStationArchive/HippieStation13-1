@@ -71,7 +71,7 @@
 	materials = list(MAT_METAL = 750, MAT_GLASS = 750)
 	construction_time = 100
 	reliability = 76
-	build_path = /obj/item/device/assembly/flash/handheld
+	build_path = /obj/item/device/assembly/flash
 	category = list("Misc")
 
 /datum/design/bluespacebeaker

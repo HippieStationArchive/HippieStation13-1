@@ -169,8 +169,6 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom,
 		)
-	blocked |= typesof(/obj/item/weapon/reagent_containers/food/snacks/customizable)
-
 	var/list/borks = typesof(/obj/item/weapon/reagent_containers/food/snacks) - blocked
 	// BORK BORK BORK
 

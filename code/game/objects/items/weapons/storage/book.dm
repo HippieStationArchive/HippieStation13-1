@@ -283,6 +283,7 @@ var/global/biblename
 			affectedmobs |= H
 			affectedmobs[H] = conditions(H)
 	if(affectedmobs.len)
+		feedback_inc("relic",1)
 		return 1
 
 /obj/item/relic/proc/conditions(mob/living/carbon/human/H)
@@ -484,5 +485,4 @@ var/global/biblename
 		/obj/item/weapon/reagent_containers/food/snacks/grown,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom,
 		)
-	blocked |= typesof(/obj/item/weapon/reagent_containers/food/snacks/customizable)
 	possiblespawns += typesof(/obj/item/weapon/reagent_containers/food/snacks) - blocked

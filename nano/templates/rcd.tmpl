@@ -1,0 +1,36 @@
+{{if menu == 1}}
+	<h2>RCD Modes:</h2>
+	<div class='item'>{{:~link('Floor and Walls', 'circle-arrow-e', {'mode': 1}, mode == 1 ? 'linkOn' : null)}}</div>
+	<div class='item'>
+		{{:~link('Airlock', 'circle-arrow-e', {'mode': 2}, mode == 2 ? 'linkOn' : null)}}
+		{{:~link('', 'gear', {'menu': 2})}}
+	</div>
+	<div class='item'>{{:~link('Deconstruct', 'circle-arrow-e', {'mode': 3}, mode == 3 ? 'linkOn' : null)}}</div>
+	<div class='item'>{{:~link('Windows', 'circle-arrow-e', {'mode': 4}, mode == 4 ? 'linkOn' : null)}}</div>
+	<div class='statusDisplay'>
+		<div class='item'>RCD ammo: {{:matter}} / {{:max_matter}}</div>
+		<div class='item'>Selected Airlock: {{:door_name}}</div>
+	</div>
+{{else menu == 2}}
+	<div class='item'>{{:~link('Back', 'reply', {'menu': 1})}}</div>
+	<div style='width:49%; float:left'><div class='statusDisplay'>
+		<h3>Type</h3>
+		<div class='item'>Selected Airlock: {{:door_name}}</div>
+		{{for allowed_door_types}}
+			<div class='line'>{{:~link(name, 'circle-arrow-e', {'door_type': type}, door_type == type ? 'linkOn' : null)}}</div>
+		{{/for}}
+	</div></div>
+	<div style='width:49%; float:right'><div class='statusDisplay'>
+		<h3>Accesses</h3>
+		{{if locked}}
+			{{:~link('Swipe ID', 'circle-arrow-s', {'login': 1})}}
+			<div class='item'> </div>
+		{{else}}
+			{{:~link('Lock', 'circle-arrow-n', {'logout': 1})}}
+			<div class='item'>{{:~link(one_access ? 'ONE' : 'ALL', 'circle-arrow-e', {'toggle_one_access': 1})}}</div><br>
+			{{for door_accesses}}
+				<div class='line'>{{:~link(name, 'circle-arrow-e', {'toggle_access': id}, null, enabled ? 'selected' : null)}}</div>
+			{{/for}}
+		{{/if}}
+	</div></div>
+{{/if}}

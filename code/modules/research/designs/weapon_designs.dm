@@ -63,7 +63,7 @@
 	req_tech = list("combat" = 4, "materials" = 3, "powerstorage" = 3)
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_DIAMOND = 2000)
-	build_path = /obj/item/weapon/gun/energy/laser/hypercannon
+	build_path = /obj/item/weapon/gun/energy/lasercannon
 	locked = 1
 	category = list("Weapons")
 
@@ -74,7 +74,7 @@
 	req_tech = list("combat" = 5, "materials" = 4, "powerstorage" = 6)
 	build_type = PROTOLATHE
 	materials = list(MAT_METAL = 20000, MAT_GLASS = 2000, MAT_URANIUM = 2000, MAT_DIAMOND = 2000, MAT_PLASMA = 3000, MAT_GOLD = 3000)
-	build_path = /obj/item/weapon/gun/energy/lasercannon
+	build_path = /obj/item/weapon/gun/energy/laser/hypercannon
 	locked = 1
 	category = list("Weapons")
 
@@ -253,16 +253,6 @@
 	materials = list(MAT_SILVER = 1000, MAT_METAL = 5000, MAT_DIAMOND = 3000)
 	build_path = /obj/item/weapon/gun/energy/wormhole_projector
 	locked = 1
-	category = list("Weapons")
-
-/datum/design/reciever		//The amount of research needed and the fact that silver was needed to make this which was ONLY used for the improvised shotgun was awful.
-	name = "Modular Receiver"
-	desc = "A modular receiver and trigger assembly for a variety of firearms."
-	id = "reciever"
-	req_tech = list("combat" = 2, "materials" = 3)
-	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 1500)
-	build_path = /obj/item/weaponcrafting/reciever
 	category = list("Weapons")
 
 //SABR Mags

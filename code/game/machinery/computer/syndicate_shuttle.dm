@@ -1,4 +1,4 @@
-#define SYNDICATE_CHALLENGE_TIMER 9000 //15 minutes
+#define SYNDICATE_CHALLENGE_TIMER 10200 //17 minutes, 2 of those are spent in the lobby
 
 /obj/machinery/computer/shuttle/syndicate
 	name = "syndicate shuttle terminal"
@@ -6,12 +6,14 @@
 	icon_keyboard = "syndie_key"
 	req_access = list(access_syndicate)
 	shuttleId = "syndicate"
+	circuit = /obj/item/weapon/circuitboard/syndie_shuttle
 	possible_destinations = "syndicate_away;syndicate_z5;syndicate_z3;syndicate_z4;syndicate_ne;syndicate_nw;syndicate_n;syndicate_se;syndicate_sw;syndicate_s"
 	var/challenge = FALSE
 
 /obj/machinery/computer/shuttle/syndicate/recall
 	name = "syndicate shuttle recall terminal"
 	possible_destinations = "syndicate_away"
+	circuit = /obj/item/weapon/circuitboard/syndie_shuttle/oneway
 
 /obj/machinery/computer/shuttle/syndicate/Topic(href, href_list)
 	if(href_list["move"])

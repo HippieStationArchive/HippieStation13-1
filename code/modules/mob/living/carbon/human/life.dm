@@ -96,7 +96,7 @@
 				if(4)
 					emote("drool")
 				if(5)
-					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY","DILDOS!!1!","hun~"))
+					say(pick("REMOVE SINGULARITY", "INSTLL TEG", "TURBIN IS BEST ENGIENE", "SOLIRS CAN POWER THE HOLE STATION ANEWAY","DILDOS!!1!","hun~", "MY BREAIN HURTS!!1", ";NUUUUUUUURSE!??!?!", "dont be dong...", "SHOW YOUR BITCH ASS?!?!", ";dont feel so well", "YOU ARE THE super retard", "such beautiful duwang"))
 
 
 /mob/living/carbon/human/handle_mutations_and_radiation()
@@ -278,7 +278,6 @@
 		dna.species.handle_chemicals_in_body(src)
 
 /mob/living/carbon/human/handle_vision()
-	client.screen.Remove(global_hud.blurry, global_hud.druggy, global_hud.vimpaired, global_hud.darkMask)
 	if(machine)
 		if(!machine.check_eye(src))		reset_view(null)
 	else

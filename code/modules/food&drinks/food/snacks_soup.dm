@@ -1,7 +1,7 @@
 /obj/item/weapon/reagent_containers/food/snacks/soup
 	w_class = 3
 	icon = 'icons/obj/food/soupsalad.dmi'
-	trash = /obj/item/weapon/reagent_containers/glass/bowl
+	trash = /obj/item/trash/snack_bowl
 	bitesize = 5
 	volume = 80
 	list_reagents = list("nutriment" = 8, "water" = 5, "vitamin" = 4)
@@ -48,7 +48,7 @@
 	name = "wing fang chu"
 	desc = "A savory dish of alien wing wang in soy."
 	icon_state = "wingfangchu"
-	trash = /obj/item/weapon/reagent_containers/glass/bowl
+	trash = /obj/item/trash/snack_bowl
 	bonus_reagents = list("nutriment" = 1, "vitamin" = 2)
 	list_reagents = list("nutriment" = 6, "soysauce" = 5, "vitamin" = 2)
 
