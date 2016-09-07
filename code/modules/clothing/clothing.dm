@@ -115,6 +115,7 @@ BLIND     // can't see anything
 	var/mask_adjusted = 0
 	var/ignore_maskadjust = 1
 	var/adjusted_flags = null
+	var/emagged = 0
 
 /obj/item/clothing/mask/worn_overlays(var/isinhands = FALSE)
 	. = list()
