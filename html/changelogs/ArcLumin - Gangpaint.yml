@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - bugfix: "Gang tags now properly examine as being painted rather than drawn in crayon"
