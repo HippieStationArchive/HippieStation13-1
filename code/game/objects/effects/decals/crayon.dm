@@ -18,9 +18,10 @@
 	loc = location
 
 	name = e_name
-	desc = "A [name] drawn in crayon."
+	desc = "A [name] drawn in paint."
 	if(type == "poseur tag")
 		type = pick(gang_name_pool)
+		desc = "A [name] drawn in crayon."
 	icon_state = type
 
 	if(rotation && do_icon_rotate)
