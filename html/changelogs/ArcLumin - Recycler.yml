@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - tweak: "Makes the recycler actually useful, no longer makes it recycle 4 times less materials than what is put in, it gives 100% by default"
