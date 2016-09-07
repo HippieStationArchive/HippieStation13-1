@@ -3,6 +3,8 @@
 /obj/item/clothing/shoes/clown_shoes/banana_shoes
 	name = "mk-honk prototype shoes"
 	desc = "Lost prototype of advanced clown tech. Powered by bananium, these shoes leave a trail of chaos in their wake."
+	slowdown = SHOES_SLOWDOWN
+	flags = NOSLIP
 	icon_state = "clown_prototype_off"
 	var/on = 0
 	var/datum/material_container/bananium
