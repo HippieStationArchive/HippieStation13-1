@@ -101,7 +101,7 @@
 				usr << "<span class='warning'>\The [src] is starting to heat up.</span>"
 			if(4)
 				usr << "<span class='userdanger'>\The [src] is heating up dangerously from overuse!</span>"
-			if(5 && !emagged) //overload
+			if(5 && (!emagged)) //overload
 				broken_hailer = 1
 				usr << "<span class='userdanger'>\The [src]'s power modulator overloads and breaks.</span>"
 				return
