@@ -18,10 +18,9 @@
 	loc = location
 
 	name = e_name
-	desc = "A [name] drawn in paint."
+	desc = "A [name] drawn in crayon."
 	if(type == "poseur tag")
 		type = pick(gang_name_pool)
-		desc = "A [name] drawn in crayon."
 	icon_state = type
 
 	if(rotation && do_icon_rotate)
@@ -47,6 +46,7 @@
 	color = G.color_hex
 	icon_state = G.name
 	G.territory_new |= list(territory.type = territory.name)
+	desc = "A painted [name]."
 
 	..(location, color, icon_state, e_name, rotation)
 
