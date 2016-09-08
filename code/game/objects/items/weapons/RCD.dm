@@ -319,17 +319,7 @@ RCD
 					W.disassembled = 1 // Prevent that annoying glass breaking sound
 					W.density = 0
 					qdel(W)
-				for(var/cdir in cardinal)
-					var/turf/T = get_step(A, cdir)
-					if(locate(/obj/structure/grille) in T.contents)
-						for(var/obj/structure/window/W in T.contents)
-							if(W.dir == turn(cdir, 180))
-								W.disassembled = 1
-								W.density = 0
-								qdel(W)
-					else // Build a window!
-						var/obj/structure/window/reinforced/W = new(A)
-						W.dir = cdir
+				new /obj/structure/window/reinforced/fulltile(A) // Spawns a reinforced window.
 				var/turf/AT = A
 				AT.ChangeTurf(/turf/simulated/floor/plating) // Platings go under windows.
 				return 1
