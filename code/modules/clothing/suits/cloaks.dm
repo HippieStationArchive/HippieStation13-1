@@ -27,16 +27,17 @@
 		storage_slots = 15
 
 	else // Exosuit form
-		if(contents)
+		if(contents.len > 0)
 			user << "<span class='notice'>You can't adjust \the [src] while it has items inside.</span>"
-			return
-		user << "<span class='notice'>You tighten \the [src], increasing it's defensive capabilities.</span>"
-		adjusted = 1
-		slot_flags = SLOT_OCLOTHING
-		armor = armor_exoslot
-		max_w_class = 2
-		max_combined_w_class = 4
-		storage_slots = 4
+		else
+			user << "<span class='notice'>You tighten \the [src], increasing it's defensive capabilities.</span>"
+			adjusted = 1
+			slot_flags = SLOT_OCLOTHING
+			armor = armor_exoslot
+			max_w_class = 2
+			max_combined_w_class = 4
+			storage_slots = 4
+
 
 
 /obj/item/weapon/storage/backpack/cloak/attack_self(mob/user)
