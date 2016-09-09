@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - rscadd: "Readds Baneposting to Sec Hailers. Added to the broken restrictor lines. You can now also emag the mask to make it only do baneposts"
