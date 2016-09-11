@@ -1035,11 +1035,11 @@
 							dmgtype = BRUTE
 						if(S.stomp == 2)
 							M << "<span class='danger'>You raise your [S.name] over [H], ready to stomp them.</span>"
-							M.changeNext_move(45)
-							if(do_mob(M, H, 40) && H.lying)
+							M.changeNext_move(60)
+							if(do_mob(M, H, 45) && H.lying)
 								playsound(H, 'sound/misc/splort.ogg', 70, 1)
 								H.emote("scream")
-								H.apply_damage(45, BRUTE, affecting, armor_block)
+								H.apply_damage(40, BRUTE, affecting, armor_block)
 								H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H] with their [S.name]!</span>", \
 												"<span class='userdanger'>[M] has [atk_verb]ed [H] with their [S.name]!</span>")
 							else
