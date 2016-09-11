@@ -1019,17 +1019,38 @@
 			if(attacker_style && attacker_style.harm_act(M,H))
 				return 1
 			else
-				M.do_attack_animation(H)
-
 				var/atk_verb = M.dna.species.attack_verb
-				if(H.lying)
-					atk_verb = "kick"
-
 				var/hitcheck = rand(0, 9)
-				var/damage = pick(0.5, 1, 1.5, 2) + M.dna.species.punchmod
-
+				var/damage = rand(0,4) + pick(0.5, 1) + M.dna.species.punchmod
+				var/dmgtype = STAMINA
 				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/armor_block = H.run_armor_check(affecting, "melee")
+				
+				if(H.lying)
+					atk_verb = "kick"
+					if(M.shoes)
+						var/obj/item/clothing/shoes/S = M.shoes
+						if(S.stomp > 0)
+							atk_verb = "stomp"
+							dmgtype = BRUTE
+						if(S.stomp == 2)
+							M << "<span class='danger'>You raise your [S.name] over [H], ready to stomp them.</span>"
+							M.changeNext_move(45)
+							if(do_mob(M, H, 40) && H.lying)
+								playsound(H, 'sound/misc/splort.ogg', 70, 1)
+								H.emote("scream")
+								H.apply_damage(45, BRUTE, affecting, armor_block)
+								H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H] with their [S.name]!</span>", \
+												"<span class='userdanger'>[M] has [atk_verb]ed [H] with their [S.name]!</span>")
+							else
+								H.visible_message("<span class='danger'>[M] has attempted to [atk_verb] [H] with [S]!</span>")
+								H.changeNext_move(CLICK_CD_MELEE)
+							playsound(H, 'sound/effects/meteorimpact.ogg', 70, 1)
+							M.do_attack_animation(H)
+							add_logs(M, H, "stomped")
+							return 1
+
+				M.do_attack_animation(H)
 				var/dmgcheck = apply_damage(damage, BRUTE, affecting, armor_block, H)
 
 				if(hitcheck == 0 || !dmgcheck)
@@ -1038,7 +1059,7 @@
 					return 0
 
 				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
-				H.apply_damage(damage*3+2, STAMINA, affecting, armor_block)
+				H.apply_damage(damage+2, dmgtype, affecting, armor_block)
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
@@ -1209,8 +1230,11 @@
 
 	var/armor_block = H.run_armor_check(affecting, "melee", "<span class='notice'>Your armor has protected your [hit_area].</span>", "<span class='notice'>Your armor has softened a hit to your [hit_area].</span>",I.armour_penetration)
 	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
+	var/dmgtype = STAMINA
+	if(H.lying)
+		dmgtype = I.damtype
 	var/dmgcheck = apply_damage((1-I.stamina_percentage)*I.force, I.damtype, affecting, armor_block, H)
-	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, STAMINA, affecting, armor_block, H)
+	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, dmgtype, affecting, armor_block, H)
 
 	if(!dmgcheck && !staminadmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \

@@ -165,6 +165,7 @@ BLIND     // can't see anything
 	desc = "Comfortable-looking shoes."
 	gender = PLURAL //Carn: for grammarically correct text-parsing
 	var/chained = 0
+	var/stomp = 0 //0 for regular shoes, 1 for heavy shoes like jackboots and 2 for magboots
 
 	body_parts_covered = FEET
 	slot_flags = SLOT_FEET
