@@ -1044,7 +1044,7 @@
 												"<span class='userdanger'>[M] has [atk_verb]ed [H] with their [S.name]!</span>")
 							else
 								H.visible_message("<span class='danger'>[M] has attempted to [atk_verb] [H] with [S]!</span>")
-								H.changeNext_move(CLICK_CD_MELEE)
+								H.changeNext_move(15)
 							playsound(H, 'sound/effects/meteorimpact.ogg', 70, 1)
 							M.do_attack_animation(H)
 							add_logs(M, H, "stomped")
