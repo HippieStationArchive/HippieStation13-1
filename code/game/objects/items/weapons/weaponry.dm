@@ -1,3 +1,39 @@
+/obj/item/weapon //Melee weapon parent for special snowflake vars
+	name = "wopit"
+	desc = "It's a wopit!"
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "baton"
+	item_state = "baton"
+	materials = list(MAT_METAL=2000)
+
+	var/melee_rename = 0
+	var/melee_reskin = 0
+	var/mreskinned = 0
+	var/list/moptions = list()
+	
+/obj/item/weapon/proc/rename_wopit(mob/M)
+	var/input = stripped_input(M,"What do you want to name the wopit?", ,"", MAX_NAME_LEN)
+
+	if(src && input && !M.stat && in_range(M,src) && !M.restrained() && M.canmove)
+		name = input
+		M << "You name the wopit [input]. Say hello to your new friend."
+		return
+		
+/obj/item/weapon/proc/reskin_wopit(mob/M)
+	var/choice = input(M,"Warning, you can only reskin your wopit once!","Reskin Wopit") in moptions
+
+	if(src && choice && !M.stat && in_range(M,src) && !M.restrained() && M.canmove)
+		if(moptions[choice] == null)
+			return
+		else
+			icon_state = moptions[choice]
+			item_state = moptions[choice]
+		M << "Your wopit is now skinned as [choice]. Say hello to your new friend."
+		mreskinned = 1
+		return
+		
+
+
 /obj/item/weapon/banhammer
 	desc = "A banhammer"
 	name = "banhammer"
@@ -32,6 +68,26 @@
 	throw_range = 4
 	throwforce = 10
 	w_class = 1
+	melee_rename = 1
+	melee_reskin = 1
+	
+/obj/item/weapon/nullrod/New()
+	moptions["Default"] = "nullrod"
+	moptions["Seraphim Sword"] = "asword"
+	moptions["God Axe"] = "gaxe"
+	moptions["Jesus Mace"] = "jmace"
+	moptions["Cancel"] = null
+	
+/obj/item/weapon/nullrod/attackby(obj/item/A, mob/user, params)
+	if(melee_rename)
+		if(istype(A, /obj/item/weapon/pen))
+			rename_wopit(user)
+			
+/obj/item/weapon/attack_hand(mob/user)
+	if(melee_reskin && !mreskinned && loc == user)
+		reskin_wopit(user)
+		return
+	..()
 
 /obj/item/weapon/nullrod/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is impaling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
