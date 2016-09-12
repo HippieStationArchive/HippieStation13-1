@@ -62,7 +62,8 @@
 	max_temperature = 65000
 	health = 250
 	lights_power = 7
-	damage_absorption = list("brute"=0.6,"fire"=0.5,"bullet"=0.7,"laser"=0.7,"energy"=1,"bomb"=0.4)
+	deflect_chance = 30
+	damage_absorption = list("brute"=0.8,"fire"=1,"bullet"=0.9,"laser"=0.95,"energy"=1,"bomb"=0.8)
 	max_equip = 5 // More armor, less tools
 	wreckage = /obj/structure/mecha_wreckage/ripley/firefighter
 
