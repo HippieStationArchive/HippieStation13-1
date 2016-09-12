@@ -174,9 +174,7 @@ var/global/biblename
 					M.visible_message("<span class='notice'>[user] heals [M] with the power of [deity_name]!</span>")
 					M << "<span class='boldnotice'>May the power of [deity_name] compel you to be healed!</span>"
 					playsound(src.loc, "punch", 25, 1, -1)
-				else
-					user << "<span class='warning'>[deity_name] refuses to heal this metallic taint!</span>"
-					return
+
 			else
 				if(!istype(H.head, /obj/item/clothing/head/helmet))
 					M.adjustBrainLoss(10)
