@@ -1248,7 +1248,6 @@ var/list/uplink_items = list()
 	desc = "A crate containing 50 telecrystals worth of random syndicate leftovers."
 	cost = 20
 	item = /obj/item/weapon/storage/box/syndicate
-	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/badass/surplus_crate/spawn_item(turf/loc, obj/item/device/uplink/U)
 	var/obj/structure/closet/crate/C = new(loc)
