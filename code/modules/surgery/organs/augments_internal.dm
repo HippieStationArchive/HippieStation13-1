@@ -225,9 +225,9 @@
 			reviving = 0
 		return
 		if(owner.stat == UNCONSCIOUS)
-			owner.stat == CONSCIOUS
+			owner.stat = CONSCIOUS
 		if(owner.stunned > 0)
-			owner.stunned == 0
+			owner.stunned = 0
 			revive_cost += 20
 	if(cooldown > world.time)
 		return
