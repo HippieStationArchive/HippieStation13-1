@@ -2,6 +2,11 @@
 	name = "weapon"
 	icon = 'icons/obj/weapons.dmi'
 	
+	var/melee_rename = 0
+	var/melee_reskin = 0
+	var/mreskinned = 0
+	var/list/moptions = list()
+	
 var/melee_rename = 0
 	var/melee_reskin = 0
 	var/mreskinned = 0
