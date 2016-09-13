@@ -7,11 +7,6 @@
 	var/mreskinned = 0
 	var/list/moptions = list()
 	
-var/melee_rename = 0
-	var/melee_reskin = 0
-	var/mreskinned = 0
-	var/list/moptions = list()
-	
 /obj/item/weapon/proc/rename_wopit(mob/M)
 	var/input = stripped_input(M,"What do you want to name the wopit?", ,"", MAX_NAME_LEN)
 
