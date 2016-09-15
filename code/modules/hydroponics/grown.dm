@@ -1,5 +1,3 @@
-
-
 // ***********************************************************
 // Foods that are produced from hydroponics ~~~~~~~~~~
 // Data from the seeds carry over to these grown foods
@@ -149,7 +147,7 @@
 /obj/item/weapon/reagent_containers/food/snacks/grown/poppy/add_juice()
 	if(..())
 		reagents.add_reagent("nutriment", 1 + round((potency / 20), 1))
-		reagents.add_reagent("salglu_solution", 1 + round((potency / 20), 1))
+		reagents.add_reagent("morphine", 2 + round((potency / 20), 1))
 		bitesize = 1 + round(reagents.total_volume / 3, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/poppy/lily
@@ -221,7 +219,7 @@
 	if(..())
 		reagents.add_reagent("nutriment", 1 + round((potency / 10), 1))
 		reagents.add_reagent("sugar", 1 + round((potency / 10), 1))
-		reagents.add_reagent("vitamin", 1 + round((potency / 25), 1))
+		reagents.add_reagent("salglu_solution", 1 + round((potency / 25), 1))
 		bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/grapes/green
@@ -248,6 +246,7 @@
 	if(..())
 		reagents.add_reagent("nutriment", 1 + round((potency / 10), 1))
 		reagents.add_reagent("vitamin", 1 + round((potency / 25), 1))
+		reagents.add_reagent("sulfur",5 + round(potency/4))
 		bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 
@@ -286,7 +285,7 @@
 /obj/item/weapon/reagent_containers/food/snacks/grown/berries/death/add_juice()
 	..()
 	reagents.add_reagent("toxin", 3 + round(potency / 3, 1))
-	reagents.add_reagent("lexorin", 1 + round(potency / 5, 1))
+	reagents.add_reagent("sulfonal", 1 + round(potency / 5, 1))
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/berries/glow
 	seed = /obj/item/seeds/glowberryseed
@@ -300,6 +299,7 @@
 /obj/item/weapon/reagent_containers/food/snacks/grown/berries/glow/add_juice()
 	..()
 	reagents.add_reagent("uranium", 3 + round(potency / 5, 1))
+	reagents.add_reagent("teslium", 3 + round(potency / 20, 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/berries/glow/Destroy()
@@ -364,7 +364,6 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/add_juice()
 	if(..())
-		reagents.add_reagent("nutriment", 1)
 		bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 
@@ -375,11 +374,9 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/vulgaris/add_juice()
 	..()
-	reagents.add_reagent("space_drugs", 1 + round(potency / 6, 1))
-	reagents.add_reagent("salglu_solution", 1 + round(potency / 8, 1))
-	reagents.add_reagent("salglu_solution", 1 + round(potency / 10, 1))
-	reagents.add_reagent("toxin", 1 + round(potency / 10, 1))
-	reagents.add_reagent("vitamin", 1 + round((potency / 25), 1))
+	reagents.add_reagent("impedrezene",15 - round(potency / 12, 1))
+	reagents.add_reagent("space_drugs", 3 + round(potency / 6, 1))
+	reagents.add_reagent("oculine", 15 - round(potency / 8, 1))
 
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/deus
@@ -391,10 +388,9 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/ambrosia/deus/add_juice()
 	..()
-	reagents.add_reagent("omnizine", 1 + round(potency / 8, 1))
-	reagents.add_reagent("synaptizine", 1 + round(potency / 8, 1))
-	reagents.add_reagent("space_drugs", 1 + round(potency / 5, 1))
-	reagents.add_reagent("vitamin", 1 + round((potency / 25), 1))
+	reagents.add_reagent("omnizine", 2 + round(potency / 12, 1))
+	reagents.add_reagent("space_drugs",10 + round(potency / 15))
+	reagents.add_reagent("perfluorodecalin",6 + round(potency / 25, 1))
 
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/apple
@@ -603,7 +599,6 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/banana/add_juice()
 	if(..())
-		reagents.add_reagent("nutriment", 1 + round((potency / 50), 1))
 		reagents.add_reagent("banana", 1 + round((potency / 10), 1))
 		reagents.add_reagent("vitamin", 1 + round((potency / 25), 1))
 		bitesize = 5
@@ -840,7 +835,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 	spawn(30)
 		if(!gc_destroyed)
 			var/mob/living/simple_animal/hostile/killertomato/K = new /mob/living/simple_animal/hostile/killertomato(get_turf(src.loc))
-			K.maxHealth += round(endurance / 3)
+			K.maxHealth += round(endurance / 4)
 			K.melee_damage_lower += round(potency / 10)
 			K.melee_damage_upper += round(potency / 10)
 			K.move_to_delay -= round(production / 50)
@@ -862,7 +857,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/tomato/blood/add_juice(loc, potency = 10)
 	..()
-	reagents.add_reagent("blood", 1 + round((potency / 5)), list("blood_type"="O-"))
+	reagents.add_reagent("blood", 10 + round((potency / 5)), list("blood_type"="O-"))
 
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/tomato/blue
@@ -1046,16 +1041,16 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/reishi/add_juice()
 	..()
-	reagents.add_reagent("nutriment", 1)
-	reagents.add_reagent("charcoal", 3+round(potency / 3, 1))
-	reagents.add_reagent("morphine", 3+round(potency / 3, 1))
+	reagents.add_reagent("space_drugs", 10)
+	reagents.add_reagent("charcoal", 10-round(potency / 12, 1))
+	reagents.add_reagent("krokodil", 3+round(potency / 12, 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/reishi/attackby(obj/item/O, mob/user, params)
 	. = ..()
 	if (istype(O, /obj/item/device/analyzer/plant_analyzer))
-		user << "<span class='info'>- Anti-Toxin: <i>[reagents.get_reagent_amount("charcoal")]%</i></span>"
-		user << "<span class='info'>- Morphine: <i>[reagents.get_reagent_amount("morphine")]%</i></span>"
+		user << "<span class='info'>- Anti-Toxin: <i>[reagents.get_reagent_amount("charcoal")] units</i></span>"
+		user << "<span class='info'>- Krokodil: <i>[reagents.get_reagent_amount("krokodil")]units</i></span>"
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/amanita
 	seed = /obj/item/seeds/amanitamycelium
@@ -1067,35 +1062,38 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/amanita/add_juice()
 	..()
 	reagents.add_reagent("nutriment", 1)
-	reagents.add_reagent("amatoxin", 3+round(potency / 3, 1))
+	reagents.add_reagent("rotatium", 3+round(potency / 3, 1))
 	reagents.add_reagent("mushroomhallucinogen", 1 + round(potency / 25, 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/amanita/attackby(obj/item/O, mob/user, params)
 	. = ..()
 	if (istype(O, /obj/item/device/analyzer/plant_analyzer))
-		user << "<span class='info'>- Amatoxins: <i>[reagents.get_reagent_amount("amatoxin")]%</i></span>"
+		user << "<span class='info'>- Rotatium: <i>[reagents.get_reagent_amount("rotatium")]%</i></span>"
 		user << "<span class='info'>- Mushroom Hallucinogen: <i>[reagents.get_reagent_amount("mushroomhallucinogen")]%</i></span>"
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/angel
 	seed = /obj/item/seeds/angelmycelium
 	name = "destroying angel"
-	desc = "<I>Amanita Virosa</I>: Deadly poisonous basidiomycete fungus filled with alpha amatoxins."
+	desc = "<I>Amanita Virosa</I>: Deadly poisonous basidiomycete fungus filled with terrible toxins."
 	icon_state = "angel"
 	filling_color = "#C0C0C0"
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/angel/add_juice()
 	..()
-	reagents.add_reagent("nutriment", 1 + round((potency / 50), 1))
-	reagents.add_reagent("amatoxin", 13+round(potency / 3, 1))
-	reagents.add_reagent("mushroomhallucinogen", 1 + round(potency / 25, 1))
+	reagents.add_reagent("amatoxin", 1 + round(potency / 10, 1))
+	reagents.add_reagent("heparin", 1 + round(potency / 12, 1))
+	reagents.add_reagent("teslium", 1 + round(potency / 10, 1))
+	reagents.add_reagent("lexorin", 1 + round(potency / 25, 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/angel/attackby(obj/item/O, mob/user, params)
 	. = ..()
 	if (istype(O, /obj/item/device/analyzer/plant_analyzer))
-		user << "<span class='info'>- Amatoxins: <i>[reagents.get_reagent_amount("amatoxin")]%</i></span>"
-		user << "<span class='info'>- Mushroom Hallucinogen: <i>[reagents.get_reagent_amount("mushroomhallucinogen")]%</i></span>"
+		user << "<span class='info'>- Amatoxins: <i>[reagents.get_reagent_amount("amatoxin")] units</i></span>"
+		user << "<span class='info'>- Heparin <i>[reagents.get_reagent_amount("heparin")] units</i></span>"
+		user << "<span class='info'>- Teslium: <i>[reagents.get_reagent_amount("teslium")] units</i></span>"
+		user << "<span class='info'>- Lexorin: <i>[reagents.get_reagent_amount("lexorin")] units</i></span>"
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/libertycap
 	seed = /obj/item/seeds/libertymycelium
@@ -1106,14 +1104,16 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/libertycap/add_juice(loc, potency = 15)
 	..()
-	reagents.add_reagent("nutriment", 1 + round((potency / 50), 1))
+	reagents.add_reagent("calomel", round((potency / 50), 1))
 	reagents.add_reagent("mushroomhallucinogen", 3+round(potency / 5, 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/libertycap/attackby(obj/item/O, mob/user, params)
 	. = ..()
 	if (istype(O, /obj/item/device/analyzer/plant_analyzer))
-		user << "<span class='info'>- Mushroom Hallucinogen: <i>[reagents.get_reagent_amount("mushroomhallucinogen")]%</i></span>"
+		user << "<span class='info'>- Mushroom Hallucinogen: <i>[reagents.get_reagent_amount("mushroomhallucinogen")] units</i></span>"
+		user << "<span class='info'>- Calomel: <i>[reagents.get_reagent_amount("calomel")] units</i></span>"
+
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/plumphelmet
 	seed = /obj/item/seeds/plumpmycelium
@@ -1125,7 +1125,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/plumphelmet/add_juice()
 	..()
 	reagents.add_reagent("nutriment", 2+round((potency / 10), 1))
-	reagents.add_reagent("vitamin", 1 + round((potency / 25), 1))
+	reagents.add_reagent("mannitol", 1 + round((potency / 25), 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 
@@ -1139,6 +1139,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/walkingmushroom/add_juice()
 	..()
 	reagents.add_reagent("nutriment", 2+round((potency / 10), 1))
+	reagents.add_reagent("tricordrazine", 1+round((potency/12), 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/walkingmushroom/attack_self(mob/user)
@@ -1164,6 +1165,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/chanterelle/add_juice()
 	..()
 	reagents.add_reagent("nutriment", 1 + round((potency / 25), 1))
+	reagents.add_reagent("potassium", 1 + round((potency / 12), 1))
 	bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/glowshroom
@@ -1368,7 +1370,7 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/tea/astra/add_juice()
 	..()
-	reagents.add_reagent("salglu_solution", 1 + round((potency / 20), 1))
+	reagents.add_reagent("synaptizine", 1 + round((potency / 20), 1))
 
 /obj/item/weapon/reagent_containers/food/snacks/grown/buttflower
 	seed = /obj/item/seeds/buttseed
@@ -1380,5 +1382,4 @@ obj/item/weapon/reagent_containers/food/snacks/grown/shell/eggy/add_juice()
 /obj/item/weapon/reagent_containers/food/snacks/grown/buttflower/add_juice()
 	if(..())
 		reagents.add_reagent("fartium", 1 + round((potency / 10), 1))
-		bitesize = 1 + round(reagents.total_volume / 2, 1)
-
+bitesize = 1 + round(reagents.total_volume / 2, 1)
