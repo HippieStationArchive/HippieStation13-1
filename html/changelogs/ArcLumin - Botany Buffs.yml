@@ -1,0 +1,13 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - rscadd: "Reimplements Botany Buffs, credits to Dan 'We Fuck' Hikibi. Related changes below."
+  - wip: "Changed many values of botany"
+  - tweak: "Doubled the rate at which plants mature."
+  - tweak: "Altered the chemical contents of many plants. Check what your about to smoke!"
+  - tweak: "Lowered the amount of nicotine in all cigarettes to 5"
+  - tweak: "Increased the amount of chems consumed by smoking"
+  - rscadd: "Added the creation of wood walls and windows"
+  - rscadd: "Craft a window frame by using a hatchet on a barricade. Make a wall by using 5 pieces of wood on a window frame, or attach a window with one piece of glass"
+  - rscadd: "Added tooth hatchets, table crafted with one rod, 10 wire and 3 teeth. Weaker than normal hatchets, and will break on use"
+  - tweak: "Credits to derpthestewpidgoat for the wall code, Fury for the tooth hatchet"
