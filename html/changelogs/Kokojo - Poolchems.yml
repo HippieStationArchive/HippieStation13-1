@@ -1,0 +1,6 @@
+author: Kokojo
+
+delete-after: True
+
+changes:
+  - rscadd: "The pool duplicator is now working. Enter exactly 100 units of ONE chem into it, and the water will slowly spread the given chem to people."
