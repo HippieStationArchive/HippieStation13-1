@@ -29,7 +29,6 @@
 
 /obj/machinery/poolcontroller/New() //This proc automatically happens on world start
 	wires = new(src)
-	beaker = null
 	for(var/turf/simulated/pool/water/W in range(srange,src)) //Search for /turf/simulated/beach/water in the range of var/srange
 		src.linkedturfs += W
 	for(var/obj/machinery/drain/pooldrain in range(srange,src))
@@ -43,6 +42,8 @@
 
 /obj/machinery/poolcontroller/attackby(obj/item/weapon/W, mob/user)
 	..()
+	if(isrobot(user))
+		return
 	if(istype(W, /obj/item/weapon/screwdriver) && anchored)
 		panel_open = !panel_open
 		user << "You [panel_open ? "open" : "close"] the maintenance panel."
@@ -65,17 +66,14 @@
 				user << "A beaker is already loaded into the machine."
 				return
 
-			if(isrobot(user))
-				return
-
 			if(W.reagents.total_volume >= 100 && W.reagents.reagent_list.len == 1) //check if full and allow one reageant only.
 				src.beaker =  W
 				user.drop_item()
 				W.loc = src
 				user << "You add the beaker to the machine!"
 				updateUsrDialog()
-				for(var/datum/reagent/R in W.reagents.reagent_list)
-					src.cur_reagent = R.id
+				for(var/datum/reagent/R in beaker.reagents.reagent_list)
+					cur_reagent = "[R.name]"
 					if(adminlog)
 						log_say("[key_name(user)] has changed the pool's chems to [R.name]")
 						message_admins("[key_name_admin(user)] has changed the pool's chems to [R.name].")
@@ -110,12 +108,13 @@
 	for(var/turf/simulated/pool/water/W in linkedturfs)
 		for(var/mob/living/carbon/human/swimee in W)
 			if(beaker && cur_reagent)
-				beaker.reagents.reaction(swimee, VAPOR, 0.01) //1 percent
-				swimee.reagents.add_reagent(cur_reagent, 0.5) //osmosis
+				beaker.reagents.reaction(swimee, VAPOR, 0.03) //3 percent
+				for(var/datum/reagent/R in beaker.reagents.reagent_list)
+					swimee.reagents.add_reagent(R.id, 0.5) //osmosis
 		for(var/obj/objects in W)
 			if(beaker && cur_reagent)
 				beaker.reagents.reaction(objects, VAPOR, 1)
-			reagenttimer = 6
+			reagenttimer = 4
 
 
 /obj/machinery/poolcontroller/process()
