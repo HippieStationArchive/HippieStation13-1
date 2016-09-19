@@ -62,7 +62,7 @@
 		if(stat & (NOPOWER|BROKEN))
 			return
 		if (istype(W,/obj/item/weapon/reagent_containers/glass/beaker/large))
-			if(src.beaker)
+			if(beaker)
 				user << "A beaker is already loaded into the machine."
 				return
 
