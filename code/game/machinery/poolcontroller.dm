@@ -67,7 +67,7 @@
 				return
 
 			if(W.reagents.total_volume >= 100 && W.reagents.reagent_list.len == 1) //check if full and allow one reageant only.
-				src.beaker =  W
+				beaker =  W
 				user.drop_item()
 				W.loc = src
 				user << "You add the beaker to the machine!"
@@ -80,7 +80,7 @@
 
 
 			else
-				user << "<span class='notice'>This machine only accepts full beakers of one reagent.</span>"
+				user << "<span class='notice'>This machine only accepts full large beakers of one reagent.</span>"
 
 
 
