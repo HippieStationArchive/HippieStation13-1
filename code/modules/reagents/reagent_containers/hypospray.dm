@@ -56,6 +56,20 @@
 	volume = 100
 	list_reagents = list("nanites" = 80, "synaptizine" = 20)
 
+/obj/item/weapon/reagent_containers/hypospray/combat/stasisP
+	name = "LE-PLSU"
+	desc = "A law enforcement issued Personal Life Stabilizing Unit, meant to be retrieved and applied to security and law enforcement officials in critical condition."
+	amount_per_transfer_from_this = 100
+	volume = 100
+	list_reagents = list("iron" = 80, "salbutamol" = 20)
+
+/obj/item/weapon/reagent_containers/hypospray/combat/stasisM
+	name = "PLSU-M2"
+	desc = "A military issue Personal Life Stabilizing Unit, meant to be retrieved and applied to a soldier in critical condition."
+	amount_per_transfer_from_this = 200
+	volume = 300
+	list_reagents = list("iron" = 150, "salbutamol" = 50)
+
 //MediPens
 
 /obj/item/weapon/reagent_containers/hypospray/medipen

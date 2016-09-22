@@ -55,8 +55,20 @@
 		return 0
 	..()
 
+/obj/item/weapon/paper/first_aid
+	info = "Instructions for basic first aid:<br>\
+	<ul>\
+	<li>Move the patient to a safe location</li>\
+	<li>Retrieve the patient's emergency first aid kit from their bag</li>\
+	<li>Apply first aid as needed to stabilize the patient</li>\
+	<li>Move the patient to the nearest treatment center</li>\
+	<li>Hand over any saline bags or bottled medicine in the patient's kit to medical personnel</li>\
+	<li>Remember to only use the contents of the patient's kit, to keep your own kit fully stocked in case of emergency</li>"
 
 /obj/item/weapon/storage/box/survival
+	name = "CEFAK"
+	desc = "A civilian emergency first aid kit for use on patients in critical condition."
+	icon_state = "cefak"
 
 /obj/item/weapon/storage/box/survival/New()
 	..()
@@ -64,9 +76,15 @@
 	new /obj/item/clothing/mask/breath(src)
 	new /obj/item/weapon/tank/internals/emergency_oxygen(src)
 	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)
+	new /obj/item/weapon/reagent_containers/blood/ESGSol(src)
+	new /obj/item/weapon/reagent_containers/pill/patch/bandaid(src)
+	new /obj/item/weapon/paper/first_aid(src)
 	return
 
 /obj/item/weapon/storage/box/engineer
+	name = "CEFAK"
+	desc = "A civilian emergency first aid kit for use on patients in critical condition."
+	icon_state = "cefak"
 
 /obj/item/weapon/storage/box/engineer/New()
 	..()
@@ -74,9 +92,15 @@
 	new /obj/item/clothing/mask/breath(src)
 	new /obj/item/weapon/tank/internals/emergency_oxygen/engi(src)
 	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)
+	new /obj/item/weapon/reagent_containers/blood/ESGSol(src)
+	new /obj/item/weapon/reagent_containers/pill/patch/bandaid(src)
+	new /obj/item/weapon/paper/first_aid(src)
 	return
 
 /obj/item/weapon/storage/box/security
+	name = "PEFAK"
+	desc = "A police issue first aid kit for use on officers in critical condition."
+	icon_state = "pefak"
 
 /obj/item/weapon/storage/box/security/New()
 	..()
@@ -84,6 +108,26 @@
 	new /obj/item/clothing/mask/gas/sechailer(src)
 	new /obj/item/weapon/tank/internals/emergency_oxygen(src)
 	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)
+	new /obj/item/weapon/reagent_containers/hypospray/combat/stasisP(src)
+	new /obj/item/weapon/reagent_containers/pill/patch/bandageP(src)
+	new /obj/item/weapon/reagent_containers/blood/ESGSol(src)
+	new /obj/item/weapon/paper/first_aid(src)
+	return
+
+/obj/item/weapon/storage/box/combat
+	name = "IFAK"
+	desc = "A military issue first aid kit for use on soldiers in critical condition."
+	icon_state = "ifak"
+
+/obj/item/weapon/storage/box/combat/New()
+	..()
+	contents = list()
+	new /obj/item/clothing/mask/breath(src)
+	new /obj/item/weapon/tank/internals/emergency_oxygen/double(src)
+	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)
+	new /obj/item/weapon/reagent_containers/hypospray/combat/stasisM(src)
+	new /obj/item/weapon/reagent_containers/pill/patch/bandageM(src)
+	new /obj/item/weapon/paper/first_aid(src)
 	return
 
 /obj/item/weapon/storage/box/gloves

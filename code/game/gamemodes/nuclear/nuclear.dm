@@ -324,7 +324,7 @@
 	ears = /obj/item/device/radio/headset/syndicate/alt
 	id = /obj/item/weapon/card/id/syndicate
 	belt = /obj/item/weapon/gun/projectile/automatic/pistol
-	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1)
+	backpack_contents = list(/obj/item/weapon/storage/box/combat=1)
 	r_pocket = /obj/item/weapon/melee/combatknife
 
 	var/tc = 20
@@ -336,7 +336,7 @@
 	name = "Syndicate Operative - Assault"
 	suit =	/obj/item/clothing/suit/space/hardsuit/syndi/elite
 	r_hand = /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog
-	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+	backpack_contents = list(/obj/item/weapon/storage/box/combat=1,\
 		/obj/item/ammo_box/magazine/m12g/buckshot=1,\
 		/obj/item/ammo_box/magazine/m12g=1,\
 		/obj/item/ammo_box/magazine/m12g/stun=1,\
@@ -347,7 +347,7 @@
 	suit =	/obj/item/clothing/suit/space/syndicate/black/red
 	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
 	l_pocket = /obj/item/device/multitool/ai_detect
-	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+	backpack_contents = list(/obj/item/weapon/storage/box/combat=1,\
 		/obj/item/weapon/aiModule/syndicate=1,\
 		/obj/item/weapon/card/emag=1,\
 		/obj/item/device/encryptionkey/binary=1,\
@@ -364,7 +364,7 @@
 	mask = /obj/item/clothing/mask/gas/voice
 	gloves = /obj/item/clothing/gloves/color/yellow
 	belt = /obj/item/weapon/storage/belt/utility/full
-	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+	backpack_contents = list(/obj/item/weapon/storage/box/combat=1,\
 		/obj/item/weapon/gun/energy/kinetic_accelerator/crossbow=1,\
 		/obj/item/weapon/gun/projectile/automatic/pistol=1,\
 		/obj/item/ammo_box/magazine/m10mm=1,\
@@ -376,7 +376,7 @@
 	head = /obj/item/clothing/head/helmet/space/syndicate/black/red
 	r_hand = /obj/item/weapon/gun/medbeam
 	l_hand = /obj/item/weapon/gun/projectile/automatic/l6_saw/toy
-	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+	backpack_contents = list(/obj/item/weapon/storage/box/combat=1,\
 		/obj/item/clothing/shoes/magboots/syndie=1,\
 		/obj/item/ammo_box/foambox/riot=1)
 
@@ -408,7 +408,7 @@
 	belt = /obj/item/weapon/storage/belt/military
 	r_hand = /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog
 	l_hand = /obj/item/weapon/melee/combatknife
-	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
+	backpack_contents = list(/obj/item/weapon/storage/box/combat=1,\
 		/obj/item/weapon/tank/jetpack/oxygen/harness=1,\
 		/obj/item/weapon/pinpointer/nukeop=1)
 	tc = 30
