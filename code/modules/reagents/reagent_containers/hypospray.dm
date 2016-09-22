@@ -67,7 +67,7 @@
 	name = "PLSU-M2"
 	desc = "A military issue Personal Life Stabilizing Unit, meant to be retrieved and applied to a soldier in critical condition."
 	amount_per_transfer_from_this = 200
-	volume = 300
+	volume = 200
 	list_reagents = list("iron" = 150, "salbutamol" = 50)
 
 //MediPens
