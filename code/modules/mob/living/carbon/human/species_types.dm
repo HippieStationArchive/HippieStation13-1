@@ -104,7 +104,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	id = "moth"
 	say_mod = "flutters"
 	default_color = "00FF00"
-	roundstart = 1
+	roundstart = 0
 	specflags = list(LIPS)
 	mutant_bodyparts = list("wing")
 	default_features = list("wing" = "Plain")
@@ -131,7 +131,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	id = "avian"
 	say_mod = "squawks"
 	default_color = "00FF00"
-	roundstart = 1
+	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
 	attack_verb = "claw"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
@@ -181,7 +181,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	id = "IPC"
 	say_mod = "beeps"
 	default_color = "00FF00"
-	roundstart = 1
+	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS,HAIR)
 	attack_verb = "punch"
 	attack_sound = 'sound/weapons/smash.ogg'
@@ -625,7 +625,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	name = "Spooky Scary Skeleton"
 	id = "skeleton"
 	say_mod = "rattles"
-	roundstart = 1
+	roundstart = 0
 	sexes = 0
 	meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/skeleton
 	specflags = list(EYECOLOR)
