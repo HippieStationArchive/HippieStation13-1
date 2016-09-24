@@ -117,7 +117,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 	get_chance = 15
 	lowest_value = 256 * 12
 	text_gain_indication = "<span class='notice'>Your muscles hurt!</span>"
-	species_allowed = list("human", "lizard", "moth", "tarajan", "IPC", "pod", "slime", "skeleton")
+	species_allowed = list("human", "lizard", "moth", "tajaran", "IPC", "pod", "slime", "skeleton")
 	//Excludes fly, plasmamen, abductors, zombies, both golems, meseeks, shadows, and jelly
 	//Some of these, such as the fly, turn invisible because they don't have a greyscale sprite yet.
 	health_req = 25

@@ -133,7 +133,7 @@
 					switch(DNA)
 						if("IPC")
 							sound = "sound/voice/screamsilicon.ogg"
-						if("tarajan")
+						if("tajaran")
 							sound = "sound/misc/cat.ogg"
 						if("lizard")
 							sound = "sound/misc/lizard.ogg"
@@ -146,13 +146,13 @@
 						else
 							if(gender == FEMALE)
 								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
-				
+
 				if(isalien(src))
 					sound = pick('sound/voice/hiss6.ogg')
-				
+
 				if(alternate_screams.len > 0)
 					sound = pick(alternate_screams)
-				
+
 				playsound(src.loc, sound, 50, 1, 4, 1.2)
 				message = "<B>[src]</B> screams!"
 				src.adjustOxyLoss(5)
@@ -202,7 +202,7 @@
 		if ("wink","winks")
 			message = "<B>[src]</B> winks."
 			m_type = 1
-			
+
 		if ("excollapse","excollapsed")
 			if (lying)
 				message = "<B>[src]</B> groans in exhaustion."
