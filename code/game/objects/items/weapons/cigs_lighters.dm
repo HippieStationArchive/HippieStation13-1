@@ -632,7 +632,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/vapetime = 0 //this so it won't puff out clouds every tick
 	var/screw = 0 // kinky
 	var/super = 0 //for the fattest vapes dude.
-	var/emagged = 0 //LET THE GRIEF BEGIN
+	emagged = 0 //LET THE GRIEF BEGIN
 
 /obj/item/clothing/mask/vape/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] is puffin hard on dat vape, they trying to join the vape life on a whole notha plane!")//it doesn't give you cancer, it is cancer
@@ -674,18 +674,18 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		else
 			screw = 0
 			user << "<span class='notice'>You close the cap on the [src]</span>"
-			cut.Overlays()
+			overlays.Cut()
 
 	if(istype(O, /obj/item/device/multitool))
 		if(screw && !emagged)//also kinky
 			if(!super)
-				cut.Overlays()
+				overlays.Cut()
 				super = 1
 				user << "<span class='notice'>You increase the voltage in the [src]</span>"
 				var/image/I = (image(icon, "vapeopen_med"))
 				overlays += I
 			else
-				cut.Overlays()
+				overlays.Cut()
 				super = 0
 				user << "<span class='notice'>You decrease the voltage in the [src]</span>"
 				var/image/I = (image(icon, "vapeopen_low"))
@@ -698,7 +698,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/vape/emag_act(mob/user)// I WON'T REGRET WRITTING THIS, SURLY.
 	if(screw)
 		if(!emagged)
-			cut.Overlays()
+			overlays.Cut()
 			emagged = 1
 			super = 0
 			user << "<span class='warning'>You maximize the voltage in the [src]</span>"
