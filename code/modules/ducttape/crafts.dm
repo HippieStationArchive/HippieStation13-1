@@ -4,7 +4,7 @@
 
 /obj/item/clothing/suit/armor/makeshift
 	name = "makeshift armor"
-	desc = "A hazard vest with metal plate taped on it. It offers some protection, however it slows you down."
+	desc = "A hazard vest with metal plate taped on it. It offers minor protection."
 	icon_state = "makeshiftarmor"
 	item_state = "makeshiftarmor"
 	w_class = 3
