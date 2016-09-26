@@ -337,3 +337,11 @@ obj/item/weapon/storage/box/syndie_kit/shotguntender
 	new /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath(src)
 	new /obj/item/ammo_casing/shotgun/dart/bioterror(src)
 	return
+
+/obj/item/weapon/storage/box/syndie_kit/makarovpb/New()
+	..()
+	new /obj/item/weapon/gun/projectile/automatic/pistol/makarov/pb(src)
+	new /obj/item/ammo_box/magazine/makarov/mktx(src)
+	new /obj/item/ammo_box/magazine/makarov/mktx(src)
+	new /obj/item/ammo_box/magazine/makarov/mkinc(src)
+	return
