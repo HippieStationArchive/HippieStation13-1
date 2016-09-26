@@ -4,5 +4,5 @@ delete-after: True
 
 changes: 
   - rscadd: "Added two new soviet themed weapons: The Makarov, and the Makarov PB."
-  - rscadd: "Added a new syndicate bundle, "The Russian", containing a Makarov and other soviet themed goodies."
+  - rscadd: "Added a new syndicate bundle, /"The Russian"/, containing a Makarov and other soviet themed goodies."
   - rscadd: "Added an assassination kit to the mime's traitor uplink, containing a Makarov PB and some ammo."
