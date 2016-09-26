@@ -206,6 +206,14 @@ var/list/uplink_items = list()
 	cost = 7
 	jobs = list("Clown")
 
+//MIME
+/datum/uplink_item/job_specific/makarovpb
+	name = "Makarov PB + Ammo"
+	desc = "A modernized version of an ancient soviet assassination weapon. Comes with two mags of poison ammo, and one incindiary."
+	item = /obj/item/weapon/storage/box/syndie_kit/makarovpb
+	cost = 14
+	jobs = list("Mime")
+
 //King of the Disk items
 
 /datum/uplink_item/king_disk

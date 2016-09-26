@@ -448,6 +448,22 @@ obj/item/ammo_box/magazine/tommygunm45
 	icon_state = "m12gt"
 	ammo_type = /obj/item/ammo_casing/shotgun/dart/bioterror
 
+/obj/item/ammo_box/magazine/makarov
+	name = "Makarov magazine (9mm Ball)"
+	ammo_type = /obj/item/ammo_casing/c9mmap
+	caliber = "9mm"
+	icon_state = "makarov"
+	max_ammo = 8
+	multiple_sprites = 2
+
+/obj/item/ammo_box/magazine/makarov/mktx
+	name = "Makarov magazine (Toxin-Tipped 9mm)"
+	ammo_type = /obj/item/ammo_casing/c9mmtox
+
+/obj/item/ammo_box/magazine/makarov/mkinc
+	name = "Makarov magazine (Incindiary 9mm)"
+	ammo_type = /obj/item/ammo_casing/c9mminc
+
 /obj/item/ammo_box/magazine/toy
 	name = "foam force META magazine"
 	ammo_type = /obj/item/ammo_casing/caseless/foam_dart

@@ -6,7 +6,7 @@
 		for(var/i = 0, i < 14, i++)
 			new /obj/item/weapon/pinpointer(src)
 	else
-		switch (pickweight(list("spy" = 1, "boom" = 1, "snake" = 1, "screwed" = 1, "guns" = 1, "implant" = 1, "hacker" = 1, "ninja" = 1, "darklord" = 1)))
+		switch (pickweight(list("spy" = 1, "boom" = 1, "snake" = 1, "screwed" = 1, "guns" = 1, "implant" = 1, "hacker" = 1, "ninja" = 1, "darklord" = 1, "russian" = 1)))
 			if("spy")
 				new /obj/item/weapon/pen/edagger(src)
 				new /obj/item/weapon/reagent_containers/syringe/mulligan(src)
@@ -132,6 +132,21 @@
 					new /obj/item/weapon/grenade/syndieminibomb(src)
 				for(var/i = 0, i < 1, i++)
 					new /obj/item/device/sbeacondrop/bomb(src)
+				return
+
+			if("russian")
+				new /obj/item/weapon/gun/projectile/automatic/pistol/makarov(src)
+				new /obj/item/ammo_box/magazine/makarov(src)
+				new /obj/item/ammo_box/magazine/makarov(src)
+				new /obj/item/ammo_box/magazine/makarov(src)
+				new /obj/item/weapon/melee/combatknife(src)
+				new /obj/item/clothing/under/soviet(src)
+				new /obj/item/clothing/shoes/combat(src)
+				new /obj/item/clothing/gloves/combat(src)
+				new /obj/item/clothing/head/ushanka(src)
+				new /obj/item/weapon/card/id/syndicate(src)
+				new /obj/item/clothing/mask/gas/voice(src)
+				new /obj/item/weapon/reagent_containers/food/drinks/bottle/vodka(src)
 				return
 
 /obj/item/weapon/storage/box/syndie_kit
@@ -321,4 +336,12 @@ obj/item/weapon/storage/box/syndie_kit/shotguntender
 	new /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath(src)
 	new /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath(src)
 	new /obj/item/ammo_casing/shotgun/dart/bioterror(src)
+	return
+
+/obj/item/weapon/storage/box/syndie_kit/makarovpb/New()
+	..()
+	new /obj/item/weapon/gun/projectile/automatic/pistol/makarov/pb(src)
+	new /obj/item/ammo_box/magazine/makarov/mktx(src)
+	new /obj/item/ammo_box/magazine/makarov/mktx(src)
+	new /obj/item/ammo_box/magazine/makarov/mkinc(src)
 	return

@@ -126,3 +126,33 @@
 	..()
 	icon_state = "p08[magazine ? "-[Ceiling(get_ammo(0)/10)*10]" : ""][chambered ? "" : "-e"]"
 	return
+
+/obj/item/weapon/gun/projectile/automatic/pistol/makarov
+	name = "Makarov"
+	desc = "An ancient soviet police and military sidearm, famous for its robust construction."
+	icon_state = "makarov"
+	mag_type = /obj/item/ammo_box/magazine/makarov
+	can_suppress = 0
+	can_flashlight = 0
+	can_knife = 0
+	w_class = 2
+	fire_sound = "gunshot"
+
+/obj/item/weapon/gun/projectile/automatic/pistol/makarov/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][chambered ? "" : "-e"][magazine ? "" : "-d"]"
+	return
+
+/obj/item/weapon/gun/projectile/automatic/pistol/makarov/pb
+	name = "Makarov PB"
+	desc = "A modernized version of an ancient soviet assassination weapon."
+	icon_state = "makarov_pb"
+	mag_type = /obj/item/ammo_box/magazine/makarov
+	fire_sound = 'sound/weapons/Gunshot_silenced.ogg'
+	suppressed = 1
+	unique_rename = 1
+
+/obj/item/weapon/gun/projectile/automatic/pistol/makarov/pb/update_icon()
+	..()
+	icon_state = "[initial(icon_state)][chambered ? "" : "-e"][magazine ? "" : "-d"]"
+	return
