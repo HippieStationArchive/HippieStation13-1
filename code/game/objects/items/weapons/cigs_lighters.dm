@@ -651,11 +651,11 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		item_state = "[param_color]_vape"
 
 /obj/item/clothing/mask/vape/attackby(obj/item/O, mob/user, params)
-	if(istype(O, /obj/item/weapon/reagent_containers/glass))
+	if(istype(O, /obj/item/weapon/reagent_containers/))
 		if(reagents.total_volume < chem_volume)
 			if(O.reagents.total_volume > 0)
 				O.reagents.trans_to(src,25)
-				user << "<span class='notice'>You add the contents of [O] to the [src]</span>"
+				user << "<span class='notice'>You add the contents of [O] to the [src].</span>"
 			else
 				user << "<span class='warning'>The [O] is empty!</span>"
 		else
@@ -664,7 +664,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(istype(O, /obj/item/weapon/screwdriver))
 		if(!screw)
 			screw = 1
-			user << "<span class='notice'>You open the cap on the [src]</span>"
+			user << "<span class='notice'>You open the cap on the [src].</span>"
 			if(super)
 				var/image/I = (image(icon, "vapeopen_med"))
 				overlays += I
@@ -673,21 +673,22 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 				overlays += I
 		else
 			screw = 0
-			user << "<span class='notice'>You close the cap on the [src]</span>"
+			user << "<span class='notice'>You close the cap on the [src].</span>"
 			overlays.Cut()
+
 
 	if(istype(O, /obj/item/device/multitool))
 		if(screw && !emagged)//also kinky
 			if(!super)
 				overlays.Cut()
 				super = 1
-				user << "<span class='notice'>You increase the voltage in the [src]</span>"
+				user << "<span class='notice'>You increase the voltage in the [src].</span>"
 				var/image/I = (image(icon, "vapeopen_med"))
 				overlays += I
 			else
 				overlays.Cut()
 				super = 0
-				user << "<span class='notice'>You decrease the voltage in the [src]</span>"
+				user << "<span class='notice'>You decrease the voltage in the [src].</span>"
 				var/image/I = (image(icon, "vapeopen_low"))
 				overlays += I
 		
@@ -701,7 +702,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			overlays.Cut()
 			emagged = 1
 			super = 0
-			user << "<span class='warning'>You maximize the voltage in the [src]</span>"
+			user << "<span class='warning'>You maximize the voltage in the [src]!</span>"
 			var/image/I = (image(icon, "vapeopen_high"))
 			overlays += I
 			var/datum/effect_system/spark_spread/sp = new /datum/effect_system/spark_spread //for effect
@@ -710,18 +711,18 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		else
 			user << "<span class='warning'>The [name] is already emagged!</span>"
 	else
-		user << "<span class='notice'>You need to open the cap to do that</span>"
+		user << "<span class='notice'>You need to open the cap to do that!</span>"
 
 /obj/item/clothing/mask/vape/attack_self(mob/user)
 	if(reagents.total_volume > 0)
-		user << "<span class='notice'>you empty [src] of all reagents.</span>"
+		user << "<span class='notice'>You empty [src] of all reagents.</span>"
 		reagents.clear_reagents()
 	return
 
 /obj/item/clothing/mask/vape/equipped(mob/user, slot)
 	if(slot == slot_wear_mask)
 		if(!screw)
-			user << "<span class='notice'>You start puffing on that dank vape</span>"
+			user << "<span class='notice'>You start puffing on that dank vape.</span>"
 			flags &= ~NOREACT // allowing reagents to react after being lit
 			SSobj.processing |= src
 		else //it will not start if the vape is opened.
