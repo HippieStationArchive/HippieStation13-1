@@ -664,11 +664,14 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(istype(O, /obj/item/weapon/screwdriver))
 		if(!screw)
 			screw = 1
-			user << "<span class='notice'>You open the cap on the [src].</span>"
-			if(super)
+			user << "<span class='notice'>You open the cap on the [src]</span>"
+			if(super & !emagged)
 				var/image/I = (image(icon, "vapeopen_med"))
 				overlays += I
-			else
+			if(emagged)
+				var/image/I = (image(icon, "vapeopen_high"))
+				overlays += I
+			if(!super & !emagged)
 				var/image/I = (image(icon, "vapeopen_low"))
 				overlays += I
 		else
