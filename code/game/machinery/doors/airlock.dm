@@ -841,6 +841,22 @@ About the new airlock wires panel:
 										"<span class='notice'>You [welded ? "weld the airlock shut":"unweld the airlock"].</span>")
 					update_icon()
 		return
+	else if((istype(C, /obj/item/weapon/melee/energy/sword) && !( src.operating ) && src.density))
+		var/obj/item/weapon/melee/energy/sword/W = C
+		user.visible_message("[user] is [welded ? "unwelding":"welding"] the airlock.", \
+						"<span class='notice'>You begin [welded ? "unwelding":"welding"] the airlock...</span>", \
+						"<span class='italics'>You hear welding.</span>")
+		playsound(loc, 'sound/items/Welder.ogg', 40, 1)
+		if(do_after(user, 70, target = src))
+			if(density && !operating)//Door must be closed to weld.
+				if( !istype(src, /obj/machinery/door/airlock) || !user || !W || !user.loc )
+					return
+				playsound(loc, 'sound/items/Welder2.ogg', 50, 1)
+				welded = !welded
+				user.visible_message("[user.name] has [welded? "welded shut":"unwelded"] [src].", \
+									"<span class='notice'>You [welded ? "weld the airlock shut":"unweld the airlock"].</span>")
+				update_icon()
+		return
 	else if(istype(C, /obj/item/weapon/screwdriver))
 		if(p_open && detonated)
 			user << "<span class='warning'>[src] has no maintenance panel!</span>"
