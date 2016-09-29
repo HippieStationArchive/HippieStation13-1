@@ -73,6 +73,16 @@
 			M.add_fingerprint(user)
 			qdel(src)
 
+	else if(istype(W, /obj/item/weapon/melee/energy/sword))
+		user << "<span class='notice'>You start slicing apart the girder...</span>"
+		playsound(src, 'sound/items/Welder.ogg', 100, 1)
+		if(do_after(user, 70, target = src))
+			user << "<span class='notice'>You slice apart the girder.</span>"
+			var/obj/item/stack/sheet/metal/M = new (loc, 2)
+			M.add_fingerprint(user)
+			qdel(src)
+
+
 	else if(istype(W, /obj/item/weapon/pickaxe/drill/jackhammer))
 		var/obj/item/weapon/pickaxe/drill/jackhammer/D = W
 		user << "<span class='notice'>You smash through the girder!</span>"
