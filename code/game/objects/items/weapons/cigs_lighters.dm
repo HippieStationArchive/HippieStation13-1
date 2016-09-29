@@ -624,7 +624,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 ///////////////
 /obj/item/clothing/mask/vape
 	name = "E-Cigarette"
-	desc = "A classy and highly sophisticated electronic cigarette, for classy and dignified gentlemen. A warning label reads \"Warning: do not fill with flamable materials\""//<<< i'd vape to that.
+	desc = "A classy and highly sophisticated electronic cigarette, for classy and dignified gentlemen. A warning label reads \"Warning: do not fill with flamable materials!\""//<<< i'd vape to that.
 	icon = 'icons/obj/clothing/masks.dmi'
 	icon_state = null
 	item_state = null
@@ -664,7 +664,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(istype(O, /obj/item/weapon/screwdriver))
 		if(!screw)
 			screw = 1
-			user << "<span class='notice'>You open the cap on the [src]</span>"
+			user << "<span class='notice'>You open the cap on the [src].</span>"
 			if(super & !emagged)
 				var/image/I = (image(icon, "vapeopen_med"))
 				overlays += I
