@@ -779,13 +779,13 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 	if(super && vapetime > 3)//Time to start puffing those fat vapes, yo.
 		var/datum/effect_system/smoke_spread/chem/s = new
-		s.set_up(reagents, 1, loc)
+		s.set_up(reagents, 1, loc, silent=TRUE)
 		s.start()
 		vapetime = 0
 
 	if(emagged && vapetime > 3)
 		var/datum/effect_system/smoke_spread/chem/s = new
-		s.set_up(reagents, 4, loc)
+		s.set_up(reagents, 4, loc, silent=TRUE)
 		s.start()
 		vapetime = 0
 		if(prob(5))//small chance for the vape to break and deal damage if it's emagged
