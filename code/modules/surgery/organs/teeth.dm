@@ -52,8 +52,8 @@
 	transform *= TransformUsingVariable(0.25, 1, 0.5) //Half-size the teeth
 
 /obj/item/stack/teeth/cat
-	name = "tajaran teeth"
-	singular_name = "tajaran tooth"
+	name = "tarajan teeth"
+	singular_name = "tarajan tooth"
 	desc = "Treasured trophy."
 	sharpness = IS_SHARP
 	icon_state = "teeth_cat"
