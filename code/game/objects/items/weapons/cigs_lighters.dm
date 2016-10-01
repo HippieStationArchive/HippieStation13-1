@@ -742,9 +742,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		if(iscarbon(loc))
 			var/mob/living/carbon/C = loc
 			if (src == C.wear_mask) // if it's in the human/monkey mouth, transfer reagents to the mob
-				var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1) //this will react instantly, making them a little more dangerous than cigarettes
-				reagents.reaction(C, INGEST, fraction)
-				reagents.trans_to(C, REAGENTS_METABOLISM)
+				if(prob(25)) //Slightly more reactive than cigarettes, but less than it was before
+					var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
+					reagents.reaction(C, INGEST, fraction)
+					reagents.trans_to(C, REAGENTS_METABOLISM)
 				if(reagents.get_reagent_amount("welding_fuel"))
 					//HOT STUFF
 					C.fire_stacks = 2
@@ -779,16 +780,26 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 	if(super && vapetime > 3)//Time to start puffing those fat vapes, yo.
 		var/datum/effect_system/smoke_spread/chem/s = new
-		s.set_up(reagents, 1, loc, silent=TRUE)
+		s.set_up(reagents, 0, loc, silent=TRUE)
 		s.start()
 		vapetime = 0
+		if(prob(3))//Chance added to super vape pens too
+			playsound(get_turf(src), 'sound/effects/pop_expl.ogg', 50, 0)
+			M.apply_damage(15, BURN, "head") //Less damage
+			M.unEquip(src, 1)
+			M.Weaken(15, 1, 0)
+			qdel(src)
+			var/datum/effect_system/spark_spread/sp = new /datum/effect_system/spark_spread
+			sp.set_up(5, 1, src)
+			sp.start()
+			M << "<span class='userdanger'>The [name] suddenly explodes in your mouth!</span>"
 
 	if(emagged && vapetime > 3)
 		var/datum/effect_system/smoke_spread/chem/s = new
-		s.set_up(reagents, 4, loc, silent=TRUE)
+		s.set_up(reagents, 3, loc, silent=TRUE)
 		s.start()
 		vapetime = 0
-		if(prob(5))//small chance for the vape to break and deal damage if it's emagged
+		if(prob(8))//small chance for the vape to break and deal damage if it's emagged
 			playsound(get_turf(src), 'sound/effects/pop_expl.ogg', 50, 0)
 			M.apply_damage(20, BURN, "head")
 			M.unEquip(src, 1)
