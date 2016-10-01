@@ -35,7 +35,7 @@
 	if (notransform)
 		return
 
-	if(jobban_isbanned(src, "catban") && src.dna.species.name != "Tarajan")
+	if(jobban_isbanned(src, "catban") && src.dna.species.name != "Tajaran")
 		src.set_species(/datum/species/cat, icon_update=1)
 
 	if(jobban_isbanned(src, "cluwneban") && !src.dna.check_mutation(CLUWNEMUT))
