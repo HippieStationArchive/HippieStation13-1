@@ -146,8 +146,8 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 
 /datum/species/cat
 	// catban
-	name = "Tajaran"
-	id = "tajaran"
+	name = "Tarajan"
+	id = "tarajan"
 	say_mod = "meows"
 	default_color = "00FF00"
 	roundstart = 1
