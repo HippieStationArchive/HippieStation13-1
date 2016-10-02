@@ -684,6 +684,18 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	containertype = /obj/structure/closet/crate/freezer
 	containername = "blood pack crate"
 
+/datum/supply_packs/medical/chemgland
+	name = "Experimental Organ Crate"
+	contains = list(/obj/item/organ/internal/chemgland,
+					/obj/item/organ/internal/chemgland,
+					/obj/item/organ/internal/chemgland,
+					/obj/item/organ/internal/chemgland,
+					/obj/item/organ/internal/chemgland,
+					/obj/item/organ/internal/chemgland)
+	cost = 35
+	containertype = /obj/structure/closet/crate/freezer
+	containername = "experimental organ crate"
+
 /datum/supply_packs/medical/iv_drip
 	name = "IV Drip Crate"
 	contains = list(/obj/machinery/iv_drip)
