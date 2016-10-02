@@ -623,7 +623,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 //VAPE NATION//
 ///////////////
 /obj/item/clothing/mask/vape
-	name = "E-Cigarette"
+	name = "e-Cigarette"
 	desc = "A classy and highly sophisticated electronic cigarette, for classy and dignified gentlemen. A warning label reads \"Warning: do not fill with flamable materials!\""//<<< i'd vape to that.
 	icon = 'icons/obj/clothing/masks.dmi'
 	icon_state = null
@@ -635,7 +635,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	emagged = 0 //LET THE GRIEF BEGIN
 
 /obj/item/clothing/mask/vape/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is puffin hard on dat vape, they trying to join the vape life on a whole notha plane!")//it doesn't give you cancer, it is cancer
+	user.visible_message("<span class='suicide'>[user] is puffin hard on dat vape, they trying to join the vape life on a whole notha' plane!")//it doesn't give you cancer, it is cancer
 	return (TOXLOSS|OXYLOSS)
 
 
@@ -650,20 +650,12 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		icon_state = "[param_color]_vape"
 		item_state = "[param_color]_vape"
 
+//The reagent thing was here
 /obj/item/clothing/mask/vape/attackby(obj/item/O, mob/user, params)
-	if(istype(O, /obj/item/weapon/reagent_containers/))
-		if(reagents.total_volume < chem_volume)
-			if(O.reagents.total_volume > 0)
-				O.reagents.trans_to(src,25)
-				user << "<span class='notice'>You add the contents of [O] to the [src].</span>"
-			else
-				user << "<span class='warning'>The [O] is empty!</span>"
-		else
-			user << "<span class='warning'>[src] can't hold anymore reagents!</span>"
-
 	if(istype(O, /obj/item/weapon/screwdriver))
 		if(!screw)
 			screw = 1
+			flags |= OPENCONTAINER
 			user << "<span class='notice'>You open the cap on the [src].</span>"
 			if(super & !emagged)
 				var/image/I = (image(icon, "vapeopen_med"))
@@ -676,6 +668,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 				overlays += I
 		else
 			screw = 0
+			flags &= ~OPENCONTAINER
 			user << "<span class='notice'>You close the cap on the [src].</span>"
 			overlays.Cut()
 
