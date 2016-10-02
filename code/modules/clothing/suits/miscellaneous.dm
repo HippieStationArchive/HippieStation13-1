@@ -277,7 +277,20 @@
 	desc = "A cheap white T-shirt with a big tacky \"VN\" on the front. Why would you wear this unironically?"
 	icon_state = "vapeshirt"
 	item_state = "vapeshirt"
+	alternate_screams = list('sound/voice/vapenaysh.ogg')
 
+/obj/item/clothing/suit/vapeshirt/equipped(mob/living/carbon/user, slot)
+	if(slot == slot_wear_suit)
+		user.add_screams(src.alternate_screams)
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.reindex_screams()
+		else
+			user.reindex_screams()
+
+	return ..()
+	
 /obj/item/clothing/suit/jacket
 	name = "bomber jacket"
 	desc = "Aviators not included."
