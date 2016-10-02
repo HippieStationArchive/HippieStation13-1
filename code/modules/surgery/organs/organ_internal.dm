@@ -234,3 +234,32 @@
 		if(health <= 0)
 			visible_message("<span class='warning'>[src] collapses in on itself!</span>")
 			qdel(src)
+
+/obj/item/organ/internal/chemgland
+	name = "experimental organ"
+	desc = "It faintly resembles an organ, it looks like it can be surgically implanted."
+	icon_state = "chemgland1"
+	flags = NOBLUDGEON
+	origin_tech = "biotech=3"
+	slot = "chemgland"
+	force = 0
+	var/chem_1 =  null
+	var/chem_2 =  null
+
+/obj/item/organ/internal/chemgland/New()
+	icon_state = pick("chemgland1","chemgland2","chemgland3","chemgland4","chemgland5","chemgland6","chemgland7","chemgland8","chemgland9","chemgland10","chemgland11","chemgland12")
+	name = "[pick("spiky","twisted","odd","horrific","bloated","tumor","tumorous","deformed","cancerous","smooth","convulsing","fleshy","organic","alien","lumpy","warped")][pick("-like"," looking","")] [pick("organ","tissue","gland")]"
+	var/list/chemgland_chems = list("rezadone", "histamine", "hippiesdelight", "ethanol", "mushroomhallucinogen", "heroin", "bath_salts", "methamphetamine", "crank", "nicotine", "space_drugs", "aranesp", "carrotjuice", "krokodil", "fartium", "laughter", "colorful_reagent", "serotrotium", "mulligan", "holywater", "histamine", "toxinsspecial", "hell_ramen", "venom", "cyanide", "sulfonal", "lipolicide", "heparin", "teslium", "rotatium", "bleach", "unholywater", "mercury", "frostoil", "mine_salve", "calomel", "sleeptoxin", "mutagen", "lexorin", "mindbreaker", "spore", "spore_burning", "tirizene", "synaptizine", "icecoffee", "coffee", "hot_coco", "leporazine", "oxandrolone", "charcoal", "potass_iodide", "sal_acid", "salbutamol", "perfluorodecalin", "ephedrine", "oculine", "atropine", "mannitol", "antihol", "insulin", "kelotane", "dexalin", "mannitol", "bromelain", "cafe_latte")
+	chem_1 =  pick(chemgland_chems)
+	chem_2 =  pick(chemgland_chems)
+
+/obj/item/organ/internal/chemgland/on_life()
+	..()
+	if(prob(5))
+		owner.reagents.add_reagent(chem_1,1)
+		owner.reagents.add_reagent(chem_2,1)
+
+/obj/item/organ/internal/chemgland/throw_impact(atom/hit_atom)
+	..()
+	playsound(get_turf(src), pick('sound/misc/splat.ogg', 'sound/misc/splort.ogg'), 50, 1, -1)
+
