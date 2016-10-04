@@ -466,7 +466,7 @@
 		return 0
 	O.atmos_spawn_air("n2=[reac_volume/2];TEMP=[T20C]")
 
-/datum/reagent/nitrogen/reaction_turf(turf/simulated/T/T, reac_volume)
+/datum/reagent/nitrogen/reaction_turf(turf/simulated/T, reac_volume)
 	if(istype(T))
 		T.atmos_spawn_air("n2=[reac_volume/2];TEMP=[T20C]")
 	return
