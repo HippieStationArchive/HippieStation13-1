@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - tweak: "Removes formaldehyde and neurotoxin from poison kit, replaces with sleep beer and wasting toxin"
