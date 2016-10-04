@@ -184,7 +184,7 @@
 /datum/reagent/pyrosium
 	name = "Pyrosium"
 	id = "pyrosium"
-	description = "Comes into existence at 20K. As long as there is sufficient oxygen for it to react with, Pyrosium slowly cools all other reagents in the mob down to 0K."
+	description = "Comes into existence at 500K. As long as there is sufficient oxygen for it to react with, Pyrosium slowly heats all other reagents in the container up. Useful for delayed reactions."
 	color = "#B20000" // rgb: 139, 166, 233
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 
@@ -200,3 +200,115 @@
 		holder.chem_temp += 10
 		holder.handle_reactions()
 	..()
+
+
+/datum/reagent/cryogenic_fluid
+	name = "Cryogenic Fluid"
+	id = "cryogenic_fluid"
+	description = "Extremely cold superfluid used to put out fires that will viciously freeze people on contact causing severe pain and burn damage, weak if ingested."
+	color = "#b3ffff" // rgb: 0, 255, 255
+	metabolization_rate = 2
+
+/datum/reagent/cryogenic_fluid/on_tick()
+	holder.chem_temp -= 5
+	..()
+/datum/reagent/cryogenic_fluid/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
+	if(iscarbon(M) && M.stat != DEAD)
+		if(method in list(INGEST,INJECT))
+			M.adjust_fire_stacks(-(reac_volume))
+			M.adjustStaminaLoss(reac_volume)
+			M.adjustFireLoss(reac_volume)
+			M.bodytemperature = max(M.bodytemperature - 50, TCMB)
+			if(show_message)
+				M << "<span class='warning'>You feel like you are freezing from the inside!</span>"
+		else
+			if (reac_volume >= 5)
+				if(show_message)
+					M << "<span class='danger'>You can feel your body freezing up and your metabolism slow DEAR GOD THE PAIN!!</span>"
+				M.bodytemperature = max(M.bodytemperature - 10*reac_volume, TCMB)
+				M.adjust_fire_stacks(-(3*reac_volume))
+				M.adjustFireLoss(0.125*reac_volume) //Sorry for snowflakey numbers~
+				M.adjustOxyLoss(0.375*reac_volume)
+				M.drowsyness +=3
+				M.confused +=12
+
+			else
+			 M.bodytemperature = max(M.bodytemperature - 5, TCMB)
+			 M.adjust_fire_stacks(-(2*reac_volume))
+	 ..()
+
+/datum/reagent/cryogenic_fluid/reaction_turf(turf/simulated/T)
+	if (!istype(T)) return
+	var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
+	if(hotspot && !istype(T, /turf/space))
+		if(T.air)
+			var/datum/gas_mixture/G = T.air
+			G.temperature = 0
+			G.react()
+			hotspot.Kill()
+	return
+
+
+
+/datum/reagent/foof
+	name = "Dioxygen Difluoride"
+	id = "foof"
+	description = "Absurdly dangerous fluorine compound which reacts violently with everything it touches: toxic and highly reactive this will burn you outside in and inside out. Will decay unless stabilised with cryogenic fluid which it slowly consumes"
+	reagent_state = LIQUID
+	color = "#FF9933"
+	metabolization_rate = 0.5
+
+/datum/reagent/foof/on_mob_life(mob/living/M)
+	M.adjust_fire_stacks(2) //very effective fuel chem when ingested
+	M.adjustFireLoss(4)
+	M.adjustToxLoss(1)
+	M.bodytemperature += 30
+	..()
+
+/datum/reagent/foof/reaction_turf(turf/simulated/T, reac_volume)
+	if(istype(T, /turf/simulated/floor/plating))
+		var/turf/simulated/floor/plating/F = T
+		if(prob(reac_volume + F.burnt*15 + F.broken*25)) //broken or burnt plating is much more susceptible to being destroyed
+			F.ChangeTurf(F.baseturf)
+	if(istype(T, /turf/simulated/floor/))
+		var/turf/simulated/floor/F = T
+		if(prob(reac_volume*10))
+			F.make_plating()
+		else if(prob(reac_volume*5))
+			F.burn_tile()
+		if(istype(F, /turf/simulated/floor/))
+			PoolOrNew(/obj/effect/hotspot, F) //ignites surfaces
+	if(istype(T, /turf/simulated/wall/))
+		var/turf/simulated/wall/W = T
+		if(prob(reac_volume*10))
+			W.ChangeTurf(/turf/simulated/floor/plating)
+	if(istype(T))
+		T.atmos_spawn_air(SPAWN_HEAT | SPAWN_TOXINS, (reac_volume*0.5)) //spawns heat and plasma on contact with surfaces
+
+/datum/reagent/foof/reaction_mob(mob/living/M, method=TOUCH,reac_volume)//less lethal on touch but still nasty
+	if(istype(M))
+		if(method != INGEST && method != INJECT)
+			M.adjust_fire_stacks(reac_volume)
+			M.IgniteMob()
+			M.bodytemperature += 600
+			var/turf/T = get_turf(holder.my_atom) //spawns small fireball around victim
+			for(var/turf/turf in range(1,T))
+				PoolOrNew(/obj/effect/hotspot, turf)
+
+
+/datum/chemical_reaction/foof/on_reaction(datum/reagents/holder, created_volume)//makes a giant fireball on creation, currently unused as there is no recipe
+	var/turf/T = get_turf(holder.my_atom)
+	for(var/turf/turf in range(3,T))
+		PoolOrNew(/obj/effect/hotspot, turf)
+
+/datum/reagent/foof/on_tick() //decay code
+	holder.chem_temp = 10
+
+	if(holder.has_reagent("cryogenic_fluid"))
+		holder.remove_reagent("cryogenic_fluid" , 0.05)
+
+	if(!holder.has_reagent("cryogenic_fluid"))
+		holder.remove_reagent("foof", 1)
+		holder.add_reagent("fluorine", 0.5)
+		holder.add_reagent("oxygen", 0.5)
+

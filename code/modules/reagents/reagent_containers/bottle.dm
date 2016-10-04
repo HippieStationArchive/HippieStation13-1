@@ -304,3 +304,45 @@
 	desc = "A small bottle. Contains a sample of Inquisitius."
 	icon_state = "bottle3"
 	spawned_disease = /datum/disease/fluspanish
+
+/obj/item/weapon/reagent_containers/glass/beaker/large/foof
+	name = "Dioxygen Difluoride beaker"
+	desc = "Contains the exceptionally dangerous Dioxygen Difluoride. WARNING: Shelf life limited, will decay over time unless more cryogenic fluid is added."
+	icon_state = "beakerlarge"
+	list_reagents = list("foof" = 85, "cryogenic_fluid" = 15)
+
+/obj/item/weapon/reagent_containers/glass/bottle/nitroglycerin
+	name = "nitroglycerin bottle"
+	desc = "A small bottle. Contains nitroglycerin."
+	icon_state = "bottle16"
+	list_reagents = list("nitroglycerin" = 30)
+
+/obj/item/weapon/reagent_containers/glass/bottle/phlogiston
+	name = "phlogiston bottle"
+	desc = "A small bottle. Contains phlogiston."
+	icon_state = "bottle16"
+	list_reagents = list("phlogiston" = 30)
+
+/obj/item/weapon/reagent_containers/glass/bottle/napalm
+	name = "napalm bottle"
+	desc = "A small bottle. Contains napalm."
+	icon_state = "bottle16"
+	list_reagents = list("napalm" = 30)
+
+/obj/item/weapon/reagent_containers/glass/bottle/clf3
+	name = "chlorine trifluoride bottle"
+	desc = "A small bottle. Contains chlorine triflouride."
+	icon_state = "bottle16"
+	list_reagents = list("clf3" = 30)
+
+/obj/item/weapon/reagent_containers/glass/bottle/cryogenic_fluid
+	name = "cryogenic fluid bottle"
+	desc = "A small bottle. Contains cryogenic fluid."
+	icon_state = "bottle16"
+	list_reagents = list("cryogenic_fluid" = 30)
+
+/obj/item/weapon/reagent_containers/glass/bottle/thermite
+	name = "thermite bottle"
+	desc = "A small bottle. Contains thermite."
+	icon_state = "bottle16"
+	list_reagents = list("thermite" = 30)
