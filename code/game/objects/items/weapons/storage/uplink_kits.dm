@@ -322,3 +322,20 @@ obj/item/weapon/storage/box/syndie_kit/shotguntender
 	new /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath(src)
 	new /obj/item/ammo_casing/shotgun/dart/bioterror(src)
 	return
+
+/obj/item/weapon/storage/box/syndie_kit/syndipyro
+	name = "boxed pyrotechnics kit"
+	storage_slots = 14
+
+/obj/item/weapon/storage/box/syndie_kit/syndipyro/New()
+	..()
+	new /obj/item/weapon/reagent_containers/glass/beaker/large/foof(src)
+	new /obj/item/weapon/reagent_containers/glass/bottle/nitroglycerin(src)
+	new /obj/item/weapon/reagent_containers/glass/bottle/nitroglycerin(src)
+	new /obj/item/weapon/reagent_containers/glass/bottle/thermite(src)
+	new /obj/item/weapon/reagent_containers/glass/bottle/phlogiston(src)
+	new /obj/item/weapon/reagent_containers/glass/bottle/napalm(src)
+	new /obj/item/weapon/reagent_containers/glass/bottle/clf3(src)
+	new /obj/item/weapon/reagent_containers/glass/bottle/cryogenic_fluid(src)
+	new /obj/item/weapon/reagent_containers/syringe(src)
+	return
