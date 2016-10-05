@@ -623,7 +623,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 //VAPE NATION//
 ///////////////
 /obj/item/clothing/mask/vape
-	name = "E-Cigarette"
+	name = "e-Cigarette"
 	desc = "A classy and highly sophisticated electronic cigarette, for classy and dignified gentlemen. A warning label reads \"Warning: do not fill with flamable materials!\""//<<< i'd vape to that.
 	icon = 'icons/obj/clothing/masks.dmi'
 	icon_state = null
@@ -635,7 +635,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	emagged = 0 //LET THE GRIEF BEGIN
 
 /obj/item/clothing/mask/vape/suicide_act(mob/user)
-	user.visible_message("<span class='suicide'>[user] is puffin hard on dat vape, they trying to join the vape life on a whole notha plane!")//it doesn't give you cancer, it is cancer
+	user.visible_message("<span class='suicide'>[user] is puffin hard on dat vape, they trying to join the vape life on a whole notha' plane!")//it doesn't give you cancer, it is cancer
 	return (TOXLOSS|OXYLOSS)
 
 
@@ -650,20 +650,12 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		icon_state = "[param_color]_vape"
 		item_state = "[param_color]_vape"
 
+//The reagent thing was here
 /obj/item/clothing/mask/vape/attackby(obj/item/O, mob/user, params)
-	if(istype(O, /obj/item/weapon/reagent_containers/))
-		if(reagents.total_volume < chem_volume)
-			if(O.reagents.total_volume > 0)
-				O.reagents.trans_to(src,25)
-				user << "<span class='notice'>You add the contents of [O] to the [src].</span>"
-			else
-				user << "<span class='warning'>The [O] is empty!</span>"
-		else
-			user << "<span class='warning'>[src] can't hold anymore reagents!</span>"
-
 	if(istype(O, /obj/item/weapon/screwdriver))
 		if(!screw)
 			screw = 1
+			flags |= OPENCONTAINER
 			user << "<span class='notice'>You open the cap on the [src].</span>"
 			if(super & !emagged)
 				var/image/I = (image(icon, "vapeopen_med"))
@@ -676,6 +668,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 				overlays += I
 		else
 			screw = 0
+			flags &= ~OPENCONTAINER
 			user << "<span class='notice'>You close the cap on the [src].</span>"
 			overlays.Cut()
 
@@ -742,9 +735,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		if(iscarbon(loc))
 			var/mob/living/carbon/C = loc
 			if (src == C.wear_mask) // if it's in the human/monkey mouth, transfer reagents to the mob
-				var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1) //this will react instantly, making them a little more dangerous than cigarettes
-				reagents.reaction(C, INGEST, fraction)
-				reagents.trans_to(C, REAGENTS_METABOLISM)
+				if(prob(25)) //Slightly more reactive than cigarettes, but less than it was before
+					var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
+					reagents.reaction(C, INGEST, fraction)
+					reagents.trans_to(C, REAGENTS_METABOLISM)
 				if(reagents.get_reagent_amount("welding_fuel"))
 					//HOT STUFF
 					C.fire_stacks = 2
@@ -779,16 +773,26 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 	if(super && vapetime > 3)//Time to start puffing those fat vapes, yo.
 		var/datum/effect_system/smoke_spread/chem/s = new
-		s.set_up(reagents, 1, loc, silent=TRUE)
+		s.set_up(reagents, 0, loc, silent=TRUE)
 		s.start()
 		vapetime = 0
+		if(prob(3))//Chance added to super vape pens too
+			playsound(get_turf(src), 'sound/effects/pop_expl.ogg', 50, 0)
+			M.apply_damage(15, BURN, "head") //Less damage
+			M.unEquip(src, 1)
+			M.Weaken(15, 1, 0)
+			qdel(src)
+			var/datum/effect_system/spark_spread/sp = new /datum/effect_system/spark_spread
+			sp.set_up(5, 1, src)
+			sp.start()
+			M << "<span class='userdanger'>The [name] suddenly explodes in your mouth!</span>"
 
 	if(emagged && vapetime > 3)
 		var/datum/effect_system/smoke_spread/chem/s = new
-		s.set_up(reagents, 4, loc, silent=TRUE)
+		s.set_up(reagents, 3, loc, silent=TRUE)
 		s.start()
 		vapetime = 0
-		if(prob(5))//small chance for the vape to break and deal damage if it's emagged
+		if(prob(8))//small chance for the vape to break and deal damage if it's emagged
 			playsound(get_turf(src), 'sound/effects/pop_expl.ogg', 50, 0)
 			M.apply_damage(20, BURN, "head")
 			M.unEquip(src, 1)
