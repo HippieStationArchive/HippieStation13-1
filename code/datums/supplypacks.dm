@@ -692,9 +692,10 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 					/obj/item/organ/internal/chemgland,
 					/obj/item/organ/internal/chemgland,
 					/obj/item/organ/internal/chemgland)
-	cost = 35
-	containertype = /obj/structure/closet/crate/freezer
+	cost = 55
+	containertype = /obj/structure/closet/crate/secure
 	containername = "experimental organ crate"
+	access = access_cmo
 
 /datum/supply_packs/medical/iv_drip
 	name = "IV Drip Crate"
