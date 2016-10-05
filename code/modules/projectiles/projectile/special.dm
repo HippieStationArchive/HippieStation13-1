@@ -201,8 +201,8 @@ obj/item/projectile/kinetic/New()
 	name = "plasma blast"
 	icon_state = "plasmacutter"
 	damage_type = BRUTE
-	damage = 5
-	range = 3
+	damage = 15
+	range = 6
 
 /obj/item/projectile/plasma/New()
 	var/turf/proj_turf = get_turf(src)
@@ -223,10 +223,13 @@ obj/item/projectile/kinetic/New()
 		M.gets_drilled(firer)
 		range = max(range - 1, 1)
 		return -1
+	if(isliving(target) && blocked = 0)
+		var/mob/M = target
+		M.add_reagent("plasma", pick(1,5))
 
 /obj/item/projectile/plasma/adv
-	range = 5
+	range = 7
 
 /obj/item/projectile/plasma/adv/mech
-	damage = 10
-	range = 6
+	damage = 30
+	range = 8
