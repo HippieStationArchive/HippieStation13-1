@@ -213,7 +213,7 @@ obj/item/projectile/kinetic/New()
 		var/pressure = environment.return_pressure()
 		if(pressure < 30)
 			name = "full strength plasma blast"
-			damage *= 3
+			damage *= 2
 	..()
 
 /obj/item/projectile/plasma/on_hit(atom/target)
@@ -223,13 +223,10 @@ obj/item/projectile/kinetic/New()
 		M.gets_drilled(firer)
 		range = max(range - 1, 1)
 		return -1
-	if(isliving(target) && blocked = 0)
-		var/mob/M = target
-		M.add_reagent("plasma", pick(1,5))
 
 /obj/item/projectile/plasma/adv
 	range = 7
 
 /obj/item/projectile/plasma/adv/mech
-	damage = 30
+	damage = 25
 	range = 8
