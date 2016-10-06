@@ -18,7 +18,7 @@
 	tools = list(/obj/item/weapon/gun/energy/plasmacutter, /obj/item/weapon/screwdriver, /obj/item/weapon/wirecutters)
 	time = 100
 	category = CAT_WEAPON
-
+	
 /datum/table_recipe/receiver
 	name = "Modular Receiver"
 	result = /obj/item/weaponcrafting/receiver
@@ -53,10 +53,8 @@
 	result = /obj/item/weapon/melee/baton/cattleprod
 	reqs = list(/obj/item/weapon/restraints/handcuffs/cable = 1,
 				/obj/item/stack/rods = 1,
-				/obj/item/weapon/wirecutters = 1,
-				/obj/item/weapon/stock_parts/cell = 1)
+				/obj/item/weapon/wirecutters = 1)
 	time = 80
-	parts = list(/obj/item/weapon/stock_parts/cell = 1)
 	category = CAT_WEAPON
 
 /datum/table_recipe/ed209
@@ -262,15 +260,16 @@
 	reqs = list(/obj/item/ammo_casing/minieball = 1,
 				/obj/item/stack/ducttape = 2,
 				/obj/item/weapon/paper = 1,
-				/datum/reagent/blackpowder = 15)
+				/datum/reagent/blackpowder = 5)
 	time = 300
 	category = CAT_AMMO
+
 
 /datum/table_recipe/minieball //for paper cartridge craftin'
 	name = "Minieball"
 	result = /obj/item/ammo_casing/minieball
 	tools = list(/obj/item/weapon/weldingtool)
-	reqs = list(/obj/item/stack/sheet/metal = 2)
+	reqs = list(/obj/item/stack/sheet/metal = 1)
 	time = 120
 	category = CAT_WEAPON
 
