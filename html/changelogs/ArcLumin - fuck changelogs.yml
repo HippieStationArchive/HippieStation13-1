@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes:
+  - tweak: "Makes oxygen the chem and nitrogen the chem cause thier respective gasses to spawn when splashed"
