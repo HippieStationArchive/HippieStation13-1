@@ -1,0 +1,6 @@
+author: QuarianCommando
+ 
+delete-after: True
+
+changes: 
+  - rscadd: "Added a verb to AI controlled alien drones, allowing players to morph into the humanoid drone type and granting access to all normal drone abilities."
