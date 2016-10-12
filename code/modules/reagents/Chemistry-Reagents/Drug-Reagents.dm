@@ -191,7 +191,7 @@
 			M.drop_item()
 	stun_timer = max(0, stun_timer - 0.5)
 	..()
-	M.adjustToxLoss(1)
+	M.adjustToxLoss(1.3)
 	M.adjustBrainLoss(pick(0.5, 0.6, 0.7, 0.8, 0.9, 1))
 	return
 
