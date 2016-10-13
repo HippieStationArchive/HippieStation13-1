@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - bugfix: "Makes welders able to be put inside lockers when they're off."
