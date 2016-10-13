@@ -1,0 +1,5 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - tweak: "Adds sharks, hivelords, goliaths, headcrabs, basilisks, fugus, and bats to hostile mob summons"
+  - bugfix: "Fixes conflicts where two eggs in one body would cause issues when hatching"
