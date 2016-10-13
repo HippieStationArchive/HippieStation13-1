@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - bugfix: "Fixes speed potions no able to be made via red slime extracts and water"
