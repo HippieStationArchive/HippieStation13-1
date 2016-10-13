@@ -21,7 +21,7 @@
 	var/datum/mind/origin
 	var/egg_lain = 0
 	speed = 0 //So you can actually fucking outrun the massive lynchsquad going after you
-	gold_core_spawnable = 0
+	gold_core_spawnable = 1
 	ventcrawl_speed = 5 //It's a tiny lil' piece of shit, he should be able to crawl into vents quick.
 
 /mob/living/simple_animal/hostile/headcrab/proc/Infect(mob/living/carbon/victim)
@@ -46,6 +46,9 @@
 		// Changeling egg can survive in aliens!
 		var/mob/living/carbon/C = target
 		if(C.stat == DEAD)
+			if(getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
+				src << "<span class='userdanger'>A foreign presence repels us from this body. Perhaps we should try to infest another?</span>"
+				return
 			Infect(target)
 			src << "<span class='userdanger'>With our egg laid, our death approaches rapidly...</span>"
 			spawn(100)
