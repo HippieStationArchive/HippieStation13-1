@@ -211,6 +211,8 @@
 		if(istype(W, cutting_tool))
 			if(istype(W, /obj/item/weapon/weldingtool))
 				var/obj/item/weapon/weldingtool/WT = W
+				if(!(WT.welding=1))
+					..()
 				if(!WT.remove_fuel(0,user))
 					return
 				user << "<span class='notice'>You begin cutting \the [src] apart...</span>"
