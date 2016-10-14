@@ -133,10 +133,7 @@
 		metabolization_rate = 2 * initial(metabolization_rate)
 		for(var/datum/reagent/R in M.reagents.reagent_list)
 			if(R.stun_timer >= R.stun_threshold)
-				if(R.stun_timer >= R.stun_threshold + 3)
-					R.stun_timer = R.stun_threshold - 1
-				else
-					R.stun_timer = 0
+				R.stun_timer = 0
 				M.AdjustParalysis(-R.stun_resist)
 				M.AdjustStunned(-R.stun_resist)
 				M.AdjustWeakened(-R.stun_resist)
