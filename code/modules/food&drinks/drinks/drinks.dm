@@ -169,7 +169,7 @@
 	icon_state = "beer"
 	list_reagents = list("beer" = 30)
 	
-/obj/item/weapon/reagent_containers/food/drinks/beer/sleep
+/obj/item/weapon/reagent_containers/food/drinks/beer/sleepy
 	list_reagents = list("beer2" = 30)
 
 /obj/item/weapon/reagent_containers/food/drinks/ale
