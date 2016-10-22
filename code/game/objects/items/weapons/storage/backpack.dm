@@ -274,6 +274,7 @@
 	w_class = 2 //Can fit in your ass.
 	max_combined_w_class = 15
 	level = 1
+	embed_chance = 1 //This is a meme
 	cant_hold = list(/obj/item/weapon/storage/backpack/satchel_flat) //muh recursive backpacks
 
 /obj/item/weapon/storage/backpack/satchel_flat/hide(var/intact)
