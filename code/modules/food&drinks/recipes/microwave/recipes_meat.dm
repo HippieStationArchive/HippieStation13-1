@@ -145,7 +145,7 @@
 /datum/recipe/cornedbeef
 	reagents = list("sodiumchloride" = 5)
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/cabbage,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/cabbage,
 	)
@@ -154,7 +154,7 @@
 /datum/recipe/meatsteak
 	reagents = list("sodiumchloride" = 1, "blackpepper" = 1)
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/meat/steak/plain/human
 
@@ -179,6 +179,6 @@
 /datum/recipe/sausage
 	items = list(
 		/obj/item/weapon/reagent_containers/food/snacks/faggot,
-		/obj/item/weapon/reagent_containers/food/snacks/meat,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/sausage

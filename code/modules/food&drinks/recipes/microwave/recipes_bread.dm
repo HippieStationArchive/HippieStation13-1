@@ -7,18 +7,6 @@
 	reagents = list("flour" = 15)
 	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/plain
 
-/datum/recipe/bread/meat
-	reagents = list("flour" = 15)
-	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
-		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
-		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
-		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
-		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
-		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
-	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/meat
-
 /datum/recipe/bread/xenomeat
 	reagents = list("flour" = 15)
 	items = list(
@@ -42,6 +30,19 @@
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/spidermeat
+
+//Generic meat bread, keep this at the end.
+/datum/recipe/bread/meat
+	reagents = list("flour" = 15)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
+		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
+		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
+		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/store/bread/meat
 
 /datum/recipe/bread/banana
 	reagents = list("milk" = 5, "flour" = 15)

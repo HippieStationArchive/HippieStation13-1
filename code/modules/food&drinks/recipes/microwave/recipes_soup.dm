@@ -37,7 +37,7 @@
 
 /datum/recipe/soup/hotchili
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/chili,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/tomato,
 	)

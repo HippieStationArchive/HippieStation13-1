@@ -187,9 +187,9 @@
 /datum/recipe/burger/bigbite
 	reagents = list("flour" = 5)
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat,
-		/obj/item/weapon/reagent_containers/food/snacks/meat,
-		/obj/item/weapon/reagent_containers/food/snacks/meat,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/burger/bigbite
 

@@ -15,9 +15,9 @@
 /datum/recipe/pizza/meat
 	reagents = list("flour" = 10)
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat,
-		/obj/item/weapon/reagent_containers/food/snacks/meat,
-		/obj/item/weapon/reagent_containers/food/snacks/meat,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
 		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/tomato,
 	)
