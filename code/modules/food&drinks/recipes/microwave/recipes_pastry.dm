@@ -52,8 +52,8 @@
 /datum/recipe/waffles/soylentgreen
 	reagents = list("flour" = 15)
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
-		/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/slab,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/soylentgreen
 
