@@ -168,7 +168,7 @@
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
 	M.Jitter(2)
-	M.adjustToxLoss(0.6*REM)
+	M.adjustToxLoss(0.3*REM)
 	M.adjustStaminaLoss(-3)
 	M.sleeping = max(0,M.sleeping - 2)
 	if(prob(5))
@@ -191,7 +191,7 @@
 			M.drop_item()
 	stun_timer = max(0, stun_timer - 0.5)
 	..()
-	M.adjustToxLoss(1)
+	M.adjustToxLoss(1.3)
 	M.adjustBrainLoss(pick(0.5, 0.6, 0.7, 0.8, 0.9, 1))
 	return
 
@@ -424,12 +424,13 @@
 	description = "Amps you up and gets you going, fixes all stamina damage you might have but can cause toxin and oxygen damage.."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
+	speedboost = VERY_FAST + FAST
 
 /datum/reagent/drug/aranesp/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
-	M.adjustStaminaLoss(-18)
+	M.setStaminaLoss(0)
 	M.adjustToxLoss(0.5)
 	if(prob(50))
 		M.losebreath++

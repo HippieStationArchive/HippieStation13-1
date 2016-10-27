@@ -468,7 +468,7 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 	addiction_threshold = 30
-	stun_threshold = 6
+	stun_threshold = 8
 	stun_resist = 4
 	speedboost = FAST
 
@@ -573,17 +573,15 @@
 		N.hal_screwyhud = 5
 	for(var/datum/reagent/R in M.reagents.reagent_list)
 		R.stun_timer = max(0, stun_timer - 0.5)
-	if(current_cycle >= 10)
-		M.drowsyness += 1
-		if(M.health <= 30)
-			M.sleeping += 1
+	if(current_cycle >= 10 && M.health <= 30)
+		M.sleeping += 1
 	..()
 	return
 
 /datum/reagent/medicine/morphine/on_mob_delete(mob/living/M)
 	M.drowsyness += 10
 	if(M.health <= 30)
-		M.sleeping += 5
+		M.sleeping += 10
 	if(iscarbon(M))
 		var/mob/living/carbon/N = M
 		N.hal_screwyhud = 0
