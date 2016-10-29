@@ -580,7 +580,7 @@
 	required_catalysts = list ("enzyme" = 5)
 	result_amount = 10
 
-/datum/chemical_reaction/drink/laugther
+/datum/chemical_reaction/drink/laughter
 	name = "Laughter"
 	id = "Cannedlaughter"
 	result = "laughter"
