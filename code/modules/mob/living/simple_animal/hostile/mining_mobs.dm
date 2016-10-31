@@ -14,6 +14,7 @@
 	var/icon_aggro = null // for swapping to when we get aggressive
 	see_in_dark = 8
 	see_invisible = SEE_INVISIBLE_MINIMUM
+	gold_core_spawnable = 1
 
 /mob/living/simple_animal/hostile/asteroid/Aggro()
 	..()
@@ -145,6 +146,7 @@
 	var/alerted = 0
 	var/ore_eaten = 1
 	var/chase_time = 100
+	gold_core_spawnable = 2
 
 /mob/living/simple_animal/hostile/asteroid/goldgrub/GiveTarget(new_target)
 	target = new_target
@@ -331,6 +333,7 @@
 	throw_message = "falls right through the strange body of the"
 	environment_smash = 0
 	pass_flags = PASSTABLE
+	gold_core_spawnable = 0
 
 /mob/living/simple_animal/hostile/asteroid/hivelordbrood/New()
 	..()
