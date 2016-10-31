@@ -143,8 +143,15 @@ var/list/uplink_items = list()
 	cost = 10
 	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist")
 
-//SERVICE DIVISION
+//CHEMISTRY
+/datum/uplink_item/job_specific/syndipyro
+	name = "Syndicate Pyrotechnics"
+	desc = "A box of chemical weapons grade reagents approved by the Syndicate"
+	item = /obj/item/weapon/storage/box/syndie_kit/syndipyro
+	cost = 8
+	jobs = list("Chemist")
 
+//SERVICE DIVISION
 /datum/uplink_item/job_specific/chainsaw
 	name = "Chainsaw"
 	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack."
