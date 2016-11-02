@@ -329,7 +329,7 @@
 		playsound(loc, 'sound/effects/glass_step.ogg', 50, 1)
 		if(ishuman(AM))
 			var/mob/living/carbon/human/H = AM
-			if(!(PIERCEIMMUNE in H.dna.species.specflags))
+			if(!(PIERCEIMMUNE in H.dna.species.specflags) || (isobj(usr.buckled) && !usr.buckled.anchored))
 				var/check = H.lying ? H.w_uniform : H.shoes
 				if(!check)
 					var/obj/item/organ/limb/O = H.get_organ(pick("l_leg", "r_leg"))

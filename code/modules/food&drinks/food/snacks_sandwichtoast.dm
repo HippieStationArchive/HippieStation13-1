@@ -7,7 +7,6 @@
 	trash = /obj/item/trash/plate
 	bonus_reagents = list("nutriment" = 1, "vitamin" = 1)
 	list_reagents = list("nutriment" = 6, "vitamin" = 1)
-	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/toastedsandwich
 
 /obj/item/weapon/reagent_containers/food/snacks/toastedsandwich
 	name = "toasted sandwich"

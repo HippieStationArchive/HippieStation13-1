@@ -335,6 +335,7 @@
 				records.Remove(C)
 				if(active_record == C)
 					active_record = null
+				feedback_inc("medicalshit", 1) //so the feedback will track how many people got cloned
 				menu = 1
 			else
 				temp = "[C.fields["name"]] => <font class='bad'>Initialisation failure.</font>"

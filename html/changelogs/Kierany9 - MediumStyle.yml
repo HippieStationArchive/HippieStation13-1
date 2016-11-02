@@ -1,0 +1,10 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - experiment: "Weapons deal full brute damage on prone targets and do not deal any stamina damage."
+  - tweak: "Fists now deal less stamina damage and more brute damage."
+  - rscadd: "You can now stomp people if you are wearing boots and they are prone. Stomping deals full brute damage instead of a mix of brute and stamina."
+  - rscadd: "Stomping with magboots that are on will perform a special attack that takes four seconds to wind up but deals a whopping 45 brute damage."
+  - tweak: "Syndciate magboots have reduced slowdown when active."

@@ -1,0 +1,6 @@
+author: Varium
+
+delete-after: True
+
+changes: 
+  - tweak: "Inflatable structures can no longer be stacked on eachother."

@@ -68,6 +68,7 @@ insert into SS13_admin_ranks (rank, flags) values ('Trial Admin',5638);
 insert into SS13_admin_ranks (rank, flags) values ('Badmin',5727);
 insert into SS13_admin_ranks (rank, flags) values ('Game Admin',8063);
 insert into SS13_admin_ranks (rank, flags) values ('Game Master',65535);
+insert into SS13_admin_ranks (rank, flags) values ('HeadAdmin',65535);
 insert into SS13_admin_ranks (rank, flags) values ('Host',65535);
 insert into SS13_admin_ranks (rank, flags) values ('Coder',5168);
 

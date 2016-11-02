@@ -215,13 +215,9 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 			src << "<b>To function, you are to drain the life essence from humans. This essence is a resource, as well as your health, and will power all of your abilities.</b>"
 			src << "<b><i>You do not remember anything of your past lives, nor will you remember anything about this one after your death.</i></b>"
 			src << "<b>Be sure to read the wiki page at http://wiki.hippiestation.com/index.php?title=Revenant to learn more.</b>"
-			var/datum/objective/revenant/objective = new
-			objective.owner = src.mind
-			src.mind.objectives += objective
+			var/datum/objective/revenant/objective = new(mind)
 			src << "<b>Objective #1</b>: [objective.explanation_text]"
-			var/datum/objective/revenantFluff/objective2 = new
-			objective2.owner = src.mind
-			src.mind.objectives += objective2
+			var/datum/objective/revenantFluff/objective2 = new(mind)
 			src.mind.name = name
 			real_name = name
 			src << "<b>Objective #2</b>: [objective2.explanation_text]"
@@ -297,7 +293,7 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 	dangerrating = 10
 	var/targetAmount = 100
 
-/datum/objective/revenant/New()
+/datum/objective/revenant/New(datum/mind/target, text, datum/mind/themind)
 	targetAmount = rand(200,500)
 	explanation_text = "Absorb [targetAmount] points of essence from humans."
 	..()
@@ -316,7 +312,7 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 /datum/objective/revenantFluff
 	dangerrating = 0
 
-/datum/objective/revenantFluff/New()
+/datum/objective/revenantFluff/New(datum/mind/target, text, datum/mind/themind)
 	var/list/explanationTexts = list("Attempt to make your presence unknown to the crew.", \
 									 "Collaborate with existing antagonists aboard the station to gain essence.", \
 									 "Remain nonlethal and only absorb bodies that have already died.", \

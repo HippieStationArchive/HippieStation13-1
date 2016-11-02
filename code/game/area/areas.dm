@@ -225,13 +225,33 @@
 					D.open()
 	return
 
+/area/proc/radalert()
+	if(src.name == "Space") //Radiation? PFF, SPACE GIVES NO SHIT
+		return
+	if (!(src.radstorm))
+		src.radstorm = 1
+		src.updateicon()
+		src.mouse_opacity = 0
+	return
+
+/area/proc/radclear()
+	if(src.name == "Space") //Space still shouldn't get it, but let's return anyways
+		return
+	if (src.radstorm)
+		src.radstorm = 0
+		src.updateicon()
+		src.mouse_opacity = 0
+	return
+
 /area/proc/updateicon()
-	if ((fire || eject || party) && (!requires_power||power_environ))//If it doesn't require power, can still activate this proc.
-		if(fire && !eject && !party)
+	if ((radstorm || fire || eject || party) && (!requires_power||power_environ))//If it doesn't require power, can still activate this proc.
+		if(radstorm) //Radiation alarms take priority
+			icon_state = "darkred"
+		else if(!radstorm && fire && !eject && !party)
 			icon_state = "blue"
-		else if(!fire && eject && !party)
+		else if(!radstorm && !fire && eject && !party)
 			icon_state = "red"
-		else if(party && !fire && !eject)
+		else if(!radstorm && party && !fire && !eject)
 			icon_state = "party"
 		else
 			icon_state = "blue-red"

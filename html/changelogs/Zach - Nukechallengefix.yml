@@ -1,0 +1,4 @@
+author: Zach
+delete-after: True
+changes:
+  - bugfix: "Fixes a bug allowing players to launch the pod and then declare war quickly during nukeops rounds."

@@ -797,7 +797,7 @@
 						if(20 to 40)			H.healths.icon_state = "health4"
 						if(0 to 20)				H.healths.icon_state = "health5"
 						else					H.healths.icon_state = "health6"
-	
+
 
 
 	if(H.staminas)
@@ -852,13 +852,13 @@
 		if(!H.has_right_hand(1))
 			if(!(locate(block) in R.overlays))
 				R.overlays += block
-		else
-			R.overlays = null
+		else if(locate(block) in R.overlays)
+			R.overlays -= block
 		if(!H.has_left_hand(1))
 			if(!(locate(block) in L.overlays))
 				L.overlays += block
-		else
-			L.overlays = null
+		else if(locate(block) in L.overlays)
+			L.overlays -= block
 
 	switch(H.nutrition)
 		if(NUTRITION_LEVEL_FULL to INFINITY)
@@ -915,69 +915,68 @@
 ////////////////
 
 /datum/species/proc/movement_delay(mob/living/carbon/human/H)
-	if(!(H.status_flags & IGNORESLOWDOWN))
 
-		var/grav = has_gravity(H)
-		var/hasjetpack = 0
-		if(!grav)
-			var/obj/item/weapon/tank/jetpack/J
-			var/obj/item/weapon/tank/jetpack/P
+	var/grav = has_gravity(H)
+	var/hasjetpack = 0
+	if(!grav)
+		var/obj/item/weapon/tank/jetpack/J
+		var/obj/item/weapon/tank/jetpack/P
 
-			if(istype(H.back, /obj/item/weapon/tank/jetpack))
-				J = H.back
-			if(istype(H.wear_suit,/obj/item/clothing/suit/space/hardsuit)) //copypasta but faster implementation currently
-				var/obj/item/clothing/suit/space/hardsuit/C = H.wear_suit
-				P = C.jetpack
-			if(J)
-				if(J.allow_thrust(0.01, H))
-					hasjetpack = 1
-			else if(P)
-				if(P.allow_thrust(0.01, H))
-					hasjetpack = 1
+		if(istype(H.back, /obj/item/weapon/tank/jetpack))
+			J = H.back
+		if(istype(H.wear_suit,/obj/item/clothing/suit/space/hardsuit)) //copypasta but faster implementation currently
+			var/obj/item/clothing/suit/space/hardsuit/C = H.wear_suit
+			P = C.jetpack
+		if(J)
+			if(J.allow_thrust(0.01, H))
+				hasjetpack = 1
+		else if(P)
+			if(P.allow_thrust(0.01, H))
+				hasjetpack = 1
 
-			. = -1 - hasjetpack
+		. = -1 - hasjetpack
 
-		if(grav || !hasjetpack)
-			var/health_deficiency = (100 - H.health + H.staminaloss)
-			if(health_deficiency >= 40)
-				. += (health_deficiency / 25)
+	if((grav || !hasjetpack) && !(H.status_flags & IGNORESLOWDOWN))
+		var/health_deficiency = (100 - H.health + H.staminaloss)
+		if(health_deficiency >= 40)
+			. += (health_deficiency / 25)
 
-			var/hungry = (500 - H.nutrition) / 5	//So overeat would be 100 and default level would be 80
-			if(hungry >= 70)
-				. += hungry / 50
+		var/hungry = (500 - H.nutrition) / 5	//So overeat would be 100 and default level would be 80
+		if(hungry >= 70)
+			. += hungry / 50
 
-			if(H.wear_suit)
-				. += H.wear_suit:update_slowdown(H)
-			if(H.shoes)
-				. += H.shoes:update_slowdown(H)
-			if(H.back)
-				. += H.back:update_slowdown(H)
-			if(H.l_hand)
-				. += H.l_hand:update_slowdown(H)
-			if(H.r_hand)
-				. += H.r_hand:update_slowdown(H)
+		if(H.wear_suit)
+			. += H.wear_suit:update_slowdown(H)
+		if(H.shoes)
+			. += H.shoes:update_slowdown(H)
+		if(H.back)
+			. += H.back:update_slowdown(H)
+		if(H.l_hand)
+			. += H.l_hand:update_slowdown(H)
+		if(H.r_hand)
+			. += H.r_hand:update_slowdown(H)
 
-			if((H.disabilities & FAT))
-				. += 1.5
-			if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
-				. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
+		if((H.disabilities & FAT))
+			. += 1.5
+		if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT)
+			. += (BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR
 
-			if(H.get_num_legs(1) < 2)
-				. += 2
+		if(H.get_num_legs(1) < 2)
+			. += 2
 
-			if(H.lying) //This is for crawling
-				. += 10
-				if(H.status_flags & NEARCRIT)//Can crawl only every 3 seconds if nearcrit, otherwise it's 1
-					. += 20
+		if(H.lying) //This is for crawling
+			. += 10
+			if(H.status_flags & NEARCRIT)//Can crawl only every 3 seconds if nearcrit, otherwise it's 1
+				. += 20
 
-			. += speedmod
+		. += speedmod
 
-		if(grav)
-			if(H.status_flags & GOTTAGOFAST)
-				. -= 1
+	if(grav)
+		if(H.status_flags & GOTTAGOFAST)
+			. -= 1
 
-			if(H.status_flags & GOTTAGOREALLYFAST)
-				. -= 2
+		if(H.status_flags & GOTTAGOREALLYFAST)
+			. -= 2
 
 //////////////////
 // ATTACK PROCS //
@@ -1020,17 +1019,38 @@
 			if(attacker_style && attacker_style.harm_act(M,H))
 				return 1
 			else
-				M.do_attack_animation(H)
-
 				var/atk_verb = M.dna.species.attack_verb
-				if(H.lying)
-					atk_verb = "kick"
-
 				var/hitcheck = rand(0, 9)
-				var/damage = pick(0.5, 1, 1.5, 2) + M.dna.species.punchmod
-
+				var/damage = rand(0,4) + pick(0.5, 1) + M.dna.species.punchmod
+				var/dmgtype = STAMINA
 				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/armor_block = H.run_armor_check(affecting, "melee")
+				
+				if(H.lying)
+					atk_verb = "kick"
+					if(M.shoes)
+						var/obj/item/clothing/shoes/S = M.shoes
+						if(S.stomp > 0)
+							atk_verb = "stomp"
+							dmgtype = BRUTE
+						if(S.stomp == 2)
+							M << "<span class='danger'>You raise your [S.name] over [H], ready to stomp them.</span>"
+							M.changeNext_move(45)
+							if(do_mob(M, H, 40) && H.lying)
+								playsound(H, 'sound/misc/splort.ogg', 70, 1)
+								H.emote("scream")
+								H.apply_damage(45, BRUTE, affecting, armor_block)
+								H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H] with their [S.name]!</span>", \
+												"<span class='userdanger'>[M] has [atk_verb]ed [H] with their [S.name]!</span>")
+							else
+								H.visible_message("<span class='danger'>[M] has attempted to [atk_verb] [H] with [S]!</span>")
+								H.changeNext_move(CLICK_CD_MELEE)
+							playsound(H, 'sound/effects/meteorimpact.ogg', 70, 1)
+							M.do_attack_animation(H)
+							add_logs(M, H, "stomped")
+							return 1
+
+				M.do_attack_animation(H)
 				var/dmgcheck = apply_damage(damage, BRUTE, affecting, armor_block, H)
 
 				if(hitcheck == 0 || !dmgcheck)
@@ -1039,11 +1059,10 @@
 					return 0
 
 				playsound(H.loc, get_sfx(M.dna.species.attack_sound), 25, 1, -1)
-				H.apply_damage(damage*3+2, STAMINA, affecting, armor_block)
+				H.apply_damage(damage+2, dmgtype, affecting, armor_block)
 				H.visible_message("<span class='danger'>[M] has [atk_verb]ed [H]!</span>", \
 								"<span class='userdanger'>[M] has [atk_verb]ed [H]!</span>")
 
-				add_logs(M, H, "punched")
 				if((H.stat != DEAD) && hitcheck >= 9)
 					H.visible_message("<span class='danger'>[M] has weakened [H]!</span>", \
 									"<span class='userdanger'>[M] has weakened [H]!</span>")
@@ -1056,6 +1075,7 @@
 					if(U.knock_out_teeth(get_dir(M, H), round(rand(28, 38) * ((hitcheck*2)/100))))
 						H.visible_message("<span class='danger'>[H]'s teeth sail off in an arc!</span>", \
 										"<span class='userdanger'>[H]'s teeth sail off in an arc!</span>")
+				add_logs(M, H, "punched")
 		if("disarm")
 			if(attacker_style && attacker_style.disarm_act(M,H))
 				return 1
@@ -1210,9 +1230,12 @@
 
 	var/armor_block = H.run_armor_check(affecting, "melee", "<span class='notice'>Your armor has protected your [hit_area].</span>", "<span class='notice'>Your armor has softened a hit to your [hit_area].</span>",I.armour_penetration)
 	var/Iforce = I.force //to avoid runtimes on the forcesay checks at the bottom. Some items might delete themselves if you drop them. (stunning yourself, ninja swords)
+	var/dmgtype = STAMINA
+	if(H.lying)
+		dmgtype = I.damtype
 	var/dmgcheck = apply_damage((1-I.stamina_percentage)*I.force, I.damtype, affecting, armor_block, H)
-	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, STAMINA, affecting, armor_block, H)
-	
+	var/staminadmgcheck = apply_damage(I.stamina_percentage*I.force, dmgtype, affecting, armor_block, H)
+
 	if(!dmgcheck && !staminadmgcheck && I.force != 0 || !affecting) //Something went wrong. Maybe the limb is missing?
 		H.visible_message("<span class='danger'>[user] has attempted to attack [H] with [I]!</span>", \
 						"<span class='userdanger'>[user] has attempted to attack [H] with [I]!</span>")

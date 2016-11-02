@@ -1,0 +1,14 @@
+# Your name.  
+
+author: Zach
+
+
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+
+delete-after: True
+
+
+changes: 
+
+  - tweak: "Increases breathloss of choking from 1 to 5 per tick. Makes choking more viable."

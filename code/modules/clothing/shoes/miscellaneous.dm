@@ -42,6 +42,7 @@
 	armor = list(melee = 25, bullet = 25, laser = 25, energy = 25, bomb = 50, bio = 10, rad = 0)
 	strip_delay = 70
 	burn_state = -1 //Won't burn in fires
+	stomp = 1
 
 /obj/item/clothing/shoes/combat/swat //overpowered boots for death squads
 	name = "\improper SWAT boots"
@@ -128,7 +129,12 @@
 	item_color = "hosred"
 	strip_delay = 50
 	put_on_delay = 50
+	cold_protection = FEET //Regular black shoes have this, workboots should too.
+	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
+	heat_protection = FEET
+	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
 	burn_state = -1 //Won't burn in fires
+	stomp = 1
 
 /obj/item/clothing/shoes/winterboots
 	name = "winter boots"
@@ -147,6 +153,10 @@
 	item_state = "jackboots"
 	strip_delay = 40
 	put_on_delay = 40
+	cold_protection = FEET //Regular black shoes have this, workboots should too.
+	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
+	heat_protection = FEET
+	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
 	burn_state = -1
 
 /obj/item/clothing/shoes/cult
@@ -197,3 +207,10 @@
 	icon_state = "magboots-old1"
 	item_state = "magboots-old1"
 	slowdown = -1
+
+/obj/item/clothing/shoes/dio
+	name = "DIO's ring shoes"
+	desc = "These help you stand."
+	icon_state = "DIO"
+	item_color = "DIO"
+	item_state = "DIO"

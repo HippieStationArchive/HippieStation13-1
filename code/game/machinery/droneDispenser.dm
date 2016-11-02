@@ -22,7 +22,7 @@
 
 	var/droneMadeRecently = 0
 	var/cooldownTime = 1800 //3 minutes
-	var/dispense_type = /obj/item/drone_shell //The item the dispenser will create
+	var/dispense_type = /obj/item/drone_shell/safedrone //The item the dispenser will create
 
 	var/work_sound = 'sound/items/rped.ogg'
 	var/create_sound = 'sound/items/Deconstruct.ogg'

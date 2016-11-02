@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - bugfix: "Fixes rollerbeds and wheelchairs still damaging people without shoes when they roll over glass shards"

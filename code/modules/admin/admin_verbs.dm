@@ -24,6 +24,12 @@ var/list/admin_verbs_default = list(
 	/client/proc/stop_sounds
 	)
 var/list/admin_verbs_admin = list(
+	/client/proc/resolvehandlingahelp,
+	/client/proc/listhandlingahelp,
+	/datum/adminticket/proc/listunresolvedtickets,
+	/datum/adminticket/proc/listtickets,
+	/client/proc/admin_disable_shuttle,
+	/client/proc/admin_enable_shuttle,
 	/client/proc/player_panel_new,		/*shows an interface for all players, with links to various panels*/
 	/client/proc/invisimin,				/*allows our mob to go invisible/visible*/
 //	/datum/admins/proc/show_traitor_panel,	/*interface which shows a mob's mind*/ -Removed due to rare practical use. Moved to debug verbs ~Errorage
@@ -67,7 +73,8 @@ var/list/admin_verbs_admin = list(
 	/client/proc/toggle_antag_hud, 	/*toggle display of the admin antag hud*/
 	/client/proc/fill_breach,
 	/client/proc/reset_atmos,
-	/client/proc/aooc /*sends a message to all antags on the server*/
+	/client/proc/aooc, /*sends a message to all antags on the server*/
+	/client/proc/cleanBombs /*cleans the bombs that the mob has touched*/
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
@@ -151,7 +158,8 @@ var/list/admin_verbs_possess = list(
 	)
 var/list/admin_verbs_permissions = list(
 	/client/proc/edit_admin_permissions,
-	/client/proc/create_poll
+	/client/proc/create_poll,
+	/client/proc/whitelist_cid
 	)
 var/list/admin_verbs_rejuv = list(
 	/client/proc/respawn_character

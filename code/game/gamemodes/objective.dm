@@ -7,9 +7,24 @@
 	var/dangerrating = 0				//How hard the objective is, essentially. Used for dishing out objectives and checking overall victory.
 	var/martyr_compatible = 0			//If the objective is compatible with martyr objective, i.e. if you can still do it while dead.
 
-/datum/objective/New(var/text)
+/datum/objective/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	if(target)
+		src.target = target
 	if(text)
 		explanation_text = text
+	if(themind)
+		owner = themind
+		owner.objectives += src
+
+/datum/objective/proc/select_target()//for adminobjadd
+	var/datum/mind/targ = input("Select a target if needed, otherwise hit cancel:", "Objective target") as null|anything in ticker.minds
+	if(targ)
+		target = targ
+	return
+
+/datum/objective/proc/requirements() //proc used for requirements,incase the objective can only exist if something else does.
+	return 1
 
 /datum/objective/proc/check_completion()
 	return completed
@@ -89,6 +104,17 @@
 /datum/objective/mutiny
 	var/target_role_type=0
 	martyr_compatible = 1
+	var/static/list/heads = list()
+
+/datum/objective/mutiny/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	if(!heads.len)
+		heads = ticker.mode.get_living_heads()
+
+/datum/objective/mutiny/select_target()
+	var/datum/mind/targ = input("Select a target if needed, otherwise hit cancel:", "Objective target") as null|anything in heads
+	if(targ)
+		target = targ
 
 /datum/objective/mutiny/find_target_by_role(role, role_type=0,invert=0)
 	if(!invert)
@@ -359,7 +385,7 @@
 /datum/objective/survive/check_completion()
 	if(!owner.current || owner.current.stat == DEAD || isbrain(owner.current))
 		return 0		//Brains no longer win survive objectives. --NEO
-	if(!is_special_character(owner.current)) //This fails borg'd traitors
+	if(!is_special_character(owner.current) && !isAI(owner.current)) //This fails borg'd traitors, does not fail traitor AIs
 		return 0
 	return 1
 
@@ -395,7 +421,7 @@ var/global/list/possible_items = list()
 /datum/objective/steal/get_target()
 	return steal_target
 
-/datum/objective/steal/New()
+/datum/objective/steal/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	if(!possible_items.len)//Only need to fill the list when it's needed.
 		init_subtypes(/datum/objective_item/steal,possible_items)
@@ -420,33 +446,47 @@ var/global/list/possible_items = list()
 		explanation_text = "Free objective"
 		return
 
-/datum/objective/steal/proc/select_target() //For admins setting objectives manually.
-	var/list/possible_items_all = possible_items+"custom"
+/datum/objective/steal/select_target() //For admins setting objectives manually.
+	var/list/possible_items_all = possible_items + "custom"
 	var/new_target = input("Select target:", "Objective target", steal_target) as null|anything in possible_items_all
-	if (!new_target) return
+	if(!new_target) return
 
-	if (new_target == "custom") //Can set custom items.
-		var/obj/item/custom_target = input("Select type:","Type") as null|anything in typesof(/obj/item)
+	if(new_target == "custom") //Can set custom items.
+		var/custom_target = input(usr, "Specify the obj type or write 'marked' if you have marked the target object:", "Choose a target") as text|null
 		if (!custom_target) return
-		var/tmp_obj = new custom_target
-		var/custom_name = tmp_obj:name
-		qdel(tmp_obj)
-		custom_name = stripped_input("Enter target name:", "Objective target", custom_name)
-		if (!custom_name) return
-		steal_target = custom_target
-		explanation_text = "Steal [custom_name]."
+		if(custom_target == "marked")
+			if(usr.client)
+				var/client/C = usr.client
+				if(C.holder.marked_datum && istype(C.holder.marked_datum, /obj/item))
+					steal_target = C.holder.marked_datum
+		else if(text2path(custom_target))
+			var/path = text2path(custom_target)
+			if(ispath(path, /obj/item))
+				steal_target = path
+		var/custom_name = ""
+		if(!steal_target)
+			return
+		if(ispath(steal_target))
+			custom_name = initial(steal_target.name)
+		else
+			custom_name = steal_target.name
+		explanation_text = "Steal[ispath(steal_target) ? " \a [custom_name]" : " the [custom_name]"]."
 
 	else
 		set_target(new_target)
 	return steal_target
 
 /datum/objective/steal/check_completion()
-	if(!steal_target)	return 1
+	if(!steal_target)	return 0
 	if(!isliving(owner.current))	return 0
 	var/list/all_items = owner.current.GetAllContents()	//this should get things in cheesewheels, books, etc.
 
 	for(var/obj/I in all_items) //Check for items
-		if(istype(I, steal_target))
+		if(!ispath(steal_target))//if steal target's a marked item
+			var/obj/item/targ = steal_target
+			if(istype(I, targ.type))
+				return 1
+		if(istype(I, steal_target))//otherwise it's a path
 			if(targetinfo && targetinfo.check_special_completion(I))//Returns 1 by default. Items with special checks will return 1 if the conditions are fulfilled.
 				return 1
 			else //If there's no targetinfo, then that means it was a custom objective. At this point, we know you have the item, so return 1.
@@ -476,7 +516,7 @@ var/global/list/possible_items = list()
 var/global/list/possible_items_special = list()
 /datum/objective/steal/special //ninjas are so special they get their own subtype good for them
 
-/datum/objective/steal/special/New()
+/datum/objective/steal/special/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	if(!possible_items_special.len)
 		init_subtypes(/datum/objective_item/special,possible_items)
@@ -490,6 +530,12 @@ var/global/list/possible_items_special = list()
 /datum/objective/steal/exchange
 	dangerrating = 10
 	martyr_compatible = 0
+
+/datum/objective/steal/exchange/select_target()
+	var/fact = input(usr, "What faction should this guy be?", "Faction selecting") as anything in list("red", "blue")
+	var/targ = input(usr, "Who shall the target be?", "Target selecting") as null|anything in ticker.minds
+	set_faction(fact, targ)
+	return
 
 /datum/objective/steal/exchange/proc/set_faction(faction,otheragent)
 	target = otheragent
@@ -521,8 +567,46 @@ var/global/list/possible_items_special = list()
 	steal_target = targetinfo.targetitem
 
 
+/datum/objective/steal/disk
+	dangerrating = 15
+	martyr_compatible = 0
+	targetinfo = new/datum/objective_item/steal/nukedisc_special
+	steal_target = /obj/item/weapon/disk/nuclear
+	explanation_text = "Survive the round with the Nuclear Authentication Disk in your possession, or escape with more telecrystals than any other traitor. Holding the disk grants you one additional telecrystal per minute. Be warned, other traitors are also after the disk."
+
+/datum/objective/steal/disk/select_target()
+	return
+
+/datum/objective/steal/disk/check_completion()
+	var/obj/item/device/uplink/O = owner.find_syndicate_uplink()
+	if(!isliving(owner.current))	return 0
+	if(O)
+		var/leader = 1
+		var/turf/location = get_turf(owner.current)
+		for(var/mob/living/player in player_list)
+			if(player.mind)
+				if(player.mind.special_role && player.mind != owner)
+					if(player.stat != DEAD)
+						if(istype(player, /mob/living/silicon))
+							continue
+						if(player.onCentcom())
+							if(!istype(get_turf(player), /turf/simulated/floor/plasteel/shuttle/red))
+								var/obj/item/device/uplink/U = player.mind.find_syndicate_uplink()
+								if(O.uses < U.uses) // Checks to see if anybody has more TC than you and is also on centcom
+									leader = 0
+		if(leader == 1 && location.onCentcom() && !istype(location, /turf/simulated/floor/plasteel/shuttle/red)) // If you have more TC than anybody else and get to centcom, you greentext, otherwise it checks to see if you have the disk.
+			return 1
+	var/list/all_items = owner.current.GetAllContents()
+	for(var/obj/I in all_items)
+		if(istype(I, steal_target))
+			return 1
+	return 0
+
 /datum/objective/download
 	dangerrating = 10
+
+/datum/objective/download/select_target()
+	return gen_amount_goal()
 
 /datum/objective/download/proc/gen_amount_goal()
 	target_amount = rand(10,20)
@@ -559,6 +643,9 @@ var/global/list/possible_items_special = list()
 
 /datum/objective/capture
 	dangerrating = 10
+
+/datum/objective/capture/select_target()
+	return gen_amount_goal()
 
 /datum/objective/capture/proc/gen_amount_goal()
 		target_amount = rand(5,10)
@@ -600,6 +687,9 @@ var/global/list/possible_items_special = list()
 /datum/objective/absorb
 	dangerrating = 10
 
+/datum/objective/absorb/select_target()
+	return gen_amount_goal()
+
 /datum/objective/absorb/proc/gen_amount_goal(lowbound = 4, highbound = 6)
 	target_amount = rand (lowbound,highbound)
 	if (ticker)
@@ -629,6 +719,9 @@ var/global/list/possible_items_special = list()
 	dangerrating = 10
 	martyr_compatible = 1
 
+/datum/objective/destroy/select_target()
+	return find_target()
+
 /datum/objective/destroy/find_target()
 	var/list/possible_targets = active_ais(1)
 	var/mob/living/silicon/ai/target_ai = pick(possible_targets)
@@ -652,6 +745,9 @@ var/global/list/possible_items_special = list()
 
 /datum/objective/summon_guns
 	explanation_text = "Steal at least five guns!"
+
+/datum/objective/summon_guns/select_target()
+	return
 
 /datum/objective/summon_guns/check_completion()
 	if(!isliving(owner.current))	return 0
@@ -755,7 +851,7 @@ var/global/list/possible_items_special = list()
 		return
 
 
-/datum/objective/changeling_team_objective/impersonate_department/New(var/text)
+/datum/objective/changeling_team_objective/impersonate_department/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	if(command_staff_only)
 		get_heads()
@@ -838,4 +934,1065 @@ var/global/list/possible_items_special = list()
 	command_staff_only = TRUE
 
 
+
+//CREW OBJECTIVES
+//Divided in departments, there are medical objectives, science objectives, etcetera.
+//the var "objdone" is the total value of the objectives done. At roundend this value will show up how many researchers did their objectives. Must be declared
+//separately for each department.
+var/list/departments = list(/datum/objective/crew/research = "R&D", /datum/objective/crew/engineering = "Engineering", /datum/objective/crew/medical = "Medical", /datum/objective/crew/security = "Security", /datum/objective/crew/supply = "Supply", /datum/objective/crew/service = "Service", /datum/objective/crew/civilian = "Civilian")
+var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/crew/engineering = 0, /datum/objective/crew/medical = 0, /datum/objective/crew/security = 0, /datum/objective/crew/supply = 0, /datum/objective/crew/service = 0, /datum/objective/crew/civilian = 0)
+
+/datum/objective/crew
+	var/tracked = FALSE // if set to true,the objective will be checked every jobs subsystem fire() proc
+	var/mytag
+	var/jobs = "" //for objectives restricted to a job(ie research level to scientist, roboticists don't deal with that)(MUST BE A TEXT STRING,initial doesn't work on lists.
+
+/datum/objective/crew/select_target()
+	return
+
+/datum/objective/crew/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	update_explanation_text()
+	if(tracked)
+		trackedcrewobjs |= src
+
+/datum/objective/crew/check_completion(win = 0)
+	if(win)
+		var/deptpath
+		for(var/i in departments)
+			if(departments[i] == mytag)
+				deptpath = i
+		deptpoints[deptpath]++
+
+//RESEARCH
+/datum/objective/crew/research
+	mytag = "R&D"
+	jobs = "Research Director#Scientist#Roboticist"
+
+//------ Reach level X in research Y
+
+/datum/objective/crew/research/level
+	jobs = "Research Director#Scientist"
+	var/datum/tech/tech
+	var/wantedlevel
+
+/datum/objective/crew/research/level/New(datum/mind/target, text, datum/mind/themind)
+	tech = pick(typesof(/datum/tech) - /datum/tech)
+	wantedlevel = rand(3,6)
+	..()
+
+/datum/objective/crew/research/level/check_completion()
+	for(var/obj/machinery/r_n_d/server/S in machines)
+		if(S.disabled)
+			continue
+		var/datum/tech/servertech = locate(tech) in S.files.known_tech
+		if(servertech.level >= wantedlevel)
+			..(1)
+			return 1
+	return 0
+
+/datum/objective/crew/research/level/update_explanation_text()
+	..()
+	explanation_text = "Reach level [wantedlevel] in [initial(tech.name)]."
+
+//------ Get a special slime
+
+/datum/objective/crew/research/getslime
+	jobs = "Research Director#Scientist"
+	var/colorneeded
+
+/datum/objective/crew/research/getslime/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	colorneeded = pick("gold", "adamantine", "pink", "oil", "black")
+
+/datum/objective/crew/research/getslime/check_completion()
+	for(var/mob/living/simple_animal/slime/S in mob_list)
+		if(S.colour == colorneeded)
+			..(1)
+			return 1
+
+/datum/objective/crew/research/getslime/update_explanation_text()
+	..()
+	explanation_text = "Produce at least a single [colorneeded] slime."
+
+//------ Make telesci great again
+
+/datum/objective/crew/research/telesci
+	jobs = "Research Director#Scientist"
+
+/datum/objective/crew/research/telesci/check_completion()
+	var/obj/machinery/computer/telescience/T = locate() in machines
+	if(T && T.telepad)
+		..(1)
+		return 1
+
+/datum/objective/crew/research/telesci/update_explanation_text()
+	..()
+	explanation_text = "Make telescience great again! Build a functional telescience computer, linked to a telepad."
+
+//------ Make x bots of y type
+
+/datum/objective/crew/research/bots
+	jobs = "Research Director#Roboticist"
+	var/obj/machinery/bot/bottype
+	var/amt = 0
+
+/datum/objective/crew/research/bots/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	bottype = pick(typesof(/obj/machinery/bot) - /obj/machinery/bot/mulebot)
+	amt = rand(2,4)
+
+/datum/objective/crew/research/bots/check_completion()
+	var/botamt = 0
+	var/list/craftedbots = SSbot.processing - SSbot.roundstartbots
+	for(var/obj/machinery/bot/B in craftedbots)
+		if(istype(B, bottype))
+			botamt++
+	if(botamt >= amt)
+		..(1)
+		return 1
+
+/datum/objective/crew/research/bots/update_explanation_text()
+	..()
+	explanation_text = "Craft at least [amt] number of [initial(bottype.name)]s and ensure they survive till the shift ends. Roundstart ones don't count, so name them!"
+
+//------ Make x drones, so ghosts can fucking play too, it's a tragedy that there needs to be an objective to remember the roboticist about this
+
+/datum/objective/crew/research/drones
+	jobs = "Research Director#Roboticist"
+	var/amt = 0
+
+/datum/objective/crew/research/drones/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	amt = rand(10,15)
+
+/datum/objective/crew/research/drones/check_completion()
+	var/droneamt = 0
+	for(var/i in existing_shells)
+		droneamt++
+	for(var/mob/living/simple_animal/drone/D in living_mob_list)
+		droneamt++
+	if(droneamt >= amt)
+		..(1)
+		return 1
+
+/datum/objective/crew/research/drones/update_explanation_text()
+	..()
+	explanation_text = "Build at least [amt] drones, doesn't matter if active or not, but they must be kept intact."
+
+//------ Make x borgs and keep them alive till round end
+/datum/objective/crew/research/borgs
+	jobs = "Research Director#Roboticist"
+	var/amt
+
+/datum/objective/crew/research/borgs/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	amt = rand(2,3)
+
+/datum/objective/crew/research/borgs/check_completion()
+	for(var/mob/living/silicon/robot/R in living_mob_list)
+		if(R.stat != DEAD)
+			amt--
+	if(!amt)
+		..(1)
+		return 1
+
+/datum/objective/crew/research/borgs/update_explanation_text()
+	..()
+	explanation_text = "Have at least [amt] alive cyborgs at the end of the shift."
+
+//ENGINEERING
+/datum/objective/crew/engineering
+	mytag = "Engineering"
+	jobs = "Chief Engineer#Station Engineer#Atmospheric Technician"
+
+//------ Full smes
+
+/datum/objective/crew/engineering/fullsmes
+	jobs = "Chief Engineer#Station Engineer"
+	var/powerrequired = 0
+
+/datum/objective/crew/engineering/fullsmes/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	powerrequired = rand(7,12)
+
+/datum/objective/crew/engineering/fullsmes/check_completion()
+	for(var/obj/machinery/power/smes/S in machines)
+		if(S.z != 1)
+			continue
+		powerrequired -= S.charge
+		if(powerrequired <= 0)
+			powerrequired = 0
+			break
+	if(!powerrequired)
+		..(1)
+		return 1
+
+/datum/objective/crew/engineering/fullsmes/update_explanation_text()
+	..()
+	explanation_text = "Get the station's SMESes to a complessive charge of [powerrequired] millions of Watts. Keep in mind that each SMES can hold 3.3 millions of Watts."
+
+//------ Both engines on
+/datum/objective/crew/engineering/engines
+	jobs = "Chief Engineer#Station Engineer"
+	var/engines = 0
+
+/datum/objective/crew/engineering/engines/check_completion()
+	for(var/obj/singularity/sing in poi_list)
+		if(sing.energy >= 500) // stage 3
+			var/count = locate(/obj/machinery/field/containment) in ultra_range(30, sing, 1)
+			if(count)
+				engines++
+				break
+	for(var/obj/machinery/power/supermatter/sm in machines)
+		if(sm.has_been_powered && !sm.damage)
+			engines++
+			break
+	if(engines == 2)
+		..(1)
+		return 1
+
+/datum/objective/crew/engineering/engines/update_explanation_text()
+	..()
+	explanation_text = "Set both the singularity and the supermatter and keep them safe and contained till the shift's end."
+
+//------ Keep station in a decent state
+/datum/objective/crew/engineering/integrity
+
+/datum/objective/crew/engineering/integrity/check_completion()
+	var/datum/station_state/end_state = new /datum/station_state()
+	end_state.count()
+	var/station_integrity = min(round( 100 * start_state.score(end_state), 0.1), 100)
+	if(station_integrity >= 95)
+		..(1)
+		return 1
+
+/datum/objective/crew/engineering/integrity/update_explanation_text()
+	..()
+	explanation_text = "Ensure that the station's integrity is up to 95% when the shift ends."
+
+//------ Have no fire lit at round end
+/datum/objective/crew/engineering/nofire
+	jobs = "Chief Engineer#Atmospheric Technician"
+	var/obj/machinery/computer/station_alert/alert
+
+/datum/objective/crew/engineering/nofire/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	alert = new()
+
+/datum/objective/crew/engineering/nofire/check_completion()
+	var/list/fires = alert.alarms["Fire"]
+	if(!fires.len)
+		..(1)
+		return 1
+
+/datum/objective/crew/engineering/nofire/update_explanation_text()
+	..()
+	explanation_text = "Ensure that there's no fire anywhere when the shift ends.Use the station alert console in atmospherics to check for fire alarms."
+
+//------ Have all air alarms send no alert
+/datum/objective/crew/engineering/airalarm
+	jobs = "Chief Engineer#Atmospheric Technician"
+	var/obj/machinery/computer/atmos_alert/check // used for its alert list,
+
+/datum/objective/crew/engineering/airalarm/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	check = new()
+
+/datum/objective/crew/engineering/airalarm/check_completion()
+	if(!check.priority_alarms.len)
+		..(1)
+		return 1
+
+/datum/objective/crew/engineering/airalarm/update_explanation_text()
+	..()
+	explanation_text = "Have no priority alarms on the atmospheric alert console at shift end."
+
+//MEDICAL
+
+/datum/objective/crew/medical
+	mytag = "Medical"
+	jobs = "Chief Medical Officer#Medical Doctor#Chemist#Geneticist#Virologist"
+
+//------ Corpses shall go in the morgue
+
+/datum/objective/crew/medical/morgue
+	jobs = "Chief Medical Officer#Medical Doctor#Geneticist"
+
+/datum/objective/crew/medical/morgue/check_completion()
+	for(var/mob/living/carbon/human/H in mob_list)
+		if(H.stat == DEAD && H.z == 1)//only the station matters
+			if(H.loc)
+				if(H.loc.type == /obj/structure/bodycontainer/morgue)
+					continue
+				else
+					return 0
+	..(1)
+	return 1
+
+/datum/objective/crew/medical/morgue/update_explanation_text()
+	..()
+	explanation_text = "Have no corpses on the station outside morgues at shift end."
+
+//------ Survivor rate must be kept high
+
+/datum/objective/crew/medical/survivor
+	jobs = "Chief Medical Officer#Medical Doctor"
+	var/percneeded = 0
+
+/datum/objective/crew/medical/survivor/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	percneeded = rand(6,9)
+
+/datum/objective/crew/medical/survivor/check_completion()
+	var/num_survivors = 0
+	for(var/mob/Player in mob_list)
+		if(Player.mind && !isnewplayer(Player))
+			if(Player.stat != DEAD && !isbrain(Player))
+				num_survivors++
+	var/percentage = round((num_survivors/joined_player_list.len)*100, 0.1)
+	if(percentage >= percneeded*10)
+		..(1)
+		return 1
+
+/datum/objective/crew/medical/survivor/update_explanation_text()
+	..()
+	explanation_text = "Reach at least the [percneeded*10]% of survivors at shift end."
+
+//------ Revive at least x people with a defib
+/datum/objective/crew/medical/defib
+	jobs = "Chief Medical Officer#Medical Doctor"
+	var/peepsneeded = 0
+
+/datum/objective/crew/medical/defib/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	peepsneeded = rand(1,3)
+
+/datum/objective/crew/medical/defib/check_completion()
+	if(!owner)
+		return
+	var/list/fbdetails = details2list("medicalshit", " ", "|")
+	if(!(owner.key in fbdetails))
+		return
+	var/value = fbdetails[owner.key]
+	if(value)
+		if(value >= peepsneeded)
+			..(1)
+			return 1
+
+/datum/objective/crew/medical/defib/update_explanation_text()
+	..()
+	explanation_text = "Successfully defib at least [peepsneeded] people."
+
+//------ End the round with a particular superpower(Xray, hulk, telekinesis, cold resistance)
+
+/datum/objective/crew/medical/power
+	jobs = "Chief Medical Officer#Geneticist"
+	var/superpower
+
+/datum/objective/crew/medical/power/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	superpower = pick(HULK, XRAY, COLDRES, TK)
+
+/datum/objective/crew/medical/power/check_completion()
+	if(owner && owner.current)
+		var/mob/living/carbon/human/H = owner.current
+		if(istype(H))
+			if(H.dna && H.dna.check_mutation(superpower))
+				..(1)
+				return 1
+
+/datum/objective/crew/medical/power/update_explanation_text()
+	..()
+	explanation_text = "End the shift with [superpower]."
+
+//------ Clone at least x people
+/datum/objective/crew/medical/clone
+	jobs = "Chief Medical Officer#Medical Doctor#Geneticist"
+	var/peepstoclone = 0
+
+/datum/objective/crew/medical/clone/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	peepstoclone = rand(2,5)
+
+/datum/objective/crew/medical/clone/check_completion()
+	var/datum/feedback_variable/medicalfeedback = blackbox.find_feedback_datum("medicalshit")
+	var/peepscloned = medicalfeedback.get_value()
+	if(peepscloned >= peepstoclone)
+		..(1)
+		return 1
+
+/datum/objective/crew/medical/clone/update_explanation_text()
+	..()
+	explanation_text = "Clone at least [peepstoclone] people."
+
+//------ Make x amount of y healing chem
+/datum/objective/crew/medical/makechem
+	jobs = "Chief Medical Officer#Chemist"
+	var/amount = 0
+	var/chemid = ""
+	var/chemname = ""
+
+/datum/objective/crew/medical/makechem/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	amount = rand(10,20) * 100
+	var/list/blacklist = list(/datum/reagent/medicine, /datum/reagent/medicine/mine_salve, /datum/reagent/medicine/omnizine, /datum/reagent/medicine/stimulants, /datum/reagent/medicine/antitoxin, /datum/reagent/medicine/syndicate_nanites, /datum/reagent/medicine/dexalin) + typesof(/datum/reagent/medicine/adminordrazine)
+	var/list/possiblechems = typesof(/datum/reagent/medicine) - blacklist
+	var/forlooptime = rand(3,5)
+	for(var/i in 1 to forlooptime)
+		if(i != forlooptime)
+			var/datum/reagent/chempath = pick_n_take(possiblechems)
+			chemid += "[initial(chempath.id)]#"
+			chemname += "[initial(chempath.name)], "
+		else
+			var/datum/reagent/chempath = pick_n_take(possiblechems)
+			chemid += "[initial(chempath.id)]"
+			chemname += "[initial(chempath.name)]."
+
+/datum/objective/crew/medical/makechem/check_completion()
+	var/list/fbdetails = details2list("chemical_reaction", " ", "|")
+	var/list/chemlist = splittext(chemid, "#")
+	var/done = TRUE
+	for(var/i in chemlist)
+		if(i in fbdetails)
+			if(fbdetails[i] >= round(amount/chemlist.len))
+				continue
+			else
+				done = FALSE
+		else
+			done = FALSE
+	if(done)
+		..(1)
+		return 1
+
+/datum/objective/crew/medical/makechem/update_explanation_text()
+	..()
+	var/list/chemlist = splittext(chemid, "#")
+	explanation_text = "Make at least [round(amount/chemlist.len)] units of each chemical: [chemname]"
+
+//------ Have x chem in your bloodstream at round end, a must-have
+/datum/objective/crew/medical/havechem
+	jobs = "Chief Medical Officer#Chemist"
+	var/chemid
+	var/datum/reagent/chempath
+
+/datum/objective/crew/medical/havechem/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	var/list/blacklist = list(/datum/reagent/drug, /datum/reagent/drug/fartium, /datum/reagent/drug/changelingAdrenaline, /datum/reagent/drug/changelingAdrenaline2)
+	chempath = pick(typesof(/datum/reagent/drug) - blacklist)
+	chemid = initial(chempath.id)
+
+/datum/objective/crew/medical/havechem/check_completion()
+	if(owner && owner.current)
+		var/mob/living/L = owner.current
+		if(L.reagents)
+			if(L.reagents.has_reagent(chemid))
+				..(1)
+				return 1
+
+/datum/objective/crew/medical/havechem/update_explanation_text()
+	..()
+	explanation_text = "Have [initial(chempath.name)] in your bloodstream when the shift ends."
+
+//------ Have a bottle with x symptom in the virology smartfridge.
+/datum/objective/crew/medical/fridgesymp
+	jobs = "Chief Medical Officer#Virologist"
+	var/list/mergedcontents = list()
+	var/list/requiredsymptoms = list()
+
+/datum/objective/crew/medical/fridgesymp/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	var/list/possiblesymptoms = typesof(/datum/symptom) - /datum/symptom
+	for(var/i in 1 to rand(3,5))
+		requiredsymptoms += pick_n_take(possiblesymptoms)
+
+
+/datum/objective/crew/medical/fridgesymp/check_completion()
+	for(var/obj/machinery/smartfridge/chemistry/virology/V in machines)
+		mergedcontents += V.contents
+	for(var/obj/item/weapon/reagent_containers/glass/bottle/B in mergedcontents)
+		if(B.reagents)
+			for(var/datum/reagent/blood/bl in B.reagents.reagent_list)
+				var/list/virii = bl.data["viruses"]
+				for(var/datum/disease/advance/A in virii)
+					for(var/datum/symptom/S in A.symptoms)
+						if(is_type_in_list(S, requiredsymptoms))
+							requiredsymptoms -= S.type
+	if(!requiredsymptoms.len)
+		..(1)
+		return 1
+
+/datum/objective/crew/medical/fridgesymp/update_explanation_text()
+	..()
+	explanation_text = "Have the following symptoms anywhere inside your Virology Smartfridge:"
+	for(var/i in 1 to requiredsymptoms.len)
+		var/datum/symptom/symppath = requiredsymptoms[i]
+		explanation_text += " [initial(symppath.name)]"
+		if(i != requiredsymptoms.len)
+			explanation_text += ", "
+
+//SECURITY
+/datum/objective/crew/security
+	mytag = "Security"
+	jobs = "Head of Security#Warden#Detective#Security Officer"
+
+//------ Keep the armory guns in their locker
+/datum/objective/crew/security/gunsinarmory
+	jobs = "Head of Security#Warden"
+	var/egunamt = 0
+	var/laseramt = 0
+	var/shotgunamt = 0
+	var/ionrifle = 0
+	var/ablative = 0
+
+/datum/objective/crew/security/gunsinarmory/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	egunamt = rand(1,3)
+	laseramt = rand(1,3)
+	shotgunamt = rand(1,4)
+	ionrifle = rand(0,1)
+	ablative = rand(0,1)
+
+/datum/objective/crew/security/gunsinarmory/check_completion()
+	var/area/ai_monitored/security/armory/S
+	for(var/area/A in world)
+		if(istype(A, /area/ai_monitored/security/armory))
+			S = A
+			break
+	var/list/contents2check = area_contents(S)
+	var/list/lockerscontents = list()
+	var/completed = FALSE
+	for(var/atom/AM in contents2check)
+		if(istype(AM, /obj/structure/closet))
+			lockerscontents += AM.contents
+	for(var/atom/ATM in lockerscontents)
+		switch(ATM.type)
+			if(/obj/item/weapon/gun/energy/gun)
+				egunamt--
+			if(/obj/item/weapon/gun/energy/laser)
+				laseramt--
+			if(/obj/item/weapon/gun/projectile/shotgun/riot)
+				shotgunamt--
+			if(/obj/item/weapon/gun/energy/ionrifle)
+				ionrifle--
+			if(/obj/item/clothing/suit/armor/laserproof)
+				ablative--
+			else
+				continue
+		if((egunamt <= 0) && (laseramt <= 0) && (shotgunamt <= 0) &&  (ionrifle <= 0) && (ablative <= 0))
+			completed = TRUE
+			break //lil lag reducer
+	if(!completed)
+		for(var/atom/ATOM in contents2check)//usually the guns are in the locker,if not let's check the entire area
+			switch(ATOM.type)
+				if(/obj/item/weapon/gun/energy/gun)
+					egunamt--
+				if(/obj/item/weapon/gun/energy/laser)
+					laseramt--
+				if(/obj/item/weapon/gun/projectile/shotgun/riot)
+					shotgunamt--
+				if(/obj/item/weapon/gun/energy/ionrifle)
+					ionrifle--
+				if(/obj/item/clothing/suit/armor/laserproof)
+					ablative--
+				else
+					continue
+			if((egunamt <= 0) && (laseramt <= 0) && (shotgunamt <= 0) &&  (ionrifle <= 0) && (ablative <= 0))
+				completed = TRUE
+				break //lil lag reducer
+	if(completed)
+		..(1)
+		return 1
+
+/datum/objective/crew/security/gunsinarmory/update_explanation_text()
+	..()
+	explanation_text = "Have [egunamt] energy guns, [laseramt] laser guns[(ionrifle || ablative) ? "," : " and"] [shotgunamt] riot shotguns[ablative ? "," : " and"] [ionrifle ? "an ion rifle" : ""][ablative ? " and an ablative armor vest" : ""] in the armory when the shift ends."
+
+//------ Get an arrested antag to centcom
+/datum/objective/crew/security/arrestantag
+
+/datum/objective/crew/security/arrestantag/check_completion()
+	var/area/shuttle/escape/E
+	for(var/area/A in world)
+		if(istype(A, /area/shuttle/escape))
+			E = A
+			break
+	for(var/turf/simulated/floor/plasteel/shuttle/red/R in area_contents(E))
+		for(var/mob/living/carbon/human/H in R)
+			if(H.mind)
+				if(H.mind.special_role)
+					..(1)
+					return 1
+
+/datum/objective/crew/security/arrestantag/update_explanation_text()
+	..()
+	explanation_text = "Have at least one human antagonist in the shuttle brig when the shift ends."
+
+//------ Be sure your buddy escapes alive!
+/datum/objective/crew/security/buddy
+	jobs = "Security Officer"
+	var/static/list/buddylist = list()//officer1 = officer2,  officer3 = officer4
+
+/datum/objective/crew/security/buddy/requirements()
+	buddylist |= owner.current
+	find_target_by_role("Security Officer")
+	if(!target)
+		find_target_by_role("Detective")
+		if(target)
+			return // don't want the det to be busy protecting a random officer
+	if(target && target.current && owner && owner.current)//should exist by now
+		var/datum/objective/crew/security/buddy/B = new(themind = target)
+		B.target = owner
+		B.update_explanation_text()
+		buddylist[owner.current] = target.current
+	if(!target) //can't exist at this point
+		if(src in buddylist)
+			buddylist -= src
+		return 0
+
+/datum/objective/crew/security/buddy/check_completion()
+	. = FALSE
+	if(target && target.current)
+		if(target.current.stat == DEAD || issilicon(target.current) || isbrain(target.current))
+			return
+		return TRUE
+
+/datum/objective/crew/security/buddy/update_explanation_text()
+	..()
+	explanation_text = "Party up with [target ? target.current : "ERROR AHELP THIS"] and ensure he doesn't die."
+
+//------ Have your main outfit on you
+/datum/objective/crew/security/outfit
+	jobs = "Detective"
+	var/datum/outfit/job/detective/D = /datum/outfit/job/detective
+
+/datum/objective/crew/security/outfit/check_completion()
+	if(owner && owner.current)
+		var/mob/living/carbon/human/H = owner.current
+		if((H.stat == DEAD) || !istype(H))
+			return
+		if(!istype(H.w_uniform, initial(D.uniform)))
+			return
+		if(!istype(H.shoes, initial(D.shoes)))
+			return
+		if(!istype(H.wear_suit, initial(D.suit)))
+			return
+		if(!istype(H.gloves, initial(D.gloves)))
+			return
+		if(!istype(H.head, initial(D.head)))
+			return
+		if(!locate(/obj/item/weapon/gun/projectile/revolver/detective) in H)
+			return
+		..(1)
+		return 1
+
+/datum/objective/crew/security/outfit/update_explanation_text()
+	..()
+	explanation_text = "Have the clothes you started with, along with your revolver, still on you when the shift ends."
+
+//SUPPLY!
+/datum/objective/crew/supply
+	mytag = "Supply"
+	jobs = "Head of Personnel#Quartermaster#Cargo Technician#Shaft Miner"
+
+//------ Have x points at roundend
+/datum/objective/crew/supply/points
+	var/points = 0
+
+/datum/objective/crew/supply/points/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	points = rand(1000,2000)
+
+/datum/objective/crew/supply/points/check_completion()
+	if(SSshuttle.points >= points)
+		..(1)
+		return 1
+
+/datum/objective/crew/supply/points/update_explanation_text()
+	..()
+	explanation_text = "Have at least [points] supply points at shift end. You can achieve this by shipping plasma, exotic plants, syndicate secret documents or research saved on disks."
+
+//------ Have x mining points on your card at roundend
+/datum/objective/crew/supply/miningpoints
+	jobs = "Shaft Miner"
+	var/points = 0
+
+/datum/objective/crew/supply/miningpoints/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	points = rand(10000,15000)
+
+/datum/objective/crew/supply/miningpoints/check_completion()
+	if(owner && owner.current)
+		for(var/obj/item/weapon/card/id/I in owner.current)
+			if(I.mining_points >= points)
+				..(1)
+				return 1
+
+/datum/objective/crew/supply/miningpoints/update_explanation_text()
+	..()
+	explanation_text = "Have at least [points] mining points on any ID card in your inventory at shift end."
+
+//------ Mine x types of y ore
+/datum/objective/crew/supply/mineore
+	jobs = "Shaft Miner"
+	var/obj/item/weapon/ore/oretype
+	var/oreamt = 0
+
+/datum/objective/crew/supply/mineore/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	var/divider = 1
+	var/list/oretypes = list(/obj/item/weapon/ore/uranium = 2, /obj/item/weapon/ore/diamond = 4, /obj/item/weapon/ore/gold = 3, /obj/item/weapon/ore/silver = 3, /obj/item/weapon/ore/plasma = 1)
+	oretype = pick(oretypes)
+	divider = oretypes[oretype]
+	oreamt = round(rand(30, 100)/divider)
+
+/datum/objective/crew/supply/mineore/check_completion()
+	var/list/details = details2list("ore_mined", " ", "|")
+	var/textedpath = "[oretype]"
+	if(textedpath in details)
+		if(details[textedpath] >= oreamt)
+			..(1)
+			return 1
+
+/datum/objective/crew/supply/mineore/update_explanation_text()
+	..()
+	explanation_text = "Mine at least [oreamt] [initial(oretype.name)]s."
+
+//------ Ian shall stay alive till round end
+/datum/objective/crew/supply/ianalive
+	jobs = "Head of Personnel"
+
+/datum/objective/crew/supply/ianalive/check_completion()
+	if(locate(/mob/living/simple_animal/pet/dog/corgi/Ian) in living_mob_list)
+		..(1)
+		return 1
+
+/datum/objective/crew/supply/ianalive/update_explanation_text()
+	..()
+	explanation_text = "Keep Ian alive till the shift ends."
+
+//------ Make corgi puppies!
+/datum/objective/crew/supply/puppies
+	jobs = "Head of Personnel#Quartermaster#Cargo Technician"
+
+/datum/objective/crew/supply/puppies/check_completion()
+	if(locate(/mob/living/simple_animal/pet/dog/corgi/puppy) in living_mob_list)
+		..(1)
+		return 1
+
+/datum/objective/crew/supply/puppies/update_explanation_text()
+	..()
+	explanation_text = "Find a way to make Ian breed."
+
+//Service!
+/datum/objective/crew/service
+	mytag = "Service"
+	jobs = "Bartender#Chef#Botanist#Janitor"
+
+//Keep pete alive, even through he wants to murder you.
+/datum/objective/crew/service/keeppete
+	jobs = "Chef"
+
+/datum/objective/crew/service/keeppete/check_completion()
+	for(var/mob/living/simple_animal/hostile/retaliate/goat/G in living_mob_list)
+		if(G.name == "Pete") //it's the only difference between the chef's goat and normal goats,bear with me
+			..(1)
+			return 1
+
+/datum/objective/crew/service/keeppete/update_explanation_text()
+	..()
+	explanation_text = "Keep Pete alive till the shift ends."
+
+//make x units of y drink
+/datum/objective/crew/service/bartender
+	jobs = "Bartender"
+	var/amt = 0
+	var/drinkname
+	var/datum/reagent/drink
+
+/datum/objective/crew/service/bartender/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	amt = rand(50,100)
+	var/datum/chemical_reaction/drinkpath = pick(typesof(/datum/chemical_reaction/drink) - /datum/chemical_reaction/drink)
+	drinkname = initial(drinkpath.name)
+	drink = initial(drinkpath.result)
+
+/datum/objective/crew/service/bartender/check_completion()
+	if(owner && owner.current)
+		var/mob/M = owner.current
+		for(var/i in M.contents)
+			if(istype(i, /obj/item/weapon/reagent_containers))
+				var/obj/item/weapon/reagent_containers/R = i
+				if(R.reagents)
+					if(R.reagents.has_reagent(drink, amt))
+						..(1)
+						return 1
+
+/datum/objective/crew/service/bartender/update_explanation_text()
+	..()
+	explanation_text = "Have [amt] units of [drinkname] on you at shift end."
+
+//------ Have x types of y plants at roundend
+/datum/objective/crew/service/collectplants
+	jobs = "Botanist"
+	var/amt = 0
+	var/list/plants = list()
+
+/datum/objective/crew/service/collectplants/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	amt = rand(70,100)
+	var/loop = rand(3,5)
+	var/list/blacklist = list(/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/walkingmushroom)
+	var/list/possibleplants = (typesof(/obj/item/weapon/reagent_containers/food/snacks/grown) - /obj/item/weapon/reagent_containers/food/snacks/grown) + (typesof(/obj/item/weapon/grown) - /obj/item/weapon/grown) - blacklist
+	for(var/i in 1 to loop)
+		var/path = "[pick_n_take(possibleplants)]"
+		plants[path] = round(amt/loop)
+
+/datum/objective/crew/service/collectplants/check_completion()
+	if(owner && owner.current)
+		var/mob/M = owner.current
+		for(var/obj/item/weapon/storage/bag/plants/P in M.contents)
+			for(var/obj/item/I in P)
+				var/path = "[I.type]"
+				if(path in plants)
+					plants[path]--
+		for(var/i in plants)
+			if(plants[i])
+				return 0
+		..(1)
+		return 1
+
+/datum/objective/crew/service/collectplants/update_explanation_text()
+	..()
+	explanation_text = "Collect at least "
+	for(var/i in 1 to plants.len)
+		var/obj/item/plant = text2path(plants[i])
+		explanation_text += "[plants[plants[i]]] [initial(plant.name)]"
+		if(copytext(explanation_text, -1) != "s")
+			explanation_text += "s"
+		if(i != plants.len)
+			explanation_text += ", "
+	explanation_text += " and keep them in a plant bag at shift end."
+
+//ensure that x areas is clean
+/datum/objective/crew/service/clean
+	jobs = "Janitor"
+	var/list/areas = list()
+
+/datum/objective/crew/service/clean/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	var/list/possibleareas = list()
+	for(var/A in teleportlocs) // a list with all station areas plus space
+		if(istype(teleportlocs[A], /area/space))
+			continue
+		possibleareas |= teleportlocs[A]
+	for(var/i in 1 to rand(1,2))
+		areas |= pick_n_take(possibleareas)
+
+/datum/objective/crew/service/clean/check_completion()
+	for(var/area/A in areas)
+		for(var/obj/effect/decal/cleanable/C in area_contents(A))
+			return 0
+	..(1)
+	return 1
+
+/datum/objective/crew/service/clean/update_explanation_text()
+	..()
+	explanation_text = "Ensure that "
+	for(var/i in 1 to areas.len)
+		var/area/A = areas[i]
+		explanation_text += "[A.name]"
+		if(i != areas.len)
+			explanation_text += " and " //since it's either 1 or 2.
+	explanation_text += " are completely clean when the shift ends. Please ask for permission before entering in certain places!"
+
+//CIVILIAN! holy shit i didn't believe i'd reach this
+/datum/objective/crew/civilian
+	mytag = "Civilian"
+	jobs = "Captain#Librarian#Lawyer#Chaplain#Clown#Mime#Assistant"
+
+//keep dat fukken disk secure
+/datum/objective/crew/civilian/datfukkendisk
+	jobs = "Captain"
+
+/datum/objective/crew/civilian/datfukkendisk/check_completion()
+	if(owner && owner.current)
+		var/obj/item/weapon/disk/nuclear/N = locate() in poi_list
+		if(N)
+			if((N in owner.current) && owner.current.onCentcom())
+				..(1)
+				return 1
+
+/datum/objective/crew/civilian/datfukkendisk/update_explanation_text()
+	..()
+	explanation_text = "Defend the disk with your life and deliver it safely to centcom when the shift ends."
+
+//don't break your vow
+/datum/objective/crew/civilian/vow
+	jobs = "Mime"
+
+/datum/objective/crew/civilian/vow/check_completion()
+	var/datum/feedback_variable/vowmade = blackbox.find_feedback_datum("vow_made")
+	var/vow = vowmade.get_details()
+	if(vow)
+		return 0
+	..(1)
+	return 1
+
+/datum/objective/crew/civilian/vow/update_explanation_text()
+	..()
+	explanation_text = "Don't break your vow ever."
+
+
+//slip at least x people
+/datum/objective/crew/civilian/slip
+	jobs = "Clown"
+	var/amt = 0
+
+/datum/objective/crew/civilian/slip/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	amt = rand(20,40)
+
+/datum/objective/crew/civilian/slip/check_completion()
+	var/list/dat = details2list("slips", " ", "|")
+	for(var/i in dat)
+		if(dat[i] == "/obj/item/device/pda/clown")
+			amt--
+	if(!amt)
+		..(1)
+		return 1
+
+/datum/objective/crew/civilian/slip/update_explanation_text()
+	..()
+	explanation_text = "Slip the crew at least [amt] times with your PDA."
+
+//write x articles of at least 100 characters (optional:have a photo attached to it too)
+/datum/objective/crew/civilian/reporter
+	jobs = "Librarian"
+	var/articles = 0
+	var/char = 100
+	var/list/articleschecked = list()
+
+/datum/objective/crew/civilian/reporter/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	articles = rand(2,4)
+
+/datum/objective/crew/civilian/reporter/check_completion()
+	if(owner && owner.current)
+		for(var/datum/newscaster/feed_channel/F in news_network.network_channels)
+			if(findtext(F.author, owner.current.job))
+				for(var/datum/newscaster/feed_message/message in F.messages)
+					if(!(message in articleschecked))
+						if(findtext(F.author, owner.current.job) && length(message.body) >= char)
+							articleschecked += message
+							..(1)
+							return 1
+
+/datum/objective/crew/civilian/reporter/update_explanation_text()
+	..()
+	explanation_text = "Make at least [articles] articles, they must be at least [char] characters long."
+
+//get a petition done with at least x signs
+/datum/objective/crew/civilian/petition
+	jobs = "Lawyer"
+	var/amt = 0
+	var/list/signers = list()
+
+/datum/objective/crew/civilian/petition/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	amt = round(player_list.len/rand(3,4))
+
+/datum/objective/crew/civilian/petition/check_completion()
+	if(owner && owner.current)
+		var/datum/feedback_variable/paperwork = blackbox.find_feedback_datum("paperwork")
+		var/paperworkdetails = paperwork.get_details()
+		var/list/listone = splittext(paperworkdetails, " ")
+		var/list/signs = list()
+		for(var/i in listone)
+			var/list/temp = splittext(i, "|")
+			signs += temp[1]
+			signs[temp[1]] = temp[temp[1]]
+		for(var/i in signs)
+			if(i == "SIGN")
+				var/signer = signs[i]
+				if(!(signer in signers))
+					signers |= signer
+	if(signers.len >= amt)
+		..(1)
+		return 1
+
+/datum/objective/crew/civilian/petition/update_explanation_text()
+	..()
+	explanation_text = "Do a petition about an argument of your choice and collect [amt] number of signs on a paper."
+
+//play the effect of relics x times
+/datum/objective/crew/civilian/relic
+	jobs = "Chaplain"
+	var/amt = 0
+
+/datum/objective/crew/civilian/relic/New(datum/mind/target, text, datum/mind/themind)
+	..()
+	amt = rand(10,20)
+
+/datum/objective/crew/civilian/relic/check_completion()
+	var/datum/feedback_variable/relicfeedback = blackbox.find_feedback_datum("relic")
+	var/relicvalue = relicfeedback.get_value()
+	if(relicvalue >= amt)
+		..(1)
+		return 1
+
+/datum/objective/crew/civilian/relic/update_explanation_text()
+	..()
+	explanation_text = "Manage to activate the effect of relics [amt] times. Use your bible in hand for a clue on how to do relics."
+
+//Have a necklace full of cat teeths at roundend
+/datum/objective/crew/civilian/diecats
+	jobs = "Assistant"
+
+/datum/objective/crew/civilian/diecats/requirements()
+	var/catsexist = FALSE
+	for(var/mob/living/carbon/human/H in player_list)
+		if(H.dna && H.dna.species.id == "tajaran")
+			catsexist = TRUE
+	if(!catsexist)
+		return 0
+
+/datum/objective/crew/civilian/diecats/check_completion()
+	if(owner && owner.current)
+		var/mob/living/carbon/human/H = owner.current
+		if(!istype(H))
+			return 0
+		var/obj/item/clothing/under/U = H.w_uniform
+		if(U && U.hastie)
+			var/obj/item/clothing/tie/necklace/N = U.hastie
+			if(istype(N))
+				if((N.ornaments.len == N.max_ornaments))
+					var/allcatteeths = TRUE
+					for(var/obj/item/stack/teeth/cat/C in N.ornaments)
+						if(!istype(C))
+							allcatteeths = FALSE
+					if(!allcatteeths)
+						return 0
+					..(1)
+					return 1
+
+/datum/objective/crew/civilian/diecats/update_explanation_text()
+	..()
+	explanation_text = "Have a necklace full of tajaran teeths on your jumpsuit when the shift ends."
+
+//don't get stunned, literally impossibru
+/datum/objective/crew/civilian/nostun
+	jobs = "Assistant"
+
+/datum/objective/crew/civilian/nostun/check_completion()
+	if(owner && owner.current)
+		var/list/details = details2list("stuns", " ", "|")
+		if(owner.key in details)
+			return
+		..(1)
+		return 1
+
+/datum/objective/crew/civilian/nostun/update_explanation_text()
+	..()
+	explanation_text = "Don't get stunned by energy guns, tasers and stunbatons till the shift ends."
 

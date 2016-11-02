@@ -93,28 +93,40 @@
 
 /obj/item/ammo_casing/shotgun/improvised
 	name = "improvised shell"
-	desc = "An extremely weak shotgun shell with multiple small pellets made out of metal shards."
+	desc = "A shotgun shell loaded with metal shards and weak propellant."
 	icon_state = "improvshell"
-	projectile_type = /obj/item/projectile/bullet/pellet/weak
-	materials = list(MAT_METAL=250)
-	pellets = 5
-	variance = 25
-
-
-/obj/item/ammo_casing/shotgun/improvised/overload
-	name = "overloaded improvised shell"
-	desc = "An extremely weak shotgun shell with multiple small pellets made out of metal shards. This one has been packed with even more \
-	propellant. It's like playing russian roulette, with a shotgun."
-	icon_state = "improvshell"
-	projectile_type = /obj/item/projectile/bullet/pellet/random
+	projectile_type = /obj/item/projectile/bullet/pellet/shrapnel
 	materials = list(MAT_METAL=250)
 	pellets = 5
 	variance = 40
 
-/obj/item/ammo_casing/shotgun/improvised/overload/New()
-	..()
-	pellets = rand(3, 8)
 
+/obj/item/ammo_casing/shotgun/improvised/overload
+	name = "overloaded improvised shell"
+	desc = "A shotgun shell overloaded with metal shards and powerful propellant. Almost as effective as buckshot."
+	icon_state = "improvshell"
+	projectile_type = /obj/item/projectile/bullet/pellet/shrapnel
+	materials = list(MAT_METAL=250)
+	pellets = 9
+	variance = 50
+	
+/obj/item/ammo_casing/shotgun/coinshot
+	name = "coinshot shell"
+	desc = "A shotgun shell loaded with coins and weak propellant. Stings like hell."
+	icon_state = "improvshell"
+	projectile_type = /obj/item/projectile/bullet/pellet/coinshot
+	materials = list(MAT_METAL=250)
+	pellets = 5
+	variance = 30
+	
+/obj/item/ammo_casing/shotgun/coinshot/overload
+	name = "overloaded coinshot shell"
+	desc = "A shotgun shell loaded with coins and powerful propellant. Liable to leave your target writhing in pain."
+	icon_state = "improvshell"
+	projectile_type = /obj/item/projectile/bullet/pellet/coinshot/overload
+	materials = list(MAT_METAL=250)
+	pellets = 5
+	variance = 35
 
 /obj/item/ammo_casing/shotgun/stunslug
 	name = "taser slug"

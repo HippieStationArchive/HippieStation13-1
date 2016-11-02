@@ -30,7 +30,7 @@
 	icon_state = ".50mag"
 	origin_tech = "combat=6;syndicate=2"
 	ammo_type = /obj/item/ammo_casing/point50
-	max_ammo = 6
+	max_ammo = 5
 	caliber = ".50"
 
 /obj/item/ammo_box/magazine/sniper_rounds/update_icon()
@@ -55,6 +55,11 @@
 /obj/item/projectile/bullet/sniper/on_hit(atom/target, blocked = 0, hit_zone)
 	if((blocked != 100) && (!ismob(target) && breakthings))
 		target.ex_act(rand(1,2))
+	if((blocked != 100) && ishuman(target) && hit_zone != "chest" && hit_zone != "head" && breakthings)
+		var/mob/living/carbon/human/H = target
+		var/obj/item/organ/limb/O = H.get_organ(hit_zone)
+		O.dismember()
+
 
 	return ..()
 
@@ -66,7 +71,7 @@
 	icon_state = "soporific"
 	origin_tech = "combat=6;syndicate=3"
 	ammo_type = /obj/item/ammo_casing/soporific
-	max_ammo = 3
+	max_ammo = 5
 	caliber = ".50"
 
 /obj/item/ammo_casing/soporific
@@ -90,35 +95,33 @@
 	return ..()
 
 
-//hemorrhage ammo
-/obj/item/ammo_box/magazine/sniper_rounds/haemorrhage
-	name = "sniper rounds (Bleed)"
-	desc = "Haemorrhage sniper rounds, leaves your target in a pool of crimson pain"
+//high-explosive ammo
+/obj/item/ammo_box/magazine/sniper_rounds/he
+	name = "sniper rounds (Explosive)"
+	desc = "High explosive rounds deal high ammounts of collateral damage in a 1-tile radius"
 	icon_state = "haemorrhage"
 	origin_tech = "combat=7;syndicate=5"
-	ammo_type = /obj/item/ammo_casing/haemorrhage
+	ammo_type = /obj/item/ammo_casing/he
 	max_ammo = 5
 	caliber = ".50"
 
-/obj/item/ammo_casing/haemorrhage
+/obj/item/ammo_casing/he
 	desc = "A .50 bullet casing, specialised in causing massive bloodloss"
 	caliber = ".50"
-	projectile_type = /obj/item/projectile/bullet/sniper/haemorrhage
+	projectile_type = /obj/item/projectile/bullet/sniper/he
 	icon_state = ".50"
 
-/obj/item/projectile/bullet/sniper/haemorrhage
-	armour_penetration = 15
-	damage = 15
+/obj/item/projectile/bullet/sniper/he
+	armour_penetration = 0
+	damage = 40
 	stun = 0
 	weaken = 0
-	breakthings = FALSE
+	breakthings = TRUE
 
-/obj/item/projectile/bullet/sniper/haemorrhage/on_hit(atom/target, blocked = 0, hit_zone)
-	if((blocked != 100) && istype(target, /mob/living/carbon/human))
-		var/mob/living/carbon/human/H = target
-		H.drip(100)
-
-	return ..()
+/obj/item/projectile/bullet/sniper/he/on_hit(atom/target, blocked = 0, hit_zone)
+	..()
+	explosion(target, -1, 0, 2)
+	return 1
 
 
 
