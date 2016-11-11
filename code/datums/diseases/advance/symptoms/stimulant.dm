@@ -10,7 +10,7 @@ Stimulant
 	Moderate Level.
 
 Bonus
-	The body generates Ephedrine.
+	The body generates Morphine.
 
 //////////////////////////////////////
 */
@@ -30,9 +30,9 @@ Bonus
 		var/mob/living/M = A.affected_mob
 		switch(A.stage)
 			if(5)
-				if (M.reagents.get_reagent_amount("ephedrine") < 10)
-					M.reagents.add_reagent("ephedrine", 10)
+				if (M.reagents.get_reagent_amount("morphine") < 15)
+					M.reagents.add_reagent("morphine", 15)
 			else
 				if(prob(SYMPTOM_ACTIVATION_PROB * 5))
-					M << "<span class='notice'>[pick("You feel restless.", "You feel like running laps around the station.")]</span>"
+					M << "<span class='notice'>[pick("You feel light on your feet.", "You feel weightless and free of obstructions.")]</span>"
 	return
