@@ -1055,6 +1055,27 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	premium = list(/obj/item/clothing/under/suit_jacket/checkered=1,/obj/item/clothing/head/mailman=1,/obj/item/clothing/under/rank/mailman=1,/obj/item/clothing/suit/jacket/leather=1,/obj/item/clothing/suit/jacket/leather/overcoat=1,/obj/item/clothing/under/pants/mustangjeans=1)
 	refill_canister = /obj/item/weapon/vending_refill/clothing
 
+/obj/machinery/vending/spareparts /* Contains spare parts for building machines */
+	name = "\improper Machivend"
+	desc = "You <i>can</i> fix it!"
+	icon_state = "spareparts"
+	icon_deny = "spareparts-deny"
+	product_slogans = "Fix 'er up! ;If it's broke, we got it!; <i>The</i> leading self defining machine on the market!"
+	req_access_txt = "11"
+
+	products = list(
+		/obj/item/weapon/stock_parts/console_screen	 = 8,
+		/obj/item/weapon/stock_parts/capacitor		 = 25,
+		/obj/item/weapon/stock_parts/scanning_module = 25,
+		/obj/item/weapon/stock_parts/manipulator	 = 25,
+		/obj/item/weapon/stock_parts/micro_laser	 = 25,
+		/obj/item/weapon/stock_parts/matter_bin		 = 25,
+		/obj/item/weapon/stock_parts/cell			 = 15
+	)
+
+	premium = list(
+		/obj/item/weapon/storage/part_replacer = 1
+	)
 
 #undef STANDARD_CHARGE
 #undef CONTRABAND_CHARGE
