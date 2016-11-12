@@ -1055,12 +1055,12 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	premium = list(/obj/item/clothing/under/suit_jacket/checkered=1,/obj/item/clothing/head/mailman=1,/obj/item/clothing/under/rank/mailman=1,/obj/item/clothing/suit/jacket/leather=1,/obj/item/clothing/suit/jacket/leather/overcoat=1,/obj/item/clothing/under/pants/mustangjeans=1)
 	refill_canister = /obj/item/weapon/vending_refill/clothing
 
-/obj/machinery/vending/spareparts /* Contains spare parts for building machines */
+/obj/machinery/vending/spareparts /* Contains spare parts for building machines. Sprites by Fury McFlurry */
 	name = "\improper Machivend"
 	desc = "You <i>can</i> fix it!"
 	icon_state = "spareparts"
 	icon_deny = "spareparts-deny"
-	product_slogans = "Fix 'er up! ;If it's broke, we got it!; <i>The</i> leading self defining machine on the market!"
+	product_slogans = "Fix 'er up! ;If it's broke, we got it!; <i>The</i> leading self defining vendor on the market!"
 	req_access_txt = "11"
 
 	products = list(
