@@ -143,6 +143,16 @@ var/list/uplink_items = list()
 	cost = 10
 	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist")
 
+/datum/uplink_item/job_specific/HumanPokeball
+	name = "Rapid Human Restraint Device"
+	desc = "This device, when thrown will rapidly apply a blindfold, muzzle and straight jacket to a target, specialised bluespace devices and clever use of springs will remove any clothing they have which might impede this process. The force is sufficient enough to knock the target down for a couple of seconds, be sure to grab hold of them quickly as while they will be unable to unbind themselves without help there is nothing stopping your target from running away."
+	item = /obj/item/humanpokeball
+	cost = 6
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Clown") //Clown may not be medical staff but this item is sure as heck clowney.
+
+
+
+
 //SERVICE DIVISION
 
 /datum/uplink_item/job_specific/chainsaw
