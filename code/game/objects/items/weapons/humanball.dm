@@ -15,16 +15,21 @@
 
 	..()
 
+	var/armor = getarmor(get_organ("chest"), "melee")
+	if(armor > 100) return
 	if(blocked <= 0)
 		if(istype(AM,/obj/item/humanpokeball))
-			unEquip(wear_mask) //Will probably screw over people who need to use internals.
-			unEquip(wear_suit) // Might screw over people wearing suits in space.
-			unEquip(glasses)
-			equipOutfit(/datum/outfit/pokeball)
-			apply_effect(2, WEAKEN) //Straight jackets do not slow movement, this should give the user enough time to run over and snag the guy.
+			if(armor < 30)
+				unEquip(wear_mask) //Will probably screw over people who need to use internals.
+				unEquip(wear_suit) // Might screw over people wearing suits in space.
+				unEquip(glasses)
+				equipOutfit(/datum/outfit/pokeball)
+				apply_effect(2, WEAKEN) //Straight jackets do not slow movement, this should give the user enough time to run over and snag the guy.
 
-			visible_message("<span class='danger'>Success! The [src] was caught!</span>", \
-						"<span class='userdanger'>The device wraps restraints around your body and pulls them tight!</span>")
-			qdel(AM)
+				visible_message("<span class='danger'>Success! The [src] was caught!</span>", \
+							"<span class='userdanger'>The device wraps restraints around your body and pulls them tight!</span>")
+				qdel(AM)
+			else
 
-
+				visible_message("<span class='danger'>Aww, it appeared to be caught!</span>", \
+							"<span class='userdanger'>Your armor deflects the device and it falls to your feet!</span>")
