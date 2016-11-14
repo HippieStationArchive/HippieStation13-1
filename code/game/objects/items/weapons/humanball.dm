@@ -3,7 +3,7 @@
 	desc = "An insidious device that utilises a series of compact springs, gas canisters and bluespace technology to rapidly bind a victim in a blindfold, muzzle and straightjacket in order to capture and restrain them for nefarious purposes."
 	icon = 'icons/obj/grenade.dmi'
 	icon_state = "bluespaceball"
-	w_class = 1.0 //Hide one in your ass in case of emergencies
+	w_class = 1 //Hide one in your ass in case of emergencies
 	force = 0
 	throwforce = 0
 	throw_range = 7

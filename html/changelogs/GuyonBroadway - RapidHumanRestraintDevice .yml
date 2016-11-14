@@ -34,5 +34,5 @@ delete-after: True
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
   - rscadd: "Adds the Rapid Human Restraint Device traitor item to medical staff and the Clown. An evil little device that upon contact with a target will instantly bind them in a straight jacket, blindfold and muzzle as well as briefly knock them down. Costs 6tc, for all your nefarious and borderline ERP needs. - Credit to Fury McFlurry for the wonderful sprite work."
-  - imageadd: "Adds a sprite for the Rapid Human Restrant Device, credit for that goes to to Fury McFlurry."
+  - imageadd: "Adds a sprite for the Rapid Human Restrant Device, credit for that goes to Fury McFlurry."
 
