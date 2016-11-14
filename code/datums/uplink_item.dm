@@ -145,7 +145,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/job_specific/HumanPokeball
 	name = "Rapid Human Restraint Device"
-	desc = "This device, when thrown, will rapidly apply a blindfold, a muzzle and straight jacket to a target, it will remove clothing where necessary unless that clothing cannot normally be removed. They will also be very briefly knocked down."
+	desc = "This device, when thrown, will rapidly apply a blindfold, a muzzle and a straight jacket to a target, it will remove clothing where necessary unless that clothing cannot normally be removed. They will also be very briefly knocked down."
 	item = /obj/item/humanpokeball
 	cost = 6
 	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist", "Clown") //Clown may not be medical staff but this item is sure as heck clowney.
