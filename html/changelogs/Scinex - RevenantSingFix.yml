@@ -1,0 +1,4 @@
+author: Scinex
+delete-after: True
+changes: 
+  - bugfix: "Fixes revenant being able to be eaten by singularity"
