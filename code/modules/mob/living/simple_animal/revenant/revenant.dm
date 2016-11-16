@@ -93,7 +93,7 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 	return //blah blah blobs aren't in tune with the spirit world, or something.
 
 /mob/living/simple_animal/revenant/singularity_act()
-	return //don't walk into the singularity expecting to find corpses, okay?
+	return 0 //Was intentional before??
 
 /mob/living/simple_animal/revenant/adjustBruteLoss(amount)
 	if(!revealed)
