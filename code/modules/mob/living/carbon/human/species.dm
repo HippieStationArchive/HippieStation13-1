@@ -807,8 +807,8 @@
 			H.staminas.icon_state = "stamina6"
 		else
 			switch(H.hal_screwyhud)
-				if(1 to 2)	H.staminas.icon_state = "stamina0"
-				if(5)	H.staminas.icon_state = "stamina6"
+				if(1 to 2)	H.staminas.icon_state = "stamina6"
+				if(5)	H.staminas.icon_state = "stamina0"
 				else
 					switch(H.health - H.staminaloss)
 						if(100 to INFINITY)     H.staminas.icon_state = "stamina0"
