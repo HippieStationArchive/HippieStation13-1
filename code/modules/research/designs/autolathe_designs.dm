@@ -539,6 +539,78 @@
 	build_path = /obj/item/ammo_box/c9mm
 	category = list("hacked", "Security")
 
+/datum/design/a40mm
+	name = "Ammo box (40mm HE grenades)"
+	id = "a40mm"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 40000)
+	build_path = /obj/item/ammo_box/a40mm
+	category = list("hacked", "Security")
+
+/datum/design/a762x39
+	name = "Ammo box (7.62x39)"
+	id = "a762x39"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_casing/a762x39
+	category = list("hacked", "Security")
+
+/datum/design/rubber762
+	name = "Ammo box (.762x54)"
+	id = "a762rubber"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_box/a762rubber
+	category = list("hacked", "Security")
+
+/datum/design/m12g
+	name = "Magazine (12g slugs)"
+	id = "m12g"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_casing/shotgun
+	category = list("hacked", "Security")
+
+/datum/design/xmg80
+	name = "Magazine (6.8x43mm Caseless)"
+	id = "xmg80"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_casing/caseless/a68
+	category = list("hacked", "Security")
+
+/datum/design/m556
+	name = "Magazine (5.56mm)"
+	id = "m556"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_box/magazine/m556
+	category = list("hacked", "Security")
+
+/datum/design/m762
+	name = "Magazine (7.62mm)"
+	id = "m762"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_box/magazine/m762
+	category = list("hacked", "Security")
+
+/datum/design/m50
+	name = "Magazine (.50 AE)"
+	id = "m50"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_box/magazine/m50
+	category = list("hacked", "Security")
+
+/datum/design/m44
+	name = "Magazine (.44 AMP)"
+	id = "m44"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 30000)
+	build_path = /obj/item/ammo_box/magazine/m44
+	category = list("hacked", "Security")
+
 /datum/design/spraycan
 	name = "Spraycan"
 	id = "spraycan"
@@ -578,14 +650,6 @@
 	materials = list(MAT_METAL = 150, MAT_GLASS = 150)
 	build_path = /obj/item/device/geiger_counter
 	category = list("initial", "Tools")
-
-/datum/design/rubber762
-	name = "Ammo box (.762x54)"
-	id = "a762rubber"
-	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 30000)
-	build_path = /obj/item/ammo_box/a762rubber
-	category = list("hacked", "Security")
 
 /datum/design/icepick
 	name = "Ice Pick"
