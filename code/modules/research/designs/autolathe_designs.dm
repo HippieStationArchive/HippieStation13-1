@@ -552,7 +552,7 @@
 	id = "a762x39"
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 30000)
-	build_path = /obj/item/ammo_casing/a762x39
+	build_path = /obj/item/ammo_box/a762x39
 	category = list("hacked", "Security")
 
 /datum/design/rubber762
@@ -568,7 +568,7 @@
 	id = "m12g"
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 30000)
-	build_path = /obj/item/ammo_casing/shotgun
+	build_path = /obj/item/ammo_box/magazine/m12g
 	category = list("hacked", "Security")
 
 /datum/design/xmg80
@@ -576,7 +576,7 @@
 	id = "xmg80"
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 30000)
-	build_path = /obj/item/ammo_casing/caseless/a68
+	build_path = /obj/item/ammo_box/magazine/xmg80
 	category = list("hacked", "Security")
 
 /datum/design/m556
