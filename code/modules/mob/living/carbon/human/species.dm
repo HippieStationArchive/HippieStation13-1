@@ -805,17 +805,19 @@
 			H.staminas.icon_state = "stamina6"
 		else if(H.stunned || H.weakened)
 			H.staminas.icon_state = "stamina6"
-		else if(H.hal_screwyhud == 5)
-			H.staminas.icon_state = "stamina0"
 		else
-			switch(H.health - H.staminaloss)
-				if(100 to INFINITY)     H.staminas.icon_state = "stamina0"
-				if(80 to 100)           H.staminas.icon_state = "stamina1"
-				if(60 to 80)            H.staminas.icon_state = "stamina2"
-				if(40 to 60)            H.staminas.icon_state = "stamina3"
-				if(20 to 40)            H.staminas.icon_state = "stamina4"
-				if(0 to 20)             H.staminas.icon_state = "stamina5"
-				else                    H.staminas.icon_state = "stamina6"
+			switch(H.hal_screwyhud)
+				if(1 to 2)	H.staminas.icon_state = "stamina0"
+				if(5)	H.staminas.icon_state = "stamina6"
+				else
+					switch(H.health - H.staminaloss)
+						if(100 to INFINITY)     H.staminas.icon_state = "stamina0"
+						if(80 to 100)           H.staminas.icon_state = "stamina1"
+						if(60 to 80)            H.staminas.icon_state = "stamina2"
+						if(40 to 60)            H.staminas.icon_state = "stamina3"
+						if(20 to 40)            H.staminas.icon_state = "stamina4"
+						if(0 to 20)             H.staminas.icon_state = "stamina5"
+						else                    H.staminas.icon_state = "stamina6"
 
 	if(H.healthdoll)
 		H.healthdoll.overlays.Cut()
