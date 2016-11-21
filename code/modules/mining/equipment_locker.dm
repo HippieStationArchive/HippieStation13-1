@@ -638,20 +638,20 @@
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 0
 	wander = 0
-	idle_vision_range = 5
+	idle_vision_range = 10
 	move_to_delay = 10
 	retreat_distance = 1
 	minimum_distance = 2
-	health = 125
-	maxHealth = 125
-	melee_damage_lower = 15
-	melee_damage_upper = 15
+	health = 250
+	maxHealth = 250
+	melee_damage_lower = 20
+	melee_damage_upper = 20
 	environment_smash = 0
 	attacktext = "drills"
 	attack_sound = 'sound/weapons/circsawhit.ogg'
 	ranged = 1
 	ranged_message = "shoots"
-	ranged_cooldown_cap = 3
+	ranged_cooldown_cap = 1
 	projectiletype = /obj/item/projectile/kinetic
 	projectilesound = 'sound/weapons/Gunshot4.ogg'
 	speak_emote = list("states")
@@ -703,7 +703,7 @@
 	..()
 
 /mob/living/simple_animal/hostile/mining_drone/proc/SetCollectBehavior()
-	idle_vision_range = 9
+	idle_vision_range = 10
 	search_objects = 2
 	wander = 1
 	ranged = 0
@@ -712,7 +712,7 @@
 	icon_state = "mining_drone"
 
 /mob/living/simple_animal/hostile/mining_drone/proc/SetOffenseBehavior()
-	idle_vision_range = 7
+	idle_vision_range = 10
 	search_objects = 0
 	wander = 0
 	ranged = 1
