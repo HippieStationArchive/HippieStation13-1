@@ -1,0 +1,9 @@
+author: ArcLumin
+
+delete-after: True
+
+changes: 
+  - rscadd: "Part 1 of the mining update!"
+  - tweak: "Adds in loads of items to the mining rewards vendor, tweaks prices"
+  - tweak: "Iron ore now gives 5 points instead of 1. Seriously, the same value as fucking sand before."
+  - tweak: "Buffs the Gar Mesons, Mining Drone, and mining stimpacks"
