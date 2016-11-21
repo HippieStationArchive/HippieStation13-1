@@ -270,7 +270,7 @@
 		new /datum/data/mining_equipment("Alien Toy",           /obj/item/clothing/mask/facehugger/toy, 		                   300),
 		new /datum/data/mining_equipment("Advanced Scanner",	/obj/item/device/t_scanner/adv_mining_scanner,                     400),
 		new /datum/data/mining_equipment("Mining Drone",        /mob/living/simple_animal/hostile/mining_drone,                    500),
-		new /datum/data/mining_equipment("GAR Night Vision Mesons",			/obj/item/clothing/glasses/meson/night/gar,							   500),
+		new /datum/data/mining_equipment("GAR Night Vision Mesons",			/obj/item/clothing/glasses/meson/night/gar,							   1000),
 		new /datum/data/mining_equipment("Advanced Plasma Cutter", /obj/item/weapon/gun/energy/plasmacutter/adv,               	   750),
 		new /datum/data/mining_equipment("Kinetic Accelerator", /obj/item/weapon/gun/energy/kinetic_accelerator,               	   750),
 		new /datum/data/mining_equipment("Resonator",           /obj/item/weapon/resonator,                                    	   800),
