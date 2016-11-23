@@ -588,3 +588,11 @@
 	item_state = "DIO"
 	item_color = "DIO"
 	can_adjust = 0
+	
+ /obj/item/clothing/under/jotaro
+	name = "Jotaro Kujo's Undershirt"
+	desc = "Good grief..."
+	icon_state = "jotaro"
+	item_state = "jotaro"
+	item_color = "jotaro"
+	can_adjust = 0
