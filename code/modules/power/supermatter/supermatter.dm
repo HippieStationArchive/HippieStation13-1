@@ -356,7 +356,7 @@
 	if(istype(AM, /mob/living))
 		var/mob/living/user = AM
 		if(user.ckey)
-			log_attack("[src] has consumed [src.pulledby ? "(being pulled by [src.pulledby])" : " "][AM]/([key_name(user)])")
+			log_attack("[src] has consumed [pulledby ? "(being pulled by [pulledby])" : "last touched by [fingerprintslast]"] [AM]/([key_name(user)])")
 		user.dust()
 		power += 200
 		message_admins("[src] has consumed [key_name_admin(user)]<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A> (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[user]'>FLW</A>) <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>(JMP)</a>.")
