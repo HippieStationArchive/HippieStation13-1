@@ -19,7 +19,7 @@
 	var/ore_pickup_rate = 15
 	var/sheet_per_ore = 1
 	var/point_upgrade = 1
-	var/list/ore_values = list(("sand" = 1), ("iron" = 1), ("gold" = 20), ("silver" = 20), ("uranium" = 20), ("bananium" = 30), ("diamond" = 40), ("plasma" = 40))
+	var/list/ore_values = list(("sand" = 1), ("iron" = 5), ("gold" = 20), ("silver" = 20), ("uranium" = 20), ("bananium" = 30), ("diamond" = 40), ("plasma" = 40))
 
 /obj/machinery/mineral/ore_redemption/New()
 	..()
@@ -260,23 +260,39 @@
 	anchored = 1
 	var/obj/item/weapon/card/id/inserted_id
 	var/list/prize_list = list(
-		new /datum/data/mining_equipment("Stimpack",			/obj/item/weapon/reagent_containers/hypospray/medipen/stimpack,	    50),
-		new /datum/data/mining_equipment("Stimpack Bundle",		/obj/item/weapon/storage/box/medipens/utility,	 				   200),
-		new /datum/data/mining_equipment("Whiskey",             /obj/item/weapon/reagent_containers/food/drinks/bottle/whiskey,    100),
-		new /datum/data/mining_equipment("Cigar",               /obj/item/clothing/mask/cigarette/cigar/havana,                    150),
+		new /datum/data/mining_equipment("Whiskey",             /obj/item/weapon/reagent_containers/food/drinks/bottle/whiskey,    10),
+		new /datum/data/mining_equipment("Stimpack",			/obj/item/weapon/reagent_containers/hypospray/medipen/stimpack,	    100),
+		new /datum/data/mining_equipment("Stimpack Bundle",		/obj/item/weapon/storage/box/medipens/utility,	 				   400),
+		new /datum/data/mining_equipment("Cigar Box",               /obj/item/weapon/storage/fancy/cigarettes/cigars/havana,                    150),
 		new /datum/data/mining_equipment("Soap",                /obj/item/weapon/soap/nanotrasen, 						           200),
 		new /datum/data/mining_equipment("Jaunter",             /obj/item/device/wormhole_jaunter,                                 250),
 		new /datum/data/mining_equipment("Laser Pointer",       /obj/item/device/laser_pointer, 				                   300),
 		new /datum/data/mining_equipment("Alien Toy",           /obj/item/clothing/mask/facehugger/toy, 		                   300),
 		new /datum/data/mining_equipment("Advanced Scanner",	/obj/item/device/t_scanner/adv_mining_scanner,                     400),
 		new /datum/data/mining_equipment("Mining Drone",        /mob/living/simple_animal/hostile/mining_drone,                    500),
-		new /datum/data/mining_equipment("GAR mesons",			/obj/item/clothing/glasses/meson/gar,							   500),
+		new /datum/data/mining_equipment("GAR Night Vision Mesons",			/obj/item/clothing/glasses/meson/night/gar,							   1000),
+		new /datum/data/mining_equipment("Advanced Plasma Cutter", /obj/item/weapon/gun/energy/plasmacutter/adv,               	   750),
 		new /datum/data/mining_equipment("Kinetic Accelerator", /obj/item/weapon/gun/energy/kinetic_accelerator,               	   750),
 		new /datum/data/mining_equipment("Resonator",           /obj/item/weapon/resonator,                                    	   800),
 		new /datum/data/mining_equipment("Lazarus Injector",    /obj/item/weapon/lazarus_injector,                                1000),
-		new /datum/data/mining_equipment("Diamond Pickaxe",		/obj/item/weapon/pickaxe/diamond,				                  1200),
+		new /datum/data/mining_equipment("Diamond Drill",    /obj/item/weapon/pickaxe/drill/diamonddrill,                                1200),
+		new /datum/data/mining_equipment("Diamond Pickaxe",		/obj/item/weapon/pickaxe/diamond,				                  800),
 		new /datum/data/mining_equipment("Jetpack",             /obj/item/weapon/tank/jetpack/carbondioxide/mining,               1500),
-		new /datum/data/mining_equipment("Space Cash",    		/obj/item/stack/spacecash/c1000,                    			  2000),
+		new /datum/data/mining_equipment("Space Cash",    		/obj/item/stack/spacecash/c1000,                    			  500),
+		new /datum/data/mining_equipment("Loot Crate", /obj/structure/closet/crate/secure/loot, 1000),
+		new /datum/data/mining_equipment("Mining Hardsuit", /obj/item/clothing/suit/space/hardsuit/mining, 1000),
+		new /datum/data/mining_equipment("Personal AI Device", /obj/item/device/paicard, 1000),
+		new /datum/data/mining_equipment("Sentience Potion",    		/obj/item/slimepotion/sentience,                    			  7500),
+		new /datum/data/mining_equipment("Mining Firefighter",    		/obj/mecha/working/ripley/firefighter/mining,                    			  10000),
+		new /datum/data/mining_equipment("Mecha Mining Scanner", /obj/item/mecha_parts/mecha_equipment/mining_scanner, 1000),
+		new /datum/data/mining_equipment("Mecha Mining Drill", /obj/item/mecha_parts/mecha_equipment/drill, 1000),
+		new /datum/data/mining_equipment("Mecha Hydraulic Clamp", /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp, 1000),
+		new /datum/data/mining_equipment("Mecha Plasma Generator", /obj/item/mecha_parts/mecha_equipment/generator, 2500),
+		new /datum/data/mining_equipment("Mecha Nuclear Generator", /obj/item/mecha_parts/mecha_equipment/generator/nuclear, 2500),
+		new /datum/data/mining_equipment("Mecha Diamond Drill", /obj/item/mecha_parts/mecha_equipment/drill/diamonddrill, 2500),
+		new /datum/data/mining_equipment("Mecha Plasma Cutter", /obj/item/mecha_parts/mecha_equipment/weapon/energy/plasma, 1000),
+		new /datum/data/mining_equipment("Mecha Repair Droid", /obj/item/mecha_parts/mecha_equipment/repair_droid, 4000),
+		new /datum/data/mining_equipment("Mecha Teleporter", /obj/item/mecha_parts/mecha_equipment/teleporter, 10000),
 		new /datum/data/mining_equipment("Point Transfer Card", /obj/item/weapon/card/mining_point_card,               			   500),
 		)
 
@@ -623,20 +639,20 @@
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 0
 	wander = 0
-	idle_vision_range = 5
+	idle_vision_range = 10
 	move_to_delay = 10
 	retreat_distance = 1
 	minimum_distance = 2
-	health = 125
-	maxHealth = 125
-	melee_damage_lower = 15
-	melee_damage_upper = 15
+	health = 250
+	maxHealth = 250
+	melee_damage_lower = 20
+	melee_damage_upper = 20
 	environment_smash = 0
 	attacktext = "drills"
 	attack_sound = 'sound/weapons/circsawhit.ogg'
 	ranged = 1
 	ranged_message = "shoots"
-	ranged_cooldown_cap = 3
+	ranged_cooldown_cap = 1
 	projectiletype = /obj/item/projectile/kinetic
 	projectilesound = 'sound/weapons/Gunshot4.ogg'
 	speak_emote = list("states")
@@ -688,7 +704,7 @@
 	..()
 
 /mob/living/simple_animal/hostile/mining_drone/proc/SetCollectBehavior()
-	idle_vision_range = 9
+	idle_vision_range = 10
 	search_objects = 2
 	wander = 1
 	ranged = 0
@@ -697,7 +713,7 @@
 	icon_state = "mining_drone"
 
 /mob/living/simple_animal/hostile/mining_drone/proc/SetOffenseBehavior()
-	idle_vision_range = 7
+	idle_vision_range = 10
 	search_objects = 0
 	wander = 0
 	ranged = 1

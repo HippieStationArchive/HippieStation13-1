@@ -114,6 +114,25 @@
 
 	var/obj/item/mecha_parts/mecha_equipment/mining_scanner/scanner = new /obj/item/mecha_parts/mecha_equipment/mining_scanner
 	scanner.attach(src)
+	
+/obj/mecha/working/ripley/firefighter/mining
+	desc = "A brand, spanking new mining Firefighter."
+	name = "\improper APLU \"Miner\""
+
+/obj/mecha/working/ripley/firefighter/mining/New()
+	..()
+	var/obj/item/mecha_parts/mecha_equipment/drill/D = new /obj/item/mecha_parts/mecha_equipment/drill
+	D.attach(src)
+	
+	cargo.Add(new /obj/structure/ore_box(src))
+
+	var/obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/HC = new /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp
+	HC.attach(src)
+	for(var/obj/item/mecha_parts/mecha_tracking/B in src.contents)//Deletes the beacon so it can't be found easily
+		qdel(B)
+
+	var/obj/item/mecha_parts/mecha_equipment/mining_scanner/scanner = new /obj/item/mecha_parts/mecha_equipment/mining_scanner
+	scanner.attach(src)	
 
 /obj/mecha/working/ripley/Exit(atom/movable/O)
 	if(O in cargo)
