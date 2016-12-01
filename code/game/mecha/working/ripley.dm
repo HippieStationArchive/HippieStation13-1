@@ -169,7 +169,7 @@
 	var/pressure = environment.return_pressure()
 
 	if(pressure < 20)
-		step_in = 3
+		step_in = 2
 		for(var/obj/item/mecha_parts/mecha_equipment/drill/drill in equipment)
 			drill.equip_cooldown = initial(drill.equip_cooldown)/2
 	else
