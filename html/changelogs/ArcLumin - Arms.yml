@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - bugfix: "Fixes ED209's requiring arms to tablecraft"

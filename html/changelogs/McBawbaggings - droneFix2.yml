@@ -1,0 +1,6 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed bolt of change turning people into drones without restrictions."

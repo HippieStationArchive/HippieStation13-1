@@ -55,7 +55,7 @@
 /obj/item/projectile/bullet/sniper/on_hit(atom/target, blocked = 0, hit_zone)
 	if((blocked != 100) && (!ismob(target) && breakthings))
 		target.ex_act(rand(1,2))
-	if((blocked != 100) && ishuman(target) && (hit_zone != ("chest" || "head")) && breakthings)
+	if((blocked != 100) && ishuman(target) && hit_zone != "chest" && hit_zone != "head" && breakthings)
 		var/mob/living/carbon/human/H = target
 		var/obj/item/organ/limb/O = H.get_organ(hit_zone)
 		O.dismember()

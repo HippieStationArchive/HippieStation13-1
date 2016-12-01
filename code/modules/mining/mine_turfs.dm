@@ -91,6 +91,7 @@ var/global/list/rockTurfEdgeCache
 		"Uranium" = 5, "Diamond" = 1, "Gold" = 10,
 		"Silver" = 12, "Plasma" = 20, "Iron" = 40,
 		"Gibtonite" = 4, "Cave" = 2, "BScrystal" = 1,
+		"Bananium" = 1,
 		/*, "Adamantine" =5*/)
 		//Currently, Adamantine won't spawn as it has no uses. -Durandan
 	var/mineralChance = 13
@@ -320,7 +321,7 @@ var/global/list/rockTurfEdgeCache
 
 /turf/simulated/floor/plating/asteroid/airless/cave
 	var/length = 100
-	var/mob_spawn_list = list("Goldgrub" = 1, "Goliath" = 5, "Basilisk" = 4, "Hivelord" = 3)
+	var/mob_spawn_list = list("Goldgrub" = 1, "Goliath" = 5, "Basilisk" = 4, "Hivelord" = 3, "Fugu" = 2)
 	var/sanity = 1
 
 /turf/simulated/floor/plating/asteroid/airless/cave/New(loc, var/length, var/go_backwards = 1, var/exclude_dir = -1)
@@ -399,7 +400,7 @@ var/global/list/rockTurfEdgeCache
 	if(prob(30))
 		if(istype(loc, /area/mine/explored))
 			return
-		for(var/atom/A in ultra_range(15,T))//Lowers chance of mob clumps
+		for(var/atom/A in ultra_range(12,T))//Lowers chance of mob clumps
 			if(istype(A, /mob/living/simple_animal/hostile/asteroid))
 				return
 		var/randumb = pickweight(mob_spawn_list)
@@ -412,6 +413,8 @@ var/global/list/rockTurfEdgeCache
 				new /mob/living/simple_animal/hostile/asteroid/basilisk(T)
 			if("Hivelord")
 				new /mob/living/simple_animal/hostile/asteroid/hivelord(T)
+			if("Fugu")
+				new /mob/living/simple_animal/hostile/asteroid/fugu(T)
 	return
 
 /turf/simulated/mineral/attackby(obj/item/weapon/pickaxe/P, mob/user, params)

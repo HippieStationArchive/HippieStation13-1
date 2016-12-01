@@ -1,0 +1,10 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed dakis going invisible after selecting a daki body."
+  - bugfix: "Fixed being able to change the body of a daki provided you gave it a null name."
+  - bugfix: "No longer adds empty spaces in the name of dakis if no name is given."
+  - rscadd: "Added backpack sprites to all dakis and inhand sprites to the Cappy daki. Big thanks to GandalfGreyhame for making the sprites."
+  - tweak: "Increased the daki rename limit from 10 to 26 as to be consistent with name limts."

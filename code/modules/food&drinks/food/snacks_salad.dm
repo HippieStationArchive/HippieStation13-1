@@ -2,7 +2,7 @@
 ////////////////////////////////////////////SALAD////////////////////////////////////////////
 /obj/item/weapon/reagent_containers/food/snacks/salad
 	icon = 'icons/obj/food/soupsalad.dmi'
-	trash = /obj/item/weapon/reagent_containers/glass/bowl
+	trash = /obj/item/trash/snack_bowl
 	bitesize = 3
 	w_class = 3
 	list_reagents = list("nutriment" = 7, "vitamin" = 2)
@@ -58,35 +58,3 @@
 	icon_state = "citrusdelight"
 	bonus_reagents = list("nutriment" = 4, "vitamin" = 4)
 	list_reagents = list("nutriment" = 7, "vitamin" = 5)
-
-/obj/item/weapon/reagent_containers/food/snacks/salad/ricebowl
-	name = "ricebowl"
-	desc = "A bowl of raw rice."
-	icon_state = "ricebowl"
-	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/salad/boiledrice
-	list_reagents = list("nutriment" = 4)
-
-/obj/item/weapon/reagent_containers/food/snacks/salad/boiledrice
-	name = "boiled rice"
-	desc = "A warm bowl of rice."
-	icon_state = "boiledrice"
-	bonus_reagents = list("nutriment" = 1, "vitamin" = 1)
-	list_reagents = list("nutriment" = 5, "vitamin" = 1)
-
-/obj/item/weapon/reagent_containers/food/snacks/salad/ricepudding
-	name = "rice pudding"
-	desc = "Everybody loves rice pudding!"
-	icon_state = "ricepudding"
-	bonus_reagents = list("nutriment" = 4, "vitamin" = 2)
-
-/obj/item/weapon/reagent_containers/food/snacks/salad/ricepork
-	name = "rice and pork"
-	desc = "Well, it looks like pork..."
-	icon_state = "riceporkbowl"
-	bonus_reagents = list("nutriment" = 4, "vitamin" = 4)
-
-/obj/item/weapon/reagent_containers/food/snacks/salad/eggbowl
-	name = "egg bowl"
-	desc = "A bowl of rice with a fried egg."
-	icon_state = "eggbowl"
-	bonus_reagents = list("nutriment" = 4, "vitamin" = 4)

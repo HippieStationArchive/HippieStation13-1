@@ -1,0 +1,8 @@
+author: Kierany9
+delete-after: True
+changes: 
+  - bugfix: "Fixed Sniper Rifles being able to dismember heads and torsos."
+  - tweak: "Increased the time it takes for Ephedrine's antistun to activate by 33%."
+  - tweak: "Removed morphine-induced drowsiness during use. The drowsiness after it runs out still remains."
+  - tweak: "Aranesp now boosts your speed more than any other drugs and fully nullifies all stamina damage just like Heroin."
+  - tweak: "Meth's toxin damage has been halved. Overdoses do the same amount of damage as before."

@@ -46,6 +46,12 @@
 		// Changeling egg can survive in aliens!
 		var/mob/living/carbon/C = target
 		if(C.stat == DEAD)
+			if(getorgan(/obj/item/organ/internal/body_egg/alien_embryo))
+				src << "<span class='userdanger'>A foreign presence repels us from this body. Perhaps we should try to infest another?</span>"
+				return
+			if(getorgan(/obj/item/organ/internal/body_egg/changeling_egg))
+				src << "<span class='userdanger'>One of us has already planted thier seed in this body! Perhaps we should try to infest another?</span>"
+				return
 			Infect(target)
 			src << "<span class='userdanger'>With our egg laid, our death approaches rapidly...</span>"
 			spawn(100)

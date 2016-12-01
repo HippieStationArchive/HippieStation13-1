@@ -5,6 +5,14 @@
 	w_class = 1
 	burn_state = 0 //Burnable
 
+/obj/item/trash/snack_bowl
+	name = "snack bowl"
+	icon_state = "snack_bowl"
+
+/obj/item/weapon/reagent_containers/glass/bowl //delete this shit at a later date once the map is fixed, I think its on z5
+	name = "snack bowl"
+	icon_state = "snack_bowl"
+
 /obj/item/trash/raisins
 	name = "\improper 4no raisins"
 	icon_state= "4no_raisins"

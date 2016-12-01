@@ -8,7 +8,6 @@
 /obj/item/weapon/reagent_containers/food/snacks/breadslice
 	icon = 'icons/obj/food/burgerbread.dmi'
 	bitesize = 2
-	custom_food_type = /obj/item/weapon/reagent_containers/food/snacks/customizable/sandwich
 	filling_color = "#FFA500"
 	list_reagents = list("nutriment" = 2)
 	slot_flags = SLOT_HEAD
@@ -20,7 +19,6 @@
 	icon_state = "bread"
 	bonus_reagents = list("nutriment" = 7)
 	list_reagents = list("nutriment" = 10)
-	custom_food_type = /obj/item/weapon/reagent_containers/food/snacks/customizable/bread
 	slice_path = /obj/item/weapon/reagent_containers/food/snacks/breadslice/plain
 
 /obj/item/weapon/reagent_containers/food/snacks/breadslice/plain

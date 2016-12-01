@@ -149,7 +149,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 //Output a creative message and then return the damagetype done. If you want to instakill do user.death()
 /obj/item/proc/suicide_act(mob/user)
 	if(force > 0)
-		var/list/flavortext = list("<span class='suicide'>[user] is bashing \himself repeadetly with \the [src]! It looks like they're trying to commit suicide.</span>",\
+		var/list/flavortext = list("<span class='suicide'>[user] is bashing \himself repeatedly with \the [src]! It looks like they're trying to commit suicide.</span>",\
 									"<span class='suicide'>[user] smashes \himself with \the [src]! It looks like they're trying to commit suicide.</span>")
 		if(is_sharp())
 			flavortext = list("<span class='suicide'>[user] is slitting \his wrists with \the [src]! It looks like they're trying to commit suicide.</span>", \
@@ -254,7 +254,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	if (loc == user)
 		if(!user.unEquip(src))
 			return
-	
+
 	pickup(user)
 	add_fingerprint(user)
 	if(!user.put_in_active_hand(src))

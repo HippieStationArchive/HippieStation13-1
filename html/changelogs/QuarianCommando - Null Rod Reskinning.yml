@@ -1,0 +1,7 @@
+author: QuarianCommando
+ 
+delete-after: True
+
+changes: 
+  - rscadd: "Added the framework for melee weapons to be reskinned and resprited."
+  - rscadd: "Added three new skins for the chaplains' null rod, and the ability to rename it with a pen."
