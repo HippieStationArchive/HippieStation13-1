@@ -101,6 +101,24 @@
 	origin_tech = "materials=1;biotech=1"
 	attack_verb = list("attacked", "slashed", "sawed", "cut")
 	sharpness = IS_SHARP
+	
+/obj/item/weapon/circular_saw/bonesaw
+	name = "bonesaw"
+	desc = "Not as cool as the circular one, but will work in a pinch."
+	icon = 'icons/obj/surgery.dmi'
+	icon_state = "bonesaw"
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	throwhitsound =  'sound/weapons/bladeslice.ogg'
+	flags = CONDUCT
+	force = 7
+	w_class = 2
+	throwforce = 5
+	throw_speed = 2
+	throw_range = 5
+	materials = list(MAT_METAL=5000)
+	origin_tech = "materials=1;biotech=1"
+	attack_verb = list("attacked", "slashed", "sawed", "cut")
+	sharpness = IS_SHARP
 
 /obj/item/weapon/surgical_drapes
 	name = "surgical drapes"

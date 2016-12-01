@@ -159,6 +159,14 @@ datum/objective_item/steal/pornmag
 	targetitem = /obj/item/documents/syndicate/blue
 	difficulty = 10
 
+/datum/objective_item/steal/nukedisc_special
+	name = "the nuclear authentication disk"
+	targetitem = /obj/item/weapon/disk/nuclear
+	difficulty = 15
+
+/datum/objective_item/steal/nukedisc_special/New()
+	special_equipment += /obj/item/weapon/pinpointer
+
 //Old ninja objectives.
 /datum/objective_item/special/pinpointer
 	name = "the captain's pinpointer"

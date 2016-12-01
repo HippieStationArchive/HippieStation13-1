@@ -365,3 +365,13 @@
 		qdel(i)
 		dels++
 	return dels
+
+//Makes an associative list from a string,like params2list but with custom limiters
+/proc/smartparams2list(list/L, elementlimiter, valuelimiter)
+	var/list/firstlist = splittext(L, elementlimiter)
+	var/list/secondlist = list()
+	for(var/i in firstlist)
+		var/list/templist = splittext(i, valuelimiter) // templist will only have 2 elements, the first being a ckey and the second the value
+		for(var/p in templist)
+			secondlist += p
+	return secondlist

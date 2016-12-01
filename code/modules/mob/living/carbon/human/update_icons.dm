@@ -404,9 +404,6 @@ Please contact me on #coderbus IRC. ~Carnie x
 
 
 /mob/living/carbon/human/update_inv_wear_mask()
-	if(!get_organ("head")) //Decpaitated
-		return
-
 	var/obj/item/clothing/mask/M = ..()
 	if(M)
 		if(client && hud_used && hud_used.hud_shown)

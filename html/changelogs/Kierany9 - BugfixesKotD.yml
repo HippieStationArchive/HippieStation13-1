@@ -1,0 +1,8 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed a bug in King of the Disk where the disk would not grant extra telecrystals when stored in bags."
+  - bugfix: "Fixed a bug where mindslaves holding the disk would receive messages about receiving telecrystals instead of the person who implanted them."
+  - bugfix: "The PDA uplink now automatically refreshes when the holder gains extra TC."

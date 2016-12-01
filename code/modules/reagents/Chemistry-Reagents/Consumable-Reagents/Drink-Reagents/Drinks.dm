@@ -253,6 +253,7 @@
 	id = "nuka_cola"
 	description = "Cola, cola never changes."
 	color = "#100800" // rgb: 16, 8, 0
+	speedboost = FAST
 
 /datum/reagent/consumable/nuka_cola/on_mob_life(mob/living/M)
 	M.Jitter(20)
@@ -260,7 +261,6 @@
 	M.dizziness +=5
 	M.drowsyness = 0
 	M.sleeping = max(0,M.sleeping-2)
-	M.status_flags |= GOTTAGOFAST
 	if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
 		M.bodytemperature = max(310, M.bodytemperature - (5 * TEMPERATURE_DAMAGE_COEFFICIENT))
 	..()
@@ -479,110 +479,25 @@
 	description = "Beloved of children and teetotalers."
 	color = "#E6CDFF"
 
-//////////////////////////////////////////////The ten friggen million reagents that get you drunk//////////////////////////////////////////////
+/datum/reagent/consumable/laughter
+	name = "Laughter"
+	id = "laughter"
+	description = "Some say that this is the best medicine, but recent studies have proven that to be untrue."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	color = "#FF4DD2"
 
-/datum/reagent/consumable/atomicbomb
-	name = "Atomic Bomb"
-	id = "atomicbomb"
-	description = "Nuclear proliferation never tasted so good."
-	color = "#666300" // rgb: 102, 99, 0
-
-/datum/reagent/consumable/atomicbomb/on_mob_life(mob/living/M)
-	M.druggy = max(M.druggy, 50)
-	M.confused = max(M.confused+2,0)
-	M.Dizzy(10)
-	if (!M.slurring)
-		M.slurring = 1
-	M.slurring += 3
-	switch(current_cycle)
-		if(51 to 200)
-			M.sleeping += 1
-		if(201 to INFINITY)
-			M.sleeping += 1
-			M.adjustToxLoss(2)
+/datum/reagent/consumable/laughter/on_mob_life(mob/living/M)
+	if(!M.silent && prob(10))
+		M.emote("laugh")
+		var/laughsound = pick('sound/voice/manlaugh1.ogg', 'sound/voice/manlaugh2.ogg')
+		if(M.gender == MALE)
+			playsound(get_turf(M), laughsound, 50, 1)
+		else if(M.gender == FEMALE)
+			playsound(get_turf(M), 'sound/voice/womanlaugh.ogg', 65, 1)
+		else//non-binary gender just sounds like a man
+			playsound(get_turf(M), 'sound/voice/manlaugh1.ogg', 50, 1)
+	if(holder.has_reagent("nothing"))
+		metabolization_rate = 5 * REAGENTS_METABOLISM
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	..()
-	return
-
-/datum/reagent/consumable/gargle_blaster
-	name = "Pan-Galactic Gargle Blaster"
-	id = "gargleblaster"
-	description = "Whoah, this stuff looks volatile!"
-	color = "#664300" // rgb: 102, 67, 0
-
-/datum/reagent/consumable/gargle_blaster/on_mob_life(mob/living/M)
-	M.dizziness +=6
-	switch(current_cycle)
-		if(15 to 45)
-			if(!M.slurring)
-				M.slurring = 1
-			M.slurring += 3
-		if(45 to 55)
-			if(prob(50))
-				M.confused = max(M.confused+3,0)
-		if(55 to 200)
-			M.druggy = max(M.druggy, 55)
-		if(200 to INFINITY)
-			M.adjustToxLoss(2)
-	..()
-	return
-
-/datum/reagent/consumable/neurotoxin
-	name = "Neurotoxin"
-	id = "neurotoxin"
-	description = "A strong neurotoxin that puts the subject into a death-like state."
-	color = "#2E2E61" // rgb: 46, 46, 97
-
-/datum/reagent/consumable/neurotoxin/on_mob_life(mob/living/carbon/M)
-	M.weakened = max(M.weakened, 3)
-	M.dizziness +=6
-	switch(current_cycle)
-		if(15 to 45)
-			if(!M.slurring)
-				M.slurring = 1
-			M.slurring += 3
-		if(45 to 55)
-			if(prob(50))
-				M.confused = max(M.confused+3,0)
-		if(55 to 200)
-			M.druggy = max(M.druggy, 55)
-		if(200 to INFINITY)
-			M.adjustToxLoss(2)
-	..()
-	return
-
-/datum/reagent/consumable/hippies_delight
-	name = "Hippie's Delight"
-	id = "hippiesdelight"
-	description = "You just don't get it maaaan."
-	color = "#664300" // rgb: 102, 67, 0
-	nutriment_factor = 0
-	metabolization_rate = 0.2 * REAGENTS_METABOLISM
-
-/datum/reagent/consumable/hippies_delight/on_mob_life(mob/living/M)
-	M.druggy = max(M.druggy, 50)
-	switch(current_cycle)
-		if(1 to 5)
-			if (!M.slurring) M.slurring = 1
-			M.Dizzy(10)
-			if(prob(10)) M.emote(pick("twitch","giggle"))
-		if(5 to 10)
-			if (!M.slurring) M.slurring = 1
-			M.Jitter(20)
-			M.Dizzy(20)
-			M.druggy = max(M.druggy, 45)
-			if(prob(20)) M.emote(pick("twitch","giggle"))
-		if (10 to 200)
-			if (!M.slurring) M.slurring = 1
-			M.Jitter(40)
-			M.Dizzy(40)
-			M.druggy = max(M.druggy, 60)
-			if(prob(30)) M.emote(pick("twitch","giggle"))
-		if(200 to INFINITY)
-			if (!M.slurring) M.slurring = 1
-			M.Jitter(60)
-			M.Dizzy(60)
-			M.druggy = max(M.druggy, 75)
-			if(prob(40)) M.emote(pick("twitch","giggle"))
-			if(prob(30)) M.adjustToxLoss(2)
-	..()
-	return

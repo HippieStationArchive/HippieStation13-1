@@ -50,6 +50,7 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 			var/datum/mind/changeling = pick(antag_candidates)
 			antag_candidates -= changeling
 			changelings += changeling
+			changeling.special_role = "Changeling"
 			changeling.restricted_roles = restricted_jobs
 			modePlayer += changelings
 		return 1
@@ -60,7 +61,6 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 	for(var/datum/mind/changeling in changelings)
 		log_game("[changeling.key] (ckey) has been selected as a changeling")
 		changeling.current.make_changeling()
-		changeling.special_role = "Changeling"
 		forge_changeling_objectives(changeling)
 		greet_changeling(changeling)
 	..()
@@ -76,6 +76,7 @@ var/list/slot2type = list("head" = /obj/item/clothing/head/changeling, "wear_mas
 				if(age_check(character.client))
 					if(!(character.job in restricted_jobs))
 						character.mind.make_Changling()
+						return 1
 
 /datum/game_mode/proc/forge_changeling_objectives(datum/mind/changeling)
 	//OBJECTIVES - random traitor objectives. Unique objectives "steal brain" and "identity theft".

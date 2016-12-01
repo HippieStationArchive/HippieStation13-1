@@ -1183,14 +1183,14 @@
 /datum/construction/reversible/mecha/phazon
 	result = "/obj/mecha/combat/phazon"
 	steps = list(
-					//1
-					list("key"=/obj/item/device/assembly/signaler/anomaly,
-						 "backkey"=null, //Cannot remove the anomaly core once it's in
-						 "desc"="Anomaly core socket is open and awaiting connection."),
+					//1 Nobody can fucking get these
+					//list("key"=/obj/item/device/assembly/signaler/anomaly,
+					//	 "backkey"=null, //Cannot remove the anomaly core once it's in
+					//	 "desc"="Anomaly core socket is open and awaiting connection."),
 
 					//2
 					list("key"=/obj/item/weapon/weldingtool,
-							"backkey"=/obj/item/weapon/wrench,
+							"backkey"=null, //So you can't undo it, like above
 							"desc"="External armor is wrenched."),
 					 //3
 					 list("key"=/obj/item/weapon/wrench,
@@ -1223,13 +1223,13 @@
 					 //10
 					 list("key"=/obj/item/bluespace_crystal,
 					 		"backkey"=/obj/item/weapon/screwdriver,
-					 		"desc"="Super capacitor is secured."),
+					 		"desc"="Quadratic capacitor is secured."),
 					 //12
 					 list("key"=/obj/item/weapon/screwdriver,
 					 		"backkey"=/obj/item/weapon/crowbar,
-					 		"desc"="Super capacitor is installed."),
+					 		"desc"="Quadratic capacitor is installed."),
 					 //12
-					 list("key"=/obj/item/weapon/stock_parts/capacitor,
+					 list("key"=/obj/item/weapon/stock_parts/capacitor/quadratic,
 					 		"backkey"=/obj/item/weapon/screwdriver,
 					 		"desc"="Phasic scanner module is secured."),
 					 //13
@@ -1237,7 +1237,7 @@
 					 		"backkey"=/obj/item/weapon/crowbar,
 					 		"desc"="Phasic scanner module is installed."),
 					 //14
-					 list("key"=/obj/item/weapon/stock_parts/scanning_module,
+					 list("key"=/obj/item/weapon/stock_parts/scanning_module/phasic,
 					 		"backkey"=/obj/item/weapon/screwdriver,
 					 		"desc"="Weapon control module is secured."),
 					 //15

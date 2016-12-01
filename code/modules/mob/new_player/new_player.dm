@@ -90,10 +90,19 @@
 		relevant_cap = max(config.hard_popcap, config.extreme_popcap)
 
 	if(href_list["show_preferences"])
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return
+
+
 		client.prefs.ShowChoices(src)
 		return 1
 
 	if(href_list["ready"])
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return
+
 		if(!ticker || ticker.current_state <= GAME_STATE_PREGAME) // Make sure we don't ready up after the round has started
 			ready = text2num(href_list["ready"])
 		else
@@ -104,6 +113,10 @@
 		new_player_panel()
 
 	if(href_list["observe"])
+
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return
 
 		if(alert(src,"Are you sure you wish to observe? You will not be able to play this round!","Player Setup","Yes","No") == "Yes")
 			if(!client)	return 1
@@ -130,6 +143,10 @@
 			return 1
 
 	if(href_list["late_join"])
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return
+
 		if(!ticker || ticker.current_state != GAME_STATE_PLAYING)
 			usr << "<span class='danger'>The round is either not ready, or has already finished...</span>"
 			return
@@ -176,6 +193,10 @@
 		new_player_panel()
 
 	if(href_list["showpoll"])
+		if(usr.client.cid_check == 0)
+			src << "<span class='warning'>You are not authorized yet. Please rejoin the game once.</span>"
+			return
+
 		handle_player_polling()
 		return
 
@@ -295,13 +316,18 @@
 
 	joined_player_list += character.ckey
 
+	var/antag = FALSE
 	if(config.allow_latejoin_antagonists)
 		switch(SSshuttle.emergency.mode)
 			if(SHUTTLE_RECALL, SHUTTLE_IDLE)
-				ticker.mode.make_antag_chance(character)
+				if(ticker.mode.make_antag_chance(character))
+					antag = TRUE
 			if(SHUTTLE_CALL)
 				if(SSshuttle.emergency.timeLeft(1) > initial(SSshuttle.emergencyCallTime)*0.5)
-					ticker.mode.make_antag_chance(character)
+					if(ticker.mode.make_antag_chance(character))
+						antag = TRUE
+	if(!antag && character.mind)
+		SSjob.forge_job_objectives(character.mind, rank)
 	qdel(src)
 
 /mob/new_player/proc/AnnounceArrival(var/mob/living/carbon/human/character, var/rank)

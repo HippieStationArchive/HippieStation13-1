@@ -1,0 +1,4 @@
+author: Badmex
+delete-after: True
+changes: 
+  - bugfix: "Changed the Permission-System to delete rows instead of just giving out Removed as a Rank."
