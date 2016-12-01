@@ -33,6 +33,14 @@
 
 	if(control_disabled || stat)
 		return
+	for (var/datum/camerachunk/CC in eyeobj.visibleCameraChunks)
+		if(istype(A,/turf))
+			if(A in CC.obscuredTurfs)
+				return
+		else
+			var/turf/TU = get_turf(A)
+			if(TU in CC.obscuredTurfs)
+				return
 
 	var/list/modifiers = params2list(params)
 	if(modifiers["shift"] && modifiers["ctrl"])
