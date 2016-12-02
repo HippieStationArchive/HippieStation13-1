@@ -703,6 +703,7 @@
 #include "code\game\objects\items\weapons\gibgun.dm"
 #include "code\game\objects\items\weapons\gift_wrappaper.dm"
 #include "code\game\objects\items\weapons\handcuffs.dm"
+#include "code\game\objects\items\weapons\humanball.dm"
 #include "code\game\objects\items\weapons\janisigns.dm"
 #include "code\game\objects\items\weapons\kitchen.dm"
 #include "code\game\objects\items\weapons\manuals.dm"

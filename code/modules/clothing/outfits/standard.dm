@@ -547,3 +547,12 @@
 	W.assignment = "Bloodraven"
 	W.registered_name = H.real_name
 	W.update_label(W.registered_name, W.assignment)
+
+//Human Pokeball equipment
+
+/datum/outfit/pokeball
+	name = "Human Pokeball Items"
+	suit = /obj/item/clothing/suit/straight_jacket
+	glasses = /obj/item/clothing/glasses/sunglasses/blindfold
+	mask = /obj/item/clothing/mask/muzzle
+
