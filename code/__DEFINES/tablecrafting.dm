@@ -4,5 +4,4 @@
 #define CAT_AMMO	"Ammunition"
 #define CAT_ARMOR	"Armor"
 #define CAT_ROBOT	"Robots"
-#define CAT_FOOD	"Food"
 #define CAT_MISC	"Misc"

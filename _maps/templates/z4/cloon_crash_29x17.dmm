@@ -5,7 +5,7 @@
 "e" = (/turf/simulated/wall/shuttle{icon_state = "swall12"; dir = 2},/area/space)
 "f" = (/turf/simulated/mineral/random,/turf/simulated/wall/shuttle{dir = 2; icon_state = "swall_f10"; layer = 2},/area/space)
 "g" = (/turf/simulated/wall/shuttle{icon_state = "swall3"; dir = 2},/area/space)
-"h" = (/obj/structure/closet/crate/secure,/obj/item/clothing/shoes/combat,/obj/item/clothing/under/owl,/obj/item/clothing/gloves/color/black,/obj/item/clothing/mask/gas/owl_mask,/obj/item/clothing/suit/toggle/owlwings,/obj/item/toy/owl,/obj/item/weapon/paper{info = "Take up the mantle, but know that you cannot let go once you have."},/obj/item/weapon/gun/energy/gun/advtaser,/obj/item/weapon/tank/internals/oxygen,/obj/item/clothing/suit/space/hardsuit/syndi/owl/cursed,/turf/simulated/floor/vault,/area/space)
+"h" = (/obj/structure/closet/crate/secure,/obj/item/clothing/shoes/combat,/obj/item/clothing/under/owl,/obj/item/clothing/gloves/color/black,/obj/item/clothing/mask/gas/owl_mask,/obj/item/clothing/suit/toggle/owlwings,/obj/item/toy/owl,/obj/item/weapon/paper{info = "Take up the mantle, but know that you cannot let go once you have."},/obj/item/weapon/gun/energy/gun/advtaser,/obj/item/weapon/tank/internals/oxygen,/obj/item/weapon/storage/backpack/cloak,/obj/item/clothing/suit/space/hardsuit/syndi/owl/cursed,/turf/simulated/floor/vault,/area/space)
 "i" = (/turf/simulated/floor/plating/asteroid/airless,/turf/simulated/wall/shuttle{icon_state = "swall_f5"; dir = 2},/area/space)
 "j" = (/obj/machinery/door/airlock/hatch,/turf/simulated/floor/plating,/area/space)
 "k" = (/turf/simulated/floor/plating/asteroid/airless,/turf/simulated/wall/shuttle{icon_state = "swall_f9"; dir = 2},/area/space)

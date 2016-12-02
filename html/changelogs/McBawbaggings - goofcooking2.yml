@@ -1,0 +1,7 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - bugfix: "Microwaves no longer break forever."
+  - tweak: "Gibber meat now comes out the left of it instead of all over the place."

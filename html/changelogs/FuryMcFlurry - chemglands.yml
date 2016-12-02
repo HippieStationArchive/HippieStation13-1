@@ -1,0 +1,7 @@
+author: Fury McFlurry
+delete-after: True
+changes: 
+  - rscadd: "Added experimental organ, strange organs of unknown origins, that contains 2 chemicals and pumps it into your system when you have the organ implanted (huge thanks to ArcLumin/McBawbaggins/TDcoolguy300 for helping me understand code a little more. requires CMO access to unlock the crate."
+  - imageadd: "Sprites done by me."
+  - rscadd: "Added experimental organ crates for Cargo to order."
+  - rscadd: "Experimental organs can also be found in maint... sometimes."

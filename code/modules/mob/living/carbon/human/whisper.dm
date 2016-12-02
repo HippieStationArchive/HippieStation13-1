@@ -41,10 +41,10 @@
 		// If we cut our message short, abruptly end it with a-..
 		var/message_len = length(message)
 		message = copytext(message, 1, health_diff) + "[message_len > health_diff ? "-.." : "..."]"
-		message = Ellipsis(message, 10, 1)
+		message = Ellipsis(html_decode(message), 10, 1)
 		whispers = "whispers in their final breath"
 	else if(critical) //If whispering while in critical state but conscious
-		message = Ellipsis(message, 40, 1)
+		message = Ellipsis(html_decode(message), 40, 1)
 		whispers = "mutters"
 
 	message = treat_message(message)

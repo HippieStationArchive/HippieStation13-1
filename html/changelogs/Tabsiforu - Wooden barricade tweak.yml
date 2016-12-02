@@ -1,0 +1,4 @@
+author: tabsiforu
+delete-after: True
+changes: 
+  - tweak: "Increases wooden planks needed to build wooden barricade to 6, from 5, to be consistent with spritework."

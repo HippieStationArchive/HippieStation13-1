@@ -152,7 +152,6 @@
 	desc = "The food of choice for the seasoned traitor."
 	icon_state = "donkpocket"
 	list_reagents = list("nutriment" = 4)
-	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/donkpocket/warm
 	filling_color = "#CD853F"
 
 /obj/item/weapon/reagent_containers/food/snacks/donkpocket/warm

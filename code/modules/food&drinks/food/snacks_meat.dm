@@ -60,7 +60,6 @@
 	desc = "A still twitching leg of a giant spider... you don't really want to eat this, do you?"
 	icon_state = "spiderleg"
 	list_reagents = list("nutriment" = 2, "toxin" = 2)
-	cooked_type = /obj/item/weapon/reagent_containers/food/snacks/boiledspiderleg
 	filling_color = "#000000"
 
 /obj/item/weapon/reagent_containers/food/snacks/cornedbeef
@@ -124,6 +123,12 @@
 /obj/item/weapon/reagent_containers/food/snacks/kebab/human/cat
 	name = "cat-kebab"
 	desc = "Cat meat, on a stick."
+
+/obj/item/weapon/reagent_containers/food/snacks/kebab/human/moth
+	name = "moth-kebab"
+	desc = "Moth meat, on a stick."
+
+//We need skeleton kebabs
 
 /obj/item/weapon/reagent_containers/food/snacks/kebab/monkey
 	name = "meat-kebab"

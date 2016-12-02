@@ -124,11 +124,12 @@ var/list/ai_list = list()
 					src << "<span class='userdanger'>You have been installed as an AI! </span>"
 					src << "<span class='danger'>You must obey your silicon laws above all else. Your objectives will consider you to be dead.</span>"
 
-			src << "<B>You are playing the station's AI. The AI cannot move, but can interact with many objects while viewing them (through cameras).</B>"
-			src << "<B>To look at other parts of the station, click on yourself to get a camera menu.</B>"
-			src << "<B>While observing through a camera, you can use most (networked) devices which you can see, such as computers, APCs, intercoms, doors, etc.</B>"
-			src << "To use something, simply click on it."
-			src << "Use say :b to speak to your cyborgs through binary."
+			src << "<B>You are playing the station's AI. The AI cannot physically move, but can interact with many objects so long as it has a clear line of sight.</B>"
+			src << "<B>To look at other parts of the station, use the HUD to access cameras and follow players, or use the movement keys to change your field of view.</B>"
+			src << "<B>You can use almost any device which you can see, such as computers, APCs, intercoms, and doors.</B>"
+			src << "To use something, simply click on it.  Abuse of station property may lead to your immediate termination."
+			src << "Interpret and follow your laws to the best of your ability. Failure to follow your laws may lead to your ban."
+			src << "Type 'say :b' to speak to your cyborgs privately. Type 'say :h' to speak through a holographic projection."
 			src << "For department channels, use the following say commands:"
 			src << ":o - AI Private, :c - Command, :s - Security, :e - Engineering, :u - Supply, :v - Service, :m - Medical, :n - Science."
 			if (!(ticker && ticker.mode && (mind in ticker.mode.malf_ai)))
