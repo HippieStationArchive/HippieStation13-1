@@ -313,6 +313,7 @@
 	icon_state = "hardsuit1-owl"
 	item_state = "s_helmet"
 	item_color = "owl"
+	armor = list(melee = 15, bullet = 15, laser = 15, energy = 10, bomb = 10, bio = 100, rad = 50) //Why in gods name was a thing that non antags could get inside of 30 seconds of roundstart AS GOOD as something normal traitors had to spend TC on?
 
 
 /obj/item/clothing/suit/space/hardsuit/syndi/owl
@@ -323,6 +324,7 @@
 	item_state = "s_suit"
 	item_color = "owl"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl
+	armor = list(melee = 15, bullet = 15, laser = 15, energy = 10, bomb = 10, bio = 100, rad = 50)
 
 /obj/item/clothing/suit/space/hardsuit/syndi/owl/cursed
 	flags = NODROP | THICKMATERIAL
