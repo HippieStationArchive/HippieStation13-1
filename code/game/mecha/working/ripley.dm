@@ -67,6 +67,10 @@
 	max_equip = 5 // More armor, less tools
 	wreckage = /obj/structure/mecha_wreckage/ripley/firefighter
 
+/obj/mecha/working/ripley/ripleyussr
+	desc = "Autonomous Power Loader Unit. This model is insigned with communist symbols."
+	icon_state = "ripleyussr"
+	wreckage = /obj/structure/mecha_wreckage/ripley/ripleyussr
 
 /obj/mecha/working/ripley/deathripley
 	desc = "OH SHIT IT'S THE DEATHSQUAD WE'RE ALL GONNA DIE"
@@ -114,7 +118,7 @@
 
 	var/obj/item/mecha_parts/mecha_equipment/mining_scanner/scanner = new /obj/item/mecha_parts/mecha_equipment/mining_scanner
 	scanner.attach(src)
-	
+
 /obj/mecha/working/ripley/firefighter/mining
 	desc = "A brand, spanking new mining Firefighter."
 	name = "\improper APLU \"Miner\""
@@ -123,7 +127,7 @@
 	..()
 	var/obj/item/mecha_parts/mecha_equipment/drill/D = new /obj/item/mecha_parts/mecha_equipment/drill
 	D.attach(src)
-	
+
 	cargo.Add(new /obj/structure/ore_box(src))
 
 	var/obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/HC = new /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp
@@ -132,7 +136,7 @@
 		qdel(B)
 
 	var/obj/item/mecha_parts/mecha_equipment/mining_scanner/scanner = new /obj/item/mecha_parts/mecha_equipment/mining_scanner
-	scanner.attach(src)	
+	scanner.attach(src)
 
 /obj/mecha/working/ripley/Exit(atom/movable/O)
 	if(O in cargo)
