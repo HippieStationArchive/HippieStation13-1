@@ -22,6 +22,7 @@
 	force = 5
 	w_class = 2
 	throwforce = 5
+	embed_chance = 20
 
 /obj/item/dragon/canine
 	name = "Canine Dildo"
@@ -30,6 +31,7 @@
 	force = 5
 	w_class = 2
 	throwforce = 7
+	embed_chance = 20
 
 /obj/item/dragon/equine
 	name = "Equine Dildo"
@@ -38,6 +40,7 @@
 	force = 11
 	w_class = 3
 	throwforce = 9
+	embed_chance = 30
 
 /obj/structure/statue/dragon/shelf
 	name = "Dragon Dildo Shelf"
