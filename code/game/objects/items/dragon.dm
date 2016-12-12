@@ -17,7 +17,7 @@
 
 /obj/item/dragon/sea
 	name = "Sea Dragon Dildo"
-	desc = "A Sea Dragon Dildo, Why this is on a SpaceStation we will never know..."
+	desc = "It's damp."
 	icon_state = "seadragon"
 	force = 5
 	w_class = 2
@@ -26,7 +26,7 @@
 
 /obj/item/dragon/canine
 	name = "Canine Dildo"
-	desc = "A Canine Dildo, Why this is on a SpaceStation we will never know..."
+	desc = "Taking the phrase \"dogging your mates\" to a whole new level."
 	icon_state = "canine"
 	force = 5
 	w_class = 2
@@ -35,7 +35,7 @@
 
 /obj/item/dragon/equine
 	name = "Equine Dildo"
-	desc = "A fucking Horse Cock!?  WHY!  Why do we have this shit on a Space Station..."
+	desc = "Yes, it's the whole horse."
 	icon_state = "equine"
 	force = 11
 	w_class = 3
