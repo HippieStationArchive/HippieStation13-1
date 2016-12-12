@@ -44,13 +44,13 @@
 
 /obj/structure/statue/dragon/shelf
 	name = "Dragon Dildo Shelf"
-	desc = "A shelf for all your fucking oversized Dildos.."
+	desc =  "Built to withstand your collection and your sins."
 	icon = 'icons/obj/dicks.dmi'
 	icon_state = "shelf1"
 
 /obj/structure/statue/dragon/shelf/alt
 	name = "Dragon Dildo Shelf"
-	desc = "A shelf for all your fucking oversized Dildos.."
+	desc =  "Built to withstand your collection and your sins."
 	icon_state = "shelf2"
 
 
