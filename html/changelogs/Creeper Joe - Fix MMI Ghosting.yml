@@ -1,0 +1,6 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes:
+  - bugfix: "Fixed MMI Ghosting after 9 years in development"
