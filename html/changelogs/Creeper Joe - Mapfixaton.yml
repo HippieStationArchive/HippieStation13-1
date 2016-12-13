@@ -1,0 +1,12 @@
+
+author: Creeper Joe
+
+delete-after: True
+
+changes:
+  - bugfix: "Fixed part of the infirmary still being called Security Maintenance."
+  - bugfix: "Removed extra piping at 119,175,1."
+  - bugfix: "Fixed the maintenance doors in Security being unlocked when maintenance restrictions were lifted."
+  - tweak: "Added holopads to the Brig"
+  - tweak: "Brought back the Keycard Authentication Device for HoS' office."
+  - tweak: "Brought back the Announcement System for the HoS' office."
