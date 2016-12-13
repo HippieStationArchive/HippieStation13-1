@@ -1,0 +1,6 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes: 
+  - rscadd: "All staves can now be cast on yourself, applying their effects instantly instead of having to put it in your mouth first (much like the wands)."
