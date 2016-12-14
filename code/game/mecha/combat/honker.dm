@@ -15,6 +15,10 @@
 	max_equip = 3
 	var/squeak = 0
 
+/obj/mecha/combat/honker/honkerhot
+	icon_state = "honkerhot"
+	wreckage = /obj/structure/mecha_wreckage/honker/honkerhot
+
 /*
 /obj/mecha/combat/honker/New()
 	..()
