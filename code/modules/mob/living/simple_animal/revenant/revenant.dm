@@ -290,7 +290,10 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 	return 1
 
 /mob/living/simple_animal/revenant/singularity_act()
-	return 0
+	if(!revealed)
+		return 0
+	else
+		gib()
 	
 /datum/objective/revenant
 	dangerrating = 10
