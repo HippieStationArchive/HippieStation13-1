@@ -323,6 +323,8 @@
 	icon_state = "hardsuit1-owl"
 	item_state = "s_suit"
 	item_color = "owl"
+	body_parts_covered = ARMS
+	flags_inv = HIDEGLOVES
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl
 	armor = list(melee = 30, bullet = 15, laser = 30, energy = 10, bomb = 10, bio = 100, rad = 50)
 
