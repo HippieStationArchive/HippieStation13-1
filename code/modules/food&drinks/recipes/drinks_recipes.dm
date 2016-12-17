@@ -579,3 +579,11 @@
 	required_reagents = list ("wine" = 10)
 	required_catalysts = list ("enzyme" = 5)
 	result_amount = 10
+
+/datum/chemical_reaction/drink/laughter
+	name = "Laughter"
+	id = "Cannedlaughter"
+	result = "laughter"
+	required_reagents = list("banana" = 1, "cola" = 1, "lube" = 1)
+	result_amount = 3
+

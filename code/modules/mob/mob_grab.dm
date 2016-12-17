@@ -133,10 +133,10 @@
 	if(state >= GRAB_KILL)
 		affecting.Weaken(3)	//Should keep you down unless you get help.
 		affecting.stuttering = max(affecting.stuttering, 5) //It will hamper your voice, being choked and all.
-		affecting.losebreath = min(affecting.losebreath + 2, 3) //Choke 'em out!
+		affecting.losebreath = min(affecting.losebreath + 5, 7) //Choke 'em out!
 		if(assailant.swimming == 1)//Oh pool why are you so complicated
 			affecting.Weaken(2)	//Should keep you down unless you get help.
-			affecting.losebreath = min(affecting.losebreath + 2, 3)
+			affecting.losebreath = min(affecting.losebreath + 5, 7)
 			if(isliving(affecting))
 				var/mob/living/L = affecting
 				L.adjustOxyLoss(15) //Drowning is fast mang.
@@ -270,7 +270,7 @@
 			add_logs(assailant, affecting, "strangled")
 
 			assailant.changeNext_move(CLICK_CD_TKSTRANGLE)
-			affecting.losebreath += 1
+			affecting.losebreath += 5
 		else if(assailant)
 			assailant.visible_message("<span class='warning'>[assailant] was unable to tighten \his grip on [affecting]'s neck!</span>")
 			icon_state = "kill"

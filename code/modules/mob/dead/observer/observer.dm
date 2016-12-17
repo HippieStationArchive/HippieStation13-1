@@ -117,6 +117,8 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 				return
 			else
 				confirm_ghost = TRUE
+		else
+			confirm_ghost = TRUE
 	else
 		confirm_ghost = TRUE
 

@@ -189,6 +189,12 @@
 	desc = "A small bottle. Contains Histamine."
 	icon_state = "bottle16"
 	list_reagents = list("histamine" = 30)
+	
+/obj/item/weapon/reagent_containers/glass/bottle/wasting
+	name = "wasting toxin bottle"
+	desc = "A small bottle. Contains wasting toxin."
+	icon_state = "bottle16"
+	list_reagents = list("wasting_toxin" = 30)
 
 /obj/item/weapon/reagent_containers/glass/bottle/diphenhydramine
 	name = "antihistamine bottle"

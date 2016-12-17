@@ -880,7 +880,7 @@
 /obj/item/toy/cards/cardhand/Topic(href, href_list)
 	if(..())
 		return
-	if(usr.stat || !ishuman(usr) || !usr.canmove)
+	if(usr.stat || !ishuman(usr))
 		return
 	var/mob/living/carbon/human/cardUser = usr
 	var/O = src
@@ -970,7 +970,7 @@
 	set name = "Flip Card"
 	set category = "Object"
 	set src in range(1)
-	if(usr.stat || !ishuman(usr) || !usr.canmove || usr.restrained())
+	if(usr.stat || !ishuman(usr) || usr.restrained())
 		return
 	if(!flipped)
 		src.flipped = 1
@@ -1024,7 +1024,7 @@
 
 
 /obj/item/toy/cards/singlecard/attack_self(mob/user)
-	if(usr.stat || !ishuman(usr) || !usr.canmove || usr.restrained())
+	if(usr.stat || !ishuman(usr) || usr.restrained())
 		return
 	Flip()
 

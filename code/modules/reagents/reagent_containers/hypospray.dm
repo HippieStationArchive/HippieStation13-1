@@ -100,9 +100,9 @@
 	name = "stimpack medipen"
 	desc = "A rapid way to stimulate your body's adrenaline, allowing for freer movement in restrictive armor."
 	icon_state = "stimpen"
-	volume = 20
-	amount_per_transfer_from_this = 20
-	list_reagents = list("ephedrine" = 10, "coffee" = 10)
+	volume = 50
+	amount_per_transfer_from_this = 50
+	list_reagents = list("ephedrine" = 10, "coffee" = 10, "stimulants" = 5, "omnizine" = 5, "morphine" = 10, "iron" = 10)
 
 /obj/item/weapon/reagent_containers/hypospray/medipen/stimpack/traitor
 	desc = "A modified stimulants autoinjector for use in combat situations. Has a mild healing effect."

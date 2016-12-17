@@ -26,6 +26,7 @@
 	harm_intent_damage = 15
 	melee_damage_lower = 15
 	melee_damage_upper = 40
+	gold_core_spawnable = 1
 
 /mob/living/simple_animal/hostile/bigzed/Life()
 	if(istype(src, /mob/living/simple_animal/hostile/bigzed/scrake)) //For when I make the fleshpound. They'll both act differently when raged.

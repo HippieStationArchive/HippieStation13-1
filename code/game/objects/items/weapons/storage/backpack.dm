@@ -271,9 +271,10 @@
 	name = "smuggler's satchel"
 	desc = "A very slim satchel that can easily fit into tight spaces."
 	icon_state = "satchel-flat"
-	w_class = 3 //Can fit in backpacks itself.
+	w_class = 2 //Can fit in your ass.
 	max_combined_w_class = 15
 	level = 1
+	embed_chance = 1 //This is a meme
 	cant_hold = list(/obj/item/weapon/storage/backpack/satchel_flat) //muh recursive backpacks
 
 /obj/item/weapon/storage/backpack/satchel_flat/hide(var/intact)

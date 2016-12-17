@@ -1,6 +1,7 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/burger
 	filling_color = "#CD853F"
+	name = "burger"
 	icon = 'icons/obj/food/burgerbread.dmi'
 	icon_state = "hburger"
 	bitesize = 3
@@ -13,7 +14,6 @@
 
 /obj/item/weapon/reagent_containers/food/snacks/burger/human
 	var/hname = ""
-	var/job = null
 	name = "human burger"
 	desc = "A bloody burger."
 	bonus_reagents = list("vitamin" = 4)

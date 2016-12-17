@@ -816,7 +816,8 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 					/obj/item/weapon/storage/fancy/cigarettes/cigpack_midori = 3,
 					/obj/item/weapon/storage/box/matches = 10,
 					/obj/item/weapon/lighter/greyscale = 4,
-					/obj/item/weapon/storage/fancy/rollingpapers = 5)
+					/obj/item/weapon/storage/fancy/rollingpapers = 5,
+					/obj/item/clothing/mask/vape = 5)
 	contraband = list(/obj/item/weapon/lighter = 3)
 	premium = list(/obj/item/weapon/storage/fancy/cigarettes/cigpack_robustgold = 3, \
 	/obj/item/weapon/storage/fancy/cigarettes/cigars = 1, /obj/item/weapon/storage/fancy/cigarettes/cigars/havana = 1, /obj/item/weapon/storage/fancy/cigarettes/cigars/cohiba = 1)
@@ -958,7 +959,7 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	desc = "A kitchen and restaurant equipment vendor"
 	product_ads = "Mm, food stuffs!;Food and food accessories.;Get your plates!;You like forks?;I like forks.;Woo, utensils.;You don't really need these..."
 	icon_state = "dinnerware"
-	products = list(/obj/item/weapon/storage/bag/tray = 8,/obj/item/weapon/kitchen/fork = 6,/obj/item/weapon/kitchen/knife = 4,/obj/item/weapon/kitchen/rollingpin = 2,/obj/item/weapon/reagent_containers/food/drinks/drinkingglass = 8,/obj/item/clothing/suit/apron/chef = 2,/obj/item/weapon/reagent_containers/food/condiment/pack/ketchup = 5,/obj/item/weapon/reagent_containers/food/condiment/pack/hotsauce = 5,/obj/item/weapon/reagent_containers/glass/bowl = 20)
+	products = list(/obj/item/weapon/storage/bag/tray = 8,/obj/item/weapon/kitchen/fork = 6,/obj/item/weapon/kitchen/knife = 4,/obj/item/weapon/kitchen/rollingpin = 2,/obj/item/weapon/reagent_containers/food/drinks/drinkingglass = 8,/obj/item/clothing/suit/apron/chef = 2,/obj/item/weapon/reagent_containers/food/condiment/pack/ketchup = 5,/obj/item/weapon/reagent_containers/food/condiment/pack/hotsauce = 5,/obj/item/trash/snack_bowl = 20)
 	contraband = list(/obj/item/weapon/kitchen/rollingpin = 2, /obj/item/weapon/kitchen/knife/butcher = 2)
 
 /obj/machinery/vending/sovietsoda
@@ -1050,10 +1051,31 @@ IF YOU MODIFY THE PRODUCTS LIST OF A MACHINE, MAKE SURE TO UPDATE ITS RESUPPLY C
 	/obj/item/clothing/suit/ianshirt=1,/obj/item/clothing/shoes/laceup=2,/obj/item/clothing/shoes/sneakers/black=4,
 	/obj/item/clothing/shoes/sandal=1, /obj/item/clothing/gloves/fingerless=2,/obj/item/clothing/glasses/orange=1,/obj/item/clothing/glasses/red=1,
 	/obj/item/weapon/storage/belt/fannypack=1, /obj/item/weapon/storage/belt/fannypack/blue=1, /obj/item/weapon/storage/belt/fannypack/red=1)
-	contraband = list(/obj/item/clothing/under/syndicate/tacticool=1,/obj/item/clothing/mask/balaclava=1,/obj/item/clothing/head/ushanka=1,/obj/item/clothing/under/soviet=1,/obj/item/weapon/storage/belt/fannypack/black=2)
+	contraband = list(/obj/item/clothing/under/syndicate/tacticool=1,/obj/item/clothing/mask/balaclava=1,/obj/item/clothing/head/ushanka=1,/obj/item/clothing/under/soviet=1,/obj/item/weapon/storage/belt/fannypack/black=2, /obj/item/clothing/suit/vapeshirt=1)
 	premium = list(/obj/item/clothing/under/suit_jacket/checkered=1,/obj/item/clothing/head/mailman=1,/obj/item/clothing/under/rank/mailman=1,/obj/item/clothing/suit/jacket/leather=1,/obj/item/clothing/suit/jacket/leather/overcoat=1,/obj/item/clothing/under/pants/mustangjeans=1)
 	refill_canister = /obj/item/weapon/vending_refill/clothing
 
+/obj/machinery/vending/spareparts /* Contains spare parts for building machines. Sprites by Fury McFlurry */
+	name = "\improper Machivend"
+	desc = "You <i>can</i> fix it!"
+	icon_state = "spareparts"
+	icon_deny = "spareparts-deny"
+	product_slogans = "Fix 'er up! ;If it's broke, we got it!; <i>The</i> leading self defining vendor on the market!"
+	req_access_txt = "11"
+
+	products = list(
+		/obj/item/weapon/stock_parts/console_screen	 = 8,
+		/obj/item/weapon/stock_parts/capacitor		 = 25,
+		/obj/item/weapon/stock_parts/scanning_module = 25,
+		/obj/item/weapon/stock_parts/manipulator	 = 25,
+		/obj/item/weapon/stock_parts/micro_laser	 = 25,
+		/obj/item/weapon/stock_parts/matter_bin		 = 25,
+		/obj/item/weapon/stock_parts/cell			 = 15
+	)
+
+	premium = list(
+		/obj/item/weapon/storage/part_replacer = 1
+	)
 
 #undef STANDARD_CHARGE
 #undef CONTRABAND_CHARGE

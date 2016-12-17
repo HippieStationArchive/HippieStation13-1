@@ -46,6 +46,7 @@
 	color = G.color_hex
 	icon_state = G.name
 	G.territory_new |= list(territory.type = territory.name)
+	desc = "A painted [name]."
 
 	..(location, color, icon_state, e_name, rotation)
 
