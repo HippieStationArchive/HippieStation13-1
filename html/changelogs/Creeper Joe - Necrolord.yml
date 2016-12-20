@@ -1,0 +1,7 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes:
+  - rscadd: "The Wizard now has access to the Book of Darkness, containing three very powerful spells centered around the undead and an artifact that grows stronger the more souls it consumes. Costs 5 and can be found in the Assistance tab."
+  - rscadd: "Added some framework for future Wizardlord sets."
