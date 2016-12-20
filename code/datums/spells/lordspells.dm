@@ -73,8 +73,8 @@
 		user << "<font color=purple><b>You enter your wraith form, leaving you vulnerable yet very maneuvreable.</font>"
 		user.incorporeal_move = 2
 		spawn(35)
-			user << "<span class='warning'>Soulsplit wears off!"
+			user << "<span class='warning'>Soulsplit wears off!</span>"
 			user.incorporeal_move = 0
 	else
-		user << "<span class='warning'>You cannot concentrate on casing soulsplit while injured!</span>"
+		user << "<span class='warning'>You cannot concentrate on casting soulsplit while injured!</span>"
 		charge_counter = 300
