@@ -233,6 +233,7 @@
 	item_state = "necrolord"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS
 	armor = list(melee = 40, bullet = 30, laser = 30, energy = 30, bomb = 30, bio = 30, rad = 30)
+	allowed = list(/obj/item/weapon/teleportation_scroll, /obj/item/weapon/gun/magic/staff/staffofrevenant)
 	flags_inv = HIDEJUMPSUIT
 
 /obj/item/clothing/head/wizard/necrolord
