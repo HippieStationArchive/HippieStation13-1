@@ -97,7 +97,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			revenant_damage = 25
 	if(revenant_level == 1)
 		if(revenant_souls >= 10)
-			user << "<font color=purple>Once again, you glance at the staff, sparks now eminating from it as it begins to grow in power. You hear silent wailing around you, as you begin your decent into madness...</font>"
+			user << "<font color=purple>Once again, you glance at the staff, sparks now eminating from it as it begins to grow in power. You hear silent wailing around you, as you begin your descent into madness...</font>"
 			max_charges = 3
 			charges = 3
 			recharge_rate = 8
