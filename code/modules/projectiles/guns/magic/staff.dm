@@ -107,7 +107,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			user << 'sound/spookoween/ghost_whisper.ogg'
 	if(revenant_level == 2)
 		if(revenant_souls >= 15)
-			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emenating from the crystal mounted ontop of the staff. Your powers grows even more...</font>"
+			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emenating from the staff's crystal. Your powers grow even stronger...</font>"
 			max_charges = 4
 			charges = 4
 			recharge_rate = 7
@@ -117,7 +117,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			user << 'sound/hallucinations/veryfar_noise.ogg'
 	if(revenant_level == 3)
 		if(revenant_souls >= 20)
-			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emenating from the crystal mounted ontop of the staff, ecchoing troughout the station. Your powers grows even more...</font>"
+			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emenating from the crystal mounted ontop of the staff, echoing throughout the station. Your powers grows even stronger...</font>"
 			max_charges = 5
 			charges = 5
 			recharge_rate = 6
@@ -128,7 +128,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			world << "<font color=purple><b>\"Your end is near...\"</font>"
 	if(revenant_level == 4)
 		if(revenant_souls >= 25) // if you reach this point, you pretty much won already
-			user << "<font color=purple>Just merely thinking of the power you have acquired is enough to trigger the staff's final evolution... It's destructive powers lets out an even louder wailing than last time, so loud that it echoes troughout the entire station, alerting those still standing that it's futile to resist now...</font>"
+			user << "<font color=purple>Just merely thinking of the power you have acquired is enough to trigger the staff's final evolution... It's destructive powers lets out an even louder wailing than last time, so loud that it echoes throughout the entire station, alerting those still standing that its futile to resist now...</font>"
 			max_charges = 6
 			charges = 6
 			recharge_rate = 5
@@ -150,11 +150,11 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			world << 'sound/hallucinations/wail.ogg'
 
 	if(revenant_level <= 4)
-		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power will grow every fifth soul..</font color></b>"
+		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power will grow every fifth soul...</font color></b>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font color>"
 	if(revenant_level == 5)
 		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power can only grow if you absorb a total of 50 souls...</font color></b>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font color>"
 	if(revenant_level == 666)
 		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power can not possibly grow any further...</font color></b>"
-		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile instantly gibs a target..</font color>"
+		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile instantly gibs a target.</font color>"
