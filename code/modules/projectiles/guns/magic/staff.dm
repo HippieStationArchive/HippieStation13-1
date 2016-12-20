@@ -65,6 +65,7 @@
 	ammo_type = /obj/item/ammo_casing/magic/staffofrevenant
 	icon_state = "staffofrevenant"
 	item_state = "staffofrevenant"
+	w_class = 4
 	max_charges = 1
 	recharge_rate = 10
 	no_den_usage = 1
