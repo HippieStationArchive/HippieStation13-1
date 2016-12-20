@@ -253,6 +253,15 @@
 		dat += "[surplus] left.<br>"
 	return dat
 
+/datum/spellbook_entry/item/bookofdarkness
+	name = "Book of Darkness"
+	desc = "A forbidden tome, previously outlawed from the Wizard Federation for containing necromancy that is now being redistributed. Contains a powerful artifact that gets stronger with every soul it claims, a stunning spell that deals heavy damage to a single target, an incorporeal move spell and a spell that lets you explode corpses. Comes with a cool set of powerful robes as well."
+	item_path = /obj/item/weapon/bookofdarkness
+	log_name = "BoD"
+	category = "Assistance"
+	cost = 5
+	limit = 1
+
 /datum/spellbook_entry/item/staffchange
 	name = "Staff of Change"
 	desc = "An artefact that spits bolts of coruscating energy which cause the target's very form to reshape itself."
