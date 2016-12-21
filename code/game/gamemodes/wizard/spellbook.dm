@@ -93,6 +93,22 @@
 	dat += "[S.clothes_req?"Needs wizard garb":"Can be cast without wizard garb"]<br>"
 	return dat
 
+/datum/spellbook_entry/soulflare
+	name = "Soulflare"
+	spell_type = /obj/effect/proc_holder/spell/targeted/trigger/soulflare
+	log_name = "SoFl"
+
+/datum/spellbook_entry/corpseexplosion
+	name = "Corpse Explosion"
+	spell_type = /obj/effect/proc_holder/spell/targeted/explodecorpse
+	log_name = "CoEx"
+
+/datum/spellbook_entry/soulsplit
+	name = "Soulsplit"
+	spell_type = /obj/effect/proc_holder/spell/self/soulsplit
+	log_name = "SoSp"
+	category = "Mobility"
+
 /datum/spellbook_entry/fireball
 	name = "Fireball"
 	spell_type = /obj/effect/proc_holder/spell/dumbfire/fireball
@@ -255,12 +271,19 @@
 
 /datum/spellbook_entry/item/bookofdarkness
 	name = "Book of Darkness"
-	desc = "A forbidden tome, previously outlawed from the Wizard Federation for containing necromancy that is now being redistributed. Contains a powerful artifact that gets stronger with every soul it claims, a stunning spell that deals heavy damage to a single target, an incorporeal move spell and a spell that lets you explode corpses. Comes with a cool set of powerful robes as well."
+	desc = "A forbidden tome, previously outlawed from the Wizard Federation for containing necromancy that is now being redistributed. Contains a powerful artifact that gets stronger with every soul it claims, a stunning spell that deals heavy damage to a single target, an incorporeal move spell and a spell that lets you explode corpses. Comes with a cool set of powerful robes as well that can carry the Staff of Revenant."
 	item_path = /obj/item/weapon/bookofdarkness
 	log_name = "BoD"
 	category = "Assistance"
 	cost = 5
 	limit = 1
+
+/datum/spellbook_entry/item/staffofrevenant
+	name = "Staff of Revenant"
+	desc = "A weak staff that can drain the souls of the dead to become far more powerful than anything you can lay your hands on. Activate in your hand to view your progress, stats and if possible, progress to the next stage."
+	item_path = /obj/item/weapon/gun/magic/staff/staffofrevenant
+	log_name = "SoR"
+	category = "Defensive"
 
 /datum/spellbook_entry/item/staffchange
 	name = "Staff of Change"
