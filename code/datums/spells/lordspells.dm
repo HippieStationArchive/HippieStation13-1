@@ -1,24 +1,25 @@
 // Necrolord
 /obj/effect/proc_holder/spell/targeted/trigger/soulflare
 	name = "Soulflare"
-	desc = "Deals high damage to an enemy in 3 different damage types, as well as paralyzing them for 5 seconds. If it hits an enemy in critical condition, it instantly kills them."
+	desc = "Deals high damage to an enemy in 3 different damage types, as well as paralyzing them for 1 seconds If it hits an enemy in critical condition, it instantly kills them and lowers the cooldown permanently, to a maximum of 6."
 	school = "transmutation"
 	charge_max = 300
 	clothes_req = 1
 	invocation = "NEKROSIS"
 	invocation_type = "shout"
 	message = "<span class='notice'>Your head feels like it's being burned as you fall to the ground!</span>"
-	cooldown_min = 50 //12 deciseconds reduction per rank
+	cooldown_min = 300
+	level_max = 0 // no upgrades because it allows you to get 0 cooldown if you wait with upgrades.
 
 	starting_spells = list("/obj/effect/proc_holder/spell/targeted/inflict_handler/soulflare")
 
 	action_icon_state = "soulflare"
 
 /obj/effect/proc_holder/spell/targeted/inflict_handler/soulflare
-	amt_paralysis = 5
+	amt_paralysis = 1
 	amt_dam_fire = 15
 	amt_dam_brute = 15
-	amt_dam_tox = 15
+	amt_dam_oxy = 15
 	sound="sound/magic/Necrolord_Soulflare_Cast.ogg"
 
 /obj/effect/proc_holder/spell/targeted/inflict_handler/soulflare/cast(list/targets, mob/user = usr)
@@ -26,9 +27,11 @@
 	var/mob/living/carbon/target = targets[1]
 	if(target.health <= 0)
 		target.adjustOxyLoss(500)
-		user << "<span class='notice'>You've successfully killed [target], refunding your spell</span>"
+		user << "<span class='notice'>You've successfully killed [target], refunding your spell and decreasing it's cooldown permanently.</span>"
 		user << 'sound/magic/Necrolord_Soulflare_Crit.ogg'
-		SF.charge_counter = 300
+		if(SF.charge_max >= 60)
+			SF.charge_max -= 10
+		SF.charge_counter = charge_max
 	..()
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse
@@ -64,7 +67,7 @@
 	centcom_cancast = 0
 	invocation = "TRAVEL ME BONES"
 	invocation_type = "shout"
-	cooldown_min = 10
+	cooldown_min = 150
 
 	action_icon_state = "soulsplit"
 
