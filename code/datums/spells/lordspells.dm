@@ -25,17 +25,19 @@
 /obj/effect/proc_holder/spell/targeted/inflict_handler/soulflare/cast(list/targets, mob/user = usr)
 	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/SF = locate(/obj/effect/proc_holder/spell/targeted/trigger/soulflare, user.mob_spell_list)
 	var/mob/living/carbon/target = targets[1]
+	var/SoFlCM = 300 // debug purposes
 	if(target.health <= 0)
 		if(!target.stat && DEAD)
 			target.adjustOxyLoss(500)
 			user << "<span class='notice'>You've successfully killed [target], refunding your spell and decreasing it's cooldown permanently.</span>"
 			user << 'sound/magic/Necrolord_Soulflare_Crit.ogg'
-			if(SF.charge_max >= 60)
+			if(SF.charge_max >= 61)
+				SoFlCM -=10
 				SF.charge_max -= 10
-			SF.charge_counter = charge_max
+			SF.charge_counter = SoFlCM
 		else
 			user << "<span class='warning'>[target] is already dead!</span>"
-			SF.charge_counter = charge_max
+			SF.charge_counter = SoFlCM
 	..()
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse
