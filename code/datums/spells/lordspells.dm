@@ -43,7 +43,7 @@
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse
 	name = "Corpse Explosion"
-	desc = "Explodes a corpse, in a very, very big and pretty explosion."
+	desc = "Explodes a corpse, in a very, very big and pretty explosion. The explosion is 9x9 centered on the target, so make sure to maintain distance when you cast it. Who needs maxcaps when you can just go green and recycle?"
 	school = "transmutation"
 	charge_max = 200
 	clothes_req = 1
