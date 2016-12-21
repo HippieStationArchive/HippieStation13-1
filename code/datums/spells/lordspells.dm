@@ -32,7 +32,7 @@
 			user << "<span class='notice'>You've successfully killed [target], refunding your spell and decreasing it's cooldown permanently.</span>"
 			user << 'sound/magic/Necrolord_Soulflare_Crit.ogg'
 			if(SF.charge_max >= 61)
-				SoFlCM -=10
+				SoFlCM -= 10
 				SF.charge_max -= 10
 			SF.charge_counter = SoFlCM
 		else
