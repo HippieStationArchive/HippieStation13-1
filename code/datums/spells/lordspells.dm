@@ -26,12 +26,16 @@
 	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/SF = locate(/obj/effect/proc_holder/spell/targeted/trigger/soulflare, user.mob_spell_list)
 	var/mob/living/carbon/target = targets[1]
 	if(target.health <= 0)
-		target.adjustOxyLoss(500)
-		user << "<span class='notice'>You've successfully killed [target], refunding your spell and decreasing it's cooldown permanently.</span>"
-		user << 'sound/magic/Necrolord_Soulflare_Crit.ogg'
-		if(SF.charge_max >= 60)
-			SF.charge_max -= 10
-		SF.charge_counter = charge_max
+		if(!target.stat && DEAD)
+			target.adjustOxyLoss(500)
+			user << "<span class='notice'>You've successfully killed [target], refunding your spell and decreasing it's cooldown permanently.</span>"
+			user << 'sound/magic/Necrolord_Soulflare_Crit.ogg'
+			if(SF.charge_max >= 60)
+				SF.charge_max -= 10
+			SF.charge_counter = charge_max
+		else
+			user << "<span class='warning'>[target] is already dead!</span>"
+			SF.charge_counter = charge_max
 	..()
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse
@@ -50,7 +54,7 @@
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse/cast(list/targets, mob/user = usr)
 	var/mob/living/carbon/target = targets[1]
-	if(target.stat & DEAD)
+	if(target.stat && DEAD)
 		message_admins("[user] casted corpse explosion on [target]")
 		explosion(target,1,2,5)
 		user << "<font color=purple><b>You redirect an absurd amount of energy into [target]'s corpse, causing it to violently explode!</font>"
