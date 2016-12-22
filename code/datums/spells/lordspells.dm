@@ -57,9 +57,9 @@
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse/cast(list/targets, mob/user = usr)
 	..()
+	var/mob/living/carbon/target = targets[1]
 	if(!target || !SF)
 		return
-	var/mob/living/carbon/target = targets[1]
 	if(target.stat & DEAD)
 		message_admins("[user] casted corpse explosion on [target]")
 		explosion(target,1,2,5)
