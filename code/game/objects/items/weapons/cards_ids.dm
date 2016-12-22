@@ -37,9 +37,9 @@
 		return
 
 	if (t)
-		src.name = "data disk- '[t]'"
+		src.name = sanitize("data disk- '[t]'")
 	else
-		src.name = "data disk"
+		src.name = sanitize("data disk")
 	src.add_fingerprint(usr)
 	return
 
