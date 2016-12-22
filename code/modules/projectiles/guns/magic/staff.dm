@@ -105,8 +105,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			chambered = new /obj/item/ammo_casing/magic/staffofrevenant/level2(src)
 			revenant_level = 2
 			revenant_damage = 30
-
-user << 'sound/spookoween/ghost_whisper.ogg'
+			user << 'sound/spookoween/ghost_whisper.ogg'
 	if(revenant_level == 2)
 		if(revenant_souls >= 15)
 			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emenating from the staff's crystal. Your powers grow even stronger...</font>"
