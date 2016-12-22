@@ -1,4 +1,4 @@
-// Necrolord
+/ Necrolord
 /obj/effect/proc_holder/spell/targeted/trigger/soulflare
 	name = "Soulflare"
 	desc = "Deals high damage to an enemy in 3 different damage types, as well as paralyzing them for 1 seconds If it hits an enemy in critical condition, it instantly kills them and lowers the cooldown permanently, to a maximum of 6."
@@ -32,7 +32,7 @@
 			target.adjustOxyLoss(500)
 			user << "<span class='notice'>You've successfully killed [target], refunding your spell and decreasing it's cooldown permanently.</span>"
 			user << 'sound/magic/Necrolord_Soulflare_Crit.ogg'
-			if(SF.charge_max >= 60)
+			if(SF.charge_max >= 61)
 				SF.soulflarecm -= 10
 				SF.charge_max -= 10
 			SF.charge_counter = SF.soulflarecm
@@ -43,7 +43,7 @@
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse
 	name = "Corpse Explosion"
-	desc = "Explodes a corpse, in a very, very big and pretty explosion."
+	desc = "Explodes a corpse, in a very, very big and pretty explosion. The explosion is 9x9 centered on the target, so make sure to maintain distance when you cast it. Who needs maxcaps when you can just go green and recycle?"
 	school = "transmutation"
 	charge_max = 200
 	clothes_req = 1
