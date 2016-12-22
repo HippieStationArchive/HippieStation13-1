@@ -1,4 +1,4 @@
-/ Necrolord
+// Necrolord
 /obj/effect/proc_holder/spell/targeted/trigger/soulflare
 	name = "Soulflare"
 	desc = "Deals high damage to an enemy in 3 different damage types, as well as paralyzing them for 1 seconds If it hits an enemy in critical condition, it instantly kills them and lowers the cooldown permanently, to a maximum of 6."
