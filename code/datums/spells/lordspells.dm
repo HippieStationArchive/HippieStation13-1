@@ -28,7 +28,7 @@
 	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/SF = locate(/obj/effect/proc_holder/spell/targeted/trigger/soulflare, user.mob_spell_list)
 	var/mob/living/carbon/target = targets[1]
 	if(target.health <= 0)
-		if(!target.stat && DEAD)
+		if(!target.stat & DEAD)
 			target.adjustOxyLoss(500)
 			user << "<span class='notice'>You've successfully killed [target], refunding your spell and decreasing it's cooldown permanently.</span>"
 			user << 'sound/magic/Necrolord_Soulflare_Crit.ogg'
@@ -43,7 +43,7 @@
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse
 	name = "Corpse Explosion"
-	desc = "Explodes a corpse, in a very, very big and pretty explosion. The explosion is 9x9 centered on the target, so make sure to maintain distance when you cast it. Who needs maxcaps when you can just go green and recycle?"
+	desc = "Explodes a corpse in a very, very big and pretty explosion. The explosion is 9x9 centered on the target, so make sure to maintain distance when you cast it. Who needs maxcaps when you can just go green and recycle?"
 	school = "transmutation"
 	charge_max = 200
 	clothes_req = 1
@@ -56,8 +56,11 @@
 	action_icon_state = "raisedead"
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse/cast(list/targets, mob/user = usr)
+	..()
+	if(!target || !SF)
+		return
 	var/mob/living/carbon/target = targets[1]
-	if(target.stat && DEAD)
+	if(target.stat & DEAD)
 		message_admins("[user] casted corpse explosion on [target]")
 		explosion(target,1,2,5)
 		user << "<font color=purple><b>You redirect an absurd amount of energy into [target]'s corpse, causing it to violently explode!</font>"
@@ -67,7 +70,7 @@
 
 /obj/effect/proc_holder/spell/self/soulsplit
 	name = "Soulsplit"
-	desc = "Enter a wraith-like form, traveling at very high speeds and moving trough objects. However, maintaining this form requires you to be at full health to maintain concentration!"
+	desc = "Enter a wraith-like form, traveling at very high speeds and moving through objects. However, maintaining this form requires you to be at full health to maintain concentration!"
 	school = "transmutation"
 	charge_max = 300
 	clothes_req = 1
@@ -80,7 +83,7 @@
 
 /obj/effect/proc_holder/spell/self/soulsplit/cast(list/targets, mob/living/user = usr)
 	if(user.health >= 100)
-		user << "<font color=purple><b>You enter your wraith form, leaving you vulnerable yet very maneuvreable.</font>"
+		user << "<font color=purple><b>You enter your wraith form, leaving you vulnerable yet very manoeuvrable.</font>"
 		user.incorporeal_move = 2
 		spawn(35)
 			user << "<span class='warning'>Soulsplit wears off!</span>"
