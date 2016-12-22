@@ -96,7 +96,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			chambered = new /obj/item/ammo_casing/magic/staffofrevenant/level1(src)
 			revenant_level = 1
 			revenant_damage = 25
-	if(revenant_level == 1)
+	else if(revenant_level == 1)
 		if(revenant_souls >= 10)
 			user << "<font color=purple>Once again, you glance at the staff, sparks now eminating from it as it begins to grow in power. You hear silent wailing around you, as you begin your descent into madness...</font>"
 			max_charges = 3
@@ -106,7 +106,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			revenant_level = 2
 			revenant_damage = 30
 			user << 'sound/spookoween/ghost_whisper.ogg'
-	if(revenant_level == 2)
+	else if(revenant_level == 2)
 		if(revenant_souls >= 15)
 			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emenating from the staff's crystal. Your powers grow even stronger...</font>"
 			max_charges = 4
@@ -116,7 +116,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			revenant_level = 3
 			revenant_damage = 35
 			user << 'sound/hallucinations/veryfar_noise.ogg'
-	if(revenant_level == 3)
+	else if(revenant_level == 3)
 		if(revenant_souls >= 20)
 			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emenating from the crystal mounted ontop of the staff, echoing throughout the station. Your powers grows even stronger...</font>"
 			max_charges = 5
@@ -127,7 +127,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			revenant_damage = 40
 			world << 'sound/hallucinations/i_see_you1.ogg'
 			world << "<font color=purple><b>\"Your end is near...\"</font>"
-	if(revenant_level == 4)
+	else if(revenant_level == 4)
 		if(revenant_souls >= 25) // if you reach this point, you pretty much won already
 			user << "<font color=purple>Just merely thinking of the power you have acquired is enough to trigger the staff's final evolution... It's destructive powers lets out an even louder wailing than last time, so loud that it echoes throughout the entire station, alerting those still standing that its futile to resist now...</font>"
 			max_charges = 6
@@ -138,7 +138,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			revenant_damage = 60
 			world << "<font size=5><font color=purple><b>\"UNLIMITED... POWER!\"</font>"
 			world << 'sound/hallucinations/wail.ogg'
-	if(revenant_level == 5)
+	else if(revenant_level == 5)
 		if(revenant_souls >= 50) // if you reaaally go the extra mile to cement your victory
 			user << "<font color=purple>The Staff... Somehow, you managed to do what no necrolord had ever managed, to awaken the staff further than this... It does not even seem to react, but you can feel it! The staff, it has become so much more potent! None can stand in your way!</font>"
 			chambered = new /obj/item/ammo_casing/magic/staffofrevenant/level666(src)
@@ -153,9 +153,9 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 	if(revenant_level <= 4)
 		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power will grow every fifth soul...</font color></b>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font color>"
-	if(revenant_level == 5)
+	else if(revenant_level == 5)
 		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power can only grow if you absorb a total of 50 souls...</font color></b>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font color>"
-	if(revenant_level == 666)
+	else if(revenant_level == 666)
 		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power can not possibly grow any further...</font color></b>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile instantly gibs a target.</font color>"
