@@ -151,7 +151,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			world << 'sound/hallucinations/wail.ogg'
 
 	if(revenant_level <= 4)
-		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power will grow every fifth soul...</font></b>"
+		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power will grow every fifth soul...</b></font>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font>"
 	else if(revenant_level == 5)
 		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power can only grow if you absorb a total of 50 souls...</b></font color>"
