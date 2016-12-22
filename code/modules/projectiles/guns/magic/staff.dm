@@ -126,7 +126,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			revenant_level = 4
 			revenant_damage = 40
 			world << 'sound/hallucinations/i_see_you1.ogg'
-			world << "<font color=purple><b>\"Your end is near...\"</font>"
+			world << "<font color=purple><b>\"Your end draws near...\"</b></font>"
 	else if(revenant_level == 4)
 		if(revenant_souls >= 25) // if you reach this point, you pretty much won already
 			user << "<font color=purple>Just merely thinking of the power you have acquired is enough to trigger the staff's final evolution... It's destructive powers lets out an even louder wailing than last time, so loud that it echoes throughout the entire station, alerting those still standing that its futile to resist now...</font>"
@@ -136,7 +136,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			chambered = new /obj/item/ammo_casing/magic/staffofrevenant/level5(src)
 			revenant_level = 5
 			revenant_damage = 60
-			world << "<font size=5><font color=purple><b>\"UNLIMITED... POWER!\"</font>"
+			world << "<font size=5 color=purple><b>\"UNLIMITED... POWER!\"</b></font>"
 			world << 'sound/hallucinations/wail.ogg'
 	else if(revenant_level == 5)
 		if(revenant_souls >= 50) // if you reaaally go the extra mile to cement your victory
@@ -147,15 +147,15 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			recharge_rate = 1
 			revenant_level = 666
 			revenant_damage = 200
-			world << "<font size=5><font color=purple><b>COWER BEFORE ME MORTALS!</font>"
+			world << "<font size=5 color=purple><b>COWER BEFORE ME MORTALS!</font>"
 			world << 'sound/hallucinations/wail.ogg'
 
 	if(revenant_level <= 4)
-		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power will grow every fifth soul...</font color></b>"
-		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font color>"
+		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power will grow every fifth soul...</font></b>"
+		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font>"
 	else if(revenant_level == 5)
 		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power can only grow if you absorb a total of 50 souls...</font color></b>"
-		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font color>"
+		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font>"
 	else if(revenant_level == 666)
 		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power can not possibly grow any further...</font color></b>"
-		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile instantly gibs a target.</font color>"
+		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile instantly gibs a target.</font>"
