@@ -66,7 +66,7 @@
 		user << "<font color=purple><b>You redirect an absurd amount of energy into [target]'s corpse, causing it to violently explode!</b></font>"
 	else
 		user << "<span class='warning'>[target] isn't a dead corpse!</span>"
-		charge_counter = init(charge_counter)
+		charge_counter = initial(charge_counter)
 
 /obj/effect/proc_holder/spell/self/soulsplit
 	name = "Soulsplit"
@@ -90,4 +90,4 @@
 			user.incorporeal_move = 0
 	else
 		user << "<span class='warning'>You cannot concentrate on casting soulsplit while injured!</span>"
-		charge_counter = init(charge_counter)
+		charge_counter = initial(charge_counter)
