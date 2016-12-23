@@ -118,7 +118,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			user << 'sound/hallucinations/veryfar_noise.ogg'
 	else if(revenant_level == 3)
 		if(revenant_souls >= 20)
-			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen enamating from the crystal mounted ontop of the staff, echoing throughout the station. Your powers grow even stronger...</font>"
+			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emanating from the crystal mounted ontop of the staff, echoing throughout the station. Your powers grow even stronger...</font>"
 			max_charges = 5
 			charges = 5
 			recharge_rate = 6
