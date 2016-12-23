@@ -98,7 +98,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			revenant_damage = 25
 	else if(revenant_level == 1)
 		if(revenant_souls >= 10)
-			user << "<font color=purple>Once again, you glance at the staff, sparks now eminating from it as it begins to grow in power. You hear silent wailing around you, as you begin your descent into madness...</font>"
+			user << "<font color=purple>Once again, you glance at the staff, sparks now enamating from it as it begins to grow in power. You hear silent wailing around you, as you begin your descent into madness...</font>"
 			max_charges = 3
 			charges = 3
 			recharge_rate = 8
@@ -108,7 +108,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			user << 'sound/spookoween/ghost_whisper.ogg'
 	else if(revenant_level == 2)
 		if(revenant_souls >= 15)
-			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emenating from the staff's crystal. Your powers grow even stronger...</font>"
+			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen enamating from the staff's crystal. Your powers grow even stronger...</font>"
 			max_charges = 4
 			charges = 4
 			recharge_rate = 7
@@ -118,7 +118,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			user << 'sound/hallucinations/veryfar_noise.ogg'
 	else if(revenant_level == 3)
 		if(revenant_souls >= 20)
-			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen emenating from the crystal mounted ontop of the staff, echoing throughout the station. Your powers grows even stronger...</font>"
+			user << "<font color=purple>You only give a quick glimpse at the staff, as you hear the screams of the fallen enamating from the crystal mounted ontop of the staff, echoing throughout the station. Your powers grow even stronger...</font>"
 			max_charges = 5
 			charges = 5
 			recharge_rate = 6
@@ -147,15 +147,15 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 			recharge_rate = 1
 			revenant_level = 666
 			revenant_damage = 200
-			world << "<font size=5 color=purple><b>COWER BEFORE ME MORTALS!</font>"
+			world << "<font size=5 color=purple><b>COWER BEFORE ME MORTALS!</b></font>"
 			world << 'sound/hallucinations/wail.ogg'
 
 	if(revenant_level <= 4)
-		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power will grow every fifth soul...</b></font>"
+		user << "<font color=purple><b>Your [name] has [revenant_souls] souls contained within. Your power will grow every fifth soul...</b></font>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font>"
 	else if(revenant_level == 5)
-		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power can only grow if you absorb a total of 50 souls...</b></font color>"
+		user << "<font color=purple><b>Your [name] has [revenant_souls] souls contained within. Your power can only grow if you absorb a total of 50 souls...</b></font>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile deals [revenant_damage] damage.</font>"
 	else if(revenant_level == 666)
-		user << "<font color=purple><b>Your [src] has [revenant_souls] souls contained within. Your power can not possibly grow any further...</b></font color>"
+		user << "<font color=purple><b>Your [name] has [revenant_souls] souls contained within. Your power can not possibly grow any further...</b></font>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile instantly gibs a target.</font>"
