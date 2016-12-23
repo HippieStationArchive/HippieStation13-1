@@ -83,7 +83,7 @@
 
 /obj/effect/proc_holder/spell/self/soulsplit/cast(list/targets, mob/living/user = usr)
 	if(user.health >= 100)
-		user << "<font color=purple><b>You enter your wraith form, leaving you vulnerable yet very manoeuvrable.</font>"
+		user << "<font color=purple><b>You enter your wraith form, leaving you vulnerable yet very manoeuvrable.</b></font>"
 		user.incorporeal_move = 2
 		spawn(35)
 			user << "<span class='warning'>Soulsplit wears off!</span>"
