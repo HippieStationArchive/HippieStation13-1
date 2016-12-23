@@ -51,7 +51,7 @@
 	invocation_type = "shout"
 	cooldown_min = 10
 	centcom_cancast = 0
-	sound="sound/magic/Necrolord_Soulflare_Cast.ogg"
+	sound="sound/magic/corpseexplosion.ogg"
 
 	action_icon_state = "raisedead"
 
