@@ -89,7 +89,7 @@
 obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 	if(revenant_level == 0)
 		if(revenant_souls >= 5)
-			user << "<font color=purple>As you focus on the staff, you witness the crystal eminating a bright shine, before receeding again. The staff hums at an eerie tone, and has managed to become much stronger...</font>"
+			user << "<font color=purple>As you focus on the staff, you witness the crystal emanating a bright shine, before receeding again. The staff hums at an eerie tone, and has managed to become much stronger...</font>"
 			max_charges = 2
 			charges = 2
 			recharge_rate = 9
