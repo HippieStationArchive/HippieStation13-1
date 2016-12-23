@@ -63,10 +63,10 @@
 	if(target.stat & DEAD)
 		message_admins("[user] casted corpse explosion on [target]")
 		explosion(target,1,2,5)
-		user << "<font color=purple><b>You redirect an absurd amount of energy into [target]'s corpse, causing it to violently explode!</font>"
+		user << "<font color=purple><b>You redirect an absurd amount of energy into [target]'s corpse, causing it to violently explode!</b></font>"
 	else
 		user << "<span class='warning'>[target] isn't a dead corpse!</span>"
-		charge_counter = 60
+		charge_counter = init(charge_counter)
 
 /obj/effect/proc_holder/spell/self/soulsplit
 	name = "Soulsplit"
@@ -90,4 +90,4 @@
 			user.incorporeal_move = 0
 	else
 		user << "<span class='warning'>You cannot concentrate on casting soulsplit while injured!</span>"
-		charge_counter = 300
+		charge_counter = init(charge_counter)
