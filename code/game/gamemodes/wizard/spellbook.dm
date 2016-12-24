@@ -93,6 +93,22 @@
 	dat += "[S.clothes_req?"Needs wizard garb":"Can be cast without wizard garb"]<br>"
 	return dat
 
+/datum/spellbook_entry/soulflare
+	name = "Soulflare"
+	spell_type = /obj/effect/proc_holder/spell/targeted/trigger/soulflare
+	log_name = "SoFl"
+
+/datum/spellbook_entry/corpseexplosion
+	name = "Corpse Explosion"
+	spell_type = /obj/effect/proc_holder/spell/targeted/explodecorpse
+	log_name = "CoEx"
+
+/datum/spellbook_entry/soulsplit
+	name = "Soulsplit"
+	spell_type = /obj/effect/proc_holder/spell/self/soulsplit
+	log_name = "SoSp"
+	category = "Mobility"
+
 /datum/spellbook_entry/fireball
 	name = "Fireball"
 	spell_type = /obj/effect/proc_holder/spell/dumbfire/fireball
@@ -252,6 +268,22 @@
 	if(surplus>=0)
 		dat += "[surplus] left.<br>"
 	return dat
+
+/datum/spellbook_entry/item/bookofdarkness
+	name = "Book of Darkness"
+	desc = "A forbidden tome, previously outlawed from the Wizard Federation for containing necromancy that is now being redistributed. Contains a powerful artifact that gets stronger with every soul it claims, a stunning spell that deals heavy damage to a single target, an incorporeal move spell and a spell that lets you explode corpses. Comes with a cool set of powerful robes as well that can carry the Staff of Revenant."
+	item_path = /obj/item/weapon/bookofdarkness
+	log_name = "BoD"
+	category = "Assistance"
+	cost = 5
+	limit = 1
+
+/datum/spellbook_entry/item/staffofrevenant
+	name = "Staff of Revenant"
+	desc = "A weak staff that can drain the souls of the dead to become far more powerful than anything you can lay your hands on. Activate in your hand to view your progress, stats and if possible, progress to the next stage."
+	item_path = /obj/item/weapon/gun/magic/staff/staffofrevenant
+	log_name = "SoR"
+	category = "Defensive"
 
 /datum/spellbook_entry/item/staffchange
 	name = "Staff of Change"
@@ -468,12 +500,10 @@
 	desc = "Triggers a multiverse war in which the crew (and you) must summon copies of yourself from alternate realities to do battle and hijack the emergency shuttle. Automatically triggers a shuttle call on purchase."
 	log_name = "MW"
 	cost = 8
-
 /datum/spellbook_entry/summon/multisword/IsAvailible()
 	if(!ticker.mode) // In case spellbook is placed on map
 		return 0
 	return (ticker.mode.name != "ragin' mages" && !config.no_summon_magic)
-
 /datum/spellbook_entry/summon/multisword/Buy(mob/living/carbon/human/user,obj/item/weapon/spellbook/book)
 	feedback_add_details("wizard_spell_learned",log_name)
 	only_me()
@@ -876,4 +906,43 @@
 /obj/item/weapon/spellbook/oneuse/random/New()
 	var/real_type = pick(typesof(/obj/item/weapon/spellbook/oneuse))
 	new real_type(loc)
+	qdel(src)
+
+// Lord items because idfk where else to put them
+
+/obj/item/weapon/bookofdarkness
+	name = "book of darkness"
+	desc = "A dark, closed book containing foul magic used against the dead. Opening the book shall seal your fate forever, in exchange for powerful abilities."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "bookofdarkness"
+	item_state = "bookofdarkness"
+	force = 0
+	throwforce = 0
+	w_class = 3
+
+	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/soulflare = null
+	var/obj/effect/proc_holder/spell/targeted/explodecorpse/explodecorpse = null
+	var/obj/effect/proc_holder/spell/self/soulsplit/soulsplit = null
+
+/obj/item/weapon/bookofdarkness/attack_self(mob/living/user)
+	user << "<font color=purple>You rapidly skim through the pages, but you can't see any letters. As you close the book however, you suddenly find equipment at your feet, and your brain hurts.</font>"
+	user << "<font color=purple><b>The Staff of Revenant</b></font> is a powerful artifact that lets you drain the souls of the fallen by hitting them with a melee strike from your staff. It starts off relatively weak, but can grow to become the largest threat one can ever face. Activate it in your hand to see your progress, the weapon's current stats and to progress to the next stage if possible."
+	user << "<font color=purple><b>Soulflare</b></font> deals 15 burn, brute and toxins damage to the target, putting them asleep for 5 seconds and if they are already in critical condition, they are instantly killed and the spell is refunded. This also applies to corpses."
+	user << "<font color=purple><b>Corpse Explosion</b></font> causes a corpse to violently explode in a very large radius, destroying the body alongside it. Make sure to maintain at least 4 tiles distance between you and the target."
+	user << "<font color=purple><b>Soulsplit</b></font> let's you become incorporeal for 3.5 seconds, allowing you to phase through objects and walk at very high speeds. However, it cannot be cast if you are below 100 health. In addition, you are still vulnerable to damage and other attacks in this state, nor will it remove any stuns."
+	user << "<font color=purple><b>Your robes</b></font> have increased resistance against all damage and will help convey your peaceful intent towards the still living."
+	soulflare = new /obj/effect/proc_holder/spell/targeted/trigger/soulflare
+	user.AddSpell(soulflare)
+
+	explodecorpse = new /obj/effect/proc_holder/spell/targeted/explodecorpse
+	user.AddSpell(explodecorpse)
+
+	soulsplit = new /obj/effect/proc_holder/spell/self/soulsplit
+	user.AddSpell(soulsplit)
+
+	new /obj/item/weapon/gun/magic/staff/staffofrevenant(get_turf(user))
+	new /obj/item/clothing/suit/wizrobe/necrolord(get_turf(user))
+	new /obj/item/clothing/head/wizard/necrolord(get_turf(user))
+	new /obj/item/clothing/shoes/sandal/marisa(get_turf(user))
+
 	qdel(src)
