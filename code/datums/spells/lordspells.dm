@@ -28,7 +28,7 @@
 	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/SF = locate(/obj/effect/proc_holder/spell/targeted/trigger/soulflare, user.mob_spell_list)
 	var/mob/living/carbon/target = targets[1]
 	if(target.health <= 0)
-		if(!target.stat & DEAD)
+		if(!target.stat && DEAD)
 			target.adjustOxyLoss(500)
 			user << "<span class='notice'>You've successfully killed [target], refunding your spell and decreasing it's cooldown permanently.</span>"
 			user << 'sound/magic/Necrolord_Soulflare_Crit.ogg'
