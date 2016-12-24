@@ -28,7 +28,7 @@
 	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/SF = locate(/obj/effect/proc_holder/spell/targeted/trigger/soulflare, user.mob_spell_list)
 	var/mob/living/carbon/target = targets[1]
 	if(target.health <= 0)
-		if(!target.stat & DEAD)
+		if(!target.stat && DEAD)
 			target.adjustOxyLoss(500)
 			user << "<span class='notice'>You've successfully killed [target], refunding your spell and decreasing it's cooldown permanently.</span>"
 			user << 'sound/magic/Necrolord_Soulflare_Crit.ogg'
@@ -66,7 +66,7 @@
 		user << "<font color=purple><b>You redirect an absurd amount of energy into [target]'s corpse, causing it to violently explode!</b></font>"
 	else
 		user << "<span class='warning'>[target] isn't a dead corpse!</span>"
-		charge_counter = initial(charge_counter)
+		charge_counter = charge_max
 
 /obj/effect/proc_holder/spell/self/soulsplit
 	name = "Soulsplit"
@@ -90,4 +90,4 @@
 			user.incorporeal_move = 0
 	else
 		user << "<span class='warning'>You cannot concentrate on casting soulsplit while injured!</span>"
-		charge_counter = initial(charge_counter)
+		charge_counter = charge_max
