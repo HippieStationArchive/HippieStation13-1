@@ -470,7 +470,7 @@
 	addiction_threshold = 30
 	stun_threshold = 4
 	stun_resist = 2
-	speedboost = FAST
+	speedboost = NORMAL
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
 	M.adjustStaminaLoss(-1)
