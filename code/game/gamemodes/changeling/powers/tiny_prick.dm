@@ -176,20 +176,6 @@
 	feedback_add_details("changeling_powers","AS")
 	return 1
 
-/obj/effect/proc_holder/changeling/sting/mute
-	name = "Mute Sting"
-	desc = "We silently sting a human, completely silencing them for a short time."
-	helptext = "Our target will not be alerted to their silence until they attempt to speak and cannot."
-	sting_icon = "sting_mute"
-	chemical_cost = 30
-	evopoints_cost = 3
-
-/obj/effect/proc_holder/changeling/sting/mute/sting_action(mob/user, mob/living/carbon/target)
-	add_logs(user, target, "stung", "mute sting")
-	target.reagents.add_reagent("mutetoxin", 5)
-	feedback_add_details("changeling_powers","MS")
-	return 1
-
 /obj/effect/proc_holder/changeling/sting/blind
 	name = "Blind Sting"
 	desc = "We inject a serum that attacks and damages the eyes."
