@@ -258,9 +258,10 @@
 /mob/living/simple_animal/hostile/guardian/punch
 	melee_damage_lower = 20
 	melee_damage_upper = 20
+	armour_penetration = 75
 	damage_transfer = 0.5
 	playstyle_string = "As a standard type you have the ability to stop time for everyone but you and your summoner, but have a high damage resistance and a powerful attack capable of smashing through walls."
-	environment_smash = 3
+	environment_smash = 2
 	magic_fluff_string = "..And draw the Assistant, faceless and generic, but never to be underestimated."
 	tech_fluff_string = "Boot sequence complete. Standard combat modules loaded. Holoparasite swarm online."
 	bio_fluff_string = "Your scarab swarm stirs to life, ready to tear apart your enemies."
