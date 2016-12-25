@@ -268,9 +268,9 @@
 
 /mob/living/simple_animal/hostile/guardian/punch/New()
 	..()
-	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/timestop = null
+	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/guardian/timestop = null
 
-	timestop = new /obj/effect/proc_holder/spell/aoe_turf/conjure/timestop
+	timestop = new /obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/guardian
 	timestop.clothes_req = 0
 	timestop.human_req = 0
 	timestop.player_lock = 0
