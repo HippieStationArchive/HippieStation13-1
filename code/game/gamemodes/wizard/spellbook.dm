@@ -932,13 +932,13 @@
 	user << "<font color=purple><b>Soulsplit</b></font> let's you become incorporeal for 3.5 seconds, allowing you to phase through objects and walk at very high speeds. However, it cannot be cast if you are below 100 health. In addition, you are still vulnerable to damage and other attacks in this state, nor will it remove any stuns."
 	user << "<font color=purple><b>Your robes</b></font> have increased resistance against all damage and will help convey your peaceful intent towards the still living."
 	soulflare = new /obj/effect/proc_holder/spell/targeted/trigger/soulflare
-	user.AddSpell(soulflare)
+	user.mind.AddSpell(soulflare)
 
 	explodecorpse = new /obj/effect/proc_holder/spell/targeted/explodecorpse
-	user.AddSpell(explodecorpse)
+	user.mind.AddSpell(explodecorpse)
 
 	soulsplit = new /obj/effect/proc_holder/spell/self/soulsplit
-	user.AddSpell(soulsplit)
+	user.mind.AddSpell(soulsplit)
 
 	new /obj/item/weapon/gun/magic/staff/staffofrevenant(get_turf(user))
 	new /obj/item/clothing/suit/wizrobe/necrolord(get_turf(user))
