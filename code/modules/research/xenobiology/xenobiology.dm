@@ -583,7 +583,7 @@
 	duration = 90
 
 /obj/effect/timestop/holoparasite
-	duration = 35
+	duration = 60
 
 /obj/item/stack/tile/bluespace
 	name = "bluespace floor tile"
