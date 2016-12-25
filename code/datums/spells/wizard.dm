@@ -170,6 +170,9 @@
 
 	summon_type = list(/obj/effect/timestop/wizard)
 
+/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/holoparasite
+	summon_type = list(/obj/effect/timestop/holoparasite)
+
 /obj/effect/proc_holder/spell/self/timestopimmunity
 	name = "Stop Time Immunity"
 	desc = "This spell grants you immunity to Stop Time, but doesn't allow you to cast it!"
