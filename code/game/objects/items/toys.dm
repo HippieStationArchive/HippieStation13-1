@@ -1488,3 +1488,9 @@
 		color = "#FFFF00"
 		icon_state = "noodle"
 		item_state = "noodleyellow"
+
+/obj/item/toy/canary
+	name = "canary"
+	desc = "Small canary in a cage, does absolutely nothing of any importance!"
+	icon = 'icons/mob/animal.dmi'
+	icon_state = "canary"
