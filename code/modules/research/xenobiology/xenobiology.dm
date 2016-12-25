@@ -576,6 +576,8 @@
 /obj/effect/timestop/wizard
 	duration = 90
 
+/obj/effect/timestop/holoparasite
+	duration = 40
 
 /obj/item/stack/tile/bluespace
 	name = "bluespace floor tile"
