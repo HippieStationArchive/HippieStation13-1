@@ -541,31 +541,62 @@
 	timestop()
 
 
+/obj/effect/timestop
+	anchored = 1
+	name = "chronofield"
+	desc = "ZA WARUDO"
+	icon = 'icons/effects/160x160.dmi'
+	icon_state = "time"
+	layer = FLY_LAYER
+	pixel_x = -64
+	pixel_y = -64
+	unacidable = 1
+	mouse_opacity = 0 //it's an effect,you shouldn't click it
+	var/mob/living/immune = list() // the one who creates the timestop is immune
+	var/freezerange = 2
+	var/duration = 140
+	alpha = 125
+
+/obj/effect/timestop/New()
+	..()
+	for(var/mob/living/M in player_list)
+		for(var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/T in M.mind.spell_list) //People who can stop time are immune to timestop
+			immune |= M
+		for(var/obj/effect/proc_holder/spell/self/timestopimmunity/T in M.mind.spell_list) //Used by stand users mainly so that their own holopara doesn't timestop them.
+			immune |= M
+	timestop()
+
+
 /obj/effect/timestop/proc/timestop()
 	playsound(get_turf(src), 'sound/magic/TIMEPARADOX2.ogg', 100, 1, -1)
 	while(loc)
 		if(duration)
 			for(var/mob/living/M in orange (freezerange, src.loc))
-				if(M in immune)
+				if(!istype(M, /mob/living/simple_animal/hostile/guardian/punch))
+					if(M in immune)
+						continue
+					M.stunned = 10
+					M.anchored = 1
+					if(istype(M, /mob/living/simple_animal/hostile))
+						if(!istype(M, /mob/living/simple_animal/hostile/guardian/punch))
+							var/mob/living/simple_animal/hostile/H = M
+							H.AIStatus = AI_OFF
+							H.LoseTarget()
 					continue
-				M.stunned = 10
-				M.anchored = 1
-				if(istype(M, /mob/living/simple_animal/hostile))
-					var/mob/living/simple_animal/hostile/H = M
-					H.AIStatus = AI_OFF
-					H.LoseTarget()
-					continue
+				continue
 			for(var/obj/item/projectile/P in orange (freezerange, src.loc))
 				P.paused = TRUE
 			duration --
 		else
 			for(var/mob/living/M in orange (freezerange+2, src.loc)) //longer range incase they lag out of it or something
-				M.stunned = 0
-				M.anchored = 0
+				if(!istype(M, /mob/living/simple_animal/hostile/guardian/punch))
+					M.stunned = 0
+					M.anchored = 0
 				if(istype(M, /mob/living/simple_animal/hostile))
-					var/mob/living/simple_animal/hostile/H = M
-					H.AIStatus = initial(H.AIStatus)
-					continue
+					if(!istype(M, /mob/living/simple_animal/hostile/guardian/punch))
+						var/mob/living/simple_animal/hostile/H = M
+						H.AIStatus = initial(H.AIStatus)
+						continue
 			for(var/obj/item/projectile/P in orange(freezerange+2, src.loc))
 				P.paused = FALSE
 			qdel(src)
