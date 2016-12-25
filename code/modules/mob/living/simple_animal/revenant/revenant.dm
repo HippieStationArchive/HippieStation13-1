@@ -289,6 +289,12 @@ var/list/possibleRevenantNames = list("Lust", "Gluttony", "Greed", "Sloth", "Wra
 			src << "<span class='danger'>Lost [essence_amt]E from [source].</span>"
 	return 1
 
+/mob/living/simple_animal/revenant/singularity_act()
+	if(!revealed)
+		return 0
+	else
+		gib()
+	
 /datum/objective/revenant
 	dangerrating = 10
 	var/targetAmount = 100
