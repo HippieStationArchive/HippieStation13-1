@@ -116,6 +116,20 @@
 	color = "#0064C8" // rgb: 0, 100, 200
 	boozepwr = 35
 
+/*
+ *	Vodka reaction to turf
+ */
+
+/datum/reagent/consumable/ethanol/vodka/reaction_turf(turf/simulated/T, reac_volume)
+	if (!istype(T)) 
+		return
+
+	if(reac_volume >= 10)
+		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
+		T.MakeSlippery(TURF_WET_WATER, time)
+
+	return
+
 /datum/reagent/consumable/ethanol/vodka/on_mob_life(mob/living/M)
 	M.radiation = max(M.radiation-2,0)
 	..()

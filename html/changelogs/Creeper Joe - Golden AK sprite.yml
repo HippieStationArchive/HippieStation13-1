@@ -1,0 +1,6 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes:
+  - imageadd: "Makes the inhand sprite for the Golden AK look sexier instead of looking like an aborted child."

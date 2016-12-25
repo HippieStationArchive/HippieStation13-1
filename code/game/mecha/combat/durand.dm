@@ -24,6 +24,16 @@
 	. = ..()
 	return
 
+/obj/mecha/combat/durand/durandcamo
+	desc = "An aging combat exosuit utilized by the Nanotrasen corporation. Originally developed to combat hostile alien lifeforms. This one seems to be pained to camouflage in a rainforest."
+	icon_state = "durandcamo"
+	wreckage = /obj/structure/mecha_wreckage/durand/durandcamo
+
+/obj/mecha/combat/durand/durandvult
+	desc = "An aging combat exosuit utilized by the Nanotrasen corporation. Originally developed to combat hostile alien lifeforms. This one is covered in latin inscriptions."
+	icon_state = "durandvult"
+	wreckage = /obj/structure/mecha_wreckage/durand/durandvult
+
 /obj/mecha/combat/durand/GrantActions(var/mob/living/user, var/human_occupant = 0)
 	..()
 	defense_action.chassis = src
