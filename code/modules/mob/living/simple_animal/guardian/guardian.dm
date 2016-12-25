@@ -268,13 +268,13 @@
 
 /mob/living/simple_animal/hostile/guardian/punch/New()
 	..()
-	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/guardian/guardian = null
+	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/holoparasite/holoparasite = null
 
-	guardian = new /obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/guardian
-	guardian.clothes_req = 0
-	guardian.human_req = 0
-	guardian.player_lock = 0
-	AddSpell(guardian)
+	holoparasite = new /obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/holoparasite
+	holoparasite.clothes_req = 0
+	holoparasite.human_req = 0
+	holoparasite.player_lock = 0
+	AddSpell(holoparasite)
 
 	var/obj/effect/proc_holder/spell/self/timestopimmunity/timestopimmunity = null
 
