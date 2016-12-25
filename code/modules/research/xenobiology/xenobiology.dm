@@ -516,31 +516,6 @@
 	log_game("[G.real_name] ([G.key]) was made Temmie by [user.real_name]([user.key] using a Temmie-rune).")
 	qdel(src)
 
-
-/obj/effect/timestop
-	anchored = 1
-	name = "chronofield"
-	desc = "ZA WARUDO"
-	icon = 'icons/effects/160x160.dmi'
-	icon_state = "time"
-	layer = FLY_LAYER
-	pixel_x = -64
-	pixel_y = -64
-	unacidable = 1
-	mouse_opacity = 0 //it's an effect,you shouldn't click it
-	var/mob/living/immune = list() // the one who creates the timestop is immune
-	var/freezerange = 2
-	var/duration = 140
-	alpha = 125
-
-/obj/effect/timestop/New()
-	..()
-	for(var/mob/living/M in player_list)
-		for(var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/T in M.mind.spell_list) //People who can stop time are immune to timestop
-			immune |= M
-	timestop()
-
-
 /obj/effect/timestop
 	anchored = 1
 	name = "chronofield"
