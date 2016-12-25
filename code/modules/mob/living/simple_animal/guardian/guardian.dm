@@ -259,12 +259,28 @@
 	melee_damage_lower = 20
 	melee_damage_upper = 20
 	damage_transfer = 0.5
-	playstyle_string = "As a standard type you have no special abilities, but have a high damage resistance and a powerful attack capable of smashing through walls."
+	playstyle_string = "As a standard type you have the ability to stop time for everyone but you and your summoner, but have a high damage resistance and a powerful attack capable of smashing through walls."
 	environment_smash = 2
 	magic_fluff_string = "..And draw the Assistant, faceless and generic, but never to be underestimated."
 	tech_fluff_string = "Boot sequence complete. Standard combat modules loaded. Holoparasite swarm online."
 	bio_fluff_string = "Your scarab swarm stirs to life, ready to tear apart your enemies."
 	var/battlecry = "AT"
+
+/mob/living/simple_animal/hostile/guardian/punch/New()
+	..()
+	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/timestop = null
+
+	timestop = new /obj/effect/proc_holder/spell/aoe_turf/conjure/timestop
+	timestop.clothes_req = 0
+	timestop.human_req = 0
+	timestop.player_lock = 0
+	AddSpell(timestop)
+
+	var/obj/effect/proc_holder/spell/self/timestopimmunity/timestopimmunity = null
+
+	timestopimmunity = new /obj/effect/proc_holder/spell/self/timestopimmunity
+
+	AddSpell(timestopimmunity) // I don't know how the hell it comes that the Holoparasite needs both timestop and the immunity to work, as humans can just have either and still walk around in it.
 
 /mob/living/simple_animal/hostile/guardian/punch/verb/Battlecry()
 	set name = "Set Battlecry"
@@ -655,6 +671,9 @@
 
 		if("Standard")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/punch
+			var/obj/effect/proc_holder/spell/self/timestopimmunity/timestopimmunity = null
+			timestopimmunity = new /obj/effect/proc_holder/spell/self/timestopimmunity
+			user.mind.AddSpell(timestopimmunity) // Makes the stand user capable of ignoring time stop.
 
 		if("Ranged")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/ranged

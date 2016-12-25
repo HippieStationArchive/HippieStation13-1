@@ -170,6 +170,20 @@
 
 	summon_type = list(/obj/effect/timestop/wizard)
 
+/obj/effect/proc_holder/spell/self/timestopimmunity
+	name = "Stop Time Immunity"
+	desc = "This spell grants you immunity to Stop Time, but doesn't allow you to cast it!"
+	charge_max = 0
+	clothes_req = 0
+	invocation = "none"
+	invocation_type = "none"
+	range = 0
+	cooldown_min = 100
+	action_icon_state = "time"
+
+/obj/effect/proc_holder/spell/self/timestopimmunity/cast(mob/living/carbon/human/user)
+	return
+
 /obj/effect/proc_holder/spell/aoe_turf/conjure/carp
 	name = "Summon Carp"
 	desc = "This spell conjures a simple carp."
