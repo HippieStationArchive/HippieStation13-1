@@ -1380,6 +1380,7 @@
 #include "code\modules\mob\living\simple_animal\hostile\mushroom.dm"
 #include "code\modules\mob\living\simple_animal\hostile\oldzombie.dm"
 #include "code\modules\mob\living\simple_animal\hostile\pirate.dm"
+#include "code\modules\mob\living\simple_animal\hostile\pizzularity.dm"
 #include "code\modules\mob\living\simple_animal\hostile\russian.dm"
 #include "code\modules\mob\living\simple_animal\hostile\shark.dm"
 #include "code\modules\mob\living\simple_animal\hostile\skeleton.dm"
