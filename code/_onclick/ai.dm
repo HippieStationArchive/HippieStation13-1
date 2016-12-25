@@ -39,6 +39,8 @@
 				return
 		else
 			var/turf/TU = get_turf(A)
+			if(istype(A,/obj/machinery/power/apc))
+				continue
 			if(TU in CC.obscuredTurfs)
 				return
 
