@@ -17,6 +17,16 @@
 	step_energy_drain = 3
 	var/datum/action/mecha/mech_overload_mode/overload_action = new
 
+/obj/mecha/combat/gygax/gygaxusa
+	desc = "A lightweight, security exosuit. Popular among private and corporate security.This one seems to be painted in patriotic colors."
+	icon_state = "gygaxusa"
+	wreckage = /obj/structure/mecha_wreckage/gygax/gygaxusa
+
+/obj/mecha/combat/gygax/gygaxcarp
+	desc = "A lightweight, security exosuit. Popular among private and corporate security.This one seems to be painted to resemble a common space predator."
+	icon_state = "gygaxcarp"
+	wreckage = /obj/structure/mecha_wreckage/gygax/gygaxcarp
+
 /obj/mecha/combat/gygax/dark
 	desc = "A lightweight exosuit, painted in a dark scheme. This model appears to have some modifications."
 	name = "\improper Dark Gygax"

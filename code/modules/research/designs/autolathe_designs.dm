@@ -580,7 +580,7 @@
 	category = list("initial", "Tools")
 
 /datum/design/rubber762
-	name = "Ammo box (.762x54)"
+	name = "Ammo box (7.62x54)"
 	id = "a762rubber"
 	build_type = AUTOLATHE
 	materials = list(MAT_METAL = 30000)

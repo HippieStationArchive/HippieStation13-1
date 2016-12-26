@@ -28,6 +28,7 @@
 	var/obj/screen/leap_icon = null
 	var/obj/screen/healthdoll = null
 
+	var/list/say_log = list() //a log of what we've said, plain text, no spans or junk, essentially just each individual "message"
 	var/damageoverlaytemp = 0
 	var/computer_id = null
 	var/lastattacker = null
