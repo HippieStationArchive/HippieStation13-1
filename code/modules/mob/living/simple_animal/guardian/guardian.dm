@@ -269,19 +269,19 @@
 
 /mob/living/simple_animal/hostile/guardian/punch/New()
 	..()
-	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/holoparasite/holoparasite = null
+	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/holoparasite/hg = null
 
-	holoparasite = new /obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/holoparasite
-	holoparasite.clothes_req = 0
-	holoparasite.human_req = 0
-	holoparasite.player_lock = 0
-	AddSpell(holoparasite)
+	hg = new /obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/holoparasite
+	hg.clothes_req = 0
+	hg.human_req = 0
+	hg.player_lock = 0
+	AddSpell(hg)
 
-	var/obj/effect/proc_holder/spell/self/timestopimmunity/timestopimmunity = null
+	var/obj/effect/proc_holder/spell/self/timestopimmunity/tsi = null
 
-	timestopimmunity = new /obj/effect/proc_holder/spell/self/timestopimmunity
+	tsi = new /obj/effect/proc_holder/spell/self/timestopimmunity
 
-	AddSpell(timestopimmunity) // I don't know how the hell it comes that the Holoparasite needs both timestop and the immunity to work, as humans can just have either and still walk around in it.
+	AddSpell(tsi) // I don't know how the hell it comes that the Holoparasite needs both timestop and the immunity to work, as humans can just have either and still walk around in it.
 
 /mob/living/simple_animal/hostile/guardian/punch/verb/Battlecry()
 	set name = "Set Battlecry"
@@ -301,15 +301,13 @@
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
 	if(istype(target, /turf/simulated/wall/r_wall))
-		if(prob(10))
-			playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
-			src << text("<span class='notice'>You smash through the wall.</span>")
-			src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
+		src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
 			[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
+		playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
+		if(prob(10))
+			src << text("<span class='notice'>You smash through the wall.</span>")
 			target.dismantle_wall(1)
 		else
-			src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
-			[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
 			src << text("<span class='notice'>You punch the wall.</span>")
 
 //Healer
@@ -681,9 +679,9 @@
 
 		if("Standard")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/punch
-			var/obj/effect/proc_holder/spell/self/timestopimmunity/timestopimmunity = null
-			timestopimmunity = new /obj/effect/proc_holder/spell/self/timestopimmunity
-			user.mind.AddSpell(timestopimmunity) // Makes the stand user capable of ignoring time stop.
+			var/obj/effect/proc_holder/spell/self/timestopimmunity/tsi = null
+			tsi = new /obj/effect/proc_holder/spell/self/timestopimmunity
+			user.mind.AddSpell(tsi) // Makes the stand user capable of ignoring time stop.
 
 		if("Ranged")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/ranged
