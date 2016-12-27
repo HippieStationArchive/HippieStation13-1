@@ -1,6 +1,0 @@
-author: Yobob, Fury for the sprites
-
-delete-after: True
-
-changes:
-  - rscadd: "Adds a Stand Arrow to space. It acts as a holoparasite injector with infinite uses and can be used on others, however there is a 40% chance of it husking you."
