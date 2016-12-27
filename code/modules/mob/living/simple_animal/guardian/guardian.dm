@@ -601,7 +601,7 @@
 	var/limiteduses = TRUE
 	var/killchance = FALSE
 	var/useonothers = FALSE
-	var/percentchance = 40
+	var/percentchance = 70
 	var/cooldown = FALSE
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
@@ -825,7 +825,7 @@
 	hitsound = 'sound/weapons/knife.ogg'
 	sharpness = IS_SHARP
 	unacidable = 1
-	theme = "tech"
+	theme = "magic"
 	mob_name = "Stand"
 	use_message = "You stab yourself with the arrow!"
 	used_message = "Hang on, how is an arrow used? This shouldn't happen! Submit a bug report!"
