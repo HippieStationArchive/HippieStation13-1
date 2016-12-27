@@ -1078,7 +1078,7 @@
 "uL" = (/obj/structure/table/wood,/obj/item/weapon/reagent_containers/food/snacks/burger/human/cat,/obj/item/weapon/reagent_containers/food/snacks/kebab/human/cat,/turf/simulated/floor/plating/asteroid,/area/asteroid/crash)
 "uM" = (/obj/structure/table/wood,/obj/item/weapon/reagent_containers/food/snacks/meat/slab/human/mutant/cat,/turf/simulated/floor/plating/asteroid,/area/asteroid/crash)
 "uN" = (/obj/structure/table/wood,/obj/item/weapon/paper/crumpled,/obj/item/weapon/paper/crumpled,/turf/simulated/floor/plating/asteroid,/area/asteroid/crash)
-"uO" = (/obj/structure/table/wood,/turf/simulated/floor/plating/asteroid,/area/asteroid/crash)
+"uO" = (/obj/structure/table/wood,/obj/item/weapon/guardiancreator/standarrow,/turf/simulated/floor/plating/asteroid,/area/asteroid/crash)
 "uP" = (/turf/simulated/wall/shuttle{icon_state = "swall_s5"; dir = 2},/area/asteroid/crash)
 "uQ" = (/obj/structure/girder,/turf/simulated/floor/plating/asteroid/airless,/area/asteroid/crash)
 "uR" = (/obj/structure/table/wood,/obj/structure/noose,/obj/effect/decal/remains/human,/turf/simulated/floor/plating/asteroid,/area/asteroid/crash)
