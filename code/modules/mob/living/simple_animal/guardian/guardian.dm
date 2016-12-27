@@ -300,13 +300,14 @@
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
-	if(istype(target, /turf/simulated/wall/r_wall))
+	if(istype(target, turf/simulated/wall/r_wall))
+		var/turf/simulated/wall/r_wall/RW = target
 		src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
 			[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
 		playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
 		if(prob(10))
 			src << text("<span class='notice'>You smash through the wall.</span>")
-			target.dismantle_wall(1)
+			RW.dismantle_wall(1)
 		else
 			src << text("<span class='notice'>You punch the wall.</span>")
 
