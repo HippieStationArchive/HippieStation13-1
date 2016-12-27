@@ -57,12 +57,12 @@
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse/cast(list/targets, mob/user = usr)
 	..()
-	var/mob/living/carbon/target = targets[1]
+	var/mob/living/carbon/human/target = targets[1]
 	if(!target)
 		return
 	if(target.stat & DEAD)
 		message_admins("[user] casted corpse explosion on [target]")
-		explosion(target,1,2,5)
+		explosion(target,1,2,4,2)
 		user << "<font color=purple><b>You redirect an absurd amount of energy into [target]'s corpse, causing it to violently explode!</b></font>"
 	else
 		user << "<span class='warning'>[target] isn't a dead corpse!</span>"
