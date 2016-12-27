@@ -598,6 +598,11 @@
 	var/ling_failure = "The deck refuses to respond to a souless creature such as you."
 	var/list/possible_guardians = list("Chaos", "Standard", "Ranged", "Support", "Explosive")
 	var/random = TRUE
+	var/limiteduses = TRUE
+	var/killchance = FALSE
+	var/useonothers = FALSE
+	var/percentchance = 40
+	var/cooldown = FALSE
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
 	for(var/mob/living/simple_animal/hostile/guardian/G in living_mob_list)
@@ -610,7 +615,13 @@
 	if(used == TRUE)
 		user << "[used_message]"
 		return
-	used = TRUE
+	if(limiteduses == TRUE)
+		used = TRUE
+	if(killchance == TRUE)
+		if(prob(percentchance))
+			user.visible_message("You didnt have enough fighting spirit!")
+			user.adjustFireLoss(100000) //Husks them to stop clone cheeze
+			return
 	user << "[use_message]"
 	var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
 	var/mob/dead/observer/theghost = null
@@ -638,6 +649,69 @@
 	else
 		user << "[failure_message]"
 		used = FALSE
+
+/obj/item/weapon/guardiancreator/attack(mob/M, mob/living/carbon/human/user)
+	if(cooldown)
+		return
+	if(useonothers == TRUE)
+		if(isrobot(M))
+			..()
+			return
+		if(!isliving(M))
+			return
+
+		var/mob/living/L = M
+		if(L.mind)
+			var/datum/mind/mind = L.mind
+			feedback_add_details("stabs", "[mind.key]|[type]")
+
+		for(var/mob/living/simple_animal/hostile/guardian/G in living_mob_list)
+			if (G.summoner == L)
+				L << "You already have a [mob_name]!"
+				return
+		if(user.mind && user.mind.changeling)
+			L << "[ling_failure]"
+			return
+		if(used == TRUE)
+			L << "[used_message]"
+			return
+		if(limiteduses == TRUE)
+			used = TRUE
+		if(killchance == TRUE)
+			if(prob(percentchance))
+				L.visible_message("You didnt have enough fighting spirit!")
+				L.adjustFireLoss(100000) //Husks them to stop clone cheeze
+				return
+		L << "[use_message]"
+		var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [L.real_name]?", "pAI", null, FALSE, 100)
+		var/mob/dead/observer/theghost = null
+
+		if(candidates.len)
+			theghost = pick(candidates)
+			var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(L, theghost.key)
+			var/timelimit = world.time + 600//1 min to rename the stand
+			//Give the stand user 3 chances to rename their stand
+			for(var/i = 2, i >= 0,i--)
+				var/guardianNewName = stripped_input(L, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
+				guardianNewName = reject_bad_name(guardianNewName, 1)
+				if(timelimit >= world.time)
+					if(!isnull(guardianNewName))
+						G.name = guardianNewName
+						return
+					else
+						if(i > 0)
+							L << "<span class='danger'>That's an invalid name! You have [i] more [i > 1 ? "attempts" : "attempt"].</span>"
+						else
+							L << "<span class='danger'>Sorry, you've ran out of attempts! Looks like you're stuck with [G.name]!</span>"
+				else
+					L << "<span class='danger'>Sorry, you've ran out of time! Looks like you're stuck with [G.name]!</span>"
+					return
+		else
+			L << "[failure_message]"
+			used = FALSE
+		cooldown = TRUE
+		spawn(50)
+		cooldown = FALSE
 
 
 /obj/item/weapon/guardiancreator/proc/spawn_guardian(var/mob/living/user, var/key)
@@ -714,9 +788,11 @@
 	used_message = "The injector has already been used."
 	failure_message = "<B>...ERROR. BOOT SEQUENCE ABORTED. AI FAILED TO INTIALIZE. PLEASE CONTACT SUPPORT OR TRY AGAIN LATER.</B>"
 	ling_failure = "The holoparasites recoil in horror. They want nothing to do with a creature like you."
+	limiteduses = TRUE
 
 /obj/item/weapon/guardiancreator/tech/choose
 	random = FALSE
+	limiteduses = TRUE
 
 /obj/item/weapon/guardiancreator/biological
 	name = "scarab egg cluster"
@@ -728,9 +804,36 @@
 	use_message = "The eggs begin to twitch..."
 	used_message = "The cluster already hatched."
 	failure_message = "<B>...but soon settles again. Guess they weren't ready to hatch after all.</B>"
+	limiteduses = TRUE
 
 /obj/item/weapon/guardiancreator/biological/choose
 	random = FALSE
+	limiteduses = TRUE
+
+/obj/item/weapon/guardiancreator/standarrow
+	name = "Stand Arrow"
+	desc = "A mysterious arrow capable of granting great power. Be carfeul, there is a chance it won't take to you..."
+	icon = 'icons/obj/standarrow.dmi'
+	icon_state = "standarrowicon"
+	item_state = "standarrow"
+	slot_flags = SLOT_BELT
+	force = 5
+	stamina_percentage = 0.75
+	throwforce = 3
+	w_class = 3
+	attack_verb = list("attacked", "stabbed", "jabbed", "impaled")
+	hitsound = 'sound/weapons/knife.ogg'
+	sharpness = IS_SHARP
+	unacidable = 1
+	theme = "tech"
+	mob_name = "Stand"
+	use_message = "You stab yourself with the arrow!"
+	used_message = "Hang on, how is an arrow used? This shouldn't happen! Submit a bug report!"
+	failure_message = "<B>...nothing happened. Maybe you should try again later.</B>"
+	limiteduses = FALSE
+	killchance = TRUE
+	useonothers = TRUE
+
 
 
 /obj/item/weapon/paper/guardian
