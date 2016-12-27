@@ -620,7 +620,7 @@
 	if(killchance == TRUE)
 		if(prob(percentchance))
 			user.visible_message("You didnt have enough fighting spirit!")
-			user.adjustFireLoss(100000) //Husks them to stop clone cheeze
+			user.setToxLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
 			return
 	user << "[use_message]"
 	var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
@@ -680,7 +680,7 @@
 		if(killchance == TRUE)
 			if(prob(percentchance))
 				L.visible_message("You didnt have enough fighting spirit!")
-				L.adjustFireLoss(100000) //Husks them to stop clone cheeze
+				L.setToxLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
 				return
 		L << "[use_message]"
 		var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [L.real_name]?", "pAI", null, FALSE, 100)
