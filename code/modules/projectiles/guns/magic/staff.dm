@@ -163,8 +163,7 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 /obj/item/weapon/gun/magic/staff/staffofrevenant/admin
 	fire_sound = "sound/magic/WandODeath.ogg"
 	ammo_type = /obj/item/ammo_casing/magic/staffofrevenant/level666
-	w_class = 1
-	max_charges = 999
+	max_charges = 15
 	recharge_rate = 1
 	revenant_level = 666
 	revenant_damage = 200
