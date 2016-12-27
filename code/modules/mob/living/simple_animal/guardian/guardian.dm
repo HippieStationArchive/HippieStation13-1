@@ -291,19 +291,6 @@
 	if(input)
 		battlecry = input
 
-/mob/living/simple_animal/hostile/guardian/punch/attack(/turf/simulated/wall/r_wall)
-	..()
-	if(prob(10))
-		playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
-		src << text("<span class='notice'>You smash through the wall.</span>")
-		src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
-		[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
-		target.dismantle_wall(1)
-	else
-		src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
-		[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
-		src << text("<span class='notice'>You punch the wall.</span>")
-
 /mob/living/simple_animal/hostile/guardian/punch/AttackingTarget()
 	..()
 	if(istype(target, /mob/living))
@@ -313,6 +300,17 @@
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
+	if(istype(target, /turf/simulated/wall/r_wall))
+		if(prob(10))
+			playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
+			src << text("<span class='notice'>You smash through the wall.</span>")
+			src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
+			[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
+			target.dismantle_wall(1)
+		else
+			src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
+			[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
+			src << text("<span class='notice'>You punch the wall.</span>")
 
 //Healer
 
