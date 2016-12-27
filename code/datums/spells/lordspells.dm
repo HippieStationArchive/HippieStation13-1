@@ -70,7 +70,7 @@
 
 /obj/effect/proc_holder/spell/self/soulsplit
 	name = "Soulsplit"
-	desc = "Enter a wraith-like form, traveling at very high speeds and moving through objects. However, maintaining this form requires you to be at full health to maintain concentration!"
+	desc = "Enter a wraith-like form, traveling at very high speeds and moving through objects. However, maintaining this form requires you to be at 90 health to maintain concentration!"
 	school = "transmutation"
 	charge_max = 300
 	clothes_req = 1
@@ -82,7 +82,7 @@
 	action_icon_state = "soulsplit"
 
 /obj/effect/proc_holder/spell/self/soulsplit/cast(list/targets, mob/living/user = usr)
-	if(user.health >= 100)
+	if(user.health >= 90)
 		user << "<font color=purple><b>You enter your wraith form, leaving you vulnerable yet very manoeuvrable.</b></font>"
 		user.incorporeal_move = 2
 		spawn(35)
