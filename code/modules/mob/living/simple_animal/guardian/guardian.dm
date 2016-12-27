@@ -291,7 +291,18 @@
 	if(input)
 		battlecry = input
 
-
+/mob/living/simple_animal/hostile/guardian/punch/attack(/turf/simulated/wall/r_wall)
+	..()
+	if(prob(10))
+		playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
+		user << text("<span class='notice'>You smash through the wall.</span>")
+		user.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
+		[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
+		dismantle_wall(1)
+	else
+		user.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
+		[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
+		user << text("<span class='notice'>You punch the wall.</span>")
 
 /mob/living/simple_animal/hostile/guardian/punch/AttackingTarget()
 	..()
