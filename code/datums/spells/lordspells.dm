@@ -25,7 +25,7 @@
 	sound="sound/magic/Necrolord_Soulflare_Cast.ogg"
 
 /obj/effect/proc_holder/spell/targeted/inflict_handler/soulflare/cast(list/targets, mob/user = usr)
-	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/SF = locate(/obj/effect/proc_holder/spell/targeted/trigger/soulflare, user.mob_spell_list)
+	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/SF = locate(/obj/effect/proc_holder/spell/targeted/trigger/soulflare, user.mind.spell_list)
 	var/mob/living/carbon/target = targets[1]
 	if(target.health <= 0)
 		if(!target.stat && DEAD)
