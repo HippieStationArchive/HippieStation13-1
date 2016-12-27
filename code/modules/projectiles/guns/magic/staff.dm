@@ -76,13 +76,17 @@
 
 /obj/item/weapon/gun/magic/staff/staffofrevenant/attack(mob/living/carbon/human/target, mob/living/user)
 	if(target.stat & DEAD)
-		if(!(target in drained_mobs))
-			playsound(src,'sound/magic/Staff_Chaos.ogg',40,1)
-			user.visible_message("<font color=purple>[user] drains [target] their soul with [src]!</font>", "<span class='notice'>You use [src] to drain [target]'s soul, empowering your weapon!</span>")
-			revenant_souls++
-			drained_mobs.Add(target)
+		if(istype(target, mob/living/carbon/human)
+			if(!(target in drained_mobs))
+				playsound(src,'sound/magic/Staff_Chaos.ogg',40,1)
+				user.visible_message("<font color=purple>[user] drains [target] their soul with [src]!</font>", "<span class='notice'>You use [src] to drain [target]'s soul, empowering your weapon!</span>")
+				revenant_souls++
+				drained_mobs.Add(target)
+			else
+				user << "<span class='warning'>[target]'s soul is dead and empty.</span>"
+				return
 		else
-			user << "<span class='warning'>[target]'s soul is dead and empty.</span>"
+			user << "<span class='warning'>[target] isn't human!</span>"
 			return
 	..()
 
