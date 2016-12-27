@@ -7,7 +7,7 @@
 "ag" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/djstation)
 "ah" = (/turf/simulated/floor/plating,/area/djstation)
 "ai" = (/obj/machinery/telecomms/relay/preset/ruskie,/obj/machinery/light{dir = 1},/turf/simulated/floor/plating,/area/djstation)
-"aj" = (/obj/item/weapon/guardiancreator/standarrow,/turf/simulated/floor/plating,/area/djstation)
+"aj" = (/obj/item/weapon/guardiancreator/standarrow,/obj/item/weapon/guardiancreator/standarrow,/turf/simulated/floor/plating,/area/djstation)
 "ak" = (/obj/machinery/power/terminal,/turf/simulated/floor/plating,/area/djstation)
 "al" = (/obj/item/device/multitool,/turf/simulated/floor/plating,/area/djstation)
 "am" = (/obj/item/weapon/storage/toolbox/mechanical{pixel_x = -2; pixel_y = -1},/turf/simulated/floor/plating,/area/djstation)
