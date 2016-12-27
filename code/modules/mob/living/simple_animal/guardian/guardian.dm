@@ -601,7 +601,7 @@
 	var/limiteduses = TRUE
 	var/killchance = FALSE
 	var/useonothers = FALSE
-	var/percentchance = 70
+	var/percentchance = 60
 	var/cooldown = FALSE
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
