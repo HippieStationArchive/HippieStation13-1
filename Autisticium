@@ -1,4 +1,4 @@
-/datum/reagent/autisticium
+/datum/chemical_reaction/autisticium
 	name = "Autisticium"
 	id = "autisticium"
 	result = "autisticium"
@@ -6,5 +6,3 @@
 	result_amount = 100
   	required_temp = 1000
   
-/datum/reagent/consumable/autisticium/on_mob_life(mob/living/M)
-	M.gib()
