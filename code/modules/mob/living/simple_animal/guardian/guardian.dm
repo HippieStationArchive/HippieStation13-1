@@ -300,7 +300,7 @@
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
-	if(istype(target, turf/simulated/wall/r_wall))
+	if(istype(target, /turf/simulated/wall/r_wall))
 		var/turf/simulated/wall/r_wall/RW = target
 		src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
 			[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
