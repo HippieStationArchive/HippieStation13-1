@@ -300,7 +300,7 @@
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
-	if(istype(/turf/simulated/wall/r_wall/target))
+	if(istype(target, /turf/simulated/wall/r_wall))
 		if(prob(10))
 			playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
 			src << text("<span class='notice'>You smash through the wall.</span>")
