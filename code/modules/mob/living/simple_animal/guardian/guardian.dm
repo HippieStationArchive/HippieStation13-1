@@ -295,14 +295,14 @@
 	..()
 	if(prob(10))
 		playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
-		user << text("<span class='notice'>You smash through the wall.</span>")
-		user.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
+		src << text("<span class='notice'>You smash through the wall.</span>")
+		src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
 		[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
-		dismantle_wall(1)
+		target.dismantle_wall(1)
 	else
-		user.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
+		src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
 		[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
-		user << text("<span class='notice'>You punch the wall.</span>")
+		src << text("<span class='notice'>You punch the wall.</span>")
 
 /mob/living/simple_animal/hostile/guardian/punch/AttackingTarget()
 	..()
