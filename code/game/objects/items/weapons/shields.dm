@@ -28,7 +28,7 @@
 	item_state = "roman_shield"
 	slot_flags = SLOT_BACK
 	force = 8
-	stamina percentage = 0.75
+	stamina_percentage = 0.75
 	throwforce = 5
 	throw_speed = 2
 	throw_range = 3
