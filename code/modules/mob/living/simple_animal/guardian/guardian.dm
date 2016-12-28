@@ -657,7 +657,7 @@
 
 /obj/item/weapon/guardiancreator/attack(mob/M, mob/living/carbon/human/user)
 	user << "<span class='notice'>You raise the arrow into the air.</span>"
-	if(do_mob(user,user,50,uninterruptible=0))
+	if(do_mob(user,M,50,uninterruptible=0))
 		if(useonothers == TRUE)
 			if(isrobot(M))
 				..()
