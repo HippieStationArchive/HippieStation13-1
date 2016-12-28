@@ -6,6 +6,7 @@
 	icon_state = "mirror"
 	density = 0
 	anchored = 1
+	var/force_multi = 2 // The bigger this number, the more chance it'll break.
 	var/shattered = 0
 
 
@@ -51,7 +52,7 @@
 
 
 /obj/structure/mirror/bullet_act(obj/item/projectile/Proj)
-	if(prob(Proj.damage * 2))
+	if(prob(Proj.damage * force_multi))
 		if((Proj.damage_type == BRUTE || Proj.damage_type == BURN))
 			if(!shattered)
 				shatter()
@@ -81,7 +82,7 @@
 		playsound(src.loc, 'sound/effects/hit_on_shattered_glass.ogg', 70, 1)
 		return
 
-	if(prob(I.force * 2))
+	if(prob(I.force * force_multi))
 		visible_message("<span class='warning'>[user] smashes [src] with [I].</span>")
 		shatter()
 	else
@@ -261,6 +262,7 @@
 
 		if (S.get_amount() > 0)
 			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
+
 			if (do_after(user, 10, target = src))
 				state |= 1
 				S.use(1)
@@ -271,6 +273,7 @@
 
 		if (G.get_amount() > 0)
 			playsound(loc, 'sound/items/Deconstruct.ogg', 50, 1)
+
 			if (do_after(user, 10, target = src))
 				state |= 2
 				G.use(1)
@@ -278,9 +281,11 @@
 
 	else if (istype(I, /obj/item/weapon/screwdriver) && state == 3)
 		playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
+
 		if (do_after(user, 10, target = src))
-			new /obj/structure/mirror/mobile(loc)
-			user << "<span class='notice'>You finish the mirror.</span>"
+			var/obj/structure/mirror/mobile/M = new /obj/structure/mirror/mobile(loc)
+			M.add_fingerprint(user)
+			user << "<span class='notice'>You fasten the glass cover.</span>"
 			qdel(src)
 
 	else if (istype(I, /obj/item/weapon/crowbar))
@@ -300,11 +305,12 @@
 
 /obj/structure/mirror/mobile
 	name = "mobile mirror"
-	desc = "A very reflective mirror that can be moved. Use a wrench to anchor it in place. Use a screwdriver to adjust the direction."
+	desc = "A very reflective mirror that can be moved. Use a wrench to anchor it in place. Use a crowbar to adjust the direction."
 	icon = 'icons/obj/power.dmi'
 	icon_state = "solar_panel"
 	density = 1
 	anchored = 0
+	force_multi = 0.2 // Quite durable
 
 /obj/structure/mirror/attackby(obj/item/I, mob/living/user, params)
 	if (istype(I, /obj/item/weapon/wrench))
@@ -313,12 +319,13 @@
 		else
 			anchored = 1
 
+		add_fingerprint(user)
 		playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
 		visible_message("<span class='warning'>[user] [anchored ? "" : "un"]anchors the [name]!</span>", \
 			            "<span class='warning'>You [anchored ? "" : "un"]anchors the [name]!</span>")
 
-		return
-	else if (istype(I, /obj/item/weapon/screwdriver))
+	else if (istype(I, /obj/item/weapon/crowbar))
+		playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
 		var/new_dir = input("Enter direction:", "Direction") as null|anything in list("North", "North East", "East", "South East", "South", "South West", "West", "North West", "Cancel")
 
 		if (new_dir)
@@ -329,20 +336,25 @@
 			else
 				dir = text2dir(new_dir)
 
-		return
-	
-	return ..()
+	else if (istype(I, /obj/item/weapon/screwdriver))
+		playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
+
+		if (do_after(user, 10, target = src))
+			var/obj/structure/mirrorbase/M = new /obj/structure/mirrorbase(loc)
+			M.state = 3
+			user << "<span class='notice'>You unfasten the glass cover.</span>"
+			qdel(src)
+
+	else return ..()
 
 /obj/structure/mirror/mobile/bullet_act(obj/item/projectile/P)
-	if(istype(P, /obj/item/projectile/energy) || istype(P, /obj/item/projectile/beam))
+	if(!shattered && istype(P, /obj/item/projectile/energy) || istype(P, /obj/item/projectile/beam))
 		if (P.starting)
-			var/firing_angle = Atan2(x - P.starting.x, y - P.starting.y)
+			// Maths is fun
+			var/firing_angle = SimplifyDegrees(Atan2(x - P.starting.x, y - P.starting.y))
 			var/mirror_angle = dir2angle(dir)
 
-			if (firing_angle < 0)
-				firing_angle = 360 - firing_angle * -1
-
-			// Adding 270 and subtracting the angle gives us a value that's
+			// Subtracting the angle from 270 gives us a value that's
 			// agreeable with BYOND's directions
 			firing_angle = SimplifyDegrees(270 - firing_angle)
 			var/diff = SimplifyDegrees(firing_angle - mirror_angle)
@@ -351,19 +363,29 @@
 			if (diff >= 270 || diff <= 90)
 				var/turf/curloc = get_turf(src)
 				P.firer = src
-				// This is actually overpowered because it means projectiles 
-				// can be fired into a loop of mirrors and go on endlessly potentially
-				P.range = initial(P.range) 
 				P.original = locate(x, y, z)
 				P.starting = curloc
 				P.current = curloc
+				// This is actually overpowered because it means projectiles 
+				// can be fired into a loop of mirrors and go on endlessly potentially
+				P.range = initial(P.range) 
 
+				// If pixel projectile then adjust the angle
 				if (!P.legacy)
 					P.Angle = P.Angle + 180 - (diff * 2)
 				else
+					// Else adjust the vector
 					P.yo = -P.yo
 					P.xo = -P.xo
 
 				return -1
 		else
 			return 0
+
+/obj/structure/mirror/shatter()
+	if(shattered)
+		return
+	shattered = 1
+	icon_state = "solar_panel-b"
+	playsound(src, "shatter", 70, 1)
+	desc = "Oh no, seven years of bad luck!"
