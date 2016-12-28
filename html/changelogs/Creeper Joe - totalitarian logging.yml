@@ -3,7 +3,7 @@ author: Creeper Joe
 delete-after: True
 
 changes:
-  - tweak: "Becoming a vampire trough the filled glass goblet is now properly logged."
+  - tweak: "Becoming a vampire through the filled glass goblet is now properly logged."
   - tweak: "Admin logs now properly log chemistry explosions, pipe bomb explosions, door charges, explosive implants, AI explosions and flux anomaly explosions. EXPLOSIONS!"
   - tweak: "Explosion logs now automatically come with a JMP button."
  
