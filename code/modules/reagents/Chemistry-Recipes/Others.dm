@@ -103,6 +103,15 @@
 	new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/meatproduct(location)
 	return
 
+/datum/chemical_reaction/autisticium
+	name = "Autisticium"
+	id = "autisticium"
+	result = "autisticium"
+	required_reagents = list("pen_acid" = 1, "silver_sulfadiazine" = 1, "rezadone" = 1, "spaceacillin" = 1, "inacusiate" = 1, "synaptizine" = 1, "salglu_solution" = 1, "mine_salve" = 1, "synthflesh" = 1, "styptic_powder" = 1, "calomel" = 1, "perfluorodecalin" = 1, "atropine" = 1, "mannitol" = 1, "mutadone" = 1, "bicaridine" = 1, "kelotane" = 1, "bromelain" = 1, "Dermaline" = 1, "tricordrazine" = 1, "sterilizine" = 1, "lube" = 1, "cryptobiolin" = 1, "virusfood" = 1, "plantbgone" = 1, "acetone" = 1, "Formaldehyde" = 1, "cyanide" = 1, "facid" = 1, "sulfonal" = 1, "lipolicide" = 1, "mutagen" = 1, "lexorin" = 1, "chloralhydrate" = 1, "mutetoxin" = 1, "mindbreaker" = 1, "teslium" = 1, "Heparin" = 1, "Rotatium" = 1, "Bleach" = 1, "space_drugs" = 1, "crank" = 1, "krokodil" = 1, "methamphetamine" = 1, "heroin" = 1, "bath_salts" = 1, "aranesp" = 1, "goldschlager" = 1, "patron" = 1, "icetea" = 1, "nuka_cola" = 1, "ginfizz" = 1, "manhattan_proj" = 1, "gintonic" = 1, "cubalibre" = 1, "martini" = 1, "whiterussian" = 1, "screwdrivercocktail" = 1, "bloodymary" = 1, "gargleblaster" = 1, "bravebull" = 1, "tequilasunrise" = 1, "toxinsspecial" = 1, "beepksysmash" = 1, "doctordelight" = 1, "irishcream" = 1, "manlydorf" = 1, "hooch" = 1, "irishcoffee" = 1, "atomicbomb" = 1, "margarita" = 1, "threemileisland" = 1, "whiskeysoda" = 1, "blackrussian" = 1, "bahama_mama" = 1, "singulo" = 1, "alliescocktail" = 1, "demonsblood" = 1, "booger" = 1, "antifreeze" = 1, "barefoot" = 1, "sbiten" = 1, "red_mead" = 1, "amasec" = 1, "changelingsting" = 1, "andalusia" = 1, "neurotoxin" = 1, "irishcarbomb" = 1, "syndicatebomb" = 1, "devilskiss" = 1, "bananahonk" = 1, "thirteenloko" = 1, "Cannedlaughter" = 1, "grapesoda" = 1, "triple_citrus" = 1, "nutriment" = 1, "vitamin" = 1, "stable_plasma" = 1, "napalm" = 1, "thermite" = 1)
+	result_amount = 100
+  	mix_message = "The mixture emanates an autism level that has never been ever reached before."
+  	required_temp = 1000
+
 
 ////////////////////////////////// VIROLOGY //////////////////////////////////////////
 
