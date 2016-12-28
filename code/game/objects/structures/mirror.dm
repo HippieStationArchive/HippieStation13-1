@@ -241,3 +241,65 @@
 				H.eye_color = sanitize_hexcolor(new_eye_color)
 				H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
 				H.update_body()
+
+/obj/structure/mirror/mobile
+	name = "mobile mirror"
+	desc = "A very reflective mirror that can be moved. Use a wrench to anchor it in place. Use a screwdriver to adjust the direction."
+	icon = 'icons/obj/power.dmi'
+	icon_state = "solar_panel"
+	density = 1
+	anchored = 0
+
+/obj/structure/mirror/attackby(obj/item/I, mob/living/user, params)
+	if (istype(I, /obj/item/weapon/wrench))
+		if (anchored)
+			anchored = 0
+		else
+			anchored = 1
+
+		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+		visible_message("<span class='warning'>[user] [anchored ? "" : "un"]anchors the [name]!</span>", \
+			            "<span class='warning'>You [anchored ? "" : "un"]anchors the [name]!</span>")
+	else if (istype(I, /obj/item/weapon/screwdriver))
+		var/new_dir = input("Enter directionL", "Direction") as null|anything in list("North", "North East", "East", "South East", "South", "South West", "West", "North West", "Cancel")
+
+		if (new_dir)
+			new_dir = replacetext(uppertext(new_dir), " ", "")
+
+			if (new_dir == "CANCEL")
+				return 0
+			else
+				dir = text2dir(new_dir)
+
+	return 1
+
+/obj/structure/mirror/mobile/bullet_act(obj/item/projectile/P)
+	if(istype(P, /obj/item/projectile/energy) || istype(P, /obj/item/projectile/beam))
+		if (P.starting)
+			var/firing_angle = Atan2(x - P.starting.x, y - P.starting.y)
+			var/mirror_angle = dir2angle(dir)
+
+			if (firing_angle < 0)
+				firing_angle = 360 - firing_angle * -1
+
+			// Adding 270 and subtracting the angle gives us a value that's
+			// agreeable with BYOND's directions
+			firing_angle = SimplifyDegrees(270 - firing_angle)
+			var/diff = SimplifyDegrees(firing_angle - mirror_angle)
+
+			// This figures out if the mirror's face was hit by the projectile
+			if (diff >= 270 || diff <= 90)
+				var/turf/curloc = get_turf(src)
+
+				P.original = locate(x, y, z)
+				P.starting = curloc
+				P.current = curloc
+				P.firer = src
+				P.Angle = P.Angle + 180 - (diff * 2)
+				// This is actually overpowered because it means projectiles 
+				// can be fired into a loop of mirrors and go on endlessly potentially
+				P.range = initial(P.range) 
+
+				return -1
+		else
+			return 0
