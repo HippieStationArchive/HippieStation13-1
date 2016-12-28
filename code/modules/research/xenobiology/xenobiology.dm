@@ -576,6 +576,7 @@
 /obj/effect/timestop/wizard
 	duration = 90
 
+
 /obj/item/stack/tile/bluespace
 	name = "bluespace floor tile"
 	singular_name = "floor tile"
