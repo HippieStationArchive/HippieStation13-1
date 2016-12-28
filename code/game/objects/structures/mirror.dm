@@ -310,7 +310,7 @@
 	icon_state = "solar_panel"
 	density = 1
 	anchored = 0
-	force_multi = 0.2 // Quite durable
+	force_multi = 0.5 // Quite durable
 
 /obj/structure/mirror/attackby(obj/item/I, mob/living/user, params)
 	if (istype(I, /obj/item/weapon/wrench))
