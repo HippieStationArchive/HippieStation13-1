@@ -24,17 +24,6 @@
 /obj/item/weapon/shield/roman/replica
 	name = "roman shield"
 	desc = "Bears an inscription on the inside: <i>\"Romanes venio domus\"</i>. Feels flimsy."
-	icon_state = "roman_shield"
-	item_state = "roman_shield"
-	slot_flags = SLOT_BACK
-	force = 8
-	stamina_percentage = 0.75
-	throwforce = 5
-	throw_speed = 2
-	throw_range = 3
-	w_class = 4
-	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
-	origin_tech = "materials=2"
 	block_chance = list(melee = 20, bullet = 0, laser = 0, energy = 0) //It's a replica, it won't block anything but some melee hits because its cheap plastic.
 
 //Deployable shields, woo!
