@@ -1,0 +1,6 @@
+author: John Ginnane
+
+delete-after: True
+
+changes: 
+  - rscadd: "Added large movable mirrors that can reflect lasers and beams. Use wrench to anchor, and screwdriver to change direction"
