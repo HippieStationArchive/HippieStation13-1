@@ -1,0 +1,5 @@
+/datum/reagent/autisticium
+	name = "Autisticium"
+	id = "autisticium"
+	description = "The autism level of this chemical is so high that it literally gibs you."
+	color = "C604FF" // rgb: 198, 4, 255
