@@ -603,7 +603,11 @@
 	var/useonothers = FALSE
 	var/percentchance = 60
 	var/cooldown = FALSE
-	var/list/holo_black = list(/mob/living/simple_animal/revenant, /mob/living/simple_animal/hostile/statue)
+	var/list/holo_black = list(
+		/mob/living/simple_animal/revenant,
+		/mob/living/simple_animal/hostile/statue,
+		/mob/living/simple_animal/hostile/true_changeling
+	)
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
 	for(var/mob/living/simple_animal/hostile/guardian/G in living_mob_list)
@@ -660,9 +664,10 @@
 				return
 			if(!isliving(M))
 				return
-			if(M in holo_black)
-				..()
-				return
+			for(var/bad_mob in holo_black)
+				if(istype(M, bad_mob))
+					user.visible_message("<span class='warning'>The arrow rejects the [M]!</span>")
+					return
 
 			var/mob/living/L = M
 			if(L.mind)
