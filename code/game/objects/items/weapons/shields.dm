@@ -25,7 +25,7 @@
 	name = "roman shield"
 	desc = "Bears an inscription on the inside: <i>\Romanes venio domus\"</i>. Feels flimsy."
 	icon_state = "roman_shield"
-	item_state = "roman_shield
+	item_state = "roman_shield"
 	slot_flags = SLOT_BACK
 	force = 8
 	stamina percentage = 0.75
