@@ -402,7 +402,7 @@
 	health = 40
 	see_in_dark = 10
 	harm_intent_damage = 10
-	speed = -1
+	speed = 0
 	var/mob/living/carbon/human/stored_human //The vampire who is controlling the bat
 
 /mob/living/simple_animal/hostile/retaliate/bat/vampiric/Stat()
