@@ -242,6 +242,62 @@
 				H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
 				H.update_body()
 
+/obj/structure/mirrorbase
+	name = "mobile mirror base"
+	desc = "The skeleton of a large reflective mirror."
+	icon = 'icons/obj/power.dmi'
+	icon_state = "sp_base"
+	density = 1
+	anchored = 0
+	var/state = 0 // Bit map below
+	/*
+		1 = Silver (must be placed first)
+		2 = Reinforced glass (must be placed last)
+	*/
+
+/obj/structure/mirrorbase/attackby(obj/item/I, mob/living/user, params)
+	if (istype(I, /obj/item/stack/sheet/mineral/silver) && !(state & 1))
+		var/obj/item/stack/sheet/mineral/silver/S = I
+
+		if (S.get_amount() > 0)
+			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
+			if (do_after(user, 10, target = src))
+				state |= 1
+				S.use(1)
+				user << "<span class='notice'>You add a sheet of silver.</span>"
+
+	else if (istype(I, /obj/item/stack/sheet/rglass) && !(state & 2) && (state & 1))
+		var/obj/item/stack/sheet/rglass/G = I
+
+		if (G.get_amount() > 0)
+			playsound(loc, 'sound/items/Deconstruct.ogg', 50, 1)
+			if (do_after(user, 10, target = src))
+				state |= 2
+				G.use(1)
+				user << "<span class='notice'>You add a sheet of reinforced glass.</span>"
+
+	else if (istype(I, /obj/item/weapon/screwdriver) && state == 3)
+		playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
+		if (do_after(user, 10, target = src))
+			new /obj/structure/mirror/mobile(loc)
+			user << "<span class='notice'>You finish the mirror.</span>"
+			qdel(src)
+
+	else if (istype(I, /obj/item/weapon/crowbar))
+		if (state & 2)
+			var/obj/item/stack/sheet/rglass/G = new (user.loc)
+			G.add_fingerprint(user)
+			state &= ~2
+			user << "<span class='notice'>You remove the glass.</span>"
+			playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
+
+		else if ((state & 1) && !(state & 2))
+			var/obj/item/stack/sheet/mineral/silver/S = new (user.loc)
+			S.add_fingerprint(user)
+			state &= ~1
+			user << "<span class='notice'>You remove the silver.</span>"
+			playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
+
 /obj/structure/mirror/mobile
 	name = "mobile mirror"
 	desc = "A very reflective mirror that can be moved. Use a wrench to anchor it in place. Use a screwdriver to adjust the direction."
@@ -257,11 +313,13 @@
 		else
 			anchored = 1
 
-		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+		playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
 		visible_message("<span class='warning'>[user] [anchored ? "" : "un"]anchors the [name]!</span>", \
 			            "<span class='warning'>You [anchored ? "" : "un"]anchors the [name]!</span>")
+
+		return
 	else if (istype(I, /obj/item/weapon/screwdriver))
-		var/new_dir = input("Enter directionL", "Direction") as null|anything in list("North", "North East", "East", "South East", "South", "South West", "West", "North West", "Cancel")
+		var/new_dir = input("Enter direction:", "Direction") as null|anything in list("North", "North East", "East", "South East", "South", "South West", "West", "North West", "Cancel")
 
 		if (new_dir)
 			new_dir = replacetext(uppertext(new_dir), " ", "")
@@ -271,7 +329,9 @@
 			else
 				dir = text2dir(new_dir)
 
-	return 1
+		return
+	
+	return ..()
 
 /obj/structure/mirror/mobile/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/energy) || istype(P, /obj/item/projectile/beam))
@@ -290,15 +350,19 @@
 			// This figures out if the mirror's face was hit by the projectile
 			if (diff >= 270 || diff <= 90)
 				var/turf/curloc = get_turf(src)
-
-				P.original = locate(x, y, z)
-				P.starting = curloc
-				P.current = curloc
 				P.firer = src
-				P.Angle = P.Angle + 180 - (diff * 2)
 				// This is actually overpowered because it means projectiles 
 				// can be fired into a loop of mirrors and go on endlessly potentially
 				P.range = initial(P.range) 
+				P.original = locate(x, y, z)
+				P.starting = curloc
+				P.current = curloc
+
+				if (!P.legacy)
+					P.Angle = P.Angle + 180 - (diff * 2)
+				else
+					P.yo = -P.yo
+					P.xo = -P.xo
 
 				return -1
 		else
