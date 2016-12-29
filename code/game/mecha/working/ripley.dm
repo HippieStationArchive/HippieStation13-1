@@ -62,10 +62,15 @@
 	max_temperature = 65000
 	health = 250
 	lights_power = 7
-	damage_absorption = list("brute"=0.6,"fire"=0.5,"bullet"=0.7,"laser"=0.7,"energy"=1,"bomb"=0.4)
+	deflect_chance = 30
+	damage_absorption = list("brute"=0.4,"fire"=0.1,"bullet"=0.5,"laser"=0.5,"energy"=0.5,"bomb"=0.1)
 	max_equip = 5 // More armor, less tools
 	wreckage = /obj/structure/mecha_wreckage/ripley/firefighter
 
+/obj/mecha/working/ripley/ripleyussr
+	desc = "Autonomous Power Loader Unit. This model is insigned with communist symbols."
+	icon_state = "ripleyussr"
+	wreckage = /obj/structure/mecha_wreckage/ripley/ripleyussr
 
 /obj/mecha/working/ripley/deathripley
 	desc = "OH SHIT IT'S THE DEATHSQUAD WE'RE ALL GONNA DIE"
@@ -114,6 +119,25 @@
 	var/obj/item/mecha_parts/mecha_equipment/mining_scanner/scanner = new /obj/item/mecha_parts/mecha_equipment/mining_scanner
 	scanner.attach(src)
 
+/obj/mecha/working/ripley/firefighter/mining
+	desc = "A brand, spanking new mining Firefighter."
+	name = "\improper APLU \"Miner\""
+
+/obj/mecha/working/ripley/firefighter/mining/New()
+	..()
+	var/obj/item/mecha_parts/mecha_equipment/drill/D = new /obj/item/mecha_parts/mecha_equipment/drill
+	D.attach(src)
+
+	cargo.Add(new /obj/structure/ore_box(src))
+
+	var/obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/HC = new /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp
+	HC.attach(src)
+	for(var/obj/item/mecha_parts/mecha_tracking/B in src.contents)//Deletes the beacon so it can't be found easily
+		qdel(B)
+
+	var/obj/item/mecha_parts/mecha_equipment/mining_scanner/scanner = new /obj/item/mecha_parts/mecha_equipment/mining_scanner
+	scanner.attach(src)
+
 /obj/mecha/working/ripley/Exit(atom/movable/O)
 	if(O in cargo)
 		return 0
@@ -149,7 +173,7 @@
 	var/pressure = environment.return_pressure()
 
 	if(pressure < 20)
-		step_in = 3
+		step_in = 2
 		for(var/obj/item/mecha_parts/mecha_equipment/drill/drill in equipment)
 			drill.equip_cooldown = initial(drill.equip_cooldown)/2
 	else

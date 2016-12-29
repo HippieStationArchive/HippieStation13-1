@@ -6,6 +6,7 @@
 	selection_type = "range"
 	range = 1
 	cooldown_min = 0
+	centcom_cancast = 0
 	overlay = null
 	action_icon_state = "bloodcrawl"
 	action_background_icon_state = "bg_demon"

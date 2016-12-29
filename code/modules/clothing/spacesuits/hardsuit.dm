@@ -313,6 +313,7 @@
 	icon_state = "hardsuit1-owl"
 	item_state = "s_helmet"
 	item_color = "owl"
+	armor = list(melee = 30, bullet = 15, laser = 30, energy = 10, bomb = 10, bio = 100, rad = 50) //Why in gods name was a thing that non antags could get inside of 30 seconds of roundstart AS GOOD as something normal traitors had to spend TC on?
 
 
 /obj/item/clothing/suit/space/hardsuit/syndi/owl
@@ -322,10 +323,60 @@
 	icon_state = "hardsuit1-owl"
 	item_state = "s_suit"
 	item_color = "owl"
+	flags_inv = HIDEGLOVES
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/owl
+	armor = list(melee = 30, bullet = 15, laser = 30, energy = 10, bomb = 10, bio = 100, rad = 50)
 
 /obj/item/clothing/suit/space/hardsuit/syndi/owl/cursed
 	flags = NODROP
+
+/obj/item/clothing/head/helmet/space/hardsuit/syndi/owl/attack_self(mob/user) //Toggle Helmet
+	if(!isturf(user.loc))
+		user << "<span class='warning'>You cannot toggle your helmet while in this [user.loc]!</span>" //To prevent some lighting anomalities.
+		return
+	on = !on
+	if(on || force)
+		user << "<span class='notice'>You switch your hardsuit to travel mode.</span>"
+		name = initial(name)
+		desc = initial(desc)
+		user.AddLuminosity(brightness_on)
+		flags |= STOPSPRESSUREDMAGE | THICKMATERIAL
+		flags_cover |= HEADCOVERSEYES | HEADCOVERSMOUTH
+		flags_inv |= HIDEMASK|HIDEEYES|HIDEFACE
+		cold_protection |= HEAD
+	else
+		user << "<span class='notice'>You switch your hardsuit to combat mode.</span>"
+		name += " (combat)"
+		desc = alt_desc
+		user.AddLuminosity(-brightness_on)
+		flags &= ~(STOPSPRESSUREDMAGE | THICKMATERIAL)
+		flags_cover &= ~(HEADCOVERSEYES | HEADCOVERSMOUTH)
+		flags_inv &= ~(HIDEMASK|HIDEEYES|HIDEFACE)
+		cold_protection &= ~HEAD
+	update_icon()
+	playsound(src.loc, 'sound/mecha/mechmove03.ogg', 50, 1)
+	toggle_owlhardsuit_mode(user)
+	user.update_inv_head()
+
+/obj/item/clothing/head/helmet/space/hardsuit/syndi/proc/toggle_owlhardsuit_mode(mob/user) //Helmet Toggles Suit Mode
+	if(linkedsuit)
+		if(on)
+			linkedsuit.name = initial(linkedsuit.name)
+			linkedsuit.desc = initial(linkedsuit.desc)
+			linkedsuit.slowdown = 1
+			linkedsuit.flags |= STOPSPRESSUREDMAGE | THICKMATERIAL
+			linkedsuit.cold_protection |= CHEST | GROIN | LEGS | FEET | ARMS | HANDS
+		else
+			linkedsuit.name += " (combat)"
+			linkedsuit.desc = linkedsuit.alt_desc
+			linkedsuit.slowdown = 0
+			linkedsuit.flags &= ~(STOPSPRESSUREDMAGE | THICKMATERIAL)
+			linkedsuit.cold_protection &= ~(CHEST | GROIN | LEGS | FEET | ARMS | HANDS)
+
+		linkedsuit.icon_state = "hardsuit[on]-[item_color]"
+		linkedsuit.update_icon()
+		user.update_inv_wear_suit()
+		user.update_inv_w_uniform()
 
 	//Wizard hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/wizard

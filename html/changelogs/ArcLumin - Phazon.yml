@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - tweak: "Alters Phazon creation to use Phasic Scanners and Quadratic Capacitors to make. Anomaly Core requirement removed."

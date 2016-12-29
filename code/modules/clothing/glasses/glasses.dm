@@ -15,12 +15,25 @@
 /obj/item/clothing/glasses/meson/night
 	name = "Night Vision Optical Meson Scanner"
 	desc = "An Optical Meson Scanner fitted with an amplified visible light spectrum overlay, providing greater visual clarity in darkness."
+	origin_tech = "magnets=4;engineering=4"
 	icon_state = "nvgmeson"
 	item_state = "nvgmeson"
 	darkness_view = 8
 
 /obj/item/clothing/glasses/meson/gar
 	name = "gar mesons"
+	icon_state = "garm"
+	item_state = "garm"
+	desc = "Do the impossible, see the invisible!"
+	force = 10
+	throwforce = 10
+	throw_speed = 4
+	attack_verb = list("sliced")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	sharpness = IS_SHARP
+
+/obj/item/clothing/glasses/meson/night/gar
+	name = "Gar Night Vision Mesons"
 	icon_state = "garm"
 	item_state = "garm"
 	desc = "Do the impossible, see the invisible!"

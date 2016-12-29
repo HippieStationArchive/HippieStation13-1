@@ -8,9 +8,9 @@
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	w_class = 4
 	slot_flags = SLOT_BACK
-	armor =              list(melee = 30, bullet = 30, laser = 15, energy = 15, bomb = 30, bio = 20, rad = 20)
-	var/armor_backslot = list(melee = 30, bullet = 30, laser = 15, energy = 15, bomb = 30, bio = 20, rad = 20)
-	var/armor_exoslot =  list(melee = 60, bullet = 60, laser = 30, energy = 30, bomb = 60, bio = 40, rad = 30)
+	armor =              list(melee = 15, bullet = 15, laser = 15, energy = 10, bomb = 30, bio = 20, rad = 20)
+	var/armor_backslot = list(melee = 15, bullet = 15, laser = 15, energy = 10, bomb = 30, bio = 20, rad = 20)//To minimise stacking the damn thing with the hardsuit to be pretty resistant to stuns.
+	var/armor_exoslot =  list(melee = 30, bullet = 30, laser = 30, energy = 10, bomb = 60, bio = 40, rad = 30)//This was debatably better armour than the hardsuit alone, it's just stacking it with the armour made it "worse".
 	var/adjusted = 0
 	max_w_class = 3
 	max_combined_w_class = 15
@@ -27,16 +27,17 @@
 		storage_slots = 15
 
 	else // Exosuit form
-		if(contents)
+		if(contents.len > 0)
 			user << "<span class='notice'>You can't adjust \the [src] while it has items inside.</span>"
-			return
-		user << "<span class='notice'>You tighten \the [src], increasing it's defensive capabilities.</span>"
-		adjusted = 1
-		slot_flags = SLOT_OCLOTHING
-		armor = armor_exoslot
-		max_w_class = 2
-		max_combined_w_class = 4
-		storage_slots = 4
+		else
+			user << "<span class='notice'>You tighten \the [src], increasing it's defensive capabilities.</span>"
+			adjusted = 1
+			slot_flags = SLOT_OCLOTHING
+			armor = armor_exoslot
+			max_w_class = 2
+			max_combined_w_class = 4
+			storage_slots = 4
+
 
 
 /obj/item/weapon/storage/backpack/cloak/attack_self(mob/user)

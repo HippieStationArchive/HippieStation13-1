@@ -49,7 +49,7 @@ var/list/chatchannels = list(default_ntrc_chatroom.name = default_ntrc_chatroom)
 			else
 				return "BAD_COMMAND"
 
-	return send_message(client,nick,message)
+	return send_message(html_decode(client),html_decode(nick),html_decode(message))
 
 //the following are helper procs, FOR INTERNAL USE ONLY
 
@@ -66,7 +66,7 @@ var/list/chatchannels = list(default_ntrc_chatroom.name = default_ntrc_chatroom)
 /datum/chatroom/proc/send_message(client,nick,message) //standard message
 	if(!message)
 		return 0
-	logs.Insert(1,"[html_encode(nick)]> [html_encode(message)]")
+	logs.Insert(1,"[html_decode(nick)]> [html_decode(message)]")
 	log_chat("[usr]/([usr.ckey]) as [nick] sent to [name]: [message]")
 	events.fireEvent("msg_chat",name,nick,message)
 	return 1
@@ -80,7 +80,7 @@ var/list/chatchannels = list(default_ntrc_chatroom.name = default_ntrc_chatroom)
 /datum/chatroom/proc/register_auth(client,nick) //register
 	if(!get_auth(client,nick))
 		return "BAD_REGS"
-	auth[client] = nick
+	auth[client] = html_decode(nick)
 	authed += nick
 	return 1
 

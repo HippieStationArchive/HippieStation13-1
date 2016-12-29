@@ -34,6 +34,7 @@
 		M.adjustToxLoss(2)
 	..()
 	return
+
 /datum/reagent/consumable/ethanol/reaction_obj(obj/O, reac_volume)
 	if(istype(O,/obj/item/weapon/paper))
 		var/obj/item/weapon/paper/paperaffected = O
@@ -114,6 +115,20 @@
 	description = "Number one drink AND fueling choice for Russians worldwide."
 	color = "#0064C8" // rgb: 0, 100, 200
 	boozepwr = 35
+
+/*
+ *	Vodka reaction to turf
+ */
+
+/datum/reagent/consumable/ethanol/vodka/reaction_turf(turf/simulated/T, reac_volume)
+	if (!istype(T)) 
+		return
+
+	if(reac_volume >= 10)
+		var/time = min(reac_volume*100, 790) // 10 second per unit, max is 790 aka default value
+		T.MakeSlippery(TURF_WET_WATER, time)
+
+	return
 
 /datum/reagent/consumable/ethanol/vodka/on_mob_life(mob/living/M)
 	M.radiation = max(M.radiation-2,0)
@@ -630,3 +645,92 @@
 	description = "A weird mix of whiskey and blumpkin juice."
 	color = "#1EA0FF" // rgb: 102, 67, 0
 	boozepwr = 35
+
+/datum/reagent/consumable/ethanol/atomicbomb
+	name = "Atomic Bomb"
+	id = "atomicbomb"
+	description = "Nuclear proliferation never tasted so good."
+	color = "#666300" // rgb: 102, 99, 0
+	boozepwr = 25
+
+/datum/reagent/consumable/ethanol/atomicbomb/on_mob_life(mob/living/M)
+	M.druggy = max(M.druggy, 50)
+	M.confused = max(M.confused+2,0)
+	switch(current_cycle)
+		if(51 to 200)
+			M.sleeping += 1
+		if(201 to INFINITY)
+			M.sleeping += 1
+			M.adjustToxLoss(2)
+	..()
+	return
+
+
+/datum/reagent/consumable/ethanol/gargle_blaster
+	name = "Pan-Galactic Gargle Blaster"
+	id = "gargleblaster"
+	description = "Whoah, this stuff looks volatile!"
+	color = "#664300" // rgb: 102, 67, 0
+	boozepwr = 25
+
+/datum/reagent/consumable/ethanol/gargle_blaster/on_mob_life(mob/living/M)
+	switch(current_cycle)
+		if(45 to 55)
+			if(prob(50))
+				M.confused = max(M.confused+3,0)
+		if(55 to 200)
+			M.druggy = max(M.druggy, 55)
+	..()
+	return
+
+/datum/reagent/consumable/ethanol/neurotoxin
+	name = "Neurotoxin"
+	id = "neurotoxin"
+	description = "A strong neurotoxin that puts the subject into a death-like state."
+	color = "#2E2E61" // rgb: 46, 46, 97
+	boozepwr = 25
+
+/datum/reagent/consumable/ethanol/neurotoxin/on_mob_life(mob/living/carbon/M)
+	M.weakened = max(M.weakened, 3)
+	switch(current_cycle)
+		if(45 to 55)
+			if(prob(50))
+				M.confused = max(M.confused+3,0)
+		if(55 to 200)
+			M.druggy = max(M.druggy, 55)
+	..()
+	return
+
+
+/datum/reagent/consumable/ethanol/hippies_delight
+	name = "Hippie's Delight"
+	id = "hippiesdelight"
+	description = "You just don't get it maaaan."
+	color = "#664300" // rgb: 102, 67, 0
+	nutriment_factor = 0
+	metabolization_rate = 0.2 * REAGENTS_METABOLISM
+	boozepwr = 25
+
+/datum/reagent/consumable/hippies_delight/on_mob_life(mob/living/M)
+	M.druggy = max(M.druggy, 50)
+	switch(current_cycle)
+		if(1 to 5)
+			if(prob(10)) M.emote(pick("twitch","giggle"))
+		if(5 to 10)
+			M.Jitter(20)
+			M.Dizzy(20)
+			M.druggy = max(M.druggy, 45)
+			if(prob(20)) M.emote(pick("twitch","giggle"))
+		if (10 to 200)
+			M.Jitter(40)
+			M.Dizzy(40)
+			M.druggy = max(M.druggy, 60)
+			if(prob(30)) M.emote(pick("twitch","giggle"))
+		if(200 to INFINITY)
+			M.Jitter(60)
+			M.Dizzy(60)
+			M.druggy = max(M.druggy, 75)
+			if(prob(40)) M.emote(pick("twitch","giggle"))
+			if(prob(30)) M.adjustToxLoss(2)
+	..()
+	return

@@ -1,0 +1,6 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes:
+  - tweak: "Say logs now properly transfer over to the ghost."

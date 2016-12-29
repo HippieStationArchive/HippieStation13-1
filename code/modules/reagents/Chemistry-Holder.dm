@@ -218,6 +218,7 @@ var/const/INJECT = 5 //injection
 	if(M)
 		chem_temp = M.bodytemperature
 		handle_reactions()
+		check_speedboost(my_atom)
 
 	for(var/A in reagent_list)
 		var/datum/reagent/R = A
@@ -247,8 +248,7 @@ var/const/INJECT = 5 //injection
 	if(can_overdose)
 		if(addiction_tick == 6)
 			addiction_tick = 1
-			for(var/A in addiction_list)
-				var/datum/reagent/R = A
+			for(var/datum/reagent/R in addiction_list)
 				if(M && R)
 					if(R.addiction_stage <= 0)
 						R.addiction_stage++
@@ -389,31 +389,20 @@ var/const/INJECT = 5 //injection
 			reagent_list -= R
 			update_total()
 			my_atom.on_reagent_change()
-			check_ignoreslow(my_atom)
-			check_gofast(my_atom)
-			check_goreallyfast(my_atom)
 	return 1
 
-/datum/reagents/proc/check_ignoreslow(mob/M)
-	if(istype(M, /mob))
-		if(M.reagents.has_reagent("morphine")||M.reagents.has_reagent("ephedrine"))
-			return 1
-		else
-			M.status_flags &= ~IGNORESLOWDOWN
-
-/datum/reagents/proc/check_gofast(mob/M)
-	if(istype(M, /mob))
-		if(M.reagents.has_reagent("unholywater")||M.reagents.has_reagent("nuka_cola")||M.reagents.has_reagent("stimulants"))
-			return 1
-		else
-			M.status_flags &= ~GOTTAGOFAST
-
-/datum/reagents/proc/check_goreallyfast(mob/M)
-	if(istype(M, /mob))
-		if(M.reagents.has_reagent("methamphetamine"))
-			return 1
-		else
-			M.status_flags &= ~GOTTAGOREALLYFAST
+/datum/reagents/proc/check_speedboost(mob/M)
+	if(istype(M))
+		M.status_flags &= ~GOTTAGOFAST
+		M.status_flags &= ~GOTTAGOREALLYFAST
+		M.status_flags &= ~IGNORESLOWDOWN
+		for(var/datum/reagent/R in reagent_list)
+			if(R.speedboost & 4)
+				M.status_flags |= IGNORESLOWDOWN
+			if(R.speedboost & 2)
+				M.status_flags |= GOTTAGOREALLYFAST
+			if(R.speedboost & 1)
+				M.status_flags |= GOTTAGOFAST
 
 /datum/reagents/proc/update_total()
 	total_volume = 0

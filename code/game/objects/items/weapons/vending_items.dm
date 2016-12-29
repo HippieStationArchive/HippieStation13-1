@@ -58,8 +58,8 @@
 /obj/item/weapon/vending_refill/cigarette
 	machine_name = "ShadyCigs Deluxe"
 	icon_state = "refill_smoke"
-	charges = list(12, 1, 2)// of 36 standard, 3 contraband, 6 premium
-	init_charges = list(12, 1, 2)
+	charges = list(13, 1, 2)// of 39 standard, 3 contraband, 6 premium
+	init_charges = list(13, 1, 2)
 
 /obj/item/weapon/vending_refill/autodrobe
 	machine_name = "AutoDrobe"
@@ -70,5 +70,5 @@
 /obj/item/weapon/vending_refill/clothing
 	machine_name = "ClothesMate"
 	icon_state = "refill_clothes"
-	charges = list(29, 2, 2)// of 85 standard, 6 contraband, 7 premium
-	init_charges = list(29, 2, 2)
+	charges = list(29, 3, 2)// of 85 standard, 9 contraband, 7 premium
+	init_charges = list(29, 3, 2)

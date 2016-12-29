@@ -77,6 +77,14 @@
 			<BR>
 			"}
 
+	if(check_rights(R_PERMISSIONS,0))
+		dat += {"
+			<B>Super secret stuff</B><BR>
+			<BR>
+			<A href='?src=\ref[src];secrets=show_whitelist'>Show CID Whitelist</A><BR>
+			<BR>
+			"}
+
 	usr << browse(dat, "window=secrets")
 	return
 
@@ -95,7 +103,7 @@
 			var/turf/T = get_turf(usr)
 			var/mob/living/carbon/human/dummy/D = new /mob/living/carbon/human/dummy(T)
 			usr.client.cmd_assume_direct_control(D)
-			D.equip_to_slot_or_del(new /obj/item/clothing/under/color/black(D), slot_w_uniform)
+			D.equip_to_slot_or_del(new /obj/item/clothing/under/acj(D), slot_w_uniform)
 			D.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(D), slot_shoes)
 			D.equip_to_slot_or_del(new /obj/item/weapon/card/id/admin(D), slot_wear_id)
 			D.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(D), slot_ears)
@@ -596,6 +604,7 @@
 				if (access_maint_tunnels in M.req_access)
 					M.req_access = list(access_brig)
 			message_admins("[key_name_admin(usr)] made all maint doors brig access-only.")
+
 		if("maint_access_engiebrig")
 			if(!check_rights(R_DEBUG))
 				return
@@ -605,6 +614,7 @@
 					M.req_access = list()
 					M.req_one_access = list(access_brig,access_engine)
 			message_admins("[key_name_admin(usr)] made all maint doors engineering and brig access-only.")
+
 		if("infinite_sec")
 			if(!check_rights(R_DEBUG))
 				return
@@ -613,6 +623,20 @@
 			J.total_positions = -1
 			J.spawn_positions = -1
 			message_admins("[key_name_admin(usr)] has removed the cap on security officers.")
+
+		if("show_whitelist")
+			if(!check_rights(R_PERMISSIONS))
+				return
+			establish_db_connection()
+			if (!dbcon.IsConnected())
+				return
+			var/dat = "<B>Current ckeys that are whitelisted:</B><HR>"
+			var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3` FROM [format_table_name("spoof_check")] WHERE whitelist = '1'")
+			if(query_check_ckey.Execute())
+				while(query_check_ckey.NextRow())
+					dat += "ckey:&ensp;[query_check_ckey.item[1]]<br>&emsp;cid_1:&ensp;[query_check_ckey.item[2]]&emsp;date:&ensp;[query_check_ckey.item[5]]<br>&emsp;cid_2:&ensp;[query_check_ckey.item[3]]&emsp;date:&ensp;[query_check_ckey.item[6]]<br>&emsp;cid_3:&ensp;[query_check_ckey.item[4]]&emsp;date:&ensp;[query_check_ckey.item[7]]<br>"
+				usr << browse(dat, "window=showwhitelist;size=600x500")
+
 	if(E)
 		E.processing = 0
 		if(E.announceWhen>0)

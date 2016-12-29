@@ -732,5 +732,5 @@
 	build_type = MECHFAB
 	materials = list(MAT_METAL = 800, MAT_GLASS = 350)
 	construction_time=150
-	build_path = /obj/item/drone_shell
+	build_path = /obj/item/drone_shell/safedrone
 	category = list("Misc")
