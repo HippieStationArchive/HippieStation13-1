@@ -621,7 +621,7 @@
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		H.blood_max += 2
-		H.adjustBruteLoss((H.blood_max)/5) //Brute damage ACTUALLY increases with the amount they're bleeding
+		H.adjustBruteLoss((H.blood_max)/2) //Brute damage ACTUALLY increases with the amount they're bleeding
 	..()
 
 /datum/reagent/toxin/teslium //Teslium. Causes periodic shocks, and makes shocks against the target much more effective.
