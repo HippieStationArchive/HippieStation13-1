@@ -1066,7 +1066,7 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	overdose_threshold = 30
 
 /datum/reagent/medicine/antidote/on_mob_life(mob/living/M)
-	M.adjustToxLoss(-1.7*REM)
+	M.adjustToxLoss(-1.75*REM)
 	..()
 	return
 
