@@ -1066,11 +1066,11 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	overdose_threshold = 30
 
 /datum/reagent/medicine/antidote/on_mob_life(mob/living/M)
-	M.adjustToxLoss(-2.5*REM)
+	M.adjustToxLoss(-2.1*REM)
 	..()
 	return
 
 datum/reagent/medicine/antidote/overdose_process(mob/living/M)
-	M.adjustToxLoss(4*REM)
+	M.adjustToxLoss(3.5*REM)
 	..()
 	return
