@@ -103,6 +103,8 @@
 	new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/meatproduct(location)
 	return
 
+////////////////////////////////// Secret Chems //////////////////////////////////////////
+
 /datum/chemical_reaction/autisticium
 	name = "Autisticium"
 	id = "autisticium"
@@ -111,6 +113,11 @@
 	result_amount = 10
 	mix_message = "The mixture emanates an autism level that has never been ever reached before."
 	required_temp = 1000
+
+/datum/chemical_reaction/autisticium/on_reaction(datum/reagents/holder, created_volume)
+	for(var/mob/M in mob_list)
+		M << 'sound/effects/AHHHHHHHHHH.ogg' //Autisticium has been created and everyone will know of it!
+		M << "<span class='boldannounce'>An auticism of the highest degree has been created on this plane of existence...</span>"
 
 
 ////////////////////////////////// VIROLOGY //////////////////////////////////////////
