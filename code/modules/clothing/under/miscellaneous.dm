@@ -154,11 +154,11 @@
 	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/under/acj
-	name = "administrative cybernetic jumpsuit"
-	icon_state = "syndicate"
+	name = "administrative jumpsuit"
+	icon_state = "black"
 	item_state = "bl_suit"
-	item_color = "syndicate"
-	desc = "A cybernetically enhanced jumpsuit used for administrative duties."
+	item_color = "black"
+	desc = "An enhanced jumpsuit used for administrative duties."
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.01
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
