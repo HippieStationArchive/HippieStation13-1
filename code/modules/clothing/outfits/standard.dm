@@ -410,6 +410,7 @@
 /datum/outfit/death_commando/officer
 	name = "Death Commando Officer"
 	head = /obj/item/clothing/head/helmet/space/beret
+	r_hand = /obj/item/weapon/gun/energy/pulse/plasmoid
 
 //ION PMC
 
@@ -528,6 +529,7 @@
 	ears = /obj/item/device/radio/headset/headset_cent/alt
 	mask = /obj/item/clothing/mask/gas
 	glasses = /obj/item/clothing/glasses/thermal
+	r_hand = /obj/item/weapon/gun/energy/pulse/plasmoid
 
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
 		/obj/item/ammo_box/magazine/m75=3,\
