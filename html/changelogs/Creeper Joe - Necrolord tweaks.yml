@@ -1,0 +1,9 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes:
+  - tweak: "The Staff of Revenant now only works on humans."
+  - tweak: "Corpse Explosion now only works on humans and it's maximum range has been reduced by 1."
+  - tweak: "Soulsplit only requires 90 or less health instead of 100."
+  - bugfix: "Fixed a bug where soulflare tried looking for the spell in your mob instead of your mind."
