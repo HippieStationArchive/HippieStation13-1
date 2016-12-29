@@ -35,4 +35,4 @@ delete-after: True
 changes: 
   - rscadd: "Adds Plasma Rifle: An experimental weapon for red alert ERT Commanders and Deathsquad Commanders. Similar to a pulse rifle but with a unique plasmoid burst mode in place of the usual Destroy"
   - rscadd: "Plasmoid burst mode fires a spread of 3 plasmoids which deal 20 damage each and increase the body temperature of targets along with igniting them. The drawbacks are over double the energy cost and limited range."
-  - rscadd: "Plasmoids are NOT laser projectiles, they won't pass through glass and they won't be deflected by e shields.  Check your fire!
+  - rscadd: "Plasmoids are NOT laser projectiles, they won't pass through glass and they won't be deflected by e shields.  Check your fire!"
