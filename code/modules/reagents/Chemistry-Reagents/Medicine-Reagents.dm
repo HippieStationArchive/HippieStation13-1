@@ -74,7 +74,7 @@
 /datum/reagent/medicine/synaptizine
 	name = "Synaptizine"
 	id = "synaptizine"
-	description = "Helps cure hallucinations and reduces drowsiness. Has a chance to shorten stuns."
+	description = "Helps cure hallucinations and reduces drowsiness."
 	color = "#C8A5DC" // rgb: 200, 165, 220
 
 /datum/reagent/medicine/synaptizine/on_mob_life(mob/living/M)
@@ -82,11 +82,13 @@
 	if(holder.has_reagent("mindbreaker"))
 		holder.remove_reagent("mindbreaker", 5)
 	M.hallucination = max(0, M.hallucination - 10)
+	/*
 	if(prob(20))
 		M.adjustToxLoss(2)
 		M.AdjustParalysis(-2)
 		M.AdjustStunned(-2)
 		M.AdjustWeakened(-2)
+	*/
 	..()
 	return
 
