@@ -13,7 +13,7 @@
 				<b>Function:</b> Allows operation of implant-locked weaponry, preventing equipment from falling into enemy hands."}
 	return dat
 
-
+/*
 /obj/item/weapon/implant/adrenalin
 	name = "adrenal implant"
 	desc = "Removes all stuns and knockdowns."
@@ -46,7 +46,9 @@
 	imp_in.reagents.add_reagent("synaptizine", 10)
 	imp_in.reagents.add_reagent("omnizine", 10)
 	imp_in.reagents.add_reagent("stimulants", 10)
+*/
 
+/*
 /obj/item/weapon/implant/adrenalin/false
 	desc = "Removes all stuns and knockdowns. It looks like it might've been tampered with."
 	var/implant_type = 0
@@ -99,7 +101,7 @@
 			imp_in.reagents.add_reagent("synaptizine", 10)
 			imp_in.reagents.add_reagent("omnizine", 10)
 			imp_in.reagents.add_reagent("stimulants", 10)
-
+*/
 /obj/item/weapon/implant/emp
 	name = "emp implant"
 	desc = "Triggers an EMP."

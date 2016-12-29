@@ -462,19 +462,16 @@
 /datum/reagent/medicine/ephedrine
 	name = "Ephedrine"
 	id = "ephedrine"
-	description = "Increases stun resistance and movement speed. Overdose deals toxin damage and inhibits breathing."
+	description = "Increases movement speed and . Overdose deals toxin damage and inhibits breathing."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 	addiction_threshold = 30
-	stun_threshold = 8
-	stun_resist = 4
 	speedboost = FAST
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
-	M.adjustStaminaLoss(-1)
-	stun_resist_act(M)
+	M.adjustStaminaLoss(-2)
 	..()
 	return
 
@@ -571,8 +568,10 @@
 	if(iscarbon(M))
 		var/mob/living/carbon/N = M
 		N.hal_screwyhud = 5
+	/*
 	for(var/datum/reagent/R in M.reagents.reagent_list)
 		R.stun_timer = max(0, stun_timer - 0.5)
+	*/
 	if(current_cycle >= 10 && M.health <= 30)
 		M.sleeping += 1
 	..()
@@ -826,36 +825,6 @@
 	M.adjustToxLoss(-0.2*REM)
 	..()
 
-/datum/reagent/medicine/stimulants
-	name = "Stimulants"
-	id = "stimulants"
-	description = "Increases stun resistance and movement speed in addition to restoring minor damage and weakness. Overdose causes weakness and toxin damage."
-	color = "#C8A5DC"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = 60
-	stun_threshold = 4
-	stun_resist = 4
-	speedboost = FAST
-
-/datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
-	if(M.health < 50 && M.health > 0)
-		M.adjustOxyLoss(-1*REM)
-		M.adjustToxLoss(-1*REM)
-		M.adjustBruteLoss(-1*REM)
-		M.adjustBloodLoss(-0.1*REM)
-		M.adjustFireLoss(-1*REM)
-	M.adjustStaminaLoss(-3)
-	stun_resist_act(M)
-	..()
-
-/datum/reagent/medicine/stimulants/overdose_process(mob/living/M)
-	if(prob(33))
-		M.adjustStaminaLoss(2.5*REM)
-		M.adjustToxLoss(1*REM)
-		M.losebreath++
-	..()
-	return
-
 /datum/reagent/medicine/insulin
 	name = "Insulin"
 	id = "insulin"
@@ -1056,3 +1025,35 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	M.adjustCloneLoss(-3*REM)
 	..()
 	return
+
+/*	/* Get ye gone stun resist */
+/datum/reagent/medicine/stimulants
+	name = "Stimulants"
+	id = "stimulants"
+	description = "Increases stun resistance and movement speed in addition to restoring minor damage and weakness. Overdose causes weakness and toxin damage."
+	color = "#C8A5DC"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = 60
+	stun_threshold = 4
+	stun_resist = 4
+	speedboost = FAST
+
+/datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
+	if(M.health < 50 && M.health > 0)
+		M.adjustOxyLoss(-1*REM)
+		M.adjustToxLoss(-1*REM)
+		M.adjustBruteLoss(-1*REM)
+		M.adjustBloodLoss(-0.1*REM)
+		M.adjustFireLoss(-1*REM)
+	M.adjustStaminaLoss(-3)
+	stun_resist_act(M)
+	..()
+
+/datum/reagent/medicine/stimulants/overdose_process(mob/living/M)
+	if(prob(33))
+		M.adjustStaminaLoss(2.5*REM)
+		M.adjustToxLoss(1*REM)
+		M.losebreath++
+	..()
+	return
+*/
