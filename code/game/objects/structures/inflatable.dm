@@ -7,12 +7,16 @@
 	var/structuretype = /obj/structure/inflatable
 
 /obj/item/inflatable/attack_self(mob/user)
+	if(locate(/obj/structure/inflatable) in user.loc)
+		user << "<span class='warning'>You cannot place inflatable walls upon eachother!</span>"
+		return
 	playsound(loc, 'sound/items/zip.ogg', 75, 1)
 	user << "<span class='notice'>You inflate [src].</span>"
-	var/obj/structure/inflatable/R = new structuretype(user.loc)
-	transfer_fingerprints_to(R)
-	R.add_fingerprint(user)
-	qdel(src)
+	if(do_mob(user, src, 10))
+		var/obj/structure/inflatable/R = new structuretype(user.loc)
+		transfer_fingerprints_to(R)
+		R.add_fingerprint(user)
+		qdel(src)
 
 /obj/structure/inflatable
 	name = "inflatable wall"
@@ -22,7 +26,7 @@
 	opacity = 0
 	icon = 'icons/obj/inflatable.dmi'
 	icon_state = "wall"
-	var/health = 50
+	var/health = 20
 	var/torntype = /obj/item/inflatable/torn
 	var/itemtype = /obj/item/inflatable
 

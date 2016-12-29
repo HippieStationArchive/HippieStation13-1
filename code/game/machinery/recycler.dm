@@ -34,7 +34,7 @@ var/const/SAFETY_COOLDOWN = 100
 		mat_mod = 2 * B.rating
 	mat_mod *= 50000
 	for(var/obj/item/weapon/stock_parts/manipulator/M in component_parts)
-		amt_made = 25 * M.rating //% of materials salvaged
+		amt_made = 100 * M.rating //% of materials salvaged
 	materials.max_amount = mat_mod
 	amount_produced = min(100, amt_made)
 

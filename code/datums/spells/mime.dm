@@ -56,6 +56,7 @@
 /obj/effect/proc_holder/spell/targeted/mime/speak/cast(list/targets,mob/user = usr)
 	for(var/mob/living/carbon/human/H in targets)
 		H.mind.miming=!H.mind.miming
+		feedback_add_details("vow_made", "[H.mind.miming]")//should probs be generalized to all spells tbh
 		if(H.mind.miming)
 			H << "<span class='notice'>You make a vow of silence.</span>"
 		else

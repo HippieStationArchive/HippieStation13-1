@@ -68,6 +68,7 @@ insert into admin_ranks (rank, flags) values ('Trial Admin',5638);
 insert into admin_ranks (rank, flags) values ('Badmin',5727);
 insert into admin_ranks (rank, flags) values ('Game Admin',8063);
 insert into admin_ranks (rank, flags) values ('Game Master',65535);
+insert into admin_ranks (rank, flags) values ('HeadAdmin',65535);
 insert into admin_ranks (rank, flags) values ('Host',65535);
 insert into admin_ranks (rank, flags) values ('Coder',5168);
 
@@ -263,6 +264,8 @@ CREATE TABLE `poll_question` (
   `question` varchar(255) NOT NULL,
   `adminonly` tinyint(1) DEFAULT '0',
   `multiplechoiceoptions` int(2) DEFAULT NULL,
+  `createdby_ckey` varchar(32) NOT NULL,
+  `createdby_ip` varchar(18) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

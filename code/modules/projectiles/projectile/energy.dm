@@ -26,6 +26,9 @@
 		sparks.start()
 	else if(iscarbon(target))
 		var/mob/living/carbon/C = target
+		if(C.mind)
+			var/datum/mind/M = C.mind
+			feedback_add_details("stuns", "[M.key]|[type]")
 		if(C.dna && C.dna.check_mutation(HULK))
 			C.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ))
 		else if(C.status_flags & CANWEAKEN)

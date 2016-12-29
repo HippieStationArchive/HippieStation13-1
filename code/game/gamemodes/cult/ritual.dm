@@ -69,14 +69,6 @@ It also contains rune words, which are soon to be removed.
 		return
 	if(!iscultist(user))
 		return ..()
-	if(iscultist(M))
-		if(M.reagents && M.reagents.has_reagent("holywater")) //allows cultists to be rescued from the clutches of ordained religion
-			user << "<span class='notice'>You remove the taint from [M].</span>"
-			var/holy2unholy = M.reagents.get_reagent_amount("holywater")
-			M.reagents.del_reagent("holywater")
-			M.reagents.add_reagent("unholywater",holy2unholy)
-			add_logs(user, M, "smacked", src, " removing the holy water from them")
-		return
 	M.take_organ_damage(0, 15) //Used to be a random between 5 and 20
 	playsound(M, 'sound/weapons/sear.ogg', 50, 1)
 	M.visible_message("<span class='danger'>[user] strikes [M] with the arcane tome!</span>", \
@@ -84,7 +76,17 @@ It also contains rune words, which are soon to be removed.
 	flick("tome_attack", src)
 	user.do_attack_animation(M)
 	add_logs(user, M, "smacked", src)
-
+	
+/obj/item/weapon/tome/afterattack(atom/A, mob/user, proximity)
+	if(!proximity)
+		return
+	if(A.reagents && A.reagents.has_reagent("holywater")) //allows cultists to be rescued from the clutches of ordained religion
+		user << "<span class='notice'>You remove the taint from [A].</span>"
+		var/holy2unholy = A.reagents.get_reagent_amount("holywater")
+		A.reagents.del_reagent("holywater")
+		A.reagents.add_reagent("unholywater",holy2unholy)
+		add_logs(user, A, "smacked", src, " removing the holy water from them")
+	
 /obj/item/weapon/tome/attack_self(mob/user)
 	if(!iscultist(user))
 		user << "<span class='warning'>[src] seems full of unintelligible shapes, scribbles, and notes. Is this some sort of joke?</span>"

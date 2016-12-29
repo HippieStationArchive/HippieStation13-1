@@ -24,7 +24,7 @@ Borg Hypospray
 	var/bypass_protection = 0 //If the hypospray can go through armor or thick material
 
 	var/list/datum/reagents/reagent_list = list()
-	var/list/reagent_ids = list("dexalin", "kelotane", "bicaridine", "antitoxin", "epinephrine", "spaceacillin")
+	var/list/reagent_ids = list("tricordrazine", "epinephrine", "spaceacillin")
 	//var/list/reagent_ids = list("salbutamol", "salglu_solution", "salglu_solution", "charcoal", "ephedrine", "spaceacillin")
 	var/list/modes = list() //Basically the inverse of reagent_ids. Instead of having numbers as "keys" and strings as values it has strings as keys and numbers as values.
 								//Used as list for input() in shakers.
@@ -100,11 +100,11 @@ Borg Hypospray
 			user << "<span class='notice'>[trans] unit\s injected.  [R.total_volume] unit\s remaining.</span>"
 
 /obj/item/weapon/reagent_containers/borghypo/attack_self(mob/user)
-	var/chosen_reagent = modes[input(user, "What reagent do you want to dispense?") as null|anything in reagent_ids]
-	if(!chosen_reagent)
-		return
-	mode = chosen_reagent
+	mode++
+	if(mode > reagent_list.len)
+		mode = 1
 	playsound(loc, 'sound/effects/pop.ogg', 50, 0)
+
 	var/datum/reagent/R = chemical_reagents_list[reagent_ids[mode]]
 	user << "<span class='notice'>[src] is now dispensing '[R.name]'.</span>"
 	return

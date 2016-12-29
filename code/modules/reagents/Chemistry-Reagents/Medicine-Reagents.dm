@@ -468,13 +468,13 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 	addiction_threshold = 30
+	stun_threshold = 4
+	stun_resist = 2
+	speedboost = NORMAL
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
-	M.status_flags |= GOTTAGOFAST
-	M.AdjustParalysis(-0.4)
-	M.AdjustStunned(-0.4)
-	M.AdjustWeakened(-0.4)
-	M.adjustStaminaLoss(-0.5*REM)
+	M.adjustStaminaLoss(-1)
+	stun_resist_act(M)
 	..()
 	return
 
@@ -538,27 +538,54 @@
 	..()
 	return
 
-/datum/reagent/medicine/morphine
-	name = "Morphine"
-	id = "morphine"
-	description = "A painkiller that allows the patient to move at full speed even in bulky objects. Causes drowsiness and eventually unconsciousness in high doses. Overdose will cause a variety of effects, ranging from minor to lethal."
+/datum/reagent/medicine/sleeptoxin
+	name = "Sleep Toxin"
+	id = "sleeptoxin"
+	description = "A weak yet nontoxic sedative that can be used to safely put a patient to sleep."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = 30
-	addiction_threshold = 25
+	metabolization_rate = REAGENTS_METABOLISM
 
-
-/datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
-	M.status_flags |= IGNORESLOWDOWN
-	if(current_cycle == 11)
+/datum/reagent/medicine/sleeptoxin/on_mob_life(mob/living/M)
+	if(current_cycle == 7)
 		M << "<span class='warning'>You start to feel tired...</span>" //Warning when the victim is starting to pass out
-	if(current_cycle >= 12 && current_cycle < 24)
+	if(current_cycle >= 7 && current_cycle < 15)
 		M.drowsyness += 1
-	else if(current_cycle >= 24)
+	else if(current_cycle >= 15)
 		M.sleeping += 1
 	..()
 	return
+
+/datum/reagent/medicine/morphine
+	name = "Morphine"
+	id = "morphine"
+	description = "A painkiller that allows the patient to move at full speed, regardless of injury or clothing. However, it will make you drowsy, drains faster on severe injuries and reduces the effectiveness of stun-resisting chemicals. Overdose will cause a variety of effects, ranging from minor to lethal."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	metabolization_rate = 1.5 * REAGENTS_METABOLISM
+	overdose_threshold = 30
+	addiction_threshold = 25
+	speedboost = IGNORE_SLOWDOWN
+
+/datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
+	if(iscarbon(M))
+		var/mob/living/carbon/N = M
+		N.hal_screwyhud = 5
+	for(var/datum/reagent/R in M.reagents.reagent_list)
+		R.stun_timer = max(0, stun_timer - 0.5)
+	if(current_cycle >= 10 && M.health <= 30)
+		M.sleeping += 1
+	..()
+	return
+
+/datum/reagent/medicine/morphine/on_mob_delete(mob/living/M)
+	M.drowsyness += 10
+	if(M.health <= 30)
+		M.sleeping += 10
+	if(iscarbon(M))
+		var/mob/living/carbon/N = M
+		N.hal_screwyhud = 0
+	..()
 
 /datum/reagent/medicine/morphine/overdose_process(mob/living/M)
 	if(prob(33))
@@ -806,19 +833,19 @@
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 60
+	stun_threshold = 4
+	stun_resist = 4
+	speedboost = FAST
 
 /datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
-	M.status_flags |= GOTTAGOFAST
 	if(M.health < 50 && M.health > 0)
 		M.adjustOxyLoss(-1*REM)
 		M.adjustToxLoss(-1*REM)
 		M.adjustBruteLoss(-1*REM)
 		M.adjustBloodLoss(-0.1*REM)
 		M.adjustFireLoss(-1*REM)
-	M.AdjustParalysis(-3)
-	M.AdjustStunned(-3)
-	M.AdjustWeakened(-3)
-	M.adjustStaminaLoss(-5*REM)
+	M.adjustStaminaLoss(-3)
+	stun_resist_act(M)
 	..()
 
 /datum/reagent/medicine/stimulants/overdose_process(mob/living/M)

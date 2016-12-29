@@ -10,6 +10,7 @@
 #define REPAIRDRONE	"drone_repair"
 #define SCOUTDRONE	"drone_scout"
 
+//Please don't use this, use /mob/living/simple_animal/drone/safedrone as they have restrictions.
 /mob/living/simple_animal/drone
 	name = "Drone"
 	desc = "A maintenance drone, an expendable robot built to perform station repairs."

@@ -222,21 +222,22 @@
 	name = "Unholy Water"
 	id = "unholywater"
 	description = "Something that shouldn't exist on this plane of existance."
+	metabolization_rate = 2 * REAGENTS_METABOLISM
+	stun_threshold = 4
+	stun_resist = 6
 
 /datum/reagent/fuel/unholywater/on_mob_life(mob/living/M)
-	M.adjustBrainLoss(3)
 	if(iscultist(M))
-		M.status_flags |= GOTTAGOFAST
+		speedboost = FAST
 		M.drowsyness = max(M.drowsyness-5, 0)
-		M.AdjustParalysis(-2)
-		M.AdjustStunned(-2)
-		M.AdjustWeakened(-2)
+		stun_resist_act(M)
 	else
+		speedboost = NORMAL
+		M.adjustBrainLoss(3)
 		M.adjustToxLoss(2)
 		M.adjustFireLoss(2)
 		M.adjustOxyLoss(2)
 		M.adjustBruteLoss(2)
-	holder.remove_reagent(src.id, 1)
 
 /datum/reagent/hellwater			//if someone has this in their system they've really pissed off an eldrich god
 	name = "Hell Water"
@@ -435,6 +436,16 @@
 	description = "A colorless, odorless gas."
 	reagent_state = GAS
 	color = "#808080" // rgb: 128, 128, 128
+	
+/datum/reagent/oxygen/reaction_obj(obj/O, reac_volume)
+	if((!O) || (!reac_volume))
+		return 0
+	O.atmos_spawn_air("o2=[reac_volume/2];TEMP=[T20C]")
+
+/datum/reagent/oxygen/reaction_turf(turf/simulated/T, reac_volume)
+	if(istype(T))
+		T.atmos_spawn_air("o2=[reac_volume/2];TEMP=[T20C]")
+	return
 
 /datum/reagent/copper
 	name = "Copper"
@@ -449,6 +460,17 @@
 	description = "A colorless, odorless, tasteless gas."
 	reagent_state = GAS
 	color = "#808080" // rgb: 128, 128, 128
+	
+/datum/reagent/nitrogen/reaction_obj(obj/O, reac_volume)
+	if((!O) || (!reac_volume))
+		return 0
+	O.atmos_spawn_air("n2=[reac_volume/2];TEMP=[T20C]")
+
+/datum/reagent/nitrogen/reaction_turf(turf/simulated/T, reac_volume)
+	if(istype(T))
+		T.atmos_spawn_air("n2=[reac_volume/2];TEMP=[T20C]")
+	return
+
 
 /datum/reagent/hydrogen
 	name = "Hydrogen"

@@ -13,7 +13,6 @@
 	var/dried_type = null
 	var/potency = null
 	var/dry = 0
-	var/cooked_type = null  //for microwave cooking. path of the resulting item after microwaving
 	var/filling_color = "#FFFFFF" //color to use when added to custom food.
 	var/custom_food_type = null  //for food customizing. path of the custom food to create
 	var/junkiness = 0  //for junk food. used to lower human satiety.
@@ -100,7 +99,7 @@
 									B.contents -= src
 
 								B.stored -= itemstorevalue
-							
+
 							qdel(src)
 
 							if(B.stored > B.capacity) // added this due to a trash item being inserted inside without any check, so stuff won't break,i am unsure on how useful this is
@@ -243,9 +242,6 @@
 			if(contents.len >= 20)
 				user << "<span class='warning'>You can't add more ingredients to [src]!</span>"
 				return 0
-			var/obj/item/weapon/reagent_containers/food/snacks/customizable/C = new custom_food_type(get_turf(src))
-			C.initialize_custom_food(src, S, user)
-			return 0
 	var/sharp = W.is_sharp()
 	if(sharp)
 		if(slice(sharp, W, user))

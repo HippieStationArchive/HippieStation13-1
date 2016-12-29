@@ -77,7 +77,7 @@
 /obj/item/stack/tile/wood
 	name = "wood floor tile"
 	singular_name = "wood floor tile"
-	desc = "an easy to fit wood floor tile."
+	desc = "An easy to fit wood floor tile."
 	icon_state = "tile-wood"
 	origin_tech = "biotech=1"
 	turf_type = /turf/simulated/floor/wood

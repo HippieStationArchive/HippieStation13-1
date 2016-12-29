@@ -1081,8 +1081,8 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			if (ishuman(M) && (M.real_name != src.owner))
 				if (istype(src.cartridge, /obj/item/weapon/cartridge/clown))
 					var/obj/item/weapon/cartridge/clown/cart = src.cartridge
-					if(cart.honk_charges < 5)
-						cart.honk_charges++
+					cart.honk_charges++
+					feedback_add_details("slips", "[AM]|[type]")
 
 //AI verb and proc for sending PDA messages.
 

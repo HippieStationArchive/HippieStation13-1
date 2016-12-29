@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - tweak: "Adds Sepia Flooring and Bluespace Flooring to RnD, as they were obscure and very underused"

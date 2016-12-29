@@ -92,7 +92,7 @@
 ///Handles late-join antag assignments
 /datum/game_mode/proc/make_antag_chance(mob/living/carbon/human/character)
 	if(replacementmode && round_converted == 2)
-		replacementmode.make_antag_chance(character)
+		return replacementmode.make_antag_chance(character)
 	return
 
 ///convert_roundtype()

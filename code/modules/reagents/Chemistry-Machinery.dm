@@ -1396,6 +1396,18 @@
 				O.reagents.trans_to(beaker, amount)
 				if(!O.reagents.total_volume)
 						remove_object(O)
+						
+		for (var/obj/item/O in holdingitems)
+				if (beaker.reagents.total_volume >= beaker.reagents.maximum_volume)
+						break
+				var/allowed = get_allowed_by_id(O)
+				for (var/r_id in allowed)
+						var/space = beaker.reagents.maximum_volume - beaker.reagents.total_volume
+						var/amount = allowed[r_id]
+						beaker.reagents.add_reagent(r_id,min(amount, space))
+						if (space < amount)
+								break
+						remove_object(O)
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /obj/machinery/chem_heater

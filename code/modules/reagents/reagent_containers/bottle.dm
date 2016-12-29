@@ -38,6 +38,13 @@
 	icon_state = "bottle20"
 	list_reagents = list("morphine" = 30)
 
+/obj/item/weapon/reagent_containers/glass/bottle/sleeptoxin
+	name = "sleeptoxin bottle"
+	desc = "A small bottle of sleep toxin."
+	icon = 'icons/obj/chemical.dmi'
+	icon_state = "bottle20"
+	list_reagents = list("sleeptoxin" = 30)
+
 /obj/item/weapon/reagent_containers/glass/bottle/chloralhydrate
 	name = "Chloral Hydrate Bottle"
 	desc = "A small bottle of Choral Hydrate. Mickey's Favorite!"
@@ -182,6 +189,12 @@
 	desc = "A small bottle. Contains Histamine."
 	icon_state = "bottle16"
 	list_reagents = list("histamine" = 30)
+	
+/obj/item/weapon/reagent_containers/glass/bottle/wasting
+	name = "wasting toxin bottle"
+	desc = "A small bottle. Contains wasting toxin."
+	icon_state = "bottle16"
+	list_reagents = list("wasting_toxin" = 30)
 
 /obj/item/weapon/reagent_containers/glass/bottle/diphenhydramine
 	name = "antihistamine bottle"

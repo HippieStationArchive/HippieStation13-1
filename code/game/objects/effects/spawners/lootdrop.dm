@@ -124,6 +124,7 @@
 				/obj/item/weapon/wrench = 4,
 				/obj/item/weapon/relic = 3,
 				/obj/item/clothing/under/cosby = 1,
+				/obj/item/organ/internal/chemgland = 1,
 				"" = 11
 				)
 

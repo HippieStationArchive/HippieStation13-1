@@ -5,6 +5,7 @@ var/datum/subsystem/bots/SSbot
 	priority = 8
 
 	var/list/processing = list()
+	var/list/roundstartbots = list()
 
 /datum/subsystem/bots/New()
 	NEW_SS_GLOBAL(SSbot)

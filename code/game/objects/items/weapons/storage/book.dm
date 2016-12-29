@@ -174,9 +174,7 @@ var/global/biblename
 					M.visible_message("<span class='notice'>[user] heals [M] with the power of [deity_name]!</span>")
 					M << "<span class='boldnotice'>May the power of [deity_name] compel you to be healed!</span>"
 					playsound(src.loc, "punch", 25, 1, -1)
-				else
-					user << "<span class='warning'>[deity_name] refuses to heal this metallic taint!</span>"
-					return
+
 			else
 				if(!istype(H.head, /obj/item/clothing/head/helmet))
 					M.adjustBrainLoss(10)
@@ -283,6 +281,7 @@ var/global/biblename
 			affectedmobs |= H
 			affectedmobs[H] = conditions(H)
 	if(affectedmobs.len)
+		feedback_inc("relic",1)
 		return 1
 
 /obj/item/relic/proc/conditions(mob/living/carbon/human/H)
@@ -484,5 +483,4 @@ var/global/biblename
 		/obj/item/weapon/reagent_containers/food/snacks/grown,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom,
 		)
-	blocked |= typesof(/obj/item/weapon/reagent_containers/food/snacks/customizable)
 	possiblespawns += typesof(/obj/item/weapon/reagent_containers/food/snacks) - blocked

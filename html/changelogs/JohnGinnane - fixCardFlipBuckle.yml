@@ -1,0 +1,6 @@
+author: John Ginnane
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed cards/hands not flipping or being usable while player is buckled."
