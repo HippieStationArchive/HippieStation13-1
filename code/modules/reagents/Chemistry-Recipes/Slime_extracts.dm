@@ -481,7 +481,6 @@
 /datum/chemical_reaction/slimeexplosion/on_reaction(datum/reagents/holder)
 	feedback_add_details("slime_cores_used","[type]")
 	var/atom/H = holder.my_atom
-	var/location = get_turf(holder.my_atom)
 	message_admins("An oil slime extract has been activated at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[H.x];Y=[H.y];Z=[H.z]'>([H.x],[H.y],[H.z])</a> last touched by [key_name_admin(H.fingerprintslast)]")
 	log_game("An oil slime extract has been activated at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[H.x];Y=[H.y];Z=[H.z]'>([H.x],[H.y],[H.z])</a> last touched by [key_name_admin(H.fingerprintslast)]")
 	for(var/mob/O in viewers(get_turf(holder.my_atom), null))
