@@ -306,47 +306,50 @@
 /obj/structure/mirror/mobile
 	name = "mobile mirror"
 	desc = "A very reflective mirror that can be moved. Use a wrench to anchor it in place. Use a crowbar to adjust the direction."
-	icon = 'icons/obj/power.dmi'
-	icon_state = "solar_panel"
+	icon = 'icons/obj/structures.dmi'
+	icon_state = "mirror_reflect"
 	density = 1
 	anchored = 0
-	force_multi = 0.5 // Quite durable
+	force_multi = 1 // Quite durable
 
 /obj/structure/mirror/attackby(obj/item/I, mob/living/user, params)
-	if (istype(I, /obj/item/weapon/wrench))
-		if (anchored)
-			anchored = 0
-		else
-			anchored = 1
-
-		add_fingerprint(user)
-		playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
-		visible_message("<span class='warning'>[user] [anchored ? "" : "un"]anchors the [name]!</span>", \
-			            "<span class='warning'>You [anchored ? "" : "un"]anchors the [name]!</span>")
-
-	else if (istype(I, /obj/item/weapon/crowbar))
-		playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
-		var/new_dir = input("Enter direction:", "Direction") as null|anything in list("North", "North East", "East", "South East", "South", "South West", "West", "North West", "Cancel")
-
-		if (new_dir)
-			new_dir = replacetext(uppertext(new_dir), " ", "")
-
-			if (new_dir == "CANCEL")
-				return 0
+	if (!shattered)
+		if (istype(I, /obj/item/weapon/wrench))
+			if (anchored)
+				anchored = 0
 			else
-				dir = text2dir(new_dir)
+				anchored = 1
 
-	else if (istype(I, /obj/item/weapon/screwdriver))
-		playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
+			add_fingerprint(user)
+			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
+			visible_message("<span class='warning'>[user] [anchored ? "" : "un"]anchors the [name]!</span>", \
+				            "<span class='warning'>You [anchored ? "" : "un"]anchors the [name]!</span>")
 
-		if (do_after(user, 10, target = src))
-			var/obj/structure/mirrorbase/M = new /obj/structure/mirrorbase(loc)
-			M.state = 3
-			user << "<span class='notice'>You unfasten the glass cover.</span>"
-			qdel(src)
+		else if (istype(I, /obj/item/weapon/crowbar))
+			playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
+			var/new_dir = input("Enter direction:", "Direction") as null|anything in list("North", "North East", "East", "South East", "South", "South West", "West", "North West", "Cancel")
 
-	else return ..()
+			if (new_dir)
+				new_dir = replacetext(uppertext(new_dir), " ", "")
 
+				if (new_dir == "CANCEL")
+					return 0
+				else
+					dir = text2dir(new_dir)
+
+		else if (istype(I, /obj/item/weapon/screwdriver))
+			playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
+
+			if (do_after(user, 10, target = src))
+				var/obj/structure/mirrorbase/M = new /obj/structure/mirrorbase(loc)
+				M.state = 3
+				user << "<span class='notice'>You unfasten the glass cover.</span>"
+				qdel(src)
+
+		else 
+			return ..()
+	else 
+		return ..()
 /obj/structure/mirror/mobile/bullet_act(obj/item/projectile/P)
 	if(!shattered && istype(P, /obj/item/projectile/energy) || istype(P, /obj/item/projectile/beam))
 		if (P.starting)
@@ -362,21 +365,25 @@
 			// This figures out if the mirror's face was hit by the projectile
 			if (diff >= 270 || diff <= 90)
 				var/turf/curloc = get_turf(src)
-				P.firer = src
 				P.original = locate(x, y, z)
 				P.starting = curloc
 				P.current = curloc
 				// This is actually overpowered because it means projectiles 
 				// can be fired into a loop of mirrors and go on endlessly potentially
-				P.range = initial(P.range) 
+				P.range = initial(P.range)
 
-				// If pixel projectile then adjust the angle
-				if (!P.legacy)
-					P.Angle = P.Angle + 180 - (diff * 2)
-				else
-					// Else adjust the vector
-					P.yo = -P.yo
-					P.xo = -P.xo
+				// This is the new angle the projectile will be
+				var/out_angle = SimplifyDegrees(P.Angle + 180 - (diff * 2))
+
+				P.Angle = out_angle
+
+				world << "[out_angle]"
+				
+				if (P.legacy)
+					var/normal = sqrt((P.xo * P.xo) + (P.yo * P.yo))
+					world << "[normal]"
+					P.xo = cos(out_angle) * normal
+					P.yo = sin(out_angle) * normal
 
 				return -1
 		else
@@ -385,7 +392,8 @@
 /obj/structure/mirror/shatter()
 	if(shattered)
 		return
+
 	shattered = 1
-	icon_state = "solar_panel-b"
+	icon_state = "mirror_reflect_broke"
 	playsound(src, "shatter", 70, 1)
 	desc = "Oh no, seven years of bad luck!"
