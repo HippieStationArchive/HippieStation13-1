@@ -4,4 +4,4 @@ author: Anderbergst
 delete-after: True
 
 changes: 
-  - rscadd: "Added new chem called Antidote. It requires charcoal and epinephrine to make. Needs to be heated to 300K to mix. It heals toxin damage slightly better than charcoal but without purging other chems in your body"
+  - rscadd: "Added new chem called Antidote. It requires charcoal and epinephrine to make. Needs to be heated to 300K to mix. It heals toxin damage slightly worse than charcoal but without purging other chems in your body"
