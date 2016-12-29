@@ -128,6 +128,8 @@ var/global/max_secret_rooms = 10
 							  /obj/item/weapon/reagent_containers/glass/bottle/diethylamine=3,/obj/item/weapon/reagent_containers/glass/bottle/ammonia=3)
 
 		if("standroom")
+			x_size = 5
+			y_size = 5
 			theme = "standroom"
 			walltypes = list(/turf/simulated/wall/mineral/plasma=3,/turf/simulated/mineral/random/high_chance=1)
 			floortypes = list(/turf/simulated/floor/wood)
