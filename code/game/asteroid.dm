@@ -1,6 +1,6 @@
-var/global/list/possiblethemes = list("organharvest","cult","wizden","cavein","xenoden","hitech","speakeasy","plantlab")
+var/global/list/possiblethemes = list("organharvest","cult","wizden","cavein","xenoden","hitech","speakeasy","plantlab", "standroom")
 
-var/global/max_secret_rooms = 6
+var/global/max_secret_rooms = 10
 
 /proc/spawn_room(atom/start_loc, x_size, y_size, list/walltypes, floor, name, oldarea)
 	var/list/room_turfs = list("walls"=list(),"floors"=list())
@@ -80,7 +80,7 @@ var/global/max_secret_rooms = 6
 			walltypes = list(/turf/simulated/wall/mineral/plasma=3,/turf/simulated/mineral/random/high_chance=1)
 			floortypes = list(/turf/simulated/floor/wood)
 			treasureitems = list(/obj/item/weapon/veilrender/vealrender=2, /obj/item/weapon/spellbook/oneuse/blind=1,/obj/item/clothing/head/wizard/red=2,
-							/obj/item/weapon/spellbook/oneuse/forcewall=1, /obj/item/weapon/spellbook/oneuse/smoke=1, /obj/structure/constructshell = 1, /obj/item/toy/katana=3,/obj/item/voodoo=3, /obj/item/weapon/guardiancreator/standarrow=1)
+							/obj/item/weapon/spellbook/oneuse/forcewall=1, /obj/item/weapon/spellbook/oneuse/smoke=1, /obj/structure/constructshell = 1, /obj/item/toy/katana=3,/obj/item/voodoo=3)
 			fluffitems = list(/obj/structure/safe/floor=1,/obj/structure/dresser=1,/obj/item/weapon/storage/belt/soulstone=1,/obj/item/trash/candle=3,
 							  /obj/item/weapon/dice=3,/obj/item/weapon/staff=2,/obj/effect/decal/cleanable/dirt=3,/obj/item/weapon/coin/mythril=3)
 
@@ -126,6 +126,14 @@ var/global/max_secret_rooms = 6
 			fluffitems = list(/obj/structure/flora/kirbyplants=1,/obj/structure/table/reinforced=2,/obj/machinery/hydroponics=1,
 							  /obj/effect/glowshroom/single=2,/obj/item/weapon/reagent_containers/syringe/charcoal=2,
 							  /obj/item/weapon/reagent_containers/glass/bottle/diethylamine=3,/obj/item/weapon/reagent_containers/glass/bottle/ammonia=3)
+
+		if("standroom")
+			theme = "standroom"
+			walltypes = list(/turf/simulated/wall/mineral/plasma=3,/turf/simulated/mineral/random/high_chance=1)
+			floortypes = list(/turf/simulated/floor/wood)
+			treasureitems = list(/obj/item/weapon/guardiancreator/standarrow=10)
+			fluffitems = list(
+/obj/item/clothing/under/dio = 1, /obj/item/clothing/gloves/color/dio = 1, /obj/item/clothing/head/dio = 1, /obj/item/clothing/suit/dio = 1, /obj/item/clothing/shoes/dio = 1)
 
 		/*if("poly")
 			theme = "poly"
