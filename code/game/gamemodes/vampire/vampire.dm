@@ -69,7 +69,7 @@
 	VD.vampire_mob = M
 	V.verbs += /mob/living/carbon/human/proc/teach_vampire_martial_art
 	V.verbs += /mob/living/carbon/human/proc/vampire_sanguine_regeneration
-	V.verbs += /mob/living/carbon/human/proc/vampire_accelerated_recovery
+	/*V.verbs += /mob/living/carbon/human/proc/vampire_accelerated_recovery*/
 	V.verbs += /mob/living/carbon/human/proc/vampire_chiropteran_shapeshift
 	V.verbs += /mob/living/carbon/human/proc/vampire_demonic_strength
 	V << "<span class='userdanger'>Lilith's blessing warps your body... you are a vampire!</span>"
@@ -97,7 +97,7 @@
 		return 0
 	V.verbs.Remove(/mob/living/carbon/human/proc/teach_vampire_martial_art)
 	V.verbs.Remove(/mob/living/carbon/human/proc/vampire_sanguine_regeneration)
-	V.verbs.Remove(/mob/living/carbon/human/proc/vampire_accelerated_recovery)
+	/*V.verbs.Remove(/mob/living/carbon/human/proc/vampire_accelerated_recovery)*/
 	V.verbs.Remove(/mob/living/carbon/human/proc/vampire_chiropteran_shapeshift)
 	V.verbs.Remove(/mob/living/carbon/human/proc/vampire_demonic_strength)
 	V << "<span class='userdanger'>You feel Lilith's blessing vanish. Your immortality fades, your hunger ebbs... you are no longer a vampire!</span>"
@@ -351,6 +351,7 @@
 	user << "[V.fast_heal ? "<span class='danger'>You begin harnessing your blood to heal your wounds.</span>" : "<span class='danger'>You relax your body's frantic regeneration.</span>"]"
 	return 1
 
+/*
 //Accelerated Recovery: Quickly reduces stuns but increases passive blood use.
 /mob/living/carbon/human/proc/vampire_accelerated_recovery()
 	set name = "Accelerated Recovery (Toggle)"
@@ -367,6 +368,7 @@
 	V.stun_reduction = !V.stun_reduction
 	user << "[V.stun_reduction ? "<span class='danger'>You begin harnessing your blood to empower your metabolism.</span>" : "<span class='danger'>You relax your body's coursing adrenaline.</span>"]"
 	return 1
+*/
 
 //Chiropteran Shapeshift: Transforms the vampire into a quick, ventcrawling bat. Return to a normal human at will. Death as a bat or manual cancel revert them to their normal form and stun them.
 /mob/living/carbon/human/proc/vampire_chiropteran_shapeshift()
