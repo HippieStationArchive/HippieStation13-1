@@ -464,3 +464,18 @@
 				H << "<span class='danger'>Your stomach hurts too much as pressure builds up inside of you.</span>"
 				H.adjustToxLoss(6*REM)
 	..()
+
+/datum/chemical_reaction/fartium_explosion
+	name = "Fartium explosion"
+	id = "fartium_explosion"
+	result = null
+	required_reagents = list("fartium" = 1)
+	result_amount = 1
+	required_temp = 474
+
+/datum/chemical_reaction/fartium_explosion/on_reaction(datum/reagents/holder, created_volume)
+	var/location = get_turf(holder.my_atom)
+	var/datum/effect_system/reagents_explosion/e = new()
+	e.set_up(round(created_volume, 1), location, 0, 0)
+	e.start()
+	holder.clear_reagents()
