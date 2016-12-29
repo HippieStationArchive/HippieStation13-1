@@ -1,0 +1,7 @@
+
+author: Anderbergst 
+
+delete-after: True
+
+changes: 
+  - rscadd: "Added new chem called Autisticium. It requires 100 reageants to make. Needs to be heated to 1000K to mix. Using this chem on people instantly gibs them"
