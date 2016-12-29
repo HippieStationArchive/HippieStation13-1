@@ -534,6 +534,7 @@
 	var/location = get_turf(holder.my_atom)
 	var/datum/effect_system/reagents_explosion/e = new()
 	e.set_up(round(created_volume, 1), location, 0, 0)
+	playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5)
 	e.start()
 	holder.clear_reagents()
 
