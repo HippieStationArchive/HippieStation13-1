@@ -1275,4 +1275,7 @@
 	color = "C604FF" // rgb: 198, 4, 255
 
 /datum/reagent/autisticium/on_mob_life(mob/living/M)
-	M.gib()	
+	if(prob(99))
+		M.gib()	
+	if(prob(1))
+		M.mind.make_Wizard()
