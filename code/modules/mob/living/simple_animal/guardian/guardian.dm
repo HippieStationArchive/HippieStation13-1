@@ -250,7 +250,7 @@
 		if(AM != summoner && M.fire_stacks < 7)
 			M.fire_stacks = 7
 			M.IgniteMob()
-			log_admin("[key_name(src)] as ignited [key_name(src)] on fire via bump!")
+			log_admin("[key_name(src)] has ignited [key_name(src)] on fire via bump!")
 
 /mob/living/simple_animal/hostile/guardian/fire/Bump(AM as mob|obj)
 	..()
