@@ -561,9 +561,9 @@
 				P.paused = TRUE
 			duration --
 		else
-			if(M in immune)
-				continue
 			for(var/mob/living/M in orange (freezerange+2, src.loc)) //longer range incase they lag out of it or something
+				if(M in immune)
+					continue
 				M.stunned = 0
 				M.anchored = 0
 				if(istype(M, /mob/living/simple_animal/hostile))
