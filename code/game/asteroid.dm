@@ -135,7 +135,7 @@ var/global/max_secret_rooms = 10
 			floortypes = list(/turf/simulated/floor/wood)
 			treasureitems = list(/obj/item/weapon/guardiancreator/standarrow=10)
 			fluffitems = list(
-/obj/item/clothing/under/dio = 1, /obj/item/clothing/gloves/color/dio = 1, /obj/item/clothing/head/dio = 1, /obj/item/clothing/suit/dio = 1, /obj/item/clothing/shoes/dio = 1)
+/obj/item/clothing/under/dio = 1, /obj/item/clothing/gloves/color/dio = 1, /obj/item/clothing/head/dio = 1, /obj/item/clothing/suit/dio = 1, /obj/item/clothing/shoes/dio = 1, /obj/item/clothing/under/suit_jacket/kira = 1, /obj/item/clothing/tie/kira = 1)
 
 		/*if("poly")
 			theme = "poly"

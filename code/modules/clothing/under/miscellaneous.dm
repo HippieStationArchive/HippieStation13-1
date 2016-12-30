@@ -588,3 +588,10 @@
 	item_state = "DIO"
 	item_color = "DIO"
 	can_adjust = 0
+
+/obj/item/clothing/under/suit_jacket/kira
+	name = "light blue suit"
+	desc = "A light blue suit."
+	icon_state = "kira"
+	item_state = "kira"
+	item_color = "kira"

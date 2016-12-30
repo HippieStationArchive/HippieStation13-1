@@ -284,6 +284,12 @@
 	icon_state = "stripedbluescarf"
 	item_color = "stripedbluescarf"
 
+/obj/item/clothing/tie/kira
+	name = "fancy tie"
+	desc = "A fancy tie."
+	icon_state = "kiratie"
+	item_color = "kiratie"
+
 /obj/item/clothing/tie/petcollar //don't really wear this though please c'mon seriously guys
 	name = "pet collar"
 	desc = "It's for pets. Though you probably could wear it yourself, you'd doubtless be the subject of ridicule."

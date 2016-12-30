@@ -103,7 +103,7 @@
 			var/turf/T = get_turf(usr)
 			var/mob/living/carbon/human/dummy/D = new /mob/living/carbon/human/dummy(T)
 			usr.client.cmd_assume_direct_control(D)
-			D.equip_to_slot_or_del(new /obj/item/clothing/under/color/black(D), slot_w_uniform)
+			D.equip_to_slot_or_del(new /obj/item/clothing/under/acj(D), slot_w_uniform)
 			D.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(D), slot_shoes)
 			D.equip_to_slot_or_del(new /obj/item/weapon/card/id/admin(D), slot_wear_id)
 			D.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(D), slot_ears)
