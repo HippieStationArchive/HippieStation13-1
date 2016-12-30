@@ -39,6 +39,7 @@ var/list/image/ghost_darkness_images = list() //this is a list of images for thi
 	if(ismob(body))
 		T = get_turf(body)				//Where is the body located?
 		attack_log = body.attack_log	//preserve our attack logs by copying them to our ghost
+		say_log = body.say_log
 
 		gender = body.gender
 		if(body.mind && body.mind.name)
