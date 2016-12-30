@@ -603,6 +603,7 @@
 	var/useonothers = FALSE
 	var/percentchance = 60
 	var/cooldown = FALSE
+	var/playsound = FALSE
 	var/list/holo_black = list(
 		/mob/living/simple_animal/revenant,
 		/mob/living/simple_animal/hostile/statue,
@@ -634,6 +635,8 @@
 	if(candidates.len)
 		theghost = pick(candidates)
 		var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(user, theghost.key)
+		if(playsound == TRUE)
+			user << 'sound/misc/standactivated.ogg'
 		var/timelimit = world.time + 600//1 min to rename the stand
 		//Give the stand user 3 chances to rename their stand
 		for(var/i = 2, i >= 0,i--)
@@ -698,6 +701,8 @@
 			if(candidates.len)
 				theghost = pick(candidates)
 				var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(L, theghost.key)
+				if(playsound == TRUE)
+					L << 'sound/misc/standactivated.ogg'
 				var/timelimit = world.time + 600//1 min to rename the stand
 				//Give the stand user 3 chances to rename their stand
 				for(var/i = 2, i >= 0,i--)
@@ -839,6 +844,7 @@
 	used_message = "Hang on, how is an arrow used? This shouldn't happen! Submit a bug report!"
 	failure_message = "<B>...nothing happened. Maybe you should try again later.</B>"
 	limiteduses = FALSE
+	playsound = TRUE
 	killchance = TRUE
 	useonothers = TRUE
 
