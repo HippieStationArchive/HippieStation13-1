@@ -62,3 +62,9 @@
 	select_name = "spraydown"
 	fire_sound = 'sound/weapons/gunshot_smg.ogg'
 	e_cost = 20
+
+/obj/item/ammo_casing/energy/e357
+	projectile_type = /obj/item/projectile/bullet
+	select_name = "ballistic"
+	fire_sound = 'sound/weapons/revolver_shoot.ogg'
+	e_cost = 1000
