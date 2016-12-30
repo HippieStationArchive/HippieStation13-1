@@ -235,6 +235,7 @@
 	..()
 	collision_ignite(AM)
 
+
 /mob/living/simple_animal/hostile/guardian/fire/Bumped(AM as mob|obj)
 	..()
 	collision_ignite(AM)
@@ -249,6 +250,7 @@
 		if(AM != summoner && M.fire_stacks < 7)
 			M.fire_stacks = 7
 			M.IgniteMob()
+			log_admin("[key_name(src)] as ignited [key_name(src)] on fire via bump!")
 
 /mob/living/simple_animal/hostile/guardian/fire/Bump(AM as mob|obj)
 	..()
@@ -601,7 +603,7 @@
 	var/limiteduses = TRUE
 	var/killchance = FALSE
 	var/useonothers = FALSE
-	var/percentchance = 60
+	var/percentchance = 50
 	var/cooldown = FALSE
 	var/playsound = FALSE
 	var/list/holo_black = list(
@@ -625,8 +627,8 @@
 		used = TRUE
 	if(killchance == TRUE)
 		if(prob(percentchance))
-			user.visible_message("You didnt have enough fighting spirit!")
-			user.setToxLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
+			user << "You didnt have enough fighting spirit!"
+			user.adjustFireLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
 			return
 	user << "[use_message]"
 	var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
@@ -660,6 +662,7 @@
 
 /obj/item/weapon/guardiancreator/attack(mob/M, mob/living/carbon/human/user)
 	user << "<span class='notice'>You raise the arrow into the air.</span>"
+	user.visible_message("<span class='warning'>[user] prepares to stab [M]!</span>")
 	if(do_mob(user,M,50,uninterruptible=0))
 		if(useonothers == TRUE)
 			if(isrobot(M))
@@ -669,7 +672,7 @@
 				return
 			for(var/bad_mob in holo_black)
 				if(istype(M, bad_mob))
-					user.visible_message("<span class='warning'>The arrow rejects the [M]!</span>")
+					user << "<span class='warning'>The arrow rejects the [M]!</span>"
 					return
 
 			var/mob/living/L = M
@@ -825,7 +828,7 @@
 
 /obj/item/weapon/guardiancreator/standarrow
 	name = "Stand Arrow"
-	desc = "A mysterious arrow capable of granting great power. Be carfeul, there is a chance it won't take to you..."
+	desc = "A mysterious arrow capable of granting great power. Be careful, there is a chance it won't take to you..."
 	icon = 'icons/obj/standarrow.dmi'
 	icon_state = "standarrowicon"
 	item_state = "standarrow"
