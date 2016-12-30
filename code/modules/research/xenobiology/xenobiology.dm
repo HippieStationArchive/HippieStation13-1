@@ -547,31 +547,29 @@
 	while(loc)
 		if(duration)
 			for(var/mob/living/M in orange (freezerange, src.loc))
-				if(!istype(M, /mob/living/simple_animal/hostile/guardian/punch))
-					if(M in immune)
-						continue
-					M.stunned = 10
-					M.anchored = 1
-					if(istype(M, /mob/living/simple_animal/hostile))
-						if(!istype(M, /mob/living/simple_animal/hostile/guardian/punch))
-							var/mob/living/simple_animal/hostile/H = M
-							H.AIStatus = AI_OFF
-							H.LoseTarget()
+				if(M in immune)
+					continue
+				M.stunned = 10
+				M.anchored = 1
+				if(istype(M, /mob/living/simple_animal/hostile))
+					var/mob/living/simple_animal/hostile/H = M
+					H.AIStatus = AI_OFF
+					H.LoseTarget()
 					continue
 				continue
 			for(var/obj/item/projectile/P in orange (freezerange, src.loc))
 				P.paused = TRUE
 			duration --
 		else
+			if(M in immune)
+				continue
 			for(var/mob/living/M in orange (freezerange+2, src.loc)) //longer range incase they lag out of it or something
-				if(!istype(M, /mob/living/simple_animal/hostile/guardian/punch))
-					M.stunned = 0
-					M.anchored = 0
+				M.stunned = 0
+				M.anchored = 0
 				if(istype(M, /mob/living/simple_animal/hostile))
-					if(!istype(M, /mob/living/simple_animal/hostile/guardian/punch))
-						var/mob/living/simple_animal/hostile/H = M
-						H.AIStatus = initial(H.AIStatus)
-						continue
+					var/mob/living/simple_animal/hostile/H = M
+					H.AIStatus = initial(H.AIStatus)
+					continue
 			for(var/obj/item/projectile/P in orange(freezerange+2, src.loc))
 				P.paused = FALSE
 			qdel(src)
