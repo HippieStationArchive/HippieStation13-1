@@ -524,3 +524,15 @@
 	unique_rename = 0
 	unique_reskin = 0
 	can_sawn = FALSE
+
+/obj/item/weapon/gun/projectile/shotgun/contender
+	desc = "The Contender G13, a favorite amongst space hunters. An easily modified bluespace barrel and break action loading means it can use any ammo available! It can only hold one bullet at a time, however"
+	name = "Contender G13"
+	icon_state = "contender"
+	origin_tech = "combat=6;materials=4;bluespace=5"
+	mag_type = /obj/item/ammo_box/magazine/internal/contender
+	mag_load_sound = 'sound/effects/wep_magazines/rifle_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
+	can_suppress = 1
+	w_class = 2
+	materials = list(MAT_METAL=1000)
