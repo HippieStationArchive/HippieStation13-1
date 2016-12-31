@@ -1,11 +1,5 @@
 author: McBawbaggings
 delete-after: True
 changes:
-  - tweak: "Removed all anti stuns from the game. Please make an issue on the issue tracker if there are still some remaining."
-  - rscdel: "Following chemicals removed: crank, methamphetamine, bath_salts, changelingAdrenaline, stimulants."
-  - rscdel: "Adrenaline implants and fake Adrenaline implants are removed. Stimpacks are removed from the uplink."
-  - rscdel: "Abductor agents no longer have adrenaline injectors. Changelings no longer have adrenaline sacs. Vampires no longer have accelerated recovery."
-  - tweak: "Following chemicals modified: "nicotine  ephedrine (increased stamina reduction), morphine, unholywater, synaptizine."
-  - tweak: "Traitor stimpacks no longer contain stimulants, omnizine amount is increased."
-  - tweak: "Maint chemglands no longer offer antistuns."
+  - tweak: "Removes anti-stuns. Refer to https://github.com/HippieStationCode/HippieStation13/pull/3198 for a complete changelog."
   - tweak: "Theatre shield is now a toy roman shield. It offers no bonuses."
