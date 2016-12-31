@@ -1,7 +1,7 @@
 author: McBawbaggings
 delete-after: True
 changes:
-  - experiment: "Removed all anti stuns from the game. Please make an issue on the issue tracker if there are still some remaining."
+  - tweak: "Removed all anti stuns from the game. Please make an issue on the issue tracker if there are still some remaining."
   - rscdel: "Following chemicals removed: crank, methamphetamine, bath_salts, changelingAdrenaline, stimulants."
   - rscdel: "Adrenaline implants and fake Adrenaline implants are removed. Stimpacks are removed from the uplink."
   - rscdel: "Abductor agents no longer have adrenaline injectors. Changelings no longer have adrenaline sacs. Vampires no longer have accelerated recovery."
