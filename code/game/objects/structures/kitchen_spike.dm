@@ -1,8 +1,10 @@
 #define SKINTYPE_MONKEY 1
 #define SKINTYPE_ALIEN 2
+#define SKINTYPE_CORGI 3
 
 #define MEATTYPE_MONKEY 1
 #define MEATTYPE_ALIEN 2
+#define MEATTYPE_CORGI 3
 
 //////Kitchen Spike
 
@@ -81,6 +83,18 @@
 				src.meattype = MEATTYPE_ALIEN
 				src.skin = 0
 				src.skintype = SKINTYPE_ALIEN
+				for(var/mob/O in viewers(src, null))
+					O.show_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
+				qdel(G.affecting)
+				qdel(G)
+		if(istype(G.affecting, /mob/living/simple_animal/pet/dog/corgi))
+			if(src.occupied == 0)
+				src.icon_state = "spikebloodycorgi"
+				src.occupied = 1
+				src.meat = 5
+				src.meattype = MEATTYPE_CORGI
+				src.skin = 0
+				src.skintype = SKINTYPE_CORGI
 				for(var/mob/O in viewers(src, null))
 					O.show_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
 				qdel(G.affecting)
@@ -173,7 +187,7 @@
 				usr << "You remove the last piece of meat from the monkey!"
 				src.icon_state = "spike"
 				src.occupied = 0
-		else if(src.meattype == MEATTYPE_ALIEN && src.skintype == SKINTYPE_ALIEN)
+		if(src.meattype == MEATTYPE_ALIEN && src.skintype == SKINTYPE_ALIEN)
 			if(src.skin >= 1)
 				src.skin--
 				new /obj/item/stack/sheet/animalhide/xeno(src.loc)
@@ -186,5 +200,20 @@
 				src.meat--
 				new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/xeno(src.loc)
 				usr << "You remove the last piece of meat from the alien!"
+				src.icon_state = "spike"
+				src.occupied = 0
+		if(src.meattype == MEATTYPE_CORGI && src.skintype == SKINTYPE_CORGI)
+			if(src.skin >= 1)
+				src.skin--
+				new /obj/item/stack/sheet/animalhide/corgi(src.loc)
+				user << "You remove the hide from the corgi!"
+			else if(src.meat > 1)
+				src.meat--
+				new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/corgi(src.loc )
+				usr << "You remove some meat from the corgi."
+			else if(src.meat == 1)
+				src.meat--
+				new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/corgi(src.loc)
+				usr << "You remove the last piece of meat from the corgi!"
 				src.icon_state = "spike"
 				src.occupied = 0

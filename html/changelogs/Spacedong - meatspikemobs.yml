@@ -33,4 +33,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Monkeys and Xenomorphs can now be put on a meat spike for an instant kill. After doing this, you can remove their hide and meat from the spike. There is a unique sprite for when the spike is occupied by either a monkey or a xenomorph as well."
+  - rscadd: "Monkeys, Xenomorphs, and Corgis can now be put on a meat spike for an instant kill. After doing this, you can remove their hide and meat from the spike. There is a unique sprite for when the spike is occupied by the mobs as well."
