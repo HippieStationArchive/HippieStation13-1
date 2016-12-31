@@ -153,7 +153,7 @@
 		return
 
 	reinforcement_to_spawn = input("What type?", "Reinforcement Type", type) as null|anything in possible_types
-	
+
 	if(!reinforcement_to_spawn)
 		return
 
@@ -215,7 +215,7 @@
 	desc = "A bottle of magically infused blood, the smell of which will attract extradimensional beings when broken."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "vial"
-	
+
 /obj/item/weapon/antag_spawner/slaughter_demon/proc/check_usability(mob/user)
 	if(used)
 		user << "<span class='warning'>Somehow the bottle has already been emptied!</span>" // shouldn't happen as it destroys itself upon succesful summoning
@@ -338,6 +338,8 @@
 	icon_state = "glass_goblet"
 	spawn(30)
 		if(user)
+			message_admins("[key_name_admin(user)] has been made a vampire by the glass goblet.")
+			log_game("[key_name_admin(user)] has been made a vampire by the glass goblet.")
 			user.make_mob_into_vampire()
 /obj/item/weapon/antag_spawner/vampire/attack(mob/living/carbon/human/M, mob/living/carbon/human/user)
 	if(M == user)
