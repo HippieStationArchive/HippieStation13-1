@@ -124,7 +124,7 @@
 	toxpwr = 0
 
 /datum/reagent/toxin/minttoxin/on_mob_life(mob/living/M)
-	if (M.disabilities & FAT)
+	if (M.nutrition >= NUTRITION_LEVEL_FAT)
 		M.gib()
 	..()
 	return
@@ -621,7 +621,7 @@
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		H.blood_max += 2
-		H.adjustBruteLoss(1) //Brute damage increases with the amount they're bleeding
+		H.adjustBruteLoss((H.blood_max)/2) //Brute damage ACTUALLY increases with the amount they're bleeding
 	..()
 
 /datum/reagent/toxin/teslium //Teslium. Causes periodic shocks, and makes shocks against the target much more effective.

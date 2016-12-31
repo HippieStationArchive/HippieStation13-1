@@ -14,6 +14,9 @@
 	throw_range = 0
 	throw_speed = 0
 
+/obj/item/weapon/melee/touch_attack/dropped(mob/user)
+	qdel(src)
+
 /obj/item/weapon/melee/touch_attack/New(var/spell)
 	attached_spell = spell
 	..()

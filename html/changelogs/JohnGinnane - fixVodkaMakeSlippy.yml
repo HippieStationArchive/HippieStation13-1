@@ -1,0 +1,6 @@
+author: John Ginnane
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed vodka not wetting floors if used to clean them with a mop."

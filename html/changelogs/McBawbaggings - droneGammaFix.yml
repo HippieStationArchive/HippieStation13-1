@@ -1,0 +1,6 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - bugfix: "Fixed gamma derelict drones not having restrictions."

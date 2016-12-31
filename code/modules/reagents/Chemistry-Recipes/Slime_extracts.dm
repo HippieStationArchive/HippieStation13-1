@@ -480,10 +480,15 @@
 
 /datum/chemical_reaction/slimeexplosion/on_reaction(datum/reagents/holder)
 	feedback_add_details("slime_cores_used","[type]")
+	var/atom/H = holder.my_atom
+	message_admins("An oil slime extract has been activated at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[H.x];Y=[H.y];Z=[H.z]'>([H.x],[H.y],[H.z])</a> last touched by [key_name_admin(H.fingerprintslast)]")
+	log_game("An oil slime extract has been activated at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[H.x];Y=[H.y];Z=[H.z]'>([H.x],[H.y],[H.z])</a> last touched by [key_name_admin(H.fingerprintslast)]")
 	for(var/mob/O in viewers(get_turf(holder.my_atom), null))
 		O.show_message(text("<span class='danger'>The slime extract begins to vibrate violently !</span>"), 1)
 	spawn(50)
 		if(holder && holder.my_atom)
+			message_admins("An oil slime extract has exploded at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[H.x];Y=[H.y];Z=[H.z]'>([H.x],[H.y],[H.z])</a> last touched by [key_name_admin(H.fingerprintslast)]")
+			log_game("An oil slime extract has exploded at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[H.x];Y=[H.y];Z=[H.z]'>([H.x],[H.y],[H.z])</a> last touched by [key_name_admin(H.fingerprintslast)]")
 			explosion(get_turf(holder.my_atom), 1 ,3, 6)
 
 //Light Pink

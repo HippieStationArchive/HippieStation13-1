@@ -29,8 +29,6 @@
 		if (chemical_mob_spawn_meancritters.len <= 0 || chemical_mob_spawn_nicecritters.len <= 0)
 			for (var/T in typesof(/mob/living/simple_animal))
 				var/mob/living/simple_animal/SA = T
-				if(istype(T,/mob/living/simple_animal/hostile/headcrab))
-					continue //Prevents headslugs from the golden slimes
 				switch(initial(SA.gold_core_spawnable))
 					if(1)
 						chemical_mob_spawn_meancritters += T

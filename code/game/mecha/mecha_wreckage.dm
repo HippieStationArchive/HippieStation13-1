@@ -80,7 +80,39 @@
 			welder_salvage += part
 			parts -= part
 
+/obj/structure/mecha_wreckage/gygax/gygaxusa
+	icon_state = "gygaxusa-broken"
 
+/obj/structure/mecha_wreckage/gygax/gygaxusa/New()
+	..()
+	var/list/parts = list(/obj/item/mecha_parts/part/gygax_torso,
+								/obj/item/mecha_parts/part/gygax_head,
+								/obj/item/mecha_parts/part/gygax_left_arm,
+								/obj/item/mecha_parts/part/gygax_right_arm,
+								/obj/item/mecha_parts/part/gygax_left_leg,
+								/obj/item/mecha_parts/part/gygax_right_leg)
+	for(var/i = 0; i < 2; i++)
+		if(parts.len && prob(40))
+			var/part = pick(parts)
+			welder_salvage += part
+			parts -= part
+
+/obj/structure/mecha_wreckage/gygax/gygaxcarp
+	icon_state = "gygaxcarp-broken"
+
+/obj/structure/mecha_wreckage/gygax/gygaxcarp/New()
+	..()
+	var/list/parts = list(/obj/item/mecha_parts/part/gygax_torso,
+								/obj/item/mecha_parts/part/gygax_head,
+								/obj/item/mecha_parts/part/gygax_left_arm,
+								/obj/item/mecha_parts/part/gygax_right_arm,
+								/obj/item/mecha_parts/part/gygax_left_leg,
+								/obj/item/mecha_parts/part/gygax_right_leg)
+	for(var/i = 0; i < 2; i++)
+		if(parts.len && prob(40))
+			var/part = pick(parts)
+			welder_salvage += part
+			parts -= part
 
 /obj/structure/mecha_wreckage/gygax/dark
 	name = "\improper Dark Gygax wreckage"
@@ -140,6 +172,22 @@
 			welder_salvage += part
 			parts -= part
 
+/obj/structure/mecha_wreckage/ripley/ripleyussr
+	icon_state = "ripleyussr-broken"
+
+/obj/structure/mecha_wreckage/ripley/ripleyussr/New()
+	..()
+	var/list/parts = list(/obj/item/mecha_parts/part/ripley_torso,
+								/obj/item/mecha_parts/part/ripley_left_arm,
+								/obj/item/mecha_parts/part/ripley_right_arm,
+								/obj/item/mecha_parts/part/ripley_left_leg,
+								/obj/item/mecha_parts/part/ripley_right_leg,
+								/obj/item/clothing/suit/fire)
+	for(var/i = 0; i < 2; i++)
+		if(parts.len && prob(40))
+			var/part = pick(parts)
+			welder_salvage += part
+			parts -= part
 
 /obj/structure/mecha_wreckage/ripley/deathripley
 	name = "\improper Death-Ripley wreckage"
@@ -166,6 +214,25 @@
 			welder_salvage += part
 			parts -= part
 
+/obj/structure/mecha_wreckage/honker/honkerhot
+	name = "\improper H.O.N.K wreckage"
+	icon_state = "honkerhot-broken"
+
+/obj/structure/mecha_wreckage/honker/honkerhot/New()
+	..()
+	var/list/parts = list(
+							/obj/item/mecha_parts/chassis/honker,
+							/obj/item/mecha_parts/part/honker_torso,
+							/obj/item/mecha_parts/part/honker_head,
+							/obj/item/mecha_parts/part/honker_left_arm,
+							/obj/item/mecha_parts/part/honker_right_arm,
+							/obj/item/mecha_parts/part/honker_left_leg,
+							/obj/item/mecha_parts/part/honker_right_leg)
+	for(var/i = 0; i < 2; i++)
+		if(parts.len && prob(40))
+			var/part = pick(parts)
+			welder_salvage += part
+			parts -= part
 
 /obj/structure/mecha_wreckage/durand
 	name = "\improper Durand wreckage"
@@ -186,6 +253,41 @@
 			welder_salvage += part
 			parts -= part
 
+/obj/structure/mecha_wreckage/durand/durandcamo
+	icon_state = "durandcamo-broken"
+
+/obj/structure/mecha_wreckage/durand/durandcamo/New()
+	..()
+	var/list/parts = list(
+								/obj/item/mecha_parts/part/durand_torso,
+								/obj/item/mecha_parts/part/durand_head,
+								/obj/item/mecha_parts/part/durand_left_arm,
+								/obj/item/mecha_parts/part/durand_right_arm,
+								/obj/item/mecha_parts/part/durand_left_leg,
+								/obj/item/mecha_parts/part/durand_right_leg)
+	for(var/i = 0; i < 2; i++)
+		if(parts.len && prob(40))
+			var/part = pick(parts)
+			welder_salvage += part
+			parts -= part
+
+/obj/structure/mecha_wreckage/durand/durandvult
+	icon_state = "durandvult-broken"
+
+/obj/structure/mecha_wreckage/durand/durandvult/New()
+	..()
+	var/list/parts = list(
+								/obj/item/mecha_parts/part/durand_torso,
+								/obj/item/mecha_parts/part/durand_head,
+								/obj/item/mecha_parts/part/durand_left_arm,
+								/obj/item/mecha_parts/part/durand_right_arm,
+								/obj/item/mecha_parts/part/durand_left_leg,
+								/obj/item/mecha_parts/part/durand_right_leg)
+	for(var/i = 0; i < 2; i++)
+		if(parts.len && prob(40))
+			var/part = pick(parts)
+			welder_salvage += part
+			parts -= part
 
 /obj/structure/mecha_wreckage/phazon
 	name = "\improper Phazon wreckage"

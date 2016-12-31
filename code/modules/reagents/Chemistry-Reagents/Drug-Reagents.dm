@@ -522,7 +522,6 @@
 				H.adjustToxLoss(6*REM)
 	..()
 
-
 /datum/reagent/drug/changelingAdrenaline
 	name = "Adrenaline"
 	id = "changelingAdrenaline"
