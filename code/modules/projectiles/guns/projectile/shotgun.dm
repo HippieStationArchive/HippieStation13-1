@@ -526,7 +526,7 @@
 	can_sawn = FALSE
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/contender
-	desc = "The Contender G13, a favorite amongst space hunters. An easily modified bluespace barrel and break action loading means it can use any ammo available! It can only hold one bullet at a time, however"
+	desc = "The Contender G13, a favorite amongst space hunters. An easily modified bluespace barrel and break action loading means it can use any ammo available! It can only hold one bullet at a time, however."
 	name = "Contender G13"
 	icon_state = "contender"
 	origin_tech = "combat=6;materials=4;bluespace=5"
