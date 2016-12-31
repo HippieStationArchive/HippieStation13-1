@@ -627,7 +627,7 @@
 		used = TRUE
 	if(killchance == TRUE)
 		if(prob(percentchance))
-			user << "You didnt have enough fighting spirit!"
+			user << "You didn't have enough fighting spirit!"
 			user.adjustFireLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
 			return
 	user << "[use_message]"
@@ -694,7 +694,7 @@
 				used = TRUE
 			if(killchance == TRUE)
 				if(prob(percentchance))
-					L.visible_message("You didnt have enough fighting spirit!")
+					L.visible_message("You didn't have enough fighting spirit!")
 					L.setToxLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
 					return
 			L << "[use_message]"
