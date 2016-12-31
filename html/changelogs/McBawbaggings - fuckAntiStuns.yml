@@ -1,11 +1,13 @@
 author: McBawbaggings
-
 delete-after: True
-
-changes: 
-  - experiment: "Removed all anti stuns from the game. Please make issues on the issue tracker if any were missed."
-  - rscdel: "Following chemicals removed: crank, methamphetamine, bath_salts, changelingAdrenaline (changelingAdrenaline2 is no longer used but still exists), stimulants"
-  - tweak: "Following chemicals modified: "nicotine (Removed stun resist), ephedrine (Removed stun resist, increased stamina reduction), morphine (Removed stun resist), unholywater (Removed stun resist), synaptizine (Removed chance for stun resist)"
-  - tweak: "Traitor stimpacks no longer contain stimulants, omnizine increased."
-  - rscdel: "Adrenaline implants and fake Adrenaline implants are removed."
+changes:
+  - experiment: "Removed all anti stuns from the game. Please make an issue on the issue tracker if there are still some remaining."
+  - rscdel: "Following chemicals removed: crank, methamphetamine, bath_salts, changelingAdrenaline (changelingAdrenaline2 is no longer used but still exists), stimulants."
+  - rscdel: "Adrenaline implants and fake Adrenaline implants are removed. Stimpacks are removed from the uplink."
   - rscdel: "Abductor agents no longer have adrenaline injectors."
+  - rscdel: "Changelings no longer have adrenaline sacs."
+  - rscdel: "Vampires no longer have accelerated recovery."
+  - tweak: "Following chemicals modified: "nicotine (Removed stun resist), ephedrine (Removed stun resist, increased stamina reduction), morphine (Removed stun resist), unholywater (Removed stun resist), synaptizine (Removed chance for stun resist)."
+  - tweak: "Traitor stimpacks no longer contain stimulants, omnizine amount is increased."
+  - tweak: "Maint chemglands no longer offer antistuns."
+  - tweak: "Theatre shield is now a toy roman shield. It offers no bonuses."
