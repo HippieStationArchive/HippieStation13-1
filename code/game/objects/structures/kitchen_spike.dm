@@ -81,7 +81,7 @@
 				src.occupied = 1
 				src.meat = 5
 				src.meattype = MEATTYPE_ALIEN
-				src.skin = 0
+				src.skin = 1
 				src.skintype = SKINTYPE_ALIEN
 				for(var/mob/O in viewers(src, null))
 					O.show_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
@@ -93,7 +93,7 @@
 				src.occupied = 1
 				src.meat = 5
 				src.meattype = MEATTYPE_CORGI
-				src.skin = 0
+				src.skin = 1
 				src.skintype = SKINTYPE_CORGI
 				for(var/mob/O in viewers(src, null))
 					O.show_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
