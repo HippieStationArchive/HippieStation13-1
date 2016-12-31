@@ -33,7 +33,7 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Introducing the Ka-Nada SSF Hockey set, the signature equipment of the syndicate sponsored Death-Hockey team. Featuring a set of snazzy all environment armour, a pair of all terrain Hyperblades, a stylish and practical helmet, a batttle-sports grade protective environment mask in team colours, a backpack mounted Hockey Stick weapons system and a belt mounted holopuck generator for ranged engagements. Sign up for the team tryouts at your local syndicate recruitment officer today!"
+  - rscadd: "Introducing the Ka-Nada SSF Hockey set, the signature equipment of the syndicate sponsored Death-Hockey team. Featuring a set of snazzy all environment armour, a pair of all terrain Hyperblades, a stylish and practical helmet, a battle-sports grade protective environment mask in team colours, a backpack mounted Hockey Stick weapons system and a belt mounted holopuck generator for ranged engagements. Sign up for the team tryouts at your local syndicate recruitment officer today!"
   - rscadd: "Also adds an equipment set for the hockeyset for admin shenanigans, blue team set coming maybe."
   - imageadd: "Includes Sprite-work for the armour, weapon, belt, shoes, helmet, mask and backpack for the Ka-Nada SSF Hockey set. These sprites are the fantastic work of Fury McFlurry. "
  
