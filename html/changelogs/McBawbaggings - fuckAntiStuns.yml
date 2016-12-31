@@ -9,7 +9,3 @@ changes:
   - tweak: "Traitor stimpacks no longer contain stimulants, omnizine increased."
   - rscdel: "Adrenaline implants and fake Adrenaline implants are removed."
   - rscdel: "Abductor agents no longer have adrenaline injectors."
-  - rscdel: "Vampires no longer have accelerated recovery."
-  - tweak: "Maint chemglands no longer offer antistuns."
-  - rscdel: "Changelings no longer have adrenaline sacs."
-  - tweak: "Theatre shield is now a toy roman shield. It offers no bonuses."
