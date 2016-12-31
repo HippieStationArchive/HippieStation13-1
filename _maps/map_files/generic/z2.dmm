@@ -689,7 +689,7 @@
 "nk" = (/obj/machinery/computer/shuttle/syndicate/recall,/turf/simulated/floor/plasteel/bar,/area/syndicate_mothership)
 "nl" = (/turf/simulated/floor/plasteel/bar,/area/syndicate_mothership)
 "nm" = (/obj/machinery/door/airlock/centcom{name = "Study"; opacity = 1; req_access_txt = "150"},/turf/simulated/floor/plasteel/bar{dir = 2},/area/syndicate_mothership)
-"nn" = (/obj/item/device/paicard,/turf/simulated/floor/plasteel/grimy,/area/syndicate_mothership)
+"nn" = (/obj/item/weapon/gun/projectile/shotgun/contender,/turf/simulated/floor/plasteel/grimy,/area/syndicate_mothership)
 "no" = (/obj/structure/bed/chair/comfy/teal,/turf/simulated/floor/plasteel/grimy,/area/syndicate_mothership)
 "np" = (/obj/structure/bookcase,/obj/item/weapon/book/manual/wiki/engineering_hacking,/obj/item/weapon/book/manual/robotics_cyborgs,/obj/item/weapon/book/manual/engineering_singularity_safety,/obj/item/weapon/book/manual/detective,/turf/simulated/floor/plasteel/grimy,/area/syndicate_mothership)
 "nq" = (/obj/item/weapon/mop,/obj/structure/urinal{pixel_y = 28},/turf/simulated/floor/plasteel/freezer,/area/syndicate_mothership)
