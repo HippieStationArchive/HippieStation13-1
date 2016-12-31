@@ -502,3 +502,10 @@ obj/item/ammo_box/magazine/tommygunm45
 	caliber = "musket"
 	max_ammo = 1
 	multiload = 0
+
+// contender
+
+/obj/item/ammo_box/magazine/internal/contender
+	name = "contender internal magazine"
+	ammo_type = typesof(/obj/item/ammo_casing/)
+	max_ammo = 1
