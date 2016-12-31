@@ -22,5 +22,7 @@
 
 /datum/round_event/anomaly/anomaly_flux/end()
 	if(newAnomaly.loc)//If it hasn't been neutralized, it's time to blow up.
+		message_admins("A Hyper-Energetic Flux Anomaly has exploded at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[newAnomaly.x];Y=[newAnomaly.y];Z=[newAnomaly.z]'>([newAnomaly.x],[newAnomaly.y],[newAnomaly.z])</a>")
+		log_game("A Hyper-Energetic Flux Anomaly has exploded at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[newAnomaly.x];Y=[newAnomaly.y];Z=[newAnomaly.z]'>([newAnomaly.x],[newAnomaly.y],[newAnomaly.z])</a>")
 		explosion(newAnomaly, 1, 4, 16, 18) //Low devastation, but hits a lot of stuff.
 		qdel(newAnomaly)
