@@ -507,5 +507,5 @@ obj/item/ammo_box/magazine/tommygunm45
 
 /obj/item/ammo_box/magazine/internal/contender
 	name = "contender internal magazine"
-	ammo_type = typesof(/obj/item/ammo_casing/)
+	ammo_type = /obj/item/ammo_casing/
 	max_ammo = 1
