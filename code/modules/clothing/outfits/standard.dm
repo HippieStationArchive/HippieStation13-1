@@ -547,3 +547,15 @@
 	W.assignment = "Bloodraven"
 	W.registered_name = H.real_name
 	W.update_label(W.registered_name, W.assignment)
+
+/datum/outfit/hockey
+	name = "Hockey Set"
+	uniform = /obj/item/clothing/under/color/darkred
+	suit = /obj/item/clothing/suit/armor/hockey
+	head = /obj/item/clothing/head/helmet/hockey
+	back = /obj/item/weapon/hockeypack
+	shoes = /obj/item/clothing/shoes/rollerskates/hockey
+	gloves = /obj/item/clothing/gloves/color/black
+	ears = /obj/item/device/radio/headset
+	belt = /obj/item/weapon/storage/belt/hockey
+	mask = /obj/item/clothing/mask/gas/hockey

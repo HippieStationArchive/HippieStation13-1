@@ -351,3 +351,15 @@
 		if(F.on)
 			user.AddLuminosity(-F.brightness_on)
 			SetLuminosity(F.brightness_on)
+
+/obj/item/clothing/head/helmet/hockey
+	name = "Ka-Nada winter sport combat helmet."
+	desc = "A combat helmet used by Ka-Nada extreme environment teams. Protects you from the elements as well as your opponents."
+	icon_state = "hockey_helmet"
+	item_state = "hockey_helmet"
+	armor = list(melee = 80, bullet = 60, laser = 50,energy = 25, bomb = 50, bio = 10, rad = 0)
+	cold_protection = HEAD
+	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
+	heat_protection = HEAD
+	max_heat_protection_temperature = FIRE_HELM_MAX_TEMP_PROTECT
+	flags = STOPSPRESSUREDMAGE | NODROP | BLOCKHAIR
