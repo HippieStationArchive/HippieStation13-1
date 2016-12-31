@@ -606,6 +606,7 @@
 	var/percentchance = 50
 	var/cooldown = FALSE
 	var/playsound = FALSE
+	var/usekey = TRUE
 	var/list/holo_black = list(
 		/mob/living/simple_animal/revenant,
 		/mob/living/simple_animal/hostile/statue,
@@ -613,52 +614,53 @@
 	)
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
-	for(var/mob/living/simple_animal/hostile/guardian/G in living_mob_list)
-		if (G.summoner == user)
-			user << "You already have a [mob_name]!"
-			return
-	if(user.mind && user.mind.changeling)
-		user << "[ling_failure]"
-		return
-	if(used == TRUE)
-		user << "[used_message]"
-		return
-	if(limiteduses == TRUE)
-		used = TRUE
-	if(killchance == TRUE)
-		if(prob(percentchance))
-			user << "You didn't have enough fighting spirit!"
-			user.adjustFireLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
-			return
-	user << "[use_message]"
-	var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
-	var/mob/dead/observer/theghost = null
-
-	if(candidates.len)
-		theghost = pick(candidates)
-		var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(user, theghost.key)
-		if(playsound == TRUE)
-			user << 'sound/misc/standactivated.ogg'
-		var/timelimit = world.time + 600//1 min to rename the stand
-		//Give the stand user 3 chances to rename their stand
-		for(var/i = 2, i >= 0,i--)
-			var/guardianNewName = stripped_input(user, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
-			guardianNewName = reject_bad_name(guardianNewName, 1)
-			if(timelimit >= world.time)
-				if(!isnull(guardianNewName))
-					G.name = guardianNewName
-					return
-				else
-					if(i > 0)
-						user << "<span class='danger'>That's an invalid name! You have [i] more [i > 1 ? "attempts" : "attempt"].</span>"
-					else
-						user << "<span class='danger'>Sorry, you've ran out of attempts! Looks like you're stuck with [G.name]!</span>"
-			else
-				user << "<span class='danger'>Sorry, you've ran out of time! Looks like you're stuck with [G.name]!</span>"
+	if(usekey == TRUE)
+		for(var/mob/living/simple_animal/hostile/guardian/G in living_mob_list)
+			if (G.summoner == user)
+				user << "You already have a [mob_name]!"
 				return
-	else
-		user << "[failure_message]"
-		used = FALSE
+		if(user.mind && user.mind.changeling)
+			user << "[ling_failure]"
+			return
+		if(used == TRUE)
+			user << "[used_message]"
+			return
+		if(limiteduses == TRUE)
+			used = TRUE
+		if(killchance == TRUE)
+			if(prob(percentchance))
+				user << "You didn't have enough fighting spirit!"
+				user.adjustFireLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
+				return
+		user << "[use_message]"
+		var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
+		var/mob/dead/observer/theghost = null
+
+		if(candidates.len)
+			theghost = pick(candidates)
+			var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(user, theghost.key)
+			if(playsound == TRUE)
+				user << 'sound/misc/standactivated.ogg'
+			var/timelimit = world.time + 600//1 min to rename the stand
+			//Give the stand user 3 chances to rename their stand
+			for(var/i = 2, i >= 0,i--)
+				var/guardianNewName = stripped_input(user, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
+				guardianNewName = reject_bad_name(guardianNewName, 1)
+				if(timelimit >= world.time)
+					if(!isnull(guardianNewName))
+						G.name = guardianNewName
+						return
+					else
+						if(i > 0)
+							user << "<span class='danger'>That's an invalid name! You have [i] more [i > 1 ? "attempts" : "attempt"].</span>"
+						else
+							user << "<span class='danger'>Sorry, you've ran out of attempts! Looks like you're stuck with [G.name]!</span>"
+				else
+					user << "<span class='danger'>Sorry, you've ran out of time! Looks like you're stuck with [G.name]!</span>"
+					return
+		else
+			user << "[failure_message]"
+			used = FALSE
 
 /obj/item/weapon/guardiancreator/attack(mob/M, mob/living/carbon/human/user)
 	user << "<span class='notice'>You raise the arrow into the air.</span>"
@@ -850,6 +852,7 @@
 	playsound = TRUE
 	killchance = TRUE
 	useonothers = TRUE
+	usekey = FALSE
 
 
 
