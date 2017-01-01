@@ -1277,9 +1277,6 @@
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(prob(15))
-			if(B)
-				H.emote("burp")
-			else
-				H << "<span class='danger'>You feel the strange urge to burp, but can't for some reason.</span>"
+			H.emote("burp")
 	..()
 	return
