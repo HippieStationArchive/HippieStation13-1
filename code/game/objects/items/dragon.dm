@@ -6,7 +6,7 @@
 	icon = 'icons/obj/dicks.dmi'
 	icon_state = null
 	force = 5
-	w_class = 1
+	w_class = 6
 	throwforce = 5
 	hitsound = 'sound/items/squishy.ogg'
 	attack_verb = list("slapped")
@@ -20,7 +20,6 @@
 	desc = "It's damp."
 	icon_state = "seadragon"
 	force = 5
-	w_class = 2
 	throwforce = 5
 	embed_chance = 20
 
@@ -29,7 +28,6 @@
 	desc = "Taking the phrase \"dogging your mates\" to a whole new level."
 	icon_state = "canine"
 	force = 5
-	w_class = 2
 	throwforce = 7
 	embed_chance = 20
 
@@ -38,7 +36,6 @@
 	desc = "Yes, it's the whole horse."
 	icon_state = "equine"
 	force = 11
-	w_class = 3
 	throwforce = 9
 	embed_chance = 30
 
