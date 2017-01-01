@@ -157,6 +157,8 @@ Contains:
 	flags = BLOCKHAIR | STOPSPRESSUREDMAGE | THICKMATERIAL | NODROP
 	brightness_on = 7
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	heat_protection = HEAD
+	max_heat_protection_temperature = FIRE_IMMUNITY_HELM_MAX_TEMP_PROTECT
 
 /obj/item/clothing/suit/space/hardsuit/ert
 	name = "emergency response team suit"
@@ -168,6 +170,8 @@ Contains:
 	armor = list(melee = 30, bullet = 50, laser = 30, energy = 50, bomb = 50, bio = 100, rad = 100)
 	slowdown = 0
 	strip_delay = 130
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	max_heat_protection_temperature = FIRE_IMMUNITY_SUIT_MAX_TEMP_PROTECT
 
 	//ERT Security
 /obj/item/clothing/head/helmet/space/hardsuit/ert/sec
