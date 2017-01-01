@@ -301,22 +301,28 @@
 //Checks for rev victory//
 //////////////////////////
 /datum/game_mode/revolution/proc/check_rev_victory()
+	var/time_passed = world.time
 	for(var/datum/mind/rev_mind in head_revolutionaries)
 		for(var/datum/objective/mutiny/objective in rev_mind.objectives)
 			if(!(objective.check_completion()))
-				return 0
+				if((world.time-time_passed)>1200)
+					if(!(objective.check_completion()))
+						return 0
 
-		return 1
+	return 1
 
 /////////////////////////////
 //Checks for a head victory//
 /////////////////////////////
 /datum/game_mode/revolution/proc/check_heads_victory()
+	var/time_passed = world.time
 	for(var/datum/mind/rev_mind in head_revolutionaries)
 		var/turf/T = get_turf(rev_mind.current)
 		if((rev_mind) && (rev_mind.current) && (rev_mind.current.stat != 2) && rev_mind.current.client && T && (T.z == ZLEVEL_STATION))
-			if(ishuman(rev_mind.current))
-				return 0
+			if((world.time-time_passed)>1200)
+				if(((rev_mind) && (rev_mind.current) && (rev_mind.current.stat != 2) && rev_mind.current.client && T && (T.z == ZLEVEL_STATION)))
+					if(ishuman(rev_mind.current))
+						return 0
 	return 1
 
 //////////////////////////////////////////////////////////////////////
