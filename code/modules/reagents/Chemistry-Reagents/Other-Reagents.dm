@@ -1268,12 +1268,12 @@
 
 /datum/reagent/burpium
 	name = "Burpium"
-	id = "fartium"
+	id = "burpium"
 	description = "A chemical compound that promotes concentrated production of gas in your esophagus."
 	color = "#c13f9d" // rgb(193, 63, 157)
 	reagent_state = LIQUID
 
-/datum/reagent/drug/fartium/on_mob_life(mob/living/M)
+/datum/reagent/drug/burpium/on_mob_life(mob/living/M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(prob(15))

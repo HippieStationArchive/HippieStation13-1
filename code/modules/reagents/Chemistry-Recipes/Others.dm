@@ -442,7 +442,7 @@
 	name = "burpium"
 	id = "burpium"
 	result = "burpium"
-	required_reagents = list("fartium" = 2, "hydrogen" = 3)
+	required_reagents = list("fartium" = 2, "mercury" = 3)
 	result_amount = 5
 
 //////////////////////////////////// Solidification ///////////////////////////////////////////
