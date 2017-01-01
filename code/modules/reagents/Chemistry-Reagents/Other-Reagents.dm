@@ -1265,18 +1265,3 @@
 		var/t_loc = get_turf(O)
 		qdel(O)
 		new /obj/item/clothing/shoes/galoshes/dry(t_loc)
-
-/datum/reagent/burpium
-	name = "Burpium"
-	id = "burpium"
-	description = "A chemical compound that promotes concentrated production of gas in your esophagus."
-	color = "#c13f9d" // rgb(193, 63, 157)
-	reagent_state = LIQUID
-
-/datum/reagent/burpium/on_mob_life(mob/living/M)
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if(prob(15))
-			H.emote("burp")
-	..()
-	return

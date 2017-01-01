@@ -438,13 +438,6 @@
 	required_reagents = list("sodium" = 1, "hydrogen" = 1, "oxygen" = 3)
 	result_amount = 3
 
-/datum/chemical_reaction/burpium
-	name = "burpium"
-	id = "burpium"
-	result = "burpium"
-	required_reagents = list("fartium" = 2, "mercury" = 3)
-	result_amount = 5
-
 //////////////////////////////////// Solidification ///////////////////////////////////////////
 
 /datum/chemical_reaction/plasmasolidification
