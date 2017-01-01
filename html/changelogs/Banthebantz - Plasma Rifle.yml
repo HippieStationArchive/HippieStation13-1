@@ -37,5 +37,5 @@ changes:
   - rscadd: "Plasmoid burst mode fires a spread of 3 plasmoids which deal 20 damage each and increase the body temperature of targets along with igniting them. The drawbacks are over double the energy cost and limited range."
   - rscadd: "Plasmoids are NOT laser projectiles, they won't pass through glass and they won't be deflected by e shields.  Check your fire!"
   - rscadd: "Also adds Plasma-.357 Combi Revolver. This is a fancy looking revolver that can fire high cost printed .357 rounds and single plasmoid shots."
-  - tweak:  "Death Squad Commanders start with a Plasma Rifle in place of a pulse rifle, All Death Squad Officers start with a combi revolver in place of the mateba and also have a Glock 17 in their backpacks."
-  -	tweak:  "Red Alert ERT Commanders start with a Plasma Rifle in place of their pulse pistol, Blue Alert ERT Commanders start with a combi revolver."
+  - tweak: "Death Squad Commanders start with a Plasma Rifle in place of a pulse rifle, All Death Squad Officers start with a combi revolver in place of the mateba and also have a Glock 17 in their backpacks."
+  -	tweak: "Red Alert ERT Commanders start with a Plasma Rifle in place of their pulse pistol, Blue Alert ERT Commanders start with a combi revolver."
