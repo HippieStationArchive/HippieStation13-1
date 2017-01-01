@@ -1273,7 +1273,7 @@
 	color = "#c13f9d" // rgb(193, 63, 157)
 	reagent_state = LIQUID
 
-/datum/reagent/drug/burpium/on_mob_life(mob/living/M)
+/datum/reagent/burpium/on_mob_life(mob/living/M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(prob(15))
