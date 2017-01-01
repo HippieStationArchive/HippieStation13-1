@@ -320,7 +320,7 @@
 				return 0
 		if(rev_mind.current.client)
 			if((world.time-time_passed)>1200)
-				if(rev_mind.current.client)
+				if((rev_mind) && (rev_mind.current) && (rev_mind.current.stat != 2) && rev_mind.current.client && T && (T.z == ZLEVEL_STATION))
 					if(ishuman(rev_mind.current))
 						return 0
 	return 1
