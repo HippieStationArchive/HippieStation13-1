@@ -1,0 +1,6 @@
+author: Anderbergst
+
+delete-after: True
+
+changes:
+  - tweak: " Revolution game mode now gives a 2 minute grace period before game ends incase the last head disconnected and has to relog."
