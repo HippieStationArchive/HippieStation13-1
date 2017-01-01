@@ -436,7 +436,7 @@
 	description = "A colorless, odorless gas."
 	reagent_state = GAS
 	color = "#808080" // rgb: 128, 128, 128
-	
+
 /datum/reagent/oxygen/reaction_obj(obj/O, reac_volume)
 	if((!O) || (!reac_volume))
 		return 0
@@ -460,7 +460,7 @@
 	description = "A colorless, odorless, tasteless gas."
 	reagent_state = GAS
 	color = "#808080" // rgb: 128, 128, 128
-	
+
 /datum/reagent/nitrogen/reaction_obj(obj/O, reac_volume)
 	if((!O) || (!reac_volume))
 		return 0
@@ -1265,3 +1265,21 @@
 		var/t_loc = get_turf(O)
 		qdel(O)
 		new /obj/item/clothing/shoes/galoshes/dry(t_loc)
+
+/datum/reagent/burpium
+	name = "Burpium"
+	id = "fartium"
+	description = "A chemical compound that promotes concentrated production of gas in your esophagus."
+	color = "#c13f9d" // rgb(193, 63, 157)
+	reagent_state = LIQUID
+
+/datum/reagent/drug/fartium/on_mob_life(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(15))
+			if(B)
+				H.emote("burp")
+			else
+				H << "<span class='danger'>You feel the strange urge to burp, but can't for some reason.</span>"
+	..()
+	return

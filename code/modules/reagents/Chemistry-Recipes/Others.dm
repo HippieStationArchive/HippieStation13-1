@@ -437,7 +437,14 @@
 	result = "lye"
 	required_reagents = list("sodium" = 1, "hydrogen" = 1, "oxygen" = 3)
 	result_amount = 3
-	
+
+/datum/chemical_reaction/burpium
+	name = "burpium"
+	id = "burpium"
+	result = "burpium"
+	required_reagents = list("fartium" = 2, "hydrogen" = 3)
+	result_amount = 5
+
 //////////////////////////////////// Solidification ///////////////////////////////////////////
 
 /datum/chemical_reaction/plasmasolidification
@@ -530,4 +537,4 @@
 	var/location = get_turf(holder.my_atom)
 	new /obj/item/stack/sheet/mineral/gold(location)
 	return
-	
+
