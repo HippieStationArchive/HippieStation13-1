@@ -100,7 +100,7 @@
 				qdel(G.affecting)
 				qdel(G)
 		if(istype(G.affecting, /mob/living/))
-			if(!buckled_mob)
+			if(!buckled_mob && src.occupied == 0)
 				if(do_mob(user, src, 120))
 					if(buckled_mob) //to prevent spam/queing up attacks
 						return
