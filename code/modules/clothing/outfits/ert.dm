@@ -34,8 +34,8 @@
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
 		/obj/item/weapon/melee/baton/loaded=1,\
 		/obj/item/clothing/mask/gas/sechailer=1,\
+		/obj/item/weapon/gun/energy/revolver/plasmoidcombi=1,\
 		/obj/item/weapon/gun/energy/gun=1)
-	l_pocket = /obj/item/weapon/switchblade
 
 /datum/outfit/ert/commander/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -52,8 +52,7 @@
 
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
 		/obj/item/weapon/melee/baton/loaded=1,\
-		/obj/item/clothing/mask/gas/sechailer/swat=1,\
-		/obj/item/weapon/gun/energy/pulse/pistol=1 )
+		/obj/item/clothing/mask/gas/sechailer/swat=1 )
 	l_pocket = /obj/item/weapon/melee/energy/sword/saber
 	r_hand = /obj/item/weapon/gun/energy/pulse/plasmoid
 
