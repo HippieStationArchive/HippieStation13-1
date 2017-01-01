@@ -8,9 +8,9 @@
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	w_class = 4
 	slot_flags = SLOT_BACK
-	armor =              list(melee = 30, bullet = 30, laser = 15, energy = 15, bomb = 30, bio = 20, rad = 20)
-	var/armor_backslot = list(melee = 30, bullet = 30, laser = 15, energy = 15, bomb = 30, bio = 20, rad = 20)
-	var/armor_exoslot =  list(melee = 60, bullet = 60, laser = 30, energy = 30, bomb = 60, bio = 40, rad = 30)
+	armor =              list(melee = 15, bullet = 15, laser = 15, energy = 10, bomb = 30, bio = 20, rad = 20)
+	var/armor_backslot = list(melee = 15, bullet = 15, laser = 15, energy = 10, bomb = 30, bio = 20, rad = 20)//To minimise stacking the damn thing with the hardsuit to be pretty resistant to stuns.
+	var/armor_exoslot =  list(melee = 30, bullet = 30, laser = 30, energy = 10, bomb = 60, bio = 40, rad = 30)//This was debatably better armour than the hardsuit alone, it's just stacking it with the armour made it "worse".
 	var/adjusted = 0
 	max_w_class = 3
 	max_combined_w_class = 15
