@@ -1,0 +1,9 @@
+author: Yobob
+
+delete-after: True
+
+changes:
+  - tweak: "Arrow has a lower kill chance but husks you to be more punishing to prevent easily gaming with defib"
+  - bugfix: "Fixes incorrect messages and not broadcasting a message when you prepare to stab someone"
+  - spellcheck: "I fucking spelled careful wrong in the desc fml"
+  - rscadd: "Adds adminlogs to chaos guardians igniting people fucc yea"
