@@ -76,13 +76,17 @@
 
 /obj/item/weapon/gun/magic/staff/staffofrevenant/attack(mob/living/carbon/human/target, mob/living/user)
 	if(target.stat & DEAD)
-		if(!(target in drained_mobs))
-			playsound(src,'sound/magic/Staff_Chaos.ogg',40,1)
-			user.visible_message("<font color=purple>[user] drains [target] their soul with [src]!</font>", "<span class='notice'>You use [src] to drain [target]'s soul, empowering your weapon!</span>")
-			revenant_souls++
-			drained_mobs.Add(target)
+		if(istype(target, /mob/living/carbon/human))
+			if(!(target in drained_mobs))
+				playsound(src,'sound/magic/Staff_Chaos.ogg',40,1)
+				user.visible_message("<font color=purple>[user] drains [target] their soul with [src]!</font>", "<span class='notice'>You use [src] to drain [target]'s soul, empowering your weapon!</span>")
+				revenant_souls++
+				drained_mobs.Add(target)
+			else
+				user << "<span class='warning'>[target]'s soul is dead and empty.</span>"
+				return
 		else
-			user << "<span class='warning'>[target]'s soul is dead and empty.</span>"
+			user << "<span class='warning'>[target] isn't human!</span>"
 			return
 	..()
 
@@ -159,3 +163,12 @@ obj/item/weapon/gun/magic/staff/staffofrevenant/attack_self(mob/living/user)
 	else if(revenant_level == 666)
 		user << "<font color=purple><b>Your [name] has [revenant_souls] souls contained within. Your power can not possibly grow any further...</b></font>"
 		user << "<font color=purple>It has a maximum charge of [max_charges], with a recharge rate of [recharge_rate]. Each projectile instantly gibs a target.</font>"
+
+/obj/item/weapon/gun/magic/staff/staffofrevenant/admin
+	fire_sound = "sound/magic/WandODeath.ogg"
+	ammo_type = /obj/item/ammo_casing/magic/staffofrevenant/level666
+	max_charges = 15
+	recharge_rate = 1
+	revenant_level = 666
+	revenant_damage = 200
+	revenant_souls = 1337

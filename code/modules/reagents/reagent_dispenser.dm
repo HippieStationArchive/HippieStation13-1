@@ -53,8 +53,9 @@
 		var/image/lid = image('icons/obj/chemtank.dmi', src, "tanklid")
 		overlays += lid
 
-/obj/structure/reagent_dispensers/proc/boom(mob/user) // detonate and explode were already taken and i hate two procs with the same name
-	if(user)
+/obj/structure/reagent_dispensers/proc/boom(atom/A) // detonate and explode were already taken and i hate two procs with the same name
+	if(A && istype(A, /mob))
+		var/mob/user = A
 		message_admins("[key_name_admin(user)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>.")
 		log_game("[key_name(user)] triggered a chemtank explosion at [src ? "[x],[y],[z]" : "Carbonhell fucked up again, whine at him"].")
 		user.attack_log += text("\[[time_stamp()]\] <font color='red'>Has detonated a chem tank @ [src ? "[x],[y],[z]" : "UNKNOWN LOCATION"]</font>")

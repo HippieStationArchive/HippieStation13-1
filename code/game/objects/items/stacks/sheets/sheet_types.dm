@@ -76,6 +76,7 @@ var/global/list/datum/stack_recipe/metal_recipes = list ( \
  */
 var/global/list/datum/stack_recipe/plasteel_recipes = list ( \
 	new/datum/stack_recipe("AI core", /obj/structure/AIcore, 4, time = 50, one_per_turf = 1), \
+	new/datum/stack_recipe("Reflective mirror base", /obj/structure/mirrorbase, 2, time = 50, one_per_turf = 0), \
 	)
 
 /obj/item/stack/sheet/plasteel
