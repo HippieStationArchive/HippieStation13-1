@@ -238,6 +238,7 @@
 	icon_state = "glowing"
 	heavy = 1
 	meteordrop = /obj/item/weapon/guardiancreator/standarrow
+	dropamt = 1
 
 /obj/effect/meteor/irradiated/meteor_effect()
 	..(heavy)
