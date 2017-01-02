@@ -1,0 +1,4 @@
+author: McBawbaggings
+delete-after: True
+changes: 
+  - rscadd: "Re-adds lawn mower. Ported from Atlas Code. Currently only admin spawnable."
