@@ -603,7 +603,7 @@
 	var/limiteduses = TRUE
 	var/killchance = FALSE
 	var/useonothers = FALSE
-	var/percentchance = 40
+	var/percentchance = 20
 	var/cooldown = FALSE
 	var/playsound = FALSE
 	var/usekey = TRUE
@@ -611,7 +611,8 @@
 	var/list/holo_black = list(
 		/mob/living/simple_animal/revenant,
 		/mob/living/simple_animal/hostile/statue,
-		/mob/living/simple_animal/hostile/true_changeling
+		/mob/living/simple_animal/hostile/true_changeling,
+		/mob/living/simple_animal/hostile/guardian
 	)
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
@@ -665,6 +666,8 @@
 
 /obj/item/weapon/guardiancreator/attack(mob/M, mob/living/carbon/human/user)
 	if(inUse == TRUE)
+		return
+	if(!M.client)
 		return
 	user << "<span class='notice'>You raise the arrow into the air.</span>"
 	user.visible_message("<span class='warning'>[user] prepares to stab [M]!</span>")
