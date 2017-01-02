@@ -751,7 +751,7 @@
 "ou" = (/turf/simulated/floor/plasteel/bar,/turf/simulated/floor/plasteel/syndifloor{tag = "icon-syndilogo-10"; icon_state = "syndilogo-10"},/area/syndicate_mothership)
 "ov" = (/turf/simulated/floor/plasteel/bar,/turf/simulated/floor/plasteel/syndifloor{tag = "icon-syndilogo-11"; icon_state = "syndilogo-11"},/area/syndicate_mothership)
 "ow" = (/turf/simulated/floor/plasteel/bar,/turf/simulated/floor/plasteel/syndifloor{tag = "icon-syndilogo-12"; icon_state = "syndilogo-12"},/area/syndicate_mothership)
-"ox" = (/obj/structure/table/wood,/obj/item/weapon/gun/projectile/revolver/doublebarrel/contender/syndie,/obj/item/weapon/reagent_containers/food/drinks/beer{pixel_x = -2; pixel_y = 5},/turf/simulated/floor/plasteel/bar,/area/syndicate_mothership)
+"ox" = (/obj/structure/table/wood,/obj/item/weapon/reagent_containers/food/drinks/beer{pixel_x = -2; pixel_y = 5},/turf/simulated/floor/plasteel/bar,/area/syndicate_mothership)
 "oy" = (/obj/structure/table/wood,/obj/item/pizzabox{ismessy = 1},/turf/simulated/floor/plasteel/bar,/area/syndicate_mothership)
 "oz" = (/obj/structure/dresser,/turf/simulated/floor/plasteel/grimy,/area/syndicate_mothership)
 "oA" = (/obj/structure/table/wood,/obj/item/weapon/clipboard,/obj/item/weapon/pen,/turf/simulated/floor/plasteel/grimy,/area/syndicate_mothership)
