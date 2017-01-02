@@ -94,8 +94,13 @@
 
 /obj/item/ammo_box/proc/give_round(obj/item/ammo_casing/R, replace_spent = 0)
 	// Boxes don't have a caliber type, magazines do. Not sure if it's intended or not, but if we fail to find a caliber, then we fall back to ammo_type.
-	if(!R || (caliber && R.caliber != caliber) || (!caliber && R.type != ammo_type))
+	if ((!R || (caliber && R.caliber != caliber) || (!caliber && R.type != ammo_type)) && (caliber != "all"))
 		return 0
+
+	if ((caliber == "all") && (stored_ammo.len < max_ammo))
+		stored_ammo += R
+		R.loc = src
+		return 1
 
 	if (stored_ammo.len < max_ammo)
 		stored_ammo += R
