@@ -530,7 +530,7 @@
 	name = "Contender G13"
 	icon_state = "contender"
 	origin_tech = "combat=6;materials=4;bluespace=5"
-	mag_type = /obj/item/ammo_box/magazine/internal/contender
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/contender
 	mag_load_sound = 'sound/effects/wep_magazines/rifle_load.ogg'
 	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
 	can_sawn = FALSE
