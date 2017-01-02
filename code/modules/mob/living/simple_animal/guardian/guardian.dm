@@ -603,7 +603,7 @@
 	var/limiteduses = TRUE
 	var/killchance = FALSE
 	var/useonothers = FALSE
-	var/percentchance = 50
+	var/percentchance = 40
 	var/cooldown = FALSE
 	var/playsound = FALSE
 	var/usekey = TRUE
@@ -631,7 +631,7 @@
 		if(killchance == TRUE)
 			if(prob(percentchance))
 				user << "You didn't have enough fighting spirit!"
-				user.adjustFireLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
+				user.setToxLoss(100000) //Husks them to stop clone cheeze (not anymore now that it in an event)
 				return
 		user << "[use_message]"
 		var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
