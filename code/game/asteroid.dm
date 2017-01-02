@@ -1,4 +1,4 @@
-var/global/list/possiblethemes = list("organharvest","cult","wizden","cavein","xenoden","hitech","speakeasy","plantlab")
+var/global/list/possiblethemes = list("organharvest","cult","wizden","cavein","xenoden","hitech","speakeasy","plantlab", "standroom")
 
 var/global/max_secret_rooms = 12
 
@@ -126,6 +126,16 @@ var/global/max_secret_rooms = 12
 			fluffitems = list(/obj/structure/flora/kirbyplants=1,/obj/structure/table/reinforced=2,/obj/machinery/hydroponics=1,
 							  /obj/effect/glowshroom/single=2,/obj/item/weapon/reagent_containers/syringe/charcoal=2,
 							  /obj/item/weapon/reagent_containers/glass/bottle/diethylamine=3,/obj/item/weapon/reagent_containers/glass/bottle/ammonia=3)
+
+		if("standroom")
+			x_size = 5
+			y_size = 5
+			theme = "standroom"
+			walltypes = list(/turf/simulated/wall/mineral/plasma=3,/turf/simulated/mineral/random/high_chance=1)
+			floortypes = list(/turf/simulated/floor/wood)
+			treasureitems = list(/obj/item/weapon/guardiancreator/standarrow=10)
+			fluffitems = list(
+/obj/item/clothing/under/dio = 1, /obj/item/clothing/gloves/color/dio = 1, /obj/item/clothing/head/dio = 1, /obj/item/clothing/suit/dio = 1, /obj/item/clothing/shoes/dio = 1, /obj/item/clothing/under/suit_jacket/kira = 1, /obj/item/clothing/tie/kira = 1)
 
 		/*if("poly")
 			theme = "poly"
