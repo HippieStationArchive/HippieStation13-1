@@ -308,7 +308,7 @@ var/list/uplink_items = list()
 	excludefrom = list(/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/dangerous/contender
-	name = "Syndicate Contender
+	name = "Syndicate Contender"
 	desc = "A syndicate version of the latest G13 Contender. The bluespace barrel means it can fire any ammo, but only 1 chamber"
 	item = /obj/item/weapon/gun/projectile/revolver/doublebarrel/contender/syndie
 	cost = 10
