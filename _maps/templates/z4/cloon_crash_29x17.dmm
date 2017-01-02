@@ -1,0 +1,53 @@
+"a" = (/turf/space,/area/space)
+"b" = (/turf/simulated/mineral/random,/area/space)
+"c" = (/turf/simulated/floor/plating/asteroid/airless,/area/space)
+"d" = (/turf/simulated/mineral/random,/turf/simulated/wall/shuttle{icon_state = "swall_f6"; dir = 2},/area/space)
+"e" = (/turf/simulated/wall/shuttle{icon_state = "swall12"; dir = 2},/area/space)
+"f" = (/turf/simulated/mineral/random,/turf/simulated/wall/shuttle{dir = 2; icon_state = "swall_f10"; layer = 2},/area/space)
+"g" = (/turf/simulated/wall/shuttle{icon_state = "swall3"; dir = 2},/area/space)
+"h" = (/obj/structure/closet/crate/secure,/obj/item/clothing/shoes/combat,/obj/item/clothing/under/owl,/obj/item/clothing/gloves/color/black,/obj/item/clothing/mask/gas/owl_mask,/obj/item/clothing/suit/toggle/owlwings,/obj/item/toy/owl,/obj/item/weapon/paper{info = "Take up the mantle, but know that you cannot let go once you have."},/obj/item/weapon/gun/energy/gun/advtaser,/obj/item/weapon/tank/internals/oxygen,/obj/item/weapon/storage/backpack/cloak,/obj/item/clothing/suit/space/hardsuit/syndi/owl/cursed,/turf/simulated/floor/vault,/area/space)
+"i" = (/turf/simulated/floor/plating/asteroid/airless,/turf/simulated/wall/shuttle{icon_state = "swall_f5"; dir = 2},/area/space)
+"j" = (/obj/machinery/door/airlock/hatch,/turf/simulated/floor/plating,/area/space)
+"k" = (/turf/simulated/floor/plating/asteroid/airless,/turf/simulated/wall/shuttle{icon_state = "swall_f9"; dir = 2},/area/space)
+"l" = (/turf/simulated/wall/mineral/clown,/area/space)
+"m" = (/obj/machinery/door/airlock/clown,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"n" = (/obj/effect/landmark/corpse/clown,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"o" = (/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"p" = (/obj/structure/closet/crate,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"q" = (/obj/structure/closet/crate{icon_state = "crateopen"; opened = 1},/obj/item/weapon/ore/bananium,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"r" = (/obj/structure/closet/secure_closet{name = "clown locker"; req_access_txt = "46"},/obj/item/clothing/shoes/clown_shoes/banana_shoes,/obj/effect/spawner/lootdrop/maintenance{lootcount = 2; name = "2maintenance loot spawner"},/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"s" = (/obj/structure/shuttle/engine/heater{color = "#FFFF00"; dir = 4; icon_state = "heater"},/obj/structure/window/reinforced{color = "#FFFF00"; dir = 8},/turf/simulated/floor/plating/airless{color = "#FFFF00"},/area/space)
+"t" = (/obj/structure/shuttle/engine/propulsion{color = "#FFFF00"; dir = 8; icon_state = "propulsion_l"},/turf/space,/area/space)
+"u" = (/obj/item/weapon/shard{icon_state = "small"},/turf/simulated/floor/plating/asteroid/airless,/area/space)
+"v" = (/obj/item/weapon/ore/bananium,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"w" = (/obj/item/weapon/shard{icon_state = "medium"},/obj/structure/stool/bed/chair{dir = 8},/turf/simulated/floor/plating/asteroid/airless,/area/space)
+"x" = (/obj/effect/landmark/corpse/clown{name = "Clown Pilot"},/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"y" = (/obj/item/weapon/paper{info = "The call has gone out! Our ancestral home has been rediscovered! Not a small patch of land, but a true clown nation, a true Clown Planet! We're on our way home at last!"},/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"z" = (/obj/structure/grille{color = "#FFFF00"},/obj/structure/window/reinforced{color = "#FFFF00"},/obj/structure/window/reinforced{color = "#FFFF00"; dir = 4},/obj/structure/window/reinforced{color = "#FFFF00"; dir = 8},/turf/simulated/floor/plating/airless{color = "#FFFF00"},/area/space)
+"A" = (/obj/item/weapon/shard,/obj/structure/stool/bed/chair{dir = 8},/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"B" = (/obj/item/weapon/shard{icon_state = "medium"},/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"C" = (/obj/item/weapon/gun/projectile/revolver/doublebarrel/musket,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"D" = (/obj/item/weapon/storage/bag/ore,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"E" = (/obj/item/weapon/pickaxe,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"F" = (/obj/structure/closet/crate,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/obj/item/weapon/ore/bananium,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+"G" = (/obj/item/weapon/shovel,/turf/simulated/floor/mineral/bananium/airless,/area/space)
+
+(1,1,1) = {"
+aabbaaaaccccccaaaaaaaaaaaaaaa
+abbbbaabbbbbccbbbaaaaaaaaaaaa
+bdefbbbbbbbbccbbaaaaaaaaaaaaa
+bghgbbbbbbbbbbbbaaaaaaaaaaaaa
+cijkbbbbbbbbbbccaalllmmllllla
+acccbbbbbbbbbbbclllcnooppqrst
+aaccbbbbbbbbbbbbbbbuooooovost
+aaabbbbbbbbbbbbbbbwxoyvovovst
+aaabbbbbbbbbbbbbzoAoBonCoovst
+aaabbbbbbbbbbbbblllDEooFFpGst
+aaabbbbbbbbbbbbbbblllmmllllla
+aabbbbbbbbbbbbbbbbbbbbbbbbaaa
+aabbabbbbbccbbbbbbbbbbbaaaaaa
+aaaaabbbbcccbbbbbbbbbaaaaaaaa
+aaaaabbaaaaccbcbbcccaaaaaaaaa
+aaaaabaaaaaacbbbbbbcaaaaaaaaa
+aaaaaaaaaaaaaaabbbbcaaaaaaaaa
+"}
