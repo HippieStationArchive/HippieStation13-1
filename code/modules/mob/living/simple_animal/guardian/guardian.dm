@@ -235,7 +235,6 @@
 	..()
 	collision_ignite(AM)
 
-
 /mob/living/simple_animal/hostile/guardian/fire/Bumped(AM as mob|obj)
 	..()
 	collision_ignite(AM)
@@ -250,7 +249,6 @@
 		if(AM != summoner && M.fire_stacks < 7)
 			M.fire_stacks = 7
 			M.IgniteMob()
-			log_admin("[key_name(src)] as ignited [key_name(src)] on fire via bump!")
 
 /mob/living/simple_animal/hostile/guardian/fire/Bump(AM as mob|obj)
 	..()
@@ -603,11 +601,9 @@
 	var/limiteduses = TRUE
 	var/killchance = FALSE
 	var/useonothers = FALSE
-	var/percentchance = 50
+	var/percentchance = 60
 	var/cooldown = FALSE
 	var/playsound = FALSE
-	var/usekey = TRUE
-	var/inUse = FALSE
 	var/list/holo_black = list(
 		/mob/living/simple_animal/revenant,
 		/mob/living/simple_animal/hostile/statue,
@@ -615,61 +611,56 @@
 	)
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
-	if(usekey == TRUE)
-		for(var/mob/living/simple_animal/hostile/guardian/G in living_mob_list)
-			if (G.summoner == user)
-				user << "You already have a [mob_name]!"
-				return
-		if(user.mind && user.mind.changeling)
-			user << "[ling_failure]"
+	for(var/mob/living/simple_animal/hostile/guardian/G in living_mob_list)
+		if (G.summoner == user)
+			user << "You already have a [mob_name]!"
 			return
-		if(used == TRUE)
-			user << "[used_message]"
+	if(user.mind && user.mind.changeling)
+		user << "[ling_failure]"
+		return
+	if(used == TRUE)
+		user << "[used_message]"
+		return
+	if(limiteduses == TRUE)
+		used = TRUE
+	if(killchance == TRUE)
+		if(prob(percentchance))
+			user.visible_message("You didnt have enough fighting spirit!")
+			user.setToxLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
 			return
-		if(limiteduses == TRUE)
-			used = TRUE
-		if(killchance == TRUE)
-			if(prob(percentchance))
-				user << "You didn't have enough fighting spirit!"
-				user.adjustFireLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
-				return
-		user << "[use_message]"
-		var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
-		var/mob/dead/observer/theghost = null
+	user << "[use_message]"
+	var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
+	var/mob/dead/observer/theghost = null
 
-		if(candidates.len)
-			theghost = pick(candidates)
-			var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(user, theghost.key)
-			if(playsound == TRUE)
-				user << 'sound/misc/standactivated.ogg'
-			var/timelimit = world.time + 600//1 min to rename the stand
-			//Give the stand user 3 chances to rename their stand
-			for(var/i = 2, i >= 0,i--)
-				var/guardianNewName = stripped_input(user, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
-				guardianNewName = reject_bad_name(guardianNewName, 1)
-				if(timelimit >= world.time)
-					if(!isnull(guardianNewName))
-						G.name = guardianNewName
-						return
-					else
-						if(i > 0)
-							user << "<span class='danger'>That's an invalid name! You have [i] more [i > 1 ? "attempts" : "attempt"].</span>"
-						else
-							user << "<span class='danger'>Sorry, you've ran out of attempts! Looks like you're stuck with [G.name]!</span>"
-				else
-					user << "<span class='danger'>Sorry, you've ran out of time! Looks like you're stuck with [G.name]!</span>"
+	if(candidates.len)
+		theghost = pick(candidates)
+		var/mob/living/simple_animal/hostile/guardian/G = spawn_guardian(user, theghost.key)
+		if(playsound == TRUE)
+			user << 'sound/misc/standactivated.ogg'
+		var/timelimit = world.time + 600//1 min to rename the stand
+		//Give the stand user 3 chances to rename their stand
+		for(var/i = 2, i >= 0,i--)
+			var/guardianNewName = stripped_input(user, "You are the user of [G.name]. Would you like to name your guardian something else?", "Name Guardian", G.name, MAX_NAME_LEN)
+			guardianNewName = reject_bad_name(guardianNewName, 1)
+			if(timelimit >= world.time)
+				if(!isnull(guardianNewName))
+					G.name = guardianNewName
 					return
-		else
-			user << "[failure_message]"
-			used = FALSE
+				else
+					if(i > 0)
+						user << "<span class='danger'>That's an invalid name! You have [i] more [i > 1 ? "attempts" : "attempt"].</span>"
+					else
+						user << "<span class='danger'>Sorry, you've ran out of attempts! Looks like you're stuck with [G.name]!</span>"
+			else
+				user << "<span class='danger'>Sorry, you've ran out of time! Looks like you're stuck with [G.name]!</span>"
+				return
+	else
+		user << "[failure_message]"
+		used = FALSE
 
 /obj/item/weapon/guardiancreator/attack(mob/M, mob/living/carbon/human/user)
-	if(inUse == TRUE)
-		return
 	user << "<span class='notice'>You raise the arrow into the air.</span>"
-	user.visible_message("<span class='warning'>[user] prepares to stab [M]!</span>")
 	if(do_mob(user,M,50,uninterruptible=0))
-		inUse = TRUE
 		if(useonothers == TRUE)
 			if(isrobot(M))
 				..()
@@ -678,7 +669,7 @@
 				return
 			for(var/bad_mob in holo_black)
 				if(istype(M, bad_mob))
-					user << "<span class='warning'>The arrow rejects the [M]!</span>"
+					user.visible_message("<span class='warning'>The arrow rejects the [M]!</span>")
 					return
 
 			var/mob/living/L = M
@@ -700,13 +691,12 @@
 				used = TRUE
 			if(killchance == TRUE)
 				if(prob(percentchance))
-					L.visible_message("You didn't have enough fighting spirit!")
+					L.visible_message("You didnt have enough fighting spirit!")
 					L.setToxLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
 					return
 			L << "[use_message]"
 			var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [L.real_name]?", "pAI", null, FALSE, 100)
 			var/mob/dead/observer/theghost = null
-			inUse = FALSE
 
 			if(candidates.len)
 				theghost = pick(candidates)
@@ -835,7 +825,7 @@
 
 /obj/item/weapon/guardiancreator/standarrow
 	name = "Stand Arrow"
-	desc = "A mysterious arrow capable of granting great power. Be careful, there is a chance it won't take to you..."
+	desc = "A mysterious arrow capable of granting great power. Be carfeul, there is a chance it won't take to you..."
 	icon = 'icons/obj/standarrow.dmi'
 	icon_state = "standarrowicon"
 	item_state = "standarrow"
@@ -857,7 +847,6 @@
 	playsound = TRUE
 	killchance = TRUE
 	useonothers = TRUE
-	usekey = FALSE
 
 
 
