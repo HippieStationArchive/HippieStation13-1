@@ -415,7 +415,7 @@
 	if( weedlevel > 5 )
 		if(myseed)
 			qdel(myseed)
-		var/newWeed = pick(/obj/item/seeds/libertymycelium, /obj/item/seeds/angelmycelium, /obj/item/seeds/deathnettleseed, /obj/item/seeds/kudzuseed)
+		var/newWeed = pick(/obj/item/seeds/libertymycelium, /obj/item/seeds/angelmycelium, /obj/item/seeds/deathnettleseed)
 		myseed = new newWeed
 		dead = 0
 		hardmutate()
