@@ -325,7 +325,7 @@
 
 /obj/structure/bed/chair/janicart/lawnmower
 	name = "lawn mower"
-	desc = "Allan, please add details"
+	desc = "Equipped with realible safeties to prevent <i>accidents</i> in the workplace."
 	icon = 'icons/obj/vehicles.dmi'
 	icon_state = "lawnmower"
 	keytype = null
