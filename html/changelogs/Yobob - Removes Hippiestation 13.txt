@@ -1,9 +1,0 @@
-author: Yobob
-
-delete-after: True
-
-changes:
-  - tweak: "Balances everything"
-  - bugfix: "Removes all bugs"
-  - spellcheck: "Fixes all spelling"
-

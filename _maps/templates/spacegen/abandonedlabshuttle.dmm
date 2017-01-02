@@ -1,0 +1,89 @@
+"aa" = (/turf/space,/area/space)
+"ab" = (/obj/structure/lattice,/turf/space,/area/space)
+"ac" = (/obj/structure/lattice,/obj/effect/glowshroom/glowcap,/turf/space,/area/space)
+"ad" = (/turf/simulated/wall/shuttle{icon_state = "swall_s6"; dir = 2},/area/template/Labshuttle)
+"ae" = (/turf/simulated/wall/shuttle{icon_state = "swall12"; dir = 2},/area/template/Labshuttle)
+"af" = (/turf/simulated/wall/shuttle{icon_state = "swall14"; dir = 2},/area/template/Labshuttle)
+"ag" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"ah" = (/obj/structure/sign/nosmoking_1,/turf/simulated/wall/shuttle{icon_state = "swall12"; dir = 2},/area/template/Labshuttle)
+"ai" = (/turf/simulated/wall/shuttle{icon_state = "swall_s10"; dir = 2},/area/template/Labshuttle)
+"aj" = (/turf/simulated/wall/shuttle{icon_state = "swall3"; dir = 2},/area/template/Labshuttle)
+"ak" = (/obj/structure/toilet{pixel_y = 8},/mob/living/simple_animal/hostile/retaliate/bat,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"al" = (/obj/machinery/door/window,/obj/structure/window/reinforced{dir = 8},/obj/machinery/shower,/obj/effect/decal/cleanable/cobweb2,/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"am" = (/obj/structure/closet,/obj/item/clothing/under/suit_jacket/white,/obj/item/clothing/suit/toggle/labcoat,/obj/item/clothing/tie/medal/nobel_science,/obj/effect/glowshroom/glowcap,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"an" = (/obj/structure/bed,/obj/item/weapon/bedsheet/mime,/obj/effect/decal/cleanable/cobweb2,/obj/effect/decal/cleanable/dirt,/obj/effect/decal/cleanable/generic,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"ao" = (/obj/effect/decal/cleanable/cobweb,/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"ap" = (/obj/item/weapon/hatchet,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aq" = (/obj/machinery/suit_storage_unit/cmo,/obj/effect/decal/cleanable/cobweb,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"ar" = (/obj/machinery/portable_atmospherics/canister/oxygen,/obj/structure/sign/securearea{desc = "A warning sign which reads 'EXTERNAL AIRLOCK'"; icon_state = "space"; layer = 4; name = "EXTERNAL AIRLOCK"; pixel_x = 0; pixel_y = 32},/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"as" = (/obj/machinery/light_construct/small,/obj/item/weapon/light/bulb,/obj/effect/decal/cleanable/generic,/obj/effect/glowshroom/glowcap,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"at" = (/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"au" = (/obj/machinery/door/airlock/shuttle,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"av" = (/obj/machinery/light_construct,/obj/item/weapon/light/tube,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aw" = (/obj/effect/decal/cleanable/dirt,/obj/item/weapon/grown/bananapeel,/obj/item/seeds/bananaseed,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"ax" = (/obj/effect/decal/cleanable/dirt,/obj/effect/glowshroom/glowcap,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"ay" = (/obj/machinery/light_construct,/obj/effect/decal/cleanable/dirt,/obj/effect/decal/cleanable/generic,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"az" = (/obj/structure/lattice/catwalk,/turf/space,/area/template/Labshuttle)
+"aA" = (/turf/simulated/wall/shuttle{icon_state = "swall7"; dir = 2},/area/template/Labshuttle)
+"aB" = (/turf/simulated/wall/shuttle{icon_state = "swall13"; dir = 2},/area/template/Labshuttle)
+"aC" = (/obj/structure/sign/chemistry,/turf/simulated/wall/shuttle{icon_state = "swall12"; dir = 2},/area/template/Labshuttle)
+"aD" = (/turf/simulated/wall/shuttle{icon_state = "swallc4"; dir = 2},/area/template/Labshuttle)
+"aE" = (/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aF" = (/turf/simulated/wall/shuttle{tag = "icon-swall_f11"; icon_state = "swall_f11"},/area/template/Labshuttle)
+"aG" = (/turf/simulated/wall/shuttle{icon_state = "swall11"; dir = 2},/area/template/Labshuttle)
+"aH" = (/obj/effect/glowshroom/glowcap,/turf/space,/area/space)
+"aI" = (/obj/machinery/chem_master,/obj/effect/decal/cleanable/cobweb,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"aJ" = (/obj/machinery/chem_dispenser,/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"aK" = (/obj/machinery/chem_heater,/obj/structure/extinguisher_cabinet,/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"aL" = (/turf/simulated/wall/shuttle{icon_state = "swall1"; dir = 2},/area/template/Labshuttle)
+"aM" = (/obj/effect/decal/remains/human,/obj/effect/decal/cleanable/cobweb,/obj/effect/decal/cleanable/dirt,/obj/effect/glowshroom/glowcap,/obj/item/seeds/glowshroom,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aN" = (/obj/item/weapon/stock_parts/cell{charge = 100; maxcharge = 15000},/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aO" = (/mob/living/simple_animal/hostile/retaliate/bat,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aP" = (/obj/item/weapon/poster/legit,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aQ" = (/obj/machinery/space_heater,/obj/effect/decal/cleanable/dirt,/obj/effect/glowshroom/glowcap,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aR" = (/obj/machinery/power/apc{auto_name = 1; dir = 8; name = "Worn-out APC"; pixel_x = -24; pixel_y = 0},/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aS" = (/obj/item/stack/tile/light,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aT" = (/obj/item/stack/tile/light,/obj/effect/decal/cleanable/generic,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"aU" = (/turf/simulated/wall/shuttle{tag = "icon-swall_f12"; icon_state = "swall_f12"},/area/template/Labshuttle)
+"aV" = (/turf/simulated/wall/shuttle{icon_state = "swall_s9"; dir = 2},/area/template/Labshuttle)
+"aW" = (/obj/structure/table/glass,/obj/machinery/reagentgrinder,/obj/item/weapon/reagent_containers/glass/beaker{pixel_x = 8; pixel_y = 2},/obj/effect/decal/cleanable/dirt,/obj/effect/glowshroom/glowcap,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"aX" = (/obj/structure/table/glass,/obj/effect/decal/cleanable/dirt,/obj/item/seeds/angelmycelium,/obj/item/seeds/glowshroom,/obj/item/seeds/reishimycelium,/obj/item/clothing/glasses/science,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"aY" = (/obj/structure/table/glass,/obj/item/weapon/reagent_containers/glass/beaker{pixel_x = 8; pixel_y = 2},/obj/item/weapon/reagent_containers/dropper,/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"aZ" = (/obj/structure/table,/obj/effect/decal/cleanable/dirt,/obj/item/weapon/storage/toolbox/syndicate,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"ba" = (/obj/structure/table,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"bb" = (/turf/simulated/wall/shuttle{icon_state = "swallc1"; dir = 2},/area/template/Labshuttle)
+"bc" = (/turf/simulated/floor/plasteel/stairs,/area/template/Labshuttle)
+"bd" = (/obj/structure/sign/botany,/turf/simulated/wall/shuttle{icon_state = "swallc2"; dir = 2},/area/template/Labshuttle)
+"be" = (/obj/machinery/seed_extractor,/obj/machinery/light_construct{dir = 8},/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"bf" = (/obj/structure/table,/obj/effect/decal/cleanable/dirt,/obj/effect/decal/cleanable/generic,/obj/item/seeds/poppyseed,/obj/item/seeds/poppyseed,/obj/item/seeds/cherryseed,/obj/item/weapon/reagent_containers/spray/plantbgone,/obj/item/weapon/cultivator,/obj/item/weapon/scythe,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"bg" = (/obj/structure/sink/kitchen{pixel_y = 28},/obj/machinery/light_construct{dir = 4},/obj/effect/decal/cleanable/dirt,/obj/effect/glowshroom/glowcap,/obj/item/seeds/watermelonseed,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"bh" = (/obj/item/seeds/ambrosiavulgarisseed,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"bi" = (/obj/item/weapon/light/tube,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"bj" = (/obj/effect/glowshroom/glowcap,/obj/item/seeds/nettleseed,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"bk" = (/obj/item/seeds/chiliseed,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"bl" = (/obj/item/weapon/reagent_containers/glass/bucket,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"bm" = (/obj/machinery/hydroponics/constructable,/obj/effect/decal/cleanable/dirt,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"bn" = (/obj/machinery/hydroponics/constructable,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"bo" = (/obj/machinery/hydroponics/constructable,/obj/effect/decal/cleanable/dirt,/obj/effect/decal/cleanable/generic,/turf/simulated/floor/plasteel/shuttle/white,/area/template/Labshuttle)
+"bp" = (/obj/item/seeds/bloodtomatoseed,/mob/living/simple_animal/hostile/retaliate/bat,/turf/simulated/floor/plasteel/shuttle{icon_state = "shuttlefloor3"},/area/template/Labshuttle)
+"bq" = (/turf/simulated/wall/shuttle{icon_state = "swall_s5"; dir = 2},/area/template/Labshuttle)
+"br" = (/turf/simulated/wall/shuttle{tag = "icon-swall_f14"; icon_state = "swall_f14"},/area/template/Labshuttle)
+
+(1,1,1) = {"
+aaaaabaaaaaaaaabaaaaaaaaacaaaaaa
+aaadaeaeafaeagafagahafaeaeaiaaaa
+abajakalajamanajaoapajaqaragabab
+aaajasatauavatauatawauaxayauazaa
+aaaAaeaeaBafaCaDaEataFaeaeaGazaa
+aHajaIaJaKaLaMaNaEavaOaPaQagabab
+aaajaRaSataEataTaUaeaeaeaeaVaaaa
+aaajaWaXaYataZbaajaaaaaaaHaaaaaa
+aaaAaeaebbbcbdaeaGaaaaaaaaaaaaaa
+aaajbebfaLauaLbgajaHaaaaaaaaaaaa
+abagbhbibjbkbiblagabaaaaaaaaaaaa
+aaagbmatbnboatbnagaaaaaaaaaaaaaa
+abagbnbpaOatbhbnagabaaaaaaaaaaaa
+aabqbrbmbnbnbnaUaVaaaaaaaaaaaaaa
+aaaabqagagagagaVaaaaaaaaaaaaaaaa
+aaaaaaabaaaaabaaaaaaaaaaaaaaaaaa
+"}

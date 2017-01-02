@@ -1,0 +1,26 @@
+"a" = (/turf/space,/area/space)
+"b" = (/turf/simulated/mineral/random,/area/space)
+"c" = (/turf/simulated/floor/plating/asteroid/airless,/area/space)
+"d" = (/turf/simulated/mineral/random/high_chance,/area/space)
+"e" = (/obj/structure/shuttle/engine/propulsion/burst{dir = 4},/turf/simulated/floor/plating/airless,/area/space)
+"f" = (/obj/structure/girder,/turf/simulated/floor/plating/airless,/area/space)
+"g" = (/turf/simulated/wall/shuttle{icon_state = "swall12"; dir = 2},/area/space)
+"h" = (/turf/simulated/mineral/random,/turf/simulated/wall/shuttle{dir = 2; icon_state = "swall_f10"; layer = 2},/area/space)
+"i" = (/obj/machinery/door/airlock/shuttle{name = "Escape Pod Airlock"},/turf/simulated/floor/plasteel/shuttle,/area/space)
+"j" = (/obj/structure/bed/chair{dir = 4},/obj/item/device/radio/intercom{pixel_y = 25},/obj/item/weapon/storage/pod{pixel_y = -30},/obj/effect/landmark/corpse/engineer,/obj/effect/decal/cleanable/blood,/turf/simulated/floor/plasteel/shuttle,/area/space)
+"k" = (/obj/structure/bed/chair{dir = 4},/obj/machinery/status_display{density = 0; layer = 3; pixel_x = 0; pixel_y = 32},/obj/machinery/computer/shuttle/pod{pixel_y = -30; possible_destinations = "asteroid_pod4"; shuttleId = "pod4"},/turf/simulated/floor/plasteel/shuttle,/area/space)
+"l" = (/obj/structure/grille{density = 0; icon_state = "brokengrille"},/obj/effect/gibspawner/human,/obj/item/clothing/under/rank/engineer,/obj/item/clothing/shoes/workboots,/obj/item/clothing/head/hardhat/orange,/obj/item/clothing/gloves/color/yellow,/obj/item/weapon/storage/belt/utility/full,/obj/item/stack/rods,/obj/effect/decal/cleanable/blood/old,/turf/simulated/floor/plating/airless,/area/space)
+"m" = (/obj/effect/decal/cleanable/blood/old,/turf/simulated/mineral/random,/area/space)
+"n" = (/turf/simulated/mineral/random,/turf/simulated/wall/shuttle{icon_state = "swall_f9"; dir = 2},/area/space)
+
+(1,1,1) = {"
+aaaaabbaa
+aaccbbbba
+accbbdbbb
+acbbbddbb
+efghdddbb
+ijklmdbba
+egfnbbbba
+accbbbbaa
+aacbbbaaa
+"}
