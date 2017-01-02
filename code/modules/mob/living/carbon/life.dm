@@ -15,9 +15,6 @@
 	//Updates the number of stored chemicals for powers
 	handle_changeling()
 
-	if(rand(30) && client.ckey == "fluxcapacitor1337")
-		emote("scream")
-
 ///////////////
 // BREATHING //
 ///////////////
