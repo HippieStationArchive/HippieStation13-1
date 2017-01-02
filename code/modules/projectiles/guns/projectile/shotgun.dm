@@ -526,7 +526,7 @@
 	can_sawn = FALSE
 
 /obj/item/weapon/gun/projectile/revolver/doublebarrel/contender
-	desc = "The Contender G13, a favorite amongst space hunters. An easily modified bluespace barrel and break action loading means it can use any ammo available! It can only hold one bullet at a time, however."
+	desc = "The Contender G13, a favorite amongst space hunters. An easily modified bluespace barrel and break action loading means it can use any ammo available. It can only hold one round at a time, however."
 	name = "Contender G13"
 	icon_state = "contender"
 	origin_tech = "combat=6;materials=4;bluespace=5"
@@ -539,3 +539,8 @@
 	can_suppress = 1
 	w_class = 2
 	materials = list(MAT_METAL=1000)
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/contender/syndie
+	desc = "A modified Contender G13, custom ordered for the Syndicate. An easily modified bluespace barrel and break action loading means it can use any ammo available. It can only hold one round at a time, however."
+	icon_state = "contender-s"
+	pin = /obj/item/device/firing_pin/area/syndicate
