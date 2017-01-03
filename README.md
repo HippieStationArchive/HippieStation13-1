@@ -1,21 +1,25 @@
 [![Stories in Ready](https://badge.waffle.io/HippieStationCode/HippieStation13.png?label=ready&title=Ready)](https://waffle.io/HippieStationCode/HippieStation13)
-##/tg/station v1.0.1 
+##Hippie Station
 
-[![Build Status](https://travis-ci.org/tgstation/-tg-station.png)](https://travis-ci.org/tgstation/-tg-station)
+[![Build Status](https://travis-ci.org/HippieStationCode/HippieStation13.png)](https://travis-ci.org/HippieStationCode/HippieStation13)
 
 
 **Website:** http://www.tgstation13.org <BR>
-**Code:** https://github.com/tgstation/-tg-station <BR>
-**Wiki** http://tgstation13.org/wiki/Main_Page <BR>
-**IRC:** irc://irc.rizon.net/coderbus or if you dont have an IRC client, you can click  [here](https://kiwiirc.com/client/irc.rizon.net:6667/?&theme=cli#coderbus).<BR>
+**Code:** https://github.com/HippieStationCode/HippieStation13/ <BR>
+**Wiki** http://wiki.hippiestation.com/index.php?title=Main_Page <BR>
+
+
+##INFORMATION
+
+**Hippie Station is a modified fork of /tg/station. Their code can be found here: https://github.com/tgstation/tgstation**
 
 
 ##DOWNLOADING
 
-There are a number of ways to download the source code. Some are described here, an alternative all-inclusive guide is also located at http://www.tgstation13.org/wiki/Downloading_the_source_code
+There are a number of ways to download the source code. Some are described here, an alternative all-inclusive guide is also located at http://wiki.hippiestation.com/index.php?title=Downloading_the_source_code
 
 Option 1:
-Follow this: http://www.tgstation13.org/wiki/Setting_up_git
+Follow this: http://wiki.hippiestation.com/index.php?title=Setting_up_git
 
 Option 2:
 Install GitHub::windows from http://windows.github.com/
@@ -24,7 +28,7 @@ Then you simply search for the -tg-station repository and click the big clone
 button.
 
 Option 3: Download the source code as a zip by clicking the ZIP button in the
-code tab of https://github.com/tgstation/-tg-station
+code tab of https://github.com/HippieStationCode/HippieStation13/
 (note: this will use a lot of bandwidth if you wish to update and is a lot of
 hassle if you want to make any changes at all, so it's not recommended.)
 
@@ -42,10 +46,6 @@ a message like this:
 saving tgstation.dmb (DEBUG mode)
 tgstation.dmb - 0 errors, 0 warnings
 ```
-
-If you see any errors or warnings, something has gone wrong - possibly a corrupt
-download or the files extracted wrong. If problems persist, ask for assistance
-in irc://irc.rizon.net/coderbus
 
 Once that's done, open up the config folder.  You'll want to edit config.txt to
 set the probabilities for different gamemodes in Secret and to set your server
@@ -116,13 +116,6 @@ To enable an away mission open fileList.txt in the _maps/RandomZLevels directory
 The SQL backend for the library and stats tracking requires a 
 MySQL server.  Your server details go in /config/dbconfig.txt, and the SQL 
 schema is in /SQL/tgstation_schema.sql and /SQL/tgstation_schema_prefix.sql depending on if you want table prefixes.  More detailed setup instructions are located here: http://www.tgstation13.org/wiki/Downloading_the_source_code#Setting_up_the_database
-
-##IRC BOT SETUP
-
-Included in the repository is an IRC bot capable of relaying adminhelps to a specified
-IRC channel/server (thanks to Skibiliano).
-Instructions for bot setup are included in the /bot folder along with the script
-itself
 
 ##CONTRIBUTING
 
