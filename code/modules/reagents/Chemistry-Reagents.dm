@@ -30,10 +30,13 @@
 	var/addiction_threshold = 0
 	var/addiction_stage = 0
 	var/overdosed = 0 // You fucked up and this is now triggering its overdose effects, purge that shit quick.
+	var/speedboost = NORMAL //Refactor of the terrible old speedboost management system, everything is checked in the check_speedboost proc in the chemistry-holder file. Uses the defines NORMAL, FAST, VERY_FAST and IGNORE_SLOWDOWN.
+	/*	Fuck antistuns
 	var/stun_timer = 0 // How many ticks since you last resisted a stun, tracked by stun-resisting reagents.
 	var/stun_threshold = 0 //How many ticks it takes to resist a stun, tracked by stun-resisting chems
 	var/stun_resist = 0 //How many ticks of stun does the chem resist, used by stun-resisting chems.
-	var/speedboost = NORMAL //Refactor of the terrible old speedboost management system, everything is checked in the check_speedboost proc in the chemistry-holder file. Uses the defines NORMAL, FAST, VERY_FAST and IGNORE_SLOWDOWN.
+	*/
+
 
 /datum/reagent/Destroy() // This should only be called by the holder, so it's already handled clearing its references
 	. = ..()
@@ -123,6 +126,7 @@
 
 	return result
 
+/*
 /datum/reagent/proc/stun_resist_act(mob/living/M)
 	if(stun_timer == (stun_threshold))
 		M << "<span class='notice'>You feel the [lowertext(name)] kick in!</span>"
@@ -137,3 +141,4 @@
 				M.AdjustParalysis(-R.stun_resist)
 				M.AdjustStunned(-R.stun_resist)
 				M.AdjustWeakened(-R.stun_resist)
+*/

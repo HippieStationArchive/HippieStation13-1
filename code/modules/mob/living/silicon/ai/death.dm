@@ -24,6 +24,8 @@
 
 	if(explosive)
 		spawn(10)
+			message_admins("The AI has exploded at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>([src.x],[src.y],[src.z])</a> who was controlled by [key_name_admin(src)]")
+			log_game("The AI has exploded at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>([src.x],[src.y],[src.z])</a> who was controlled by [key_name_admin(src)]")
 			explosion(src.loc, 3, 6, 12, 15)
 
 	for(var/obj/machinery/ai_status_display/O in world) //change status
