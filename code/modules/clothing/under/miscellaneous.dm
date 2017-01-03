@@ -55,6 +55,28 @@
 
 	return ..()
 
+/obj/item/clothing/under/robbie
+	name = "Real Villain"
+	desc = "We Are Number One"
+	icon_state = "robbie"
+	item_state = "robbie"
+	item_color = "robbie"
+	can_adjust = 0
+	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0) //villains need some protection against super heroes
+	alternate_screams = list('sound/voice/robbie1.ogg','sound/voice/robbie2.ogg','sound/voice/robbie3.ogg','sound/voice/robbie4.ogg','sound/voice/robbie5.ogg','sound/voice/robbie6.ogg','sound/voice/robbie7.ogg','sound/voice/robbie8.ogg','sound/voice/robbie9.ogg','sound/voice/robbie10.ogg','sound/voice/robbie11.ogg','sound/voice/robbie12.ogg','sound/voice/robbie13.ogg','sound/voice/robbie14.ogg','sound/voice/robbie15.ogg')
+	
+/obj/item/clothing/under/robbie/equipped(mob/living/carbon/user, slot)
+	if(slot == slot_w_uniform)
+		user.add_screams(src.alternate_screams)
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.reindex_screams()
+		else
+			user.reindex_screams()
+
+	return ..()
+
 /obj/item/clothing/under/sl_suit
 	desc = "It's a very amish looking suit."
 	name = "amish suit"
