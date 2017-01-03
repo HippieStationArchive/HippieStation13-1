@@ -328,21 +328,21 @@
 					item_type = /obj/item/device/chameleon
 					pointcost = 15
 			if("thompson")
-				if(gang.points >= 55)
+				if(gang.points >= 80)
 					item_type = /obj/item/weapon/gun/projectile/automatic/tommygun
-					pointcost = 55
+					pointcost = 80
 			if("tommyammo")
-				if(gang.points >= 35)
+				if(gang.points >= 50)
 					item_type = /obj/item/ammo_box/magazine/tommygunm45
-					pointcost = 35
+					pointcost = 50
 			if(".38ammo")
-				if(gang.points >= 10)
+				if(gang.points >= 20)
 					item_type = /obj/item/ammo_box/c38
-					pointcost = 10
+					pointcost = 20
 			if(".38revolver")
-				if(gang.points >= 25)
+				if(gang.points >= 30)
 					item_type = /obj/item/weapon/gun/projectile/revolver/rigatoni
-					pointcost = 25
+					pointcost = 30
 			if("9mmammo")
 				if(gang.points >= 40)
 					item_type = /obj/item/ammo_box/magazine/uzim9mm
