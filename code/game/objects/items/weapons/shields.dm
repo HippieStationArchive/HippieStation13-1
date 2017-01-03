@@ -21,6 +21,11 @@
 	origin_tech = "materials=2"
 	block_chance = list(melee = 60, bullet = 50, laser = 50, energy = 50) //Skeleton-exclusive atm, sooo
 
+/obj/item/weapon/shield/roman/replica
+	name = "roman shield"
+	desc = "Bears an inscription on the inside: <i>\"Romanes venio domus\"</i>. Feels flimsy."
+	block_chance = list(melee = 20, bullet = 0, laser = 0, energy = 0) //It's a replica, it won't block anything but some melee hits because its cheap plastic.
+
 //Deployable shields, woo!
 //Basically "defensive stance" for shields like riot, etc.
 /obj/item/weapon/shield/deployable
