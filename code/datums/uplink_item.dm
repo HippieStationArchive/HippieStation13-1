@@ -872,12 +872,14 @@ var/list/uplink_items = list()
 	cost = 2
 	surplus = 30
 
+/*
 /datum/uplink_item/stealthy_tools/stimpack
 	name = "Stimpack"
 	desc = "Stimpacks, the tool of many great heroes, make you nearly immune to stuns and knockdowns for about 5 minutes after injection."
 	item = /obj/item/weapon/reagent_containers/syringe/stimulants
 	cost = 5
 	surplus = 90
+*/
 
 /datum/uplink_item/stealthy_tools/mulligan
 	name = "Randomizer"
@@ -1091,11 +1093,13 @@ var/list/uplink_items = list()
 	cost = 14
 	surplus = 0
 
+/*
 /datum/uplink_item/implants/adrenal
 	name = "Adrenal Implant"
 	desc = "An implant injected into the body, and later activated at the user's will. It will inject a chemical cocktail which has a mild healing effect along with removing all stuns and increasing movement speed."
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_adrenal
 	cost = 8
+*/
 
 /datum/uplink_item/implants/storage
 	name = "Storage Implant"

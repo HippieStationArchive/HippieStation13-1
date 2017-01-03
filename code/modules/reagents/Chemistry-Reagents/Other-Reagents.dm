@@ -223,14 +223,11 @@
 	id = "unholywater"
 	description = "Something that shouldn't exist on this plane of existance."
 	metabolization_rate = 2 * REAGENTS_METABOLISM
-	stun_threshold = 4
-	stun_resist = 6
 
 /datum/reagent/fuel/unholywater/on_mob_life(mob/living/M)
 	if(iscultist(M))
 		speedboost = FAST
 		M.drowsyness = max(M.drowsyness-5, 0)
-		stun_resist_act(M)
 	else
 		speedboost = NORMAL
 		M.adjustBrainLoss(3)
@@ -436,7 +433,7 @@
 	description = "A colorless, odorless gas."
 	reagent_state = GAS
 	color = "#808080" // rgb: 128, 128, 128
-	
+
 /datum/reagent/oxygen/reaction_obj(obj/O, reac_volume)
 	if((!O) || (!reac_volume))
 		return 0
@@ -460,7 +457,7 @@
 	description = "A colorless, odorless, tasteless gas."
 	reagent_state = GAS
 	color = "#808080" // rgb: 128, 128, 128
-	
+
 /datum/reagent/nitrogen/reaction_obj(obj/O, reac_volume)
 	if((!O) || (!reac_volume))
 		return 0
