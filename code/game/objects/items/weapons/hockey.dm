@@ -260,6 +260,6 @@
 		if(istype(PP, /obj/item/holopuck))
 			apply_effect(2, STUN)
 			playsound(src, 'sound/effects/snap.ogg', 50, 1)
-			visible_message("<span class='danger'>[src] has been dazed by a holopuck!</span>", \
+			visible_message("<span class='danger'>[name] has been dazed by a holopuck!</span>", \
 											"<span class='userdanger'>[name] has been dazed by a holopuck!</span>")
 			qdel(PP)
