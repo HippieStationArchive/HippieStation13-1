@@ -19,7 +19,7 @@
 
 	action_icon_state = "skeleton"
 
-	var/list/nobindlist = list(/obj/item/weapon/paper, /obj/item/weapon/pen, /obj/item/weapon/cigbutt, /obj/item/weapon/relic, /obj/item/ammo_casing, /obj/item/relic) // shit that you shouldn't be allowed to bind your soul into.
+	var/list/nobindlist = list(/obj/item/weapon/paper, /obj/item/weapon/pen, /obj/item/weapon/cigbutt, /obj/item/weapon/relic, /obj/item/ammo_casing, /obj/item/relic, /obj/item/weapon/coin) // shit that you shouldn't be allowed to bind your soul into.
 
 /obj/effect/proc_holder/spell/targeted/lichdom/New()
 	if(initial(ticker.mode.round_ends_with_antag_death))
