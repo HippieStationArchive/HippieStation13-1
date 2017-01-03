@@ -580,7 +580,7 @@
 			H.emote("burp")
 		if(prob(10))
 			H.emote("vomit")
-		if(prob(.5))
+		if(prob(.1))
 			playsound(src, 'sound/misc/superburp.ogg', 75, 1, 5)
 			H.visible_message("<span class='danger'>[H] lets out a belch so massive that their head explodes!</span>")
 			if (H && !qdeleted(H))
