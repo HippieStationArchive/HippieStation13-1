@@ -6,6 +6,7 @@
 	icon_state = "mirror"
 	density = 0
 	anchored = 1
+	var/force_multi = 2 // The bigger this number, the more chance it'll break.
 	var/shattered = 0
 
 
@@ -51,7 +52,7 @@
 
 
 /obj/structure/mirror/bullet_act(obj/item/projectile/Proj)
-	if(prob(Proj.damage * 2))
+	if(prob(Proj.damage * force_multi))
 		if((Proj.damage_type == BRUTE || Proj.damage_type == BURN))
 			if(!shattered)
 				shatter()
@@ -81,7 +82,7 @@
 		playsound(src.loc, 'sound/effects/hit_on_shattered_glass.ogg', 70, 1)
 		return
 
-	if(prob(I.force * 2))
+	if(prob(I.force * force_multi))
 		visible_message("<span class='warning'>[user] smashes [src] with [I].</span>")
 		shatter()
 	else
@@ -241,3 +242,183 @@
 				H.eye_color = sanitize_hexcolor(new_eye_color)
 				H.dna.update_ui_block(DNA_EYE_COLOR_BLOCK)
 				H.update_body()
+
+/obj/structure/mirrorbase
+	name = "mobile mirror base"
+	desc = "The skeleton of a large reflective mirror."
+	icon = 'icons/obj/structures.dmi'
+	icon_state = "mirror_reflect_state0"
+	density = 1
+	anchored = 0
+	var/state = 0 // Bit map below
+	/*
+		1 = Silver (must be placed first)
+		2 = Reinforced glass (must be placed last)
+	*/
+
+/obj/structure/mirrorbase/attackby(obj/item/I, mob/living/user, params)
+	if (istype(I, /obj/item/stack/sheet/mineral/silver) && !(state & 1))
+		var/obj/item/stack/sheet/mineral/silver/S = I
+
+		if (S.get_amount() > 0)
+			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
+
+			if (do_after(user, 10, target = src))
+				state |= 1
+				S.use(1)
+				user << "<span class='notice'>You add a sheet of silver.</span>"
+				icon_state = "mirror_reflect_state1"
+
+	else if (istype(I, /obj/item/stack/sheet/rglass) && !(state & 2) && (state & 1))
+		var/obj/item/stack/sheet/rglass/G = I
+
+		if (G.get_amount() > 0)
+			playsound(loc, 'sound/items/Deconstruct.ogg', 50, 1)
+
+			if (do_after(user, 10, target = src))
+				state |= 2
+				G.use(1)
+				user << "<span class='notice'>You add a sheet of reinforced glass.</span>"
+				icon_state = "mirror_reflect_state2"
+
+	else if (istype(I, /obj/item/weapon/screwdriver) && state == 3)
+		playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
+
+		if (do_after(user, 10, target = src))
+			var/obj/structure/mirror/mobile/M = new /obj/structure/mirror/mobile(loc)
+			M.add_fingerprint(user)
+			user << "<span class='notice'>You fasten the glass cover.</span>"
+			qdel(src)
+
+	else if (istype(I, /obj/item/weapon/crowbar))
+		if (state & 2)
+			var/obj/item/stack/sheet/rglass/G = new (user.loc)
+			G.add_fingerprint(user)
+			state &= ~2
+			user << "<span class='notice'>You remove the glass.</span>"
+			playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
+			icon_state = "mirror_reflect_state1"
+
+		else if ((state & 1) && !(state & 2))
+			var/obj/item/stack/sheet/mineral/silver/S = new (user.loc)
+			S.add_fingerprint(user)
+			state &= ~1
+			user << "<span class='notice'>You remove the silver.</span>"
+			playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
+			icon_state = "mirror_reflect_state0"
+
+/obj/structure/mirror/mobile
+	name = "mobile mirror"
+	desc = "A very reflective mirror that can be moved. Use a wrench to anchor it in place. Use a crowbar to adjust the direction."
+	icon = 'icons/obj/structures.dmi'
+	icon_state = "mirror_reflect"
+	density = 1
+	anchored = 0
+	force_multi = 1 // Quite durable
+
+/obj/structure/mirror/attackby(obj/item/I, mob/living/user, params)
+	if (!shattered)
+		if (istype(I, /obj/item/weapon/wrench))
+			if (anchored)
+				anchored = 0
+			else
+				anchored = 1
+
+			add_fingerprint(user)
+			playsound(loc, 'sound/items/Ratchet.ogg', 50, 1)
+			visible_message("<span class='warning'>[user] [anchored ? "" : "un"]anchors the [name]!</span>", \
+				            "<span class='warning'>You [anchored ? "" : "un"]anchors the [name]!</span>")
+
+		else if (istype(I, /obj/item/weapon/crowbar))
+			playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
+			var/new_dir = input("Enter direction:", "Direction") as null|anything in list("North", "North East", "East", "South East", "South", "South West", "West", "North West", "Cancel")
+
+			if (new_dir && user.canUseTopic(src) && in_range(src, user))
+				new_dir = replacetext(uppertext(new_dir), " ", "")
+
+				if (new_dir == "CANCEL")
+					return 0
+				else
+					dir = text2dir(new_dir)
+
+		else if (istype(I, /obj/item/weapon/screwdriver))
+			playsound(loc, 'sound/items/Screwdriver.ogg', 50, 1)
+
+			if (do_after(user, 10, target = src))
+				var/obj/structure/mirrorbase/M = new /obj/structure/mirrorbase(loc)
+				M.state = 3
+				M.icon_state = "mirror_reflect_state2"
+				user << "<span class='notice'>You unfasten the glass cover.</span>"
+				qdel(src)
+
+		else 
+			return ..()
+	else 
+		return ..()
+
+/obj/structure/mirror/mobile/bullet_act(obj/item/projectile/P)
+	if(!shattered && (istype(P, /obj/item/projectile/energy) || istype(P, /obj/item/projectile/beam)))
+		if (P.starting)
+			// Maths is fun
+			var/firing_angle = SimplifyDegrees(Atan2(x - P.starting.x, y - P.starting.y))
+			var/mirror_angle = dir2angle(dir)
+
+			// Subtracting the angle from 270 gives us a value that's
+			// agreeable with BYOND's directions
+			firing_angle = SimplifyDegrees(270 - firing_angle)
+
+			var/diff = SimplifyDegrees(firing_angle - mirror_angle)
+
+			// This figures out if the mirror's face was hit by the projectile
+			if (diff >= 270 || diff <= 90)
+				var/turf/curloc = get_turf(src)
+				P.original = locate(x, y, z)
+				P.starting = curloc
+				P.current = curloc
+				P.firer = src
+				// This is actually overpowered because it means projectiles 
+				// can be fired into a loop of mirrors and go on endlessly potentially
+				P.range = initial(P.range)
+
+				// This is the new angle the projectile will be
+				var/out_angle = SimplifyDegrees(P.Angle + 180 - (diff * 2))
+
+				// Minor drift from 0
+				if (out_angle == 0)
+					out_angle += pick(0.001, -0.001)
+
+				P.Angle = out_angle
+
+				if (P.legacy)
+					var/normal = sqrt((P.xo * P.xo) + (P.yo * P.yo))
+					P.xo = sin(out_angle) * normal
+					P.yo = cos(out_angle) * normal
+
+				return -1
+		else
+			return 0
+
+/obj/structure/mirror/mobile/shatter()
+	if(shattered)
+		return
+
+	shattered = 1
+	icon_state = "mirror_reflect_broke"
+	playsound(src, "shatter", 70, 1)
+	desc = "Oh no, seven years of bad luck!"
+
+/obj/structure/mirror/mobile/examine(mob/user)
+	..()
+
+	if (shattered)
+		user << "<span class='notice'>It appears to be broken. Use a welding tool to repair</span>"
+
+/obj/structure/mirror/mobile/AltClick(mob/user)
+	if (!user.canUseTopic(src))
+		user << "<span class='warning'>You can't do that right now!</span>"
+		return
+
+	if (!in_range(src, user) || anchored || shattered)
+		return
+	else
+		dir = turn(dir, -45)
