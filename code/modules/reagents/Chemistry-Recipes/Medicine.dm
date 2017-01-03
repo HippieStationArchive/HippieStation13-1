@@ -267,3 +267,12 @@
 	required_temp = 370
 	required_reagents = list("bicaridine" = 1, "kelotane" = 1, "charcoal" = 1)
 	result_amount = 3
+
+/datum/chemical_reaction/antidote
+	name = "Antidote"
+	id = "antidote"
+	result = "antidote"
+	required_temp = 300
+	required_reagents = list("charcoal" = 1, "epinephrine" = 1)
+	result_amount = 2
+

@@ -1056,3 +1056,21 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	M.adjustCloneLoss(-3*REM)
 	..()
 	return
+
+/datum/reagent/medicine/antidote
+	name = "Antidote"
+	id = "antidote"
+	description = "Heals toxin damage only but deals toxin damage when overdosed."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	overdose_threshold = 30
+
+/datum/reagent/medicine/antidote/on_mob_life(mob/living/M)
+	M.adjustToxLoss(-1.75*REM)
+	..()
+	return
+
+datum/reagent/medicine/antidote/overdose_process(mob/living/M)
+	M.adjustToxLoss(3*REM)
+	..()
+	return
