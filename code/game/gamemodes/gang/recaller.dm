@@ -440,7 +440,7 @@
 					if(recall(usr))
 						recall_cost *= 2
 					else
-						gang.points += recall_spent_points
+						gang.points += recall_cost
 						gang.message_gangtools("[usr.real_name]'s attempt to recall the shuttle has failed and has been refunded [recall_cost] Influence.")
 						log_game("[key_name(usr)]'s ([gang.name] Gang) recall attempt has failed and has been refunded [recall_cost] Influence.")
 			if("outfit")
