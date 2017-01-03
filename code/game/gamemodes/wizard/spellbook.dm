@@ -11,11 +11,14 @@
 	var/obj/effect/proc_holder/spell/S = null //Since spellbooks can be used by only one person anyway we can track the actual spell
 	var/buy_word = "Learn"
 	var/limit //used to prevent a spellbook_entry from being bought more than X times with one wizard spellbook
+	var/no_apprentice = 0 // set to 1 to stop apprentinces from buying certain shit.
 
 /datum/spellbook_entry/proc/IsAvailible() // For config prefs / gamemode restrictions - these are round applied
 	return 1
 /datum/spellbook_entry/proc/CanBuy(mob/living/carbon/human/user,obj/item/weapon/spellbook/book) // Specific circumstances
 	if(book.uses<cost || limit == 0)
+		return 0
+	else if(book.owner_is_apprentice == 1 && no_apprentice == 1 )
 		return 0
 	return 1
 /datum/spellbook_entry/proc/Buy(mob/living/carbon/human/user,obj/item/weapon/spellbook/book) //return 1 on success
@@ -92,6 +95,11 @@
 	dat += "<i>[S.desc][desc]</i><br>"
 	dat += "[S.clothes_req?"Needs wizard garb":"Can be cast without wizard garb"]<br>"
 	return dat
+
+/datum/spellbook_entry/eruption
+	name = "Eruption"
+	spell_type = /obj/effect/proc_holder/spell/targeted/trigger/eruptionmulti
+	log_name = "Eruption"
 
 /datum/spellbook_entry/soulflare
 	name = "Soulflare"
@@ -228,7 +236,7 @@
 	spell_type = /obj/effect/proc_holder/spell/targeted/barnyardcurse
 	log_name = "BC"
 	cost = 1
-	
+
 /datum/spellbook_entry/cluwnecurse
 	name = "Clown Curse"
 	spell_type = /obj/effect/proc_holder/spell/targeted/cluwnecurse
@@ -253,6 +261,7 @@
 	refundable = 0
 	buy_word = "Summon"
 	var/item_path= null
+	no_apprentice = 1 // apprentices can't buy artifacts 4now
 
 
 /datum/spellbook_entry/item/Buy(mob/living/carbon/human/user,obj/item/weapon/spellbook/book)
@@ -311,6 +320,7 @@
 	log_name = "SD"
 	cost = 1
 	category = "Mobility"
+	no_apprentice = 0
 
 /datum/spellbook_entry/item/staffhealing
 	name = "Staff of Healing"
@@ -319,6 +329,7 @@
 	log_name = "SH"
 	cost = 1
 	category = "Defensive"
+	no_apprentice = 0
 
 /datum/spellbook_entry/item/scryingorb
 	name = "Scrying Orb"
@@ -352,6 +363,7 @@
 	item_path = /obj/item/device/necromantic_stone
 	log_name = "NS"
 	category = "Assistance"
+	cost = 1
 
 /datum/spellbook_entry/item/wands
 	name = "Wand Assortment"
@@ -380,6 +392,21 @@
 	log_name = "CT"
 	category = "Assistance"
 
+/datum/spellbook_entry/item/contractbundle
+	name = "Contract of Apprenticeship Bundle"
+	desc = "Contains 3 contracts of apprenticeship for the price of 2.5 granting you the ability to start your own mini ragin mages round."
+	item_path = /obj/item/weapon/antag_spawner/contract
+	log_name = "CT"
+	category = "Assistance"
+	cost = 5
+	limit = 1
+
+/datum/spellbook_entry/item/contractbundle/Buy()
+	..()
+	new /obj/item/weapon/antag_spawner/contract(get_turf(src))
+	new /obj/item/weapon/antag_spawner/contract(get_turf(src))
+
+
 /datum/spellbook_entry/item/plasma_fist
 	name = "Plasma Fist Scroll"
 	desc = "Consider this more of a \"Spell Bundle\". This artifact is NOT reccomended for weaklings. An ancient scroll that will teach you the art of Plasma Fist. With it's various combos you can knock people down in the area around you, light them on fire and finally perform the PLASMA FIST that will gib your target."
@@ -406,6 +433,7 @@
 	desc = "A hammer that creates an intensely powerful field of gravity where it strikes, pulling everthing nearby to the point of impact."
 	item_path = /obj/item/weapon/twohanded/singularityhammer
 	log_name = "SI"
+	cost = 1
 
 /datum/spellbook_entry/summon
 	name = "Summon Stuff"
@@ -413,6 +441,7 @@
 	refundable = 0
 	buy_word = "Cast"
 	var/active = 0
+	no_apprentice = 1 // lolno
 
 /datum/spellbook_entry/summon/CanBuy(mob/living/carbon/human/user,obj/item/weapon/spellbook/book)
 	return ..() && !active
@@ -471,7 +500,7 @@
 /datum/spellbook_entry/summon/events
 	name = "Summon Events"
 	desc = "Give Murphy's law a little push and replace all events with special wizard ones that will confound and confuse everyone. Multiple castings increase the rate of these events."
-	cost = 2
+	cost = 1
 	log_name = "SE"
 	var/times = 0
 
@@ -528,6 +557,7 @@
 	var/mob/living/carbon/human/owner
 	var/list/datum/spellbook_entry/entries = list()
 	var/list/categories = list()
+	var/owner_is_apprentice = 0 // to see if the book belongs to an apprentice
 
 /obj/item/weapon/spellbook/examine(mob/user)
 	..()
@@ -559,14 +589,14 @@
 			user << "<span class='warning'>The contract has been used, you can't get your points back now!</span>"
 		else
 			user << "<span class='notice'>You feed the contract back into the spellbook, refunding your points.</span>"
-			uses++
+			uses += 2
 			for(var/datum/spellbook_entry/item/contract/CT in entries)
 				if(!isnull(CT.limit))
 					CT.limit++
 			qdel(O)
 	if(istype(O, /obj/item/weapon/antag_spawner/slaughter_demon))
 		user << "<span class='notice'>On second thought, maybe summoning a demon is a bad idea. You refund your points.</span>"
-		uses++
+		uses += 2
 		for(var/datum/spellbook_entry/item/bloodbottle/BB in entries)
 			if(!isnull(BB.limit))
 				BB.limit++
@@ -676,8 +706,11 @@
 	if(!istype(H, /mob/living/carbon/human))
 		return 1
 
-	if(H.mind.special_role == "apprentice")
+	if(H.mind.special_role == "apprentice" && owner_is_apprentice == 0)
 		temp = "If you got caught sneaking a peak from your teacher's spellbook, you'd likely be expelled from the Wizard Academy. Better not."
+		return
+	if(H.mind.special_role == "Wizard" && owner_is_apprentice == 1)
+		temp = "If word gets around you are stealing an apprentice's books, you'll be banished from the Wizard Academy. Better not."
 		return
 
 	var/datum/spellbook_entry/E = null
@@ -719,6 +752,14 @@
 
 /obj/item/weapon/spellbook/oneuse/Initialize() //No need to init
 	return
+
+/obj/item/weapon/spellbook/oneuse/examine(mob/user)
+	..()
+	if(/obj/effect/proc_holder/spell/targeted/charge in user.mind.spell_list)
+		if(uses == 1)
+			user << "<font color=blue>The spellbook can still be used!</font>"
+		else
+			user << "<font color=red>The spellbook has been used up!</font>"
 
 /obj/item/weapon/spellbook/oneuse/attack_self(mob/user)
 	var/obj/effect/proc_holder/spell/S = new spell

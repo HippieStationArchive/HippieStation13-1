@@ -37,7 +37,7 @@
 			else if(istype(item, /obj/item/weapon/spellbook))
 				if(istype(item, /obj/item/weapon/spellbook/oneuse))
 					var/obj/item/weapon/spellbook/oneuse/I = item
-					if(prob(80))
+					if(prob(50))
 						L.visible_message("<span class='warning'>[I] catches fire!</span>")
 						qdel(I)
 					else
