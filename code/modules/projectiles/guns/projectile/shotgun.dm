@@ -524,3 +524,23 @@
 	unique_rename = 0
 	unique_reskin = 0
 	can_sawn = FALSE
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/contender
+	desc = "The Contender G13, a favorite amongst space hunters. An easily modified bluespace barrel and break action loading means it can use any ammo available. It can only hold one round at a time, however."
+	name = "Contender G13"
+	icon_state = "contender"
+	origin_tech = "combat=6;materials=4;bluespace=5"
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/contender
+	mag_load_sound = 'sound/effects/wep_magazines/rifle_load.ogg'
+	mag_unload_sound = 'sound/effects/wep_magazines/rifle_bolt_back.ogg'
+	can_sawn = FALSE
+	unique_rename = 0
+	unique_reskin = 0
+	can_suppress = 1
+	w_class = 2
+	materials = list(MAT_METAL=1000)
+
+/obj/item/weapon/gun/projectile/revolver/doublebarrel/contender/syndie
+	desc = "A modified Contender G13, custom ordered for the Syndicate. An easily modified bluespace barrel and break action loading means it can use any ammo available. It can only hold one round at a time, however."
+	icon_state = "contender-s"
+	pin = /obj/item/device/firing_pin/area/syndicate

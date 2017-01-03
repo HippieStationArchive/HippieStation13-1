@@ -307,6 +307,13 @@ var/list/uplink_items = list()
 	surplus = 50
 	excludefrom = list(/datum/game_mode/traitor/king_disk)
 
+/datum/uplink_item/dangerous/contender
+	name = "Syndicate Contender"
+	desc = "A syndicate version of the latest G13 Contender. The bluespace barrel means it can fire any ammo, but only 1 chamber"
+	item = /obj/item/weapon/gun/projectile/revolver/doublebarrel/contender/syndie
+	cost = 10
+	surplus = 15
+
 /datum/uplink_item/dangerous/smg
 	name = "C-20r Submachine Gun"
 	desc = "A fully-loaded Scarborough Arms bullpup submachine gun that fires .45 rounds with a 20-round magazine and is compatible with suppressors."

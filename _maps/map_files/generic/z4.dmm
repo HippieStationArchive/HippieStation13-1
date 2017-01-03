@@ -1003,7 +1003,7 @@
 "to" = (/obj/item/stack/sheet/glass{amount = 50},/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/singularity_engine)
 "tp" = (/obj/structure/rack{dir = 8; layer = 2.9},/obj/item/weapon/tank/internals/emergency_oxygen/engi,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/singularity_engine)
 "tq" = (/obj/machinery/door/airlock/glass_engineering{name = "Engineering"; req_access_txt = "10"; req_one_access_txt = "0"},/turf/simulated/floor/plasteel/airless{icon_state = "floorgrime"},/area/derelict/singularity_engine)
-"tr" = (/obj/structure/table,/obj/item/device/radio/intercom{broadcasting = 0; freerange = 0; listening = 1; name = "Common Channel"; pixel_x = -25; pixel_y = 0},/obj/item/weapon/reagent_containers/food/drinks/bottle/vodka/badminka,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/russian)
+"tr" = (/obj/structure/table,/obj/item/device/radio/intercom{broadcasting = 0; freerange = 0; listening = 1; name = "Common Channel"; pixel_x = -25; pixel_y = 0},/obj/item/weapon/reagent_containers/food/drinks/bottle/vodka/badminka,/obj/item/weapon/gun/projectile/revolver/doublebarrel/contender,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/russian)
 "ts" = (/obj/item/weapon/tank/internals/oxygen/red,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/russian)
 "tt" = (/obj/machinery/vending/cigarette,/turf/simulated/floor/plasteel{icon_state = "floorgrime"},/area/derelict/russian)
 "tu" = (/obj/machinery/light{icon_state = "tube1"; dir = 4},/turf/simulated/floor/plasteel{tag = "icon-damaged2"; icon_state = "damaged2"},/area/derelict/singularity_engine)
