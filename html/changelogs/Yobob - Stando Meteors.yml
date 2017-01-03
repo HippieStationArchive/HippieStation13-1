@@ -1,0 +1,7 @@
+author: Yobob
+
+delete-after: True
+
+changes:
+  - tweak: "Arrow has a lower kill chance but spawns from meteor storms"
+

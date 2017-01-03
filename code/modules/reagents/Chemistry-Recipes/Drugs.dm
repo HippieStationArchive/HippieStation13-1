@@ -5,6 +5,7 @@
 	required_reagents = list("mercury" = 1, "sugar" = 1, "lithium" = 1)
 	result_amount = 3
 
+/*
 /datum/chemical_reaction/crank
 	name = "Crank"
 	id = "crank"
@@ -13,7 +14,7 @@
 	result_amount = 5
 	mix_message = "The mixture violently reacts, leaving behind a few crystalline shards."
 	required_temp = 390
-
+*/
 
 /datum/chemical_reaction/krokodil
 	name = "Krokodil"
@@ -24,6 +25,7 @@
 	mix_message = "The mixture dries into a pale blue powder."
 	required_temp = 380
 
+/*
 /datum/chemical_reaction/methamphetamine
 	name = "methamphetamine"
 	id = "methamphetamine"
@@ -31,6 +33,7 @@
 	required_reagents = list("ephedrine" = 1, "iodine" = 1, "phosphorus" = 1, "hydrogen" = 1)
 	result_amount = 4
 	required_temp = 374
+*/
 
 /datum/chemical_reaction/heroin
 	name = "Heroin"
@@ -40,6 +43,7 @@
 	result_amount = 4
 	required_temp = 420
 
+/*
 /datum/chemical_reaction/bath_salts
 	name = "bath_salts"
 	id = "bath_salts"
@@ -47,6 +51,7 @@
 	required_reagents = list("????" = 1, "saltpetre" = 1, "nutriment" = 1, "cleaner" = 1, "tea" = 1, "mercury" = 1)
 	result_amount = 6
 	required_temp = 374
+*/
 
 /datum/chemical_reaction/aranesp
 	name = "aranesp"

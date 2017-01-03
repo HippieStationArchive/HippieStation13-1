@@ -34,6 +34,8 @@
 	imp_in << "<span class='notice'>You activate your microbomb implant.</span>"
 //If the delay is short, just blow up already jeez
 	if(delay <= 7)
+		message_admins("An explosive implant has detonated at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[imp_in.x];Y=[imp_in.y];Z=[imp_in.z]'>([imp_in.x],[imp_in.y],[imp_in.z])</a> owned by [key_name_admin(imp_in)]")
+		log_game("An explosive implant has detonated at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[imp_in.x];Y=[imp_in.y];Z=[imp_in.z]'>([imp_in.x],[imp_in.y],[imp_in.z])</a> owned by [key_name_admin(imp_in)]")
 		explosion(src,heavy,medium,weak,weak, flame_range = weak)
 		if(imp_in)
 			imp_in.gib()
@@ -66,6 +68,8 @@
 	sleep(delay/4)
 	playsound(loc, 'sound/items/timer.ogg', 30, 0)
 	sleep(delay/4)
+	message_admins("An explosive implant has detonated at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[imp_in.x];Y=[imp_in.y];Z=[imp_in.z]'>([imp_in.x],[imp_in.y],[imp_in.z])</a> owned by [key_name_admin(imp_in)]")
+	log_game("An explosive implant has detonated at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[imp_in.x];Y=[imp_in.y];Z=[imp_in.z]'>([imp_in.x],[imp_in.y],[imp_in.z])</a> owned by [key_name_admin(imp_in)]")
 	explosion(src,heavy,medium,weak,weak, flame_range = weak)
 	if(imp_in)
 		imp_in.gib()

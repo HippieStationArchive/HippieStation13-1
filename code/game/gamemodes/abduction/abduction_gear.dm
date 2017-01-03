@@ -17,7 +17,7 @@
 	action_button_is_hands_free = 1
 	var/mode = VEST_STEALTH
 	var/stealth_active = 0
-	var/combat_cooldown = 10
+	/*var/combat_cooldown = 10*/
 	var/datum/icon_snapshot/disguise
 	var/stealth_armor = list(melee = 15, bullet = 15, laser = 15, energy = 15, bomb = 15, bio = 15, rad = 15)
 	var/combat_armor = list(melee = 50, bullet = 50, laser = 50, energy = 50, bomb = 50, bio = 50, rad = 50)
@@ -87,14 +87,17 @@
 
 /obj/item/clothing/suit/armor/abductor/vest/ui_action_click()
 	switch(mode)
+		/*
 		if(VEST_COMBAT)
 			Adrenaline()
+		*/
 		if(VEST_STEALTH)
 			if(stealth_active)
 				DeactivateStealth()
 			else
 				ActivateStealth()
 
+/*
 /obj/item/clothing/suit/armor/abductor/vest/proc/Adrenaline()
 	if(istype(src.loc, /mob/living/carbon/human))
 		if(combat_cooldown != initial(combat_cooldown))
@@ -114,6 +117,7 @@
 	combat_cooldown++
 	if(combat_cooldown==initial(combat_cooldown))
 		SSobj.processing.Remove(src)
+*/
 
 /obj/item/device/abductor/proc/IsAbductor(user)
 	if(ishuman(user))
