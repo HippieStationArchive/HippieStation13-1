@@ -15,4 +15,5 @@ changes:
   - experiment: "WIZARD NERFS DOWN BELOW!"
   - tweak: "Mutate now has a cooldown of 100 (up from 60) BUT upgrades on Mutate are now more effective."
   - tweak: "Disintegrate now requires a 2-second charge-up time that can be interrupted."
+  - tweak: "Lichdom byy default now has a 5 minute cooldown and dying increases said cooldown by 2 minutes, making deaths very punishing."
   - tweak: "Animated Statues now only deal 30 damage instead of 82!!!, cooldown for the AoE blind has been doubled and the range has been reduced from 10 > 7"
