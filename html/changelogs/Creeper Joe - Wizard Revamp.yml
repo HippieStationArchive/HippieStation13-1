@@ -1,0 +1,18 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes:
+  - rscadd: "New spell: Inferno. Create a rapidly growing cube of fire centered at your location, spreading outward at a rapid pace and igniting everything you can see. The closer to the center, the longer a fire will burn. Also harms the wizard."
+  - rscadd: "Apprentices can now choose their own spells from their own spellbook (which cannot be used by the wizard that summoned them, don't try), having 5 spell points to spend. They may NOT spend it on Artifacts (minus the Staff of Healing) or Summon spells. There's now also a 3 wizard scrolls pack that costs 5 but can only be bought once. To favor the more altruistic players among us who are willing to give other people the chance of fulfilling their wizard murder boning dream."
+  - rscadd: "Casting Repulse ontop of someone now deals 40 brute damage, forcing them to scream and stunning for ~6 seconds. Cooldown is now 25."
+  - experiment: "WIZARD BUFFS DOWN BELOW!"
+  - tweak: "Singularity Hammer, Necromantic Stone & Summon Events now only cost 1 each."
+  - tweak: "Cooldown has been reduced to 50, shattering statues now requires you to deal (their health + 25) in damage, which is a reduction of 75 health! (being in crit subtracts from their health, someone that gets statued while in crit with -25 health will have only 1hp as a statue)."
+  - tweak: "Blind now stuns for 1 second and has it's cooldown lowered to 20."
+  - tweak: "Lightning Bolt cooldown is now 25 and charges twice as fast."
+  - tweak: "Charge now has a 50% chance to burn a spellbook instead of 80%. Having Charge as a spell will allow you to see if a spellbook is already used or not."
+  - experiment: "WIZARD NERFS DOWN BELOW!"
+  - tweak: "Mutate now has a cooldown of 100 (up from 60) BUT upgrades on Mutate are now more effective.
+  - tweak: "Disintegrate now requires a 2-second charge-up time that can be interrupted."
+  - tweak: "Animated Statues now only deal 30 damage instead of 82!!!, cooldown for the AoE blind has been doubled and the range has been reduced from 10 > 7"
