@@ -464,7 +464,7 @@
 /datum/reagent/medicine/ephedrine
 	name = "Ephedrine"
 	id = "ephedrine"
-	description = "Increases stamina regeneration. Overdose deals toxin damage and inhibits breathing."
+	description = "Increases minorly stamina regeneration. Overdose deals toxin damage and inhibits breathing. Mainly to be used in other recipes."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
