@@ -323,3 +323,11 @@ research holder datum.
 	icon = 'icons/obj/items.dmi'
 	icon_state = "gooncode"
 	stored = new/datum/tech/programming{level = 4}
+	
+/obj/item/weapon/disk/tech_disk/cmcode
+	name = "Colonial Marines Code disk"
+	desc = "A disk containing Colonial Marines source code for further research."
+	icon = 'icons/obj/items.dmi'
+	icon_state = "cmcode"
+	embed_chance = 85
+	stored = new/datum/tech/syndicate{level = 4}
