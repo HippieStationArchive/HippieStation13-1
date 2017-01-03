@@ -55,7 +55,7 @@
 		if(playerC < required_players)
 			return 0
 		if(max_players && (playerC > max_players))
-			return 0
+			return 2
 	antag_candidates = get_players_for_role(antag_flag)
 	if(!Debug2)
 		if(antag_candidates.len < required_enemies)
