@@ -136,28 +136,28 @@
 			else
 				dat += "Brass Knuckles<br>"
 
-			dat += "(25 Influence) "
-			if(points >= 25)
+			dat += "(30 Influence) "
+			if(points >= 30)
 				dat += "<a href='?src=\ref[src];purchase=.38revolver'>.38 Revolver</a><br>"
 			else
 				dat += ".38 Revolver<br>"
 
-			dat += "(10 Influence) "
-			if(points >= 10)
+			dat += "(20 Influence) "
+			if(points >= 20)
 				dat += "<a href='?src=\ref[src];purchase=.38ammo'>.38 Ammo</a><br>"
 			else
 				dat += ".38 Ammo<br>"
 
-			dat += "(35 Influence) "
-			if(points >= 35)
+			dat += "(50 Influence) "
+			if(points >= 50)
 				dat += "<a href='?src=\ref[src];purchase=tommyammo'>Thompson Ammo</a><br>"
 			else
 				dat += "Thompson Ammo<br>"
 
 			dat += "<br>"
 
-			dat += "(55 Influence) "
-			if(points >= 55)
+			dat += "(80 Influence) "
+			if(points >= 80)
 				dat += "<a href='?src=\ref[src];purchase=thompson'>Thompson Machinegun</a><br>"
 			else
 				dat += "Thompson Machinegun <br>"
