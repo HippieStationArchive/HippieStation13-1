@@ -151,7 +151,7 @@
 	else
 		target.apply_damage(force, BRUTE)	//If it's a mob but not a humanoid, just give it plain brute damage.
 
-	target.visible_message("<span class='danger'>[target.name] was pucked by [user] 'eh!</span>", \
+	target.visible_message("<span class='danger'>[target.name] was [pick(attack_verb)] by [user] 'eh!</span>", \
 		"<span class='userdanger'>You hear a loud crack 'eh!</span>", \
 		"<span class='italics'>You hear the sound of bones crunching 'eh!</span>")
 
@@ -159,7 +159,7 @@
 	spawn(1)
 		target.throw_at(throw_target, 10, 0.2)	//Throws the target 10 tiles
 
-	playsound(loc, 'sound/weapons/resonator_blast.ogg', 50, 1)
+	playsound(loc, specthrowsound, 50, 1)
 
 	add_logs(user, target, "used a hockey stick on", src) //Very unlikeley non-antags are going to get their hands on this but just in case...
 
@@ -261,5 +261,5 @@
 			apply_effect(2, STUN)
 			playsound(src, 'sound/effects/snap.ogg', 50, 1)
 			visible_message("<span class='danger'>[src] has been dazed by a holopuck!</span>", \
-											"<span class='userdanger'>[src] has been dazed by a holopuck!</span>")
+											"<span class='userdanger'>[name] has been dazed by a holopuck!</span>")
 			qdel(PP)
