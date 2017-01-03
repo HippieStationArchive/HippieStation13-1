@@ -13,6 +13,7 @@
 	var/recalling = 0
 	var/outfits = 3
 	var/free_pen = 0
+	var/recall_cost = 25
 	var/promotable = 0
 
 /obj/item/device/gangtool/New() //Initialize supply point income if it hasn't already been started
@@ -58,7 +59,11 @@
 		else
 			dat += "<b>Create Gang Outfit</b> (Restocking)<br>"
 		if(isboss)
-			dat += "<a href='?src=\ref[src];choice=recall'>Recall Emergency Shuttle</a><br>"
+			dat += "([recall_cost] Influence) "
+			if(points >= recall_cost)
+				dat += "<a href='?src=\ref[src];choice=recall'>Recall Emergency Shuttle</a><br>"
+			else
+				dat += "Recall Emergency Shuttle"
 
 		dat += "<br>"
 		dat += "<B>Purchase Weapons:</B><br>"
@@ -153,8 +158,6 @@
 				dat += "<a href='?src=\ref[src];purchase=tommyammo'>Thompson Ammo</a><br>"
 			else
 				dat += "Thompson Ammo<br>"
-
-			dat += "<br>"
 
 			dat += "(80 Influence) "
 			if(points >= 80)
@@ -413,6 +416,7 @@
 				else
 					usr << "<span class='notice'>The <b>dominator</b> can be spawned only on territory controlled by your gang.</span>"
 
+					
 		if(item_type)
 			gang.points -= pointcost
 			if(ispath(item_type))
@@ -430,7 +434,15 @@
 		switch(href_list["choice"])
 			if("recall")
 				if(usr.mind == gang.bosses[1])
-					recall(usr)
+					gang.points -= recall_cost
+					gang.message_gangtools("[usr.real_name] has attempted to recall the shuttle for [recall_cost] Influence.")
+					log_game("The shuttle has attempted to be recalled by [key_name(usr)] ([gang.name] Gang) for [recall_cost] Influence.")
+					if(recall(usr))
+						recall_cost *= 2
+					else
+						gang.points += recall_spent_points
+						gang.message_gangtools("[usr.real_name]'s attempt to recall the shuttle has failed and has been refunded [recall_cost] Influence.")
+						log_game("[key_name(usr)]'s ([gang.name] Gang) recall attempt has failed and has been refunded [recall_cost] Influence.")
 			if("outfit")
 				if(outfits > 0)
 					if(gang.gang_outfit(usr,src))
