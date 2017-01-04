@@ -392,21 +392,6 @@
 	log_name = "CT"
 	category = "Assistance"
 
-/datum/spellbook_entry/item/contractbundle
-	name = "Contract of Apprenticeship Bundle"
-	desc = "Contains 3 contracts of apprenticeship for the price of 2.5 granting you the ability to start your own mini ragin mages round."
-	item_path = /obj/item/weapon/antag_spawner/contract
-	log_name = "CT"
-	category = "Assistance"
-	cost = 5
-	limit = 1
-
-/datum/spellbook_entry/item/contractbundle/Buy()
-	..()
-	new /obj/item/weapon/antag_spawner/contract(get_turf(src))
-	new /obj/item/weapon/antag_spawner/contract(get_turf(src))
-
-
 /datum/spellbook_entry/item/plasma_fist
 	name = "Plasma Fist Scroll"
 	desc = "Consider this more of a \"Spell Bundle\". This artifact is NOT reccomended for weaklings. An ancient scroll that will teach you the art of Plasma Fist. With it's various combos you can knock people down in the area around you, light them on fire and finally perform the PLASMA FIST that will gib your target."
