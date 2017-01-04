@@ -136,7 +136,7 @@
 	item_state = "sax"
 	force = 10
 	cooldowntime = 150
-	var/list/sounds = list('sound/items/sax.ogg', 'sound/items/sax2.ogg','sound/items/sax3.ogg','sound/items/sax4.ogg','sound/items/sax5.ogg')
+	var/list/sounds = list('sound/items/sax.ogg', 'sound/items/sax2.ogg','sound/items/sax3.ogg','sound/items/sax4.ogg','sound/items/sax5.ogg','sound/items/sax6.ogg')
 
 /obj/item/weapon/bikehorn/saxophone/attack_self(mob/user)
 	if(!spam_flag)
