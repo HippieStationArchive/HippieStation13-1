@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/aoe_turf/conjure/eruption
 	name = "Eruption"
-	desc = "Gradually set fire to <b>EVERYTHING</b> you can see, setting fire to yourself as well. The closer the fire is to the centre, the longer it lasts. In addition, you are also stunned (but not knocked down) for the duration of the spell. You should seriously consider getting a method to deal with the precarious situation of setting yourself on fire, with spells such as Ethereal Jaunt or the Wizard Hardsuit."
+	desc = "Gradually set fire to <b>EVERYTHING</b> you can see, setting fire to yourself as well. The closer the fire is to the centre, the longer it lasts. In addition, you are also stunned (but not knocked down) for the duration of the spell. You should seriously consider getting a method to deal with the precarious situation of setting yourself on fire, with spells such as Ethereal Jaunt or the Wizard Hardsuit. You are stunned for the duration of tihs spell (but not weakened)."
 
 	school = "evocation"
 	charge_max = 600
@@ -18,6 +18,7 @@
 	sound = "sound/magic/Fireball.ogg"
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/eruption/cast(list/targets,mob/user = usr)
+	user.stunned += 4
 	var/list/viewarea = view(range, usr)
 	targets = list()
 	for(var/turf/T in viewarea)
