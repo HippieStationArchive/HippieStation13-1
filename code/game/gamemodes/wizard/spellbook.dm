@@ -98,7 +98,7 @@
 
 /datum/spellbook_entry/eruption
 	name = "Eruption"
-	spell_type = /obj/effect/proc_holder/spell/targeted/trigger/eruptionmulti
+	spell_type = /obj/effect/proc_holder/spell/aoe_turf/conjure/eruption
 	log_name = "Eruption"
 
 /datum/spellbook_entry/soulflare
