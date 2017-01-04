@@ -3,7 +3,7 @@ author: Creeper Joe
 delete-after: True
 
 changes:
-  - rscadd: "New spell: Inferno. Create a rapidly growing cube of fire centered at your location, spreading outward at a rapid pace and igniting everything you can see. The closer to the center, the longer a fire will burn. Also harms the wizard."
+  - rscadd: "New spell: Eruption. Create a rapidly growing cube of fire centered at your location, spreading outward at a rapid pace and igniting everything you can see. The closer to the center, the longer a fire will burn. Also harms the wizard."
   - rscadd: "Apprentices can now choose their own spells from their own spellbook (which cannot be used by the wizard that summoned them, don't try), having 5 spell points to spend. They may NOT spend it on Artifacts (minus the Staff of Healing) or Summon spells."
   - rscadd: "Casting Repulse ontop of someone now deals 40 brute damage, forcing them to scream and stunning for ~6 seconds. Cooldown is now 25."
   - experiment: "WIZARD BUFFS DOWN BELOW!"
