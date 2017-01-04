@@ -25,7 +25,7 @@
 	sound="sound/magic/Necrolord_Soulflare_Cast.ogg"
 
 /obj/effect/proc_holder/spell/targeted/inflict_handler/soulflare/cast(list/targets, mob/user = usr)
-	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/SF = locate(/obj/effect/proc_holder/spell/targeted/trigger/soulflare, user.mob_spell_list)
+	var/obj/effect/proc_holder/spell/targeted/trigger/soulflare/SF = locate(/obj/effect/proc_holder/spell/targeted/trigger/soulflare, user.mind.spell_list)
 	var/mob/living/carbon/target = targets[1]
 	if(target.health <= 0)
 		if(!target.stat && DEAD)
@@ -57,12 +57,12 @@
 
 /obj/effect/proc_holder/spell/targeted/explodecorpse/cast(list/targets, mob/user = usr)
 	..()
-	var/mob/living/carbon/target = targets[1]
+	var/mob/living/carbon/human/target = targets[1]
 	if(!target)
 		return
 	if(target.stat & DEAD)
 		message_admins("[user] casted corpse explosion on [target]")
-		explosion(target,1,2,5)
+		explosion(target,1,2,4,2)
 		user << "<font color=purple><b>You redirect an absurd amount of energy into [target]'s corpse, causing it to violently explode!</b></font>"
 	else
 		user << "<span class='warning'>[target] isn't a dead corpse!</span>"
@@ -70,7 +70,7 @@
 
 /obj/effect/proc_holder/spell/self/soulsplit
 	name = "Soulsplit"
-	desc = "Enter a wraith-like form, traveling at very high speeds and moving through objects. However, maintaining this form requires you to be at full health to maintain concentration!"
+	desc = "Enter a wraith-like form, traveling at very high speeds and moving through objects. However, maintaining this form requires you to be at 90 health to maintain concentration!"
 	school = "transmutation"
 	charge_max = 300
 	clothes_req = 1
@@ -82,7 +82,7 @@
 	action_icon_state = "soulsplit"
 
 /obj/effect/proc_holder/spell/self/soulsplit/cast(list/targets, mob/living/user = usr)
-	if(user.health >= 100)
+	if(user.health >= 90)
 		user << "<font color=purple><b>You enter your wraith form, leaving you vulnerable yet very manoeuvrable.</b></font>"
 		user.incorporeal_move = 2
 		spawn(35)

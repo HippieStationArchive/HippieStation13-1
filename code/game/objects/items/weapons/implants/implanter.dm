@@ -57,14 +57,16 @@
 
 
 
-
+/*
 /obj/item/weapon/implanter/adrenalin
 	name = "implanter (adrenalin)"
 
 /obj/item/weapon/implanter/adrenalin/New()
 	imp = new /obj/item/weapon/implant/adrenalin(src)
 	..()
+*/
 
+/*
 /obj/item/weapon/implanter/false_adrenalin
 	name = "implanter (adrenalin)"
 	desc = "A sterile automatic implant injector. It looks like it has been tampered with..."
@@ -72,6 +74,7 @@
 /obj/item/weapon/implanter/false_adrenalin/New()
 	imp = new /obj/item/weapon/implant/adrenalin/false(src)
 	..()
+*/
 
 /obj/item/weapon/implanter/emp
 	name = "implanter (EMP)"

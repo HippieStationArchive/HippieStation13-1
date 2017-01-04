@@ -1,3 +1,11 @@
+#define SKINTYPE_MONKEY 1
+#define SKINTYPE_ALIEN 2
+#define SKINTYPE_CORGI 3
+
+#define MEATTYPE_MONKEY 1
+#define MEATTYPE_ALIEN 2
+#define MEATTYPE_CORGI 3
+
 //////Kitchen Spike
 
 /obj/structure/kitchenspike_frame
@@ -30,7 +38,11 @@
 	anchored = 1
 	buckle_lying = 0
 	can_buckle = 1
-
+	var/meat = 0
+	var/occupied = 0
+	var/meattype = null
+	var/skin = 0
+	var/skintype = null
 
 /obj/structure/kitchenspike/attack_paw(mob/user)
 	return src.attack_hand(usr)
@@ -51,8 +63,44 @@
 		return
 	if(istype(I, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = I
+		if(istype(G.affecting, /mob/living/carbon/monkey))
+			if(src.occupied == 0)
+				src.icon_state = "spikebloody"
+				src.occupied = 1
+				src.meat = 5
+				src.meattype = MEATTYPE_MONKEY
+				src.skin = 1
+				src.skintype = SKINTYPE_MONKEY
+				for(var/mob/O in viewers(src, null))
+					O.show_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
+				qdel(G.affecting)
+				qdel(G)
+		if(istype(G.affecting, /mob/living/carbon/alien))
+			if(src.occupied == 0)
+				src.icon_state = "spikebloodygreen"
+				src.occupied = 1
+				src.meat = 5
+				src.meattype = MEATTYPE_ALIEN
+				src.skin = 1
+				src.skintype = SKINTYPE_ALIEN
+				for(var/mob/O in viewers(src, null))
+					O.show_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
+				qdel(G.affecting)
+				qdel(G)
+		if(istype(G.affecting, /mob/living/simple_animal/pet/dog/corgi))
+			if(src.occupied == 0)
+				src.icon_state = "spikebloodycorgi"
+				src.occupied = 1
+				src.meat = 5
+				src.meattype = MEATTYPE_CORGI
+				src.skin = 1
+				src.skintype = SKINTYPE_CORGI
+				for(var/mob/O in viewers(src, null))
+					O.show_message(text("<span class='danger'>[user] has forced [G.affecting] onto the spike, killing them instantly!</span>"))
+				qdel(G.affecting)
+				qdel(G)
 		if(istype(G.affecting, /mob/living/))
-			if(!buckled_mob)
+			if(!buckled_mob && !occupied)
 				if(do_mob(user, src, 120))
 					if(buckled_mob) //to prevent spam/queing up attacks
 						return
@@ -119,3 +167,53 @@
 		unbuckle_mob()
 		M.emote("scream")
 		M.AdjustWeakened(10)
+
+/obj/structure/kitchenspike/attack_hand(mob/user as mob)
+	if(..())
+		return
+	if(src.occupied)
+		if(src.meattype == MEATTYPE_MONKEY && src.skintype == SKINTYPE_MONKEY)
+			if(src.skin >= 1)
+				src.skin--
+				new /obj/item/stack/sheet/animalhide/monkey(src.loc)
+				user << "You remove the hide from the monkey!"
+			else if(src.meat > 1)
+				src.meat--
+				new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/monkey(src.loc )
+				usr << "You remove some meat from the monkey."
+			else if(src.meat == 1)
+				src.meat--
+				new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/monkey(src.loc)
+				usr << "You remove the last piece of meat from the monkey!"
+				src.icon_state = "spike"
+				src.occupied = 0
+		if(src.meattype == MEATTYPE_ALIEN && src.skintype == SKINTYPE_ALIEN)
+			if(src.skin >= 1)
+				src.skin--
+				new /obj/item/stack/sheet/animalhide/xeno(src.loc)
+				user << "You remove the hide from the alien!"
+			else if(src.meat > 1)
+				src.meat--
+				new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/xeno(src.loc )
+				usr << "You remove some meat from the alien."
+			else if(src.meat == 1)
+				src.meat--
+				new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/xeno(src.loc)
+				usr << "You remove the last piece of meat from the alien!"
+				src.icon_state = "spike"
+				src.occupied = 0
+		if(src.meattype == MEATTYPE_CORGI && src.skintype == SKINTYPE_CORGI)
+			if(src.skin >= 1)
+				src.skin--
+				new /obj/item/stack/sheet/animalhide/corgi(src.loc)
+				user << "You remove the hide from the corgi!"
+			else if(src.meat > 1)
+				src.meat--
+				new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/corgi(src.loc )
+				usr << "You remove some meat from the corgi."
+			else if(src.meat == 1)
+				src.meat--
+				new /obj/item/weapon/reagent_containers/food/snacks/meat/slab/corgi(src.loc)
+				usr << "You remove the last piece of meat from the corgi!"
+				src.icon_state = "spike"
+				src.occupied = 0
