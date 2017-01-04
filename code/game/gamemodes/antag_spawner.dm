@@ -25,7 +25,7 @@
 		dat = "<B>Contract of Apprenticeship:</B><BR>"
 		dat += "<I>Using this contract, you may summon an apprentice to aid you on your mission.</I><BR>"
 		dat += "<I>If you are unable to establish contact with your apprentice, you can feed the contract back to the spellbook to refund your points.</I><BR>"
-		dat += "<B>Your apprentice will get his own spellbook with 5 spell points, however it may not be spend on rituals or artifacts.</B><BR>"
+		dat += "<B>Your apprentice will get his own spellbook with 5 spell points, however it may not be spent on rituals or artifacts.</B><BR>"
 		dat += "<A href='byond://?src=\ref[src];school=proceed'>Proceed</A><BR>"
 		dat += "<I>Note that the acceptance of an apprentice is final and the Wizard Academy is not responsible for your loss at life at the hands of an apprentince.</I><BR>"
 	user << browse(dat, "window=radio")
