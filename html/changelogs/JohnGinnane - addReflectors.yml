@@ -1,0 +1,7 @@
+author: John Ginnane
+
+delete-after: True
+
+changes: 
+  - rscadd: "Added large movable mirrors that can reflect lasers and beams. Use wrench to anchor, and crowbar to change direction."
+  - rscadd: "Requires two sheets of plasteel to craft the base, one sheet of silver, one sheet of reinforced glass, with a screwdriver to finish it."

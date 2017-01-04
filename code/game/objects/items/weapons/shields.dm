@@ -21,6 +21,11 @@
 	origin_tech = "materials=2"
 	block_chance = list(melee = 60, bullet = 50, laser = 50, energy = 50) //Skeleton-exclusive atm, sooo
 
+/obj/item/weapon/shield/roman/toy /* Used for the Theatre Vending Machine */
+	name = "replica roman shield"
+	desc = "Bears an inscription on the inside: <i>\"Made in Space China\"</i>."
+	block_chance = list(melee = 0, bullet = 0, laser = 0, energy = 0)
+
 //Deployable shields, woo!
 //Basically "defensive stance" for shields like riot, etc.
 /obj/item/weapon/shield/deployable

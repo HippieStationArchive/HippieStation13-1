@@ -33,4 +33,4 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - rscadd: "Added the meat-pizza mob into the game. These strange living pizzas are found in deep space and may be hostile, engage them at your own risk."
+  - tweak: "Minor tweaks to the administrative jumpsuit's description and sprite."

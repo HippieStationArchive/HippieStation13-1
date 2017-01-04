@@ -502,3 +502,13 @@ obj/item/ammo_box/magazine/tommygunm45
 	caliber = "musket"
 	max_ammo = 1
 	multiload = 0
+
+// contender
+
+/obj/item/ammo_box/magazine/internal/shot/contender
+	name = "contender internal magazine"
+	caliber = "all"
+	ammo_type = /obj/item/ammo_casing
+	max_ammo = 1
+	multiload = 0
+
