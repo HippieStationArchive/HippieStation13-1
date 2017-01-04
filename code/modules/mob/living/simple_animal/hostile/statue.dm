@@ -18,9 +18,9 @@
 	health = 50000
 	healable = 0
 
-	harm_intent_damage = 70
-	melee_damage_lower = 68
-	melee_damage_upper = 83
+	harm_intent_damage = 30
+	melee_damage_lower = 30
+	melee_damage_upper = 30
 	attacktext = "claws"
 	attack_sound = 'sound/hallucinations/growl1.ogg'
 
@@ -179,9 +179,9 @@
 	desc = "Your prey will be momentarily blind for you to advance on them."
 
 	message = "<span class='notice'>You glare your eyes.</span>"
-	charge_max = 600
+	charge_max = 1200
 	clothes_req = 0
-	range = 10
+	range = 7
 
 /obj/effect/proc_holder/spell/aoe_turf/blindness/cast(list/targets,mob/user = usr)
 	for(var/mob/living/L in living_mob_list)
