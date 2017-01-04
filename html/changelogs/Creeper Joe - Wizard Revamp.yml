@@ -4,7 +4,7 @@ delete-after: True
 
 changes:
   - rscadd: "New spell: Inferno. Create a rapidly growing cube of fire centered at your location, spreading outward at a rapid pace and igniting everything you can see. The closer to the center, the longer a fire will burn. Also harms the wizard."
-  - rscadd: "Apprentices can now choose their own spells from their own spellbook (which cannot be used by the wizard that summoned them, don't try), having 5 spell points to spend. They may NOT spend it on Artifacts (minus the Staff of Healing) or Summon spells. There's now also a 3 wizard scrolls pack that costs 5 but can only be bought once. To favor the more altruistic players among us who are willing to give other people the chance of fulfilling their wizard murder boning dream."
+  - rscadd: "Apprentices can now choose their own spells from their own spellbook (which cannot be used by the wizard that summoned them, don't try), having 5 spell points to spend. They may NOT spend it on Artifacts (minus the Staff of Healing) or Summon spells."
   - rscadd: "Casting Repulse ontop of someone now deals 40 brute damage, forcing them to scream and stunning for ~6 seconds. Cooldown is now 25."
   - experiment: "WIZARD BUFFS DOWN BELOW!"
   - tweak: "Singularity Hammer, Necromantic Stone & Summon Events now only cost 1 each."
@@ -15,5 +15,5 @@ changes:
   - experiment: "WIZARD NERFS DOWN BELOW!"
   - tweak: "Mutate now has a cooldown of 100 (up from 60) BUT upgrades on Mutate are now more effective."
   - tweak: "Disintegrate now requires a 2-second charge-up time that can be interrupted."
-  - tweak: "Lichdom byy default now has a 5 minute cooldown and dying increases said cooldown by 2 minutes, making deaths very punishing."
+  - tweak: "Lichdom byy default now has a 5 minute cooldown and dying increases said cooldown by 2 minutes, making deaths very punishing. In addition, certain items can no longer be made into a phylactery and the phylactery will always be a huge item."
   - tweak: "Animated Statues now only deal 30 damage instead of 82!!!, cooldown for the AoE blind has been doubled and the range has been reduced from 10 > 7"
