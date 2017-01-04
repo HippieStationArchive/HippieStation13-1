@@ -532,6 +532,13 @@ var/list/uplink_items = list()
 	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 	cost = 20
 
+/datum/uplink_item/dangerous/hockey
+	name = "Ka-Nada Boxed S.S.F Hockey Set"
+	desc = "The iconic extreme environment gear used by Ka-Nada special sport forces. Used to devastating effect during the great northern sports wars of the second great athletic republic. The unmistakable grey and red gear provides great protection from most if not all environmental hazards and combat threats in addition to coming with the signature weapon of the Ka-Nada SSF and all terrain Hyper-Blades for enhanced mobility and lethality in melee combat. This power comes at a cost as your Ka-Nada benefactors expect absolute devotion to the cause, once equipped you will be unable to remove the gear so be sure to make it count."
+	item = /obj/item/weapon/storage/box/syndie_kit/hockeyset
+	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
+	cost = 20
+
 /datum/uplink_item/dangerous/sniper
 	name = "Sniper Rifle"
 	desc = "Ranged fury, syndicate style. Features a scope for precision fire."

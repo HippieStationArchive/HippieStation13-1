@@ -416,3 +416,19 @@
 			M.adjustFireLoss(20)
 			playsound(M, 'sound/machines/defib_zap.ogg', 50, 1, -1)
 		return 1
+
+/obj/item/clothing/suit/armor/hockey
+	name = "Ka-Nada winter sport combat suit"
+	desc = "A suit of armour used by Ka-Nada Special Sport Forces teams. Protects you from the elements as well as your opponents."
+	icon_state = "hockey_suit"
+	item_state = "hockey_suit"
+	blood_overlay_type = "armor"
+	allowed = list(/obj/item/weapon/tank/internals/oxygen)
+	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
+	flags = THICKMATERIAL | NODROP | STOPSPRESSUREDMAGE
+	armor = list(melee = 65, bullet = 75, laser = 60, energy = 45, bomb = 75, bio = 0, rad = 30)
+	unacidable = 1
