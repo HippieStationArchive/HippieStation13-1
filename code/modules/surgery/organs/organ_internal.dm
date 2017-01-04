@@ -158,6 +158,7 @@
 	throw_speed = 4
 	force = 5
 	hitsound = 'sound/misc/fart.ogg'
+	damage_type = TOX
 	body_parts_covered = HEAD
 	slot_flags = SLOT_HEAD
 	embed_chance = 5 //This is a joke
