@@ -290,7 +290,7 @@
 
 /obj/effect/proc_holder/spell/aoe_turf/repulse
 	name = "Repulse"
-	desc = "This spell throws everything around the user away."
+	desc = "This spell throws everything around the user away. If someone is on the same tile as you when you cast it, they are dealt heavy damage and stunned for an extremely long period of time."
 	charge_max = 250
 	clothes_req = 1
 	invocation = "GITTAH WEIGH"
