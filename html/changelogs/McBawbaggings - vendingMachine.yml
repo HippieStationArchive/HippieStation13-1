@@ -1,6 +1,0 @@
-author: McBawbaggings
-
-delete-after: True
-
-changes: 
-  - rscadd: "Adds a new vending machine in board storage. The vending machine contains spare parts for machines. Has a RPED for a coin. Requires Engineering Access. Credits to Fury McFlurry for the sprites!"

@@ -1,6 +1,0 @@
-author: Memendia
-
-delete-after: True
-
-changes: 
-  - bugfix: "Cult runes no longer work on Supply shuttle."

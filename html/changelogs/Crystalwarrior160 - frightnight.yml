@@ -1,9 +1,0 @@
-author: Crystalwarrior160
-
-delete-after: True
-
-changes: 
-  - rscadd: "Frightbots and Screambots are added to the game! If you remember them pre-rebase, well, they're better than ever!"
-  - rscadd: "Frightbots now have an emag function. Emag them and their scary stories will have a phyiscal effect on all people nearby!"
-  - rscadd: "To make frightbots: Get some metal to make a chasis, stuff a station-bounced radio into them."
-  - rscadd: "To make screambots: Make a screambot chasis, apply welder, apply cyborg arm."

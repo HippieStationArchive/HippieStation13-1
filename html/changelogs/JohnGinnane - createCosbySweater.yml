@@ -1,8 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - rscadd: "Added the Cosby sweater to premium section of the Clothes Mate vending machine."
-  - rscadd: "Added custom screams to the sweater so when you equip it any screaming will be replaced by a Cosby sound."
-  - tweak: "Changed how screaming works to allow for some clothes to add alternate screams."

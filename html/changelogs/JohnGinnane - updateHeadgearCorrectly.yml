@@ -1,6 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed the headgear items (masks, glasses, head) not updating correctly, leading to 'invisible' gas masks."

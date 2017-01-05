@@ -1,6 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - rscadd: "Added a new type of circuit board that allows you to upgrade securitrons and medibots by adding a speed boost for when they're tracking down their targets."
