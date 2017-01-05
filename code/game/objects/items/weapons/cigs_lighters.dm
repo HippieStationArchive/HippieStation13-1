@@ -671,8 +671,12 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			flags &= ~OPENCONTAINER
 			user << "<span class='notice'>You close the cap on the [src].</span>"
 			overlays.Cut()
-
-
+				playsound(get_turf(src), 'sound/effects/pop_expl.ogg', 50, 0)
+				src.visible_message("The unstable mutagen reacts violently with the [src]'s circuitry!")
+				qdel(src)
+				var/datum/effect_system/spark_spread/sp = new /datum/effect_system/spark_spread
+				sp.set_up(5, 1, src)
+				sp.start()
 	if(istype(O, /obj/item/device/multitool))
 		if(screw && !emagged)//also kinky
 			if(!super)
@@ -738,7 +742,6 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 				if(prob(25)) //Slightly more reactive than cigarettes, but less than it was before
 					var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
 					reagents.reaction(C, INGEST, fraction)
-					reagents.trans_to(C, REAGENTS_METABOLISM)
 				if(reagents.get_reagent_amount("welding_fuel"))
 					//HOT STUFF
 					C.fire_stacks = 2
