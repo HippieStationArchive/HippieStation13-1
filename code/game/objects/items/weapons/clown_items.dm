@@ -130,7 +130,7 @@
 
 /obj/item/weapon/bikehorn/saxophone
 	name = "saxophone"
-	desc = "NEVER GONNA DANCE AGAIN, GUILTY FEET HAVE GOT NO RHYTHM"
+	desc = "NEVER GONNA DANCE AGAIN, GUILTY FEET HAVE GOT NO RHYTHM!"
 	icon = 'icons/obj/musician.dmi'
 	icon_state = "sax"
 	item_state = "sax"
