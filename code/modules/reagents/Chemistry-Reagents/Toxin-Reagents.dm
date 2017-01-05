@@ -38,7 +38,8 @@
 		if(prob(98))
 			randmutb(M)
 		else
-			randmutg(M)
+			var/datum/mutation/human/HM = pick((good_mutations) - mutations_list[HULK])
+			HM.force_give(M)
 		M.updateappearance()
 		M.domutcheck()
 	..()

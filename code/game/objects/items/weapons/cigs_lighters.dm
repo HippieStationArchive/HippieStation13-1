@@ -193,7 +193,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 				var/mob/M = loc
 				M.unEquip(src, 1)
 			qdel(src)
-			return
+			return 
 		if(reagents.get_reagent_amount("blackpowder")) // blackpowder isn't as strong as nitroglycerin but it's stronger than welding fuel
 			var/datum/effect_system/reagents_explosion/e = new()
 			e.set_up(round(reagents.get_reagent_amount("blackpowder") / 3.75, 1), get_turf(src), 0, 0)
@@ -671,13 +671,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			flags &= ~OPENCONTAINER
 			user << "<span class='notice'>You close the cap on the [src].</span>"
 			overlays.Cut()
-			if(src.reagents.has_reagent("mutagen"))
-				playsound(get_turf(src), 'sound/effects/pop_expl.ogg', 50, 0)
-				user.visible_message("The unstable mutagen reacts violently with the [src]'s circuitry!")
-				qdel(src)
-				var/datum/effect_system/spark_spread/sp = new /datum/effect_system/spark_spread
-				sp.set_up(5, 1, src)
-				sp.start()
+
 	if(istype(O, /obj/item/device/multitool))
 		if(screw && !emagged)//also kinky
 			if(!super)
@@ -740,14 +734,13 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		if(iscarbon(loc))
 			var/mob/living/carbon/C = loc
 			if (src == C.wear_mask) // if it's in the human/monkey mouth, transfer reagents to the mob
-				if(prob(25)) //Slightly more reactive than cigarettes, but less than it was before
+				if(prob(18)) //Slightly more reactive than cigarettes, but EVEN LESS than it was before
 					var/fraction = min(REAGENTS_METABOLISM/reagents.total_volume, 1)
 					reagents.reaction(C, INGEST, fraction)
 				if(reagents.get_reagent_amount("welding_fuel"))
 					//HOT STUFF
 					C.fire_stacks = 2
 					C.IgniteMob()
-
 				if(reagents.get_reagent_amount("plasma")) // the plasma explodes when exposed to fire
 					var/datum/effect_system/reagents_explosion/e = new()
 					e.set_up(round(reagents.get_reagent_amount("plasma") / 2.5, 1), get_turf(src), 0, 0)
@@ -756,8 +749,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 						var/mob/M = loc
 						M.unEquip(src, 1)
 					qdel(src)
+				reagents.trans_to(C, REAGENTS_METABOLISM)
 				return
-		reagents.remove_any(REAGENTS_METABOLISM)
+			reagents.remove_any(REAGENTS_METABOLISM)
 
 /obj/item/clothing/mask/vape/process()
 	var/mob/living/M = loc
