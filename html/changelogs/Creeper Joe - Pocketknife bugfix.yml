@@ -1,6 +1,0 @@
-author: Creeper Joe
-
-delete-after: True
-
-changes:
-  - bugfix: "Fixed the pocket knife not having an inhand sprite while it was extended."

@@ -1,5 +1,0 @@
-author: McBawbaggings
-delete-after: True
-changes:
-  - tweak: "Removes anti-stuns. Refer to https://github.com/HippieStationCode/HippieStation13/pull/3198 for a complete changelog."
-  - tweak: "Theatre shield is now a toy roman shield. It offers no bonuses."

@@ -1,8 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed wiped pAIs causing massive amounts of run time errors."
-  - bugfix: "Fixed changelings not entering headslugs automatically."
-  - rscadd: "Re-enabled headslugs."

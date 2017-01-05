@@ -1,6 +1,0 @@
-author: Creeper Joe
-
-delete-after: True
-
-changes:
-  - rscadd: "Adds the Honk Render as a Traitor Item for 7 TC (Clown-specific). Allows you to spawn 10 clowns from a dimensional rift that are passive until attacked."

@@ -1,6 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed butts thinking they were full after consuming food/pills."

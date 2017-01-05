@@ -1,5 +1,0 @@
-author: Kierany9
-delete-after: True
-changes: 
-  - tweak: "Modified the chance of each gamemode occuring. Traitor and Changeling variants have been made rarer, whereas Cult, Gangs, Nuke Ops and Malf AI have been made more common."
-  - rscadd: "'ayy lmao'"

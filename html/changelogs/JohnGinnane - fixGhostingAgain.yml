@@ -1,6 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed players sometimes being forced out of new bodies and into their old one if they're debrained or decapitated."
