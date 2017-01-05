@@ -331,6 +331,8 @@
 	keytype = null
 	callme = "lawn mower"
 	var/emagged = 0
+	var/list/driveSounds = list('sound/effects/mowermove1.ogg', 'sound/effects/mowermove2.ogg')
+	var/list/gibSounds = list('sound/effects/mowermovesquish.ogg')
 
 /obj/structure/bed/chair/janicart/lawnmower/emag_act(mob/user)
 	if(emagged)
@@ -376,13 +378,13 @@
 			if(M == buckled_mob)
 				continue
 			if(M.lying)
-				visible_message("<span class='danger'>The [callme] grinds [M] into a fine paste!</span>")
+				visible_message("<span class='danger'>The [callme] grinds [M.name] into a fine paste!</span>")
 				M.gib()
 				shake_camera(M, 20, 1)
 				gibbed = 1
 
 	if(gibbed)
 		shake_camera(buckled_mob, 10, 1)
-		playsound(loc, 'sound/effects/mowermovesquish.ogg', 75, 1)
+		playsound(loc, pick(gibSounds), 75, 1)
 	else
-		playsound(loc, pick('sound/effects/mowermove1.ogg', 'sound/effects/mowermove2.ogg'), 75, 1)
+		playsound(loc, pick(driveSounds), 75, 1)
