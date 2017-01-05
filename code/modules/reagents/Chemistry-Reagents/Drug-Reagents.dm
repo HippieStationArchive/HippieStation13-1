@@ -635,33 +635,3 @@
 	..()
 	return
 
-/datum/reagent/drug/flipvium
-	name = "Flipvium"
-	id = "flipvium"
-	description = "It looks like it wants to do a backflip!"
-	color = "#fcdd80" //rgb(252, 221, 128)
-	reagent_state = LIQUID
-	overdose_threshold = 50
-
-/datum/reagent/drug/flipvium/on_mob_life(mob/living/M)
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if(prob(14))
-			if(H.getStaminaLoss() < H.health)
-				H.emote("flip")
-	..()
-	return
-
-/datum/reagent/drug/flipvium/overdose_process(mob/living/M)
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if(prob(26))
-			H.emote("flip")
-		if(prob(10))
-			if(H.getStaminaLoss() < H.health)
-				H.adjustStaminaLoss(rand(5,15))
-			if(H.getStaminaLoss() > H.health)
-				H << "<span class='warning'>You feel really tired from all of that flipping!</span>"
-	..()
-	return
-	

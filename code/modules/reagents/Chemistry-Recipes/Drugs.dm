@@ -74,10 +74,5 @@
 	required_reagents = list("blood" = 2, "facid" = 1)
 	result_amount = 3
 
-/datum/chemical_reaction/flipvium
-	name = "flipvium"
-	id = "flipvium"
-	result = "flipvium"
-	required_reagents = list("banana" = 1, "lithium" = 5)
-	result_amount = 6
+
 	
