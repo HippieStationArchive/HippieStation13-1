@@ -308,10 +308,10 @@ mob/living/carbon/human/updateappearance(icon_update=1, mutcolor_update=0, mutat
 	var/datum/mutation/human/HM = pick((bad_mutations | not_good_mutations) - mutations_list[RACEMUT])
 	. = HM.force_give(M)
 
-/proc/randmutg(mob/living/carbon/M, var/nohulk as num)
+/proc/randmutg(mob/living/carbon/M, var/nohulk=0)
 	if(!M.has_dna())
 		return
-	if(nohulk == 0)
+	if(!nohulk)
 		var/datum/mutation/human/HM = pick(good_mutations)
 		. = HM.force_give(M)
 	else
