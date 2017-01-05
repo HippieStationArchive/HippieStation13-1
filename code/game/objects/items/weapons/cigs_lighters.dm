@@ -671,8 +671,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			flags &= ~OPENCONTAINER
 			user << "<span class='notice'>You close the cap on the [src].</span>"
 			overlays.Cut()
+			if(src.reagents.has_reagent("mutagen"))
 				playsound(get_turf(src), 'sound/effects/pop_expl.ogg', 50, 0)
-				src.visible_message("The unstable mutagen reacts violently with the [src]'s circuitry!")
+				user.visible_message("The unstable mutagen reacts violently with the [src]'s circuitry!")
 				qdel(src)
 				var/datum/effect_system/spark_spread/sp = new /datum/effect_system/spark_spread
 				sp.set_up(5, 1, src)
