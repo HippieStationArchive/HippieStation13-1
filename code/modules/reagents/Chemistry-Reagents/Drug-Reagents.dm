@@ -602,6 +602,7 @@
 			M << "<span class='danger'>The flipping is so intense you begin to tire </span>"
 			H.confused +=4
 			M.adjustStaminaLoss(10)
+			H.transform *= -1
 	..()
 	return
 
