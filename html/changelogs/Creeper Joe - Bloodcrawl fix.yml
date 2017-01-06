@@ -1,7 +1,0 @@
-author: Creeper Joe
-
-delete-after: True
-
-changes:
-  - bugfix: "Fixed an exploit that allowed you to reach Centcomm by using Bloodcrawl"
-  - tweak: "Bloodcrawl can't be cast on the Centcomm Z-Level anymore."

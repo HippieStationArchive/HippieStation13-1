@@ -8,7 +8,7 @@
 	invocation = "FORTI GY AMA"
 	invocation_type = "shout"
 	range = 7
-	cooldown_min = 60 //35 deciseconds reduction per rank
+	cooldown_min = 75 //35 deciseconds reduction per rank
 
 	max_targets = 0
 
@@ -37,7 +37,7 @@
 	desc = "This spell causes you to turn into a hulk and gain laser vision for a short while."
 
 	school = "transmutation"
-	charge_max = 400
+	charge_max = 1000
 	clothes_req = 1
 	invocation = "BIRUZ BENNAR"
 	invocation_type = "shout"
@@ -222,7 +222,7 @@
 	desc = "This spell temporarily blinds a single person and does not require wizard garb."
 
 	school = "transmutation"
-	charge_max = 300
+	charge_max = 200
 	clothes_req = 0
 	invocation = "STI KALY"
 	invocation_type = "whisper"
@@ -242,6 +242,7 @@
 
 
 /obj/effect/proc_holder/spell/targeted/inflict_handler/blind
+	amt_weakened = 1
 	amt_eye_blind = 10
 	amt_eye_blurry = 20
 	sound="sound/magic/Blind.ogg"
@@ -289,13 +290,13 @@
 
 /obj/effect/proc_holder/spell/aoe_turf/repulse
 	name = "Repulse"
-	desc = "This spell throws everything around the user away."
-	charge_max = 400
+	desc = "This spell throws everything around the user away. If someone is on the same tile as you when you cast it, they are dealt heavy damage and stunned for an extremely long period of time."
+	charge_max = 250
 	clothes_req = 1
 	invocation = "GITTAH WEIGH"
 	invocation_type = "shout"
 	range = 5
-	cooldown_min = 150
+	cooldown_min = 100
 	selection_type = "view"
 	sound = 'sound/magic/Repulse.ogg'
 	var/maxthrow = 5
@@ -326,8 +327,9 @@
 		if(distfromcaster == 0)
 			if(istype(AM, /mob/living))
 				var/mob/living/M = AM
-				M.Weaken(5)
-				M.adjustBruteLoss(5)
+				M.emote("scream")
+				M.Weaken(6)
+				M.adjustBruteLoss(40)
 				M << "<span class='userdanger'>You're slammed into the floor by [user]!</span>"
 		else
 			if(istype(AM, /mob/living))

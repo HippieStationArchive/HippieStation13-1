@@ -1,6 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed users being able to spam priority announcements."
