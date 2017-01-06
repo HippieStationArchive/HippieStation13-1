@@ -113,8 +113,8 @@
 	return
 
 /obj/machinery/field/proc/bump_field(atom/movable/AM as mob|obj)
-	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
-	s.set_up(5, 1, AM.loc)
-	s.start()
+//	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
+//	s.set_up(5, 1, AM.loc)
+//	s.start()
 	var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
 	AM.throw_at(target, 200, 4)
