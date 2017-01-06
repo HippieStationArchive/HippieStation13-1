@@ -134,6 +134,7 @@
 	icon = 'icons/obj/musician.dmi'
 	icon_state = "sax"
 	item_state = "sax"
+	honksound = null
 	force = 10
 	cooldowntime = 150
 	var/list/sounds = list('sound/items/sax.ogg', 'sound/items/sax2.ogg','sound/items/sax3.ogg','sound/items/sax4.ogg','sound/items/sax5.ogg')
