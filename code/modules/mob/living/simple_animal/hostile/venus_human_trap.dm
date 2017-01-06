@@ -51,7 +51,7 @@
 	icon_state = "venus_human_trap"
 	health = 50
 	maxHealth = 50
-	ranged = 1
+	ranged = 0
 	harm_intent_damage = 5
 	melee_damage_lower = 25
 	melee_damage_upper = 25
