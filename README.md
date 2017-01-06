@@ -1,7 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/HippieStationCode/HippieStation13.png?label=ready&title=Ready)](https://waffle.io/HippieStationCode/HippieStation13)
 ##/tg/station v1.0.1 
 
-[![Build Status](https://travis-ci.org/tgstation/-tg-station.png)](https://travis-ci.org/tgstation/-tg-station)
+[![Build Status](https://travis-ci.org/HippieStationCode/HippieStation13.svg?branch=master)](https://travis-ci.org/HippieStationCode/HippieStation13)
 
 
 **Website:** http://www.tgstation13.org <BR>
