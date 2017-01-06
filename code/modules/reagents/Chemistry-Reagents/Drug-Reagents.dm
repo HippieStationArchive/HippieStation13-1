@@ -576,6 +576,7 @@
 	overdose_threshold = 40
 
 /datum/reagent/drug/burpium/on_mob_life(mob/living/M)
+		var/high_message = pick("A pressure begins to build in your esophagus.", "You feel the odd urge to burp.")
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(prob(15))
@@ -611,8 +612,10 @@
 	color = "#d6d6d6" //rgb(214, 214, 214)
 	reagent_state = LIQUID
 	overdose_threshold = 40
+	
 
 /datum/reagent/drug/spookium/on_mob_life(mob/living/M)
+	var/high_message = pick("It feels like someone is breathing down your neck.", "Something feels...wrong.", "The room feels like it got a little bit darker and colder...")
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(prob(7))
