@@ -120,7 +120,7 @@
 
 			// limit to 20-90 degC
 			set_temperature = dd_range(20, 90, set_temperature + value)
-
+			updateUsrDialog()
 		if("cellremove")
 			if(open && cell && !usr.get_active_hand())
 				cell.updateicon()
@@ -128,7 +128,7 @@
 				cell.add_fingerprint(usr)
 				cell = null
 				usr.visible_message("[usr] removes the power cell from \the [src].", "<span class='notice'>You remove the power cell from \the [src].</span>")
-
+				updateUsrDialog()
 
 		if("cellinstall")
 			if(open && !cell)
@@ -139,10 +139,8 @@
 					cell = C
 					C.loc = src
 					C.add_fingerprint(usr)
-
 					usr.visible_message("[usr] inserts a power cell into \the [src].", "<span class='notice'>You insert the power cell into \the [src].</span>")
-
-	updateDialog()
+					updateUsrDialog()
 
 
 /obj/machinery/space_heater/process()
