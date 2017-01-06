@@ -24,7 +24,7 @@
 		L.disabilities += MUTE
 		L.faction += "mimic" //Stops mimics from instaqdeling people in statues
 
-		health = L.health + 100 //stoning damaged mobs will result in easier to shatter statues
+		health = L.health + 25 //stoning damaged mobs will result in easier to shatter statues
 		intialTox = L.getToxLoss()
 		intialFire = L.getFireLoss()
 		intialBrute = L.getBruteLoss()

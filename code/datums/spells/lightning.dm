@@ -2,7 +2,7 @@
 	name = "Lightning Bolt"
 	desc = "Charges up and throws a lightning bolt at nearby enemies. Classic."
 	charge_type = "recharge"
-	charge_max	= 300
+	charge_max	= 250
 	clothes_req = 1
 	invocation = "UN'LTD P'WAH!"
 	invocation_type = "shout"
@@ -24,11 +24,11 @@
 /obj/effect/proc_holder/spell/targeted/lightning/proc/StartChargeup(mob/user = usr)
 	ready = 1
 	user << "<span class='notice'>You start gathering the power.</span>"
-	Snd = new/sound('sound/magic/lightning_chargeup.ogg',channel = 7)
+	Snd = new/sound('sound/magic/lightning_chargeup2.ogg',channel = 7)
 	halo = image("icon"='icons/effects/effects.dmi',"icon_state" ="electricity","layer" = EFFECTS_LAYER)
 	user.overlays.Add(halo)
 	playsound(get_turf(user), Snd, 50, 0)
-	if(do_mob(user,user,100,uninterruptible=1))
+	if(do_mob(user,user,50,uninterruptible=1))
 		if(ready && cast_check(skipcharge=1))
 			choose_targets()
 		else

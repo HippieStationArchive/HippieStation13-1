@@ -86,7 +86,7 @@
 "bH" = (/obj/machinery/atmospherics/components/unary/vent_scrubber{on = 1; scrub_N2O = 0; scrub_Toxins = 0},/obj/effect/decal/cleanable/blood,/turf/simulated/floor/wood,/area/gammaderelict/captains)
 "bI" = (/obj/machinery/power/apc{dir = 1; name = "Gamma Derelict Captains APC"; pixel_x = 1; pixel_y = 24},/obj/structure/cable{icon_state = "0-2"; pixel_y = 1; d2 = 2},/obj/effect/decal/cleanable/blood,/obj/effect/decal/cleanable/blood/gibs,/turf/simulated/floor/wood,/area/gammaderelict/captains)
 "bJ" = (/obj/structure/grille,/obj/structure/window/reinforced/fulltile,/turf/simulated/floor/plating,/area/gammaderelict/bridge)
-"bK" = (/obj/structure/table,/obj/item/weapon/implanter/false_adrenalin,/turf/simulated/floor/plasteel/shuttle,/area/gammaderelict/bridge)
+"bK" = (/obj/structure/table,/turf/simulated/floor/plasteel/shuttle,/area/gammaderelict/bridge)
 "bL" = (/turf/simulated/wall/shuttle{tag = "icon-swall_f11"; icon_state = "swall_f11"},/area/gammaderelict/bridge)
 "bM" = (/obj/structure/sign/fire,/turf/simulated/wall/rust,/area/gammaderelict/grav)
 "bN" = (/turf/simulated/wall/rust,/area/gammaderelict/grav)

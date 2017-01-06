@@ -80,7 +80,7 @@
 			if("implant")
 				new /obj/item/weapon/implanter/freedom(src)
 				new /obj/item/weapon/implanter/emp(src)
-				new /obj/item/weapon/implanter/adrenalin(src)
+				/*new /obj/item/weapon/implanter/adrenalin(src)*/
 				new /obj/item/weapon/storage/box/syndie_kit/imp_macrobomb(src)
 				new /obj/item/weapon/implanter/storage(src)
 				new /obj/item/weapon/storage/box/syndie_kit/imp_mindslave(src)
@@ -103,7 +103,7 @@
 			if("darklord")
 				new /obj/item/weapon/melee/energy/sword/saber(src)
 				new /obj/item/weapon/melee/energy/sword/saber(src)
-				new /obj/item/weapon/implanter/adrenalin(src)
+				/*new /obj/item/weapon/implanter/adrenalin(src)*/
 				new /obj/item/weapon/dnainjector/telemut/darkbundle(src)
 				new /obj/item/clothing/suit/hooded/chaplain_hoodie(src)
 				new /obj/item/weapon/storage/box/syndie_kit/imp_mindslave(src)
@@ -236,7 +236,7 @@
 	new /obj/item/weapon/reagent_containers/syringe/bioterror(src)
 	return
 
-
+/*
 /obj/item/weapon/storage/box/syndie_kit/imp_adrenal
 	name = "boxed adrenal implant (with injector)"
 
@@ -246,6 +246,7 @@
 	O.imp = new /obj/item/weapon/implant/adrenalin(O)
 	O.update_icon()
 	return
+*/
 
 
 /obj/item/weapon/storage/box/syndie_kit/imp_storage
@@ -321,4 +322,14 @@ obj/item/weapon/storage/box/syndie_kit/shotguntender
 	new /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath(src)
 	new /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath(src)
 	new /obj/item/ammo_casing/shotgun/dart/bioterror(src)
+	return
+
+/obj/item/weapon/storage/box/syndie_kit/hockeyset/New()
+	..()
+	new /obj/item/weapon/hockeypack(src)
+	new /obj/item/clothing/head/helmet/hockey(src)
+	new /obj/item/clothing/shoes/rollerskates/hockey(src)
+	new /obj/item/clothing/suit/armor/hockey(src)
+	new /obj/item/clothing/mask/gas/hockey(src)
+	new /obj/item/weapon/storage/belt/hockey(src)
 	return

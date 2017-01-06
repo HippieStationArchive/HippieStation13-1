@@ -128,6 +128,26 @@
 	honksound = 'sound/items/AirHorn2.ogg'
 	cooldowntime = 50
 
+/obj/item/weapon/bikehorn/saxophone
+	name = "saxophone"
+	desc = "NEVER GONNA DANCE AGAIN, GUILTY FEET HAVE GOT NO RHYTHM"
+	icon = 'icons/obj/musician.dmi'
+	icon_state = "sax"
+	item_state = "sax"
+	force = 10
+	cooldowntime = 150
+	var/list/sounds = list('sound/items/sax.ogg', 'sound/items/sax2.ogg','sound/items/sax3.ogg','sound/items/sax4.ogg','sound/items/sax5.ogg')
+
+/obj/item/weapon/bikehorn/saxophone/attack_self(mob/user)
+	if(!spam_flag)
+		spam_flag = 1
+		playsound(src.loc, pick(sounds), 50, 1)
+		user.visible_message("<B>[user]</B> lays down a [pick("sexy", "sensuous", "libidinous","spicy","flirtatious","salacious","sizzling","carnal","hedonistic")] riff on \his saxophone!")
+		src.add_fingerprint(user)
+		spawn(cooldowntime)
+			spam_flag = 0
+	return
+
 /obj/item/weapon/reagent_containers/food/drinks/soda_cans/canned_laughter
 	name = "Canned Laughter"
 	desc = "Just looking at this makes you want to giggle."

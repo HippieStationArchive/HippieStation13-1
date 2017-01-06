@@ -220,18 +220,20 @@
 	desc = "Contains several paralyzing reagents."
 	list_reagents = list("neurotoxin" = 5, "mutetoxin" = 5, "sodium_thiopental" = 5)
 
+/*
 /obj/item/weapon/reagent_containers/syringe/stimulants
 	name = "Stimpack"
 	desc = "Contains stimulants."
 	amount_per_transfer_from_this = 50
 	volume = 50
 	list_reagents = list("stimulants" = 50)
+*/
 
 /obj/item/weapon/reagent_containers/syringe/calomel
 	name = "syringe (calomel)"
 	desc = "Contains calomel."
 	list_reagents = list("calomel" = 15)
-	
+
 /obj/item/weapon/reagent_containers/syringe/plasma
 	name = "syringe (plasma)"
 	desc = "Contains plasma."

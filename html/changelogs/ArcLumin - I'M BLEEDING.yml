@@ -1,4 +1,0 @@
-author: ArcLumin
-delete-after: True
-changes: 
-  - bugfix: "Properly gives heparin damage scaling based on the amount the victim is bleeding"
