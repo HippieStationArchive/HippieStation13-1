@@ -592,17 +592,18 @@
 /datum/reagent/drug/flipout/overdose_process(mob/living/M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
+		H.SpinAnimation(16,100)
 		if(prob(70))
-			H.SpinAnimation(16,100)
 			H.Dizzy(20)
 			if(M.canmove && !istype(M.loc, /atom/movable))
 				for(var/i = 0, i < 4, i++)
 				step(M, pick(cardinal))
 		if(prob(15))
-			M << "<span class='danger'>The flipping is so intense you begin to tire.</span>"
+			M << "<span class='danger'>The flipping is so intense you begin to tire </span>"
 			H.confused +=4
-			M.adjustStaminaLoss(15)
+			M.adjustStaminaLoss(10)
 	..()
+	return
 
 /datum/reagent/drug/flipout/addiction_act_stage1(mob/living/M)
 	if(ishuman(M))
@@ -638,7 +639,7 @@
 		var/mob/living/carbon/human/H = M
 		H.SpinAnimation(2,100)
 		if(prob(10))
-			M << "<span class='danger'>Your flipping has become so intense you've become an improvised generator.</span>"
+			M << "<span class='danger'>Your flipping has become so intense you've become an improvised generator </span>"
 			H.Dizzy(25)
 			M.electrocute_act(rand(1,5), 1, 1)
 			playsound(M, "sparks", 50, 1)
