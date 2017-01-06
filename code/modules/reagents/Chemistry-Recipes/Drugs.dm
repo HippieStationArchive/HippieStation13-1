@@ -59,3 +59,12 @@
 	result = "aranesp"
 	required_reagents = list("epinephrine" = 1, "atropine" = 1, "morphine" = 1)
 	result_amount = 3
+
+/datum/chemical_reaction/flipout
+	name = "Flipout"
+	id = "flipout"
+	result = "flipout"
+	required_reagents = list("space_drugs" = 1, "cryptobiolin" = 1, "lube" = 1, "mindbreaker" = 1)
+	result_amount = 4
+	mix_message = "The solution coalesces into a mysterious state of matter that appears to be ever shifting"
+	required_temp = 50
