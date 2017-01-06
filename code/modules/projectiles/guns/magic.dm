@@ -12,7 +12,7 @@
 	var/recharge_rate = 4
 	var/charge_tick = 0
 	var/can_charge = 1
-	var/ammo_type
+	var/ammo_type = /obj/item/ammo_casing/magic
 	var/no_den_usage
 	origin_tech = null
 	clumsy_check = 0

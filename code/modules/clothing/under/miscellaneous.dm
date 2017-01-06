@@ -55,6 +55,28 @@
 
 	return ..()
 
+/obj/item/clothing/under/robbie
+	name = "Real Villain"
+	desc = "We Are Number One"
+	icon_state = "robbie"
+	item_state = "robbie"
+	item_color = "robbie"
+	can_adjust = 0
+	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0) //villains need some protection against super heroes
+	alternate_screams = list('sound/voice/robbie1.ogg','sound/voice/robbie2.ogg','sound/voice/robbie3.ogg','sound/voice/robbie4.ogg','sound/voice/robbie5.ogg','sound/voice/robbie6.ogg','sound/voice/robbie7.ogg','sound/voice/robbie8.ogg','sound/voice/robbie9.ogg','sound/voice/robbie10.ogg','sound/voice/robbie11.ogg','sound/voice/robbie12.ogg','sound/voice/robbie13.ogg','sound/voice/robbie14.ogg','sound/voice/robbie15.ogg')
+	
+/obj/item/clothing/under/robbie/equipped(mob/living/carbon/user, slot)
+	if(slot == slot_w_uniform)
+		user.add_screams(src.alternate_screams)
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.reindex_screams()
+		else
+			user.reindex_screams()
+
+	return ..()
+
 /obj/item/clothing/under/sl_suit
 	desc = "It's a very amish looking suit."
 	name = "amish suit"
@@ -154,18 +176,18 @@
 	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/under/acj
-	name = "administrative cybernetic jumpsuit"
-	icon_state = "syndicate"
+	name = "administrative jumpsuit"
+	icon_state = "black"
 	item_state = "bl_suit"
-	item_color = "syndicate"
-	desc = "A cybernetically enhanced jumpsuit used for administrative duties."
+	item_color = "black"
+	desc = "An enhanced jumpsuit used for administrative duties."
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.01
-	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD
 	armor = list(melee = 100, bullet = 100, laser = 100,energy = 100, bomb = 100, bio = 100, rad = 100)
-	cold_protection = CHEST | GROIN | LEGS | FEET | ARMS | HANDS
+	cold_protection = CHEST | GROIN | LEGS | FEET | ARMS | HANDS | HEAD
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
-	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
 	can_adjust = 0
 	burn_state = -1 //Won't burn in fires

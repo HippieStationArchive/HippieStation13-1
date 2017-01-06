@@ -603,7 +603,7 @@
 	var/limiteduses = TRUE
 	var/killchance = FALSE
 	var/useonothers = FALSE
-	var/percentchance = 50
+	var/percentchance = 20
 	var/cooldown = FALSE
 	var/playsound = FALSE
 	var/usekey = TRUE
@@ -611,7 +611,8 @@
 	var/list/holo_black = list(
 		/mob/living/simple_animal/revenant,
 		/mob/living/simple_animal/hostile/statue,
-		/mob/living/simple_animal/hostile/true_changeling
+		/mob/living/simple_animal/hostile/true_changeling,
+		/mob/living/simple_animal/hostile/guardian
 	)
 
 /obj/item/weapon/guardiancreator/attack_self(mob/living/user)
@@ -631,7 +632,7 @@
 		if(killchance == TRUE)
 			if(prob(percentchance))
 				user << "You didn't have enough fighting spirit!"
-				user.adjustFireLoss(100000) //Husks them to stop clone cheeze (not anymore now that its on mining)
+				user.setToxLoss(100000) //Husks them to stop clone cheeze (not anymore now that it in an event)
 				return
 		user << "[use_message]"
 		var/list/mob/dead/observer/candidates = pollCandidates("Do you want to play as the [mob_name] of [user.real_name]?", "pAI", null, FALSE, 100)
@@ -665,6 +666,8 @@
 
 /obj/item/weapon/guardiancreator/attack(mob/M, mob/living/carbon/human/user)
 	if(inUse == TRUE)
+		return
+	if(!M.client)
 		return
 	user << "<span class='notice'>You raise the arrow into the air.</span>"
 	user.visible_message("<span class='warning'>[user] prepares to stab [M]!</span>")

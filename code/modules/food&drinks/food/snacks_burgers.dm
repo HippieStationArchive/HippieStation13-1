@@ -209,7 +209,7 @@
 	name = "Meatseek Quarter Pounder"
 	desc = "It's practically begging to be eaten."
 	icon_state = "meatseek_quarter"
-	list_reagents = list("nutriment" = 3, "vitamin" = 2,"mushroomhallucinogen" = 2, "crank" = 3)
+	list_reagents = list("nutriment" = 3, "vitamin" = 2,"mushroomhallucinogen" = 2 /*"crank" = 3*/)
 
 /obj/item/weapon/reagent_containers/food/snacks/burger/meatseek_big
 	name = "Meatseek Big Stack"

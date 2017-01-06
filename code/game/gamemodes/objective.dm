@@ -1336,7 +1336,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 /datum/objective/crew/medical/makechem/New(datum/mind/target, text, datum/mind/themind)
 	..()
 	amount = rand(10,20) * 100
-	var/list/blacklist = list(/datum/reagent/medicine, /datum/reagent/medicine/mine_salve, /datum/reagent/medicine/omnizine, /datum/reagent/medicine/stimulants, /datum/reagent/medicine/antitoxin, /datum/reagent/medicine/syndicate_nanites, /datum/reagent/medicine/dexalin) + typesof(/datum/reagent/medicine/adminordrazine)
+	var/list/blacklist = list(/datum/reagent/medicine, /datum/reagent/medicine/mine_salve, /datum/reagent/medicine/omnizine, /datum/reagent/medicine/antitoxin, /datum/reagent/medicine/syndicate_nanites, /datum/reagent/medicine/dexalin) + typesof(/datum/reagent/medicine/adminordrazine)
 	var/list/possiblechems = typesof(/datum/reagent/medicine) - blacklist
 	var/forlooptime = rand(3,5)
 	for(var/i in 1 to forlooptime)
@@ -1378,7 +1378,7 @@ var/list/deptpoints = list(/datum/objective/crew/research = 0, /datum/objective/
 
 /datum/objective/crew/medical/havechem/New(datum/mind/target, text, datum/mind/themind)
 	..()
-	var/list/blacklist = list(/datum/reagent/drug, /datum/reagent/drug/fartium, /datum/reagent/drug/changelingAdrenaline, /datum/reagent/drug/changelingAdrenaline2)
+	var/list/blacklist = list(/datum/reagent/drug, /datum/reagent/drug/fartium, /datum/reagent/drug/changelingAdrenaline2)
 	chempath = pick(typesof(/datum/reagent/drug) - blacklist)
 	chemid = initial(chempath.id)
 

@@ -307,6 +307,13 @@ var/list/uplink_items = list()
 	surplus = 50
 	excludefrom = list(/datum/game_mode/traitor/king_disk)
 
+/datum/uplink_item/dangerous/contender
+	name = "Syndicate Contender"
+	desc = "A syndicate version of the latest G13 Contender. The bluespace barrel means it can fire any ammo, but only 1 chamber"
+	item = /obj/item/weapon/gun/projectile/revolver/doublebarrel/contender/syndie
+	cost = 10
+	surplus = 15
+
 /datum/uplink_item/dangerous/smg
 	name = "C-20r Submachine Gun"
 	desc = "A fully-loaded Scarborough Arms bullpup submachine gun that fires .45 rounds with a 20-round magazine and is compatible with suppressors."
@@ -522,6 +529,13 @@ var/list/uplink_items = list()
 	name = "Holoparasites"
 	desc = "Though capable of near sorcerous feats via use of hardlight holograms and nanomachines, they require an organic host as a home base and source of fuel."
 	item = /obj/item/weapon/storage/box/syndie_kit/guardian
+	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
+	cost = 20
+
+/datum/uplink_item/dangerous/hockey
+	name = "Ka-Nada Boxed S.S.F Hockey Set"
+	desc = "The iconic extreme environment gear used by Ka-Nada special sport forces. Used to devastating effect during the great northern sports wars of the second great athletic republic. The unmistakable grey and red gear provides great protection from most if not all environmental hazards and combat threats in addition to coming with the signature weapon of the Ka-Nada SSF and all terrain Hyper-Blades for enhanced mobility and lethality in melee combat. This power comes at a cost as your Ka-Nada benefactors expect absolute devotion to the cause, once equipped you will be unable to remove the gear so be sure to make it count."
+	item = /obj/item/weapon/storage/box/syndie_kit/hockeyset
 	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
 	cost = 20
 
@@ -865,12 +879,14 @@ var/list/uplink_items = list()
 	cost = 2
 	surplus = 30
 
+/*
 /datum/uplink_item/stealthy_tools/stimpack
 	name = "Stimpack"
 	desc = "Stimpacks, the tool of many great heroes, make you nearly immune to stuns and knockdowns for about 5 minutes after injection."
 	item = /obj/item/weapon/reagent_containers/syringe/stimulants
 	cost = 5
 	surplus = 90
+*/
 
 /datum/uplink_item/stealthy_tools/mulligan
 	name = "Randomizer"
@@ -1084,11 +1100,13 @@ var/list/uplink_items = list()
 	cost = 14
 	surplus = 0
 
+/*
 /datum/uplink_item/implants/adrenal
 	name = "Adrenal Implant"
 	desc = "An implant injected into the body, and later activated at the user's will. It will inject a chemical cocktail which has a mild healing effect along with removing all stuns and increasing movement speed."
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_adrenal
 	cost = 8
+*/
 
 /datum/uplink_item/implants/storage
 	name = "Storage Implant"
