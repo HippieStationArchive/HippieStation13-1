@@ -51,7 +51,7 @@
 	icon_state = "venus_human_trap"
 	health = 50
 	maxHealth = 50
-	ranged = 1
+	ranged = 0
 	harm_intent_damage = 5
 	melee_damage_lower = 25
 	melee_damage_upper = 25
@@ -60,14 +60,14 @@
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	unsuitable_atmos_damage = 0
 	faction = list("hostile","vines","plants")
-	var/list/grasping = list()
+/*	var/list/grasping = list()
 	var/max_grasps = 4
 	var/grasp_chance = 20
 	var/grasp_pull_chance = 85
 	var/grasp_range = 4
 
 
-/mob/living/simple_animal/hostile/venus_human_trap/handle_automated_action()
+mob/living/simple_animal/hostile/venus_human_trap/handle_automated_action()
 	if(..())
 		for(var/mob/living/L in grasping)
 			if(L.stat == DEAD)
@@ -108,7 +108,7 @@
 		if(the_target in grasping)
 			return 0
 
-
+*/
 
 /mob/living/simple_animal/hostile/venus_human_trap/death()
 	qdel(src)
