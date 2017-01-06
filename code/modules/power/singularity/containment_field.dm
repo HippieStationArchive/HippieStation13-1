@@ -121,12 +121,11 @@
 		var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
 		AM.throw_at(target, 200, 4)
 		bumps++
-		spawn(20)
+		spawn(10)
 			bumps -= 1
 	else if(bumps = 10)
 		AM.density = 0
 		AM.anchored = 1
-		bumps = 0
 		message_admins("[AM] has bumped the containment field too often at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>([src.x],[src.y],[src.z])</a> and triggered the failsafe, anchoring it in place and removing it's density. Last touched by [key_name_admin(fingerprintslast)]")
 		log_game("[AM] has bumped the containment field too often at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>([src.x],[src.y],[src.z])</a> and triggered the failsafe, anchoring it in place and removing it's density. Last touched by [key_name_admin(fingerprintslast)]")
 	else if(bumps >= 20)
