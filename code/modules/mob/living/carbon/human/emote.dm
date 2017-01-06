@@ -467,7 +467,7 @@
 				for(var/i = 1, i <= 10, i++)
 					playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
 					sleep(1)
-				playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5)
+				playsound(src, 'sound/misc/fartmassive.ogg', 75, 1, 5, extrarange = 10)
 				if(B.contents.len)
 					for(var/obj/item/O in B.contents)
 						O.assthrown = 1
