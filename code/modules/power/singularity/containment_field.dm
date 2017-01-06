@@ -13,6 +13,7 @@
 	layer = OBJ_LAYER + 0.1
 	var/obj/machinery/field/generator/FG1 = null
 	var/obj/machinery/field/generator/FG2 = null
+	var/bumps = 0 // to prevent lag exploits
 
 /obj/machinery/field/containment/Destroy()
 	if(FG1 && !FG1.clean_up)
@@ -113,7 +114,6 @@
 	return
 
 /obj/machinery/field/proc/bump_field(atom/movable/AM as mob|obj)
-	var/bumps = 0 // to prevent lag exploits
 	if(bumps <= 9)
 		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(5, 1, AM.loc)
