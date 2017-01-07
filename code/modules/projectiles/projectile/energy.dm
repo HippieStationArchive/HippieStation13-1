@@ -148,3 +148,31 @@
 
 /obj/item/ammo_casing/energy/plasma/adv
 	projectile_type = /obj/item/projectile/plasma/adv
+
+/obj/item/projectile/hook
+	name = "hook"
+	var/chain
+
+/obj/item/projectile/hook/on_hit(atom/target)
+	. = ..()
+	if(isliving(target))
+		var/mob/living/L = target
+		L.forceMove(get_turf(firer))
+		qdel(chain)
+
+/obj/item/projectile/energy/shock_revolver
+	name = "shock bolt"
+	icon_state = "purple_laser"
+	var/chain
+
+/obj/item/ammo_casing/energy/shock_revolver/ready_proj(atom/target, mob/living/user, quiet, zone_override = "")
+	..()
+	var/obj/item/projectile/hook/projec = BB
+	spawn(1)
+		projec.chain = projec.Beam(user,icon_state="purple_lightning",icon = 'icons/effects/effects.dmi',time=1000, maxdistance = 30)
+
+/obj/item/projectile/energy/shock_revolver/on_hit(atom/target)
+	. = ..()
+	if(isliving(target))
+		tesla_zap(src, 3, 10000)
+	qdel(chain)

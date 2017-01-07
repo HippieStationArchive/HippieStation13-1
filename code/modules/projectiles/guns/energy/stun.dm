@@ -95,3 +95,13 @@
 
 	update_icon()
 	return 1
+
+/obj/item/weapon/gun/energy/shock_revolver
+	name = "tesla gun"
+	desc = "An experimental gun based on an experimental engine, it's about as likely to kill it's operator as it is the target."
+	icon_state = "tesla"
+	item_state = "tesla"
+	ammo_type = list(/obj/item/ammo_casing/energy/shock_revolver)
+	origin_tech = "combat=4;materials=4;powerstorage=4"
+	can_flashlight = 0
+	shaded_charge = 1

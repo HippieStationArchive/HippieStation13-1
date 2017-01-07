@@ -67,6 +67,16 @@
 	locked = 1
 	category = list("Weapons")
 
+/datum/design/shock_revolver
+	name = "Tesla Revolver"
+	desc = "A high-tech revolver that fires internal, reusable shock cartridges in a revolving cylinder. The cartridges can be recharged using conventional rechargers."
+	id = "teslarevolver"
+	req_tech = list("combat" = 5, "materials" = 5, "powerstorage" = 5)
+	build_type = PROTOLATHE
+	materials = list(MAT_METAL = 10000, MAT_GLASS = 10000, MAT_SILVER = 10000, MAT_DIAMOND = 3000)
+	build_path = /obj/item/weapon/gun/energy/shock_revolver
+	category = list("Weapons")
+
 /datum/design/laserhypercannon
 	name = "Laser Hypercannon"
 	desc = "A heavy duty laser cannon that increases in damage the further the target."
