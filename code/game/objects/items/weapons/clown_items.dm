@@ -138,6 +138,9 @@
 	cooldowntime = 150
 	var/list/sounds = list('sound/items/sax.ogg', 'sound/items/sax2.ogg','sound/items/sax3.ogg','sound/items/sax4.ogg','sound/items/sax5.ogg')
 
+/obj/item/weapon/bikehorn/Crossed()
+	return
+
 /obj/item/weapon/bikehorn/saxophone/attack_self(mob/user)
 	if(!spam_flag)
 		spam_flag = 1
