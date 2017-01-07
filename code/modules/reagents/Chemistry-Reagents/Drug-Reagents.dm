@@ -576,7 +576,7 @@
 	overdose_threshold = 40
 
 /datum/reagent/drug/burpium/on_mob_life(mob/living/M)
-		var/high_message = pick("A pressure begins to build in your esophagus.", "You feel the odd urge to burp.")
+	var/high_message = pick("A pressure begins to build in your esophagus.", "You feel the odd urge to burp.")
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(prob(15))
