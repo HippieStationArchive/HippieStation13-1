@@ -231,7 +231,7 @@
 /obj/item/weapon/reagent_containers/glass/beaker/cryoxadone
 	list_reagents = list("cryoxadone" = 30)
 
-/obj/item/weapon/reagent_containers/glass/beaker/sulphuric
+/obj/item/weapon/reagent_containers/glass/beaker/sulfuric
 	list_reagents = list("sacid" = 50)
 
 /obj/item/weapon/reagent_containers/glass/beaker/slime
