@@ -566,3 +566,39 @@
 	..()
 	return
 */
+
+/datum/reagent/drug/burpium
+	name = "Burpium"
+	id = "burpium"
+	description = "A chemical compound that promotes concentrated production of gas in your esophagus."
+	color = "#c13f9d" // rgb(193, 63, 157)
+	reagent_state = LIQUID
+	overdose_threshold = 40
+
+/datum/reagent/drug/burpium/on_mob_life(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(15))
+			H.emote("burp")
+	..()
+	return
+
+/datum/reagent/drug/burpium/overdose_process(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		var/obj/item/organ/internal/brain/B = H.getorgan(/obj/item/organ/internal/brain)
+		if(prob(35))
+			H.emote("burp")
+		if(prob(10))
+			H.emote("vomit")
+		if(prob(.1))
+			playsound(src, 'sound/misc/superburp.ogg', 75, 1, 5)
+			H.visible_message("<span class='danger'>[H] lets out a belch so massive that their head explodes!</span>")
+			if (H && !qdeleted(H))
+				if (B && !qdeleted(B))
+					H.internal_organs -= B
+					qdel(B)
+			gibs(H.loc, H.viruses, H.dna)
+			return (BRUTELOSS)
+	..()
+	return

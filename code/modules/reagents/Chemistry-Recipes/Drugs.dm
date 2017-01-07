@@ -59,3 +59,10 @@
 	result = "aranesp"
 	required_reagents = list("epinephrine" = 1, "atropine" = 1, "morphine" = 1)
 	result_amount = 3
+
+/datum/chemical_reaction/burpium
+	name = "burpium"
+	id = "burpium"
+	result = "burpium"
+	required_reagents = list("fartium" = 2, "mercury" = 3)
+	result_amount = 5
