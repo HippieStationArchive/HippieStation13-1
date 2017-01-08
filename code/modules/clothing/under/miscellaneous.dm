@@ -84,6 +84,7 @@
 	item_state = "jotaro"
 	item_color = "jotaro"
 	can_adjust = 0
+	alternate_screams = list('sound/voice/jotaro1.ogg','sound/voice/jotaro2.ogg')
 
 /obj/item/clothing/under/jotaro/equipped(mob/living/carbon/user, slot)
 	if(slot == slot_w_uniform)
