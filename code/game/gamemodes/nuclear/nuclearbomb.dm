@@ -334,7 +334,9 @@ var/bomb_set
 	safety = 1
 	update_icon()
 	for(var/mob/M in player_list)
-		M << 'sound/machines/Alarm.ogg'
+			M << 'sound/misc/imnuclear.ogg'
+		else
+			M << 'sound/machines/Alarm.ogg'
 	if (ticker && ticker.mode)
 		ticker.mode.explosion_in_progress = 1
 	sleep(100)
