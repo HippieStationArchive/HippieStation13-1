@@ -654,3 +654,74 @@
 /datum/reagent/drug/flipout/reaction_obj(obj/O, reac_volume)
 	if(istype(O,/obj))
 		O.SpinAnimation(16,40)
+
+/datum/reagent/drug/burpium
+	name = "Burpium"
+	id = "burpium"
+	description = "A chemical compound that promotes concentrated production of gas in your esophagus."
+	color = "#c13f9d" // rgb(193, 63, 157)
+	reagent_state = LIQUID
+	overdose_threshold = 40
+
+/datum/reagent/drug/burpium/on_mob_life(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(15))
+			H.emote("burp")
+	..()
+	return
+
+/datum/reagent/drug/burpium/overdose_process(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(35))
+			H.emote("burp")
+		if(prob(12))
+			if(H.nutrition > 50)
+				H.emote("vomit")
+		if(prob(10))
+			H.setEarDamage(M.ear_damage + rand(0, 5), max(M.ear_deaf,15))
+			if (H.ear_damage >= 15)
+				H << "<span class='warning'>Your ears are ringing badly from all of the burping!</span>"
+				if(prob(H.ear_damage - 10 + 5))
+					H << "<span class='warning'>You can't hear anything!</span>"
+					H.disabilities |= DEAF
+			else
+				if (H.ear_damage >= 5)
+					H << "<span class='warning'>Your ears are ringing from all of the burping!</span>"
+	..()
+	return
+
+/datum/reagent/drug/spookium
+	name = "Spookium"
+	id = "spookium"
+	description = "Just looking at this stuff gives you the chills."
+	color = "#d6d6d6" //rgb(214, 214, 214)
+	reagent_state = LIQUID
+	overdose_threshold = 40
+	
+
+/datum/reagent/drug/spookium/on_mob_life(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(7))
+			if(!H.stat == UNCONSCIOUS)
+				H.emote("scream")
+	..()
+	return
+
+/datum/reagent/drug/spookium/overdose_process(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(26))
+			if(!H.stat == UNCONSCIOUS)
+				H.emote("scream")
+		if(prob(3))
+			if(!istype(H.dna.species, /datum/species/skeleton))
+				H.visible_message("<span class='danger'>Holy shit! [H] got so scared that their skin tore clean off to reveal a spooky scary skeleton!</span>")
+				H.set_species(/datum/species/skeleton/playable)
+				gibs(H.loc, H.viruses, H.dna)
+	..()
+	return
+
+

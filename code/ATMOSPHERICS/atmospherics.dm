@@ -264,6 +264,10 @@ Pipelines + Other Objects -> Pipe network
 		user.canmove = 1
 
 
+/obj/machinery/atmospherics/AltClick(mob/dead/D)
+	return
+	..()
+
 /obj/machinery/atmospherics/AltClick(mob/living/L)
 	if(is_type_in_list(src, ventcrawl_machinery))
 		L.handle_ventcrawl(src)
