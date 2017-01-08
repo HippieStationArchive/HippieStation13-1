@@ -221,3 +221,9 @@
 	icon_state = "DIO"
 	item_color = "DIO"
 	item_state = "DIO"
+
+/obj/item/clothing/shoes/jotaro
+	name = "Jotaro's shoes"
+	desc = "Stand above the rest."
+	icon_state = "jotaro"
+	item_state = "jotaro"

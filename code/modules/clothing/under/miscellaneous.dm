@@ -64,7 +64,7 @@
 	can_adjust = 0
 	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0) //villains need some protection against super heroes
 	alternate_screams = list('sound/voice/robbie1.ogg','sound/voice/robbie2.ogg','sound/voice/robbie3.ogg','sound/voice/robbie4.ogg','sound/voice/robbie5.ogg','sound/voice/robbie6.ogg','sound/voice/robbie7.ogg','sound/voice/robbie8.ogg','sound/voice/robbie9.ogg','sound/voice/robbie10.ogg','sound/voice/robbie11.ogg','sound/voice/robbie12.ogg','sound/voice/robbie13.ogg','sound/voice/robbie14.ogg','sound/voice/robbie15.ogg')
-	
+
 /obj/item/clothing/under/robbie/equipped(mob/living/carbon/user, slot)
 	if(slot == slot_w_uniform)
 		user.add_screams(src.alternate_screams)
@@ -617,3 +617,11 @@
 	icon_state = "kira"
 	item_state = "kira"
 	item_color = "kira"
+
+/obj/item/clothing/under/jotaro
+	name = "Jotaro's uniform and belt"
+	desc = "Good grief."
+	icon_state = "jotaro"
+	item_state = "jotaro"
+	item_color = "jotaro"
+	can_adjust = 0
