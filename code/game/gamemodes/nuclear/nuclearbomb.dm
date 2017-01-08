@@ -334,6 +334,7 @@ var/bomb_set
 	safety = 1
 	update_icon()
 	for(var/mob/M in player_list)
+		if(prob(0.1))
 			M << 'sound/misc/imnuclear.ogg'
 		else
 			M << 'sound/machines/Alarm.ogg'
