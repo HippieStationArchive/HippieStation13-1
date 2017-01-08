@@ -333,10 +333,11 @@ var/bomb_set
 	yes_code = 0
 	safety = 1
 	update_icon()
-	for(var/mob/M in player_list)
-		if(prob(0.1))
+	if(prob(1))
+		for(var/mob/M in player_list)
 			M << 'sound/misc/imnuclear.ogg'
-		else
+	else
+		for(var/mob/M in player_list)
 			M << 'sound/machines/Alarm.ogg'
 	if (ticker && ticker.mode)
 		ticker.mode.explosion_in_progress = 1
