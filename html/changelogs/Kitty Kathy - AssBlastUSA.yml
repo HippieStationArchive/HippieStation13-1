@@ -1,0 +1,17 @@
+# Your name.  
+author: Kitty Kathy
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - bugfix: "Galaxy superfart now works, but works a bit different that the original code."
+  - tweak: "Galaxy superfart does not shoot off into a random direction it goes opposite what you are facing."
+  - tweak: "Galaxy superfart will also move in a straight line until it reaches the end of the map."
+  - tweak: "Immovable rods and their children now bump into whatever they spawn on."
+  - tweak: "You can not galaxy superfart on any zlevel other than 1, it will instead go supernova if it picks that."
