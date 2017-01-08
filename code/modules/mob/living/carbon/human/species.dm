@@ -1029,7 +1029,7 @@
 				var/dmgtype = STAMINA
 				var/obj/item/organ/limb/affecting = H.getrandomorgan(M.zone_sel.selecting)
 				var/armor_block = H.run_armor_check(affecting, "melee")
-				
+
 				if(H.lying)
 					atk_verb = "kick"
 					if(M.shoes)
@@ -1186,7 +1186,7 @@
 					if(I.itemstorevalue != -1)//if the item is not too big
 						if(B.stored < B.capacity && I.itemstorevalue <= buttspace) // if the butt can still hold an item
 							if(H == user)
-								user.visible_message("<span class='warning'>[user] starts hiding [I] inside his own butt...</span>", "<span class='warning'>You start hiding [I] inside your own butt...</span>")
+								user.visible_message("<span class='warning'>[user] starts hiding [I] inside \his own butt...</span>", "<span class='warning'>You start hiding [I] inside your own butt...</span>")
 							else
 								user.visible_message("<span class='warning'>[user] starts hiding [I] inside [H]'s butt...</span>", "<span class='warning'>You start hiding [I] inside [H]'s butt...</span>")
 							if(do_mob(user, H, 30))
@@ -1195,7 +1195,7 @@
 								I.add_blood(H)
 								B.stored += I.itemstorevalue
 								if(H == user)
-									user.visible_message("<span class='warning'>[user] hides [I] inside his own butt.</span>", "<span class='warning'>You hide [I] inside your own butt.</span>")
+									user.visible_message("<span class='warning'>[user] hides [I] inside \his own butt.</span>", "<span class='warning'>You hide [I] inside your own butt.</span>")
 								else
 									user.visible_message("<span class='warning'>[user] hides [I] inside [H]'s.</span>", "<span class='warning'>You hide [I] inside [H]'s butt.</span>")
 								return 0
