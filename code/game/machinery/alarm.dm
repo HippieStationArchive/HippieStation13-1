@@ -1218,3 +1218,16 @@ Handheld fire alarm frame, for placing on walls
 	for(var/area/RA in A.related)
 		RA.partyalert()
 	return
+
+/obj/machinery/clock
+	name = "clock"
+	desc = "A device used to measure time."
+	icon = 'icons/obj/bureaucracy.dmi'
+	New()
+		icon_state = pick("clock1","clock2","clock3","clock4","clock5","clock6")
+	anchored = 1
+	use_power = 0
+
+/obj/machinery/clock/examine()
+	..()
+	usr << "The current time of the station is [worldtime2text()]. This means that the shift has been going on for [round((world.time) / 36000 + ((world.time) % 36000) / 600,1)] minutes."
