@@ -494,6 +494,7 @@
 		user.client.view = (world.view + zoom_amt)
 		if(user.moving)
 			user.client.view = world.view
+			zoomed = FALSE
 	else
 		user.client.view = world.view
 
