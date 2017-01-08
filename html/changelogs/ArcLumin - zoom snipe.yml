@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - tweak: "Alters sniper rifle to now zoom out 14 tiles in all directions, but you're now anchored to the ground while you're zoomed out"
