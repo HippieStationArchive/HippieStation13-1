@@ -1,6 +1,0 @@
-author: McBawbaggings
-
-delete-after: True
-
-changes: 
-  - tweak: "Drones can no longer pull, attack, help, strip or equip non-drones. Syndiedrones remain unchanged."

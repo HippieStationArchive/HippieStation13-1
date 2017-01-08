@@ -251,6 +251,7 @@
 #include "code\datums\spells\construct_spells.dm"
 #include "code\datums\spells\dumbfire.dm"
 #include "code\datums\spells\emplosion.dm"
+#include "code\datums\spells\eruption.dm"
 #include "code\datums\spells\ethereal_jaunt.dm"
 #include "code\datums\spells\explosion.dm"
 #include "code\datums\spells\genetic.dm"

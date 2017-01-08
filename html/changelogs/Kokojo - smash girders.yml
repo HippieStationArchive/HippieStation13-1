@@ -1,6 +1,0 @@
-author: Kokojo
-
-delete-after: True
-
-changes: 
-  - rscadd: "All hostile mobs that could destroy walls can now destroy girders as well"

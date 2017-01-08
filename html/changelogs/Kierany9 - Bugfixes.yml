@@ -1,5 +1,0 @@
-author: Kierany9
-delete-after: True
-changes: 
-  - bugfix: "Nuke Ops shuttle consoles no longer break after being deconstructed."
-  - bugfix: "Tablecrafting a stunprod no longer allows you to add a cell that is too low-capacity for it to work."

@@ -655,7 +655,7 @@
 		if(probabilities[M.config_tag]<=0)
 			qdel(M)
 			continue
-		if(M.can_start())
+		if(M.can_start() == 1)
 			runnable_modes[M] = probabilities[M.config_tag]
 			//world << "DEBUG: runnable_mode\[[runnable_modes.len]\] = [M.config_tag]"
 	return runnable_modes
@@ -670,6 +670,6 @@
 		if(probabilities[M.config_tag]<=0)
 			qdel(M)
 			continue
-		if(M.required_players <= crew)
+		if(M.required_players <= crew && (!M.max_players || M.max_players >= crew))
 			runnable_modes[M] = probabilities[M.config_tag]
 	return runnable_modes

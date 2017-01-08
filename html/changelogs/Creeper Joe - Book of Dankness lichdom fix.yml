@@ -1,6 +1,0 @@
-author: Creeper Joe
-
-delete-after: True
-
-changes:
-  - bugfix: "Book of Darkness spells now properly carry over with Lichdom"
