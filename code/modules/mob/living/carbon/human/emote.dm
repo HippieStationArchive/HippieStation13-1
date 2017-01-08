@@ -454,6 +454,8 @@
 				fart_type = 2
 			else if(prob(12)) // 0.4%
 				fart_type = 3
+				if(loc.z != 1)
+					fart_type = 2
 			spawn(0)
 				spawn(1)
 					for(var/obj/item/weapon/storage/book/bible/Y in range(0))
@@ -515,38 +517,28 @@
 						gib()
 
 					if(3)
-						var/startx = 0
-						var/starty = 0
 						var/endy = 0
 						var/endx = 0
-						var/startside = pick(cardinal)
 
-						switch(startside)
+						switch(dir)
 							if(NORTH)
-								starty = loc
-								startx = loc
-								endy = 38
-								endx = rand(41, 199)
+								endy = 8
+								endx = loc.x
 							if(EAST)
-								starty = loc
-								startx = loc
-								endy = rand(38, 187)
-								endx = 41
+								endy = loc.y
+								endx = 8
 							if(SOUTH)
-								starty = loc
-								startx = loc
-								endy = 187
-								endx = rand(41, 199)
+								endy = 247
+								endx = loc.x
 							else
-								starty = loc
-								startx = loc
-								endy = rand(38, 187)
-								endx = 199
+								endy = loc.y
+								endx = 247
 
 						//ASS BLAST USA
 						visible_message("\red <b>[src]</b> blows their ass off with such force, they explode!", "\red Holy shit, your butt flies off into the galaxy!")
 						gib() //can you belive I forgot to put this here?? yeah you need to see the message BEFORE you gib
-						new /obj/effect/immovablerod/butt(locate(startx, starty, 1), locate(endx, endy, 1))
+						qdel(B)
+						new /obj/effect/immovablerod/butt(loc, locate(endx, endy, 1))
 						priority_announce("What the fuck was that?!", "General Alert")
 
 		if ("whimper","whimpers")
