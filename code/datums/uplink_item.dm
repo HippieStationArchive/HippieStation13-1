@@ -330,7 +330,7 @@ var/list/uplink_items = list()
 	name = "C-90GL Carbine"
 	desc = "A fully-loaded three-round burst carbine that uses 30-round 5.56mm magazines with an underslung 40mm grenade launcher."
 	item = /obj/item/weapon/gun/projectile/automatic/c90
-	cost = 10
+	cost = 12
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 50
 
