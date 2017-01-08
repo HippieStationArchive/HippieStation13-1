@@ -77,6 +77,26 @@
 
 	return ..()
 
+/obj/item/clothing/under/jotaro
+	name = "Jotaro's uniform and belt"
+	desc = "Good grief."
+	icon_state = "jotaro"
+	item_state = "jotaro"
+	item_color = "jotaro"
+	can_adjust = 0
+
+/obj/item/clothing/under/jotaro/equipped(mob/living/carbon/user, slot)
+	if(slot == slot_w_uniform)
+		user.add_screams(src.alternate_screams)
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.reindex_screams()
+		else
+			user.reindex_screams()
+
+	return ..()
+
 /obj/item/clothing/under/sl_suit
 	desc = "It's a very amish looking suit."
 	name = "amish suit"
@@ -617,11 +637,3 @@
 	icon_state = "kira"
 	item_state = "kira"
 	item_color = "kira"
-
-/obj/item/clothing/under/jotaro
-	name = "Jotaro's uniform and belt"
-	desc = "Good grief."
-	icon_state = "jotaro"
-	item_state = "jotaro"
-	item_color = "jotaro"
-	can_adjust = 0
