@@ -341,6 +341,7 @@
 	layer = MOB_LAYER - 0.2
 	unacidable = 1
 
+
 /obj/machinery/blastco_antiburglar/ex_act(severity, target) //Little boom can chain a big boom
 	src.detonate()
 
@@ -354,3 +355,7 @@
 		log_game(adminlog)
 	explosion(get_turf(src),20,20,20, flame_range = 20)
 	qdel(src)
+
+/obj/machinery/blastco_antiburglar/HasProximity(atom/movable/AM as mob|obj)
+	if (istype(AM, /obj/effect/beam))	return
+	src.detonate()
