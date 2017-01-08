@@ -88,7 +88,7 @@
 	isSwitchingStates = 1
 	playsound(loc, openSound, 100, 1)
 	flick("[mineralType]opening",src)
-	sleep(10)
+	spawn(10)
 	density = 0
 	opacity = 0
 	state = 1
