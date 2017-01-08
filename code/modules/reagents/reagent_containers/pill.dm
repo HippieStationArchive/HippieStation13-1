@@ -41,7 +41,7 @@
 					if(itemstorevalue != -1)//if the item is not too big
 						if(B.stored < B.capacity && itemstorevalue <= buttspace) // if the butt can still hold an item
 							if(H == user)
-								user.visible_message("<span class='notice'>You stuff \the [src] into your butt.</span>", "<span class='warning'>[user] stuffs \the [src] into his own butt.</span>")
+								user.visible_message("<span class='notice'>You stuff \the [src] into your butt.</span>", "<span class='warning'>[user] stuffs \the [src] into \his own butt.</span>")
 							else
 								H.visible_message("<span class='warning'>[user] attempts to stuff \the [src] inside [H]'s butt...</span>", "<span class='warning'>You attempt to stuff \the [src] inside [H]'s butt...</span>")
 								if(!do_mob(user, H))
