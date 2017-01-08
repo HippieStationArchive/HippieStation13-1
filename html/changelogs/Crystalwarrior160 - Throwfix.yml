@@ -1,8 +1,0 @@
-author: Crystalwarrior160
-
-delete-after: True
-
-changes:
-  - bugfix: "Fixed thrown items not tracking the thrower's selected zone"
-  - tweak: "Pneumatic Cannon can now be aimed at limbs"
-  - tweak: "Tweaked baseballs - nerfed paralysis duration but also made it so if you have sufficient armor you can still get weakened"

@@ -12,12 +12,14 @@
 	cooldown_min = 10
 	include_user = 1
 
-	var/obj/marked_item
+	var/obj/item/marked_item
 	var/mob/living/current_body
 	var/resurrections = 0
 	var/existence_stops_round_end = 0
 
 	action_icon_state = "skeleton"
+
+	var/list/nobindlist = list(/obj/item/weapon/paper, /obj/item/weapon/pen, /obj/item/weapon/cigbutt, /obj/item/weapon/relic, /obj/item/ammo_casing, /obj/item/relic, /obj/item/weapon/coin, /obj/item/toy/crayon) // shit that you shouldn't be allowed to bind your soul into.
 
 /obj/effect/proc_holder/spell/targeted/lichdom/New()
 	if(initial(ticker.mode.round_ends_with_antag_death))
@@ -34,7 +36,7 @@
 		ticker.mode.round_ends_with_antag_death = 1
 	..()
 
-/obj/effect/proc_holder/spell/targeted/lichdom/cast(list/targets,mob/user = usr)
+/obj/effect/proc_holder/spell/targeted/lichdom/cast(list/targets,mob/living/carbon/human/user = usr)
 	for(var/mob/M in targets)
 		var/list/hand_items = list()
 		if(iscarbon(M))
@@ -76,7 +78,7 @@
 			M.mind.transfer_to(lich)
 			lich.hardset_dna(null,null,lich.real_name,null,/datum/species/skeleton)
 			lich << "<span class='warning'>Your bones clatter and shutter as they're pulled back into this world!</span>"
-			charge_max += 600
+			charge_max += 1200
 			var/mob/old_body = current_body
 			var/turf/body_turf = get_turf(old_body)
 			current_body = lich
@@ -105,6 +107,11 @@
 			if(!marked_item)
 				M << "<span class='caution'>You must hold an item you wish to make your phylactery...</span>"
 
+			for(var/banned_item in nobindlist)
+				if(istype(marked_item, banned_item))
+					M << "<span class='caution'>You are not allowed to bind this item! Use something else...</span>"
+					return
+
 			spawn(50)
 				if(marked_item.loc != M) //I changed my mind I don't want to put my soul in a cheeseburger!
 					M << "<span class='warning'>Your soul snaps back to your body as you drop the [marked_item.name]!</span>"
@@ -112,12 +119,14 @@
 					return
 				name = "RISE!"
 				desc = "Rise from the dead! You will reform at the location of your phylactery and your old body will crumble away."
-				charge_max = 1800 //3 minute cooldown, if you rise in sight of someone and killed again, you're probably screwed.
-				charge_counter = 1800
+				charge_max = 3000 //5 minute cooldown, if you rise in sight of someone and killed again, you're probably screwed.
+				charge_counter = 3000
 				stat_allowed = 1
 				marked_item.name = "Ensouled [marked_item.name]"
 				marked_item.desc = "A terrible aura surrounds this item, its very existence is offensive to life itself..."
 				marked_item.color = "#003300"
+				marked_item.w_class = 5
+				marked_item.layer = FLOAT_LAYER
 				M << "<span class='userdanger'>With a hideous feeling of emptiness you watch in horrified fascination as skin sloughs off bone! Blood boils, nerves disintegrate, eyes boil in their sockets! As your organs crumble to dust in your fleshless chest you come to terms with your choice. You're a lich!</span>"
 				M.set_species(/datum/species/skeleton)
 				current_body = M.mind.current

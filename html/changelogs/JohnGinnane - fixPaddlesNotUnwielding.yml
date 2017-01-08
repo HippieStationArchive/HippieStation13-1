@@ -1,6 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - bugfix: "Fixed defibrillator paddles not being removed if someone takes the defibrillator off someone else's back"

@@ -292,13 +292,13 @@ emp_act
 		if(!w_uniform)
 			if(B)
 				if(user == src)
-					user.visible_message("<span class='warning'>[user] starts inspecting his own ass!</span>", "<span class='warning'>You start inspecting your ass!</span>")
+					user.visible_message("<span class='warning'>[user] starts inspecting \his own ass!</span>", "<span class='warning'>You start inspecting your ass!</span>")
 				else
 					user.visible_message("<span class='warning'>[user] starts inspecting [src]'s ass!</span>", "<span class='warning'>You start inspecting [src]'s ass!</span>")
 				if(do_mob(user, src, 40))
 					if(B.contents.len)
 						if(user == src)
-							user.visible_message("<span class='warning'>[user] inspects his own ass!</span>", "<span class='warning'>You inspect your ass!</span>")
+							user.visible_message("<span class='warning'>[user] inspects \his own ass!</span>", "<span class='warning'>You inspect your ass!</span>")
 						else
 							user.visible_message("<span class='warning'>[user] inspects [src]'s ass!</span>", "<span class='warning'>You inspect [src]'s ass!</span>")
 						var/obj/item/O = pick(B.contents)
@@ -311,7 +311,7 @@ emp_act
 						return 0
 				else
 					if(user == src)
-						user.visible_message("<span class='warning'>[user] fails to inspect his own ass!</span>", "<span class='warning'>You fail to inspect your ass!</span>")
+						user.visible_message("<span class='warning'>[user] fails to inspect \his own ass!</span>", "<span class='warning'>You fail to inspect your ass!</span>")
 					else
 						user.visible_message("<span class='warning'>[user] fails to inspect [src]'s ass!</span>", "<span class='warning'>You fail to inspect [src]'s ass!</span>")
 					return 0
@@ -320,7 +320,7 @@ emp_act
 				return 0
 		else
 			if(user == src)
-				user.visible_message("<span class='warning'>[user] grabs his own butt!</span>", "<span class='warning'>You grab your own butt!</span>")
+				user.visible_message("<span class='warning'>[user] grabs \his own butt!</span>", "<span class='warning'>You grab your own butt!</span>")
 				user << "<span class='warning'>You'll need to remove your jumpsuit first!</span>"
 			else
 				user.visible_message("<span class='warning'>[user] grabs [src]'s butt!</span>", "<span class='warning'>You grab [src]'s butt!</span>")

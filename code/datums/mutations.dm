@@ -280,7 +280,7 @@ var/thanks_tobba = 'icons/fonts/runescape_uf.ttf'
 		else
 			new_mob = randmuti(owner)
 	else
-		new_mob = randmutg(owner)
+		new_mob = randmutg(owner, 1)
 	if(new_mob && ismob(new_mob))
 		owner = new_mob
 	. = owner

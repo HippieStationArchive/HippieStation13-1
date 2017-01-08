@@ -25,7 +25,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	new /obj/effect/immovablerod(startT, endT)
 
 /obj/effect/immovablerod
-	name = "Immovable Rod"
+	name = "immovable rod"
 	desc = "What the fuck is that?"
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "immrod"
@@ -34,15 +34,20 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	anchored = 1
 	var/z_original = 0
 	var/destination
+
 /obj/effect/immovablerod/butt
 	name = "gigantic ass"
 	desc = "godDAMN that ass is well rounded"
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "butt"
+
 /obj/effect/immovablerod/New(atom/start, atom/end)
 	loc = start
 	z_original = z
 	destination = end
+	for(var/atom/a in range(0))
+		if(a != src)
+			src.Bump(a)
 	if(end && end.z==z_original)
 		walk_towards(src, destination, 1)
 
@@ -70,7 +75,7 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	else if (istype(clong, /mob))
 		if(istype(clong, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = clong
-			H.visible_message("<span class='danger'>[H.name] is penetrated by an immovable rod!</span>" , "<span class='userdanger'>The rod penetrates you!</span>" , "<span class ='danger'>You hear a CLANG!</span>")
+			H.visible_message("<span class='danger'>[H.name] is penetrated by an [name]!</span>" , "<span class='userdanger'>The [name] penetrates you!</span>" , "<span class ='danger'>You hear a CLANG!</span>")
 			H.adjustBruteLoss(160)
 		if(clong.density || prob(10))
 			clong.ex_act(2)

@@ -76,6 +76,7 @@
 	anchored = 0
 	connected_port.connected_device = null
 	connected_port = null
+	update_icon()
 	return 1
 
 /obj/machinery/portable_atmospherics/portableConnectorReturnAir()

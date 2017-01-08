@@ -1,6 +1,0 @@
-author: Yobob, Fury for the sprites
-
-delete-after: True
-
-changes:
-  - rscadd: "Adds a Stand Arrow to mining. It acts as a randomized holoparasite injector with infinite uses and can be used on others, however there is a 60% chance of it killing you. The room it spawns in also comes with some jojo themed items."

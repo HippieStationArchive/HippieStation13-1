@@ -230,3 +230,23 @@ obj/item/projectile/kinetic/New()
 /obj/item/projectile/plasma/adv/mech
 	damage = 25
 	range = 8
+
+/obj/item/projectile/plasmoid
+ 	name = "plasmoid"
+ 	icon_state = "plasmoid"
+ 	damage_type = BURN
+ 	damage = 20
+ 	range = 14
+ 	luminosity = 6
+ 	var/temperature = 200
+
+/obj/item/projectile/plasmoid/on_hit(atom/target, blocked = 0)
+	..()
+	if(istype(target,/turf/)||istype(target,/obj/structure/))
+		target.ex_act(2)
+	if(iscarbon(target))
+		var/mob/living/carbon/M = target
+		M.bodytemperature += temperature
+		M.adjust_fire_stacks(1)
+		M.IgniteMob()
+	return 1

@@ -13,6 +13,7 @@
 	var/recalling = 0
 	var/outfits = 3
 	var/free_pen = 0
+	var/recall_cost = 25
 	var/promotable = 0
 
 /obj/item/device/gangtool/New() //Initialize supply point income if it hasn't already been started
@@ -58,7 +59,11 @@
 		else
 			dat += "<b>Create Gang Outfit</b> (Restocking)<br>"
 		if(isboss)
-			dat += "<a href='?src=\ref[src];choice=recall'>Recall Emergency Shuttle</a><br>"
+			dat += "([recall_cost] Influence) "
+			if(points >= recall_cost)
+				dat += "<a href='?src=\ref[src];choice=recall'>Recall Emergency Shuttle</a><br>"
+			else
+				dat += "Recall Emergency Shuttle"
 
 		dat += "<br>"
 		dat += "<B>Purchase Weapons:</B><br>"
@@ -136,28 +141,26 @@
 			else
 				dat += "Brass Knuckles<br>"
 
-			dat += "(25 Influence) "
-			if(points >= 25)
+			dat += "(30 Influence) "
+			if(points >= 30)
 				dat += "<a href='?src=\ref[src];purchase=.38revolver'>.38 Revolver</a><br>"
 			else
 				dat += ".38 Revolver<br>"
 
-			dat += "(10 Influence) "
-			if(points >= 10)
+			dat += "(20 Influence) "
+			if(points >= 20)
 				dat += "<a href='?src=\ref[src];purchase=.38ammo'>.38 Ammo</a><br>"
 			else
 				dat += ".38 Ammo<br>"
 
-			dat += "(35 Influence) "
-			if(points >= 35)
+			dat += "(50 Influence) "
+			if(points >= 50)
 				dat += "<a href='?src=\ref[src];purchase=tommyammo'>Thompson Ammo</a><br>"
 			else
 				dat += "Thompson Ammo<br>"
 
-			dat += "<br>"
-
-			dat += "(55 Influence) "
-			if(points >= 55)
+			dat += "(80 Influence) "
+			if(points >= 80)
 				dat += "<a href='?src=\ref[src];purchase=thompson'>Thompson Machinegun</a><br>"
 			else
 				dat += "Thompson Machinegun <br>"
@@ -328,21 +331,21 @@
 					item_type = /obj/item/device/chameleon
 					pointcost = 15
 			if("thompson")
-				if(gang.points >= 55)
+				if(gang.points >= 80)
 					item_type = /obj/item/weapon/gun/projectile/automatic/tommygun
-					pointcost = 55
+					pointcost = 80
 			if("tommyammo")
-				if(gang.points >= 35)
+				if(gang.points >= 50)
 					item_type = /obj/item/ammo_box/magazine/tommygunm45
-					pointcost = 35
+					pointcost = 50
 			if(".38ammo")
-				if(gang.points >= 10)
+				if(gang.points >= 20)
 					item_type = /obj/item/ammo_box/c38
-					pointcost = 10
+					pointcost = 20
 			if(".38revolver")
-				if(gang.points >= 25)
+				if(gang.points >= 30)
 					item_type = /obj/item/weapon/gun/projectile/revolver/rigatoni
-					pointcost = 25
+					pointcost = 30
 			if("9mmammo")
 				if(gang.points >= 40)
 					item_type = /obj/item/ammo_box/magazine/uzim9mm
@@ -413,6 +416,7 @@
 				else
 					usr << "<span class='notice'>The <b>dominator</b> can be spawned only on territory controlled by your gang.</span>"
 
+					
 		if(item_type)
 			gang.points -= pointcost
 			if(ispath(item_type))
@@ -430,7 +434,15 @@
 		switch(href_list["choice"])
 			if("recall")
 				if(usr.mind == gang.bosses[1])
-					recall(usr)
+					gang.points -= recall_cost
+					gang.message_gangtools("[usr.real_name] has attempted to recall the shuttle for [recall_cost] Influence.")
+					log_game("The shuttle has attempted to be recalled by [key_name(usr)] ([gang.name] Gang) for [recall_cost] Influence.")
+					if(recall(usr))
+						recall_cost *= 2
+					else
+						gang.points += recall_cost
+						gang.message_gangtools("[usr.real_name]'s attempt to recall the shuttle has failed and has been refunded [recall_cost] Influence.")
+						log_game("[key_name(usr)]'s ([gang.name] Gang) recall attempt has failed and has been refunded [recall_cost] Influence.")
 			if("outfit")
 				if(outfits > 0)
 					if(gang.gang_outfit(usr,src))

@@ -1,0 +1,6 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes: 
+  - rscdel: "Venus Human traps temporarily have their beam attack removed until fixed."

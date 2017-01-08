@@ -1,6 +1,0 @@
-author: Creeper Joe
-
-delete-after: True
-
-changes:
-  - bugfix: "Fixed an exploit involving Disintegrate's hand not being deleted when dropped."

@@ -323,3 +323,13 @@ obj/item/weapon/storage/box/syndie_kit/shotguntender
 	new /obj/item/ammo_casing/shotgun/incendiary/dragonsbreath(src)
 	new /obj/item/ammo_casing/shotgun/dart/bioterror(src)
 	return
+
+/obj/item/weapon/storage/box/syndie_kit/hockeyset/New()
+	..()
+	new /obj/item/weapon/hockeypack(src)
+	new /obj/item/clothing/head/helmet/hockey(src)
+	new /obj/item/clothing/shoes/rollerskates/hockey(src)
+	new /obj/item/clothing/suit/armor/hockey(src)
+	new /obj/item/clothing/mask/gas/hockey(src)
+	new /obj/item/weapon/storage/belt/hockey(src)
+	return

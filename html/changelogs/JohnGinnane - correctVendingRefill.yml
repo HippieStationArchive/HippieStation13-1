@@ -1,6 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - rscdel: "Corrected the vending machine's refill item count"

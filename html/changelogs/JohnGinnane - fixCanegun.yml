@@ -1,7 +1,0 @@
-author: John Ginnane
-
-delete-after: True
-
-changes: 
-  - bugfix: "Reworked the canegun to allow you to only reskin it once, so it's now consistent with other guns."
-  - bugfix: "Can no longer make the canegun sawn-off."

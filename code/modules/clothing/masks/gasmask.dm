@@ -192,3 +192,11 @@ obj/item/clothing/mask/gas/tiki_mask/attack_self(mob/user)
 		icon_state = options[choice]
 		M << "The Tiki Mask has now changed into the [choice] Mask!"
 	return 1
+
+/obj/item/clothing/mask/gas/hockey
+	name = "Ka-Nada Hokcey Mask"
+	desc = "The iconic mask of the Ka-Nada special sports forces, guaranteed to strike terror into the hearts of men and goalies."
+	icon_state = "hockey_mask"
+	item_state = "hockey_mask"
+	flags = BLOCK_GAS_SMOKE_EFFECT | MASKINTERNALS | NODROP
+	flags_cover = MASKCOVERSEYES
