@@ -124,7 +124,7 @@ var/list/uplink_items = list()
 	name = "Rod Gun"
 	desc = "Based on the staple gun design, this baby can be loaded with 3 rods that you can shoot for them to embed into people." //This thing may be super OP
 	item = /obj/item/weapon/gun/rodgun
-	cost = 8 //Costly, but for a good reason
+	cost = 10 //Costly, but for a good reason
 	jobs = list("Station Engineer", "Chief Engineer", "Atmospheric Technician")
 
 //SCIENCE + MEDICAL
@@ -149,7 +149,7 @@ var/list/uplink_items = list()
 	name = "Chainsaw"
 	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack."
 	item = /obj/item/weapon/twohanded/chainsaw
-	cost = 12
+	cost = 14
 	jobs = list("Botanist", "Bartender", "Chef")
 
 //CIVILIAN DIVISION
@@ -242,21 +242,21 @@ var/list/uplink_items = list()
 	name = "C20r bundle"
 	desc = "The classic C20r, with two magazines, at discount price. Contains free surplus suppressor."
 	item = /obj/item/weapon/storage/backpack/dufflebag/syndie/c20rbundle
-	cost = 12//normal price 16
+	cost = 14//normal price 16
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/specoffer/c90gl
 	name = "C90gl bundle"
 	desc = "Premium offer. Pick up the C90gl with a magazine, some grenades, and a pack of cigarettes for a premium discount."
 	item = /obj/item/weapon/storage/backpack/dufflebag/syndie/c90glbundle
-	cost = 14//normal price 18
+	cost = 15//normal price 18
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/specoffer/bulldog
 	name = "Bulldog bundle"
 	desc = "Optimised for people that want to get up close and personal. Contains the popular Bulldog shotgun, a two drums of ammunition, and an elite hardsuit."
 	item = /obj/item/weapon/storage/backpack/dufflebag/syndie/bulldogbundle
-	cost = 14//normal price 20 THATS TWO FREE DRUMS
+	cost = 16//normal price 20 THATS TWO FREE DRUMS
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/specoffer/medical
@@ -270,14 +270,14 @@ var/list/uplink_items = list()
 	name = "Sniper bundle"
 	desc = "Contains a collapsed sniper rifle in an expensive carrying case, a high explosive magazine, a soporific knockout magazine, a penetrator magazine, a free surplus supressor, and a worn out suit and tie."
 	item = /obj/item/weapon/storage/briefcase/sniperbundle
-	cost = 18 //29 normal cost. suppressor is excluded from price.
+	cost = 22 //29 normal cost. suppressor is excluded from price.
 	gamemodes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/specoffer/chemical
 	name = "Tiger Corperation Chemical Bioterror bundle"
 	desc = "Contains Bioterror spray, Bioterror grenade, chemicals, syringe gun, box of syringes, Donksoft assault rifle, and some darts. Warning: Seal suit and equip internals before use."
 	item = /obj/item/weapon/storage/backpack/dufflebag/syndie/med/bioterrorbundle
-	cost = 20 //normal price 42 biggest saving here
+	cost = 26 //normal price 42 biggest saving here
 	gamemodes = list(/datum/game_mode/nuclear)
 
 // DANGEROUS WEAPONS
@@ -289,21 +289,21 @@ var/list/uplink_items = list()
 	name = "Syndicate Pistol"
 	desc = "A small, easily concealable handgun that uses 10mm auto rounds in 8-round magazines and is compatible with suppressors."
 	item = /obj/item/weapon/gun/projectile/automatic/pistol
-	cost = 6
+	cost = 8
 	surplus = 15
 
 /datum/uplink_item/dangerous/g17
 	name = "Glock 17 Handgun"
 	desc = "A simple yet popular handgun chambered in 9mm. Made out of strong but lightweight polymer. The standard magazine can hold up to 14 9mm cartridges. Compatible with a universal suppressor."
 	item = /obj/item/weapon/gun/projectile/automatic/pistol/g17
-	cost = 8
+	cost = 10
 	surplus = 15
 
 /datum/uplink_item/dangerous/revolver
 	name = "Syndicate Revolver"
 	desc = "A brutally simple syndicate revolver that fires .357 Magnum cartridges and has 7 chambers."
 	item = /obj/item/weapon/gun/projectile/revolver
-	cost = 10
+	cost = 13
 	surplus = 50
 	excludefrom = list(/datum/game_mode/traitor/king_disk)
 
@@ -311,14 +311,14 @@ var/list/uplink_items = list()
 	name = "Syndicate Contender"
 	desc = "A syndicate version of the latest G13 Contender. The bluespace barrel means it can fire any ammo, but only 1 chamber"
 	item = /obj/item/weapon/gun/projectile/revolver/doublebarrel/contender/syndie
-	cost = 4
+	cost = 6
 	surplus = 15
 
 /datum/uplink_item/dangerous/smg
 	name = "C-20r Submachine Gun"
 	desc = "A fully-loaded Scarborough Arms bullpup submachine gun that fires .45 rounds with a 20-round magazine and is compatible with suppressors."
 	item = /obj/item/weapon/gun/projectile/automatic/c20r
-	cost = 8
+	cost = 10
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 40
 
@@ -339,7 +339,7 @@ var/list/uplink_items = list()
 	name = "AK-922 Assault Rifle"
 	desc = "A standard issue New Russia assault rifle praised for being able to survive common issues in the field, including but not limited to: explosions, laser beams, toolboxes, and clowns. Chambered in the 7.62x39mm cartridge."
 	item = /obj/item/weapon/gun/projectile/automatic/ak922
-	cost = 10		//Cheaper than the C-90 because it has no grenade launcher, but is otherwise identical, excluding icons and the like.
+	cost = 16		//Cheaper than the C-90 because it has no grenade launcher, but is otherwise identical, excluding icons and the like.
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 50
 */
@@ -348,7 +348,7 @@ var/list/uplink_items = list()
 	name = "Gold-Plated AK-922 Assault Rifle"
 	desc = "An AK-922 with gold-plating. Now you can kill innocent workers of a hated company with efficiency AND style!"
 	item = /obj/item/weapon/gun/projectile/automatic/ak922/gold
-	cost = 10
+	cost = 13
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 50
 
@@ -360,7 +360,7 @@ var/list/uplink_items = list()
 	name = "L6 Squad Automatic Weapon"
 	desc = "A fully-loaded Aussec Armory belt-fed machine gun. This deadly weapon has a massive 50-round magazine of devastating 7.62x51mm ammunition."
 	item = /obj/item/weapon/gun/projectile/automatic/l6_saw
-	cost = 16 // no one buys this thing
+	cost = 22 // no one buys this thing
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -368,7 +368,7 @@ var/list/uplink_items = list()
 	name = "Bulldog Shotgun"
 	desc = "A semi-auto shotgun that can hold 8 rounds in each magazine. Specialized for tight corriders."
 	item = /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog
-	cost = 6
+	cost = 8
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -376,7 +376,7 @@ var/list/uplink_items = list()
 	name = "Abzats Shotgun Machinegun"
 	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. This deadly weapon has a massive 40-round box magazine of 12 gauge buckshot cartridges."
 	item = /obj/item/weapon/gun/projectile/automatic/shotgun/abzats
-	cost = 20
+	cost = 27
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -384,7 +384,7 @@ var/list/uplink_items = list()
 	name = "Strider MGL"
 	desc = "An Aussec Armory-produced Multi-Grenade-Launcher. Can hold six 40mm grenades for maximum firepower."
 	item = /obj/item/weapon/gun/projectile/revolver/grenadelauncher/mgl
-	cost = 20
+	cost = 25
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 0
 
@@ -393,7 +393,7 @@ var/list/uplink_items = list()
 	desc = "A short bow mounted across a tiller in miniature. Small enough to fit into a pocket or slip into a bag unnoticed. It will synthesize and fire bolts tipped with a paralyzing toxin that will \
 	briefly stun targets and cause them to slur as if inebriated. It can produce an infinite amount of bolts, but must be manually recharged with each shot."
 	item = /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow
-	cost = 10
+	cost = 12
 	excludefrom = list(/datum/game_mode/gang,/datum/game_mode/traitor/king_disk)
 	surplus = 50
 
@@ -416,7 +416,7 @@ var/list/uplink_items = list()
 	desc = "The energy sword is an edged weapon with a blade of pure energy. The sword is small enough to be pocketed when inactive. Activating it produces a loud, distinctive noise. One can combine two \
 	energy swords to create a double energy sword, which must be wielded in two hands but is more robust and deflects all energy projectiles."
 	item = /obj/item/weapon/melee/energy/sword/saber
-	cost = 6
+	cost = 8
 
 /datum/uplink_item/dangerous/powerfist
 	name = "Power Fist"
@@ -542,7 +542,7 @@ var/list/uplink_items = list()
 	name = "Sniper Rifle"
 	desc = "Ranged fury, syndicate style. Features a scope for precision fire."
 	item = /obj/item/weapon/gun/projectile/sniper_rifle
-	cost = 10
+	cost = 14
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 25
 
@@ -1100,7 +1100,7 @@ var/list/uplink_items = list()
 	desc = "An implant injected into the body, and later activated either manually or automatically upon death. The more implants inside of you, the higher the explosive power. \
 	This will permanently destroy your body, however."
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_microbomb
-	cost = 1
+	cost = 2
 	surplus = 30
 
 /datum/uplink_item/implants/mindslave
