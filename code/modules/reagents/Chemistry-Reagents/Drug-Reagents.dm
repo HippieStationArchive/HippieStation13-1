@@ -585,7 +585,7 @@
 
 /datum/reagent/drug/bath_salts/on_mob_delete(mob/living/M)
 	if(current_cycle > 15)
-		M.adjustToxLoss(current_cycle)
+		M.adjustToxLoss(min(100, current_cycle))
 		M.adjustBrainLoss(20)
 		M.AdjustParalysis(15)
 	..()
