@@ -747,6 +747,10 @@ var/list/ai_list = list()
 	apc.malfvacate()
 
 /mob/living/silicon/ai/proc/toggle_camera_light()
+	set name = "Toggle Camera Lights"
+	set desc = "Turn your camera lights on/off."
+	set category = "AI Commands"
+
 	if(stat != CONSCIOUS)
 		return
 
