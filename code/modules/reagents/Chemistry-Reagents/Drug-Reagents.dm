@@ -189,10 +189,10 @@
 /datum/reagent/drug/aranesp
 	name = "Aranesp"
 	id = "aranesp"
-	description = "Amps you up and gets you going, fixes all stamina damage you might have but can cause toxin and oxygen damage.."
+	description = "Amps you up and gets you going, fixes all stamina damage you might have but can cause toxin and oxygen damage."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
-	speedboost = VERY_FAST + FAST
+	speedboost = FAST
 
 /datum/reagent/drug/aranesp/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
@@ -200,7 +200,7 @@
 		M << "<span class='notice'>[high_message]</span>"
 	M.adjustStaminaLoss(-10)
 	M.adjustToxLoss(0.5)
-	if(prob(50))
+	if(prob(33))
 		M.losebreath++
 		M.adjustOxyLoss(1)
 	..()
@@ -463,7 +463,6 @@
 	return
 */
 
-/*
 /datum/reagent/drug/bath_salts
 	name = "Bath Salts"
 	id = "bath_salts"
@@ -473,8 +472,8 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 15
 	addiction_threshold = 10
-	stun_threshold = 2
-	stun_resist = 12
+	// stun_threshold = 2
+	// stun_resist = 12
 	speedboost = VERY_FAST + IGNORE_SLOWDOWN
 
 
@@ -489,14 +488,13 @@
 	M.adjustStaminaLoss(-8)
 	M.adjustToxLoss(0.6*REM)
 	M.hallucination += 7.5
-	M.sleeping = max(0,M.sleeping - 2)
+	M.sleeping = max(0,M.sleeping - 5)
 	M.Jitter(4)
 	if(prob(20))
 		M.emote(pick("twitch","drool","moan"))
 	if(M.canmove && !istype(M.loc, /atom/movable))
 		step(M, pick(cardinal))
 		step(M, pick(cardinal))
-	stun_resist_act(M)
 	..()
 	return
 
@@ -509,11 +507,14 @@
 			step(M, pick(cardinal))
 	if(prob(20))
 		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
-	if(prob(33))
-		var/obj/item/I = M.get_active_hand()
-		if(I)
-			M.drop_item()
-	stun_timer += 1
+	if(current_cycle > 10)
+		M.AdjustParalysis(-6)
+		M.AdjustStunned(-6)
+		M.AdjustWeakened(-6)
+	if(current_cycle < volume)
+		metabolization_rate = 0
+	else
+		metabolization_rate = 0.25 * REAGENTS_METABOLISM
 	..()
 	return
 
@@ -526,6 +527,9 @@
 	M.adjustBrainLoss(10)
 	if(prob(30))
 		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
 	..()
 	return
 /datum/reagent/drug/bath_salts/addiction_act_stage2(mob/living/M)
@@ -538,6 +542,9 @@
 	M.adjustBrainLoss(10)
 	if(prob(30))
 		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
 	..()
 	return
 /datum/reagent/drug/bath_salts/addiction_act_stage3(mob/living/M)
@@ -550,6 +557,9 @@
 	M.adjustBrainLoss(10)
 	if(prob(40))
 		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
 	..()
 	return
 /datum/reagent/drug/bath_salts/addiction_act_stage4(mob/living/carbon/human/M)
@@ -563,9 +573,13 @@
 	M.adjustBrainLoss(10)
 	if(prob(50))
 		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
+	else if(prob(50))
+		M.emote("scream")
 	..()
 	return
-*/
 
 /datum/reagent/drug/burpium
 	name = "Burpium"
