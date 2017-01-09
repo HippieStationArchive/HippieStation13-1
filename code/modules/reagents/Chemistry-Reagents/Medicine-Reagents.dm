@@ -1028,34 +1028,36 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	..()
 	return
 
-/*	/* Get ye gone stun resist */
 /datum/reagent/medicine/stimulants
 	name = "Stimulants"
 	id = "stimulants"
-	description = "Increases stun resistance and movement speed in addition to restoring minor damage and weakness. Overdose causes weakness and toxin damage."
+	description = "Grants immunity to slowdown, increases movement speed at max health and restores minor damage and stamina loss. Overdose causes weakness and toxin damage."
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 60
-	stun_threshold = 4
-	stun_resist = 4
-	speedboost = FAST
+	// stun_threshold = 4
+	// stun_resist = 4
+	speedboost = IGNORE_SLOWDOWN + FAST
 
 /datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
-	if(M.health < 50 && M.health > 0)
-		M.adjustOxyLoss(-1*REM)
-		M.adjustToxLoss(-1*REM)
-		M.adjustBruteLoss(-1*REM)
-		M.adjustBloodLoss(-0.1*REM)
-		M.adjustFireLoss(-1*REM)
+	if(M.health == 100)
+		speedboost = IGNORE_SLOWDOWN + FAST
+	else
+		speedboost = IGNORE_SLOWDOWN
+		if(M.health < 60 && M.health > 0)
+			M.adjustOxyLoss(-1*REM)
+			M.adjustToxLoss(-1*REM)
+			M.adjustBruteLoss(-1*REM)
+			M.adjustBloodLoss(-0.1*REM)
+			M.adjustFireLoss(-1*REM)
 	M.adjustStaminaLoss(-3)
-	stun_resist_act(M)
+	// stun_resist_act(M) Stun resists are still dead mate
 	..()
 
 /datum/reagent/medicine/stimulants/overdose_process(mob/living/M)
 	if(prob(33))
-		M.adjustStaminaLoss(2.5*REM)
+		M.adjustStaminaLoss(15*REM)
 		M.adjustToxLoss(1*REM)
 		M.losebreath++
 	..()
 	return
-*/
