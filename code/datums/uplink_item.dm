@@ -428,7 +428,7 @@ var/list/uplink_items = list()
 	name = "EMP Kit"
 	desc = "A box that contains two EMP grenades, an EMP implant and a short ranged recharging device disguised as a flashlight. Useful to disrupt communication and silicon lifeforms."
 	item = /obj/item/weapon/storage/box/syndie_kit/emp
-	cost = 3
+	cost = 4
 
 /datum/uplink_item/dangerous/syndicate_minibomb
 	name = "Syndicate Minibomb"
