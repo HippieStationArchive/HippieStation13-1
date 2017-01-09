@@ -357,5 +357,6 @@
 	qdel(src)
 
 /obj/machinery/blastco_antiburglar/HasProximity(atom/movable/AM as mob|obj)
-	if (istype(AM, /obj/effect/beam))	return
+	if (istype(AM, /obj/effect/beam))
+		return
 	src.detonate()
