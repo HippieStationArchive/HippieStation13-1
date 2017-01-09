@@ -103,7 +103,7 @@
 /datum/reagent/drug/heroin
 	name = "Heroin"
 	id = "heroin"
-	description = "An extremely advanced painkiller/narcotic. Heroin allows you to ignore all slowdown and grants you full immunity to stamina damage, but stuns are twice as effective against you. Mildly toxic. Overdosing will make you periodically fall asleep."
+	description = "An extremely advanced painkiller/narcotic. Heroin allows you to ignore all slowdown and grants you much faster stamina regeneration, but stuns are twice as effective against you. Mildly toxic. Overdosing will make you periodically fall asleep."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
@@ -112,7 +112,7 @@
 	speedboost = IGNORE_SLOWDOWN
 
 /datum/reagent/drug/heroin/on_mob_life(mob/living/M)
-	M.setStaminaLoss(0)
+	M.adjustStaminaLoss(-10)
 	if(M.stunned || M.weakened)
 		M.AdjustStunned(0.5)
 		M.AdjustWeakened(0.5)
@@ -198,7 +198,7 @@
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
-	M.setStaminaLoss(0)
+	M.adjustStaminaLoss(-10)
 	M.adjustToxLoss(0.5)
 	if(prob(50))
 		M.losebreath++
