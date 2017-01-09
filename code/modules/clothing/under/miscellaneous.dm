@@ -78,7 +78,6 @@
 	return ..()
 
 /obj/item/clothing/under/jotaro
-	name = "Jotaro's uniform and belt"
 	desc = "Good grief."
 	icon_state = "jotaro"
 	item_state = "jotaro"

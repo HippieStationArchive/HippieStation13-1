@@ -318,7 +318,7 @@
 	item_state = "DIO"
 
 /obj/item/clothing/head/jotaro
-	name = "Jotaro's Hat"
+	name = "Delinquent's cap"
 	desc = "or is it your hair...?"
 	icon_state = "jotaro"
 	item_state = "jotaro"

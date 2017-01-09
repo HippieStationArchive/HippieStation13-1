@@ -248,7 +248,7 @@
 	item_state = "DIO"
 
 /obj/item/clothing/suit/jotaro
-	name = "Jotaro's School Coat"
+	name = "Delinquent's school coat"
 	desc = "Wear this, and you'll be shining like platinum."
 	icon_state = "jotaro"
 	item_state = "jotaro"
