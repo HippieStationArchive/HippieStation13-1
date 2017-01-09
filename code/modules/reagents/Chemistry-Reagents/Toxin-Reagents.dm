@@ -38,7 +38,7 @@
 		if(prob(98))
 			randmutb(M)
 		else
-			randmutg(M)
+			randmutg(M, 1)
 		M.updateappearance()
 		M.domutcheck()
 	..()
@@ -670,7 +670,7 @@
 
 
 /datum/reagent/toxin/acid
-	name = "Sulphuric acid"
+	name = "Sulfuric acid"
 	id = "sacid"
 	description = "A strong mineral acid with the molecular formula H2SO4."
 	color = "#DB5008" // rgb: 219, 80, 8
@@ -724,7 +724,7 @@
 		if(H.vessel)
 			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
 	..()
-	
+
 /datum/reagent/toxin/bleach
 	name = "Bleach"
 	id = "bleach"

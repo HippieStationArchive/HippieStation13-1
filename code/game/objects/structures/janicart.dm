@@ -170,7 +170,7 @@
 	var/callme = "pimpin' ride"	//how do people refer to it?
 	var/move_delay = 0
 	var/floorbuffer = 0
-	var/keytype = /obj/item/key/janitor
+	var/keytype = /obj/item/key/janitor	/* Set to null for no key */
 
 /obj/structure/bed/chair/janicart/New()
 	handle_rotation()
@@ -229,7 +229,7 @@
 /obj/structure/bed/chair/janicart/relaymove(mob/user, direction)
 	if(user.stat || user.stunned || user.weakened || user.paralysis)
 		unbuckle_mob()
-	if(istype(user.l_hand, keytype) || istype(user.r_hand, keytype))
+	if(!keytype || (istype(user.l_hand, keytype) || istype(user.r_hand, keytype)))
 		if(!Process_Spacemove(direction) || !has_gravity(src.loc) || move_delay || !isturf(loc))
 			return
 		step(src, direction)
@@ -321,3 +321,70 @@
 	if(buckled_mob)
 		buckled_mob.dir = dir
 		buckled_mob.pixel_y = 4
+
+
+/obj/structure/bed/chair/janicart/lawnmower
+	name = "lawn mower"
+	desc = "Equipped with realible safeties to prevent <i>accidents</i> in the workplace."
+	icon = 'icons/obj/vehicles.dmi'
+	icon_state = "lawnmower"
+	keytype = null
+	callme = "lawn mower"
+	var/emagged = 0
+	var/list/driveSounds = list('sound/effects/mowermove1.ogg', 'sound/effects/mowermove2.ogg')
+	var/list/gibSounds = list('sound/effects/mowermovesquish.ogg')
+
+/obj/structure/bed/chair/janicart/lawnmower/emag_act(mob/user)
+	if(emagged)
+		user << "<span class='warning'>The safety mechanisms on the [callme] are already disabled!</span>"
+		return
+	user << "<span class='warning'>You disable the safety mechanisms on the [callme].</span>"
+	emagged = 1
+
+/obj/structure/bed/chair/janicart/lawnmower/update_mob()
+	if(buckled_mob)
+		buckled_mob.dir = dir
+		switch(dir)
+			if(SOUTH)
+				buckled_mob.pixel_x = 0
+				buckled_mob.pixel_y = 7
+			if(WEST)
+				buckled_mob.pixel_x = 5
+				buckled_mob.pixel_y = 2
+			if(NORTH)
+				buckled_mob.pixel_x = 0
+				buckled_mob.pixel_y = 4
+			if(EAST)
+				buckled_mob.pixel_x = -5
+				buckled_mob.pixel_y = 2
+
+/obj/structure/bed/chair/janicart/lawnmower/Bump(atom/A)
+	if(emagged)
+		if(isliving(A))
+			var/mob/living/M = A
+			M.adjustBruteLoss(25)
+			var/atom/newLoc = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
+			M.throw_at(newLoc, 4, 1)
+
+/obj/structure/bed/chair/janicart/lawnmower/Move()
+	..()
+	var/gibbed = 0
+
+	for(var/obj/effect/spacevine/S in loc)
+		qdel(S)
+
+	if(emagged)
+		for(var/mob/living/carbon/human/M in loc)
+			if(M == buckled_mob)
+				continue
+			if(M.lying)
+				visible_message("<span class='danger'>The [callme] grinds [M.name] into a fine paste!</span>")
+				M.gib()
+				shake_camera(M, 20, 1)
+				gibbed = 1
+
+	if(gibbed)
+		shake_camera(buckled_mob, 10, 1)
+		playsound(loc, pick(gibSounds), 75, 1)
+	else
+		playsound(loc, pick(driveSounds), 75, 1)

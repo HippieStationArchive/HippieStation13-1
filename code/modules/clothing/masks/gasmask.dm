@@ -199,3 +199,4 @@ obj/item/clothing/mask/gas/tiki_mask/attack_self(mob/user)
 	icon_state = "hockey_mask"
 	item_state = "hockey_mask"
 	flags = BLOCK_GAS_SMOKE_EFFECT | MASKINTERNALS | NODROP
+	flags_cover = MASKCOVERSEYES
