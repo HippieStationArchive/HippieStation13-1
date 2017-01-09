@@ -284,7 +284,7 @@
 	locked = 1
 
 /datum/design/mag_smg/incin_tox
-	name = "SABR SMG Urnaium Magazine (9mmTX)"
+	name = "SABR SMG Uranium Magazine (9mmTX)"
 	desc = "A 30-round uranium tipped round magazine for the prototype submachine gun. The bullet injects toxin into the victim, but with less overall physical damage."
 	id = "mag_smg_tx"
 	materials = list(MAT_METAL = 3000, MAT_URANIUM = 1000)
