@@ -1006,7 +1006,7 @@ var/list/uplink_items = list()
 	desc = "When screwed to wiring attached to a power grid and activated, this large device places excessive load on the grid, causing a stationwide blackout. The sink is large and cannot be stored in \
 	most traditional bags and boxes."
 	item = /obj/item/device/powersink
-	cost = 6
+	cost = 8
 
 /datum/uplink_item/device_tools/singularity_beacon
 	name = "Singularity Beacon"
