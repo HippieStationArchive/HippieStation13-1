@@ -325,6 +325,8 @@ var/bomb_set
 
 #define NUKERANGE 80
 /obj/machinery/nuclearbomb/proc/explode()
+	var/alarmSound = 'sound/machines/Alarm.ogg' 
+
 	if (safety)
 		timing = 0
 		return
@@ -334,11 +336,9 @@ var/bomb_set
 	safety = 1
 	update_icon()
 	if(prob(1))
-		for(var/mob/M in player_list)
-			M << 'sound/misc/imnuclear.ogg'
-	else
-		for(var/mob/M in player_list)
-			M << 'sound/machines/Alarm.ogg'
+		alarmSound ='sound/misc/imnuclear.ogg' /*Memes.*/
+	for(var/mob/M in player_list)
+		M << alarmSound
 	if (ticker && ticker.mode)
 		ticker.mode.explosion_in_progress = 1
 	sleep(100)
