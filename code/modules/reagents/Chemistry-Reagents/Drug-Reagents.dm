@@ -112,9 +112,10 @@
 	speedboost = IGNORE_SLOWDOWN
 
 /datum/reagent/drug/heroin/on_mob_life(mob/living/M)
-	M.adjustStaminaLoss(-10)
-	if(M.stunned || M.weakened)
+	M.adjustStaminaLoss(-15)
+	if(M.stunned)
 		M.AdjustStunned(0.5)
+	if(M.weakened)
 		M.AdjustWeakened(0.5)
 	if(iscarbon(M))
 		var/mob/living/carbon/N = M
@@ -192,13 +193,13 @@
 	description = "Amps you up and gets you going, fixes all stamina damage you might have but can cause toxin and oxygen damage."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
-	speedboost = FAST
+	speedboost = VERY_FAST
 
 /datum/reagent/drug/aranesp/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
-	M.adjustStaminaLoss(-10)
+	M.adjustStaminaLoss(-15)
 	M.adjustToxLoss(0.5)
 	if(prob(33))
 		M.losebreath++
