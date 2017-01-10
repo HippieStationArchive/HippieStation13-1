@@ -14,7 +14,7 @@ Contents:
 	name = "Space Ninja"
 	typepath = /datum/round_event/ninja
 	max_occurrences = 1
-	earliest_start = 30000 // 1 hour
+	earliest_start = 12000 // 20 minutes
 
 
 /datum/round_event/ninja
