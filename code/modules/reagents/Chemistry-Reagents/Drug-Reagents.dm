@@ -463,6 +463,7 @@
 	return
 */
 
+/*
 /datum/reagent/drug/bath_salts
 	name = "Bath Salts"
 	id = "bath_salts"
@@ -590,6 +591,7 @@
 		M.AdjustParalysis(15)
 	..()
 	return
+*/
 
 /datum/reagent/drug/burpium
 	name = "Burpium"
