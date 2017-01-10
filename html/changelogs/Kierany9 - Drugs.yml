@@ -34,4 +34,5 @@ delete-after: True
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
   - rscadd: "Re-added Traitor Stimpacks for 5 TC. These no longer reduce the duration of stuns, but rather allow you to ignore all slowdowns and grant speedboosts at max HP. Their healing remains and has been slightly improved."
-  - tweak: "Slightly nerfed Heroin and Aranesp to compensate for the removal of antistuns by changing stamina immunity into fast stamina regeneration. Aranesp has lost some of its speed but has been made less toxic to compensate."
+  - tweak: "Slightly nerfed Heroin and Aranesp to compensate for the removal of antistuns by changing stamina immunity into fast stamina regeneration. Aranesp has is no longer game-breakingly fast but has been made less toxic to compensate."
+  - rscadd: "Ephedrine has regained its trademark speed, as antistuns have been removed and its overpoweredness problem is gone."
