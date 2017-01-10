@@ -508,7 +508,7 @@
 			step(M, pick(cardinal))
 	if(prob(20))
 		M.emote(pick("twitch","drool","moan","vomit","flip","scream"))
-	if(holder.has_reagent("charcoal") || holder.has_reagent("calomel"))
+	if(holder.has_reagent("charcoal") || holder.has_reagent("calomel") || holder.has_reagent("pen_acid"))
 		M.adjustToxLoss(5*REM)
 	else if(current_cycle > 10)
 		M.AdjustParalysis(-6)
