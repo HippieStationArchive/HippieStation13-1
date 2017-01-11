@@ -105,7 +105,10 @@ var/list/uplink_items = list()
 		U.interact(user)
 		return 1
 	return 0
-
+/datum/uplink_item/equipaccess/blastco/buy(obj/item/device/uplink/U, mob/user)
+	..()
+	for(var/obj/machinery/blastco_antibuurglar in world)
+		qdel()
 /*
 //
 //	UPLINK ITEMS
