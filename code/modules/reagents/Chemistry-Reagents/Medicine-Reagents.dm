@@ -447,7 +447,7 @@
 /datum/reagent/medicine/perfluorodecalin
 	name = "Perfluorodecalin"
 	id = "perfluorodecalin"
-	description = "Extremely rapidly restores oxygen deprivation, but inhibits speech. May also heal small amounts of bruising and burns."
+	description = "Restores oxygen deprivation extremely rapidly, but inhibits speech. May also heal small amounts of bruising and burns."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.25 * REAGENTS_METABOLISM
@@ -464,7 +464,7 @@
 /datum/reagent/medicine/ephedrine
 	name = "Ephedrine"
 	id = "ephedrine"
-	description = "Increases minorly stamina regeneration. Overdose deals toxin damage and inhibits breathing. Mainly to be used in other recipes."
+	description = "Slightly increases stamina regeneration and increases speed at full health. Overdose deals toxin damage and inhibits breathing. Mainly to be used in other recipes."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
@@ -1035,7 +1035,7 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 /datum/reagent/medicine/stimulants
 	name = "Stimulants"
 	id = "stimulants"
-	description = "Grants immunity to slowdown, increases movement speed at max health and restores minor damage and stamina loss. Overdose causes weakness and toxin damage."
+	description = "Grants immunity to slowdown, increases movement speed when not heavily injured and restores minor damage and stamina loss. Overdose causes weakness and toxin damage."
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 60
