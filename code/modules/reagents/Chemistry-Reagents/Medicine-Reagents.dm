@@ -193,7 +193,7 @@
 /datum/reagent/medicine/oxandrolone
 	name = "Oxandrolone"
 	id = "oxandrolone"
-	description = "Stimulates the healing of severe burns. Extremely rapidly heals severe burns and slowly heals minor ones. Overdose will worsen existing burns."
+	description = "Stimulates the healing of severe burns. Heals severe burns extremely rapidly and slowly heals minor ones. Overdose will worsen existing burns."
 	reagent_state = LIQUID
 	color = "#f7ffa5"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
@@ -217,7 +217,7 @@
 /datum/reagent/medicine/styptic_powder
 	name = "Styptic Powder"
 	id = "styptic_powder"
-	description = "If used in touch-based applications, immediately restores bruising as well as restoring more over time. If ingested through other means, deals minor toxin damage."
+	description = "If used in touch-based applications, immediately restores bruising. If ingested through other means, deals minor toxin damage."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 
@@ -411,7 +411,7 @@
 /datum/reagent/medicine/sal_acid
 	name = "Salicyclic Acid"
 	id = "sal_acid"
-	description = "Very slowly restores low bruising. Primarily used as an ingredient in other medicines. Overdose causes slight bruising."
+	description = "Restores light bruising very slowly. Primarily used as an ingredient in other medicines. Overdose causes slight bruising."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
@@ -562,7 +562,7 @@
 /datum/reagent/medicine/morphine
 	name = "Morphine"
 	id = "morphine"
-	description = "A painkiller that allows the patient to move at full speed, regardless of injury or clothing. However, it will make you drowsy, drains faster on severe injuries and reduces the effectiveness of stun-resisting chemicals. Overdose will cause a variety of effects, ranging from minor to lethal."
+	description = "A painkiller that allows the patient to move at full speed, regardless of injury or clothing. However, it will make you drowsy, and can knock out severely wounded patients. Overdose will cause a variety of effects, ranging from minor to lethal."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 1.5 * REAGENTS_METABOLISM
@@ -675,7 +675,7 @@
 /datum/reagent/medicine/atropine
 	name = "Atropine"
 	id = "atropine"
-	description = "If a patient is in critical condition, rapidly heals all damage types as well as regulating oxygen in the body. Excellent for stabilizing wounded patients."
+	description = "If a patient is in critical condition, rapidly heals all damage types as well as regulating oxygen in the body. Excellent for stabilizing wounded patients. Can stop a heart attack."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.25 * REAGENTS_METABOLISM
@@ -719,7 +719,7 @@
 /datum/reagent/medicine/epinephrine
 	name = "Epinephrine"
 	id = "epinephrine"
-	description = "Minor boost to stun resistance. Slowly heals damage if a patient is in critical condition, as well as regulating oxygen loss. Overdose causes weakness and toxin damage."
+	description = "Slowly heals damage if a patient is in critical condition, as well as regulating oxygen loss. Overdose causes weakness and toxin damage. Has a very small chance of stopping heart attacks."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.25 * REAGENTS_METABOLISM
