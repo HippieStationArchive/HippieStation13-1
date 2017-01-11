@@ -117,7 +117,7 @@ Bartender
 	ears = /obj/item/device/radio/headset/headset_srv
 	uniform = /obj/item/clothing/under/rank/bartender
 	suit = /obj/item/clothing/suit/armor/vest
-	backpack_contents = list(/obj/item/weapon/storage/belt/bandolier/full=1, /obj/item/weapon/gun/projectile/revolver/doublebarrel/contender=1)
+	backpack_contents = list(/obj/item/weapon/storage/belt/bandolier/full=1)
 
 
 /*
