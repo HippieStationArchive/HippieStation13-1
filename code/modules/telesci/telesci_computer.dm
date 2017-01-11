@@ -1,7 +1,8 @@
 /obj/machinery/computer/telescience
 	name = "\improper Telepad Control Console"
 	desc = "Used to teleport objects to and from the telescience telepad."
-	icon_state = "teleport"
+	icon_screen = "teleport"
+	icon_keyboard = "teleport_key"
 	circuit = /obj/item/weapon/circuitboard/telesci_console
 	var/sending = 1
 	var/obj/machinery/telepad/telepad = null
@@ -22,14 +23,13 @@
 
 	// Based on the power used
 	var/teleport_cooldown = 0 // every index requires a bluespace crystal
-	var/list/power_options = list(5, 10, 20, 25, 30, 40, 50, 80)
+	var/list/power_options = list(5, 10, 20, 25, 30, 40, 50, 80, 100)
 	var/teleporting = 0
-	var/starting_crystals = 1
-	var/max_crystals = 8
+	var/starting_crystals = 3
+	var/max_crystals = 4
 	var/list/crystals = list()
 	var/obj/item/device/gps/inserted_gps
-	l_color = "#0000FF"
-	
+
 /obj/machinery/computer/telescience/New()
 	..()
 	recalibrate()
@@ -39,7 +39,7 @@
 	if(inserted_gps)
 		inserted_gps.loc = loc
 		inserted_gps = null
-	..()
+	return ..()
 
 /obj/machinery/computer/telescience/examine(mob/user)
 	..()
@@ -51,31 +51,32 @@
 		crystals += new /obj/item/bluespace_crystal/artificial(null) // starting crystals
 
 /obj/machinery/computer/telescience/attack_paw(mob/user)
-	user << "You are too primitive to use this computer."
+	user << "<span class='warning'>You are too primitive to use this computer!</span>"
 	return
 
-/obj/machinery/computer/telescience/attackby(obj/item/W, mob/user)
+/obj/machinery/computer/telescience/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/bluespace_crystal))
 		if(crystals.len >= max_crystals)
 			user << "<span class='warning'>There are not enough crystal slots.</span>"
 			return
-		user.drop_item()
+		if(!user.drop_item())
+			return
 		crystals += W
 		W.loc = null
-		user.visible_message("<span class='notice'>[user] inserts [W] into \the [src]'s crystal slot.</span>")
+		user.visible_message("[user] inserts [W] into \the [src]'s crystal slot.", "<span class='notice'>You insert [W] into \the [src]'s crystal slot.</span>")
 		updateDialog()
 	else if(istype(W, /obj/item/device/gps))
 		if(!inserted_gps)
 			inserted_gps = W
 			user.unEquip(W)
 			W.loc = src
-			user.visible_message("<span class='notice'>[user] inserts [W] into \the [src]'s GPS device slot.</span>")
+			user.visible_message("[user] inserts [W] into \the [src]'s GPS device slot.", "<span class='notice'>You insert [W] into \the [src]'s GPS device slot.</span>")
 	else if(istype(W, /obj/item/device/multitool))
 		var/obj/item/device/multitool/M = W
 		if(M.buffer && istype(M.buffer, /obj/machinery/telepad))
 			telepad = M.buffer
 			M.buffer = null
-			user << "<span class = 'caution'>You upload the data from the [W.name]'s buffer.</span>"
+			user << "<span class='caution'>You upload the data from the [W.name]'s buffer.</span>"
 	else
 		..()
 
@@ -122,7 +123,7 @@
 
 		t += "<BR><A href='?src=\ref[src];send=1'>Send</A>"
 		t += " <A href='?src=\ref[src];receive=1'>Receive</A>"
-		t += "<BR><BR><A href='?src=\ref[src];recal=1'>Recalibrate Crystals</A> <A href='?src=\ref[src];eject=1'>Eject Crystals</A>"
+		t += "<BR><A href='?src=\ref[src];recal=1'>Recalibrate Crystals</A> <A href='?src=\ref[src];eject=1'>Eject Crystals</A>"
 
 		// Information about the last teleport
 		t += "<BR><div class='statusDisplay'>"
@@ -141,7 +142,7 @@
 
 /obj/machinery/computer/telescience/proc/sparks()
 	if(telepad)
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(5, 1, get_turf(telepad))
 		s.start()
 	else
@@ -199,7 +200,7 @@
 			// use a lot of power
 			use_power(power * 10)
 
-			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+			var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 			s.set_up(5, 1, get_turf(telepad))
 			s.start()
 
@@ -210,7 +211,7 @@
 				temp_msg += "Data printed below."
 
 			var/sparks = get_turf(target)
-			var/datum/effect/effect/system/spark_spread/y = new /datum/effect/effect/system/spark_spread
+			var/datum/effect_system/spark_spread/y = new /datum/effect_system/spark_spread
 			y.set_up(5, 1, sparks)
 			y.start()
 
@@ -281,9 +282,9 @@
 		telefail()
 		temp_msg = "ERROR!<BR>Elevation is less than 1 or greater than 90."
 		return
-	if(z_co == 2 || z_co < 1 || z_co > 7)
+	if(z_co == 2 || z_co < 1 || z_co > 6)
 		telefail()
-		temp_msg = "ERROR! Sector is less than 1, <BR>greater than 7, or equal to 2."
+		temp_msg = "ERROR! Sector is less than 1, <BR>greater than 6, or equal to 2."
 		return
 	if(teles_left > 0)
 		doteleport(user)

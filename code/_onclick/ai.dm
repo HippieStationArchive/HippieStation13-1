@@ -33,16 +33,26 @@
 
 	if(control_disabled || stat)
 		return
+	for (var/datum/camerachunk/CC in eyeobj.visibleCameraChunks)
+		if(istype(A,/turf))
+			if(A in CC.obscuredTurfs)
+				return
+		else
+			var/turf/TU = get_turf(A)
+			if(istype(A,/obj/machinery/power/apc))
+				continue
+			if(TU in CC.obscuredTurfs)
+				return
 
 	var/list/modifiers = params2list(params)
 	if(modifiers["shift"] && modifiers["ctrl"])
 		CtrlShiftClickOn(A)
 		return
 	if(modifiers["middle"])
-		if(!controlled_mech)
-			MiddleClickOn(A)
-		else //Since MiddleClick is not used for anything right now, we give normal AI clicks since mech overrides regular clicks.
-			A.attack_ai(src)
+		if(controlled_mech) //Are we piloting a mech? Placed here so the modifiers are not overridden.
+			controlled_mech.click_action(A, src, params) //Override AI normal click behavior.
+		return
+
 		return
 	if(modifiers["shift"])
 		ShiftClickOn(A)
@@ -66,10 +76,6 @@
 		waypoint_mode = 0
 		return
 
-	if(controlled_mech) //Are we piloting a mech? Placed here so the modifiers are not overridden.
-		controlled_mech.click_action(A, src) //Override AI normal click behavior.
-		return
-
 	/*
 		AI restrained() currently does nothing
 	if(restrained())
@@ -89,7 +95,7 @@
 /mob/living/silicon/ai/RangedAttack(atom/A)
 	A.attack_ai(src)
 
-/atom/proc/attack_ai(mob/user as mob)
+/atom/proc/attack_ai(mob/user)
 	return
 
 /*
@@ -111,34 +117,20 @@
 	The following criminally helpful code is just the previous code cleaned up;
 	I have no idea why it was in atoms.dm instead of respective files.
 */
+/* Questions: Instead of an Emag check on every function, can we not add to airlocks onclick if emag return? */
+
+/* Atom Procs */
+/atom/proc/AICtrlClick()
+	return
+/atom/proc/AIAltClick(mob/living/silicon/ai/user)
+	AltClick(user)
+	return
+/atom/proc/AIShiftClick()
+	return
 /atom/proc/AICtrlShiftClick()
 	return
 
-/obj/machinery/door/airlock/AICtrlShiftClick()  // Sets/Unsets Emergency Access Override
-	if(emagged)
-		return
-	if(!emergency)
-		Topic("aiEnable=11", list("aiEnable"="11"), 1) // 1 meaning no window (consistency!)
-	else
-		Topic("aiDisable=11", list("aiDisable"="11"), 1)
-	return
-
-/atom/proc/AIShiftClick()
-	return
-
-/obj/machinery/door/airlock/AIShiftClick()  // Opens and closes doors!
-	if(emagged)
-		return
-	if(density)
-		Topic("aiEnable=7", list("aiEnable"="7"), 1) // 1 meaning no window (consistency!)
-	else
-		Topic("aiDisable=7", list("aiDisable"="7"), 1)
-	return
-
-
-/atom/proc/AICtrlClick()
-	return
-
+/* Airlocks */
 /obj/machinery/door/airlock/AICtrlClick() // Bolts doors
 	if(emagged)
 		return
@@ -146,21 +138,7 @@
 		Topic("aiEnable=4", list("aiEnable"="4"), 1)// 1 meaning no window (consistency!)
 	else
 		Topic("aiDisable=4", list("aiDisable"="4"), 1)
-
-/obj/machinery/power/apc/AICtrlClick() // turns off/on APCs.
-	toggle_breaker()
-	add_fingerprint(usr)
-
-/obj/machinery/turretid/AICtrlClick() //turns off/on Turrets
-	if(can_be_used_by(usr))
-		toggle_on()
-	add_fingerprint(usr)
-
-
-/atom/proc/AIAltClick(var/mob/living/silicon/ai/user)
-	AltClick(user)
 	return
-
 /obj/machinery/door/airlock/AIAltClick() // Eletrifies doors.
 	if(emagged)
 		return
@@ -171,10 +149,36 @@
 		// disable/6 is not in Topic; disable/5 disables both temporary and permenant shock
 		Topic("aiDisable=5", list("aiDisable"="5"), 1)
 	return
+/obj/machinery/door/airlock/AIShiftClick()  // Opens and closes doors!
+	if(emagged)
+		return
+	if(density)
+		Topic("aiEnable=7", list("aiEnable"="7"), 1) // 1 meaning no window (consistency!)
+	else
+		Topic("aiDisable=7", list("aiDisable"="7"), 1)
+	return
+/obj/machinery/door/airlock/AICtrlShiftClick()  // Sets/Unsets Emergency Access Override
+	if(emagged)
+		return
+	if(!emergency)
+		Topic("aiEnable=11", list("aiEnable"="11"), 1) // 1 meaning no window (consistency!)
+	else
+		Topic("aiDisable=11", list("aiDisable"="11"), 1)
+	return
 
+/* APC */
+/obj/machinery/power/apc/AICtrlClick() // turns off/on APCs.
+	toggle_breaker()
+	add_fingerprint(usr)
+
+/* AI Turrets */
 /obj/machinery/turretid/AIAltClick() //toggles lethal on turrets
 	if(can_be_used_by(usr))
 		toggle_lethal()
+	add_fingerprint(usr)
+/obj/machinery/turretid/AICtrlClick() //turns off/on Turrets
+	if(can_be_used_by(usr))
+		toggle_on()
 	add_fingerprint(usr)
 
 //

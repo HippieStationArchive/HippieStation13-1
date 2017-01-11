@@ -2,8 +2,9 @@
 	name = "factory blob"
 	icon = 'icons/mob/blob.dmi'
 	icon_state = "blob_factory"
-	health = 100
-	fire_resist = 2
+	desc = "A thick spire of tendrils."
+	health = 200
+	maxhealth = 200
 	var/list/spores = list()
 	var/max_spores = 3
 	var/spore_delay = 0
@@ -13,12 +14,13 @@
 		qdel(src)
 
 /obj/effect/blob/factory/Destroy()
-	for(var/mob/living/simple_animal/hostile/blobspore/spore in spores)
+	for(var/mob/living/simple_animal/hostile/blob/blobspore/spore in spores)
 		if(spore.factory == src)
 			spore.factory = null
-	..()
+	spores = null
+	return ..()
 
-/obj/effect/blob/factory/PulseAnimation(var/activate = 0)
+/obj/effect/blob/factory/PulseAnimation(activate = 0)
 	if(activate)
 		..()
 	return
@@ -30,6 +32,9 @@
 		return 0
 	spore_delay = world.time + 100 // 10 seconds
 	PulseAnimation(1)
-	new/mob/living/simple_animal/hostile/blobspore(src.loc, src)
+	var/mob/living/simple_animal/hostile/blob/blobspore/BS = new/mob/living/simple_animal/hostile/blob/blobspore(src.loc, src)
+	BS.color = color
+	BS.overmind = overmind
+	overmind.blob_mobs.Add(BS)
 	return 0
 

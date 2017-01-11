@@ -3,7 +3,7 @@
 	icon = 'icons/obj/device.dmi'
 	icon_state = "motion3"
 	layer = 3
-	anchored = 1.0
+	anchored = 1
 	var/uses = 20
 	var/disabled = 1
 	var/lethal = 0
@@ -23,12 +23,12 @@
 			icon_state = "motion0"
 			stat |= NOPOWER
 
-/obj/machinery/ai_slipper/proc/setState(var/enabled, var/uses)
+/obj/machinery/ai_slipper/proc/setState(enabled, uses)
 	src.disabled = disabled
 	src.uses = uses
 	src.power_change()
 
-/obj/machinery/ai_slipper/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/ai_slipper/attackby(obj/item/weapon/W, mob/user, params)
 	if(stat & (NOPOWER|BROKEN))
 		return
 	if (istype(user, /mob/living/silicon))
@@ -36,7 +36,7 @@
 	else // trying to unlock the interface
 		if (src.allowed(usr))
 			locked = !locked
-			user << "You [ locked ? "lock" : "unlock"] the device."
+			user << "<span class='notice'>You [ locked ? "lock" : "unlock"] the device.</span>"
 			if (locked)
 				if (user.machine==src)
 					user.unset_machine()
@@ -46,13 +46,11 @@
 					src.attack_hand(usr)
 		else
 			user << "<span class='danger'>Access denied.</span>"
-			return
-	return
 
-/obj/machinery/ai_slipper/attack_ai(mob/user as mob)
+/obj/machinery/ai_slipper/attack_ai(mob/user)
 	return attack_hand(user)
 
-/obj/machinery/ai_slipper/attack_hand(mob/user as mob)
+/obj/machinery/ai_slipper/attack_hand(mob/user)
 	if(stat & (NOPOWER|BROKEN))
 		return
 	if ( (get_dist(src, user) > 1 ))
@@ -96,7 +94,7 @@
 		if(cooldown_on || disabled)
 			return
 		else
-			new /obj/effect/effect/foam(src.loc)
+			PoolOrNew(/obj/effect/particle_effect/foam, loc)
 			src.uses--
 			cooldown_on = 1
 			cooldown_time = world.timeofday + 100

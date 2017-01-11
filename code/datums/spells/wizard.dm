@@ -3,12 +3,12 @@
 	desc = "This spell fires several, slow moving, magic projectiles at nearby targets."
 
 	school = "evocation"
-	charge_max = 150
+	charge_max = 200
 	clothes_req = 1
 	invocation = "FORTI GY AMA"
 	invocation_type = "shout"
 	range = 7
-	cooldown_min = 90 //15 deciseconds reduction per rank
+	cooldown_min = 75 //35 deciseconds reduction per rank
 
 	max_targets = 0
 
@@ -24,44 +24,34 @@
 	proj_trail_lifespan = 5
 	proj_trail_icon_state = "magicmd"
 
+	action_icon_state = "magicm"
+	sound = "sound/magic/MAGIC_MISSILE.ogg"
+
 /obj/effect/proc_holder/spell/targeted/inflict_handler/magic_missile
 	amt_weakened = 3
 	amt_dam_fire = 10
+	sound = "sound/magic/MM_Hit.ogg"
 
 /obj/effect/proc_holder/spell/targeted/genetic/mutate
 	name = "Mutate"
 	desc = "This spell causes you to turn into a hulk and gain laser vision for a short while."
 
 	school = "transmutation"
-	charge_max = 400
+	charge_max = 1000
 	clothes_req = 1
 	invocation = "BIRUZ BENNAR"
 	invocation_type = "shout"
-	message = "<span class='notice'>You feel strong! You feel a pressure building behind your eyes!</span>"
 	range = -1
 	include_user = 1
 	centcom_cancast = 0
 
-	mutations = list(LASER, HULK)
+	mutations = list(LASEREYES, HULK)
 	duration = 300
 	cooldown_min = 300 //25 deciseconds reduction per rank
 
-/obj/effect/proc_holder/spell/targeted/inflict_handler/disintegrate
-	name = "Disintegrate"
-	desc = "This spell instantly kills somebody adjacent to you with the vilest of magick."
+	action_icon_state = "mutate"
+	sound = "sound/magic/Mutate.ogg"
 
-	school = "evocation"
-	charge_max = 600
-	clothes_req = 1
-	invocation = "EI NATH"
-	invocation_type = "shout"
-	range = 1
-	cooldown_min = 200 //100 deciseconds reduction per rank
-
-	destroys = "gib_brain"
-
-	sparks_spread = 1
-	sparks_amt = 4
 
 /obj/effect/proc_holder/spell/targeted/smoke
 	name = "Smoke"
@@ -77,7 +67,9 @@
 	cooldown_min = 20 //25 deciseconds reduction per rank
 
 	smoke_spread = 2
-	smoke_amt = 10
+	smoke_amt = 4
+
+	action_icon_state = "smoke"
 
 /obj/effect/proc_holder/spell/targeted/emplosion/disable_tech
 	name = "Disable Tech"
@@ -92,6 +84,7 @@
 
 	emp_heavy = 6
 	emp_light = 10
+	sound = "sound/magic/Disable_Tech.ogg"
 
 /obj/effect/proc_holder/spell/targeted/turf_teleport/blink
 	name = "Blink"
@@ -108,12 +101,23 @@
 
 
 	smoke_spread = 1
-	smoke_amt = 1
+	smoke_amt = 0
 
 	inner_tele_radius = 0
 	outer_tele_radius = 6
 
 	centcom_cancast = 0 //prevent people from getting to centcom
+
+	action_icon_state = "blink"
+	sound1="sound/magic/blink.ogg"
+	sound2="sound/magic/blink.ogg"
+
+/obj/effect/proc_holder/spell/targeted/turf_teleport/blink/cult
+	name = "quickstep"
+
+	charge_max = 100
+	clothes_req = 0
+	cult_req = 1
 
 /obj/effect/proc_holder/spell/targeted/area_teleport/teleport
 	name = "Teleport"
@@ -129,7 +133,9 @@
 	cooldown_min = 200 //100 deciseconds reduction per rank
 
 	smoke_spread = 1
-	smoke_amt = 5
+	smoke_amt = 2
+	sound1="sound/magic/Teleport_diss.ogg"
+	sound2="sound/magic/Teleport_app.ogg"
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/forcewall
 	name = "Forcewall"
@@ -146,6 +152,23 @@
 	summon_type = list("/obj/effect/forcefield")
 	summon_lifespan = 300
 
+	action_icon_state = "shield"
+	cast_sound = "sound/magic/ForceWall.ogg"
+
+
+/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop
+	name = "Stop Time"
+	desc = "This spell stops time for everyone except for you, allowing you to move freely while your enemies and even projectiles are frozen."
+	charge_max = 500
+	clothes_req = 1
+	invocation = "TOKI WO TOMARE"
+	invocation_type = "shout"
+	range = 0
+	cooldown_min = 100
+	summon_amt = 1
+	action_icon_state = "time"
+
+	summon_type = list(/obj/effect/timestop/wizard)
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/carp
 	name = "Summon Carp"
@@ -159,6 +182,7 @@
 	range = 1
 
 	summon_type = list(/mob/living/simple_animal/hostile/carp)
+	cast_sound = "sound/magic/Summon_Karp.ogg"
 
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/construct
@@ -174,6 +198,9 @@
 
 	summon_type = list(/obj/structure/constructshell)
 
+	action_icon_state = "artificer"
+	cast_sound = "sound/magic/SummonItems_generic.ogg"
+
 
 /obj/effect/proc_holder/spell/aoe_turf/conjure/creature
 	name = "Summon Creature Swarm"
@@ -188,57 +215,14 @@
 	range = 3
 
 	summon_type = list(/mob/living/simple_animal/hostile/creature)
-
-/obj/effect/proc_holder/spell/aoe_turf/repulse
-	name = "Repulse"
-	desc = "This spell throws everything around the user away."
-	charge_max = 400
-	clothes_req = 1
-	invocation = "GITTAH WEIGH"
-	invocation_type = "shout"
-	range = 5
-	cooldown_min = 150
-	selection_type = "view"
-	var/maxthrow = 5
-
-/obj/effect/proc_holder/spell/aoe_turf/repulse/cast(list/targets)
-	var/mob/user = usr
-	var/list/thrownatoms = list()
-	var/atom/throwtarget
-	var/distfromcaster
-	for(var/turf/T in targets) //Done this way so things don't get thrown all around hilariously.
-		for(var/atom/movable/AM in T)
-			thrownatoms += AM
-	
-	for(var/atom/movable/AM in thrownatoms)
-		if(AM == user || AM.anchored) continue
-	
-		var/obj/effect/overlay/targeteffect	= new /obj/effect/overlay{icon='icons/effects/effects.dmi'; icon_state="shieldsparkles"; mouse_opacity=0; density = 0}()
-		AM.overlays += targeteffect
-		throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(AM, user)))
-		distfromcaster = get_dist(user, AM)
-		spawn(10)
-			AM.overlays -= targeteffect
-			qdel(targeteffect)
-		if(distfromcaster == 0)
-			if(istype(AM, /mob/living))
-				var/mob/living/M = AM
-				M.Weaken(5)
-				M.adjustBruteLoss(5)
-				M << "<span class='userdanger'>You're slammed into the floor by a mystical force!</span>"
-		else
-			if(istype(AM, /mob/living))
-				var/mob/living/M = AM
-				M.Weaken(2)
-				M << "<span class='userdanger'>You're thrown back by a mystical force!</span>"
-			spawn(0) AM.throw_at(throwtarget, ((Clamp((maxthrow - (Clamp(distfromcaster - 2, 0, distfromcaster))), 3, maxthrow))), 1)//So stuff gets tossed around at the same time.
+	cast_sound = "sound/magic/SummonItems_generic.ogg"
 
 /obj/effect/proc_holder/spell/targeted/trigger/blind
 	name = "Blind"
 	desc = "This spell temporarily blinds a single person and does not require wizard garb."
 
 	school = "transmutation"
-	charge_max = 300
+	charge_max = 200
 	clothes_req = 0
 	invocation = "STI KALY"
 	invocation_type = "whisper"
@@ -247,28 +231,26 @@
 
 	starting_spells = list("/obj/effect/proc_holder/spell/targeted/inflict_handler/blind","/obj/effect/proc_holder/spell/targeted/genetic/blind")
 
+	action_icon_state = "blind"
+
+/obj/effect/proc_holder/spell/aoe_turf/conjure/creature/cult
+	name = "Summon Creatures (DANGEROUS)"
+	cult_req = 1
+	charge_max = 5000
+	summon_amt = 2
+
+
+
 /obj/effect/proc_holder/spell/targeted/inflict_handler/blind
+	amt_weakened = 1
 	amt_eye_blind = 10
 	amt_eye_blurry = 20
+	sound="sound/magic/Blind.ogg"
 
 /obj/effect/proc_holder/spell/targeted/genetic/blind
-	disabilities = 1
+	disabilities = BLIND
 	duration = 300
-
-/obj/effect/proc_holder/spell/targeted/inflict_handler/flesh_to_stone
-	name = "Flesh to Stone"
-	desc = "This spell turns a single person into an inert statue for a long period of time."
-
-	school = "transmutation"
-	charge_max = 600
-	clothes_req = 1
-	range = 2
-	invocation = "STAUN EI"
-	invocation_type = "shout"
-	amt_stunned = 2//just exists to make sure the statue "catches" them
-	cooldown_min = 200 //100 deciseconds reduction per rank
-
-	summon_type = "/obj/structure/closet/statue"
+	sound="sound/magic/Blind.ogg"
 
 /obj/effect/proc_holder/spell/dumbfire/fireball
 	name = "Fireball"
@@ -289,7 +271,10 @@
 	proj_lifespan = 200
 	proj_step_delay = 1
 
-/obj/effect/proc_holder/spell/turf/fireball/cast(var/turf/T)
+	action_icon_state = "fireball"
+	sound = "sound/magic/Fireball.ogg"
+
+/obj/effect/proc_holder/spell/turf/fireball/cast(turf/T,mob/user = usr)
 	explosion(T, -1, 0, 2, 3, 0, flame_range = 2)
 
 
@@ -302,3 +287,74 @@
 	ex_heavy = -1
 	ex_light = 2
 	ex_flash = 5
+
+/obj/effect/proc_holder/spell/aoe_turf/repulse
+	name = "Repulse"
+	desc = "This spell throws everything around the user away. If someone is on the same tile as you when you cast it, they are dealt heavy damage and stunned for an extremely long period of time."
+	charge_max = 250
+	clothes_req = 1
+	invocation = "GITTAH WEIGH"
+	invocation_type = "shout"
+	range = 5
+	cooldown_min = 100
+	selection_type = "view"
+	sound = 'sound/magic/Repulse.ogg'
+	var/maxthrow = 5
+	var/animation = "shieldsparkles"
+
+	action_icon_state = "repulse"
+
+/obj/effect/proc_holder/spell/aoe_turf/repulse/cast(list/targets,mob/user = usr)
+	var/list/thrownatoms = list()
+	var/atom/throwtarget
+	var/distfromcaster
+	playMagSound()
+	for(var/turf/T in targets) //Done this way so things don't get thrown all around hilariously.
+		for(var/atom/movable/AM in T)
+			thrownatoms += AM
+
+	for(var/atom/movable/AM in thrownatoms)
+		if(AM == user || AM.anchored) continue
+
+		var/obj/effect/overlay/targeteffect	= new /obj/effect/overlay{icon='icons/effects/effects.dmi'; icon_state="shieldsparkles"; mouse_opacity=0; density = 0}()
+		targeteffect.icon_state = animation
+		AM.overlays += targeteffect
+		throwtarget = get_edge_target_turf(user, get_dir(user, get_step_away(AM, user)))
+		distfromcaster = get_dist(user, AM)
+		spawn(10)
+			AM.overlays -= targeteffect
+			qdel(targeteffect)
+		if(distfromcaster == 0)
+			if(istype(AM, /mob/living))
+				var/mob/living/M = AM
+				M.emote("scream")
+				M.Weaken(6)
+				M.adjustBruteLoss(40)
+				M << "<span class='userdanger'>You're slammed into the floor by [user]!</span>"
+		else
+			if(istype(AM, /mob/living))
+				var/mob/living/M = AM
+				M.Weaken(2)
+				M << "<span class='userdanger'>You're thrown back by [user]!</span>"
+			spawn(0) AM.throw_at(throwtarget, ((Clamp((maxthrow - (Clamp(distfromcaster - 2, 0, distfromcaster))), 3, maxthrow))), 1,user)//So stuff gets tossed around at the same time.
+
+
+/obj/effect/proc_holder/spell/aoe_turf/repulse/xeno //I fixed conflicts only to find out that this is in the WIZARD file instead of the xeno file?!
+	name = "Tail Sweep"
+	desc = "Throw back attackers with a sweep of your tail."
+	sound = 'sound/magic/Tail_swing.ogg'
+	charge_max = 150
+	clothes_req = 0
+	range = 2
+	cooldown_min = 150
+	invocation_type = "none"
+	animation = "tailsweep"
+	action_icon_state = "tailsweep"
+	action_background_icon_state = "bg_alien"
+
+/obj/effect/proc_holder/spell/aoe_turf/repulse/xeno/cast(list/targets,mob/user = usr)
+	if(istype(user, /mob/living/carbon))
+		var/mob/living/carbon/C = user
+		playsound(C.loc, 'sound/voice/hiss5.ogg', 80, 1, 1)
+		C.spin(6,1)
+	..()

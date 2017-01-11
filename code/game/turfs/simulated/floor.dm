@@ -3,7 +3,7 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 				"damaged5","panelscorched","floorscorched1","floorscorched2","platingdmg1","platingdmg2",
 				"platingdmg3","plating","light_on","light_on_flicker1","light_on_flicker2",
 				"light_on_clicker3","light_on_clicker4","light_on_clicker5","light_broken",
-				"light_on_broken","light_off","wall_thermite","grass1","grass2","grass3","grass4",
+				"light_on_broken","light_off","wall_thermite","grass", "sand",
 				"asteroid","asteroid_dug",
 				"asteroid0","asteroid1","asteroid2","asteroid3","asteroid4",
 				"asteroid5","asteroid6","asteroid7","asteroid8","asteroid9","asteroid10","asteroid11","asteroid12",
@@ -42,23 +42,28 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 	if(floor_tile)
 		builtin_tile = new floor_tile
 
+/turf/simulated/floor/Destroy()
+	qdel(builtin_tile)
+	builtin_tile = null
+	return ..()
+
 /turf/simulated/floor/ex_act(severity, target)
 	..()
 	if(target == src)
-		src.ChangeTurf(/turf/space)
+		src.ChangeTurf(src.baseturf)
 	if(target != null)
 		ex_act(3)
 		return
 	switch(severity)
-		if(1.0)
-			src.ChangeTurf(/turf/space)
-		if(2.0)
+		if(1)
+			src.ChangeTurf(src.baseturf)
+		if(2)
 			switch(pick(1,2;75,3))
 				if(1)
 					src.ReplaceWithLattice()
 					if(prob(33)) new /obj/item/stack/sheet/metal(src)
 				if(2)
-					src.ChangeTurf(/turf/space)
+					src.ChangeTurf(src.baseturf)
 				if(3)
 					if(prob(80))
 						src.break_tile_to_plating()
@@ -66,7 +71,7 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 						src.break_tile()
 					src.hotspot_expose(1000,CELL_VOLUME)
 					if(prob(33)) new /obj/item/stack/sheet/metal(src)
-		if(3.0)
+		if(3)
 			if (prob(50))
 				src.break_tile()
 				src.hotspot_expose(1000,CELL_VOLUME)
@@ -79,19 +84,27 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 	if(lava)
 		return 0
 	if(air)
-		update_visuals(air)
+		update_visuals()
 	return 1
 
-/turf/simulated/floor/attack_paw(mob/user as mob)
+/turf/simulated/floor/attack_paw(mob/user)
 	return src.attack_hand(user)
+
+/turf/simulated/floor/attack_animal(mob/living/simple_animal/M)
+	if(istype(M, /mob/living/simple_animal/construct/builder))
+		M.changeNext_move(CLICK_CD_MELEE)
+		M.do_attack_animation(src)
+		playsound(src, 'sound/items/deconstruct.ogg', 100, 1)
+		ChangeTurf(/turf/simulated/floor/plasteel/cult)
+		icon_state = "cult"
+	return
 
 /turf/simulated/floor/proc/gets_drilled()
 	return
 
 /turf/simulated/floor/proc/break_tile_to_plating()
 	var/turf/simulated/floor/plating/T = make_plating()
-	if(istype(T))
-		T.break_tile()
+	T.break_tile()
 
 /turf/simulated/floor/proc/break_tile()
 	if(broken)
@@ -99,7 +112,7 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 	icon_state = pick(broken_states)
 	broken = 1
 
-/turf/simulated/floor/proc/burn_tile()
+/turf/simulated/floor/burn_tile()
 	if(broken || burnt)
 		return
 	if(burnt_states.len)
@@ -117,16 +130,17 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 	var/old_icon = icon_regular_floor
 	var/old_dir = dir
 	var/turf/simulated/floor/W = ..()
-	if(istype(W))
-		W.icon_regular_floor = old_icon
-		W.dir = old_dir
-		W.update_icon()
+	W.icon_regular_floor = old_icon
+	W.dir = old_dir
+	W.update_icon()
 	return W
 
-/turf/simulated/floor/attackby(obj/item/C as obj, mob/user as mob)
+/turf/simulated/floor/attackby(obj/item/C, mob/user, params)
 	if(!C || !user)
 		return 1
-	if(istype(C, /obj/item/weapon/crowbar))
+	if(..())
+		return 1
+	if(intact && istype(C, /obj/item/weapon/crowbar))
 		if(broken || burnt)
 			broken = 0
 			burnt = 0
@@ -163,4 +177,8 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 
 /turf/simulated/floor/narsie_act()
 	if(prob(20))
-		ChangeTurf(/turf/simulated/floor/engine/cult)
+		ChangeTurf(/turf/simulated/floor/plasteel/cult)
+		icon_state = "cult"
+
+/turf/simulated/floor/can_have_cabling()
+	return !burnt & !broken & !lava

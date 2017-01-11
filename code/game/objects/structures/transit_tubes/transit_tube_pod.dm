@@ -1,8 +1,8 @@
 /obj/structure/transit_tube_pod
-	icon = 'icons/obj/pipes/transit_tube_pod.dmi'
+	icon = 'icons/obj/atmospherics/pipes/transit_tube_pod.dmi'
 	icon_state = "pod"
 	animate_movement = FORWARD_STEPS
-	anchored = 1.0
+	anchored = 1
 	density = 1
 	var/moving = 0
 	var/datum/gas_mixture/air_contents = new()
@@ -23,15 +23,15 @@
 	for(var/atom/movable/AM in contents)
 		AM.loc = loc
 
-	..()
+	return ..()
 
-/obj/structure/transit_tube_pod/attackby(var/obj/item/I, var/mob/user)
+/obj/structure/transit_tube_pod/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/crowbar))
 		if(!moving)
 			for(var/obj/structure/transit_tube/station/T in loc)
 				return
 			if(src.contents.len)
-				user.visible_message("<span class='notice'>[user] empties \the [src].</span>", "<span class='notice'>You empty \the [src].</span>")
+				user.visible_message("[user] empties \the [src].", "<span class='notice'>You empty \the [src].</span>")
 				src.empty()
 				return
 			else
@@ -46,8 +46,8 @@
 	if(!moving)
 		user.changeNext_move(CLICK_CD_BREAKOUT)
 		user.last_special = world.time + CLICK_CD_BREAKOUT
-		user << "<span class='notice'>You start trying to escape from the pod.</span>"
-		if(do_after(user, 600))
+		user << "<span class='notice'>You start trying to escape from the pod...</span>"
+		if(do_after(user, 600, target = src))
 			user << "<span class='notice'>You manage to open the pod.</span>"
 			src.empty()
 
@@ -60,7 +60,7 @@
 		return 1
 	else return ..()
 
-/obj/structure/transit_tube_pod/proc/follow_tube(var/reverse_launch)
+/obj/structure/transit_tube_pod/proc/follow_tube(reverse_launch)
 	if(moving)
 		return
 

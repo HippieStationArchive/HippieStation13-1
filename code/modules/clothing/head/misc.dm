@@ -21,6 +21,12 @@
 	icon_state = "tophat"
 	item_state = "that"
 
+/obj/item/clothing/head/canada
+	name = "striped red tophat"
+	desc = " It feels sticky, like maple syrup - <i>il se sent collante, comme le sirop d'érable</i>"
+	icon_state = "canada"
+	item_state = "canada"
+
 /obj/item/clothing/head/redcoat
 	name = "redcoat's hat"
 	icon_state = "redcoat"
@@ -36,12 +42,14 @@
 	desc = "These were once used by plague doctors. They're pretty much useless."
 	icon_state = "plaguedoctor"
 	permeability_coefficient = 0.01
+	burn_state = -1
 
 /obj/item/clothing/head/hasturhood
 	name = "hastur's hood"
 	desc = "It's <i>unspeakably</i> stylish."
 	icon_state = "hasturhood"
-	flags = HEADCOVERSEYES|BLOCKHAIR
+	flags = BLOCKHAIR
+	flags_cover = HEADCOVERSEYES
 
 /obj/item/clothing/head/nursehat
 	name = "nurse's hat"
@@ -55,27 +63,15 @@
 	desc = "A plastic replica of a Syndicate agent's space helmet. You'll look just like a real murderous Syndicate agent in this! This is a toy, it is not made for use in space!"
 	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
-
-/obj/item/clothing/head/that
-	name = "sturdy top-hat"
-	desc = "It's an amish looking armored top hat."
-	icon_state = "tophat"
-	item_state = "that"
-	flags_inv = 0
-
-/obj/item/clothing/head/greenbandana
-	name = "green bandana"
-	desc = "It's a green bandana with some fine nanotech lining."
-	icon_state = "greenbandana"
-	item_state = "greenbandana"
-	flags_inv = 0
+	burn_state = -1
 
 /obj/item/clothing/head/cardborg
 	name = "cardborg helmet"
 	desc = "A helmet made out of a box."
 	icon_state = "cardborg_h"
 	item_state = "cardborg_h"
-	flags = HEADCOVERSEYES
+	flags_cover = HEADCOVERSEYES
+	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 
 /obj/item/clothing/head/justice
@@ -83,7 +79,8 @@
 	desc = "Fight for what's righteous!"
 	icon_state = "justicered"
 	item_state = "justicered"
-	flags = HEADCOVERSEYES|BLOCKHAIR
+	flags = BLOCKHAIR
+	flags_cover = HEADCOVERSEYES
 
 /obj/item/clothing/head/justice/blue
 	icon_state = "justiceblue"
@@ -151,6 +148,14 @@
 	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 
+/obj/item/clothing/head/griffin
+	name = "griffon head"
+	desc = "Why not 'eagle head'? Who knows."
+	icon_state = "griffinhat"
+	item_state = "griffinhat"
+	flags = BLOCKHAIR
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
+
 /obj/item/clothing/head/bearpelt
 	name = "bear pelt hat"
 	desc = "Fuzzy."
@@ -162,14 +167,92 @@
 	icon_state = "xenos"
 	item_state = "xenos_helm"
 	desc = "A helmet made out of chitinous alien hide."
-	flags = BLOCKHAIR
+	flags = BLOCKHAIR | STOPSPRESSUREDMAGE
+	cold_protection = HEAD
+	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
+	alternate_screams = list('sound/voice/hiss1.ogg','sound/voice/hiss2.ogg','sound/voice/hiss3.ogg','sound/voice/hiss4.ogg','sound/voice/hiss5.ogg','sound/voice/hiss6.ogg')
+
+/obj/item/clothing/suit/xenos/equipped(mob/living/carbon/user, slot)
+	if(slot == slot_wear_suit)
+		user.add_screams(src.alternate_screams)
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.reindex_screams()
+		else
+			user.reindex_screams()
+
+	return ..()
+
 
 /obj/item/clothing/head/fedora
 	name = "fedora"
 	icon_state = "fedora"
 	item_state = "fedora"
 	desc = "A really cool hat if you're a mobster. A really lame hat if you're not."
+	action_button_name = "Tip Fedora"
+
+/obj/item/clothing/head/fedora/attack_self(mob/user)
+	var/mob/living/carbon/human/H = user
+	if(H.spam_flag)
+		return
+	else
+		H.spam_flag = 1
+		spawn(30)
+			H.spam_flag = 0
+		if(user.gender == MALE)
+			user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to girls.</span>")
+			user.say("M'lady.")
+			sleep(10)
+			H.facial_hair_style = "Neckbeard"
+			H.adjustBrainLoss(10)
+		else
+			user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to guys.</span>")
+			user.say("M'lord.")
+			sleep(10)
+			H.facial_hair_style = "Neckbeard"
+			H.adjustBrainLoss(10)
+		return
+
+/obj/item/clothing/head/fedora/suicide_act(mob/user)
+	var/mob/living/carbon/human/H = user
+	if(user.gender == MALE)
+		user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to girls.</span>")
+		user.say("M'lady.")
+		sleep(10)
+		H.facial_hair_style = "Neckbeard"
+		H.adjustBrainLoss(10)
+	else
+		user.visible_message("<span class='italics'>[user] tips the [src]! It looks like they're trying to be nice to guys.</span>")
+		user.say("M'lord.")
+		sleep(10)
+		H.facial_hair_style = "Neckbeard"
+		H.adjustBrainLoss(10)
+	return
+
+/obj/item/clothing/head/fedora/detective
+	name = "detective's fedora"
+	desc = "There's only one man who can sniff out the dirty stench of crime, and he's likely wearing this hat."
+	icon_state = "detective"
+	armor = list(melee = 50, bullet = 5, laser = 25, energy = 10, bomb = 0, bio = 0, rad = 0)
+	var/candy_cooldown = 0
+
+/obj/item/clothing/head/fedora/detective/AltClick()
+	..()
+	if(ismob(loc))
+		var/mob/M = loc
+		if(candy_cooldown < world.time)
+			var/obj/item/weapon/reagent_containers/food/snacks/candy_corn/CC = new /obj/item/weapon/reagent_containers/food/snacks/candy_corn(src)
+			M.put_in_hands(CC)
+			M << "You slip a candy corn from your hat."
+			candy_cooldown = world.time+1200
+		else
+			M << "You just took a candy corn! You should wait a couple minutes, lest you burn through your stash."
+
+/obj/item/clothing/head/fedora/detective/alt //For detective locker
+	icon_state = "fedora"
+	item_state = "fedora"
 
 /obj/item/clothing/head/sombrero
 	name = "sombrero"
@@ -196,12 +279,13 @@
 	icon = 'icons/obj/janitor.dmi'
 	icon_state = "cone"
 	item_state = "cone"
-	force = 1.0
-	throwforce = 3.0
+	force = 1
+	throwforce = 3
 	throw_speed = 2
 	throw_range = 5
-	w_class = 2.0
+	w_class = 2
 	attack_verb = list("warned", "cautioned", "smashed")
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/head/santa
 	name = "santa hat"
@@ -211,10 +295,24 @@
 	cold_protection = HEAD
 	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
 
-/obj/item/clothing/head/griffin
-	name = "griffon head"
-	desc = "Why not 'eagle head'? Who knows."
-	icon_state = "griffinhat"
-	item_state = "griffinhat"
-	flags = BLOCKHAIR
-	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
+/obj/item/clothing/head/jester
+	name = "jester hat"
+	desc = "A hat with bells, to add some merryness to the suit."
+	icon_state = "jester_hat"
+
+/obj/item/clothing/head/rice_hat
+	name = "rice hat"
+	desc = "Welcome to the rice fields, motherfucker."
+	icon_state = "rice_hat"
+
+/obj/item/clothing/head/zoothat
+	name = "zoot suit hat"
+	desc = "What's swingin', toots?"
+	icon_state = "zoothat"
+	item_state = "zoothat"
+
+/obj/item/clothing/head/dio
+	name = "DIO's heart headband"
+	desc = "Why is there a heart on this headband? The World may never know."
+	icon_state = "DIO"
+	item_state = "DIO"

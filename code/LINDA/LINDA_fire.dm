@@ -30,13 +30,13 @@
 		if(air_contents.oxygen < 0.5 || air_contents.toxins < 0.5)
 			return 0
 
-		active_hotspot = new(src)
+		active_hotspot = PoolOrNew(/obj/effect/hotspot, src)
 		active_hotspot.temperature = exposed_temperature
 		active_hotspot.volume = exposed_volume
 
-		active_hotspot.just_spawned = (current_cycle < air_master.current_cycle)
+		active_hotspot.just_spawned = (current_cycle < SSair.times_fired)
 			//remove just_spawned protection if no longer processing this cell
-		air_master.add_to_active(src, 0)
+		SSair.add_to_active(src, 0)
 	return igniting
 
 //This is the icon for fire on turfs, also helps for nurturing small fires until they are full tile
@@ -56,12 +56,17 @@
 
 /obj/effect/hotspot/New()
 	..()
-	air_master.hotspots += src
+	alpha = 0
+	SSair.hotspots += src
 	perform_exposure()
+	dir = pick(cardinal)
+	air_update_turf()
+	spawn(0)
+		animate(src, alpha=255, time=2)
 
 /obj/effect/hotspot/proc/perform_exposure()
-	var/turf/simulated/floor/location = loc
-	if(!istype(location))	return 0
+	var/turf/simulated/location = loc
+	if(!istype(location) || !(location.air))	return 0
 
 	if(volume > CELL_VOLUME*0.95)	bypassing = 1
 	else bypassing = 0
@@ -89,7 +94,7 @@
 		just_spawned = 0
 		return 0
 
-	var/turf/simulated/floor/location = loc
+	var/turf/simulated/location = loc
 	if(!istype(location))
 		Kill()
 		return
@@ -101,7 +106,7 @@
 		Kill()
 		return
 
-	if(location.air.toxins < 0.5 || location.air.oxygen < 0.5)
+	if(!(location.air) || location.air.toxins < 0.5 || location.air.oxygen < 0.5)
 		Kill()
 		return
 
@@ -138,22 +143,36 @@
 			location.ReplaceWithSpace()
 			return 0*/
 	if(prob(15))
-		playsound(src.loc, 'sound/effects/fire.ogg', 30, 1, -1) //play it at low volume so the stacking isn't too bad.
+		playsound(src.loc, 'sound/effects/fire.ogg', 30, 1) //play it at low volume so the stacking isn't too bad.
 	return 1
 
 // Garbage collect itself by nulling reference to it
 
 /obj/effect/hotspot/proc/Kill()
-	air_master.hotspots -= src
-	DestroyTurf()
-	qdel(src)
+	SetLuminosity(0)
+	var/obj/effect/overlay/O = new() //we create the fadeout animation as a seperate object so as not to break any shit.
+	O.icon = src.icon
+	O.icon_state = src.icon_state
+	O.layer = src.layer
+	O.mouse_opacity = 1
+	O.dir = src.dir
+	O.loc = src.loc
+	animate(O, alpha=0, time=3)
+	spawn(3)
+		if(O)
+			qdel(O)
+	PlaceInPool(src)
 
 /obj/effect/hotspot/Destroy()
+	SSair.hotspots -= src
+	DestroyTurf()
 	if(istype(loc, /turf/simulated))
 		var/turf/simulated/T = loc
 		if(T.active_hotspot == src)
 			T.active_hotspot = null
 	loc = null
+	..()
+	return QDEL_HINT_PUTINPOOL
 
 /obj/effect/hotspot/proc/DestroyTurf()
 
@@ -166,16 +185,10 @@
 			else
 				chance_of_deletion = 100
 			if(prob(chance_of_deletion))
-				T.ChangeTurf(/turf/space)
+				T.ChangeTurf(T.baseturf)
 			else
 				T.to_be_destroyed = 0
 				T.max_fire_temperature_sustained = 0
-
-/obj/effect/hotspot/New()
-	..()
-	dir = pick(cardinal)
-	air_update_turf()
-	return
 
 /obj/effect/hotspot/Crossed(mob/living/L)
 	..()

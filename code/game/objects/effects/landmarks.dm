@@ -2,21 +2,16 @@
 	name = "landmark"
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "x2"
-	anchored = 1.0
+	anchored = 1
 	unacidable = 1
 
 /obj/effect/landmark/New()
-
 	..()
 	tag = text("landmark*[]", name)
 	invisibility = 101
 	landmarks_list += src
 
 	switch(name)			//some of these are probably obsolete
-		if("shuttle")
-			shuttle_z = z
-			qdel(src)
-			return
 		if("monkey")
 			monkeystart += loc
 			qdel(src)
@@ -59,33 +54,36 @@
 			secequipment += loc
 			qdel(src)
 			return
-		if("Deathsquad")
-			deathsquadspawn += loc
+		if("Emergencyresponseteam")
+			emergencyresponseteamspawn += loc
 			qdel(src)
 			return
 		if("xeno_spawn")
 			xeno_spawn += loc
 			qdel(src)
 			return
-
 	return 1
 
 /obj/effect/landmark/Destroy()
 	landmarks_list -= src
-	..()
+	return ..()
 
 /obj/effect/landmark/start
 	name = "start"
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "x"
-	anchored = 1.0
+	anchored = 1
 
 /obj/effect/landmark/start/New()
 	..()
 	tag = "start*[name]"
 	invisibility = 101
-
+	start_landmarks_list += src
 	return 1
+
+/obj/effect/landmark/start/Destroy()
+	start_landmarks_list -= src
+	return ..()
 
 //Costume spawner landmarks
 
@@ -164,8 +162,16 @@
 	qdel(src)
 
 /obj/effect/landmark/costume/nightowl/New()
+	new /obj/item/clothing/suit/toggle/owlwings(src.loc)
 	new /obj/item/clothing/under/owl(src.loc)
 	new /obj/item/clothing/mask/gas/owl_mask(src.loc)
+	qdel(src)
+
+/obj/effect/landmark/costume/thegriffin/New()
+	new /obj/item/clothing/suit/toggle/owlwings/griffinwings(src.loc)
+	new /obj/item/clothing/shoes/griffin(src.loc)
+	new /obj/item/clothing/under/griffin(src.loc)
+	new /obj/item/clothing/head/griffin(src.loc)
 	qdel(src)
 
 /obj/effect/landmark/costume/waiter/New()
@@ -226,3 +232,31 @@
 	new /obj/item/clothing/mask/gas/sexymime(src.loc)
 	new /obj/item/clothing/under/sexymime(src.loc)
 	qdel(src)
+
+//Department Security spawns
+
+/obj/effect/landmark/start/depsec
+	name = "department_sec"
+
+/obj/effect/landmark/start/depsec/New()
+	..()
+	department_security_spawns += src
+
+/obj/effect/landmark/start/depsec/Destroy()
+	department_security_spawns -= src
+	return ..()
+
+/obj/effect/landmark/start/depsec/supply
+	name = "supply_sec"
+
+/obj/effect/landmark/start/depsec/medical
+	name = "medical_sec"
+
+/obj/effect/landmark/start/depsec/engineering
+	name = "engineering_sec"
+
+/obj/effect/landmark/start/depsec/science
+	name = "science_sec"
+
+/obj/effect/landmark/latejoin
+	name = "JoinLate"

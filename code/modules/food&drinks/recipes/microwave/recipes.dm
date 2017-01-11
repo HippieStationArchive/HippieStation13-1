@@ -9,7 +9,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/friedegg,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/cabbage,
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/wrap
+	result = /obj/item/weapon/reagent_containers/food/snacks/eggwrap
 
 /datum/recipe/beans
 	reagents = list("ketchup" = 5)
@@ -48,7 +48,8 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/libertycap,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/libertycap,
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/spacylibertyduff
+	result = /obj/item/weapon/reagent_containers/food/snacks/soup/spacylibertyduff
+
 
 /datum/recipe/amanitajelly
 	reagents = list("water" = 5, "vodka" = 5)
@@ -57,11 +58,7 @@
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/amanita,
 		/obj/item/weapon/reagent_containers/food/snacks/grown/mushroom/amanita,
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/amanitajelly
-	make_food(var/obj/container as obj)
-		var/obj/item/weapon/reagent_containers/food/snacks/amanitajelly/being_cooked = ..(container)
-		being_cooked.reagents.del_reagent("amatoxin")
-		return being_cooked
+	result = /obj/item/weapon/reagent_containers/food/snacks/soup/amanitajelly
 
 /datum/recipe/candiedapple
 	reagents = list("water" = 5, "sugar" = 5)

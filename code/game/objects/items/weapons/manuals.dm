@@ -113,7 +113,7 @@
 				<body>
 				<h3>Growing Humans</h3>
 
-				Why would you want to grow humans? Well I'm expecting most readers to be in the slave trade, but a few might actuallyc
+				Why would you want to grow humans? Well I'm expecting most readers to be in the slave trade, but a few might actually
 				want to revive fallen comrades. Growing pod people is easy, but prone to disaster.
 				<p>
 				<ol>
@@ -150,7 +150,7 @@
 				<body>
 
 				<H3>How to Clone People</H3>
-				So thereís 50 dead people lying on the floor, chairs are spinning like no tomorrow and you havenít the foggiest idea of what to do? Not to worry! This guide is intended to teach you how to clone people and how to do it right, in a simple step-by-step process! If at any point of the guide you have a mental meltdown, genetics probably isnít for you and you should get a job-change as soon as possible before youíre sued for malpractice.
+				So there‚Äôs 50 dead people lying on the floor, chairs are spinning like no tomorrow and you haven‚Äôt the foggiest idea of what to do? Not to worry! This guide is intended to teach you how to clone people and how to do it right, in a simple step-by-step process! If at any point of the guide you have a mental meltdown, genetics probably isn‚Äôt for you and you should get a job-change as soon as possible before you‚Äôre sued for malpractice.
 
 				<ol>
 					<li><a href='#1'>Acquire body</a></li>
@@ -170,36 +170,36 @@
 				This is pretty much vital for the process because without a body, you cannot clone it. Usually, bodies will be brought to you, so you do not need to worry so much about this step. If you already have a body, great! Move on to the next step.
 
 				<a name='2'><H4>Step 2: Strip body</H4>
-				The cloning machine does not like abiotic items. What this means is you canít clone anyone if theyíre wearing clothes, so take all of it off. If itís just one person, itís courteous to put their possessions in the closet. If you have about seven people awaiting cloning, just leave the piles where they are, but donít mix them around and for Godís sake donít let the Clown in to steal them.
+				The cloning machine does not like abiotic items. What this means is you can‚Äôt clone anyone if they‚Äôre wearing clothes, so take all of it off. If it‚Äôs just one person, it‚Äôs courteous to put their possessions in the closet. If you have about seven people awaiting cloning, just leave the piles where they are, but don‚Äôt mix them around and for God‚Äôs sake don‚Äôt let the Clown in to steal them.
 
 				<a name='3'><H4>Step 3: Put body in cloning machine</H4>
 				Grab the body and then put it inside the DNA modifier. If you cannot do this, then you messed up at Step 2. Go back and check you took EVERYTHING off - a commonly missed item is their headset.
 
 				<a name='4'><H4>Step 4: Scan body</H4>
-				Go onto the computer and scan the body by pressing ëScan - <Subject Name Here>í. If youíre successful, they will be added to the records (note that this can be done at any time, even with living people, so that they can be cloned without a body in the event that they are lying dead on port solars and didnët turn on their suit sensors)! If not, and it says ìError: Mental interface failure.î, then they have left their bodily confines and are one with the spirits. If this happens, just shout at them to get back in their body, click ëRefreshë and try scanning them again. If thereís no success, threaten them with gibbing. Still no success? Skip over to Step 7 and donët continue after it, as you have an unresponsive body and it cannot be cloned. If you got ìError: Unable to locate valid genetic data.ì, you are trying to clone a monkey - start over.
+				Go onto the computer and scan the body by pressing ‚ÄòScan - <Subject Name Here>‚Äô. If you‚Äôre successful, they will be added to the records (note that this can be done at any time, even with living people, so that they can be cloned without a body in the event that they are lying dead on port solars and didn‚Äòt turn on their suit sensors)! If not, and it says ‚ÄúError: Mental interface failure.‚Äù, then they have left their bodily confines and are one with the spirits. If this happens, just shout at them to get back in their body, click ‚ÄòRefresh‚Äò and try scanning them again. If there‚Äôs no success, threaten them with gibbing. Still no success? Skip over to Step 7 and don‚Äòt continue after it, as you have an unresponsive body and it cannot be cloned. If you got ‚ÄúError: Unable to locate valid genetic data.‚Äú, you are trying to clone a monkey - start over.
 
 				<a name='5'><H4>Step 5: Clone body</H4>
-				Now that the body has a record, click íView Recordsí, click the subjectís name, and then click ëCloneí to start the cloning process. Congratulations! Youíre halfway there. Remember not to ëEjectí the cloning pod as this will kill the developing clone and youíll have to start the process again.
+				Now that the body has a record, click ‚ÄôView Records‚Äô, click the subject‚Äôs name, and then click ‚ÄòClone‚Äô to start the cloning process. Congratulations! You‚Äôre halfway there. Remember not to ‚ÄòEject‚Äô the cloning pod as this will kill the developing clone and you‚Äôll have to start the process again.
 
 				<a name='6'><H4>Step 6: Get clean SEs for body</H4>
-				Cloning is a finicky and unreliable process. Whilst it will most certainly bring someone back from the dead, they can have any number of nasty disabilities given to them during the cloning process! For this reason, you need to prepare a clean, defect-free Structural Enzyme (SE) injection for when theyíre done. If youíre a competent Geneticist, you will already have one ready on your working computer. If, for any reason, you do not, then eject the body from the DNA modifier (NOT THE CLONING POD) and take it next door to the Genetics research room. Put the body in one of those DNA modifiers and then go onto the console. Go into View/Edit/Transfer Buffer, find an open slot and click ìSEì to save it. Then click ëInjectorí to get the SEs in syringe form. Put this in your pocket or something for when the body is done.
+				Cloning is a finicky and unreliable process. Whilst it will most certainly bring someone back from the dead, they can have any number of nasty disabilities given to them during the cloning process! For this reason, you need to prepare a clean, defect-free Structural Enzyme (SE) injection for when they‚Äôre done. If you‚Äôre a competent Geneticist, you will already have one ready on your working computer. If, for any reason, you do not, then eject the body from the DNA modifier (NOT THE CLONING POD) and take it next door to the Genetics research room. Put the body in one of those DNA modifiers and then go onto the console. Go into View/Edit/Transfer Buffer, find an open slot and click ‚ÄúSE‚Äú to save it. Then click ‚ÄòInjector‚Äô to get the SEs in syringe form. Put this in your pocket or something for when the body is done.
 
 				<a name='7'><H4>Step 7: Put body in morgue</H4>
-				Now that the cloning process has been initiated and you have some clean Structural Enzymes, you no longer need the body! Drag it to the morgue and tell the Chef over the radio that they have some fresh meat waiting for them in there. To put a body in a morgue bed, simply open the tray, grab the body, put it on the open tray, then close the tray again. Use one of the nearby pens to label the bed ìCHEF MEATî in order to avoid confusion.
+				Now that the cloning process has been initiated and you have some clean Structural Enzymes, you no longer need the body! Drag it to the morgue and tell the Chef over the radio that they have some fresh meat waiting for them in there. To put a body in a morgue bed, simply open the tray, grab the body, put it on the open tray, then close the tray again. Use one of the nearby pens to label the bed ‚ÄúCHEF MEAT‚Äù in order to avoid confusion.
 
 				<a name='8'><H4>Step 8: Await cloned body</H4>
-				Now go back to the lab and wait for your patient to be cloned. It wonít be long now, I promise.
+				Now go back to the lab and wait for your patient to be cloned. It won‚Äôt be long now, I promise.
 
 				<a name='9'><H4>Step 9: Use the clean SE injector on person</H4>
-				Has your body been cloned yet? Great! As soon as the guy pops out, grab your injector and jab it in them. Once youíve injected them, they now have clean Structural Enzymes and their defects, if any, will disappear in a short while.
+				Has your body been cloned yet? Great! As soon as the guy pops out, grab your injector and jab it in them. Once you‚Äôve injected them, they now have clean Structural Enzymes and their defects, if any, will disappear in a short while.
 
 				<a name='10'><H4>Step 10: Give person clothes back</H4>
-				Obviously the person will be naked after they have been cloned. Provided you werenít an irresponsible little shit, you should have protected their possessions from thieves and should be able to give them back to the patient. No matter how cruel you are, itís simply against protocol to force your patients to walk outside naked.
+				Obviously the person will be naked after they have been cloned. Provided you weren‚Äôt an irresponsible little shit, you should have protected their possessions from thieves and should be able to give them back to the patient. No matter how cruel you are, it‚Äôs simply against protocol to force your patients to walk outside naked.
 
 				<a name='11'><H4>Step 11: Send person on their way</H4>
-				Give the patient one last check-over - make sure they donít still have any defects and that they have all their possessions. Ask them how they died, if they know, so that you can report any foul play over the radio. Once youíre done, your patient is ready to go back to work! Chances are they do not have Medbay access, so you should let them out of Genetics and the Medbay main entrance.
+				Give the patient one last check-over - make sure they don‚Äôt still have any defects and that they have all their possessions. Ask them how they died, if they know, so that you can report any foul play over the radio. Once you‚Äôre done, your patient is ready to go back to work! Chances are they do not have Medbay access, so you should let them out of Genetics and the Medbay main entrance.
 
-				<p>If youíve gotten this far, congratulations! You have mastered the art of cloning. Now, the real problem is how to resurrect yourself after that traitor had his way with you for cloning his target.
+				<p>If you‚Äôve gotten this far, congratulations! You have mastered the art of cloning. Now, the real problem is how to resurrect yourself after that traitor had his way with you for cloning his target.
 
 
 
@@ -283,6 +283,137 @@
 				Coming soon...
 			"}
 
+/obj/item/weapon/book/manual/experimentor
+	name = "Mentoring your Experiments"
+	icon_state = "rdbook"
+	author = "Dr. H.P. Kritz"
+	title = "Mentoring your Experiments"
+	dat = {"<html>
+		<head>
+		<style>
+		h1 {font-size: 18px; margin: 15px 0px 5px;}
+		h2 {font-size: 15px; margin: 15px 0px 5px;}
+		li {margin: 2px 0px 2px 15px;}
+		ul {list-style: none; margin: 5px; padding: 0px;}
+		ol {margin: 5px; padding: 0px 15px;}
+		</style>
+		</head>
+		<body>
+		<h1>THE E.X.P.E.R.I-MENTOR</h1>
+		The Enhanced Xenobiological Period Extraction (and) Restoration Instructor is a machine designed to discover the secrets behind every item in existence.
+		With advanced technology, it can process 99.95% of items, and discover their uses and secrets.
+		The E.X.P.E.R.I-MENTOR is a Research apparatus that takes items, and through a process of elimination, it allows you to deduce new technological designs from them.
+		Due to the volatile nature of the E.X.P.E.R.I-MENTOR, there is a slight chance for malfunction, potentially causing irreparable damage to you or your environment.
+		However, upgrading the apparatus has proven to decrease the chances of undesirable, potentially life-threatening outcomes.
+		Please note that the E.X.P.E.R.I-MENTOR uses a state-of-the-art random generator, which has a larger entropy than the observable universe,
+		therefore it can generate wildly different results each day, therefore it is highly suggested to re-scan objects of interests frequently (e.g. each shift).
+
+		<h2>BASIC PROCESS</h2>
+		The usage of the E.X.P.E.R.I-MENTOR is quite simple:
+		<ol>
+			<li>Find an item with a technological background</li>
+			<li>Insert the item into the E.X.P.E.R.I-MENTOR</li>
+			<li>Cycle through each processing method of the device.</li>
+			<li>Stand back, even in case of a successful experiment, as the machine might produce undesired behaviour.</li>
+		</ol>
+
+		<h2>ADVANCED USAGE</h2>
+		The E.X.P.E.R.I-MENTOR has a variety of uses, beyond menial research work. The different results can be used to combat localised events, or even to get special items.
+
+		The E.X.P.E.R.I-MENTOR's OBLITERATE function has the added use of transferring the destroyed item's material into a linked lathe.
+
+		The IRRADIATE function can be used to transform items into other items, resulting in potential upgrades (or downgrades).
+
+		Users should remember to always wear appropriate protection when using the machine, because malfunction can occur at any moment!
+
+		<h1>EVENTS</h1>
+		<h2>GLOBAL (happens at any time):</h2>
+			<ol>
+			<li>DETECTION MALFUNCTION - The machine's onboard sensors have malfunctioned, causing it to redefine the item's experiment type.
+			Produces the message: The E.X.P.E.R.I-MENTOR's onboard detection system has malfunctioned!</li>
+
+			<li>IANIZATION - The machine's onboard corgi-filter has malfunctioned, causing it to produce a corgi from.. somewhere.
+			Produces the message: The E.X.P.E.R.I-MENTOR melts the banana, ian-izing the air around it!</li>
+
+			<li>RUNTIME ERROR - The machine's onboard C4T-P processor has encountered a critical error, causing it to produce a cat from.. somewhere.
+			Produces the message: The E.X.P.E.R.I-MENTOR encounters a run-time error!</li>
+
+			<li>B100DG0D.EXE - The machine has encountered an unknown subroutine, which has been injected into it's runtime. It upgrades the held item!
+			Produces the message: The E.X.P.E.R.I-MENTOR improves the banana, drawing the life essence of those nearby!</li>
+
+			<li>POWERSINK - The machine's PSU has tripped the charging mechanism! It consumes massive amounts of power!
+			Produces the message: The E.X.P.E.R.I-MENTOR begins to smoke and hiss, shaking violently!</li>
+			</ol>
+		<h2>FAIL:</h2>
+			This event is produced when the item mismatches the selected experiment.
+			Produces a random message similar to: "the Banana rumbles, and shakes, the experiment was a failure!"
+
+		<h2>POKE:</h2>
+			<ol>
+			<li>WILD ARMS - The machine's gryoscopic processors malfunction, causing it to lash out at nearby people with it's arms.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions and destroys the banana, lashing it's arms out at nearby people!</li>
+
+			<li>MISTYPE - The machine's interface has been garbled, and it switches to OBLITERATE.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions!</li>
+
+			<li>THROW - The machine's spatial recognition device has shifted several meters across the room, causing it to try and repostion the item there.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, throwing the banana!</li>
+			</ol>
+		<h2>IRRADIATE:</h2>
+			<ol>
+			<li>RADIATION LEAK - The machine's shield has failed, resulting in a toxic radiation leak.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, melting the banana and leaking radiation!</li>
+
+			<li>RADIATION DUMP - The machine's recycling and containment functions have failed, resulting in a dump of toxic waste around it
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, spewing toxic waste!</li>
+
+			<li>MUTATION - The machine's radio-isotope level meter has malfunctioned, causing it over-irradiate the item, making it transform.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, transforming the banana!</li>
+			</ol>
+		<h2>GAS:</h2>
+			<ol>
+			<li>TOXIN LEAK - The machine's filtering and vent systems have failed, resulting in a cloud of toxic gas being expelled.
+			Produces the message: The E.X.P.E.R.I-MENTOR destroys the banana, leaking dangerous gas!</li>
+
+			<li>GAS LEAK - The machine's vent systems have failed, resulting in a cloud of harmless, but obscuring gas.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, spewing harmless gas!</li>
+
+			<li>ELECTROMAGNETIC IONS - The machine's electrolytic scanners have failed, causing a dangerous Electromagnetic reaction.
+			Produces the message: The E.X.P.E.R.I-MENTOR melts the banana, ionizing the air around it!</li>
+			</ol>
+		<h2>HEAT:</h2>
+			<ol>
+			<li>TOASTER - The machine's heating coils have come into contact with the machine's gas storage, causing a large, sudden blast of flame.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, melting the banana and releasing a burst of flame!</li>
+
+			<li>SAUNA - The machine's vent loop has sprung a leak, resulting in a large amount of superheated air being dumped around it.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, melting the banana and leaking hot air!</li>
+
+			<li>EMERGENCY VENT - The machine's temperature gauge has malfunctioned, resulting in it attempting to cool the area around it, but instead, dumping a cloud of steam.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, activating it's emergency coolant systems!</li>
+			</ol>
+		<h2>COLD:</h2>
+			<ol>
+			<li>FREEZER - The machine's cooling loop has sprung a leak, resulting in a cloud of super-cooled liquid being blasted into the air.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, shattering the banana and releasing a dangerous cloud of coolant!</li>
+
+			<li>FRIDGE - The machine's cooling loop has been exposed to the outside air, resulting in a large decrease in temperature.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, shattering the banana and leaking cold air!</li>
+
+			<li>SNOWSTORM - The machine's cooling loop has come into contact with the heating coils, resulting in a sudden blast of cool air.
+			Produces the message: The E.X.P.E.R.I-MENTOR malfunctions, releasing a flurry of chilly air as the banana pops out!</li>
+			</ol>
+		<h2>OBLITERATE:</h2>
+			<ol>
+			<li>IMPLOSION - The machine's pressure leveller has malfunctioned, causing it to pierce the space-time momentarily, making everything in the area fly towards it.
+			Produces the message: The E.X.P.E.R.I-MENTOR's crusher goes way too many levels too high, crushing right through space-time!</li>
+
+			<li>DISTORTION - The machine's pressure leveller has completely disabled, resulting in a momentary space-time distortion, causing everything to fly around.
+			Produces the message: The E.X.P.E.R.I-MENTOR's crusher goes one level too high, crushing right into space-time!</li>
+			</ol>
+		</body>
+	</html>
+	"}
 
 /obj/item/weapon/book/manual/research_and_development
 	name = "Research and Development 101"
@@ -548,13 +679,13 @@
 				Here is a guide on basic food recipes and also how to not poison your customers accidentally.
 
 				<h2>Burger:<h2>
-				Put 1 meat and 1 flour into the microwave and turn it on. Then wait.
+				Put 1 meat and 5 flour into the microwave and turn it on. Then wait.
 
 				<h2>Bread:<h2>
-				Put 3 flour into the microwave and then wait.
+				Put 15 flour into the microwave and then wait.
 
 				<h2>Waffles:<h2>
-				Add 2 flour and 2 egg to the microwave and then wait.
+				Add 10 flour and 2 egg to the microwave and then wait.
 
 				<h2>Popcorn:<h2>
 				Add 1 corn to the microwave and wait.
@@ -563,16 +694,19 @@
 				Put 1 meat, 1 unit of salt and 1 unit of pepper into the microwave and wait.
 
 				<h2>Meat Pie:<h2>
-				Put 1 meat and 2 flour into the microwave and wait.
+				Put 1 meat and 10 flour into the microwave and wait.
+
+				<h2>Spaghett:<h2>
+				Put 5 flour into the microwave then wait.
 
 				<h2>Boiled Spagetti:<h2>
 				Put 1 spagetti and 5 units of water into the microwave and wait.
 
 				<h2>Donuts:<h2>
-				Add 1 egg and 1 flour to the microwave and wait.
+				Add 1 egg and 5 flour to the microwave and wait.
 
 				<h2>Fries:<h2>
-				Add one potato to the processor and wait.
+				Add 1 potato to the processor and wait.
 
 
 				</body>
@@ -739,7 +873,7 @@
     			}
 			</script>
 			<p id='loading'>You start skimming through the manual...</p>
-			<iframe width='100%' height='97%' onload="pageloaded(this)" src="[config.wikiurl]/[page_link]?printable=yes&remove_links=1" frameborder="0" id="main_frame"></iframe>
+			<iframe width='100%' height='97%' onload="pageloaded(this)" src="[config.wikiurl]/index.php?title=[page_link]" frameborder="0" id="main_frame"></iframe>
 			</body>
 
 			</html>
@@ -788,120 +922,3 @@
 	author = "Engineering Encyclopedia"
 	title = "Hacking"
 	page_link = "Hacking"
-
-/obj/item/weapon/book/ProtoStory
-	icon = 'icons/obj/library.dmi'
-	name = "Prototype Station diary"
-	due_date = 0 // Game time in 1/10th seconds
-	unique = 1   // 0 - Normal book, 1 - Should not be treated as normal book, unable to be copied, unable to be modified
-	author = "Larry Senior"
-	title = "Prototype station 13"
-	dat = {"<html>
-				<head>
-				<style>
-				h1 {font-size: 18px; margin: 15px 0px 5px;}
-				h2 {font-size: 15px; margin: 15px 0px 5px;}
-
-				ul {list-style: none; margin: 10px; padding: 0px;}
-				ol {margin: 25px; padding: 2px 15px;}
-				</style>
-				</head>
-				<body>
-				<h3>Prototype station</h3>
-				<span style="color:#80BFFF"><ol>By Larry Senior</ol></span style">
-				<ol></ol>
-
-
-
-				<strong><li>Preparations - Day 0.</li></strong>
-				I can't believe I've been chosen for this project. Not only have I been selected the honor of building the maintenance system for this new station; but I also get to board it and be among the first to set foot on the secret project, Space station 13! I've had little preparation time as Nanostrasen only gave me twenty-four hours. As a result I've had no time to fly back and tell my mom where I'm going. Just a short phone call to my girlfriend was all I could manage before having to pack and do the final check-ups. I'll be meeting with the two others who are joining me on this expedition tomorrow. I can't sleep, Just knowing that the others in my dorm would kill to take my place is keeping me up at night.<br>
-
-</br> I can't wait to get back home after all this is over with, I'm gonna be famous!
-<ol></ol>
-
-<strong><li>Launch - Day 1.</li></strong>
-				I can barely write after a day like this. Launch was early and the verifications took hours. The station was in orbit around the asteroid as planned. A few of the solars had minimal damage, but otherwise this station was perfect. Getting to know my crewmates was the real highlight of the day.<br>
-<br>
-Captain Sonador is the son of one of centcomm's top officers. He's harsh, focused, and clearly an unloved child. He seems to be a fair leader so long as you know your shit and pull your weight. He knows about everything there is to know about plasma energy and seems to know a lot beyond that as well. There's also Shirley Greene; expert botanist, nutritionist, and part-time chemist. She's clearly terrified of the mission, I don't understand her. She should be exited!<br><br>
-
-Our first day has been full of busy work like activating the gravity generator, testing each vent, and other forms of monotony. Tomorrow we're scheduled to set foot on the asteroid for the first time.
-<ol></ol>
-
-
-<strong><li>The boring day - Day 3.</li></strong>
-
-We mostly stayed put and did nothing other than watch Shirley play around with plasma. She accidentally let some leak from the test tubes while it was still gasseous but that was resolved quickly. The Captain and I stayed put for a while and waited on our mining mechs to be delivered. At the behest of Central Command we were sent out into the asteroid to find a specimen from the Goliath species. Terrifying beasts the Goliaths were and try as we might to fail our mission we managed to find one of the damned things. It turned out to be a surprisingly near-sighted species as it didn't spot us, allowing us the time to observe and research it as ordered.<br><br>
-
-We came home to a delicious new tomato breed. Shirley, for whatever reason, didn't seem happy and in fact refused to talk for much of the remaining day. When I asked her what was wrong she just ignored me, women are so strange sometimes.
-<ol></ol>
-
-<strong><li>Pain and stress - Day 4.</li></strong>
-Early in the morning the Captain and I went back to the Goliath's nest. With his trusty laser pistol in hand he started to unload on the beast we'd been content with observing yesterday. Unfortunately the Goliath's poor sight played against me this time and it launched a flurry of it's tentacles right at me instead of the Captain. I had no armor, just a standard issue space suit, and as such the Goliath's tentacles nearly ripped my leg from it's socket. Evidently the captain had placed a bolt between it's eyes as I woke some time later in the recovery room in our meagre excuse for a medbay.<br><br>
-
-That nanogel stuff is really amazing, I mean, really! I recall hearing the most sickening sound before blacking out and there I was sitting with a fully intact leg! After a short drink with the Captain I retired to my dorm, passing by Shirley on the way there. She barely noticed I was back. She blurted about how dangerous space was and I swear I saw a tear forming in here eyes, the poor girl was not enjoying this one bit. I tried talking vegetables with her in order to comfort her, which seemed to work, but I can still see the fear in her face. Space is not for everyone I guess.<ol></ol>
-
-
-
-<strong><li>Recovery - Day 5.</li></strong>
-This day could not have been worse if god both existed and conspired against us. First, the automated supply shuttle brought us a ton of stuff; which, per instructions, we were required to unpack and process individually before sending the crates back to the shuttle. This was so that we had ''Full stock'' each supply cycle, but it also meant moving back and forth in the station for hours on end. Nanostrasen really needs to work on it's policies.<br><br>
-
-Shirley picked herself up and has made as much food as possible. She found out those special tomatoes she came up with have a intrinsic quantum field inside them. I had no idea botany could bring about such changes. This might make a teleporter possible in the future! Albeit it fruit powered one. Are tomatoes fruits or vegetables?<br><br>
-
-At night the captain woke me up to have a drink in his cabin. He told me a bit about his current worries and what's worse, they weren't irrational fears. He had heard that a new group called the ''Syndicate'' had been trying to infiltrate Nanostrasen since before our launch. He received a report this morning that they had killed 3 employees of the Nanostrasen Shuttlecorps; the same division that arranged our supply shuttle yesterday and every day preceding. Reports are unsure but we do know the Syndicate used high explosives, emp technology, and high caliber guns to destroy most of the evidence. They are organised and they may or may not have the whereabouts about the project. At least they can't reach us all the way out here in space. I understand why the captain was so worried now. I need to stop writing this journal, it takes a lot of my pre-sleep time and I seem to get less and less of that with every growing day.<ol></ol>
-
-
-<strong><li>6</li></strong>
-I'm going to die. I'm going to try to be strong and write this with a steady hand. <br><br>
-
-It was early morning and I was just about to get some coffee when the captain nearly jumped on top of me. He ordered me to duck, and boy I wish I had. I heard the explosion comming from the bridge, splintering the windows open. The explosion threw me off balance and I heard the door being forced open. A man in a red and black hardsuit pointed a gun at me and yelled for me to get down. The captain, however, was not in a cooperative mood. I watched as the bravest man I'd ever known leaped from the ground and grabbed his trusty laser pistol; he managed to fire off an expertly placed shot that nailed the intruder right between the eyes, killing him instantly. To my horror, the downed invader began to shudder violently before exploding violently. These people are truly monsters. After the shock of seeing this wore off I looked over towards the Captain, expecting to see him. Instead of seeing him alive and well I saw the last signs of life fading from him as another red and black clad man slit his throat with a wicked looking knife.  <br><br>
-
-I cried out for mercy but all I got was a bullet to the shoulder and a knee in my chest. The bastard that murdered my Captain and friend was sitting on me now, knife and all. I regained my focus just to hear some shots in botany as well as Shirley screaming. I felt terrified, but at least I knew death would come for me in a moment. The man sitting on top of me raised his knife to impale my heart but got stopped by a third man; this one was dressed in pure black. He told the other to finish the job properly. The man on top of me finally raised me off the ground. He punched me square in the jaw and then threw me into the minibrig. He then pressed the button to close the door. I heard tools being fumbled with and before I knew it I saw the bolts locking me inside of that small room.<br><br>
-
-I sat there for some hours, slowly bleeding out. Maybe it was luck or just god prolonging my suffering, but I did not die. After what seemed like a century of waiting and suffering the door bolts lifted and I saw the same man who nearly killed me walk in. He explained how his commander wanted me to tell Nanostrasen what happened so that they may be feared. He pricked me with a small autoinjector and told me that I would be stable for another few hours, and that I had best get to writing.<br><br>
-
-The glass won't break. The pen is too small for suicide. I will die a lonely death. The Syndicate truly are the monsters they want people to believe they are. I would write longer, but the lights are giving up. I don't even have hope of a rescue team finding me. Maybe they'll come, but they won't find our corpses for weeks.<br><br>
-
-There is no point for a testament, but maybe a confession is appropriate. I've never really loved anyone but myself. I've always worked myself to the bone to try and get a good position and stabbed as many backs as I could to do it. In this bitter end I find myself wishing I'd spent more time with my friends and family. Maybe by the time they find my body my brain will be in a shape that's capable of being cloned, I can only find solace in this. If that isn't the case then I say this now to whomever may happen upon this journal. Beware the Syndicate and their cruelty. And show the bastards no mercy if you have enough men to fight them off.
-
-				</body>
-				</html>
-				"}
-
-
-/obj/item/weapon/book/IPCstory
-	icon = 'icons/obj/library.dmi'
-	name = "K.O.A.K\'s diary"
-	due_date = 0 // Game time in 1/10th seconds
-	unique = 1   // 0 - Normal book, 1 - Should not be treated as normal book, unable to be copied, unable to be modified
-	author = "K.O.A.K"
-	title = "IPC station 13"
-	dat = {"<html>
-				<head>
-				<style>
-				h1 {font-size: 18px; margin: 15px 0px 5px;}
-				h2 {font-size: 15px; margin: 15px 0px 5px;}
-
-				ul {list-style: none; margin: 10px; padding: 0px;}
-				ol {margin: 25px; padding: 2px 15px;}
-				</style>
-				</head>
-				<body>
-				<h3>IPC Research Station 8</h3>
-				<span style="color:#80BFFF"><ol>By K.O.A,R</ol></span style">
-				<ol></ol>
-
-
-
-				<<strong><li>IPC spacedate : 20/958/91.</li></strong>
-				This unit has been provided with deceit all week long. Our benefactor, Nanostrasen, will not be happy when they find out our research has yielded nothing but a single docility potion and one new specimen. This unit expected a crew of IPCs to make a fine research team, after all it is known that we are the most efficient sentient beings in the galaxy. However, it turns out that the units assigned to my command are all faulty, or incompetent!
-<ol></ol>
-
-This unit feels the only talent of it's team is both eating and deep-frying everything in sight. Not only did unit K.E.E.P break the teleporter while trying to get it working; but unit I.I.D.8 thought it would be 'funny' to hide all the artificial crystals on the station somewhere. This unit is confident that unit I.I.D.8 broke one while hiding them, too, since it was teleported onto the bridge. Meanwhile, unit C.N.E.R was revealed as a power addict, this unit keeps finding it opening the APCs and draining the power to suppliment it's cravings. This unit thinks it should jetison itself from an airlock to avoid the shame of reporting back to Nanotrasen.
-<ol></ol>
-Perhaps this unit does not have to report back OR jeti itself. This unit could just release the new specimen, that way it seems like a freak accident!
-<ol></ol>
-- Captain K.O.A.K
-
-				</body>
-				</html>
-				"}

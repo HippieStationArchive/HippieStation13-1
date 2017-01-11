@@ -18,7 +18,7 @@ var/const/AUTOLATHE_DISABLE_WIRE = 4
 		return 1
 	return 0
 
-/datum/wires/autolathe/Interact(var/mob/living/user)
+/datum/wires/autolathe/Interact(mob/living/user)
 	if(CanUse(user))
 		var/obj/machinery/autolathe/V = holder
 		V.attack_hand(user)
@@ -27,7 +27,8 @@ var/const/AUTOLATHE_DISABLE_WIRE = 4
 	var/obj/machinery/autolathe/A = holder
 	switch(index)
 		if(AUTOLATHE_HACK_WIRE)
-			A.adjust_hacked(!mended)
+			if(!A.hacked)
+				A.adjust_hacked(1)
 		if(AUTOLATHE_SHOCK_WIRE)
 			A.shocked = !mended
 		if(AUTOLATHE_DISABLE_WIRE)

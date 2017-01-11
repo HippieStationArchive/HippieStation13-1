@@ -13,6 +13,8 @@
 	icon_state = ""
 	var/list/icons = list()
 
+
+
 /turf/simulated/floor/mineral/New()
 	..()
 	broken_states = list("[initial(icon_state)]_dam")
@@ -24,6 +26,8 @@
 		if( !(icon_state in icons) )
 			icon_state = initial(icon_state)
 
+//PLASMA
+
 /turf/simulated/floor/mineral/plasma
 	name = "plasma floor"
 	icon_state = "plasma"
@@ -34,15 +38,16 @@
 	if(exposed_temperature > 300)
 		PlasmaBurn()
 
-/turf/simulated/floor/mineral/plasma/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if(is_hot(W) > 300)//If the temperature of the object is over 300, then ignite
-		message_admins("Plasma flooring was ignited by [key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
-		log_game("Plasma flooring was ignited by [user.ckey]([user]) in ([x],[y],[z])")
-		ignite(is_hot(W))
+/turf/simulated/floor/mineral/plasma/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+	if(W.is_hot() > 300)//If the temperature of the object is over 300, then ignite
+		message_admins("Plasma flooring was ignited by [key_name_admin(user)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[user]'>FLW</A>) in ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
+		log_game("Plasma flooring was ignited by [key_name(user)] in ([x],[y],[z])")
+		ignite(W.is_hot())
 		return
 	..()
 
 /turf/simulated/floor/mineral/plasma/proc/PlasmaBurn()
+	make_plating()
 	atmos_spawn_air(SPAWN_HEAT | SPAWN_TOXINS, 20)
 
 /turf/simulated/floor/mineral/plasma/proc/ignite(exposed_temperature)
@@ -50,6 +55,7 @@
 		PlasmaBurn()
 
 
+//GOLD
 
 /turf/simulated/floor/mineral/gold
 	name = "gold floor"
@@ -57,12 +63,15 @@
 	floor_tile = /obj/item/stack/tile/mineral/gold
 	icons = list("gold","gold_dam")
 
+//SILVER
 
 /turf/simulated/floor/mineral/silver
 	name = "silver floor"
 	icon_state = "silver"
 	floor_tile = /obj/item/stack/tile/mineral/silver
 	icons = list("silver","silver_dam")
+
+//BANANIUM
 
 /turf/simulated/floor/mineral/bananium
 	name = "bananium floor"
@@ -77,7 +86,7 @@
 		if(istype(AM))
 			squeek()
 
-/turf/simulated/floor/mineral/bananium/attackby(obj/item/weapon/W, mob/user)
+/turf/simulated/floor/mineral/bananium/attackby(obj/item/weapon/W, mob/user, params)
 	.=..()
 	if(!.)
 		honk()
@@ -111,11 +120,15 @@
 	nitrogen = 0.01
 	temperature = TCMB
 
+//DIAMOND
+
 /turf/simulated/floor/mineral/diamond
 	name = "diamond floor"
 	icon_state = "diamond"
 	floor_tile = /obj/item/stack/tile/mineral/diamond
 	icons = list("diamond","diamond_dam")
+
+//URANIUM
 
 /turf/simulated/floor/mineral/uranium
 	name = "uranium floor"
@@ -131,7 +144,7 @@
 		if(istype(AM))
 			radiate()
 
-/turf/simulated/floor/mineral/uranium/attackby(obj/item/weapon/W, mob/user)
+/turf/simulated/floor/mineral/uranium/attackby(obj/item/weapon/W, mob/user, params)
 	.=..()
 	if(!.)
 		radiate()
@@ -150,9 +163,8 @@
 	if(!active)
 		if(world.time > last_event+15)
 			active = 1
-			for(var/mob/living/L in range(3,src))
-				L.apply_effect(1,IRRADIATE,0)
-			for(var/turf/simulated/floor/mineral/uranium/T in range(3,src))
+			radiation_pulse(get_turf(src), 3, 3, 1, 0)
+			for(var/turf/simulated/floor/mineral/uranium/T in orange(1,src))
 				T.radiate()
 			last_event = world.time
 			active = 0

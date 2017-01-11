@@ -1,33 +1,18 @@
-/mob/living/carbon/human/say_quote(text)
-	if(!text)
-		return "says, \"...\"";	//not the best solution, but it will stop a large number of runtimes. The cause is somewhere in the Tcomms code
-	var/ending = copytext(text, length(text))
-	if (src.stuttering)
-		return "stammers, \"[text]\"";
-	if(isliving(src))
-		var/mob/living/L = src
-		if (L.getBrainLoss() >= 60)
-			return "gibbers, \"[text]\"";
-	if (ending == "?")
-		return "asks, \"[text]\"";
-	if (ending == "!")
-		return "exclaims, \"[text]\"";
+/mob/living/carbon/human/say_quote(input, spans)
+	if(!input)
+		return "says, \"...\""	//not the best solution, but it will stop a large number of runtimes. The cause is somewhere in the Tcomms code
+	verb_say = dna.species.say_mod
+	if(src.slurring)
+		input = attach_spans(input, spans)
+		return "slurs, \"[input]\""
 
-	if(dna)
-		return "[dna.species.say_mod], \"[text]\"";
-
-	return "says, \"[text]\"";
+	return ..()
 
 /mob/living/carbon/human/treat_message(message)
-	if(dna)
-		message = dna.species.handle_speech(message,src)
-
-	if ((HULK in mutations) && health >= 25 && length(message))
-		message = "[uppertext(replacetext(message, ".", "!"))]!!" //because I don't know how to code properly in getting vars from other files -Bro
-
+	message = dna.species.handle_speech(message,src)
 	if(viruses.len)
 		for(var/datum/disease/pierrot_throat/D in viruses)
-			var/list/temp_message = text2list(message, " ") //List each word in the message
+			var/list/temp_message = splittext(message, " ") //List each word in the message
 			var/list/pick_list = list()
 			for(var/i = 1, i <= temp_message.len, i++) //Create a second list for excluding words down the line
 				pick_list += i
@@ -37,11 +22,13 @@
 					if(findtext(temp_message[H], "*") || findtext(temp_message[H], ";") || findtext(temp_message[H], ":")) continue
 					temp_message[H] = "HONK"
 					pick_list -= H //Make sure that you dont HONK the same word twice
-				message = list2text(temp_message, " ")
-
+				message = jointext(temp_message, " ")
 	message = ..(message)
-
+	message = dna.mutations_say_mods(message)
 	return message
+
+/mob/living/carbon/human/get_spans()
+	return ..() | dna.mutations_get_spans() | dna.species_get_spans()
 
 /mob/living/carbon/human/GetVoice()
 	if(istype(wear_mask, /obj/item/clothing/mask/gas/voice))
@@ -65,7 +52,7 @@
 		return !mind.miming
 	return 1
 
-/mob/living/carbon/human/proc/SetSpecialVoice(var/new_voice)
+/mob/living/carbon/human/proc/SetSpecialVoice(new_voice)
 	if(new_voice)
 		special_voice = new_voice
 	return
@@ -83,7 +70,7 @@
 		if(!istype(dongle)) return 0
 		if(dongle.translate_binary) return 1
 
-/mob/living/carbon/human/radio(message, message_mode)
+/mob/living/carbon/human/radio(message, message_mode, list/spans)
 	. = ..()
 	if(. != 0)
 		return .
@@ -91,22 +78,22 @@
 	switch(message_mode)
 		if(MODE_HEADSET)
 			if (ears)
-				ears.talk_into(src, message)
+				ears.talk_into(src, message, , spans)
 			return ITALICS | REDUCE_RANGE
 
 		if(MODE_SECURE_HEADSET)
 			if (ears)
-				ears.talk_into(src, message, 1)
+				ears.talk_into(src, message, 1, spans)
 			return ITALICS | REDUCE_RANGE
 
 		if(MODE_DEPARTMENT)
 			if (ears)
-				ears.talk_into(src, message, message_mode)
+				ears.talk_into(src, message, message_mode, spans)
 			return ITALICS | REDUCE_RANGE
 
 	if(message_mode in radiochannels)
 		if(ears)
-			ears.talk_into(src, message, message_mode)
+			ears.talk_into(src, message, message_mode, spans)
 			return ITALICS | REDUCE_RANGE
 
 	return 0
@@ -118,38 +105,30 @@
 /mob/living/carbon/human/proc/forcesay(list/append) //this proc is at the bottom of the file because quote fuckery makes notepad++ cri
 	if(stat == CONSCIOUS)
 		if(client)
+			var/virgin = 1	//has the text been modified yet?
+			var/temp = winget(client, "input", "text")
+			if(findtextEx(temp, "Say \"", 1, 7) && length(temp) > 5)	//"case sensitive means
 
-			var/msg = null
+				temp = replacetext(temp, ";", "")	//general radio
 
-			var/cmd_text = winget(client, "input", "text")
+				if(findtext(trim_left(temp), ":", 6, 7))	//dept radio
+					temp = copytext(trim_left(temp), 8)
+					virgin = 0
 
-			if(lowertext(copytext(cmd_text, 1, 4)) == "say")
-				msg = copytext(cmd_text, 5)
-			else if(winget(client, "say_window", "is-visible"))
-				msg = winget(client, "say_window.say_input", "text")
+				if(virgin)
+					temp = copytext(trim_left(temp), 6)	//normal speech
+					virgin = 0
 
-			if(!msg || length(msg) < 1)
-				return
+				while(findtext(trim_left(temp), ":", 1, 2))	//dept radio again (necessary)
+					temp = copytext(trim_left(temp), 3)
 
-			while(1)
-				var/first_char = copytext(msg, 1, 2)
+				if(findtext(temp, "*", 1, 2))	//emotes
+					return
 
-				if(first_char == " " || first_char == "\"" || first_char == ";")
-					msg = copytext(msg, 2)
-				else if(first_char == ":")
-					msg = copytext(msg, 3)
-				else
-					break
+				var/trimmed = trim_left(temp)
+				if(length(trimmed))
+					if(append)
+						temp += pick(append)
 
-			if(length(msg) < 1)
-				return
-
-			msg = copytext(msg, 1, min(max(7, round(length(msg) * 0.4)), 20)) // Value of msg length * 0.4 restricted between 7 and 20
-
-			if(append)
-				msg += pick(append)
-
-			say(msg)
-
-			winset(client, "input", "text=[null]")
-			winset(client, "say_window.say_input", "text=[null]")
+					say(temp)
+				winset(client, "input", "text=[null]")

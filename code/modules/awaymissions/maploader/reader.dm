@@ -16,10 +16,15 @@ var/global/dmm_suite/preloader/_preloader = null
  * 2) Read the map line by line, parsing the result (using parse_grid)
  *
  */
-/dmm_suite/load_map(var/dmm_file as file, var/z_offset as num)
+/dmm_suite/load_map(dmm_file as file, x_offset as num, y_offset as num, z_offset as num)
 	if(!z_offset)//what z_level we are creating the map on
 		z_offset = world.maxz+1
 
+	if(!x_offset)
+		x_offset = 0
+
+	if(!y_offset)
+		y_offset = 0
 	var/quote = ascii2text(34)
 	var/tfile = file2text(dmm_file)//the map file we're creating
 	var/tfile_len = length(tfile)
@@ -47,8 +52,8 @@ var/global/dmm_suite/preloader/_preloader = null
 
 	//position of the currently processed square
 	var/zcrd=-1
-	var/ycrd=0
-	var/xcrd=0
+	var/ycrd=y_offset
+	var/xcrd=x_offset
 
 	for(var/zpos=findtext(tfile,"\n(1,1,",lpos,0);zpos!=0;zpos=findtext(tfile,"\n(1,1,",zpos+1,0))	//in case there's several maps to load
 
@@ -60,8 +65,9 @@ var/global/dmm_suite/preloader/_preloader = null
 
 		//if exceeding the world max x or y, increase it
 		var/x_depth = length(copytext(zgrid,1,findtext(zgrid,"\n",2,0)))
-		if(world.maxx<x_depth)
-			world.maxx=x_depth
+		var/x_tilecount = x_depth/key_len
+		if(world.maxx<x_tilecount)
+			world.maxx=x_tilecount
 
 		var/y_depth = z_depth / (x_depth+1)//x_depth + 1 because we're counting the '\n' characters in z_depth
 		if(world.maxy<y_depth)
@@ -78,7 +84,7 @@ var/global/dmm_suite/preloader/_preloader = null
 			for(var/mpos=1;mpos<=x_depth;mpos+=key_len)
 				xcrd++
 				var/model_key = copytext(grid_line,mpos,mpos+key_len)
-				parse_grid(grid_models[model_key],xcrd,ycrd,zcrd+z_offset)
+				parse_grid(grid_models[model_key],xcrd+x_offset,ycrd+y_offset,zcrd+z_offset)
 
 			//reached end of current map
 			if(gpos+x_depth+1>z_depth)
@@ -110,7 +116,7 @@ var/global/dmm_suite/preloader/_preloader = null
  * 4) Instanciates the atom with its variables
  *
  */
-/dmm_suite/proc/parse_grid(var/model as text,var/xcrd as num,var/ycrd as num,var/zcrd as num)
+/dmm_suite/proc/parse_grid(model as text,xcrd as num,ycrd as num,zcrd as num)
 	/*Method parse_grid()
 	- Accepts a text string containing a comma separated list of type paths of the
 		same construction as those contained in a .dmm file, and instantiates them.
@@ -143,7 +149,7 @@ var/global/dmm_suite/preloader/_preloader = null
 		var/variables_start = findtext(full_def,"{")
 		if(variables_start)//if there's any variable
 			full_def = copytext(full_def,variables_start+1,length(full_def))//removing the last '}'
-			fields = text2list(full_def,";")
+			fields = readlist(full_def,";")
 
 		//then fill the members_attributes list with the corresponding variables
 		members_attributes.len++
@@ -203,7 +209,7 @@ var/global/dmm_suite/preloader/_preloader = null
 ////////////////
 
 //Instance an atom at (x,y,z) and gives it the variables in attributes
-/dmm_suite/proc/instance_atom(var/path,var/list/attributes, var/x, var/y, var/z)
+/dmm_suite/proc/instance_atom(path,list/attributes, x, y, z)
 	var/atom/instance
 	_preloader = new(attributes, path)
 
@@ -216,7 +222,7 @@ var/global/dmm_suite/preloader/_preloader = null
 
 //text trimming (both directions) helper proc
 //optionally removes quotes before and after the text (for variable name)
-/dmm_suite/proc/trim_text(var/what as text,var/trim_quotes=0)
+/dmm_suite/proc/trim_text(what as text,trim_quotes=0)
 	while(length(what) && (findtext(what," ",1,2)))
 		what=copytext(what,2,0)
 	while(length(what) && (findtext(what," ",length(what),0)))
@@ -230,7 +236,7 @@ var/global/dmm_suite/preloader/_preloader = null
 
 //find the position of the next delimiter,skipping whatever is comprised between opening_escape and closing_escape
 //returns 0 if reached the last delimiter
-/dmm_suite/proc/find_next_delimiter_position(var/text as text,var/initial_position as num, var/delimiter=",",var/opening_escape=quote,var/closing_escape=quote)
+/dmm_suite/proc/find_next_delimiter_position(text as text,initial_position as num, delimiter=",",opening_escape=quote,closing_escape=quote)
 	var/position = initial_position
 	var/next_delimiter = findtext(text,delimiter,position,0)
 	var/next_opening = findtext(text,opening_escape,position,0)
@@ -245,7 +251,7 @@ var/global/dmm_suite/preloader/_preloader = null
 
 //build a list from variables in text form (e.g {var1="derp"; var2; var3=7} => list(var1="derp", var2, var3=7))
 //return the filled list
-/dmm_suite/proc/text2list(var/text as text,var/delimiter=",")
+/dmm_suite/proc/readlist(text as text,delimiter=",")
 
 	var/list/to_return = list()
 
@@ -279,7 +285,7 @@ var/global/dmm_suite/preloader/_preloader = null
 
 			//Check for list
 			else if(copytext(trim_right,1,5) == "list")
-				trim_right = text2list(copytext(trim_right,6,length(trim_right)))
+				trim_right = readlist(copytext(trim_right,6,length(trim_right)))
 
 			//Check for file
 			else if(copytext(trim_right,1,2) == "'")
@@ -295,7 +301,7 @@ var/global/dmm_suite/preloader/_preloader = null
 	return to_return
 
 //simulates the DM multiple turfs on one tile underlaying
-/dmm_suite/proc/add_underlying_turf(var/turf/placed,var/turf/underturf, var/list/turfs_underlays)
+/dmm_suite/proc/add_underlying_turf(turf/placed,turf/underturf, list/turfs_underlays)
 	if(underturf.density)
 		placed.density = 1
 	if(underturf.opacity)
@@ -309,6 +315,10 @@ var/global/dmm_suite/preloader/_preloader = null
 
 	. = ..()
 
+/dmm_suite/Destroy()
+	..()
+	return QDEL_HINT_HARDDEL_NOW
+
 //////////////////
 //Preloader datum
 //////////////////
@@ -318,10 +328,10 @@ var/global/dmm_suite/preloader/_preloader = null
 	var/list/attributes
 	var/target_path
 
-/dmm_suite/preloader/New(var/list/the_attributes, var/path)
+/dmm_suite/preloader/New(list/the_attributes, path)
 	.=..()
 	if(!the_attributes.len)
-		Del()
+		qdel(src)
 		return
 	attributes = the_attributes
 	target_path = path
@@ -329,4 +339,4 @@ var/global/dmm_suite/preloader/_preloader = null
 /dmm_suite/preloader/proc/load(atom/what)
 	for(var/attribute in attributes)
 		what.vars[attribute] = attributes[attribute]
-	Del()
+	qdel(src)

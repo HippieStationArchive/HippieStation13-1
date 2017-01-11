@@ -3,7 +3,7 @@
 	desc = "This spell conjures objs of the specified types in range."
 
 	var/list/summon_type = list() //determines what exactly will be summoned
-	//should be text, like list("/obj/machinery/bot/ed209")
+	//should be text, like list("/mob/living/simple_animal/bot/ed209")
 
 	var/summon_lifespan = 0 // 0=permanent, any other time in deciseconds
 	var/summon_amt = 1 //amount of objects summoned
@@ -15,14 +15,11 @@
 
 	var/cast_sound = 'sound/items/welder.ogg'
 
-/obj/effect/proc_holder/spell/aoe_turf/conjure/cast(list/targets)
-
+/obj/effect/proc_holder/spell/aoe_turf/conjure/cast(list/targets,mob/user = usr)
+	playsound(get_turf(user), cast_sound, 50,1)
 	for(var/turf/T in targets)
 		if(T.density && !summon_ignore_density)
 			targets -= T
-
-	if(cast_sound)
-		playsound(src.loc, cast_sound, 50, 1)
 
 	for(var/i=0,i<summon_amt,i++)
 		if(!targets.len)
@@ -32,9 +29,6 @@
 		if(summon_ignore_prev_spawn_points)
 			targets -= spawn_place
 		if(ispath(summoned_object_type,/turf))
-			if(istype(get_turf(usr),/turf/simulated/shuttle))
-				usr << "<span class='danger'>You can't build things on shuttles!</span>"
-				break
 			var/turf/O = spawn_place
 			var/N = summoned_object_type
 			O.ChangeTurf(N)
@@ -52,11 +46,11 @@
 
 	return
 
-/obj/effect/proc_holder/spell/aoe_turf/conjure/summonEdSwarm //test purposes
+/obj/effect/proc_holder/spell/aoe_turf/conjure/summonEdSwarm //test purposes - Also a lot of fun
 	name = "Dispense Wizard Justice"
 	desc = "This spell dispenses wizard justice."
 
 	summon_type = list(/obj/machinery/bot/ed209)
 	summon_amt = 10
 	range = 3
-	newVars = list("emagged" = 2,"name" = "Wizard's Justicebot")
+	newVars = list("emagged" = 2, "remote_disabled" = 1,"shoot_sound" = 'sound/weapons/laser.ogg',"projectile" = /obj/item/projectile/beam, "declare_arrests" = 0,"name" = "Wizard's Justicebot")

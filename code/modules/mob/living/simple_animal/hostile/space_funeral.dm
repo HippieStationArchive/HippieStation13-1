@@ -13,20 +13,12 @@
 	attacktext = "pokes"
 	attack_sound = 'sound/weapons/bite.ogg'
 	faction = list("funeral")
-	min_oxy = 0
-	max_oxy = 0
-	min_tox = 0
-	max_tox = 0
-	min_co2 = 0
-	max_co2 = 0
-	min_n2 = 0
-	max_n2 = 0
-	minbodytemp = 0
+
 
 
 /mob/living/simple_animal/hostile/space_funeral/philip
 	name = "crier"
-	desc = "A sanity-destroying otherthing. It seems sad"
+	desc = "A sanity-destroying otherthing. It seems sad."
 	speak_emote = list("wails")
 	icon_state = "philip"
 	icon_living = "philip"
@@ -41,7 +33,7 @@
 
 /mob/living/simple_animal/hostile/space_funeral/bloodhound
 	name = "bloodhound"
-	desc = "A sanity-destroying otherthing. It seems upset"
+	desc = "A sanity-destroying otherthing. It seems upset."
 	icon_state = "bloodhound"
 	icon_living = "bloodhound"
 	icon_dead = "bloodhound-dead"
@@ -54,7 +46,7 @@
 
 /mob/living/simple_animal/hostile/space_funeral/bloodflea
 	name = "bloodflea"
-	desc = "A small sanity-destroying otherthing. It seems weak"
+	desc = "A small sanity-destroying otherthing. It seems weak."
 	icon_state = "bloodflea"
 	icon_living = "bloodflea"
 	icon_dead = "bloodflea-dead"
@@ -72,7 +64,7 @@
 
 /mob/living/simple_animal/hostile/space_funeral/leghorse
 	name = "leghorse"
-	desc = "A sanity-destroying otherthing. It seems happy"
+	desc = "A sanity-destroying otherthing. It seems happy."
 	icon_state = "horselegs"
 	icon_living = "horselegs"
 	icon_dead = "horselegs-dead"

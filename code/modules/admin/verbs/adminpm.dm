@@ -1,5 +1,5 @@
 //allows right clicking mobs to send an admin PM to their client, forwards the selected mob's client to cmd_admin_pm
-/client/proc/cmd_admin_pm_context(mob/M as mob in mob_list)
+/client/proc/cmd_admin_pm_context(mob/M in mob_list)
 	set category = null
 	set name = "Admin PM Mob"
 	if(!holder)
@@ -32,6 +32,62 @@
 	cmd_admin_pm(targets[target],null)
 	feedback_add_details("admin_verb","APM") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+/client/proc/cmd_ahelp_reply(whom)
+	if(prefs.muted & MUTE_ADMINHELP)
+		src << "<font color='red'>Error: Admin-PM: You are unable to use admin PM-s (muted).</font>"
+		return
+	var/client/C
+	if(istext(whom))
+		if(cmptext(copytext(whom,1,2),"@"))
+			whom = findStealthKey(whom)
+		C = directory[whom]
+	else if(istype(whom,/client))
+		C = whom
+	if(!C)
+		if(holder)	src << "<font color='red'>Error: Admin-PM: Client not found.</font>"
+		return
+
+	var/datum/adminticket/ticket
+
+	for(var/datum/adminticket/T in admintickets)
+		if(T.permckey == C.ckey)
+			ticket = T
+
+	if(ticket)
+		if(ticket.active == "No" && ticket.replying == 0)
+			message_admins("[key_name_admin(src)] has been assigned to [key_name(C, 0, 0)]'s admin help. This is the first reply. ([ticket.uID])")
+			ticket.replying = 1
+			ticket.user << "<b>[src.ckey] has been assigned to your admin help, please await a reply.</b>"
+		else if(ticket.replying == 1)
+			src << "<b>Error, this ticket is already being replied to!</b>"
+			return
+		else if(ticket.admin != "N/A" && ticket.replying == 0)
+			if(ticket.admin != src.ckey)
+				if(alert(src, "This adminhelp already has an admin assigned: [ticket.admin]! Are you sure you want to take it over?", "Conflict", "Yes", "No") == "Yes")
+					message_admins("[key_name_admin(src)] has been assigned to [key_name(C, 0, 0)]'s admin help. Override: [ticket.admin]. ([ticket.uID])")
+					ticket.user << "<b>[src.ckey] has been assigned to your admin help, please await a reply.</b>"
+					ticket.replying = 1
+	else
+		message_admins("[key_name_admin(src)] has started replying to [key_name(C, 0, 0)]'s admin help. They did not have an active ahelp.")
+
+	var/msg = input(src,"Message:", "Private message to [key_name(C, 0, 0)]") as text|null
+
+	if (!msg)
+		if(ticket)
+			if(ticket.admin != src.ckey)
+				message_admins("[key_name_admin(src)] has been unassigned from [key_name(C, 0, 0)]'s admin help. Cancelled reply. ([ticket.uID])")
+				ticket.user << "<b>[src.ckey] has been unassigned from your admin help. (reply cancelled)</b>"
+			ticket.replying = 0
+		else
+			message_admins("[key_name_admin(src)] has cancelled their reply to [key_name(C, 0, 0)]'s admin help. No active ahelp.")
+		return
+
+	if(ticket)
+		ticket.replying = 0
+		ticket.admin = src.ckey
+		ticket.active = "Yes"
+
+	cmd_admin_pm(whom, msg)
 
 //takes input from cmd_admin_pm_context, cmd_admin_pm_panel or /client/Topic and sends them a PM.
 //Fetching a message if needed. src is the sender and C is the target client
@@ -42,6 +98,8 @@
 
 	var/client/C
 	if(istext(whom))
+		if(cmptext(copytext(whom,1,2),"@"))
+			whom = findStealthKey(whom)
 		C = directory[whom]
 	else if(istype(whom,/client))
 		C = whom
@@ -69,14 +127,34 @@
 		if(!msg)	return
 
 	msg = emoji_parse(msg)
+	var/keywordparsedmsg = keywords_lookup(msg)
+	var/datum/adminticket/ticket
 
 	if(C.holder)
 		if(holder)	//both are admins
-			C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 1)]</b>: [msg]</font>"
-			src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [msg]</font>"
-
+			for(var/datum/adminticket/T in admintickets)
+				if(T.permckey == src.ckey && T.resolved == "No")
+					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
+					ticket = T
+				else if(T.permckey == src.ckey)
+					ticket = T
+			if(ticket && ticket.resolved == "No")
+				C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg] (<a href='?src=\ref[ticket];resolve=\ref[ticket]'>R</a>)</font>"
+				src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [keywordparsedmsg] (<a href='?src=\ref[ticket];resolve=\ref[ticket]'>R</a>)</font>"
+			else
+				C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
+				src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [keywordparsedmsg]</font>"
 		else		//recipient is an admin but sender is not
-			C << "<font color='red'>Reply PM from-<b>[key_name(src, C, 1)]</b>: [msg]</font>"
+			for(var/datum/adminticket/T in admintickets)
+				if(T.permckey == src.ckey && T.resolved == "No")
+					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
+					ticket = T
+				else if(T.permckey == src.ckey)
+					ticket = T
+			if(ticket && ticket.resolved == "No")
+				C << "<font color='red'>Reply PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg] (<a href='?src=\ref[ticket];resolve=\ref[ticket]'>R</a>)</font>"
+			else
+				C << "<font color='red'>Reply PM from-<b>[key_name(src, C, 1)]</b>: [keywordparsedmsg]</font>"
 			src << "<font color='blue'>PM to-<b>Admins</b>: [msg]</font>"
 
 		//play the recieving admin the adminhelp sound (if they have them enabled)
@@ -85,11 +163,20 @@
 
 	else
 		if(holder)	//sender is an admin but recipient is not. Do BIG RED TEXT
+			for(var/datum/adminticket/T in admintickets)
+				if(T.permckey == C.ckey && T.resolved == "No")
+					T.logs += "<span class='notice'>[src] TO [C]: [msg] </span>"
+					ticket = T
+				else if(T.permckey == C.ckey)
+					ticket = T
+
 			C << "<font color='red' size='4'><b>-- Administrator private message --</b></font>"
 			C << "<font color='red'>Admin PM from-<b>[key_name(src, C, 0)]</b>: [msg]</font>"
 			C << "<font color='red'><i>Click on the administrator's name to reply.</i></font>"
-			src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [msg]</font>"
-
+			if(ticket && ticket.resolved == "No")
+				src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [msg] (<a href='?src=\ref[ticket];resolve=\ref[ticket]'>R</a>)</font>"
+			else
+				src << "<font color='blue'>Admin PM to-<b>[key_name(C, src, 1)]</b>: [msg]</font>"
 			//always play non-admin recipients the adminhelp sound
 			C << 'sound/effects/adminhelp.ogg'
 
@@ -101,7 +188,10 @@
 					var/reply = input(C, msg,"Admin PM from-[sendername]", "") as text|null		//show message and await a reply
 					if(C && reply)
 						if(sender)
-							C.cmd_admin_pm(sender,reply)										//sender is still about, let's reply to them
+							C.cmd_admin_pm(sender,reply)
+							for(var/datum/adminticket/T in admintickets)
+								if(T.permckey == C.ckey && T.resolved == "No")
+									T.logs += "<span class='danger'>[sendername] TO [C]: [msg] </span>"										//sender is still about, let's reply to them
 						else
 							adminhelp(reply)													//sender has left, adminhelp instead
 					return
@@ -115,4 +205,4 @@
 	//we don't use message_admins here because the sender/receiver might get it too
 	for(var/client/X in admins)
 		if(X.key!=key && X.key!=C.key)	//check client/X is an admin and isn't the sender or recipient
-			X << "<B><font color='blue'>PM: [key_name(src, X, 0)]-&gt;[key_name(C, X, 0)]:</B> \blue [msg]</font>" //inform X
+			X << "<B><font color='blue'>PM: [key_name(src, X, 0)]-&gt;[key_name(C, X, 0)]:</B> \blue [keywordparsedmsg]</font>" //inform X

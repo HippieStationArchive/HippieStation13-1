@@ -10,7 +10,7 @@
 	item_state = "apron"
 	blood_overlay_type = "armor"
 	body_parts_covered = CHEST|GROIN
-	allowed = list(/obj/item/weapon/reagent_containers/spray/plantbgone,/obj/item/device/analyzer/plant_analyzer,/obj/item/seeds,/obj/item/weapon/reagent_containers/glass/bottle,/obj/item/weapon/minihoe,/obj/item/weapon/reagent_containers/spray/pestspray,/obj/item/weapon/hatchet,/obj/item/weapon/storage/bag/plants)
+	allowed = list(/obj/item/weapon/reagent_containers/spray/plantbgone,/obj/item/device/analyzer/plant_analyzer,/obj/item/seeds,/obj/item/weapon/reagent_containers/glass/bottle,/obj/item/weapon/cultivator,/obj/item/weapon/reagent_containers/spray/pestspray,/obj/item/weapon/hatchet,/obj/item/weapon/storage/bag/plants)
 
 //Captain
 /obj/item/clothing/suit/captunic
@@ -20,7 +20,7 @@
 	item_state = "bio_suit"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	flags_inv = HIDEJUMPSUIT
-	allowed = list(/obj/item/weapon/disk, /obj/item/weapon/stamp, /obj/item/weapon/reagent_containers/food/drinks/flask, /obj/item/weapon/melee, /obj/item/weapon/storage/lockbox/medal, /obj/item/device/flash/handheld, /obj/item/weapon/storage/box/matches, /obj/item/weapon/lighter, /obj/item/clothing/mask/cigarette, /obj/item/weapon/storage/fancy/cigarettes, /obj/item/weapon/tank/emergency_oxygen)
+	allowed = list(/obj/item/weapon/disk, /obj/item/weapon/stamp, /obj/item/weapon/reagent_containers/food/drinks/flask, /obj/item/weapon/melee, /obj/item/weapon/storage/lockbox/medal, /obj/item/device/assembly/flash, /obj/item/weapon/storage/box/matches, /obj/item/weapon/lighter, /obj/item/clothing/mask/cigarette, /obj/item/weapon/storage/fancy/cigarettes, /obj/item/weapon/tank/internals/emergency_oxygen)
 
 //Chaplain
 /obj/item/clothing/suit/hooded/chaplain_hoodie
@@ -29,7 +29,7 @@
 	icon_state = "chaplain_hoodie"
 	item_state = "chaplain_hoodie"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	allowed = list(/obj/item/weapon/storage/book/bible, /obj/item/weapon/nullrod, /obj/item/weapon/reagent_containers/food/drinks/bottle/holywater, /obj/item/weapon/storage/fancy/candle_box, /obj/item/candle, /obj/item/weapon/tank/emergency_oxygen)
+	allowed = list(/obj/item/weapon/storage/book/bible, /obj/item/weapon/nullrod, /obj/item/weapon/reagent_containers/food/drinks/bottle/holywater, /obj/item/weapon/storage/fancy/candle_box, /obj/item/candle, /obj/item/weapon/tank/internals/emergency_oxygen)
 	hooded = 1
 	action_button_name = "Toggle Chaplain Hoodie"
 	hoodtype = /obj/item/clothing/head/chaplain_hood
@@ -49,54 +49,48 @@
 	item_state = "nun"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|HANDS
 	flags_inv = HIDESHOES|HIDEJUMPSUIT
-	allowed = list(/obj/item/weapon/storage/book/bible, /obj/item/weapon/nullrod, /obj/item/weapon/reagent_containers/food/drinks/bottle/holywater, /obj/item/weapon/storage/fancy/candle_box, /obj/item/candle, /obj/item/weapon/tank/emergency_oxygen)
+	allowed = list(/obj/item/weapon/storage/book/bible, /obj/item/weapon/nullrod, /obj/item/weapon/reagent_containers/food/drinks/bottle/holywater, /obj/item/weapon/storage/fancy/candle_box, /obj/item/candle, /obj/item/weapon/tank/internals/emergency_oxygen)
 
 //Chef
-/obj/item/clothing/suit/chef
+/obj/item/clothing/suit/toggle/chef
 	name = "chef's apron"
-	desc = "An apron used by a high class chef."
+	desc = "An apron-jacket used by a high class chef."
 	icon_state = "chef"
 	item_state = "chef"
 	gas_transfer_coefficient = 0.90
 	permeability_coefficient = 0.50
 	body_parts_covered = CHEST|GROIN|ARMS
-	allowed = list (/obj/item/weapon/kitchenknife,/obj/item/weapon/butch)
+	allowed = list(/obj/item/weapon/kitchen)
+	togglename = "sleeves"
 
-//Chef
-/obj/item/clothing/suit/chef/classic
-	name = "A classic chef's apron."
+//Cook
+/obj/item/clothing/suit/apron/chef
+	name = "cook's apron"
 	desc = "A basic, dull, white chef's apron."
 	icon_state = "apronchef"
 	item_state = "apronchef"
 	blood_overlay_type = "armor"
 	body_parts_covered = CHEST|GROIN
+	allowed = list(/obj/item/weapon/kitchen)
 
 //Detective
-/obj/item/clothing/suit/toggle/det_suit
+/obj/item/clothing/suit/det_suit
 	name = "trenchcoat"
 	desc = "An 18th-century multi-purpose trenchcoat. Someone who wears this means serious business."
 	icon_state = "detective"
 	item_state = "det_suit"
-	action_button_name = "Toggle Coat Buttons"
-	togglename = "buttons"
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	allowed = list(/obj/item/weapon/tank/emergency_oxygen,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/device/flashlight,/obj/item/weapon/gun/energy,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/handcuffs,/obj/item/weapon/storage/fancy/cigarettes,/obj/item/weapon/lighter,/obj/item/device/detective_scanner,/obj/item/device/taperecorder)
+	allowed = list(/obj/item/weapon/tank/internals/emergency_oxygen,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/device/flashlight,/obj/item/weapon/gun/energy,/obj/item/weapon/gun/projectile,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/storage/fancy/cigarettes,/obj/item/weapon/lighter,/obj/item/device/detective_scanner,/obj/item/device/taperecorder)
 	armor = list(melee = 50, bullet = 30, laser = 25, energy = 10, bomb = 0, bio = 0, rad = 0)
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
 
-/obj/item/clothing/suit/toggle/det_suit/grey
+/obj/item/clothing/suit/det_suit/grey
 	name = "noir trenchcoat"
 	desc = "A hard-boiled private investigator's grey trenchcoat."
 	icon_state = "greydet"
-	item_state = "greydet_suit"
-
-/obj/item/clothing/suit/toggle/det_suit/white
-	name = "white trenchcoat"
-	desc = "This coat bears the scent of a coal mine, and a name seems to have been removed from the patch. C.P."
-	icon_state = "detectivewhite"
-	item_state = "whitedet_suit"
+	item_state = "greydet"
 
 //Engineering
 /obj/item/clothing/suit/hazardvest
@@ -105,7 +99,8 @@
 	icon_state = "hazard"
 	item_state = "hazard"
 	blood_overlay_type = "armor"
-	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/device/t_scanner,)
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals/emergency_oxygen,/obj/item/device/t_scanner,)
+	burn_state = -1 //Won't burn in fires
 
 //Lawyer
 /obj/item/clothing/suit/toggle/lawyer
@@ -129,26 +124,6 @@
 	icon_state = "suitjacket_black"
 	item_state = "ro_suit"
 
-//Just incase we need this someday
-
-/*
-//Toggle exosuits for different aesthetic styles (hoodies, suit jacket buttons, etc)
-
-/obj/item/clothing/suit/toggle/attack_self()
-	set src in usr
-
-	if(!can_use(usr))
-		return 0
-
-	usr << "You toggle [src]'s [togglename]."
-	if(src.suittoggled)
-		src.icon_state = "[initial(icon_state)]"
-		src.suittoggled = 0
-	else if(!src.suittoggled)
-		src.icon_state = "[initial(icon_state)]_t"
-		src.suittoggled = 1
-	usr.update_inv_wear_suit()
-*/
 
 //Mime
 /obj/item/clothing/suit/suspenders

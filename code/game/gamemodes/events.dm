@@ -72,8 +72,8 @@
 
 /proc/power_failure()
 	priority_announce("Abnormal activity detected in [station_name()]'s powernet. As a precautionary measure, the station's power will be shut off for an indeterminate duration.", "Critical Power Failure", 'sound/AI/poweroff.ogg')
-	for(var/obj/machinery/power/smes/S in world)
-		if(istype(get_area(S), /area/turret_protected) || S.z != 1)
+	for(var/obj/machinery/power/smes/S in machines)
+		if(istype(get_area(S), /area/turret_protected) || S.z != ZLEVEL_STATION)
 			continue
 		S.charge = 0
 		S.output_level = 0
@@ -94,7 +94,7 @@
 				break
 		if(A.contents)
 			for(var/atom/AT in A.contents)
-				if(AT.z != 1) //Only check one, it's enough.
+				if(AT.z != ZLEVEL_STATION) //Only check one, it's enough.
 					skip = 1
 				break
 		if(skip) continue
@@ -103,8 +103,8 @@
 		A.power_environ = 0
 		A.power_change()
 
-	for(var/obj/machinery/power/apc/C in world)
-		if(C.cell && C.z == 1)
+	for(var/obj/machinery/power/apc/C in apcs_list)
+		if(C.cell && C.z == ZLEVEL_STATION)
 			var/area/A = get_area(C)
 
 			var/skip = 0
@@ -119,11 +119,11 @@
 /proc/power_restore()
 
 	priority_announce("Power has been restored to [station_name()]. We apologize for the inconvenience.", "Power Systems Nominal", 'sound/AI/poweron.ogg')
-	for(var/obj/machinery/power/apc/C in world)
-		if(C.cell && C.z == 1)
+	for(var/obj/machinery/power/apc/C in apcs_list)
+		if(C.cell && C.z == ZLEVEL_STATION)
 			C.cell.charge = C.cell.maxcharge
-	for(var/obj/machinery/power/smes/S in world)
-		if(S.z != 1)
+	for(var/obj/machinery/power/smes/S in machines)
+		if(S.z != ZLEVEL_STATION)
 			continue
 		S.charge = S.capacity
 		S.output_level = S.output_level_max
@@ -140,8 +140,8 @@
 /proc/power_restore_quick()
 
 	priority_announce("All SMESs on [station_name()] have been recharged. We apologize for the inconvenience.", "Power Systems Nominal", 'sound/AI/poweron.ogg')
-	for(var/obj/machinery/power/smes/S in world)
-		if(S.z != 1)
+	for(var/obj/machinery/power/smes/S in machines)
+		if(S.z != ZLEVEL_STATION)
 			continue
 		S.charge = S.capacity
 		S.output_level = S.output_level_max

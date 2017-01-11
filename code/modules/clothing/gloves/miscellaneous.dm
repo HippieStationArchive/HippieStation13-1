@@ -21,6 +21,7 @@
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
+	burn_state = -1 //Not Burnable
 
 /obj/item/clothing/gloves/combat
 	name = "combat gloves"
@@ -34,3 +35,11 @@
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
+	burn_state = -1 //Won't burn in fires
+	
+/obj/item/clothing/gloves/pickpocket
+	name = "black gloves"
+	desc = "A pair of gloves, they make you feel sneaky for whatever reason."
+	icon_state = "black"
+	item_state = "bgloves"
+	item_color = null

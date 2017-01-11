@@ -2,7 +2,16 @@
 /obj/item/trash
 	icon = 'icons/obj/janitor.dmi'
 	desc = "This is rubbish."
-	w_class = 1.0
+	w_class = 1
+	burn_state = 0 //Burnable
+
+/obj/item/trash/snack_bowl
+	name = "snack bowl"
+	icon_state = "snack_bowl"
+
+/obj/item/weapon/reagent_containers/glass/bowl //delete this shit at a later date once the map is fixed, I think its on z5
+	name = "snack bowl"
+	icon_state = "snack_bowl"
 
 /obj/item/trash/raisins
 	name = "\improper 4no raisins"
@@ -33,16 +42,13 @@
 	icon_state = "syndi_cakes"
 
 /obj/item/trash/waffles
-	name = "waffles"
+	name = "waffles tray"
 	icon_state = "waffles"
 
 /obj/item/trash/plate
 	name = "plate"
 	icon_state = "plate"
-
-/obj/item/trash/snack_bowl
-	name = "snack bowl"
-	icon_state	= "snack_bowl"
+	burn_state = -1
 
 /obj/item/trash/pistachios
 	name = "pistachios pack"
@@ -55,20 +61,23 @@
 /obj/item/trash/tray
 	name = "tray"
 	icon_state = "tray"
+	burn_state = -1 //Not Burnable
 
 /obj/item/trash/candle
 	name = "candle"
 	icon = 'icons/obj/candle.dmi'
 	icon_state = "candle4"
+	burn_state = -1
 
 /obj/item/trash/can
 	name = "crushed can"
 	icon_state = "cola"
+	burn_state = -1 //Not Burnable
 
 /obj/item/trash/attack(mob/M, mob/living/user)
 	return
 
-/obj/item/pornmag //Janitor's favorite passtime. Ironic how this is located in trash.dm, hah. THIS IS ACTUALLY A TRAITOR OBJECTIVE NOW HOLY SHIT
+/obj/item/pornmag
 	icon = 'icons/obj/library.dmi'
 	icon_state = "pornmag"
 	name = "porn mag"
@@ -76,7 +85,7 @@
 	w_class = 1.0
 	var/cooldown = 0
 
-/obj/item/pornmag/attack_self(mob/user as mob)
+/obj/item/pornmag/attack_self(mob/user)
 	if(cooldown < world.time - 20)
 		playsound(src.loc, "pageturn", 50, 1)
 		user.visible_message("<span class='notice'>[user] skims through the pages of the [src] and giggles like a schoolgirl.</span>",\

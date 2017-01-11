@@ -1,3 +1,4 @@
+
 /client
 		////////////////
 		//ADMIN THINGS//
@@ -8,6 +9,9 @@
 	var/last_message	= "" //Contains the last message sent by this client - used to protect against copy-paste spamming.
 	var/last_message_count = 0 //contins a number of how many times a message identical to last_message was sent.
 
+	var/last_radio_talk_time = 0
+	var/radio_mute_strikes = 0
+
 		/////////
 		//OTHER//
 		/////////
@@ -16,7 +20,6 @@
 	var/moving			= null
 	var/adminobs		= null
 	var/area			= null
-	var/goodcurity = 0
 
 		///////////////
 		//SOUND STUFF//
@@ -27,10 +30,9 @@
 		////////////
 		//SECURITY//
 		////////////
-	var/next_allowed_topic_time = 10
 	// comment out the line below when debugging locally to enable the options & messages menu
 	control_freak = 1
-
+	var/cid_check = 0
 
 		////////////////////////////////////
 		//things that require the database//
@@ -40,3 +42,15 @@
 	var/related_accounts_cid = "Requires database"	//So admins know why it isn't working - Used to determine what other accounts previously logged in from this computer id
 
 	preload_rsc = PRELOAD_RSC
+
+	var/global/obj/screen/click_catcher/void
+
+	// Used by html_interface module.
+	var/hi_last_pos
+
+
+	//datum that controls the displaying and hiding of tooltips
+	var/datum/tooltip/tooltips
+
+	var/reset_stretch = 0 //Used by things that fiddle with client's stretch-to-fit.
+	var/list/prev_screen = list()

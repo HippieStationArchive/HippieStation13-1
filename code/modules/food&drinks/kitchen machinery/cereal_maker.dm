@@ -56,7 +56,7 @@
 		food.reagents.trans_to(S, food.reagents.total_volume)
 	S.overlays += cerealbox_icon
 	S.name = "box of [I] cereal"
-	playsound(src.loc, 'sound/machines/ding.ogg', 50, 1)
+	playsound(src.loc, 'sound/machines/ding.ogg', 50, 1, -7)
 	on = FALSE
 	qdel(I)
 

@@ -1,9 +1,9 @@
-/proc/playsound(var/atom/source, soundin, vol as num, vary, extrarange as num, falloff, surround = 1)
+/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, surround = 1)
 
 	soundin = get_sfx(soundin) // same sound for everyone
 
 	if(isarea(source))
-		ERROR("[source] is an area and is trying to make the sound: [soundin]")
+		throw EXCEPTION("playsound(): source is an area")
 		return
 
 	var/frequency = get_rand_frequency() // Same frequency for everybody
@@ -20,7 +20,7 @@
 				M.playsound_local(turf_source, soundin, vol, vary, frequency, falloff, surround)
 
 
-/atom/proc/playsound_local(var/turf/turf_source, soundin, vol as num, vary, frequency, falloff, surround = 1)
+/atom/proc/playsound_local(turf/turf_source, soundin, vol as num, vary, frequency, falloff, surround = 1)
 	soundin = get_sfx(soundin)
 
 	var/sound/S = sound(soundin)
@@ -73,14 +73,17 @@
 
 	src << S
 
-/mob/playsound_local(var/turf/turf_source, soundin, vol as num, vary, frequency, falloff, surround = 1)
+/mob/playsound_local(turf/turf_source, soundin, vol as num, vary, frequency, falloff, surround = 1)
 	if(!client || ear_deaf > 0)
 		return
 	..()
 
+/mob/proc/stopLobbySound()
+	src << sound(null, repeat = 0, wait = 0, volume = 85, channel = 1)
+
 /client/proc/playtitlemusic()
 	if(!ticker || !ticker.login_music)	return
-	if(prefs.toggles & SOUND_LOBBY)
+	if(prefs && (prefs.toggles & SOUND_LOBBY))
 		src << sound(ticker.login_music, repeat = 0, wait = 0, volume = 85, channel = 1) // MAD JAMS
 
 /proc/get_rand_frequency()
@@ -100,17 +103,9 @@
 			if ("hiss") soundin = pick('sound/voice/hiss1.ogg','sound/voice/hiss2.ogg','sound/voice/hiss3.ogg','sound/voice/hiss4.ogg')
 			if ("pageturn") soundin = pick('sound/effects/pageturn1.ogg', 'sound/effects/pageturn2.ogg','sound/effects/pageturn3.ogg')
 			if ("gunshot") soundin = pick('sound/weapons/Gunshot.ogg', 'sound/weapons/Gunshot2.ogg','sound/weapons/Gunshot3.ogg','sound/weapons/Gunshot4.ogg')
-			if ("boxgloves") soundin = pick('sound/weapons/boxing1.ogg','sound/weapons/boxing2.ogg','sound/weapons/boxing3.ogg','sound/weapons/boxing4.ogg')
-			//Footstep materials
-			if ("tile") soundin = pick(	'sound/effects/footsteps/walk_tile_01.ogg','sound/effects/footsteps/walk_tile_02.ogg','sound/effects/footsteps/walk_tile_03.ogg',\
-										'sound/effects/footsteps/walk_tile_04.ogg','sound/effects/footsteps/walk_tile_05.ogg')
+			if ("ricochet") soundin = pick(	'sound/effects/wep_misc/ric1.ogg', 'sound/effects/wep_misc/ric2.ogg','sound/effects/wep_misc/ric3.ogg',\
+											'sound/effects/wep_misc/ric4.ogg','sound/effects/wep_misc/ric5.ogg')
+	if(islist(soundin))
+		soundin = pick(soundin) //This allows for list input as hitsounds/etc.
 
-			if ("metal") soundin = pick('sound/effects/footsteps/walk_solidmetal_01.ogg','sound/effects/footsteps/walk_solidmetal_02.ogg','sound/effects/footsteps/walk_solidmetal_03.ogg',\
-										'sound/effects/footsteps/walk_solidmetal_04.ogg','sound/effects/footsteps/walk_solidmetal_05.ogg')
-
-			if ("wood") soundin = pick(	'sound/effects/footsteps/walk_wood_01.ogg','sound/effects/footsteps/walk_wood_02.ogg','sound/effects/footsteps/walk_wood_03.ogg',\
-										'sound/effects/footsteps/walk_wood_04.ogg','sound/effects/footsteps/walk_wood_05.ogg')
-
-			if ("concrete") soundin = pick(	'sound/effects/footsteps/walk_concrete_01.ogg','sound/effects/footsteps/walk_concrete_02.ogg','sound/effects/footsteps/walk_concrete_03.ogg',\
-											'sound/effects/footsteps/walk_concrete_04.ogg','sound/effects/footsteps/walk_concrete_05.ogg','sound/effects/footsteps/walk_concrete_06.ogg')
 	return soundin

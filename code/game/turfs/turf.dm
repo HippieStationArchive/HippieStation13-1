@@ -1,14 +1,17 @@
 /turf
 	icon = 'icons/turf/floors.dmi'
-	level = 1.0
+	level = 1
 
+	var/slowdown = 0 //negative for faster, positive for slower
 	var/intact = 1
+	var/baseturf = /turf/space
 
 	//Properties for open tiles (/floor)
 	var/oxygen = 0
 	var/carbon_dioxide = 0
 	var/nitrogen = 0
 	var/toxins = 0
+
 
 	//Properties for airtight tiles (/wall)
 	var/thermal_conductivity = 0.05
@@ -20,32 +23,54 @@
 	var/blocks_air = 0
 
 	var/PathNode/PNode = null //associated PathNode in the A* algorithm
-	//FOOTSTEPS! WOO!
-	var/stepsound = "tile"
 
 	// Flick animation shit
 	var/atom/movable/overlay/c_animation = null
 
 	flags = 0
 
+	var/image/obscured	//camerachunks
+
 /turf/New()
 	..()
 	for(var/atom/movable/AM in src)
 		Entered(AM)
-	return
+
+/turf/Destroy()
+	return QDEL_HINT_HARDDEL_NOW
 
 // Adds the adjacent turfs to the current atmos processing
 /turf/Del()
-	if(air_master)
-		for(var/direction in cardinal)
-			if(atmos_adjacent_turfs & direction)
-				var/turf/simulated/T = get_step(src, direction)
-				if(istype(T))
-					air_master.add_to_active(T)
+	for(var/direction in cardinal)
+		if(atmos_adjacent_turfs & direction)
+			var/turf/simulated/T = get_step(src, direction)
+			if(istype(T))
+				SSair.add_to_active(T)
+	if(src.pinned)
+		var/mob/living/carbon/human/H = src.pinned
+		if(istype(H))
+			H.anchored = 0
+			H.pinned_to = null
+			H.do_pindown(src, 0)
+			H.update_canmove()
+			for(var/obj/item/stack/rods/R in H.contents)
+				if(R.pinned) R.pinned = null
 	..()
 
-/turf/attack_hand(mob/user as mob)
+/turf/attack_hand(mob/user)
 	user.Move_Pulled(src)
+
+/turf/attackby(obj/item/C, mob/user, params)
+	if(can_lay_cable() && istype(C, /obj/item/stack/cable_coil))
+		var/obj/item/stack/cable_coil/coil = C
+		for(var/obj/structure/cable/LC in src)
+			if((LC.d1==0)||(LC.d2==0))
+				LC.attackby(C,user)
+				return
+		coil.place_turf(src, user)
+		return 1
+
+	return 0
 
 /turf/Enter(atom/movable/mover as mob|obj, atom/forget as mob|obj|turf|area)
 	if (!mover)
@@ -85,16 +110,15 @@
 		var/mob/O = M
 		if(!O.lastarea)
 			O.lastarea = get_area(O.loc)
-		O.update_gravity(O.mob_has_gravity())
-		var/mob/living/L = O
-		if(L.ckey)
-			if((L && L.client && (L.client.prefs.toggles & SOUND_AMBIENCE))) //This makes space ambience always play regardless of area. Rest of it is located in code/game/area/areas.dm
-				// world << "WHOA. AMBIENCE CHECKS. IS CLIENT."
+//		O.update_gravity(O.mob_has_gravity())
+		if(isliving(M))
+			var/mob/living/L = M
+			if(L.client && (L.client.prefs.toggles & SOUND_AMBIENCE)) //This makes space ambience always play regardless of area. Rest of it is located in code/game/area/areas.dm
 				var/area/F = get_area(L.loc)
 				if(M.isinspace())
-					if(L.client.ambience_playing != 'sound/ambience/loop/hallow.ogg')
-						L.client.ambience_playing = 'sound/ambience/loop/hallow.ogg'
-						L << sound('sound/ambience/loop/hallow.ogg', repeat = 1, wait = 0, volume = 35, channel = 2)
+					if(L.client.ambience_playing != 'sound/ambience/loop/space.ogg')
+						L.client.ambience_playing = 'sound/ambience/loop/space.ogg'
+						L << sound('sound/ambience/loop/space.ogg', repeat = 1, wait = 0, volume = 35, channel = 2)
 				else if(L.client.ambience_playing != F.ambloop)
 					L.client.ambience_playing = F.ambloop
 					L << sound(F.ambloop, repeat = 1, wait = 0, volume = 35, channel = 2)
@@ -107,8 +131,6 @@
 		A.HasProximity(M, 1)
 
 /turf/proc/is_plasteel_floor()
-	return 0
-/turf/proc/return_siding_icon_state()		//used for grass floors, which have siding.
 	return 0
 
 /turf/proc/levelupdate()
@@ -129,31 +151,22 @@
 		qdel(L)
 
 //Creates a new turf
-/turf/proc/ChangeTurf(var/path)
+/turf/proc/ChangeTurf(path)
 	if(!path)			return
 	if(path == type)	return src
-	var/old_lumcount = lighting_lumcount - initial(lighting_lumcount)
-	var/old_opacity = opacity
-	if(air_master)
-		air_master.remove_from_active(src)
+
+	SSair.remove_from_active(src)
 
 	var/turf/W = new path(src)
-
 	if(istype(W, /turf/simulated))
 		W:Assimilate_Air()
 		W.RemoveLattice()
-
-	W.lighting_lumcount += old_lumcount
-	if(old_lumcount != W.lighting_lumcount)	//light levels of the turf have changed. We need to shift it to another lighting-subarea
-		W.lighting_changed = 1
-		lighting_controller.changed_turfs += W
-
-	if(old_opacity != W.opacity)			//opacity has changed. Need to update surrounding lights
-		if(W.lighting_lumcount)				//unless we're being illuminated, don't bother (may be buggy, hard to test)
-			W.UpdateAffectingLights()
-
 	W.levelupdate()
 	W.CalculateAdjacentTurfs()
+
+	if(!can_have_cabling())
+		for(var/obj/structure/cable/C in contents)
+			C.Deconstruct()
 	return W
 
 //////Assimilate Air//////
@@ -185,14 +198,17 @@
 		air.carbon_dioxide = (aco/max(turf_count,1))
 		air.toxins = (atox/max(turf_count,1))
 		air.temperature = (atemp/max(turf_count,1))//Trace gases can get bant
-		if(air_master)
-			air_master.add_to_active(src)
+		SSair.add_to_active(src)
 
 /turf/proc/ReplaceWithLattice()
-	src.ChangeTurf(/turf/space)
-	new /obj/structure/lattice( locate(src.x, src.y, src.z) )
+	src.ChangeTurf(src.baseturf)
+	new /obj/structure/lattice(locate(src.x, src.y, src.z) )
 
-/turf/proc/phase_damage_creatures(damage,mob/U = null)//>Ninja Code. Hurts and knocks out creatures on this turf
+/turf/proc/ReplaceWithCatwalk()
+	src.ChangeTurf(src.baseturf)
+	new /obj/structure/lattice/catwalk(locate(src.x, src.y, src.z) )
+
+/turf/proc/phase_damage_creatures(damage,mob/U = null)//>Ninja Code. Hurts and knocks out creatures on this turf //NINJACODE
 	for(var/mob/living/M in src)
 		if(M==U)
 			continue//Will not harm U. Since null != M, can be excluded to kill everyone.
@@ -204,88 +220,17 @@
 /turf/proc/Bless()
 	flags |= NOJAUNT
 
-/////////////////////////////////////////////////////////////////////////
-// Navigation procs
-// Used for A-star pathfinding
-////////////////////////////////////////////////////////////////////////
-
-///////////////////////////
-//Cardinal only movements
-///////////////////////////
-
-// Returns the surrounding cardinal turfs with open links
-// Including through doors openable with the ID
-/turf/proc/CardinalTurfsWithAccess(var/obj/item/weapon/card/id/ID)
-	var/list/L = new()
-	var/turf/simulated/T
-
-	for(var/dir in cardinal)
-		T = get_step(src, dir)
-		if(istype(T) && !T.density)
-			if(!LinkBlockedWithAccess(src, T, ID))
-				L.Add(T)
-	return L
-
-// Returns the surrounding cardinal turfs with open links
-// Don't check for ID, doors passable only if open
-/turf/proc/CardinalTurfs()
-	var/list/L = new()
-	var/turf/simulated/T
-
-	for(var/dir in cardinal)
-		T = get_step(src, dir)
-		if(istype(T) && !T.density)
-			if(!LinkBlocked(src, T))
-				L.Add(T)
-	return L
-
-///////////////////////////
-//All directions movements
-///////////////////////////
-
-// Returns the surrounding simulated turfs with open links
-// Including through doors openable with the ID
-/turf/proc/AdjacentTurfsWithAccess(var/obj/item/weapon/card/id/ID = null,var/list/closed)//check access if one is passed
-	var/list/L = new()
-	var/turf/simulated/T
-	for(var/dir in list(NORTHWEST,NORTHEAST,SOUTHEAST,SOUTHWEST,NORTH,EAST,SOUTH,WEST)) //arbitrarily ordered list to favor non-diagonal moves in case of ties
-		T = get_step(src,dir)
-		if(T in closed) //turf already proceeded in A*
-			continue
-		if(istype(T) && !T.density)
-			if(!LinkBlockedWithAccess(src, T, ID))
-				L.Add(T)
-	return L
-
-//Idem, but don't check for ID and goes through open doors
-/turf/proc/AdjacentTurfs(var/list/closed)
-	var/list/L = new()
-	var/turf/simulated/T
-	for(var/dir in list(NORTHWEST,NORTHEAST,SOUTHEAST,SOUTHWEST,NORTH,EAST,SOUTH,WEST)) //arbitrarily ordered list to favor non-diagonal moves in case of ties
-		T = get_step(src,dir)
-		if(T in closed) //turf already proceeded by A*
-			continue
-		if(istype(T) && !T.density)
-			if(!LinkBlocked(src, T))
-				L.Add(T)
-	return L
-
-// check for all turfs, including unsimulated ones
-/turf/proc/AdjacentTurfsSpace(var/obj/item/weapon/card/id/ID = null, var/list/closed)//check access if one is passed
-	var/list/L = new()
-	var/turf/T
-	for(var/dir in list(NORTHWEST,NORTHEAST,SOUTHEAST,SOUTHWEST,NORTH,EAST,SOUTH,WEST)) //arbitrarily ordered list to favor non-diagonal moves in case of ties
-		T = get_step(src,dir)
-		if(T in closed) //turf already proceeded by A*
-			continue
-		if(istype(T) && !T.density)
-			if(!ID)
-				if(!LinkBlocked(src, T))
-					L.Add(T)
-			else
-				if(!LinkBlockedWithAccess(src, T, ID))
-					L.Add(T)
-	return L
+/turf/storage_contents_dump_act(obj/item/weapon/storage/src_object, mob/user)
+	if(src_object.contents.len)
+		usr << "<span class='notice'>You start dumping out the contents...</span>"
+		if(!do_after(usr,20,target=src_object))
+			return 0
+	for(var/obj/item/I in src_object)
+		if(user.s_active != src_object)
+			if(I.on_found(user))
+				return
+		src_object.remove_from_storage(I, src) //No check needed, put everything inside
+	return 1
 
 //////////////////////////////
 //Distance procs
@@ -311,30 +256,54 @@
 	if(has_gravity(src))
 		playsound(src, "bodyfall", 50, 1)
 
-/turf/handle_slip(mob/slipper, s_amount, w_amount, obj/O, lube)
+/turf/handle_slip(mob/living/carbon/C, s_amount, w_amount, obj/O, lube)
 	if(has_gravity(src))
-		var/mob/living/carbon/M = slipper
-		if (M.m_intent=="walk" && (lube&NO_SLIP_WHEN_WALKING))
-			return 0
-		if(!M.lying && (M.status_flags & CANWEAKEN) && !(HULK in M.mutations)) // we slip those who are standing and can fall.
-			var/olddir = M.dir
-			M.Stun(s_amount)
-			M.Weaken(w_amount)
-			M.stop_pulling()
-			if(lube&SLIDE)
-				for(var/i=1, i<5, i++)
-					spawn (i)
-						step(M, olddir)
-						M.spin(1,1)
-				if(M.lying) //did I fall over?
-					M.adjustBruteLoss(2)
-			if(O)
-				M << "<span class='notice'>You slipped on the [O.name]!</span>"
-			else
-				M << "<span class='notice'>You slipped!</span>"
-			playsound(M.loc, 'sound/misc/slip.ogg', 50, 1, -3)
-			return 1
-	return 0 // no success. Used in clown pda and wet floors
+		var/obj/buckled_obj
+		var/oldlying = C.lying
+		if(C.buckled)
+			buckled_obj = C.buckled
+			if(!(lube&GALOSHES_DONT_HELP)) //can't slip while buckled unless it's lube.
+				return 0
+		else
+			if(C.lying || !(C.status_flags & CANWEAKEN)) // can't slip unbuckled mob if they're lying or can't fall.
+				return 0
+			if(C.m_intent=="walk" && (lube&NO_SLIP_WHEN_WALKING))
+				return 0
+
+		C << "<span class='notice'>You slipped[ O ? " on the [O.name]" : ""]!</span>"
+
+		C.attack_log += "\[[time_stamp()]\] <font color='orange'>Slipped[O ? " on the [O.name]" : ""][(lube&SLIDE)? " (LUBE)" : ""]!</font>"
+		playsound(C.loc, 'sound/misc/slip.ogg', 50, 1, -3)
+
+		C.accident(C.l_hand)
+		C.accident(C.r_hand)
+
+		var/olddir = C.dir
+		C.Stun(s_amount)
+		C.Weaken(w_amount)
+		C.stop_pulling()
+		if(C.lying != oldlying) //did we actually fall?
+			var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
+			C.apply_damage(2, BRUTE, dam_zone)
+
+		if(buckled_obj)
+			buckled_obj.unbuckle_mob()
+			step(buckled_obj, olddir)
+		else if(lube&SLIDE)
+			var/i = 1
+			var/l = 0
+			while(i < 5 && l < 64) //Only 64 loops are allowed max to prevent infinite looping
+				l++
+				if(l%5==0)
+					C.spin(1,1)
+				var/turf/simulated/T = get_turf(C)
+				if(!istype(T) || T.wet != TURF_WET_LUBE)
+					i++
+				step(C, olddir)
+				if(get_turf(C) == T) //We haven't moved an inch...
+					break //Probably hit an obstacle, our sliding was interrupted.
+				sleep (i)
+		return 1
 
 /turf/singularity_act()
 	if(intact)
@@ -343,5 +312,81 @@
 				continue
 			if(O.invisibility == 101)
 				O.singularity_act()
-	ChangeTurf(/turf/space)
+	ChangeTurf(src.baseturf)
 	return(2)
+
+/turf/proc/can_have_cabling()
+	return 1
+
+/turf/proc/can_lay_cable()
+	return can_have_cabling() & !intact
+
+/turf/proc/visibilityChanged()
+	if(ticker)
+		cameranet.updateVisibility(src)
+
+/turf/indestructible
+	name = "wall"
+	icon = 'icons/turf/walls.dmi'
+	density = 1
+	blocks_air = 1
+	opacity = 1
+	explosion_block = 50
+
+/turf/indestructible/wall
+	smooth = SMOOTH_TRUE
+
+/turf/indestructible/wall/shuttle
+	smooth = SMOOTH_FALSE
+	icon = 'icons/turf/shuttle.dmi'
+	icon_state = "wall3"
+
+/turf/indestructible/floor/plating
+	name = "plating"
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "plating"
+	density = 0
+	blocks_air = 0
+	opacity = 0
+	oxygen = 0
+	nitrogen = 0
+	temperature = TCMB
+
+/turf/indestructible/splashscreen
+	name = "Space Station 13"
+	icon = 'icons/misc/fullscreen.dmi'
+	icon_state = "title"
+	layer = FLY_LAYER
+
+/turf/indestructible/riveted
+	icon_state = "riveted"
+
+/turf/indestructible/riveted/New()
+	..()
+	if(smooth)
+		smooth_icon(src)
+		icon_state = ""
+
+/turf/indestructible/riveted/uranium
+	icon = 'icons/turf/walls/uranium_wall.dmi'
+	icon_state = "uranium"
+	smooth = SMOOTH_TRUE
+
+/turf/indestructible/abductor
+	icon_state = "alien1"
+
+/turf/indestructible/fakeglass
+	name = "window"
+	icon_state = "fakewindows"
+	opacity = 0
+
+/turf/indestructible/fakedoor
+	name = "Centcom Access"
+	icon = 'icons/obj/doors/airlocks/centcom/centcom.dmi'
+	icon_state = "fake_door"
+
+/turf/indestructible/rock
+	name = "dense rock"
+	desc = "An extremely densely-packed rock, most mining tools or explosives would never get through this."
+	icon = 'icons/turf/mining.dmi'
+	icon_state = "rock"

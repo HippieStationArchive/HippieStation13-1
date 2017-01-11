@@ -10,8 +10,9 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	icon = 'icons/obj/pda.dmi'
 	icon_state = "pda"
 	item_state = "electronic"
-	w_class = 1.0
+	w_class = 1
 	slot_flags = SLOT_ID | SLOT_BELT
+	origin_tech = "programming=2"
 
 	//Main variables
 	var/owner = null // String name of owner
@@ -27,13 +28,14 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	var/toff = 0 //If 1, messenger disabled
 	var/tnote = null //Current Texts
 	var/last_text //No text spamming
-	var/last_honk //Also no honk spamming that's bad too
+	var/last_noise //Also no honk spamming that's bad too
 	var/ttone = "beep" //The ringtone!
 	var/lock_code = "" // Lockcode to unlock uplink
 	var/honkamt = 0 //How many honks left when infected with honk.exe
 	var/mimeamt = 0 //How many silence left when infected with mime.exe
 	var/note = "Congratulations, your station has chosen the Thinktronic 5230 Personal Data Assistant!" //Current note in the notepad function
 	var/notehtml = ""
+	var/notescanned = 0 // True if what is in the notekeeper was from a paper.
 	var/cart = "" //A place to stick cartridge menu information
 	var/detonate = 1 // Can the PDA be blown up?
 	var/hidden = 0 // Is the PDA hidden from the PDA list?
@@ -47,6 +49,9 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	var/chat_channel = "#ss13" //name of our current NTRC channel
 	var/nick = "" //our NTRC nick
 	var/list/ntrclog = list() //NTRC message log
+	var/new_ntrc_msg = 0
+
+	var/image/photo = null //Scanned photo
 
 	var/noreturn = 0 //whether the PDA can use the Return button, used for the aiPDA chatroom
 
@@ -158,6 +163,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 /obj/item/device/pda/roboticist
 	icon_state = "pda-roboticist"
+	default_cartridge = /obj/item/weapon/cartridge/roboticist
 
 /obj/item/device/pda/librarian
 	icon_state = "pda-library"
@@ -193,11 +199,12 @@ var/global/list/obj/item/device/pda/PDAs = list()
 /obj/item/device/pda/ai
 	icon_state = "NONE"
 	ttone = "data"
+	fon = 0
 	mode = 5
 	noreturn = 1
 	detonate = 0
 
-/obj/item/device/pda/ai/attack_self(mob/user as mob)
+/obj/item/device/pda/ai/attack_self(mob/user)
 	if ((honkamt > 0) && (prob(60)))//For clown virus.
 		honkamt--
 		playsound(loc, 'sound/items/bikehorn.ogg', 30, 1)
@@ -221,6 +228,12 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 /obj/item/device/pda/New()
 	..()
+	if(fon)
+		if(!isturf(loc))
+			loc.AddLuminosity(f_lum)
+			SetLuminosity(0)
+		else
+			SetLuminosity(f_lum)
 	PDAs += src
 	if(default_cartridge)
 		cartridge = new default_cartridge(src)
@@ -228,14 +241,6 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 /obj/item/device/pda/proc/update_label()
 	name = "PDA-[owner] ([ownjob])" //Name generalisation
-
-/obj/item/device/pda/proc/can_use(mob/user)
-	if(user && ismob(user))
-		if(user.stat || user.restrained() || user.paralysis || user.stunned || user.weakened)
-			return 0
-		if(loc == user)
-			return 1
-	return 0
 
 /obj/item/device/pda/GetAccess()
 	if(id)
@@ -246,19 +251,23 @@ var/global/list/obj/item/device/pda/PDAs = list()
 /obj/item/device/pda/GetID()
 	return id
 
-/obj/item/device/pda/MouseDrop(obj/over_object as obj, src_location, over_location)
+/obj/item/device/pda/MouseDrop(obj/over_object, src_location, over_location)
 	var/mob/M = usr
-	if((!istype(over_object, /obj/screen)) && can_use(M))
+	if((!istype(over_object, /obj/screen)) && usr.canUseTopic(src))
 		return attack_self(M)
 	return
 
-//NOTE: graphic resources are loaded on client login
-/obj/item/device/pda/attack_self(mob/user as mob)
+
+/obj/item/device/pda/attack_self(mob/user)
+	var/datum/asset/assets = get_asset_datum(/datum/asset/simple/pda)
+	assets.send(user)
 
 	user.set_machine(src)
 
 	if(active_uplink_check(user))
 		return
+
+	setup_chatrooms()
 
 	var/dat = "<html><head><title>Personal Data Assistant</title></head><body bgcolor=\"#808000\"><style>a, a:link, a:visited, a:active, a:hover { color: #000000; }img {border-style:none;}</style>"
 
@@ -292,11 +301,12 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				dat += "<ul>"
 				dat += "<li><a href='byond://?src=\ref[src];choice=1'><img src=pda_notes.png> Notekeeper</a></li>"
 				dat += "<li><a href='byond://?src=\ref[src];choice=2'><img src=pda_mail.png> Messenger</a></li>"
-				dat += "<li><a href='byond://?src=\ref[src];choice=5'><img src=pda_chatroom.png> Nanotrasen Relay Chat</a></li>"
+				dat += "<li><a href='byond://?src=\ref[src];choice=5'><img src=pda_chatroom.png> Nanotrasen Relay Chat</a> ([new_ntrc_msg] unread)</li>"
 
 				if (cartridge)
 					if (cartridge.access_clown)
 						dat += "<li><a href='byond://?src=\ref[src];choice=Honk'><img src=pda_honk.png> Honk Synthesizer</a></li>"
+						dat += "<li><a href='byond://?src=\ref[src];choice=Trombone'><img src=pda_honk.png> Sad Trombone</a></li>"
 					if (cartridge.access_manifest)
 						dat += "<li><a href='byond://?src=\ref[src];choice=41'><img src=pda_notes.png> View Crew Manifest</a></li>"
 					if(cartridge.access_status_display)
@@ -306,43 +316,32 @@ var/global/list/obj/item/device/pda/PDAs = list()
 						dat += "<h4>Engineering Functions</h4>"
 						dat += "<ul>"
 						dat += "<li><a href='byond://?src=\ref[src];choice=43'><img src=pda_power.png> Power Monitor</a></li>"
-						if(istype(cartridge.radio, /obj/item/radio/integrated/floorbot))
-							dat += "<li><a href='byond://?src=\ref[src];choice=51'><img src=pda_floorbot.png> Floorbot Access</a></li>"
 						dat += "</ul>"
 					if (cartridge.access_medical)
 						dat += "<h4>Medical Functions</h4>"
 						dat += "<ul>"
 						dat += "<li><a href='byond://?src=\ref[src];choice=44'><img src=pda_medical.png> Medical Records</a></li>"
 						dat += "<li><a href='byond://?src=\ref[src];choice=Medical Scan'><img src=pda_scanner.png> [scanmode == 1 ? "Disable" : "Enable"] Medical Scanner</a></li>"
-						// dat += "<li><a href='byond://?src=\ref[src];choice=60'><img src=pda_medical.png> Surgery Info</a></li>" //How do I even???
-					if(istype(cartridge.radio, /obj/item/radio/integrated/medbot))
-						dat += "<li><a href='byond://?src=\ref[src];choice=52'><img src=pda_medbot.png> Medibot Access</a></li>"
-						dat += "</ul>"
-					else
 						dat += "</ul>"
 					if (cartridge.access_security)
 						dat += "<h4>Security Functions</h4>"
 						dat += "<ul>"
 						dat += "<li><a href='byond://?src=\ref[src];choice=45'><img src=pda_cuffs.png> Security Records</A></li>"
-					if(istype(cartridge.radio, /obj/item/radio/integrated/beepsky))
-						dat += "<li><a href='byond://?src=\ref[src];choice=46'><img src=pda_cuffs.png> Security Bot Access</a></li>"
 						dat += "</ul>"
-					else	dat += "</ul>"
 					if(cartridge.access_quartermaster)
 						dat += "<h4>Quartermaster Functions:</h4>"
 						dat += "<ul>"
 						dat += "<li><a href='byond://?src=\ref[src];choice=47'><img src=pda_crate.png> Supply Records</A></li>"
-						dat += "<li><a href='byond://?src=\ref[src];choice=48'><img src=pda_mule.png> Delivery Bot Control</A></li>"
 						dat += "</ul>"
 				dat += "</ul>"
 
 				dat += "<h4>Utilities</h4>"
 				dat += "<ul>"
 				if (cartridge)
+					if(cartridge.bot_access_flags)
+						dat += "<li><a href='byond://?src=\ref[src];choice=54'><img src=pda_medbot.png> Bots Access</a></li>"
 					if (cartridge.access_janitor)
 						dat += "<li><a href='byond://?src=\ref[src];choice=49'><img src=pda_bucket.png> Custodial Locator</a></li>"
-						if(istype(cartridge.radio, /obj/item/radio/integrated/cleanbot))
-							dat += "<li><a href='byond://?src=\ref[src];choice=50'><img src=pda_cleanbot.png> Cleanbot Access</a></li>"
 					if (istype(cartridge.radio, /obj/item/radio/integrated/signal))
 						dat += "<li><a href='byond://?src=\ref[src];choice=40'><img src=pda_signaler.png> Signaler System</a></li>"
 					if (cartridge.access_newscaster)
@@ -366,12 +365,14 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				dat += "</ul>"
 
 			if (1)
-				dat += "<h4><img src=pda_notes.png> Notekeeper V2.1</h4>"
-				dat += "<a href='byond://?src=\ref[src];choice=Edit'> Edit</a><br>"
-				dat += note
+				dat += "<h4><img src=pda_notes.png> Notekeeper V2.2</h4>"
+				dat += "<a href='byond://?src=\ref[src];choice=Edit'>Edit</a><br>"
+				if(notescanned)
+					dat += "(This is a scanned image, editing it may cause some text formatting to change.)<br>"
+				dat += "<HR><font face=\"[PEN_FONT]\">[(!notehtml ? note : notehtml)]</font>"
 
 			if (2)
-				dat += "<h4><img src=pda_mail.png> SpaceMessenger V3.9.5</h4>"
+				dat += "<h4><img src=pda_mail.png> SpaceMessenger V3.9.6</h4>"
 				dat += "<a href='byond://?src=\ref[src];choice=Toggle Ringer'><img src=pda_bell.png> Ringer: [silent == 1 ? "Off" : "On"]</a> | "
 				dat += "<a href='byond://?src=\ref[src];choice=Toggle Messenger'><img src=pda_mail.png> Send / Receive: [toff == 1 ? "Off" : "On"]</a> | "
 				dat += "<a href='byond://?src=\ref[src];choice=Ringtone'><img src=pda_bell.png> Set Ringtone</a> | "
@@ -407,7 +408,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 					dat += "None detected.<br>"
 
 			if(21)
-				dat += "<h4><img src=pda_mail.png> SpaceMessenger V3.9.5</h4>"
+				dat += "<h4><img src=pda_mail.png> SpaceMessenger V3.9.6</h4>"
 				dat += "<a href='byond://?src=\ref[src];choice=Clear'><img src=pda_blank.png> Clear Messages</a>"
 
 				dat += "<h4><img src=pda_mail.png> Messages</h4>"
@@ -445,16 +446,13 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				dat += "<br>"
 
 			if (5)
-				if(!nick) //first time join
-					nick = copytext(sanitize(owner), 1, 9)
-					var/datum/chatroom/C = chatchannels[chat_channel]
-					C.parse_msg(src, nick, "/join [chat_channel]")
-				dat += "<h4><img src=pda_chatroom.png> SS13 Nanotrasen Relay Chat Network</h4>"
+				new_ntrc_msg = 0
+				dat += "<h4><img src=pda_chatroom.png> Nanotrasen Relay Chat Network V1.2</h4>"
 
 				dat += "<a href='byond://?src=\ref[src];choice=Set Nick'>[nick]</a> | "
 				dat += "<a href='byond://?src=\ref[src];choice=Set Channel'>[chat_channel]</a> | "
 				dat += "<a href='byond://?src=\ref[src];choice=NTRC Message'>Write message</a> | "
-				dat += "<a href='byond://?src=\ref[src];choice=NTRC Help'>Help</a><br>"
+				dat += "<a href='byond://?src=\ref[src];choice=NTRC Help'>Help</a><br><HR>"
 				if(chat_channel)
 					dat += ntrclog[chat_channel]
 
@@ -469,9 +467,8 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	..()
 	var/mob/living/U = usr
 	//Looking for master was kind of pointless since PDAs don't appear to have one.
-	//if ((src in U.contents) || ( istype(loc, /turf) && in_range(src, U) ) )
 
-	if(can_use(U)) //Why reinvent the wheel? There's a proc that does exactly that.
+	if(usr.canUseTopic(src))
 		add_fingerprint(U)
 		U.set_machine(src)
 
@@ -555,27 +552,34 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				else if((!isnull(cartridge)) && (cartridge.access_engine))
 					scanmode = 4
 			if("Honk")
-				if ( !(last_honk && world.time < last_honk + 20) )
+				if ( !(last_noise && world.time < last_noise + 20) )
 					playsound(loc, 'sound/items/bikehorn.ogg', 50, 1)
-					last_honk = world.time
+					last_noise = world.time
+			if("Trombone")
+				if ( !(last_noise && world.time < last_noise + 20) )
+					playsound(loc, 'sound/misc/sadtrombone.ogg', 50, 1)
+					last_noise = world.time
 			if("Gas Scan")
 				if(scanmode == 5)
 					scanmode = 0
 				else if((!isnull(cartridge)) && (cartridge.access_atmos))
 					scanmode = 5
 
-//MESSENGER/NOTE FUNCTIONS===================================
+//NOTEKEEPER FUNCTIONS===================================
 
 			if ("Edit")
-				var/n = input(U, "Please enter message", name, notehtml) as message
+				var/n = stripped_multiline_input(U, "Please enter message", name, note)
 				if (in_range(src, U) && loc == U)
-					n = copytext(adminscrub(n), 1, MAX_MESSAGE_LEN)
-					if (mode == 1)
-						note = replacetext(n, "\n", "<BR>")
-						notehtml = n
+					if (mode == 1 && n)
+						note = n
+						notehtml = parsepencode(n, U, SIGNFONT)
+						notescanned = 0
 				else
 					U << browse(null, "window=pda")
 					return
+
+//MESSENGER FUNCTIONS===================================
+
 			if("Toggle Messenger")
 				toff = !toff
 			if("Toggle Ringer")//If viewing texts then erase them, if not then toggle silent status
@@ -632,11 +636,12 @@ var/global/list/obj/item/device/pda/PDAs = list()
 //CHATROOM FUNCTIONS====================================
 
 			if("Set Nick")
-				nick = stripped_input(U, "Please enter nickname", name, null, 8)
+				var/n = trim(stripped_input(U, "Please enter nickname", name, nick, 9))
+				if(n)
+					nick = n
 
 			if("Set Channel")
-				var/t = stripped_input(U, "Please enter channel", name, chat_channel)
-
+				var/t = replacetext(trim(stripped_input(U, "Please enter channel", name, chat_channel, 15)), " ", "_")
 				if(t)
 					var/datum/chatroom/C = chatchannels[chat_channel]
 					var/ret = C.parse_msg(src, nick, "/join [t]")
@@ -645,18 +650,19 @@ var/global/list/obj/item/device/pda/PDAs = list()
 						chat_channel = ret
 
 			if("NTRC Message")
-				var/t = msg_input(U) as text
-				var/datum/chatroom/C = chatchannels[chat_channel]
-				if(C)
-					var/ret = C.parse_msg(src,nick,t)
-					if(findtextEx(ret,"BAD_",1,5))
-						ntrclog[chat_channel] = "[ret]<br>" + ntrclog[chat_channel]
-					else if(ret in chatchannels)
-						chat_channel = ret
+				var/t = msg_input(U)
+				if(t)
+					var/datum/chatroom/C = chatchannels[chat_channel]
+					if(C)
+						var/ret = C.parse_msg(src, nick, t)
+						if(findtextEx(ret, "BAD_", 1, 5))
+							ntrclog[chat_channel] = "[ret]<br>" + ntrclog[chat_channel]
+						else if(ret in chatchannels)
+							chat_channel = ret
 
 			if("NTRC Help")
 				var/helptext = "<b>NTRC Commands:</b><br><br>"
-				helptext += "/join #channel<br>/register<br>/log amountoflines<br><br>"
+				helptext += "/join \[#\](channel name)<br>/register<br>/log (amount of lines)<br><br>"
 				usr << browse(helptext, "window=ntrchelp;size=200x200;border=1;can_resize=1;can_close=1;can_minimize=1")
 
 
@@ -665,7 +671,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 			if("Toggle Door")
 				if(cartridge && cartridge.access_remote_door)
-					for(var/obj/machinery/door/poddoor/M in world)
+					for(var/obj/machinery/door/poddoor/M in machines)
 						if(M.id == cartridge.remote_door_id)
 							if(M.density)
 								M.open()
@@ -691,12 +697,8 @@ var/global/list/obj/item/device/pda/PDAs = list()
 							else
 								difficulty += 2
 
-							if(prob(difficulty * 12) || (P.hidden_uplink))
+							if(prob(difficulty * 15) || (P.hidden_uplink))
 								U.show_message("<span class='danger'>An error flashes on your [src].</span>", 1)
-							else if (prob(difficulty * 3))
-								U.show_message("<span class='danger'>Energy feeds back into your [src]!</span>", 1)
-								U << browse(null, "window=pda")
-								explode()
 							else
 								U.show_message("<span class='notice'>Success!</span>", 1)
 								P.explode()
@@ -755,27 +757,29 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			id.loc = get_turf(src)
 		id = null
 
-/obj/item/device/pda/proc/msg_input(var/mob/living/U = usr)
-	var/t = input(U, "Please enter message", name, null) as null|text
-	t = copytext(sanitize(t), 1, MAX_MESSAGE_LEN)
+/obj/item/device/pda/proc/msg_input(mob/living/U = usr)
+	var/t = stripped_input(U, "Please enter message", name, null, MAX_MESSAGE_LEN)
 	if (!t || toff)
 		return
 	if (!in_range(src, U) && loc != U)
 		return
-	if(!can_use(U))
+	if(!U.canUseTopic(src))
 		return
 	if(emped)
 		t = Gibberish(t, 100)
 	return t
 
-/obj/item/device/pda/proc/create_message(var/mob/living/U = usr, var/obj/item/device/pda/P)
+/obj/item/device/pda/proc/create_message(mob/living/U = usr, obj/item/device/pda/P)
 
 	var/t = msg_input(U)
+
+	if (!t)
+		return
 
 	if (last_text && world.time < last_text + 5)
 		return
 
-	if (isnull(P) || P.toff || !istype(P))
+	if (!istype(P) || P.toff || qdeleted(P))
 		return
 
 	last_text = world.time
@@ -787,6 +791,9 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				useMS = MS
 
 	var/datum/signal/signal = src.telecomms_process()
+
+	if(!P || qdeleted(P) || !U) //in case the PDA or mob gets destroyed during telecomms_process()
+		return
 
 	var/useTC = 0
 	if(signal)
@@ -800,17 +807,22 @@ var/global/list/obj/item/device/pda/PDAs = list()
 					t = Gibberish(t, signal.data["compression"] + 50)
 
 	if(useMS && useTC) // only send the message if it's stable
-		if(useTC != 2) // Does our recepient have a broadcaster on their level?
-			U << "ERROR: Cannot reach recepient."
+		if(useTC != 2) // Does our recipient have a broadcaster on their level?
+			U << "ERROR: Cannot reach recipient."
 			return
-		useMS.send_pda_message("[P.owner]","[owner]","[t]")
-
-		tnote += "<i><b>&rarr; To [P.owner]:</b></i><br>[t]<br>"
-		P.tnote += "<i><b>&larr; From <a href='byond://?src=\ref[P];choice=Message;target=\ref[src]'>[owner]</a> ([ownjob]):</b></i><br>[t]<br>"
+		var/msg_ref = useMS.send_pda_message("[P.owner]","[owner]","[t]",photo)
+		var/photo_ref = ""
+		if(photo)
+			photo_ref = "<a href='byond://?src=\ref[msg_ref];photo=1'>(Photo)</a>"
+		tnote += "<i><b>&rarr; To [P.owner]:</b></i><br>[t][photo_ref]<br>"
+		P.tnote += "<i><b>&larr; From <a href='byond://?src=\ref[P];choice=Message;target=\ref[src]'>[owner]</a> ([ownjob]):</b></i><br>[t][photo_ref]<br>"
+		for(var/mob/M in player_list)
+			if(isobserver(M) && M.client && (M.client.prefs.chat_toggles & CHAT_GHOSTPDA))
+				M.show_message("<span class='game say'>PDA Message - <span class='name'>[owner]</span> -> <span class='name'>[P.owner]</span>: <span class='message'>[t][photo_ref]</span></span>")
 
 		if (!P.silent)
 			playsound(P.loc, 'sound/machines/twobeep.ogg', 50, 1)
-		P.loc.audible_message("\icon[P] *[P.ttone]*", null, 3)
+			P.audible_message("\icon[P] *[P.ttone]*", null, 3)
 		//Search for holder of the PDA.
 		var/mob/living/L = null
 		if(P.loc && isliving(P.loc))
@@ -820,14 +832,14 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			L = get(P, /mob/living/silicon)
 
 		if(L)
-			L << "\icon[P] <b>Message from [src.owner] ([ownjob]), </b>\"[t]\" (<a href='byond://?src=\ref[P];choice=Message;skiprefresh=1;target=\ref[src]'>Reply</a>)"
+			L << "\icon[P] <b>Message from [src.owner] ([ownjob]), </b>\"[t]\"[photo_ref] (<a href='byond://?src=\ref[P];choice=Message;skiprefresh=1;target=\ref[src]'>Reply</a>)"
 
 		log_pda("[usr] (PDA: [src.name]) sent \"[t]\" to [P.name]")
+		photo = null
 		P.overlays.Cut()
 		P.overlays += image('icons/obj/pda.dmi', "pda-r")
 	else
 		U << "<span class='notice'>ERROR: Server isn't responding.</span>"
-
 
 /obj/item/device/pda/AltClick()
 	..()
@@ -835,14 +847,11 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	if(issilicon(usr))
 		return
 
-	if(can_use(usr))
+	if(usr.canUseTopic(src))
 		if(id)
 			remove_id()
 		else
-			usr << "<span class='notice'>This PDA does not have an ID in it.</span>"
-	else
-		usr << "<span class='notice'>You cannot do this while restrained.</span>"
-
+			usr << "<span class='warning'>This PDA does not have an ID in it!</span>"
 
 /obj/item/device/pda/verb/verb_remove_id()
 	set category = "Object"
@@ -852,13 +861,11 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	if(issilicon(usr))
 		return
 
-	if ( can_use(usr) )
+	if (usr.canUseTopic(src))
 		if(id)
 			remove_id()
 		else
-			usr << "<span class='notice'>This PDA does not have an ID in it.</span>"
-	else
-		usr << "<span class='notice'>You cannot do this while restrained.</span>"
+			usr << "<span class='warning'>This PDA does not have an ID in it!</span>"
 
 /obj/item/device/pda/CtrlClick()
 	..()
@@ -866,7 +873,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	if(issilicon(usr))
 		return
 
-	if ( can_use(usr) )
+	if(usr.canUseTopic(src))
 		var/obj/item/weapon/pen/O = locate() in src
 		if(O)
 			if (istype(loc, /mob))
@@ -889,7 +896,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	if(issilicon(usr))
 		return
 
-	if ( can_use(usr) )
+	if(usr.canUseTopic(src))
 		var/obj/item/weapon/pen/O = locate() in src
 		if(O)
 			if (istype(loc, /mob))
@@ -900,36 +907,39 @@ var/global/list/obj/item/device/pda/PDAs = list()
 					return
 			O.loc = get_turf(src)
 		else
-			usr << "<span class='notice'>This PDA does not have a pen in it.</span>"
+			usr << "<span class='warning'>This PDA does not have a pen in it!</span>"
 	else
-		usr << "<span class='notice'>You cannot do this while restrained.</span>"
+		usr << "<span class='warning'>You cannot do that while restrained!</span>"
 
-/obj/item/device/pda/proc/id_check(mob/user as mob, choice as num)//To check for IDs; 1 for in-pda use, 2 for out of pda use.
+/obj/item/device/pda/proc/id_check(mob/user, choice as num)//To check for IDs; 1 for in-pda use, 2 for out of pda use.
 	if(choice == 1)
 		if (id)
 			remove_id()
 		else
 			var/obj/item/I = user.get_active_hand()
 			if (istype(I, /obj/item/weapon/card/id))
-				user.drop_item()
+				if(!user.unEquip(I))
+					return 0
 				I.loc = src
 				id = I
 	else
 		var/obj/item/weapon/card/I = user.get_active_hand()
 		if (istype(I, /obj/item/weapon/card/id) && I:registered_name)
+			if(!user.unEquip(I))
+				return 0
 			var/obj/old_id = id
-			user.drop_item()
 			I.loc = src
 			id = I
 			user.put_in_hands(old_id)
-	return
+	return 1
 
 // access to status display signals
-/obj/item/device/pda/attackby(obj/item/C as obj, mob/user as mob)
+/obj/item/device/pda/attackby(obj/item/C, mob/user, params)
 	..()
 	if(istype(C, /obj/item/weapon/cartridge) && !cartridge)
 		cartridge = C
-		user.drop_item()
+		if(!user.unEquip(C))
+			return
 		cartridge.loc = src
 		user << "<span class='notice'>You insert [cartridge] into [src].</span>"
 		if(cartridge.radio)
@@ -938,7 +948,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	else if(istype(C, /obj/item/weapon/card/id))
 		var/obj/item/weapon/card/id/idcard = C
 		if(!idcard.registered_name)
-			user << "<span class='notice'>\The [src] rejects the ID.</span>"
+			user << "<span class='warning'>\The [src] rejects the ID!</span>"
 			return
 		if(!owner)
 			owner = idcard.registered_name
@@ -948,14 +958,15 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		else
 			//Basic safety check. If either both objects are held by user or PDA is on ground and card is in hand.
 			if(((src in user.contents) && (C in user.contents)) || (istype(loc, /turf) && in_range(src, user) && (C in user.contents)) )
-				if( can_use(user) )//If they can still act.
-					id_check(user, 2)
-					user << "<span class='notice'>You put the ID into \the [src]'s slot.</span>"
-					updateSelfDialog()//Update self dialog on success.
+				if(!id_check(user, 2))
+					return
+				user << "<span class='notice'>You put the ID into \the [src]'s slot.</span>"
+				updateSelfDialog()//Update self dialog on success.
 			return	//Return in case of failed check or when successful.
 		updateSelfDialog()//For the non-input related code.
 	else if(istype(C, /obj/item/device/paicard) && !src.pai)
-		user.drop_item()
+		if(!user.unEquip(C))
+			return
 		C.loc = src
 		pai = C
 		user << "<span class='notice'>You slot \the [C] into [src].</span>"
@@ -963,14 +974,19 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	else if(istype(C, /obj/item/weapon/pen))
 		var/obj/item/weapon/pen/O = locate() in src
 		if(O)
-			user << "<span class='notice'>There is already a pen in \the [src].</span>"
+			user << "<span class='warning'>There is already a pen in \the [src]!</span>"
 		else
-			user.drop_item()
+			if(!user.unEquip(C))
+				return
 			C.loc = src
 			user << "<span class='notice'>You slide \the [C] into \the [src].</span>"
+	else if(istype(C, /obj/item/weapon/photo))
+		var/obj/item/weapon/photo/P = C
+		photo = P.img
+		user << "<span class='notice'>You scan \the [C].</span>"
 	return
 
-/obj/item/device/pda/attack(mob/living/carbon/C, mob/living/user as mob)
+/obj/item/device/pda/attack(mob/living/carbon/C, mob/living/user)
 	if(istype(C))
 		switch(scanmode)
 
@@ -991,7 +1007,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				else
 					user.show_message("<span class='notice'>No radiation detected.</span>")
 
-/obj/item/device/pda/afterattack(atom/A as mob|obj|turf|area, mob/user as mob, proximity)
+/obj/item/device/pda/afterattack(atom/A as mob|obj|turf|area, mob/user, proximity)
 	if(!proximity) return
 	switch(scanmode)
 
@@ -1025,8 +1041,17 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				if(T.ptank) atmosanalyzer_scan(T.ptank.air_contents, user, T)
 
 	if (!scanmode && istype(A, /obj/item/weapon/paper) && owner)
-		note = A:info
-		user << "<span class='notice'>Paper scanned.</span>" //concept of scanning paper copyright brainoblivion 2009
+		if (!A:info)
+			user << "<span class='warning'>Unable to scan! Paper is blank.</span>"
+			return
+		notehtml = A:info
+		note = replacetext(notehtml, "<BR>", "\[br\]")
+		note = replacetext(note, "<li>", "\[*\]")
+		note = replacetext(note, "<ul>", "\[list\]")
+		note = replacetext(note, "</ul>", "\[/list\]")
+		note = html_encode(note)
+		notescanned = 1
+		user << "<span class='notice'>Paper scanned. Saved to PDA's notekeeper.</span>" //concept of scanning paper copyright brainoblivion 2009
 
 
 /obj/item/device/pda/proc/explode() //This needs tuning.
@@ -1047,9 +1072,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 /obj/item/device/pda/Destroy()
 	PDAs -= src
-	if (src.id)
-		src.id.loc = get_turf(src.loc)
-	..()
+	return ..()
 
 /obj/item/device/pda/clown/Crossed(AM as mob|obj) //Clown PDA is slippery.
 	if (istype(AM, /mob/living/carbon))
@@ -1058,19 +1081,18 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			if (ishuman(M) && (M.real_name != src.owner))
 				if (istype(src.cartridge, /obj/item/weapon/cartridge/clown))
 					var/obj/item/weapon/cartridge/clown/cart = src.cartridge
-					if(cart.honk_charges < 5)
-						cart.honk_charges++
+					cart.honk_charges++
+					feedback_add_details("slips", "[AM]|[type]")
 
 //AI verb and proc for sending PDA messages.
 
-/mob/living/silicon/ai/proc/cmd_send_pdamesg(mob/user as mob)
+/mob/living/silicon/ai/proc/cmd_send_pdamesg(mob/user)
 	var/list/names = list()
 	var/list/plist = list()
 	var/list/namecounts = list()
 
 	if(user.stat == 2)
-		user << "You can't send PDA messages because you are dead!"
-		return
+		return //won't work if dead
 
 	if(src.aiPDA.toff)
 		user << "Turn on your receiver in order to send messages."
@@ -1098,6 +1120,12 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		return
 
 	var/selected = plist[c]
+
+	if(aicamera.aipictures.len>0)
+		var/add_photo = input(user,"Do you want to attach a photo?","Photo","No") as null|anything in list("Yes","No")
+		if(add_photo=="Yes")
+			var/datum/picture/Pic = aicamera.selectpicture(aicamera)
+			src.aiPDA.photo = Pic.fields["img"]
 	src.aiPDA.create_message(src, selected)
 
 
@@ -1105,8 +1133,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	set category = "AI Commands"
 	set name = "PDA - Toggle Sender/Receiver"
 	if(usr.stat == 2)
-		usr << "You can't do that because you are dead!"
-		return
+		return //won't work if dead
 	if(!isnull(aiPDA))
 		aiPDA.toff = !aiPDA.toff
 		usr << "<span class='notice'>PDA sender/receiver toggled [(aiPDA.toff ? "Off" : "On")]!</span>"
@@ -1117,8 +1144,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	set category = "AI Commands"
 	set name = "PDA - Toggle Ringer"
 	if(usr.stat == 2)
-		usr << "You can't do that because you are dead!"
-		return
+		return //won't work if dead
 	if(!isnull(aiPDA))
 		//0
 		aiPDA.silent = !aiPDA.silent
@@ -1130,18 +1156,16 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	set category = "AI Commands"
 	set name = "PDA - Chatrooms"
 	if(usr.stat == 2)
-		usr << "You can't do that because you are dead!"
-		return
+		return //won't work if dead
 	if(!isnull(aiPDA))
 		aiPDA.mode = 5
 		aiPDA.attack_self(src)
 	else
 		usr << "You do not have a PDA. You should make an issue report about this."
 
-/mob/living/silicon/ai/proc/cmd_show_message_log(mob/user as mob)
+/mob/living/silicon/ai/proc/cmd_show_message_log(mob/user)
 	if(user.stat == 2)
-		user << "You can't do that because you are dead!"
-		return
+		return //won't work if dead
 	if(!isnull(aiPDA))
 		var/HTML = "<html><head><title>AI PDA Message Log</title></head><body>[aiPDA.tnote]</body></html>"
 		user << browse(HTML, "window=log;size=400x444;border=1;can_resize=1;can_close=1;can_minimize=0")
@@ -1180,14 +1204,22 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 //ntrc handler proc
 /obj/item/device/pda/proc/msg_chat(channel as text, sender as text, message as text)
-	var/msg = "<b>[strip_html_properly(sender)]</b>| [strip_html_properly(message)]<br>"
+	var/msg = "<b>[html_encode(sender)]</b>| [html_encode(message)]<br>"
 	if(!channel)
 		for(var/C in ntrclog)
 			ntrclog[C] = msg + ntrclog[C]
 	else
 		ntrclog[channel] = msg + ntrclog[channel]
 	if (findtext(message, nick) && !silent)
-		loc.audible_message("\icon[src] *[ttone]*", null, 3)
+		audible_message("\icon[src] *[ttone]*", null, 3)
+	new_ntrc_msg++
+
+/obj/item/device/pda/proc/setup_chatrooms() //this can't be done on New() because the messaging server needs to be instanced first
+	if(!nick) //first time using the PDA
+		//join the default chat channel
+		nick = copytext(sanitize(owner), 1, 9)
+		var/datum/chatroom/C = chatchannels[chat_channel]
+		C.parse_msg(src, nick, "/join [chat_channel]")
 
 /proc/get_viewable_pdas()
 	. = list()

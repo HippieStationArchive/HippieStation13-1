@@ -38,7 +38,7 @@
 /obj/machinery/power/am_control_unit/Destroy()//Perhaps damage and run stability checks rather than just del on the others
 	for(var/obj/machinery/am_shielding/AMS in linked_shielding)
 		qdel(AMS)
-	..()
+	return ..()
 
 
 /obj/machinery/power/am_control_unit/process()
@@ -118,7 +118,7 @@
 	return
 
 
-/obj/machinery/power/am_control_unit/bullet_act(var/obj/item/projectile/Proj)
+/obj/machinery/power/am_control_unit/bullet_act(obj/item/projectile/Proj)
 	if(Proj.flag != "bullet")
 		stability -= Proj.force
 	return 0
@@ -137,30 +137,29 @@
 	//No other icons for it atm
 
 
-/obj/machinery/power/am_control_unit/attackby(obj/item/W, mob/user)
-	if(!istype(W) || !user) return
+/obj/machinery/power/am_control_unit/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/weapon/wrench))
 		if(!anchored)
 			playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
 			user.visible_message("[user.name] secures the [src.name] to the floor.", \
-				"You secure the anchor bolts to the floor.", \
-				"You hear a ratchet")
+				"<span class='notice'>You secure the anchor bolts to the floor.</span>", \
+				"<span class='italics'>You hear a ratchet.</span>")
 			src.anchored = 1
 			connect_to_network()
 		else if(!linked_shielding.len > 0)
 			playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
 			user.visible_message("[user.name] unsecures the [src.name].", \
-				"You remove the anchor bolts.", \
-				"You hear a ratchet")
+				"Y<span class='notice'>You remove the anchor bolts.</span>", \
+				"<span class='italics'>You hear a ratchet.</span>")
 			src.anchored = 0
 			disconnect_from_network()
 		else
-			user << "<span class='danger'>Once bolted and linked to a shielding unit it the [src.name] is unable to be moved!</span>"
+			user << "<span class='warning'>Once bolted and linked to a shielding unit it the [src.name] is unable to be moved!</span>"
 		return
 
 	if(istype(W, /obj/item/weapon/am_containment))
 		if(fueljar)
-			user << "<span class='danger'>There is already a [fueljar] inside!</span>"
+			user << "<span class='warning'>There is already a [fueljar] inside!</span>"
 			return
 		fueljar = W
 		W.loc = src
@@ -169,24 +168,23 @@
 		user.unEquip(W)
 		user.update_icons()
 		user.visible_message("[user.name] loads an [W.name] into the [src.name].", \
-				"You load an [W.name].", \
-				"You hear a thunk.")
+				"<span class='notice'>You load an [W.name].</span>", \
+				"<span class='italics'>You hear a thunk.</span>")
 		return
 
 	if(W.force >= 20)
 		stability -= W.force/2
 		check_stability()
 	..()
-	return
 
 
-/obj/machinery/power/am_control_unit/attack_hand(mob/user as mob)
+/obj/machinery/power/am_control_unit/attack_hand(mob/user)
 	if(anchored)
 		interact(user)
 	return
 
 
-/obj/machinery/power/am_control_unit/proc/add_shielding(var/obj/machinery/am_shielding/AMS, var/AMS_linking = 0)
+/obj/machinery/power/am_control_unit/proc/add_shielding(obj/machinery/am_shielding/AMS, AMS_linking = 0)
 	if(!istype(AMS)) return 0
 	if(!anchored) return 0
 	if(!AMS_linking && !AMS.link_control(src)) return 0
@@ -195,7 +193,7 @@
 	return 1
 
 
-/obj/machinery/power/am_control_unit/proc/remove_shielding(var/obj/machinery/am_shielding/AMS)
+/obj/machinery/power/am_control_unit/proc/remove_shielding(obj/machinery/am_shielding/AMS)
 	if(!istype(AMS)) return 0
 	linked_shielding.Remove(AMS)
 	update_shield_icons = 2

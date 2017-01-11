@@ -15,9 +15,10 @@
 	var/operating = 0
 	var/glass = 0
 	var/normalspeed = 1
-	var/heat_proof = 0 // For glass airlocks/opacity firedoors
+	var/heat_proof = 0 // For rglass-windowed airlocks and firedoors
 	var/emergency = 0 // Emergency access override
-	var/cooldown = 0 // Cooldown for "attackby" beeps and sprite.
+	var/sub_door = 0 // 1 if it's meant to go under another door.
+	var/closingLayer = 3.1
 
 /obj/machinery/door/New()
 	..()
@@ -36,16 +37,15 @@
 	air_update_turf(1)
 	update_freelook_sight()
 	airlocks -= src
-	..()
-	return
+	return ..()
 
 //process()
 	//return
 
 /obj/machinery/door/Bumped(atom/AM)
 	if(operating || emagged) return
-	if(ismob(AM))
-		var/mob/M = AM
+	if(isliving(AM))
+		var/mob/living/M = AM
 		if(world.time - M.last_bumped <= 10) return	//Can bump-open one airlock per second. This is to prevent shock spam.
 		M.last_bumped = world.time
 		if(!M.restrained())
@@ -65,8 +65,8 @@
 			if(mecha.occupant && (src.allowed(mecha.occupant) || src.check_access_list(mecha.operation_req_access) || emergency == 1))
 				open()
 			else
-				flick("door_deny", src)
 				playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
+				do_animate("deny")
 		return
 	return
 
@@ -87,7 +87,7 @@
 /obj/machinery/door/proc/CanAStarPass(var/obj/item/weapon/card/id/ID)
 	return !density
 
-/obj/machinery/door/proc/bumpopen(mob/user as mob)
+/obj/machinery/door/proc/bumpopen(mob/user)
 	if(operating)
 		return
 	src.add_fingerprint(user)
@@ -98,29 +98,29 @@
 		if(allowed(user) || src.emergency == 1)
 			open()
 		else
-			flick("door_deny", src)
 			playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
+			do_animate("deny")
 	return
 
 
-/obj/machinery/door/attack_ai(mob/user as mob)
+/obj/machinery/door/attack_ai(mob/user)
 	return src.attack_hand(user)
 
 
-/obj/machinery/door/attack_paw(mob/user as mob)
+/obj/machinery/door/attack_paw(mob/user)
 	return src.attack_hand(user)
 
 
-/obj/machinery/door/attack_hand(mob/user as mob)
+/obj/machinery/door/attack_hand(mob/user)
 	return src.attackby(user, user)
 
 
-/obj/machinery/door/attack_tk(mob/user as mob)
+/obj/machinery/door/attack_tk(mob/user)
 	if(requiresID() && !allowed(null))
 		return
 	..()
 
-/obj/machinery/door/attackby(obj/item/I as obj, mob/user as mob)
+/obj/machinery/door/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/device/detective_scanner))
 		return
 	if(isrobot(user))	return //borgs can't attack doors open because it conflicts with their AI-like interaction with them.
@@ -136,26 +136,10 @@
 		else
 			close()
 		return
-	if(src.density && cooldown < world.time)
-		cooldown = world.time + 10 //1 second
-		flick("door_deny", src)
+	if(src.density)
 		playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
+		do_animate("deny")
 	return
-
-/obj/machinery/door/emag_act(mob/user as mob)
-	if(density && hasPower() && !emagged)
-		flick("door_spark", src)
-		sleep(6)
-		open()
-		emagged = 1
-		desc = "<span class='warning'>Its access panel is smoking slightly.</span>"
-		if(istype(src, /obj/machinery/door/airlock))
-			var/obj/machinery/door/airlock/A = src
-			A.lights = 0
-			A.locked = 1
-			A.loseMainPower()
-			A.loseBackupPower()
-			A.update_icon()
 
 /obj/machinery/door/blob_act()
 	if(prob(40))
@@ -177,7 +161,7 @@
 /obj/machinery/door/ex_act(severity, target)
 	if(severity == 3)
 		if(prob(80))
-			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+			var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 			s.set_up(2, 1, src)
 			s.start()
 		return
@@ -204,6 +188,7 @@
 			else
 				flick("doorc1", src)
 		if("deny")
+			playsound(src.loc, 'sound/machines/denied.ogg', 50, 1)
 			flick("door_deny", src)
 	return
 
@@ -213,7 +198,7 @@
 		return 1
 	if(operating)
 		return
-	if(!ticker)
+	if(!ticker || !ticker.mode)
 		return 0
 	operating = 1
 
@@ -240,7 +225,7 @@
 	operating = 1
 
 	do_animate("closing")
-	src.layer = 3.1
+	src.layer = closingLayer
 	sleep(5)
 	src.density = 1
 	sleep(5)
@@ -270,9 +255,12 @@
 		else //for simple_animals & borgs
 			L.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
 			playsound(L.loc, 'sound/effects/bang.ogg', 60, 1)
+		add_logs(src, L, "crushed")
 		var/turf/location = src.loc
 		if(istype(location, /turf/simulated)) //add_blood doesn't work for borgs/xenos, but add_blood_floor does.
 			location.add_blood_floor(L)
+	for(var/obj/mecha/M in get_turf(src))
+		M.take_damage(DOOR_CRUSH_DAMAGE)
 
 /obj/machinery/door/proc/requiresID()
 	return 1
@@ -280,10 +268,17 @@
 /obj/machinery/door/proc/hasPower()
 	return !(stat & NOPOWER)
 
-/obj/machinery/door/BlockSuperconductivity()
+/obj/machinery/door/proc/update_freelook_sight()
+	if(!glass && cameranet)
+		cameranet.updateVisibility(src, 0)
+
+/obj/machinery/door/BlockSuperconductivity() // All non-glass airlocks block heat, this is intended.
 	if(opacity || heat_proof)
 		return 1
 	return 0
 
 /obj/machinery/door/morgue
 	icon = 'icons/obj/doors/doormorgue.dmi'
+
+/obj/machinery/door/storage_contents_dump_act(obj/item/weapon/storage/src_object, mob/user)
+	return 0

@@ -14,13 +14,30 @@ var/global/list/underwear_f = list()	//stores only underwear name
 var/global/list/undershirt_list = list() 	//stores /datum/sprite_accessory/undershirt indexed by name
 var/global/list/undershirt_m = list()	 //stores only undershirt name
 var/global/list/undershirt_f = list()	 //stores only undershirt name
+	//Socks
+var/global/list/socks_list = list()		//stores /datum/sprite_accessory/socks indexed by name
+var/global/list/socks_m = list()	 //stores only socks name
+var/global/list/socks_f = list()	 //stores only socks name
+	//Lizard Bits (all datum lists indexed by name)
+var/global/list/body_markings_list = list()
+var/global/list/tails_list_lizard = list()
+var/global/list/tails_list_human = list()
+var/global/list/animated_tails_list_lizard = list()
+var/global/list/animated_tails_list_human = list()
+var/global/list/snouts_list = list()
+var/global/list/horns_list = list()
+var/global/list/ears_list = list()
+var/global/list/frills_list = list()
+var/global/list/spines_list = list()
+var/global/list/animated_spines_list = list()
+var/global/list/wing_list = list()
 	//Backpacks
-var/global/list/backbaglist = list("Nothing", "Backpack", "Satchel", "Dufflebag", "Mountain backpack")
+var/global/list/backbaglist = list("Backpack", "Satchel", "Dufflebag", "Mountain backpack", "Nothing")
 	//Female Uniforms
 var/global/list/female_clothing_icons = list()
 
 	//radical shit
-var/list/hit_appends = list("-OOF", "-ACK", "-UGH", "-HRNK", "-HURGH", "-GLORF", "-FFAAGH", "-BLERGH", "-BLORGH", "-BLUH")
+var/list/hit_appends = list("-OOF", "-ACK", "-UGH", "-HRNK", "-HURGH", "-GLORF")
 
 var/list/scarySounds = list('sound/weapons/thudswoosh.ogg','sound/weapons/Taser.ogg','sound/weapons/armbomb.ogg','sound/voice/hiss1.ogg','sound/voice/hiss2.ogg','sound/voice/hiss3.ogg','sound/voice/hiss4.ogg','sound/voice/hiss5.ogg','sound/voice/hiss6.ogg','sound/effects/Glassbr1.ogg','sound/effects/Glassbr2.ogg','sound/effects/Glassbr3.ogg','sound/items/Welder.ogg','sound/items/Welder2.ogg','sound/machines/airlock.ogg','sound/effects/clownstep1.ogg','sound/effects/clownstep2.ogg')
 

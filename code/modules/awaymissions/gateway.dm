@@ -1,3 +1,5 @@
+var/obj/machinery/gateway/centerstation/the_gateway = null
+
 /obj/machinery/gateway
 	name = "gateway"
 	desc = "A mysterious gateway built by unknown hands, it allows for faster than light travel to far-flung locations."
@@ -7,6 +9,18 @@
 	anchored = 1
 	unacidable = 1
 	var/active = 0
+
+
+/obj/machinery/gateway/centerstation/New()
+	..()
+	if(!the_gateway)
+		the_gateway = src
+
+
+/obj/machinery/gateway/centerstation/Destroy()
+	if(the_gateway == src)
+		the_gateway = null
+	..()
 
 
 /obj/machinery/gateway/initialize()
@@ -21,7 +35,9 @@
 		return
 	icon_state = "off"
 
-
+//prevents shuttles attempting to rotate this since it messes up sprites
+/obj/machinery/gateway/shuttleRotate()
+	return
 
 //this is da important part wot makes things go
 /obj/machinery/gateway/centerstation
@@ -49,7 +65,7 @@
 
 
 
-obj/machinery/gateway/centerstation/process()
+/obj/machinery/gateway/centerstation/process()
 	if(stat & (NOPOWER))
 		if(active) toggleoff()
 		return
@@ -78,7 +94,7 @@ obj/machinery/gateway/centerstation/process()
 		ready = 1
 
 
-/obj/machinery/gateway/centerstation/proc/toggleon(mob/user as mob)
+/obj/machinery/gateway/centerstation/proc/toggleon(mob/user)
 	if(!ready)			return
 	if(linked.len != 8)	return
 	if(!powered())		return
@@ -104,7 +120,7 @@ obj/machinery/gateway/centerstation/process()
 	update_icon()
 
 
-/obj/machinery/gateway/centerstation/attack_hand(mob/user as mob)
+/obj/machinery/gateway/centerstation/attack_hand(mob/user)
 	if(!ready)
 		detect()
 		return
@@ -133,7 +149,7 @@ obj/machinery/gateway/centerstation/process()
 		return
 
 
-/obj/machinery/gateway/centerstation/attackby(obj/item/device/W as obj, mob/user as mob)
+/obj/machinery/gateway/centerstation/attackby(obj/item/device/W, mob/user, params)
 	if(istype(W,/obj/item/device/multitool))
 		user << "\black The gate is already calibrated, there is no work for you to do here."
 		return
@@ -183,7 +199,7 @@ obj/machinery/gateway/centerstation/process()
 		ready = 1
 
 
-/obj/machinery/gateway/centeraway/proc/toggleon(mob/user as mob)
+/obj/machinery/gateway/centeraway/proc/toggleon(mob/user)
 	if(!ready)			return
 	if(linked.len != 8)	return
 	if(!stationgate)
@@ -205,7 +221,7 @@ obj/machinery/gateway/centerstation/process()
 	update_icon()
 
 
-/obj/machinery/gateway/centeraway/attack_hand(mob/user as mob)
+/obj/machinery/gateway/centeraway/attack_hand(mob/user)
 	if(!ready)
 		detect()
 		return
@@ -227,7 +243,7 @@ obj/machinery/gateway/centerstation/process()
 	M.dir = SOUTH
 
 
-/obj/machinery/gateway/centeraway/attackby(obj/item/device/W as obj, mob/user as mob)
+/obj/machinery/gateway/centeraway/attackby(obj/item/device/W, mob/user, params)
 	if(istype(W,/obj/item/device/multitool))
 		if(calibrated)
 			user << "\black The gate is already calibrated, there is no work for you to do here."

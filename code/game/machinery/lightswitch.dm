@@ -5,7 +5,7 @@
 	name = "light switch"
 	icon = 'icons/obj/power.dmi'
 	icon_state = "light1"
-	anchored = 1.0
+	anchored = 1
 	var/on = 1
 	var/area/area = null
 	var/otherarea = null
@@ -13,10 +13,8 @@
 
 /obj/machinery/light_switch/New()
 	..()
-	spawn(10)
-		src.area = get_area(src)
-
-		ASSERT(src.area)
+	spawn(5)
+		src.area = src.loc.loc
 
 		if(otherarea)
 			src.area = locate(text2path("/area/[otherarea]"))
@@ -49,7 +47,7 @@
 /obj/machinery/light_switch/attack_hand(mob/user)
 
 	on = !on
-
+	playsound(loc, 'sound/machines/lightswitch.ogg', 30, 1, -3)
 	for(var/area/A in area.master.related)
 		A.lightswitch = on
 		A.updateicon()

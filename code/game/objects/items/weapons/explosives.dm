@@ -1,4 +1,6 @@
-//In this file: C4
+//In this file: C4 and Syndicate Bombs
+/atom/
+	var/obj/item/weapon/c4/has_c4 = null //If the item has c4 planted on it.
 
 /obj/item/weapon/c4
 	name = "C-4"
@@ -8,7 +10,7 @@
 	icon_state = "plastic-explosive0"
 	item_state = "plasticx"
 	flags = NOBLUDGEON
-	w_class = 2.0
+	w_class = 2
 	origin_tech = "syndicate=2"
 	var/datum/wires/explosive/c4/wires = null
 	var/timer = 10
@@ -21,9 +23,14 @@
 	image_overlay = image('icons/obj/assemblies.dmi', "plastic-explosive2")
 	..()
 
-/obj/item/weapon/c4/suicide_act(var/mob/user)
-	. = BRUTELOSS
-	user.visible_message("<span class='suicide'>[user] activates the [src.name] and holds it above his head! It looks like \he's going out with a bang!</span>")
+/obj/item/weapon/c4/Destroy()
+	qdel(wires)
+	wires = null
+	target = null
+	return ..()
+
+/obj/item/weapon/c4/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] activates the [src.name] and holds it above \his head! It looks like \he's going out with a bang!</span>")
 	var/message_say = "FOR NO RAISIN!"
 	if(user.mind)
 		if(user.mind.special_role)
@@ -33,26 +40,29 @@
 			else if(role == "changeling")
 				message_say = "FOR THE HIVE!"
 			else if(role == "cultist")
-				message_say = "FOR NARSIE!"
+				message_say = "FOR NAR-SIE!"
+			else if(role == "revolutionary" || role == "head revolutionary")
+				message_say = "VIVA LA REVOLUTION!"
+			else if(user.mind.gang_datum)
+				message_say = "[uppertext(user.mind.gang_datum.name)] RULES!"
 	user.say(message_say)
 	target = user
-	message_admins("[key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) suicided with [src.name] at ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
+	message_admins("[key_name_admin(user)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[user]'>FLW</A>) suicided with [src.name] at ([x],[y],[z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>)",0,1)
+	message_admins("[key_name(user)] suicided with [src.name] at ([x],[y],[z])")
+	sleep(10)
 	explode(get_turf(user))
-	if(istype(user, /mob/living))
-		var/mob/living/L = user
-		L.gib() //Since we'll be still alive when going boom, let's just gib ourselves here
-	return .
+	user.gib()
 
-/obj/item/weapon/c4/attackby(var/obj/item/I, var/mob/user)
+/obj/item/weapon/c4/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/screwdriver))
 		open_panel = !open_panel
 		user << "<span class='notice'>You [open_panel ? "open" : "close"] the wire panel.</span>"
-	else if(istype(I, /obj/item/weapon/wirecutters) || istype(I, /obj/item/device/multitool) || istype(I, /obj/item/device/assembly/signaler ))
+	else if(wires.IsInteractionTool(I))
 		wires.Interact(user)
 	else
 		..()
 
-/obj/item/weapon/c4/attack_self(mob/user as mob)
+/obj/item/weapon/c4/attack_self(mob/user)
 	var/newtime = input(usr, "Please set the timer.", "Timer", 10) as num
 	if(user.get_active_hand() == src)
 		newtime = Clamp(newtime, 10, 60000)
@@ -60,45 +70,46 @@
 		user << "Timer set for [timer] seconds."
 
 /obj/item/weapon/c4/afterattack(atom/movable/target, mob/user, flag)
-	if (!flag)
+	if(!flag)
 		return
-	if (istype(target, /turf/unsimulated) || istype(target, /turf/simulated/shuttle) || istype(target, /obj/item/weapon/storage/))
+	if(istype(target, /obj/item/weapon/storage/))
 		return
-	user << "Planting explosives..."
+	if(loc == target)
+		return
+	if(target.has_c4)
+		user << "<span class='notice'>[target] already has C4 attached!</span>"
+		return
 
-	if(do_after(user, 50) && in_range(user, target))
-		user.drop_item()
+	user << "<span class='notice'>You start planting the bomb...</span>"
+
+	if(do_after(user, 50, target = target) && in_range(user, target))
+		if(!user.unEquip(src))
+			return
+		message_admins("[key_name_admin(user)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[user]'>FLW</A>) planted [src.name] on [target.name] at ([target.x],[target.y],[target.z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[target.x];Y=[target.y];Z=[target.z]'>JMP</a>) with [timer] second fuse",0,1)
+		log_game("[key_name(user)] planted [src.name] on [target.name] at ([target.x],[target.y],[target.z]) with [timer] second fuse")
+
 		src.target = target
-		loc = null
-
-		if (ismob(target))
-			add_logs(user, target, "planted [name] on")
-			user.visible_message("<span class='danger'>[user.name] finished planting an explosive on [target.name]!</span>")
-			message_admins("[key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) planted [src.name] on [key_name(target)](<A HREF='?_src_=holder;adminmoreinfo=\ref[target]'>?</A>) with [timer] second fuse",0,1)
-			log_game("[key_name(user)] planted [src.name] on [key_name(target)] with [timer] second fuse")
-
-		else
-			message_admins("[key_name(user, user.client)](<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A>) planted [src.name] on [target.name] at ([target.x],[target.y],[target.z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[target.x];Y=[target.y];Z=[target.z]'>JMP</a>) with [timer] second fuse",0,1)
-			log_game("[key_name(user)] planted [src.name] on [target.name] at ([target.x],[target.y],[target.z]) with [timer] second fuse")
-
+		loc = target
 		target.overlays += image_overlay
-		user << "Bomb has been planted. Timer counting down from [timer]."
+		target.has_c4 = src
+		user << "<span class='notice'>You plant the bomb. Timer counting down from [timer].</span>"
 		spawn(timer*10)
-			if(target && !target.gc_destroyed)
-				explode(get_turf(target))
+			if(target && !target.gc_destroyed && target.has_c4 == src)
+				explode()
 			else
 				qdel(src)
 
-/obj/item/weapon/c4/proc/explode(var/turf/location)
-	location.ex_act(2, target)
-	explosion(location,0,0,3)
-	if(target)
-		target.overlays -= image_overlay
-		if(istype(target, /mob/living))
-			var/mob/living/L = target
-			if(L.stat == DEAD)
-				L.gib()
+/obj/item/weapon/c4/proc/explode()
+	var/turf/location = get_turf(loc)
+	if(location)
+		location.ex_act(2, target)
+		explosion(location,0,0,3)
+		if(target)
+			target.overlays -= image_overlay
 	qdel(src)
 
-/obj/item/weapon/c4/attack(mob/M as mob, mob/user as mob, def_zone)
-	return
+/obj/item/weapon/c4/attack(mob/M, mob/user, def_zone)
+	if(user.zone_sel.selecting =="groin" && user.a_intent == "grab")
+		..()
+	else
+		return

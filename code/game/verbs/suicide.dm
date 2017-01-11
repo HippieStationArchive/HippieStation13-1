@@ -12,6 +12,8 @@
 		var/obj/item/held_item = get_active_hand()
 		if(held_item)
 			var/damagetype = held_item.suicide_act(src)
+			if(!canSuicide()) //When we were returned the actual suicide method seems like we were interrupted.
+				return
 			if(damagetype)
 				var/damage_mod = 1
 				switch(damagetype) //Sorry about the magic numbers.
@@ -56,7 +58,7 @@
 							"[src] is twisting \his own neck! It looks like \he's trying to commit suicide.", \
 							"[src] is holding \his breath! It looks like \he's trying to commit suicide.")
 
-		visible_message("<span class='danger'>[suicide_message]</span>", "<span class='userdanger'>[suicide_message]</span>")
+		visible_message("<span class='suicide'>[suicide_message]</span>", "<span class='suicide'>[suicide_message]</span>")
 
 		adjustOxyLoss(max(175 - getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
 		updatehealth()
@@ -88,8 +90,9 @@
 		//instead of killing them instantly, just put them at -175 health and let 'em gasp for a while
 		visible_message("<span class='danger'>[src] is attempting to bite \his tongue. It looks like \he's trying to commit suicide.</span>", \
 				"<span class='userdanger'>[src] is attempting to bite \his tongue. It looks like \he's trying to commit suicide.</span>")
-		adjustOxyLoss(max(175- getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
+		adjustOxyLoss(max(200- getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
 		updatehealth()
+		death(0)
 
 /mob/living/silicon/ai/verb/suicide()
 	set hidden = 1
@@ -105,6 +108,7 @@
 		//put em at -175
 		adjustOxyLoss(max(maxHealth * 2 - getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
 		updatehealth()
+		death(0)
 
 /mob/living/silicon/robot/verb/suicide()
 	set hidden = 1
@@ -120,6 +124,7 @@
 		//put em at -175
 		adjustOxyLoss(max(maxHealth * 2 - getToxLoss() - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
 		updatehealth()
+		death(0)
 
 /mob/living/silicon/pai/verb/suicide()
 	set category = "pAI Commands"
@@ -145,13 +150,13 @@
 		suiciding = 1
 		visible_message("<span class='danger'>[src] is thrashing wildly! It looks like \he's trying to commit suicide.</span>", \
 				"<span class='userdanger'>[src] is thrashing wildly! It looks like \he's trying to commit suicide.</span>", \
-				"<span class='notice'>You hear thrashing</span>")
+				"<span class='italics'>You hear thrashing.</span>")
 		//put em at -175
-		adjustOxyLoss(max(175 - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
+		adjustOxyLoss(max(200 - getFireLoss() - getBruteLoss() - getOxyLoss(), 0))
 		updatehealth()
+		death(0)
 
-
-/mob/living/carbon/slime/verb/suicide()
+/mob/living/simple_animal/verb/suicide()
 	set hidden = 1
 	if(!canSuicide())
 		return
@@ -160,14 +165,10 @@
 		return
 	if(confirm == "Yes")
 		suiciding = 1
-		visible_message("<span class='danger'>[src] is growing dull and lifeless. It looks like it's lost the will to live.</span>", \
-						"<span class='userdanger'>[src] is growing dull and lifeless. It looks like it's lost the will to live.</span>")
-		setOxyLoss(100)
-		adjustBruteLoss(100 - getBruteLoss())
-		setToxLoss(100)
-		setCloneLoss(100)
+		visible_message("<span class='danger'>[src] begins to fall down. It looks like \he's lost the will to live.</span>", \
+						"<span class='userdanger'>[src] begins to fall down. It looks like \he's lost the will to live.</span>")
+		death(0)
 
-		updatehealth()
 
 /mob/living/proc/canSuicide()
 	if(stat == CONSCIOUS)
@@ -175,7 +176,9 @@
 	else if(stat == DEAD)
 		src << "You're already dead!"
 	else if(stat == UNCONSCIOUS)
-		src << "You need to be conscious to suicide"
+		src << "You need to be conscious to suicide!"
+	else if(suiciding)
+		src << "You are already suiciding!"
 	return
 
 /mob/living/carbon/canSuicide()
@@ -183,5 +186,8 @@
 		return
 	if(!canmove || restrained())	//just while I finish up the new 'fun' suiciding verb. This is to prevent metagaming via suicide
 		src << "You can't commit suicide whilst restrained! ((You can type Ghost instead however.))"
+		return
+	if((src.dna.check_mutation(CLUWNEMUT)))
+		src << "Cluwnes cannot suicide! Find a natural means of death!"
 		return
 	return 1

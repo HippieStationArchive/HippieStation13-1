@@ -2,12 +2,19 @@
 	gender = NEUTER
 	voice_name = "synthesized voice"
 	languages = ROBOT | HUMAN
+	has_unlimited_silicon_privilege = 1
+	verb_say = "states"
+	verb_ask = "queries"
+	verb_exclaim = "declares"
+	verb_yell = "alarms"
 	var/syndicate = 0
 	var/datum/ai_laws/laws = null//Now... THEY ALL CAN ALL HAVE LAWS
 	var/list/alarms_to_show = list()
 	var/list/alarms_to_clear = list()
 	var/designation = ""
 	var/radiomod = "" //Radio character used before state laws/arrivals announce to allow department transmissions, default, or none at all.
+	var/obj/item/device/camera/siliconcam/aicamera = null //photography
+	hud_possible = list(ANTAG_HUD, DIAG_STAT_HUD, DIAG_HUD, ANTAG_HUD_ADMIN)
 
 	var/obj/item/device/radio/borg/radio = null //AIs dont use this but this is at the silicon level to advoid copypasta in say()
 
@@ -19,6 +26,21 @@
 
 	var/med_hud = DATA_HUD_MEDICAL_ADVANCED //Determines the med hud to use
 	var/sec_hud = DATA_HUD_SECURITY_ADVANCED //Determines the sec hud to use
+	var/d_hud = DATA_HUD_DIAGNOSTIC //There is only one kind of diag hud
+
+	var/law_change_counter = 0
+
+/mob/living/silicon/New()
+	..()
+	var/datum/atom_hud/data/diagnostic/diag_hud = huds[DATA_HUD_DIAGNOSTIC]
+	diag_hud.add_to_hud(src)
+	diag_hud_set_status()
+	diag_hud_set_health()
+
+/mob/living/silicon/Destroy()
+	radio = null
+	aicamera = null
+	return ..()
 
 /mob/living/silicon/contents_explosion(severity, target)
 	return
@@ -29,7 +51,7 @@
 /mob/living/silicon/proc/triggerAlarm()
 	return
 
-/mob/living/silicon/proc/queueAlarm(var/message, var/type, var/incoming = 1)
+/mob/living/silicon/proc/queueAlarm(message, type, incoming = 1)
 	var/in_cooldown = (alarms_to_show.len > 0 || alarms_to_clear.len > 0)
 	if(incoming)
 		alarms_to_show += message
@@ -113,12 +135,12 @@
 		if(2)
 			src.take_organ_damage(10)
 			Stun(3)
-	flick("noise", src:flash)
+	flash_eyes(affect_silicon = 1)
 	src << "<span class='userdanger'>*BZZZT*</span>"
 	src << "<span class='danger'>Warning: Electromagnetic pulse detected.</span>"
 	..()
 
-/mob/living/silicon/apply_damage(var/damage = 0,var/damagetype = BRUTE, var/def_zone = null, var/blocked = 0)
+/mob/living/silicon/apply_damage(damage = 0,damagetype = BRUTE, def_zone = null, blocked = 0)
 	blocked = (100-blocked)/100
 	if(!damage || (blocked <= 0))	return 0
 	switch(damagetype)
@@ -131,10 +153,10 @@
 	updatehealth()
 	return 1
 
-/mob/living/silicon/proc/damage_mob(var/brute = 0, var/fire = 0, var/tox = 0)
+/mob/living/silicon/proc/damage_mob(brute = 0, fire = 0, tox = 0)
 	return
 
-/mob/living/silicon/can_inject(var/mob/user, var/error_msg)
+/mob/living/silicon/can_inject(mob/user, error_msg)
 	if(error_msg)
 		user << "<span class='alert'>Their outer shell is too tough.</span>"
 	return 0
@@ -142,13 +164,13 @@
 /mob/living/silicon/IsAdvancedToolUser()
 	return 1
 
-/mob/living/silicon/bullet_act(var/obj/item/projectile/Proj)
+/mob/living/silicon/bullet_act(obj/item/projectile/Proj)
 	if((Proj.damage_type == BRUTE || Proj.damage_type == BURN))
 		adjustBruteLoss(Proj.damage)
-	Proj.on_hit(src,2)
+	Proj.on_hit(src)
 	return 2
 
-/mob/living/silicon/apply_effect(var/effect = 0,var/effecttype = STUN, var/blocked = 0)
+/mob/living/silicon/apply_effect(effect = 0,effecttype = STUN, blocked = 0)
 	return 0//The only effect that can hit them atm is flashes and they still directly edit so this works for now
 /*
 	if(!effect || (blocked >= 2))	return 0
@@ -170,7 +192,7 @@
 	updatehealth()
 	return 1*/
 
-/proc/islinked(var/mob/living/silicon/robot/bot, var/mob/living/silicon/ai/ai)
+/proc/islinked(mob/living/silicon/robot/bot, mob/living/silicon/ai/ai)
 	if(!istype(bot) || !istype(ai))
 		return 0
 	if (bot.connected_ai == ai)
@@ -325,8 +347,10 @@
 /mob/living/silicon/proc/remove_med_sec_hud()
 	var/datum/atom_hud/secsensor = huds[sec_hud]
 	var/datum/atom_hud/medsensor = huds[med_hud]
+	var/datum/atom_hud/diagsensor = huds[d_hud]
 	secsensor.remove_hud_from(src)
 	medsensor.remove_hud_from(src)
+	diagsensor.remove_hud_from(src)
 
 /mob/living/silicon/proc/add_sec_hud()
 	var/datum/atom_hud/secsensor = huds[sec_hud]
@@ -336,9 +360,13 @@
 	var/datum/atom_hud/medsensor = huds[med_hud]
 	medsensor.add_hud_to(src)
 
-/mob/living/silicon/verb/sensor_mode()
+/mob/living/silicon/proc/add_diag_hud()
+	var/datum/atom_hud/diagsensor = huds[d_hud]
+	diagsensor.add_hud_to(src)
+
+/mob/living/silicon/proc/sensor_mode()
 	set name = "Set Sensor Augmentation"
-	var/sensor_type = input("Please select sensor type.", "Sensor Integration", null) in list("Security", "Medical","Disable")
+	var/sensor_type = input("Please select sensor type.", "Sensor Integration", null) in list("Security", "Medical","Diagnostic","Disable")
 	remove_med_sec_hud()
 	switch(sensor_type)
 		if ("Security")
@@ -347,21 +375,24 @@
 		if ("Medical")
 			add_med_hud()
 			src << "<span class='notice'>Life signs monitor overlay enabled.</span>"
+		if ("Diagnostic")
+			add_diag_hud()
+			src << "<span class='notice'>Robotics diagnostic overlay enabled.</span>"
 		if ("Disable")
 			src << "Sensor augmentations disabled."
 
 
-/mob/living/silicon/attack_alien(mob/living/carbon/alien/humanoid/M as mob)
+/mob/living/silicon/attack_alien(mob/living/carbon/alien/humanoid/M)
 	if(..()) //if harm or disarm intent
-		var/damage = rand(10, 20)
+		var/damage = 20
 		if (prob(90))
-			add_logs(M, src, "attacked", admin=0)
+			add_logs(M, src, "attacked")
 			playsound(loc, 'sound/weapons/slash.ogg', 25, 1, -1)
 			visible_message("<span class='danger'>[M] has slashed at [src]!</span>", \
 							"<span class='userdanger'>[M] has slashed at [src]!</span>")
 			if(prob(8))
-				flick("noise", flash)
-			add_logs(M, src, "attacked", admin=0)
+				flash_eyes(affect_silicon = 1)
+			add_logs(M, src, "attacked")
 			adjustBruteLoss(damage)
 			updatehealth()
 		else
@@ -370,10 +401,22 @@
 							"<span class='userdanger'>[M] took a swipe at [src]!</span>")
 	return
 
-/mob/living/silicon/attack_animal(mob/living/simple_animal/M as mob)
+/mob/living/silicon/attack_animal(mob/living/simple_animal/M)
 	if(..())
 		var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
-		adjustBruteLoss(damage)
+		switch(M.melee_damage_type)
+			if(BRUTE)
+				adjustBruteLoss(damage)
+			if(BURN)
+				adjustFireLoss(damage)
+			if(TOX)
+				adjustToxLoss(damage)
+			if(OXY)
+				adjustOxyLoss(damage)
+			if(CLONE)
+				adjustCloneLoss(damage)
+			if(STAMINA)
+				adjustStaminaLoss(damage)
 		updatehealth()
 
 /mob/living/silicon/attack_paw(mob/living/user)
@@ -381,28 +424,58 @@
 
 /mob/living/silicon/attack_larva(mob/living/carbon/alien/larva/L)
 	if(L.a_intent == "help")
-		visible_message("<span class='notice'>[L.name] rubs its head against [src].</span>")
+		visible_message("[L.name] rubs its head against [src].")
 	return
+
+/mob/living/silicon/attack_hulk(mob/living/carbon/human/user)
+	if(user.a_intent == "harm")
+		..(user, 1)
+		adjustBruteLoss(rand(10, 15))
+		playsound(loc, "punch", 25, 1, -1)
+		visible_message("<span class='danger'>[user] has punched [src]!</span>", \
+				"<span class='userdanger'>[user] has punched [src]!</span>")
+		return 1
+	return 0
 
 /mob/living/silicon/attack_hand(mob/living/carbon/human/M)
 	switch(M.a_intent)
 		if ("help")
-			M.visible_message("<span class='notice'>[M] pets [src]!</span>", \
-							"<span class='notice'>You pet [src]!</span>")
+			M.visible_message("[M] pets [src].", \
+							"<span class='notice'>You pet [src].</span>")
 		if("grab")
 			grabbedby(M)
 		else
 			M.do_attack_animation(src)
 			playsound(src.loc, 'sound/effects/bang.ogg', 10, 1)
-			if (HULK in M.mutations)
-				var/damage = rand(10,15)
-				adjustBruteLoss(damage)
-				add_logs(M, src, "attacked", admin=0)
-				playsound(loc, "punch", 25, 1, -1)
-				visible_message("<span class='danger'>[M] has punched [src]!</span>", \
-						"<span class='userdanger'>[M] has punched [src]!</span>")
-				return 1
-			else
-				visible_message("<span class='danger'>[M] punches [src], but doesn't leave a dent.</span>", \
-						"<span class='userdanger'>[M] punches [src], but doesn't leave a dent!</span>")
+			visible_message("<span class='warning'>[M] punches [src], but doesn't leave a dent.</span>", \
+						"<span class='warning'>[M] punches [src], but doesn't leave a dent.</span>")
 	return 0
+
+/mob/living/silicon/adjustEarDamage()
+	return
+
+/mob/living/silicon/setEarDamage()
+	return
+
+/mob/living/silicon/proc/GetPhoto()
+	if (aicamera)
+		return aicamera.selectpicture(aicamera)
+
+/mob/living/silicon/grabbedby(mob/living/user)
+	return
+
+/mob/living/silicon/flash_eyes(intensity = 1, override_blindness_check = 0, affect_silicon = 0,visual = 0, type = /obj/screen/fullscreen/flash/noise, noflash = 0,)
+	if(affect_silicon)
+		return ..()
+
+/mob/living/silicon/update_transform()
+	var/matrix/ntransform = matrix(transform) //aka transform.Copy()
+	var/changed = 0
+	if(resize != RESIZE_DEFAULT_SIZE)
+		changed++
+		ntransform.Scale(resize)
+		resize = RESIZE_DEFAULT_SIZE
+
+	if(changed)
+		animate(src, transform = ntransform, time = 2,easing = EASE_IN|EASE_OUT)
+	return ..()

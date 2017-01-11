@@ -24,6 +24,7 @@
 	desc = "It's just an ordinary box."
 	icon_state = "box"
 	item_state = "syringe_kit"
+	burn_state = 0 //Burnable
 	var/foldable = /obj/item/stack/sheet/cardboard
 
 
@@ -33,24 +34,23 @@
 	if(!foldable)
 		return
 	if(contents.len)
-		user << "<span class='notice'>You can't fold this box with items still inside.</span>"
+		user << "<span class='warning'>You can't fold this box with items still inside!</span>"
 		return
 	if(!ispath(foldable))
 		return
 
 	//Close any open UI windows first
-	var/found = close_all()
-	if(!found)	//No user had any windows closed
-		return
+	close_all()
 
 	user << "<span class='notice'>You fold [src] flat.</span>"
 	var/obj/item/I = new foldable(get_turf(src))
+	user.drop_item()
 	user.put_in_hands(I)
 	user.update_inv_l_hand()
 	user.update_inv_r_hand()
 	qdel(src)
 
-/obj/item/weapon/storage/box/attackby(obj/item/W, mob/user)
+/obj/item/weapon/storage/box/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stack/packageWrap))
 		return 0
 	..()
@@ -62,7 +62,7 @@
 	..()
 	contents = list()
 	new /obj/item/clothing/mask/breath(src)
-	new /obj/item/weapon/tank/emergency_oxygen(src)
+	new /obj/item/weapon/tank/internals/emergency_oxygen(src)
 	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)
 	return
 
@@ -72,7 +72,17 @@
 	..()
 	contents = list()
 	new /obj/item/clothing/mask/breath(src)
-	new /obj/item/weapon/tank/emergency_oxygen/engi(src)
+	new /obj/item/weapon/tank/internals/emergency_oxygen/engi(src)
+	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)
+	return
+
+/obj/item/weapon/storage/box/security
+
+/obj/item/weapon/storage/box/security/New()
+	..()
+	contents = list()
+	new /obj/item/clothing/mask/gas/sechailer(src)
+	new /obj/item/weapon/tank/internals/emergency_oxygen(src)
 	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)
 	return
 
@@ -124,7 +134,7 @@
 
 /obj/item/weapon/storage/box/medipens
 	name = "box of medipens"
-	desc = "A box full of inaprovaline MediPens."
+	desc = "A box full of epinephrine MediPens."
 	icon_state = "syringe"
 
 /obj/item/weapon/storage/box/medipens/New()
@@ -138,17 +148,17 @@
 	new /obj/item/weapon/reagent_containers/hypospray/medipen( src )
 
 /obj/item/weapon/storage/box/medipens/utility
-	name = "medipens kit"
-	desc = "A box with several utility medipens for the economical miner."
+	name = "stimpack value kit"
+	desc = "A box with several stimpack medipens for the economical miner."
 	icon_state = "syringe"
 
 /obj/item/weapon/storage/box/medipens/utility/New()
 	..()
-	new /obj/item/weapon/reagent_containers/hypospray/medipen/leporazine( src )
-	new /obj/item/weapon/reagent_containers/hypospray/medipen/leporazine( src )
-	new /obj/item/weapon/reagent_containers/hypospray/medipen/stimpack( src )
-	new /obj/item/weapon/reagent_containers/hypospray/medipen/stimpack( src )
-	new /obj/item/weapon/reagent_containers/hypospray/medipen/stimpack( src )
+	new /obj/item/weapon/reagent_containers/hypospray/medipen/stimpack(src)
+	new /obj/item/weapon/reagent_containers/hypospray/medipen/stimpack(src)
+	new /obj/item/weapon/reagent_containers/hypospray/medipen/stimpack(src)
+	new /obj/item/weapon/reagent_containers/hypospray/medipen/stimpack(src)
+	new /obj/item/weapon/reagent_containers/hypospray/medipen/stimpack(src)
 
 /obj/item/weapon/storage/box/beakers
 	name = "box of beakers"
@@ -199,12 +209,12 @@
 
 /obj/item/weapon/storage/box/flashes/New()
 	..()
-	new /obj/item/device/flash/handheld(src)
-	new /obj/item/device/flash/handheld(src)
-	new /obj/item/device/flash/handheld(src)
-	new /obj/item/device/flash/handheld(src)
-	new /obj/item/device/flash/handheld(src)
-	new /obj/item/device/flash/handheld(src)
+	new /obj/item/device/assembly/flash(src)
+	new /obj/item/device/assembly/flash(src)
+	new /obj/item/device/assembly/flash(src)
+	new /obj/item/device/assembly/flash(src)
+	new /obj/item/device/assembly/flash(src)
+	new /obj/item/device/assembly/flash(src)
 
 /obj/item/weapon/storage/box/teargas
 	name = "box of tear gas grenades (WARNING)"
@@ -350,7 +360,7 @@
 /obj/item/weapon/storage/box/monkeycubes
 	name = "monkey cube box"
 	desc = "Drymate brand monkey cubes. Just add water!"
-	icon = 'icons/obj/food.dmi'
+	icon = 'icons/obj/food/food.dmi'
 	icon_state = "monkeycubebox"
 	storage_slots = 7
 	can_hold = list(/obj/item/weapon/reagent_containers/food/snacks/monkeycube)
@@ -433,6 +443,21 @@
 	new /obj/item/weapon/cartridge/security(src)
 	new /obj/item/weapon/cartridge/security(src)
 
+/obj/item/weapon/storage/box/firingpins
+	name = "box of standard firing pins"
+	desc = "A box full of standard firing pins, to allow newly-developed firearms to operate."
+	icon_state = "id"
+
+/obj/item/weapon/storage/box/firingpins/New()
+	..()
+	new /obj/item/device/firing_pin(src)
+	new /obj/item/device/firing_pin(src)
+	new /obj/item/device/firing_pin(src)
+	new /obj/item/device/firing_pin(src)
+	new /obj/item/device/firing_pin(src)
+	new /obj/item/device/firing_pin(src)
+	new /obj/item/device/firing_pin(src)
+
 /obj/item/weapon/storage/box/handcuffs
 	name = "box of spare handcuffs"
 	desc = "A box full of handcuffs."
@@ -440,13 +465,13 @@
 
 /obj/item/weapon/storage/box/handcuffs/New()
 	..()
-	new /obj/item/weapon/handcuffs(src)
-	new /obj/item/weapon/handcuffs(src)
-	new /obj/item/weapon/handcuffs(src)
-	new /obj/item/weapon/handcuffs(src)
-	new /obj/item/weapon/handcuffs(src)
-	new /obj/item/weapon/handcuffs(src)
-	new /obj/item/weapon/handcuffs(src)
+	new /obj/item/weapon/restraints/handcuffs(src)
+	new /obj/item/weapon/restraints/handcuffs(src)
+	new /obj/item/weapon/restraints/handcuffs(src)
+	new /obj/item/weapon/restraints/handcuffs(src)
+	new /obj/item/weapon/restraints/handcuffs(src)
+	new /obj/item/weapon/restraints/handcuffs(src)
+	new /obj/item/weapon/restraints/handcuffs(src)
 
 /obj/item/weapon/storage/box/zipties
 	name = "box of spare zipties"
@@ -455,13 +480,28 @@
 
 /obj/item/weapon/storage/box/zipties/New()
 	..()
-	new /obj/item/weapon/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/handcuffs/cable/zipties(src)
-	new /obj/item/weapon/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
+	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
+
+/obj/item/weapon/storage/box/alienhandcuffs
+	name = "box of spare handcuffs"
+	desc = "A box full of handcuffs."
+	icon_state = "alienboxCuffs"
+
+/obj/item/weapon/storage/box/alienhandcuffs/New()
+	..()
+	new	/obj/item/weapon/restraints/handcuffs/alien(src)
+	new	/obj/item/weapon/restraints/handcuffs/alien(src)
+	new	/obj/item/weapon/restraints/handcuffs/alien(src)
+	new	/obj/item/weapon/restraints/handcuffs/alien(src)
+	new	/obj/item/weapon/restraints/handcuffs/alien(src)
+	new	/obj/item/weapon/restraints/handcuffs/alien(src)
+	new	/obj/item/weapon/restraints/handcuffs/alien(src)
 
 /obj/item/weapon/storage/box/fakesyndiesuit
 	name = "boxed space suit and helmet"
@@ -523,6 +563,7 @@
 	item_state = "zippo"
 	storage_slots = 10
 	w_class = 1
+	burn_state = -1 //Bad idea to keep stuff with the sole purpose of burning inside a flammable box.
 	slot_flags = SLOT_BELT
 	can_hold = list(/obj/item/weapon/match)
 
@@ -531,7 +572,7 @@
 	for(var/i=1; i <= storage_slots; i++)
 		new /obj/item/weapon/match(src)
 
-/obj/item/weapon/storage/box/matches/attackby(obj/item/weapon/match/W as obj, mob/user as mob)
+/obj/item/weapon/storage/box/matches/attackby(obj/item/weapon/match/W as obj, mob/user as mob, params)
 	if(istype(W, /obj/item/weapon/match))
 		W.matchignite()
 	return
@@ -546,7 +587,7 @@
 	storage_slots=21
 	can_hold = list(/obj/item/weapon/light/tube, /obj/item/weapon/light/bulb)
 	max_combined_w_class = 21
-	use_to_pickup = 1 // for picking up broken bulbs, not that most people will try
+	collection_mode = 1
 
 /obj/item/weapon/storage/box/lights/bulbs/New()
 	..()
@@ -587,3 +628,42 @@
 	new /obj/item/clothing/tie/armband/deputy(src)
 	new /obj/item/clothing/tie/armband/deputy(src)
 	new /obj/item/clothing/tie/armband/deputy(src)
+
+/obj/item/weapon/storage/box/metalfoam
+	name = "box of metal foam grenades"
+	desc = "To be used to rapidly seal hull breaches"
+	icon_state = "flashbang"
+
+/obj/item/weapon/storage/box/metalfoam/New()
+	..()
+	new /obj/item/weapon/grenade/chem_grenade/metalfoam(src)
+	new /obj/item/weapon/grenade/chem_grenade/metalfoam(src)
+	new /obj/item/weapon/grenade/chem_grenade/metalfoam(src)
+	new /obj/item/weapon/grenade/chem_grenade/metalfoam(src)
+	new /obj/item/weapon/grenade/chem_grenade/metalfoam(src)
+	new /obj/item/weapon/grenade/chem_grenade/metalfoam(src)
+	new /obj/item/weapon/grenade/chem_grenade/metalfoam(src)
+
+
+/obj/item/weapon/storage/box/hug
+	name = "box of hugs"
+	desc = "A special box for sensitive people."
+	icon_state = "hugbox"
+	foldable = null
+
+/obj/item/weapon/storage/box/hug/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] clamps the box of hugs on \his jugular! Guess it wasn't such a hugbox after all..</span>")
+	return (BRUTELOSS)
+
+/obj/item/weapon/storage/box/hug/attack_self(mob/user)
+	..()
+	user.changeNext_move(CLICK_CD_MELEE)
+	playsound(loc, "rustle", 50, 1, -5)
+	user.visible_message("<span class='notice'>[user] hugs \the [src].</span>","<span class='notice'>You hug \the [src].</span>")
+	return
+
+/obj/item/weapon/storage/box/hug/medical/New()
+	..()
+	new /obj/item/stack/medical/bruise_pack(src)
+	new /obj/item/stack/medical/ointment(src)
+	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)

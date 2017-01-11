@@ -9,7 +9,7 @@
 	throw_range = 5
 	w_class = 3.0
 
-/obj/item/weapon/frightbot_chasis/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/frightbot_chasis/attackby(obj/item/weapon/W, mob/user)
 	..()
 	if(istype(W, /obj/item/device/radio))
 		user << "<span class='notice'>You complete the Frightbot! KEEEEEEEEEEE!!!</span>"
@@ -44,12 +44,17 @@
 	if(prob(50))
 		new /obj/item/device/radio(T)
 
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+	var/datum/effect_system/spark_spread/s = new
 	s.set_up(3, 1, src)
 	s.start()
 
-	new /obj/effect/decal/cleanable/blood/oil(loc)
-	qdel(src)
+	new /obj/effect/decal/cleanable/oil(loc)
+	..() //qdels us and removes us from processing objects
+
+/obj/machinery/bot/frightbot/emag_act(mob/user)
+	if(!emagged)
+		emagged = 1
+		user << "<span class='warning'>The frightbot will now tell stories so spooky that people will be affected by them physically!</span>"
 
 /obj/machinery/bot/frightbot/New()
 	..()
@@ -67,13 +72,47 @@
 	if (!..())
 		return
 
-	// if(isturf(src.loc))
-	// 	var/anydir = pick(cardinal)
-	// 	if(Process_Spacemove(anydir))
-	// 		Move(get_step(src, anydir), anydir)
-
 	if(cooldown < world.time && prob(20))
 		cooldown = world.time + 200
 		playsound(loc, 'sound/machines/fright.ogg', 50, 1)
+		if(emagged && prob(70))
+			cooldown = world.time + 300 //Longer cooldown
+			var/list/effects = list("stutter", "puke", "scream", "fart", "flip", "mute", "panic")
+			var/choice = pick(effects) 
+			switch(choice)
+				if("stutter")
+					visible_message("<span class='danger'><b>[src]</b> told such a terrifying story that you won't stop stuttering!</span>")
+					for(var/mob/living/M in viewers(src))
+						M.stuttering = 5
+				if("puke")
+					visible_message("<span class='danger'><b>[src]</b> told such a gruesome and disgusting story that you can't help but puke!</span>")
+					for(var/mob/living/carbon/human/M in viewers(src))
+						M.Stun(5)
+						M.emote("vomit")
+				if("scream")
+					visible_message("<span class='danger'><b>[src]</b> told a startling story with a jumpscare at the end!</span>")
+					for(var/mob/living/M in viewers(src))
+						M.emote("scream")
+				if("fart")
+					visible_message("<span class='danger'><b>[src]</b> told such an odd story that you can't help but pass gas!</span>")
+					for(var/mob/living/M in viewers(src))
+						M.emote("fart")
+				if("flip")
+					visible_message("<span class='danger'><b>[src]</b> told a story so scary that you reflexibly flip!</span>")
+					for(var/mob/living/M in viewers(src))
+						M.emote("flip")
+				if("mute")
+					visible_message("<span class='danger'><b>[src]</b> told such an abstract and otherworldy story that you find yourself having no mouth!</span>")
+					for(var/mob/living/carbon/M in viewers(src))
+						M.silent += 3
+				if("panic")
+					visible_message("<span class='danger'><b>[src]</b> told you that you only have 1 hour left to live!</span>")
+					for(var/mob/living/carbon/M in viewers(src))
+						M.visible_message("<span class='danger'>[M] stumbles around in a panic.</span>", \
+														"<span class='userdanger'>You have a panic attack!</span>")
+						M.confused += rand(6,8)
+						M.jitteriness += rand(6,8)
+			flick("frightbot_fright", src)
+			return
 		flick("frightbot_speak", src)
 		visible_message("<span class='danger'><b>[src]</b> [pick(frights)]!</span>")

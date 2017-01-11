@@ -19,7 +19,7 @@
 	var/selfdestructing = 0
 	var/charges = 1
 
-/obj/machinery/syndicate_beacon/attack_hand(var/mob/user as mob)
+/obj/machinery/syndicate_beacon/attack_hand(mob/user)
 	usr.set_machine(src)
 	var/dat = "<font color=#005500><i>Scanning [pick("retina pattern", "voice print", "fingerprints", "dna sequence")]...<br>Identity confirmed,<br></i></font>"
 	if(istype(user, /mob/living/carbon/human) || istype(user, /mob/living/silicon/ai))
@@ -111,7 +111,7 @@
 
 	anchored = 0
 	density = 1
-	layer = MOB_LAYER - 0.1 //so people can't hide it and it's REALLY OBVIOUS
+	layer = MOB_LAYER - 0.2 //so people can't hide it and it's REALLY OBVIOUS
 	stat = 0
 
 	var/active = 0
@@ -142,22 +142,22 @@
 		user << "<span class='notice'>You deactivate the beacon.</span>"
 
 
-/obj/machinery/power/singularity_beacon/attack_ai(mob/user as mob)
+/obj/machinery/power/singularity_beacon/attack_ai(mob/user)
 	return
 
 
-/obj/machinery/power/singularity_beacon/attack_hand(var/mob/user as mob)
+/obj/machinery/power/singularity_beacon/attack_hand(mob/user)
 	if(anchored)
 		return active ? Deactivate(user) : Activate(user)
 	else
-		user << "<span class='danger'>You need to screw the beacon to the floor first!</span>"
+		user << "<span class='warning'>You need to screw the beacon to the floor first!</span>"
 		return
 
 
-/obj/machinery/power/singularity_beacon/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/machinery/power/singularity_beacon/attackby(obj/item/weapon/W, mob/user, params)
 	if(istype(W,/obj/item/weapon/screwdriver))
 		if(active)
-			user << "<span class='danger'>You need to deactivate the beacon first!</span>"
+			user << "<span class='warning'>You need to deactivate the beacon first!</span>"
 			return
 
 		if(anchored)
@@ -179,7 +179,7 @@
 /obj/machinery/power/singularity_beacon/Destroy()
 	if(active)
 		Deactivate()
-	..()
+	return ..()
 
 //stealth direct power usage
 /obj/machinery/power/singularity_beacon/process()
@@ -207,7 +207,7 @@
 	var/droptype = /obj/machinery/power/singularity_beacon/syndicate
 
 
-/obj/item/device/sbeacondrop/attack_self(mob/user as mob)
+/obj/item/device/sbeacondrop/attack_self(mob/user)
 	if(user)
 		user << "<span class='notice'>Locked In.</span>"
 		new droptype( user.loc )
@@ -218,3 +218,7 @@
 /obj/item/device/sbeacondrop/bomb
 	desc = "A label on it reads: <i>Warning: Activating this device will send a high-ordinance explosive to your location</i>."
 	droptype = /obj/machinery/syndicatebomb
+
+/obj/item/device/sbeacondrop/powersink
+	desc = "A label on it reads: <i>Warning: Activating this device will send a powersink to your location</i>."
+	droptype = /obj/item/device/powersink

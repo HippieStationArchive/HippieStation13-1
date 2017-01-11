@@ -44,37 +44,37 @@
 		cell.emp_act(severity)
 	..(severity)
 
-/obj/machinery/space_heater/attackby(obj/item/I, mob/user)
+/obj/machinery/space_heater/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/stock_parts/cell))
 		if(open)
 			if(cell)
-				user << "There is already a power cell inside."
+				user << "<span class='warning'>There is already a power cell inside!</span>"
 				return
 			else
 				// insert cell
 				var/obj/item/weapon/stock_parts/cell/C = usr.get_active_hand()
 				if(istype(C))
-					user.drop_item()
+					if(!user.drop_item())
+						return
 					cell = C
 					C.loc = src
 					C.add_fingerprint(usr)
 
-					user.visible_message("<span class='notice'>[user] inserts a power cell into [src].</span>", "<span class='notice'>You insert the power cell into [src].</span>")
+					user.visible_message("[user] inserts a power cell into [src].", "<span class='notice'>You insert the power cell into [src].</span>")
 		else
-			user << "The hatch must be open to insert a power cell."
+			user << "<span class='warning'>The hatch must be open to insert a power cell!</span>"
 			return
 	else if(istype(I, /obj/item/weapon/screwdriver))
 		open = !open
-		user.visible_message("<span class='notice'>[user] [open ? "opens" : "closes"] the hatch on \the [src].</span>", "<span class='notice'>You [open ? "open" : "close"] the hatch on \the [src].</span>")
+		user.visible_message("[user] [open ? "opens" : "closes"] the hatch on \the [src].", "<span class='notice'>You [open ? "open" : "close"] the hatch on \the [src].</span>")
 		update_icon()
 		if(!open && user.machine == src)
 			user << browse(null, "window=spaceheater")
 			user.unset_machine()
 	else
 		..()
-	return
 
-/obj/machinery/space_heater/attack_hand(mob/user as mob)
+/obj/machinery/space_heater/attack_hand(mob/user)
 	src.add_fingerprint(user)
 	if(open)
 
@@ -103,7 +103,7 @@
 
 	else
 		on = !on
-		user.visible_message("<span class='notice'>[user] switches [on ? "on" : "off"] \the [src].</span>","<span class='notice'>You switch [on ? "on" : "off"] \the [src].</span>")
+		user.visible_message("[user] switches [on ? "on" : "off"] \the [src].","<span class='notice'>You switch [on ? "on" : "off"] \the [src].</span>")
 		update_icon()
 	return
 
@@ -120,28 +120,27 @@
 
 			// limit to 20-90 degC
 			set_temperature = dd_range(20, 90, set_temperature + value)
-
+			updateUsrDialog()
 		if("cellremove")
 			if(open && cell && !usr.get_active_hand())
 				cell.updateicon()
 				usr.put_in_hands(cell)
 				cell.add_fingerprint(usr)
 				cell = null
-				usr.visible_message("<span class='notice'>[usr] removes the power cell from \the [src].</span>", "<span class='notice'>You remove the power cell from \the [src].</span>")
-
+				usr.visible_message("[usr] removes the power cell from \the [src].", "<span class='notice'>You remove the power cell from \the [src].</span>")
+				updateUsrDialog()
 
 		if("cellinstall")
 			if(open && !cell)
 				var/obj/item/weapon/stock_parts/cell/C = usr.get_active_hand()
 				if(istype(C))
-					usr.drop_item()
+					if(!usr.drop_item())
+						return
 					cell = C
 					C.loc = src
 					C.add_fingerprint(usr)
-
-					usr.visible_message("<span class='notice'>[usr] inserts a power cell into \the [src].</span>", "<span class='notice'>You insert the power cell into \the [src].</span>")
-
-	updateDialog()
+					usr.visible_message("[usr] inserts a power cell into \the [src].", "<span class='notice'>You insert the power cell into \the [src].</span>")
+					updateUsrDialog()
 
 
 /obj/machinery/space_heater/process()

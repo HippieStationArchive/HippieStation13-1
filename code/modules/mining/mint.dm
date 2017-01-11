@@ -6,7 +6,7 @@
 	icon = 'icons/obj/economy.dmi'
 	icon_state = "coinpress0"
 	density = 1
-	anchored = 1.0
+	anchored = 1
 	var/amt_silver = 0 //amount of silver
 	var/amt_gold = 0   //amount of gold
 	var/amt_diamond = 0
@@ -52,7 +52,7 @@
 			return
 
 
-/obj/machinery/mineral/mint/attack_hand(user as mob) //TODO: Adamantine coins! -Durandan
+/obj/machinery/mineral/mint/attack_hand(mob/user) //TODO: Adamantine coins! -Durandan
 
 	var/dat = "<b>Coin Press</b><br>"
 
@@ -178,7 +178,7 @@
 					sleep(5)
 			if("clown")
 				while(amt_clown > 0 && coinsToProduce > 0)
-					create_coins(/obj/item/weapon/coin/bananium)
+					create_coins(/obj/item/weapon/coin/clown)
 					amt_clown -= 20
 					coinsToProduce--
 					newCoins++
@@ -206,7 +206,7 @@
 	src.updateUsrDialog()
 	return
 
-/obj/machinery/mineral/mint/proc/create_coins(var/P)
+/obj/machinery/mineral/mint/proc/create_coins(P)
 	var/turf/T = get_step(src,output_dir)
 	if(T)
 		var/obj/item/O = new P(src)

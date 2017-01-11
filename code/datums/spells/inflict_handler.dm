@@ -19,16 +19,17 @@
 
 	var/summon_type = null //this will put an obj at the target's location
 
-/obj/effect/proc_holder/spell/targeted/inflict_handler/cast(list/targets)
+/obj/effect/proc_holder/spell/targeted/inflict_handler/cast(list/targets,mob/user = usr)
 
 	for(var/mob/living/target in targets)
+		playsound(target,sound, 50,1)
 		switch(destroys)
 			if("gib")
 				target.gib()
 			if("gib_brain")
 				if(ishuman(target) || ismonkey(target))
 					var/mob/living/carbon/C_target = target
-					var/obj/item/organ/brain/B = C_target.getorgan(/obj/item/organ/brain)
+					var/obj/item/organ/internal/brain/B = C_target.getorgan(/obj/item/organ/internal/brain)
 					if(B)
 						B.loc = get_turf(C_target)
 						B.transfer_identity(C_target)

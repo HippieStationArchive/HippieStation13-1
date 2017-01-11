@@ -62,7 +62,7 @@
 	var/wasvalid = 0
 	var/lastfired = 0
 	var/shot_delay = 30 //3 seconds between shots
-	var/datum/effect/effect/system/spark_spread/spark_system
+	var/datum/effect_system/spark_spread/spark_system
 	use_power = 1
 	idle_power_usage = 50
 	active_power_usage = 300
@@ -73,7 +73,7 @@
 
 
 /obj/machinery/turret/New()
-	spark_system = new /datum/effect/effect/system/spark_spread
+	spark_system = new /datum/effect_system/spark_spread
 	spark_system.set_up(5, 0, src)
 	spark_system.attach(src)
 //	targets = new
@@ -112,7 +112,7 @@
 				src.icon_state = "grey_target_prism"
 				stat |= NOPOWER
 
-/obj/machinery/turret/proc/setState(var/enabled, var/lethal)
+/obj/machinery/turret/proc/setState(enabled, lethal)
 	src.enabled = enabled
 	src.lasers = lethal
 	src.power_change()
@@ -126,7 +126,7 @@
 		return TP
 	return
 
-/obj/machinery/turret/proc/check_target(var/atom/movable/T as mob|obj)
+/obj/machinery/turret/proc/check_target(atom/movable/T as mob|obj)
 	if( T && T in protected_area.turretTargets )
 		var/area/area_T = get_area(T)
 		if( !area_T || (area_T.type != protected_area.type) )
@@ -207,7 +207,7 @@
 		sleep(shot_delay)
 	return
 
-/obj/machinery/turret/proc/shootAt(var/atom/movable/target)
+/obj/machinery/turret/proc/shootAt(atom/movable/target)
 	var/turf/T = get_turf(src)
 	var/turf/U = get_turf(target)
 	if (!T || !U)
@@ -235,6 +235,7 @@
 	A.current = T
 	A.yo = U.y - T.y
 	A.xo = U.x - T.x
+	A.firer = src
 	A.fire()
 	return
 
@@ -263,7 +264,7 @@
 				invisibility = INVISIBILITY_LEVEL_TWO
 				popping = 0
 
-/obj/machinery/turret/bullet_act(var/obj/item/projectile/Proj)
+/obj/machinery/turret/bullet_act(obj/item/projectile/Proj)
 	if((Proj.damage_type == BRUTE || Proj.damage_type == BURN))
 		src.health -= Proj.damage
 		..()
@@ -273,7 +274,7 @@
 			src.die()
 	return
 
-/obj/machinery/turret/attackby(obj/item/weapon/W, mob/user)//I can't believe no one added this before/N
+/obj/machinery/turret/attackby(obj/item/weapon/W, mob/user, params)//I can't believe no one added this before/N
 	..()
 	user.changeNext_move(CLICK_CD_MELEE)
 	playsound(src.loc, 'sound/weapons/smash.ogg', 60, 1)
@@ -308,13 +309,13 @@
 		qdel(src)
 
 
-/obj/machinery/turret/attack_animal(mob/living/simple_animal/M as mob)
+/obj/machinery/turret/attack_animal(mob/living/simple_animal/M)
 	M.changeNext_move(CLICK_CD_MELEE)
 	M.do_attack_animation(src)
 	if(M.melee_damage_upper == 0)	return
 	if(!(stat & BROKEN))
-		visible_message("<span class='userdanger'>[M] [M.attacktext] [src]!</span>")
-		add_logs(M, src, "attacked", admin=0)
+		visible_message("<span class='danger'>[M] [M.attacktext] [src]!</span>")
+		add_logs(M, src, "attacked")
 		//src.attack_log += text("\[[time_stamp()]\] <font color='orange'>was attacked by [M.name] ([M.ckey])</font>")
 		src.health -= M.melee_damage_upper
 		if (src.health <= 0)
@@ -326,7 +327,7 @@
 
 
 
-/obj/machinery/turret/attack_alien(mob/living/carbon/alien/humanoid/M as mob)
+/obj/machinery/turret/attack_alien(mob/living/carbon/alien/humanoid/M)
 	M.changeNext_move(CLICK_CD_MELEE)
 	M.do_attack_animation(src)
 	if(!(stat & BROKEN))
@@ -349,6 +350,8 @@
 	desc = "Syndicate defense turret. It really packs a bunch."
 	density = 1
 	anchored = 1
+	icon = 'icons/obj/turrets.dmi'
+	icon_state = "syndieturret0"
 	var/state = 0 //Like stat on mobs, 0 is alive, 1 is damaged, 2 is dead
 	var/faction = "syndicate"
 	var/atom/cur_target = null
@@ -357,11 +360,12 @@
 	var/base_icon_state = "syndieturret"
 	var/projectile_type = /obj/item/projectile/bullet
 	var/fire_sound = 'sound/weapons/Gunshot.ogg'
-	icon = 'icons/obj/turrets.dmi'
-	icon_state = "syndieturret0"
+	var/atom/base = null //where do to range calculations, firing projectiles, etc. from. allows for turrets inside of things to work
 
 /obj/machinery/gun_turret/New()
 	..()
+	if(!base)
+		base = src
 	take_damage(0) //check your health
 	icon_state = "[base_icon_state]" + "0"
 
@@ -384,7 +388,6 @@
 	icon_state = "[base_icon_state]" + "[state]"
 	return
 
-
 /obj/machinery/gun_turret/proc/take_damage(damage)
 	health -= damage
 	switch(health)
@@ -400,8 +403,7 @@
 	update_icon()
 	return
 
-
-/obj/machinery/gun_turret/bullet_act(var/obj/item/projectile/Proj)
+/obj/machinery/gun_turret/bullet_act(obj/item/projectile/Proj)
 	take_damage(Proj.damage)
 	return
 
@@ -416,26 +418,30 @@
 	return attack_hand(user)
 
 
-/obj/machinery/gun_turret/attack_alien(mob/living/user as mob)
+/obj/machinery/gun_turret/attack_alien(mob/living/user)
 	user.changeNext_move(CLICK_CD_MELEE)
 	user.do_attack_animation(src)
-	user.visible_message("<span class='danger'>[user] slashes at [src]</span>", "<span class='danger'>You slash at [src]</span>")
+	user.visible_message("<span class='danger'>[user] slashes at [src]!</span>", "<span class='danger'>You slash at [src]!</span>")
 	take_damage(15)
 	return
 
-/obj/machinery/gun_turret/proc/validate_target(atom/target)
-	if(get_dist(target, src)>scan_range)
-		return 0
-	if(istype(target, /mob))
+/obj/machinery/gun_turret/proc/should_target(atom/target)
+	if(ismob(target))
 		var/mob/M = target
-		if(!M.stat)
+		if(!M.stat && !(faction in M.faction))
 			return 1
 	else if(istype(target, /obj/mecha))
 		var/obj/mecha/M = target
-		if(M.occupant)
+		if(M.occupant && should_target(M.occupant))
 			return 1
 	return 0
 
+/obj/machinery/gun_turret/proc/validate_target(atom/target)
+	if(get_dist(target, base)>scan_range)
+		return 0
+	if(should_target(target))
+		return 1
+	return 0
 
 /obj/machinery/gun_turret/process()
 	if(state == 2)
@@ -452,18 +458,13 @@
 /obj/machinery/gun_turret/proc/get_target()
 	var/list/pos_targets = list()
 	var/target = null
-	for(var/mob/living/M in view(scan_range,src))
-		if(M.stat)
-			continue
-		if(faction in M.faction)
+	for(var/mob/living/M in view(scan_range,base))
+		if(!should_target(M))
 			continue
 		pos_targets += M
-	for(var/obj/mecha/M in oview(scan_range, src))
-		if(M.occupant)
-			if(faction in M.occupant.faction)
-				continue
-		if(!M.occupant)
-			continue //Don't shoot at empty mechs.
+	for(var/obj/mecha/M in oview(scan_range, base))
+		if(!should_target(M))
+			continue
 		pos_targets += M
 	if(pos_targets.len)
 		target = pick(pos_targets)
@@ -474,11 +475,11 @@
 	if(!target)
 		cur_target = null
 		return
-	src.dir = get_dir(src,target)
+	src.dir = get_dir(base,target)
 	var/turf/targloc = get_turf(target)
 	if(!src)
 		return
-	var/turf/curloc = get_turf(src)
+	var/turf/curloc = get_turf(base)
 	if (!targloc || !curloc)
 		return
 	if (targloc == curloc)
@@ -489,7 +490,7 @@
 	A.yo = targloc.y - curloc.y
 	A.xo = targloc.x - curloc.x
 	A.fire()
-	return
+	return A
 
 
 ////////////////////////
@@ -527,7 +528,7 @@
 	//don't have to check if control_area is path, since get_area_all_atoms can take path.
 	return
 
-/obj/machinery/areaturretid/attackby(obj/item/weapon/W, mob/user)
+/obj/machinery/areaturretid/attackby(obj/item/weapon/W, mob/user, params)
 	if(stat & BROKEN) return
 	if (istype(user, /mob/living/silicon))
 		return src.attack_hand(user)
@@ -550,7 +551,7 @@
 		else
 			user << "<span class='warning'>Access denied.</span>"
 
-/obj/machinery/areaturretid/emag_act(mob/user as mob)
+/obj/machinery/areaturretid/emag_act(mob/user)
 	if(!emagged)
 		user << "<span class='danger'>You short out the turret controls' access analysis module.</span>"
 		emagged = 1
@@ -558,13 +559,13 @@
 		if(user.machine==src)
 			src.attack_hand(user)
 
-/obj/machinery/areaturretid/attack_ai(mob/user as mob)
+/obj/machinery/areaturretid/attack_ai(mob/user)
 	if(!ailock)
 		return attack_hand(user)
 	else
 		user << "<span class='notice'>There seems to be a firewall preventing you from accessing this device.</span>"
 
-/obj/machinery/areaturretid/attack_hand(mob/user as mob)
+/obj/machinery/areaturretid/attack_hand(mob/user)
 	if ( get_dist(src, user) > 0 )
 		if ( !issilicon(user) )
 			user << "<span class='notice'>You are too far away.</span>"

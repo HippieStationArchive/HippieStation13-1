@@ -1,21 +1,20 @@
 /obj/machinery/computer/prisoner
 	name = "prisoner management console"
 	desc = "Used to manage tracking implants placed inside criminals."
-	// icon = 'icons/obj/computer.dmi'
-	icon_state = "explosive"
+	icon_screen = "explosive"
+	icon_keyboard = "security_key"
 	req_access = list(access_brig)
 	circuit = "/obj/item/weapon/circuitboard/prisoner"
-	var/id = 0.0
+	var/id = 0
 	var/temp = null
 	var/status = 0
 	var/timeleft = 60
-	var/stop = 0.0
+	var/stop = 0
 	var/screen = 0 // 0 - No Access Denied, 1 - Access allowed
 	var/obj/item/weapon/card/id/prisoner/inserted_id
 	circuit = /obj/item/weapon/circuitboard/prisoner
-	l_color = "#B40000"
-	
-/obj/machinery/computer/prisoner/attack_hand(var/mob/user as mob)
+
+/obj/machinery/computer/prisoner/attack_hand(mob/user)
 	if(..())
 		return
 	user.set_machine(src)
@@ -34,7 +33,7 @@
 		dat += "<H3>Prisoner Implant Management</H3>"
 		dat += "<HR>Chemical Implants<BR>"
 		var/turf/Tr = null
-		for(var/obj/item/weapon/implant/chem/C in world)
+		for(var/obj/item/weapon/implant/chem/C in tracked_implants)
 			Tr = get_turf(C)
 			if((Tr) && (Tr.z != src.z))	continue//Out of range
 			if(!C.implanted) continue
@@ -44,7 +43,7 @@
 			dat += "<A href='?src=\ref[src];inject10=\ref[C]'>(<font class='bad'>(10)</font>)</A><BR>"
 			dat += "********************************<BR>"
 		dat += "<HR>Tracking Implants<BR>"
-		for(var/obj/item/weapon/implant/tracking/T in world)
+		for(var/obj/item/weapon/implant/tracking/T in tracked_implants)
 			if(!iscarbon(T.imp_in))
 				continue
 			if(!T.implanted)
@@ -55,7 +54,7 @@
 
 			var/loc_display = "Unknown"
 			var/mob/living/carbon/M = T.imp_in
-			if(Tr.z == 1 && !istype(M.loc, /turf/space))
+			if(Tr.z == ZLEVEL_STATION && !istype(M.loc, /turf/space))
 				var/turf/mob_loc = get_turf(M)
 				loc_display = mob_loc.loc
 
@@ -72,7 +71,7 @@
 	popup.open()
 	return
 
-/obj/machinery/computer/prisoner/attackby(obj/item/I as obj, mob/user as mob)
+/obj/machinery/computer/prisoner/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/card/id))
 		return attack_hand(user)
 	..()
@@ -93,7 +92,8 @@
 			if(href_list["id"] =="insert" && !istype(inserted_id))
 				var/obj/item/weapon/card/id/prisoner/I = usr.get_active_hand()
 				if(istype(I))
-					usr.drop_item()
+					if(!usr.drop_item())
+						return
 					I.loc = src
 					inserted_id = I
 				else usr << "<span class='danger'>No valid ID.</span>"
@@ -133,7 +133,7 @@
 			var/obj/item/weapon/implant/I = locate(href_list["warn"])
 			if((I)&&(I.imp_in))
 				var/mob/living/carbon/R = I.imp_in
-				R << "You hear a voice in your head saying: '[warning]'"
+				R << "<span class='italics'>You hear a voice in your head saying: '[warning]'</span>"
 				log_say("[usr]/[usr.ckey] sent an implant message to [R]/[R.ckey]: '[warning]'")
 
 		src.add_fingerprint(usr)

@@ -8,7 +8,16 @@
 
 
 /obj/item/projectile/ion/on_hit(atom/target, blocked = 0)
+	..()
 	empulse(target, 1, 1)
+	return 1
+
+
+/obj/item/projectile/ion/weak
+
+/obj/item/projectile/ion/weak/on_hit(atom/target, blocked = 0)
+	..()
+	empulse(target, 0, 0)
 	return 1
 
 
@@ -16,10 +25,9 @@
 	name ="explosive bolt"
 	icon_state= "bolter"
 	damage = 50
-	flag = "bullet"
-	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/gyro/on_hit(atom/target, blocked = 0)
+	..()
 	explosion(target, -1, 0, 2)
 	return 1
 
@@ -28,12 +36,10 @@
 	desc = "USE A WEEL GUN"
 	icon_state= "bolter"
 	damage = 60
-	flag = "bullet"
-	range = 7
-	mob_stuck_chance = 0
 
 /obj/item/projectile/bullet/a40mm/on_hit(atom/target, blocked = 0)
-	explosion(target, -1, 0, 2, 1, 0, flame_range = 3)
+	..()
+	explosion(target, -1, 3, 2, 4, 0, flame_range = 4) //Why is the light impact range smaller than the heavy impact range?
 	return 1
 
 /obj/item/projectile/temp
@@ -47,7 +53,8 @@
 
 
 /obj/item/projectile/temp/on_hit(atom/target, blocked = 0)//These two could likely check temp protection on the mob
-	if(istype(target, /mob/living))
+	..()
+	if(isliving(target))
 		var/mob/M = target
 		M.bodytemperature = temperature
 	return 1
@@ -65,13 +72,15 @@
 	nodamage = 1
 	flag = "bullet"
 
-/obj/item/projectile/meteor/Bump(atom/A)
+/obj/item/projectile/meteor/Bump(atom/A, yes)
+	if(!yes) //prevents multi bumps.
+		return
 	if(A == firer)
 		loc = A.loc
 		return
 	A.ex_act(2)
 	playsound(src.loc, 'sound/effects/meteorimpact.ogg', 40, 1)
-	for(var/mob/M in range(10, src))
+	for(var/mob/M in ultra_range(10, src))
 		if(!M.stat)
 			shake_camera(M, 3, 1)
 	qdel(src)
@@ -96,6 +105,7 @@
 	name = "flayer ray"
 
 /obj/item/projectile/beam/mindflayer/on_hit(atom/target, blocked = 0)
+	. = ..()
 	if(ishuman(target))
 		var/mob/living/carbon/human/M = target
 		M.adjustBrainLoss(20)
@@ -104,7 +114,7 @@
 /obj/item/projectile/kinetic
 	name = "kinetic force"
 	icon_state = null
-	damage = 15
+	damage = 10
 	damage_type = BRUTE
 	flag = "bomb"
 	range = 3
@@ -117,22 +127,22 @@ obj/item/projectile/kinetic/New()
 	var/pressure = environment.return_pressure()
 	if(pressure < 50)
 		name = "full strength kinetic force"
-		damage = 30
+		damage *= 4
 	..()
 
 /obj/item/projectile/kinetic/Range()
-	range--
-	if(range <= 0)
-		new /obj/item/effect/kinetic_blast(src.loc)
-		qdel(src)
+	new /obj/item/effect/kinetic_blast(src.loc)
+	..()
 
 /obj/item/projectile/kinetic/on_hit(atom/target)
+	. = ..()
 	var/turf/target_turf= get_turf(target)
 	if(istype(target_turf, /turf/simulated/mineral))
 		var/turf/simulated/mineral/M = target_turf
-		M.gets_drilled()
+		M.gets_drilled(firer)
 	new /obj/item/effect/kinetic_blast(target_turf)
-	..()
+
+
 
 /obj/item/effect/kinetic_blast
 	name = "kinetic explosion"
@@ -163,16 +173,16 @@ obj/item/projectile/kinetic/New()
 /obj/item/ammo_casing/energy/wormhole/New(var/obj/item/weapon/gun/energy/wormhole_projector/wh)
 	gun = wh
 
-/obj/item/projectile/beam/wormhole/on_hit(var/atom/target)
+/obj/item/projectile/beam/wormhole/on_hit(atom/target)
 	if(ismob(target))
-		..()
-		return
+		return ..()
 	if(!gun)
 		qdel(src)
 	gun.create_portal(src)
 
 
 /obj/item/projectile/bullet/gyro/on_hit(atom/target, blocked = 0)
+	..()
 	explosion(target, -1, 0, 2)
 	return 1
 
@@ -181,4 +191,62 @@ obj/item/projectile/kinetic/New()
 	name ="explosive slug"
 	damage = 25
 	weaken = 5
-	mob_stuck_chance = 0
+
+/obj/item/projectile/bullet/frag12/on_hit(atom/target, blocked = 0)
+	..()
+	explosion(target, -1, 0, 1)
+	return 1
+
+/obj/item/projectile/plasma
+	name = "plasma blast"
+	icon_state = "plasmacutter"
+	damage_type = BRUTE
+	damage = 15
+	range = 6
+
+/obj/item/projectile/plasma/New()
+	var/turf/proj_turf = get_turf(src)
+	if(!istype(proj_turf, /turf))
+		return
+	var/datum/gas_mixture/environment = proj_turf.return_air()
+	if(environment)
+		var/pressure = environment.return_pressure()
+		if(pressure < 30)
+			name = "full strength plasma blast"
+			damage *= 2
+	..()
+
+/obj/item/projectile/plasma/on_hit(atom/target)
+	. = ..()
+	if(istype(target, /turf/simulated/mineral))
+		var/turf/simulated/mineral/M = target
+		M.gets_drilled(firer)
+		range = max(range - 1, 1)
+		return -1
+
+/obj/item/projectile/plasma/adv
+	range = 7
+
+/obj/item/projectile/plasma/adv/mech
+	damage = 25
+	range = 8
+
+/obj/item/projectile/plasmoid
+ 	name = "plasmoid"
+ 	icon_state = "plasmoid"
+ 	damage_type = BURN
+ 	damage = 20
+ 	range = 14
+ 	luminosity = 6
+ 	var/temperature = 200
+
+/obj/item/projectile/plasmoid/on_hit(atom/target, blocked = 0)
+	..()
+	if(istype(target,/turf/)||istype(target,/obj/structure/))
+		target.ex_act(2)
+	if(iscarbon(target))
+		var/mob/living/carbon/M = target
+		M.bodytemperature += temperature
+		M.adjust_fire_stacks(1)
+		M.IgniteMob()
+	return 1

@@ -1,18 +1,3 @@
-/turf/simulated/floor/mech_bay_recharge_floor               //        Whos idea it was
-	name = "mech bay recharge station"                      //        Recharging turfs
-	icon = 'icons/turf/floors.dmi'                          //		  That are set in stone to check the west turf for recharge port
-	icon_state = "recharge_floor"                           //        Some people just want to watch the world burn i guess
-
-/turf/simulated/floor/mech_bay_recharge_floor/break_tile()
-	src.ChangeTurf(/turf/simulated/floor/plating)
-
-/turf/simulated/floor/mech_bay_recharge_floor/airless
-	icon_state = "recharge_floor_asteroid"
-	oxygen = 0.01
-	nitrogen = 0.01
-	temperature = TCMB
-
-
 /obj/machinery/mech_bay_recharge_port
 	name = "mech bay power port"
 	density = 1
@@ -26,8 +11,7 @@
 	var/on = 0
 	var/repairability = 0
 	var/turf/recharging_turf = null
-	l_color = "#CD00CD"
-	
+
 /obj/machinery/mech_bay_recharge_port/New()
 	..()
 	component_parts = list()
@@ -66,7 +50,7 @@
 			recharge_console.update_icon()
 
 
-/obj/machinery/mech_bay_recharge_port/attackby(obj/item/I, mob/user)
+/obj/machinery/mech_bay_recharge_port/attackby(obj/item/I, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "recharge_port-o", "recharge_port", I))
 		return
 
@@ -82,10 +66,8 @@
 /obj/machinery/computer/mech_bay_power_console
 	name = "mech bay power control console"
 	desc = "Used to control mechbay power ports."
-	density = 1
-	anchored = 1
-	icon = 'icons/obj/computer.dmi'
-	icon_state = "recharge_comp"
+	icon_screen = "recharge_comp"
+	icon_keyboard = "rd_key"
 	circuit = /obj/item/weapon/circuitboard/mech_bay_power_console
 	var/obj/machinery/mech_bay_recharge_port/recharge_port
 
@@ -148,10 +130,10 @@
 
 
 /obj/machinery/computer/mech_bay_power_console/update_icon()
-	if(!recharge_port || !recharge_port.recharging_mech || !recharge_port.recharging_mech.cell || !(recharge_port.recharging_mech.cell.charge < recharge_port.recharging_mech.cell.maxcharge))
-		icon_state = "recharge_comp"
-	else
-		icon_state = "recharge_comp_on"
+	..()
+	if(!recharge_port || !recharge_port.recharging_mech || !recharge_port.recharging_mech.cell || !(recharge_port.recharging_mech.cell.charge < recharge_port.recharging_mech.cell.maxcharge) || stat & (NOPOWER|BROKEN))
+		return
+	overlays += "recharge_comp_on"
 
 /obj/machinery/computer/mech_bay_power_console/initialize()
 	reconnect()

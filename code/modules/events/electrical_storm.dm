@@ -3,6 +3,7 @@
 	typepath = /datum/round_event/electrical_storm
 	earliest_start = 6000
 	weight = 40
+	alertadmins = 0
 
 /datum/round_event/electrical_storm
 	var/lightsoutAmount	= 1
@@ -30,5 +31,5 @@
 		return
 
 	for(var/obj/effect/landmark/epicentre in epicentreList)
-		for(var/obj/machinery/power/apc/apc in range(epicentre,lightsoutRange))
+		for(var/obj/machinery/power/apc/apc in ultra_range(lightsoutRange, epicentre))
 			apc.overload_lighting()

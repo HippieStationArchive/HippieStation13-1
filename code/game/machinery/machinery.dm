@@ -82,10 +82,13 @@ Class Procs:
       Called by machine to assign a value to the uid variable.
 
    process()                  'game/machinery/machine.dm'
-      Called by the 'master_controller' once per game tick for each machine that is listed in the 'machines' list.
+      Called by the 'machinery subsystem' once per machinery tick for each machine that is listed in its 'machines' list.
 
-	is_operational()
-		Returns 0 if the machine is unpowered, broken or undergoing maintenance, 1 if not
+   process_atmos()
+      Called by the 'air subsystem' once per atmos tick for each machine that is listed in its 'atmos_machines' list.
+
+   is_operational()
+		Returns 0 if the machine is unpowered, broken or undergoing maintenance, something else if not
 
 	Compiled by Aygar
 */
@@ -93,6 +96,8 @@ Class Procs:
 /obj/machinery
 	name = "machinery"
 	icon = 'icons/obj/stationobjs.dmi'
+	verb_yell = "blares"
+	pressure_resistance = 10
 	var/stat = 0
 	var/emagged = 0
 	var/use_power = 1
@@ -111,36 +116,39 @@ Class Procs:
 	var/mob/living/occupant = null
 	var/unsecuring_tool = /obj/item/weapon/wrench
 	var/interact_offline = 0 // Can the machine be interacted with while de-powered.
-	
-	var/inMachineList = 1 // For debugging.
 
 /obj/machinery/New()
 	..()
 	machines += src
-	auto_use_power()
+	SSmachine.processing += src
+	power_change()
 
 /obj/machinery/Destroy()
 	machines.Remove(src)
+	SSmachine.processing -= src
 	if(occupant)
-		open_machine()
+		dropContents()
+	return ..()
+
+/obj/machinery/attackby(obj/item/weapon/W, mob/user, params)
+	user.changeNext_move(CLICK_CD_MELEE)
 	..()
 
+/obj/machinery/proc/locate_machinery()
+	return
+
 /obj/machinery/process()//If you dont use process or power why are you here
+	return PROCESS_KILL
+
+/obj/machinery/proc/process_atmos()//If you dont use process why are you here
 	return PROCESS_KILL
 
 /obj/machinery/emp_act(severity)
 	if(use_power && stat == 0)
 		use_power(7500/severity)
 
-		var/obj/effect/overlay/pulse2 = new/obj/effect/overlay ( src.loc )
-		pulse2.icon = 'icons/effects/effects.dmi'
-		pulse2.icon_state = "empdisable"
-		pulse2.name = "emp sparks"
-		pulse2.anchored = 1
-		pulse2.dir = pick(cardinal)
+		new/obj/effect/overlay/temp/emp(src.loc)
 
-		spawn(10)
-			pulse2.delete()
 	..()
 
 /obj/machinery/proc/open_machine()
@@ -164,17 +172,19 @@ Class Procs:
 	density = 1
 	if(!target)
 		for(var/mob/living/carbon/C in loc)
-			if(C.buckled)
+			if(C.buckled || C.buckled_mob)
 				continue
 			else
 				target = C
-	if(target)
+	if(target && !target.buckled && !target.buckled_mob)
 		if(target.client)
 			target.client.perspective = EYE_PERSPECTIVE
 			target.client.eye = src
 		occupant = target
 		target.loc = src
 		target.stop_pulling()
+		if(target.pulledby)
+			target.pulledby.stop_pulling()
 	updateUsrDialog()
 	update_icon()
 
@@ -208,6 +218,7 @@ Class Procs:
 /obj/machinery/proc/is_operational()
 	return !(stat & (NOPOWER|BROKEN|MAINT))
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 /mob/proc/canUseTopic() //TODO: once finished, place these procs on the respective mob files
@@ -218,18 +229,20 @@ Class Procs:
 		return
 
 /mob/living/canUseTopic(atom/movable/M, be_close = 0, no_dextery = 0)
+	if(incapacitated())
+		return
 	if(no_dextery)
 		if(be_close && in_range(M, src))
 			return 1
 	else
-		src << "<span class='notice'>You don't have the dexterity to do this!</span>"
+		src << "<span class='warning'>You don't have the dexterity to do this!</span>"
 	return
 
 /mob/living/carbon/human/canUseTopic(atom/movable/M, be_close = 0)
-	if(restrained() || lying || stat || stunned || weakened)
+	if(incapacitated() || lying )
 		return
-	if(!in_range(M, src))
-		if((be_close == 0) && (TK in mutations))
+	if(!Adjacent(M))
+		if((be_close == 0) && (dna.check_mutation(TK)))
 			if(tkMaxRangeCheck(src, M))
 				return 1
 		return
@@ -249,6 +262,9 @@ Class Procs:
 		return
 	return 1
 
+/mob/living/silicon/pai/canUseTopic(atom/movable/M)
+	return 1
+
 /mob/living/silicon/robot/canUseTopic(atom/movable/M, be_close = 0)
 	if(stat || lockcharge || stunned || weakened)
 		return
@@ -256,7 +272,7 @@ Class Procs:
 		return
 	return 1
 
-/obj/machinery/attack_ai(mob/user as mob)
+/obj/machinery/attack_ai(mob/user)
 	if(isrobot(user))
 		// For some reason attack_robot doesn't work
 		// This is to stop robots from using cameras to remotely control machines.
@@ -265,35 +281,36 @@ Class Procs:
 	else
 		return src.attack_hand(user)
 
-/obj/machinery/attack_paw(mob/user as mob)
+/obj/machinery/attack_paw(mob/user)
 	return src.attack_hand(user)
 
-/obj/machinery/attack_hand(mob/user as mob, var/check_power = 1)
-	if(check_power && stat & NOPOWER)
-		return 1
-	if(!interact_offline && stat & (BROKEN|MAINT))
-		return 1
+//set_machine must be 0 if clicking the machinery doesn't bring up a dialog
+/obj/machinery/attack_hand(mob/user, check_power = 1, set_machine = 1)
 	if(user.lying || user.stat)
 		return 1
 	if(!user.IsAdvancedToolUser())
-		usr << "<span class='danger'>You don't have the dexterity to do this!</span>"
+		usr << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return 1
-/*
-	//distance checks are made by atom/proc/DblClick
-	if ((get_dist(src, user) > 1 || !istype(src.loc, /turf)) && !istype(user, /mob/living/silicon))
-		return 1
-*/
 	if (ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.getBrainLoss() >= 60)
 			visible_message("<span class='danger'>[H] stares cluelessly at [src] and drools.</span>")
 			return 1
 		else if(prob(H.getBrainLoss()))
-			user << "<span class='danger'>You momentarily forget how to use [src].</span>"
+			user << "<span class='warning'>You momentarily forget how to use [src]!</span>"
 			return 1
-
+	if(panel_open)
+		src.add_fingerprint(user)
+		return 0
+	if(check_power && stat & NOPOWER)
+		user << "<span class='danger'>\The [src] seems unpowered.</span>"
+		return 1
+	if(!interact_offline && stat & (BROKEN|MAINT))
+		user << "<span class='danger'>\The [src] seems broken.</span>"
+		return 1
 	src.add_fingerprint(user)
-	user.set_machine(src)
+	if(set_machine)
+		user.set_machine(src)
 	return 0
 
 /obj/machinery/CheckParts()
@@ -307,11 +324,21 @@ Class Procs:
 	uid = gl_uid
 	gl_uid++
 
-/obj/machinery/proc/default_deconstruction_crowbar(var/obj/item/weapon/crowbar/C, var/ignore_panel = 0)
-	. = istype(C) && (panel_open || ignore_panel)
+/obj/machinery/proc/default_pry_open(obj/item/weapon/crowbar/C)
+	. = !(state_open || panel_open || is_operational()) && istype(C)
 	if(.)
 		playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
+		visible_message("<span class='notice'>[usr] pry open \the [src].</span>", "<span class='notice'>You pry open \the [src].</span>")
+		open_machine()
+		return 1
+
+/obj/machinery/proc/default_deconstruction_crowbar(obj/item/weapon/crowbar/C, ignore_panel = 0)
+	. = istype(C) && (panel_open || ignore_panel)
+	if(.)
+		deconstruction()
+		playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
 		var/obj/machinery/constructable_frame/machine_frame/M = new /obj/machinery/constructable_frame/machine_frame(src.loc)
+		transfer_fingerprints_to(M)
 		M.state = 2
 		M.icon_state = "box_1"
 		for(var/obj/item/I in component_parts)
@@ -320,7 +347,7 @@ Class Procs:
 			I.loc = src.loc
 		qdel(src)
 
-/obj/machinery/proc/default_deconstruction_screwdriver(var/mob/user, var/icon_state_open, var/icon_state_closed, var/obj/item/weapon/screwdriver/S)
+/obj/machinery/proc/default_deconstruction_screwdriver(mob/user, icon_state_open, icon_state_closed, obj/item/weapon/screwdriver/S)
 	if(istype(S))
 		playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 		if(!panel_open)
@@ -334,7 +361,7 @@ Class Procs:
 		return 1
 	return 0
 
-/obj/machinery/proc/default_change_direction_wrench(var/mob/user, var/obj/item/weapon/wrench/W)
+/obj/machinery/proc/default_change_direction_wrench(mob/user, obj/item/weapon/wrench/W)
 	if(panel_open && istype(W))
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 		dir = turn(dir,-90)
@@ -342,12 +369,12 @@ Class Procs:
 		return 1
 	return 0
 
-/obj/machinery/proc/default_unfasten_wrench(mob/user, obj/item/weapon/wrench/W, time = 20)
+/obj/proc/default_unfasten_wrench(mob/user, obj/item/weapon/wrench/W, time = 20)
 	if(istype(W))
-		user << "<span class='notice'>Now [anchored ? "un" : ""]securing [name].</span>"
+		user << "<span class='notice'>You begin [anchored ? "un" : ""]securing [name]...</span>"
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-		if(do_after(user, time))
-			user << "<span class='notice'>You've [anchored ? "un" : ""]secured [name].</span>"
+		if(do_after(user, time/W.toolspeed, target = src))
+			user << "<span class='notice'>You [anchored ? "un" : ""]secure [name].</span>"
 			anchored = !anchored
 			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 		return 1
@@ -356,9 +383,11 @@ Class Procs:
 /obj/machinery/proc/exchange_parts(mob/user, obj/item/weapon/storage/part_replacer/W)
 	var/shouldplaysound = 0
 	if(istype(W) && component_parts)
-		if(panel_open)
+		if(panel_open || W.works_from_distance)
 			var/obj/item/weapon/circuitboard/CB = locate(/obj/item/weapon/circuitboard) in component_parts
 			var/P
+			if(W.works_from_distance)
+				display_parts(user)
 			for(var/obj/item/weapon/stock_parts/A in component_parts)
 				for(var/D in CB.req_components)
 					if(ispath(A.type, D))
@@ -377,14 +406,41 @@ Class Procs:
 							break
 			RefreshParts()
 		else
-			user << "<span class='notice'>Following parts detected in the machine:</span>"
-			for(var/var/obj/item/C in component_parts)
-				user << "<span class='notice'>    [C.name]</span>"
+			display_parts(user)
 		if(shouldplaysound)
 			W.play_rped_sound()
 		return 1
 	return 0
 
+/obj/machinery/proc/display_parts(mob/user)
+	user << "<span class='notice'>Following parts detected in the machine:</span>"
+	for(var/obj/item/C in component_parts)
+		user << "<span class='notice'>\icon[C] [C.name]</span>"
+
+/obj/machinery/examine(mob/user)
+	..(user)
+	if(user.research_scanner && component_parts)
+		display_parts(user)
+
 //called on machinery construction (i.e from frame to machinery) but not on initialization
 /obj/machinery/proc/construction()
 	return
+
+//called on deconstruction before the final deletion
+/obj/machinery/proc/deconstruction()
+	return
+
+/obj/machinery/allow_drop()
+	return 0
+
+// Hook for html_interface module to prevent updates to clients who don't have this as their active machine.
+/obj/machinery/proc/hiIsValidClient(datum/html_interface_client/hclient, datum/html_interface/hi)
+	if (hclient.client.mob && hclient.client.mob.stat == 0)
+		if (isAI(hclient.client.mob)) return TRUE
+		else                          return hclient.client.mob.machine == src && src.Adjacent(hclient.client.mob)
+	else
+		return FALSE
+
+// Hook for html_interface module to unset the active machine when the window is closed by the player.
+/obj/machinery/proc/hiOnHide(datum/html_interface_client/hclient)
+	if (hclient.client.mob && hclient.client.mob.machine == src) hclient.client.mob.unset_machine()

@@ -1,8 +1,7 @@
 //////////////////////////
 /////Initial Building/////
 //////////////////////////
-var/global/list/rewardlist[0]
-var/global/list/datum/species/rewardlistbase = list(/datum/species/human, /datum/species/lizard,/datum/species/cat, /datum/species/bird, /datum/species/bot)
+
 /proc/make_datum_references_lists()
 	//hair
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/hair, hair_styles_list, hair_styles_male_list, hair_styles_female_list)
@@ -12,6 +11,22 @@ var/global/list/datum/species/rewardlistbase = list(/datum/species/human, /datum
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/underwear, underwear_list, underwear_m, underwear_f)
 	//undershirt
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/undershirt, undershirt_list, undershirt_m, undershirt_f)
+	//socks
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/socks, socks_list, socks_m, socks_f)
+	//lizard bodyparts (blizzard intensifies)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/body_markings, body_markings_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/lizard, tails_list_lizard)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails_animated/lizard, animated_tails_list_lizard)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/human, tails_list_human)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails_animated/human, animated_tails_list_human)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/snouts, snouts_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/horns, horns_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/ears, ears_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/frills, frills_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/spines, spines_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/spines_animated, animated_spines_list)
+	//MOTHERFUCKIN MOTHS
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/wing, wing_list)
 
 	//Species
 	for(var/spath in typesof(/datum/species))
@@ -22,16 +37,9 @@ var/global/list/datum/species/rewardlistbase = list(/datum/species/human, /datum
 			roundstart_species[S.name] = S.type
 		species_list[S.id] = S.type
 
-	for(var/spath in rewardlistbase)
-		var/datum/species/S = new spath()
-		rewardlist[S.id] = S.type
-
 	//Surgeries
-	for(var/path in typesof(/datum/surgery))
-		if(path == /datum/surgery)
-			continue
-		var/datum/surgery/S = new path()
-		surgeries_list[S.name] = S
+	for(var/path in (typesof(/datum/surgery) - /datum/surgery))
+		surgeries_list += new path()
 
 	init_subtypes(/datum/table_recipe, table_recipes)
 

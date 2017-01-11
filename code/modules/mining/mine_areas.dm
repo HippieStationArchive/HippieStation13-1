@@ -68,9 +68,16 @@
 /area/mine/west_outpost
 	name = "West Mining Outpost"
 
-/area/mine/laborcamp
-	name = "Labor Camp"
-
-/area/mine/laborcamp/security
-	name = "Labor Camp Security"
+/area/mine/permaprison
+	name = "Perma Prison"
 	icon_state = "security"
+
+/area/mine/permaprison/control
+	name = "Perma Prison Control Room"
+	icon_state = "security"
+	color = "yellow"
+
+/area/mine/permaprison/recreation
+	name = "Perma Prison Recreation"
+	icon_state = "security"
+	color = "blue"

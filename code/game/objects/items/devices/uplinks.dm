@@ -1,9 +1,7 @@
 //This could either be split into the proper DM files or placed somewhere else all together, but it'll do for now -Nodrak
 
 /*
-
 A list of items and costs is stored under the datum of every game mode, alongside the number of crystals, and the welcoming message.
-
 */
 
 var/list/world_uplinks = list()
@@ -19,16 +17,18 @@ var/list/world_uplinks = list()
 	var/uplink_owner = null//text-only
 	var/used_TC = 0
 
+	var/mode_override = null
+
 /obj/item/device/uplink/New()
 	..()
 	world_uplinks+=src
 
 /obj/item/device/uplink/Destroy()
 	world_uplinks-=src
-	..()
+	return ..()
 
 //Let's build a menu!
-/obj/item/device/uplink/proc/generate_menu(var/mob/user)
+/obj/item/device/uplink/proc/generate_menu(mob/user)
 
 	var/dat = "<B>[src.welcome]</B><BR>"
 	dat += "Tele-Crystals left: [src.uses]<BR>"
@@ -36,7 +36,7 @@ var/list/world_uplinks = list()
 	dat += "<B>Request item:</B><BR>"
 	dat += "<I>Each item costs a number of tele-crystals as indicated by the number following their name.</I><br><BR>"
 
-	var/list/buyable_items = get_uplink_items()
+	var/list/buyable_items = get_uplink_items(mode_override)
 
 	// Loop through categories
 	var/index = 0
@@ -46,17 +46,16 @@ var/list/world_uplinks = list()
 		dat += "<b>[category]</b><br>"
 
 		var/i = 0
+
 		// Loop through items in category
-		for(var/datum/uplink_item/I in buyable_items[category])
+		for(var/datum/uplink_item/item in buyable_items[category])
 			i++
-			var/datum/uplink_item/item = I
 			var/desc = "[item.desc]"
 			var/cost_text = ""
-			// world << "[I] is uplink_item"
-			if(I.jobs.len && !(user.mind.assigned_role in I.jobs))
+			if(item.jobs.len && !(user.mind.assigned_role in item.jobs))
 				// world << "User doesn't fit the job requirement."
 				continue
-			if(I.jobs_exclude.len && (user.mind.assigned_role in I.jobs_exclude))
+			if(item.jobs_exclude.len && (user.mind.assigned_role in item.jobs_exclude))
 				// world << "User's job is excluded."
 				continue
 			if(item.cost > 0)
@@ -100,15 +99,15 @@ var/list/world_uplinks = list()
 	if (href_list["buy_item"])
 
 		var/item = href_list["buy_item"]
-		var/list/split = text2list(item, ":") // throw away variable
+		var/list/split = splittext(item, ":") // throw away variable
 
 		if(split.len == 2)
 			// Collect category and number
 			var/category = split[1]
 			var/number = text2num(split[2])
 
-			var/list/buyable_items = get_uplink_items()
-			// world << "Called Topic for uplink device. [buyable_items]"
+			var/list/buyable_items = get_uplink_items(mode_override)
+
 			var/list/uplink = buyable_items[category]
 			if(uplink && uplink.len >= number)
 				var/datum/uplink_item/I = uplink[number]
@@ -125,12 +124,9 @@ var/list/world_uplinks = list()
 
 // HIDDEN UPLINK - Can be stored in anything but the host item has to have a trigger for it.
 /* How to create an uplink in 3 easy steps!
-
  1. All obj/item 's have a hidden_uplink var. By default it's null. Give the item one with "new(src)", it must be in it's contents. Feel free to add "uses".
-
  2. Code in the triggers. Use check_trigger for this, I recommend closing the item's menu with "usr << browse(null, "window=windowname") if it returns true.
  The var/value is the value that will be compared with the var/target. If they are equal it will activate the menu.
-
  3. If you want the menu to stay until the users locks his uplink, add an active_uplink_check(mob/user as mob) in your interact/attack_hand proc.
  Then check if it's true, if true return. This will stop the normal menu appearing and will instead show the uplink menu.
 */
@@ -153,7 +149,7 @@ var/list/world_uplinks = list()
 	active = !active
 
 // Directly trigger the uplink. Turn on if it isn't already.
-/obj/item/device/uplink/hidden/proc/trigger(mob/user as mob)
+/obj/item/device/uplink/hidden/proc/trigger(mob/user)
 	if(!active)
 		toggle()
 	interact(user)
@@ -161,7 +157,7 @@ var/list/world_uplinks = list()
 // Checks to see if the value meets the target. Like a frequency being a traitor_frequency, in order to unlock a headset.
 // If true, it accesses trigger() and returns 1. If it fails, it returns false. Use this to see if you need to close the
 // current item's menu.
-/obj/item/device/uplink/hidden/proc/check_trigger(mob/user as mob, var/value, var/target)
+/obj/item/device/uplink/hidden/proc/check_trigger(mob/user, value, target)
 	if(value == target)
 		trigger(user)
 		return 1
@@ -179,15 +175,15 @@ var/list/world_uplinks = list()
 			return 1
 	return 0
 //Refund proc for the borg teleporter (later I'll make a general refund proc if there is demand for it)
-/obj/item/device/radio/uplink/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if(istype(W, /obj/item/weapon/antag_spawner/borg_tele))
-		var/obj/item/weapon/antag_spawner/borg_tele/S = W
+/obj/item/device/radio/uplink/attackby(obj/item/weapon/W, mob/user, params)
+	if(istype(W, /obj/item/weapon/antag_spawner/nuke_ops))
+		var/obj/item/weapon/antag_spawner/nuke_ops/S = W
 		if(!S.used)
 			hidden_uplink.uses += S.TC_cost
 			qdel(S)
 			user << "<span class='notice'>Teleporter refunded.</span>"
 		else
-			user << "<span class='notice'>This teleporter is already used.</span>"
+			user << "<span class='warning'>This teleporter is already used!</span>"
 
 // PRESET UPLINKS
 // A collection of preset uplinks.
@@ -199,14 +195,14 @@ var/list/world_uplinks = list()
 	hidden_uplink = new(src)
 	icon_state = "radio"
 
-/obj/item/device/radio/uplink/attack_self(mob/user as mob)
+/obj/item/device/radio/uplink/attack_self(mob/user)
 	if(hidden_uplink)
 		hidden_uplink.trigger(user)
 
 /obj/item/device/multitool/uplink/New()
 	hidden_uplink = new(src)
 
-/obj/item/device/multitool/uplink/attack_self(mob/user as mob)
+/obj/item/device/multitool/uplink/attack_self(mob/user)
 	if(hidden_uplink)
 		hidden_uplink.trigger(user)
 
@@ -217,6 +213,5 @@ var/list/world_uplinks = list()
 	..()
 	hidden_uplink = new(src)
 	hidden_uplink.uses = 20
-
 
 

@@ -1,14 +1,13 @@
 /obj/machinery/computer/pod
 	name = "mass driver launch control"
 	desc = "A combined blastdoor and mass driver control unit."
-	icon_state = "computer_generic"
 	var/obj/machinery/mass_driver/connected = null
 	var/title = "Mass Driver Controls"
 	var/id = 1
 	var/timing = 0
 	var/time = 30
 	var/range = 4
-	l_color = "#50AB00"
+
 
 /obj/machinery/computer/pod/initialize()
 	for(var/obj/machinery/mass_driver/M in range(range, src))
@@ -114,17 +113,20 @@
 		if(href_list["drive"])
 			for(var/obj/machinery/mass_driver/M in range(range, src))
 				if(M.id == id)
+					if(istype(ticker.mode, /datum/game_mode/nuclear))
+						var/datum/game_mode/nuclear/nukemode = ticker.mode
+						nukemode.podlaunch = 1
 					M.power = connected.power
 					M.drive()
 		updateUsrDialog()
 
 
 /obj/machinery/computer/pod/old
-	icon_state = "old"
-	icon_state_nopower = "old0"
-	icon_state_broken = "oldb"
 	name = "\improper DoorMex control console"
 	title = "Door Controls"
+	icon_state = "oldcomp"
+	icon_screen = "library"
+	icon_keyboard = null
 
 
 /obj/machinery/computer/pod/old/syndicate
@@ -132,7 +134,6 @@
 	desc = "The Syndicate operate on a tight budget. Operates external airlocks."
 	title = "External Airlock Controls"
 	req_access = list(access_syndicate)
-	l_color = "#000000"
 
 /obj/machinery/computer/pod/old/syndicate/attack_hand(mob/user)
 	if(!allowed(user))

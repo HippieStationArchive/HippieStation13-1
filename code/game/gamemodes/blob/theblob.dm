@@ -3,14 +3,18 @@
 	name = "blob"
 	icon = 'icons/mob/blob.dmi'
 	luminosity = 3
-	desc = "Some blob creature thingy"
-	density = 0
+	desc = "A thick wall of writhing tendrils."
+	density = 0 //this being 0 causes two bugs, being able to attack blob tiles behind other blobs and being unable to move on blob tiles in no gravity, but turning it to 1 causes the blob mobs to be unable to path through blobs, which is probably worse.
 	opacity = 0
 	anchored = 1
+	explosion_block = 1
 	var/health = 30
+	var/maxhealth = 30
+	var/health_regen = 2
 	var/health_timestamp = 0
-	var/brute_resist = 4
+	var/brute_resist = 2
 	var/fire_resist = 1
+	var/mob/camera/blob/overmind
 
 
 /obj/effect/blob/New(loc)
@@ -27,7 +31,7 @@
 	blobs -= src
 	if(isturf(loc)) //Necessary because Expand() is retarded and spawns a blob and then deletes it
 		playsound(src.loc, 'sound/effects/splat.ogg', 50, 1)
-	..()
+	return ..()
 
 
 /obj/effect/blob/CanPass(atom/movable/mover, turf/target, height=0)
@@ -42,29 +46,33 @@
 
 /obj/effect/blob/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	..()
-	var/damage = Clamp(0.01 * exposed_temperature / fire_resist, 0, 4 - fire_resist)
-	if(damage)
-		health -= damage
-		update_icon()
+	var/damage = Clamp(0.01 * exposed_temperature, 0, 4)
+	take_damage(damage, BURN)
 
 /obj/effect/blob/proc/Life()
 	return
 
 /obj/effect/blob/proc/PulseAnimation()
-	flick("[icon_state]_glow", src)
+	if(!istype(src, /obj/effect/blob/core) || !istype(src, /obj/effect/blob/node))
+		flick("[icon_state]_glow", src)
 	return
 
 /obj/effect/blob/proc/RegenHealth()
 	// All blobs heal over time when pulsed, but it has a cool down
 	if(health_timestamp > world.time)
 		return 0
-	if(health < initial(health))
-		health++
-		update_icon()
-		health_timestamp = world.time + 10 // 1 seconds
+	health = min(maxhealth, health+health_regen)
+	update_icon()
+	health_timestamp = world.time + 10 // 1 seconds
 
+/obj/effect/blob/proc/pulseLoop(num)
+	var/a_color
+	if(overmind)
+		a_color = overmind.blob_reagent_datum.color
+	for(var/i = 1; i < 8; i += i)
+		Pulse(num, i, a_color)
 
-/obj/effect/blob/proc/Pulse(var/pulse = 0, var/origin_dir = 0)//Todo: Fix spaceblob expand
+/obj/effect/blob/proc/Pulse(pulse = 0, origin_dir = 0, a_color)//Todo: Fix spaceblob expand
 
 	set background = BACKGROUND_ENABLED
 
@@ -88,9 +96,11 @@
 		var/turf/T = get_step(src, dirn)
 		var/obj/effect/blob/B = (locate(/obj/effect/blob) in T)
 		if(!B)
-			expand(T)//No blob here so try and expand
+			expand(T,1,a_color)//No blob here so try and expand
 			return
-		B.Pulse((pulse+1),get_dir(src.loc,T))
+		B.adjustcolors(a_color)
+
+		B.Pulse((pulse+1),get_dir(src.loc,T), a_color)
 		return
 	return
 
@@ -99,9 +109,8 @@
 	return 0
 
 
-/obj/effect/blob/proc/expand(var/turf/T = null, var/prob = 1)
+/obj/effect/blob/proc/expand(turf/T = null, prob = 1, a_color)
 	if(prob && !prob(health))	return
-	if(istype(T, /turf/space) && prob(75)) 	return
 	if(!T)
 		var/list/dirs = list(1,2,4,8)
 		for(var/i = 1 to 4)
@@ -112,11 +121,15 @@
 			else	T = null
 
 	if(!T)	return 0
-	var/obj/effect/blob/normal/B = new /obj/effect/blob/normal(src.loc, min(src.health, 30))
+	var/obj/effect/blob/B = new /obj/effect/blob/normal(src.loc)
+	if(istype(T, /turf/space) && prob(65))
+		B.health = 0
+	B.color = a_color
 	B.density = 1
 	if(T.Enter(B,src))//Attempt to move into the tile
 		B.density = initial(B.density)
 		B.loc = T
+		B.update_icon()
 	else
 		T.blob_act()//If we cant move in hit the turf
 		B.loc = null //So we don't play the splat sound, see Destroy()
@@ -128,77 +141,106 @@
 
 /obj/effect/blob/ex_act(severity, target)
 	..()
-	var/damage = 150
-	health -= ((damage/brute_resist) - (severity * 5))
-	update_icon()
-	return
-
+	var/damage = 150 - 20 * severity
+	take_damage(damage, BRUTE)
 
 /obj/effect/blob/bullet_act(var/obj/item/projectile/Proj)
 	..()
-	switch(Proj.damage_type)
-	 if(BRUTE)
-		 health -= (Proj.damage/brute_resist)
-	 if(BURN)
-		 health -= (Proj.damage/fire_resist)
-
-	update_icon()
+	take_damage(Proj.damage, Proj.damage_type)
 	return 0
 
-/obj/effect/blob/Crossed(var/mob/living/L)
+/obj/effect/blob/Crossed(mob/living/L)
 	..()
 	L.blob_act()
 
 
-/obj/effect/blob/attackby(var/obj/item/weapon/W, var/mob/living/user)
+/obj/effect/blob/attackby(obj/item/weapon/W, mob/living/user, params)
 	user.changeNext_move(CLICK_CD_MELEE)
 	user.do_attack_animation(src)
 	playsound(src.loc, 'sound/effects/attackblob.ogg', 50, 1)
 	visible_message("<span class='danger'>[user] has attacked the [src.name] with \the [W]!</span>")
-	var/damage = 0
-	switch(W.damtype)
-		if("fire")
-			damage = (W.force / max(src.fire_resist,1))
-			if(istype(W, /obj/item/weapon/weldingtool))
-				playsound(src.loc, 'sound/items/Welder.ogg', 100, 1)
-		if("brute")
-			damage = (W.force / max(src.brute_resist,1))
+	if(W.damtype == BURN)
+		playsound(src.loc, 'sound/items/Welder.ogg', 100, 1)
+	take_damage(W.force, W.damtype)
 
-	health -= damage
-	update_icon()
-	return
-
-/obj/effect/blob/attack_animal(mob/living/simple_animal/M as mob)
+/obj/effect/blob/attack_animal(mob/living/simple_animal/M)
 	M.changeNext_move(CLICK_CD_MELEE)
 	M.do_attack_animation(src)
 	playsound(src.loc, 'sound/effects/attackblob.ogg', 50, 1)
 	visible_message("<span class='danger'>\The [M] has attacked the [src.name]!</span>")
 	var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
-	if(!damage) // Avoid divide by zero errors
-		return
-	damage /= max(src.brute_resist, 1)
-	health -= damage
-	update_icon()
+	take_damage(damage, BRUTE)
 	return
 
-/obj/effect/blob/proc/change_to(var/type)
+/obj/effect/blob/attack_alien(mob/living/carbon/alien/humanoid/M)
+	M.changeNext_move(CLICK_CD_MELEE)
+	M.do_attack_animation(src)
+	playsound(src.loc, 'sound/effects/attackblob.ogg', 50, 1)
+	visible_message("<span class='danger'>[M] has slashed the [src.name]!</span>")
+	var/damage = rand(15, 30)
+	take_damage(damage, BRUTE)
+	return
+
+/obj/effect/blob/proc/take_damage(damage, damage_type)
+	if(!damage || damage_type == STAMINA) // Avoid divide by zero errors
+		return
+	switch(damage_type)
+		if(BRUTE)
+			damage /= max(brute_resist, 1)
+		if(BURN)
+			damage /= max(fire_resist, 1)
+	health -= damage
+	update_icon()
+
+/obj/effect/blob/proc/change_to(type)
 	if(!ispath(type))
-		ERROR("[type] is an invalid type for the blob.")
-	new type(src.loc)
+		throw EXCEPTION("change_to(): invalid type for blob")
+		return
+	var/obj/effect/blob/B = new type(src.loc)
+	if(!istype(type, /obj/effect/blob/core) || !istype(type, /obj/effect/blob/node))
+		B.color = color
+	else
+		B.adjustcolors(color)
 	qdel(src)
+	return B
+
+/obj/effect/blob/proc/adjustcolors(a_color)
+	if(a_color)
+		color = a_color
+	return
+
+/obj/effect/blob/examine(mob/user)
+	..()
+	user << "It seems to be made of [get_chem_name()]."
+	return
+
+/obj/effect/blob/proc/get_chem_name()
+	for(var/mob/camera/blob/B in mob_list)
+		if(lowertext(B.blob_reagent_datum.color) == lowertext(src.color)) // Goddamit why we use strings for these
+			return B.blob_reagent_datum.name
+	return "unknown"
 
 /obj/effect/blob/normal
 	icon_state = "blob"
 	luminosity = 0
 	health = 21
+	maxhealth = 25
+	health_regen = 1
+	brute_resist = 4
 
 /obj/effect/blob/normal/update_icon()
 	if(health <= 0)
 		qdel(src)
-	else if(health <= 15)
+	else if(health <= 10)
 		icon_state = "blob_damaged"
+		name = "fragile blob"
+		desc = "A thin lattice of slightly twitching tendrils."
+		brute_resist = 2
 	else
 		icon_state = "blob"
+		name = "blob"
+		desc = "A thick wall of writhing tendrils."
+		brute_resist = 4
 
 /* // Used to create the glow sprites. Remember to set the animate loop to 1, instead of infinite!
 

@@ -10,7 +10,7 @@
 /obj/item/weapon/storage/belt/update_icon()
 	overlays.Cut()
 	for(var/obj/item/I in contents)
-		overlays += "[I.name]_o"
+		overlays += "[I.name]"
 	..()
 
 /obj/item/weapon/storage/belt/utility
@@ -39,6 +39,7 @@
 	new /obj/item/weapon/weldingtool(src)
 	new /obj/item/weapon/crowbar(src)
 	new /obj/item/weapon/wirecutters(src)
+	new /obj/item/device/multitool(src)
 	new /obj/item/stack/cable_coil(src,30,pick("red","yellow","orange"))
 
 
@@ -67,17 +68,15 @@
 		/obj/item/weapon/reagent_containers/glass/bottle,
 		/obj/item/weapon/reagent_containers/pill,
 		/obj/item/weapon/reagent_containers/syringe,
-		/obj/item/weapon/lighter/zippo,
+		/obj/item/weapon/lighter,
 		/obj/item/weapon/storage/fancy/cigarettes,
 		/obj/item/weapon/storage/pill_bottle,
+		/obj/item/stack/medical,
 		/obj/item/device/flashlight/pen,
 		/obj/item/weapon/extinguisher/mini,
 		/obj/item/weapon/reagent_containers/hypospray,
 		/obj/item/device/rad_laser,
-		/obj/item/weapon/reagent_containers/medical,
-		/obj/item/weapon/reagent_containers/chempatch,
-		/obj/item/stack/gauze,
-		/obj/item/device/sensor_device
+		/obj/item/device/sensor_device,
 		)
 
 
@@ -90,20 +89,19 @@
 	max_w_class = 3 //Because the baton wouldn't fit otherwise. - Neerti
 	can_hold = list(
 		/obj/item/weapon/melee/baton,
-		/obj/item/weapon/melee/truncheon/classic_baton,
-		/obj/item/weapon/melee/truncheon/telebaton,
+		/obj/item/weapon/melee/classic_baton,
 		/obj/item/weapon/grenade/flashbang,
 		/obj/item/weapon/grenade/chem_grenade/teargas,
 		/obj/item/weapon/reagent_containers/spray/pepper,
-		/obj/item/weapon/handcuffs,
-		/obj/item/device/flash/handheld,
+		/obj/item/weapon/restraints/handcuffs,
+		/obj/item/device/assembly/flash,
 		/obj/item/clothing/glasses,
 		/obj/item/ammo_casing/shotgun,
 		/obj/item/ammo_box,
 		/obj/item/weapon/reagent_containers/food/snacks/donut,
 		/obj/item/weapon/reagent_containers/food/snacks/donut/jelly,
 		/obj/item/device/flashlight/seclite,
-        /obj/item/weapon/melee/truncheon/telebaton
+		/obj/item/weapon/melee/classic_baton/telescopic
 		)
 
 /obj/item/weapon/storage/belt/security/full/New()
@@ -135,28 +133,37 @@
 	desc = "Proves to the world that you are the strongest!"
 	icon_state = "championbelt"
 	item_state = "champion"
+	materials = list(MAT_GOLD=400)
 	storage_slots = 1
 	can_hold = list(
-		/obj/item/clothing/mask/luchador,
-		/obj/item/weapon/paper
+		/obj/item/clothing/mask/luchador
 		)
-
-	var/stamina = 0
-	martial_art = /datum/martial_art/wrestling
-	martial_art_slot = slot_belt
-
-/obj/item/weapon/storage/belt/champion/New()
-	..()
-	new /obj/item/weapon/paper/Wrestling(src)
-	if(stamina == 1)
-		martial_art = /datum/martial_art/wrestling/stamina
-
 
 /obj/item/weapon/storage/belt/military
 	name = "military belt"
 	desc = "A syndicate belt designed to be used by boarding parties.  Its style is modeled after the hardsuits they wear."
 	icon_state = "militarybelt"
 	item_state = "military"
+
+/obj/item/weapon/storage/belt/military/black
+	name = "military belt"
+	desc = "A sturdy black military belt. Can hold small weapons, magazines, or smaller boxes of ammunition."
+	icon_state = "militarybelt_black"
+	item_state = "military_black"
+
+/obj/item/weapon/storage/belt/ninja
+	name = "ninja belt"
+	desc = "A belt designed to hold throwing stars. Not really that good at doing anything else."
+	icon_state = "militarybelt_black"
+	item_state = "military_black"
+	can_hold = list(
+		/obj/item/weapon/throwing_star
+		)
+
+/obj/item/weapon/storage/belt/ninja/full/New()
+	..()
+	for(var/i = 0, i < 14, i++)
+		new /obj/item/weapon/throwing_star(src)
 
 /obj/item/weapon/storage/belt/wands
 	name = "wand belt"
@@ -170,6 +177,7 @@
 
 /obj/item/weapon/storage/belt/wands/full/New()
 	..()
+	new /obj/item/weapon/gun/magic/wand/death(src)
 	new /obj/item/weapon/gun/magic/wand/resurrection(src)
 	new /obj/item/weapon/gun/magic/wand/polymorph(src)
 	new /obj/item/weapon/gun/magic/wand/teleport(src)
@@ -201,22 +209,37 @@
 	desc = "A bandolier for holding shotgun ammunition."
 	icon_state = "bandolier"
 	item_state = "bandolier"
-	storage_slots = 6
+	storage_slots = 16
+	burn_state = 0
 	can_hold = list(
 		/obj/item/ammo_casing/shotgun
 		)
 
+/obj/item/weapon/storage/belt/bandolier/full/New()
+	..()
+	new /obj/item/ammo_casing/shotgun/beanbag(src)
+	new /obj/item/ammo_casing/shotgun/beanbag(src)
+	new /obj/item/ammo_casing/shotgun/beanbag(src)
+	new /obj/item/ammo_casing/shotgun/beanbag(src)
+	new /obj/item/ammo_casing/shotgun/beanbag(src)
+	new /obj/item/ammo_casing/shotgun/beanbag(src)
+	new /obj/item/ammo_casing/shotgun/beanbag(src)
+	new /obj/item/ammo_casing/shotgun/beanbag(src)
+
 /obj/item/weapon/storage/belt/holster
 	name = "shoulder holster"
-	desc = "A holster to conceal a carried handgun. WARNING: Badasses only."
+	desc = "A holster to conceal a carried handgun and ammo. WARNING: Badasses only."
 	icon_state = "holster"
 	item_state = "holster"
-	storage_slots = 1
-	max_w_class = 4
+	storage_slots = 3
+	max_w_class = 3
+	burn_state = 0
 	can_hold = list(
 		/obj/item/weapon/gun/projectile/automatic/pistol,
-		/obj/item/weapon/gun/projectile/revolver/detective
+		/obj/item/weapon/gun/projectile/revolver,
+		/obj/item/ammo_box,
 		)
+	alternate_worn_layer = UNDER_SUIT_LAYER
 
 /obj/item/weapon/storage/belt/fannypack
 	name = "fannypack"
@@ -230,48 +253,58 @@
 	name = "black fannypack"
 	icon_state = "fannypack_black"
 	item_state = "fannypack_black"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/red
 	name = "red fannypack"
 	icon_state = "fannypack_red"
 	item_state = "fannypack_red"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/purple
 	name = "purple fannypack"
 	icon_state = "fannypack_purple"
 	item_state = "fannypack_purple"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/blue
 	name = "blue fannypack"
 	icon_state = "fannypack_blue"
 	item_state = "fannypack_blue"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/orange
 	name = "orange fannypack"
 	icon_state = "fannypack_orange"
 	item_state = "fannypack_orange"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/white
 	name = "white fannypack"
 	icon_state = "fannypack_white"
 	item_state = "fannypack_white"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/green
 	name = "green fannypack"
 	icon_state = "fannypack_green"
 	item_state = "fannypack_green"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/pink
 	name = "pink fannypack"
 	icon_state = "fannypack_pink"
 	item_state = "fannypack_pink"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/cyan
 	name = "cyan fannypack"
 	icon_state = "fannypack_cyan"
 	item_state = "fannypack_cyan"
+	burn_state = 0
 
 /obj/item/weapon/storage/belt/fannypack/yellow
 	name = "yellow fannypack"
 	icon_state = "fannypack_yellow"
 	item_state = "fannypack_yellow"
+	burn_state = 0

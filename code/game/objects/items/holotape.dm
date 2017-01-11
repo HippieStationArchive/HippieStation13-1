@@ -4,36 +4,21 @@
 //Define all tape types in hazardtape.dm
 /obj/item/tapeproj
 	icon = 'icons/obj/holotape.dmi'
-	icon_state = ""
-	w_class = 2.0
+	icon_state = "rollstart"
+	w_class = 2
 	var/turf/start
 	var/turf/end
 	var/tape_type = /obj/item/holotape
 	var/icon_base
 	var/charging = 0
-	var/emagged = 0
-
-/obj/item/tapeproj/emag_act(mob/user as mob)
-	if(!emagged)
-		src.emagged = 1
-		src.req_access = null
-		user << "<span class='warning'>You emag [src], disabling it's access requirement.</span>"
-		return
+	origin_tech = "materials=1;engineering=1"
 
 /obj/item/holotape
 	icon = 'icons/obj/holotape.dmi'
 	anchored = 1
 	density = 1
-	layer = 5
 	var/icon_base
 	var/health = 10
-
-// /obj/item/holotape/emag_act(mob/user as mob)
-// 	if(!emagged)
-// 		src.emagged = 1
-// 		src.req_access = null
-// 		user << "<span class='warning'>You emag [src], disabling it's access requirement</span>"
-// 		return
 
 /obj/item/tapeproj/security
 	name = "security holotape projector"
@@ -41,13 +26,11 @@
 	icon_state = "security_start"
 	tape_type = /obj/item/holotape/security
 	icon_base = "security"
-	req_access = list(access_sec_doors)
 
 /obj/item/holotape/security
 	name = "security holotape"
 	desc = "A length of security hard-light holotape. It reads: SECURITY LINE | DO NOT CROSS."
 	icon_base = "security"
-	req_access = list(access_sec_doors) 
 
 /obj/item/tapeproj/engineering
 	name = "engineering holotape projector"
@@ -55,13 +38,11 @@
 	icon_state = "engineering_start"
 	tape_type = /obj/item/holotape/engineering
 	icon_base = "engineering"
-	req_access = list(access_construction)
 
 /obj/item/holotape/engineering
 	name = "engineering holotape"
 	desc = "A length of engineering hard-light holotape. It reads: HAZARD AHEAD // DO NOT CROSS."
 	icon_base = "engineering"
-	req_access = list(access_construction)
 
 /obj/item/tapeproj/dropped()
 	reset()
@@ -75,10 +56,7 @@
 		start = null
 		return
 
-/obj/item/tapeproj/attack_self(var/mob/user)
-	if(!src.allowed(user))
-		user << "<span class='warning'>You do not have required access to use this!</span>"
-		return
+/obj/item/tapeproj/attack_self(mob/user)
 	if(charging)
 		usr << "<span class='warning'>[src] is recharging!</span>"
 		return
@@ -136,39 +114,23 @@
 				P.icon_state = "[P.icon_base]_[dir]"
 			cur = get_step_towards(cur,end)
 
-		usr << "<span class='notice'>You finish project the legnth of [icon_base] holotape.</span>"
-		user.visible_message("<span class='warning'>[user] finishes projecting the length of [icon_base] holotape.</span>")
+		user.visible_message("[user] finishes projecting the length of [icon_base] holotape.", "<span class='notice'>You finish projecting the length of [icon_base] holotape.</span>")
 
 		charging = 1
 		spawn(40)
 			charging = 0
 
 /obj/item/tapeproj/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
-	if(!src.allowed(user))
-		user << "<span class='warning'>You do not have required access to use this!</span>"
+	if(charging)
 		return
 
 	if(proximity_flag == 0) // not adjacent
-		return
-
-	if(istype(target, /obj/item/holotape))
-		user << "<span class='warning'>You start removing [target].</span>"
-		if(!do_mob(user, target, 20))
-			return
-		user.visible_message("<span class='warning'>[user] removes [target].</span>", \
-							 "<span class='warning'>You remove [target].</span>" )
-		var/obj/item/holotape/H = target
-		H.breaktape()
-		return
-	if(charging)
-		usr << "<span class='warning'>[src] is recharging!</span>"
 		return
 
 	if(istype(target, /obj/machinery/door/airlock) || istype(target, /obj/machinery/door/firedoor) || istype(target, /obj/structure/window))
 		var/turf = get_turf(target)
 
 		if(locate(tape_type) in turf) //Don't you dare stack tape
-			usr << "<span class='warning'>There's already tape here!</span>"
 			return
 
 		if(istype(target, /obj/structure/window))
@@ -176,14 +138,14 @@
 			if(!(W.dir == 5) || !(W.fulltile == 1))
 				return
 
-		user << "<span class='notice'>You start projecting the [icon_base] holotape onto [target].</span>"
+		user << "<span class='notice'>You start projecting the [icon_base] holotape onto [target]...</span>"
 
 		if(!do_mob(user, target, 30))
 			return
 
 		var/atom/tape = new tape_type(turf)
 		tape.icon_state = "[icon_base]_door"
-		tape.layer = 5
+		tape.layer = 3.2
 
 		user << "<span class='notice'>You project the [icon_base] holotape onto [target].</span>"
 
@@ -191,10 +153,18 @@
 		spawn(40)
 			charging = 0
 
-/obj/item/holotape/Bumped(var/mob/living/carbon/C)
-	if(C.m_intent == "walk" || C.lying || src.allowed(C))
+/obj/item/holotape/Bumped(mob/M)
+	if(!ismob(M))
+		return
+	if(iscarbon(M))
+		var/mob/living/carbon/C = M
+		if(C.m_intent == "walk")
+			var/turf/T = get_turf(src)
+			C.loc = T
+
+	if(M.has_unlimited_silicon_privilege)
 		var/turf/T = get_turf(src)
-		C.loc = T
+		M.loc = T
 
 /obj/item/holotape/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
 	if(!density) return 1
@@ -208,9 +178,9 @@
 /obj/item/holotape/attack_hand(mob/living/user)
 	user.changeNext_move(CLICK_CD_MELEE)
 	user.do_attack_animation(src)
-	playsound(loc, 'sound/weapons/Egloves.ogg', 50, 1)
-	user.visible_message("<span class='warning'>[user] hits [src].</span>", \
-						 "<span class='warning'>You hit [src].</span>" )
+	playsound(loc, 'sound/weapons/Egloves.ogg', 80, 1)
+	user.visible_message("<span class='danger'>[user] hits [src].</span>", \
+						 "<span class='danger'>You hit [src].</span>" )
 
 	health -= rand(1,2)
 	healthcheck()
@@ -228,7 +198,7 @@
 /obj/item/holotape/attack_paw(mob/living/user)
 	attack_hand(user)
 
-/obj/item/holotape/bullet_act(var/obj/item/projectile/Proj)
+/obj/item/holotape/bullet_act(obj/item/projectile/Proj)
 	if((Proj.damage_type == BRUTE || Proj.damage_type == BURN))
 		health -= Proj.damage
 	..()
@@ -236,7 +206,7 @@
 		breaktape()
 	return
 
-/obj/item/holotape/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/holotape/attackby(obj/item/weapon/W, mob/user, params)
 	user.changeNext_move(CLICK_CD_MELEE)
 	add_fingerprint(user)
 	health -= W.force * 0.3
@@ -247,24 +217,23 @@
 
 /obj/item/holotape/hitby(AM as mob|obj)
 	..()
-	visible_message("<span class='danger'>[src] was hit by [AM].</span>")
 	var/tforce = 0
 	if(ismob(AM))
 		tforce = 5
 	else if(isobj(AM))
 		var/obj/item/I = AM
 		tforce = max(0, I.throwforce * 0.5)
-	playsound(loc, 'sound/weapons/Egloves.ogg', 50, 1)
+	playsound(loc, 'sound/weapons/Egloves.ogg', 80, 1)
 	health = max(0, health - tforce)
 	healthcheck()
 
 /obj/item/holotape/proc/breaktape()
 	var/dir[2]
-	var/icon_dir = src.icon_state
-	if(icon_dir == "[src.icon_base]_h")
+	var/icon_dir = icon_state
+	if(icon_dir == "[icon_base]_h")
 		dir[1] = EAST
 		dir[2] = WEST
-	if(icon_dir == "[src.icon_base]_v")
+	if(icon_dir == "[icon_base]_v")
 		dir[1] = NORTH
 		dir[2] = SOUTH
 
@@ -276,10 +245,10 @@
 			for (var/obj/item/holotape/P in cur)
 				if(P.icon_state == icon_dir)
 					N = 0
-					del(P)
+					qdel(P)
 			cur = get_step(cur,dir[i])
 
-	del(src)
+	qdel(src)
 	return
 
 #undef MAX_TAPE_RANGE

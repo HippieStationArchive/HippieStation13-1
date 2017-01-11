@@ -10,25 +10,35 @@
 	var/valve_open = 0
 	var/toggle = 1
 
+/obj/item/device/transfer_valve/New()
+	ttv += src
+	..()
+
+/obj/item/device/transfer_valve/Destroy()
+	ttv -= src
+	..()
+
 /obj/item/device/transfer_valve/IsAssemblyHolder()
 	return 1
 
-/obj/item/device/transfer_valve/attackby(obj/item/item, mob/user)
+/obj/item/device/transfer_valve/attackby(obj/item/item, mob/user, params)
 	if(istype(item, /obj/item/weapon/tank))
 		if(tank_one && tank_two)
-			user << "<span class='warning'>There are already two tanks attached, remove one first.</span>"
+			user << "<span class='warning'>There are already two tanks attached, remove one first!</span>"
 			return
 
 		if(!tank_one)
+			if(!user.unEquip(item))
+				return
 			tank_one = item
-			user.drop_item()
 			item.loc = src
 			user << "<span class='notice'>You attach the tank to the transfer valve.</span>"
 			if(item.w_class > w_class)
 				w_class = item.w_class
 		else if(!tank_two)
+			if(!user.unEquip(item))
+				return
 			tank_two = item
-			user.drop_item()
 			item.loc = src
 			user << "<span class='notice'>You attach the tank to the transfer valve.</span>"
 			if(item.w_class > w_class)
@@ -42,7 +52,7 @@
 			user << "<span class='notice'>The device is secured.</span>"
 			return
 		if(attached_device)
-			user << "<span class='warning'>There is already a device attached to the valve, remove it first.</span>"
+			user << "<span class='warning'>There is already a device attached to the valve, remove it first!</span>"
 			return
 		user.remove_from_mob(item)
 		attached_device = A
@@ -62,7 +72,7 @@
 	if(!attached_device)	return
 	attached_device.HasProximity(AM)
 	return
-/obj/item/device/transfer_valve/attack_self(mob/user as mob)
+/obj/item/device/transfer_valve/attack_self(mob/user)
 	user.set_machine(src)
 	var/dat = {"<B> Valve properties: </B>
 	<BR> <B> Attachment one:</B> [tank_one] [tank_one ? "<A href='?src=\ref[src];tankone=1'>Remove</A>" : ""]
@@ -87,7 +97,7 @@
 			tank_one = null
 			update_icon()
 			if((!tank_two || tank_two.w_class < 4) && (w_class > 3))
-				w_class = 2 //implantable
+				w_class = 3
 		else if(tank_two && href_list["tanktwo"])
 			split_gases()
 			valve_open = 0
@@ -95,7 +105,7 @@
 			tank_two = null
 			update_icon()
 			if((!tank_one || tank_one.w_class < 4) && (w_class > 3))
-				w_class = 2 //implantable
+				w_class = 3
 		else if(href_list["open"])
 			toggle_valve()
 		else if(attached_device)
@@ -112,7 +122,7 @@
 		return
 	return
 
-/obj/item/device/transfer_valve/proc/process_activation(var/obj/item/device/D)
+/obj/item/device/transfer_valve/proc/process_activation(obj/item/device/D)
 	if(toggle)
 		toggle = 0
 		toggle_valve()
@@ -158,7 +168,7 @@
 	*/
 
 /obj/item/device/transfer_valve/proc/toggle_valve()
-	if(valve_open==0 && (tank_one && tank_two))
+	if(!valve_open && tank_one && tank_two)
 		valve_open = 1
 		var/turf/bombturf = get_turf(src)
 		var/area/A = get_area(bombturf)
@@ -166,7 +176,7 @@
 		var/attachment = "no device"
 		if(attached_device)
 			if(istype(attached_device, /obj/item/device/assembly/signaler))
-				attachment = "<A HREF='?_src_=holder;secretsadmin=list_signalers'>[attached_device]</A>"
+				attachment = "<A HREF='?_src_=holder;secrets=list_signalers'>[attached_device]</A>"
 			else
 				attachment = attached_device
 
@@ -174,21 +184,21 @@
 		if(!attacher)
 			attacher_name = "Unknown"
 		else
-			attacher_name = "[attacher.name]([attacher.ckey])"
+			attacher_name = "[key_name_admin(attacher)]"
 
 		var/log_str1 = "Bomb valve opened in "
 		var/log_str2 = "with [attachment] attacher: [attacher_name]"
 
 		var/log_attacher = ""
 		if(attacher)
-			log_attacher = "(<A HREF='?_src_=holder;adminmoreinfo=\ref[attacher]'>?</A>)"
+			log_attacher = "(<A HREF='?_src_=holder;adminmoreinfo=\ref[attacher]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[attacher]'>FLW</A>)"
 
 		var/mob/mob = get_mob_by_key(src.fingerprintslast)
 		var/last_touch_info = ""
 		if(mob)
-			last_touch_info = "(<A HREF='?_src_=holder;adminmoreinfo=\ref[mob]'>?</A>)"
+			last_touch_info = "(<A HREF='?_src_=holder;adminmoreinfo=\ref[mob]'>?</A>) (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[mob]'>FLW</A>)"
 
-		var/log_str3 = " Last touched by: [src.fingerprintslast]"
+		var/log_str3 = " Last touched by: [key_name_admin(mob)]"
 
 		var/bomb_message = "[log_str1] <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[bombturf.x];Y=[bombturf.y];Z=[bombturf.z]'>[A.name]</a>  [log_str2][log_attacher] [log_str3][last_touch_info]"
 
@@ -203,7 +213,7 @@
 				sleep(10)
 			src.update_icon()
 
-	else if(valve_open==1 && (tank_one && tank_two))
+	else if(valve_open && tank_one && tank_two)
 		split_gases()
 		valve_open = 0
 		src.update_icon()

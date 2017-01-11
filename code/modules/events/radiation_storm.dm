@@ -8,36 +8,29 @@
 
 
 /datum/round_event/radiation_storm/setup()
-	startWhen = rand(20, 40)
-	endWhen = 40 //startWhen + rand(-10,10)
-
-//	var/area/A
-//	A = A.loc
-//	if (!( istype(A, /area) ))
-//		return
-
-	//for(var/area/A in world)
-		//if (A.z == 1)
-			//A.dangalert()
-			//world << "hey yo i made it look dangerous and shit"
+	startWhen = rand(15, 30)
+	endWhen = startWhen + rand(7,15)
 
 /datum/round_event/radiation_storm/announce()
 	var/eta_timer = (startWhen + rand(-5,5))
-	priority_announce("High levels of radiation detected approching [station_name]. ETA: [eta_timer] seconds. Proceed to the nearest maintenance tunnel to take cover.", "Radiation Storm", 'sound/AI/radiation.ogg')
+	priority_announce("High levels of radiation detected approaching [station_name]. ETA: [eta_timer] seconds. Proceed to the nearest maintenance tunnel to take cover.", "Radiation Storm", 'sound/AI/radiation.ogg')
+	make_maint_all_access()
 	for(var/mob/M in player_list)
 		if(!istype(M,/mob/new_player) && !M.ear_deaf)
-			M << sound('sound/AI/radiation_short.ogg', volume=50) //Alarm + AI voice! WOO!
+			M << sound('sound/AI/radiationstorm.ogg', volume=50)
+	for(var/area/AR in world)
+		if(istype(AR, /area/shuttle) || istype(AR, /area/wizard_station)) continue
+		var/turf/picked = pick(get_area_turfs(AR.type))
+		if (picked.z == ZLEVEL_STATION)
+			AR.radalert()
 
 /datum/round_event/radiation_storm/start()
-	//for(var/area/A in world)
-		//if (A.z == 1)
-			//A.dangreset()
-			//A.redglow()
-
 	for(var/mob/C in mob_list)
 		var/turf/T = get_turf(C)
 		if(!T)			continue
 		if(T.z != 1)	continue
+		for(var/mob/M)
+			M << sound('sound/ambience/blowout.ogg', volume=5)
 
 		for(var/mob/M)
 			if(M.client)
@@ -60,15 +53,13 @@
 
 		if(istype(C, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = C
-			H.apply_effect((rand(90, 150)), IRRADIATE, 0)
-			if(prob(50))
+			H.apply_effect((rand(150, 300)), IRRADIATE, 0)
+			H.Jitter(25)
+			H.Weaken(15)
+			if(prob(80))
 				H.apply_effect((rand(300, 900)), IRRADIATE, 0)
-			if(prob(75))
-				randmutb(H)
-				domutcheck(H, null, 1)
-			else
-				randmutg(H)
-				domutcheck(H, null, 1)
+			if(prob(50))
+				H.apply_effect ((rand(900, 1500)), IRRADIATE, 0) //unlucky bastards
 
 		else if(istype(C, /mob/living/carbon/monkey))
 			var/mob/living/carbon/monkey/M = C
@@ -80,16 +71,11 @@
 
 
 /datum/round_event/radiation_storm/end()
-	//for(var/area/A in world)
-		//if (A.z == 1)
-			//A.redglowreset()
-
 	priority_announce("The radiation threat has passed. Please return to your workplaces.", "Radiation Storm")
-
-
-//	var/area/A = the_station_areas
-//	A = locate(the_station_areas)
-//	if (!( istype(A, /area) ))
-//		return
-//	for(var/area/RA in A.related)
-//		RA.dangerreset()
+	for(var/area/AR in world)
+		if(istype(AR, /area/shuttle) || istype(AR, /area/wizard_station)) continue
+		var/turf/picked = pick(get_area_turfs(AR.type))
+		if (picked.z == ZLEVEL_STATION)
+			AR.radclear()
+	spawn(500)
+		revoke_maint_all_access()

@@ -11,47 +11,43 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 	icon_state = "rods"
 	item_state = "rods"
 	flags = CONDUCT
-	w_class = 3.0
-	force = 9.0
-	throwforce = 10.0
+	w_class = 3
+	force = 9
+	stamina_percentage = 0.65
+	throwforce = 10
 	throw_speed = 3
 	throw_range = 7
-	m_amt = 1000
-	max_amount = 60
+	materials = list(MAT_METAL=1000)
+	max_amount = 50
 	attack_verb = list("hit", "bludgeoned", "whacked")
 	hitsound = 'sound/weapons/grenadelaunch.ogg'
-	embedchance = 20 //relatively low chance to embed itself in you
 
 /obj/item/stack/rods/New(var/loc, var/amount=null)
+	..()
+
 	recipes = rod_recipes
 	update_icon()
-	return ..()
 
 /obj/item/stack/rods/update_icon()
-	if(get_amount() <= 5)
-		icon_state = "rods-[get_amount()]"
+	var/amount = get_amount()
+	if((amount <= 5) && (amount > 0))
+		icon_state = "rods-[amount]"
 	else
 		icon_state = "rods"
 
-
-
-
-
-/obj/item/stack/rods/attackby(obj/item/W as obj, mob/user as mob)
-	..()
+/obj/item/stack/rods/attackby(obj/item/W, mob/user, params)
 	if (istype(W, /obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/WT = W
 
 		if(get_amount() < 2)
-			user << "<span class='warning'>You need at least two rods to do this.</span>"
+			user << "<span class='warning'>You need at least two rods to do this!</span>"
 			return
 
 		if(WT.remove_fuel(0,user))
 			var/obj/item/stack/sheet/metal/new_item = new(usr.loc)
-			new_item.add_to_stacks(usr)
-			user.visible_message("<span class='warning'>[user.name] shaped [src] into metal with the weldingtool.</span>", \
-						 "<span class='notice'>You shaped [src] into metal with the weldingtool.</span>", \
-						 "<span class='warning'>You hear welding.</span>")
+			user.visible_message("[user.name] shaped [src] into metal with the welding tool.", \
+						 "<span class='notice'>You shape [src] into metal with the welding tool.</span>", \
+						 "<span class='italics'>You hear welding.</span>")
 			var/obj/item/stack/rods/R = src
 			src = null
 			var/replace = (user.get_inactive_hand()==R)
@@ -59,9 +55,20 @@ var/global/list/datum/stack_recipe/rod_recipes = list ( \
 			if (!R && replace)
 				user.put_in_hands(new_item)
 		return
+
+	if(istype(W,/obj/item/weapon/reagent_containers/food/snacks))
+		var/obj/item/weapon/reagent_containers/food/snacks/S = W
+		if(amount != 1)
+			user << "<span class='warning'>You must use a single rod!</span>"
+		else if(S.w_class > 2)
+			user << "<span class='warning'>The ingredient is too big for [src]!</span>"
+		return
 	..()
 
 /obj/item/stack/rods/cyborg/
-	m_amt = 0
+	materials = list()
 	is_cyborg = 1
 	cost = 250
+
+/obj/item/stack/rods/cyborg/update_icon()
+	return

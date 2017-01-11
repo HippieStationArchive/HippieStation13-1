@@ -4,10 +4,10 @@
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	item_state = "electronic"
-	throwforce = 5.0
+	throwforce = 5
 	throw_speed = 3
 	throw_range = 5
-	w_class = 2.0
+	w_class = 2
 	origin_tech = "syndicate=4;magnets=4"
 	var/can_use = 1
 	var/obj/effect/dummy/chameleon/active_dummy = null
@@ -49,7 +49,8 @@
 		var/obj/effect/overlay/T = new/obj/effect/overlay(get_turf(src))
 		T.icon = 'icons/effects/effects.dmi'
 		flick("emppulse",T)
-		spawn(8) T.delete()
+		spawn(8)
+			qdel(T)
 	else
 		playsound(get_turf(src), 'sound/effects/pop.ogg', 100, 1, -6)
 		var/obj/O = new saved_item(src)
@@ -61,11 +62,12 @@
 		var/obj/effect/overlay/T = new/obj/effect/overlay(get_turf(src))
 		T.icon = 'icons/effects/effects.dmi'
 		flick("emppulse",T)
-		spawn(8) T.delete()
+		spawn(8)
+			qdel(T)
 
-/obj/item/device/chameleon/proc/disrupt(var/delete_dummy = 1)
+/obj/item/device/chameleon/proc/disrupt(delete_dummy = 1)
 	if(active_dummy)
-		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread
+		var/datum/effect_system/spark_spread/spark_system = new /datum/effect_system/spark_spread
 		spark_system.set_up(5, 0, src)
 		spark_system.attach(src)
 		spark_system.start()
@@ -91,7 +93,7 @@
 	var/can_move = 1
 	var/obj/item/device/chameleon/master = null
 
-/obj/effect/dummy/chameleon/proc/activate(var/obj/O, var/mob/M, new_icon, new_iconstate, new_overlays, new_underlays, var/obj/item/device/chameleon/C)
+/obj/effect/dummy/chameleon/proc/activate(obj/O, mob/M, new_icon, new_iconstate, new_overlays, new_underlays, obj/item/device/chameleon/C)
 	name = O.name
 	desc = O.desc
 	icon = new_icon
@@ -124,8 +126,9 @@
 	..()
 	master.disrupt()
 
-/obj/effect/dummy/chameleon/relaymove(var/mob/user, direction)
-	if(istype(loc, /turf/space)) return //No magical space movement!
+/obj/effect/dummy/chameleon/relaymove(mob/user, direction)
+	if(istype(loc, /turf/space) || !direction)
+		return //No magical space movement!
 
 	if(can_move)
 		can_move = 0
@@ -145,4 +148,4 @@
 
 /obj/effect/dummy/chameleon/Destroy()
 	master.disrupt(0)
-	..()
+	return ..()

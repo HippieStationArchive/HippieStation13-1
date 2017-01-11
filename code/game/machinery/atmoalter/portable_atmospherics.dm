@@ -3,38 +3,56 @@
 	use_power = 0
 	var/datum/gas_mixture/air_contents = new
 
-	var/obj/machinery/atmospherics/unary/portables_connector/connected_port
+	var/obj/machinery/atmospherics/components/unary/portables_connector/connected_port
 	var/obj/item/weapon/tank/holding
 
 	var/volume = 0
 	var/destroyed = 0
 
 	var/maximum_pressure = 90*ONE_ATMOSPHERE
+	var/lastupdate = 0
+
+/obj/machinery/portable_atmospherics/initialize()
+	..()
+	if(anchored)
+		var/obj/machinery/atmospherics/components/unary/portables_connector/possible_port = locate(/obj/machinery/atmospherics/components/unary/portables_connector) in loc
+		if(possible_port)
+			initconnect(possible_port)
+			update_icon()
+
+/obj/machinery/portable_atmospherics/proc/initconnect(obj/machinery/atmospherics/components/unary/portables_connector/new_port)
+	if(connected_port || !new_port || new_port.connected_device)
+		return 0
+	if(new_port.loc != loc)
+		return 0
+	connected_port = new_port
+	connected_port.connected_device = src
+	return 1
 
 /obj/machinery/portable_atmospherics/New()
 	..()
-
+	SSair.atmos_machinery += src
 	air_contents.volume = volume
 	air_contents.temperature = T20C
-
 	return 1
 
-/obj/machinery/portable_atmospherics/process()
-	if(!connected_port) //only react when pipe_network will ont it do it for you
+/obj/machinery/portable_atmospherics/process_atmos()
+	if(!connected_port) //only react when pipe_network will not it do it for you
 		//Allow for reactions
 		air_contents.react()
 	else
 		update_icon()
-
+/obj/machinery/portable_atmospherics/process()
+	return
 /obj/machinery/portable_atmospherics/Destroy()
-	del(air_contents)
-
-	..()
+	qdel(air_contents)
+	SSair.atmos_machinery -= src
+	return ..()
 
 /obj/machinery/portable_atmospherics/update_icon()
 	return null
 
-/obj/machinery/portable_atmospherics/proc/connect(obj/machinery/atmospherics/unary/portables_connector/new_port)
+/obj/machinery/portable_atmospherics/proc/connect(obj/machinery/atmospherics/components/unary/portables_connector/new_port)
 	//Make sure not already connected to something else
 	if(connected_port || !new_port || new_port.connected_device)
 		return 0
@@ -46,7 +64,8 @@
 	//Perform the connection
 	connected_port = new_port
 	connected_port.connected_device = src
-	connected_port.parent.reconcile_air()
+	var/datum/pipeline/connected_port_parent = connected_port.PARENT1
+	connected_port_parent.reconcile_air()
 
 	anchored = 1 //Prevent movement
 	return 1
@@ -57,17 +76,20 @@
 	anchored = 0
 	connected_port.connected_device = null
 	connected_port = null
+	update_icon()
 	return 1
 
 /obj/machinery/portable_atmospherics/portableConnectorReturnAir()
 	return air_contents
 
-/obj/machinery/portable_atmospherics/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
+/obj/machinery/portable_atmospherics/attackby(obj/item/weapon/W, mob/user, params)
 	if ((istype(W, /obj/item/weapon/tank) && !( src.destroyed )))
 		if (src.holding)
 			return
+		if(!user.drop_item())
+			return
+
 		var/obj/item/weapon/tank/T = W
-		user.drop_item()
 		T.loc = src
 		src.holding = T
 		update_icon()
@@ -80,7 +102,7 @@
 			update_icon()
 			return
 		else
-			var/obj/machinery/atmospherics/unary/portables_connector/possible_port = locate(/obj/machinery/atmospherics/unary/portables_connector) in loc
+			var/obj/machinery/atmospherics/components/unary/portables_connector/possible_port = locate(/obj/machinery/atmospherics/components/unary/portables_connector) in loc
 			if(possible_port)
 				if(connect(possible_port))
 					user << "<span class='notice'>You connect [name] to the port.</span>"
@@ -96,4 +118,5 @@
 	else if ((istype(W, /obj/item/device/analyzer)) && get_dist(user, src) <= 1)
 		atmosanalyzer_scan(air_contents, user)
 
-	return
+	else
+		..()

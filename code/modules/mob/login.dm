@@ -29,8 +29,8 @@
 	world.update_status()
 
 	client.images = null				//remove the images such as AIs being unable to see runes
-	client.screen = null				//remove hud items just in case
-	if(hud_used)	del(hud_used)		//remove the hud objects
+	client.screen = list()				//remove hud items just in case
+	if(hud_used)	qdel(hud_used)		//remove the hud objects
 	hud_used = new /datum/hud(src)
 
 	next_move = 1
@@ -51,6 +51,12 @@
 
 	//readd this mob's HUDs (antag, med, etc)
 	reload_huds()
+	if(ckey in deadmins)
+		verbs += /client/proc/readmin
+
+	client.screen += client.void
+
+	sync_mind()
 
 // Calling update_interface() in /mob/Login() causes the Cyborg to immediately be ghosted; because of winget().
 // Calling it in the overriden Login, such as /mob/living/Login() doesn't cause this.
@@ -62,9 +68,9 @@
 			update_normal_mode()
 
 /mob/proc/update_hotkey_mode()
-	winset(src, null, "mainwindow.macro=hotkeymode hotkey_toggle.is-checked=true mapwindow.map.focus=true input.background-color=#F0F0F0")
+	if(client) winset(src, null, "mainwindow.macro=hotkeymode hotkey_toggle.is-checked=true mapwindow.map.focus=true input.background-color=#F0F0F0")
 
 /mob/proc/update_normal_mode()
-	winset(src, null, "mainwindow.macro=macro hotkey_toggle.is-checked=false input.focus=true input.background-color=#D3B5B5")
+	if(client) winset(src, null, "mainwindow.macro=macro hotkey_toggle.is-checked=false input.focus=true input.background-color=#D3B5B5")
 
 

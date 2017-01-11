@@ -3,10 +3,9 @@
 	desc = "Retracts stuff."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "retractor"
-	m_amt = 6000
-	g_amt = 3000
+	materials = list(MAT_METAL=6000, MAT_GLASS=3000)
 	flags = CONDUCT
-	w_class = 1.0
+	w_class = 1
 	origin_tech = "materials=1;biotech=1"
 
 
@@ -15,10 +14,9 @@
 	desc = "You think you have seen this before."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "hemostat"
-	m_amt = 5000
-	g_amt = 2500
+	materials = list(MAT_METAL=5000, MAT_GLASS=2500)
 	flags = CONDUCT
-	w_class = 1.0
+	w_class = 1
 	origin_tech = "materials=1;biotech=1"
 	attack_verb = list("attacked", "pinched")
 
@@ -28,13 +26,26 @@
 	desc = "This stops bleeding."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "cautery"
-	m_amt = 2500
-	g_amt = 750
+	materials = list(MAT_METAL=2500, MAT_GLASS=750)
 	flags = CONDUCT
-	w_class = 1.0
+	w_class = 1
 	origin_tech = "materials=1;biotech=1"
 	attack_verb = list("burnt")
 
+/obj/item/weapon/cautery/attack(mob/living/carbon/human/H, mob/user)
+	if(!istype(H))
+		return ..()
+
+	var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
+
+	if(user.a_intent != "harm" && affecting.status == ORGAN_ORGANIC && affecting.bloodloss > 0)
+		user.visible_message("<span class='notice'>[user] starts to close up wounds on [H]'s [affecting].</span>", "<span class='notice'>You start closing up wounds on [H]'s [affecting].</span>")
+		if(!do_mob(user, H, 30)) return
+		user.visible_message("<span class='notice'>[user] has closed up wounds [H]'s [affecting].</span>", "<span class='notice'>You closed up wounds on [H]'s [affecting].</span>")
+		affecting.heal_damage(bleed=affecting.bloodloss)
+		affecting.take_damage(burn=5) //Compared to welding the wounds this is nothing
+		return
+	return ..()
 
 /obj/item/weapon/surgicaldrill
 	name = "surgical drill"
@@ -42,22 +53,12 @@
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "drill"
 	hitsound = 'sound/weapons/circsawhit.ogg'
-	bleedchance = 30 //Only bleed chance increased, bleedcap still default
-	m_amt = 10000
-	g_amt = 6000
+	materials = list(MAT_METAL=10000, MAT_GLASS=6000)
 	flags = CONDUCT
-	force = 15.0
-	w_class = 3.0
+	force = 15
+	w_class = 3
 	origin_tech = "materials=1;biotech=1"
 	attack_verb = list("drilled")
-
-/obj/item/weapon/surgicaldrill/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
-	if(!istype(M))	return ..()
-	if(user.zone_sel.selecting == "eyes" || (user.zone_sel.selecting == "head" && prob(40)))	
-		if((CLUMSY in user.mutations) && prob(50))
-			M = user
-		return eyestab(M,user)
-	return ..()
 
 /obj/item/weapon/scalpel
 	name = "scalpel"
@@ -65,18 +66,16 @@
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "scalpel"
 	flags = CONDUCT
-	force = 10.0
-	bleedchance = 20 //Pretty robust
-	bleedcap = 20 //Standard edged weapon bleedcap
-	w_class = 1.0
-	throwforce = 5.0
+	force = 10
+	w_class = 1
+	throwforce = 5
 	throw_speed = 3
 	throw_range = 5
-	m_amt = 4000
-	g_amt = 1000
+	materials = list(MAT_METAL=4000, MAT_GLASS=1000)
 	origin_tech = "materials=1;biotech=1"
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	hitsound = 'sound/weapons/bladeslice.ogg'
+	sharpness = IS_SHARP_ACCURATE
 
 /obj/item/weapon/scalpel/suicide_act(mob/user)
 	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with [src]! It looks like \he's trying to commit suicide.</span>", \
@@ -84,13 +83,6 @@
 						"<span class='suicide'>[user] is slitting \his stomach open with [src]! It looks like \he's trying to commit seppuku.</span>"))
 	return (BRUTELOSS)
 
-/obj/item/weapon/scalpel/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
-	if(!istype(M))	return ..()
-	if(user.zone_sel.selecting == "eyes" || (user.zone_sel.selecting == "head" && prob(40)))
-		if((CLUMSY in user.mutations) && prob(50))
-			M = user
-		return eyestab(M,user)
-	return ..()
 
 /obj/item/weapon/circular_saw
 	name = "circular saw"
@@ -100,25 +92,40 @@
 	hitsound = 'sound/weapons/circsawhit.ogg'
 	throwhitsound =  'sound/weapons/pierce.ogg'
 	flags = CONDUCT
-	force = 15.0 //Nice force
-	bleedchance = 20 //Pretty robust
-	bleedcap = 10 //Lower bleedcap
-	w_class = 3.0
-	throwforce = 9.0
+	force = 15
+	w_class = 3
+	throwforce = 9
 	throw_speed = 2
 	throw_range = 5
-	m_amt = 10000
-	g_amt = 6000
+	materials = list(MAT_METAL=10000, MAT_GLASS=6000)
 	origin_tech = "materials=1;biotech=1"
 	attack_verb = list("attacked", "slashed", "sawed", "cut")
-
+	sharpness = IS_SHARP
+	
+/obj/item/weapon/circular_saw/bonesaw
+	name = "bonesaw"
+	desc = "Not as cool as the circular one, but will work in a pinch."
+	icon = 'icons/obj/surgery.dmi'
+	icon_state = "bonesaw"
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	throwhitsound =  'sound/weapons/bladeslice.ogg'
+	flags = CONDUCT
+	force = 7
+	w_class = 2
+	throwforce = 5
+	throw_speed = 2
+	throw_range = 5
+	materials = list(MAT_METAL=5000)
+	origin_tech = "materials=1;biotech=1"
+	attack_verb = list("attacked", "slashed", "sawed", "cut")
+	sharpness = IS_SHARP
 
 /obj/item/weapon/surgical_drapes
 	name = "surgical drapes"
 	desc = "Nanotrasen brand surgical drapes provide optimal safety and infection control."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "surgical_drapes"
-	w_class = 1.0
+	w_class = 1
 	origin_tech = "biotech=1"
 	attack_verb = list("slapped")
 

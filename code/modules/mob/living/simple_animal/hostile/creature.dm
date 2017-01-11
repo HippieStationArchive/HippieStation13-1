@@ -12,4 +12,5 @@
 	attacktext = "chomps"
 	attack_sound = 'sound/weapons/bite.ogg'
 	faction = list("creature")
-
+	speak_emote = list("screams")
+	gold_core_spawnable = 1

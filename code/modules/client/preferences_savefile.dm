@@ -1,8 +1,8 @@
 //This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
-#define SAVEFILE_VERSION_MIN	11
+#define SAVEFILE_VERSION_MIN	8
 
 //This is the current version, anything below this will attempt to update (if it's not obsolete)
-#define SAVEFILE_VERSION_MAX	13
+#define SAVEFILE_VERSION_MAX	12
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
 	This proc checks if the current directory of the savefile S needs updating
@@ -30,10 +30,73 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		return savefile_version
 	return -1
 
+/datum/preferences/proc/update_antagchoices(current_version)
+	if((!islist(be_special) || old_be_special ) && current_version < 12)
+		//Archived values of when antag pref defines were a bitfield+fitflags
+		var/B_traitor = 1
+		var/B_operative = 2
+		var/B_changeling = 4
+		var/B_wizard = 8
+		var/B_malf = 16
+		var/B_rev = 32
+		var/B_alien = 64
+		var/B_pai = 128
+		var/B_cultist = 256
+		var/B_blob = 512
+		var/B_ninja = 1024
+		var/B_monkey = 2048
+		var/B_gang = 4096
+		var/B_shadowling = 8192
+		var/B_abductor = 16384
+		var/B_revenant = 32768
+
+		var/list/archived = list(B_traitor,B_operative,B_changeling,B_wizard,B_malf,B_rev,B_alien,B_pai,B_cultist,B_blob,B_ninja,B_monkey,B_gang,B_shadowling,B_abductor,B_revenant)
+
+		be_special = list()
+
+		for(var/flag in archived)
+			if(old_be_special & flag)
+				//this is shitty, but this proc should only be run once per player and then never again for the rest of eternity,
+				switch(flag)
+					if(1) //why aren't these the variables above? Good question, it's because byond complains the expression isn't constant, when it is.
+						be_special += ROLE_TRAITOR
+					if(2)
+						be_special += ROLE_OPERATIVE
+					if(4)
+						be_special += ROLE_CHANGELING
+					if(8)
+						be_special += ROLE_WIZARD
+					if(16)
+						be_special += ROLE_MALF
+					if(32)
+						be_special += ROLE_REV
+					if(64)
+						be_special += ROLE_ALIEN
+					if(128)
+						be_special += ROLE_PAI
+					if(256)
+						be_special += ROLE_CULTIST
+					if(512)
+						be_special += ROLE_BLOB
+					if(1024)
+						be_special += ROLE_NINJA
+					if(2048)
+						be_special += ROLE_MONKEY
+					if(4096)
+						be_special += ROLE_GANG
+					if(8192)
+						be_special += ROLE_SHADOWLING
+					if(16384)
+						be_special += ROLE_ABDUCTOR
+					if(32768)
+						be_special += ROLE_REVENANT
+
 /datum/preferences/proc/update_preferences(current_version)
 	if(current_version < 10)
 		toggles |= MEMBER_PUBLIC
-	return
+	if(current_version < 12)
+		chat_toggles = TOGGLES_DEFAULT_CHAT
+		toggles = TOGGLES_DEFAULT
 
 //should this proc get fairly long (say 3 versions long),
 //just increase SAVEFILE_VERSION_MIN so it's not as far behind
@@ -98,22 +161,32 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["lastchangelog"]		>> lastchangelog
 	S["UI_style"]			>> UI_style
 	S["be_special"]			>> be_special
+
+	if(islist(S["be_special"]))
+		S["be_special"] >> be_special
+	else //force update and store the old bitflag version of be_special
+		needs_update = 11
+		S["be_special"] >> old_be_special
+
 	S["default_slot"]		>> default_slot
+	S["chat_toggles"]		>> chat_toggles
 	S["toggles"]			>> toggles
 	S["ghost_form"]			>> ghost_form
+	S["ghost_orbit"]		>> ghost_orbit
 
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)
 		update_preferences(needs_update)		//needs_update = savefile_version if we need an update (positive integer)
+		update_antagchoices(needs_update)
 
 	//Sanitize
 	ooccolor		= sanitize_ooccolor(sanitize_hexcolor(ooccolor, 6, 1, initial(ooccolor)))
 	lastchangelog	= sanitize_text(lastchangelog, initial(lastchangelog))
 	UI_style		= sanitize_inlist(UI_style, list("Midnight", "Plasmafire", "Retro"), initial(UI_style))
-	be_special		= sanitize_integer(be_special, 0, 65535, initial(be_special))
 	default_slot	= sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
 	toggles			= sanitize_integer(toggles, 0, 65535, initial(toggles))
 	ghost_form		= sanitize_inlist(ghost_form, ghost_forms, initial(ghost_form))
+	ghost_orbit 	= sanitize_inlist(ghost_orbit, ghost_orbits, initial(ghost_orbit))
 
 	return 1
 
@@ -132,7 +205,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["be_special"]			<< be_special
 	S["default_slot"]		<< default_slot
 	S["toggles"]			<< toggles
+	S["chat_toggles"]		<< chat_toggles
 	S["ghost_form"]			<< ghost_form
+	S["ghost_orbit"]		<< ghost_orbit
 
 	return 1
 
@@ -154,16 +229,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		return 0
 
 	//Species
+	var/species_name
+	S["species"]			>> species_name
+	if(config.mutant_races && species_name && (species_name in roundstart_species))
+		var/newtype = roundstart_species[species_name]
+		pref_species = new newtype()
+	else
+		pref_species = new /datum/species/human()
 
-	S["species"]			>> pref_species
-//	if(config.mutant_races && species_name && (species_name in specialsnowflakes))
-//		var/newtype = specialsnowflakes[species_name]
-//		pref_species = new newtype()
-//	else
-//		pref_species = new /datum/species/human()
-
-	if(!S["mutant_color"] || S["mutant_color"] == "#000")
-		S["mutant_color"]	<< "#FFF"
+	if(!S["features["mcolor"]"] || S["features["mcolor"]"] == "#000")
+		S["features["mcolor"]"]	<< "#FFF"
 
 	//Character
 	S["OOC_Notes"]			>> metadata
@@ -180,9 +255,29 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["facial_style_name"]	>> facial_hair_style
 	S["underwear"]			>> underwear
 	S["undershirt"]			>> undershirt
+	S["socks"]				>> socks
 	S["backbag"]			>> backbag
-	S["mutant_color"]		>> mutant_color
-	S["specialsnowflakes"] >> specialsnowflakes
+	S["feature_mcolor"]					>> features["mcolor"]
+	S["feature_lizard_tail"]			>> features["tail_lizard"]
+	S["feature_lizard_snout"]			>> features["snout"]
+	S["feature_lizard_horns"]			>> features["horns"]
+	S["feature_lizard_frills"]			>> features["frills"]
+	S["feature_lizard_spines"]			>> features["spines"]
+	S["feature_lizard_body_markings"]	>> features["body_markings"]
+	S["feature_moth_wings"]				>> features["wing"]
+	if(!config.mutant_humans)
+		features["tail_human"] = "none"
+		features["ears"] = "none"
+	else
+		S["feature_human_tail"]				>> features["tail_human"]
+		S["feature_human_ears"]				>> features["ears"]
+	S["clown_name"]			>> custom_names["clown"]
+	S["mime_name"]			>> custom_names["mime"]
+	S["ai_name"]			>> custom_names["ai"]
+	S["cyborg_name"]		>> custom_names["cyborg"]
+	S["religion_name"]		>> custom_names["religion"]
+	S["deity_name"]			>> custom_names["deity"]
+
 	//Jobs
 	S["userandomjob"]		>> userandomjob
 	S["job_civilian_high"]	>> job_civilian_high
@@ -202,9 +297,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Sanitize
 	metadata		= sanitize_text(metadata, initial(metadata))
 	real_name		= reject_bad_name(real_name)
-	if(!mutant_color || mutant_color == "#000")
-		mutant_color = "#FFF"
-	if(!real_name)	real_name = random_name(gender)
+	if(!features["mcolor"] || features["mcolor"] == "#000")
+		features["mcolor"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
+	if(!real_name)	real_name = random_unique_name(gender)
 	be_random_name	= sanitize_integer(be_random_name, 0, 1, initial(be_random_name))
 	be_random_body	= sanitize_integer(be_random_body, 0, 1, initial(be_random_body))
 	gender			= sanitize_gender(gender)
@@ -213,11 +308,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		facial_hair_style			= sanitize_inlist(facial_hair_style, facial_hair_styles_male_list)
 		underwear		= sanitize_inlist(underwear, underwear_m)
 		undershirt 		= sanitize_inlist(undershirt, undershirt_m)
+		socks			= sanitize_inlist(socks, socks_m)
 	else
 		hair_style			= sanitize_inlist(hair_style, hair_styles_female_list)
 		facial_hair_style			= sanitize_inlist(facial_hair_style, facial_hair_styles_female_list)
 		underwear		= sanitize_inlist(underwear, underwear_f)
 		undershirt		= sanitize_inlist(undershirt, undershirt_f)
+		socks			= sanitize_inlist(socks, socks_f)
 
 	age				= sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
 	hair_color			= sanitize_hexcolor(hair_color, 3, 0)
@@ -225,7 +322,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	eye_color		= sanitize_hexcolor(eye_color, 3, 0)
 	skin_tone		= sanitize_inlist(skin_tone, skin_tones)
 	backbag			= sanitize_integer(backbag, 1, backbaglist.len, initial(backbag))
-	mutant_color	= sanitize_hexcolor(mutant_color, 3, 0)
+	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 3, 0)
+	features["tail_lizard"]	= sanitize_inlist(features["tail_lizard"], tails_list_lizard)
+	features["tail_human"] 	= sanitize_inlist(features["tail_human"], tails_list_human, "None")
+	features["snout"]	= sanitize_inlist(features["snout"], snouts_list)
+	features["horns"] 	= sanitize_inlist(features["horns"], horns_list)
+	features["ears"]	= sanitize_inlist(features["ears"], ears_list, "None")
+	features["frills"] 	= sanitize_inlist(features["frills"], frills_list)
+	features["spines"] 	= sanitize_inlist(features["spines"], spines_list)
+	features["body_markings"] 	= sanitize_inlist(features["body_markings"], body_markings_list)
+	features["wing"] 	= sanitize_inlist(features["wing"], wing_list)
 
 	userandomjob	= sanitize_integer(userandomjob, 0, 1, initial(userandomjob))
 	job_civilian_high = sanitize_integer(job_civilian_high, 0, 65535, initial(job_civilian_high))
@@ -263,10 +369,26 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["facial_style_name"]	<< facial_hair_style
 	S["underwear"]			<< underwear
 	S["undershirt"]			<< undershirt
+	S["socks"]				<< socks
 	S["backbag"]			<< backbag
-	S["species"]			<< pref_species
-	S["mutant_color"]		<< mutant_color
-	S["specialsnowflakes"] << specialsnowflakes
+	S["species"]			<< pref_species.name
+	S["feature_mcolor"]					<< features["mcolor"]
+	S["feature_lizard_tail"]			<< features["tail_lizard"]
+	S["feature_human_tail"]				<< features["tail_human"]
+	S["feature_lizard_snout"]			<< features["snout"]
+	S["feature_lizard_horns"]			<< features["horns"]
+	S["feature_human_ears"]				<< features["ears"]
+	S["feature_lizard_frills"]			<< features["frills"]
+	S["feature_lizard_spines"]			<< features["spines"]
+	S["feature_lizard_body_markings"]	<< features["body_markings"]
+	S["feature_moth_wings"]				<< features["wing"]
+	S["clown_name"]			<< custom_names["clown"]
+	S["mime_name"]			<< custom_names["mime"]
+	S["ai_name"]			<< custom_names["ai"]
+	S["cyborg_name"]		<< custom_names["cyborg"]
+	S["religion_name"]		<< custom_names["religion"]
+	S["deity_name"]			<< custom_names["deity"]
+
 	//Jobs
 	S["userandomjob"]		<< userandomjob
 	S["job_civilian_high"]	<< job_civilian_high

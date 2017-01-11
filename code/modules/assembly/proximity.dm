@@ -2,18 +2,17 @@
 	name = "proximity sensor"
 	desc = "Used for scanning and alerting when someone enters a certain proximity."
 	icon_state = "prox"
-	m_amt = 800
-	g_amt = 200
+	materials = list(MAT_METAL=800, MAT_GLASS=200)
 	origin_tech = "magnets=1"
+	attachable = 1
 
 	var/scanning = 0
 	var/timing = 0
 	var/time = 10
 
-/obj/item/device/assembly/prox_sensor/proc/toggle_scan()
-
-
-/obj/item/device/assembly/prox_sensor/proc/sense()
+/obj/item/device/assembly/prox_sensor/New()
+	..()
+	SSobj.processing |= src
 
 /obj/item/device/assembly/prox_sensor/describe()
 	if(timing)
@@ -24,60 +23,51 @@
 	if(!..())	return 0//Cooldown check
 	timing = !timing
 	update_icon()
-	return 0
+	return 1
 
 
 /obj/item/device/assembly/prox_sensor/toggle_secure()
 	secured = !secured
 	if(secured)
-		processing_objects.Add(src)
+		SSobj.processing |= src
 	else
 		scanning = 0
 		timing = 0
-		processing_objects.Remove(src)
+		SSobj.processing.Remove(src)
 	update_icon()
 	return secured
 
 
 /obj/item/device/assembly/prox_sensor/HasProximity(atom/movable/AM as mob|obj)
 	if (istype(AM, /obj/effect/beam))	return
-	if (AM.move_speed < 12)	sense()
-	return
+	sense()
 
 
-/obj/item/device/assembly/prox_sensor/sense()
-	if((!secured)||(!scanning)||(cooldown > 0))	return 0
+/obj/item/device/assembly/prox_sensor/proc/sense()
+	if(!secured || !scanning || cooldown > 0)	return 0
 	pulse(0)
-	if(src.loc)
-		src.loc.audible_message("\icon[src] *beep* *beep*", null, 3)
+	audible_message("\icon[src] *beep* *beep*", null, 3)
 	cooldown = 2
 	spawn(10)
 		process_cooldown()
-	return
-
 
 /obj/item/device/assembly/prox_sensor/process()
-	if(timing && (time >= 0))
-		time--
-	if(timing && time <= 0)
-		timing = 0
-		toggle_scan()
-		time = 10
-	return
+	if(timing)
+		time -= 2 //Since it's counted in seconds and 1 tick takes 2 seconds
+		if(time <= 0)
+			timing = 0
+			toggle_scan()
+			time = initial(time)
 
 
 /obj/item/device/assembly/prox_sensor/dropped()
 	spawn(0)
 		sense()
-		return
-	return
 
-
-/obj/item/device/assembly/prox_sensor/toggle_scan()
+/obj/item/device/assembly/prox_sensor/proc/toggle_scan()
 	if(!secured)	return 0
 	scanning = !scanning
 	update_icon()
-	return
 
 
 /obj/item/device/assembly/prox_sensor/update_icon()
@@ -91,16 +81,14 @@
 		attached_overlays += "prox_scanning"
 	if(holder)
 		holder.update_icon()
-	return
 
 
 /obj/item/device/assembly/prox_sensor/Move()
 	..()
 	sense()
-	return
 
 
-/obj/item/device/assembly/prox_sensor/interact(mob/user as mob)//TODO: Change this to the wires thingy
+/obj/item/device/assembly/prox_sensor/interact(mob/user)//TODO: Change this to the wires thingy
 	if(is_secured(user))
 		var/second = time % 60
 		var/minute = (time - second) / 60
@@ -110,15 +98,12 @@
 		dat += "<BR><BR><A href='?src=\ref[src];close=1'>Close</A>"
 		user << browse(dat, "window=prox")
 		onclose(user, "prox")
-		return
-
 
 /obj/item/device/assembly/prox_sensor/Topic(href, href_list)
 	..()
-	if(!usr.canmove || usr.stat || usr.restrained() || !in_range(loc, usr))
+	if(usr.incapacitated() || !in_range(loc, usr))
 		usr << browse(null, "window=prox")
 		onclose(usr, "prox")
-		return
 
 	if(href_list["scanning"])
 		toggle_scan()
@@ -139,5 +124,3 @@
 	if(usr)
 		attack_self(usr)
 
-
-	return

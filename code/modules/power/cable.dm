@@ -90,7 +90,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	if(powernet)
 		cut_cable_from_powernet()				// update the powernets
 	cable_list -= src							//remove it from global cable list
-	..()										// then go ahead and delete the cable
+	return ..()									// then go ahead and delete the cable
 
 /obj/structure/cable/Deconstruct()
 	var/turf/T = loc
@@ -102,7 +102,7 @@ By design, d1 is the smallest direction and d2 is the highest
 ///////////////////////////////////
 
 //If underfloor, hide the cable
-/obj/structure/cable/hide(var/i)
+/obj/structure/cable/hide(i)
 
 	if(level == 1 && istype(loc, /turf))
 		invisibility = i ? 101 : 0
@@ -128,14 +128,14 @@ By design, d1 is the smallest direction and d2 is the highest
 //   - Cable coil : merge cables
 //   - Multitool : get the power currently passing through the cable
 //
-/obj/structure/cable/attackby(obj/item/W, mob/user)
+/obj/structure/cable/attackby(obj/item/W, mob/user, params)
 	var/turf/T = src.loc
 	if(T.intact)
 		return
 	if(istype(W, /obj/item/weapon/wirecutters))
 		if (shock(user, 50))
 			return
-		visible_message("<span class='warning'>[user] cuts the cable.</span>")
+		user.visible_message("[user] cuts the cable.", "<span class='notice'>You cut the cable.</span>")
 		stored.add_fingerprint(user)
 		investigate_log("was cut by [key_name(usr, usr.client)] in [user.loc.loc]","wires")
 		Deconstruct()
@@ -144,7 +144,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	else if(istype(W, /obj/item/stack/cable_coil))
 		var/obj/item/stack/cable_coil/coil = W
 		if (coil.get_amount() < 1)
-			user << "Not enough cable"
+			user << "<span class='warning'>Not enough cable!</span>"
 			return
 		coil.cable_join(src, user)
 
@@ -162,11 +162,11 @@ By design, d1 is the smallest direction and d2 is the highest
 	src.add_fingerprint(user)
 
 // shock the user with probability prb
-/obj/structure/cable/proc/shock(mob/user, prb, var/siemens_coeff = 1.0)
+/obj/structure/cable/proc/shock(mob/user, prb, siemens_coeff = 1)
 	if(!prob(prb))
 		return 0
 	if (electrocute_mob(user, powernet, src, siemens_coeff))
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
+		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(5, 1, src)
 		s.start()
 		return 1
@@ -187,11 +187,9 @@ By design, d1 is the smallest direction and d2 is the highest
 
 /obj/structure/cable/singularity_pull(S, current_size)
 	if(current_size >= STAGE_FIVE)
-		alpha = 0 // lel - lets fix all the lag
-		return
-	return
+		Deconstruct()
 
-/obj/structure/cable/proc/cableColor(var/colorC = "red")
+/obj/structure/cable/proc/cableColor(colorC = "red")
 	cable_color = colorC
 	switch(colorC)
 		if("red")
@@ -220,21 +218,21 @@ By design, d1 is the smallest direction and d2 is the highest
 // Power related
 ///////////////////////////////////////////
 
-obj/structure/cable/proc/add_avail(var/amount)
+/obj/structure/cable/proc/add_avail(amount)
 	if(powernet)
 		powernet.newavail += amount
 
-obj/structure/cable/proc/add_load(var/amount)
+/obj/structure/cable/proc/add_load(amount)
 	if(powernet)
 		powernet.load += amount
 
-obj/structure/cable/proc/surplus()
+/obj/structure/cable/proc/surplus()
 	if(powernet)
 		return powernet.avail-powernet.load
 	else
 		return 0
 
-obj/structure/cable/proc/avail()
+/obj/structure/cable/proc/avail()
 	if(powernet)
 		return powernet.avail
 	else
@@ -246,7 +244,7 @@ obj/structure/cable/proc/avail()
 
 //handles merging diagonally matching cables
 //for info : direction^3 is flipping horizontally, direction^12 is flipping vertically
-/obj/structure/cable/proc/mergeDiagonalsNetworks(var/direction)
+/obj/structure/cable/proc/mergeDiagonalsNetworks(direction)
 
 	//search for and merge diagonally matching cables from the first direction component (north/south)
 	var/turf/T  = get_step(src, direction&3)//go north/south
@@ -290,7 +288,7 @@ obj/structure/cable/proc/avail()
 				C.powernet.add_cable(src) //else, we simply connect to the matching cable powernet
 
 // merge with the powernets of power objects in the given direction
-/obj/structure/cable/proc/mergeConnectedNetworks(var/direction)
+/obj/structure/cable/proc/mergeConnectedNetworks(direction)
 
 	var/fdir = (!direction)? 0 : turn(direction, 180) //flip the direction, to match with the source position on its turf
 
@@ -364,7 +362,7 @@ obj/structure/cable/proc/avail()
 //////////////////////////////////////////////
 
 //if powernetless_only = 1, will only get connections without powernet
-/obj/structure/cable/proc/get_connections(var/powernetless_only = 0)
+/obj/structure/cable/proc/get_connections(powernetless_only = 0)
 	. = list()	// this will be a list of all connected power objects
 	var/turf/T
 
@@ -434,12 +432,15 @@ obj/structure/cable/proc/avail()
 				P.disconnect_from_network() //remove from current network (and delete powernet)
 		return
 
+	var/obj/O = P_list[1]
 	// remove the cut cable from its turf and powernet, so that it doesn't get count in propagate_network worklist
 	loc = null
 	powernet.remove_cable(src) //remove the cut cable from its powernet
 
-	var/datum/powernet/newPN = new()// creates a new powernet...
-	propagate_network(P_list[1], newPN)//... and propagates it to the other side of the cable
+	spawn(0) //so we don't rebuild the network X times when singulo/explosion destroys a line of X cables
+		if(O && !qdeleted(O))
+			var/datum/powernet/newPN = new()// creates a new powernet...
+			propagate_network(O, newPN)//... and propagates it to the other side of the cable
 
 	// Disconnect machines connected to nodes
 	if(d1 == 0) // if we cut a node (O-X) cable
@@ -455,7 +456,10 @@ obj/structure/cable/proc/avail()
 // Definitions
 ////////////////////////////////
 
-#define MAXCOIL 30
+var/global/list/datum/stack_recipe/cable_coil_recipes = list ( \
+	new/datum/stack_recipe("cable restraints", /obj/item/weapon/restraints/handcuffs/cable, 15), \
+	new/datum/stack_recipe("noose", /obj/structure/noose, 30, time = 100, one_per_turf = 1, on_floor = 1), \
+	)
 
 /obj/item/stack/cable_coil
 	name = "cable coil"
@@ -463,41 +467,249 @@ obj/structure/cable/proc/avail()
 	icon = 'icons/obj/power.dmi'
 	icon_state = "coil_red"
 	item_state = "coil_red"
+	max_amount = MAXCOIL
 	amount = MAXCOIL
 	item_color = "red"
 	desc = "A coil of power cable."
 	throwforce = 0
-	w_class = 2.0
+	w_class = 2
 	throw_speed = 3
 	throw_range = 5
-	m_amt = 50
-	g_amt = 20
+	materials = list(MAT_METAL=50, MAT_GLASS=20)
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	attack_verb = list("whipped", "lashed", "disciplined", "flogged")
 	singular_name = "cable piece"
 
-/obj/item/stack/cable_coil/cyborg
-	is_cyborg = 1
-	m_amt = 0
-	g_amt = 0
-	cost = 1
-
-/obj/item/stack/cable_coil/suicide_act(mob/user)
-	if(locate(/obj/structure/stool) in user.loc)
-		user.visible_message("<span class='suicide'>[user] is making a noose with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	else
-		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src.name]! It looks like \he's trying to commit suicide.</span>")
-	return(OXYLOSS)
-
 /obj/item/stack/cable_coil/New(loc, amount = MAXCOIL, var/param_color = null)
 	..()
 	src.amount = amount
+
 	if(param_color)
 		item_color = param_color
+	else
+		item_color = pick("red","yellow","green","blue","pink")
+
+	icon_state = "coil_[item_color]"
 	pixel_x = rand(-2,2)
 	pixel_y = rand(-2,2)
 	update_icon()
+	recipes = cable_coil_recipes
+
+/obj/item/stack/cable_coil/cyborg
+	is_cyborg = 1
+	materials = list()
+	cost = 1
+/obj/item/stack/cable_coil/cyborg/makeRestraints()
+	return //No cable cuffs for cyborgs
+
+/obj/item/stack/cable_coil/cyborg/attack_self(mob/user)
+	var/cable_color = input(user,"Pick a cable color.","Cable Color") in list("red","yellow","green","blue","pink","orange","cyan","white")
+	item_color = cable_color
+	update_icon()
+
+//SUICIDE GOODNESS
+
+/obj/item/stack/cable_coil/building_checks(datum/stack_recipe/R, multiplier)
+	if(R.title == "noose")
+		if(!(locate(/obj/structure/stool) in usr.loc) && !(locate(/obj/structure/bed) in usr.loc) && !(locate(/obj/structure/table) in usr.loc) && !(locate(/obj/structure/toilet) in usr.loc))
+			usr << "<span class='warning'>You have to be standing on top of a chair/table/toilet to make a noose!</span>"
+			return 0
+	return ..()
+
+/obj/item/stack/cable_coil/suicide_act(mob/living/user)
+	if((locate(/obj/structure/stool) in user.loc) || (locate(/obj/structure/bed) in usr.loc) || (locate(/obj/structure/table) in user.loc) || (locate(/obj/structure/toilet) in user.loc))
+		user.visible_message("<span class='suicide'>[user] is making a noose with the [src]! It looks like \he's trying to commit suicide.</span>")
+		if(do_after(user, 20, target = user.loc))
+			qdel(src)
+			var/obj/structure/noose/N = new(get_turf(user.loc))
+			N.buckle_mob(user)
+			var/obj/item/organ/limb/affecting = null
+			if(user.mob_has_gravity)
+				if(ishuman(user))
+					var/mob/living/carbon/human/H = user
+					affecting = H.get_organ("head")
+				user.say("--Hrnk!!")
+				user.apply_damage(max(100 - user.getBruteLoss(), 0), BRUTE, affecting) //Pretty hardcore damage
+				user.adjustOxyLoss(30)
+				playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
+				playsound(user.loc, 'sound/misc/crack.ogg', 50, 1, -3)
+				user << "<span class='suicide'>With a loud crack in your neck, you feel your consciousness slipping away...</span>"
+				return
+		else
+			return
+	else
+		user.visible_message("<span class='suicide'>[user] is strangling \himself with the [src]! It looks like \he's trying to commit suicide.</span>")
+		return(OXYLOSS)
+
+/obj/structure/noose //It's a "chair".
+	name = "noose"
+	desc = "Well this just got a whole lot more morbid."
+	icon_state = "noose"
+	buckle_lying = 0
+	icon = 'icons/obj/objects.dmi'
+	anchored = 1
+	can_buckle = 1
+	burn_state = 0 //Burnable
+	burntime = 30
+	layer = 5
+	var/image/over = null
+	var/ticks = 0
+
+/obj/structure/noose/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/weapon/wirecutters))
+		user.visible_message("[user] cuts the noose.", "<span class='notice'>You cut the noose.</span>")
+		if(buckled_mob && buckled_mob.mob_has_gravity)
+			buckled_mob.visible_message("<span class='danger'>[buckled_mob] falls over and hits the ground!</span>",\
+										"<span class='userdanger'>You fall over and hit the ground!</span>")
+			buckled_mob.adjustBruteLoss(10)
+		var/obj/item/stack/cable_coil/C = new(get_turf(src))
+		C.amount = 25
+		qdel(src)
+		return
+	..()
+
+/obj/structure/noose/New()
+	..()
+	pixel_y += 16 //Noose looks like it's "hanging" in the air
+	over = image(icon, "noose_overlay")
+	over.layer = MOB_LAYER + 0.1
+
+/obj/structure/noose/Destroy()
+	SSobj.processing.Remove(src)
+	return ..()
+
+/obj/structure/noose/post_buckle_mob(mob/living/M)
+	if(M == buckled_mob)
+		layer = MOB_LAYER
+		overlays += over
+		SSobj.processing.Add(src)
+		M.pixel_y = initial(M.pixel_y) + 8 //rise them up a bit
+		M.dir = SOUTH
+	else
+		layer = initial(layer)
+		overlays -= over
+		SSobj.processing.Remove(src)
+		pixel_x = initial(pixel_x)
+		M.pixel_x = initial(M.pixel_x)
+		M.pixel_y = M.get_standard_pixel_y_offset(M.lying)
+
+/obj/structure/noose/user_unbuckle_mob(mob/living/user)
+	if(buckled_mob && buckled_mob.buckled == src)
+		var/mob/living/M = buckled_mob
+		if(M != user)
+			user.visible_message("<span class='notice'>[user] begins to untie the noose over [M]'s neck...</span>",\
+								"<span class='notice'>You begin to untie the noose over [M]'s neck...</span>")
+			if(do_mob(user, M, 100))
+				user.visible_message("<span class='notice'>[user] unties the noose over [M]'s neck!</span>",\
+									"<span class='notice'>You untie the noose over [M]'s neck!</span>")
+			else
+				return
+		else
+			M.visible_message(\
+				"<span class='warning'>[M] struggles to untie the noose over their neck!</span>",\
+				"<span class='notice'>You struggle to untie the noose over your neck... (Stay still for 15 seconds.)</span>")
+			if(!do_after(M, 150, target = src))
+				if(M && M.buckled)
+					M << "<span class='warning'>You fail to untie yourself!</span>"
+				return
+			if(!M.buckled)
+				return
+			M.visible_message(\
+				"<span class='warning'>[M] unties the noose over their neck!</span>",\
+				"<span class='notice'>You untie the noose over your neck!</span>")
+			M.Weaken(3)
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = M
+			H.noosed = 0
+		unbuckle_mob()
+		add_fingerprint(user)
+
+/obj/structure/noose/user_buckle_mob(mob/living/carbon/human/M, mob/user)
+	if(!in_range(user, src) || user.stat || user.restrained() || !iscarbon(M))
+		return 0
+
+	var/hashead = 0
+
+	for(var/obj/item/organ/limb/temp in M.organs) //Checks if the target has a head.
+		if(temp.body_part == HEAD)
+			hashead = 1
+
+	if(hashead != 1)
+		user << "<span class='danger'>They don't have a head....</span>"
+		return 0
+
+	if(M.loc != src.loc) return 0 //Can only noose someone if they're on the same tile as noose
+
+	add_fingerprint(user)
+
+	if(M == user && buckle_mob(M))
+		M.visible_message(\
+			"<span class='suicide'>[M] ties \the [src] over their neck!</span>",\
+			"<span class='suicide'>You tie \the [src] over your neck!</span>")
+		playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
+		add_logs(user, null, "hanged themselves", src)
+		M.noosed = 1
+		return 1
+	else
+		M.visible_message(\
+			"<span class='danger'>[user] attempts to tie \the [src] over [M]'s neck!</span>",\
+			"<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
+		user << "<span class='notice'>It will take 20 seconds and you have to stand still.</span>"
+		if(do_mob(user, M, 200))
+			if(buckle_mob(M))
+				M.visible_message(\
+					"<span class='danger'>[user] ties \the [src] over [M]'s neck!</span>",\
+					"<span class='userdanger'>[user] ties \the [src] over your neck!</span>")
+				playsound(user.loc, 'sound/effects/noosed.ogg', 50, 1, -1)
+				add_logs(user, M, "hanged", src)
+				M.noosed = 1
+				return 1
+			else
+				user.visible_message(\
+					"<span class='warning'>[user] fails to tie \the [src] over [M]'s neck!</span>",\
+					"<span class='warning'>You fail to tie \the [src] over [M]'s neck!</span>")
+				return 0
+		else
+			user.visible_message(\
+				"<span class='warning'>[user] fails to tie \the [src] over [M]'s neck!</span>",\
+				"<span class='warning'>You fail to tie \the [src] over [M]'s neck!</span>")
+			return 0
+
+/obj/structure/noose/process()
+	if(!buckled_mob)
+		SSobj.processing.Remove(src)
+		buckled_mob.pixel_x = initial(buckled_mob.pixel_x)
+		pixel_x = initial(pixel_x)
+		return
+	ticks++
+	switch(ticks)
+		if(1)
+			pixel_x -= 1
+			buckled_mob.pixel_x -= 1
+		if(2)
+			pixel_x = initial(pixel_x)
+			buckled_mob.pixel_x = initial(buckled_mob.pixel_x)
+		if(3) //Every third tick it plays a sound and RNG's a flavor text
+			pixel_x += 1
+			buckled_mob.pixel_x += 1
+			if(buckled_mob.mob_has_gravity)
+				if(prob(50))
+					var/flavor_text = list("<span class='suicide'>[buckled_mob]'s legs flail for anything to stand on.</span>",\
+											"<span class='suicide'>[buckled_mob]'s hands are desperately clutching the noose.</span>",\
+											"<span class='suicide'>[buckled_mob]'s limbs sway back and forth with diminishing strength.</span>")
+					if(buckled_mob.stat == DEAD)
+						flavor_text = list("<span class='suicide'>[buckled_mob]'s limbs lifelessly sway back and forth.</span>",\
+											"<span class='suicide'>[buckled_mob]'s eyes stare straight ahead.</span>")
+					buckled_mob.visible_message(pick(flavor_text))
+				playsound(buckled_mob.loc, 'sound/effects/noose_idle.ogg', 50, 1, -3)
+		if(4)
+			pixel_x = initial(pixel_x)
+			buckled_mob.pixel_x = initial(buckled_mob.pixel_x)
+			ticks = 0
+	if(buckled_mob.mob_has_gravity)
+		buckled_mob.adjustOxyLoss(5)
+		buckled_mob.emote("gasp")
 
 ///////////////////////////////////
 // General procedures
@@ -510,7 +722,9 @@ obj/structure/cable/proc/avail()
 
 	var/obj/item/organ/limb/affecting = H.get_organ(check_zone(user.zone_sel.selecting))
 	if(affecting.status == ORGAN_ROBOTIC)
-		item_heal_robotic(H, user, 0, 30)
+		user.visible_message("<span class='notice'>[user] starts to fix some of the wires in [H]'s [affecting].</span>", "<span class='notice'>You start fixing some of the wires in [H]'s [affecting].</span>")
+		if(!do_mob(user, H, 50))	return
+		item_heal_robotic(H, user, 0, 5)
 		src.use(1)
 		return
 	else
@@ -530,94 +744,42 @@ obj/structure/cable/proc/avail()
 		icon_state = "coil_[item_color]"
 		name = "cable coil"
 
-/obj/item/stack/cable_coil/proc/makeRestraints()
-	var/mob/M = usr
+/obj/item/stack/cable_coil/attack_hand(mob/user)
+	var/obj/item/stack/cable_coil/new_cable = ..()
+	if(istype(new_cable))
+		new_cable.item_color = item_color
+		new_cable.update_icon()
 
-	if(ishuman(M) && !M.restrained() && !M.stat && M.canmove)
-		if(!istype(usr.loc,/turf))
+/obj/item/stack/cable_coil/proc/makeRestraints(mob/user)
+	if(ishuman(user) && !user.restrained() && !user.stat && user.canmove)
+		if(!istype(user.loc,/turf))
 			return
 		if(src.amount <= 14)
 			usr << "<span class='danger'>You need at least 15 lengths to make restraints!</span>"
 			return
-		var/obj/item/weapon/handcuffs/cable/B = new /obj/item/weapon/handcuffs/cable(usr.loc)
+		var/obj/item/weapon/restraints/handcuffs/cable/B = new /obj/item/weapon/restraints/handcuffs/cable(user.loc)
 		B.icon_state = "cuff_[item_color]"
-		M.put_in_hands(B)
-		usr << "<span class='notice'>You wind some cable together to make some restraints.</span>"
+		user.put_in_hands(B)
+		user << "<span class='notice'>You wind some cable together to make some restraints.</span>"
 		src.use(15)
 	else
-		usr << "<span class='notice'>You cannot do that.</span>"
+		user << "<span class='notice'>You cannot do that.</span>"
 
 /obj/item/stack/cable_coil/verb/make_restraint()
 	set name = "Make Cable Restraints"
 	set category = "Object"
-	makeRestraints()
+	makeRestraints(usr)
 	..()
 
-/obj/item/stack/cable_coil/AltClick()
+/obj/item/stack/cable_coil/AltClick(mob/user)
 	..()
-	makeRestraints()
-
-// Items usable on a cable coil :
-//   - Wirecutters : cut them duh !
-//   - Cable coil : merge cables
-/obj/item/stack/cable_coil/attackby(obj/item/weapon/W, mob/user)
-	..()
-	if( istype(W, /obj/item/weapon/wirecutters) && src.amount > 1)
-		src.amount--
-		new /obj/item/stack/cable_coil(user.loc, 1,item_color)
-		user << "You cut a piece off the cable coil."
-		src.update_icon()
-		return
-
-	else if(istype(W, /obj/item/stack/cable_coil/cyborg))
-		var/obj/item/stack/cable_coil/cyborg/C = W
-		var/to_transfer = min(src.amount, round((C.source.max_energy - C.source.energy) / C.cost))
-		C.add(to_transfer)
-		src.use(to_transfer)
-	else if(istype(W, /obj/item/stack/cable_coil))
-		var/obj/item/stack/cable_coil/C = W
-		if(C.amount >= MAXCOIL)
-			user << "The coil is too long, you cannot add any more cable to it."
-			return
-
-		if( (C.amount + src.amount <= MAXCOIL) )
-			user << "You join the cable coils together."
-			C.give(src.amount) // give it cable
-			src.use(src.amount) // make sure this one cleans up right
-			return
-
-		else
-			var/amt = MAXCOIL - C.amount
-			user << "You transfer [amt] length\s of cable from one coil to the other."
-			C.give(amt)
-			src.use(amt)
-			return
-
-//remove cables from the stack
-/* This is probably reduntant
-/obj/item/stack/cable_coil/use(var/used)
-	if(src.amount < used)
-		return 0
-	else if (src.amount == used)
-		if(ismob(loc)) //handle mob icon update
-			var/mob/M = loc
-			M.unEquip(src)
-		qdel(src)
-		return 1
-	else
-		amount -= used
-		update_icon()
-		return 1
-*/
-/obj/item/stack/cable_coil/use(var/used)
-	. = ..()
-	update_icon()
-	return
+	if(user.Adjacent(src))
+		makeRestraints(user)
 
 //add cables to the stack
-/obj/item/stack/cable_coil/proc/give(var/extra)
-	if(amount + extra > MAXCOIL)
-		amount = MAXCOIL
+/obj/item/stack/cable_coil/proc/give(extra)
+	if(amount + extra > max_amount)
+		amount = max_amount
 	else
 		amount += extra
 	update_icon()
@@ -628,41 +790,41 @@ obj/structure/cable/proc/avail()
 // Cable laying procedures
 //////////////////////////////////////////////
 
-/obj/item/stack/cable_coil/proc/get_new_cable(var/location)
+/obj/item/stack/cable_coil/proc/get_new_cable(location)
 	var/path = "/obj/structure/cable" + (item_color == "red" ? "" : "/" + item_color)
 	return new path (location)
 
-// called when cable_coil is clicked on a turf/simulated/floor
-/obj/item/stack/cable_coil/proc/turf_place(turf/simulated/floor/F, mob/user)
+// called when cable_coil is clicked on a turf
+/obj/item/stack/cable_coil/proc/place_turf(turf/T, mob/user)
 	if(!isturf(user.loc))
 		return
 
+	if(!T.can_have_cabling())
+		user << "<span class='warning'>You can only lay cables on catwalks and plating!</span>"
+		return
+
 	if(get_amount() < 1) // Out of cable
-		user << "There is no cable left."
+		user << "<span class='warning'>There is no cable left!</span>"
 		return
 
-	if(get_dist(F,user) > 1) // Too far
-		user << "You can't lay cable at a place that far away."
-		return
-
-	if(F.intact)		// Ff floor is intact, complain
-		user << "You can't lay cable there unless the floor tiles are removed."
+	if(get_dist(T,user) > 1) // Too far
+		user << "<span class='warning'>You can't lay cable at a place that far away!</span>"
 		return
 
 	else
 		var/dirn
 
-		if(user.loc == F)
+		if(user.loc == T)
 			dirn = user.dir			// if laying on the tile we're on, lay in the direction we're facing
 		else
-			dirn = get_dir(F, user)
+			dirn = get_dir(T, user)
 
-		for(var/obj/structure/cable/LC in F)
+		for(var/obj/structure/cable/LC in T)
 			if(LC.d2 == dirn && LC.d1 == 0)
-				user << "There's already a cable at that position."
+				user << "<span class='warning'>There's already a cable at that position!</span>"
 				return
 
-		var/obj/structure/cable/C = get_new_cable (F)
+		var/obj/structure/cable/C = get_new_cable(T)
 
 		//set up the new cable
 		C.d1 = 0 //it's a O-X node cable
@@ -700,20 +862,23 @@ obj/structure/cable/proc/avail()
 		return
 
 	if(get_dist(C, user) > 1)		// make sure it's close enough
-		user << "You can't lay cable at a place that far away."
+		user << "<span class='warning'>You can't lay cable at a place that far away!</span>"
 		return
 
 
 	if(U == T) //if clicked on the turf we're standing on, try to put a cable in the direction we're facing
-		turf_place(T,user)
+		place_turf(T,user)
 		return
 
 	var/dirn = get_dir(C, user)
 
 	// one end of the clicked cable is pointing towards us
 	if(C.d1 == dirn || C.d2 == dirn)
-		if(U.intact)						// can't place a cable if the floor is complete
-			user << "You can't lay cable there unless the floor tiles are removed."
+		if(!U.can_have_cabling())						//checking if it's a plating or catwalk
+			user << "<span class='warning'>You can only lay cables on catwalks and plating!</span>"
+			return
+		if(U.intact)						//can't place a cable if it's a plating with a tile on it
+			user << "<span class='warning'>You can't lay cable there unless the floor tiles are removed!</span>"
 			return
 		else
 			// cable is pointing at us, we're standing on an open tile
@@ -723,7 +888,7 @@ obj/structure/cable/proc/avail()
 
 			for(var/obj/structure/cable/LC in U)		// check to make sure there's not a cable there already
 				if(LC.d1 == fdirn || LC.d2 == fdirn)
-					user << "There's already a cable at that position."
+					user << "<span class='warning'>There's already a cable at that position!</span>"
 					return
 
 			var/obj/structure/cable/NC = get_new_cable (U)
@@ -767,7 +932,7 @@ obj/structure/cable/proc/avail()
 			if(LC == C)			// skip the cable we're interacting with
 				continue
 			if((LC.d1 == nd1 && LC.d2 == nd2) || (LC.d1 == nd2 && LC.d2 == nd1) )	// make sure no cable matches either direction
-				user << "There's already a cable at that position."
+				user << "<span class='warning'>There's already a cable at that position!</span>"
 				return
 
 
@@ -845,8 +1010,3 @@ obj/structure/cable/proc/avail()
 /obj/item/stack/cable_coil/white
 	item_color = "white"
 	icon_state = "coil_white"
-
-/obj/item/stack/cable_coil/random/New()
-	item_color = pick("red","yellow","green","blue","pink")
-	icon_state = "coil_[item_color]"
-	..()

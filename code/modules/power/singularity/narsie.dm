@@ -25,7 +25,7 @@
 /obj/singularity/narsie/large/New()
 	..()
 	world << "<font size='15' color='red'><b>NAR-SIE HAS RISEN</b></font>"
-	world << pick(sound('sound/hallucinations/im_here1.ogg'), sound('sound/hallucinations/im_here2.ogg'))
+	world << 'sound/effects/narsie.ogg'
 
 	var/area/A = get_area(src)
 	if(A)
@@ -34,8 +34,8 @@
 	narsie_spawn_animation()
 
 	sleep(70)
-	if(emergency_shuttle)
-		emergency_shuttle.incall(0.3) // Cannot recall
+	SSshuttle.emergency.request(null, 0.3) // Cannot recall
+	SSshuttle.emergencyNoRecall = 1
 
 
 /obj/singularity/narsie/large/attack_ghost(mob/dead/observer/user as mob)
@@ -43,7 +43,7 @@
 		user << "Your soul is too far away."
 		return
 	makeNewConstruct(/mob/living/simple_animal/construct/harvester, user, null, 1)
-	new /obj/effect/effect/sleep_smoke(user.loc)
+	PoolOrNew(/obj/effect/particle_effect/smoke/sleeping, user.loc)
 
 
 /obj/singularity/narsie/process()
@@ -63,26 +63,26 @@
 	godsmack(A)
 	return
 
-/obj/singularity/narsie/proc/godsmack(var/atom/A)
+/obj/singularity/narsie/proc/godsmack(atom/A)
 	if(istype(A,/obj/))
 		var/obj/O = A
-		O.ex_act(1.0)
+		O.ex_act(1)
 		if(O) qdel(O)
 
 	else if(isturf(A))
 		var/turf/T = A
-		T.ChangeTurf(/turf/simulated/floor/engine/cult)
+		T.ChangeTurf(/turf/simulated/floor/plasteel/cult)
 
 
 /obj/singularity/narsie/mezzer()
 	for(var/mob/living/carbon/M in oviewers(8, src))
 		if(M.stat == CONSCIOUS)
 			if(!iscultist(M))
-				M << "<span class='warning'>You feel your sanity crumble away in an instant as you gaze upon [src.name]...</span>"
+				M << "<span class='warning'>You feel conscious thought crumble away in an instant as you gaze upon [src.name]...</span>"
 				M.apply_effect(3, STUN)
 
 
-/obj/singularity/narsie/consume(var/atom/A)
+/obj/singularity/narsie/consume(atom/A)
 	A.narsie_act()
 
 
@@ -124,7 +124,7 @@
 		return
 
 
-/obj/singularity/narsie/proc/acquire(var/mob/food)
+/obj/singularity/narsie/proc/acquire(mob/food)
 	target << "<span class='notice'>NAR-SIE HAS LOST INTEREST IN YOU</span>"
 	target = food
 	if(ishuman(target))
@@ -140,7 +140,7 @@
 	set background = BACKGROUND_ENABLED
 //	if(defer_powernet_rebuild != 2)
 //		defer_powernet_rebuild = 1
-	for(var/atom/X in orange(consume_range,src))
+	for(var/atom/X in ultra_range(consume_range,src,1))
 		if(isturf(X) || istype(X, /atom/movable))
 			consume(X)
 //	if(defer_powernet_rebuild != 2)

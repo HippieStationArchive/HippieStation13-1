@@ -1,15 +1,18 @@
 //admin verb groups - They can overlap if you so wish. Only one of each verb will exist in the verbs list regardless
 var/list/admin_verbs_default = list(
 	/client/proc/toggleadminhelpsound,	/*toggles whether we hear a sound when adminhelps/PMs are used*/
+	/client/proc/toggleannouncelogin, /*toggles if an admin's login is announced during a round*/
 	/client/proc/deadmin_self,			/*destroys our own admin datum so we can play as a regular player*/
 	/client/proc/cmd_admin_say,			/*admin-only ooc chat*/
 	/client/proc/hide_verbs,			/*hides all our adminverbs*/
 	/client/proc/hide_most_verbs,		/*hides all our hideable adminverbs*/
 	/client/proc/debug_variables,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
 	/client/proc/admin_memo,			/*admin memo system. show/delete/write. +SERVER needed to delete admin memos of others*/
+	/client/proc/mentor_memo,			/*memo memo system. show/delete/write. +SERVER needed to delete mentor memos of others*/
 	/client/proc/deadchat,				/*toggles deadchat on/off*/
 	/client/proc/dsay,					/*talk in deadchat using our ckey/fakekey*/
 	/client/proc/toggleprayers,			/*toggles prayers on/off*/
+	/client/verb/toggleprayersounds,	/*Toggles prayer sounds (HALLELUJAH!)*/
 	/client/proc/toggle_hear_radio,		/*toggles whether we hear the radio*/
 	/client/proc/investigate_show,		/*various admintools for investigation. Such as a singulo grief-log*/
 	/client/proc/secrets,
@@ -21,7 +24,12 @@ var/list/admin_verbs_default = list(
 	/client/proc/stop_sounds
 	)
 var/list/admin_verbs_admin = list(
-	/client/proc/player_panel,			/*shows an interface for all players, with links to various panels (old style)*/
+	/client/proc/resolvehandlingahelp,
+	/client/proc/listhandlingahelp,
+	/datum/adminticket/proc/listunresolvedtickets,
+	/datum/adminticket/proc/listtickets,
+	/client/proc/admin_disable_shuttle,
+	/client/proc/admin_enable_shuttle,
 	/client/proc/player_panel_new,		/*shows an interface for all players, with links to various panels*/
 	/client/proc/invisimin,				/*allows our mob to go invisible/visible*/
 //	/datum/admins/proc/show_traitor_panel,	/*interface which shows a mob's mind*/ -Removed due to rare practical use. Moved to debug verbs ~Errorage
@@ -50,7 +58,7 @@ var/list/admin_verbs_admin = list(
 	/client/proc/Getmob,				/*teleports a mob to our location*/
 	/client/proc/Getkey,				/*teleports a mob with a certain ckey to our location*/
 //	/client/proc/sendmob,				/*sends a mob somewhere*/ -Removed due to it needing two sorting procs to work, which were executed every time an admin right-clicked. ~Errorage
-	/client/proc/Jump,
+	/client/proc/jumptoarea,
 	/client/proc/jumptokey,				/*allows us to jump to the location of a mob with a certain ckey*/
 	/client/proc/jumptomob,				/*allows us to jump to a specific mob*/
 	/client/proc/jumptoturf,			/*allows us to jump to a specific turf*/
@@ -58,19 +66,27 @@ var/list/admin_verbs_admin = list(
 	/client/proc/admin_cancel_shuttle,	/*allows us to cancel the emergency shuttle, sending it back to centcom*/
 	/client/proc/cmd_admin_direct_narrate,	/*send text directly to a player with no padding. Useful for narratives and fluff-text*/
 	/client/proc/cmd_admin_world_narrate,	/*sends text to all players with no padding*/
-	/client/proc/cmd_admin_create_centcom_report,
-	/client/proc/check_words,			/*displays cult-words*/
-	/client/proc/reset_all_tcs			/*resets all telecomms scripts*/
+	/client/proc/cmd_admin_local_narrate,	//sends text to all mobs within view of atmo
+	/client/proc/cmd_admin_create_centcom_report, //*Create Centcomm report
+	/client/proc/cmd_admin_create_intercept_report, //*Create intercept report
+	/client/proc/reset_all_tcs,			/*resets all telecomms scripts*/
+	/client/proc/toggle_antag_hud, 	/*toggle display of the admin antag hud*/
+	/client/proc/fill_breach,
+	/client/proc/reset_atmos,
+	/client/proc/aooc, /*sends a message to all antags on the server*/
+	/client/proc/cleanBombs /*cleans the bombs that the mob has touched*/
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
 	/client/proc/jobbans,
 	/client/proc/unjobban_panel,
-	/client/proc/DB_ban_panel
+	/client/proc/DB_ban_panel,
+	/client/proc/stickybanpanel
 	)
 var/list/admin_verbs_sounds = list(
 	/client/proc/play_local_sound,
 	/client/proc/play_sound,
+	/client/proc/set_round_end_sound,
 	)
 var/list/admin_verbs_fun = list(
 	/client/proc/cmd_admin_dress,
@@ -84,34 +100,37 @@ var/list/admin_verbs_fun = list(
 	/client/proc/object_say,
 	/client/proc/toggle_random_events,
 	/client/proc/set_ooc,
+	/client/proc/reset_ooc,
+	/client/proc/forceEvent,
+	/client/proc/bluespace_artillery,
+	/client/proc/admin_change_sec_level,
 	/client/proc/cmd_smite,
-	/client/proc/forceEvent
+	/client/proc/toggle_nuke,
+	/client/proc/TemplatePanel,
+	/client/proc/infect
 	)
 var/list/admin_verbs_spawn = list(
 	/datum/admins/proc/spawn_atom,		/*allows us to spawn instances*/
-	/client/proc/spawn_human,
 	/client/proc/respawn_character
 	)
 var/list/admin_verbs_server = list(
 	/datum/admins/proc/startnow,
 	/datum/admins/proc/restart,
+	/datum/admins/proc/end_round,
 	/datum/admins/proc/delay,
 	/datum/admins/proc/toggleaban,
 	/client/proc/toggle_log_hrefs,
-	/client/proc/ToRban,
-	/datum/admins/proc/immreboot,
 	/client/proc/everyone_random,
 	/datum/admins/proc/toggleAI,
 	/client/proc/cmd_admin_delete,		/*delete an instance/object/mob/etc*/
 	/client/proc/cmd_debug_del_all,
-	/client/proc/toggle_random_events
+	/client/proc/toggle_random_events,
+	/client/proc/panicbunker
 	)
 var/list/admin_verbs_debug = list(
 	/client/proc/restart_controller,
 	/client/proc/cmd_admin_list_open_jobs,
 	/client/proc/Debug2,
-	/client/proc/debug_scheduler,
-	/client/proc/kill_air,
 	/client/proc/cmd_debug_make_powernets,
 	/client/proc/debug_controller,
 	/client/proc/cmd_debug_mob_lists,
@@ -120,14 +139,27 @@ var/list/admin_verbs_debug = list(
 	/client/proc/restart_controller,
 	/client/proc/enable_debug_verbs,
 	/client/proc/callproc,
-	/client/proc/SDQL2_query
+	/client/proc/callproc_datum,
+	/client/proc/SDQL2_query,
+	/client/proc/test_movable_UI,
+	/client/proc/test_snap_UI,
+	/client/proc/debugNatureMapGenerator,
+	/client/proc/check_bomb_impacts,
+	/proc/machine_upgrade,
+	/client/proc/populate_world,
+	/client/proc/cmd_display_del_log,
+	/client/proc/reset_latejoin_spawns,
+	/client/proc/create_outfits,
+	/client/proc/debug_huds
 	)
 var/list/admin_verbs_possess = list(
 	/proc/possess,
 	/proc/release
 	)
 var/list/admin_verbs_permissions = list(
-	/client/proc/edit_admin_permissions
+	/client/proc/edit_admin_permissions,
+	/client/proc/create_poll,
+	/client/proc/whitelist_cid
 	)
 var/list/admin_verbs_rejuv = list(
 	/client/proc/respawn_character
@@ -136,6 +168,7 @@ var/list/admin_verbs_rejuv = list(
 //verbs which can be hidden - needs work
 var/list/admin_verbs_hideable = list(
 	/client/proc/set_ooc,
+	/client/proc/reset_ooc,
 	/client/proc/deadmin_self,
 	/client/proc/deadchat,
 	/client/proc/toggleprayers,
@@ -156,9 +189,10 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/admin_cancel_shuttle,
 	/client/proc/cmd_admin_direct_narrate,
 	/client/proc/cmd_admin_world_narrate,
-	/client/proc/check_words,
+	/client/proc/cmd_admin_local_narrate,
 	/client/proc/play_local_sound,
 	/client/proc/play_sound,
+	/client/proc/set_round_end_sound,
 	/client/proc/cmd_admin_dress,
 	/client/proc/cmd_admin_gib_self,
 	/client/proc/drop_bomb,
@@ -167,6 +201,7 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/cmd_admin_add_freeform_ai_law,
 	/client/proc/cmd_admin_add_random_ai_law,
 	/client/proc/cmd_admin_create_centcom_report,
+	/client/proc/cmd_admin_create_intercept_report,
 	/client/proc/object_say,
 	/client/proc/toggle_random_events,
 	/client/proc/cmd_admin_add_random_ai_law,
@@ -175,19 +210,16 @@ var/list/admin_verbs_hideable = list(
 	/datum/admins/proc/delay,
 	/datum/admins/proc/toggleaban,
 	/client/proc/toggle_log_hrefs,
-	/datum/admins/proc/immreboot,
 	/client/proc/everyone_random,
 	/datum/admins/proc/toggleAI,
 	/client/proc/restart_controller,
-	/client/proc/ToRban,
 	/client/proc/cmd_admin_list_open_jobs,
 	/client/proc/callproc,
+	/client/proc/callproc_datum,
 	/client/proc/Debug2,
 	/client/proc/reload_admins,
-	/client/proc/kill_air,
 	/client/proc/cmd_debug_make_powernets,
 	/client/proc/debug_controller,
-	/client/proc/debug_scheduler,
 	/client/proc/startSinglo,
 	/client/proc/cmd_debug_mob_lists,
 	/client/proc/cmd_debug_del_all,
@@ -195,7 +227,13 @@ var/list/admin_verbs_hideable = list(
 	/proc/possess,
 	/proc/release,
 	/client/proc/reload_admins,
-	/client/proc/reset_all_tcs
+	/client/proc/reset_all_tcs,
+	/client/proc/panicbunker,
+	/client/proc/admin_change_sec_level,
+	/client/proc/toggle_nuke,
+	/client/proc/cmd_display_del_log,
+	/client/proc/toggle_antag_hud,
+	/client/proc/debug_huds
 	)
 
 /client/proc/add_admin_verbs()
@@ -205,7 +243,6 @@ var/list/admin_verbs_hideable = list(
 		var/rights = holder.rank.rights
 		verbs += admin_verbs_default
 		verbs += /client/proc/cmd_mentor_say
-
 		if(rights & R_BUILDMODE)	verbs += /client/proc/togglebuildmodeself
 		if(rights & R_ADMIN)		verbs += admin_verbs_admin
 		if(rights & R_BAN)			verbs += admin_verbs_ban
@@ -252,10 +289,10 @@ var/list/admin_verbs_hideable = list(
 		/client/proc/count_objects_all,
 		/client/proc/cmd_assume_direct_control,
 		/client/proc/startSinglo,
-		/client/proc/ticklag,
+		/client/proc/fps,
 		/client/proc/cmd_admin_grantfullaccess,
 		/client/proc/cmd_admin_areatest,
-		/client/proc/readmin
+		/client/proc/readmin,
 		)
 	if(holder)
 		verbs.Remove(holder.rank.adds)
@@ -313,6 +350,8 @@ var/list/admin_verbs_hideable = list(
 		body.ghostize(1)
 		if(body && !body.key)
 			body.key = "@[key]"	//Haaaaaaaack. But the people have spoken. If it breaks; blame adminbus
+			if(!isobserver(usr))
+				log_admin("[key_name_admin(usr)] has admin ghosted.")
 		feedback_add_details("admin_verb","O") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
@@ -323,25 +362,18 @@ var/list/admin_verbs_hideable = list(
 	if(holder && mob)
 		if(mob.invisibility == INVISIBILITY_OBSERVER)
 			mob.invisibility = initial(mob.invisibility)
-			mob << "<span class='userdanger'>Invisimin off. Invisibility reset.</span>"
+			mob << "<span class='boldannounce'>Invisimin off. Invisibility reset.</span>"
 		else
 			mob.invisibility = INVISIBILITY_OBSERVER
 			mob << "<span class='adminnotice'><b>Invisimin on. You are now as invisible as a ghost.</b></span>"
 
-
-/client/proc/player_panel()
+/client/proc/player_panel_new()
 	set name = "Player Panel"
 	set category = "Admin"
 	if(holder)
-		holder.player_panel_old()
-	feedback_add_details("admin_verb","PP") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-	return
-
-/client/proc/player_panel_new()
-	set name = "Player Panel New"
-	set category = "Admin"
-	if(holder)
 		holder.player_panel_new()
+		if(!isobserver(usr))
+			log_admin("[key_name_admin(usr)] has opened the player panel.")
 	feedback_add_details("admin_verb","PPN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
@@ -351,6 +383,8 @@ var/list/admin_verbs_hideable = list(
 	if(holder)
 		holder.check_antagonists()
 		log_admin("[key_name(usr)] checked antagonists.")	//for tsar~
+		if(!isobserver(usr))
+			message_admins("[key_name_admin(usr)] checked antagonists.")
 	feedback_add_details("admin_verb","CHA") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
@@ -392,6 +426,26 @@ var/list/admin_verbs_hideable = list(
 	feedback_add_details("admin_verb","S") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
+
+/client/proc/findStealthKey(txt)
+	if(txt)
+		for(var/P in stealthminID)
+			if(stealthminID[P] == txt)
+				return P
+	txt = stealthminID[ckey]
+	return txt
+
+/client/proc/createStealthKey()
+	var/num = (rand(0,1000))
+	var/i = 0
+	while(i == 0)
+		i = 1
+		for(var/P in stealthminID)
+			if(num == stealthminID[P])
+				num++
+				i = 0
+	stealthminID["[ckey]"] = "@[num2text(num)]"
+
 /client/proc/stealth()
 	set category = "Admin"
 	set name = "Stealth Mode"
@@ -404,6 +458,7 @@ var/list/admin_verbs_hideable = list(
 			if(length(new_key) >= 26)
 				new_key = copytext(new_key, 1, 26)
 			holder.fakekey = new_key
+			createStealthKey()
 		log_admin("[key_name(usr)] has turned stealth mode [holder.fakekey ? "ON" : "OFF"]")
 		message_admins("[key_name_admin(usr)] has turned stealth mode [holder.fakekey ? "ON" : "OFF"]")
 	feedback_add_details("admin_verb","SM") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -442,25 +497,30 @@ var/list/admin_verbs_hideable = list(
 	message_admins("<span class='adminnotice'>[ckey] creating an admin explosion at [epicenter.loc].</span>")
 	feedback_add_details("admin_verb","DB") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
-/client/proc/give_spell(mob/T as mob in mob_list)
+/client/proc/give_spell(mob/T in mob_list)
 	set category = "Fun"
 	set name = "Give Spell"
 	set desc = "Gives a spell to a mob."
-	var/obj/effect/proc_holder/spell/S = input("Choose the spell to give to that guy", "ABRAKADABRA") as null|anything in spells
+
+	var/list/spell_list = list()
+	var/type_length = length("/obj/effect/proc_holder/spell") + 2
+	for(var/A in spells)
+		spell_list[copytext("[A]", type_length)] = A
+	var/obj/effect/proc_holder/spell/S = input("Choose the spell to give to that guy", "ABRAKADABRA") as null|anything in spell_list
 	if(!S)
 		return
+	S = spell_list[S]
 	feedback_add_details("admin_verb","GS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	log_admin("[key_name(usr)] gave [key_name(T)] the spell [S].")
 	message_admins("<span class='adminnotice'>[key_name_admin(usr)] gave [key_name(T)] the spell [S].</span>")
-
 	if(T.mind)
-		T.mind.spell_list += new S
+		T.mind.AddSpell(new S)
 	else
-		T.mob_spell_list += new S
+		T.AddSpell(new S)
 		message_admins("<span class='danger'>Spells given to mindless mobs will not be transferred in mindswap or cloning!</span>")
 
 
-/client/proc/give_disease(mob/T as mob in mob_list)
+/client/proc/give_disease(mob/T in mob_list)
 	set category = "Fun"
 	set name = "Give Disease"
 	set desc = "Gives a Disease to a mob."
@@ -471,7 +531,7 @@ var/list/admin_verbs_hideable = list(
 	log_admin("[key_name(usr)] gave [key_name(T)] the disease [D].")
 	message_admins("<span class='adminnotice'>[key_name_admin(usr)] gave [key_name(T)] the disease [D].</span>")
 
-/client/proc/object_say(var/obj/O in world)
+/client/proc/object_say(obj/O in world)
 	set category = "Special Verbs"
 	set name = "OSay"
 	set desc = "Makes an object say something."
@@ -492,20 +552,6 @@ var/list/admin_verbs_hideable = list(
 		togglebuildmode(src.mob)
 	feedback_add_details("admin_verb","TBMS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
-/client/proc/kill_air()
-	set category = "Debug"
-	set name = "Kill Air"
-	set desc = "Toggle Air Processing"
-	if(kill_air)
-		kill_air = 0
-		usr << "<b>Enabled air processing.</b>"
-	else
-		kill_air = 1
-		usr << "<b>Disabled air processing.</b>"
-	feedback_add_details("admin_verb","KA") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-	log_admin("[key_name(usr)] used 'kill air'.")
-	message_admins("<span class='adminnotice'>[key_name_admin(usr)] used 'kill air'.</span>")
-
 /client/proc/deadmin_self()
 	set name = "De-admin self"
 	set category = "Admin"
@@ -515,6 +561,7 @@ var/list/admin_verbs_hideable = list(
 		message_admins("[src] deadmined themself.")
 		deadmin()
 		verbs += /client/proc/readmin
+		deadmins += ckey
 		src << "<span class='interface'>You are now a normal player.</span>"
 	feedback_add_details("admin_verb","DAS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
@@ -549,8 +596,8 @@ var/list/admin_verbs_hideable = list(
 		//load text from file
 		var/list/Lines = file2list("config/admins.txt")
 		for(var/line in Lines)
-			var/list/splitline = text2list(line, " = ")
-			if(splitline[1] == ckey)
+			var/list/splitline = splittext(line, " = ")
+			if(ckey(splitline[1]) == ckey)
 				if(splitline.len >= 2)
 					rank = ckeyEx(splitline[2])
 				break
@@ -570,18 +617,163 @@ var/list/admin_verbs_hideable = list(
 			var/error_extra = ""
 			if(!config.admin_legacy_system)
 				error_extra = " Check mysql DB connection."
-			error("Error while re-adminning [src], admin rank ([rank]) does not exist.[error_extra]")
 			src << "Error while re-adminning, admin rank ([rank]) does not exist.[error_extra]"
+			WARNING("Error while re-adminning [src], admin rank ([rank]) does not exist.[error_extra]")
 			return
 		D = new(rank_names[rank],ckey)
 		var/client/C = directory[ckey]
 		D.associate(C)
 		message_admins("[src] re-adminned themselves.")
 		log_admin("[src] re-adminned themselves.")
+		deadmins -= ckey
 		feedback_add_details("admin_verb","RAS")
-		verbs -= /client/proc/readmin
 		return
 	else
 		src << "You are already an admin."
 		verbs -= /client/proc/readmin
+		deadmins -= ckey
 		return
+
+/client/proc/populate_world(amount = 50 as num)
+	set name = "Populate World"
+	set category = "Debug"
+	set desc = "(\"Amount of mobs to create\") Populate the world with test mobs."
+
+	if (amount > 0)
+		var/area/area
+		var/list/candidates
+		var/turf/simulated/floor/tile
+		var/j,k
+		var/mob/living/carbon/human/mob
+
+		for (var/i = 1 to amount)
+			j = 100
+
+			do
+				area = pick(the_station_areas)
+
+				if (area)
+
+					candidates = get_area_turfs(area)
+
+					if (candidates.len)
+						k = 100
+
+						do
+							tile = pick(candidates)
+						while ((!tile || !istype(tile)) && --k > 0)
+
+						if (tile)
+							mob = new/mob/living/carbon/human/interactive(tile)
+
+							testing("Spawned test mob with name \"[mob.name]\" at [tile.x],[tile.y],[tile.z]")
+			while (!area && --j > 0)
+//RISK CODE HERE DON'T USE IN LIVE SERVER,ALSO THERE'S NO CHECK FOR ADMINS SO ANYONE CAN USE IT WATCHOUTYO
+//Special proc to set up the server for mapping via screenshots
+/*/client/verb/mapWorld()
+        set name = "Map World"
+        set desc = "Takes a series of screenshots for mapping"
+        set category =  "Debug"
+
+        //Gotta prevent dummies
+        var/confirm = alert("WARNING: This proc should absolutely not be run on a live server! Make sure you know what you are doing!", "WARNING", "Cancel", "Proceed")
+        if(confirm == "Cancel")
+                return
+
+        //Viewport size
+        var/viewport_width
+        var/viewport_height
+        var/inputView = input(src, "Set your desired viewport size. (60 for 300x300 maps, 50 for 200x200)", "Viewport Size", 60) as num
+        if (inputView < 1)
+                return
+        else
+                viewport_width = inputView
+                viewport_height = inputView
+
+        src.view = "[viewport_width]x[viewport_height]"
+
+        //Z levels to map
+        var/z
+        var/allZ = 0
+        var/safeAllZ = 0
+        var/inputZ = input(src, "What Z level do you want to map? (10 for all levels, 11 for all except centcom level)", "Z Level", 11) as num
+        if (inputZ < 1)
+                return
+        else if (inputZ == 10)
+                allZ = 1
+        else if (inputZ == 11)
+                safeAllZ = 1
+        else
+                z = inputZ
+
+        var/delay
+        var/inputDelay = input(src, "Delay between changing location/taking screenshots. (If unsure, leave as as default)", "Delay", 7) as num
+        if (inputDelay < 1)
+                return
+        else
+                delay = inputDelay
+
+        var/confirm2 = alert("Make everyone invisible? (Literally every mob)", "Invisible Mobs?", "No", "Yes")
+        if (confirm2 == "Yes")
+                //Make everyone invisible so they don't get in the way of screenshots
+                for (var/mob/M in mob_list)
+                        if (M.ckey)
+                                M.alpha = 0
+
+        var/confirm3 = alert("Max out all power devices? (Prevents lights from going out mid-mapping)", "Max Power?", "No", "Yes")
+        if (confirm3 == "Yes")
+                //Max out all power (to avoid lights dying mid mapping)
+                for(var/obj/machinery/power/apc/C in machines)
+                        if(C.cell && C.z == 1)
+                                C.cell.charge = C.cell.maxcharge
+                for(var/obj/machinery/power/smes/S in machines)
+                        if(S.z != 1)
+                                continue
+                        S.charge = S.capacity
+                        S.output_level = 200000
+                        S.outputting = 1
+                        S.update_icon()
+                        S.power_change()
+
+        var/confirm4 = alert("Turn space bright pink? (For post processing/optimizations)", "Pink Background?", "No", "Yes")
+        if (confirm4 == "Yes")
+                //Make every space tile bright pink (for further processing via local image manipulation)
+                for (var/turf/space/S in world)
+                        if (S.contents.len == 0 && S.overlays.len == 0) //Doesnt pinkify tiles with crap on top of them (transparant overlays fuck with the image processing later)
+                                S.icon = 'icons/effects/effects.dmi'
+                                S.icon_state = "map"
+                                S.color = "#ff00e4" //Removed due to making everything pink 4noreisin
+
+        var/start_x = (viewport_width / 2) + 1
+        var/start_y = (viewport_height / 2) + 1
+
+        //Map eeeeverything
+        if (allZ || safeAllZ)
+                for (var/curZ = 1; curZ <= world.maxz; curZ++)
+                        if (safeAllZ && curZ == 2)
+                                continue //Skips centcom
+                        for (var/y = start_y; y <= world.maxy; y += viewport_height)
+                                for (var/x = start_x; x <= world.maxx; x += viewport_width)
+                                        src.mob.x = x
+                                        src.mob.y = y
+                                        src.mob.z = curZ
+                                        sleep(delay)
+                                        winset(src, null, "command=\".screenshot auto\"")
+                                        sleep(delay)
+                        if (curZ != world.maxz)
+                                var/pause = alert("Z Level ([curZ]) finished. Organise your screenshot files and press Ok to continue or Cancel to cease mapping.", "Tea break", "Ok", "Cancel")
+                                if (pause == "Cancel")
+                                        return
+        //Or just one level I GUESS
+        else
+                for (var/y = start_y; y <= world.maxy; y += viewport_height)
+                        for (var/x = start_x; x <= world.maxx; x += viewport_width)
+                                src.mob.x = x
+                                src.mob.y = y
+                                src.mob.z = z
+                                sleep(delay)
+                                winset(src, null, "command=\".screenshot auto\"")
+                                sleep(delay)
+
+        alert("Mapping complete!", "Yay!", "Ok")
+*/

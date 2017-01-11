@@ -6,6 +6,12 @@
 	siemens_coefficient = 0
 	permeability_coefficient = 0.05
 	item_color="yellow"
+	burn_state = -1 //Won't burn in fires
+
+/obj/item/clothing/gloves/color/yellow/fake
+	desc = "These gloves will protect the wearer from electric shock. They don't feel like rubber..."
+	siemens_coefficient = 1
+	burn_state = 0
 
 /obj/item/clothing/gloves/color/fyellow                             //Cheap Chinese Crap
 	desc = "These gloves are cheap knockoffs of the coveted ones - no way this can end badly."
@@ -15,6 +21,7 @@
 	siemens_coefficient = 1			//Set to a default of 1, gets overridden in New()
 	permeability_coefficient = 0.05
 	item_color="yellow"
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/gloves/color/fyellow/New()
 	siemens_coefficient = pick(0,0.5,0.5,0.5,0.5,0.75,1.5)
@@ -29,7 +36,7 @@
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
-
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/gloves/color/black/hos
 	item_color = "hosred"		//Exists for washing machines. Is not different from black gloves in any way.
@@ -37,7 +44,7 @@
 /obj/item/clothing/gloves/color/black/ce
 	item_color = "chief"			//Exists for washing machines. Is not different from black gloves in any way.
 
-/obj/item/clothing/gloves/color/black/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/clothing/gloves/color/black/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(istype(W, /obj/item/weapon/wirecutters))
 		if(icon_state == initial(icon_state)) //only if not dyed
 			user << "<span class='notice'>You snip the fingertips off of [src].</span>"
@@ -59,6 +66,13 @@
 	icon_state = "red"
 	item_state = "redgloves"
 	item_color = "red"
+
+/obj/item/clothing/gloves/color/red/insulated
+	name = "insulated gloves"
+	desc = "These gloves will protect the wearer from electric shock."
+	siemens_coefficient = 0
+	permeability_coefficient = 0.05
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/gloves/color/rainbow
 	name = "rainbow gloves"
@@ -134,6 +148,7 @@
 	heat_protection = HANDS
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
 	strip_delay = 60
+	burn_state = -1
 
 /obj/item/clothing/gloves/color/latex
 	name = "latex gloves"
@@ -144,15 +159,14 @@
 	permeability_coefficient = 0.01
 	item_color="white"
 	transfer_prints = TRUE
-
-/obj/item/clothing/gloves/color/latex/cmo
-	item_color = "medical"		//Exists for washing machines. Is not different from latex gloves in any way.
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/gloves/color/latex/nitrile
 	name = "nitrile gloves"
 	desc = "Pricy sterile gloves that are stronger than latex."
 	icon_state = "nitrile"
 	item_state = "nitrilegloves"
+	item_color = "cmo"
 	transfer_prints = FALSE
 
 /obj/item/clothing/gloves/color/white
@@ -164,3 +178,11 @@
 
 /obj/item/clothing/gloves/color/white/redcoat
 	item_color = "redcoat"		//Exists for washing machines. Is not different from white gloves in any way.
+
+/obj/item/clothing/gloves/color/dio
+	name = "DIO's metal wristbands"
+	desc = "These wristbands look fabulous, it's useless useless useless to deny."
+	icon_state = "DIO"
+	item_state = "DIO"
+	item_color="DIO"
+

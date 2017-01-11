@@ -1,0 +1,41 @@
+################################
+# Example Changelog File
+#
+# Note: This file, and files beginning with ".", and files that don't end in ".yml" will not be read. If you change this file, you will look really dumb.
+#
+# Your changelog will be merged with a master changelog. (New stuff added only, and only on the date entry for the day it was merged.)
+# When it is, any changes listed below will disappear.
+#
+# Valid Prefixes: 
+#   bugfix
+#   wip (For works in progress)
+#   tweak
+#   soundadd
+#   sounddel
+#   rscadd (general adding of nice things)
+#   rscdel (general deleting of nice things)
+#   imageadd
+#   imagedel
+#   spellcheck (typo fixes)
+#   experiment
+#   tgs (TG-ported fixes?)
+#################################
+
+# Your name.  
+author: Banthebantz
+
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
+delete-after: True
+
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
+# Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - rscadd: "Adds Plasma Rifle: An experimental weapon for red alert ERT Commanders and Deathsquad Commanders. Similar to a pulse rifle but with a unique plasmoid burst mode in place of the usual Destroy."
+  - rscadd: "Plasmoid burst mode fires a spread of 3 plasmoids which deal 20 damage each and increase the body temperature of targets along with igniting them. The drawbacks are over double the energy cost and limited range."
+  - rscadd: "Plasmoids are NOT laser projectiles, they won't pass through glass and they won't be deflected by e shields.  Check your fire!"
+  - rscadd: "Also adds Plasma-.357 Combi Revolver. This is a fancy looking revolver that can fire high cost printed .357 rounds and single plasmoid shots."
+  - tweak: "Death Squad Commanders start with a Plasma Rifle in place of a pulse rifle, All Death Squad Officers start with a combi revolver in place of the mateba and also have a Glock 17 in their backpacks."
+  - tweak: "Red Alert ERT Commanders start with a Plasma Rifle in place of their pulse pistol, Blue Alert ERT Commanders start with a combi revolver."

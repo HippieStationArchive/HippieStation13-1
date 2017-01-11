@@ -1,24 +1,24 @@
 /obj
 	languages = HUMAN
-	//var/datum/module/mod		//not used
 	var/crit_fail = 0
 	var/unacidable = 0 //universal "unacidabliness" var, here so you can use it in any obj.
 	animate_movement = 2
 	var/throwforce = 0
 	var/in_use = 0 // If we have a user using us, this will be set on. We will check if the user has stopped using us, and thus stop updating and LAGGING EVERYTHING!
 
-	var/damtype = "brute"
+	var/damtype = BRUTE
 	var/force = 0
-	var/closet_exception = 0 //So you can put the movables like remains in closets/coffins.
+	var/stamina_percentage = 0
 
-/obj/proc/process()
-	processing_objects.Remove(src)
-	return 0
+	var/burn_state = -1 // -1=fireproof | 0=will burn in fires | 1=currently on fire
+	var/burntime = 10 //How long it takes to burn to ashes, in seconds
+	var/burn_world_time //What world time the object will burn up completely
+	var/being_shocked = 0
 
 /obj/Destroy()
 	if(!istype(src, /obj/machinery))
-		processing_objects.Remove(src) // TODO: Have a processing bitflag to reduce on unnecessary loops through the processing lists
-	..()
+		SSobj.processing.Remove(src) // TODO: Have a processing bitflag to reduce on unnecessary loops through the processing lists
+	return ..()
 
 /obj/assume_air(datum/gas_mixture/giver)
 	if(loc)
@@ -74,7 +74,7 @@
 			var/mob/living/carbon/human/H = usr
 			if(!(usr in nearby))
 				if(usr.client && usr.machine==src)
-					if(TK in H.mutations)
+					if(H.dna.check_mutation(TK))
 						is_in_use = 1
 						src.attack_hand(usr)
 		in_use = is_in_use
@@ -105,7 +105,7 @@
 /mob/proc/unset_machine()
 	src.machine = null
 
-/mob/proc/set_machine(var/obj/O)
+/mob/proc/set_machine(obj/O)
 	if(src.machine)
 		unset_machine()
 	src.machine = O
@@ -141,17 +141,62 @@
 		Loc.on_log()
 
 /obj/singularity_act()
-	ex_act(1.0)
+	ex_act(1)
 	if(src && isnull(gc_destroyed))
 		qdel(src)
 	return 2
 
 /obj/singularity_pull(S, current_size)
-	if(anchored)
-		if(current_size >= STAGE_FIVE)
-			anchored = 0
-			step_towards(src,S)
-	else step_towards(src,S)
+	if(!anchored || current_size >= STAGE_FIVE)
+		step_towards(src,S)
 
 /obj/proc/Deconstruct()
 	qdel(src)
+
+/obj/get_spans()
+	return ..() | SPAN_ROBOT
+
+/obj/storage_contents_dump_act(obj/item/weapon/storage/src_object, mob/user)
+	var/turf/T = get_turf(src)
+	return T.storage_contents_dump_act(src_object, user)
+
+/obj/fire_act(global_overlay=1)
+	if(!burn_state)
+		burn_state = 1
+		SSobj.burning += src
+		burn_world_time = world.time + burntime*rand(10,20)
+		if(global_overlay)
+			overlays += fire_overlay
+		return 1
+
+/obj/proc/burn()
+	if(istype(src, /obj/item/weapon/storage))
+		var/obj/item/weapon/storage/S = src
+		for(var/obj/Item in contents)
+			Item.mouse_opacity = initial(Item.mouse_opacity)
+		S.close_all()
+		qdel(S.boxes)
+		qdel(S.closer)
+	for(var/obj/item/Item in contents) //Empty out the contents
+		Item.loc = src.loc
+		Item.fire_act() //Set them on fire, too
+	var/obj/effect/decal/cleanable/ash/A = new(src.loc)
+	A.desc = "Looks like this used to be a [name] some time ago."
+	SSobj.burning -= src
+	qdel(src)
+
+/obj/proc/extinguish()
+	if(burn_state == 1)
+		burn_state = 0
+		overlays -= fire_overlay
+		SSobj.burning -= src
+
+/obj/proc/autolathe_crafted(obj/machinery/autolathe/A)
+	return
+
+/obj/proc/tesla_act(var/power)
+	being_shocked = 1
+	var/power_bounced = power / 2
+	tesla_zap(src, 3, power_bounced)
+	spawn(10)
+		being_shocked = 0

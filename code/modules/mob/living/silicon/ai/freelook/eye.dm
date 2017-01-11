@@ -13,7 +13,7 @@
 // Use this when setting the aiEye's location.
 // It will also stream the chunk that the new loc is in.
 
-/mob/camera/aiEye/proc/setLoc(var/T)
+/mob/camera/aiEye/proc/setLoc(T)
 
 	if(ai)
 		if(!isturf(ai.loc))
@@ -31,30 +31,14 @@
 /mob/camera/aiEye/Move()
 	return 0
 
+/mob/camera/aiEye/proc/GetViewerClient()
+	if(ai)
+		return ai.client
+	return null
 
-// AI MOVEMENT
-
-// The AI's "eye". Described on the top of the page.
-
-/mob/living/silicon/ai
-	var/mob/camera/aiEye/eyeobj = new()
-	var/sprint = 10
-	var/cooldown = 0
-	var/acceleration = 1
-
-
-// Intiliaze the eye by assigning it's "ai" variable to us. Then set it's loc to us.
-/mob/living/silicon/ai/New()
-	..()
-	eyeobj.ai = src
-	eyeobj.name = "[src.name] (AI Eye)" // Give it a name
-	spawn(5)
-		eyeobj.loc = src.loc
-
-/mob/living/silicon/ai/Destroy()
-	eyeobj.ai = null
-	qdel(eyeobj) // No AI, no Eye
-	..()
+/mob/camera/aiEye/Destroy()
+	ai = null
+	return ..()
 
 /atom/proc/move_camera_by_click()
 	if(istype(usr, /mob/living/silicon/ai))
@@ -67,11 +51,7 @@
 // This will move the AIEye. It will also cause lights near the eye to light up, if toggled.
 // This is handled in the proc below this one.
 
-/client/proc/AIMove(n, direct, var/mob/living/silicon/ai/user)
-
-	if(user.controlled_mech) //The AI is a mech pilot!
-		user.controlled_mech.relaymove(user, direct)
-
+/client/proc/AIMove(n, direct, mob/living/silicon/ai/user)
 
 	var/initial = initial(user.sprint)
 	var/max_sprint = 50
@@ -90,7 +70,8 @@
 	else
 		user.sprint = initial
 
-	user.cameraFollow = null
+	if(!user.tracking)
+		user.cameraFollow = null
 
 	//user.unset_machine() //Uncomment this if it causes problems.
 	//user.lightNearbyCamera()
@@ -113,14 +94,13 @@
 		src.eyeobj.ai = src
 		src.eyeobj.name = "[src.name] (AI Eye)" // Give it a name
 
-	if(client && client.eye)
-		client.eye = src
-	for(var/datum/camerachunk/c in eyeobj.visibleCameraChunks)
-		c.remove(eyeobj)
+	eyeobj.setLoc(loc)
 
 /mob/living/silicon/ai/verb/toggle_acceleration()
 	set category = "AI Commands"
 	set name = "Toggle Camera Acceleration"
 
+	if(usr.stat == 2)
+		return //won't work if dead
 	acceleration = !acceleration
 	usr << "Camera acceleration has been toggled [acceleration ? "on" : "off"]."

@@ -100,6 +100,14 @@ macro "borghotkeymode"
 		command = ".west"
 		is-disabled = false
 	elem 
+		name = "B"
+		command = "resist"
+		is-disabled = false
+	elem 
+		name = "CTRL+B"
+		command = "resist"
+		is-disabled = false
+	elem 
 		name = "D+REP"
 		command = ".east"
 		is-disabled = false
@@ -124,12 +132,24 @@ macro "borghotkeymode"
 		command = "a-intent right"
 		is-disabled = false
 	elem 
+		name = "O"
+		command = "ooc"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "ooc"
+		is-disabled = false
+	elem 
 		name = "Q"
 		command = "unequip-module"
 		is-disabled = false
 	elem 
 		name = "CTRL+Q"
 		command = "unequip-module"
+		is-disabled = false
+	elem 
+		name = "CTRL+S"
+		command = "say *scream"
 		is-disabled = false
 	elem "s_key"
 		name = "S+REP"
@@ -160,6 +180,14 @@ macro "borghotkeymode"
 		command = ".northeast"
 		is-disabled = false
 	elem 
+		name = "C"
+		command = "Attack-Inactive-Hand"
+		is-disabled = false
+	elem 
+		name = "CTRL+C"
+		command = "Attack-Inactive-Hand"
+		is-disabled = false
+	elem 
 		name = "Y"
 		command = "Activate-Held-Object"
 		is-disabled = false
@@ -176,8 +204,44 @@ macro "borghotkeymode"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
+		name = "NUMPAD1"
+		command = "target-zone r_leg"
+		is-disabled = false
+	elem 
+		name = "NUMPAD2"
+		command = "target-zone groin"
+		is-disabled = false
+	elem 
+		name = "NUMPAD3"
+		command = "target-zone l_leg"
+		is-disabled = false
+	elem 
+		name = "NUMPAD4"
+		command = "target-zone r_arm"
+		is-disabled = false
+	elem 
+		name = "NUMPAD5"
+		command = "target-zone chest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD6"
+		command = "target-zone l_arm"
+		is-disabled = false
+	elem 
+		name = "NUMPAD7"
+		command = "target-zone eyes"
+		is-disabled = false
+	elem 
+		name = "NUMPAD8"
+		command = "target-zone head"
+		is-disabled = false
+	elem 
+		name = "NUMPAD9"
+		command = "target-zone mouth"
+		is-disabled = false
+	elem 
 		name = "F1"
-		command = "ooc"
+		command = "adminhelp"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -197,7 +261,7 @@ macro "borghotkeymode"
 		is-disabled = false
 	elem 
 		name = "F4"
-		command = "Msay"
+		command = "msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -205,7 +269,7 @@ macro "borghotkeymode"
 		is-disabled = false
 	elem 
 		name = "F6"
-		command = "Player-Panel-New"
+		command = "Player-Panel"
 		is-disabled = false
 	elem 
 		name = "F7"
@@ -306,6 +370,10 @@ macro "macro"
 		command = ".west"
 		is-disabled = false
 	elem 
+		name = "CTRL+B"
+		command = "resist"
+		is-disabled = false
+	elem 
 		name = "CTRL+D+REP"
 		command = ".east"
 		is-disabled = false
@@ -320,6 +388,10 @@ macro "macro"
 	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "CTRL+Q"
@@ -354,8 +426,44 @@ macro "macro"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
+		name = "CTRL+NUMPAD1"
+		command = "target-zone r_leg"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD2"
+		command = "target-zone groin"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD3"
+		command = "target-zone l_leg"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD4"
+		command = "target-zone r_arm"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD5"
+		command = "target-zone chest"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD6"
+		command = "target-zone l_arm"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD7"
+		command = "target-zone eyes"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD8"
+		command = "target-zone head"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD9"
+		command = "target-zone mouth"
+		is-disabled = false
+	elem 
 		name = "F1"
-		command = "ooc"
+		command = "adminhelp"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -375,7 +483,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "F4"
-		command = "Msay"
+		command = "msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -383,7 +491,7 @@ macro "macro"
 		is-disabled = false
 	elem 
 		name = "F6"
-		command = "Player-Panel-New"
+		command = "Player-Panel"
 		is-disabled = false
 	elem 
 		name = "F7"
@@ -504,6 +612,14 @@ macro "hotkeymode"
 		command = ".west"
 		is-disabled = false
 	elem 
+		name = "B"
+		command = "resist"
+		is-disabled = false
+	elem 
+		name = "CTRL+B"
+		command = "resist"
+		is-disabled = false
+	elem 
 		name = "D+REP"
 		command = ".east"
 		is-disabled = false
@@ -534,6 +650,18 @@ macro "hotkeymode"
 	elem 
 		name = "CTRL+G"
 		command = "a-intent right"
+		is-disabled = false
+	elem 
+		name = "M"
+		command = "me"
+		is-disabled = false
+	elem 
+		name = "O"
+		command = "ooc"
+		is-disabled = false
+	elem 
+		name = "CTRL+O"
+		command = "ooc"
 		is-disabled = false
 	elem 
 		name = "Q"
@@ -584,6 +712,14 @@ macro "hotkeymode"
 		command = ".northeast"
 		is-disabled = false
 	elem 
+		name = "C"
+		command = "Attack-Inactive-Hand"
+		is-disabled = false
+	elem 
+		name = "CTRL+C"
+		command = "Attack-Inactive-Hand"
+		is-disabled = false
+	elem 
 		name = "Y"
 		command = "Activate-Held-Object"
 		is-disabled = false
@@ -600,8 +736,44 @@ macro "hotkeymode"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
+		name = "NUMPAD1"
+		command = "target-zone r_leg"
+		is-disabled = false
+	elem 
+		name = "NUMPAD2"
+		command = "target-zone groin"
+		is-disabled = false
+	elem 
+		name = "NUMPAD3"
+		command = "target-zone l_leg"
+		is-disabled = false
+	elem 
+		name = "NUMPAD4"
+		command = "target-zone r_arm"
+		is-disabled = false
+	elem 
+		name = "NUMPAD5"
+		command = "target-zone chest"
+		is-disabled = false
+	elem 
+		name = "NUMPAD6"
+		command = "target-zone l_arm"
+		is-disabled = false
+	elem 
+		name = "NUMPAD7"
+		command = "target-zone eyes"
+		is-disabled = false
+	elem 
+		name = "NUMPAD8"
+		command = "target-zone head"
+		is-disabled = false
+	elem 
+		name = "NUMPAD9"
+		command = "target-zone mouth"
+		is-disabled = false
+	elem 
 		name = "F1"
-		command = "ooc"
+		command = "adminhelp"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -621,7 +793,7 @@ macro "hotkeymode"
 		is-disabled = false
 	elem 
 		name = "F4"
-		command = "Msay"
+		command = "msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -629,7 +801,7 @@ macro "hotkeymode"
 		is-disabled = false
 	elem 
 		name = "F6"
-		command = "Player-Panel-New"
+		command = "Player-Panel"
 		is-disabled = false
 	elem 
 		name = "F7"
@@ -726,6 +898,10 @@ macro "borgmacro"
 		command = ".west"
 		is-disabled = false
 	elem 
+		name = "CTRL+B"
+		command = "resist"
+		is-disabled = false
+	elem 
 		name = "CTRL+D+REP"
 		command = ".east"
 		is-disabled = false
@@ -738,8 +914,16 @@ macro "borgmacro"
 		command = "a-intent right"
 		is-disabled = false
 	elem 
+		name = "CTRL+O"
+		command = "ooc"
+		is-disabled = false
+	elem 
 		name = "CTRL+Q"
 		command = "unequip-module"
+		is-disabled = false
+	elem 
+		name = "CTRL+S"
+		command = "say *scream"
 		is-disabled = false
 	elem 
 		name = "CTRL+S+REP"
@@ -762,8 +946,44 @@ macro "borgmacro"
 		command = "Activate-Held-Object"
 		is-disabled = false
 	elem 
+		name = "CTRL+NUMPAD1"
+		command = "target-zone r_leg"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD2"
+		command = "target-zone groin"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD3"
+		command = "target-zone l_leg"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD4"
+		command = "target-zone r_arm"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD5"
+		command = "target-zone chest"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD6"
+		command = "target-zone l_arm"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD7"
+		command = "target-zone eyes"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD8"
+		command = "target-zone head"
+		is-disabled = false
+	elem 
+		name = "CTRL+NUMPAD9"
+		command = "target-zone mouth"
+		is-disabled = false
+	elem 
 		name = "F1"
-		command = "ooc"
+		command = "adminhelp"
 		is-disabled = false
 	elem 
 		name = "CTRL+SHIFT+F1+REP"
@@ -783,7 +1003,7 @@ macro "borgmacro"
 		is-disabled = false
 	elem 
 		name = "F4"
-		command = "Msay"
+		command = "msay"
 		is-disabled = false
 	elem 
 		name = "F5"
@@ -791,7 +1011,7 @@ macro "borgmacro"
 		is-disabled = false
 	elem 
 		name = "F6"
-		command = "Player-Panel-New"
+		command = "Player-Panel"
 		is-disabled = false
 	elem 
 		name = "F7"
@@ -838,6 +1058,15 @@ menu "menu"
 	elem 
 		name = ""
 		command = ""
+		category = "&File"
+		is-checked = false
+		can-check = false
+		group = ""
+		is-disabled = false
+		saved-params = "is-checked"
+	elem 
+		name = "&Reconnect"
+		command = ".reconnect"
 		category = "&File"
 		is-checked = false
 		can-check = false
@@ -917,17 +1146,8 @@ menu "menu"
 		is-disabled = false
 		saved-params = "is-checked"
 	elem 
-		name = "&Admin help"
+		name = "&Admin help\tF1"
 		command = "adminhelp"
-		category = "&Help"
-		is-checked = false
-		can-check = false
-		group = ""
-		is-disabled = false
-		saved-params = "is-checked"
-	elem 
-		name = "&Mentor help"
-		command = "mentorhelp"
 		category = "&Help"
 		is-checked = false
 		can-check = false
@@ -1242,6 +1462,8 @@ window "chemdispenser"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "eject"
 		type = BUTTON
 		pos = 264,4
@@ -1408,6 +1630,8 @@ window "chemdispenser"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "child1"
 		type = CHILD
 		pos = 0,40
@@ -1529,6 +1753,8 @@ window "chemdispenser_reagents"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 
 window "mainwindow"
 	elem "mainwindow"
@@ -1676,6 +1902,32 @@ window "mainwindow"
 		is-checked = false
 		group = ""
 		button-type = pushbox
+	elem "tooltip"
+		type = BROWSER
+		pos = 0,0
+		size = 999x999
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #ffffff
+		background-color = #000000
+		is-visible = false
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		show-history = false
+		show-url = false
+		auto-format = false
+		use-title = false
+		on-show = ""
+		on-hide = ""
 
 window "mapwindow"
 	elem "mapwindow"
@@ -1816,7 +2068,7 @@ window "rpane"
 	elem "rpane"
 		type = MAIN
 		pos = 281,0
-		size = 640x480
+		size = 856x563
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1855,7 +2107,7 @@ window "rpane"
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
-		size = 640x499
+		size = 856x582
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
@@ -1878,6 +2130,34 @@ window "rpane"
 		splitter = 50
 		show-splitter = true
 		lock = none
+	elem "teamspeakb"
+		type = BUTTON
+		pos = 552,0
+		size = 60x16
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Teamspeak"
+		image = ""
+		command = "Teamspeak"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "rpanemode"
+		button-type = pushbutton
 	elem "reportissueb"
 		type = BUTTON
 		pos = 480,0
@@ -1962,7 +2242,7 @@ window "rpane"
 		is-checked = false
 		group = "rpanemode"
 		button-type = pushbutton
-	elem "teamspeakb"
+	elem "githubb"
 		type = BUTTON
 		pos = 408,0
 		size = 67x16
@@ -1982,9 +2262,9 @@ window "rpane"
 		right-click = false
 		saved-params = "is-checked"
 		on-size = ""
-		text = "Teamspeak"
+		text = "Github"
 		image = ""
-		command = "teamspeak"
+		command = "github"
 		is-flat = false
 		stretch = false
 		is-checked = false
@@ -2076,7 +2356,7 @@ window "rpane"
 		button-type = pushbox
 	elem "browseb"
 		type = BUTTON
-		pos = 552,0
+		pos = 616,0
 		size = 60x16
 		anchor1 = none
 		anchor2 = none
@@ -2197,71 +2477,6 @@ window "browserwindow"
 		use-title = false
 		on-show = ".winset\"rpane.infob.is-visible=true?rpane.infob.pos=130,0;rpane.textb.is-visible=true;rpane.browseb.is-visible=true;rpane.browseb.is-checked=true;rpane.rpanewindow.pos=0,30;rpane.rpanewindow.size=0x0;rpane.rpanewindow.left=browserwindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=true?rpane.infob.is-checked=true rpane.infob.pos=65,0 rpane.rpanewindow.left=infowindow:rpane.rpanewindow.left=textwindow rpane.textb.is-visible=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0\""
-
-window "say_window"
-	elem "say_window"
-		type = MAIN
-		pos = 1313,470
-		size = 350x48
-		anchor1 = none
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		font-style = ""
-		text-color = #000000
-		background-color = none
-		is-visible = false
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = none
-		drop-zone = false
-		right-click = false
-		saved-params = "pos;size;is-minimized;is-maximized"
-		on-size = ""
-		title = "Say"
-		titlebar = true
-		statusbar = false
-		can-close = true
-		can-minimize = false
-		can-resize = false
-		is-pane = false
-		is-minimized = false
-		is-maximized = false
-		can-scroll = none
-		icon = ""
-		image = ""
-		image-mode = stretch
-		keep-aspect = false
-		transparent-color = none
-		alpha = 255
-		macro = ""
-		menu = ""
-		on-close = ""
-	elem "say_input"
-		type = INPUT
-		pos = 8,16
-		size = 330x20
-		anchor1 = none
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		font-style = ""
-		text-color = #000000
-		background-color = #ffffff
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = sunken
-		drop-zone = false
-		right-click = false
-		saved-params = ""
-		on-size = ""
-		command = "say"
-		multi-line = false
-		is-password = false
-		no-command = false
 
 window "infowindow"
 	elem "infowindow"

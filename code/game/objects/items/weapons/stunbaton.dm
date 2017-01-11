@@ -5,6 +5,7 @@
 	item_state = "baton"
 	slot_flags = SLOT_BELT
 	force = 10
+	stamina_percentage = 0.75
 	throwforce = 7
 	w_class = 3
 	origin_tech = "combat=2"
@@ -14,7 +15,7 @@
 	var/obj/item/weapon/stock_parts/cell/high/bcell = null
 	var/hitcost = 1000
 
-/obj/item/weapon/melee/baton/suicide_act(mob/user)
+/obj/item/weapon/melee/baton/suicide_act(mob/user) //TODO: Make this suicide less lame
 	user.visible_message("<span class='suicide'>[user] is putting the live [name] in \his mouth! It looks like \he's trying to commit suicide.</span>")
 	return (FIRELOSS)
 
@@ -33,16 +34,17 @@
 	update_icon()
 	return
 
-/obj/item/weapon/melee/baton/proc/deductcharge(var/chrgdeductamt)
+/obj/item/weapon/melee/baton/proc/deductcharge(chrgdeductamt)
 	if(bcell)
-		if(bcell.charge < (hitcost+chrgdeductamt)) // If after the deduction the baton doesn't have enough charge for a stun hit it turns off.
-			status = 0
-			update_icon()
-			playsound(loc, "sparks", 75, 1, -1)
-		if(bcell.use(chrgdeductamt))
-			return 1
-		else
-			return 0
+		. = bcell.use(chrgdeductamt)
+		if(bcell.charge >= hitcost) // If after the deduction the baton doesn't have enough charge for a stun hit it turns off.
+			return
+	if(status)
+		status = 0
+		update_icon()
+		playsound(loc, "sparks", 75, 1, -1)
+	return 0
+
 
 /obj/item/weapon/melee/baton/update_icon()
 	if(status)
@@ -56,19 +58,20 @@
 	..()
 	if(bcell)
 		user <<"<span class='notice'>The baton is [round(bcell.percent())]% charged.</span>"
-	if(!bcell)
+	else
 		user <<"<span class='warning'>The baton does not have a power source installed.</span>"
 
-/obj/item/weapon/melee/baton/attackby(obj/item/weapon/W, mob/user)
+/obj/item/weapon/melee/baton/attackby(obj/item/weapon/W, mob/user, params)
 	if(istype(W, /obj/item/weapon/stock_parts/cell))
 		var/obj/item/weapon/stock_parts/cell/C = W
 		if(bcell)
 			user << "<span class='notice'>[src] already has a cell.</span>"
 		else
-			if(C.maxcharge < hitcost)
+			if(C.maxcharge <= hitcost)
 				user << "<span class='notice'>[src] requires a higher capacity cell.</span>"
 				return
-			user.drop_item()
+			if(!user.unEquip(W))
+				return
 			W.loc = src
 			bcell = W
 			user << "<span class='notice'>You install a cell in [src].</span>"
@@ -95,17 +98,18 @@
 		status = 0
 		if(!bcell)
 			user << "<span class='warning'>[src] does not have a power source!</span>"
+		else if (bcell.maxcharge <= hitcost)
+			user << "<span class='warning'>[src] requires a higher capacity cell.</span>"
 		else
 			user << "<span class='warning'>[src] is out of charge.</span>"
 	update_icon()
 	add_fingerprint(user)
 
-/obj/item/weapon/melee/baton/attack(mob/M, mob/living/user)
-	if(status && (CLUMSY in user.mutations) && prob(50))
+/obj/item/weapon/melee/baton/attack(mob/M, mob/living/carbon/human/user)
+	if(status && user.disabilities & CLUMSY && prob(50))
 		user.visible_message("<span class='danger'>[user] accidentally hits themself with [src]!</span>", \
 							"<span class='userdanger'>You accidentally hit yourself with [src]!</span>")
-		user.Weaken(stunforce*3)
-		deductcharge(hitcost)
+		baton_stun(user, user, stunforce*2, 1) //disabled warning
 		return
 
 	if(isrobot(M))
@@ -115,67 +119,72 @@
 		return
 
 	var/mob/living/L = M
+	if(L.mind)
+		var/datum/mind/mind = L.mind
+		feedback_add_details("stuns", "[mind.key]|[type]")
 
 	if(user.a_intent != "harm")
 		if(status)
-			user.do_attack_animation(L)
-			baton_stun(L, user)
-		else
-			L.visible_message("<span class='warning'>[user] has prodded [L] with [src]. Luckily it was off.</span>", \
-							"<span class='warning'>[user] has prodded you with [src]. Luckily it was off</span>")
-			return
+			if(baton_stun(L, user))
+				user.do_attack_animation(L)
+				return
+		L.visible_message("<span class='warning'>[user] has prodded [L] with [src]. Luckily it was off.</span>", \
+						"<span class='warning'>[user] has prodded you with [src]. Luckily it was off</span>")
 	else
-		..()
 		if(status)
-			baton_stun(L, user)
+			baton_stun(L, user, round(stunforce/2))
+		..()
 
 /obj/item/weapon/melee/baton/throw_impact(atom/A)
 	..()
 	if(iscarbon(A) && src.loc != A) //This checks if the stun baton's location isn't in the dude's hands or inside him
 		var/mob/living/carbon/H = A
 		if(prob(50) && status)
-			baton_stun(H) //No user, woop
+			baton_stun(H, usr)
 
-/obj/item/weapon/melee/baton/proc/baton_stun(mob/living/L, mob/user)
-	if(user)
-		user.lastattacked = L
-		L.lastattacker = user
-		L.visible_message("<span class='danger'>[user] has stunned [L] with [src]!</span>", \
-								"<span class='userdanger'>[user] has stunned you with [src]!</span>")
-		add_logs(user, L, "stunned")
-
-	add_logs(src, L, "stunned", addition="(Thrown/etc.)")
-
-	L.Stun(stunforce)
-	L.Weaken(stunforce)
-	L.apply_effect(STUTTER, stunforce)
-	playsound(loc, 'sound/weapons/Egloves.ogg', 50, 1, -1)
-
+/obj/item/weapon/melee/baton/proc/baton_stun(mob/living/L, mob/user, sforce = stunforce, disablewarning = 0)
+	if(!istype(L))
+		return 0
 	if(isrobot(loc))
 		var/mob/living/silicon/robot/R = loc
-		if(R && R.cell)
-			R.cell.use(hitcost)
+		if(!R || !R.cell || !R.cell.use(hitcost))
+			return 0
 	else
-		deductcharge(hitcost)
+		if(!deductcharge(hitcost))
+			return 0
+
+	user.lastattacked = L
+	L.lastattacker = user
+
+	L.Stun(sforce)
+	L.Weaken(sforce)
+	L.apply_effect(STUTTER, sforce)
+	if(!disablewarning)
+		L.visible_message("<span class='danger'>[user] has stunned [L] with [src]!</span>", \
+								"<span class='userdanger'>[user] has stunned you with [src]!</span>")
+	playsound(loc, 'sound/weapons/Egloves.ogg', 50, 1, -1)
 
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		H.forcesay(hit_appends)
 
+	add_logs(user, L, "stunned")
+	return 1
+
 /obj/item/weapon/melee/baton/emp_act(severity)
-	if(bcell)
-		deductcharge(1000 / severity)
+	if(deductcharge(1000 / severity))
 		if(bcell.reliability != 100 && prob(50/severity))
 			bcell.reliability -= 10 / severity
 	..()
 
-//Makeshift stun baton. Replacement for stun gloves. (stun gloves are assistant traitor-only item now)
+//Makeshift stun baton. Replacement for stun gloves.
 /obj/item/weapon/melee/baton/cattleprod
 	name = "stunprod"
 	desc = "An improvised stun baton."
 	icon_state = "stunprod_nocell"
 	item_state = "prod"
-	force = 3
+	force = 7
+	stamina_percentage = 0.4 //It's got sharp bits on it
 	throwforce = 5
 	stunforce = 5
 	hitcost = 2500

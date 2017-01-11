@@ -14,7 +14,7 @@
 
 /obj/item/clothing/head/helmet/space/chronos/Destroy()
 	dropped()
-	..()
+	return ..()
 
 
 /obj/item/clothing/suit/space/chronos
@@ -23,18 +23,17 @@
 	icon_state = "chronosuit"
 	item_state = "chronosuit"
 	action_button_name = "Toggle Chronosuit"
-	slowdown = 2
 	armor = list(melee = 60, bullet = 60, laser = 60, energy = 60, bomb = 30, bio = 90, rad = 90)
+	var/list/chronosafe_items = list(/obj/item/weapon/chrono_eraser, /obj/item/weapon/gun/energy/chrono_gun)
 	var/obj/item/clothing/head/helmet/space/chronos/helmet = null
 	var/obj/effect/chronos_cam/camera = null
 	var/activating = 0
 	var/activated = 0
 	var/cooldowntime = 50 //deciseconds
-	var/cooldown = 0
 	var/teleporting = 0
 
 
-/obj/item/clothing/suit/space/chronos/proc/new_camera(var/mob/user)
+/obj/item/clothing/suit/space/chronos/proc/new_camera(mob/user)
 	if(camera)
 		qdel(camera)
 	camera = new /obj/effect/chronos_cam(get_turf(user))
@@ -55,7 +54,7 @@
 
 /obj/item/clothing/suit/space/chronos/Destroy()
 	dropped()
-	..()
+	return ..()
 
 /obj/item/clothing/suit/space/chronos/emp_act(severity)
 	var/mob/living/carbon/human/user = src.loc
@@ -65,7 +64,7 @@
 				user << "<span class='userdanger'>Elecrtromagnetic pulse detected, shutting down systems to preserve integrity...</span>"
 			deactivate()
 
-/obj/item/clothing/suit/space/chronos/proc/chronowalk(var/mob/living/carbon/human/user)
+/obj/item/clothing/suit/space/chronos/proc/chronowalk(mob/living/carbon/human/user)
 	if(!teleporting && user && (user.stat == CONSCIOUS))
 		teleporting = 1
 		var/turf/from_turf = get_turf(user)
@@ -75,6 +74,13 @@
 		var/turf/to_turf = from_turf
 		var/atom/movable/overlay/phaseanim = new(from_turf)
 		var/obj/holder = new(camera)
+
+		var/list/nonsafe_slots = list(slot_belt, slot_back, slot_l_hand, slot_r_hand)
+		for(var/slot in nonsafe_slots)
+			var/obj/item/slot_item = user.get_item_by_slot(slot)
+			if(slot_item && !(slot_item.type in chronosafe_items) && user.unEquip(slot_item))
+				user << "<span class='notice'>Your [slot_item.name] got left behind.</span>"
+
 		phaseanim.name = "phasing [user.name]"
 		phaseanim.icon = 'icons/mob/mob.dmi'
 		phaseanim.icon_state = "chronostuck"
@@ -124,7 +130,7 @@
 			else
 				new_camera(user)
 	else
-		processing_objects.Remove(src)
+		SSobj.processing.Remove(src)
 
 /obj/item/clothing/suit/space/chronos/proc/activate()
 	if(!activating && !activated && !teleporting)
@@ -145,7 +151,7 @@
 					user << "\[ <span style='color: #00ff00;'>ok</span> \] Starting ui display driver"
 					user << "\[ <span style='color: #00ff00;'>ok</span> \] Initializing chronowalk4-view"
 					new_camera(user)
-					processing_objects.Add(src)
+					SSobj.processing |= src
 					activated = 1
 				else
 					user << "\[ <span style='color: #ff0000;'>fail</span> \] Mounting /dev/helmet"
@@ -209,4 +215,5 @@
 			holder.remote_control = null
 		if(holder.client && (holder.client.eye == src))
 			holder.client.eye = holder
-	..()
+	return ..()
+

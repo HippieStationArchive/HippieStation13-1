@@ -4,13 +4,13 @@
 /datum/game_mode/wizard
 	name = "wizard"
 	config_tag = "wizard"
-	antag_flag = BE_WIZARD
+	antag_flag = ROLE_WIZARD
 	required_players = 20
 	required_enemies = 1
 	recommended_enemies = 1
-	pre_setup_before_jobs = 1
-
-	var/use_huds = 1
+	enemy_minimum_age = 14
+	round_ends_with_antag_death = 1
+	var/use_huds = 0
 	var/finished = 0
 
 /datum/game_mode/wizard/announce()
@@ -22,10 +22,10 @@
 	var/datum/mind/wizard = pick(antag_candidates)
 	wizards += wizard
 	modePlayer += wizard
-	wizard.assigned_role = "MODE"
+	wizard.assigned_role = "Wizard"
 	wizard.special_role = "Wizard"
 	if(wizardstart.len == 0)
-		wizard.current << "<span class='userdanger'>A starting location for you could not be found, please report this bug!</span>"
+		wizard.current << "<span class='boldannounce'>A starting location for you could not be found, please report this bug!</span>"
 		return 0
 	for(var/datum/mind/wiz in wizards)
 		wiz.current.loc = pick(wizardstart)
@@ -36,9 +36,8 @@
 /datum/game_mode/wizard/post_setup()
 	for(var/datum/mind/wizard in wizards)
 		log_game("[wizard.key] (ckey) has been selected as a Wizard")
-		forge_wizard_objectives(wizard)
-		//learn_basic_spells(wizard.current)
 		equip_wizard(wizard.current)
+		forge_wizard_objectives(wizard)
 		name_wizard(wizard.current)
 		greet_wizard(wizard)
 		if(use_huds)
@@ -47,71 +46,52 @@
 	return
 
 
-/datum/game_mode/proc/forge_wizard_objectives(var/datum/mind/wizard)
-	var/is_hijacker = prob(10)
-	var/martyr_chance = prob(0) //Pretty sure that the crew will win if wizard dies no matter what.
-	var/objective_count = is_hijacker 			//Hijacking counts towards number of objectives
-	var/list/active_ais = active_ais()
-	var/has_to_kill = null
-	for(var/i = objective_count, i < config.wizard_objectives_amount, i++)
-		if(prob(50))
-			if(active_ais.len && prob(100/joined_player_list.len))
-				var/datum/objective/destroy/destroy_objective = new
-				destroy_objective.owner = wizard
-				destroy_objective.find_target()
-				wizard.objectives += destroy_objective
-			else if(prob(30))
-				var/datum/objective/maroon/maroon_objective = new
-				maroon_objective.owner = wizard
-				maroon_objective.find_target()
-				wizard.objectives += maroon_objective
-			else if(prob(30))
-				var/datum/objective/assassinate/kill_objective = new
-				kill_objective.owner = wizard
-				kill_objective.find_target()
-				wizard.objectives += kill_objective
-			else if(prob(30))
-				var/datum/objective/protect/protect_objective = new
-				protect_objective.owner = wizard
-				protect_objective.find_target()
-				wizard.objectives += protect_objective
-			else
-				var/datum/objective/protect/protect_objective = new
-				protect_objective.owner = wizard
-				protect_objective.find_target()
-				if(protect_objective.target != has_to_kill) //Check if he has the same dude as a kill objective
-					wizard.objectives += protect_objective
-				else
-					qdel(protect_objective)
-		else
+/datum/game_mode/proc/forge_wizard_objectives(datum/mind/wizard)
+	switch(rand(1,100))
+		if(1 to 30)
+
+			var/datum/objective/assassinate/kill_objective = new
+			kill_objective.owner = wizard
+			kill_objective.find_target()
+			wizard.objectives += kill_objective
+
+			if (!(locate(/datum/objective/escape) in wizard.objectives))
+				var/datum/objective/escape/escape_objective = new
+				escape_objective.owner = wizard
+				wizard.objectives += escape_objective
+		if(31 to 60)
 			var/datum/objective/steal/steal_objective = new
 			steal_objective.owner = wizard
 			steal_objective.find_target()
 			wizard.objectives += steal_objective
 
-	if(is_hijacker && objective_count <= config.wizard_objectives_amount) //Don't assign hijack if it would exceed the number of objectives set in config.wizard_objectives_amount
-		if (!(locate(/datum/objective/hijack) in wizard.objectives))
-			var/datum/objective/hijack/hijack_objective = new
-			hijack_objective.owner = wizard
-			wizard.objectives += hijack_objective
+			if (!(locate(/datum/objective/escape) in wizard.objectives))
+				var/datum/objective/escape/escape_objective = new
+				escape_objective.owner = wizard
+				wizard.objectives += escape_objective
 
-	var/martyr_compatibility = 1 //You can't succeed in stealing if you're dead.
-	for(var/datum/objective/O in wizard.objectives)
-		if(!O.martyr_compatible)
-			martyr_compatibility = 0
-			break
+		if(61 to 85)
+			var/datum/objective/assassinate/kill_objective = new
+			kill_objective.owner = wizard
+			kill_objective.find_target()
+			wizard.objectives += kill_objective
 
-	if(martyr_compatibility && martyr_chance)
-		var/datum/objective/martyr/martyr_objective = new
-		martyr_objective.owner = wizard
-		wizard.objectives += martyr_objective
-		return
-	else
-		if(!(locate(/datum/objective/escape) in wizard.objectives))
-			var/datum/objective/escape/escape_objective = new
-			escape_objective.owner = wizard
-			wizard.objectives += escape_objective
-			return
+			var/datum/objective/steal/steal_objective = new
+			steal_objective.owner = wizard
+			steal_objective.find_target()
+			wizard.objectives += steal_objective
+
+			if (!(locate(/datum/objective/survive) in wizard.objectives))
+				var/datum/objective/survive/survive_objective = new
+				survive_objective.owner = wizard
+				wizard.objectives += survive_objective
+
+		else
+			if (!(locate(/datum/objective/hijack) in wizard.objectives))
+				var/datum/objective/hijack/hijack_objective = new
+				hijack_objective.owner = wizard
+				wizard.objectives += hijack_objective
+	return
 
 
 /datum/game_mode/proc/name_wizard(mob/living/carbon/human/wizard_mob)
@@ -132,27 +112,25 @@
 	return
 
 
-/datum/game_mode/proc/greet_wizard(var/datum/mind/wizard, var/you_are=1)
+/datum/game_mode/proc/greet_wizard(datum/mind/wizard, you_are=1)
 	if (you_are)
-		wizard.current << "<span class='userdanger'>You are the Space Wizard!</span>"
+		wizard.current << "<span class='boldannounce'>You are the Space Wizard!</span>"
 	wizard.current << "<B>The Space Wizards Federation has given you the following tasks:</B>"
 
 	var/obj_count = 1
 	for(var/datum/objective/objective in wizard.objectives)
 		wizard.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
 		obj_count++
+
 	return
 
 
-/*/datum/game_mode/proc/learn_basic_spells(mob/living/carbon/human/wizard_mob)
-	if (!istype(wizard_mob))
-		return
-	if(!config.feature_object_spell_system)
-		wizard_mob.verbs += /client/proc/jaunt
-		wizard_mob.mind.special_verbs += /client/proc/jaunt
-	else
-		wizard_mob.spell_list += new /obj/effect/proc_holder/spell/targeted/ethereal_jaunt(usr)
-*/
+/datum/game_mode/proc/learn_basic_spells(mob/living/carbon/human/wizard_mob)
+	if(!istype(wizard_mob) || !wizard_mob.mind)
+		return 0
+	wizard_mob.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/projectile/magic_missile(null)) //Wizards get Magic Missile and Ethereal Jaunt by default
+	wizard_mob.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/ethereal_jaunt(null))
+
 
 /datum/game_mode/proc/equip_wizard(mob/living/carbon/human/wizard_mob)
 	if (!istype(wizard_mob))
@@ -171,57 +149,45 @@
 	wizard_mob.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(wizard_mob), slot_shoes)
 	wizard_mob.equip_to_slot_or_del(new /obj/item/clothing/suit/wizrobe(wizard_mob), slot_wear_suit)
 	wizard_mob.equip_to_slot_or_del(new /obj/item/clothing/head/wizard(wizard_mob), slot_head)
-	if(wizard_mob.backbag == 2) wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(wizard_mob), slot_back)
-	if(wizard_mob.backbag == 3) wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(wizard_mob), slot_back)
-	if(wizard_mob.backbag == 4) wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag(wizard_mob), slot_back)
-	if(wizard_mob.backbag == 5) wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/mountainbag(wizard_mob), slot_back)
-	wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(wizard_mob), slot_in_backpack)
+	if(wizard_mob.backbag != 5) // if wiz has a backpack type
+		switch(wizard_mob.backbag)
+			if(1) wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(wizard_mob), slot_back)
+			if(2) wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_norm(wizard_mob), slot_back)
+			if(3) wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/dufflebag(wizard_mob), slot_back)
+			if(4) wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/mountainbag(wizard_mob), slot_back)
+		wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(wizard_mob), slot_in_backpack)
+	else wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(wizard_mob), slot_l_hand) // if no backpack,put box in free hand
 //	wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/scrying_gem(wizard_mob), slot_l_store) For scrying gem.
 	wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/teleportation_scroll(wizard_mob), slot_r_store)
-	wizard_mob.equip_to_slot_or_del(new /obj/item/weapon/spellbook(wizard_mob), slot_r_hand)
+	var/obj/item/weapon/spellbook/spellbook = new /obj/item/weapon/spellbook(wizard_mob)
+	spellbook.owner = wizard_mob
+	wizard_mob.equip_to_slot_or_del(spellbook, slot_r_hand)
 
 	wizard_mob << "You will find a list of available spells in your spell book. Choose your magic arsenal carefully."
+	wizard_mob << "The spellbook is bound to you, and others cannot use it."
 	wizard_mob << "In your pockets you will find a teleport scroll. Use it as needed."
-	wizard_mob << "<span class='userdanger'>Do not Attack or Steal from your fellow Wizards in the Den!</span>"
 	wizard_mob.mind.store_memory("<B>Remember:</B> do not forget to prepare your spells.")
+	wizard_mob << "<a href=[config.wikiurl]/index.php?title=Wizard>New to the Wizard Federation? Click here to be linked to the wiki guide on wizards.</a>"
 	wizard_mob.update_icons()
 	return 1
 
 
 /datum/game_mode/wizard/check_finished()
 
-	if(config.continuous_round_wiz)
-		return ..()
-
-	var/wizards_alive = 0
-	var/traitors_alive = 0
 	for(var/datum/mind/wizard in wizards)
-		if(!istype(wizard.current,/mob/living/carbon))
-			continue
-		if(wizard.current.stat==2)
-			continue
-		wizards_alive++
+		if(isliving(wizard.current) && wizard.current.stat!=DEAD)
+			return ..()
 
-	if(!wizards_alive)
-		for(var/datum/mind/traitor in traitors)
-			if(!istype(traitor.current,/mob/living/carbon))
-				continue
-			if(traitor.current.stat==2)
-				continue
-			traitors_alive++
+	if(SSevent.wizardmode) //If summon events was active, turn it off
+		SSevent.toggleWizardmode()
+		SSevent.resetFrequency()
 
-	if (wizards_alive || traitors_alive)
-		return ..()
-	else
-		finished = 1
-		return 1
-
-
+	return ..()
 
 /datum/game_mode/wizard/declare_completion()
 	if(finished)
 		feedback_set_details("round_end_result","loss - wizard killed")
-		world << "<span class='userdanger'><FONT size = 3>The wizard[(wizards.len>1)?"s":""] has been killed by the crew! The Space Wizards Federation has been taught a lesson they will not soon forget!</FONT></span>"
+		world << "<span class='userdanger'>The wizard[(wizards.len>1)?"s":""] has been killed by the crew! The Space Wizards Federation has been taught a lesson they will not soon forget!</span>"
 	..()
 	return 1
 
@@ -278,12 +244,19 @@
 //OTHER PROCS
 
 //To batch-remove wizard spells. Linked to mind.dm.
-/mob/proc/spellremove(var/mob/M as mob)
+/mob/proc/spellremove(mob/M)
 	if(!mind)
 		return
 	for(var/obj/effect/proc_holder/spell/spell_to_remove in src.mind.spell_list)
 		qdel(spell_to_remove)
 		mind.spell_list -= spell_to_remove
+
+/datum/mind/proc/remove_spell(var/obj/effect/proc_holder/spell/spell) //To remove a specific spell from a mind - use AddSpell to add one
+	if(!spell) return
+	for(var/obj/effect/proc_holder/spell/S in spell_list)
+		if(istype(S, spell))
+			qdel(S)
+			spell_list -= S
 
 /*Checks if the wizard can cast spells.
 Made a proc so this is not repeated 14 (or more) times.*/
@@ -302,11 +275,15 @@ Made a proc so this is not repeated 14 (or more) times.*/
 		return 1
 
 
-// Hud datums for wizards
+/proc/iswizard(mob/living/M)
+	return istype(M) && M.mind && ticker && ticker.mode && (M.mind in ticker.mode.wizards)
+
+
 /datum/game_mode/proc/update_wiz_icons_added(datum/mind/wiz_mind)
 	var/datum/atom_hud/antag/wizhud = huds[ANTAG_HUD_WIZ]
 	wizhud.join_hud(wiz_mind.current)
 	set_antag_hud(wiz_mind.current, ((wiz_mind in wizards) ? "wizard" : "apprentice"))
+
 
 /datum/game_mode/proc/update_wiz_icons_removed(datum/mind/wiz_mind)
 	var/datum/atom_hud/antag/wizhud = huds[ANTAG_HUD_WIZ]

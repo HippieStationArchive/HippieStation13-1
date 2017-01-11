@@ -25,6 +25,9 @@ var/const/tk_maxrange = 15
 /atom/proc/attack_self_tk(mob/user)
 	return
 
+/obj/item/attack_self_tk(mob/user)
+	attack_self(user)
+
 /obj/attack_tk(mob/user)
 	if(user.stat) return
 	if(anchored)
@@ -35,17 +38,16 @@ var/const/tk_maxrange = 15
 	user.put_in_active_hand(O)
 	O.host = user
 	O.focus_object(src)
+	fingerprintslast = user.ckey
 	return
 
 /obj/item/attack_tk(mob/user)
-	if(user.stat || !isturf(loc)) return
-	if((TK in user.mutations) && !user.get_active_hand()) // both should already be true to get here
-		var/obj/item/tk_grab/O = new(src)
-		user.put_in_active_hand(O)
-		O.host = user
-		O.focus_object(src)
-	else
-		WARNING("Strange attack_tk(): TK([TK in user.mutations]) empty hand([!user.get_active_hand()])")
+	if(user.stat) return
+	var/obj/item/tk_grab/O = new(src)
+	user.put_in_active_hand(O)
+	O.host = user
+	O.focus_object(src)
+	fingerprintslast = user.ckey
 	return
 
 
@@ -67,15 +69,16 @@ var/const/tk_maxrange = 15
 	icon_state = "2"
 	flags = NOBLUDGEON | ABSTRACT
 	//item_state = null
-	w_class = 10.0
+	w_class = 10
 	layer = 20
+	bypasslog = 1
 
 	var/last_throw = 0
 	var/atom/movable/focus = null
 	var/mob/living/host = null
 
 
-/obj/item/tk_grab/dropped(mob/user as mob)
+/obj/item/tk_grab/dropped(mob/user)
 	if(focus && user && loc != user && loc != user.loc) // drop_item() gets called when you tk-attack a table/closet with an item
 		if(focus.Adjacent(loc))
 			focus.loc = loc
@@ -85,23 +88,23 @@ var/const/tk_maxrange = 15
 
 
 //stops TK grabs being equipped anywhere but into hands
-/obj/item/tk_grab/equipped(var/mob/user, var/slot)
+/obj/item/tk_grab/equipped(mob/user, slot)
 	if( (slot == slot_l_hand) || (slot== slot_r_hand) )	return
 	qdel(src)
 	return
 
 
-/obj/item/tk_grab/attack_self(mob/user as mob)
+/obj/item/tk_grab/attack_self(mob/user)
 	if(focus)
 		focus.attack_self_tk(user)
 
-/obj/item/tk_grab/afterattack(atom/target, mob/living/user, proximity)//TODO: go over this
+/obj/item/tk_grab/afterattack(atom/target, mob/living/carbon/user, proximity, params)//TODO: go over this
 	if(!target || !user)	return
 	if(last_throw+3 > world.time)	return
 	if(!host || host != user)
 		qdel(src)
 		return
-	if(!(TK in host.mutations))
+	if(!(user.dna.check_mutation(TK)))
 		qdel(src)
 		return
 	if(isobj(target) && !isturf(target.loc))
@@ -121,15 +124,20 @@ var/const/tk_maxrange = 15
 
 	if(!istype(target, /turf) && istype(focus,/obj/item) && target.Adjacent(focus))
 		var/obj/item/I = focus
-		var/resolved = target.attackby(I, user, user:get_organ_target())
+		var/resolved = target.attackby(I, user, params)
 		if(!resolved && target && I)
 			I.afterattack(target,user,1) // for splashing with beakers
 
 
 	else
 		apply_focus_overlay()
+		focus.bypasslog = 1
 		focus.throw_at(target, 10, 1)
+		if(ismob(target))
+			var/mob/M = target
+			add_logs(user, M, "hit", object="[focus]", addition="(TELEKINESIS)")
 		last_throw = world.time
+	focus.bypasslog = 0
 	return
 
 /proc/tkMaxRangeCheck(mob/user, atom/target, atom/focus)
@@ -141,11 +149,11 @@ var/const/tk_maxrange = 15
 		return 0
 	return 1
 
-/obj/item/tk_grab/attack(mob/living/M as mob, mob/living/user as mob, def_zone)
+/obj/item/tk_grab/attack(mob/living/M, mob/living/user, def_zone)
 	return
 
 
-/obj/item/tk_grab/proc/focus_object(var/obj/target, var/mob/living/user)
+/obj/item/tk_grab/proc/focus_object(obj/target, mob/living/user)
 	if(!istype(target,/obj))	return//Cant throw non objects atm might let it do mobs later
 	if(target.anchored || !isturf(target.loc))
 		qdel(src)
@@ -168,8 +176,7 @@ var/const/tk_maxrange = 15
 	O.icon_state = "nothing"
 	flick("empdisable",O)
 	spawn(5)
-		O.delete()
-	return
+		qdel(O)
 
 
 /obj/item/tk_grab/update_icon()
@@ -177,6 +184,10 @@ var/const/tk_maxrange = 15
 	if(focus && focus.icon && focus.icon_state)
 		overlays += icon(focus.icon,focus.icon_state)
 	return
+
+/obj/item/tk_grab/suicide_act(mob/user)
+	user.visible_message("<span class='suicide'>[user] is using \his telekinesis to choke \himself! It looks like \he's trying to commit suicide.</span>")
+	return (OXYLOSS)
 
 /*Not quite done likely needs to use something thats not get_step_to
 /obj/item/tk_grab/proc/check_path()

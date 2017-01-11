@@ -1,17 +1,14 @@
 	////////////
 	//SECURITY//
 	////////////
-#define TOPIC_SPAM_DELAY	1		//2 ticks is about 2/10ths of a second; it was 4 ticks, but that caused too many clicks to be lost due to lag (this doesn't use ticks scrub open-source coder)
-#define UPLOAD_LIMIT		2097152	//Restricts client uploads to the server to 1MB //Could probably do with being lower.
+#define UPLOAD_LIMIT		2097152	//Restricts client uploads to the server to 2MB //Could probably do with being lower.
 #define MIN_CLIENT_VERSION	0		//Just an ambiguously low version for now, I don't want to suddenly stop people playing.
 									//I would just like the code ready should it ever need to be used.
 	/*
 	When somebody clicks a link in game, this Topic is called first.
 	It does the stuff in this proc and  then is redirected to the Topic() proc for the src=[0xWhatever]
 	(if specified in the link). ie locate(hsrc).Topic()
-
 	Such links can be spoofed.
-
 	Because of this certain things MUST be considered whenever adding a Topic() for something:
 		- Can it be fed harmful values which could cause runtimes?
 		- Is the Topic call an admin-only thing?
@@ -23,19 +20,25 @@
 /client/Topic(href, href_list, hsrc)
 	if(!usr || usr != mob)	//stops us calling Topic for somebody else's client. Also helps prevent usr=null
 		return
-
-	//Reduces spamming of links by dropping calls that happen during the delay period
-	if(next_allowed_topic_time > world.time)
+	if(href_list["asset_cache_confirm_arrival"])
+		//src << "ASSET JOB [href_list["asset_cache_confirm_arrival"]] ARRIVED."
+		var/job = text2num(href_list["asset_cache_confirm_arrival"])
+		completed_asset_jobs += job
 		return
-	next_allowed_topic_time = world.time + TOPIC_SPAM_DELAY
-
 	//Admin PM
 	if(href_list["priv_msg"])
+		if (href_list["ahelp_reply"])
+			cmd_ahelp_reply(href_list["priv_msg"])
+			return
 		cmd_admin_pm(href_list["priv_msg"],null)
 		return
 
 	if(href_list["mentor_msg"])
-		cmd_mentor_pm(href_list["mentor_msg"],null)
+		if(config.mentors_mobname_only)
+			var/mob/M = locate(href_list["mentor_msg"])
+			cmd_mentor_pm(M,null)
+		else
+			cmd_mentor_pm(href_list["mentor_msg"],null)
 		return
 
 	if(href_list["mentor_follow"])
@@ -60,11 +63,11 @@
 
 /client/proc/is_content_unlocked()
 	if(!prefs.unlock_content)
-		src << "Become a BYOND member to access member-perks and features, as well as support the engine that makes this game possible. <a href='http://www.byond.com/membership'>Click Here to find out more</a>."
+		src << "Become a BYOND member to access member-perks and features, as well as support the engine that makes this game possible. Only 10 bucks for 3 months! <a href='http://www.byond.com/membership'>Click Here to find out more</a>."
 		return 0
 	return 1
 
-/client/proc/handle_spam_prevention(var/message, var/mute_type)
+/client/proc/handle_spam_prevention(message, mute_type)
 	if(config.automute_on && !holder && src.last_message == message)
 		src.last_message_count++
 		if(src.last_message_count >= SPAM_TRIGGER_AUTOMUTE)
@@ -102,7 +105,9 @@ var/list/external_rsc_urls
 var/next_external_rsc = 0
 #endif
 
+
 /client/New(TopicData)
+
 	TopicData = null							//Prevent calls to client.Topic from connect
 
 	if(connection != "seeker" && connection != "web")//Invalid connection type.
@@ -120,15 +125,29 @@ var/next_external_rsc = 0
 	directory[ckey] = src
 
 	//Admin Authorisation
+	if(protected_config.autoadmin)
+		if(!admin_datums[ckey])
+			var/datum/admin_rank/autorank
+			for(var/datum/admin_rank/R in admin_ranks)
+				if(R.name == protected_config.autoadmin_rank)
+					autorank = R
+					break
+			if(!autorank)
+				world << "Autoadmin rank not found"
+			else
+				var/datum/admins/D = new(autorank, ckey)
+				admin_datums[ckey] = D
+
 	holder = admin_datums[ckey]
 	if(holder)
 		admins += src
 		holder.owner = src
 
-	//Admin Authorisation
+	//Mentor Authorisation
 	var/mentor = mentor_datums[ckey]
 	if(mentor)
 		verbs += /client/proc/cmd_mentor_say
+		verbs += /client/proc/show_mentor_memo
 		mentors += src
 
 	//preferences datum - also holds some persistant data for the client (because we may as well keep these datums to a minimum)
@@ -141,18 +160,100 @@ var/next_external_rsc = 0
 
 	. = ..()	//calls mob.Login()
 
+	if (connection == "web")
+		if (!config.allowwebclient)
+			src << "Web client is disabled"
+			del(src)
+			return 0
+		if (config.webclientmembersonly && !IsByondMember())
+			src << "Sorry, but the web client is restricted to byond members only."
+			del(src)
+			return 0
+
 	if( (world.address == address || !address) && !host )
 		host = key
 		world.update_status()
 
 	if(holder)
 		add_admin_verbs()
-		admin_memo_show()
+		admin_memo_output("Show")
+		adminGreet()
 		if((global.comms_key == "default_pwd" || length(global.comms_key) <= 6) && global.comms_allowed) //It's the default value or less than 6 characters long, but it somehow didn't disable comms.
 			src << "<span class='danger'>The server's API key is either too short or is the default value! Consider changing it immediately!</span>"
 
+	if(mentor && !holder)
+		mentor_memo_output("Show")
+
 	add_verbs_from_config()
 	set_client_age_from_db()
+
+	if (isnum(player_age) && player_age == -1) //first connection
+		if(config.proxykick) // proxyban's enabled
+			var/danger = proxycheck()
+			if(danger >= text2num(config.proxykicklimit))
+				add_note(ckey, "[danger*100]% chance to be a proxy user", null, "Proxycheck", 0)
+				log_access("Failed Login: [key] - New account attempting to connect with a proxy([danger*100]% possibility to be a proxy.)")
+				message_admins("<span class='adminnotice'>Failed Login: [key] - with a proxy([danger*100]% possibility to be a proxy.</span>")
+				src << "Sorry but you're not allowed to connect to the server through a proxy. Disable it and reconnect if you want to play."
+				send2irc_admin_notice_handler("new_player","Proxy-check", "[key_name(src)] tried to log in with a proxy([danger*100]% chance)!")
+				del(src)
+				return 0
+			else if(danger < 0) // means an issue popped up
+				switch(danger)
+					if(-1)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -1, IP-less client. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -1, IP-less client ( [address] )")
+					if(-2)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -2, IP invalid. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -2, IP invalid ( [address] )")
+					if(-3)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -3, private address detected. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -3, private address detected. ( [address] )")
+					if(-4)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -4, ProxyChecker not working, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -4, ProxyChecker not working, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+					if(-5)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -5, ProxyChecker stopped working! Server banned from the system. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -5, ProxyChecker stopped working! Server banned from the system. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+					if(-6)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -6, ProxyChecker stopped working! PROXYKICKEMAIL config option is invalid. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -6, ProxyChecker stopped working! PROXYKICKEMAIL config option is invalid. Fix immediately, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+					if(-7)
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -7, ProxyChecker stopped working! Number of queries possible per minute exceeded, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -7, ProxyChecker stopped working! Server banned from the system. Number of queries possible per minute exceeded, [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+					else
+						message_admins("<span class='adminnotice'>Failed Login: [key] - ProxyKick error code -8, ProxyChecker stopped working! HTTP error code [danger], [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						log_access("Failed Login: [key] - ProxyKick errror code -8, ProxyChecker stopped working! HTTP error code [danger], [config.panic_bunker ? "panic bunker already active" : "activating panic bunker"]. ( [address] )")
+						if(!config.panic_bunker)
+							panicbunker()
+				send2irc_admin_notice_handler("new_player","Proxy-check", "[key_name(src)] tried to log in but the ProxyChecker failed(Error code [danger])")
+				src << "The Proxy Checker has encountered an error and your connection has been refused. Go on the forum ([config.forumurl]) and report this, along with the issue code [danger]."
+				del(src)
+				return 0
+		if (config.panic_bunker && !holder && !(ckey in deadmins))
+			log_access("Failed Login: [key] - New account attempting to connect during panic bunker")
+			message_admins("<span class='adminnotice'>Failed Login: [key] - New account attempting to connect during panic bunker</span>")
+			src << "Sorry but the server is currently not accepting connections from never before seen players."
+			del(src)
+			return 0
+
+		if (config.notify_new_player_age >= 0)
+			message_admins("New user: [key_name_admin(src)] is connecting here for the first time.")
+			send2irc_admin_notice_handler("new_player","New-user", "[key_name(src)] is connecting for the first time!")
+
+		player_age = 0 // set it from -1 to 0 so the job selection code doesn't have a panic attack
+
+	else if (isnum(player_age) && player_age < config.notify_new_player_age)
+		message_admins("New user: [key_name_admin(src)] just connected with an age of [player_age] day[(player_age==1?"":"s")]")
+
 
 	if (!ticker || ticker.current_state == GAME_STATE_PREGAME)
 		spawn (rand(10,150))
@@ -163,17 +264,62 @@ var/next_external_rsc = 0
 
 	send_resources()
 
+	if(!void)
+		void = new()
+
+	screen += void
+
 	if(prefs.lastchangelog != changelog_hash) //bolds the changelog button on the interface so we know there are updates.
-		changes()
+		src << "<span class='info'>You have unread updates in the changelog.</span>"
+		if(config.aggressive_changelog)
+			src.changes()
+		else
+			winset(src, "rpane.changelogb", "background-color=#eaeaea;font-style=bold")
 
-	spawn()
-		goodcurity = src.mob.check_achievement("Goodcurity", src.key)
+	if (ckey in clientmessages)
+		for (var/message in clientmessages[ckey])
+			src << message
+		clientmessages.Remove(ckey)
 
-	//////////////
-	//DISCONNECT//
-	//////////////
+	if (config && config.autoconvert_notes)
+		convert_notes_sql(ckey)
+
+	if(!winexists(src, "asset_cache_browser")) // The client is using a custom skin, tell them.
+		src << "<span class='warning'>Unable to access asset cache browser, if you are using a custom skin file, please allow DS to download the updated version, if you are not, then make a bug report. This is not a critical issue but can cause issues with resource downloading, as it is impossible to know when extra resources arrived to you.</span>"
+
+	if(check_rights(R_BAN))
+		if(ahelp_count(0) > 0)
+			list_ahelps(src, 0)
+
+
+	//This is down here because of the browse() calls in tooltip/New()
+	if(!tooltips)
+		tooltips = new /datum/tooltip(src)
+
+	cidspoofcheck()
+
+/client/proc/proxycheck()
+	var/list/httpstuff = world.Export("http://check.getipintel.net/check.php?ip=[address]&contact=[config.proxykickemail]&flags=b")
+	if(!httpstuff)
+		return -50 //error code
+	var/n = httpstuff["CONTENT"]
+	var/httpcode = httpstuff["STATUS"]
+	httpcode = text2num(httpcode) // gets only the error number code, without suffixes such as "OK"
+	if(httpcode == 429)
+		return -7 // exceeded number of queries
+	if(httpcode != 200)//something went wrong,fuck
+		return -httpcode
+	if(n)
+		n = text2num(file2text(n))
+	return n
+
+//////////////
+//DISCONNECT//
+//////////////
+
 /client/Del()
 	if(holder)
+		adminGreet(1)
 		holder.owner = null
 		admins -= src
 	directory -= ckey
@@ -192,11 +338,15 @@ var/next_external_rsc = 0
 	var/sql_ckey = sanitizeSQL(src.ckey)
 
 	var/DBQuery/query = dbcon.NewQuery("SELECT id, datediff(Now(),firstseen) as age FROM [format_table_name("player")] WHERE ckey = '[sql_ckey]'")
-	query.Execute()
+	if (!query.Execute())
+		return
 
 	while (query.NextRow())
 		player_age = text2num(query.item[2])
-		break
+		return
+
+	//no match mark it as a first connection for use in client/New()
+	player_age = -1
 
 
 /client/proc/sync_client_with_db()
@@ -212,26 +362,19 @@ var/next_external_rsc = 0
 	var/DBQuery/query_ip = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE ip = '[address]' AND ckey != '[sql_ckey]'")
 	query_ip.Execute()
 	related_accounts_ip = ""
-
 	while(query_ip.NextRow())
-		var/DBQuery/query = dbcon.NewQuery("SELECT ckey, a_ckey, reason FROM [format_table_name("ban")] WHERE (ip = '[address]') AND (bantype = 'PERMABAN'  OR (bantype = 'TEMPBAN' AND expiration_time > Now())) AND isnull(unbanned)")
-		query.Execute()
-		while(query.NextRow())
-			message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer IP which is <bold>CURRENTLY</bold> banned: [query.item[1]] they were banned for <bold>[query.item[3]]</bold> by <bold>[query.item[2]]</font>")
-
-		related_accounts_ip += "[query_ip.item[1]],"
+		related_accounts_ip += "[query_ip.item[1]], "
 
 	var/DBQuery/query_cid = dbcon.NewQuery("SELECT ckey FROM [format_table_name("player")] WHERE computerid = '[computer_id]' AND ckey != '[sql_ckey]'")
 	query_cid.Execute()
 	related_accounts_cid = ""
-
 	while (query_cid.NextRow())
-		var/DBQuery/query = dbcon.NewQuery("SELECT a_ckey, reason FROM [format_table_name("ban")] WHERE (ckey = '[query_cid.item[1]]') AND (bantype = 'PERMABAN'  OR (bantype = 'TEMPBAN' AND expiration_time > Now())) AND isnull(unbanned)")
-		query.Execute()
-		while(query.NextRow())
-			message_admins("<font color='red'><B>Notice: </B><font color='blue'>User [src.key] has related account found via computer ID which is <bold>CURRENTLY</bold> banned: [query_cid.item[1]] they were banned for <bold>[query.item[2]]</bold> by <bold>[query.item[1]]</bold></font>")
+		related_accounts_cid += "[query_cid.item[1]], "
 
-		related_accounts_cid += "[query_cid.item[1]],"
+	var/watchreason = check_watchlist(sql_ckey)
+	if(watchreason)
+		message_admins("<font color='red'><B>Notice: </B></font><font color='blue'>[key_name_admin(src)] is on the watchlist and has just connected - Reason: [watchreason]</font>")
+		send2irc_admin_notice_handler("watchlist", "Watchlist", "[key_name(src)] is on the watchlist and has just connected - Reason: [watchreason]")
 
 	var/admin_rank = "Player"
 	if (src.holder && src.holder.rank)
@@ -265,81 +408,115 @@ var/next_external_rsc = 0
 	if(inactivity > duration)	return inactivity
 	return 0
 
+// Byond seemingly calls stat, each tick.
+// Calling things each tick can get expensive real quick.
+// So we slow this down a little.
+// See: http://www.byond.com/docs/ref/info.html#/client/proc/Stat
+/client/Stat()
+	. = ..()
+	sleep(1)
+
 //send resources to the client. It's here in its own proc so we can move it around easiliy if need be
 /client/proc/send_resources()
+	//get the common files
 	getFiles(
-		'nano/js/libraries.min.js',
-		'nano/js/nano_update.js',
-		'nano/js/nano_config.js',
-		'nano/js/nano_base_helpers.js',
-		'nano/css/shared.css',
-		'nano/css/icons.css',
-		'nano/templates/chem_dispenser.tmpl',
-		'nano/templates/smes.tmpl',
-		'nano/templates/apc.tmpl',
-		'nano/templates/cryo.tmpl',
-		'nano/images/uiBackground.png',
-		'nano/images/uiIcons16.png',
-		'nano/images/uiIcons24.png',
-		'nano/images/uiLinkPendingIcon.gif',
-		'nano/images/uiNoticeBackground.jpg',
-		'nano/images/uiTitleFluff.png',
 		'html/search.js',
 		'html/panels.css',
 		'html/browser/common.css',
 		'html/browser/scannernew.css',
 		'html/browser/playeroptions.css',
-		'icons/pda_icons/pda_atmos.png',
-		'icons/pda_icons/pda_back.png',
-		'icons/pda_icons/pda_bell.png',
-		'icons/pda_icons/pda_blank.png',
-		'icons/pda_icons/pda_boom.png',
-		'icons/pda_icons/pda_bucket.png',
-		'icons/pda_icons/pda_chatroom.png',
-		'icons/pda_icons/pda_medbot.png',
-		'icons/pda_icons/pda_floorbot.png',
-		'icons/pda_icons/pda_cleanbot.png',
-		'icons/pda_icons/pda_crate.png',
-		'icons/pda_icons/pda_cuffs.png',
-		'icons/pda_icons/pda_eject.png',
-		'icons/pda_icons/pda_exit.png',
-		'icons/pda_icons/pda_flashlight.png',
-		'icons/pda_icons/pda_honk.png',
-		'icons/pda_icons/pda_mail.png',
-		'icons/pda_icons/pda_medical.png',
-		'icons/pda_icons/pda_menu.png',
-		'icons/pda_icons/pda_mule.png',
-		'icons/pda_icons/pda_notes.png',
-		'icons/pda_icons/pda_power.png',
-		'icons/pda_icons/pda_rdoor.png',
-		'icons/pda_icons/pda_reagent.png',
-		'icons/pda_icons/pda_refresh.png',
-		'icons/pda_icons/pda_scanner.png',
-		'icons/pda_icons/pda_signaler.png',
-		'icons/pda_icons/pda_status.png',
-		'icons/spideros_icons/sos_1.png',
-		'icons/spideros_icons/sos_2.png',
-		'icons/spideros_icons/sos_3.png',
-		'icons/spideros_icons/sos_4.png',
-		'icons/spideros_icons/sos_5.png',
-		'icons/spideros_icons/sos_6.png',
-		'icons/spideros_icons/sos_7.png',
-		'icons/spideros_icons/sos_8.png',
-		'icons/spideros_icons/sos_9.png',
-		'icons/spideros_icons/sos_10.png',
-		'icons/spideros_icons/sos_11.png',
-		'icons/spideros_icons/sos_12.png',
-		'icons/spideros_icons/sos_13.png',
-		'icons/spideros_icons/sos_14.png',
-		'icons/stamp_icons/large_stamp-clown.png',
-		'icons/stamp_icons/large_stamp-deny.png',
-		'icons/stamp_icons/large_stamp-ok.png',
-		'icons/stamp_icons/large_stamp-hop.png',
-		'icons/stamp_icons/large_stamp-cmo.png',
-		'icons/stamp_icons/large_stamp-ce.png',
-		'icons/stamp_icons/large_stamp-hos.png',
-		'icons/stamp_icons/large_stamp-rd.png',
-		'icons/stamp_icons/large_stamp-cap.png',
-		'icons/stamp_icons/large_stamp-qm.png',
-		'icons/stamp_icons/large_stamp-law.png'
 		)
+
+	spawn(10)
+		//Send nanoui files to client
+		SSnano.send_resources(src)
+
+		//Precache the client with all other assets slowly, so as to not block other browse() calls
+		getFilesSlow(src, asset_cache, register_asset = FALSE)
+
+/client/proc/cidspoofcheck()
+	establish_db_connection()
+	if (!dbcon.IsConnected())
+		cid_check = 1
+		return
+
+	var/DBQuery/query_checkdb = dbcon.NewQuery("SHOW TABLES LIKE 'spoof_check'")
+	if(query_checkdb.RowCount() == 0)
+		cid_check = 1
+		return
+
+	var/sql_ckey = sanitizeSQL(ckey)
+	var/sql_computerid = sanitizeSQL(computer_id)
+
+	var/DBQuery/query_check_ckey = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]'")
+	query_check_ckey.Execute()
+
+	if(query_check_ckey.RowCount() != 0) //check ckey
+
+		var/DBQuery/query_check_white = dbcon.NewQuery("SELECT whitelist FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and whitelist = '1'")
+		query_check_white.Execute()
+
+		if(query_check_white.RowCount() != 0) //Whitelist check
+			var/DBQuery/query_check_whiteextra = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and (computerid_1 = '[sql_computerid]' or computerid_2 = '[sql_computerid]' or computerid_3 = '[sql_computerid]')")
+			query_check_whiteextra.Execute()
+
+			if(query_check_whiteextra.RowCount() != 0)//One of the three slots had the same cid
+				cid_check = 1
+			else
+				var/DBQuery/query_check_cid1r = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_1 = '0'")
+				query_check_cid1r.Execute()
+
+				if(query_check_cid1r.RowCount() != 0) // Check for reset
+					alert(src, "Somebody reset your cid slots.")
+					var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
+					query_insert_cid1.Execute()
+
+				else
+					var/DBQuery/query_check_cid2 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_2 IS NULL")
+					query_check_cid2.Execute()
+
+					if(query_check_cid2.RowCount() != 0) // check if it is NULL, it will only be NULL if it was reset or the person never used the new slot
+						var/DBQuery/query_insert_cid2 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_2 = '[sql_computerid]', datetime_2 = NOW() WHERE ckey = '[sql_ckey]'")
+						query_insert_cid2.Execute()
+						src << "You have used your second cid slot"
+						cid_check = 1
+
+					else // check if it is NULL, it will only be NULL if it was reset or the person never used the new slot
+						var/DBQuery/query_check_cid3 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_3 IS NULL")
+						query_check_cid3.Execute()
+
+						if(query_check_cid3.RowCount() != 0)
+							var/DBQuery/query_insert_cid3 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_3 = '[sql_computerid]', datetime_3 = NOW() WHERE ckey = '[sql_ckey]'")
+							query_insert_cid3.Execute()
+							src << "You have used your third cid slot. This was your last cid slot. Now your first cid slot will start changing again. Please ask an admin if you want to reset all your slots."
+							cid_check = 1
+						else // Even if you use all slots you will still be able to connect. You will just change your first slot again.
+							alert(src, "You have used your three computer_id slots. Your first slot will now be changed and you will have to authorize yourself again.")
+							var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
+							query_insert_cid1.Execute()
+							log_game("[sql_ckey] may be using Evasion Tools")
+							winset(src, null, "command=.quit")
+		else
+			var/DBQuery/query_check_cid1 = dbcon.NewQuery("SELECT ckey FROM [format_table_name("spoof_check")] WHERE ckey = '[sql_ckey]' and computerid_1 = '[sql_computerid]'")
+			query_check_cid1.Execute()
+			if(query_check_cid1.RowCount() != 0)
+				cid_check = 1
+			else // Cid changed maybe wsock32 maybe a different pc.
+				alert(src, "Maybe you used a different computer or you changed your cid. \nThis means that you will have to reauthorize yourself. Like last time your window will close and you will have to rejoin.")
+				var/DBQuery/query_insert_cid1 = dbcon.NewQuery("UPDATE [format_table_name("spoof_check")] SET computerid_1 = '[sql_computerid]', datetime_1 = NOW() WHERE ckey = '[sql_ckey]'")
+				query_insert_cid1.Execute()
+				log_game("[sql_ckey] may be using Evasion Tools")
+				winset(src, null, "command=.quit")
+
+	else // ckey does not exist
+		alert(src, "This is a anti-spoofing measure, you will have to rejoin again.\nAsk an admin if you wish to play on more than one computer without constantly rejoining.")
+
+		var/DBQuery/query_insert = dbcon.NewQuery("INSERT INTO [format_table_name("spoof_check")] (`id`, `whitelist`, `ckey`, `computerid_1`, `computerid_2`, `computerid_3`, `datetime_1`, `datetime_2`, `datetime_3`) VALUES (null,0,'[sql_ckey]','[sql_computerid]',null,null,NOW(),null,null);")
+
+		if(!query_insert.Execute()) //alert if something is going wrong
+			var/err = query_insert.ErrorMsg()
+			log_game("SQL ERROR while adding a new Client towards spoof_cid. Error : \[[err]\]\n")
+			src << "<span class='warning'>[query_insert.ErrorMsg()]</span>"
+
+		else //everything is okay
+			winset(src, null, "command=.quit")

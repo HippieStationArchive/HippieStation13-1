@@ -1,87 +1,4 @@
 /*
-	The global hud:
-	Uses the same visual objects for all players.
-*/
-
-var/datum/global_hud/global_hud = new()
-
-/datum/global_hud
-	var/obj/screen/druggy
-	var/obj/screen/blurry
-	var/list/vimpaired
-	var/list/darkMask
-
-/datum/global_hud/New()
-	//420erryday psychedellic colours screen overlay for when you are high
-	druggy = new /obj/screen()
-	druggy.screen_loc = "WEST,SOUTH to EAST,NORTH"
-	druggy.icon_state = "druggy"
-	druggy.blend_mode = BLEND_MULTIPLY
-	druggy.layer = 17
-	druggy.mouse_opacity = 0
-
-	//that white blurry effect you get when you eyes are damaged
-	blurry = new /obj/screen()
-	blurry.screen_loc = "WEST,SOUTH to EAST,NORTH"
-	blurry.icon_state = "blurry"
-	blurry.layer = 17
-	blurry.mouse_opacity = 0
-	blurry.blend_mode = BLEND_ADD
-
-	var/obj/screen/O
-	var/i
-	//that nasty looking dither you  get when you're short-sighted
-	vimpaired = newlist(/obj/screen,/obj/screen,/obj/screen,/obj/screen)
-	O = vimpaired[1]
-	O.screen_loc = "WEST,SOUTH to CENTER-3,NORTH"	//West dither
-	O = vimpaired[2]
-	O.screen_loc = "WEST,SOUTH to EAST,CENTER-3"	//South dither
-	O = vimpaired[3]
-	O.screen_loc = "CENTER+3,SOUTH to EAST,NORTH"	//East dither
-	O = vimpaired[4]
-	O.screen_loc = "WEST,CENTER+3 to EAST,NORTH"	//North dither
-
-	//welding mask overlay black/dither
-	darkMask = newlist(/obj/screen, /obj/screen, /obj/screen, /obj/screen, /obj/screen, /obj/screen, /obj/screen, /obj/screen)
-	O = darkMask[1]
-	O.screen_loc = "CENTER-5,CENTER-5 to CENTER-3,CENTER+5" //West dither
-	O = darkMask[2]
-	O.screen_loc = "CENTER-5,CENTER-5 to CENTER+5,CENTER-3"	//South dither
-	O = darkMask[3]
-	O.screen_loc = "CENTER+3,CENTER-5 to CENTER+5,CENTER+5"	//East dither
-	O = darkMask[4]
-	O.screen_loc = "CENTER-5,CENTER+3 to CENTER+5,CENTER+5"	//North dither
-	O = darkMask[5]
-	O.screen_loc = "WEST,SOUTH to CENTER-5,NORTH"	//West black
-	O = darkMask[6]
-	O.screen_loc = "WEST,SOUTH to EAST,CENTER-5"	//South black
-	O = darkMask[7]
-	O.screen_loc = "CENTER+5,SOUTH to EAST,NORTH"	//East black
-	O = darkMask[8]
-	O.screen_loc = "WEST,CENTER+5 to EAST,NORTH"	//North black
-
-
-	for(i = 1, i <= 4, i++)
-		O = vimpaired[i]
-		O.icon_state = "dither50"
-		O.blend_mode = BLEND_MULTIPLY
-		O.layer = 17
-		O.mouse_opacity = 0
-
-		O = darkMask[i]
-		O.icon_state = "dither50"
-		O.blend_mode = BLEND_MULTIPLY
-		O.layer = 17
-		O.mouse_opacity = 0
-
-	for(i = 5, i <= 8, i++)
-		O = darkMask[i]
-		O.icon_state = "black"
-		O.blend_mode = BLEND_MULTIPLY
-		O.layer = 17
-		O.mouse_opacity = 0
-
-/*
 	The hud datum
 	Used to show and hide huds for all the different mob types,
 	including inventories and item quick actions.
@@ -106,15 +23,20 @@ var/datum/global_hud/global_hud = new()
 	var/obj/screen/l_hand_hud_object
 	var/obj/screen/action_intent
 	var/obj/screen/move_intent
+	var/obj/screen/combo/combo_object
+
+	var/obj/screen/deity_health_display
+	var/obj/screen/deity_power_display
+	var/obj/screen/deity_follower_display
 
 	var/list/adding
 	var/list/other
 	var/list/obj/screen/hotkeybuttons
 
-	var/list/obj/screen/item_action/item_action_list = list()	//Used for the item action ui buttons.
+	var/obj/screen/movable/action_button/hide_toggle/hide_actions_toggle
+	var/action_buttons_hidden = 0
 
-
-datum/hud/New(mob/owner)
+/datum/hud/New(mob/owner)
 	mymob = owner
 	instantiate()
 	..()
@@ -198,12 +120,16 @@ datum/hud/New(mob/owner)
 		blob_hud()
 	else if(isdrone(mymob))
 		drone_hud(ui_style)
+	else if(isswarmer(mymob))
+		swarmer_hud()
+	else if(isguardian(mymob))
+		guardian_hud()
+	else if(what_rank(mymob.mind) == "God")
+		hoggod_hud()
 
-	if(istype(mymob.loc,/obj/mecha) && ishuman(mymob))
-		show_hud(HUD_STYLE_REDUCED)
-
+	reload_fullscreen()
 //Version denotes which style should be displayed. blank or 0 means "next version"
-/datum/hud/proc/show_hud(var/version = 0)
+/datum/hud/proc/show_hud(version = 0)
 	if(!ismob(mymob))
 		return 0
 	if(!mymob.client)
@@ -226,22 +152,12 @@ datum/hud/New(mob/owner)
 
 			action_intent.screen_loc = ui_acti //Restore intent selection to the original position
 			mymob.client.screen += mymob.zone_sel				//This one is a special snowflake
-			mymob.client.screen += mymob.bodytemp				//As are the rest of these...
-			mymob.client.screen += mymob.fire
-			mymob.client.screen += mymob.healths
+			mymob.client.screen += mymob.healths				//As are the rest of these.
+			mymob.client.screen += mymob.staminas
 			mymob.client.screen += mymob.healthdoll
 			mymob.client.screen += mymob.internals
-			mymob.client.screen += mymob.nutrition_icon
-			mymob.client.screen += mymob.stamina_icon
-			mymob.client.screen += mymob.oxygen
-			mymob.client.screen += mymob.pressure
-			mymob.client.screen += mymob.toxin
 			mymob.client.screen += lingstingdisplay
 			mymob.client.screen += lingchemdisplay
-
-			hidden_inventory_update()
-			persistant_inventory_update()
-			mymob.update_action_buttons()
 		if(HUD_STYLE_REDUCED)	//Reduced HUD
 			hud_shown = 0	//Governs behavior of other procs
 			if(adding)
@@ -250,8 +166,6 @@ datum/hud/New(mob/owner)
 				mymob.client.screen -= other
 			if(hotkeybuttons)
 				mymob.client.screen -= hotkeybuttons
-			if(item_action_list)
-				mymob.client.screen -= item_action_list
 
 			//These ones are not a part of 'adding', 'other' or 'hotkeybuttons' but we want them gone.
 			mymob.client.screen -= mymob.zone_sel	//zone_sel is a mob variable for some reason.
@@ -263,10 +177,6 @@ datum/hud/New(mob/owner)
 			mymob.client.screen += r_hand_hud_object	//we want the hands to be visible
 			mymob.client.screen += action_intent		//we want the intent swticher visible
 			action_intent.screen_loc = ui_acti_alt	//move this to the alternative position, where zone_select usually is.
-
-			hidden_inventory_update()
-			persistant_inventory_update()
-			mymob.update_action_buttons()
 		if(HUD_STYLE_NOHUD)	//No HUD
 			hud_shown = 0	//Governs behavior of other procs
 			if(adding)
@@ -275,27 +185,20 @@ datum/hud/New(mob/owner)
 				mymob.client.screen -= other
 			if(hotkeybuttons)
 				mymob.client.screen -= hotkeybuttons
-			if(item_action_list)
-				mymob.client.screen -= item_action_list
 
 			//These ones are not a part of 'adding', 'other' or 'hotkeybuttons' but we want them gone.
 			mymob.client.screen -= mymob.zone_sel	//zone_sel is a mob variable for some reason.
-			mymob.client.screen -= mymob.bodytemp
-			mymob.client.screen -= mymob.fire
 			mymob.client.screen -= mymob.healths
+			mymob.client.screen -= mymob.staminas
 			mymob.client.screen -= mymob.healthdoll
 			mymob.client.screen -= mymob.internals
-			mymob.client.screen -= mymob.nutrition_icon
-			mymob.client.screen -= mymob.stamina_icon
-			mymob.client.screen -= mymob.oxygen
-			mymob.client.screen -= mymob.pressure
-			mymob.client.screen -= mymob.toxin
 			mymob.client.screen -= lingstingdisplay
 			mymob.client.screen -= lingchemdisplay
+	hidden_inventory_update()
+	persistant_inventory_update()
+	mymob.update_action_buttons()
+	reorganize_alerts()
 
-			hidden_inventory_update()
-			persistant_inventory_update()
-			mymob.update_action_buttons()
 	hud_version = display_hud_version
 
 //Triggered when F12 is pressed (Unless someone changed something in the DMF)

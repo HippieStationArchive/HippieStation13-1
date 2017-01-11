@@ -7,7 +7,12 @@ var/list/commando_names = file2list("config/names/death_commando.txt")
 var/list/first_names_male = file2list("config/names/first_male.txt")
 var/list/first_names_female = file2list("config/names/first_female.txt")
 var/list/last_names = file2list("config/names/last.txt")
+var/list/lizard_names_male = file2list("config/names/lizard_male.txt")
+var/list/lizard_names_female = file2list("config/names/lizard_female.txt")
+var/list/moth_names_male = file2list("config/names/moth_male.txt")
+var/list/moth_names_female = file2list("config/names/moth_female.txt")
 var/list/clown_names = file2list("config/names/clown.txt")
+var/list/mime_names = file2list("config/names/mime.txt")
 
 
 var/list/verbs = file2list("config/names/verbs.txt")

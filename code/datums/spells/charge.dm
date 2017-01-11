@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/targeted/charge
 	name = "Charge"
-	desc = "This spell can be used to charge up spent magical artifacts, among other things."
+	desc = "This spell can be used to recharge a variety of things in your hands, from magical artifacts to electrical components. A creative wizard can even use it to grant magical power to a fellow magic user. Possessing the spell will also allow you to see if a single-use spellbook has been used or not."
 
 	school = "transmutation"
 	charge_max = 600
@@ -12,9 +12,9 @@
 	include_user = 1
 
 
-/obj/effect/proc_holder/spell/targeted/charge/cast(list/targets)
-	for(var/mob/living/user in targets)
-		var/list/hand_items = list(user.get_active_hand(),user.get_inactive_hand())
+/obj/effect/proc_holder/spell/targeted/charge/cast(list/targets,mob/user = usr)
+	for(var/mob/living/L in targets)
+		var/list/hand_items = list(L.get_active_hand(),L.get_inactive_hand())
 		var/charged_item = null
 		var/burnt_out = 0
 		for(var/obj/item in hand_items)
@@ -34,15 +34,20 @@
 						burnt_out = 1
 					charged_item = M
 					break
-			else if(istype(item, /obj/item/weapon/spellbook/oneuse))
-				var/obj/item/weapon/spellbook/oneuse/I = item
-				if(prob(80))
-					user.visible_message("<span class='warning'>[I] catches fire!</span>")
-					qdel(I)
+			else if(istype(item, /obj/item/weapon/spellbook))
+				if(istype(item, /obj/item/weapon/spellbook/oneuse))
+					var/obj/item/weapon/spellbook/oneuse/I = item
+					if(prob(50))
+						L.visible_message("<span class='warning'>[I] catches fire!</span>")
+						qdel(I)
+					else
+						I.used = 0
+						charged_item = I
+						break
 				else
-					I.used = 0
-					charged_item = I
-					break
+					L << "<span class='caution'>Glowing red letters appear on the front cover...</span>"
+					L << "<span class='warning'>[pick("NICE TRY BUT NO!","CLEVER BUT NOT CLEVER ENOUGH!", "SUCH FLAGRANT CHEESING IS WHY WE ACCEPTED YOUR APPLICATION!", "CUTE!", "YOU DIDN'T THINK IT'D BE THAT EASY, DID YOU?")]</span>"
+					burnt_out = 1
 			else if(istype(item, /obj/item/weapon/gun/magic))
 				var/obj/item/weapon/gun/magic/I = item
 				if(prob(80) && !I.can_charge)
@@ -81,105 +86,9 @@
 						charged_item = item
 						break
 		if(!charged_item)
-			user << "<span class='notice'>you feel magical power surging to your hands, but the feeling rapidly fades...</span>"
+			L << "<span class='notice'>you feel magical power surging to your hands, but the feeling rapidly fades...</span>"
 		else if(burnt_out)
-			user << "<span class='caution'>[charged_item] doesn't seem to be reacting to the spell...</span>"
+			L << "<span class='caution'>[charged_item] doesn't seem to be reacting to the spell...</span>"
 		else
-			user << "<span class='notice'>[charged_item] suddenly feels very warm!</span>"
-
-
-
-
-
-//doesn't need another file
-
-
-/obj/effect/proc_holder/spell/targeted/lightning
-	name = "Lightning Bolt"
-	desc = "Throws a lightning bolt at the nearby enemy. Classic."
-	charge_type = "recharge"
-	charge_max	= 300
-	clothes_req = 1
-	invocation = "UN'LTD P'WAH!"
-	invocation_type = "shout"
-	range = 7
-	cooldown_min = 30
-	selection_type = "view"
-	random_target = 1
-	var/energy = 0
-	var/ready = 0
-
-/obj/effect/bolt
-	name = "Lightning bolt"
-	icon = 'icons/effects/effects.dmi'
-	icon_state = "lightning"
-	luminosity = 3
-
-/obj/effect/proc_holder/spell/targeted/lightning/Click()
-	if(!ready)
-		if(cast_check())
-			StartChargeup()
-	else
-		if(cast_check(skipcharge=1))
-			choose_targets()
-	return 1
-
-/obj/effect/proc_holder/spell/targeted/lightning/proc/StartChargeup(mob/user = usr)
-	ready = 1
-	user << "<span class='notice'>You start gathering the power.</span>"
-	//TODO: Add visual indictaor of charging
-	spawn(0)
-		while(ready)
-			sleep(1)
-			energy++
-			if(energy >= 100 && ready)
-				Discharge()
-
-/obj/effect/proc_holder/spell/targeted/lightning/proc/Discharge(mob/user = usr)
-	var/mob/living/M = user
-	M.electrocute_act(25,"Lightning Bolt")
-	M << "<span class='danger'>You lose control over the spell.</span>"
-	energy = 0
-	ready = 0
-	start_recharge()
-
-
-/obj/effect/proc_holder/spell/targeted/lightning/cast(list/targets, mob/user = usr)
-	if(!targets.len)
-		user << "<span class='notice'>No target found in range.</span>"
-		return
-
-	var/mob/living/carbon/target = targets[1]
-
-	if(!(target in oview(range)))
-		user << "<span class='notice'>They are too far away!</span>"
-		return
-
-	user.Beam(target,icon_state="lightning",icon='icons/effects/effects.dmi',time=5)
-
-	switch(energy)
-		if(0 to 25)
-			target.electrocute_act(10,"Lightning Bolt")
-		if(25 to 75)
-			target.electrocute_act(25,"Lightning Bolt")
-		if(75 to 100)
-			//CHAIN LIGHTNING
-			Bolt(user,target,energy,user)
-	ready = 0
-	energy = 0
-
-/obj/effect/proc_holder/spell/targeted/lightning/proc/Bolt(mob/origin,mob/target,bolt_energy,mob/user = usr)
-	origin.Beam(target,icon_state="lightning",icon='icons/effects/effects.dmi',time=5)
-	var/mob/living/carbon/current = target
-	if(bolt_energy < 75)
-		current.electrocute_act(25,"Lightning Bolt")
-	else
-		current.electrocute_act(25,"Lightning Bolt")
-		var/list/possible_targets = new
-		for(var/mob/living/M in view_or_range(range,target,"view"))
-			if(user == M || target == M) // || origin == M ? Not sure double shockings is good or not
-				continue
-			possible_targets += M
-		var/mob/living/next = pick(possible_targets)
-		if(next)
-			Bolt(current,next,bolt_energy-6,user) // 5 max bounces
+			playsound(get_turf(L), "sound/magic/Charge.ogg", 50, 1)
+			L << "<span class='notice'>[charged_item] suddenly feels very warm!</span>"

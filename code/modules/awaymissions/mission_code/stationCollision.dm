@@ -49,7 +49,6 @@
 /obj/effect/landmark/sc_bible_spawner/New()
 	var/obj/item/weapon/storage/book/bible/B = new /obj/item/weapon/storage/book/bible/booze(src.loc)
 	B.name = "The Holy book of the Geometer"
-	B.deity_name = "Narsie"
 	B.icon_state = "melted"
 	B.item_state = "melted"
 	new /obj/item/weapon/paper/sc_safehint_paper_bible(B)
@@ -132,7 +131,7 @@ var/sc_safecode5 = "[rand(0,9)]"
 			<br>
 			Our on-board spy has learned the code and has hidden away a few copies of the code around the station. Unfortunatly he has been captured by security
 			Your objective is to split up, locate any of the papers containing the captain's safe code, open the safe and
-			secure anything found inside. If possible, recover the imprisioned syndicate operative and recieve the code from him.<br>
+			secure anything found inside. If possible, recover the imprisioned syndicate operative and receive the code from him.<br>
 			<br>
 			<u>As always, eliminate anyone who gets in the way.</u><br>
 			<br>
@@ -173,7 +172,7 @@ var/sc_safecode5 = "[rand(0,9)]"
 	if(prob(25))
 		mezzer()
 
-/obj/singularity/narsie/sc_Narsie/consume(var/atom/A)
+/obj/singularity/narsie/sc_Narsie/consume(atom/A)
 	if(is_type_in_list(A, uneatable))
 		return 0
 	if (istype(A,/mob/living))
@@ -181,7 +180,7 @@ var/sc_safecode5 = "[rand(0,9)]"
 		L.gib()
 	else if(istype(A,/obj/))
 		var/obj/O = A
-		O.ex_act(1.0)
+		O.ex_act(1)
 		if(O) qdel(O)
 	else if(isturf(A))
 		var/turf/T = A

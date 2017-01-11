@@ -24,10 +24,10 @@
 /obj/machinery/telepad/RefreshParts()
 	var/E
 	for(var/obj/item/weapon/stock_parts/capacitor/C in component_parts)
-		E += C.rating * 2
+		E += C.rating
 	efficiency = E
 
-/obj/machinery/telepad/attackby(obj/item/I, mob/user)
+/obj/machinery/telepad/attackby(obj/item/I, mob/user, params)
 	if(default_deconstruction_screwdriver(user, "pad-idle-o", "pad-idle", I))
 		return
 
@@ -35,14 +35,13 @@
 		if(istype(I, /obj/item/device/multitool))
 			var/obj/item/device/multitool/M = I
 			M.buffer = src
-			user << "<span class = 'caution'>You save the data in the [I.name]'s buffer.</span>"
+			user << "<span class='caution'>You save the data in the [I.name]'s buffer.</span>"
 
 	if(exchange_parts(user, I))
 		return
 
 	default_deconstruction_crowbar(I)
 
-/var/cargo_telepads = list()
 
 //CARGO TELEPAD//
 /obj/machinery/telepad_cargo
@@ -55,44 +54,30 @@
 	idle_power_usage = 20
 	active_power_usage = 500
 	var/stage = 0
-
-/obj/machinery/telepad_cargo/New()
-	cargo_telepads += src
-
-/obj/machinery/telepad_cargo/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if(istype(W, /obj/item/weapon/rcs))
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-		s.set_up(5, 1, src)
-		s.start()
-		user << "<span class = 'caution'> You calibrate the rapid-crate-sender.</span>"
-		var/obj/item/weapon/rcs/R = W
-		R.pad = src
-
+/obj/machinery/telepad_cargo/attackby(obj/item/weapon/W, mob/user, params)
 	if(istype(W, /obj/item/weapon/wrench))
+		anchored = 0
 		playsound(src, 'sound/items/Ratchet.ogg', 50, 1)
 		if(anchored)
 			anchored = 0
-			cargo_telepads -= src
-			user << "<span class = 'caution'> \The [src] can now be moved.</span>"
+			user << "<span class='caution'>\The [src] can now be moved.</span>"
 		else if(!anchored)
 			anchored = 1
-			cargo_telepads += src
-			user << "<span class = 'caution'> \The [src] is now secured.</span>"
+			user << "<span class='caution'>\The [src] is now secured.</span>"
 	if(istype(W, /obj/item/weapon/screwdriver))
 		if(stage == 0)
 			playsound(src, 'sound/items/Screwdriver.ogg', 50, 1)
-			user << "<span class = 'caution'> You unscrew the telepad's tracking beacon.</span>"
+			user << "<span class='caution'>You unscrew the telepad's tracking beacon.</span>"
 			stage = 1
 		else if(stage == 1)
 			playsound(src, 'sound/items/Screwdriver.ogg', 50, 1)
-			user << "<span class = 'caution'> You screw in the telepad's tracking beacon.</span>"
+			user << "<span class='caution'>You screw in the telepad's tracking beacon.</span>"
 			stage = 0
 	if(istype(W, /obj/item/weapon/weldingtool) && stage == 1)
 		playsound(src, 'sound/items/Welder.ogg', 50, 1)
-		user << "<span class = 'caution'> You disassemble the telepad.</span>"
+		user << "<span class='caution'>You disassemble the telepad.</span>"
 		new /obj/item/stack/sheet/metal(get_turf(src))
 		new /obj/item/stack/sheet/glass(get_turf(src))
-		cargo_telepads -= src
 		qdel(src)
 
 ///TELEPAD CALLER///
@@ -104,9 +89,9 @@
 	item_state = "signaler"
 	origin_tech = "bluespace=3"
 
-/obj/item/device/telepad_beacon/attack_self(mob/user as mob)
+/obj/item/device/telepad_beacon/attack_self(mob/user)
 	if(user)
-		user << "<span class = 'caution'> Locked In</span>"
+		user << "<span class='caution'>Locked In</span>"
 		new /obj/machinery/telepad_cargo(user.loc)
 		playsound(src, 'sound/effects/pop.ogg', 100, 1, 1)
 		qdel(src)
@@ -119,62 +104,54 @@
 	icon = 'icons/obj/telescience.dmi'
 	icon_state = "rcs"
 	flags = CONDUCT
-	force = 10.0
-	throwforce = 10.0
+	force = 10
+	throwforce = 10
 	throw_speed = 2
 	throw_range = 5
-	var/rcharges = 2
+	var/rcharges = 10
 	var/obj/machinery/pad = null
 	var/last_charge = 30
-	//var/mode = 0
-	//var/rand_x = 0
-	//var/rand_y = 0
-	//var/emagged = 0
-	//var/teleporting = 0
+	var/mode = 0
+	var/rand_x = 0
+	var/rand_y = 0
+	var/emagged = 0
+	var/teleporting = 0
 
-
-/* //COMMENT THIS OUT HOLYSHIT IT ISN'T USED YET
-/obj/item/weapon/rcs/attack_self(mob/user as mob)
-	var/list/pad = list(
-		"Cargo" = (/obj/machinery/telepad_cargo),
-		"Science" = (/obj/machinery/telepad_cargo),
-		)
-*/
 /obj/item/weapon/rcs/New()
 	..()
-	processing_objects.Add(src)
+	SSobj.processing |= src
 
 /obj/item/weapon/rcs/examine(mob/user)
 	..()
 	user << "There are [rcharges] charge\s left."
 
 /obj/item/weapon/rcs/Destroy()
-	processing_objects.Remove(src)
-	..()
+	SSobj.processing.Remove(src)
+	return ..()
 /obj/item/weapon/rcs/process()
-	if(rcharges > 2)
-		rcharges = 2
+	if(rcharges > 10)
+		rcharges = 10
 	if(last_charge == 0)
 		rcharges++
 		last_charge = 30
 	else
 		last_charge--
 
-///obj/item/weapon/rcs/attack_self(mob/user)
-//	if(emagged)
-//		if(mode == 0)
-//			mode = 1
-//			playsound(src.loc, 'sound/effects/pop.ogg', 50, 0)
-//			user << "<span class = 'caution'> The telepad locator has become uncalibrated.</span>"
-//		else
-//			mode = 0
-//			playsound(src.loc, 'sound/effects/pop.ogg', 50, 0)
-//			user << "<span class = 'caution'> You calibrate the telepad locator.</span>"
+/obj/item/weapon/rcs/attack_self(mob/user)
+	if(emagged)
+		if(mode == 0)
+			mode = 1
+			playsound(src.loc, 'sound/effects/pop.ogg', 50, 0)
+			user << "<span class='caution'>The telepad locator has become uncalibrated.</span>"
+		else
+			mode = 0
+			playsound(src.loc, 'sound/effects/pop.ogg', 50, 0)
+			user << "<span class='caution'>You calibrate the telepad locator.</span>"
 
-///obj/item/weapon/rcs/emag_act(mob/user as mob)
-//	if(!emagged)
-//		emagged = 1
-//		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-//		s.set_up(5, 1, src)
-//		s.start()
-//		user << "<span class = 'caution'> You emag the RCS. Click on it to toggle between modes.</span>"
+/obj/item/weapon/rcs/emag_act(mob/user)
+	if(!emagged)
+		emagged = 1
+		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
+		s.set_up(5, 1, src)
+		s.start()
+		user << "<span class='caution'>You emag the RCS. Click on it to toggle between modes.</span>"

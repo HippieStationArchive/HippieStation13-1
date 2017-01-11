@@ -28,8 +28,9 @@
 
 /obj/item/clothing/head/collectable/paper
 	name = "collectable paper hat"
-	desc = "What looks like an ordinary paper hat is actually a rare and valuable collector's edition paper hat. Keep away from water, fire, and Librarians."
+	desc = "What looks like an ordinary paper hat is actually a rare and valuable collector's edition paper hat. Oddly enough, it seems fireproof."
 	icon_state = "paper"
+	burn_state = -1
 
 /obj/item/clothing/head/collectable/tophat
 	name = "collectable top hat"
@@ -58,6 +59,7 @@
 	desc = "A collectable welding helmet. Now with 80% less lead! Not for actual welding. Any welding done while wearing this helmet is done so at the owner's own risk!"
 	icon_state = "welding"
 	item_state = "welding"
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/head/collectable/slime
 	name = "collectable slime hat"
@@ -99,6 +101,7 @@
 	desc = "WARNING! Offers no real protection, or luminosity, but damn, is it fancy!"
 	icon_state = "hardhat0_yellow"
 	item_state = "hardhat0_yellow"
+	burn_state = -1
 
 /obj/item/clothing/head/collectable/HoS
 	name = "collectable HoS hat"
@@ -110,9 +113,11 @@
 	desc = "Go Red! I mean Green! I mean Red! No Green!"
 	icon_state = "thunderdome"
 	item_state = "thunderdome"
+	burn_state = -1 //Won't burn in fires
 
 /obj/item/clothing/head/collectable/swat
 	name = "collectable SWAT helmet"
 	desc = "That's not real blood. That's red paint." //Reference to the actual description
 	icon_state = "swat"
 	item_state = "swat"
+	burn_state = -1 //Won't burn in fires

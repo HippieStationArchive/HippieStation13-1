@@ -2,18 +2,16 @@
 //Things like airguitar can be done without arms, and the flap thing makes so little sense it's a keeper.
 //Intended to be called by a higher up emote proc if the requested emote isn't in the custom emotes.
 
-/mob/living/carbon/emote(var/act,var/m_type=1,var/message = null)
+/mob/living/carbon/emote(act,m_type=1,message = null)
 	var/param = null
 	var/delay = 5
 	if(src.spam_flag == 1)
 		return
+
 	if (findtext(act, "-", 1, null))
 		var/t1 = findtext(act, "-", 1, null)
 		param = copytext(act, t1 + 1, length(act) + 1)
 		act = copytext(act, 1, t1)
-
-	if(findtext(act,"s",-1) && !findtext(act,"_",-2))//Removes ending s's unless they are prefixed with a '_'
-		act = copytext(act,1,length(act))
 
 	var/muzzled = is_muzzled()
 	//var/m_type = 1
@@ -29,7 +27,7 @@
 				message = "<B>[src]</B> is strumming the air and headbanging like a safari chimp."
 				m_type = 1
 
-		if ("blink")
+		if ("blink","blinks")
 			message = "<B>[src]</B> blinks."
 			m_type = 1
 
@@ -37,11 +35,11 @@
 			message = "<B>[src]</B> blinks rapidly."
 			m_type = 1
 
-		if ("blush")
+		if ("blush","blushes")
 			message = "<B>[src]</B> blushes."
 			m_type = 1
 
-		if ("bow")
+		if ("bow","bows")
 			if (!src.buckled)
 				var/M = null
 				if (param)
@@ -57,117 +55,162 @@
 					message = "<B>[src]</B> bows."
 			m_type = 1
 
-		if ("burp")
+		if ("burp","burps")
 			if (!muzzled)
 				..(act)
 
-		if ("choke")
+		if ("choke","chokes")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> makes a strong noise."
 				m_type = 2
 
-		if ("chuckle")
+		if ("chuckle","chuckles")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> makes a noise."
 				m_type = 2
 
-		if ("clap")
+		if ("clap","claps")
 			if (!src.restrained())
 				message = "<B>[src]</B> claps."
 				m_type = 2
 
-		if ("cough")
+		if ("cough","coughs")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> makes a strong noise."
 				m_type = 2
 
-		if ("deathgasp")
+		if ("deathgasp","deathgasps")
 			message = "<B>[src]</B> seizes up and falls limp, \his eyes dead and lifeless..."
-			m_type = 2
+			m_type = 1
 
-		if ("flap")
+		if ("flap","flaps")
 			if (!src.restrained())
 				message = "<B>[src]</B> flaps \his wings."
 				m_type = 2
 
-		if ("gasp")
+		if ("gasp","gasps")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> makes a weak noise."
 				m_type = 2
 
-		if ("giggle")
+		if ("giggle","giggles")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> makes a noise."
 				m_type = 2
 
-		if ("laugh")
+		if ("laugh","laughs")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> makes a noise."
 
-		if ("nod")
+		if ("me")
+			if(!silent)
+				..()
+			return
+
+		if ("nod","nods")
 			message = "<B>[src]</B> nods."
 			m_type = 1
 
-		if ("scream")
+		if ("scream","screams")
 			if (!muzzled)
-				..(act)
+				var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
+
+				if(src.dna)
+					var/DNA = src.dna.species.id
+
+					switch(DNA)
+						if("IPC")
+							sound = "sound/voice/screamsilicon.ogg"
+						if("tarajan")
+							sound = "sound/misc/cat.ogg"
+						if("lizard")
+							sound = "sound/misc/lizard.ogg"
+						if("avian")
+							sound = "sound/misc/caw.ogg"
+						if("skeleton")
+							sound = "sound/misc/skeleton.ogg"
+						if ("moth")
+							sound = "sound/misc/moth.ogg"
+						else
+							if(gender == FEMALE)
+								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
+				
+				if(isalien(src))
+					sound = pick('sound/voice/hiss6.ogg')
+				
+				if(alternate_screams.len > 0)
+					sound = pick(alternate_screams)
+				
+				playsound(src.loc, sound, 50, 1, 4, 1.2)
+				message = "<B>[src]</B> screams!"
+				src.adjustOxyLoss(5)
+				m_type = 2
 			else
 				message = "<B>[src]</B> makes a very loud noise."
 				m_type = 2
 
-		if ("shake")
+			delay = 15
+
+		if ("shake","shakes")
 			message = "<B>[src]</B> shakes \his head."
 			m_type = 1
 
-		if ("sneeze")
+		if ("sneeze","sneezes")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> makes a strange noise."
 				m_type = 2
 
-		if ("sigh")
+		if ("sigh","sighs")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> sighs."
 				m_type = 2
 
-		if ("sniff")
+		if ("sniff","sniffs")
 			message = "<B>[src]</B> sniffs."
 			m_type = 2
 
-		if ("snore")
+		if ("snore","snores")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> makes a noise."
 				m_type = 2
 
-		if ("whimper")
+		if ("whimper","whimpers")
 			if (!muzzled)
 				..(act)
 			else
 				message = "<B>[src]</B> makes a weak noise."
 				m_type = 2
 
-		if ("wink")
+		if ("wink","winks")
 			message = "<B>[src]</B> winks."
 			m_type = 1
+			
+		if ("excollapse","excollapsed")
+			if (lying)
+				message = "<B>[src]</B> groans in exhaustion."
+			else
+				message = "<B>[src]</B> collapses in exhaustion!"
+			m_type = 1
 
-		if ("yawn")
+		if ("yawn","yawns")
 			if (!muzzled)
 				..(act)
 
@@ -186,17 +229,18 @@
 		src.spam_flag = 1
 		spawn(delay)
 			src.spam_flag = 0
+
  //Hearing gasp and such every five seconds is not good emotes were not global for a reason.
  // Maybe some people are okay with that.
 
 		for(var/mob/M in dead_mob_list)
 			if(!M.client || istype(M, /mob/new_player))
 				continue //skip monkeys, leavers and new players
-			if(M.stat == DEAD && (M.client.prefs.toggles & CHAT_GHOSTSIGHT) && !(M in viewers(src,null)))
+			if(M.stat == DEAD && M.client && (M.client.prefs.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(src,null)))
 				M.show_message(message)
 
 
 		if (m_type & 1)
 			visible_message(message)
 		else if (m_type & 2)
-			src.loc.audible_message(message)
+			audible_message(message)

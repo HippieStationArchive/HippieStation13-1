@@ -15,16 +15,18 @@
 			6th bit - ?
 	*/
 
-/obj/effect/proc_holder/spell/targeted/genetic/cast(list/targets)
-
-	for(var/mob/living/target in targets)
-		target.mutations.Add(mutations)
+/obj/effect/proc_holder/spell/targeted/genetic/cast(list/targets,mob/user = usr)
+	playMagSound()
+	for(var/mob/living/carbon/target in targets)
+		if(!target.dna)
+			continue
+		for(var/A in mutations)
+			target.dna.add_mutation(A)
 		target.disabilities |= disabilities
-		target.update_mutations()	//update target's mutation overlays
 		spawn(duration)
 			if(target && !target.gc_destroyed)
-				target.mutations.Remove(mutations)
+				for(var/A in mutations)
+					target.dna.remove_mutation(A)
 				target.disabilities &= ~disabilities
-				target.update_mutations()
 
 	return

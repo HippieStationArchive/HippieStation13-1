@@ -1,7 +1,3 @@
-/* In this file:
- *
- * Light floor
- */
 /turf/simulated/floor/light
 	name = "Light floor"
 	luminosity = 5
@@ -12,6 +8,7 @@
 	var/state //0 = fine, 1 = flickering, 2 = breaking, 3 = broken
 	var/list/coloredlights = list("g", "r", "y", "b", "p", "w", "s","o","g")
 	var/currentcolor = 1
+
 
 /turf/simulated/floor/light/New()
 	..()
@@ -26,7 +23,7 @@
 	if(on)
 		switch(state)
 			if(0)
-				icon_state = "light_on_[coloredlights[currentcolor]]"
+				icon_state = "light_on-[coloredlights[currentcolor]]"
 				SetLuminosity(1)
 			if(1)
 				var/num = pick("1","2","3","4")
@@ -42,18 +39,19 @@
 		SetLuminosity(0)
 		icon_state = "light_off"
 
-/turf/simulated/floor/light/ChangeTurf(turf/T as turf)
+
+/turf/simulated/floor/light/ChangeTurf(turf/T)
 	SetLuminosity(0)
 	..()
 
-/turf/simulated/floor/light/attack_hand(mob/user as mob)
+/turf/simulated/floor/light/attack_hand(mob/user)
 	if(!on)
 		on = 1
 		currentcolor = 1
 		return
 	else
 		currentcolor++
-	if ( currentcolor > coloredlights.len)
+	if(currentcolor > coloredlights.len)
 		on = 0
 	update_icon()
 	..()  //I am not sure what the parent procs have for attack_hand, best to check later.
@@ -61,16 +59,14 @@
 /turf/simulated/floor/light/attack_ai(mob/user)
 	attack_hand(user)
 
-/turf/simulated/floor/light/attackby(obj/item/C as obj, mob/user as mob)
+/turf/simulated/floor/light/attackby(obj/item/C, mob/user, params)
 	if(..())
 		return
 	if(istype(C,/obj/item/weapon/light/bulb)) //only for light tiles
-		if(state)
-			user.drop_item()
+		if(state && user.drop_item())
 			qdel(C)
 			state = 0 //fixing it by bashing it with a light bulb, fun eh?
 			update_icon()
 			user << "<span class='notice'>You replace the light bulb.</span>"
 		else
 			user << "<span class='notice'>The lightbulb seems fine, no need to replace it.</span>"
-		return
