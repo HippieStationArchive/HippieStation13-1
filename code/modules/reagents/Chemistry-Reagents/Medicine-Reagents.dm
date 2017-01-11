@@ -473,6 +473,10 @@
 	speedboost = FAST
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
+	if(M.health == 100)
+		speedboost = FAST
+	else
+		speedboost = NORMAL
 	M.adjustStaminaLoss(-2)
 	..()
 	return
@@ -1040,11 +1044,11 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	speedboost = IGNORE_SLOWDOWN + FAST
 
 /datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
-	if(M.health == 100)
+	if(M.health >= 60)
 		speedboost = IGNORE_SLOWDOWN + FAST
 	else
 		speedboost = IGNORE_SLOWDOWN
-		if(M.health < 60 && M.health > 0)
+		if(M.health > 0)
 			M.adjustOxyLoss(-1*REM)
 			M.adjustToxLoss(-1*REM)
 			M.adjustBruteLoss(-1*REM)
