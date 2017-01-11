@@ -77,6 +77,27 @@
 
 	return ..()
 
+/obj/item/clothing/under/jotaro
+	name = "Delinquent's undershirt"
+	desc = "Good grief."
+	icon_state = "jotaro"
+	item_state = "jotaro"
+	item_color = "jotaro"
+	can_adjust = 0
+	alternate_screams = list('sound/voice/jotaro1.ogg','sound/voice/jotaro2.ogg')
+
+/obj/item/clothing/under/jotaro/equipped(mob/living/carbon/user, slot)
+	if(slot == slot_w_uniform)
+		user.add_screams(src.alternate_screams)
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.reindex_screams()
+		else
+			user.reindex_screams()
+
+	return ..()
+
 /obj/item/clothing/under/sl_suit
 	desc = "It's a very amish looking suit."
 	name = "amish suit"

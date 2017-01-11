@@ -316,3 +316,10 @@
 	desc = "Why is there a heart on this headband? The World may never know."
 	icon_state = "DIO"
 	item_state = "DIO"
+
+/obj/item/clothing/head/jotaro
+	name = "Delinquent's cap"
+	desc = "or is it your hair...?"
+	icon_state = "jotaro"
+	item_state = "jotaro"
+
