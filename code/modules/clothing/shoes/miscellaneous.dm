@@ -208,9 +208,22 @@
 	item_state = "magboots-old1"
 	slowdown = -1
 
+/obj/item/clothing/shoes/rollerskates/hockey
+	name = "Ka-Nada Hyperblades"
+	desc = "A pair of all terrain techno-skates, enabling a skilled skater to move freely and quickly."
+	icon_state = "hockey_shoes"
+	item_state = "hockey_shoes"
+	flags = NODROP
+
 /obj/item/clothing/shoes/dio
 	name = "DIO's ring shoes"
 	desc = "These help you stand."
 	icon_state = "DIO"
 	item_color = "DIO"
 	item_state = "DIO"
+
+/obj/item/clothing/shoes/jotaro
+	name = "Delinquent's shoes"
+	desc = "Stand above the rest."
+	icon_state = "jotaro"
+	item_state = "jotaro"

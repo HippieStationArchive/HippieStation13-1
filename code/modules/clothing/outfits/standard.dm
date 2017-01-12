@@ -373,13 +373,14 @@
 	l_pocket = /obj/item/weapon/melee/energy/sword/saber
 	r_pocket = /obj/item/weapon/shield/deployable/energy
 	suit_store = /obj/item/weapon/tank/internals/emergency_oxygen
-	belt = /obj/item/weapon/gun/projectile/revolver/mateba
+	belt = /obj/item/weapon/gun/energy/revolver/plasmoidcombi
 	r_hand = /obj/item/weapon/gun/energy/pulse/loyalpin
 	id = /obj/item/weapon/card/id
 	ears = /obj/item/device/radio/headset/headset_cent/alt
 
 	backpack_contents = list(/obj/item/weapon/storage/box=1,\
-		/obj/item/ammo_box/a357=1,\
+		/obj/item/weapon/gun/projectile/automatic/pistol/g17=1,\
+		/obj/item/ammo_box/magazine/g17=1,\
 		/obj/item/weapon/storage/firstaid/regular=1,\
 		/obj/item/weapon/storage/box/flashbangs=1,\
 		/obj/item/device/flashlight=1,\
@@ -410,6 +411,7 @@
 /datum/outfit/death_commando/officer
 	name = "Death Commando Officer"
 	head = /obj/item/clothing/head/helmet/space/beret
+	r_hand = /obj/item/weapon/gun/energy/pulse/plasmoid
 
 //ION PMC
 
@@ -528,6 +530,7 @@
 	ears = /obj/item/device/radio/headset/headset_cent/alt
 	mask = /obj/item/clothing/mask/gas
 	glasses = /obj/item/clothing/glasses/thermal
+	r_hand = /obj/item/weapon/gun/energy/pulse/plasmoid
 
 	backpack_contents = list(/obj/item/weapon/storage/box/engineer=1,\
 		/obj/item/ammo_box/magazine/m75=3,\
@@ -547,3 +550,15 @@
 	W.assignment = "Bloodraven"
 	W.registered_name = H.real_name
 	W.update_label(W.registered_name, W.assignment)
+
+/datum/outfit/hockey
+	name = "Red Team Hockey Set"
+	uniform = /obj/item/clothing/under/color/darkred
+	suit = /obj/item/clothing/suit/armor/hockey
+	head = /obj/item/clothing/head/helmet/hockey
+	back = /obj/item/weapon/hockeypack
+	shoes = /obj/item/clothing/shoes/rollerskates/hockey
+	gloves = /obj/item/clothing/gloves/color/black
+	ears = /obj/item/device/radio/headset
+	belt = /obj/item/weapon/storage/belt/hockey
+	mask = /obj/item/clothing/mask/gas/hockey

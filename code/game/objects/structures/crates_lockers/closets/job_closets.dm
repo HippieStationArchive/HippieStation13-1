@@ -375,6 +375,10 @@
 	new /obj/item/weapon/storage/backpack/satchel_chem(src)
 	new /obj/item/weapon/storage/bag/chemistry(src)
 	new /obj/item/weapon/storage/bag/chemistry(src)
+	new /obj/item/clothing/suit/bio_suit/general(src)
+	new /obj/item/clothing/suit/bio_suit/general(src)
+	new /obj/item/clothing/head/bio_hood/general(src)
+	new /obj/item/clothing/head/bio_hood/general(src)
 	return
 
 

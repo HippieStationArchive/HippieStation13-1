@@ -1,8 +1,0 @@
-author: Creeper Joe
-
-delete-after: True
-
-changes:
-  - bugfix: "Soulflare now properly recognizes if someone is in crit instead of calling them dead all the time."
-  - bugfix: "Corpse Explosion now properly refunds."
-  - bugfix: "Soulsplit now properly refunds."

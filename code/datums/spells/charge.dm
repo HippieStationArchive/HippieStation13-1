@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/targeted/charge
 	name = "Charge"
-	desc = "This spell can be used to recharge a variety of things in your hands, from magical artifacts to electrical components. A creative wizard can even use it to grant magical power to a fellow magic user."
+	desc = "This spell can be used to recharge a variety of things in your hands, from magical artifacts to electrical components. A creative wizard can even use it to grant magical power to a fellow magic user. Possessing the spell will also allow you to see if a single-use spellbook has been used or not."
 
 	school = "transmutation"
 	charge_max = 600
@@ -37,7 +37,7 @@
 			else if(istype(item, /obj/item/weapon/spellbook))
 				if(istype(item, /obj/item/weapon/spellbook/oneuse))
 					var/obj/item/weapon/spellbook/oneuse/I = item
-					if(prob(80))
+					if(prob(50))
 						L.visible_message("<span class='warning'>[I] catches fire!</span>")
 						qdel(I)
 					else

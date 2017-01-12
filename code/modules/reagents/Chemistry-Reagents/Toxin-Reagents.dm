@@ -38,7 +38,7 @@
 		if(prob(98))
 			randmutb(M)
 		else
-			randmutg(M)
+			randmutg(M, 1)
 		M.updateappearance()
 		M.domutcheck()
 	..()
@@ -621,7 +621,7 @@
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		H.blood_max += 2
-		H.adjustBruteLoss(1) //Brute damage increases with the amount they're bleeding
+		H.adjustBruteLoss((H.blood_max)/2) //Brute damage ACTUALLY increases with the amount they're bleeding
 	..()
 
 /datum/reagent/toxin/teslium //Teslium. Causes periodic shocks, and makes shocks against the target much more effective.
@@ -670,7 +670,7 @@
 
 
 /datum/reagent/toxin/acid
-	name = "Sulphuric acid"
+	name = "Sulfuric acid"
 	id = "sacid"
 	description = "A strong mineral acid with the molecular formula H2SO4."
 	color = "#DB5008" // rgb: 219, 80, 8
@@ -724,7 +724,7 @@
 		if(H.vessel)
 			H.vessel.remove_reagent("blood",rand(1, 5)) //Drain blood with various effectiveness
 	..()
-	
+
 /datum/reagent/toxin/bleach
 	name = "Bleach"
 	id = "bleach"

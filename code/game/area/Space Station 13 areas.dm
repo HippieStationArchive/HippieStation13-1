@@ -457,8 +457,8 @@ var/list/teleportlocs = list()
 	name = "Atmospherics"
 	icon_state = "green"
 
-/area/maintenance/incinerator
-	name = "Incinerator"
+/area/maintenance/lab
+	name = "Lab"
 	icon_state = "disposal"
 
 /area/maintenance/disposal

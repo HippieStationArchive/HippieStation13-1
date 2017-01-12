@@ -1,6 +1,0 @@
-author: Creeper Joe
-
-delete-after: True
-
-changes:
-  - rscadd: "Added a 'Make Cluwne' button to view variables for admins. Does exactly what you'd expect it to."

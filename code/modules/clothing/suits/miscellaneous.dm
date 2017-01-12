@@ -247,6 +247,12 @@
 	icon_state = "DIO"
 	item_state = "DIO"
 
+/obj/item/clothing/suit/jotaro
+	name = "Delinquent's school coat"
+	desc = "Wear this, and you'll be shining like platinum."
+	icon_state = "jotaro"
+	item_state = "jotaro"
+
 /*
  * Misc
  */
@@ -290,7 +296,7 @@
 			user.reindex_screams()
 
 	return ..()
-	
+
 /obj/item/clothing/suit/jacket
 	name = "bomber jacket"
 	desc = "Aviators not included."

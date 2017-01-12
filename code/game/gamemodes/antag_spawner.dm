@@ -25,15 +25,9 @@
 		dat = "<B>Contract of Apprenticeship:</B><BR>"
 		dat += "<I>Using this contract, you may summon an apprentice to aid you on your mission.</I><BR>"
 		dat += "<I>If you are unable to establish contact with your apprentice, you can feed the contract back to the spellbook to refund your points.</I><BR>"
-		dat += "<B>Which school of magic is your apprentice studying?:</B><BR>"
-		dat += "<A href='byond://?src=\ref[src];school=destruction'>Destruction</A><BR>"
-		dat += "<I>Your apprentice is skilled in offensive magic. They know Magic Missile and Fireball.</I><BR>"
-		dat += "<A href='byond://?src=\ref[src];school=bluespace'>Bluespace Manipulation</A><BR>"
-		dat += "<I>Your apprentice is able to defy physics, melting through solid objects and travelling great distances in the blink of an eye. They know Teleport and Ethereal Jaunt.</I><BR>"
-		dat += "<A href='byond://?src=\ref[src];school=healing'>Healing</A><BR>"
-		dat += "<I>Your apprentice is training to cast spells that will aid your survival. They know Forcewall and Charge and come with a Staff of Healing.</I><BR>"
-		dat += "<A href='byond://?src=\ref[src];school=robeless'>Robeless</A><BR>"
-		dat += "<I>Your apprentice is training to cast spells without their robes. They know Knock and Mindswap.</I><BR>"
+		dat += "<B>Your apprentice will get his own spellbook with 5 spell points, however it may not be spent on rituals or artifacts.</B><BR>"
+		dat += "<A href='byond://?src=\ref[src];school=proceed'>Proceed</A><BR>"
+		dat += "<I>Note that the acceptance of an apprentice is final and the Wizard Academy is not responsible for your loss at life at the hands of an apprentince.</I><BR>"
 	user << browse(dat, "window=radio")
 	onclose(user, "radio")
 	return
@@ -69,24 +63,11 @@
 	C.prefs.copy_to(M)
 	M.key = C.key
 	M << "<B>You are the [usr.real_name]'s apprentice! You are bound by magic contract to follow their orders and help them in accomplishing their goals."
-	switch(type)
-		if("destruction")
-			M.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/projectile/magic_missile(null))
-			M.mind.AddSpell(new /obj/effect/proc_holder/spell/dumbfire/fireball(null))
-			M << "<B>Your service has not gone unrewarded, however. Studying under [usr.real_name], you have learned powerful, destructive spells. You are able to cast magic missile and fireball."
-		if("bluespace")
-			M.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/area_teleport/teleport(null))
-			M.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/ethereal_jaunt(null))
-			M << "<B>Your service has not gone unrewarded, however. Studying under [usr.real_name], you have learned reality bending mobility spells. You are able to cast teleport and ethereal jaunt."
-		if("healing")
-			M.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/charge(null))
-			M.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/conjure/forcewall(null))
-			M.equip_to_slot_or_del(new /obj/item/weapon/gun/magic/staff/healing(M), slot_r_hand)
-			M << "<B>Your service has not gone unrewarded, however. Studying under [usr.real_name], you have learned livesaving survival spells. You are able to cast charge and forcewall."
-		if("robeless")
-			M.mind.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/knock(null))
-			M.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/mind_transfer(null))
-			M << "<B>Your service has not gone unrewarded, however. Studying under [usr.real_name], you have learned stealthy, robeless spells. You are able to cast knock and mindswap."
+	M << "<B>Your service has not gone unrewarded, however. Studying under [usr.real_name], you have learned powerful, spells. Select them in your spellbook."
+	var/obj/item/weapon/spellbook/apprenticebook = new /obj/item/weapon/spellbook(M)
+	M.equip_to_slot_or_del(apprenticebook, slot_r_hand)
+	apprenticebook.owner_is_apprentice = 1
+	apprenticebook.uses = 5
 
 	equip_antag(M)
 	var/wizard_name_first = pick(wizard_first)
@@ -153,7 +134,7 @@
 		return
 
 	reinforcement_to_spawn = input("What type?", "Reinforcement Type", type) as null|anything in possible_types
-	
+
 	if(!reinforcement_to_spawn)
 		return
 
@@ -215,7 +196,7 @@
 	desc = "A bottle of magically infused blood, the smell of which will attract extradimensional beings when broken."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "vial"
-	
+
 /obj/item/weapon/antag_spawner/slaughter_demon/proc/check_usability(mob/user)
 	if(used)
 		user << "<span class='warning'>Somehow the bottle has already been emptied!</span>" // shouldn't happen as it destroys itself upon succesful summoning
@@ -338,6 +319,8 @@
 	icon_state = "glass_goblet"
 	spawn(30)
 		if(user)
+			message_admins("[key_name_admin(user)] has been made a vampire by the glass goblet.")
+			log_game("[key_name_admin(user)] has been made a vampire by the glass goblet.")
 			user.make_mob_into_vampire()
 /obj/item/weapon/antag_spawner/vampire/attack(mob/living/carbon/human/M, mob/living/carbon/human/user)
 	if(M == user)

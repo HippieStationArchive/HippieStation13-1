@@ -15,6 +15,8 @@
 	switch(severity)
 		if(1)
 			visible_message("<span class='warning'>[src] detonates!</span>")
+			message_admins("A door charge has exploded at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>([src.x],[src.y],[src.z])</a> last touched by [key_name_admin(fingerprintslast)]")
+			log_game("A door charge has exploded at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>([src.x],[src.y],[src.z])</a> last touched by [key_name_admin(fingerprintslast)]")
 			explosion(src.loc,0,2,1,flame_range = 4)
 			qdel(src)
 		if(2)

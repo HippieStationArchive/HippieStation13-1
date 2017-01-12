@@ -48,12 +48,16 @@
 		return
 	var/mob/M = target
 	if(ishuman(M) || ismonkey(M))
-		var/mob/living/carbon/C_target = M
-		var/obj/item/organ/internal/brain/B = C_target.getorgan(/obj/item/organ/internal/brain)
-		if(B)
-			B.loc = get_turf(C_target)
-			B.transfer_identity(C_target)
-			C_target.internal_organs -= B
+		if(do_mob(user,user,20,uninterruptible=0))
+			var/mob/living/carbon/C_target = M
+			var/obj/item/organ/internal/brain/B = C_target.getorgan(/obj/item/organ/internal/brain)
+			if(B)
+				B.loc = get_turf(C_target)
+				B.transfer_identity(C_target)
+				C_target.internal_organs -= B
+		else
+			user << "<span class='warning'>You were interrupted!</span>"
+			return
 	var/datum/effect_system/spark_spread/sparks = new
 	sparks.set_up(4, 0, M.loc) //no idea what the 0 is
 	sparks.start()
