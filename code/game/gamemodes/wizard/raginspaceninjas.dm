@@ -3,7 +3,7 @@
 
 /datum/game_mode/ragin_space_ninjas
 	name = "ragin' space ninjas"
-	config_tag = "raginspaceninjas"
+	config_tag = "ragin_space_ninjas"
 	antag_flag = ROLE_NINJA
 	required_players = 20
 	required_enemies = 1
@@ -13,6 +13,12 @@
 	var/helping_station
 	var/spawn_loc
 	var/list/spawn_locs = list()
+	var/making_ninja = 0
+	var/ninjas_made = 1
+	var/time_checked = 0
+	var/time_check = 1500
+	var/spawn_delay_min = 500
+	var/spawn_delay_max = 700
 
 /datum/game_mode/ragin_space_ninjas/announce()
 	world << "<B>The current game mode is - Ragin' Space Ninjas!</B>"
@@ -46,14 +52,15 @@
 
 /datum/game_mode/ragin_space_ninjas/post_setup()
 	for(var/datum/mind/ninja in ninjas)
+		var/mob/living/carbon/human/Ninja = ninja.current
 		log_game("[ninja.key] (ckey) has been selected as a Space Ninja")
-		ninja.current.equip_space_ninja
+		Ninja.equip_space_ninja()
 		forge_ninja_objectives(ninja)
 		greet_ninja(ninja)
 	..()
 	return
 
-/datum/game_mode/ragin_space_ninjas/forge_objectives()
+/datum/game_mode/ragin_space_ninjas/proc/forge_ninja_objectives(datum/mind/ninja)
 	helping_station = rand(0,1)
 	var/list/possible_targets = list()
 	for(var/datum/mind/M in ticker.minds)
@@ -69,13 +76,13 @@
 		switch(pick_n_take(objectives))
 			if(1)	//research
 				var/datum/objective/download/O = new /datum/objective/download()
-				O.owner = Mind
+				O.owner = ninja
 				O.gen_amount_goal()
 				ninja.objectives += O
 
 			if(2)	//steal
 				var/datum/objective/steal/special/O = new /datum/objective/steal/special()
-				O.owner = Mind
+				O.owner = ninja
 				ninja.objectives += O
 
 			if(3)	//protect/kill
@@ -87,13 +94,13 @@
 
 				if(is_bad_guy ^ helping_station)			//kill (good-ninja + bad-guy or bad-ninja + good-guy)
 					var/datum/objective/assassinate/O = new /datum/objective/assassinate()
-					O.owner = Mind
+					O.owner = ninja
 					O.target = M
 					O.explanation_text = "Slay \the [M.current.real_name], the [M.assigned_role]."
 					ninja.objectives += O
 				else										//protect
 					var/datum/objective/protect/O = new /datum/objective/protect()
-					O.owner = Mind
+					O.owner = ninja
 					O.target = M
 					O.explanation_text = "Protect \the [M.current.real_name], the [M.assigned_role], from harm."
 					ninja.objectives += O
@@ -106,13 +113,13 @@
 
 				if(is_bad_guy ^ helping_station)			//debrain (good-ninja + bad-guy or bad-ninja + good-guy)
 					var/datum/objective/debrain/O = new /datum/objective/debrain()
-					O.owner = Mind
+					O.owner = ninja
 					O.target = M
 					O.explanation_text = "Steal the brain of [M.current.real_name]."
 					ninja.objectives += O
 				else										//capture
 					var/datum/objective/capture/O = new /datum/objective/capture()
-					O.owner = Mind
+					O.owner = ninja
 					O.gen_amount_goal()
 					ninja.objectives += O
 			else
@@ -193,36 +200,33 @@
 		if(theghost)
 			spawn_loc = pick(spawn_locs)
 			if(!spawn_loc)
-				ninja.current << "<span class='boldannounce'>A starting location for you could not be found, please report this bug!</span>"
+				theghost << "<span class='boldannounce'>A starting location for you could not be found, please report this bug!</span>"
 				return 0
-			newninja = create_space_ninja(spawn_loc)
+			var/mob/living/carbon/human/newninja = create_space_ninja(spawn_loc)
 			theghost.mind.transfer_to(newninja)
-			ninja.current.equip_space_ninja
+			newninja.equip_space_ninja()
 			forge_ninja_objectives(newninja.mind)
-			greet_ninja(ninja.mind)
+			greet_ninja(newninja.mind)
 			making_ninja = 0
 			return 1
 
-/datum/game_mode/ragin_space_ninjas/proc/greet_ninja()
+/datum/game_mode/ragin_space_ninjas/proc/greet_ninja(datum/mind/ninja)
 	ninja.store_memory("I am an elite mercenary assassin of the mighty Spider Clan. A <font color='red'><B>SPACE NINJA</B></font>!")
 	ninja.store_memory("Suprise is my weapon. Shadows are my armor. Without them, I am nothing. (//initialize your suit by right clicking on it, to use abilities like stealth)!")
 	ninja.store_memory("Officially, [helping_station?"Nanotrasen":"The Syndicate"] are my employer.")
+		
+	var/mob/living/carbon/human/Ninja = ninja.current
 
-	ninja.current << "<span class='boldannounce'>You are the Space Ninja!</span>"
-	ninja.current << "<B>Your employers, [helping_station?"Nanotrasen":"The Syndicate"] have given you the following objectives:</B>"
+	Ninja << "<span class='boldannounce'>You are the Space Ninja!</span>"
+	Ninja << "<B>Your employers, [helping_station?"Nanotrasen":"The Syndicate"] have given you the following objectives:</B>"
 
 	var/obj_count = 1
 	for(var/datum/objective/objective in ninja.objectives)
 		ninja.current << "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
 		obj_count++
 
-	if(istype(ninja.current.wear_suit,/obj/item/clothing/suit/space/space_ninja))
-		//Should be true but we have to check these things.
-		var/obj/item/clothing/suit/space/space_ninja/N = ninja.current.wear_suit
-		ninja.current.randomize_param()
-
-	ninja.current.internal = ninja.current.s_store
-	if(ninja.current.internals)
-		ninja.current.internals.icon_state = "internal1"
+	Ninja.internal = Ninja.s_store
+	if(Ninja.internals)
+		Ninja.internals.icon_state = "internal1"
 
 	ninja << sound('sound/effects/ninja_greeting.ogg') //so ninja you probably wouldn't even know if you were made one
