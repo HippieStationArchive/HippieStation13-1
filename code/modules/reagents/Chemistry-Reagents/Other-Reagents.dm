@@ -1262,3 +1262,17 @@
 		var/t_loc = get_turf(O)
 		qdel(O)
 		new /obj/item/clothing/shoes/galoshes/dry(t_loc)
+
+//////////////////////////////////SecretChems///////////////////////////////
+
+/datum/reagent/autisticium
+	name = "Autisticium"
+	id = "autisticium"
+	description = "The autism level of this chemical is so high that it literally gibs you."
+	color = "C604FF" // rgb: 198, 4, 255
+
+/datum/reagent/autisticium/on_mob_life(mob/living/M)
+	if(prob(99))
+		M.gib()	
+	if(prob(1))
+		M.mind.make_Wizard()

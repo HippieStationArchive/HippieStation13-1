@@ -1,0 +1,7 @@
+
+author: Anderbergst 
+
+delete-after: True
+
+changes: 
+  - rscadd: "Added new secret chem called Autisticium. It requires 102 regeants to make. Needs to be heated to 1000K to mix. Once this chem is created, there will be a global announcement and a global sound effect to let everyone know that it has been created. Using this chem on people instantly gibs them but there is a 1% chance they can turn into a wizard."
