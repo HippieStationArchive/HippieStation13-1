@@ -164,7 +164,7 @@
 
 obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 	if(!..())
-		switch(rand(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20))
+		switch(rand(1,20))
 			if(1)
 				visible_message("<span class='notice'>The card cuts through space!</span>")
 				playsound(get_turf(src), 'sound/effects/phasein.ogg', 100, 1, -1)													
@@ -328,7 +328,7 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 
 obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 	if(!..())
-		switch(rand(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20))
+		switch(rand(1,20))
 			if(1)
 				visible_message("<span class='notice'>The card cuts through space!</span>")
 				playsound(get_turf(src), 'sound/effects/phasein.ogg', 100, 1, -1)													
