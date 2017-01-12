@@ -274,12 +274,11 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 				C.name = "Cookie of Tricks"
 			if(14)
 				user.eye_blind = 10
-				visible_message("<span class='notice'>The card cuts [user]'s eyes.</span>")
+				visible_message("<span class='notice'>The card cuts [user.name]'s eyes.</span>")
 			if(15)
-				visible_message("<span class='notice'>The card hits [user]'s throat.</span>")
-				user.adjustOxyLoss(-50)
+				visible_message("<span class='notice'>The card hits [user.name]'s throat.</span>")
+				user.adjustOxyLoss(50)
 			if(16)
-				visible_message("<span class='notice'>The card produces a bang!</span>")
 				var/turf/T = get_turf(user)
 				for(var/mob/living/M)
 					M.show_message("<span class='warning'>BANG</span>", 2)
@@ -396,7 +395,7 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 							M.stunned = 0
 							M.anchored = 0
 							user.stunned = 0
-							user.stunned = 0
+							user.anchored = 0
 							if(istype(M, /mob/living/simple_animal/hostile))
 								var/mob/living/simple_animal/hostile/H = M
 								H.AIStatus = initial(H.AIStatus)
@@ -445,12 +444,11 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 				C.name = "Cookie of Tricks"
 			if(14)
 				user.eye_blind = 10
-				visible_message("<span class='notice'>The card cuts [user]'s eyes.</span>")
+				visible_message("<span class='notice'>The card cuts [user.name]'s eyes.</span>")
 			if(15)
-				visible_message("<span class='notice'>The card hits [user]'s throat.</span>")
-				user.adjustOxyLoss(-50)
+				visible_message("<span class='notice'>The card hits [user.name]'s throat.</span>")
+				user.adjustOxyLoss(50)
 			if(16)
-				visible_message("<span class='notice'>The card produces a bang!</span>")
 				var/turf/T = get_turf(user)
 				for(var/mob/living/M)
 					M.show_message("<span class='warning'>BANG</span>", 2)
@@ -487,7 +485,7 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 				user.sleeping = 10
 				visible_message("<span class='notice'>The card seems to cause sleepiness.</span>")
 			if(18)
-				visible_message("<span class='notice'>The card seems to cause hallucination.</span>")	//hallucination sucks so im adding more to stack them up to make them better
+				visible_message("<span class='notice'>The card seems to cause hallucinations.</span>")	//hallucination sucks so im adding more to stack them up to make them better
 				user.hallucination = 10
 				user.hallucination = 10
 				user.hallucination = 10
@@ -503,7 +501,6 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 		
 		qdel(src)
 		return
-
 	
 /obj/item/weapon/trickcards/trickcardhand/Topic(href, href_list)
 	if(..())
