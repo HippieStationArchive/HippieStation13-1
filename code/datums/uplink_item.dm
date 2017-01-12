@@ -201,7 +201,7 @@ var/list/uplink_items = list()
 
 /datum/uplink_item/dangerous/tricksyndicatecards
 	name = "Trick Syndicate Playing Cards"
-	desc = "A special deck of space-grade playing cards used by syndicate entertainers and magicians to awe the crowd. The cards have been altered in some way to produce random certain effects when thrown at someone."
+	desc = "A special deck of space-grade playing cards used by syndicate entertainers to awe the crowd. The cards have been altered in some way to produce random certain effects when thrown at someone."
 	item = /obj/item/weapon/trickcards/trickdeck
 	cost = 14
 	jobs = list("Clown","Mime")
