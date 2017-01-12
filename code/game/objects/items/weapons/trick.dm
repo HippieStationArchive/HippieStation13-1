@@ -210,6 +210,8 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 						for(var/mob/living/M in orange (freezerange, user.loc))
 							M.stunned = 10
 							M.anchored = 1
+							user.stunned = 10
+							user.anchored = 1
 							if(istype(user, /mob/living/simple_animal/hostile))
 								var/mob/living/simple_animal/hostile/H = M
 								H.AIStatus = AI_OFF
@@ -222,6 +224,8 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 						for(var/mob/living/M in orange (freezerange+2, user.loc))
 							M.stunned = 0
 							M.anchored = 0
+							user.stunned = 0
+							user.anchored = 0
 							if(istype(M, /mob/living/simple_animal/hostile))
 								var/mob/living/simple_animal/hostile/H = M
 								H.AIStatus = initial(H.AIStatus)
@@ -272,9 +276,8 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 				user.eye_blind = 10
 				visible_message("<span class='notice'>The card cuts [user]'s eyes.</span>")
 			if(15)
-				visible_message("<span class='notice'>The card heals [user].</span>")
-				user.adjustBruteLoss(-40)
-				user.adjustFireLoss(-40)
+				visible_message("<span class='notice'>The card hits [user]'s throat.</span>")
+				user.adjustOxyLoss(-30)
 			if(16)
 				visible_message("<span class='notice'>The card produces a bang!</span>")
 				var/turf/T = get_turf(user)
@@ -313,7 +316,11 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 				user.sleeping = 10
 				visible_message("<span class='notice'>The card seems to cause sleepiness.</span>")
 			if(18)
-				visible_message("<span class='notice'>The card seems to cause hallucination.</span>")
+				visible_message("<span class='notice'>The card seems to cause hallucination.</span>")	//hallucination sucks so im adding more to stack them up to make them better
+				user.hallucination = 10
+				user.hallucination = 10
+				user.hallucination = 10
+				user.hallucination = 10
 				user.hallucination = 10
 			if(19)
 				visible_message("<span class='notice'>The card emits a cold air.</span>")
@@ -374,6 +381,8 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 						for(var/mob/living/M in orange (freezerange, user.loc))
 							M.stunned = 10
 							M.anchored = 1
+							user.stunned = 10
+							user.anchored = 1
 							if(istype(user, /mob/living/simple_animal/hostile))
 								var/mob/living/simple_animal/hostile/H = M
 								H.AIStatus = AI_OFF
@@ -386,6 +395,8 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 						for(var/mob/living/M in orange (freezerange+2, user.loc))
 							M.stunned = 0
 							M.anchored = 0
+							user.stunned = 0
+							user.stunned = 0
 							if(istype(M, /mob/living/simple_animal/hostile))
 								var/mob/living/simple_animal/hostile/H = M
 								H.AIStatus = initial(H.AIStatus)
@@ -436,9 +447,8 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 				user.eye_blind = 10
 				visible_message("<span class='notice'>The card cuts [user]'s eyes.</span>")
 			if(15)
-				visible_message("<span class='notice'>The card heals [user].</span>")
-				user.adjustBruteLoss(-40)
-				user.adjustFireLoss(-40)
+				visible_message("<span class='notice'>The card hits [user]'s throat.</span>")
+				user.adjustOxyLoss(-30)
 			if(16)
 				visible_message("<span class='notice'>The card produces a bang!</span>")
 				var/turf/T = get_turf(user)
@@ -477,7 +487,11 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 				user.sleeping = 10
 				visible_message("<span class='notice'>The card seems to cause sleepiness.</span>")
 			if(18)
-				visible_message("<span class='notice'>The card seems to cause hallucination.</span>")
+				visible_message("<span class='notice'>The card seems to cause hallucination.</span>")	//hallucination sucks so im adding more to stack them up to make them better
+				user.hallucination = 10
+				user.hallucination = 10
+				user.hallucination = 10
+				user.hallucination = 10
 				user.hallucination = 10
 			if(19)
 				visible_message("<span class='notice'>The card emits a cold air.</span>")
