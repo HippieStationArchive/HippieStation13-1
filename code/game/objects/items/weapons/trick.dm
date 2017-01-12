@@ -180,7 +180,7 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 				user.adjustBruteLoss(30)
 				playsound(get_turf(src), 'sound/weapons/smash.ogg', 100, 1, -1)							
 			if(4)
-				visible_message("<span class='notice'>The card emits heat on it's surface.</span>")
+				visible_message("<span class='notice'>The card emits heat on its surface.</span>")
 				user.adjustFireLoss(30)
 				playsound(get_turf(src), 'sound/weapons/sear.ogg', 100, 1, -1)				
 			if(5)
@@ -316,7 +316,7 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 				user.sleeping = 10
 				visible_message("<span class='notice'>The card seems to cause sleepiness.</span>")
 			if(18)
-				visible_message("<span class='notice'>The card seems to cause hallucination.</span>")	//hallucination sucks so im adding more to stack them up to make them better
+				visible_message("<span class='notice'>The card seems to cause hallucinations.</span>")	//hallucination sucks so im adding more to stack them up to make them better
 				user.hallucination = 10
 				user.hallucination = 10
 				user.hallucination = 10
@@ -351,7 +351,7 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 				user.adjustBruteLoss(30)
 				playsound(get_turf(src), 'sound/weapons/smash.ogg', 100, 1, -1)							
 			if(4)
-				visible_message("<span class='notice'>The card emits heat on it's surface.</span>")
+				visible_message("<span class='notice'>The card emits heat on its surface.</span>")
 				user.adjustFireLoss(30)
 				playsound(get_turf(src), 'sound/weapons/sear.ogg', 100, 1, -1)				
 			if(5)
