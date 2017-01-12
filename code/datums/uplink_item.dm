@@ -546,6 +546,13 @@ var/list/uplink_items = list()
 	cost = 14
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 25
+	
+/datum/uplink_item/dangerous/tricksyndicatecards
+	name = "Trick Syndicate Playing Cards"
+	desc = "A special deck of space-grade playing cards used by syndicate entertainers and magicians to awe the crowd. The cards have been altered in some way to produce random certain effects when thrown at someone."
+	item = /obj/item/weapon/trickcards/trickdeck
+	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
+	cost = 14
 
 // AMMUNITION
 
