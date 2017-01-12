@@ -91,9 +91,10 @@
 	return
 
 /datum/reagent/drug/krokodil/addiction_act_stage4(mob/living/carbon/human/M)
-	if(M.has_dna() && M.dna.species.id != "zombie")
+	if(!istype(M.dna.species, /datum/species/cosmetic_zombie) && !istype(M.dna.species, /datum/species/cat))
 		M << "<span class='userdanger'>Your skin falls off easily!</span>"
 		M.adjustBruteLoss(50*REM) // holy shit your skin just FELL THE FUCK OFF
+		gibs(H.loc, H.viruses, H.dna)
 		M.set_species(/datum/species/cosmetic_zombie)
 	else
 		M.adjustBruteLoss(5*REM)
@@ -629,10 +630,9 @@
 			if(!H.stat == UNCONSCIOUS)
 				H.emote("scream")
 		if(prob(3))
-			if(!istype(H.dna.species, /datum/species/skeleton))
+			if(!istype(H.dna.species, /datum/species/skeleton) && !istype(H.dna.species, /datum/species/cat))
 				H.visible_message("<span class='danger'>Holy shit! [H] got so scared that their skin tore clean off to reveal a spooky scary skeleton!</span>")
 				H.set_species(/datum/species/skeleton/playable)
 				gibs(H.loc, H.viruses, H.dna)
 	..()
 	return
-
