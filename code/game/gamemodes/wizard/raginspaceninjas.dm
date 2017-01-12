@@ -9,7 +9,6 @@
 	required_enemies = 1
 	recommended_enemies = 1
 	enemy_minimum_age = 0
-	round_ends_with_antag_death = 1
 	var/helping_station
 	var/spawn_loc
 	var/list/spawn_locs = list()
