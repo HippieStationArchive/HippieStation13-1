@@ -94,7 +94,7 @@
 	if(!istype(M.dna.species, /datum/species/cosmetic_zombie) && !istype(M.dna.species, /datum/species/cat))
 		M << "<span class='userdanger'>Your skin falls off easily!</span>"
 		M.adjustBruteLoss(50*REM) // holy shit your skin just FELL THE FUCK OFF
-		gibs(H.loc, H.viruses, H.dna)
+		gibs(M.loc, M.viruses, M.dna)
 		M.set_species(/datum/species/cosmetic_zombie)
 	else
 		M.adjustBruteLoss(5*REM)
