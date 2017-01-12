@@ -198,6 +198,14 @@ var/list/uplink_items = list()
 	item = /obj/item/weapon/storage/box/syndie_kit/caneshotgun
 	cost = 15
 	jobs = list("Clown","Mime")
+
+/datum/uplink_item/dangerous/tricksyndicatecards
+	name = "Trick Syndicate Playing Cards"
+	desc = "A special deck of space-grade playing cards used by syndicate entertainers and magicians to awe the crowd. The cards have been altered in some way to produce random certain effects when thrown at someone."
+	item = /obj/item/weapon/trickcards/trickdeck
+	cost = 14
+	jobs = list("Clown","Mime")
+
 //CLOWN
 /datum/uplink_item/job_specific/honkrender
 	name = "Honk Render"
@@ -546,13 +554,6 @@ var/list/uplink_items = list()
 	cost = 14
 	gamemodes = list(/datum/game_mode/nuclear)
 	surplus = 25
-	
-/datum/uplink_item/dangerous/tricksyndicatecards
-	name = "Trick Syndicate Playing Cards"
-	desc = "A special deck of space-grade playing cards used by syndicate entertainers and magicians to awe the crowd. The cards have been altered in some way to produce random certain effects when thrown at someone."
-	item = /obj/item/weapon/trickcards/trickdeck
-	excludefrom = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
-	cost = 14
 
 // AMMUNITION
 
