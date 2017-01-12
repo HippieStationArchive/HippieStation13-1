@@ -33,19 +33,18 @@
 						spawn_locs += L.loc
 
 	var/datum/mind/ninja = pick(antag_candidates)
-	ninja += ninja
+	ninjas += ninja
 	modePlayer += ninja
 	ninja.assigned_role = "Space Ninja"
 	ninja.special_role = "Space Ninja"
 	if(!spawn_locs.len)
 		ninja.current << "<span class='boldannounce'>A starting location for you could not be found, please report this bug!</span>"
 		return 0
-	for(var/datum/mind/nin in ninja)
-		spawn_loc = pick(spawn_locs)
-		if(!spawn_loc)
-			ninja.current << "<span class='boldannounce'>A starting location for you could not be found, please report this bug!</span>"
-			return 0
-		nin.current.loc = spawn_loc
+	spawn_loc = pick(spawn_locs)
+	if(!spawn_loc)
+		ninja.current << "<span class='boldannounce'>A starting location for you could not be found, please report this bug!</span>"
+		return 0
+	ninja.current.loc = spawn_loc
 
 	return 1
 
