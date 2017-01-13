@@ -176,21 +176,21 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 				smoke.set_up(10, user.loc)
 				smoke.start()
 			if(3)
-				visible_message("<span class='notice'>The card shines with a metallic sheen.</span>")
+				visible_message("<span class='notice'>The card shines with a metallic sheen!</span>")
 				user.adjustBruteLoss(30)
 				playsound(get_turf(src), 'sound/weapons/smash.ogg', 100, 1, -1)							
 			if(4)
-				visible_message("<span class='notice'>The card emits heat on its surface.</span>")
+				visible_message("<span class='notice'>The card emits heat on its surface!</span>")
 				user.adjustFireLoss(30)
 				playsound(get_turf(src), 'sound/weapons/sear.ogg', 100, 1, -1)				
 			if(5)
-				visible_message("<span class='notice'>The card emits fire.</span>")
+				visible_message("<span class='notice'>The card emits fire!</span>")
 				playsound(get_turf(src), 'sound/effects/fire.ogg', 100, 1, -1)
 				var/turf/T = get_turf(user)
 				for(var/turf/turf in range(1,T))
 					PoolOrNew(/obj/effect/hotspot, turf)
 			if(6)
-				visible_message("<span class='notice'>The card stops time in the surrounding area.</span>")
+				visible_message("<span class='notice'>The card stops time in the surrounding area!</span>")
 				anchored = 1
 				name = "chronofield"
 				desc = "ZA WARUDO"
@@ -236,27 +236,27 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 						return
 					sleep(1)
 			if(7)
-				visible_message("<span class='notice'>The card emits an electrostatic discharge.</span>")
+				visible_message("<span class='notice'>The card emits an electrostatic discharge!</span>")
 				user.electrocute_act(20, src)
 				playsound(get_turf(src), 'sound/magic/LightningShock.ogg', 100, 1, -1)
 			if(8)
-				visible_message("<span class='notice'>The card emits a kinetic force on [user]!</span>")
+				visible_message("<span class='notice'>The card emits a kinetic force on [user.name]!</span>")
 				user.Stun(2)
 				playsound(get_turf(src), 'sound/weapons/resonator_blast.ogg', 100, 1, -1)
 				var/atom/throw_user = get_edge_target_turf(user, get_dir(src, get_step_away(user, src)))
 				spawn(1)
 					user.throw_at(throw_user, 200, 4)
 			if(9)
-				visible_message("<span class='notice'>The card explodes.</span>")
+				visible_message("<span class='notice'>The card explodes!</span>")
 				explosion(src.loc,-1, 0, 2, 3, 0)
 			if(10)
-				visible_message("<span class='notice'>The card emits a high frequency vibration.</span>")
+				visible_message("<span class='notice'>The card emits a high frequency vibration!</span>")
 				user.Stun(6)
 				user.Weaken(6)
 				user.stuttering = 6
 				playsound(get_turf(src), 'sound/weapons/taserhit.ogg', 100, 1, -1)		
 			if(11)
-				visible_message("<span class='notice'>The card mysteriously turns into a feral cat.</span>")
+				visible_message("<span class='notice'>The card mysteriously turns into a feral cat!</span>")
 				var/deliveryamt = 1
 				var/spawner_type = /mob/living/simple_animal/hostile/feral_cat
 				if(spawner_type && deliveryamt)
@@ -266,17 +266,17 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 						var/atom/movable/x = new spawner_type
 						x.loc = T
 			if(12)
-				visible_message("<span class='notice'>The card mysteriously vanishes.</span>")
+				visible_message("<span class='notice'>The card mysteriously vanishes!</span>")
 				user.adjustBruteLoss(-10)//takes away damage from throw force
 			if(13)
 				var/obj/item/weapon/reagent_containers/food/snacks/cookie/C = new(get_turf(src))
-				visible_message("<span class='notice'>The card mysteriously turns into a cookie.</span>")	
+				visible_message("<span class='notice'>The card mysteriously turns into a cookie!</span>")	
 				C.name = "Cookie of Tricks"
 			if(14)
 				user.eye_blind = 10
-				visible_message("<span class='notice'>The card cuts [user.name]'s eyes.</span>")
+				visible_message("<span class='notice'>The card cuts [user.name]'s eyes!</span>")
 			if(15)
-				visible_message("<span class='notice'>The card hits [user.name]'s throat.</span>")
+				visible_message("<span class='notice'>The card hits [user.name]'s throat!</span>")
 				user.adjustOxyLoss(50)
 			if(16)
 				var/turf/T = get_turf(user)
@@ -313,19 +313,19 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 								M << "<span class='warning'>Your ears start to ring!</span>"
 			if(17)
 				user.sleeping = 10
-				visible_message("<span class='notice'>The card seems to cause sleepiness.</span>")
+				visible_message("<span class='notice'>The card seems to cause sleepiness!</span>")
 			if(18)
-				visible_message("<span class='notice'>The card seems to cause hallucinations.</span>")	//hallucination sucks so im adding more to stack them up to make them better
+				visible_message("<span class='notice'>The card seems to cause hallucinations!</span>")	//hallucination sucks so im adding more to stack them up to make them better
 				user.hallucination = 10
 				user.hallucination = 10
 				user.hallucination = 10
 				user.hallucination = 10
 				user.hallucination = 10
 			if(19)
-				visible_message("<span class='notice'>The card emits a cold air.</span>")
+				visible_message("<span class='notice'>The card emits a cold air!</span>")
 				user.bodytemperature = 20 * TEMPERATURE_DAMAGE_COEFFICIENT
 			if(20)
-				visible_message("<span class='notice'>The card emits an electromagnetic pulse.</span>")
+				visible_message("<span class='notice'>The card emits an electromagnetic pulse!</span>")
 				empulse(src, 4, 10)
 
 		
@@ -346,21 +346,21 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 				smoke.set_up(10, user.loc)
 				smoke.start()
 			if(3)
-				visible_message("<span class='notice'>The card shines with a metallic sheen.</span>")
+				visible_message("<span class='notice'>The card shines with a metallic sheen!</span>")
 				user.adjustBruteLoss(30)
 				playsound(get_turf(src), 'sound/weapons/smash.ogg', 100, 1, -1)							
 			if(4)
-				visible_message("<span class='notice'>The card emits heat on its surface.</span>")
+				visible_message("<span class='notice'>The card emits heat on its surface!</span>")
 				user.adjustFireLoss(30)
 				playsound(get_turf(src), 'sound/weapons/sear.ogg', 100, 1, -1)				
 			if(5)
-				visible_message("<span class='notice'>The card emits fire.</span>")
+				visible_message("<span class='notice'>The card emits fire!</span>")
 				playsound(get_turf(src), 'sound/effects/fire.ogg', 100, 1, -1)
 				var/turf/T = get_turf(user)
 				for(var/turf/turf in range(1,T))
 					PoolOrNew(/obj/effect/hotspot, turf)
 			if(6)
-				visible_message("<span class='notice'>The card stops time in the surrounding area.</span>")
+				visible_message("<span class='notice'>The card stops time in the surrounding area!</span>")
 				anchored = 1
 				name = "chronofield"
 				desc = "ZA WARUDO"
@@ -406,27 +406,27 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 						return
 					sleep(1)
 			if(7)
-				visible_message("<span class='notice'>The card emits an electrostatic discharge.</span>")
+				visible_message("<span class='notice'>The card emits an electrostatic discharge!</span>")
 				user.electrocute_act(20, src)
 				playsound(get_turf(src), 'sound/magic/LightningShock.ogg', 100, 1, -1)
 			if(8)
-				visible_message("<span class='notice'>The card emits a kinetic force on [user]!</span>")
+				visible_message("<span class='notice'>The card emits a kinetic force on [user.name]!</span>")
 				user.Stun(2)
 				playsound(get_turf(src), 'sound/weapons/resonator_blast.ogg', 100, 1, -1)
 				var/atom/throw_user = get_edge_target_turf(user, get_dir(src, get_step_away(user, src)))
 				spawn(1)
 					user.throw_at(throw_user, 200, 4)
 			if(9)
-				visible_message("<span class='notice'>The card explodes.</span>")
+				visible_message("<span class='notice'>The card explodes!</span>")
 				explosion(src.loc,-1, 0, 2, 3, 0)
 			if(10)
-				visible_message("<span class='notice'>The card emits a high frequency vibration.</span>")
+				visible_message("<span class='notice'>The card emits a high frequency vibration!</span>")
 				user.Stun(6)
 				user.Weaken(6)
 				user.stuttering = 6
 				playsound(get_turf(src), 'sound/weapons/taserhit.ogg', 100, 1, -1)		
 			if(11)
-				visible_message("<span class='notice'>The card mysteriously turns into a feral cat.</span>")
+				visible_message("<span class='notice'>The card mysteriously turns into a feral cat!</span>")
 				var/deliveryamt = 1
 				var/spawner_type = /mob/living/simple_animal/hostile/feral_cat
 				if(spawner_type && deliveryamt)
@@ -436,17 +436,17 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 						var/atom/movable/x = new spawner_type
 						x.loc = T
 			if(12)
-				visible_message("<span class='notice'>The card mysteriously vanishes.</span>")
+				visible_message("<span class='notice'>The card mysteriously vanishes!</span>")
 				user.adjustBruteLoss(-10)//takes away damage from throw force
 			if(13)
 				var/obj/item/weapon/reagent_containers/food/snacks/cookie/C = new(get_turf(src))
-				visible_message("<span class='notice'>The card mysteriously turns into a cookie.</span>")	
+				visible_message("<span class='notice'>The card mysteriously turns into a cookie!</span>")	
 				C.name = "Cookie of Tricks"
 			if(14)
 				user.eye_blind = 10
-				visible_message("<span class='notice'>The card cuts [user.name]'s eyes.</span>")
+				visible_message("<span class='notice'>The card cuts [user.name]'s eyes!</span>")
 			if(15)
-				visible_message("<span class='notice'>The card hits [user.name]'s throat.</span>")
+				visible_message("<span class='notice'>The card hits [user.name]'s throat!</span>")
 				user.adjustOxyLoss(50)
 			if(16)
 				var/turf/T = get_turf(user)
@@ -483,19 +483,19 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 								M << "<span class='warning'>Your ears start to ring!</span>"
 			if(17)
 				user.sleeping = 10
-				visible_message("<span class='notice'>The card seems to cause sleepiness.</span>")
+				visible_message("<span class='notice'>The card seems to cause sleepiness!</span>")
 			if(18)
-				visible_message("<span class='notice'>The card seems to cause hallucinations.</span>")	//hallucination sucks so im adding more to stack them up to make them better
+				visible_message("<span class='notice'>The card seems to cause hallucinations!</span>")	//hallucination sucks so im adding more to stack them up to make them better
 				user.hallucination = 10
 				user.hallucination = 10
 				user.hallucination = 10
 				user.hallucination = 10
 				user.hallucination = 10
 			if(19)
-				visible_message("<span class='notice'>The card emits a cold air.</span>")
+				visible_message("<span class='notice'>The card emits a cold air!</span>")
 				user.bodytemperature = 20 * TEMPERATURE_DAMAGE_COEFFICIENT
 			if(20)
-				visible_message("<span class='notice'>The card emits an electromagnetic pulse.</span>")
+				visible_message("<span class='notice'>The card emits an electromagnetic pulse!</span>")
 				empulse(src, 4, 10)
 
 		
