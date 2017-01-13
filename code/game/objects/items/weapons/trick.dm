@@ -190,51 +190,9 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 				for(var/turf/turf in range(1,T))
 					PoolOrNew(/obj/effect/hotspot, turf)
 			if(6)
-				visible_message("<span class='notice'>The card stops time in the surrounding area!</span>")
-				anchored = 1
-				name = "chronofield"
-				desc = "ZA WARUDO"
-				icon = 'icons/effects/160x160.dmi'
-				icon_state = "time"
-				layer = FLY_LAYER
-				pixel_x = -64
-				pixel_y = -64
-				unacidable = 1
-				mouse_opacity = 0
-				var/freezerange = 2
-				var/duration = 140
-				alpha = 125
-				playsound(get_turf(src), 'sound/magic/TIMEPARADOX2.ogg', 100, 1, -1)
-				while(loc)
-					if(duration)
-						for(var/mob/living/M in orange (freezerange, user.loc))
-							M.stunned = 10
-							M.anchored = 1
-							user.stunned = 10
-							user.anchored = 1
-							if(istype(user, /mob/living/simple_animal/hostile))
-								var/mob/living/simple_animal/hostile/H = M
-								H.AIStatus = AI_OFF
-								H.LoseTarget()
-								continue
-						for(var/obj/item/projectile/P in orange (freezerange, user.loc))
-							P.paused = TRUE
-						duration --
-					else
-						for(var/mob/living/M in orange (freezerange+2, user.loc))
-							M.stunned = 0
-							M.anchored = 0
-							user.stunned = 0
-							user.anchored = 0
-							if(istype(M, /mob/living/simple_animal/hostile))
-								var/mob/living/simple_animal/hostile/H = M
-								H.AIStatus = initial(H.AIStatus)
-								continue
-						for(var/obj/item/projectile/P in orange(freezerange+2, user.loc))
-							P.paused = FALSE
-						qdel(src)
-						return
-					sleep(1)
+				var/turf/T = get_turf(user)
+				for(var/turf/turf in range(0,T))	
+					PoolOrNew(/obj/effect/timestop/wizard, turf)
 			if(7)
 				visible_message("<span class='notice'>The card emits an electrostatic discharge!</span>")
 				user.electrocute_act(20, src)
@@ -361,51 +319,9 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 				for(var/turf/turf in range(1,T))
 					PoolOrNew(/obj/effect/hotspot, turf)
 			if(6)
-				visible_message("<span class='notice'>The card stops time in the surrounding area!</span>")
-				anchored = 1
-				name = "chronofield"
-				desc = "ZA WARUDO"
-				icon = 'icons/effects/160x160.dmi'
-				icon_state = "time"
-				layer = FLY_LAYER
-				pixel_x = -64
-				pixel_y = -64
-				unacidable = 1
-				mouse_opacity = 0
-				var/freezerange = 2
-				var/duration = 140
-				alpha = 125
-				playsound(get_turf(src), 'sound/magic/TIMEPARADOX2.ogg', 100, 1, -1)
-				while(loc)
-					if(duration)
-						for(var/mob/living/M in orange (freezerange, user.loc))
-							M.stunned = 10
-							M.anchored = 1
-							user.stunned = 10
-							user.anchored = 1
-							if(istype(user, /mob/living/simple_animal/hostile))
-								var/mob/living/simple_animal/hostile/H = M
-								H.AIStatus = AI_OFF
-								H.LoseTarget()
-								continue
-						for(var/obj/item/projectile/P in orange (freezerange, user.loc))
-							P.paused = TRUE
-						duration --
-					else
-						for(var/mob/living/M in orange (freezerange+2, user.loc))
-							M.stunned = 0
-							M.anchored = 0
-							user.stunned = 0
-							user.anchored = 0
-							if(istype(M, /mob/living/simple_animal/hostile))
-								var/mob/living/simple_animal/hostile/H = M
-								H.AIStatus = initial(H.AIStatus)
-								continue
-						for(var/obj/item/projectile/P in orange(freezerange+2, user.loc))
-							P.paused = FALSE
-						qdel(src)
-						return
-					sleep(1)
+				var/turf/T = get_turf(user)
+				for(var/turf/turf in range(0,T))	
+					PoolOrNew(/obj/effect/timestop/wizard, turf)
 			if(7)
 				visible_message("<span class='notice'>The card emits an electrostatic discharge!</span>")
 				user.electrocute_act(20, src)
