@@ -299,7 +299,7 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 					playsound(get_turf(src), 'sound/effects/throatchoke.ogg', 100, 1, -1)
 					visible_message("<span class='notice'>The card hits [user.name]'s throat!</span>")
 					user << "<span class='userdanger'>You feel something hit your throat!</span>"
-					user.adjustOxyLoss(50)
+					user.adjustOxyLoss(40)
 				else
 					visible_message("<span class='notice'>The card mysteriously vanishes!</span>")
 					playsound(get_turf(src), 'sound/effects/vanish.ogg', 100, 1, -1)
@@ -351,9 +351,9 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 			if(18)
 				if(ismob(user))
 					playsound(get_turf(src), 'sound/effects/hallucinate.ogg', 100, 1, -1)
-					user << "<span class='userdanger'>You feel like you're seeing things!</span>"
 					visible_message("<span class='notice'>The card seems to cause hallucinations!</span>")
-					user.reagents.add_reagent("mindbreaker", 25)
+					user << "<span class='userdanger'>You feel like you're seeing things!</span>"
+					user.hallucination = 50
 				else
 					visible_message("<span class='notice'>The card mysteriously vanishes!</span>")
 					playsound(get_turf(src), 'sound/effects/vanish.ogg', 100, 1, -1)
@@ -363,7 +363,8 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 					playsound(get_turf(src), 'sound/effects/freezing.ogg', 100, 1, -1)
 					visible_message("<span class='notice'>The card emits a cold air!</span>")
 					user << "<span class='userdanger'>You feel extremely cold!</span>"
-					user.bodytemperature = 80 * TEMPERATURE_DAMAGE_COEFFICIENT
+					user.adjustFireLoss(15)
+					user.bodytemperature = 100
 					user.emote("shiver")
 				else
 					visible_message("<span class='notice'>The card mysteriously vanishes!</span>")
@@ -371,8 +372,8 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 					qdel(src)
 			if(20)
 				if(ismob(user))
-					playsound(get_turf(src), 'sound/effects/EMPblast.ogg', 100, 1, -1)
 					visible_message("<span class='notice'>The card emits an electromagnetic pulse!</span>")
+					playsound(get_turf(src), 'sound/effects/EMPulse.ogg', 100, 1, -1)
 					qdel(src)
 					empulse(user.loc, 4, 10)
 				else
@@ -520,7 +521,7 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 					playsound(get_turf(src), 'sound/effects/throatchoke.ogg', 100, 1, -1)
 					visible_message("<span class='notice'>The card hits [user.name]'s throat!</span>")
 					user << "<span class='userdanger'>You feel something hit your throat!</span>"
-					user.adjustOxyLoss(50)
+					user.adjustOxyLoss(40)
 				else
 					visible_message("<span class='notice'>The card mysteriously vanishes!</span>")
 					playsound(get_turf(src), 'sound/effects/vanish.ogg', 100, 1, -1)
@@ -572,9 +573,9 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 			if(18)
 				if(ismob(user))
 					playsound(get_turf(src), 'sound/effects/hallucinate.ogg', 100, 1, -1)
-					user << "<span class='userdanger'>You feel like you're seeing things!</span>"
 					visible_message("<span class='notice'>The card seems to cause hallucinations!</span>")
-					user.reagents.add_reagent("mindbreaker", 25)
+					user << "<span class='userdanger'>You feel like you're seeing things!</span>"
+					user.hallucination = 50
 				else
 					visible_message("<span class='notice'>The card mysteriously vanishes!</span>")
 					playsound(get_turf(src), 'sound/effects/vanish.ogg', 100, 1, -1)
@@ -584,7 +585,8 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 					playsound(get_turf(src), 'sound/effects/freezing.ogg', 100, 1, -1)
 					visible_message("<span class='notice'>The card emits a cold air!</span>")
 					user << "<span class='userdanger'>You feel extremely cold!</span>"
-					user.bodytemperature = 80 * TEMPERATURE_DAMAGE_COEFFICIENT
+					user.adjustFireLoss(15)
+					user.bodytemperature = 100
 					user.emote("shiver")
 				else
 					visible_message("<span class='notice'>The card mysteriously vanishes!</span>")
@@ -592,8 +594,8 @@ obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 					qdel(src)
 			if(20)
 				if(ismob(user))
-					playsound(get_turf(src), 'sound/effects/EMPblast.ogg', 100, 1, -1)
 					visible_message("<span class='notice'>The card emits an electromagnetic pulse!</span>")
+					playsound(get_turf(src), 'sound/effects/EMPulse.ogg', 100, 1, -1)
 					qdel(src)
 					empulse(user.loc, 4, 10)
 				else
