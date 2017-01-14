@@ -1,5 +1,5 @@
 /obj/item/weapon/banhammer
-	desc = "<font color='red'><b>BWOINK<b></font>"
+	desc = "<font color='red'><b>BWOINK</b></font>"
 	name = "banhammer"
 	icon = 'icons/obj/items.dmi'
 	icon_state = "toyhammer"
