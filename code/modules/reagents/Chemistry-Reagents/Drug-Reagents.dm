@@ -103,7 +103,7 @@
 /datum/reagent/drug/heroin
 	name = "Heroin"
 	id = "heroin"
-	description = "An extremely advanced painkiller/narcotic. Heroin allows you to ignore all slowdown and grants you full immunity to stamina damage, but stuns are twice as effective against you. Mildly toxic. Overdosing will make you periodically fall asleep."
+	description = "An extremely advanced painkiller/narcotic. Heroin allows you to ignore all slowdown and grants you much faster stamina regeneration, but stuns are twice as effective against you. Mildly toxic. Overdosing will make you periodically fall asleep."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
@@ -112,9 +112,10 @@
 	speedboost = IGNORE_SLOWDOWN
 
 /datum/reagent/drug/heroin/on_mob_life(mob/living/M)
-	M.setStaminaLoss(0)
-	if(M.stunned || M.weakened)
+	M.adjustStaminaLoss(-15)
+	if(M.stunned)
 		M.AdjustStunned(0.5)
+	if(M.weakened)
 		M.AdjustWeakened(0.5)
 	if(iscarbon(M))
 		var/mob/living/carbon/N = M
@@ -189,18 +190,18 @@
 /datum/reagent/drug/aranesp
 	name = "Aranesp"
 	id = "aranesp"
-	description = "Amps you up and gets you going, fixes all stamina damage you might have but can cause toxin and oxygen damage.."
+	description = "Amps you up and gets you going, fixes all stamina damage you might have but can cause toxin and oxygen damage."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
-	speedboost = VERY_FAST + FAST
+	speedboost = VERY_FAST
 
 /datum/reagent/drug/aranesp/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
-	M.setStaminaLoss(0)
+	M.adjustStaminaLoss(-15)
 	M.adjustToxLoss(0.5)
-	if(prob(50))
+	if(prob(33))
 		M.losebreath++
 		M.adjustOxyLoss(1)
 	..()
@@ -476,8 +477,6 @@
 	stun_threshold = 2
 	stun_resist = 12
 	speedboost = VERY_FAST + IGNORE_SLOWDOWN
-
-
 /datum/reagent/drug/bath_salts/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel your grip on reality loosening.", "You feel like your heart is beating out of control.", "You feel as if you're about to die.")
 	if(prob(15))
@@ -499,7 +498,6 @@
 	stun_resist_act(M)
 	..()
 	return
-
 /datum/reagent/drug/bath_salts/overdose_process(mob/living/M)
 	M.adjustToxLoss(0.8*REM)
 	M.hallucination += 10
@@ -516,7 +514,6 @@
 	stun_timer += 1
 	..()
 	return
-
 /datum/reagent/drug/bath_salts/addiction_act_stage1(mob/living/M)
 	M.hallucination += 10
 	if(M.canmove && !istype(M.loc, /atom/movable))

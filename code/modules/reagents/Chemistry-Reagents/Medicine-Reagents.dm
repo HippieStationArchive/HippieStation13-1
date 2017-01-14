@@ -172,7 +172,7 @@
 /datum/reagent/medicine/silver_sulfadiazine
 	name = "Silver Sulfadiazine"
 	id = "silver_sulfadiazine"
-	description = "If used in touch-based applications, immediately restores burn wounds as well as restoring more over time. If ingested through other means, deals minor toxin damage."
+	description = "If used in touch-based applications, immediately restores burn wounds. If ingested through other means, deals minor toxin damage."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 
@@ -193,7 +193,7 @@
 /datum/reagent/medicine/oxandrolone
 	name = "Oxandrolone"
 	id = "oxandrolone"
-	description = "Stimulates the healing of severe burns. Extremely rapidly heals severe burns and slowly heals minor ones. Overdose will worsen existing burns."
+	description = "Stimulates the healing of severe burns. Heals severe burns extremely rapidly and slowly heals minor ones. Overdose will worsen existing burns."
 	reagent_state = LIQUID
 	color = "#f7ffa5"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
@@ -217,7 +217,7 @@
 /datum/reagent/medicine/styptic_powder
 	name = "Styptic Powder"
 	id = "styptic_powder"
-	description = "If used in touch-based applications, immediately restores bruising as well as restoring more over time. If ingested through other means, deals minor toxin damage."
+	description = "If used in touch-based applications, immediately restores bruising. If ingested through other means, deals minor toxin damage."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 
@@ -411,7 +411,7 @@
 /datum/reagent/medicine/sal_acid
 	name = "Salicyclic Acid"
 	id = "sal_acid"
-	description = "Very slowly restores low bruising. Primarily used as an ingredient in other medicines. Overdose causes slight bruising."
+	description = "Restores light bruising very slowly. Primarily used as an ingredient in other medicines. Overdose causes slight bruising."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
@@ -447,7 +447,7 @@
 /datum/reagent/medicine/perfluorodecalin
 	name = "Perfluorodecalin"
 	id = "perfluorodecalin"
-	description = "Extremely rapidly restores oxygen deprivation, but inhibits speech. May also heal small amounts of bruising and burns."
+	description = "Restores oxygen deprivation extremely rapidly, but inhibits speech. May also heal small amounts of bruising and burns."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.25 * REAGENTS_METABOLISM
@@ -464,15 +464,19 @@
 /datum/reagent/medicine/ephedrine
 	name = "Ephedrine"
 	id = "ephedrine"
-	description = "Increases minorly stamina regeneration. Overdose deals toxin damage and inhibits breathing. Mainly to be used in other recipes."
+	description = "Slightly increases stamina regeneration and increases speed at full health. Overdose deals toxin damage and inhibits breathing. Mainly to be used in other recipes."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 	addiction_threshold = 30
-	speedboost = NORMAL
+	speedboost = FAST
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
+	if(M.health == 100)
+		speedboost = FAST
+	else
+		speedboost = NORMAL
 	M.adjustStaminaLoss(-2)
 	..()
 	return
@@ -558,7 +562,7 @@
 /datum/reagent/medicine/morphine
 	name = "Morphine"
 	id = "morphine"
-	description = "A painkiller that allows the patient to move at full speed, regardless of injury or clothing. However, it will make you drowsy, drains faster on severe injuries and reduces the effectiveness of stun-resisting chemicals. Overdose will cause a variety of effects, ranging from minor to lethal."
+	description = "A painkiller that allows the patient to move at full speed, regardless of injury or clothing. However, it will make you drowsy, and can knock out severely wounded patients. Overdose will cause a variety of effects, ranging from minor to lethal."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 1.5 * REAGENTS_METABOLISM
@@ -671,7 +675,7 @@
 /datum/reagent/medicine/atropine
 	name = "Atropine"
 	id = "atropine"
-	description = "If a patient is in critical condition, rapidly heals all damage types as well as regulating oxygen in the body. Excellent for stabilizing wounded patients."
+	description = "If a patient is in critical condition, rapidly heals all damage types as well as regulating oxygen in the body. Excellent for stabilizing wounded patients. Can stop a heart attack."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.25 * REAGENTS_METABOLISM
@@ -715,7 +719,7 @@
 /datum/reagent/medicine/epinephrine
 	name = "Epinephrine"
 	id = "epinephrine"
-	description = "Minor boost to stun resistance. Slowly heals damage if a patient is in critical condition, as well as regulating oxygen loss. Overdose causes weakness and toxin damage."
+	description = "Slowly heals damage if a patient is in critical condition, as well as regulating oxygen loss. Overdose causes weakness and toxin damage. Has a very small chance of stopping heart attacks."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.25 * REAGENTS_METABOLISM
@@ -1028,34 +1032,36 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	..()
 	return
 
-/*	/* Get ye gone stun resist */
 /datum/reagent/medicine/stimulants
 	name = "Stimulants"
 	id = "stimulants"
-	description = "Increases stun resistance and movement speed in addition to restoring minor damage and weakness. Overdose causes weakness and toxin damage."
+	description = "Grants immunity to slowdown, increases movement speed when not heavily injured and restores minor damage and stamina loss. Overdose causes weakness and toxin damage."
 	color = "#C8A5DC"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 60
-	stun_threshold = 4
-	stun_resist = 4
-	speedboost = FAST
+	// stun_threshold = 4
+	// stun_resist = 4
+	speedboost = IGNORE_SLOWDOWN + FAST
 
 /datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
-	if(M.health < 50 && M.health > 0)
-		M.adjustOxyLoss(-1*REM)
-		M.adjustToxLoss(-1*REM)
-		M.adjustBruteLoss(-1*REM)
-		M.adjustBloodLoss(-0.1*REM)
-		M.adjustFireLoss(-1*REM)
+	if(M.health >= 60)
+		speedboost = IGNORE_SLOWDOWN + FAST
+	else
+		speedboost = IGNORE_SLOWDOWN
+		if(M.health > 0)
+			M.adjustOxyLoss(-1*REM)
+			M.adjustToxLoss(-1*REM)
+			M.adjustBruteLoss(-1*REM)
+			M.adjustBloodLoss(-0.1*REM)
+			M.adjustFireLoss(-1*REM)
 	M.adjustStaminaLoss(-3)
-	stun_resist_act(M)
+	// stun_resist_act(M) Stun resists are still dead mate
 	..()
 
 /datum/reagent/medicine/stimulants/overdose_process(mob/living/M)
 	if(prob(33))
-		M.adjustStaminaLoss(2.5*REM)
+		M.adjustStaminaLoss(15*REM)
 		M.adjustToxLoss(1*REM)
 		M.losebreath++
 	..()
 	return
-*/
