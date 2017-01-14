@@ -617,7 +617,7 @@
 	w_class = 3
 	layer = 4
 	origin_tech = "biotech=6"
-	var/list/banned_mobs()
+	var/list/banned_mobs = list(/mob/living/simple_animal/hostile/true_changeling, /mob/living/simple_animal/construct, /mob/living/simple_animal/drone, /mob/living/simple_animal/hostile/guardian)
 
 /obj/item/asteroid/fugu_gland/afterattack(atom/target, mob/user, proximity_flag)
 	if(proximity_flag && istype(target, /mob/living/simple_animal))
