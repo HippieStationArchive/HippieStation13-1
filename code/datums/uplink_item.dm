@@ -191,19 +191,20 @@ var/list/uplink_items = list()
 	cost = 5
 	jobs = list("Bartender")
 
+//ENTERTAINERS
+/datum/uplink_item/job_specific/tricksyndicatecards
+	name = "Trick Syndicate Playing Cards"
+	desc = "A special deck of space-grade playing cards used by syndicate entertainers to awe the crowd. The cards have been altered in some way to produce random certain effects when thrown at someone."
+	item = /obj/item/weapon/trickcards/trickdeck
+	cost = 14
+	jobs = list("Clown","Mime","Bartender","Librarian")
+
 //CLOWN + MIME
 /datum/uplink_item/job_specific/caneshotgun
 	name = "Cane Shotgun + Assassination Darts"
 	desc = "A specialized, one shell shotgun with a built-in cloaking device to mimic a cane. The shotgun is capable of hiding it's contents and the pin alongside being supressed. Comes with 6 special darts and a preloaded shrapnel round."
 	item = /obj/item/weapon/storage/box/syndie_kit/caneshotgun
 	cost = 15
-	jobs = list("Clown","Mime")
-
-/datum/uplink_item/job_specific/tricksyndicatecards
-	name = "Trick Syndicate Playing Cards"
-	desc = "A special deck of space-grade playing cards used by syndicate entertainers to awe the crowd. The cards have been altered in some way to produce random certain effects when thrown at someone."
-	item = /obj/item/weapon/trickcards/trickdeck
-	cost = 14
 	jobs = list("Clown","Mime")
 
 //CLOWN
