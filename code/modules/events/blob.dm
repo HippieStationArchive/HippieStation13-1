@@ -4,8 +4,7 @@
 	weight = 5
 	max_occurrences = 1
 
-	earliest_start = 48000 // 1 hour 20 minutes
-
+	earliest_start = 24000 // 45 mins
 	gamemode_blacklist = list("blob") // Just in case blob survives that long
 
 /datum/round_event/blob
