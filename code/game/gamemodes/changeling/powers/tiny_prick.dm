@@ -116,7 +116,7 @@
 		target.visible_message("<span class='danger'>[target] begins to violenty convulse!</span>","<span class='userdanger'>You feel a tiny prick and a begin to uncontrollably convulse!</span>")
 		spawn(10)
 			user.real_name = NewDNA.real_name
-			NewDNA.transfer_identity(C, transfer_SE=1)
+			NewDNA.transfer_identity(C, transfer_SE=1, noallow_cat=1)
 			if(!istype(selected_dna.dna.species, /datum/species/human))
 				C.humanize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPORGANS | TR_KEEPDAMAGE | TR_KEEPVIRUS | TR_KEEPSE) //To keep lingstings from adding the monkey disability.
 			C.updateappearance(mutcolor_update=1)

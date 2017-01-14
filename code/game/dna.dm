@@ -15,11 +15,15 @@
 	if(new_holder)
 		holder = new_holder
 
-/datum/dna/proc/transfer_identity(mob/living/carbon/destination, transfer_SE = 0)
+/datum/dna/proc/transfer_identity(mob/living/carbon/destination, transfer_SE = 0, noallow_cat = 0)
 	destination.dna.unique_enzymes = unique_enzymes
 	destination.dna.uni_identity = uni_identity
 	destination.dna.blood_type = blood_type
-	destination.set_species(species.type, icon_update=0)
+	if(noallow_cat)
+		if(species.type != /datum/species/cat)
+			destination.set_species(species.type, icon_update=0)
+	else
+		destination.set_species(species.type, icon_update=0)
 	destination.dna.features = features
 	destination.dna.real_name = real_name
 	if(transfer_SE)
