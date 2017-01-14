@@ -110,7 +110,7 @@
 	w_class = 4
 	slot_flags = SLOT_BACK
 	force_unwielded = 10
-	force_wielded = 18 //Might seem a little weak but if the target hits a wall they take an extra 10 damage and get stunned.
+	force_wielded = 25 //Four hits to crit normally, three if they hit a wall each time.
 	special_throw = 1
 	specthrowsound = 'sound/weapons/resonator_blast.ogg'
 	throwforce = 3
@@ -122,6 +122,7 @@
 	specthrowmsg = "chipped"
 	sharpness = IS_SHARP_ACCURATE //Very sharp to make up for the comparativly low damage.
 	var/click_delay = 1.3
+	var/hit_reflect_chance = 50
 
 	var/obj/item/weapon/hockeypack/pack
 
@@ -189,6 +190,11 @@
 	..()
 	if(loc != pack.loc)
 		loc = pack.loc
+
+/obj/item/weapon/twohanded/hockeystick/IsReflect()
+	if(wielded && prob(hit_reflect_chance))
+		return 1
+
 
 /obj/item/weapon/storage/belt/hockey
 	name = "Holopuck Generator"
