@@ -147,6 +147,7 @@
 	desc = "A true classic."
 	icon_state = "dshotgun"
 	item_state = "shotgun"
+	pin = /obj/item/device/firing_pin/generic
 	w_class = 4
 	force = 10
 	stamina_percentage = 0.5
