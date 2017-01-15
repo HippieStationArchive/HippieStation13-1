@@ -171,6 +171,15 @@
 				if(prob(20))
 					spawn(0) emote(pick("giggle","laugh"))
 
+		for(var/datum/gas/fart/F in breath.trace_gases)
+			var/F_partialpressure = (F.moles/breath.total_moles())*breath_pressure
+			if(F_partialpressure > 0.2)
+				if(prob(10))
+					spawn(0) emote(pick("cough","gasp"))
+			else if(F_partialpressure > 0.05)
+				if(prob(5))
+					spawn(0) emote(pick("cough","gasp"))
+
 	//BREATH TEMPERATURE
 	handle_breath_temperature(breath)
 
