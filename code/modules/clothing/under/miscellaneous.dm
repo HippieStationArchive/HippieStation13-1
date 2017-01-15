@@ -625,12 +625,26 @@
 	can_adjust = 0
 
 /obj/item/clothing/under/dio
-	name = "DIO's backless vest"
+	name = "Edgy vampire backless vest"
 	desc = "Walk into the room wearing this, everyone stops."
 	icon_state = "DIO"
 	item_state = "DIO"
 	item_color = "DIO"
 	can_adjust = 0
+	alternate_scream list = ('sound/voice/dio1.ogg','sound/voice/dio2.ogg','sound/voice/dio3.ogg')
+
+/obj/item/clothing/under/dio/equipped(mob/living/carbon/user, slot)
+	if(slot == slot_w_uniform)
+		user.add_screams(src.alternate_screams)
+	else
+		if(ishuman(user))
+			var/mob/living/carbon/human/H = user
+			H.reindex_screams()
+		else
+			user.reindex_screams()
+
+	return ..()
+
 
 /obj/item/clothing/under/suit_jacket/kira
 	name = "light blue suit"

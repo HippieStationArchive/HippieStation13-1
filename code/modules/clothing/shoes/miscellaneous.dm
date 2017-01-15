@@ -216,7 +216,7 @@
 	flags = NODROP
 
 /obj/item/clothing/shoes/dio
-	name = "DIO's ring shoes"
+	name = "Edgy vampire shoes"
 	desc = "These help you stand."
 	icon_state = "DIO"
 	item_color = "DIO"
