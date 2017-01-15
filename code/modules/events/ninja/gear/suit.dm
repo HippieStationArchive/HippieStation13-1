@@ -172,6 +172,72 @@ Contents:
 			user << "There are <B>[a_boost]</B> adrenaline booster\s remaining."
 
 
+/*
+This section has been moved from suit_attackby.dm
+Remove and replace if it causes issues.
+-QC
+*/
+/obj/item/clothing/suit/space/space_ninja/attackby(obj/item/I, mob/U, params)
+	if(U==affecting)//Safety, in case you try doing this without wearing the suit/being the person with the suit.
+
+		if(istype(I, /obj/item/weapon/reagent_containers/glass))//If it's a glass beaker.
+			var/total_reagent_transfer//Keep track of this stuff.
+			for(var/reagent_id in reagent_list)
+				var/datum/reagent/R = I.reagents.has_reagent(reagent_id)//Mostly to pull up the name of the reagent after calculating. Also easier to use than writing long proc paths.
+				if(R&&reagents.get_reagent_amount(reagent_id)<r_maxamount+(reagent_id == "radium"?(a_boost*a_transfer):0)&&R.volume>=a_transfer)//Radium is always special.
+					//Here we determine how much reagent will actually transfer if there is enough to transfer or there is a need of transfer. Minimum of max amount available (using a_transfer) or amount needed.
+					var/amount_to_transfer = min( (r_maxamount+(reagent_id == "radium"?(a_boost*a_transfer):0)-reagents.get_reagent_amount(reagent_id)) ,(round(R.volume/a_transfer))*a_transfer)//In the end here, we round the amount available, then multiply it again.
+					R.volume -= amount_to_transfer//Remove from reagent volume. Don't want to delete the reagent now since we need to perserve the name.
+					reagents.add_reagent(reagent_id, amount_to_transfer)//Add to suit. Reactions are not important.
+					total_reagent_transfer += amount_to_transfer//Add to total reagent trans.
+					U << "Added [amount_to_transfer] units of [R.name]."//Reports on the specific reagent added.
+					I.reagents.update_total()//Now we manually update the total to make sure everything is properly shoved under the rug.
+
+			U << "Replenished a total of [total_reagent_transfer ? total_reagent_transfer : "zero"] chemical units."//Let the player know how much total volume was added.
+			return
+
+		else if(istype(I, /obj/item/weapon/stock_parts/cell))
+			var/obj/item/weapon/stock_parts/cell/CELL = I
+			if(CELL.maxcharge > cell.maxcharge && n_gloves && n_gloves.candrain)
+				U << "<span class='notice'>Higher maximum capacity detected.\nUpgrading...</span>"
+				if (n_gloves && n_gloves.candrain && do_after(U,s_delay, target = src))
+					U.drop_item()
+					CELL.loc = src
+					CELL.charge = min(CELL.charge+cell.charge, CELL.maxcharge)
+					var/obj/item/weapon/stock_parts/cell/old_cell = cell
+					old_cell.charge = 0
+					U.put_in_hands(old_cell)
+					old_cell.add_fingerprint(U)
+					old_cell.corrupt()
+					old_cell.updateicon()
+					cell = CELL
+					U << "<span class='notice'>Upgrade complete. Maximum capacity: <b>[round(cell.maxcharge/100)]</b>%</span>"
+				else
+					U << "<span class='danger'>Procedure interrupted. Protocol terminated.</span>"
+			return
+
+		else if(istype(I, /obj/item/weapon/disk/tech_disk))//If it's a data disk, we want to copy the research on to the suit.
+			var/obj/item/weapon/disk/tech_disk/TD = I
+			if(TD.stored)//If it has something on it.
+				U << "Research information detected, processing..."
+				if(do_after(U,s_delay, target = src))
+					for(var/datum/tech/current_data in stored_research)
+						if(current_data.id==TD.stored.id)
+							if(current_data.level<TD.stored.level)
+								current_data.level=TD.stored.level
+							break
+					TD.stored = null
+					U << "<span class='notice'>Data analyzed and updated. Disk erased.</span>"
+				else
+					U << "<span class='userdanger'>ERROR</span>: Procedure interrupted. Process terminated."
+			else
+				I.loc = src
+				t_disk = I
+				U << "<span class='notice'>You slot \the [I] into \the [src].</span>"
+			return
+	..()
+
+
 //Gloves
 
 /obj/item/clothing/gloves/space_ninja
@@ -403,3 +469,87 @@ Contents:
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
 	heat_protection = FEET
 	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
+
+
+//Katana
+//Moving this here since it's technically part of the suit, and will save space -QC
+/obj/item/weapon/katana/energy
+	name = "energy katana"
+	desc = "A katana infused with strong energy."
+	icon_state = "energy_katana"
+	item_state = "energy_katana"
+	force = 40
+	throwforce = 20
+	armour_penetration = 15
+	var/datum/effect_system/spark_spread/spark_system
+
+/obj/item/weapon/katana/energy/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(!user || !target)
+		return
+
+	if(proximity_flag)
+		if(isobj(target) || issilicon(target))
+			spark_system.start()
+			playsound(user, "sparks", 50, 1)
+			playsound(user, 'sound/weapons/blade1.ogg', 50, 1)
+			target.emag_act(user)
+
+
+//If we hit the Ninja who owns this Katana, they catch it.
+//Works for if the Ninja throws it or it throws itself or someone tries
+//To throw it at the ninja
+/obj/item/weapon/katana/energy/throw_impact(atom/hit_atom)
+	if(ishuman(hit_atom))
+		var/mob/living/carbon/human/H = hit_atom
+		if(istype(H.wear_suit, /obj/item/clothing/suit/space/space_ninja))
+			var/obj/item/clothing/suit/space/space_ninja/SN = H.wear_suit
+			if(SN.energyKatana == src)
+				returnToOwner(H, 0, 1)
+				return
+
+	..()
+
+/obj/item/weapon/katana/energy/proc/returnToOwner(mob/living/carbon/human/user, doSpark = 1, caught = 0)
+	if(!istype(user))
+		return
+	loc = get_turf(src)
+
+	if(doSpark)
+		spark_system.start()
+		playsound(get_turf(src), "sparks", 50, 1)
+
+	var/msg = ""
+
+	if(user.put_in_hands(src))
+		msg = "Your Energy Katana teleports into your hand!"
+	else if(user.equip_to_slot_if_possible(src, slot_belt, 0, 1, 1))
+		msg = "Your Energy Katana teleports back to you, sheathing itself as it does so!</span>"
+	else
+		loc = get_turf(user)
+		msg = "Your Energy Katana teleports to your location!"
+
+	if(caught)
+		if(loc == user)
+			msg = "You catch your Energy Katana!"
+		else
+			msg = "Your Energy Katana lands at your feet!"
+
+	if(msg)
+		user << "<span class='notice'>[msg]</span>"
+
+/obj/item/weapon/katana/energy/New()
+	..()
+	spark_system = new /datum/effect_system/spark_spread()
+	spark_system.set_up(5, 0, src)
+	spark_system.attach(src)
+
+
+/obj/item/weapon/katana/energy/Del()
+	qdel(spark_system)
+	spark_system = null
+	..()
+
+/obj/item/weapon/katana/energy/Destroy()
+	qdel(spark_system)
+	spark_system = null
+	return ..()
