@@ -10,7 +10,7 @@ Stimulant
 	Moderate Level.
 
 Bonus
-	The body generates Morphine.
+	The body generates Hyperzine.
 
 //////////////////////////////////////
 */
@@ -30,9 +30,9 @@ Bonus
 		var/mob/living/M = A.affected_mob
 		switch(A.stage)
 			if(5)
-				if (M.reagents.get_reagent_amount("morphine") < 9)
-					M.reagents.add_reagent("morphine", 9)
+				if (M.reagents.get_reagent_amount("hyperzine") < 10)
+					M.reagents.add_reagent("hyperzine", 10)
 			else
 				if(prob(SYMPTOM_ACTIVATION_PROB * 5))
-					M << "<span class='notice'>[pick("You feel light on your feet.", "You feel weightless and free of obstructions.")]</span>"
+					M << "<span class='notice'>[pick("You feel restless.", "You feel like running laps around the station.")]</span>"
 	return

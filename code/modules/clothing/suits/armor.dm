@@ -423,12 +423,12 @@
 	icon_state = "hockey_suit"
 	item_state = "hockey_suit"
 	blood_overlay_type = "armor"
-	allowed = list(/obj/item/weapon/tank/internals/oxygen)
+	allowed = list(/obj/item/weapon/tank/internals)
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	flags = THICKMATERIAL | NODROP | STOPSPRESSUREDMAGE
-	armor = list(melee = 65, bullet = 75, laser = 60, energy = 45, bomb = 75, bio = 0, rad = 30)
+	armor = list(melee = 70, bullet = 45, laser = 80, energy = 45, bomb = 75, bio = 0, rad = 30)
 	unacidable = 1

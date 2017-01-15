@@ -103,7 +103,7 @@
 /datum/reagent/drug/heroin
 	name = "Heroin"
 	id = "heroin"
-	description = "An extremely advanced painkiller/narcotic. Heroin allows you to ignore all slowdown and grants you full immunity to stamina damage, but stuns are twice as effective against you. Mildly toxic. Overdosing will make you periodically fall asleep."
+	description = "An extremely advanced painkiller/narcotic. Heroin allows you to ignore all slowdown and grants you much faster stamina regeneration, but stuns are twice as effective against you. Mildly toxic. Overdosing will make you periodically fall asleep."
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
@@ -112,9 +112,10 @@
 	speedboost = IGNORE_SLOWDOWN
 
 /datum/reagent/drug/heroin/on_mob_life(mob/living/M)
-	M.setStaminaLoss(0)
-	if(M.stunned || M.weakened)
+	M.adjustStaminaLoss(-15)
+	if(M.stunned)
 		M.AdjustStunned(0.5)
+	if(M.weakened)
 		M.AdjustWeakened(0.5)
 	if(iscarbon(M))
 		var/mob/living/carbon/N = M
@@ -189,18 +190,18 @@
 /datum/reagent/drug/aranesp
 	name = "Aranesp"
 	id = "aranesp"
-	description = "Amps you up and gets you going, fixes all stamina damage you might have but can cause toxin and oxygen damage.."
+	description = "Amps you up and gets you going, fixes all stamina damage you might have but can cause toxin and oxygen damage."
 	reagent_state = LIQUID
 	color = "#60A584" // rgb: 96, 165, 132
-	speedboost = VERY_FAST + FAST
+	speedboost = VERY_FAST
 
 /datum/reagent/drug/aranesp/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
 	if(prob(5))
 		M << "<span class='notice'>[high_message]</span>"
-	M.setStaminaLoss(0)
+	M.adjustStaminaLoss(-15)
 	M.adjustToxLoss(0.5)
-	if(prob(50))
+	if(prob(33))
 		M.losebreath++
 		M.adjustOxyLoss(1)
 	..()
@@ -476,8 +477,6 @@
 	stun_threshold = 2
 	stun_resist = 12
 	speedboost = VERY_FAST + IGNORE_SLOWDOWN
-
-
 /datum/reagent/drug/bath_salts/on_mob_life(mob/living/M)
 	var/high_message = pick("You feel your grip on reality loosening.", "You feel like your heart is beating out of control.", "You feel as if you're about to die.")
 	if(prob(15))
@@ -499,7 +498,6 @@
 	stun_resist_act(M)
 	..()
 	return
-
 /datum/reagent/drug/bath_salts/overdose_process(mob/living/M)
 	M.adjustToxLoss(0.8*REM)
 	M.hallucination += 10
@@ -516,7 +514,6 @@
 	stun_timer += 1
 	..()
 	return
-
 /datum/reagent/drug/bath_salts/addiction_act_stage1(mob/living/M)
 	M.hallucination += 10
 	if(M.canmove && !istype(M.loc, /atom/movable))
@@ -566,6 +563,94 @@
 	..()
 	return
 */
+
+/datum/reagent/drug/flipout
+	name = "Flipout"
+	id = "flipout"
+	description = "A chemical compound that causes uncontrolled and extremely violent flipping."
+	color = "#ff33cc" // rgb: 255, 51, 204
+	reagent_state = LIQUID
+	overdose_threshold = 40
+	addiction_threshold = 30
+
+
+/datum/reagent/drug/flipout/on_mob_life(mob/living/M)
+	var/high_message = pick("You have the uncontrollable, all consuming urge to FLIP!.", "You feel as if you are flipping to a higher plane of existence.", "You just can't stop FLIPPING.")
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(80))
+			H.SpinAnimation(10,1)
+		if(prob(10))
+			M << "<span class='notice'>[high_message].</span>"
+
+	..()
+	return
+
+/datum/reagent/drug/flipout/overdose_process(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		H.SpinAnimation(16,100)
+		if(prob(70))
+			H.Dizzy(20)
+			if(M.canmove && !istype(M.loc, /atom/movable))
+				for(var/i = 0, i < 4, i++)
+				step(M, pick(cardinal))
+		if(prob(15))
+			M << "<span class='danger'>The flipping is so intense you begin to tire </span>"
+			H.confused +=4
+			M.adjustStaminaLoss(10)
+			H.transform *= -1
+	..()
+	return
+
+/datum/reagent/drug/flipout/addiction_act_stage1(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(85))
+			H.SpinAnimation(12,1)
+		else
+			H.Dizzy(16)
+	..()
+
+/datum/reagent/drug/flipout/addiction_act_stage2(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(90))
+			H.SpinAnimation(10,3)
+		else
+			H.Dizzy(20)
+			M.adjustStaminaLoss(25)
+	..()
+
+/datum/reagent/drug/flipout/addiction_act_stage3(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(prob(95))
+			H.SpinAnimation(7,20)
+		else
+			H.Dizzy(30)
+			M.adjustStaminaLoss(40)
+	..()
+
+/datum/reagent/drug/flipout/addiction_act_stage4(mob/living/M)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		H.SpinAnimation(2,100)
+		if(prob(10))
+			M << "<span class='danger'>Your flipping has become so intense you've become an improvised generator </span>"
+			H.Dizzy(25)
+			M.electrocute_act(rand(1,5), 1, 1)
+			playsound(M, "sparks", 50, 1)
+			H.emote("scream")
+			H.Jitter(-100)
+
+		else
+			H.Dizzy(60)
+	..()
+
+/datum/reagent/drug/flipout/reaction_obj(obj/O, reac_volume)
+	if(istype(O,/obj))
+		O.SpinAnimation(16,40)
 
 /datum/reagent/drug/burpium
 	name = "Burpium"
@@ -635,4 +720,5 @@
 				gibs(H.loc, H.viruses, H.dna)
 	..()
 	return
+
 

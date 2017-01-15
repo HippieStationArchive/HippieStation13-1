@@ -1262,3 +1262,16 @@
 		var/t_loc = get_turf(O)
 		qdel(O)
 		new /obj/item/clothing/shoes/galoshes/dry(t_loc)
+
+/datum/reagent/hyperzine
+	name = "Hyperzine"
+	id = "hyperzine"
+	description = "A common stimulant drug derived from caffeine that can result in enhanced speed and endurance with minimal side effects."
+	reagent_state = LIQUID
+	color = "#FFFFB3" // rgb: 255, 255, 179
+	speedboost = FAST
+
+/datum/reagent/hyperzine/on_mob_life(mob/living/M)
+	M.Jitter(2)
+	M.adjustStaminaLoss(-1)
+
