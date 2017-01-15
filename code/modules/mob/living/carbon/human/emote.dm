@@ -388,6 +388,24 @@
 			m_type = 1
 			delay = 30
 
+		if ("poop")
+			var/obj/item/organ/internal/butt/B = locate() in internal_organs
+			if(!B)
+				src << "\red You don't have a butt!"
+				return
+			if(nutrition >= 120)
+				message = "<span class='danger'>[src] poops!</span>"
+				nutrition -= 120
+				adjustBruteLoss(2)
+				poop_splatter(src)
+				playsound(src, 'sound/misc/fart.ogg', 50, 1)
+				playsound(src, 'sound/effects/splat.ogg', 10, 1)
+			else
+				message = "<span class='danger'>[src] grunts, but nothing happens!</span>"
+				adjustBruteLoss(8)
+			m_type = 2
+			delay = 600 //Once a minute
+
 		if ("shiver","shivers")
 			message = "<B>[src]</B> shivers."
 			m_type = 1
