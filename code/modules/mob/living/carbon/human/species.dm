@@ -1553,13 +1553,12 @@
 		for(var/datum/gas/fart/F in breath.trace_gases)
 			var/F_pp = breath.get_breath_partial_pressure(F.moles)
 			if(F_pp > 0.2)
-				if(prob(10))
+				spawn(0) H.emote(pick("cough","gasp"))
+				H.staminaloss += 20
+				if(prob(30))
 					spawn(0) H.emote("vomit")
-				if(prob(15))
-					spawn(0) H.emote(pick("cough","gasp"))
 			else if(F_pp > 0.05)
-				if(prob(3))
-					spawn(0) H.emote(pick("cough","gasp"))
+				spawn(0) H.emote(pick("cough","gasp"))
 
 	handle_breath_temperature(breath, H)
 
