@@ -631,7 +631,7 @@
 	item_state = "DIO"
 	item_color = "DIO"
 	can_adjust = 0
-	alternate_scream list = ('sound/voice/dio1.ogg','sound/voice/dio2.ogg','sound/voice/dio3.ogg')
+	alternate_scream = list = ('sound/voice/dio1.ogg','sound/voice/dio2.ogg','sound/voice/dio3.ogg')
 
 /obj/item/clothing/under/dio/equipped(mob/living/carbon/user, slot)
 	if(slot == slot_w_uniform)
