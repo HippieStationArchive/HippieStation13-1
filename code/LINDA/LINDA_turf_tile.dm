@@ -251,6 +251,8 @@
 			return SSair.plasma_overlay
 		if("sleeping_agent")
 			return SSair.sleeptoxin_overlay
+		if("fart")
+			return SSair.fart_overlay
 	return null
 
 /turf/simulated/proc/tile_graphic()
@@ -260,6 +262,9 @@
 	var/datum/gas/sleeping_agent = locate(/datum/gas/sleeping_agent) in air.trace_gases
 	if(sleeping_agent && (sleeping_agent.moles > 1))
 		return "sleeping_agent"
+	var/datum/gas/fart = locate(/datum/gas/fart) in air.trace_gases
+	if(fart && (fart.moles > 1))
+		return "fart"
 	return null
 
 /turf/simulated/proc/share_air(turf/simulated/T)
@@ -337,6 +342,8 @@
 	var/datum/gas_mixture/A = new
 	var/datum/gas/sleeping_agent/S = new
 	A.trace_gases += S
+	var/datum/gas/fart/F = new
+	A.trace_gases += F
 	for(var/turf/simulated/T in turf_list)
 		A.oxygen 		+= T.air.oxygen
 		A.carbon_dioxide+= T.air.carbon_dioxide
@@ -359,6 +366,15 @@
 					G.moles = S.moles/turf_list.len
 			else
 				var/datum/gas/sleeping_agent/G = new
+				G.moles = S.moles/turf_list.len
+				T.air.trace_gases += G
+
+		if(F.moles > 0)
+			if(T.air.trace_gases.len)
+				for(var/datum/gas/G in T.air.trace_gases)
+					G.moles = S.moles/turf_list.len
+			else
+				var/datum/gas/fart/G = new
 				G.moles = S.moles/turf_list.len
 				T.air.trace_gases += G
 

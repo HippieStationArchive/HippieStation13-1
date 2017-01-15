@@ -29,6 +29,7 @@
 	var/scrub_CO2 = 1
 	var/scrub_Toxins = 0
 	var/scrub_N2O = 0
+	var/scrub_Fart = 0
 
 	var/volume_rate = 200
 	var/widenet = 0 //is this scrubber acting on the 3x3 area around it.
@@ -75,6 +76,8 @@
 		if (scrub_Toxins)
 			amount += idle_power_usage
 		if (scrub_N2O)
+			amount += idle_power_usage
+		if (scrub_Fart)
 			amount += idle_power_usage
 	else //scrubbing == SIPHONING
 		amount = active_power_usage
@@ -125,6 +128,7 @@
 		"filter_co2" = scrub_CO2,
 		"filter_toxins" = scrub_Toxins,
 		"filter_n2o" = scrub_N2O,
+		"filter_fart" = scrub_Fart,
 		"sigtype" = "status"
 	)
 	if(!initial_loc.air_scrub_names[id_tag])
@@ -195,7 +199,9 @@
 					else if(istype(trace_gas, /datum/gas/sleeping_agent) && scrub_N2O)
 						removed.trace_gases -= trace_gas
 						filtered_out.trace_gases += trace_gas
-
+					else if(istype(trace_gas, /datum/gas/fart) && scrub_Fart)
+						removed.trace_gases -= trace_gas
+						filtered_out.trace_gases += trace_gas
 
 			//Remix the resulting gases
 			air_contents.merge(filtered_out)
@@ -269,6 +275,11 @@
 		scrub_N2O = text2num(signal.data["n2o_scrub"])
 	if("toggle_n2o_scrub" in signal.data)
 		scrub_N2O = !scrub_N2O
+
+	if("fart_scrub" in signal.data)
+		scrub_Fart = text2num(signal.data["fart_scrub"])
+	if("toggle_fart_scrub" in signal.data)
+		scrub_Fart = !scrub_Fart
 
 	if("init" in signal.data)
 		name = signal.data["init"]
