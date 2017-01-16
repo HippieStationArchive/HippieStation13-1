@@ -123,6 +123,13 @@
 				else
 					message_admins("[key_name_admin(usr)] tried to create a shadowling. Unfortunately, there were no candidates available.")
 					log_admin("[key_name(usr)] failed to create a shadowling.")
+			if("17")
+				if(src.makeJesus())
+					message_admins("[key_name(usr)] created a messiah.")
+					log_admin("[key_name(usr)] created a messiah.")
+				else
+					message_admins("[key_name_admin(usr)] tried to create a messiah. Unfortunately, there were no candidates available.")
+					log_admin("[key_name(usr)] failed to create a messiah.")
 
 	else if(href_list["forceevent"])
 		if(!check_rights(R_FUN))	return
