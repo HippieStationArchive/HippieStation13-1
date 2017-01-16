@@ -24,6 +24,7 @@
 		<a href='?src=\ref[src];makeAntag=13'>Make Centcom Response Team (Requires Ghosts)</a><br>
 		<a href='?src=\ref[src];makeAntag=14'>Make Abductor Team (Requires Ghosts)</a><br>
 		<a href='?src=\ref[src];makeAntag=15'>Make Revenant (Requires Ghost)</a><br>
+		<a href='?src=\ref[src];makeAntag=17'>Make Messiah (Requires Ghost)</a><br>
 		"}
 
 	var/datum/browser/popup = new(usr, "oneclickantag", "Quick-Create Antagonist", 400, 400)
@@ -47,7 +48,7 @@
 	if(malfAI)
 		themind = malfAI.mind
 		themind.make_AI_Malf()
-		return 1
+		return 1	
 
 	return 0
 
@@ -606,3 +607,52 @@
 		candidates.Remove(H)
 		return 1
 	return 0
+
+//Jesus
+
+/datum/admins/proc/makeJesus()
+
+	var/objective = "Perform miracles to save the crew from the sin that rages aboard this station!"
+	var/list/mob/dead/observer/candidates = pollCandidates("Do you wish to be considered to return as a Messiah", "jesus", null)
+
+	if(candidates.len >= 1)
+		var/mob/dead/observer/chosen_candidate = pick(candidates)
+		var/turf/spawnloc = pick(blobstart)
+		if(!spawnloc || !chosen_candidate.key)
+			return 0
+		var/mob/living/carbon/human/Jesus = new(spawnloc)
+		chosen_candidate.client.prefs.copy_to(Jesus)
+		Jesus.key = chosen_candidate.key
+		Jesus.dna.update_dna_identity()
+		Jesus.real_name = "[deity_name]"
+//		Jesus.equipOutfit(JESUSOUTFITHERE)
+		Jesus.mob_spell_list += new /obj/effect/proc_holder/spell/aoe_turf/knock/jesus(src)
+		Jesus.mob_spell_list += new /obj/effect/proc_holder/spell/targeted/jesus_btw(src)
+		Jesus.mob_spell_list += new /obj/effect/proc_holder/spell/targeted/jesus_deconvert(src)
+		Jesus.mob_spell_list += new /obj/effect/proc_holder/spell/targeted/jesus_revive(src)
+		Jesus.mob_spell_list += new /obj/effect/proc_holder/spell/targeted/jesus_revive/cure(src)
+
+
+		ticker.mode.traitors += Jesus.mind
+		Jesus.mind.special_role = "jesus"
+		Jesus.mind.assigned_role = "Jesus"
+		var/datum/objective/missionobj = new
+		missionobj.owner = Jesus.mind
+		missionobj.explanation_text = objective
+		missionobj.completed = 1
+		Jesus.mind.objectives += missionobj
+
+		Jesus << "<B><font size=3 color=red>You are the Messiah, [Jesus.real_name]!</font></B>"
+		Jesus << objective
+		Jesus << "You have many miracles at your disposal. These may either be used to aid the crew or protect yourself from harm"
+		Jesus << "<B>Ressurection: </B>After a short channeling period, this miracle brings a target back from the dead."
+		Jesus << "<B>Blood To Wine: </B>This miracle turns blood into wine, leaving anybody nearby extremely intoxicated and unable to fight for a few minutes."
+		Jesus << "<B>Cure The Sick: </B>With the power of this miracle, Jesus can return any living being to full health and will remove any disease or mutation affecting the target."
+		Jesus << "<B>Parting Waves: </B>Once used to split the very ocean in two, this miracle is now relegated to opening airlocks. Extremely useful."
+		Jesus << "<B>Ticket To Ride: </B>When activated, this miracle blesses the target with extreme luck, causing any external harm to reflect to whoever inflicted it. However, it slowly drains your life force, so be careful!."
+		Jesus << "<B>Repent For Your Sins: </B>After channeling for two minutes, this miracle will show any sinner the righteous path, removing their antagonist status."
+		message_admins("[key_name(Jesus)] has been selected as Jesus.")
+		log_game("[key_name(Jesus)] has been selected as Jesus")
+		return 1
+	else
+		return 0
