@@ -126,8 +126,8 @@
 /obj/item/device/firing_pin/area/syndicate
 	force_replace = 1
 	A = /area/syndicate_mothership
-	name = "Syndicate firing pin"
-	desc = "This pin will prevent firing whilst at the operative outpost."
+	name = "safety firing pin"
+	desc = "This pin will prevent firing whilst at sensitive areas."
 	icon_state = "firing_pin_pindi"
 
 /obj/item/device/firing_pin/trick
