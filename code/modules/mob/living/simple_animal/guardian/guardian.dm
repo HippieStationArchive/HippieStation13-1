@@ -269,7 +269,6 @@
 	var/battlecry = "AT"
 	mob_reflect_chance = 40
 	var/holopunchrng = null
-	var/obj/item/organ/limb/affecting = null
 
 
 /mob/living/simple_animal/hostile/guardian/punch/verb/Battlecry()
@@ -293,18 +292,13 @@
 			playsound(loc, src.attack_sound, 50, 1, 1)
 			playsound(loc, src.attack_sound, 50, 1, 1)
 			playsound(loc, src.attack_sound, 50, 1, 1)
-			H.Stun(1)
+			H.apply_effect(1, STUN)
 		if(20 to 50)
 			src.say("[src.battlecry]")
-			H.Stun(5)
+			H.apply_effect(3, WEAKEN)
 		if(0 to 20)
 			if(istype(target, /mob/living/carbon/human))
-				if(prob(50))
-					affecting = H.get_organ("head")
-					H.Weaken(3)
-				if(prob(50))
-					affecting = H.get_organ("chest")
-				H.apply_damage(BRUTE, affecting)
+				H.take_organ_damage(BRUTE, BURN)
 			else ..()
 
 //Healer
