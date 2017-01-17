@@ -680,7 +680,6 @@
 	warn_admins(user, "Mass Mob Spawn")
 	if(prob(80))
 		user << "<span class='warning'>[src] doesn't respond!</span>"
-		qdel(src)
 
 /obj/item/weapon/relic/proc/rapidDupe(mob/user)
 	audible_message("[src] emits a loud pop!")
