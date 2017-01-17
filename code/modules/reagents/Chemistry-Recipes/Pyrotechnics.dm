@@ -60,7 +60,7 @@
 			R.stun(20)
 			R.reveal(100)
 		sleep(20)
-		for(var/mob/living/carbon/M in get_hearers_in_view(round(created_volume/48,1),get_turf(holder.my_atom)))
+		for(var/mob/living/carbon/M in get_hearers_in_view(round(created_volume/20,1),get_turf(holder.my_atom)))
 			if(iscultist(M))
 				M << "<span class='userdanger'>The divine explosion sears you!</span>"
 				M.Weaken(2)
