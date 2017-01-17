@@ -607,7 +607,7 @@
 
 /mob/living/simple_animal/hostile/asteroid/fugu/death(gibbed)
 	Deflate()
-	var/obj/item/asteroid/fugu_gland/F = new /obj/item/asteroid/fugu_gland(src.loc)
+	var/obj/item/organ/internal/fugu_gland/F = new /obj/item/organ/internal/fugu_gland(src.loc)
 	F.layer = 4.1
 	..(gibbed)
 
