@@ -32,7 +32,6 @@
 	var/cloneCount = 0
 	var/list/item_reactions = list()
 	var/list/valid_items = list() //valid items for special reactions like transforming
-	var/list/critical_items = list() //items that can cause critical reactions
 
 /obj/machinery/r_n_d/experimentor/proc/ConvertReqString2List(list/source_list)
 	var/list/temp_list = params2list(source_list)
@@ -73,11 +72,6 @@
 			if(initial(tempCheck.icon_state) != null) //check it's an actual usable item, in a hacky way
 				valid_items += rand(1,max(2,35-probWeight))
 				valid_items += I
-
-		if(ispath(I,/obj/item/weapon/rcd) || ispath(I,/obj/item/weapon/grenade) || ispath(I,/obj/item/device/aicard) || ispath(I,/obj/item/weapon/storage/backpack/holding) || ispath(I,/obj/item/slime_extract) || ispath(I,/obj/item/device/onetankbomb) || ispath(I,/obj/item/device/transfer_valve))
-			var/obj/item/tempCheck = I
-			if(initial(tempCheck.icon_state) != null)
-				critical_items += I
 
 
 /obj/machinery/r_n_d/experimentor/New()
@@ -252,7 +246,6 @@
 	recentlyExperimented = 1
 	icon_state = "h_lathe_wloop"
 	var/chosenchem
-	var/criticalReaction = (exp_on.type in critical_items) ? TRUE : FALSE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	if(exp == SCANTYPE_POKE)
 		visible_message("[src] prods at [exp_on] with mechanical arms.")
