@@ -638,15 +638,12 @@
 		qdel(src)
 	if(proximity_flag && istype(target, /mob/living/carbon))
 		var/mob/living/carbon/H = target
-		if(H.buffed || H.stat)
+		if(H.buffed || H.buffed)
 			user << "<span class='warning'>Something's interfering with the [src]'s effects. It's no use.</span>"
 			return
 		H.buffed++
-		H.maxHealth *= 1.5
-		H.health = min(A.maxHealth,A.health*1.5)
-		H.melee_damage_lower = max((A.melee_damage_lower * 2), 10)
-		H.melee_damage_upper = max((A.melee_damage_upper * 2), 10)
+		H.maxHealth *= 2
+		H.health = min(A.maxHealth,A.health*2)
 		H.transform *= 2
-		H.environment_smash += 2
 		user << "<span class='info'>You increase the size of [H], giving it a surge of strength!</span>"
 		qdel(src)
