@@ -26,8 +26,8 @@
 	var/mob/trackedIan
 	var/mob/trackedRuntime
 	var/obj/item/loaded_item = null
-	var/badThingCoeff = 0
-	var/resetTime = 15
+	var/badThingCoeff = 10
+	var/resetTime = 10
 	var/cloneMode = FALSE
 	var/cloneCount = 0
 	var/list/item_reactions = list()
@@ -256,7 +256,7 @@
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	if(exp == SCANTYPE_POKE)
 		visible_message("[src] prods at [exp_on] with mechanical arms.")
-		if(prob(EFFECT_PROB_LOW) && criticalReaction)
+		if(prob(EFFECT_PROB_LOW+badThingCoeff))
 			visible_message("[exp_on] is gripped in just the right way, enhancing its focus.")
 			badThingCoeff++
 		if(prob(EFFECT_PROB_VERYLOW-badThingCoeff))
@@ -280,7 +280,7 @@
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	if(exp == SCANTYPE_IRRADIATE)
 		visible_message("<span class='danger'>[src] reflects radioactive rays at [exp_on]!</span>")
-		if(prob(EFFECT_PROB_LOW) && criticalReaction)
+		if(prob(EFFECT_PROB_LOW+badThingCoeff))
 			visible_message("[exp_on] has activated an unknown subroutine!")
 			cloneMode = TRUE
 			cloneCount = badThingCoeff
@@ -311,7 +311,7 @@
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	if(exp == SCANTYPE_GAS)
 		visible_message("<span class='warning'>[src] fills its chamber with gas, [exp_on] included.</span>")
-		if(prob(EFFECT_PROB_LOW) && criticalReaction)
+		if(prob(EFFECT_PROB_LOW+badThingCoeff))
 			visible_message("[exp_on] achieves the perfect mix!")
 			new /obj/item/stack/sheet/mineral/plasma(get_turf(pick(oview(1,src))))
 		if(prob(EFFECT_PROB_VERYLOW-badThingCoeff))
@@ -352,7 +352,7 @@
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	if(exp == SCANTYPE_HEAT)
 		visible_message("[src] raises [exp_on]'s temperature.")
-		if(prob(EFFECT_PROB_LOW) && criticalReaction)
+		if(prob(EFFECT_PROB_LOW+badThingCoeff))
 			visible_message("<span class='warning'>[src]'s emergency coolant system gives off a small ding!</span>")
 			playsound(src.loc, 'sound/machines/ding.ogg', 50, 1)
 			var/obj/item/weapon/reagent_containers/food/drinks/coffee/C = new /obj/item/weapon/reagent_containers/food/drinks/coffee(get_turf(pick(oview(1,src))))
@@ -404,7 +404,7 @@
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	if(exp == SCANTYPE_COLD)
 		visible_message("[src] lowers [exp_on]'s temperature.")
-		if(prob(EFFECT_PROB_LOW) && criticalReaction)
+		if(prob(EFFECT_PROB_LOW+badThingCoeff))
 			visible_message("<span class='warning'>[src]'s emergency coolant system gives off a small ding!</span>")
 			var/obj/machinery/vending/coffee/C = new /obj/machinery/vending/coffee(get_turf(pick(oview(1,src))))
 			playsound(src.loc, 'sound/machines/ding.ogg', 50, 1) //Ding! Your death coffee is ready!
@@ -449,7 +449,7 @@
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	if(exp == SCANTYPE_OBLITERATE)
 		visible_message("<span class='warning'>[exp_on] activates the crushing mechanism, [exp_on] is destroyed!</span>")
-		if(prob(EFFECT_PROB_LOW) && criticalReaction)
+		if(prob(EFFECT_PROB_LOW+badThingCoeff))
 			visible_message("<span class='warning'>[src]'s crushing mechanism slowly and smoothly descends, flattening the [exp_on]!</span>")
 			new /obj/item/stack/sheet/plasteel(get_turf(pick(oview(1,src))))
 		if(linked_console.linked_lathe)
@@ -533,7 +533,7 @@
 			ejectItem(TRUE)
 		if(globalMalf > 60)
 			visible_message("<span class='warning'>[src] begins to smoke and hiss, shaking violently!</span>")
-			use_power(500000)
+			use_power(10000)
 			investigate_log("Experimentor has drained power from its APC", "experimentor")
 
 	spawn(resetTime)
@@ -625,7 +625,7 @@
 		return
 	revealed = TRUE
 	name = realName
-	cooldownMax = rand(60,300)
+	cooldownMax = rand(60,150)
 	realProc = pick("teleport","explode","rapidDupe","petSpray","flash","clean","corgicannon")
 
 /obj/item/weapon/relic/attack_self(mob/user)
@@ -678,8 +678,8 @@
 		var/mobType = pick(valid_animals)
 		new mobType(get_turf(src))
 	warn_admins(user, "Mass Mob Spawn")
-	if(prob(60))
-		user << "<span class='warning'>[src] falls apart!</span>"
+	if(prob(80))
+		user << "<span class='warning'>[src] doesn't respond!</span>"
 		qdel(src)
 
 /obj/item/weapon/relic/proc/rapidDupe(mob/user)
@@ -711,7 +711,7 @@
 			visible_message("<span class='notice'>The [src]'s top opens, releasing a powerful blast!</span>")
 			explosion(user.loc, -1, rand(1,5), rand(1,5), rand(1,5), rand(1,5), flame_range = 2)
 			warn_admins(user, "Explosion")
-			qdel(src) //Comment this line to produce a light grenade (the bomb that keeps on exploding when used)!!
+//			qdel(src) //Comment this line to produce a light grenade (the bomb that keeps on exploding when used)!!
 
 /obj/item/weapon/relic/proc/teleport(mob/user)
 	user << "<span class='notice'>The [src] begins to vibrate!</span>"
