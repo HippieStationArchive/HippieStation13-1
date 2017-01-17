@@ -188,6 +188,8 @@
 	if(!data) data = 1
 	data++
 	M.jitteriness = max(M.jitteriness-5,0)
+	if(is_vampire(M))
+		M.adjustFireLoss(8) //Holy water kills vampires FAST.
 	if(data >= 30)		// 12 units, 54 seconds @ metabolism 0.4 units & tick rate 1.8 sec
 		if (!M.stuttering) M.stuttering = 1
 		M.stuttering += 4
