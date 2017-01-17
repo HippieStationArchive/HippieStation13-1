@@ -611,18 +611,20 @@
 	F.layer = 4.1
 	..(gibbed)
 
-/obj/item/asteroid/fugu_gland
+/obj/item/organ/internal/fugu_gland
 	name = "wumborian fugu gland"
 	desc = "The key to the wumborian fugu's ability to increase its mass arbitrarily, this disgusting remnant can apply the same effect to other creatures, giving them great strength."
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "fugu_gland"
 	flags = NOBLUDGEON
+	slot = fugugland
+	force = 0
 	w_class = 3
 	layer = 4
 	origin_tech = "biotech=6"
 	var/list/banned_mobs = list(/mob/living/simple_animal/hostile/true_changeling, /mob/living/simple_animal/construct, /mob/living/simple_animal/drone, /mob/living/simple_animal/hostile/guardian)
 
-/obj/item/asteroid/fugu_gland/afterattack(atom/target, mob/user, proximity_flag)
+/obj/item/organ/internal/fugu_gland/afterattack(atom/target, mob/user, proximity_flag)
 	if(proximity_flag && istype(target, /mob/living/simple_animal))
 		var/mob/living/simple_animal/A = target
 		if(A.buffed || (A.type in banned_mobs) || A.stat)
@@ -637,3 +639,18 @@
 		A.environment_smash += 2
 		user << "<span class='info'>You increase the size of [A], giving it a surge of strength!</span>"
 		qdel(src)
+
+/obj/item/organ/internal/fugu_gland/prepare_eat()
+	return null
+	
+/obj/item/organ/internal/fugu_gland/on_life()
+	..()
+	if(owner.buffed || (owner.type in banned_mobs) || owner.stat)
+		return
+	owner.buffed++
+	owner.maxHealth *= 1.5
+	owner.health = min(A.maxHealth,A.health*1.5)
+	owner.melee_damage_lower = max((A.melee_damage_lower * 2), 10)
+	owner.melee_damage_upper = max((A.melee_damage_upper * 2), 10)
+	owner.transform *= 2
+	owner.environment_smash += 2
