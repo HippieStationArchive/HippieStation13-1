@@ -322,7 +322,7 @@ research holder datum.
 	desc = "A disk containing Goonstation code that was altered by someone known only as 'Dong'. It is a main subject of research as it is byond human comprehension."
 	icon = 'icons/obj/items.dmi'
 	icon_state = "gooncode"
-	stored = new/datum/tech/programming{level = 4}
+	stored = new/datum/tech/programming{level = -9001}
 /*	var/dong/failedcompile
 	var/dong/invisiblecats
 	var/dong/typofixing
