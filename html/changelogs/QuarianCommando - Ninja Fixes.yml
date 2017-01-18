@@ -1,8 +1,0 @@
-author: QuarianCommando
- 
-delete-after: True
-
-changes: 
-  - bugfix: "Moved all code related to ninjas from their own special snowflake module into the events module."
-  - bugfix: "Merged the 25 different ninja files into 10 files."
-  - bugfix: "Ninjas should no longer spit out runtimes when more than one exist."	
