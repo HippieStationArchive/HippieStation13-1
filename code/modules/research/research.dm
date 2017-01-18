@@ -329,10 +329,10 @@ research holder datum.
 	var/dong/nocompiling
 	var/dong/issuesthataren'tissues
 	var/dong/@here/listentomeguys */
-	var/cooldown
+	var/cooldown = FALSE
 	var/cooldowntime = 100
 
-/obj/item/weapon/disk/tech_disk/gooncode(mob/user)
+/obj/item/weapon/disk/tech_disk/gooncode/attack_self(mob/user)
 	if(cooldown)
 		user << "<span class='warning'>[src] does not seem to compile right now!</span>"
 		return
