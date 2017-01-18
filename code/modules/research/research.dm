@@ -334,11 +334,11 @@ research holder datum.
 
 /obj/item/weapon/disk/tech_disk/gooncode/attack_self(mob/user)
 	if(cooldown)
-		user << "<span class='warning'>[src] does not seem to compile right now!</span>"
+		user << "<span class='warning'>The [name] does not seem to compile right now!</span>"
 		return
 	else if (src.loc == user)
 		cooldown = TRUE
-		visible_message("<span class='warning'>[src] causes a runtime error!</span>")
+		visible_message("<span class='warning'>The [name] causes a runtime error!</span>")
 		new /mob/living/simple_animal/pet/cat/Runtime(src.loc)
 		spawn(cooldowntime)
 			cooldown = FALSE
