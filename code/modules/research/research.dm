@@ -339,7 +339,6 @@ research holder datum.
 	else if (src.loc == user)
 		cooldown = TRUE
 		visible_message("<span class='warning'>[src] causes a runtime error!</span>")
-		throwSmoke(src.loc)
 		new /mob/living/simple_animal/pet/cat/Runtime(src.loc)
 		spawn(cooldowntime)
 			cooldown = FALSE
