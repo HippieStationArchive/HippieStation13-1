@@ -1,0 +1,6 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes:
+  - rscadd: "Standard Holoparasites can now break down R-walls, penetrate 75% armor and have Timestop (as well as the holopara summoner being immune to all forms of timestop)"

@@ -516,7 +516,6 @@
 	log_game("[G.real_name] ([G.key]) was made Temmie by [user.real_name]([user.key] using a Temmie-rune).")
 	qdel(src)
 
-
 /obj/effect/timestop
 	anchored = 1
 	name = "chronofield"
@@ -538,6 +537,8 @@
 	for(var/mob/living/M in player_list)
 		for(var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/T in M.mind.spell_list) //People who can stop time are immune to timestop
 			immune |= M
+		for(var/obj/effect/proc_holder/spell/self/timestopimmunity/T in M.mind.spell_list) //Used by stand users mainly so that their own holopara doesn't timestop them.
+			immune |= M
 	timestop()
 
 
@@ -555,11 +556,14 @@
 					H.AIStatus = AI_OFF
 					H.LoseTarget()
 					continue
+				continue
 			for(var/obj/item/projectile/P in orange (freezerange, src.loc))
 				P.paused = TRUE
 			duration --
 		else
 			for(var/mob/living/M in orange (freezerange+2, src.loc)) //longer range incase they lag out of it or something
+				if(M in immune)
+					continue
 				M.stunned = 0
 				M.anchored = 0
 				if(istype(M, /mob/living/simple_animal/hostile))
@@ -576,6 +580,8 @@
 /obj/effect/timestop/wizard
 	duration = 90
 
+/obj/effect/timestop/holoparasite
+	duration = 60
 
 /obj/item/stack/tile/bluespace
 	name = "bluespace floor tile"

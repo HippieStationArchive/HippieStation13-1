@@ -260,13 +260,30 @@
 /mob/living/simple_animal/hostile/guardian/punch
 	melee_damage_lower = 20
 	melee_damage_upper = 20
+	armour_penetration = 75
 	damage_transfer = 0.5
-	playstyle_string = "As a standard type you have no special abilities, but have a high damage resistance and a powerful attack capable of smashing through walls."
+	playstyle_string = "As a standard type you have the ability to stop time for everyone but you and your summoner, as well as having high damage resistance and a powerful attack capable of smashing through walls."
 	environment_smash = 2
 	magic_fluff_string = "..And draw the Assistant, faceless and generic, but never to be underestimated."
 	tech_fluff_string = "Boot sequence complete. Standard combat modules loaded. Holoparasite swarm online."
 	bio_fluff_string = "Your scarab swarm stirs to life, ready to tear apart your enemies."
 	var/battlecry = "AT"
+
+/mob/living/simple_animal/hostile/guardian/punch/New()
+	..()
+	var/obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/holoparasite/hg = null
+
+	hg = new /obj/effect/proc_holder/spell/aoe_turf/conjure/timestop/holoparasite
+	hg.clothes_req = 0
+	hg.human_req = 0
+	hg.player_lock = 0
+	AddSpell(hg)
+
+	var/obj/effect/proc_holder/spell/self/timestopimmunity/tsi = null
+
+	tsi = new /obj/effect/proc_holder/spell/self/timestopimmunity
+
+	AddSpell(tsi) // I don't know how the hell it comes that the Holoparasite needs both timestop and the immunity to work, as humans can just have either and still walk around in it.
 
 /mob/living/simple_animal/hostile/guardian/punch/verb/Battlecry()
 	set name = "Set Battlecry"
@@ -275,8 +292,6 @@
 	var/input = stripped_input(src,"What do you want your battlecry to be? Max length of 5 characters.", ,"", 6)
 	if(input)
 		battlecry = input
-
-
 
 /mob/living/simple_animal/hostile/guardian/punch/AttackingTarget()
 	..()
@@ -287,6 +302,16 @@
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
 		playsound(loc, src.attack_sound, 50, 1, 1)
+	if(istype(target, /turf/simulated/wall/r_wall))
+		var/turf/simulated/wall/r_wall/RW = target
+		src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
+			[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
+		playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
+		if(prob(10))
+			src << text("<span class='notice'>You smash through the wall.</span>")
+			RW.dismantle_wall(1)
+		else
+			src << text("<span class='notice'>You punch the wall.</span>")
 
 //Healer
 
@@ -755,6 +780,9 @@
 
 		if("Standard")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/punch
+			var/obj/effect/proc_holder/spell/self/timestopimmunity/tsi = null
+			tsi = new /obj/effect/proc_holder/spell/self/timestopimmunity
+			user.mind.AddSpell(tsi) // Makes the stand user capable of ignoring time stop.
 
 		if("Ranged")
 			pickedtype = /mob/living/simple_animal/hostile/guardian/ranged
