@@ -274,10 +274,10 @@
 	time = 120
 	category = CAT_WEAPON
 
-/datum/table_recipe/cappymeal
-	name = "Cappy Meal Box"
+/datum/table_recipe/hippiemeal
+	name = "Hippie Meal Box"
 	reqs = list(/obj/item/weapon/reagent_containers/food/snacks/badrecipe = 1,
 		/obj/item/weapon/storage/box = 1
 	)
-	result = /obj/item/weapon/reagent_containers/food/snacks/cappymeal
+	result = /obj/item/weapon/reagent_containers/food/snacks/hippiemeal
 	category = CAT_FOOD
