@@ -79,14 +79,12 @@
 
 	if(new_character.mind)								//disassociate any mind currently in our new body's mind variable
 		new_character.mind.current = null
-
 	var/datum/atom_hud/antag/hud_to_transfer = antag_hud//we need this because leave_hud() will clear this list
 	leave_all_huds()
 	current = new_character								//associate ourself with our new body
 	new_character.mind = src							//and associate our new body with ourself
 	transfer_antag_huds(hud_to_transfer)					//inherit the antag HUD
 	transfer_actions(new_character)
-
 	// Force from ghost means even if the player is ghosting we still transfer their ckey
 	if(active && (!ghost || force_from_ghost))
 		new_character.key = key		//now transfer the key to link the client to our new body

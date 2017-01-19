@@ -259,9 +259,9 @@
 	O.aiRestorePowerRoutine = 0
 
 	if(mind)
+		mind.active = 0
 		mind.transfer_to(O)
-	else
-		O.key = key
+	O.key = key
 
 	O.update_pipe_vision()
 

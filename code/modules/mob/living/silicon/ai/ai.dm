@@ -123,6 +123,13 @@ var/list/ai_list = list()
 					mind.store_memory("As an AI, you must obey your silicon laws above all else. Your objectives will consider you to be dead.")
 					src << "<span class='userdanger'>You have been installed as an AI! </span>"
 					src << "<span class='danger'>You must obey your silicon laws above all else. Your objectives will consider you to be dead.</span>"
+					if(ticker && ticker.mode)
+						ticker.mode.remove_cultist(mind, 0)
+						ticker.mode.remove_revolutionary(mind, 0)
+						ticker.mode.remove_gangster(mind, remove_bosses=1)
+						ticker.mode.remove_thrall(mind,0)
+						ticker.mode.remove_shadowling(mind)
+						ticker.mode.remove_hog_follower(mind,0)
 
 			src << "<B>You are playing the station's AI. The AI cannot physically move, but can interact with many objects so long as it has a clear line of sight.</B>"
 			src << "<B>To look at other parts of the station, use the HUD to access cameras and follow players, or use the movement keys to change your field of view.</B>"
