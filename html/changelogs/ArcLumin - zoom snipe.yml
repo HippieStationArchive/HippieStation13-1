@@ -1,4 +1,4 @@
 author: ArcLumin
 delete-after: True
 changes: 
-  - tweak: "Alters sniper rifle to now zoom out 14 tiles in all directions, but if you move while you're zoomed out it cancels the zoom"
+  - tweak: "Alters sniper rifle to now zoom out 14 tiles in all directions, but you can't move while zoomed out"
