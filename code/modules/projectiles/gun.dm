@@ -492,11 +492,10 @@
 
 	if(zoomed)
 		user.client.view = (world.view + zoom_amt)
-		if(user.Move)
-			user.client.view = world.view
-			zoomed = FALSE
+		user.canmove = 0
 	else
 		user.client.view = world.view
+		user.canmove = 1
 
 //Proc, so that gun accessories/scopes/etc. can easily add zooming.
 /obj/item/weapon/gun/proc/build_zooming()
