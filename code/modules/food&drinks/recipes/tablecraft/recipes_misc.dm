@@ -239,4 +239,3 @@
 	parts = list(/obj/item/weapon/reagent_containers/food/drinks/bottle/vodka = 1)
 	result = /obj/item/weapon/reagent_containers/food/snacks/melonkeg
 	category = CAT_FOOD
-
