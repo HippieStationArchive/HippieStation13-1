@@ -267,6 +267,9 @@
 	tech_fluff_string = "Boot sequence complete. Standard combat modules loaded. Holoparasite swarm online."
 	bio_fluff_string = "Your scarab swarm stirs to life, ready to tear apart your enemies."
 	var/battlecry = "AT"
+	mob_reflect_chance = 40
+	var/holopunchrng = null
+
 
 /mob/living/simple_animal/hostile/guardian/punch/verb/Battlecry()
 	set name = "Set Battlecry"
@@ -278,15 +281,26 @@
 
 
 
-/mob/living/simple_animal/hostile/guardian/punch/AttackingTarget()
+/mob/living/simple_animal/hostile/guardian/punch/AttackingTarget(mob/living/T, mob/living/carbon/human/H)
 	..()
-	if(istype(target, /mob/living))
-		src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
-		[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
-		playsound(loc, src.attack_sound, 50, 1, 1)
-		playsound(loc, src.attack_sound, 50, 1, 1)
-		playsound(loc, src.attack_sound, 50, 1, 1)
-		playsound(loc, src.attack_sound, 50, 1, 1)
+	if(istype(T))
+		holopunchrng = rand(1,100)
+		switch(holopunchrng)
+			if(50 to 100)
+				src.say("[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]\
+				[src.battlecry][src.battlecry][src.battlecry][src.battlecry][src.battlecry]")
+				playsound(loc, src.attack_sound, 50, 1, 1)
+				playsound(loc, src.attack_sound, 50, 1, 1)
+				playsound(loc, src.attack_sound, 50, 1, 1)
+				playsound(loc, src.attack_sound, 50, 1, 1)
+				H.apply_effect(1, STUN)
+			if(20 to 50)
+				src.say("[src.battlecry]")
+				H.apply_effect(3, WEAKEN)
+			if(0 to 20)
+				if(istype(target, /mob/living/carbon/human))
+					H.take_organ_damage(BRUTE, BURN)
+				else ..()
 
 //Healer
 
