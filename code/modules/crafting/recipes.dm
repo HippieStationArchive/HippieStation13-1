@@ -280,4 +280,4 @@
 		/obj/item/weapon/storage/box = 1
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/hippiemeal
-	category = CAT_FOOD
+	category = CAT_MISC
