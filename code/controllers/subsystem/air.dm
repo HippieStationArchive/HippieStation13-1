@@ -17,6 +17,7 @@ var/datum/subsystem/air/SSair
 
 	var/obj/effect/overlay/plasma_overlay			//overlay for plasma
 	var/obj/effect/overlay/sleeptoxin_overlay		//overlay for sleeptoxin
+	var/obj/effect/overlay/fart_overlay				//overlay for fart
 
 	var/list/excited_groups = list()
 	var/list/active_turfs = list()
@@ -35,6 +36,7 @@ var/datum/subsystem/air/SSair
 
 	plasma_overlay	= new /obj/effect/overlay{icon='icons/effects/tile_effects.dmi';mouse_opacity=0;layer=5;icon_state="plasma"}()
 	sleeptoxin_overlay	= new /obj/effect/overlay{icon='icons/effects/tile_effects.dmi';mouse_opacity=0;layer=5;icon_state="sleeping_agent"}()
+	fart_overlay	= new /obj/effect/overlay{icon='icons/effects/tile_effects.dmi';mouse_opacity=0;layer=5;icon_state="fart"}()
 
 /datum/subsystem/air/stat_entry(msg)
 	msg += "C:{"

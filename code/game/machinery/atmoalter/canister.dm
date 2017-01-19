@@ -26,6 +26,12 @@
 	icon_state = "redws"
 	canister_color = "redws"
 	can_label = 0
+/obj/machinery/portable_atmospherics/canister/fart
+	name = "canister: \[Fart\]"
+	desc = "Pure farts. Why does this even exist?"
+	icon_state = "green"
+	canister_color = "green"
+	can_label = 0
 /obj/machinery/portable_atmospherics/canister/nitrogen
 	name = "canister: \[N2\]"
 	desc = "Nitrogen gas. Reportedly useful for something."
@@ -404,6 +410,31 @@ update_flag
 /obj/machinery/portable_atmospherics/canister/sleeping_agent/roomfiller/New()
 	..()
 	var/datum/gas/sleeping_agent/trace_gas = air_contents.trace_gases[1]
+	trace_gas.moles = 9*4000
+	spawn(10)
+		var/turf/simulated/location = src.loc
+		if (istype(src.loc))
+			while (!location.air)
+				sleep(10)
+			location.assume_air(air_contents)
+			air_contents = new
+	return 1
+
+/obj/machinery/portable_atmospherics/canister/fart/New()
+
+	..()
+
+	var/datum/gas/fart/trace_gas = new
+	air_contents.trace_gases += trace_gas
+	trace_gas.moles = (src.maximum_pressure*filled)*air_contents.volume/(R_IDEAL_GAS_EQUATION*air_contents.temperature)
+
+	src.update_icon()
+	return 1
+
+//same as n2o
+/obj/machinery/portable_atmospherics/canister/fart/roomfiller/New()
+	..()
+	var/datum/gas/fart/trace_gas = air_contents.trace_gases[1]
 	trace_gas.moles = 9*4000
 	spawn(10)
 		var/turf/simulated/location = src.loc

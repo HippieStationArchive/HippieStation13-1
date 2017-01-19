@@ -118,6 +118,15 @@ var/list/uplink_items = list()
 	category = "Job-specific Contraband"
 	surplus = 1
 
+//ATMOS + CLOWN
+
+/datum/uplink_item/job_specific/farttank
+	name = "Fart Tank"
+	desc = "Suffocate someone with this pure nastiness in a tank."
+	item = /obj/item/weapon/tank/internals/fart
+	cost = 2
+	jobs = list("Clown", "Atmospheric Technician")
+
 //ENGINEER DIVISION
 
 /datum/uplink_item/job_specific/rodgun

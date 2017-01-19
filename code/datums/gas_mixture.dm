@@ -17,6 +17,9 @@ What are the archived variables for?
 	sleeping_agent
 		specific_heat = 40
 
+	fart
+		specific_heat = 100
+
 	oxygen_agent_b
 		specific_heat = 300
 

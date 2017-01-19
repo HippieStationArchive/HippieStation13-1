@@ -4,6 +4,7 @@
 #define FILTER_NITROGEN			2
 #define FILTER_CARBONDIOXIDE	3
 #define FILTER_NITROUSOXIDE		4
+#define FILTER_FARTS			5
 
 /obj/machinery/atmospherics/components/trinary/filter
 	icon_state = "filter_off"
@@ -29,6 +30,7 @@ Filter types:
  2: Nitrogen: Nitrogen ONLY
  3: Carbon Dioxide: Carbon Dioxide ONLY
  4: Sleeping Agent (N2O)
+ 5: Farts
 */
 
 	var/frequency = 0
@@ -141,6 +143,12 @@ Filter types:
 							removed.trace_gases -= trace_gas
 							filtered_out.trace_gases += trace_gas
 
+			if(FILTER_FARTS)
+				if(removed.trace_gases.len>0)
+					for(var/datum/gas/trace_gas in removed.trace_gases)
+						if(istype(trace_gas, /datum/gas/fart))
+							removed.trace_gases -= trace_gas
+							filtered_out.trace_gases += trace_gas
 			else
 				filtered_out = null
 
@@ -199,6 +207,8 @@ Filter types:
 				filtering_name = "carbon dioxide"
 			if(FILTER_NITROUSOXIDE)
 				filtering_name = "nitrous oxide"
+			if(FILTER_FARTS)
+				filtering_name = "farts"
 		investigate_log("was set to filter [filtering_name] by [key_name(usr)]", "atmos")
 	if (href_list["temp"])
 		src.temp = null
