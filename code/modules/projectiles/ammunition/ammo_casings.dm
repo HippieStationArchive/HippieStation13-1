@@ -313,7 +313,7 @@
 		if(!user.unEquip(A))
 			return
 		A.loc = BB
-		BB.damage = 5
+		BB.damage += 10
 		user << "<span class='notice'>You insert [A] into [src].</span>"
 	return
 
