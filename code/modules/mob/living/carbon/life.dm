@@ -173,7 +173,7 @@
 
 		for(var/datum/gas/fart/F in breath.trace_gases)
 			var/F_partialpressure = (F.moles/breath.total_moles())*breath_pressure
-			if(F_partialpressure > 0.2)
+			if(F_partialpressure > 0.5)
 				spawn(0) emote(pick("cough","gasp"))
 				if(prob(30))
 					emote("vomit")
