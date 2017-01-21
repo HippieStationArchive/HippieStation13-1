@@ -210,11 +210,6 @@
 					visible_message("\red <b>[src]</b> blows their ass off!", "\red Holy shit, your butt flies off in an arc!")
 				else
 					nutrition -= rand(5, 25)
-				var/turf/simulated/T = get_turf(B)
-				if(!istype(T, /turf/space))
-					T.atmos_spawn_air(SPAWN_FART, 0.5)
-				if(prob(15))
-					src.newtonian_move(src.dir)
 
 		if ("flap","flaps")
 			if (!restrained())
@@ -506,7 +501,6 @@
 				if(B.loose) B.loose = 0
 				new /obj/effect/decal/cleanable/blood(loc)
 				nutrition -= 500
-				src.newtonian_move(src.dir)
 				switch(fart_type)
 					if(1)
 						for(var/mob/living/M in range(0))
@@ -546,9 +540,6 @@
 						qdel(B)
 						new /obj/effect/immovablerod/butt(loc, locate(endx, endy, 1))
 						priority_announce("What the fuck was that?!", "General Alert")
-				var/turf/simulated/T = get_turf(B)
-				if(!istype(T, /turf/space))
-					T.atmos_spawn_air(SPAWN_FART, 6)
 
 		if ("whimper","whimpers")
 			if (miming)
