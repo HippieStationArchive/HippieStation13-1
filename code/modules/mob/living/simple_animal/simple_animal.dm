@@ -22,6 +22,10 @@
 	var/wander = 1	// Does the mob wander around when idle?
 	var/stop_automated_movement_when_pulled = 1 //When set to 1 this stops the animal from moving when someone is pulling it.
 
+	//bla bla bla reflect shit
+	var/mob_reflect_chance = 0
+
+
 	//Interaction
 	var/response_help   = "pokes"
 	var/response_disarm = "shoves"
@@ -264,12 +268,31 @@
 		attack_threshold_check(damage,M.melee_damage_type)
 		return 1
 
-/mob/living/simple_animal/bullet_act(obj/item/projectile/Proj)
-	if(!Proj)
+/mob/living/simple_animal/bullet_act(obj/item/projectile/P)
+	if(!P)
 		return
-	apply_damage(Proj.damage, Proj.damage_type)
-	Proj.on_hit(src)
+	if(prob(mob_reflect_chance))
+		visible_message("<span class='danger'>The [P.name] gets reflected by [name]!</span>")
+		if(P.starting)
+			var/new_x = P.starting.x + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
+			var/new_y = P.starting.y + pick(0, 0, 0, 0, 0, -1, 1, -2, 2)
+			var/turf/curloc = get_turf(src)
+
+			P.original = locate(new_x, new_y, P.z)
+			P.starting = curloc
+			P.current = curloc
+			P.firer = src
+			P.yo = new_y - curloc.y
+			P.xo = new_x - curloc.x
+			P.Angle = ""
+
+		return -1
+
+
+	apply_damage(P.damage, P.damage_type)
+	P.on_hit(src)
 	return 0
+
 
 /mob/living/simple_animal/adjustBruteLoss(amount)
 	if(!ignored_damage_types[BRUTE])

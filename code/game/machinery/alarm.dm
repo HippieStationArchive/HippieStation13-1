@@ -342,7 +342,8 @@
 						"widenet"		= info["widenet"],
 						"filter_co2"	= info["filter_co2"],
 						"filter_toxins"	= info["filter_toxins"],
-						"filter_n2o"	= info["filter_n2o"]
+						"filter_n2o"	= info["filter_n2o"],
+						"filter_fart"	= info["filter_fart"]
 					))
 		if(AALARM_SCREEN_MODE)
 			data["mode"] = mode
@@ -431,6 +432,7 @@
 				"co2_scrub",
 				"tox_scrub",
 				"n2o_scrub",
+				"fart_scrub",
 				"widenet",
 				"scrubbing"
 			)
@@ -503,6 +505,7 @@
 					"co2_scrub"= 1,
 					"tox_scrub"= 0,
 					"n2o_scrub"= 0,
+					"fart_scrub"= 0,
 					"scrubbing"= 1,
 					"widenet"= 0,
 				))
@@ -519,6 +522,7 @@
 					"co2_scrub"= 1,
 					"tox_scrub"= 1,
 					"n2o_scrub"= 1,
+					"fart_scrub"= 1,
 					"scrubbing"= 1,
 					"widenet"= 1,
 				))
@@ -548,6 +552,7 @@
 					"co2_scrub"= 1,
 					"tox_scrub"= 0,
 					"n2o_scrub"= 0,
+					"fart_scrub"= 0,
 					"scrubbing"= 1,
 					"widenet"= 0,
 				))
@@ -1218,16 +1223,3 @@ Handheld fire alarm frame, for placing on walls
 	for(var/area/RA in A.related)
 		RA.partyalert()
 	return
-
-/obj/machinery/clock
-	name = "clock"
-	desc = "A device used to measure time."
-	icon = 'icons/obj/bureaucracy.dmi'
-	New()
-		icon_state = pick("clock1","clock2","clock3","clock4","clock5","clock6")
-	anchored = 1
-	use_power = 0
-
-/obj/machinery/clock/examine()
-	..()
-	usr << "The current time of the station is [worldtime2text()]. This means that the shift has been going on for [round((world.time) / 36000 + ((world.time) % 36000) / 600,1)] minutes."

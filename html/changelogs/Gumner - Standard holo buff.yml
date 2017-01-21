@@ -22,7 +22,7 @@
 #################################
 
 # Your name.  
-author: Spacedong
+author: Gumner
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
@@ -33,4 +33,7 @@ delete-after: True
 # Also, this gets changed to [] after reading.  Just remove the brackets when you add new shit.
 # Please surround your changes in  double quotes ("). It works without them, but if you use certain characters it screws up compiling. The quotes will not show up in the changelog.
 changes: 
-  - tweak: "Blastco armory is now completely burglar proof."
+  - rscadd: "Standard holoparasites now have a chance to reflect projectiles!"
+  - rscadd: "Standard holoparasites now stuns you for 1 second after he punches you."
+  - rscadd: "Standard holoparasites have a chance to give you organ damage to you now! yay!"
+  - rscadd: "Standard holoparasites now have a chance to stun you for 5 seconds when punching."

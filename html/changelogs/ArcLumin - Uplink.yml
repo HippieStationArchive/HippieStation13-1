@@ -1,0 +1,6 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - tweak: "Major uplink pricing overhaul! Vast decrease in prices for more stealthy items"
+  - tweak: "Job specific items can now be found in surplus crates"
+  - tweak: "A few items that were previously nuke ops only are now for traitors as well"

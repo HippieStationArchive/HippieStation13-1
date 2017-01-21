@@ -183,3 +183,27 @@
 	icon_state = "emergency_double"
 	volume = 10
 	materials = list(MAT_METAL=4000)
+
+
+/*
+ * Fart
+ */
+/obj/item/weapon/tank/internals/fart
+	name = "fart tank"
+	desc = "A tank of farts."
+	icon_state = "fart"
+	flags = CONDUCT
+	slot_flags = SLOT_BELT
+	w_class = 2
+	force = 4
+	distribute_pressure = ONE_ATMOSPHERE*O2STANDARD
+	volume = 3 //Tiny, but still nasty
+	materials = list(MAT_METAL=1000)
+
+/obj/item/weapon/tank/internals/fart/New()
+	..()
+	var/datum/gas/fart/trace_gas = new()
+	trace_gas.moles = (3*ONE_ATMOSPHERE)*volume/(R_IDEAL_GAS_EQUATION*T20C)
+
+	src.air_contents.trace_gases += trace_gas
+	return

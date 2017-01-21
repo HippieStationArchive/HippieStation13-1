@@ -188,14 +188,14 @@
 	if(!data) data = 1
 	data++
 	M.jitteriness = max(M.jitteriness-5,0)
+	if(is_vampire(M))
+		M.adjustFireLoss(8) //Holy water kills vampires FAST.
 	if(data >= 30)		// 12 units, 54 seconds @ metabolism 0.4 units & tick rate 1.8 sec
 		if (!M.stuttering) M.stuttering = 1
 		M.stuttering += 4
 		M.Dizzy(5)
 		if(iscultist(M) && prob(5))
 			M.say(pick("Av'te Nar'sie","Pa'lid Mors","INO INO ORA ANA","SAT ANA!","Daim'niodeis Arc'iai Le'eones","Egkau'haom'nai en Chaous","Ho Diak'nos tou Ap'iron","R'ge Na'sie","Diabo us Vo'iscum","Si gn'um Co'nu"))
-		if(is_vampire(M))
-			M.adjustFireLoss(8) //Holy water kills vampires FAST.
 	if(data >= 75 && prob(33))	// 30 units, 135 seconds
 		if (!M.confused) M.confused = 1
 		M.confused += 3
