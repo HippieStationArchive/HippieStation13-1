@@ -342,8 +342,7 @@
 						"widenet"		= info["widenet"],
 						"filter_co2"	= info["filter_co2"],
 						"filter_toxins"	= info["filter_toxins"],
-						"filter_n2o"	= info["filter_n2o"],
-						"filter_fart"	= info["filter_fart"]
+						"filter_n2o"	= info["filter_n2o"]
 					))
 		if(AALARM_SCREEN_MODE)
 			data["mode"] = mode
@@ -432,7 +431,6 @@
 				"co2_scrub",
 				"tox_scrub",
 				"n2o_scrub",
-				"fart_scrub",
 				"widenet",
 				"scrubbing"
 			)
@@ -505,7 +503,6 @@
 					"co2_scrub"= 1,
 					"tox_scrub"= 0,
 					"n2o_scrub"= 0,
-					"fart_scrub"= 0,
 					"scrubbing"= 1,
 					"widenet"= 0,
 				))
@@ -522,7 +519,6 @@
 					"co2_scrub"= 1,
 					"tox_scrub"= 1,
 					"n2o_scrub"= 1,
-					"fart_scrub"= 1,
 					"scrubbing"= 1,
 					"widenet"= 1,
 				))
@@ -552,7 +548,6 @@
 					"co2_scrub"= 1,
 					"tox_scrub"= 0,
 					"n2o_scrub"= 0,
-					"fart_scrub"= 0,
 					"scrubbing"= 1,
 					"widenet"= 0,
 				))

@@ -150,8 +150,6 @@ var/const/SPAWN_N2O = 64
 
 var/const/SPAWN_AIR = 256
 
-var/const/SPAWN_FART = 512
-
 /turf/simulated/proc/atmos_spawn_air(flag, amount)
 	if(!text || !amount || !air)
 		return
@@ -175,11 +173,6 @@ var/const/SPAWN_FART = 512
 
 	if(flag & SPAWN_N2O)
 		var/datum/gas/sleeping_agent/T = new
-		T.moles += amount
-		G.trace_gases += T
-
-	if(flag & SPAWN_FART)
-		var/datum/gas/fart/T = new
 		T.moles += amount
 		G.trace_gases += T
 
