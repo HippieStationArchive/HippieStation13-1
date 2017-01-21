@@ -263,7 +263,7 @@
 	if(sleeping_agent && (sleeping_agent.moles > 1))
 		return "sleeping_agent"
 	var/datum/gas/fart = locate(/datum/gas/fart) in air.trace_gases
-	if(fart && (fart.moles > 1))
+	if(fart && (fart.moles > 0.75))
 		return "fart"
 	return null
 

@@ -1554,9 +1554,9 @@
 			var/F_pp = breath.get_breath_partial_pressure(F.moles)
 			if(F_pp > 0.2)
 				spawn(0) H.emote(pick("cough","gasp"))
-				H.staminaloss += 20
 				if(prob(30))
 					spawn(0) H.emote("vomit")
+					H.staminaloss += 10
 			else if(F_pp > 0.05)
 				spawn(0) H.emote(pick("cough","gasp"))
 
