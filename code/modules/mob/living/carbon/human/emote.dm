@@ -212,7 +212,7 @@
 					nutrition -= rand(5, 25)
 				var/turf/simulated/T = get_turf(B)
 				if(!istype(T, /turf/space))
-					T.atmos_spawn_air(SPAWN_FART, 0.5)
+					T.atmos_spawn_air(SPAWN_FART, 0.3)
 				if(prob(15))
 					src.newtonian_move(src.dir)
 
