@@ -496,6 +496,7 @@
 		user.client.view = (world.view + zoom_amt)
 		if(usedloc != user.loc)
 			user.client.view = world.view
+			..()
 	else
 		user.client.view = world.view
 
