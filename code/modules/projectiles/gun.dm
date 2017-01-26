@@ -463,6 +463,7 @@
 	check_flags = AB_CHECK_ALIVE|AB_CHECK_RESTRAINED|AB_CHECK_STUNNED|AB_CHECK_LYING
 	button_icon_state = "sniper_zoom"
 	var/obj/item/weapon/gun/gun = null
+	var/
 
 /datum/action/toggle_scope_zoom/Trigger()
 	gun.zoom(owner)
@@ -492,10 +493,10 @@
 
 	if(zoomed)
 		user.client.view = (world.view + zoom_amt)
-		gun.slowdown += 3
+		user.slowdown = (initial(slowdown) + 3)
 	else
 		user.client.view = world.view
-		gun.slowdown -= 3
+		user.slowdown = initial(slowdown)
 
 //Proc, so that gun accessories/scopes/etc. can easily add zooming.
 /obj/item/weapon/gun/proc/build_zooming()
