@@ -492,7 +492,7 @@
 
 	if(zoomed)
 		user.client.view = (world.view + zoom_amt)
-		src.slowdown = (initial(slowdown) + 3)
+		src.slowdown = (initial(slowdown) + 4)
 	else
 		user.client.view = world.view
 		src.slowdown = initial(slowdown)
