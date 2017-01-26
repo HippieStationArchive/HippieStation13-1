@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - bugfix: "Alters sniper rifle to now zoom out 14 tiles in all directions, but you move slowly while zoomed out. Should fix sniper rifle aiming bugs"
