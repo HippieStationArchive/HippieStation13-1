@@ -494,7 +494,7 @@
 		var/usedloc = null
 		user.loc = usedloc
 		user.client.view = (world.view + zoom_amt)
-		if(user.loc != usedloc)
+		if(usedloc != user.loc)
 			user.client.view = world.view
 	else
 		user.client.view = world.view
