@@ -493,10 +493,10 @@
 
 	if(zoomed)
 		user.client.view = (world.view + zoom_amt)
-		user.slowdown = (initial(slowdown) + 3)
+		src.slowdown = (initial(slowdown) + 3)
 	else
 		user.client.view = world.view
-		user.slowdown = initial(slowdown)
+		src.slowdown = initial(slowdown)
 
 //Proc, so that gun accessories/scopes/etc. can easily add zooming.
 /obj/item/weapon/gun/proc/build_zooming()
