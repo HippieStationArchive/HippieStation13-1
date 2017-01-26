@@ -492,10 +492,10 @@
 
 	if(zoomed)
 		var/usedloc = null
-		user.loc == usedloc
+		user.loc = usedloc
 		user.client.view = (world.view + zoom_amt)
-			if(usedloc != user.loc)
-				user.client.view = world.view
+		if(user.loc != usedloc)
+			user.client.view = world.view
 	else
 		user.client.view = world.view
 
