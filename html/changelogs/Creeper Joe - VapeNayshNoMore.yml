@@ -1,0 +1,6 @@
+author: Creeper Joe
+
+delete-after: True
+
+changes: 
+  - rscdel: "Vapes are admin-spawn only until they get rebalanced."
