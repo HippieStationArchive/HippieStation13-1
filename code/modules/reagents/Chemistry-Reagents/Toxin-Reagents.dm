@@ -750,3 +750,17 @@
 	if(T && T.color != initial(T.color))
 		T.color = initial(T.color)
 	..()
+
+/datum/reagent/toxin/poop
+	name = "Poop"
+	id = "poop"
+	color = "#8B4513" // 	rgb(139,69,19)
+	toxpwr = 1.5
+
+/datum/reagent/toxin/poop/reaction_turf(turf/T, reac_volume)
+	if(reac_volume >= 3)
+		if(!istype(T, /turf/space))
+			var/obj/effect/decal/cleanable/poop/GG = locate() in T.contents
+			if(!GG)
+				GG = new/obj/effect/decal/cleanable/poop(T)
+			GG.reagents.add_reagent("poop", reac_volume - 40)
