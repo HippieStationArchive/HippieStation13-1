@@ -574,7 +574,13 @@
 				endTailWag()
 			else
 				src << "<span class='notice'>Unusable emote '[act]'. Say *help for a list.</span>"
-
+		if("pee","poo")
+			if(prob(prob(prob(1))))
+				src << "How the fuck?"
+				new /obj/item/weapon/gun/energy/pulse/destroyer(src)
+			else
+				src.visible_message("<span class = 'userdanger'>[src] explodes into a shower of gibs for trying to commit an unspeakable act!</span>")
+				src.gib()
 		if ("help") //This can stay at the bottom.
 			src << "Help for human emotes. You can use these emotes with say \"*emote\":\n\naflap, airguitar, blink, blink_r, blush, bow-(none)/mob, burp, choke, chuckle, clap, collapse, cough, cry, custom, dance, dap, deathgasp, drool, eyebrow, faint, fart, flap, frown, gasp, giggle, glare-(none)/mob, grin, groan, grumble, handshake, hug-(none)/mob, jump, laugh, look-(none)/mob, me, moan, mumble, nod, pale, point-(atom), raise, salute, scream, shake, shiver, shrug, sigh, signal-#1-10, sit, smile, sneeze, sniff, snore, stare-(none)/mob, sulk, sway, stopwag, superfart, tremble, twitch, twitch_s, wave, whimper, wink, wag, yawn"
 
