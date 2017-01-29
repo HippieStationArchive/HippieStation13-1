@@ -158,6 +158,7 @@
 	throw_speed = 4
 	force = 5
 	hitsound = 'sound/misc/fart.ogg'
+	damage_type = TOX
 	body_parts_covered = HEAD
 	slot_flags = SLOT_HEAD
 	embed_chance = 5 //This is a joke
@@ -179,6 +180,23 @@
 	item_state = "bluebutt"
 	origin_tech = "bluespace=5;biotech=4"
 	capacity = 4
+	
+/obj/item/organ/internal/butt/attack(mob/living/carbon/M, mob/user)
+	if(M == user && ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(status == ORGAN_ORGANIC)
+			var/obj/item/weapon/reagent_containers/food/snacks/S = prepare_eat()
+			if(S)
+				H.drop_item()
+				H.put_in_active_hand(S)
+				S.attack(H, H)
+				qdel(src)
+	else if(istype(target,/mob/living/carbon/m))
+		M.take_overall_damage(dam_force)
+		M.adjustToxLoss(dam_force)
+		M.updatehealth()
+		else
+..()
 
 /obj/item/organ/internal/butt/attackby(var/obj/item/W, mob/user as mob, params) // copypasting bot manufucturing process, im a lazy fuck
 
@@ -201,6 +219,7 @@
 	playsound(src, 'sound/misc/fart.ogg', 50, 1, 5)
 	if((ishuman(hit_atom)))
 		M.apply_damage(5, STAMINA)
+		M.apply_damage(5, TOX)
 		if(prob(5))
 			M.Weaken(3)
 			visible_message("<span class='danger'>The [src.name] smacks [M] right in the face!</span>", 3)
