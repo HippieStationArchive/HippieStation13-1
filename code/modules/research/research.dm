@@ -318,8 +318,28 @@ research holder datum.
 	src.pixel_y = rand(-5, 5)
 
 /obj/item/weapon/disk/tech_disk/gooncode
-	name = "Gooncode disk"
-	desc = "A disk containing Goonstation source code for further research."
+	name = "Dongcode disk"
+	desc = "A disk containing Goonstation code that was altered by someone known only as 'Dong'. It is a main subject of research as it is byond human comprehension."
 	icon = 'icons/obj/items.dmi'
 	icon_state = "gooncode"
-	stored = new/datum/tech/programming{level = 4}
+	stored = new/datum/tech/programming{level = -9001}
+/*	var/dong/failedcompile
+	var/dong/invisiblecats
+	var/dong/typofixing
+	var/dong/nocompiling
+	var/dong/issuesthataren'tissues
+	var/dong/@here/listentomeguys */
+	var/cooldown = FALSE
+	var/cooldowntime = 100
+
+/obj/item/weapon/disk/tech_disk/gooncode/attack_self(mob/user)
+	if(cooldown)
+		user << "<span class='warning'>The [name] does not seem to compile right now!</span>"
+		return
+	else if (src.loc == user)
+		cooldown = TRUE
+		visible_message("<span class='warning'>The [name] causes a runtime error!</span>")
+		new /mob/living/simple_animal/pet/cat/Runtime(src.loc)
+		spawn(cooldowntime)
+			cooldown = FALSE
+	
