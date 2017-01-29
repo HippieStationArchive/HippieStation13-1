@@ -198,7 +198,7 @@ other types of metals and chemistry for reagents).
 	name = "Bag of Holding"
 	desc = "A backpack that opens into a localized pocket of Blue Space."
 	id = "bag_holding"
-	req_tech = list("bluespace" = 4, "materials" = 6)
+	req_tech = list("programming"=4, "engineering"=6, "bluespace"=6, "materials"=7)
 	build_type = PROTOLATHE
 	materials = list(MAT_GOLD = 3000, MAT_DIAMOND = 1500, MAT_URANIUM = 250)
 	reliability = 80
