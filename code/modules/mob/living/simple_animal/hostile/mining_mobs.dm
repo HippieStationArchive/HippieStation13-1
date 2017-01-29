@@ -510,7 +510,6 @@
 	else if(bodytemperature > maxbodytemp)
 		adjustBruteLoss(20)
 
-
 /mob/living/simple_animal/hostile/asteroid/fugu
 	name = "wumborian fugu"
 	desc = "The wumborian fugu rapidly increases its body mass in order to ward off its prey. Great care should be taken to avoid it while it's in this state as it is nearly invincible, but it cannot maintain its form forever."
@@ -622,6 +621,7 @@
 	origin_tech = "biotech=6"
 	var/list/banned_mobs = list(/mob/living/simple_animal/hostile/true_changeling, /mob/living/simple_animal/construct, /mob/living/simple_animal/drone, /mob/living/simple_animal/hostile/guardian)
 
+
 /obj/item/asteroid/fugu_gland/afterattack(atom/target, mob/user, proximity_flag)
 	if(proximity_flag && istype(target, /mob/living/simple_animal))
 		var/mob/living/simple_animal/A = target
@@ -636,4 +636,15 @@
 		A.transform *= 2
 		A.environment_smash += 2
 		user << "<span class='info'>You increase the size of [A], giving it a surge of strength!</span>"
+		qdel(src)
+	if(proximity_flag && istype(target, /mob/living/carbon))
+		var/mob/living/carbon/H = target
+		if(H.buffed || H.buffed)
+			user << "<span class='warning'>Something's interfering with the [src]'s effects. It's no use.</span>"
+			return
+		H.buffed++
+		H.maxHealth *= 2
+		H.health = min(A.maxHealth,A.health*2)
+		H.transform *= 2
+		user << "<span class='info'>You increase the size of [H], giving it a surge of strength!</span>"
 		qdel(src)
