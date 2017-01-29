@@ -15,6 +15,8 @@ var/list/wireColours = list("red", "blue", "green", "black", "orange", "brown", 
 	var/holder_type = null // The holder type; used to make sure that the holder is the correct type.
 	var/wire_count = 0 // Max is 16
 	var/wires_status = 0 // BITFLAG OF WIRES
+	var/wire_cooldown = 1
+	var/wireused = 0
 
 	var/list/wires = list()
 	var/list/signallers = list()
@@ -126,6 +128,8 @@ var/list/wireColours = list("red", "blue", "green", "black", "orange", "brown", 
 
 /datum/wires/Topic(href, href_list)
 	..()
+	if(wireused)
+		return
 	if(usr.Adjacent(holder) && isliving(usr))
 		var/mob/living/L = usr
 		if(CanUse(L) && href_list["action"])
@@ -134,14 +138,20 @@ var/list/wireColours = list("red", "blue", "green", "black", "orange", "brown", 
 			if(href_list["cut"]) // Toggles the cut/mend status
 				if(istype(I, /obj/item/weapon/wirecutters))
 					var/colour = href_list["cut"]
+					wireused = 1
 					CutWireColour(colour)
+					spawn(wire_cooldown)
+						wireused = 0
 				else
 					L << "<span class='warning'>You need wirecutters!</span>"
 
 			else if(href_list["pulse"])
 				if(istype(I, /obj/item/device/multitool))
 					var/colour = href_list["pulse"]
+					wireused = 1
 					PulseColour(colour)
+					spawn(wire_cooldown)
+						wireused = 0
 				else
 					L << "<span class='warning'>You need a multitool!</span>"
 
@@ -160,7 +170,10 @@ var/list/wireColours = list("red", "blue", "green", "black", "orange", "brown", 
 						if(A.attachable)
 							if(!L.drop_item())
 								return
+							wireused = 1
 							Attach(colour, A)
+							spawn(wire_cooldown)
+								wireused = 0
 						else
 							L << "<span class='warning'>You need a attachable assembly!</span>"
 
