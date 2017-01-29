@@ -34,6 +34,40 @@
 	e.start()
 	holder.clear_reagents()
 
+/datum/chemical_reaction/reagent_explosion/potassium_explosion/holyboom
+	name = "Holy Explosion"
+	id = "holyboom"
+	required_reagents = list("holywater" = 1, "potassium" = 1)
+
+/datum/chemical_reaction/potassium_explosion/holyboom/on_reaction(datum/reagents/holder, created_volume)
+	var/atom/H = holder.my_atom
+	var/location = get_turf(holder.my_atom)
+	var/datum/effect_system/reagents_explosion/e = new()
+	if(created_volume >= 200)
+		playsound(get_turf(holder.my_atom), 'sound/effects/pray.ogg', 80, 0, round(created_volume/48))
+		message_admins("A holy explosion has occurred at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[H.x];Y=[H.y];Z=[H.z]'>([H.x],[H.y],[H.z])</a> last touched by [key_name_admin(H.fingerprintslast)]")
+		log_game("A holy explosion has occurred at <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[H.x];Y=[H.y];Z=[H.z]'>([H.x],[H.y],[H.z])</a> last touched by [key_name_admin(H.fingerprintslast)]")
+		e.set_up(round (created_volume/10, 1), location, 0, 0)
+		e.start()
+		holder.clear_reagents()
+		for(var/mob/living/simple_animal/revenant/R in get_hearers_in_view(7,get_turf(holder.my_atom)))
+			var/deity
+			if(!(deity_name == null))
+				deity = deity_name
+			else
+				deity = "Christ"
+			R << "<span class='userdanger'>The power of [deity] compels you, motherfucker!</span>"
+			R.stun(20)
+			R.reveal(100)
+		sleep(20)
+		for(var/mob/living/carbon/M in get_hearers_in_view(round(created_volume/20,1),get_turf(holder.my_atom)))
+			if(iscultist(M))
+				M << "<span class='userdanger'>The divine explosion sears you!</span>"
+				M.Weaken(2)
+				M.adjust_fire_stacks(3)
+				M.IgniteMob()
+	..()
+	
 /datum/chemical_reaction/potassium_explosion
 	name = "Explosion"
 	id = "potassium_explosion"
