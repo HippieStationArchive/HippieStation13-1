@@ -180,7 +180,7 @@
 	item_color = "redcoat"		//Exists for washing machines. Is not different from white gloves in any way.
 
 /obj/item/clothing/gloves/color/dio
-	name = "DIO's metal wristbands"
+	name = "Edgy vampire metal wristbands"
 	desc = "These wristbands look fabulous, it's useless useless useless to deny."
 	icon_state = "DIO"
 	item_state = "DIO"
