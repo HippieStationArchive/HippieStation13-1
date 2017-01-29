@@ -520,3 +520,10 @@ var/next_external_rsc = 0
 
 		else //everything is okay
 			winset(src, null, "command=.quit")
+
+//Zooming
+/client/proc/changeView(var/newView)
+	if(!newView)
+		view = world.view
+	else
+		view = newView

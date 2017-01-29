@@ -20,6 +20,7 @@
 	var/moving			= null
 	var/adminobs		= null
 	var/area			= null
+	var/haszoomed = 0
 
 		///////////////
 		//SOUND STUFF//
