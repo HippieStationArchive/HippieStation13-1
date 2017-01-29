@@ -16,7 +16,7 @@ var/list/wireColours = list("red", "blue", "green", "black", "orange", "brown", 
 	var/wire_count = 0 // Max is 16
 	var/wires_status = 0 // BITFLAG OF WIRES
 	var/wire_cooldown = 1
-	var/wire_used = 0
+	var/wireused = 0
 
 	var/list/wires = list()
 	var/list/signallers = list()
