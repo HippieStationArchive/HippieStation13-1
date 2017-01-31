@@ -277,7 +277,7 @@
 
 /datum/reagent/spraytan/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
 	if(istype(M, /mob/living/carbon/human))
-		if(method == PATCH || method == VAPOR)
+		if(method == PATCH || method == VAPOR || method == TOUCH)
 			var/mob/living/carbon/human/N = M
 			if(N.dna.species.id == "human")
 				switch(N.skin_tone)
@@ -331,6 +331,31 @@
 			M.AdjustWeakened(2)
 	..()
 
+	if(reac_volume > 11)
+		metabolization_rate = 1 * REAGENTS_METABOLISM
+
+		if(istype(M, /mob/living/carbon/human))
+			var/mob/living/carbon/human/N = M
+			if(N.dna.species.id == "human") // If they're human, turn em to the "orange" race, and give em spiky black hair
+				N << "<span class='userdanger'>You feel like you have had too much of [name]!</span>"
+				N.facial_hair_color = "f80"
+				N.skin_tone = "orange"
+				N.hair_style = "Spiky"
+				N.hair_color = "000"
+				N.update_hair()
+			if(MUTCOLORS in N.dna.species.specflags) //Aliens with custom colors simply get turned orange
+				N.dna.features["mcolor"] = "f80"
+				N.regenerate_icons()
+			N.update_body()
+			if(prob(7))
+				if(N.w_uniform)
+					M.visible_message(pick("<b>[M]</b>'s collar pops up without warning.</span>", "<b>[M]</b> flexes their arms."))
+				else
+					M.visible_message("<b>[M]</b> flexes their arms.")
+		if(prob(10))
+			M.say(pick("Check these sweet biceps bro!", "Deal with it.", "CHUG! CHUG! CHUG! CHUG!", "Winning!", "NERDS!", "My name is John and I hate every single one of you."))
+	..()
+	return
 
 /datum/reagent/spraytan/overdose_process(mob/living/M)
 	metabolization_rate = 1 * REAGENTS_METABOLISM
@@ -338,6 +363,7 @@
 	if(istype(M, /mob/living/carbon/human))
 		var/mob/living/carbon/human/N = M
 		if(N.dna.species.id == "human") // If they're human, turn em to the "orange" race, and give em spiky black hair
+			N.facial_hair_color = "f80"
 			N.skin_tone = "orange"
 			N.hair_style = "Spiky"
 			N.hair_color = "000"

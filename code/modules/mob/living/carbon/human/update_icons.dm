@@ -652,6 +652,8 @@ var/global/list/limb_icon_cache = list()
 /proc/skintone2hex(var/skin_tone)
 	. = 0
 	switch(skin_tone)
+		if("orange")
+			. = "ff8800"
 		if("caucasian1")
 			. = "ffe0d1"
 		if("caucasian2")
