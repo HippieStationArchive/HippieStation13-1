@@ -558,3 +558,89 @@
                     "<span class='italics'>You hear loud electrical crackles.</span>")
     else
         return 0
+
+
+
+/////////////SHIELDED//////////////////////////////////
+
+/obj/item/clothing/suit/space/hardsuit/shielded
+	name = "shielded hardsuit"
+	desc = "A hardsuit with built in energy shielding. Will rapidly recharge when not under fire."
+	icon_state = "hardsuit-hos"
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security/hos
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/internals, /obj/item/weapon/gun,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/restraints/handcuffs)
+	armor = list(melee = 30, bullet = 15, laser = 30, energy = 10, bomb = 10, bio = 100, rad = 50)
+	var/current_charges = 3
+	var/max_charges = 1 //How many charges total the shielding has
+	var/recharge_delay = 50 //How long after we've been shot before we can start recharging. 20 seconds here
+	var/recharge_cooldown = 0 //Time since we've last been shot
+	var/recharge_rate = 1 //How quickly the shield recharges once it starts charging
+	var/shield_state = "shield-old"
+	var/shield_on = "shield-old"
+	var/datum/effect_system/spark_spread/sparks = new
+
+/obj/item/clothing/suit/space/hardsuit/shielded/New()
+	jetpack = new /obj/item/weapon/tank/jetpack/suit(src)
+	sparks.set_up(2, 1, src)
+	sparks.attach(src)
+	SSobj.processing |= src
+	..()
+
+/obj/item/clothing/suit/space/hardsuit/shielded/hit_reaction(mob/living/carbon/human/owner, attack_text)
+	if(current_charges > 0)
+		sparks.start()
+		owner.visible_message("<span class='danger'>[owner]'s shields deflect [attack_text] in a shower of sparks!</span>")
+		current_charges--
+		recharge_cooldown = world.time + recharge_delay
+		if(current_charges <= 0)
+			owner.visible_message("[owner]'s shield overloads!")
+			shield_state = "broken"
+			owner.update_inv_wear_suit()
+		return 1
+	return 0
+
+
+/obj/item/clothing/suit/space/hardsuit/shielded/Destroy()
+	qdel(sparks)
+	sparks = null
+	SSobj.processing.Remove(src)
+	return ..()
+
+
+/obj/item/clothing/suit/space/hardsuit/shielded/process()
+	if(world.time > recharge_cooldown && current_charges < max_charges)
+		current_charges = Clamp((current_charges + recharge_rate), 0, max_charges)
+		playsound(loc, 'sound/magic/Charge.ogg', 50, 1)
+		if(current_charges == max_charges)
+			playsound(loc, 'sound/machines/ding.ogg', 50, 1)
+		shield_state = "[shield_on]"
+		if(istype(loc, /mob/living/carbon/human))
+			var/mob/living/carbon/human/C = loc
+			C.update_inv_wear_suit()
+
+
+
+/obj/item/clothing/suit/space/hardsuit/shielded/worn_overlays(isinhands)
+    . = list()
+    if(!isinhands)
+        . += image(icon = 'icons/effects/effects.dmi', icon_state = "[shield_state]")
+
+/obj/item/clothing/suit/space/hardsuit/shielded/syndi
+	name = "blastco syndicate hardsuit"
+	desc = "An advanced hardsuit with built in energy shielding."
+	icon_state = "hardsuit0-blastco"
+	item_state = "syndie_hardsuit"
+	item_color = "blastco"
+	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 90, bio = 100, rad = 50)
+	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_box,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword/saber,/obj/item/weapon/restraints/handcuffs,/obj/item/weapon/tank/internals)
+	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/shielded/syndi
+	slowdown = 0
+
+
+/obj/item/clothing/head/helmet/space/hardsuit/shielded/syndi
+	name = "blastco syndicate helmet"
+	desc = "An advanced hardsuit helmet with built in energy shielding."
+	icon_state = "hardsuit1-blastco"
+	item_state = "syndie_helm"
+	item_color = "blastco"
+	armor = list(melee = 40, bullet = 50, laser = 30, energy = 15, bomb = 90, bio = 100, rad = 50)
