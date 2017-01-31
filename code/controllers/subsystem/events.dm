@@ -64,6 +64,7 @@ var/datum/subsystem/events/SSevent
 	for(var/datum/round_event_control/E in control)
 		if(E.occurrences >= E.max_occurrences)	continue
 		if(E.earliest_start >= world.time)		continue
+		if(E.latest_start <= world.time && E.latest_start) continue
 		if(E.gamemode_blacklist.len && (ticker.mode.config_tag in E.gamemode_blacklist)) continue
 		if(E.gamemode_whitelist.len && !(ticker.mode.config_tag in E.gamemode_whitelist)) continue
 		if(E.holidayID)
@@ -83,6 +84,7 @@ var/datum/subsystem/events/SSevent
 	for(var/datum/round_event_control/E in control)
 		if(E.occurrences >= E.max_occurrences)	continue
 		if(E.earliest_start >= world.time)		continue
+		if(E.latest_start <= world.time && E.latest_start) continue
 		if(E.gamemode_blacklist.len && (ticker.mode.config_tag in E.gamemode_blacklist)) continue
 		if(E.gamemode_whitelist.len && !(ticker.mode.config_tag in E.gamemode_whitelist)) continue
 		if(E.holidayID)
