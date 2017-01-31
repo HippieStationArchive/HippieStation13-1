@@ -20,6 +20,7 @@
 	var/moving			= null
 	var/adminobs		= null
 	var/area			= null
+	var/murders			= 0 //Total player-controlled mobs this person has killed
 
 		///////////////
 		//SOUND STUFF//

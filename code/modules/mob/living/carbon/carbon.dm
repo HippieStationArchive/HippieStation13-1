@@ -361,6 +361,7 @@ var/const/NO_SLIP_WHEN_WALKING = 1
 var/const/SLIDE = 2
 var/const/GALOSHES_DONT_HELP = 4
 /mob/living/carbon/slip(s_amount, w_amount, obj/O, lube)
+	total_slips++
 	return loc.handle_slip(src, s_amount, w_amount, O, lube)
 
 /mob/living/carbon/fall(forced)
