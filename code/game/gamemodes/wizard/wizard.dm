@@ -178,6 +178,8 @@
 		if(isliving(wizard.current) && wizard.current.stat!=DEAD)
 			return ..()
 
+	round_converted = convert_roundtype()
+
 	if(SSevent.wizardmode) //If summon events was active, turn it off
 		SSevent.toggleWizardmode()
 		SSevent.resetFrequency()
