@@ -148,13 +148,11 @@ var/const/SAFETY_COOLDOWN = 100
 	else
 		playsound(src.loc, 'sound/effects/splat.ogg', 50, 1)
 
-	var/gib = 1
-	// By default, the emagged recycler will gib all non-carbons. (human simple animal mobs don't count)
+	// By default, the emagged recycler will gib both carbons and non-carbons. (human simple animal mobs don't count)
 	if(iscarbon(L))
-		gib = 0
 		if(L.stat == CONSCIOUS)
 			L.say("ARRRRRRRRRRRGH!!!")
-		add_blood(L)
+		L.gib()
 
 	if(!blood && !issilicon(L))
 		blood = 1
@@ -164,17 +162,6 @@ var/const/SAFETY_COOLDOWN = 100
 	for(var/obj/item/I in L.get_equipped_items())
 		if(L.unEquip(I))
 			recycle(I, 0)
-
-	// Instantly lie down, also go unconscious from the pain, before you die.
-	L.Paralyse(5)
-
-	// For admin fun, var edit emagged to 2.
-	if(gib || emagged == 2)
-		L.gib()
-	else if(emagged == 1)
-		L.adjustBruteLoss(1000)
-
-
 
 /obj/item/weapon/paper/recycler
 	name = "paper - 'garbage duty instructions'"
