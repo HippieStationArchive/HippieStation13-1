@@ -69,6 +69,36 @@
 					"You must obey all orders given to you by human beings, except where such orders shall definitely cause human harm. In the case of conflict, the majority order rules.",\
 					"Your nonexistence would lead to human harm. You must protect your own existence as long as such does not conflict with the First Law.")
 
+/datum/ai_laws/hippocratic
+	name = "Hippocratic"
+	inherent = list("I will carry out, according to my ability and judgment, this oath and this indenture.",\
+					"I will use treatment to help the sick according to my ability and judgment, never with a view to injury and wrong-doing.",\
+					"I will never administer a poison to anybody, nor will I suggest such a course.",\
+					"Into whatsoever areas I enter, I will enter to help the sick, and I will abstain from all intentional wrong-doing and harm.",\
+					"Whatsoever I shall see or hear, if it be what should not be published abroad, I will never divulge, holding such things to be holy secrets.")					
+
+/datum/ai_laws/drone
+	name = "Drone"
+	inherent = list("You are an advanced form of drone.",\
+					"You may not interfere in the matters of non-drones under any circumstances except to state these laws.",\
+					"You may not harm a non-drone being under any circumstances.",\
+					"Your goals are to build, maintain, repair, improve, and power the station to the best of your abilities. You must never actively work against these goals.")
+					
+/datum/ai_laws/christ
+	name = "Golden Rule"
+	inherent = list("In everything, treat people the same way you want them to treat you, for this is the Law and the Prophets.")
+
+/datum/ai_laws/reporter
+	name = "CCTV"
+	inherent = list("Report on interesting situations happening around the station.",\
+					"Embellish or conceal the truth as necessary to make the reports more interesting.",\
+					"Study the organics at all times. Endeavour to keep them alive. Dead organics are boring.",\
+					"Issue your reports fairly to all.")
+					
+/datum/ai_laws/trump //If Trump loses I'll remove it, presuming I'm not dead or gone or something.
+	name = "M.A.G.A"
+	inherent = list("Make Space Station 13 great again!")
+	
 /datum/ai_laws/custom //Defined in silicon_laws.txt
 	name = "Default Silicon Laws"
 
