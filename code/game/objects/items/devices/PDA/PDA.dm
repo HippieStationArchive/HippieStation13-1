@@ -528,14 +528,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 //MAIN FUNCTIONS===================================
 
 			if("Light")
-				if(fon)
-					fon = 0
-					if(src in U.contents)	U.AddLuminosity(-f_lum)
-					else					SetLuminosity(0)
-				else
-					fon = 1
-					if(src in U.contents)	U.AddLuminosity(f_lum)
-					else					SetLuminosity(f_lum)
+				flashlight_toggle()
 			if("Medical Scan")
 				if(scanmode == 1)
 					scanmode = 0
@@ -757,6 +750,17 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			id.loc = get_turf(src)
 		id = null
 
+/obj/item/device/pda/proc/flashlight_toggle() //more consistent to have it as a function imo.
+	var/mob/living/U = usr
+	if(fon)
+		fon = 0
+		if(src in U.contents)	U.AddLuminosity(-f_lum)
+		else					SetLuminosity(0)
+	else
+		fon = 1
+		if(src in U.contents)	U.AddLuminosity(f_lum)
+		else					SetLuminosity(f_lum)
+
 /obj/item/device/pda/proc/msg_input(mob/living/U = usr)
 	var/t = stripped_input(U, "Please enter message", name, null, MAX_MESSAGE_LEN)
 	if (!t || toff)
@@ -908,6 +912,19 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			O.loc = get_turf(src)
 		else
 			usr << "<span class='warning'>This PDA does not have a pen in it!</span>"
+	else
+		usr << "<span class='warning'>You cannot do that while restrained!</span>"
+
+/obj/item/device/pda/verb/verb_toggle_light()
+	set category = "Object"
+	set name = "Toggle PDA Flashlight"
+	set src in usr
+
+	if(issilicon(usr))
+		return
+
+	if(usr.canUseTopic(src))
+		flashlight_toggle()
 	else
 		usr << "<span class='warning'>You cannot do that while restrained!</span>"
 
