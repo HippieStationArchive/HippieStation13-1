@@ -1,0 +1,7 @@
+author: Kierany9
+delete-after: True
+changes: 
+  - rscadd: "Security officers using Krav Maga can now perform the Heavy Tackle by running into their target on harm intent."
+  - tweak: "Tackling stuns your opponent but also stuns you briefly and deals heavy stamina damage to you."
+  - tweak: "To perform a tackle, both your hands must be empty, you must have both your arms and you cannot have any slowdown."
+  - tweak: "Shields can block tackles and will cause you to stun yourself instead of your opponent."

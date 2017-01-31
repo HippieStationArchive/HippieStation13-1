@@ -13,6 +13,7 @@
 	usr << "<b><i>You recall your Krav Maga teachings...</i></b>"
 	usr << "<span class='notice'>Robust Disarm</span>: Your disarms have no push chance, however, when you disarm someone the weapon is instantly put in your hands."
 	usr << "<span class='notice'>Pinning Down</span>: Pin your opponent down to immobilize them. Several ways to execute: reinforcing grab on top of someone will pin down. Attacking someone with a grab IN-HAND and disarm intent will also execute the move."
+	usr << "<span class='notice'>Heavy Tackle</span>: Running into somebody at full speed with empty hands on harm intent will cause you to tackle them to the ground, stunning them. This will stun you for a short amount of time and will heavily reduce your stamina."
 	usr << "<b><i>Most of your moves rely on intent cycling and grabs. Keep that in mind.</i></b>"
 
 /datum/martial_art/krav_maga/teach(mob/living/carbon/human/H, make_temporary)
@@ -161,6 +162,36 @@
 				G.force_down = 0
 			else
 				D.Weaken(3)
+	return 0
+
+/datum/martial_art/krav_maga/bump_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(A.a_intent == "harm" && A.m_intent=="run" && A.slowdown <= 0 && !A.l_hand && !A.r_hand && A.get_num_arms() == 2)
+		if(A.canmove && A.pulling != D && D.pulling != A && !D.buckled)
+			if(!(D.status_flags & CANPUSH) || (D.l_hand && D.l_hand.block_push) || (D.r_hand && D.r_hand.block_push))
+				A.Stun(3)
+				A.Weaken(3)
+				A.adjustStaminaLoss(60)
+				playsound(D, 'sound/effects/bang.ogg', 50, 1)
+				add_logs(A, D, "failed to tackle", addition="(Krav Maga)")
+				D.visible_message("<span class='danger'>[A] fails horribly at tackling [D] to the ground!</span>", \
+					"<span class='userdanger'>You block the tackle from [A]!</span>")
+			else
+				D.Stun(4)
+				D.Weaken(4)
+				A.Stun(2)
+				A.Weaken(2)
+				A.adjustStaminaLoss(60)
+				shake_camera(A, 3, 1)
+				shake_camera(D, 3, 1)
+				for(var/datum/reagent/R in A.reagents.reagent_list)
+					R.stun_timer = 0
+				if(!A.stat && A.Adjacent(D))
+					A.forceMove(D.loc)
+				playsound(D, 'sound/effects/bang.ogg', 50, 1)
+				D.visible_message("<span class='danger'>[A] tackles [D] to the ground!</span>", \
+							"<span class='userdanger'>[A] tackles you to the ground!</span>")
+				add_logs(A, D, "tackled", addition="(Krav Maga)")
+			return 1
 	return 0
 
 /obj/item/clothing/gloves/krav_maga
