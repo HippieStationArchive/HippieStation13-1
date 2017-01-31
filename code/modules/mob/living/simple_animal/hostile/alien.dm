@@ -42,6 +42,15 @@
 	var/plant_cooldown = 30
 	var/plants_off = 0
 
+/mob/living/simple_animal/hostile/alien/drone/verb/Awaken()
+	set name = "Awaken"
+	set category = "Alien"
+	set desc = "Awaken and gain full control of your body."
+	var/mob/living/carbon/alien/humanoid/drone/new_xeno = new (usr.loc)
+	usr.mind.transfer_to(new_xeno)
+	qdel(usr)
+	return
+
 /mob/living/simple_animal/hostile/alien/drone/handle_automated_action()
 	if(!..()) //AIStatus is off
 		return
