@@ -72,6 +72,7 @@
 	/*V.verbs += /mob/living/carbon/human/proc/vampire_accelerated_recovery*/
 	V.verbs += /mob/living/carbon/human/proc/vampire_chiropteran_shapeshift
 	V.verbs += /mob/living/carbon/human/proc/vampire_demonic_strength
+	V.verbs += /obj/effect/proc_holder/spell/targeted/lesser_glare
 	V << "<span class='userdanger'>Lilith's blessing warps your body... you are a vampire!</span>"
 	V << "<b>You are a vampire - a supernatural, nearly-immortal creature nourished by blood. You are physically incapable of death unless certain conditions are met, and you will slowly recuperate all \
 	wounds while blood is in your body. However, there are some weaknesses that \ will bypass your immortality. Holy water and consecrated areas will either outright hurt you or at least weaken \
