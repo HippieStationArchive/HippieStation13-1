@@ -175,8 +175,7 @@
 	if(!istype(M, /mob/living))
 		return
 	if(method == TOUCH)
-		M.adjust_fire_stacks(-(reac_volume))
-	..()
+		M.ExtinguishMob()
 
 /datum/reagent/water/holywater
 	name = "Holy Water"

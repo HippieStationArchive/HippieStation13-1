@@ -39,8 +39,7 @@
 
 /obj/item/weapon/extinguisher/New()
 	create_reagents(max_chem)
-	reagents.add_reagent("water", 45)
-	reagents.add_reagent("cryogenic_fluid", 5)
+	reagents.add_reagent("water", 50)
 
 /obj/item/weapon/extinguisher/attack_self(mob/user)
 	safety = !safety
