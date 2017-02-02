@@ -1,0 +1,7 @@
+author: QuarianCommando
+
+delete-after: True
+
+changes: 
+  - rscadd: "Replaced the starting internals boxes with emergency first aid kits containing internals, saline glucose solution, and a weak healing patch."
+  - rscadd: "Added hypos to both the security and nuclear operative aid kits. The hypos will keep critical patients alive for extended periods of time."

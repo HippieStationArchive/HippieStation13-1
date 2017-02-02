@@ -69,6 +69,11 @@
 /obj/item/weapon/reagent_containers/blood/OMinus
 	blood_type = "O-"
 
+/obj/item/weapon/reagent_containers/blood/ESGSol
+	name = "saline glucose solution"
+	desc = "An emergency bag of saline glucose solution, with a little extra punch."
+	list_reagents = list("salglu_solution" = 300, "inaprovaline" = 100)
+
 /obj/item/weapon/reagent_containers/blood/empty
 	name = "empty blood pack"
 	desc = "Seems pretty useless... Maybe if there were a way to fill it?"
