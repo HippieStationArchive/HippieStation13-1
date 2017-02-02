@@ -164,7 +164,7 @@
 
 obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 	if(!..())
-		switch(rand(1,20))
+		switch(rand(1,19))
 			if(1)
 				if(ismob(user))
 					visible_message("<span class='notice'>The card cuts through space!</span>")
@@ -352,7 +352,7 @@ obj/item/weapon/trickcards/tricksinglecard/throw_impact(mob/living/user)
 
 obj/item/weapon/trickcards/trickcardhand/throw_impact(mob/living/user)
 	if(!..())
-		switch(rand(1,20))
+		switch(rand(1,19))
 			if(1)
 				if(ismob(user))
 					visible_message("<span class='notice'>The card cuts through space!</span>")
