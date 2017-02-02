@@ -46,7 +46,7 @@
 	..()
 	new /obj/item/device/radio/headset/headset_med(src)
 	new /obj/item/weapon/defibrillator/loaded(src)
-	new /obj/item/clothing/gloves/color/latex/nitrile(src)
+	new /obj/item/clothing/gloves/color/latex(src)
 	new /obj/item/weapon/storage/belt/medical(src)
 	new /obj/item/clothing/glasses/hud/health(src)
 	return
