@@ -194,15 +194,12 @@
 	Plenty of additional icon appearance bullshit in here, watch out.
 */
 
-/obj/item/organ/limb/head
+/obj/item/organ/limb/head //Crystal why did you do this.
 	name = "head"
 	icon_state = "head"
 	max_damage = 200
 	body_part = HEAD
-	w_class = 4 //Quite a hefty load
-	anchored = 1 //Forces people to carry it by hand, no pulling!
-	slowdown = 1 //Balancing measure
-	throw_range = 2 //No head bowling :(
+	w_class = 2
 
 	px_x = 0
 	px_y = -8
