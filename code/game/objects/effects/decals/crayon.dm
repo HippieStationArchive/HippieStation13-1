@@ -36,6 +36,9 @@
 	var/datum/gang/gang
 
 /obj/effect/decal/cleanable/crayon/gang/New(location, var/datum/gang/G, var/e_name = "gang tag", var/rotation = 0)
+	var/target = get_turf(src)
+	if(istype(target, /turf/simulated/floor))
+		layer = 2.9
 	if(!type || !G)
 		qdel(src)
 
