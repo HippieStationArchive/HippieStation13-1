@@ -884,6 +884,7 @@ var/list/uplink_items = list()
 	name = "Stimpack"
 	desc = "Stimpacks, the tool of many great heroes, make you faster and immune to slowdown for about 5 minutes after injection."
 	item = /obj/item/weapon/reagent_containers/syringe/stimulants
+	gamemodes = list(/datum/game_mode/nuclear)
 	cost = 5
 	surplus = 90
 
@@ -1101,6 +1102,7 @@ var/list/uplink_items = list()
 /datum/uplink_item/implants/adrenal
 	name = "Adrenal Implant"
 	desc = "An implant injected into the body, and later activated at the user's will. It will inject a chemical cocktail which has a mild healing effect along with removing all stuns and increasing movement speed."
+	gamemodes = list(/datum/game_mode/nuclear)
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_adrenal
 	cost = 8
 */
