@@ -11,6 +11,9 @@ z4 = derelict station
 z5 = mining
 z6 = empty space
 z7 = empty space
+
+Triggering a pull dont look at me
+
 */
 
 #if !defined(MAP_FILE)
