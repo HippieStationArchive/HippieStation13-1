@@ -19,7 +19,7 @@
 	w_class = 4
 	materials = list(MAT_GLASS=7500, MAT_METAL=1000)
 	origin_tech = "materials=2"
-	block_chance = list(melee = 60, bullet = 50, laser = 50, energy = 50) //Skeleton-exclusive atm, sooo
+	block_chance = list(melee = 60, bullet = 40, laser = 30, energy = 20) //Skeleton-exclusive atm, sooo // there's one in the fucking autodrobe too you asshole
 
 /obj/item/weapon/shield/roman/toy /* Used for the Theatre Vending Machine */
 	name = "replica roman shield"
