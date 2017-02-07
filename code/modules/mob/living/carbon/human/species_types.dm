@@ -150,7 +150,7 @@ datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	id = "tarajan"
 	say_mod = "meows"
 	default_color = "00FF00"
-	roundstart = 1
+	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS)
 	attack_verb = "slash"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
