@@ -1,0 +1,9 @@
+author: Crystalwarrior160
+
+delete-after: True
+
+changes:
+  - tweak: "Disablers now count as 'laser' instead of 'energy' for armor and shields"
+  - tweak: "Changed shield values a bit:"
+  - tweak: "  Riot Shield - 70% melee, 60% bullet, 0% laser, 70% energy"
+  - tweak: "  Telescopic Shield - 50% melee, 60% bullet, 0% laser, 50% energy"
