@@ -26,6 +26,7 @@
 	radio_frequency = SEC_FREQ //Security channel
 	bot_type = SEC_BOT
 	model = "Securitron"
+	anchored = 1 //It starts out enabled doesn't it?
 
 /obj/machinery/bot/secbot/beepsky
 	name = "Officer Beep O'Sky"
@@ -61,11 +62,13 @@
 
 /obj/machinery/bot/secbot/turn_on()
 	..()
+	anchored = 1
 	icon_state = "secbot[on]"
 	updateUsrDialog()
 
 /obj/machinery/bot/secbot/turn_off()
 	..()
+	anchored = 0
 	icon_state = "secbot[on]"
 	updateUsrDialog()
 
@@ -230,7 +233,6 @@ Auto Patrol: []"},
 											"<span class='userdanger'>[src] has stunned you!</span>")
 
 					mode = BOT_PREP_ARREST
-					anchored = 1
 					target_lastloc = M.loc
 					return
 
@@ -275,7 +277,6 @@ Auto Patrol: []"},
 
 		if(BOT_ARREST)
 			if (!target)
-				anchored = 0
 				mode = BOT_IDLE
 				last_found = world.time
 				frustration = 0
@@ -290,7 +291,6 @@ Auto Patrol: []"},
 				return
 			else //Try arresting again if the target escapes.
 				mode = BOT_PREP_ARREST
-				anchored = 0
 
 		if(BOT_START_PATROL)
 			look_for_perp()

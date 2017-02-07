@@ -1,0 +1,6 @@
+author: Crystalwarrior160
+
+delete-after: True
+
+changes:
+  - tweak: "You can no longer pull an active securitron around (you can pull a disabled one however)"
