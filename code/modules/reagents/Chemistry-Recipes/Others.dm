@@ -388,7 +388,7 @@
 	required_temp = 374
 
 /datum/chemical_reaction/life/on_reaction(datum/reagents/holder, created_volume)
-	chemical_mob_spawn(holder, 1, "Life")
+	chemical_mob_spawn(holder, 1*reac_volume, "Life")
 
 /datum/chemical_reaction/corgium
 	name = "corgium"
