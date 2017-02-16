@@ -1,0 +1,6 @@
+author: Carbonhell
+
+delete-after: True
+
+changes: 
+  - bugfix: "Rwalls now smooth correctly when you add metal to the first stage of their deconstruction."
