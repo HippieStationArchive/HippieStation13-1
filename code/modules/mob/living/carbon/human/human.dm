@@ -415,6 +415,12 @@
 /mob/living/carbon/human/Topic(href, href_list)
 	if(usr.canUseTopic(src, BE_CLOSE, NO_DEXTERY))
 
+		if(isdrone(usr)) //Embedded objects and pockets are snowflake code but drones still shouldn't interfere with them.
+			var/mob/living/simple_animal/drone/D = usr
+			if(!D.can_interfere(src))
+				D << "<span class='danger'>Your laws prevent you from doing this!</span>"
+				return
+
 		if(href_list["embedded_object"])
 			var/obj/item/I = locate(href_list["embedded_object"])
 			var/obj/item/organ/limb/L = locate(href_list["embedded_limb"])

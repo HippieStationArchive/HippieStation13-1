@@ -118,6 +118,11 @@ emp_act
 
 /mob/living/carbon/human/attacked_by(obj/item/I, mob/living/user, def_zone)
 	if(!I || !user)	return 0
+	if(isdrone(user))
+		var/mob/living/simple_animal/drone/D = user
+		if(!D.can_interfere(src))
+			D << "<span class='danger'>Your laws prevent you from doing this!</span>"
+			return
 
 	var/obj/item/organ/limb/target_limb = get_organ(check_zone(user.zone_sel.selecting))
 	var/obj/item/organ/limb/affecting = get_organ(ran_zone(user.zone_sel.selecting))

@@ -1,0 +1,6 @@
+author: McBawbaggings
+
+delete-after: True
+
+changes: 
+  - tweak: "Limited how much drones can interact with non-drones: They cannot strip or give items or remove embedded items from non-drones, they cannot fire guns at all, they cannot attack non-drones, they cannont blow up welder tanks. Syndie drones are unchanged."

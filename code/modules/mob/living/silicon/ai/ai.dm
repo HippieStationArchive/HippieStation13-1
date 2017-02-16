@@ -850,6 +850,13 @@ var/list/ai_list = list()
 	return // no eyes, no flashing
 
 /mob/living/silicon/ai/attackby(obj/item/weapon/W, mob/user, params)
+
+	if(isdrone(user))
+		var/mob/living/simple_animal/drone/D = user
+		if(!D.can_interfere(src))
+			D << "<span class='danger'>Your laws prevent you from doing this!</span>"
+			return
+
 	if(W.force && W.damtype != STAMINA && src.stat != DEAD) //only sparks if real damage is dealt.
 		spark_system.start()
 	return ..()

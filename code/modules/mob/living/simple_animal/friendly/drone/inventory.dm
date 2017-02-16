@@ -108,11 +108,16 @@
 
 
 /mob/living/simple_animal/drone/stripPanelUnequip(obj/item/what, mob/who, where)
-	..(what, who, where, 1)
-
+	if(!can_interfere(who))
+		src << "<span class='danger'>Your laws prevent you from doing this!</span>"
+		return
+	else ..(what, who, where, 1)
 
 /mob/living/simple_animal/drone/stripPanelEquip(obj/item/what, mob/who, where)
-	..(what, who, where, 1)
+	if(!can_interfere(who))
+		src << "<span class='danger'>Your laws prevent you from doing this!</span>"
+		return
+	else ..(what, who, where, 1)
 
 /mob/living/simple_animal/drone/verb/quick_equip()
 	set name = "quick-equip"

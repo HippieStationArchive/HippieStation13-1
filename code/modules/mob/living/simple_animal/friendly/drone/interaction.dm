@@ -103,4 +103,10 @@
 	else
 		..()
 
-
+/mob/living/simple_animal/drone/proc/can_interfere(mob/living/target = null)
+	if(!target)
+		return !seeStatic
+	if(ismob(target))
+		if(!isdrone(target))
+			return !seeStatic
+	return 1

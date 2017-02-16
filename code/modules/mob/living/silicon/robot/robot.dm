@@ -426,6 +426,13 @@
 
 
 /mob/living/silicon/robot/attackby(obj/item/weapon/W, mob/user, params)
+
+	if(isdrone(user))
+		var/mob/living/simple_animal/drone/D = user
+		if(!D.can_interfere(src))
+			D << "<span class='danger'>Your laws prevent you from doing this!</span>"
+			return
+
 	if (istype(W, /obj/item/weapon/restraints/handcuffs)) // fuck i don't even know why isrobot() in handcuff code isn't working so this will have to do
 		return
 

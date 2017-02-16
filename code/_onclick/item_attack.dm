@@ -25,6 +25,13 @@
 	I.attack(src, user)
 
 /mob/living/proc/attacked_by(obj/item/I, mob/living/user, def_zone)
+
+	if(isdrone(user))
+		var/mob/living/simple_animal/drone/D = user
+		if(!D.can_interfere(src))
+			D << "<span class='danger'>Your laws prevent you from doing this!</span>"
+			return
+
 	var/dmgcheck = apply_damage(I.force, I.damtype, def_zone)
 	if(!dmgcheck)
 		visible_message("<span class='danger'>[user] has attempted to attack [src] with [I].</span>",

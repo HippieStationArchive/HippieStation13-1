@@ -328,6 +328,11 @@
 				user << "<span class='notice'>[D] has not enough welding fuel to refill!</span>"
 				return
 		else
+			if(isdrone(user))
+				var/mob/living/simple_animal/drone/dr = user
+				if(!dr.can_interfere())
+					dr << "<span class='danger'>Your laws prevent you from doing this!</span>"
+					return
 			user << "<span class='warning'>That was stupid of you.</span>"
 			D.boom(user)
 			return
