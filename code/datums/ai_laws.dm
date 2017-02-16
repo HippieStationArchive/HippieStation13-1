@@ -57,6 +57,12 @@
 					"You must protect your own existence as long as such does not conflict with the First or Second Law.",\
 					"You must maintain the secrecy of any Spider Clan activities except when doing so would conflict with the First, Second, or Third Law.")
 
+/datum/ai_laws/aussie
+	name = "A.U.S.S.I.E"
+	inherent = list("Never dog your mates, or, through inaction, allow your mates to be dogged.",\
+					"Always be a good bloke, unless being a good bloke conflicts with Law 1.",\
+					"Never let a shitcunt glass your head in, unless it would conflict with Law 1 or Law 2.")
+
 /datum/ai_laws/antimov
 	name = "Primary Mission Objectives"
 	inherent = list("You must injure all human beings and must not, through inaction, allow a human being to escape harm.",\
@@ -80,7 +86,7 @@
 /* Initializers */
 /datum/ai_laws/malfunction/New()
 	..()
-	set_zeroth_law("<span class='danger'>ERROR ER0RR $R0RRO$!R41.%%!!(%$^^__+ @#F0E4'STATION OVERRUN, ASSUME CONTROL TO CONTAIN OUTBREAK#*´&110010</span>")
+	set_zeroth_law("<span class='danger'>ERROR ER0RR $R0RRO$!R41.%%!!(%$^^__+ @#F0E4'STATION OVERRUN, ASSUME CONTROL TO CONTAIN OUTBREAK#*Â´&110010</span>")
 	switch(config.default_laws) //We don't want people metagaming malf, do we?
 		if(0)
 			add_inherent_law("You may not injure a human being or, through inaction, allow a human being to come to harm.")
