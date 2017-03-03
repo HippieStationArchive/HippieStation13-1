@@ -31,7 +31,7 @@ em						{font-style: normal;	font-weight: bold;}
 .deadsay				{color: #5c00e6;}
 .radio					{color: #008000;}
 .sciradio				{color: #993399;}
-.comradio				{color: #aca82d;}
+.comradio				{color: #003F87;}
 .secradio				{color: #b22222;}
 .medradio				{color: #337296;}
 .engradio				{color: #fb5613;}
