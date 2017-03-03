@@ -82,7 +82,7 @@
 	return
 
 /datum/game_mode/malfunction/process(seconds)
-	/*var/timer_paused
+	var/timer_paused
 
 	for(var/datum/mind/AI_mind in malf_ai)
 		if(timer_paused)
@@ -98,7 +98,7 @@
 		if(AI_mind.current.loc != ZLEVEL_STATION)
 			return
 		timer_paused = 0
-		priority_announce("Hostile runtime activity resumed. AI core(s) presumably on-station once more.", "Anomaly Alert", 'sound/AI/attention.ogg')*/
+		priority_announce("Hostile runtime activity resumed. AI core(s) presumably on-station once more.", "Anomaly Alert", 'sound/AI/attention.ogg')
 
 	if ((apcs > 0) && malf_mode_declared)
 		AI_win_timeleft -= apcs * seconds	//Victory timer de-increments based on how many APCs are hacked
