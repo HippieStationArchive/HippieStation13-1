@@ -1,0 +1,4 @@
+author: ArcLumin
+delete-after: True
+changes: 
+  - tweak: "Allows Surplus Crates to be purchasable by nuke ops and during KotD"
