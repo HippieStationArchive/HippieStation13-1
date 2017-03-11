@@ -900,14 +900,14 @@ var/list/uplink_items = list()
 	category = "Devices and Tools"
 
 /datum/uplink_item/device_tools/emag
-	name = "Cryptographic Sequencer"
-	desc = "The cryptographic sequencer, or emag, is a small card that unlocks hidden functions in electronic devices, subverts intended functions, and characteristically breaks security mechanisms."
+	name = "Electromagnetic Sequencer"
+	desc = "The electromagnetic sequencer, or emag for short, is a small card that unlocks hidden functions in electronic devices, subverts intended functions, and characteristically breaks security mechanisms."
 	item = /obj/item/weapon/card/emag
 	cost = 6
 	excludefrom = list(/datum/game_mode/gang,/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/device_tools/emag/king_disk
-	name = "Cryptographic Sequencer - KotD"
+	name = "Electromagnetic Sequencer - KotD"
 	excludefrom = list()
 	gamemodes = list(/datum/game_mode/traitor/king_disk)
 	cost = 8
