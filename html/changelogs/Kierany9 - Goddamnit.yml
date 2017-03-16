@@ -1,0 +1,6 @@
+author: Kierany9
+
+delete-after: True
+
+changes: 
+  - tweak: "Magboot stomps now deal 40 damage instead of 45, take 4.5 seconds to wind up instead of 4 and have a 1.5 second cooldown between stomps."
