@@ -1,6 +1,7 @@
 var/datum/subsystem/procqueue/procqueue
 
 /datum/subsystem/procqueue
+	name = "Proc Queue"
 	var/list/queue = list()
 
 /datum/subsystem/procqueue/New()
