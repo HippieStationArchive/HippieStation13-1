@@ -28,6 +28,16 @@
 			if (!restrained())
 				message = "<B>[src]</B> flaps \his wings ANGRILY!"
 				m_type = 2
+		if ("chirp")
+			if (dna.species.id == "avian")
+				var/sound = pick('birdchirp.ogg', 'birdchirp2.ogg', 'birdchirp3.ogg', 'birdchirp4.ogg', 'birdchirp5.ogg', 'birdchirp6.ogg', 'birdchirp7.ogg', 'birdchirp8.ogg', 'birdchirp9.ogg', 'birdchirp10.ogg', 'birdchirp11.ogg', 'birdchirp12.ogg')
+
+				playsound(loc, sound, 50, 1, 4, 1.2)
+				message = "<B>[src]</B> chirps loudly!"
+
+				adjustOxyLoss(3)
+				m_type = 2
+				delay = 15
 
 		if ("choke","chokes")
 			if (miming)
